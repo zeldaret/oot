@@ -166,7 +166,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
 
-                this->colliderCylinder.info.toucherFlags = this->colliderCylinder.info.toucherFlags;
+                this->colliderCylinder.info.toucherFlags &= ~TOUCH_SFX_NORMAL;
                 this->colliderCylinder.info.toucherFlags |= TOUCH_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;

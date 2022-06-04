@@ -490,7 +490,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play) {
             this->collider.base.atFlags & AT_BOUNCED) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->collider.base.atFlags |= AT_TYPE_PLAYER;
-            this->collider.info.toucher.dmgFlags = 2;
+            this->collider.info.toucher.dmgFlags = DMG_DEKU_STICK;
             Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, 0);
             this->actor.world.rot.y = shieldRot.y + 0x8000;
             this->timer = 30;
@@ -704,7 +704,7 @@ void EnOkuta_Draw(Actor* thisx, PlayState* play) {
     EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if (this->actor.params == 0) {
         SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnOkuta_OverrideLimbDraw, NULL,

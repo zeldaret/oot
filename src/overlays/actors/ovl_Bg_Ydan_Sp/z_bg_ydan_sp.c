@@ -284,7 +284,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
         BgYdanSp_BurnWeb(this, play);
         return;
     }
-    if ((this->trisCollider.base.acFlags & 2) != 0) {
+    if (this->trisCollider.base.acFlags & AC_HIT) {
         BgYdanSp_BurnWeb(this, play);
         return;
     }
@@ -396,7 +396,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play) {
     Vec3f sp30;
 
     player = GET_PLAYER(play);
-    if (Flags_GetSwitch(play, this->burnSwitchFlag) || (this->trisCollider.base.acFlags & 2)) {
+    if (Flags_GetSwitch(play, this->burnSwitchFlag) || (this->trisCollider.base.acFlags & AC_HIT)) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, play);
     } else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
@@ -422,7 +422,7 @@ void BgYdanSp_Draw(Actor* thisx, PlayState* play) {
     MtxF mtxF;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_sp.c", 781);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (thisx->params == WEB_WALL) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ydan_sp.c", 787),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

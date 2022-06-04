@@ -277,8 +277,10 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             this->actor.velocity.y = 8.0f;
             this->actor.speedXZ = 4.0f;
             this->actor.gravity = -1.0f;
+            FALLTHROUGH;
         case 2:
             this->actor.scale.x = 0.0f;
+            FALLTHROUGH;
         case 1:
             this->collider.elements[0].info.toucher.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
@@ -324,8 +326,8 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
     }
 
     if (this->unk_392 == 0) {
-        if ((this->collider.base.acFlags & 2) || phi_v1) {
-            this->collider.base.acFlags &= ~2;
+        if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
+            this->collider.base.acFlags &= ~AC_HIT;
             this->unk_392 = 0x10;
             Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->unk_392);
             if (Actor_ApplyDamage(&this->actor) != 0) {
@@ -359,7 +361,7 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
         }
     }
 
-    if ((this->unk_390 == 0) && (this->collider.base.atFlags & 2)) {
+    if ((this->unk_390 == 0) && (this->collider.base.atFlags & AT_HIT)) {
         this->unk_390 = 30;
     }
 
@@ -535,15 +537,15 @@ void func_80B0D590(EnSw* this, PlayState* play) {
 
     if (((this->actor.params & 0xE000) >> 0xD) == 2) {
         if (this->actor.scale.x < 0.0139999995f) {
-            this->collider.elements[0].info.toucherFlags = 0;
-            this->collider.elements[0].info.bumperFlags = 0;
-            this->collider.elements[0].info.ocElemFlags = 0;
+            this->collider.elements[0].info.toucherFlags = TOUCH_NONE;
+            this->collider.elements[0].info.bumperFlags = BUMP_NONE;
+            this->collider.elements[0].info.ocElemFlags = OCELEM_NONE;
         }
 
         if (this->actor.scale.x >= 0.0139999995f) {
-            this->collider.elements[0].info.toucherFlags = 1;
-            this->collider.elements[0].info.bumperFlags = 1;
-            this->collider.elements[0].info.ocElemFlags = 1;
+            this->collider.elements[0].info.toucherFlags = TOUCH_ON;
+            this->collider.elements[0].info.bumperFlags = BUMP_ON;
+            this->collider.elements[0].info.ocElemFlags = OCELEM_ON;
         }
 
         Math_ApproachF(&this->actor.scale.x, !IS_DAY ? 0.02f : 0.0f, 0.2f, 0.01f);
@@ -1008,7 +1010,7 @@ void EnSw_Draw(Actor* thisx, PlayState* play) {
         func_80B0EDB8(play, &sp30, 0x14, 0x1E);
     }
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSw_OverrideLimbDraw,
                       EnSw_PostLimbDraw, this);
     if (this->actionFunc == func_80B0E728) {

@@ -172,7 +172,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
             dmgFlags = this->colliderFlame.info.acHitInfo->toucher.dmgFlags;
-            if (dmgFlags & 0x20820) {
+            if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
         } else if (player->heldItemActionParam == PLAYER_AP_STICK) {
@@ -193,17 +193,17 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                     } else if (player->unk_860 < 200) {
                         player->unk_860 = 200;
                     }
-                } else if (dmgFlags & 0x20) {
+                } else if (dmgFlags & DMG_ARROW_NORMAL) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
-                        arrow->collider.info.toucher.dmgFlags = 0x800;
+                        arrow->collider.info.toucher.dmgFlags = DMG_ARROW_FIRE;
                     }
                 }
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
                     this->litTimer = 50 * litTimeScale + 100;
                 }
-            } else if ((torchType != 0) && (((interactionType > 0) && (dmgFlags & 0x20800)) ||
+            } else if ((torchType != 0) && (((interactionType > 0) && (dmgFlags & DMG_FIRE)) ||
                                             ((interactionType < 0) && (player->unk_860 != 0)))) {
 
                 if ((interactionType < 0) && (player->unk_860 < 200)) {
@@ -266,7 +266,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     timerMax = (((this->actor.params >> 6) & 0xF) * 50) + 100;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_syokudai.c", 707);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_syokudai.c", 714),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -283,7 +283,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
         }
         flameScale *= 0.0027f;
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, (this->flameTexScroll * -20) & 0x1FF,

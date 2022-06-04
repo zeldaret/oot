@@ -1640,7 +1640,7 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1623);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex2));
@@ -1665,7 +1665,7 @@ void func_80B525D4(EnZl2* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1663);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));

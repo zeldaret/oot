@@ -299,7 +299,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     u8 i;
 
-                    if (hitItem->toucher.dmgFlags & 0x700) {
+                    if (hitItem->toucher.dmgFlags & DMG_SLASH) {
                         this->cutType = sCutTypes[player->meleeWeaponAnimation];
                     } else {
                         this->cutType = CUT_POST;
@@ -583,6 +583,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             if (DECR(this->airTimer) == 0) {
                 this->actionState = ENKANBAN_GROUND;
             }
+            FALLTHROUGH;
         }
         case ENKANBAN_GROUND:
         case ENKANBAN_WATER:
@@ -806,8 +807,8 @@ void EnKanban_Draw(Actor* thisx, PlayState* play) {
     u8* shadowTex = Graph_Alloc(play->state.gfxCtx, 0x400);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_kanban.c", 1659);
-    func_80093D18(play->state.gfxCtx);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPDisplayList(POLY_OPA_DISP++, object_kanban_DL_000C30);
     if (this->actionState != ENKANBAN_SIGN) {
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);

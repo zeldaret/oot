@@ -331,7 +331,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
         this->collider.elements[0].info.toucherFlags = TOUCH_ON | TOUCH_SFX_HARD;
-        this->collider.elements[0].info.toucher.dmgFlags = 0xFFCFFFFF;
+        this->collider.elements[0].info.toucher.dmgFlags = DMG_DEFAULT;
         this->collider.elements[0].info.toucher.damage = 8;
         this->bobSize = this->actionState * 20.0f;
         this->flamePrimAlpha = 255;
@@ -379,7 +379,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 this->path = this->actionState >> 4;
                 this->collider.elements[0].dim.modelSphere.radius = 0x16;
                 Actor_SetScale(thisx, 0.03f);
-                // fallthrough
+                FALLTHROUGH;
             case ENBB_GREEN:
                 thisx->naviEnemyId = NAVI_ENEMY_GREEN_BUBBLE;
                 this->bobSize = (this->actionState & 0xF) * 20.0f;
@@ -1087,6 +1087,7 @@ void EnBb_SetupStunned(EnBb* this) {
             break;
         case 9:
             this->fireIceTimer = 0x30;
+            FALLTHROUGH;
         case 15:
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             Actor_SetColorFilter(&this->actor, 0, 0xB4, 0, 0x50);
@@ -1154,6 +1155,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
         switch (this->dmgEffect) {
             case 7:
                 this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                FALLTHROUGH;
             case 5:
                 this->fireIceTimer = 0x30;
                 //! @bug
@@ -1212,6 +1214,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                            ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
                     EnBb_SetupDamage(this);
                 }
+                FALLTHROUGH;
             case 13:
                 break;
         }
@@ -1287,7 +1290,7 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
     blureBase2.z = this->maxSpeed * 80.0f;
     if (this->moveMode != BBMOVE_HIDDEN) {
         if (this->actor.params <= ENBB_BLUE) {
-            func_80093D18(play->state.gfxCtx);
+            Gfx_SetupDL_25Opa(play->state.gfxCtx);
             SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnBb_PostLimbDraw,
                               this);
 
@@ -1322,7 +1325,7 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
             Matrix_Translate(0.0f, -40.0f, 0.0f, MTXMODE_APPLY);
         }
         if (this->actor.params != ENBB_WHITE) {
-            func_80093D84(play->state.gfxCtx);
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                         ((play->gameplayFrames + (this->flameScrollMod * 10)) *

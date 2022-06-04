@@ -674,6 +674,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
             this->subCamAtMaxVelFrac.x = 0.1f;
             this->subCamAtMaxVelFrac.y = 0.1f;
             this->subCamAtMaxVelFrac.z = 0.1f;
+            FALLTHROUGH;
         case DEATH_RETREAT:
             this->work[FD2_HOLE_COUNTER]++;
             if (this->work[FD2_HOLE_COUNTER] < 15) {
@@ -831,7 +832,7 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
 
         hurtbox = this->collider.elements[0].info.acHitInfo;
         if (!bossFd->faceExposed) {
-            if (hurtbox->toucher.dmgFlags & 0x40000040) {
+            if (hurtbox->toucher.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -863,11 +864,11 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             u8 damage;
 
             if ((damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags)) == 0) {
-                damage = (hurtbox->toucher.dmgFlags & 0x00001000) ? 4 : 2;
+                damage = (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
             } else {
                 canKill = true;
             }
-            if (hurtbox->toucher.dmgFlags & 0x80) {
+            if (hurtbox->toucher.dmgFlags & DMG_HOOKSHOT) {
                 damage = 0;
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
@@ -1165,7 +1166,7 @@ void BossFd2_DrawMane(BossFd2* this, PlayState* play) {
         this->leftMane.scale[i] = 1.5f + 0.3f * Math_CosS(5696.0f * this->work[FD2_VAR_TIMER] + i * 0x3200);
     }
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeMaterialDL);
 
@@ -1192,7 +1193,7 @@ void BossFd2_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_fd2.c", 2617);
     osSyncPrintf("FD2 draw start \n");
     if (this->actionFunc != BossFd2_Wait) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->work[FD2_DAMAGE_FLASH_TIMER] & 2) {
             POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
         }

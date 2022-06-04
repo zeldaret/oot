@@ -227,7 +227,7 @@ void DoorKiller_FallAsRubble(DoorKiller* this, PlayState* play) {
 
 s32 DoorKiller_IsHit(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
-    if ((this->colliderCylinder.base.acFlags & 2) && (this->colliderCylinder.info.acHitInfo != NULL)) {
+    if ((this->colliderCylinder.base.acFlags & AC_HIT) && (this->colliderCylinder.info.acHitInfo != NULL)) {
         return true;
     }
     return false;
@@ -422,10 +422,10 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 
     if (DoorKiller_IsHit(&this->actor, play)) {
         // AC cylinder: wobble if hit by most weapons, die if hit by explosives or hammer
-        if ((this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & 0x1FFA6) != 0) {
+        if (this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & (DMG_RANGED | DMG_SLASH | DMG_DEKU_STICK)) {
             this->timer = 16;
             this->actionFunc = DoorKiller_Wobble;
-        } else if ((this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & 0x48) != 0) {
+        } else if (this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
             DoorKiller_SpawnRubble(&this->actor, play);
             this->actionFunc = DoorKiller_Die;
             SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
@@ -505,7 +505,7 @@ void DoorKiller_SetTexture(Actor* thisx, PlayState* play) {
 void DoorKiller_DrawDoor(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     DoorKiller_SetTexture(&this->actor, play);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, NULL);

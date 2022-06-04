@@ -246,7 +246,8 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
         ObjTsubo_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->collider.base.acFlags & AC_HIT) &&
-               (this->collider.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC)) {
+               (this->collider.info.acHitInfo->toucher.dmgFlags &
+                (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
