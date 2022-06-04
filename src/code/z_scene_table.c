@@ -44,8 +44,8 @@ EntranceInfo gEntranceTable[] = {
 #undef DEFINE_SCENE
 
 // Scene Table definition
-#define DEFINE_SCENE(name, title, _2, config, unk_10, unk_12) \
-    { ROM_FILE(name), ROM_FILE(title), unk_10, config, unk_12, 0 },
+#define DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12) \
+    { ROM_FILE(name), ROM_FILE(title), unk_10, drawConfig, unk_12, 0 },
 
 // Handle `none` as a special case for scenes without a title card
 #define _noneSegmentRomStart NULL
@@ -93,8 +93,7 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
     play->transitionType = gEntranceTable[entranceIndex].field & 0x7F; // Fade out
 }
 
-// Scene Draw Config 0
-void func_80099550(PlayState* play) {
+void Scene_DrawConfigDefault(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4725);
 
     gSPDisplayList(POLY_OPA_DISP++, sDefaultDisplayList);
@@ -108,8 +107,7 @@ void* D_8012A2F8[] = {
     gYdanTex_00CA18,
 };
 
-// Scene Draw Config 19
-void func_800995DC(PlayState* play) {
+void Scene_DrawConfigYdan(PlayState* play) {
     u32 gameplayFrames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4763);
@@ -126,8 +124,7 @@ void func_800995DC(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4783);
 }
 
-// Scene Draw Config 28
-void func_80099760(PlayState* play) {
+void Scene_DrawConfigYdanBoss(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4845);
@@ -152,8 +149,7 @@ void* sDCLavaFloorTextures[] = {
     gDCLavaFloor5Tex, gDCLavaFloor6Tex, gDCLavaFloor7Tex, gDCLavaFloor8Tex,
 };
 
-// Scene Draw Config 20 - Dodongo's Cavern
-void func_80099878(PlayState* play) {
+void Scene_DrawConfigDdan(PlayState* play) {
     u32 gameplayFrames;
     s32 pad;
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
@@ -189,8 +185,7 @@ void func_80099878(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4956);
 }
 
-// Scene Draw Config 30
-void func_80099BD8(PlayState* play) {
+void Scene_DrawConfigTokinoma(PlayState* play) {
     f32 temp;
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 18 * sizeof(Gfx));
 
@@ -251,8 +246,7 @@ void func_80099BD8(PlayState* play) {
     }
 }
 
-// Scene Draw Config 31
-void func_8009A45C(PlayState* play) {
+void Scene_DrawConfigKakusiana(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5171);
@@ -280,8 +274,7 @@ void func_8009A45C(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5212);
 }
 
-// Scene Draw Config 32
-void func_8009A798(PlayState* play) {
+void Scene_DrawConfigKenjyanoma(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5226);
@@ -308,8 +301,7 @@ void func_8009A798(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5264);
 }
 
-// Scene Draw Config 33
-void func_8009A9DC(PlayState* play) {
+void Scene_DrawConfigGreatFairyFountain(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5278);
@@ -331,8 +323,7 @@ void func_8009A9DC(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5301);
 }
 
-// Scene Draw Config 48
-void func_8009AB98(PlayState* play) {
+void Scene_DrawConfigGraveExitLightShining(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5317);
@@ -349,8 +340,7 @@ void func_8009AB98(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5330);
 }
 
-// Scene Draw Config 39
-void func_8009ACA8(PlayState* play) {
+void Scene_DrawConfigFairyFountain(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5346);
@@ -370,8 +360,7 @@ void func_8009ACA8(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5367);
 }
 
-// Scene Draw Config 24
-void func_8009AE30(PlayState* play) {
+void Scene_DrawConfigHakadan(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5384);
@@ -402,8 +391,7 @@ void* sThievesHideoutEntranceTextures[] = {
     gThievesHideoutNightEntranceTex,
 };
 
-// Scene Draw Config 40
-void func_8009AFE0(PlayState* play) {
+void Scene_DrawConfigGerudoway(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5490);
@@ -422,8 +410,7 @@ void* D_8012A330[] = {
     gWaterTempleNightEntranceTex,
 };
 
-// Scene Draw Config 23 (Water Temple)
-void func_8009B0FC(PlayState* play) {
+void Scene_DrawConfigMizusin(PlayState* play) {
     u32 gameplayFrames;
     s32 spB0;
     s32 spAC;
@@ -492,8 +479,7 @@ void func_8009B0FC(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5644);
 }
 
-// Scene Draw Config 29
-void func_8009B86C(PlayState* play) {
+void Scene_DrawConfigMizusinBs(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5791);
@@ -511,8 +497,7 @@ void func_8009B86C(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5808);
 }
 
-// Scene Draw Config 34
-void func_8009B9BC(PlayState* play) {
+void Scene_DrawConfigSyatekijyou(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5822);
@@ -526,8 +511,7 @@ void func_8009B9BC(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5836);
 }
 
-// Scene Draw Config 35
-void func_8009BAA4(PlayState* play) {
+void Scene_DrawConfigHairalNiwa(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5850);
@@ -550,14 +534,13 @@ void func_8009BAA4(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5876);
 }
 
-// Scene Draw Config 36
-void func_8009BC44(PlayState* play) {
+void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
     u32 gameplayFrames;
     s8 sp83;
 
     if (1) {} // Necessary to match
 
-    sp83 = coss((play->gameplayFrames * 1500) & 0xFFFF) >> 8;
+    sp83 = coss(play->gameplayFrames * 1500) >> 8;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5894);
 
@@ -606,8 +589,7 @@ void func_8009BEEC(PlayState* play) {
     }
 }
 
-// Scene Draw Config 38
-void func_8009C0AC(PlayState* play) {
+void Scene_DrawConfigGanonFinal(PlayState* play) {
     u32 gameplayFrames;
     s8 sp7B;
 
@@ -653,8 +635,7 @@ void* sIceCavernEntranceTextures[] = {
     gIceCavernNightEntranceTex,
 };
 
-// Scene Draw Config 37
-void func_8009C3EC(PlayState* play) {
+void Scene_DrawConfigIceDoukuto(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -680,8 +661,7 @@ void func_8009C3EC(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6076);
 }
 
-// Scene Draw Config 42
-void func_8009C608(PlayState* play) {
+void Scene_DrawConfigHakaanaOuke(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6151);
@@ -707,8 +687,7 @@ void func_8009C608(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6187);
 }
 
-// Scene Draw Config 43
-void func_8009C8B8(PlayState* play) {
+void Scene_DrawConfigHyliaLabo(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6201);
@@ -730,8 +709,7 @@ void func_8009C8B8(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6232);
 }
 
-// Scene Draw Config 47
-void func_8009CAC0(PlayState* play) {
+void Scene_DrawConfigCalmWater(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6249);
@@ -755,8 +733,7 @@ void* sGTGEntranceTextures[] = {
     gGTGNightEntranceTex,
 };
 
-// Scene Draw Config 27
-void func_8009CC00(PlayState* play) {
+void Scene_DrawConfigMen(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -800,8 +777,7 @@ Gfx* Gfx_TwoTexScrollPrimColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y
     return displayList;
 }
 
-// Scene Draw Config 50
-void func_8009CF84(PlayState* play) {
+void Scene_DrawConfigTuribori(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6433);
@@ -821,8 +797,7 @@ void func_8009CF84(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6449);
 }
 
-// Scene Draw Config 41
-void func_8009D0E8(PlayState* play) {
+void Scene_DrawConfigBowling(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6463);
@@ -848,8 +823,7 @@ void* sLonLonHouseEntranceTextures[] = {
     gLonLonHouseNightEntranceTex,
 };
 
-// Scene Draw Config 44
-void func_8009D31C(PlayState* play) {
+void Scene_DrawConfigSouko(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6515);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -873,8 +847,7 @@ void* sGuardHouseView1Textures[] = {
     gGuardHouseOutSideView2NightTex,
 };
 
-// Scene Draw Config 45
-void func_8009D438(PlayState* play) {
+void Scene_DrawConfigMiharigoya(PlayState* play) {
     s32 var;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6560);
@@ -897,8 +870,7 @@ void func_8009D438(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6581);
 }
 
-// Scene Draw Config 46
-void func_8009D5B4(PlayState* play) {
+void Scene_DrawConfigMahouya(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6595);
@@ -923,8 +895,7 @@ void* sForestTempleEntranceTextures[] = {
     gForestTempleNightEntranceTex,
 };
 
-// Scene Draw Config 22
-void func_8009D758(PlayState* play) {
+void Scene_DrawConfigBmori1(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -955,8 +926,7 @@ void* sSpiritTempleEntranceTextures[] = {
     gSpiritTempleNightEntranceTex,
 };
 
-// Scene Draw Config 25
-void func_8009D974(PlayState* play) {
+void Scene_DrawConfigJyasinzou(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6752);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -965,8 +935,7 @@ void func_8009D974(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6762);
 }
 
-// Scene Draw Config 1
-void func_8009DA30(PlayState* play) {
+void Scene_DrawConfigSpot00(PlayState* play) {
     u32 gameplayFrames;
     Gfx* displayListHead;
 
@@ -1016,8 +985,7 @@ void* sKakarikoWindowTextures[] = {
     gKakarikoVillageNightWindowTex,
 };
 
-// Scene Draw Config 2
-void func_8009DD5C(PlayState* play) {
+void Scene_DrawConfigSpot01(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6890);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sKakarikoWindowTextures[((void)0, gSaveContext.nightFlag)]));
@@ -1031,8 +999,7 @@ void func_8009DD5C(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6903);
 }
 
-// Scene Draw Config 3
-void func_8009DE78(PlayState* play) {
+void Scene_DrawConfigSpot03(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6917);
@@ -1057,8 +1024,7 @@ void func_8009DE78(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6948);
 }
 
-// Scene Draw Config 4
-void func_8009E0B8(PlayState* play) {
+void Scene_DrawConfigSpot04(PlayState* play) {
     u32 gameplayFrames;
     u8 spA3;
     u16 spA0;
@@ -1113,8 +1079,7 @@ void func_8009E0B8(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7044);
 }
 
-// Scene Draw Config 5
-void func_8009E54C(PlayState* play) {
+void Scene_DrawConfigSpot06(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
@@ -1142,8 +1107,7 @@ void* sZorasDomainEntranceTextures[] = {
     gZorasDomainNightEntranceTex,
 };
 
-// Scene Draw Config 6
-void func_8009E730(PlayState* play) {
+void Scene_DrawConfigSpot07(PlayState* play) {
     u32 gameplayFrames;
     u32 var;
 
@@ -1165,8 +1129,7 @@ void func_8009E730(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7147);
 }
 
-// Scene Draw Config 7
-void func_8009E8C0(PlayState* play) {
+void Scene_DrawConfigSpot08(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7161);
@@ -1190,8 +1153,7 @@ void func_8009E8C0(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7192);
 }
 
-// Scene Draw Config 8
-void func_8009EAD8(PlayState* play) {
+void Scene_DrawConfigSpot09(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7206);
@@ -1224,8 +1186,7 @@ void func_8009EAD8(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7260);
 }
 
-// Scene Draw Config 9
-void func_8009EE44(PlayState* play) {
+void Scene_DrawConfigSpot10(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -1257,8 +1218,7 @@ void func_8009EE44(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7309);
 }
 
-// Scene Draw Config 10
-void func_8009F074(PlayState* play) {
+void Scene_DrawConfigSpot11(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7323);
@@ -1281,8 +1241,7 @@ void* D_8012A380[] = {
     gSpot12_00DE78Tex,
 };
 
-// Scene Draw Config 11
-void func_8009F1B4(PlayState* play) {
+void Scene_DrawConfigSpot12(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7363);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A380[((void)0, gSaveContext.nightFlag)]));
@@ -1290,8 +1249,7 @@ void func_8009F1B4(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7371);
 }
 
-// Scene Draw Config 12
-void func_8009F270(PlayState* play) {
+void Scene_DrawConfigSpot13(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7385);
@@ -1313,8 +1271,7 @@ void func_8009F270(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7409);
 }
 
-// Scene Draw Config 13
-void func_8009F40C(PlayState* play) {
+void Scene_DrawConfigSpot15(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7423);
@@ -1336,8 +1293,7 @@ void func_8009F40C(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7443);
 }
 
-// Scene Draw Config 14
-void func_8009F5D4(PlayState* play) {
+void Scene_DrawConfigSpot16(PlayState* play) {
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 3 * sizeof(Gfx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7461);
@@ -1371,8 +1327,7 @@ void func_8009F5D4(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7495);
 }
 
-// Scene Draw Config 15
-void func_8009F7D4(PlayState* play) {
+void Scene_DrawConfigSpot17(PlayState* play) {
     s8 sp6F = coss((play->gameplayFrames * 1500) & 0xFFFF) >> 8;
     s8 sp6E = coss((play->gameplayFrames * 1500) & 0xFFFF) >> 8;
     u32 gameplayFrames;
@@ -1401,8 +1356,7 @@ void* sGoronCityEntranceTextures[] = {
     gGoronCityNightEntranceTex,
 };
 
-// Scene Draw Config 16
-void func_8009F9D0(PlayState* play) {
+void Scene_DrawConfigSpot18(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7555);
@@ -1429,8 +1383,7 @@ void* sLonLonRanchWindowTextures[] = {
     gLonLonRangeNightWindowsTex,
 };
 
-// Scene Draw Config 17
-void func_8009FB74(PlayState* play) {
+void Scene_DrawConfigSpot20(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7602);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -1445,8 +1398,7 @@ void func_8009FB74(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7615);
 }
 
-// Scene Draw Config 18
-void func_8009FC90(PlayState* play) {
+void Scene_DrawConfigHidan(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7630);
@@ -1470,7 +1422,7 @@ void func_8009FC90(PlayState* play) {
 
 f32 D_8012A398 = 0.0f;
 
-void func_8009FE58(PlayState* play) {
+void Scene_DrawConfigBdan(PlayState* play) {
     static s16 D_8012A39C = 538;
     static s16 D_8012A3A0 = 4272;
     u32 gameplayFrames;
@@ -1547,8 +1499,7 @@ void func_8009FE58(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7811);
 }
 
-// Scene Draw Config 26
-void func_800A0334(PlayState* play) {
+void Scene_DrawConfigGanontika(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7825);
@@ -1573,18 +1524,15 @@ void func_800A0334(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7852);
 }
 
-// Scene Draw Config 52
-void func_800A055C(PlayState* play) {
+void Scene_DrawConfigGanontikaSonogo(PlayState* play) {
     func_8009BEEC(play);
 }
 
-// Scene Draw Config 51
-void func_800A057C(PlayState* play) {
+void Scene_DrawConfigGanonSonogo(PlayState* play) {
     func_8009BEEC(play);
 }
 
-// Scene Draw Config 49
-void func_800A059C(PlayState* play) {
+void Scene_DrawConfigBesitu(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7893);
@@ -1602,15 +1550,60 @@ void func_800A059C(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7910);
 }
 
-void (*sSceneDrawHandlers[])(PlayState*) = {
-    func_80099550, func_8009DA30, func_8009DD5C, func_8009DE78, func_8009E0B8, func_8009E54C, func_8009E730,
-    func_8009E8C0, func_8009EAD8, func_8009EE44, func_8009F074, func_8009F1B4, func_8009F270, func_8009F40C,
-    func_8009F5D4, func_8009F7D4, func_8009F9D0, func_8009FB74, func_8009FC90, func_800995DC, func_80099878,
-    func_8009FE58, func_8009D758, func_8009B0FC, func_8009AE30, func_8009D974, func_800A0334, func_8009CC00,
-    func_80099760, func_8009B86C, func_80099BD8, func_8009A45C, func_8009A798, func_8009A9DC, func_8009B9BC,
-    func_8009BAA4, func_8009BC44, func_8009C3EC, func_8009C0AC, func_8009ACA8, func_8009AFE0, func_8009D0E8,
-    func_8009C608, func_8009C8B8, func_8009D31C, func_8009D438, func_8009D5B4, func_8009CAC0, func_8009AB98,
-    func_800A059C, func_8009CF84, func_800A057C, func_800A055C,
+void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
+    Scene_DrawConfigDefault,               // SDC_DEFAULT
+    Scene_DrawConfigSpot00,                // SDC_SPOT00
+    Scene_DrawConfigSpot01,                // SDC_SPOT01
+    Scene_DrawConfigSpot03,                // SDC_SPOT03
+    Scene_DrawConfigSpot04,                // SDC_SPOT04
+    Scene_DrawConfigSpot06,                // SDC_SPOT06
+    Scene_DrawConfigSpot07,                // SDC_SPOT07
+    Scene_DrawConfigSpot08,                // SDC_SPOT08
+    Scene_DrawConfigSpot09,                // SDC_SPOT09
+    Scene_DrawConfigSpot10,                // SDC_SPOT10
+    Scene_DrawConfigSpot11,                // SDC_SPOT11
+    Scene_DrawConfigSpot12,                // SDC_SPOT12
+    Scene_DrawConfigSpot13,                // SDC_SPOT13
+    Scene_DrawConfigSpot15,                // SDC_SPOT15
+    Scene_DrawConfigSpot16,                // SDC_SPOT16
+    Scene_DrawConfigSpot17,                // SDC_SPOT17
+    Scene_DrawConfigSpot18,                // SDC_SPOT18
+    Scene_DrawConfigSpot20,                // SDC_SPOT20
+    Scene_DrawConfigHidan,                 // SDC_HIDAN
+    Scene_DrawConfigYdan,                  // SDC_YDAN
+    Scene_DrawConfigDdan,                  // SDC_DDAN
+    Scene_DrawConfigBdan,                  // SDC_BDAN
+    Scene_DrawConfigBmori1,                // SDC_BMORI1
+    Scene_DrawConfigMizusin,               // SDC_MIZUSIN
+    Scene_DrawConfigHakadan,               // SDC_HAKADAN
+    Scene_DrawConfigJyasinzou,             // SDC_JYASINZOU
+    Scene_DrawConfigGanontika,             // SDC_GANONTIKA
+    Scene_DrawConfigMen,                   // SDC_MEN
+    Scene_DrawConfigYdanBoss,              // SDC_YDAN_BOSS
+    Scene_DrawConfigMizusinBs,             // SDC_MIZUSIN_BS
+    Scene_DrawConfigTokinoma,              // SDC_TOKINOMA
+    Scene_DrawConfigKakusiana,             // SDC_KAKUSIANA
+    Scene_DrawConfigKenjyanoma,            // SDC_KENJYANOMA
+    Scene_DrawConfigGreatFairyFountain,    // SDC_GREAT_FAIRY_FOUNTAIN
+    Scene_DrawConfigSyatekijyou,           // SDC_SYATEKIJYOU
+    Scene_DrawConfigHairalNiwa,            // SDC_HAIRAL_NIWA
+    Scene_DrawConfigGanonCastleExterior,   // SDC_GANON_CASTLE_EXTERIOR
+    Scene_DrawConfigIceDoukuto,            // SDC_ICE_DOUKUTO
+    Scene_DrawConfigGanonFinal,            // SDC_GANON_FINAL
+    Scene_DrawConfigFairyFountain,         // SDC_FAIRY_FOUNTAIN
+    Scene_DrawConfigGerudoway,             // SDC_GERUDOWAY
+    Scene_DrawConfigBowling,               // SDC_BOWLING
+    Scene_DrawConfigHakaanaOuke,           // SDC_HAKAANA_OUKE
+    Scene_DrawConfigHyliaLabo,             // SDC_HYLIA_LABO
+    Scene_DrawConfigSouko,                 // SDC_SOUKO
+    Scene_DrawConfigMiharigoya,            // SDC_MIHARIGOYA
+    Scene_DrawConfigMahouya,               // SDC_MAHOUYA
+    Scene_DrawConfigCalmWater,             // SDC_CALM_WATER
+    Scene_DrawConfigGraveExitLightShining, // SDC_GRAVE_EXIT_LIGHT_SHINING
+    Scene_DrawConfigBesitu,                // SDC_BESITU
+    Scene_DrawConfigTuribori,              // SDC_TURIBORI
+    Scene_DrawConfigGanonSonogo,           // SDC_GANON_SONOGO
+    Scene_DrawConfigGanontikaSonogo,       // SDC_GANONTIKA_SONOGO
 };
 
 void Scene_Draw(PlayState* play) {
@@ -1642,9 +1635,9 @@ void Scene_Draw(PlayState* play) {
         CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 8109);
 
         if (HREG(82) == 1) {
-            sSceneDrawHandlers[play->sceneConfig](play);
+            sSceneDrawConfigs[play->sceneDrawConfig](play);
         }
     } else {
-        sSceneDrawHandlers[play->sceneConfig](play);
+        sSceneDrawConfigs[play->sceneDrawConfig](play);
     }
 }

@@ -135,7 +135,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.25f;
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
-            this->collider.info.bumper.dmgFlags = 0x1F820;
+            this->collider.info.bumper.dmgFlags = DMG_ARROW;
             this->objId = OBJECT_TSUBO;
             this->objIndex = Object_GetIndex(&play->objectCtx, this->objId);
             if (this->objIndex < 0) {
@@ -456,7 +456,7 @@ void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {
 
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 918);
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, object_tsubo_DL_0017C0);
@@ -475,7 +475,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
     if (1) {}
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 951);
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(&this->actor, play, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -552,7 +552,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_en_g_switch.c", 1073);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     for (i = 0; i < this->numEffects; i++, effect++) {
         if (effect->flag) {
             scale = effect->scale / 10000.0f;

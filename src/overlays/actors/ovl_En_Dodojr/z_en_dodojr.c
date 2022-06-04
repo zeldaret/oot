@@ -339,10 +339,10 @@ s32 func_809F70E8(EnDodojr* this, PlayState* play) {
         return 0;
     }
 
-    if (!(this->collider.base.acFlags & 2)) {
+    if (!(this->collider.base.acFlags & AC_HIT)) {
         return 0;
     } else {
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
 
         if ((this->actionFunc == func_809F73AC) || (this->actionFunc == func_809F74C4)) {
             this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
@@ -643,7 +643,7 @@ void EnDodojr_Draw(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;
 
     if ((this->actionFunc != func_809F73AC) && (this->actionFunc != func_809F7BE4)) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, func_809F7D50, func_809F7DFC,
                           &this->actor);
     }

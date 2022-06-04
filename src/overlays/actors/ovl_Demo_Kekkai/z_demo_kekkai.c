@@ -161,7 +161,7 @@ void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
         (play->csCtx.npcActions[0]->action != 1) && (play->csCtx.npcActions[0]->action == 2)) {
         if (!(this->sfxFlag & 1)) {
-            func_800F3F3C(0xC);
+            Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_DISPEL_BARRIER);
             this->sfxFlag |= 1;
         }
         if (this->barrierScrollRate < 7.0f) {
@@ -208,7 +208,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (play->csCtx.frames == csFrames[this->actor.params]) {
-        func_800F3F3C(0xA);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TRIAL_WARP);
     }
     if (this->energyAlpha >= 0.05f) {
         this->energyAlpha -= 0.05f;
@@ -287,7 +287,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
         }
         colorIndex = (this->actor.params - 1) * 6;
         OPEN_DISPS(play->state.gfxCtx, "../z_demo_kekkai.c", 632);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         Matrix_Push();
         Matrix_Translate(0.0f, 1200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(this->orbScale, this->orbScale, this->orbScale, MTXMODE_APPLY);
@@ -326,7 +326,7 @@ void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play) {
 
     scroll = (s32)this->barrierScroll & 0xFFFF;
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kekkai.c", 705);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kekkai.c", 707),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 170, 255, 255);

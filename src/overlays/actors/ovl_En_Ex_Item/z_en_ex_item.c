@@ -134,6 +134,7 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
         switch (this->type) {
             case EXITEM_BOMB_BAG_COUNTER:
                 onCounter = true;
+                FALLTHROUGH;
             case EXITEM_BOMB_BAG_BOWLING:
                 this->unk_17C = func_8002EBCC;
                 this->giDrawId = GID_BOMB_BAG_30;
@@ -149,6 +150,7 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
                 break;
             case EXITEM_HEART_PIECE_COUNTER:
                 onCounter = true;
+                FALLTHROUGH;
             case EXITEM_HEART_PIECE_BOWLING:
                 this->unk_17C = func_8002ED80;
                 this->timer = 65;
@@ -164,6 +166,7 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
                 break;
             case EXITEM_BOMBCHUS_COUNTER:
                 onCounter = true;
+                FALLTHROUGH;
             case EXITEM_BOMBCHUS_BOWLING:
                 this->unk_17C = func_8002EBCC;
                 this->giDrawId = GID_BOMBCHU;
@@ -499,7 +502,7 @@ void EnExItem_DrawKey(EnExItem* this, PlayState* play, s32 index) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ex_item.c", 880);
 
-    func_8009460C(play->state.gfxCtx);
+    Gfx_SetupDL_41Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ex_item.c", 887),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));

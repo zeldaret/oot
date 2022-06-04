@@ -145,7 +145,7 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
     }
 
     if (this->collider.base.atFlags & AT_HIT) {
-        this->collider.base.atFlags &= ~AT_HIT & ~AT_ON;
+        this->collider.base.atFlags &= ~(AT_ON | AT_HIT);
 
         relYawTowardsPlayer = thisx->yawTowardsPlayer - thisx->world.rot.y;
         if ((relYawTowardsPlayer > -0x4000) && (relYawTowardsPlayer < 0x4000)) {

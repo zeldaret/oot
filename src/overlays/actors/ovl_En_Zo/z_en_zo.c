@@ -177,7 +177,7 @@ void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
     effect = this->effects;
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 217);
     materialFlag = false;
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
             if (!materialFlag) {
@@ -207,7 +207,7 @@ void EnZo_DrawEffectsBubbles(EnZo* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 260);
     materialFlag = false;
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
             if (!materialFlag) {
@@ -241,7 +241,7 @@ void EnZo_DrawEffectsSplashes(EnZo* this, PlayState* play) {
     effect = this->effects;
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 298);
     materialFlag = false;
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
             if (!materialFlag) {
