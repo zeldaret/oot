@@ -621,6 +621,8 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
 
     for (;;) {
         cmd = AudioSeq_ScriptReadU8(state);
+
+        // To be processed in AudioSeq_SeqLayerProcessScriptStep3
         if (cmd <= 0xC0) {
             return cmd;
         }
@@ -1955,11 +1957,11 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xC4:
                         cmd = AudioSeq_ScriptReadU8(seqScript);
                         if (cmd == 0xFF) {
-                            cmd = seqPlayer->playerIndex;
+                            cmd = seqPlayer->playerIdx;
                         }
                         cmdLowBits = AudioSeq_ScriptReadU8(seqScript);
                         AudioLoad_SyncInitSeqPlayer(cmd, cmdLowBits, 0);
-                        if (cmd == (u8)seqPlayer->playerIndex) {
+                        if (cmd == (u8)seqPlayer->playerIdx) {
                             return;
                         }
                         break;
@@ -2080,9 +2082,9 @@ void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     }
 }
 
-void AudioSeq_InitSequencePlayerChannels(s32 playerIndex) {
+void AudioSeq_InitSequencePlayerChannels(s32 playerIdx) {
     SequenceChannel* channel;
-    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIndex];
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     s32 i;
     s32 j;
 
