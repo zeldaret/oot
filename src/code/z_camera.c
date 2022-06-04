@@ -4327,8 +4327,8 @@ s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f* at = &camera->at;
-    u16 bgCamDataCount;
-    Vec3s* bgCamData;
+    u16 crawlspaceNumPoints;
+    Vec3s* crawlspacePoints;
     Vec3f temp1;
     Vec3f zoomAtTarget;
     f32 temp2;
@@ -4365,9 +4365,9 @@ s32 Camera_Subj4(Camera* camera) {
 
     // Crawlspace setup (runs for only 1 frame)
     if (camera->animState == 0) {
-        bgCamData = (Vec3s*)Camera_GetBgCamDataUnderPlayer(camera, &bgCamDataCount);
-        Camera_Vec3sToVec3f(&rwData->crawlspaceLine.point, &BGCAMDATA_CRAWLSPACE_FRONT_POS(bgCamData));
-        Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &BGCAMDATA_CRAWLSPACE_BACK_POS(bgCamData, bgCamDataCount));
+        crawlspacePoints = (Vec3s*)Camera_GetBgCamDataUnderPlayer(camera, &crawlspaceNumPoints);
+        Camera_Vec3sToVec3f(&rwData->crawlspaceLine.point, &BGCAMDATA_CRAWLSPACE_FRONT_POS(crawlspacePoints));
+        Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &BGCAMDATA_CRAWLSPACE_BACK_POS(crawlspacePoints, crawlspaceNumPoints));
 
         atEyeTargetOffset.r = 10.0f;
         atEyeTargetOffset.pitch = 0x238C; // ~50 degrees
