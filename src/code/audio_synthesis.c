@@ -134,7 +134,7 @@ void func_800DB03C(s32 updateIndex) {
             subEu2->bitField0.enabled = false;
         }
 
-        subEu->logHarmonicCurAndPrev = 0;
+        subEu->harmonicIndexCurAndPrev = 0;
     }
 }
 
@@ -1192,7 +1192,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState,
                                  s32 numSamplesToLoad) {
     s32 numSampleSlotsAvail;
-    s32 logHarmonicCurAndPrev = noteSubEu->logHarmonicCurAndPrev;
+    s32 harmonicIndexCurAndPrev = noteSubEu->harmonicIndexCurAndPrev;
     s32 curSamplePos = synthState->samplePosInt;
     s32 numDuplicates;
 
@@ -1201,12 +1201,12 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         gWaveSamples[8] += numSamplesToLoad * sizeof(s16);
         return cmd;
     } else {
-        // move the synthetmic wave from ram to the rsp
+        // move the synthetic wave from ram to the rsp
         aLoadBuffer(cmd++, noteSubEu->sound.waveSampleAddr, DMEM_UNCOMPRESSED_NOTE, 64 * sizeof(s16));
-        if (logHarmonicCurAndPrev != 0) {
+        if (harmonicIndexCurAndPrev != 0) {
             // curSamplePos scaled by (current-harmonic / prev-harmonic)
-            curSamplePos = curSamplePos * sNumSamplesPerWavePeriod[logHarmonicCurAndPrev >> 2] /
-                           sNumSamplesPerWavePeriod[logHarmonicCurAndPrev & 3];
+            curSamplePos = curSamplePos * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2] /
+                           sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev & 3];
         }
 
         curSamplePos &= 0x3F;
