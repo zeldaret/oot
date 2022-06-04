@@ -3888,7 +3888,7 @@ u16 BgCheck_GetBgCamDataSettingImpl(CollisionContext* colCtx, u32 bgCamDataIndex
 }
 
 /**
- * BgCamData Get camera setting of bgCamData
+ * BgCamData Get the camera setting of bgCamData
  */
 u16 BgCheck_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
