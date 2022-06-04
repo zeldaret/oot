@@ -8867,7 +8867,7 @@ void func_80845CA4(Player* this, PlayState* play) {
             temp = func_80845BA0(play, this, &sp34, sp30);
 
             if ((this->unk_850 == 0) || ((temp == 0) && (this->linearVelocity == 0.0f) &&
-                                         (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_10))) {
+                                         (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_4))) {
 
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
                 func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
@@ -12178,7 +12178,7 @@ void func_8084E3C4(Player* this, PlayState* play) {
         this->stateFlags1 &= ~PLAYER_STATE1_29;
 
         func_80852FFC(play, NULL, 8);
-        play->mainCamera.stateFlags &= ~CAM_STATE_8;
+        play->mainCamera.stateFlags &= ~CAM_STATE_3;
 
         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
         this->stateFlags2 |= PLAYER_STATE2_27;

@@ -235,8 +235,8 @@ void Play_Init(GameState* thisx) {
     this->cameraPtrs[CAM_ID_MAIN] = &this->mainCamera;
     this->cameraPtrs[CAM_ID_MAIN]->uid = 0;
     this->activeCamId = CAM_ID_MAIN;
-    Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_1 | CAM_STATE_2 | CAM_STATE_4 | CAM_STATE_8 | CAM_STATE_10 |
-                                                      CAM_STATE_20 | CAM_STATE_40 | CAM_STATE_80);
+    Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_0 | CAM_STATE_1 | CAM_STATE_2 | CAM_STATE_3 | CAM_STATE_4 |
+                                                      CAM_STATE_5 | CAM_STATE_6 | CAM_STATE_7);
     Sram_Init(this, &this->sramCtx);
     func_80112098(this);
     Message_Init(this);
