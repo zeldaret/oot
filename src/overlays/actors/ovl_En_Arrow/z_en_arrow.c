@@ -77,8 +77,8 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         0, 1, 0, { 255, 255, 170, 255 }, { 255, 255, 0, 0 },
     };
     static u32 dmgFlags[] = {
-        0x00000800, 0x00000020, 0x00000020, 0x00000800, 0x00001000,
-        0x00002000, 0x00010000, 0x00004000, 0x00008000, 0x00000004,
+        DMG_ARROW_FIRE,  DMG_ARROW_NORMAL, DMG_ARROW_NORMAL, DMG_ARROW_FIRE, DMG_ARROW_ICE,
+        DMG_ARROW_LIGHT, DMG_ARROW_UNK3,   DMG_ARROW_UNK1,   DMG_ARROW_UNK2, DMG_SLINGSHOT,
     };
     EnArrow* this = (EnArrow*)thisx;
 
@@ -455,7 +455,7 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
     f32 scale;
 
     if (this->actor.params <= ARROW_0E) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         SkelAnime_DrawLod(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this,
                           (this->actor.projectedPos.z < MREG(95)) ? 0 : 1);
     } else if (this->actor.speedXZ != 0.0f) {
@@ -463,7 +463,7 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_arrow.c", 1346);
 
-        func_80093C14(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu2(play->state.gfxCtx);
 
         if (this->actor.params == ARROW_SEED) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);

@@ -282,7 +282,7 @@ void EnSiofuki_Draw(Actor* thisx, PlayState* play) {
     u32 gameplayFrames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_siofuki.c", 654);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Translate(0.0f, this->unk_170, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_siofuki.c", 662),

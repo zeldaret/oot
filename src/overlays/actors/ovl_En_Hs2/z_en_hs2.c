@@ -118,7 +118,7 @@ void EnHs2_Update(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
     if (this->unk_2A8 & 0x1) {
-        func_80038290(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A8 &= ~1;
     } else {
         Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);
@@ -162,7 +162,7 @@ void EnHs2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 void EnHs2_Draw(Actor* thisx, PlayState* play) {
     EnHs2* this = (EnHs2*)thisx;
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnHs2_OverrideLimbDraw, EnHs2_PostLimbDraw, this);
 }

@@ -1,6 +1,5 @@
 #include "ultra64/asm.h"
 
-// assembler directives
 .set noat
 .set noreorder
 

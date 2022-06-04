@@ -170,7 +170,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
 
     ObjHamishi_Shake(this);
 
-    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000040)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER)) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->hitCount++;
         if (this->hitCount < 2) {
@@ -196,7 +196,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
 void ObjHamishi_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_hamishi.c", 399);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_hamishi.c", 404),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

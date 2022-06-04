@@ -372,6 +372,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->timers[0] = 100;
                     this->introState = BFD_CS_LOOK_LINK;
                 }
+                FALLTHROUGH;
             case BFD_CS_LOOK_LINK:
                 player2->actor.world.pos.x = 380.0f;
                 player2->actor.world.pos.y = 100.0f;
@@ -504,6 +505,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                         case INTRO_FLY_EMERGE:
                             this->timers[5] = 100;
                             this->introFlyState = INTRO_FLY_HOLE;
+                            FALLTHROUGH;
                         case INTRO_FLY_HOLE:
                             if (this->timers[5] == 0) {
                                 this->introFlyState = INTRO_FLY_CAMERA;
@@ -1287,7 +1289,7 @@ void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
         headCollider->info.bumperFlags &= ~BUMP_HIT;
         hurtbox = headCollider->info.acHitInfo;
         this->actor.colChkInfo.health -= 2;
-        if (hurtbox->toucher.dmgFlags & 0x1000) {
+        if (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) {
             this->actor.colChkInfo.health -= 2;
         }
         if ((s8)this->actor.colChkInfo.health <= 2) {
@@ -1525,7 +1527,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
     for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_EMBER) {
             if (materialFlag == 0) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberMaterialDL);
                 materialFlag++;
             }
@@ -1546,7 +1548,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
     for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DEBRIS) {
             if (materialFlag == 0) {
-                func_80093D18(play->state.gfxCtx);
+                Gfx_SetupDL_25Opa(play->state.gfxCtx);
                 gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisMaterialDL);
                 materialFlag++;
             }
@@ -1567,7 +1569,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
     for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DUST) {
             if (materialFlag == 0) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 90, 30, 0, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 90, 30, 0, 0);
@@ -1590,7 +1592,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
     for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_FIRE_BREATH) {
             if (materialFlag == 0) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 255);
                 materialFlag++;
@@ -1613,7 +1615,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
     for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_SKULL_PIECE) {
             if (materialFlag == 0) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceMaterialDL);
                 materialFlag++;
             }
@@ -1639,7 +1641,7 @@ void BossFd_Draw(Actor* thisx, PlayState* play) {
     osSyncPrintf("FD DRAW START\n");
     if (this->actionFunc != BossFd_Wait) {
         OPEN_DISPS(play->state.gfxCtx, "../z_boss_fd.c", 4217);
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->work[BFD_DAMAGE_FLASH_TIMER] & 2) {
             POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
         }
@@ -1954,7 +1956,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
         Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
         Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPDisplayList(POLY_XLU_DISP++, gVolvagiaManeMaterialDL);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->fwork[BFD_MANE_COLOR_CENTER], 0, 255);
         Matrix_Push();

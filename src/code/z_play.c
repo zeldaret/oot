@@ -513,7 +513,7 @@ void Play_Update(PlayState* this) {
                         // non-instance modes break out of this switch
                         break;
                     }
-                    // fallthrough
+                    FALLTHROUGH;
                 case TRANS_MODE_INSTANCE_INIT:
                     this->transitionCtx.init(&this->transitionCtx.instanceData);
 
@@ -1183,7 +1183,7 @@ void Play_Draw(PlayState* this) {
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
-                MsgEvent_SendNullTask();
+                Sched_FlushTaskQueue();
                 PreRender_Calc(&this->pauseBgPreRender);
                 R_PAUSE_MENU_MODE = 3;
             } else if (R_PAUSE_MENU_MODE >= 4) {

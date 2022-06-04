@@ -50,10 +50,10 @@ void func_80991298(DemoShd* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL) ||
         (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL)) {
         if (play->csCtx.frames == 800) {
-            func_800F3F3C(9);
+            Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_EMERGES);
         }
         if (play->csCtx.frames == 1069) {
-            func_800F3F3C(8);
+            Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_HOVER);
         }
     }
 
@@ -105,7 +105,7 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_shd.c", 726);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_shd.c", 729),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

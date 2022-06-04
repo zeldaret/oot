@@ -28,7 +28,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist,
         if (temp1 >= -50.0f && temp1 < 500.0f) {
             OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 1553);
 
-            POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
+            POLY_OPA_DISP = Gfx_SetupDL(POLY_OPA_DISP, SETUPDL_44);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                               COMBINED);
@@ -134,7 +134,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 1741);
 
-        POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
+        POLY_OPA_DISP = Gfx_SetupDL(POLY_OPA_DISP, SETUPDL_44);
 
         // feetFloorFlag is temporarily a bitfield where the bits are set if the foot is on ground
         // feetFloorFlag & 2 is left foot, feetFloorFlag & 1 is right foot
@@ -353,7 +353,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
         func_8002BE64(targetCtx, targetCtx->unk_4C, projTargetCenter.x, projTargetCenter.y, projTargetCenter.z);
 
         if (!(player->stateFlags1 & PLAYER_STATE1_6) || (actor != player->unk_664)) {
-            OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
+            OVERLAY_DISP = Gfx_SetupDL(OVERLAY_DISP, SETUPDL_57);
 
             for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++, spAC = (spAC + 1) % 3) {
                 entry = &targetCtx->arr_50[spAC];
@@ -395,7 +395,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
     if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
         NaviColor* naviColor = &sNaviColorList[actor->category];
 
-        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
+        POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_7);
 
         Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y) + 17.0f,
                          actor->focus.pos.z, MTXMODE_NEW);
@@ -725,7 +725,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
         height = (width * height > 0x1000) ? 0x1000 / width : height;
         titleSecondY = titleY + (height * 4);
 
-        OVERLAY_DISP = func_80093808(OVERLAY_DISP);
+        OVERLAY_DISP = Gfx_SetupDL_52NoCD(OVERLAY_DISP);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
@@ -1909,7 +1909,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex) == play->roomCtx.curRoom.num)) {
             f32 scale = 0.025f * ratio;
 
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);
 
             Matrix_Translate(((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
                              ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
@@ -3480,7 +3480,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
 
     if (0) {} // Necessary to match
 
-    POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
+    POLY_OPA_DISP = Gfx_SetupDL(POLY_OPA_DISP, SETUPDL_44);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, alpha);
 
@@ -3811,12 +3811,15 @@ void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3)
             sp38.unk_00 = 0;
             sp38.unk_04 = 0;
             sp38.unk_02 = 0;
+            FALLTHROUGH;
         case 3:
             sp38.unk_06 = 0;
             sp38.unk_0A = 0;
             sp38.unk_08 = 0;
+            FALLTHROUGH;
         case 2:
             sp38.unk_0C = 0;
+            break;
     }
 
     func_800344BC(actor, arg1, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
@@ -3851,7 +3854,7 @@ void func_80034BA0(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overr
                    Actor* actor, s16 alpha) {
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 8831);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, alpha);
@@ -3868,7 +3871,7 @@ void func_80034CC4(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overr
                    Actor* actor, s16 alpha) {
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 8876);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, alpha);
@@ -4061,22 +4064,23 @@ u8 Actor_ApplyDamage(Actor* actor) {
 void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
         actor->dropFlag = 0x00;
-    } else if (freezeFlag && (colInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+    } else if (freezeFlag &&
+               (colInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
         actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         actor->dropFlag = 0x00;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x0800) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
         actor->dropFlag = 0x01;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x1000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
         actor->dropFlag = 0x02;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x4000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK1) {
         actor->dropFlag = 0x04;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x8000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK2) {
         actor->dropFlag = 0x08;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x10000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK3) {
         actor->dropFlag = 0x10;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x2000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
         actor->dropFlag = 0x20;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x80000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
         if (freezeFlag) {
             actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         }
@@ -4097,22 +4101,23 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
         curColInfo = &jntSph->elements[i].info;
         if (curColInfo->acHitInfo == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+        } else if (freezeFlag &&
+                   (curColInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
             actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             flag = 0x00;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x0800) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
             flag = 0x01;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x1000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
             flag = 0x02;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x4000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK1) {
             flag = 0x04;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x8000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK2) {
             flag = 0x08;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x10000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK3) {
             flag = 0x10;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x2000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
             flag = 0x20;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x80000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
             if (freezeFlag) {
                 actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             }
@@ -5503,93 +5508,117 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     return false;
 }
 
-s32 func_80037F30(Vec3s* arg0, Vec3s* arg1) {
-    Math_SmoothStepToS(&arg0->y, 0, 6, 6200, 100);
-    Math_SmoothStepToS(&arg0->x, 0, 6, 6200, 100);
-    Math_SmoothStepToS(&arg1->y, 0, 6, 6200, 100);
-    Math_SmoothStepToS(&arg1->x, 0, 6, 6200, 100);
+s32 Actor_TrackNone(Vec3s* headRot, Vec3s* torsoRot) {
+    Math_SmoothStepToS(&headRot->y, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&headRot->x, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->x, 0, 6, 6200, 100);
     return true;
 }
 
-s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
-    s16 sp36;
-    s16 sp34;
-    s16 var;
+s32 Actor_TrackPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* torsoRot) {
+    s16 pitch;
+    s16 yaw;
+    s16 yawDiff;
 
-    sp36 = Math_Vec3f_Pitch(&actor->focus.pos, arg1);
-    sp34 = Math_Vec3f_Yaw(&actor->focus.pos, arg1) - actor->world.rot.y;
+    pitch = Math_Vec3f_Pitch(&actor->focus.pos, target);
+    yaw = Math_Vec3f_Yaw(&actor->focus.pos, target) - actor->world.rot.y;
 
-    Math_SmoothStepToS(&arg2->x, sp36, 6, 2000, 1);
-    arg2->x = (arg2->x < -6000) ? -6000 : ((arg2->x > 6000) ? 6000 : arg2->x);
+    Math_SmoothStepToS(&headRot->x, pitch, 6, 2000, 1);
+    headRot->x = CLAMP(headRot->x, -6000, 6000);
 
-    var = Math_SmoothStepToS(&arg2->y, sp34, 6, 2000, 1);
-    arg2->y = (arg2->y < -8000) ? -8000 : ((arg2->y > 8000) ? 8000 : arg2->y);
+    yawDiff = Math_SmoothStepToS(&headRot->y, yaw, 6, 2000, 1);
+    headRot->y = CLAMP(headRot->y, -8000, 8000);
 
-    if (var && (ABS(arg2->y) < 8000)) {
+    if ((yawDiff != 0) && (ABS(headRot->y) < 8000)) {
         return false;
     }
 
-    Math_SmoothStepToS(&arg3->y, sp34 - arg2->y, 4, 2000, 1);
-    arg3->y = (arg3->y < -12000) ? -12000 : ((arg3->y > 12000) ? 12000 : arg3->y);
+    Math_SmoothStepToS(&torsoRot->y, yaw - headRot->y, 4, 2000, 1);
+    torsoRot->y = CLAMP(torsoRot->y, -12000, 12000);
 
     return true;
 }
 
-s32 func_80038154(PlayState* play, Actor* actor, Vec3s* arg2, Vec3s* arg3, f32 arg4) {
+/**
+ * Same as Actor_TrackPlayer, except use the actor's world position as the focus point, with the height
+ * specified.
+ *
+ * @param play
+ * @param actor
+ * @param headRot the computed actor's head's rotation step
+ * @param torsoRot the computed actor's torso's rotation step
+ * @param focusHeight the height of the focus point relative to their world position
+ *
+ * @return true if rotated towards player, false if rotations were stepped back to zero.
+ *
+ * @note same note as Actor_TrackPlayer
+ */
+s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, f32 focusHeight) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
-    Vec3f sp2C;
-    s16 var;
-    s16 abs_var;
+    s16 yaw;
+    Vec3f target;
 
     actor->focus.pos = actor->world.pos;
-    actor->focus.pos.y += arg4;
+    actor->focus.pos.y += focusHeight;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
-        var = actor->yawTowardsPlayer - actor->shape.rot.y;
-        abs_var = ABS(var);
-        if (abs_var >= 0x4300) {
-            func_80037F30(arg2, arg3);
+        yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
+        if (yaw >= 0x4300) {
+            Actor_TrackNone(headRot, torsoRot);
             return false;
         }
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0)) {
-        sp2C = play->view.eye;
+        target = play->view.eye;
     } else {
-        sp2C = player->actor.focus.pos;
+        target = player->actor.focus.pos;
     }
 
-    func_80037FC8(actor, &sp2C, arg2, arg3);
+    Actor_TrackPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }
 
-s32 func_80038290(PlayState* play, Actor* actor, Vec3s* arg2, Vec3s* arg3, Vec3f arg4) {
+/**
+ * Computes the necessary HeadRot and TorsoRot steps to be added to the normal rotation to smoothly turn an actors's
+ * head and torso towards the player if within a certain yaw, else smoothly returns the rotations back to zero.
+ * Also sets the focus position with the specified point.
+ *
+ * @param play
+ * @param actor
+ * @param headRot the computed actor's head's rotation step
+ * @param torsoRot the computed actor's torso's rotation step
+ * @param focusPos the point to set as the actor's focus position
+ *
+ * @return true if rotated towards player, false if rotations were stepped back to zero.
+ *
+ * @note if in a cutscene or debug camera is enabled, and the last entrance used was Kokiri Forest spawn 0, the computed
+ * rotation will instead turn towards the view eye no matter the yaw.
+ */
+s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
-    Vec3f sp24;
-    s16 var;
-    s16 abs_var;
+    s16 yaw;
+    Vec3f target;
 
-    actor->focus.pos = arg4;
+    actor->focus.pos = focusPos;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
-        var = actor->yawTowardsPlayer - actor->shape.rot.y;
-        abs_var = ABS(var);
-        if (abs_var >= 0x4300) {
-            func_80037F30(arg2, arg3);
+        yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
+        if (yaw >= 0x4300) {
+            Actor_TrackNone(headRot, torsoRot);
             return false;
         }
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0)) {
-        sp24 = play->view.eye;
+        target = play->view.eye;
     } else {
-        sp24 = player->actor.focus.pos;
+        target = player->actor.focus.pos;
     }
 
-    func_80037FC8(actor, &sp24, arg2, arg3);
+    Actor_TrackPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }

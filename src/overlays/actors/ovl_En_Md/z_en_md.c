@@ -104,11 +104,13 @@ void func_80AAA274(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_2);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_3);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -117,11 +119,13 @@ void func_80AAA308(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_4);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_5);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -131,6 +135,7 @@ void func_80AAA39C(EnMd* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_2);
             func_80AAA250(this);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_7);
@@ -138,11 +143,13 @@ void func_80AAA39C(EnMd* this) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 2:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_8);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -151,11 +158,13 @@ void func_80AAA474(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_7);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_10);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -165,11 +174,13 @@ void func_80AAA508(EnMd* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_2);
             func_80AAA250(this);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_10);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -178,11 +189,13 @@ void func_80AAA5A4(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_9);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_6);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -192,11 +205,13 @@ void func_80AAA638(EnMd* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_9);
             func_80AAA250(this);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_10);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -205,11 +220,13 @@ void func_80AAA6D4(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_11);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_6);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -218,11 +235,13 @@ void func_80AAA768(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_12);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_3);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -231,11 +250,13 @@ void func_80AAA7FC(EnMd* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_13);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_6);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -245,11 +266,13 @@ void func_80AAA890(EnMd* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_7);
             func_80AAA250(this);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_10);
                 this->unk_20A++;
             }
+            break;
     }
 }
 
@@ -475,6 +498,7 @@ s16 func_80AAAF04(PlayState* play, Actor* thisx) {
             if (Message_ShouldAdvance(play)) {
                 return 2;
             }
+            FALLTHROUGH;
         default:
             return 1;
     }
