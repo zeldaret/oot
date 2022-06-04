@@ -863,7 +863,7 @@ void BossSst_HeadStunned(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupVulnerable(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadStunnedAnim, -5.0f);
     this->colliderCyl.base.acFlags |= AC_ON;
-    this->colliderCyl.info.bumper.dmgFlags = 0x0FC00702; // Sword-type damage
+    this->colliderCyl.info.bumper.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
     this->actor.speedXZ = 0.0f;
     this->colliderJntSph.elements[10].info.bumperFlags |= (BUMP_ON | BUMP_HOOKABLE);
     this->colliderJntSph.elements[0].info.bumperFlags &= ~BUMP_ON;
@@ -919,7 +919,7 @@ void BossSst_HeadDamage(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupRecover(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadRecoverAnim, -5.0f);
     this->colliderCyl.base.acFlags &= ~AC_ON;
-    this->colliderCyl.info.bumper.dmgFlags = 0xFFCFFFFF;
+    this->colliderCyl.info.bumper.dmgFlags = DMG_DEFAULT;
     this->colliderJntSph.elements[10].info.bumperFlags &= ~(BUMP_ON | BUMP_HOOKABLE);
     this->colliderJntSph.elements[0].info.bumperFlags |= BUMP_ON;
     this->vVanish = true;
@@ -2705,7 +2705,7 @@ void BossSst_DrawHand(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_sst.c", 6563);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
 
@@ -2726,7 +2726,7 @@ void BossSst_DrawHand(Actor* thisx, PlayState* play) {
         s32 end;
         s32 pad;
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         end = this->trailCount >> 1;
         idx = (this->trailIndex + 4) % 7;
@@ -2858,7 +2858,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_sst.c", 6810);
 
     if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
         if (!sBodyStatic) {
             gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
@@ -2867,7 +2867,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDList);
         }
     } else {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, 255);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[2]);
     }
@@ -2899,7 +2899,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
         Vec3f vanishMaskPos;
         Vec3f vanishMaskOffset;
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 18, 255);
 
         yOffset = 113 * 8 - this->timer * 8;
@@ -3152,7 +3152,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
     if (this->effectMode != BONGO_NULL) {
         OPEN_DISPS(play->state.gfxCtx, "../z_boss_sst.c", 7302);
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         if (this->effectMode == BONGO_ICE) {
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, play->gameplayFrames % 256, 0x20, 0x10, 1, 0,

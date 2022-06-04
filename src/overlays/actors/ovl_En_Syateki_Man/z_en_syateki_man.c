@@ -131,13 +131,13 @@ static u16 sBgmList[] = {
     NA_BGM_SHADOW_TEMPLE,
     NA_BGM_WATER_TEMPLE,
     NA_BGM_BRIDGE_TO_GANONS,
-    NA_BGM_VARIOUS_SFX,
+    NA_BGM_CUTSCENE_EFFECTS,
     NA_BGM_OCARINA_OF_TIME,
     NA_BGM_OCARINA_OF_TIME,
     NA_BGM_GERUDO_VALLEY,
     NA_BGM_POTION_SHOP,
     NA_BGM_KOTAKE_KOUME,
-    NA_BGM_VARIOUS_SFX,
+    NA_BGM_CUTSCENE_EFFECTS,
     NA_BGM_ESCAPE,
     NA_BGM_UNDERGROUND,
     NA_BGM_GANONDORF_BOSS,
@@ -471,7 +471,7 @@ void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
     this->blinkFunc(this);
     this->actor.focus.pos.y = 70.0f;
     Actor_SetFocus(&this->actor, 70.0f);
-    func_80038290(play, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
+    Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
 s32 EnSyatekiMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -497,7 +497,7 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }

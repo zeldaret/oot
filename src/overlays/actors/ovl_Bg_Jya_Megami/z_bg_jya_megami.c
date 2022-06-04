@@ -304,7 +304,7 @@ static void* sLeftSideCrumbles[] = {
 void BgJyaMegami_DrawFace(BgJyaMegami* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_megami.c", 706);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRightSideCrumbles[this->crumbleIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sLeftSideCrumbles[this->crumbleIndex]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_megami.c", 716),
@@ -327,7 +327,7 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_megami.c", 746);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
         piece = &this->pieces[i];

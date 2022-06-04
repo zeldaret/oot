@@ -305,6 +305,7 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                 switch (thisx->textId) {
                     case 0x3035:
                         SET_INFTABLE(INFTABLE_10B);
+                        FALLTHROUGH;
                     case 0x3032:
                     case 0x3033:
                         thisx->textId = 0x3034;
@@ -707,8 +708,8 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
     EnBom* bomb;
 
     if (DECR(this->unk_20E) == 0) {
-        if (this->collider.base.ocFlags2 & 1) {
-            this->collider.base.ocFlags2 &= ~1;
+        if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
+            this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
             play->damagePlayer(play, -4);
             func_8002F71C(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
             this->unk_20E = 0x10;
@@ -1046,7 +1047,7 @@ void EnGo_DrawCurledUp(EnGo* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go.c", 2320);
 
     Matrix_Push();
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go.c", 2326),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1065,7 +1066,7 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go.c", 2355);
 
     Matrix_Push();
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_RotateZYX((s16)(play->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go.c", 2368),
@@ -1137,7 +1138,7 @@ void EnGo_Draw(Actor* thisx, PlayState* play) {
         EnGo_DrawRolling(this, play);
         return; // needed for match?
     } else {
-        func_800943C8(play->state.gfxCtx);
+        Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gGoronCsEyeOpenTex));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
@@ -1208,12 +1209,12 @@ void EnGo_DrawEffects(EnGo* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go.c", 2626);
     materialFlag = false;
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (1) {}
     for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 materialFlag = true;
