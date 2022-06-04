@@ -154,8 +154,6 @@ AudioTask* func_800E5000(void) {
         // msg = 0000RREE R = read pos, E = End Pos
         while (osRecvMesg(gAudioContext.cmdProcQueueP, (OSMesg*)&sp4C, OS_MESG_NOBLOCK) != -1) {
             if (1) {}
-            if (1) {}
-            if (1) {}
             Audio_ProcessCmds(sp4C);
             j++;
         }
@@ -170,7 +168,7 @@ AudioTask* func_800E5000(void) {
     // Update audioRandom to the next random number
     gAudioContext.audioRandom = (gAudioContext.audioRandom + gAudioContext.totalTaskCount) * osGetCount();
     gAudioContext.audioRandom =
-        gAudioContext.aiBuffers[index][gAudioContext.totalTaskCount & 0xFF] + gAudioContext.audioRandom;
+        gAudioContext.audioRandom + gAudioContext.aiBuffers[index][gAudioContext.totalTaskCount & 0xFF];
 
     // gWaveSamples[8] interprets compiled assembly code as s16 samples as a way to generate sound with noise.
     // Start with the address of func_800E4FE0, and offset it by a random number between 0 - 0xFFF0
