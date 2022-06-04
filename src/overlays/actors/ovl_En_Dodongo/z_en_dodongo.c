@@ -630,7 +630,7 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             this->timer = 18;
             this->colliderBody.base.atFlags = this->sphElements[1].info.toucherFlags =
                 this->sphElements[2].info.toucherFlags = AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-            this->sphElements[1].info.toucher.dmgFlags = this->sphElements[2].info.toucher.dmgFlags = 0xFFCFFFFF;
+            this->sphElements[1].info.toucher.dmgFlags = this->sphElements[2].info.toucher.dmgFlags = DMG_DEFAULT;
             this->sphElements[1].info.toucher.damage = this->sphElements[2].info.toucher.damage = 8;
         }
     } else if (this->timer > 1) {
@@ -919,7 +919,7 @@ void EnDodongo_Draw(Actor* thisx, PlayState* play2) {
     EnDodongo* this = (EnDodongo*)thisx;
     s32 index;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDodongo_OverrideLimbDraw,
                       EnDodongo_PostLimbDraw, this);
 

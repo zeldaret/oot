@@ -161,6 +161,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
             SET_EVENTCHKINF(EVENTCHKINF_72);
             Flags_SetSwitch(play, 0x23);
+            FALLTHROUGH;
         case INTRO_FENCE:
             player->actor.world.pos.x = GND_BOSSROOM_CENTER_X + 0.0f;
             player->actor.world.pos.y = GND_BOSSROOM_CENTER_Y + 7.0f;
@@ -241,6 +242,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             this->subCamAtVel.y = fabsf(this->subCamAt.y - (GND_BOSSROOM_CENTER_Y + 197.0f));
             this->subCamAtVel.z = fabsf(this->subCamAt.z - (GND_BOSSROOM_CENTER_Z - 65.0f));
             this->timers[0] = 250;
+            FALLTHROUGH;
         case INTRO_LAUGH:
             Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTER_X + 20.0f, 0.05f,
                            this->subCamVelFactor * this->subCamEyeVel.x);
@@ -714,7 +716,7 @@ void EnfHG_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fhg.c", 2439);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     POLY_OPA_DISP = ((bossGnd->work[GND_INVINC_TIMER] & 4) && (bossGnd->flyMode == GND_FLY_PAINTING))
                         ? Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099)

@@ -291,20 +291,20 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
 
     sp3F = 0;
     this->hitPlayer = 0;
-    if (this->collider.base.atFlags & 4) {
-        this->collider.base.atFlags &= ~4;
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~AT_BOUNCED;
         this->hitPlayer = 1;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.speedXZ = -4.0f;
         return 0;
     }
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         this->hitPlayer = 1;
         return 0;
     } else {
-        if (this->collider.base.acFlags & 2) {
-            this->collider.base.acFlags &= ~2;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             effectPos.x = this->collider.elements[0].info.bumper.hitPos.x;
             effectPos.y = this->collider.elements[0].info.bumper.hitPos.y;
             effectPos.z = this->collider.elements[0].info.bumper.hitPos.z;
@@ -312,6 +312,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
                 switch (this->actor.colChkInfo.damageEffect) {
                     case 0xE:
                         sp3F = 1;
+                        FALLTHROUGH;
                     case 0xF:
                         Actor_ApplyDamage(&this->actor);
                         Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
@@ -528,7 +529,7 @@ void EnNy_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ny.c", 837);
     Collider_UpdateSpheres(0, &this->collider);
     func_8002ED80(&this->actor, play, 1);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ny.c", 845),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPPipeSync(POLY_XLU_DISP++);
@@ -542,7 +543,7 @@ void EnNy_Draw(Actor* thisx, PlayState* play) {
     if (this->unk_1E0 > 0.25f) {
         Matrix_Scale(this->unk_1E0, this->unk_1E0, this->unk_1E0, MTXMODE_APPLY);
         func_8002EBCC(&this->actor, play, 1);
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ny.c", 868),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gEnNySpikeDL);
@@ -572,7 +573,7 @@ void EnNy_DrawDeathEffect(Actor* thisx, PlayState* play) {
     s32 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ny.c", 900);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetEnvColor(POLY_OPA_DISP++, 0x00, 0x00, 0x00, 0xFF);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
     gDPPipeSync(POLY_OPA_DISP++);

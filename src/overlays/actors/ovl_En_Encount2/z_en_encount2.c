@@ -98,6 +98,7 @@ void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
                 Quake_SetCountdown(quakeIndex, 300);
                 this->isQuaking = true;
             }
+            FALLTHROUGH;
         case ENCOUNT2_ACTIVE_GANONS_TOWER:
             this->envEffectsTimer++;
             if (this->envEffectsTimer > 60) {

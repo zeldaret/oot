@@ -435,12 +435,16 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
             switch (this->actor.colChkInfo.damageEffect) {
                 case RR_DMG_LIGHT_ARROW:
                     dropType++; // purple rupee
+                    FALLTHROUGH;
                 case RR_DMG_SHDW_ARROW:
                     dropType++; // flexible
+                    FALLTHROUGH;
                 case RR_DMG_WIND_ARROW:
                     dropType++; // arrow
+                    FALLTHROUGH;
                 case RR_DMG_SPRT_ARROW:
                     dropType++; // magic jar
+                    FALLTHROUGH;
                 case RR_DMG_NORMAL:
                     // "ouch"
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
@@ -847,7 +851,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_rr.c", 1478);
     if (1) {}
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x0C, segMtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, (this->scrollTimer * 0) & 0x7F, (this->scrollTimer * 0) & 0x3F,
