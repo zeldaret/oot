@@ -457,7 +457,7 @@ typedef struct {
     /* 0x04 */ u8 reverbVol;
     /* 0x05 */ u8 numParts;
     /* 0x06 */ u16 samplePosFrac;
-    /* 0x08 */ s32 curSamplePos;
+    /* 0x08 */ s32 curSamplePos; // current position/index of the next s16 sample to be processed within the sample. Position is relative to the start of the sample
     /* 0x0C */ NoteSynthesisBuffers* synthesisBuffers;
     /* 0x10 */ s16 curVolLeft;
     /* 0x12 */ s16 curVolRight;
@@ -541,7 +541,7 @@ typedef struct Note {
     /* 0x10 */ NoteSynthesisState synthesisState;
     /* 0x30 */ NotePlaybackState playbackState;
     /* 0xB8 */ char unk_B8[0x4];
-    /* 0xBC */ u32 startSamplePos;
+    /* 0xBC */ u32 startSamplePos; // initial position/index to start processing s16 samples. Always set to 0
     /* 0xC0 */ NoteSubEu noteSubEu;
 } Note; // size = 0xE0
 
