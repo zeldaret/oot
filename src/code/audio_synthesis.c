@@ -1193,7 +1193,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
                                  s32 numSamplesToLoad) {
     s32 numSampleSlotsAvail;
     s32 harmonicIndexCurAndPrev = noteSubEu->harmonicIndexCurAndPrev;
-    s32 curSamplePos = synthState->samplePosInt;
+    s32 samplePosInt = synthState->samplePosInt;
     s32 numDuplicates;
 
     if (noteSubEu->bitField1.bookOffset != 0) {
@@ -1204,13 +1204,13 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         // move the synthetic wave from ram to the rsp
         aLoadBuffer(cmd++, noteSubEu->sound.waveSampleAddr, DMEM_UNCOMPRESSED_NOTE, 64 * sizeof(s16));
         if (harmonicIndexCurAndPrev != 0) {
-            // curSamplePos scaled by (current-harmonic / prev-harmonic)
-            curSamplePos = curSamplePos * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2] /
+            // samplePosInt scaled by (current-harmonic / prev-harmonic)
+            samplePosInt = samplePosInt * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2] /
                            sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev & 3];
         }
 
-        curSamplePos &= 0x3F;
-        numSampleSlotsAvail = 64 - curSamplePos;
+        samplePosInt &= 0x3F;
+        numSampleSlotsAvail = 64 - samplePosInt;
 
         if (numSampleSlotsAvail < numSamplesToLoad) {
             numDuplicates = ((numSamplesToLoad - numSampleSlotsAvail + 0x3F) / 0x40);
@@ -1218,7 +1218,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
                 aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + (64 * sizeof(s16)));
             }
         }
-        synthState->samplePosInt = curSamplePos;
+        synthState->samplePosInt = samplePosInt;
     }
     return cmd;
 }
