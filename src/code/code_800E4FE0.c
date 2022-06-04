@@ -786,7 +786,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
     Note* note;
     SoundFontSound* sound;
     s32 loopEnd;
-    s32 samplePos;
+    s32 curSamplePos;
 
     seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     if (seqPlayer->enabled && seqPlayer->channels[arg1]->enabled) {
@@ -811,8 +811,8 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
                     return 0;
                 }
                 loopEnd = sound->sample->loop->end;
-                samplePos = note->synthesisState.curSamplePos;
-                return loopEnd - samplePos;
+                curSamplePos = note->synthesisState.curSamplePos;
+                return loopEnd - curSamplePos;
             }
             return 0;
         }
