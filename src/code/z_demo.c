@@ -302,7 +302,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 14:
             if (sp3F != 0) {
-                Play_SetIndoorBgCamIndex(play, 1);
+                Play_SetIndoorBgCamIndex(play, INDOOR_BGCAM_FIXED + 1);
             }
             break;
         case 15:

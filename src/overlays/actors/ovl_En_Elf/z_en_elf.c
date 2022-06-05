@@ -1084,7 +1084,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
 
         if ((player->stateFlags1 & PLAYER_STATE1_10) ||
-            ((R_CAM_SCENE_TYPE & CAM_SCENE_SHOP) && Play_CheckIndoorBgCamIndex(play, 2))) {
+            ((R_CAM_SCENE_TYPE & CAM_SCENE_SHOP) && Play_CheckIndoorBgCamIndex(play, INDOOR_BCGAM_PIVOT + 1))) {
             temp = 12;
             this->unk_2C0 = 100;
         } else if (arrowPointedActor == NULL || arrowPointedActor->category == ACTORCAT_NPC) {
