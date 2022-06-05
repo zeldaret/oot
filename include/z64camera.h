@@ -28,14 +28,15 @@
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
 // R_CAM_SCENE_TYPE
+#define CAM_SCENE_DEFAULT 0
 #define CAM_SCENE_SHOP 0x10 // Various shops
 #define CAM_SCENE_HOUSE 0x20 // Prerend toggle with c-up
 #define CAM_SCENE_FIXED 0x30 // Prerend fixed
 #define CAM_SCENE_MARKET 0x40 // Main market area
 
 typedef enum {
-    /* 0 */ INDOOR_BGCAM_FIXED, // Use a camera prerend setting
-    /* 1 */ INDOOR_BCGAM_PIVOT // Use camera pivot setting
+    /* 0 */ INDOOR_BGCAMINDEX_FIXED, // Use a camera prerend setting
+    /* 1 */ INDOOR_BCGAM_PIVOT // Use a camera pivot setting
 } IndoorBgCamIndex;
 
 typedef enum {

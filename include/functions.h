@@ -1480,7 +1480,7 @@ void KaleidoScopeCall_Update(PlayState* play);
 void KaleidoScopeCall_Draw(PlayState* play);
 void Play_SetIndoorBgCamIndex(PlayState* play, s16 indoorBgCamIndexPlusOne);
 s32 Play_CheckIndoorBgCamIndex(PlayState* play, s16 indoorBgCamIndexPlusOne);
-void Play_SetShopBgCamIndex(PlayState* play);
+void Play_SetShopBrowsingBgCamIndex(PlayState* play);
 Gfx* Play_SetFog(PlayState* play, Gfx* gfx);
 void Play_Destroy(GameState* thisx);
 void Play_Init(GameState* thisx);

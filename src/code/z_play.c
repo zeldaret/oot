@@ -20,15 +20,17 @@ void Play_ChangeIndoorBgCamIndex(PlayState* this) {
 }
 
 void Play_SetIndoorBgCamIndex(PlayState* this, s16 indoorBgCamIndexPlusOne) {
-    ASSERT(indoorBgCamIndexPlusOne == (INDOOR_BGCAM_FIXED + 1) || indoorBgCamIndexPlusOne == (INDOOR_BCGAM_PIVOT + 1),
+    ASSERT(indoorBgCamIndexPlusOne == (INDOOR_BGCAMINDEX_FIXED + 1) ||
+               indoorBgCamIndexPlusOne == (INDOOR_BCGAM_PIVOT + 1),
            "point == 1 || point == 2", "../z_play.c", 2160);
 
     this->indoorBgCamIndexPlusOne = indoorBgCamIndexPlusOne;
 
     if ((R_CAM_SCENE_TYPE != CAM_SCENE_SHOP) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        Audio_PlaySoundGeneral(
-            (indoorBgCamIndexPlusOne == (INDOOR_BGCAM_FIXED + 1)) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
-            &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySoundGeneral((indoorBgCamIndexPlusOne == (INDOOR_BGCAMINDEX_FIXED + 1)) ? NA_SE_SY_CAMERA_ZOOM_DOWN
+                                                                                          : NA_SE_SY_CAMERA_ZOOM_UP,
+                               &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultReverb);
     }
 
     Play_ChangeIndoorBgCamIndex(this);
@@ -39,7 +41,7 @@ s32 Play_CheckIndoorBgCamIndex(PlayState* this, s16 indoorBgCamIndexPlusOne) {
 }
 
 // original name: "Game_play_shop_pr_vr_switch_set"
-void Play_SetShopBgCamIndex(PlayState* this) {
+void Play_SetShopBrowsingBgCamIndex(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
 
     if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
@@ -401,7 +403,7 @@ void Play_Init(GameState* thisx) {
     if (R_CAM_SCENE_TYPE == CAM_SCENE_HOUSE) {
         this->indoorBgCamIndexPlusOne = INDOOR_BCGAM_PIVOT + 1; // default to pivot camera
     } else if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
-        this->indoorBgCamIndexPlusOne = INDOOR_BGCAM_FIXED + 1; // default to fixed camera
+        this->indoorBgCamIndexPlusOne = INDOOR_BGCAMINDEX_FIXED + 1; // default to fixed camera
     } else {
         this->indoorBgCamIndexPlusOne = 0;
     }
@@ -963,7 +965,7 @@ void Play_Update(PlayState* this) {
                     } else {
                         // C-Up toggle for indoor camera setting from pivot camera to fixed camera
                         // Only works for houses
-                        // `^ 3` toggles between 1 <-> 2 (INDOOR_BGCAM_FIXED <-> INDOOR_BCGAM_PIVOT)
+                        // `^ 3` toggles between 1 <-> 2 (INDOOR_BGCAMINDEX_FIXED <-> INDOOR_BCGAM_PIVOT)
                         Play_SetIndoorBgCamIndex(this, this->indoorBgCamIndexPlusOne ^ 3);
                     }
                 }
@@ -1497,7 +1499,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);
     func_80096FD4(this, &this->roomCtx.curRoom);
-    R_CAM_SCENE_TYPE = 0;
+    R_CAM_SCENE_TYPE = CAM_SCENE_DEFAULT;
     gSaveContext.worldMapArea = 0;
     Scene_ExecuteCommands(this, this->sceneSegment);
     Play_InitEnvironment(this, this->skyboxId);
