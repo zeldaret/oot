@@ -5,8 +5,8 @@
  */
 
 #include "z_en_tk.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_tk/object_tk.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_tk/object_tk.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

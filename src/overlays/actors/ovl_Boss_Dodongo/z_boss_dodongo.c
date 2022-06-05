@@ -1,7 +1,7 @@
 #include "z_boss_dodongo.h"
-#include "objects/object_kingdodongo/object_kingdodongo.h"
+#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
+#include "assets/scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

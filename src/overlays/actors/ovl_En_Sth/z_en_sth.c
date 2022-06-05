@@ -6,8 +6,8 @@
 
 #include "vt.h"
 #include "z_en_sth.h"
-#include "objects/object_ahg/object_ahg.h"
-#include "objects/object_boj/object_boj.h"
+#include "assets/objects/object_ahg/object_ahg.h"
+#include "assets/objects/object_boj/object_boj.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -34,7 +34,7 @@ const ActorInit En_Sth_InitVars = {
     NULL,
 };
 
-#include "overlays/ovl_En_Sth/ovl_En_Sth.c"
+#include "assets/overlays/ovl_En_Sth/ovl_En_Sth.c"
 
 static ColliderCylinderInit sCylinderInit = {
     {

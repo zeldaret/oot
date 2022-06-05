@@ -1,7 +1,7 @@
 #include "global.h"
 #include "message_data_static.h"
 #include "vt.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 s16 sTextFade = false; // original name: key_off_flag ?
 
@@ -31,7 +31,7 @@ MessageTableEntry sNesMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
 #define DEFINE_MESSAGE_FFFC
-#include "text/message_data.h"
+#include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE_FFFC
 #undef DEFINE_MESSAGE
     { 0xFFFF, 0, NULL },
@@ -39,14 +39,14 @@ MessageTableEntry sNesMessageEntryTable[] = {
 
 const char* sGerMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
-#include "text/message_data.h"
+#include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
     NULL,
 };
 
 const char* sFraMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_fra,
-#include "text/message_data.h"
+#include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
     NULL,
 };
@@ -54,7 +54,7 @@ const char* sFraMessageEntryTable[] = {
 MessageTableEntry sStaffMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, staffMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_staff },
-#include "text/message_data_staff.h"
+#include "assets/text/message_data_staff.h"
 #undef DEFINE_MESSAGE
     { 0xFFFF, 0, NULL },
 };

@@ -26,7 +26,7 @@ const ActorInit Oceff_Wipe3_InitVars = {
     (ActorFunc)OceffWipe3_Draw,
 };
 
-#include "overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
+#include "assets/overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
 
 void OceffWipe3_Init(Actor* thisx, PlayState* play) {
     OceffWipe3* this = (OceffWipe3*)thisx;
