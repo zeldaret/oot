@@ -982,7 +982,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0 */ struct Actor* doorActor;
-    /* 0x4 */ s16 bgCamDataIndex;
+    /* 0x4 */ s16 bgCamIndex;
     /* 0x6 */ s16 timer1;
     /* 0x8 */ s16 timer2;
     /* 0xA */ s16 timer3;
@@ -1369,7 +1369,7 @@ typedef struct {
     /* 0x104 */ f32 playerGroundY;
     /* 0x108 */ Vec3f floorNorm;
     /* 0x114 */ f32 waterYPos;
-    /* 0x118 */ s32 bgCamDataIndexBeforeUnderwater;
+    /* 0x118 */ s32 bgCamIndexBeforeUnderwater;
     /* 0x11C */ s32 waterCamSetting;
     /* 0x120 */ s32 waterQuakeId;
     /* 0x124 */ void* data0;
@@ -1384,14 +1384,14 @@ typedef struct {
     /* 0x142 */ s16 setting;
     /* 0x144 */ s16 mode;
     /* 0x146 */ s16 bgId; // bgId the camera is currently interacting with
-    /* 0x148 */ s16 bgCamDataIndex;
+    /* 0x148 */ s16 bgCamIndex;
     /* 0x14A */ s16 unk_14A;
     /* 0x14C */ s16 unk_14C;
     /* 0x14E */ s16 childCamId;
     /* 0x150 */ s16 waterDistortionTimer;
     /* 0x152 */ s16 distortionFlags;
     /* 0x154 */ s16 prevSetting;
-    /* 0x156 */ s16 nextBgCamDataIndex;
+    /* 0x156 */ s16 nextBgCamIndex;
     /* 0x158 */ s16 nextBgId;
     /* 0x15A */ s16 roll;
     /* 0x15C */ s16 paramFlags;
@@ -1399,7 +1399,7 @@ typedef struct {
     /* 0x160 */ s16 timer;
     /* 0x162 */ s16 parentCamId;
     /* 0x164 */ s16 camId;
-    /* 0x166 */ s16 prevBgCamDataIndex;
+    /* 0x166 */ s16 prevBgCamIndex;
     /* 0x168 */ s16 csId;
     /* 0x16A */ s16 unk_16A;
 } Camera; // size = 0x16C
