@@ -66,9 +66,9 @@ typedef struct {
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
     /* 0x0E */ union {
-                s16 jfifId;
-                s16 timer;
-                s16 flags;
+        s16 jfifId;
+        s16 timer;
+        s16 flags;
     };
     /* 0x10 */ s16 unk_10; // unused
 } BgCamData; // size = 0x12
@@ -84,7 +84,7 @@ typedef struct {
     // 0x0008_0000 = ?
     // 0x0007_E000 = Room Index, 0x3F = all rooms
     // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = BgCamData index
+    // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
 
 typedef struct {
