@@ -2280,7 +2280,7 @@ void AudioOcarina_PlayLongScarecrowAfterCredits(void) {
     }
 }
 
-void AudioOcarina_ResetStaves(void) {
+void AudioOcarina_ResetStaffs(void) {
     sPlayingStaff.buttonIndex = OCARINA_BTN_INVALID;
     sPlayingStaff.state = 0xFF;
     sPlayingStaff.pos = 0;
@@ -5261,7 +5261,7 @@ void Audio_Init(void) {
 
 void Audio_InitSound(void) {
     func_800F6C34();
-    AudioOcarina_ResetStaves();
+    AudioOcarina_ResetStaffs();
     Audio_ResetSfxChannelState();
     func_800FAEB4();
     Audio_ResetSounds();
@@ -5278,7 +5278,7 @@ void func_800F7170(void) {
 void func_800F71BC(s32 arg0) {
     D_80133418 = 1;
     func_800F6C34();
-    AudioOcarina_ResetStaves();
+    AudioOcarina_ResetStaffs();
     Audio_ResetSfxChannelState();
     func_800FADF8();
     Audio_ResetSounds();
