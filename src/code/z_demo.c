@@ -301,6 +301,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
         case 14:
+            // Set the indoor camera to be fixed (Link's House)
             if (sp3F != 0) {
                 Play_SetIndoorBgCamIndex(play, INDOOR_BGCAM_FIXED + 1);
             }
