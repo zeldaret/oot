@@ -1590,7 +1590,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (msgCtx->msgMode == MSGMODE_NONE) {
         gSaveContext.unk_13EE = gSaveContext.unk_13EA;
     }
-    if (R_CAM_MOVE == CAM_MOVE_SHOP) {
+    if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
         Interface_ChangeAlpha(5);
     }
 
@@ -3095,11 +3095,11 @@ void Message_Update(PlayState* play) {
             D_8014B2F4++;
 
             var = false;
-            if (R_CAM_MOVE == CAM_MOVE_MARKET) {
+            if (R_CAM_SCENE_TYPE == CAM_SCENE_MARKET) {
                 if (D_8014B2F4 >= 4) {
                     var = true;
                 }
-            } else if (R_CAM_MOVE != 0 || play->sceneNum == SCENE_HAIRAL_NIWA) {
+            } else if (R_CAM_SCENE_TYPE != 0 || play->sceneNum == SCENE_HAIRAL_NIWA) {
                 var = true;
             } else if (D_8014B2F4 >= 4 || msgCtx->talkActor == NULL) {
                 var = true;
@@ -3125,7 +3125,7 @@ void Message_Update(PlayState* play) {
                 var = msgCtx->textBoxType;
 
                 if (!msgCtx->textBoxPos) { // variable position
-                    if (R_CAM_MOVE != 0 || play->sceneNum == SCENE_HAIRAL_NIWA) {
+                    if (R_CAM_SCENE_TYPE != 0 || play->sceneNum == SCENE_HAIRAL_NIWA) {
                         if (averageY < XREG(92)) {
                             R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
                         } else {

@@ -184,7 +184,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  code;
-    /* 0x01 */ u8  cameraMovement;
+    /* 0x01 */ u8  cameraSceneType;
     /* 0x04 */ u32 area;
 } SCmdMiscSettings;
 

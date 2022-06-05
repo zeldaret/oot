@@ -194,7 +194,7 @@ void Message_Init(PlayState* play) {
 void func_80111070(void) {
     YREG(8) = 10;
     YREG(14) = 0;
-    R_CAM_MOVE = 0;
+    R_CAM_SCENE_TYPE = 0;
     R_TEXTBOX_TEXWIDTH = 0;
     R_TEXTBOX_TEXHEIGHT = 0;
     R_TEXTBOX_WIDTH = 50;
