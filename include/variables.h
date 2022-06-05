@@ -202,8 +202,6 @@ extern volatile OSTime gRDPTotalTime;
 
 extern ActiveSound gActiveSounds[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
 extern u8 gSoundBankMuted[];
-extern u8 D_801333F0;
-extern u8 gAudioSfxSwapOff;
 extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];

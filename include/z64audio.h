@@ -496,8 +496,9 @@ typedef struct {
     /* 0x18 */ SequenceLayer* wantedParentLayer;
     /* 0x1C */ NoteAttributes attributes;
     /* 0x40 */ AdsrState adsr;
-    // Majora's Mask suggests this struct contains portamento, vibratoState
-} NotePlaybackState; // size = 0x60
+    /* 0x60 */ Portamento portamento;
+    /* 0x6C */ VibratoState vibratoState;
+} NotePlaybackState; // size = 0x88
 
 typedef struct {
     struct {
@@ -539,10 +540,8 @@ typedef struct Note {
     /* 0x00 */ AudioListItem listItem;
     /* 0x10 */ NoteSynthesisState synthesisState;
     /* 0x30 */ NotePlaybackState playbackState;
-    /* 0x90 */ Portamento portamento;
-    /* 0x9C */ VibratoState vibratoState;
     /* 0xB8 */ char unk_B8[0x4];
-    /* 0xBC */ u32 unk_BC;
+    /* 0xBC */ u32 startSamplePos; // initial position/index to start processing s16 samples
     /* 0xC0 */ NoteSubEu noteSubEu;
 } Note; // size = 0xE0
 

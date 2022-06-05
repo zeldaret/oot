@@ -55,7 +55,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
-    if (arg2[arg1] != 0) {
+    if (arg1[arg2] != 0) {
         arg0[arg2 / 2] = 0;
     }
 }

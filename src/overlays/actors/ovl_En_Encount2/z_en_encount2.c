@@ -111,7 +111,6 @@ void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
             }
             break;
     }
-    return;
 }
 
 void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {

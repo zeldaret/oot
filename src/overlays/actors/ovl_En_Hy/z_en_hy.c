@@ -1095,7 +1095,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     s32 pad;
     Vec3s sp48;
     u8 i;
-    UNK_PTR ptr;
+    void* ptr;
 
     if (1) {}
 
