@@ -398,6 +398,7 @@ void Play_Init(GameState* thisx) {
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
     }
 
+    // Init Indoor BgCam
     if (R_CAM_SCENE_TYPE == CAM_SCENE_HOUSE) {
         this->indoorBgCamIndexPlusOne = INDOOR_BGCAM_PIVOT + 1; // default to pivot camera
     } else if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
@@ -946,7 +947,7 @@ void Play_Update(PlayState* this) {
                 LOG_NUM("1", 1, "../z_play.c", 3677);
             }
 
-            // Update indoorBgCamIndexPlusOne
+            // Update Indoor BgCam
             if (this->indoorBgCamIndexPlusOne != 0) {
                 // C-Up toggle indoor camera
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
@@ -961,8 +962,7 @@ void Play_Update(PlayState* this) {
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
-                        // C-Up toggle for indoor camera setting from pivot camera to fixed camera
-                        // Only works for houses
+                        // C-Up toggle for houses, move between pivot camera and fixed camera
                         // `^ 3` toggles between 1 <-> 2 (INDOOR_BGCAM_FIXED <-> INDOOR_BGCAM_PIVOT)
                         Play_SetIndoorBgCamIndex(this, this->indoorBgCamIndexPlusOne ^ 3);
                     }
