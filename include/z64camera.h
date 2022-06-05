@@ -35,8 +35,8 @@
 #define CAM_SCENE_MARKET 0x40 // Main market area
 
 typedef enum {
-    /* 0 */ INDOOR_BGCAMINDEX_FIXED, // Use a camera prerend setting
-    /* 1 */ INDOOR_BCGAM_PIVOT // Use a camera pivot setting
+    /* 0 */ INDOOR_BGCAM_FIXED, // Use a camera prerend setting
+    /* 1 */ INDOOR_BGCAM_PIVOT // Use a camera pivot setting
 } IndoorBgCamIndex;
 
 typedef enum {
