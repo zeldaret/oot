@@ -2,7 +2,7 @@
  * Matching dmadata layout for PAL MQ Debug
  * 
  * DEFINE_DMA_ENTRY should be used for all dmadata entries
- *    - Argument 1: Name of the segment in spec
+ *    - Argument 1: Name of the spec segment
  *    - Argument 2: String matching the original name of the segment
  */
 DEFINE_DMA_ENTRY(makerom, "makerom")

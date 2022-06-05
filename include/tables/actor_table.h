@@ -2,10 +2,10 @@
  * Actor Table
  *
  * DEFINE_ACTOR should be used for normal actors
- *    - Argument 1: Name of the actor (without the ovl_ part)
+ *    - Argument 1: Name of the actor overlay segment in the spec (without the ovl_ part)
  *    - Argument 2: Enum value for this actor
  *    - Argument 3: Allocation type (normal, permanent or absolute)
- *    - Argument 4: String of the name (used for debug prints)
+ *    - Argument 4: Actor name, as a string (used for debug prints)
  *
  * DEFINE_ACTOR_INTERNAL should be used for actors that aren't an overlay, with the same arguments as DEFINE_ACTOR
  *
