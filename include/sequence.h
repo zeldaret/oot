@@ -165,7 +165,7 @@ typedef enum {
     /* 2 */ VOL_SCALE_INDEX_SFX,
     /* 3 */ VOL_SCALE_INDEX_BGM_SUB,
     /* 4 */ VOL_SCALE_INDEX_MAX
-} VolumeScaleIndex;
+} VolumeScaleIndex; // May be worth using SequencePlayerId instead
 
 typedef struct {
     /* 0x00 */ f32 volCur;

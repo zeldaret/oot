@@ -4497,7 +4497,7 @@ void Audio_SplitBgmChannels(s8 volSplit) {
                 }
             }
 
-            SEQCMD_DISABLE_CHANNELS(bgmPlayers[i], channelBits);
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(bgmPlayers[i], channelBits);
         }
     }
 }
@@ -4620,7 +4620,7 @@ void func_800F574C(f32 scaleTempoAndFreq, u8 duration) {
 
 void func_800F5918(void) {
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME &&
-        Audio_IsSeqCmdNotQueued(SEQ_CMD_PLAY << 28, SEQ_CMD_MASK)) {
+        Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28, SEQCMD_MASK)) {
         SEQCMD_SET_TEMPO(SEQ_PLAYER_BGM_MAIN, 5, 210);
     }
 }
@@ -4766,15 +4766,15 @@ void func_800F5CF8(void) {
                                                               VOL_SCALE_INDEX_FANFARE, 10);
                 SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
                                                               VOL_SCALE_INDEX_FANFARE, 10);
-                SEQCMD_SETUP_DISABLE_CHANNELS(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 0);
+                SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 0);
                 if (seqIdBgmSub != NA_BGM_LONLON) {
-                    SEQCMD_SETUP_DISABLE_CHANNELS(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
+                    SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
                 }
             }
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 1, 0, D_8016B9F6);
-            SEQCMD_DISABLE_CHANNELS(SEQ_PLAYER_BGM_MAIN, 0xFFFF);
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_MAIN, 0xFFFF);
             if (seqIdBgmSub != NA_BGM_LONLON) {
-                SEQCMD_DISABLE_CHANNELS(SEQ_PLAYER_BGM_SUB, 0xFFFF);
+                SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_SUB, 0xFFFF);
             }
         }
     }
@@ -4919,7 +4919,7 @@ void func_800F6268(f32 dist, u16 arg1) {
             temp_a0 = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF);
             if ((temp_a0 != (arg1 & 0xFF)) && (D_8016B9D8 < 10)) {
                 func_800F5E18(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
-                SEQCMD_DISABLE_CHANNELS(SEQ_PLAYER_BGM_SUB, 0xFFFC);
+                SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_SUB, 0xFFFC);
                 D_8016B9D8 = 10;
             }
 
@@ -4973,7 +4973,7 @@ void func_800F6584(u8 arg0) {
         SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 0, 0);
         SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 1, 0);
         if (playerIndex == SEQ_PLAYER_BGM_SUB) {
-            SEQCMD_DISABLE_CHANNELS(playerIndex, sp34 | 3);
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(playerIndex, sp34 | 3);
         }
     } else {
         if (playerIndex == SEQ_PLAYER_BGM_SUB) {
@@ -4982,7 +4982,7 @@ void func_800F6584(u8 arg0) {
         SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 0, 0x7F);
         SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 1, 0x7F);
         if (playerIndex == SEQ_PLAYER_BGM_SUB) {
-            SEQCMD_DISABLE_CHANNELS(playerIndex, sp34);
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(playerIndex, sp34);
         }
     }
 }
@@ -5167,7 +5167,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 ioData) {
     u8 channelIdx;
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) &&
-        Audio_IsSeqCmdNotQueued(SEQ_CMD_PLAY << 28 | NA_BGM_NATURE_AMBIENCE, SEQ_CMD_MASK | 0xFF)) {
+        Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28 | NA_BGM_NATURE_AMBIENCE, SEQCMD_MASK | 0xFF)) {
         sAudioNatureFailed = true;
         return;
     }
