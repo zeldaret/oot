@@ -64,20 +64,20 @@ typedef struct {
     /* 0x0 */ u16 setting; // camera setting described by CameraSettingType enum
     /* 0x2 */ s16 count; // only used when `bgCamData` is a list of points used for crawlspaces
     /* 0x4 */ s16* bgCamData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamData`, but can be a list of points of type `Vec3s` for crawlspaces
-} BgCamDataHeader; // size = 0x8
+} BgCamInfo; // size = 0x8
 
-typedef BgCamDataHeader CamData; // Todo: Zapd compatibility
+typedef BgCamInfo CamData; // Todo: Zapd compatibility
 
-// The structure used for all instances of s16 data from `BgCamDataHeader` with the exception of crawlspaces.
+// The structure used for all instances of s16 data from `BgCamInfo` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces
 typedef struct {
     /* 0x00 */ Vec3s pos;
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
     /* 0x0E */ union {
-                s16 jfifId;
-                s16 timer;
-                s16 flags;
+        s16 jfifId;
+        s16 timer;
+        s16 flags;
     };
     /* 0x10 */ s16 unk_10; // unused
 } BgCamData; // size = 0x12
@@ -93,7 +93,7 @@ typedef struct {
     // 0x0008_0000 = ?
     // 0x0007_E000 = Room Index, 0x3F = all rooms
     // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = BgCamData index
+    // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
 
 typedef struct {
@@ -111,7 +111,7 @@ typedef struct {
     /* 0x14 */ u16 numPolygons;
     /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* surfaceTypeList;
-    /* 0x20 */ BgCamDataHeader* bgCamDataList;
+    /* 0x20 */ BgCamInfo* bgCamList;
     /* 0x24 */ u16 numWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo

@@ -745,7 +745,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     if (noteSubEu->bitField0.needsInit == true) {
         flags = A_INIT;
         synthState->restart = 0;
-        synthState->samplePosInt = note->unk_BC;
+        synthState->samplePosInt = note->startSamplePos;
         synthState->samplePosFrac = 0;
         synthState->curVolLeft = 0;
         synthState->curVolRight = 0;

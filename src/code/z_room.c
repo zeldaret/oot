@@ -365,31 +365,30 @@ void func_80096680(PlayState* play, Room* room, u32 flags) {
 
 BgImage* func_80096A74(PolygonType1* polygon1, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
-    s32 bgCamDataIndex = activeCam->bgCamDataIndex;
+    s32 bgCamIndex = activeCam->bgCamIndex;
     s16 jfifId;
     Player* player;
     BgImage* bgImage;
     s32 i;
 
-    jfifId = ((BgCamData*)BgCheck_GetBgCamDataImpl(&play->colCtx, bgCamDataIndex, BGCHECK_SCENE))->jfifId;
+    jfifId = ((BgCamData*)BgCheck_GetBgCamDataImpl(&play->colCtx, bgCamIndex, BGCHECK_SCENE))->jfifId;
     if (jfifId >= 0) {
-        bgCamDataIndex = jfifId;
+        bgCamIndex = jfifId;
     }
 
     player = GET_PLAYER(play);
-    player->actor.params = (player->actor.params & 0xFF00) | bgCamDataIndex;
+    player->actor.params = (player->actor.params & 0xFF00) | bgCamIndex;
 
     bgImage = SEGMENTED_TO_VIRTUAL(polygon1->multi.list);
     for (i = 0; i < polygon1->multi.count; i++) {
-        if (bgImage->id == bgCamDataIndex) {
+        if (bgImage->id == bgCamIndex) {
             return bgImage;
         }
         bgImage++;
     }
 
     // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST,
-                 bgCamDataIndex);
+    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, bgCamIndex);
     LogUtils_HungupThread("../z_room.c", 726);
 
     return NULL;

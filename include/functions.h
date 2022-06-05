@@ -630,11 +630,11 @@ s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionP
 void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest);
 void func_800418D0(CollisionContext* colCtx, PlayState* play);
 void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
-u32 SurfaceType_GetBgCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 BgCheck_GetBgCamDataSettingImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId);
-u16 BgCheck_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 BgCheck_GetBgCamDataCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s16* BgCheck_GetBgCamDataImpl(CollisionContext* colCtx, s32 bgCamDataIndex, s32 bgId);
+u32 SurfaceType_GetBgCamIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 BgCheck_GetBgCamSettingImpl(CollisionContext* colCtx, u32 bgCamIndex, s32 bgId);
+u16 BgCheck_GetBgCamSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 BgCheck_GetBgCamCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s16* BgCheck_GetBgCamDataImpl(CollisionContext* colCtx, s32 bgCamIndex, s32 bgId);
 s16* BgCheck_GetBgCamData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
@@ -664,8 +664,8 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
                          WaterBox** outWaterBox);
 s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                             WaterBox** outWaterBox);
-u32 WaterBox_GetBgCamDataIndex(CollisionContext* colCtx, WaterBox* waterBox);
-u16 WaterBox_GetBgCamDataSetting(CollisionContext* colCtx, WaterBox* waterBox);
+u32 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox);
+u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
@@ -692,7 +692,7 @@ void Camera_Finish(Camera* camera);
 s32 Camera_ChangeMode(Camera* camera, s16 mode);
 s32 Camera_CheckValidMode(Camera* camera, s16 mode);
 s32 Camera_ChangeSetting(Camera* camera, s16 setting);
-s32 Camera_ChangeBgCamDataIndex(Camera* camera, s32 bgCamDataIndex);
+s32 Camera_ChangeBgCamIndex(Camera* camera, s32 bgCamIndex);
 s16 Camera_GetInputDirYaw(Camera* camera);
 Vec3s* Camera_GetCamDir(Vec3s* dir, Camera* camera);
 s16 Camera_GetCamDirPitch(Camera* camera);
@@ -705,7 +705,7 @@ s16 func_8005AD1C(Camera* camera, s16 arg1);
 s32 Camera_ResetAnim(Camera* camera);
 s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, Player* player,
                        s16 relativeToPlayer);
-s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamDataIndex, f32 arg3, s16 timer1, s16 timer2,
+s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamIndex, f32 arg3, s16 timer1, s16 timer2,
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);

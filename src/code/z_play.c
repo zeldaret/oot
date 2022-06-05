@@ -16,7 +16,7 @@ u64 D_801614D0[0xA00];
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
 void func_800BC450(PlayState* this) {
-    Camera_ChangeBgCamDataIndex(GET_ACTIVE_CAM(this), this->unk_1242B - 1);
+    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->unk_1242B - 1);
 }
 
 void func_800BC490(PlayState* this, s16 point) {
@@ -201,7 +201,7 @@ void Play_Init(GameState* thisx) {
     u32 zAllocAligned;
     size_t zAllocSize;
     Player* player;
-    s32 playerStartBgCamDataIndex;
+    s32 playerStartBgCamIndex;
     s32 i;
     u8 tempSetupIndex;
     s32 pad[2];
@@ -389,10 +389,10 @@ void Play_Init(GameState* thisx) {
     Camera_InitPlayerSettings(&this->mainCamera, player);
     Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamDataIndex = player->actor.params & 0xFF;
-    if (playerStartBgCamDataIndex != 0xFF) {
-        osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamDataIndex);
-        Camera_ChangeBgCamDataIndex(&this->mainCamera, playerStartBgCamDataIndex);
+    playerStartBgCamIndex = player->actor.params & 0xFF;
+    if (playerStartBgCamIndex != 0xFF) {
+        osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
+        Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
     }
 
     if (YREG(15) == 32) {
