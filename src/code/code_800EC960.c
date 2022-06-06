@@ -1737,7 +1737,7 @@ void AudioOcarina_SetInstrument(u8 ocarinaInstrumentId) {
         return;
     }
 
-    SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_SFX, 1, SFX_CHANNEL_OCARINA, ocarinaInstrumentId);
+    SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 1, ocarinaInstrumentId);
     sOcarinaInstrumentId = ocarinaInstrumentId;
     if (ocarinaInstrumentId == OCARINA_INSTRUMENT_OFF) {
         sOcarinaInputButtonCur = 0;
@@ -4295,7 +4295,7 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol) {
             lowPassFilterCutoff = (((targetVol - 0x40) >> 2) + 1) << 4;
         }
         // Set lowPassFilterCutoff to io port 4 from channel 15
-        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, 4, 15, lowPassFilterCutoff);
+        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, 15, 4, lowPassFilterCutoff);
 
         // Sets the reverb
         for (channelIdx = 0; channelIdx < 16; channelIdx++) {
@@ -4432,7 +4432,7 @@ void func_800F4E30(Vec3f* pos, f32 arg1) {
 
     for (i = 0; i < 0x10; i++) {
         if (i != 9) {
-            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 2, i, (127.0f * phi_f22));
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, i, 2, (127.0f * phi_f22));
             Audio_QueueCmdS8(0x3 << 24 | SEQ_PLAYER_BGM_MAIN << 16 | ((u8)((u32)i) << 8), phi_s4);
         }
     }
@@ -4774,8 +4774,8 @@ void func_800F5CF8(void) {
     }
 }
 
-void func_800F5E18(u8 seqPlayerIndex, u16 seqId, u8 fadeTimer, s8 port, s8 ioData) {
-    SEQCMD_SET_PLAYER_IO(seqPlayerIndex, port, ioData);
+void func_800F5E18(u8 seqPlayerIndex, u16 seqId, u8 fadeTimer, s8 ioPort, s8 ioData) {
+    SEQCMD_SET_PLAYER_IO(seqPlayerIndex, ioPort, ioData);
     SEQCMD_PLAY_SEQUENCE(seqPlayerIndex, fadeTimer, 0, seqId);
 }
 
@@ -4902,9 +4902,9 @@ void func_800F6268(f32 dist, u16 arg1) {
                     phi_v1 = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
                 }
                 // Transition volume of channels 0, 1 and 13 on seq player 0 over 3 frames
-                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 3, 0, 127 - phi_v1);
-                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 3, 1, 127 - phi_v1);
-                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 3, 13, phi_v1);
+                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 0, 3, 127 - phi_v1);
+                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 1, 3, 127 - phi_v1);
+                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 13, 3, phi_v1);
                 if (D_8016B9D8 == 0) {
                     D_8016B9D8++;
                 }
@@ -4925,8 +4925,8 @@ void func_800F6268(f32 dist, u16 arg1) {
                 phi_v1 = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
             }
             // Transition volume of channels 0 and 1 on seq player 0 over 3 frames
-            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 3, 0, 127 - phi_v1);
-            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 3, 1, 127 - phi_v1);
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 0, 3, 127 - phi_v1);
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 1, 3, 127 - phi_v1);
         }
 
         if (D_8016B9D8 < 10) {
@@ -4964,7 +4964,7 @@ void func_800F6584(u8 arg0) {
     }
 
     if (arg0 != 0) {
-        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 0, 0);
+        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0);
         if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
             SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, sp34 | 3);
@@ -4973,7 +4973,7 @@ void func_800F6584(u8 arg0) {
         if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
             func_800F5E18(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
         }
-        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 0, 0x7F);
+        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0x7F);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0x7F);
         if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
             SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, sp34);
@@ -5080,7 +5080,7 @@ void func_800F6964(u16 arg0) {
         }
 
         if (!skip) {
-            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_SFX, arg0 >> 1, channelIdx, 0);
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_SFX, channelIdx, arg0 >> 1, 0);
         }
     }
 
@@ -5155,7 +5155,7 @@ void func_800F6C34(void) {
     D_8016B9F2 = 0;
 }
 
-void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 ioData) {
+void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) {
     u8 firstChannelIdx;
     u8 lastChannelIdx;
     u8 channelIdx;
@@ -5166,8 +5166,8 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 ioData) {
         return;
     }
 
-    // channelIdxRange = 01 on port 1
-    if (((channelIdxRange << 8) + port) == ((NATURE_CHANNEL_CRITTER_0 << 8) + CHANNEL_IO_PORT_1)) {
+    // channelIdxRange = 01 on ioPort 1
+    if (((channelIdxRange << 8) + ioPort) == ((NATURE_CHANNEL_CRITTER_0 << 8) + CHANNEL_IO_PORT_1)) {
         if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON) {
             D_8016B9D8 = 0;
         }
@@ -5181,7 +5181,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 ioData) {
     }
 
     for (channelIdx = firstChannelIdx; channelIdx <= lastChannelIdx; channelIdx++) {
-        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, port, channelIdx, ioData);
+        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, channelIdx, ioPort, ioData);
     }
 }
 
@@ -5212,7 +5212,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
 
     for (channelIdx = 0; channelIdx < 16; channelIdx++) {
         if (!(channelMask & (1 << channelIdx)) && (playerIO & (1 << channelIdx))) {
-            SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_1, channelIdx, 1);
+            SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, channelIdx, CHANNEL_IO_PORT_1, 1);
         }
     }
 }
@@ -5220,7 +5220,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
 void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     u8 i = 0;
     u8 channelIdx;
-    u8 port;
+    u8 ioPort;
     u8 ioData;
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId == NA_BGM_DISABLED) ||
@@ -5231,12 +5231,12 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
 
         while ((sNatureAmbienceDataIO[natureAmbienceId].channelIO[i] != 0xFF) && (i < 100)) {
             channelIdx = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
-            port = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
+            ioPort = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
             ioData = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
-            SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, port, channelIdx, ioData);
+            SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, channelIdx, ioPort, ioData);
         }
 
-        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, D_80130604);
+        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, NATURE_CHANNEL_UNK, CHANNEL_IO_PORT_7, D_80130604);
     }
 }
 

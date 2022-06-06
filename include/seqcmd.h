@@ -145,13 +145,13 @@ typedef enum {
  * Scale the frequency of a specific channel on a given seqPlayer over a specified duration
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
- * @param duration the duration to set the frequency over
  * @param channelIndex the index of the channel to modify
+ * @param duration the duration to set the frequency over
  * @param freq the scaling factor to shift the pitch, relative to 1000.
  *
  * @note a frequency of 2000 will double the frequency (raise an octave), 500 will half the frequency (lower an octave)
  */
-#define SEQCMD_SET_CHANNEL_FREQ(seqPlayerIndex, duration, channelIndex, freq)                                  \
+#define SEQCMD_SET_CHANNEL_FREQ(seqPlayerIndex, channelIndex, duration, freq)                                  \
     Audio_QueueSeqCmd((SEQCMD_OP_SET_CHANNEL_FREQ << 28) | ((u8)(seqPlayerIndex) << 24) | ((duration) << 16) | \
                       ((channelIndex) << 12) | (freq))
 
@@ -159,11 +159,11 @@ typedef enum {
  * Set the volume of a specific channel on a given seqPlayer over a specified duration
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
- * @param duration the duration to set the volume over
  * @param channelIndex the index of the channel to modify
+ * @param duration the duration to set the volume over
  * @param volume the target volume for the sequence
  */
-#define SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, duration, channelIndex, volume)                                    \
+#define SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, channelIndex, duration, volume)                                    \
     Audio_QueueSeqCmd((SEQCMD_OP_SET_CHANNEL_VOLUME << 28) | ((u8)(seqPlayerIndex) << 24) | ((u8)(duration) << 16) | \
                       ((u8)(channelIndex) << 8) | ((u8)volume))
 
@@ -190,15 +190,15 @@ typedef enum {
  * on the customized sequence script for each sequence.
  *
  * @param seqPlayerIndex the index of the seqPlayer to write the input to
- * @param ioPort the index of the array to store the input-output value
  * @param channelIndex the index of the channel to write the input to
+ * @param ioPort the index of the array to store the input-output value
  * @param ioData the value that's written to the input-output array
  *
  * @note Each channel has 8 channel ioPorts indexed 0-7.
  * ioPort 0 and 1 are read-only-once, and will reset after being read.
  * ioPort 2-7 can be read multiple times.
  */
-#define SEQCMD_SET_CHANNEL_IO(seqPlayerIndex, ioPort, channelIndex, ioData)                                    \
+#define SEQCMD_SET_CHANNEL_IO(seqPlayerIndex, channelIndex, ioPort, ioData)                                    \
     Audio_QueueSeqCmd((SEQCMD_OP_SET_CHANNEL_IO << 28) | ((u8)(seqPlayerIndex) << 24) | ((u8)(ioPort) << 16) | \
                       ((u8)(channelIndex) << 8) | (u8)(ioData))
 
