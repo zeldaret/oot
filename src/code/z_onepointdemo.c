@@ -325,7 +325,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_CameraChangeSetting(play, subCamId, CAM_SET_FREE2);
             Play_CameraSetAtEye(play, subCamId, &childCam->at, &childCam->eye);
             Play_CameraSetFov(play, subCamId, childCam->fov);
-            Play_SetCameraRoll(play, subCamId, childCam->roll);
+            Play_CameraSetRoll(play, subCamId, childCam->roll);
             break;
         case 9601:
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);

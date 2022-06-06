@@ -1529,28 +1529,28 @@ void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {
 }
 
 s16 Play_CreateSubCamera(PlayState* this) {
-    s16 i;
+    s16 camId;
 
-    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
-        if (this->cameraPtrs[i] == NULL) {
+    for (camId = CAM_ID_SUB_FIRST; camId < NUM_CAMS; camId++) {
+        if (this->cameraPtrs[camId] == NULL) {
             break;
         }
     }
 
-    if (i == NUM_CAMS) {
+    if (camId == NUM_CAMS) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
         return CAM_ID_NONE;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
                      CYAN) " " VT_RST "\n",
-                 i);
+                 camId);
 
-    this->cameraPtrs[i] = &this->subCameras[i - CAM_ID_SUB_FIRST];
-    Camera_Init(this->cameraPtrs[i], &this->view, &this->colCtx, this);
-    this->cameraPtrs[i]->camId = i;
+    this->cameraPtrs[camId] = &this->subCameras[camId - CAM_ID_SUB_FIRST];
+    Camera_Init(this->cameraPtrs[camId], &this->view, &this->colCtx, this);
+    this->cameraPtrs[camId]->camId = camId;
 
-    return i;
+    return camId;
 }
 
 s16 Play_GetActiveCamId(PlayState* this) {
@@ -1664,7 +1664,7 @@ s32 Play_CameraSetFov(PlayState* this, s16 camId, f32 fov) {
     return ret;
 }
 
-s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll) {
+s32 Play_CameraSetRoll(PlayState* this, s16 camId, s16 roll) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
 
@@ -1726,12 +1726,12 @@ s16 Play_CameraGetUID(PlayState* this, s16 camId) {
     }
 }
 
-s16 func_800C09D8(PlayState* this, s16 camId, s16 arg2) {
+s16 func_800C09D8(PlayState* this, s16 camId, s16 uid) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
         return 0;
-    } else if (camera->uid != arg2) {
+    } else if (camera->uid != uid) {
         return 0;
     } else if (camera->status != CAM_STAT_ACTIVE) {
         return 2;

@@ -1498,7 +1498,7 @@ Camera* Play_GetCamera(PlayState* play, s16 camId);
 s32 Play_CameraSetAtEye(PlayState* play, s16 camId, Vec3f* at, Vec3f* eye);
 s32 Play_CameraSetAtEyeUp(PlayState* play, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up);
 s32 Play_CameraSetFov(PlayState* play, s16 camId, f32 fov);
-s32 Play_SetCameraRoll(PlayState* play, s16 camId, s16 roll);
+s32 Play_CameraSetRoll(PlayState* play, s16 camId, s16 roll);
 void Play_CopyCamera(PlayState* play, s16 destCamId, s16 srcCamId);
 s32 func_800C0808(PlayState* play, s16 camId, Player* player, s16 setting);
 s32 Play_CameraChangeSetting(PlayState* play, s16 camId, s16 setting);
