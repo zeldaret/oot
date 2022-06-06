@@ -1,14 +1,14 @@
 #include "z_demo_effect.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_efc_crystal_light/object_efc_crystal_light.h"
-#include "objects/object_efc_fire_ball/object_efc_fire_ball.h"
-#include "objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
-#include "objects/object_god_lgt/object_god_lgt.h"
-#include "objects/object_light_ring/object_light_ring.h"
-#include "objects/object_triforce_spot/object_triforce_spot.h"
-#include "objects/object_efc_tw/object_efc_tw.h"
-#include "objects/object_gi_jewel/object_gi_jewel.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"
+#include "assets/objects/object_efc_fire_ball/object_efc_fire_ball.h"
+#include "assets/objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
+#include "assets/objects/object_god_lgt/object_god_lgt.h"
+#include "assets/objects/object_light_ring/object_light_ring.h"
+#include "assets/objects/object_triforce_spot/object_triforce_spot.h"
+#include "assets/objects/object_efc_tw/object_efc_tw.h"
+#include "assets/objects/object_gi_jewel/object_gi_jewel.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

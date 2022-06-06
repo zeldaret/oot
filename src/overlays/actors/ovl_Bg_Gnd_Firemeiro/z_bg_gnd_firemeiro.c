@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_gnd_firemeiro.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

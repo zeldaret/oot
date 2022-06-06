@@ -6,7 +6,7 @@
 
 #include "z_en_sb.h"
 #include "vt.h"
-#include "objects/object_sb/object_sb.h"
+#include "assets/objects/object_sb/object_sb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 

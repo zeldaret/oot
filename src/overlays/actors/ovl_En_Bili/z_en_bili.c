@@ -5,7 +5,7 @@
  */
 
 #include "z_en_bili.h"
-#include "objects/object_bl/object_bl.h"
+#include "assets/objects/object_bl/object_bl.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
@@ -746,7 +746,7 @@ static void* sTentaclesTextures[] = {
     gBiriTentacles4Tex, gBiriTentacles5Tex, gBiriTentacles6Tex, gBiriTentacles7Tex,
 };
 
-#include "overlays/ovl_En_Bili/ovl_En_Bili.c"
+#include "assets/overlays/ovl_En_Bili/ovl_En_Bili.c"
 
 void EnBili_Draw(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;

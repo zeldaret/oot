@@ -309,12 +309,11 @@ typedef enum {
     /* 0x6E */ SCENE_ID_MAX
 } SceneID;
 
+#undef DEFINE_SCENE
+
 // this define exists to preserve shiftability for an unused scene that is
 // listed in the entrance table
 #define SCENE_UNUSED_6E SCENE_ID_MAX
-
-#undef DEFINE_SCENE
-
 
 // Entrance Index Enum
 #define DEFINE_ENTRANCE(enum, _1, _2, _3, _4, _5, _6) enum,
@@ -323,6 +322,8 @@ typedef enum {
     #include "tables/entrance_table.h"
     /* 0x614 */ ENTR_MAX
 } EntranceIndex;
+
+#undef DEFINE_ENTRANCE
 
 #define ENTR_LOAD_OPENING -1
 
@@ -335,8 +336,6 @@ typedef enum {
     /* 0x7FFE */ ENTR_RETURN_DAIYOUSEI_IZUMI, // Great Fairy Fountain (magic, double magic, double defense)
     /* 0x7FFF */ ENTR_RETURN_GROTTO // Grottos and normal Fairy Fountain
 } ReturnEntranceIndex;
-
-#undef DEFINE_ENTRANCE
 
 typedef enum {
     /*  0 */ SDC_DEFAULT,

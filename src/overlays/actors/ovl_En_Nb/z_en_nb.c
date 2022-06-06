@@ -6,7 +6,7 @@
 
 #include "z_en_nb.h"
 #include "vt.h"
-#include "objects/object_nb/object_nb.h"
+#include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS ACTOR_FLAG_4

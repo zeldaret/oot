@@ -6,7 +6,7 @@
 
 #include "z_en_rl.h"
 #include "vt.h"
-#include "objects/object_rl/object_rl.h"
+#include "assets/objects/object_rl/object_rl.h"
 
 #define FLAGS ACTOR_FLAG_4
 
