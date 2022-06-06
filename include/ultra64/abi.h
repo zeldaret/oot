@@ -338,7 +338,7 @@ typedef short ENVMIX_STATE[40];
 }
 
 /*
- * Loads a buffer from RDRAM to DMEM.
+ * Loads a buffer to DMEM from from any physical source address, KSEG0, or KSEG1
  *
  * @param pkt pointer to an Acmd buffer
  * @param addrSrc Any physical source address, KSEG0, or KSEG1
@@ -381,7 +381,7 @@ typedef short ENVMIX_STATE[40];
 }
 
 /*
- * Stores a buffer from DMEM to RDRAM.
+ * Stores a buffer from DMEM to any physical source address, KSEG0, or KSEG1
  *
  * @param pkt pointer to an Acmd buffer
  * @param dmemSrc DMEM source address
