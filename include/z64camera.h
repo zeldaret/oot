@@ -34,9 +34,10 @@
 #define CAM_SCENE_FIXED 0x30 // Prerend fixed
 #define CAM_SCENE_MARKET 0x40 // Main market area
 
+// All shop and house scenes are expected to have their first two bgCamInfo entries be the following indices:
 typedef enum {
-    /* 0 */ INDOOR_BGCAM_FIXED, // Use a camera prerend setting
-    /* 1 */ INDOOR_BGCAM_PIVOT // Use a camera pivot setting
+    /* 0 */ INDOOR_BGCAM_FIXED, // Use a camera prerend setting that fixes the camera in place
+    /* 1 */ INDOOR_BGCAM_PIVOT  // Use a camera pivot setting that allows camera rotation (CAM_SET_PIVOT_SHOP_BROWSING for shop specifically)
 } IndoorBgCamIndex;
 
 typedef enum {

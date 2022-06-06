@@ -26,6 +26,7 @@ void Play_SetIndoorBgCamIndex(PlayState* this, s16 indoorBgCamIndexPlusOne) {
     this->indoorBgCamIndexPlusOne = indoorBgCamIndexPlusOne;
 
     if ((R_CAM_SCENE_TYPE != CAM_SCENE_SHOP) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+        // C-Up toggle the camera inside a house
         Audio_PlaySoundGeneral(
             (indoorBgCamIndexPlusOne == (INDOOR_BGCAM_FIXED + 1)) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
             &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -34,16 +35,21 @@ void Play_SetIndoorBgCamIndex(PlayState* this, s16 indoorBgCamIndexPlusOne) {
     Play_ChangeIndoorBgCamIndex(this);
 }
 
+/**
+ * @return true if the currently set indoorBgCamIndex is the same as the one provided in the argument
+ */
 s32 Play_CheckIndoorBgCamIndex(PlayState* this, s16 indoorBgCamIndexPlusOne) {
     return (indoorBgCamIndexPlusOne == this->indoorBgCamIndexPlusOne);
 }
 
-// original name: "Game_play_shop_pr_vr_switch_set"
+/**
+ * If the scene is a shop, set the bgCamIndex that will toggle the camera
+ * to switch to a "browsing item selection" setting.
+ */
 void Play_SetShopBrowsingBgCamIndex(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
 
     if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
-        // pivot browsing: camera used while browsing item selection
         this->indoorBgCamIndexPlusOne = INDOOR_BGCAM_PIVOT + 1;
     }
 }
