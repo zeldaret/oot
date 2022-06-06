@@ -6219,7 +6219,7 @@ s32 Camera_Demo6(Camera* camera) {
 s32 Camera_Demo7(Camera* camera) {
     if (camera->animState == 0) {
         camera->stateFlags &= ~CAM_STATE_2;
-        camera->stateFlags |= CAM_STATE_12;
+        camera->stateFlags |= CAM_STATE_DEMO7;
         camera->animState++;
     }
     //! @bug doesn't return
@@ -7717,7 +7717,7 @@ void Camera_Finish(Camera* camera) {
 
 s32 func_8005A02C(Camera* camera) {
     camera->stateFlags |= (CAM_STATE_2 | CAM_STATE_3);
-    camera->stateFlags &= ~(CAM_STATE_3 | CAM_STATE_12);
+    camera->stateFlags &= ~(CAM_STATE_3 | CAM_STATE_DEMO7);
     return true;
 }
 
@@ -7926,7 +7926,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
     }
 
     camera->stateFlags |= (CAM_STATE_2 | CAM_STATE_3);
-    camera->stateFlags &= ~(CAM_STATE_3 | CAM_STATE_12);
+    camera->stateFlags &= ~(CAM_STATE_3 | CAM_STATE_DEMO7);
 
     if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
         camera->prevSetting = camera->setting;

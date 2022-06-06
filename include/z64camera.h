@@ -97,7 +97,7 @@
 #define CAM_STATE_UNDERWATER (1 << 8) // Camera (eye) is underwater
 #define CAM_STATE_9 (1 << 9) // Related to water
 #define CAM_STATE_10 (1 << 10) // Prevents the camera from changing settings based on the bg surface
-#define CAM_STATE_12 (1 << 12) // Set in Camera_Demo7, but Camera_Demo7 is never called
+#define CAM_STATE_DEMO7 (1 << 12) // Set in Camera_Demo7, but Camera_Demo7 is never called
 #define CAM_STATE_INITIALIZED (1 << 14) // Turned on in Camera Init, never used or changed
 #define CAM_STATE_15 ((s16)(1 << 15))
 
