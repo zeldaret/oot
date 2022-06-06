@@ -387,7 +387,7 @@ SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x5000000;
     }
 
-    if (sfx->sampleHeader == NULL) {
+    if (sfx->sample == NULL) {
         return NULL;
     }
 

@@ -810,7 +810,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
                 if (sound == NULL) {
                     return 0;
                 }
-                loopEnd = sound->sampleHeader->loop->end;
+                loopEnd = sound->sample->loop->end;
                 samplePos = note->synthesisState.samplePosInt;
                 return loopEnd - samplePos;
             }
@@ -848,7 +848,7 @@ s32 func_800E66C0(s32 arg0) {
                     if (sound == NULL || temp_a3->bitField1.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sampleHeader->medium == MEDIUM_RAM) {
+                    if (sound->sample->medium == MEDIUM_RAM) {
                         continue;
                     }
                 }

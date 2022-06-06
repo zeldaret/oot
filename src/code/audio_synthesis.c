@@ -687,7 +687,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
     s32 pad1[3];
-    SoundFontSampleHeader* sampleHeader;
+    SoundFontSample* sample;
     AdpcmLoop* loopInfo;
     s32 nSamplesUntilLoopEnd;
     s32 nSamplesInThisIteration;
@@ -778,10 +778,10 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
         synthState->samplePosInt += nSamplesToLoad;
     } else {
-        sampleHeader = noteSubEu->sound.soundFontSound->sampleHeader;
-        loopInfo = sampleHeader->loop;
+        sample = noteSubEu->sound.soundFontSound->sample;
+        loopInfo = sample->loop;
         loopEndPos = loopInfo->end;
-        sampleAddr = sampleHeader->sampleAddr;
+        sampleAddr = sample->sampleAddr;
         resampledTempLen = 0;
 
         for (curPart = 0; curPart < nParts; curPart++) {
@@ -796,8 +796,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 samplesLenAdjusted = nSamplesToLoad;
             }
 
-            if (sampleHeader->codec == CODEC_ADPCM || sampleHeader->codec == CODEC_SMALL_ADPCM) {
-                if (gAudioContext.curLoadedBook != sampleHeader->book->book) {
+            if (sample->codec == CODEC_ADPCM || sample->codec == CODEC_SMALL_ADPCM) {
+                if (gAudioContext.curLoadedBook != sample->book->book) {
                     u32 nEntries;
                     switch (bookOffset) {
                         case 1:
@@ -806,13 +806,13 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         case 2:
                         case 3:
                         default:
-                            gAudioContext.curLoadedBook = sampleHeader->book->book;
+                            gAudioContext.curLoadedBook = sample->book->book;
                             break;
                     }
                     if (1) {}
                     if (1) {}
                     if (1) {}
-                    nEntries = 16 * sampleHeader->book->order * sampleHeader->book->npredictors;
+                    nEntries = 16 * sample->book->order * sample->book->npredictors;
                     aLoadADPCM(cmd++, nEntries, gAudioContext.curLoadedBook);
                 }
             }
@@ -851,7 +851,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     }
                 }
 
-                switch (sampleHeader->codec) {
+                switch (sample->codec) {
                     case CODEC_ADPCM:
                         frameSize = 9;
                         skipInitialSamples = 16;
@@ -893,14 +893,14 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 if (nFramesToDecode != 0) {
                     frameIndex = (synthState->samplePosInt + skipInitialSamples - nFirstFrameSamplesToIgnore) / 16;
                     sampleDataOffset = frameIndex * frameSize;
-                    if (sampleHeader->medium == MEDIUM_RAM) {
+                    if (sample->medium == MEDIUM_RAM) {
                         sampleData = (u8*)(sampleDataStart + sampleDataOffset + sampleAddr);
-                    } else if (sampleHeader->medium == MEDIUM_UNK) {
+                    } else if (sample->medium == MEDIUM_UNK) {
                         return cmd;
                     } else {
                         sampleData = AudioLoad_DmaSampleData(sampleDataStart + sampleDataOffset + sampleAddr,
                                                              ALIGN16((nFramesToDecode * frameSize) + 0x10), flags,
-                                                             &synthState->sampleDmaIndex, sampleHeader->medium);
+                                                             &synthState->sampleDmaIndex, sample->medium);
                     }
 
                     if (sampleData == NULL) {
@@ -917,7 +917,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 }
 
                 if (synthState->restart) {
-                    aSetLoop(cmd++, sampleHeader->loop->state);
+                    aSetLoop(cmd++, sample->loop->state);
                     flags = A_LOOP;
                     synthState->restart = false;
                 }
@@ -930,7 +930,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     phi_s4 = ALIGN16(s5 + 16);
                 }
 
-                switch (sampleHeader->codec) {
+                switch (sample->codec) {
                     case CODEC_ADPCM:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
