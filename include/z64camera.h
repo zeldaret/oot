@@ -32,7 +32,7 @@
 #define CAM_SCENE_SHOP 0x10 // Various shops with a fixed prerend camera and a specific camera setting for shop browsing
 #define CAM_SCENE_HOUSE 0x20 // Toggleable camera setting between a pivot camera setting and a fixed prerend camera setting
 #define CAM_SCENE_FIXED 0x30 // Fixed prerend camera setting only. Can't toggle to a pivot camera setting
-#define CAM_SCENE_MARKET 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area)
+#define CAM_SCENE_PIVOT 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area)
 
 // All shop and house scenes are expected to have their first two bgCamInfo entries be the following indices:
 typedef enum {

@@ -3095,7 +3095,7 @@ void Message_Update(PlayState* play) {
             D_8014B2F4++;
 
             var = false;
-            if (R_CAM_SCENE_TYPE == CAM_SCENE_MARKET) {
+            if (R_CAM_SCENE_TYPE == CAM_SCENE_PIVOT) {
                 if (D_8014B2F4 >= 4) {
                     var = true;
                 }

@@ -1824,7 +1824,7 @@ void Play_TriggerRespawn(PlayState* this) {
 
 s32 func_800C0CB8(PlayState* this) {
     return (this->roomCtx.curRoom.meshHeader->base.type != 1) && (R_CAM_SCENE_TYPE != CAM_SCENE_HOUSE) &&
-           (R_CAM_SCENE_TYPE != CAM_SCENE_FIXED) && (R_CAM_SCENE_TYPE != CAM_SCENE_MARKET) &&
+           (R_CAM_SCENE_TYPE != CAM_SCENE_FIXED) && (R_CAM_SCENE_TYPE != CAM_SCENE_PIVOT) &&
            (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
