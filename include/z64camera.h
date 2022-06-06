@@ -69,11 +69,11 @@
 #define CAM_SHRINKWINVAL_MEDIUM 0x2000
 #define CAM_SHRINKWINVAL_LARGE 0x3000
 
-#define CAM_SHRINKWIN_INSTANT 0x8000 // Bit to determine whether to set the current value directy (on), or to set the shrink-value target (off) 
+#define CAM_SHRINKWIN_INSTANT 0x8000 // Bit to determine whether to set the current value directly (on), or to set the shrink-value target (off) 
 
 #define CAM_SHRINKWINVAL_IGNORE 0xF000 // No change in shrink window, keep the previous values
 
-// Camera behaviorFlags. Flags specifically for settings, modes, and bgCamData
+// Camera behaviorFlags. Flags specifically for settings, modes, and bgCam
 // Used to store current state, only CAM_BEHAVIOR_SETTING_1 and CAM_BEHAVIOR_BG_2 are read from and used in logic
 // Setting (0x1, 0x10)
 #define CAM_BEHAVIOR_SETTING_1 (1 << 0)
@@ -81,7 +81,7 @@
 // Mode (0x2, 0x20)
 #define CAM_BEHAVIOR_MODE_1 (1 << 1)
 #define CAM_BEHAVIOR_MODE_2 (1 << 5)
-// bgCamData (0x4, 0x40)
+// bgCam (0x4, 0x40)
 #define CAM_BEHAVIOR_BG_1 (1 << 2)
 #define CAM_BEHAVIOR_BG_2 (1 << 6)
 
@@ -1539,7 +1539,7 @@ typedef struct {
     /* 0x144 */ s16 mode;
     /* 0x146 */ s16 bgCheckId;
     /* 0x148 */ s16 camDataIdx;
-    /* 0x14A */ s16 behaviorFlags; // "info", includes flags on settings, modes, bgCamData. All related to camera update behaviour
+    /* 0x14A */ s16 behaviorFlags; // "info", includes flags on settings, modes, bgCam. All related to camera update behaviour
     /* 0x14C */ s16 stateFlags; // "engine"
     /* 0x14E */ s16 childCamId;
     /* 0x150 */ s16 waterDistortionTimer;
