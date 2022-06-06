@@ -144,126 +144,126 @@ Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
 u8 sSeqModeInput = 0;
 
-#define SEQ_FLAG_0 (1 << 0)
-#define SEQ_FLAG_1 (1 << 1)
-#define SEQ_FLAG_2 (1 << 2)
-#define SEQ_FLAG_3 (1 << 3)
+#define SEQ_FLAG_ENEMY (1 << 0)
+#define SEQ_FLAG_FANFARE (1 << 1)
+#define SEQ_FLAG_FANFARE_GANON (1 << 2)
+#define SEQ_FLAG_RESTORE (1 << 3)
 #define SEQ_FLAG_4 (1 << 4)
 #define SEQ_FLAG_5 (1 << 5)
 #define SEQ_FLAG_6 (1 << 6)
-#define SEQ_FLAG_7 (1 << 7)
+#define SEQ_FLAG_DISABLE_AMBIENCE (1 << 7)
 
 u8 sSeqFlags[0x6E] = {
-    SEQ_FLAG_1,              // NA_BGM_GENERAL_SFX
-    SEQ_FLAG_0,              // NA_BGM_NATURE_BACKGROUND
-    0,                       // NA_BGM_FIELD_LOGIC
-    0,                       // NA_BGM_FIELD_INIT
-    0,                       // NA_BGM_FIELD_DEFAULT_1
-    0,                       // NA_BGM_FIELD_DEFAULT_2
-    0,                       // NA_BGM_FIELD_DEFAULT_3
-    0,                       // NA_BGM_FIELD_DEFAULT_4
-    0,                       // NA_BGM_FIELD_DEFAULT_5
-    0,                       // NA_BGM_FIELD_DEFAULT_6
-    0,                       // NA_BGM_FIELD_DEFAULT_7
-    0,                       // NA_BGM_FIELD_DEFAULT_8
-    0,                       // NA_BGM_FIELD_DEFAULT_9
-    0,                       // NA_BGM_FIELD_DEFAULT_A
-    0,                       // NA_BGM_FIELD_DEFAULT_B
-    0,                       // NA_BGM_FIELD_ENEMY_INIT
-    0,                       // NA_BGM_FIELD_ENEMY_1
-    0,                       // NA_BGM_FIELD_ENEMY_2
-    0,                       // NA_BGM_FIELD_ENEMY_3
-    0,                       // NA_BGM_FIELD_ENEMY_4
-    0,                       // NA_BGM_FIELD_STILL_1
-    0,                       // NA_BGM_FIELD_STILL_2
-    0,                       // NA_BGM_FIELD_STILL_3
-    0,                       // NA_BGM_FIELD_STILL_4
-    SEQ_FLAG_5 | SEQ_FLAG_0, // NA_BGM_DUNGEON
-    SEQ_FLAG_4,              // NA_BGM_KAKARIKO_ADULT
-    0,                       // NA_BGM_ENEMY
-    SEQ_FLAG_7 | SEQ_FLAG_3, // NA_BGM_BOSS
-    SEQ_FLAG_0,              // NA_BGM_INSIDE_DEKU_TREE
-    0,                       // NA_BGM_MARKET
-    0,                       // NA_BGM_TITLE
-    SEQ_FLAG_5,              // NA_BGM_LINK_HOUSE
-    0,                       // NA_BGM_GAME_OVER
-    0,                       // NA_BGM_BOSS_CLEAR
-    SEQ_FLAG_1,              // NA_BGM_ITEM_GET
-    SEQ_FLAG_2,              // NA_BGM_OPENING_GANON
-    SEQ_FLAG_1,              // NA_BGM_HEART_GET
-    SEQ_FLAG_1,              // NA_BGM_OCA_LIGHT
-    SEQ_FLAG_0,              // NA_BGM_JABU_JABU
-    SEQ_FLAG_4,              // NA_BGM_KAKARIKO_KID
-    0,                       // NA_BGM_GREAT_FAIRY
-    0,                       // NA_BGM_ZELDA_THEME
-    SEQ_FLAG_0,              // NA_BGM_FIRE_TEMPLE
-    SEQ_FLAG_1,              // NA_BGM_OPEN_TRE_BOX
-    SEQ_FLAG_0,              // NA_BGM_FOREST_TEMPLE
-    0,                       // NA_BGM_COURTYARD
-    SEQ_FLAG_7,              // NA_BGM_GANON_TOWER
-    0,                       // NA_BGM_LONLON
-    SEQ_FLAG_7,              // NA_BGM_GORON_CITY
-    0,                       // NA_BGM_FIELD_MORNING
-    SEQ_FLAG_1,              // NA_BGM_SPIRITUAL_STONE
-    SEQ_FLAG_1,              // NA_BGM_OCA_BOLERO
-    SEQ_FLAG_1,              // NA_BGM_OCA_MINUET
-    SEQ_FLAG_1,              // NA_BGM_OCA_SERENADE
-    SEQ_FLAG_1,              // NA_BGM_OCA_REQUIEM
-    SEQ_FLAG_1,              // NA_BGM_OCA_NOCTURNE
-    SEQ_FLAG_7 | SEQ_FLAG_3, // NA_BGM_MINI_BOSS
-    SEQ_FLAG_1,              // NA_BGM_SMALL_ITEM_GET
-    0,                       // NA_BGM_TEMPLE_OF_TIME
-    SEQ_FLAG_1,              // NA_BGM_EVENT_CLEAR
-    SEQ_FLAG_4 | SEQ_FLAG_0, // NA_BGM_KOKIRI
-    SEQ_FLAG_1,              // NA_BGM_OCA_FAIRY_GET
-    SEQ_FLAG_0,              // NA_BGM_SARIA_THEME
-    SEQ_FLAG_0,              // NA_BGM_SPIRIT_TEMPLE
-    0,                       // NA_BGM_HORSE
-    0,                       // NA_BGM_HORSE_GOAL
-    0,                       // NA_BGM_INGO
-    SEQ_FLAG_1,              // NA_BGM_MEDALLION_GET
-    SEQ_FLAG_1,              // NA_BGM_OCA_SARIA
-    SEQ_FLAG_1,              // NA_BGM_OCA_EPONA
-    SEQ_FLAG_1,              // NA_BGM_OCA_ZELDA
-    SEQ_FLAG_1,              // NA_BGM_OCA_SUNS
-    SEQ_FLAG_1,              // NA_BGM_OCA_TIME
-    SEQ_FLAG_1,              // NA_BGM_OCA_STORM
-    0,                       // NA_BGM_NAVI_OPENING
-    0,                       // NA_BGM_DEKU_TREE_CS
-    0,                       // NA_BGM_WINDMILL
-    0,                       // NA_BGM_HYRULE_CS
-    SEQ_FLAG_5,              // NA_BGM_MINI_GAME
-    0,                       // NA_BGM_SHEIK
-    SEQ_FLAG_4,              // NA_BGM_ZORA_DOMAIN
-    SEQ_FLAG_1,              // NA_BGM_APPEAR
-    0,                       // NA_BGM_ADULT_LINK
-    0,                       // NA_BGM_MASTER_SWORD
-    SEQ_FLAG_2,              // NA_BGM_INTRO_GANON
-    SEQ_FLAG_5,              // NA_BGM_SHOP
-    SEQ_FLAG_6,              // NA_BGM_CHAMBER_OF_SAGES
-    SEQ_FLAG_6,              // NA_BGM_FILE_SELECT
-    SEQ_FLAG_0,              // NA_BGM_ICE_CAVERN
-    SEQ_FLAG_1,              // NA_BGM_DOOR_OF_TIME
-    SEQ_FLAG_1,              // NA_BGM_OWL
-    SEQ_FLAG_0,              // NA_BGM_SHADOW_TEMPLE
-    SEQ_FLAG_0,              // NA_BGM_WATER_TEMPLE
-    SEQ_FLAG_1,              // NA_BGM_BRIDGE_TO_GANONS
-    0,                       // NA_BGM_OCARINA_OF_TIME
-    SEQ_FLAG_4 | SEQ_FLAG_0, // NA_BGM_GERUDO_VALLEY
-    0,                       // NA_BGM_POTION_SHOP
-    0,                       // NA_BGM_KOTAKE_KOUME
-    SEQ_FLAG_7,              // NA_BGM_ESCAPE
-    0,                       // NA_BGM_UNDERGROUND
-    SEQ_FLAG_7,              // NA_BGM_GANON_BATTLE_1
-    SEQ_FLAG_7,              // NA_BGM_GANON_BATTLE_2
-    0,                       // NA_BGM_END_DEMO
-    0,                       // NA_BGM_STAFF_1
-    0,                       // NA_BGM_STAFF_2
-    0,                       // NA_BGM_STAFF_3
-    0,                       // NA_BGM_STAFF_4
-    0,                       // NA_BGM_FIRE_BOSS
-    SEQ_FLAG_3,              // NA_BGM_TIMED_MINI_GAME
-    0,                       // NA_BGM_CUTSCENE_EFFECTS
+    SEQ_FLAG_FANFARE,                             // NA_BGM_GENERAL_SFX
+    SEQ_FLAG_ENEMY,                               // NA_BGM_NATURE_BACKGROUND
+    0,                                            // NA_BGM_FIELD_LOGIC
+    0,                                            // NA_BGM_FIELD_INIT
+    0,                                            // NA_BGM_FIELD_DEFAULT_1
+    0,                                            // NA_BGM_FIELD_DEFAULT_2
+    0,                                            // NA_BGM_FIELD_DEFAULT_3
+    0,                                            // NA_BGM_FIELD_DEFAULT_4
+    0,                                            // NA_BGM_FIELD_DEFAULT_5
+    0,                                            // NA_BGM_FIELD_DEFAULT_6
+    0,                                            // NA_BGM_FIELD_DEFAULT_7
+    0,                                            // NA_BGM_FIELD_DEFAULT_8
+    0,                                            // NA_BGM_FIELD_DEFAULT_9
+    0,                                            // NA_BGM_FIELD_DEFAULT_A
+    0,                                            // NA_BGM_FIELD_DEFAULT_B
+    0,                                            // NA_BGM_FIELD_ENEMY_INIT
+    0,                                            // NA_BGM_FIELD_ENEMY_1
+    0,                                            // NA_BGM_FIELD_ENEMY_2
+    0,                                            // NA_BGM_FIELD_ENEMY_3
+    0,                                            // NA_BGM_FIELD_ENEMY_4
+    0,                                            // NA_BGM_FIELD_STILL_1
+    0,                                            // NA_BGM_FIELD_STILL_2
+    0,                                            // NA_BGM_FIELD_STILL_3
+    0,                                            // NA_BGM_FIELD_STILL_4
+    SEQ_FLAG_5 | SEQ_FLAG_ENEMY,                  // NA_BGM_DUNGEON
+    SEQ_FLAG_4,                                   // NA_BGM_KAKARIKO_ADULT
+    0,                                            // NA_BGM_ENEMY
+    SEQ_FLAG_DISABLE_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_BOSS
+    SEQ_FLAG_ENEMY,                               // NA_BGM_INSIDE_DEKU_TREE
+    0,                                            // NA_BGM_MARKET
+    0,                                            // NA_BGM_TITLE
+    SEQ_FLAG_5,                                   // NA_BGM_LINK_HOUSE
+    0,                                            // NA_BGM_GAME_OVER
+    0,                                            // NA_BGM_BOSS_CLEAR
+    SEQ_FLAG_FANFARE,                             // NA_BGM_ITEM_GET
+    SEQ_FLAG_FANFARE_GANON,                       // NA_BGM_OPENING_GANON
+    SEQ_FLAG_FANFARE,                             // NA_BGM_HEART_GET
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_LIGHT
+    SEQ_FLAG_ENEMY,                               // NA_BGM_JABU_JABU
+    SEQ_FLAG_4,                                   // NA_BGM_KAKARIKO_KID
+    0,                                            // NA_BGM_GREAT_FAIRY
+    0,                                            // NA_BGM_ZELDA_THEME
+    SEQ_FLAG_ENEMY,                               // NA_BGM_FIRE_TEMPLE
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OPEN_TRE_BOX
+    SEQ_FLAG_ENEMY,                               // NA_BGM_FOREST_TEMPLE
+    0,                                            // NA_BGM_COURTYARD
+    SEQ_FLAG_DISABLE_AMBIENCE,                    // NA_BGM_GANON_TOWER
+    0,                                            // NA_BGM_LONLON
+    SEQ_FLAG_DISABLE_AMBIENCE,                    // NA_BGM_GORON_CITY
+    0,                                            // NA_BGM_FIELD_MORNING
+    SEQ_FLAG_FANFARE,                             // NA_BGM_SPIRITUAL_STONE
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_BOLERO
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_MINUET
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_SERENADE
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_REQUIEM
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_NOCTURNE
+    SEQ_FLAG_DISABLE_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_MINI_BOSS
+    SEQ_FLAG_FANFARE,                             // NA_BGM_SMALL_ITEM_GET
+    0,                                            // NA_BGM_TEMPLE_OF_TIME
+    SEQ_FLAG_FANFARE,                             // NA_BGM_EVENT_CLEAR
+    SEQ_FLAG_4 | SEQ_FLAG_ENEMY,                  // NA_BGM_KOKIRI
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_FAIRY_GET
+    SEQ_FLAG_ENEMY,                               // NA_BGM_SARIA_THEME
+    SEQ_FLAG_ENEMY,                               // NA_BGM_SPIRIT_TEMPLE
+    0,                                            // NA_BGM_HORSE
+    0,                                            // NA_BGM_HORSE_GOAL
+    0,                                            // NA_BGM_INGO
+    SEQ_FLAG_FANFARE,                             // NA_BGM_MEDALLION_GET
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_SARIA
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_EPONA
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_ZELDA
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_SUNS
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_TIME
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OCA_STORM
+    0,                                            // NA_BGM_NAVI_OPENING
+    0,                                            // NA_BGM_DEKU_TREE_CS
+    0,                                            // NA_BGM_WINDMILL
+    0,                                            // NA_BGM_HYRULE_CS
+    SEQ_FLAG_5,                                   // NA_BGM_MINI_GAME
+    0,                                            // NA_BGM_SHEIK
+    SEQ_FLAG_4,                                   // NA_BGM_ZORA_DOMAIN
+    SEQ_FLAG_FANFARE,                             // NA_BGM_APPEAR
+    0,                                            // NA_BGM_ADULT_LINK
+    0,                                            // NA_BGM_MASTER_SWORD
+    SEQ_FLAG_FANFARE_GANON,                       // NA_BGM_INTRO_GANON
+    SEQ_FLAG_5,                                   // NA_BGM_SHOP
+    SEQ_FLAG_6,                                   // NA_BGM_CHAMBER_OF_SAGES
+    SEQ_FLAG_6,                                   // NA_BGM_FILE_SELECT
+    SEQ_FLAG_ENEMY,                               // NA_BGM_ICE_CAVERN
+    SEQ_FLAG_FANFARE,                             // NA_BGM_DOOR_OF_TIME
+    SEQ_FLAG_FANFARE,                             // NA_BGM_OWL
+    SEQ_FLAG_ENEMY,                               // NA_BGM_SHADOW_TEMPLE
+    SEQ_FLAG_ENEMY,                               // NA_BGM_WATER_TEMPLE
+    SEQ_FLAG_FANFARE,                             // NA_BGM_BRIDGE_TO_GANONS
+    0,                                            // NA_BGM_OCARINA_OF_TIME
+    SEQ_FLAG_4 | SEQ_FLAG_ENEMY,                  // NA_BGM_GERUDO_VALLEY
+    0,                                            // NA_BGM_POTION_SHOP
+    0,                                            // NA_BGM_KOTAKE_KOUME
+    SEQ_FLAG_DISABLE_AMBIENCE,                    // NA_BGM_ESCAPE
+    0,                                            // NA_BGM_UNDERGROUND
+    SEQ_FLAG_DISABLE_AMBIENCE,                    // NA_BGM_GANON_BATTLE_1
+    SEQ_FLAG_DISABLE_AMBIENCE,                    // NA_BGM_GANON_BATTLE_2
+    0,                                            // NA_BGM_END_DEMO
+    0,                                            // NA_BGM_STAFF_1
+    0,                                            // NA_BGM_STAFF_2
+    0,                                            // NA_BGM_STAFF_3
+    0,                                            // NA_BGM_STAFF_4
+    0,                                            // NA_BGM_FIRE_BOSS
+    SEQ_FLAG_RESTORE,                             // NA_BGM_TIMED_MINI_GAME
+    0,                                            // NA_BGM_CUTSCENE_EFFECTS
 };
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -4650,9 +4650,9 @@ void func_800F5918(void) {
 void func_800F595C(u16 arg0) {
     u8 arg0b = arg0 & 0xFF;
 
-    if (sSeqFlags[arg0b] & SEQ_FLAG_1) {
+    if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE) {
         Audio_PlayFanfare(arg0);
-    } else if (sSeqFlags[arg0b] & SEQ_FLAG_2) {
+    } else if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE_GANON) {
         Audio_StartSeq(SEQ_PLAYER_FANFARE, 0, arg0);
 
     } else {
@@ -4664,9 +4664,9 @@ void func_800F595C(u16 arg0) {
 void func_800F59E8(u16 arg0) {
     u8 arg0b = arg0 & 0xFF;
 
-    if (sSeqFlags[arg0b] & SEQ_FLAG_1) {
+    if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE) {
         Audio_SeqCmd1(SEQ_PLAYER_FANFARE, 0);
-    } else if (sSeqFlags[arg0b] & SEQ_FLAG_2) {
+    } else if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE_GANON) {
         Audio_SeqCmd1(SEQ_PLAYER_FANFARE, 0);
     } else {
         Audio_SeqCmd1(SEQ_PLAYER_BGM_MAIN, 0);
@@ -4676,9 +4676,9 @@ void func_800F59E8(u16 arg0) {
 s32 func_800F5A58(u8 arg0) {
     u8 phi_a1 = 0;
 
-    if (sSeqFlags[arg0 & 0xFF] & SEQ_FLAG_1) {
+    if (sSeqFlags[arg0 & 0xFF] & SEQ_FLAG_FANFARE) {
         phi_a1 = 1;
-    } else if (sSeqFlags[arg0 & 0xFF] & SEQ_FLAG_2) {
+    } else if (sSeqFlags[arg0 & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
         phi_a1 = 1;
     }
 
@@ -4713,7 +4713,7 @@ void func_800F5ACC(u16 seqId) {
  */
 void func_800F5B58(void) {
     if ((func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
-        (sSeqFlags[func_800FA0B4(SEQ_PLAYER_BGM_MAIN) & 0xFF] & SEQ_FLAG_3)) {
+        (sSeqFlags[func_800FA0B4(SEQ_PLAYER_BGM_MAIN) & 0xFF] & SEQ_FLAG_RESTORE)) {
         if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
             Audio_SeqCmd1(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
@@ -4819,7 +4819,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
             seqMode = SEQ_MODE_IGNORE;
         }
 
-        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[(u8)(seqId & 0xFF)] & SEQ_FLAG_0) ||
+        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[(u8)(seqId & 0xFF)] & SEQ_FLAG_ENEMY) ||
             ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY)) {
             if (seqMode != (sPrevSeqMode & 0x7F)) {
                 if (seqMode == SEQ_MODE_ENEMY) {
@@ -5242,7 +5242,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     u8 val;
 
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 == NA_BGM_DISABLED) ||
-        !(sSeqFlags[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & SEQ_FLAG_7)) {
+        !(sSeqFlags[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & SEQ_FLAG_DISABLE_AMBIENCE)) {
 
         Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
                                           sNatureAmbienceDataIO[natureAmbienceId].channelMask);
