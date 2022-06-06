@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_ice_smoke.h"
-#include "objects/object_fz/object_fz.h"
+#include "assets/objects/object_fz/object_fz.h"
 
 #define rObjBankIdx regs[0]
 #define rAlpha regs[1]

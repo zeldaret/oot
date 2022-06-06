@@ -56,7 +56,7 @@ void OceffWipe_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "overlays/ovl_Oceff_Wipe/ovl_Oceff_Wipe.c"
+#include "assets/overlays/ovl_Oceff_Wipe/ovl_Oceff_Wipe.c"
 
 static u8 sAlphaIndices[] = {
     0x01, 0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x20, 0x12, 0x01,

@@ -5,7 +5,7 @@
  */
 
 #include "z_boss_ganondrof.h"
-#include "objects/object_gnd/object_gnd.h"
+#include "assets/objects/object_gnd/object_gnd.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"

@@ -5,8 +5,8 @@
  */
 
 #include "z_en_mm.h"
-#include "objects/object_mm/object_mm.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/object_mm/object_mm.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 

@@ -6,9 +6,9 @@
 
 #include "z_en_horse.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
-#include "objects/object_horse/object_horse.h"
-#include "objects/object_hni/object_hni.h"
-#include "scenes/overworld/spot09/spot09_scene.h"
+#include "assets/objects/object_horse/object_horse.h"
+#include "assets/objects/object_hni/object_hni.h"
+#include "assets/scenes/overworld/spot09/spot09_scene.h"
 
 #define FLAGS ACTOR_FLAG_4
 
