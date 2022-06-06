@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_bdan_switch.h"
-#include "objects/object_bdan_objects/object_bdan_objects.h"
+#include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 

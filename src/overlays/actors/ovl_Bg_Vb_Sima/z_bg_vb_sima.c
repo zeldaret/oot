@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_vb_sima.h"
-#include "objects/object_fd/object_fd.h"
+#include "assets/objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0

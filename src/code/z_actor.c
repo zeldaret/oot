@@ -3,9 +3,9 @@
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
-#include "objects/object_bdoor/object_bdoor.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "assets/objects/object_bdoor/object_bdoor.h"
 
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;

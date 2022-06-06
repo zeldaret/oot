@@ -1,5 +1,5 @@
 #include "global.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define LIGHTS_BUFFER_SIZE 32
 

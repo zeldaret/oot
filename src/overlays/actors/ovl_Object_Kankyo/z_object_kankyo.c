@@ -5,9 +5,9 @@
  */
 
 #include "z_object_kankyo.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_spot02_objects/object_spot02_objects.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_spot02_objects/object_spot02_objects.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 

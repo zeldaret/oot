@@ -1,6 +1,6 @@
 #include "global.h"
 
-#include "code/fbdemo_triforce/z_fbdemo_triforce.c"
+#include "assets/code/fbdemo_triforce/z_fbdemo_triforce.c"
 
 void TransitionTriforce_Start(void* thisx) {
     TransitionTriforce* this = (TransitionTriforce*)thisx;

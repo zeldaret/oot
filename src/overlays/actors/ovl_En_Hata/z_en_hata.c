@@ -5,7 +5,7 @@
  */
 
 #include "z_en_hata.h"
-#include "objects/object_hata/object_hata.h"
+#include "assets/objects/object_hata/object_hata.h"
 
 #define FLAGS 0
 

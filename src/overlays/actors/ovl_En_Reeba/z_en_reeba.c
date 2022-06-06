@@ -8,7 +8,7 @@
 #include "z_en_reeba.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "vt.h"
-#include "objects/object_reeba/object_reeba.h"
+#include "assets/objects/object_reeba/object_reeba.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 

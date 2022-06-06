@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot16_doughnut.h"
-#include "objects/object_efc_doughnut/object_efc_doughnut.h"
+#include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
 #include "vt.h"
 
 #define FLAGS 0

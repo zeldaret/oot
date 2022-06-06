@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_hamishi.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0
 

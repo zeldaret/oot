@@ -5,15 +5,15 @@
  */
 
 #include "z_en_hy.h"
-#include "objects/object_aob/object_aob.h"
-#include "objects/object_ahg/object_ahg.h"
-#include "objects/object_bob/object_bob.h"
-#include "objects/object_boj/object_boj.h"
-#include "objects/object_bba/object_bba.h"
-#include "objects/object_bji/object_bji.h"
-#include "objects/object_cne/object_cne.h"
-#include "objects/object_cob/object_cob.h"
-#include "objects/object_os_anime/object_os_anime.h"
+#include "assets/objects/object_aob/object_aob.h"
+#include "assets/objects/object_ahg/object_ahg.h"
+#include "assets/objects/object_bob/object_bob.h"
+#include "assets/objects/object_boj/object_boj.h"
+#include "assets/objects/object_bba/object_bba.h"
+#include "assets/objects/object_bji/object_bji.h"
+#include "assets/objects/object_cne/object_cne.h"
+#include "assets/objects/object_cob/object_cob.h"
+#include "assets/objects/object_os_anime/object_os_anime.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 

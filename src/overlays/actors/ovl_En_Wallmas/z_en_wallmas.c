@@ -5,8 +5,8 @@
  */
 
 #include "z_en_wallmas.h"
-#include "objects/object_wallmaster/object_wallmaster.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_wallmaster/object_wallmaster.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 

@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_ice_piece.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rLifespan regs[0]
 #define rYaw regs[1]
