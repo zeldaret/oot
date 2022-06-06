@@ -220,7 +220,7 @@ typedef enum {
     /* 0xD */ NATURE_CHANNEL_UNK,
     /* 0xE */ NATURE_CHANNEL_RAIN,
     /* 0xF */ NATURE_CHANNEL_LIGHTNING
-} NatureChannelIndex; // playerIndex = 0 (Overlaps with main bgm)
+} NatureChannelIndex; // seqPlayerIndex = 0 (Overlaps with main bgm)
 
 typedef enum {
     /* 0x00 */ NATURE_ID_GENERAL_NIGHT,

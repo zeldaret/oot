@@ -537,7 +537,7 @@ void Audio_UpdateActiveSequences(void) {
             Audio_QueueCmdF32(0x41000000 | _SHIFTL(seqPlayerIndex, 16, 8), gActiveSeqs[seqPlayerIndex].volCur);
         }
 
-        // Process tempo commands
+        // Process tempo
         if (gActiveSeqs[seqPlayerIndex].tempoCmd != 0) {
             tempoCmd = gActiveSeqs[seqPlayerIndex].tempoCmd;
             tempoDuration = (tempoCmd & 0xFF0000) >> 15;

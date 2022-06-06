@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define Audio_DisableSeq(playerIndex, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)playerIndex << 16), fadeOut)
+#define Audio_DisableSeq(seqPlayerIndex, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqPlayerIndex << 16), fadeOut)
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
@@ -4774,9 +4774,9 @@ void func_800F5CF8(void) {
     }
 }
 
-void func_800F5E18(u8 playerIndex, u16 seqId, u8 fadeTimer, s8 port, s8 ioData) {
-    SEQCMD_SET_PLAYER_IO(playerIndex, port, ioData);
-    SEQCMD_PLAY_SEQUENCE(playerIndex, fadeTimer, 0, seqId);
+void func_800F5E18(u8 seqPlayerIndex, u16 seqId, u8 fadeTimer, s8 port, s8 ioData) {
+    SEQCMD_SET_PLAYER_IO(seqPlayerIndex, port, ioData);
+    SEQCMD_PLAY_SEQUENCE(seqPlayerIndex, fadeTimer, 0, seqId);
 }
 
 void Audio_SetSequenceMode(u8 seqMode) {
@@ -4949,34 +4949,34 @@ void func_800F64E0(u8 arg0) {
 }
 
 void func_800F6584(u8 arg0) {
-    u8 playerIndex;
+    u8 seqPlayerIndex;
     u16 sp34;
 
     D_8016B9F2 = arg0;
     if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF) == NA_BGM_LONLON) {
-        playerIndex = SEQ_PLAYER_BGM_MAIN;
+        seqPlayerIndex = SEQ_PLAYER_BGM_MAIN;
         sp34 = 0;
     } else if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF) == NA_BGM_LONLON) {
-        playerIndex = SEQ_PLAYER_BGM_SUB;
+        seqPlayerIndex = SEQ_PLAYER_BGM_SUB;
         sp34 = 0xFFFC;
     } else {
         return;
     }
 
     if (arg0 != 0) {
-        SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 0, 0);
-        SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 1, 0);
-        if (playerIndex == SEQ_PLAYER_BGM_SUB) {
-            SEQCMD_SET_CHANNEL_DISABLE_MASK(playerIndex, sp34 | 3);
+        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 0, 0);
+        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0);
+        if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, sp34 | 3);
         }
     } else {
-        if (playerIndex == SEQ_PLAYER_BGM_SUB) {
+        if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
             func_800F5E18(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
         }
-        SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 0, 0x7F);
-        SEQCMD_SET_CHANNEL_VOLUME(playerIndex, 1, 1, 0x7F);
-        if (playerIndex == SEQ_PLAYER_BGM_SUB) {
-            SEQCMD_SET_CHANNEL_DISABLE_MASK(playerIndex, sp34);
+        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 0, 0x7F);
+        SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0x7F);
+        if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, sp34);
         }
     }
 }
