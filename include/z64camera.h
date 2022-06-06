@@ -27,7 +27,7 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
-// R_CAM_SCENE_TYPE
+// R_CAM_SCENE_TYPE, first arg to SCENE_CMD_MISC_SETTINGS()
 #define CAM_SCENE_DEFAULT 0
 #define CAM_SCENE_SHOP 0x10 // Various shops with a fixed prerend camera and a specific camera setting for shop browsing
 #define CAM_SCENE_HOUSE 0x20 // Toggleable camera setting between a pivot camera setting and a fixed prerend camera setting
