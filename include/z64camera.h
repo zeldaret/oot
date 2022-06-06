@@ -34,7 +34,7 @@
 #define CAM_SCENE_FIXED 0x30 // Fixed prerend camera setting only. Can't toggle to a pivot camera setting
 #define CAM_SCENE_PIVOT 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area only)
 
-// All shop and house scenes are expected to have their first two bgCamInfo entries be the following indices:
+// All shop and house scenes are expected to have their first two bgCamInfo entries to be the following indices:
 typedef enum {
     /* 0 */ INDOOR_BGCAM_FIXED, // Use a camera prerend setting that fixes the camera in place
     /* 1 */ INDOOR_BGCAM_PIVOT  // Use a camera pivot setting that allows camera rotation (CAM_SET_PIVOT_SHOP_BROWSING for shop specifically)
