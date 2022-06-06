@@ -209,7 +209,7 @@ typedef struct {
 } SynthesisReverb; // size = 0x2C8
 
 typedef struct {
-    /* 0x00 */ u8 isRelocated; // have have the envelope and all sampleHeaders been relocated (offsets to pointers)
+    /* 0x00 */ u8 isRelocated; // have the envelope and all sampleHeaders been relocated (offsets to pointers)
     /* 0x01 */ u8 normalRangeLo;
     /* 0x02 */ u8 normalRangeHi;
     /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
