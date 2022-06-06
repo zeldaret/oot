@@ -964,7 +964,7 @@ void Play_Update(PlayState* this) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
-                        // Can not C-Up toggle camera setting in a shop
+                        // Can't C-Up toggle camera setting in a shop
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
