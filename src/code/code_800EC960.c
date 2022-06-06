@@ -2297,12 +2297,6 @@ f32 D_80131C8C = 0.0f;
 
 // =========== Audio Debugging ===========
 
-extern u16 gAudioSfxSwapSource[];
-extern u16 gAudioSfxSwapTarget[];
-extern u8 gAudioSfxSwapMode[];
-extern u8 gAudioSfxSwapOff;
-extern u8 D_801333F0;
-
 u32 sDebugPadHold;
 u32 sDebugPadBtnLast;
 u32 sDebugPadPress;

@@ -33,8 +33,6 @@ void ObjectKankyo_DrawLightning(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_DrawBeams(ObjectKankyo* this, PlayState* play);
 
-extern Mtx D_01000000;
-
 static void* sEffLightningTextures[] = {
     gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
     gEffLightning5Tex, gEffLightning6Tex, gEffLightning7Tex, gEffLightning8Tex,
