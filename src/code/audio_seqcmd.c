@@ -323,6 +323,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
         case SEQCMD_OP_SET_CHANNEL_DISABLE_MASK:
             // Disable or Reenable channels
+
+            // Disable channels
             channelMaskDisable = cmd & 0xFFFF;
             if (channelMaskDisable != 0) {
                 // Apply channel mask `channelMaskDisable`
@@ -497,7 +499,7 @@ void Audio_UpdateActiveSequences(void) {
     for (seqPlayerIndex = 0; seqPlayerIndex < 4; seqPlayerIndex++) {
 
         // The setup for this block of code was not fully implemented until Majora's Mask.
-        // The intent was to load soundfonts asyncronously before playing a
+        // The intent was to load soundfonts asynchronously before playing a
         // sequence in `Audio_StartSequence` using `(seqArgs & 0x80)`.
         // Checks if the requested sequence is finished loading fonts
         if (gActiveSeqs[seqPlayerIndex].isWaitingForFonts) {
