@@ -295,7 +295,7 @@ typedef short ENVMIX_STATE[40];
 }
 
 /*
- * Clears DMEM data by writing zeros.
+ * Clears DMEM by writing zeros.
  *
  * @param pkt pointer to an Acmd buffer
  * @param dmem DMEM address to clear
@@ -338,7 +338,7 @@ typedef short ENVMIX_STATE[40];
 }
 
 /*
- * Loads a buffer to DMEM from from any physical source address, KSEG0, or KSEG1
+ * Loads a buffer to DMEM from any physical source address, KSEG0, or KSEG1
  *
  * @param pkt pointer to an Acmd buffer
  * @param addrSrc Any physical source address, KSEG0, or KSEG1
@@ -483,7 +483,7 @@ typedef short ENVMIX_STATE[40];
 }
 
 /*
- * Duplicates 128 bytes of data a number of times.
+ * Duplicates 128 bytes of data a specified number of times.
  *
  * @param pkt pointer to an Acmd buffer
  * @param numCopies number of times to duplicate 128 bytes from src
