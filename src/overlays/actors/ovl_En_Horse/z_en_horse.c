@@ -3106,10 +3106,6 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
     }
 }
 
-void EnHorse_HighJumpInit(EnHorse* this, PlayState* play);
-void EnHorse_Stub2(EnHorse* this);
-void EnHorse_Stub1(EnHorse* this);
-
 void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     s32 pad;
     s32 pad2;
