@@ -6,7 +6,7 @@
 
 #include "z_bg_jya_haheniron.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "objects/object_jya_iron/object_jya_iron.h"
+#include "assets/objects/object_jya_iron/object_jya_iron.h"
 
 #define FLAGS ACTOR_FLAG_4
 

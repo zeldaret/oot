@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ms.h"
-#include "objects/object_ms/object_ms.h"
+#include "assets/objects/object_ms/object_ms.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

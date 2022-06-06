@@ -14,7 +14,7 @@ u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrIsRomCompressed = false;
 
 // dmadata filenames
-#define DEFINE_DMA_ENTRY(name) #name,
+#define DEFINE_DMA_ENTRY(_0, nameString) nameString,
 
 const char* sDmaMgrFileNames[] = {
 #include "tables/dmadata_table.h"

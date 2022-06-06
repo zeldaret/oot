@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot17_funen.h"
-#include "objects/object_spot17_obj/object_spot17_obj.h"
+#include "assets/objects/object_spot17_obj/object_spot17_obj.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

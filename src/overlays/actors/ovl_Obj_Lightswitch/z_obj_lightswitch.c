@@ -7,7 +7,7 @@
 #include "z_obj_lightswitch.h"
 #include "vt.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
-#include "objects/object_lightswitch/object_lightswitch.h"
+#include "assets/objects/object_lightswitch/object_lightswitch.h"
 
 #define FLAGS ACTOR_FLAG_4
 

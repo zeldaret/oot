@@ -6,7 +6,7 @@
 
 #include "vt.h"
 #include "z_item_shield.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 
 #define FLAGS ACTOR_FLAG_4
 

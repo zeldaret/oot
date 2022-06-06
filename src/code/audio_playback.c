@@ -926,11 +926,11 @@ void Audio_NoteInitAll(void) {
         note->playbackState.attributes.velocity = 0.0f;
         note->playbackState.adsrVolScaleUnused = 0;
         note->playbackState.adsr.action.asByte = 0;
-        note->vibratoState.active = 0;
-        note->portamento.cur = 0;
-        note->portamento.speed = 0;
+        note->playbackState.vibratoState.active = 0;
+        note->playbackState.portamento.cur = 0;
+        note->playbackState.portamento.speed = 0;
         note->playbackState.stereoHeadsetEffects = false;
-        note->unk_BC = 0;
+        note->startSamplePos = 0;
         note->synthesisState.synthesisBuffers = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, 0x1E0);
     }
 }
