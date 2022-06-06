@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_g_magma.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 u32 EffectSsGMagma_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGMagma_Draw(PlayState* play, u32 index, EffectSs* this);

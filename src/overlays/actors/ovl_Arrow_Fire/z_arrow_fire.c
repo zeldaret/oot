@@ -18,7 +18,7 @@ void ArrowFire_Charge(ArrowFire* this, PlayState* play);
 void ArrowFire_Fly(ArrowFire* this, PlayState* play);
 void ArrowFire_Hit(ArrowFire* this, PlayState* play);
 
-#include "overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
+#include "assets/overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
 
 const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,

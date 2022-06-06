@@ -8,8 +8,8 @@
 #include "vt.h"
 
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "objects/object_zl2/object_zl2.h"
-#include "objects/object_zl2_anime1/object_zl2_anime1.h"
+#include "assets/objects/object_zl2/object_zl2.h"
+#include "assets/objects/object_zl2_anime1/object_zl2_anime1.h"
 
 #define FLAGS ACTOR_FLAG_4
 
