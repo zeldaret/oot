@@ -29,7 +29,7 @@ typedef void SoundFontData;
 /* forward declarations */
 s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 skipTicks);
 SoundFontData* AudioLoad_SyncLoadFont(u32 fontId);
-SoundFontSample* AudioLoad_GetFontSampleHeader(s32 fontId, s32 instId);
+SoundFontSample* AudioLoad_GetFontSample(s32 fontId, s32 instId);
 void AudioLoad_ProcessAsyncLoads(s32 resetStatus);
 void AudioLoad_ProcessAsyncLoadUnkMedium(AudioAsyncLoad* asyncLoad, s32 resetStatus);
 void AudioLoad_ProcessAsyncLoad(AudioAsyncLoad* asyncLoad, s32 resetStatus);
@@ -1261,7 +1261,7 @@ s32 AudioLoad_SlowLoadSample(s32 fontId, s32 instId, s8* status) {
     SoundFontSample* sample;
     AudioSlowLoad* slowLoad;
 
-    sample = AudioLoad_GetFontSampleHeader(fontId, instId);
+    sample = AudioLoad_GetFontSample(fontId, instId);
     if (sample == NULL) {
         *status = 0;
         return -1;
@@ -1307,7 +1307,7 @@ s32 AudioLoad_SlowLoadSample(s32 fontId, s32 instId, s8* status) {
     return 0;
 }
 
-SoundFontSample* AudioLoad_GetFontSampleHeader(s32 fontId, s32 instId) {
+SoundFontSample* AudioLoad_GetFontSample(s32 fontId, s32 instId) {
     SoundFontSample* sample;
 
     if (instId < 0x80) {
@@ -1345,7 +1345,7 @@ void AudioLoad_FinishSlowLoad(AudioSlowLoad* slowLoad) {
         return;
     }
 
-    sample = AudioLoad_GetFontSampleHeader(slowLoad->seqOrFontId, slowLoad->instId);
+    sample = AudioLoad_GetFontSample(slowLoad->seqOrFontId, slowLoad->instId);
     if (sample == NULL) {
         return;
     }
