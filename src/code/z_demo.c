@@ -301,7 +301,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
         case 14:
-            // Set the indoor camera to be the fixed prerend setting
+            // set the bgCamIndex that will toggle the camera to switch to a fixed prerend setting
             if (sp3F != 0) {
                 Play_SetIndoorBgCamIndex(play, INDOOR_BGCAM_FIXED + 1);
             }
