@@ -5,11 +5,11 @@
  */
 
 #include "z_bg_dy_yoseizo.h"
-#include "objects/object_dy_obj/object_dy_obj.h"
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
 #include "vt.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
-#include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
-#include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
+#include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
+#include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 

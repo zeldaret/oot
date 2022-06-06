@@ -1,8 +1,8 @@
 #include "global.h"
 #include "vt.h"
-#include "textures/parameter_static/parameter_static.h"
-#include "textures/do_action_static/do_action_static.h"
-#include "textures/icon_item_static/icon_item_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
+#include "assets/textures/do_action_static/do_action_static.h"
+#include "assets/textures/icon_item_static/icon_item_static.h"
 
 // TODO extract this information from the texture definitions themselves
 #define DO_ACTION_TEX_WIDTH 48

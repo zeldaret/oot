@@ -5,7 +5,7 @@
  */
 
 #include "z_en_horse_ganon.h"
-#include "objects/object_horse_ganon/object_horse_ganon.h"
+#include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 
 #define FLAGS ACTOR_FLAG_4
 

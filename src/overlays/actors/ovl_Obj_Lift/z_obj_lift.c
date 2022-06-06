@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_lift.h"
-#include "objects/object_d_lift/object_d_lift.h"
+#include "assets/objects/object_d_lift/object_d_lift.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS ACTOR_FLAG_4

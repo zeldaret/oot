@@ -1,6 +1,6 @@
 #include "z_boss_tw.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_tw/object_tw.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_tw/object_tw.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)

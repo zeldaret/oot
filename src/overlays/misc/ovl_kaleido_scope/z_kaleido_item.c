@@ -1,5 +1,5 @@
 #include "z_kaleido_scope.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 u8 gAmmoItems[] = {
     ITEM_STICK,   ITEM_NUT,  ITEM_BOMB, ITEM_BOW,  ITEM_NONE, ITEM_NONE, ITEM_SLINGSHOT, ITEM_NONE,

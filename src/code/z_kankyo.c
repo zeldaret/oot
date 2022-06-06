@@ -1,8 +1,8 @@
 #include "global.h"
 #include "ultra64.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 typedef enum {
     /* 0x00 */ LIGHTNING_BOLT_START,
