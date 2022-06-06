@@ -331,8 +331,8 @@ Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 upd
 void func_800DBB94(void) {
 }
 
-void AudioSynth_ClearBuffer(Acmd* cmd, s32 dmemAddr, s32 size) {
-    aClearBuffer(cmd, dmemAddr, size);
+void AudioSynth_ClearBuffer(Acmd* cmd, s32 dmem, s32 size) {
+    aClearBuffer(cmd, dmem, size);
 }
 
 void func_800DBBBC(void) {
@@ -397,12 +397,12 @@ void AudioSynth_EnvSetup1(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 void func_800DBD08(void) {
 }
 
-void AudioSynth_LoadBuffer(Acmd* cmd, s32 dmemAddrDest, s32 size, s32 ramAddrSrc) {
-    aLoadBuffer(cmd, ramAddrSrc, dmemAddrDest, size);
+void AudioSynth_LoadBuffer(Acmd* cmd, s32 dmemDest, s32 size, s32 addrSrc) {
+    aLoadBuffer(cmd, addrSrc, dmemDest, size);
 }
 
-void AudioSynth_SaveBuffer(Acmd* cmd, s32 dmemAddrSrc, s32 size, s32 ramAddrDest) {
-    aSaveBuffer(cmd, dmemAddrSrc, ramAddrDest, size);
+void AudioSynth_SaveBuffer(Acmd* cmd, s32 dmemSrc, s32 size, s32 addrDest) {
+    aSaveBuffer(cmd, dmemSrc, addrDest, size);
 }
 
 void AudioSynth_EnvSetup2(Acmd* cmd, s32 volLeft, s32 volRight) {
@@ -727,7 +727,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 sampleDataStartPad;
     s32 side;
     s32 resampledTempLen;
-    u16 noteSamplesDmemAddrBeforeResampling;
+    u16 sampleDmemBeforeResampling;
     s32 sampleDataOffset;
     s32 thing;
     s32 s5;
@@ -780,7 +780,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
     if (noteSubEu->bitField1.isSyntheticWave) {
         cmd = AudioSynth_LoadWaveSamples(cmd, noteSubEu, synthState, numSamplesToLoad);
-        noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * (s32)sizeof(s16));
+        sampleDmemBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * (s32)sizeof(s16));
         synthState->samplePosInt += numSamplesToLoad;
     } else {
         audioFontSample = noteSubEu->sound.soundFontSound->sample;
@@ -1009,7 +1009,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
             switch (nParts) {
                 case 1:
-                    noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + skipBytes;
+                    sampleDmemBeforeResampling = DMEM_UNCOMPRESSED_NOTE + skipBytes;
                     break;
 
                 case 2:
@@ -1018,9 +1018,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                             AudioSynth_InterL(cmd++, DMEM_UNCOMPRESSED_NOTE + skipBytes, DMEM_TEMP + 0x20,
                                               ALIGN8(samplesLenAdjusted / 2));
                             resampledTempLen = samplesLenAdjusted;
-                            noteSamplesDmemAddrBeforeResampling = DMEM_TEMP + 0x20;
+                            sampleDmemBeforeResampling = DMEM_TEMP + 0x20;
                             if (finished) {
-                                AudioSynth_ClearBuffer(cmd++, noteSamplesDmemAddrBeforeResampling + resampledTempLen,
+                                AudioSynth_ClearBuffer(cmd++, sampleDmemBeforeResampling + resampledTempLen,
                                                        samplesLenAdjusted + 0x10);
                             }
                             break;
@@ -1043,8 +1043,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         flags = A_INIT;
     }
 
-    cmd = AudioSynth_FinalResample(cmd, synthState, aiBufLen * 2, resamplingRateFixedPoint,
-                                   noteSamplesDmemAddrBeforeResampling, flags);
+    cmd = AudioSynth_FinalResample(cmd, synthState, aiBufLen * 2, resamplingRateFixedPoint, sampleDmemBeforeResampling,
+                                   flags);
     if (bookOffset == 3) {
         AudioSynth_UnkCmd19(cmd++, DMEM_TEMP, DMEM_TEMP, aiBufLen * 2, 0);
     }
@@ -1213,7 +1213,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         numSampleSlotsAvail = 64 - samplePosInt;
 
         if (numSampleSlotsAvail < numSamplesToLoad) {
-            numDuplicates = ((numSamplesToLoad - numSampleSlotsAvail + 0x3F) / 0x40);
+            numDuplicates = ((numSamplesToLoad - numSampleSlotsAvail + 63) / 64);
             if (numDuplicates != 0) {
                 aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + (64 * sizeof(s16)));
             }
