@@ -3530,7 +3530,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     if (RELOAD_PARAMS(camera)) {
         if (camera->play->view.unk_124 == 0) {
             camera->stateFlags |= CAM_STATE_5;
-            camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
+            camera->stateFlags &= ~(CAM_STATE_CHECK_WATER | CAM_STATE_2);
             camera->play->view.unk_124 = camera->camId | 0x50;
             return 1;
         }
@@ -3543,7 +3543,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                      *temp_s0);
         camera->animState = 20;
         camera->stateFlags |= CAM_STATE_5;
-        camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
+        camera->stateFlags &= ~(CAM_STATE_CHECK_WATER | CAM_STATE_2);
         camera->play->view.unk_124 = camera->camId | 0x50;
         return 1;
     }
@@ -3692,7 +3692,7 @@ s32 Camera_KeepOn4(Camera* camera) {
             spCC[sp9C] = &camera->player->actor;
             sp9C++;
             func_80043ABC(camera);
-            camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
+            camera->stateFlags &= ~(CAM_STATE_CHECK_WATER | CAM_STATE_2);
             rwData->unk_10 = roData->unk_1E;
             rwData->unk_08 = playerPosRot->pos.y - camera->playerPosDelta.y;
             if (roData->interfaceFlags & KEEPON4_FLAG_1) {
@@ -3781,7 +3781,7 @@ s32 Camera_KeepOn4(Camera* camera) {
         rwData->unk_10--;
     } else if (roData->interfaceFlags & KEEPON4_FLAG_4) {
         camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
-        camera->stateFlags |= (CAM_STATE_1 | CAM_STATE_2);
+        camera->stateFlags |= (CAM_STATE_CHECK_WATER | CAM_STATE_2);
         camera->stateFlags &= ~CAM_STATE_3;
         if (camera->timer > 0) {
             camera->timer--;
@@ -3790,7 +3790,7 @@ s32 Camera_KeepOn4(Camera* camera) {
         camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
         if ((camera->stateFlags & CAM_STATE_3) || (roData->interfaceFlags & KEEPON4_FLAG_7)) {
             sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
-            camera->stateFlags |= (CAM_STATE_1 | CAM_STATE_2);
+            camera->stateFlags |= (CAM_STATE_CHECK_WATER | CAM_STATE_2);
             camera->stateFlags &= ~CAM_STATE_3;
             if (camera->prevCamDataIdx < 0) {
                 Camera_ChangeSettingFlags(camera, camera->prevSetting, CAM_CHANGE_SETTING_2);
@@ -6779,7 +6779,7 @@ s32 Camera_Special9(Camera* camera) {
         if (1) {}
 
         case 0:
-            camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
+            camera->stateFlags &= ~(CAM_STATE_CHECK_WATER | CAM_STATE_2);
             camera->animState++;
             rwData->targetYaw = ABS(playerPosRot->rot.y - adjustedPlayerPosRot.rot.y) >= 0x4000
                                     ? BINANG_ROT180(adjustedPlayerPosRot.rot.y)
@@ -6862,7 +6862,7 @@ s32 Camera_Special9(Camera* camera) {
                 (roData->interfaceFlags & SPECIAL9_FLAG_3)) {
 
                 Camera_ChangeSettingFlags(camera, camera->prevSetting, CAM_CHANGE_SETTING_2);
-                camera->stateFlags |= (CAM_STATE_1 | CAM_STATE_2);
+                camera->stateFlags |= (CAM_STATE_CHECK_WATER | CAM_STATE_2);
             }
             break;
     }
@@ -6963,7 +6963,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     camera->bgCheckId = BGCHECK_SCENE;
     camera->csId = 0x7FFF;
     camera->timer = -1;
-    camera->stateFlags |= CAM_STATE_14;
+    camera->stateFlags |= CAM_STATE_INITIALIZED;
 
     camera->up.y = 1.0f;
     camera->up.z = camera->up.x = 0.0f;
@@ -7188,7 +7188,7 @@ s32 Camera_UpdateWater(Camera* camera) {
     Player* player = camera->player;
     s16 prevBgId;
 
-    if (!(camera->stateFlags & CAM_STATE_1) || sCameraSettings[camera->setting].unk_00 & 0x40000000) {
+    if (!(camera->stateFlags & CAM_STATE_CHECK_WATER) || sCameraSettings[camera->setting].unk_00 & 0x40000000) {
         return 0;
     }
 
@@ -7413,11 +7413,11 @@ void Camera_UpdateDistortion(Camera* camera) {
                                 Math_CosS(depthPhase) * (zScale * scaleFactor) + 1.0f);
         View_SetDistortionSpeed(&camera->play->view, speed * speedFactor);
 
-        camera->stateFlags |= CAM_STATE_6;
+        camera->stateFlags |= CAM_STATE_DISTORTION;
 
-    } else if (camera->stateFlags & CAM_STATE_6) {
+    } else if (camera->stateFlags & CAM_STATE_DISTORTION) {
         View_ClearDistortion(&camera->play->view);
-        camera->stateFlags &= ~CAM_STATE_6;
+        camera->stateFlags &= ~CAM_STATE_DISTORTION;
     }
 }
 
