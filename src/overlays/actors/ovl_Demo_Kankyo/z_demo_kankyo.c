@@ -52,7 +52,7 @@ const ActorInit Demo_Kankyo_InitVars = {
     (ActorFunc)DemoKankyo_Draw,
 };
 
-static s16 sObjectIDs[] = {
+static s16 sObjectIds[] = {
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD,
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_GAMEPLAY_KEEP,  OBJECT_GI_MELODY,      OBJECT_GI_MELODY,
     OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_TOKI_OBJECTS,   OBJECT_TOKI_OBJECTS,
@@ -181,7 +181,7 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 void DemoKankyo_Init(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIDs[this->actor.params]);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIds[this->actor.params]);
 
     osSyncPrintf("bank_ID = %d\n", objectLoadEntryIndex);
     if (objectLoadEntryIndex < 0) {

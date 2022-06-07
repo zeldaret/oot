@@ -124,7 +124,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     }
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
-    this->objectID = -1;
+    this->objectId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
         osSyncPrintf("\n\n");
         // "Deku Scrub target"
@@ -132,17 +132,17 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         Collider_InitQuad(play, &this->targetQuad);
         Collider_SetQuad(play, &this->targetQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-        this->objectID = OBJECT_HINTNUTS;
+        this->objectId = OBJECT_HINTNUTS;
     } else {
         osSyncPrintf("\n\n");
         // "Deku Scrub mask show audience"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
         Collider_InitCylinder(play, &this->bodyCyl);
         Collider_SetCylinder(play, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
-        this->objectID = OBJECT_DNK;
+        this->objectId = OBJECT_DNK;
     }
-    if (this->objectID >= 0) {
-        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->objectID);
+    if (this->objectId >= 0) {
+        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->objectId);
         if (this->waitObjectLoadEntryIndex < 0) {
             Actor_Kill(&this->actor);
             // "What?"

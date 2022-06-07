@@ -21,7 +21,7 @@ EffectSsInit Effect_Ss_Stick_InitVars = {
 };
 
 typedef struct {
-    /* 0x00 */ s16 objectID;
+    /* 0x00 */ s16 objectId;
     /* 0x04 */ Gfx* displayList;
 } StickDrawInfo;
 
@@ -33,7 +33,7 @@ u32 EffectSsStick_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;
 
-    this->rObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, ageInfoEntry->objectID);
+    this->rObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, ageInfoEntry->objectId);
     this->gfx = ageInfoEntry->displayList;
     this->vec = this->pos = initParams->pos;
     this->rYaw = initParams->yaw;

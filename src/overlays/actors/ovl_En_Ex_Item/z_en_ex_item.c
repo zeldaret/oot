@@ -60,23 +60,23 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     // "What will come out?"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
     this->initPos = this->actor.world.pos;
-    this->getItemObjectID = -1;
+    this->getItemObjectId = -1;
     switch (this->type) {
         case EXITEM_BOMB_BAG_BOWLING:
         case EXITEM_BOMB_BAG_COUNTER:
-            this->getItemObjectID = OBJECT_GI_BOMBPOUCH;
+            this->getItemObjectId = OBJECT_GI_BOMBPOUCH;
             break;
         case EXITEM_HEART_PIECE_BOWLING:
         case EXITEM_HEART_PIECE_COUNTER:
-            this->getItemObjectID = OBJECT_GI_HEARTS;
+            this->getItemObjectId = OBJECT_GI_HEARTS;
             break;
         case EXITEM_BOMBCHUS_BOWLING:
         case EXITEM_BOMBCHUS_COUNTER:
-            this->getItemObjectID = OBJECT_GI_BOMB_2;
+            this->getItemObjectId = OBJECT_GI_BOMB_2;
             break;
         case EXITEM_BOMBS_BOWLING:
         case EXITEM_BOMBS_COUNTER:
-            this->getItemObjectID = OBJECT_GI_BOMB_1;
+            this->getItemObjectId = OBJECT_GI_BOMB_1;
             break;
         case EXITEM_PURPLE_RUPEE_BOWLING:
         case EXITEM_PURPLE_RUPEE_COUNTER:
@@ -85,7 +85,7 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
         case EXITEM_RED_RUPEE_CHEST:
         case EXITEM_13:
         case EXITEM_14:
-            this->getItemObjectID = OBJECT_GI_RUPY;
+            this->getItemObjectId = OBJECT_GI_RUPY;
             break;
         case EXITEM_SMALL_KEY_CHEST:
             this->scale = 0.05f;
@@ -96,14 +96,14 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
         case EXITEM_MAGIC_FIRE:
         case EXITEM_MAGIC_WIND:
         case EXITEM_MAGIC_DARK:
-            this->getItemObjectID = OBJECT_GI_GODDESS;
+            this->getItemObjectId = OBJECT_GI_GODDESS;
             break;
         case EXITEM_BULLET_BAG:
-            this->getItemObjectID = OBJECT_GI_DEKUPOUCH;
+            this->getItemObjectId = OBJECT_GI_DEKUPOUCH;
     }
 
-    if (this->getItemObjectID >= 0) {
-        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->getItemObjectID);
+    if (this->getItemObjectId >= 0) {
+        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->getItemObjectId);
         this->actor.draw = NULL;
         if (this->waitObjectLoadEntryIndex < 0) {
             Actor_Kill(&this->actor);

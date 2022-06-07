@@ -12,7 +12,7 @@ typedef void (*EnExItemLightFunc)(Actor*, PlayState*, s32);
 typedef struct EnExItem {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnExItemActionFunc actionFunc;
-    /* 0x0150 */ s16 getItemObjectID;
+    /* 0x0150 */ s16 getItemObjectId;
     /* 0x0152 */ s16 type;
     /* 0x0152 */ s16 unusedParam;
     /* 0x0156 */ s16 giDrawId;

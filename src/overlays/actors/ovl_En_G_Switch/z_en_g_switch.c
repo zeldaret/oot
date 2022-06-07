@@ -136,8 +136,8 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
             this->collider.info.bumper.dmgFlags = DMG_ARROW;
-            this->objectID = OBJECT_TSUBO;
-            this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->objectID);
+            this->objectId = OBJECT_TSUBO;
+            this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->objectId);
             if (this->waitObjectLoadEntryIndex < 0) {
                 Actor_Kill(&this->actor);
                 // "what?"

@@ -45,7 +45,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
 
-static s16 sObjectIDs[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
+static s16 sObjectIds[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
                             OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
 
 void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
@@ -107,7 +107,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIDs[thisx->params - 1]);
+        s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIds[thisx->params - 1]);
 
         if (objectLoadEntryIndex >= 0) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[objectLoadEntryIndex].segment);

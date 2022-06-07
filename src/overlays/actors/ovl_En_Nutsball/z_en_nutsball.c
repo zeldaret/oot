@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 13, 0, { 0 } },
 };
 
-static s16 sObjectIDs[] = {
+static s16 sObjectIds[] = {
     OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK,
 };
 
@@ -69,7 +69,7 @@ void EnNutsball_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIDs[this->actor.params]);
+    this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIds[this->actor.params]);
 
     if (this->waitObjectLoadEntryIndex < 0) {
         Actor_Kill(&this->actor);

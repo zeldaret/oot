@@ -23,7 +23,7 @@ void func_80978308(DemoGeff* this, PlayState* play);
 void func_809784D4(DemoGeff* this, PlayState* play);
 void func_80978344(DemoGeff* this, PlayState* play);
 
-static s16 sObjectIDs[] = {
+static s16 sObjectIds[] = {
     OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
 };
 
@@ -188,7 +188,7 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     ObjectContext* objCtx = &play->objectCtx;
     Actor* thisx = &this->actor;
     s32 params = thisx->params;
-    s16 objectId = sObjectIDs[params];
+    s16 objectId = sObjectIds[params];
     s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(objCtx, objectId);
     s32 pad;
 

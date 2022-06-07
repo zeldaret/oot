@@ -8,7 +8,7 @@
 typedef enum {
     #include "tables/object_table.h"
     /* 0x0192 */ OBJECT_ID_MAX
-} ObjectID;
+} ObjectId;
 
 #undef DEFINE_OBJECT
 #undef DEFINE_OBJECT_NULL
