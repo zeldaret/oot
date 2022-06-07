@@ -103,9 +103,8 @@ void BgBreakwall_Init(Actor* thisx, PlayState* play) {
         this->dyna.actor.world.pos.y -= 40.0f;
     }
 
-    this->waitObjectEntry = (wallType >= BWALL_KD_FLOOR)
-                                   ? Object_GetEntry(&play->objectCtx, OBJECT_KINGDODONGO)
-                                   : Object_GetEntry(&play->objectCtx, OBJECT_BWALL);
+    this->waitObjectEntry = (wallType >= BWALL_KD_FLOOR) ? Object_GetEntry(&play->objectCtx, OBJECT_KINGDODONGO)
+                                                         : Object_GetEntry(&play->objectCtx, OBJECT_BWALL);
 
     if (this->waitObjectEntry < 0) {
         Actor_Kill(&this->dyna.actor);

@@ -57,8 +57,7 @@ void BgMjin_Init(Actor* thisx, PlayState* play) {
     s8 objectEntry;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    objectEntry =
-        Object_GetEntry(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
+    objectEntry = Object_GetEntry(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
     this->waitObjectEntry = objectEntry;
     if (objectEntry < 0) {
         Actor_Kill(thisx);

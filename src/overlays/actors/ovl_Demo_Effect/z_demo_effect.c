@@ -188,8 +188,8 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     osSyncPrintf(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
 
     objectEntry = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
-                               ? 0
-                               : Object_GetEntry(&play->objectCtx, sEffectTypeObjects[effectType]);
+                      ? 0
+                      : Object_GetEntry(&play->objectCtx, sEffectTypeObjects[effectType]);
 
     osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectEntry);
 

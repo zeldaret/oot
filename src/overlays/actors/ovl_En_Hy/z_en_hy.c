@@ -356,14 +356,12 @@ s32 EnHy_FindSkelAndHeadObjects(EnHy* this, PlayState* play) {
     u8 skelInfoIndex2 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex2;
     u8 skelInfoIndex1 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex1;
 
-    this->objectEntrySkel1 =
-        Object_GetEntry(&play->objectCtx, sSkeletonInfo[skelInfoIndex1].objectId);
+    this->objectEntrySkel1 = Object_GetEntry(&play->objectCtx, sSkeletonInfo[skelInfoIndex1].objectId);
     if (this->objectEntrySkel1 < 0) {
         return false;
     }
 
-    this->objectEntrySkel2 =
-        Object_GetEntry(&play->objectCtx, sSkeletonInfo[skelInfoIndex2].objectId);
+    this->objectEntrySkel2 = Object_GetEntry(&play->objectCtx, sSkeletonInfo[skelInfoIndex2].objectId);
     if (this->objectEntrySkel2 < 0) {
         return false;
     }

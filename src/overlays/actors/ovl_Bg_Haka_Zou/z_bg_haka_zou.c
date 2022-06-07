@@ -103,8 +103,8 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
     }
 
     this->waitObjectEntry = (thisx->params == STA_BOMBABLE_RUBBLE)
-                                         ? Object_GetEntry(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
-                                         : Object_GetEntry(&play->objectCtx, OBJECT_HAKA_OBJECTS);
+                                ? Object_GetEntry(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
+                                : Object_GetEntry(&play->objectCtx, OBJECT_HAKA_OBJECTS);
 
     if (this->waitObjectEntry < 0) {
         Actor_Kill(thisx);

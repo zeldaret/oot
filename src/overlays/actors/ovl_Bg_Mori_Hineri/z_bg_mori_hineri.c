@@ -88,9 +88,8 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
         if (this->dyna.actor.params == 1) {
             objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI1A);
         } else {
-            objectEntry = (this->dyna.actor.params == 2)
-                                       ? Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2)
-                                       : Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2A);
+            objectEntry = (this->dyna.actor.params == 2) ? Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2)
+                                                         : Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2A);
         }
         this->moriHineriObjectEntry = objectEntry;
     }
@@ -115,8 +114,7 @@ void func_808A39FC(BgMoriHineri* this, PlayState* play) {
 
     if (Object_IsEntryLoaded(&play->objectCtx, this->moriHineriObjectEntry) &&
         Object_IsEntryLoaded(&play->objectCtx, this->moriTexObjectEntry) &&
-        ((this->boxObjectEntry < 0) ||
-         Object_IsEntryLoaded(&play->objectCtx, this->boxObjectEntry))) {
+        ((this->boxObjectEntry < 0) || Object_IsEntryLoaded(&play->objectCtx, this->boxObjectEntry))) {
         this->dyna.actor.objectEntry = this->moriHineriObjectEntry;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
@@ -125,9 +123,9 @@ void func_808A39FC(BgMoriHineri* this, PlayState* play) {
             } else if (this->dyna.actor.params == 1) {
                 this->moriHineriObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI1);
             } else {
-                this->moriHineriObjectEntry =
-                    (this->dyna.actor.params == 2) ? Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2A)
-                                                   : Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2);
+                this->moriHineriObjectEntry = (this->dyna.actor.params == 2)
+                                                  ? Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2A)
+                                                  : Object_GetEntry(&play->objectCtx, OBJECT_MORI_HINERI2);
             }
             if (this->moriHineriObjectEntry < 0) {
                 Actor_Kill(&this->dyna.actor);
@@ -251,8 +249,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
-    if ((this->boxObjectEntry > 0) &&
-        ((this->boxObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_BOX)) > 0) &&
+    if ((this->boxObjectEntry > 0) && ((this->boxObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_BOX)) > 0) &&
         Object_IsEntryLoaded(&play->objectCtx, this->boxObjectEntry)) {
         gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[this->boxObjectEntry].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);

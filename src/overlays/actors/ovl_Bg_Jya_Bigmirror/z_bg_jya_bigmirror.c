@@ -152,8 +152,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
 
         for (i = 0; i < 3; i++) {
             if (lightBeamToggles[i]) {
-                if ((this->lightBeams[i] == NULL) &&
-                    Object_IsEntryLoaded(&play->objectCtx, mirRayObjectEntry)) {
+                if ((this->lightBeams[i] == NULL) && Object_IsEntryLoaded(&play->objectCtx, mirRayObjectEntry)) {
 
                     this->lightBeams[i] =
                         Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x, sMirRayPositions[i].y,

@@ -3078,8 +3078,7 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
 
         if (bodyBreak->dLists != NULL) {
             objectEntriesSize = (count + 1) * sizeof(*bodyBreak->objectEntries);
-            bodyBreak->objectEntries =
-                ZeldaArena_MallocDebug(objectEntriesSize, "../z_actor.c", 7546);
+            bodyBreak->objectEntries = ZeldaArena_MallocDebug(objectEntriesSize, "../z_actor.c", 7546);
 
             if (bodyBreak->objectEntries != NULL) {
                 Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
@@ -4146,9 +4145,8 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
                      s16 params, s32 arg8) {
     EnPart* spawnedEnPart;
 
-    spawnedEnPart =
-        (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y, spawnPos->z,
-                                    spawnRot->x, spawnRot->y, actor->objectEntry, params);
+    spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
+                                                spawnPos->z, spawnRot->x, spawnRot->y, actor->objectEntry, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3[0];

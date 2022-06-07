@@ -93,8 +93,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
             break;
         }
     }
-    if (i >= ARRAY_COUNT(sDoorInfo) - 2 &&
-        Object_GetEntry(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
+    if (i >= ARRAY_COUNT(sDoorInfo) - 2 && Object_GetEntry(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
         objectInfo++;
     }
 

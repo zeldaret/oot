@@ -251,8 +251,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->waitObjectEntry = objectIndex =
-            Object_GetEntry(&play->objectCtx, sObjectInfo[phi_a3].objectId),
+    if (this->waitObjectEntry = objectIndex = Object_GetEntry(&play->objectCtx, sObjectInfo[phi_a3].objectId),
         (s8)objectIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         return;

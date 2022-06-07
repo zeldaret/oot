@@ -1970,12 +1970,10 @@ void EnOssan_Blink(EnOssan* this) {
 
 s32 EnOssan_AreShopkeeperObjectsLoaded(EnOssan* this, PlayState* play) {
     if (Object_IsEntryLoaded(&play->objectCtx, this->objectEntry1)) {
-        if (this->objectEntry2 >= 0 &&
-            !Object_IsEntryLoaded(&play->objectCtx, this->objectEntry2)) {
+        if (this->objectEntry2 >= 0 && !Object_IsEntryLoaded(&play->objectCtx, this->objectEntry2)) {
             return false;
         }
-        if (this->objectEntry3 >= 0 &&
-            !Object_IsEntryLoaded(&play->objectCtx, this->objectEntry3)) {
+        if (this->objectEntry3 >= 0 && !Object_IsEntryLoaded(&play->objectCtx, this->objectEntry3)) {
             return false;
         }
         return true;

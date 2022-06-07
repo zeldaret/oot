@@ -135,8 +135,7 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->waitObjectEntry =
-        Object_GetEntry(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
+    this->waitObjectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
     if (this->waitObjectEntry < 0) {
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
