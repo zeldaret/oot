@@ -7,22 +7,22 @@
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 
-#include "objects/object_gnd/object_gnd.h"
-#include "objects/object_goma/object_goma.h"
-#include "objects/object_ydan_objects/object_ydan_objects.h"
-#include "objects/object_ddan_objects/object_ddan_objects.h"
-#include "objects/object_bdan_objects/object_bdan_objects.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_bdoor/object_bdoor.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
-#include "objects/object_ganon_objects/object_ganon_objects.h"
-#include "objects/object_jya_door/object_jya_door.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
-#include "objects/object_haka_door/object_haka_door.h"
-#include "objects/object_ice_objects/object_ice_objects.h"
-#include "objects/object_menkuri_objects/object_menkuri_objects.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
-#include "objects/object_ouke_haka/object_ouke_haka.h"
+#include "assets/objects/object_gnd/object_gnd.h"
+#include "assets/objects/object_goma/object_goma.h"
+#include "assets/objects/object_ydan_objects/object_ydan_objects.h"
+#include "assets/objects/object_ddan_objects/object_ddan_objects.h"
+#include "assets/objects/object_bdan_objects/object_bdan_objects.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_bdoor/object_bdoor.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_ganon_objects/object_ganon_objects.h"
+#include "assets/objects/object_jya_door/object_jya_door.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_haka_door/object_haka_door.h"
+#include "assets/objects/object_ice_objects/object_ice_objects.h"
+#include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/objects/object_ouke_haka/object_ouke_haka.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -710,14 +710,14 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_door_shutter.c", 2048);
 
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         if (this->unk_16C == 3) {
             POLY_OPA_DISP = func_80997838(play, this, POLY_OPA_DISP);
             if (this->unk_170 != 0.0f) {
                 f32 sp58 = (this->unk_166 * 0.01f) * this->unk_170;
 
-                func_80093D18(play->state.gfxCtx);
+                Gfx_SetupDL_25Opa(play->state.gfxCtx);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255.0f * sp58);
                 Matrix_Translate(0, 0, sp70->translateZ, MTXMODE_APPLY);
                 Matrix_Scale(sp58, sp58, sp58, MTXMODE_APPLY);

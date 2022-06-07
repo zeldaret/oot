@@ -6,7 +6,7 @@
 
 #include "z_obj_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "objects/object_bombiwa/object_bombiwa.h"
+#include "assets/objects/object_bombiwa/object_bombiwa.h"
 
 #define FLAGS 0
 
@@ -125,7 +125,7 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if ((func_80033684(play, &this->actor) != NULL) ||
-        ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000040))) {
+        ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER))) {
         ObjBombiwa_Break(this, play);
         Flags_SetSwitch(play, this->actor.params & 0x3F);
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);

@@ -20,10 +20,12 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitDebugSave();
-        gSaveContext.unk_13F6 = gSaveContext.magic;
-        gSaveContext.magic = 0;
-        gSaveContext.unk_13F4 = 0;
-        gSaveContext.magicLevel = gSaveContext.magic;
+        // Set the fill target to be the saved magic amount
+        gSaveContext.magicFillTarget = gSaveContext.magic;
+        // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing
+        // to respectively the full capacity and `magicFillTarget`
+        gSaveContext.magicCapacity = 0;
+        gSaveContext.magicLevel = gSaveContext.magic = 0;
     }
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
@@ -651,7 +653,7 @@ void Select_DrawMenu(SelectContext* this) {
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     View_Apply(&this->view, VIEW_ALL);
-    func_80094140(gfxCtx);
+    Gfx_SetupDL_28Opa(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
@@ -675,7 +677,7 @@ void Select_DrawLoadingScreen(SelectContext* this) {
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     View_Apply(&this->view, VIEW_ALL);
-    func_80094140(gfxCtx);
+    Gfx_SetupDL_28Opa(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);

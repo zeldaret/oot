@@ -5,8 +5,8 @@
  */
 
 #include "z_en_vb_ball.h"
-#include "objects/object_fd/object_fd.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fd/object_fd.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -302,7 +302,7 @@ void EnVbBall_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vb_ball.c", 604);
     if (1) {} // needed for match
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vb_ball.c", 607),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -310,7 +310,7 @@ void EnVbBall_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaRibsDL));
     } else {
         gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaRockDL));
-        func_80094044(play->state.gfxCtx);
+        Gfx_SetupDL_44Xlu(play->state.gfxCtx);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);
         Matrix_Translate(this->actor.world.pos.x, 100.0f, this->actor.world.pos.z, MTXMODE_NEW);

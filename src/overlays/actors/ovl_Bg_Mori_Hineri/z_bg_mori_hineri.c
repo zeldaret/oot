@@ -5,13 +5,13 @@
  */
 
 #include "z_bg_mori_hineri.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_box/object_box.h"
-#include "objects/object_mori_hineri1/object_mori_hineri1.h"
-#include "objects/object_mori_hineri1a/object_mori_hineri1a.h"
-#include "objects/object_mori_hineri2/object_mori_hineri2.h"
-#include "objects/object_mori_hineri2a/object_mori_hineri2a.h"
-#include "objects/object_mori_tex/object_mori_tex.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_box/object_box.h"
+#include "assets/objects/object_mori_hineri1/object_mori_hineri1.h"
+#include "assets/objects/object_mori_hineri1a/object_mori_hineri1a.h"
+#include "assets/objects/object_mori_hineri2/object_mori_hineri2.h"
+#include "assets/objects/object_mori_hineri2a/object_mori_hineri2a.h"
+#include "assets/objects/object_mori_tex/object_mori_tex.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -230,7 +230,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hineri.c", 611);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.loadEntries[this->moriTexObjectLoadEntryIndex].segment);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -239,7 +239,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
         Matrix_Get(&mtx);
     }
     if ((this->actionFunc == func_808A3C8C) && (this->dyna.actor.shape.rot.z != 0)) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->dyna.actor.params == 0) {
             Matrix_Translate(-1761.0f, 1278.0f, -1821.0f, MTXMODE_NEW);
         } else {

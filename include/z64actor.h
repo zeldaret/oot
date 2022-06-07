@@ -337,8 +337,8 @@ typedef enum {
     /* 0x0C */ ACTORCAT_MAX
 } ActorCategory;
 
-#define DEFINE_ACTOR(_0, enum, _2) enum,
-#define DEFINE_ACTOR_INTERNAL(_0, enum, _2) enum,
+#define DEFINE_ACTOR(_0, enum, _2, _3) enum,
+#define DEFINE_ACTOR_INTERNAL(_0, enum, _2, _3) enum,
 #define DEFINE_ACTOR_UNSET(enum) enum,
 
 typedef enum {

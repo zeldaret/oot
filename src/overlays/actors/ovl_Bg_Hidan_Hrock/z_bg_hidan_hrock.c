@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_hidan_hrock.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
@@ -200,8 +200,8 @@ void func_8088960C(BgHidanHrock* this, PlayState* play) {
 }
 
 void func_808896B8(BgHidanHrock* this, PlayState* play) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         this->actionFunc = func_808894B0;
         this->dyna.actor.flags |= ACTOR_FLAG_4;
 

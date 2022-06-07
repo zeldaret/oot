@@ -5,7 +5,7 @@
  */
 
 #include "z_magic_dark.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -30,7 +30,7 @@ const ActorInit Magic_Dark_InitVars = {
     (ActorFunc)MagicDark_OrbDraw,
 };
 
-#include "overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
+#include "assets/overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
 
 // unused
 static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
@@ -64,7 +64,7 @@ void MagicDark_Init(Actor* thisx, PlayState* play) {
 
 void MagicDark_Destroy(Actor* thisx, PlayState* play) {
     if (gSaveContext.nayrusLoveTimer == 0) {
-        func_800876C8(play);
+        Magic_Reset(play);
     }
 }
 
@@ -202,7 +202,7 @@ void MagicDark_DiamondDraw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_dark.c", 525);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     {
         Player* player = GET_PLAYER(play);
@@ -264,7 +264,7 @@ void MagicDark_OrbDraw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_dark.c", 619);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 255);
     Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);

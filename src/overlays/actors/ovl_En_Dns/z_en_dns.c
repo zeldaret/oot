@@ -5,7 +5,7 @@
  */
 
 #include "z_en_dns.h"
-#include "objects/object_shopnuts/object_shopnuts.h"
+#include "assets/objects/object_shopnuts/object_shopnuts.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
@@ -494,7 +494,7 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
 void EnDns_Draw(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, &this->actor);
 }

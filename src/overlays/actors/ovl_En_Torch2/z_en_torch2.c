@@ -5,7 +5,7 @@
  */
 
 #include "z_en_torch2.h"
-#include "objects/object_torch2/object_torch2.h"
+#include "assets/objects/object_torch2/object_torch2.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -531,7 +531,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
     // Causes Dark Link to shield in place when Link is using magic attacks other than the spin attack
 
-    if ((gSaveContext.unk_13F0 == 3) &&
+    if ((gSaveContext.magicState == MAGIC_STATE_METER_FLASH_1) &&
         (player->meleeWeaponState == 0 || !((player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
                                             (player->meleeWeaponAnimation <= PLAYER_MWA_BIG_SPIN_2H)))) {
         sStickTilt = 0.0f;
@@ -748,7 +748,7 @@ void EnTorch2_Draw(Actor* thisx, PlayState* play2) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_torch2.c", 1050);
     func_80093C80(play);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (sAlpha == 255) {
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 0, 0, sAlpha);
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);

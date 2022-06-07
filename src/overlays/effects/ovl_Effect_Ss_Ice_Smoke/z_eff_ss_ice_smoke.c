@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_ice_smoke.h"
-#include "objects/object_fz/object_fz.h"
+#include "assets/objects/object_fz/object_fz.h"
 
 #define rObjectLoadEntryIndex regs[0]
 #define rAlpha regs[1]
@@ -65,7 +65,7 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&play->objectCtx, objectLoadEntryIndex)) {
         gDPPipeSync(POLY_XLU_DISP++);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
         gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));

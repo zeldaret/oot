@@ -271,7 +271,7 @@ void Play_Init(GameState* thisx) {
 
     if (gSaveContext.gameMode != 0 || gSaveContext.cutsceneIndex >= 0xFFF0) {
         gSaveContext.nayrusLoveTimer = 0;
-        func_800876C8(this);
+        Magic_Reset(this);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
     } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneSetupIndex = 0;
@@ -513,7 +513,7 @@ void Play_Update(PlayState* this) {
                         // non-instance modes break out of this switch
                         break;
                     }
-                    // fallthrough
+                    FALLTHROUGH;
                 case TRANS_MODE_INSTANCE_INIT:
                     this->transitionCtx.init(&this->transitionCtx.instanceData);
 
@@ -1183,7 +1183,7 @@ void Play_Draw(PlayState* this) {
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
-                MsgEvent_SendNullTask();
+                Sched_FlushTaskQueue();
                 PreRender_Calc(&this->pauseBgPreRender);
                 R_PAUSE_MENU_MODE = 3;
             } else if (R_PAUSE_MENU_MODE >= 4) {
@@ -1500,7 +1500,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn) {
     scene->unk_13 = 0;
     this->loadedScene = scene;
     this->sceneNum = sceneNum;
-    this->sceneConfig = scene->config;
+    this->sceneDrawConfig = scene->drawConfig;
 
     osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 

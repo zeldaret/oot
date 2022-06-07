@@ -6,9 +6,9 @@
 
 #include "z_en_horse.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
-#include "objects/object_horse/object_horse.h"
-#include "objects/object_hni/object_hni.h"
-#include "scenes/overworld/spot09/spot09_scene.h"
+#include "assets/objects/object_horse/object_horse.h"
+#include "assets/objects/object_hni/object_hni.h"
+#include "assets/scenes/overworld/spot09/spot09_scene.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -372,7 +372,7 @@ static RaceWaypoint sIngoRaceWaypoints[] = {
     { -1552, 1, -1008, 11, 0x638D }, { -947, -1, -1604, 10, 0x4002 },
 };
 
-static RaceInfo sIngoRace = { 8, sIngoRaceWaypoints };
+static RaceInfo sIngoRace = { ARRAY_COUNT(sIngoRaceWaypoints), sIngoRaceWaypoints };
 static s32 sAnimSoundFrames[] = { 0, 16 };
 
 static InitChainEntry sInitChain[] = {
@@ -542,7 +542,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
     f32 px;
     f32 pz;
     f32 d;
-    f32 dist;
+    f32 distSq;
     s32 prevWaypoint;
 
     EnHorse_RaceWaypointPos(raceInfo->waypoints, this->curRaceWaypoint, &curWaypointPos);
@@ -561,13 +561,13 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
         prevWaypoint = raceInfo->numWaypoints - 1;
     }
     EnHorse_RaceWaypointPos(raceInfo->waypoints, prevWaypoint, &prevWaypointPos);
-    Math3D_PointDistToLine2D(this->actor.world.pos.x, this->actor.world.pos.z, prevWaypointPos.x, prevWaypointPos.z,
-                             curWaypointPos.x, curWaypointPos.z, &dist);
+    Math3D_PointDistSqToLine2D(this->actor.world.pos.x, this->actor.world.pos.z, prevWaypointPos.x, prevWaypointPos.z,
+                               curWaypointPos.x, curWaypointPos.z, &distSq);
     EnHorse_RotateToPoint(this, play, &curWaypointPos, 400);
 
-    if (dist < 90000.0f) {
+    if (distSq < SQ(300.0f)) {
         playerDist = this->actor.xzDistToPlayer;
-        if (playerDist < 130.0f || this->jntSph.elements[0].info.ocElemFlags & 2) {
+        if (playerDist < 130.0f || this->jntSph.elements[0].info.ocElemFlags & OCELEM_HIT) {
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
                 this->actor.world.rot.y = this->actor.world.rot.y - 280;
             } else {
@@ -611,7 +611,7 @@ void EnHorse_PlayWalkingSound(EnHorse* this) {
 
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        if (++this->soundTimer > 1) {
+        if (++this->soundTimer >= ARRAY_COUNT(sAnimSoundFrames)) {
             this->soundTimer = 0;
         }
     }
@@ -929,7 +929,7 @@ void EnHorse_Freeze(EnHorse* this) {
     }
 }
 
-void EnHorse_ChangeIdleAnimation(EnHorse* this, s32 arg1, f32 arg2);
+void EnHorse_ChangeIdleAnimation(EnHorse* this, s32 anim, f32 morphFrames);
 void EnHorse_StartMountedIdleResetAnim(EnHorse* this);
 void EnHorse_StartMountedIdle(EnHorse* this);
 void EnHorse_StartGalloping(EnHorse* this);
@@ -1809,7 +1809,7 @@ void EnHorse_StartIdleRidable(EnHorse* this) {
     this->stateFlags &= ~ENHORSE_UNRIDEABLE;
 }
 
-void EnHorse_StartMovingAnimation(EnHorse* this, s32 arg1, f32 arg2, f32 arg3);
+void EnHorse_StartMovingAnimation(EnHorse* this, s32 animId, f32 morphFrames, f32 startFrame);
 
 void EnHorse_Idle(EnHorse* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
@@ -3106,10 +3106,6 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
     }
 }
 
-void EnHorse_HighJumpInit(EnHorse* this, PlayState* play);
-void EnHorse_Stub2(EnHorse* this);
-void EnHorse_Stub1(EnHorse* this);
-
 void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     s32 pad;
     s32 pad2;
@@ -3527,12 +3523,12 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
                 this->rider->shape.rot.y = thisx->shape.rot.y;
             }
         }
-        if (this->jntSph.elements[0].info.ocElemFlags & 2) {
+        if (this->jntSph.elements[0].info.ocElemFlags & OCELEM_HIT) {
             if (thisx->speedXZ > 6.0f) {
                 thisx->speedXZ -= 1.0f;
             }
         }
-        if (this->jntSph.base.acFlags & 2) {
+        if (this->jntSph.base.acFlags & AC_HIT) {
             this->unk_21C = this->unk_228;
             if (this->stateFlags & ENHORSE_DRAW) {
                 Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_21C, 4, &gSfxDefaultFreqAndVolScale,
@@ -3595,9 +3591,9 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         }
 
         if (thisx->speedXZ >= 5.0f) {
-            this->cyl1.base.atFlags |= 1;
+            this->cyl1.base.atFlags |= AT_ON;
         } else {
-            this->cyl1.base.atFlags &= ~1;
+            this->cyl1.base.atFlags &= ~AT_ON;
         }
 
         if (gSaveContext.entranceIndex != 343 || gSaveContext.sceneSetupIndex != 9) {
@@ -3844,7 +3840,7 @@ void EnHorse_Draw(Actor* thisx, PlayState* play) {
     EnHorse* this = (EnHorse*)thisx;
 
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         this->stateFlags |= ENHORSE_DRAW;
         if (this->stateFlags & ENHORSE_JUMPING) {
             func_800A6360(thisx, play, &this->skin, EnHorse_PostDraw, EnHorse_OverrideLimbDraw, false);

@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "vt.h"
-#include "objects/object_tite/object_tite.h"
+#include "assets/objects/object_tite/object_tite.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
@@ -987,7 +987,7 @@ void EnTite_Draw(Actor* thisx, PlayState* play) {
     EnTite* this = (EnTite*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_tite.c", 1704);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Collider_UpdateSpheres(0, &this->collider);
     if (this->actor.params == TEKTITE_BLUE) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001300));

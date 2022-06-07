@@ -5,9 +5,9 @@
  */
 
 #include "z_bg_hidan_kowarerukabe.h"
-#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
@@ -325,7 +325,7 @@ void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 565);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

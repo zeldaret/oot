@@ -84,7 +84,7 @@ static Vec3f D_80AFA288[] = {
 
 static u32 D_80AFA390[] = { 0, 0 };
 
-#include "overlays/ovl_En_Sda/ovl_En_Sda.c"
+#include "assets/overlays/ovl_En_Sda/ovl_En_Sda.c"
 
 static Vec3f D_80AFA660[16];
 
@@ -342,7 +342,7 @@ void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_en_sda.c", 826);
 
     osSyncPrintf("SDA D 1\n");
-    func_80094044(play->state.gfxCtx);
+    Gfx_SetupDL_44Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, (BREG(52) + 50));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
     Matrix_Translate(player->actor.world.pos.x, player->actor.floorHeight, player->actor.world.pos.z, MTXMODE_NEW);

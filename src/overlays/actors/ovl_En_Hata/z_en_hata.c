@@ -5,7 +5,7 @@
  */
 
 #include "z_en_hata.h"
-#include "objects/object_hata/object_hata.h"
+#include "assets/objects/object_hata/object_hata.h"
 
 #define FLAGS 0
 
@@ -138,7 +138,7 @@ void EnHata_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
 void EnHata_Draw(Actor* thisx, PlayState* play) {
     EnHata* this = (EnHata*)thisx;
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     Matrix_Scale(1.0f, 1.1f, 1.0f, MTXMODE_APPLY);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHata_OverrideLimbDraw,
                       EnHata_PostLimbDraw, this);

@@ -1,6 +1,6 @@
 #include "z_en_du.h"
-#include "objects/object_du/object_du.h"
-#include "scenes/overworld/spot18/spot18_scene.h"
+#include "assets/objects/object_du/object_du.h"
+#include "assets/scenes/overworld/spot18/spot18_scene.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 

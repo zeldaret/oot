@@ -1,5 +1,5 @@
 #include "z_bg_mori_elevator.h"
-#include "objects/object_mori_objects/object_mori_objects.h"
+#include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -253,7 +253,7 @@ void BgMoriElevator_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.loadEntries[this->moriTexObjectLoadEntryIndex].segment);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -1,6 +1,6 @@
 #include "file_choose.h"
-#include "textures/title_static/title_static.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/title_static/title_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 static s16 sUnused = 106;
 
@@ -1132,7 +1132,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
-    func_800949A8(this->state.gfxCtx);
+    Gfx_SetupDL_42Opa(this->state.gfxCtx);
     FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
     FileChoose_SetWindowVtx(&this->state);
     FileChoose_SetWindowContentVtx(&this->state);
@@ -1473,8 +1473,8 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.unk_13EE = 0x32;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
-    gSaveContext.unk_13F0 = 0;
-    gSaveContext.unk_13F2 = 0;
+    gSaveContext.magicState = MAGIC_STATE_IDLE;
+    gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
     gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
@@ -1488,16 +1488,16 @@ void FileChoose_LoadGame(GameState* thisx) {
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
-        gSaveContext.unk_13F4 = 0;
+        gSaveContext.magicCapacity = 0;
 
-    gSaveContext.unk_13F6 = gSaveContext.magic;
-    gSaveContext.magic = 0;
-    gSaveContext.magicLevel = gSaveContext.magic;
-
-    if (1) {}
+    // Set the fill target to be the saved magic amount
+    gSaveContext.magicFillTarget = gSaveContext.magic;
+    // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing to respectively the full
+    // capacity and `magicFillTarget`
+    gSaveContext.magicLevel = gSaveContext.magic = 0;
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.unk_13F6), gSaveContext.magic);
+    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicFillTarget), gSaveContext.magic);
     osSyncPrintf(VT_RST);
 
     gSaveContext.naviTimer = 0;
@@ -1545,7 +1545,7 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
-    func_800949A8(this->state.gfxCtx);
+    Gfx_SetupDL_42Opa(this->state.gfxCtx);
     FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
     FileChoose_SetWindowVtx(&this->state);
     FileChoose_SetWindowContentVtx(&this->state);
@@ -1675,7 +1675,7 @@ void FileChoose_Main(GameState* thisx) {
 
     // do not draw controls text in the options menu
     if ((this->configMode <= CM_NAME_ENTRY_TO_MAIN) || (this->configMode >= CM_UNUSED_DELAY)) {
-        func_800944C4(this->state.gfxCtx);
+        Gfx_SetupDL_39Opa(this->state.gfxCtx);
 
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);

@@ -5,12 +5,12 @@
  */
 
 #include "z_en_dnt_nomal.h"
-#include "objects/object_dnk/object_dnk.h"
+#include "assets/objects/object_dnk/object_dnk.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "objects/object_hintnuts/object_hintnuts.h"
+#include "assets/objects/object_hintnuts/object_hintnuts.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -853,7 +853,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1790);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->eyeState]));
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDntNomal_OverrideLimbDraw,
                       EnDntNomal_PostLimbDraw, this);
@@ -875,7 +875,7 @@ void EnDntNomal_DrawTargetScrub(Actor* thisx, PlayState* play) {
     EnDntNomal* this = (EnDntNomal*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1833);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDntNomal_PostLimbDraw, this);
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);

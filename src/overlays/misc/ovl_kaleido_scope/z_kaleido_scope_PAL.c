@@ -1,10 +1,10 @@
 #include "z_kaleido_scope.h"
-#include "textures/icon_item_static/icon_item_static.h"
-#include "textures/icon_item_24_static/icon_item_24_static.h"
-#include "textures/icon_item_nes_static/icon_item_nes_static.h"
-#include "textures/icon_item_ger_static/icon_item_ger_static.h"
-#include "textures/icon_item_fra_static/icon_item_fra_static.h"
-#include "textures/icon_item_gameover_static/icon_item_gameover_static.h"
+#include "assets/textures/icon_item_static/icon_item_static.h"
+#include "assets/textures/icon_item_24_static/icon_item_24_static.h"
+#include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
+#include "assets/textures/icon_item_ger_static/icon_item_ger_static.h"
+#include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
+#include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "vt.h"
 
 static void* sEquipmentFRATexs[] = {
@@ -677,7 +677,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             if (sInDungeonScene) {
                 KaleidoScope_DrawDungeonMap(play, gfxCtx);
-                func_800949A8(gfxCtx);
+                Gfx_SetupDL_42Opa(gfxCtx);
 
                 gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -721,7 +721,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
                 if (sInDungeonScene) {
                     KaleidoScope_DrawDungeonMap(play, gfxCtx);
-                    func_800949A8(gfxCtx);
+                    Gfx_SetupDL_42Opa(gfxCtx);
 
                     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -779,7 +779,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    func_800949A8(gfxCtx);
+    Gfx_SetupDL_42Opa(gfxCtx);
 
     if ((pauseCtx->state == 7) || ((pauseCtx->state >= 8) && (pauseCtx->state < 0x12))) {
         KaleidoScope_UpdatePrompt(play);
@@ -2215,7 +2215,7 @@ void KaleidoScope_DrawGameOver(PlayState* play) {
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 3122);
 
-    func_800944C4(gfxCtx);
+    Gfx_SetupDL_39Opa(gfxCtx);
 
     gDPSetCycleType(POLY_OPA_DISP++, G_CYC_2CYCLE);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_PASS, G_RM_XLU_SURF2);
@@ -2276,11 +2276,11 @@ void KaleidoScope_Draw(PlayState* play) {
     if (pauseCtx->debugState == 0) {
         KaleidoScope_SetView(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
 
-        func_800949A8(play->state.gfxCtx);
+        Gfx_SetupDL_42Opa(play->state.gfxCtx);
         KaleidoScope_InitVertices(play, play->state.gfxCtx);
         KaleidoScope_DrawPages(play, play->state.gfxCtx);
 
-        func_800949A8(play->state.gfxCtx);
+        Gfx_SetupDL_42Opa(play->state.gfxCtx);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
@@ -3403,16 +3403,19 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.health = 0x30;
                         Audio_QueueSeqCmd(0xF << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA);
                         gSaveContext.healthAccumulator = 0;
-                        gSaveContext.unk_13F0 = 0;
-                        gSaveContext.unk_13F2 = 0;
+                        gSaveContext.magicState = MAGIC_STATE_IDLE;
+                        gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
                         osSyncPrintf(VT_FGCOL(YELLOW));
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.unk_13F6);
-                        gSaveContext.unk_13F4 = 0;
-                        gSaveContext.unk_13F6 = gSaveContext.magic;
+                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicFillTarget);
+                        gSaveContext.magicCapacity = 0;
+                        // Set the fill target to be the magic amount before game over
+                        gSaveContext.magicFillTarget = gSaveContext.magic;
+                        // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing
+                        // to respectively the full capacity and `magicFillTarget`
                         gSaveContext.magicLevel = gSaveContext.magic = 0;
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.unk_13F6);
+                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
                         osSyncPrintf(VT_RST);
                     } else {
                         play->state.running = false;

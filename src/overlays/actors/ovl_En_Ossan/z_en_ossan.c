@@ -1,18 +1,18 @@
 #include "z_en_ossan.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_ossan/object_ossan.h"
-#include "objects/object_oF1d_map/object_oF1d_map.h"
-#include "objects/object_os/object_os.h"
-#include "objects/object_zo/object_zo.h"
-#include "objects/object_rs/object_rs.h"
-#include "objects/object_ds2/object_ds2.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_ossan/object_ossan.h"
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+#include "assets/objects/object_os/object_os.h"
+#include "assets/objects/object_zo/object_zo.h"
+#include "assets/objects/object_rs/object_rs.h"
+#include "assets/objects/object_ds2/object_ds2.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "objects/object_masterkokiri/object_masterkokiri.h"
-#include "objects/object_km1/object_km1.h"
-#include "objects/object_mastergolon/object_mastergolon.h"
-#include "objects/object_masterzoora/object_masterzoora.h"
-#include "objects/object_masterkokirihead/object_masterkokirihead.h"
+#include "assets/objects/object_masterkokiri/object_masterkokiri.h"
+#include "assets/objects/object_km1/object_km1.h"
+#include "assets/objects/object_mastergolon/object_mastergolon.h"
+#include "assets/objects/object_masterzoora/object_masterzoora.h"
+#include "assets/objects/object_masterkokirihead/object_masterkokirihead.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -2248,7 +2248,7 @@ void EnOssan_DrawCursor(PlayState* play, EnOssan* this, f32 x, f32 y, f32 z, u8 
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4192);
     if (drawCursor != 0) {
-        func_80094520(play->state.gfxCtx);
+        Gfx_SetupDL_39Overlay(play->state.gfxCtx);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, this->cursorColorR, this->cursorColorG, this->cursorColorB,
                         this->cursorColorA);
         gDPLoadTextureBlock_4b(OVERLAY_DISP++, gSelectionCursorTex, G_IM_FMT_IA, 16, 16, 0, G_TX_MIRROR | G_TX_WRAP,
@@ -2295,7 +2295,7 @@ void EnOssan_DrawStickDirectionPrompts(PlayState* play, EnOssan* this) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4252);
     if (drawStickLeftPrompt || drawStickRightPrompt) {
-        func_80094520(play->state.gfxCtx);
+        Gfx_SetupDL_39Overlay(play->state.gfxCtx);
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPLoadTextureBlock(OVERLAY_DISP++, gArrowCursorTex, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 24, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOMASK, G_TX_NOLOD,
@@ -2338,7 +2338,7 @@ void EnOssan_DrawBazaarShopkeeper(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4320);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBazaarShopkeeperEyeTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnOssan_OverrideLimbDrawDefaultShopkeeper, NULL, this);
@@ -2393,7 +2393,7 @@ void EnOssan_DrawKokiriShopkeeper(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4409);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x08, EnOssan_SetEnvColor(play->state.gfxCtx, 0, 130, 70, 255));
     gSPSegment(POLY_OPA_DISP++, 0x09, EnOssan_SetEnvColor(play->state.gfxCtx, 110, 170, 20, 255));
@@ -2414,7 +2414,7 @@ void EnOssan_DrawGoronShopkeeper(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4455);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronShopkeeperEyeTextures[this->eyeTextureIdx]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
@@ -2442,7 +2442,7 @@ void EnOssan_DrawZoraShopkeeper(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4506);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, EnOssan_EmptyDList(play->state.gfxCtx));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sZoraShopkeeperEyeTextures[this->eyeTextureIdx]));
@@ -2463,7 +2463,7 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4544);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sPotionShopkeeperEyeTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, this);
@@ -2480,7 +2480,7 @@ void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4578);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
                SEGMENTED_TO_VIRTUAL(sHappyMaskShopkeeperEyeTextures[this->happyMaskShopkeeperEyeIdx]));
@@ -2500,7 +2500,7 @@ void EnOssan_DrawBombchuShopkeeper(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4611);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBombchuShopkeeperEyeTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,

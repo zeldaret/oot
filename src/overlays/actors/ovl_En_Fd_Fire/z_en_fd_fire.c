@@ -1,5 +1,5 @@
 #include "z_en_fd_fire.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
@@ -267,7 +267,7 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
     Matrix_Scale(1.0f, sp84, 1.0f / sp84, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd_fire.c", 623),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(
         POLY_XLU_DISP++, 0x8,
         Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, play->state.frames * this->tile2Y, 0x20, 0x80));

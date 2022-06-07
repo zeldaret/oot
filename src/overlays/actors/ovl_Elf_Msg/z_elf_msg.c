@@ -163,7 +163,7 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
+#include "assets/overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
 
 void ElfMsg_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_elf_msg.c", 436);
@@ -172,7 +172,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (thisx->params & 0x8000) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
     } else {

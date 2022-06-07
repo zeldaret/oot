@@ -5,9 +5,9 @@
  */
 
 #include "z_bg_breakwall.h"
-#include "scenes/dungeons/ddan/ddan_scene.h"
-#include "objects/object_bwall/object_bwall.h"
-#include "objects/object_kingdodongo/object_kingdodongo.h"
+#include "assets/scenes/dungeons/ddan/ddan_scene.h"
+#include "assets/objects/object_bwall/object_bwall.h"
+#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -226,7 +226,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play) {
  * despawn itself.
  */
 void BgBreakwall_Wait(BgBreakwall* this, PlayState* play) {
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         Vec3f effectPos;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
@@ -297,7 +297,7 @@ void BgBreakwall_Draw(Actor* thisx, PlayState* play) {
     if (this->bombableWallDList != NULL) {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_breakwall.c", 767);
 
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_breakwall.c", 771),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, this->bombableWallDList);

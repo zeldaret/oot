@@ -28,7 +28,7 @@ const ActorInit En_Ganon_Organ_InitVars = {
 
 static u64 sForceAlignment = 0;
 
-#include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
+#include "assets/overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
 void EnGanonOrgan_Init(Actor* thisx, PlayState* play) {
     thisx->flags &= ~ACTOR_FLAG_0;
@@ -95,7 +95,7 @@ void EnGanonOrgan_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ganon_organ.c", 205);
 
     osSyncPrintf("ORGAN DRAW  1\n");
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if ((thisx->params == 1) && (dorf->organAlpha != 255)) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(play->state.gfxCtx, dorf));
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(play->state.gfxCtx, dorf));

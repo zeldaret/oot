@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_mori_bigst.h"
-#include "objects/object_mori_objects/object_mori_objects.h"
+#include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -244,7 +244,7 @@ void BgMoriBigst_Draw(Actor* thisx, PlayState* play) {
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.loadEntries[this->moriTexObjectLoadEntryIndex].segment);
 

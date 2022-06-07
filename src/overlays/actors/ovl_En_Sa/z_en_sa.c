@@ -1,8 +1,8 @@
 #include "z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "objects/object_sa/object_sa.h"
-#include "scenes/overworld/spot04/spot04_scene.h"
-#include "scenes/overworld/spot05/spot05_scene.h"
+#include "assets/objects/object_sa/object_sa.h"
+#include "assets/scenes/overworld/spot04/spot04_scene.h"
+#include "assets/scenes/overworld/spot05/spot05_scene.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -240,6 +240,7 @@ void func_80AF58B8(EnSa* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_3);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_2);
@@ -254,6 +255,7 @@ void func_80AF594C(EnSa* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_8);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
@@ -268,6 +270,7 @@ void func_80AF59E0(EnSa* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_7);
@@ -283,6 +286,7 @@ void func_80AF5A74(EnSa* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
             func_80AF5894(this);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
@@ -297,6 +301,7 @@ void func_80AF5B10(EnSa* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_4);
@@ -312,6 +317,7 @@ void func_80AF5BA4(EnSa* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
             func_80AF5894(this);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
@@ -326,6 +332,7 @@ void func_80AF5C40(EnSa* this) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_5);
             this->unk_20A++;
+            FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_0);

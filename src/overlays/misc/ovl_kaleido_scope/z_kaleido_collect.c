@@ -1,6 +1,6 @@
 #include "z_kaleido_scope.h"
-#include "textures/parameter_static/parameter_static.h"
-#include "textures/icon_item_static/icon_item_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
+#include "assets/textures/icon_item_static/icon_item_static.h"
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     static s16 D_8082A070[][4] = {

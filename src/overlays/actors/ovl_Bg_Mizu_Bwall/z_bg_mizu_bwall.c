@@ -6,7 +6,7 @@
 
 #include "z_bg_mizu_bwall.h"
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -506,7 +506,7 @@ void BgMizuBwall_Draw(Actor* thisx, PlayState* play2) {
     if (1) {}
     frames = play->gameplayFrames;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, 1 * frames, 0, 0x20, 0x20, 1, 0, 0, 0x20, 0x20, 0, 0, 0,
                                         this->scrollAlpha1));

@@ -1,5 +1,5 @@
 #include "z_en_crow.h"
-#include "objects/object_crow/object_crow.h"
+#include "assets/objects/object_crow/object_crow.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
@@ -504,7 +504,7 @@ void EnCrow_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
 void EnCrow_Draw(Actor* thisx, PlayState* play) {
     EnCrow* this = (EnCrow*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, this);
 }

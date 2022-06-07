@@ -5,7 +5,7 @@
  */
 
 #include "z_en_bili.h"
-#include "objects/object_bl/object_bl.h"
+#include "assets/objects/object_bl/object_bl.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
@@ -586,7 +586,7 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 EnBili_SetupBurnt(this);
             }
 
-            if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F820) { // DMG_ARROW
+            if (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_4;
             }
         }
@@ -746,13 +746,13 @@ static void* sTentaclesTextures[] = {
     gBiriTentacles4Tex, gBiriTentacles5Tex, gBiriTentacles6Tex, gBiriTentacles7Tex,
 };
 
-#include "overlays/ovl_En_Bili/ovl_En_Bili.c"
+#include "assets/overlays/ovl_En_Bili/ovl_En_Bili.c"
 
 void EnBili_Draw(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bili.c", 1521);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     this->tentaclesTexIndex = CLAMP_MAX(this->tentaclesTexIndex, 7);
 

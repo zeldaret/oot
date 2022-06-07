@@ -5,8 +5,8 @@
  */
 
 #include "z_eff_ss_stick.h"
-#include "objects/object_link_boy/object_link_boy.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/object_link_boy/object_link_boy.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 
 #define rObjectLoadEntryIndex regs[0]
 #define rYaw regs[1]
@@ -66,7 +66,7 @@ void EffectSsStick_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    func_80093D18(gfxCtx);
+    Gfx_SetupDL_25Opa(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment);
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
     gSPDisplayList(POLY_OPA_DISP++, this->gfx);
