@@ -6,8 +6,8 @@
 
 #include "z_bg_spot17_bakudankabe.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "objects/object_spot17_obj/object_spot17_obj.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/object_spot17_obj/object_spot17_obj.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0
 
@@ -129,7 +129,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -145,7 +145,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 286);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

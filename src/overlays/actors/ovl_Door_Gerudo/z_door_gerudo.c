@@ -5,7 +5,7 @@
  */
 
 #include "z_door_gerudo.h"
-#include "objects/object_door_gerudo/object_door_gerudo.h"
+#include "assets/objects/object_door_gerudo/object_door_gerudo.h"
 
 #define FLAGS 0
 
@@ -145,7 +145,7 @@ void DoorGerudo_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_door_gerudo.c", 361);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_gerudo.c", 365),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

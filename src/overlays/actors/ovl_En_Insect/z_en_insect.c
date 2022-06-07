@@ -6,7 +6,7 @@
 
 #include "z_en_insect.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
 
@@ -791,7 +791,7 @@ void EnInsect_Update(Actor* thisx, PlayState* play) {
 void EnInsect_Draw(Actor* thisx, PlayState* play) {
     EnInsect* this = (EnInsect*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
     Collider_UpdateSpheres(0, &this->collider);
     sCaughtCount = 0;

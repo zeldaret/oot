@@ -5,7 +5,7 @@
  */
 
 #include "z_en_hintnuts.h"
-#include "objects/object_hintnuts/object_hintnuts.h"
+#include "assets/objects/object_hintnuts/object_hintnuts.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 

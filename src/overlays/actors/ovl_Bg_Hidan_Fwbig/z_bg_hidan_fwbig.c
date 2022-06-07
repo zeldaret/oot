@@ -6,8 +6,8 @@
  */
 
 #include "z_bg_hidan_fwbig.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -252,7 +252,7 @@ void BgHidanFwbig_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_fwbig.c", 630);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gEffUnknown4Tex));
 

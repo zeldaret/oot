@@ -5,7 +5,7 @@
  */
 
 #include "z_en_dnt_jiji.h"
-#include "objects/object_dns/object_dns.h"
+#include "assets/objects/object_dns/object_dns.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "vt.h"
@@ -432,7 +432,7 @@ void EnDntJiji_Draw(Actor* thisx, PlayState* play) {
     EnDntJiji* this = (EnDntJiji*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Push();
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->eyeState]));
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this);

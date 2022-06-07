@@ -6,8 +6,8 @@
 
 #include "z_en_goroiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_goroiwa/object_goroiwa.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_goroiwa/object_goroiwa.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4

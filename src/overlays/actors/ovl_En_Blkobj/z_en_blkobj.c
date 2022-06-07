@@ -5,7 +5,7 @@
  */
 
 #include "z_en_blkobj.h"
-#include "objects/object_blkobj/object_blkobj.h"
+#include "assets/objects/object_blkobj/object_blkobj.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -152,7 +152,7 @@ void EnBlkobj_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_blkobj.c", 349);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gameplayFrames = play->gameplayFrames % 128;
 

@@ -48,7 +48,7 @@ void Room_Draw0(PlayState* play, Room* room, u32 flags) {
     if (flags & ROOM_DRAW_XLU) {
         func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
@@ -108,7 +108,7 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
     if (flags & ROOM_DRAW_XLU) {
         func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
@@ -327,7 +327,7 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (drawOpa) {
-            func_80093D18(play->state.gfxCtx);
+            Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, meshHeader1Entry->opa);
         }
@@ -352,7 +352,7 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
 
     if (drawXlu) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, meshHeader1Entry->xlu);
     }
@@ -419,7 +419,7 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (drawOpa) {
-            func_80093D18(play->state.gfxCtx);
+            Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, meshHeader1Entry->opa);
         }
@@ -445,7 +445,7 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
 
     if (drawXlu) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, meshHeader1Entry->xlu);
     }

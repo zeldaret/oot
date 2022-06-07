@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_bombwall.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS ACTOR_FLAG_22
 

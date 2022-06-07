@@ -6,8 +6,8 @@
 
 #include "z_en_butte.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0
 
@@ -116,7 +116,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_choo.c", 295);
 
-    func_80093C14(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu2(play->state.gfxCtx);
 
     alpha = Math_SinS(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
@@ -422,7 +422,7 @@ void EnButte_Draw(Actor* thisx, PlayState* play) {
     EnButte* this = (EnButte*)thisx;
 
     if (this->drawSkelAnime) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         Collider_UpdateSpheres(0, &this->collider);
     }
