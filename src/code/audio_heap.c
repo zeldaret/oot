@@ -5,7 +5,7 @@ void AudioHeap_InitSampleCaches(u32 persistentSize, u32 temporarySize);
 SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);
 SampleCacheEntry* AudioHeap_AllocPersistentSampleCacheEntry(u32 size);
 void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry);
-void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSample* sample);
+void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SampleInfo* sample);
 void AudioHeap_DiscardSampleCaches(void);
 void AudioHeap_DiscardSampleBank(s32 sampleBankId);
 void AudioHeap_DiscardSampleBanks(void);
@@ -1005,9 +1005,9 @@ void AudioHeap_Init(void) {
         reverb->bufSizePerChan = reverb->windowSize;
         reverb->framesToIgnore = 2;
         reverb->resampleFlags = 1;
-        reverb->sound.sample = &reverb->sample;
+        reverb->tunedSample.sample = &reverb->sample;
         reverb->sample.loop = &reverb->loop;
-        reverb->sound.tuning = 1.0f;
+        reverb->tunedSample.tuning = 1.0f;
         reverb->sample.codec = CODEC_REVERB;
         reverb->sample.medium = MEDIUM_RAM;
         reverb->sample.size = reverb->windowSize * 2;
@@ -1234,7 +1234,7 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
 void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     Drum* drum;
     Instrument* inst;
-    SoundFontSound* sfx;
+    TunedSample* sfx;
     s32 instId;
     s32 drumId;
     s32 sfxId;
@@ -1243,19 +1243,19 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
         inst = Audio_GetInstrumentInner(fontId, instId);
         if (inst != NULL) {
             if (inst->normalRangeLo != 0) {
-                AudioHeap_UnapplySampleCache(entry, inst->lowNotesSound.sample);
+                AudioHeap_UnapplySampleCache(entry, inst->lowPitchTunedSample.sample);
             }
             if (inst->normalRangeHi != 0x7F) {
-                AudioHeap_UnapplySampleCache(entry, inst->highNotesSound.sample);
+                AudioHeap_UnapplySampleCache(entry, inst->highPitchTunedSample.sample);
             }
-            AudioHeap_UnapplySampleCache(entry, inst->normalNotesSound.sample);
+            AudioHeap_UnapplySampleCache(entry, inst->normalPitchTunedSample.sample);
         }
     }
 
     for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
         drum = Audio_GetDrum(fontId, drumId);
         if (drum != NULL) {
-            AudioHeap_UnapplySampleCache(entry, drum->sound.sample);
+            AudioHeap_UnapplySampleCache(entry, drum->tunedSample.sample);
         }
     }
 
@@ -1288,7 +1288,7 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
     }
 }
 
-void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSample* sample) {
+void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SampleInfo* sample) {
     if (sample != NULL) {
         if (sample->sampleAddr == entry->allocatedAddr) {
             sample->sampleAddr = entry->sampleAddr;
@@ -1360,7 +1360,7 @@ typedef struct {
     u8 newMedium;
 } StorageChange;
 
-void AudioHeap_ChangeStorage(StorageChange* change, SoundFontSample* sample) {
+void AudioHeap_ChangeStorage(StorageChange* change, SampleInfo* sample) {
     if (sample != NULL) {
         u32 startAddr = change->oldAddr;
         u32 endAddr = change->oldAddr + change->size;
@@ -1395,7 +1395,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     s32 fontId;
     Drum* drum;
     Instrument* inst;
-    SoundFontSound* sfx;
+    TunedSample* sfx;
     u32* fakematch;
     s32 pad[4];
 
@@ -1444,19 +1444,19 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
                 inst = Audio_GetInstrumentInner(fontId, instId);
                 if (inst != NULL) {
                     if (inst->normalRangeLo != 0) {
-                        AudioHeap_ChangeStorage(&change, inst->lowNotesSound.sample);
+                        AudioHeap_ChangeStorage(&change, inst->lowPitchTunedSample.sample);
                     }
                     if (inst->normalRangeHi != 0x7F) {
-                        AudioHeap_ChangeStorage(&change, inst->highNotesSound.sample);
+                        AudioHeap_ChangeStorage(&change, inst->highPitchTunedSample.sample);
                     }
-                    AudioHeap_ChangeStorage(&change, inst->normalNotesSound.sample);
+                    AudioHeap_ChangeStorage(&change, inst->normalPitchTunedSample.sample);
                 }
             }
 
             for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
                 drum = Audio_GetDrum(fontId, drumId);
                 if (drum != NULL) {
-                    AudioHeap_ChangeStorage(&change, drum->sound.sample);
+                    AudioHeap_ChangeStorage(&change, drum->tunedSample.sample);
                 }
             }
 

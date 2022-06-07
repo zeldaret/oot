@@ -784,7 +784,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
     SequenceLayer* layer;
     Note* note;
-    SoundFontSound* sound;
+    TunedSample* tunedSample;
     s32 loopEnd;
     s32 samplePos;
 
@@ -806,11 +806,11 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
 
             note = layer->note;
             if (layer == note->playbackState.parentLayer) {
-                sound = note->noteSubEu.sound.soundFontSound;
-                if (sound == NULL) {
+                tunedSample = note->noteSubEu.tunedSample.soundFontSound;
+                if (tunedSample == NULL) {
                     return 0;
                 }
-                loopEnd = sound->sample->loop->end;
+                loopEnd = tunedSample->sample->loop->end;
                 samplePos = note->synthesisState.samplePosInt;
                 return loopEnd - samplePos;
             }
@@ -834,7 +834,7 @@ s32 func_800E66C0(s32 arg0) {
     NoteSubEu* temp_a3;
     s32 i;
     Note* note;
-    SoundFontSound* sound;
+    TunedSample* tunedSample;
 
     phi_v1 = 0;
     for (i = 0; i < gAudioContext.numNotes; i++) {
@@ -844,11 +844,11 @@ s32 func_800E66C0(s32 arg0) {
             temp_a3 = &note->noteSubEu;
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
-                    sound = temp_a3->sound.soundFontSound;
-                    if (sound == NULL || temp_a3->bitField1.isSyntheticWave) {
+                    tunedSample = temp_a3->tunedSample.soundFontSound;
+                    if (tunedSample == NULL || temp_a3->bitField1.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->medium == MEDIUM_RAM) {
+                    if (tunedSample->sample->medium == MEDIUM_RAM) {
                         continue;
                     }
                 }

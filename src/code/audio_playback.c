@@ -19,7 +19,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
     sub->bitField0 = note->noteSubEu.bitField0;
     sub->bitField1 = note->noteSubEu.bitField1;
-    sub->sound.samples = note->noteSubEu.sound.samples;
+    sub->tunedSample.samples = note->noteSubEu.tunedSample.samples;
     sub->unk_06 = note->noteSubEu.unk_06;
 
     Audio_NoteSetResamplingRate(sub, attrs->frequency);
@@ -293,17 +293,17 @@ void Audio_ProcessNotes(void) {
     }
 }
 
-SoundFontSound* Audio_InstrumentGetSound(Instrument* instrument, s32 semitone) {
-    SoundFontSound* sound;
+TunedSample* Audio_InstrumentGetSound(Instrument* instrument, s32 semitone) {
+    TunedSample* tunedSample;
 
     if (semitone < instrument->normalRangeLo) {
-        sound = &instrument->lowNotesSound;
+        tunedSample = &instrument->lowPitchTunedSample;
     } else if (semitone <= instrument->normalRangeHi) {
-        sound = &instrument->normalNotesSound;
+        tunedSample = &instrument->normalPitchTunedSample;
     } else {
-        sound = &instrument->highNotesSound;
+        tunedSample = &instrument->highPitchTunedSample;
     }
-    return sound;
+    return tunedSample;
 }
 
 Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
@@ -360,8 +360,8 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     return drum;
 }
 
-SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
-    SoundFontSound* sfx;
+TunedSample* Audio_GetSfx(s32 fontId, s32 sfxId) {
+    TunedSample* sfx;
 
     if (fontId == 0xFF) {
         return NULL;
@@ -415,7 +415,7 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
             if (index >= gAudioContext.soundFonts[fontId].numSfx) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].soundEffects[index] = *(SoundFontSound*)value;
+            gAudioContext.soundFonts[fontId].soundEffects[index] = *(TunedSample*)value;
             break;
 
         default:
@@ -559,7 +559,7 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     note->playbackState.waveId = waveId;
     note->playbackState.sampleCountIndex = sampleCountIndex;
 
-    note->noteSubEu.sound.samples = &gWaveSamples[waveId - 128][sampleCountIndex * 64];
+    note->noteSubEu.tunedSample.samples = &gWaveSamples[waveId - 128][sampleCountIndex * 64];
 
     return sampleCountIndex;
 }
@@ -763,7 +763,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     if (instId == 0xFF) {
         instId = layer->channel->instOrWave;
     }
-    sub->sound.soundFontSound = layer->sound;
+    sub->tunedSample.soundFontSound = layer->tunedSample;
 
     if (instId >= 0x80 && instId < 0xC0) {
         sub->bitField1.isSyntheticWave = true;
