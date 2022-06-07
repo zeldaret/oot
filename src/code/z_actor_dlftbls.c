@@ -1,8 +1,8 @@
 #include "global.h"
 
 // Linker symbol declarations (used in the table below)
-#define DEFINE_ACTOR(name, _1, _2) DECLARE_OVERLAY_SEGMENT(name)
-#define DEFINE_ACTOR_INTERNAL(_0, _1, _2)
+#define DEFINE_ACTOR(name, _1, _2, _3) DECLARE_OVERLAY_SEGMENT(name)
+#define DEFINE_ACTOR_INTERNAL(_0, _1, _2, _3)
 #define DEFINE_ACTOR_UNSET(_0)
 
 #include "tables/actor_table.h"
@@ -12,8 +12,8 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Init Vars declarations (also used in the table below)
-#define DEFINE_ACTOR(name, _1, _2) extern ActorInit name##_InitVars;
-#define DEFINE_ACTOR_INTERNAL(name, _1, _2) extern ActorInit name##_InitVars;
+#define DEFINE_ACTOR(name, _1, _2, _3) extern ActorInit name##_InitVars;
+#define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorInit name##_InitVars;
 #define DEFINE_ACTOR_UNSET(_0)
 
 #include "tables/actor_table.h"
@@ -23,18 +23,19 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Actor Overlay Table definition
-#define DEFINE_ACTOR(name, _1, allocType) \
-    { (u32)_ovl_##name##SegmentRomStart,  \
-      (u32)_ovl_##name##SegmentRomEnd,    \
-      _ovl_##name##SegmentStart,          \
-      _ovl_##name##SegmentEnd,            \
-      NULL,                               \
-      &name##_InitVars,                   \
-      #name,                              \
-      allocType,                          \
+#define DEFINE_ACTOR(name, _1, allocType, nameString) \
+    { (u32)_ovl_##name##SegmentRomStart,              \
+      (u32)_ovl_##name##SegmentRomEnd,                \
+      _ovl_##name##SegmentStart,                      \
+      _ovl_##name##SegmentEnd,                        \
+      NULL,                                           \
+      &name##_InitVars,                               \
+      nameString,                                     \
+      allocType,                                      \
       0 },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType) { 0, 0, NULL, NULL, NULL, &name##_InitVars, #name, allocType, 0 },
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString) \
+    { 0, 0, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0 },
 
 #define DEFINE_ACTOR_UNSET(_0) { 0 },
 

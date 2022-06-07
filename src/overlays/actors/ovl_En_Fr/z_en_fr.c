@@ -1,7 +1,7 @@
 #include "z_en_fr.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "vt.h"
-#include "objects/object_fr/object_fr.h"
+#include "assets/objects/object_fr/object_fr.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -1077,7 +1077,7 @@ void EnFr_Draw(Actor* thisx, PlayState* play) {
     s16 frogIndex = this->actor.params - 1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1754);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     // For the frogs 2 HP, the frog with the next note and the butterfly lights up
     lightRadius = this->isButterflyDrawn ? 95 : -1;
     gDPPipeSync(POLY_OPA_DISP++);

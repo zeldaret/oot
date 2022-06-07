@@ -1,6 +1,6 @@
 #include "global.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 static Vtx sVertices[5] = {
     VTX(-32, -32, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -157,7 +157,7 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_shield_particle.c", 272);
 
     if (this != NULL) {
-        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
+        POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_38);
 
         gDPSetCycleType(POLY_XLU_DISP++, G_CYC_2CYCLE);
         gDPPipeSync(POLY_XLU_DISP++);

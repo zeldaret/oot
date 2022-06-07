@@ -1,5 +1,5 @@
 #include "z_arms_hook.h"
-#include "objects/object_link_boy/object_link_boy.h"
+#include "assets/objects/object_link_boy/object_link_boy.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -320,7 +320,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
         }
 
         func_80090480(play, &this->collider, &this->hookInfo, &hookNewTip, &hookNewBase);
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_arms_hook.c", 895),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);

@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_jya_bigmirror.h"
-#include "objects/object_jya_obj/object_jya_obj.h"
+#include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -213,7 +213,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, PlayState* play) {
     Actor* lift;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     lift = Actor_Find(&play->actorCtx, ACTOR_BG_JYA_LIFT, ACTORCAT_BG);
     if (lift != NULL) {
         this->liftHeight = lift->world.pos.y;

@@ -2,7 +2,6 @@
 #include "ultra64/r4300.h"
 #include "ultra64/rdb.h"
 
-.set noat
 .set noreorder
 
 .section .text

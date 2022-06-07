@@ -6,14 +6,14 @@
 
 #include "z_en_viewer.h"
 #include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
-#include "objects/object_zl4/object_zl4.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_horse_zelda/object_horse_zelda.h"
-#include "objects/object_horse_ganon/object_horse_ganon.h"
-#include "objects/object_im/object_im.h"
-#include "objects/object_gndd/object_gndd.h"
-#include "objects/object_ganon/object_ganon.h"
-#include "objects/object_opening_demo1/object_opening_demo1.h"
+#include "assets/objects/object_zl4/object_zl4.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_horse_zelda/object_horse_zelda.h"
+#include "assets/objects/object_horse_ganon/object_horse_ganon.h"
+#include "assets/objects/object_im/object_im.h"
+#include "assets/objects/object_gndd/object_gndd.h"
+#include "assets/objects/object_ganon/object_ganon.h"
+#include "assets/objects/object_opening_demo1/object_opening_demo1.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -506,7 +506,7 @@ s32 EnViewer_Ganondorf3OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dL
 void EnViewer_Ganondorf9PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     if (limbIndex == 11) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1365);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_viewer.c", 1370),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_ganon_DL_00BE90));
@@ -699,12 +699,12 @@ void EnViewer_Draw(Actor* thisx, PlayState* play) {
         type = this->actor.params >> 8;
         if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
             if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL) {
-                func_80093D18(play->state.gfxCtx);
+                Gfx_SetupDL_25Opa(play->state.gfxCtx);
                 sDrawFuncs[this->drawFuncIndex](this, play);
             }
         } else if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL) ||
                    type == ENVIEWER_TYPE_9_GANONDORF) {
-            func_80093D18(play->state.gfxCtx);
+            Gfx_SetupDL_25Opa(play->state.gfxCtx);
             sDrawFuncs[this->drawFuncIndex](this, play);
         }
     }
@@ -843,7 +843,7 @@ void EnViewer_DrawFireEffects(EnViewer* this2, PlayState* play) {
                 break;
         }
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         Matrix_Translate(this->fireEffects[i].pos.x, this->fireEffects[i].pos.y, this->fireEffects[i].pos.z,
                          MTXMODE_NEW);
         Matrix_Scale(this->fireEffects[i].scale, this->fireEffects[i].scale, this->fireEffects[i].scale, MTXMODE_APPLY);

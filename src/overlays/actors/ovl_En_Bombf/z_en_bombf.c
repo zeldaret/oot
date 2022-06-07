@@ -5,7 +5,7 @@
  */
 
 #include "z_en_bombf.h"
-#include "objects/object_bombf/object_bombf.h"
+#include "assets/objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
@@ -487,7 +487,7 @@ void EnBombf_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bombf.c", 1034);
 
     if (thisx->params <= BOMBFLOWER_BODY) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         if (thisx->params != BOMBFLOWER_BODY) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bombf.c", 1041),

@@ -5,8 +5,8 @@
  */
 
 #include "z_bg_po_syokudai.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_syokudai/object_syokudai.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0
 
@@ -149,7 +149,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
@@ -166,7 +166,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
 
         Lights_PointSetColorAndRadius(&this->lightInfo, red, green, blue, 200);
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->flameTextureScroll * -20) & 0x1FF,
                                     32, 128));

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_pu_box.h"
-#include "objects/object_pu_box/object_pu_box.h"
+#include "assets/objects/object_pu_box/object_pu_box.h"
 
 #define FLAGS ACTOR_FLAG_4
 

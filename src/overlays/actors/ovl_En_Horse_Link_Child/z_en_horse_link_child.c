@@ -5,7 +5,7 @@
  */
 
 #include "z_en_horse_link_child.h"
-#include "objects/object_horse_link_child/object_horse_link_child.h"
+#include "assets/objects/object_horse_link_child/object_horse_link_child.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -621,6 +621,6 @@ s32 EnHorseLinkChild_OverrideLimbDraw(Actor* thisx, PlayState* play, s32 arg2, S
 void EnHorseLinkChild_Draw(Actor* thisx, PlayState* play) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     func_800A6360(&this->actor, play, &this->skin, EnHorseLinkChild_PostDraw, EnHorseLinkChild_OverrideLimbDraw, true);
 }

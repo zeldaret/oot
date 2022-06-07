@@ -5,11 +5,11 @@
  */
 
 #include "z_en_door.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
-#include "objects/object_haka_door/object_haka_door.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_haka_door/object_haka_door.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -359,7 +359,7 @@ void EnDoor_Draw(Actor* thisx, PlayState* play) {
     if (this->actor.objBankIndex == this->requiredObjBankIndex) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_door.c", 910);
 
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDoor_OverrideLimbDraw, NULL,
                           &this->actor);
         if (this->actor.world.rot.y != 0) {

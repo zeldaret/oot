@@ -1,11 +1,11 @@
 #include "z_kaleido_scope.h"
-#include "textures/icon_item_24_static/icon_item_24_static.h"
-#include "textures/icon_item_nes_static/icon_item_nes_static.h"
-#include "textures/icon_item_ger_static/icon_item_ger_static.h"
-#include "textures/icon_item_fra_static/icon_item_fra_static.h"
-#include "textures/icon_item_field_static/icon_item_field_static.h"
-#include "textures/icon_item_dungeon_static/icon_item_dungeon_static.h"
-#include "textures/icon_item_nes_static/icon_item_nes_static.h"
+#include "assets/textures/icon_item_24_static/icon_item_24_static.h"
+#include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
+#include "assets/textures/icon_item_ger_static/icon_item_ger_static.h"
+#include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
+#include "assets/textures/icon_item_field_static/icon_item_field_static.h"
+#include "assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.h"
+#include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
 
 void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
     static void* dungeonItemTexs[] = {
@@ -549,7 +549,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
 
-        func_800949A8(gfxCtx);
+        Gfx_SetupDL_42Opa(gfxCtx);
 
         gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
                           PRIMITIVE, 0);
@@ -658,7 +658,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         pointPulseTimer = 20;
     }
 
-    func_800949A8(gfxCtx);
+    Gfx_SetupDL_42Opa(gfxCtx);
 
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);

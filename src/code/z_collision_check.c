@@ -1559,7 +1559,7 @@ void CollisionCheck_RedBloodUnused(PlayState* play, Collider* collider, Vec3f* v
  * Plays sound effects and displays hitmarks for solid-type AC colliders (METAL, WOOD, HARD, and TREE)
  */
 void CollisionCheck_HitSolid(PlayState* play, ColliderInfo* info, Collider* collider, Vec3f* hitPos) {
-    s32 flags = info->toucherFlags & TOUCH_SFX_NONE;
+    s32 flags = info->toucherFlags & TOUCH_SFX_MASK;
 
     if (flags == TOUCH_SFX_NORMAL && collider->colType != COLTYPE_METAL) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
@@ -3595,13 +3595,13 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
 u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
     u8 damage = 0;
 
-    if (dmgFlags & 0x00400100) {
+    if (dmgFlags & (DMG_SPIN_KOKIRI | DMG_SLASH_KOKIRI)) {
         damage = 1;
-    } else if (dmgFlags & 0x03000242) {
+    } else if (dmgFlags & (DMG_JUMP_KOKIRI | DMG_SPIN_MASTER | DMG_SLASH_MASTER | DMG_HAMMER_SWING | DMG_DEKU_STICK)) {
         damage = 2;
-    } else if (dmgFlags & 0x48800400) {
+    } else if (dmgFlags & (DMG_HAMMER_JUMP | DMG_JUMP_MASTER | DMG_SPIN_GIANT | DMG_SLASH_GIANT)) {
         damage = 4;
-    } else if (dmgFlags & 0x04000000) {
+    } else if (dmgFlags & DMG_JUMP_GIANT) {
         damage = 8;
     }
 

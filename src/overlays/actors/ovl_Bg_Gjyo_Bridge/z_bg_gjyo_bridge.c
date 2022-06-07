@@ -5,8 +5,8 @@
  */
 
 #include "z_bg_gjyo_bridge.h"
-#include "objects/object_gjyo_objects/object_gjyo_objects.h"
-#include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
+#include "assets/objects/object_gjyo_objects/object_gjyo_objects.h"
+#include "assets/scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 
 #define FLAGS 0
 
@@ -100,7 +100,7 @@ void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TexScroll(play->state.gfxCtx, play->gameplayFrames & 127, play->gameplayFrames * -3 & 127, 32, 32));

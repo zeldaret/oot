@@ -35,6 +35,7 @@
 #include "irqmgr.h"
 #include "padmgr.h"
 #include "fault.h"
+#include "sched.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -116,30 +117,6 @@ typedef struct {
     /* 0x000C */ Gfx*   d;
 } TwoHeadGfxArena; // size = 0x10
 
-typedef struct {
-    /* 0x00 */ u16* fb1;
-    /* 0x04 */ u16* swapBuffer;
-    /* 0x08 */ OSViMode* viMode;
-    /* 0x0C */ u32 features;
-    /* 0x10 */ u8 unk_10;
-    /* 0x11 */ s8 updateRate;
-    /* 0x12 */ s8 updateRate2;
-    /* 0x13 */ u8 unk_13;
-    /* 0x14 */ f32 xScale;
-    /* 0x18 */ f32 yScale;
-} CfbInfo; // size = 0x1C
-
-typedef struct OSScTask {
-    /* 0x00 */ struct OSScTask* next;
-    /* 0x04 */ u32 state;
-    /* 0x08 */ u32 flags;
-    /* 0x0C */ CfbInfo* framebuffer;
-    /* 0x10 */ OSTask list;
-    /* 0x50 */ OSMesgQueue* msgQueue;
-    /* 0x54 */ OSMesg msg;
-    /* 0x58 */ char unk_58[0x10];
-} OSScTask; // size = 0x68
-
 typedef struct GraphicsContext {
     /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
     /* 0x0004 */ Gfx* polyXluBuffer; // Pointer to "Zelda 1"
@@ -150,7 +127,6 @@ typedef struct GraphicsContext {
     /* 0x0038 */ OSMesg msgBuff[0x08];
     /* 0x0058 */ OSMesgQueue* schedMsgQueue;
     /* 0x005C */ OSMesgQueue queue;
-    /* 0x0074 */ char unk_074[0x04];
     /* 0x0078 */ OSScTask task;
     /* 0x00E0 */ char unk_0E0[0xD0];
     /* 0x01B0 */ Gfx* workBuffer;
@@ -216,6 +192,81 @@ typedef struct {
 #define VIEW_FORCE_VIEWPORT (VIEW_VIEWPORT << 4)
 #define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
 #define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
+
+typedef enum {
+    /*  0 */ SETUPDL_0,
+    /*  1 */ SETUPDL_1,
+    /*  2 */ SETUPDL_2,
+    /*  3 */ SETUPDL_3,
+    /*  4 */ SETUPDL_4,
+    /*  5 */ SETUPDL_5,
+    /*  6 */ SETUPDL_6,
+    /*  7 */ SETUPDL_7,
+    /*  8 */ SETUPDL_8,
+    /*  9 */ SETUPDL_9,
+    /* 10 */ SETUPDL_10,
+    /* 11 */ SETUPDL_11,
+    /* 12 */ SETUPDL_12,
+    /* 13 */ SETUPDL_13,
+    /* 14 */ SETUPDL_14,
+    /* 15 */ SETUPDL_15,
+    /* 16 */ SETUPDL_16,
+    /* 17 */ SETUPDL_17,
+    /* 18 */ SETUPDL_18,
+    /* 19 */ SETUPDL_19,
+    /* 20 */ SETUPDL_20,
+    /* 21 */ SETUPDL_21,
+    /* 22 */ SETUPDL_22,
+    /* 23 */ SETUPDL_23,
+    /* 24 */ SETUPDL_24,
+    /* 25 */ SETUPDL_25,
+    /* 26 */ SETUPDL_26,
+    /* 27 */ SETUPDL_27,
+    /* 28 */ SETUPDL_28,
+    /* 29 */ SETUPDL_29,
+    /* 30 */ SETUPDL_30,
+    /* 31 */ SETUPDL_31,
+    /* 32 */ SETUPDL_32,
+    /* 33 */ SETUPDL_33,
+    /* 34 */ SETUPDL_34,
+    /* 35 */ SETUPDL_35,
+    /* 36 */ SETUPDL_36,
+    /* 37 */ SETUPDL_37,
+    /* 38 */ SETUPDL_38,
+    /* 39 */ SETUPDL_39,
+    /* 40 */ SETUPDL_40,
+    /* 41 */ SETUPDL_41,
+    /* 42 */ SETUPDL_42,
+    /* 43 */ SETUPDL_43,
+    /* 44 */ SETUPDL_44,
+    /* 45 */ SETUPDL_45,
+    /* 46 */ SETUPDL_46,
+    /* 47 */ SETUPDL_47,
+    /* 48 */ SETUPDL_48,
+    /* 49 */ SETUPDL_49,
+    /* 50 */ SETUPDL_50,
+    /* 51 */ SETUPDL_51,
+    /* 52 */ SETUPDL_52,
+    /* 53 */ SETUPDL_53,
+    /* 54 */ SETUPDL_54,
+    /* 55 */ SETUPDL_55,
+    /* 56 */ SETUPDL_56,
+    /* 57 */ SETUPDL_57,
+    /* 58 */ SETUPDL_58,
+    /* 59 */ SETUPDL_59,
+    /* 60 */ SETUPDL_60,
+    /* 61 */ SETUPDL_61,
+    /* 62 */ SETUPDL_62,
+    /* 63 */ SETUPDL_63,
+    /* 64 */ SETUPDL_64,
+    /* 65 */ SETUPDL_65,
+    /* 66 */ SETUPDL_66,
+    /* 67 */ SETUPDL_67,
+    /* 68 */ SETUPDL_68,
+    /* 69 */ SETUPDL_69,
+    /* 70 */ SETUPDL_70,
+    /* 71 */ SETUPDL_MAX
+} SetupDL;
 
 typedef struct {
     /* 0x00 */ u8   seqId;
@@ -1180,7 +1231,7 @@ typedef struct {
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ s16 sceneNum;
-    /* 0x000A6 */ u8 sceneConfig;
+    /* 0x000A6 */ u8 sceneDrawConfig;
     /* 0x000A7 */ char unk_A7[0x9];
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
@@ -1402,11 +1453,11 @@ typedef struct {
     /* 0x08 */ u32       vromEnd;   // if applicable
     /* 0x0C */ void*     vramStart; // if applicable
     /* 0x10 */ void*     vramEnd;   // if applicable
-    /* 0x14 */ UNK_PTR   unk_14;
+    /* 0x14 */ void*     unk_14;
     /* 0x18 */ void*     init;    // initializes and executes the given context
     /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
-    /* 0x20 */ UNK_PTR   unk_20;
-    /* 0x24 */ UNK_PTR   unk_24;
+    /* 0x20 */ void*     unk_20;
+    /* 0x24 */ void*     unk_24;
     /* 0x28 */ UNK_TYPE4 unk_28;
     /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
@@ -1580,63 +1631,18 @@ typedef struct {
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
-// == Previously sched.h
-
-#define OS_SC_NEEDS_RDP         0x0001
-#define OS_SC_NEEDS_RSP         0x0002
-#define OS_SC_DRAM_DLIST        0x0004
-#define OS_SC_PARALLEL_TASK     0x0010
-#define OS_SC_LAST_TASK         0x0020
-#define OS_SC_SWAPBUFFER        0x0040
-
-#define OS_SC_RCP_MASK          0x0003
-#define OS_SC_TYPE_MASK         0x0007
-
 typedef struct {
-    /* 0x0000 */ u16*   curBuffer;
-    /* 0x0004 */ u16*   nextBuffer;
-} FrameBufferSwap;
-
-typedef struct {
-    /* 0x0000 */ OSMesgQueue  interruptQueue;
-    /* 0x0018 */ OSMesg       interruptMsgBuf[8];
-    /* 0x0038 */ OSMesgQueue  cmdQueue;
-    /* 0x0050 */ OSMesg       cmdMsgBuf[8];
-    /* 0x0070 */ OSThread     thread;
-    /* 0x0220 */ OSScTask*    audioListHead;
-    /* 0x0224 */ OSScTask*    gfxListHead;
-    /* 0x0228 */ OSScTask*    audioListTail;
-    /* 0x022C */ OSScTask*    gfxListTail;
-    /* 0x0230 */ OSScTask*    curRSPTask;
-    /* 0x0234 */ OSScTask*    curRDPTask;
-    /* 0x0238 */ s32          retraceCnt;
-    /* 0x023C */ s32          doAudio;
-    /* 0x0240 */ CfbInfo*     curBuf;
-    /* 0x0244 */ CfbInfo*     pendingSwapBuf1;
-    /* 0x0220 */ CfbInfo*     pendingSwapBuf2;
-    /* 0x0220 */ UNK_TYPE4    unk_24C;
-    /* 0x0250 */ IrqMgrClient irqClient;
-} SchedContext; // size = 0x258
-
-// ========================
-
-#define OS_SC_DP                0x0001
-#define OS_SC_SP                0x0002
-#define OS_SC_YIELD             0x0010
-#define OS_SC_YIELDED           0x0020
-
-typedef struct {
-    /* 0x0000 */ IrqMgr*       irqMgr;
-    /* 0x0004 */ SchedContext* sched;
-    /* 0x0008 */ OSScTask      audioTask;
-    /* 0x0070 */ AudioTask*    rspTask;
-    /* 0x0074 */ OSMesgQueue   interruptQueue;
-    /* 0x008C */ OSMesg        interruptMsgBuf[8];
-    /* 0x00AC */ OSMesgQueue   taskQueue;
-    /* 0x00C4 */ OSMesg        taskMsgBuf[1];
-    /* 0x00C8 */ OSMesgQueue   lockQueue;
-    /* 0x00E0 */ OSMesg        lockMsgBuf[1];
-    /* 0x00E8 */ OSThread      thread;
+    /* 0x0000 */ IrqMgr*     irqMgr;
+    /* 0x0004 */ Scheduler*  sched;
+    /* 0x0008 */ OSScTask    audioTask;
+    /* 0x0070 */ AudioTask*  rspTask;
+    /* 0x0074 */ OSMesgQueue interruptQueue;
+    /* 0x008C */ OSMesg      interruptMsgBuf[8];
+    /* 0x00AC */ OSMesgQueue taskQueue;
+    /* 0x00C4 */ OSMesg      taskMsgBuf[1];
+    /* 0x00C8 */ OSMesgQueue lockQueue;
+    /* 0x00E0 */ OSMesg      lockMsgBuf[1];
+    /* 0x00E8 */ OSThread    thread;
 } AudioMgr; // size = 0x298
 
 struct ArenaNode;
@@ -1663,6 +1669,17 @@ typedef struct ArenaNode {
     /* 0x20 */ OSTime time;
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
 } ArenaNode; // size = 0x30
+
+#define RELOC_SECTION(reloc) ((reloc) >> 30)
+#define RELOC_OFFSET(reloc) ((reloc) & 0xFFFFFF)
+#define RELOC_TYPE_MASK(reloc) ((reloc) & 0x3F000000)
+#define RELOC_TYPE_SHIFT 24
+
+/* MIPS Relocation Types */
+#define R_MIPS_32 2
+#define R_MIPS_26 4
+#define R_MIPS_HI16 5
+#define R_MIPS_LO16 6
 
 typedef struct OverlayRelocationSection {
     /* 0x00 */ u32 textSize;
@@ -1812,7 +1829,6 @@ typedef struct {
     /* 0x14 */ u8* dhtPtr[4];
     /* 0x24 */ void* imageData;
     /* 0x28 */ u32 mode; // 0 if Y V0 is 1 and 2 if Y V0 is 2
-    /* 0x2C */ char unk_2C[4];
     /* 0x30 */ OSScTask scTask;
     /* 0x98 */ OSMesgQueue mq;
     /* 0xB0 */ OSMesg msg;

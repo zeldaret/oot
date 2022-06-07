@@ -5,7 +5,7 @@
  */
 
 #include "z_item_b_heart.h"
-#include "objects/object_gi_hearts/object_gi_hearts.h"
+#include "assets/objects/object_gi_hearts/object_gi_hearts.h"
 
 #define FLAGS 0
 
@@ -93,13 +93,13 @@ void ItemBHeart_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (flag) {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 551),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartContainerDL);
     } else {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 557),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartBorderDL);

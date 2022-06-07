@@ -102,9 +102,14 @@ void EnWonderItem_DropCollectible(EnWonderItem* this, PlayState* play, s32 autoC
 }
 
 void EnWonderItem_Init(Actor* thisx, PlayState* play) {
-    static u32 collisionTypes[] = {
-        0x00000702 /* sword slash */, 0x0001F820 /* arrow */,     0x00000040 /* hammer */,   0x00000008 /* bomb */,
-        0x00000004 /* slingshot */,   0x00000010 /* boomerang */, 0x00000080 /* hookshot */,
+    static u32 damageFlags[] = {
+        DMG_SLASH | DMG_DEKU_STICK,
+        DMG_ARROW,
+        DMG_HAMMER_SWING,
+        DMG_EXPLOSIVE,
+        DMG_SLINGSHOT,
+        DMG_BOOMERANG,
+        DMG_HOOKSHOT,
     };
     s32 pad;
     s16 colTypeIndex;
@@ -154,7 +159,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
             colTypeIndex = this->actor.world.rot.z & 0xFF;
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.info.bumper.dmgFlags = collisionTypes[colTypeIndex];
+            this->collider.info.bumper.dmgFlags = damageFlags[colTypeIndex];
             this->collider.dim.radius = 20;
             this->collider.dim.height = 30;
             this->updateFunc = EnWonderItem_InteractSwitch;
@@ -183,7 +188,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
         case WONDERITEM_BOMB_SOLDIER:
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.info.bumper.dmgFlags = 0x00000004; // slingshot
+            this->collider.info.bumper.dmgFlags = DMG_SLINGSHOT;
             this->unkPos = this->actor.world.pos;
             this->collider.dim.radius = 35;
             this->collider.dim.height = 75;

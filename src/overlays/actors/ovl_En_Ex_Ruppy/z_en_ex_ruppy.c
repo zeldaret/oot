@@ -1,7 +1,7 @@
 #include "z_en_ex_ruppy.h"
 #include "vt.h"
 #include "../ovl_En_Diving_Game/z_en_diving_game.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -384,7 +384,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
     if (!this->invisible) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_ex_ruppy.c", 774);
 
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(thisx, play, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

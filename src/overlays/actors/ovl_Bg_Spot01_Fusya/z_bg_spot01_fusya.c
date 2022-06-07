@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot01_fusya.h"
-#include "objects/object_spot01_objects/object_spot01_objects.h"
+#include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -77,7 +77,7 @@ void BgSpot01Fusya_Update(Actor* thisx, PlayState* play) {
 void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot01_fusya.c", 210);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_toryo.h"
-#include "objects/object_toryo/object_toryo.h"
+#include "assets/objects/object_toryo/object_toryo.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
@@ -378,7 +378,7 @@ void EnToryo_Update(Actor* thisx, PlayState* play) {
 void EnToryo_Draw(Actor* thisx, PlayState* play) {
     EnToryo* this = (EnToryo*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnToryo_OverrideLimbDraw, EnToryo_PostLimbDraw, this);
 }

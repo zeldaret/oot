@@ -5,8 +5,8 @@
  */
 
 #include "z_en_gm.h"
-#include "objects/object_oF1d_map/object_oF1d_map.h"
-#include "objects/object_gm/object_gm.h"
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+#include "assets/objects/object_gm/object_gm.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
@@ -203,13 +203,16 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
         switch (func_80A3D7C8()) {
             case 0:
                 SET_INFTABLE(INFTABLE_B0);
+                FALLTHROUGH;
             case 3:
                 this->actionFunc = func_80A3DD7C;
                 return;
             case 1:
                 SET_INFTABLE(INFTABLE_B1);
+                FALLTHROUGH;
             case 2:
                 this->actionFunc = EnGm_ProcessChoiceIndex;
+                FALLTHROUGH;
             default:
                 return;
         }
@@ -321,7 +324,7 @@ void EnGm_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_gm.c", 613);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
