@@ -38,6 +38,9 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     return objectCtx->loadEntriesCount - 1;
 }
 
+// 1000 kilobytes
+#define OBJECT_SPACE_SIZE_BASE (1000 * 1024)
+
 void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
     u32 spaceSize;

@@ -830,9 +830,6 @@ typedef struct {
     /* 0x40 */ OSMesg   loadMsg;
 } ObjectLoadEntry; // size = 0x44
 
-// 1000 kilobytes
-#define OBJECT_SPACE_SIZE_BASE (1000 * 1024)
-
 typedef struct {
     /* 0x0000 */ void*  spaceStart;
     /* 0x0004 */ void*  spaceEnd; // original name: "endSegment"
