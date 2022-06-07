@@ -113,7 +113,7 @@ typedef struct {
 } Portamento; // size = 0xC
 
 /**
- * A struct contained in soundfont data
+ * A struct contained in sequences and soundfont data
  */
 typedef struct {
     /* 0x0 */ s16 delay;
