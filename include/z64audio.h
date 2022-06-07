@@ -132,7 +132,7 @@ typedef struct {
 } AdpcmBook; // size >= 0x8
 
 typedef struct {
-    /* 0x00 */ u32 codec : 4; // The state of compressed or decompressed sample
+    /* 0x00 */ u32 codec : 4; // The state of compression or decompression
     /* 0x00 */ u32 medium : 2; // Medium where sample is currently stored
     /* 0x00 */ u32 unk_bit26 : 1;
     /* 0x00 */ u32 isRelocated : 1; // Has the sample header been relocated (offsets to pointers)
