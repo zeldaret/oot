@@ -2484,10 +2484,10 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
 void Actor_KillActorsWithUnloadedObject(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
-    s32 category;
+    s32 i;
 
-    for (category = 0; category < ARRAY_COUNT(actorCtx->actorLists); category++) {
-        actor = actorCtx->actorLists[category].head;
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
+        actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
             if (!Object_IsLoadEntryLoaded(&play->objectCtx, actor->objectLoadEntryIndex)) {
                 Actor_Kill(actor);
