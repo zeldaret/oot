@@ -131,12 +131,8 @@ typedef struct {
     /* 0x08 */ s16 book[1]; // size 8 * order * npredictors. 8-byte aligned
 } AdpcmBook; // size >= 0x8
 
-/**
- * Meta-Data for samples.
- * Found inside soundfonts
- */
 typedef struct {
-    /* 0x00 */ u32 codec : 4; // Type of compression used for the sample
+    /* 0x00 */ u32 codec : 4; // The state of compressed or decompressed sample
     /* 0x00 */ u32 medium : 2; // Medium where sample is currently stored
     /* 0x00 */ u32 unk_bit26 : 1;
     /* 0x00 */ u32 isRelocated : 1; // Has the sample header been relocated (offsets to pointers)
@@ -146,10 +142,6 @@ typedef struct {
     /* 0x0C */ AdpcmBook* book; // Adpcm book parameters used by the sample. Offset from the start of the sound font / pointer to RAM.
 } SoundFontSample; // size = 0x10
 
-/**
- * Meta-Data for a sound (instrument, drums, or sfx).
- * Found inside soundfonts
- */
 typedef struct {
     /* 0x00 */ SoundFontSample* sample;
     /* 0x04 */ f32 tuning; // frequency scale factor
