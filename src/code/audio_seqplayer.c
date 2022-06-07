@@ -812,7 +812,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                 vel = (semitone > layer->portamentoTargetNote) ? semitone : layer->portamentoTargetNote;
 
                 if (instrument != NULL) {
-                    tunedSample = Audio_InstrumentGetSound(instrument, vel);
+                    tunedSample = Audio_GetInstrumentTunedSample(instrument, vel);
                     sameSound = (layer->tunedSample == tunedSample);
                     layer->tunedSample = tunedSample;
                     tuning = tunedSample->tuning;
@@ -874,7 +874,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
             }
 
             if (instrument != NULL) {
-                tunedSample = Audio_InstrumentGetSound(instrument, semitone);
+                tunedSample = Audio_GetInstrumentTunedSample(instrument, semitone);
                 sameSound = (tunedSample == layer->tunedSample);
                 layer->tunedSample = tunedSample;
                 layer->freqScale = gPitchFrequencies[semitone2] * tunedSample->tuning;

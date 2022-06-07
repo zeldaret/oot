@@ -293,7 +293,7 @@ void Audio_ProcessNotes(void) {
     }
 }
 
-TunedSample* Audio_InstrumentGetSound(Instrument* instrument, s32 semitone) {
+TunedSample* Audio_GetInstrumentTunedSample(Instrument* instrument, s32 semitone) {
     TunedSample* tunedSample;
 
     if (semitone < instrument->normalRangeLo) {
