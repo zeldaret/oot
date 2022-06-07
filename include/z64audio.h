@@ -149,9 +149,9 @@ typedef struct {
     /* 0x00 */ u32 unk_bit26 : 1;
     /* 0x00 */ u32 isRelocated : 1; // Has the sample header been relocated (offsets to pointers)
     /* 0x01 */ u32 size : 24; // Size of the sample
-    /* 0x04 */ u8* sampleAddr; // Offset/pointer to the raw sample data in the sampleBank
-    /* 0x08 */ AdpcmLoop* loop; // Offset/pointer to the adpcm loop parameters used by the sample
-    /* 0x0C */ AdpcmBook* book; // Offset/pointer to the adpcm book parameters used by the sample
+    /* 0x04 */ u8* sampleAddr; // Raw sample data. Offset from the start of the sample bank / pointer to RAM.
+    /* 0x08 */ AdpcmLoop* loop; // Adpcm loop parameters used by the sample. Offset from the start of the sound font / pointer to RAM.
+    /* 0x0C */ AdpcmBook* book; // Adpcm book parameters used by the sample. Offset from the start of the sound font / pointer to RAM.
 } SampleInfo; // size = 0x10
 
 /**

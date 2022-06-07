@@ -800,7 +800,7 @@ AudioTable* AudioLoad_GetLoadTable(s32 tableType) {
  * @param fontData ram address of raw soundfont binary loaded into cache
  * @param relocInfo information on the sampleBank containing raw audio samples
  */
-void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankRelocInfo* relocInfo) {
+void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, SampleBankRelocInfo* relocInfo) {
     u32 soundOffset;     // Relative offset from the beginning of fontData directly to the tunedSample/envelope
     u32 soundListOffset; // Relative offset from the beginning of fontData to the list of soundOffsets/sfxs
     Instrument* inst;
@@ -810,36 +810,36 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
     s32 numDrums = gAudioContext.soundFonts[fontId].numDrums;
     s32 numInstruments = gAudioContext.soundFonts[fontId].numInstruments;
     s32 numSfx = gAudioContext.soundFonts[fontId].numSfx;
-    void** fontDataStartAddr = (void**)fontData;
+    void** fontData = (void**)fontDataStartAddr;
 
 #define RELOC_TO_RAM(offset) (void*)((u32)(offset) + (u32)(fontData))
 
     // Reading, extracting, and relocating drums
 
     // The first u32 in fontData is an offset to a list of offsets to the drums
-    soundListOffset = fontDataStartAddr[0];
+    soundListOffset = fontData[0];
     if (1) {}
 
     // Checks if there are drums present in the soundFont
     if ((soundListOffset != 0) && (numDrums != 0)) {
         // Relocate the first u32 from an offset (relative to the start of the font data) to a pointer (a ram address)
-        fontDataStartAddr[0] = RELOC_TO_RAM(soundListOffset);
+        fontData[0] = RELOC_TO_RAM(soundListOffset);
 
         // Loop through the list of drums
         for (i = 0; i < numDrums; i++) {
             // Dereference the first u32 pointer to get to the list of offsets to the drums
             // This grabs the offset to the drum data of the i'th entry
-            soundOffset = ((Drum**)fontDataStartAddr[0])[i];
+            soundOffset = ((Drum**)fontData[0])[i];
             // Some drum data entries are empty, represented by an offset of 0 in the drum offset list
             if (soundOffset != 0) {
                 // Relocate the drum offset (relative to the start of the font data) to a pointer (a ram address)
                 soundOffset = RELOC_TO_RAM(soundOffset);
-                ((Drum**)fontDataStartAddr[0])[i] = drum = soundOffset;
+                ((Drum**)fontData[0])[i] = drum = soundOffset;
 
                 // The drum may be in the list multiple times and already relocated
                 if (!drum->isRelocated) {
                     // Relocate the TunedSampleInfo embedded in the drum struct
-                    AudioLoad_RelocateSampleInfo(&drum->tunedSample, fontData, relocInfo);
+                    AudioLoad_RelocateSampleInfo(&drum->tunedSample, fontDataStartAddr, relocInfo);
                     // Relocate the envelope offset (relative to the start
                     // of the font data) to a pointer (a ram address)
                     soundOffset = drum->envelope;
@@ -854,18 +854,18 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
     // Reading, extracting, and relocating tunedSample effects
 
     // The second u32 in fontData is an offset to the first sfx entry
-    soundListOffset = fontDataStartAddr[1];
+    soundListOffset = fontData[1];
     if (1) {}
 
     // Checks if there are sfxs present in the soundFont
     if ((soundListOffset != 0) && (numSfx != 0)) {
         // Relocate the second u32 from an offset (relative to the start of the font data) to a pointer (a ram address)
-        fontDataStartAddr[1] = RELOC_TO_RAM(soundListOffset);
+        fontData[1] = RELOC_TO_RAM(soundListOffset);
 
         // Loop through the sfxs
         for (i = 0; i < numSfx; i++) {
             // Get the pointer to the i'th sfx by using the pointer to the first entry
-            soundOffset = ((TunedSampleInfo*)fontDataStartAddr[1]) + i;
+            soundOffset = ((TunedSampleInfo*)fontData[1]) + i;
             // Check that this pointer is not NULL
             if (soundOffset != 0) {
                 sfx = soundOffset;
@@ -892,10 +892,10 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
     // Loop through the instruments
     for (i = 2; i <= 2 + numInstruments - 1; i++) {
         // Some instrument data entries are empty, represented by an offset of 0 in the instrument offset list
-        if (fontDataStartAddr[i] != NULL) {
+        if (fontData[i] != NULL) {
             // Relocate the instrument offset (relative to the start of the font data) to a pointer (a ram address)
-            fontDataStartAddr[i] = RELOC_TO_RAM(fontDataStartAddr[i]);
-            inst = fontDataStartAddr[i];
+            fontData[i] = RELOC_TO_RAM(fontData[i]);
+            inst = fontData[i];
 
             // The instrument may be in the list multiple times and already relocated
             if (!inst->isRelocated) {
@@ -928,9 +928,9 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
 #undef FONT_DATA_RELOC
 
     // Store the relocated pointers to the tunedSample lists in the soundFonts meta-data struct
-    gAudioContext.soundFonts[fontId].drums = (Drum**)fontDataStartAddr[0];
-    gAudioContext.soundFonts[fontId].soundEffects = (SoundEffects*)fontDataStartAddr[1];
-    gAudioContext.soundFonts[fontId].instruments = (Instrument**)(fontDataStartAddr + 2);
+    gAudioContext.soundFonts[fontId].drums = (Drum**)fontData[0];
+    gAudioContext.soundFonts[fontId].soundEffects = (SoundEffects*)fontData[1];
+    gAudioContext.soundFonts[fontId].instruments = (Instrument**)(fontData + 2);
 }
 
 void AudioLoad_SyncDma(u32 devAddr, u8* ramAddr, u32 size, s32 medium) {
