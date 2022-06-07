@@ -806,7 +806,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
 
             note = layer->note;
             if (layer == note->playbackState.parentLayer) {
-                tunedSample = note->noteSubEu.tunedSample.soundFontSound;
+                tunedSample = note->noteSubEu.tunedSample;
                 if (tunedSample == NULL) {
                     return 0;
                 }
@@ -844,7 +844,7 @@ s32 func_800E66C0(s32 arg0) {
             temp_a3 = &note->noteSubEu;
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
-                    tunedSample = temp_a3->tunedSample.soundFontSound;
+                    tunedSample = temp_a3->tunedSample;
                     if (tunedSample == NULL || temp_a3->bitField1.isSyntheticWave) {
                         continue;
                     }

@@ -778,7 +778,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
         synthState->samplePosInt += nSamplesToLoad;
     } else {
-        sample = noteSubEu->tunedSample.soundFontSound->sample;
+        sample = noteSubEu->tunedSample->sample;
         loopInfo = sample->loop;
         loopEndPos = loopInfo->end;
         sampleAddr = sample->sampleAddr;
@@ -1195,7 +1195,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         gWaveSamples[8] += nSamplesToLoad * 2;
         return cmd;
     } else {
-        aLoadBuffer(cmd++, noteSubEu->tunedSample.samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
+        aLoadBuffer(cmd++, noteSubEu->waveSample, DMEM_UNCOMPRESSED_NOTE, 0x80);
         if (unk6 != 0) {
             samplePosInt = (samplePosInt * D_801304C0[unk6 >> 2]) / D_801304C0[unk6 & 3];
         }
