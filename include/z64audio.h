@@ -160,7 +160,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SampleInfo* sample;
     /* 0x04 */ f32 tuning; // frequency scale factor
-} TunedSample; // size = 0x8
+} TunedSampleInfo; // size = 0x8
 
 /**
  * A struct contained in soundfont data
@@ -171,9 +171,9 @@ typedef struct {
     /* 0x02 */ u8 normalRangeHi;
     /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
     /* 0x04 */ AdsrEnvelope* envelope;
-    /* 0x08 */ TunedSample lowPitchTunedSample;
-    /* 0x10 */ TunedSample normalPitchTunedSample;
-    /* 0x18 */ TunedSample highPitchTunedSample;
+    /* 0x08 */ TunedSampleInfo lowPitchTunedSample;
+    /* 0x10 */ TunedSampleInfo normalPitchTunedSample;
+    /* 0x18 */ TunedSampleInfo highPitchTunedSample;
 } Instrument; // size = 0x20
 
 /**
@@ -183,7 +183,7 @@ typedef struct {
     /* 0x00 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
     /* 0x01 */ u8 pan;
     /* 0x02 */ u8 isRelocated; // have tunedSample.sample and envelope been relocated (offsets to pointers)
-    /* 0x04 */ TunedSample tunedSample;
+    /* 0x04 */ TunedSampleInfo tunedSample;
     /* 0x0C */ AdsrEnvelope* envelope;
 } Drum; // size = 0x10
 
@@ -191,7 +191,7 @@ typedef struct {
  * A struct contained in soundfont data
  */
 typedef struct {
-    /* 0x00 */ TunedSample tunedSample;
+    /* 0x00 */ TunedSampleInfo tunedSample;
 } SoundEffects; // size = 0x08
 
 /**
@@ -256,7 +256,7 @@ typedef struct {
     /* 0x274 */ s16* filterRight;
     /* 0x278 */ s16* filterLeftState;
     /* 0x27C */ s16* filterRightState;
-    /* 0x280 */ TunedSample tunedSample;
+    /* 0x280 */ TunedSampleInfo tunedSample;
     /* 0x288 */ SampleInfo sample;
     /* 0x298 */ AdpcmLoop loop;
 } SynthesisReverb; // size = 0x2C8
@@ -467,7 +467,7 @@ typedef struct SequenceLayer {
     /* 0x40 */ f32 noteVelocity;
     /* 0x44 */ f32 noteFreqScale;
     /* 0x48 */ Instrument* instrument;
-    /* 0x4C */ TunedSample* tunedSample;
+    /* 0x4C */ TunedSampleInfo* tunedSample;
     /* 0x50 */ SequenceChannel* channel;
     /* 0x54 */ SeqScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
@@ -562,7 +562,7 @@ typedef struct {
     /* 0x0C */ u16 resamplingRateFixedPoint;
     /* 0x0E */ u16 unk_0E;
     /* 0x10 */ union {
-                 TunedSample* tunedSample;
+                 TunedSampleInfo* tunedSample;
                  s16* waveSample; // used for synthetic waves
              };
     /* 0x14 */ s16* filter;

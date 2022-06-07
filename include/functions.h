@@ -1850,7 +1850,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput);
 void Audio_NoteInit(Note* note);
 void Audio_NoteDisable(Note* note);
 void Audio_ProcessNotes(void);
-TunedSample* Audio_GetInstrumentTunedSample(Instrument* instrument, s32 semitone);
+TunedSampleInfo* Audio_GetInstrumentTunedSampleInfo(Instrument* instrument, s32 semitone);
 Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId);
 Drum* Audio_GetDrum(s32 fontId, s32 drumId);
 SoundEffects* Audio_GetSfx(s32 fontId, s32 sfxId);
