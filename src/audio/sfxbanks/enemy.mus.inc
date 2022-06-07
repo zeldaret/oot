@@ -490,7 +490,7 @@ entry enemy_boss_twinrova_bicker
 entry enemy_big_poe_caught_soul
 entry enemy_bug_burrow
 entry enemy_gold_skull_cry
-entry enemy_goron_kid_cry
+entry enemy_goron_child_cry
 entry enemy_boss_gohma_hurt
 entry enemy_tektite_land_water1
 entry enemy_deadhand_burrow
@@ -5927,7 +5927,7 @@ env envelope_6A2C, 230
 notedv PITCH_DF2, 0xD0, 56
 rjump layer_5688
 
-.channel enemy_goron_kid_cry
+.channel enemy_goron_child_cry
 ldlayer 0, layer_5696
 vibfreq 54
 vibdepth 128

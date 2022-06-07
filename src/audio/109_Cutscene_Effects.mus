@@ -1,8 +1,7 @@
 .desc title "Cutscene Sounds"
-.desc author "Koji Kondo"
 .desc type "program"
-.usefont SOUNDFONT_SFX_1
 .usefont SOUNDFONT_SFX_2
+.usefont SOUNDFONT_SFX_1
 
 .sequence sequence_start
 mutebhv 0x60
@@ -261,7 +260,7 @@ end
 
 .layer layer_1FA
 instr FONTANY_INSTR_SFX
-notedvg FONT00_EFFECT_LINK_OLD_FALL_0, 0x0, 100, 0
+notedvg FONT00_EFFECT_LINK_ADULT_FALL_0, 0x0, 100, 0
 end
 
 .layer layer_201
@@ -292,19 +291,19 @@ end
 
 .layer layer_236
 instr FONTANY_INSTR_SFX
-notedvg FONT00_EFFECT_LINK_OLD_HURT_4, 0x0, 95, 0
+notedvg FONT00_EFFECT_LINK_ADULT_HURT_4, 0x0, 95, 0
 ldelay 0x14
-notedvg FONT00_EFFECT_LINK_OLD_HURT_4, 0xF, 90, 0
+notedvg FONT00_EFFECT_LINK_ADULT_HURT_4, 0xF, 90, 0
 end
 
 .layer layer_243
 instr FONTANY_INSTR_SFX
-notedvg FONT00_EFFECT_LINK_OLD_HURT_1, 0x0, 100, 0
+notedvg FONT00_EFFECT_LINK_ADULT_HURT_1, 0x0, 100, 0
 end
 
 .layer layer_24A
 instr FONTANY_INSTR_SFX
-notedvg FONT00_EFFECT_LINK_OLD_HURT_3, 0x0, 110, 0
+notedvg FONT00_EFFECT_LINK_ADULT_HURT_3, 0x0, 110, 0
 end
 
 .channel chan_251
@@ -763,7 +762,7 @@ ldlayer 0, layer_5A9
 end
 
 .layer layer_5A9
-notedv FONT00_EFFECT_LINK_KID_FALL_1, 0x0, 110
+notedv FONT00_EFFECT_LINK_CHILD_FALL_1, 0x0, 110
 end
 
 .filter filter_5B0

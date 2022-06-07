@@ -101,95 +101,95 @@
             <Drum Name="Rainfall 2" Enum="RAIN_1"/>
         </Drums>
         <Effects>
-            <Effect Name="Adult Link - Attack 1" Enum="LINK_OLD_ATTACK_0"/>
-            <Effect Name="Adult Link - Attack 2" Enum="LINK_OLD_ATTACK_1"/>
-            <Effect Name="Adult Link - Attack 3" Enum="LINK_OLD_ATTACK_2"/>
-            <Effect Name="Adult Link - Attack 4" Enum="LINK_OLD_ATTACK_3"/>
-            <Effect Name="Adult Link - Strong Attack 1" Enum="LINK_OLD_MAJOR_0"/>
-            <Effect Name="Adult Link - Strong Attack 2" Enum="LINK_OLD_MAJOR_1"/>
-            <Effect Name="Adult Link - Dangling Grunt" Enum="LINK_OLD_LEDGE_0"/>
-            <Effect Name="Adult Link - Climb Edge" Enum="LINK_OLD_CLIMB"/>
-            <Effect Name="Adult Link - Dangling Gasp 1" Enum="LINK_OLD_LEDGE_1"/>
-            <Effect Name="Adult Link - Hurt 1" Enum="LINK_OLD_HURT_0"/>
-            <Effect Name="Adult Link - Hurt 2" Enum="LINK_OLD_HURT_1"/>
-            <Effect Name="Adult Link - Hurt 3" Enum="LINK_OLD_HURT_2"/>
-            <Effect Name="Adult Link - Hurt 4" Enum="LINK_OLD_HURT_3"/>
-            <Effect Name="Adult Link - Knocked Back" Enum="LINK_OLD_KNOCKBACK"/>
-            <Effect Name="Adult Link - Hurt 5" Enum="LINK_OLD_HURT_4"/>
-            <Effect Name="Adult Link - Falling 1" Enum="LINK_OLD_FALL_0"/>
-            <Effect Name="Adult Link - Falling 2" Enum="LINK_OLD_FALL_1"/>
-            <Effect Name="Adult Link - Gasp 1" Enum="LINK_OLD_GASP_0"/>
-            <Effect Name="Adult Link - Gasp 2" Enum="LINK_OLD_GASP_1"/>
-            <Effect Name="Adult Link - Pant 1" Enum="LINK_OLD_PANT_0"/>
-            <Effect Name="Child Link - Dying Gasp" Enum="LINK_KID_DEATH_0"/>
-            <Effect Name="Adult Link - Spur Horse 1" Enum="LINK_OLD_SPUR_0"/>
-            <Effect Name="Adult Link - Spur Horse 2" Enum="LINK_OLD_SPUR_1"/>
-            <Effect Name="Adult Link - Pant 2" Enum="LINK_OLD_PANT_1"/>
-            <Effect Name="Adult Link - Painful Landing" Enum="LINK_OLD_FALL_DMG"/>
-            <Effect Name="Adult Link - Dangling Gasp 2" Enum="LINK_OLD_LEDGE_2"/>
-            <Effect Name="Adult Link - Hup" Enum="LINK_OLD_JUMP"/>
-            <Effect Name="Adult Link - Gasp 3" Enum="LINK_OLD_GASP_2"/>
-            <Effect Name="Child Link - Attack 1" Enum="LINK_KID_ATTACK_0"/>
-            <Effect Name="Child Link - Attack 2" Enum="LINK_KID_ATTACK_1"/>
-            <Effect Name="Child Link - Attack 3" Enum="LINK_KID_ATTACK_2"/>
-            <Effect Name="Child Link - Attack 4" Enum="LINK_KID_ATTACK_3"/>
-            <Effect Name="Child Link - Strong Attack 1" Enum="LINK_KID_STRONG_0"/>
-            <Effect Name="Child Link - Strong Attack 2" Enum="LINK_KID_STRONG_1"/>
-            <Effect Name="Child Link - Dangling Gasp 1" Enum="LINK_KID_LEDGE_0"/>
-            <Effect Name="Child Link - Sigh 1" Enum="LINK_KID_SIGH_0"/>
-            <Effect Name="Child Link - Sigh 2" Enum="LINK_KID_SIGH_1"/>
-            <Effect Name="Child Link - Hurt 1" Enum="LINK_KID_HURT_0"/>
-            <Effect Name="Child Link - Hurt 2" Enum="LINK_KID_HURT_1"/>
-            <Effect Name="Child Link - Hurt 3" Enum="LINK_KID_HURT_2"/>
-            <Effect Name="Child Link - Hurt 4" Enum="LINK_KID_HURT_3"/>
-            <Effect Name="Child Link - Knocked Back" Enum="LINK_KID_KNOCKBACK"/>
-            <Effect Name="Child Link - Hurt 5" Enum="LINK_KID_HURT_4"/>
-            <Effect Name="Child Link - Falling 1" Enum="LINK_KID_FALL_0"/>
-            <Effect Name="Child Link - Falling 2" Enum="LINK_KID_FALL_1"/>
-            <Effect Name="Child Link - Gasp 1" Enum="LINK_KID_GASP_0"/>
-            <Effect Name="Child Link - Gasp 2" Enum="LINK_KID_GASP_1"/>
-            <Effect Name="Child Link - Wheeze" Enum="LINK_KID_WHEEZE"/>
-            <Effect Name="Child Link - Exhausted Panting" Enum="LINK_KID_PANT"/>
-            <Effect Name="Child Link - Painful Landing" Enum="LINK_KID_FALL_DMG"/>
-            <Effect Name="Child Link - Danging Gasp 2" Enum="LINK_KID_LEDGE_1"/>
-            <Effect Name="Child Link - Glug" Enum="LINK_KID_DRINK"/>
-            <Effect Name="Child Link - Refreshed" Enum="LINK_KID_REFRESH"/>
-            <Effect Name="Child Link - Hup 1" Enum="LINK_KID_JUMP_0"/>
-            <Effect Name="Child Link - Hup 2" Enum="LINK_OLD_JUMP_1"/>
-            <Effect Name="Adult Link - Glug" Enum="LINK_OLD_DRINK"/>
-            <Effect Name="Adult Link - Refreshed" Enum="LINK_OLD_REFRESH"/>
+            <Effect Name="Adult Link - Attack 1" Enum="LINK_ADULT_ATTACK_0"/>
+            <Effect Name="Adult Link - Attack 2" Enum="LINK_ADULT_ATTACK_1"/>
+            <Effect Name="Adult Link - Attack 3" Enum="LINK_ADULT_ATTACK_2"/>
+            <Effect Name="Adult Link - Attack 4" Enum="LINK_ADULT_ATTACK_3"/>
+            <Effect Name="Adult Link - Strong Attack 1" Enum="LINK_ADULT_MAJOR_0"/>
+            <Effect Name="Adult Link - Strong Attack 2" Enum="LINK_ADULT_MAJOR_1"/>
+            <Effect Name="Adult Link - Dangling Grunt" Enum="LINK_ADULT_LEDGE_0"/>
+            <Effect Name="Adult Link - Climb Edge" Enum="LINK_ADULT_CLIMB"/>
+            <Effect Name="Adult Link - Dangling Gasp 1" Enum="LINK_ADULT_LEDGE_1"/>
+            <Effect Name="Adult Link - Hurt 1" Enum="LINK_ADULT_HURT_0"/>
+            <Effect Name="Adult Link - Hurt 2" Enum="LINK_ADULT_HURT_1"/>
+            <Effect Name="Adult Link - Hurt 3" Enum="LINK_ADULT_HURT_2"/>
+            <Effect Name="Adult Link - Hurt 4" Enum="LINK_ADULT_HURT_3"/>
+            <Effect Name="Adult Link - Knocked Back" Enum="LINK_ADULT_KNOCKBACK"/>
+            <Effect Name="Adult Link - Hurt 5" Enum="LINK_ADULT_HURT_4"/>
+            <Effect Name="Adult Link - Falling 1" Enum="LINK_ADULT_FALL_0"/>
+            <Effect Name="Adult Link - Falling 2" Enum="LINK_ADULT_FALL_1"/>
+            <Effect Name="Adult Link - Gasp 1" Enum="LINK_ADULT_GASP_0"/>
+            <Effect Name="Adult Link - Gasp 2" Enum="LINK_ADULT_GASP_1"/>
+            <Effect Name="Adult Link - Pant 1" Enum="LINK_ADULT_PANT_0"/>
+            <Effect Name="Child Link - Dying Gasp" Enum="LINK_CHILD_DEATH_0"/>
+            <Effect Name="Adult Link - Spur Horse 1" Enum="LINK_ADULT_SPUR_0"/>
+            <Effect Name="Adult Link - Spur Horse 2" Enum="LINK_ADULT_SPUR_1"/>
+            <Effect Name="Adult Link - Pant 2" Enum="LINK_ADULT_PANT_1"/>
+            <Effect Name="Adult Link - Painful Landing" Enum="LINK_ADULT_FALL_DMG"/>
+            <Effect Name="Adult Link - Dangling Gasp 2" Enum="LINK_ADULT_LEDGE_2"/>
+            <Effect Name="Adult Link - Hup" Enum="LINK_ADULT_JUMP"/>
+            <Effect Name="Adult Link - Gasp 3" Enum="LINK_ADULT_GASP_2"/>
+            <Effect Name="Child Link - Attack 1" Enum="LINK_CHILD_ATTACK_0"/>
+            <Effect Name="Child Link - Attack 2" Enum="LINK_CHILD_ATTACK_1"/>
+            <Effect Name="Child Link - Attack 3" Enum="LINK_CHILD_ATTACK_2"/>
+            <Effect Name="Child Link - Attack 4" Enum="LINK_CHILD_ATTACK_3"/>
+            <Effect Name="Child Link - Strong Attack 1" Enum="LINK_CHILD_STRONG_0"/>
+            <Effect Name="Child Link - Strong Attack 2" Enum="LINK_CHILD_STRONG_1"/>
+            <Effect Name="Child Link - Dangling Gasp 1" Enum="LINK_CHILD_LEDGE_0"/>
+            <Effect Name="Child Link - Sigh 1" Enum="LINK_CHILD_SIGH_0"/>
+            <Effect Name="Child Link - Sigh 2" Enum="LINK_CHILD_SIGH_1"/>
+            <Effect Name="Child Link - Hurt 1" Enum="LINK_CHILD_HURT_0"/>
+            <Effect Name="Child Link - Hurt 2" Enum="LINK_CHILD_HURT_1"/>
+            <Effect Name="Child Link - Hurt 3" Enum="LINK_CHILD_HURT_2"/>
+            <Effect Name="Child Link - Hurt 4" Enum="LINK_CHILD_HURT_3"/>
+            <Effect Name="Child Link - Knocked Back" Enum="LINK_CHILD_KNOCKBACK"/>
+            <Effect Name="Child Link - Hurt 5" Enum="LINK_CHILD_HURT_4"/>
+            <Effect Name="Child Link - Falling 1" Enum="LINK_CHILD_FALL_0"/>
+            <Effect Name="Child Link - Falling 2" Enum="LINK_CHILD_FALL_1"/>
+            <Effect Name="Child Link - Gasp 1" Enum="LINK_CHILD_GASP_0"/>
+            <Effect Name="Child Link - Gasp 2" Enum="LINK_CHILD_GASP_1"/>
+            <Effect Name="Child Link - Wheeze" Enum="LINK_CHILD_WHEEZE"/>
+            <Effect Name="Child Link - Exhausted Panting" Enum="LINK_CHILD_PANT"/>
+            <Effect Name="Child Link - Painful Landing" Enum="LINK_CHILD_FALL_DMG"/>
+            <Effect Name="Child Link - Danging Gasp 2" Enum="LINK_CHILD_LEDGE_1"/>
+            <Effect Name="Child Link - Glug" Enum="LINK_CHILD_DRINK"/>
+            <Effect Name="Child Link - Refreshed" Enum="LINK_CHILD_REFRESH"/>
+            <Effect Name="Child Link - Hup 1" Enum="LINK_CHILD_JUMP_0"/>
+            <Effect Name="Child Link - Hup 2" Enum="LINK_ADULT_JUMP_1"/>
+            <Effect Name="Adult Link - Glug" Enum="LINK_ADULT_DRINK"/>
+            <Effect Name="Adult Link - Refreshed" Enum="LINK_ADULT_REFRESH"/>
             <Effect Name="Navi - Watch Out!" Enum="NAVI_WATCH_OUT"/>
             <Effect Name="Navi - Look!" Enum="NAVI_LOOK"/>
             <Effect Name="Navi - Hey!" Enum="NAVI_HEY"/>
-            <Effect Name="Adult Link - Lift" Enum="LINK_OLD_LIFT"/>
-            <Effect Name="Adult Link - Cast Spell" Enum="LINK_OLD_SPELL"/>
-            <Effect Name="Child Link - Charge Up" Enum="LINK_KID_CHARGE"/>
-            <Effect Name="Child Link - Cast Spell" Enum="LINK_KID_SPELL"/>
-            <Effect Name="Child Link - Dying Gasp" Enum="LINK_KID_DEATH_1"/>
-            <Effect Name="Child Link - Strangled" Enum="LINK_KID_STRANGLED"/>
-            <Effect Name="Child Link - Gasp 3" Enum="LINK_KID_GASP_2"/>
-            <Effect Name="Child Link - Shiver" Enum="LINK_KID_SHIVER"/>
+            <Effect Name="Adult Link - Lift" Enum="LINK_ADULT_LIFT"/>
+            <Effect Name="Adult Link - Cast Spell" Enum="LINK_ADULT_SPELL"/>
+            <Effect Name="Child Link - Charge Up" Enum="LINK_CHILD_CHARGE"/>
+            <Effect Name="Child Link - Cast Spell" Enum="LINK_CHILD_SPELL"/>
+            <Effect Name="Child Link - Dying Gasp" Enum="LINK_CHILD_DEATH_1"/>
+            <Effect Name="Child Link - Strangled" Enum="LINK_CHILD_STRANGLED"/>
+            <Effect Name="Child Link - Gasp 3" Enum="LINK_CHILD_GASP_2"/>
+            <Effect Name="Child Link - Shiver" Enum="LINK_CHILD_SHIVER"/>
             <Effect/>
-            <Effect Name="Child Link - Sneeze" Enum="LINK_KID_SNEEZE"/>
-            <Effect Name="Child Link - Grunt" Enum="LINK_KID_GRUNT"/>
-            <Effect Name="Child Link - Moans From Heat" Enum="LINK_KID_HEAT_0"/>
-            <Effect Name="Child Link - Awakening Grunt" Enum="LINK_KID_WAKE_0"/>
-            <Effect Name="Child Link - Wiping Off Sweat" Enum="LINK_KID_HEAT_1"/>
-            <Effect Name="Child Link - Yawn Starts" Enum="LINK_KID_WAKE_1"/>
-            <Effect Name="Child Link - Yawn and Stretch" Enum="LINK_KID_WAKE_2"/>
-            <Effect Name="Child Link - Stretch Refreshingly" Enum="LINK_KID_WAKE_3"/>
-            <Effect Name="Adult Link - Hurt 6" Enum="LINK_OLD_HURT_5"/>
-            <Effect Name="Adult Link - Choking" Enum="LINK_OLD_CHOKE"/>
-            <Effect Name="Adult Link - Gasping" Enum="LINK_OLD_GASPING"/>
-            <Effect Name="Adult Link - Small Gasp" Enum="LINK_OLD_GASP_3"/>
-            <Effect Name="Adult Link - Unsettled Moan" Enum="LINK_OLD_MOAN"/>
-            <Effect Name="Adult Link - Sneeze" Enum="LINK_OLD_SNEEZE"/>
-            <Effect Name="Adult Link - Sigh 1" Enum="LINK_OLD_SIGH_0"/>
-            <Effect Name="Adult Link - Sigh 2" Enum="LINK_OLD_SIGH_1"/>
-            <Effect Name="Adult Link - Sigh 3" Enum="LINK_OLD_SIGH_2"/>
-            <Effect Name="Adult Link - Stretch Start" Enum="LINK_OLD_STRETCH_0"/>
-            <Effect Name="Adult Link - Stretching" Enum="LINK_OLD_STRETCH_1"/>
-            <Effect Name="Adult Link - Finished Stretching" Enum="LINK_OLD_STRETCH_2"/>
+            <Effect Name="Child Link - Sneeze" Enum="LINK_CHILD_SNEEZE"/>
+            <Effect Name="Child Link - Grunt" Enum="LINK_CHILD_GRUNT"/>
+            <Effect Name="Child Link - Moans From Heat" Enum="LINK_CHILD_HEAT_0"/>
+            <Effect Name="Child Link - Awakening Grunt" Enum="LINK_CHILD_WAKE_0"/>
+            <Effect Name="Child Link - Wiping Off Sweat" Enum="LINK_CHILD_HEAT_1"/>
+            <Effect Name="Child Link - Yawn Starts" Enum="LINK_CHILD_WAKE_1"/>
+            <Effect Name="Child Link - Yawn and Stretch" Enum="LINK_CHILD_WAKE_2"/>
+            <Effect Name="Child Link - Stretch Refreshingly" Enum="LINK_CHILD_WAKE_3"/>
+            <Effect Name="Adult Link - Hurt 6" Enum="LINK_ADULT_HURT_5"/>
+            <Effect Name="Adult Link - Choking" Enum="LINK_ADULT_CHOKE"/>
+            <Effect Name="Adult Link - Gasping" Enum="LINK_ADULT_GASPING"/>
+            <Effect Name="Adult Link - Small Gasp" Enum="LINK_ADULT_GASP_3"/>
+            <Effect Name="Adult Link - Unsettled Moan" Enum="LINK_ADULT_MOAN"/>
+            <Effect Name="Adult Link - Sneeze" Enum="LINK_ADULT_SNEEZE"/>
+            <Effect Name="Adult Link - Sigh 1" Enum="LINK_ADULT_SIGH_0"/>
+            <Effect Name="Adult Link - Sigh 2" Enum="LINK_ADULT_SIGH_1"/>
+            <Effect Name="Adult Link - Sigh 3" Enum="LINK_ADULT_SIGH_2"/>
+            <Effect Name="Adult Link - Stretch Start" Enum="LINK_ADULT_STRETCH_0"/>
+            <Effect Name="Adult Link - Stretching" Enum="LINK_ADULT_STRETCH_1"/>
+            <Effect Name="Adult Link - Finished Stretching" Enum="LINK_ADULT_STRETCH_2"/>
             <Effect Name="Talon Snoring" Enum="TALON_SNORE"/>
             <Effect Name="Talon Startled" Enum="TALON_SURPRISE"/>
             <Effect Name="Talon Distressed" Enum="TALON_CURIOUS"/>
@@ -235,8 +235,8 @@
             <Effect Name="King Zora Scoots" Enum="MWINK"/>
             <Effect Name="Navi - Hello!" Enum="NAVI_HELLO"/>
             <Effect/>
-            <Effect Name="Adult Link - Dramatic Gasp" Enum="LINK_OLD_GASP_4"/>
-            <Effect Name="Child Link - Dramatic Gasp" Enum="LINK_KID_GASP_3"/>
+            <Effect Name="Adult Link - Dramatic Gasp" Enum="LINK_ADULT_GASP_4"/>
+            <Effect Name="Child Link - Dramatic Gasp" Enum="LINK_CHILD_GASP_3"/>
         </Effects>
     </Soundfont>
 </Root>

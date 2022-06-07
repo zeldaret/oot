@@ -667,7 +667,7 @@ void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate) {
     u32 medium;
     s32 status;
     u32 romAddr;
-    AudioCacheLoadType cachePolicy;
+    s32 cachePolicy;
     void* ret;
     u32 realId;
 

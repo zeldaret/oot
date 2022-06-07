@@ -1,52 +1,52 @@
 .table table_player_kid
-entry player_kid_step_dirt
-entry player_kid_step_sand
-entry player_kid_step_stone
-entry player_kid_step_jabu
-entry player_kid_step_water
-entry player_kid_step_water_deep
-entry player_kid_step_tall_grass
-entry player_kid_step_lava
-entry player_kid_step_grass
-entry player_kid_step_carpet
-entry player_kid_step_wood
-entry player_kid_step_bridge
+entry player_child_step_dirt
+entry player_child_step_sand
+entry player_child_step_stone
+entry player_child_step_jabu
+entry player_child_step_water
+entry player_child_step_water_deep
+entry player_child_step_tall_grass
+entry player_child_step_lava
+entry player_child_step_grass
+entry player_child_step_carpet
+entry player_child_step_wood
+entry player_child_step_bridge
 entry player_step_vines
 entry player_step_iron_boots
 entry player_step_unused
-entry player_kid_step_ice
-entry player_kid_jump_dirt
-entry player_kid_jump_sand
-entry player_kid_jump_stone
-entry player_kid_jump_jabu
-entry player_kid_jump_water
-entry player_kid_jump_water_deep
-entry player_kid_jump_tall_grass
-entry player_kid_jump_lava
-entry player_kid_jump_grass
-entry player_kid_jump_carpet
-entry player_kid_jump_wood
-entry player_kid_jump_bridge
-entry player_kid_step_dirt
+entry player_child_step_ice
+entry player_child_jump_dirt
+entry player_child_jump_sand
+entry player_child_jump_stone
+entry player_child_jump_jabu
+entry player_child_jump_water
+entry player_child_jump_water_deep
+entry player_child_jump_tall_grass
+entry player_child_jump_lava
+entry player_child_jump_grass
+entry player_child_jump_carpet
+entry player_child_jump_wood
+entry player_child_jump_bridge
+entry player_child_step_dirt
 entry player_jump_iron_boots
 entry player_jump_unused
-entry player_kid_jump_ice
-entry player_kid_land_dirt
-entry player_kid_land_sand
-entry player_kid_land_stone
-entry player_kid_land_jabu
-entry player_kid_land_water
-entry player_kid_land_water_deep
-entry player_kid_land_tall_grass
-entry player_kid_land_lava
-entry player_kid_land_grass
-entry player_kid_land_carpet
-entry player_kid_land_wood
-entry player_kid_land_bridge
-entry player_kid_step_dirt
+entry player_child_jump_ice
+entry player_child_land_dirt
+entry player_child_land_sand
+entry player_child_land_stone
+entry player_child_land_jabu
+entry player_child_land_water
+entry player_child_land_water_deep
+entry player_child_land_tall_grass
+entry player_child_land_lava
+entry player_child_land_grass
+entry player_child_land_carpet
+entry player_child_land_wood
+entry player_child_land_bridge
+entry player_child_step_dirt
 entry player_land_iron_boots
 entry player_land_unused
-entry player_kid_land_ice
+entry player_child_land_ice
 entry player_climb_down_vine_top
 entry player_climb_up_vine_top
 entry player_climb_on_epona
@@ -75,7 +75,7 @@ entry player_slip_grass
 entry player_slip_carpet
 entry player_slip_wood
 entry player_slip_bridge
-entry player_kid_step_water
+entry player_child_step_water
 entry player_slip_wood
 entry player_slip_unused
 entry player_slip_stone
@@ -91,7 +91,7 @@ entry player_rebound_grass
 entry player_rebound_carpet
 entry player_rebound_wood
 entry player_rebound_bridge
-entry player_kid_step_dirt
+entry player_child_step_dirt
 entry player_rebound_wood
 entry player_rebound_unused
 entry player_rebound_ice
@@ -101,8 +101,8 @@ entry player_land_iron_boots
 entry player_dive_surface
 entry player_dive_down
 entry player_dive_move
-entry player_kid_metalequip
-entry player_old_metalequip
+entry player_child_metalequip
+entry player_adult_metalequip
 entry player_electric_shock
 entry player_lift_grass
 entry player_lift_rock
@@ -128,54 +128,54 @@ entry player_arrow_fire_charge
 entry player_arrow_ice_charge
 entry player_arrow_light_charge
 .table table_player_old
-entry player_old_step_dirt
-entry player_old_step_sand
-entry player_old_step_stone
-entry player_old_step_jabu
-entry player_old_step_water
-entry player_old_step_water_deep
-entry player_old_step_tall_grass
-entry player_old_step_lava
-entry player_old_step_grass
-entry player_old_step_carpet
-entry player_old_step_wood
-entry player_old_step_bridge
-entry player_old_step_vine
+entry player_adult_step_dirt
+entry player_adult_step_sand
+entry player_adult_step_stone
+entry player_adult_step_jabu
+entry player_adult_step_water
+entry player_adult_step_water_deep
+entry player_adult_step_tall_grass
+entry player_adult_step_lava
+entry player_adult_step_grass
+entry player_adult_step_carpet
+entry player_adult_step_wood
+entry player_adult_step_bridge
+entry player_adult_step_vine
 entry player_step_iron_boots
-entry player_kid_step_dirt
-entry player_old_step_ice
-entry player_old_jump_dirt
-entry player_old_jump_sand
-entry player_old_jump_stone
-entry player_old_jump_jabu
-entry player_old_jump_water
-entry player_old_jump_water_deep
-entry player_old_jump_tall_grass
-entry player_old_jump_lava
-entry player_old_jump_grass
-entry player_old_jump_carpet
-entry player_old_jump_wood
-entry player_old_jump_bridge
-entry player_kid_step_dirt
+entry player_child_step_dirt
+entry player_adult_step_ice
+entry player_adult_jump_dirt
+entry player_adult_jump_sand
+entry player_adult_jump_stone
+entry player_adult_jump_jabu
+entry player_adult_jump_water
+entry player_adult_jump_water_deep
+entry player_adult_jump_tall_grass
+entry player_adult_jump_lava
+entry player_adult_jump_grass
+entry player_adult_jump_carpet
+entry player_adult_jump_wood
+entry player_adult_jump_bridge
+entry player_child_step_dirt
 entry player_jump_iron_boots
-entry player_kid_step_dirt
-entry player_old_jump_ice
-entry player_old_land_dirt
-entry player_old_land_sand
-entry player_old_land_stone
-entry player_old_land_jabu
-entry player_old_land_water
-entry player_old_land_water_deep
-entry player_old_land_tall_grass
-entry player_old_land_lava
-entry player_old_land_grass
-entry player_old_land_carpet
-entry player_old_land_wood
-entry player_old_land_bridge
-entry player_old_step_dirt
+entry player_child_step_dirt
+entry player_adult_jump_ice
+entry player_adult_land_dirt
+entry player_adult_land_sand
+entry player_adult_land_stone
+entry player_adult_land_jabu
+entry player_adult_land_water
+entry player_adult_land_water_deep
+entry player_adult_land_tall_grass
+entry player_adult_land_lava
+entry player_adult_land_grass
+entry player_adult_land_carpet
+entry player_adult_land_wood
+entry player_adult_land_bridge
+entry player_adult_step_dirt
 entry player_land_iron_boots
-entry player_kid_step_dirt
-entry player_old_land_ice
+entry player_child_step_dirt
+entry player_adult_land_ice
 entry player_crawl_dirt
 entry player_crawl_sand
 entry player_crawl_stone
@@ -188,9 +188,9 @@ entry player_crawl_grass
 entry player_crawl_carpet
 entry player_crawl_wood
 entry player_crawl_bridge
-entry player_kid_step_dirt
-entry player_kid_step_dirt
-entry player_kid_step_dirt
+entry player_child_step_dirt
+entry player_child_step_dirt
+entry player_child_step_dirt
 entry player_crawl_ice
 entry player_cast_soul_end
 entry player_roll_dust
@@ -204,10 +204,10 @@ entry player_cast_wind_dismiss
 entry player_hover
 entry player_plant_hover
 entry env_elevator_move
-entry player_kid_step_dirt
-entry player_kid_step_dirt
-entry player_kid_step_dirt
-entry player_kid_step_dirt
+entry player_child_step_dirt
+entry player_child_step_dirt
+entry player_child_step_dirt
+entry player_child_step_dirt
 entry player_slip_dirt2  # Used; all other slip values are ignored
 entry player_slip_sand2
 entry player_slip_stone2
@@ -220,12 +220,12 @@ entry player_slip_grass2
 entry player_slip_dirt2
 entry player_slip_unused2
 entry player_slip_unused2
-entry player_kid_step_water
+entry player_child_step_water
 entry player_slip_unused2
 entry player_slip_iron_boots_unused
 entry player_slip_stone2
 
-.channel player_kid_step_dirt
+.channel player_child_step_dirt
 ldlayer 0, layer_2A7
 end
 
@@ -246,7 +246,7 @@ instr FONT00_INSTR_STEP_FIRE
 notedv PITCH_G3, 0x4, 56
 end
 
-.channel player_kid_step_sand
+.channel player_child_step_sand
 ldlayer 0, layer_2C3
 end
 
@@ -258,7 +258,7 @@ instr FONT00_INSTR_STEP_SAND
 notedv PITCH_A3, 0x15, 56
 end
 
-.channel player_kid_step_stone
+.channel player_child_step_stone
 ldi 20
 stio 1
 ldlayer 0, layer_2D2
@@ -272,7 +272,7 @@ instr FONT00_INSTR_STEP_ROCK
 notedv PITCH_GF3, 0x15, 95
 end
 
-.channel player_kid_step_jabu
+.channel player_child_step_jabu
 ldlayer 0, layer_2DE
 end
 
@@ -285,7 +285,7 @@ portamento 0x82, 31, 255
 notedv PITCH_A3, 0x2D, 93
 end
 
-.channel player_kid_step_water
+.channel player_child_step_water
 ldlayer 0, layer_2EE
 end
 
@@ -297,7 +297,7 @@ instr FONT00_INSTR_STEP_WATER
 notedv PITCH_A3, 0x1E, 56
 end
 
-.channel player_kid_step_water_deep
+.channel player_child_step_water_deep
 ldlayer 0, layer_2FA
 end
 
@@ -309,7 +309,7 @@ instr FONT00_INSTR_STEP_WATER
 notedv PITCH_F3, 0x1E, 56
 end
 
-.channel player_kid_step_tall_grass
+.channel player_child_step_tall_grass
 ldlayer 0, layer_306
 end
 
@@ -324,7 +324,7 @@ releaserate 235
 notedv PITCH_B3, 0x30, 80
 end
 
-.channel player_kid_step_lava
+.channel player_child_step_lava
 ldlayer 0, layer_319
 end
 
@@ -341,7 +341,7 @@ portamento 0x81, 44, 255
 notedv PITCH_F3, 0x16, 64
 end
 
-.channel player_kid_step_grass
+.channel player_child_step_grass
 ldlayer 0, layer_333
 end
 
@@ -354,7 +354,7 @@ env envelope_66B0, 250
 notedv PITCH_A3, 0x15, 70
 end
 
-.channel player_kid_step_carpet
+.channel player_child_step_carpet
 ldlayer 0, layer_343
 end
 
@@ -366,7 +366,7 @@ instr FONT00_INSTR_STEP_CARPET_1
 notedv PITCH_GF4, 0x0, 80
 end
 
-.channel player_kid_step_wood
+.channel player_child_step_wood
 ldlayer 0, layer_34F
 end
 
@@ -378,7 +378,7 @@ instr FONT00_INSTR_STEP_WOOD
 notedv PITCH_AF3, 0x14, 86
 end
 
-.channel player_kid_step_bridge
+.channel player_child_step_bridge
 ldlayer 0, layer_35B
 end
 
@@ -423,7 +423,7 @@ instr FONT00_INSTR_STEP_SAND
 notedv PITCH_A2, 0x2A, 56
 end
 
-.channel player_kid_step_ice
+.channel player_child_step_ice
 ldlayer 0, layer_390
 end
 
@@ -435,7 +435,7 @@ instr FONT00_INSTR_STEP_ICE
 notedv PITCH_A3, 0x15, 85
 end
 
-.channel player_kid_jump_dirt
+.channel player_child_jump_dirt
 instr FONT00_INSTR_STEP_GROUND
 ldlayer 0, layer_3A1
 ldlayer 1, layer_3AA
@@ -462,7 +462,7 @@ notedv PITCH_F3, 0x5, 55
 notedv PITCH_B3, 0x5, 55
 end
 
-.channel player_kid_jump_sand
+.channel player_child_jump_sand
 ldlayer 0, layer_3CE
 ldlayer 1, layer_3AA
 end
@@ -477,7 +477,7 @@ notedv PITCH_F4, 0xA, 63
 ldelay 0x7
 end
 
-.channel player_kid_jump_stone
+.channel player_child_jump_stone
 ldi 20
 stio 1
 ldlayer 0, layer_3E5
@@ -494,7 +494,7 @@ notedvg PITCH_B3, 0xA, 95, 127
 ldelay 0x7
 end
 
-.channel player_kid_jump_jabu
+.channel player_child_jump_jabu
 ldlayer 0, layer_3FB
 ldlayer 1, layer_3AA
 end
@@ -509,7 +509,7 @@ notedv PITCH_D4, 0xA, 63
 ldelay 0x7
 end
 
-.channel player_kid_jump_water
+.channel player_child_jump_water
 ldlayer 0, layer_40F
 ldlayer 1, layer_3AA
 end
@@ -523,7 +523,7 @@ notedv PITCH_A3, 0xA, 63
 notedv PITCH_F4, 0x1E, 63
 end
 
-.channel player_kid_jump_water_deep
+.channel player_child_jump_water_deep
 ldlayer 0, layer_421
 ldlayer 1, layer_3AA
 end
@@ -537,7 +537,7 @@ notedv PITCH_F3, 0xA, 63
 notedv PITCH_D4, 0x1E, 63
 end
 
-.channel player_kid_jump_tall_grass
+.channel player_child_jump_tall_grass
 ldlayer 0, layer_433
 ldlayer 1, layer_3AA
 end
@@ -554,7 +554,7 @@ notedv PITCH_A3, 0xA, 75
 notedv PITCH_E4, 0x30, 80
 end
 
-.channel player_kid_jump_lava
+.channel player_child_jump_lava
 ldlayer 0, layer_44C
 ldlayer 1, layer_3AA
 end
@@ -574,7 +574,7 @@ instr FONT00_INSTR_STEP_WATER
 notedv PITCH_EF3, 0xE, 63
 end
 
-.channel player_kid_jump_grass
+.channel player_child_jump_grass
 ldlayer 0, layer_46E
 ldlayer 1, layer_3AA
 end
@@ -589,7 +589,7 @@ notedv PITCH_F4, 0xA, 63
 ldelay 0x7
 end
 
-.channel player_kid_jump_carpet
+.channel player_child_jump_carpet
 ldlayer 0, layer_482
 ldlayer 1, layer_3AA
 end
@@ -604,7 +604,7 @@ notedv PITCH_A4, 0xA, 78
 ldelay 0x7
 end
 
-.channel player_kid_jump_wood
+.channel player_child_jump_wood
 ldlayer 0, layer_496
 ldlayer 1, layer_3AA
 end
@@ -618,7 +618,7 @@ notedv PITCH_AF3, 0xA, 73
 notedv PITCH_F4, 0x1E, 73
 end
 
-.channel player_kid_jump_bridge
+.channel player_child_jump_bridge
 ldlayer 0, layer_4A8
 ldlayer 1, layer_3AA
 end
@@ -666,7 +666,7 @@ notedv PITCH_F3, 0x12, 63
 ldelay 0x7
 end
 
-.channel player_kid_jump_ice
+.channel player_child_jump_ice
 ldlayer 0, layer_4F3
 ldlayer 1, layer_3AA
 end
@@ -681,7 +681,7 @@ notedv PITCH_B4, 0x12, 95
 ldelay 0x7
 end
 
-.channel player_kid_land_dirt
+.channel player_child_land_dirt
 ldlayer 0, layer_507
 ldlayer 1, layer_512
 end
@@ -708,7 +708,7 @@ notedv PITCH_B3, 0x5, 39
 notedv PITCH_F3, 0x5, 39
 end
 
-.channel player_kid_land_sand
+.channel player_child_land_sand
 ldlayer 0, layer_536
 ldlayer 1, layer_512
 end
@@ -722,7 +722,7 @@ notedv PITCH_A4, 0xA, 75
 notedv PITCH_A3, 0xA, 75
 end
 
-.channel player_kid_land_stone
+.channel player_child_land_stone
 ldi 20
 stio 1
 ldlayer 0, layer_54B
@@ -739,7 +739,7 @@ notedvg PITCH_GF3, 0xA, 101, 64
 ldelay 0x7
 end
 
-.channel player_kid_land_jabu
+.channel player_child_land_jabu
 ldlayer 0, layer_561
 ldlayer 1, layer_512
 end
@@ -754,7 +754,7 @@ notedv PITCH_F3, 0xA, 75
 ldelay 0x7
 end
 
-.channel player_kid_land_water
+.channel player_child_land_water
 ldlayer 0, layer_575
 ldlayer 1, layer_512
 end
@@ -768,7 +768,7 @@ notedv PITCH_A4, 0xA, 75
 notedv PITCH_A3, 0x1E, 75
 end
 
-.channel player_kid_land_water_deep
+.channel player_child_land_water_deep
 ldlayer 0, layer_587
 ldlayer 1, layer_512
 end
@@ -782,7 +782,7 @@ notedv PITCH_F4, 0xA, 75
 notedv PITCH_F3, 0x1E, 75
 end
 
-.channel player_kid_land_tall_grass
+.channel player_child_land_tall_grass
 ldlayer 0, layer_599
 ldlayer 1, layer_512
 end
@@ -799,7 +799,7 @@ notedv PITCH_F4, 0xA, 80
 notedv PITCH_A3, 0x30, 80
 end
 
-.channel player_kid_land_lava
+.channel player_child_land_lava
 ldlayer 0, layer_5B2
 ldlayer 1, layer_512
 end
@@ -818,7 +818,7 @@ portamento 0x81, 38, 255
 notedv PITCH_C3, 0x16, 70
 end
 
-.channel player_kid_land_grass
+.channel player_child_land_grass
 ldlayer 0, layer_5D2
 ldlayer 1, layer_512
 end
@@ -833,7 +833,7 @@ notedv PITCH_G3, 0xA, 75
 ldelay 0x7
 end
 
-.channel player_kid_land_carpet
+.channel player_child_land_carpet
 ldlayer 0, layer_5E6
 ldlayer 1, layer_512
 end
@@ -848,7 +848,7 @@ notedv PITCH_F3, 0xA, 90
 ldelay 0x7
 end
 
-.channel player_kid_land_wood
+.channel player_child_land_wood
 ldlayer 0, layer_5FA
 ldlayer 1, layer_512
 end
@@ -862,7 +862,7 @@ notedv PITCH_AF4, 0xA, 85
 notedv PITCH_AF3, 0x1E, 85
 end
 
-.channel player_kid_land_bridge
+.channel player_child_land_bridge
 ldlayer 0, layer_60C
 ldlayer 1, layer_512
 end
@@ -897,7 +897,7 @@ notedv PITCH_A3, 0x12, 75
 notedv PITCH_A2, 0x12, 75
 end
 
-.channel player_kid_land_ice
+.channel player_child_land_ice
 ldlayer 0, layer_63B
 ldlayer 1, layer_512
 end
@@ -1359,11 +1359,11 @@ portamento 0x81, 39, 255
 notedv PITCH_E4, 0x60, 100
 end
 
-.channel player_kid_metalequip
+.channel player_child_metalequip
 ldlayer 0, layer_2AD
 end
 
-.channel player_old_metalequip
+.channel player_adult_metalequip
 ldlayer 0, layer_B7D
 end
 
@@ -1778,7 +1778,7 @@ legato
 notedv PITCH_G4, 0x51, 42
 rjump layer_B74
 
-.channel player_old_step_dirt
+.channel player_adult_step_dirt
 ldlayer 0, layer_2A5
 end
 
@@ -1795,60 +1795,60 @@ transpose 48
 notedv PITCH_AF3, 0x4, 38
 end
 
-.channel player_old_step_sand
+.channel player_adult_step_sand
 ldlayer 0, layer_2C1
 end
 
-.channel player_old_step_stone
+.channel player_adult_step_stone
 ldlayer 0, layer_2D0
 end
 
-.channel player_old_step_jabu
+.channel player_adult_step_jabu
 ldlayer 0, layer_2DC
 end
 
-.channel player_old_step_water
+.channel player_adult_step_water
 ldlayer 0, layer_2EC
 end
 
-.channel player_old_step_water_deep
+.channel player_adult_step_water_deep
 ldlayer 0, layer_2F8
 end
 
-.channel player_old_step_tall_grass
+.channel player_adult_step_tall_grass
 ldlayer 0, layer_304
 end
 
-.channel player_old_step_lava
+.channel player_adult_step_lava
 ldlayer 0, layer_317
 end
 
-.channel player_old_step_grass
+.channel player_adult_step_grass
 ldlayer 0, layer_331
 end
 
-.channel player_old_step_carpet
+.channel player_adult_step_carpet
 ldlayer 0, layer_341
 end
 
-.channel player_old_step_wood
+.channel player_adult_step_wood
 ldlayer 0, layer_34D
 end
 
-.channel player_old_step_bridge
+.channel player_adult_step_bridge
 ldlayer 0, layer_359
 end
 
-.channel player_old_step_vine
+.channel player_adult_step_vine
 ldlayer 0, layer_368
 ldlayer 1, layer_B7D
 end
 
-.channel player_old_step_ice
+.channel player_adult_step_ice
 ldlayer 0, layer_38E
 end
 
-.channel player_old_jump_dirt
+.channel player_adult_jump_dirt
 instr FONT00_INSTR_STEP_GROUND
 ldlayer 0, layer_39F
 ldlayer 1, layer_BD6
@@ -1866,66 +1866,66 @@ transpose 48
 notedv PITCH_C4, 0x4, 55
 end
 
-.channel player_old_jump_sand
+.channel player_adult_jump_sand
 ldlayer 0, layer_3CC
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_stone
+.channel player_adult_jump_stone
 ldlayer 0, layer_3E3
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_jabu
+.channel player_adult_jump_jabu
 ldlayer 0, layer_3F9
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_water
+.channel player_adult_jump_water
 ldlayer 0, layer_40D
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_water_deep
+.channel player_adult_jump_water_deep
 ldlayer 0, layer_41F
 end
 
-.channel player_old_jump_tall_grass
+.channel player_adult_jump_tall_grass
 ldlayer 0, layer_431
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_lava
+.channel player_adult_jump_lava
 ldlayer 0, layer_44A
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_grass
+.channel player_adult_jump_grass
 ldlayer 0, layer_46C
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_carpet
+.channel player_adult_jump_carpet
 ldlayer 0, layer_480
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_wood
+.channel player_adult_jump_wood
 ldlayer 0, layer_494
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_bridge
+.channel player_adult_jump_bridge
 ldlayer 0, layer_4A6
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_jump_ice
+.channel player_adult_jump_ice
 ldlayer 0, layer_4F1
 ldlayer 1, layer_BD6
 end
 
-.channel player_old_land_dirt
+.channel player_adult_land_dirt
 ldlayer 0, layer_505
 ldlayer 1, layer_C45
 end
@@ -1942,61 +1942,61 @@ transpose 48
 notedv PITCH_BF3, 0x4, 55
 end
 
-.channel player_old_land_sand
+.channel player_adult_land_sand
 ldlayer 0, layer_534
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_stone
+.channel player_adult_land_stone
 ldlayer 0, layer_549
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_jabu
+.channel player_adult_land_jabu
 ldlayer 0, layer_55F
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_water
+.channel player_adult_land_water
 ldlayer 0, layer_573
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_water_deep
+.channel player_adult_land_water_deep
 ldlayer 0, layer_585
 end
 
-.channel player_old_land_tall_grass
+.channel player_adult_land_tall_grass
 ldlayer 0, layer_597
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_lava
+.channel player_adult_land_lava
 ldlayer 0, layer_5B0
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_grass
+.channel player_adult_land_grass
 ldlayer 0, layer_5D0
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_carpet
+.channel player_adult_land_carpet
 ldlayer 0, layer_5E4
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_wood
+.channel player_adult_land_wood
 ldlayer 0, layer_5F8
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_bridge
+.channel player_adult_land_bridge
 ldlayer 0, layer_60A
 ldlayer 1, layer_C45
 end
 
-.channel player_old_land_ice
+.channel player_adult_land_ice
 ldlayer 0, layer_639
 ldlayer 1, layer_C45
 end

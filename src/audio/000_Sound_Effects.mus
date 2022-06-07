@@ -1,5 +1,4 @@
 .desc title "Sound Effects"
-.desc author "Koji Kondo"
 .desc type "program"
 .usefont SOUNDFONT_SFX_2
 .usefont SOUNDFONT_SFX_1

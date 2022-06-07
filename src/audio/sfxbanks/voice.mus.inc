@@ -1,68 +1,68 @@
 .table table_voice
-entry voice_link_old_attack
-entry voice_link_old_attack_long
-entry voice_link_old_epona
-entry voice_link_old_ledge_grab
-entry voice_link_old_ledge_climb
-entry voice_link_old_hurt
-entry voice_link_old_frozen
-entry voice_link_old_fall_short
-entry voice_link_old_fall_long
-entry voice_link_old_low_health
-entry voice_link_old_drink_gasp
-entry voice_link_old_death
-entry voice_link_old_wallmaster
-entry voice_link_old_grabbed
-entry voice_link_old_sneeze
-entry voice_link_old_sweat
-entry voice_link_old_drink
-entry voice_link_old_idle
-entry voice_link_old_sword_swing_unused
-entry voice_link_kid_shiver
-entry voice_link_old_jump
-entry voice_link_old_cast_spell1
-entry voice_link_old_shock
-entry voice_link_old_cast_spell2
-entry voice_link_old_push_block
-entry voice_link_old_hookshot_hang
-entry voice_link_old_knockback
-entry voice_link_old_unused
-entry voice_link_old_cast_spell3
-entry voice_link_old_fall_long
-entry voice_link_old_knockback_unused
-entry voice_link_old_attack
-entry voice_link_kid_attack
-entry voice_link_kid_attack_long
-entry voice_link_old_epona
-entry voice_link_kid_ledge_grab
-entry voice_link_kid_ledge_climb
-entry voice_link_kid_hurt
-entry voice_link_kid_frozen
-entry voice_link_kid_fall_short
-entry voice_link_kid_fall_long
-entry voice_link_kid_low_health
-entry voice_link_kid_drink_gasp
-entry voice_link_kid_death
-entry voice_link_kid_wallmaster
-entry voice_link_kid_grabbed
-entry voice_link_kid_sneeze
-entry voice_link_kid_sweat
-entry voice_link_kid_drink
-entry voice_link_kid_idle
-entry voice_link_kid_sword_swing_unused
-entry voice_link_kid_shiver
-entry voice_link_kid_jump
-entry voice_link_kid_cast_spell1
-entry voice_link_kid_shock
-entry voice_link_kid_cast_spell2
-entry voice_link_kid_push_block
-entry voice_link_kid_hookshot_hang
-entry voice_link_kid_knockback
-entry voice_link_kid_unused
-entry voice_link_kid_cast_spell3
-entry voice_link_kid_fall_long
-entry voice_link_kid_cutscene_attacked
-entry voice_link_old_attack
+entry voice_link_adult_attack
+entry voice_link_adult_attack_long
+entry voice_link_adult_epona
+entry voice_link_adult_ledge_grab
+entry voice_link_adult_ledge_climb
+entry voice_link_adult_hurt
+entry voice_link_adult_frozen
+entry voice_link_adult_fall_short
+entry voice_link_adult_fall_long
+entry voice_link_adult_low_health
+entry voice_link_adult_drink_gasp
+entry voice_link_adult_death
+entry voice_link_adult_wallmaster
+entry voice_link_adult_grabbed
+entry voice_link_adult_sneeze
+entry voice_link_adult_sweat
+entry voice_link_adult_drink
+entry voice_link_adult_idle
+entry voice_link_adult_sword_swing_unused
+entry voice_link_child_shiver
+entry voice_link_adult_jump
+entry voice_link_adult_cast_spell1
+entry voice_link_adult_shock
+entry voice_link_adult_cast_spell2
+entry voice_link_adult_push_block
+entry voice_link_adult_hookshot_hang
+entry voice_link_adult_knockback
+entry voice_link_adult_unused
+entry voice_link_adult_cast_spell3
+entry voice_link_adult_fall_long
+entry voice_link_adult_knockback_unused
+entry voice_link_adult_attack
+entry voice_link_child_attack
+entry voice_link_child_attack_long
+entry voice_link_adult_epona
+entry voice_link_child_ledge_grab
+entry voice_link_child_ledge_climb
+entry voice_link_child_hurt
+entry voice_link_child_frozen
+entry voice_link_child_fall_short
+entry voice_link_child_fall_long
+entry voice_link_child_low_health
+entry voice_link_child_drink_gasp
+entry voice_link_child_death
+entry voice_link_child_wallmaster
+entry voice_link_child_grabbed
+entry voice_link_child_sneeze
+entry voice_link_child_sweat
+entry voice_link_child_drink
+entry voice_link_child_idle
+entry voice_link_child_sword_swing_unused
+entry voice_link_child_shiver
+entry voice_link_child_jump
+entry voice_link_child_cast_spell1
+entry voice_link_child_shock
+entry voice_link_child_cast_spell2
+entry voice_link_child_push_block
+entry voice_link_child_hookshot_hang
+entry voice_link_child_knockback
+entry voice_link_child_unused
+entry voice_link_child_cast_spell3
+entry voice_link_child_fall_long
+entry voice_link_child_cutscene_attacked
+entry voice_link_adult_attack
 entry voice_navi_unused
 entry voice_navi_unused
 entry voice_navi_unused
@@ -199,7 +199,7 @@ and 1
 stio 6
 rjump play_voice_readtone_instr
 
-.channel voice_link_old_attack
+.channel voice_link_adult_attack
 ldptr addr_616D
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6171
@@ -208,10 +208,10 @@ ldi 4
 rjump play_random_voice
 
 .array addr_616D
-byte FONT00_EFFECT_LINK_OLD_ATTACK_0
-byte FONT00_EFFECT_LINK_OLD_ATTACK_1
-byte FONT00_EFFECT_LINK_OLD_ATTACK_2
-byte FONT00_EFFECT_LINK_OLD_ATTACK_3
+byte FONT00_EFFECT_LINK_ADULT_ATTACK_0
+byte FONT00_EFFECT_LINK_ADULT_ATTACK_1
+byte FONT00_EFFECT_LINK_ADULT_ATTACK_2
+byte FONT00_EFFECT_LINK_ADULT_ATTACK_3
 
 .array addr_6171
 byte 105
@@ -219,7 +219,7 @@ byte 105
 byte 105
 byte 105
 
-.channel voice_link_old_attack_long
+.channel voice_link_adult_attack_long
 ldptr addr_6197
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6199
@@ -243,14 +243,14 @@ ldio 6
 stio 6
 
 .array addr_6197
-byte FONT00_EFFECT_LINK_OLD_MAJOR_0
-byte FONT00_EFFECT_LINK_OLD_MAJOR_1
+byte FONT00_EFFECT_LINK_ADULT_MAJOR_0
+byte FONT00_EFFECT_LINK_ADULT_MAJOR_1
 
 .array addr_6199
 byte 110
 byte 110
 
-.channel voice_link_old_epona
+.channel voice_link_adult_epona
 ldptr addr_61BD
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_61BF
@@ -274,14 +274,14 @@ ldio 6
 stio 6
 
 .array addr_61BD
-byte FONT00_EFFECT_LINK_OLD_SPUR_0
-byte FONT00_EFFECT_LINK_OLD_SPUR_1
+byte FONT00_EFFECT_LINK_ADULT_SPUR_0
+byte FONT00_EFFECT_LINK_ADULT_SPUR_1
 
 .array addr_61BF
 byte 105
 byte 105
 
-.channel voice_link_old_ledge_grab
+.channel voice_link_adult_ledge_grab
 ldptr addr_61D1
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_61D3
@@ -290,14 +290,14 @@ ldi 0
 rjump play_alternating_voice
 
 .array addr_61D1
-byte FONT00_EFFECT_LINK_OLD_LEDGE_0
-byte FONT00_EFFECT_LINK_OLD_LEDGE_2
+byte FONT00_EFFECT_LINK_ADULT_LEDGE_0
+byte FONT00_EFFECT_LINK_ADULT_LEDGE_2
 
 .array addr_61D3
 byte 95
 byte 105
 
-.channel voice_link_old_ledge_climb
+.channel voice_link_adult_ledge_climb
 ldptr addr_61E6
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_61E8
@@ -306,14 +306,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_61E6
-byte FONT00_EFFECT_LINK_OLD_CLIMB
-byte FONT00_EFFECT_LINK_OLD_LEDGE_1
+byte FONT00_EFFECT_LINK_ADULT_CLIMB
+byte FONT00_EFFECT_LINK_ADULT_LEDGE_1
 
 .array addr_61E8
 byte 72
 byte 80
 
-.channel voice_link_old_hurt
+.channel voice_link_adult_hurt
 ldptr addr_61FB
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_61FE
@@ -322,16 +322,16 @@ ldi 3
 jump play_random_voice
 
 .array addr_61FB
-byte FONT00_EFFECT_LINK_OLD_HURT_0
-byte FONT00_EFFECT_LINK_OLD_HURT_1
-byte FONT00_EFFECT_LINK_OLD_HURT_2
+byte FONT00_EFFECT_LINK_ADULT_HURT_0
+byte FONT00_EFFECT_LINK_ADULT_HURT_1
+byte FONT00_EFFECT_LINK_ADULT_HURT_2
 
 .array addr_61FE
 byte 117
 byte 117
 byte 117
 
-.channel voice_link_old_frozen
+.channel voice_link_adult_frozen
 ldptr addr_6212
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6215
@@ -340,16 +340,16 @@ ldi 3
 jump play_random_voice
 
 .array addr_6212
-byte FONT00_EFFECT_LINK_OLD_HURT_3
-byte FONT00_EFFECT_LINK_OLD_KNOCKBACK
-byte FONT00_EFFECT_LINK_OLD_HURT_4
+byte FONT00_EFFECT_LINK_ADULT_HURT_3
+byte FONT00_EFFECT_LINK_ADULT_KNOCKBACK
+byte FONT00_EFFECT_LINK_ADULT_HURT_4
 
 .array addr_6215
 byte 113
 byte 113
 byte 113
 
-.channel voice_link_old_fall_short
+.channel voice_link_adult_fall_short
 ldptr addr_6229
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_622B
@@ -358,14 +358,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_6229
-byte FONT00_EFFECT_LINK_OLD_GASP_0
-byte FONT00_EFFECT_LINK_OLD_GASP_1
+byte FONT00_EFFECT_LINK_ADULT_GASP_0
+byte FONT00_EFFECT_LINK_ADULT_GASP_1
 
 .array addr_622B
 byte 100
 byte 100
 
-.channel voice_link_old_fall_long
+.channel voice_link_adult_fall_long
 ldptr addr_623E
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6240
@@ -374,14 +374,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_623E
-byte FONT00_EFFECT_LINK_OLD_FALL_0
-byte FONT00_EFFECT_LINK_OLD_FALL_1
+byte FONT00_EFFECT_LINK_ADULT_FALL_0
+byte FONT00_EFFECT_LINK_ADULT_FALL_1
 
 .array addr_6240
 byte 110
 byte 110
 
-.channel voice_link_old_low_health
+.channel voice_link_adult_low_health
 ldptr addr_6253
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6255
@@ -390,14 +390,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_6253
-byte FONT00_EFFECT_LINK_OLD_PANT_0
-byte FONT00_EFFECT_LINK_OLD_PANT_1
+byte FONT00_EFFECT_LINK_ADULT_PANT_0
+byte FONT00_EFFECT_LINK_ADULT_PANT_1
 
 .array addr_6255
 byte 90
 byte 90
 
-.channel voice_link_old_drink_gasp
+.channel voice_link_adult_drink_gasp
 ldlayer 0, layer_625B
 end
 
@@ -405,7 +405,7 @@ end
 notedv PITCH_F5, 0x0, 96
 end
 
-.channel voice_link_old_death
+.channel voice_link_adult_death
 ldlayer 0, layer_6263
 end
 
@@ -416,7 +416,7 @@ notedv PITCH_B1, 0x61, 100
 notedv PITCH_C2, 0x47, 100
 end
 
-.channel voice_link_old_wallmaster
+.channel voice_link_adult_wallmaster
 ldptr addr_6280
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6282
@@ -425,17 +425,17 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_6280
-byte FONT00_EFFECT_LINK_OLD_FALL_0
-byte FONT00_EFFECT_LINK_OLD_FALL_1
+byte FONT00_EFFECT_LINK_ADULT_FALL_0
+byte FONT00_EFFECT_LINK_ADULT_FALL_1
 
 .array addr_6282
 byte 105
 byte 105
 
-.channel voice_link_old_grabbed
-jump voice_link_old_hurt
+.channel voice_link_adult_grabbed
+jump voice_link_adult_hurt
 
-.channel voice_link_old_sneeze
+.channel voice_link_adult_sneeze
 ldlayer 0, layer_628B
 end
 
@@ -446,7 +446,7 @@ notedv PITCH_D2, 0x118, 100
 notedv PITCH_EF2, 0x13E, 100
 end
 
-.channel voice_link_old_sweat
+.channel voice_link_adult_sweat
 ldlayer 0, layer_629D
 end
 
@@ -457,7 +457,7 @@ notedv PITCH_F2, 0xA3, 100
 notedv PITCH_GF2, 0x35, 100
 end
 
-.channel voice_link_old_drink
+.channel voice_link_adult_drink
 ldlayer 0, layer_62AF
 end
 
@@ -465,7 +465,7 @@ end
 notedv PITCH_E5, 0x50, 80
 rjump layer_62AF
 
-.channel voice_link_old_idle
+.channel voice_link_adult_idle
 ldlayer 0, layer_62B8
 end
 
@@ -476,15 +476,15 @@ notedv PITCH_AF2, 0x86, 100
 notedv PITCH_A2, 0x74, 100
 end
 
-.channel voice_link_old_sword_swing_unused
+.channel voice_link_adult_sword_swing_unused
 ldptr addr_62CC
 jump play_single_voice
 
 .array addr_62CC
-byte FONT00_EFFECT_LINK_OLD_ATTACK_0
+byte FONT00_EFFECT_LINK_ADULT_ATTACK_0
 byte 100
 
-.channel voice_link_old_jump
+.channel voice_link_adult_jump
 ldio 6
 sub 255
 stio 6
@@ -498,22 +498,22 @@ ldlayer 0, layer_64BF
 end
 
 .array addr_62E8
-byte FONT00_EFFECT_LINK_OLD_JUMP
-byte FONT00_EFFECT_LINK_OLD_GASP_2
+byte FONT00_EFFECT_LINK_ADULT_JUMP
+byte FONT00_EFFECT_LINK_ADULT_GASP_2
 
 .array addr_62EA
 byte 80
 byte 85
 
-.channel voice_link_old_cast_spell1
+.channel voice_link_adult_cast_spell1
 ldptr addr_62F2
 jump play_single_voice
 
 .array addr_62F2
-byte FONT00_EFFECT_LINK_OLD_MAJOR_1
+byte FONT00_EFFECT_LINK_ADULT_MAJOR_1
 byte 110
 
-.channel voice_link_old_shock
+.channel voice_link_adult_shock
 ldlayer 0, layer_62F8
 end
 
@@ -522,63 +522,63 @@ transpose 2
 notedv PITCH_EF1, 0x0, 85
 end
 
-.channel voice_link_old_cast_spell2
+.channel voice_link_adult_cast_spell2
 ldptr addr_6304
 jump play_single_voice
 
 .array addr_6304
-byte FONT00_EFFECT_LINK_OLD_MAJOR_0
+byte FONT00_EFFECT_LINK_ADULT_MAJOR_0
 byte 95
 
-.channel voice_link_old_push_block
+.channel voice_link_adult_push_block
 ldptr addr_630C
 jump play_single_voice
 
 .array addr_630C
-byte FONT00_EFFECT_LINK_OLD_CLIMB
+byte FONT00_EFFECT_LINK_ADULT_CLIMB
 byte 82
 
-.channel voice_link_old_hookshot_hang
+.channel voice_link_adult_hookshot_hang
 ldptr addr_6314
 jump play_single_voice
 
 .array addr_6314
-byte FONT00_EFFECT_LINK_OLD_LEDGE_0
+byte FONT00_EFFECT_LINK_ADULT_LEDGE_0
 byte 95
 
-.channel voice_link_old_knockback
+.channel voice_link_adult_knockback
 ldptr addr_631C
 jump play_single_voice
 
 .array addr_631C
-byte FONT00_EFFECT_LINK_OLD_FALL_DMG
+byte FONT00_EFFECT_LINK_ADULT_FALL_DMG
 byte 110
 
-.channel voice_link_old_unused
+.channel voice_link_adult_unused
 ldptr addr_6324
 jump play_single_voice
 
 .array addr_6324
-byte FONT00_EFFECT_LINK_OLD_LIFT
+byte FONT00_EFFECT_LINK_ADULT_LIFT
 byte 100
 
-.channel voice_link_old_cast_spell3
+.channel voice_link_adult_cast_spell3
 ldptr addr_632C
 jump play_single_voice
 
 .array addr_632C
-byte FONT00_EFFECT_LINK_OLD_SPELL
+byte FONT00_EFFECT_LINK_ADULT_SPELL
 byte 110
 
-.channel voice_link_old_knockback_unused
+.channel voice_link_adult_knockback_unused
 ldptr addr_6334
 jump play_single_voice
 
 .array addr_6334
-byte FONT00_EFFECT_LINK_OLD_KNOCKBACK
+byte FONT00_EFFECT_LINK_ADULT_KNOCKBACK
 byte 113
 
-.channel voice_link_kid_attack
+.channel voice_link_child_attack
 ldptr addr_6347
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_634B
@@ -587,10 +587,10 @@ ldi 4
 jump play_random_voice
 
 .array addr_6347
-byte FONT00_EFFECT_LINK_KID_ATTACK_0
-byte FONT00_EFFECT_LINK_KID_ATTACK_1
-byte FONT00_EFFECT_LINK_KID_ATTACK_2
-byte FONT00_EFFECT_LINK_KID_ATTACK_3
+byte FONT00_EFFECT_LINK_CHILD_ATTACK_0
+byte FONT00_EFFECT_LINK_CHILD_ATTACK_1
+byte FONT00_EFFECT_LINK_CHILD_ATTACK_2
+byte FONT00_EFFECT_LINK_CHILD_ATTACK_3
 
 .array addr_634B
 byte 110
@@ -598,7 +598,7 @@ byte 110
 byte 110
 byte 110
 
-.channel voice_link_kid_attack_long
+.channel voice_link_child_attack_long
 ldptr addr_6372
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6374
@@ -622,14 +622,14 @@ ldio 6
 stio 6
 
 .array addr_6372
-byte FONT00_EFFECT_LINK_KID_STRONG_0
-byte FONT00_EFFECT_LINK_KID_STRONG_1
+byte FONT00_EFFECT_LINK_CHILD_STRONG_0
+byte FONT00_EFFECT_LINK_CHILD_STRONG_1
 
 .array addr_6374
 byte 110
 byte 110
 
-.channel voice_link_kid_ledge_grab
+.channel voice_link_child_ledge_grab
 ldio 6
 sub 255
 stio 6
@@ -648,14 +648,14 @@ ldelay 0x30
 end
 
 .array addr_6396
-byte FONT00_EFFECT_LINK_KID_LEDGE_0
-byte FONT00_EFFECT_LINK_KID_LEDGE_1
+byte FONT00_EFFECT_LINK_CHILD_LEDGE_0
+byte FONT00_EFFECT_LINK_CHILD_LEDGE_1
 
 .array addr_6398
 byte 100
 byte 100
 
-.channel voice_link_kid_ledge_climb
+.channel voice_link_child_ledge_climb
 ldptr addr_63AB
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_63AD
@@ -664,14 +664,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_63AB
-byte FONT00_EFFECT_LINK_KID_SIGH_0
-byte FONT00_EFFECT_LINK_KID_SIGH_1
+byte FONT00_EFFECT_LINK_CHILD_SIGH_0
+byte FONT00_EFFECT_LINK_CHILD_SIGH_1
 
 .array addr_63AD
 byte 90
 byte 70
 
-.channel voice_link_kid_hurt
+.channel voice_link_child_hurt
 ldptr addr_63C0
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_63C3
@@ -680,16 +680,16 @@ ldi 3
 jump play_random_voice
 
 .array addr_63C0
-byte FONT00_EFFECT_LINK_KID_HURT_0
-byte FONT00_EFFECT_LINK_KID_HURT_1
-byte FONT00_EFFECT_LINK_KID_HURT_2
+byte FONT00_EFFECT_LINK_CHILD_HURT_0
+byte FONT00_EFFECT_LINK_CHILD_HURT_1
+byte FONT00_EFFECT_LINK_CHILD_HURT_2
 
 .array addr_63C3
 byte 110
 byte 110
 byte 110
 
-.channel voice_link_kid_frozen
+.channel voice_link_child_frozen
 ldptr addr_63D7
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_63DA
@@ -698,16 +698,16 @@ ldi 3
 jump play_random_voice
 
 .array addr_63D7
-byte FONT00_EFFECT_LINK_KID_HURT_3
-byte FONT00_EFFECT_LINK_KID_KNOCKBACK
-byte FONT00_EFFECT_LINK_KID_HURT_4
+byte FONT00_EFFECT_LINK_CHILD_HURT_3
+byte FONT00_EFFECT_LINK_CHILD_KNOCKBACK
+byte FONT00_EFFECT_LINK_CHILD_HURT_4
 
 .array addr_63DA
 byte 110
 byte 110
 byte 110
 
-.channel voice_link_kid_fall_short
+.channel voice_link_child_fall_short
 ldptr addr_63EE
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_63F0
@@ -716,14 +716,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_63EE
-byte FONT00_EFFECT_LINK_KID_GASP_0
-byte FONT00_EFFECT_LINK_KID_GASP_1
+byte FONT00_EFFECT_LINK_CHILD_GASP_0
+byte FONT00_EFFECT_LINK_CHILD_GASP_1
 
 .array addr_63F0
 byte 100
 byte 100
 
-.channel voice_link_kid_fall_long
+.channel voice_link_child_fall_long
 ldptr addr_6403
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6405
@@ -732,14 +732,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_6403
-byte FONT00_EFFECT_LINK_KID_FALL_0
-byte FONT00_EFFECT_LINK_KID_FALL_1
+byte FONT00_EFFECT_LINK_CHILD_FALL_0
+byte FONT00_EFFECT_LINK_CHILD_FALL_1
 
 .array addr_6405
 byte 100
 byte 100
 
-.channel voice_link_kid_low_health
+.channel voice_link_child_low_health
 ldptr addr_6418
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_641A
@@ -748,14 +748,14 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_6418
-byte FONT00_EFFECT_LINK_KID_WHEEZE
-byte FONT00_EFFECT_LINK_KID_PANT
+byte FONT00_EFFECT_LINK_CHILD_WHEEZE
+byte FONT00_EFFECT_LINK_CHILD_PANT
 
 .array addr_641A
 byte 85
 byte 85
 
-.channel voice_link_kid_drink_gasp
+.channel voice_link_child_drink_gasp
 ldlayer 0, layer_6420
 end
 
@@ -763,7 +763,7 @@ end
 notedv PITCH_DF5, 0x0, 96
 end
 
-.channel voice_link_kid_death
+.channel voice_link_child_death
 ldlayer 0, layer_6428
 end
 
@@ -774,7 +774,7 @@ notedv PITCH_BF0, 0x6A, 100
 notedv PITCH_B0, 0x3A, 100
 end
 
-.channel voice_link_kid_wallmaster
+.channel voice_link_child_wallmaster
 ldptr addr_6445
 stptrtoseq play_voice_readtone_instr+1
 ldptr addr_6447
@@ -783,22 +783,22 @@ rand 2
 jump play_dynamic_voice
 
 .array addr_6445
-byte FONT00_EFFECT_LINK_KID_FALL_0
-byte FONT00_EFFECT_LINK_KID_FALL_1
+byte FONT00_EFFECT_LINK_CHILD_FALL_0
+byte FONT00_EFFECT_LINK_CHILD_FALL_1
 
 .array addr_6447
 byte 100
 byte 100
 
-.channel voice_link_kid_grabbed
+.channel voice_link_child_grabbed
 ldptr addr_644F
 jump play_single_voice
 
 .array addr_644F
-byte FONT00_EFFECT_LINK_KID_DEATH_0
+byte FONT00_EFFECT_LINK_CHILD_DEATH_0
 byte 100
 
-.channel voice_link_kid_sneeze
+.channel voice_link_child_sneeze
 ldlayer 0, layer_6455
 end
 
@@ -810,7 +810,7 @@ notedv PITCH_D1, 0x87, 100
 notedv PITCH_EF1, 0x21, 100
 end
 
-.channel voice_link_kid_sweat
+.channel voice_link_child_sweat
 ldlayer 0, layer_646B
 end
 
@@ -821,7 +821,7 @@ notedv PITCH_F1, 0x62, 100
 notedv PITCH_GF1, 0x109, 100
 end
 
-.channel voice_link_kid_drink
+.channel voice_link_child_drink
 ldlayer 0, layer_647D
 end
 
@@ -829,7 +829,7 @@ end
 notedv PITCH_C5, 0x50, 80
 rjump layer_647D
 
-.channel voice_link_kid_idle
+.channel voice_link_child_idle
 ldlayer 0, layer_6486
 end
 
@@ -840,15 +840,15 @@ notedv PITCH_AF1, 0x10A, 100
 notedv PITCH_A1, 0x53, 100
 end
 
-.channel voice_link_kid_sword_swing_unused
+.channel voice_link_child_sword_swing_unused
 ldptr addr_6499
 jump play_single_voice
 
 .array addr_6499
-byte FONT00_EFFECT_LINK_KID_ATTACK_0
+byte FONT00_EFFECT_LINK_CHILD_ATTACK_0
 byte 100
 
-.channel voice_link_kid_shiver
+.channel voice_link_child_shiver
 ldlayer 0, layer_649F
 end
 
@@ -857,7 +857,7 @@ transpose 1
 notedv PITCH_C1, 0x0, 50
 end
 
-.channel voice_link_kid_jump
+.channel voice_link_child_jump
 ldio 6
 sub 255
 stio 6
@@ -876,22 +876,22 @@ ldelay 0x30
 end
 
 .array addr_64C5
-byte FONT00_EFFECT_LINK_KID_JUMP_0
-byte FONT00_EFFECT_LINK_OLD_JUMP_1
+byte FONT00_EFFECT_LINK_CHILD_JUMP_0
+byte FONT00_EFFECT_LINK_ADULT_JUMP_1
 
 .array addr_64C7
 byte 80
 byte 80
 
-.channel voice_link_kid_cast_spell1
+.channel voice_link_child_cast_spell1
 ldptr addr_64CF
 jump play_single_voice
 
 .array addr_64CF
-byte FONT00_EFFECT_LINK_KID_STRONG_1
+byte FONT00_EFFECT_LINK_CHILD_STRONG_1
 byte 110
 
-.channel voice_link_kid_shock
+.channel voice_link_child_shock
 ldlayer 0, layer_64D5
 end
 
@@ -900,60 +900,60 @@ transpose 2
 notedv PITCH_E1, 0x0, 85
 end
 
-.channel voice_link_kid_cast_spell2
+.channel voice_link_child_cast_spell2
 ldptr addr_64E1
 jump play_single_voice
 
 .array addr_64E1
-byte FONT00_EFFECT_LINK_KID_STRONG_0
+byte FONT00_EFFECT_LINK_CHILD_STRONG_0
 byte 95
 
-.channel voice_link_kid_push_block
+.channel voice_link_child_push_block
 ldptr addr_64E9
 jump play_single_voice
 
 .array addr_64E9
-byte FONT00_EFFECT_LINK_KID_SIGH_0
+byte FONT00_EFFECT_LINK_CHILD_SIGH_0
 byte 90
 
-.channel voice_link_kid_hookshot_hang
+.channel voice_link_child_hookshot_hang
 ldptr addr_64F1
 jump play_single_voice
 
 .array addr_64F1
-byte FONT00_EFFECT_LINK_KID_LEDGE_0
+byte FONT00_EFFECT_LINK_CHILD_LEDGE_0
 byte 100
 
-.channel voice_link_kid_knockback
+.channel voice_link_child_knockback
 ldptr addr_64F9
 jump play_single_voice
 
 .array addr_64F9
-byte FONT00_EFFECT_LINK_KID_FALL_DMG
+byte FONT00_EFFECT_LINK_CHILD_FALL_DMG
 byte 115
 
-.channel voice_link_kid_unused
+.channel voice_link_child_unused
 ldptr addr_6501
 jump play_single_voice
 
 .array addr_6501
-byte FONT00_EFFECT_LINK_KID_CHARGE
+byte FONT00_EFFECT_LINK_CHILD_CHARGE
 byte 100
 
-.channel voice_link_kid_cast_spell3
+.channel voice_link_child_cast_spell3
 ldptr addr_6509
 jump play_single_voice
 
 .array addr_6509
-byte FONT00_EFFECT_LINK_KID_SPELL
+byte FONT00_EFFECT_LINK_CHILD_SPELL
 byte 110
 
-.channel voice_link_kid_cutscene_attacked
+.channel voice_link_child_cutscene_attacked
 ldptr addr_6511
 jump play_single_voice
 
 .array addr_6511
-byte FONT00_EFFECT_LINK_KID_FALL_1
+byte FONT00_EFFECT_LINK_CHILD_FALL_1
 byte 100
 
 .channel voice_navi_greeting

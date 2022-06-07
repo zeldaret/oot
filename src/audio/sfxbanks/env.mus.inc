@@ -65,10 +65,10 @@ entry env_horse_ganon_snort
 entry env_phantom_warp
 entry env_witch_warp
 entry env_water_fountain
-entry env_horse_kid_trot
-entry env_horse_kid_gallop
-entry env_horse_kid_neigh
-entry env_horse_kid_snort
+entry env_horse_child_trot
+entry env_horse_child_gallop
+entry env_horse_child_neigh
+entry env_horse_child_snort
 entry env_barrier_node_fadeout
 entry env_barrier_dispell
 entry env_tree_cut
@@ -238,7 +238,7 @@ entry env_door_slide_close
 entry env_spike_log_roll
 entry env_barrier_energy
 entry env_barrier_hum
-entry env_kid_walk
+entry env_child_walk
 entry env_guard_walk
 entry env_pillar_stop
 entry env_deku_sprout_grow
@@ -1497,7 +1497,7 @@ rjump layer_20C1
 instr FONT00_INSTR_WATER_FLOWING
 rjump layer_20C0
 
-.channel env_horse_kid_trot
+.channel env_horse_child_trot
 instr FONT00_INSTR_HORSE_GALLOP
 releaserate 245
 ldlayer 0, layer_20D3
@@ -1507,7 +1507,7 @@ end
 notedv PITCH_C4, 0x9, 110
 end
 
-.channel env_horse_kid_gallop
+.channel env_horse_child_gallop
 instr FONT00_INSTR_HORSE_GALLOP
 ldlayer 0, layer_20DD
 end
@@ -1516,7 +1516,7 @@ end
 notedv PITCH_E4, 0x18, 110
 end
 
-.channel env_horse_kid_neigh
+.channel env_horse_child_neigh
 instr FONT00_INSTR_HORSE_VOCALS
 ldlayer 0, layer_20E7
 end
@@ -1525,7 +1525,7 @@ end
 notedv PITCH_E4, 0x91, 110
 end
 
-.channel env_horse_kid_snort
+.channel env_horse_child_snort
 ldlayer 0, layer_20F0
 end
 
@@ -4021,7 +4021,7 @@ notedv PITCH_E2, 0xB4, 55
 notedv PITCH_E1, 0xB4, 55
 rjump layer_3077
 
-.channel env_kid_walk
+.channel env_child_walk
 ldlayer 0, layer_3085
 end
 
