@@ -206,7 +206,7 @@ typedef struct {
     /* 0x04 */ u16 numSfx;
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
-    /* 0x10 */ TunedSample* soundEffects;
+    /* 0x10 */ SoundEffects* soundEffects;
 } SoundFont; // size = 0x14
 
 typedef struct {

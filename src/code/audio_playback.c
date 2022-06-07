@@ -360,8 +360,8 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     return drum;
 }
 
-TunedSample* Audio_GetSfx(s32 fontId, s32 sfxId) {
-    TunedSample* sfx;
+SoundEffects* Audio_GetSfx(s32 fontId, s32 sfxId) {
+    SoundEffects* sfx;
 
     if (fontId == 0xFF) {
         return NULL;
@@ -387,7 +387,7 @@ TunedSample* Audio_GetSfx(s32 fontId, s32 sfxId) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x5000000;
     }
 
-    if (sfx->sample == NULL) {
+    if (sfx->tunedSample.sample == NULL) {
         return NULL;
     }
 
@@ -415,7 +415,7 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
             if (index >= gAudioContext.soundFonts[fontId].numSfx) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].soundEffects[index] = *(TunedSample*)value;
+            gAudioContext.soundFonts[fontId].soundEffects[index] = *(SoundEffects*)value;
             break;
 
         default:

@@ -1853,7 +1853,7 @@ void Audio_ProcessNotes(void);
 TunedSample* Audio_InstrumentGetSound(Instrument* instrument, s32 semitone);
 Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId);
 Drum* Audio_GetDrum(s32 fontId, s32 drumId);
-TunedSample* Audio_GetSfx(s32 fontId, s32 sfxId);
+SoundEffects* Audio_GetSfx(s32 fontId, s32 sfxId);
 s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* value);
 void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target);
 void Audio_SeqLayerNoteDecay(SequenceLayer* layer);

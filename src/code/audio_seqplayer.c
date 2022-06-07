@@ -738,7 +738,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
     TunedSample* tunedSample;
     Instrument* instrument;
     Drum* drum;
-    s32 pad;
+    SoundEffects* soundEffects;
     SequenceChannel* channel;
     SequencePlayer* seqPlayer;
     u8 semitone = cmd;
@@ -782,12 +782,13 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
         case 1:
             layer->semitone = semitone;
             sfxId = (layer->transposition << 6) + semitone;
-            tunedSample = Audio_GetSfx(channel->fontId, sfxId);
-            if (tunedSample == NULL) {
+            soundEffects = Audio_GetSfx(channel->fontId, sfxId);
+            if (soundEffects == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay + 1;
                 return -1;
             }
+            tunedSample = &soundEffects->tunedSample;
             layer->tunedSample = tunedSample;
             layer->freqScale = tunedSample->tuning;
             break;
