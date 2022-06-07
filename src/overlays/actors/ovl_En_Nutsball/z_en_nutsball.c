@@ -69,9 +69,9 @@ void EnNutsball_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIds[this->actor.params]);
+    this->waitObjectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[this->actor.params]);
 
-    if (this->waitObjectLoadEntryIndex < 0) {
+    if (this->waitObjectEntry < 0) {
         Actor_Kill(&this->actor);
     } else {
         this->actionFunc = func_80ABBB34;
@@ -85,8 +85,8 @@ void EnNutsball_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80ABBB34(EnNutsball* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+        this->actor.objectEntry = this->waitObjectEntry;
         this->actor.draw = EnNutsball_Draw;
         this->actor.shape.rot.y = 0;
         this->timer = 30;

@@ -314,22 +314,22 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 
 void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
     s32 pad[2];
-    s32 drawObjectLoadEntryIndex = this->drawObjectLoadEntryIndex;
+    s32 drawObjectEntry = this->drawObjectEntry;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 662);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[drawObjectLoadEntryIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[drawObjectLoadEntryIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[drawObjectEntry].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[drawObjectEntry].segment);
     if (!play) {}
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 670);
 }
 
 void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
-    s32 animObjectLoadEntryIndex = this->animObjectLoadEntryIndex;
+    s32 animObjectEntry = this->animObjectEntry;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[animObjectLoadEntryIndex].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[animObjectEntry].segment);
 }
 
 CsCmdActorAction* DemoEc_GetNpcAction(PlayState* play, s32 actionIndex) {
@@ -1256,27 +1256,27 @@ void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
     s32 type;
     s16 pad2;
     s16 sp28;
-    s32 primaryObjectLoadEntryIndex;
-    s32 secondaryObjectLoadEntryIndex;
+    s32 primaryObjectEntry;
+    s32 secondaryObjectEntry;
 
     type = this->actor.params;
     primary = sDrawObjects[type];
     sp28 = sAnimationObjects[type];
-    primaryObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, primary);
-    secondaryObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sp28);
+    primaryObjectEntry = Object_GetEntry(&play->objectCtx, primary);
+    secondaryObjectEntry = Object_GetEntry(&play->objectCtx, sp28);
 
-    if ((secondaryObjectLoadEntryIndex < 0) || (primaryObjectLoadEntryIndex < 0)) {
+    if ((secondaryObjectEntry < 0) || (primaryObjectEntry < 0)) {
         // "Demo_Ec_main_bank: Bank unreadable arg_data = %d!"
         osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, type);
         Actor_Kill(&this->actor);
         return;
     }
 
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, primaryObjectLoadEntryIndex) &&
-        Object_IsLoadEntryLoaded(&play->objectCtx, secondaryObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, primaryObjectEntry) &&
+        Object_IsEntryLoaded(&play->objectCtx, secondaryObjectEntry)) {
 
-        this->drawObjectLoadEntryIndex = primaryObjectLoadEntryIndex;
-        this->animObjectLoadEntryIndex = secondaryObjectLoadEntryIndex;
+        this->drawObjectEntry = primaryObjectEntry;
+        this->animObjectEntry = secondaryObjectEntry;
 
         DemoEc_InitNpc(this, play);
     }

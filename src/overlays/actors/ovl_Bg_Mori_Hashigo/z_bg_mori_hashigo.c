@@ -164,8 +164,8 @@ void BgMoriHashigo_Init(Actor* thisx, PlayState* play) {
             return;
         }
     }
-    this->moriTexObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjectLoadEntryIndex < 0) {
+    this->moriTexObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectEntry < 0) {
         // "Bank danger!"
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
                      "../z_bg_mori_hashigo.c", 312);
@@ -194,7 +194,7 @@ void BgMoriHashigo_SetupWaitForMoriTex(BgMoriHashigo* this) {
 }
 
 void BgMoriHashigo_WaitForMoriTex(BgMoriHashigo* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->moriTexObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->moriTexObjectEntry)) {
         if (this->dyna.actor.params == HASHIGO_CLASP) {
             BgMoriHashigo_SetupClasp(this);
         } else if (this->dyna.actor.params == HASHIGO_LADDER) {
@@ -285,7 +285,7 @@ void BgMoriHashigo_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hashigo.c", 516);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (1) {}
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.loadEntries[this->moriTexObjectLoadEntryIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.entries[this->moriTexObjectEntry].segment);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hashigo.c", 521),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -39,10 +39,10 @@ typedef struct EnHy {
     /* 0x0190 */ EnHyActionFunc actionFunc;
     /* 0x0194 */ char unk_194; // unused
     /* 0x0195 */ u8 pathReverse;
-    /* 0x0196 */ s8 objectLoadEntryIndexHead;
-    /* 0x0197 */ s8 objectLoadEntryIndexSkel2; // 7 < limb < 15 (upper part?) (always same as objectLoadEntryIndexSkel1)
-    /* 0x0198 */ s8 objectLoadEntryIndexSkel1; // sets the object used when drawing the skeleton for limb <= 7 (lower part?)
-    /* 0x0199 */ s8 objectLoadEntryIndexOsAnime;
+    /* 0x0196 */ s8 objectEntryHead;
+    /* 0x0197 */ s8 objectEntrySkel2; // 7 < limb < 15 (upper part?) (always same as objectEntrySkel1)
+    /* 0x0198 */ s8 objectEntrySkel1; // sets the object used when drawing the skeleton for limb <= 7 (lower part?)
+    /* 0x0199 */ s8 objectEntryOsAnime;
     /* 0x019C */ ColliderCylinder collider;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
     /* 0x0210 */ Path* path;

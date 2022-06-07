@@ -341,15 +341,15 @@ void EnEncount2_DrawEffects(Actor* thisx, PlayState* play) {
     EnEncount2Effect* effect = this->effects;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
-    s32 objectLoadEntryIndex;
+    s32 objectEntry;
 
     OPEN_DISPS(gfxCtx, "../z_en_encount2.c", 642);
 
-    objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_EFC_STAR_FIELD);
+    objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_EFC_STAR_FIELD);
 
-    if (objectLoadEntryIndex >= 0) {
+    if (objectEntry >= 0) {
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[objectEntry].segment);
 
         for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; effect++, i++) {
             if (effect->isAlive) {

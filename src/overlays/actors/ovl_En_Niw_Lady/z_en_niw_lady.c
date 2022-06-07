@@ -70,9 +70,9 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnNiwLady* this = (EnNiwLady*)thisx;
 
-    this->aneObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_ANE);
-    this->osAnimeObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_OS_ANIME);
-    if ((this->osAnimeObjectLoadEntryIndex < 0) || (this->aneObjectLoadEntryIndex < 0)) {
+    this->aneObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_ANE);
+    this->osAnimeObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_OS_ANIME);
+    if ((this->osAnimeObjectEntry < 0) || (this->aneObjectEntry < 0)) {
         Actor_Kill(thisx);
         return;
     }
@@ -153,11 +153,11 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
     f32 frames;
     s32 pad;
 
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->aneObjectLoadEntryIndex) &&
-        Object_IsLoadEntryLoaded(&play->objectCtx, this->osAnimeObjectLoadEntryIndex)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->aneObjectLoadEntryIndex].segment);
+    if (Object_IsEntryLoaded(&play->objectCtx, this->aneObjectEntry) &&
+        Object_IsEntryLoaded(&play->objectCtx, this->osAnimeObjectEntry)) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->aneObjectEntry].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->osAnimeObjectEntry].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
@@ -506,8 +506,8 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
     if (this->unk_276 == 0) {
         Math_SmoothStepToS(&this->unk_254.y, 0, 5, 3000, 0);
     }
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
-    if (this->osAnimeObjectLoadEntryIndex >= 0) {
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->osAnimeObjectEntry].segment);
+    if (this->osAnimeObjectEntry >= 0) {
         if (this->unk_27E != 0) {
             if (this->unk_26E != 0) {
                 this->unk_26E--;
@@ -516,8 +516,8 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
             }
             SkelAnime_Update(&this->skelAnime);
         }
-        this->aneObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_ANE);
-        if (this->aneObjectLoadEntryIndex >= 0) {
+        this->aneObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_ANE);
+        if (this->aneObjectEntry >= 0) {
             this->actionFunc(this, play);
             if (this->unusedTimer2 != 0) {
                 this->unusedTimer2--;

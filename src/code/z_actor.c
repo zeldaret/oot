@@ -798,7 +798,7 @@ void Actor_SetScale(Actor* actor, f32 scale) {
 }
 
 void Actor_SetObjectDependency(PlayState* play, Actor* actor) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[actor->objectLoadEntryIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[actor->objectEntry].segment);
 }
 
 void Actor_Init(Actor* actor, PlayState* play) {
@@ -817,7 +817,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     CollisionCheck_InitInfo(&actor->colChkInfo);
     actor->floorBgId = BGCHECK_SCENE;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, actor->objectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, actor->objectEntry)) {
         Actor_SetObjectDependency(play, actor);
         actor->init(actor, play);
         actor->init = NULL;
@@ -2066,13 +2066,13 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
             actor->sfx = 0;
 
             if (actor->init != NULL) {
-                if (Object_IsLoadEntryLoaded(&play->objectCtx, actor->objectLoadEntryIndex)) {
+                if (Object_IsEntryLoaded(&play->objectCtx, actor->objectEntry)) {
                     Actor_SetObjectDependency(play, actor);
                     actor->init(actor, play);
                     actor->init = NULL;
                 }
                 actor = actor->next;
-            } else if (!Object_IsLoadEntryLoaded(&play->objectCtx, actor->objectLoadEntryIndex)) {
+            } else if (!Object_IsEntryLoaded(&play->objectCtx, actor->objectEntry)) {
                 Actor_Kill(actor);
                 actor = actor->next;
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
@@ -2194,8 +2194,8 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);
     Actor_SetObjectDependency(play, actor);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[actor->objectLoadEntryIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.loadEntries[actor->objectLoadEntryIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[actor->objectEntry].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.entries[actor->objectEntry].segment);
 
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
@@ -2489,7 +2489,7 @@ void Actor_KillActorsWithUnloadedObject(PlayState* play, ActorContext* actorCtx)
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
         actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
-            if (!Object_IsLoadEntryLoaded(&play->objectCtx, actor->objectLoadEntryIndex)) {
+            if (!Object_IsEntryLoaded(&play->objectCtx, actor->objectEntry)) {
                 Actor_Kill(actor);
             }
             actor = actor->next;
@@ -2661,7 +2661,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     s32 pad;
     Actor* actor;
     ActorInit* actorInit;
-    s32 objectLoadEntryIndex;
+    s32 objectEntry;
     ActorOverlay* overlayEntry;
     u32 temp;
     char* name;
@@ -2740,13 +2740,13 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                                      : NULL);
     }
 
-    objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, actorInit->objectId);
+    objectEntry = Object_GetEntry(&play->objectCtx, actorInit->objectId);
 
-    if ((objectLoadEntryIndex < 0) ||
+    if ((objectEntry < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
-                     objectLoadEntryIndex, actorInit->objectId);
+                     objectEntry, actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2776,10 +2776,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     actor->flags = actorInit->flags;
 
     if (actorInit->id == ACTOR_EN_PART) {
-        actor->objectLoadEntryIndex = rotZ;
+        actor->objectEntry = rotZ;
         rotZ = 0;
     } else {
-        actor->objectLoadEntryIndex = objectLoadEntryIndex;
+        actor->objectEntry = objectEntry;
     }
 
     actor->init = actorInit->init;
@@ -3067,7 +3067,7 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
     u32 matricesSize;
     u32 dListsSize;
-    u32 objectLoadEntryIndicesSize;
+    u32 objectEntriesSize;
 
     matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
     bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
@@ -3077,14 +3077,14 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
         bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
 
         if (bodyBreak->dLists != NULL) {
-            objectLoadEntryIndicesSize = (count + 1) * sizeof(*bodyBreak->objectLoadEntryIndices);
-            bodyBreak->objectLoadEntryIndices =
-                ZeldaArena_MallocDebug(objectLoadEntryIndicesSize, "../z_actor.c", 7546);
+            objectEntriesSize = (count + 1) * sizeof(*bodyBreak->objectEntries);
+            bodyBreak->objectEntries =
+                ZeldaArena_MallocDebug(objectEntriesSize, "../z_actor.c", 7546);
 
-            if (bodyBreak->objectLoadEntryIndices != NULL) {
+            if (bodyBreak->objectEntries != NULL) {
                 Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
                 Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
-                Lib_MemSet((u8*)bodyBreak->objectLoadEntryIndices, objectLoadEntryIndicesSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectEntries, objectEntriesSize, 0);
                 bodyBreak->val = 1;
                 return;
             }
@@ -3099,20 +3099,20 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
         ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (bodyBreak->objectLoadEntryIndices != NULL) {
-        ZeldaArena_FreeDebug(bodyBreak->objectLoadEntryIndices, "../z_actor.c", 7564);
+    if (bodyBreak->objectEntries != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectEntries, "../z_actor.c", 7564);
     }
 }
 
 void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
-                       s16 objectLoadEntryIndex) {
+                       s16 objectEntry) {
     PlayState* play = Effect_GetPlayState();
 
     if ((play->actorCtx.freezeFlashTimer == 0) && (bodyBreak->val > 0)) {
         if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
             bodyBreak->dLists[bodyBreak->val] = *dList;
             Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
-            bodyBreak->objectLoadEntryIndices[bodyBreak->val] = objectLoadEntryIndex;
+            bodyBreak->objectEntries[bodyBreak->val] = objectEntry;
             bodyBreak->val++;
         }
 
@@ -3132,7 +3132,7 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
-    s16 objectLoadEntryIndex;
+    s16 objectEntry;
 
     if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
@@ -3144,17 +3144,17 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
         Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
         if (1) {
-            if (bodyBreak->objectLoadEntryIndices[bodyBreak->count] > BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT) {
-                objectLoadEntryIndex = bodyBreak->objectLoadEntryIndices[bodyBreak->count];
+            if (bodyBreak->objectEntries[bodyBreak->count] > BODYBREAK_OBJECT_ENTRY_DEFAULT) {
+                objectEntry = bodyBreak->objectEntries[bodyBreak->count];
             } else {
-                objectLoadEntryIndex = actor->objectLoadEntryIndex;
+                objectEntry = actor->objectEntry;
             }
         }
 
         mtx = &bodyBreak->matrices[bodyBreak->count];
 
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, mtx->xw, mtx->yw,
-                                                    mtx->zw, 0, 0, objectLoadEntryIndex, type);
+                                                    mtx->zw, 0, 0, objectEntry, type);
 
         if (spawnedEnPart != NULL) {
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
@@ -3169,7 +3169,7 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
 
     ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
     ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(bodyBreak->objectLoadEntryIndices, "../z_actor.c", 7680);
+    ZeldaArena_FreeDebug(bodyBreak->objectEntries, "../z_actor.c", 7680);
 
     return true;
 }
@@ -4148,7 +4148,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
 
     spawnedEnPart =
         (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y, spawnPos->z,
-                                    spawnRot->x, spawnRot->y, actor->objectLoadEntryIndex, params);
+                                    spawnRot->x, spawnRot->y, actor->objectEntry, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3[0];

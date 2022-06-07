@@ -15,7 +15,7 @@
 #define rPrimColorA regs[5]
 #define rFadeDelay regs[6]
 #define rScaleStep regs[9]
-#define rObjectLoadEntryIndex regs[10]
+#define rObjectEntry regs[10]
 #define rYAccelStep regs[11] // has no effect due to how it's implemented
 
 u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -29,9 +29,9 @@ EffectSsInit Effect_Ss_D_Fire_InitVars = {
 
 u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDFireInitParams* initParams = (EffectSsDFireInitParams*)initParamsx;
-    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_DODONGO);
+    s32 objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_DODONGO);
 
-    if (objectLoadEntryIndex >= 0) {
+    if (objectEntry >= 0) {
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
@@ -40,7 +40,7 @@ u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->rScale = initParams->scale;
         this->rScaleStep = initParams->scaleStep;
         this->rYAccelStep = 0;
-        this->rObjectLoadEntryIndex = objectLoadEntryIndex;
+        this->rObjectEntry = objectEntry;
         this->draw = EffectSsDFire_Draw;
         this->update = EffectSsDFire_Update;
         this->rTexIdx = ((s16)(play->state.frames % 4) ^ 3);
@@ -69,11 +69,11 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     Mtx* mtx;
     f32 scale;
 
-    objectPtr = play->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
+    objectPtr = play->objectCtx.entries[this->rObjectEntry].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
 
-    if (Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_DODONGO) >= 0) {
+    if (Object_GetEntry(&play->objectCtx, OBJECT_DODONGO) >= 0) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
         gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         scale = this->rScale / 100.0f;

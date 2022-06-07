@@ -251,8 +251,8 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->waitObjectLoadEntryIndex = objectIndex =
-            Object_GetLoadEntryIndex(&play->objectCtx, sObjectInfo[phi_a3].objectId),
+    if (this->waitObjectEntry = objectIndex =
+            Object_GetEntry(&play->objectCtx, sObjectInfo[phi_a3].objectId),
         (s8)objectIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -286,8 +286,8 @@ void DoorShutter_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DoorShutter_SetupType(DoorShutter* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
-        this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+        this->dyna.actor.objectEntry = this->waitObjectEntry;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
             // Init dynapoly for shutters of the type that uses it
             CollisionHeader* colHeader = NULL;
@@ -692,7 +692,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
-    //! In most cases, the check for objectLoadEntryIndex to equal waitObjectLoadEntryIndex prevents the actor
+    //! In most cases, the check for objectEntry to equal waitObjectEntry prevents the actor
     //! from drawing until initialization is complete. However if the required object is the same as the
     //! object dependency listed in init vars (gameplay_keep in this case), the check will pass even though
     //! initialization has not completed. When this happens, it will try to draw the display list of the
@@ -703,7 +703,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
     //! the init vars for the actor, and only set draw after initialization is complete.
 
-    if (this->dyna.actor.objectLoadEntryIndex == this->waitObjectLoadEntryIndex &&
+    if (this->dyna.actor.objectEntry == this->waitObjectEntry &&
         (this->unk_16B == 0 || func_80997A34(this, play) != 0)) {
         s32 pad[2];
         ShutterInfo* sp70 = &sShutterInfo[this->unk_16C];

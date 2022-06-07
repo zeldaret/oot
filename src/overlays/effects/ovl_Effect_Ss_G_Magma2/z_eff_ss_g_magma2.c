@@ -17,7 +17,7 @@
 #define rTimer regs[7]
 #define rUpdateRate regs[8]
 #define rDrawMode regs[9]
-#define rObjectLoadEntryIndex regs[10]
+#define rObjectEntry regs[10]
 #define rScale regs[11]
 
 u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -38,15 +38,15 @@ EffectSsInit Effect_Ss_G_Magma2_InitVars = {
 };
 
 u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
-    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_KINGDODONGO);
+    s32 objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_KINGDODONGO);
     s32 pad;
 
-    if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&play->objectCtx, objectLoadEntryIndex)) {
+    if ((objectEntry >= 0) && Object_IsEntryLoaded(&play->objectCtx, objectEntry)) {
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
-        this->rObjectLoadEntryIndex = objectLoadEntryIndex;
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
+        this->rObjectEntry = objectEntry;
         this->pos = initParams->pos;
         this->velocity = zeroVec;
         this->accel = zeroVec;
@@ -78,7 +78,7 @@ void EffectSsGMagma2_Draw(PlayState* play, u32 index, EffectSs* this) {
     void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    objectPtr = play->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
+    objectPtr = play->objectCtx.entries[this->rObjectEntry].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 261);
 

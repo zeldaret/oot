@@ -15,7 +15,7 @@ typedef struct BgMoriIdomizu {
     /* 0x0154 */ s32 prevSwitchFlagSet;
     /* 0x0158 */ s16 isLoaded;
     /* 0x015A */ s16 drainTimer;
-    /* 0x015C */ s8 moriTexObjectLoadEntryIndex;
+    /* 0x015C */ s8 moriTexObjectEntry;
 } BgMoriIdomizu; // size = 0x0160
 
 #endif

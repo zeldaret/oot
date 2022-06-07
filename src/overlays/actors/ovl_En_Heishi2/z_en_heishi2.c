@@ -838,7 +838,7 @@ void EnHeishi2_DrawKingGuard(Actor* thisx, PlayState* play) {
 void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
     EnHeishi2* this = (EnHeishi2*)thisx;
     Mtx* mtx;
-    s32 linkChildObjectLoadEntryIndex;
+    s32 linkChildObjectEntry;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1792);
 
@@ -847,17 +847,17 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
     if ((this->type == 5) && GET_INFTABLE(INFTABLE_77)) {
-        linkChildObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_LINK_CHILD);
-        if (linkChildObjectLoadEntryIndex >= 0) {
+        linkChildObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_LINK_CHILD);
+        if (linkChildObjectEntry >= 0) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(70), MTXMODE_APPLY);
             mtx = Matrix_NewMtx(play->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[linkChildObjectLoadEntryIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[linkChildObjectEntry].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildKeatonMaskDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[this->actor.objectEntry].segment);
         }
     }
 

@@ -54,13 +54,13 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
 
 void BgMjin_Init(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
-    s8 objectLoadEntryIndex;
+    s8 objectEntry;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    objectLoadEntryIndex =
-        Object_GetLoadEntryIndex(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
-    this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
-    if (objectLoadEntryIndex < 0) {
+    objectEntry =
+        Object_GetEntry(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
+    this->waitObjectEntry = objectEntry;
+    if (objectEntry < 0) {
         Actor_Kill(thisx);
     } else {
         BgMjin_SetupAction(this, func_808A0850);
@@ -77,10 +77,10 @@ void func_808A0850(BgMjin* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         colHeader = NULL;
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+        this->dyna.actor.objectEntry = this->waitObjectEntry;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
@@ -107,10 +107,10 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIds[thisx->params - 1]);
+        s32 objectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[thisx->params - 1]);
 
-        if (objectLoadEntryIndex >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+        if (objectEntry >= 0) {
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));

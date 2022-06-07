@@ -97,7 +97,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
 
     s16 objectId;
     s32 params = this->actor.params;
-    s32 objectLoadEntryIndex;
+    s32 objectEntry;
 
     osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
@@ -116,16 +116,16 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
 
     objectId = sObjectIds[params];
     if (objectId != 1) {
-        objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, objectId);
+        objectEntry = Object_GetEntry(&play->objectCtx, objectId);
     } else {
-        objectLoadEntryIndex = 0;
+        objectEntry = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objectLoadEntryIndex);
-    if (objectLoadEntryIndex < 0) {
+    osSyncPrintf("bank_ID = %d\n", objectEntry);
+    if (objectEntry < 0) {
         ASSERT(0, "0", "../z_en_sth.c", 1564);
     }
-    this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
+    this->waitObjectEntry = objectEntry;
     this->drawFunc = EnSth_Draw;
     Actor_SetScale(&this->actor, 0.01f);
     EnSth_SetupAction(this, EnSth_WaitForObject);
@@ -150,7 +150,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, play);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[this->waitObjectEntry].segment);
     SkelAnime_InitFlex(play, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable, this->morphTable,
                        16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
@@ -171,8 +171,8 @@ void EnSth_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnSth_WaitForObject(EnSth* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+        this->actor.objectEntry = this->waitObjectEntry;
         this->actionFunc = EnSth_SetupAfterObjectLoaded;
     }
 }
@@ -389,7 +389,7 @@ void EnSth_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sth.c", 2133);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[this->waitObjectEntry].segment);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,

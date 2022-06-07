@@ -236,46 +236,46 @@ s32 EnKo_AreObjectsAvailable(EnKo* this, PlayState* play) {
     u8 bodyId = sModelInfo[ENKO_TYPE].bodyId;
     u8 legsId = sModelInfo[ENKO_TYPE].legsId;
 
-    this->legsObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sSkeleton[legsId].objectId);
-    if (this->legsObjectLoadEntryIndex < 0) {
+    this->legsObjectEntry = Object_GetEntry(&play->objectCtx, sSkeleton[legsId].objectId);
+    if (this->legsObjectEntry < 0) {
         return false;
     }
 
-    this->bodyObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sSkeleton[bodyId].objectId);
-    if (this->bodyObjectLoadEntryIndex < 0) {
+    this->bodyObjectEntry = Object_GetEntry(&play->objectCtx, sSkeleton[bodyId].objectId);
+    if (this->bodyObjectEntry < 0) {
         return false;
     }
 
-    this->headObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sHead[headId].objectId);
-    if (this->headObjectLoadEntryIndex < 0) {
+    this->headObjectEntry = Object_GetEntry(&play->objectCtx, sHead[headId].objectId);
+    if (this->headObjectEntry < 0) {
         return false;
     }
     return true;
 }
 
 s32 EnKo_AreObjectsLoaded(EnKo* this, PlayState* play) {
-    if (!Object_IsLoadEntryLoaded(&play->objectCtx, this->legsObjectLoadEntryIndex)) {
+    if (!Object_IsEntryLoaded(&play->objectCtx, this->legsObjectEntry)) {
         return false;
     }
-    if (!Object_IsLoadEntryLoaded(&play->objectCtx, this->bodyObjectLoadEntryIndex)) {
+    if (!Object_IsEntryLoaded(&play->objectCtx, this->bodyObjectEntry)) {
         return false;
     }
-    if (!Object_IsLoadEntryLoaded(&play->objectCtx, this->headObjectLoadEntryIndex)) {
+    if (!Object_IsEntryLoaded(&play->objectCtx, this->headObjectEntry)) {
         return false;
     }
     return true;
 }
 
 s32 EnKo_IsOsAnimeAvailable(EnKo* this, PlayState* play) {
-    this->osAnimeObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_OS_ANIME);
-    if (this->osAnimeObjectLoadEntryIndex < 0) {
+    this->osAnimeObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_OS_ANIME);
+    if (this->osAnimeObjectEntry < 0) {
         return false;
     }
     return true;
 }
 
 s32 EnKo_IsOsAnimeLoaded(EnKo* this, PlayState* play) {
-    if (!Object_IsLoadEntryLoaded(&play->objectCtx, this->osAnimeObjectLoadEntryIndex)) {
+    if (!Object_IsEntryLoaded(&play->objectCtx, this->osAnimeObjectEntry)) {
         return false;
     }
     return true;
@@ -1125,12 +1125,12 @@ void EnKo_Destroy(Actor* thisx, PlayState* play) {
 void func_80A99048(EnKo* this, PlayState* play) {
     if (EnKo_IsOsAnimeLoaded(this, play) && EnKo_AreObjectsLoaded(this, play)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objectLoadEntryIndex = this->legsObjectLoadEntryIndex;
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
+        this->actor.objectEntry = this->legsObjectEntry;
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->actor.objectEntry].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->osAnimeObjectEntry].segment);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -1244,7 +1244,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->modelAlpha != 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->osAnimeObjectEntry].segment);
             SkelAnime_Update(&this->skelAnime);
             func_80A98DB4(this, play);
             EnKo_Blink(this);
@@ -1276,8 +1276,8 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     s32 pad;
 
     if (limbIndex == 15) {
-        gSPSegment((*gfx)++, 0x06, play->objectCtx.loadEntries[this->headObjectLoadEntryIndex].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->headObjectLoadEntryIndex].segment);
+        gSPSegment((*gfx)++, 0x06, play->objectCtx.entries[this->headObjectEntry].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->headObjectEntry].segment);
 
         headId = sModelInfo[ENKO_TYPE].headId;
         *dList = sHead[headId].dList;
@@ -1285,7 +1285,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             eyeTexture = sHead[headId].eyeTextures[this->eyeTextureIndex];
             gSPSegment((*gfx)++, 0x0A, SEGMENTED_TO_VIRTUAL(eyeTexture));
         }
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->legsObjectLoadEntryIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->legsObjectEntry].segment);
     }
     if (limbIndex == 8) {
         sp40 = this->unk_1E8.unk_0E;
@@ -1312,8 +1312,8 @@ void EnKo_PostLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3s* rot,
     Vec3f D_80A9A774 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 7) {
-        gSPSegment((*gfx)++, 0x06, play->objectCtx.loadEntries[this->bodyObjectLoadEntryIndex].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->bodyObjectLoadEntryIndex].segment);
+        gSPSegment((*gfx)++, 0x06, play->objectCtx.entries[this->bodyObjectEntry].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->bodyObjectEntry].segment);
     }
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80A9A774, &this->actor.focus.pos);

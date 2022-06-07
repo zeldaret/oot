@@ -549,20 +549,20 @@ void EnOssan_UpdateCameraDirection(EnOssan* this, PlayState* play, f32 cameraFac
 
 s32 EnOssan_TryGetObjBankIndices(EnOssan* this, PlayState* play, s16* objectIds) {
     if (objectIds[1] != OBJECT_ID_MAX) {
-        this->objectLoadEntryIndex2 = Object_GetLoadEntryIndex(&play->objectCtx, objectIds[1]);
-        if (this->objectLoadEntryIndex2 < 0) {
+        this->objectEntry2 = Object_GetEntry(&play->objectCtx, objectIds[1]);
+        if (this->objectEntry2 < 0) {
             return false;
         }
     } else {
-        this->objectLoadEntryIndex2 = -1;
+        this->objectEntry2 = -1;
     }
     if (objectIds[2] != OBJECT_ID_MAX) {
-        this->objectLoadEntryIndex3 = Object_GetLoadEntryIndex(&play->objectCtx, objectIds[2]);
-        if (this->objectLoadEntryIndex3 < 0) {
+        this->objectEntry3 = Object_GetEntry(&play->objectCtx, objectIds[2]);
+        if (this->objectEntry3 < 0) {
             return false;
         }
     } else {
-        this->objectLoadEntryIndex3 = -1;
+        this->objectEntry3 = -1;
     }
     return true;
 }
@@ -604,9 +604,9 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
     }
 
     objectIds = sShopkeeperObjectIds[this->actor.params];
-    this->objectLoadEntryIndex1 = Object_GetLoadEntryIndex(&play->objectCtx, objectIds[0]);
+    this->objectEntry1 = Object_GetEntry(&play->objectCtx, objectIds[0]);
 
-    if (this->objectLoadEntryIndex1 < 0) {
+    if (this->objectEntry1 < 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
@@ -1969,13 +1969,13 @@ void EnOssan_Blink(EnOssan* this) {
 }
 
 s32 EnOssan_AreShopkeeperObjectsLoaded(EnOssan* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->objectLoadEntryIndex1)) {
-        if (this->objectLoadEntryIndex2 >= 0 &&
-            !Object_IsLoadEntryLoaded(&play->objectCtx, this->objectLoadEntryIndex2)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->objectEntry1)) {
+        if (this->objectEntry2 >= 0 &&
+            !Object_IsEntryLoaded(&play->objectCtx, this->objectEntry2)) {
             return false;
         }
-        if (this->objectLoadEntryIndex3 >= 0 &&
-            !Object_IsLoadEntryLoaded(&play->objectCtx, this->objectLoadEntryIndex3)) {
+        if (this->objectEntry3 >= 0 &&
+            !Object_IsEntryLoaded(&play->objectCtx, this->objectEntry3)) {
             return false;
         }
         return true;
@@ -1991,7 +1991,7 @@ void EnOssan_InitBazaarShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gKm1Skel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[this->objectLoadEntryIndex3].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[this->objectEntry3].segment);
     Animation_Change(&this->skelAnime, &object_masterkokiri_Anim_0004A8, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_masterkokiri_Anim_0004A8), 0, 0.0f);
     this->actor.draw = EnOssan_DrawKokiriShopkeeper;
@@ -2002,7 +2002,7 @@ void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[this->objectLoadEntryIndex3].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[this->objectEntry3].segment);
     Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
@@ -2011,7 +2011,7 @@ void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitZoraShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[this->objectLoadEntryIndex3].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[this->objectEntry3].segment);
     Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawZoraShopkeeper;
@@ -2104,7 +2104,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
 
     if (EnOssan_AreShopkeeperObjectsLoaded(this, play)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objectLoadEntryIndex = this->objectLoadEntryIndex1;
+        this->actor.objectEntry = this->objectEntry1;
         Actor_SetObjectDependency(play, &this->actor);
 
         this->shelves = (EnTana*)Actor_Find(&play->actorCtx, ACTOR_EN_TANA, ACTORCAT_PROP);
@@ -2194,7 +2194,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_Obj3ToSeg6(EnOssan* this, PlayState* play) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->objectLoadEntryIndex3].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->objectEntry3].segment);
 }
 
 void EnOssan_MainActionFunc(EnOssan* this, PlayState* play) {
@@ -2361,8 +2361,8 @@ s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(PlayState* play, s32 limbIndex, Gfx
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4354);
 
     if (limbIndex == 15) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->objectLoadEntryIndex2].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->objectLoadEntryIndex2].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[this->objectEntry2].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->objectEntry2].segment);
         *dList = gKokiriShopkeeperHeadDL;
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sKokiriShopkeeperEyeTextures[this->eyeTextureIdx]));
     }

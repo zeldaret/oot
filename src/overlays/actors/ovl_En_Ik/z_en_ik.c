@@ -858,7 +858,7 @@ void EnIk_PostLimbDraw3(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ik_inFight.c", 1201);
 
     if (this->unk_2FB & 1) {
-        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 26, 27, 28, dList, BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 26, 27, 28, dList, BODYBREAK_OBJECT_ENTRY_DEFAULT);
     }
     if (limbIndex == 12) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1217),

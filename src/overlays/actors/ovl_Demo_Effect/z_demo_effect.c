@@ -178,7 +178,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType;
     s32 lightEffect;
-    s32 objectLoadEntryIndex;
+    s32 objectEntry;
     DemoEffect* crystalLight;
     DemoEffect* lightRing;
 
@@ -187,16 +187,16 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
 
     osSyncPrintf(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
 
-    objectLoadEntryIndex = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
+    objectEntry = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
                                ? 0
-                               : Object_GetLoadEntryIndex(&play->objectCtx, sEffectTypeObjects[effectType]);
+                               : Object_GetEntry(&play->objectCtx, sEffectTypeObjects[effectType]);
 
-    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectLoadEntryIndex);
+    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectEntry);
 
-    if (objectLoadEntryIndex < 0) {
+    if (objectEntry < 0) {
         ASSERT(0, "0", "../z_demo_effect.c", 723);
     } else {
-        this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
+        this->waitObjectEntry = objectEntry;
     }
 
     this->effectFlags = 0;
@@ -534,8 +534,8 @@ void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
  * initUpdateFunc/initDrawFunc are set during initialization and are NOT executed.
  */
 void DemoEffect_WaitForObject(DemoEffect* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+        this->actor.objectEntry = this->waitObjectEntry;
         this->actor.draw = this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 

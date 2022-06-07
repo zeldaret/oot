@@ -218,9 +218,9 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
     actor->shape.rot.z = D_808B5DD8[actor->params][9];
 
     this->dList = object_bombiwa_DL_0009E0;
-    this->waitLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_BOMBIWA);
+    this->waitObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_BOMBIWA);
 
-    if (this->waitLoadEntryIndex < 0) {
+    if (this->waitObjectEntry < 0) {
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c",
                      589);
         return false;
@@ -486,7 +486,7 @@ void func_808B5AF0(BgSpot16Bombstone* this) {
 }
 
 void func_808B5B04(BgSpot16Bombstone* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         func_808B5B58(this);
         this->actor.draw = BgSpot16Bombstone_Draw;
     }
@@ -546,7 +546,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, this->dList);
     } else {
         // The boulder is debris
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->waitLoadEntryIndex].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[this->waitObjectEntry].segment);
         gSPDisplayList(POLY_OPA_DISP++, this->dList);
     }
 

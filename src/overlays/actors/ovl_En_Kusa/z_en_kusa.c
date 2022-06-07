@@ -253,9 +253,9 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIds[thisx->params & 3]);
+    this->waitObjectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[thisx->params & 3]);
 
-    if (this->waitObjectLoadEntryIndex < 0) {
+    if (this->waitObjectEntry < 0) {
         // "Bank danger!"
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 561);
         Actor_Kill(&this->actor);
@@ -277,7 +277,7 @@ void EnKusa_SetupWaitForObject(EnKusa* this) {
 }
 
 void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
             EnKusa_SetupCut(this);
         } else {
@@ -285,7 +285,7 @@ void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
         }
 
         this->actor.draw = EnKusa_Draw;
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+        this->actor.objectEntry = this->waitObjectEntry;
         this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }

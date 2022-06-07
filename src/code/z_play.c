@@ -450,8 +450,8 @@ void Play_Update(PlayState* this) {
         ActorOverlayTable_LogPrint();
     }
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.loadEntries[this->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.loadEntries[this->objectCtx.subKeepIndex].segment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.entries[this->objectCtx.mainKeepEntry].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.entries[this->objectCtx.subKeepEntry].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
 
     if (FrameAdvance_Update(&this->frameAdvCtx, &input[1])) {
@@ -1096,21 +1096,21 @@ void Play_Draw(PlayState* this) {
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.loadEntries[this->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.loadEntries[this->objectCtx.subKeepIndex].segment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.entries[this->objectCtx.mainKeepEntry].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.entries[this->objectCtx.subKeepEntry].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
     gSPSegment(OVERLAY_DISP++, 0x00, NULL);
 
-    gSPSegment(POLY_OPA_DISP++, 0x04, this->objectCtx.loadEntries[this->objectCtx.mainKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x04, this->objectCtx.loadEntries[this->objectCtx.mainKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x04, this->objectCtx.loadEntries[this->objectCtx.mainKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x04, this->objectCtx.entries[this->objectCtx.mainKeepEntry].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x04, this->objectCtx.entries[this->objectCtx.mainKeepEntry].segment);
+    gSPSegment(OVERLAY_DISP++, 0x04, this->objectCtx.entries[this->objectCtx.mainKeepEntry].segment);
 
-    gSPSegment(POLY_OPA_DISP++, 0x05, this->objectCtx.loadEntries[this->objectCtx.subKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x05, this->objectCtx.loadEntries[this->objectCtx.subKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x05, this->objectCtx.loadEntries[this->objectCtx.subKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x05, this->objectCtx.entries[this->objectCtx.subKeepEntry].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x05, this->objectCtx.entries[this->objectCtx.subKeepEntry].segment);
+    gSPSegment(OVERLAY_DISP++, 0x05, this->objectCtx.entries[this->objectCtx.subKeepEntry].segment);
 
     gSPSegment(POLY_OPA_DISP++, 0x02, this->sceneSegment);
     gSPSegment(POLY_XLU_DISP++, 0x02, this->sceneSegment);

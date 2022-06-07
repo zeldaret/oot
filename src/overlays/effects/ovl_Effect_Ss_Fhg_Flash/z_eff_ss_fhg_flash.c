@@ -9,7 +9,7 @@
 #include "assets/objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
-#define rObjectLoadEntryIndex regs[2]
+#define rObjectEntry regs[2]
 #define rXZRot regs[3]
 #define rParam regs[4]
 #define rScale regs[8]
@@ -31,18 +31,18 @@ static Gfx D_809A5100[15];
 u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
     s32 pad;
-    s32 objectLoadEntryIndex;
+    s32 objectEntry;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
     void* prevSeg6;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
-        objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_FHG);
+        objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_FHG);
 
-        if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&play->objectCtx, objectLoadEntryIndex)) {
+        if ((objectEntry >= 0) && Object_IsEntryLoaded(&play->objectCtx, objectEntry)) {
             prevSeg6 = gSegments[6];
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
-            this->rObjectLoadEntryIndex = objectLoadEntryIndex;
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
+            this->rObjectEntry = objectEntry;
             this->pos = initParams->pos;
             this->velocity = initParams->velocity;
             this->accel = initParams->accel;
@@ -91,7 +91,7 @@ void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) 
     void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    objectPtr = play->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
+    objectPtr = play->objectCtx.entries[this->rObjectEntry].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 

@@ -430,7 +430,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
         play->csCtx.npcActions[i] = 0;
     }
 
-    if (Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
+    if (Object_GetEntry(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
         // "Sun setting other than field keep! So forced release!"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);

@@ -470,18 +470,18 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
                           EnCs_OverrideLimbDraw, EnCs_PostLimbDraw, &this->actor);
 
     if (GET_ITEMGETINF(ITEMGETINF_3A)) {
-        s32 linkChildObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_LINK_CHILD);
+        s32 linkChildObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_LINK_CHILD);
 
         // Handle attaching the Spooky Mask to the boy's face
-        if (linkChildObjectLoadEntryIndex >= 0) {
+        if (linkChildObjectEntry >= 0) {
             Mtx* mtx;
 
             Matrix_Put(&this->spookyMaskMtx);
             mtx = Matrix_NewMtx(play->state.gfxCtx, "../z_en_cs.c", 1000);
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[linkChildObjectLoadEntryIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[linkChildObjectEntry].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[this->actor.objectEntry].segment);
         }
     }
 

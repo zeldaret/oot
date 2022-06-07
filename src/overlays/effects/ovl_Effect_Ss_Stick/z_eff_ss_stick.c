@@ -8,7 +8,7 @@
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define rObjectLoadEntryIndex regs[0]
+#define rObjectEntry regs[0]
 #define rYaw regs[1]
 
 u32 EffectSsStick_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -33,7 +33,7 @@ u32 EffectSsStick_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;
 
-    this->rObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, ageInfoEntry->objectId);
+    this->rObjectEntry = Object_GetEntry(&play->objectCtx, ageInfoEntry->objectId);
     this->gfx = ageInfoEntry->displayList;
     this->vec = this->pos = initParams->pos;
     this->rYaw = initParams->yaw;
@@ -67,7 +67,7 @@ void EffectSsStick_Draw(PlayState* play, u32 index, EffectSs* this) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_25Opa(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[this->rObjectEntry].segment);
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
     gSPDisplayList(POLY_OPA_DISP++, this->gfx);
 

@@ -122,7 +122,7 @@ void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, PlayState* play, void* sk
         SkelAnime_Init(play, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     }
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->animObjectLoadEntryIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->animObjectEntry].segment);
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
         type == ENVIEWER_TYPE_9_GANONDORF) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 1.0f);
@@ -133,7 +133,7 @@ void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, PlayState* play, void* sk
 
 void EnViewer_InitAnimImpa(EnViewer* this, PlayState* play, void* skeletonHeaderSeg, AnimationHeader* anim) {
     SkelAnime_InitFlex(play, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->animObjectLoadEntryIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->animObjectEntry].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
 }
 
@@ -166,21 +166,21 @@ static ActorShadowFunc sShadowDrawFuncs[] = {
 
 void EnViewer_InitImpl(EnViewer* this, PlayState* play) {
     EnViewerInitData* initData = &sInitData[this->actor.params >> 8];
-    s32 skelObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, initData->skeletonObject);
+    s32 skelObjectEntry = Object_GetEntry(&play->objectCtx, initData->skeletonObject);
 
-    ASSERT(skelObjectLoadEntryIndex >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
+    ASSERT(skelObjectEntry >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
 
-    this->animObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, initData->animObject);
-    ASSERT(this->animObjectLoadEntryIndex >= 0, "this->anime_bank_ID >= 0", "../z_en_viewer.c", 579);
+    this->animObjectEntry = Object_GetEntry(&play->objectCtx, initData->animObject);
+    ASSERT(this->animObjectEntry >= 0, "this->anime_bank_ID >= 0", "../z_en_viewer.c", 579);
 
-    if (!Object_IsLoadEntryLoaded(&play->objectCtx, skelObjectLoadEntryIndex) ||
-        !Object_IsLoadEntryLoaded(&play->objectCtx, this->animObjectLoadEntryIndex)) {
+    if (!Object_IsEntryLoaded(&play->objectCtx, skelObjectEntry) ||
+        !Object_IsEntryLoaded(&play->objectCtx, this->animObjectEntry)) {
         this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
     this->isVisible = true;
-    this->actor.objectLoadEntryIndex = skelObjectLoadEntryIndex;
+    this->actor.objectEntry = skelObjectEntry;
     Actor_SetObjectDependency(play, &this->actor);
     Actor_SetScale(&this->actor, initData->scale / 100.0f);
     ActorShape_Init(&this->actor.shape, initData->yOffset * 100, sShadowDrawFuncs[initData->shadowType],
@@ -481,7 +481,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
 void EnViewer_Update(Actor* thisx, PlayState* play) {
     EnViewer* this = (EnViewer*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->animObjectLoadEntryIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->animObjectEntry].segment);
     this->actionFunc(this, play);
 }
 

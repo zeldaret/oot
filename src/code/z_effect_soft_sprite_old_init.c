@@ -49,7 +49,7 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     MtxF mfTrans11DA0;
     s32 pad1;
     Mtx* mtx;
-    void* objectPtr = play->objectCtx.loadEntries[this->rgObjectLoadEntryIndex].segment;
+    void* objectPtr = play->objectCtx.entries[this->rgObjectEntry].segment;
 
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 

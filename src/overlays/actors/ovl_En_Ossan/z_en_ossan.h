@@ -41,9 +41,9 @@ typedef struct EnOssan {
     /* 0x0198 */ ColliderCylinder collider; // unused
     /* 0x01E4 */ s16 timer;
     /* 0x01E6 */ s16 delayTimer;
-    /* 0x01E8 */ s8 objectLoadEntryIndex1;
-    /* 0x01E9 */ s8 objectLoadEntryIndex2;
-    /* 0x01EA */ s8 objectLoadEntryIndex3;
+    /* 0x01E8 */ s8 objectEntry1;
+    /* 0x01E9 */ s8 objectEntry2;
+    /* 0x01EA */ s8 objectEntry3;
     /* 0x01EB */ u8 happyMaskShopState;
     /* 0x01EC */ u8 happyMaskShopkeeperEyeIdx;
     /* 0x01EE */ s16 headRot;

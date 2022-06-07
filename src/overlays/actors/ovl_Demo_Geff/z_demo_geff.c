@@ -86,13 +86,13 @@ void func_80977EA8(PlayState* play, Gfx* dlist) {
 
 void func_80977F80(DemoGeff* this, PlayState* play) {
     s32 pad[2];
-    s32 objectLoadEntryIndex = this->objectLoadEntryIndex;
+    s32 objectEntry = this->objectEntry;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[objectEntry].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
 
     // Necessary to match
     if (!play) {}
@@ -189,16 +189,16 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     Actor* thisx = &this->actor;
     s32 params = thisx->params;
     s16 objectId = sObjectIds[params];
-    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(objCtx, objectId);
+    s32 objectEntry = Object_GetEntry(objCtx, objectId);
     s32 pad;
 
-    if (objectLoadEntryIndex < 0) {
+    if (objectEntry < 0) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);
         Actor_Kill(thisx);
         return;
     }
-    if (Object_IsLoadEntryLoaded(objCtx, objectLoadEntryIndex)) {
-        this->objectLoadEntryIndex = objectLoadEntryIndex;
+    if (Object_IsEntryLoaded(objCtx, objectEntry)) {
+        this->objectEntry = objectEntry;
         func_80978370(this, play);
     }
 }

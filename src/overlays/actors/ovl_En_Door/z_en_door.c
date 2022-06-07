@@ -81,7 +81,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     EnDoor* this = (EnDoor*)thisx;
     EnDoorInfo* objectInfo;
     s32 i;
-    s32 objectLoadEntryIndex;
+    s32 objectEntry;
     f32 xOffset;
     f32 zOffset;
 
@@ -94,20 +94,20 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         }
     }
     if (i >= ARRAY_COUNT(sDoorInfo) - 2 &&
-        Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
+        Object_GetEntry(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
         objectInfo++;
     }
 
     this->dListIndex = objectInfo->dListIndex;
-    objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, objectInfo->objectId);
-    if (objectLoadEntryIndex < 0) {
+    objectEntry = Object_GetEntry(&play->objectCtx, objectInfo->objectId);
+    if (objectEntry < 0) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
+    this->waitObjectEntry = objectEntry;
     this->dListIndex = objectInfo->dListIndex;
-    if (this->actor.objectLoadEntryIndex == this->waitObjectLoadEntryIndex) {
+    if (this->actor.objectEntry == this->waitObjectEntry) {
         EnDoor_SetupType(this, play);
     } else {
         this->actionFunc = EnDoor_SetupType;
@@ -145,10 +145,10 @@ void EnDoor_Destroy(Actor* thisx, PlayState* play) {
 void EnDoor_SetupType(EnDoor* this, PlayState* play) {
     s32 doorType;
 
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         doorType = this->actor.params >> 7 & 7;
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+        this->actor.objectEntry = this->waitObjectEntry;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
             doorType = (gSaveContext.dayTime > CLOCK_TIME(18, 0) && gSaveContext.dayTime < CLOCK_TIME(21, 0))
@@ -327,7 +327,7 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
 void EnDoor_Draw(Actor* thisx, PlayState* play) {
     EnDoor* this = (EnDoor*)thisx;
 
-    if (this->actor.objectLoadEntryIndex == this->waitObjectLoadEntryIndex) {
+    if (this->actor.objectEntry == this->waitObjectEntry) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_door.c", 910);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);

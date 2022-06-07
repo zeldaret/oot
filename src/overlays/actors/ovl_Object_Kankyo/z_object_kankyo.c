@@ -757,21 +757,21 @@ void ObjectKankyo_DrawLightning(ObjectKankyo* this, PlayState* play) {
 }
 
 void ObjectKankyo_SunGraveSparkInit(ObjectKankyo* this, PlayState* play) {
-    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_SPOT02_OBJECTS);
+    s32 objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_SPOT02_OBJECTS);
 
-    if (objectLoadEntryIndex < 0) {
+    if (objectEntry < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1251);
     } else {
-        this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
+        this->waitObjectEntry = objectEntry;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForSunGraveSparkObject);
 }
 
 void ObjectKankyo_WaitForSunGraveSparkObject(ObjectKankyo* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         this->requiredObjectLoaded = true;
         this->effects[0].alpha = 0;
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+        this->actor.objectEntry = this->waitObjectEntry;
         this->effects[0].size = 7.0f;
         ObjectKankyo_SetupAction(this, ObjectKankyo_SunGraveSpark);
     }
@@ -856,20 +856,20 @@ void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, PlayState* play2) {
 }
 
 void ObjectKankyo_InitBeams(ObjectKankyo* this, PlayState* play) {
-    s32 objectIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_DEMO_KEKKAI);
+    s32 objectIndex = Object_GetEntry(&play->objectCtx, OBJECT_DEMO_KEKKAI);
 
     if (objectIndex < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1449);
     } else {
-        this->waitObjectLoadEntryIndex = objectIndex;
+        this->waitObjectEntry = objectIndex;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForBeamObject);
 }
 
 void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         this->requiredObjectLoaded = true;
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+        this->actor.objectEntry = this->waitObjectEntry;
         ObjectKankyo_SetupAction(this, ObjectKankyo_Beams);
     }
 }

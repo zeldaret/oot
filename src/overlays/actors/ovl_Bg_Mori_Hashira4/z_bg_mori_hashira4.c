@@ -78,8 +78,8 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
         BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, DPM_UNK);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->moriTexObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjectLoadEntryIndex < 0) {
+    this->moriTexObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectEntry < 0) {
         Actor_Kill(&this->dyna.actor);
         // "Bank danger!"
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
@@ -109,7 +109,7 @@ void BgMoriHashira4_SetupWaitForMoriTex(BgMoriHashira4* this) {
 }
 
 void BgMoriHashira4_WaitForMoriTex(BgMoriHashira4* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->moriTexObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->moriTexObjectEntry)) {
         this->gateTimer = 0;
         if (this->dyna.actor.params == 0) {
             BgMoriHashira4_SetupPillarsRotate(this);
@@ -163,7 +163,7 @@ void BgMoriHashira4_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.loadEntries[this->moriTexObjectLoadEntryIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.entries[this->moriTexObjectEntry].segment);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

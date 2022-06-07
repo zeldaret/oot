@@ -828,16 +828,16 @@ typedef struct {
     /* 0x08 */ DmaRequest  dmaRequest;
     /* 0x28 */ OSMesgQueue loadQueue;
     /* 0x40 */ OSMesg   loadMsg;
-} ObjectLoadEntry; // size = 0x44
+} ObjectEntry; // size = 0x44
 
 typedef struct {
     /* 0x0000 */ void*  spaceStart;
     /* 0x0004 */ void*  spaceEnd; // original name: "endSegment"
-    /* 0x0008 */ u8     loadEntriesCount; // total amount of used load entries
-    /* 0x0009 */ u8     persistentLoadEntriesCount; // amount of load entries that won't be reused when loading a new object list (when loading a new room)
-    /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in loadEntries
-    /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in loadEntries
-    /* 0x000C */ ObjectLoadEntry loadEntries[19];
+    /* 0x0008 */ u8     numEntries; // total amount of used entries
+    /* 0x0009 */ u8     numPersistentEntries; // amount of entries that won't be reused when loading a new object list (when loading a new room)
+    /* 0x000A */ u8     mainKeepEntry; // "gameplay_keep" index into entries
+    /* 0x000B */ u8     subKeepEntry; // "gameplay_field_keep" or "gameplay_dangeon_keep" index into entries
+    /* 0x000C */ ObjectEntry entries[19];
 } ObjectContext; // size = 0x518
 
 typedef struct {

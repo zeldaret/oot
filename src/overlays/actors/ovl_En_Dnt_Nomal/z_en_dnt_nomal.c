@@ -142,11 +142,11 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         this->objectId = OBJECT_DNK;
     }
     if (this->objectId >= 0) {
-        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->objectId);
-        if (this->waitObjectLoadEntryIndex < 0) {
+        this->waitObjectEntry = Object_GetEntry(&play->objectCtx, this->objectId);
+        if (this->waitObjectEntry < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->waitObjectLoadEntryIndex);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->waitObjectEntry);
             // "Bank is funny"
             osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
@@ -169,9 +169,9 @@ void EnDntNomal_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[this->waitObjectEntry].segment);
+        this->actor.objectEntry = this->waitObjectEntry;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actor.gravity = -2.0f;
         Actor_SetScale(&this->actor, 0.01f);

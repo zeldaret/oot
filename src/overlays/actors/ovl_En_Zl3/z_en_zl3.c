@@ -740,9 +740,9 @@ s32 func_80B54DD4(EnZl3* this) {
 }
 
 void func_80B54DE0(EnZl3* this, PlayState* play) {
-    s32 objectLoadEntryIndex = this->zl2Anime2ObjectLoadEntryIndex;
+    s32 objectEntry = this->zl2Anime2ObjectEntry;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
@@ -2620,16 +2620,16 @@ void func_80B59B6C(EnZl3* this, PlayState* play) {
 void func_80B59DB8(EnZl3* this, PlayState* play) {
     s32 pad;
     ObjectContext* objectCtx = &play->objectCtx;
-    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(objectCtx, OBJECT_ZL2_ANIME2);
+    s32 objectEntry = Object_GetEntry(objectCtx, OBJECT_ZL2_ANIME2);
     s32 pad2;
 
-    if (objectLoadEntryIndex < 0) {
+    if (objectEntry < 0) {
         osSyncPrintf(VT_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    if (Object_IsLoadEntryLoaded(objectCtx, objectLoadEntryIndex)) {
-        this->zl2Anime2ObjectLoadEntryIndex = objectLoadEntryIndex;
+    if (Object_IsEntryLoaded(objectCtx, objectEntry)) {
+        this->zl2Anime2ObjectEntry = objectEntry;
         func_80B54DE0(this, play);
         func_80B59B6C(this, play);
     }

@@ -103,11 +103,11 @@ void BgBreakwall_Init(Actor* thisx, PlayState* play) {
         this->dyna.actor.world.pos.y -= 40.0f;
     }
 
-    this->waitLoadEntryIndex = (wallType >= BWALL_KD_FLOOR)
-                                   ? Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_KINGDODONGO)
-                                   : Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_BWALL);
+    this->waitObjectEntry = (wallType >= BWALL_KD_FLOOR)
+                                   ? Object_GetEntry(&play->objectCtx, OBJECT_KINGDODONGO)
+                                   : Object_GetEntry(&play->objectCtx, OBJECT_BWALL);
 
-    if (this->waitLoadEntryIndex < 0) {
+    if (this->waitObjectEntry < 0) {
         Actor_Kill(&this->dyna.actor);
     } else {
         BgBreakwall_SetupAction(this, BgBreakwall_WaitForObject);
@@ -202,11 +202,11 @@ Actor* BgBreakwall_SpawnFragments(PlayState* play, BgBreakwall* this, Vec3f* pos
  * Sets up the collision model as well is the object dependency and action function to use.
  */
 void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         CollisionHeader* colHeader = NULL;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
-        this->dyna.actor.objectLoadEntryIndex = this->waitLoadEntryIndex;
+        this->dyna.actor.objectEntry = this->waitObjectEntry;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.draw = BgBreakwall_Draw;

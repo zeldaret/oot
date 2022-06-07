@@ -764,15 +764,15 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         this->actor.params &= ~0x8000;
         this->type = HORSE_HNI;
 
-        if ((this->hniObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_HNI)) < 0) {
+        if ((this->hniObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_HNI)) < 0) {
             Actor_Kill(&this->actor);
             return;
         }
 
         do {
-        } while (!Object_IsLoadEntryLoaded(&play->objectCtx, this->hniObjectLoadEntryIndex));
+        } while (!Object_IsEntryLoaded(&play->objectCtx, this->hniObjectEntry));
 
-        this->actor.objectLoadEntryIndex = this->hniObjectLoadEntryIndex;
+        this->actor.objectEntry = this->hniObjectEntry;
         Actor_SetObjectDependency(play, &this->actor);
         this->boostSpeed = 12;
     } else {

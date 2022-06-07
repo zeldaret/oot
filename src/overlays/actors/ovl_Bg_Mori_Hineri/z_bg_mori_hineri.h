@@ -11,9 +11,9 @@ typedef void (*BgMoriHineriActionFunc)(struct BgMoriHineri*, PlayState*);
 typedef struct BgMoriHineri {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgMoriHineriActionFunc actionFunc;
-    /* 0x0168 */ s8 moriHineriObjectLoadEntryIndex;
-    /* 0x0169 */ s8 moriTexObjectLoadEntryIndex;
-    /* 0x016A */ s8 boxObjectLoadEntryIndex;
+    /* 0x0168 */ s8 moriHineriObjectEntry;
+    /* 0x0169 */ s8 moriTexObjectEntry;
+    /* 0x016A */ s8 boxObjectEntry;
     /* 0x016B */ s8 switchFlag;
 } BgMoriHineri; // size = 0x016C
 

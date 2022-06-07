@@ -59,8 +59,8 @@ void BgSpot01Objects2_Init(Actor* thisx, PlayState* play) {
     }
 
     if (this->objectId >= 0) {
-        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->objectId);
-        if (this->waitObjectLoadEntryIndex < 0) {
+        this->waitObjectEntry = Object_GetEntry(&play->objectCtx, this->objectId);
+        if (this->waitObjectEntry < 0) {
             // "There was no bank setting."
             osSyncPrintf("-----------------------------バンク設定ありませんでした.");
             Actor_Kill(&this->dyna.actor);
@@ -91,12 +91,12 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
     s32 pad;
     Vec3f position;
 
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
         // "---- Successful bank switching!!"
         osSyncPrintf("-----バンク切り換え成功！！\n");
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->waitObjectEntry].segment);
 
-        this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+        this->dyna.actor.objectEntry = this->waitObjectEntry;
         DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
         switch (this->dyna.actor.params & 7) {

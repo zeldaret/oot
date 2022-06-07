@@ -393,7 +393,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxp) {
     u16 rectLeft;
     u16 rectTop;
 
-    gSPSegment(gfx++, 0x06, play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
+    gSPSegment(gfx++, 0x06, play->objectCtx.entries[this->actor.objectEntry].segment);
 
     Gfx_SetupDL_39Ptr(&gfx);
 

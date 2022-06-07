@@ -18,8 +18,8 @@ typedef struct DemoEc {
     /* 0x0194 */ s32 updateMode;
     /* 0x0198 */ s32 drawConfig;
     /* 0x019C */ s32 npcAction;
-    /* 0x01A0 */ s32 drawObjectLoadEntryIndex;
-    /* 0x01A4 */ s32 animObjectLoadEntryIndex;
+    /* 0x01A0 */ s32 drawObjectEntry;
+    /* 0x01A4 */ s32 animObjectEntry;
 } DemoEc; // size = 0x01A8
 
 #endif

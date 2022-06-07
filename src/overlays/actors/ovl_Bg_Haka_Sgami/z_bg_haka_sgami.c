@@ -169,16 +169,16 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
     Effect_Add(play, &this->blureEffectIndex[1], EFFECT_BLURE1, 0, 0, &blureInit);
 
     if (thisx->params == SCYTHE_TRAP_SHADOW_TEMPLE) {
-        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_HAKA_OBJECTS);
+        this->waitObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_HAKA_OBJECTS);
         thisx->flags &= ~ACTOR_FLAG_0;
     } else {
-        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_ICE_OBJECTS);
+        this->waitObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_ICE_OBJECTS);
         this->colliderScytheCenter.dim.radius = 30;
         this->colliderScytheCenter.dim.height = 70;
         Actor_SetFocus(thisx, 40.0f);
     }
 
-    if (this->waitObjectLoadEntryIndex < 0) {
+    if (this->waitObjectEntry < 0) {
         Actor_Kill(thisx);
         return;
     }
@@ -196,8 +196,8 @@ void BgHakaSgami_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaSgami_SetupSpin(BgHakaSgami* this, PlayState* play) {
-    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
-        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
+    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+        this->actor.objectEntry = this->waitObjectEntry;
         this->actor.draw = BgHakaSgami_Draw;
         this->timer = SCYTHE_SPIN_TIME;
         this->actor.flags &= ~ACTOR_FLAG_4;
