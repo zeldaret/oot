@@ -84,7 +84,7 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->entries[objectCtx->mainKeepEntry].segment);
 }
 
-void Object_UpdateLoadEntries(ObjectContext* objectCtx) {
+void Object_UpdateEntries(ObjectContext* objectCtx) {
     s32 i;
     ObjectEntry* entry = &objectCtx->entries[0];
     RomFile* objectFile;

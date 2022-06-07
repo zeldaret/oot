@@ -831,7 +831,7 @@ void Play_Update(PlayState* this) {
                 LOG_NUM("1", 1, "../z_play.c", 3561);
             }
 
-            Object_UpdateLoadEntries(&this->objectCtx);
+            Object_UpdateEntries(&this->objectCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3577);

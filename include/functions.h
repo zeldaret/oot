@@ -1177,7 +1177,7 @@ u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment);
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
 s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId);
 void Object_InitContext(PlayState* play, ObjectContext* objectCtx);
-void Object_UpdateLoadEntries(ObjectContext* objectCtx);
+void Object_UpdateEntries(ObjectContext* objectCtx);
 s32 Object_GetEntry(ObjectContext* objectCtx, s16 objectId);
 s32 Object_IsEntryLoaded(ObjectContext* objectCtx, s32 entry);
 void func_800981B8(ObjectContext* objectCtx);
