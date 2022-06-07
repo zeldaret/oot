@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot01_idosoko.h"
-#include "objects/object_spot01_matoya/object_spot01_matoya.h"
+#include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -71,7 +71,7 @@ void BgSpot01Idosoko_Update(Actor* thisx, PlayState* play) {
 void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 162);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

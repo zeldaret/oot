@@ -39,7 +39,7 @@ void OceffWipe_Destroy(Actor* thisx, PlayState* play) {
     OceffWipe* this = (OceffWipe*)thisx;
     Player* player = GET_PLAYER(play);
 
-    func_800876C8(play);
+    Magic_Reset(play);
     if (gSaveContext.nayrusLoveTimer != 0) {
         player->stateFlags3 |= PLAYER_STATE3_6;
     }
@@ -56,7 +56,7 @@ void OceffWipe_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "overlays/ovl_Oceff_Wipe/ovl_Oceff_Wipe.c"
+#include "assets/overlays/ovl_Oceff_Wipe/ovl_Oceff_Wipe.c"
 
 static u8 sAlphaIndices[] = {
     0x01, 0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x20, 0x12, 0x01,
@@ -101,7 +101,7 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
         vtxPtr[i * 2 + 1].v.cn[3] = alphaTable[sAlphaIndices[i] & 0xF];
     }
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);

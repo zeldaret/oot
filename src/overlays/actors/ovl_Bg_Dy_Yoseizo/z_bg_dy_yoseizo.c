@@ -5,11 +5,11 @@
  */
 
 #include "z_bg_dy_yoseizo.h"
-#include "objects/object_dy_obj/object_dy_obj.h"
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
 #include "vt.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
-#include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
-#include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
+#include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
+#include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
@@ -181,12 +181,12 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, PlayState* play) {
     if (Flags_GetSwitch(play, 0x38)) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if (!gSaveContext.magicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
+            if (!gSaveContext.isMagicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
                 Actor_Kill(&this->actor);
                 return;
             }
         } else {
-            if (!gSaveContext.magicAcquired) {
+            if (!gSaveContext.isMagicAcquired) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -225,7 +225,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
     } else {
         switch (this->fountainType) {
             case FAIRY_UPGRADE_MAGIC:
-                if (!gSaveContext.magicAcquired || BREG(2)) {
+                if (!gSaveContext.isMagicAcquired || BREG(2)) {
                     // "Spin Attack speed UP"
                     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
@@ -233,7 +233,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
                 }
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
-                if (!gSaveContext.doubleMagic) {
+                if (!gSaveContext.isDoubleMagicAcquired) {
                     // "Magic Meter doubled"
                     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
@@ -466,7 +466,7 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
         this->refillTimer = 200;
     }
 
-    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.unk_13F4)) ||
+    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.magicCapacity)) ||
         (this->refillTimer == 1)) {
         this->healingTimer--;
         if (this->healingTimer == 90) {
@@ -709,16 +709,18 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
 
         switch (actionIndex) {
             case FAIRY_UPGRADE_MAGIC:
-                gSaveContext.magicAcquired = true;
-                gSaveContext.unk_13F6 = 0x30;
+                gSaveContext.isMagicAcquired = true;
+                gSaveContext.magicFillTarget = MAGIC_NORMAL_METER;
+                // magicLevel is already 0, setting isMagicAcquired to true triggers magicCapacity to grow
                 Interface_ChangeAlpha(9);
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
-                if (!gSaveContext.magicAcquired) {
-                    gSaveContext.magicAcquired = true;
+                if (!gSaveContext.isMagicAcquired) {
+                    gSaveContext.isMagicAcquired = true;
                 }
-                gSaveContext.doubleMagic = true;
-                gSaveContext.unk_13F6 = 0x60;
+                gSaveContext.isDoubleMagicAcquired = true;
+                gSaveContext.magicFillTarget = MAGIC_DOUBLE_METER;
+                // Setting magicLevel to 0 triggers magicCapacity to grow
                 gSaveContext.magicLevel = 0;
                 Interface_ChangeAlpha(9);
                 break;
@@ -750,8 +752,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                                                        itemPos.y, itemPos.z, 0, 0, 0, sExItemTypes[actionIndex]);
 
             if (this->item != NULL) {
-                if (gSaveContext.magicAcquired == 0) {
-                    gSaveContext.magicAcquired = 1;
+                if (!gSaveContext.isMagicAcquired) {
+                    gSaveContext.isMagicAcquired = true;
                 } else {
                     Magic_Fill(play);
                 }
@@ -857,7 +859,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     this->heightOffset = this->scale * 7500.0f;
     Actor_SetFocus(&this->actor, this->heightOffset);
     this->actor.focus.pos.y = this->heightOffset;
-    func_80038290(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
+    Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     BgDyYoseizo_UpdateEffects(this, play);
     Actor_SetScale(&this->actor, this->scale);
 }
@@ -891,7 +893,7 @@ void BgDyYoseizo_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1609);
     if (this->actionFunc != BgDyYoseizo_Vanish) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeState]));
 
@@ -1006,7 +1008,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
     s16 i;
 
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
         if (effect->alive == 1) {

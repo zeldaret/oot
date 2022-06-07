@@ -112,7 +112,7 @@
 #define NA_BGM_STAFF_4 0x6A          // End Credits IV
 #define NA_BGM_FIRE_BOSS 0x6B        // King Dodongo & Volvagia Boss Battle "NA_BGM_BOSS01"
 #define NA_BGM_TIMED_MINI_GAME 0x6C  // Mini-Game
-#define NA_BGM_VARIOUS_SFX 0x6D      // A small collection of various sound effects
+#define NA_BGM_CUTSCENE_EFFECTS 0x6D // A small collection of various cutscene sounds
 #define NA_BGM_NO_MUSIC 0x7F         // No bgm music is played
 #define NA_BGM_NATURE_SFX_RAIN 0x80  // Related to rain
 #define NA_BGM_DISABLED 0xFFFF
@@ -130,6 +130,25 @@ typedef enum {
     /* 2 */ SEQ_MODE_STILL, // Not moving or first-person view
     /* 3 */ SEQ_MODE_IGNORE
 } SequenceMode;
+
+typedef enum {
+    /* 0x0 */ SEQ_CS_EFFECTS_SWORD_GLOW, // Master sword glow
+    /* 0x1 */ SEQ_CS_EFFECTS_SHEIK_TRANSFORM, // Sheik's transformation to Zelda
+    /* 0x2 */ SEQ_CS_EFFECTS_SAGE_SEAL, // Sages accumulating their power
+    /* 0x3 */ SEQ_CS_EFFECTS_FARORE_MAGIC, // Farore's magic creating life
+    /* 0x4 */ SEQ_CS_EFFECTS_NAYRU_MAGIC, // Nayru's magic establishing order
+    /* 0x5 */ SEQ_CS_EFFECTS_DIN_MAGIC, // Din's building of the earth
+    /* 0x6 */ SEQ_CS_EFFECTS_LAVA_ERUPT, // Lava erupting from Volvagia's pit
+    /* 0x7 */ SEQ_CS_EFFECTS_BONGO_HURL_LINK, // Link screaming while attacked by invisible Bongo Bongo
+    /* 0x8 */ SEQ_CS_EFFECTS_BONGO_HOVER, // Bongo Bongo hovering menacingly
+    /* 0x9 */ SEQ_CS_EFFECTS_BONGO_EMERGES, // Bongo Bongo emerging from the well
+    /* 0xA */ SEQ_CS_EFFECTS_TRIAL_WARP, // Warping from one of the trial barriers
+    /* 0xB */ SEQ_CS_EFFECTS_TRIAL_DESTROY, // Destroying one of the trial barriers
+    /* 0xC */ SEQ_CS_EFFECTS_DISPEL_BARRIER, // Dispelling the Tower barrier
+    /* 0xD */ SEQ_CS_EFFECTS_TOWER_COLLAPSE, // Ganon's Tower's collapse
+    /* 0xE */ SEQ_CS_EFFECTS_LINK_SCREAM, // Child Link screaming (unused)
+    /* 0xF */ SEQ_CS_EFFECTS_RAINFALL // Rain with thunder effects
+} SequenceCutsceneEffects;
 
 typedef enum {
     /* 0x0 */ CHANNEL_IO_PORT_0,

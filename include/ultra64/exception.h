@@ -40,8 +40,8 @@ typedef struct  {
 
 OSIntMask osSetIntMask(OSIntMask);
 
-void __osSetHWIntrRoutine(OSHWIntr interrupt, s32 (*callback)(void), void *sp);
-void __osGetHWIntrRoutine(OSHWIntr interrupt, s32 (**callbackOut)(void), void **spOut);
+void __osSetHWIntrRoutine(OSHWIntr intr, s32 (*callback)(void), void* sp);
+void __osGetHWIntrRoutine(OSHWIntr intr, s32 (**callbackOut)(void), void** spOut);
 
 void __osSetGlobalIntMask(OSHWIntr mask);
 void __osResetGlobalIntMask(OSHWIntr mask);

@@ -33,7 +33,7 @@ static Vec3s D_80A8EE10[0x90];
 
 static s32 sUnused[2] = { 0, 0 };
 
-#include "overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
+#include "assets/overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     EnJsjutan* this = (EnJsjutan*)thisx;
@@ -401,7 +401,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
             }
         }
     }
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (s16)this->shadowAlpha);
 
@@ -423,7 +423,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     }
     gSPDisplayList(POLY_OPA_DISP++, sModelDL);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Translate(thisx->world.pos.x, this->unk_168 + 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
 

@@ -1,6 +1,6 @@
 #include "z_en_niw_lady.h"
-#include "objects/object_ane/object_ane.h"
-#include "objects/object_os_anime/object_os_anime.h"
+#include "assets/objects/object_ane/object_ane.h"
+#include "assets/objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "vt.h"
 
@@ -109,6 +109,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, PlayState* play, s32 arg2) {
         switch (arg2) {
             case 10:
                 this->unk_275 = 1;
+                FALLTHROUGH;
             case 9:
                 frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
                 Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
@@ -577,7 +578,7 @@ void EnNiwLady_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_niw_lady.c", 1347);
     if (this->unk_27E != 0) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, EnNiwLady_EmptyDList(play->state.gfxCtx));

@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_po_event.h"
-#include "objects/object_po_sisters/object_po_sisters.h"
+#include "assets/objects/object_po_sisters/object_po_sisters.h"
 
 #define FLAGS 0
 
@@ -601,7 +601,7 @@ void BgPoEvent_Draw(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_event.c", 1481);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if ((this->type == 3) || (this->type == 2)) {
         if (this->actionFunc == BgPoEvent_PaintingEmpty) {
             alpha = 255;

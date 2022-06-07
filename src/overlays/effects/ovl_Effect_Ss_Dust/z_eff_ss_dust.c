@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_dust.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -104,7 +104,7 @@ void EffectSsDust_Draw(PlayState* play, u32 index, EffectSs* this) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[this->rTexIdx]));
-        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+        POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
         gDPPipeSync(POLY_XLU_DISP++);
 
         if (this->rDrawFlags & 1) {

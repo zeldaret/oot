@@ -243,9 +243,6 @@
     <ClCompile Include="ZRoom\Commands\SetMinimapList.cpp">
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="ZCutsceneMM.cpp">
-      <Filter>Source Files\Z64</Filter>
-    </ClCompile>
     <ClCompile Include="ZBackground.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
@@ -281,6 +278,15 @@
     </ClCompile>
     <ClCompile Include="WarningHandler.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZCollisionPoly.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherStructs\Cutscene_Commands.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherStructs\CutsceneMM_Commands.cpp">
+      <Filter>Source Files\Z64</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -500,9 +506,6 @@
     <ClInclude Include="ZRoom\Commands\SetMinimapList.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="ZCutsceneMM.h">
-      <Filter>Header Files\Z64</Filter>
-    </ClInclude>
     <ClInclude Include="ZBackground.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
@@ -535,6 +538,15 @@
     </ClInclude>
     <ClInclude Include="WarningHandler.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZCollisionPoly.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherStructs\Cutscene_Commands.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherStructs\CutsceneMM_Commands.h">
+      <Filter>Header Files\Z64</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

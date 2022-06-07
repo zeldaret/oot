@@ -6,7 +6,7 @@
 
 #include "z_eff_ss_fhg_flash.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
-#include "objects/object_fhg/object_fhg.h"
+#include "assets/objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
 #define rObjBankIdx regs[2]
@@ -99,7 +99,7 @@ void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) 
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(POLY_XLU_DISP++, 0x06, object);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, sColors[this->rParam].r, sColors[this->rParam].g, sColors[this->rParam].b, 0);
     gDPPipeSync(POLY_XLU_DISP++);
@@ -125,11 +125,11 @@ void EffectSsFhgFlash_DrawShock(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
     if (this->rParam != FHGFLASH_SHOCK_NO_ACTOR) {
-        func_80094044(play->state.gfxCtx);
+        Gfx_SetupDL_44Xlu(play->state.gfxCtx);
         Matrix_RotateX((this->rXZRot / 32768.0f) * 1.1416f, MTXMODE_APPLY);
         gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2);
     } else {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
     }

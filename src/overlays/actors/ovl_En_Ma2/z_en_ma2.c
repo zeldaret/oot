@@ -1,5 +1,5 @@
 #include "z_en_ma2.h"
-#include "objects/object_ma2/object_ma2.h"
+#include "assets/objects/object_ma2/object_ma2.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
@@ -382,7 +382,7 @@ void EnMa2_Draw(Actor* thisx, PlayState* play) {
     activeCam = GET_ACTIVE_CAM(play);
     someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
     func_800F6268(someFloat, NA_BGM_LONLON);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));

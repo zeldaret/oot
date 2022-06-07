@@ -1,5 +1,5 @@
 #include "global.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 typedef struct {
     /* 0x00 */ s16 drawType;  // indicates which draw function to use when displaying the object
@@ -69,7 +69,7 @@ void DebugDisplay_DrawObjects(PlayState* play) {
 void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, void* texture, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_debug_display.c", 169);
 
-    func_80094678(play->state.gfxCtx);
+    Gfx_SetupDL_47Xlu(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
 
@@ -91,7 +91,7 @@ void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, void* texture, PlayStat
 void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, void* dlist, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_debug_display.c", 211);
 
-    func_8009435C(play->state.gfxCtx);
+    Gfx_SetupDL_4Xlu(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
 

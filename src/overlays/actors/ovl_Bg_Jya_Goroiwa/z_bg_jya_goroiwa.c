@@ -6,7 +6,7 @@
  */
 
 #include "z_bg_jya_goroiwa.h"
-#include "objects/object_goroiwa/object_goroiwa.h"
+#include "assets/objects/object_goroiwa/object_goroiwa.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -145,7 +145,7 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
     }
 
     if (this->collider.base.atFlags & AT_HIT) {
-        this->collider.base.atFlags &= ~AT_HIT & ~AT_ON;
+        this->collider.base.atFlags &= ~(AT_ON | AT_HIT);
 
         relYawTowardsPlayer = thisx->yawTowardsPlayer - thisx->world.rot.y;
         if ((relYawTowardsPlayer > -0x4000) && (relYawTowardsPlayer < 0x4000)) {

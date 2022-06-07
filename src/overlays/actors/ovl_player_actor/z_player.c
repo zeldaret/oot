@@ -18,8 +18,8 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 
 typedef struct {
     /* 0x00 */ u8 itemId;
@@ -1299,13 +1299,13 @@ static LinkAnimationHeader* D_808543D4[] = {
 };
 
 // return type can't be void due to regalloc in func_8084FCAC
-s32 func_80832210(Player* this) {
+BAD_RETURN(s32) func_80832210(Player* this) {
     this->actor.speedXZ = 0.0f;
     this->linearVelocity = 0.0f;
 }
 
 // return type can't be void due to regalloc in func_8083F72C
-s32 func_80832224(Player* this) {
+BAD_RETURN(s32) func_80832224(Player* this) {
     func_80832210(this);
     this->unk_6AD = 0;
 }
@@ -2174,7 +2174,7 @@ s32 func_8083442C(Player* this, PlayState* play) {
     s32 magicArrowType;
 
     if ((this->heldItemActionParam >= PLAYER_AP_BOW_FIRE) && (this->heldItemActionParam <= PLAYER_AP_BOW_0E) &&
-        (gSaveContext.unk_13F0 != 0)) {
+        (gSaveContext.magicState != MAGIC_STATE_IDLE)) {
         func_80078884(NA_SE_SY_ERROR);
     } else {
         func_80833638(this, func_808351D4);
@@ -2190,7 +2190,7 @@ s32 func_8083442C(Player* this, PlayState* play) {
 
                 if (this->unk_860 >= 0) {
                     if ((magicArrowType >= 0) && (magicArrowType <= 2) &&
-                        !func_80087708(play, sMagicArrowCosts[magicArrowType], 0)) {
+                        !Magic_RequestChange(play, sMagicArrowCosts[magicArrowType], MAGIC_CONSUME_NOW)) {
                         arrowType = ARROW_NORMAL;
                     }
 
@@ -2667,7 +2667,7 @@ s32 func_808356E8(Player* this, PlayState* play) {
 }
 
 void func_808357E8(Player* this, Gfx** dLists) {
-    this->leftHandDLists = &dLists[gSaveContext.linkAge];
+    this->leftHandDLists = dLists + gSaveContext.linkAge;
 }
 
 s32 func_80835800(Player* this, PlayState* play) {
@@ -2754,7 +2754,7 @@ s32 func_80835B60(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_25)) {
         func_80833638(this, func_80835C08);
         LinkAnimation_PlayOnce(play, &this->skelAnime2, &gPlayerAnim_0025F8);
-        func_808357E8(this, D_80125EF8);
+        func_808357E8(this, gPlayerLeftHandBoomerangDLs);
         func_8002F7DC(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
         func_80832698(this, NA_SE_VO_LI_SWORD_N);
         return 1;
@@ -2881,7 +2881,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                                    (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
             } else if (actionParam == PLAYER_AP_LENS) {
-                if (func_80087708(play, 0, 3)) {
+                if (Magic_RequestChange(play, 0, MAGIC_CONSUME_LENS)) {
                     if (play->actorCtx.lensActive) {
                         Actor_DisableLens(play);
                     } else {
@@ -2900,7 +2900,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                 }
             } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
-                    ((gSaveContext.unk_13F4 != 0) && (gSaveContext.unk_13F0 == 0) &&
+                    ((gSaveContext.magicCapacity != 0) && (gSaveContext.magicState == MAGIC_STATE_IDLE) &&
                      (gSaveContext.magic >= sMagicSpellCosts[temp]))) {
                     this->itemActionParam = actionParam;
                     this->unk_6AD = 4;
@@ -3475,10 +3475,10 @@ s32 func_80837818(Player* this) {
     return sp18;
 }
 
-void func_80837918(Player* this, s32 quadIndex, u32 flags) {
-    this->meleeWeaponQuads[quadIndex].info.toucher.dmgFlags = flags;
+void func_80837918(Player* this, s32 quadIndex, u32 dmgFlags) {
+    this->meleeWeaponQuads[quadIndex].info.toucher.dmgFlags = dmgFlags;
 
-    if (flags == 2) {
+    if (dmgFlags == DMG_DEKU_STICK) {
         this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_WOOD;
     } else {
         this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST;
@@ -3486,13 +3486,13 @@ void func_80837918(Player* this, s32 quadIndex, u32 flags) {
 }
 
 static u32 D_80854488[][2] = {
-    { 0x00000200, 0x08000000 }, { 0x00000100, 0x02000000 }, { 0x00000400, 0x04000000 },
-    { 0x00000002, 0x08000000 }, { 0x00000040, 0x40000000 },
+    { DMG_SLASH_MASTER, DMG_JUMP_MASTER }, { DMG_SLASH_KOKIRI, DMG_JUMP_KOKIRI }, { DMG_SLASH_GIANT, DMG_JUMP_GIANT },
+    { DMG_DEKU_STICK, DMG_JUMP_MASTER },   { DMG_HAMMER_SWING, DMG_HAMMER_JUMP },
 };
 
 void func_80837948(PlayState* play, Player* this, s32 arg2) {
     s32 pad;
-    u32 flags;
+    u32 dmgFlags;
     s32 temp;
 
     func_80835C58(play, this, func_808502D0, 0);
@@ -3526,13 +3526,13 @@ void func_80837948(PlayState* play, Player* this, s32 arg2) {
     }
 
     if ((arg2 >= PLAYER_MWA_FLIPSLASH_START) && (arg2 <= PLAYER_MWA_JUMPSLASH_FINISH)) {
-        flags = D_80854488[temp][1];
+        dmgFlags = D_80854488[temp][1];
     } else {
-        flags = D_80854488[temp][0];
+        dmgFlags = D_80854488[temp][0];
     }
 
-    func_80837918(this, 0, flags);
-    func_80837918(this, 1, flags);
+    func_80837918(this, 0, dmgFlags);
+    func_80837918(this, 1, dmgFlags);
 }
 
 void func_80837AE0(Player* this, s32 timer) {
@@ -4869,7 +4869,7 @@ void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
     func_80835DE4(play, this, func_808507F4, 0);
 
     this->unk_84F = magicSpell - 3;
-    func_80087708(play, sMagicSpellCosts[magicSpell], 4);
+    Magic_RequestChange(play, sMagicSpellCosts[magicSpell], MAGIC_CONSUME_WAIT_PREVIEW);
 
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, &gPlayerAnim_002D28, 0.83f);
 
@@ -9381,7 +9381,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (gSaveContext.nayrusLoveTimer != 0) {
-        gSaveContext.unk_13F0 = 3;
+        gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
         func_80846A00(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -10169,8 +10169,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         func_80848C74(play, this);
     }
 
-    if ((this->stateFlags3 & PLAYER_STATE3_6) && (gSaveContext.nayrusLoveTimer != 0) && (gSaveContext.unk_13F0 == 0)) {
-        gSaveContext.unk_13F0 = 3;
+    if ((this->stateFlags3 & PLAYER_STATE3_6) && (gSaveContext.nayrusLoveTimer != 0) &&
+        (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
+        gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
         func_80846A00(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -10671,7 +10672,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
         }
 
         func_80093C80(play);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
@@ -10758,7 +10759,7 @@ void Player_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyQuad(play, &this->meleeWeaponQuads[1]);
     Collider_DestroyQuad(play, &this->shieldQuad);
 
-    func_800876C8(play);
+    Magic_Reset(play);
 
     gSaveContext.linkAge = play->linkAgeOnLoad;
 }
@@ -12366,7 +12367,7 @@ void func_8084EAC0(Player* this, PlayState* play) {
         func_8083C0E8(this, play);
         func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (this->unk_850 == 1) {
-        if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.unk_13F0 != 9)) {
+        if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
             func_80832B78(play, this, &gPlayerAnim_002660);
             this->unk_850 = 2;
             Player_UpdateBottleHeld(play, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
@@ -13107,7 +13108,7 @@ static struct_80832924 D_80854A8C[][2] = {
 void func_808507F4(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->unk_84F < 0) {
-            if ((this->itemActionParam == PLAYER_AP_NAYRUS_LOVE) || (gSaveContext.unk_13F0 == 0)) {
+            if ((this->itemActionParam == PLAYER_AP_NAYRUS_LOVE) || (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
                 func_80839FFC(this, play);
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
             }
@@ -13118,10 +13119,10 @@ void func_808507F4(Player* this, PlayState* play) {
                 if (func_80846A00(play, this, this->unk_84F) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                     if ((this->unk_84F != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
-                        gSaveContext.unk_13F0 = 1;
+                        gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
                     }
                 } else {
-                    func_800876C8(play);
+                    Magic_Reset(play);
                 }
             } else {
                 LinkAnimation_PlayLoopSetSpeed(play, &this->skelAnime, D_80854A64[this->unk_84F], 0.83f);
@@ -13804,11 +13805,11 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         this->interactRangeActor->parent = &this->actor;
 
         if (!LINK_IS_ADULT) {
-            dLists = D_80125DE8;
+            dLists = gPlayerLeftHandBgsDLs;
         } else {
-            dLists = D_80125E18;
+            dLists = gPlayerLeftHandClosedDLs;
         }
-        this->leftHandDLists = &dLists[gSaveContext.linkAge];
+        this->leftHandDLists = dLists + gSaveContext.linkAge;
 
         func_8002F7DC(&this->actor, sp2C->unk_00);
         if (!LINK_IS_ADULT) {
@@ -14118,7 +14119,7 @@ void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         this->heldItemActionParam = this->itemActionParam = PLAYER_AP_NONE;
         this->heldItemId = ITEM_NONE;
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
-        this->leftHandDLists = D_80125E08;
+        this->leftHandDLists = gPlayerLeftHandOpenDLs;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(play, EQUIP_TYPE_SWORD);

@@ -39,7 +39,7 @@ void OceffWipe2_Destroy(Actor* thisx, PlayState* play) {
     OceffWipe2* this = (OceffWipe2*)thisx;
     Player* player = GET_PLAYER(play);
 
-    func_800876C8(play);
+    Magic_Reset(play);
     if (gSaveContext.nayrusLoveTimer != 0) {
         player->stateFlags3 |= PLAYER_STATE3_6;
     }
@@ -56,7 +56,7 @@ void OceffWipe2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "overlays/ovl_Oceff_Wipe2/ovl_Oceff_Wipe2.c"
+#include "assets/overlays/ovl_Oceff_Wipe2/ovl_Oceff_Wipe2.c"
 
 void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     u32 scroll = play->state.frames & 0xFF;
@@ -89,7 +89,7 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_oceff_wipe2.c", 390);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);

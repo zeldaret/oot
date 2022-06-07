@@ -7,7 +7,7 @@
 #include "z_demo_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "objects/object_sa/object_sa.h"
+#include "assets/objects/object_sa/object_sa.h"
 
 #include "vt.h"
 
@@ -463,7 +463,7 @@ void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 296);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
@@ -801,7 +801,7 @@ void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_sa.c", 602);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));

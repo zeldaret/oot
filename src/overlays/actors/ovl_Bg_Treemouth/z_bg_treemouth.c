@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_treemouth.h"
-#include "objects/object_spot04_objects/object_spot04_objects.h"
+#include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -230,7 +230,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_treemouth.c", 893);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
         if (GET_EVENTCHKINF(EVENTCHKINF_07)) {

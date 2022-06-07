@@ -5,7 +5,7 @@
  */
 
 #include "z_mir_ray.h"
-#include "objects/object_mir_ray/object_mir_ray.h"
+#include "assets/objects/object_mir_ray/object_mir_ray.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -487,7 +487,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
         if (!(this->reflectIntensity <= 0.0f)) {
             OPEN_DISPS(play->state.gfxCtx, "../z_mir_ray.c", 966);
 
-            func_80093D84(play->state.gfxCtx);
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_boom.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -261,11 +261,11 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
     Matrix_MultVec3f(&sMultVec1, &vec1);
     Matrix_MultVec3f(&sMultVec2, &vec2);
 
-    if (func_80090480(play, &this->collider, &this->boomerangInfo, &vec1, &vec2) != 0) {
+    if (func_80090480(play, &this->collider, &this->boomerangInfo, &vec1, &vec2)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &vec1, &vec2);
     }
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_RotateY(BINANG_TO_RAD(this->activeTimer * 12000), MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_boom.c", 601),

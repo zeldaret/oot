@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_dead_ds.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rTimer regs[1]
@@ -58,7 +58,7 @@ void EffectSsDeadDs_Draw(PlayState* play, u32 index, EffectSs* this) {
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_dead_ds.c", 157);
 
     scale = this->rScale * 0.01f;
-    func_80094BC4(play->state.gfxCtx);
+    Gfx_SetupDL_60NoCDXlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, this->rAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
     pos = this->pos;

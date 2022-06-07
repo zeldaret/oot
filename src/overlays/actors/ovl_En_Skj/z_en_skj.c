@@ -1,6 +1,6 @@
 #include "z_en_skj.h"
 #include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
-#include "objects/object_skj/object_skj.h"
+#include "assets/objects/object_skj/object_skj.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -56,7 +56,6 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, PlayState* play);
 void EnSkj_FinishOcarinaGameRound(EnSkj* this, PlayState* play);
 void EnSkj_WaitForNextRound(EnSkj* this, PlayState* play);
 void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play);
-void EnSkj_SetupWaitForOcarina(EnSkj* this, PlayState* play);
 void EnSkj_CleanupOcarinaGame(EnSkj* this, PlayState* play);
 
 void EnSkj_Fade(EnSkj* this, PlayState* play);
@@ -1603,7 +1602,7 @@ void EnSkj_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj.c", 2417);
 
     if ((limbIndex == 11) && GET_ITEMGETINF(ITEMGETINF_39)) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_skj.c", 2430),
@@ -1646,7 +1645,7 @@ void EnSkj_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj.c", 2475);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if (this->alpha < 255) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, EnSkj_TranslucentDL(play->state.gfxCtx, this->alpha));

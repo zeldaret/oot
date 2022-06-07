@@ -5,9 +5,9 @@
  */
 
 #include "z_en_gs.h"
-#include "objects/object_gs/object_gs.h"
+#include "assets/objects/object_gs/object_gs.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 
@@ -566,7 +566,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_gs.c", 1046);
 
         frames = play->gameplayFrames;
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Push();
         if (this->unk_19E & 1) {
             Matrix_RotateY(BINANG_TO_RAD(this->unk_1A0[0].y), MTXMODE_APPLY);
@@ -594,7 +594,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
 
         Matrix_Pop();
         if (this->unk_19E & 2) {
-            func_80093D84(play->state.gfxCtx);
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 

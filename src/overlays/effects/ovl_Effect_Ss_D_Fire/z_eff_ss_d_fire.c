@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_d_fire.h"
-#include "objects/object_dodongo/object_dodongo.h"
+#include "assets/objects/object_dodongo/object_dodongo.h"
 
 #define rScale regs[0]
 #define rTexIdx regs[1]
@@ -86,7 +86,7 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
 
         if (mtx != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            func_80094BC4(gfxCtx);
+            Gfx_SetupDL_60NoCDXlu(gfxCtx);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);

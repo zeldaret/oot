@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ani.h"
-#include "objects/object_ani/object_ani.h"
+#include "assets/objects/object_ani/object_ani.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
@@ -270,7 +270,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->unk_2A8 & 1) {
-        func_80038290(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A2.z = 0;
         this->unk_2A2.y = this->unk_2A2.z;
         this->unk_2A2.x = this->unk_2A2.z;
@@ -320,7 +320,7 @@ void EnAni_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ani.c", 719);
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
 

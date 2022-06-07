@@ -5,7 +5,7 @@
  */
 
 #include "z_en_vali.h"
-#include "objects/object_vali/object_vali.h"
+#include "assets/objects/object_vali/object_vali.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
 
@@ -788,7 +788,7 @@ void EnVali_Draw(Actor* thisx, PlayState* play) {
     EnVali* this = (EnVali*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1505);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TexScroll(play->state.gfxCtx, 0, (127 - (play->gameplayFrames * 12)) % 128, 32, 32));

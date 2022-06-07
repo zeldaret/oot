@@ -2,7 +2,7 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
-#include "objects/object_bg/object_bg.h"
+#include "assets/objects/object_bg/object_bg.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
 
@@ -497,7 +497,7 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
                 }
             }
 
-            func_80038290(play, &this->actor, &this->unk_218, &this->unk_224, this->actor.focus.pos);
+            Actor_TrackPlayer(play, &this->actor, &this->unk_218, &this->unk_224, this->actor.focus.pos);
             break;
     }
 
@@ -524,7 +524,7 @@ void EnBomBowlMan_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTextureIndex]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);
