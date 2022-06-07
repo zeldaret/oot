@@ -1667,7 +1667,7 @@ void BossDodongo_UpdateEffects(PlayState* play) {
 }
 
 void BossDodongo_DrawEffects(PlayState* play) {
-    MtxF* unkMtx;
+    s32 pad;
     s16 i;
     u8 materialFlag = 0;
     BossDodongoEffect* eff;
@@ -1678,7 +1678,6 @@ void BossDodongo_DrawEffects(PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_boss_dodongo.c", 5228);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    unkMtx = &play->billboardMtxF;
 
     for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 == 1) {
@@ -1691,7 +1690,7 @@ void BossDodongo_DrawEffects(PlayState* play) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);
             Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(unkMtx);
+            Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_dodongo.c", 5253),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
