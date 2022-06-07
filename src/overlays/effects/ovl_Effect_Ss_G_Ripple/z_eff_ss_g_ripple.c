@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_g_ripple.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rWaterBoxNum regs[0]
 #define rRadius regs[1]
@@ -89,7 +89,7 @@ void EffectSsGRipple_DrawRipple(PlayState* play, EffectSs* this, void* segment) 
 
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_80094BC4(gfxCtx);
+        Gfx_SetupDL_60NoCDXlu(gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                         this->rPrimColorA);
         gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);

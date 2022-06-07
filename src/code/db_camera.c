@@ -574,8 +574,8 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     VecSph spFC;
     VecSph spF4;
     PosRot* temp_s6;
-    Vec3f* eye;
-    Vec3f* at;
+    UNUSED Vec3f* eye;
+    UNUSED Vec3f* at;
     Vec3f* phi_s0;
     Vec3f spD8;
     s32 pad;
@@ -1263,6 +1263,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                         DbCamera_Vec3FToS(&spD8, &dbCamera->sub.position[i].pos);
                                     }
                                 }
+                                FALLTHROUGH;
                             case 4:
                                 dbCamera->sub.unk_0C = true;
                                 break;

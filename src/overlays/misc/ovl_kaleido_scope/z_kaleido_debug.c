@@ -1,5 +1,5 @@
 #include "z_kaleido_scope.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 // Positions of each input section in the editor
 static u16 sSectionPositions[][2] = {
@@ -113,7 +113,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     pauseCtx->stickRelX = input->rel.stick_x;
     pauseCtx->stickRelY = input->rel.stick_y;
 
-    func_800944C4(play->state.gfxCtx);
+    Gfx_SetupDL_39Opa(play->state.gfxCtx);
 
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_geldb.h"
-#include "objects/object_geldb/object_geldb.h"
+#include "assets/objects/object_geldb/object_geldb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
@@ -1586,7 +1586,7 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     }
 
     if ((this->action != GELDB_WAIT) || !this->invisible) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->blinkState]));
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);

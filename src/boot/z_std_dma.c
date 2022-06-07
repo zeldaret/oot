@@ -14,7 +14,7 @@ u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrIsRomCompressed = false;
 
 // dmadata filenames
-#define DEFINE_DMA_ENTRY(name) #name,
+#define DEFINE_DMA_ENTRY(_0, nameString) nameString,
 
 const char* sDmaMgrFileNames[] = {
 #include "tables/dmadata_table.h"
@@ -431,7 +431,7 @@ s32 DmaMgr_SendRequest2(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk5, 
                         const char* file, s32 line) {
     req->filename = file;
     req->line = line;
-    DmaMgr_SendRequestImpl(req, ram, vrom, size, unk5, queue, msg);
+    return DmaMgr_SendRequestImpl(req, ram, vrom, size, unk5, queue, msg);
 }
 
 s32 DmaMgr_SendRequest1(void* ram0, u32 vrom, u32 size, const char* file, s32 line) {

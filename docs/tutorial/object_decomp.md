@@ -128,7 +128,7 @@ number 6
 Now, add
 
 ```c
-#include "objects/object_name/object_name.h"
+#include "assets/objects/object_name/object_name.h"
 ```
 
 to every actor that uses the file, to tell it about the new symbols you have defined.

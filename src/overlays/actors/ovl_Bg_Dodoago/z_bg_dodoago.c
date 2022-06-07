@@ -6,7 +6,7 @@
 
 #include "z_bg_dodoago.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "objects/object_ddan_objects/object_ddan_objects.h"
+#include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
 #define FLAGS 0
 
@@ -313,7 +313,7 @@ void BgDodoago_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_dodoago.c", 672);
 
     if (Flags_GetEventChkInf(EVENTCHKINF_B0)) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDodongoLowerJawDL);

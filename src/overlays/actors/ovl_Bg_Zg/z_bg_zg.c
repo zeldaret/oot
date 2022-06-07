@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_zg.h"
-#include "objects/object_zg/object_zg.h"
+#include "assets/objects/object_zg/object_zg.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -124,7 +124,7 @@ void func_808C0EEC(BgZg* this, PlayState* play) {
 
     OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
-    func_80093D18(localGfxCtx);
+    Gfx_SetupDL_25Opa(localGfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseBarsDL);

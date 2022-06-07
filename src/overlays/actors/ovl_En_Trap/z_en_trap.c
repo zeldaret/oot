@@ -5,7 +5,7 @@
  */
 
 #include "z_en_trap.h"
-#include "objects/object_trap/object_trap.h"
+#include "assets/objects/object_trap/object_trap.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -147,7 +147,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
         touchingActor = true;
     }
     // Freeze the trap if hit by ice arrows:
-    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+    if (this->collider.base.acFlags & AC_HIT) {
         icePos = thisx->world.pos;
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetColorFilter(thisx, 0, 250, 0, 250);

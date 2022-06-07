@@ -1,6 +1,6 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
-#include "objects/object_box/object_box.h"
+#include "assets/objects/object_box/object_box.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -169,7 +169,7 @@ void DemoTreLgt_Draw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    func_80093D84(gfxCtx);
+    Gfx_SetupDL_25Xlu(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
     SkelCurve_Draw(&this->actor, play, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, &this->actor);
 

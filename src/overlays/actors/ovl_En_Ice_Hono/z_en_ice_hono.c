@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ice_hono.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
 
@@ -374,7 +374,7 @@ void EnIceHono_Draw(Actor* thisx, PlayState* play) {
     u32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ice_hono.c", 695);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (play->state.frames * -20) % 512, 32, 128));

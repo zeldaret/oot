@@ -28,7 +28,7 @@ const ActorInit Oceff_Spot_InitVars = {
     (ActorFunc)OceffSpot_Draw,
 };
 
-#include "overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"
+#include "assets/overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
@@ -151,7 +151,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_oceff_spot.c", 466);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

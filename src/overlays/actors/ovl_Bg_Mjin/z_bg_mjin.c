@@ -5,14 +5,14 @@
  */
 
 #include "z_bg_mjin.h"
-#include "objects/object_mjin/object_mjin.h"
-#include "objects/object_mjin_wind/object_mjin_wind.h"
-#include "objects/object_mjin_soul/object_mjin_soul.h"
-#include "objects/object_mjin_dark/object_mjin_dark.h"
-#include "objects/object_mjin_ice/object_mjin_ice.h"
-#include "objects/object_mjin_flame/object_mjin_flame.h"
-#include "objects/object_mjin_flash/object_mjin_flash.h"
-#include "objects/object_mjin_oka/object_mjin_oka.h"
+#include "assets/objects/object_mjin/object_mjin.h"
+#include "assets/objects/object_mjin_wind/object_mjin_wind.h"
+#include "assets/objects/object_mjin_soul/object_mjin_soul.h"
+#include "assets/objects/object_mjin_dark/object_mjin_dark.h"
+#include "assets/objects/object_mjin_ice/object_mjin_ice.h"
+#include "assets/objects/object_mjin_flame/object_mjin_flame.h"
+#include "assets/objects/object_mjin_flash/object_mjin_flash.h"
+#include "assets/objects/object_mjin_oka/object_mjin_oka.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -118,7 +118,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
         dlist = gOcarinaWarpPadDL;
     }
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, dlist);

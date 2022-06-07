@@ -6,7 +6,7 @@
 
 #include "z_en_kakasi2.h"
 #include "vt.h"
-#include "objects/object_ka/object_ka.h"
+#include "assets/objects/object_ka/object_ka.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
@@ -239,7 +239,7 @@ void EnKakasi2_Update(Actor* thisx, PlayState* play2) {
 void func_80A90948(Actor* thisx, PlayState* play) {
     EnKakasi2* this = (EnKakasi2*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, this);
 }

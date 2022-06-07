@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_gnd_soulmeiro.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "global.h"
 
 #define FLAGS 0
@@ -202,7 +202,7 @@ void BgGndSoulmeiro_Draw(Actor* thisx, PlayState* play) {
     switch (params) {
         case 0:
             OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 398);
-            func_80093D84(play->state.gfxCtx);
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, dLists[params]);

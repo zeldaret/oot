@@ -26,7 +26,7 @@ const ActorInit Oceff_Wipe3_InitVars = {
     (ActorFunc)OceffWipe3_Draw,
 };
 
-#include "overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
+#include "assets/overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
 
 void OceffWipe3_Init(Actor* thisx, PlayState* play) {
     OceffWipe3* this = (OceffWipe3*)thisx;
@@ -90,7 +90,7 @@ void OceffWipe3_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_oceff_wipe3.c", 343);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);

@@ -63,7 +63,7 @@ static Vec3f sSideCenters[] = {
 
 static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
-#include "overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
 
 void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2) {
     BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
@@ -273,7 +273,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
         actor = actor->next;
     }
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPDisplayList(POLY_OPA_DISP++, sPlatformMaterialDL);
 
     actor = play->actorCtx.actorLists[ACTORCAT_PROP].head;
@@ -324,7 +324,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
         actor = actor->next;
     }
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     actor = play->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (actor != NULL) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {

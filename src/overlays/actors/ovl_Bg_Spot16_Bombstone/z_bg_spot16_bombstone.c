@@ -1,6 +1,6 @@
 #include "z_bg_spot16_bombstone.h"
-#include "objects/object_spot16_obj/object_spot16_obj.h"
-#include "objects/object_bombiwa/object_bombiwa.h"
+#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
+#include "assets/objects/object_bombiwa/object_bombiwa.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
@@ -536,7 +536,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1253);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

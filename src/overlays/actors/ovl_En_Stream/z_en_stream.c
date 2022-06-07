@@ -5,7 +5,7 @@
  */
 
 #include "z_en_stream.h"
-#include "objects/object_stream/object_stream.h"
+#include "assets/objects/object_stream/object_stream.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -132,7 +132,7 @@ void EnStream_Draw(Actor* thisx, PlayState* play) {
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_stream.c", 295);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_stream.c", 299),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     multipliedFrames = frames * 20;

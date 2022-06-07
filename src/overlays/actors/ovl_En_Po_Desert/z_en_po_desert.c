@@ -5,7 +5,7 @@
  */
 
 #include "z_en_po_desert.h"
-#include "objects/object_po_field/object_po_field.h"
+#include "assets/objects/object_po_field/object_po_field.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_12)
 
@@ -252,7 +252,7 @@ void EnPoDesert_Draw(Actor* thisx, PlayState* play) {
     EnPoDesert* this = (EnPoDesert*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_desert.c", 559);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x0A, Gfx_EnvColor(play->state.gfxCtx, 255, 85, 0, 255));
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_EnvColor(play->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,

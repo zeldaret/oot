@@ -147,7 +147,7 @@ void ElfMsg2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
+#include "assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
 
 void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_elf_msg2.c", 355);
@@ -156,7 +156,7 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_elf_msg2.c", 362),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
