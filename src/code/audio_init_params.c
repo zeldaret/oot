@@ -10,7 +10,22 @@ const s16 D_8014A6C0[] = {
     0x0030, // gTatumsPerBeat
 };
 
-const AudioContextInitSizes D_8014A6C4 = { 0x37F00, 0xE0E0, 0xBCE0 };
+// TODO: Extract from tables
+#define NUM_SOUNDFONTS 38
+#define SFX_SEQ_SIZE 0x6A90
+#define SFX_SOUNDFONT_1_SIZE 0x3AA0
+#define SFX_SOUNDFONT_2_SIZE 0x17B0
+
+// Sizes of everything on the init pool
+#define AI_BUFFER_SIZE (ARRAY_COUNT(gAudioContext.aiBuffers) * AIBUF_LEN * sizeof(s16))
+#define SOUNDFONT_HEADER_SIZE (NUM_SOUNDFONTS * sizeof(SoundFont))
+#define PERMANENT_ALLOC (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE)
+
+const AudioHeapInitSizes audioHeapInitSizes = { 
+    ALIGN16(sizeof(gAudioHeap) - 0x100), 
+    ALIGN16(AI_BUFFER_SIZE + SOUNDFONT_HEADER_SIZE + PERMANENT_ALLOC),
+    ALIGN16(PERMANENT_ALLOC),
+};
 
 ReverbSettings D_80133420[][3] = {
     {

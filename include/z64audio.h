@@ -930,7 +930,7 @@ typedef struct {
     /* 0x00 */ u32 heapSize; // total number of bytes allocated to the audio heap. Must be <= the size of `gAudioHeap` (ideally about the same size)
     /* 0x04 */ u32 initPoolSize; // The entire audio heap is split into two pools.
     /* 0x08 */ u32 permanentPoolSize;
-} AudioContextInitSizes; // size = 0xC
+} AudioHeapInitSizes; // size = 0xC
 
 typedef struct {
     /* 0x00 */ f32 unk_00;

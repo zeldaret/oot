@@ -1135,7 +1135,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     if (heap == NULL) {
         gAudioContext.audioHeap = gAudioHeap;
-        gAudioContext.audioHeapSize = D_8014A6C4.heapSize;
+        gAudioContext.audioHeapSize = audioHeapInitSizes.heapSize;
     } else {
         void** hp = &heap;
         gAudioContext.audioHeap = *hp;
@@ -1147,7 +1147,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     }
 
     // Main Pool Split (split entirety of audio heap into initPool and sessionPool)
-    AudioHeap_InitMainPools(D_8014A6C4.initPoolSize);
+    AudioHeap_InitMainPools(audioHeapInitSizes.initPoolSize);
 
     // Initialize the audio interface buffers
     for (i = 0; i < 3; i++) {
@@ -1178,13 +1178,13 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         AudioLoad_InitSoundFontMeta(i);
     }
 
-    ramAddr = AudioHeap_Alloc(&gAudioContext.audioInitPool, D_8014A6C4.permanentPoolSize);
+    ramAddr = AudioHeap_Alloc(&gAudioContext.audioInitPool, audioHeapInitSizes.permanentPoolSize);
     if (ramAddr == NULL) {
-        // cast away const from D_8014A6C4
-        *((u32*)&D_8014A6C4.permanentPoolSize) = 0;
+        // cast away const from audioHeapInitSizes
+        *((u32*)&audioHeapInitSizes.permanentPoolSize) = 0;
     }
 
-    AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, ramAddr, D_8014A6C4.permanentPoolSize);
+    AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, ramAddr, audioHeapInitSizes.permanentPoolSize);
     gAudioContextInitalized = true;
     osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
 }
