@@ -708,7 +708,7 @@ void DemoDu_InitCs_AfterGanon(DemoDu* this, PlayState* play) {
     this->actor.shape.shadowAlpha = 0;
 }
 
-void DemoDu_CsPlaySfx_WhiteOut() {
+void DemoDu_CsPlaySfx_WhiteOut(void) {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 

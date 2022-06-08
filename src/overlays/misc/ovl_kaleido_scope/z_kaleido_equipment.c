@@ -113,6 +113,8 @@ void KaleidoScope_DrawPlayerWork(PlayState* play) {
                      BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
 }
 
+void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
+
 void KaleidoScope_DrawEquipment(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];

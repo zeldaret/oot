@@ -160,7 +160,8 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
             next = (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0 * i);
 
-            if (0 * i) {} // Very fake, but needed to get the s registers right
+            if ((0 * i) != 0) {} // Very fake, but needed to get the s registers right
+
             if (next != NULL) {
                 now->actor.child = &next->actor;
                 next->actor.parent = &now->actor;
@@ -176,7 +177,8 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
                 next->timer = next->unk_15C = i * -5;
                 next->horizontalVariation = 6.0f - (i * 0.75f);
                 now = next;
-                if (0 * i) {}
+
+                if ((0 * i) != 0) {}
             }
         }
     } else if (this->actor.params == TAILPASARAN_TAIL) {
