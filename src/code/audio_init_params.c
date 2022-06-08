@@ -10,6 +10,7 @@ const s16 D_8014A6C0[] = {
     0x0030, // gTatumsPerBeat
 };
 
+// TODO: Extract from table?
 #define NUM_SOUNDFONTS 38
 #define SFX_SEQ_SIZE 0x6A90
 #define SFX_SOUNDFONT_1_SIZE 0x3AA0
