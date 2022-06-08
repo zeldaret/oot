@@ -1177,7 +1177,8 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gGoldSkulltulaIconTex, 24, 24, 0);
+                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gQuestIconGoldSkulltulaTex, QUEST_ICON_WIDTH,
+                                                   QUEST_ICON_HEIGHT, 0);
             }
         }
     } else if ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 7) || (pauseCtx->unk_1E4 == 8)) {
@@ -2538,7 +2539,8 @@ void KaleidoScope_Update(PlayState* play) {
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
                 if ((gItemAgeReqs[i] != 9) && (gItemAgeReqs[i] != ((void)0, gSaveContext.linkAge))) {
-                    KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]), 0x400);
+                    KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]),
+                                                      ITEM_ICON_WIDTH * ITEM_ICON_HEIGHT);
                 }
             }
 
@@ -2716,7 +2718,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[5] = 1;
             }
 
-            if (INV_CONTENT(ITEM_OCARINA_TIME) == ITEM_OCARINA_TIME) {
+            if (INV_CONTENT(ITEM_OCARINA_OF_TIME) == ITEM_OCARINA_OF_TIME) {
                 pauseCtx->worldMapPoints[5] = 2;
             }
 
@@ -2848,16 +2850,16 @@ void KaleidoScope_Update(PlayState* play) {
                 if ((i == ITEM_COJIRO) || (i == ITEM_ODD_POTION)) {
                     pauseCtx->tradeQuestLocation = 9;
                 }
-                if (i == ITEM_SAW) {
+                if (i == ITEM_POACHERS_SAW) {
                     pauseCtx->tradeQuestLocation = 2;
                 }
-                if ((i == ITEM_SWORD_BROKEN) || (i == ITEM_EYEDROPS)) {
+                if ((i == ITEM_BROKEN_BGS) || (i == ITEM_EYE_DROPS)) {
                     pauseCtx->tradeQuestLocation = 7;
                 }
                 if (i == ITEM_PRESCRIPTION) {
                     pauseCtx->tradeQuestLocation = 11;
                 }
-                if (i == ITEM_FROG) {
+                if (i == ITEM_EYEBALL_FROG) {
                     pauseCtx->tradeQuestLocation = 3;
                 }
                 if ((i == ITEM_CLAIM_CHECK) && (gSaveContext.bgsFlag == 0)) {

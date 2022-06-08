@@ -1,6 +1,32 @@
 #ifndef Z64INTERFACE_H
 #define Z64INTERFACE_H
 
+extern u8 _icon_item_staticSegmentRomStart[];
+extern u8 _icon_item_24_staticSegmentRomStart[];
+
+// An "item icon" (gItemIcon*Tex) is 32x32 rgba32
+#define ITEM_ICON_WIDTH 32
+#define ITEM_ICON_HEIGHT 32
+#define ITEM_ICON_SIZE (ITEM_ICON_WIDTH * ITEM_ICON_HEIGHT * 4) // The size in bytes of an item icon
+/**
+ * Get the VROM address of the item icon for the specified item.
+ *
+ * @param itemId An ItemId value in the range `ITEM_DEKU_STICK`-`ITEM_FISHING_POLE`
+ */
+#define GET_ITEM_ICON_VROM(itemId) ((u32)_icon_item_staticSegmentRomStart + ((itemId)*ITEM_ICON_SIZE))
+
+// A "quest icon" (gQuestIcon*Tex) is 24x24 rgba32
+#define QUEST_ICON_WIDTH 24
+#define QUEST_ICON_HEIGHT 24
+#define QUEST_ICON_SIZE (QUEST_ICON_WIDTH * QUEST_ICON_HEIGHT * 4) // The size in bytes of a quest icon
+/**
+ * Get the VROM address of the quest icon for the specified item.
+ *
+ * @param itemId An ItemId value in the range `ITEM_MEDALLION_FOREST`-`ITEM_MAGIC_LARGE`
+ */
+#define GET_QUEST_ICON_VROM(itemId) \
+    ((u32)_icon_item_24_staticSegmentRomStart + (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE))
+
 /**
  * Button HUD Positions (Upper Left)
  */

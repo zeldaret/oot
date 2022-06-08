@@ -4,6 +4,8 @@ void func_80110990(PlayState* play) {
     Map_Destroy(play);
 }
 
+#define ICON_ITEM_SEGMENT_SIZE (4 * ITEM_ICON_SIZE)
+
 void func_801109B0(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
@@ -69,10 +71,10 @@ void func_801109B0(PlayState* play) {
     DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + doActionOffset,
                         0x180, "../z_construct.c", 178);
 
-    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, 0x4000, "../z_construct.c", 190);
+    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
     // "Icon Item Texture Initialization = %x"
-    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
+    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", ICON_ITEM_SEGMENT_SIZE);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
@@ -82,31 +84,31 @@ void func_801109B0(PlayState* play) {
                  gSaveContext.equips.buttonItems[3]);
 
     if (gSaveContext.equips.buttonItems[0] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 198);
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+                            GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[0]), ITEM_ICON_SIZE, "../z_construct.c",
+                            198);
     } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 203);
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+                            GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[0]), ITEM_ICON_SIZE, "../z_construct.c",
+                            203);
     }
 
     if (gSaveContext.equips.buttonItems[1] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000, 0x1000,
-                            "../z_construct.c", 209);
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE),
+                            GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[1]), ITEM_ICON_SIZE, "../z_construct.c",
+                            209);
     }
 
     if (gSaveContext.equips.buttonItems[2] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000, 0x1000,
-                            "../z_construct.c", 214);
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE),
+                            GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[2]), ITEM_ICON_SIZE, "../z_construct.c",
+                            214);
     }
 
     if (gSaveContext.equips.buttonItems[3] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000, 0x1000,
-                            "../z_construct.c", 219);
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE),
+                            GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[3]), ITEM_ICON_SIZE, "../z_construct.c",
+                            219);
     }
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
@@ -164,6 +166,8 @@ void func_801109B0(PlayState* play) {
     R_A_BTN_COLOR(2) = 50;
 }
 
+#define TEXTBOX_SEGMENT_SIZE (MESSAGE_STATIC_TEX_SIZE + MAX(2 * 0x900, MAX(ITEM_ICON_SIZE, QUEST_ICON_SIZE)))
+
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
     s32 pad;
@@ -179,11 +183,11 @@ void Message_Init(PlayState* play) {
 
     View_Init(&msgCtx->view, play->state.gfxCtx);
 
-    msgCtx->textboxSegment = GameState_Alloc(&play->state, 0x2200, "../z_construct.c", 349);
+    msgCtx->textboxSegment = GameState_Alloc(&play->state, TEXTBOX_SEGMENT_SIZE, "../z_construct.c", 349);
 
     osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 
-    osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200); // "Textbox game_alloc=%x"
+    osSyncPrintf("吹き出しgame_alloc=%x\n", TEXTBOX_SEGMENT_SIZE); // "Textbox game_alloc=%x"
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
     Font_LoadOrderedFont(&play->msgCtx.font);
@@ -244,7 +248,7 @@ void func_80111070(void) {
     R_TEXTBOX_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    R_TEXTBOX_ICON_SIZE = 24;
+    R_TEXTBOX_ICON_DIMENSIONS = 24;
     YREG(76) = 32;
     YREG(77) = 0;
     R_MESSAGE_DEBUGGER_SELECT = 0;

@@ -329,7 +329,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             getItemId = GI_MAGIC_LARGE;
             break;
         case ITEM00_SMALL_KEY:
-            Item_Give(play, ITEM_KEY_SMALL);
+            Item_Give(play, ITEM_SMALL_KEY);
             break;
         case ITEM00_SEEDS:
             getItemId = GI_SEEDS_5;

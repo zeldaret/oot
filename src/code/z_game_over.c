@@ -50,7 +50,7 @@ void GameOver_Update(PlayState* play) {
             // restore "temporary B" to the B Button if not a sword item
             if (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI &&
                 gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS &&
+                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON &&
                 gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE) {
 
                 if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {

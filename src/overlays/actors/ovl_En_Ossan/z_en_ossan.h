@@ -108,7 +108,7 @@ typedef enum {
     /* 07 */ OSSAN_STATE_BROWSE_RIGHT_SHELF,
     /* 08 */ OSSAN_STATE_LOOK_SHOPKEEPER, // From looking at shelf
     /* 09 */ OSSAN_STATE_SELECT_ITEM,     // Select most items
-    /* 10 */ OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE,
+    /* 10 */ OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL,
     /* 11 */ OSSAN_STATE_SELECT_ITEM_WEIRD_EGG,
     /* 12 */ OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED, // Handles two unfinished shop items
     /* 13 */ OSSAN_STATE_SELECT_ITEM_BOMBS,

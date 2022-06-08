@@ -1504,7 +1504,7 @@ void FileChoose_LoadGame(GameState* thisx) {
 
     if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
         (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
+        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
         (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
 
         gSaveContext.equips.buttonItems[0] = ITEM_NONE;

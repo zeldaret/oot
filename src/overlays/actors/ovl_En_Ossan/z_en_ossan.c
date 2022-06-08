@@ -1133,7 +1133,7 @@ s32 EnOssan_HasPlayerSelectedItem(PlayState* play, EnOssan* this, Input* input) 
                 case SI_MILK_BOTTLE:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->drawCursor = 0;
-                    this->stateFlag = OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE;
+                    this->stateFlag = OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL;
                     return true;
                 case SI_WEIRD_EGG:
                     func_80078884(NA_SE_SY_DECIDE);
@@ -1840,7 +1840,8 @@ void EnOssan_UpdateItemSelectedProperty(EnOssan* this) {
 
     for (i = 0; i < 8; i++) {
         if (temp_a1[0] != NULL) {
-            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE &&
+            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM &&
+                this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_WEIRD_EGG &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOMBS && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MASK &&

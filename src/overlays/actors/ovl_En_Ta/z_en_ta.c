@@ -329,7 +329,7 @@ void func_80B14634(EnTa* this, PlayState* play) {
         s32 exchangeItemId = func_8002F368(play);
 
         switch (exchangeItemId) {
-            case EXCH_ITEM_CHICKEN:
+            case EXCH_ITEM_CUCCO:
                 player->actor.textId = 0x702B;
                 func_80B13AA0(this, func_80B14570, func_80B167C0);
                 this->unk_2CC = 40;

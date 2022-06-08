@@ -137,7 +137,7 @@
 #define R_TEXT_CHAR_SCALE           XREG(57)
 #define R_TEXTBOX_ICON_XPOS         YREG(71)
 #define R_TEXTBOX_ICON_YPOS         YREG(72)
-#define R_TEXTBOX_ICON_SIZE         YREG(75)
+#define R_TEXTBOX_ICON_DIMENSIONS   YREG(75)
 #define R_TEXTBOX_X                 VREG(0)
 #define R_TEXTBOX_Y                 VREG(1)
 #define R_TEXTBOX_END_XPOS          XREG(64)
