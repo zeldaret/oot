@@ -19,12 +19,12 @@ const s16 D_8014A6C0[] = {
 // Sizes of everything on the init pool
 #define AI_BUFFER_SIZE (ARRAY_COUNT(gAudioContext.aiBuffers) * AIBUF_LEN * sizeof(s16))
 #define SOUNDFONT_HEADER_SIZE (NUM_SOUNDFONTS * sizeof(SoundFont))
-#define PERMANENT_ALLOC (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE)
+#define PERMANENT_POOL_SIZE (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE)
 
 const AudioHeapInitSizes audioHeapInitSizes = { 
-    ALIGN16(sizeof(gAudioHeap) - 0x100), 
-    ALIGN16(PERMANENT_ALLOC + AI_BUFFER_SIZE + SOUNDFONT_HEADER_SIZE),
-    ALIGN16(PERMANENT_ALLOC),
+    ALIGN16(sizeof(gAudioHeap) - 0x100), // audio heap size
+    ALIGN16(PERMANENT_POOL_SIZE + AI_BUFFER_SIZE + SOUNDFONT_HEADER_SIZE), // init pool size
+    ALIGN16(PERMANENT_POOL_SIZE), // permanent pool size
 };
 
 ReverbSettings D_80133420[][3] = {
