@@ -109,7 +109,7 @@ void* gItemIcons[] = {
     gItemIconBottleRutosLetterTex,   // ITEM_BOTTLE_RUTOS_LETTER
     gItemIconBottleBlueFireTex,      // ITEM_BOTTLE_BLUE_FIRE
     gItemIconBottleBugTex,           // ITEM_BOTTLE_BUG
-    gItemIconBigBottlePoeTex,        // ITEM_BOTTLE_BIG_POE
+    gItemIconBottleBigPoeTex,        // ITEM_BOTTLE_BIG_POE
     gItemIconBottleMilkHalfTex,      // ITEM_BOTTLE_MILK_HALF
     gItemIconBottlePoeTex,           // ITEM_BOTTLE_POE
     gItemIconWeirdEggTex,            // ITEM_WEIRD_EGG

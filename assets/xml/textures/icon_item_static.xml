@@ -30,7 +30,7 @@
         <Texture Name="gItemIconBottleRutosLetterTex" OutName="bottled_rutos_letter_icon" Format="rgba32" Width="32" Height="32" Offset="0x1B000"/>
         <Texture Name="gItemIconBottleBlueFireTex" OutName="bottled_blue_fire_icon" Format="rgba32" Width="32" Height="32" Offset="0x1C000"/>
         <Texture Name="gItemIconBottleBugTex" OutName="bottled_bug_icon" Format="rgba32" Width="32" Height="32" Offset="0x1D000"/>
-        <Texture Name="gItemIconBigBottlePoeTex" OutName="bottled_big_poe_icon" Format="rgba32" Width="32" Height="32" Offset="0x1E000"/>
+        <Texture Name="gItemIconBottleBigPoeTex" OutName="bottled_big_poe_icon" Format="rgba32" Width="32" Height="32" Offset="0x1E000"/>
         <Texture Name="gItemIconBottleMilkHalfTex" OutName="bottled_milk_half_icon" Format="rgba32" Width="32" Height="32" Offset="0x1F000"/>
         <Texture Name="gItemIconBottlePoeTex" OutName="bottled_poe_icon" Format="rgba32" Width="32" Height="32" Offset="0x20000"/>
         <Texture Name="gItemIconWeirdEggTex" OutName="weird_egg_icon" Format="rgba32" Width="32" Height="32" Offset="0x21000"/>
