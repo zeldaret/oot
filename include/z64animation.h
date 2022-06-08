@@ -209,7 +209,7 @@ typedef struct SkelAnime {
     /* 0x2C */ f32 morphRate;     // Reciprocal of the number of frames in the morph
     /* 0x30 */ union {
                     s32 (*normal)(struct SkelAnime*); // Can be Loop, Partial loop, Play once, Morph, or Tapered morph
-                    s32 (*link)(struct PlayState*, struct SkelAnime*); // Loop, Play once, and Morph
+                    s32 (*link)(struct PlayState*, struct SkelAnime*); // Can be Loop, Play once, or Morph
                 } update;
     /* 0x34 */ s8 initFlags;      // Flags used when initializing Link's skeleton
     /* 0x35 */ u8 moveFlags;      // Flags used for animations that move the actor in worldspace.
