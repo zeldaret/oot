@@ -144,7 +144,7 @@ typedef enum {
  * on its own line.
  *
  * Files that contain this type that are included in other C files
- * must be preceded by a '#pragma asmproc recurse qualifier' to
+ * must be preceded by a '#pragma asmproc recurse' qualifier to
  * inform asm-processor that it must recursively process that include.
  *
  * Example:
