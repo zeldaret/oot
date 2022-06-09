@@ -1197,7 +1197,7 @@ void Play_Draw(PlayState* this) {
                 POLY_OPA_DISP = sp84;
                 goto Play_Draw_DrawOverlayElements;
             } else {
-                s32 sp80;
+                s32 roomDrawFlags;
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
@@ -1236,13 +1236,13 @@ void Play_Draw(PlayState* this) {
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
                     if (VREG(94) == 0) {
                         if (HREG(80) != 10) {
-                            sp80 = 3;
+                            roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
                         } else {
-                            sp80 = HREG(84);
+                            roomDrawFlags = HREG(84);
                         }
                         Scene_Draw(this);
-                        Room_Draw(this, &this->roomCtx.curRoom, sp80 & 3);
-                        Room_Draw(this, &this->roomCtx.prevRoom, sp80 & 3);
+                        Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
+                        Room_Draw(this, &this->roomCtx.prevRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
                     }
                 }
 
@@ -1808,8 +1808,8 @@ void Play_TriggerRespawn(PlayState* this) {
 }
 
 s32 func_800C0CB8(PlayState* this) {
-    return (this->roomCtx.curRoom.meshHeader->base.type != 1) && (YREG(15) != 0x20) && (YREG(15) != 0x30) &&
-           (YREG(15) != 0x40) && (this->sceneNum != SCENE_HAIRAL_NIWA);
+    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) && (YREG(15) != 0x20) &&
+           (YREG(15) != 0x30) && (YREG(15) != 0x40) && (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
 s32 FrameAdvance_IsEnabled(PlayState* this) {
