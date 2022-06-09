@@ -8,7 +8,6 @@
 
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20
-#define AM_FIELD_SIZE 0x27A0
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
@@ -38,11 +37,45 @@ typedef struct {
     /* 0x1C */ ActorFunc draw; // Draw function
 } ActorInit; // size = 0x20
 
-typedef enum {
-    /* 0 */ ALLOCTYPE_NORMAL,
-    /* 1 */ ALLOCTYPE_ABSOLUTE,
-    /* 2 */ ALLOCTYPE_PERMANENT
-} AllocType;
+/**
+ * @see ACTOR_ALLOC_ABSOLUTE
+ */
+#define ACTOR_OVERLAY_ABSOLUTE_SPACE_SIZE 0x27A0
+
+/**
+ * The actor overlay should be allocated memory for when loading,
+ * and the memory deallocated when there is no more actor using the overlay.
+ *
+ * `ACTOR_ALLOC_` defines indicate how an actor overlay should be loaded.
+ *
+ * @note Bitwise or-ing `ACTOR_ALLOC_` types is not meaningful.
+ * The `ACTOR_ALLOC_` types are 0, 1, 2 but checked against with a bitwise and.
+ *
+ * @see ACTOR_ALLOC_ABSOLUTE
+ * @see ACTOR_ALLOC_PERSISTENT
+ * @see actor_table.h
+ */
+#define ACTOR_ALLOC_NORMAL 0
+/**
+ * The actor overlay should be loaded to "absolute space".
+ *
+ * Absolute space is a fixed amount of memory allocated once.
+ * The overlay will still need to be loaded again if at some point there is no more actor using the overlay.
+ *
+ * @note Only one such overlay may be loaded at a time. This is not cleanly asserted.
+ *
+ * @see ACTOR_OVERLAY_ABSOLUTE_SPACE_SIZE
+ * @see ActorContext.absoluteSpace
+ * @see ACTOR_ALLOC_NORMAL
+ */
+#define ACTOR_ALLOC_ABSOLUTE (1 << 0)
+/**
+ * The actor overlay should be loaded persistently.
+ * It will stay loaded until the current game state instance ends.
+ *
+ * @see ACTOR_ALLOC_NORMAL
+ */
+#define ACTOR_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct {
     /* 0x00 */ u32 vromStart;
@@ -52,7 +85,7 @@ typedef struct {
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
     /* 0x14 */ ActorInit* initInfo;
     /* 0x18 */ char* name;
-    /* 0x1C */ u16 allocType;
+    /* 0x1C */ u16 allocType; // See `ACTOR_ALLOC_` defines
     /* 0x1E */ s8 numLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 

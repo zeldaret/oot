@@ -181,11 +181,13 @@ void ArrowIce_Fly(ArrowIce* this, PlayState* play) {
 void ArrowIce_Update(Actor* thisx, PlayState* play) {
     ArrowIce* this = (ArrowIce*)thisx;
 
-    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+    // See `ACTOR_ALLOC_ABSOLUTE`
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
-    } else {
-        this->actionFunc(this, play);
+        return;
     }
+
+    this->actionFunc(this, play);
 }
 
 void ArrowIce_Draw(Actor* thisx, PlayState* play) {

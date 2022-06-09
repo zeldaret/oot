@@ -131,7 +131,9 @@ void MagicWind_Shrink(MagicWind* this, PlayState* play) {
 
 void MagicWind_Update(Actor* thisx, PlayState* play) {
     MagicWind* this = (MagicWind*)thisx;
-    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+
+    // See `ACTOR_ALLOC_ABSOLUTE`
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(thisx);
         return;
     }

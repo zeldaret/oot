@@ -78,6 +78,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
+    // See `ACTOR_ALLOC_ABSOLUTE`
     if ((msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(thisx);
         return;

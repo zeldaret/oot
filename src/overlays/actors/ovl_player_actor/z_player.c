@@ -9383,7 +9383,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     if (gSaveContext.nayrusLoveTimer != 0) {
         gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
         func_80846A00(play, this, 1);
-        this->stateFlags3 &= ~PLAYER_STATE3_6;
+        this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 
     if (gSaveContext.entranceSound != 0) {
@@ -10169,11 +10169,11 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         func_80848C74(play, this);
     }
 
-    if ((this->stateFlags3 & PLAYER_STATE3_6) && (gSaveContext.nayrusLoveTimer != 0) &&
+    if ((this->stateFlags3 & PLAYER_STATE3_RESTORE_NAYRUS_LOVE) && (gSaveContext.nayrusLoveTimer != 0) &&
         (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
         gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
         func_80846A00(play, this, 1);
-        this->stateFlags3 &= ~PLAYER_STATE3_6;
+        this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 
     if (this->stateFlags2 & PLAYER_STATE2_15) {
