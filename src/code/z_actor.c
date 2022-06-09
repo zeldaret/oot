@@ -2482,7 +2482,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 6563);
 }
 
-void Actor_KillActorsWithUnloadedObject(PlayState* play, ActorContext* actorCtx) {
+void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 

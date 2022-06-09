@@ -290,7 +290,7 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
             }
 
             play->objectCtx.numEntries = i;
-            Actor_KillActorsWithUnloadedObject(play, &play->actorCtx);
+            Actor_KillAllWithMissingObject(play, &play->actorCtx);
 
             continue;
         }

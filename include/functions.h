@@ -456,7 +456,7 @@ void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEnt
 void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx);
 s32 func_800314D4(PlayState* play, Actor* actor, Vec3f* arg2, f32 arg3);
 void func_800315AC(PlayState* play, ActorContext* actorCtx);
-void Actor_KillActorsWithUnloadedObject(PlayState* play, ActorContext* actorCtx);
+void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx);
 void func_80031B14(PlayState* play, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, PlayState* play);
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ,
