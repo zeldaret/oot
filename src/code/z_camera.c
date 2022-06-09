@@ -7125,7 +7125,7 @@ void Camera_PrintSettings(Camera* camera) {
             sp50[i++] = '-';
         }
 
-        //! @bug: this code was clearly meaning to print `abs(camera->camDataIdx)` as a
+        //! @bug this code was clearly meaning to print `abs(camera->camDataIdx)` as a
         //! one-or-two-digit number, instead of `i`.
         // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
         // reads/writes between sequence points, triggering warnings. Work around by
@@ -7264,7 +7264,7 @@ s32 Camera_UpdateWater(Camera* camera) {
         }
         Audio_SetExtraFilter(0);
     }
-    //! @bug: doesn't always return a value, but sometimes does.
+    //! @bug doesn't always return a value, but sometimes does.
 }
 
 s32 Camera_UpdateHotRoom(Camera* camera) {
@@ -7917,8 +7917,8 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
             camera->unk_14A |= 4;
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
-            //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
-            // camDataIdx would make more sense.
+            //! @bug This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
+            //! camDataIdx would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, camDataIdx,
                          camera->camId, 0x32, newCameraSetting);
         }
