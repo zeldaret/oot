@@ -8,8 +8,6 @@ RomFile sNaviMsgFiles[];
  *
  * This only starts loading the object, the data will not be available immediately when the function returns.
  *
- * Used for gameplay_keep, Link's object, and the subkeep if any.
- *
  * @return The new object slot corresponding to the requested object ID.
  *
  * @note This function is not meant to be called externally to spawn object files on the fly.
