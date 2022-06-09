@@ -118,7 +118,7 @@ void* gItemIcons[] = {
     gItemIconMaskKeatonTex,        // ITEM_MASK_KEATON
     gItemIconMaskSkullTex,         // ITEM_MASK_SKULL
     gItemIconMaskSpookyTex,        // ITEM_MASK_SPOOKY
-    gItemIconMaskBunnyTex,         // ITEM_MASK_BUNNY
+    gItemIconMaskBunnyHoodTex,     // ITEM_MASK_BUNNY_HOOD
     gItemIconMaskGoronTex,         // ITEM_MASK_GORON
     gItemIconMaskZoraTex,          // ITEM_MASK_ZORA
     gItemIconMaskGerudoTex,        // ITEM_MASK_GERUDO

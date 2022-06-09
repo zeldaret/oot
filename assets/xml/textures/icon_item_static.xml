@@ -39,7 +39,7 @@
         <Texture Name="gItemIconMaskKeatonTex" OutName="keaton_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x24000"/>
         <Texture Name="gItemIconMaskSkullTex" OutName="skull_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x25000"/>
         <Texture Name="gItemIconMaskSpookyTex" OutName="spooky_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x26000"/>
-        <Texture Name="gItemIconMaskBunnyTex" OutName="bunny_hood_icon" Format="rgba32" Width="32" Height="32" Offset="0x27000"/>
+        <Texture Name="gItemIconMaskBunnyHoodTex" OutName="bunny_hood_icon" Format="rgba32" Width="32" Height="32" Offset="0x27000"/>
         <Texture Name="gItemIconMaskGoronTex" OutName="goron_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x28000"/>
         <Texture Name="gItemIconMaskZoraTex" OutName="zora_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x29000"/>
         <Texture Name="gItemIconMaskGerudoTex" OutName="gerudo_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x2A000"/>
