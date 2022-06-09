@@ -199,5 +199,5 @@ void ItemOcarina_Draw(Actor* thisx, PlayState* play) {
 
     func_8002EBCC(thisx, play, 0);
     func_8002ED80(thisx, play, 0);
-    GetItem_Draw(play, GID_OCARINA_TIME);
+    GetItem_Draw(play, GID_OCARINA_OF_TIME);
 }
