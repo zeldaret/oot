@@ -189,9 +189,9 @@ void* gItemIcons[] = {
     gQuestIconSpiritMedallionTex, // ITEM_MEDALLION_SPIRIT
     gQuestIconShadowMedallionTex, // ITEM_MEDALLION_SHADOW
     gQuestIconLightMedallionTex,  // ITEM_MEDALLION_LIGHT
-    gQuestIconKokiriEmeraldTex,   // ITEM_SPSTONE_KOKIRI_EMERALD
-    gQuestIconGoronRubyTex,       // ITEM_SPSTONE_GORON_RUBY
-    gQuestIconZoraSapphireTex,    // ITEM_SPSTONE_ZORA_SAPPHIRE
+    gQuestIconKokiriEmeraldTex,   // ITEM_SPIRITUAL_KOKIRI_EMERALD
+    gQuestIconGoronRubyTex,       // ITEM_SPIRITUAL_GORON_RUBY
+    gQuestIconZoraSapphireTex,    // ITEM_SPIRITUAL_ZORA_SAPPHIRE
     gQuestIconStoneOfAgonyTex,    // ITEM_STONE_OF_AGONY
     gQuestIconGerudosCardTex,     // ITEM_GERUDOS_CARD
     gQuestIconGoldSkulltulaTex,   // ITEM_SKULL_TOKEN
