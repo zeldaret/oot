@@ -135,9 +135,9 @@ void* gItemIcons[] = {
     gItemIconEyeballFrogTex,       // ITEM_EYEBALL_FROG
     gItemIconEyeDropsTex,          // ITEM_EYE_DROPS
     gItemIconClaimCheckTex,        // ITEM_CLAIM_CHECK
-    gItemIconBowFireTex,           // ITEM_BOW_ARROW_FIRE
-    gItemIconBowIceTex,            // ITEM_BOW_ARROW_ICE
-    gItemIconBowLightTex,          // ITEM_BOW_ARROW_LIGHT
+    gItemIconBowFireTex,           // ITEM_BOW_FIRE
+    gItemIconBowIceTex,            // ITEM_BOW_ICE
+    gItemIconBowLightTex,          // ITEM_BOW_LIGHT
     gItemIconSwordKokiriTex,       // ITEM_SWORD_KOKIRI
     gItemIconSwordMasterTex,       // ITEM_SWORD_MASTER
     gItemIconSwordBiggoronTex,     // ITEM_SWORD_BIGGORON
