@@ -183,12 +183,12 @@ void* gItemIcons[] = {
     gSongNoteTex, // ITEM_SONG_TIME
     gSongNoteTex, // ITEM_SONG_STORMS
     // icon_item_24static 24x24 rgba32
-    gQuestIconForestMedallionTex, // ITEM_MEDALLION_FOREST
-    gQuestIconFireMedallionTex,   // ITEM_MEDALLION_FIRE
-    gQuestIconWaterMedallionTex,  // ITEM_MEDALLION_WATER
-    gQuestIconSpiritMedallionTex, // ITEM_MEDALLION_SPIRIT
-    gQuestIconShadowMedallionTex, // ITEM_MEDALLION_SHADOW
-    gQuestIconLightMedallionTex,  // ITEM_MEDALLION_LIGHT
+    gQuestIconMedallionForestTex, // ITEM_MEDALLION_FOREST
+    gQuestIconMedallionFireTex,   // ITEM_MEDALLION_FIRE
+    gQuestIconMedallionWaterTex,  // ITEM_MEDALLION_WATER
+    gQuestIconMedallionSpiritTex, // ITEM_MEDALLION_SPIRIT
+    gQuestIconMedallionShadowTex, // ITEM_MEDALLION_SHADOW
+    gQuestIconMedallionLightTex,  // ITEM_MEDALLION_LIGHT
     gQuestIconKokiriEmeraldTex,   // ITEM_SPIRITUAL_KOKIRI_EMERALD
     gQuestIconGoronRubyTex,       // ITEM_SPIRITUAL_GORON_RUBY
     gQuestIconZoraSapphireTex,    // ITEM_SPIRITUAL_ZORA_SAPPHIRE

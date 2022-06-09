@@ -1,11 +1,11 @@
 <Root>
     <File Name="icon_item_24_static" Segment="9">
-        <Texture Name="gQuestIconForestMedallionTex" OutName="forest_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x0"/>
-        <Texture Name="gQuestIconFireMedallionTex" OutName="fire_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x900"/>
-        <Texture Name="gQuestIconWaterMedallionTex" OutName="water_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x1200"/>
-        <Texture Name="gQuestIconSpiritMedallionTex" OutName="spirit_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x1B00"/>
-        <Texture Name="gQuestIconShadowMedallionTex" OutName="shadow_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x2400"/>
-        <Texture Name="gQuestIconLightMedallionTex" OutName="light_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x2D00"/>
+        <Texture Name="gQuestIconMedallionForestTex" OutName="forest_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x0"/>
+        <Texture Name="gQuestIconMedallionFireTex" OutName="fire_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x900"/>
+        <Texture Name="gQuestIconMedallionWaterTex" OutName="water_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x1200"/>
+        <Texture Name="gQuestIconMedallionSpiritTex" OutName="spirit_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x1B00"/>
+        <Texture Name="gQuestIconMedallionShadowTex" OutName="shadow_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x2400"/>
+        <Texture Name="gQuestIconMedallionLightTex" OutName="light_medallion_icon" Format="rgba32" Width="24" Height="24" Offset="0x2D00"/>
         <Texture Name="gQuestIconKokiriEmeraldTex" OutName="kokiri_emerald_icon" Format="rgba32" Width="24" Height="24" Offset="0x3600"/>
         <Texture Name="gQuestIconGoronRubyTex" OutName="goron_ruby_icon" Format="rgba32" Width="24" Height="24" Offset="0x3F00"/>
         <Texture Name="gQuestIconZoraSapphireTex" OutName="zora_sapphire_icon" Format="rgba32" Width="24" Height="24" Offset="0x4800"/>
