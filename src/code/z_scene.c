@@ -14,7 +14,7 @@ RomFile sNaviMsgFiles[];
  *
  * @note This function is not meant to be called externally to spawn object files on the fly.
  * When an object is spawned with this function, all objects that come before it in the entry list will be treated as
- * persistent, which will likely cause the memory available for object space to run out.
+ * persistent, which will likely cause either the amount of free slots or object space memory to run out.
  * This function is only meant to be called internally on scene load, before the object list from any room is processed.
  */
 s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
