@@ -1695,7 +1695,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
         Health_ChangeBy(play, 0x10);
         return item;
-    } else if (item == ITEM_MAGIC_SMALL) {
+    } else if (item == ITEM_MAGIC_JAR_SMALL) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
             // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
@@ -1711,7 +1711,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
 
         return item;
-    } else if (item == ITEM_MAGIC_LARGE) {
+    } else if (item == ITEM_MAGIC_JAR_BIG) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
             // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
@@ -1900,7 +1900,7 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_HEART) {
         return ITEM_HEART;
-    } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
+    } else if ((item == ITEM_MAGIC_JAR_SMALL) || (item == ITEM_MAGIC_JAR_BIG)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
         osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
         if (!GET_INFTABLE(INFTABLE_198)) {

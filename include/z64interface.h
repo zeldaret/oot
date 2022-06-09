@@ -22,7 +22,7 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
 /**
  * Get the VROM address of the quest icon for the specified item.
  *
- * @param itemId An ItemId value in the range `ITEM_MEDALLION_FOREST`-`ITEM_MAGIC_LARGE`
+ * @param itemId An ItemId value in the range `ITEM_MEDALLION_FOREST`-`ITEM_MAGIC_JAR_BIG`
  */
 #define GET_QUEST_ICON_VROM(itemId) \
     ((u32)_icon_item_24_staticSegmentRomStart + (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE))

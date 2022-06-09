@@ -201,8 +201,8 @@ void* gItemIcons[] = {
     gQuestIconDungeonMapTex,      // ITEM_DUNGEON_COMPASS (swapped with map?)
     gQuestIconDungeonCompassTex,  // ITEM_DUNGEON_MAP
     gQuestIconDungeonBossKeyTex,  // ITEM_SMALL_KEY
-    gQuestIconMagicJarSmallTex,   // ITEM_MAGIC_SMALL
-    gQuestIconMagicJarBigTex,     // ITEM_MAGIC_LARGE
+    gQuestIconMagicJarSmallTex,   // ITEM_MAGIC_JAR_SMALL
+    gQuestIconMagicJarBigTex,     // ITEM_MAGIC_JAR_BIG
     // icon_item_static 48x48 ia8
     gHeartPieceIcon1Tex, // ITEM_HEART_PIECE_2
     gHeartPieceIcon2Tex, // ITEM_INVALID_1
