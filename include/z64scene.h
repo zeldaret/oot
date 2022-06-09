@@ -170,13 +170,13 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  length;
-    /* 0x04 */ struct ActorEntry* data;
+    /* 0x04 */ ActorEntry* data;
 } SCmdSpawnList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  length;
-    /* 0x04 */ struct ActorEntry* data;
+    /* 0x04 */ ActorEntry* data;
 } SCmdActorList;
 
 typedef struct {
