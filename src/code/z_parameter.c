@@ -786,7 +786,7 @@ void func_80083108(PlayState* play) {
                         if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
                             (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
                             (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
-                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                            (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
                             gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                         } else {
                             gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
@@ -1264,7 +1264,7 @@ void func_800849EC(PlayState* play) {
     gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
 
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
+        gSaveContext.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
     } else {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
     }
@@ -1401,7 +1401,7 @@ u8 Item_Give(PlayState* play, u8 item) {
                  (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE))) {
                 gSaveContext.inventory.equipment ^=
                     OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
-                if (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
+                if (gSaveContext.equips.buttonItems[0] == ITEM_GIANTS_KNIFE) {
                     gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                     Interface_LoadItemIcon1(play, 0);
                 }
@@ -3436,7 +3436,7 @@ void Interface_Draw(PlayState* play) {
             if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
                 (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
                 (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
-                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
                 if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
                     gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 } else {

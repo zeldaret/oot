@@ -107,7 +107,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
             } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) {
                 return 0x3058;
             } else {
-                player->exchangeItemId = EXCH_ITEM_BROKEN_BGS;
+                player->exchangeItemId = EXCH_ITEM_BROKEN_GORONS_SWORD;
                 return 0x3053;
             }
         case 0x00:
@@ -593,8 +593,8 @@ void func_80A3F908(EnGo* this, PlayState* play) {
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
-            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_BGS) {
-                if (func_8002F368(play) == EXCH_ITEM_BROKEN_BGS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_GORONS_SWORD) {
+                if (func_8002F368(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                     if (GET_INFTABLE(INFTABLE_B4)) {
                         this->actor.textId = 0x3055;
                     } else {
@@ -960,7 +960,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
                 getItemId = GI_CLAIM_CHECK;
             }
-            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_BGS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_GORONS_SWORD) {
                 getItemId = GI_PRESCRIPTION;
             }
         }

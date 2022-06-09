@@ -2853,7 +2853,7 @@ void KaleidoScope_Update(PlayState* play) {
                 if (i == ITEM_POACHERS_SAW) {
                     pauseCtx->tradeQuestLocation = 2;
                 }
-                if ((i == ITEM_BROKEN_BGS) || (i == ITEM_EYE_DROPS)) {
+                if ((i == ITEM_BROKEN_GORONS_SWORD) || (i == ITEM_EYE_DROPS)) {
                     pauseCtx->tradeQuestLocation = 7;
                 }
                 if (i == ITEM_PRESCRIPTION) {

@@ -130,7 +130,7 @@ void* gItemIcons[] = {
     gItemIconOddMushroomTex,         // ITEM_ODD_MUSHROOM
     gItemIconOddPotionTex,           // ITEM_ODD_POTION
     gItemIconPoachersSawTex,         // ITEM_POACHERS_SAW
-    gItemIconBrokenBiggoronSwordTex, // ITEM_BROKEN_BGS
+    gItemIconBrokenBiggoronSwordTex, // ITEM_BROKEN_GORONS_SWORD
     gItemIconPrescriptionTex,        // ITEM_PRESCRIPTION
     gItemIconEyeballFrogTex,         // ITEM_EYEBALL_FROG
     gItemIconEyeDropsTex,            // ITEM_EYE_DROPS
@@ -164,7 +164,7 @@ void* gItemIcons[] = {
     gItemIconGoldenGauntletsTex,     // ITEM_STRENGTH_GOLD_GAUNTLETS
     gItemIconScaleSilverTex,         // ITEM_SCALE_SILVER
     gItemIconScaleGoldenTex,         // ITEM_SCALE_GOLDEN
-    gItemIconBrokenGiantsKnifeTex,   // ITEM_SWORD_KNIFE
+    gItemIconBrokenGiantsKnifeTex,   // ITEM_GIANTS_KNIFE
     gItemIconAdultsWalletTex,        // ITEM_ADULTS_WALLET
     gItemIconGiantsWalletTex,        // ITEM_GIANTS_WALLET
     gItemIconDekuSeedsTex,           // ITEM_DEKU_SEEDS

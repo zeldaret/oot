@@ -575,7 +575,7 @@ u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
         player->exchangeItemId = EXCH_ITEM_EYE_DROPS;
         return 0x3058;
     } else {
-        player->exchangeItemId = EXCH_ITEM_BROKEN_BGS;
+        player->exchangeItemId = EXCH_ITEM_BROKEN_GORONS_SWORD;
         return 0x3053;
     }
 }
@@ -1069,8 +1069,8 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
             }
             player->actor.textId = this->actor.textId;
 
-        } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_BROKEN_BGS) {
-            if (func_8002F368(play) == EXCH_ITEM_BROKEN_BGS) {
+        } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_BROKEN_GORONS_SWORD) {
+            if (func_8002F368(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                 if (GET_INFTABLE(INFTABLE_B4)) {
                     textId = 0x3055;
                 } else {
@@ -1135,7 +1135,8 @@ void func_80A454CC(EnGo2* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_9);
             break;
         case GORON_DMT_BIGGORON:
-            if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_BGS && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD &&
+                INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
                 break;
             }
@@ -1501,7 +1502,7 @@ void EnGo2_GoronFireClearCamera(EnGo2* this, PlayState* play) {
 }
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {
-    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_BGS && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS &&
+    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS &&
         (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
         if (DECR(this->animTimer) == 0) {
             this->animTimer = Rand_S16Offset(30, 30);
@@ -1600,7 +1601,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
         case GORON_DMT_BIGGORON:
             this->actor.shape.shadowDraw = NULL;
             this->actor.flags &= ~ACTOR_FLAG_0;
-            if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_BGS) &&
+            if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD) &&
                 (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS)) {
                 this->eyeMouthTexState = 1;
             }

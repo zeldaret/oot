@@ -425,7 +425,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             if (gSaveContext.bgsFlag != 0) {
                 cursorItem = ITEM_HEART_PIECE_2;
             } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                cursorItem = ITEM_SWORD_KNIFE;
+                cursorItem = ITEM_GIANTS_KNIFE;
             }
         }
 
@@ -487,7 +487,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                         if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BIGGORON) &&
                             (gSaveContext.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
+                            gSaveContext.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
                         }
                     }
 
