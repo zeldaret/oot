@@ -51,7 +51,7 @@
         <Texture Name="gItemIconOddMushroomTex" OutName="odd_mushroom_icon" Format="rgba32" Width="32" Height="32" Offset="0x30000"/>
         <Texture Name="gItemIconOddPotionTex" OutName="odd_potion_icon" Format="rgba32" Width="32" Height="32" Offset="0x31000"/>
         <Texture Name="gItemIconPoachersSawTex" OutName="poachers_saw_icon" Format="rgba32" Width="32" Height="32" Offset="0x32000"/>
-        <Texture Name="gItemIconBrokenBiggoronSwordTex" OutName="broken_biggoron_sword_icon" Format="rgba32" Width="32" Height="32" Offset="0x33000"/>
+        <Texture Name="gItemIconBrokenGoronsSwordTex" OutName="broken_gorons_sword_icon" Format="rgba32" Width="32" Height="32" Offset="0x33000"/>
         <Texture Name="gItemIconPrescriptionTex" OutName="prescription_icon" Format="rgba32" Width="32" Height="32" Offset="0x34000"/>
         <Texture Name="gItemIconEyeballFrogTex" OutName="eyeball_frog_icon" Format="rgba32" Width="32" Height="32" Offset="0x35000"/>
         <Texture Name="gItemIconEyeDropsTex" OutName="eye_drops_icon" Format="rgba32" Width="32" Height="32" Offset="0x36000"/>
