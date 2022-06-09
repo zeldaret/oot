@@ -113,6 +113,7 @@ void KaleidoScope_DrawPlayerWork(PlayState* play) {
                      BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
 }
 
+// Wrong prototype; this function is called with `play` even though it has no arguments
 void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
 
 void KaleidoScope_DrawEquipment(PlayState* play) {
