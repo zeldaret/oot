@@ -3,10 +3,20 @@
 
 RomFile sNaviMsgFiles[];
 
-// called by
-// - initcontext: for gkeep
-// - spawn list scene command: for link's object
-// - special files scene command: for subkeep object if any
+/**
+ * Spawn an object file of a specified ID that will persist through room changes.
+ *
+ * This only starts loading the object, the data will not be available immediately when the function returns.
+ *
+ * Used for gameplay_keep, Link's object, and the subkeep if any.
+ *
+ * @return The new object slot corresponding to the requested object ID.
+ *
+ * @note This function is not meant to be called externally to spawn object files on the fly.
+ * When an object is spawned with this function, all objects that come before it in the entry list will be treated as
+ * persistent, which will likely cause the memory available for object space to run out.
+ * This function is only meant to be called internally on scene load, before the object list from any room is processed.
+ */
 s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
 
