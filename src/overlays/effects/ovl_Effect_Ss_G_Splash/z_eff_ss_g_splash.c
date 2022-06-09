@@ -7,7 +7,7 @@
 #include "z_eff_ss_g_splash.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-//! @bug the reuse of regs[11] means that EffectSs_DrawGEffect will treat the type as an object bank index
+//! @bug the reuse of regs[11] means that EffectSs_DrawGEffect will treat the type as an object slot (`rgObjectSlot`)
 // this ends up having no effect because the texture provided does not use segment 6
 #define rType regs[11]
 
