@@ -142,9 +142,9 @@ static s16 sExtraItemBases[] = {
     ITEM_BOMB,       // ITEM_BOMBS_10
     ITEM_BOMB,       // ITEM_BOMBS_20
     ITEM_BOMB,       // ITEM_BOMBS_30
-    ITEM_BOW,        // ITEM_ARROWS_SMALL
-    ITEM_BOW,        // ITEM_ARROWS_MEDIUM
-    ITEM_BOW,        // ITEM_ARROWS_LARGE
+    ITEM_BOW,        // ITEM_ARROWS_5
+    ITEM_BOW,        // ITEM_ARROWS_10
+    ITEM_BOW,        // ITEM_ARROWS_30
     ITEM_DEKU_SEEDS, // ITEM_DEKU_SEEDS_30
     ITEM_BOMBCHU,    // ITEM_BOMBCHUS_5
     ITEM_BOMBCHU,    // ITEM_BOMBCHUS_20
@@ -1621,8 +1621,8 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
             return ITEM_NONE;
         }
-    } else if ((item >= ITEM_ARROWS_SMALL) && (item <= ITEM_ARROWS_LARGE)) {
-        AMMO(ITEM_BOW) += sArrowRefillCounts[item - ITEM_ARROWS_SMALL];
+    } else if ((item >= ITEM_ARROWS_5) && (item <= ITEM_ARROWS_30)) {
+        AMMO(ITEM_BOW) += sArrowRefillCounts[item - ITEM_ARROWS_5];
 
         if ((AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) || (AMMO(ITEM_BOW) < 0)) {
             AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
