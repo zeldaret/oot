@@ -135,8 +135,8 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->waitObjectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
-    if (this->waitObjectEntry < 0) {
+    this->waitObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
+    if (this->waitObjectSlot < 0) {
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
     } else {
@@ -221,9 +221,9 @@ void ObjTsubo_SetupWaitForObject(ObjTsubo* this) {
 }
 
 void ObjTsubo_WaitForObject(ObjTsubo* this, PlayState* play) {
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
         this->actor.draw = ObjTsubo_Draw;
-        this->actor.objectEntry = this->waitObjectEntry;
+        this->actor.objectSlot = this->waitObjectSlot;
         ObjTsubo_SetupIdle(this);
         this->actor.flags &= ~ACTOR_FLAG_4;
     }

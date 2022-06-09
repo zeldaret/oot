@@ -69,23 +69,23 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
     Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     s32 params = this->actor.params;
-    s32 objectEntry;
+    s32 objectSlot;
     s32 i;
 
     osSyncPrintf("no = %d\n", params);
 
     if (sObjectIds[params] != OBJECT_GAMEPLAY_KEEP) {
-        objectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[params]);
+        objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[params]);
     } else {
-        objectEntry = 0;
+        objectSlot = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objectEntry);
+    osSyncPrintf("bank_ID = %d\n", objectSlot);
 
-    if (objectEntry < 0) {
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_6k.c", 334);
     } else {
-        this->waitObjectEntry = objectEntry;
+        this->waitObjectSlot = objectSlot;
     }
 
     Demo6K_SetupAction(this, Demo6K_WaitForObject);
@@ -198,8 +198,8 @@ void Demo6K_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void Demo6K_WaitForObject(Demo6K* this, PlayState* play) {
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
-        this->actor.objectEntry = this->waitObjectEntry;
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+        this->actor.objectSlot = this->waitObjectSlot;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->initActionFunc;
     }

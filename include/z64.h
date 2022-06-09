@@ -835,9 +835,9 @@ typedef struct {
     /* 0x0004 */ void*  spaceEnd; // original name: "endSegment"
     /* 0x0008 */ u8     numEntries; // total amount of used entries
     /* 0x0009 */ u8     numPersistentEntries; // amount of entries that won't be reused when loading a new object list (when loading a new room)
-    /* 0x000A */ u8     mainKeepEntry; // "gameplay_keep" index into entries
-    /* 0x000B */ u8     subKeepEntry; // "gameplay_field_keep" or "gameplay_dangeon_keep" index into entries
-    /* 0x000C */ ObjectEntry entries[19];
+    /* 0x000A */ u8     mainKeepSlot; // "gameplay_keep" slot
+    /* 0x000B */ u8     subKeepSlot; // "gameplay_field_keep" or "gameplay_dangeon_keep" slot
+    /* 0x000C */ ObjectEntry slots[19];
 } ObjectContext; // size = 0x518
 
 typedef struct {

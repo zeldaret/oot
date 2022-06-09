@@ -86,13 +86,13 @@ void func_80977EA8(PlayState* play, Gfx* dlist) {
 
 void func_80977F80(DemoGeff* this, PlayState* play) {
     s32 pad[2];
-    s32 objectEntry = this->objectEntry;
+    s32 objectSlot = this->objectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[objectEntry].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[objectSlot].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 
     // Necessary to match
     if (!play) {}
@@ -189,16 +189,16 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     Actor* thisx = &this->actor;
     s32 params = thisx->params;
     s16 objectId = sObjectIds[params];
-    s32 objectEntry = Object_GetEntry(objCtx, objectId);
+    s32 objectSlot = Object_GetSlot(objCtx, objectId);
     s32 pad;
 
-    if (objectEntry < 0) {
+    if (objectSlot < 0) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);
         Actor_Kill(thisx);
         return;
     }
-    if (Object_IsEntryLoaded(objCtx, objectEntry)) {
-        this->objectEntry = objectEntry;
+    if (Object_IsLoaded(objCtx, objectSlot)) {
+        this->objectSlot = objectSlot;
         func_80978370(this, play);
     }
 }

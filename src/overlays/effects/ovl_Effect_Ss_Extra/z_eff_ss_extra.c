@@ -7,7 +7,7 @@
 #include "z_eff_ss_extra.h"
 #include "assets/objects/object_yabusame_point/object_yabusame_point.h"
 
-#define rObjectEntry regs[0]
+#define rObjectSlot regs[0]
 #define rTimer regs[1]
 #define rScoreIdx regs[2]
 #define rScale regs[3]
@@ -26,14 +26,14 @@ EffectSsInit Effect_Ss_Extra_InitVars = {
 u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
     s32 pad;
-    s32 objectEntry;
+    s32 objectSlot;
     u32 oldSeg6;
 
-    objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_YABUSAME_POINT);
+    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_YABUSAME_POINT);
 
-    if ((objectEntry >= 0) && Object_IsEntryLoaded(&play->objectCtx, objectEntry)) {
+    if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         oldSeg6 = gSegments[6];
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
@@ -43,7 +43,7 @@ u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->rScoreIdx = initParams->scoreIdx;
         this->rScale = initParams->scale;
         this->rTimer = 5;
-        this->rObjectEntry = objectEntry;
+        this->rObjectSlot = objectSlot;
         gSegments[6] = oldSeg6;
 
         return 1;
@@ -61,7 +61,7 @@ static void* sTextures[] = {
 void EffectSsExtra_Draw(PlayState* play, u32 index, EffectSs* this) {
     s32 pad;
     f32 scale = this->rScale / 100.0f;
-    void* objectPtr = play->objectCtx.entries[this->rObjectEntry].segment;
+    void* objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_extra.c", 168);
 

@@ -87,8 +87,8 @@ void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     this->unk_172 = sIsSpawned;
-    this->moriTexObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjectEntry < 0) {
+    this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectSlot < 0) {
         Actor_Kill(thisx);
         // "Forest Temple obj elevator Bank Danger!"
         osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
@@ -133,7 +133,7 @@ void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this) {
 }
 
 void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, PlayState* play) {
-    if (Object_IsEntryLoaded(&play->objectCtx, this->moriTexObjectEntry)) {
+    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
         if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
             if (play->roomCtx.curRoom.num == 2) {
                 this->dyna.actor.world.pos.y = 73.0f;
@@ -254,7 +254,7 @@ void BgMoriElevator_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.entries[this->moriTexObjectEntry].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gMoriElevatorDL);

@@ -181,13 +181,13 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 void DemoKankyo_Init(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    s32 objectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[this->actor.params]);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[this->actor.params]);
 
-    osSyncPrintf("bank_ID = %d\n", objectEntry);
-    if (objectEntry < 0) {
+    osSyncPrintf("bank_ID = %d\n", objectSlot);
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
-        this->waitObjectEntry = objectEntry;
+        this->waitObjectSlot = objectSlot;
     }
 
     switch (this->actor.params) {
@@ -279,7 +279,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 temp;
 
-    if (this->actor.objectEntry == this->waitObjectEntry) {
+    if (this->actor.objectSlot == this->waitObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_ROCK_1:
             case DEMOKANKYO_ROCK_2:
@@ -428,7 +428,7 @@ void DemoKankyo_Update(Actor* thisx, PlayState* play) {
 void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
 
-    if (this->actor.objectEntry == this->waitObjectEntry) {
+    if (this->actor.objectSlot == this->waitObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
@@ -476,8 +476,8 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
                 break;
         }
     }
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
-        this->actor.objectEntry = this->waitObjectEntry;
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+        this->actor.objectSlot = this->waitObjectSlot;
     }
 }
 

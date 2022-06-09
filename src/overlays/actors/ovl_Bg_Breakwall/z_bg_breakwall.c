@@ -103,10 +103,10 @@ void BgBreakwall_Init(Actor* thisx, PlayState* play) {
         this->dyna.actor.world.pos.y -= 40.0f;
     }
 
-    this->waitObjectEntry = (wallType >= BWALL_KD_FLOOR) ? Object_GetEntry(&play->objectCtx, OBJECT_KINGDODONGO)
-                                                         : Object_GetEntry(&play->objectCtx, OBJECT_BWALL);
+    this->waitObjectSlot = (wallType >= BWALL_KD_FLOOR) ? Object_GetSlot(&play->objectCtx, OBJECT_KINGDODONGO)
+                                                        : Object_GetSlot(&play->objectCtx, OBJECT_BWALL);
 
-    if (this->waitObjectEntry < 0) {
+    if (this->waitObjectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
     } else {
         BgBreakwall_SetupAction(this, BgBreakwall_WaitForObject);
@@ -201,11 +201,11 @@ Actor* BgBreakwall_SpawnFragments(PlayState* play, BgBreakwall* this, Vec3f* pos
  * Sets up the collision model as well is the object dependency and action function to use.
  */
 void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play) {
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
         CollisionHeader* colHeader = NULL;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
-        this->dyna.actor.objectEntry = this->waitObjectEntry;
+        this->dyna.actor.objectSlot = this->waitObjectSlot;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.draw = BgBreakwall_Draw;

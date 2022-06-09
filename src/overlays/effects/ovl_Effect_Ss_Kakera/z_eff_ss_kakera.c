@@ -17,7 +17,7 @@
 #define rReg8 regs[8]
 #define rReg9 regs[9]
 #define rObjId regs[10]
-#define rObjectEntry regs[11]
+#define rObjectSlot regs[11]
 #define rColorIdx regs[12]
 
 u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -100,9 +100,9 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
         if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-            gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.entries[this->rObjectEntry].segment);
+            gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
         } else {
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[this->rObjectEntry].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
         }
     }
 
@@ -137,9 +137,9 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void func_809A9BA8(EffectSs* this, PlayState* play) {
-    this->rObjectEntry = Object_GetEntry(&play->objectCtx, this->rObjId);
+    this->rObjectSlot = Object_GetSlot(&play->objectCtx, this->rObjId);
 
-    if ((this->rObjectEntry < 0) || !Object_IsEntryLoaded(&play->objectCtx, this->rObjectEntry)) {
+    if ((this->rObjectSlot < 0) || !Object_IsLoaded(&play->objectCtx, this->rObjectSlot)) {
         this->life = 0;
         this->draw = NULL;
     }

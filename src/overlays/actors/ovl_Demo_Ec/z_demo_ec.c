@@ -314,22 +314,22 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 
 void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
     s32 pad[2];
-    s32 drawObjectEntry = this->drawObjectEntry;
+    s32 drawObjectSlot = this->drawObjectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 662);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.entries[drawObjectEntry].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[drawObjectEntry].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[drawObjectSlot].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[drawObjectSlot].segment);
     if (!play) {}
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 670);
 }
 
 void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
-    s32 animObjectEntry = this->animObjectEntry;
+    s32 animObjectSlot = this->animObjectSlot;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.entries[animObjectEntry].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.slots[animObjectSlot].segment);
 }
 
 CsCmdActorAction* DemoEc_GetNpcAction(PlayState* play, s32 actionIndex) {
@@ -1256,27 +1256,27 @@ void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
     s32 type;
     s16 pad2;
     s16 sp28;
-    s32 primaryObjectEntry;
-    s32 secondaryObjectEntry;
+    s32 primaryObjectSlot;
+    s32 secondaryObjectSlot;
 
     type = this->actor.params;
     primary = sDrawObjects[type];
     sp28 = sAnimationObjects[type];
-    primaryObjectEntry = Object_GetEntry(&play->objectCtx, primary);
-    secondaryObjectEntry = Object_GetEntry(&play->objectCtx, sp28);
+    primaryObjectSlot = Object_GetSlot(&play->objectCtx, primary);
+    secondaryObjectSlot = Object_GetSlot(&play->objectCtx, sp28);
 
-    if ((secondaryObjectEntry < 0) || (primaryObjectEntry < 0)) {
+    if ((secondaryObjectSlot < 0) || (primaryObjectSlot < 0)) {
         // "Demo_Ec_main_bank: Bank unreadable arg_data = %d!"
         osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, type);
         Actor_Kill(&this->actor);
         return;
     }
 
-    if (Object_IsEntryLoaded(&play->objectCtx, primaryObjectEntry) &&
-        Object_IsEntryLoaded(&play->objectCtx, secondaryObjectEntry)) {
+    if (Object_IsLoaded(&play->objectCtx, primaryObjectSlot) &&
+        Object_IsLoaded(&play->objectCtx, secondaryObjectSlot)) {
 
-        this->drawObjectEntry = primaryObjectEntry;
-        this->animObjectEntry = secondaryObjectEntry;
+        this->drawObjectSlot = primaryObjectSlot;
+        this->animObjectSlot = secondaryObjectSlot;
 
         DemoEc_InitNpc(this, play);
     }

@@ -99,19 +99,19 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     f32 randF;
     DoorKiller* this = (DoorKiller*)thisx;
-    s32 objectEntry;
+    s32 objectSlot;
     s32 i;
 
     // Look in the object bank for one of the four objects containing door textures
-    objectEntry = -1;
-    //! @bug If no objectEntry is found, `sDoorTextures` will be read out of bounds
-    for (i = 0; objectEntry < 0; i++) {
-        objectEntry = Object_GetEntry(&play->objectCtx, sDoorTextures[i].objectId);
+    objectSlot = -1;
+    //! @bug If no objectSlot is found, `sDoorTextures` will be read out of bounds
+    for (i = 0; objectSlot < 0; i++) {
+        objectSlot = Object_GetSlot(&play->objectCtx, sDoorTextures[i].objectId);
         this->textureEntryIndex = i;
     }
-    osSyncPrintf("bank_ID = %d\n", objectEntry);
+    osSyncPrintf("bank_ID = %d\n", objectSlot);
     osSyncPrintf("status = %d\n", this->textureEntryIndex);
-    this->waitObjectEntry = objectEntry;
+    this->waitObjectSlot = objectSlot;
     this->texture = sDoorTextures[this->textureEntryIndex].texture;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -460,9 +460,9 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->waitObjectEntry].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->waitObjectSlot].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[this->actor.objectEntry].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
 }
 
 /**
@@ -470,7 +470,7 @@ void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
  * (door or rubble).
  */
 void DoorKiller_WaitForObject(DoorKiller* this, PlayState* play) {
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
         DoorKiller_UpdateTexture(&this->actor, play);
         switch (this->actor.params & 0xFF) {
             case DOOR_KILLER_DOOR:

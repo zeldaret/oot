@@ -60,16 +60,16 @@ void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
     ItemEtcetera* this = (ItemEtcetera*)thisx;
     s32 pad;
     s32 type;
-    s32 objectEntry;
+    s32 objectSlot;
 
     type = this->actor.params & 0xFF;
     osSyncPrintf("no = %d\n", type);
-    objectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[type]);
-    osSyncPrintf("bank_ID = %d\n", objectEntry);
-    if (objectEntry < 0) {
+    objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[type]);
+    osSyncPrintf("bank_ID = %d\n", objectSlot);
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_item_etcetera.c", 241);
     } else {
-        this->waitObjectEntry = objectEntry;
+        this->waitObjectSlot = objectSlot;
     }
     this->giDrawId = sDrawItemIndices[type];
     this->getItemId = sGetItemIds[type];
@@ -109,8 +109,8 @@ void ItemEtcetera_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void ItemEtcetera_WaitForObject(ItemEtcetera* this, PlayState* play) {
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
-        this->actor.objectEntry = this->waitObjectEntry;
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+        this->actor.objectSlot = this->waitObjectSlot;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->futureActionFunc;
     }

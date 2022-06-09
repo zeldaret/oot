@@ -12,10 +12,10 @@ typedef struct EnKo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnKoActionFunc actionFunc;
-    /* 0x0194 */ s8 headObjectEntry;
-    /* 0x0195 */ s8 bodyObjectEntry;
-    /* 0x0196 */ s8 legsObjectEntry;
-    /* 0x0197 */ s8 osAnimeObjectEntry;
+    /* 0x0194 */ s8 headObjectSlot;
+    /* 0x0195 */ s8 bodyObjectSlot;
+    /* 0x0196 */ s8 legsObjectSlot;
+    /* 0x0197 */ s8 osAnimeObjectSlot;
     /* 0x0198 */ ColliderCylinder collider;
     /* 0x01E4 */ Path* path;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;

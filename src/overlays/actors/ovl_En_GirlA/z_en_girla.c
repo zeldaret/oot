@@ -387,9 +387,9 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
         return;
     }
 
-    this->waitObjectEntry = Object_GetEntry(&play->objectCtx, shopItemEntries[params].objID);
+    this->waitObjectSlot = Object_GetSlot(&play->objectCtx, shopItemEntries[params].objID);
 
-    if (this->waitObjectEntry < 0) {
+    if (this->waitObjectSlot < 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
@@ -980,9 +980,9 @@ void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
     ShopItemEntry* itemEntry = &shopItemEntries[params];
 
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objectEntry = this->waitObjectEntry;
+        this->actor.objectSlot = this->waitObjectSlot;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
                 if (GET_ITEMGETINF(ITEMGETINF_38)) {

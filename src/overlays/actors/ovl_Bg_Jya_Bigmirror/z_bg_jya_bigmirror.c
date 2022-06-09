@@ -127,11 +127,11 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
     s32 puzzleSolved;
     s32 lightBeamToggles[3];
     s32 i;
-    s32 mirRayObjectEntry;
+    s32 mirRayObjectSlot;
 
-    mirRayObjectEntry = Object_GetEntry(&play->objectCtx, OBJECT_MIR_RAY);
+    mirRayObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MIR_RAY);
 
-    if ((mirRayObjectEntry < 0) || (mirRayObjectEntry != this->mirRayObjectEntry)) {
+    if ((mirRayObjectSlot < 0) || (mirRayObjectSlot != this->mirRayObjectSlot)) {
         this->lightBeams[2] = NULL;
         this->lightBeams[1] = NULL;
         this->lightBeams[0] = NULL;
@@ -152,7 +152,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
 
         for (i = 0; i < 3; i++) {
             if (lightBeamToggles[i]) {
-                if ((this->lightBeams[i] == NULL) && Object_IsEntryLoaded(&play->objectCtx, mirRayObjectEntry)) {
+                if ((this->lightBeams[i] == NULL) && Object_IsLoaded(&play->objectCtx, mirRayObjectSlot)) {
 
                     this->lightBeams[i] =
                         Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x, sMirRayPositions[i].y,
@@ -171,7 +171,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
             }
         }
     }
-    this->mirRayObjectEntry = mirRayObjectEntry;
+    this->mirRayObjectSlot = mirRayObjectSlot;
 }
 
 void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
@@ -188,7 +188,7 @@ void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     this->actor.room = -1;
     sIsSpawned = true;
     this->spawned = true;
-    this->mirRayObjectEntry = -1;
+    this->mirRayObjectSlot = -1;
 
     // "jya Bigmirror"
     osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);

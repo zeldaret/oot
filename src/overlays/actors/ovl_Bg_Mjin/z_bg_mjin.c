@@ -54,12 +54,12 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
 
 void BgMjin_Init(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
-    s8 objectEntry;
+    s8 objectSlot;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    objectEntry = Object_GetEntry(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
-    this->waitObjectEntry = objectEntry;
-    if (objectEntry < 0) {
+    objectSlot = Object_GetSlot(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
+    this->waitObjectSlot = objectSlot;
+    if (objectSlot < 0) {
         Actor_Kill(thisx);
     } else {
         BgMjin_SetupAction(this, func_808A0850);
@@ -76,10 +76,10 @@ void func_808A0850(BgMjin* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsEntryLoaded(&play->objectCtx, this->waitObjectEntry)) {
+    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
         colHeader = NULL;
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objectEntry = this->waitObjectEntry;
+        this->dyna.actor.objectSlot = this->waitObjectSlot;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
@@ -106,10 +106,10 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        s32 objectEntry = Object_GetEntry(&play->objectCtx, sObjectIds[thisx->params - 1]);
+        s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params - 1]);
 
-        if (objectEntry >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
+        if (objectSlot >= 0) {
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));

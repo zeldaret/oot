@@ -7,7 +7,7 @@
 #include "z_eff_ss_ice_smoke.h"
 #include "assets/objects/object_fz/object_fz.h"
 
-#define rObjectEntry regs[0]
+#define rObjectSlot regs[0]
 #define rAlpha regs[1]
 #define rScale regs[2]
 
@@ -23,18 +23,18 @@ EffectSsInit Effect_Ss_Ice_Smoke_InitVars = {
 u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
     s32 pad;
-    s32 objectEntry;
+    s32 objectSlot;
     void* prevSeg6;
 
-    objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_FZ);
+    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FZ);
 
-    if ((objectEntry >= 0) && Object_IsEntryLoaded(&play->objectCtx, objectEntry)) {
+    if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         prevSeg6 = gSegments[6];
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.entries[objectEntry].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         Math_Vec3f_Copy(&this->pos, &initParams->pos);
         Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
         Math_Vec3f_Copy(&this->accel, &initParams->accel);
-        this->rObjectEntry = objectEntry;
+        this->rObjectSlot = objectSlot;
         this->rAlpha = 0;
         this->rScale = initParams->scale;
         this->life = 50;
@@ -55,15 +55,15 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
     void* objectPtr;
     Mtx* mtx;
     f32 scale;
-    s32 objectEntry;
+    s32 objectSlot;
 
-    objectPtr = play->objectCtx.entries[this->rObjectEntry].segment;
+    objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 155);
 
-    objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_FZ);
+    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FZ);
 
-    if ((objectEntry >= 0) && Object_IsEntryLoaded(&play->objectCtx, objectEntry)) {
+    if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         gDPPipeSync(POLY_XLU_DISP++);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
@@ -92,11 +92,11 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsIceSmoke_Update(PlayState* play, u32 index, EffectSs* this) {
-    s32 objectEntry;
+    s32 objectSlot;
 
-    objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_FZ);
+    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FZ);
 
-    if ((objectEntry >= 0) && Object_IsEntryLoaded(&play->objectCtx, objectEntry)) {
+    if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         if (this->rAlpha < 100) {
             this->rAlpha += 10;
         }

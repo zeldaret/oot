@@ -236,7 +236,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             this->scale = 0.01f;
             break;
         case ITEM00_SHIELD_DEKU:
-            this->actor.objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_GI_SHIELD_1);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_SHIELD_1);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -245,7 +245,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             this->actor.world.rot.x = 0x4000;
             break;
         case ITEM00_SHIELD_HYLIAN:
-            this->actor.objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_GI_SHIELD_2);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_SHIELD_2);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -255,7 +255,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             break;
         case ITEM00_TUNIC_ZORA:
         case ITEM00_TUNIC_GORON:
-            this->actor.objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_GI_CLOTHES);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_CLOTHES);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -763,10 +763,10 @@ void EnItem00_Draw(Actor* thisx, PlayState* play) {
             case ITEM00_HEART:
                 if (this->unk_15A < 0) {
                     if (this->unk_15A == -1) {
-                        s8 objectEntry = Object_GetEntry(&play->objectCtx, OBJECT_GI_HEART);
+                        s8 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_HEART);
 
-                        if (Object_IsEntryLoaded(&play->objectCtx, objectEntry)) {
-                            this->actor.objectEntry = objectEntry;
+                        if (Object_IsLoaded(&play->objectCtx, objectSlot)) {
+                            this->actor.objectSlot = objectSlot;
                             Actor_SetObjectDependency(play, &this->actor);
                             this->unk_15A = -2;
                         }
