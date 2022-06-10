@@ -40,7 +40,7 @@ void* Yaz0_NextDMA(u8* curSrcPos) {
         DmaMgr_DmaRomToRam(sYaz0CurRomStart, dst + restSize, dmaSize);
         sYaz0CurRomStart += dmaSize;
         sYaz0CurSize -= dmaSize;
-        if (!sYaz0CurSize) {
+        if (sYaz0CurSize == 0) {
             sYaz0MaxPtr = dst + restSize + dmaSize;
         }
     }

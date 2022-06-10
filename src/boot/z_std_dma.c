@@ -23,7 +23,7 @@ const char* sDmaMgrFileNames[] = {
 #undef DEFINE_DMA_ENTRY
 
 s32 DmaMgr_CompareName(const char* name1, const char* name2) {
-    while (*name1 != 0u) {
+    while (*name1 != '\0') {
         if (*name1 > *name2) {
             return 1;
         }
@@ -36,7 +36,7 @@ s32 DmaMgr_CompareName(const char* name1, const char* name2) {
         name2++;
     }
 
-    if (*name2 > 0) {
+    if (*name2 > '\0') {
         return -1;
     }
 
@@ -74,7 +74,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, void* ram, u32 size) {
         }
 
         ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
-        if (ret) {
+        if (ret != 0) {
             goto end;
         }
 
@@ -108,7 +108,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, void* ram, u32 size) {
     }
 
     ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
-    if (ret) {
+    if (ret != 0) {
         goto end;
     }
 
@@ -137,7 +137,7 @@ s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     }
 
     ret = osEPiStartDma(pihandle, mb, direction);
-    if (ret) {
+    if (ret != 0) {
         osSyncPrintf("OOPS!!\n");
     }
     return ret;
@@ -166,7 +166,7 @@ void DmaMgr_DmaFromDriveRom(void* ram, u32 rom, u32 size) {
 
 void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc) {
     u32 vrom = req->vromAddr;
-    u32 ram = (u32)req->dramAddr;
+    void* ram = req->dramAddr;
     u32 size = req->size;
     char buff1[80];
     char buff2[80];
@@ -177,17 +177,17 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
                  errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
                  file != NULL ? file : "???");
 
-    if (req->filename) {
+    if (req->filename != NULL) {
         osSyncPrintf("DMA ERROR: %s %d", req->filename, req->line);
-    } else if (sDmaMgrCurFileName) {
+    } else if (sDmaMgrCurFileName != NULL) {
         osSyncPrintf("DMA ERROR: %s %d", sDmaMgrCurFileName, sDmaMgrCurFileLine);
     }
 
     osSyncPrintf(VT_RST);
 
-    if (req->filename) {
+    if (req->filename != NULL) {
         sprintf(buff1, "DMA ERROR: %s %d", req->filename, req->line);
-    } else if (sDmaMgrCurFileName) {
+    } else if (sDmaMgrCurFileName != NULL) {
         sprintf(buff1, "DMA ERROR: %s %d", sDmaMgrCurFileName, sDmaMgrCurFileLine);
     } else {
         sprintf(buff1, "DMA ERROR: %s", errorName != NULL ? errorName : "???");
@@ -201,7 +201,7 @@ const char* DmaMgr_GetFileNameImpl(u32 vrom) {
     DmaEntry* iter = gDmaDataTable;
     const char** name = sDmaMgrFileNames;
 
-    while (iter->vromEnd) {
+    while (iter->vromEnd != 0) {
         if (vrom >= iter->vromStart && vrom < iter->vromEnd) {
             return *name;
         }
@@ -251,7 +251,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
     filename = DmaMgr_GetFileName(vrom);
     iter = gDmaDataTable;
 
-    while (iter->vromEnd) {
+    while (iter->vromEnd != 0) {
         if (vrom >= iter->vromStart && vrom < iter->vromEnd) {
             if (1) {} // Necessary to match
 
@@ -326,7 +326,7 @@ void DmaMgr_ThreadEntry(void* arg) {
         }
 
         DmaMgr_ProcessMsg(req);
-        if (req->notifyQueue) {
+        if (req->notifyQueue != NULL) {
             osSendMesg(req->notifyQueue, req->notifyMsg, OS_MESG_NOBLOCK);
             if (0) {
                 osSyncPrintf("osSendMesg: dmap=%08x, mq=%08x, m=%08x \n", req, req->notifyQueue, req->notifyMsg);
@@ -409,7 +409,7 @@ void DmaMgr_Init(void) {
         idx++;
         iter++;
 
-        if (name) {
+        if (name != NULL) {
             name++;
         }
     }
