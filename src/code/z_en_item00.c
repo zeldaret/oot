@@ -13,7 +13,7 @@ void EnItem00_Draw(Actor* thisx, PlayState* play);
 void func_8001DFC8(EnItem00* this, PlayState* play);
 void func_8001E1C8(EnItem00* this, PlayState* play);
 void func_8001E304(EnItem00* this, PlayState* play);
-void EnItem00_BounceAfterCollected(EnItem00* this, PlayState* play);
+void EnItem00_Collected(EnItem00* this, PlayState* play);
 
 void EnItem00_DrawRupee(EnItem00* this, PlayState* play);
 void EnItem00_DrawCollectible(EnItem00* this, PlayState* play);
@@ -354,7 +354,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
         func_8002F554(&this->actor, play, getItemId);
     }
 
-    EnItem00_SetupAction(this, EnItem00_BounceAfterCollected);
+    EnItem00_SetupAction(this, EnItem00_Collected);
     this->actionFunc(this, play);
 }
 
@@ -492,7 +492,7 @@ void func_8001E304(EnItem00* this, PlayState* play) {
     }
 }
 
-void EnItem00_BounceAfterCollected(EnItem00* this, PlayState* play) {
+void EnItem00_Collected(EnItem00* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->getItemId != GI_NONE) {
@@ -739,7 +739,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, this->scale);
 
     this->getItemId = GI_NONE;
-    EnItem00_SetupAction(this, EnItem00_BounceAfterCollected);
+    EnItem00_SetupAction(this, EnItem00_Collected);
 }
 
 void EnItem00_Draw(Actor* thisx, PlayState* play) {
