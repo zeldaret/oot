@@ -755,12 +755,12 @@ u16 Message_DrawItemIcon(PlayState* play, u16 itemId, Gfx** p, u16 i) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, msgCtx->textColorAlpha);
 
     if (itemId >= ITEM_MEDALLION_FOREST) {
-        gDPLoadTextureBlock(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                            24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+        gDPLoadTextureBlock(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA, G_IM_SIZ_32b, 24,
+                            24, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
     } else {
-        gDPLoadTextureBlock(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                            32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+        gDPLoadTextureBlock(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA, G_IM_SIZ_32b, 32,
+                            32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
     }
     gSPTextureRectangle(gfx++, (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS) << 2, R_TEXTBOX_ICON_YPOS << 2,
@@ -1010,9 +1010,9 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                                 sTextboxBackgroundBackPrimColors[msgCtx->textboxBackgroundBackColorIdx][2],
                                 msgCtx->textColorAlpha);
 
-                gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_I, 96, 48,
-                                       0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_I, 96, 48, 0,
+                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                       G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(
                     gfx++, (msgCtx->textPosX + 1) << 2,
                     (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx]) << 2,
@@ -1020,8 +1020,8 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                     (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx] + 48) << 2,
                     G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-                gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900, G_IM_FMT_I,
-                                       96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900, G_IM_FMT_I, 96,
+                                       48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(
                     gfx++, (msgCtx->textPosX + 96 + 1) << 2,
@@ -1036,15 +1036,15 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                                 sTextboxBackgroundForePrimColors[msgCtx->textboxBackgroundForeColorIdx][2],
                                 msgCtx->textColorAlpha);
 
-                gDPLoadTextureBlock_4b(gfx++, (msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE), G_IM_FMT_I, 96,
-                                       48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_4b(gfx++, (msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE), G_IM_FMT_I, 96, 48, 0,
+                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                       G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(gfx++, msgCtx->textPosX << 2, R_TEXTBOX_BG_YPOS << 2, (msgCtx->textPosX + 96) << 2,
                                     (R_TEXTBOX_BG_YPOS + 48) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-                gDPLoadTextureBlock_4b(gfx++, (msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900),
-                                       G_IM_FMT_I, 96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                                       G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_4b(gfx++, (msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900), G_IM_FMT_I,
+                                       96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(gfx++, (msgCtx->textPosX + 96) << 2, R_TEXTBOX_BG_YPOS << 2,
                                     (msgCtx->textPosX + 192) << 2, (R_TEXTBOX_BG_YPOS + 48) << 2, G_TX_RENDERTILE, 0, 0,
                                     1 << 10, 1 << 10);
