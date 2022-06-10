@@ -13,7 +13,7 @@ void EnItem00_Draw(Actor* thisx, PlayState* play);
 void func_8001DFC8(EnItem00* this, PlayState* play);
 void func_8001E1C8(EnItem00* this, PlayState* play);
 void func_8001E304(EnItem00* this, PlayState* play);
-void func_8001E5C8(EnItem00* this, PlayState* play);
+void EnItem00_BounceAfterCollected(EnItem00* this, PlayState* play);
 
 void EnItem00_DrawRupee(EnItem00* this, PlayState* play);
 void EnItem00_DrawCollectible(EnItem00* this, PlayState* play);
@@ -354,7 +354,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
         func_8002F554(&this->actor, play, getItemId);
     }
 
-    EnItem00_SetupAction(this, func_8001E5C8);
+    EnItem00_SetupAction(this, EnItem00_BounceAfterCollected);
     this->actionFunc(this, play);
 }
 
@@ -492,7 +492,7 @@ void func_8001E304(EnItem00* this, PlayState* play) {
     }
 }
 
-void func_8001E5C8(EnItem00* this, PlayState* play) {
+void EnItem00_BounceAfterCollected(EnItem00* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->getItemId != GI_NONE) {
@@ -517,6 +517,7 @@ void func_8001E5C8(EnItem00* this, PlayState* play) {
         this->actor.shape.rot.y = 0;
     }
 
+    // bounces up and down above player's head
     this->actor.world.pos.y += 40.0f + Math_SinS(this->despawnTimer * 15000) * (this->despawnTimer * 0.3f);
 
     if (LINK_IS_ADULT) {
@@ -738,7 +739,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, this->scale);
 
     this->getItemId = GI_NONE;
-    EnItem00_SetupAction(this, func_8001E5C8);
+    EnItem00_SetupAction(this, EnItem00_BounceAfterCollected);
 }
 
 void EnItem00_Draw(Actor* thisx, PlayState* play) {
