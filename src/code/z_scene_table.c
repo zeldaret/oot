@@ -24,13 +24,12 @@
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 // Entrance Table definition
-#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, endTransitionType, startTransitionType)     \
-    { scene, spawn,                                                                                                  \
-      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                                       \
-       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                                            \
-       (((endTransitionType) << ENTRANCE_INFO_END_TRANSITION_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANSITION_TYPE_MASK) | \
-       (((startTransitionType) << ENTRANCE_INFO_START_TRANSITION_TYPE_SHIFT) &                                       \
-        ENTRANCE_INFO_START_TRANSITION_TYPE_MASK)) },
+#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
+    { scene, spawn,                                                                                    \
+      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                         \
+       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                              \
+       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |  \
+       (((startTransType) << ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_START_TRANS_TYPE_MASK)) },
 
 EntranceInfo gEntranceTable[] = {
 #include "tables/entrance_table.h"
@@ -94,7 +93,7 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
         }
     }
 
-    play->transitionType = ENTRANCE_INFO_START_TRANSITION_TYPE(gEntranceTable[entranceIndex].field);
+    play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
 }
 
 void Scene_DrawConfigDefault(PlayState* play) {

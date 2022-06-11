@@ -349,7 +349,7 @@ void Play_Init(GameState* thisx) {
 
     if (gSaveContext.gameMode != 1) {
         if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
-            this->transitionType = ENTRANCE_INFO_END_TRANSITION_TYPE(
+            this->transitionType = ENTRANCE_INFO_END_TRANS_TYPE(
                 gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field);
         } else {
             this->transitionType = gSaveContext.nextTransitionType;
