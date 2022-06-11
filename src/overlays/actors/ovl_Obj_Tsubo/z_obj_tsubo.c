@@ -12,7 +12,7 @@
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void ObjTsubo_Init(Actor* thisx, PlayState* play);
-void ObjTsubo_Destroy(Actor* thisx, PlayState* play);
+void ObjTsubo_Destroy(Actor* thisx, PlayState* play2);
 void ObjTsubo_Update(Actor* thisx, PlayState* play);
 void ObjTsubo_Draw(Actor* thisx, PlayState* play);
 

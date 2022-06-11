@@ -33,7 +33,7 @@
 void BgHakaGate_Init(Actor* thisx, PlayState* play);
 void BgHakaGate_Destroy(Actor* thisx, PlayState* play);
 void BgHakaGate_Update(Actor* thisx, PlayState* play);
-void BgHakaGate_Draw(Actor* this, PlayState* play);
+void BgHakaGate_Draw(Actor* thisx, PlayState* play);
 
 void BgHakaGate_DoNothing(BgHakaGate* this, PlayState* play);
 void BgHakaGate_StatueInactive(BgHakaGate* this, PlayState* play);

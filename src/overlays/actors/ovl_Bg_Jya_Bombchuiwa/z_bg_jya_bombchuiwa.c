@@ -4,7 +4,7 @@
 #define FLAGS ACTOR_FLAG_0
 
 void BgJyaBombchuiwa_Init(Actor* thisx, PlayState* play);
-void BgJyaBombchuiwa_Destroy(Actor* thisx, PlayState* play);
+void BgJyaBombchuiwa_Destroy(Actor* thisx, PlayState* play2);
 void BgJyaBombchuiwa_Update(Actor* thisx, PlayState* play);
 void BgJyaBombchuiwa_Draw(Actor* thisx, PlayState* play);
 

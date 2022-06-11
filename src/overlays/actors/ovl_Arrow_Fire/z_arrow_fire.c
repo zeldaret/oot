@@ -12,7 +12,7 @@
 void ArrowFire_Init(Actor* thisx, PlayState* play);
 void ArrowFire_Destroy(Actor* thisx, PlayState* play);
 void ArrowFire_Update(Actor* thisx, PlayState* play);
-void ArrowFire_Draw(Actor* thisx, PlayState* play);
+void ArrowFire_Draw(Actor* thisx, PlayState* play2);
 
 void ArrowFire_Charge(ArrowFire* this, PlayState* play);
 void ArrowFire_Fly(ArrowFire* this, PlayState* play);

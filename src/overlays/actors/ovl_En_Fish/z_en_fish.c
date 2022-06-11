@@ -11,7 +11,7 @@
 #define FLAGS 0
 
 void EnFish_Init(Actor* thisx, PlayState* play);
-void EnFish_Destroy(Actor* thisx, PlayState* play);
+void EnFish_Destroy(Actor* thisx, PlayState* play2);
 void EnFish_Update(Actor* thisx, PlayState* play);
 void EnFish_Draw(Actor* thisx, PlayState* play);
 

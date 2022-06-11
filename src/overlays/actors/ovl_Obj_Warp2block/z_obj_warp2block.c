@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
-void ObjWarp2block_Init(Actor* thisx, PlayState* play);
+void ObjWarp2block_Init(Actor* thisx, PlayState* play2);
 void ObjWarp2block_Destroy(Actor* thisx, PlayState* play);
 void ObjWarp2block_Update(Actor* thisx, PlayState* play);
 void ObjWarp2block_Draw(Actor* thisx, PlayState* play);

@@ -46,7 +46,7 @@ typedef enum {
     /* 3 */ BONGO_SHADOW
 } BossSstEffectMode;
 
-void BossSst_Init(Actor* thisx, PlayState* play);
+void BossSst_Init(Actor* thisx, PlayState* play2);
 void BossSst_Destroy(Actor* thisx, PlayState* play);
 void BossSst_UpdateHand(Actor* thisx, PlayState* play);
 void BossSst_UpdateHead(Actor* thisx, PlayState* play);

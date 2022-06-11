@@ -15,7 +15,7 @@
 void BgBowlWall_Init(Actor* thisx, PlayState* play);
 void BgBowlWall_Destroy(Actor* thisx, PlayState* play);
 void BgBowlWall_Update(Actor* thisx, PlayState* play);
-void BgBowlWall_Draw(Actor* thisx, PlayState* play);
+void BgBowlWall_Draw(Actor* thisx, PlayState* play2);
 
 void BgBowlWall_SpawnBullseyes(BgBowlWall* this, PlayState* play);
 void BgBowlWall_WaitForHit(BgBowlWall* this, PlayState* play);

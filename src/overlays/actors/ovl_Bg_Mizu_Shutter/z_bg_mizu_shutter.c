@@ -6,10 +6,10 @@
 #define SIZE_PARAM (((u16)this->dyna.actor.params >> 0xC) & 0xF)
 #define TIMER_PARAM (((u16)this->dyna.actor.params >> 6) & 0x3F)
 
-void BgMizuShutter_Init(BgMizuShutter* this, PlayState* play);
-void BgMizuShutter_Destroy(BgMizuShutter* this, PlayState* play);
-void BgMizuShutter_Update(BgMizuShutter* this, PlayState* play);
-void BgMizuShutter_Draw(BgMizuShutter* this, PlayState* play);
+void BgMizuShutter_Init(BgMizuShutter* thisx, PlayState* play);
+void BgMizuShutter_Destroy(BgMizuShutter* thisx, PlayState* play);
+void BgMizuShutter_Update(BgMizuShutter* thisx, PlayState* play);
+void BgMizuShutter_Draw(BgMizuShutter* thisx, PlayState* play);
 
 void BgMizuShutter_WaitForTimer(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play);

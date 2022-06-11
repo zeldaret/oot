@@ -13,7 +13,7 @@
 
 void EnGs_Init(Actor* thisx, PlayState* play);
 void EnGs_Destroy(Actor* thisx, PlayState* play);
-void EnGs_Update(Actor* thisx, PlayState* play);
+void EnGs_Update(Actor* thisx, PlayState* play2);
 void EnGs_Draw(Actor* thisx, PlayState* play);
 
 void func_80A4F734(EnGs* this, PlayState* play);

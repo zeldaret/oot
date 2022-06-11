@@ -16,10 +16,10 @@ typedef enum {
     /* 3 */ ENTORCH2_DAMAGE
 } EnTorch2ActionStates;
 
-void EnTorch2_Init(Actor* thisx, PlayState* play);
+void EnTorch2_Init(Actor* thisx, PlayState* play2);
 void EnTorch2_Destroy(Actor* thisx, PlayState* play);
-void EnTorch2_Update(Actor* thisx, PlayState* play);
-void EnTorch2_Draw(Actor* thisx, PlayState* play);
+void EnTorch2_Update(Actor* thisx, PlayState* play2);
+void EnTorch2_Draw(Actor* thisx, PlayState* play2);
 
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,

@@ -44,7 +44,7 @@ typedef struct {
 #define MO_FX_STRETCH 1
 #define MO_FX_MAX_SCALE 1
 
-void BossMo_Init(Actor* thisx, PlayState* play);
+void BossMo_Init(Actor* thisx, PlayState* play2);
 void BossMo_Destroy(Actor* thisx, PlayState* play);
 void BossMo_UpdateCore(Actor* thisx, PlayState* play);
 void BossMo_UpdateTent(Actor* thisx, PlayState* play);

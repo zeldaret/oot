@@ -21,7 +21,7 @@ typedef enum {
     /* 4 */ DOOR_KILLER_RUBBLE_PIECE_4
 } DoorKillerBehaviour;
 
-void DoorKiller_Init(Actor* thisx, PlayState* play);
+void DoorKiller_Init(Actor* thisx, PlayState* play2);
 void DoorKiller_Destroy(Actor* thisx, PlayState* play);
 void DoorKiller_Update(Actor* thisx, PlayState* play);
 void DoorKiller_Wait(DoorKiller* this, PlayState* play);

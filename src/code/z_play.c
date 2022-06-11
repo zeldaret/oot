@@ -15,42 +15,42 @@ u64 D_801614D0[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
-void Play_ChangeIndoorBgCamIndex(PlayState* this) {
-    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->indoorBgCamIndexPlusOne - 1);
+void Play_ChangeViewpointBgCamIndex(PlayState* this) {
+    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1);
 }
 
-void Play_SetIndoorBgCamIndex(PlayState* this, s16 indoorBgCamIndexPlusOne) {
-    ASSERT(indoorBgCamIndexPlusOne == (INDOOR_BGCAM_FIXED + 1) || indoorBgCamIndexPlusOne == (INDOOR_BGCAM_PIVOT + 1),
-           "point == 1 || point == 2", "../z_play.c", 2160);
+void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
+    ASSERT(viewpoint == VIEWPOINT_FIXED || viewpoint == VIEWPOINT_PIVOT, "point == 1 || point == 2", "../z_play.c",
+           2160);
 
-    this->indoorBgCamIndexPlusOne = indoorBgCamIndexPlusOne;
+    this->viewpoint = viewpoint;
 
-    if ((R_CAM_SCENE_TYPE != CAM_SCENE_SHOP) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    if ((R_SCENE_TYPE != SCENE_TYPE_SHOP) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         // C-Up toggle the camera inside a house
-        Audio_PlaySoundGeneral(
-            (indoorBgCamIndexPlusOne == (INDOOR_BGCAM_FIXED + 1)) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
-            &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySoundGeneral((viewpoint == VIEWPOINT_FIXED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
+                               &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultReverb);
     }
 
-    Play_ChangeIndoorBgCamIndex(this);
+    Play_ChangeViewpointBgCamIndex(this);
 }
 
 /**
  * @return true if the currently set indoorBgCamIndex is the same as the one provided in the argument
  */
-s32 Play_CheckIndoorBgCamIndex(PlayState* this, s16 indoorBgCamIndexPlusOne) {
-    return (indoorBgCamIndexPlusOne == this->indoorBgCamIndexPlusOne);
+s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint) {
+    return (viewpoint == this->viewpoint);
 }
 
 /**
  * If the scene is a shop, set the bgCamIndex that will toggle the camera
  * to switch to a "browsing item selection" setting.
  */
-void Play_SetShopBrowsingBgCamIndex(PlayState* this) {
+void Play_SetShopBrowsingViewpoint(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
 
-    if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
-        this->indoorBgCamIndexPlusOne = INDOOR_BGCAM_PIVOT + 1;
+    if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
+        this->viewpoint = VIEWPOINT_PIVOT;
     }
 }
 
@@ -405,12 +405,12 @@ void Play_Init(GameState* thisx) {
     }
 
     // Init Indoor BgCam
-    if (R_CAM_SCENE_TYPE == CAM_SCENE_HOUSE) {
-        this->indoorBgCamIndexPlusOne = INDOOR_BGCAM_PIVOT + 1; // default to pivot camera
-    } else if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
-        this->indoorBgCamIndexPlusOne = INDOOR_BGCAM_FIXED + 1; // default to fixed camera
+    if (R_SCENE_TYPE == SCENE_TYPE_HOUSE) {
+        this->viewpoint = VIEWPOINT_PIVOT; // default to pivot camera
+    } else if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
+        this->viewpoint = VIEWPOINT_FIXED; // default to fixed camera
     } else {
-        this->indoorBgCamIndexPlusOne = 0;
+        this->viewpoint = 0;
     }
 
     Interface_SetSceneRestrictions(this);
@@ -954,7 +954,7 @@ void Play_Update(PlayState* this) {
             }
 
             // Update Indoor BgCam
-            if (this->indoorBgCamIndexPlusOne != 0) {
+            if (this->viewpoint != 0) {
                 // C-Up toggle indoor camera
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
@@ -963,17 +963,17 @@ void Play_Update(PlayState* this) {
                     } else if (Player_InCsMode(this)) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
-                    } else if (R_CAM_SCENE_TYPE == CAM_SCENE_SHOP) {
+                    } else if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
                         // Can't C-Up toggle camera setting in a shop
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
                         // C-Up toggle for houses, move between pivot camera and fixed camera
-                        // `^ 3` toggles between 1 <-> 2 (INDOOR_BGCAM_FIXED <-> INDOOR_BGCAM_PIVOT)
-                        Play_SetIndoorBgCamIndex(this, this->indoorBgCamIndexPlusOne ^ 3);
+                        // `^ 3` toggles between 1 <-> 2 (VIEWPOINT_FIXED <-> VIEWPOINT_PIVOT)
+                        Play_SetViewpoint(this, this->viewpoint ^ 3);
                     }
                 }
-                Play_ChangeIndoorBgCamIndex(this);
+                Play_ChangeViewpointBgCamIndex(this);
             }
 
             if (1 && HREG(63)) {
@@ -1503,7 +1503,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);
     func_80096FD4(this, &this->roomCtx.curRoom);
-    R_CAM_SCENE_TYPE = CAM_SCENE_DEFAULT;
+    R_SCENE_TYPE = SCENE_TYPE_DEFAULT;
     gSaveContext.worldMapArea = 0;
     Scene_ExecuteCommands(this, this->sceneSegment);
     Play_InitEnvironment(this, this->skyboxId);
@@ -1823,8 +1823,8 @@ void Play_TriggerRespawn(PlayState* this) {
 }
 
 s32 func_800C0CB8(PlayState* this) {
-    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_11) && (R_CAM_SCENE_TYPE != CAM_SCENE_HOUSE) &&
-           (R_CAM_SCENE_TYPE != CAM_SCENE_FIXED) && (R_CAM_SCENE_TYPE != CAM_SCENE_PIVOT) &&
+    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) && (R_SCENE_TYPE != SCENE_TYPE_HOUSE) &&
+           (R_SCENE_TYPE != SCENE_TYPE_FIXED) && (R_SCENE_TYPE != SCENE_TYPE_PIVOT) &&
            (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 

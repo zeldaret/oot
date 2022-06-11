@@ -113,9 +113,9 @@ typedef enum {
     /* 24 */ DEATH_FINISH
 } BossVaCutscene;
 
-void BossVa_Init(Actor* thisx, PlayState* play);
+void BossVa_Init(Actor* thisx, PlayState* play2);
 void BossVa_Destroy(Actor* thisx, PlayState* play);
-void BossVa_Update(Actor* thisx, PlayState* play);
+void BossVa_Update(Actor* thisx, PlayState* play2);
 void BossVa_Draw(Actor* thisx, PlayState* play);
 
 void BossVa_UpdateEffects(PlayState* play);

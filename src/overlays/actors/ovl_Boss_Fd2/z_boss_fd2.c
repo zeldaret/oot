@@ -29,7 +29,7 @@ typedef enum {
 
 void BossFd2_Init(Actor* thisx, PlayState* play);
 void BossFd2_Destroy(Actor* thisx, PlayState* play);
-void BossFd2_Update(Actor* thisx, PlayState* play);
+void BossFd2_Update(Actor* thisx, PlayState* play2);
 void BossFd2_Draw(Actor* thisx, PlayState* play);
 
 void BossFd2_SetupEmerge(BossFd2* this, PlayState* play);

@@ -7,7 +7,7 @@
 
 void BossDodongo_Init(Actor* thisx, PlayState* play);
 void BossDodongo_Destroy(Actor* thisx, PlayState* play);
-void BossDodongo_Update(Actor* thisx, PlayState* play);
+void BossDodongo_Update(Actor* thisx, PlayState* play2);
 void BossDodongo_Draw(Actor* thisx, PlayState* play);
 
 void BossDodongo_SetupIntroCutscene(BossDodongo* this, PlayState* play);
