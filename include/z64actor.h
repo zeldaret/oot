@@ -64,7 +64,10 @@ typedef struct {
  * Absolute space is a fixed amount of memory allocated once.
  * The overlay will still need to be loaded again if at some point there is no more actor using the overlay.
  *
- * @note Only one such overlay may be loaded at a time. This is not cleanly asserted.
+ * @note Only one such overlay may be loaded at a time.
+ * This is not checked: a newly loaded overlay will overwrite the previous one in absolute space,
+ * even if actors are still relying on the previous one. Actors using absolute-allocated overlays should be deleted
+ * when another absolute-allocated overlay is about to be used.
  *
  * @see ACTOR_OVERLAY_ABSOLUTE_SPACE_SIZE
  * @see ActorContext.absoluteSpace
