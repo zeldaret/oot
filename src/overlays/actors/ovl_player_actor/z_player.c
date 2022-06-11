@@ -12378,11 +12378,11 @@ void func_8084EAC0(Player* this, PlayState* play) {
     }
 }
 
-static BottleCatchInfo D_80854A04[] = {
-    { ACTOR_EN_ELF, ITEM_FAIRY, 0x2A, 0x46 },
-    { ACTOR_EN_FISH, ITEM_FISH, 0x1F, 0x47 },
-    { ACTOR_EN_ICE_HONO, ITEM_BLUE_FIRE, 0x20, 0x5D },
-    { ACTOR_EN_INSECT, ITEM_BUG, 0x21, 0x7A },
+static BottleCatchInfo sBottleCatchInfo[] = {
+    { ACTOR_EN_ELF, ITEM_FAIRY, PLAYER_AP_BOTTLE_FAIRY, 0x46 },
+    { ACTOR_EN_FISH, ITEM_FISH, PLAYER_AP_BOTTLE_FISH, 0x47 },
+    { ACTOR_EN_ICE_HONO, ITEM_BLUE_FIRE, PLAYER_AP_BOTTLE_FIRE, 0x5D },
+    { ACTOR_EN_INSECT, ITEM_BUG, PLAYER_AP_BOTTLE_BUG, 0x7A },
 };
 
 void func_8084ECA4(Player* this, PlayState* play) {
@@ -12397,7 +12397,7 @@ void func_8084ECA4(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->unk_84F != 0) {
             if (this->unk_850 == 0) {
-                Message_StartTextbox(play, D_80854A04[this->unk_84F - 1].textId, &this->actor);
+                Message_StartTextbox(play, sBottleCatchInfo[this->unk_84F - 1].textId, &this->actor);
                 Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
                 this->unk_850 = 1;
             } else if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
@@ -12405,6 +12405,7 @@ void func_8084ECA4(Player* this, PlayState* play) {
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
+            // Changes the animation, which causes the bug at the bottom of the function.
             func_8083C0E8(this, play);
         }
     } else {
@@ -12420,14 +12421,14 @@ void func_8084ECA4(Player* this, PlayState* play) {
                     }
 
                     if (this->interactRangeActor != NULL) {
-                        catchInfo = &D_80854A04[0];
-                        for (i = 0; i < 4; i++, catchInfo++) {
+                        catchInfo = &sBottleCatchInfo[0];
+                        for (i = 0; i < ARRAY_COUNT(sBottleCatchInfo); i++, catchInfo++) {
                             if (this->interactRangeActor->id == catchInfo->actorId) {
                                 break;
                             }
                         }
 
-                        if (i < 4) {
+                        if (i < ARRAY_COUNT(sBottleCatchInfo)) {
                             this->unk_84F = i + 1;
                             this->unk_850 = 0;
                             this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
@@ -12442,6 +12443,8 @@ void func_8084ECA4(Player* this, PlayState* play) {
         }
     }
 
+    //! @bug because func_8083C0E8 will change the animation and execution passes through here afterwards, this check
+    //! can pass for a single frame of the new animation the final time this function runs in a swing.
     if (this->skelAnime.curFrame <= 7.0f) {
         this->stateFlags1 |= PLAYER_STATE1_SWINGING_BOTTLE;
     }
