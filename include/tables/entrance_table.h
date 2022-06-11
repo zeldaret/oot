@@ -7,8 +7,8 @@
  *    - Argument 3: Spawn number for this entrance
  *    - Argument 4: Toggle if bgm should continue during the transition using this entrance (true or false)
  *    - Argument 5: Toggle if a title card should display when using this entrance (true or false)
- *    - Argument 6: Transition type when entering using this entrance
- *    - Argument 7: Transition type when exiting using this entrance
+ *    - Argument 6: Default transition type when entering using this entrance (second half of a scene transition)
+ *    - Argument 7: Default transition type when exiting using this entrance (first half of a scene transition)
  * 
  * WARNING: Due to how the entrance system is implemented, entries within the same group of scene setups are NOT shiftable.
  *          Groups of scene setups are indicated by line breaks.
