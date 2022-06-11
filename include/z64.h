@@ -1344,6 +1344,7 @@ typedef struct {
     /* 0x24 */ s16 unk_24;
 } struct_80034A14_arg1; // size = 0x28
 
+// Macros for `EntranceInfo.field`
 #define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
 #define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
 #define ENTRANCE_INFO_END_TRANSITION_TYPE_MASK 0x3F80
