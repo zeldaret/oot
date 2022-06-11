@@ -24,15 +24,15 @@
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 // Entrance Table definition
-#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, defaultEndTransitionType,  \
-                        defaultStartTransitionType)                                                 \
-    { scene, spawn,                                                                                 \
-      (((continueBgm) ? ENTRANCE_INFO_FIELD_CONTINUE_BGM_FLAG : 0) |                                \
-       ((displayTitleCard) ? ENTRANCE_INFO_FIELD_DISPLAY_TITLE_CARD_FLAG : 0) |                     \
-       (((defaultEndTransitionType) << ENTRANCE_INFO_FIELD_DEFAULT_END_TRANSITION_TYPE_SHIFT) &     \
-        ENTRANCE_INFO_FIELD_DEFAULT_END_TRANSITION_TYPE_MASK) |                                     \
-       (((defaultStartTransitionType) << ENTRANCE_INFO_FIELD_DEFAULT_START_TRANSITION_TYPE_SHIFT) & \
-        ENTRANCE_INFO_FIELD_DEFAULT_START_TRANSITION_TYPE_MASK)) },
+#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, defaultEndTransitionType, \
+                        defaultStartTransitionType)                                                \
+    { scene, spawn,                                                                                \
+      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                     \
+       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                          \
+       (((defaultEndTransitionType) << ENTRANCE_INFO_DEFAULT_END_TRANSITION_TYPE_SHIFT) &          \
+        ENTRANCE_INFO_DEFAULT_END_TRANSITION_TYPE_MASK) |                                          \
+       (((defaultStartTransitionType) << ENTRANCE_INFO_DEFAULT_START_TRANSITION_TYPE_SHIFT) &      \
+        ENTRANCE_INFO_DEFAULT_START_TRANSITION_TYPE_MASK)) },
 
 EntranceInfo gEntranceTable[] = {
 #include "tables/entrance_table.h"
@@ -96,7 +96,7 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
         }
     }
 
-    play->transitionType = ENTRANCE_INFO_FIELD_DEFAULT_START_TRANSITION_TYPE(gEntranceTable[entranceIndex].field);
+    play->transitionType = ENTRANCE_INFO_DEFAULT_START_TRANSITION_TYPE(gEntranceTable[entranceIndex].field);
 }
 
 void Scene_DrawConfigDefault(PlayState* play) {
