@@ -109,6 +109,6 @@ with tempfile.TemporaryDirectory(prefix="asm_processor") as tmpdirname:
                 f.write("\n" + dep + ":\n")
     else:
         try:
-            deps_file.unlink(missing_ok=True)
+            deps_file.unlink()
         except OSError:
             pass
