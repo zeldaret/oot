@@ -5,7 +5,7 @@
  */
 
 #include "z_en_jj.h"
-#include "objects/object_jj/object_jj.h"
+#include "assets/objects/object_jj/object_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)

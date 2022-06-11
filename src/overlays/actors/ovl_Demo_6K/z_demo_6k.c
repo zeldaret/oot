@@ -6,9 +6,9 @@
 
 #include "z_demo_6k.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_demo_6k/object_demo_6k.h"
-#include "objects/object_gnd_magic/object_gnd_magic.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_demo_6k/object_demo_6k.h"
+#include "assets/objects/object_gnd_magic/object_gnd_magic.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #define FLAGS ACTOR_FLAG_4

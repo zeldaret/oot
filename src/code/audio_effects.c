@@ -243,7 +243,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
             adsr->envIndex = 0;
             adsr->action.s.state = ADSR_STATE_LOOP;
             FALLTHROUGH;
-        retry:
+        retry:;
         case ADSR_STATE_LOOP:
             adsr->delay = adsr->envelope[adsr->envIndex].delay;
             switch (adsr->delay) {

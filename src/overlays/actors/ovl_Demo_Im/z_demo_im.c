@@ -7,8 +7,8 @@
 #include "z_demo_im.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "scenes/indoors/nakaniwa/nakaniwa_scene.h"
-#include "objects/object_im/object_im.h"
+#include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
+#include "assets/objects/object_im/object_im.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
