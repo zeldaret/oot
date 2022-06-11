@@ -58,6 +58,7 @@ typedef struct {
  * @see actor_table.h
  */
 #define ACTOROVL_ALLOC_NORMAL 0
+
 /**
  * The actor overlay should be loaded to "absolute space".
  *
@@ -74,6 +75,7 @@ typedef struct {
  * @see ACTOROVL_ALLOC_NORMAL
  */
 #define ACTOROVL_ALLOC_ABSOLUTE (1 << 0)
+
 /**
  * The actor overlay should be loaded persistently.
  * It will stay loaded until the current game state instance ends.
