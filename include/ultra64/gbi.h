@@ -1077,10 +1077,10 @@ typedef union {
 #define FPART(x)  ((s32)((x) * 0x10000) & 0xFFFF)
 
 #define gdSPDefMtx( \
-        xx, xy, xz, xw, \
-        yx, yy, yz, yw, \
-        zx, zy, zz, zw, \
-        wx, wy, wz, ww) \
+        xx, yx, zx, wx, \
+        xy, yy, zy, wy, \
+        xz, yz, zz, wz, \
+        xw, yw, zw, ww) \
     { { \
         (IPART(xx) << 16) | IPART(xy), \
         (IPART(xz) << 16) | IPART(xw), \
@@ -1301,26 +1301,27 @@ typedef union {
  */
 
 typedef struct {
-  unsigned char col[3];     /* diffuse light value (rgba) */
-  char          pad1;
-  unsigned char colc[3];    /* copy of diffuse light value (rgba) */
-  char          pad2;
-  signed char   dir[3];     /* direction of light (normalized) */
-  char          pad3;
+    unsigned char col[3];   /* diffuse light value (rgba) */
+    char          pad1;
+    unsigned char colc[3];  /* copy of diffuse light value (rgba) */
+    char          pad2;
+    signed char   dir[3];   /* direction of light (normalized) */
+    char          pad3;
 } Light_t;
 
 typedef struct {
-  unsigned char col[3];     /* ambient light value (rgba) */
-  char          pad1;
-  unsigned char colc[3];    /* copy of ambient light value (rgba) */
-  char          pad2;
+    unsigned char col[3];   /* ambient light value (rgba) */
+    char          pad1;
+    unsigned char colc[3];  /* copy of ambient light value (rgba) */
+    char          pad2;
 } Ambient_t;
 
 typedef struct {
-  int x1;
-  int y1;
-  int x2;
-  int y2;   /* texture offsets for highlight 1/2 */
+    /* texture offsets for highlight 1/2 */
+    int x1;
+    int y1;
+    int x2;
+    int y2;
 } Hilite_t;
 
 typedef union {
@@ -1660,10 +1661,11 @@ typedef struct {
     unsigned int type : 8;
     unsigned int len  : 16;
     union {
-        void (*callback)();
-        const char* str;
+        void       (*callback)();
+        const char*  str;
         unsigned int u32;
         float        f32;
+        void*        addr;
     } value;
 } Gnoop;
 
@@ -1676,6 +1678,16 @@ typedef struct {
     unsigned int len : 16;
     unsigned int addr;
 } Gdma;
+
+#ifdef F3DEX_GBI_2
+typedef struct {
+    int          cmd : 8;
+    unsigned int len : 8;
+    unsigned int ofs : 8;
+    unsigned int par : 8;
+    unsigned int addr;
+} Gdma2;
+#endif
 
 /*
  *  Graphics Moveword Packet
@@ -1709,49 +1721,36 @@ typedef struct {
 
 #if (defined(F3DLP_GBI) || defined(F3DEX_GBI))
 typedef struct {
-    Tri tri1;
+    Tri tri1; /* flag is the command byte */
     Tri tri2;
 } Gtri2;
-#endif
 
 typedef struct {
-    unsigned char pad  : 8;
-    unsigned char v0   : 8;
-    unsigned char v1   : 8;
-    unsigned char v2   : 8;
-    unsigned char pad1 : 8;
-    unsigned char pad2 : 8;
-    unsigned char pad3 : 8;
-    unsigned char v3   : 8;
+    Tri tri1; /* flag is the command byte */
+    Tri tri2;
 } Gquad;
 
 typedef struct {
-    unsigned short pad;
-    unsigned short vstart;
+    int            cmd : 8;
+    unsigned int   pad : 8;
+    unsigned short vstart_x2;
     unsigned short pad2;
-    unsigned short vend;
+    unsigned short vend_x2;
 } Gcull;
+#endif
 
 typedef struct {
-    unsigned short pad;
-    unsigned short vstart;
-    unsigned short pad2;
-    unsigned short vend;
-} Gbranchz;
-
-typedef struct {
-    int          cmd : 8;
-    unsigned int pad : 24;
+    int            cmd : 8;
+    unsigned int   pad : 24;
     unsigned short z;
     unsigned short dz;
 } Gsetprimdepth;
 
-typedef struct {
-    int          cmd    : 8;
-    unsigned int pad    : 16;
-    unsigned int params : 8;
-    unsigned int addr;
-} Gmatrix;
+#ifdef F3DEX_GBI_2
+typedef Gdma2 Gmatrix;
+#else
+typedef Gdma Gmatrix;
+#endif
 
 typedef struct {
     int           cmd   : 8;
@@ -1959,13 +1958,18 @@ typedef struct {
     unsigned long w3;
 } TexRect;
 
+#ifdef F3DEX_GBI_2
 typedef struct {
     int           cmd  : 8;
     unsigned int  pad  : 4;
-    unsigned int  numv : 8;
-    int           pad2 : 4;
-    unsigned char vbidx;
+    unsigned int  len  : 8; // n
+    unsigned int  pad2 : 4;
+    unsigned char par;      // v0
+    unsigned int  addr;
 } Gvtx;
+#else
+typedef Gdma Gvtx;
+#endif
 
 /*
  * Generic Gfx Packet
@@ -1984,12 +1988,15 @@ typedef union {
     Gnoop           noop;
     Gmatrix         matrix;
     Gdma            dma;
+#ifdef F3DEX_GBI_2
+    Gdma2           dma2;
+#endif
     Gvtx            vtx;
     Gtri            tri;
 #if (defined(F3DLP_GBI) || defined(F3DEX_GBI))
     Gtri2           tri2;
-#endif
     Gquad           quad;
+#endif
     Gline3D         line;
     Gcull           cull;
     Gmovewd         movewd;
@@ -3151,8 +3158,8 @@ _DW({                                                           \
     _SHIFTL((level),    11, 3) |            \
     _SHIFTL((tile),      8, 3) |            \
     _SHIFTL((on),        1, 7)),            \
-   (_SHIFTL((s), 16,16) |                   \
-    _SHIFTL((t),  0,16))                    \
+   (_SHIFTL((s), 16, 16) |                  \
+    _SHIFTL((t),  0, 16))                   \
 }
 
 /*
@@ -3602,26 +3609,34 @@ _DW({                                   \
             _SHIFTL(b,  8, 8) |         \
             _SHIFTL(a,  0, 8)))
 
-#define gDPSetEnvColor(pkt, r, g, b, a)             \
-            DPRGBColor(pkt, G_SETENVCOLOR, r,g,b,a)
-#define gsDPSetEnvColor(r, g, b, a)                 \
-            sDPRGBColor(    G_SETENVCOLOR, r,g,b,a)
-#define gDPSetBlendColor(pkt, r, g, b, a)           \
-            DPRGBColor(pkt, G_SETBLENDCOLOR, r,g,b,a)
-#define gsDPSetBlendColor(r, g, b, a)               \
-            sDPRGBColor(    G_SETBLENDCOLOR, r,g,b,a)
-#define gDPSetFogColor(pkt, r, g, b, a)             \
-            DPRGBColor(pkt, G_SETFOGCOLOR, r,g,b,a)
-#define gsDPSetFogColor(r, g, b, a)                 \
-            sDPRGBColor(    G_SETFOGCOLOR, r,g,b,a)
-#define gDPSetFillColor(pkt, d)                     \
+#define gDPSetEnvColor(pkt, r, g, b, a) \
+            DPRGBColor(pkt, G_SETENVCOLOR,   r, g, b, a)
+
+#define gsDPSetEnvColor(r, g, b, a) \
+            sDPRGBColor(    G_SETENVCOLOR,   r, g, b, a)
+
+#define gDPSetBlendColor(pkt, r, g, b, a) \
+            DPRGBColor(pkt, G_SETBLENDCOLOR, r, g, b, a)
+
+#define gsDPSetBlendColor(r, g, b, a) \
+            sDPRGBColor(    G_SETBLENDCOLOR, r, g, b, a)
+
+#define gDPSetFogColor(pkt, r, g, b, a) \
+            DPRGBColor(pkt, G_SETFOGCOLOR,   r, g, b, a)
+
+#define gsDPSetFogColor(r, g, b, a) \
+            sDPRGBColor(    G_SETFOGCOLOR,   r, g, b, a)
+
+#define gDPSetFillColor(pkt, d) \
             gDPSetColor(pkt, G_SETFILLCOLOR, (d))
-#define gsDPSetFillColor(d)                         \
+
+#define gsDPSetFillColor(d) \
             gsDPSetColor(    G_SETFILLCOLOR, (d))
 
 #define gDPSetPrimDepth(pkt, z, dz)                         \
         gDPSetColor(pkt, G_SETPRIMDEPTH,                    \
                     _SHIFTL(z, 16, 16) | _SHIFTL(dz, 0, 16))
+
 #define gsDPSetPrimDepth(z, dz)                             \
         gsDPSetColor(G_SETPRIMDEPTH,                        \
                     _SHIFTL(z, 16, 16) | _SHIFTL(dz, 0, 16))
@@ -4730,14 +4745,13 @@ _DW({                                                               \
 
 #ifndef _HW_VERSION_1
 
-#define gsDPLoadTLUT(count, tmemaddr, dram)             \
-                                    \
+#define gsDPLoadTLUT(count, tmemaddr, dram)                     \
     gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dram),  \
-    gsDPTileSync(),                         \
-    gsDPSetTile(0, 0, 0, tmemaddr,                  \
-        G_TX_LOADTILE, 0 , 0, 0, 0, 0, 0, 0),           \
-    gsDPLoadSync(),                         \
-    gsDPLoadTLUTCmd(G_TX_LOADTILE, ((count)-1)),            \
+    gsDPTileSync(),                                             \
+    gsDPSetTile(0, 0, 0, tmemaddr,                              \
+                G_TX_LOADTILE, 0 , 0, 0, 0, 0, 0, 0),           \
+    gsDPLoadSync(),                                             \
+    gsDPLoadTLUTCmd(G_TX_LOADTILE, ((count) - 1)),              \
     gsDPPipeSync()
 
 #else /* **** WORKAROUND hardware 1 load_tlut bug ****** */
@@ -5001,10 +5015,10 @@ _DW({                                                                           
    (_SHIFTL(tile, 24,  3) |                                             \
     _SHIFTL(xl,   12, 12) |                                             \
     _SHIFTL(yl,    0, 12)),                                             \
-    gsImmp1(G_RDPHALF_1,                                                \
+   gsImmp1(G_RDPHALF_1,                                                 \
        (_SHIFTL(s, 16, 16) |                                            \
         _SHIFTL(t,  0, 16))),                                           \
-    gsImmp1(G_RDPHALF_2,                                                \
+   gsImmp1(G_RDPHALF_2,                                                 \
        (_SHIFTL(dsdx, 16, 16) |                                         \
         _SHIFTL(dtdy,  0, 16)))
 
@@ -5018,10 +5032,10 @@ _DW({                                                                       \
     _g->words.w1 = (_SHIFTL(tile, 24,  3) |                                 \
                     _SHIFTL(xl,   12, 12) |                                 \
                     _SHIFTL(yl,    0, 12));                                 \
-    gImmp1(pkt, G_RDPHALF_1,                                                \
+   gImmp1(pkt, G_RDPHALF_1,                                                 \
        (_SHIFTL(s, 16, 16) |                                                \
         _SHIFTL(t,  0, 16)));                                               \
-    gImmp1(pkt, G_RDPHALF_2,                                                \
+   gImmp1(pkt, G_RDPHALF_2,                                                 \
        (_SHIFTL(dsdx, 16, 16) |                                             \
         _SHIFTL(dtdy,  0, 16)));                                            \
 })
@@ -5037,7 +5051,7 @@ _DW({                                                                           
     _g->words.w1 = (_SHIFTL((tile),           24,  3) |                             \
                     _SHIFTL(MAX((s16)(xl),0), 12, 12) |                             \
                     _SHIFTL(MAX((s16)(yl),0),  0, 12));                             \
-    gImmp1(pkt, G_RDPHALF_1,                                                        \
+   gImmp1(pkt, G_RDPHALF_1,                                                         \
        (_SHIFTL(((s) -                                                              \
                    (((s16)(xl)   < 0) ?                                             \
                    (((s16)(dsdx) < 0) ?                                             \
@@ -5048,7 +5062,7 @@ _DW({                                                                           
                    (((s16)(dtdy) < 0) ?                                             \
                     (MAX((((s16)(yl) * (s16)(dtdy)) >> 7), 0))  :                   \
                     (MIN((((s16)(yl) * (s16)(dtdy)) >> 7), 0))) : 0)),  0, 16)));   \
-    gImmp1(pkt, G_RDPHALF_2,                                                        \
+   gImmp1(pkt, G_RDPHALF_2,                                                         \
        (_SHIFTL((dsdx), 16, 16) |                                                   \
         _SHIFTL((dtdy),  0, 16)));                                                  \
 })
@@ -5060,10 +5074,10 @@ _DW({                                                                           
    (_SHIFTL(tile, 24,  3) |                                                 \
     _SHIFTL(xl,   12, 12) |                                                 \
     _SHIFTL(yl,    0, 12)),                                                 \
-    gsImmp1(G_RDPHALF_1,                                                    \
+   gsImmp1(G_RDPHALF_1,                                                     \
        (_SHIFTL(s, 16, 16) |                                                \
         _SHIFTL(t,  0, 16))),                                               \
-    gsImmp1(G_RDPHALF_2,                                                    \
+   gsImmp1(G_RDPHALF_2,                                                     \
        (_SHIFTL(dsdx, 16, 16) |                                             \
         _SHIFTL(dtdy,  0, 16)))
 
@@ -5077,10 +5091,10 @@ _DW({                                                                           
     _g->words.w1 = (_SHIFTL(tile, 24,  3) |                                     \
                     _SHIFTL(xl,   12, 12) |                                     \
                     _SHIFTL(yl,    0, 12));                                     \
-    gImmp1(pkt, G_RDPHALF_1,                                                    \
+   gImmp1(pkt, G_RDPHALF_1,                                                     \
        (_SHIFTL(s, 16, 16) |                                                    \
         _SHIFTL(t,  0, 16)));                                                   \
-    gImmp1(pkt, G_RDPHALF_2,                                                    \
+   gImmp1(pkt, G_RDPHALF_2,                                                     \
        (_SHIFTL(dsdx, 16, 16) |                                                 \
         _SHIFTL(dtdy,  0, 16)));                                                \
 })
@@ -5107,8 +5121,8 @@ _DW({                                                   \
 #define gsDPLoadSync()          gsDPNoParam(    G_RDPLOADSYNC)
 #define gDPNoOp(pkt)            gDPNoParam(pkt, G_NOOP)
 #define gsDPNoOp()              gsDPNoParam(    G_NOOP)
-#define gDPNoOpTag(pkt, tag)    gDPParam(pkt, G_NOOP, tag)
-#define gsDPNoOpTag(tag)        gsDPParam(    G_NOOP, tag)
+#define gDPNoOpTag(pkt, tag)    gDPParam(pkt,   G_NOOP, tag)
+#define gsDPNoOpTag(tag)        gsDPParam(      G_NOOP, tag)
 
 #define gDPNoOpHere(pkt, file, line)        gDma1p(pkt, G_NOOP, file, line, 1)
 #define gDPNoOpString(pkt, data, n)         gDma1p(pkt, G_NOOP, data, n, 2)

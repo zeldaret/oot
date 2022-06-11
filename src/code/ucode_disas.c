@@ -168,7 +168,7 @@ void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
     }
 }
 
-void UCodeDisas_GeometryModeStr(UCodeDisas* this, u32 mode) {
+void UCodeDisas_PrintGeometryMode(UCodeDisas* this, u32 mode) {
     u32 first = true;
     s32 i;
 
@@ -187,7 +187,7 @@ void UCodeDisas_GeometryModeStr(UCodeDisas* this, u32 mode) {
     }
 }
 
-void UCodeDisas_RenderModeStr(UCodeDisas* this, u32 mode) {
+void UCodeDisas_PrintRenderMode(UCodeDisas* this, u32 mode) {
     static F3dzexRenderMode sUCodeDisasRenderModeFlags[] = {
         F3DZEX_RENDERMODE(AA_EN, 0x8),
         F3DZEX_RENDERMODE(Z_CMP, 0x10),
@@ -279,8 +279,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
         DISAS_LOG("%08x:", ptr);
 
         *curGfx = *ptr;
-        cmd = curGfx->dma.cmd;
-        addr = UCodeDisas_TranslateAddr(this, curGfx->dma.addr);
+        cmd = curGfx->noop.cmd;
+        addr = UCodeDisas_TranslateAddr(this, curGfx->noop.value.addr);
 
         DISAS_LOG("%08x-%08x:", curGfx->words.w0, curGfx->words.w1);
 
@@ -490,12 +490,12 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
                 if (sft == G_MDSFT_RENDERMODE) {
                     DISAS_LOG("\ngsDPSetRenderBlender(");
-                    UCodeDisas_RenderModeStr(this, s2);
+                    UCodeDisas_PrintRenderMode(this, s2);
                     DISAS_LOG("\n),");
                 } else {
                     for (j = 0; j * 1 < ARRAY_COUNTU(sUCodeDisasModeLMacros); j++) {
                         if (sft == sUCodeDisasModeLMacros[j].shift) {
-                            for (k = 0; k < 4; k++) {
+                            for (k = 0; k < ARRAY_COUNTU(sUCodeDisasModeLMacros[j].values); k++) {
                                 if (s2 == sUCodeDisasModeLMacros[j].values[k].value) {
                                     DISAS_LOG("gsDP%s(%s),", sUCodeDisasModeLMacros[j].name,
                                               sUCodeDisasModeLMacros[j].values[k].name);
@@ -635,7 +635,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
             } break;
 
             case G_SETFILLCOLOR: {
-                DISAS_LOG("gsDPSetFillColor(0x%08x),", curGfx->words.w1);
+                DISAS_LOG("gsDPSetFillColor(0x%08x),", curGfx->setcolor.color);
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -752,7 +752,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
                                 DISAS_LOG("gsSPMatrix(0x%08x(%08x), 0", gmtx.addr, addr);
 
-                                params = gmtx.params ^ G_MTX_PUSH;
+                                params = gmtx.par ^ G_MTX_PUSH;
 
                                 for (; j != ARRAY_COUNT(sUCodeDisasMtxFlags); j++) {
                                     DISAS_LOG("|%s", (sUCodeDisasMtxFlags[j].value & params)
@@ -802,9 +802,9 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
                                 numv >>= 12;
                                 numv &= 0xFF;
-                                vbidx = (curGfx->vtx.vbidx >> 1) - numv;
+                                vbidx = (curGfx->vtx.par >> 1) - numv;
 
-                                DISAS_LOG("gsSPVertex(0x%08x(0x%08x), %d, %d),", curGfx->words.w1, addr, numv, vbidx);
+                                DISAS_LOG("gsSPVertex(0x%08x(0x%08x), %d, %d),", curGfx->vtx.addr, addr, numv, vbidx);
 
                                 this->vtxCnt += numv;
                                 this->spvtxCnt++;
@@ -871,10 +871,10 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                                 Gquad quad = ptr->quad;
                                 u32 v0, v1, v2, v3;
 
-                                v0 = quad.v0 / 2;
-                                v1 = quad.v1 / 2;
-                                v2 = quad.v2 / 2;
-                                v3 = quad.v3 / 2;
+                                v0 = quad.tri1.v[0] / 2;
+                                v1 = quad.tri1.v[1] / 2;
+                                v2 = quad.tri1.v[2] / 2;
+                                v3 = quad.tri2.v[2] / 2;
 
                                 DISAS_LOG("gsSP1Quadrangle(%d, %d, %d, %d, 0),", v0, v1, v2, v3);
 
@@ -883,8 +883,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                             } break;
 
                             case G_CULLDL: {
-                                DISAS_LOG("gsSPCullDisplayList(%d, %d),", (curGfx->cull.vstart) / 2,
-                                          (curGfx->cull.vend) / 2);
+                                DISAS_LOG("gsSPCullDisplayList(%d, %d),", (curGfx->cull.vstart_x2) / 2,
+                                          (curGfx->cull.vend_x2) / 2);
                             } break;
 
                             case G_BRANCH_Z: {
@@ -923,21 +923,21 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
                                 if (clearbits == 0) {
                                     DISAS_LOG("gsSPLoadGeometryMode(");
-                                    UCodeDisas_GeometryModeStr(this, setbits);
+                                    UCodeDisas_PrintGeometryMode(this, setbits);
                                     DISAS_LOG("),");
                                 } else if (setbits == 0) {
                                     DISAS_LOG("gsSPClearGeometryMode(");
-                                    UCodeDisas_GeometryModeStr(this, ~clearbits);
+                                    UCodeDisas_PrintGeometryMode(this, ~clearbits);
                                     DISAS_LOG("),");
                                 } else if (clearbits == 0xFFFFFF) {
                                     DISAS_LOG("gsSPSetGeometryMode(");
-                                    UCodeDisas_GeometryModeStr(this, setbits);
+                                    UCodeDisas_PrintGeometryMode(this, setbits);
                                     DISAS_LOG("),");
                                 } else {
                                     DISAS_LOG("gsSPGeometryMode(");
-                                    UCodeDisas_GeometryModeStr(this, ~clearbits);
+                                    UCodeDisas_PrintGeometryMode(this, ~clearbits);
                                     DISAS_LOG(", ");
-                                    UCodeDisas_GeometryModeStr(this, setbits);
+                                    UCodeDisas_PrintGeometryMode(this, setbits);
                                     DISAS_LOG("),");
                                 }
 
@@ -1021,7 +1021,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
                                             default: {
                                                 DISAS_LOG("gsSPLight(0x%08x,%d),", movemem.data,
-                                                          (movemem.offset * 8 - 24) / 24);
+                                                          (movemem.offset * 8 - 0x18) / 0x18);
                                             } break;
                                         }
                                     } break;
