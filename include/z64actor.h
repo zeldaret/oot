@@ -7,7 +7,9 @@
 #include "z64collision_check.h"
 
 #define ACTOR_NUMBER_MAX 200
+
 #define INVISIBLE_ACTOR_MAX 20
+
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
