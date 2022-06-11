@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_ydan_hasi.h"
-#include "objects/object_ydan_objects/object_ydan_objects.h"
+#include "assets/objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

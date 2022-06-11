@@ -5,7 +5,7 @@
  */
 
 #include "z_en_brob.h"
-#include "objects/object_brob/object_brob.h"
+#include "assets/objects/object_brob/object_brob.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 

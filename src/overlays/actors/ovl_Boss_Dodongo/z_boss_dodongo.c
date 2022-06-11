@@ -1,7 +1,7 @@
 #include "z_boss_dodongo.h"
-#include "objects/object_kingdodongo/object_kingdodongo.h"
+#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
+#include "assets/scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -16,7 +16,7 @@ void BossDodongo_Walk(BossDodongo* this, PlayState* play);
 void BossDodongo_Inhale(BossDodongo* this, PlayState* play);
 void BossDodongo_BlowFire(BossDodongo* this, PlayState* play);
 void BossDodongo_Roll(BossDodongo* this, PlayState* play);
-void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 arg2);
+void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params);
 void BossDodongo_Explode(BossDodongo* this, PlayState* play);
 void BossDodongo_LayDown(BossDodongo* this, PlayState* play);
 void BossDodongo_Vulnerable(BossDodongo* this, PlayState* play);
@@ -55,7 +55,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
-    if (arg2[arg1] != 0) {
+    if (arg1[arg2] != 0) {
         arg0[arg2 / 2] = 0;
     }
 }

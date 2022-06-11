@@ -1,5 +1,5 @@
 #include "z_boss_goma.h"
-#include "objects/object_goma/object_goma.h"
+#include "assets/objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"

@@ -1,7 +1,5 @@
 #include "global.h"
 
-extern OSViContext* __osViNext;
-
 void osViSetEvent(OSMesgQueue* mq, OSMesg msg, u32 retraceCount) {
     register u32 prevInt = __osDisableInt();
 

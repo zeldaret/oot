@@ -424,7 +424,7 @@ void Play_Init(GameState* thisx) {
     if (dREG(95) != 0) {
         D_8012D1F0 = D_801614D0;
         osSyncPrintf("\nkawauso_data=[%x]", D_8012D1F0);
-        DmaMgr_DmaRomToRam(0x03FEB000, (u32)D_8012D1F0, sizeof(D_801614D0));
+        DmaMgr_DmaRomToRam(0x03FEB000, D_8012D1F0, sizeof(D_801614D0));
     }
 }
 
@@ -1212,7 +1212,7 @@ void Play_Draw(PlayState* this) {
                 POLY_OPA_DISP = sp84;
                 goto Play_Draw_DrawOverlayElements;
             } else {
-                s32 sp80;
+                s32 roomDrawFlags;
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
@@ -1251,13 +1251,13 @@ void Play_Draw(PlayState* this) {
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
                     if (VREG(94) == 0) {
                         if (HREG(80) != 10) {
-                            sp80 = 3;
+                            roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
                         } else {
-                            sp80 = HREG(84);
+                            roomDrawFlags = HREG(84);
                         }
                         Scene_Draw(this);
-                        Room_Draw(this, &this->roomCtx.curRoom, sp80 & 3);
-                        Room_Draw(this, &this->roomCtx.prevRoom, sp80 & 3);
+                        Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
+                        Room_Draw(this, &this->roomCtx.prevRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
                     }
                 }
 
@@ -1823,7 +1823,7 @@ void Play_TriggerRespawn(PlayState* this) {
 }
 
 s32 func_800C0CB8(PlayState* this) {
-    return (this->roomCtx.curRoom.meshHeader->base.type != 1) && (R_CAM_SCENE_TYPE != CAM_SCENE_HOUSE) &&
+    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_11) && (R_CAM_SCENE_TYPE != CAM_SCENE_HOUSE) &&
            (R_CAM_SCENE_TYPE != CAM_SCENE_FIXED) && (R_CAM_SCENE_TYPE != CAM_SCENE_PIVOT) &&
            (this->sceneNum != SCENE_HAIRAL_NIWA);
 }

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_torch2.h"
-#include "objects/object_torch2/object_torch2.h"
+#include "assets/objects/object_torch2/object_torch2.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
