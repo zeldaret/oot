@@ -42,7 +42,7 @@ typedef struct {
 /**
  * @see ACTOROVL_ALLOC_ABSOLUTE
  */
-#define ACTOR_OVERLAY_ABSOLUTE_SPACE_SIZE 0x27A0
+#define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
 
 /**
  * The actor overlay should be allocated memory for when loading,
@@ -70,7 +70,7 @@ typedef struct {
  * even if actors are still relying on the previous one. Actors using absolute-allocated overlays should be deleted
  * when another absolute-allocated overlay is about to be used.
  *
- * @see ACTOR_OVERLAY_ABSOLUTE_SPACE_SIZE
+ * @see ACTOROVL_ABSOLUTE_SPACE_SIZE
  * @see ActorContext.absoluteSpace
  * @see ACTOROVL_ALLOC_NORMAL
  */
