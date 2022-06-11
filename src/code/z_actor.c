@@ -2630,11 +2630,11 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
         }
 
         if (actorOverlay->loadedRamAddr != NULL) {
-            if (actorOverlay->allocType & ACTOR_ALLOC_PERSISTENT) {
+            if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
                 if (HREG(20) != 0) {
                     osSyncPrintf("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
                 }
-            } else if (actorOverlay->allocType & ACTOR_ALLOC_ABSOLUTE) {
+            } else if (actorOverlay->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
                 if (HREG(20) != 0) {
                     // "Absolute magic field reserved, so deallocation will not occur"
                     osSyncPrintf("絶対魔法領域確保なので解放しません\n");
@@ -2696,7 +2696,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 osSyncPrintf("既にロードされています\n"); // "Already loaded"
             }
         } else {
-            if (overlayEntry->allocType & ACTOR_ALLOC_ABSOLUTE) {
+            if (overlayEntry->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
                 ASSERT(overlaySize <= ACTOR_OVERLAY_ABSOLUTE_SPACE_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
@@ -2709,7 +2709,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 }
 
                 overlayEntry->loadedRamAddr = actorCtx->absoluteSpace;
-            } else if (overlayEntry->allocType & ACTOR_ALLOC_PERSISTENT) {
+            } else if (overlayEntry->allocType & ACTOROVL_ALLOC_PERSISTENT) {
                 overlayEntry->loadedRamAddr = ZeldaArena_MallocRDebug(overlaySize, name, 0);
             } else {
                 overlayEntry->loadedRamAddr = ZeldaArena_MallocDebug(overlaySize, name, 0);

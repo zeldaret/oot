@@ -179,7 +179,7 @@ void ArrowLight_Fly(ArrowLight* this, PlayState* play) {
 void ArrowLight_Update(Actor* thisx, PlayState* play) {
     ArrowLight* this = (ArrowLight*)thisx;
 
-    // See `ACTOR_ALLOC_ABSOLUTE`
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
     if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;

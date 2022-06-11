@@ -180,7 +180,7 @@ void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
 void ArrowFire_Update(Actor* thisx, PlayState* play) {
     ArrowFire* this = (ArrowFire*)thisx;
 
-    // See `ACTOR_ALLOC_ABSOLUTE`
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
     if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;
