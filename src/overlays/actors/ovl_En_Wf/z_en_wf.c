@@ -7,7 +7,7 @@
 #include "z_en_wf.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
-#include "objects/object_wf/object_wf.h"
+#include "assets/objects/object_wf/object_wf.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 

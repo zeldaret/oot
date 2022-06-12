@@ -1,8 +1,8 @@
 #include "z_demo_kankyo.h"
 #include "z64cutscene_commands.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_efc_star_field/object_efc_star_field.h"
-#include "objects/object_toki_objects/object_toki_objects.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_efc_star_field/object_efc_star_field.h"
+#include "assets/objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_skjneedle.h"
-#include "objects/object_skj/object_skj.h"
+#include "assets/objects/object_skj/object_skj.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_9)
 

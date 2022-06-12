@@ -452,10 +452,10 @@ s16 Camera_GetBgCamSetting(Camera* camera, s32 bgCamIndex) {
 }
 
 /**
- * Returns the bgCamData using the current bgCam index
+ * Returns the bgCamFuncData using the current bgCam index
  */
-s16* Camera_GetBgCamData(Camera* camera) {
-    return BgCheck_GetBgCamDataImpl(&camera->play->colCtx, camera->bgCamIndex, BGCHECK_SCENE);
+s16* Camera_GetBgCamFuncData(Camera* camera) {
+    return BgCheck_GetBgCamFuncDataImpl(&camera->play->colCtx, camera->bgCamIndex, BGCHECK_SCENE);
 }
 
 /**
@@ -479,11 +479,11 @@ s32 Camera_GetBgCamIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
 }
 
 /**
- * Returns the bgCamData for the floor under the player.
+ * Returns the bgCamFuncData for the floor under the player.
  * Also returns the number of pieces of data there are in `bgCamCount`.
  * If there is no floor, then return NULL
  */
-s16* Camera_GetBgCamDataUnderPlayer(Camera* camera, u16* bgCamCount) {
+s16* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
@@ -498,7 +498,7 @@ s16* Camera_GetBgCamDataUnderPlayer(Camera* camera, u16* bgCamCount) {
     }
 
     *bgCamCount = BgCheck_GetBgCamCount(&camera->play->colCtx, floorPoly, bgId);
-    return BgCheck_GetBgCamData(&camera->play->colCtx, floorPoly, bgId);
+    return BgCheck_GetBgCamFuncData(&camera->play->colCtx, floorPoly, bgId);
 }
 
 /**
@@ -1672,7 +1672,7 @@ s32 Camera_Normal2(Camera* camera) {
     Normal2ReadOnlyData* roData = &camera->paramData.norm2.roData;
     Normal2ReadWriteData* rwData = &camera->paramData.norm2.rwData;
     s32 pad;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     f32 playerHeight;
     f32 yNormal;
 
@@ -1709,16 +1709,16 @@ s32 Camera_Normal2(Camera* camera) {
         case 10:
         case 20:
         case 25:
-            bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-            Camera_Vec3sToVec3f(&rwData->unk_00, &bgCamData->pos);
-            rwData->unk_20 = bgCamData->rot.x;
-            rwData->unk_22 = bgCamData->rot.y;
+            bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+            Camera_Vec3sToVec3f(&rwData->unk_00, &bgCamFuncData->pos);
+            rwData->unk_20 = bgCamFuncData->rot.x;
+            rwData->unk_22 = bgCamFuncData->rot.y;
             rwData->unk_24 = playerPosRot->pos.y;
-            rwData->unk_1C = bgCamData->fov == -1   ? roData->unk_14
-                             : bgCamData->fov > 360 ? CAM_DATA_SCALED(bgCamData->fov)
-                                                    : bgCamData->fov;
+            rwData->unk_1C = bgCamFuncData->fov == -1   ? roData->unk_14
+                             : bgCamFuncData->fov > 360 ? CAM_DATA_SCALED(bgCamFuncData->fov)
+                                                    : bgCamFuncData->fov;
 
-            rwData->unk_28 = bgCamData->flags == -1 ? 0 : bgCamData->flags;
+            rwData->unk_28 = bgCamFuncData->flags == -1 ? 0 : bgCamFuncData->flags;
 
             rwData->unk_18 = 0.0f;
 
@@ -3798,7 +3798,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     KeepOn0ReadOnlyData* roData = &camera->paramData.keep0.roData;
     KeepOn0ReadWriteData* rwData = &camera->paramData.keep0.rwData;
     s32 pad;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     UNUSED Vec3s bgCamRot;
     s16 fov;
 
@@ -3816,13 +3816,13 @@ s32 Camera_KeepOn0(Camera* camera) {
         Camera_CopyPREGToModeValues(camera);
     }
 
-    bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-    Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
+    bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+    Camera_Vec3sToVec3f(eyeNext, &bgCamFuncData->pos);
     *eye = *eyeNext;
 
-    bgCamRot = bgCamData->rot;
+    bgCamRot = bgCamFuncData->rot;
 
-    fov = bgCamData->fov;
+    fov = bgCamFuncData->fov;
     if (fov == -1) {
         fov = 6000;
     }
@@ -3872,7 +3872,7 @@ s32 Camera_Fixed1(Camera* camera) {
     VecSph eyeAtOffset;
     s32 pad2;
     Vec3f adjustedPos;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     PosRot* playerPosRot = &camera->playerPosRot;
@@ -3882,10 +3882,10 @@ s32 Camera_Fixed1(Camera* camera) {
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
-        bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-        Camera_Vec3sToVec3f(&rwData->eyePosRotTarget.pos, &bgCamData->pos);
-        rwData->eyePosRotTarget.rot = bgCamData->rot;
-        rwData->fov = bgCamData->fov;
+        bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+        Camera_Vec3sToVec3f(&rwData->eyePosRotTarget.pos, &bgCamFuncData->pos);
+        rwData->eyePosRotTarget.rot = bgCamFuncData->rot;
+        rwData->fov = bgCamFuncData->fov;
 
         roData->unk_00 = GET_NEXT_SCALED_RO_DATA(values) * playerHeight;
         roData->lerpStep = GET_NEXT_SCALED_RO_DATA(values);
@@ -3945,7 +3945,7 @@ s32 Camera_Fixed2(Camera* camera) {
     Vec3f atTarget;
     Vec3f posOffsetTarget;
     PosRot* playerPosRot = &camera->playerPosRot;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     Fixed2ReadOnlyData* roData = &camera->paramData.fixd2.roData;
     Fixed2ReadWriteData* rwData = &camera->paramData.fixd2.rwData;
     s32 pad;
@@ -3965,11 +3965,11 @@ s32 Camera_Fixed2(Camera* camera) {
         roData->interfaceFlags = GET_NEXT_RO_DATA(values);
         rwData->fov = roData->fov * 100.0f;
 
-        bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-        if (bgCamData != NULL) {
-            Camera_Vec3sToVec3f(&rwData->eye, &bgCamData->pos);
-            if (bgCamData->fov != -1) {
-                rwData->fov = bgCamData->fov;
+        bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+        if (bgCamFuncData != NULL) {
+            Camera_Vec3sToVec3f(&rwData->eye, &bgCamFuncData->pos);
+            if (bgCamFuncData->fov != -1) {
+                rwData->fov = bgCamFuncData->fov;
             }
         } else {
             rwData->eye = *eye;
@@ -4025,13 +4025,13 @@ s32 Camera_Fixed3(Camera* camera) {
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
     VecSph atSph;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     VecSph eyeAtOffset;
     Fixed3ReadOnlyData* roData = &camera->paramData.fixd3.roData;
     Fixed3ReadWriteData* rwData = &camera->paramData.fixd3.rwData;
     s32 pad;
 
-    bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
+    bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
 
     OLib_Vec3fDiffToVecSphGeo(&eyeAtOffset, eye, at);
 
@@ -4039,11 +4039,11 @@ s32 Camera_Fixed3(Camera* camera) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         roData->interfaceFlags = GET_NEXT_RO_DATA(values);
-        Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
+        Camera_Vec3sToVec3f(eyeNext, &bgCamFuncData->pos);
         *eye = *eyeNext;
-        rwData->rot = bgCamData->rot;
-        rwData->fov = bgCamData->fov;
-        rwData->jfifId = bgCamData->jfifId;
+        rwData->rot = bgCamFuncData->rot;
+        rwData->fov = bgCamFuncData->fov;
+        rwData->jfifId = bgCamFuncData->jfifId;
         if (rwData->fov == -1) {
             rwData->fov = 6000;
         }
@@ -4062,9 +4062,9 @@ s32 Camera_Fixed3(Camera* camera) {
         camera->animState++;
     }
 
-    if (bgCamData->jfifId != rwData->jfifId) {
+    if (bgCamFuncData->jfifId != rwData->jfifId) {
         osSyncPrintf("camera: position change %d \n", rwData->jfifId);
-        rwData->jfifId = bgCamData->jfifId;
+        rwData->jfifId = bgCamFuncData->jfifId;
         rwData->updDirTimer = 5;
     }
 
@@ -4102,7 +4102,7 @@ s32 Camera_Fixed4(Camera* camera) {
     VecSph atEyeNextOffset;
     VecSph atTargetEyeNextOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     Vec3f* posOffset = &camera->posOffset;
     Fixed4ReadOnlyData* roData = &camera->paramData.fixd4.roData;
     Fixed4ReadWriteData* rwData = &camera->paramData.fixd4.rwData;
@@ -4120,9 +4120,9 @@ s32 Camera_Fixed4(Camera* camera) {
         roData->fov = GET_NEXT_RO_DATA(values);
         roData->interfaceFlags = GET_NEXT_RO_DATA(values);
 
-        bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-        if (bgCamData != NULL) {
-            Camera_Vec3sToVec3f(&rwData->eyeTarget, &bgCamData->pos);
+        bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+        if (bgCamFuncData != NULL) {
+            Camera_Vec3sToVec3f(&rwData->eyeTarget, &bgCamFuncData->pos);
         } else {
             rwData->eyeTarget = *eye;
         }
@@ -4317,7 +4317,7 @@ s32 Camera_Subj3(Camera* camera) {
  * The camera is what swings up and down while crawling forward or backwards
  *
  * Note:
- * Subject 4 uses bgCamData.data differently than other functions:
+ * Subject 4 uses bgCamFuncData.data differently than other functions:
  * All Vec3s data are points along the crawlspace
  * The second point represents the entrance, and the second to last point represents the exit
  * All other points are unused
@@ -4365,7 +4365,7 @@ s32 Camera_Subj4(Camera* camera) {
 
     // Crawlspace setup (runs for only 1 frame)
     if (camera->animState == 0) {
-        crawlspacePoints = (Vec3s*)Camera_GetBgCamDataUnderPlayer(camera, &crawlspaceNumPoints);
+        crawlspacePoints = (Vec3s*)Camera_GetBgCamFuncDataUnderPlayer(camera, &crawlspaceNumPoints);
         Camera_Vec3sToVec3f(&rwData->crawlspaceLine.point, &BGCAMDATA_CRAWLSPACE_FRONT_POS(crawlspacePoints));
         Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &BGCAMDATA_CRAWLSPACE_BACK_POS(crawlspacePoints, crawlspaceNumPoints));
 
@@ -4507,7 +4507,7 @@ s32 Camera_Data4(Camera* camera) {
     f32 yNormal;
     s16 fov;
     Vec3f* eyeNext = &camera->eyeNext;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     Vec3f lookAt;
     CameraModeValue* values;
     Data4ReadWriteData* rwData = &camera->paramData.data4.rwData;
@@ -4526,16 +4526,16 @@ s32 Camera_Data4(Camera* camera) {
         roData->fov = GET_NEXT_RO_DATA(values);
         roData->interfaceFlags = GET_NEXT_RO_DATA(values);
 
-        bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-        Camera_Vec3sToVec3f(&rwData->eyePosRot.pos, &bgCamData->pos);
-        rwData->eyePosRot.rot = bgCamData->rot;
-        fov = bgCamData->fov;
+        bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+        Camera_Vec3sToVec3f(&rwData->eyePosRot.pos, &bgCamFuncData->pos);
+        rwData->eyePosRot.rot = bgCamFuncData->rot;
+        fov = bgCamFuncData->fov;
         rwData->fov = fov;
         if (fov != -1) {
             roData->fov = rwData->fov <= 360 ? rwData->fov : CAM_DATA_SCALED(rwData->fov);
         }
 
-        rwData->flags = bgCamData->flags;
+        rwData->flags = bgCamFuncData->flags;
         *eye = rwData->eyePosRot.pos;
     }
 
@@ -4755,7 +4755,7 @@ s32 Camera_Unique3(Camera* camera) {
     VecSph sp60;
     f32 playerHeight;
     DoorParams* doorParams = &camera->paramData.doorParams;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     Vec3s bgCamRot;
     Unique3ReadWriteData* rwData = &camera->paramData.uniq3.rwData;
     Unique3ReadOnlyData* roData = &camera->paramData.uniq3.roData;
@@ -4790,10 +4790,10 @@ s32 Camera_Unique3(Camera* camera) {
                 break;
             }
 
-            bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-            Camera_Vec3sToVec3f(&camera->eyeNext, &bgCamData->pos);
+            bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+            Camera_Vec3sToVec3f(&camera->eyeNext, &bgCamFuncData->pos);
             camera->eye = camera->eyeNext;
-            bgCamRot = bgCamData->rot;
+            bgCamRot = bgCamFuncData->rot;
 
             sp60.r = 100.0f;
             sp60.yaw = bgCamRot.y;
@@ -4877,7 +4877,7 @@ s32 Camera_Unique0(Camera* camera) {
     Player* player;
     Vec3f playerPosWithOffset;
     VecSph atPlayerOffset;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     Vec3s bgCamRot;
     PosRot* playerPosRot = &camera->playerPosRot;
     DoorParams* doorParams = &camera->paramData.doorParams;
@@ -4907,16 +4907,16 @@ s32 Camera_Unique0(Camera* camera) {
         func_80043B60(camera);
         camera->unk_14C &= ~4;
 
-        bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-        Camera_Vec3sToVec3f(&rwData->eyeAndDirection.point, &bgCamData->pos);
+        bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+        Camera_Vec3sToVec3f(&rwData->eyeAndDirection.point, &bgCamFuncData->pos);
 
         *eye = camera->eyeNext = rwData->eyeAndDirection.point;
-        bgCamRot = bgCamData->rot;
-        fov = bgCamData->fov;
+        bgCamRot = bgCamFuncData->rot;
+        fov = bgCamFuncData->fov;
         if (fov != -1) {
             camera->fov = fov <= 360 ? fov : CAM_DATA_SCALED(fov);
         }
-        rwData->animTimer = bgCamData->timer;
+        rwData->animTimer = bgCamFuncData->timer;
         if (rwData->animTimer == -1) {
             rwData->animTimer = doorParams->timer1 + doorParams->timer2;
         }
@@ -5053,7 +5053,7 @@ s32 Camera_Unique7(Camera* camera) {
     CameraModeValue* values;
     VecSph playerPosEyeOffset;
     s16 fov;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     UNUSED Vec3s bgCamRot;
     Vec3f* at = &camera->at;
     PosRot* playerPosRot = &camera->playerPosRot;
@@ -5070,16 +5070,16 @@ s32 Camera_Unique7(Camera* camera) {
         Camera_CopyPREGToModeValues(camera);
     }
 
-    bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
+    bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
 
-    Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
+    Camera_Vec3sToVec3f(eyeNext, &bgCamFuncData->pos);
     *eye = *eyeNext;
-    bgCamRot = bgCamData->rot;
+    bgCamRot = bgCamFuncData->rot;
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 
     // fov actually goes unused since it's hard set later on.
-    fov = bgCamData->fov;
+    fov = bgCamFuncData->fov;
     if (fov == -1) {
         fov = roData->fov * 100.0f;
     }
@@ -5102,7 +5102,7 @@ s32 Camera_Unique7(Camera* camera) {
 
     // 0x7D0 ~ 10.98 degres.
     rwData->unk_00.x = Camera_LERPFloorS(playerPosEyeOffset.yaw, rwData->unk_00.x, 0.4f, 0x7D0);
-    playerPosEyeOffset.pitch = -bgCamData->rot.x * Math_CosS(playerPosEyeOffset.yaw - bgCamData->rot.y);
+    playerPosEyeOffset.pitch = -bgCamFuncData->rot.x * Math_CosS(playerPosEyeOffset.yaw - bgCamFuncData->rot.y);
     Camera_Vec3fVecSphGeoAdd(at, eye, &playerPosEyeOffset);
     camera->unk_14C |= 0x400;
     return true;
@@ -6652,7 +6652,7 @@ s32 Camera_Special6(Camera* camera) {
     Vec3f atAnim;
     VecSph eyeAtOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
     Vec3s bgCamRot;
     s16 fov;
     f32 sp54;
@@ -6674,10 +6674,10 @@ s32 Camera_Special6(Camera* camera) {
 
     OLib_Vec3fDiffToVecSphGeo(&eyeAtOffset, eye, at);
 
-    bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-    Camera_Vec3sToVec3f(&bgCamPos, &bgCamData->pos);
-    bgCamRot = bgCamData->rot;
-    fov = bgCamData->fov;
+    bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+    Camera_Vec3sToVec3f(&bgCamPos, &bgCamFuncData->pos);
+    bgCamRot = bgCamFuncData->rot;
+    fov = bgCamFuncData->fov;
     if (fov == -1) {
         fov = 6000;
     }
@@ -6765,7 +6765,7 @@ s32 Camera_Special9(Camera* camera) {
     Special9ReadOnlyData* roData = &camera->paramData.spec9.roData;
     Special9ReadWriteData* rwData = &camera->paramData.spec9.rwData;
     s32 pad4;
-    BgCamData* bgCamData;
+    BgCamFuncData* bgCamFuncData;
 
     playerYOffset = Player_GetHeight(camera->player);
     camera->unk_14C &= ~0x10;
@@ -6811,8 +6811,8 @@ s32 Camera_Special9(Camera* camera) {
             if (doorParams->timer1 <= 0) {
                 camera->animState++;
                 if (roData->interfaceFlags & 1) {
-                    bgCamData = (BgCamData*)Camera_GetBgCamData(camera);
-                    Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
+                    bgCamFuncData = (BgCamFuncData*)Camera_GetBgCamFuncData(camera);
+                    Camera_Vec3sToVec3f(eyeNext, &bgCamFuncData->pos);
                     spAC = *eye = *eyeNext;
                 } else {
                     s16 yaw;
@@ -6999,7 +6999,7 @@ void func_80057FC4(Camera* camera) {
     if (camera != &camera->play->mainCamera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
-    } else if (camera->play->roomCtx.curRoom.meshHeader->base.type != 1) {
+    } else if (camera->play->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) {
         switch (camera->play->roomCtx.curRoom.behaviorType1) {
             case ROOM_BEHAVIOR_TYPE1_1:
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);

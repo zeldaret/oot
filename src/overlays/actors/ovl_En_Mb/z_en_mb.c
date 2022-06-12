@@ -5,7 +5,7 @@
  */
 
 #include "z_en_mb.h"
-#include "objects/object_mb/object_mb.h"
+#include "assets/objects/object_mb/object_mb.h"
 
 /*
  * This actor can have three behaviors:

@@ -1,7 +1,7 @@
 #include "global.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_link_boy/object_link_boy.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_link_boy/object_link_boy.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 
 typedef struct {
     /* 0x00 */ u8 flag;

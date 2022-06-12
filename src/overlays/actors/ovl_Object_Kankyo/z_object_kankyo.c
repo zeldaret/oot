@@ -5,9 +5,9 @@
  */
 
 #include "z_object_kankyo.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_spot02_objects/object_spot02_objects.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_spot02_objects/object_spot02_objects.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
@@ -16,7 +16,7 @@ void ObjectKankyo_Destroy(Actor* thisx, PlayState* play);
 void ObjectKankyo_Update(Actor* thisx, PlayState* play);
 void ObjectKankyo_Draw(Actor* thisx, PlayState* play);
 
-void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc func);
+void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc action);
 void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_SunGraveSparkInit(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_Snow(ObjectKankyo* this, PlayState* play);
@@ -32,8 +32,6 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_DrawLightning(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_DrawBeams(ObjectKankyo* this, PlayState* play);
-
-extern Mtx D_01000000;
 
 static void* sEffLightningTextures[] = {
     gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
