@@ -1,10 +1,10 @@
 #include "z_boss_ganon2.h"
 #include "overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
 #include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
-#include "objects/object_ganon/object_ganon.h"
-#include "objects/object_ganon2/object_ganon2.h"
-#include "objects/object_ganon_anime3/object_ganon_anime3.h"
-#include "objects/object_geff/object_geff.h"
+#include "assets/objects/object_ganon/object_ganon.h"
+#include "assets/objects/object_ganon2/object_ganon2.h"
+#include "assets/objects/object_ganon_anime3/object_ganon_anime3.h"
+#include "assets/objects/object_geff/object_geff.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

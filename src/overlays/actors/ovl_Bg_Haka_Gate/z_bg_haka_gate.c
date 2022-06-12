@@ -5,8 +5,8 @@
  */
 
 #include "z_bg_haka_gate.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_haka_objects/object_haka_objects.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0
 

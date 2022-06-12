@@ -7,7 +7,7 @@
 #include "z_fishing.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
-#include "objects/object_fish/object_fish.h"
+#include "assets/objects/object_fish/object_fish.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4

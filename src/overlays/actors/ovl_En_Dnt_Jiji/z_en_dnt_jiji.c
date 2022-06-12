@@ -5,7 +5,7 @@
  */
 
 #include "z_en_dnt_jiji.h"
-#include "objects/object_dns/object_dns.h"
+#include "assets/objects/object_dns/object_dns.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "vt.h"

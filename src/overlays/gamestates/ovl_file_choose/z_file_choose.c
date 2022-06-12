@@ -1,6 +1,6 @@
 #include "file_choose.h"
-#include "textures/title_static/title_static.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/title_static/title_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 static s16 sUnused = 106;
 

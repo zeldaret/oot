@@ -1,9 +1,9 @@
 #include "global.h"
 #include "vt.h"
 
-void func_80095AB4(PlayState* play, Room* room, u32 flags);
-void func_80095D04(PlayState* play, Room* room, u32 flags);
-void func_80096F6C(PlayState* play, Room* room, u32 flags);
+void Room_Draw0(PlayState* play, Room* room, u32 flags);
+void Room_Draw2(PlayState* play, Room* room, u32 flags);
+void Room_Draw1(PlayState* play, Room* room, u32 flags);
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -22,49 +22,48 @@ Gfx D_801270B0[] = {
     gsSPEndDisplayList(),
 };
 
-void (*sRoomDrawHandlers[])(PlayState* play, Room* room, u32 flags) = {
-    func_80095AB4,
-    func_80096F6C,
-    func_80095D04,
+void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
+    Room_Draw0,
+    Room_Draw1,
+    Room_Draw2,
 };
 
 void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3) {
 }
 
-// Room Draw Polygon Type 0
-void func_80095AB4(PlayState* play, Room* room, u32 flags) {
+void Room_Draw0(PlayState* play, Room* room, u32 flags) {
     s32 i;
-    PolygonType0* polygon0;
-    PolygonDlist* polygonDlist;
+    MeshHeader0* meshHeader0;
+    MeshHeader01Entry* meshHeader0Entry;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 193);
 
-    if (flags & 1) {
+    if (flags & ROOM_DRAW_OPA) {
         func_800342EC(&D_801270A0, play);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(play);
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    if (flags & 2) {
+    if (flags & ROOM_DRAW_XLU) {
         func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    polygon0 = &room->meshHeader->polygon0;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon0->start);
-    for (i = 0; i < polygon0->num; i++) {
-        if ((flags & 1) && (polygonDlist->opa != NULL)) {
-            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
+    meshHeader0 = &room->meshHeader->meshHeader0;
+    meshHeader0Entry = SEGMENTED_TO_VIRTUAL(meshHeader0->entries);
+    for (i = 0; i < meshHeader0->numEntries; i++) {
+        if ((flags & ROOM_DRAW_OPA) && (meshHeader0Entry->opa != NULL)) {
+            gSPDisplayList(POLY_OPA_DISP++, meshHeader0Entry->opa);
         }
 
-        if ((flags & 2) && (polygonDlist->xlu != NULL)) {
-            gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
+        if ((flags & ROOM_DRAW_XLU) && (meshHeader0Entry->xlu != NULL)) {
+            gSPDisplayList(POLY_XLU_DISP++, meshHeader0Entry->xlu);
         }
 
-        polygonDlist++;
+        meshHeader0Entry++;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
@@ -73,16 +72,15 @@ void func_80095AB4(PlayState* play, Room* room, u32 flags) {
 #define SHAPE_SORT_MAX 64
 
 typedef struct struct_80095D04 {
-    /* 0x00 */ PolygonDlist2* unk_00;
+    /* 0x00 */ MeshHeader2Entry* unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ struct struct_80095D04* unk_08;
     /* 0x0C */ struct struct_80095D04* unk_0C;
 } struct_80095D04; // size = 0x10
 
-// Room Draw Polygon Type 2
-void func_80095D04(PlayState* play, Room* room, u32 flags) {
-    PolygonType2* polygon2;
-    PolygonDlist2* polygonDlist;
+void Room_Draw2(PlayState* play, Room* room, u32 flags) {
+    MeshHeader2* meshHeader2;
+    MeshHeader2Entry* meshHeader2Entry;
     struct_80095D04 spB8[SHAPE_SORT_MAX];
     struct_80095D04* spB4 = NULL;
     struct_80095D04* spB0 = NULL;
@@ -95,41 +93,41 @@ void func_80095D04(PlayState* play, Room* room, u32 flags) {
     Vec3f projectedPos;
     f32 projectedW;
     s32 pad2;
-    PolygonDlist2* polygonDlistFirst;
-    PolygonDlist2* polygonDlistIter;
+    MeshHeader2Entry* meshHeader2Entries;
+    MeshHeader2Entry* meshHeader2EntryIter;
     f32 temp_f2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
-    if (flags & 1) {
+    if (flags & ROOM_DRAW_OPA) {
         func_800342EC(&D_801270A0, play);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(play);
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
     if (1) {}
-    if (flags & 2) {
+    if (flags & ROOM_DRAW_XLU) {
         func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    polygon2 = &room->meshHeader->polygon2;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon2->start);
+    meshHeader2 = &room->meshHeader->meshHeader2;
+    meshHeader2Entry = SEGMENTED_TO_VIRTUAL(meshHeader2->entries);
     spA4 = spB8;
 
-    ASSERT(polygon2->num <= SHAPE_SORT_MAX, "polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
-    polygonDlistFirst = polygonDlist;
+    ASSERT(meshHeader2->numEntries <= SHAPE_SORT_MAX, "polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
+    meshHeader2Entries = meshHeader2Entry;
 
-    for (i = 0; i < polygon2->num; i++, polygonDlist++) {
-        pos.x = polygonDlist->pos.x;
-        pos.y = polygonDlist->pos.y;
-        pos.z = polygonDlist->pos.z;
+    for (i = 0; i < meshHeader2->numEntries; i++, meshHeader2Entry++) {
+        pos.x = meshHeader2Entry->pos.x;
+        pos.y = meshHeader2Entry->pos.y;
+        pos.z = meshHeader2Entry->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
-        if (-(f32)polygonDlist->unk_06 < projectedPos.z) {
-            temp_f2 = projectedPos.z - polygonDlist->unk_06;
+        if (-(f32)meshHeader2Entry->unk_06 < projectedPos.z) {
+            temp_f2 = projectedPos.z - meshHeader2Entry->unk_06;
             if (temp_f2 < play->lightCtx.fogFar) {
-                spA4->unk_00 = polygonDlist;
+                spA4->unk_00 = meshHeader2Entry;
                 spA4->unk_04 = temp_f2;
                 iter = spB4;
                 if (iter == NULL) {
@@ -164,45 +162,45 @@ void func_80095D04(PlayState* play, Room* room, u32 flags) {
         }
     }
 
-    iREG(87) = polygon2->num & 0xFFFF & 0xFFFF & 0xFFFF; // if this is real then I might not be
+    iREG(87) = meshHeader2->numEntries & 0xFFFF & 0xFFFF & 0xFFFF; // if this is real then I might not be
 
     for (i = 1; spB4 != NULL; spB4 = spB4->unk_0C, i++) {
         Gfx* displayList;
 
-        polygonDlist = spB4->unk_00;
+        meshHeader2Entry = spB4->unk_00;
         if (iREG(86) != 0) {
-            polygonDlistIter = polygonDlistFirst;
-            for (j = 0; j < polygon2->num; j++, polygonDlistIter++) {
-                if (polygonDlist == polygonDlistIter) {
+            meshHeader2EntryIter = meshHeader2Entries;
+            for (j = 0; j < meshHeader2->numEntries; j++, meshHeader2EntryIter++) {
+                if (meshHeader2Entry == meshHeader2EntryIter) {
                     break; // This loop does nothing?
                 }
             }
 
             if (((iREG(86) == 1) && (iREG(89) >= i)) || ((iREG(86) == 2) && (iREG(89) == i))) {
-                if (flags & 1) {
-                    displayList = polygonDlist->opa;
+                if (flags & ROOM_DRAW_OPA) {
+                    displayList = meshHeader2Entry->opa;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_OPA_DISP++, displayList);
                     }
                 }
 
-                if (flags & 2) {
-                    displayList = polygonDlist->xlu;
+                if (flags & ROOM_DRAW_XLU) {
+                    displayList = meshHeader2Entry->xlu;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_XLU_DISP++, displayList);
                     }
                 }
             }
         } else {
-            if (flags & 1) {
-                displayList = polygonDlist->opa;
+            if (flags & ROOM_DRAW_OPA) {
+                displayList = meshHeader2Entry->opa;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_OPA_DISP++, displayList);
                 }
             }
 
-            if (flags & 2) {
-                displayList = polygonDlist->xlu;
+            if (flags & ROOM_DRAW_XLU) {
+                displayList = meshHeader2Entry->xlu;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_XLU_DISP++, displayList);
                 }
@@ -305,12 +303,11 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
     *displayList = displayListHead;
 }
 
-// Room Draw Polygon Type 1 - Single Format
-void func_80096680(PlayState* play, Room* room, u32 flags) {
+void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* spA8;
-    PolygonType1* polygon1;
-    PolygonDlist* polygonDlist;
+    MeshHeader1Single* meshHeader1Single;
+    MeshHeader01Entry* meshHeader1Entry;
     u32 isFixedCamera;
     u32 drawBg;
     u32 drawOpa;
@@ -320,11 +317,11 @@ void func_80096680(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    polygon1 = &room->meshHeader->polygon1;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
-    drawBg = (flags & 1) && isFixedCamera && polygon1->single.source && !(SREG(25) & 1);
-    drawOpa = (flags & 1) && (polygonDlist->opa != NULL) && !(SREG(25) & 2);
-    drawXlu = (flags & 2) && (polygonDlist->xlu != NULL) && !(SREG(25) & 4);
+    meshHeader1Single = &room->meshHeader->meshHeader1Single;
+    meshHeader1Entry = SEGMENTED_TO_VIRTUAL(meshHeader1Single->base.entry);
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && meshHeader1Single->source && !(SREG(25) & 1);
+    drawOpa = (flags & ROOM_DRAW_OPA) && (meshHeader1Entry->opa != NULL) && !(SREG(25) & 2);
+    drawXlu = (flags & ROOM_DRAW_XLU) && (meshHeader1Entry->xlu != NULL) && !(SREG(25) & 4);
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -332,7 +329,7 @@ void func_80096680(PlayState* play, Room* room, u32 flags) {
         if (drawOpa) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
+            gSPDisplayList(POLY_OPA_DISP++, meshHeader1Entry->opa);
         }
 
         if (drawBg) {
@@ -342,9 +339,9 @@ void func_80096680(PlayState* play, Room* room, u32 flags) {
                 Vec3f sp60;
                 spA8 = POLY_OPA_DISP;
                 Camera_GetSkyboxOffset(&sp60, activeCam);
-                func_8009638C(&spA8, polygon1->single.source, polygon1->single.tlut, polygon1->single.width,
-                              polygon1->single.height, polygon1->single.fmt, polygon1->single.siz,
-                              polygon1->single.mode0, polygon1->single.tlutCount,
+                func_8009638C(&spA8, meshHeader1Single->source, meshHeader1Single->tlut, meshHeader1Single->width,
+                              meshHeader1Single->height, meshHeader1Single->fmt, meshHeader1Single->siz,
+                              meshHeader1Single->mode0, meshHeader1Single->tlutCount,
                               (sp60.x + sp60.z) * 1.2f + sp60.y * 0.6f, sp60.y * 2.4f + (sp60.x + sp60.z) * 0.3f);
                 POLY_OPA_DISP = spA8;
             }
@@ -357,13 +354,13 @@ void func_80096680(PlayState* play, Room* room, u32 flags) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
+        gSPDisplayList(POLY_XLU_DISP++, meshHeader1Entry->xlu);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-BgImage* func_80096A74(PolygonType1* polygon1, PlayState* play) {
+BgImage* func_80096A74(MeshHeader1Multi* meshHeader1Multi, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
     s32 camDataIdx;
     s16 camDataIdx2;
@@ -381,8 +378,8 @@ BgImage* func_80096A74(PolygonType1* polygon1, PlayState* play) {
     player = GET_PLAYER(play);
     player->actor.params = (player->actor.params & 0xFF00) | camDataIdx;
 
-    bgImage = SEGMENTED_TO_VIRTUAL(polygon1->multi.list);
-    for (i = 0; i < polygon1->multi.count; i++) {
+    bgImage = SEGMENTED_TO_VIRTUAL(meshHeader1Multi->list);
+    for (i = 0; i < meshHeader1Multi->count; i++) {
         if (bgImage->id == camDataIdx) {
             return bgImage;
         }
@@ -396,13 +393,12 @@ BgImage* func_80096A74(PolygonType1* polygon1, PlayState* play) {
     return NULL;
 }
 
-// Room Draw Polygon Type 1 - Multi Format
-void func_80096B6C(PlayState* play, Room* room, u32 flags) {
+void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    PolygonType1* polygon1;
+    MeshHeader1Multi* meshHeader1Multi;
     BgImage* bgImage;
-    PolygonDlist* polygonDlist;
+    MeshHeader01Entry* meshHeader1Entry;
     u32 isFixedCamera;
     u32 drawBg;
     u32 drawOpa;
@@ -412,12 +408,12 @@ void func_80096B6C(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    polygon1 = &room->meshHeader->polygon1;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
-    bgImage = func_80096A74(polygon1, play);
-    drawBg = (flags & 1) && isFixedCamera && bgImage->source && !(SREG(25) & 1);
-    drawOpa = (flags & 1) && (polygonDlist->opa != NULL) && !(SREG(25) & 2);
-    drawXlu = (flags & 2) && (polygonDlist->xlu != NULL) && !(SREG(25) & 4);
+    meshHeader1Multi = &room->meshHeader->meshHeader1Multi;
+    meshHeader1Entry = SEGMENTED_TO_VIRTUAL(meshHeader1Multi->base.entry);
+    bgImage = func_80096A74(meshHeader1Multi, play);
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && bgImage->source && !(SREG(25) & 1);
+    drawOpa = (flags & ROOM_DRAW_OPA) && (meshHeader1Entry->opa != NULL) && !(SREG(25) & 2);
+    drawXlu = (flags & ROOM_DRAW_XLU) && (meshHeader1Entry->xlu != NULL) && !(SREG(25) & 4);
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -425,7 +421,7 @@ void func_80096B6C(PlayState* play, Room* room, u32 flags) {
         if (drawOpa) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
+            gSPDisplayList(POLY_OPA_DISP++, meshHeader1Entry->opa);
         }
 
         if (drawBg) {
@@ -451,20 +447,19 @@ void func_80096B6C(PlayState* play, Room* room, u32 flags) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
+        gSPDisplayList(POLY_XLU_DISP++, meshHeader1Entry->xlu);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 819);
 }
 
-// Room Draw Polygon Type 1
-void func_80096F6C(PlayState* play, Room* room, u32 flags) {
-    PolygonType1* polygon1 = &room->meshHeader->polygon1;
+void Room_Draw1(PlayState* play, Room* room, u32 flags) {
+    MeshHeader1Base* meshHeader1Base = &room->meshHeader->meshHeader1Base;
 
-    if (polygon1->format == 1) {
-        func_80096680(play, room, flags);
-    } else if (polygon1->format == 2) {
-        func_80096B6C(play, room, flags);
+    if (meshHeader1Base->format == MESH_HEADER1_FORMAT_SINGLE) {
+        Room_Draw1Single(play, room, flags);
+    } else if (meshHeader1Base->format == MESH_HEADER1_FORMAT_MULTI) {
+        Room_Draw1Multi(play, room, flags);
     } else {
         LogUtils_HungupThread("../z_room.c", 841);
     }

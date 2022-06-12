@@ -6,14 +6,14 @@
 
 #include "z_en_viewer.h"
 #include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
-#include "objects/object_zl4/object_zl4.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_horse_zelda/object_horse_zelda.h"
-#include "objects/object_horse_ganon/object_horse_ganon.h"
-#include "objects/object_im/object_im.h"
-#include "objects/object_gndd/object_gndd.h"
-#include "objects/object_ganon/object_ganon.h"
-#include "objects/object_opening_demo1/object_opening_demo1.h"
+#include "assets/objects/object_zl4/object_zl4.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_horse_zelda/object_horse_zelda.h"
+#include "assets/objects/object_horse_ganon/object_horse_ganon.h"
+#include "assets/objects/object_im/object_im.h"
+#include "assets/objects/object_gndd/object_gndd.h"
+#include "assets/objects/object_ganon/object_ganon.h"
+#include "assets/objects/object_opening_demo1/object_opening_demo1.h"
 
 #define FLAGS ACTOR_FLAG_4
 

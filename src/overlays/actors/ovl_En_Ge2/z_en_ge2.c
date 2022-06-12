@@ -6,7 +6,7 @@
 
 #include "z_en_ge2.h"
 #include "vt.h"
-#include "objects/object_gla/object_gla.h"
+#include "assets/objects/object_gla/object_gla.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 

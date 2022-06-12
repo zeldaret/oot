@@ -5,7 +5,7 @@
  */
 
 #include "z_en_tp.h"
-#include "objects/object_tp/object_tp.h"
+#include "assets/objects/object_tp/object_tp.h"
 
 #define FLAGS 0
 

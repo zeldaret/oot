@@ -184,7 +184,7 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
 
 void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
     ActorEntry* linkEntry = play->linkActorEntry =
-        (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) + play->setupEntranceList[play->curSpawn].spawn;
+        (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.data) + play->setupEntranceList[play->curSpawn].spawn;
     s16 linkObjectId;
 
     play->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
@@ -196,8 +196,8 @@ void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandActorList(PlayState* play, SceneCmd* cmd) {
-    play->numSetupActors = cmd->actorList.num;
-    play->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.segment);
+    play->numSetupActors = cmd->actorList.length;
+    play->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.data);
 }
 
 void Scene_CommandUnused2(PlayState* play, SceneCmd* cmd) {
@@ -205,7 +205,7 @@ void Scene_CommandUnused2(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
-    CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.segment);
+    CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.data);
 
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
     colHeader->polyList = SEGMENTED_TO_VIRTUAL(colHeader->polyList);
@@ -217,12 +217,12 @@ void Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
-    play->numRooms = cmd->roomList.num;
-    play->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.segment);
+    play->numRooms = cmd->roomList.length;
+    play->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
 }
 
 void Scene_CommandEntranceList(PlayState* play, SceneCmd* cmd) {
-    play->setupEntranceList = SEGMENTED_TO_VIRTUAL(cmd->entranceList.segment);
+    play->setupEntranceList = SEGMENTED_TO_VIRTUAL(cmd->entranceList.data);
 }
 
 void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
@@ -244,7 +244,7 @@ void Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandMeshHeader(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.meshHeader = SEGMENTED_TO_VIRTUAL(cmd->mesh.segment);
+    play->roomCtx.curRoom.meshHeader = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
 }
 
 void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
@@ -254,7 +254,7 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     ObjectStatus* status;
     ObjectStatus* status2;
     ObjectStatus* firstStatus;
-    s16* objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.segment);
+    s16* objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.data);
     void* nextPtr;
 
     k = 0;
@@ -281,10 +281,10 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
         status++;
     }
 
-    ASSERT(cmd->objectList.num <= OBJECT_EXCHANGE_BANK_MAX, "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX",
-           "../z_scene.c", 705);
+    ASSERT(cmd->objectList.length <= OBJECT_EXCHANGE_BANK_MAX,
+           "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
 
-    while (k < cmd->objectList.num) {
+    while (k < cmd->objectList.length) {
         nextPtr = func_800982FC(&play->objectCtx, i, *objectEntry);
         if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
             firstStatus[i + 1].segment = nextPtr;
@@ -299,21 +299,21 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
 
 void Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
     s32 i;
-    LightInfo* lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.segment);
+    LightInfo* lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.data);
 
-    for (i = 0; i < cmd->lightList.num; i++) {
+    for (i = 0; i < cmd->lightList.length; i++) {
         LightContext_InsertLight(play, &play->lightCtx, lightInfo);
         lightInfo++;
     }
 }
 
 void Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
-    play->setupPathList = SEGMENTED_TO_VIRTUAL(cmd->pathList.segment);
+    play->setupPathList = SEGMENTED_TO_VIRTUAL(cmd->pathList.data);
 }
 
 void Scene_CommandTransitionActorList(PlayState* play, SceneCmd* cmd) {
-    play->transiActorCtx.numActors = cmd->transiActorList.num;
-    play->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.segment);
+    play->transiActorCtx.numActors = cmd->transiActorList.length;
+    play->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
 }
 
 void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx) {
@@ -321,19 +321,19 @@ void TransitionActor_InitContext(GameState* state, TransitionActorContext* trans
 }
 
 void Scene_CommandLightSettingsList(PlayState* play, SceneCmd* cmd) {
-    play->envCtx.numLightSettings = cmd->lightSettingList.num;
-    play->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.segment);
+    play->envCtx.numLightSettings = cmd->lightSettingList.length;
+    play->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.data);
 }
 
 void Scene_CommandSkyboxSettings(PlayState* play, SceneCmd* cmd) {
     play->skyboxId = cmd->skyboxSettings.skyboxId;
-    play->envCtx.skyboxConfig = play->envCtx.changeSkyboxNextConfig = cmd->skyboxSettings.unk_05;
-    play->envCtx.lightMode = cmd->skyboxSettings.unk_06;
+    play->envCtx.skyboxConfig = play->envCtx.changeSkyboxNextConfig = cmd->skyboxSettings.skyboxConfig;
+    play->envCtx.lightMode = cmd->skyboxSettings.envLightMode;
 }
 
 void Scene_CommandSkyboxDisables(PlayState* play, SceneCmd* cmd) {
-    play->envCtx.skyboxDisabled = cmd->skyboxDisables.unk_04;
-    play->envCtx.sunMoonDisabled = cmd->skyboxDisables.unk_05;
+    play->envCtx.skyboxDisabled = cmd->skyboxDisables.skyboxDisabled;
+    play->envCtx.sunMoonDisabled = cmd->skyboxDisables.sunMoonDisabled;
 }
 
 void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
@@ -342,8 +342,8 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
             ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / ((f32)(24 * 60) / 0x10000);
     }
 
-    if (cmd->timeSettings.unk_06 != 0xFF) {
-        play->envCtx.sceneTimeSpeed = cmd->timeSettings.unk_06;
+    if (cmd->timeSettings.timeSpeed != 0xFF) {
+        play->envCtx.sceneTimeSpeed = cmd->timeSettings.timeSpeed;
     } else {
         play->envCtx.sceneTimeSpeed = 0;
     }
@@ -386,7 +386,7 @@ void Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandExitList(PlayState* play, SceneCmd* cmd) {
-    play->setupExitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.segment);
+    play->setupExitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.data);
 }
 
 void Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
@@ -414,7 +414,7 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
     osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneSetupIndex));
 
     if (gSaveContext.sceneSetupIndex != 0) {
-        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment))[gSaveContext.sceneSetupIndex - 1];
+        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneSetupIndex - 1];
 
         if (1) {}
 
@@ -426,8 +426,7 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
             if (gSaveContext.sceneSetupIndex == 3) {
-                altHeader =
-                    ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment))[gSaveContext.sceneSetupIndex - 2];
+                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneSetupIndex - 2];
 
                 // "Using adult day data there!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
@@ -443,7 +442,7 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
 
 void Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
     osSyncPrintf("\ngame_play->demo_play.data=[%x]", play->csCtx.segment);
-    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(cmd->cutsceneData.segment);
+    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(cmd->cutsceneData.data);
 }
 
 // Camera & World Map Area

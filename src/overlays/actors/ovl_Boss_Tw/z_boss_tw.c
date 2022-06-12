@@ -1,6 +1,6 @@
 #include "z_boss_tw.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_tw/object_tw.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_tw/object_tw.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -65,7 +65,7 @@ void BossTw_Destroy(Actor* thisx, PlayState* play);
 void BossTw_Update(Actor* thisx, PlayState* play);
 void BossTw_Draw(Actor* thisx, PlayState* play);
 
-void BossTw_TwinrovaDamage(BossTw* this, PlayState* play, u8 arg2);
+void BossTw_TwinrovaDamage(BossTw* this, PlayState* play, u8 damage);
 void BossTw_TwinrovaSetupFly(BossTw* this, PlayState* play);
 void BossTw_DrawEffects(PlayState* play);
 void BossTw_TwinrovaLaugh(BossTw* this, PlayState* play);

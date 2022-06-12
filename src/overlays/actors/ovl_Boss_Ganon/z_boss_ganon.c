@@ -1,5 +1,5 @@
 #include "z_boss_ganon.h"
-#include "overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.h"
+#include "assets/overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.h"
 #include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
 #include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
 #include "overlays/actors/ovl_Bg_Ganon_Otyuka/z_bg_ganon_otyuka.h"
@@ -5006,4 +5006,4 @@ void BossGanon_DrawEffects(PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_boss_ganon.c", 11255);
 }
 
-#include "overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.c"
+#include "assets/overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.c"

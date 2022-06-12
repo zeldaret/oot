@@ -28,7 +28,7 @@ const ActorInit En_Ganon_Organ_InitVars = {
 
 static u64 sForceAlignment = 0;
 
-#include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
+#include "assets/overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
 void EnGanonOrgan_Init(Actor* thisx, PlayState* play) {
     thisx->flags &= ~ACTOR_FLAG_0;
