@@ -12405,7 +12405,6 @@ void func_8084ECA4(Player* this, PlayState* play) {
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
-            // Changes the animation, which causes the bug at the bottom of the function.
             func_8083C0E8(this, play);
         }
     } else {
@@ -12444,7 +12443,8 @@ void func_8084ECA4(Player* this, PlayState* play) {
     }
 
     //! @bug because func_8083C0E8 will change the animation and execution passes through here afterwards, this check
-    //! can pass for a single frame of the new animation the final time this function runs in a swing.
+    //! can pass for a single frame of the new animation the final time this function runs in a swing. This means that
+    //! the bottle can be detected as swinging for one frame well the active-looking part of the swinging animation.
     if (this->skelAnime.curFrame <= 7.0f) {
         this->stateFlags1 |= PLAYER_STATE1_SWINGING_BOTTLE;
     }
