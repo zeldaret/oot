@@ -1191,7 +1191,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 
 Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState,
                                  s32 numSamplesToLoad) {
-    s32 numSampleSlotsAvail;
+    s32 numSampleAvail;
     s32 harmonicIndexCurAndPrev = noteSubEu->harmonicIndexCurAndPrev;
     s32 samplePosInt = synthState->samplePosInt;
     s32 numDuplicates;
@@ -1201,21 +1201,27 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         gWaveSamples[8] += numSamplesToLoad * sizeof(s16);
         return cmd;
     } else {
-        // move the synthetic wave from ram to the rsp
-        aLoadBuffer(cmd++, noteSubEu->sound.waveSampleAddr, DMEM_UNCOMPRESSED_NOTE, 64 * sizeof(s16));
+        // move the synthetic wave from ram to dmem
+        aLoadBuffer(cmd++, noteSubEu->sound.waveSampleAddr, DMEM_UNCOMPRESSED_NOTE, WAVE_SAMPLE_COUNT * sizeof(s16));
         if (harmonicIndexCurAndPrev != 0) {
-            // samplePosInt scaled by (current-harmonic / prev-harmonic)
+            // if the harmonic changes, map the offset in the wave from one harmonic to another
             samplePosInt = samplePosInt * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2] /
                            sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev & 3];
         }
 
+        // Offset in the 64 samples of gWaveSamples to start processing the wave for continuity
         samplePosInt &= 0x3F;
-        numSampleSlotsAvail = 64 - samplePosInt;
+        // Number of samples in the initial 64 samples available to be used to proces
+        numSampleAvail = WAVE_SAMPLE_COUNT - samplePosInt;
 
-        if (numSampleSlotsAvail < numSamplesToLoad) {
-            numDuplicates = ((numSamplesToLoad - numSampleSlotsAvail + 63) / 64);
+        // Require duplicates if there are more samples to load than available
+        if (numSamplesToLoad > numSampleAvail) {
+            // (numSamplesToLoad - numSampleAvail) is the number of samples needed in duplicates.
+            // Each duplicate copies exactly 64 samples, so divide through WAVE_SAMPLE_COUNT and round-up
+            numDuplicates = ((numSamplesToLoad - numSampleAvail + (WAVE_SAMPLE_COUNT - 1)) / WAVE_SAMPLE_COUNT);
             if (numDuplicates != 0) {
-                aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + (64 * sizeof(s16)));
+                aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE,
+                           DMEM_UNCOMPRESSED_NOTE + (WAVE_SAMPLE_COUNT * sizeof(s16)));
             }
         }
         synthState->samplePosInt = samplePosInt;
