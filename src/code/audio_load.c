@@ -1674,14 +1674,16 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, Sa
             switch (sample->medium) {
                 case 0:
                     // Relocate the offset sample within the sampleBank (not the fontData) into a pointer
-                    // (ramAddr) Overwrite the offset in fontData with this new pointer
+                    // sampleAddr can be either rom or ram depending on sampleBank cache policy
+                    // in practice, this is always in rom
                     sample->sampleAddr = AUDIO_RELOC(sample->sampleAddr, sampleBankReloc->baseAddr1);
                     sample->medium = sampleBankReloc->medium1;
                     break;
 
                 case 1:
                     // Relocate the offset sample within the sampleBank (not the fontData) into a pointer
-                    // (ramAddr) Overwrite the offset in fontData with this new pointer
+                    // sampleAddr can be either rom or ram depending on sampleBank cache policy
+                    // in practice, this is always in rom
                     sample->sampleAddr = AUDIO_RELOC(sample->sampleAddr, sampleBankReloc->baseAddr2);
                     sample->medium = sampleBankReloc->medium2;
                     break;
@@ -1708,7 +1710,7 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, Sa
  * @param fontId index of font being processed
  * @param fontData ram address of raw soundfont binary loaded into cache
  * @param sampleBankReloc information on the sampleBank containing raw audio samples
- * @param isAsync bool for whether this is an asyncronous load or not
+ * @param isAsync bool for whether this is an asynchronous load or not
  */
 void AudioLoad_RelocateFontAndPreloadSamples(s32 fontId, SoundFontData* fontData, SampleBankRelocInfo* sampleBankReloc,
                                              s32 isAsync) {
