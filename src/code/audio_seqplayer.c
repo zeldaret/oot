@@ -11,7 +11,7 @@
  *        2) Channel Instructions
  *        3) Layer Instruction
  *   - All three sets share a common pool of control flow instructions (>= 0xF2).
- *     Otherwise, each set of intructions have its own command interpreter
+ *     Otherwise, each set of instructions has its own command interpreter
  */
 #include "ultra64.h"
 #include "global.h"
@@ -385,7 +385,7 @@ void AudioSeq_SequencePlayerSetupChannels(SequencePlayer* seqPlayer, u16 channel
     SequenceChannel* channel;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+    for (i = 0; i < SEQ_NUM_CHANNELS; i++) {
         if (channelBits & 1) {
             channel = seqPlayer->channels[i];
             channel->fontId = seqPlayer->defaultFont;
@@ -400,7 +400,7 @@ void AudioSeq_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 chann
     SequenceChannel* channel;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+    for (i = 0; i < SEQ_NUM_CHANNELS; i++) {
         channel = seqPlayer->channels[i];
         if (IS_SEQUENCE_CHANNEL_VALID(channel) == 1) {
             AudioSeq_SequenceChannelDisable(channel);
@@ -2021,7 +2021,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+    for (i = 0; i < SEQ_NUM_CHANNELS; i++) {
         if (seqPlayer->channels[i]->enabled) {
             AudioSeq_SequenceChannelProcessScript(seqPlayer->channels[i]);
         }
@@ -2076,7 +2076,7 @@ void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->volume = 0.0f;
     seqPlayer->muteVolumeScale = 0.5f;
 
-    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+    for (i = 0; i < SEQ_NUM_CHANNELS; i++) {
         AudioSeq_InitSequenceChannel(seqPlayer->channels[i]);
     }
 }
@@ -2087,7 +2087,7 @@ void AudioSeq_InitSequencePlayerChannels(s32 playerIdx) {
     s32 i;
     s32 j;
 
-    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+    for (i = 0; i < SEQ_NUM_CHANNELS; i++) {
         seqPlayer->channels[i] = AudioHeap_AllocZeroed(&gAudioContext.miscPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
             seqPlayer->channels[i] = &gAudioContext.sequenceChannelNone;
@@ -2107,7 +2107,7 @@ void AudioSeq_InitSequencePlayer(SequencePlayer* seqPlayer) {
     s32 i;
     s32 j;
 
-    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+    for (i = 0; i < SEQ_NUM_CHANNELS; i++) {
         seqPlayer->channels[i] = &gAudioContext.sequenceChannelNone;
     }
 

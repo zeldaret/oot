@@ -18,6 +18,8 @@
 
 #define AIBUF_LEN 0x580
 
+#define SEQ_NUM_CHANNELS 16
+
 typedef enum {
     /* 0 */ ADSR_STATE_DISABLED,
     /* 1 */ ADSR_STATE_INITIAL,
