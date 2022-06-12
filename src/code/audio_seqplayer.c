@@ -618,7 +618,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
     u16 cmdArg16;
     u16 velocity;
 
-    for (;;) {
+    while (true) {
         cmd = AudioSeq_ScriptReadU8(state);
 
         // To be processed in AudioSeq_SeqLayerProcessScriptStep3

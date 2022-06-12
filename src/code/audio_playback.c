@@ -638,7 +638,7 @@ void Audio_NotePoolClear(NotePool* pool) {
                 break;
         }
 
-        for (;;) {
+        while (true) {
             cur = source->next;
             if (cur == source || cur == NULL) {
                 break;
