@@ -8142,7 +8142,7 @@ s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera) {
     return true;
 }
 
-s32 Camera_GetDbgCamEnabled() {
+s32 Camera_GetDbgCamEnabled(void) {
     return gDbgCamEnabled;
 }
 
