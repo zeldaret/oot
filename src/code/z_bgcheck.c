@@ -3882,7 +3882,7 @@ u16 BgCheck_GetBgCamSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 b
 }
 
 /**
- * BgCam Get the total count of Vec3s data from bgCamData
+ * BgCam Get the total count of Vec3s data from bgCamFuncData
  */
 u16 BgCheck_GetBgCamCountImpl(CollisionContext* colCtx, u32 bgCamIndex, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
@@ -3901,7 +3901,7 @@ u16 BgCheck_GetBgCamCountImpl(CollisionContext* colCtx, u32 bgCamIndex, s32 bgId
 }
 
 /**
- * BgCam Get the total count of Vec3s data from bgCamData
+ * BgCam Get the total count of Vec3s data from bgCamFuncData
  */
 u16 BgCheck_GetBgCamCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
@@ -3926,9 +3926,9 @@ u16 BgCheck_GetBgCamCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgI
 }
 
 /**
- * BgCam Get s16 data from bgCamData
+ * BgCam Get s16 data from bgCamFuncData
  */
-s16* BgCheck_GetBgCamDataImpl(CollisionContext* colCtx, s32 bgCamIndex, s32 bgId) {
+s16* BgCheck_GetBgCamFuncDataImpl(CollisionContext* colCtx, s32 bgCamIndex, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     BgCamInfo* bgCamList;
 
@@ -3941,13 +3941,13 @@ s16* BgCheck_GetBgCamDataImpl(CollisionContext* colCtx, s32 bgCamIndex, s32 bgId
         return NULL;
     }
 
-    return (s16*)SEGMENTED_TO_VIRTUAL(bgCamList[bgCamIndex].bgCamData);
+    return (s16*)SEGMENTED_TO_VIRTUAL(bgCamList[bgCamIndex].bgCamFuncData);
 }
 
 /**
- * BgCam Get s16 data from bgCamData
+ * BgCam Get s16 data from bgCamFuncData
  */
-s16* BgCheck_GetBgCamData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+s16* BgCheck_GetBgCamFuncData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     BgCamInfo* bgCamList;
     SurfaceType* surfaceTypes;
@@ -3966,7 +3966,7 @@ s16* BgCheck_GetBgCamData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgI
         return NULL;
     }
 
-    return BgCheck_GetBgCamDataImpl(colCtx, SurfaceType_GetBgCamIndex(colCtx, poly, bgId), bgId);
+    return BgCheck_GetBgCamFuncDataImpl(colCtx, SurfaceType_GetBgCamIndex(colCtx, poly, bgId), bgId);
 }
 
 /**
