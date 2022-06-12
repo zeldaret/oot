@@ -432,7 +432,7 @@ typedef struct {
 #define PLAYER_STATE2_13 (1 << 13)
 #define PLAYER_STATE2_14 (1 << 14)
 #define PLAYER_STATE2_15 (1 << 15)
-#define PLAYER_STATE2_16 (1 << 16)
+#define PLAYER_STATE2_CAN_ENTER_CRAWLSPACE (1 << 16)
 #define PLAYER_STATE2_17 (1 << 17)
 #define PLAYER_STATE2_18 (1 << 18)
 #define PLAYER_STATE2_19 (1 << 19)
