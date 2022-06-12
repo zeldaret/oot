@@ -31,7 +31,7 @@ void func_80ACB3E0(EnOwl* this, PlayState* play);
 void EnOwl_WaitLWPreSaria(EnOwl* this, PlayState* play);
 void EnOwl_WaitLWPostSaria(EnOwl* this, PlayState* play);
 void func_80ACD4D4(EnOwl* this, PlayState* play);
-void func_80ACD130(EnOwl* this, PlayState* play, s32 arg2);
+void func_80ACD130(EnOwl* this, PlayState* play, s32 idx);
 void func_80ACBAB8(EnOwl* this, PlayState* play);
 void func_80ACD2CC(EnOwl* this, PlayState* play);
 void func_80ACAA54(EnOwl* this, PlayState* play);
