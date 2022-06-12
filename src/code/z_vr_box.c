@@ -430,7 +430,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
                 DmaMgr_SendRequest1(skyboxCtx->palettes, gNormalSkyFiles[skybox1Index].palette.vromStart, size,
                                     "../z_vr_box.c", 1075);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gNormalSkyFiles[skybox2Index].palette.vromStart,
+                DmaMgr_SendRequest1((u8*)skyboxCtx->palettes + size, gNormalSkyFiles[skybox2Index].palette.vromStart,
                                     size, "../z_vr_box.c", 1077);
             } else {
                 size = gNormalSkyFiles[skybox1Index].palette.vromEnd - gNormalSkyFiles[skybox1Index].palette.vromStart;
@@ -441,7 +441,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
                 DmaMgr_SendRequest1(skyboxCtx->palettes, gNormalSkyFiles[skybox2Index].palette.vromStart, size,
                                     "../z_vr_box.c", 1088);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gNormalSkyFiles[skybox1Index].palette.vromStart,
+                DmaMgr_SendRequest1((u8*)skyboxCtx->palettes + size, gNormalSkyFiles[skybox1Index].palette.vromStart,
                                     size, "../z_vr_box.c", 1090);
             }
             break;
@@ -486,7 +486,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
             ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1171);
 
             DmaMgr_SendRequest1(skyboxCtx->palettes, start, size, "../z_vr_box.c", 1173);
-            DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, start, size, "../z_vr_box.c", 1175);
+            DmaMgr_SendRequest1((u8*)skyboxCtx->palettes + size, start, size, "../z_vr_box.c", 1175);
             break;
         case SKYBOX_MARKET_ADULT:
             skyboxCtx->unk_140 = 1;
@@ -531,7 +531,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
             ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1212);
 
             DmaMgr_SendRequest1(skyboxCtx->palettes, start, size, "../z_vr_box.c", 1214);
-            DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, _vr_holy1_pal_staticSegmentRomStart, size,
+            DmaMgr_SendRequest1((u8*)skyboxCtx->palettes + size, _vr_holy1_pal_staticSegmentRomStart, size,
                                 "../z_vr_box.c", 1216);
             break;
         case SKYBOX_HOUSE_LINK:

@@ -5,8 +5,8 @@
  */
 
 #include "z_en_vb_ball.h"
-#include "objects/object_fd/object_fd.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fd/object_fd.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)

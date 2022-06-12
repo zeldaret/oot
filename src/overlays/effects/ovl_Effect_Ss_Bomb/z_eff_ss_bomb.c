@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_bomb.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rTexIdx regs[1]

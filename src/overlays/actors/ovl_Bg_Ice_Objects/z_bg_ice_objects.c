@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_ice_objects.h"
-#include "objects/object_ice_objects/object_ice_objects.h"
+#include "assets/objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0
 

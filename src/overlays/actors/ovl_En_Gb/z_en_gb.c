@@ -5,7 +5,7 @@
  */
 
 #include "z_en_gb.h"
-#include "objects/object_ps/object_ps.h"
+#include "assets/objects/object_ps/object_ps.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
