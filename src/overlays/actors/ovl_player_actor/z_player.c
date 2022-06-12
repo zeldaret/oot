@@ -4860,8 +4860,8 @@ void func_8083AE40(Player* this, s16 objectId) {
         LOG_HEX("size", size, "../z_player.c", 9090);
         ASSERT(size <= 1024 * 8, "size <= 1024 * 8", "../z_player.c", 9091);
 
-        DmaMgr_SendRequest2(&this->giObjectDmaRequest, (u32)this->giObjectSegment, gObjectTable[objectId].vromStart,
-                            size, 0, &this->giObjectLoadQueue, NULL, "../z_player.c", 9099);
+        DmaMgr_SendRequest2(&this->giObjectDmaRequest, this->giObjectSegment, gObjectTable[objectId].vromStart, size, 0,
+                            &this->giObjectLoadQueue, NULL, "../z_player.c", 9099);
     }
 }
 
