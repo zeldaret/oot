@@ -917,7 +917,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 
 #undef FONT_DATA_RELOC
 
-    // Store the relocated pointers to the tunedSample lists in the soundFonts meta-data struct
+    // Store the relocated pointers to the soundFontInfoList list
     gAudioContext.soundFontInfoList[fontId].drums = (Drum**)fontData[0];
     gAudioContext.soundFontInfoList[fontId].soundEffects = (SoundEffects*)fontData[1];
     gAudioContext.soundFontInfoList[fontId].instruments = (Instrument**)(fontData + 2);
