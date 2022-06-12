@@ -318,12 +318,12 @@ Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
         return NULL;
     }
 
-    if (instId >= gAudioContext.soundFonts[fontId].numInstruments) {
+    if (instId >= gAudioContext.soundFontInfoList[fontId].numInstruments) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + instId) + 0x3000000;
         return NULL;
     }
 
-    inst = gAudioContext.soundFonts[fontId].instruments[instId];
+    inst = gAudioContext.soundFontInfoList[fontId].instruments[instId];
     if (inst == NULL) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + instId) + 0x1000000;
         return inst;
@@ -344,14 +344,14 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
         return NULL;
     }
 
-    if (drumId >= gAudioContext.soundFonts[fontId].numDrums) {
+    if (drumId >= gAudioContext.soundFontInfoList[fontId].numDrums) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x4000000;
         return NULL;
     }
-    if ((u32)gAudioContext.soundFonts[fontId].drums < AUDIO_RELOCATED_ADDRESS_START) {
+    if ((u32)gAudioContext.soundFontInfoList[fontId].drums < AUDIO_RELOCATED_ADDRESS_START) {
         return NULL;
     }
-    drum = gAudioContext.soundFonts[fontId].drums[drumId];
+    drum = gAudioContext.soundFontInfoList[fontId].drums[drumId];
 
     if (drum == NULL) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x5000000;
@@ -372,16 +372,16 @@ SoundEffects* Audio_GetSfx(s32 fontId, s32 sfxId) {
         return NULL;
     }
 
-    if (sfxId >= gAudioContext.soundFonts[fontId].numSfx) {
+    if (sfxId >= gAudioContext.soundFontInfoList[fontId].numSfx) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x4000000;
         return NULL;
     }
 
-    if ((u32)gAudioContext.soundFonts[fontId].soundEffects < AUDIO_RELOCATED_ADDRESS_START) {
+    if ((u32)gAudioContext.soundFontInfoList[fontId].soundEffects < AUDIO_RELOCATED_ADDRESS_START) {
         return NULL;
     }
 
-    soundEffects = &gAudioContext.soundFonts[fontId].soundEffects[sfxId];
+    soundEffects = &gAudioContext.soundFontInfoList[fontId].soundEffects[sfxId];
 
     if (soundEffects == NULL) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x5000000;
@@ -405,24 +405,24 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
 
     switch (instrumentType) {
         case 0:
-            if (index >= gAudioContext.soundFonts[fontId].numDrums) {
+            if (index >= gAudioContext.soundFontInfoList[fontId].numDrums) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].drums[index] = value;
+            gAudioContext.soundFontInfoList[fontId].drums[index] = value;
             break;
 
         case 1:
-            if (index >= gAudioContext.soundFonts[fontId].numSfx) {
+            if (index >= gAudioContext.soundFontInfoList[fontId].numSfx) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].soundEffects[index] = *(SoundEffects*)value;
+            gAudioContext.soundFontInfoList[fontId].soundEffects[index] = *(SoundEffects*)value;
             break;
 
         default:
-            if (index >= gAudioContext.soundFonts[fontId].numInstruments) {
+            if (index >= gAudioContext.soundFontInfoList[fontId].numInstruments) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].instruments[index] = value;
+            gAudioContext.soundFontInfoList[fontId].instruments[index] = value;
             break;
     }
 

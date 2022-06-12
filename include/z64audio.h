@@ -206,7 +206,7 @@ typedef struct {
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
     /* 0x10 */ SoundEffects* soundEffects;
-} SoundFont; // size = 0x14
+} SoundFontInfo; // size = 0x14
 
 typedef struct {
     /* 0x00 */ s16 numSamplesAfterDownsampling; // never read
@@ -867,7 +867,7 @@ typedef struct {
     /* 0x2838 */ AudioTable* sampleBankTable;
     /* 0x283C */ u8* sequenceFontTable;
     /* 0x2840 */ u16 numSequences;
-    /* 0x2844 */ SoundFont* soundFonts;
+    /* 0x2844 */ SoundFontInfo* soundFontInfoList;
     /* 0x2848 */ AudioBufferParameters audioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
     /* 0x2874 */ s32 sampleDmaBufSize1;
