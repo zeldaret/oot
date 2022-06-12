@@ -573,7 +573,7 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
 
     // Save the pointer to the synthethic wave
     // waveId index starts at 128, there are 64 samples to read from
-    note->noteSubEu.sound.waveSampleAddr = &gWaveSamples[waveId - 128][harmonicIndex * AudioSynth_LoadWaveSamples];
+    note->noteSubEu.sound.waveSampleAddr = &gWaveSamples[waveId - 128][harmonicIndex * WAVE_SAMPLE_COUNT];
 
     return harmonicIndex;
 }
