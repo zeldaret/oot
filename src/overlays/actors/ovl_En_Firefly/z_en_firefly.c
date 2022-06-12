@@ -12,7 +12,7 @@
 
 void EnFirefly_Init(Actor* thisx, PlayState* play);
 void EnFirefly_Destroy(Actor* thisx, PlayState* play);
-void EnFirefly_Update(Actor* thisx, PlayState* play);
+void EnFirefly_Update(Actor* thisx, PlayState* play2);
 void EnFirefly_Draw(Actor* thisx, PlayState* play);
 
 void EnFirefly_DrawInvisible(Actor* thisx, PlayState* play);

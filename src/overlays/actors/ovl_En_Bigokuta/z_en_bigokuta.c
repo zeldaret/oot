@@ -5,7 +5,7 @@
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play);
 void EnBigokuta_Destroy(Actor* thisx, PlayState* play);
-void EnBigokuta_Update(Actor* thisx, PlayState* play);
+void EnBigokuta_Update(Actor* thisx, PlayState* play2);
 void EnBigokuta_Draw(Actor* thisx, PlayState* play);
 
 void func_809BD318(EnBigokuta* this);

@@ -31,7 +31,7 @@ typedef enum {
     /* 15 */ INTRO_READY = 15
 } EnfHGIntroState;
 
-void EnfHG_Init(Actor* thisx, PlayState* play);
+void EnfHG_Init(Actor* thisx, PlayState* play2);
 void EnfHG_Destroy(Actor* thisx, PlayState* play);
 void EnfHG_Update(Actor* thisx, PlayState* play);
 void EnfHG_Draw(Actor* thisx, PlayState* play);

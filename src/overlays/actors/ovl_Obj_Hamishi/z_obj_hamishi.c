@@ -10,7 +10,7 @@
 #define FLAGS 0
 
 void ObjHamishi_Init(Actor* thisx, PlayState* play);
-void ObjHamishi_Destroy(Actor* thisx, PlayState* play);
+void ObjHamishi_Destroy(Actor* thisx, PlayState* play2);
 void ObjHamishi_Update(Actor* thisx, PlayState* play);
 void ObjHamishi_Draw(Actor* thisx, PlayState* play);
 

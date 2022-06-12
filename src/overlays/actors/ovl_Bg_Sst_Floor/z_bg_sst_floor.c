@@ -9,10 +9,10 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void BgSstFloor_Init(BgSstFloor* this, PlayState* play);
-void BgSstFloor_Destroy(BgSstFloor* this, PlayState* play);
-void BgSstFloor_Update(BgSstFloor* this, PlayState* play);
-void BgSstFloor_Draw(BgSstFloor* this, PlayState* play);
+void BgSstFloor_Init(BgSstFloor* thisx, PlayState* play);
+void BgSstFloor_Destroy(BgSstFloor* thisx, PlayState* play);
+void BgSstFloor_Update(BgSstFloor* thisx, PlayState* play);
+void BgSstFloor_Draw(BgSstFloor* thisx, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 

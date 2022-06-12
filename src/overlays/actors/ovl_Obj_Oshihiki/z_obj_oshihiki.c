@@ -10,7 +10,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void ObjOshihiki_Init(Actor* thisx, PlayState* play);
+void ObjOshihiki_Init(Actor* thisx, PlayState* play2);
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play);
 void ObjOshihiki_Update(Actor* thisx, PlayState* play);
 void ObjOshihiki_Draw(Actor* thisx, PlayState* play);

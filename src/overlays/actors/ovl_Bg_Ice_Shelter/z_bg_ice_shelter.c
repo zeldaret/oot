@@ -6,7 +6,7 @@
 void BgIceShelter_Init(Actor* thisx, PlayState* play);
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play);
 void BgIceShelter_Update(Actor* thisx, PlayState* play);
-void BgIceShelter_Draw(Actor* thisx, PlayState* play);
+void BgIceShelter_Draw(Actor* thisx, PlayState* play2);
 
 void func_80891064(BgIceShelter* this);
 void func_808911BC(BgIceShelter* this);

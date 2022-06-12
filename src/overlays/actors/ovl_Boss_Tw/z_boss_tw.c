@@ -60,10 +60,10 @@ typedef struct {
     /* 0x0044 */ Actor* target;
 } BossTwEffect;
 
-void BossTw_Init(Actor* thisx, PlayState* play);
+void BossTw_Init(Actor* thisx, PlayState* play2);
 void BossTw_Destroy(Actor* thisx, PlayState* play);
 void BossTw_Update(Actor* thisx, PlayState* play);
-void BossTw_Draw(Actor* thisx, PlayState* play);
+void BossTw_Draw(Actor* thisx, PlayState* play2);
 
 void BossTw_TwinrovaDamage(BossTw* this, PlayState* play, u8 damage);
 void BossTw_TwinrovaSetupFly(BossTw* this, PlayState* play);
@@ -97,18 +97,18 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play);
 void BossTw_FlyTo(BossTw* this, PlayState* play);
 void BossTw_SetupShootBeam(BossTw* this, PlayState* play);
 void BossTw_TurnToPlayer(BossTw* this, PlayState* play);
-void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play);
-void BossTw_TwinrovaDraw(Actor* thisx, PlayState* play);
+void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2);
+void BossTw_TwinrovaDraw(Actor* thisx, PlayState* play2);
 void BossTw_SetupWait(BossTw* this, PlayState* play);
 void BossTw_TwinrovaSetupIntroCS(BossTw* this, PlayState* play);
 void BossTw_SetupFlyTo(BossTw* this, PlayState* play);
 void BossTw_SetupCSWait(BossTw* this, PlayState* play);
 void BossTw_BlastUpdate(Actor* thisx, PlayState* play);
-void BossTw_BlastDraw(Actor* thisx, PlayState* play);
+void BossTw_BlastDraw(Actor* thisx, PlayState* play2);
 void BossTw_BlastFire(BossTw* this, PlayState* play);
 void BossTw_BlastIce(BossTw* this, PlayState* play);
 void BossTw_DeathBall(BossTw* this, PlayState* play);
-void BossTw_DrawDeathBall(Actor* thisx, PlayState* play);
+void BossTw_DrawDeathBall(Actor* thisx, PlayState* play2);
 void BossTw_TwinrovaStun(BossTw* this, PlayState* play);
 void BossTw_TwinrovaSpin(BossTw* this, PlayState* play);
 void BossTw_TwinrovaShootBlast(BossTw* this, PlayState* play);

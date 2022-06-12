@@ -25,9 +25,9 @@ typedef enum {
     /* 2 */ FAIRY_SPELL_NAYRUS_LOVE
 } BgDyYoseizoSpellType;
 
-void BgDyYoseizo_Init(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Init(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
-void BgDyYoseizo_Update(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Update(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Draw(Actor* thisx, PlayState* play);
 
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, PlayState* play);
@@ -94,7 +94,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     this->actionFunc = BgDyYoseizo_CheckMagicAcquired;
 }
 
-void BgDyYoseizo_Destroy(Actor* this, PlayState* play) {
+void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play) {
 }
 
 static Color_RGB8 sEffectPrimColors[] = {

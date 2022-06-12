@@ -11,7 +11,7 @@
 
 void EnGb_Init(Actor* thisx, PlayState* play);
 void EnGb_Destroy(Actor* thisx, PlayState* play);
-void EnGb_Update(Actor* thisx, PlayState* play);
+void EnGb_Update(Actor* thisx, PlayState* play2);
 void EnGb_Draw(Actor* thisx, PlayState* play);
 
 void func_80A2F83C(EnGb* this, PlayState* play);

@@ -16,7 +16,7 @@ typedef enum {
     SYATEKI_ROUND_MAX
 } EnSyatekItemRound;
 
-void EnSyatekiItm_Init(Actor* thisx, PlayState* play);
+void EnSyatekiItm_Init(Actor* thisx, PlayState* play2);
 void EnSyatekiItm_Destroy(Actor* thisx, PlayState* play);
 void EnSyatekiItm_Update(Actor* thisx, PlayState* play);
 

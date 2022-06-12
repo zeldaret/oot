@@ -11,7 +11,7 @@
 #define FLAGS 0
 
 void ObjComb_Init(Actor* thisx, PlayState* play);
-void ObjComb_Destroy(Actor* thisx, PlayState* play);
+void ObjComb_Destroy(Actor* thisx, PlayState* play2);
 void ObjComb_Update(Actor* thisx, PlayState* play);
 void ObjComb_Draw(Actor* thisx, PlayState* play);
 

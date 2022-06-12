@@ -15,7 +15,7 @@
 #define MERGE_MASTER 0x40
 #define MERGE_SLAVE 0x20
 
-void EnFloormas_Init(Actor* thisx, PlayState* play);
+void EnFloormas_Init(Actor* thisx, PlayState* play2);
 void EnFloormas_Destroy(Actor* thisx, PlayState* play);
 void EnFloormas_Update(Actor* thisx, PlayState* play);
 void EnFloormas_Draw(Actor* thisx, PlayState* play);
@@ -23,7 +23,7 @@ void EnFloormas_Draw(Actor* thisx, PlayState* play);
 void EnFloormas_GrabLink(EnFloormas* this, PlayState* play);
 void EnFloormas_Split(EnFloormas* this, PlayState* play);
 void EnFloormas_Recover(EnFloormas* this, PlayState* play);
-void EnFloormas_DrawHighlighted(Actor* this, PlayState* play);
+void EnFloormas_DrawHighlighted(Actor* thisx, PlayState* play);
 void EnFloormas_SmWait(EnFloormas* this, PlayState* play);
 void EnFloormas_SetupBigDecideAction(EnFloormas* this);
 void EnFloormas_Freeze(EnFloormas* this, PlayState* play);

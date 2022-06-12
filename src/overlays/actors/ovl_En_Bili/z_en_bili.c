@@ -11,7 +11,7 @@
 
 void EnBili_Init(Actor* thisx, PlayState* play);
 void EnBili_Destroy(Actor* thisx, PlayState* play);
-void EnBili_Update(Actor* thisx, PlayState* play);
+void EnBili_Update(Actor* thisx, PlayState* play2);
 void EnBili_Draw(Actor* thisx, PlayState* play);
 
 void EnBili_SetupFloatIdle(EnBili* this);

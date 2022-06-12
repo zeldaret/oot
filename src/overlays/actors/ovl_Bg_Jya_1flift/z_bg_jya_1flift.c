@@ -11,7 +11,7 @@
 
 void BgJya1flift_Init(Actor* thisx, PlayState* play);
 void BgJya1flift_Destroy(Actor* thisx, PlayState* play);
-void BgJya1flift_Update(Actor* thisx, PlayState* play);
+void BgJya1flift_Update(Actor* thisx, PlayState* play2);
 void BgJya1flift_Draw(Actor* thisx, PlayState* play);
 
 void BgJya1flift_SetupWaitForSwitch(BgJya1flift* this);

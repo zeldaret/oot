@@ -12,7 +12,7 @@
 
 void EnBom_Init(Actor* thisx, PlayState* play);
 void EnBom_Destroy(Actor* thisx, PlayState* play);
-void EnBom_Update(Actor* thisx, PlayState* play);
+void EnBom_Update(Actor* thisx, PlayState* play2);
 void EnBom_Draw(Actor* thisx, PlayState* play);
 
 void EnBom_Move(EnBom* this, PlayState* play);

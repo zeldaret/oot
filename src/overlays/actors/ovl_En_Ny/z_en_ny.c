@@ -8,7 +8,7 @@ void EnNy_Destroy(Actor* thisx, PlayState* play);
 void EnNy_Update(Actor* thisx, PlayState* play);
 void EnNy_Draw(Actor* thisx, PlayState* play);
 
-void EnNy_UpdateUnused(Actor* thisx, PlayState* play);
+void EnNy_UpdateUnused(Actor* thisx, PlayState* play2);
 void EnNy_Move(EnNy* this, PlayState* play);
 void EnNy_Die(EnNy* this, PlayState* play);
 void func_80ABCD40(EnNy* this);

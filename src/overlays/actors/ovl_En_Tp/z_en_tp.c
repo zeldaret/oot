@@ -9,7 +9,7 @@
 
 #define FLAGS 0
 
-void EnTp_Init(Actor* thisx, PlayState* play);
+void EnTp_Init(Actor* thisx, PlayState* play2);
 void EnTp_Destroy(Actor* thisx, PlayState* play);
 void EnTp_Update(Actor* thisx, PlayState* play);
 void EnTp_Draw(Actor* thisx, PlayState* play);

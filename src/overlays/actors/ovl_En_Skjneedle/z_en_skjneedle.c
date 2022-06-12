@@ -11,7 +11,7 @@
 
 void EnSkjneedle_Init(Actor* thisx, PlayState* play);
 void EnSkjneedle_Destroy(Actor* thisx, PlayState* play);
-void EnSkjneedle_Update(Actor* thisx, PlayState* play);
+void EnSkjneedle_Update(Actor* thisx, PlayState* play2);
 void EnSkjneedle_Draw(Actor* thisx, PlayState* play);
 
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);

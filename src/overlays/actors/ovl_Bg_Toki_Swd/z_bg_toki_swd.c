@@ -12,7 +12,7 @@
 void BgTokiSwd_Init(Actor* thisx, PlayState* play);
 void BgTokiSwd_Destroy(Actor* thisx, PlayState* play);
 void BgTokiSwd_Update(Actor* thisx, PlayState* play);
-void BgTokiSwd_Draw(Actor* thisx, PlayState* play);
+void BgTokiSwd_Draw(Actor* thisx, PlayState* play2);
 
 void func_808BAF40(BgTokiSwd* this, PlayState* play);
 void func_808BB0AC(BgTokiSwd* this, PlayState* play);

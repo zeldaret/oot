@@ -5,7 +5,7 @@
 
 void EnOkuta_Init(Actor* thisx, PlayState* play);
 void EnOkuta_Destroy(Actor* thisx, PlayState* play);
-void EnOkuta_Update(Actor* thisx, PlayState* play);
+void EnOkuta_Update(Actor* thisx, PlayState* play2);
 void EnOkuta_Draw(Actor* thisx, PlayState* play);
 
 void EnOkuta_SetupWaitToAppear(EnOkuta* this);

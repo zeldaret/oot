@@ -14,7 +14,7 @@
 
 void EnReeba_Init(Actor* thisx, PlayState* play);
 void EnReeba_Destroy(Actor* thisx, PlayState* play);
-void EnReeba_Update(Actor* thisx, PlayState* play);
+void EnReeba_Update(Actor* thisx, PlayState* play2);
 void EnReeba_Draw(Actor* thisx, PlayState* play);
 
 void func_80AE4F40(EnReeba* this, PlayState* play);

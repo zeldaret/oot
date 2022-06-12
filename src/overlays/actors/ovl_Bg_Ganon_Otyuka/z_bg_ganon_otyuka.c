@@ -16,8 +16,8 @@ typedef enum {
     /* 0x02 */ FLASH_SHRINK
 } FlashState;
 
-void BgGanonOtyuka_Init(Actor* thisx, PlayState* play);
-void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play);
+void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2);
+void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2);
 void BgGanonOtyuka_Update(Actor* thisx, PlayState* play);
 void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play);
 
