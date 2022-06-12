@@ -4,7 +4,10 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define BGMIZUSHUTTER_PARAM(size, timer, switchFlag) (size << 0xC) | (timer << 0x6) | switchFlag
+#define BGMIZUSHUTTER_SIZE_PARAM(thisx)   (((u16)(thisx)->params >> 0xC) & 0xF)
+#define BGMIZUSHUTTER_TIMER_PARAM(thisx)  (((u16)(thisx)->params >> 0x6) & 0x3F)
+#define BGMIZUSHUTTER_SWITCH_PARAM(thisx) (((u16)(thisx)->params >> 0x0) & 0x3F)
+#define BGMIZUSHUTTER_PARAMS(size, timer, switchFlag) (((size) << 0xC) | ((timer) << 0x6) | (switchFlag))
 
 struct BgMizuShutter;
 

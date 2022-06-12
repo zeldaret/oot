@@ -9,10 +9,10 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void BgSstFloor_Init(BgSstFloor* this, PlayState* play);
-void BgSstFloor_Destroy(BgSstFloor* this, PlayState* play);
-void BgSstFloor_Update(BgSstFloor* this, PlayState* play);
-void BgSstFloor_Draw(BgSstFloor* this, PlayState* play);
+void BgSstFloor_Init(Actor* thisx, PlayState* play);
+void BgSstFloor_Destroy(Actor* thisx, PlayState* play);
+void BgSstFloor_Update(Actor* thisx, PlayState* play);
+void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
@@ -32,7 +32,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale.x, 100, ICHAIN_STOP),
 };
 
-void BgSstFloor_Init(BgSstFloor* thisx, PlayState* play) {
+void BgSstFloor_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgSstFloor* this = (BgSstFloor*)thisx;
     CollisionHeader* colHeader = NULL;
@@ -43,14 +43,14 @@ void BgSstFloor_Init(BgSstFloor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
-void BgSstFloor_Destroy(BgSstFloor* thisx, PlayState* play) {
+void BgSstFloor_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgSstFloor* this = (BgSstFloor*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgSstFloor_Update(BgSstFloor* thisx, PlayState* play) {
+void BgSstFloor_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     BgSstFloor* this = (BgSstFloor*)thisx;
     Player* player = GET_PLAYER(play);
@@ -120,7 +120,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, PlayState* play) {
     func_8003EE6C(play, &play->colCtx.dyna);
 }
 
-void BgSstFloor_Draw(BgSstFloor* thisx, PlayState* play) {
+void BgSstFloor_Draw(Actor* thisx, PlayState* play) {
     BgSstFloor* this = (BgSstFloor*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_sst_floor.c", 277);

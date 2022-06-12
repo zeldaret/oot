@@ -27,11 +27,11 @@ void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play);
 
-void ObjectKankyo_DrawFairies(ObjectKankyo* this, PlayState* play);
-void ObjectKankyo_DrawSnow(ObjectKankyo* this, PlayState* play);
-void ObjectKankyo_DrawLightning(ObjectKankyo* this, PlayState* play);
-void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this, PlayState* play);
-void ObjectKankyo_DrawBeams(ObjectKankyo* this, PlayState* play);
+void ObjectKankyo_DrawFairies(Actor* this, PlayState* play);
+void ObjectKankyo_DrawSnow(Actor* this, PlayState* play);
+void ObjectKankyo_DrawLightning(Actor* this, PlayState* play);
+void ObjectKankyo_DrawSunGraveSpark(Actor* this, PlayState* play);
+void ObjectKankyo_DrawBeams(Actor* this, PlayState* play);
 
 static void* sEffLightningTextures[] = {
     gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
@@ -455,34 +455,35 @@ void ObjectKankyo_Update(Actor* thisx, PlayState* play) {
 }
 
 void ObjectKankyo_Draw(Actor* thisx, PlayState* play) {
-    ObjectKankyo* this = (ObjectKankyo*)thisx;
-
-    switch (this->actor.params) {
+    switch (thisx->params) {
         case 0:
-            ObjectKankyo_DrawFairies(this, play);
+            ObjectKankyo_DrawFairies(thisx, play);
             break;
 
         case 2:
-            ObjectKankyo_DrawLightning(this, play);
+            ObjectKankyo_DrawLightning(thisx, play);
             break;
 
         case 3:
-            ObjectKankyo_DrawSnow(this, play);
+            ObjectKankyo_DrawSnow(thisx, play);
             break;
 
         case 4:
-            ObjectKankyo_DrawSunGraveSpark(this, play);
+            ObjectKankyo_DrawSunGraveSpark(thisx, play);
             break;
 
         case 5:
-            ObjectKankyo_DrawBeams(this, play);
+            ObjectKankyo_DrawBeams(thisx, play);
+            break;
+
+        default:
             break;
     }
 }
 
-void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2) {
-    ObjectKankyo* this = this2;
+void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
     f32 alphaScale;
     Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
     Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
@@ -565,9 +566,9 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2) {
     }
 }
 
-void ObjectKankyo_DrawSnow(ObjectKankyo* this2, PlayState* play2) {
-    ObjectKankyo* this = this2;
+void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
     f32 dist;
     f32 dx;
     f32 dy;
@@ -730,9 +731,9 @@ void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
     }
 }
 
-void ObjectKankyo_DrawLightning(ObjectKankyo* this, PlayState* play) {
+void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play) {
     s32 pad;
-    s32 pad2;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 1182);
 
@@ -791,9 +792,9 @@ void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play) {
     }
 }
 
-void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, PlayState* play2) {
-    ObjectKankyo* this = this2;
+void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
     Vec3f start;
     Vec3f end;
     f32 weight;
@@ -889,7 +890,7 @@ void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play) {
     }
 }
 
-void ObjectKankyo_DrawBeams(ObjectKankyo* this2, PlayState* play2) {
+void ObjectKankyo_DrawBeams(Actor* thisx, PlayState* play2) {
     static Color_RGB8 sBeamPrimColors[] = {
         { 255, 255, 170 }, { 170, 255, 255 }, { 255, 170, 255 },
         { 255, 255, 170 }, { 255, 255, 170 }, { 255, 255, 170 },
@@ -897,8 +898,8 @@ void ObjectKankyo_DrawBeams(ObjectKankyo* this2, PlayState* play2) {
     static Color_RGB8 sBeamEnvColors[] = {
         { 0, 200, 0 }, { 0, 50, 255 }, { 100, 0, 200 }, { 200, 0, 0 }, { 200, 255, 0 }, { 255, 120, 0 },
     };
-    ObjectKankyo* this = this2;
     PlayState* play = play2;
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
     s16 i;
     f32 beamX[] = { 430.0f, 860.0f, 430.0f, -426.0f, -862.0f, -440.0f };
     f32 beamY[] = { 551.0f, 551.0f, 551.0f, 554.0f, 551.0f, 547.0f };
