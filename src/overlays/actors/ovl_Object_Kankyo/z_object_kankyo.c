@@ -155,6 +155,9 @@ void ObjectKankyo_Init(Actor* thisx, PlayState* play) {
             this->requiredObjectLoaded = false;
             ObjectKankyo_SetupAction(this, ObjectKankyo_InitBeams);
             break;
+
+        default:
+            break;
     }
 }
 
@@ -216,6 +219,9 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
             case 771:
                 func_80078884(NA_SE_VO_RT_THROW);
+                break;
+
+            default:
                 break;
         }
     }
@@ -348,6 +354,9 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
                             this->effects[i].dirPhase.y += 0.08f * Rand_ZeroOne();
                             this->effects[i].dirPhase.z += 0.05f * Rand_ZeroOne();
                             break;
+
+                        default:
+                            break;
                     }
                 } else if (this->effects[i].state == 2) {
                     // scatter when the player moves or after a long enough time
@@ -443,6 +452,9 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
             case 3: // reset, never reached
                 this->effects[i].state = 0;
+                break;
+
+            default:
                 break;
         }
     }
@@ -675,6 +687,9 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
                 case 2:
                     this->effects[i].state = 0;
                     break;
+
+                default:
+                    break;
             }
 
             if (1) {}
@@ -726,6 +741,9 @@ void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
                 if (play->csCtx.npcActions[0]->action == 1) {
                     this->effects[0].state = 0;
                 }
+                break;
+            
+            default:
                 break;
         }
     }
