@@ -5,7 +5,7 @@
  */
 
 #include "z_en_bombf.h"
-#include "objects/object_bombf/object_bombf.h"
+#include "assets/objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)

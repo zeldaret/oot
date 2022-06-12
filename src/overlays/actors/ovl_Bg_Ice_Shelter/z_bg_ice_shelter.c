@@ -1,5 +1,5 @@
 #include "z_bg_ice_shelter.h"
-#include "objects/object_ice_objects/object_ice_objects.h"
+#include "assets/objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0
 

@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_sst_floor.h"
-#include "objects/object_sst/object_sst.h"
+#include "assets/objects/object_sst/object_sst.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

@@ -1,5 +1,5 @@
 #include "z_en_ny.h"
-#include "objects/object_ny/object_ny.h"
+#include "assets/objects/object_ny/object_ny.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 

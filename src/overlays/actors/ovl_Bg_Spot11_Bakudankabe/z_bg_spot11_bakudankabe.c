@@ -6,8 +6,8 @@
 
 #include "z_bg_spot11_bakudankabe.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "objects/object_spot11_obj/object_spot11_obj.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/object_spot11_obj/object_spot11_obj.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

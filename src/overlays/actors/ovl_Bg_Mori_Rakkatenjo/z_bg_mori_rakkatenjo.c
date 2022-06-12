@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_mori_rakkatenjo.h"
-#include "objects/object_mori_objects/object_mori_objects.h"
+#include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

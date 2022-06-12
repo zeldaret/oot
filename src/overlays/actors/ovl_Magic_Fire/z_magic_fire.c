@@ -42,7 +42,7 @@ const ActorInit Magic_Fire_InitVars = {
     (ActorFunc)MagicFire_Draw,
 };
 
-#include "overlays/ovl_Magic_Fire/ovl_Magic_Fire.c"
+#include "assets/overlays/ovl_Magic_Fire/ovl_Magic_Fire.c"
 
 static ColliderCylinderInit sCylinderInit = {
     {
