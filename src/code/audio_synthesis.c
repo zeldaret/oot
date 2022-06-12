@@ -1199,8 +1199,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     if (noteSubEu->bitField1.bookOffset != 0) {
         // Move the noise wave (that reads compiled assembly as samples) from ram to dmem
         AudioSynth_LoadBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, ALIGN16(numSamplesToLoad * sizeof(s16)), gWaveSamples[8]);
-        // Offset the starting address for the samples read by gWaveSamples[8]
-        // to read a different set of compiled assembly to generate different noise
+        // Offset the address for the samples read by gWaveSamples[8] to the next set of samples
         gWaveSamples[8] += numSamplesToLoad * sizeof(s16);
         return cmd;
     } else {
