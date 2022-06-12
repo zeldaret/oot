@@ -1,6 +1,7 @@
 #include "global.h"
 #include "vt.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -52,7 +53,9 @@ static ColliderCylinderInit sCylinderInit = {
     { 25, 60, 0, { 0, 0, 0 } },
 };
 
-extern CollisionHeader D_06000730; // gHookshotTargetCol ?
+//! @bug gHookshotPostCol and gHookshotPostDL are referenced below for type A_OBJ_UNKNOWN_6 but they aren't available
+//! since object_d_hsblock isn't a dependency of this actor.
+//! This doesn't cause issues in the base game because A_OBJ_UNKNOWN_6 is never used.
 
 static CollisionHeader* sColHeaders[] = {
     &gLargerCubeCol,       // A_OBJ_GRASS_CLUMP, A_OBJ_TREE_STUMP
@@ -60,22 +63,12 @@ static CollisionHeader* sColHeaders[] = {
     &gSmallerFlatBlockCol, // unused
     &gLargerFlatBlockCol,  // A_OBJ_BLOCK_SMALL_ROT, A_OBJ_BLOCK_LARGE_ROT
     &gSmallerCubeCol,      // unused
-    &D_06000730,           // A_OBJ_UNKNOWN_6
+    &gHookshotPostCol,     // A_OBJ_UNKNOWN_6
 };
 
 static Gfx* sDLists[] = {
-    gFlatBlockDL,
-    gFlatBlockDL,
-    gFlatBlockDL,
-    gFlatRotBlockDL,
-    gFlatRotBlockDL,
-    gSmallCubeDL,
-    /* gHookshotPostDL ? */ 0x06000210,
-    gGrassBladesDL,
-    gTreeStumpDL,
-    gSignRectangularDL,
-    gSignDirectionalDL,
-    gBoulderFragmentsDL,
+    gFlatBlockDL,    gFlatBlockDL,   gFlatBlockDL, gFlatRotBlockDL,    gFlatRotBlockDL,    gSmallCubeDL,
+    gHookshotPostDL, gGrassBladesDL, gTreeStumpDL, gSignRectangularDL, gSignDirectionalDL, gBoulderFragmentsDL,
 };
 
 void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {

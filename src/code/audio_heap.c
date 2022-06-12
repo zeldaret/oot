@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-void AudioHeap_InitSampleCaches(u32 persistentSize, u32 temporarySize);
+void AudioHeap_InitSampleCaches(u32 persistentSampleCacheSize, u32 temporarySampleCacheSize);
 SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);
 SampleCacheEntry* AudioHeap_AllocPersistentSampleCacheEntry(u32 size);
 void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry);

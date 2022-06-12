@@ -16,7 +16,7 @@ void ObjectKankyo_Destroy(Actor* thisx, PlayState* play);
 void ObjectKankyo_Update(Actor* thisx, PlayState* play);
 void ObjectKankyo_Draw(Actor* thisx, PlayState* play);
 
-void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc func);
+void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc action);
 void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_SunGraveSparkInit(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_Snow(ObjectKankyo* this, PlayState* play);
