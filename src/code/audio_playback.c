@@ -348,7 +348,7 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x4000000;
         return NULL;
     }
-    if ((u32)gAudioContext.soundFonts[fontId].drums < 0x80000000) {
+    if ((u32)gAudioContext.soundFonts[fontId].drums < AUDIO_RELOCATED_ADDRESS_START) {
         return NULL;
     }
     drum = gAudioContext.soundFonts[fontId].drums[drumId];
@@ -377,7 +377,7 @@ SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
         return NULL;
     }
 
-    if ((u32)gAudioContext.soundFonts[fontId].soundEffects < 0x80000000) {
+    if ((u32)gAudioContext.soundFonts[fontId].soundEffects < AUDIO_RELOCATED_ADDRESS_START) {
         return NULL;
     }
 

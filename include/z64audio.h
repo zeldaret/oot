@@ -18,6 +18,8 @@
 
 #define AIBUF_LEN 0x580
 
+#define AUDIO_RELOCATED_ADDRESS_START K0BASE
+
 typedef enum {
     /* 0 */ ADSR_STATE_DISABLED,
     /* 1 */ ADSR_STATE_INITIAL,
@@ -130,14 +132,14 @@ typedef struct {
 } AdpcmBook; // size >= 0x8
 
 typedef struct {
-    /* 0x00 */ u32 codec : 4;
-    /* 0x00 */ u32 medium : 2;
+    /* 0x00 */ u32 codec : 4; // The state of compression or decompression
+    /* 0x00 */ u32 medium : 2; // Medium where sample is currently stored
     /* 0x00 */ u32 unk_bit26 : 1;
-    /* 0x00 */ u32 unk_bit25 : 1;
-    /* 0x01 */ u32 size : 24;
-    /* 0x04 */ u8* sampleAddr;
-    /* 0x08 */ AdpcmLoop* loop;
-    /* 0x0C */ AdpcmBook* book;
+    /* 0x00 */ u32 isRelocated : 1; // Has the sample header been relocated (offsets to pointers)
+    /* 0x01 */ u32 size : 24; // Size of the sample
+    /* 0x04 */ u8* sampleAddr; // Raw sample data. Offset from the start of the sample bank or absolute address to either rom or ram
+    /* 0x08 */ AdpcmLoop* loop; // Adpcm loop parameters used by the sample. Offset from the start of the sound font / pointer to ram
+    /* 0x0C */ AdpcmBook* book; // Adpcm book parameters used by the sample. Offset from the start of the sound font / pointer to ram
 } SoundFontSample; // size = 0x10
 
 typedef struct {
@@ -199,7 +201,7 @@ typedef struct {
 } SynthesisReverb; // size = 0x2C8
 
 typedef struct {
-    /* 0x00 */ u8 loaded;
+    /* 0x00 */ u8 isRelocated; // have the envelope and all samples been relocated (offsets to pointers)
     /* 0x01 */ u8 normalRangeLo;
     /* 0x02 */ u8 normalRangeHi;
     /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
@@ -212,7 +214,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
     /* 0x01 */ u8 pan;
-    /* 0x02 */ u8 loaded;
+    /* 0x02 */ u8 isRelocated; // have sound.sample and envelope been relocated (offsets to pointers)
     /* 0x04 */ SoundFontSound sound;
     /* 0x0C */ AdsrEnvelope* envelope;
 } Drum; // size = 0x10
