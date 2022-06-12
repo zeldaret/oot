@@ -5,7 +5,7 @@
  */
 
 #include "z_en_blkobj.h"
-#include "objects/object_blkobj/object_blkobj.h"
+#include "assets/objects/object_blkobj/object_blkobj.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

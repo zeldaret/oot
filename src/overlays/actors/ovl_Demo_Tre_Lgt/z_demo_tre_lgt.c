@@ -1,6 +1,6 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
-#include "objects/object_box/object_box.h"
+#include "assets/objects/object_box/object_box.h"
 
 #define FLAGS ACTOR_FLAG_4
 

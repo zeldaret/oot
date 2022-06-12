@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_haka.h"
-#include "objects/object_haka/object_haka.h"
+#include "assets/objects/object_haka/object_haka.h"
 
 #define FLAGS 0
 

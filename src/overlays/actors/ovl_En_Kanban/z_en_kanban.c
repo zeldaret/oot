@@ -5,8 +5,8 @@
  */
 
 #include "z_en_kanban.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_kanban/object_kanban.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_kanban/object_kanban.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
@@ -797,7 +797,7 @@ static f32 sCutAngles[] = {
 
 static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
-#include "overlays/ovl_En_Kanban/ovl_En_Kanban.c"
+#include "assets/overlays/ovl_En_Kanban/ovl_En_Kanban.c"
 
 void EnKanban_Draw(Actor* thisx, PlayState* play) {
     EnKanban* this = (EnKanban*)thisx;

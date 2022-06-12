@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_kibako2.h"
-#include "objects/object_kibako2/object_kibako2.h"
+#include "assets/objects/object_kibako2/object_kibako2.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0
