@@ -368,7 +368,7 @@ BgImage* func_80096A74(MeshHeader1Multi* meshHeader1Multi, PlayState* play) {
     BgImage* bgImage;
     s32 i;
 
-    jfifId = ((BgCamData*)BgCheck_GetBgCamDataImpl(&play->colCtx, bgCamIndex, BGCHECK_SCENE))->jfifId;
+    jfifId = ((BgCamFuncData*)BgCheck_GetBgCamFuncDataImpl(&play->colCtx, bgCamIndex, BGCHECK_SCENE))->jfifId;
     if (jfifId >= 0) {
         bgCamIndex = jfifId;
     }
