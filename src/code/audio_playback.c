@@ -19,7 +19,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
     sub->bitField0 = note->noteSubEu.bitField0;
     sub->bitField1 = note->noteSubEu.bitField1;
-    sub->waveSample = note->noteSubEu.waveSample;
+    sub->samples = note->noteSubEu.samples;
     sub->unk_06 = note->noteSubEu.unk_06;
 
     Audio_NoteSetResamplingRate(sub, attrs->frequency);
@@ -559,7 +559,7 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     note->playbackState.waveId = waveId;
     note->playbackState.sampleCountIndex = sampleCountIndex;
 
-    note->noteSubEu.waveSample = &gWaveSamples[waveId - 128][sampleCountIndex * 64];
+    note->noteSubEu.samples = &gWaveSamples[waveId - 128][sampleCountIndex * 64];
 
     return sampleCountIndex;
 }

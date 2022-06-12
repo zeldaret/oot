@@ -563,7 +563,7 @@ typedef struct {
     /* 0x0E */ u16 unk_0E;
     /* 0x10 */ union {
                  TunedSampleInfo* tunedSample;
-                 s16* waveSample; // used for synthetic waves
+                 s16* samples; // used for synthetic waves
              };
     /* 0x14 */ s16* filter;
     /* 0x18 */ char pad_18[0x8];
