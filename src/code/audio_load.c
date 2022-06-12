@@ -1671,19 +1671,16 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, Sa
             sample->book = AUDIO_RELOC(sample->book, fontData);
 
             // Resolve the sample medium 2-bit bitfield into a real value based on sampleBankReloc.
+            // Then relocate the offset sample within the sampleBank (not the fontData) into absolute address.
+            // sampleAddr can be either rom or ram depending on sampleBank cache policy
+            // in practice, this is always in rom
             switch (sample->medium) {
                 case 0:
-                    // Relocate the offset sample within the sampleBank (not the fontData) into a pointer
-                    // sampleAddr can be either rom or ram depending on sampleBank cache policy
-                    // in practice, this is always in rom
                     sample->sampleAddr = AUDIO_RELOC(sample->sampleAddr, sampleBankReloc->baseAddr1);
                     sample->medium = sampleBankReloc->medium1;
                     break;
 
                 case 1:
-                    // Relocate the offset sample within the sampleBank (not the fontData) into a pointer
-                    // sampleAddr can be either rom or ram depending on sampleBank cache policy
-                    // in practice, this is always in rom
                     sample->sampleAddr = AUDIO_RELOC(sample->sampleAddr, sampleBankReloc->baseAddr2);
                     sample->medium = sampleBankReloc->medium2;
                     break;
