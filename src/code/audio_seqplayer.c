@@ -1,18 +1,17 @@
 /**
  * @file audio_seqplayer.c
  *
- * Manages audio sequence players, interprets and executes the Music Macro Language for Sequences
+ * Manages audio sequence players, interprets and executes sequence instructions used to write .seq files
  *
- * Music Macro Lanuage (MML):
+ * Sequence Instructions:
  *   - A customized assembly language based on MIDI
- *   - All sequences are written in the MML
+ *   - All sequences are written using these instructions
  *   - There are 3 different sets of instructions
  *        1) Sequence Instructions
  *        2) Channel Instructions
  *        3) Layer Instruction
  *   - All three sets share a common pool of control flow instructions (>= 0xF2).
  *     Otherwise, each set of intructions have its own command interpreter
- *
  */
 #include "ultra64.h"
 #include "global.h"
