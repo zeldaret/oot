@@ -1201,10 +1201,10 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         gWaveSamples[8] += numSamplesToLoad * sizeof(s16);
         return cmd;
     } else {
-        // move the synthetic wave from ram to dmem
+        // Move the synthetic wave from ram to dmem
         aLoadBuffer(cmd++, noteSubEu->sound.waveSampleAddr, DMEM_UNCOMPRESSED_NOTE, WAVE_SAMPLE_COUNT * sizeof(s16));
 
-        // if the harmonic changes, map the offset in the wave from one harmonic to another for continuity
+        // If the harmonic changes, map the offset in the wave from one harmonic to another for continuity
         if (harmonicIndexCurAndPrev != 0) {
             samplePosInt = samplePosInt * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2] /
                            sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev & 3];
