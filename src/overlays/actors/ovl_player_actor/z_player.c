@@ -6480,7 +6480,7 @@ s32 func_8083F524(PlayState* play, Player* this) {
 }
 
 /**
- * Two exit walls are placed at each end of the crawlspace, separate to the two entrance wall used to enter the
+ * Two exit walls are placed at each end of the crawlspace, separate to the two entrance walls used to enter the
  * crawlspace. These front and back exit walls are slightly more interior in the crawlspace relative to the front and
  * back entrance walls. When player interacts with either of these two interior exit walls, start the leaving-crawlspace
  * cutscene and return true. Else, return false
