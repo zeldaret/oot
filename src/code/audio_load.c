@@ -1151,7 +1151,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     // Initialize the audio interface buffers
     for (i = 0; i < 3; i++) {
-        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN * sizeof(s16));
+        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_LEN * sizeof(s16));
     }
 
     // Set audio tables pointers
@@ -1172,13 +1172,13 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     AudioLoad_InitTable(gAudioContext.soundFontTable, _AudiobankSegmentRomStart, 0);
     AudioLoad_InitTable(gAudioContext.sampleBankTable, _AudiotableSegmentRomStart, 0);
     numFonts = gAudioContext.soundFontTable->numEntries;
-    gAudioContext.soundFonts = AudioHeap_Alloc(&gAudioContext.audioInitPool, numFonts * sizeof(SoundFont));
+    gAudioContext.soundFonts = AudioHeap_Alloc(&gAudioContext.initPool, numFonts * sizeof(SoundFont));
 
     for (i = 0; i < numFonts; i++) {
         AudioLoad_InitSoundFontMeta(i);
     }
 
-    ramAddr = AudioHeap_Alloc(&gAudioContext.audioInitPool, audioHeapInitSizes.permanentPoolSize);
+    ramAddr = AudioHeap_Alloc(&gAudioContext.initPool, audioHeapInitSizes.permanentPoolSize);
     if (ramAddr == NULL) {
         // cast away const from audioHeapInitSizes
         *((u32*)&audioHeapInitSizes.permanentPoolSize) = 0;
