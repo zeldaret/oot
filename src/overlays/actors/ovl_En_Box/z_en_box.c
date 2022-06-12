@@ -1,5 +1,5 @@
 #include "z_en_box.h"
-#include "objects/object_box/object_box.h"
+#include "assets/objects/object_box/object_box.h"
 
 #define FLAGS 0
 

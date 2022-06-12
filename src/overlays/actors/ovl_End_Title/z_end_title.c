@@ -26,7 +26,7 @@ const ActorInit End_Title_InitVars = {
     (ActorFunc)EndTitle_DrawFull,
 };
 
-#include "overlays/ovl_End_Title/ovl_End_Title.c"
+#include "assets/overlays/ovl_End_Title/ovl_End_Title.c"
 
 void EndTitle_Init(Actor* thisx, PlayState* play) {
     EndTitle* this = (EndTitle*)thisx;

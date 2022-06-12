@@ -1,5 +1,5 @@
 #include "z_en_bubble.h"
-#include "objects/object_bubble/object_bubble.h"
+#include "assets/objects/object_bubble/object_bubble.h"
 
 #define FLAGS ACTOR_FLAG_0
 

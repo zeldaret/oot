@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ma1.h"
-#include "objects/object_ma1/object_ma1.h"
+#include "assets/objects/object_ma1/object_ma1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 

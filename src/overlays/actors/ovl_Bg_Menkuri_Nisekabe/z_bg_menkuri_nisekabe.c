@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_menkuri_nisekabe.h"
-#include "objects/object_menkuri_objects/object_menkuri_objects.h"
+#include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
 #define FLAGS 0
 

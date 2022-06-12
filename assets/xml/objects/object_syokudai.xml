@@ -1,5 +1,5 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_dangeon_keep.xml" OutPath="objects/gameplay_dangeon_keep/"/>
+    <ExternalFile XmlPath="objects/gameplay_dangeon_keep.xml" OutPath="assets/objects/gameplay_dangeon_keep/"/>
     <File Name="object_syokudai" Segment="6">
         <DList Name="gGoldenTorchDL" Offset="0x3A0"/>
         <DList Name="gWoodenTorchDL" Offset="0x870"/>

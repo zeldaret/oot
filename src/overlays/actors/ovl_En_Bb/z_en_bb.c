@@ -5,8 +5,8 @@
  */
 
 #include "z_en_bb.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_Bb/object_Bb.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_Bb/object_Bb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
 

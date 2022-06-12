@@ -5,8 +5,8 @@
  */
 
 #include "z_demo_kekkai.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
-#include "scenes/dungeons/ganontika/ganontika_scene.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
