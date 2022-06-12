@@ -21,7 +21,7 @@ const s16 D_8014A6C0[] = {
 #define SOUNDFONT_INFO_SIZE (NUM_SOUNDFONTS * sizeof(SoundFont))
 #define PERMANENT_POOL_SIZE (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE)
 
-const AudioHeapInitSizes audioHeapInitSizes = {
+const AudioHeapInitSizes gAudioHeapInitSizes = {
     ALIGN16(sizeof(gAudioHeap) - 0x100),                                  // audio heap size
     ALIGN16(PERMANENT_POOL_SIZE + AI_BUFFERS_SIZE + SOUNDFONT_INFO_SIZE), // init pool size
     ALIGN16(PERMANENT_POOL_SIZE),                                         // permanent pool size
@@ -30,7 +30,7 @@ const AudioHeapInitSizes audioHeapInitSizes = {
 #define DEFAULT_REVERB_SETTINGS \
     { 1, 0x30, 0x3000, 0, 0, 0x7FFF, 0x0000, 0x0000, 0xFF, 0x3000, 0x0, 0x0 }
 
-ReverbSettings reverbSettings[][3] = {
+ReverbSettings sReverbSettings[][3] = {
     {
         DEFAULT_REVERB_SETTINGS,
         { 1, 0x20, 0x0800, 0, 0, 0x7FFF, 0x0000, 0x0000, 0xFF, 0x0000, 0x0, 0x0 },
@@ -85,22 +85,22 @@ ReverbSettings reverbSettings[][3] = {
 };
 
 AudioSpec gAudioSpecs[18] = {
-    { 32000, 1, 24, 4, 0, 0, 2, reverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x4000, 0x2880, 0, 0, 0 },
-    { 32000, 1, 24, 4, 0, 0, 2, reverbSettings[1], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 24, 4, 0, 0, 2, reverbSettings[2], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 23, 4, 0, 0, 2, reverbSettings[4], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 23, 4, 0, 0, 2, reverbSettings[5], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 24, 4, 0, 0, 2, reverbSettings[6], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 24, 4, 0, 0, 2, reverbSettings[7], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 23, 4, 0, 0, 2, reverbSettings[8], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 24, 4, 0, 0, 2, reverbSettings[9], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 23, 4, 0, 0, 2, reverbSettings[8], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 28, 3, 0, 0, 2, reverbSettings[10], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x2800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 28, 3, 0, 0, 1, reverbSettings[11], 0x300, 0x200, 0x7FFF, 0, 0x4800, 0, 0x4000, 0, 0, 0, 0 },
-    { 32000, 1, 28, 3, 0, 0, 1, reverbSettings[11], 0x300, 0x200, 0x7FFF, 0, 0, 0, 0x4000, 0x4800, 0, 0, 0 },
-    { 32000, 1, 22, 4, 0, 0, 2, reverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 22, 4, 0, 0, 2, reverbSettings[8], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 16, 4, 0, 0, 2, reverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 22050, 1, 24, 4, 0, 0, 2, reverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
-    { 32000, 1, 24, 4, 0, 0, 2, reverbSettings[2], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3600, 0x2600, 0, 0, 0 },
+    { 32000, 1, 24, 4, 0, 0, 2, sReverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x4000, 0x2880, 0, 0, 0 },
+    { 32000, 1, 24, 4, 0, 0, 2, sReverbSettings[1], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 24, 4, 0, 0, 2, sReverbSettings[2], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 23, 4, 0, 0, 2, sReverbSettings[4], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 23, 4, 0, 0, 2, sReverbSettings[5], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 24, 4, 0, 0, 2, sReverbSettings[6], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 24, 4, 0, 0, 2, sReverbSettings[7], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 23, 4, 0, 0, 2, sReverbSettings[8], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 24, 4, 0, 0, 2, sReverbSettings[9], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 23, 4, 0, 0, 2, sReverbSettings[8], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 28, 3, 0, 0, 2, sReverbSettings[10], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x2800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 28, 3, 0, 0, 1, sReverbSettings[11], 0x300, 0x200, 0x7FFF, 0, 0x4800, 0, 0x4000, 0, 0, 0, 0 },
+    { 32000, 1, 28, 3, 0, 0, 1, sReverbSettings[11], 0x300, 0x200, 0x7FFF, 0, 0, 0, 0x4000, 0x4800, 0, 0, 0 },
+    { 32000, 1, 22, 4, 0, 0, 2, sReverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 22, 4, 0, 0, 2, sReverbSettings[8], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 16, 4, 0, 0, 2, sReverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 22050, 1, 24, 4, 0, 0, 2, sReverbSettings[0], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3800, 0x2880, 0, 0, 0 },
+    { 32000, 1, 24, 4, 0, 0, 2, sReverbSettings[2], 0x300, 0x200, 0x7FFF, 0x7F0, 0xE00, 0, 0x3600, 0x2600, 0, 0, 0 },
 };
