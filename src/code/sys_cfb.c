@@ -36,7 +36,7 @@ void SysCfb_Init(s32 n64dd) {
     osSyncPrintf("フレームバッファのアドレスは %08x と %08x です\n", sSysCfbFbPtr[0], sSysCfbFbPtr[1]);
 }
 
-void SysCfb_Reset() {
+void SysCfb_Reset(void) {
     sSysCfbFbPtr[0] = 0;
     sSysCfbFbPtr[1] = 0;
     sSysCfbEnd = 0;

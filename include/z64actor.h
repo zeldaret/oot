@@ -282,7 +282,7 @@ typedef struct EnItem00 {
     /* 0x154 */ s16 unk_154;
     /* 0x156 */ s16 unk_156;
     /* 0x158 */ s16 unk_158;
-    /* 0x15A */ s16 unk_15A;
+    /* 0x15A */ s16 despawnTimer;
     /* 0x15C */ f32 scale;
     /* 0x160 */ ColliderCylinder collider;
 } EnItem00; // size = 0x1AC
