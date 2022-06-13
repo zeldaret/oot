@@ -1234,7 +1234,7 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
 void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     Drum* drum;
     Instrument* inst;
-    SoundEffects* soundEffects;
+    SoundEffect* soundEffects;
     s32 instId;
     s32 drumId;
     s32 sfxId;
@@ -1395,7 +1395,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     s32 fontId;
     Drum* drum;
     Instrument* inst;
-    SoundEffects* soundEffects;
+    SoundEffect* soundEffects;
     u32* fakematch;
     s32 pad[4];
 

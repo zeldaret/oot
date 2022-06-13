@@ -738,7 +738,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
     TunedSampleInfo* tunedSample;
     Instrument* instrument;
     Drum* drum;
-    SoundEffects* soundEffects;
+    SoundEffect* soundEffects;
     SequenceChannel* channel;
     SequencePlayer* seqPlayer;
     u8 semitone = cmd;

@@ -192,7 +192,7 @@ typedef struct {
  */
 typedef struct {
     /* 0x00 */ TunedSampleInfo tunedSample;
-} SoundEffects; // size = 0x08
+} SoundEffect; // size = 0x08
 
 /**
  * A struct to store parsed information from soundfont data
@@ -205,7 +205,7 @@ typedef struct {
     /* 0x04 */ u16 numSfx;
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
-    /* 0x10 */ SoundEffects* soundEffects;
+    /* 0x10 */ SoundEffect* soundEffects;
 } SoundFontInfo; // size = 0x14
 
 typedef struct {

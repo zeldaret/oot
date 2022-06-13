@@ -360,8 +360,8 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     return drum;
 }
 
-SoundEffects* Audio_GetSfx(s32 fontId, s32 sfxId) {
-    SoundEffects* soundEffects;
+SoundEffect* Audio_GetSfx(s32 fontId, s32 sfxId) {
+    SoundEffect* soundEffects;
 
     if (fontId == 0xFF) {
         return NULL;
@@ -415,7 +415,7 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
             if (index >= gAudioContext.soundFontInfoList[fontId].numSfx) {
                 return -3;
             }
-            gAudioContext.soundFontInfoList[fontId].soundEffects[index] = *(SoundEffects*)value;
+            gAudioContext.soundFontInfoList[fontId].soundEffects[index] = *(SoundEffect*)value;
             break;
 
         default:

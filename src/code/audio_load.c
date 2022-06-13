@@ -919,7 +919,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 
     // Store the relocated pointers to the soundFontInfoList list
     gAudioContext.soundFontInfoList[fontId].drums = (Drum**)fontData[0];
-    gAudioContext.soundFontInfoList[fontId].soundEffects = (SoundEffects*)fontData[1];
+    gAudioContext.soundFontInfoList[fontId].soundEffects = (SoundEffect*)fontData[1];
     gAudioContext.soundFontInfoList[fontId].instruments = (Instrument**)(fontData + 2);
 }
 
@@ -1316,7 +1316,7 @@ SampleInfo* AudioLoad_GetFontSampleInfo(s32 fontId, s32 instId) {
         }
         sample = drum->tunedSample.sample;
     } else {
-        SoundEffects* soundEffects = Audio_GetSfx(fontId, instId - 0x100);
+        SoundEffect* soundEffects = Audio_GetSfx(fontId, instId - 0x100);
 
         if (soundEffects == NULL) {
             return NULL;
@@ -1939,7 +1939,7 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, SampleBankRelocInfo*
     s32 numSfx;
     Drum* drum;
     Instrument* instrument;
-    SoundEffects* soundEffects;
+    SoundEffect* soundEffects;
     AudioPreloadReq* preload;
     AudioPreloadReq* topPreload;
     u8* addr;
