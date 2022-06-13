@@ -50,7 +50,6 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
             "includePath": [ // Matches makefile's includes
                 "${workspaceFolder}/**",
                 "src",
-                "assets",
                 "build",
                 "include"
             ],
