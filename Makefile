@@ -285,7 +285,7 @@ test: $(ROM)
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(MUS_OUT) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): audio_tables $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(MUS_OUT) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 ## Order-only prerequisites 
@@ -360,16 +360,16 @@ build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/assets/data/SequenceTable.o: $(MUS_OUT)
-	python3 tools/assemble_sequences.py src/audio assets/sequences build/include build
+	python3 tools/assemble_sequences.py $(SEQUENCE_DIR) build/include build
 
 build/assets/data/SoundFontTable.o: $(FONT_FILES) $(AIFC_FILES)
-	python3 tools/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina
+	python3 tools/assemble_sound.py $(SOUNDFONT_DIR) build/assets build/include assets/samples --build-bank --match=ocarina
 
 build/%.o: %.mus
 	$(SEQ_ASM) $< $@ --font-path build/include --elf big 32 mips
 
 build/include/%.inc: $(FONT_FILES)
-	python3 tools/assemble_font_include.py $< build/include
+	python3 tools/assemble_font_includes.py $(SOUNDFONT_DIR) build/include
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@

@@ -52,17 +52,12 @@ def process_sequence_file(sequence, soundfont_path, output_path):
 
     return defn
 
-def process_sequence_files(sequence_path, src_seq_path, soundfont_path, output_path):
+def process_sequence_files(sequence_path, soundfont_path, output_path):
     result = []
 
     for file in os.listdir(sequence_path):
         if file.endswith(".mus"):
             result.append(process_sequence_file(os.path.join(sequence_path, file), soundfont_path, output_path))
-
-    
-    for file in os.listdir(src_seq_path):
-        if file.endswith(".mus"):
-            result.append(process_sequence_file(os.path.join(src_seq_path, file), soundfont_path, output_path))
 
     refpath = os.path.join(args.sequences, "References.xml")
     refxml = XmlTree.parse(refpath)
@@ -155,22 +150,17 @@ def main(args):
         print("Sequence asset path does not exist or is not a directory.", file=sys.stderr)
         return 1
 
-    if not args.srcseq.is_dir():
-        print("Code sequence path does not exist or is not a directory.", file=sys.stderr)
-        return 1
-
     if not args.output.is_dir():
         print("Output path does not exist or is not a directory.", file=sys.stderr)
         return 1
 
-    sequences = process_sequence_files(args.sequences, args.srcseq, args.soundfonts, args.output)
+    sequences = process_sequence_files(args.sequences,args.soundfonts, args.output)
 
     generate_sequence_table(sequences, args.output, machine, packspecs)
     generate_sequence_font_table(sequences, args.output, machine, packspecs)
 
 if __name__ == "__main__":
     parser = ArgumentParser(add_help=False)
-    parser.add_argument("srcseq", metavar="<code sequence path>", type=Path, help="The path to program sequences.")
     parser.add_argument("sequences", metavar="<sequence asset path>", type=Path, help="The path to sequence assets.")
     parser.add_argument("soundfonts", metavar="<soundfont build path>", type=Path, help="The path to the soundfont include files.")
     parser.add_argument("output", metavar="<output path>", type=Path, help="The path to where built machine files should be stored.")
