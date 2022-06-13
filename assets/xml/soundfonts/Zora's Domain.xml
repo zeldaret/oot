@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="21 Zora's Domain" Index="21">
+    <Soundfont Name="21_Zoras_Domain" Index="21">
         <Instruments>
             <Instrument Name="Steel Drum" Enum="STEEL_DRUM"/>
             <Instrument Name="Vocals" Enum="VOCALS"/>

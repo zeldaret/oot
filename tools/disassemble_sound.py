@@ -529,7 +529,7 @@ def main(args):
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{font.name}.xml")
         if font.name[0:1].isnumeric():
-            idx = font.name.find(' ')
+            idx = font.name.find('_')
             if idx >= 0:
                 font.name = font.name[idx + 1:]
 

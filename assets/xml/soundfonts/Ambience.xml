@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="02 Ambient Sounds" Index="2">
+    <Soundfont Name="02_Ambient_Sounds" Index="2">
         <Instruments>
             <Instrument/>
             <Instrument Name="Bird Chirp 1" Enum="BIRD_CHIRP_0"/>

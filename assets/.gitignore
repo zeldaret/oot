@@ -13,7 +13,7 @@
 # Binary representation of a music sequence
 *.aseq
 # Music sequence
-*.mus
+*.seq
 # Uncompressed audio
 *.aiff
 # Compressed audio

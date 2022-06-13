@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="11 Dodongo's Cavern" Index="11">
+    <Soundfont Name="11_Dodongos_Cavern" Index="11">
         <Instruments>
             <Instrument Name="Wind" Enum="WIND"/>
             <Instrument Name="Echoing Sounds" Enum="ECHOES"/>

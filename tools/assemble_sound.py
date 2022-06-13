@@ -454,7 +454,7 @@ def linkFontToBank(font):
     else:
         # Try to isolate index from name...
         if bname[0:1].isnumeric():
-            firstspace = bname.find(' ')
+            firstspace = bname.find('_')
             bidx = int(bname[:firstspace])
             mybank = banks[bidx]
             font.bankIdx1 = bidx
@@ -546,7 +546,7 @@ def readFont(filepath):
 
     # Resolve font name, and index if part of name
     if fontname[0:1].isnumeric():
-        spaceidx = fontname.find(' ')
+        spaceidx = fontname.find('_')
         if spaceidx >= 0:
             myfont.idx = int(fontname[:spaceidx])
             fontname = fontname[spaceidx + 1:]

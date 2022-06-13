@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="05 Market" Index="5">
+    <Soundfont Name="05_Market" Index="5">
         <Instruments>
             <Instrument Name="Koto" Enum="KOTO"/>
             <Instrument Name="Ocarina" Enum="OCARINA"/>
