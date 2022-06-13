@@ -2873,7 +2873,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
         case PAGE_HEAP_INFO:
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
-            GfxPrint_Printf(printer, "TOTAL  %d", D_8014A6C4.heapSize);
+            GfxPrint_Printf(printer, "TOTAL  %d", gAudioHeapInitSizes.heapSize);
 
             GfxPrint_SetPos(printer, 3, 5);
             GfxPrint_Printf(printer, "DRIVER %05X / %05X",

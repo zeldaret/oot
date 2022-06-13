@@ -798,7 +798,7 @@ void EnFr_CheckOcarinaInputFrogSong(u8 ocarinaNote) {
     }
 }
 
-void EnFr_DeactivateButterfly() {
+void EnFr_DeactivateButterfly(void) {
     s32 frogIndex;
     EnFr* frog;
 
