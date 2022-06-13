@@ -1060,10 +1060,6 @@ typedef struct {
 #define SFX_FLAG_14 (1 << 14)
 #define SFX_FLAG_15 (1 << 15)
 
-#define MAKE_SFX_PARAMS(distParam, randParam, flags)            \
-    (((distParam) << SFX_PARAM_01_SHIFT) & SFX_PARAM_01_MASK) | \
-        (((randParam) << SFX_PARAM_67_SHIFT) & SFX_PARAM_67_MASK) | (flags)
-
 typedef struct {
     u8 importance;
     u16 params;
