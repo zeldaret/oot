@@ -8,15 +8,15 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_9)
 
-void EnSi_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnSi_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnSi_Init(Actor* thisx, PlayState* play);
+void EnSi_Destroy(Actor* thisx, PlayState* play);
+void EnSi_Update(Actor* thisx, PlayState* play);
+void EnSi_Draw(Actor* thisx, PlayState* play);
 
-s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx);
-void func_80AFB768(EnSi* this, GlobalContext* globalCtx);
-void func_80AFB89C(EnSi* this, GlobalContext* globalCtx);
-void func_80AFB950(EnSi* this, GlobalContext* globalCtx);
+s32 func_80AFB748(EnSi* this, PlayState* play);
+void func_80AFB768(EnSi* this, PlayState* play);
+void func_80AFB89C(EnSi* this, PlayState* play);
+void func_80AFB950(EnSi* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -52,11 +52,11 @@ const ActorInit En_Si_InitVars = {
     (ActorFunc)EnSi_Draw,
 };
 
-void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnSi_Init(Actor* thisx, PlayState* play) {
     EnSi* this = (EnSi*)thisx;
 
-    Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AFBADC);
     Actor_SetScale(&this->actor, 0.025f);
     this->unk_19C = 0;
@@ -64,21 +64,21 @@ void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = 42.0f;
 }
 
-void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnSi_Destroy(Actor* thisx, PlayState* play) {
     EnSi* this = (EnSi*)thisx;
 
-    Collider_DestroyCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx) {
+s32 func_80AFB748(EnSi* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
     }
     return 0;
 }
 
-void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80AFB768(EnSi* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         this->actionFunc = func_80AFB89C;
@@ -87,45 +87,45 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, this->actor.scale.x);
         this->actor.shape.rot.y += 0x400;
 
-        if (!Player_InCsMode(globalCtx)) {
-            func_80AFB748(this, globalCtx);
+        if (!Player_InCsMode(play)) {
+            func_80AFB748(this, play);
 
             if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
                 this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
-                Item_Give(globalCtx, ITEM_SKULL_TOKEN);
+                Item_Give(play, ITEM_SKULL_TOKEN);
                 player->actor.freezeTimer = 10;
-                Message_StartTextbox(globalCtx, 0xB4, NULL);
+                Message_StartTextbox(play, 0xB4, NULL);
                 Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                 this->actionFunc = func_80AFB950;
             } else {
                 Collider_UpdateCylinder(&this->actor, &this->collider);
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+                CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
+                CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             }
         }
     }
 }
 
-void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80AFB89C(EnSi* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     Math_SmoothStepToF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
     this->actor.shape.rot.y += 0x400;
 
     if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        Item_Give(globalCtx, ITEM_SKULL_TOKEN);
+        Item_Give(play, ITEM_SKULL_TOKEN);
         player->actor.freezeTimer = 10;
-        Message_StartTextbox(globalCtx, 0xB4, NULL);
+        Message_StartTextbox(play, 0xB4, NULL);
         Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
         this->actionFunc = func_80AFB950;
     }
 }
 
-void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80AFB950(EnSi* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
-    if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_CLOSING) {
+    if (Message_GetState(&play->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
         SET_GS_FLAGS((this->actor.params & 0x1F00) >> 8, this->actor.params & 0xFF);
@@ -133,21 +133,21 @@ void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnSi_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnSi_Update(Actor* thisx, PlayState* play) {
     EnSi* this = (EnSi*)thisx;
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    this->actionFunc(this, globalCtx);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+    this->actionFunc(this, play);
     Actor_SetFocus(&this->actor, 16.0f);
 }
 
-void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnSi_Draw(Actor* thisx, PlayState* play) {
     EnSi* this = (EnSi*)thisx;
 
     if (this->actionFunc != func_80AFB950) {
-        func_8002ED80(&this->actor, globalCtx, 0);
-        func_8002EBCC(&this->actor, globalCtx, 0);
-        GetItem_Draw(globalCtx, GID_SKULL_TOKEN_2);
+        func_8002ED80(&this->actor, play, 0);
+        func_8002EBCC(&this->actor, play, 0);
+        GetItem_Draw(play, GID_SKULL_TOKEN_2);
     }
 }

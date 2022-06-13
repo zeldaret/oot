@@ -31,6 +31,9 @@ void Graph_FaultClient(void) {
     osViSwapBuffer(nextFb);
 }
 
+// TODO: merge Gfx and GfxMod to make this function's arguments consistent
+void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
+
 void Graph_DisassembleUCode(Gfx* workBuf) {
     UCodeDisas disassembler;
 
@@ -218,7 +221,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
     scTask->next = NULL;
-    scTask->flags = OS_SC_RCP_MASK | OS_SC_SWAPBUFFER | OS_SC_LAST_TASK;
+    scTask->flags = OS_SC_NEEDS_RSP | OS_SC_NEEDS_RDP | OS_SC_SWAPBUFFER | OS_SC_LAST_TASK;
     if (SREG(33) & 1) {
         SREG(33) &= ~1;
         scTask->flags &= ~OS_SC_SWAPBUFFER;
@@ -229,10 +232,10 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     scTask->msg = NULL;
 
     cfb = &sGraphCfbInfos[sGraphCfbInfoIdx++];
-    cfb->fb1 = gfxCtx->curFrameBuffer;
+    cfb->framebuffer = gfxCtx->curFrameBuffer;
     cfb->swapBuffer = gfxCtx->curFrameBuffer;
     cfb->viMode = gfxCtx->viMode;
-    cfb->features = gfxCtx->viFeatures;
+    cfb->viFeatures = gfxCtx->viFeatures;
     cfb->xScale = gfxCtx->xScale;
     cfb->yScale = gfxCtx->yScale;
     cfb->unk_10 = 0;
@@ -243,10 +246,10 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     if (1) {}
 
-    gfxCtx->schedMsgQueue = &gSchedContext.cmdQueue;
+    gfxCtx->schedMsgQueue = &gScheduler.cmdQueue;
 
-    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
-    Sched_SendEntryMsg(&gSchedContext);
+    osSendMesg(&gScheduler.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
+    Sched_Notify(&gScheduler);
 }
 
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {

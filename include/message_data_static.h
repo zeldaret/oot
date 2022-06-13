@@ -38,7 +38,7 @@ typedef struct {
 #define DEFINE_MESSAGE(textId, type, yPos, staffMessage) \
     extern const char _message_##textId##_staff[];
 
-#include "text/message_data_staff.h"
+#include "assets/text/message_data_staff.h"
 
 #undef DEFINE_MESSAGE
 
@@ -47,7 +47,7 @@ typedef struct {
     extern const char _message_##textId##_ger[]; \
     extern const char _message_##textId##_fra[];
 
-#include "text/message_data.h"
+#include "assets/text/message_data.h"
 extern const char _message_0xFFFC_nes[];
 
 #undef DEFINE_MESSAGE

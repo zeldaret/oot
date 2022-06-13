@@ -1,15 +1,15 @@
 #include "global.h"
 #include "vt.h"
 
-#define KALEIDO_OVERLAY(name)                                                                                \
+#define KALEIDO_OVERLAY(name, nameString)                                                                    \
     {                                                                                                        \
         NULL, (u32)_ovl_##name##SegmentRomStart, (u32)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
-            _ovl_##name##SegmentEnd, 0, #name,                                                               \
+            _ovl_##name##SegmentEnd, 0, nameString,                                                          \
     }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
-    KALEIDO_OVERLAY(kaleido_scope),
-    KALEIDO_OVERLAY(player_actor),
+    KALEIDO_OVERLAY(kaleido_scope, "kaleido_scope"),
+    KALEIDO_OVERLAY(player_actor, "player_actor"),
 };
 
 void* sKaleidoAreaPtr = NULL;
@@ -41,7 +41,7 @@ void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl) {
     }
 }
 
-void KaleidoManager_Init(GlobalContext* globalCtx) {
+void KaleidoManager_Init(PlayState* play) {
     s32 largestSize = 0;
     s32 size;
     u32 i;
@@ -57,7 +57,7 @@ void KaleidoManager_Init(GlobalContext* globalCtx) {
     osSyncPrintf("KaleidoArea の最大サイズは %d バイトを確保します\n", largestSize);
     osSyncPrintf(VT_RST);
 
-    sKaleidoAreaPtr = GameState_Alloc(&globalCtx->state, largestSize, "../z_kaleido_manager.c", 150);
+    sKaleidoAreaPtr = GameState_Alloc(&play->state, largestSize, "../z_kaleido_manager.c", 150);
     LogUtils_CheckNullPointer("KaleidoArea_allocp", sKaleidoAreaPtr, "../z_kaleido_manager.c", 151);
 
     osSyncPrintf(VT_FGCOL(GREEN));
