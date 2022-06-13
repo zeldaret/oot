@@ -165,9 +165,9 @@ endseg
 
 beginseg
     name "Audioseq"
-    include "build/src/audio/000_Sound_Effects.prg.o"
-    include "build/src/audio/001_Ambient_Effects.prg.o"
-    include "build/src/audio/002_Hyrule_Field_Program.prg.o"
+    include "build/assets/sequences/000_Sound_Effects.prg.o"
+    include "build/assets/sequences/001_Ambient_Effects.prg.o"
+    include "build/assets/sequences/002_Hyrule_Field_Program.prg.o"
     include "build/assets/sequences/003_Hyrule_Field_Intro.o"
     include "build/assets/sequences/004_Hyrule_Field_Segment_1.o"
     include "build/assets/sequences/005_Hyrule_Field_Segment_2.o"
@@ -273,7 +273,7 @@ beginseg
     include "build/assets/sequences/106_Ending_Credits_5.o"
     include "build/assets/sequences/107_Dodongo_and_Volvagia_Battle.o"
     include "build/assets/sequences/108_Timed_Minigame.o"
-    include "build/src/audio/109_Cutscene_Effects.prg.o"
+    include "build/assets/sequences/109_Cutscene_Effects.prg.o"
     /*include "build/assets/sequences/110_Trip_to_Skye.o"
     include "build/assets/sequences/111_Lothlorien.o"
     include "build/assets/sequences/112_FF6_Overworld.o"

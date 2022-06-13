@@ -365,7 +365,7 @@ build/assets/data/SequenceTable.o: $(MUS_OUT)
 build/assets/data/SoundFontTable.o: $(FONT_FILES) $(AIFC_FILES)
 	python3 tools/assemble_sound.py $(SOUNDFONT_DIR) build/assets build/include assets/samples --build-bank --match=ocarina
 
-build/%.o: %.mus
+build/%.o: %.seq
 	$(SEQ_ASM) $< $@ --font-path build/include --elf big 32 mips
 
 build/include/%.inc: $(FONT_FILES)

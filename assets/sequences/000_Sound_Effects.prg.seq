@@ -156,7 +156,7 @@ dellayer 1
 dellayer 2
 rjump main_loop_player
 
-.include "sfxbanks/player.mus.inc"
+.include "sfxbanks/player.seq.inc"
 
 # Main loop for BANK_ITEM
 .channel channel_item0
@@ -211,7 +211,7 @@ dellayer 2
 ldi 0
 rjump main_loop_item
 
-.include "sfxbanks/item.mus.inc"
+.include "sfxbanks/item.seq.inc"
 
 # Main loop for BANK_ENV
 .channel channel_env0
@@ -280,7 +280,7 @@ dellayer 1
 dellayer 2
 rjump main_loop_env
 
-.include "sfxbanks/env.mus.inc"
+.include "sfxbanks/env.seq.inc"
 
 # Main loop for BANK_ENEMY
 .channel channel_enemy0
@@ -362,7 +362,7 @@ dellayer 2
 dellayer 3
 rjump main_loop_enemy
 
-.include "sfxbanks/enemy.mus.inc"
+.include "sfxbanks/enemy.seq.inc"
 
 # Main loop for BANK_SYSTEM
 .channel channel_system
@@ -408,7 +408,7 @@ dellayer 1
 dellayer 2
 rjump main_loop_system
 
-.include "sfxbanks/system.mus.inc"
+.include "sfxbanks/system.seq.inc"
 
 # Main loop for BANK_OCARINA
 .channel channel_ocarina
@@ -471,7 +471,7 @@ stio 1  # set status = -1 (finished)
 dellayer 0
 rjump main_loop_ocarina
 
-.include "sfxbanks/ocarina.mus.inc"
+.include "sfxbanks/ocarina.seq.inc"
 
 # Main loop for BANK_VOICE
 .channel channel_voice0
@@ -537,7 +537,7 @@ dellayer 0
 dellayer 1
 rjump main_loop_voice
 
-.include "sfxbanks/voice.mus.inc"
+.include "sfxbanks/voice.seq.inc"
 
 .envelope envelope_65D0
 point 1, 32700

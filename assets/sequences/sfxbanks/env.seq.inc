@@ -379,7 +379,7 @@ end
 instr FONT00_INSTR_ROLL_BOULDER
 releaserate 245
 legato
-portamento 0x1, 15, 0x1
+portamento 0x1, 15, 48
 .layer layer_1978
 notedv PITCH_C3, 32700, 100
 rjump layer_1978
@@ -633,7 +633,7 @@ end
 .layer layer_1B05
 instr FONT00_INSTR_FAIRY_MAGIC
 env envelope_6794, 251
-portamento 0x1, 52, 0x1
+portamento 0x1, 52, 256
 notedv PITCH_B5, 0x48, 65
 end
 
@@ -807,7 +807,7 @@ transpose -12
 instr FONT00_INSTR_DOOR_METAL
 env envelope_6674, 251
 legato
-portamento 0x1, 26, 0x1
+portamento 0x1, 26, 60
 .layer layer_1C28
 notedv PITCH_A3, 32700, 95
 rjump layer_1C28

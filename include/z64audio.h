@@ -118,7 +118,7 @@ typedef struct {
     /* 0x00 */ u32 start;
     /* 0x04 */ u32 end;
     /* 0x08 */ u32 count;
-    /* 0x0C */ u32 originalLength;
+    /* 0x0C */ char unk_0C[0x4];
     /* 0x10 */ s16 predictorState[16]; // The predictor output state for the first frame of the loop
 } AdpcmLoop; // size = 0x30 (or 0x10)
 

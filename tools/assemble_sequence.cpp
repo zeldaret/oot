@@ -2,6 +2,7 @@
 #include <unordered_set>
 #include <exception>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <fstream>
@@ -586,6 +587,11 @@ pair<string_view, int32_t> Tokenizer::readLabelWithOffset(const DefineMap& defin
 	return {s, a};
 }
 
+struct LabelDescriptor {
+	SectionType section;
+	int64_t offset;
+};
+
 class Compiler {
 public:
 	Compiler(string_view fontpath);
@@ -593,6 +599,7 @@ public:
 	void applyFixups();
 	void write(ostream& os);
 	vector<uint8_t> getFontIds();
+	map<string, LabelDescriptor, less<>> getLabels();
 private:
 	struct Fixup {
 		size_t pos;
@@ -601,11 +608,6 @@ private:
 		Arg arg;
 		int64_t relativeTo;
 		int lineNumber;
-	};
-
-	struct LabelDescriptor {
-		SectionType section;
-		int64_t offset;
 	};
 
 	string_view fontpath;
@@ -747,6 +749,10 @@ void Compiler::applyFixups() {
 
 vector<uint8_t> Compiler::getFontIds() {
 	return fontIds;
+}
+
+map<string, LabelDescriptor, less<>> Compiler::getLabels() {
+	return labelValues;
 }
 
 void Compiler::write(ostream& os) {
@@ -1169,6 +1175,7 @@ int main(int argc, char** argv) {
 
 	bool printHelp = false;
 	bool printFonts = false;
+	bool printLabels = false;
 	ElfOptions elf;
 	char optParams = '\0';
 	string fontpath;
@@ -1227,6 +1234,8 @@ int main(int argc, char** argv) {
 			optParams = 'f';
 		} else if (arg == "--elf") {
 			optParams = 'e';
+		} else if (arg == "--write-labels") {
+			printLabels = true;
 		} else if (!arg.empty() && arg[0] == '-') {
 			cerr << "Unrecognized command line flag " << arg << endl;
 			return 1;
@@ -1327,6 +1336,15 @@ int main(int argc, char** argv) {
 	if (printFonts) {
 		for (uint8_t id : c.getFontIds()) {
 			cout << std::to_string(id) << endl;
+		}
+	}
+
+	if (printLabels) {
+		ofstream of("labels.txt");
+		for (auto element : c.getLabels()) {
+			ostringstream buf;
+			buf << SectionName.at(element.second.section) << " label called " << element.first << " is located at offset 0x" << std::hex << element.second.offset << endl;
+			of << buf.str();
 		}
 	}
 

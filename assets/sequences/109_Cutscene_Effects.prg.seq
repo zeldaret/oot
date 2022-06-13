@@ -68,10 +68,11 @@ notedv PITCH_A5, 0x140, 72
 end
 
 .layer layer_71
-ldelay 0x1
+ldelay 1
 instr FONT00_INSTR_SHIMMER
 env envelope_78A, 230
-portamento 0x1, 15, 0x1
+portamento 0x1, 15, 133
+noportamento
 notedv PITCH_C5, 0x23A, 64
 end
 

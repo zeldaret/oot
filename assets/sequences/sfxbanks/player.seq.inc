@@ -918,7 +918,7 @@ ldlayer 0, layer_64D
 end
 
 .layer layer_64D
-portamento 0x1, 48, 0x1
+portamento 1, 48, 0x10
 notedv PITCH_D4, 0x18, 100
 end
 
@@ -1344,7 +1344,7 @@ end
 .layer layer_8BB
 instr FONT00_INSTR_WATER_BUBBLES
 env envelope_65FC, 221
-portamento 0x1, 46, 0x1
+portamento 1, 46, 72
 notedv PITCH_G3, 0xDC, 100
 end
 

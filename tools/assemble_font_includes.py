@@ -18,7 +18,7 @@ def parse_font(font_file):
     font.fromXML(root)
     font_name = os.path.basename(font_file)[:-4]
     if font_name[0:1].isnumeric():
-        idx = font_name.find(' ')
+        idx = font_name.find('_')
         if idx >= 0:
             font.idx = int(font_name[:idx])
             font.name = font_name[idx + 1:]

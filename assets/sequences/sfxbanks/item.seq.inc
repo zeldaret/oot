@@ -315,7 +315,7 @@ end
 
 .layer layer_10DB
 notedv PITCH_GF2, 0x3, 110
-portamento 0x2, 11, 0x2
+portamento 0x2, 11, 12
 notedv PITCH_AF3, 0x6, 110
 end
 
@@ -335,7 +335,7 @@ end
 
 .layer layer_10F8
 call layer_fn_1103
-portamento 0x1, 34, 0x1
+portamento 0x1, 34, 24
 notedv PITCH_D4, 0x48, 100
 end
 
@@ -441,7 +441,7 @@ end
 
 .layer layer_11A3
 env envelope_6674, 251
-portamento 0x1, 27, 0x1
+portamento 0x1, 27, 30
 notedv PITCH_A3, 0x60, 100
 end
 
@@ -575,7 +575,7 @@ end
 
 .layer layer_127D
 notedv PITCH_A2, 0x3, 110
-portamento 0x2, 14, 0x2
+portamento 0x2, 14, 12
 notedv PITCH_B3, 0x6, 110
 ldelay 0x7
 end
@@ -812,7 +812,7 @@ end
 instr FONT00_INSTR_BOMB
 transpose 48
 legato
-portamento 0x1, 36, 0x1
+portamento 0x1, 36, 56
 .layer layer_140B
 notedv PITCH_E4, 0x7D00, 80
 rjump layer_140B
