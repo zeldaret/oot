@@ -108,7 +108,7 @@ def main(args):
         with open(os.path.join(aseq_dir, f"{seq_name}.aseq"), "wb") as aseq:
             aseq.write(sequence.sequence)
             aseq.flush()
-            mus_file = os.path.join(dir, f"{seq_name}.mus")
+            mus_file = os.path.join(dir, f"{seq_name}.seq")
             if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
                 convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_inc_path, f"{font_id}.inc"), args.seqinc)
 
@@ -126,7 +126,7 @@ def main(args):
                     "Reference",
                     {
                         "Name": sequence_name,
-                        "Target": f"{target_name}.mus",
+                        "Target": f"{target_name}.seq",
                         "Medium": toMedium(v.medium),
                         "CachePolicy": toCachePolicy(v.cache)
                     }

@@ -56,7 +56,7 @@ def process_sequence_files(sequence_path, soundfont_path, output_path):
     result = []
 
     for file in os.listdir(sequence_path):
-        if file.endswith(".mus"):
+        if file.endswith(".seq"):
             result.append(process_sequence_file(os.path.join(sequence_path, file), soundfont_path, output_path))
 
     refpath = os.path.join(args.sequences, "References.xml")

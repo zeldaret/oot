@@ -345,7 +345,7 @@ def decode_one(state):
 
     def s8():
         ret = u8()
-        return ret - 0x100 if ret >= 0x100 else ret
+        return ret - 0x100 if ret >= 0x80 else ret
 
     def u16():
         hi = u8()
@@ -354,7 +354,7 @@ def decode_one(state):
 
     def s16():
         ret = u16()
-        return ret - 0x10000 if ret >= 0x10000 else ret
+        return ret - 0x10000 if ret >= 0x8000 else ret
 
     def peek16():
         nonlocal pos
