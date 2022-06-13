@@ -19,7 +19,7 @@ void DemoGt_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-void DemoGt_PlayEarthquakeSfx() {
+void DemoGt_PlayEarthquakeSfx(void) {
     func_800788CC(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
 }
 
@@ -435,7 +435,7 @@ void func_8097ED64(DemoGt* this, PlayState* play, s32 actionIdx) {
     func_8097E824(this, actionIdx);
 }
 
-u8 func_8097ED94() {
+u8 func_8097ED94(void) {
     if (kREG(2) != 0) {
         return true;
     } else if (gSaveContext.sceneSetupIndex < 4) {

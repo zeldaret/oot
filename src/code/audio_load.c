@@ -1189,7 +1189,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     if (heap == NULL) {
         gAudioContext.audioHeap = gAudioHeap;
-        gAudioContext.audioHeapSize = D_8014A6C4.heapSize;
+        gAudioContext.audioHeapSize = gAudioHeapInitSizes.heapSize;
     } else {
         void** hp = &heap;
         gAudioContext.audioHeap = *hp;
@@ -1201,11 +1201,11 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     }
 
     // Main Pool Split (split entirety of audio heap into initPool and sessionPool)
-    AudioHeap_InitMainPools(D_8014A6C4.initPoolSize);
+    AudioHeap_InitMainPools(gAudioHeapInitSizes.initPoolSize);
 
     // Initialize the audio interface buffers
     for (i = 0; i < 3; i++) {
-        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN * sizeof(s16));
+        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_LEN * sizeof(s16));
     }
 
     // Set audio tables pointers
@@ -1226,19 +1226,19 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     AudioLoad_InitTable(gAudioContext.soundFontTable, _AudiobankSegmentRomStart, 0);
     AudioLoad_InitTable(gAudioContext.sampleBankTable, _AudiotableSegmentRomStart, 0);
     numFonts = gAudioContext.soundFontTable->numEntries;
-    gAudioContext.soundFontInfoList = AudioHeap_Alloc(&gAudioContext.audioInitPool, numFonts * sizeof(SoundFontInfo));
+    gAudioContext.soundFontInfoList = AudioHeap_Alloc(&gAudioContext.initPool, numFonts * sizeof(SoundFontInfo));
 
     for (i = 0; i < numFonts; i++) {
         AudioLoad_InitSoundFontInfo(i);
     }
 
-    ramAddr = AudioHeap_Alloc(&gAudioContext.audioInitPool, D_8014A6C4.permanentPoolSize);
+    ramAddr = AudioHeap_Alloc(&gAudioContext.initPool, gAudioHeapInitSizes.permanentPoolSize);
     if (ramAddr == NULL) {
-        // cast away const from D_8014A6C4
-        *((u32*)&D_8014A6C4.permanentPoolSize) = 0;
+        // cast away const from gAudioHeapInitSizes
+        *((u32*)&gAudioHeapInitSizes.permanentPoolSize) = 0;
     }
 
-    AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, ramAddr, D_8014A6C4.permanentPoolSize);
+    AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, ramAddr, gAudioHeapInitSizes.permanentPoolSize);
     gAudioContextInitalized = true;
     osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
 }
@@ -1670,22 +1670,19 @@ void AudioLoad_RelocateSampleInfo(TunedSampleInfo* tunedSample, SoundFontData* f
         // Note: this is important, as the same sample can be used by different drums, sound effects, instruments
         if ((sample->size != 0) && (sample->isRelocated != true)) {
             sample->loop = AUDIO_RELOC(sample->loop, fontData);
-                sample->book = AUDIO_RELOC(sample->book, fontData);
+            sample->book = AUDIO_RELOC(sample->book, fontData);
 
             // Resolve the sample medium 2-bit bitfield into a real value based on sampleBankReloc.
+            // Then relocate the offset sample within the sampleBank (not the fontData) into absolute address.
+            // sampleAddr can be either rom or ram depending on sampleBank cache policy
+            // in practice, this is always in rom
             switch (sample->medium) {
                 case 0:
-                    // Relocate the offset sample within the sampleBank (not the fontData) into a pointer
-                    // sampleAddr can be either rom or ram depending on sampleBank cache policy
-                    // in practice, this is always in rom
                     sample->sampleAddr = AUDIO_RELOC(sample->sampleAddr, sampleBankReloc->baseAddr1);
                     sample->medium = sampleBankReloc->medium1;
                     break;
 
                 case 1:
-                    // Relocate the offset sample within the sampleBank (not the fontData) into a pointer
-                    // sampleAddr can be either rom or ram depending on sampleBank cache policy
-                    // in practice, this is always in rom
                     sample->sampleAddr = AUDIO_RELOC(sample->sampleAddr, sampleBankReloc->baseAddr2);
                     sample->medium = sampleBankReloc->medium2;
                     break;

@@ -1360,7 +1360,7 @@ void func_80B3F3C8(EnXc* this, PlayState* play) {
     this->action = SHEIK_ACTION_45;
 }
 
-void func_80B3F3D8() {
+void func_80B3F3D8(void) {
     func_800788CC(NA_SE_PL_SKIP);
 }
 
