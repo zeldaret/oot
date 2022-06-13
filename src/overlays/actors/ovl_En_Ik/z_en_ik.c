@@ -981,20 +981,17 @@ void EnIk_DrawParamType(Actor* thisx, PlayState* play) {
     if (this->actor.params == IK_TYPE_NABOORU) {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 245, 225, 155, 30, 30, 0));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 255, 40, 0, 40, 0, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A,
-                   EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 255, 255, 255, 20, 40, 30));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 255, 255, 255, 20, 40, 30));
     } else if (this->actor.params == IK_TYPE_SITTING) {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 245, 255, 205, 30, 35, 0));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 185, 135, 25, 20, 20, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A,
-                   EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 255, 255, 255, 30, 40, 20));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 255, 255, 255, 30, 40, 20));
     } else if (this->actor.params == IK_TYPE_BLACK) {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 55, 65, 55, 0, 0, 0));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x08,
-                   EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 255, 255, 255, 180, 180, 180));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 255, 255, 255, 180, 180, 180));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
     }
@@ -1080,8 +1077,7 @@ void EnIk_SpawnAxeSmoke(EnIk* this, PlayState* play, Vec3f* pos) {
 }
 
 void EnIk_UpdateBgCheckInfo(EnIk* this, PlayState* play) {
-    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 EnIk_SkelAnimeUpdate(EnIk* this) {
@@ -1171,8 +1167,7 @@ void EnIk_CsAdvanceTo05(EnIk* this, PlayState* play) {
     s32 pad[3];
     f32 frames = Animation_GetLastFrame(&gIronKnuckleNabooruDeathAnim);
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable,
-                       30);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable, 30);
     Animation_Change(&this->skelAnime, &gIronKnuckleNabooruDeathAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = IK_ACTION_3;
     this->drawMode = IK_DRAW_2;
