@@ -34,7 +34,7 @@ void AudioLoad_ProcessAsyncLoads(s32 resetStatus);
 void AudioLoad_ProcessAsyncLoadUnkMedium(AudioAsyncLoad* asyncLoad, s32 resetStatus);
 void AudioLoad_ProcessAsyncLoad(AudioAsyncLoad* asyncLoad, s32 resetStatus);
 void AudioLoad_RelocateFontAndPreloadSamples(s32 fontId, SoundFontData* fontData, SampleBankRelocInfo* sampleBankReloc,
-                                             s32 async);
+                                             s32 isAsync);
 void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, SampleBankRelocInfo* sampleBankReloc);
 void AudioLoad_DiscardFont(s32 fontId);
 u32 AudioLoad_TrySyncLoadSampleBank(u32 sampleBankId, u32* outMedium, s32 noLoad);
