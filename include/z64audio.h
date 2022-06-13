@@ -1003,7 +1003,7 @@ typedef struct {
     /* 0x1C */ f32      dist;
     /* 0x20 */ u32      priority; // lower is more prioritized
     /* 0x24 */ u8       sfxImportance;
-    /* 0x26 */ u16      sfxParams;
+    /* 0x26 */ u16      sfxFlags;
     /* 0x28 */ u16      sfxId;
     /* 0x2A */ u8       state; // uses SfxState enum
     /* 0x2B */ u8       freshness;
@@ -1041,7 +1041,7 @@ typedef struct {
 
 typedef struct {
     u8 importance;
-    u16 params;
+    u16 flags;
 } SoundParams;
 
 #endif
