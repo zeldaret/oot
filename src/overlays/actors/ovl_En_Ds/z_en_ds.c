@@ -155,7 +155,7 @@ void EnDs_OfferOddPotion(EnDs* this, PlayState* play) {
     }
 }
 
-s32 EnDs_CheckRupeesAndBottle() {
+s32 EnDs_CheckRupeesAndBottle(void) {
     if (gSaveContext.rupees < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
