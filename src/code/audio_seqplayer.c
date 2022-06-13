@@ -31,11 +31,13 @@ typedef enum {
 u8 AudioSeq_ScriptReadU8(SeqScriptState* state);
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state);
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state);
+
 void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer);
-s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound);
 s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer);
-s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd);
 s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd);
+s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd);
+s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound);
+
 u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** instOut, AdsrSettings* adsr);
 
 /**
