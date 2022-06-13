@@ -175,12 +175,12 @@ void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play) {
         case 4:
         case 5:
         case 6:
-            if (this->sfxParams & 2) {
+            if (this->sfxFlags & 2) {
                 D_8089EE40 &= ~2;
             }
             break;
         case 7:
-            if (this->sfxParams & 1) {
+            if (this->sfxFlags & 1) {
                 D_8089EE40 &= ~1;
             }
             break;
@@ -266,9 +266,9 @@ void func_8089E318(BgMizuMovebg* this, PlayState* play) {
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
-                    this->sfxParams |= 2;
+                    this->sfxFlags |= 2;
                 }
-                if (this->sfxParams & 2) {
+                if (this->sfxFlags & 2) {
                     if (this->dyna.actor.room == 0) {
                         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                     } else {
@@ -288,9 +288,9 @@ void func_8089E318(BgMizuMovebg* this, PlayState* play) {
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
-                    this->sfxParams |= 2;
+                    this->sfxFlags |= 2;
                 }
-                if (this->sfxParams & 2) {
+                if (this->sfxFlags & 2) {
                     func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                 }
             }
@@ -342,9 +342,9 @@ void func_8089E650(BgMizuMovebg* this, PlayState* play) {
     }
     if (!(D_8089EE40 & 1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
         D_8089EE40 |= 1;
-        this->sfxParams |= 1;
+        this->sfxFlags |= 1;
     }
-    if (this->sfxParams & 1) {
+    if (this->sfxFlags & 1) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
     }
 }

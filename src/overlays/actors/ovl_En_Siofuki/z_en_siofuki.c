@@ -49,7 +49,7 @@ void EnSiofuki_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&object_siofuki_Col_000D78, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-    this->sfxParams |= 1;
+    this->sfxFlags |= 1;
 
     type = ((u16)thisx->params >> 0xC) & 0xF;
     if (!((type == 0) || (type == 1))) {
@@ -293,7 +293,7 @@ void EnSiofuki_Draw(Actor* thisx, PlayState* play) {
     gSPDisplayList(POLY_XLU_DISP++, object_siofuki_DL_000B70);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_siofuki.c", 674);
 
-    if (this->sfxParams & 1) {
+    if (this->sfxFlags & 1) {
         f32 heightRatio;
         switch (((u16)thisx->params >> 0xC) & 0xF) {
             case EN_SIOFUKI_RAISING:
