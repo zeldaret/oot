@@ -509,7 +509,7 @@ void Audio_PlayActiveSounds(u8 bankId) {
                 if (entry->sfxParams & SFX_FLAG_3) {
                     Audio_QueueSeqCmdMute(sCurSfxPlayerChannelIdx);
                 }
-                if (entry->sfxParams & SFX_PARAM_67_MASK) {
+                if ((entry->sfxParams & SFX_PARAM_67_MASK) != (0 << SFX_PARAM_67_SHIFT)) {
                     switch (entry->sfxParams & SFX_PARAM_67_MASK) {
                         case (1 << SFX_PARAM_67_SHIFT):
                             entry->unk_2F = Audio_NextRandom() & 0xF;

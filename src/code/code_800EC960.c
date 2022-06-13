@@ -3747,7 +3747,7 @@ f32 Audio_ComputeSoundVolume(u8 bankId, u8 entryIdx) {
     if (bankEntry->dist > 10000.0f) {
         ret = 0.0f;
     } else {
-        switch (bankEntry->sfxParams & SFX_PARAM_01_MASK) {
+        switch ((bankEntry->sfxParams & SFX_PARAM_01_MASK) >> SFX_PARAM_01_SHIFT) {
             case 1:
                 baseDist = 10000.0f / 15.0f;
                 break;
@@ -3901,7 +3901,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
         }
     }
 
-    if (entry->sfxParams & (3 << SFX_PARAM_67_SHIFT)) {
+    if ((entry->sfxParams & SFX_PARAM_67_MASK) != (0 << SFX_PARAM_67_SHIFT)) {
         freq += (entry->unk_2F / 192.0f);
     }
 
@@ -3998,7 +3998,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankId, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
-                behindScreenZ = sBehindScreenZ[(entry->sfxParams & SFX_FLAG_10) >> 10];
+                behindScreenZ = sBehindScreenZ[(entry->sfxParams & SFX_FLAG_10) >> SFX_FLAG_10_SHIFT];
                 if (!(entry->sfxParams & SFX_FLAG_11)) {
                     if (*entry->posZ < behindScreenZ) {
                         stereoBits = 0x10;
