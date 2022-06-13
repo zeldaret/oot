@@ -3935,7 +3935,7 @@ u8 func_800F37B8(f32 behindScreenZ, SoundBankEntry* arg1, s8 arg2) {
         }
     }
 
-    switch (arg1->sfxParams & SFX_PARAM_01_MASK) {
+    switch ((arg1->sfxParams & SFX_PARAM_01_MASK) >> SFX_PARAM_01_SHIFT) {
         case 1:
             phi_f0 = 12.0f;
             break;
