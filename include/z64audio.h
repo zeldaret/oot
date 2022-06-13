@@ -21,7 +21,6 @@
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
-
 typedef enum {
     /* 0 */ ADSR_STATE_DISABLED,
     /* 1 */ ADSR_STATE_INITIAL,
