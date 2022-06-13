@@ -2554,8 +2554,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                         if ((entryIndex != 0xFF) &&
                             ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", entryIndex, (s32)*entry->posX,
-                                            (s32)*entry->posY, (s32)*entry->posZ, entry->sfxImportance, entry->sfxFlags,
-                                            entry->sfxId);
+                                            (s32)*entry->posY, (s32)*entry->posZ, entry->sfxImportance,
+                                            entry->sfxParams, entry->sfxId);
                         } else {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----");
                         }
@@ -3007,15 +3007,15 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 20, 6);
             GfxPrint_Printf(printer, "       : %04x",
-                            gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].flags);
+                            gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].params);
 
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(
                 printer, "SE SW    %s",
-                AudioDebug_ToStringBinary(gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].flags, 16));
+                AudioDebug_ToStringBinary(gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].params, 16));
 
             SETCOL(127, 255, 127);
-            digitStr[0] = (char)('0' + ((gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].flags >>
+            digitStr[0] = (char)('0' + ((gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].params >>
                                          (15 - sAudioSfxParamChgBitSel)) &
                                         1));
             GfxPrint_SetPos(printer, 12 + sAudioSfxParamChgBitSel, 6);
@@ -3574,7 +3574,7 @@ void AudioDebug_ProcessInput_SfxParamChg(void) {
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CDOWN)) {
         if (sAudioSfxParamChgSel == 2) {
-            gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].flags ^=
+            gSoundParams[sAudioSfxParamChgWork[0]][sAudioSfxParamChgWork[1]].params ^=
                 (1 << (0xF - sAudioSfxParamChgBitSel));
         }
     }
@@ -3740,21 +3740,21 @@ f32 Audio_ComputeSoundVolume(u8 bankId, u8 entryIdx) {
     f32 baseDist;
     f32 ret;
 
-    if (bankEntry->sfxFlags & SFX_FLAG_13) {
+    if (bankEntry->sfxParams & SFX_FLAG_13) {
         return 1.0f;
     }
 
     if (bankEntry->dist > 10000.0f) {
         ret = 0.0f;
     } else {
-        switch (bankEntry->sfxFlags & SFX_FLAG_0_AND_1_MASK) {
-            case SFX_FLAG_0:
+        switch (bankEntry->sfxParams & SFX_PARAM_01_MASK) {
+            case 1:
                 baseDist = 10000.0f / 15.0f;
                 break;
-            case SFX_FLAG_1:
+            case 2:
                 baseDist = 10000.0f / 10.5f;
                 break;
-            case SFX_FLAG_0_AND_1:
+            case 3:
                 baseDist = 10000.0f / 2.6f;
                 break;
             default:
@@ -3785,7 +3785,7 @@ s8 Audio_ComputeSoundReverb(u8 bankId, u8 entryIdx, u8 channelIdx) {
     SoundBankEntry* entry = &gSoundBanks[bankId][entryIdx];
     s32 reverb;
 
-    if (!(entry->sfxFlags & SFX_FLAG_12)) {
+    if (!(entry->sfxParams & SFX_FLAG_12)) {
         if (entry->dist < 2500.0f) {
             distAdd = *entry->posZ > 0.0f ? (entry->dist / 2500.0f) * 70.0f : (entry->dist / 2500.0f) * 91.0f;
         } else {
@@ -3861,7 +3861,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
     f32 unk1C;
     f32 freq = 1.0f;
 
-    if (entry->sfxFlags & SFX_FLAG_14) {
+    if (entry->sfxParams & SFX_FLAG_14) {
         freq = 1.0f - ((gAudioContext.audioRandom & 0xF) / 192.0f);
     }
 
@@ -3885,14 +3885,14 @@ f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
     }
 
     if (phi_v0 == 1) {
-        if (!(entry->sfxFlags & SFX_FLAG_11)) {
+        if (!(entry->sfxParams & SFX_FLAG_11)) {
             freq *= (1.0293 - ((gAudioContext.audioRandom & 0xF) / 144.0f));
         }
     }
 
     unk1C = entry->dist;
-    if (!(entry->sfxFlags & SFX_FLAG_13)) {
-        if (!(entry->sfxFlags & SFX_FLAG_15)) {
+    if (!(entry->sfxParams & SFX_FLAG_13)) {
+        if (!(entry->sfxParams & SFX_FLAG_15)) {
             if (unk1C >= 10000.0f) {
                 freq += 0.2f;
             } else {
@@ -3901,7 +3901,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
         }
     }
 
-    if (entry->sfxFlags & SFX_FLAG_6_AND_7) {
+    if (entry->sfxParams & (3 << SFX_PARAM_67_SHIFT)) {
         freq += (entry->unk_2F / 192.0f);
     }
 
@@ -3930,19 +3930,19 @@ u8 func_800F37B8(f32 behindScreenZ, SoundBankEntry* arg1, s8 arg2) {
     }
 
     if (phi_v1 == 0) {
-        if (arg1->sfxFlags & SFX_FLAG_9) {
+        if (arg1->sfxParams & SFX_FLAG_9) {
             phi_v1 = 0xF;
         }
     }
 
-    switch (arg1->sfxFlags & SFX_FLAG_0_AND_1_MASK) {
-        case SFX_FLAG_0:
+    switch (arg1->sfxParams & SFX_PARAM_01_MASK) {
+        case 1:
             phi_f0 = 12.0f;
             break;
-        case SFX_FLAG_1:
+        case 2:
             phi_f0 = 9.0f;
             break;
-        case SFX_FLAG_0_AND_1:
+        case 3:
             phi_f0 = 6.0f;
             break;
         default:
@@ -3955,7 +3955,7 @@ u8 func_800F37B8(f32 behindScreenZ, SoundBankEntry* arg1, s8 arg2) {
     return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / (10000.0f / 5.2f));
 }
 
-s8 func_800F3990(f32 arg0, u16 sfxFlags) {
+s8 func_800F3990(f32 arg0, u16 sfxParams) {
     s8 ret = 0;
 
     if (arg0 >= 0.0f) {
@@ -3988,7 +3988,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
         case BANK_ENEMY:
         case BANK_VOICE:
             if (D_80130604 == 2) {
-                sp38 = func_800F3990(*entry->posY, entry->sfxFlags);
+                sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
             FALLTHROUGH;
         case BANK_OCARINA:
@@ -3998,8 +3998,8 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankId, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
-                behindScreenZ = sBehindScreenZ[(entry->sfxFlags & SFX_FLAG_10) >> 10];
-                if (!(entry->sfxFlags & SFX_FLAG_11)) {
+                behindScreenZ = sBehindScreenZ[(entry->sfxParams & SFX_FLAG_10) >> 10];
+                if (!(entry->sfxParams & SFX_FLAG_11)) {
                     if (*entry->posZ < behindScreenZ) {
                         stereoBits = 0x10;
                     }
@@ -4023,7 +4023,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
 
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
-            } else if (D_80130604 == 2 && !(entry->sfxFlags & SFX_FLAG_13)) {
+            } else if (D_80130604 == 2 && !(entry->sfxParams & SFX_FLAG_13)) {
                 filter = func_800F37B8(behindScreenZ, entry, panSigned);
             }
             break;

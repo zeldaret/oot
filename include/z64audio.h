@@ -1003,7 +1003,7 @@ typedef struct {
     /* 0x1C */ f32      dist;
     /* 0x20 */ u32      priority; // lower is more prioritized
     /* 0x24 */ u8       sfxImportance;
-    /* 0x26 */ u16      sfxFlags;
+    /* 0x26 */ u16      sfxParams;
     /* 0x28 */ u16      sfxId;
     /* 0x2A */ u8       state; // uses SfxState enum
     /* 0x2B */ u8       freshness;
@@ -1039,9 +1039,34 @@ typedef struct {
     u8 entryIndex;
 } ActiveSound;
 
+// SoundParams Flags
+
+#define SFX_PARAM_01_SHIFT 0
+#define SFX_PARAM_01_MASK (3 << SFX_PARAM_01_SHIFT)
+
+#define SFX_FLAG_2 (1 << 2)
+#define SFX_FLAG_3 (1 << 3)
+#define SFX_FLAG_4 (1 << 4)
+#define SFX_FLAG_5 (1 << 5)
+
+#define SFX_PARAM_67_SHIFT 6
+#define SFX_PARAM_67_MASK (3 << SFX_PARAM_67_SHIFT)
+
+#define SFX_FLAG_9 (1 << 9)
+#define SFX_FLAG_10 (1 << 10)
+#define SFX_FLAG_11 (1 << 11)
+#define SFX_FLAG_12 (1 << 12)
+#define SFX_FLAG_13 (1 << 13)
+#define SFX_FLAG_14 (1 << 14)
+#define SFX_FLAG_15 (1 << 15)
+
+#define MAKE_SFX_PARAMS(distParam, randParam, flags)            \
+    (((distParam) << SFX_PARAM_01_SHIFT) & SFX_PARAM_01_MASK) | \
+        (((randParam) << SFX_PARAM_67_SHIFT) & SFX_PARAM_67_MASK) | (flags)
+
 typedef struct {
     u8 importance;
-    u16 flags;
+    u16 params;
 } SoundParams;
 
 #endif

@@ -3,31 +3,6 @@
 
 #define SFX_FLAG 0x800
 
-// SoundParams Flags
-
-#define SFX_FLAG_0 (1 << 0)
-#define SFX_FLAG_1 (1 << 1)
-#define SFX_FLAG_0_AND_1 (SFX_FLAG_1 | SFX_FLAG_0)
-#define SFX_FLAG_0_AND_1_MASK (SFX_FLAG_1 | SFX_FLAG_0)
-
-#define SFX_FLAG_2 (1 << 2)
-#define SFX_FLAG_3 (1 << 3)
-#define SFX_FLAG_4 (1 << 4)
-#define SFX_FLAG_5 (1 << 5)
-
-#define SFX_FLAG_6 (1 << 6)
-#define SFX_FLAG_7 (1 << 7)
-#define SFX_FLAG_6_AND_7 (SFX_FLAG_7 | SFX_FLAG_6)
-#define SFX_FLAG_6_AND_7_MASK (SFX_FLAG_7 | SFX_FLAG_6)
-
-#define SFX_FLAG_9 (1 << 9)
-#define SFX_FLAG_10 (1 << 10)
-#define SFX_FLAG_11 (1 << 11)
-#define SFX_FLAG_12 (1 << 12)
-#define SFX_FLAG_13 (1 << 13)
-#define SFX_FLAG_14 (1 << 14)
-#define SFX_FLAG_15 (1 << 15)
-
 // ------------ PLAYER ------------
 
 #define NA_SE_PL_WALK_GROUND 0x800

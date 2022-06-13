@@ -233,7 +233,7 @@ void Audio_ProcessSoundRequest(void) {
     index = gSoundBanks[bankId][0].next;
     while (index != 0xFF && index != 0) {
         if (gSoundBanks[bankId][index].posX == &req->pos->x) {
-            if ((gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].flags & SFX_FLAG_5) &&
+            if ((gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].params & SFX_FLAG_5) &&
                 gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].importance ==
                     gSoundBanks[bankId][index].sfxImportance) {
                 return;
@@ -261,8 +261,8 @@ void Audio_ProcessSoundRequest(void) {
             }
             if (count == gUsedChannelsPerBank[gSfxChannelLayout][bankId]) {
                 soundParams = &gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];
-                if ((req->sfxId & 0xC00) || (soundParams->flags & SFX_FLAG_2) || (index == evictIndex)) {
-                    if ((gSoundBanks[bankId][index].sfxFlags & SFX_FLAG_3) &&
+                if ((req->sfxId & 0xC00) || (soundParams->params & SFX_FLAG_2) || (index == evictIndex)) {
+                    if ((gSoundBanks[bankId][index].sfxParams & SFX_FLAG_3) &&
                         gSoundBanks[bankId][index].state != SFX_STATE_QUEUED) {
                         Audio_ClearBGMMute(gSoundBanks[bankId][index].channelIdx);
                     }
@@ -273,7 +273,7 @@ void Audio_ProcessSoundRequest(void) {
                     gSoundBanks[bankId][index].freqScale = req->freqScale;
                     gSoundBanks[bankId][index].vol = req->vol;
                     gSoundBanks[bankId][index].reverbAdd = req->reverbAdd;
-                    gSoundBanks[bankId][index].sfxFlags = soundParams->flags;
+                    gSoundBanks[bankId][index].sfxParams = soundParams->params;
                     gSoundBanks[bankId][index].sfxImportance = soundParams->importance;
                 } else if (gSoundBanks[bankId][index].state == SFX_STATE_PLAYING_2) {
                     gSoundBanks[bankId][index].state = SFX_STATE_PLAYING_1;
@@ -296,7 +296,7 @@ void Audio_ProcessSoundRequest(void) {
         entry->vol = req->vol;
         entry->reverbAdd = req->reverbAdd;
         soundParams = &gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];
-        entry->sfxFlags = soundParams->flags;
+        entry->sfxParams = soundParams->params;
         entry->sfxImportance = soundParams->importance;
         entry->sfxId = req->sfxId;
         entry->state = SFX_STATE_QUEUED;
@@ -314,7 +314,7 @@ void Audio_RemoveSoundBankEntry(u8 bankId, u8 entryIndex) {
     SoundBankEntry* entry = &gSoundBanks[bankId][entryIndex];
     u8 i;
 
-    if (entry->sfxFlags & SFX_FLAG_3) {
+    if (entry->sfxParams & SFX_FLAG_3) {
         Audio_ClearBGMMute(entry->channelIdx);
     }
     if (entryIndex == sSoundBankListEnd[bankId]) {
@@ -382,7 +382,7 @@ void Audio_ChooseActiveSounds(u8 bankId) {
                 entry->dist = (SQ(*entry->posX) + SQ(tempf1) + SQ(*entry->posZ)) * 1;
             }
             sfxImportance = entry->sfxImportance;
-            if (entry->sfxFlags & SFX_FLAG_4) {
+            if (entry->sfxParams & SFX_FLAG_4) {
                 entry->priority = SQ(0xFF - sfxImportance) * SQ(76);
             } else {
                 if (entry->dist > 0x7FFFFFD0) {
@@ -506,18 +506,18 @@ void Audio_PlayActiveSounds(u8 bankId) {
             channel = gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
             if (entry->state == SFX_STATE_READY) {
                 entry->channelIdx = sCurSfxPlayerChannelIdx;
-                if (entry->sfxFlags & SFX_FLAG_3) {
+                if (entry->sfxParams & SFX_FLAG_3) {
                     Audio_QueueSeqCmdMute(sCurSfxPlayerChannelIdx);
                 }
-                if (entry->sfxFlags & SFX_FLAG_6_AND_7_MASK) {
-                    switch (entry->sfxFlags & SFX_FLAG_6_AND_7_MASK) {
-                        case SFX_FLAG_6:
+                if (entry->sfxParams & SFX_PARAM_67_MASK) {
+                    switch (entry->sfxParams & SFX_PARAM_67_MASK) {
+                        case (1 << SFX_PARAM_67_SHIFT):
                             entry->unk_2F = Audio_NextRandom() & 0xF;
                             break;
-                        case SFX_FLAG_7:
+                        case (2 << SFX_PARAM_67_SHIFT):
                             entry->unk_2F = Audio_NextRandom() & 0x1F;
                             break;
-                        case SFX_FLAG_6_AND_7:
+                        case (3 << SFX_PARAM_67_SHIFT):
                             entry->unk_2F = Audio_NextRandom() & 0x3F;
                             break;
                         default:

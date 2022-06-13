@@ -16,7 +16,7 @@ typedef struct BgMizuMovebg {
     /* 0x0170 */ s32 scrollAlpha2;
     /* 0x0174 */ s32 scrollAlpha3;
     /* 0x0178 */ s32 scrollAlpha4;
-    /* 0x017C */ u8 sfxFlags;
+    /* 0x017C */ u8 sfxParams;
     /* 0x0180 */ Gfx* dlist;
     /* 0x0184 */ s32 waypointId;
 } BgMizuMovebg; // size = 0x0188

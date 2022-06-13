@@ -30,7 +30,7 @@ typedef struct EnSiofuki {
     /* 0x0194 */ s16 appliedYaw;
     /* 0x0196 */ s16 activeTime;
     /* 0x0198 */ f32 maxHeight;
-    /* 0x019C */ u8 sfxFlags;
+    /* 0x019C */ u8 sfxParams;
 } EnSiofuki; // size = 0x01A0
 
 #endif
