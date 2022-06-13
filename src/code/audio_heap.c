@@ -283,10 +283,9 @@ void AudioHeap_InitMainPools(s32 initPoolSize) {
 
 void AudioHeap_SessionPoolsInit(AudioSessionPoolSplit* split) {
     gAudioContext.sessionPool.curRamAddr = gAudioContext.sessionPool.startRamAddr;
-    AudioHeap_AllocPoolInit(&gAudioContext.miscPool,
-                            AudioHeap_Alloc(&gAudioContext.sessionPool, split->miscPoolSize), split->miscPoolSize);
-    AudioHeap_AllocPoolInit(&gAudioContext.cachePool,
-                            AudioHeap_Alloc(&gAudioContext.sessionPool, split->cachePoolSize),
+    AudioHeap_AllocPoolInit(&gAudioContext.miscPool, AudioHeap_Alloc(&gAudioContext.sessionPool, split->miscPoolSize),
+                            split->miscPoolSize);
+    AudioHeap_AllocPoolInit(&gAudioContext.cachePool, AudioHeap_Alloc(&gAudioContext.sessionPool, split->cachePoolSize),
                             split->cachePoolSize);
 }
 
