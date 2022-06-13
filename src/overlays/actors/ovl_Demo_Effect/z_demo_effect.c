@@ -1855,7 +1855,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
 void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     u8* alpha;
-    Gfx* disp;
+    u32 disp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2842);
 

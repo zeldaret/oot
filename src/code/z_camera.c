@@ -6072,7 +6072,7 @@ s32 Camera_Demo5(Camera* camera) {
 
     framesDiff = sDemo5PrevSfxFrame - camera->play->state.frames;
     if ((framesDiff > 50) || (framesDiff < -50)) {
-        func_80078884(camera->data1);
+        func_80078884((u32)camera->data1);
     }
 
     sDemo5PrevSfxFrame = camera->play->state.frames;

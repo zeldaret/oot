@@ -763,7 +763,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
     s16 i;
     f32 temp_f22;
     DemoKankyo* this = (DemoKankyo*)thisx;
-    Gfx* disp;
+    u32 disp;
     Player* player = GET_PLAYER(play);
     Vec3f camPos;
     f32 translateX;
