@@ -19,6 +19,8 @@
 #define PORTAMENTO_IS_SPECIAL(x) ((x).mode & 0x80)
 #define PORTAMENTO_MODE(x) ((x).mode & ~0x80)
 
+#define PROCESS_SCRIPT_END -1
+
 typedef enum {
     /* 0 */ PORTAMENTO_MODE_OFF,
     /* 1 */ PORTAMENTO_MODE_1,
@@ -181,7 +183,7 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
     switch (cmd) {
         case 0xFF:
             if (state->depth == 0) {
-                return -1;
+                return PROCESS_SCRIPT_END;
             }
             state->pc = state->stack[--state->depth];
             break;
@@ -538,17 +540,18 @@ void AudioSeq_SeqLayerProcessScript(SequenceLayer* layer) {
     AudioSeq_SeqLayerProcessScriptStep1(layer);
 
     cmd = AudioSeq_SeqLayerProcessScriptStep2(layer);
-    if (cmd == -1) {
+    if (cmd == PROCESS_SCRIPT_END) {
         return;
     }
 
     cmd = AudioSeq_SeqLayerProcessScriptStep3(layer, cmd);
 
-    if (cmd != -1) {
+    if (cmd != PROCESS_SCRIPT_END) {
+        // returns `sameSound` instead of a command
         cmd = AudioSeq_SeqLayerProcessScriptStep4(layer, cmd);
     }
 
-    if (cmd != -1) {
+    if (cmd != PROCESS_SCRIPT_END) {
         AudioSeq_SeqLayerProcessScriptStep5(layer, cmd);
     }
 
@@ -579,7 +582,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound) {
     if (!layer->stopSomething && layer->sound != NULL && layer->sound->sample->codec == CODEC_S16_INMEMORY &&
         layer->sound->sample->medium != MEDIUM_RAM) {
         layer->stopSomething = true;
-        return -1;
+        return PROCESS_SCRIPT_END;
     }
 
     if (layer->continuousNotes == true && layer->bit1 == 1) {
@@ -636,7 +639,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
                 continue;
             }
             AudioSeq_SeqLayerDisable(layer);
-            return -1;
+            return PROCESS_SCRIPT_END;
         }
 
         switch (cmd) {
@@ -796,7 +799,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
 
     if (instOrWave == 0xFF) {
         if (!channel->hasInstrument) {
-            return -1;
+            return PROCESS_SCRIPT_END;
         }
         instOrWave = channel->instOrWave;
     }
@@ -811,7 +814,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
             if (drum == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay;
-                return -1;
+                return PROCESS_SCRIPT_END;
             }
 
             sound = &drum->sound;
@@ -834,7 +837,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
             if (sound == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay + 1;
-                return -1;
+                return PROCESS_SCRIPT_END;
             }
 
             layer->sound = sound;
@@ -848,7 +851,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
             layer->semitone = semitone;
             if (semitone >= 0x80) {
                 layer->stopSomething = true;
-                return -1;
+                return PROCESS_SCRIPT_END;
             }
 
             if (layer->instOrWave == 0xFF) {
@@ -988,7 +991,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
         layer->delay = AudioSeq_ScriptReadCompressedU16(state);
         layer->stopSomething = true;
         layer->bit1 = false;
-        return -1;
+        return PROCESS_SCRIPT_END;
     }
 
     layer->stopSomething = false;
@@ -1076,12 +1079,12 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
 
     if ((seqPlayer->muted && (channel->muteBehavior & (0x40 | 0x10)) != 0) || channel->stopSomething2) {
         layer->stopSomething = true;
-        return -1;
+        return PROCESS_SCRIPT_END;
     }
 
     if (seqPlayer->skipTicks != 0) {
         layer->stopSomething = true;
-        return -1;
+        return PROCESS_SCRIPT_END;
     }
 
     return cmd;
@@ -1197,7 +1200,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                 delay = AudioSeq_HandleScriptFlowControl(seqPlayer, scriptState, cmd, cmdArgs[0]);
 
                 if (delay != 0) {
-                    if (delay == -1) {
+                    if (delay == PROCESS_SCRIPT_END) {
                         AudioSeq_SequenceChannelDisable(channel);
                     } else {
                         channel->delay = delay;
