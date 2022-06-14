@@ -5,9 +5,7 @@
 FORMAT_VER="11"
 FORMAT_OPTS="-i -style=file"
 
-# Clang-Tidy version and options (see .clang-tidy for checks enabled)
-# Version 6 is used when available because it's better at finding issues with argument names
-TIDY_VER="6.0"
+# Clang-Tidy options (see .clang-tidy for checks enabled)
 TIDY_OPTS="-p . --fix --fix-errors"
 
 # Compiler options used with Clang-Tidy
@@ -45,17 +43,12 @@ else
     fi
 fi
 
-if [ $(command -v clang-tidy-${TIDY_VER}) ]
+if [ $(command -v clang-tidy) ]
 then
-    CLANG_TIDY="clang-tidy-${TIDY_VER}"
+    CLANG_TIDY="clang-tidy"
 else
-    if [ $(command -v clang-tidy) ]
-    then
-        CLANG_TIDY="clang-tidy"
-    else
-        echo "Neither clang-tidy nor clang-tidy-${TIDY_VER} found. Exiting."
-        exit 1
-    fi
+    echo "clang-tidy not found. Exiting."
+    exit 1
 fi
 
 if (( $# > 0 )); then
