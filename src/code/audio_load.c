@@ -1115,15 +1115,15 @@ void AudioLoad_SetUnusedHandler(void* callback) {
     sUnusedHandler = callback;
 }
 
-void AudioLoad_InitSoundFontInfo(s32 fontId) {
-    SoundFont* fontInfo = &gAudioContext.soundFontList[fontId];
+void AudioLoad_InitSoundFont(s32 fontId) {
+    SoundFont* font = &gAudioContext.soundFontList[fontId];
     AudioTableEntry* entry = &gAudioContext.soundFontTable->entries[fontId];
 
-    fontInfo->sampleBankId1 = (entry->shortData1 >> 8) & 0xFF;
-    fontInfo->sampleBankId2 = (entry->shortData1) & 0xFF;
-    fontInfo->numInstruments = (entry->shortData2 >> 8) & 0xFF;
-    fontInfo->numDrums = entry->shortData2 & 0xFF;
-    fontInfo->numSfx = entry->shortData3;
+    font->sampleBankId1 = (entry->shortData1 >> 8) & 0xFF;
+    font->sampleBankId2 = (entry->shortData1) & 0xFF;
+    font->numInstruments = (entry->shortData2 >> 8) & 0xFF;
+    font->numDrums = entry->shortData2 & 0xFF;
+    font->numSfx = entry->shortData3;
 }
 
 void AudioLoad_Init(void* heap, u32 heapSize) {
@@ -1228,7 +1228,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     gAudioContext.soundFontList = AudioHeap_Alloc(&gAudioContext.initPool, numFonts * sizeof(SoundFont));
 
     for (i = 0; i < numFonts; i++) {
-        AudioLoad_InitSoundFontInfo(i);
+        AudioLoad_InitSoundFont(i);
     }
 
     ramAddr = AudioHeap_Alloc(&gAudioContext.initPool, gAudioHeapInitSizes.permanentPoolSize);
