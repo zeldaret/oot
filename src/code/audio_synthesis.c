@@ -812,7 +812,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     if (1) {}
                     if (1) {}
                     if (1) {}
-                    nEntries = 16 * sample->book->order * sample->book->npredictors;
+                    nEntries = 16 * sample->book->order * sample->book->numPredictors;
                     aLoadADPCM(cmd++, nEntries, gAudioContext.curLoadedBook);
                 }
             }
@@ -917,7 +917,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 }
 
                 if (synthState->restart) {
-                    aSetLoop(cmd++, sample->loop->state);
+                    aSetLoop(cmd++, sample->loop->predictorState);
                     flags = A_LOOP;
                     synthState->restart = false;
                 }

@@ -122,13 +122,13 @@ typedef struct {
     /* 0x04 */ u32 end;
     /* 0x08 */ u32 count;
     /* 0x0C */ char unk_0C[0x4];
-    /* 0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
+    /* 0x10 */ s16 predictorState[16]; // only exists if count != 0. 8-byte aligned
 } AdpcmLoop; // size = 0x30 (or 0x10)
 
 typedef struct {
     /* 0x00 */ s32 order;
-    /* 0x04 */ s32 npredictors;
-    /* 0x08 */ s16 book[1]; // size 8 * order * npredictors. 8-byte aligned
+    /* 0x04 */ s32 numPredictors;
+    /* 0x08 */ s16 book[1]; // size 8 * order * numPredictors. 8-byte aligned
 } AdpcmBook; // size >= 0x8
 
 typedef struct {
