@@ -31,7 +31,7 @@ void Font_LoadMessageBoxIcon(Font* font, u16 icon) {
  */
 void Font_LoadOrderedFont(Font* font) {
     u8* fontBuf;
-    s32 fontStatic;
+    u32 fontStatic;
     s32 len;
     s32 jj;
     s32 codePointIndex;

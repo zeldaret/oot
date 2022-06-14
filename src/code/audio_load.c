@@ -863,14 +863,11 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
         for (i = 0; i < numSfx; i++) {
             // Get a pointer to the i'th sound effect
             soundOffset = (u32)(((SoundFontSound*)fontData[1]) + i);
+            sfx = (SoundFontSound*)soundOffset;
 
             // Check for NULL (note: the pointer is guaranteed to be in fontData and can never be NULL)
-            if (soundOffset != 0) {
-                sfx = (SoundFontSound*)soundOffset;
-
-                if (sfx->sample != NULL) {
-                    AudioLoad_RelocateSample(sfx, fontDataStartAddr, sampleBankReloc);
-                }
+            if ((sfx != NULL) && ((u32)sfx->sample != 0)) {
+                AudioLoad_RelocateSample(sfx, fontDataStartAddr, sampleBankReloc);
             }
         }
     }

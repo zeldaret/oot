@@ -763,7 +763,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
     s16 i;
     f32 temp_f22;
     DemoKankyo* this = (DemoKankyo*)thisx;
-    u32 disp;
+    Gfx* disp;
     Player* player = GET_PLAYER(play);
     Vec3f camPos;
     f32 translateX;
@@ -859,7 +859,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
         translateZ = this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z;
 
         if (this->unk_150[i].unk_22 < 2) {
-            disp = (u32)gEffFlash1DL;
+            disp = (Gfx*)(u32)gEffFlash1DL;
             if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
