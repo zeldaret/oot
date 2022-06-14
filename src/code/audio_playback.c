@@ -360,7 +360,7 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     return drum;
 }
 
-SoundEffect* Audio_GetSfx(s32 fontId, s32 sfxId) {
+SoundEffect* Audio_GetSoundEffect(s32 fontId, s32 sfxId) {
     SoundEffect* soundEffect;
 
     if (fontId == 0xFF) {

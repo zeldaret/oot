@@ -1260,7 +1260,7 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     }
 
     for (sfxId = 0; sfxId < gAudioContext.soundFontList[fontId].numSfx; sfxId++) {
-        soundEffect = Audio_GetSfx(fontId, sfxId);
+        soundEffect = Audio_GetSoundEffect(fontId, sfxId);
         if (soundEffect != NULL) {
             AudioHeap_UnapplySampleCache(entry, soundEffect->tunedSample.sample);
         }
@@ -1461,7 +1461,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
             }
 
             for (sfxId = 0; sfxId < gAudioContext.soundFontList[fontId].numSfx; sfxId++) {
-                soundEffect = Audio_GetSfx(fontId, sfxId);
+                soundEffect = Audio_GetSoundEffect(fontId, sfxId);
                 if (soundEffect != NULL) {
                     AudioHeap_ChangeStorage(&change, soundEffect->tunedSample.sample);
                 }

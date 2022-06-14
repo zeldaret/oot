@@ -782,7 +782,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
         case 1:
             layer->semitone = semitone;
             sfxId = (layer->transposition << 6) + semitone;
-            soundEffect = Audio_GetSfx(channel->fontId, sfxId);
+            soundEffect = Audio_GetSoundEffect(channel->fontId, sfxId);
             if (soundEffect == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay + 1;
