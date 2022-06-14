@@ -1234,7 +1234,7 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
 void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     Drum* drum;
     Instrument* inst;
-    SoundEffect* soundEffects;
+    SoundEffect* soundEffect;
     s32 instId;
     s32 drumId;
     s32 sfxId;
@@ -1260,9 +1260,9 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     }
 
     for (sfxId = 0; sfxId < gAudioContext.soundFontInfoList[fontId].numSfx; sfxId++) {
-        soundEffects = Audio_GetSfx(fontId, sfxId);
-        if (soundEffects != NULL) {
-            AudioHeap_UnapplySampleCache(entry, soundEffects->tunedSample.sample);
+        soundEffect = Audio_GetSfx(fontId, sfxId);
+        if (soundEffect != NULL) {
+            AudioHeap_UnapplySampleCache(entry, soundEffect->tunedSample.sample);
         }
     }
 }
@@ -1395,7 +1395,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     s32 fontId;
     Drum* drum;
     Instrument* inst;
-    SoundEffect* soundEffects;
+    SoundEffect* soundEffect;
     u32* fakematch;
     s32 pad[4];
 
@@ -1461,9 +1461,9 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
             }
 
             for (sfxId = 0; sfxId < gAudioContext.soundFontInfoList[fontId].numSfx; sfxId++) {
-                soundEffects = Audio_GetSfx(fontId, sfxId);
-                if (soundEffects != NULL) {
-                    AudioHeap_ChangeStorage(&change, soundEffects->tunedSample.sample);
+                soundEffect = Audio_GetSfx(fontId, sfxId);
+                if (soundEffect != NULL) {
+                    AudioHeap_ChangeStorage(&change, soundEffect->tunedSample.sample);
                 }
             }
         }

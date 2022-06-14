@@ -517,7 +517,7 @@ u8* func_800E5E84(s32 arg0, u32* arg1) {
     return AudioLoad_GetFontsForSequence(arg0, arg1);
 }
 
-void Audio_GetSampleBankIds(s32 fontId, u32* sampleBankId1, u32* sampleBankId2) {
+void Audio_GetSampleBankIdsOfFont(s32 fontId, u32* sampleBankId1, u32* sampleBankId2) {
     *sampleBankId1 = gAudioContext.soundFontInfoList[fontId].sampleBankId1;
     *sampleBankId2 = gAudioContext.soundFontInfoList[fontId].sampleBankId2;
 }

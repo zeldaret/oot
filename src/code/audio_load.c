@@ -805,7 +805,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
     u32 soundListOffset; // Relative offset from the beginning of fontData to the list of soundOffsets/sfxs
     Instrument* inst;
     Drum* drum;
-    TunedSampleInfo* sfx;
+    SoundEffect* soundEffect;
     s32 i;
     s32 numDrums = gAudioContext.soundFontInfoList[fontId].numDrums;
     s32 numInstruments = gAudioContext.soundFontInfoList[fontId].numInstruments;
@@ -863,14 +863,14 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
         // Loop through the sound effects
         for (i = 0; i < numSfx; i++) {
             // Get a pointer to the i'th sound effect
-            soundOffset = ((TunedSampleInfo*)fontData[1]) + i;
+            soundOffset = ((SoundEffect*)fontData[1]) + i;
 
             // Check for NULL (note: the pointer is guaranteed to be in fontData and can never be NULL)
-            if ((TunedSampleInfo*)soundOffset != NULL) {
-                sfx = soundOffset;
+            if ((SoundEffect*)soundOffset != NULL) {
+                soundEffect = soundOffset;
 
-                if ((u32)sfx->sample != 0) {
-                    AudioLoad_RelocateSampleInfo(sfx, fontDataStartAddr, sampleBankReloc);
+                if ((u32)soundEffect->tunedSample.sample != 0) {
+                    AudioLoad_RelocateSampleInfo(&soundEffect->tunedSample, fontDataStartAddr, sampleBankReloc);
                 }
             }
         }
@@ -917,7 +917,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 
 #undef FONT_DATA_RELOC
 
-    // Store the relocated pointers to the soundFontInfoList list
+    // Store the relocated pointers
     gAudioContext.soundFontInfoList[fontId].drums = (Drum**)fontData[0];
     gAudioContext.soundFontInfoList[fontId].soundEffects = (SoundEffect*)fontData[1];
     gAudioContext.soundFontInfoList[fontId].instruments = (Instrument**)(fontData + 2);
@@ -1316,12 +1316,12 @@ SampleInfo* AudioLoad_GetFontSampleInfo(s32 fontId, s32 instId) {
         }
         sample = drum->tunedSample.sample;
     } else {
-        SoundEffect* soundEffects = Audio_GetSfx(fontId, instId - 0x100);
+        SoundEffect* soundEffect = Audio_GetSfx(fontId, instId - 0x100);
 
-        if (soundEffects == NULL) {
+        if (soundEffect == NULL) {
             return NULL;
         }
-        sample = soundEffects->tunedSample.sample;
+        sample = soundEffect->tunedSample.sample;
     }
     return sample;
 }
@@ -1939,7 +1939,7 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, SampleBankRelocInfo*
     s32 numSfx;
     Drum* drum;
     Instrument* instrument;
-    SoundEffect* soundEffects;
+    SoundEffect* soundEffect;
     AudioPreloadReq* preload;
     AudioPreloadReq* topPreload;
     u8* addr;
@@ -1981,9 +1981,9 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, SampleBankRelocInfo*
     }
 
     for (i = 0; i < numSfx; i++) {
-        soundEffects = Audio_GetSfx(fontId, i);
-        if (soundEffects != NULL) {
-            AudioLoad_AddUsedSample(&soundEffects->tunedSample);
+        soundEffect = Audio_GetSfx(fontId, i);
+        if (soundEffect != NULL) {
+            AudioLoad_AddUsedSample(&soundEffect->tunedSample);
         }
     }
 

@@ -488,7 +488,7 @@ void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer);
 s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer);
 s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd);
 s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd);
-s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound);
+s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameTunedSample);
 
 void AudioSeq_SeqLayerProcessScript(SequenceLayer* layer) {
     s32 val;
@@ -541,7 +541,7 @@ void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer) {
     layer->notePropertiesNeedInit = true;
 }
 
-s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound) {
+s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameTunedSample) {
     if (!layer->stopSomething && layer->tunedSample != NULL &&
         layer->tunedSample->sample->codec == CODEC_S16_INMEMORY && layer->tunedSample->sample->medium != MEDIUM_RAM) {
         layer->stopSomething = true;
@@ -552,13 +552,13 @@ s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound) {
         return 0;
     }
 
-    if (layer->continuousNotes == true && layer->note != NULL && layer->bit3 && sameSound == true &&
+    if (layer->continuousNotes == true && layer->note != NULL && layer->bit3 && sameTunedSample == true &&
         layer->note->playbackState.parentLayer == layer) {
         if (layer->tunedSample == NULL) {
             Audio_InitSyntheticWave(layer->note, layer);
         }
     } else {
-        if (sameSound == false) {
+        if (!sameTunedSample) {
             Audio_SeqLayerNoteDecay(layer);
         }
         layer->note = Audio_AllocNote(layer);
@@ -727,7 +727,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
 }
 
 s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
-    s32 sameSound = true;
+    s32 sameTunedSample = true;
     s32 instOrWave;
     s32 speed;
     f32 temp_f14;
@@ -738,7 +738,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
     TunedSampleInfo* tunedSample;
     Instrument* instrument;
     Drum* drum;
-    SoundEffect* soundEffects;
+    SoundEffect* soundEffect;
     SequenceChannel* channel;
     SequencePlayer* seqPlayer;
     u8 semitone = cmd;
@@ -782,13 +782,13 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
         case 1:
             layer->semitone = semitone;
             sfxId = (layer->transposition << 6) + semitone;
-            soundEffects = Audio_GetSfx(channel->fontId, sfxId);
-            if (soundEffects == NULL) {
+            soundEffect = Audio_GetSfx(channel->fontId, sfxId);
+            if (soundEffect == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay + 1;
                 return -1;
             }
-            tunedSample = &soundEffects->tunedSample;
+            tunedSample = &soundEffect->tunedSample;
             layer->tunedSample = tunedSample;
             layer->freqScale = tunedSample->tuning;
             break;
@@ -813,7 +813,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
 
                 if (instrument != NULL) {
                     tunedSample = Audio_GetInstrumentTunedSampleInfo(instrument, vel);
-                    sameSound = (layer->tunedSample == tunedSample);
+                    sameTunedSample = (layer->tunedSample == tunedSample);
                     layer->tunedSample = tunedSample;
                     tuning = tunedSample->tuning;
                 } else {
@@ -875,7 +875,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
 
             if (instrument != NULL) {
                 tunedSample = Audio_GetInstrumentTunedSampleInfo(instrument, semitone);
-                sameSound = (tunedSample == layer->tunedSample);
+                sameTunedSample = (tunedSample == layer->tunedSample);
                 layer->tunedSample = tunedSample;
                 layer->freqScale = gPitchFrequencies[semitone2] * tunedSample->tuning;
             } else {
@@ -921,7 +921,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
             }
         }
     }
-    return sameSound;
+    return sameTunedSample;
 }
 
 s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
