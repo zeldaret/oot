@@ -784,7 +784,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
     SequenceLayer* layer;
     Note* note;
-    TunedSampleInfo* tunedSample;
+    TunedSample* tunedSample;
     s32 loopEnd;
     s32 samplePos;
 
@@ -834,7 +834,7 @@ s32 func_800E66C0(s32 arg0) {
     NoteSubEu* temp_a3;
     s32 i;
     Note* note;
-    TunedSampleInfo* tunedSample;
+    TunedSample* tunedSample;
 
     phi_v1 = 0;
     for (i = 0; i < gAudioContext.numNotes; i++) {

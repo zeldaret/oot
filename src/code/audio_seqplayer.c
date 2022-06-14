@@ -692,7 +692,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
 
             case 0xCB:
                 sp3A = AudioSeq_ScriptReadS16(state);
-                layer->adsr.envelope = (AdsrEnvelope*)(seqPlayer->seqData + sp3A);
+                layer->adsr.envelope = (EnvelopePoint*)(seqPlayer->seqData + sp3A);
                 FALLTHROUGH;
             case 0xCF:
                 layer->adsr.decayIndex = AudioSeq_ScriptReadU8(state);
@@ -735,7 +735,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
     Portamento* portamento;
     f32 freqScale;
     f32 freqScale2;
-    TunedSampleInfo* tunedSample;
+    TunedSample* tunedSample;
     Instrument* instrument;
     Drum* drum;
     SoundEffect* soundEffect;
@@ -770,7 +770,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                 return -1;
             }
             tunedSample = &drum->tunedSample;
-            layer->adsr.envelope = (AdsrEnvelope*)drum->envelope;
+            layer->adsr.envelope = (EnvelopePoint*)drum->envelope;
             layer->adsr.decayIndex = (u8)drum->adsrDecayIndex;
             if (!layer->ignoreDrumPan) {
                 layer->pan = drum->pan;
@@ -812,7 +812,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                 vel = (semitone > layer->portamentoTargetNote) ? semitone : layer->portamentoTargetNote;
 
                 if (instrument != NULL) {
-                    tunedSample = Audio_GetInstrumentTunedSampleInfo(instrument, vel);
+                    tunedSample = Audio_GetInstrumentTunedSample(instrument, vel);
                     sameTunedSample = (layer->tunedSample == tunedSample);
                     layer->tunedSample = tunedSample;
                     tuning = tunedSample->tuning;
@@ -874,7 +874,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
             }
 
             if (instrument != NULL) {
-                tunedSample = Audio_GetInstrumentTunedSampleInfo(instrument, semitone);
+                tunedSample = Audio_GetInstrumentTunedSample(instrument, semitone);
                 sameTunedSample = (tunedSample == layer->tunedSample);
                 layer->tunedSample = tunedSample;
                 layer->freqScale = gPitchFrequencies[semitone2] * tunedSample->tuning;
@@ -1242,7 +1242,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                     case 0xDA:
                         offset = (u16)cmdArgs[0];
-                        channel->adsr.envelope = (AdsrEnvelope*)&seqPlayer->seqData[offset];
+                        channel->adsr.envelope = (EnvelopePoint*)&seqPlayer->seqData[offset];
                         break;
 
                     case 0xD9:
