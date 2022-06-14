@@ -630,8 +630,8 @@ SoundFontData* AudioLoad_SyncLoadFont(u32 fontId) {
     if (gAudioContext.fontLoadStatus[realFontId] == LOAD_STATUS_IN_PROGRESS) {
         return NULL;
     }
-    sampleBankId1 = gAudioContext.soundFontInfoList[realFontId].sampleBankId1;
-    sampleBankId2 = gAudioContext.soundFontInfoList[realFontId].sampleBankId2;
+    sampleBankId1 = gAudioContext.soundFontList[realFontId].sampleBankId1;
+    sampleBankId2 = gAudioContext.soundFontList[realFontId].sampleBankId2;
 
     sampleBankReloc.sampleBankId1 = sampleBankId1;
     sampleBankReloc.sampleBankId2 = sampleBankId2;
@@ -806,9 +806,9 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
     Drum* drum;
     SoundEffect* soundEffect;
     s32 i;
-    s32 numDrums = gAudioContext.soundFontInfoList[fontId].numDrums;
-    s32 numInstruments = gAudioContext.soundFontInfoList[fontId].numInstruments;
-    s32 numSfx = gAudioContext.soundFontInfoList[fontId].numSfx;
+    s32 numDrums = gAudioContext.soundFontList[fontId].numDrums;
+    s32 numInstruments = gAudioContext.soundFontList[fontId].numInstruments;
+    s32 numSfx = gAudioContext.soundFontList[fontId].numSfx;
     void** fontData = (void**)fontDataStartAddr;
 
     // Relocate an offset (relative to the start of the font data) to a pointer (a ram address)
@@ -917,9 +917,9 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 #undef FONT_DATA_RELOC
 
     // Store the relocated pointers
-    gAudioContext.soundFontInfoList[fontId].drums = (Drum**)fontData[0];
-    gAudioContext.soundFontInfoList[fontId].soundEffects = (SoundEffect*)fontData[1];
-    gAudioContext.soundFontInfoList[fontId].instruments = (Instrument**)(fontData + 2);
+    gAudioContext.soundFontList[fontId].drums = (Drum**)fontData[0];
+    gAudioContext.soundFontList[fontId].soundEffects = (SoundEffect*)fontData[1];
+    gAudioContext.soundFontList[fontId].instruments = (Instrument**)(fontData + 2);
 }
 
 void AudioLoad_SyncDma(u32 devAddr, u8* ramAddr, u32 size, s32 medium) {
@@ -1116,7 +1116,7 @@ void AudioLoad_SetUnusedHandler(void* callback) {
 }
 
 void AudioLoad_InitSoundFontInfo(s32 fontId) {
-    SoundFontInfo* fontInfo = &gAudioContext.soundFontInfoList[fontId];
+    SoundFont* fontInfo = &gAudioContext.soundFontList[fontId];
     AudioTableEntry* entry = &gAudioContext.soundFontTable->entries[fontId];
 
     fontInfo->sampleBankId1 = (entry->shortData1 >> 8) & 0xFF;
@@ -1225,7 +1225,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     AudioLoad_InitTable(gAudioContext.soundFontTable, _AudiobankSegmentRomStart, 0);
     AudioLoad_InitTable(gAudioContext.sampleBankTable, _AudiotableSegmentRomStart, 0);
     numFonts = gAudioContext.soundFontTable->numEntries;
-    gAudioContext.soundFontInfoList = AudioHeap_Alloc(&gAudioContext.initPool, numFonts * sizeof(SoundFontInfo));
+    gAudioContext.soundFontList = AudioHeap_Alloc(&gAudioContext.initPool, numFonts * sizeof(SoundFont));
 
     for (i = 0; i < numFonts; i++) {
         AudioLoad_InitSoundFontInfo(i);
@@ -1564,8 +1564,8 @@ void AudioLoad_FinishAsyncLoad(AudioAsyncLoad* asyncLoad) {
 
         case FONT_TABLE:
             fontId = ASYNC_ID(retMsg);
-            sampleBankId1 = gAudioContext.soundFontInfoList[fontId].sampleBankId1;
-            sampleBankId2 = gAudioContext.soundFontInfoList[fontId].sampleBankId2;
+            sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+            sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
             sampleBankReloc.sampleBankId1 = sampleBankId1;
             sampleBankReloc.sampleBankId2 = sampleBankId2;
             sampleBankReloc.baseAddr1 =
@@ -1893,8 +1893,8 @@ s32 AudioLoad_AddToSampleSet(Sample* sample, s32 numSamples, Sample** sampleSet)
 s32 AudioLoad_GetSamplesForFont(s32 fontId, Sample** sampleSet) {
     s32 i;
     s32 numSamples = 0;
-    s32 numDrums = gAudioContext.soundFontInfoList[fontId].numDrums;
-    s32 numInstruments = gAudioContext.soundFontInfoList[fontId].numInstruments;
+    s32 numDrums = gAudioContext.soundFontList[fontId].numDrums;
+    s32 numInstruments = gAudioContext.soundFontList[fontId].numInstruments;
 
     for (i = 0; i < numDrums; i++) {
         Drum* drum = Audio_GetDrum(fontId, i);
@@ -1954,9 +1954,9 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, SampleBankRelocInfo*
 
     gAudioContext.numUsedSamples = 0;
 
-    numDrums = gAudioContext.soundFontInfoList[fontId].numDrums;
-    numInstruments = gAudioContext.soundFontInfoList[fontId].numInstruments;
-    numSfx = gAudioContext.soundFontInfoList[fontId].numSfx;
+    numDrums = gAudioContext.soundFontList[fontId].numDrums;
+    numInstruments = gAudioContext.soundFontList[fontId].numInstruments;
+    numSfx = gAudioContext.soundFontList[fontId].numSfx;
 
     for (i = 0; i < numInstruments; i++) {
         instrument = Audio_GetInstrumentInner(fontId, i);
@@ -2079,8 +2079,8 @@ void AudioLoad_LoadPermanentSamples(void) {
 
         if (gAudioContext.permanentCache[i].tableType == FONT_TABLE) {
             fontId = AudioLoad_GetRealTableIndex(FONT_TABLE, gAudioContext.permanentCache[i].id);
-            sampleBankReloc.sampleBankId1 = gAudioContext.soundFontInfoList[fontId].sampleBankId1;
-            sampleBankReloc.sampleBankId2 = gAudioContext.soundFontInfoList[fontId].sampleBankId2;
+            sampleBankReloc.sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+            sampleBankReloc.sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
 
             if (sampleBankReloc.sampleBankId1 != 0xFF) {
                 sampleBankReloc.sampleBankId1 =

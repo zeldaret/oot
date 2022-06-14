@@ -1239,7 +1239,7 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     s32 drumId;
     s32 sfxId;
 
-    for (instId = 0; instId < gAudioContext.soundFontInfoList[fontId].numInstruments; instId++) {
+    for (instId = 0; instId < gAudioContext.soundFontList[fontId].numInstruments; instId++) {
         inst = Audio_GetInstrumentInner(fontId, instId);
         if (inst != NULL) {
             if (inst->normalRangeLo != 0) {
@@ -1252,14 +1252,14 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
         }
     }
 
-    for (drumId = 0; drumId < gAudioContext.soundFontInfoList[fontId].numDrums; drumId++) {
+    for (drumId = 0; drumId < gAudioContext.soundFontList[fontId].numDrums; drumId++) {
         drum = Audio_GetDrum(fontId, drumId);
         if (drum != NULL) {
             AudioHeap_UnapplySampleCache(entry, drum->tunedSample.sample);
         }
     }
 
-    for (sfxId = 0; sfxId < gAudioContext.soundFontInfoList[fontId].numSfx; sfxId++) {
+    for (sfxId = 0; sfxId < gAudioContext.soundFontList[fontId].numSfx; sfxId++) {
         soundEffect = Audio_GetSfx(fontId, sfxId);
         if (soundEffect != NULL) {
             AudioHeap_UnapplySampleCache(entry, soundEffect->tunedSample.sample);
@@ -1275,8 +1275,8 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
 
     numFonts = gAudioContext.soundFontTable->numEntries;
     for (fontId = 0; fontId < numFonts; fontId++) {
-        sampleBankId1 = gAudioContext.soundFontInfoList[fontId].sampleBankId1;
-        sampleBankId2 = gAudioContext.soundFontInfoList[fontId].sampleBankId2;
+        sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
         if (((sampleBankId1 != 0xFF) && (entry->sampleBankId == sampleBankId1)) ||
             ((sampleBankId2 != 0xFF) && (entry->sampleBankId == sampleBankId2)) || entry->sampleBankId == 0) {
             if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) != NULL) {
@@ -1332,8 +1332,8 @@ void AudioHeap_DiscardSampleCaches(void) {
 
     numFonts = gAudioContext.soundFontTable->numEntries;
     for (fontId = 0; fontId < numFonts; fontId++) {
-        sampleBankId1 = gAudioContext.soundFontInfoList[fontId].sampleBankId1;
-        sampleBankId2 = gAudioContext.soundFontInfoList[fontId].sampleBankId2;
+        sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
         if ((sampleBankId1 == 0xFF) && (sampleBankId2 == 0xFF)) {
             continue;
         }
@@ -1426,8 +1426,8 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     }
 
     for (fontId = 0; fontId < numFonts; fontId++) {
-        sampleBankId1 = gAudioContext.soundFontInfoList[fontId].sampleBankId1;
-        sampleBankId2 = gAudioContext.soundFontInfoList[fontId].sampleBankId2;
+        sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+        sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
         if ((sampleBankId1 != 0xFF) || (sampleBankId2 != 0xFF)) {
             if (!AudioLoad_IsFontLoadComplete(fontId) ||
                 AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, fontId) == NULL) {
@@ -1440,7 +1440,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
                 continue;
             }
 
-            for (instId = 0; instId < gAudioContext.soundFontInfoList[fontId].numInstruments; instId++) {
+            for (instId = 0; instId < gAudioContext.soundFontList[fontId].numInstruments; instId++) {
                 inst = Audio_GetInstrumentInner(fontId, instId);
                 if (inst != NULL) {
                     if (inst->normalRangeLo != 0) {
@@ -1453,14 +1453,14 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
                 }
             }
 
-            for (drumId = 0; drumId < gAudioContext.soundFontInfoList[fontId].numDrums; drumId++) {
+            for (drumId = 0; drumId < gAudioContext.soundFontList[fontId].numDrums; drumId++) {
                 drum = Audio_GetDrum(fontId, drumId);
                 if (drum != NULL) {
                     AudioHeap_ChangeStorage(&change, drum->tunedSample.sample);
                 }
             }
 
-            for (sfxId = 0; sfxId < gAudioContext.soundFontInfoList[fontId].numSfx; sfxId++) {
+            for (sfxId = 0; sfxId < gAudioContext.soundFontList[fontId].numSfx; sfxId++) {
                 soundEffect = Audio_GetSfx(fontId, sfxId);
                 if (soundEffect != NULL) {
                     AudioHeap_ChangeStorage(&change, soundEffect->tunedSample.sample);

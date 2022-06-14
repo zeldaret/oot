@@ -518,8 +518,8 @@ u8* func_800E5E84(s32 arg0, u32* arg1) {
 }
 
 void Audio_GetSampleBankIdsOfFont(s32 fontId, u32* sampleBankId1, u32* sampleBankId2) {
-    *sampleBankId1 = gAudioContext.soundFontInfoList[fontId].sampleBankId1;
-    *sampleBankId2 = gAudioContext.soundFontInfoList[fontId].sampleBankId2;
+    *sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+    *sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
 }
 
 s32 func_800E5EDC(void) {
