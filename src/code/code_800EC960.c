@@ -3167,7 +3167,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                                        &gSfxDefaultReverb);
                 break;
             case 4:
-                Audio_ApplyFileSelectSetting(sAudioSndContWork[sAudioSndContSel]);
+                Audio_SetFileSelectSetting(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 5:
                 Audio_SeqCmdE01(SEQ_PLAYER_BGM_MAIN, sAudioSndContWork[sAudioSndContSel]);
@@ -5012,7 +5012,7 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void Audio_ApplyFileSelectSetting(s8 audioSetting) {
+void Audio_SetFileSelectSetting(s8 audioSetting) {
     s8 soundMode;
 
     switch (audioSetting) {
