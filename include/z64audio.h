@@ -21,20 +21,11 @@
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
 typedef enum {
-    /* 0 */ AUDIO_FS_STEREO,
-    /* 1 */ AUDIO_FS_HEADSET,
-    /* 2 */ AUDIO_FS_SURROUND,
-    /* 3 */ AUDIO_FS_MONO
+    /* 0 */ SOUNDMODE_STEREO,
+    /* 1 */ SOUNDMODE_HEADSET,
+    /* 2 */ SOUNDMODE_SURROUND,
+    /* 3 */ SOUNDMODE_MONO
 } AudioFileSelectOption;
-
-typedef enum {
-    /* 0 */ AUDIO_MODE_STEREO,
-    /* 1 */ AUDIO_MODE_HEADSET,
-    /* 2 */ AUDIO_MODE_UNK,
-    /* 3 */ AUDIO_MODE_MONO,
-    /* 4 */ AUDIO_MODE_SURROUND
-} AudioSoundMode;
-
 
 typedef enum {
     /* 0 */ ADSR_STATE_DISABLED,
