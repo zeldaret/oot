@@ -1,21 +1,20 @@
 #include "global.h"
 
 u8 sYaz0DataBuffer[0x400];
-u32 sYaz0CurDataEnd;
+u8* sYaz0DataBufferEnd;
 u32 sYaz0CurRomStart;
 u32 sYaz0CurSize;
-u32 sYaz0MaxPtr;
+u8* sYaz0MaxPtr;
 
 void* Yaz0_FirstDMA(void) {
-    u32 pad0;
-    u32 pad1;
+    s32 pad[2];
     u32 dmaSize;
-    u32 curSize;
+    u32 bufferSize;
 
-    sYaz0MaxPtr = sYaz0CurDataEnd - 0x19;
+    sYaz0MaxPtr = sYaz0DataBufferEnd - 0x19;
 
-    curSize = sYaz0CurDataEnd - (u32)sYaz0DataBuffer;
-    dmaSize = (curSize > sYaz0CurSize) ? sYaz0CurSize : curSize;
+    bufferSize = sYaz0DataBufferEnd - sYaz0DataBuffer;
+    dmaSize = (bufferSize > sYaz0CurSize) ? sYaz0CurSize : bufferSize;
 
     DmaMgr_DmaRomToRam(sYaz0CurRomStart, sYaz0DataBuffer, dmaSize);
     sYaz0CurRomStart += dmaSize;
@@ -23,26 +22,26 @@ void* Yaz0_FirstDMA(void) {
     return sYaz0DataBuffer;
 }
 
-void* Yaz0_NextDMA(void* curSrcPos) {
+void* Yaz0_NextDMA(u8* curSrcPos) {
     u8* dst;
     u32 restSize;
     u32 dmaSize;
 
-    restSize = sYaz0CurDataEnd - (u32)curSrcPos;
+    restSize = sYaz0DataBufferEnd - curSrcPos;
     dst = (restSize & 7) ? (sYaz0DataBuffer - (restSize & 7)) + 8 : sYaz0DataBuffer;
 
     bcopy(curSrcPos, dst, restSize);
-    dmaSize = (sYaz0CurDataEnd - (u32)dst) - restSize;
+    dmaSize = (sYaz0DataBufferEnd - dst) - restSize;
     if (sYaz0CurSize < dmaSize) {
         dmaSize = sYaz0CurSize;
     }
 
     if (dmaSize != 0) {
-        DmaMgr_DmaRomToRam(sYaz0CurRomStart, (u32)dst + restSize, dmaSize);
+        DmaMgr_DmaRomToRam(sYaz0CurRomStart, dst + restSize, dmaSize);
         sYaz0CurRomStart += dmaSize;
         sYaz0CurSize -= dmaSize;
-        if (!sYaz0CurSize) {
-            sYaz0MaxPtr = (u32)dst + restSize + dmaSize;
+        if (sYaz0CurSize == 0) {
+            sYaz0MaxPtr = dst + restSize + dmaSize;
         }
     }
 
@@ -51,7 +50,7 @@ void* Yaz0_NextDMA(void* curSrcPos) {
 
 void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
     u32 bitIdx = 0;
-    u8* src = (u8*)hdr->data;
+    u8* src = hdr->data;
     u8* dstEnd = dst + hdr->decSize;
     u32 chunkHeader;
     u32 nibble;
@@ -61,7 +60,7 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
 
     do {
         if (bitIdx == 0) {
-            if ((sYaz0MaxPtr < (u32)src) && (sYaz0CurSize != 0)) {
+            if ((sYaz0MaxPtr < src) && (sYaz0CurSize != 0)) {
                 src = Yaz0_NextDMA(src);
             }
 
@@ -93,9 +92,9 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
     } while (dst != dstEnd);
 }
 
-void Yaz0_Decompress(u32 romStart, void* dst, u32 size) {
+void Yaz0_Decompress(u32 romStart, u8* dst, u32 size) {
     sYaz0CurRomStart = romStart;
     sYaz0CurSize = size;
-    sYaz0CurDataEnd = sYaz0DataBuffer + sizeof(sYaz0DataBuffer);
+    sYaz0DataBufferEnd = sYaz0DataBuffer + sizeof(sYaz0DataBuffer);
     Yaz0_DecompressImpl(Yaz0_FirstDMA(), dst);
 }

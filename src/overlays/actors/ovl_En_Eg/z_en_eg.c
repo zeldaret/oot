@@ -34,7 +34,7 @@ const ActorInit En_Eg_InitVars = {
     (ActorFunc)EnEg_Draw,
 };
 
-void EnEg_PlayVoidOutSFX() {
+void EnEg_PlayVoidOutSFX(void) {
     func_800788CC(NA_SE_OC_ABYSS);
 }
 

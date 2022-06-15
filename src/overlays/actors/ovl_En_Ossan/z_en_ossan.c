@@ -193,7 +193,7 @@ typedef struct {
     /* 0x06 */ s16 zOffset;
 } ShopItem; // size 0x08
 
-ShopItem sShopkeeperStores[][8] = {
+static ShopItem sShopkeeperStores[][8] = {
     { { SI_DEKU_SHIELD, 50, 52, -20 },
       { SI_DEKU_NUTS_5, 50, 76, -20 },
       { SI_DEKU_NUTS_10, 80, 52, -3 },
