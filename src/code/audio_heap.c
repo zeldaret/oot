@@ -275,18 +275,17 @@ void AudioHeap_PopCache(s32 tableType) {
 }
 
 void AudioHeap_InitMainPools(s32 initPoolSize) {
-    AudioHeap_AllocPoolInit(&gAudioContext.audioInitPool, gAudioContext.audioHeap, initPoolSize);
-    AudioHeap_AllocPoolInit(&gAudioContext.audioSessionPool, gAudioContext.audioHeap + initPoolSize,
+    AudioHeap_AllocPoolInit(&gAudioContext.initPool, gAudioContext.audioHeap, initPoolSize);
+    AudioHeap_AllocPoolInit(&gAudioContext.sessionPool, gAudioContext.audioHeap + initPoolSize,
                             gAudioContext.audioHeapSize - initPoolSize);
     gAudioContext.externalPool.startRamAddr = NULL;
 }
 
 void AudioHeap_SessionPoolsInit(AudioSessionPoolSplit* split) {
-    gAudioContext.audioSessionPool.curRamAddr = gAudioContext.audioSessionPool.startRamAddr;
-    AudioHeap_AllocPoolInit(&gAudioContext.miscPool,
-                            AudioHeap_Alloc(&gAudioContext.audioSessionPool, split->miscPoolSize), split->miscPoolSize);
-    AudioHeap_AllocPoolInit(&gAudioContext.cachePool,
-                            AudioHeap_Alloc(&gAudioContext.audioSessionPool, split->cachePoolSize),
+    gAudioContext.sessionPool.curRamAddr = gAudioContext.sessionPool.startRamAddr;
+    AudioHeap_AllocPoolInit(&gAudioContext.miscPool, AudioHeap_Alloc(&gAudioContext.sessionPool, split->miscPoolSize),
+                            split->miscPoolSize);
+    AudioHeap_AllocPoolInit(&gAudioContext.cachePool, AudioHeap_Alloc(&gAudioContext.sessionPool, split->cachePoolSize),
                             split->cachePoolSize);
 }
 
@@ -925,7 +924,7 @@ void AudioHeap_Init(void) {
     temporarySize =
         spec->temporarySeqCacheSize + spec->temporaryFontCacheSize + spec->temporarySampleBankCacheSize + 0x10;
     cachePoolSize = persistentSize + temporarySize;
-    miscPoolSize = gAudioContext.audioSessionPool.size - cachePoolSize - 0x100;
+    miscPoolSize = gAudioContext.sessionPool.size - cachePoolSize - 0x100;
 
     if (gAudioContext.externalPool.startRamAddr != NULL) {
         gAudioContext.externalPool.curRamAddr = gAudioContext.externalPool.startRamAddr;
