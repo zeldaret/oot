@@ -1954,7 +1954,7 @@ void func_800F64E0(u8 arg0);
 void func_800F6584(u8 arg0);
 void Audio_SetEnvReverb(s8 reverb);
 void Audio_SetCodeReverb(s8 reverb);
-void func_800F6700(s8 arg0);
+void Audio_ApplyFileSelectSetting(s8 audioSetting);
 void Audio_SetBaseFilter(u8);
 void Audio_SetExtraFilter(u8);
 void Audio_SetCutsceneFlag(s8 flag);

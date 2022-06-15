@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "src/overlays/gamestates/ovl_file_choose/file_choose.h"
 
 // TODO: can these macros be shared between files? code_800F9280 seems to use
 // versions without any casts...
@@ -122,7 +123,7 @@ f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/
 f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
-s8 D_80130604 = 2;
+s8 sSoundMode = AUDIO_FS_SURROUND;
 s8 D_80130608 = 0;
 s8 sAudioCutsceneFlag = 0;
 s8 sSpecReverb = 0;
@@ -3166,7 +3167,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                                        &gSfxDefaultReverb);
                 break;
             case 4:
-                func_800F6700(sAudioSndContWork[sAudioSndContSel]);
+                Audio_ApplyFileSelectSetting(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 5:
                 Audio_SeqCmdE01(SEQ_PLAYER_BGM_MAIN, sAudioSndContWork[sAudioSndContSel]);
@@ -3987,7 +3988,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
         case BANK_ENV:
         case BANK_ENEMY:
         case BANK_VOICE:
-            if (D_80130604 == 2) {
+            if (sSoundMode == AUDIO_FS_SURROUND) {
                 sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
             FALLTHROUGH;
@@ -3997,7 +3998,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             reverb = Audio_ComputeSoundReverb(bankId, entryIdx, channelIdx);
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankId, entryIdx) * *entry->freqScale;
-            if (D_80130604 == 2) {
+            if (sSoundMode == AUDIO_FS_SURROUND) {
                 behindScreenZ = sBehindScreenZ[(entry->sfxParams & 0x400) >> 10];
                 if (!(entry->sfxParams & 0x800)) {
                     if (*entry->posZ < behindScreenZ) {
@@ -4023,7 +4024,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
 
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
-            } else if (D_80130604 == 2 && (entry->sfxParams & 0x2000) == 0) {
+            } else if ((sSoundMode == AUDIO_FS_SURROUND) && (entry->sfxParams & 0x2000) == 0) {
                 filter = func_800F37B8(behindScreenZ, entry, panSigned);
             }
             break;
@@ -5010,29 +5011,29 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void func_800F6700(s8 arg0) {
-    s8 sp1F;
+void Audio_ApplyFileSelectSetting(s8 audioSetting) {
+    s8 soundMode;
 
-    switch (arg0) {
-        case 0:
-            sp1F = 0;
-            D_80130604 = 0;
+    switch (audioSetting) {
+        case FS_AUDIO_STEREO:
+            soundMode = AUDIO_FS_STEREO;
+            sSoundMode = AUDIO_FS_STEREO;
             break;
-        case 1:
-            sp1F = 3;
-            D_80130604 = 3;
+        case FS_AUDIO_MONO:
+            soundMode = AUDIO_FS_MONO;
+            sSoundMode = AUDIO_FS_MONO;
             break;
-        case 2:
-            sp1F = 1;
-            D_80130604 = 1;
+        case FS_AUDIO_HEADSET:
+            soundMode = AUDIO_FS_HEADSET;
+            sSoundMode = AUDIO_FS_HEADSET;
             break;
-        case 3:
-            sp1F = 0;
-            D_80130604 = 2;
+        case FS_AUDIO_SURROUND:
+            soundMode = AUDIO_FS_STEREO;
+            sSoundMode = AUDIO_FS_SURROUND;
             break;
     }
 
-    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, sp1F);
+    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, soundMode);
 }
 
 void Audio_SetBaseFilter(u8 filter) {
@@ -5255,7 +5256,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
             Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (port << 0x10) | (channelIdx << 8) | val);
         }
 
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, D_80130604);
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, sSoundMode);
     }
 }
 
