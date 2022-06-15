@@ -1128,11 +1128,11 @@ void AudioSeq_SetInstrument(SequenceChannel* channel, u8 instId) {
     } else if (instId == 0x7F) {
         // Drums
         channel->instOrWave = 0;
-        channel->instrument = (Instrument*)1; // This is being stored as a pointer, but never read from
+        channel->instrument = (Instrument*)1; // invalid pointer, never dereferenced
     } else if (instId == 0x7E) {
         // Sfxs
         channel->instOrWave = 1;
-        channel->instrument = (Instrument*)2; // This is being stored as a pointer, but never read from
+        channel->instrument = (Instrument*)2; // invalid pointer, never dereferenced
     } else {
         // Instruments
         if ((channel->instOrWave = AudioSeq_GetInstrument(channel, instId, &channel->instrument, &channel->adsr)) ==
