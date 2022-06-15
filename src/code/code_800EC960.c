@@ -5020,14 +5020,17 @@ void Audio_ApplyFileSelectSetting(s8 audioSetting) {
             soundMode = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_STEREO;
             break;
+
         case FS_AUDIO_MONO:
             soundMode = SOUNDMODE_MONO;
             sSoundMode = SOUNDMODE_MONO;
             break;
+
         case FS_AUDIO_HEADSET:
             soundMode = SOUNDMODE_HEADSET;
             sSoundMode = SOUNDMODE_HEADSET;
             break;
+
         case FS_AUDIO_SURROUND:
             soundMode = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_SURROUND;
