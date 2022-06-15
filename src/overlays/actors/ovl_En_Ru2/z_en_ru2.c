@@ -63,7 +63,8 @@ static void* sEyeTextures[] = {
 
 static UNK_TYPE D_80AF4118 = 0;
 
-#include "z_en_ru2_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_en_ru2_cutscene_data.c"
 
 static EnRu2ActionFunc sActionFuncs[] = {
     func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C, func_80AF2D6C, func_80AF2DAC, func_80AF2DEC,
@@ -379,7 +380,7 @@ void func_80AF2E1C(EnRu2* this, PlayState* play) {
     this->actor.shape.shadowAlpha = 0;
 }
 
-void func_80AF2E64() {
+void func_80AF2E64(void) {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 

@@ -72,7 +72,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-#include "z_demo_im_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_demo_im_cutscene_data.c"
 
 static DemoImActionFunc sActionFuncs[] = {
     func_809856F8, func_80985718, func_80985738, func_80985770, func_809857B0, func_809857F0, func_80985830,

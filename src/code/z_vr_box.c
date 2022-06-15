@@ -266,7 +266,7 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
             }
             break;
     }
-    skyboxCtx->unk_138 = &skyboxCtx->dListBuf[2 * arg8];
+    skyboxCtx->unk_138 = &skyboxCtx->dListBuf[2 * arg8][0];
 
     for (i = 0; i < 0x20; i++) {
         index = D_8012ADD8[i];
