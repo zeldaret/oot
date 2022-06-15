@@ -123,7 +123,7 @@ f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/
 f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
-s8 sSoundMode = AUDIO_FS_SURROUND;
+s8 sSoundMode = SOUNDMODE_SURROUND;
 s8 D_80130608 = 0;
 s8 sAudioCutsceneFlag = 0;
 s8 sSpecReverb = 0;
@@ -3988,7 +3988,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
         case BANK_ENV:
         case BANK_ENEMY:
         case BANK_VOICE:
-            if (sSoundMode == AUDIO_FS_SURROUND) {
+            if (sSoundMode == SOUNDMODE_SURROUND) {
                 sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
             FALLTHROUGH;
@@ -3998,7 +3998,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             reverb = Audio_ComputeSoundReverb(bankId, entryIdx, channelIdx);
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankId, entryIdx) * *entry->freqScale;
-            if (sSoundMode == AUDIO_FS_SURROUND) {
+            if (sSoundMode == SOUNDMODE_SURROUND) {
                 behindScreenZ = sBehindScreenZ[(entry->sfxParams & 0x400) >> 10];
                 if (!(entry->sfxParams & 0x800)) {
                     if (*entry->posZ < behindScreenZ) {
@@ -4024,7 +4024,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
 
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
-            } else if ((sSoundMode == AUDIO_FS_SURROUND) && (entry->sfxParams & 0x2000) == 0) {
+            } else if ((sSoundMode == SOUNDMODE_SURROUND) && (entry->sfxParams & 0x2000) == 0) {
                 filter = func_800F37B8(behindScreenZ, entry, panSigned);
             }
             break;
@@ -5016,20 +5016,20 @@ void Audio_ApplyFileSelectSetting(s8 audioSetting) {
 
     switch (audioSetting) {
         case FS_AUDIO_STEREO:
-            soundMode = AUDIO_FS_STEREO;
-            sSoundMode = AUDIO_FS_STEREO;
+            soundMode = SOUNDMODE_STEREO;
+            sSoundMode = SOUNDMODE_STEREO;
             break;
         case FS_AUDIO_MONO:
-            soundMode = AUDIO_FS_MONO;
-            sSoundMode = AUDIO_FS_MONO;
+            soundMode = SOUNDMODE_MONO;
+            sSoundMode = SOUNDMODE_MONO;
             break;
         case FS_AUDIO_HEADSET:
-            soundMode = AUDIO_FS_HEADSET;
-            sSoundMode = AUDIO_FS_HEADSET;
+            soundMode = SOUNDMODE_HEADSET;
+            sSoundMode = SOUNDMODE_HEADSET;
             break;
         case FS_AUDIO_SURROUND:
-            soundMode = AUDIO_FS_STEREO;
-            sSoundMode = AUDIO_FS_SURROUND;
+            soundMode = SOUNDMODE_STEREO;
+            sSoundMode = SOUNDMODE_SURROUND;
             break;
     }
 

@@ -25,7 +25,7 @@ typedef enum {
     /* 1 */ SOUNDMODE_HEADSET,
     /* 2 */ SOUNDMODE_SURROUND,
     /* 3 */ SOUNDMODE_MONO
-} AudioFileSelectOption;
+} SoundMode;
 
 typedef enum {
     /* 0 */ ADSR_STATE_DISABLED,
