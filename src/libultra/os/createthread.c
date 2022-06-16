@@ -16,9 +16,9 @@ void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, 
     thread->next = NULL;
     thread->queue = NULL;
     thread->context.pc = (u32)entry;
-    thread->context.a0 = arg;
+    thread->context.a0 = (u64)(s32)arg;
     thread->context.sp = (u64)(s32)sp - FRAMESZ(SZREG * NARGSAVE);
-    thread->context.ra = __osCleanupThread;
+    thread->context.ra = (u64)(s32)__osCleanupThread;
 
     mask = OS_IM_ALL;
     thread->context.sr = (mask & OS_IM_CPU) | SR_EXL;

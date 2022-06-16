@@ -365,7 +365,8 @@ void EnItem00_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8001DFC8(EnItem00* this, PlayState* play) {
-    if ((this->actor.params <= ITEM00_RUPEE_RED) || ((this->actor.params == ITEM00_HEART) && (this->despawnTimer < 0)) ||
+    if ((this->actor.params <= ITEM00_RUPEE_RED) ||
+        ((this->actor.params == ITEM00_HEART) && (this->despawnTimer < 0)) ||
         (this->actor.params == ITEM00_HEART_PIECE)) {
         this->actor.shape.rot.y += 960;
     } else {

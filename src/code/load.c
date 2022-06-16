@@ -41,7 +41,7 @@ s32 Overlay_Load(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* 
             // "Clear BSS area (% 08x-% 08x)"
             osSyncPrintf("BSS領域をクリアします(%08x-%08x)\n", end, end + ovl->bssSize);
         }
-        bzero(end, ovl->bssSize);
+        bzero((void*)end, ovl->bssSize);
     }
 
     size = (uintptr_t)&ovl->relocations[ovl->nRelocations] - (uintptr_t)ovl;
