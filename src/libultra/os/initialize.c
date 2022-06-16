@@ -51,8 +51,8 @@ void __osInitialize_common(void) {
     *(struct_exceptionPreamble*)ECC_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble; // cache errors
     *(struct_exceptionPreamble*)E_VEC = *(struct_exceptionPreamble*)__osExceptionPreamble;   // general exceptions
 
-    osWritebackDCache(K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
-    osInvalICache(K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
+    osWritebackDCache((void*)K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
+    osInvalICache((void*)K0BASE, E_VEC - K0BASE + sizeof(struct_exceptionPreamble));
     __createSpeedParam();
     osUnmapTLBAll();
     osMapTLBRdb();

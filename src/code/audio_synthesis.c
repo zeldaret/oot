@@ -392,11 +392,11 @@ void AudioSynth_EnvSetup1(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 void func_800DBD08(void) {
 }
 
-void AudioSynth_LoadBuffer(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
+void AudioSynth_LoadBuffer(Acmd* cmd, s32 arg1, s32 arg2, void* arg3) {
     aLoadBuffer(cmd, arg3, arg1, arg2);
 }
 
-void AudioSynth_SaveBuffer(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
+void AudioSynth_SaveBuffer(Acmd* cmd, s32 arg1, s32 arg2, void* arg3) {
     aSaveBuffer(cmd, arg1, arg3, arg2);
 }
 
@@ -454,11 +454,11 @@ void func_800DBE64(void) {
 void func_800DBE6C(void) {
 }
 
-void AudioSynth_LoadFilter(Acmd* cmd, s32 flags, s32 countOrBuf, s32 addr) {
+void AudioSynth_LoadFilter(Acmd* cmd, s32 flags, s32 countOrBuf, void* addr) {
     aFilter(cmd, flags, countOrBuf, addr);
 }
 
-void AudioSynth_LoadFilterCount(Acmd* cmd, s32 count, s32 addr) {
+void AudioSynth_LoadFilterCount(Acmd* cmd, s32 count, void* addr) {
     aFilter(cmd, 2, count, addr);
 }
 
@@ -781,7 +781,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         sample = noteSubEu->sound.soundFontSound->sample;
         loopInfo = sample->loop;
         loopEndPos = loopInfo->end;
-        sampleAddr = sample->sampleAddr;
+        sampleAddr = (u32)sample->sampleAddr;
         resampledTempLen = 0;
 
         for (curPart = 0; curPart < nParts; curPart++) {
