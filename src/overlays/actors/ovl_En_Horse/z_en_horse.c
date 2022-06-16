@@ -858,7 +858,9 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     this->animationIdx = ENHORSE_ANIM_IDLE;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx]);
     this->numBoosts = 6;
-    this->blinkTimer = this->postDrawFunc = this->boostRegenTime = 0;
+    this->boostRegenTime = 0;
+    this->postDrawFunc = NULL;
+    this->blinkTimer = 0;
     EnHorse_ResetCutscene(this, play);
     EnHorse_ResetRace(this, play);
     EnHorse_ResetHorsebackArchery(this, play);

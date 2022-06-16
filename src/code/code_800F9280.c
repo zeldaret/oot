@@ -96,9 +96,10 @@ typedef enum {
 } SeqCmdType;
 
 void Audio_ProcessSeqCmd(u32 cmd) {
-    s32 pad[2];
+    s32 pad;
     u16 fadeTimer;
     u16 channelMask;
+    u32 channelMaskReversed;
     u16 val;
     u8 oldSpec;
     u8 spec;
@@ -305,9 +306,10 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                 // stop channels
                 Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIdx, 16, 8) | 0xFF00, 1);
             }
-            if ((channelMask ^ 0xFFFF) != 0) {
+            channelMaskReversed = channelMask ^ 0xFFFF;
+            if (channelMaskReversed != 0) {
                 // with channel mask ~channelMask...
-                Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIdx, 16, 8), (channelMask ^ 0xFFFF));
+                Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIdx, 16, 8), channelMaskReversed);
                 // unstop channels
                 Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIdx, 16, 8) | 0xFF00, 0);
             }

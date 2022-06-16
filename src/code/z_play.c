@@ -308,7 +308,7 @@ void Play_Init(GameState* thisx) {
     if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) &&
         gSaveContext.sceneSetupIndex == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
-        ((void (*)())0x81000000)();
+        ((void (*)(void))0x81000000)();
         osSyncPrintf("出戻り？\n"); // "Return?"
     }
 
@@ -350,9 +350,8 @@ void Play_Init(GameState* thisx) {
 
     if (gSaveContext.gameMode != 1) {
         if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
-            // fade in
-            this->transitionType =
-                (gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F;
+            this->transitionType = ENTRANCE_INFO_END_TRANS_TYPE(
+                gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field);
         } else {
             this->transitionType = gSaveContext.nextTransitionType;
             gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
@@ -372,9 +371,9 @@ void Play_Init(GameState* thisx) {
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&this->state.tha));
     zAllocSize = THA_GetSize(&this->state.tha);
-    zAlloc = GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = (u32)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
-    ZeldaArena_Init(zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
+    ZeldaArena_Init((void*)zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
     // "Zelda Heap"
     osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
@@ -491,7 +490,8 @@ void Play_Update(PlayState* this) {
                         }
 
                         // fade out bgm if "continue bgm" flag is not set
-                        if (!(gEntranceTable[this->nextEntranceIndex + sceneSetupIndex].field & 0x8000)) {
+                        if (!(gEntranceTable[this->nextEntranceIndex + sceneSetupIndex].field &
+                              ENTRANCE_INFO_CONTINUE_BGM_FLAG)) {
                             // "Sound initalized. 111"
                             osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
                             if ((this->transitionType < TRANS_TYPE_MAX) && !Environment_IsForcedSequenceDisabled()) {
