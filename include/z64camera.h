@@ -27,17 +27,11 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
-// R_SCENE_TYPE, first arg to SCENE_CMD_MISC_SETTINGS()
-#define SCENE_TYPE_DEFAULT 0
-#define SCENE_TYPE_SHOP 0x10 // Various shops with a fixed prerend camera and a specific camera setting for shop browsing
-#define SCENE_TYPE_HOUSE 0x20 // Toggleable camera setting between a pivot camera setting and a fixed prerend camera setting
-#define SCENE_TYPE_FIXED 0x30 // Fixed prerend camera setting only. Can't toggle to a pivot camera setting
-#define SCENE_TYPE_PIVOT 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area only)
-
 #define BGCAM_INDEX_TOGGLE_FIXED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
 
 // All shop and house scenes are expected to have their first two bgCamInfo entries to be the following indices:
+#define VIEWPOINT_NONE 0
 #define VIEWPOINT_FIXED (BGCAM_INDEX_TOGGLE_FIXED + 1) // Use a camera prerend setting that fixes the camera in place
 #define VIEWPOINT_PIVOT (BGCAM_INDEX_TOGGLE_PIVOT + 1) // Use a camera pivot setting that allows camera rotation (CAM_SET_PIVOT_SHOP_BROWSING for shop specifically)
 

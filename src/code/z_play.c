@@ -409,7 +409,7 @@ void Play_Init(GameState* thisx) {
     } else if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
         this->viewpoint = VIEWPOINT_FIXED; // default to fixed camera
     } else {
-        this->viewpoint = 0;
+        this->viewpoint = VIEWPOINT_NONE;
     }
 
     Interface_SetSceneRestrictions(this);
@@ -954,7 +954,7 @@ void Play_Update(PlayState* this) {
             }
 
             // Update viewpoint
-            if (this->viewpoint != 0) {
+            if (this->viewpoint != VIEWPOINT_NONE) {
                 // C-Up toggle indoor camera
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
