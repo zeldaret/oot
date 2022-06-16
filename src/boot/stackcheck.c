@@ -103,7 +103,7 @@ s32 StackCheck_GetState(StackEntry* entry) {
     osSyncPrintf(VT_RST);
 
     if (ret != STACK_STATUS_OK) {
-        LogUtils_LogHexDump(entry->head, entry->tail - entry->head);
+        LogUtils_LogHexDump((void*)entry->head, entry->tail - entry->head);
     }
 
     return ret;

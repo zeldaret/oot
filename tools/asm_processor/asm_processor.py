@@ -85,6 +85,18 @@ MIPS_DEBUG_ST_STATIC = 2
 MIPS_DEBUG_ST_STATIC_PROC = 14
 
 
+class ElfFormat:
+    def __init__(self, is_big_endian):
+        self.is_big_endian = is_big_endian
+        self.struct_char = ">" if is_big_endian else "<"
+
+    def pack(self, fmt, *args):
+        return struct.pack(self.struct_char + fmt, *args)
+
+    def unpack(self, fmt, data):
+        return struct.unpack(self.struct_char + fmt, data)
+
+
 class ElfHeader:
     """
     typedef struct {
@@ -107,9 +119,9 @@ class ElfHeader:
 
     def __init__(self, data):
         self.e_ident = data[:EI_NIDENT]
-        self.e_type, self.e_machine, self.e_version, self.e_entry, self.e_phoff, self.e_shoff, self.e_flags, self.e_ehsize, self.e_phentsize, self.e_phnum, self.e_shentsize, self.e_shnum, self.e_shstrndx = struct.unpack('>HHIIIIIHHHHHH', data[EI_NIDENT:])
         assert self.e_ident[EI_CLASS] == 1 # 32-bit
-        assert self.e_ident[EI_DATA] == 2 # big-endian
+        self.fmt = ElfFormat(is_big_endian=(self.e_ident[EI_DATA] == 2))
+        self.e_type, self.e_machine, self.e_version, self.e_entry, self.e_phoff, self.e_shoff, self.e_flags, self.e_ehsize, self.e_phentsize, self.e_phnum, self.e_shentsize, self.e_shnum, self.e_shstrndx = self.fmt.unpack('HHIIIIIHHHHHH', data[EI_NIDENT:])
         assert self.e_type == 1 # relocatable
         assert self.e_machine == 8 # MIPS I Architecture
         assert self.e_phoff == 0 # no program header
@@ -117,7 +129,7 @@ class ElfHeader:
         assert self.e_shstrndx != SHN_UNDEF
 
     def to_bin(self):
-        return self.e_ident + struct.pack('>HHIIIIIHHHHHH', self.e_type,
+        return self.e_ident + self.fmt.pack('HHIIIIIHHHHHH', self.e_type,
                 self.e_machine, self.e_version, self.e_entry, self.e_phoff,
                 self.e_shoff, self.e_flags, self.e_ehsize, self.e_phentsize,
                 self.e_phnum, self.e_shentsize, self.e_shnum, self.e_shstrndx)
@@ -135,8 +147,9 @@ class Symbol:
     } Elf32_Sym;
     """
 
-    def __init__(self, data, strtab, name=None):
-        self.st_name, self.st_value, self.st_size, st_info, self.st_other, self.st_shndx = struct.unpack('>IIIBBH', data)
+    def __init__(self, fmt, data, strtab, name=None):
+        self.fmt = fmt
+        self.st_name, self.st_value, self.st_size, st_info, self.st_other, self.st_shndx = fmt.unpack('IIIBBH', data)
         assert self.st_shndx != SHN_XINDEX, "too many sections (SHN_XINDEX not supported)"
         self.bind = st_info >> 4
         self.type = st_info & 15
@@ -144,31 +157,32 @@ class Symbol:
         self.visibility = self.st_other & 3
 
     @staticmethod
-    def from_parts(st_name, st_value, st_size, st_info, st_other, st_shndx, strtab, name):
-        header = struct.pack('>IIIBBH', st_name, st_value, st_size, st_info, st_other, st_shndx)
-        return Symbol(header, strtab, name)
+    def from_parts(fmt, st_name, st_value, st_size, st_info, st_other, st_shndx, strtab, name):
+        header = fmt.pack('IIIBBH', st_name, st_value, st_size, st_info, st_other, st_shndx)
+        return Symbol(fmt, header, strtab, name)
 
     def to_bin(self):
         st_info = (self.bind << 4) | self.type
-        return struct.pack('>IIIBBH', self.st_name, self.st_value, self.st_size, st_info, self.st_other, self.st_shndx)
+        return self.fmt.pack('IIIBBH', self.st_name, self.st_value, self.st_size, st_info, self.st_other, self.st_shndx)
 
 
 class Relocation:
-    def __init__(self, data, sh_type):
+    def __init__(self, fmt, data, sh_type):
+        self.fmt = fmt
         self.sh_type = sh_type
         if sh_type == SHT_REL:
-            self.r_offset, self.r_info = struct.unpack('>II', data)
+            self.r_offset, self.r_info = fmt.unpack('II', data)
         else:
-            self.r_offset, self.r_info, self.r_addend = struct.unpack('>III', data)
+            self.r_offset, self.r_info, self.r_addend = fmt.unpack('III', data)
         self.sym_index = self.r_info >> 8
         self.rel_type = self.r_info & 0xff
 
     def to_bin(self):
         self.r_info = (self.sym_index << 8) | self.rel_type
         if self.sh_type == SHT_REL:
-            return struct.pack('>II', self.r_offset, self.r_info)
+            return self.fmt.pack('II', self.r_offset, self.r_info)
         else:
-            return struct.pack('>III', self.r_offset, self.r_info, self.r_addend)
+            return self.fmt.pack('III', self.r_offset, self.r_info, self.r_addend)
 
 
 class Section:
@@ -187,8 +201,9 @@ class Section:
     } Elf32_Shdr;
     """
 
-    def __init__(self, header, data, index):
-        self.sh_name, self.sh_type, self.sh_flags, self.sh_addr, self.sh_offset, self.sh_size, self.sh_link, self.sh_info, self.sh_addralign, self.sh_entsize = struct.unpack('>IIIIIIIIII', header)
+    def __init__(self, fmt, header, data, index):
+        self.fmt = fmt
+        self.sh_name, self.sh_type, self.sh_flags, self.sh_addr, self.sh_offset, self.sh_size, self.sh_link, self.sh_info, self.sh_addralign, self.sh_entsize = fmt.unpack('IIIIIIIIII', header)
         assert not self.sh_flags & SHF_LINK_ORDER
         if self.sh_entsize != 0:
             assert self.sh_size % self.sh_entsize == 0
@@ -200,9 +215,9 @@ class Section:
         self.relocated_by = []
 
     @staticmethod
-    def from_parts(sh_name, sh_type, sh_flags, sh_link, sh_info, sh_addralign, sh_entsize, data, index):
-        header = struct.pack('>IIIIIIIIII', sh_name, sh_type, sh_flags, 0, 0, len(data), sh_link, sh_info, sh_addralign, sh_entsize)
-        return Section(header, data, index)
+    def from_parts(fmt, sh_name, sh_type, sh_flags, sh_link, sh_info, sh_addralign, sh_entsize, data, index):
+        header = fmt.pack('IIIIIIIIII', sh_name, sh_type, sh_flags, 0, 0, len(data), sh_link, sh_info, sh_addralign, sh_entsize)
+        return Section(fmt, header, data, index)
 
     def lookup_str(self, index):
         assert self.sh_type == SHT_STRTAB
@@ -222,7 +237,7 @@ class Section:
     def header_to_bin(self):
         if self.sh_type != SHT_NOBITS:
             self.sh_size = len(self.data)
-        return struct.pack('>IIIIIIIIII', self.sh_name, self.sh_type, self.sh_flags, self.sh_addr, self.sh_offset, self.sh_size, self.sh_link, self.sh_info, self.sh_addralign, self.sh_entsize)
+        return self.fmt.pack('IIIIIIIIII', self.sh_name, self.sh_type, self.sh_flags, self.sh_addr, self.sh_offset, self.sh_size, self.sh_link, self.sh_info, self.sh_addralign, self.sh_entsize)
 
     def late_init(self, sections):
         if self.sh_type == SHT_SYMTAB:
@@ -251,14 +266,14 @@ class Section:
         self.strtab = sections[self.sh_link]
         entries = []
         for i in range(0, self.sh_size, self.sh_entsize):
-            entries.append(Symbol(self.data[i:i+self.sh_entsize], self.strtab))
+            entries.append(Symbol(self.fmt, self.data[i:i+self.sh_entsize], self.strtab))
         self.symbol_entries = entries
 
     def init_relocs(self):
         assert self.is_rel()
         entries = []
         for i in range(0, self.sh_size, self.sh_entsize):
-            entries.append(Relocation(self.data[i:i+self.sh_entsize], self.sh_type))
+            entries.append(Relocation(self.fmt, self.data[i:i+self.sh_entsize], self.sh_type))
         self.relocations = entries
 
     def local_symbols(self):
@@ -281,9 +296,9 @@ class Section:
             hdrr_cbOptOffset, hdrr_iauxMax, hdrr_cbAuxOffset, hdrr_issMax, \
             hdrr_cbSsOffset, hdrr_issExtMax, hdrr_cbSsExtOffset, hdrr_ifdMax, \
             hdrr_cbFdOffset, hdrr_crfd, hdrr_cbRfdOffset, hdrr_iextMax, \
-            hdrr_cbExtOffset = struct.unpack(">HHIIIIIIIIIIIIIIIIIIIIIII", self.data[0:0x60])
+            hdrr_cbExtOffset = self.fmt.unpack("HHIIIIIIIIIIIIIIIIIIIIIII", self.data[0:0x60])
 
-        assert hdrr_magic == 0x7009 , "Invalid magic value for .mdebug symbolic header"
+        assert hdrr_magic == 0x7009, "Invalid magic value for .mdebug symbolic header"
 
         hdrr_cbLineOffset += shift_by
         hdrr_cbDnOffset += shift_by
@@ -297,7 +312,7 @@ class Section:
         hdrr_cbRfdOffset += shift_by
         hdrr_cbExtOffset += shift_by
 
-        new_data[0:0x60] = struct.pack(">HHIIIIIIIIIIIIIIIIIIIIIII", hdrr_magic, hdrr_vstamp, hdrr_ilineMax, hdrr_cbLine, \
+        new_data[0:0x60] = self.fmt.pack("HHIIIIIIIIIIIIIIIIIIIIIII", hdrr_magic, hdrr_vstamp, hdrr_ilineMax, hdrr_cbLine, \
             hdrr_cbLineOffset, hdrr_idnMax, hdrr_cbDnOffset, hdrr_ipdMax, \
             hdrr_cbPdOffset, hdrr_isymMax, hdrr_cbSymOffset, hdrr_ioptMax, \
             hdrr_cbOptOffset, hdrr_iauxMax, hdrr_cbAuxOffset, hdrr_issMax, \
@@ -313,15 +328,16 @@ class ElfFile:
         assert data[:4] == b'\x7fELF', "not an ELF file"
 
         self.elf_header = ElfHeader(data[0:52])
+        self.fmt = self.elf_header.fmt
 
         offset, size = self.elf_header.e_shoff, self.elf_header.e_shentsize
-        null_section = Section(data[offset:offset + size], data, 0)
+        null_section = Section(self.fmt, data[offset:offset + size], data, 0)
         num_sections = self.elf_header.e_shnum or null_section.sh_size
 
         self.sections = [null_section]
         for i in range(1, num_sections):
             ind = offset + i * size
-            self.sections.append(Section(data[ind:ind + size], data, i))
+            self.sections.append(Section(self.fmt, data[ind:ind + size], data, i))
 
         symtab = None
         for s in self.sections:
@@ -345,7 +361,7 @@ class ElfFile:
     def add_section(self, name, sh_type, sh_flags, sh_link, sh_info, sh_addralign, sh_entsize, data):
         shstr = self.sections[self.elf_header.e_shstrndx]
         sh_name = shstr.add_str(name)
-        s = Section.from_parts(sh_name=sh_name, sh_type=sh_type,
+        s = Section.from_parts(self.fmt, sh_name=sh_name, sh_type=sh_type,
                 sh_flags=sh_flags, sh_link=sh_link, sh_info=sh_info,
                 sh_addralign=sh_addralign, sh_entsize=sh_entsize, data=data,
                 index=len(self.sections))
@@ -476,6 +492,7 @@ class GlobalAsmBlock:
     def count_quoted_size(self, line, z, real_line, output_enc):
         line = line.encode(output_enc).decode('latin1')
         in_quote = False
+        has_comma = True
         num_parts = 0
         ret = 0
         i = 0
@@ -486,10 +503,15 @@ class GlobalAsmBlock:
             if not in_quote:
                 if c == '"':
                     in_quote = True
+                    if z and not has_comma:
+                        self.fail(".asciiz with glued strings is not supported due to GNU as version diffs")
                     num_parts += 1
+                elif c == ',':
+                    has_comma = True
             else:
                 if c == '"':
                     in_quote = False
+                    has_comma = False
                     continue
                 ret += 1
                 if c != '\\':
@@ -554,7 +576,7 @@ class GlobalAsmBlock:
             self.text_glabels.append(line.split()[1])
         if not line:
             pass # empty line
-        elif line.startswith('glabel ') or (' ' not in line and line.endswith(':')):
+        elif line.startswith('glabel ') or line.startswith('dlabel ') or line.startswith('endlabel ') or (' ' not in line and line.endswith(':')):
             pass # label
         elif line.startswith('.section') or line in ['.text', '.data', '.rdata', '.rodata', '.bss', '.late_rodata']:
             # section change
@@ -783,6 +805,13 @@ def parse_source(f, opt, framepointer, mips1, input_enc, output_enc, out_depende
         else:
             min_instr_count = 2
             skip_instr_count = 1
+    elif opt == 'O0':
+        if framepointer:
+            min_instr_count = 8
+            skip_instr_count = 8
+        else:
+            min_instr_count = 4
+            skip_instr_count = 4
     elif opt == 'g':
         if framepointer:
             min_instr_count = 7
@@ -792,7 +821,7 @@ def parse_source(f, opt, framepointer, mips1, input_enc, output_enc, out_depende
             skip_instr_count = 4
     else:
         if opt != 'g3':
-            raise Failure("must pass one of -g, -O1, -O2, -O2 -g3")
+            raise Failure("must pass one of -g, -O0, -O1, -O2, -O2 -g3")
         if framepointer:
             min_instr_count = 4
             skip_instr_count = 4
@@ -813,6 +842,7 @@ def parse_source(f, opt, framepointer, mips1, input_enc, output_enc, out_depende
     ]
 
     is_cutscene_data = False
+    is_early_include = False
 
     for line_no, raw_line in enumerate(f, 1):
         raw_line = raw_line.rstrip()
@@ -832,55 +862,69 @@ def parse_source(f, opt, framepointer, mips1, input_enc, output_enc, out_depende
                 global_asm = None
             else:
                 global_asm.process_line(raw_line, output_enc)
+        elif line in ['GLOBAL_ASM(', '#pragma GLOBAL_ASM(']:
+            global_asm = GlobalAsmBlock("GLOBAL_ASM block at line " + str(line_no))
+            start_index = len(output_lines)
+        elif ((line.startswith('GLOBAL_ASM("') or line.startswith('#pragma GLOBAL_ASM("'))
+                and line.endswith('")')):
+            fname = line[line.index('(') + 2 : -2]
+            out_dependencies.append(fname)
+            global_asm = GlobalAsmBlock(fname)
+            with open(fname, encoding=input_enc) as f:
+                for line2 in f:
+                    global_asm.process_line(line2.rstrip(), output_enc)
+            src, fn = global_asm.finish(state)
+            output_lines[-1] = ''.join(src)
+            asm_functions.append(fn)
+            global_asm = None
+        elif line == '#pragma asmproc recurse':
+            # C includes qualified as
+            # #pragma asmproc recurse
+            # #include "file.c"
+            # will be processed recursively when encountered
+            is_early_include = True
+        elif is_early_include:
+            # Previous line was a #pragma asmproc recurse
+            is_early_include = False
+            if not line.startswith("#include "):
+                raise Failure("#pragma asmproc recurse must be followed by an #include ")
+            fpath = os.path.dirname(f.name)
+            fname = os.path.join(fpath, line[line.index(' ') + 2 : -1])
+            out_dependencies.append(fname)
+            include_src = StringIO()
+            with open(fname, encoding=input_enc) as include_file:
+                parse_source(include_file, opt, framepointer, mips1, input_enc, output_enc, out_dependencies, include_src)
+            include_src.write('#line ' + str(line_no + 1) + ' "' + f.name + '"')
+            output_lines[-1] = include_src.getvalue()
+            include_src.close()
         else:
-            if line in ['GLOBAL_ASM(', '#pragma GLOBAL_ASM(']:
-                global_asm = GlobalAsmBlock("GLOBAL_ASM block at line " + str(line_no))
-                start_index = len(output_lines)
-            elif ((line.startswith('GLOBAL_ASM("') or line.startswith('#pragma GLOBAL_ASM("'))
-                    and line.endswith('")')):
-                fname = line[line.index('(') + 2 : -2]
-                out_dependencies.append(fname)
-                global_asm = GlobalAsmBlock(fname)
-                with open(fname, encoding=input_enc) as f:
-                    for line2 in f:
-                        global_asm.process_line(line2.rstrip(), output_enc)
-                src, fn = global_asm.finish(state)
-                output_lines[-1] = ''.join(src)
-                asm_functions.append(fn)
-                global_asm = None
-            elif line.startswith('#include "') and line.endswith('" EARLY'):
-                # C includes qualified with EARLY (i.e. #include "file.c" EARLY) will be
-                # processed recursively when encountered
-                fpath = os.path.dirname(f.name)
-                fname = os.path.join(fpath, line[line.index(' ') + 2 : -7])
-                out_dependencies.append(fname)
-                include_src = StringIO()
-                with open(fname, encoding=input_enc) as include_file:
-                    parse_source(include_file, opt, framepointer, mips1, input_enc, output_enc, out_dependencies, include_src)
-                include_src.write('#line ' + str(line_no + 1) + ' "' + f.name + '"')
-                output_lines[-1] = include_src.getvalue()
-                include_src.close()
-            else:
-                # This is a hack to replace all floating-point numbers in an array of a particular type
-                # (in this case CutsceneData) with their corresponding IEEE-754 hexadecimal representation
-                if cutscene_data_regexpr.search(line) is not None:
-                    is_cutscene_data = True
-                elif line.endswith("};"):
-                    is_cutscene_data = False
-                if is_cutscene_data:
-                    raw_line = re.sub(float_regexpr, repl_float_hex, raw_line)
-                output_lines[-1] = raw_line
+            # This is a hack to replace all floating-point numbers in an array of a particular type
+            # (in this case CutsceneData) with their corresponding IEEE-754 hexadecimal representation
+            if cutscene_data_regexpr.search(line) is not None:
+                is_cutscene_data = True
+            elif line.endswith("};"):
+                is_cutscene_data = False
+            if is_cutscene_data:
+                raw_line = re.sub(float_regexpr, repl_float_hex, raw_line)
+            output_lines[-1] = raw_line
 
     if print_source:
         if isinstance(print_source, StringIO):
             for line in output_lines:
                 print_source.write(line + '\n')
         else:
+            newline_encoded = "\n".encode(output_enc)
             for line in output_lines:
-                print_source.write(line.encode(output_enc) + b'\n')
+                try:
+                    line_encoded = line.encode(output_enc)
+                except UnicodeEncodeError:
+                    print("Failed to encode a line to", output_enc)
+                    print("The line:", line)
+                    print("The line, utf-8-encoded:", line.encode("utf-8"))
+                    raise
+                print_source.write(line_encoded)
+                print_source.write(newline_encoded)
             print_source.flush()
-            if print_source != sys.stdout.buffer:
-                print_source.close()
 
     return asm_functions
 
@@ -889,6 +933,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc, d
 
     with open(objfile_name, 'rb') as f:
         objfile = ElfFile(f.read())
+    fmt = objfile.fmt
 
     prev_locs = {
         '.text': 0,
@@ -1039,6 +1084,8 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc, d
             new_data = list(target.data)
             for dummy_bytes_list, jtbl_rodata_size in zip(all_late_rodata_dummy_bytes, all_jtbl_rodata_size):
                 for index, dummy_bytes in enumerate(dummy_bytes_list):
+                    if not fmt.is_big_endian:
+                        dummy_bytes = dummy_bytes[::-1]
                     pos = target.data.index(dummy_bytes, last_rodata_pos)
                     # This check is nice, but makes time complexity worse for large files:
                     if SLOW_CHECKS and target.data.find(dummy_bytes, pos + 4) != -1:
@@ -1119,15 +1166,15 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc, d
         if mdebug_section:
             strtab_index = len(objfile.symtab.strtab.data)
             new_strtab_data = []
-            ifd_max, cb_fd_offset = struct.unpack('>II', mdebug_section.data[18*4 : 20*4])
-            cb_sym_offset, = struct.unpack('>I', mdebug_section.data[9*4 : 10*4])
-            cb_ss_offset, = struct.unpack('>I', mdebug_section.data[15*4 : 16*4])
+            ifd_max, cb_fd_offset = fmt.unpack('II', mdebug_section.data[18*4 : 20*4])
+            cb_sym_offset, = fmt.unpack('I', mdebug_section.data[9*4 : 10*4])
+            cb_ss_offset, = fmt.unpack('I', mdebug_section.data[15*4 : 16*4])
             for i in range(ifd_max):
                 offset = cb_fd_offset + 18*4*i
-                iss_base, _, isym_base, csym = struct.unpack('>IIII', objfile.data[offset + 2*4 : offset + 6*4])
+                iss_base, _, isym_base, csym = fmt.unpack('IIII', objfile.data[offset + 2*4 : offset + 6*4])
                 for j in range(csym):
                     offset2 = cb_sym_offset + 12 * (isym_base + j)
-                    iss, value, st_sc_index = struct.unpack('>III', objfile.data[offset2 : offset2 + 12])
+                    iss, value, st_sc_index = fmt.unpack('III', objfile.data[offset2 : offset2 + 12])
                     st = (st_sc_index >> 26)
                     sc = (st_sc_index >> 21) & 0x1f
                     if st in [MIPS_DEBUG_ST_STATIC, MIPS_DEBUG_ST_STATIC_PROC]:
@@ -1140,6 +1187,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc, d
                         section = objfile.find_section(section_name)
                         symtype = STT_FUNC if sc == 1 else STT_OBJECT
                         sym = Symbol.from_parts(
+                            fmt,
                             st_name=strtab_index,
                             st_value=value,
                             st_size=0,
@@ -1239,6 +1287,7 @@ def run_wrapped(argv, outfile, functions):
     parser.add_argument('-mips1', dest='mips1', action='store_true')
     parser.add_argument('-g3', dest='g3', action='store_true')
     group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-O0', dest='opt', action='store_const', const='O0')
     group.add_argument('-O1', dest='opt', action='store_const', const='O1')
     group.add_argument('-O2', dest='opt', action='store_const', const='O2')
     group.add_argument('-g', dest='opt', action='store_const', const='g')

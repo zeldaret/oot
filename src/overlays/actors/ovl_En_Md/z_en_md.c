@@ -69,7 +69,7 @@ typedef enum {
     /* 10 */ ENMD_ANIM_10,
     /* 11 */ ENMD_ANIM_11,
     /* 12 */ ENMD_ANIM_12,
-    /* 13 */ ENMD_ANIM_13,
+    /* 13 */ ENMD_ANIM_13
 } EnMdAnimation;
 
 static AnimationInfo sAnimationInfo[] = {

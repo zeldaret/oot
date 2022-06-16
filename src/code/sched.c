@@ -657,8 +657,8 @@ void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_T
     // Create message queues for receiving interrupt events and tasks
     osCreateMesgQueue(&sc->interruptQueue, sc->interruptMsgBuf, ARRAY_COUNT(sc->interruptMsgBuf));
     osCreateMesgQueue(&sc->cmdQueue, sc->cmdMsgBuf, ARRAY_COUNT(sc->cmdMsgBuf));
-    osSetEventMesg(OS_EVENT_SP, &sc->interruptQueue, RSP_DONE_MSG);
-    osSetEventMesg(OS_EVENT_DP, &sc->interruptQueue, RDP_DONE_MSG);
+    osSetEventMesg(OS_EVENT_SP, &sc->interruptQueue, (OSMesg)RSP_DONE_MSG);
+    osSetEventMesg(OS_EVENT_DP, &sc->interruptQueue, (OSMesg)RDP_DONE_MSG);
     IrqMgr_AddClient(irqMgr, &sc->irqClient, &sc->interruptQueue);
     osCreateThread(&sc->thread, THREAD_ID_SCHED, Sched_ThreadEntry, sc, stack, priority);
     osStartThread(&sc->thread);
