@@ -28,7 +28,7 @@ void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32
     Room_Draw2, // MESH_HEADER_TYPE_2
 };
 
-void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3) {
+void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
 }
 
 void Room_Draw0(PlayState* play, Room* room, u32 flags) {
