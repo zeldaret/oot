@@ -454,7 +454,7 @@ s16 Camera_GetBgCamSetting(Camera* camera, s32 bgCamIndex) {
 /**
  * Returns the bgCamFuncData using the current bgCam index
  */
-s16* Camera_GetBgCamFuncData(Camera* camera) {
+Vec3s* Camera_GetBgCamFuncData(Camera* camera) {
     return BgCheck_GetBgCamFuncDataImpl(&camera->play->colCtx, camera->bgCamIndex, BGCHECK_SCENE);
 }
 
@@ -483,7 +483,7 @@ s32 Camera_GetBgCamIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
  * Also returns the number of pieces of data there are in `bgCamCount`.
  * If there is no floor, then return NULL
  */
-s16* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
+Vec3s* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
