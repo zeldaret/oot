@@ -1808,7 +1808,7 @@ void Play_TriggerRespawn(PlayState* this) {
 }
 
 s32 func_800C0CB8(PlayState* this) {
-    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) && (YREG(15) != 0x20) &&
+    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_PRERENDER) && (YREG(15) != 0x20) &&
            (YREG(15) != 0x30) && (YREG(15) != 0x40) && (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 

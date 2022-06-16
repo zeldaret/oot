@@ -1,9 +1,9 @@
 #include "global.h"
 #include "vt.h"
 
-void Room_Draw0(PlayState* play, Room* room, u32 flags);
-void Room_Draw2(PlayState* play, Room* room, u32 flags);
-void Room_Draw1(PlayState* play, Room* room, u32 flags);
+void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags);
+void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags);
+void Room_DrawPrerender(PlayState* play, Room* room, u32 flags);
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -23,18 +23,18 @@ Gfx D_801270B0[] = {
 };
 
 void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
-    Room_Draw0, // MESH_HEADER_TYPE_0
-    Room_Draw1, // MESH_HEADER_TYPE_1
-    Room_Draw2, // MESH_HEADER_TYPE_2
+    Room_DrawAllMeshes,  // MESH_HEADER_TYPE_ALL
+    Room_DrawPrerender,  // MESH_HEADER_TYPE_PRERENDER
+    Room_DrawCullMeshes, // MESH_HEADER_TYPE_CULL
 };
 
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
 }
 
-void Room_Draw0(PlayState* play, Room* room, u32 flags) {
+void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags) {
     s32 i;
-    MeshHeader0* meshHeader0;
-    MeshHeader01Entry* meshHeader0Entry;
+    MeshHeaderAll* meshHeaderAll;
+    MeshHeaderDListsEntry* dListsEntry;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 193);
 
@@ -52,47 +52,47 @@ void Room_Draw0(PlayState* play, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    meshHeader0 = &room->meshHeader->meshHeader0;
-    meshHeader0Entry = SEGMENTED_TO_VIRTUAL(meshHeader0->entries);
-    for (i = 0; i < meshHeader0->numEntries; i++) {
-        if ((flags & ROOM_DRAW_OPA) && (meshHeader0Entry->opa != NULL)) {
-            gSPDisplayList(POLY_OPA_DISP++, meshHeader0Entry->opa);
+    meshHeaderAll = &room->meshHeader->all;
+    dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderAll->entries);
+    for (i = 0; i < meshHeaderAll->numEntries; i++) {
+        if ((flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL)) {
+            gSPDisplayList(POLY_OPA_DISP++, dListsEntry->opa);
         }
 
-        if ((flags & ROOM_DRAW_XLU) && (meshHeader0Entry->xlu != NULL)) {
-            gSPDisplayList(POLY_XLU_DISP++, meshHeader0Entry->xlu);
+        if ((flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL)) {
+            gSPDisplayList(POLY_XLU_DISP++, dListsEntry->xlu);
         }
 
-        meshHeader0Entry++;
+        dListsEntry++;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
 
-typedef struct MeshHeader2EntryLinked {
-    /* 0x00 */ MeshHeader2Entry* meshHeader2Entry;
+typedef struct MeshHeaderCullEntryLinked {
+    /* 0x00 */ MeshHeaderCullEntry* entry;
     /* 0x04 */ f32 startZ;
-    /* 0x08 */ struct MeshHeader2EntryLinked* prev;
-    /* 0x0C */ struct MeshHeader2EntryLinked* next;
-} MeshHeader2EntryLinked; // size = 0x10
+    /* 0x08 */ struct MeshHeaderCullEntryLinked* prev;
+    /* 0x0C */ struct MeshHeaderCullEntryLinked* next;
+} MeshHeaderCullEntryLinked; // size = 0x10
 
-void Room_Draw2(PlayState* play, Room* room, u32 flags) {
-    MeshHeader2* meshHeader2;
-    MeshHeader2Entry* meshHeader2Entry;
-    MeshHeader2EntryLinked linkedEntriesBuffer[MESH_HEADER2_MAX_ENTRIES];
-    MeshHeader2EntryLinked* head = NULL;
-    MeshHeader2EntryLinked* tail = NULL;
-    MeshHeader2EntryLinked* iter;
+void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
+    MeshHeaderCull* meshHeaderCull;
+    MeshHeaderCullEntry* meshHeaderCullEntry;
+    MeshHeaderCullEntryLinked linkedEntriesBuffer[MESH_HEADER_CULL_MAX_ENTRIES];
+    MeshHeaderCullEntryLinked* head = NULL;
+    MeshHeaderCullEntryLinked* tail = NULL;
+    MeshHeaderCullEntryLinked* iter;
     s32 pad;
-    MeshHeader2EntryLinked* insert;
+    MeshHeaderCullEntryLinked* insert;
     s32 j;
     s32 i;
     Vec3f pos;
     Vec3f projectedPos;
     f32 projectedW;
     s32 pad2;
-    MeshHeader2Entry* meshHeader2Entries;
-    MeshHeader2Entry* meshHeader2EntryIter;
+    MeshHeaderCullEntry* meshHeaderCullEntries;
+    MeshHeaderCullEntry* meshHeaderCullEntryIter;
     f32 entryStartZ;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
@@ -113,35 +113,35 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    meshHeader2 = &room->meshHeader->meshHeader2;
-    meshHeader2Entry = SEGMENTED_TO_VIRTUAL(meshHeader2->entries);
+    meshHeaderCull = &room->meshHeader->cull;
+    meshHeaderCullEntry = SEGMENTED_TO_VIRTUAL(meshHeaderCull->entries);
     insert = linkedEntriesBuffer;
 
-    ASSERT(meshHeader2->numEntries <= ARRAY_COUNT(linkedEntriesBuffer), "polygon2->num <= SHAPE_SORT_MAX",
+    ASSERT(meshHeaderCull->numEntries <= ARRAY_COUNT(linkedEntriesBuffer), "polygon2->num <= SHAPE_SORT_MAX",
            "../z_room.c", 317);
 
-    meshHeader2Entries = meshHeader2Entry;
+    meshHeaderCullEntries = meshHeaderCullEntry;
 
     // Pick and sort entries by depth
-    for (i = 0; i < meshHeader2->numEntries; i++, meshHeader2Entry++) {
+    for (i = 0; i < meshHeaderCull->numEntries; i++, meshHeaderCullEntry++) {
 
         // Project the entry position, to get the depth it is at.
-        pos.x = meshHeader2Entry->pos.x;
-        pos.y = meshHeader2Entry->pos.y;
-        pos.z = meshHeader2Entry->pos.z;
+        pos.x = meshHeaderCullEntry->pos.x;
+        pos.y = meshHeaderCullEntry->pos.y;
+        pos.z = meshHeaderCullEntry->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
 
         // If the entry isn't fully before the rendered depth range
-        if (-(f32)meshHeader2Entry->radius < projectedPos.z) {
+        if (-(f32)meshHeaderCullEntry->radius < projectedPos.z) {
 
             // Compute the depth at which this entry starts
-            entryStartZ = projectedPos.z - meshHeader2Entry->radius;
+            entryStartZ = projectedPos.z - meshHeaderCullEntry->radius;
 
             // If the entry isn't fully after the rendered depth range
             if (entryStartZ < play->lightCtx.fogFar) {
 
                 // This entry will be rendered
-                insert->meshHeader2Entry = meshHeader2Entry;
+                insert->entry = meshHeaderCullEntry;
                 insert->startZ = entryStartZ;
 
                 // Insert into the linked list, ordered by ascending start depth
@@ -179,21 +179,22 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
         }
     }
 
-    R_MESH2_NUM_ALL_ENTRIES = meshHeader2->numEntries & 0xFFFF & 0xFFFF & 0xFFFF; // if this is real then I might not be
+    // if this is real then I might not be
+    R_MESH2_NUM_ALL_ENTRIES = meshHeaderCull->numEntries & 0xFFFF & 0xFFFF & 0xFFFF;
 
     // Draw entries, from nearest to furthest
     for (i = 1; head != NULL; head = head->next, i++) {
         Gfx* displayList;
 
-        meshHeader2Entry = head->meshHeader2Entry;
+        meshHeaderCullEntry = head->entry;
 
         if (R_MESH2_DEBUG_MODE != 0) {
             // Debug mode drawing
 
             // This loop does nothing
-            meshHeader2EntryIter = meshHeader2Entries;
-            for (j = 0; j < meshHeader2->numEntries; j++, meshHeader2EntryIter++) {
-                if (meshHeader2Entry == meshHeader2EntryIter) {
+            meshHeaderCullEntryIter = meshHeaderCullEntries;
+            for (j = 0; j < meshHeaderCull->numEntries; j++, meshHeaderCullEntryIter++) {
+                if (meshHeaderCullEntry == meshHeaderCullEntryIter) {
                     break;
                 }
             }
@@ -201,14 +202,14 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
             if (((R_MESH2_DEBUG_MODE == 1) && (R_MESH2_DEBUG_DRAW_TARGET >= i)) ||
                 ((R_MESH2_DEBUG_MODE == 2) && (R_MESH2_DEBUG_DRAW_TARGET == i))) {
                 if (flags & ROOM_DRAW_OPA) {
-                    displayList = meshHeader2Entry->opa;
+                    displayList = meshHeaderCullEntry->opa;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_OPA_DISP++, displayList);
                     }
                 }
 
                 if (flags & ROOM_DRAW_XLU) {
-                    displayList = meshHeader2Entry->xlu;
+                    displayList = meshHeaderCullEntry->xlu;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_XLU_DISP++, displayList);
                     }
@@ -216,14 +217,14 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
             }
         } else {
             if (flags & ROOM_DRAW_OPA) {
-                displayList = meshHeader2Entry->opa;
+                displayList = meshHeaderCullEntry->opa;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_OPA_DISP++, displayList);
                 }
             }
 
             if (flags & ROOM_DRAW_XLU) {
-                displayList = meshHeader2Entry->xlu;
+                displayList = meshHeaderCullEntry->xlu;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_XLU_DISP++, displayList);
                 }
@@ -332,11 +333,11 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     *gfxP = gfx;
 }
 
-void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
+void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    MeshHeader1Single* meshHeader1Single;
-    MeshHeader01Entry* meshHeader1Entry;
+    MeshHeaderPrerenderSingle* meshHeaderPrerenderSingle;
+    MeshHeaderDListsEntry* dListsEntry;
     u32 isFixedCamera;
     u32 drawBg;
     u32 drawOpa;
@@ -346,11 +347,11 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    meshHeader1Single = &room->meshHeader->meshHeader1Single;
-    meshHeader1Entry = SEGMENTED_TO_VIRTUAL(meshHeader1Single->base.entry);
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeader1Single->source != NULL) && !(SREG(25) & 1);
-    drawOpa = (flags & ROOM_DRAW_OPA) && (meshHeader1Entry->opa != NULL) && !(SREG(25) & 2);
-    drawXlu = (flags & ROOM_DRAW_XLU) && (meshHeader1Entry->xlu != NULL) && !(SREG(25) & 4);
+    meshHeaderPrerenderSingle = &room->meshHeader->prerenderSingle;
+    dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderSingle->base.entry);
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeaderPrerenderSingle->source != NULL) && !(SREG(25) & 1);
+    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(SREG(25) & 2);
+    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(SREG(25) & 4);
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -358,7 +359,7 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
         if (drawOpa) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_OPA_DISP++, meshHeader1Entry->opa);
+            gSPDisplayList(POLY_OPA_DISP++, dListsEntry->opa);
         }
 
         if (drawBg) {
@@ -369,9 +370,10 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
 
                 gfx = POLY_OPA_DISP;
                 Camera_GetSkyboxOffset(&offset, activeCam);
-                Room_DrawBackground2D(&gfx, meshHeader1Single->source, meshHeader1Single->tlut,
-                                      meshHeader1Single->width, meshHeader1Single->height, meshHeader1Single->fmt,
-                                      meshHeader1Single->siz, meshHeader1Single->tlutMode, meshHeader1Single->tlutCount,
+                Room_DrawBackground2D(&gfx, meshHeaderPrerenderSingle->source, meshHeaderPrerenderSingle->tlut,
+                                      meshHeaderPrerenderSingle->width, meshHeaderPrerenderSingle->height,
+                                      meshHeaderPrerenderSingle->fmt, meshHeaderPrerenderSingle->siz,
+                                      meshHeaderPrerenderSingle->tlutMode, meshHeaderPrerenderSingle->tlutCount,
                                       (offset.x + offset.z) * 1.2f + offset.y * 0.6f,
                                       offset.y * 2.4f + (offset.x + offset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;
@@ -385,13 +387,13 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, meshHeader1Entry->xlu);
+        gSPDisplayList(POLY_XLU_DISP++, dListsEntry->xlu);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-BgImage* Room_GetMultiBackgroundImage(MeshHeader1Multi* meshHeader1Multi, PlayState* play) {
+BgImage* Room_GetMultiBackgroundImage(MeshHeaderPrerenderMulti* meshHeaderPrerenderMulti, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
     s32 index;
     s16 newIndex;
@@ -408,8 +410,8 @@ BgImage* Room_GetMultiBackgroundImage(MeshHeader1Multi* meshHeader1Multi, PlaySt
     player = GET_PLAYER(play);
     player->actor.params = (player->actor.params & 0xFF00) | index;
 
-    bgImage = SEGMENTED_TO_VIRTUAL(meshHeader1Multi->list);
-    for (i = 0; i < meshHeader1Multi->count; i++) {
+    bgImage = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderMulti->list);
+    for (i = 0; i < meshHeaderPrerenderMulti->count; i++) {
         if (bgImage->index == index) {
             return bgImage;
         }
@@ -423,12 +425,12 @@ BgImage* Room_GetMultiBackgroundImage(MeshHeader1Multi* meshHeader1Multi, PlaySt
     return NULL;
 }
 
-void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
+void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    MeshHeader1Multi* meshHeader1Multi;
+    MeshHeaderPrerenderMulti* meshHeaderPrerenderMulti;
     BgImage* bgImage;
-    MeshHeader01Entry* meshHeader1Entry;
+    MeshHeaderDListsEntry* dListsEntry;
     u32 isFixedCamera;
     u32 drawBg;
     u32 drawOpa;
@@ -438,14 +440,14 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    meshHeader1Multi = &room->meshHeader->meshHeader1Multi;
-    meshHeader1Entry = SEGMENTED_TO_VIRTUAL(meshHeader1Multi->base.entry);
+    meshHeaderPrerenderMulti = &room->meshHeader->prerenderMulti;
+    dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderMulti->base.entry);
 
-    bgImage = Room_GetMultiBackgroundImage(meshHeader1Multi, play);
+    bgImage = Room_GetMultiBackgroundImage(meshHeaderPrerenderMulti, play);
 
     drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (bgImage->source != NULL) && !(SREG(25) & 1);
-    drawOpa = (flags & ROOM_DRAW_OPA) && (meshHeader1Entry->opa != NULL) && !(SREG(25) & 2);
-    drawXlu = (flags & ROOM_DRAW_XLU) && (meshHeader1Entry->xlu != NULL) && !(SREG(25) & 4);
+    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(SREG(25) & 2);
+    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(SREG(25) & 4);
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -453,7 +455,7 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
         if (drawOpa) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_OPA_DISP++, meshHeader1Entry->opa);
+            gSPDisplayList(POLY_OPA_DISP++, dListsEntry->opa);
         }
 
         if (drawBg) {
@@ -479,19 +481,19 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, meshHeader1Entry->xlu);
+        gSPDisplayList(POLY_XLU_DISP++, dListsEntry->xlu);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 819);
 }
 
-void Room_Draw1(PlayState* play, Room* room, u32 flags) {
-    MeshHeader1Base* meshHeader1Base = &room->meshHeader->meshHeader1Base;
+void Room_DrawPrerender(PlayState* play, Room* room, u32 flags) {
+    MeshHeaderPrerenderBase* meshHeaderPrerenderBase = &room->meshHeader->prerenderBase;
 
-    if (meshHeader1Base->format == MESH_HEADER1_FORMAT_SINGLE) {
-        Room_Draw1Single(play, room, flags);
-    } else if (meshHeader1Base->format == MESH_HEADER1_FORMAT_MULTI) {
-        Room_Draw1Multi(play, room, flags);
+    if (meshHeaderPrerenderBase->format == MESH_HEADER_PRERENDER_FORMAT_SINGLE) {
+        Room_DrawPrerenderSingle(play, room, flags);
+    } else if (meshHeaderPrerenderBase->format == MESH_HEADER_PRERENDER_FORMAT_MULTI) {
+        Room_DrawPrerenderMulti(play, room, flags);
     } else {
         LogUtils_HungupThread("../z_room.c", 841);
     }
