@@ -1864,7 +1864,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
         if (this->light.flicker == 0) {
             this->light.flicker = 1;
         } else {
-            disp = (u32)gEffFlash1DL; // necessary to match, should be able to remove after fake matches are fixed
+            disp = (Gfx*)(u32)gEffFlash1DL; // necessary to match, should be able to remove after fake matches are fixed
             alpha = &this->light.alpha;
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],

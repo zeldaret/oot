@@ -227,11 +227,11 @@ void func_800E5584(AudioCmd* cmd) {
 
         case 0x82:
             AudioLoad_SyncInitSeqPlayer(cmd->arg0, cmd->arg1, cmd->arg2);
-            func_800E59AC(cmd->arg0, cmd->data);
+            func_800E59AC(cmd->arg0, cmd->asInt);
             break;
 
         case 0x85:
-            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->data);
+            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->asInt);
             break;
 
         case 0x83:
