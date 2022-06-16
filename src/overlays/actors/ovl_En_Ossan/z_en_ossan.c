@@ -1989,7 +1989,7 @@ void EnOssan_InitBazaarShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gKm1Skel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objBankIndex3].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &object_masterkokiri_Anim_0004A8, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_masterkokiri_Anim_0004A8), 0, 0.0f);
     this->actor.draw = EnOssan_DrawKokiriShopkeeper;
@@ -2000,7 +2000,7 @@ void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objBankIndex3].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
@@ -2009,7 +2009,7 @@ void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitZoraShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objBankIndex3].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawZoraShopkeeper;

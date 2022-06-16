@@ -24,7 +24,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
     s32 pad;
     s32 objBankIdx;
-    void* oldSeg6;
+    u32 oldSeg6;
 
     objBankIdx = Object_GetIndex(&play->objectCtx, OBJECT_FZ);
 
