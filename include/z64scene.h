@@ -129,10 +129,12 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ Vec3s pos;
-    /* 0x06 */ s16 unk_06;
+    /* 0x06 */ s16 radius;
     /* 0x08 */ Gfx* opa;
     /* 0x0C */ Gfx* xlu;
 } MeshHeader2Entry; // size = 0x10
+
+#define MESH_HEADER2_MAX_ENTRIES 64
 
 typedef struct {
     /* 0x00 */ MeshHeaderBase base;

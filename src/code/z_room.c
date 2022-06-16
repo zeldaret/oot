@@ -23,9 +23,9 @@ Gfx D_801270B0[] = {
 };
 
 void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
-    Room_Draw0,
-    Room_Draw1,
-    Room_Draw2,
+    Room_Draw0, // MESH_HEADER_TYPE_0
+    Room_Draw1, // MESH_HEADER_TYPE_1
+    Room_Draw2, // MESH_HEADER_TYPE_2
 };
 
 void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3) {
@@ -69,24 +69,22 @@ void Room_Draw0(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
 
-#define SHAPE_SORT_MAX 64
-
-typedef struct struct_80095D04 {
-    /* 0x00 */ MeshHeader2Entry* unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ struct struct_80095D04* unk_08;
-    /* 0x0C */ struct struct_80095D04* unk_0C;
-} struct_80095D04; // size = 0x10
+typedef struct MeshHeader2EntryLinked {
+    /* 0x00 */ MeshHeader2Entry* meshHeader2Entry;
+    /* 0x04 */ f32 unk_04_zDiff;
+    /* 0x08 */ struct MeshHeader2EntryLinked* prev;
+    /* 0x0C */ struct MeshHeader2EntryLinked* next;
+} MeshHeader2EntryLinked; // size = 0x10
 
 void Room_Draw2(PlayState* play, Room* room, u32 flags) {
     MeshHeader2* meshHeader2;
     MeshHeader2Entry* meshHeader2Entry;
-    struct_80095D04 spB8[SHAPE_SORT_MAX];
-    struct_80095D04* spB4 = NULL;
-    struct_80095D04* spB0 = NULL;
-    struct_80095D04* iter;
+    MeshHeader2EntryLinked linkedEntriesBuffer[MESH_HEADER2_MAX_ENTRIES];
+    MeshHeader2EntryLinked* head = NULL;
+    MeshHeader2EntryLinked* tail = NULL;
+    MeshHeader2EntryLinked* iter;
     s32 pad;
-    struct_80095D04* spA4;
+    MeshHeader2EntryLinked* insert;
     s32 j;
     s32 i;
     Vec3f pos;
@@ -95,7 +93,7 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
     s32 pad2;
     MeshHeader2Entry* meshHeader2Entries;
     MeshHeader2Entry* meshHeader2EntryIter;
-    f32 temp_f2;
+    f32 temp_f2_zDiff;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
     if (flags & ROOM_DRAW_OPA) {
@@ -114,9 +112,10 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
 
     meshHeader2 = &room->meshHeader->meshHeader2;
     meshHeader2Entry = SEGMENTED_TO_VIRTUAL(meshHeader2->entries);
-    spA4 = spB8;
+    insert = linkedEntriesBuffer;
 
-    ASSERT(meshHeader2->numEntries <= SHAPE_SORT_MAX, "polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
+    ASSERT(meshHeader2->numEntries <= ARRAY_COUNT(linkedEntriesBuffer), "polygon2->num <= SHAPE_SORT_MAX",
+           "../z_room.c", 317);
     meshHeader2Entries = meshHeader2Entry;
 
     for (i = 0; i < meshHeader2->numEntries; i++, meshHeader2Entry++) {
@@ -124,59 +123,62 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
         pos.y = meshHeader2Entry->pos.y;
         pos.z = meshHeader2Entry->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
-        if (-(f32)meshHeader2Entry->unk_06 < projectedPos.z) {
-            temp_f2 = projectedPos.z - meshHeader2Entry->unk_06;
-            if (temp_f2 < play->lightCtx.fogFar) {
-                spA4->unk_00 = meshHeader2Entry;
-                spA4->unk_04 = temp_f2;
-                iter = spB4;
+        if (-(f32)meshHeader2Entry->radius < projectedPos.z) {
+            temp_f2_zDiff = projectedPos.z - meshHeader2Entry->radius;
+            if (temp_f2_zDiff < play->lightCtx.fogFar) {
+                insert->meshHeader2Entry = meshHeader2Entry;
+                insert->unk_04_zDiff = temp_f2_zDiff;
+                iter = head;
                 if (iter == NULL) {
-                    spB4 = spB0 = spA4;
-                    spA4->unk_08 = spA4->unk_0C = NULL;
+                    head = tail = insert;
+                    insert->prev = insert->next = NULL;
                 } else {
                     do {
-                        if (spA4->unk_04 < iter->unk_04) {
+                        if (insert->unk_04_zDiff < iter->unk_04_zDiff) {
                             break;
                         }
-                        iter = iter->unk_0C;
+                        iter = iter->next;
                     } while (iter != NULL);
 
                     if (iter == NULL) {
-                        spA4->unk_08 = spB0;
-                        spA4->unk_0C = NULL;
-                        spB0->unk_0C = spA4;
-                        spB0 = spA4;
+                        insert->prev = tail;
+                        insert->next = NULL;
+                        tail->next = insert;
+                        tail = insert;
                     } else {
-                        spA4->unk_08 = iter->unk_08;
-                        if (spA4->unk_08 == NULL) {
-                            spB4 = spA4;
+                        insert->prev = iter->prev;
+                        if (insert->prev == NULL) {
+                            head = insert;
                         } else {
-                            spA4->unk_08->unk_0C = spA4;
+                            insert->prev->next = insert;
                         }
-                        iter->unk_08 = spA4;
-                        spA4->unk_0C = iter;
+                        iter->prev = insert;
+                        insert->next = iter;
                     }
                 }
-                spA4++;
+                insert++;
             }
         }
     }
 
-    iREG(87) = meshHeader2->numEntries & 0xFFFF & 0xFFFF & 0xFFFF; // if this is real then I might not be
+    R_MESH2_NUM_ALL_ENTRIES = meshHeader2->numEntries & 0xFFFF & 0xFFFF & 0xFFFF; // if this is real then I might not be
 
-    for (i = 1; spB4 != NULL; spB4 = spB4->unk_0C, i++) {
+    for (i = 1; head != NULL; head = head->next, i++) {
         Gfx* displayList;
 
-        meshHeader2Entry = spB4->unk_00;
-        if (iREG(86) != 0) {
+        meshHeader2Entry = head->meshHeader2Entry;
+        if (R_MESH2_DEBUG_MODE != 0) {
+
+            // This loop does nothing
             meshHeader2EntryIter = meshHeader2Entries;
             for (j = 0; j < meshHeader2->numEntries; j++, meshHeader2EntryIter++) {
                 if (meshHeader2Entry == meshHeader2EntryIter) {
-                    break; // This loop does nothing?
+                    break;
                 }
             }
 
-            if (((iREG(86) == 1) && (iREG(89) >= i)) || ((iREG(86) == 2) && (iREG(89) == i))) {
+            if (((R_MESH2_DEBUG_MODE == 1) && (R_MESH2_DEBUG_DRAW_TARGET >= i)) ||
+                ((R_MESH2_DEBUG_MODE == 2) && (R_MESH2_DEBUG_DRAW_TARGET == i))) {
                 if (flags & ROOM_DRAW_OPA) {
                     displayList = meshHeader2Entry->opa;
                     if (displayList != NULL) {
@@ -208,7 +210,7 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
         }
     }
 
-    iREG(88) = i - 1;
+    R_MESH2_NUM_DRAWN_ENTRIES = i - 1;
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 430);
 }
