@@ -742,7 +742,7 @@ typedef struct {
     /* 0x01 */ u8 seqOrFontId;
     /* 0x02 */ u16 instId;
     /* 0x04 */ s32 unkMediumParam;
-    /* 0x08 */ s32 curDevAddr;
+    /* 0x08 */ u32 curDevAddr;
     /* 0x0C */ u8* curRamAddr;
     /* 0x10 */ u8* ramAddr;
     /* 0x14 */ s32 state;

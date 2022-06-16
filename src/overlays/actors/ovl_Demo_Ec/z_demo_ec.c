@@ -329,7 +329,7 @@ void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
 void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
     s32 animObjBankIndex = this->animObjBankIndex;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[animObjBankIndex].segment);
 }
 
 CsCmdActorAction* DemoEc_GetNpcAction(PlayState* play, s32 actionIndex) {

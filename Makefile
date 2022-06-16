@@ -101,7 +101,7 @@ EMU_FLAGS = --noosd
 INC        := -Iinclude -Isrc -Ibuild -I.
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
+CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
