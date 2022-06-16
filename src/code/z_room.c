@@ -303,7 +303,7 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
         gDPPipeSync(gfx++);
     }
 
-    if ((fmt == G_IM_FMT_RGBA) && (SREG(26) == 0)) {
+    if ((fmt == G_IM_FMT_RGBA) && !R_ROOM_BG2D_FORCE_SCALEBG) {
         bg->b.frameW = width * (1 << 2);
         bg->b.frameH = height * (1 << 2);
         guS2DInitBg(bg);
@@ -349,9 +349,10 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     meshHeaderPrerenderSingle = &room->meshHeader->prerenderSingle;
     dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderSingle->base.entry);
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeaderPrerenderSingle->source != NULL) && !(SREG(25) & 1);
-    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(SREG(25) & 2);
-    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(SREG(25) & 4);
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeaderPrerenderSingle->source != NULL) &&
+             !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 0));
+    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 1));
+    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 2));
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -445,9 +446,10 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
 
     bgImage = Room_GetMultiBackgroundImage(meshHeaderPrerenderMulti, play);
 
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (bgImage->source != NULL) && !(SREG(25) & 1);
-    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(SREG(25) & 2);
-    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(SREG(25) & 4);
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (bgImage->source != NULL) &&
+             !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 0));
+    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 1));
+    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 2));
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
