@@ -454,7 +454,7 @@ s16 Camera_GetBgCamSetting(Camera* camera, s32 bgCamIndex) {
 /**
  * Returns the bgCamFuncData using the current bgCam index
  */
-s16* Camera_GetBgCamFuncData(Camera* camera) {
+Vec3s* Camera_GetBgCamFuncData(Camera* camera) {
     return BgCheck_GetBgCamFuncDataImpl(&camera->play->colCtx, camera->bgCamIndex, BGCHECK_SCENE);
 }
 
@@ -483,7 +483,7 @@ s32 Camera_GetBgCamIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
  * Also returns the number of pieces of data there are in `bgCamCount`.
  * If there is no floor, then return NULL
  */
-s16* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
+Vec3s* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
@@ -6124,7 +6124,7 @@ s32 Camera_Demo5(Camera* camera) {
 
     framesDiff = sDemo5PrevSfxFrame - camera->play->state.frames;
     if ((framesDiff > 50) || (framesDiff < -50)) {
-        func_80078884(camera->data1);
+        func_80078884((u32)camera->data1);
     }
 
     sDemo5PrevSfxFrame = camera->play->state.frames;
@@ -8198,7 +8198,7 @@ s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera) {
     return true;
 }
 
-s32 Camera_GetDbgCamEnabled() {
+s32 Camera_GetDbgCamEnabled(void) {
     return gDbgCamEnabled;
 }
 

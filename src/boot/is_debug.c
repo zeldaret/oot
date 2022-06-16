@@ -48,7 +48,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
 
     osEPiReadIo(sISVHandle, (u32)&gISVDbgPrnAdrs->magic, &data);
     if (data != ASCII_TO_U32('I', 'S', '6', '4')) {
-        return 1;
+        return (void*)1;
     }
     osEPiReadIo(sISVHandle, (u32)&gISVDbgPrnAdrs->get, &data);
     pos = data;
@@ -58,11 +58,11 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
     if (end >= 0xFFE0) {
         end -= 0xFFE0;
         if (pos < end || start < pos) {
-            return 1;
+            return (void*)1;
         }
     } else {
         if (start < pos && pos < end) {
-            return 1;
+            return (void*)1;
         }
     }
     while (count) {
@@ -83,7 +83,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
     }
     osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->put, start);
 
-    return 1;
+    return (void*)1;
 }
 
 void func_80002384(const char* exp, const char* file, u32 line) {

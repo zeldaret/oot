@@ -384,7 +384,7 @@ typedef struct {
 } WeaponInfo; // size = 0x1C
 
 #define PLAYER_STATE1_0 (1 << 0)
-#define PLAYER_STATE1_1 (1 << 1)
+#define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_3 (1 << 3)
 #define PLAYER_STATE1_4 (1 << 4)
