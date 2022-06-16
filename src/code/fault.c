@@ -335,7 +335,7 @@ uintptr_t Fault_ConvertAddress(uintptr_t addr) {
 
     while (client != NULL) {
         if (client->callback != NULL) {
-            ret = Fault_ProcessClient(client->callback, addr, client->arg);
+            ret = Fault_ProcessClient(client->callback, (void*)addr, client->arg);
             if (ret == -1) {
                 Fault_RemoveAddrConvClient(client);
             } else if (ret != 0) {
@@ -1093,9 +1093,9 @@ void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
     thread->context.pc += sizeof(u32);
-    *(u32*)thread->context.pc = 0x0000000D; // write in a break instruction
-    osWritebackDCache(thread->context.pc, 4);
-    osInvalICache(thread->context.pc, 4);
+    *((u32*)thread->context.pc) = 0x0000000D; // write in a break instruction
+    osWritebackDCache((void*)thread->context.pc, 4);
+    osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
 }
 
@@ -1112,7 +1112,7 @@ void Fault_DisplayFrameBuffer(void) {
     } else {
         fb = osViGetNextFramebuffer();
         if ((uintptr_t)fb == K0BASE) {
-            fb = (PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
+            fb = (void*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         }
     }
 

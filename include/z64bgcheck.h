@@ -54,7 +54,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u16 setting; // camera setting described by CameraSettingType enum
     /* 0x2 */ s16 count; // only used when `bgCamFuncData` is a list of points used for crawlspaces
-    /* 0x4 */ s16* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
+    /* 0x4 */ Vec3s* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
 } BgCamInfo; // size = 0x8
 
 typedef BgCamInfo CamData; // Todo: Zapd compatibility

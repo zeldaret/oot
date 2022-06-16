@@ -159,7 +159,7 @@ extern s32 __osPfsLastChannel;
 
 extern const s16 D_8014A6C0[];
 #define gTatumsPerBeat (D_8014A6C0[1])
-extern const AudioContextInitSizes D_8014A6C4;
+extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
 extern u8 gSoundFontTable[];
 extern u8 gSequenceFontTable[];
