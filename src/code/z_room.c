@@ -1,10 +1,6 @@
 #include "global.h"
 #include "vt.h"
 
-void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags);
-void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags);
-void Room_DrawPrerender(PlayState* play, Room* room, u32 flags);
-
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
 // unused
@@ -21,6 +17,10 @@ Gfx D_801270B0[] = {
     gsSPClipRatio(FRUSTRATIO_1),
     gsSPEndDisplayList(),
 };
+
+void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags);
+void Room_DrawPrerender(PlayState* play, Room* room, u32 flags);
+void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags);
 
 void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
     Room_DrawAllMeshes,  // MESH_HEADER_TYPE_ALL
