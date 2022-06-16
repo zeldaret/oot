@@ -71,7 +71,7 @@ void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags) {
 
 typedef struct MeshHeaderCullableEntryLinked {
     /* 0x00 */ MeshHeaderCullableEntry* entry;
-    /* 0x04 */ f32 startZ;
+    /* 0x04 */ f32 boundsNearZ;
     /* 0x08 */ struct MeshHeaderCullableEntryLinked* prev;
     /* 0x0C */ struct MeshHeaderCullableEntryLinked* next;
 } MeshHeaderCullableEntryLinked; // size = 0x10
@@ -79,11 +79,11 @@ typedef struct MeshHeaderCullableEntryLinked {
 /**
  * Handle room drawing for the "cullable" type of mesh header.
  *
- * Each entry referenced by the header is attached to display lists, and a position and radius indicating the volume
- * those display lists take.
- * The first step is Z-sorting the entries, also excluding the entries which bounding sphere is entirely before or
+ * Each entry referenced by the header is attached to display lists, and a position and radius indicating the bounding
+ * sphere for the geometry drawn.
+ * The first step Z-sorts the entries, and excludes the entries with a bounding sphere that is entirely before or
  * beyond the rendered depth range.
- * The second step is drawing the entries that are left, in ascending depth.
+ * The second step draws the entries that are left, from nearest to furthest.
  */
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     MeshHeaderCullable* meshHeaderCullable;
@@ -102,7 +102,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     s32 pad2;
     MeshHeaderCullableEntry* meshHeaderCullableEntries;
     MeshHeaderCullableEntry* meshHeaderCullableEntryIter;
-    f32 entryStartZ;
+    f32 entryBoundsNearZ;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
 
@@ -140,27 +140,27 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
         pos.z = meshHeaderCullableEntry->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
 
-        // If the entry isn't fully before the rendered depth range
+        // If the entry bounding sphere isn't fully before the rendered depth range
         if (-(f32)meshHeaderCullableEntry->radius < projectedPos.z) {
 
-            // Compute the depth at which this entry starts
-            entryStartZ = projectedPos.z - meshHeaderCullableEntry->radius;
+            // Compute the depth of the nearest point in the entry's bounding sphere
+            entryBoundsNearZ = projectedPos.z - meshHeaderCullableEntry->radius;
 
-            // If the entry isn't fully beyond the rendered depth range
-            if (entryStartZ < play->lightCtx.fogFar) {
+            // If the entry bounding sphere isn't fully beyond the rendered depth range
+            if (entryBoundsNearZ < play->lightCtx.fogFar) {
 
                 // This entry will be rendered
                 insert->entry = meshHeaderCullableEntry;
-                insert->startZ = entryStartZ;
+                insert->boundsNearZ = entryBoundsNearZ;
 
-                // Insert into the linked list, ordered by ascending start depth
+                // Insert into the linked list, ordered by ascending depth of the nearest point in the bounding sphere
                 iter = head;
                 if (iter == NULL) {
                     head = tail = insert;
                     insert->prev = insert->next = NULL;
                 } else {
                     do {
-                        if (insert->startZ < iter->startZ) {
+                        if (insert->boundsNearZ < iter->boundsNearZ) {
                             break;
                         }
                         iter = iter->next;
