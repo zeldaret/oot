@@ -5013,31 +5013,31 @@ void Audio_SetCodeReverb(s8 reverb) {
 }
 
 void Audio_SetFileSelectSetting(s8 audioSetting) {
-    s8 soundMode;
+    s8 soundModeIndex;
 
     switch (audioSetting) {
         case FS_AUDIO_STEREO:
-            soundMode = SOUNDMODE_STEREO;
+            soundModeIndex = 0; // SOUNDMODE_STEREO
             sSoundMode = SOUNDMODE_STEREO;
             break;
 
         case FS_AUDIO_MONO:
-            soundMode = SOUNDMODE_MONO;
+            soundModeIndex = 3; // SOUNDMODE_MONO
             sSoundMode = SOUNDMODE_MONO;
             break;
 
         case FS_AUDIO_HEADSET:
-            soundMode = SOUNDMODE_HEADSET;
+            soundModeIndex = 1; // SOUNDMODE_HEADSET
             sSoundMode = SOUNDMODE_HEADSET;
             break;
 
         case FS_AUDIO_SURROUND:
-            soundMode = SOUNDMODE_STEREO;
+            soundModeIndex = 0; // SOUNDMODE_STEREO
             sSoundMode = SOUNDMODE_SURROUND;
             break;
     }
 
-    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, soundMode);
+    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, soundModeIndex);
 }
 
 void Audio_SetBaseFilter(u8 filter) {
