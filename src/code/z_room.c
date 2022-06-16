@@ -238,7 +238,11 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
 
 #define JPEG_MARKER 0xFFD8FFE0
 
-s32 func_80096238(void* data) {
+/**
+ * If the data is JPEG, decode it and overwrite the initial data with the result.
+ * Uses the depth frame buffer as temporary storage.
+ */
+s32 Room_DecodeJpeg(void* data) {
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
@@ -258,7 +262,7 @@ s32 func_80096238(void* data) {
             // "If the original buffer size isn't at least 150kb, it will be out of control."
             osSyncPrintf("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
 
-            bcopy(gZBuffer, data, sizeof(gZBuffer));
+            bcopy(gZBuffer, data, sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         } else {
             osSyncPrintf("失敗！なんで〜\n"); // "Failure! Why is it 〜"
         }
@@ -267,68 +271,70 @@ s32 func_80096238(void* data) {
     return 0;
 }
 
-void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
-                   u16 tlutCount, f32 frameX, f32 frameY) {
-    Gfx* displayListHead;
+void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
+                           u16 tlutCount, f32 offsetX, f32 offsetY) {
+    Gfx* gfx = *gfxP;
     uObjBg* bg;
 
-    displayListHead = *displayList;
-    func_80096238(SEGMENTED_TO_VIRTUAL(source));
+    Room_DecodeJpeg(SEGMENTED_TO_VIRTUAL(tex));
 
-    bg = (uObjBg*)(displayListHead + 1);
-    gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
+    bg = (uObjBg*)(gfx + 1);
+    gSPBranchList(gfx, (u32)bg + sizeof(uObjBg));
+
     bg->b.imageX = 0;
-    bg->b.imageW = width * 4;
-    bg->b.frameX = frameX * 4;
+    bg->b.imageW = width * (1 << 2);
+    bg->b.frameX = offsetX * (1 << 2);
     bg->b.imageY = 0;
-    bg->b.imageH = height * 4;
-    bg->b.frameY = frameY * 4;
-    bg->b.imagePtr = source;
+    bg->b.imageH = height * (1 << 2);
+    bg->b.frameY = offsetY * (1 << 2);
+    bg->b.imagePtr = tex;
     bg->b.imageLoad = G_BGLT_LOADTILE;
     bg->b.imageFmt = fmt;
     bg->b.imageSiz = siz;
     bg->b.imagePal = 0;
     bg->b.imageFlip = 0;
 
-    displayListHead = (void*)(bg + 1);
+    gfx = (Gfx*)((u32)bg + sizeof(uObjBg));
+
     if (fmt == G_IM_FMT_CI) {
-        gDPLoadTLUT(displayListHead++, tlutCount, 256, tlut);
+        gDPLoadTLUT(gfx++, tlutCount, 256, tlut);
     } else {
-        gDPPipeSync(displayListHead++);
+        gDPPipeSync(gfx++);
     }
 
     if ((fmt == G_IM_FMT_RGBA) && (SREG(26) == 0)) {
-        bg->b.frameW = width * 4;
-        bg->b.frameH = height * 4;
+        bg->b.frameW = width * (1 << 2);
+        bg->b.frameH = height * (1 << 2);
         guS2DInitBg(bg);
-        gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
+        gDPSetOtherMode(gfx++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-        gSPBgRectCopy(displayListHead++, bg);
+        gSPBgRectCopy(gfx++, bg);
 
     } else {
-        bg->s.frameW = width * 4;
-        bg->s.frameH = height * 4;
-        bg->s.scaleW = 1024;
-        bg->s.scaleH = 1024;
+        bg->s.frameW = width * (1 << 2);
+        bg->s.frameH = height * (1 << 2);
+        bg->s.scaleW = 1 << 10;
+        bg->s.scaleH = 1 << 10;
         bg->s.imageYorig = bg->b.imageY;
-        gDPSetOtherMode(displayListHead++,
+        gDPSetOtherMode(gfx++,
                         mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
                             G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
                             GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
-        gDPSetCombineLERP(displayListHead++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
-        gSPObjRenderMode(displayListHead++, G_OBJRM_ANTIALIAS | G_OBJRM_BILERP);
-        gSPBgRect1Cyc(displayListHead++, bg);
+        gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
+        gSPObjRenderMode(gfx++, G_OBJRM_ANTIALIAS | G_OBJRM_BILERP);
+        gSPBgRect1Cyc(gfx++, bg);
     }
 
-    gDPPipeSync(displayListHead++);
-    *displayList = displayListHead;
+    gDPPipeSync(gfx++);
+
+    *gfxP = gfx;
 }
 
 void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
-    Gfx* spA8;
+    Gfx* gfx;
     MeshHeader1Single* meshHeader1Single;
     MeshHeader01Entry* meshHeader1Entry;
     u32 isFixedCamera;
@@ -342,7 +348,7 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     meshHeader1Single = &room->meshHeader->meshHeader1Single;
     meshHeader1Entry = SEGMENTED_TO_VIRTUAL(meshHeader1Single->base.entry);
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && meshHeader1Single->source && !(SREG(25) & 1);
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeader1Single->source != NULL) && !(SREG(25) & 1);
     drawOpa = (flags & ROOM_DRAW_OPA) && (meshHeader1Entry->opa != NULL) && !(SREG(25) & 2);
     drawXlu = (flags & ROOM_DRAW_XLU) && (meshHeader1Entry->xlu != NULL) && !(SREG(25) & 4);
 
@@ -359,14 +365,16 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
-                Vec3f sp60;
-                spA8 = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&sp60, activeCam);
-                func_8009638C(&spA8, meshHeader1Single->source, meshHeader1Single->tlut, meshHeader1Single->width,
-                              meshHeader1Single->height, meshHeader1Single->fmt, meshHeader1Single->siz,
-                              meshHeader1Single->mode0, meshHeader1Single->tlutCount,
-                              (sp60.x + sp60.z) * 1.2f + sp60.y * 0.6f, sp60.y * 2.4f + (sp60.x + sp60.z) * 0.3f);
-                POLY_OPA_DISP = spA8;
+                Vec3f offset;
+
+                gfx = POLY_OPA_DISP;
+                Camera_GetSkyboxOffset(&offset, activeCam);
+                Room_DrawBackground2D(&gfx, meshHeader1Single->source, meshHeader1Single->tlut,
+                                      meshHeader1Single->width, meshHeader1Single->height, meshHeader1Single->fmt,
+                                      meshHeader1Single->siz, meshHeader1Single->mode0, meshHeader1Single->tlutCount,
+                                      (offset.x + offset.z) * 1.2f + offset.y * 0.6f,
+                                      offset.y * 2.4f + (offset.x + offset.z) * 0.3f);
+                POLY_OPA_DISP = gfx;
             }
 
             gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
@@ -383,34 +391,33 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-BgImage* func_80096A74(MeshHeader1Multi* meshHeader1Multi, PlayState* play) {
+BgImage* Room_GetMultiBackgroundImage(MeshHeader1Multi* meshHeader1Multi, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
-    s32 camDataIdx;
-    s16 camDataIdx2;
+    s32 index;
+    s16 newIndex;
     Player* player;
     BgImage* bgImage;
     s32 i;
 
-    camDataIdx = activeCam->camDataIdx;
-    // jfifid
-    camDataIdx2 = func_80041C10(&play->colCtx, camDataIdx, BGCHECK_SCENE)[2].y;
-    if (camDataIdx2 >= 0) {
-        camDataIdx = camDataIdx2;
+    index = activeCam->camDataIdx;
+    newIndex = func_80041C10(&play->colCtx, index, BGCHECK_SCENE)[2].y;
+    if (newIndex >= 0) {
+        index = newIndex;
     }
 
     player = GET_PLAYER(play);
-    player->actor.params = (player->actor.params & 0xFF00) | camDataIdx;
+    player->actor.params = (player->actor.params & 0xFF00) | index;
 
     bgImage = SEGMENTED_TO_VIRTUAL(meshHeader1Multi->list);
     for (i = 0; i < meshHeader1Multi->count; i++) {
-        if (bgImage->id == camDataIdx) {
+        if (bgImage->index == index) {
             return bgImage;
         }
         bgImage++;
     }
 
     // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, camDataIdx);
+    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, index);
     LogUtils_HungupThread("../z_room.c", 726);
 
     return NULL;
@@ -433,8 +440,10 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     meshHeader1Multi = &room->meshHeader->meshHeader1Multi;
     meshHeader1Entry = SEGMENTED_TO_VIRTUAL(meshHeader1Multi->base.entry);
-    bgImage = func_80096A74(meshHeader1Multi, play);
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && bgImage->source && !(SREG(25) & 1);
+
+    bgImage = Room_GetMultiBackgroundImage(meshHeader1Multi, play);
+
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (bgImage->source != NULL) && !(SREG(25) & 1);
     drawOpa = (flags & ROOM_DRAW_OPA) && (meshHeader1Entry->opa != NULL) && !(SREG(25) & 2);
     drawXlu = (flags & ROOM_DRAW_XLU) && (meshHeader1Entry->xlu != NULL) && !(SREG(25) & 4);
 
@@ -451,14 +460,14 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
-                Vec3f skyboxOffset;
+                Vec3f offset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&skyboxOffset, activeCam);
-                func_8009638C(&gfx, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height, bgImage->fmt,
-                              bgImage->siz, bgImage->mode0, bgImage->tlutCount,
-                              (skyboxOffset.x + skyboxOffset.z) * 1.2f + skyboxOffset.y * 0.6f,
-                              skyboxOffset.y * 2.4f + (skyboxOffset.x + skyboxOffset.z) * 0.3f);
+                Camera_GetSkyboxOffset(&offset, activeCam);
+                Room_DrawBackground2D(&gfx, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height,
+                                      bgImage->fmt, bgImage->siz, bgImage->mode0, bgImage->tlutCount,
+                                      (offset.x + offset.z) * 1.2f + offset.y * 0.6f,
+                                      offset.y * 2.4f + (offset.x + offset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;
             }
 
