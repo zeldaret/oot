@@ -4142,7 +4142,7 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused, PlayState* play,
-                     s16 params, s32 arg8) {
+                     s16 params, Gfx* dList) {
     EnPart* spawnedEnPart;
 
     spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
@@ -4150,7 +4150,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3[0];
-        spawnedEnPart->displayList = arg8;
+        spawnedEnPart->displayList = dList;
         spawnedEnPart->action = 2;
         spawnedEnPart->timer = timer;
         spawnedEnPart->rotZ = arg3[1];

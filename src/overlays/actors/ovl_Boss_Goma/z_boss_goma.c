@@ -308,7 +308,9 @@ void BossGoma_ClearPixels32x32Rgba16(s16* rgba16image, u8* clearPixelTable, s16 
     if (clearPixelTable[i]) {
         // address of the top left pixel in a 2x2 pixels block located at
         // (i & 0xF, i >> 4) in a 16x16 grid of 2x2 pixels
-        targetPixel = (s32)rgba16image + (s16)((i & 0xF) * 2 + (i & 0xF0) * 4) * 2;
+        targetPixel = rgba16image;
+        targetPixel += (s16)((i & 0xF) * 2 + (i & 0xF0) * 4);
+
         // set the 2x2 block of pixels to 0
         targetPixel[0] = 0;
         targetPixel[1] = 0;

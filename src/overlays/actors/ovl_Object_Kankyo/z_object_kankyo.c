@@ -742,7 +742,7 @@ void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
                     this->effects[0].state = 0;
                 }
                 break;
-            
+
             default:
                 break;
         }
