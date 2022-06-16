@@ -76,6 +76,15 @@ typedef struct MeshHeaderCullEntryLinked {
     /* 0x0C */ struct MeshHeaderCullEntryLinked* next;
 } MeshHeaderCullEntryLinked; // size = 0x10
 
+/**
+ * Handle room drawing for the "cull" type of mesh header.
+ *
+ * Each entry referenced by the header is attached to display lists, and a position and radius indicating the volume
+ * those display lists take.
+ * The first step is Z-sorting the entries, also excluding the entries which bounding sphere is entirely before or
+ * beyond the rendered depth range.
+ * The second step is drawing the entries that are left, in ascending depth.
+ */
 void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
     MeshHeaderCull* meshHeaderCull;
     MeshHeaderCullEntry* meshHeaderCullEntry;
@@ -137,7 +146,7 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
             // Compute the depth at which this entry starts
             entryStartZ = projectedPos.z - meshHeaderCullEntry->radius;
 
-            // If the entry isn't fully after the rendered depth range
+            // If the entry isn't fully beyond the rendered depth range
             if (entryStartZ < play->lightCtx.fogFar) {
 
                 // This entry will be rendered
