@@ -260,7 +260,7 @@ s32 Room_DecodeJpeg(void* data) {
             osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", OS_CYCLES_TO_USEC(time) / 1000.0f);
             // "Writing back to original address from work buffer."
             osSyncPrintf("ワークバッファから元のアドレスに書き戻します。\n");
-            // "If the original buffer size isn't at least 150kb, it will be out of control."
+            // "If the original buffer size isn't at least 150kB, it will be out of control."
             osSyncPrintf("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
 
             bcopy(gZBuffer, data, sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
