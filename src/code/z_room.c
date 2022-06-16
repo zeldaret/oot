@@ -271,7 +271,7 @@ s32 Room_DecodeJpeg(void* data) {
     return 0;
 }
 
-void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
+void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
                            u16 tlutCount, f32 offsetX, f32 offsetY) {
     Gfx* gfx = *gfxP;
     uObjBg* bg;
@@ -306,7 +306,7 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
         bg->b.frameW = width * (1 << 2);
         bg->b.frameH = height * (1 << 2);
         guS2DInitBg(bg);
-        gDPSetOtherMode(gfx++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
+        gDPSetOtherMode(gfx++, tlutMode | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(gfx++, bg);
 
@@ -317,8 +317,8 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
         bg->s.scaleH = 1 << 10;
         bg->s.imageYorig = bg->b.imageY;
         gDPSetOtherMode(gfx++,
-                        mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
-                            G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                        tlutMode | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TL_TILE |
+                            G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
                             GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
@@ -371,7 +371,7 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
                 Camera_GetSkyboxOffset(&offset, activeCam);
                 Room_DrawBackground2D(&gfx, meshHeader1Single->source, meshHeader1Single->tlut,
                                       meshHeader1Single->width, meshHeader1Single->height, meshHeader1Single->fmt,
-                                      meshHeader1Single->siz, meshHeader1Single->mode0, meshHeader1Single->tlutCount,
+                                      meshHeader1Single->siz, meshHeader1Single->tlutMode, meshHeader1Single->tlutCount,
                                       (offset.x + offset.z) * 1.2f + offset.y * 0.6f,
                                       offset.y * 2.4f + (offset.x + offset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;
@@ -465,7 +465,7 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
                 gfx = POLY_OPA_DISP;
                 Camera_GetSkyboxOffset(&offset, activeCam);
                 Room_DrawBackground2D(&gfx, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height,
-                                      bgImage->fmt, bgImage->siz, bgImage->mode0, bgImage->tlutCount,
+                                      bgImage->fmt, bgImage->siz, bgImage->tlutMode, bgImage->tlutCount,
                                       (offset.x + offset.z) * 1.2f + offset.y * 0.6f,
                                       offset.y * 2.4f + (offset.x + offset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;

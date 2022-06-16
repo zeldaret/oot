@@ -103,7 +103,7 @@ typedef struct {
     /* 0x16 */ u16   height;
     /* 0x18 */ u8    fmt;
     /* 0x19 */ u8    siz;
-    /* 0x1A */ u16   mode0;
+    /* 0x1A */ u16   tlutMode;
     /* 0x1C */ u16   tlutCount;
 } MeshHeader1Single; // size = 0x20
 
@@ -117,7 +117,7 @@ typedef struct {
     /* 0x12 */ u16   height;
     /* 0x14 */ u8    fmt;
     /* 0x15 */ u8    siz;
-    /* 0x16 */ u16   mode0;
+    /* 0x16 */ u16   tlutMode;
     /* 0x18 */ u16   tlutCount;
 } BgImage; // size = 0x1C
 
