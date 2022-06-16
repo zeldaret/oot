@@ -80,7 +80,7 @@ void Sample_LoadTitleStatic(SampleContext* this) {
     u32 size = _title_staticSegmentRomEnd - _title_staticSegmentRomStart;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_sample.c", 163);
-    DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
+    DmaMgr_SendRequest1(this->staticSegment, (u32)_title_staticSegmentRomStart, size, "../z_sample.c", 164);
 }
 
 void Sample_Init(GameState* thisx) {

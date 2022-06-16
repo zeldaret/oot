@@ -2595,7 +2595,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (u32)_icon_item_nes_staticSegmentRomEnd - (u32)_icon_item_nes_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
-                DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, _icon_item_nes_staticSegmentRomStart, size,
+                DmaMgr_SendRequest1(pauseCtx->iconItemLangSegment, (u32)_icon_item_nes_staticSegmentRomStart, size,
                                     "../z_kaleido_scope_PAL.c", 3739);
             } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (u32)_icon_item_ger_staticSegmentRomEnd - (u32)_icon_item_ger_staticSegmentRomStart;
