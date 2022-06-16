@@ -71,7 +71,7 @@ void Room_Draw0(PlayState* play, Room* room, u32 flags) {
 
 typedef struct MeshHeader2EntryLinked {
     /* 0x00 */ MeshHeader2Entry* meshHeader2Entry;
-    /* 0x04 */ f32 unk_04_zDiff;
+    /* 0x04 */ f32 startZ;
     /* 0x08 */ struct MeshHeader2EntryLinked* prev;
     /* 0x0C */ struct MeshHeader2EntryLinked* next;
 } MeshHeader2EntryLinked; // size = 0x10
@@ -93,16 +93,19 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
     s32 pad2;
     MeshHeader2Entry* meshHeader2Entries;
     MeshHeader2Entry* meshHeader2EntryIter;
-    f32 temp_f2_zDiff;
+    f32 entryStartZ;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
+
     if (flags & ROOM_DRAW_OPA) {
         func_800342EC(&D_801270A0, play);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(play);
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
+
     if (1) {}
+
     if (flags & ROOM_DRAW_XLU) {
         func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
@@ -116,25 +119,39 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
 
     ASSERT(meshHeader2->numEntries <= ARRAY_COUNT(linkedEntriesBuffer), "polygon2->num <= SHAPE_SORT_MAX",
            "../z_room.c", 317);
+
     meshHeader2Entries = meshHeader2Entry;
 
+    // Pick and sort entries by depth
     for (i = 0; i < meshHeader2->numEntries; i++, meshHeader2Entry++) {
+
+        // Project the entry position, to get the depth it is at.
         pos.x = meshHeader2Entry->pos.x;
         pos.y = meshHeader2Entry->pos.y;
         pos.z = meshHeader2Entry->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
+
+        // If the entry isn't fully before the rendered depth range
         if (-(f32)meshHeader2Entry->radius < projectedPos.z) {
-            temp_f2_zDiff = projectedPos.z - meshHeader2Entry->radius;
-            if (temp_f2_zDiff < play->lightCtx.fogFar) {
+
+            // Compute the depth at which this entry starts
+            entryStartZ = projectedPos.z - meshHeader2Entry->radius;
+
+            // If the entry isn't fully after the rendered depth range
+            if (entryStartZ < play->lightCtx.fogFar) {
+
+                // This entry will be rendered
                 insert->meshHeader2Entry = meshHeader2Entry;
-                insert->unk_04_zDiff = temp_f2_zDiff;
+                insert->startZ = entryStartZ;
+
+                // Insert into the linked list, ordered by ascending start depth
                 iter = head;
                 if (iter == NULL) {
                     head = tail = insert;
                     insert->prev = insert->next = NULL;
                 } else {
                     do {
-                        if (insert->unk_04_zDiff < iter->unk_04_zDiff) {
+                        if (insert->startZ < iter->startZ) {
                             break;
                         }
                         iter = iter->next;
@@ -156,6 +173,7 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
                         insert->next = iter;
                     }
                 }
+
                 insert++;
             }
         }
@@ -163,11 +181,14 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
 
     R_MESH2_NUM_ALL_ENTRIES = meshHeader2->numEntries & 0xFFFF & 0xFFFF & 0xFFFF; // if this is real then I might not be
 
+    // Draw entries, from nearest to furthest
     for (i = 1; head != NULL; head = head->next, i++) {
         Gfx* displayList;
 
         meshHeader2Entry = head->meshHeader2Entry;
+
         if (R_MESH2_DEBUG_MODE != 0) {
+            // Debug mode drawing
 
             // This loop does nothing
             meshHeader2EntryIter = meshHeader2Entries;
