@@ -135,16 +135,16 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     for (i = 0; i < meshHeaderCullable->numEntries; i++, meshHeaderCullableEntry++) {
 
         // Project the entry position, to get the depth it is at.
-        pos.x = meshHeaderCullableEntry->pos.x;
-        pos.y = meshHeaderCullableEntry->pos.y;
-        pos.z = meshHeaderCullableEntry->pos.z;
+        pos.x = meshHeaderCullableEntry->boundsSphereCenter.x;
+        pos.y = meshHeaderCullableEntry->boundsSphereCenter.y;
+        pos.z = meshHeaderCullableEntry->boundsSphereCenter.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
 
         // If the entry bounding sphere isn't fully before the rendered depth range
-        if (-(f32)meshHeaderCullableEntry->radius < projectedPos.z) {
+        if (-(f32)meshHeaderCullableEntry->boundsSphereRadius < projectedPos.z) {
 
             // Compute the depth of the nearest point in the entry's bounding sphere
-            entryBoundsNearZ = projectedPos.z - meshHeaderCullableEntry->radius;
+            entryBoundsNearZ = projectedPos.z - meshHeaderCullableEntry->boundsSphereRadius;
 
             // If the entry bounding sphere isn't fully beyond the rendered depth range
             if (entryBoundsNearZ < play->lightCtx.fogFar) {

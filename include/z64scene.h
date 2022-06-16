@@ -128,8 +128,8 @@ typedef struct {
 } MeshHeaderPrerenderMulti; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ Vec3s pos;
-    /* 0x06 */ s16 radius;
+    /* 0x00 */ Vec3s boundsSphereCenter;
+    /* 0x06 */ s16   boundsSphereRadius;
     /* 0x08 */ Gfx* opa;
     /* 0x0C */ Gfx* xlu;
 } MeshHeaderCullableEntry; // size = 0x10
