@@ -180,7 +180,7 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
     }
 
     // if this is real then I might not be
-    R_MESH2_NUM_ALL_ENTRIES = meshHeaderCull->numEntries & 0xFFFF & 0xFFFF & 0xFFFF;
+    R_ROOM_CULL_NUM_ENTRIES = meshHeaderCull->numEntries & 0xFFFF & 0xFFFF & 0xFFFF;
 
     // Draw entries, from nearest to furthest
     for (i = 1; head != NULL; head = head->next, i++) {
@@ -188,7 +188,7 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
 
         meshHeaderCullEntry = head->entry;
 
-        if (R_MESH2_DEBUG_MODE != 0) {
+        if (R_ROOM_CULL_DEBUG_MODE != 0) {
             // Debug mode drawing
 
             // This loop does nothing
@@ -199,8 +199,8 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
                 }
             }
 
-            if (((R_MESH2_DEBUG_MODE == 1) && (R_MESH2_DEBUG_DRAW_TARGET >= i)) ||
-                ((R_MESH2_DEBUG_MODE == 2) && (R_MESH2_DEBUG_DRAW_TARGET == i))) {
+            if (((R_ROOM_CULL_DEBUG_MODE == 1) && (R_ROOM_CULL_DEBUG_TARGET >= i)) ||
+                ((R_ROOM_CULL_DEBUG_MODE == 2) && (R_ROOM_CULL_DEBUG_TARGET == i))) {
                 if (flags & ROOM_DRAW_OPA) {
                     displayList = meshHeaderCullEntry->opa;
                     if (displayList != NULL) {
@@ -232,7 +232,7 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
         }
     }
 
-    R_MESH2_NUM_DRAWN_ENTRIES = i - 1;
+    R_ROOM_CULL_USED_ENTRIES = i - 1;
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 430);
 }
