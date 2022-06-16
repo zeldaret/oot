@@ -23,7 +23,7 @@ void EnFloormas_Draw(Actor* thisx, PlayState* play);
 void EnFloormas_GrabLink(EnFloormas* this, PlayState* play);
 void EnFloormas_Split(EnFloormas* this, PlayState* play);
 void EnFloormas_Recover(EnFloormas* this, PlayState* play);
-void EnFloormas_DrawHighlighted(Actor* thisx, PlayState* play);
+void EnFloormas_DrawHighlighted(Actor* this, PlayState* play);
 void EnFloormas_SmWait(EnFloormas* this, PlayState* play);
 void EnFloormas_SetupBigDecideAction(EnFloormas* this);
 void EnFloormas_Freeze(EnFloormas* this, PlayState* play);

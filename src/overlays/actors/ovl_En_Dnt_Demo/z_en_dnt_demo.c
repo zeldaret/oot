@@ -20,7 +20,7 @@ typedef enum {
 
 void EnDntDemo_Init(Actor* thisx, PlayState* play);
 void EnDntDemo_Destroy(Actor* thisx, PlayState* play);
-void EnDntDemo_Update(Actor* thisx, PlayState* play);
+void EnDntDemo_Update(Actor* this, PlayState* play);
 
 void EnDntDemo_Judge(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Results(EnDntDemo* this, PlayState* play);

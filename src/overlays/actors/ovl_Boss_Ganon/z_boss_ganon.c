@@ -16,10 +16,10 @@ void BossGanon_Destroy(Actor* thisx, PlayState* play);
 void BossGanon_Update(Actor* thisx, PlayState* play);
 void BossGanon_Draw(Actor* thisx, PlayState* play);
 void func_808E1EB4(Actor* thisx, PlayState* play); // update
-void func_808E2544(Actor* thisx, PlayState* play);  // update
+void func_808E2544(Actor* thisx, PlayState* play); // update
 void BossGanon_LightBall_Update(Actor* thisx, PlayState* play);
 void func_808E229C(Actor* thisx, PlayState* play); // draw
-void func_808E324C(Actor* thisx, PlayState* play);  // draw
+void func_808E324C(Actor* thisx, PlayState* play); // draw
 void BossGanon_LightBall_Draw(Actor* thisx, PlayState* play);
 
 void BossGanon_SetupIntroCutscene(BossGanon* this, PlayState* play);

@@ -15,7 +15,7 @@ void EnMa1_Update(Actor* thisx, PlayState* play);
 void EnMa1_Draw(Actor* thisx, PlayState* play);
 
 u16 EnMa1_GetText(PlayState* play, Actor* this);
-s16 func_80AA0778(PlayState* play, Actor* thisx);
+s16 func_80AA0778(PlayState* play, Actor* this);
 
 void func_80AA0D88(EnMa1* this, PlayState* play);
 void func_80AA0EA0(EnMa1* this, PlayState* play);

@@ -1716,7 +1716,7 @@ s32 Camera_Normal2(Camera* camera) {
             rwData->unk_24 = playerPosRot->pos.y;
             rwData->unk_1C = bgCamFuncData->fov == -1   ? roData->unk_14
                              : bgCamFuncData->fov > 360 ? CAM_DATA_SCALED(bgCamFuncData->fov)
-                                                    : bgCamFuncData->fov;
+                                                        : bgCamFuncData->fov;
 
             rwData->unk_28 = bgCamFuncData->flags == -1 ? 0 : bgCamFuncData->flags;
 

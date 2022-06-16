@@ -39,10 +39,10 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, Sa
 void AudioLoad_DiscardFont(s32 fontId);
 u32 AudioLoad_TrySyncLoadSampleBank(u32 sampleBankId, u32* outMedium, s32 noLoad);
 void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate);
-u32 AudioLoad_GetRealTableIndex(s32 tableType, u32 id);
-void* AudioLoad_SearchCaches(s32 tableType, s32 id);
+u32 AudioLoad_GetRealTableIndex(s32 tableType, u32 tableId);
+void* AudioLoad_SearchCaches(s32 tableType, s32 tableId);
 AudioTable* AudioLoad_GetLoadTable(s32 tableType);
-void AudioLoad_SyncDma(u32 devAddr, u8* ramAddr, u32 size, s32 medium);
+void AudioLoad_SyncDma(u32 devAddr, u8* addr, u32 size, s32 medium);
 void AudioLoad_SyncDmaUnkMedium(u32 devAddr, u8* addr, u32 size, s32 unkMediumParam);
 s32 AudioLoad_Dma(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size,
                   OSMesgQueue* reqQueue, s32 medium, const char* dmaFuncType);
