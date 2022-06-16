@@ -36,15 +36,15 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 }
 
 /**
- * @return true if the currently set indoorBgCamIndex is the same as the one provided in the argument
+ * @return true if the currently set viewpoint is the same as the one provided in the argument
  */
 s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint) {
     return (viewpoint == this->viewpoint);
 }
 
 /**
- * If the scene is a shop, set the bgCamIndex that will toggle the camera
- * to switch to a "browsing item selection" setting.
+ * If the scene is a shop, set the viewpoint that will set the bgCamIndex 
+ * to toggle the camera into a "browsing item selection" setting.
  */
 void Play_SetShopBrowsingViewpoint(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
@@ -403,7 +403,7 @@ void Play_Init(GameState* thisx) {
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
     }
 
-    // Init Indoor BgCam
+    // Init viewpoint
     if (R_SCENE_TYPE == SCENE_TYPE_HOUSE) {
         this->viewpoint = VIEWPOINT_PIVOT; // default to pivot camera
     } else if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
@@ -953,7 +953,7 @@ void Play_Update(PlayState* this) {
                 LOG_NUM("1", 1, "../z_play.c", 3677);
             }
 
-            // Update Indoor BgCam
+            // Update viewpoint
             if (this->viewpoint != 0) {
                 // C-Up toggle indoor camera
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {

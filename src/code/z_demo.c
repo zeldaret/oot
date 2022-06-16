@@ -301,7 +301,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
         case 14:
-            // set the bgCamIndex that will toggle the camera to switch to a fixed prerend setting
+            // set the viewpoint that will toggle the camera to switch to a fixed setting
             if (sp3F != 0) {
                 Play_SetViewpoint(play, VIEWPOINT_FIXED);
             }
