@@ -367,16 +367,16 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
-                Vec3f offset;
+                Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&offset, activeCam);
+                Camera_GetSkyboxOffset(&quakeOffset, activeCam);
                 Room_DrawBackground2D(&gfx, meshHeaderPrerenderSingle->source, meshHeaderPrerenderSingle->tlut,
                                       meshHeaderPrerenderSingle->width, meshHeaderPrerenderSingle->height,
                                       meshHeaderPrerenderSingle->fmt, meshHeaderPrerenderSingle->siz,
                                       meshHeaderPrerenderSingle->tlutMode, meshHeaderPrerenderSingle->tlutCount,
-                                      (offset.x + offset.z) * 1.2f + offset.y * 0.6f,
-                                      offset.y * 2.4f + (offset.x + offset.z) * 0.3f);
+                                      (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
+                                      quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;
             }
 
@@ -464,14 +464,14 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
-                Vec3f offset;
+                Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&offset, activeCam);
+                Camera_GetSkyboxOffset(&quakeOffset, activeCam);
                 Room_DrawBackground2D(&gfx, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height,
                                       bgImage->fmt, bgImage->siz, bgImage->tlutMode, bgImage->tlutCount,
-                                      (offset.x + offset.z) * 1.2f + offset.y * 0.6f,
-                                      offset.y * 2.4f + (offset.x + offset.z) * 0.3f);
+                                      (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
+                                      quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;
             }
 
