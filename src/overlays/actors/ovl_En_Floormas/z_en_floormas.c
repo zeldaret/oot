@@ -15,7 +15,7 @@
 #define MERGE_MASTER 0x40
 #define MERGE_SLAVE 0x20
 
-void EnFloormas_Init(Actor* thisx, PlayState* play2);
+void EnFloormas_Init(Actor* thisx, PlayState* play);
 void EnFloormas_Destroy(Actor* thisx, PlayState* play);
 void EnFloormas_Update(Actor* thisx, PlayState* play);
 void EnFloormas_Draw(Actor* thisx, PlayState* play);

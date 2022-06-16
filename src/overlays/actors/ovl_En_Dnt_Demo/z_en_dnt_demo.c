@@ -18,7 +18,7 @@ typedef enum {
     /* 2 */ DNT_LOVE
 } EnDntDemoResults;
 
-void EnDntDemo_Init(Actor* thisx, PlayState* play2);
+void EnDntDemo_Init(Actor* thisx, PlayState* play);
 void EnDntDemo_Destroy(Actor* thisx, PlayState* play);
 void EnDntDemo_Update(Actor* thisx, PlayState* play);
 

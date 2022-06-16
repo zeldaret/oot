@@ -11,14 +11,14 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void BossGanon_Init(Actor* thisx, PlayState* play2);
+void BossGanon_Init(Actor* thisx, PlayState* play);
 void BossGanon_Destroy(Actor* thisx, PlayState* play);
-void BossGanon_Update(Actor* thisx, PlayState* play2);
+void BossGanon_Update(Actor* thisx, PlayState* play);
 void BossGanon_Draw(Actor* thisx, PlayState* play);
-void func_808E1EB4(Actor* thisx, PlayState* play2); // update
+void func_808E1EB4(Actor* thisx, PlayState* play); // update
 void func_808E2544(Actor* thisx, PlayState* play);  // update
-void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2);
-void func_808E229C(Actor* thisx, PlayState* play2); // draw
+void BossGanon_LightBall_Update(Actor* thisx, PlayState* play);
+void func_808E229C(Actor* thisx, PlayState* play); // draw
 void func_808E324C(Actor* thisx, PlayState* play);  // draw
 void BossGanon_LightBall_Draw(Actor* thisx, PlayState* play);
 
