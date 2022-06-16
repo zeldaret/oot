@@ -1039,7 +1039,7 @@ typedef struct {
     u8 entryIndex;
 } ActiveSound;
 
-// SoundParams Flags
+// SoundParams bit-packing
 
 #define SFX_PARAM_01_SHIFT 0
 #define SFX_PARAM_01_MASK (3 << SFX_PARAM_01_SHIFT)
@@ -1053,8 +1053,8 @@ typedef struct {
 #define SFX_PARAM_67_MASK (3 << SFX_PARAM_67_SHIFT)
 
 #define SFX_FLAG_9 (1 << 9)
-#define SFX_FLAG_10_SHIFT 10
-#define SFX_FLAG_10 (1 << SFX_FLAG_10_SHIFT)
+#define SFX_PARAM_10_SHIFT 10
+#define SFX_PARAM_10 (1 << SFX_PARAM_10_SHIFT)
 #define SFX_FLAG_11 (1 << 11)
 #define SFX_FLAG_12 (1 << 12)
 #define SFX_FLAG_13 (1 << 13)
