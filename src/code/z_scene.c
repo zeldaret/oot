@@ -6,7 +6,7 @@ RomFile sNaviMsgFiles[];
 /**
  * Spawn an object file of a specified ID that will persist through room changes.
  *
- * This only starts loading the object, the data will not be available immediately when the function returns.
+ * This waits for the file to be fully loaded, the data is available when the function returns.
  *
  * @return The new object slot corresponding to the requested object ID.
  *
