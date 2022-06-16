@@ -135,16 +135,16 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
     for (i = 0; i < meshHeaderCull->numEntries; i++, meshHeaderCullEntry++) {
 
         // Project the entry position, to get the depth it is at.
-        pos.x = meshHeaderCullEntry->bounds.center.x;
-        pos.y = meshHeaderCullEntry->bounds.center.y;
-        pos.z = meshHeaderCullEntry->bounds.center.z;
+        pos.x = meshHeaderCullEntry->pos.x;
+        pos.y = meshHeaderCullEntry->pos.y;
+        pos.z = meshHeaderCullEntry->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
 
         // If the entry isn't fully before the rendered depth range
-        if (-(f32)meshHeaderCullEntry->bounds.radius < projectedPos.z) {
+        if (-(f32)meshHeaderCullEntry->radius < projectedPos.z) {
 
             // Compute the depth at which this entry starts
-            entryStartZ = projectedPos.z - meshHeaderCullEntry->bounds.radius;
+            entryStartZ = projectedPos.z - meshHeaderCullEntry->radius;
 
             // If the entry isn't fully beyond the rendered depth range
             if (entryStartZ < play->lightCtx.fogFar) {
