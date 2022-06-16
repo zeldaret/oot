@@ -63,7 +63,7 @@ typedef struct {
 typedef enum {
     /* 0 */ MESH_HEADER_TYPE_ALL,
     /* 1 */ MESH_HEADER_TYPE_PRERENDER,
-    /* 2 */ MESH_HEADER_TYPE_CULL,
+    /* 2 */ MESH_HEADER_TYPE_CULLABLE,
     /* 3 */ MESH_HEADER_TYPE_MAX
 } MeshHeaderType;
 
@@ -132,16 +132,16 @@ typedef struct {
     /* 0x06 */ s16 radius;
     /* 0x08 */ Gfx* opa;
     /* 0x0C */ Gfx* xlu;
-} MeshHeaderCullEntry; // size = 0x10
+} MeshHeaderCullableEntry; // size = 0x10
 
-#define MESH_HEADER_CULL_MAX_ENTRIES 64
+#define MESH_HEADER_CULLABLE_MAX_ENTRIES 64
 
 typedef struct {
     /* 0x00 */ MeshHeaderBase base;
     /* 0x01 */ u8 numEntries;
-    /* 0x04 */ MeshHeaderCullEntry* entries;
-    /* 0x08 */ MeshHeaderCullEntry* entriesEnd;
-} MeshHeaderCull; // size = 0x0C
+    /* 0x04 */ MeshHeaderCullableEntry* entries;
+    /* 0x08 */ MeshHeaderCullableEntry* entriesEnd;
+} MeshHeaderCullable; // size = 0x0C
 
 typedef union {
     MeshHeaderBase base;
@@ -149,7 +149,7 @@ typedef union {
     MeshHeaderPrerenderBase prerenderBase;
     MeshHeaderPrerenderSingle prerenderSingle;
     MeshHeaderPrerenderMulti prerenderMulti;
-    MeshHeaderCull cull;
+    MeshHeaderCullable cullable;
 } MeshHeader; // "Ground Shape"
 
 // TODO update ZAPD
@@ -157,8 +157,8 @@ typedef MeshHeaderDListsEntry PolygonDlist;
 typedef MeshHeaderAll PolygonType0;
 typedef MeshHeaderPrerenderSingle MeshHeader1Single;
 typedef MeshHeaderPrerenderMulti MeshHeader1Multi;
-typedef MeshHeaderCullEntry PolygonDlist2;
-typedef MeshHeaderCull PolygonType2;
+typedef MeshHeaderCullableEntry PolygonDlist2;
+typedef MeshHeaderCullable PolygonType2;
 
 #define ROOM_DRAW_OPA (1 << 0)
 #define ROOM_DRAW_XLU (1 << 1)

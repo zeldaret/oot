@@ -20,12 +20,12 @@ Gfx D_801270B0[] = {
 
 void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags);
 void Room_DrawPrerender(PlayState* play, Room* room, u32 flags);
-void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags);
+void Room_DrawCullable(PlayState* play, Room* room, u32 flags);
 
 void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
-    Room_DrawAllMeshes,  // MESH_HEADER_TYPE_ALL
-    Room_DrawPrerender,  // MESH_HEADER_TYPE_PRERENDER
-    Room_DrawCullMeshes, // MESH_HEADER_TYPE_CULL
+    Room_DrawAllMeshes, // MESH_HEADER_TYPE_ALL
+    Room_DrawPrerender, // MESH_HEADER_TYPE_PRERENDER
+    Room_DrawCullable,  // MESH_HEADER_TYPE_CULLABLE
 };
 
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
@@ -69,15 +69,15 @@ void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
 
-typedef struct MeshHeaderCullEntryLinked {
-    /* 0x00 */ MeshHeaderCullEntry* entry;
+typedef struct MeshHeaderCullableEntryLinked {
+    /* 0x00 */ MeshHeaderCullableEntry* entry;
     /* 0x04 */ f32 startZ;
-    /* 0x08 */ struct MeshHeaderCullEntryLinked* prev;
-    /* 0x0C */ struct MeshHeaderCullEntryLinked* next;
-} MeshHeaderCullEntryLinked; // size = 0x10
+    /* 0x08 */ struct MeshHeaderCullableEntryLinked* prev;
+    /* 0x0C */ struct MeshHeaderCullableEntryLinked* next;
+} MeshHeaderCullableEntryLinked; // size = 0x10
 
 /**
- * Handle room drawing for the "cull" type of mesh header.
+ * Handle room drawing for the "cullable" type of mesh header.
  *
  * Each entry referenced by the header is attached to display lists, and a position and radius indicating the volume
  * those display lists take.
@@ -85,23 +85,23 @@ typedef struct MeshHeaderCullEntryLinked {
  * beyond the rendered depth range.
  * The second step is drawing the entries that are left, in ascending depth.
  */
-void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
-    MeshHeaderCull* meshHeaderCull;
-    MeshHeaderCullEntry* meshHeaderCullEntry;
-    MeshHeaderCullEntryLinked linkedEntriesBuffer[MESH_HEADER_CULL_MAX_ENTRIES];
-    MeshHeaderCullEntryLinked* head = NULL;
-    MeshHeaderCullEntryLinked* tail = NULL;
-    MeshHeaderCullEntryLinked* iter;
+void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
+    MeshHeaderCullable* meshHeaderCullable;
+    MeshHeaderCullableEntry* meshHeaderCullableEntry;
+    MeshHeaderCullableEntryLinked linkedEntriesBuffer[MESH_HEADER_CULLABLE_MAX_ENTRIES];
+    MeshHeaderCullableEntryLinked* head = NULL;
+    MeshHeaderCullableEntryLinked* tail = NULL;
+    MeshHeaderCullableEntryLinked* iter;
     s32 pad;
-    MeshHeaderCullEntryLinked* insert;
+    MeshHeaderCullableEntryLinked* insert;
     s32 j;
     s32 i;
     Vec3f pos;
     Vec3f projectedPos;
     f32 projectedW;
     s32 pad2;
-    MeshHeaderCullEntry* meshHeaderCullEntries;
-    MeshHeaderCullEntry* meshHeaderCullEntryIter;
+    MeshHeaderCullableEntry* meshHeaderCullableEntries;
+    MeshHeaderCullableEntry* meshHeaderCullableEntryIter;
     f32 entryStartZ;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
@@ -122,35 +122,35 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    meshHeaderCull = &room->meshHeader->cull;
-    meshHeaderCullEntry = SEGMENTED_TO_VIRTUAL(meshHeaderCull->entries);
+    meshHeaderCullable = &room->meshHeader->cullable;
+    meshHeaderCullableEntry = SEGMENTED_TO_VIRTUAL(meshHeaderCullable->entries);
     insert = linkedEntriesBuffer;
 
-    ASSERT(meshHeaderCull->numEntries <= ARRAY_COUNT(linkedEntriesBuffer), "polygon2->num <= SHAPE_SORT_MAX",
+    ASSERT(meshHeaderCullable->numEntries <= ARRAY_COUNT(linkedEntriesBuffer), "polygon2->num <= SHAPE_SORT_MAX",
            "../z_room.c", 317);
 
-    meshHeaderCullEntries = meshHeaderCullEntry;
+    meshHeaderCullableEntries = meshHeaderCullableEntry;
 
     // Pick and sort entries by depth
-    for (i = 0; i < meshHeaderCull->numEntries; i++, meshHeaderCullEntry++) {
+    for (i = 0; i < meshHeaderCullable->numEntries; i++, meshHeaderCullableEntry++) {
 
         // Project the entry position, to get the depth it is at.
-        pos.x = meshHeaderCullEntry->pos.x;
-        pos.y = meshHeaderCullEntry->pos.y;
-        pos.z = meshHeaderCullEntry->pos.z;
+        pos.x = meshHeaderCullableEntry->pos.x;
+        pos.y = meshHeaderCullableEntry->pos.y;
+        pos.z = meshHeaderCullableEntry->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
 
         // If the entry isn't fully before the rendered depth range
-        if (-(f32)meshHeaderCullEntry->radius < projectedPos.z) {
+        if (-(f32)meshHeaderCullableEntry->radius < projectedPos.z) {
 
             // Compute the depth at which this entry starts
-            entryStartZ = projectedPos.z - meshHeaderCullEntry->radius;
+            entryStartZ = projectedPos.z - meshHeaderCullableEntry->radius;
 
             // If the entry isn't fully beyond the rendered depth range
             if (entryStartZ < play->lightCtx.fogFar) {
 
                 // This entry will be rendered
-                insert->entry = meshHeaderCullEntry;
+                insert->entry = meshHeaderCullableEntry;
                 insert->startZ = entryStartZ;
 
                 // Insert into the linked list, ordered by ascending start depth
@@ -189,21 +189,21 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
     }
 
     // if this is real then I might not be
-    R_ROOM_CULL_NUM_ENTRIES = meshHeaderCull->numEntries & 0xFFFF & 0xFFFF & 0xFFFF;
+    R_ROOM_CULL_NUM_ENTRIES = meshHeaderCullable->numEntries & 0xFFFF & 0xFFFF & 0xFFFF;
 
     // Draw entries, from nearest to furthest
     for (i = 1; head != NULL; head = head->next, i++) {
         Gfx* displayList;
 
-        meshHeaderCullEntry = head->entry;
+        meshHeaderCullableEntry = head->entry;
 
         if (R_ROOM_CULL_DEBUG_MODE != 0) {
             // Debug mode drawing
 
             // This loop does nothing
-            meshHeaderCullEntryIter = meshHeaderCullEntries;
-            for (j = 0; j < meshHeaderCull->numEntries; j++, meshHeaderCullEntryIter++) {
-                if (meshHeaderCullEntry == meshHeaderCullEntryIter) {
+            meshHeaderCullableEntryIter = meshHeaderCullableEntries;
+            for (j = 0; j < meshHeaderCullable->numEntries; j++, meshHeaderCullableEntryIter++) {
+                if (meshHeaderCullableEntry == meshHeaderCullableEntryIter) {
                     break;
                 }
             }
@@ -211,14 +211,14 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
             if (((R_ROOM_CULL_DEBUG_MODE == 1) && (R_ROOM_CULL_DEBUG_TARGET >= i)) ||
                 ((R_ROOM_CULL_DEBUG_MODE == 2) && (R_ROOM_CULL_DEBUG_TARGET == i))) {
                 if (flags & ROOM_DRAW_OPA) {
-                    displayList = meshHeaderCullEntry->opa;
+                    displayList = meshHeaderCullableEntry->opa;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_OPA_DISP++, displayList);
                     }
                 }
 
                 if (flags & ROOM_DRAW_XLU) {
-                    displayList = meshHeaderCullEntry->xlu;
+                    displayList = meshHeaderCullableEntry->xlu;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_XLU_DISP++, displayList);
                     }
@@ -226,14 +226,14 @@ void Room_DrawCullMeshes(PlayState* play, Room* room, u32 flags) {
             }
         } else {
             if (flags & ROOM_DRAW_OPA) {
-                displayList = meshHeaderCullEntry->opa;
+                displayList = meshHeaderCullableEntry->opa;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_OPA_DISP++, displayList);
                 }
             }
 
             if (flags & ROOM_DRAW_XLU) {
-                displayList = meshHeaderCullEntry->xlu;
+                displayList = meshHeaderCullableEntry->xlu;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_XLU_DISP++, displayList);
                 }
