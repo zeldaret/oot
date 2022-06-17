@@ -4302,7 +4302,7 @@ s32 Camera_Subj3(Camera* camera) {
     camera->fov = Camera_LERPCeilF(roData->fovTarget, camera->fov, 0.25f, 1.0f);
     camera->roll = 0;
     camera->atLERPStepScale = 0.0f;
-    return 1;
+    return 1; 
 }
 
 #define BGCAMDATA_CRAWLSPACE_FRONT_POS(v) ((v)[1])
