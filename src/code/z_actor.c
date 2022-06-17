@@ -1032,7 +1032,7 @@ s32 func_8002DF38(PlayState* play, Actor* actor, u8 csMode) {
 
     player->csMode = csMode;
     player->unk_448 = actor;
-    player->unk_46A = 0;
+    player->doorBgCamIndex = 0;
 
     return true;
 }
@@ -1041,7 +1041,7 @@ s32 func_8002DF54(PlayState* play, Actor* actor, u8 csMode) {
     Player* player = GET_PLAYER(play);
 
     func_8002DF38(play, actor, csMode);
-    player->unk_46A = 1;
+    player->doorBgCamIndex = 1;
 
     return true;
 }

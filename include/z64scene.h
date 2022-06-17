@@ -29,7 +29,7 @@ typedef struct {
 typedef struct {
     struct {
         s8 room;    // Room to switch to
-        s8 effects; // How the camera reacts during the transition
+        s8 bgCamIndex; // How the camera reacts during the transition. See `Camera_ChangeDoorCam`
     } /* 0x00 */ sides[2]; // 0 = front, 1 = back
     /* 0x04 */ s16   id;
     /* 0x06 */ Vec3s pos;
