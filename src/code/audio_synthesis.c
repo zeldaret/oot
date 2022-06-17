@@ -41,10 +41,10 @@ u16 D_801304B0[] = {
 };
 
 u8 sNumSamplesPerWavePeriod[] = {
-    64, // 1st harmonic
-    32, // 2nd harmonic
-    16, // 4th harmonic
-    8,  // 8th harmonic
+    WAVE_SAMPLE_COUNT,     // 1st harmonic
+    WAVE_SAMPLE_COUNT / 2, // 2nd harmonic
+    WAVE_SAMPLE_COUNT / 4, // 4th harmonic
+    WAVE_SAMPLE_COUNT / 8, // 8th harmonic
 };
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {

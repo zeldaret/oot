@@ -557,13 +557,13 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
         freqRatio = 1.0465f;
     } else if (freqScale < 1.99999f) {
         harmonicIndex = 1;
-        freqRatio = 0.52325f;
+        freqRatio = 1.0465f / 2;
     } else if (freqScale < 3.99999f) {
         harmonicIndex = 2;
-        freqRatio = 0.26263f;
+        freqRatio = 1.0465f / 4 + 1.005E-3;
     } else {
         harmonicIndex = 3;
-        freqRatio = 0.13081f;
+        freqRatio = 1.0465f / 8 - 2.5E-6;
     }
 
     // Update results
