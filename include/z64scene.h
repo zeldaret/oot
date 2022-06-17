@@ -328,7 +328,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  code;
-    /* 0x01 */ u8  sceneType;
+    /* 0x01 */ u8  sceneCamType;
     /* 0x04 */ u32 area;
 } SCmdMiscSettings;
 
@@ -568,8 +568,8 @@ typedef enum {
 #define SCENE_CMD_ALTERNATE_HEADER_LIST(alternateHeaderList) \
     { SCENE_CMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
 
-#define SCENE_CMD_MISC_SETTINGS(sceneType, worldMapLocation) \
-    { SCENE_CMD_ID_MISC_SETTINGS, sceneType, CMD_W(worldMapLocation) }
+#define SCENE_CMD_MISC_SETTINGS(sceneCamType, worldMapLocation) \
+    { SCENE_CMD_ID_MISC_SETTINGS, sceneCamType, CMD_W(worldMapLocation) }
 
 
 #endif
