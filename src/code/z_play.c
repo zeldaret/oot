@@ -16,7 +16,7 @@ u64 D_801614D0[0xA00];
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
 void Play_ChangeViewpointBgCamIndex(PlayState* this) {
-    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1); 
+    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1);
 }
 
 void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
@@ -25,7 +25,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 
     this->viewpoint = viewpoint;
 
-    if ((R_SCENE_TYPE != SCENE_TYPE_SHOP) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_SHOP) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         // C-Up toggle the camera inside a house
         Audio_PlaySoundGeneral((viewpoint == VIEWPOINT_FIXED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                                &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -43,13 +43,13 @@ s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint) {
 }
 
 /**
- * If the scene is a shop, set the viewpoint that will set the bgCamIndex 
+ * If the scene is a shop, set the viewpoint that will set the bgCamIndex
  * to toggle the camera into a "browsing item selection" setting.
  */
 void Play_SetShopBrowsingViewpoint(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
 
-    if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
+    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP) {
         this->viewpoint = VIEWPOINT_PIVOT;
     }
 }
@@ -404,9 +404,9 @@ void Play_Init(GameState* thisx) {
     }
 
     // Init viewpoint
-    if (R_SCENE_TYPE == SCENE_TYPE_HOUSE) {
+    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_HOUSE) {
         this->viewpoint = VIEWPOINT_PIVOT; // default to pivot camera
-    } else if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
+    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP) {
         this->viewpoint = VIEWPOINT_FIXED; // default to fixed camera
     } else {
         this->viewpoint = VIEWPOINT_NONE;
@@ -963,7 +963,7 @@ void Play_Update(PlayState* this) {
                     } else if (Player_InCsMode(this)) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
-                    } else if (R_SCENE_TYPE == SCENE_TYPE_SHOP) {
+                    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP) {
                         // Can't C-Up toggle camera setting in a shop
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1503,7 +1503,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);
     func_80096FD4(this, &this->roomCtx.curRoom);
-    R_SCENE_TYPE = SCENE_TYPE_DEFAULT;
+    R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
     gSaveContext.worldMapArea = 0;
     Scene_ExecuteCommands(this, this->sceneSegment);
     Play_InitEnvironment(this, this->skyboxId);
@@ -1823,9 +1823,9 @@ void Play_TriggerRespawn(PlayState* this) {
 }
 
 s32 func_800C0CB8(PlayState* this) {
-    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) && (R_SCENE_TYPE != SCENE_TYPE_HOUSE) &&
-           (R_SCENE_TYPE != SCENE_TYPE_FIXED) && (R_SCENE_TYPE != SCENE_TYPE_PIVOT) &&
-           (this->sceneNum != SCENE_HAIRAL_NIWA);
+    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) &&
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_HOUSE) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_PIVOT) && (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
 s32 FrameAdvance_IsEnabled(PlayState* this) {

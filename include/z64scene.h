@@ -453,12 +453,12 @@ typedef enum {
     /* 53 */ SDC_MAX
 } SceneDrawConfig;
 
-// R_SCENE_TYPE, first arg to SCENE_CMD_MISC_SETTINGS()
-#define SCENE_TYPE_DEFAULT 0
-#define SCENE_TYPE_SHOP 0x10 // Various shops with a fixed prerend camera and a specific camera setting for shop browsing
-#define SCENE_TYPE_HOUSE 0x20 // Toggleable camera setting between a pivot camera setting and a fixed prerend camera setting
-#define SCENE_TYPE_FIXED 0x30 // Fixed prerend camera setting only. Can't toggle to a pivot camera setting
-#define SCENE_TYPE_PIVOT 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area only)
+// R_SCENE_CAM_TYPE, first arg to SCENE_CMD_MISC_SETTINGS()
+#define SCENE_CAM_TYPE_DEFAULT 0
+#define SCENE_CAM_TYPE_SHOP 0x10 // Various shops with a fixed prerend camera and a specific camera setting for shop browsing
+#define SCENE_CAM_TYPE_HOUSE 0x20 // Toggleable camera setting between a pivot camera setting and a fixed prerend camera setting
+#define SCENE_CAM_TYPE_FIXED 0x30 // Fixed prerend camera setting only. Can't toggle to a pivot camera setting
+#define SCENE_CAM_TYPE_PIVOT 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area only)
 
 // Scene commands
 

@@ -1084,7 +1084,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
 
         if ((player->stateFlags1 & PLAYER_STATE1_10) ||
-            ((R_SCENE_TYPE & SCENE_TYPE_SHOP) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
+            ((R_SCENE_CAM_TYPE & SCENE_CAM_TYPE_SHOP) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
             temp = 12;
             this->unk_2C0 = 100;
         } else if (arrowPointedActor == NULL || arrowPointedActor->category == ACTORCAT_NPC) {
