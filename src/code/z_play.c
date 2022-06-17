@@ -16,7 +16,7 @@ u64 D_801614D0[0xA00];
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
 void Play_ChangeViewpointBgCamIndex(PlayState* this) {
-    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1);
+    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1); 
 }
 
 void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
