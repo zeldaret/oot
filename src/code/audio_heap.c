@@ -283,10 +283,9 @@ void AudioHeap_InitMainPools(s32 initPoolSize) {
 
 void AudioHeap_SessionPoolsInit(AudioSessionPoolSplit* split) {
     gAudioContext.sessionPool.curRamAddr = gAudioContext.sessionPool.startRamAddr;
-    AudioHeap_AllocPoolInit(&gAudioContext.miscPool,
-                            AudioHeap_Alloc(&gAudioContext.sessionPool, split->miscPoolSize), split->miscPoolSize);
-    AudioHeap_AllocPoolInit(&gAudioContext.cachePool,
-                            AudioHeap_Alloc(&gAudioContext.sessionPool, split->cachePoolSize),
+    AudioHeap_AllocPoolInit(&gAudioContext.miscPool, AudioHeap_Alloc(&gAudioContext.sessionPool, split->miscPoolSize),
+                            split->miscPoolSize);
+    AudioHeap_AllocPoolInit(&gAudioContext.cachePool, AudioHeap_Alloc(&gAudioContext.sessionPool, split->cachePoolSize),
                             split->cachePoolSize);
 }
 
@@ -1401,7 +1400,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
 
     sampleBankTable = gAudioContext.sampleBankTable;
     numFonts = gAudioContext.soundFontTable->numEntries;
-    change.oldAddr = AudioHeap_SearchCaches(SAMPLE_TABLE, CACHE_EITHER, sampleBankId);
+    change.oldAddr = (u32)AudioHeap_SearchCaches(SAMPLE_TABLE, CACHE_EITHER, sampleBankId);
     if (change.oldAddr == 0) {
         return;
     }
