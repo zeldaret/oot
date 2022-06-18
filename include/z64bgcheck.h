@@ -26,8 +26,6 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_STOP 8
 #define FUNC_80041EA4_VOID_OUT 12
 
-#define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
-
 typedef struct {
     Vec3f scale;
     Vec3s rot;
@@ -73,6 +71,32 @@ typedef struct {
     /* 0x10 */ s16 unk_10; // unused
 } BgCamFuncData; // size = 0x12
 
+// Macros for `WaterBox.properties`
+
+#define WATERBOX_BGCAM_INDEX_SHIFT 0
+#define WATERBOX_BGCAM_INDEX_MASK 0x000000FF
+#define WATERBOX_BGCAM_INDEX(properties) \
+    (((properties) >> WATERBOX_BGCAM_INDEX_SHIFT) & (WATERBOX_BGCAM_INDEX_MASK >> WATERBOX_BGCAM_INDEX_SHIFT))
+
+#define WATERBOX_LIGHT_INDEX_SHIFT 8
+#define WATERBOX_LIGHT_INDEX_MASK 0x00001F00
+#define WATERBOX_LIGHT_INDEX(properties) \
+    (((properties) >> WATERBOX_LIGHT_INDEX_SHIFT) & (WATERBOX_LIGHT_INDEX_MASK >> WATERBOX_LIGHT_INDEX_SHIFT))
+#define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
+
+#define WATERBOX_ROOM_INDEX_SHIFT 13
+#define WATERBOX_ROOM_INDEX_MASK 0x0007E000
+#define WATERBOX_ROOM_INDEX(properties) \
+    (((properties) >> WATERBOX_ROOM_INDEX_SHIFT) & (WATERBOX_ROOM_INDEX_MASK >> WATERBOX_ROOM_INDEX_SHIFT))
+#define WATERBOX_ROOM_INDEX_ALL 0x3F // value for "room index" indicating "all rooms"
+
+#define WATERBOX_FLAG_19 (1 << 19)
+
+#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, roomIndex, setFlag19)       \
+    ((((bgCamIndex)&WATERBOX_BGCAM_INDEX_MASK) >> WATERBOX_BGCAM_INDEX_SHIFT) | \
+     (((lightIndex)&WATERBOX_LIGHT_INDEX_MASK) >> WATERBOX_LIGHT_INDEX_SHIFT) | \
+     (((lightIndex)&WATERBOX_ROOM_INDEX_MASK) >> WATERBOX_ROOM_INDEX_SHIFT) | ((setFlag19) ? WATERBOX_FLAG_19 : 0))
+
 typedef struct {
     /* 0x00 */ s16 xMin;
     /* 0x02 */ s16 ySurface;
@@ -80,11 +104,6 @@ typedef struct {
     /* 0x06 */ s16 xLength;
     /* 0x08 */ s16 zLength;
     /* 0x0C */ u32 properties;
-
-    // 0x0008_0000 = ?
-    // 0x0007_E000 = Room Index, 0x3F = all rooms
-    // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
 
 typedef struct {
