@@ -2732,8 +2732,8 @@ void DynaPoly_InvalidateLookup(PlayState* play, DynaCollisionContext* dyna) {
 /**
  * original name: DynaPolyInfo_expandSRT
  */
-void DynaPoly_ExpandSRT(PlayState* play, DynaCollisionContext* dyna, s32 bgId, s32* vtxStartIndex,
-                        s32* polyStartIndex) {
+void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s32 bgId, s32* vtxStartIndex,
+                                 s32* polyStartIndex) {
     MtxF mtx;
     Actor* actor;
     s32 pad;
@@ -2974,7 +2974,7 @@ void DynaPoly_Setup(PlayState* play, DynaCollisionContext* dyna) {
     polyStartIndex = 0;
     for (i = 0; i < BG_ACTOR_MAX; i++) {
         if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED) {
-            DynaPoly_ExpandSRT(play, dyna, i, &vtxStartIndex, &polyStartIndex);
+            DynaPoly_AddBgActorToLookup(play, dyna, i, &vtxStartIndex, &polyStartIndex);
         }
     }
     dyna->bitFlag &= ~DYNAPOLY_INVALIDATE_LOOKUP;
