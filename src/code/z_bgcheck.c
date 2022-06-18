@@ -1621,7 +1621,7 @@ CollisionHeader* BgCheck_GetCollisionHeader(CollisionContext* colCtx, s32 bgId) 
     if (bgId < 0 || bgId > BG_ACTOR_MAX) {
         return NULL;
     }
-    if (!(colCtx->dyna.bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_0)) {
+    if (!(colCtx->dyna.bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_IS_USED)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         osSyncPrintf("T_BGCheck_getBGDataInfo():そのbg_actor_indexは使われておりません。index=%d\n");
         osSyncPrintf(VT_RST);
@@ -2624,8 +2624,8 @@ s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* acto
     s32 foundSlot = false;
 
     for (bgId = 0; bgId < BG_ACTOR_MAX; bgId++) {
-        if (!(dyna->bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_0)) {
-            dyna->bgActorFlags[bgId] |= BG_DYNA_ACTOR_FLAG_0;
+        if (!(dyna->bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_IS_USED)) {
+            dyna->bgActorFlags[bgId] |= BG_DYNA_ACTOR_FLAG_IS_USED;
             foundSlot = true;
             break;
         }
@@ -2653,37 +2653,37 @@ s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* acto
  * possible orginal name: DynaPolyInfo_getActor
  */
 DynaPolyActor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId) {
-    if (!DynaPoly_IsBgIdBgActor(bgId) || !(colCtx->dyna.bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_0) ||
+    if (!DynaPoly_IsBgIdBgActor(bgId) || !(colCtx->dyna.bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_IS_USED) ||
         colCtx->dyna.bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_1) {
         return NULL;
     }
     return (DynaPolyActor*)colCtx->dyna.bgActors[bgId].actor;
 }
 
-void func_8003EBF8(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
+void DynaPoly_SetBgIdDisabled(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        dyna->bgActorFlags[bgId] |= BG_DYNA_ACTOR_FLAG_2;
+        dyna->bgActorFlags[bgId] |= BG_DYNA_ACTOR_FLAG_DISABLED;
         dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
-void func_8003EC50(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
+void DynaPoly_UnsetBgIdDisabled(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        dyna->bgActorFlags[bgId] &= ~BG_DYNA_ACTOR_FLAG_2;
+        dyna->bgActorFlags[bgId] &= ~BG_DYNA_ACTOR_FLAG_DISABLED;
         dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
-void func_8003ECA8(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
+void DynaPoly_SetBgIdSkipCeilings(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        dyna->bgActorFlags[bgId] |= BG_DYNA_ACTOR_FLAG_3;
+        dyna->bgActorFlags[bgId] |= BG_DYNA_ACTOR_FLAG_SKIP_CEILINGS;
         dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
-void func_8003ED00(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
+void DynaPoly_UnsetBgIdSkipCeilings(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        dyna->bgActorFlags[bgId] &= ~BG_DYNA_ACTOR_FLAG_3;
+        dyna->bgActorFlags[bgId] &= ~BG_DYNA_ACTOR_FLAG_SKIP_CEILINGS;
         dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
@@ -2763,7 +2763,7 @@ void DynaPoly_ExpandSRT(PlayState* play, DynaCollisionContext* dyna, s32 bgId, s
 
     ScaleRotPos_SetValue(&dyna->bgActors[bgId].curTransform, &actor->scale, &actor->shape.rot, &pos);
 
-    if (dyna->bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_2) {
+    if (dyna->bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_DISABLED) {
         return;
     }
 
@@ -2797,7 +2797,7 @@ void DynaPoly_ExpandSRT(PlayState* play, DynaCollisionContext* dyna, s32 bgId, s
                 s16 polyIndex = pi;
                 DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &polyIndex);
             } else if (normalY < COLPOLY_SNORMAL(-0.8f)) {
-                if (!(dyna->bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_3)) {
+                if (!(dyna->bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_SKIP_CEILINGS)) {
                     s16 polyIndex = pi;
                     DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling,
                                                  &polyIndex);
@@ -2918,7 +2918,7 @@ void func_8003F8EC(PlayState* play, DynaCollisionContext* dyna, Actor* actor) {
     s32 i;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0) {
+        if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED) {
             dynaActor = DynaPoly_GetActor(&play->colCtx, i);
             if (dynaActor != NULL && &dynaActor->actor == actor) {
                 func_800434A0((DynaPolyActor*)actor);
@@ -2973,7 +2973,7 @@ void DynaPoly_Setup(PlayState* play, DynaCollisionContext* dyna) {
     vtxStartIndex = 0;
     polyStartIndex = 0;
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0) {
+        if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED) {
             DynaPoly_ExpandSRT(play, dyna, i, &vtxStartIndex, &polyStartIndex);
         }
     }
@@ -2987,7 +2987,7 @@ void DynaPoly_UpdateBgActorTransforms(PlayState* play, DynaCollisionContext* dyn
     s32 i;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0) {
+        if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED) {
             DynaPoly_SetBgActorPrevTransform(play, &dyna->bgActors[i]);
         }
     }
@@ -3079,7 +3079,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
     *dynaRaycast->bgId = BGCHECK_SCENE;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (!(dynaRaycast->colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0)) {
+        if (!(dynaRaycast->colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED)) {
             continue;
         }
 
@@ -3385,7 +3385,7 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
     resultPos = *pos;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (!(colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0)) {
+        if (!(colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED)) {
             continue;
         }
         if ((colCtx->dyna.bgActors + i)->actor == actor) {
@@ -3504,7 +3504,7 @@ s32 BgCheck_CheckDynaCeiling(CollisionContext* colCtx, u16 xpFlags, f32* outY, V
     resultY = tempY;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (!(colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0)) {
+        if (!(colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED)) {
             continue;
         }
         if (actor == colCtx->dyna.bgActors[i].actor) {
@@ -3639,7 +3639,7 @@ s32 BgCheck_CheckLineAgainstDyna(CollisionContext* colCtx, u16 xpFlags, Vec3f* p
     f32 by;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0) {
+        if (colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED) {
             if (actor != colCtx->dyna.bgActors[i].actor) {
                 ay = posA->y;
                 by = posB->y;
@@ -3743,7 +3743,7 @@ s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionP
     Sphere16 testSphere;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if (!(colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_0)) {
+        if (!(colCtx->dyna.bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED)) {
             continue;
         }
         if (colCtx->dyna.bgActors[i].actor == actor) {
@@ -3792,7 +3792,7 @@ void func_800418D0(CollisionContext* colCtx, PlayState* play) {
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
         flag = dyna->bgActorFlags[i];
-        if ((flag & BG_DYNA_ACTOR_FLAG_0) && !(flag & BG_DYNA_ACTOR_FLAG_1)) {
+        if ((flag & BG_DYNA_ACTOR_FLAG_IS_USED) && !(flag & BG_DYNA_ACTOR_FLAG_1)) {
             Actor_SetObjectDependency(play, dyna->bgActors[i].actor);
             CollisionHeader_SegmentedToVirtual(dyna->bgActors[i].colHeader);
         }
@@ -4451,7 +4451,7 @@ void BgCheck_DrawDynaCollision(PlayState* play, CollisionContext* colCtx) {
 
     for (bgId = 0; bgId < BG_ACTOR_MAX; bgId++) {
 
-        if (!(colCtx->dyna.bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_0)) {
+        if (!(colCtx->dyna.bgActorFlags[bgId] & BG_DYNA_ACTOR_FLAG_IS_USED)) {
             continue;
         }
         BgCheck_DrawBgActor(play, colCtx, bgId);

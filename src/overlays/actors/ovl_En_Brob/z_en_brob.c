@@ -104,7 +104,7 @@ void EnBrob_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_809CADDC(EnBrob* this, PlayState* play) {
-    func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_UnsetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
     this->timer = this->actionFunc == func_809CB2B8 ? 200 : 0;
     this->unk_1AE = 0;
     this->actionFunc = func_809CB054;
@@ -112,7 +112,7 @@ void func_809CADDC(EnBrob* this, PlayState* play) {
 
 void func_809CAE44(EnBrob* this, PlayState* play) {
     Animation_PlayOnce(&this->skelAnime, &object_brob_Anim_001750);
-    func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_SetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
     this->unk_1AE = 1000;
     this->actionFunc = func_809CB114;
 }

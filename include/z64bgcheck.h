@@ -155,10 +155,10 @@ typedef struct {
     /* 0x60 */ f32 maxY;
 } BgActor; // size = 0x64
 
-#define BG_DYNA_ACTOR_FLAG_0 (1 << 0)
+#define BG_DYNA_ACTOR_FLAG_IS_USED (1 << 0) // The bgActor entry is in use
 #define BG_DYNA_ACTOR_FLAG_1 (1 << 1)
-#define BG_DYNA_ACTOR_FLAG_2 (1 << 2)
-#define BG_DYNA_ACTOR_FLAG_3 (1 << 3) // no dyna ceiling
+#define BG_DYNA_ACTOR_FLAG_DISABLED (1 << 2) // The collision of the bgActor is disabled
+#define BG_DYNA_ACTOR_FLAG_SKIP_CEILINGS (1 << 3) // The ceilings in the collision of the bgActor are ignored
 
 typedef struct {
     /* 0x0000 */ u8 bitFlag;

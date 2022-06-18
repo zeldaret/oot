@@ -324,9 +324,9 @@ void ObjTimeblock_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->isVisible) {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_UnsetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_SetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
 
