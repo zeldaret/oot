@@ -15,13 +15,14 @@ u64 D_801614D0[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
-// If R_ENABLE_PLAY_LOGS is enabled, the number "1" with a file and line number will be printed during
-// various phases of the Play update cycle. This can be helpful for debugging at what stage a problem may be occuring.
-// Due to the high number of logs occuring rapidly, the game will run slow with this enabled.
-#define PLAY_LOG(line)                        \
-    if (1 && R_ENABLE_PLAY_LOGS) {            \
-        LOG_NUM("1", 1, "../z_play.c", line); \
-    }
+// If R_ENABLE_PLAY_LOGS is enabled, the number "1" with a file and line number will be printed.
+// This can be helpful for debugging at what point during the `PlayState` loop an issue is occuring.
+#define PLAY_LOG(line)                            \
+    do {                                          \
+        if (R_ENABLE_PLAY_LOGS) {                 \
+            LOG_NUM("1", 1, "../z_play.c", line); \
+        }                                         \
+    } while (0)
 
 void func_800BC450(PlayState* this) {
     Camera_ChangeDataIdx(GET_ACTIVE_CAM(this), this->unk_1242B - 1);
@@ -490,9 +491,7 @@ void Play_Update(PlayState* this) {
             }
         }
 
-        if (this->transitionMode) {
-            // if `transitionMode` is not TRANS_MODE_OFF
-
+        if (this->transitionMode) { // != TRANS_MODE_OFF
             switch (this->transitionMode) {
                 case TRANS_MODE_SETUP:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
