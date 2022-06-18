@@ -611,7 +611,7 @@ void DynaPoly_SetBgIdSkipCeilings(PlayState* play, DynaCollisionContext* dyna, s
 s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* actor, CollisionHeader* colHeader);
 DynaPolyActor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId);
 void DynaPoly_DeleteBgActor(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
-void func_8003EE6C(PlayState* play, DynaCollisionContext* dyna);
+void DynaPoly_InvalidateLookup(PlayState* play, DynaCollisionContext* dyna);
 void func_8003F8EC(PlayState* play, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_Setup(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(PlayState* play, DynaCollisionContext* dyna);

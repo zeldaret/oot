@@ -2725,7 +2725,7 @@ void DynaPoly_DeleteBgActor(PlayState* play, DynaCollisionContext* dyna, s32 bgI
     }
 }
 
-void func_8003EE6C(PlayState* play, DynaCollisionContext* dyna) {
+void DynaPoly_InvalidateLookup(PlayState* play, DynaCollisionContext* dyna) {
     dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
 }
 
