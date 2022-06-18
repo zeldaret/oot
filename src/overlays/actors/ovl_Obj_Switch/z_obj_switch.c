@@ -392,7 +392,7 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
                 }
                 break;
             case OBJSWITCH_SUBTYPE_TOGGLE:
-                if ((this->dyna.unk_160 & 2) && !(this->unk_17F & 2)) {
+                if ((this->dyna.unk_160 & DYNAPOLYACTOR_UNK160_1) && !(this->unk_17F & DYNAPOLYACTOR_UNK160_1)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
@@ -444,7 +444,7 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
             }
             break;
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->dyna.unk_160 & 2) && !(this->unk_17F & 2)) {
+            if ((this->dyna.unk_160 & DYNAPOLYACTOR_UNK160_1) && !(this->unk_17F & DYNAPOLYACTOR_UNK160_1)) {
                 ObjSwitch_FloorReleaseInit(this);
                 ObjSwitch_SetOff(this, play);
             }

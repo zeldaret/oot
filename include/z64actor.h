@@ -214,6 +214,11 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
+#define DYNAPOLYACTOR_UNK160_0 (1 << 0)
+#define DYNAPOLYACTOR_UNK160_1 (1 << 1)
+#define DYNAPOLYACTOR_UNK160_2 (1 << 2)
+#define DYNAPOLYACTOR_UNK160_3 (1 << 3)
+
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
     /* 0x14C */ s32 bgId;

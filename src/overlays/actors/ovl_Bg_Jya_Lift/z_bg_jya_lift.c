@@ -135,9 +135,9 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, play);
     }
-    if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
+    if ((this->dyna.unk_160 & DYNAPOLYACTOR_UNK160_2) && !(this->unk_16B & DYNAPOLYACTOR_UNK160_2)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (((this->dyna.unk_160 & 4) == 0) && (this->unk_16B & 4) &&
+    } else if (!(this->dyna.unk_160 & DYNAPOLYACTOR_UNK160_2) && (this->unk_16B & DYNAPOLYACTOR_UNK160_2) &&
                (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }

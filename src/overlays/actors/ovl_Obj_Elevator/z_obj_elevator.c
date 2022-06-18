@@ -85,7 +85,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play) {
     f32 sub;
     Actor* thisx = &this->dyna.actor;
 
-    if ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2)) {
+    if ((this->dyna.unk_160 & DYNAPOLYACTOR_UNK160_1) && !(this->unk_170 & DYNAPOLYACTOR_UNK160_1)) {
         sub = thisx->world.pos.y - thisx->home.pos.y;
         if (fabsf(sub) < 0.1f) {
             this->unk_168 = thisx->home.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
