@@ -60,13 +60,13 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    if (func_80043590(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
+    if (DynaPoly_IsPlayerAbove(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BOSS_BONGO);
     } else {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
 
-    if (func_8004356C(&this->dyna) && (player->fallDistance > 1000.0f)) {
+    if (DynaPoly_HasPlayerOnTop(&this->dyna) && (player->fallDistance > 1000.0f)) {
         this->dyna.actor.params = 1;
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
     }
@@ -80,7 +80,7 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
         this->dyna.actor.params = BONGOFLOOR_REST;
         this->drumPhase = 28;
 
-        if (func_8004356C(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+        if (DynaPoly_HasPlayerOnTop(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
             distFromRim = 600.0f - this->dyna.actor.xzDistToPlayer;
             if (distFromRim > 0.0f) {
                 if (distFromRim > 350.0f) {

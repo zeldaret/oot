@@ -3,65 +3,65 @@
 void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 flags) {
     dynaActor->bgId = -1;
     dynaActor->unk_15C = flags;
-    dynaActor->unk_160 = 0;
+    dynaActor->interactFlags = 0;
     dynaActor->unk_150 = 0.0f;
     dynaActor->unk_154 = 0.0f;
 }
 
-void func_800434A0(DynaPolyActor* dynaActor) {
-    dynaActor->unk_160 = 0;
+void DynaPoly_ResetInteractFlags(DynaPolyActor* dynaActor) {
+    dynaActor->interactFlags = 0;
 }
 
-void func_800434A8(DynaPolyActor* dynaActor) {
-    dynaActor->unk_160 |= DYNAPOLYACTOR_UNK160_0;
+void DynaPoly_SetActorOnTop(DynaPolyActor* dynaActor) {
+    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_ACTOR_ON_TOP;
 }
 
-void func_800434B8(DynaPolyActor* dynaActor) {
-    dynaActor->unk_160 |= DYNAPOLYACTOR_UNK160_1;
+void DynaPoly_SetPlayerOnTop(DynaPolyActor* dynaActor) {
+    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP;
 }
 
-void func_800434C8(CollisionContext* colCtx, s32 floorBgId) {
+void DynaPoly_SetBgIdPlayerOnTop(CollisionContext* colCtx, s32 floorBgId) {
     DynaPolyActor* dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
 
     if (dynaActor != NULL) {
-        func_800434B8(dynaActor);
+        DynaPoly_SetPlayerOnTop(dynaActor);
     }
 }
 
-void func_800434F8(DynaPolyActor* dynaActor) {
-    dynaActor->unk_160 |= DYNAPOLYACTOR_UNK160_2;
+void DynaPoly_SetPlayerAbove(DynaPolyActor* dynaActor) {
+    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE;
 }
 
-void func_80043508(CollisionContext* colCtx, s32 floorBgId) {
+void DynaPoly_SetBgIdPlayerAbove(CollisionContext* colCtx, s32 floorBgId) {
     DynaPolyActor* dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
 
     if (dynaActor != NULL) {
-        func_800434F8(dynaActor);
+        DynaPoly_SetPlayerAbove(dynaActor);
     }
 }
 
 void func_80043538(DynaPolyActor* dynaActor) {
-    dynaActor->unk_160 |= DYNAPOLYACTOR_UNK160_3;
+    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_3;
 }
 
-s32 func_80043548(DynaPolyActor* dynaActor) {
-    if (dynaActor->unk_160 & DYNAPOLYACTOR_UNK160_0) {
+s32 DynaPoly_HasActorOnTop(DynaPolyActor* dynaActor) {
+    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_ACTOR_ON_TOP) {
         return true;
     } else {
         return false;
     }
 }
 
-s32 func_8004356C(DynaPolyActor* dynaActor) {
-    if (dynaActor->unk_160 & DYNAPOLYACTOR_UNK160_1) {
+s32 DynaPoly_HasPlayerOnTop(DynaPolyActor* dynaActor) {
+    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP) {
         return true;
     } else {
         return false;
     }
 }
 
-s32 func_80043590(DynaPolyActor* dynaActor) {
-    if (dynaActor->unk_160 & DYNAPOLYACTOR_UNK160_2) {
+s32 DynaPoly_IsPlayerAbove(DynaPolyActor* dynaActor) {
+    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE) {
         return true;
     } else {
         return false;
@@ -69,7 +69,7 @@ s32 func_80043590(DynaPolyActor* dynaActor) {
 }
 
 s32 func_800435B4(DynaPolyActor* dynaActor) {
-    if (dynaActor->unk_160 & DYNAPOLYACTOR_UNK160_3) {
+    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_3) {
         return true;
     } else {
         return false;

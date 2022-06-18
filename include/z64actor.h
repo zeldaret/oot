@@ -214,10 +214,10 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
-#define DYNAPOLYACTOR_UNK160_0 (1 << 0)
-#define DYNAPOLYACTOR_UNK160_1 (1 << 1)
-#define DYNAPOLYACTOR_UNK160_2 (1 << 2)
-#define DYNAPOLYACTOR_UNK160_3 (1 << 3)
+#define DYNAPOLYACTOR_INTERACT_FLAG_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
+#define DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
+#define DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
+#define DYNAPOLYACTOR_INTERACT_FLAG_3 (1 << 3) // Like DYNAPOLYACTOR_INTERACT_FLAG_ACTOR_ON_TOP but only actors with ACTOR_FLAG_26
 
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
@@ -227,7 +227,7 @@ typedef struct DynaPolyActor {
     /* 0x158 */ s16 unk_158; // y rotation?
     /* 0x15A */ u16 unk_15A;
     /* 0x15C */ u32 unk_15C;
-    /* 0x160 */ u8 unk_160;
+    /* 0x160 */ u8 interactFlags;
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
 

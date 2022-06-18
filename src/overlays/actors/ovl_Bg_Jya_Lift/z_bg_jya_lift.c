@@ -135,13 +135,15 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, play);
     }
-    if ((this->dyna.unk_160 & DYNAPOLYACTOR_UNK160_2) && !(this->unk_16B & DYNAPOLYACTOR_UNK160_2)) {
+    if ((this->dyna.interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE) &&
+        !(this->unk_16B & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (!(this->dyna.unk_160 & DYNAPOLYACTOR_UNK160_2) && (this->unk_16B & DYNAPOLYACTOR_UNK160_2) &&
+    } else if (!(this->dyna.interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE) &&
+               (this->unk_16B & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE) &&
                (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
-    this->unk_16B = this->dyna.unk_160;
+    this->unk_16B = this->dyna.interactFlags;
 
     // Spirit Temple room 5 is the main room with the statue room 25 is directly above room 5
     if ((play->roomCtx.curRoom.num != 5) && (play->roomCtx.curRoom.num != 25)) {

@@ -2112,7 +2112,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                         actor->colorFilterTimer--;
                     }
                     actor->update(actor, play);
-                    func_8003F8EC(play, &play->colCtx.dyna, actor);
+                    DynaPoly_ResetInteractFlagsIfBgActor(play, &play->colCtx.dyna, actor);
                 }
 
                 CollisionCheck_ResetDamage(&actor->colChkInfo);
@@ -2122,7 +2122,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         }
 
         if (i == ACTORCAT_BG) {
-            DynaPoly_Setup(play, &play->colCtx.dyna);
+            DynaPoly_UpdateContext(play, &play->colCtx.dyna);
         }
     }
 

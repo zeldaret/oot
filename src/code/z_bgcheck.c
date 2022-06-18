@@ -2913,7 +2913,7 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
     }
 }
 
-void func_8003F8EC(PlayState* play, DynaCollisionContext* dyna, Actor* actor) {
+void DynaPoly_ResetInteractFlagsIfBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* actor) {
     DynaPolyActor* dynaActor;
     s32 i;
 
@@ -2921,7 +2921,7 @@ void func_8003F8EC(PlayState* play, DynaCollisionContext* dyna, Actor* actor) {
         if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED) {
             dynaActor = DynaPoly_GetActor(&play->colCtx, i);
             if (dynaActor != NULL && &dynaActor->actor == actor) {
-                func_800434A0((DynaPolyActor*)actor);
+                DynaPoly_ResetInteractFlags((DynaPolyActor*)actor);
                 return;
             }
         }
@@ -2929,9 +2929,9 @@ void func_8003F8EC(PlayState* play, DynaCollisionContext* dyna, Actor* actor) {
 }
 
 /**
- * DynaPolyInfo_setup
+ * Original name: "DynaPolyInfo_setup"
  */
-void DynaPoly_Setup(PlayState* play, DynaCollisionContext* dyna) {
+void DynaPoly_UpdateContext(PlayState* play, DynaCollisionContext* dyna) {
     DynaPolyActor* actor;
     s32 vtxStartIndex;
     s32 polyStartIndex;

@@ -60,7 +60,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         DynaPolyActor* dynaActor = DynaPoly_GetActor(colCtx, bgId);
         if (dynaActor != NULL) {
-            func_800434A8(dynaActor);
+            DynaPoly_SetActorOnTop(dynaActor);
 
             if (CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_26)) {
                 func_80043538(dynaActor);
