@@ -405,14 +405,13 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
 
 BgImage* Room_GetMultiBackgroundImage(MeshHeaderPrerenderMulti* meshHeaderPrerenderMulti, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
-    s32 index;
+    s32 index = activeCam->bgCamIndex;
     s16 newIndex;
     Player* player;
     BgImage* bgImage;
     s32 i;
 
-    index = activeCam->camDataIdx;
-    newIndex = func_80041C10(&play->colCtx, index, BGCHECK_SCENE)[2].y;
+    newIndex = ((BgCamFuncData*)BgCheck_GetBgCamFuncDataImpl(&play->colCtx, index, BGCHECK_SCENE))->jfifId;
     if (newIndex >= 0) {
         index = newIndex;
     }

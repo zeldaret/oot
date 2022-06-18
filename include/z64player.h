@@ -521,7 +521,7 @@ typedef struct Player {
     /* 0x0450 */ Vec3f      unk_450;
     /* 0x045C */ Vec3f      unk_45C;
     /* 0x0468 */ char       unk_468[0x002];
-    /* 0x046A */ s16        unk_46A;
+    /* 0x046A */ s16        doorBgCamIndex;
     /* 0x046C */ s16        subCamId;
     /* 0x046E */ char       unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;
