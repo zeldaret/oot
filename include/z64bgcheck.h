@@ -155,10 +155,15 @@ typedef struct {
     /* 0x60 */ f32 maxY;
 } BgActor; // size = 0x64
 
+#define BG_DYNA_ACTOR_FLAG_0 (1 << 0)
+#define BG_DYNA_ACTOR_FLAG_1 (1 << 1)
+#define BG_DYNA_ACTOR_FLAG_2 (1 << 2)
+#define BG_DYNA_ACTOR_FLAG_3 (1 << 3) // no dyna ceiling
+
 typedef struct {
     /* 0x0000 */ u8 bitFlag;
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
-    /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
+    /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX];
     /* 0x13F0 */ CollisionPoly* polyList;
     /* 0x13F4 */ Vec3s* vtxList;
     /* 0x13F8 */ DynaSSNodeList polyNodes;
