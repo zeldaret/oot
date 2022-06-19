@@ -83,7 +83,7 @@ typedef struct MeshHeaderCullableEntryLinked {
  * sphere for the geometry drawn.
  * The first step Z-sorts the entries, and excludes the entries with a bounding sphere that is entirely before or
  * beyond the rendered depth range.
- * The second step draws the entries that are left, from nearest to furthest.
+ * The second step draws the entries that remain, from nearest to furthest.
  */
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     MeshHeaderCullable* meshHeaderCullable;
