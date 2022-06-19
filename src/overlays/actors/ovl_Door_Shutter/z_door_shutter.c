@@ -416,7 +416,8 @@ void func_80996C60(DoorShutter* this, PlayState* play) {
         DoorShutter_SetupAction(this, func_80997004);
         this->unk_16C = sp38;
         this->unk_170 = 0.0f;
-        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->unk_46A, 0.0f, 12, sp34, 10);
+        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->doorBgCamIndex, 0.0f, 12, sp34,
+                             10);
     }
 }
 

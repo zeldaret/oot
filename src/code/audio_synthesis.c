@@ -392,11 +392,11 @@ void AudioSynth_EnvSetup1(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 void func_800DBD08(void) {
 }
 
-void AudioSynth_LoadBuffer(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
+void AudioSynth_LoadBuffer(Acmd* cmd, s32 arg1, s32 arg2, void* arg3) {
     aLoadBuffer(cmd, arg3, arg1, arg2);
 }
 
-void AudioSynth_SaveBuffer(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
+void AudioSynth_SaveBuffer(Acmd* cmd, s32 arg1, s32 arg2, void* arg3) {
     aSaveBuffer(cmd, arg1, arg3, arg2);
 }
 
@@ -454,11 +454,11 @@ void func_800DBE64(void) {
 void func_800DBE6C(void) {
 }
 
-void AudioSynth_LoadFilter(Acmd* cmd, s32 flags, s32 countOrBuf, s32 addr) {
+void AudioSynth_LoadFilter(Acmd* cmd, s32 flags, s32 countOrBuf, void* addr) {
     aFilter(cmd, flags, countOrBuf, addr);
 }
 
-void AudioSynth_LoadFilterCount(Acmd* cmd, s32 count, s32 addr) {
+void AudioSynth_LoadFilterCount(Acmd* cmd, s32 count, void* addr) {
     aFilter(cmd, 2, count, addr);
 }
 
@@ -687,7 +687,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
     s32 pad1[3];
-    SoundFontSample* sample;
+    Sample* sample;
     AdpcmLoop* loopInfo;
     s32 nSamplesUntilLoopEnd;
     s32 nSamplesInThisIteration;
@@ -778,10 +778,10 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
         synthState->samplePosInt += nSamplesToLoad;
     } else {
-        sample = noteSubEu->sound.soundFontSound->sample;
+        sample = noteSubEu->tunedSample->sample;
         loopInfo = sample->loop;
         loopEndPos = loopInfo->end;
-        sampleAddr = sample->sampleAddr;
+        sampleAddr = (u32)sample->sampleAddr;
         resampledTempLen = 0;
 
         for (curPart = 0; curPart < nParts; curPart++) {
@@ -812,7 +812,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     if (1) {}
                     if (1) {}
                     if (1) {}
-                    nEntries = 16 * sample->book->order * sample->book->npredictors;
+                    nEntries = 16 * sample->book->order * sample->book->numPredictors;
                     aLoadADPCM(cmd++, nEntries, gAudioContext.curLoadedBook);
                 }
             }
@@ -917,7 +917,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 }
 
                 if (synthState->restart) {
-                    aSetLoop(cmd++, sample->loop->state);
+                    aSetLoop(cmd++, sample->loop->predictorState);
                     flags = A_LOOP;
                     synthState->restart = false;
                 }
@@ -1195,7 +1195,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         gWaveSamples[8] += nSamplesToLoad * 2;
         return cmd;
     } else {
-        aLoadBuffer(cmd++, noteSubEu->sound.samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
+        aLoadBuffer(cmd++, noteSubEu->samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
         if (unk6 != 0) {
             samplePosInt = (samplePosInt * D_801304C0[unk6 >> 2]) / D_801304C0[unk6 & 3];
         }
