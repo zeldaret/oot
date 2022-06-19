@@ -69,6 +69,12 @@ void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
 
+typedef enum {
+    /* 0 */ ROOM_CULL_DEBUG_MODE_OFF,
+    /* 1 */ ROOM_CULL_DEBUG_MODE_UP_TO_TARGET,
+    /* 2 */ ROOM_CULL_DEBUG_MODE_ONLY_TARGET
+} RoomCullableDebugMode;
+
 typedef struct MeshHeaderCullableEntryLinked {
     /* 0x00 */ MeshHeaderCullableEntry* entry;
     /* 0x04 */ f32 boundsNearZ;
@@ -197,7 +203,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
 
         meshHeaderCullableEntry = head->entry;
 
-        if (R_ROOM_CULL_DEBUG_MODE != 0) {
+        if (R_ROOM_CULL_DEBUG_MODE != ROOM_CULL_DEBUG_MODE_OFF) {
             // Debug mode drawing
 
             // This loop does nothing
@@ -208,8 +214,8 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
                 }
             }
 
-            if (((R_ROOM_CULL_DEBUG_MODE == 1) && (R_ROOM_CULL_DEBUG_TARGET >= i)) ||
-                ((R_ROOM_CULL_DEBUG_MODE == 2) && (R_ROOM_CULL_DEBUG_TARGET == i))) {
+            if (((R_ROOM_CULL_DEBUG_MODE == ROOM_CULL_DEBUG_MODE_UP_TO_TARGET) && (i <= R_ROOM_CULL_DEBUG_TARGET)) ||
+                ((R_ROOM_CULL_DEBUG_MODE == ROOM_CULL_DEBUG_MODE_ONLY_TARGET) && (i == R_ROOM_CULL_DEBUG_TARGET))) {
                 if (flags & ROOM_DRAW_OPA) {
                     displayList = meshHeaderCullableEntry->opa;
                     if (displayList != NULL) {
@@ -342,6 +348,10 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     *gfxP = gfx;
 }
 
+#define ROOM_PREREND_NODRAW_BACKGROUND (1 << 0)
+#define ROOM_PREREND_NODRAW_OPA (1 << 1)
+#define ROOM_PREREND_NODRAW_XLU (1 << 2)
+
 void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
@@ -359,9 +369,11 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     meshHeaderPrerenderSingle = &room->meshHeader->prerenderSingle;
     dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderSingle->base.entry);
     drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeaderPrerenderSingle->source != NULL) &&
-             !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 0));
-    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 1));
-    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 2));
+             !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
+    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) &&
+              !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_OPA);
+    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) &&
+              !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_XLU);
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -458,9 +470,11 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
     backgroundEntry = Room_GetPrerenderMultiBackgroundEntry(meshHeaderPrerenderMulti, play);
 
     drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (backgroundEntry->source != NULL) &&
-             !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 0));
-    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 1));
-    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 2));
+             !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
+    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) &&
+              !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_OPA);
+    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) &&
+              !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_XLU);
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
