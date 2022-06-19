@@ -26,8 +26,8 @@
 #define DMEM_1CH_SIZE (13 * SAMPLES_PER_FRAME * sizeof(s16))
 #define DMEM_2CH_SIZE (2 * DMEM_1CH_SIZE)
 
-// The size of the audio buffer is 44 frames
-#define AIBUF_LEN (44 * SAMPLES_PER_FRAME * sizeof(s16))
+// The size of the audio buffer is 88 frames
+#define AIBUF_LEN (88 * SAMPLES_PER_FRAME)
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
