@@ -23,7 +23,7 @@
 #define SAMPLES_PER_FRAME ADPCMFSIZE
 
 // The size of one left/right channel is 13 frames
-#define DMEM_1CH_SIZE (13 * SAMPLES_PER_FRAME * sizeof(s16))
+#define DMEM_1CH_SIZE (13 * SAMPLES_PER_FRAME * SAMPLE_SIZE)
 // Both left and right channels
 #define DMEM_2CH_SIZE (2 * DMEM_1CH_SIZE)
 
