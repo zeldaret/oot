@@ -24,8 +24,8 @@
 // size of a single sample point
 #define SAMPLE_SIZE sizeof(s16)
 
-#define DMEM_1CH_SIZE 0x1A0
-#define DMEM_2CH_SIZE 0x340
+#define DMEM_1CH_SIZE (13 * SAMPLES_PER_FRAME * sizeof(s16))
+#define DMEM_2CH_SIZE (2 * DMEM_1CH_SIZE)
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
