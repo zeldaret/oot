@@ -800,7 +800,7 @@ typedef struct {
     /* 0x0 */ Vec3s rot;
     /* 0x6 */ s16 fov;
     /* 0x8 */ s16 updDirTimer;
-    /* 0xA */ s16 jfifId;
+    /* 0xA */ s16 prerenderOverrideBgCamIndex;
 } Fixed3ReadWriteData; // size = 0xC
 
 typedef struct {

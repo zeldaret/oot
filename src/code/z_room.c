@@ -403,32 +403,34 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-BgImage* Room_GetMultiBackgroundImage(MeshHeaderPrerenderMulti* meshHeaderPrerenderMulti, PlayState* play) {
+MeshHeaderPrerenderMultiBackgroundEntry*
+Room_GetPrerenderMultiBackgroundEntry(MeshHeaderPrerenderMulti* meshHeaderPrerenderMulti, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
-    s32 index = activeCam->bgCamIndex;
-    s16 newIndex;
+    s32 bgCamIndex = activeCam->bgCamIndex;
+    s16 overrideBgCamIndex;
     Player* player;
-    BgImage* bgImage;
+    MeshHeaderPrerenderMultiBackgroundEntry* backgroundEntry;
     s32 i;
 
-    newIndex = ((BgCamFuncData*)BgCheck_GetBgCamFuncDataImpl(&play->colCtx, index, BGCHECK_SCENE))->jfifId;
-    if (newIndex >= 0) {
-        index = newIndex;
+    overrideBgCamIndex = ((BgCamFuncData*)BgCheck_GetBgCamFuncDataImpl(&play->colCtx, bgCamIndex, BGCHECK_SCENE))
+                             ->prerenderOverrideBgCamIndex;
+    if (overrideBgCamIndex >= 0) {
+        bgCamIndex = overrideBgCamIndex;
     }
 
     player = GET_PLAYER(play);
-    player->actor.params = (player->actor.params & 0xFF00) | index;
+    player->actor.params = (player->actor.params & 0xFF00) | bgCamIndex;
 
-    bgImage = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderMulti->list);
-    for (i = 0; i < meshHeaderPrerenderMulti->count; i++) {
-        if (bgImage->index == index) {
-            return bgImage;
+    backgroundEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderMulti->backgrounds);
+    for (i = 0; i < meshHeaderPrerenderMulti->numBackgrounds; i++) {
+        if (backgroundEntry->bgCamIndex == bgCamIndex) {
+            return backgroundEntry;
         }
-        bgImage++;
+        backgroundEntry++;
     }
 
     // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, index);
+    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, bgCamIndex);
     LogUtils_HungupThread("../z_room.c", 726);
 
     return NULL;
@@ -438,7 +440,7 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
     MeshHeaderPrerenderMulti* meshHeaderPrerenderMulti;
-    BgImage* bgImage;
+    MeshHeaderPrerenderMultiBackgroundEntry* backgroundEntry;
     MeshHeaderDListsEntry* dListsEntry;
     u32 isFixedCamera;
     u32 drawBg;
@@ -452,9 +454,9 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
     meshHeaderPrerenderMulti = &room->meshHeader->prerenderMulti;
     dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderMulti->base.entry);
 
-    bgImage = Room_GetMultiBackgroundImage(meshHeaderPrerenderMulti, play);
+    backgroundEntry = Room_GetPrerenderMultiBackgroundEntry(meshHeaderPrerenderMulti, play);
 
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (bgImage->source != NULL) &&
+    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (backgroundEntry->source != NULL) &&
              !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 0));
     drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 1));
     drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & (1 << 2));
@@ -476,8 +478,9 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
 
                 gfx = POLY_OPA_DISP;
                 Camera_GetSkyboxOffset(&quakeOffset, activeCam);
-                Room_DrawBackground2D(&gfx, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height,
-                                      bgImage->fmt, bgImage->siz, bgImage->tlutMode, bgImage->tlutCount,
+                Room_DrawBackground2D(&gfx, backgroundEntry->source, backgroundEntry->tlut, backgroundEntry->width,
+                                      backgroundEntry->height, backgroundEntry->fmt, backgroundEntry->siz,
+                                      backgroundEntry->tlutMode, backgroundEntry->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
                                       quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;

@@ -4043,7 +4043,7 @@ s32 Camera_Fixed3(Camera* camera) {
         *eye = *eyeNext;
         rwData->rot = bgCamFuncData->rot;
         rwData->fov = bgCamFuncData->fov;
-        rwData->jfifId = bgCamFuncData->jfifId;
+        rwData->prerenderOverrideBgCamIndex = bgCamFuncData->prerenderOverrideBgCamIndex;
         if (rwData->fov == -1) {
             rwData->fov = 6000;
         }
@@ -4062,9 +4062,9 @@ s32 Camera_Fixed3(Camera* camera) {
         camera->animState++;
     }
 
-    if (bgCamFuncData->jfifId != rwData->jfifId) {
-        osSyncPrintf("camera: position change %d \n", rwData->jfifId);
-        rwData->jfifId = bgCamFuncData->jfifId;
+    if (bgCamFuncData->prerenderOverrideBgCamIndex != rwData->prerenderOverrideBgCamIndex) {
+        osSyncPrintf("camera: position change %d \n", rwData->prerenderOverrideBgCamIndex);
+        rwData->prerenderOverrideBgCamIndex = bgCamFuncData->prerenderOverrideBgCamIndex;
         rwData->updDirTimer = 5;
     }
 

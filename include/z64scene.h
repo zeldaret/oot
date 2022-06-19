@@ -109,7 +109,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16   unk_00;
-    /* 0x02 */ u8    index;
+    /* 0x02 */ u8    bgCamIndex; // for which bg cam index is this entry for
     /* 0x04 */ void* source;
     /* 0x08 */ u32   unk_0C;
     /* 0x0C */ void* tlut;
@@ -119,12 +119,12 @@ typedef struct {
     /* 0x15 */ u8    siz;
     /* 0x16 */ u16   tlutMode;
     /* 0x18 */ u16   tlutCount;
-} BgImage; // size = 0x1C
+} MeshHeaderPrerenderMultiBackgroundEntry; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ MeshHeaderPrerenderBase base;
-    /* 0x08 */ u8    count;
-    /* 0x0C */ BgImage* list;
+    /* 0x08 */ u8    numBackgrounds;
+    /* 0x0C */ MeshHeaderPrerenderMultiBackgroundEntry* backgrounds;
 } MeshHeaderPrerenderMulti; // size = 0x10
 
 typedef struct {
@@ -156,6 +156,7 @@ typedef union {
 typedef MeshHeaderDListsEntry PolygonDlist;
 typedef MeshHeaderAll PolygonType0;
 typedef MeshHeaderPrerenderSingle MeshHeader1Single;
+typedef MeshHeaderPrerenderMultiBackgroundEntry BgImage;
 typedef MeshHeaderPrerenderMulti MeshHeader1Multi;
 typedef MeshHeaderCullableEntry PolygonDlist2;
 typedef MeshHeaderCullable PolygonType2;
