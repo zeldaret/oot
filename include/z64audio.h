@@ -18,6 +18,15 @@
 
 #define AIBUF_LEN 0x580
 
+// Samples are processed in groups of 16 called a "frame"
+#define SAMPLES_PER_FRAME 16
+
+// size of a single sample point
+#define SAMPLE_SIZE sizeof(s16)
+
+#define DEFAULT_LEN_1CH 0x1A0
+#define DEFAULT_LEN_2CH 0x340
+
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
 typedef enum {

@@ -1201,7 +1201,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     // Initialize the audio interface buffers
     for (i = 0; i < 3; i++) {
-        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_LEN * sizeof(s16));
+        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_LEN * SAMPLE_SIZE);
     }
 
     // Set audio tables pointers
