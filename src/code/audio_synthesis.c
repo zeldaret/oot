@@ -691,7 +691,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
     s32 pad1[3];
-    SoundFontSample* sample;
+    Sample* sample;
     AdpcmLoop* loopInfo;
     s32 nSamplesUntilLoopEnd;
     s32 nSamplesInThisIteration;
@@ -782,7 +782,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * (s32)sizeof(s16));
         synthState->samplePosInt += nSamplesToLoad;
     } else {
-        sample = noteSubEu->sound.soundFontSound->sample;
+        sample = noteSubEu->tunedSample->sample;
         loopInfo = sample->loop;
         loopEndPos = loopInfo->end;
         sampleAddr = (u32)sample->sampleAddr;
@@ -817,7 +817,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     if (1) {}
                     if (1) {}
                     if (1) {}
-                    nEntries = SAMPLES_PER_FRAME * sample->book->order * sample->book->npredictors;
+                    nEntries = SAMPLES_PER_FRAME * sample->book->order * sample->book->numPredictors;
                     aLoadADPCM(cmd++, nEntries, gAudioContext.curLoadedBook);
                 }
             }
@@ -926,7 +926,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 }
 
                 if (synthState->restart) {
-                    aSetLoop(cmd++, sample->loop->state);
+                    aSetLoop(cmd++, sample->loop->predictorState);
                     flags = A_LOOP;
                     synthState->restart = false;
                 }
@@ -1207,7 +1207,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         gWaveSamples[8] += nSamplesToLoad * 2;
         return cmd;
     } else {
-        aLoadBuffer(cmd++, noteSubEu->sound.samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
+        aLoadBuffer(cmd++, noteSubEu->samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
         if (unk6 != 0) {
             samplePosInt = (samplePosInt * D_801304C0[unk6 >> 2]) / D_801304C0[unk6 & 3];
         }
