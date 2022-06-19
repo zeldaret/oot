@@ -1083,8 +1083,9 @@ void func_80A0461C(EnElf* this, PlayState* play) {
     } else {
         arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
 
-        // `R_SCENE_CAM_TYPE` is checking for either `SCENE_CAM_TYPE_SHOP`, `SCENE_CAM_TYPE_FIXED`, or
-        // `SCEME_CAM_TYPE_SHOOTING_GALLERY`
+        // `R_SCENE_CAM_TYPE` is not composed of bit flags, but is being checked as if it is,
+        // In particular, `& 0x10` will pass for either `SCENE_CAM_TYPE_SHOP`, `SCENE_CAM_TYPE_FIXED`, or
+        // `SCENE_CAM_TYPE_SHOOTING_GALLERY`. However, only `SCENE_CAM_TYPE_SHOP` can have `VIEWPOINT_PIVOT` set.
         if ((player->stateFlags1 & PLAYER_STATE1_10) ||
             ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
             temp = 12;

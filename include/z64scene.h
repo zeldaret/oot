@@ -459,7 +459,7 @@ typedef enum {
 #define SCENE_CAM_TYPE_HOUSE 0x20 // Toggleable camera setting between a pivot camera setting and a fixed prerend camera setting
 #define SCENE_CAM_TYPE_FIXED 0x30 // Fixed prerend camera setting only. Can't toggle to a pivot camera setting
 #define SCENE_CAM_TYPE_PIVOT 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area only)
-#define SCEME_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code but set for the shooting gallery scene
+#define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code but set for the shooting gallery scene
 
 // Scene commands
 
