@@ -16,16 +16,18 @@
 #define ADSR_GOTO -2
 #define ADSR_RESTART -3
 
-#define AIBUF_LEN 0x580
+// size of a single sample point
+#define SAMPLE_SIZE sizeof(s16)
 
 // Samples are processed in groups of 16 called a "frame"
 #define SAMPLES_PER_FRAME 16
 
-// size of a single sample point
-#define SAMPLE_SIZE sizeof(s16)
-
+// The size of one left/right channel is 13 frames
 #define DMEM_1CH_SIZE (13 * SAMPLES_PER_FRAME * sizeof(s16))
 #define DMEM_2CH_SIZE (2 * DMEM_1CH_SIZE)
+
+// The size of the audio buffer is 44 frames
+#define AIBUF_LEN (44 * SAMPLES_PER_FRAME * sizeof(s16))
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
