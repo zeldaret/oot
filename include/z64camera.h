@@ -27,7 +27,7 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
-// All shops and house scenes are expected to have their first two bgCamInfo entries to be the following indices:
+// All shops and house scenes are expected to have their first two bgCamInfo entries be the following:
 #define BGCAM_INDEX_TOGGLE_FIXED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
 

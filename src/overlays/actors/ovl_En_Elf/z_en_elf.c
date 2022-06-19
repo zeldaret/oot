@@ -1083,8 +1083,10 @@ void func_80A0461C(EnElf* this, PlayState* play) {
     } else {
         arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
 
+        // `R_SCENE_CAM_TYPE` is checking for either `SCENE_CAM_TYPE_SHOP`, `SCENE_CAM_TYPE_FIXED`, or
+        // `SCEME_CAM_TYPE_SHOOTING_GALLERY`
         if ((player->stateFlags1 & PLAYER_STATE1_10) ||
-            ((R_SCENE_CAM_TYPE & SCENE_CAM_TYPE_SHOP) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
+            ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
             temp = 12;
             this->unk_2C0 = 100;
         } else if (arrowPointedActor == NULL || arrowPointedActor->category == ACTORCAT_NPC) {

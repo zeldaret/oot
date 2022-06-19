@@ -403,11 +403,10 @@ void Play_Init(GameState* thisx) {
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
     }
 
-    // Init viewpoint
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_HOUSE) {
-        this->viewpoint = VIEWPOINT_PIVOT; // default to pivot camera
+        this->viewpoint = VIEWPOINT_PIVOT;
     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP) {
-        this->viewpoint = VIEWPOINT_FIXED; // default to fixed camera
+        this->viewpoint = VIEWPOINT_FIXED;
     } else {
         this->viewpoint = VIEWPOINT_NONE;
     }
@@ -953,9 +952,7 @@ void Play_Update(PlayState* this) {
                 LOG_NUM("1", 1, "../z_play.c", 3677);
             }
 
-            // Update viewpoint
             if (this->viewpoint != VIEWPOINT_NONE) {
-                // C-Up toggle indoor camera
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
@@ -964,7 +961,6 @@ void Play_Update(PlayState* this) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP) {
-                        // Can't C-Up toggle camera setting in a shop
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
