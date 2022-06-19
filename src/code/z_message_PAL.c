@@ -1590,7 +1590,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (msgCtx->msgMode == MSGMODE_NONE) {
         gSaveContext.unk_13EE = gSaveContext.unk_13EA;
     }
-    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP) {
+    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP_VIEWPOINT) {
         Interface_ChangeAlpha(5);
     }
 
@@ -3095,7 +3095,7 @@ void Message_Update(PlayState* play) {
             D_8014B2F4++;
 
             var = false;
-            if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_PIVOT) {
+            if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FORCE_SETTING_MARKET) {
                 if (D_8014B2F4 >= 4) {
                     var = true;
                 }

@@ -455,11 +455,11 @@ typedef enum {
 
 // R_SCENE_CAM_TYPE, first arg to SCENE_CMD_MISC_SETTINGS()
 #define SCENE_CAM_TYPE_DEFAULT 0
-#define SCENE_CAM_TYPE_SHOP 0x10 // Various shops with a fixed prerend camera and a specific camera setting for shop browsing
-#define SCENE_CAM_TYPE_HOUSE 0x20 // Toggleable camera setting between a pivot camera setting and a fixed prerend camera setting
-#define SCENE_CAM_TYPE_FIXED 0x30 // Fixed prerend camera setting only. Can't toggle to a pivot camera setting
-#define SCENE_CAM_TYPE_PIVOT 0x40 // Pivot camera setting only. Can't toggle to a fixed prerend camera setting (main market area only)
-#define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code but set for the shooting gallery scene
+#define SCENE_CAM_TYPE_SHOP_VIEWPOINT 0x10 // Viewpoint is handled by shops
+#define SCENE_CAM_TYPE_TOGGLE_VIEWPOINT 0x20 // Viewpoint toggles with c-up
+#define SCENE_CAM_TYPE_FORCE_SETTING 0x30 // Prevents camera setting switches (used for prerendered scenes outside shops and houses)
+#define SCENE_CAM_TYPE_FORCE_SETTING_MARKET 0x40 // Prevents camera setting switches and delays textboxes by a small amount as they start to appear
+#define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code, but set by only the main setup of the shooting gallery scene
 
 // Scene commands
 
