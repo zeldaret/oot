@@ -22,12 +22,12 @@
 // Samples are processed in groups of 16 called a "frame"
 #define SAMPLES_PER_FRAME ADPCMFSIZE
 
-// The size of one left/right channel is 13 frames
+// The length of one left/right channel is 13 frames
 #define DMEM_1CH_SIZE (13 * SAMPLES_PER_FRAME * SAMPLE_SIZE)
 // Both left and right channels
 #define DMEM_2CH_SIZE (2 * DMEM_1CH_SIZE)
 
-// The size of the audio buffer is 88 frames
+// The length of the audio buffer is 88 frames
 #define AIBUF_LEN (88 * SAMPLES_PER_FRAME) // number of samples
 #define AIBUF_SIZE (AIBUF_LEN * SAMPLE_SIZE) // number of bytes
 
