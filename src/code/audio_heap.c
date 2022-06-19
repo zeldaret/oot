@@ -1022,13 +1022,13 @@ void AudioHeap_Init(void) {
             reverb->unk_38 = AudioHeap_AllocZeroed(&gAudioContext.miscPool, SAMPLES_PER_FRAME * SAMPLE_SIZE);
             reverb->unk_3C = AudioHeap_AllocZeroed(&gAudioContext.miscPool, SAMPLES_PER_FRAME * SAMPLE_SIZE);
             for (j = 0; j < gAudioContext.audioBufferParameters.updatesPerFrame; j++) {
-                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, DEFAULT_LEN_2CH);
+                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, DMEM_2CH_SIZE);
                 reverb->items[0][j].toDownsampleLeft = ramAddr;
-                reverb->items[0][j].toDownsampleRight = ramAddr + DEFAULT_LEN_1CH / SAMPLE_SIZE;
+                reverb->items[0][j].toDownsampleRight = ramAddr + DMEM_1CH_SIZE / SAMPLE_SIZE;
 
-                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, DEFAULT_LEN_2CH);
+                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, DMEM_2CH_SIZE);
                 reverb->items[1][j].toDownsampleLeft = ramAddr;
-                reverb->items[1][j].toDownsampleRight = ramAddr + DEFAULT_LEN_1CH / SAMPLE_SIZE;
+                reverb->items[1][j].toDownsampleRight = ramAddr + DMEM_1CH_SIZE / SAMPLE_SIZE;
             }
         }
 
