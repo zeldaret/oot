@@ -358,7 +358,7 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     MeshHeaderPrerenderSingle* meshHeaderPrerenderSingle;
     MeshHeaderDListsEntry* dListsEntry;
     u32 isFixedCamera;
-    u32 drawBg;
+    u32 drawBackground;
     u32 drawOpa;
     u32 drawXlu;
 
@@ -368,14 +368,14 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     meshHeaderPrerenderSingle = &room->meshHeader->prerenderSingle;
     dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderSingle->base.entry);
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeaderPrerenderSingle->source != NULL) &&
-             !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
+    drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (meshHeaderPrerenderSingle->source != NULL) &&
+                     !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
     drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) &&
               !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_OPA);
     drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) &&
               !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_XLU);
 
-    if (drawOpa || drawBg) {
+    if (drawOpa || drawBackground) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (drawOpa) {
@@ -384,7 +384,7 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
             gSPDisplayList(POLY_OPA_DISP++, dListsEntry->opa);
         }
 
-        if (drawBg) {
+        if (drawBackground) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
@@ -456,7 +456,7 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
     MeshHeaderPrerenderMultiBackgroundEntry* backgroundEntry;
     MeshHeaderDListsEntry* dListsEntry;
     u32 isFixedCamera;
-    u32 drawBg;
+    u32 drawBackground;
     u32 drawOpa;
     u32 drawXlu;
 
@@ -469,14 +469,14 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
 
     backgroundEntry = Room_GetPrerenderMultiBackgroundEntry(meshHeaderPrerenderMulti, play);
 
-    drawBg = (flags & ROOM_DRAW_OPA) && isFixedCamera && (backgroundEntry->source != NULL) &&
-             !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
+    drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (backgroundEntry->source != NULL) &&
+                     !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
     drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) &&
               !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_OPA);
     drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) &&
               !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_XLU);
 
-    if (drawOpa || drawBg) {
+    if (drawOpa || drawBackground) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (drawOpa) {
@@ -485,7 +485,7 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
             gSPDisplayList(POLY_OPA_DISP++, dListsEntry->opa);
         }
 
-        if (drawBg) {
+        if (drawBackground) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
