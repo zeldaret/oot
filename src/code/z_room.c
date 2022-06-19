@@ -412,6 +412,7 @@ Room_GetPrerenderMultiBackgroundEntry(MeshHeaderPrerenderMulti* meshHeaderPreren
     MeshHeaderPrerenderMultiBackgroundEntry* backgroundEntry;
     s32 i;
 
+    // In mq debug vanilla scenes, overrideBgCamIndex is always -1 or the same as bgCamIndex
     overrideBgCamIndex = ((BgCamFuncData*)BgCheck_GetBgCamFuncDataImpl(&play->colCtx, bgCamIndex, BGCHECK_SCENE))
                              ->prerenderOverrideBgCamIndex;
     if (overrideBgCamIndex >= 0) {
