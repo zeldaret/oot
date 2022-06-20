@@ -4305,8 +4305,6 @@ s32 Camera_Subj3(Camera* camera) {
     return 1;
 }
 
-#define BGCAMDATA_CRAWLSPACE_FRONT_POS(v) ((v)[1])
-#define BGCAMDATA_CRAWLSPACE_BACK_POS(v, l) ((v)[l - 2])
 #define vCrawlSpaceBackPos temp1
 #define vPlayerDistToFront temp2
 
@@ -4366,8 +4364,10 @@ s32 Camera_Subj4(Camera* camera) {
     // Crawlspace setup (runs for only 1 frame)
     if (camera->animState == 0) {
         crawlspacePoints = (Vec3s*)Camera_GetBgCamFuncDataUnderPlayer(camera, &crawlspaceNumPoints);
-        Camera_Vec3sToVec3f(&rwData->crawlspaceLine.point, &BGCAMDATA_CRAWLSPACE_FRONT_POS(crawlspacePoints));
-        Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &BGCAMDATA_CRAWLSPACE_BACK_POS(crawlspacePoints, crawlspaceNumPoints));
+        // Second entry of crawlspacePoints contains the front position
+        Camera_Vec3sToVec3f(&rwData->crawlspaceLine.point, &crawlspacePoints[1]);
+        // Second last entry of crawlspacePoints contains the back position
+        Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &crawlspacePoints[crawlspaceNumPoints - 2]);
 
         atEyeTargetOffset.r = 10.0f;
         atEyeTargetOffset.pitch = 0x238C; // ~50 degrees
