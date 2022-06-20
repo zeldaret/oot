@@ -18,7 +18,7 @@
 
 #define AIBUF_LEN 0x580
 
-// count must be identical to the value used in aDuplicate() ucode
+// Must be the same amount of samples as copied by aDuplicate() (audio microcode)
 #define WAVE_SAMPLE_COUNT 64
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
