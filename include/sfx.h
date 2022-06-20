@@ -229,6 +229,7 @@
 #define NA_SE_PL_DUMMY_221 0x8DD
 #define NA_SE_PL_SLIP_HEAVYBOOTS_LEVEL 0x8DE
 #define NA_SE_PL_SLIP_ICE_LEVEL 0x8DF
+// TODO: The sfx below in this bank are not in gSoundParams and read OoB. May be fake Ids from OoT3D
 #define NA_SE_PL_JUMP_METAL 0x8E0
 #define NA_SE_PL_LAND_METAL 0x8E1
 #define NA_SE_PL_WALK_RUNNINGMAN 0x8E2
@@ -329,6 +330,7 @@
 #define NA_SE_IT_HAND_CLAP 0x184D
 #define NA_SE_IT_MASTER_SWORD_SWING 0x184E
 #define NA_SE_IT_DUMMY5 0x184F
+// TODO: The sfx below in this bank are not in gSoundParams and read OoB. May be fake Ids from OoT3D
 #define NA_SE_IT_YOBI19 0x1850
 #define NA_SE_FISHING_REEL_SLOW2 0x1851 // not IT?
 #define NA_SE_IT_SPIDERNET_HIT1 0x1852
@@ -601,6 +603,7 @@
 #define NA_SE_EV_OCARINA_BMELO_0 0x28F5
 #define NA_SE_EV_OCARINA_BMELO_1 0x28F6
 #define NA_SE_EV_EXPLOSION_FOR_RENZOKU 0x28F7
+// TODO: The sfx below in this bank are not in gSoundParams and read OoB. May be fake Ids from OoT3D
 #define NA_SE_EV_ELEVATOR_MOVE_KABE1 0x28F8
 #define NA_SE_EV_RIVER_STREAM_F_IDO 0x28F9
 #define NA_SE_EV_GUILLOTINE_BOUND_copyOrigin 0x28FA
@@ -637,8 +640,6 @@
 
 // ------------ ENEMY ------------
 
-#define NA_SE_EN_FLOORMASTER_SLIDING 0x3034
-#define NA_SE_EN_FLOORMASTER_SM_STICK 0x3136
 #define NA_SE_EN_DODO_J_WALK 0x3800
 #define NA_SE_EN_DODO_J_CRY 0x3801
 #define NA_SE_EN_DODO_J_FIRE 0x3802
@@ -691,6 +692,7 @@
 #define NA_SE_EN_STALKID_ATTACK 0x3831
 #define NA_SE_EN_STALKID_DAMAGE 0x3832
 #define NA_SE_EN_STALKID_DEAD 0x3833
+#define NA_SE_EN_FLOORMASTER_SLIDING 0x3834
 #define NA_SE_EN_TEKU_WALK_WATER 0x3835
 #define NA_SE_EN_LIGHT_ARROW_HIT 0x3836
 #define NA_SE_EN_TUBOOCK_FLY 0x3837
@@ -948,6 +950,7 @@
 #define NA_SE_EN_FLOORMASTER_RESTORE 0x3933
 #define NA_SE_EN_FLOORMASTER_EXPAND 0x3934
 #define NA_SE_EN_FLOORMASTER_SPLIT 0x3935
+#define NA_SE_EN_FLOORMASTER_SM_STICK 0x3936
 #define NA_SE_EN_FLOORMASTER_SM_LAND 0x3937
 #define NA_SE_EN_IRONNACK_WAVE_DEMO 0x3938
 #define NA_SE_EN_IRONNACK_FINGER_DEMO 0x3939
@@ -1136,6 +1139,7 @@
 #define NA_SE_EN_MUSI_WALK 0x39F0
 #define NA_SE_EN_MIMICK_BREATH 0x39F1
 #define NA_SE_EN_STALWALL_LAUGH 0x39F2
+// TODO: The sfx below in this bank are not in gSoundParams and read OoB. May be fake Ids from OoT3D
 #define NA_SE_EN_TWINROBA_TRANSFORM2 0x39F3
 #define NA_SE_EN_KAICHO_PIYORI 0x39F4
 #define NA_SE_EN_DODO_K_WALK_APPEAR 0x39F5
@@ -1245,6 +1249,7 @@
 #define NA_SE_SY_CARROT_RECOVER 0x4845
 #define NA_SE_EV_FAIVE_LUPY_COUNT 0x4846 // EV sound inside SY?
 #define NA_SE_SY_DUMMY_71 0x4847
+// TODO: The sfx below in this bank are not in gSoundParams and read OoB. May be fake Ids from OoT3D
 #define NA_SE_SY_KANADE_ISHI 0x4848
 #define NA_SE_SY_NA_HELLO_2 0x4849
 #define NA_SE_SY_MAGIC_SOUL_NORMAL 0x484A
@@ -1275,6 +1280,7 @@
 #define NA_SE_OC_SECRET_HOLE_OUT 0x5805
 #define NA_SE_OC_REVENGE 0x5806
 #define NA_SE_OC_HINT_MOVIE 0x5807
+// TODO: The sfx below in this bank are not in gSoundParams and read OoB. May be fake Ids from OoT3D
 #define NA_SE_OC_HINT_MOVIE2_WHITE 0x5808
 #define NA_SE_OC_HINT_MOVIE_ZOOMIN 0x5809
 #define NA_SE_OC_HIBIKI_ISHI 0x580A
@@ -1409,6 +1415,7 @@
 #define NA_SE_VO_DUMMY_0x7d 0x687D
 #define NA_SE_VO_DUMMY_0x7e 0x687E
 #define NA_SE_VO_DUMMY_0x7f 0x687F
+// TODO: The sfx below in this bank are not in gSoundParams and read OoB. May be fake Ids from OoT3D
 #define NA_SE_VO_DUMMY_0x80 0x6880
 #define NA_SE_VO_LI_AUTO_JUMP_DARKLINK 0x6881
 #define NA_SE_VO_DUMMY_0x82_YOBI 0x6882
