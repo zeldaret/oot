@@ -14,6 +14,8 @@ INCLUDES="-Iinclude -Isrc -Ibuild -I."
 DEFINES="-D_LANGUAGE_C -DNON_MATCHING"
 COMPILER_OPTS="-fno-builtin -std=gnu90 -m32 -Wno-everything ${INCLUDES} ${DEFINES}"
 
+TIDY_VERSION_REGEX="LLVM version ([0-9]+)"
+
 # https://backreference.org/2010/05/23/sanitizing-files-with-no-trailing-newline/index.html
 # "gets the last character of the file pipes it into read, which will exit with
 # a nonzero exit code if it encounters EOF before newline (so, if the last
@@ -49,6 +51,14 @@ then
 else
     echo "clang-tidy not found. Exiting."
     exit 1
+fi
+
+# Try to detect the clang-tidy version and add --fix-notes for version 13+
+# This is used to ensure all fixes are applied properly in recent versions
+if [[ $(${CLANG_TIDY} --version) =~ $TIDY_VERSION_REGEX ]]; then
+    if (( ${BASH_REMATCH[1]} >= 13 )); then
+        TIDY_OPTS="${TIDY_OPTS} --fix-notes"
+    fi
 fi
 
 if (( $# > 0 )); then
