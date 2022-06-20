@@ -965,8 +965,8 @@ void Play_Update(PlayState* this) {
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
                         // C-Up toggle for houses, move between pivot camera and fixed camera
-                        // `^ 3` toggles between 1 <-> 2 (VIEWPOINT_LOCKED <-> VIEWPOINT_PIVOT)
-                        Play_SetViewpoint(this, this->viewpoint ^ 3);
+                        // This formulation toggles between 1 <-> 2 (VIEWPOINT_LOCKED <-> VIEWPOINT_PIVOT)
+                        Play_SetViewpoint(this, this->viewpoint ^ (VIEWPOINT_LOCKED ^ VIEWPOINT_PIVOT));
                     }
                 }
                 Play_ChangeViewpointBgCamIndex(this);
