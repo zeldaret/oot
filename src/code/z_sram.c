@@ -17,9 +17,9 @@ typedef struct {
     /* 0x18 */ s16 rupees;
     /* 0x1A */ u16 swordHealth;
     /* 0x1C */ u16 naviTimer;
-    /* 0x1E */ u8 magicAcquired;
+    /* 0x1E */ u8 isMagicAcquired;
     /* 0x1F */ u8 unk_1F;
-    /* 0x20 */ u8 doubleMagic;
+    /* 0x20 */ u8 isDoubleMagicAcquired;
     /* 0x21 */ u8 doubleDefense;
     /* 0x22 */ u8 bgsFlag;
     /* 0x23 */ u8 ocarinaGameRoundNum;
@@ -104,13 +104,13 @@ static SavePlayerData sNewSavePlayerData = {
     0x30,                                               // healthCapacity
     0x30,                                               // defense
     0,                                                  // magicLevel
-    0x30,                                               // magic
+    MAGIC_NORMAL_METER,                                 // magic
     0,                                                  // rupees
     0,                                                  // swordHealth
     0,                                                  // naviTimer
-    0,                                                  // magicAcquired
+    false,                                              // isMagicAcquired
     0,                                                  // unk_1F
-    0,                                                  // doubleMagic
+    false,                                              // isDoubleMagicAcquired
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
@@ -189,13 +189,13 @@ static SavePlayerData sDebugSavePlayerData = {
     0xE0,                                               // healthCapacity
     0xE0,                                               // health
     0,                                                  // magicLevel
-    0x30,                                               // magic
+    MAGIC_NORMAL_METER,                                 // magic
     150,                                                // rupees
     8,                                                  // swordHealth
     0,                                                  // naviTimer
-    1,                                                  // magicAcquired
+    true,                                               // isMagicAcquired
     0,                                                  // unk_1F
-    0,                                                  // doubleMagic
+    false,                                              // isDoubleMagicAcquired
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
@@ -448,7 +448,6 @@ void Sram_OpenSave(SramContext* sramCtx) {
         }
     }
 
-    // check for owning master sword.. to restore master sword? bug or debug feature?
     if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
         gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
@@ -707,7 +706,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
 
     gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
     gSaveContext.linkAge = LINK_AGE_CHILD;
-    gSaveContext.dayTime = 0x6AAB;
+    gSaveContext.dayTime = CLOCK_TIME(10, 0);
     gSaveContext.cutsceneIndex = 0xFFF1;
 
     if (fileChooseCtx->buttonIndex == 0) {
@@ -899,5 +898,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx) {
+void Sram_Init(PlayState* play, SramContext* sramCtx) {
 }

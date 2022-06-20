@@ -20,10 +20,12 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitDebugSave();
-        gSaveContext.unk_13F6 = gSaveContext.magic;
-        gSaveContext.magic = 0;
-        gSaveContext.unk_13F4 = 0;
-        gSaveContext.magicLevel = gSaveContext.magic;
+        // Set the fill target to be the saved magic amount
+        gSaveContext.magicFillTarget = gSaveContext.magic;
+        // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing
+        // to respectively the full capacity and `magicFillTarget`
+        gSaveContext.magicCapacity = 0;
+        gSaveContext.magicLevel = gSaveContext.magic = 0;
     }
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
@@ -35,9 +37,9 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
-    gWeatherMode = 0;
+    gWeatherMode = WEATHER_MODE_CLEAR;
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
+    SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
 // "Translation" (Actual name)
@@ -593,16 +595,16 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
     switch (csIndex) {
         case 0:
             label = GFXP_HIRAGANA " ﾖﾙ " GFXP_KATAKANA "ｺﾞﾛﾝ";
-            gSaveContext.dayTime = 0;
+            gSaveContext.dayTime = CLOCK_TIME(0, 0);
             break;
         case 0x8000:
             // clang-format off
-            gSaveContext.dayTime = 0x8000; label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
+            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
             // clang-format on
             break;
         case 0xFFF0:
             // clang-format off
-            gSaveContext.dayTime = 0x8000; label = "ﾃﾞﾓ00";
+            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = "ﾃﾞﾓ00";
             // clang-format on
             break;
         case 0xFFF1:
@@ -651,7 +653,7 @@ void Select_DrawMenu(SelectContext* this) {
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     View_Apply(&this->view, VIEW_ALL);
-    func_80094140(gfxCtx);
+    Gfx_SetupDL_28Opa(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
@@ -675,7 +677,7 @@ void Select_DrawLoadingScreen(SelectContext* this) {
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     View_Apply(&this->view, VIEW_ALL);
-    func_80094140(gfxCtx);
+    Gfx_SetupDL_28Opa(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
@@ -759,7 +761,7 @@ void Select_Init(GameState* thisx) {
     R_UPDATE_RATE = 1;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_select.c", 1114);
-    DmaMgr_SendRequest1(this->staticSegment, _z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
+    DmaMgr_SendRequest1(this->staticSegment, (u32)_z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     gSaveContext.cutsceneIndex = 0x8000;
     gSaveContext.linkAge = LINK_AGE_CHILD;
 }

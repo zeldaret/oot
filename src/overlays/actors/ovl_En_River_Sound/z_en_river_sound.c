@@ -8,10 +8,10 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnRiverSound_Init(Actor* thisx, PlayState* play);
+void EnRiverSound_Destroy(Actor* thisx, PlayState* play);
+void EnRiverSound_Update(Actor* thisx, PlayState* play);
+void EnRiverSound_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_River_Sound_InitVars = {
     ACTOR_EN_RIVER_SOUND,
@@ -25,7 +25,7 @@ const ActorInit En_River_Sound_InitVars = {
     (ActorFunc)EnRiverSound_Draw,
 };
 
-void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnRiverSound_Init(Actor* thisx, PlayState* play) {
     EnRiverSound* this = (EnRiverSound*)thisx;
 
     this->playSound = false;
@@ -46,7 +46,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnRiverSound_Destroy(Actor* thisx, PlayState* play) {
     EnRiverSound* this = (EnRiverSound*)thisx;
 
     if (this->actor.params == RS_LOST_WOODS_SARIAS_SONG) {
@@ -191,23 +191,22 @@ s32 EnRiverSound_GetSoundPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f
     return true;
 }
 
-void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnRiverSound_Update(Actor* thisx, PlayState* play) {
     Path* path;
     Vec3f* pos;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
     EnRiverSound* this = (EnRiverSound*)thisx;
     s32 bgId;
 
     if ((thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) || (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
         (thisx->params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
-        path = &globalCtx->setupPathList[this->pathIndex];
+        path = &play->setupPathList[this->pathIndex];
         pos = &thisx->world.pos;
 
         if (EnRiverSound_GetSoundPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
-            if (BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &bgId, thisx, pos) !=
-                BGCHECK_Y_MIN) {
+            if (BgCheck_EntityRaycastFloor4(&play->colCtx, &thisx->floorPoly, &bgId, thisx, pos) != BGCHECK_Y_MIN) {
                 // Get the river sfx frequency based on the speed of the river current under the actor
-                this->soundFreqIndex = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, thisx->floorPoly, bgId);
+                this->soundFreqIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, thisx->floorPoly, bgId);
             } else {
                 this->soundFreqIndex = 0;
             }
@@ -228,12 +227,12 @@ void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else if ((thisx->params == RS_GORON_CITY_SARIAS_SONG) || (thisx->params == RS_GREAT_FAIRY)) {
         func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
-    } else if (globalCtx->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(globalCtx, thisx->room)) {
+    } else if (play->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(play, thisx->room)) {
         Actor_Kill(thisx);
     }
 }
 
-void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
     static s16 soundEffects[] = {
         0,
         NA_SE_EV_WATER_WALL - SFX_FLAG,

@@ -10,7 +10,7 @@ OSViMode gViConfigMode;
 u8 D_80013960;
 
 s8 D_80009430 = 1;
-vu8 gViConfigUseDefault = 1;
+vu8 gViConfigBlack = true;
 u8 gViConfigAdditionalScanLines = 0;
 u32 gViConfigFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
 f32 gViConfigXScale = 1.0;
@@ -75,9 +75,9 @@ void Idle_ThreadEntry(void* arg) {
 
     D_80009430 = 1;
     osViSetMode(&gViConfigMode);
-    ViConfig_UpdateVi(1);
-    osViBlack(1);
-    osViSwapBuffer(0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
+    ViConfig_UpdateVi(true);
+    osViBlack(true);
+    osViSwapBuffer((void*)0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
     osCreatePiManager(OS_PRIORITY_PIMGR, &gPiMgrCmdQueue, sPiMgrCmdBuff, ARRAY_COUNT(sPiMgrCmdBuff));
     StackCheck_Init(&sMainStackInfo, sMainStack, STACK_TOP(sMainStack), 0, 0x400, "main");
     osCreateThread(&gMainThread, THREAD_ID_MAIN, Main_ThreadEntry, arg, STACK_TOP(sMainStack), THREAD_PRI_MAIN_INIT);

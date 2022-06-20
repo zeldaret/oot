@@ -1,11 +1,12 @@
 #include "global.h"
 
-void* Overlay_AllocateAndLoad(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd) {
+void* Overlay_AllocateAndLoad(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* vRamEnd) {
     void* allocatedVRamAddr = SystemArena_MallocRDebug((s32)vRamEnd - (s32)vRamStart, "../loadfragment2.c", 31);
 
     if (gOverlayLogSeverity >= 3) {
         osSyncPrintf("OVL:SPEC(%08x-%08x) REAL(%08x-%08x) OFFSET(%08x)\n", vRamStart, vRamEnd, allocatedVRamAddr,
-                     ((u32)vRamEnd - (u32)vRamStart) + (u32)allocatedVRamAddr, (u32)vRamStart - (u32)allocatedVRamAddr);
+                     ((uintptr_t)vRamEnd - (uintptr_t)vRamStart) + (uintptr_t)allocatedVRamAddr,
+                     (uintptr_t)vRamStart - (uintptr_t)allocatedVRamAddr);
     }
 
     if (allocatedVRamAddr != NULL) {

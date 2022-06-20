@@ -20,7 +20,7 @@ glabel func_80A87F44
 ```
 This is a classic "function with two arguments that does nothing". So we can simply comment out the appropriate pragma and put
 ```C
-void func_80A87F44(Actor* thisx, GlobalContext* globalCtx) {
+void func_80A87F44(Actor* thisx, PlayState* play) {
 
 }
 ```
@@ -30,16 +30,16 @@ in the C file.
 
 Destroy will be a dead end, but we might as well do it now. Remaking the context and using mips2c on it (main 4 function, so change the prototype to use `EnJj* this`!) gives
 ```C
-void EnJj_Destroy(EnJj *this, GlobalContext *globalCtx) {
-    GlobalContext *temp_a3;
+void EnJj_Destroy(EnJj *this, PlayState *play) {
+    PlayState *temp_a3;
     s16 temp_v0;
 
     temp_v0 = this->dyna.actor.params;
-    temp_a3 = globalCtx;
+    temp_a3 = play;
     if (temp_v0 == -1) {
-        globalCtx = temp_a3;
+        play = temp_a3;
         DynaPoly_DeleteBgActor(temp_a3, &temp_a3->colCtx.dyna, (s32) this->dyna.bgId);
-        Collider_DestroyCylinder(globalCtx, &this->collider);
+        Collider_DestroyCylinder(play, &this->collider);
         return;
     }
     if ((temp_v0 != 0) && (temp_v0 != 1)) {
@@ -51,15 +51,15 @@ void EnJj_Destroy(EnJj *this, GlobalContext *globalCtx) {
 
 Again remember to return the first argument to `Actor* this` and put `EnJj* this = THIS;` in the function body. Based on what we know about this actor already, we expect this to be another switch. Rearranging it as such, and removing the likely fake `temp_v0` gives
 ```C
-void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnJj_Destroy(Actor* thisx, PlayState* play) {
     EnJj* this = THIS;
-    GlobalContext* temp_a3;
-    temp_a3 = globalCtx;
+    PlayState* temp_a3;
+    temp_a3 = play;
 
     switch (this->dyna.actor.params) {
         case -1:
-            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-            Collider_DestroyCylinder(globalCtx, &this->collider);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            Collider_DestroyCylinder(play, &this->collider);
             break;
         case 0:
         case 1:
@@ -70,23 +70,23 @@ void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 ```
 Using `./diff.py -mwo3 EnJj_Destroy` shows that this matches already, but it seems like the temp usage should be more consistent. A little experimentation shows that
 ```C
-void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnJj_Destroy(Actor* thisx, PlayState* play) {
     EnJj* this = THIS;
 
     switch (this->dyna.actor.params) {
         case -1:
-            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-            Collider_DestroyCylinder(globalCtx, &this->collider);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            Collider_DestroyCylinder(play, &this->collider);
             break;
         case 0:
         case 1:
-            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
             break;
     }
 }
 ```
 
-also matches, with no need for the `GlobalContext*` temp.
+also matches, with no need for the `PlayState*` temp.
 
 ## Action Functions
 
@@ -94,7 +94,7 @@ also matches, with no need for the `GlobalContext*` temp.
 
 Of the two functions we have available, `func_80A87BEC` is shorter, so we do that next. Since we haven't changed any types or header file information, there is no need to remake the context. mips2c gives
 ```C
-void func_80A87BEC(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87BEC(EnJj *this, PlayState *play) {
     if (this->dyna.actor.xzDistToPlayer < 300.0f) {
         func_80A87800(this, &func_80A87B9C);
     }
@@ -104,10 +104,10 @@ void func_80A87BEC(EnJj *this, GlobalContext *globalCtx) {
 We see that this function just sets another action function when Link is close enough to the actor. All we have to do to this is remove the `&`, and prototype `func_80A87B9C` to be an action function. Notably, this time it is not used before it is defined, so we don't need a prototype at the top: putting a placeholder one in at the function position will do, i.e. our total edits this time are
 ```C
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func_80A87B9C.s")
-void func_80A87B9C(EnJj *this, GlobalContext *globalCtx);
+void func_80A87B9C(EnJj *this, PlayState *play);
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func_80A87BEC.s")
-void func_80A87BEC(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87BEC(EnJj *this, PlayState *play) {
     if (this->dyna.actor.xzDistToPlayer < 300.0f) {
         func_80A87800(this, func_80A87B9C);
     }
@@ -120,14 +120,14 @@ We can now either follow this chain of action functions down, or start with the 
 
 We can remake the context, but it's simpler to just stick the function prototype we made at the bottom of the context. Either way, mips2c gives us
 ```C
-void func_80A87B9C(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87B9C(EnJj *this, PlayState *play) {
     s16 temp_v0;
 
     temp_v0 = this->unk308;
     if ((s32) temp_v0 >= -0x1450) {
         this->unk308 = (s16) (temp_v0 - 0x66);
         if ((s32) this->unk308 < -0xA28) {
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->childActor->unk14C);
+            func_8003EBF8(play, &play->colCtx.dyna, this->childActor->unk14C);
         }
     }
 }
@@ -163,11 +163,11 @@ this->childActor = (DynaPolyActor*)Actor_SpawnAsChild(...)
 
 Doing so, we are left with
 ```C
-void func_80A87B9C(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87B9C(EnJj *this, PlayState *play) {
     if (this->unk_308 >= -0x1450) {
         this->unk_308 -= 0x66;
         if (this->unk_308 < -0xA28) {
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->childActor->bgId);
+            func_8003EBF8(play, &play->colCtx.dyna, this->childActor->bgId);
         }
     }
 }
@@ -204,7 +204,7 @@ The first suggestion looks plausible:
 +++ after
 @@ -1390,12 +1390,14 @@
  } EnJj;
- void func_80A87B9C(EnJj *this, GlobalContext *globalCtx)
+ void func_80A87B9C(EnJj *this, PlayState *play)
  {
 -  if (this->unk_308 >= (-0x1450))
 +  DynaPolyActor *new_var;
@@ -214,8 +214,8 @@ The first suggestion looks plausible:
      this->unk_308 -= 0x66;
      if (this->unk_308 < (-0xA28))
      {
--      func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->childActor->bgId);
-+      func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, new_var->bgId);
+-      func_8003EBF8(play, &play->colCtx.dyna, this->childActor->bgId);
++      func_8003EBF8(play, &play->colCtx.dyna, new_var->bgId);
      }
 
    }
@@ -223,13 +223,13 @@ The first suggestion looks plausible:
 
 In particular, adding a temp for the actor. Some of the rest is rather puzzling, but let's just try the actor temp,
 ```C
-void func_80A87B9C(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87B9C(EnJj *this, PlayState *play) {
     DynaPolyActor* child = this->childActor;
 
     if (this->unk_308 >= -0x1450) {
         this->unk_308 -= 0x66;
         if (this->unk_308 < -0xA28) {
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
+            func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
         }
     }
 }
@@ -241,13 +241,13 @@ Hooray, that worked. The function now matches (as you can check by running `make
 
 However, the hex values look a bit strange, and it turns out the decimal equivalents look less strange, so it's a good idea to translate them:
 ```C
-void func_80A87B9C(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87B9C(EnJj *this, PlayState *play) {
     DynaPolyActor* child = this->childActor;
 
     if (this->unk_308 >= -5200) {
         this->unk_308 -= 102;
         if (this->unk_308 < -2600) {
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
+            func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
         }
     }
 }
@@ -259,29 +259,29 @@ With that, we have reached the end of this action function chain, and now have t
 
 Remaking the context and running mips2c on the assembly gives
 ```C
-void func_80A87C30(EnJj *this, GlobalContext *globalCtx) {
-    if ((Math_Vec3f_DistXZ(&D_80A88CF0, globalCtx->unk1C44 + 0x24) < 300.0f) && (globalCtx->isPlayerDroppingFish(globalCtx) != 0)) {
+void func_80A87C30(EnJj *this, PlayState *play) {
+    if ((Math_Vec3f_DistXZ(&D_80A88CF0, play->unk1C44 + 0x24) < 300.0f) && (play->isPlayerDroppingFish(play) != 0)) {
         this->unk_30C = 0x64;
         func_80A87800(this, &func_80A87CEC);
     }
     this->collider.dim.pos.x = -0x4DD;
     this->collider.dim.pos.y = 0x14;
     this->collider.dim.pos.z = -0x30;
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, (Collider *) &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, (Collider *) &this->collider);
 }
 ```
 
 If you know anything about this game, this is obviously the function that begins the process of the swallowing Link cutscene. Performing minor cleanups reduces us to
 ```C
-void func_80A87C30(EnJj *this, GlobalContext *globalCtx) {
-    if ((Math_Vec3f_DistXZ(&D_80A88CF0, globalCtx->unk1C44 + 0x24) < 300.0f) && (globalCtx->isPlayerDroppingFish(globalCtx) != 0)) {
+void func_80A87C30(EnJj *this, PlayState *play) {
+    if ((Math_Vec3f_DistXZ(&D_80A88CF0, play->unk1C44 + 0x24) < 300.0f) && (play->isPlayerDroppingFish(play) != 0)) {
         this->unk_30C = 100;
         func_80A87800(this, func_80A87CEC);
     }
     this->collider.dim.pos.x = -1245;
     this->collider.dim.pos.y = 20;
     this->collider.dim.pos.z = -48;
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider);
 }
 ```
 
@@ -294,23 +294,23 @@ extern Vec3f D_80A88CF0;
 ```
 (you must include the `.0f` parts even for integer floats: it can affect codegen, and as such it is part of our style).
 
-- replace the mysterious `globalCtx->unk1C44 + 0x24`. The first part is so common that most people on decomp know it by heart: it is the location of the Player actor. `+ 0x24` is obviously an offset that leats to a `Vec3f`, and if you look in the actor struct, you find that this is the location of `world.pos`. To use `Player`, we put `Player* player = GET_PLAYER(globalCtx)` at the top of the function.
+- replace the mysterious `play->unk1C44 + 0x24`. The first part is so common that most people on decomp know it by heart: it is the location of the Player actor. `+ 0x24` is obviously an offset that leats to a `Vec3f`, and if you look in the actor struct, you find that this is the location of `world.pos`. To use `Player`, we put `Player* player = GET_PLAYER(play)` at the top of the function.
 
-**NOTE:** mips_to_c will now output something like `&globalCtx->actorCtx.actorLists[2].head` for the Player pointer instead: this makes a lot more sense, but is not so easy to spot in the ASM without the characteristic `1C44`.
+**NOTE:** mips_to_c will now output something like `&play->actorCtx.actorLists[2].head` for the Player pointer instead: this makes a lot more sense, but is not so easy to spot in the ASM without the characteristic `1C44`.
 
 After all this, the function becomes
 ```C
-void func_80A87C30(EnJj *this, GlobalContext *globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80A87C30(EnJj *this, PlayState *play) {
+    Player* player = GET_PLAYER(play);
 
-    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && (globalCtx->isPlayerDroppingFish(globalCtx) != 0)) {
+    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && (play->isPlayerDroppingFish(play) != 0)) {
         this->unk_30C = 100;
         func_80A87800(this, func_80A87CEC);
     }
     this->collider.dim.pos.x = -1245;
     this->collider.dim.pos.y = 20;
     this->collider.dim.pos.z = -48;
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider);
 }
 ```
 
@@ -341,19 +341,19 @@ typedef struct EnJj {
 } EnJj; // size = 0x0314
 ```
 
-The diff now looks fine for this function, but it gives compiler warnings about `CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);`: the last argument is the wrong type: we need to give it `&this->collider.base` instead, which points to the same address, but is the right type. So the matching function is
+The diff now looks fine for this function, but it gives compiler warnings about `CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider);`: the last argument is the wrong type: we need to give it `&this->collider.base` instead, which points to the same address, but is the right type. So the matching function is
 ```C
-void func_80A87C30(EnJj *this, GlobalContext *globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80A87C30(EnJj *this, PlayState *play) {
+    Player* player = GET_PLAYER(play);
 
-    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && (globalCtx->isPlayerDroppingFish(globalCtx) != 0)) {
+    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && (play->isPlayerDroppingFish(play) != 0)) {
         this->unk_30C = 100;
         func_80A87800(this, func_80A87CEC);
     }
     this->collider.dim.pos.x = -1245;
     this->collider.dim.pos.y = 20;
     this->collider.dim.pos.z = -48;
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 ```
 
@@ -363,7 +363,7 @@ Again we have only one choice for our next function, namely `func_80A87CEC`.
 
 Remaking the context and running mips2c on the assembly gives
 ```C
-void func_80A87CEC(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87CEC(EnJj *this, PlayState *play) {
     DynaPolyActor *sp1C;
     DynaPolyActor *temp_v1;
     s16 temp_v0;
@@ -375,12 +375,12 @@ void func_80A87CEC(EnJj *this, GlobalContext *globalCtx) {
         return;
     }
     sp1C = temp_v1;
-    globalCtx = globalCtx;
+    play = play;
     func_80A87800(this, &func_80A87EF0);
-    globalCtx->csCtx.segment = &D_80A88164;
+    play->csCtx.segment = &D_80A88164;
     gSaveContext.cutsceneTrigger = (u8)1U;
-    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, (s32) temp_v1->bgId);
-    func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamId]);
+    func_8003EBF8(play, &play->colCtx.dyna, (s32) temp_v1->bgId);
+    func_8005B1A4(play->cameraPtrs[play->activeCamId]);
     gSaveContext.unkEDA = (u16) (gSaveContext.unkEDA | 0x400);
     func_80078884((u16)0x4802U);
 }
@@ -394,9 +394,9 @@ Easy things to sort out:
 
 - We can remove the casts from `(u8)1U` and just leave `1`.
 
-- `globalCtx->cameraPtrs[globalCtx->activeCamId]` has a macro: it is `GET_ACTIVE_CAM(globalCtx)`, so this line can be written as
+- `play->cameraPtrs[play->activeCamId]` has a macro: it is `GET_ACTIVE_CAM(play)`, so this line can be written as
 ```C
-func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
+func_8005B1A4(GET_ACTIVE_CAM(play));
 ```
 
 - `gSaveContext.unkEDA` we have dealt with before: it is `gSaveContext.eventChkInf[3]`. This is a flag-setting function; it can be written more compactly as
@@ -408,17 +408,17 @@ gSaveContext.unkEDA |= 0x400
 
 It remains to work out which, if any, of the temps are real. Based on our previous experience, we expect `temp_v1` to be real. `sp1C` is unused and hence unlikely to be real. `temp_v0` is only used in the short if and so probably not real. Checking the diff shows that our suspicions were correct:
 ```C
-void func_80A87CEC(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87CEC(EnJj *this, PlayState *play) {
     DynaPolyActor *child = this->childActor;
     if (this->unk_30C > 0) {
         this->unk_30C--;
         return;
     }
     func_80A87800(this, func_80A87EF0);
-    globalCtx->csCtx.segment = &D_80A88164;
+    play->csCtx.segment = &D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
-    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
-    func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
+    func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
+    func_8005B1A4(GET_ACTIVE_CAM(play));
     gSaveContext.eventChkInf[3] |= 0x400;
     func_80078884(NA_SE_SY_CORRECT_CHIME);
 }
@@ -428,16 +428,16 @@ matches, but generates a complier warning for `func_8005B1A4`, which it can't fi
 
 Lastly, we prefer to limit use of early `return`s, and use `else`s instead if possible. That applies here: the function can be rewritten as
 ```C
-void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
+void func_80A87CEC(EnJj* this, PlayState* play) {
     DynaPolyActor* child = this->childActor;
     if (this->unk_30C > 0) {
         this->unk_30C--;
     } else {
         func_80A87800(this, func_80A87EF0);
-        globalCtx->csCtx.segment = &D_80A88164;
+        play->csCtx.segment = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
-        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
+        func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
+        func_8005B1A4(GET_ACTIVE_CAM(play));
         gSaveContext.eventChkInf[3] |= 0x400;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
@@ -450,7 +450,7 @@ and still match. (Early `return`s are used after an `Actor_Kill` and in a few ot
 
 mips2c with updated context gives
 ```C
-void func_80A87EF0(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87EF0(EnJj *this, PlayState *play) {
     char *temp_a0;
     u16 temp_v0;
 
@@ -475,7 +475,7 @@ lhu     $v0, 0x030A($a0)
 ```
 which at last tells us that `unk_30A` is actually a `u16`. We can now eliminate `temp_v0`, and replace the ` == 0` by a `!(...)`, which leaves
 ```C
-void func_80A87EF0(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87EF0(EnJj *this, PlayState *play) {
     Actor *temp_a0;
 
     if (!(this->unk_30A & 4)) {
@@ -496,8 +496,8 @@ Again we have run out of action functions. The rules suggest that we now look at
 
 Update runs every frame and updates the properties of the actor, and usually runs the action functions once per frame. As before we change the first argument to `EnJj* this` to get it to use our actor's struct. mips2c gives
 ```C
-void EnJj_Update(EnJj *this, GlobalContext *globalCtx) {
-    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->unk1D94 != 0)) {
+void EnJj_Update(EnJj *this, PlayState *play) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->unk1D94 != 0)) {
         func_80A87D94();
     } else {
         this->actionFunc(this);
@@ -512,19 +512,19 @@ void EnJj_Update(EnJj *this, GlobalContext *globalCtx) {
 }
 ```
 
-This has several problems: firstly, the action function is called with the wrong argument. We should thus be suspicious of previous functions this actor calls, and decompile them mith mips2c without context if necessary, if only to find out how many arguments they have. We find that `func_80A87D94` definitely takes `EnJj* this, GlobalContext* globalCtx` as arguments. Again, put this prototype at the function location above to avoid compiler warnings.
+This has several problems: firstly, the action function is called with the wrong argument. We should thus be suspicious of previous functions this actor calls, and decompile them mith mips2c without context if necessary, if only to find out how many arguments they have. We find that `func_80A87D94` definitely takes `EnJj* this, PlayState* play` as arguments. Again, put this prototype at the function location above to avoid compiler warnings.
 
 `unk40` of an array of `Vec3s`s is `0x40 = 0x6 * 0xA + 0x4`, so is actually `this->skelAnime.jointTable[10].z`
 
-Lastly, what is `globalCtx->unk1D94`? It is at `globalCtx->csCtx + 0x30`, or `globalCtx->csCtx.npcActions + 0x8`, which is `globalCtx->csCtx.npcActions[2]` since this is an array of pointers. Hence it is a pointer, and so should be compared to `NULL`. Looking up the sfx Id again, we end up with
+Lastly, what is `play->unk1D94`? It is at `play->csCtx + 0x30`, or `play->csCtx.npcActions + 0x8`, which is `play->csCtx.npcActions[2]` since this is an array of pointers. Hence it is a pointer, and so should be compared to `NULL`. Looking up the sfx Id again, we end up with
 ```C
-void EnJj_Update(Actor *thisx, GlobalContext *globalCtx) {
+void EnJj_Update(Actor *thisx, PlayState *play) {
     EnJj* this = THIS;
 
-    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[2] != NULL)) {
-        func_80A87D94(this, globalCtx);
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL)) {
+        func_80A87D94(this, play);
     } else {
-        this->actionFunc(this, globalCtx);
+        this->actionFunc(this, play);
         if (this->skelAnime.curFrame == 41.0f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
@@ -631,7 +631,7 @@ You will also find that the permuter is essentially useless here: most solutions
 
 This is our last ordinary function. Unfortunately, even with new context, mips2c gives us a bit of a mess:
 ```C
-void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87D94(EnJj *this, PlayState *play) {
     s16 temp_v0_2;
     u16 temp_t1;
     u16 temp_t4;
@@ -643,7 +643,7 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
     u16 temp_v1_3;
     u16 phi_v1;
 
-    temp_v0 = *globalCtx->unk1D94;
+    temp_v0 = *play->unk1D94;
     if (temp_v0 != 1) {
         if (temp_v0 != 2) {
             if (temp_v0 != 3) {
@@ -667,7 +667,7 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
             this->unk_30A = temp_t1;
             phi_v1 = temp_v1_2;
             if ((temp_v1_2 & 8) == 0) {
-                this->unk_304 = Actor_SpawnAsChild(&globalCtx->actorCtx, (Actor *) this, globalCtx, (u16)0x101, -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
+                this->unk_304 = Actor_SpawnAsChild(&play->actorCtx, (Actor *) this, play, (u16)0x101, -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
                 temp_t4 = this->unk_30A | 8;
                 this->unk_30A = temp_t4;
                 phi_v1 = temp_t4 & 0xFFFF;
@@ -698,16 +698,16 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
 
 At the top we have
 ```C
-    temp_v0 = *globalCtx->unk1D94;
+    temp_v0 = *play->unk1D94;
     if (temp_v0 != 1) {
         if (temp_v0 != 2) {
             if (temp_v0 != 3) {
 ```
-Firstly, we are now comparing with the value of `globalCtx->unk1D94`, not just using a pointer, so we need the first thing in `globalCtx->csCtx.npcActions[2]`. This turns out to be `globalCtx->csCtx.npcActions[2]->action`.
+Firstly, we are now comparing with the value of `play->unk1D94`, not just using a pointer, so we need the first thing in `play->csCtx.npcActions[2]`. This turns out to be `play->csCtx.npcActions[2]->action`.
 
 The if structure here is another classic indicator of a switch: nested, with the same variable compared multiple times. If you were to diff this as-is, you would find that the code is in completely the wrong order. Reading how the ifs work, we see that if `temp_v0` is `1`, it executes the outermost else block, if it is `2`, the middle, if `3`, the innermost, and if it is anything else, the contents of the innermost if. Hence this becomes
 ```C
-void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
+void func_80A87D94(EnJj *this, PlayState *play) {
     s16 temp_v0_2;
     u16 temp_t1;
     u16 temp_t4;
@@ -719,7 +719,7 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
     u16 temp_v1_3;
     u16 phi_v1;
 
-    switch (globalCtx->csCtx.npcActions[2]->action) {
+    switch (play->csCtx.npcActions[2]->action) {
         case 1:
             temp_v1_3 = this->unk_30A;
             phi_v1 = temp_v1_3;
@@ -739,7 +739,7 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
             this->unk_30A = temp_t1;
             phi_v1 = temp_v1_2;
             if ((temp_v1_2 & 8) == 0) {
-                this->unk_304 = Actor_SpawnAsChild(&globalCtx->actorCtx, (Actor *) this, globalCtx, (u16)0x101, -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
+                this->unk_304 = Actor_SpawnAsChild(&play->actorCtx, (Actor *) this, play, (u16)0x101, -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
                 temp_t4 = this->unk_30A | 8;
                 this->unk_30A = temp_t4;
                 phi_v1 = temp_t4 & 0xFFFF;
@@ -784,8 +784,8 @@ As usual, most of the remaining temps look fake. The only one that does not is p
 </summary>
 
 ```C
-void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
-    switch (globalCtx->csCtx.npcActions[2]->action) {
+void func_80A87D94(EnJj* this, PlayState* play) {
+    switch (play->csCtx.npcActions[2]->action) {
         case 1:
             if ((this->unk_30A & 2) != 0) {
                 this->unk_30E = 0;
@@ -798,7 +798,7 @@ void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
         case 2:
             this->unk_30A |= 1;
             if ((this->unk_30A & 8) == 0) {
-                this->unk_304 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EFF_DUST,
+                this->unk_304 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST,
                                                    -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
                 this->unk_30A |= 8;
             }

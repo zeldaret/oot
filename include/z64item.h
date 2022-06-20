@@ -78,7 +78,8 @@ typedef enum {
     /* 0x04 */ UPG_WALLET,
     /* 0x05 */ UPG_BULLET_BAG,
     /* 0x06 */ UPG_STICKS,
-    /* 0x07 */ UPG_NUTS
+    /* 0x07 */ UPG_NUTS,
+    /* 0x08 */ UPG_MAX
 } UpgradeType;
 
 typedef enum {

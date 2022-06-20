@@ -19,7 +19,7 @@ typedef struct {
     /* 0x2C */ Vec3f vec; // Usage specific
 } EnZoEffect; // size = 0x38
 
-typedef void (*EnZoActionFunc)(struct EnZo*, GlobalContext*);
+typedef void (*EnZoActionFunc)(struct EnZo*, PlayState*);
 
 typedef struct EnZo {
     /* 0x0000 */ Actor actor;

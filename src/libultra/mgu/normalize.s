@@ -1,6 +1,5 @@
 #include "ultra64/asm.h"
 
-.set noat
 .set noreorder
 
 .section .text

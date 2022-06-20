@@ -43,7 +43,7 @@ The general rule for order of decompilation is
 - Next, decompile any other functions from the actor you have found in `Init`. You generally start with the action functions, because they return nothing and all take the same arguments,
 
 ```C
-void func_80whatever(EnJj* this, GlobalContext* globalCtx);
+void func_80whatever(EnJj* this, PlayState* play);
 ```
 
 - Decompile each action function in turn until you run out. Along the way, do any other functions in the actor for which you have discovered the argument types. (You are probably better doing depth-first on action functions than breadth-first: it's normally easier to follow along one branch of the actions than )
@@ -103,7 +103,7 @@ Copy the entire contents of this file into the upper box, labelled "MIPS assembl
 
 Now press "Decompile". This should produce C code:
 ```C
-void EnJj_Init(EnJj *this, GlobalContext *globalCtx) {
+void EnJj_Init(EnJj *this, PlayState *play) {
     CollisionHeader *sp4C;
     DynaCollisionContext *sp44;
     DynaCollisionContext *temp_a1;
@@ -146,7 +146,7 @@ While we are carrying out initial changes, you can also find-and-replace any ins
 </summary>
 
 ```C
-void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
+void EnJj_Init(Actor *thisx, PlayState *play) {
     EnJj* this = THIS;
 
     CollisionHeader *sp4C;
@@ -164,7 +164,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     temp_a1 = this + 0x164;
     if (temp_v0 == -1) {
         sp44 = temp_a1;
-        SkelAnime_InitFlex(globalCtx, (SkelAnime *) temp_a1, (FlexSkeletonHeader *) &D_0600B9A8, (AnimationHeader *) &D_06001F4C, this + 0x1A8, this + 0x22C, 0x16);
+        SkelAnime_InitFlex(play, (SkelAnime *) temp_a1, (FlexSkeletonHeader *) &D_0600B9A8, (AnimationHeader *) &D_06001F4C, this + 0x1A8, this + 0x22C, 0x16);
         Animation_PlayLoop((SkelAnime *) sp44, (AnimationHeader *) &D_06001F4C);
         this->unk30A = (u16)0;
         this->unk30E = (u8)0;
@@ -176,25 +176,25 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
         } else {
             func_80A87800(this, &func_80A87C30);
         }
-        this->unk300 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, (u16)0x5A, this->actor.world.pos.x - 10.0f, this->actor.world.pos.y, this->actor.world.pos.z, 0, (?32) this->actor.world.rot.y, 0, 0);
+        this->unk300 = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, (u16)0x5A, this->actor.world.pos.x - 10.0f, this->actor.world.pos.y, this->actor.world.pos.z, 0, (?32) this->actor.world.rot.y, 0, 0);
         DynaPolyActor_Init((DynaPolyActor *) this, 0);
         CollisionHeader_GetVirtual((void *) &D_06000A1C, &sp4C);
-        this->unk_14C = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp4C);
+        this->unk_14C = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, sp4C);
         temp_a1_3 = this + 0x2B0;
         sp44 = temp_a1_3;
-        Collider_InitCylinder(globalCtx, (ColliderCylinder *) temp_a1_3);
-        Collider_SetCylinder(globalCtx, (ColliderCylinder *) temp_a1_3, &this->actor, &D_80A88CB4);
+        Collider_InitCylinder(play, (ColliderCylinder *) temp_a1_3);
+        Collider_SetCylinder(play, (ColliderCylinder *) temp_a1_3, &this->actor, &D_80A88CB4);
         this->actor.colChkInfo.mass = 0xFF;
         return;
     }
     if (temp_v0 == 0) {
         DynaPolyActor_Init((DynaPolyActor *) this, 0);
         CollisionHeader_GetVirtual((void *) &D_06001830, &sp4C);
-        temp_a1_2 = &globalCtx->colCtx.dyna;
+        temp_a1_2 = &play->colCtx.dyna;
         sp44 = temp_a1_2;
-        temp_v0_2 = DynaPoly_SetBgActor(globalCtx, temp_a1_2, &this->actor, sp4C);
+        temp_v0_2 = DynaPoly_SetBgActor(play, temp_a1_2, &this->actor, sp4C);
         this->unk_14C = temp_v0_2;
-        func_8003ECA8(globalCtx, temp_a1_2, (s32) temp_v0_2);
+        func_8003ECA8(play, temp_a1_2, (s32) temp_v0_2);
         this->actor.update = &func_80A87F44;
         this->actor.draw = NULL;
         Actor_SetScale(&this->actor, 0.087f);
@@ -205,7 +205,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
     DynaPolyActor_Init((DynaPolyActor *) this, 0);
     CollisionHeader_GetVirtual((void *) &D_0600BA8C, &sp4C);
-    this->unk_14C = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp4C);
+    this->unk_14C = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, sp4C);
     this->actor.update = &func_80A87F44;
     this->actor.draw = NULL;
     Actor_SetScale(&this->actor, 0.087f);
@@ -281,7 +281,7 @@ Glancing through the rest of `EnJj_Init`, we notice some references to DynaPoly,
 ```C
 DynaPolyActor_Init((DynaPolyActor *) this, 0);
 CollisionHeader_GetVirtual((void *) &D_06000A1C, &sp4C);
-this->unk_14C = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp4C);
+this->unk_14C = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, sp4C);
 ```
 
 This means that EnJj is not an ordinary actor: it is instead a DynaPoly actor. In-game this is to do with how the actor interacts with Link and the environment (a good rule of thumb is that Link can often stand on DynaPoly actors as if they were ground). For decompilation purposes, it means that the actor struct is wrong: the first element of a DynaPoly actor's struct is not an `Actor` struct, but a `DynaPolyActor`, usually called `dyna`. We should fix this immediately to avoid confusion later. (Some actors have this correctly identified already; we were unlucky with this one.)
@@ -318,7 +318,7 @@ Now that we know this, it is worth remaking the context file and running mips2c 
 ```C
 DynaPolyActor_Init((DynaPolyActor *) this, 0);
 CollisionHeader_GetVirtual((void *) &D_06000A1C, &sp4C);
-this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
+this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
 ```
 
 Next, replace `(DynaPolyActor *) this` by `&this->dyna`. There's not a lot more we can do to the DynaPoly stuff right now, so just remove the casts to void and move on.
@@ -331,8 +331,8 @@ The relevant functions in this actor are
 ```C
 temp_a1_3 = this + 0x2B0;
 sp44 = temp_a1_3;
-Collider_InitCylinder(globalCtx, (ColliderCylinder *) temp_a1_3);
-Collider_SetCylinder(globalCtx, (ColliderCylinder *) temp_a1_3, &this->dyna.actor, &D_80A88CB4);
+Collider_InitCylinder(play, (ColliderCylinder *) temp_a1_3);
+Collider_SetCylinder(play, (ColliderCylinder *) temp_a1_3, &this->dyna.actor, &D_80A88CB4);
 ```
 
 Notice that `sp44` is set, but actually not used anywhere in the actor. This is a good indication that it is fake. We'll get back to that. Similarly, `temp_a1_3` is only used in these functions, so is likely to be fake as well: it's simply trying to get the pointer into the `a1` register.
@@ -349,8 +349,8 @@ typedef struct EnJj {
 
 Now replace the temps, so we have
 ```C
-Collider_InitCylinder(globalCtx, &this->collider);
-Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80A88CB4);
+Collider_InitCylinder(play, &this->collider);
+Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
 ```
 
 (You may prefer to just comment out temps initially, to keep track of where they were.)
@@ -398,7 +398,7 @@ This is the combined system that handles actors' skeletons and their animations.
 temp_a1 = this->unk_164;
 ...
 sp44 = (DynaCollisionContext *) temp_a1;
-SkelAnime_InitFlex(globalCtx, (SkelAnime *) temp_a1, (FlexSkeletonHeader *) &D_0600B9A8, (AnimationHeader *) &D_06001F4C, this + 0x1A8, this + 0x22C, 0x16);
+SkelAnime_InitFlex(play, (SkelAnime *) temp_a1, (FlexSkeletonHeader *) &D_0600B9A8, (AnimationHeader *) &D_06001F4C, this + 0x1A8, this + 0x22C, 0x16);
 Animation_PlayLoop((SkelAnime *) sp44, (AnimationHeader *) &D_06001F4C);
 ```
 
@@ -438,7 +438,7 @@ extern UNK_TYPE D_0600BA8C;
 
 and removing the temps,
 ```C
-SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
+SkelAnime_InitFlex(play, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
 Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
 ```
 
@@ -446,13 +446,13 @@ Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
 
 This function also gives us information about other things in the struct. One obvious thing that sticks out is
 ```C
-this->unk300 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, (u16)0x5A, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, (?32) this->dyna.actor.world.rot.y, 0, 0);
+this->unk300 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, (u16)0x5A, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, (?32) this->dyna.actor.world.rot.y, 0, 0);
 ```
 Hovering over this function tells us it outputs a pointer to the spawned actor, so `this->unk_300` is an `Actor*`. We may or may not care what this actor actually is, depending on how it is used later on, so let's just add `/* 0x0300 */ Actor* childActor` to the struct for now.
 
 We can look up what the actor with ID 0x5A is in `z64actor.h`: we find it is `ACTOR_EN_JJ`. So some Jabus spawn another Jabu. Filling this in and removing the spurious cast, we have
 ```C
-this->childActor = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
+this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
 ```
 
 Finally, we have this block:
@@ -491,7 +491,7 @@ typedef struct EnJj {
 
 We can remove a few more temps that don't look real, and end up with
 ```C
-void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
+void EnJj_Init(Actor *thisx, PlayState *play) {
     EnJj* this = THIS;
 
     CollisionHeader *sp4C;
@@ -509,7 +509,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     // temp_a1 = this->unk_164;
     if (temp_v0 == -1) {
         // sp44 = (DynaCollisionContext *) temp_a1;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
+        SkelAnime_InitFlex(play, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
         Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
         this->unk_30A = 0;
         this->unk_30E = 0;
@@ -521,24 +521,24 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
         } else {
             func_80A87800(this, &func_80A87C30);
         }
-        this->childActor = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
+        this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
         DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&D_06000A1C, &sp4C);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
         // temp_a1_3 = this + 0x2B0;
         // sp44 = temp_a1_3;
-        Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80A88CB4);
+        Collider_InitCylinder(play, &this->collider);
+        Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
         this->dyna.actor.colChkInfo.mass = 0xFF;
         return;
     }
     if (temp_v0 == 0) {
         DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&D_06001830, &sp4C);
-        // temp_a1_2 = &globalCtx->colCtx.dyna;
+        // temp_a1_2 = &play->colCtx.dyna;
         // sp44 = temp_a1_2;
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
-        func_8003ECA8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+        func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.update = &func_80A87F44;
         this->dyna.actor.draw = NULL;
         Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -549,7 +549,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&D_0600BA8C, &sp4C);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
     this->dyna.actor.update = &func_80A87F44;
     this->dyna.actor.draw = NULL;
     Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -563,12 +563,12 @@ This will still not compile without errors: we need to know what the functions i
 
 Function pointers do not need `&`, so remove all those. There are three functions that are called in this actor. Firstly, `this->dyna.actor.update = func_80A87F44;` tells us that `func_80A87F44` is an alternative update function for this actor. We therefore give it a prototype similar to the original Update:
 ```C
-void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnJj_Init(Actor* thisx, PlayState* play);
+void EnJj_Destroy(Actor* thisx, PlayState* play);
+void EnJj_Update(Actor* thisx, PlayState* play);
+void EnJj_Draw(Actor* thisx, PlayState* play);
 
-void func_80A87F44(Actor* thisx, GlobalContext* globalCtx);
+void func_80A87F44(Actor* thisx, PlayState* play);
 ```
 
 Unfortunately the others are not so easy to deal with. In order to find out what type the functions called by `func_80A87800`, we have to look at `func_80A87800` itself. But fortunately, this is the entire MIPS for `func_80A87800`:
@@ -583,7 +583,7 @@ This is simple enough to read that we don't even need to appeal to mips2c: it sa
 
 *Action functions* are the main other kind of function in most actors: they are usually run by Update every frame, and carry out the main actions that the actor does (hence the name). They all have the same arguments, and so we have a typedef for such things: it is
 ```C
-typedef void (*EnJjActionFunc)(struct EnJj*, GlobalContext*);
+typedef void (*EnJjActionFunc)(struct EnJj*, PlayState*);
 ```
 Put this between `struct EnJj;` and the actor struct in the header file. This also gives us another bit of the struct, conveniently plugging the gap at `0x2FC`:
 ```C
@@ -599,14 +599,14 @@ void func_80A87800(EnJj* this, EnJjActionFunc actionFunc) {
 
 and that `func_80A87BEC` and `func_80A87C30`, passed to it in `EnJj_Init`, are action functions. Since they are first used above where they are defined, we prototype them at the top as well,
 ```C
-void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnJj_Init(Actor* thisx, PlayState* play);
+void EnJj_Destroy(Actor* thisx, PlayState* play);
+void EnJj_Update(Actor* thisx, PlayState* play);
+void EnJj_Draw(Actor* thisx, PlayState* play);
 
-void func_80A87F44(Actor* thisx, GlobalContext* globalCtx);
-void func_80A87BEC(EnJj* this, GlobalContext* globalCtx);
-void func_80A87C30(EnJj* this, GlobalContext* globalCtx);
+void func_80A87F44(Actor* thisx, PlayState* play);
+void func_80A87BEC(EnJj* this, PlayState* play);
+void func_80A87C30(EnJj* this, PlayState* play);
 ```
 
 
@@ -629,14 +629,14 @@ With all of this implemented, the function should now compile without errors. Th
 </summary>
 
 ```C
-void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnJj_Init(Actor* thisx, PlayState* play);
+void EnJj_Destroy(Actor* thisx, PlayState* play);
+void EnJj_Update(Actor* thisx, PlayState* play);
+void EnJj_Draw(Actor* thisx, PlayState* play);
 
-void func_80A87F44(Actor* thisx, GlobalContext* globalCtx);
-void func_80A87BEC(EnJj* this, GlobalContext* globalCtx);
-void func_80A87C30(EnJj* this, GlobalContext* globalCtx);
+void func_80A87F44(Actor* thisx, PlayState* play);
+void func_80A87BEC(EnJj* this, PlayState* play);
+void func_80A87C30(EnJj* this, PlayState* play);
 
 /*
 const ActorInit En_Jj_InitVars = {
@@ -699,7 +699,7 @@ void func_80A87800(EnJj* this, EnJjActionFunc actionFunc) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/EnJj_Init.s")
-void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
+void EnJj_Init(Actor *thisx, PlayState *play) {
     EnJj* this = THIS;
 
     CollisionHeader *sp4C;
@@ -717,7 +717,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     // temp_a1 = this->unk_164;
     if (temp_v0 == -1) {
         // sp44 = (DynaCollisionContext *) temp_a1;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
+        SkelAnime_InitFlex(play, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
         Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
         this->unk_30A = 0;
         this->unk_30E = 0;
@@ -729,24 +729,24 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
         } else {
             func_80A87800(this, func_80A87C30);
         }
-        this->childActor = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
+        this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
         DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&D_06000A1C, &sp4C);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
         // temp_a1_3 = this + 0x2B0;
         // sp44 = temp_a1_3;
-        Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80A88CB4);
+        Collider_InitCylinder(play, &this->collider);
+        Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
         this->dyna.actor.colChkInfo.mass = 0xFF;
         return;
     }
     if (temp_v0 == 0) {
         DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&D_06001830, &sp4C);
-        // temp_a1_2 = &globalCtx->colCtx.dyna;
+        // temp_a1_2 = &play->colCtx.dyna;
         // sp44 = temp_a1_2;
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
-        func_8003ECA8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+        func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.update = func_80A87F44;
         this->dyna.actor.draw = NULL;
         Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -757,7 +757,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&D_0600BA8C, &sp4C);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
     this->dyna.actor.update = func_80A87F44;
     this->dyna.actor.draw = NULL;
     Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -827,7 +827,7 @@ You can keep the diff open in the terminal, and it will refresh when the C file 
 In this case, we see that various branches are happening in the wrong place. Here I fear experience is necessary: notice that the function has three blocks that look quite similar, and three separate conditionals that depend on the same variable. This is a good indicator of a switch. Changing the function to use a switch,
 
 ```C
-void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnJj_Init(Actor* thisx, PlayState* play) {
     EnJj* this = THIS;
 
     s32 sp4C;
@@ -840,7 +840,7 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (temp_v0) {
         case -1:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable,
+            SkelAnime_InitFlex(play, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable,
                                this->morphTable, 22);
             Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
             this->unk_30A = 0;
@@ -854,24 +854,24 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
                 func_80A87800(this, func_80A87C30);
             }
             this->childActor = Actor_SpawnAsChild(
-                &globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
+                &play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
                 this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&D_06000A1C, &sp4C);
             this->dyna.bgId =
-                DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
-            Collider_InitCylinder(globalCtx, &this->collider);
-            Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80A88CB4);
+                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+            Collider_InitCylinder(play, &this->collider);
+            Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
             this->dyna.actor.colChkInfo.mass = 0xFF;
             break;
         case 0:
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&D_06001830, &sp4C);
-            // temp_a1_2 = &globalCtx->colCtx.dyna;
+            // temp_a1_2 = &play->colCtx.dyna;
             // sp44 = temp_a1_2;
             this->dyna.bgId =
-                DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
-            func_8003ECA8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+            func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
             this->dyna.actor.update = func_80A87F44;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -880,7 +880,7 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&D_0600BA8C, &sp4C);
             this->dyna.bgId =
-                DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp4C);
+                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
             this->dyna.actor.update = func_80A87F44;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -899,10 +899,10 @@ we see that the diff is nearly correct (note that `-3` lets you compare current 
 ![Init diff 2](images/init_diff2.png)
 </details>
 
-except we still have some stack issues. Now that `temp_v0` is only used once, it looks fake. Eliminating it actually seems to make the stack worse. To fix this, we employ something that we have evidence that the developers did: namely, we make a copy of `globalCtx` (the theory is that they actually used `gameState` as an argument of the main 4 functions, just like we used `Actor* thisx` as the first argument.) The quick way to do this is to change the top of the function to
+except we still have some stack issues. Now that `temp_v0` is only used once, it looks fake. Eliminating it actually seems to make the stack worse. To fix this, we employ something that we have evidence that the developers did: namely, we make a copy of `play` (the theory is that they actually used `gameState` as an argument of the main 4 functions, just like we used `Actor* thisx` as the first argument.) The quick way to do this is to change the top of the function to
 ```C
-void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
+void EnJj_Init(Actor* thisx, PlayState* play2) {
+    PlayState* play = play2;
     EnJj* this = THIS;
     ...
 ```

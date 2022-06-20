@@ -1,5 +1,5 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_field_keep.xml" OutPath="objects/gameplay_field_keep/"/>
+    <ExternalFile XmlPath="objects/gameplay_field_keep.xml" OutPath="assets/objects/gameplay_field_keep/"/>
     <File Name="object_wood02" Segment="6">
         <DList Name="object_wood02_DL_000090" Offset="0x90"/>
         <DList Name="object_wood02_DL_000160" Offset="0x160"/>

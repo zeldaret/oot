@@ -9,10 +9,10 @@
 
 #define FLAGS 0
 
-void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx);
+void EnYabusameMark_Init(Actor* thisx, PlayState* play);
+void EnYabusameMark_Destroy(Actor* thisx, PlayState* play);
+void EnYabusameMark_Update(Actor* thisx, PlayState* play);
+void func_80B42F74(EnYabusameMark* this, PlayState* play);
 
 static ColliderQuadInit sQuadInit = {
     {
@@ -69,13 +69,13 @@ static f32 sRingDistance[] = {
     40.0f, 120.0f, 160.0f, 777.0f, // large
 };
 
-void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnYabusameMark_Destroy(Actor* thisx, PlayState* play) {
     EnYabusameMark* this = (EnYabusameMark*)thisx;
 
-    Collider_DestroyQuad(globalCtx, &this->collider);
+    Collider_DestroyQuad(play, &this->collider);
 }
 
-void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     osSyncPrintf("\n\n");
@@ -101,8 +101,8 @@ void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->subTypeIndex = 4;
             break;
     }
-    Collider_InitQuad(globalCtx, &this->collider);
-    Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
+    Collider_InitQuad(play, &this->collider);
+    Collider_SetQuad(play, &this->collider, &this->actor, &sQuadInit);
     this->worldPos = this->actor.world.pos;
     this->actor.flags |= ACTOR_FLAG_4;
     if (gSaveContext.sceneSetupIndex != 4) {
@@ -114,7 +114,7 @@ void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = func_80B42F74;
 }
 
-void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
+void func_80B42F74(EnYabusameMark* this, PlayState* play) {
     Vec3f effectAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f arrowHitPos;
@@ -134,7 +134,7 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
 
         effectVelocity.y = 15.0f;
 
-        EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 700, &arrowHitPos);
+        EffectSsHitMark_SpawnCustomScale(play, 0, 700, &arrowHitPos);
 
         scoreIndex = 2;
 
@@ -181,16 +181,16 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
         if (scoreIndex == 0) {
             func_80078884(NA_SE_SY_DECIDE);
         }
-        EffectSsExtra_Spawn(globalCtx, &arrowHitPos, &effectVelocity, &effectAccel, 5, scoreIndex);
+        EffectSsExtra_Spawn(play, &arrowHitPos, &effectVelocity, &effectAccel, 5, scoreIndex);
     }
 }
 
-void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnYabusameMark_Update(Actor* thisx, PlayState* play) {
     EnYabusameMark* this = (EnYabusameMark*)thisx;
     Vec3f* vertexArray;
     u32 arrayIndex;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
     arrayIndex = this->typeIndex * 4;
     vertexArray = &sCollisionVertices[arrayIndex];
 
@@ -211,10 +211,10 @@ void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->vertexD.z = vertexArray[3].z + this->actor.world.pos.z;
 
     Collider_SetQuadVertices(&this->collider, &this->vertexA, &this->vertexB, &this->vertexC, &this->vertexD);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     if (BREG(0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                               1.0f, 0, 0xFF, 0, 0xFF, 4, globalCtx->state.gfxCtx);
+                               1.0f, 0, 0xFF, 0, 0xFF, 4, play->state.gfxCtx);
     }
 }

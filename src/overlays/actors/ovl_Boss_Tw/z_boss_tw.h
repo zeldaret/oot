@@ -6,7 +6,7 @@
 
 struct BossTw;
 
-typedef void (*BossTwActionFunc)(struct BossTw* this, GlobalContext* globalCtx);
+typedef void (*BossTwActionFunc)(struct BossTw* this, PlayState* play);
 
 typedef enum {
     /*  0 */ CS_TIMER_1,

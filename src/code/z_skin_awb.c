@@ -4,7 +4,7 @@
 /**
  * Initialises the Vtx buffers used for limb at index `limbIndex`
  */
-void Skin_InitAnimatedLimb(GlobalContext* globalCtx, Skin* skin, s32 limbIndex) {
+void Skin_InitAnimatedLimb(PlayState* play, Skin* skin, s32 limbIndex) {
     s32 i;
     SkinLimb** skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     SkinAnimatedLimbData* animatedLimbData =
@@ -36,7 +36,7 @@ void Skin_InitAnimatedLimb(GlobalContext* globalCtx, Skin* skin, s32 limbIndex) 
  * Initializes a skin skeleton to looping animation, dynamically allocating the frame tables,
  * and dynamically allocating and initializing the Vtx and SkinLimbVtx buffers for its animated limbs
  */
-void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader) {
+void Skin_Init(PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader) {
     s32 limbCount;
     s32 i;
     SkinLimb** skeleton;
@@ -74,17 +74,17 @@ void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHea
                 ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 240);
             ASSERT(vtxEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
 
-            Skin_InitAnimatedLimb(globalCtx, skin, i);
+            Skin_InitAnimatedLimb(play, skin, i);
         }
     }
 
-    SkelAnime_InitSkin(globalCtx, &skin->skelAnime, skeletonHeader, animationHeader);
+    SkelAnime_InitSkin(play, &skin->skelAnime, skeletonHeader, animationHeader);
 }
 
 /**
  * Frees the dynamically allocated Vtx and SkinLimbVtx buffers and tables
  */
-void Skin_Free(GlobalContext* globalCtx, Skin* skin) {
+void Skin_Free(PlayState* play, Skin* skin) {
     if (skin->vtxTable != NULL) {
         s32 i;
 
@@ -103,7 +103,7 @@ void Skin_Free(GlobalContext* globalCtx, Skin* skin) {
             ZeldaArena_FreeDebug(skin->vtxTable, "../z_skin_awb.c", 286);
         }
 
-        SkelAnime_Free(&skin->skelAnime, globalCtx);
+        SkelAnime_Free(&skin->skelAnime, play);
     }
 }
 

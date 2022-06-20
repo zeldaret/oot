@@ -98,10 +98,10 @@ OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 EMULATOR = mupen64plus
 EMU_FLAGS = --noosd
 
-INC        := -Iinclude -Isrc -Iassets -Ibuild -I.
+INC        := -Iinclude -Isrc -Ibuild -I.
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
+CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -124,7 +124,7 @@ ifeq ($(COMPILER),gcc)
   MIPS_VERSION := -mips3
 else 
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-  CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 649,838,712 
+  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,649,838,712
   MIPS_VERSION := -mips2
 endif
 
@@ -142,6 +142,8 @@ ifeq ($(COMPILER),ido)
 else
   CC_CHECK  = @:
 endif
+
+OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 
 #### Files ####
 
@@ -168,6 +170,8 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f) \
 				   $(foreach f,$(wildcard assets/text/*.c),build/$(f:.c=.o))
 
+UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
+
 # source files
 MUS_FILES     := $(foreach dir,$(SRC_DIRS) $(SEQUENCE_DIR),$(wildcard $(dir)/*.mus))
 FONT_FILES    := $(foreach dir,$(SOUNDFONT_DIR),$(wildcard $(dir)/*.xml))
@@ -176,7 +180,7 @@ INC_FILES     := $(foreach f,$(MUS_FILES:.mus=.inc),build/include/$f)
 BANK_OUT      := $(foreach dir,$(SAMPLES_DIR:.=.o),build/assets/samplebanks/$(dir))
 MUS_OUT       := $(foreach f,$(MUS_FILES:.mus=.o),build/$f)
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
-S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
+S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
 				 $(foreach f,$(FONT_FILES:.xml=.o),build/$f) \
@@ -196,7 +200,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 
 # create build directories
 $(shell mkdir -p build/baserom build/assets/text build/assets/data assets/sequences assets/soundfonts assets/samples)
-$(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
+$(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 ifeq ($(COMPILER),ido)
 build/src/code/fault.o: CFLAGS += -trapuv
@@ -314,9 +318,6 @@ build/undefined_syms.txt: undefined_syms.txt
 build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
-build/asm/%.o: asm/%.s
-	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
-
 build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
@@ -332,6 +333,9 @@ build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
+build/src/%.o: src/%.s
+	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
+
 build/dmadata_table_spec.h: build/$(SPEC)
 	$(MKDMADATA) $< $@
 
@@ -339,21 +343,21 @@ build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
 build/src/%.o: src/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
-	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 build/src/libultra/libc/ll.o: src/libultra/libc/ll.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	python3 tools/set_o32abi_bit.py $@
-	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	python3 tools/set_o32abi_bit.py $@
-	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)

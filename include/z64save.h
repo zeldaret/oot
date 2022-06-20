@@ -4,6 +4,32 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+typedef enum {
+    /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
+    /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed at which magic border flashes
+    /* 0x2 */ MAGIC_STATE_CONSUME, // Consume magic until target is reached or no more magic is available
+    /* 0x3 */ MAGIC_STATE_METER_FLASH_1, // Flashes border and freezes Dark Link
+    /* 0x4 */ MAGIC_STATE_METER_FLASH_2, // Flashes border and draws yellow magic to preview target consumption
+    /* 0x5 */ MAGIC_STATE_RESET, // Reset colors and return to idle
+    /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
+    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
+    /* 0x8 */ MAGIC_STATE_STEP_CAPACITY, // Step `magicCapacity` to full capacity
+    /* 0x9 */ MAGIC_STATE_FILL, // Add magic until magicFillTarget is reached.
+    /* 0xA */ MAGIC_STATE_ADD // Add requested magic
+} MagicState;
+
+typedef enum {
+    /* 0 */ MAGIC_CONSUME_NOW, // Consume Magic immediately without preview
+    /* 1 */ MAGIC_CONSUME_WAIT_NO_PREVIEW, // Sets consume target but waits to consume. No yellow magic preview to target consumption. Unused
+    /* 2 */ MAGIC_CONSUME_NOW_ALT, // Identical behaviour to MAGIC_CONSUME_NOW. Unused
+    /* 3 */ MAGIC_CONSUME_LENS, // Lens consumption
+    /* 4 */ MAGIC_CONSUME_WAIT_PREVIEW, // Sets consume target but waits to consume. Draws yellow magic to target consumption
+    /* 5 */ MAGIC_ADD // Sets a target to add magic
+} MagicChangeType;
+
+#define MAGIC_NORMAL_METER 0x30
+#define MAGIC_DOUBLE_METER (2 * MAGIC_NORMAL_METER)
+
 typedef struct {
     /* 0x00 */ u8 buttonItems[4];
     /* 0x04 */ u8 cButtonSlots[3];
@@ -38,6 +64,19 @@ typedef struct {
     /* 0x08 */ s16 angle;
 } HorseData; // size = 0x0A
 
+/**
+ * The respawn mode names refer to the perceived player movement when respawning
+ * "down": being on ground
+ * "return": coming from the ground
+ * "top": coming from the air
+ */
+typedef enum {
+    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
+    /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
+    /* 0x02 */ RESPAWN_MODE_TOP,    /* Farore's Wind */
+    /* 0x03 */ RESPAWN_MODE_MAX
+} RespawnMode;
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yaw;
@@ -62,7 +101,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
-    /* 0x0004 */ s32 linkAge;
+    /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child (see enum `LinkAge`)
     /* 0x0008 */ s32 cutsceneIndex;
     /* 0x000C */ u16 dayTime; // "zelda_time"
     /* 0x0010 */ s32 nightFlag;
@@ -74,14 +113,14 @@ typedef struct {
     /* 0x002C */ s16 n64ddFlag;
     /* 0x002E */ s16 healthCapacity; // "max_life"
     /* 0x0030 */ s16 health; // "now_life"
-    /* 0x0032 */ s8 magicLevel;
-    /* 0x0033 */ s8 magic;
+    /* 0x0032 */ s8 magicLevel; // 0 for no magic/new load, 1 for magic, 2 for double magic
+    /* 0x0033 */ s8 magic; // current magic available for use
     /* 0x0034 */ s16 rupees;
     /* 0x0036 */ u16 swordHealth;
     /* 0x0038 */ u16 naviTimer;
-    /* 0x003A */ u8 magicAcquired;
+    /* 0x003A */ u8 isMagicAcquired;
     /* 0x003B */ char unk_3B[0x01];
-    /* 0x003C */ u8 doubleMagic;
+    /* 0x003C */ u8 isDoubleMagicAcquired;
     /* 0x003D */ u8 doubleDefense;
     /* 0x003E */ u8 bgsFlag;
     /* 0x003F */ u8 ocarinaGameRoundNum;
@@ -117,11 +156,11 @@ typedef struct {
     /* 0x135C */ s32 gameMode;
     /* 0x1360 */ s32 sceneSetupIndex;
     /* 0x1364 */ s32 respawnFlag; // "restart_flag"
-    /* 0x1368 */ RespawnData respawn[3]; // "restart_data"
+    /* 0x1368 */ RespawnData respawn[RESPAWN_MODE_MAX]; // "restart_data"
     /* 0x13BC */ f32 entranceSpeed;
     /* 0x13C0 */ u16 entranceSound;
     /* 0x13C2 */ char unk_13C2[0x0001];
-    /* 0x13C3 */ u8 unk_13C3;
+    /* 0x13C3 */ u8 retainWeatherMode;
     /* 0x13C4 */ s16 dogParams;
     /* 0x13C6 */ u8 textTriggerFlags;
     /* 0x13C7 */ u8 showTitleCard;
@@ -143,11 +182,11 @@ typedef struct {
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16 unk_13F0; // magic related
-    /* 0x13F2 */ s16 unk_13F2; // magic related
-    /* 0x13F4 */ s16 unk_13F4; // magic related
-    /* 0x13F6 */ s16 unk_13F6; // magic related
-    /* 0x13F8 */ s16 unk_13F8; // magic related
+    /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
+    /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
+    /* 0x13F4 */ s16 magicCapacity; // maximum magic available
+    /* 0x13F6 */ s16 magicFillTarget; // target used to fill magic. Target can either be full capacity (Magic_Fill, magic upgrades), or the saved magic amount (loading a file, game over)
+    /* 0x13F8 */ s16 magicTarget; // target for magic to step to when adding or consuming magic
     /* 0x13FA */ u16 eventInf[4]; // "event_inf"
     /* 0x1402 */ u16 mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16 minigameState;
@@ -174,12 +213,6 @@ typedef struct {
     /* 0x1422 */ s16 sunsSongState; // controls the effects of suns song
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
-
-typedef enum {
-    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
-    /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
-    /* 0x02 */ RESPAWN_MODE_TOP     /* Farore's Wind */
-} RespawnMode;
 
 typedef enum {
     /* 0x00 */ BTN_ENABLED,
@@ -331,19 +364,18 @@ typedef enum {
 #define EVENTCHKINF_8F 0x8F
 
 // 0x90-0x93
-#define EVENTCHKINF_90_91_92_93_INDEX 9
-#define EVENTCHKINF_90_SHIFT 0
-#define EVENTCHKINF_91_SHIFT 1
-#define EVENTCHKINF_92_SHIFT 2
-#define EVENTCHKINF_93_SHIFT 3
-#define EVENTCHKINF_90_MASK (1 << EVENTCHKINF_90_SHIFT)
-#define EVENTCHKINF_91_MASK (1 << EVENTCHKINF_91_SHIFT)
-#define EVENTCHKINF_92_MASK (1 << EVENTCHKINF_92_SHIFT)
-#define EVENTCHKINF_93_MASK (1 << EVENTCHKINF_93_SHIFT)
-#define EVENTCHKINF_90 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_90_SHIFT)
-#define EVENTCHKINF_91 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_91_SHIFT)
-#define EVENTCHKINF_92 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_92_SHIFT)
-#define EVENTCHKINF_93 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_93_SHIFT)
+// carpenters freed from the gerudo
+#define EVENTCHKINF_CARPENTERS_FREE_INDEX 9
+#define EVENTCHKINF_CARPENTERS_FREE_SHIFT(n) (0 + (n))
+#define EVENTCHKINF_CARPENTERS_FREE_MASK(n) (1 << EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
+#define EVENTCHKINF_CARPENTERS_FREE(n) ((EVENTCHKINF_CARPENTERS_FREE_INDEX << 4) | EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
+#define EVENTCHKINF_CARPENTERS_FREE_MASK_ALL (\
+      EVENTCHKINF_CARPENTERS_FREE_MASK(0)     \
+    | EVENTCHKINF_CARPENTERS_FREE_MASK(1)     \
+    | EVENTCHKINF_CARPENTERS_FREE_MASK(2)     \
+    | EVENTCHKINF_CARPENTERS_FREE_MASK(3)    )
+#define GET_EVENTCHKINF_CARPENTERS_FREE_ALL() \
+    CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX], EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)
 
 #define EVENTCHKINF_94 0x94
 #define EVENTCHKINF_95 0x95

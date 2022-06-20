@@ -6,7 +6,7 @@
 
 struct BgJyaCobra;
 
-typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, GlobalContext*);
+typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, PlayState*);
 
 #define COBRA_SHADOW_TEX_WIDTH 64
 #define COBRA_SHADOW_TEX_HEIGHT 64

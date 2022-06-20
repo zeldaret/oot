@@ -3,7 +3,7 @@
 
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 
-void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
+void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     u32 i;
     EffectSs* effectSs;
     EffectSsOverlay* overlay;
@@ -14,8 +14,7 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
                      (u32)overlay->vramEnd - (u32)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
     }
 
-    sEffectSsInfo.table =
-        GameState_Alloc(&globalCtx->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
+    sEffectSsInfo.table = GameState_Alloc(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
     ASSERT(sEffectSsInfo.table != NULL, "EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
 
     sEffectSsInfo.searchStartIndex = 0;
@@ -32,7 +31,7 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
     }
 }
 
-void EffectSs_ClearAll(GlobalContext* globalCtx) {
+void EffectSs_ClearAll(PlayState* play) {
     u32 i;
     EffectSs* effectSs;
     EffectSsOverlay* overlay;
@@ -153,10 +152,10 @@ s32 EffectSs_FindSlot(s32 priority, s32* pIndex) {
     return 0;
 }
 
-void EffectSs_Insert(GlobalContext* globalCtx, EffectSs* effectSs) {
+void EffectSs_Insert(PlayState* play, EffectSs* effectSs) {
     s32 index;
 
-    if (FrameAdvance_IsEnabled(globalCtx) != true) {
+    if (FrameAdvance_IsEnabled(play) != true) {
         if (EffectSs_FindSlot(effectSs->priority, &index) == 0) {
             sEffectSsInfo.searchStartIndex = index + 1;
             sEffectSsInfo.table[index] = *effectSs;
@@ -165,7 +164,7 @@ void EffectSs_Insert(GlobalContext* globalCtx, EffectSs* effectSs) {
 }
 
 // original name: "EffectSoftSprite2_makeEffect"
-void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* initParams) {
+void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     s32 index;
     u32 overlaySize;
     EffectSsOverlay* overlayEntry;
@@ -234,7 +233,7 @@ void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* init
     sEffectSsInfo.table[index].type = type;
     sEffectSsInfo.table[index].priority = priority;
 
-    if (initInfo->init(globalCtx, index, &sEffectSsInfo.table[index], initParams) == 0) {
+    if (initInfo->init(play, index, &sEffectSsInfo.table[index], initParams) == 0) {
         osSyncPrintf(VT_FGCOL(GREEN));
         // "Construction failed for some reason. The constructor returned an error.
         // Ceasing effect addition."
@@ -246,7 +245,7 @@ void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* init
     }
 }
 
-void EffectSs_Update(GlobalContext* globalCtx, s32 index) {
+void EffectSs_Update(PlayState* play, s32 index) {
     EffectSs* effectSs = &sEffectSsInfo.table[index];
 
     if (effectSs->update != NULL) {
@@ -258,11 +257,11 @@ void EffectSs_Update(GlobalContext* globalCtx, s32 index) {
         effectSs->pos.y += effectSs->velocity.y;
         effectSs->pos.z += effectSs->velocity.z;
 
-        effectSs->update(globalCtx, index, effectSs);
+        effectSs->update(play, index, effectSs);
     }
 }
 
-void EffectSs_UpdateAll(GlobalContext* globalCtx) {
+void EffectSs_UpdateAll(PlayState* play) {
     s32 i;
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {
@@ -275,26 +274,26 @@ void EffectSs_UpdateAll(GlobalContext* globalCtx) {
         }
 
         if (sEffectSsInfo.table[i].life > -1) {
-            EffectSs_Update(globalCtx, i);
+            EffectSs_Update(play, i);
         }
     }
 }
 
-void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
+void EffectSs_Draw(PlayState* play, s32 index) {
     EffectSs* effectSs = &sEffectSsInfo.table[index];
 
     if (effectSs->draw != NULL) {
-        effectSs->draw(globalCtx, index, effectSs);
+        effectSs->draw(play, index, effectSs);
     }
 }
 
 // original name: "EffectSoftSprite2_disp"
-void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    Lights* lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
+void EffectSs_DrawAll(PlayState* play) {
+    Lights* lights = LightContext_NewLights(&play->lightCtx, play->state.gfxCtx);
     s32 i;
 
-    Lights_BindAll(lights, globalCtx->lightCtx.listHead, NULL);
-    Lights_Draw(lights, globalCtx->state.gfxCtx);
+    Lights_BindAll(lights, play->lightCtx.listHead, NULL);
+    Lights_Draw(lights, play->state.gfxCtx);
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {
         if (sEffectSsInfo.table[i].life > -1) {
@@ -317,7 +316,7 @@ void EffectSs_DrawAll(GlobalContext* globalCtx) {
 
                 EffectSs_Delete(&sEffectSsInfo.table[i]);
             } else {
-                EffectSs_Draw(globalCtx, i);
+                EffectSs_Draw(play, i);
             }
         }
     }

@@ -1,7 +1,7 @@
 #include "global.h"
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
-    OSTime time;
+    UNUSED OSTime time;
     OSTimer* next;
     u32 count;
     u32 value;
@@ -38,8 +38,6 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     __osSetTimerIntr(__osTimerList->next->value);
 
     __osRestoreInt(prevInt);
-
-    if (time) {} // suppresses set but unused warning
 
     return 0;
 }

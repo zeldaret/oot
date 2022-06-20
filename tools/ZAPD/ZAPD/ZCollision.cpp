@@ -63,16 +63,20 @@ void ZCollisionHeader::ParseRawData()
 	}
 
 	for (uint16_t i = 0; i < numPolygons; i++)
-		polygons.push_back(PolygonEntry(rawData, polySegmentOffset + (i * 16)));
+	{
+		ZCollisionPoly poly(parent);
+		poly.SetRawDataIndex(polySegmentOffset + (i * 16));
+		poly.ParseRawData();
+		polygons.push_back(poly);
+	}
 
 	uint16_t highestPolyType = 0;
 
-	for (PolygonEntry poly : polygons)
+	for (ZCollisionPoly poly : polygons)
 	{
 		if (poly.type > highestPolyType)
 			highestPolyType = poly.type;
 	}
-
 	for (uint16_t i = 0; i < highestPolyType + 1; i++)
 		polygonTypes.push_back(
 			BitConverter::ToUInt64BE(rawData, polyTypeDefSegmentOffset + (i * 8)));
@@ -149,17 +153,15 @@ void ZCollisionHeader::DeclareReferences(const std::string& prefix)
 
 		for (size_t i = 0; i < polygons.size(); i++)
 		{
-			declaration += StringHelper::Sprintf(
-				"\t{ 0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X },",
-				polygons[i].type, polygons[i].vtxA, polygons[i].vtxB, polygons[i].vtxC,
-				polygons[i].a, polygons[i].b, polygons[i].c, polygons[i].d);
+			declaration += StringHelper::Sprintf("\t%s,", polygons[i].GetBodySourceCode().c_str());
 			if (i + 1 < polygons.size())
 				declaration += "\n";
 		}
 
-		parent->AddDeclarationArray(
-			polySegmentOffset, DeclarationAlignment::Align4, polygons.size() * 16, "CollisionPoly",
-			StringHelper::Sprintf("%sPolygons", auxName.c_str()), polygons.size(), declaration);
+		parent->AddDeclarationArray(polySegmentOffset, DeclarationAlignment::Align4,
+		                            polygons.size() * 16, polygons[0].GetSourceTypeName().c_str(),
+		                            StringHelper::Sprintf("%sPolygons", auxName.c_str()),
+		                            polygons.size(), declaration);
 	}
 
 	declaration.clear();
@@ -254,34 +256,18 @@ size_t ZCollisionHeader::GetRawDataSize() const
 	return 44;
 }
 
-PolygonEntry::PolygonEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
-{
-	const uint8_t* data = rawData.data();
-
-	type = BitConverter::ToUInt16BE(data, rawDataIndex + 0);
-	vtxA = BitConverter::ToUInt16BE(data, rawDataIndex + 2);
-	vtxB = BitConverter::ToUInt16BE(data, rawDataIndex + 4);
-	vtxC = BitConverter::ToUInt16BE(data, rawDataIndex + 6);
-	a = BitConverter::ToUInt16BE(data, rawDataIndex + 8);
-	b = BitConverter::ToUInt16BE(data, rawDataIndex + 10);
-	c = BitConverter::ToUInt16BE(data, rawDataIndex + 12);
-	d = BitConverter::ToUInt16BE(data, rawDataIndex + 14);
-}
-
 WaterBoxHeader::WaterBoxHeader(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
 {
-	const uint8_t* data = rawData.data();
-
-	xMin = BitConverter::ToInt16BE(data, rawDataIndex + 0);
-	ySurface = BitConverter::ToInt16BE(data, rawDataIndex + 2);
-	zMin = BitConverter::ToInt16BE(data, rawDataIndex + 4);
-	xLength = BitConverter::ToInt16BE(data, rawDataIndex + 6);
-	zLength = BitConverter::ToInt16BE(data, rawDataIndex + 8);
+	xMin = BitConverter::ToInt16BE(rawData, rawDataIndex + 0);
+	ySurface = BitConverter::ToInt16BE(rawData, rawDataIndex + 2);
+	zMin = BitConverter::ToInt16BE(rawData, rawDataIndex + 4);
+	xLength = BitConverter::ToInt16BE(rawData, rawDataIndex + 6);
+	zLength = BitConverter::ToInt16BE(rawData, rawDataIndex + 8);
 
 	if (Globals::Instance->game == ZGame::OOT_SW97)
-		properties = BitConverter::ToInt16BE(data, rawDataIndex + 10);
+		properties = BitConverter::ToInt16BE(rawData, rawDataIndex + 10);
 	else
-		properties = BitConverter::ToInt32BE(data, rawDataIndex + 12);
+		properties = BitConverter::ToInt32BE(rawData, rawDataIndex + 12);
 }
 
 std::string WaterBoxHeader::GetBodySourceCode() const

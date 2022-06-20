@@ -1,7 +1,6 @@
 #include "ultra64/asm.h"
 #include "boot.h"
 
-.set noat
 .set noreorder
 
 .section .text

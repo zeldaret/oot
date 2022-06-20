@@ -4,9 +4,9 @@
 
 beginseg
     name "makerom"
-    include "build/asm/rom_header.o"
-    include "build/asm/ipl3.o"
-    include "build/asm/entry.o"
+    include "build/src/makerom/rom_header.o"
+    include "build/src/makerom/ipl3.o"
+    include "build/src/makerom/entry.o"
 endseg
 
 beginseg
@@ -23,7 +23,7 @@ beginseg
     include "build/src/boot/assert.o"
     include "build/src/boot/is_debug.o"
     include "build/src/libultra/io/driverominit.o"
-    include "build/asm/mio0.o"
+    include "build/src/boot/mio0.o"
     include "build/src/boot/stackcheck.o"
     include "build/src/boot/logutils.o"
     include "build/src/libultra/rmon/sprintf.o"
@@ -35,15 +35,15 @@ beginseg
     include "build/src/libultra/os/recvmesg.o"
     include "build/src/libultra/os/initialize.o"
     include "build/src/libultra/libc/ll.o"
-    include "build/asm/exceptasm.o"
+    include "build/src/libultra/os/exceptasm.o"
     include "build/src/libultra/os/dequeuethread.o"
     include "build/src/libultra/os/destroythread.o"
-    include "build/asm/bzero.o"
-    include "build/asm/parameters.o"
+    include "build/src/libultra/libc//bzero.o"
+    include "build/src/libultra/os/parameters.o"
     include "build/src/libultra/os/createthread.o"
-    include "build/asm/__osSetSR.o"
-    include "build/asm/__osGetSR.o"
-    include "build/asm/osWritebackDCache.o"
+    include "build/src/libultra/os/setsr.o"
+    include "build/src/libultra/os/getsr.o"
+    include "build/src/libultra/os/writebackdcache.o"
     include "build/src/libultra/io/vigetnextframebuf.o"
     include "build/src/libultra/io/pimgr.o"
     include "build/src/libultra/io/devmgr.o"
@@ -52,18 +52,18 @@ beginseg
     include "build/src/libultra/io/viblack.o"
     include "build/src/libultra/io/sirawread.o"
     include "build/src/libultra/os/getthreadid.o"
-    include "build/asm/osSetIntMask.o"
+    include "build/src/libultra/os/setintmask.o"
     include "build/src/libultra/io/visetmode.o"
-    include "build/asm/__osProbeTLB.o"
+    include "build/src/libultra/os/probetlb.o"
     include "build/src/libultra/os/getmemsize.o"
     include "build/src/libultra/os/seteventmesg.o"
     include "build/src/libultra/rmon/xprintf.o"
-    include "build/asm/osUnmapTLBAll.o"
+    include "build/src/libultra/os/unmaptlball.o"
     include "build/src/libultra/io/epidma.o"
     include "build/src/libultra/libc/string.o"
-    include "build/asm/osInvalICache.o"
+    include "build/src/libultra/os/invalicache.o"
     include "build/src/libultra/os/createmesgqueue.o"
-    include "build/asm/osInvalDCache.o"
+    include "build/src/libultra/os/invaldcache.o"
     include "build/src/libultra/io/si.o"
     include "build/src/libultra/os/jammesg.o"
     include "build/src/libultra/os/setthreadpri.o"
@@ -71,15 +71,15 @@ beginseg
     include "build/src/libultra/io/epirawread.o"
     include "build/src/libultra/io/viswapbuf.o"
     include "build/src/libultra/io/epirawdma.o"
-    include "build/asm/bcmp.o"
+    include "build/src/libultra/libc/bcmp.o"
     include "build/src/libultra/os/gettime.o"
     include "build/src/libultra/os/timerintr.o"
-    include "build/asm/osGetCount.o"
+    include "build/src/libultra/os/getcount.o"
     include "build/src/libultra/os/setglobalintmask.o"
-    include "build/asm/__osSetCompare.o"
-    include "build/asm/bcopy.o"
+    include "build/src/libultra/os/setcompare.o"
+    include "build/src/libultra/libc/bcopy.o"
     include "build/src/libultra/os/resetglobalintmask.o"
-    include "build/asm/interrupt.o"
+    include "build/src/libultra/os/interrupt.o"
     include "build/src/libultra/io/vimodentsclan1.o"
     include "build/src/libultra/io/vimodempallan1.o"
     include "build/src/libultra/io/vi.o"
@@ -89,12 +89,12 @@ beginseg
     include "build/src/libultra/io/visetspecial.o"
     include "build/src/libultra/io/cartrominit.o"
     include "build/src/libultra/io/vimodefpallan1.o"
-    include "build/asm/__osSetFpcCsr.o"
-    include "build/asm/__osGetFpcCsr.o"
+    include "build/src/libultra/os/setfpccsr.o"
+    include "build/src/libultra/os/getfpccsr.o"
     include "build/src/libultra/io/epiwrite.o"
-    include "build/asm/osMapTLBRdb.o"
+    include "build/src/libultra/os/maptlbrdb.o"
     include "build/src/libultra/os/yieldthread.o"
-    include "build/asm/__osGetCause.o"
+    include "build/src/libultra/os/getcause.o"
     include "build/src/libultra/io/epirawwrite.o"
     include "build/src/libultra/rmon/xlitob.o"
     include "build/src/libultra/libc/ldiv.o"
@@ -108,7 +108,7 @@ beginseg
     include "build/src/libultra/io/visetxscale.o"
     include "build/src/libultra/os/sethwintrroutine.o"
     include "build/src/libultra/os/gethwintrroutine.o"
-    include "build/asm/__osSetWatchLo.o"
+    include "build/src/libultra/os/setwatchlo.o"
     include "build/data/rsp_boot.text.o"
 #ifdef COMPILER_GCC
     include "build/src/gcc_fix/missing_gcc_functions.o"
@@ -476,7 +476,7 @@ beginseg
     include "build/src/code/z_elf_message.o"
     include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
-    include "build/src/code/code_8006C510.o"
+    include "build/src/code/z_fcurve_data.o"
     include "build/src/code/z_fcurve_data_skelanime.o"
     include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
@@ -491,7 +491,7 @@ beginseg
     include "build/src/code/z_map_mark.o"
     include "build/src/code/z_moji.o"
     include "build/src/code/z_prenmi_buff.o"
-    include "build/src/code/z_msgevent.o"
+    include "build/src/code/z_nulltask.o"
     include "build/src/code/z_olib.o"
     include "build/src/code/z_onepointdemo.o"
     include "build/src/code/z_map_exp.o"
@@ -563,7 +563,7 @@ beginseg
     include "build/src/code/fault.o"
     include "build/data/fault.bss.o"
     include "build/src/code/fault_drawer.o"
-    include "build/asm/code_800D71F0.o"
+    include "build/src/code/kanread.o"
     include "build/src/code/ucode_disas.o"
     pad_text // audio library aligned to 32 bytes?
     include "build/src/code/audio_data.o"
@@ -587,11 +587,12 @@ beginseg
     include "build/src/code/loadfragment2.o"
     include "build/src/code/mtxuty-cvt.o"
     include "build/src/code/relocation.o"
+    include "build/src/code/load.o"
     include "build/src/code/code_800FC620.o"
     include "build/src/code/padutils.o"
     include "build/src/code/padsetup.o"
     include "build/src/code/code_800FCE80.o"
-    include "build/asm/fp.o"
+    include "build/src/code/fp.o"
     include "build/src/code/system_malloc.o"
     include "build/src/code/code_800FD970.o"
     include "build/src/code/__osMalloc.o"
@@ -600,7 +601,7 @@ beginseg
     include "build/src/code/jpegutils.o"
     include "build/src/code/jpegdecoder.o"
     include "build/src/libultra/io/pfsfreeblocks.o"
-    include "build/asm/guScale.o"
+    include "build/src/libultra/mgu/scale.o"
     include "build/src/libultra/gu/sinf.o"
     include "build/src/libultra/gu/sins.o"
     include "build/src/libultra/io/sptask.o"
@@ -614,31 +615,31 @@ beginseg
     include "build/src/libultra/io/sptaskyield.o"
     include "build/src/libultra/io/pfsreadwritefile.o"
     include "build/src/libultra/io/pfsgetstatus.o"
-    include "build/asm/guMtxIdentF.o"
+    include "build/src/libultra/mgu/mtxidentf.o"
     include "build/src/libultra/gu/lookat.o"
     include "build/src/libultra/io/pfsallocatefile.o"
     include "build/src/libultra/os/stoptimer.o"
     include "build/src/libultra/io/contpfs.o"
-    include "build/asm/guMtxL2F.o"
+    include "build/src/libultra/mgu/mtxl2f.o"
     include "build/src/libultra/io/pfsfindfile.o"
     include "build/src/libultra/gu/sqrtf.o"
     include "build/src/libultra/os/afterprenmi.o"
     include "build/src/libultra/io/contquery.o"
     include "build/src/libultra/gu/lookathil.o"
     include "build/src/libultra/io/sp.o"
-    include "build/asm/guMtxIdent.o"
+    include "build/src/libultra/mgu/mtxident.o"
     include "build/src/libultra/gu/position.o"
     include "build/src/libultra/io/sptaskyielded.o"
     include "build/src/libultra/gu/rotate.o"
     include "build/src/libultra/io/aisetfreq.o"
     include "build/src/libultra/os/getactivequeue.o"
-    include "build/asm/guNormalize.o"
+    include "build/src/libultra/mgu/normalize.o"
     include "build/src/libultra/io/dpgetstat.o"
     include "build/src/libultra/io/dpsetstat.o"
     include "build/src/libultra/io/pfsdeletefile.o"
     include "build/src/libultra/gu/ortho.o"
     include "build/src/libultra/gu/cosf.o"
-    include "build/asm/libm_vals.o"
+    include "build/src/libultra/gu/libm_vals.o"
     include "build/src/libultra/gu/coss.o"
     include "build/src/libultra/io/visetevent.o"
     include "build/src/libultra/io/pfsisplug.o"
@@ -649,16 +650,16 @@ beginseg
     include "build/src/libultra/io/pfsinitpak.o"
     include "build/src/libultra/io/pfschecker.o"
     include "build/src/libultra/io/aigetlen.o"
-    include "build/asm/guTranslate.o"
+    include "build/src/libultra/mgu/translate.o"
     include "build/src/libultra/io/contramwrite.o"
     include "build/src/libultra/io/contramread.o"
     include "build/src/libultra/io/crc.o"
     include "build/src/libultra/os/settimer.o"
     include "build/src/libultra/io/spgetstat.o"
     include "build/src/libultra/io/spsetstat.o"
-    include "build/asm/osWritebackDCacheAll.o"
+    include "build/src/libultra/os/writebackdcacheall.o"
     include "build/src/libultra/os/getcurrfaultedthread.o"
-    include "build/asm/guMtxF2L.o"
+    include "build/src/libultra/mgu/mtxf2l.o"
     include "build/src/libultra/libc/llcvt.o"
     include "build/src/libultra/io/vigetcurrframebuf.o"
     include "build/src/libultra/io/spsetpc.o"
@@ -6573,385 +6574,385 @@ endseg
 beginseg
     name "vr_fine0_static"
     romalign 0x1000
-    include "build/baserom/vr_fine0_static.o"
+    include "build/assets/textures/skyboxes/vr_fine0_static.o"
 endseg
 
 beginseg
     name "vr_fine0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine0_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine1_static"
     romalign 0x1000
-    include "build/baserom/vr_fine1_static.o"
+    include "build/assets/textures/skyboxes/vr_fine1_static.o"
 endseg
 
 beginseg
     name "vr_fine1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine1_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine2_static"
     romalign 0x1000
-    include "build/baserom/vr_fine2_static.o"
+    include "build/assets/textures/skyboxes/vr_fine2_static.o"
 endseg
 
 beginseg
     name "vr_fine2_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine2_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine2_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine3_static"
     romalign 0x1000
-    include "build/baserom/vr_fine3_static.o"
+    include "build/assets/textures/skyboxes/vr_fine3_static.o"
 endseg
 
 beginseg
     name "vr_fine3_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine3_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine3_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud0_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud0_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud0_static.o"
 endseg
 
 beginseg
     name "vr_cloud0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud0_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud1_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud1_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud1_static.o"
 endseg
 
 beginseg
     name "vr_cloud1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud1_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud2_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud2_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud2_static.o"
 endseg
 
 beginseg
     name "vr_cloud2_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud2_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud2_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud3_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud3_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud3_static.o"
 endseg
 
 beginseg
     name "vr_cloud3_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud3_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud3_pal_static.o"
 endseg
 
 beginseg
     name "vr_holy0_static"
     romalign 0x1000
-    include "build/baserom/vr_holy0_static.o"
+    include "build/assets/textures/skyboxes/vr_holy0_static.o"
 endseg
 
 beginseg
     name "vr_holy0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_holy0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_holy0_pal_static.o"
 endseg
 
 beginseg
     name "vr_holy1_static"
     romalign 0x1000
-    include "build/baserom/vr_holy1_static.o"
+    include "build/assets/textures/skyboxes/vr_holy1_static.o"
 endseg
 
 beginseg
     name "vr_holy1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_holy1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_holy1_pal_static.o"
 endseg
 
 beginseg
     name "vr_MDVR_static"
     romalign 0x1000
-    include "build/baserom/vr_MDVR_static.o"
+    include "build/assets/textures/backgrounds/vr_MDVR_static.o"
 endseg
 
 beginseg
     name "vr_MDVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_MDVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_MDVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_MNVR_static"
     romalign 0x1000
-    include "build/baserom/vr_MNVR_static.o"
+    include "build/assets/textures/backgrounds/vr_MNVR_static.o"
 endseg
 
 beginseg
     name "vr_MNVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_MNVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_MNVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_RUVR_static"
     romalign 0x1000
-    include "build/baserom/vr_RUVR_static.o"
+    include "build/assets/textures/backgrounds/vr_RUVR_static.o"
 endseg
 
 beginseg
     name "vr_RUVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_RUVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_RUVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_LHVR_static"
     romalign 0x1000
-    include "build/baserom/vr_LHVR_static.o"
+    include "build/assets/textures/backgrounds/vr_LHVR_static.o"
 endseg
 
 beginseg
     name "vr_LHVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_LHVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_LHVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KHVR_static"
     romalign 0x1000
-    include "build/baserom/vr_KHVR_static.o"
+    include "build/assets/textures/backgrounds/vr_KHVR_static.o"
 endseg
 
 beginseg
     name "vr_KHVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KHVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KHVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_K3VR_static"
     romalign 0x1000
-    include "build/baserom/vr_K3VR_static.o"
+    include "build/assets/textures/backgrounds/vr_K3VR_static.o"
 endseg
 
 beginseg
     name "vr_K3VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_K3VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_K3VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_K4VR_static"
     romalign 0x1000
-    include "build/baserom/vr_K4VR_static.o"
+    include "build/assets/textures/backgrounds/vr_K4VR_static.o"
 endseg
 
 beginseg
     name "vr_K4VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_K4VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_K4VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_K5VR_static"
     romalign 0x1000
-    include "build/baserom/vr_K5VR_static.o"
+    include "build/assets/textures/backgrounds/vr_K5VR_static.o"
 endseg
 
 beginseg
     name "vr_K5VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_K5VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_K5VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_SP1a_static"
     romalign 0x1000
-    include "build/baserom/vr_SP1a_static.o"
+    include "build/assets/textures/backgrounds/vr_SP1a_static.o"
 endseg
 
 beginseg
     name "vr_SP1a_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_SP1a_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_SP1a_pal_static.o"
 endseg
 
 beginseg
     name "vr_MLVR_static"
     romalign 0x1000
-    include "build/baserom/vr_MLVR_static.o"
+    include "build/assets/textures/backgrounds/vr_MLVR_static.o"
 endseg
 
 beginseg
     name "vr_MLVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_MLVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_MLVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KKRVR_static"
     romalign 0x1000
-    include "build/baserom/vr_KKRVR_static.o"
+    include "build/assets/textures/backgrounds/vr_KKRVR_static.o"
 endseg
 
 beginseg
     name "vr_KKRVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KKRVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KKRVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KR3VR_static"
     romalign 0x1000
-    include "build/baserom/vr_KR3VR_static.o"
+    include "build/assets/textures/backgrounds/vr_KR3VR_static.o"
 endseg
 
 beginseg
     name "vr_KR3VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KR3VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KR3VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_IPVR_static"
     romalign 0x1000
-    include "build/baserom/vr_IPVR_static.o"
+    include "build/assets/textures/backgrounds/vr_IPVR_static.o"
 endseg
 
 beginseg
     name "vr_IPVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_IPVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_IPVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KSVR_static"
     romalign 0x1000
-    include "build/baserom/vr_KSVR_static.o"
+    include "build/assets/textures/backgrounds/vr_KSVR_static.o"
 endseg
 
 beginseg
     name "vr_KSVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KSVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KSVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_GLVR_static"
     romalign 0x1000
-    include "build/baserom/vr_GLVR_static.o"
+    include "build/assets/textures/backgrounds/vr_GLVR_static.o"
 endseg
 
 beginseg
     name "vr_GLVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_GLVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_GLVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_ZRVR_static"
     romalign 0x1000
-    include "build/baserom/vr_ZRVR_static.o"
+    include "build/assets/textures/backgrounds/vr_ZRVR_static.o"
 endseg
 
 beginseg
     name "vr_ZRVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_ZRVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_ZRVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_DGVR_static"
     romalign 0x1000
-    include "build/baserom/vr_DGVR_static.o"
+    include "build/assets/textures/backgrounds/vr_DGVR_static.o"
 endseg
 
 beginseg
     name "vr_DGVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_DGVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_DGVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_ALVR_static"
     romalign 0x1000
-    include "build/baserom/vr_ALVR_static.o"
+    include "build/assets/textures/backgrounds/vr_ALVR_static.o"
 endseg
 
 beginseg
     name "vr_ALVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_ALVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_ALVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_NSVR_static"
     romalign 0x1000
-    include "build/baserom/vr_NSVR_static.o"
+    include "build/assets/textures/backgrounds/vr_NSVR_static.o"
 endseg
 
 beginseg
     name "vr_NSVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_NSVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_NSVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_LBVR_static"
     romalign 0x1000
-    include "build/baserom/vr_LBVR_static.o"
+    include "build/assets/textures/backgrounds/vr_LBVR_static.o"
 endseg
 
 beginseg
     name "vr_LBVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_LBVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_LBVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_TTVR_static"
     romalign 0x1000
-    include "build/baserom/vr_TTVR_static.o"
+    include "build/assets/textures/backgrounds/vr_TTVR_static.o"
 endseg
 
 beginseg
     name "vr_TTVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_TTVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_TTVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_FCVR_static"
     romalign 0x1000
-    include "build/baserom/vr_FCVR_static.o"
+    include "build/assets/textures/backgrounds/vr_FCVR_static.o"
 endseg
 
 beginseg
     name "vr_FCVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_FCVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_FCVR_pal_static.o"
 endseg
 
 beginseg

@@ -6,7 +6,7 @@
 
 struct EnNiw;
 
-typedef void (*EnNiwActionFunc)(struct EnNiw*, GlobalContext*);
+typedef void (*EnNiwActionFunc)(struct EnNiw*, PlayState*);
 
 typedef struct {
     /* 0x0000 */ u8 type;

@@ -1,5 +1,5 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="ovl_Oceff_Storm" BaseAddress="0x80BA70E0" RangeStart="0x7B0" RangeEnd="0x1B40">
         <Texture Name="sTex" OutName="song_of_storms_effect" Format="i8" Width="64" Height="64" Offset="0x7B0"/>
         <DList Name="sMaterialDL" Offset="0x17B0"/>

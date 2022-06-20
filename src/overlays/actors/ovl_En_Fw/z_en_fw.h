@@ -6,7 +6,7 @@
 
 struct EnFw;
 
-typedef void (*EnFwActionFunc)(struct EnFw* this, GlobalContext* globalCtx);
+typedef void (*EnFwActionFunc)(struct EnFw* this, PlayState* play);
 
 #define EN_FW_EFFECT_COUNT 20
 

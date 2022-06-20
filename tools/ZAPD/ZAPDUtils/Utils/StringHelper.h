@@ -106,6 +106,13 @@ public:
 		return std::all_of(str.begin(), str.end(), ::isdigit);
 	}
 
+	static std::string ToUpper(const std::string& str)
+	{
+		std::string buff = str;
+		std::transform(buff.begin(), buff.end(), buff.begin(), ::toupper);
+		return buff;
+	}
+
 	static bool IEquals(const std::string& a, const std::string& b)
 	{
 		return std::equal(a.begin(), a.end(), b.begin(), b.end(),

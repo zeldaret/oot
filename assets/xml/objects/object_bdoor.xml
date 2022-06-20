@@ -1,5 +1,5 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_dangeon_keep.xml" OutPath="objects/gameplay_dangeon_keep/"/>
+    <ExternalFile XmlPath="objects/gameplay_dangeon_keep.xml" OutPath="assets/objects/gameplay_dangeon_keep/"/>
     <File Name="object_bdoor" Segment="6">
         <Texture Name="object_bdoor_Tex_000000" OutName="tex_00000000" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
         <DList Name="object_bdoor_DL_0010C0" Offset="0x10C0"/>

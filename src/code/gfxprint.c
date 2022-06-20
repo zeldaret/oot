@@ -255,6 +255,7 @@ void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
                 break;
             case '\n':
                 this->posY += 32;
+                FALLTHROUGH;
             case '\r':
                 this->posX = this->baseX;
                 break;

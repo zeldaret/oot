@@ -7,7 +7,7 @@
 
 struct EnInsect;
 
-typedef void (*EnInsectActionFunc)(struct EnInsect*, GlobalContext*);
+typedef void (*EnInsectActionFunc)(struct EnInsect*, PlayState*);
 
 #define INSECT_FLAG_0 (1 << 0)
 #define INSECT_FLAG_1 (1 << 1)

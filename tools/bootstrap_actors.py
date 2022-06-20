@@ -146,13 +146,13 @@ def bootstrap(ovl_path, ovl_text):
 
     decs = ""
     if init_func != "0x00000000" and init_func != "Actor_Noop":
-        decs += "void " + init_func_name + "(" + struct_name + "* this, GlobalContext* globalCtx);\n"
+        decs += "void " + init_func_name + "(" + struct_name + "* this, PlayState* play);\n"
     if destroy_func != "0x00000000" and destroy_func != "Actor_Noop":
-        decs += "void " + destroy_func_name + "(" + struct_name + "* this, GlobalContext* globalCtx);\n"
+        decs += "void " + destroy_func_name + "(" + struct_name + "* this, PlayState* play);\n"
     if update_func != "0x00000000" and update_func != "Actor_Noop":
-        decs += "void " + update_func_name + "(" + struct_name + "* this, GlobalContext* globalCtx);\n"
+        decs += "void " + update_func_name + "(" + struct_name + "* this, PlayState* play);\n"
     if draw_func != "0x00000000" and draw_func != "Actor_Noop":
-        decs += "void " + draw_func_name + "(" + struct_name + "* this, GlobalContext* globalCtx);\n"
+        decs += "void " + draw_func_name + "(" + struct_name + "* this, PlayState* play);\n"
 
     init_vars = "const ActorInit " + init_vars_name + " =\n{\n"
     init_vars += indent + actor_id_name + ",\n"

@@ -6,7 +6,7 @@
 
 struct BossDodongo;
 
-typedef void (*BossDodongoActionFunc)(struct BossDodongo*, GlobalContext*);
+typedef void (*BossDodongoActionFunc)(struct BossDodongo*, PlayState*);
 
 #define BOSS_DODONGO_EFFECT_COUNT 80
 
