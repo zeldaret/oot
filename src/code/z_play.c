@@ -15,7 +15,7 @@ u64 D_801614D0[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
-// This macro prints the number "1" with a file and line number, if R_ENABLE_PLAY_LOGS is enabled.
+// This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
 // For example, it can be used to trace the play state execution at a high level.
 #define PLAY_LOG(line)                            \
     do {                                          \
