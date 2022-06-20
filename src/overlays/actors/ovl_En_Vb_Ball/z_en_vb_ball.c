@@ -13,7 +13,7 @@
 
 void EnVbBall_Init(Actor* thisx, PlayState* play);
 void EnVbBall_Destroy(Actor* thisx, PlayState* play);
-void EnVbBall_Update(Actor* thisx, PlayState* play);
+void EnVbBall_Update(Actor* thisx, PlayState* play2);
 void EnVbBall_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_Vb_Ball_InitVars = {

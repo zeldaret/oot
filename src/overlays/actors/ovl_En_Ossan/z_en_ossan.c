@@ -65,9 +65,9 @@ void EnOssan_State_LookToRightShelf(EnOssan* this, PlayState* play, Player* play
 void EnOssan_State_BrowseLeftShelf(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_BrowseRightShelf(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_LookFromShelfToShopkeeper(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play, Player* player);
+void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play2, Player* player);
+void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play2, Player* player);
+void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play2, Player* player);
 void EnOssan_State_SelectUnimplementedItem(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_SelectBombs(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_CantGetItem(EnOssan* this, PlayState* play, Player* player);

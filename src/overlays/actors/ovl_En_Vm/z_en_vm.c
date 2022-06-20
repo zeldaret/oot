@@ -14,7 +14,7 @@
 void EnVm_Init(Actor* thisx, PlayState* play);
 void EnVm_Destroy(Actor* thisx, PlayState* play);
 void EnVm_Update(Actor* thisx, PlayState* play);
-void EnVm_Draw(Actor* thisx, PlayState* play);
+void EnVm_Draw(Actor* thisx, PlayState* play2);
 
 void EnVm_SetupWait(EnVm* this);
 void EnVm_Wait(EnVm* this, PlayState* play);
