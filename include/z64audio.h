@@ -115,20 +115,20 @@ typedef struct {
 typedef struct {
     /* 0x0 */ s16 delay;
     /* 0x2 */ s16 arg;
-} AdsrEnvelope; // size = 0x4
+} EnvelopePoint; // size = 0x4
 
 typedef struct {
     /* 0x00 */ u32 start;
     /* 0x04 */ u32 end;
     /* 0x08 */ u32 count;
     /* 0x0C */ char unk_0C[0x4];
-    /* 0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
+    /* 0x10 */ s16 predictorState[16]; // only exists if count != 0. 8-byte aligned
 } AdpcmLoop; // size = 0x30 (or 0x10)
 
 typedef struct {
     /* 0x00 */ s32 order;
-    /* 0x04 */ s32 npredictors;
-    /* 0x08 */ s16 book[1]; // size 8 * order * npredictors. 8-byte aligned
+    /* 0x04 */ s32 numPredictors;
+    /* 0x08 */ s16 book[1]; // size 8 * order * numPredictors. 8-byte aligned
 } AdpcmBook; // size >= 0x8
 
 typedef struct {
@@ -140,12 +140,49 @@ typedef struct {
     /* 0x04 */ u8* sampleAddr; // Raw sample data. Offset from the start of the sample bank or absolute address to either rom or ram
     /* 0x08 */ AdpcmLoop* loop; // Adpcm loop parameters used by the sample. Offset from the start of the sound font / pointer to ram
     /* 0x0C */ AdpcmBook* book; // Adpcm book parameters used by the sample. Offset from the start of the sound font / pointer to ram
-} SoundFontSample; // size = 0x10
+} Sample; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ SoundFontSample* sample;
+    /* 0x00 */ Sample* sample;
     /* 0x04 */ f32 tuning; // frequency scale factor
-} SoundFontSound; // size = 0x8
+} TunedSample; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u8 isRelocated; // have the envelope and all samples been relocated (offsets to pointers)
+    /* 0x01 */ u8 normalRangeLo;
+    /* 0x02 */ u8 normalRangeHi;
+    /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
+    /* 0x04 */ EnvelopePoint* envelope;
+    /* 0x08 */ TunedSample lowPitchTunedSample;
+    /* 0x10 */ TunedSample normalPitchTunedSample;
+    /* 0x18 */ TunedSample highPitchTunedSample;
+} Instrument; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
+    /* 0x01 */ u8 pan;
+    /* 0x02 */ u8 isRelocated; // have tunedSample.sample and envelope been relocated (offsets to pointers)
+    /* 0x04 */ TunedSample tunedSample;
+    /* 0x0C */ EnvelopePoint* envelope;
+} Drum; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ TunedSample tunedSample;
+} SoundEffect; // size = 0x08
+
+/**
+ * Stores parsed information from soundfont data
+ */
+typedef struct {
+    /* 0x00 */ u8 numInstruments;
+    /* 0x01 */ u8 numDrums;
+    /* 0x02 */ u8 sampleBankId1;
+    /* 0x03 */ u8 sampleBankId2;
+    /* 0x04 */ u16 numSfx;
+    /* 0x08 */ Instrument** instruments;
+    /* 0x0C */ Drum** drums;
+    /* 0x10 */ SoundEffect* soundEffects;
+} SoundFont; // size = 0x14
 
 typedef struct {
     /* 0x00 */ s16 numSamplesAfterDownsampling; // never read
@@ -195,40 +232,10 @@ typedef struct {
     /* 0x274 */ s16* filterRight;
     /* 0x278 */ s16* filterLeftState;
     /* 0x27C */ s16* filterRightState;
-    /* 0x280 */ SoundFontSound sound;
-    /* 0x288 */ SoundFontSample sample;
+    /* 0x280 */ TunedSample tunedSample;
+    /* 0x288 */ Sample sample;
     /* 0x298 */ AdpcmLoop loop;
 } SynthesisReverb; // size = 0x2C8
-
-typedef struct {
-    /* 0x00 */ u8 isRelocated; // have the envelope and all samples been relocated (offsets to pointers)
-    /* 0x01 */ u8 normalRangeLo;
-    /* 0x02 */ u8 normalRangeHi;
-    /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
-    /* 0x04 */ AdsrEnvelope* envelope;
-    /* 0x08 */ SoundFontSound lowNotesSound;
-    /* 0x10 */ SoundFontSound normalNotesSound;
-    /* 0x18 */ SoundFontSound highNotesSound;
-} Instrument; // size = 0x20
-
-typedef struct {
-    /* 0x00 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
-    /* 0x01 */ u8 pan;
-    /* 0x02 */ u8 isRelocated; // have sound.sample and envelope been relocated (offsets to pointers)
-    /* 0x04 */ SoundFontSound sound;
-    /* 0x0C */ AdsrEnvelope* envelope;
-} Drum; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ u8 numInstruments;
-    /* 0x01 */ u8 numDrums;
-    /* 0x02 */ u8 sampleBankId1;
-    /* 0x03 */ u8 sampleBankId2;
-    /* 0x04 */ u16 numSfx;
-    /* 0x08 */ Instrument** instruments;
-    /* 0x0C */ Drum** drums;
-    /* 0x10 */ SoundFontSound* soundEffects;
-} SoundFont; // size = 0x14
 
 typedef struct {
     /* 0x00 */ u8* pc; // program counter
@@ -284,7 +291,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u8 decayIndex; // index used to obtain adsr decay rate from adsrDecayTable
     /* 0x1 */ u8 sustain;
-    /* 0x4 */ AdsrEnvelope* envelope;
+    /* 0x4 */ EnvelopePoint* envelope;
 } AdsrSettings; // size = 0x8
 
 typedef struct {
@@ -306,7 +313,7 @@ typedef struct {
     /* 0x10 */ f32 current;
     /* 0x14 */ f32 target;
     /* 0x18 */ char unk_18[4];
-    /* 0x1C */ AdsrEnvelope* envelope;
+    /* 0x1C */ EnvelopePoint* envelope;
 } AdsrState; // size = 0x20
 
 typedef struct {
@@ -436,7 +443,7 @@ typedef struct SequenceLayer {
     /* 0x40 */ f32 noteVelocity;
     /* 0x44 */ f32 noteFreqScale;
     /* 0x48 */ Instrument* instrument;
-    /* 0x4C */ SoundFontSound* sound;
+    /* 0x4C */ TunedSample* tunedSample;
     /* 0x50 */ SequenceChannel* channel;
     /* 0x54 */ SeqScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
@@ -531,9 +538,9 @@ typedef struct {
     /* 0x0C */ u16 resamplingRateFixedPoint;
     /* 0x0E */ u16 unk_0E;
     /* 0x10 */ union {
-                 SoundFontSound* soundFontSound;
+                 TunedSample* tunedSample;
                  s16* samples; // used for synthetic waves
-             } sound;
+             };
     /* 0x14 */ s16* filter;
     /* 0x18 */ char pad_18[0x8];
 } NoteSubEu; // size = 0x20
@@ -690,7 +697,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 endAndMediumKey;
-    /* 0x04 */ SoundFontSample* sample;
+    /* 0x04 */ Sample* sample;
     /* 0x08 */ u8* ramAddr;
     /* 0x0C */ u32 encodedInfo;
     /* 0x10 */ s32 isFree;
@@ -748,7 +755,7 @@ typedef struct {
     /* 0x14 */ s32 state;
     /* 0x18 */ s32 bytesRemaining;
     /* 0x1C */ s8* status; // write-only
-    /* 0x20 */ SoundFontSample sample;
+    /* 0x20 */ Sample sample;
     /* 0x30 */ OSMesgQueue msgQueue;
     /* 0x48 */ OSMesg msg;
     /* 0x4C */ OSIoMesg ioMesg;
@@ -799,7 +806,7 @@ typedef struct {
     /* 0x0014 */ NoteSubEu* noteSubsEu;
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
-    /* 0x0B68 */ SoundFontSample* usedSamples[128];
+    /* 0x0B68 */ Sample* usedSamples[128];
     /* 0x0D68 */ AudioPreloadReq preloadSampleStack[128];
     /* 0x1768 */ s32 numUsedSamples;
     /* 0x176C */ s32 preloadSampleStackTop;
@@ -836,7 +843,7 @@ typedef struct {
     /* 0x2838 */ AudioTable* sampleBankTable;
     /* 0x283C */ u8* sequenceFontTable;
     /* 0x2840 */ u16 numSequences;
-    /* 0x2844 */ SoundFont* soundFonts;
+    /* 0x2844 */ SoundFont* soundFontList;
     /* 0x2848 */ AudioBufferParameters audioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
     /* 0x2874 */ s32 sampleDmaBufSize1;
@@ -1038,6 +1045,28 @@ typedef struct {
     u32 priority; // lower is more prioritized
     u8 entryIndex;
 } ActiveSound;
+
+// SoundParams bit-packing
+
+#define SFX_PARAM_01_SHIFT 0
+#define SFX_PARAM_01_MASK (3 << SFX_PARAM_01_SHIFT)
+
+#define SFX_FLAG_2 (1 << 2)
+#define SFX_FLAG_3 (1 << 3)
+#define SFX_FLAG_4 (1 << 4)
+#define SFX_FLAG_5 (1 << 5)
+
+#define SFX_PARAM_67_SHIFT 6
+#define SFX_PARAM_67_MASK (3 << SFX_PARAM_67_SHIFT)
+
+#define SFX_FLAG_9 (1 << 9)
+#define SFX_FLAG_10_SHIFT 10
+#define SFX_FLAG_10 (1 << SFX_FLAG_10_SHIFT)
+#define SFX_FLAG_11 (1 << 11)
+#define SFX_FLAG_12 (1 << 12)
+#define SFX_FLAG_13 (1 << 13)
+#define SFX_FLAG_14 (1 << 14)
+#define SFX_FLAG_15 (1 << 15)
 
 typedef struct {
     u8 importance;

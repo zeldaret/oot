@@ -517,9 +517,9 @@ u8* func_800E5E84(s32 arg0, u32* arg1) {
     return AudioLoad_GetFontsForSequence(arg0, arg1);
 }
 
-void func_800E5EA4(s32 arg0, u32* arg1, u32* arg2) {
-    *arg1 = gAudioContext.soundFonts[arg0].sampleBankId1;
-    *arg2 = gAudioContext.soundFonts[arg0].sampleBankId2;
+void Audio_GetSampleBankIdsOfFont(s32 fontId, u32* sampleBankId1, u32* sampleBankId2) {
+    *sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+    *sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
 }
 
 s32 func_800E5EDC(void) {
@@ -784,7 +784,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
     SequenceLayer* layer;
     Note* note;
-    SoundFontSound* sound;
+    TunedSample* tunedSample;
     s32 loopEnd;
     s32 samplePos;
 
@@ -806,11 +806,11 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
 
             note = layer->note;
             if (layer == note->playbackState.parentLayer) {
-                sound = note->noteSubEu.sound.soundFontSound;
-                if (sound == NULL) {
+                tunedSample = note->noteSubEu.tunedSample;
+                if (tunedSample == NULL) {
                     return 0;
                 }
-                loopEnd = sound->sample->loop->end;
+                loopEnd = tunedSample->sample->loop->end;
                 samplePos = note->synthesisState.samplePosInt;
                 return loopEnd - samplePos;
             }
@@ -834,7 +834,7 @@ s32 func_800E66C0(s32 arg0) {
     NoteSubEu* temp_a3;
     s32 i;
     Note* note;
-    SoundFontSound* sound;
+    TunedSample* tunedSample;
 
     phi_v1 = 0;
     for (i = 0; i < gAudioContext.numNotes; i++) {
@@ -844,11 +844,11 @@ s32 func_800E66C0(s32 arg0) {
             temp_a3 = &note->noteSubEu;
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
-                    sound = temp_a3->sound.soundFontSound;
-                    if (sound == NULL || temp_a3->bitField1.isSyntheticWave) {
+                    tunedSample = temp_a3->tunedSample;
+                    if (tunedSample == NULL || temp_a3->bitField1.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->medium == MEDIUM_RAM) {
+                    if (tunedSample->sample->medium == MEDIUM_RAM) {
                         continue;
                     }
                 }

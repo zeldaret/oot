@@ -14,10 +14,10 @@
 
 #define WATER_SURFACE_Y(play) play->colCtx.colHeader->waterBoxes->ySurface
 
-void Fishing_Init(Actor* thisx, PlayState* play);
-void Fishing_Destroy(Actor* thisx, PlayState* play);
-void Fishing_UpdateFish(Actor* thisx, PlayState* play);
-void Fishing_UpdateOwner(Actor* thisx, PlayState* play);
+void Fishing_Init(Actor* thisx, PlayState* play2);
+void Fishing_Destroy(Actor* thisx, PlayState* play2);
+void Fishing_UpdateFish(Actor* thisx, PlayState* play2);
+void Fishing_UpdateOwner(Actor* thisx, PlayState* play2);
 void Fishing_DrawFish(Actor* thisx, PlayState* play);
 void Fishing_DrawOwner(Actor* thisx, PlayState* play);
 

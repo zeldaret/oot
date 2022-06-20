@@ -1,238 +1,1290 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define SFX_PARAMS(importance, distParam, randParam, flags)                               \
+    {                                                                                     \
+        importance, ((((distParam) << SFX_PARAM_01_SHIFT) & SFX_PARAM_01_MASK) |          \
+                     (((randParam) << SFX_PARAM_67_SHIFT) & SFX_PARAM_67_MASK) | (flags)) \
+    }
+
 SoundParams sEnemyBankParams[] = {
-    { 0x18, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x30, 0x3 },
-    { 0x38, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x2 },    { 0x30, 0x3 },    { 0x30, 0x2 },    { 0x20, 0x81 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },
-    { 0x40, 0x3 },    { 0x20, 0x2000 }, { 0x28, 0x3 },    { 0x28, 0x3 },    { 0x20, 0x2 },    { 0x28, 0x3 },
-    { 0x38, 0x3 },    { 0x30, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x40, 0x1 },    { 0x18, 0x0 },    { 0x14, 0x0 },
-    { 0x14, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x44, 0x3 },    { 0x18, 0x0 },    { 0x30, 0x2 },
-    { 0x32, 0x2 },    { 0x38, 0x1 },    { 0x20, 0x0 },    { 0x40, 0x1 },    { 0x18, 0x0 },    { 0x28, 0x0 },
-    { 0x18, 0x0 },    { 0x30, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x14, 0x0 },    { 0x18, 0x80 },
-    { 0x38, 0x2 },    { 0x30, 0x0 },    { 0x28, 0x1 },    { 0x30, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },
-    { 0x30, 0x0 },    { 0x18, 0x0 },    { 0x20, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x20, 0x1 },
-    { 0x40, 0x1 },    { 0x38, 0x1 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x40, 0x1 },    { 0x38, 0x1 },
-    { 0x20, 0x0 },    { 0x30, 0x0 },    { 0x40, 0x1 },    { 0x40, 0x1 },    { 0x30, 0x3 },    { 0x30, 0x2000 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x18, 0x3 },    { 0x30, 0x3 },    { 0x28, 0x0 },    { 0x30, 0x0 },
-    { 0x18, 0x0 },    { 0x30, 0x0 },    { 0x28, 0x0 },    { 0x30, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },
-    { 0x28, 0x0 },    { 0x30, 0x0 },    { 0x40, 0x1 },    { 0x14, 0x0 },    { 0x30, 0x0 },    { 0x20, 0x0 },
-    { 0x40, 0x1 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x20, 0x0 },    { 0x38, 0x1 },
-    { 0x20, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x14, 0x0 },    { 0x30, 0x3 },    { 0x20, 0x1 },
-    { 0x20, 0x1 },    { 0x30, 0x2 },    { 0x30, 0x2 },    { 0x38, 0x2 },    { 0x40, 0x2 },    { 0x40, 0x2 },
-    { 0x14, 0x81 },   { 0x34, 0x0 },    { 0x40, 0x0 },    { 0x20, 0x0 },    { 0x28, 0x0 },    { 0x28, 0x0 },
-    { 0x30, 0x0 },    { 0x14, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x20, 0x0 },    { 0x30, 0x3 },
-    { 0x30, 0x0 },    { 0x40, 0x1 },    { 0x40, 0x3 },    { 0x40, 0x1 },    { 0x28, 0x1 },    { 0x30, 0x3 },
-    { 0x20, 0x0 },    { 0x38, 0x1 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x20, 0x0 },    { 0x20, 0x0 },
-    { 0x38, 0x2000 }, { 0x30, 0x3 },    { 0x30, 0x2000 }, { 0x30, 0x0 },    { 0x14, 0x0 },    { 0x38, 0x1 },
-    { 0x40, 0x1 },    { 0x14, 0x0 },    { 0x20, 0x0 },    { 0x20, 0x0 },    { 0x30, 0x0 },    { 0x40, 0x1 },
-    { 0x40, 0x1 },    { 0x30, 0x0 },    { 0x34, 0x1 },    { 0x40, 0x1 },    { 0x30, 0x3 },    { 0x30, 0x2 },
-    { 0x30, 0x2000 }, { 0x20, 0x43 },   { 0x20, 0x2 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x38, 0x3 },    { 0x30, 0x2000 }, { 0x30, 0x3 },    { 0x30, 0x2 },    { 0x30, 0x2000 }, { 0x30, 0x3 },
-    { 0x38, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x403 },  { 0x38, 0x1 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x20, 0x0 },    { 0x34, 0x0 },    { 0x18, 0x1 },    { 0x20, 0x2000 },
-    { 0x30, 0x2000 }, { 0x14, 0x3 },    { 0x28, 0x3 },    { 0x28, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x3 },
-    { 0x20, 0x0 },    { 0x14, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x28, 0x0 },    { 0x28, 0x0 },
-    { 0x40, 0x1 },    { 0x40, 0x1 },    { 0x20, 0x0 },    { 0x20, 0x0 },    { 0x14, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x40, 0x1 },    { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },    { 0x38, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x1 },    { 0x28, 0x3 },
-    { 0x28, 0x83 },   { 0x28, 0x82 },   { 0x30, 0x3 },    { 0x30, 0x2000 }, { 0x30, 0x2000 }, { 0x38, 0x1 },
-    { 0x20, 0x0 },    { 0x34, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x34, 0x2000 }, { 0x20, 0x0 },
-    { 0x38, 0x0 },    { 0x40, 0x1 },    { 0x30, 0x3 },    { 0x30, 0x2 },    { 0x30, 0x2 },    { 0x38, 0x3 },
-    { 0x30, 0x3 },    { 0x32, 0x3 },    { 0x34, 0x3 },    { 0x34, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x3 },    { 0x28, 0x82 },   { 0x40, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x20, 0x0 },    { 0x20, 0x0 },    { 0x30, 0x0 },    { 0x20, 0x80 },   { 0x30, 0x3 },    { 0x18, 0x3 },
-    { 0x34, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },    { 0x18, 0x3 },    { 0x30, 0x2000 }, { 0x38, 0x3 },
-    { 0x30, 0x3 },    { 0x40, 0x3 },    { 0x40, 0x2000 }, { 0x38, 0x3 },    { 0x30, 0x2000 }, { 0x30, 0x3 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x2 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x2000 }, { 0x38, 0x3 },    { 0x38, 0x3 },    { 0x38, 0x3 },
-    { 0x38, 0x2000 }, { 0x40, 0x2000 }, { 0x18, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x2 },    { 0x20, 0x2 },
-    { 0x24, 0x3 },    { 0x28, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x18, 0x1 },    { 0x34, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x34, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x1 },    { 0x14, 0x0 },
-    { 0x40, 0x1 },    { 0x30, 0x1 },    { 0x30, 0x1 },    { 0x30, 0x1 },    { 0x38, 0x3 },    { 0x30, 0x0 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },    { 0x38, 0x3 },    { 0x30, 0x2 },    { 0x38, 0x3 },
-    { 0x38, 0x3 },    { 0x30, 0x83 },   { 0x38, 0x3 },    { 0x30, 0x3 },    { 0x34, 0x3 },    { 0x20, 0x2 },
-    { 0x34, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },    { 0x20, 0x3 },    { 0x14, 0x0 },    { 0x20, 0x1 },
-    { 0x30, 0x3 },    { 0x40, 0x1 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x20, 0x0 },    { 0x20, 0x0 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x28, 0x2 },    { 0x30, 0x0 },
-    { 0x38, 0x1 },    { 0x28, 0x2 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },    { 0x40, 0x3 },
-    { 0x14, 0x0 },    { 0x30, 0x0 },    { 0x38, 0x1 },    { 0x30, 0x1 },    { 0x40, 0x1 },    { 0x28, 0x0 },
-    { 0x28, 0x0 },    { 0x30, 0x2 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x2000 }, { 0x38, 0x3 },    { 0x38, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x34, 0x3 },
-    { 0x38, 0x3 },    { 0x40, 0x3 },    { 0x10, 0x0 },    { 0x34, 0x0 },    { 0x18, 0x0 },    { 0x30, 0x0 },
-    { 0x14, 0x0 },    { 0x34, 0x0 },    { 0x28, 0x1 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x30, 0x0 },
-    { 0x38, 0x3 },    { 0x20, 0x0 },    { 0x20, 0x2 },    { 0x30, 0x2 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x38, 0x3 },    { 0x30, 0x3 },    { 0x20, 0x2000 }, { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x40, 0x1 },
-    { 0x30, 0x0 },    { 0x20, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x30, 0x0 },    { 0x30, 0x2000 },
-    { 0x30, 0x3 },    { 0x30, 0x2 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x18, 0x0 },    { 0x28, 0x0 },
-    { 0x34, 0x0 },    { 0x34, 0x0 },    { 0x34, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x30, 0x3 },
-    { 0x30, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x38, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x40, 0x3 },    { 0x40, 0x2 },    { 0x18, 0x0 },    { 0x44, 0x3 },    { 0x34, 0x0 },    { 0x18, 0x0 },
-    { 0x30, 0x0 },    { 0x38, 0x1 },    { 0x40, 0x1 },    { 0x18, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },
-    { 0x38, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x3 },    { 0x36, 0x3 },    { 0x34, 0x3 },    { 0x28, 0x82 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x0 },    { 0x30, 0x2000 }, { 0x30, 0x2000 }, { 0x30, 0x2000 }, { 0x30, 0x0 },    { 0x30, 0x2000 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x28, 0x3 },    { 0x30, 0x3 },    { 0x40, 0x3 },    { 0x30, 0x3 },
-    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x20, 0x0 },    { 0x20, 0x3 },
-    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x38, 0x3 },    { 0x38, 0x3 },
-    { 0x20, 0x3 },    { 0x30, 0x3 },    { 0x44, 0x3 },    { 0x30, 0x83 },   { 0x30, 0x3 },    { 0x30, 0x3 },
-    { 0x34, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x20, 0x2 },    { 0x30, 0x3 },    { 0x20, 0x3 },
-    { 0x30, 0x0 },    { 0x30, 0x2 },    { 0x40, 0x2 },    { 0x40, 0x3 },    { 0x34, 0x2 },    { 0x30, 0x3 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x1 },    { 0x34, 0x3 },    { 0x24, 0x3 },    { 0x34, 0x1 },
-    { 0x20, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x8, 0x1 },     { 0x30, 0x1 },    { 0x30, 0x3 },
-    { 0x38, 0x3 },    { 0x20, 0x2000 }, { 0x34, 0x3 },    { 0x34, 0x2000 }, { 0x8, 0x0 },     { 0x40, 0x3 },
-    { 0x34, 0x3 },
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_DODO_J_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_J_CRY
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_J_FIRE
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_DODO_J_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_DODO_J_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_CRY
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_DODO_K_DAMAGE
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_DODO_K_DEAD
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_DODO_K_WALK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_FIRE
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_GOMA_WALK
+    SFX_PARAMS(0x20, 1, 2, 0),           // NA_SE_EN_GOMA_HIGH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_CLIM
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_DOWN
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_GOMA_CRY1
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_CRY2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_DAM1
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_GOMA_DAM2
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_GOMA_DEAD
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_13), // NA_SE_EN_GOMA_UNARI
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_EGG1
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_EGG2
+    SFX_PARAMS(0x20, 2, 0, 0),           // NA_SE_EN_GOMA_BJR_WALK
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_CRY
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_DAM1
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_DAM2
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_DEMO_EYE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_LAST
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_UNARI2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_FAINT
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_FREEZE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_M_CRY
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_DODO_M_DEAD
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_DODO_M_MOVE
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_DODO_M_DOWN
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_DODO_M_UP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_THROW_MASIC
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_M_EAT
+    SFX_PARAMS(0x44, 3, 0, 0),           // NA_SE_EN_GANON_DD_THUNDER
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_RIZA_ONGND
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_RIZA_CRY
+    SFX_PARAMS(0x32, 2, 0, 0),           // NA_SE_EN_RIZA_ATTACK
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_RIZA_DAMAGE
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_RIZA_WARAU
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_RIZA_DEAD
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_RIZA_WALK
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_RIZA_JUMP
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_STALKID_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALKID_ATTACK
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_STALKID_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_STALKID_DEAD
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_FLOORMASTER_SLIDING
+    SFX_PARAMS(0x18, 0, 2, 0),           // NA_SE_EN_TEKU_WALK_WATER
+    SFX_PARAMS(0x38, 2, 0, 0),           // NA_SE_EN_LIGHT_ARROW_HIT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_TUBOOCK_FLY
+    SFX_PARAMS(0x28, 1, 0, 0),           // NA_SE_EN_STAL_WARAU
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STAL_SAKEBI
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_STAL_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_STAL_DEAD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_WOLFOS_APPEAR
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_STAL_WALK
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_WOLFOS_CRY
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_WOLFOS_ATTACK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_FFLY_ATTACK
+    SFX_PARAMS(0x20, 1, 0, 0),           // NA_SE_EN_FFLY_FLY
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_FFLY_DEAD
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_WOLFOS_DAMAGE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_AMOS_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_AMOS_WAVE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_AMOS_DEAD
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_AMOS_DAMAGE
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_AMOS_VOICE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_SHELL_MOUTH
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_SHELL_DEAD
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_WOLFOS_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_COLI
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_DODO_K_COLI2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_ROLL
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_BREATH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_DRINK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_DOWN
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_OTAKEBI
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_END
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_LAST
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DODO_K_LAVA
+    SFX_PARAMS(0x18, 3, 0, 0),           // NA_SE_EN_GANON_FLOAT
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_DARKWAVE_M
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_DODO_J_BREATH
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_J_TAIL
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_WOLFOS_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_J_EAT
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_DEKU_MOUTH
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DEKU_ATTACK
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_DEKU_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_DEKU_DEAD
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_DEKU_JR_MOUTH
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DEKU_JR_ATTACK
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_DEKU_JR_DEAD
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_DEKU_SCRAPE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_TAIL_FLY
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_TAIL_CRY
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_TAIL_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_SPARK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALTU_DOWN
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALTU_UP
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_STALTU_LAUGH
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_STALTU_DAMAGE
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_STAL_JUMP
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_TEKU_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_TEKU_DEAD
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_TEKU_WALK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_PO_KANTERA
+    SFX_PARAMS(0x20, 1, 0, 0),           // NA_SE_EN_PO_FLY
+    SFX_PARAMS(0x20, 1, 0, 0),           // NA_SE_EN_PO_AWAY
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_PO_APPEAR
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_PO_DISAPPEAR
+    SFX_PARAMS(0x38, 2, 0, 0),           // NA_SE_EN_PO_DAMAGE
+    SFX_PARAMS(0x40, 2, 0, 0),           // NA_SE_EN_PO_DEAD
+    SFX_PARAMS(0x40, 2, 0, 0),           // NA_SE_EN_PO_DEAD2
+    SFX_PARAMS(0x14, 1, 2, 0),           // NA_SE_EN_EXTINCT
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_GOLON_LAND_BIG
+    SFX_PARAMS(0x40, 0, 0, 0),           // NA_SE_EN_RIZA_DOWN
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_DODO_M_GND
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_NUTS_UP
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_NUTS_DOWN
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_NUTS_THROW
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_NUTS_WALK
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_NUTS_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_NUTS_DEAD
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_NUTS_FAINT
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_PO_BIG_GET
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALTU_ROLL
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_STALWALL_DEAD
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_PO_SISTER_DEAD
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_BARI_SPLIT
+    SFX_PARAMS(0x28, 1, 0, 0),           // NA_SE_EN_TEKU_REVERSE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_LAND2
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_TEKU_LAND_WATER
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_LAST_DAMAGE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALWALL_ROLL
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALWALL_DASH
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_TEKU_JUMP_WATER
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_TEKU_LAND_WATER2
+    SFX_PARAMS(0x38, 0, 0, SFX_FLAG_13), // NA_SE_EN_FALL_AIM
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FALL_UP
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_FALL_CATCH
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_FALL_LAND
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_FALL_WALK
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_FALL_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_FALL_DEAD
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_KAICHO_FLUTTER
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_BIRI_FLY
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_BIRI_JUMP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_BIRI_SPARK
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_BIRI_DEAD
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_BIRI_BUBLE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_BARI_ROLL
+    SFX_PARAMS(0x34, 1, 0, 0),           // NA_SE_EN_GOMA_JR_FREEZE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_BARI_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_FIRE
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_FANTOM_TRANSFORM
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_FANTOM_THUNDER
+    SFX_PARAMS(0x20, 3, 1, 0),           // NA_SE_EN_FANTOM_SPARK
+    SFX_PARAMS(0x20, 2, 0, 0),           // NA_SE_EN_FANTOM_FLOAT
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_MASIC1
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_MASIC2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_FIRE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_FANTOM_HIT_THUNDER
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_FANTOM_ATTACK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_STICK
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_FANTOM_EYE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_FANTOM_LAST
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_THUNDER_GND
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_FANTOM_DAMAGE
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_FANTOM_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_LAUGH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_DAMAGE2
+    SFX_PARAMS(0x30, 3, 0, SFX_FLAG_10), // NA_SE_EN_FANTOM_VOICE
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_KAICHO_DAMAGE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_ATTACK_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_FIRE_DEMO
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_KAICHO_CRY
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_KAICHO_ATTACK
+    SFX_PARAMS(0x18, 1, 0, 0),           // NA_SE_EN_MORIBLIN_WALK
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_13), // NA_SE_EN_MORIBLIN_SLIDE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_MORIBLIN_ATTACK
+    SFX_PARAMS(0x14, 3, 0, 0),           // NA_SE_EN_MORIBLIN_VOICE
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_MORIBLIN_SPEAR_AT
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_MORIBLIN_SPEAR_NORM
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_MORIBLIN_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MORIBLIN_DASH
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_OCTAROCK_ROCK
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_OCTAROCK_FLOAT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_OCTAROCK_JUMP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_OCTAROCK_LAND
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_OCTAROCK_SINK
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_OCTAROCK_BUBLE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_OCTAROCK_DEAD1
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_OCTAROCK_DEAD2
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_BUBLE_WING
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_BUBLE_MOUTH
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_BUBLE_LAUGH
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_BUBLE_BITE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_BUBLE_UP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_BUBLE_DOWN
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_BUBLE_DEAD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_BUBLEFALL_FIRE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_APPEAR
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_ROAR
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_MAHI1
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_MAHI2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_KNOCKOUT
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_VALVAISA_DAMAGE1
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_VALVAISA_DAMAGE2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_ROCK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_SW_NAIL
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_VALVAISA_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_BURN
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_FIRE
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_BARI_DAMAGE
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_MOFER_CORE_LAND
+    SFX_PARAMS(0x28, 3, 2, 0),           // NA_SE_EN_MOFER_CORE_MOVE_WT
+    SFX_PARAMS(0x28, 2, 2, 0),           // NA_SE_EN_MOFER_CORE_SMJUMP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MONBLIN_GNDWAVE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_MONBLIN_HAM_DOWN
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_MONBLIN_HAM_UP
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_BUBLE_DAMAGE
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_REDEAD_CRY
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_REDEAD_AIM
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_REDEAD_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_REDEAD_DEAD
+    SFX_PARAMS(0x34, 0, 0, SFX_FLAG_13), // NA_SE_EN_REDEAD_ATTACK
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_NYU_MOVE
+    SFX_PARAMS(0x38, 0, 0, 0),           // NA_SE_EN_NYU_HIT_STOP
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_KAICHO_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_PO_LAUGH
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_PO_CRY
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_PO_ROLL
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_PO_LAUGH2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MOFER_APPEAR
+    SFX_PARAMS(0x32, 3, 0, 0),           // NA_SE_EN_MOFER_ATTACK
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_MOFER_WAVE
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_MOFER_CATCH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MOFER_CUT
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MOFER_MOVE_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MOFER_BUBLE_DEMO
+    SFX_PARAMS(0x28, 2, 2, 0),           // NA_SE_EN_MOFER_CORE_JUMP
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_MOFER_DEAD
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_MOFER_LASTVOICE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MOFER_CORE_ROLL
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MOFER_CORE_FLY
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_GOLON_WAKE_UP
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_GOLON_SIT_DOWN
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_CHICKEN_FLUTTER
+    SFX_PARAMS(0x20, 0, 2, 0),           // NA_SE_EN_DEKU_WAKEUP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DEADHAND_BITE
+    SFX_PARAMS(0x18, 3, 0, 0),           // NA_SE_EN_DEADHAND_WALK
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_DEADHAND_GRIP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DEADHAND_HAND_AT
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_DAIOCTA_MAHI
+    SFX_PARAMS(0x18, 3, 0, 0),           // NA_SE_EN_DAIOCTA_SPLASH
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_DAIOCTA_VOICE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_DAIOCTA_DAMAGE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DAIOCTA_SINK
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_DAIOCTA_DEAD
+    SFX_PARAMS(0x40, 0, 0, SFX_FLAG_13), // NA_SE_EN_DAIOCTA_DEAD2
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_GANON_HIT_THUNDER
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_APPEAR_MS
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_TRANSFORM
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_MS_FIRE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_FIRE_EXP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_POWERUP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_SHOOT_FREEZE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_MS_FREEZE
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_TWINROBA_MASIC_SET
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_CUTBODY
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_HIT_GND_IMP
+    SFX_PARAMS(0x38, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_DAMAGE_VOICE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_TWINROBA_REFL_FIRE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_TWINROBA_REFL_FREEZE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_GANON_CUTBODY
+    SFX_PARAMS(0x38, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_YOUNG_DAMAGE
+    SFX_PARAMS(0x40, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_YOUNG_DEAD
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_GOLON_EYE_BIG
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOLON_GOOD_BIG
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_TWINROBA_FB_FLY
+    SFX_PARAMS(0x20, 2, 0, 0),           // NA_SE_EN_TWINROBA_FLY
+    SFX_PARAMS(0x24, 3, 0, 0),           // NA_SE_EN_TWINROBA_UNARI
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_TWINROBA_ROLL
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_SHOOT_FIRE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_THROW_MASIC
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DARUNIA_HIT_BREAST
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DARUNIA_HIT_LINK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_OWL_FLUTTER
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_VALVAISA_LAND
+    SFX_PARAMS(0x18, 1, 0, 0),           // NA_SE_EN_IRONNACK_WALK
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_IRONNACK_SWING_AXE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_ARMOR_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_STAGGER_DEMO
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_ARMOR_LAND1_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_ARMOR_LAND2_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_ARMOR_LAND3_DEMO
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_EN_FLOORMASTER_ATTACK
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_FLOORMASTER_SM_WALK
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_FLOORMASTER_SM_DEAD
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_EN_FLOORMASTER_RESTORE
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_EN_FLOORMASTER_EXPAND
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_EN_FLOORMASTER_SPLIT
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_FLOORMASTER_SM_STICK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_FLOORMASTER_SM_LAND
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_WAVE_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_FINGER_DEMO
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_IRONNACK_ARMOR_HIT
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_NUTS_CUTBODY
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_BALINADE_LEVEL
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_BALINADE_DAMAGE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_BALINADE_FAINT
+    SFX_PARAMS(0x30, 3, 2, 0),           // NA_SE_EN_BALINADE_BREAK
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_BALINADE_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_BALINADE_STICK
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_BALINADE_THUNDER
+    SFX_PARAMS(0x20, 2, 0, 0),           // NA_SE_EN_BALINADE_BL_SPARK
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_BALINADE_BL_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_BALINADE_BREAK2
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_BALINADE_HIT_RINK
+    SFX_PARAMS(0x20, 3, 0, 0),           // NA_SE_EN_GANON_WAVE_GND
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_AWA_BOUND
+    SFX_PARAMS(0x20, 1, 0, 0),           // NA_SE_EN_AWA_BREAK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_BROB_WAVE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_NYU_DEAD
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_EIER_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_EIER_DEAD
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_EIER_FLUTTER
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_EIER_FLY
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_TAIKO_LOW
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_TAIKO_HIGH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_CLAP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_FLY_ATTACK
+    SFX_PARAMS(0x28, 2, 0, 0),           // NA_SE_EN_PIHAT_UP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_PIHAT_FLY
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_PIHAT_DAMAGE
+    SFX_PARAMS(0x28, 2, 0, 0),           // NA_SE_EN_PIHAT_LAND
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_BALINADE_HAND_DOWN
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_BALINADE_HAND_UP
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_BALINADE_HAND_DAMAGE
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_BALINADE_HAND_DEAD
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_GOMA_JR_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_GOMA_JR_CRY
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_GOMA_JR_DAM1
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_EN_GOMA_JR_DAM2
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_GOMA_JR_DEAD
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_GOMA_EGG1
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_GOMA_EGG2
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_GANON_BODY_SPARK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_HAND_WAVE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_CATCH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_LAND
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_HAND_FLY
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_SHADEST_SHAKEHAND
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_SHADEST_DAMAGE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_SHADEST_DAMAGE_HAND
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_DISAPPEAR
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_CHARGE_MASIC
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_GANON_THROW_BIG
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_SHADEST_FREEZE
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_SHADEST_DEAD
+    SFX_PARAMS(0x10, 0, 0, 0),           // NA_SE_EN_BIMOS_ROLL_HEAD
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_BIMOS_LAZER
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_BIMOS_LAZER_GND
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_BIMOS_AIM
+    SFX_PARAMS(0x14, 0, 0, 0),           // NA_SE_EN_BUBLEWALK_WALK
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_BUBLEWALK_AIM
+    SFX_PARAMS(0x28, 1, 0, 0),           // NA_SE_EN_BUBLEWALK_REVERSE
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_BUBLEWALK_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_BUBLEWALK_DEAD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_YUKABYUN_FLY
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_FLAME_DAMAGE
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_TWINROBA_FLY_DEMO
+    SFX_PARAMS(0x20, 2, 0, 0),           // NA_SE_EN_FLAME_KICK
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_FLAME_RUN
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FLAME_ROLL
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FLAME_MAN_RUN
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_FLAME_MAN_DAMAGE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FLAME_LAUGH
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_13), // NA_SE_EN_FLAME_MAN_SLIDE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FLAME_FIRE_ATTACK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_PIHAT_SM_FLY
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_PIHAT_SM_DEAD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_RIVA_APPEAR
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_AKINDONUTS_HIDE
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_RIVA_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_RIVA_DEAD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_RIVA_MOVE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_FLAME_MAN_SURP
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_LAST
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_SHADEST_MOVE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_SHADEST_PRAY
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MGANON_ROAR
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_LIKE_WALK
+    SFX_PARAMS(0x28, 0, 0, 0),           // NA_SE_EN_LIKE_UNARI
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_LIKE_DRINK
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_LIKE_EAT
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_LIKE_THROW
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_LIKE_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_LIKE_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MGANON_SWORD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_GERUDOFT_ATTACK
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_GERUDOFT_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_GERUDOFT_DEAD
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_MGANON_DAMAGE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_ANUBIS_FIRE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_ANUBIS_FIREBOMB
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_MGANON_DEAD1
+    SFX_PARAMS(0x40, 2, 0, 0),           // NA_SE_EN_ANUBIS_DEAD
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_MUSI_LAND
+    SFX_PARAMS(0x44, 3, 0, 0),           // NA_SE_EN_MGANON_DEAD2
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_EN_EIER_ATTACK
+    SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_EIER_CRY
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_FREEZAD_BREATH
+    SFX_PARAMS(0x38, 1, 0, 0),           // NA_SE_EN_FREEZAD_DAMAGE
+    SFX_PARAMS(0x40, 1, 0, 0),           // NA_SE_EN_FREEZAD_DEAD
+    SFX_PARAMS(0x18, 3, 0, 0),           // NA_SE_EN_DEADHAND_LAUGH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_DEADHAND_HIDE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_DEADHAND_DAMAGE
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_DEADHAND_HAND_DEAD
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_DEADHAND_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_BREAK_PILLAR2
+    SFX_PARAMS(0x36, 3, 0, 0),           // NA_SE_EN_IRONNACK_BREAK_PILLAR
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_IRONNACK_HIT_GND
+    SFX_PARAMS(0x28, 2, 2, 0),           // NA_SE_EN_MGANON_BREATH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_LAUGH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_LAUGH2
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY434
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_SHOOT_VOICE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_SENSE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_DIE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY438
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_YOUNG_DAMAGE2
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_YOUNG_SHOOTVC
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_YOUNG_LAUGH
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY442
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13), // NA_SE_EN_TWINROBA_YOUNG_WINK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY444
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY445
+    SFX_PARAMS(0x28, 3, 0, 0),           // NA_SE_EN_IRONNACK_DAMAGE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_DASH
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_IRONNACK_DEAD
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_PULLOUT
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_IRONNACK_WAKEUP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY451
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY452
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DUMMY453
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_GERUDOFT_BREATH
+    SFX_PARAMS(0x20, 3, 0, 0),           // NA_SE_EN_GANON_LAUGH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_VOICE_DEMO
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_THROW
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_AT_RETURN
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_HIT_GND
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_GANON_DAMAGE1
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_GANON_DAMAGE2
+    SFX_PARAMS(0x20, 3, 0, 0),           // NA_SE_EN_GANON_DOWN
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_RESTORE
+    SFX_PARAMS(0x44, 3, 0, 0),           // NA_SE_EN_GANON_DEAD
+    SFX_PARAMS(0x30, 3, 2, 0),           // NA_SE_EN_GANON_BREATH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_TOKETU
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_CASBREAK
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_GANON_BIGMASIC
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GANON_DARKWAVE
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_FANTOM_ST_LAUGH
+    SFX_PARAMS(0x20, 2, 0, 0),           // NA_SE_EN_MGANON_WALK
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MGANON_STAND
+    SFX_PARAMS(0x20, 3, 0, 0),           // NA_SE_EN_MGANON_UNARI
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALGOLD_ROLL
+    SFX_PARAMS(0x30, 2, 0, 0),           // NA_SE_EN_KDOOR_WAVE
+    SFX_PARAMS(0x40, 2, 0, 0),           // NA_SE_EN_KDOOR_HIT
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_KDOOR_BREAK
+    SFX_PARAMS(0x34, 2, 0, 0),           // NA_SE_EN_KDOOR_HIT_GND
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_MGANON_SWDIMP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALTU_WAVE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_STALTU_DOWN_SET
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_EN_DUMMY482
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_LAND
+    SFX_PARAMS(0x24, 3, 0, 0),           // NA_SE_EN_GOMA_BJR_LAND2
+    SFX_PARAMS(0x34, 1, 0, 0),           // NA_SE_EN_GOMA_JR_LAND
+    SFX_PARAMS(0x20, 0, 0, 0),           // NA_SE_EN_GOMA_JR_LAND2
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_TWINROBA_FIGHT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_PO_BIG_CRY
+    SFX_PARAMS(0x08, 1, 0, 0),           // NA_SE_EN_MUSI_SINK
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_EN_STALGOLD_UP_CRY
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_EN_GOLON_CRY
+    SFX_PARAMS(0x38, 3, 0, 0),           // NA_SE_EN_MOFER_CORE_DAMAGE
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_13), // NA_SE_EN_DAIOCTA_LAND_WATER
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_RIVA_BIG_APPEAR
+    SFX_PARAMS(0x34, 0, 0, SFX_FLAG_13), // NA_SE_EN_MONBLIN_HAM_LAND
+    SFX_PARAMS(0x08, 0, 0, 0),           // NA_SE_EN_MUSI_WALK
+    SFX_PARAMS(0x40, 3, 0, 0),           // NA_SE_EN_MIMICK_BREATH
+    SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_STALWALL_LAUGH
 };
 
 SoundParams sPlayerBankParams[] = {
-    { 0x20, 0x480 }, { 0x20, 0x480 }, { 0x20, 0x480 }, { 0x20, 0x480 },  { 0x20, 0x440 }, { 0x20, 0x440 },
-    { 0x20, 0x440 }, { 0x20, 0x440 }, { 0x20, 0x480 }, { 0x20, 0x440 },  { 0x20, 0x480 }, { 0x20, 0x400 },
-    { 0x20, 0x400 }, { 0x20, 0x400 }, { 0x20, 0x400 }, { 0x20, 0x400 },  { 0x30, 0x400 }, { 0x30, 0x400 },
-    { 0x30, 0x400 }, { 0x30, 0x400 }, { 0x30, 0x400 }, { 0x30, 0x400 },  { 0x30, 0x400 }, { 0x30, 0x400 },
-    { 0x30, 0x400 }, { 0x30, 0x400 }, { 0x30, 0x400 }, { 0x30, 0x400 },  { 0x30, 0x400 }, { 0x30, 0x400 },
-    { 0x30, 0x400 }, { 0x30, 0x400 }, { 0x40, 0x440 }, { 0x40, 0x440 },  { 0x40, 0x440 }, { 0x40, 0x440 },
-    { 0x40, 0x440 }, { 0x40, 0x440 }, { 0x40, 0x440 }, { 0x40, 0x440 },  { 0x40, 0x440 }, { 0x40, 0x440 },
-    { 0x40, 0x440 }, { 0x40, 0x440 }, { 0x40, 0x440 }, { 0x40, 0x440 },  { 0x40, 0x440 }, { 0x40, 0x440 },
-    { 0x30, 0x80 },  { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x400 }, { 0x30, 0x400 },
-    { 0x30, 0x400 }, { 0x30, 0x40 },  { 0x30, 0x40 },  { 0x30, 0x80 },   { 0x30, 0x400 }, { 0x30, 0x400 },
-    { 0x40, 0x400 }, { 0x30, 0x400 }, { 0x30, 0x402 }, { 0x30, 0x400 },  { 0x30, 0x40 },  { 0x30, 0x40 },
-    { 0x30, 0x40 },  { 0x30, 0x40 },  { 0x30, 0x40 },  { 0x30, 0x40 },   { 0x30, 0x40 },  { 0x30, 0x40 },
-    { 0x30, 0x40 },  { 0x30, 0x40 },  { 0x30, 0x40 },  { 0x30, 0x40 },   { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x80, 0x0 },   { 0x80, 0x0 },    { 0x80, 0x0 },   { 0x80, 0x0 },
-    { 0x80, 0x0 },   { 0x80, 0x0 },   { 0x80, 0x0 },   { 0x80, 0x0 },    { 0x80, 0x0 },   { 0x80, 0x0 },
-    { 0x80, 0x0 },   { 0x80, 0x0 },   { 0x80, 0x0 },   { 0x80, 0x0 },    { 0x80, 0x0 },   { 0x80, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x400 }, { 0x30, 0x400 }, { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x3 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x80 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x3 },   { 0x30, 0x1 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x2000 }, { 0x30, 0xC00 }, { 0x30, 0x400 },
-    { 0x30, 0x400 }, { 0x30, 0x400 }, { 0x20, 0x80 },  { 0x20, 0x80 },   { 0x20, 0x80 },  { 0x20, 0x80 },
-    { 0x20, 0x40 },  { 0x20, 0x40 },  { 0x20, 0x40 },  { 0x20, 0x40 },   { 0x20, 0x80 },  { 0x20, 0x80 },
-    { 0x20, 0x80 },  { 0x20, 0x0 },   { 0x20, 0x0 },   { 0x20, 0x0 },    { 0x20, 0x0 },   { 0x20, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x40, 0x0 },   { 0x40, 0x0 },
-    { 0x40, 0x0 },   { 0x40, 0x0 },   { 0x40, 0x0 },   { 0x40, 0x0 },    { 0x40, 0x0 },   { 0x40, 0x0 },
-    { 0x40, 0x0 },   { 0x40, 0x0 },   { 0x40, 0x0 },   { 0x40, 0x0 },    { 0x40, 0x0 },   { 0x40, 0x0 },
-    { 0x40, 0x0 },   { 0x40, 0x0 },   { 0x30, 0x440 }, { 0x30, 0x440 },  { 0x30, 0x440 }, { 0x30, 0x440 },
-    { 0x30, 0x440 }, { 0x30, 0x440 }, { 0x30, 0x440 }, { 0x30, 0x440 },  { 0x30, 0x440 }, { 0x30, 0x440 },
-    { 0x30, 0x440 }, { 0x30, 0x440 }, { 0x30, 0x440 }, { 0x30, 0x440 },  { 0x30, 0x440 }, { 0x30, 0x440 },
-    { 0x30, 0xC00 }, { 0x30, 0x80 },  { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x60, 0x2 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x800 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },
+    SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_GROUND
+    SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_SAND
+    SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_CONCRETE
+    SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_DIRT
+    SFX_PARAMS(0x20, 0, 1, SFX_FLAG_10),               // NA_SE_PL_WALK_WATER0
+    SFX_PARAMS(0x20, 0, 1, SFX_FLAG_10),               // NA_SE_PL_WALK_WATER1
+    SFX_PARAMS(0x20, 0, 1, SFX_FLAG_10),               // NA_SE_PL_WALK_WATER2
+    SFX_PARAMS(0x20, 0, 1, SFX_FLAG_10),               // NA_SE_PL_WALK_MAGMA
+    SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_GRASS
+    SFX_PARAMS(0x20, 0, 1, SFX_FLAG_10),               // NA_SE_PL_WALK_IRON
+    SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_LADDER
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_10),               // NA_SE_PL_WALK_GLASS
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_10),               // NA_SE_PL_WALK_WALL
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_10),               // NA_SE_PL_WALK_HEAVYBOOTS
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_10),               // NA_SE_PL_DUMMY_14
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_10),               // NA_SE_PL_WALK_ICE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_SAND
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_CONCRETE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_DIRT
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_WATER0
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_WATER1
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_WATER2
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_MAGMA
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_GRASS
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_IRON
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_LADDER
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_GLASS
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_DUMMY28
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_HEAVYBOOTS
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_DUMMY30
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_JUMP_ICE
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_SAND
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_CONCRETE
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_DIRT
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_WATER0
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_WATER1
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_WATER2
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_MAGMA
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_GRASS
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_IRON
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_LADDER
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_GLASS
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_44
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_HEAVYBOOTS
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_46
+    SFX_PARAMS(0x40, 0, 1, SFX_FLAG_10),               // NA_SE_PL_LAND_ICE
+    SFX_PARAMS(0x30, 0, 2, 0),                         // NA_SE_PL_SLIPDOWN
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_CLIMB_CLIFF
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SIT_ON_HORSE
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_GET_OFF_HORSE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_TAKE_OUT_SHIELD
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_CHANGE_ARMS
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_CATCH_BOOMERANG
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_DUMMY_55
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_DUMMY_56
+    SFX_PARAMS(0x30, 0, 2, 0),                         // NA_SE_PL_SWIM
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_THROW
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_BODY_BOUND
+    SFX_PARAMS(0x40, 0, 0, SFX_FLAG_10),               // NA_SE_PL_ROLL
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_SKIP
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10),               // NA_SE_PL_BODY_HIT
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_DAMAGE
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_SAND
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_CONCRETE
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_DIRT
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_WATER0
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_WATER1
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_WATER2
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_MAGMA
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_GRASS
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_IRON
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_LADDER
+    SFX_PARAMS(0x30, 0, 1, 0),                         // NA_SE_PL_SLIP_GLASS
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY76
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_HEAVYBOOTS
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY78
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_ICE
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_SAND
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_CONCRETE
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_DIRT
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_WATER0
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_WATER1
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_WATER2
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_MAGMA
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_GRASS
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_IRON
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_LADDER
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_WOOD
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_DUMMY_92
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_HEAVYBOOTS
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_DUMMY_94
+    SFX_PARAMS(0x80, 0, 0, 0),                         // NA_SE_PL_BOUND_ICE
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_96
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_97
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_98
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_FACE_UP
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DIVE_BUBBLE
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_MOVE_BUBBLE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_METALEFFECT_KID
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_METALEFFECT_ADULT
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SPARK
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PULL_UP_PLANT
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PULL_UP_ROCK
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_IN_BUBBLE
+    SFX_PARAMS(0x30, 3, 0, 0),                         // NA_SE_PL_PULL_UP_BIGROCK
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SWORD_CHARGE
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_FREEZE
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PULL_UP_POT
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_KNOCK
+    SFX_PARAMS(0x30, 0, 2, 0),                         // NA_SE_PL_CALM_HIT
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_CALM_PAT
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SUBMERGE
+    SFX_PARAMS(0x30, 3, 0, 0),                         // NA_SE_PL_FREEZE_S
+    SFX_PARAMS(0x30, 1, 0, 0),                         // NA_SE_PL_ICE_BROKEN
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_ICE_LELEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PUT_OUT_ITEM
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PULL_UP_WOODBOX
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_MAGIC_FIRE
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_MAGIC_WIND_NORMAL
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13),               // NA_SE_PL_MAGIC_WIND_WARP
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_11 | SFX_FLAG_10), // NA_SE_PL_MAGIC_SOUL_NORMAL
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_ARROW_CHARGE_FIRE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_ARROW_CHARGE_ICE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),               // NA_SE_PL_ARROW_CHARGE_LIGHT
+    SFX_PARAMS(0x20, 0, 2, 0),                         // NA_SE_PL_DUMMY_128
+    SFX_PARAMS(0x20, 0, 2, 0),                         // NA_SE_PL_DUMMY_129
+    SFX_PARAMS(0x20, 0, 2, 0),                         // NA_SE_PL_DUMMY_130
+    SFX_PARAMS(0x20, 0, 2, 0),                         // NA_SE_PL_PULL_UP_RUTO
+    SFX_PARAMS(0x20, 0, 1, 0),                         // NA_SE_PL_DUMMY_132
+    SFX_PARAMS(0x20, 0, 1, 0),                         // NA_SE_PL_DUMMY_133
+    SFX_PARAMS(0x20, 0, 1, 0),                         // NA_SE_PL_DUMMY_134
+    SFX_PARAMS(0x20, 0, 1, 0),                         // NA_SE_PL_DUMMY_135
+    SFX_PARAMS(0x20, 0, 2, 0),                         // NA_SE_PL_DUMMY_136
+    SFX_PARAMS(0x20, 0, 2, 0),                         // NA_SE_PL_DUMMY_137
+    SFX_PARAMS(0x20, 0, 2, 0),                         // NA_SE_PL_DUMMY_138
+    SFX_PARAMS(0x20, 0, 0, 0),                         // NA_SE_PL_DUMMY_139
+    SFX_PARAMS(0x20, 0, 0, 0),                         // NA_SE_PL_DUMMY_140
+    SFX_PARAMS(0x20, 0, 0, 0),                         // NA_SE_PL_DUMMY_141
+    SFX_PARAMS(0x20, 0, 0, 0),                         // NA_SE_PL_DUMMY_142
+    SFX_PARAMS(0x20, 0, 0, 0),                         // NA_SE_PL_DUMMY_143
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_144
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_145
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_146
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_147
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_148
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_149
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_150
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_151
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_152
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_153
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_154
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_155
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_156
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_157
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_158
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_159
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_160
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_161
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_162
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_163
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_164
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_165
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_166
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_167
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_168
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_169
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_170
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_171
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_172
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_173
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_174
+    SFX_PARAMS(0x40, 0, 0, 0),                         // NA_SE_PL_DUMMY_175
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_CRAWL
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_CRAWL_SAND
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_CRAWL_CONCRETE
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_CRAWL_DIRT
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_CRAWL_WATER0
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_181
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_182
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_183
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_184
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_185
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_186
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_CRAWL_WOOD
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_CRAWL_ICE
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_189
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_190
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10),               // NA_SE_PL_DUMMY_191
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_11 | SFX_FLAG_10), // NA_SE_PL_MAGIC_SOUL_FLASH
+    SFX_PARAMS(0x30, 0, 2, 0),                         // NA_SE_PL_ROLL_DUST
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_192
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_MAGIC_SOUL_BALL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SPIRAL_HEAL_BEAM
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_BOUND_NOWEAPON
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PLANT_GROW_UP
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PLANT_TALLER
+    SFX_PARAMS(0x60, 2, 0, 0),                         // NA_SE_PL_MAGIC_WIND_VANISH
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_HOBBERBOOTS_LV
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_PLANT_MOVE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_11),               // NA_SE_EV_WALL_MOVE_SP
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_204
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_205
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_206
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_207
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_SAND_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_CONCRETE_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_DIRT_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_WATER0_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_WATER1_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_WATER2_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_MAGMA_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_GRASS_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_IRON_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_GLASS_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_WOOD_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_220
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_DUMMY_221
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_HEAVYBOOTS_LEVEL
+    SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_ICE_LEVEL
 };
 
 SoundParams sItemBankParams[] = {
-    { 0x30, 0x8040 }, { 0x30, 0x40 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x440 },  { 0x30, 0x440 },
-    { 0x60, 0x83 },   { 0x30, 0x440 },  { 0x80, 0x43 },   { 0x30, 0x0 },   { 0x30, 0x40 },   { 0x30, 0x400 },
-    { 0x30, 0x401 },  { 0x50, 0x0 },    { 0x90, 0x2 },    { 0x50, 0x2 },   { 0x30, 0x400 },  { 0x40, 0x2 },
-    { 0x30, 0x40 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x34, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x40, 0x0 },    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x80 },   { 0x30, 0x40 },   { 0x30, 0x400 },  { 0x20, 0x400 }, { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x400 }, { 0x30, 0x400 },  { 0x60, 0x43 },
-    { 0x30, 0x1 },    { 0x30, 0x401 },  { 0x30, 0x0 },    { 0x30, 0x0 },   { 0xA0, 0x2 },    { 0xA0, 0x2 },
-    { 0x30, 0x400 },  { 0x30, 0x0 },    { 0x60, 0x0 },    { 0x60, 0x0 },   { 0x60, 0x0 },    { 0x30, 0x400 },
-    { 0x30, 0x0 },    { 0x60, 0x81 },   { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x60, 0x8003 }, { 0x60, 0x8003 },
-    { 0x60, 0x8003 }, { 0x30, 0x4000 }, { 0x30, 0x4000 }, { 0x30, 0x40 },  { 0x80, 0x3 },    { 0x80, 0x3 },
-    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x40 },   { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },   { 0x80, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_15), // NA_SE_IT_SWORD_IMPACT
+    SFX_PARAMS(0x30, 0, 1, 0),           // NA_SE_IT_SWORD_SWING
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_PUTAWAY
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_PICKOUT
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10), // NA_SE_IT_ARROW_SHOT
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10), // NA_SE_IT_BOOMERANG_THROW
+    SFX_PARAMS(0x60, 3, 2, 0),           // NA_SE_IT_SHIELD_BOUND
+    SFX_PARAMS(0x30, 0, 1, SFX_FLAG_10), // NA_SE_IT_BOW_DRAW
+    SFX_PARAMS(0x80, 3, 1, 0),           // NA_SE_IT_SHIELD_REFLECT_SW
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_ARROW_STICK_HRAD
+    SFX_PARAMS(0x30, 0, 1, 0),           // NA_SE_IT_HAMMER_HIT
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10), // NA_SE_IT_HOOKSHOT_CHAIN
+    SFX_PARAMS(0x30, 1, 0, SFX_FLAG_10), // NA_SE_IT_SHIELD_REFLECT_MG
+    SFX_PARAMS(0x50, 0, 0, 0),           // NA_SE_IT_BOMB_IGNIT
+    SFX_PARAMS(0x90, 2, 0, 0),           // NA_SE_IT_BOMB_EXPLOSION
+    SFX_PARAMS(0x50, 2, 0, 0),           // NA_SE_IT_BOMB_UNEXPLOSION
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10), // NA_SE_IT_BOOMERANG_FLY
+    SFX_PARAMS(0x40, 2, 0, 0),           // NA_SE_IT_SWORD_STRIKE
+    SFX_PARAMS(0x30, 0, 1, 0),           // NA_SE_IT_HAMMER_SWING
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_HOOKSHOT_REFLECT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_ARROW_STICK_CRE
+    SFX_PARAMS(0x34, 0, 0, 0),           // NA_SE_IT_ARROW_STICK_OBJ
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_DUMMY
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_DUMMY2
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_SWING_HARD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_DUMMY3
+    SFX_PARAMS(0x40, 0, 0, 0),           // NA_SE_IT_WALL_HIT_HARD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_WALL_HIT_SOFT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_STONE_HIT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_WOODSTICK_BROKEN
+    SFX_PARAMS(0x30, 0, 2, 0),           // NA_SE_IT_LASH
+    SFX_PARAMS(0x30, 0, 1, 0),           // NA_SE_IT_SHIELD_POSTURE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10), // NA_SE_IT_SLING_SHOT
+    SFX_PARAMS(0x20, 0, 0, SFX_FLAG_10), // NA_SE_IT_SLING_DRAW
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_CHARGE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_ROLLING_CUT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_STRIKE_HARD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SLING_REFLECT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SHIELD_REMOVE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10), // NA_SE_IT_HOOKSHOT_READY
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10), // NA_SE_IT_HOOKSHOT_RECEIVE
+    SFX_PARAMS(0x60, 3, 1, 0),           // NA_SE_IT_HOOKSHOT_STICK_OBJ
+    SFX_PARAMS(0x30, 1, 0, 0),           // NA_SE_IT_SWORD_REFLECT_MG
+    SFX_PARAMS(0x30, 1, 0, SFX_FLAG_10), // NA_SE_IT_DEKU
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_WALL_HIT_BUYO
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_PUTAWAY_STN
+    SFX_PARAMS(0xA0, 2, 0, 0),           // NA_SE_IT_ROLLING_CUT_LV1
+    SFX_PARAMS(0xA0, 2, 0, 0),           // NA_SE_IT_ROLLING_CUT_LV2
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10), // NA_SE_IT_BOW_FLICK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_BOMBCHU_MOVE
+    SFX_PARAMS(0x60, 0, 0, 0),           // NA_SE_IT_SHIELD_CHARGE_LV1
+    SFX_PARAMS(0x60, 0, 0, 0),           // NA_SE_IT_SHIELD_CHARGE_LV2
+    SFX_PARAMS(0x60, 0, 0, 0),           // NA_SE_IT_SHIELD_CHARGE_LV3
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10), // NA_SE_IT_SLING_FLICK
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_STICK_STN
+    SFX_PARAMS(0x60, 1, 2, 0),           // NA_SE_IT_REFLECTION_WOOD
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SHIELD_REFLECT_MG2
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_MAGIC_ARROW_SHOT
+    SFX_PARAMS(0x60, 3, 0, SFX_FLAG_15), // NA_SE_IT_EXPLOSION_FRAME
+    SFX_PARAMS(0x60, 3, 0, SFX_FLAG_15), // NA_SE_IT_EXPLOSION_ICE
+    SFX_PARAMS(0x60, 3, 0, SFX_FLAG_15), // NA_SE_IT_EXPLOSION_LIGHT
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_14), // NA_SE_IT_FISHING_REEL_SLOW
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_14), // NA_SE_IT_FISHING_REEL_HIGH
+    SFX_PARAMS(0x30, 0, 1, 0),           // NA_SE_IT_PULL_FISHING_ROD
+    SFX_PARAMS(0x80, 3, 0, 0),           // NA_SE_IT_DM_FLYING_GOD_PASS
+    SFX_PARAMS(0x80, 3, 0, 0),           // NA_SE_IT_DM_FLYING_GOD_DASH
+    SFX_PARAMS(0x30, 3, 0, 0),           // NA_SE_IT_DM_RING_EXPLOSION
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_DM_RING_GATHER
+    SFX_PARAMS(0x30, 0, 1, 0),           // NA_SE_IT_INGO_HORSE_NEIGH
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_EARTHQUAKE
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_DUMMY4
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_KAKASHI_JUMP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_FLAME
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SHIELD_BEAM
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_FISHING_HIT
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_GOODS_APPEAR
+    SFX_PARAMS(0x80, 0, 0, 0),           // NA_SE_IT_MAJIN_SWORD_BROKEN
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_HAND_CLAP
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_MASTER_SWORD_SWING
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_DUMMY5
 };
 
 SoundParams sEnvBankParams[] = {
-    { 0x70, 0x640 }, { 0x80, 0x40 },   { 0x30, 0x0 },    { 0x30, 0x40 },   { 0x30, 0x40 },   { 0x40, 0x40 },
-    { 0x30, 0x480 }, { 0x38, 0x2 },    { 0x30, 0x40 },   { 0x30, 0x40 },   { 0x80, 0x2 },    { 0xA0, 0x3 },
-    { 0x30, 0x3 },   { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x2 },    { 0x30, 0x40 },
-    { 0x30, 0x40 },  { 0x30, 0x0 },    { 0x60, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x82 },
-    { 0x30, 0x0 },   { 0x40, 0x0 },    { 0x38, 0x0 },    { 0x28, 0x0 },    { 0x60, 0x0 },    { 0x70, 0x3 },
-    { 0x30, 0x3 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0xA0, 0x2008 }, { 0x20, 0x2 },    { 0x30, 0x0 },
-    { 0x30, 0x800 }, { 0x30, 0x8800 }, { 0x30, 0x8000 }, { 0x30, 0x2 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x400 },  { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x80 },
-    { 0x60, 0x42 },  { 0x10, 0x0 },    { 0xA0, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x10 },   { 0x30, 0x3 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x2 },    { 0x30, 0x0 },    { 0xA0, 0x3 },
-    { 0x30, 0x0 },   { 0x30, 0x400 },  { 0x30, 0x400 },  { 0x70, 0x13 },   { 0x60, 0x8000 }, { 0x30, 0x8000 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x2003 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x2010 }, { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x1 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x40, 0x0 },    { 0x30, 0xC2 },   { 0x70, 0x2 },
-    { 0x60, 0x2 },   { 0x30, 0x0 },    { 0x60, 0x1 },    { 0x30, 0x2 },    { 0x30, 0x0 },    { 0x90, 0x3 },
-    { 0x90, 0x3 },   { 0x30, 0x0 },    { 0x30, 0x2 },    { 0x30, 0x3800 }, { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x3 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x803 },  { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x2 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x2 },    { 0x30, 0x2 },    { 0x30, 0x2 },    { 0x40, 0x0 },    { 0x1C, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x60, 0x200 },  { 0x30, 0x800 },  { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x3 },
-    { 0x30, 0x3 },   { 0x30, 0x2000 }, { 0x30, 0x2000 }, { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x80 },  { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x800 }, { 0x30, 0x800 },  { 0x30, 0x2 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x20, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x8000 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x2 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x60, 0x3 },
-    { 0x30, 0x80 },  { 0x30, 0x2000 }, { 0x30, 0x0 },    { 0x30, 0x1 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x2 },   { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0xA0, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0xC0 },   { 0x30, 0x2 },
-    { 0x30, 0x2 },   { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x0 },    { 0x30, 0x4083 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x80, 0x0 },   { 0x60, 0x0 },    { 0x90, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x60, 0xC3 },  { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x30, 0x3 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0xA0, 0x800 },  { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x2 },    { 0x30, 0x0 },    { 0x30, 0x3 },    { 0x20, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },   { 0x30, 0x0 },
+    SFX_PARAMS(0x70, 0, 1, SFX_FLAG_10 | SFX_FLAG_9),                // NA_SE_EV_DOOR_OPEN
+    SFX_PARAMS(0x80, 0, 1, 0),                                       // NA_SE_EV_DOOR_CLOSE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_EXPLOSION
+    SFX_PARAMS(0x30, 0, 1, 0),                                       // NA_SE_EV_HORSE_WALK
+    SFX_PARAMS(0x30, 0, 1, 0),                                       // NA_SE_EV_HORSE_RUN
+    SFX_PARAMS(0x40, 0, 1, 0),                                       // NA_SE_EV_HORSE_NEIGH
+    SFX_PARAMS(0x30, 0, 2, SFX_FLAG_10),                             // NA_SE_EV_RIVER_STREAM
+    SFX_PARAMS(0x38, 2, 0, 0),                                       // NA_SE_EV_WATER_WALL_BIG
+    SFX_PARAMS(0x30, 0, 1, 0),                                       // NA_SE_EV_OUT_OF_WATER
+    SFX_PARAMS(0x30, 0, 1, 0),                                       // NA_SE_EV_DIVE_WATER
+    SFX_PARAMS(0x80, 2, 0, 0),                                       // NA_SE_EV_ROCK_SLIDE
+    SFX_PARAMS(0xA0, 3, 0, 0),                                       // NA_SE_EV_MAGMA_LEVEL
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BRIDGE_OPEN
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BRIDGE_CLOSE
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BRIDGE_OPEN_STOP
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BRIDGE_CLOSE_STOP
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_WALL_BROKEN
+    SFX_PARAMS(0x30, 0, 1, 0),                                       // NA_SE_EV_CHICKEN_CRY_N
+    SFX_PARAMS(0x30, 0, 1, 0),                                       // NA_SE_EV_CHICKEN_CRY_A
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_CHICKEN_CRY_M
+    SFX_PARAMS(0x60, 0, 0, 0),                                       // NA_SE_EV_SLIDE_DOOR_OPEN
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_FOOT_SWITCH
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_HORSE_GROAN
+    SFX_PARAMS(0x30, 2, 2, 0),                                       // NA_SE_EV_BOMB_DROP_WATER
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_HORSE_JUMP
+    SFX_PARAMS(0x40, 0, 0, 0),                                       // NA_SE_EV_HORSE_LAND
+    SFX_PARAMS(0x38, 0, 0, 0),                                       // NA_SE_EV_HORSE_SLIP
+    SFX_PARAMS(0x28, 0, 0, 0),                                       // NA_SE_EV_FAIRY_DASH
+    SFX_PARAMS(0x60, 0, 0, 0),                                       // NA_SE_EV_SLIDE_DOOR_CLOSE
+    SFX_PARAMS(0x70, 3, 0, 0),                                       // NA_SE_EV_STONE_BOUND
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_STONE_STATUE_OPEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TBOX_UNLOCK
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TBOX_OPEN
+    SFX_PARAMS(0xA0, 0, 0, SFX_FLAG_13 | SFX_FLAG_3),                // NA_SE_SY_TIMER
+    SFX_PARAMS(0x20, 2, 0, 0),                                       // NA_SE_EV_FLAME_IGNITION
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_SPEAR_HIT
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_11),                             // NA_SE_EV_ELEVATOR_MOVE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_15 | SFX_FLAG_11),               // NA_SE_EV_WARP_HOLE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_15),                             // NA_SE_EV_LINK_WARP
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_PILLAR_SINK
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WATER_WALL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_RIVER_STREAM_S
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_RIVER_STREAM_F
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_HORSE_LAND2
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),                             // NA_SE_EV_HORSE_SANDDUST
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DUMMY45
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_LIGHTNING
+    SFX_PARAMS(0x30, 0, 2, 0),                                       // NA_SE_EV_BOMB_BOUND
+    SFX_PARAMS(0x60, 2, 1, 0),                                       // NA_SE_EV_WATERDROP
+    SFX_PARAMS(0x10, 0, 0, 0),                                       // NA_SE_EV_TORCH
+    SFX_PARAMS(0xA0, 3, 0, 0),                                       // NA_SE_EV_MAGMA_LEVEL_M
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FIRE_PILLAR
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_4),                              // NA_SE_EV_FIRE_PLATE
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BLOCK_BOUND
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_METALDOOR_SLIDE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_METALDOOR_STOP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_BLOCK_SHAKE
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_BOX_BREAK
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_HAMMER_SWITCH
+    SFX_PARAMS(0xA0, 3, 0, 0),                                       // NA_SE_EV_MAGMA_LEVEL_L
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_SPEAR_FENCE
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),                             // NA_SE_EV_GANON_HORSE_NEIGH
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_10),                             // NA_SE_EV_GANON_HORSE_GROAN
+    SFX_PARAMS(0x70, 3, 0, SFX_FLAG_4),                              // NA_SE_EV_FANTOM_WARP_S
+    SFX_PARAMS(0x60, 0, 0, SFX_FLAG_15),                             // NA_SE_EV_FANTOM_WARP_L
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_15),                             // NA_SE_EV_FOUNTAIN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KID_HORSE_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KID_HORSE_RUN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KID_HORSE_NEIGH
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KID_HORSE_GROAN
+    SFX_PARAMS(0x30, 3, 0, SFX_FLAG_13),                             // NA_SE_EV_WHITE_OUT
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_LIGHT_GATHER
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TREE_CUT
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13 | SFX_FLAG_4),                // NA_SE_EV_VOLCANO
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_GUILLOTINE_UP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_GUILLOTINE_BOUND
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_ROLLCUTTER_MOTOR
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_CHINETRAP_DOWN
+    SFX_PARAMS(0x30, 1, 0, 0),                                       // NA_SE_EV_PLANT_BROKEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_SHIP_BELL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FLUTTER_FLAG
+    SFX_PARAMS(0x40, 0, 0, 0),                                       // NA_SE_EV_TRAP_BOUND
+    SFX_PARAMS(0x30, 2, 3, 0),                                       // NA_SE_EV_ROCK_BROKEN
+    SFX_PARAMS(0x70, 2, 0, 0),                                       // NA_SE_EV_FANTOM_WARP_S2
+    SFX_PARAMS(0x60, 2, 0, 0),                                       // NA_SE_EV_FANTOM_WARP_L2
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_COFFIN_CAP_OPEN
+    SFX_PARAMS(0x60, 1, 0, 0),                                       // NA_SE_EV_COFFIN_CAP_BOUND
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_WIND_TRAP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TRAP_OBJ_SLIDE
+    SFX_PARAMS(0x90, 3, 0, 0),                                       // NA_SE_EV_METALDOOR_OPEN
+    SFX_PARAMS(0x90, 3, 0, 0),                                       // NA_SE_EV_METALDOOR_CLOSE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_BURN_OUT
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_BLOCKSINK
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13 | SFX_FLAG_12 | SFX_FLAG_11), // NA_SE_EV_CROWD
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WATER_LEVEL_DOWN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_NAVY_VANISH
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_LADDER_DOUND
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WEB_VIBRATION
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WEB_BROKEN
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_ROLL_STAND
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_BUYODOOR_OPEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_BUYODOOR_CLOSE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WOODDOOR_OPEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_METALGATE_OPEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_IT_SCOOP_UP_WATER
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FISH_LEAP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KAKASHI_SWING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KAKASHI_ROLL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_BOTTLE_CAP_OPEN
+    SFX_PARAMS(0x30, 3, 0, SFX_FLAG_11),                             // NA_SE_EV_JABJAB_BREATHE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_SPIRIT_STONE
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_TRIFORCE_FLASH
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FALL_DOWN_DIRT
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_NAVY_FLY
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_NAVY_CRASH
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WOOD_HIT
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_SCOOPUP_WATER
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DROP_FALL
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_WOOD_GEAR
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TREE_SWING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_HORSE_RUN_LEVEL
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_ELEVATOR_MOVE2
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_ELEVATOR_STOP
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_TRE_BOX_APPEAR
+    SFX_PARAMS(0x40, 0, 0, 0),                                       // NA_SE_EV_CHAIN_KEY_UNLOCK
+    SFX_PARAMS(0x1C, 0, 0, 0),                                       // NA_SE_EV_SPINE_TRAP_MOVE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_HEALING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_GREAT_FAIRY_APPEAR
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_GREAT_FAIRY_VANISH
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_RED_EYE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_ROLL_STAND_2
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WALL_SLIDE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TRE_BOX_FLASH
+    SFX_PARAMS(0x60, 0, 0, SFX_FLAG_9),                              // NA_SE_EV_WINDMILL_LEVEL
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_11),                             // NA_SE_EV_GOTO_HEAVEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_POT_BROKEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_PL_PUT_DOWN_POT
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DIVE_INTO_WATER
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_JUMP_OUT_WATER
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_GOD_FLYING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TRIFORCE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_AURORA
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DEKU_DEATH
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BUYOSTAND_RISING
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BUYOSTAND_FALL
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13),                             // NA_SE_EV_BUYOSHUTTER_OPEN
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13),                             // NA_SE_EV_BUYOSHUTTER_CLOSE
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_STONEDOOR_STOP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_S_STONE_REVIVAL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_MEDAL_APPEAR_S
+    SFX_PARAMS(0x30, 0, 2, 0),                                       // NA_SE_EV_HUMAN_BOUND
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_MEDAL_APPEAR_L
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_EARTHQUAKE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_SHUT_BY_CRYSTAL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_GOD_LIGHTBALL_2
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_RUN_AROUND
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_11),                             // NA_SE_EV_CONSENTRATION
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_11),                             // NA_SE_EV_TIMETRIP_LIGHT
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_BUYOSTAND_STOP_A
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_BUYOSTAND_STOP_U
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_OBJECT_FALL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_JUMP_CONC
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_ICE_MELT
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FIRE_PILLAR_S
+    SFX_PARAMS(0x20, 3, 0, 0),                                       // NA_SE_EV_BLOCK_RISING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_NABALL_VANISH
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_15),                             // NA_SE_EV_SARIA_MELODY
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_LINK_WARP_OUT
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FIATY_HEAL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_CHAIN_KEY_UNLOCK_B
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_WOODBOX_BREAK
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_PUT_DOWN_WOODBOX
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_LAND_DIRT
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FLOOR_ROLLING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DOG_CRY_EVENING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_JABJAB_HICCUP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_NALE_MAGIC
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FROG_JUMP
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_ICE_FREEZE
+    SFX_PARAMS(0x60, 3, 0, 0),                                       // NA_SE_EV_BURNING
+    SFX_PARAMS(0x30, 0, 2, 0),                                       // NA_SE_EV_WOODPLATE_BOUND
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_13),                             // NA_SE_EV_GORON_WATER_DROP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_JABJAB_GROAN
+    SFX_PARAMS(0x30, 1, 0, 0),                                       // NA_SE_EV_DARUMA_VANISH
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_BIGBALL_ROLL
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_ELEVATOR_MOVE3
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_DIAMOND_SWITCH
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_FLAME_OF_FIRE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_RAINBOW_SHOWER
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FLYING_AIR
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_PASS_AIR
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_COME_UP_DEKU_JR
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_SAND_STORM
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TRIFORCE_MARK
+    SFX_PARAMS(0xA0, 3, 0, 0),                                       // NA_SE_EV_GRAVE_EXPLOSION
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_LURE_MOVE_W
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_POT_MOVE_START
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DIVE_INTO_WATER_L
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_OUT_OF_WATER_L
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_GANON_MANTLE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DIG_UP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WOOD_BOUND
+    SFX_PARAMS(0x30, 0, 3, 0),                                       // NA_SE_EV_WATER_BUBBLE
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_ICE_BROKEN
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_FROG_GROW_UP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WATER_CONVECTION
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_GROUND_GATE_OPEN
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_FACE_BREAKDOWN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FACE_EXPLOSION
+    SFX_PARAMS(0x30, 3, 2, SFX_FLAG_14),                             // NA_SE_EV_FACE_CRUMBLE_SLOW
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_ROUND_TRAP_MOVE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_HIT_SOUND
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_ICE_SWING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_DOWN_TO_GROUND
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KENJA_ENVIROMENT_0
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KENJA_ENVIROMENT_1
+    SFX_PARAMS(0x80, 0, 0, 0),                                       // NA_SE_EV_SMALL_DOG_BARK
+    SFX_PARAMS(0x60, 0, 0, 0),                                       // NA_SE_EV_ZELDA_POWER
+    SFX_PARAMS(0x90, 0, 0, 0),                                       // NA_SE_EV_RAIN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_IRON_DOOR_OPEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_IRON_DOOR_CLOSE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_WHIRLPOOL
+    SFX_PARAMS(0x60, 3, 3, 0),                                       // NA_SE_EV_TOWER_PARTS_BROKEN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_COW_CRY
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_METAL_BOX_BOUND
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_ELECTRIC_EXPLOSION
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_HEAVY_THROW
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FROG_CRY_0
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_FROG_CRY_1
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_COW_CRY_LV
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_RONRON_DOOR_CLOSE
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_BUTTERFRY_TO_FAIRY
+    SFX_PARAMS(0xA0, 0, 0, SFX_FLAG_11),                             // NA_SE_EV_FIVE_COUNT_LUPY
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_STONE_GROW_UP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_STONE_LAUNCH
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_STONE_ROLLING
+    SFX_PARAMS(0x30, 2, 0, 0),                                       // NA_SE_EV_TOGE_STICK_ROLLING
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_TOWER_ENERGY
+    SFX_PARAMS(0x30, 3, 0, 0),                                       // NA_SE_EV_TOWER_BARRIER
+    SFX_PARAMS(0x20, 0, 0, 0),                                       // NA_SE_EV_CHIBI_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_KNIGHT_WALK
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_PILLAR_MOVE_STOP
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_ERUPTION_CLOUD
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_LINK_WARP_OUT_LV
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_LINK_WARP_IN
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_OCARINA_BMELO_0
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_OCARINA_BMELO_1
+    SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_EXPLOSION_FOR_RENZOKU
 };
 
 SoundParams sSystemBankParams[] = {
-    { 0xC0, 0x0 },  { 0xC0, 0x0 }, { 0xB0, 0x20 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x50, 0x0 },
-    { 0x30, 0x20 }, { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x20, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x28, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x18, 0x0 }, { 0x2C, 0x0 }, { 0x2C, 0x0 }, { 0x20, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x20, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x60, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 }, { 0x30, 0x0 },
-    { 0x30, 0x0 },  { 0x30, 0x0 },
+    SFX_PARAMS(0xC0, 0, 0, 0),          // NA_SE_SY_WIN_OPEN
+    SFX_PARAMS(0xC0, 0, 0, 0),          // NA_SE_SY_WIN_CLOSE
+    SFX_PARAMS(0xB0, 0, 0, SFX_FLAG_5), // NA_SE_SY_CORRECT_CHIME
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_GET_RUPY
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_MESSAGE_WOMAN
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_MESSAGE_MAN
+    SFX_PARAMS(0x50, 0, 0, 0),          // NA_SE_SY_ERROR
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_5), // NA_SE_SY_TRE_BOX_APPEAR
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DECIDE
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_CURSOR
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_CANCEL
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_HP_RECOVER
+    SFX_PARAMS(0x20, 0, 0, 0),          // NA_SE_SY_ATTENTION_ON
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_13
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_14
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_LOCK_OFF
+    SFX_PARAMS(0x28, 0, 0, 0),          // NA_SE_SY_LOCK_ON_HUMAN
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_17
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_18
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_CAMERA_ZOOM_UP
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_CAMERA_ZOOM_DOWN
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_21
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_22
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_ATTENTION_ON_OLD
+    SFX_PARAMS(0x18, 0, 0, 0),          // NA_SE_SY_MESSAGE_PASS
+    SFX_PARAMS(0x2C, 0, 0, 0),          // NA_SE_SY_WARNING_COUNT_N
+    SFX_PARAMS(0x2C, 0, 0, 0),          // NA_SE_SY_WARNING_COUNT_E
+    SFX_PARAMS(0x20, 0, 0, 0),          // NA_SE_SY_HITPOINT_ALARM
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_28
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DEMO_CUT
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_NAVY_CALL
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_GAUGE_UP
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_32
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_33
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_34
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_PIECE_OF_HEART
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_GET_ITEM
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_WIN_SCROLL_LEFT
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_WIN_SCROLL_RIGHT
+    SFX_PARAMS(0x20, 0, 0, 0),          // NA_SE_SY_OCARINA_ERROR
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_CAMERA_ZOOM_UP_2
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_CAMERA_ZOOM_DOWN_2
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_GLASSMODE_ON
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_GLASSMODE_OFF
+    SFX_PARAMS(0x60, 0, 0, 0),          // NA_SE_SY_FOUND
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_HIT_SOUND
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_MESSAGE_END
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_RUPY_COUNT
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_LOCK_ON
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_GET_BOXITEM
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_WHITE_OUT_L
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_WHITE_OUT_S
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_WHITE_OUT_T
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_START_SHOT
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_METRONOME
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_ATTENTION_URGENCY
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_METRONOME_LV
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_FSEL_CURSOR
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_FSEL_DECIDE_S
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_FSEL_DECIDE_L
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_FSEL_CLOSE
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_FSEL_ERROR
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_SET_FIRE_ARROW
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_SET_ICE_ARROW
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_SET_LIGHT_ARROW
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_SYNTH_MAGIC_ARROW
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_METRONOME_2
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_KINSTA_MARK_APPEAR
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_FIVE_COUNT_LUPY
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_CARROT_RECOVER
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_EV_FAIVE_LUPY_COUNT
+    SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_71
 };
 
 SoundParams sOcarinaBankParams[] = {
-    { 0x30, 0x0 }, { 0x30, 0x20 }, { 0x30, 0x642 }, { 0x30, 0x0 },
-    { 0x30, 0x0 }, { 0x30, 0x0 },  { 0x30, 0x0 },   { 0x30, 0x0 },
+    SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_OCARINA
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_5),               // NA_SE_OC_ABYSS
+    SFX_PARAMS(0x30, 2, 1, SFX_FLAG_10 | SFX_FLAG_9), // NA_SE_OC_DOOR_OPEN
+    SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_SECRET_WARP_IN
+    SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_SECRET_WARP_OUT
+    SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_SECRET_HOLE_OUT
+    SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_REVENGE
+    SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_HINT_MOVIE
 };
 
 SoundParams sVoiceBankParams[] = {
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x20, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x442 },  { 0x30, 0x442 },  { 0x30, 0x402 },
-    { 0x30, 0x402 },  { 0x50, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },
-    { 0x30, 0x482 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x80, 0x402 },
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x20, 0x402 },
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x442 },
-    { 0x30, 0x442 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x50, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x481 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },
-    { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x30, 0x402 },  { 0x60, 0x20 },   { 0x30, 0x20 },
-    { 0x30, 0x20 },   { 0x60, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x0 },
-    { 0x30, 0x0 },    { 0x30, 0x0 },    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8043 }, { 0x30, 0x8043 }, { 0x30, 0x8043 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 }, { 0x30, 0x8041 },
-    { 0x30, 0x8041 }, { 0x30, 0x8041 },
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWORD_N
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWORD_L
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_LASH
+    SFX_PARAMS(0x20, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_HANG
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_CLIMB_END
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DAMAGE_S
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_FREEZE
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_FALL_S
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_FALL_L
+    SFX_PARAMS(0x30, 2, 1, SFX_FLAG_10), // NA_SE_VO_LI_BREATH_REST
+    SFX_PARAMS(0x30, 2, 1, SFX_FLAG_10), // NA_SE_VO_LI_BREATH_DRINK
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DOWN
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_TAKEN_AWAY
+    SFX_PARAMS(0x50, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_HELD
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SNEEZE
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWEAT
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DRINK
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_RELAX
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWORD_PUTAWAY
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_GROAN
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_AUTO_JUMP
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_MAGIC_NALE
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SURPRISE
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_MAGIC_FROL
+    SFX_PARAMS(0x30, 2, 2, SFX_FLAG_10), // NA_SE_VO_LI_PUSH
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_HOOKSHOT_HANG
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_LAND_DAMAGE_S
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_NULL_0x1b
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_MAGIC_ATTACK
+    SFX_PARAMS(0x80, 2, 0, SFX_FLAG_10), // NA_SE_VO_BL_DOWN
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DEMO_DAMAGE
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_ELECTRIC_SHOCK_LV
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWORD_N_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_ROLLING_CUT_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_LASH_KID
+    SFX_PARAMS(0x20, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_HANG_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_CLIMB_END_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DAMAGE_S_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_FREEZE_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_FALL_S_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_FALL_L_KID
+    SFX_PARAMS(0x30, 2, 1, SFX_FLAG_10), // NA_SE_VO_LI_BREATH_REST_KID
+    SFX_PARAMS(0x30, 2, 1, SFX_FLAG_10), // NA_SE_VO_LI_BREATH_DRINK_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DOWN_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_TAKEN_AWAY_KID
+    SFX_PARAMS(0x50, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_HELD_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SNEEZE_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWEAT_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DRINK_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_RELAX_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWORD_PUTAWAY_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_GROAN_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_AUTO_JUMP_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_MAGIC_NALE_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SURPRISE_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_MAGIC_FROL_KID
+    SFX_PARAMS(0x30, 1, 2, SFX_FLAG_10), // NA_SE_VO_LI_PUSH_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_HOOKSHOT_HANG_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_LAND_DAMAGE_S_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_NULL_0x1b_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_MAGIC_ATTACK_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_BL_DOWN_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_DEMO_DAMAGE_KID
+    SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_ELECTRIC_SHOCK_LV_KID
+    SFX_PARAMS(0x60, 0, 0, SFX_FLAG_5),  // NA_SE_VO_NAVY_ENEMY
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_5),  // NA_SE_VO_NAVY_HELLO
+    SFX_PARAMS(0x30, 0, 0, SFX_FLAG_5),  // NA_SE_VO_NAVY_HEAR
+    SFX_PARAMS(0x60, 0, 0, 0),           // NA_SE_VO_NAVY_CALL
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_NA_HELLO_3
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x45
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x46
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x47
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x48
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x49
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x4a
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x4b
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x4c
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x4d
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x4e
+    SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_VO_DUMMY_0x4f
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_TA_SLEEP
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_TA_SURPRISE
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_TA_CRY_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_TA_CRY_1
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_IN_CRY_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_IN_LOST
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_IN_LASH_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_IN_LASH_1
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_FR_LAUGH_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_FR_SMILE_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_NB_AGONY
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_NB_CRY_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_NB_NOTICE
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_NA_HELLO_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_NA_HELLO_1
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_NA_HELLO_2
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_RT_CRASH
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_RT_DISCOVER
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_RT_FALL
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_RT_LAUGH_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_RT_LIFT
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_RT_THROW
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_RT_UNBALLANCE
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_ST_DAMAGE
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_ST_ATTACK
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z0_HURRY
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z0_MEET
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z0_QUESTION
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z0_SIGH_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z0_SMILE_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z0_SURPRISE
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z0_THROW
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_SK_CRY_0
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_SK_CRY_1
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_SK_CRASH
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_SK_LAUGH
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_SK_SHOUT
+    SFX_PARAMS(0x30, 3, 1, SFX_FLAG_15), // NA_SE_VO_Z1_CRY_0
+    SFX_PARAMS(0x30, 3, 1, SFX_FLAG_15), // NA_SE_VO_Z1_CRY_1
+    SFX_PARAMS(0x30, 3, 1, SFX_FLAG_15), // NA_SE_VO_Z1_OPENDOOR
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z1_SURPRISE
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_Z1_PAIN
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_KZ_MOVE
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_NB_LAUGH
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_IN_LAUGH
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_DUMMY_0x7d
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_DUMMY_0x7e
+    SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_DUMMY_0x7f
 };
 
 SoundParams* gSoundParams[7] = {
