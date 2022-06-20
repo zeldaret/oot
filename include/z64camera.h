@@ -27,7 +27,7 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
-// All shops and house scenes are expected to have their first two bgCamInfo entries be the following:
+// All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected to have their first two bgCamInfo entries be the following:
 #define BGCAM_INDEX_TOGGLE_LOCKED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
 
