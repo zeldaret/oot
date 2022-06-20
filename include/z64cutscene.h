@@ -105,6 +105,25 @@ typedef enum {
 } CutsceneState;
 
 typedef enum {
+    CS_MISC_RAIN,
+    CS_MISC_LIGHTNING,
+    CS_MISC_3_ENV_FLAG,
+    CS_MISC_LIFT_FOG = 6,
+    CS_MISC_CLOUDY_SKY,
+    CS_MISC_SOME_ROOM_THING,
+    CS_MISC_SNOW,
+    CS_MISC_10_ENV_FLAG,
+    CS_MISC_DEKU_TREE_DEATH,
+    CS_MISC_12,
+    CS_MISC_TRIFORCE_FLASH,
+    CS_MISC_SET_LOCKED_VIEWPOINT,
+    CS_MISC_TITLE_CARD,
+    CS_MISC_QUAKE_START,
+    CS_MISC_QUAKE_STOP,
+    CS_MISC_STORM_STOP,
+} CutsceneMiscCommand;
+
+typedef enum {
     CS_CMD_00 = 0x0000,
     CS_CMD_CAM_EYE = 0x0001,
     CS_CMD_CAM_AT = 0x0002,

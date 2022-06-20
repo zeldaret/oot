@@ -225,7 +225,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
     }
 
     switch (cmd->base) {
-        case 1:
+        case CS_MISC_RAIN:
             if (isFirstFrame) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_4, 0x3F);
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 1);
@@ -233,7 +233,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
 
-        case 2:
+        case CS_MISC_LIGHTNING:
             if (isFirstFrame) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
                 Environment_AddLightningBolts(play, 3);
@@ -268,27 +268,33 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
                 play->envCtx.changeLightTimer = play->envCtx.changeDuration = 60;
             }
             break;
+
         case 8:
             if (play->roomCtx.unk_74[0] < 0x80) {
                 play->roomCtx.unk_74[0] += 4;
             }
             break;
+
         case 9:
             play->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
             break;
+            
         case 10:
             Flags_SetEnv(play, 1);
             break;
+
         case 11:
             if (play->roomCtx.unk_74[0] < 0x672) {
                 play->roomCtx.unk_74[0] += 0x14;
             }
-            if (csCtx->frames == 0x30F) {
+
+            if (csCtx->frames == 783) {
                 func_80078884(NA_SE_EV_DEKU_DEATH);
-            } else if (csCtx->frames == 0x2CD) {
+            } else if (csCtx->frames == 717) {
                 play->roomCtx.unk_74[0] = 0;
             }
             break;
+            
         case 12:
             if (isFirstFrame) {
                 if (csCtx->state != CS_STATE_UNSKIPPABLE_EXEC) {
@@ -296,24 +302,29 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
                 }
             }
             break;
+
         case 13:
             if (play->roomCtx.unk_74[1] == 0) {
                 func_80078884(NA_SE_EV_TRIFORCE_FLASH);
             }
+
             if (play->roomCtx.unk_74[1] < 0xFF) {
                 play->roomCtx.unk_74[1] += 5;
             }
             break;
+
         case 14:
             if (isFirstFrame) {
                 func_800BC490(play, 1);
             }
             break;
+
         case 15:
             if (isFirstFrame) {
                 TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, player->giObjectSegment, 160, 120, 144, 24, 20);
             }
             break;
+
         case 16:
             if (isFirstFrame) {
                 sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 6);
@@ -322,31 +333,39 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
                 Quake_SetCountdown(sQuakeIndex, 800);
             }
             break;
+
         case 17:
             if (isFirstFrame) {
                 Quake_RemoveFromIdx(sQuakeIndex);
             }
             break;
+
         case 18:
             play->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
             play->envCtx.stormRequest = STORM_REQUEST_STOP;
+
             if (gSaveContext.dayTime < CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
+
             if (play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
                 gWeatherMode = WEATHER_MODE_CLEAR;
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
             }
             break;
+
         case 19:
             SET_EVENTCHKINF(EVENTCHKINF_65);
             break;
+
         case 20:
             SET_EVENTCHKINF(EVENTCHKINF_67);
             break;
+
         case 21:
             SET_EVENTCHKINF(EVENTCHKINF_69);
             break;
+            
         case 22:
             D_801614B0.r = 255;
             D_801614B0.g = 255;
