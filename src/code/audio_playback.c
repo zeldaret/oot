@@ -572,7 +572,7 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     note->playbackState.harmonicIndex = harmonicIndex;
 
     // Save the pointer to the synthethic wave
-    // waveId index starts at 128, there are 64 samples to read from
+    // waveId index starts at 128, there are WAVE_SAMPLE_COUNT samples to read from
     note->noteSubEu.waveSampleAddr = &gWaveSamples[waveId - 128][harmonicIndex * WAVE_SAMPLE_COUNT];
 
     return harmonicIndex;

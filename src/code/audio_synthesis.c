@@ -1213,14 +1213,14 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         }
 
         // Offset in the 64 samples of gWaveSamples to start processing the wave for continuity
-        samplePosInt &= 0x3F;
+        samplePosInt = (u32)samplePosInt % WAVE_SAMPLE_COUNT;
         // Number of samples in the initial 64 samples available to be used to process
         numSamplesAvail = WAVE_SAMPLE_COUNT - samplePosInt;
 
         // Require duplicates if there are more samples to load than available
         if (numSamplesToLoad > numSamplesAvail) {
             // (numSamplesToLoad - numSamplesAvail) is the number of samples needed in duplicates.
-            // Each duplicate copies exactly 64 samples, so divide through WAVE_SAMPLE_COUNT and round-up
+            // Each duplicate copies exactly 64 samples, so divide by WAVE_SAMPLE_COUNT and round-up
             numDuplicates = ((numSamplesToLoad - numSamplesAvail + (WAVE_SAMPLE_COUNT - 1)) / WAVE_SAMPLE_COUNT);
             if (numDuplicates != 0) {
                 aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE,
