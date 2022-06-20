@@ -26,7 +26,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
     this->viewpoint = viewpoint;
 
     if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        // C-Up toggle the camera inside a house
+        // Play a sfx when the player toggles the camera
         Audio_PlaySoundGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                                &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultReverb);
