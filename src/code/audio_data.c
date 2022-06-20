@@ -543,11 +543,11 @@ u8 gDefaultShortNoteGateTimeTable[] = {
     229, 203, 177, 151, 139, 126, 113, 100, 87, 74, 61, 48, 36, 23, 10, 0,
 };
 
-AdsrEnvelope gDefaultEnvelope[] = {
+EnvelopePoint gDefaultEnvelope[] = {
     { 1, 32000 },
     { 1000, 32000 },
-    { -1, 0 },
-    { 0, 0 },
+    { ADSR_HANG, 0 },
+    { ADSR_DISABLE, 0 },
 };
 
 NoteSubEu gZeroNoteSub = { 0 };
