@@ -1625,7 +1625,7 @@ rjump chan_DAB
 notepan 84
 .layer layer_DEF
 legato
-portamento 0x1, 34, 0x1
+portamento 1, 34, 100
 .layer layer_DF4
 notedv PITCH_C4, 0x60, 100
 rjump layer_DF4
@@ -1638,7 +1638,7 @@ rjump layer_DEF
 .layer layer_DFF
 stereo 20
 legato
-portamento 0x1, 34, 0x1
+portamento 1, 34, 100
 .layer layer_E06
 notedv PITCH_BF3, 0x60, 100
 rjump layer_E06

@@ -1058,7 +1058,7 @@ notedv PITCH_G3, 0x78, 70
 end
 
 .layer layer_1DE6
-portamento 0x1, 34, 0x1
+portamento 1, 34, 48
 notedv PITCH_G4, 0x78, 70
 end
 
@@ -1217,7 +1217,7 @@ end
 instr FONT00_INSTR_FLAME_THUNDER
 releaserate 240
 legato
-portamento 0x1, 24, 0x1
+portamento 1, 24, 40
 .layer layer_1EF9
 notedv PITCH_F3, 32700, 100
 rjump layer_1EF9
@@ -1716,7 +1716,7 @@ transpose -2
 
 .layer layer_221A
 legato
-portamento 0x1, 40, 0x1
+portamento 1, 40, 116
 .layer layer_221F
 notedv PITCH_G4, 32700, 76
 rjump layer_221F
@@ -1870,7 +1870,7 @@ transpose 5
 legato
 instr FONT00_INSTR_WIND_HOWL_S
 env envelope_6674, 200
-portamento 0x1, 56, 0x1
+portamento 1, 56, 127
 .layer layer_2316
 notedv PITCH_B5, 32700, 85
 rjump layer_2316
@@ -2601,7 +2601,7 @@ transpose -6
 
 .layer layer_2781
 legato
-portamento 0x1, 15, 0x1
+portamento 1, 15, 48
 .layer layer_2786
 notedv PITCH_E3, 32700, 75
 rjump layer_2786
@@ -3443,7 +3443,7 @@ transpose -24
 instr FONT00_INSTR_MECH_CHARGE
 env envelope_6674, 251
 legato
-portamento 0x1, 36, 0x1
+portamento 1, 36, 127
 .layer layer_2CEA
 notedv PITCH_F5, 32700, 95
 rjump layer_2CEA
@@ -3483,7 +3483,7 @@ transpose -9
 legato
 instr FONT00_INSTR_WIND_HOWL_S
 env envelope_6818, 241
-portamento 0x1, 44, 0x1
+portamento 1, 44, 127
 .layer layer_2D30
 notedv PITCH_B4, 32700, 80
 rjump layer_2D30

@@ -71,7 +71,9 @@ end
 ldelay 1
 instr FONT00_INSTR_SHIMMER
 env envelope_78A, 230
-portamento 0x1, 15, 133
+# The last argument here is represented with a single byte, even though the format
+# should use two bytes instead.
+portamentofix 0x1, 15, 133
 noportamento
 notedv PITCH_C5, 0x23A, 64
 end

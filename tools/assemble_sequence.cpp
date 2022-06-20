@@ -204,6 +204,7 @@ const Command commands[] = {
 	{ { SectionType::Layer }, 0xC5, "nolegato", {} },
 	{ { SectionType::Layer }, 0xC6, "instr", { Arg::u8 } },
 	{ { SectionType::Layer }, 0xC7, "portamento", { Arg::u8, Arg::u8, Arg::u8OrVar } },
+	{ { SectionType::Layer }, 0xC7, "portamentofix", { Arg::u8, Arg::u8, Arg::u8 } },
 	{ { SectionType::Layer }, 0xC8, "noportamento", {} },
 	{ { SectionType::Layer }, 0xC9, "shortgate", { Arg::u8 } },
 	{ { SectionType::Layer }, 0xCA, "notepan", { Arg::u8 } },
@@ -226,7 +227,7 @@ const Command commands[] = {
 	{ { SectionType::Layer }, 0x80, "shortvg", { Arg::bits6 } },
 
 	{ { SectionType::Unused }, 0x80, "byte", { Arg::u8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8,
-	                                          Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8 } },
+	                                           Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8 } },
 	{ { SectionType::Table }, 0x80, "entry", { Arg::addr } },
 	{ { SectionType::Filter }, 0x80, "filter", { Arg::s16, Arg::s16, Arg::s16, Arg::s16, Arg::s16, Arg::s16, Arg::s16, Arg::s16 } },
 	{ { SectionType::Array }, 0x80, "byte", { Arg::u8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8, Arg::optu8,

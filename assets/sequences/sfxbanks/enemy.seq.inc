@@ -569,7 +569,7 @@ end
 transpose -12
 
 .layer layer_35AE
-portamento 0x1, 34, 0x1
+portamento 1, 34, 20
 notedv PITCH_B3, 0x5A, 100
 end
 
@@ -1925,7 +1925,7 @@ end
 transpose -8
 
 .layer layer_3E58
-portamento 0x1, 38, 0x1
+portamento 1, 38, 20
 notedv PITCH_EF4, 0x50, 100
 end
 
