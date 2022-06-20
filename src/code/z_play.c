@@ -16,7 +16,8 @@ u64 D_801614D0[0xA00];
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
 // If R_ENABLE_PLAY_LOGS is enabled, the number "1" with a file and line number will be printed.
-// This can be helpful for debugging at what point during the `PlayState` loop an issue is occuring.
+// By being placed at various key points in the Play state execution, like between calls to various systems, 
+// it can allow for tracing what the play state execution is doing at a high level.
 #define PLAY_LOG(line)                            \
     do {                                          \
         if (R_ENABLE_PLAY_LOGS) {                 \
