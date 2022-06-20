@@ -581,7 +581,7 @@ void EnFloormas_Slide(EnFloormas* this, PlayState* play) {
 
     func_800286CC(play, &pos, &velocity, &accel, 450, 100);
 
-    func_8002F974(&this->actor, NA_SE_EN_FLOORMASTER_SLIDING);
+    func_8002F974(&this->actor, NA_SE_EN_FLOORMASTER_SLIDING - SFX_FLAG);
 }
 
 void EnFloormas_Charge(EnFloormas* this, PlayState* play) {
@@ -820,7 +820,7 @@ void EnFloormas_GrabLink(EnFloormas* this, PlayState* play) {
         }
     }
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_STICK);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_STICK - SFX_FLAG);
 }
 
 void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, PlayState* play) {
