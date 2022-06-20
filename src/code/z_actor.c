@@ -2630,11 +2630,11 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
         }
 
         if (actorOverlay->loadedRamAddr != NULL) {
-            if (actorOverlay->allocType & ALLOCTYPE_PERMANENT) {
+            if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
                 if (HREG(20) != 0) {
                     osSyncPrintf("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
                 }
-            } else if (actorOverlay->allocType & ALLOCTYPE_ABSOLUTE) {
+            } else if (actorOverlay->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
                 if (HREG(20) != 0) {
                     // "Absolute magic field reserved, so deallocation will not occur"
                     osSyncPrintf("絶対魔法領域確保なので解放しません\n");
@@ -2696,20 +2696,22 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 osSyncPrintf("既にロードされています\n"); // "Already loaded"
             }
         } else {
-            if (overlayEntry->allocType & ALLOCTYPE_ABSOLUTE) {
-                ASSERT(overlaySize <= AM_FIELD_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
+            if (overlayEntry->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
+                ASSERT(overlaySize <= ACTOROVL_ABSOLUTE_SPACE_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c",
+                       6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
                     // "AMF: absolute magic field"
-                    actorCtx->absoluteSpace = ZeldaArena_MallocRDebug(AM_FIELD_SIZE, "AMF:絶対魔法領域", 0);
+                    actorCtx->absoluteSpace =
+                        ZeldaArena_MallocRDebug(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
                     if (HREG(20) != 0) {
                         // "Absolute magic field reservation - %d bytes reserved"
-                        osSyncPrintf("絶対魔法領域確保 %d バイト確保\n", AM_FIELD_SIZE);
+                        osSyncPrintf("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
                     }
                 }
 
                 overlayEntry->loadedRamAddr = actorCtx->absoluteSpace;
-            } else if (overlayEntry->allocType & ALLOCTYPE_PERMANENT) {
+            } else if (overlayEntry->allocType & ACTOROVL_ALLOC_PERSISTENT) {
                 overlayEntry->loadedRamAddr = ZeldaArena_MallocRDebug(overlaySize, name, 0);
             } else {
                 overlayEntry->loadedRamAddr = ZeldaArena_MallocDebug(overlaySize, name, 0);
