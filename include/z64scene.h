@@ -453,12 +453,12 @@ typedef enum {
     /* 53 */ SDC_MAX
 } SceneDrawConfig;
 
-// R_SCENE_CAM_TYPE, first arg to SCENE_CMD_MISC_SETTINGS()
+// R_SCENE_CAM_TYPE
 #define SCENE_CAM_TYPE_DEFAULT 0
-#define SCENE_CAM_TYPE_SHOP_VIEWPOINT 0x10 // Viewpoint is handled by shops
-#define SCENE_CAM_TYPE_TOGGLE_VIEWPOINT 0x20 // Viewpoint toggles with c-up
-#define SCENE_CAM_TYPE_FORCE_SETTING 0x30 // Prevents camera setting switches (used for prerendered scenes outside shops and houses)
-#define SCENE_CAM_TYPE_FORCE_SETTING_MARKET 0x40 // Prevents camera setting switches and delays textboxes by a small amount as they start to appear
+#define SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT 0x10 // Viewpoint is handled by shops
+#define SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT 0x20 // Viewpoint toggles with c-up
+#define SCENE_CAM_TYPE_FIXED 0x30 // Prevents camera setting switches (used for prerendered scenes outside shops and houses)
+#define SCENE_CAM_TYPE_FIXED_MARKET 0x40 // Prevents camera setting switches and delays textboxes by a small amount as they start to appear
 #define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code, but set by only the main setup of the shooting gallery scene
 
 // Scene commands

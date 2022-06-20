@@ -1084,8 +1084,8 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
 
         // `R_SCENE_CAM_TYPE` is not composed of bit flags, but a specific bit is being checked for.
-        // In particular, `& 0x10` will pass for either `SCENE_CAM_TYPE_SHOP_VIEWPOINT`, `SCENE_CAM_TYPE_FORCE_SETTING`,
-        // or `SCENE_CAM_TYPE_SHOOTING_GALLERY`. However, only `SCENE_CAM_TYPE_SHOP_VIEWPOINT` can have
+        // In particular, `& 0x10` will pass for either `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT`, `SCENE_CAM_TYPE_FIXED`,
+        // or `SCENE_CAM_TYPE_SHOOTING_GALLERY`. However, only `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` can have
         // `VIEWPOINT_PIVOT` set.
         if ((player->stateFlags1 & PLAYER_STATE1_10) ||
             ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {

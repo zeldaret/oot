@@ -25,7 +25,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 
     this->viewpoint = viewpoint;
 
-    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_SHOP_VIEWPOINT) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         // C-Up toggle the camera inside a house
         Audio_PlaySoundGeneral((viewpoint == VIEWPOINT_FIXED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                                &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -49,7 +49,7 @@ s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint) {
 void Play_SetShopBrowsingViewpoint(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
 
-    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP_VIEWPOINT) {
+    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
         this->viewpoint = VIEWPOINT_PIVOT;
     }
 }
@@ -403,9 +403,9 @@ void Play_Init(GameState* thisx) {
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
     }
 
-    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_TOGGLE_VIEWPOINT) {
+    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) {
         this->viewpoint = VIEWPOINT_PIVOT;
-    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP_VIEWPOINT) {
+    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
         this->viewpoint = VIEWPOINT_FIXED;
     } else {
         this->viewpoint = VIEWPOINT_NONE;
@@ -960,7 +960,7 @@ void Play_Update(PlayState* this) {
                     } else if (Player_InCsMode(this)) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
-                    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_SHOP_VIEWPOINT) {
+                    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
@@ -1818,11 +1818,12 @@ void Play_TriggerRespawn(PlayState* this) {
     Play_LoadToLastEntrance(this);
 }
 
-s32 func_800C0CB8(PlayState* this) {
+s32 Play_CamIsNotFixed(PlayState* this) {
+    // SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT was probably intended to be in this condition,
+    // but the scene mesh header handles all shop cases regardless
     return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_TOGGLE_VIEWPOINT) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FORCE_SETTING) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FORCE_SETTING_MARKET) && (this->sceneNum != SCENE_HAIRAL_NIWA);
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
 s32 FrameAdvance_IsEnabled(PlayState* this) {
