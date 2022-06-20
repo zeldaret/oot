@@ -84,18 +84,17 @@ typedef struct {
     (((properties) >> WATERBOX_LIGHT_INDEX_SHIFT) & (WATERBOX_LIGHT_INDEX_MASK >> WATERBOX_LIGHT_INDEX_SHIFT))
 #define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
 
-#define WATERBOX_ROOM_INDEX_SHIFT 13
-#define WATERBOX_ROOM_INDEX_MASK 0x0007E000
-#define WATERBOX_ROOM_INDEX(properties) \
-    (((properties) >> WATERBOX_ROOM_INDEX_SHIFT) & (WATERBOX_ROOM_INDEX_MASK >> WATERBOX_ROOM_INDEX_SHIFT))
-#define WATERBOX_ROOM_INDEX_ALL 0x3F // value for "room index" indicating "all rooms"
+#define WATERBOX_ROOM_SHIFT 13
+#define WATERBOX_ROOM_MASK 0x0007E000
+#define WATERBOX_ROOM(properties) (((properties) >> WATERBOX_ROOM_SHIFT) & (WATERBOX_ROOM_MASK >> WATERBOX_ROOM_SHIFT))
+#define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
 
 #define WATERBOX_FLAG_19 (1 << 19)
 
 #define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, roomIndex, setFlag19)       \
     ((((bgCamIndex)&WATERBOX_BGCAM_INDEX_MASK) >> WATERBOX_BGCAM_INDEX_SHIFT) | \
      (((lightIndex)&WATERBOX_LIGHT_INDEX_MASK) >> WATERBOX_LIGHT_INDEX_SHIFT) | \
-     (((lightIndex)&WATERBOX_ROOM_INDEX_MASK) >> WATERBOX_ROOM_INDEX_SHIFT) | ((setFlag19) ? WATERBOX_FLAG_19 : 0))
+     (((lightIndex)&WATERBOX_ROOM_MASK) >> WATERBOX_ROOM_SHIFT) | ((setFlag19) ? WATERBOX_FLAG_19 : 0))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
