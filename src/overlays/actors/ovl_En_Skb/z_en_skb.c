@@ -202,7 +202,7 @@ void func_80AFCDF8(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->unk_280 = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, func_80AFCE5C);
 }
 
@@ -230,7 +230,7 @@ void func_80AFCF48(EnSkb* this) {
     this->unk_281 = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, func_80AFCFF0);
 }
 
@@ -282,7 +282,7 @@ void EnSkb_Advance(EnSkb* this, PlayState* play) {
         if (((prevKeyFrame < 9) && (((s32)playSpeed + thisKeyFrame) >= 8)) ||
             !((prevKeyFrame >= 16) || (((s32)playSpeed + thisKeyFrame) < 15))) {
 
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_WALK);
         }
     }
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || IS_DAY) {
@@ -307,7 +307,7 @@ void EnSkb_SetupAttack(EnSkb* this, PlayState* play) {
 
     frameData = this->skelAnime.curFrame;
     if (frameData == 3) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->unk_281 = 1;
     } else if (frameData == 6) {
         this->unk_281 = 0;
@@ -339,7 +339,7 @@ void EnSkb_SetupStunned(EnSkb* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->unk_281 = 0;
     this->unk_280 = 6;
     EnSkb_SetupAction(this, func_80AFD59C);
@@ -369,7 +369,7 @@ void func_80AFD644(EnSkb* this) {
         this->actor.speedXZ = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
     this->unk_280 = 2;
     EnSkb_SetupAction(this, func_80AFD6CC);
 }

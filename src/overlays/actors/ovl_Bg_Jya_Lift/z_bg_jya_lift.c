@@ -117,7 +117,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }

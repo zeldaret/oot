@@ -25,8 +25,8 @@ void func_800BC490(PlayState* this, s16 point) {
     this->unk_1242B = point;
 
     if ((YREG(15) != 0x10) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        Audio_PlaySoundGeneral((point == 1) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral((point == 1) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 
     func_800BC450(this);
@@ -240,7 +240,7 @@ void Play_Init(GameState* thisx) {
     func_80112098(this);
     Message_Init(this);
     GameOver_Init(this);
-    SoundSource_InitAll(this);
+    SfxSource_InitAll(this);
     Effect_InitContext(this);
     EffectSs_InitInfo(this, 0x55);
     CollisionCheck_InitContext(this, &this->colChkCtx);
@@ -728,9 +728,8 @@ void Play_Update(PlayState* this) {
                     break;
 
                 case TRANS_MODE_SANDSTORM:
-                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
                         if (this->envCtx.sandstormPrimA < 110) {
@@ -764,9 +763,8 @@ void Play_Update(PlayState* this) {
                     break;
 
                 case TRANS_MODE_SANDSTORM_END:
-                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
                         if (this->envCtx.sandstormPrimA <= 0) {
                             gTrnsnUnkState = 0;
@@ -952,8 +950,8 @@ void Play_Update(PlayState* this) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (YREG(15) == 0x10) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
                         func_800BC490(this, this->unk_1242B ^ 3);
                     }
@@ -1011,7 +1009,7 @@ void Play_Update(PlayState* this) {
                 LOG_NUM("1", 1, "../z_play.c", 3771);
             }
 
-            SoundSource_UpdateAll(this);
+            SfxSource_UpdateAll(this);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);

@@ -265,7 +265,7 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
     } else if ((this->actor.params == RS_RIVER_DEFAULT_LOW_FREQ) ||
                (this->actor.params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
                (this->actor.params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
-        Audio_PlaySoundRiver(&this->actor.projectedPos, soundFreq[this->soundFreqIndex]);
+        Audio_PlaySfxRiver(&this->actor.projectedPos, soundFreq[this->soundFreqIndex]);
     } else if (this->actor.params == RS_LOWER_MAIN_BGM_VOLUME) {
         // Responsible for lowering market bgm in Child Market Entrance and Child Market Back Alley
         // Lower volume from default 127 to a volume of 90
@@ -288,6 +288,6 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         func_800788CC(soundEffects[this->actor.params]);
     } else {
         // Play sfx at the location of riverSounds projected position
-        Audio_PlayActorSound2(&this->actor, soundEffects[this->actor.params]);
+        Audio_PlayActorSfx2(&this->actor, soundEffects[this->actor.params]);
     }
 }

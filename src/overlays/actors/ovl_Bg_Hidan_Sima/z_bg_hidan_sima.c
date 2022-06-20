@@ -144,7 +144,7 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
     }
     if (!(this->timer % 4)) {
         func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 

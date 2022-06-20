@@ -177,7 +177,7 @@ void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play) {
             Actor_Kill(child);
         }
     } else {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
         if ((this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 500.0f) && func_8004356C(&this->dyna)) {
             Play_TriggerVoidOut(play);
         }

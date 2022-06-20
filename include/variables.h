@@ -129,7 +129,7 @@ extern f32 gDefaultPanVolume[128];
 extern s16 gLowPassFilterData[16 * 8];
 extern s16 gHighPassFilterData[15 * 8];
 extern s32 gAudioContextInitalized;
-extern u8 gIsLargeSoundBank[7];
+extern u8 gIsLargeSfxBank[7];
 extern u8 gChannelsPerBank[4][7];
 extern u8 gUsedChannelsPerBank[4][7];
 extern u8 gMorphaTransposeTable[16];
@@ -137,10 +137,10 @@ extern u8* gFrogsSongPtr;
 extern OcarinaNote* gScarecrowLongSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
 extern OcarinaSongButtons gOcarinaSongButtons[];
-extern SoundParams* gSoundParams[7];
+extern SoundParams* gSfxParams[7];
 extern char D_80133390[];
 extern char D_80133398[];
-extern SoundBankEntry* gSoundBanks[7];
+extern SoundBankEntry* gSfxBanks[7];
 extern u8 gSfxChannelLayout;
 extern Vec3f gSfxDefaultPos;
 extern f32 gSfxDefaultFreqAndVolScale;
@@ -200,8 +200,8 @@ extern volatile OSTime gRSPGFXTotalTime;
 extern volatile OSTime gRSPOtherTotalTime;
 extern volatile OSTime gRDPTotalTime;
 
-extern ActiveSound gActiveSounds[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
-extern u8 gSoundBankMuted[];
+extern ActiveSound gActiveSfxs[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
+extern u8 gSfxBankMuted[];
 extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];

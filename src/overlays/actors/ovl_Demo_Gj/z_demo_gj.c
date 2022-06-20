@@ -137,7 +137,7 @@ void DemoGj_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoGj_PlayExplosionSfx(DemoGj* this, PlayState* play) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGj_SpawnSmoke(PlayState* play, Vec3f* pos, f32 arg2) {

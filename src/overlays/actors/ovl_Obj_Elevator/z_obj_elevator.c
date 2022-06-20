@@ -104,10 +104,10 @@ void func_80B92D44(ObjElevator* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (fabsf(Math_SmoothStepToF(&thisx->world.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 

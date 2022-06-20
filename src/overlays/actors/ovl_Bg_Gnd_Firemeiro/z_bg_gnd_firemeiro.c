@@ -97,7 +97,7 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
             this->dyna.actor.world.pos.y += Math_CosS(this->timer * 0x7FFF);
 
             if (!(this->timer % 4)) {
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
             }
         } else {
             this->timer = 10;

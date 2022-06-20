@@ -1287,7 +1287,7 @@ SoundParams sVoiceBankParams[] = {
     SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_DUMMY_0x7f
 };
 
-SoundParams* gSoundParams[7] = {
+SoundParams* gSfxParams[7] = {
     sPlayerBankParams, sItemBankParams,    sEnvBankParams,   sEnemyBankParams,
     sSystemBankParams, sOcarinaBankParams, sVoiceBankParams,
 };

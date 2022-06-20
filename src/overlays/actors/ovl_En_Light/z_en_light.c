@@ -102,7 +102,7 @@ void EnLight_Update(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 
@@ -145,7 +145,7 @@ void EnLight_UpdateSwitch(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 

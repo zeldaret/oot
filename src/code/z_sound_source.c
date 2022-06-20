@@ -1,6 +1,6 @@
 #include "global.h"
 
-void SoundSource_InitAll(PlayState* play) {
+void SfxSource_InitAll(PlayState* play) {
     SoundSource* sources = &play->soundSources[0];
     s32 i;
 
@@ -9,7 +9,7 @@ void SoundSource_InitAll(PlayState* play) {
     // clang-format on
 }
 
-void SoundSource_UpdateAll(PlayState* play) {
+void SfxSource_UpdateAll(PlayState* play) {
     SoundSource* source = &play->soundSources[0];
     s32 i;
 
@@ -26,7 +26,7 @@ void SoundSource_UpdateAll(PlayState* play) {
     }
 }
 
-void SoundSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 duration, u16 sfxId) {
+void SfxSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 duration, u16 sfxId) {
     s32 countdown;
     SoundSource* source;
     s32 smallestCountdown = 0xFFFF;
@@ -58,6 +58,6 @@ void SoundSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 du
     source->countdown = duration;
 
     SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &source->worldPos, &source->projectedPos);
-    Audio_PlaySoundGeneral(sfxId, &source->projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(sfxId, &source->projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultReverb);
 }
