@@ -3211,8 +3211,8 @@ void BossMo_Unknown(void) {
         NA_SE_IT_MAGIC_ARROW_SHOT,
         NA_SE_IT_EXPLOSION_FRAME,
         NA_SE_IT_EXPLOSION_ICE,
-        NA_SE_IT_YOBI19 - SFX_FLAG,
-        NA_SE_FISHING_REEL_SLOW2 - SFX_FLAG,
+        0x1850 - SFX_FLAG, // Invalid sfxId, OoB read
+        0x1851 - SFX_FLAG, // Invalid sfxId, OoB read
         NA_SE_OC_DOOR_OPEN,
         NA_SE_EV_DOOR_CLOSE,
         NA_SE_EV_EXPLOSION,
