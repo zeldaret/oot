@@ -137,10 +137,10 @@ extern u8* gFrogsSongPtr;
 extern OcarinaNote* gScarecrowLongSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
 extern OcarinaSongButtons gOcarinaSongButtons[];
-extern SoundParams* gSfxParams[7];
+extern SfxParams* gSfxParams[7];
 extern char D_80133390[];
 extern char D_80133398[];
-extern SoundBankEntry* gSfxBanks[7];
+extern SfxBankEntry* gSfxBanks[7];
 extern u8 gSfxChannelLayout;
 extern Vec3f gSfxDefaultPos;
 extern f32 gSfxDefaultFreqAndVolScale;
@@ -200,7 +200,7 @@ extern volatile OSTime gRSPGFXTotalTime;
 extern volatile OSTime gRSPOtherTotalTime;
 extern volatile OSTime gRDPTotalTime;
 
-extern ActiveSound gActiveSfxs[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
+extern ActiveSfx gActiveSfxs[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
 extern u8 gSfxBankMuted[];
 extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];

@@ -3735,7 +3735,7 @@ void func_800F314C(s8 arg0) {
 }
 
 f32 Audio_ComputeSfxVolume(u8 bankId, u8 entryIdx) {
-    SoundBankEntry* bankEntry = &gSfxBanks[bankId][entryIdx];
+    SfxBankEntry* bankEntry = &gSfxBanks[bankId][entryIdx];
     f32 minDist;
     f32 baseDist;
     f32 ret;
@@ -3782,7 +3782,7 @@ f32 Audio_ComputeSfxVolume(u8 bankId, u8 entryIdx) {
 s8 Audio_ComputeSfxReverb(u8 bankId, u8 entryIdx, u8 channelIdx) {
     s8 distAdd = 0;
     s32 scriptAdd = 0;
-    SoundBankEntry* entry = &gSfxBanks[bankId][entryIdx];
+    SfxBankEntry* entry = &gSfxBanks[bankId][entryIdx];
     s32 reverb;
 
     if (!(entry->sfxParams & SFX_FLAG_12)) {
@@ -3857,7 +3857,7 @@ s8 Audio_ComputeSfxPanSigned(f32 x, f32 z, u8 token) {
 
 f32 Audio_ComputeSfxFreqScale(u8 bankId, u8 entryIdx) {
     s32 phi_v0 = 0;
-    SoundBankEntry* entry = &gSfxBanks[bankId][entryIdx];
+    SfxBankEntry* entry = &gSfxBanks[bankId][entryIdx];
     f32 unk1C;
     f32 freq = 1.0f;
 
@@ -3908,7 +3908,7 @@ f32 Audio_ComputeSfxFreqScale(u8 bankId, u8 entryIdx) {
     return freq;
 }
 
-u8 func_800F37B8(f32 behindScreenZ, SoundBankEntry* arg1, s8 arg2) {
+u8 func_800F37B8(f32 behindScreenZ, SfxBankEntry* arg1, s8 arg2) {
     s8 phi_v0;
     u8 phi_v1;
     f32 phi_f0;
@@ -3979,7 +3979,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
     s8 sp38 = 0;
     f32 behindScreenZ;
     u8 baseFilter = 0;
-    SoundBankEntry* entry = &gSfxBanks[bankId][entryIdx];
+    SfxBankEntry* entry = &gSfxBanks[bankId][entryIdx];
 
     switch (bankId) {
         case BANK_PLAYER:

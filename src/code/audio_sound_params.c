@@ -7,7 +7,7 @@
                      (((randParam) << SFX_PARAM_67_SHIFT) & SFX_PARAM_67_MASK) | (flags)) \
     }
 
-SoundParams sEnemyBankParams[] = {
+SfxParams sEnemyBankParams[] = {
     SFX_PARAMS(0x18, 0, 0, 0),           // NA_SE_EN_DODO_J_WALK
     SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_J_CRY
     SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_EN_DODO_J_FIRE
@@ -509,7 +509,7 @@ SoundParams sEnemyBankParams[] = {
     SFX_PARAMS(0x34, 3, 0, 0),           // NA_SE_EN_STALWALL_LAUGH
 };
 
-SoundParams sPlayerBankParams[] = {
+SfxParams sPlayerBankParams[] = {
     SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_GROUND
     SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_SAND
     SFX_PARAMS(0x20, 0, 2, SFX_FLAG_10),               // NA_SE_PL_WALK_CONCRETE
@@ -736,7 +736,7 @@ SoundParams sPlayerBankParams[] = {
     SFX_PARAMS(0x30, 0, 0, 0),                         // NA_SE_PL_SLIP_ICE_LEVEL
 };
 
-SoundParams sItemBankParams[] = {
+SfxParams sItemBankParams[] = {
     SFX_PARAMS(0x30, 0, 1, SFX_FLAG_15), // NA_SE_IT_SWORD_IMPACT
     SFX_PARAMS(0x30, 0, 1, 0),           // NA_SE_IT_SWORD_SWING
     SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_SWORD_PUTAWAY
@@ -819,7 +819,7 @@ SoundParams sItemBankParams[] = {
     SFX_PARAMS(0x30, 0, 0, 0),           // NA_SE_IT_DUMMY5
 };
 
-SoundParams sEnvBankParams[] = {
+SfxParams sEnvBankParams[] = {
     SFX_PARAMS(0x70, 0, 1, SFX_FLAG_10 | SFX_FLAG_9),                // NA_SE_EV_DOOR_OPEN
     SFX_PARAMS(0x80, 0, 1, 0),                                       // NA_SE_EV_DOOR_CLOSE
     SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_EXPLOSION
@@ -1070,7 +1070,7 @@ SoundParams sEnvBankParams[] = {
     SFX_PARAMS(0x30, 0, 0, 0),                                       // NA_SE_EV_EXPLOSION_FOR_RENZOKU
 };
 
-SoundParams sSystemBankParams[] = {
+SfxParams sSystemBankParams[] = {
     SFX_PARAMS(0xC0, 0, 0, 0),          // NA_SE_SY_WIN_OPEN
     SFX_PARAMS(0xC0, 0, 0, 0),          // NA_SE_SY_WIN_CLOSE
     SFX_PARAMS(0xB0, 0, 0, SFX_FLAG_5), // NA_SE_SY_CORRECT_CHIME
@@ -1145,7 +1145,7 @@ SoundParams sSystemBankParams[] = {
     SFX_PARAMS(0x30, 0, 0, 0),          // NA_SE_SY_DUMMY_71
 };
 
-SoundParams sOcarinaBankParams[] = {
+SfxParams sOcarinaBankParams[] = {
     SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_OCARINA
     SFX_PARAMS(0x30, 0, 0, SFX_FLAG_5),               // NA_SE_OC_ABYSS
     SFX_PARAMS(0x30, 2, 1, SFX_FLAG_10 | SFX_FLAG_9), // NA_SE_OC_DOOR_OPEN
@@ -1156,7 +1156,7 @@ SoundParams sOcarinaBankParams[] = {
     SFX_PARAMS(0x30, 0, 0, 0),                        // NA_SE_OC_HINT_MOVIE
 };
 
-SoundParams sVoiceBankParams[] = {
+SfxParams sVoiceBankParams[] = {
     SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWORD_N
     SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_SWORD_L
     SFX_PARAMS(0x30, 2, 0, SFX_FLAG_10), // NA_SE_VO_LI_LASH
@@ -1287,7 +1287,7 @@ SoundParams sVoiceBankParams[] = {
     SFX_PARAMS(0x30, 1, 1, SFX_FLAG_15), // NA_SE_VO_DUMMY_0x7f
 };
 
-SoundParams* gSfxParams[7] = {
+SfxParams* gSfxParams[7] = {
     sPlayerBankParams, sItemBankParams,    sEnvBankParams,   sEnemyBankParams,
     sSystemBankParams, sOcarinaBankParams, sVoiceBankParams,
 };
