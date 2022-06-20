@@ -20,14 +20,14 @@ void Play_ChangeViewpointBgCamIndex(PlayState* this) {
 }
 
 void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
-    ASSERT(viewpoint == VIEWPOINT_FIXED || viewpoint == VIEWPOINT_PIVOT, "point == 1 || point == 2", "../z_play.c",
+    ASSERT(viewpoint == VIEWPOINT_LOCKED || viewpoint == VIEWPOINT_PIVOT, "point == 1 || point == 2", "../z_play.c",
            2160);
 
     this->viewpoint = viewpoint;
 
     if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         // C-Up toggle the camera inside a house
-        Audio_PlaySoundGeneral((viewpoint == VIEWPOINT_FIXED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
+        Audio_PlaySoundGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                                &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultReverb);
     }
@@ -406,7 +406,7 @@ void Play_Init(GameState* thisx) {
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) {
         this->viewpoint = VIEWPOINT_PIVOT;
     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
-        this->viewpoint = VIEWPOINT_FIXED;
+        this->viewpoint = VIEWPOINT_LOCKED;
     } else {
         this->viewpoint = VIEWPOINT_NONE;
     }
@@ -965,7 +965,7 @@ void Play_Update(PlayState* this) {
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
                         // C-Up toggle for houses, move between pivot camera and fixed camera
-                        // `^ 3` toggles between 1 <-> 2 (VIEWPOINT_FIXED <-> VIEWPOINT_PIVOT)
+                        // `^ 3` toggles between 1 <-> 2 (VIEWPOINT_LOCKED <-> VIEWPOINT_PIVOT)
                         Play_SetViewpoint(this, this->viewpoint ^ 3);
                     }
                 }

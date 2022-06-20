@@ -653,7 +653,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
-    Play_SetViewpoint(play, VIEWPOINT_FIXED);
+    Play_SetViewpoint(play, VIEWPOINT_LOCKED);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
     this->stickLeftPrompt.isEnabled = false;
@@ -1322,7 +1322,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
-    Play_SetViewpoint(play, VIEWPOINT_FIXED);
+    Play_SetViewpoint(play, VIEWPOINT_LOCKED);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);

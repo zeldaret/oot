@@ -28,13 +28,13 @@
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
 // All shops and house scenes are expected to have their first two bgCamInfo entries be the following:
-#define BGCAM_INDEX_TOGGLE_FIXED 0
+#define BGCAM_INDEX_TOGGLE_LOCKED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
 
 // Viewpoint is only used by toggleable camera settings (shops and house scenes).
 // Value must be 1 larger then the corresponding bgCamIndex.
 #define VIEWPOINT_NONE 0
-#define VIEWPOINT_FIXED (BGCAM_INDEX_TOGGLE_FIXED + 1) // Use a camera prerend setting that fixes the camera in place
+#define VIEWPOINT_LOCKED (BGCAM_INDEX_TOGGLE_LOCKED + 1) // Use a camera prerend setting that locks the camera in place
 #define VIEWPOINT_PIVOT (BGCAM_INDEX_TOGGLE_PIVOT + 1) // Use a camera pivot setting that allows camera rotation (CAM_SET_PIVOT_SHOP_BROWSING for shop specifically)
 
 typedef enum {
