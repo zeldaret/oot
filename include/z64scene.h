@@ -453,7 +453,7 @@ typedef enum {
     /* 53 */ SDC_MAX
 } SceneDrawConfig;
 
-// R_SCENE_CAM_TYPE
+// R_SCENE_CAM_TYPE values
 #define SCENE_CAM_TYPE_DEFAULT 0
 #define SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT 0x10 // Camera exhibits fixed behaviors and viewpoint changing is handled by shops
 #define SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT 0x20 // Camera exhibits fixed behaviors and viewpoint can be toggled with c-up

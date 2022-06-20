@@ -31,7 +31,7 @@
 #define BGCAM_INDEX_TOGGLE_LOCKED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
 
-// Viewpoint is only used by toggleable camera settings (shops and house scenes).
+// Viewpoint is only used by `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` and `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT`
 // Value must be 1 larger then the corresponding bgCamIndex.
 #define VIEWPOINT_NONE 0
 #define VIEWPOINT_LOCKED (BGCAM_INDEX_TOGGLE_LOCKED + 1) // Use a camera prerend setting that locks the camera in place
