@@ -392,7 +392,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
         // "To reset mode"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
-        SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIContext);
+        SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
         gameState->running = false;
     }
 }

@@ -1117,7 +1117,7 @@ typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
-} SampleContext; // size = 0x1D0
+} SampleState; // size = 0x1D0
 
 typedef struct {
     /* 0x00 */ u8 byte0;
@@ -1379,11 +1379,11 @@ typedef struct {
     /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
-typedef struct PreNMIContext {
+typedef struct {
     /* 0x00 */ GameState state;
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
-} PreNMIContext; // size = 0xAC
+} PreNMIState; // size = 0xAC
 
 typedef enum {
     /*  1 */ F_8F = 1,
