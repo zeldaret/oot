@@ -23,7 +23,7 @@ Acmd* AudioSynth_SaveRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 lengt
 Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIndex);
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex);
-Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 nSamplesToLoad);
+Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 numSamplesToLoad);
 Acmd* AudioSynth_NoteApplyHeadsetPanEffects(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 bufLen,
                                             s32 flags, s32 side);
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
@@ -40,7 +40,12 @@ u16 D_801304B0[] = {
     0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
 };
 
-u8 D_801304C0[] = { 0x40, 0x20, 0x10, 0x8 };
+u8 sNumSamplesPerWavePeriod[] = {
+    WAVE_SAMPLE_COUNT,     // 1st harmonic
+    WAVE_SAMPLE_COUNT / 2, // 2nd harmonic
+    WAVE_SAMPLE_COUNT / 4, // 4th harmonic
+    WAVE_SAMPLE_COUNT / 8, // 8th harmonic
+};
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
@@ -129,7 +134,7 @@ void func_800DB03C(s32 updateIndex) {
             subEu2->bitField0.enabled = false;
         }
 
-        subEu->unk_06 = 0;
+        subEu->harmonicIndexCurAndPrev = 0;
     }
 }
 
@@ -326,8 +331,8 @@ Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 upd
 void func_800DBB94(void) {
 }
 
-void AudioSynth_ClearBuffer(Acmd* cmd, s32 arg1, s32 arg2) {
-    aClearBuffer(cmd, arg1, arg2);
+void AudioSynth_ClearBuffer(Acmd* cmd, s32 dmem, s32 size) {
+    aClearBuffer(cmd, dmem, size);
 }
 
 void func_800DBBBC(void) {
@@ -392,12 +397,12 @@ void AudioSynth_EnvSetup1(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 void func_800DBD08(void) {
 }
 
-void AudioSynth_LoadBuffer(Acmd* cmd, s32 arg1, s32 arg2, void* arg3) {
-    aLoadBuffer(cmd, arg3, arg1, arg2);
+void AudioSynth_LoadBuffer(Acmd* cmd, s32 dmemDest, s32 size, void* addrSrc) {
+    aLoadBuffer(cmd, addrSrc, dmemDest, size);
 }
 
-void AudioSynth_SaveBuffer(Acmd* cmd, s32 arg1, s32 arg2, void* arg3) {
-    aSaveBuffer(cmd, arg1, arg3, arg2);
+void AudioSynth_SaveBuffer(Acmd* cmd, s32 dmemSrc, s32 size, void* addrDest) {
+    aSaveBuffer(cmd, dmemSrc, addrDest, size);
 }
 
 void AudioSynth_EnvSetup2(Acmd* cmd, s32 volLeft, s32 volRight) {
@@ -722,12 +727,12 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 sampleDataStartPad;
     s32 side;
     s32 resampledTempLen;
-    u16 noteSamplesDmemAddrBeforeResampling;
+    u16 sampleDmemBeforeResampling;
     s32 sampleDataOffset;
     s32 thing;
     s32 s5;
     Note* note;
-    u32 nSamplesToLoad;
+    u32 numSamplesToLoad;
     u16 unk7;
     u16 unkE;
     s16* filter;
@@ -761,7 +766,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     resamplingRateFixedPoint = noteSubEu->resamplingRateFixedPoint;
     nParts = noteSubEu->bitField1.hasTwoParts + 1;
     samplesLenFixedPoint = (resamplingRateFixedPoint * aiBufLen * 2) + synthState->samplePosFrac;
-    nSamplesToLoad = samplesLenFixedPoint >> 16;
+    numSamplesToLoad = samplesLenFixedPoint >> 16;
     synthState->samplePosFrac = samplesLenFixedPoint & 0xFFFF;
 
     // Partially-optimized out no-op ifs required for matching. SM64 decomp
@@ -774,9 +779,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     synthState->numParts = nParts;
 
     if (noteSubEu->bitField1.isSyntheticWave) {
-        cmd = AudioSynth_LoadWaveSamples(cmd, noteSubEu, synthState, nSamplesToLoad);
-        noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
-        synthState->samplePosInt += nSamplesToLoad;
+        cmd = AudioSynth_LoadWaveSamples(cmd, noteSubEu, synthState, numSamplesToLoad);
+        sampleDmemBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * (s32)sizeof(s16));
+        synthState->samplePosInt += numSamplesToLoad;
     } else {
         sample = noteSubEu->tunedSample->sample;
         loopInfo = sample->loop;
@@ -789,11 +794,11 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
             s5 = 0;
 
             if (nParts == 1) {
-                samplesLenAdjusted = nSamplesToLoad;
-            } else if (nSamplesToLoad & 1) {
-                samplesLenAdjusted = (nSamplesToLoad & ~1) + (curPart * 2);
+                samplesLenAdjusted = numSamplesToLoad;
+            } else if (numSamplesToLoad & 1) {
+                samplesLenAdjusted = (numSamplesToLoad & ~1) + (curPart * 2);
             } else {
-                samplesLenAdjusted = nSamplesToLoad;
+                samplesLenAdjusted = numSamplesToLoad;
             }
 
             if (sample->codec == CODEC_ADPCM || sample->codec == CODEC_SMALL_ADPCM) {
@@ -1004,7 +1009,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
             switch (nParts) {
                 case 1:
-                    noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + skipBytes;
+                    sampleDmemBeforeResampling = DMEM_UNCOMPRESSED_NOTE + skipBytes;
                     break;
 
                 case 2:
@@ -1013,9 +1018,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                             AudioSynth_InterL(cmd++, DMEM_UNCOMPRESSED_NOTE + skipBytes, DMEM_TEMP + 0x20,
                                               ALIGN8(samplesLenAdjusted / 2));
                             resampledTempLen = samplesLenAdjusted;
-                            noteSamplesDmemAddrBeforeResampling = DMEM_TEMP + 0x20;
+                            sampleDmemBeforeResampling = DMEM_TEMP + 0x20;
                             if (finished) {
-                                AudioSynth_ClearBuffer(cmd++, noteSamplesDmemAddrBeforeResampling + resampledTempLen,
+                                AudioSynth_ClearBuffer(cmd++, sampleDmemBeforeResampling + resampledTempLen,
                                                        samplesLenAdjusted + 0x10);
                             }
                             break;
@@ -1038,8 +1043,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         flags = A_INIT;
     }
 
-    cmd = AudioSynth_FinalResample(cmd, synthState, aiBufLen * 2, resamplingRateFixedPoint,
-                                   noteSamplesDmemAddrBeforeResampling, flags);
+    cmd = AudioSynth_FinalResample(cmd, synthState, aiBufLen * 2, resamplingRateFixedPoint, sampleDmemBeforeResampling,
+                                   flags);
     if (bookOffset == 3) {
         AudioSynth_UnkCmd19(cmd++, DMEM_TEMP, DMEM_TEMP, aiBufLen * 2, 0);
     }
@@ -1184,27 +1189,43 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     return cmd;
 }
 
-Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 nSamplesToLoad) {
-    s32 temp_v0;
-    s32 unk6 = noteSubEu->unk_06;
+Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState,
+                                 s32 numSamplesToLoad) {
+    s32 numSamplesAvail;
+    s32 harmonicIndexCurAndPrev = noteSubEu->harmonicIndexCurAndPrev;
     s32 samplePosInt = synthState->samplePosInt;
-    s32 repeats;
+    s32 numDuplicates;
 
     if (noteSubEu->bitField1.bookOffset != 0) {
-        AudioSynth_LoadBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, ALIGN16(nSamplesToLoad * 2), gWaveSamples[8]);
-        gWaveSamples[8] += nSamplesToLoad * 2;
+        // Move the noise wave (that reads compiled assembly as samples) from ram to dmem
+        AudioSynth_LoadBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, ALIGN16(numSamplesToLoad * sizeof(s16)), gWaveSamples[8]);
+        // Offset the address for the samples read by gWaveSamples[8] to the next set of samples
+        gWaveSamples[8] += numSamplesToLoad * sizeof(s16);
         return cmd;
     } else {
-        aLoadBuffer(cmd++, noteSubEu->samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
-        if (unk6 != 0) {
-            samplePosInt = (samplePosInt * D_801304C0[unk6 >> 2]) / D_801304C0[unk6 & 3];
+        // Move the synthetic wave from ram to dmem
+        aLoadBuffer(cmd++, noteSubEu->waveSampleAddr, DMEM_UNCOMPRESSED_NOTE, WAVE_SAMPLE_COUNT * sizeof(s16));
+
+        // If the harmonic changes, map the offset in the wave from one harmonic to another for continuity
+        if (harmonicIndexCurAndPrev != 0) {
+            samplePosInt = samplePosInt * sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev >> 2] /
+                           sNumSamplesPerWavePeriod[harmonicIndexCurAndPrev & 3];
         }
-        samplePosInt &= 0x3F;
-        temp_v0 = 0x40 - samplePosInt;
-        if (temp_v0 < nSamplesToLoad) {
-            repeats = ((nSamplesToLoad - temp_v0 + 0x3F) / 0x40);
-            if (repeats != 0) {
-                aDuplicate(cmd++, repeats, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + 0x80, 0x80);
+
+        // Offset in the WAVE_SAMPLE_COUNT samples of gWaveSamples to start processing the wave for continuity
+        samplePosInt = (u32)samplePosInt % WAVE_SAMPLE_COUNT;
+        // Number of samples in the initial WAVE_SAMPLE_COUNT samples available to be used to process
+        numSamplesAvail = WAVE_SAMPLE_COUNT - samplePosInt;
+
+        // Require duplicates if there are more samples to load than available
+        if (numSamplesToLoad > numSamplesAvail) {
+            // Duplicate (copy) the WAVE_SAMPLE_COUNT samples as many times as needed to reach numSamplesToLoad.
+            // (numSamplesToLoad - numSamplesAvail) is the number of samples missing.
+            // Divide by WAVE_SAMPLE_COUNT, rounding up, to get the amount of duplicates
+            numDuplicates = ((numSamplesToLoad - numSamplesAvail + (WAVE_SAMPLE_COUNT - 1)) / WAVE_SAMPLE_COUNT);
+            if (numDuplicates != 0) {
+                aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE,
+                           DMEM_UNCOMPRESSED_NOTE + (WAVE_SAMPLE_COUNT * sizeof(s16)));
             }
         }
         synthState->samplePosInt = samplePosInt;
