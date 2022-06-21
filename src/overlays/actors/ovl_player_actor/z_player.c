@@ -4169,7 +4169,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                                                  play->curSpawn];
                     Scene_SetTransitionForNextEntrance(play);
                 } else {
-                    if (func_80041F7C(&play->colCtx, poly, bgId) == 2) {
+                    if (SurfaceType_GetFloorEffect(&play->colCtx, poly, bgId) == 2) {
                         gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = play->nextEntranceIndex;
                         Play_TriggerVoidOut(play);
                         gSaveContext.respawnFlag = -2;
@@ -5226,7 +5226,7 @@ s32 func_8083BDBC(Player* this, PlayState* play) {
 
     if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
         (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (D_808535E4 != SURFACETYPE_FLOORTYPE_7) &&
-        (func_80041F7C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != 1)) {
+        (SurfaceType_GetFloorEffect(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != 1)) {
         sp2C = this->unk_84B[this->unk_846];
 
         if (sp2C <= 0) {
@@ -6044,7 +6044,7 @@ s32 func_8083E318(PlayState* play, Player* this, CollisionPoly* floorPoly) {
     s16 velYawToDownwardSlope;
 
     if (!Player_InBlockingCsMode(play, this) && (func_8084F390 != this->func_674) &&
-        (func_80041F7C(&play->colCtx, floorPoly, this->actor.floorBgId) == 1)) {
+        (SurfaceType_GetFloorEffect(&play->colCtx, floorPoly, this->actor.floorBgId) == 1)) {
 
         // Get direction of movement relative to the downward direction of the slope
         playerVelYaw = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
@@ -12623,7 +12623,7 @@ void func_8084F390(Player* this, PlayState* play) {
         sp4C = (sp50 * sp50) * 0.015f;
         sp48 = slopeNormal.y * 0.01f;
 
-        if (func_80041F7C(&play->colCtx, floorPoly, this->actor.floorBgId) != 1) {
+        if (SurfaceType_GetFloorEffect(&play->colCtx, floorPoly, this->actor.floorBgId) != 1) {
             sp50 = 0;
             sp48 = slopeNormal.y * 10.0f;
         }

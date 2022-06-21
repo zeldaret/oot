@@ -4046,8 +4046,8 @@ u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId
     return D_80119E10[sfxType];
 }
 
-u32 func_80041F7C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_4(SurfaceType_GetData(colCtx, poly, bgId, 1));
+u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return SURFACETYPE1_FLOOREFFECT(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
 u32 SurfaceType_GetLightSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
