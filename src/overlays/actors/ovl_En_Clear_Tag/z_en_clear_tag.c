@@ -4,7 +4,7 @@
 
 void EnClearTag_Init(Actor* thisx, PlayState* play);
 void EnClearTag_Destroy(Actor* thisx, PlayState* play);
-void EnClearTag_Update(Actor* thisx, PlayState* play);
+void EnClearTag_Update(Actor* thisx, PlayState* play2);
 void EnClearTag_Draw(Actor* thisx, PlayState* play);
 
 void EnClearTag_UpdateEffects(PlayState* play);

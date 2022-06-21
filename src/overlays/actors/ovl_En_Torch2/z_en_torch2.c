@@ -16,10 +16,10 @@ typedef enum {
     /* 3 */ ENTORCH2_DAMAGE
 } EnTorch2ActionStates;
 
-void EnTorch2_Init(Actor* thisx, PlayState* play);
+void EnTorch2_Init(Actor* thisx, PlayState* play2);
 void EnTorch2_Destroy(Actor* thisx, PlayState* play);
-void EnTorch2_Update(Actor* thisx, PlayState* play);
-void EnTorch2_Draw(Actor* thisx, PlayState* play);
+void EnTorch2_Update(Actor* thisx, PlayState* play2);
+void EnTorch2_Draw(Actor* thisx, PlayState* play2);
 
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
@@ -564,7 +564,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
         this->csMode = 0x18;
         this->unk_448 = &player->actor;
-        this->unk_46A = 1;
+        this->doorBgCamIndex = 1;
         sDeathFlag = false;
     }
     if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) &&

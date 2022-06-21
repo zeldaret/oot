@@ -12,7 +12,7 @@
 
 void ObjBombiwa_Init(Actor* thisx, PlayState* play);
 void ObjBombiwa_InitCollision(Actor* thisx, PlayState* play);
-void ObjBombiwa_Destroy(Actor* thisx, PlayState* play);
+void ObjBombiwa_Destroy(Actor* thisx, PlayState* play2);
 void ObjBombiwa_Update(Actor* thisx, PlayState* play);
 void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 

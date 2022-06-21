@@ -46,7 +46,7 @@ typedef enum {
     /* 5 */ RR_DROP_RUPEE_RED
 } EnRrDropType;
 
-void EnRr_Init(Actor* thisx, PlayState* play);
+void EnRr_Init(Actor* thisx, PlayState* play2);
 void EnRr_Destroy(Actor* thisx, PlayState* play);
 void EnRr_Update(Actor* thisx, PlayState* play);
 void EnRr_Draw(Actor* thisx, PlayState* play);

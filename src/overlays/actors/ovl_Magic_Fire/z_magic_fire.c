@@ -99,10 +99,14 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play) {
     MagicFire* this = (MagicFire*)thisx;
     Player* player = GET_PLAYER(play);
 
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
     if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;
     }
+
     if (this->actionTimer > 0) {
         this->actionTimer--;
     } else {
@@ -119,10 +123,15 @@ void MagicFire_Update(Actor* thisx, PlayState* play) {
 
     if (1) {}
     this->actor.world.pos = player->actor.world.pos;
+
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
     if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;
     }
+
     if (this->action == DF_ACTION_EXPAND_SLOWLY) {
         this->collider.info.toucher.damage = this->actionTimer + 25;
     } else if (this->action == DF_ACTION_STOP_EXPANDING) {
