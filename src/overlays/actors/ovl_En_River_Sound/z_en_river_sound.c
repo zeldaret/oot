@@ -108,11 +108,11 @@ s32 EnRiverSound_FindClosestPointOnLineSegment(Vec3f* pointA, Vec3f* pointB, Vec
 }
 
 /**
- * Writes the position along the river path to `soundPos` based on the `hearPos`, which is usually the position of the
+ * Writes the position along the river path to `sfxPos` based on the `hearPos`, which is usually the position of the
  * player.
- * Returns true if the distance between the `hearPos` and `soundPos` is less than 10000, false if not.
+ * Returns true if the distance between the `hearPos` and `sfxPos` is less than 10000, false if not.
  */
-s32 EnRiverSound_GetSfxPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* soundPos) {
+s32 EnRiverSound_GetSfxPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* sfxPos) {
     s32 i;
     s32 closestPointIdx;
     s32 useAdjacentPoints[2] = {
@@ -169,23 +169,23 @@ s32 EnRiverSound_GetSfxPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* 
 
     if (useAdjacentPoints[0] && useAdjacentPoints[1]) {
         if (!EnRiverSound_FindClosestPointOnLineSegment(&prevLineSegClosestPos, &nextLineSegClosestPos, hearPos,
-                                                        soundPos)) {
-            soundPos->x = (prevLineSegClosestPos.x + nextLineSegClosestPos.x) * 0.5f;
-            soundPos->y = (prevLineSegClosestPos.y + nextLineSegClosestPos.y) * 0.5f;
-            soundPos->z = (prevLineSegClosestPos.z + nextLineSegClosestPos.z) * 0.5f;
+                                                        sfxPos)) {
+            sfxPos->x = (prevLineSegClosestPos.x + nextLineSegClosestPos.x) * 0.5f;
+            sfxPos->y = (prevLineSegClosestPos.y + nextLineSegClosestPos.y) * 0.5f;
+            sfxPos->z = (prevLineSegClosestPos.z + nextLineSegClosestPos.z) * 0.5f;
         }
     } else if (useAdjacentPoints[0]) {
-        soundPos->x = prevLineSegClosestPos.x;
-        soundPos->y = prevLineSegClosestPos.y;
-        soundPos->z = prevLineSegClosestPos.z;
+        sfxPos->x = prevLineSegClosestPos.x;
+        sfxPos->y = prevLineSegClosestPos.y;
+        sfxPos->z = prevLineSegClosestPos.z;
     } else if (useAdjacentPoints[1]) {
-        soundPos->x = nextLineSegClosestPos.x;
-        soundPos->y = nextLineSegClosestPos.y;
-        soundPos->z = nextLineSegClosestPos.z;
+        sfxPos->x = nextLineSegClosestPos.x;
+        sfxPos->y = nextLineSegClosestPos.y;
+        sfxPos->z = nextLineSegClosestPos.z;
     } else {
-        soundPos->x = closestPointPos.x;
-        soundPos->y = closestPointPos.y;
-        soundPos->z = closestPointPos.z;
+        sfxPos->x = closestPointPos.x;
+        sfxPos->y = closestPointPos.y;
+        sfxPos->z = closestPointPos.z;
     }
 
     return true;

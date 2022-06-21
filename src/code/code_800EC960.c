@@ -2340,7 +2340,7 @@ char sAudioDebugPageNames[15][23] = {
 u16 sAudioSndContWork[11] = { 0 };
 u16 sAudioSndContWorkLims[11] = { 128, 128, 7, 512, 4, 2, 16, 32, 2, 2, 2 };
 char sSfxBankNames[7][11] = { "PLAYER", "ITEM", "ENVIROMENT", "ENEMY", "SYSTEM", "OCARINA", "VOICE" };
-char sSfxModeNames[5][10] = { "W-STEREO", "HEADPHONE", "3D SOUND", "MONO", "" };
+char sSoundModeNames[5][10] = { "W-STEREO", "HEADPHONE", "3D SOUND", "MONO", "" };
 s8 sAudioIntInfoX = 0;
 s8 sAudioIntInfoY = 0;
 s8 sAudioIntInfoSel = 0;
@@ -2513,7 +2513,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             GfxPrint_Printf(printer, "SE No. :%3x", sAudioSndContWork[3]);
 
             GfxPrint_SetPos(printer, 3, 8);
-            GfxPrint_Printf(printer, "S-Out  : %2x %s", sAudioSndContWork[4], sSfxModeNames[sAudioSndContWork[4]]);
+            GfxPrint_Printf(printer, "S-Out  : %2x %s", sAudioSndContWork[4], sSoundModeNames[sAudioSndContWork[4]]);
 
             GfxPrint_SetPos(printer, 3, 9);
             GfxPrint_Printf(printer, "BGM Ent: %2x", sAudioSndContWork[5]);
