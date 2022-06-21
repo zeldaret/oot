@@ -7597,7 +7597,7 @@ static Vec3f D_808545C0 = { 0.0f, 0.0f, 0.0f };
 s32 func_8084269C(PlayState* play, Player* this) {
     Vec3f sp2C;
 
-    if ((this->unk_89E == 0) || (this->unk_89E == 1)) {
+    if ((this->unk_89E == SURFACETYPE_SFXTYPE_0) || (this->unk_89E == SURFACETYPE_SFXTYPE_1)) {
         func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
                       this->actor.floorHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
         func_800286CC(play, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
@@ -7777,11 +7777,11 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                         if (this->linearVelocity >= 0.0f) {
                             sp48 = SurfaceType_GetSfxType(&play->colCtx, sp78, sp74);
 
-                            if (sp48 == 0xA) {
+                            if (sp48 == SURFACETYPE_SFXTYPE_10) {
                                 CollisionCheck_SpawnShieldParticlesWood(play, &sp5C, &this->actor.projectedPos);
                             } else {
                                 CollisionCheck_SpawnShieldParticles(play, &sp5C);
-                                if (sp48 == 0xB) {
+                                if (sp48 == SURFACETYPE_SFXTYPE_11) {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_SOFT);
                                 } else {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_HARD);
@@ -9679,13 +9679,13 @@ void func_80847BA0(PlayState* play, Player* this) {
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             if (this->actor.yDistToWater < 20.0f) {
-                this->unk_89E = 4;
+                this->unk_89E = SURFACETYPE_SFXTYPE_4;
             } else {
-                this->unk_89E = 5;
+                this->unk_89E = SURFACETYPE_SFXTYPE_5;
             }
         } else {
             if (this->stateFlags2 & PLAYER_STATE2_9) {
-                this->unk_89E = 1;
+                this->unk_89E = SURFACETYPE_SFXTYPE_1;
             } else {
                 this->unk_89E = SurfaceType_GetSfxId(&play->colCtx, floorPoly, this->actor.floorBgId);
             }
