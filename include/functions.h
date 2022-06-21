@@ -1305,10 +1305,10 @@ void Sram_InitNewSave(void);
 void Sram_InitDebugSave(void);
 void Sram_OpenSave(SramContext* sramCtx);
 void Sram_WriteSave(SramContext* sramCtx);
-void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* sramCtx);
-void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx);
-void Sram_EraseSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx);
-void Sram_CopySave(FileChooseContext* fileChooseCtx, SramContext* sramCtx);
+void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCtx);
+void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx);
+void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx);
+void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx);
 void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
@@ -2270,7 +2270,7 @@ void Select_Init(GameState* thisx);
 void Select_Destroy(GameState* thisx);
 void TitleSetup_Init(GameState* thisx);
 void TitleSetup_Destroy(GameState* thisx);
-void FileChoose_Init(GameState* thisx);
-void FileChoose_Destroy(GameState* thisx);
+void FileSelect_Init(GameState* thisx);
+void FileSelect_Destroy(GameState* thisx);
 
 #endif
