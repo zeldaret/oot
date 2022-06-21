@@ -387,7 +387,7 @@ beginseg
     include "build/src/code/TwoHeadArena.o"
     include "build/src/code/code_800C3C20.o"
     include "build/src/code/audioMgr.o"
-    include "build/src/code/setup.o"
+    include "build/src/code/title_setup.o"
     include "build/src/code/game.o"
     include "build/src/code/gamealloc.o"
     include "build/src/code/graph.o"
@@ -533,19 +533,19 @@ endseg
 beginseg
     name "ovl_title"
     address 0x80800000
-    include "build/src/overlays/gamestates/ovl_title/console_logo.o"
+    include "build/src/overlays/gamestates/ovl_title/z_title.o"
     include "build/src/overlays/gamestates/ovl_title/ovl_title_reloc.o"
 endseg
 
 beginseg
     name "ovl_select"
-    include "build/src/overlays/gamestates/ovl_select/map_select.o"
+    include "build/src/overlays/gamestates/ovl_select/z_select.o"
     include "build/src/overlays/gamestates/ovl_select/ovl_select_reloc.o"
 endseg
 
 beginseg
     name "ovl_opening"
-    include "build/src/overlays/gamestates/ovl_opening/title_setup.o"
+    include "build/src/overlays/gamestates/ovl_opening/z_opening.o"
     include "build/src/overlays/gamestates/ovl_opening/ovl_opening_reloc.o"
 endseg
 
@@ -554,7 +554,7 @@ beginseg
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
-    include "build/src/overlays/gamestates/ovl_file_choose/file_select.o"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
     include "build/src/overlays/gamestates/ovl_file_choose/ovl_file_choose_reloc.o"
 endseg
 
