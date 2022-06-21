@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_jya_kanaami.h"
-#include "objects/object_jya_obj/object_jya_obj.h"
+#include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0
 

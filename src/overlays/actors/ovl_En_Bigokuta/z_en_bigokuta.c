@@ -1,11 +1,11 @@
 #include "z_en_bigokuta.h"
-#include "objects/object_bigokuta/object_bigokuta.h"
+#include "assets/objects/object_bigokuta/object_bigokuta.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play);
 void EnBigokuta_Destroy(Actor* thisx, PlayState* play);
-void EnBigokuta_Update(Actor* thisx, PlayState* play);
+void EnBigokuta_Update(Actor* thisx, PlayState* play2);
 void EnBigokuta_Draw(Actor* thisx, PlayState* play);
 
 void func_809BD318(EnBigokuta* this);

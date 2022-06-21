@@ -5,7 +5,7 @@
  */
 
 #include "z_en_bird.h"
-#include "objects/object_bird/object_bird.h"
+#include "assets/objects/object_bird/object_bird.h"
 
 #define FLAGS 0
 

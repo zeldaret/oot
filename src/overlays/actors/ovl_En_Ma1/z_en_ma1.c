@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ma1.h"
-#include "objects/object_ma1/object_ma1.h"
+#include "assets/objects/object_ma1/object_ma1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
@@ -14,8 +14,8 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play);
 void EnMa1_Update(Actor* thisx, PlayState* play);
 void EnMa1_Draw(Actor* thisx, PlayState* play);
 
-u16 EnMa1_GetText(PlayState* play, Actor* this);
-s16 func_80AA0778(PlayState* play, Actor* this);
+u16 EnMa1_GetText(PlayState* play, Actor* thisx);
+s16 func_80AA0778(PlayState* play, Actor* thisx);
 
 void func_80AA0D88(EnMa1* this, PlayState* play);
 void func_80AA0EA0(EnMa1* this, PlayState* play);

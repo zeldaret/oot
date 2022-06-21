@@ -5,11 +5,11 @@
  */
 
 #include "z_bg_dy_yoseizo.h"
-#include "objects/object_dy_obj/object_dy_obj.h"
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
 #include "vt.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
-#include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
-#include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
+#include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
+#include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
@@ -25,9 +25,9 @@ typedef enum {
     /* 2 */ FAIRY_SPELL_NAYRUS_LOVE
 } BgDyYoseizoSpellType;
 
-void BgDyYoseizo_Init(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Init(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
-void BgDyYoseizo_Update(Actor* thisx, PlayState* play);
+void BgDyYoseizo_Update(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Draw(Actor* thisx, PlayState* play);
 
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, PlayState* play);
@@ -94,7 +94,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     this->actionFunc = BgDyYoseizo_CheckMagicAcquired;
 }
 
-void BgDyYoseizo_Destroy(Actor* this, PlayState* play) {
+void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play) {
 }
 
 static Color_RGB8 sEffectPrimColors[] = {

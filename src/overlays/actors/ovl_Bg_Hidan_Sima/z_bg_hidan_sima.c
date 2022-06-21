@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_hidan_sima.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 

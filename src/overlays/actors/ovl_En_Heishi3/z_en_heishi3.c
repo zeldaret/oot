@@ -5,7 +5,7 @@
  */
 
 #include "z_en_heishi3.h"
-#include "objects/object_sd/object_sd.h"
+#include "assets/objects/object_sd/object_sd.h"
 #include "vt.h"
 
 #define FLAGS 0

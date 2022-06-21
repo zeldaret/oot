@@ -7,17 +7,17 @@
 #include "z_fishing.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
-#include "objects/object_fish/object_fish.h"
+#include "assets/objects/object_fish/object_fish.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4
 
 #define WATER_SURFACE_Y(play) play->colCtx.colHeader->waterBoxes->ySurface
 
-void Fishing_Init(Actor* thisx, PlayState* play);
-void Fishing_Destroy(Actor* thisx, PlayState* play);
-void Fishing_UpdateFish(Actor* thisx, PlayState* play);
-void Fishing_UpdateOwner(Actor* thisx, PlayState* play);
+void Fishing_Init(Actor* thisx, PlayState* play2);
+void Fishing_Destroy(Actor* thisx, PlayState* play2);
+void Fishing_UpdateFish(Actor* thisx, PlayState* play2);
+void Fishing_UpdateOwner(Actor* thisx, PlayState* play2);
 void Fishing_DrawFish(Actor* thisx, PlayState* play);
 void Fishing_DrawOwner(Actor* thisx, PlayState* play);
 

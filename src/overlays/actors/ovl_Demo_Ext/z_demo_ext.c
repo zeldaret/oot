@@ -6,7 +6,7 @@
 
 #include "z_demo_ext.h"
 #include "vt.h"
-#include "objects/object_fhg/object_fhg.h"
+#include "assets/objects/object_fhg/object_fhg.h"
 
 #define FLAGS ACTOR_FLAG_4
 

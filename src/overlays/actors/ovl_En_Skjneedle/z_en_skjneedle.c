@@ -5,13 +5,13 @@
  */
 
 #include "z_en_skjneedle.h"
-#include "objects/object_skj/object_skj.h"
+#include "assets/objects/object_skj/object_skj.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_9)
 
 void EnSkjneedle_Init(Actor* thisx, PlayState* play);
 void EnSkjneedle_Destroy(Actor* thisx, PlayState* play);
-void EnSkjneedle_Update(Actor* thisx, PlayState* play);
+void EnSkjneedle_Update(Actor* thisx, PlayState* play2);
 void EnSkjneedle_Draw(Actor* thisx, PlayState* play);
 
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);

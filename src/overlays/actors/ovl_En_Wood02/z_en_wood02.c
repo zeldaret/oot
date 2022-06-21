@@ -5,13 +5,13 @@
  */
 
 #include "z_en_wood02.h"
-#include "objects/object_wood02/object_wood02.h"
+#include "assets/objects/object_wood02/object_wood02.h"
 
 #define FLAGS 0
 
-void EnWood02_Init(Actor* thisx, PlayState* play);
+void EnWood02_Init(Actor* thisx, PlayState* play2);
 void EnWood02_Destroy(Actor* thisx, PlayState* play);
-void EnWood02_Update(Actor* thisx, PlayState* play);
+void EnWood02_Update(Actor* thisx, PlayState* play2);
 void EnWood02_Draw(Actor* thisx, PlayState* play);
 
 /**

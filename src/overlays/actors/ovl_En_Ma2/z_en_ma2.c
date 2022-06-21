@@ -1,5 +1,5 @@
 #include "z_en_ma2.h"
-#include "objects/object_ma2/object_ma2.h"
+#include "assets/objects/object_ma2/object_ma2.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
@@ -8,8 +8,8 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play);
 void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
-u16 func_80AA19A0(PlayState* play, Actor* this);
-s16 func_80AA1A38(PlayState* play, Actor* this);
+u16 func_80AA19A0(PlayState* play, Actor* thisx);
+s16 func_80AA1A38(PlayState* play, Actor* thisx);
 
 void func_80AA1AE4(EnMa2* this, PlayState* play);
 s32 func_80AA1C68(EnMa2* this);

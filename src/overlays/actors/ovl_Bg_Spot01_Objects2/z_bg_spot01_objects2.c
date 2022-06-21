@@ -5,8 +5,8 @@
  */
 
 #include "z_bg_spot01_objects2.h"
-#include "objects/object_spot01_matoya/object_spot01_matoya.h"
-#include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
+#include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
+#include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
 #define FLAGS ACTOR_FLAG_4
 

@@ -5,8 +5,8 @@
  */
 
 #include "z_en_fhg_fire.h"
-#include "objects/object_fhg/object_fhg.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fhg/object_fhg.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
@@ -469,7 +469,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
         switch (this->work[FHGFIRE_FIRE_MODE]) {
             case FHGFIRE_LIGHT_GREEN:
                 canBottleReflect1 =
-                    ((player->stateFlags1 & PLAYER_STATE1_1) &&
+                    ((player->stateFlags1 & PLAYER_STATE1_SWINGING_BOTTLE) &&
                      (ABS((s16)(player->actor.shape.rot.y - (s16)(bossGnd->actor.yawTowardsPlayer + 0x8000))) <
                       0x2000) &&
                      (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f))

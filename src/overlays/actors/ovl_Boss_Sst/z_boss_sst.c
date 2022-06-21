@@ -5,8 +5,8 @@
  */
 
 #include "z_boss_sst.h"
-#include "objects/object_sst/object_sst.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_sst/object_sst.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -46,7 +46,7 @@ typedef enum {
     /* 3 */ BONGO_SHADOW
 } BossSstEffectMode;
 
-void BossSst_Init(Actor* thisx, PlayState* play);
+void BossSst_Init(Actor* thisx, PlayState* play2);
 void BossSst_Destroy(Actor* thisx, PlayState* play);
 void BossSst_UpdateHand(Actor* thisx, PlayState* play);
 void BossSst_UpdateHead(Actor* thisx, PlayState* play);
@@ -186,7 +186,7 @@ void BossSst_SpawnIceCrystal(BossSst* this, s32 index);
 void BossSst_SpawnIceShard(BossSst* this);
 void BossSst_IceShatter(BossSst* this);
 
-#include "overlays/ovl_Boss_Sst/ovl_Boss_Sst.c"
+#include "assets/overlays/ovl_Boss_Sst/ovl_Boss_Sst.c"
 
 static BossSst* sHead;
 static BossSst* sHands[2];

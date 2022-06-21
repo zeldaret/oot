@@ -1,6 +1,6 @@
 #include "z_en_cs.h"
-#include "objects/object_cs/object_cs.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/object_cs/object_cs.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

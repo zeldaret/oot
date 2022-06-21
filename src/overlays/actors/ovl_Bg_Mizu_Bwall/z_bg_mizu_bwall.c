@@ -6,14 +6,14 @@
 
 #include "z_bg_mizu_bwall.h"
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
 void BgMizuBwall_Init(Actor* thisx, PlayState* play);
 void BgMizuBwall_Destroy(Actor* thisx, PlayState* play);
 void BgMizuBwall_Update(Actor* thisx, PlayState* play);
-void BgMizuBwall_Draw(Actor* thisx, PlayState* play);
+void BgMizuBwall_Draw(Actor* thisx, PlayState* play2);
 
 void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_Break(BgMizuBwall* this, PlayState* play);

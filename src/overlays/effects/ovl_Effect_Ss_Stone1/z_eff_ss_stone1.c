@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_stone1.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rReg0 regs[0]
 

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_st.h"
-#include "objects/object_st/object_st.h"
+#include "assets/objects/object_st/object_st.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -21,7 +21,7 @@ void EnSt_Die(EnSt* this, PlayState* play);
 void EnSt_BounceAround(EnSt* this, PlayState* play);
 void EnSt_FinishBouncing(EnSt* this, PlayState* play);
 
-#include "overlays/ovl_En_St/ovl_En_St.c"
+#include "assets/overlays/ovl_En_St/ovl_En_St.c"
 
 const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,

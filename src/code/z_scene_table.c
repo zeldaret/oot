@@ -1,32 +1,35 @@
 #include "global.h"
 
-#include "scenes/overworld/spot00/spot00_scene.h"
-#include "scenes/overworld/spot00/spot00_room_0.h"
-#include "scenes/overworld/spot01/spot01_scene.h"
-#include "scenes/overworld/spot07/spot07_scene.h"
-#include "scenes/overworld/spot12/spot12_scene.h"
-#include "scenes/overworld/spot16/spot16_scene.h"
-#include "scenes/overworld/spot16/spot16_room_0.h"
-#include "scenes/overworld/spot18/spot18_scene.h"
-#include "scenes/overworld/spot20/spot20_scene.h"
-#include "scenes/overworld/souko/souko_scene.h"
+#include "assets/scenes/overworld/spot00/spot00_scene.h"
+#include "assets/scenes/overworld/spot00/spot00_room_0.h"
+#include "assets/scenes/overworld/spot01/spot01_scene.h"
+#include "assets/scenes/overworld/spot07/spot07_scene.h"
+#include "assets/scenes/overworld/spot12/spot12_scene.h"
+#include "assets/scenes/overworld/spot16/spot16_scene.h"
+#include "assets/scenes/overworld/spot16/spot16_room_0.h"
+#include "assets/scenes/overworld/spot18/spot18_scene.h"
+#include "assets/scenes/overworld/spot20/spot20_scene.h"
+#include "assets/scenes/overworld/souko/souko_scene.h"
 
-#include "scenes/dungeons/men/men_scene.h"
-#include "scenes/dungeons/ddan/ddan_scene.h"
-#include "scenes/dungeons/ydan/ydan_scene.h"
-#include "scenes/dungeons/Bmori1/Bmori1_scene.h"
-#include "scenes/dungeons/MIZUsin/MIZUsin_scene.h"
-#include "scenes/dungeons/gerudoway/gerudoway_scene.h"
-#include "scenes/dungeons/jyasinzou/jyasinzou_scene.h"
-#include "scenes/indoors/miharigoya/miharigoya_scene.h"
-#include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
+#include "assets/scenes/dungeons/men/men_scene.h"
+#include "assets/scenes/dungeons/ddan/ddan_scene.h"
+#include "assets/scenes/dungeons/ydan/ydan_scene.h"
+#include "assets/scenes/dungeons/Bmori1/Bmori1_scene.h"
+#include "assets/scenes/dungeons/MIZUsin/MIZUsin_scene.h"
+#include "assets/scenes/dungeons/gerudoway/gerudoway_scene.h"
+#include "assets/scenes/dungeons/jyasinzou/jyasinzou_scene.h"
+#include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
+#include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 // Entrance Table definition
-#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut) \
-    { scene, spawn,                                                                       \
-      ((continueBgm & 1) << 15) | ((displayTitleCard & 1) << 14) | ((fadeIn & 0x7F) << 7) | (fadeOut & 0x7F) },
+#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
+    { scene, spawn,                                                                                    \
+      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                         \
+       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                              \
+       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |  \
+       (((startTransType) << ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_START_TRANS_TYPE_MASK)) },
 
 EntranceInfo gEntranceTable[] = {
 #include "tables/entrance_table.h"
@@ -90,7 +93,7 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
         }
     }
 
-    play->transitionType = gEntranceTable[entranceIndex].field & 0x7F; // Fade out
+    play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
 }
 
 void Scene_DrawConfigDefault(PlayState* play) {

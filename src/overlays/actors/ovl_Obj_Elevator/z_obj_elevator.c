@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_elevator.h"
-#include "objects/object_d_elevator/object_d_elevator.h"
+#include "assets/objects/object_d_elevator/object_d_elevator.h"
 
 #define FLAGS 0
 

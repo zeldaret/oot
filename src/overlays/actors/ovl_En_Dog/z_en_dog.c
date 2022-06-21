@@ -5,7 +5,7 @@
  */
 
 #include "z_en_dog.h"
-#include "objects/object_dog/object_dog.h"
+#include "assets/objects/object_dog/object_dog.h"
 
 #define FLAGS 0
 

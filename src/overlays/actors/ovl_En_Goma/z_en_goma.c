@@ -1,6 +1,6 @@
 #include "z_en_goma.h"
-#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
-#include "objects/object_gol/object_gol.h"
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "assets/objects/object_gol/object_gol.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
@@ -27,7 +27,7 @@ void EnGoma_Stunned(EnGoma* this, PlayState* play);
 void EnGoma_LookAtPlayer(EnGoma* this, PlayState* play);
 void EnGoma_UpdateHit(EnGoma* this, PlayState* play);
 void EnGoma_Debris(EnGoma* this, PlayState* play);
-void EnGoma_SpawnHatchDebris(EnGoma* this, PlayState* play);
+void EnGoma_SpawnHatchDebris(EnGoma* this, PlayState* play2);
 void EnGoma_BossLimb(EnGoma* this, PlayState* play);
 
 void EnGoma_SetupFlee(EnGoma* this);

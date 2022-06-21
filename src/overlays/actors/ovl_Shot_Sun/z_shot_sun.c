@@ -6,7 +6,7 @@
 
 #include "z_shot_sun.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "scenes/overworld/spot06/spot06_scene.h"
+#include "assets/scenes/overworld/spot06/spot06_scene.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
@@ -173,7 +173,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
 
             collectible = Item_DropCollectible(play, &spawnPos, ITEM00_MAGIC_LARGE);
             if (collectible != NULL) {
-                collectible->unk_15A = 6000;
+                collectible->despawnTimer = 6000;
                 collectible->actor.speedXZ = 0.0f;
             }
         }

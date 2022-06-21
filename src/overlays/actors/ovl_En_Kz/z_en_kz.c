@@ -5,7 +5,7 @@
  */
 
 #include "z_en_kz.h"
-#include "objects/object_kz/object_kz.h"
+#include "assets/objects/object_kz/object_kz.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

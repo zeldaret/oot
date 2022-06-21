@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_fcircle.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rUnused regs[3] // probably supposed to be an alpha
 #define rRadius regs[8]

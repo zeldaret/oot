@@ -6,7 +6,7 @@
 
 #include "z_en_dha.h"
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
-#include "objects/object_dh/object_dh.h"
+#include "assets/objects/object_dh/object_dh.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 

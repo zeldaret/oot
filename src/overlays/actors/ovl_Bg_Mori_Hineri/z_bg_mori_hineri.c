@@ -5,13 +5,13 @@
  */
 
 #include "z_bg_mori_hineri.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_box/object_box.h"
-#include "objects/object_mori_hineri1/object_mori_hineri1.h"
-#include "objects/object_mori_hineri1a/object_mori_hineri1a.h"
-#include "objects/object_mori_hineri2/object_mori_hineri2.h"
-#include "objects/object_mori_hineri2a/object_mori_hineri2a.h"
-#include "objects/object_mori_tex/object_mori_tex.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_box/object_box.h"
+#include "assets/objects/object_mori_hineri1/object_mori_hineri1.h"
+#include "assets/objects/object_mori_hineri1a/object_mori_hineri1a.h"
+#include "assets/objects/object_mori_hineri2/object_mori_hineri2.h"
+#include "assets/objects/object_mori_hineri2a/object_mori_hineri2a.h"
+#include "assets/objects/object_mori_tex/object_mori_tex.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

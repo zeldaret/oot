@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_d_fire.h"
-#include "objects/object_dodongo/object_dodongo.h"
+#include "assets/objects/object_dodongo/object_dodongo.h"
 
 #define rScale regs[0]
 #define rTexIdx regs[1]

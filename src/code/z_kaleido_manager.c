@@ -1,15 +1,15 @@
 #include "global.h"
 #include "vt.h"
 
-#define KALEIDO_OVERLAY(name)                                                                                \
+#define KALEIDO_OVERLAY(name, nameString)                                                                    \
     {                                                                                                        \
         NULL, (u32)_ovl_##name##SegmentRomStart, (u32)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
-            _ovl_##name##SegmentEnd, 0, #name,                                                               \
+            _ovl_##name##SegmentEnd, 0, nameString,                                                          \
     }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
-    KALEIDO_OVERLAY(kaleido_scope),
-    KALEIDO_OVERLAY(player_actor),
+    KALEIDO_OVERLAY(kaleido_scope, "kaleido_scope"),
+    KALEIDO_OVERLAY(player_actor, "player_actor"),
 };
 
 void* sKaleidoAreaPtr = NULL;

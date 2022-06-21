@@ -1,6 +1,6 @@
 #include "z_bg_spot16_bombstone.h"
-#include "objects/object_spot16_obj/object_spot16_obj.h"
-#include "objects/object_bombiwa/object_bombiwa.h"
+#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
+#include "assets/objects/object_bombiwa/object_bombiwa.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 

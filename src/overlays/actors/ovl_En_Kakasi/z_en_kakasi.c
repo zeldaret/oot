@@ -6,7 +6,7 @@
 
 #include "z_en_kakasi.h"
 #include "vt.h"
-#include "objects/object_ka/object_ka.h"
+#include "assets/objects/object_ka/object_ka.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 

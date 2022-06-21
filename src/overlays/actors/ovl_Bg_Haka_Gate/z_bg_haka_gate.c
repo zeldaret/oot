@@ -5,8 +5,8 @@
  */
 
 #include "z_bg_haka_gate.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_haka_objects/object_haka_objects.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0
 
@@ -33,7 +33,7 @@
 void BgHakaGate_Init(Actor* thisx, PlayState* play);
 void BgHakaGate_Destroy(Actor* thisx, PlayState* play);
 void BgHakaGate_Update(Actor* thisx, PlayState* play);
-void BgHakaGate_Draw(Actor* this, PlayState* play);
+void BgHakaGate_Draw(Actor* thisx, PlayState* play);
 
 void BgHakaGate_DoNothing(BgHakaGate* this, PlayState* play);
 void BgHakaGate_StatueInactive(BgHakaGate* this, PlayState* play);

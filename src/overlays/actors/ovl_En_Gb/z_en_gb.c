@@ -5,13 +5,13 @@
  */
 
 #include "z_en_gb.h"
-#include "objects/object_ps/object_ps.h"
+#include "assets/objects/object_ps/object_ps.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnGb_Init(Actor* thisx, PlayState* play);
 void EnGb_Destroy(Actor* thisx, PlayState* play);
-void EnGb_Update(Actor* thisx, PlayState* play);
+void EnGb_Update(Actor* thisx, PlayState* play2);
 void EnGb_Draw(Actor* thisx, PlayState* play);
 
 void func_80A2F83C(EnGb* this, PlayState* play);

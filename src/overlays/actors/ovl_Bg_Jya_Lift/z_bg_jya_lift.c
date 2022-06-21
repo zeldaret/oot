@@ -5,13 +5,13 @@
  */
 
 #include "z_bg_jya_lift.h"
-#include "objects/object_jya_obj/object_jya_obj.h"
+#include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS ACTOR_FLAG_4
 
 void BgJyaLift_Init(Actor* thisx, PlayState* play);
 void BgJyaLift_Destroy(Actor* thisx, PlayState* play);
-void BgJyaLift_Update(Actor* thisx, PlayState* play);
+void BgJyaLift_Update(Actor* thisx, PlayState* play2);
 void BgJyaLift_Draw(Actor* thisx, PlayState* play);
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);

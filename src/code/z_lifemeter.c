@@ -1,5 +1,5 @@
 #include "global.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 static s16 sHeartsPrimColors[3][3] = {
     { HEARTS_PRIM_R, HEARTS_PRIM_G, HEARTS_PRIM_B },

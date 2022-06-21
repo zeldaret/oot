@@ -1,5 +1,5 @@
 #include "z_en_rd.h"
-#include "objects/object_rd/object_rd.h"
+#include "assets/objects/object_rd/object_rd.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 

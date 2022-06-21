@@ -5,7 +5,7 @@
  */
 
 #include "z_en_rr.h"
-#include "objects/object_rr/object_rr.h"
+#include "assets/objects/object_rr/object_rr.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
@@ -46,7 +46,7 @@ typedef enum {
     /* 5 */ RR_DROP_RUPEE_RED
 } EnRrDropType;
 
-void EnRr_Init(Actor* thisx, PlayState* play);
+void EnRr_Init(Actor* thisx, PlayState* play2);
 void EnRr_Destroy(Actor* thisx, PlayState* play);
 void EnRr_Update(Actor* thisx, PlayState* play);
 void EnRr_Draw(Actor* thisx, PlayState* play);

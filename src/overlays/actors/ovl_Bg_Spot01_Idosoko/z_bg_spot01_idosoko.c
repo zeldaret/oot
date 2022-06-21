@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot01_idosoko.h"
-#include "objects/object_spot01_matoya/object_spot01_matoya.h"
+#include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 
 #define FLAGS ACTOR_FLAG_4
 

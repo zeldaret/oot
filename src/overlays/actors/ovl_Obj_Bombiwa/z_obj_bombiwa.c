@@ -6,13 +6,13 @@
 
 #include "z_obj_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "objects/object_bombiwa/object_bombiwa.h"
+#include "assets/objects/object_bombiwa/object_bombiwa.h"
 
 #define FLAGS 0
 
 void ObjBombiwa_Init(Actor* thisx, PlayState* play);
 void ObjBombiwa_InitCollision(Actor* thisx, PlayState* play);
-void ObjBombiwa_Destroy(Actor* thisx, PlayState* play);
+void ObjBombiwa_Destroy(Actor* thisx, PlayState* play2);
 void ObjBombiwa_Update(Actor* thisx, PlayState* play);
 void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 

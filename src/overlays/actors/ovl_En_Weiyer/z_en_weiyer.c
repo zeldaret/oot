@@ -5,7 +5,7 @@
  */
 
 #include "z_en_weiyer.h"
-#include "objects/object_ei/object_ei.h"
+#include "assets/objects/object_ei/object_ei.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 

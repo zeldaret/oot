@@ -5,15 +5,15 @@
  */
 
 #include "z_en_gs.h"
-#include "objects/object_gs/object_gs.h"
+#include "assets/objects/object_gs/object_gs.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 
 void EnGs_Init(Actor* thisx, PlayState* play);
 void EnGs_Destroy(Actor* thisx, PlayState* play);
-void EnGs_Update(Actor* thisx, PlayState* play);
+void EnGs_Update(Actor* thisx, PlayState* play2);
 void EnGs_Draw(Actor* thisx, PlayState* play);
 
 void func_80A4F734(EnGs* this, PlayState* play);

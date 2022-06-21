@@ -5,11 +5,11 @@
  */
 
 #include "z_door_killer.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
-#include "objects/object_haka_door/object_haka_door.h"
-#include "objects/object_door_killer/object_door_killer.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_haka_door/object_haka_door.h"
+#include "assets/objects/object_door_killer/object_door_killer.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -21,7 +21,7 @@ typedef enum {
     /* 4 */ DOOR_KILLER_RUBBLE_PIECE_4
 } DoorKillerBehaviour;
 
-void DoorKiller_Init(Actor* thisx, PlayState* play);
+void DoorKiller_Init(Actor* thisx, PlayState* play2);
 void DoorKiller_Destroy(Actor* thisx, PlayState* play);
 void DoorKiller_Update(Actor* thisx, PlayState* play);
 void DoorKiller_Wait(DoorKiller* this, PlayState* play);

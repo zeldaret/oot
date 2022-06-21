@@ -1,5 +1,5 @@
 #include "global.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define LIGHTS_BUFFER_SIZE 32
 
@@ -161,7 +161,7 @@ void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec) {
     }
 }
 
-LightNode* Lights_FindBufSlot() {
+LightNode* Lights_FindBufSlot(void) {
     LightNode* node;
 
     if (sLightsBuffer.numOccupied >= LIGHTS_BUFFER_SIZE) {

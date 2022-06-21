@@ -5,7 +5,7 @@
  */
 
 #include "z_en_lightbox.h"
-#include "objects/object_lightbox/object_lightbox.h"
+#include "assets/objects/object_lightbox/object_lightbox.h"
 
 #define FLAGS ACTOR_FLAG_4
 

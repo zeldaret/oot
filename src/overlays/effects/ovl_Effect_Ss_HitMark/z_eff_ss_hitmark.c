@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_hitmark.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rTexIdx regs[0]
 #define rType regs[1]

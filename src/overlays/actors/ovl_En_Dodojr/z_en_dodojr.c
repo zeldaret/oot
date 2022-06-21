@@ -6,7 +6,7 @@
 
 #include "z_en_dodojr.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "objects/object_dodojr/object_dodojr.h"
+#include "assets/objects/object_dodojr/object_dodojr.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 

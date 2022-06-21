@@ -1,6 +1,6 @@
 #include "z_en_skb.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
-#include "objects/object_skb/object_skb.h"
+#include "assets/objects/object_skb/object_skb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 

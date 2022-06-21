@@ -5,7 +5,7 @@ Gfx sCircleEmptyDList[] = {
     gsSPEndDisplayList(),
 };
 
-#include "code/fbdemo_circle/z_fbdemo_circle.c"
+#include "assets/code/fbdemo_circle/z_fbdemo_circle.c"
 
 Gfx sCircleDList[] = {
     gsDPPipeSync(),

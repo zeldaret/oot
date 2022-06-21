@@ -5,13 +5,13 @@
  */
 
 #include "z_en_brob.h"
-#include "objects/object_brob/object_brob.h"
+#include "assets/objects/object_brob/object_brob.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnBrob_Init(Actor* thisx, PlayState* play);
 void EnBrob_Destroy(Actor* thisx, PlayState* play);
-void EnBrob_Update(Actor* thisx, PlayState* play);
+void EnBrob_Update(Actor* thisx, PlayState* play2);
 void EnBrob_Draw(Actor* thisx, PlayState* play);
 
 void func_809CADDC(EnBrob* this, PlayState* play);

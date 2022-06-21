@@ -163,7 +163,7 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
+#include "assets/overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
 
 void ElfMsg_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_elf_msg.c", 436);

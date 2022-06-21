@@ -16,8 +16,8 @@ typedef enum {
     /* 0x02 */ FLASH_SHRINK
 } FlashState;
 
-void BgGanonOtyuka_Init(Actor* thisx, PlayState* play);
-void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play);
+void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2);
+void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2);
 void BgGanonOtyuka_Update(Actor* thisx, PlayState* play);
 void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play);
 
@@ -63,7 +63,7 @@ static Vec3f sSideCenters[] = {
 
 static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
-#include "overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
 
 void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2) {
     BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;

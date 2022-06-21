@@ -7,8 +7,8 @@
 #include "z_demo_im.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "scenes/indoors/nakaniwa/nakaniwa_scene.h"
-#include "objects/object_im/object_im.h"
+#include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
+#include "assets/objects/object_im/object_im.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
@@ -72,7 +72,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-#include "z_demo_im_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_demo_im_cutscene_data.c"
 
 static DemoImActionFunc sActionFuncs[] = {
     func_809856F8, func_80985718, func_80985738, func_80985770, func_809857B0, func_809857F0, func_80985830,

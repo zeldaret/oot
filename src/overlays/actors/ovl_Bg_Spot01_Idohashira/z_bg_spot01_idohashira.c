@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot01_idohashira.h"
-#include "objects/object_spot01_objects/object_spot01_objects.h"
+#include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4

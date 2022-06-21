@@ -6,7 +6,7 @@
 
 #include "z_en_nb.h"
 #include "vt.h"
-#include "objects/object_nb/object_nb.h"
+#include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -85,7 +85,8 @@ static void* sEyeTextures[] = {
 
 static s32 D_80AB4318 = 0;
 
-#include "z_en_nb_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_en_nb_cutscene_data.c"
 
 s32 EnNb_GetPath(EnNb* this) {
     s32 path = this->actor.params >> 8;

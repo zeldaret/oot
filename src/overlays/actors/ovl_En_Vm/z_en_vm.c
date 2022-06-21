@@ -5,16 +5,16 @@
  */
 
 #include "z_en_vm.h"
-#include "objects/object_vm/object_vm.h"
+#include "assets/objects/object_vm/object_vm.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
 void EnVm_Init(Actor* thisx, PlayState* play);
 void EnVm_Destroy(Actor* thisx, PlayState* play);
 void EnVm_Update(Actor* thisx, PlayState* play);
-void EnVm_Draw(Actor* thisx, PlayState* play);
+void EnVm_Draw(Actor* thisx, PlayState* play2);
 
 void EnVm_SetupWait(EnVm* this);
 void EnVm_Wait(EnVm* this, PlayState* play);

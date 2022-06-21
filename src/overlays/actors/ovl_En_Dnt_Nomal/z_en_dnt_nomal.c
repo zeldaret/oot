@@ -5,12 +5,12 @@
  */
 
 #include "z_en_dnt_nomal.h"
-#include "objects/object_dnk/object_dnk.h"
+#include "assets/objects/object_dnk/object_dnk.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "objects/object_hintnuts/object_hintnuts.h"
+#include "assets/objects/object_hintnuts/object_hintnuts.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -170,7 +170,7 @@ void EnDntNomal_Destroy(Actor* thisx, PlayState* play) {
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->objIndex)) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objIndex].segment);
         this->actor.objBankIndex = this->objIndex;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actor.gravity = -2.0f;

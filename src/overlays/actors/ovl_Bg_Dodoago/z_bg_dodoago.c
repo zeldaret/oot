@@ -6,7 +6,7 @@
 
 #include "z_bg_dodoago.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "objects/object_ddan_objects/object_ddan_objects.h"
+#include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
 #define FLAGS 0
 

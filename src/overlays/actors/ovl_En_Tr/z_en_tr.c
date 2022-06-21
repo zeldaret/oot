@@ -5,7 +5,7 @@
  */
 
 #include "z_en_tr.h"
-#include "objects/object_tr/object_tr.h"
+#include "assets/objects/object_tr/object_tr.h"
 
 #define FLAGS ACTOR_FLAG_4
 

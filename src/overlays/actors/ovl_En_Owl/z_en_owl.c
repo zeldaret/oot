@@ -5,9 +5,9 @@
  */
 
 #include "z_en_owl.h"
-#include "objects/object_owl/object_owl.h"
-#include "scenes/overworld/spot06/spot06_scene.h"
-#include "scenes/overworld/spot16/spot16_scene.h"
+#include "assets/objects/object_owl/object_owl.h"
+#include "assets/scenes/overworld/spot06/spot06_scene.h"
+#include "assets/scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
@@ -31,7 +31,7 @@ void func_80ACB3E0(EnOwl* this, PlayState* play);
 void EnOwl_WaitLWPreSaria(EnOwl* this, PlayState* play);
 void EnOwl_WaitLWPostSaria(EnOwl* this, PlayState* play);
 void func_80ACD4D4(EnOwl* this, PlayState* play);
-void func_80ACD130(EnOwl* this, PlayState* play, s32 arg2);
+void func_80ACD130(EnOwl* this, PlayState* play, s32 idx);
 void func_80ACBAB8(EnOwl* this, PlayState* play);
 void func_80ACD2CC(EnOwl* this, PlayState* play);
 void func_80ACAA54(EnOwl* this, PlayState* play);

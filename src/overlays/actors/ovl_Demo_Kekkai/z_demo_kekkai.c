@@ -5,19 +5,19 @@
  */
 
 #include "z_demo_kekkai.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
-#include "scenes/dungeons/ganontika/ganontika_scene.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void DemoKekkai_Init(Actor* thisx, PlayState* play);
 void DemoKekkai_Destroy(Actor* thisx, PlayState* play);
-void DemoKekkai_Update(Actor* thisx, PlayState* play);
+void DemoKekkai_Update(Actor* thisx, PlayState* play2);
 void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play);
 
 void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play);
 void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play);
-void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play);
+void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 

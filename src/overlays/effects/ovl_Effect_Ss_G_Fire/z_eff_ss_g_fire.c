@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_g_fire.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 u32 EffectSsGFire_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGFire_Draw(PlayState* play, u32 index, EffectSs* this);

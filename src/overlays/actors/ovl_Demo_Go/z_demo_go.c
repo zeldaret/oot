@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_go.h"
-#include "objects/object_oF1d_map/object_oF1d_map.h"
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4

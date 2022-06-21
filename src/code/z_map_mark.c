@@ -1,6 +1,6 @@
 #include "global.h"
 #include "vt.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 typedef struct {
     /* 0x00 */ void* texture;

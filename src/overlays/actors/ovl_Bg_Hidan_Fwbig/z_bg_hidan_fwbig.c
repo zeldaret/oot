@@ -6,8 +6,8 @@
  */
 
 #include "z_bg_hidan_fwbig.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -17,7 +17,7 @@ typedef enum {
     /* 2 */ FWBIG_KILL
 } HidanFwbigMoveState;
 
-void BgHidanFwbig_Init(Actor* thisx, PlayState* play);
+void BgHidanFwbig_Init(Actor* thisx, PlayState* play2);
 void BgHidanFwbig_Destroy(Actor* thisx, PlayState* play);
 void BgHidanFwbig_Update(Actor* thisx, PlayState* play);
 void BgHidanFwbig_Draw(Actor* thisx, PlayState* play);

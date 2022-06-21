@@ -5,9 +5,9 @@
  */
 
 #include "z_boss_mo.h"
-#include "objects/object_mo/object_mo.h"
+#include "assets/objects/object_mo/object_mo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -44,7 +44,7 @@ typedef struct {
 #define MO_FX_STRETCH 1
 #define MO_FX_MAX_SCALE 1
 
-void BossMo_Init(Actor* thisx, PlayState* play);
+void BossMo_Init(Actor* thisx, PlayState* play2);
 void BossMo_Destroy(Actor* thisx, PlayState* play);
 void BossMo_UpdateCore(Actor* thisx, PlayState* play);
 void BossMo_UpdateTent(Actor* thisx, PlayState* play);
@@ -3211,8 +3211,8 @@ void BossMo_Unknown(void) {
         NA_SE_IT_MAGIC_ARROW_SHOT,
         NA_SE_IT_EXPLOSION_FRAME,
         NA_SE_IT_EXPLOSION_ICE,
-        NA_SE_IT_YOBI19 - SFX_FLAG,
-        NA_SE_FISHING_REEL_SLOW2 - SFX_FLAG,
+        0x1850 - SFX_FLAG, // Invalid sfxId, OoB read
+        0x1851 - SFX_FLAG, // Invalid sfxId, OoB read
         NA_SE_OC_DOOR_OPEN,
         NA_SE_EV_DOOR_CLOSE,
         NA_SE_EV_EXPLOSION,

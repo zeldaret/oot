@@ -5,7 +5,7 @@
  */
 
 #include "z_en_am.h"
-#include "objects/object_am/object_am.h"
+#include "assets/objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_26)

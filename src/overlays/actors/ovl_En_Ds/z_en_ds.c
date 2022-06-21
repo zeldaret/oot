@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ds.h"
-#include "objects/object_ds/object_ds.h"
+#include "assets/objects/object_ds/object_ds.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
@@ -155,7 +155,7 @@ void EnDs_OfferOddPotion(EnDs* this, PlayState* play) {
     }
 }
 
-s32 EnDs_CheckRupeesAndBottle() {
+s32 EnDs_CheckRupeesAndBottle(void) {
     if (gSaveContext.rupees < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {

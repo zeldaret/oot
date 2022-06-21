@@ -174,11 +174,11 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
 }
 
 void Audio_NoteVibratoUpdate(Note* note) {
-    if (note->portamento.mode != 0) {
-        note->playbackState.portamentoFreqScale = Audio_GetPortamentoFreqScale(&note->portamento);
+    if (note->playbackState.portamento.mode != 0) {
+        note->playbackState.portamentoFreqScale = Audio_GetPortamentoFreqScale(&note->playbackState.portamento);
     }
-    if (note->vibratoState.active) {
-        note->playbackState.vibratoFreqScale = Audio_GetVibratoFreqScale(&note->vibratoState);
+    if (note->playbackState.vibratoState.active) {
+        note->playbackState.vibratoFreqScale = Audio_GetVibratoFreqScale(&note->playbackState.vibratoState);
     }
 }
 
@@ -188,7 +188,7 @@ void Audio_NoteVibratoInit(Note* note) {
 
     note->playbackState.vibratoFreqScale = 1.0f;
 
-    vib = &note->vibratoState;
+    vib = &note->playbackState.vibratoState;
 
     vib->active = 1;
     vib->time = 0;
@@ -212,10 +212,10 @@ void Audio_NoteVibratoInit(Note* note) {
 
 void Audio_NotePortamentoInit(Note* note) {
     note->playbackState.portamentoFreqScale = 1.0f;
-    note->portamento = note->playbackState.parentLayer->portamento;
+    note->playbackState.portamento = note->playbackState.parentLayer->portamento;
 }
 
-void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut) {
+void Audio_AdsrInit(AdsrState* adsr, EnvelopePoint* envelope, s16* volOut) {
     adsr->action.asByte = 0;
     adsr->delay = 0;
     adsr->envelope = envelope;
@@ -242,8 +242,8 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
         case ADSR_STATE_START_LOOP:
             adsr->envIndex = 0;
             adsr->action.s.state = ADSR_STATE_LOOP;
+        retry:;
             FALLTHROUGH;
-        retry:
         case ADSR_STATE_LOOP:
             adsr->delay = adsr->envelope[adsr->envIndex].delay;
             switch (adsr->delay) {

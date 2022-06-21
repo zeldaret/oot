@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_g_magma2.h"
-#include "objects/object_kingdodongo/object_kingdodongo.h"
+#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]

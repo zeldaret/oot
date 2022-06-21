@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ru1.h"
-#include "objects/object_ru1/object_ru1.h"
+#include "assets/objects/object_ru1/object_ru1.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
@@ -105,7 +105,8 @@ static void* sMouthTextures[] = {
 
 static s32 sUnused = 0;
 
-#include "z_en_ru1_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_en_ru1_cutscene_data.c"
 
 static u32 D_80AF1938 = 0;
 

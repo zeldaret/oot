@@ -1,5 +1,5 @@
 #include "global.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 typedef struct {
     /* 0x00 */ s16 drawType;  // indicates which draw function to use when displaying the object

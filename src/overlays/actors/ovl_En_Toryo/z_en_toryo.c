@@ -5,7 +5,7 @@
  */
 
 #include "z_en_toryo.h"
-#include "objects/object_toryo/object_toryo.h"
+#include "assets/objects/object_toryo/object_toryo.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

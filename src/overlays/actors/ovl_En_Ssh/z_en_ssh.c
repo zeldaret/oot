@@ -1,5 +1,5 @@
 #include "z_en_ssh.h"
-#include "objects/object_ssh/object_ssh.h"
+#include "assets/objects/object_ssh/object_ssh.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -28,7 +28,7 @@ void EnSsh_Drop(EnSsh* this, PlayState* play);
 void EnSsh_Return(EnSsh* this, PlayState* play);
 void EnSsh_Start(EnSsh* this, PlayState* play);
 
-#include "overlays/ovl_En_Ssh/ovl_En_Ssh.c"
+#include "assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,

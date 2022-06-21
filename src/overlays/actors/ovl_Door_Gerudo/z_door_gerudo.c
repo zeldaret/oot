@@ -5,7 +5,7 @@
  */
 
 #include "z_door_gerudo.h"
-#include "objects/object_door_gerudo/object_door_gerudo.h"
+#include "assets/objects/object_door_gerudo/object_door_gerudo.h"
 
 #define FLAGS 0
 

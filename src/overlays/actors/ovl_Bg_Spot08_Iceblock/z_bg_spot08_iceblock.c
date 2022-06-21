@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot08_iceblock.h"
-#include "objects/object_spot08_obj/object_spot08_obj.h"
+#include "assets/objects/object_spot08_obj/object_spot08_obj.h"
 
 #define FLAGS 0
 

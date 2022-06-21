@@ -5,7 +5,7 @@
  */
 
 #include "z_en_trap.h"
-#include "objects/object_trap/object_trap.h"
+#include "assets/objects/object_trap/object_trap.h"
 
 #define FLAGS ACTOR_FLAG_4
 

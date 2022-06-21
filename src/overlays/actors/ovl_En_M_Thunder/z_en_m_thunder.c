@@ -1,12 +1,12 @@
 #include "z_en_m_thunder.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
 
-void EnMThunder_Init(Actor* thisx, PlayState* play);
+void EnMThunder_Init(Actor* thisx, PlayState* play2);
 void EnMThunder_Destroy(Actor* thisx, PlayState* play);
 void EnMThunder_Update(Actor* thisx, PlayState* play);
-void EnMThunder_Draw(Actor* thisx, PlayState* play);
+void EnMThunder_Draw(Actor* thisx, PlayState* play2);
 
 void func_80A9F314(PlayState* play, f32 arg1);
 void func_80A9F408(EnMThunder* this, PlayState* play);

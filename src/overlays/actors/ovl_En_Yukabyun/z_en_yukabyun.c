@@ -5,7 +5,7 @@
  */
 
 #include "z_en_yukabyun.h"
-#include "objects/object_yukabyun/object_yukabyun.h"
+#include "assets/objects/object_yukabyun/object_yukabyun.h"
 
 #define FLAGS ACTOR_FLAG_4
 

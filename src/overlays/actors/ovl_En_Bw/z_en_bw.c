@@ -5,15 +5,15 @@
  */
 
 #include "z_en_bw.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_bw/object_bw.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_bw/object_bw.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnBw_Init(Actor* thisx, PlayState* play);
 void EnBw_Destroy(Actor* thisx, PlayState* play);
-void EnBw_Update(Actor* thisx, PlayState* play);
-void EnBw_Draw(Actor* thisx, PlayState* play);
+void EnBw_Update(Actor* thisx, PlayState* play2);
+void EnBw_Draw(Actor* thisx, PlayState* play2);
 
 void func_809CE884(EnBw* this, PlayState* play);
 void func_809CE9A8(EnBw* this);

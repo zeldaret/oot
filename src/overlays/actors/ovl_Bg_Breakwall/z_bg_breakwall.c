@@ -5,9 +5,9 @@
  */
 
 #include "z_bg_breakwall.h"
-#include "scenes/dungeons/ddan/ddan_scene.h"
-#include "objects/object_bwall/object_bwall.h"
-#include "objects/object_kingdodongo/object_kingdodongo.h"
+#include "assets/scenes/dungeons/ddan/ddan_scene.h"
+#include "assets/objects/object_bwall/object_bwall.h"
+#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 
 #define FLAGS ACTOR_FLAG_4
 

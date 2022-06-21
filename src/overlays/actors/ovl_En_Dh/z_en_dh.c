@@ -1,5 +1,5 @@
 #include "z_en_dh.h"
-#include "objects/object_dh/object_dh.h"
+#include "assets/objects/object_dh/object_dh.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
@@ -13,7 +13,7 @@ typedef enum {
     /* 6 */ DH_DAMAGE
 } EnDhAction;
 
-void EnDh_Init(Actor* this, PlayState* play);
+void EnDh_Init(Actor* thisx, PlayState* play);
 void EnDh_Destroy(Actor* thisx, PlayState* play);
 void EnDh_Update(Actor* thisx, PlayState* play);
 void EnDh_Draw(Actor* thisx, PlayState* play);

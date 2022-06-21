@@ -5,7 +5,7 @@
  */
 
 #include "z_en_jj.h"
-#include "objects/object_jj/object_jj.h"
+#include "assets/objects/object_jj/object_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -17,10 +17,10 @@ typedef enum {
     /* 3 */ JABUJABU_EYE_MAX
 } EnJjEyeState;
 
-void EnJj_Init(Actor* thisx, PlayState* play);
+void EnJj_Init(Actor* thisx, PlayState* play2);
 void EnJj_Destroy(Actor* thisx, PlayState* play);
 void EnJj_Update(Actor* thisx, PlayState* play);
-void EnJj_Draw(Actor* thisx, PlayState* play);
+void EnJj_Draw(Actor* thisx, PlayState* play2);
 
 void EnJj_UpdateStaticCollision(Actor* thisx, PlayState* play);
 void EnJj_WaitToOpenMouth(EnJj* this, PlayState* play);
@@ -42,7 +42,8 @@ const ActorInit En_Jj_InitVars = {
 
 static s32 sUnused = 0;
 
-#include "z_en_jj_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_en_jj_cutscene_data.c"
 
 static s32 sUnused2[] = { 0, 0 };
 

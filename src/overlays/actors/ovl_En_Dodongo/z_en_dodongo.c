@@ -1,7 +1,7 @@
 #include "z_en_dodongo.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
-#include "objects/object_dodongo/object_dodongo.h"
+#include "assets/objects/object_dodongo/object_dodongo.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
@@ -20,7 +20,7 @@ typedef enum {
 void EnDodongo_Init(Actor* thisx, PlayState* play);
 void EnDodongo_Destroy(Actor* thisx, PlayState* play);
 void EnDodongo_Update(Actor* thisx, PlayState* play);
-void EnDodongo_Draw(Actor* thisx, PlayState* play);
+void EnDodongo_Draw(Actor* thisx, PlayState* play2);
 
 void EnDodongo_SetupDeath(EnDodongo* this, PlayState* play);
 void EnDodongo_ShiftVecRadial(s16 yaw, f32 radius, Vec3f* vec);

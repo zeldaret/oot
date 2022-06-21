@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ani.h"
-#include "objects/object_ani/object_ani.h"
+#include "assets/objects/object_ani/object_ani.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

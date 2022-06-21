@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_switch.h"
-#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4

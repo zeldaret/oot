@@ -5,7 +5,7 @@
  */
 
 #include "z_boss_fd2.h"
-#include "objects/object_fd2/object_fd2.h"
+#include "assets/objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
@@ -29,7 +29,7 @@ typedef enum {
 
 void BossFd2_Init(Actor* thisx, PlayState* play);
 void BossFd2_Destroy(Actor* thisx, PlayState* play);
-void BossFd2_Update(Actor* thisx, PlayState* play);
+void BossFd2_Update(Actor* thisx, PlayState* play2);
 void BossFd2_Draw(Actor* thisx, PlayState* play);
 
 void BossFd2_SetupEmerge(BossFd2* this, PlayState* play);

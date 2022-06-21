@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot05_soko.h"
-#include "objects/object_spot05_objects/object_spot05_objects.h"
+#include "assets/objects/object_spot05_objects/object_spot05_objects.h"
 
 #define FLAGS 0
 

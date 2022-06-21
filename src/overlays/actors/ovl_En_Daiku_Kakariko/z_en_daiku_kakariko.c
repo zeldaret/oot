@@ -5,7 +5,7 @@
  */
 
 #include "z_en_daiku_kakariko.h"
-#include "objects/object_daiku/object_daiku.h"
+#include "assets/objects/object_daiku/object_daiku.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 

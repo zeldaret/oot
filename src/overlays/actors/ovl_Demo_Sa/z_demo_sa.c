@@ -7,7 +7,7 @@
 #include "z_demo_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "objects/object_sa/object_sa.h"
+#include "assets/objects/object_sa/object_sa.h"
 
 #include "vt.h"
 
@@ -71,7 +71,8 @@ static void* sMouthTextures[] = {
 
 static u32 D_80990108 = 0;
 
-#include "z_demo_sa_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_demo_sa_cutscene_data.c"
 
 static DemoSaActionFunc sActionFuncs[] = {
     func_8098EBB8, func_8098EBD8, func_8098EBF8, func_8098EC28, func_8098EC60, func_8098EC94, func_8098ECCC,

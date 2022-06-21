@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_hsblock.h"
-#include "objects/object_d_hsblock/object_d_hsblock.h"
+#include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS 0
 

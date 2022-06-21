@@ -1,12 +1,12 @@
 #include "z_bg_ice_shelter.h"
-#include "objects/object_ice_objects/object_ice_objects.h"
+#include "assets/objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0
 
 void BgIceShelter_Init(Actor* thisx, PlayState* play);
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play);
 void BgIceShelter_Update(Actor* thisx, PlayState* play);
-void BgIceShelter_Draw(Actor* thisx, PlayState* play);
+void BgIceShelter_Draw(Actor* thisx, PlayState* play2);
 
 void func_80891064(BgIceShelter* this);
 void func_808911BC(BgIceShelter* this);

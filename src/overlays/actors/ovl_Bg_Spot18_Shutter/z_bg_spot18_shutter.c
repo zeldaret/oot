@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot18_shutter.h"
-#include "objects/object_spot18_obj/object_spot18_obj.h"
+#include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

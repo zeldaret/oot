@@ -1,13 +1,13 @@
 #include "z_boss_dodongo.h"
-#include "objects/object_kingdodongo/object_kingdodongo.h"
+#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
+#include "assets/scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BossDodongo_Init(Actor* thisx, PlayState* play);
 void BossDodongo_Destroy(Actor* thisx, PlayState* play);
-void BossDodongo_Update(Actor* thisx, PlayState* play);
+void BossDodongo_Update(Actor* thisx, PlayState* play2);
 void BossDodongo_Draw(Actor* thisx, PlayState* play);
 
 void BossDodongo_SetupIntroCutscene(BossDodongo* this, PlayState* play);
@@ -16,7 +16,7 @@ void BossDodongo_Walk(BossDodongo* this, PlayState* play);
 void BossDodongo_Inhale(BossDodongo* this, PlayState* play);
 void BossDodongo_BlowFire(BossDodongo* this, PlayState* play);
 void BossDodongo_Roll(BossDodongo* this, PlayState* play);
-void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 arg2);
+void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params);
 void BossDodongo_Explode(BossDodongo* this, PlayState* play);
 void BossDodongo_LayDown(BossDodongo* this, PlayState* play);
 void BossDodongo_Vulnerable(BossDodongo* this, PlayState* play);
@@ -55,7 +55,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
-    if (arg2[arg1] != 0) {
+    if (arg1[arg2] != 0) {
         arg0[arg2 / 2] = 0;
     }
 }
@@ -1667,7 +1667,7 @@ void BossDodongo_UpdateEffects(PlayState* play) {
 }
 
 void BossDodongo_DrawEffects(PlayState* play) {
-    MtxF* unkMtx;
+    s32 pad;
     s16 i;
     u8 materialFlag = 0;
     BossDodongoEffect* eff;
@@ -1678,7 +1678,6 @@ void BossDodongo_DrawEffects(PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_boss_dodongo.c", 5228);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    unkMtx = &play->billboardMtxF;
 
     for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 == 1) {
@@ -1691,7 +1690,7 @@ void BossDodongo_DrawEffects(PlayState* play) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);
             Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(unkMtx);
+            Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_dodongo.c", 5253),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

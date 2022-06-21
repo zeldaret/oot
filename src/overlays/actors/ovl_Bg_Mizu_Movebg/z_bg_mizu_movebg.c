@@ -6,7 +6,7 @@
 
 #include "z_bg_mizu_movebg.h"
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -19,7 +19,7 @@
 void BgMizuMovebg_Init(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Update(Actor* thisx, PlayState* play);
-void BgMizuMovebg_Draw(Actor* thisx, PlayState* play);
+void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2);
 
 void func_8089E318(BgMizuMovebg* this, PlayState* play);
 void func_8089E650(BgMizuMovebg* this, PlayState* play);

@@ -6,11 +6,11 @@
 
 #include "z_en_nutsball.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "objects/object_dekunuts/object_dekunuts.h"
-#include "objects/object_hintnuts/object_hintnuts.h"
-#include "objects/object_shopnuts/object_shopnuts.h"
-#include "objects/object_dns/object_dns.h"
-#include "objects/object_dnk/object_dnk.h"
+#include "assets/objects/object_dekunuts/object_dekunuts.h"
+#include "assets/objects/object_hintnuts/object_hintnuts.h"
+#include "assets/objects/object_shopnuts/object_shopnuts.h"
+#include "assets/objects/object_dns/object_dns.h"
+#include "assets/objects/object_dnk/object_dnk.h"
 
 #define FLAGS ACTOR_FLAG_4
 

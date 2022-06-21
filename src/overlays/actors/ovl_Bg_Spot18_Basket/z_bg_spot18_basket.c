@@ -1,5 +1,5 @@
 #include "z_bg_spot18_basket.h"
-#include "objects/object_spot18_obj/object_spot18_obj.h"
+#include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4

@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_geff.h"
-#include "objects/object_geff/object_geff.h"
+#include "assets/objects/object_geff/object_geff.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)

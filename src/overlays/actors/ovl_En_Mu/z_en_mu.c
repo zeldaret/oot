@@ -5,7 +5,7 @@
  */
 
 #include "z_en_mu.h"
-#include "objects/object_mu/object_mu.h"
+#include "assets/objects/object_mu/object_mu.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

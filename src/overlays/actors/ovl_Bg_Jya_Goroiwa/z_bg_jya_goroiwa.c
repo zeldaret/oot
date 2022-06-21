@@ -6,7 +6,7 @@
  */
 
 #include "z_bg_jya_goroiwa.h"
-#include "objects/object_goroiwa/object_goroiwa.h"
+#include "assets/objects/object_goroiwa/object_goroiwa.h"
 
 #define FLAGS ACTOR_FLAG_4
 

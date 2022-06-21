@@ -5,13 +5,13 @@
  */
 
 #include "z_bg_hidan_curtain.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS ACTOR_FLAG_4
 
 void BgHidanCurtain_Init(Actor* thisx, PlayState* play);
 void BgHidanCurtain_Destroy(Actor* thisx, PlayState* play);
-void BgHidanCurtain_Update(Actor* thisx, PlayState* play);
+void BgHidanCurtain_Update(Actor* thisx, PlayState* play2);
 void BgHidanCurtain_Draw(Actor* thisx, PlayState* play);
 
 void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain* this, PlayState* play);

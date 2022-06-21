@@ -5,8 +5,8 @@
  */
 
 #include "z_eff_ss_stick.h"
-#include "objects/object_link_boy/object_link_boy.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/object_link_boy/object_link_boy.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 
 #define rObjBankIdx regs[0]
 #define rYaw regs[1]

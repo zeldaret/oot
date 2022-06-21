@@ -6,8 +6,8 @@
 
 #include "vt.h"
 #include "z_en_sth.h"
-#include "objects/object_ahg/object_ahg.h"
-#include "objects/object_boj/object_boj.h"
+#include "assets/objects/object_ahg/object_ahg.h"
+#include "assets/objects/object_boj/object_boj.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -34,7 +34,7 @@ const ActorInit En_Sth_InitVars = {
     NULL,
 };
 
-#include "overlays/ovl_En_Sth/ovl_En_Sth.c"
+#include "assets/overlays/ovl_En_Sth/ovl_En_Sth.c"
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -150,7 +150,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, play);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objectBankIdx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectBankIdx].segment);
     SkelAnime_InitFlex(play, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable, this->morphTable,
                        16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
@@ -389,7 +389,7 @@ void EnSth_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sth.c", 2133);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objectBankIdx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectBankIdx].segment);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,

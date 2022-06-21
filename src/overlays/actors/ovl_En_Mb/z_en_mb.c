@@ -5,7 +5,7 @@
  */
 
 #include "z_en_mb.h"
-#include "objects/object_mb/object_mb.h"
+#include "assets/objects/object_mb/object_mb.h"
 
 /*
  * This actor can have three behaviors:
@@ -864,7 +864,7 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
             func_80033480(play, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
             Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
             func_800358DC(&this->actor, &effSpawnPos, &this->actor.world.rot, flamesParams, 20, flamesUnused, play, -1,
-                          0);
+                          NULL);
             EnMb_SetupClubWaitAfterAttack(this);
         }
     } else {

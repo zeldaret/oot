@@ -8,13 +8,13 @@
 #include "z_en_reeba.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "vt.h"
-#include "objects/object_reeba/object_reeba.h"
+#include "assets/objects/object_reeba/object_reeba.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 void EnReeba_Init(Actor* thisx, PlayState* play);
 void EnReeba_Destroy(Actor* thisx, PlayState* play);
-void EnReeba_Update(Actor* thisx, PlayState* play);
+void EnReeba_Update(Actor* thisx, PlayState* play2);
 void EnReeba_Draw(Actor* thisx, PlayState* play);
 
 void func_80AE4F40(EnReeba* this, PlayState* play);

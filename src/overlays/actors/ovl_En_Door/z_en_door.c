@@ -5,11 +5,11 @@
  */
 
 #include "z_en_door.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/gameplay_field_keep/gameplay_field_keep.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
-#include "objects/object_haka_door/object_haka_door.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_haka_door/object_haka_door.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -18,7 +18,7 @@
 
 #define DOOR_CHECK_RANGE 40.0f
 
-void EnDoor_Init(Actor* thisx, PlayState* play);
+void EnDoor_Init(Actor* thisx, PlayState* play2);
 void EnDoor_Destroy(Actor* thisx, PlayState* play);
 void EnDoor_Update(Actor* thisx, PlayState* play);
 void EnDoor_Draw(Actor* thisx, PlayState* play);

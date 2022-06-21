@@ -6,11 +6,11 @@
 
 #include "z_en_insect.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
 
-void EnInsect_Init(Actor* thisx, PlayState* play);
+void EnInsect_Init(Actor* thisx, PlayState* play2);
 void EnInsect_Destroy(Actor* thisx, PlayState* play);
 void EnInsect_Update(Actor* thisx, PlayState* play);
 void EnInsect_Draw(Actor* thisx, PlayState* play);

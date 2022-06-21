@@ -6,7 +6,7 @@
 
 #include "z_en_mm2.h"
 #include "vt.h"
-#include "objects/object_mm/object_mm.h"
+#include "assets/objects/object_mm/object_mm.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -25,7 +25,7 @@ typedef enum {
     /* 1 */ RM2_MOUTH_OPEN
 } RunningManMouthTex;
 
-void EnMm2_Init(Actor* thisx, PlayState* play);
+void EnMm2_Init(Actor* thisx, PlayState* play2);
 void EnMm2_Destroy(Actor* thisx, PlayState* play);
 void EnMm2_Update(Actor* thisx, PlayState* play);
 void EnMm2_Draw(Actor* thisx, PlayState* play);

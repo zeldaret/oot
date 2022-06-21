@@ -7,26 +7,26 @@
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 
-#include "objects/object_gnd/object_gnd.h"
-#include "objects/object_goma/object_goma.h"
-#include "objects/object_ydan_objects/object_ydan_objects.h"
-#include "objects/object_ddan_objects/object_ddan_objects.h"
-#include "objects/object_bdan_objects/object_bdan_objects.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_bdoor/object_bdoor.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
-#include "objects/object_ganon_objects/object_ganon_objects.h"
-#include "objects/object_jya_door/object_jya_door.h"
-#include "objects/object_mizu_objects/object_mizu_objects.h"
-#include "objects/object_haka_door/object_haka_door.h"
-#include "objects/object_ice_objects/object_ice_objects.h"
-#include "objects/object_menkuri_objects/object_menkuri_objects.h"
-#include "objects/object_demo_kekkai/object_demo_kekkai.h"
-#include "objects/object_ouke_haka/object_ouke_haka.h"
+#include "assets/objects/object_gnd/object_gnd.h"
+#include "assets/objects/object_goma/object_goma.h"
+#include "assets/objects/object_ydan_objects/object_ydan_objects.h"
+#include "assets/objects/object_ddan_objects/object_ddan_objects.h"
+#include "assets/objects/object_bdan_objects/object_bdan_objects.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_bdoor/object_bdoor.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_ganon_objects/object_ganon_objects.h"
+#include "assets/objects/object_jya_door/object_jya_door.h"
+#include "assets/objects/object_mizu_objects/object_mizu_objects.h"
+#include "assets/objects/object_haka_door/object_haka_door.h"
+#include "assets/objects/object_ice_objects/object_ice_objects.h"
+#include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
+#include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "assets/objects/object_ouke_haka/object_ouke_haka.h"
 
 #define FLAGS ACTOR_FLAG_4
 
-void DoorShutter_Init(Actor* thisx, PlayState* play);
+void DoorShutter_Init(Actor* thisx, PlayState* play2);
 void DoorShutter_Destroy(Actor* thisx, PlayState* play);
 void DoorShutter_Update(Actor* thisx, PlayState* play);
 void DoorShutter_Draw(Actor* thisx, PlayState* play);
@@ -416,7 +416,8 @@ void func_80996C60(DoorShutter* this, PlayState* play) {
         DoorShutter_SetupAction(this, func_80997004);
         this->unk_16C = sp38;
         this->unk_170 = 0.0f;
-        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->unk_46A, 0.0f, 12, sp34, 10);
+        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->doorBgCamIndex, 0.0f, 12, sp34,
+                             10);
     }
 }
 

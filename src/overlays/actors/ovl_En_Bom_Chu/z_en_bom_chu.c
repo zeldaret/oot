@@ -1,6 +1,6 @@
 #include "z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -8,7 +8,7 @@
 
 void EnBomChu_Init(Actor* thisx, PlayState* play);
 void EnBomChu_Destroy(Actor* thisx, PlayState* play);
-void EnBomChu_Update(Actor* thisx, PlayState* play);
+void EnBomChu_Update(Actor* thisx, PlayState* play2);
 void EnBomChu_Draw(Actor* thisx, PlayState* play);
 
 void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play);

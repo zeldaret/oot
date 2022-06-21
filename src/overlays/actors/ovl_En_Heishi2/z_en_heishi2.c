@@ -6,8 +6,8 @@
 
 #include "vt.h"
 #include "z_en_heishi2.h"
-#include "objects/object_sd/object_sd.h"
-#include "objects/object_link_child/object_link_child.h"
+#include "assets/objects/object_sd/object_sd.h"
+#include "assets/objects/object_link_child/object_link_child.h"
 #include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"

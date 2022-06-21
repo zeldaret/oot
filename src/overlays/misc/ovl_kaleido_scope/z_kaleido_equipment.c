@@ -1,6 +1,6 @@
 #include "z_kaleido_scope.h"
-#include "textures/icon_item_static/icon_item_static.h"
-#include "textures/parameter_static/parameter_static.h"
+#include "assets/textures/icon_item_static/icon_item_static.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 static u8 sChildUpgrades[] = { UPG_BULLET_BAG, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
 static u8 sAdultUpgrades[] = { UPG_QUIVER, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
@@ -112,6 +112,9 @@ void KaleidoScope_DrawPlayerWork(PlayState* play) {
                      SHIELD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD)),
                      BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
 }
+
+// Wrong prototype; this function is called with `play` even though it has no arguments
+void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
 
 void KaleidoScope_DrawEquipment(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;

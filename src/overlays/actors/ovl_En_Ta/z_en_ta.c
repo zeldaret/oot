@@ -6,11 +6,11 @@
 
 #include "z_en_ta.h"
 #include "vt.h"
-#include "objects/object_ta/object_ta.h"
+#include "assets/objects/object_ta/object_ta.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
-void EnTa_Init(Actor* thisx, PlayState* play);
+void EnTa_Init(Actor* thisx, PlayState* play2);
 void EnTa_Destroy(Actor* thisx, PlayState* play);
 void EnTa_Update(Actor* thisx, PlayState* play);
 void EnTa_Draw(Actor* thisx, PlayState* play);

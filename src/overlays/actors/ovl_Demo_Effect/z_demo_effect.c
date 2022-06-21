@@ -1,18 +1,18 @@
 #include "z_demo_effect.h"
 #include "vt.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_efc_crystal_light/object_efc_crystal_light.h"
-#include "objects/object_efc_fire_ball/object_efc_fire_ball.h"
-#include "objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
-#include "objects/object_god_lgt/object_god_lgt.h"
-#include "objects/object_light_ring/object_light_ring.h"
-#include "objects/object_triforce_spot/object_triforce_spot.h"
-#include "objects/object_efc_tw/object_efc_tw.h"
-#include "objects/object_gi_jewel/object_gi_jewel.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"
+#include "assets/objects/object_efc_fire_ball/object_efc_fire_ball.h"
+#include "assets/objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
+#include "assets/objects/object_god_lgt/object_god_lgt.h"
+#include "assets/objects/object_light_ring/object_light_ring.h"
+#include "assets/objects/object_triforce_spot/object_triforce_spot.h"
+#include "assets/objects/object_efc_tw/object_efc_tw.h"
+#include "assets/objects/object_gi_jewel/object_gi_jewel.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void DemoEffect_Init(Actor* thisx, PlayState* play);
+void DemoEffect_Init(Actor* thisx, PlayState* play2);
 void DemoEffect_Destroy(Actor* thisx, PlayState* play);
 void DemoEffect_Update(Actor* thisx, PlayState* play);
 
@@ -21,12 +21,12 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play);
 void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play);
 void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play);
 void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play);
-void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play);
+void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2);
 void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play);
 void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play);
 void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play);
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play);
-void DemoEffect_DrawJewel(Actor* thisx, PlayState* play);
+void DemoEffect_DrawJewel(Actor* thisx, PlayState* play2);
 
 void DemoEffect_Wait(DemoEffect* this, PlayState* play);
 void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play);
@@ -1864,7 +1864,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
         if (this->light.flicker == 0) {
             this->light.flicker = 1;
         } else {
-            disp = (u32)gEffFlash1DL; // necessary to match, should be able to remove after fake matches are fixed
+            disp = (Gfx*)(u32)gEffFlash1DL; // necessary to match, should be able to remove after fake matches are fixed
             alpha = &this->light.alpha;
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],

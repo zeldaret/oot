@@ -5,15 +5,15 @@
  */
 
 #include "z_en_vb_ball.h"
-#include "objects/object_fd/object_fd.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fd/object_fd.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnVbBall_Init(Actor* thisx, PlayState* play);
 void EnVbBall_Destroy(Actor* thisx, PlayState* play);
-void EnVbBall_Update(Actor* thisx, PlayState* play);
+void EnVbBall_Update(Actor* thisx, PlayState* play2);
 void EnVbBall_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_Vb_Ball_InitVars = {

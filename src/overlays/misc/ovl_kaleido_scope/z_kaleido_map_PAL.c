@@ -1,11 +1,11 @@
 #include "z_kaleido_scope.h"
-#include "textures/icon_item_24_static/icon_item_24_static.h"
-#include "textures/icon_item_nes_static/icon_item_nes_static.h"
-#include "textures/icon_item_ger_static/icon_item_ger_static.h"
-#include "textures/icon_item_fra_static/icon_item_fra_static.h"
-#include "textures/icon_item_field_static/icon_item_field_static.h"
-#include "textures/icon_item_dungeon_static/icon_item_dungeon_static.h"
-#include "textures/icon_item_nes_static/icon_item_nes_static.h"
+#include "assets/textures/icon_item_24_static/icon_item_24_static.h"
+#include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
+#include "assets/textures/icon_item_ger_static/icon_item_ger_static.h"
+#include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
+#include "assets/textures/icon_item_field_static/icon_item_field_static.h"
+#include "assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.h"
+#include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
 
 void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
     static void* dungeonItemTexs[] = {

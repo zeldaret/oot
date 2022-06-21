@@ -5,7 +5,7 @@
  */
 
 #include "z_en_fhg.h"
-#include "objects/object_fhg/object_fhg.h"
+#include "assets/objects/object_fhg/object_fhg.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
@@ -31,7 +31,7 @@ typedef enum {
     /* 15 */ INTRO_READY = 15
 } EnfHGIntroState;
 
-void EnfHG_Init(Actor* thisx, PlayState* play);
+void EnfHG_Init(Actor* thisx, PlayState* play2);
 void EnfHG_Destroy(Actor* thisx, PlayState* play);
 void EnfHG_Update(Actor* thisx, PlayState* play);
 void EnfHG_Draw(Actor* thisx, PlayState* play);

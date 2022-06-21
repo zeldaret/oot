@@ -5,7 +5,7 @@
  */
 
 #include "z_en_vali.h"
-#include "objects/object_vali/object_vali.h"
+#include "assets/objects/object_vali/object_vali.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
 

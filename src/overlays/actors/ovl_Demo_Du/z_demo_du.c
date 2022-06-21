@@ -1,5 +1,5 @@
 #include "z_demo_du.h"
-#include "objects/object_du/object_du.h"
+#include "assets/objects/object_du/object_du.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
@@ -16,7 +16,8 @@ void DemoDu_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnused = 0;
 
-#include "z_demo_du_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_demo_du_cutscene_data.c"
 
 static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
 static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
@@ -707,7 +708,7 @@ void DemoDu_InitCs_AfterGanon(DemoDu* this, PlayState* play) {
     this->actor.shape.shadowAlpha = 0;
 }
 
-void DemoDu_CsPlaySfx_WhiteOut() {
+void DemoDu_CsPlaySfx_WhiteOut(void) {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 

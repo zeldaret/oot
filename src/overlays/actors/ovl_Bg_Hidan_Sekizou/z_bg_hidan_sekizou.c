@@ -5,14 +5,14 @@
  */
 
 #include "z_bg_hidan_sekizou.h"
-#include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
 void BgHidanSekizou_Init(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Destroy(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Update(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Draw(Actor* thisx, PlayState* play);
+void BgHidanSekizou_Destroy(Actor* thisx, PlayState* play2);
+void BgHidanSekizou_Update(Actor* thisx, PlayState* play2);
+void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2);
 
 void func_8088D434(BgHidanSekizou* this, PlayState* play);
 void func_8088D720(BgHidanSekizou* this, PlayState* play);

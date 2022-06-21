@@ -7,7 +7,7 @@
 #include "z_bg_bowl_wall.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "objects/object_bowl/object_bowl.h"
+#include "assets/objects/object_bowl/object_bowl.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -15,7 +15,7 @@
 void BgBowlWall_Init(Actor* thisx, PlayState* play);
 void BgBowlWall_Destroy(Actor* thisx, PlayState* play);
 void BgBowlWall_Update(Actor* thisx, PlayState* play);
-void BgBowlWall_Draw(Actor* thisx, PlayState* play);
+void BgBowlWall_Draw(Actor* thisx, PlayState* play2);
 
 void BgBowlWall_SpawnBullseyes(BgBowlWall* this, PlayState* play);
 void BgBowlWall_WaitForHit(BgBowlWall* this, PlayState* play);

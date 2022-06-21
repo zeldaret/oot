@@ -41,7 +41,7 @@ void OceffWipe2_Destroy(Actor* thisx, PlayState* play) {
 
     Magic_Reset(play);
     if (gSaveContext.nayrusLoveTimer != 0) {
-        player->stateFlags3 |= PLAYER_STATE3_6;
+        player->stateFlags3 |= PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 }
 
@@ -56,7 +56,7 @@ void OceffWipe2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "overlays/ovl_Oceff_Wipe2/ovl_Oceff_Wipe2.c"
+#include "assets/overlays/ovl_Oceff_Wipe2/ovl_Oceff_Wipe2.c"
 
 void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     u32 scroll = play->state.frames & 0xFF;

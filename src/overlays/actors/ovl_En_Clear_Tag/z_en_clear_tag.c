@@ -4,7 +4,7 @@
 
 void EnClearTag_Init(Actor* thisx, PlayState* play);
 void EnClearTag_Destroy(Actor* thisx, PlayState* play);
-void EnClearTag_Update(Actor* thisx, PlayState* play);
+void EnClearTag_Update(Actor* thisx, PlayState* play2);
 void EnClearTag_Draw(Actor* thisx, PlayState* play);
 
 void EnClearTag_UpdateEffects(PlayState* play);
@@ -79,7 +79,7 @@ static UNK_TYPE4 D_809D5C9C = 0; // unused
 
 static EnClearTagEffect sEffects[CLEAR_TAG_EFFECT_COUNT];
 
-#include "overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
+#include "assets/overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
 
 /**
  * Creates a debris effect.

@@ -237,4 +237,4 @@ static ColliderJntSphInit sJntSphInit = {
 
 static Vec3f sUnkZeroVec = { 0.0f, 0.0f, 0.0f };
 
-#include "overlays/ovl_Boss_Dodongo/ovl_Boss_Dodongo.c"
+#include "assets/overlays/ovl_Boss_Dodongo/ovl_Boss_Dodongo.c"

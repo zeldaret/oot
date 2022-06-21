@@ -6,7 +6,7 @@
 
 #include "global.h"
 #include "alloca.h"
-#include "textures/nintendo_rogo_static/nintendo_rogo_static.h"
+#include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
 void Title_PrintBuildInfo(Gfx** gfxp) {
     Gfx* g;

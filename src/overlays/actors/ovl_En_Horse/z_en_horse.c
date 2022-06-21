@@ -6,18 +6,18 @@
 
 #include "z_en_horse.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
-#include "objects/object_horse/object_horse.h"
-#include "objects/object_hni/object_hni.h"
-#include "scenes/overworld/spot09/spot09_scene.h"
+#include "assets/objects/object_horse/object_horse.h"
+#include "assets/objects/object_hni/object_hni.h"
+#include "assets/scenes/overworld/spot09/spot09_scene.h"
 
 #define FLAGS ACTOR_FLAG_4
 
 typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorAction*);
 typedef void (*EnHorseActionFunc)(EnHorse*, PlayState*);
 
-void EnHorse_Init(Actor* thisx, PlayState* play);
+void EnHorse_Init(Actor* thisx, PlayState* play2);
 void EnHorse_Destroy(Actor* thisx, PlayState* play);
-void EnHorse_Update(Actor* thisx, PlayState* play);
+void EnHorse_Update(Actor* thisx, PlayState* play2);
 void EnHorse_Draw(Actor* thisx, PlayState* play);
 
 void EnHorse_InitCutscene(EnHorse* this, PlayState* play);
@@ -29,7 +29,7 @@ void EnHorse_InitInactive(EnHorse* this);
 void EnHorse_InitIngoHorse(EnHorse* this);
 
 void EnHorse_Frozen(EnHorse* this, PlayState* play);
-void EnHorse_Inactive(EnHorse* this, PlayState* play);
+void EnHorse_Inactive(EnHorse* this, PlayState* play2);
 void EnHorse_Idle(EnHorse* this, PlayState* play);
 void EnHorse_FollowPlayer(EnHorse* this, PlayState* play);
 void EnHorse_UpdateIngoRace(EnHorse* this, PlayState* play);
@@ -858,7 +858,9 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     this->animationIdx = ENHORSE_ANIM_IDLE;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx]);
     this->numBoosts = 6;
-    this->blinkTimer = this->postDrawFunc = this->boostRegenTime = 0;
+    this->boostRegenTime = 0;
+    this->postDrawFunc = NULL;
+    this->blinkTimer = 0;
     EnHorse_ResetCutscene(this, play);
     EnHorse_ResetRace(this, play);
     EnHorse_ResetHorsebackArchery(this, play);
@@ -929,7 +931,7 @@ void EnHorse_Freeze(EnHorse* this) {
     }
 }
 
-void EnHorse_ChangeIdleAnimation(EnHorse* this, s32 arg1, f32 arg2);
+void EnHorse_ChangeIdleAnimation(EnHorse* this, s32 anim, f32 morphFrames);
 void EnHorse_StartMountedIdleResetAnim(EnHorse* this);
 void EnHorse_StartMountedIdle(EnHorse* this);
 void EnHorse_StartGalloping(EnHorse* this);
@@ -1809,7 +1811,7 @@ void EnHorse_StartIdleRidable(EnHorse* this) {
     this->stateFlags &= ~ENHORSE_UNRIDEABLE;
 }
 
-void EnHorse_StartMovingAnimation(EnHorse* this, s32 arg1, f32 arg2, f32 arg3);
+void EnHorse_StartMovingAnimation(EnHorse* this, s32 animId, f32 morphFrames, f32 startFrame);
 
 void EnHorse_Idle(EnHorse* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
@@ -3105,10 +3107,6 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
         EnHorse_ResolveCollision(this, play, colPoly);
     }
 }
-
-void EnHorse_HighJumpInit(EnHorse* this, PlayState* play);
-void EnHorse_Stub2(EnHorse* this);
-void EnHorse_Stub1(EnHorse* this);
 
 void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     s32 pad;

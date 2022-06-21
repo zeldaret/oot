@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_zg.h"
-#include "objects/object_zg/object_zg.h"
+#include "assets/objects/object_zg/object_zg.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4

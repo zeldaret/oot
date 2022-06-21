@@ -1,5 +1,5 @@
 #include "z_en_peehat.h"
-#include "objects/object_peehat/object_peehat.h"
+#include "assets/objects/object_peehat/object_peehat.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 

@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_heavy_block.h"
-#include "objects/object_heavy_object/object_heavy_object.h"
+#include "assets/objects/object_heavy_object/object_heavy_object.h"
 #include "vt.h"
 
 #define FLAGS 0

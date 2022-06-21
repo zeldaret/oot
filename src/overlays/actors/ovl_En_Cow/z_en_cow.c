@@ -5,13 +5,13 @@
  */
 
 #include "z_en_cow.h"
-#include "objects/object_cow/object_cow.h"
+#include "assets/objects/object_cow/object_cow.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnCow_Init(Actor* thisx, PlayState* play);
 void EnCow_Destroy(Actor* thisx, PlayState* play);
-void EnCow_Update(Actor* thisx, PlayState* play);
+void EnCow_Update(Actor* thisx, PlayState* play2);
 void EnCow_Draw(Actor* thisx, PlayState* play);
 void func_809DFE98(Actor* thisx, PlayState* play);
 void func_809E0070(Actor* thisx, PlayState* play);

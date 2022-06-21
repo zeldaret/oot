@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot09_obj.h"
-#include "objects/object_spot09_obj/object_spot09_obj.h"
+#include "assets/objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0
 

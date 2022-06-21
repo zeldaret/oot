@@ -5,7 +5,7 @@
  */
 
 #include "z_en_md.h"
-#include "objects/object_md/object_md.h"
+#include "assets/objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
@@ -69,7 +69,7 @@ typedef enum {
     /* 10 */ ENMD_ANIM_10,
     /* 11 */ ENMD_ANIM_11,
     /* 12 */ ENMD_ANIM_12,
-    /* 13 */ ENMD_ANIM_13,
+    /* 13 */ ENMD_ANIM_13
 } EnMdAnimation;
 
 static AnimationInfo sAnimationInfo[] = {

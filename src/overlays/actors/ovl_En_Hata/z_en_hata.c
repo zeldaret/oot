@@ -5,13 +5,13 @@
  */
 
 #include "z_en_hata.h"
-#include "objects/object_hata/object_hata.h"
+#include "assets/objects/object_hata/object_hata.h"
 
 #define FLAGS 0
 
 void EnHata_Init(Actor* thisx, PlayState* play);
 void EnHata_Destroy(Actor* thisx, PlayState* play);
-void EnHata_Update(Actor* thisx, PlayState* play);
+void EnHata_Update(Actor* thisx, PlayState* play2);
 void EnHata_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_Hata_InitVars = {

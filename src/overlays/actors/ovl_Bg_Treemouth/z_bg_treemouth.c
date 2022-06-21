@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_treemouth.h"
-#include "objects/object_spot04_objects/object_spot04_objects.h"
+#include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)

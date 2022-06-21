@@ -1,10 +1,10 @@
 #include "z_en_skj.h"
 #include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
-#include "objects/object_skj/object_skj.h"
+#include "assets/objects/object_skj/object_skj.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
-void EnSkj_Init(Actor* thisx, PlayState* play);
+void EnSkj_Init(Actor* thisx, PlayState* play2);
 void EnSkj_Destroy(Actor* thisx, PlayState* play);
 void EnSkj_Update(Actor* thisx, PlayState* play);
 void EnSkj_Draw(Actor* thisx, PlayState* play);
@@ -56,7 +56,6 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, PlayState* play);
 void EnSkj_FinishOcarinaGameRound(EnSkj* this, PlayState* play);
 void EnSkj_WaitForNextRound(EnSkj* this, PlayState* play);
 void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play);
-void EnSkj_SetupWaitForOcarina(EnSkj* this, PlayState* play);
 void EnSkj_CleanupOcarinaGame(EnSkj* this, PlayState* play);
 
 void EnSkj_Fade(EnSkj* this, PlayState* play);

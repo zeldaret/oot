@@ -7,8 +7,9 @@
 #include "z64collision_check.h"
 
 #define ACTOR_NUMBER_MAX 200
+
 #define INVISIBLE_ACTOR_MAX 20
-#define AM_FIELD_SIZE 0x27A0
+
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
@@ -38,11 +39,50 @@ typedef struct {
     /* 0x1C */ ActorFunc draw; // Draw function
 } ActorInit; // size = 0x20
 
-typedef enum {
-    /* 0 */ ALLOCTYPE_NORMAL,
-    /* 1 */ ALLOCTYPE_ABSOLUTE,
-    /* 2 */ ALLOCTYPE_PERMANENT
-} AllocType;
+/**
+ * @see ACTOROVL_ALLOC_ABSOLUTE
+ */
+#define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
+
+/**
+ * The actor overlay should be allocated memory for when loading,
+ * and the memory deallocated when there is no more actor using the overlay.
+ *
+ * `ACTOROVL_ALLOC_` defines indicate how an actor overlay should be loaded.
+ *
+ * @note Bitwise or-ing `ACTOROVL_ALLOC_` types is not meaningful.
+ * The `ACTOROVL_ALLOC_` types are 0, 1, 2 but checked against with a bitwise and.
+ *
+ * @see ACTOROVL_ALLOC_ABSOLUTE
+ * @see ACTOROVL_ALLOC_PERSISTENT
+ * @see actor_table.h
+ */
+#define ACTOROVL_ALLOC_NORMAL 0
+
+/**
+ * The actor overlay should be loaded to "absolute space".
+ *
+ * Absolute space is a fixed amount of memory allocated once.
+ * The overlay will still need to be loaded again if at some point there is no more actor using the overlay.
+ *
+ * @note Only one such overlay may be loaded at a time.
+ * This is not checked: a newly loaded overlay will overwrite the previous one in absolute space,
+ * even if actors are still relying on the previous one. Actors using absolute-allocated overlays should be deleted
+ * when another absolute-allocated overlay is about to be used.
+ *
+ * @see ACTOROVL_ABSOLUTE_SPACE_SIZE
+ * @see ActorContext.absoluteSpace
+ * @see ACTOROVL_ALLOC_NORMAL
+ */
+#define ACTOROVL_ALLOC_ABSOLUTE (1 << 0)
+
+/**
+ * The actor overlay should be loaded persistently.
+ * It will stay loaded until the current game state instance ends.
+ *
+ * @see ACTOROVL_ALLOC_NORMAL
+ */
+#define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct {
     /* 0x00 */ u32 vromStart;
@@ -52,7 +92,7 @@ typedef struct {
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
     /* 0x14 */ ActorInit* initInfo;
     /* 0x18 */ char* name;
-    /* 0x1C */ u16 allocType;
+    /* 0x1C */ u16 allocType; // See `ACTOROVL_ALLOC_` defines
     /* 0x1E */ s8 numLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
@@ -282,7 +322,7 @@ typedef struct EnItem00 {
     /* 0x154 */ s16 unk_154;
     /* 0x156 */ s16 unk_156;
     /* 0x158 */ s16 unk_158;
-    /* 0x15A */ s16 unk_15A;
+    /* 0x15A */ s16 despawnTimer;
     /* 0x15C */ f32 scale;
     /* 0x160 */ ColliderCylinder collider;
 } EnItem00; // size = 0x1AC
@@ -337,8 +377,8 @@ typedef enum {
     /* 0x0C */ ACTORCAT_MAX
 } ActorCategory;
 
-#define DEFINE_ACTOR(_0, enum, _2) enum,
-#define DEFINE_ACTOR_INTERNAL(_0, enum, _2) enum,
+#define DEFINE_ACTOR(_0, enum, _2, _3) enum,
+#define DEFINE_ACTOR_INTERNAL(_0, enum, _2, _3) enum,
 #define DEFINE_ACTOR_UNSET(enum) enum,
 
 typedef enum {
