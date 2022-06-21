@@ -17,7 +17,7 @@ typedef enum {
     /* 2 */ FWBIG_KILL
 } HidanFwbigMoveState;
 
-void BgHidanFwbig_Init(Actor* thisx, PlayState* play);
+void BgHidanFwbig_Init(Actor* thisx, PlayState* play2);
 void BgHidanFwbig_Destroy(Actor* thisx, PlayState* play);
 void BgHidanFwbig_Update(Actor* thisx, PlayState* play);
 void BgHidanFwbig_Draw(Actor* thisx, PlayState* play);
