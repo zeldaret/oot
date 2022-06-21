@@ -481,7 +481,7 @@ static u32 sConveyorSpeedIndex = 0;
 static s16 sIsFloorConveyor = false;
 static s16 sConveyorYaw = 0;
 static f32 D_80853600 = 0.0f;
-static s32 D_80853604 = 0;
+static s32 D_80853604 = SURFACETYPE_FLOORPROPERTY_0;
 static s32 D_80853608 = 0;
 static s32 D_8085360C = 0;
 static s16 D_80853610 = 0;
@@ -4142,7 +4142,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
         if (!(this->stateFlags1 & PLAYER_STATE1_7) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (this->csMode == 0) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
             (((poly != NULL) && (exitIndex = SurfaceType_GetExitIndex(&play->colCtx, poly, bgId), exitIndex != 0)) ||
-             (func_8083816C(D_808535E4) && (this->unk_A7A == 12)))) {
+             (func_8083816C(D_808535E4) && (this->unk_A7A == SURFACETYPE_FLOORPROPERTY_12)))) {
 
             sp34 = this->unk_A84 - (s32)this->actor.world.pos.y;
 
@@ -4228,13 +4228,14 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
             if (play->transitionTrigger == TRANS_TRIGGER_OFF) {
 
                 if ((this->actor.world.pos.y < -4000.0f) ||
-                    (((this->unk_A7A == 5) || (this->unk_A7A == 12)) &&
+                    (((this->unk_A7A == SURFACETYPE_FLOORPROPERTY_5) ||
+                      (this->unk_A7A == SURFACETYPE_FLOORPROPERTY_12)) &&
                      ((D_80853600 < 100.0f) || (this->fallDistance > 400.0f) ||
                       ((play->sceneNum != SCENE_HAKADAN) && (this->fallDistance > 200.0f)))) ||
                     ((play->sceneNum == SCENE_GANON_FINAL) && (this->fallDistance > 320.0f))) {
 
                     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-                        if (this->unk_A7A == 5) {
+                        if (this->unk_A7A == SURFACETYPE_FLOORPROPERTY_5) {
                             Play_TriggerRespawn(play);
                         } else {
                             Play_TriggerVoidOut(play);
@@ -4244,7 +4245,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                     } else {
                         func_80838F5C(play, this);
                         this->unk_850 = 9999;
-                        if (this->unk_A7A == 5) {
+                        if (this->unk_A7A == SURFACETYPE_FLOORPROPERTY_5) {
                             this->unk_84F = -1;
                         } else {
                             this->unk_84F = 1;
@@ -4699,7 +4700,7 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
 
             sp54 = Math3D_UDistPlaneToPos(nx, ny, nz, sp84->dist, &this->actor.world.pos);
 
-            sp50 = D_80853604 == 6;
+            sp50 = D_80853604 == SURFACETYPE_FLOORPROPERTY_6;
             if (!sp50 && (func_80041DB8(&play->colCtx, sp84, sp80) & 8)) {
                 sp50 = 1;
             }
@@ -4752,7 +4753,7 @@ void func_8083AA10(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & (PLAYER_STATE1_27 | PLAYER_STATE1_29)) &&
         !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (!func_80838FB8(play, this)) {
-            if (D_80853604 == 8) {
+            if (D_80853604 == SURFACETYPE_FLOORPROPERTY_8) {
                 this->actor.world.pos.x = this->actor.prevPos.x;
                 this->actor.world.pos.z = this->actor.prevPos.z;
                 return;
@@ -4761,7 +4762,7 @@ void func_8083AA10(Player* this, PlayState* play) {
             if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & 0x80) &&
                 (func_8084411C != this->func_674) && (func_80844A44 != this->func_674)) {
 
-                if ((D_80853604 == 7) || (this->meleeWeaponState != 0)) {
+                if ((D_80853604 == SURFACETYPE_FLOORPROPERTY_7) || (this->meleeWeaponState != 0)) {
                     Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.prevPos);
                     func_80832210(this);
                     return;
@@ -4769,7 +4770,7 @@ void func_8083AA10(Player* this, PlayState* play) {
 
                 if (this->hoverBootsTimer != 0) {
                     this->actor.velocity.y = 1.0f;
-                    D_80853604 = 9;
+                    D_80853604 = SURFACETYPE_FLOORPROPERTY_9;
                     return;
                 }
 
@@ -4781,10 +4782,11 @@ void func_8083AA10(Player* this, PlayState* play) {
                 this->unk_89E = this->unk_A82;
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
-                    (D_80853604 != 6) && (D_80853604 != 9) && (D_80853600 > 20.0f) && (this->meleeWeaponState == 0) &&
-                    (ABS(sp5C) < 0x2000) && (this->linearVelocity > 3.0f)) {
+                    (D_80853604 != SURFACETYPE_FLOORPROPERTY_6) && (D_80853604 != SURFACETYPE_FLOORPROPERTY_9) &&
+                    (D_80853600 > 20.0f) && (this->meleeWeaponState == 0) && (ABS(sp5C) < 0x2000) &&
+                    (this->linearVelocity > 3.0f)) {
 
-                    if ((D_80853604 == 11) && !(this->stateFlags1 & PLAYER_STATE1_11)) {
+                    if ((D_80853604 == SURFACETYPE_FLOORPROPERTY_11) && !(this->stateFlags1 & PLAYER_STATE1_11)) {
 
                         sp40 = func_808396F4(play, this, &D_8085451C, &sp44, &sp58, &sp54);
                         sp3C = this->actor.world.pos.y;
@@ -4801,7 +4803,8 @@ void func_8083AA10(Player* this, PlayState* play) {
                     return;
                 }
 
-                if ((D_80853604 == 9) || (D_80853600 <= this->ageProperties->unk_34) || !func_8083A6AC(this, play)) {
+                if ((D_80853604 == SURFACETYPE_FLOORPROPERTY_9) || (D_80853600 <= this->ageProperties->unk_34) ||
+                    !func_8083A6AC(this, play)) {
                     func_80832284(play, this, &gPlayerAnim_003040);
                     return;
                 }
@@ -10285,7 +10288,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             func_80847BA0(play, this);
         } else {
             D_808535E4 = SURFACETYPE_FLOORTYPE_0;
-            this->unk_A7A = 0;
+            this->unk_A7A = SURFACETYPE_FLOORPROPERTY_0;
 
             if (!(this->stateFlags1 & PLAYER_STATE1_0) && (this->stateFlags1 & PLAYER_STATE1_23)) {
                 EnHorse* rideActor = (EnHorse*)this->rideActor;
