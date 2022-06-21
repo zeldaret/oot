@@ -8,7 +8,7 @@
 
 void BgJyaCobra_Init(Actor* thisx, PlayState* play);
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play);
-void BgJyaCobra_Update(Actor* thisx, PlayState* play);
+void BgJyaCobra_Update(Actor* thisx, PlayState* play2);
 void BgJyaCobra_Draw(Actor* thisx, PlayState* play);
 
 void func_80896918(BgJyaCobra* this, PlayState* play);

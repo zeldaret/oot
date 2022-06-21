@@ -12,8 +12,8 @@
 
 void EnBw_Init(Actor* thisx, PlayState* play);
 void EnBw_Destroy(Actor* thisx, PlayState* play);
-void EnBw_Update(Actor* thisx, PlayState* play);
-void EnBw_Draw(Actor* thisx, PlayState* play);
+void EnBw_Update(Actor* thisx, PlayState* play2);
+void EnBw_Draw(Actor* thisx, PlayState* play2);
 
 void func_809CE884(EnBw* this, PlayState* play);
 void func_809CE9A8(EnBw* this);
