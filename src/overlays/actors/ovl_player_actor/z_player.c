@@ -4375,14 +4375,15 @@ s32 func_80839800(Player* this, PlayState* play) {
                 // The door actor can be either EnDoor or DoorKiller.
                 door = (DoorActorBase*)doorActor;
 
-                door->knobAnim = (doorDirection < 0.0f) ? (LINK_IS_ADULT ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
-                                                        : (LINK_IS_ADULT ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
+                door->openAnim = (doorDirection < 0.0f)
+                                     ? (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_L : DOOR_OPEN_ANIM_CHILD_L)
+                                     : (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_R : DOOR_OPEN_ANIM_CHILD_R);
 
-                if (door->knobAnim == KNOB_ANIM_ADULT_L) {
+                if (door->openAnim == DOOR_OPEN_ANIM_ADULT_L) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_9, this->modelAnimType);
-                } else if (door->knobAnim == KNOB_ANIM_CHILD_L) {
+                } else if (door->openAnim == DOOR_OPEN_ANIM_CHILD_L) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_10, this->modelAnimType);
-                } else if (door->knobAnim == KNOB_ANIM_ADULT_R) {
+                } else if (door->openAnim == DOOR_OPEN_ANIM_ADULT_R) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_11, this->modelAnimType);
                 } else {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_12, this->modelAnimType);

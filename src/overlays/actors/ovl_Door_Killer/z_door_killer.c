@@ -117,7 +117,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.01f);
     this->timer = 0;
     this->hasHitPlayerOrGround = 0;
-    this->knobAnim = 0;
+    this->openAnim = 0;
     this->playerIsOpening = false;
 
     switch ((u8)(this->actor.params & 0xFF)) {

@@ -930,7 +930,7 @@ void Play_Update(PlayState* this) {
                         Play_SetViewpoint(this, this->viewpoint ^ (VIEWPOINT_LOCKED ^ VIEWPOINT_PIVOT));
                     }
                 }
-                
+
                 Play_ChangeViewpointBgCamIndex(this);
             }
 

@@ -77,33 +77,33 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-static AnimationHeader* sDoorAnims[KNOB_ANIM_MAX] = {
-    &gDoor3Anim, // KNOB_ANIM_ADULT_L
-    &gDoor1Anim, // KNOB_ANIM_CHILD_L
-    &gDoor4Anim, // KNOB_ANIM_ADULT_R
-    &gDoor2Anim, // KNOB_ANIM_CHILD_R
+static AnimationHeader* sDoorAnims[DOOR_OPEN_ANIM_MAX] = {
+    &gDoorAdultOpeningLeftAnim,  // DOOR_OPEN_ANIM_ADULT_L
+    &gDoorChildOpeningLeftAnim,  // DOOR_OPEN_ANIM_CHILD_L
+    &gDoorAdultOpeningRightAnim, // DOOR_OPEN_ANIM_ADULT_R
+    &gDoorChildOpeningRightAnim, // DOOR_OPEN_ANIM_CHILD_R
 };
 
-static u8 sDoorAnimOpenFrames[KNOB_ANIM_MAX] = {
-    25, // KNOB_ANIM_ADULT_L
-    25, // KNOB_ANIM_CHILD_L
-    25, // KNOB_ANIM_ADULT_R
-    25, // KNOB_ANIM_CHILD_R
+static u8 sDoorAnimOpenFrames[DOOR_OPEN_ANIM_MAX] = {
+    25, // DOOR_OPEN_ANIM_ADULT_L
+    25, // DOOR_OPEN_ANIM_CHILD_L
+    25, // DOOR_OPEN_ANIM_ADULT_R
+    25, // DOOR_OPEN_ANIM_CHILD_R
 };
 
-static u8 sDoorAnimCloseFrames[KNOB_ANIM_MAX] = {
-    60, // KNOB_ANIM_ADULT_L
-    70, // KNOB_ANIM_CHILD_L
-    60, // KNOB_ANIM_ADULT_R
-    70, // KNOB_ANIM_CHILD_R
+static u8 sDoorAnimCloseFrames[DOOR_OPEN_ANIM_MAX] = {
+    60, // DOOR_OPEN_ANIM_ADULT_L
+    70, // DOOR_OPEN_ANIM_CHILD_L
+    60, // DOOR_OPEN_ANIM_ADULT_R
+    70, // DOOR_OPEN_ANIM_CHILD_R
 };
 
 static Gfx* sDoorDLists[DOOR_DL_MAX][2] = {
     { gDoorLeftDL, gDoorRightDL },                                         // DOOR_DL_GAMEPLAY_KEEP
-    { gFireTempleDoorWithHandleFrontDL, gFireTempleDoorWithHandleBackDL }, // DOOR_DL_HIDAN
+    { gFireTempleDoorWithHandleLeftDL, gFireTempleDoorWithHandleRightDL }, // DOOR_DL_HIDAN
     { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },                   // DOOR_DL_MIZU
-    { object_haka_door_DL_0013B8, object_haka_door_DL_001420 },            // DOOR_DL_HAKA
-    { gFieldDoor1DL, gFieldDoor2DL },                                      // DOOR_DL_GAMEPLAY_FIELD_KEEP
+    { gShadowDoorLeftDL, gShadowDoorRightDL },                             // DOOR_DL_HAKA
+    { gFieldDoorLeftDL, gFieldDoorRightDL },                               // DOOR_DL_GAMEPLAY_FIELD_KEEP
 };
 
 void EnDoor_Init(Actor* thisx, PlayState* play2) {
@@ -117,7 +117,8 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
 
     objectInfo = &sDoorInfo[0];
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(play, &this->skelAnime, &gDoorSkel, &gDoor3Anim, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(play, &this->skelAnime, &gDoorSkel, &gDoorAdultOpeningLeftAnim, this->jointTable, this->morphTable,
+                   5);
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
         if (play->sceneNum == objectInfo->sceneNum) {
             break;
@@ -222,7 +223,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     if (this->playerIsOpening) {
         this->actionFunc = EnDoor_Open;
-        Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->knobAnim],
+        Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->openAnim],
                                    (player->stateFlags1 & PLAYER_STATE1_27) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
@@ -299,7 +300,7 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
         if (SkelAnime_Update(&this->skelAnime)) {
             this->actionFunc = EnDoor_Idle;
             this->playerIsOpening = false;
-        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->knobAnim])) {
+        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->openAnim])) {
             Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
                                                  play->sceneNum == SCENE_HIDAN)
                                                     ? NA_SE_EV_IRON_DOOR_OPEN
@@ -310,7 +311,7 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
                     EffectSsBubble_Spawn(play, &this->actor.world.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }
             }
-        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->knobAnim])) {
+        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->openAnim])) {
             Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
                                                  play->sceneNum == SCENE_HIDAN)
                                                     ? NA_SE_EV_IRON_DOOR_CLOSE
@@ -339,7 +340,8 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         transitionEntry = &play->transiActorCtx.list[ACTOR_TRANSITION_INDEX(&this->actor)];
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
-            rotDiff = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -
+            // Draw the side of the door that is visible to the camera
+            rotDiff = this->actor.shape.rot.y + this->skelAnime.jointTable[3].z + rot->z -
                       Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
             *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
         } else {
