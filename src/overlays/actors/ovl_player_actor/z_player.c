@@ -2830,7 +2830,7 @@ void func_80835DE4(PlayState* play, Player* this, PlayerFunc674 func, s32 flags)
 }
 
 void func_80835E44(PlayState* play, s16 camSetting) {
-    if (!func_800C0CB8(play)) {
+    if (!Play_CamIsNotFixed(play)) {
         if (camSetting == CAM_SET_SCENE_TRANSITION) {
             Interface_ChangeAlpha(2);
         }
@@ -5144,7 +5144,8 @@ s32 func_8083B998(Player* this, PlayState* play) {
                                     (this->unk_664->naviEnemyId != NAVI_ENEMY_NONE))) {
         this->stateFlags2 |= PLAYER_STATE2_21;
     } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
-               (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, play)) {
+               (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) &&
+               (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && !func_8083B8F4(this, play)) {
         func_80078884(NA_SE_SY_ERROR);
     }
 

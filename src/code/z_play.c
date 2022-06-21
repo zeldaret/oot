@@ -15,33 +15,42 @@ u64 D_801614D0[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
-void func_800BC450(PlayState* this) {
-    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->unk_1242B - 1);
+void Play_ChangeViewpointBgCamIndex(PlayState* this) {
+    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1);
 }
 
-void func_800BC490(PlayState* this, s16 point) {
-    ASSERT(point == 1 || point == 2, "point == 1 || point == 2", "../z_play.c", 2160);
+void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
+    ASSERT(viewpoint == VIEWPOINT_LOCKED || viewpoint == VIEWPOINT_PIVOT, "point == 1 || point == 2", "../z_play.c",
+           2160);
 
-    this->unk_1242B = point;
+    this->viewpoint = viewpoint;
 
-    if ((YREG(15) != 0x10) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        Audio_PlaySoundGeneral((point == 1) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+        // Play a sfx when the player toggles the camera
+        Audio_PlaySoundGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
+                               &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultReverb);
     }
 
-    func_800BC450(this);
+    Play_ChangeViewpointBgCamIndex(this);
 }
 
-s32 func_800BC56C(PlayState* this, s16 arg1) {
-    return (arg1 == this->unk_1242B);
+/**
+ * @return true if the currently set viewpoint is the same as the one provided in the argument
+ */
+s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint) {
+    return (viewpoint == this->viewpoint);
 }
 
-// original name: "Game_play_shop_pr_vr_switch_set"
-void func_800BC590(PlayState* this) {
+/**
+ * If the scene is a shop, set the viewpoint that will set the bgCamIndex
+ * to toggle the camera into a "browsing item selection" setting.
+ */
+void Play_SetShopBrowsingViewpoint(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
 
-    if (YREG(15) == 0x10) {
-        this->unk_1242B = 2;
+    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
+        this->viewpoint = VIEWPOINT_PIVOT;
     }
 }
 
@@ -394,12 +403,12 @@ void Play_Init(GameState* thisx) {
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
     }
 
-    if (YREG(15) == 32) {
-        this->unk_1242B = 2;
-    } else if (YREG(15) == 16) {
-        this->unk_1242B = 1;
+    if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) {
+        this->viewpoint = VIEWPOINT_PIVOT;
+    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
+        this->viewpoint = VIEWPOINT_LOCKED;
     } else {
-        this->unk_1242B = 0;
+        this->viewpoint = VIEWPOINT_NONE;
     }
 
     Interface_SetSceneRestrictions(this);
@@ -943,7 +952,7 @@ void Play_Update(PlayState* this) {
                 LOG_NUM("1", 1, "../z_play.c", 3677);
             }
 
-            if (this->unk_1242B != 0) {
+            if (this->viewpoint != VIEWPOINT_NONE) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
@@ -951,14 +960,16 @@ void Play_Update(PlayState* this) {
                     } else if (Player_InCsMode(this)) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
-                    } else if (YREG(15) == 0x10) {
+                    } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
-                        func_800BC490(this, this->unk_1242B ^ 3);
+                        // C-Up toggle for houses, move between pivot camera and fixed camera
+                        // Toggle viewpoint between VIEWPOINT_LOCKED and VIEWPOINT_PIVOT
+                        Play_SetViewpoint(this, this->viewpoint ^ (VIEWPOINT_LOCKED ^ VIEWPOINT_PIVOT));
                     }
                 }
-                func_800BC450(this);
+                Play_ChangeViewpointBgCamIndex(this);
             }
 
             if (1 && HREG(63)) {
@@ -1488,7 +1499,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);
     func_80096FD4(this, &this->roomCtx.curRoom);
-    YREG(15) = 0;
+    R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
     gSaveContext.worldMapArea = 0;
     Scene_ExecuteCommands(this, this->sceneSegment);
     Play_InitEnvironment(this, this->skyboxId);
@@ -1807,9 +1818,12 @@ void Play_TriggerRespawn(PlayState* this) {
     Play_LoadToLastEntrance(this);
 }
 
-s32 func_800C0CB8(PlayState* this) {
-    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) && (YREG(15) != 0x20) &&
-           (YREG(15) != 0x30) && (YREG(15) != 0x40) && (this->sceneNum != SCENE_HAIRAL_NIWA);
+s32 Play_CamIsNotFixed(PlayState* this) {
+    // SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT was probably intended to be in this condition,
+    // but the scene mesh header handles all shop cases regardless
+    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) &&
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
 s32 FrameAdvance_IsEnabled(PlayState* this) {
