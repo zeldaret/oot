@@ -8,6 +8,7 @@
 #define TATUMS_PER_BEAT 48
 
 #define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.sequenceChannelNone)
+#define SEQ_NUM_CHANNELS 16
 
 #define MAX_CHANNELS_PER_BANK 3
 
