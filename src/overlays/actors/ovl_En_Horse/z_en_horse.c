@@ -3461,7 +3461,7 @@ s32 EnHorse_UpdateConveyors(EnHorse* this, PlayState* play) {
         return 0;
     }
     conveyorDir = SurfaceType_GetConveyorDirection(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-    conveyorDir = (conveyorDir * (0x10000 / 64)) - this->actor.world.rot.y;
+    conveyorDir = SURFACETYPE_CONVEYORDIRECTION_TO_BINANG(conveyorDir) - this->actor.world.rot.y;
     if (conveyorDir > 800.0f) {
         this->actor.world.rot.y += 800.0f;
     } else if (conveyorDir < -800.0f) {

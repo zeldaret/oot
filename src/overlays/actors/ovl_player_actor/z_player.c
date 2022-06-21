@@ -9711,8 +9711,8 @@ void func_80847BA0(PlayState* play, Player* this) {
             if ((!sIsFloorConveyor && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 (sIsFloorConveyor && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
-                sConveyorYaw =
-                    SurfaceType_GetConveyorDirection(&play->colCtx, floorPoly, this->actor.floorBgId) * (0x10000 / 64);
+                sConveyorYaw = SURFACETYPE_CONVEYORDIRECTION_TO_BINANG(
+                    SurfaceType_GetConveyorDirection(&play->colCtx, floorPoly, this->actor.floorBgId));
             } else {
                 sConveyorSpeedIndex = SURFACETYPE_CONVEYORSPEED_DISABLED;
             }
