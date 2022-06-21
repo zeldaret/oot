@@ -15,9 +15,9 @@
 typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorAction*);
 typedef void (*EnHorseActionFunc)(EnHorse*, PlayState*);
 
-void EnHorse_Init(Actor* thisx, PlayState* play);
+void EnHorse_Init(Actor* thisx, PlayState* play2);
 void EnHorse_Destroy(Actor* thisx, PlayState* play);
-void EnHorse_Update(Actor* thisx, PlayState* play);
+void EnHorse_Update(Actor* thisx, PlayState* play2);
 void EnHorse_Draw(Actor* thisx, PlayState* play);
 
 void EnHorse_InitCutscene(EnHorse* this, PlayState* play);
@@ -29,7 +29,7 @@ void EnHorse_InitInactive(EnHorse* this);
 void EnHorse_InitIngoHorse(EnHorse* this);
 
 void EnHorse_Frozen(EnHorse* this, PlayState* play);
-void EnHorse_Inactive(EnHorse* this, PlayState* play);
+void EnHorse_Inactive(EnHorse* this, PlayState* play2);
 void EnHorse_Idle(EnHorse* this, PlayState* play);
 void EnHorse_FollowPlayer(EnHorse* this, PlayState* play);
 void EnHorse_UpdateIngoRace(EnHorse* this, PlayState* play);
@@ -858,7 +858,9 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     this->animationIdx = ENHORSE_ANIM_IDLE;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx]);
     this->numBoosts = 6;
-    this->blinkTimer = this->postDrawFunc = this->boostRegenTime = 0;
+    this->boostRegenTime = 0;
+    this->postDrawFunc = NULL;
+    this->blinkTimer = 0;
     EnHorse_ResetCutscene(this, play);
     EnHorse_ResetRace(this, play);
     EnHorse_ResetHorsebackArchery(this, play);

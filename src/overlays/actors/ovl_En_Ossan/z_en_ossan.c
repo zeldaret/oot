@@ -65,9 +65,9 @@ void EnOssan_State_LookToRightShelf(EnOssan* this, PlayState* play, Player* play
 void EnOssan_State_BrowseLeftShelf(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_BrowseRightShelf(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_LookFromShelfToShopkeeper(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play, Player* player);
+void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play2, Player* player);
+void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play2, Player* player);
+void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play2, Player* player);
 void EnOssan_State_SelectUnimplementedItem(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_SelectBombs(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_CantGetItem(EnOssan* this, PlayState* play, Player* player);
@@ -193,7 +193,7 @@ typedef struct {
     /* 0x06 */ s16 zOffset;
 } ShopItem; // size 0x08
 
-ShopItem sShopkeeperStores[][8] = {
+static ShopItem sShopkeeperStores[][8] = {
     { { SI_DEKU_SHIELD, 50, 52, -20 },
       { SI_DEKU_NUTS_5, 50, 76, -20 },
       { SI_DEKU_NUTS_10, 80, 52, -3 },
@@ -653,7 +653,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
-    func_800BC490(play, 1);
+    Play_SetViewpoint(play, VIEWPOINT_LOCKED);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
     this->stickLeftPrompt.isEnabled = false;
@@ -737,7 +737,7 @@ void EnOssan_State_Idle(EnOssan* this, PlayState* play, Player* player) {
         // "Start conversation!!"
         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
         player->stateFlags2 |= PLAYER_STATE2_29;
-        func_800BC590(play);
+        Play_SetShopBrowsingViewpoint(play);
         EnOssan_SetStateStartShopping(play, this, false);
     } else if (this->actor.xzDistToPlayer < 100.0f) {
         func_8002F2CC(&this->actor, play, 100);
@@ -1322,7 +1322,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
-    func_800BC490(play, 1);
+    Play_SetViewpoint(play, VIEWPOINT_LOCKED);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);
@@ -1696,7 +1696,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
                         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 続けるよ！！ ★★★" VT_RST "\n");
                         player->actor.shape.rot.y += 0x8000;
                         player->stateFlags2 |= PLAYER_STATE2_29;
-                        func_800BC490(play, 2);
+                        Play_SetViewpoint(play, VIEWPOINT_PIVOT);
                         Message_StartTextbox(play, this->actor.textId, &this->actor);
                         EnOssan_SetStateStartShopping(play, this, true);
                         func_8002F298(&this->actor, play, 100.0f, -1);
@@ -1715,7 +1715,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
         selectedItem->updateStockedItemFunc(play, selectedItem);
         player->actor.shape.rot.y += 0x8000;
         player->stateFlags2 |= PLAYER_STATE2_29;
-        func_800BC490(play, 2);
+        Play_SetViewpoint(play, VIEWPOINT_PIVOT);
         Message_StartTextbox(play, this->actor.textId, &this->actor);
         EnOssan_SetStateStartShopping(play, this, true);
         func_8002F298(&this->actor, play, 100.0f, -1);
@@ -1989,7 +1989,7 @@ void EnOssan_InitBazaarShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gKm1Skel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objBankIndex3].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &object_masterkokiri_Anim_0004A8, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_masterkokiri_Anim_0004A8), 0, 0.0f);
     this->actor.draw = EnOssan_DrawKokiriShopkeeper;
@@ -2000,7 +2000,7 @@ void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objBankIndex3].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
@@ -2009,7 +2009,7 @@ void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitZoraShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[this->objBankIndex3].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawZoraShopkeeper;

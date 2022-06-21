@@ -384,7 +384,7 @@ typedef struct {
 } WeaponInfo; // size = 0x1C
 
 #define PLAYER_STATE1_0 (1 << 0)
-#define PLAYER_STATE1_1 (1 << 1)
+#define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_3 (1 << 3)
 #define PLAYER_STATE1_4 (1 << 4)
@@ -455,7 +455,7 @@ typedef struct {
 #define PLAYER_STATE3_3 (1 << 3)
 #define PLAYER_STATE3_4 (1 << 4)
 #define PLAYER_STATE3_5 (1 << 5)
-#define PLAYER_STATE3_6 (1 << 6)
+#define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
 #define PLAYER_STATE3_7 (1 << 7)
 
 typedef void (*PlayerFunc674)(struct Player*, struct PlayState*);
@@ -521,7 +521,7 @@ typedef struct Player {
     /* 0x0450 */ Vec3f      unk_450;
     /* 0x045C */ Vec3f      unk_45C;
     /* 0x0468 */ char       unk_468[0x002];
-    /* 0x046A */ s16        unk_46A;
+    /* 0x046A */ s16        doorBgCamIndex;
     /* 0x046C */ s16        subCamId;
     /* 0x046E */ char       unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;

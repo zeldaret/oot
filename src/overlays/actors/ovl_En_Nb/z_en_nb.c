@@ -85,7 +85,8 @@ static void* sEyeTextures[] = {
 
 static s32 D_80AB4318 = 0;
 
-#include "z_en_nb_cutscene_data.c" EARLY
+#pragma asmproc recurse
+#include "z_en_nb_cutscene_data.c"
 
 s32 EnNb_GetPath(EnNb* this) {
     s32 path = this->actor.params >> 8;
