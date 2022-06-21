@@ -477,7 +477,7 @@ static s32 D_808535E4 = SURFACETYPE_FLOORTYPE_0;
 static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
 static u32 D_808535F0 = 0;
-static u32 sConveyorSpeedIndex = 0;
+static u32 sConveyorSpeedIndex = SURFACETYPE_CONVEYORSPEED_DISABLED;
 static s16 sIsFloorConveyor = false;
 static s16 sConveyorYaw = 0;
 static f32 D_80853600 = 0.0f;
@@ -4206,7 +4206,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                         gSaveContext.entranceSpeed = linearVel;
                     }
 
-                    if (sConveyorSpeedIndex != 0) {
+                    if (sConveyorSpeedIndex != SURFACETYPE_CONVEYORSPEED_DISABLED) {
                         yaw = sConveyorYaw;
                     } else {
                         yaw = this->actor.world.rot.y;
@@ -8860,7 +8860,7 @@ void func_80845CA4(Player* this, PlayState* play) {
             if (this->stateFlags1 & PLAYER_STATE1_0) {
                 sp34 = gSaveContext.entranceSpeed;
 
-                if (sConveyorSpeedIndex != 0) {
+                if (sConveyorSpeedIndex != SURFACETYPE_CONVEYORSPEED_DISABLED) {
                     this->unk_450.x = (Math_SinS(sConveyorYaw) * 400.0f) + this->actor.world.pos.x;
                     this->unk_450.z = (Math_CosS(sConveyorYaw) * 400.0f) + this->actor.world.pos.z;
                 }
@@ -9670,7 +9670,7 @@ void func_80847BA0(PlayState* play, Player* this) {
     }
 
     D_80853600 = this->actor.world.pos.y - this->actor.floorHeight;
-    sConveyorSpeedIndex = 0;
+    sConveyorSpeedIndex = SURFACETYPE_CONVEYORSPEED_DISABLED;
 
     floorPoly = this->actor.floorPoly;
 
@@ -9706,7 +9706,7 @@ void func_80847BA0(PlayState* play, Player* this) {
 
         // This block extracts the conveyor properties from the floor poly
         sConveyorSpeedIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, floorPoly, this->actor.floorBgId);
-        if (sConveyorSpeedIndex != 0) {
+        if (sConveyorSpeedIndex != SURFACETYPE_CONVEYORSPEED_DISABLED) {
             sIsFloorConveyor = SurfaceType_IsFloorConveyor(&play->colCtx, floorPoly, this->actor.floorBgId);
             if ((!sIsFloorConveyor && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
@@ -9714,7 +9714,7 @@ void func_80847BA0(PlayState* play, Player* this) {
                 sConveyorYaw =
                     SurfaceType_GetConveyorDirection(&play->colCtx, floorPoly, this->actor.floorBgId) * (0x10000 / 64);
             } else {
-                sConveyorSpeedIndex = 0;
+                sConveyorSpeedIndex = SURFACETYPE_CONVEYORSPEED_DISABLED;
             }
         }
     }
@@ -10120,8 +10120,16 @@ static s8 D_808547C4[] = {
 
 static Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
 
-static f32 sWaterConveyorSpeeds[] = { 2.0f, 4.0f, 7.0f };
-static f32 sFloorConveyorSpeeds[] = { 0.5f, 1.0f, 3.0f };
+static f32 sWaterConveyorSpeeds[SURFACETYPE_CONVEYORSPEED_MAX - 1] = {
+    2.0f, // SURFACETYPE_CONVEYORSPEED_SLOW
+    4.0f, // SURFACETYPE_CONVEYORSPEED_MEDIUM
+    7.0f, // SURFACETYPE_CONVEYORSPEED_FAST
+};
+static f32 sFloorConveyorSpeeds[SURFACETYPE_CONVEYORSPEED_MAX - 1] = {
+    0.5f, // SURFACETYPE_CONVEYORSPEED_SLOW
+    1.0f, // SURFACETYPE_CONVEYORSPEED_MEDIUM
+    3.0f, // SURFACETYPE_CONVEYORSPEED_FAST
+};
 
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     s32 pad;
@@ -10318,12 +10326,12 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 }
             }
 
-            sConveyorSpeedIndex = 0;
+            sConveyorSpeedIndex = SURFACETYPE_CONVEYORSPEED_DISABLED;
             this->pushedSpeed = 0.0f;
         }
 
         // This block applies the bg conveyor to pushedSpeed
-        if ((sConveyorSpeedIndex != 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
+        if ((sConveyorSpeedIndex != SURFACETYPE_CONVEYORSPEED_DISABLED) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
             f32 conveyorSpeed;
 
             // converts 1-index to 0-index
