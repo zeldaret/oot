@@ -1492,7 +1492,7 @@ void EnGo2_GoronFireCamera(EnGo2* this, PlayState* play) {
     this->subCamAt.x = this->actor.world.pos.x;
     this->subCamAt.y = this->actor.world.pos.y + 40.0f;
     this->subCamAt.z = this->actor.world.pos.z;
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
 
 void EnGo2_GoronFireClearCamera(EnGo2* this, PlayState* play) {

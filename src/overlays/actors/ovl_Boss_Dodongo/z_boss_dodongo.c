@@ -446,7 +446,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
         subCamUp.y = 1.0f;
         subCamUp.z = this->unk_20C;
 
-        Play_CameraSetAtEyeUp(play, this->subCamId, &subCamAt, &subCamEye, &subCamUp);
+        Play_SetCameraAtEyeUp(play, this->subCamId, &subCamAt, &subCamEye, &subCamUp);
     }
 }
 
@@ -1632,7 +1632,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
             break;
     }
     if (this->subCamId != SUB_CAM_ID_DONE) {
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 

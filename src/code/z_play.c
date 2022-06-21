@@ -1614,15 +1614,15 @@ Camera* Play_GetCamera(PlayState* this, s16 camId) {
     return this->cameraPtrs[camIdx];
 }
 
-s32 Play_CameraSetAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
-    s32 ret = 0;
+s32 Play_SetCameraAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
+    s32 successfullySet = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, 1, at);
-    ret <<= 1;
-    ret |= Camera_SetParam(camera, 2, eye);
+    successfullySet |= Camera_SetParam(camera, 1, at);
+    successfullySet <<= 1;
+    successfullySet |= Camera_SetParam(camera, 2, eye);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1637,20 +1637,20 @@ s32 Play_CameraSetAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
 
     camera->atLERPStepScale = 0.01f;
 
-    return ret;
+    return successfullySet;
 }
 
-s32 Play_CameraSetAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
-    s32 ret = 0;
+s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
+    s32 successfullySet = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, 1, at);
-    ret <<= 1;
-    ret |= Camera_SetParam(camera, 2, eye);
-    ret <<= 1;
-    ret |= Camera_SetParam(camera, 4, up);
+    successfullySet |= Camera_SetParam(camera, 1, at);
+    successfullySet <<= 1;
+    successfullySet |= Camera_SetParam(camera, 2, eye);
+    successfullySet <<= 1;
+    successfullySet |= Camera_SetParam(camera, 4, up);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1665,17 +1665,17 @@ s32 Play_CameraSetAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 
     camera->atLERPStepScale = 0.01f;
 
-    return ret;
+    return successfullySet;
 }
 
-s32 Play_CameraSetFov(PlayState* this, s16 camId, f32 fov) {
-    s32 ret = Camera_SetParam(this->cameraPtrs[camId], 0x20, &fov) & 1;
+s32 Play_SetCameraFov(PlayState* this, s16 camId, f32 fov) {
+    s32 successfullySet = Camera_SetParam(this->cameraPtrs[camId], 0x20, &fov) & 1;
 
     if (1) {}
-    return ret;
+    return successfullySet;
 }
 
-s32 Play_CameraSetRoll(PlayState* this, s16 camId, s16 roll) {
+s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
 
@@ -1691,6 +1691,7 @@ void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId) {
     Camera_Copy(this->cameraPtrs[destCamId1], this->cameraPtrs[srcCamId2]);
 }
 
+// Same as Play_ChangeCameraSetting but also calls Camera_InitPlayerSettings
 s32 func_800C0808(PlayState* this, s16 camId, Player* player, s16 setting) {
     Camera* camera;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
@@ -1700,11 +1701,13 @@ s32 func_800C0808(PlayState* this, s16 camId, Player* player, s16 setting) {
     return Camera_ChangeSetting(camera, setting);
 }
 
-s32 Play_CameraChangeSetting(PlayState* this, s16 camId, s16 setting) {
+s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting) {
     return Camera_ChangeSetting(Play_GetCamera(this, camId), setting);
 }
 
-void func_800C08AC(PlayState* this, s16 camId, s16 arg2) {
+// Related to bosses and fishing
+// Name should relate to one-point cs 1020
+void func_800C08AC(PlayState* this, s16 camId, s16 timer) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     s16 i;
 
@@ -1719,15 +1722,15 @@ void func_800C08AC(PlayState* this, s16 camId, s16 arg2) {
         }
     }
 
-    if (arg2 <= 0) {
+    if (timer <= 0) {
         Play_ChangeCameraStatus(this, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         this->cameraPtrs[CAM_ID_MAIN]->childCamId = this->cameraPtrs[CAM_ID_MAIN]->parentCamId = CAM_ID_MAIN;
     } else {
-        OnePointCutscene_Init(this, 1020, arg2, NULL, CAM_ID_MAIN);
+        OnePointCutscene_Init(this, 1020, timer, NULL, CAM_ID_MAIN);
     }
 }
 
-s16 Play_CameraGetUID(PlayState* this, s16 camId) {
+s16 Play_GetCameraUID(PlayState* this, s16 camId) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
@@ -1737,6 +1740,7 @@ s16 Play_CameraGetUID(PlayState* this, s16 camId) {
     }
 }
 
+// Unused, purpose is very unclear (also unused and unclear in MM)
 s16 func_800C09D8(PlayState* this, s16 camId, s16 uid) {
     Camera* camera = this->cameraPtrs[camId];
 

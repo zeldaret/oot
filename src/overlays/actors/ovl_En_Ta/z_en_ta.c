@@ -534,7 +534,7 @@ void func_80B14E28(EnTa* this, PlayState* play) {
     subCamAt.y = 45.0f;
     subCamAt.z = -40.0f;
 
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
 }
 
 void func_80B14EDC(EnTa* this, PlayState* play) {

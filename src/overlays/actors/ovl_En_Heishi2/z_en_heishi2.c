@@ -319,7 +319,7 @@ void func_80A5372C(EnHeishi2* this, PlayState* play) {
     this->subCamAt.y = 1145.0f;
     this->subCamAt.z = 3014.0f;
 
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     this->actionFunc = func_80A53850;
 }
 
@@ -327,7 +327,7 @@ void func_80A53850(EnHeishi2* this, PlayState* play) {
     BgSpot15Saku* gate;
 
     SkelAnime_Update(&this->skelAnime);
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Play_ClearCamera(play, this->subCamId);
@@ -487,7 +487,7 @@ void func_80A53DF8(EnHeishi2* this, PlayState* play) {
     this->subCamAt.y = 417.0f;
     this->subCamAtInit.z = -1079.0f;
     this->subCamAt.z = -1079.0f;
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     this->actionFunc = func_80A53F30;
 }
 
@@ -495,7 +495,7 @@ void func_80A53F30(EnHeishi2* this, PlayState* play) {
     BgGateShutter* gate;
 
     SkelAnime_Update(&this->skelAnime);
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Play_ClearCamera(play, this->subCamId);

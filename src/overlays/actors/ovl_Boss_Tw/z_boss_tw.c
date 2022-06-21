@@ -1567,9 +1567,9 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
         if (this->unk_5F9 == 0) {
-            Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+            Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
         } else {
-            Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt2, &this->subCamEye2);
+            Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt2, &this->subCamEye2);
         }
     }
 
@@ -2306,7 +2306,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                            this->subCamAtVel.z * this->subCamUpdateRate);
         }
 
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -2835,7 +2835,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
         if (1) {}
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
