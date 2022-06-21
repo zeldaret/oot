@@ -241,9 +241,10 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
 
-        case 3:
+        case CS_MISC_3_ENV_FLAG:
             if (isFirstFrame) {
                 Flags_SetEnv(play, 0);
+                
                 if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     Flags_SetEnv(play, 2);
                 }
@@ -372,21 +373,26 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             D_801614B0.b = 255;
             D_801614B0.a = 255;
             break;
+
         case 23:
             D_801614B0.r = 255;
             D_801614B0.g = 180;
             D_801614B0.b = 100;
             D_801614B0.a = 255.0f * temp;
             break;
+
         case 24:
             play->roomCtx.curRoom.segment = NULL;
             break;
+
         case 25:
             gSaveContext.dayTime += 30;
+
             if ((gSaveContext.dayTime) >= CLOCK_TIME(19, 0)) {
                 gSaveContext.dayTime = CLOCK_TIME(19, 0) - 1;
             }
             break;
+
         case 26:
             if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime < CLOCK_TIME(16, 0))) {
@@ -399,6 +405,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
                 }
             }
             break;
+
         case 27:
             if (play->state.frames & 8) {
                 if (play->envCtx.adjAmbientColor[0] < 40) {
@@ -414,27 +421,35 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
                 }
             }
             break;
+
         case 28:
             play->unk_11DE9 = true;
             break;
+
         case 29:
             play->unk_11DE9 = false;
             break;
+
         case 30:
             Flags_SetEnv(play, 3);
             break;
+
         case 31:
             Flags_SetEnv(play, 4);
             break;
+
         case 32:
             if (isFirstFrame) {
                 play->envCtx.sandstormState = SANDSTORM_FILL;
             }
+
             func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
+
         case 33:
             gSaveContext.sunsSongState = SUNSSONG_START;
             break;
+
         case 34:
             if (IS_DAY) {
                 gSaveContext.dayTime -= gTimeSpeed;
@@ -442,14 +457,14 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
                 gSaveContext.dayTime -= gTimeSpeed * 2;
             }
             break;
+
         case 35:
-            AudioOcarina_PlayLongScarecrowAfterCredits();
+            AudioOcarina_PlayLongScarecrowSong();
             csCtx->frames = cmd->startFrame - 1;
             break;
     }
 }
 
-// Command 4: Set Environment Lighting
 void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         play->envCtx.lightSettingOverride = cmd->setting - 1;
@@ -457,21 +472,18 @@ void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdE
     }
 }
 
-// Command 0x56: Play Background Music
 void CutsceneCmd_PlaySequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F595C(cmd->sequence - 1);
     }
 }
 
-// Command 0x57: Stop Background Music
 void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F59E8(cmd->sequence - 1);
     }
 }
 
-// Command 0x7C: Fade Background Music over duration
 void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
     u8 duration;
 
@@ -486,14 +498,12 @@ void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusi
     }
 }
 
-// Command 9: ?
 void CutsceneCmd_RumbleController(PlayState* play, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800AA000(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
     }
 }
 
-// Command 0x8C: Set Time of Day & Environment Time
 void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdDayTime* cmd) {
     s16 hours;
     s16 minutes;
@@ -507,7 +517,6 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdDayTime* 
     }
 }
 
-// Command 0x3E8: Code Execution (& Terminates Cutscene?)
 void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
     Player* player = GET_PLAYER(play);
     s32 temp = 0;
@@ -1255,8 +1264,7 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
     }
 }
 
-// Command 0x2D: Transition Effects
-void Cutscene_Command_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
+void CutsceneCmd_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
     f32 temp;
 
     if ((csCtx->frames >= cmd->startFrame) && (csCtx->frames <= cmd->endFrame)) {
@@ -1354,7 +1362,7 @@ void Cutscene_Command_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCm
 }
 
 // Command 0x1 & 0x5: Camera Eye Points
-s32 Cutscene_Command_CameraEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
+s32 CutsceneCmd_CameraEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1391,7 +1399,7 @@ s32 Cutscene_Command_CameraEyePoints(PlayState* play, CutsceneContext* csCtx, u8
 }
 
 // Command 0x2 & 0x6: Camera At Points
-s32 Cutscene_Command_CameraLookAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
+s32 CutsceneCmd_CameraLookAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1428,7 +1436,7 @@ s32 Cutscene_Command_CameraLookAtPoints(PlayState* play, CutsceneContext* csCtx,
 }
 
 // Command 0x7: ? (Related to camera positons)
-s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+s32 CutsceneCmd_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
     Vec3f sp3C;
@@ -1471,7 +1479,7 @@ s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unu
 }
 
 // Command 0x8: ? (Related to camera focus points)
-s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+s32 CutsceneCmd_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
     Vec3f sp3C;
@@ -1512,7 +1520,7 @@ s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unu
 }
 
 // Command 0x13: Textbox
-void Cutscene_Command_Textbox(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd) {
+void CutsceneCmd_Textbox(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd) {
     u8 dialogState;
     s16 originalCsFrames;
 
@@ -1939,27 +1947,27 @@ void Cutscene_ProcessCommands(PlayState* play, CutsceneContext* csCtx, u8* cutsc
                 break;
 
             case CS_CMD_CAM_EYE:
-                cutscenePtr += Cutscene_Command_CameraEyePoints(play, csCtx, (void*)cutscenePtr, false);
+                cutscenePtr += CutsceneCmd_CameraEyePoints(play, csCtx, (void*)cutscenePtr, false);
                 break;
 
             case CS_CMD_CAM_EYE_REL_TO_PLAYER:
-                cutscenePtr += Cutscene_Command_CameraEyePoints(play, csCtx, (void*)cutscenePtr, true);
+                cutscenePtr += CutsceneCmd_CameraEyePoints(play, csCtx, (void*)cutscenePtr, true);
                 break;
 
             case CS_CMD_CAM_AT:
-                cutscenePtr += Cutscene_Command_CameraLookAtPoints(play, csCtx, (void*)cutscenePtr, false);
+                cutscenePtr += CutsceneCmd_CameraLookAtPoints(play, csCtx, (void*)cutscenePtr, false);
                 break;
 
             case CS_CMD_CAM_AT_REL_TO_PLAYER:
-                cutscenePtr += Cutscene_Command_CameraLookAtPoints(play, csCtx, (void*)cutscenePtr, true);
+                cutscenePtr += CutsceneCmd_CameraLookAtPoints(play, csCtx, (void*)cutscenePtr, true);
                 break;
 
             case CS_CMD_07:
-                cutscenePtr += Cutscene_Command_07(play, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += CutsceneCmd_07(play, csCtx, (void*)cutscenePtr, 0);
                 break;
 
             case CS_CMD_08:
-                cutscenePtr += Cutscene_Command_08(play, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += CutsceneCmd_08(play, csCtx, (void*)cutscenePtr, 0);
                 break;
 
             case CS_CMD_TERMINATOR:
@@ -1976,7 +1984,7 @@ void Cutscene_ProcessCommands(PlayState* play, CutsceneContext* csCtx, u8* cutsc
                     cmd = (CsCmdBase*)cutscenePtr;
 
                     if (cmd->base != 0xFFFF) {
-                        Cutscene_Command_Textbox(play, csCtx, (void*)cutscenePtr);
+                        CutsceneCmd_Textbox(play, csCtx, (void*)cutscenePtr);
                     }
 
                     cutscenePtr += 0xC;
@@ -1985,7 +1993,7 @@ void Cutscene_ProcessCommands(PlayState* play, CutsceneContext* csCtx, u8* cutsc
 
             case CS_CMD_SCENE_TRANS_FX:
                 cutscenePtr += 4;
-                Cutscene_Command_TransitionFX(play, csCtx, (void*)cutscenePtr);
+                CutsceneCmd_TransitionFX(play, csCtx, (void*)cutscenePtr);
                 cutscenePtr += 8;
                 break;
 
@@ -2147,8 +2155,8 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
 
     for (i = 0; i < ARRAY_COUNT(sEntranceCutsceneTable); i++) {
         entranceCutscene = &sEntranceCutsceneTable[i];
-
         requiredAge = entranceCutscene->ageRestriction;
+
         if (requiredAge == 2) {
             requiredAge = gSaveContext.linkAge;
         }
