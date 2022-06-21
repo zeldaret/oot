@@ -18,8 +18,8 @@ typedef enum {
 } FaceTextureIndex;
 
 void ObjLightswitch_Init(Actor* thisx, PlayState* play);
-void ObjLightswitch_Destroy(Actor* thisx, PlayState* play);
-void ObjLightswitch_Update(Actor* thisx, PlayState* play);
+void ObjLightswitch_Destroy(Actor* thisx, PlayState* play2);
+void ObjLightswitch_Update(Actor* thisx, PlayState* play2);
 void ObjLightswitch_Draw(Actor* thisx, PlayState* play);
 
 void ObjLightswitch_SetupOff(ObjLightswitch* this);

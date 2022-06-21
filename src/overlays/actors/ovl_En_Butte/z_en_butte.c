@@ -12,7 +12,7 @@
 #define FLAGS 0
 
 void EnButte_Init(Actor* thisx, PlayState* play);
-void EnButte_Destroy(Actor* thisx, PlayState* play);
+void EnButte_Destroy(Actor* thisx, PlayState* play2);
 void EnButte_Update(Actor* thisx, PlayState* play);
 void EnButte_Draw(Actor* thisx, PlayState* play);
 

@@ -19,8 +19,8 @@ void EffDust_InitPosAndDistance(EffDust* this);
 void EffDust_UpdateFunc_8099DB28(EffDust* this, PlayState* play);
 void EffDust_UpdateFunc_8099DD74(EffDust* this, PlayState* play);
 void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play);
-void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play);
-void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play);
+void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2);
+void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2);
 
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
