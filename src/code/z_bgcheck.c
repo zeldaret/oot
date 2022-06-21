@@ -3972,11 +3972,8 @@ u32 SurfaceType_GetExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 
     return SURFACETYPE0_EXITINDEX(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
-/**
- * SurfaceType Get ? Property (& 0x0003 E000)
- */
-u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_13(SurfaceType_GetData(colCtx, poly, bgId, 0));
+u32 SurfaceType_GetFloorType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return SURFACETYPE0_FLOORTYPE(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 /**
@@ -4021,17 +4018,11 @@ s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return (func_80041DB8(colCtx, poly, bgId) & 4) ? true : false;
 }
 
-/**
- * unused
- */
-u32 func_80041E80(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 SurfaceType_GetFloorProperty2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SURFACETYPE0_FLOORPROPERTY(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
-/**
- * SurfaceType Get Floor Property
- */
-u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 SurfaceType_GetFloorProperty(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SURFACETYPE0_FLOORPROPERTY(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 

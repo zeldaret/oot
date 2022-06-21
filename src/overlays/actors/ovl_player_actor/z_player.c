@@ -4184,7 +4184,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
 
             if (!(this->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_29)) &&
                 !(this->stateFlags2 & PLAYER_STATE2_18) && !func_808332B8(this) &&
-                (temp = func_80041D4C(&play->colCtx, poly, bgId), (temp != 10)) &&
+                (temp = SurfaceType_GetFloorType(&play->colCtx, poly, bgId), (temp != 10)) &&
                 ((sp34 < 100) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
 
                 if (temp == 11) {
@@ -7757,7 +7757,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                     if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &sp78, true,
                                                 false, false, true, &sp74) &&
                         !SurfaceType_IsIgnoredByEntities(&play->colCtx, sp78, sp74) &&
-                        (func_80041D4C(&play->colCtx, sp78, sp74) != 6) &&
+                        (SurfaceType_GetFloorType(&play->colCtx, sp78, sp74) != 6) &&
                         (func_8002F9EC(play, &this->actor, sp78, sp74, &sp5C) == 0)) {
 
                         if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
@@ -9667,7 +9667,7 @@ void func_80847BA0(PlayState* play, Player* this) {
     floorPoly = this->actor.floorPoly;
 
     if (floorPoly != NULL) {
-        this->unk_A7A = func_80041EA4(&play->colCtx, floorPoly, this->actor.floorBgId);
+        this->unk_A7A = SurfaceType_GetFloorProperty(&play->colCtx, floorPoly, this->actor.floorBgId);
         this->unk_A82 = this->unk_89E;
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
@@ -9828,7 +9828,7 @@ void func_80847BA0(PlayState* play, Player* this) {
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        D_808535E4 = func_80041D4C(&play->colCtx, floorPoly, this->actor.floorBgId);
+        D_808535E4 = SurfaceType_GetFloorType(&play->colCtx, floorPoly, this->actor.floorBgId);
 
         if (!func_80847A78(this)) {
             f32 floorPolyNormalX;

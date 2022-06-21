@@ -1751,7 +1751,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
 
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
-    if (func_80041D4C(&play->colCtx, poly, bgId) == 8) {
+    if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == 8) {
         play->roomCtx.unk_74[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);

@@ -133,7 +133,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 
-    surfaceType = func_80041D4C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+    surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
     if ((surfaceType != 4) && (surfaceType != 7)) {
         Actor_Kill(&this->actor);
@@ -251,7 +251,7 @@ void func_80AE5270(EnReeba* this, PlayState* play) {
         Math_ApproachF(&this->actor.shape.shadowScale, 12.0f, 3.0f, 1.0f);
     }
 
-    surfaceType = func_80041D4C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+    surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
     if ((surfaceType != 4) && (surfaceType != 7)) {
         this->actor.speedXZ = 0.0f;
@@ -282,7 +282,7 @@ void func_80AE53AC(EnReeba* this, PlayState* play) {
         Math_ApproachF(&this->actor.shape.shadowScale, 12.0f, 3.0f, 1.0f);
     }
 
-    surfaceType = func_80041D4C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+    surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
     if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistToPlayer > 400.0f) ||
         (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {

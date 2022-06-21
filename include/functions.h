@@ -635,13 +635,13 @@ u16 BgCheck_GetBgCamCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgI
 Vec3s* BgCheck_GetBgCamFuncDataImpl(CollisionContext* colCtx, s32 bgCamIndex, s32 bgId);
 Vec3s* BgCheck_GetBgCamFuncData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetFloorType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetFloorProperty(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041F10(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
