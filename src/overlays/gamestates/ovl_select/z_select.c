@@ -11,7 +11,7 @@
 
 void Select_LoadTitle(SelectContext* this) {
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, Title_Init, TitleContext);
+    SET_NEXT_GAMESTATE(&this->state, ConsoleLogo_Init, ConsoleLogoState);
 }
 
 void Select_LoadGame(SelectContext* this, s32 entranceIndex) {

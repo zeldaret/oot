@@ -4,7 +4,7 @@ void Setup_InitImpl(GameState* this) {
     osSyncPrintf("ゼルダ共通データ初期化\n"); // "Zelda common data initalization"
     SaveContext_Init();
     this->running = false;
-    SET_NEXT_GAMESTATE(this, Title_Init, TitleContext);
+    SET_NEXT_GAMESTATE(this, ConsoleLogo_Init, ConsoleLogoState);
 }
 
 void Setup_Destroy(GameState* this) {

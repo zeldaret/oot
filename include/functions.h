@@ -2264,8 +2264,8 @@ void func_801109B0(PlayState* play);
 void Message_Init(PlayState* play);
 void func_80112098(PlayState* play);
 
-void Title_Init(GameState* thisx);
-void Title_Destroy(GameState* thisx);
+void ConsoleLogo_Init(GameState* thisx);
+void ConsoleLogo_Destroy(GameState* thisx);
 void Select_Init(GameState* thisx);
 void Select_Destroy(GameState* thisx);
 void Opening_Init(GameState* thisx);

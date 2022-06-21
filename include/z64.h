@@ -1081,7 +1081,7 @@ typedef struct {
     /* 0x01E0 */ char unk_1E0[0x01];
     /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[0x06];
-} TitleContext; // size = 0x1E8
+} ConsoleLogoState; // size = 0x1E8
 
 struct SelectContext;
 
