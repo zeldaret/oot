@@ -930,13 +930,8 @@ void Play_Update(PlayState* this) {
                         Play_SetViewpoint(this, this->viewpoint ^ (VIEWPOINT_LOCKED ^ VIEWPOINT_PIVOT));
                     }
                 }
-<<<<<<< HEAD
-=======
+                
                 Play_ChangeViewpointBgCamIndex(this);
-            }
->>>>>>> 00b98027dbb1898f477aebbd9464b37c6f1a80f0
-
-                func_800BC450(this);
             }
 
             PLAY_LOG(3708);
