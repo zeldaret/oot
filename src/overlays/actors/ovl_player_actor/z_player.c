@@ -3904,9 +3904,8 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 s32 sp48 = func_80838144(D_808535E4);
 
                 if (((this->actor.wallPoly != NULL) &&
-                     SurfaceType_IsWallDamage(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId)) ||
-                    ((sp48 >= 0) &&
-                     SurfaceType_IsWallDamage(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) &&
+                     func_80042108(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId)) ||
+                    ((sp48 >= 0) && func_80042108(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) &&
                      (this->unk_A79 >= D_808544F4[sp48])) ||
                     ((sp48 >= 0) &&
                      ((this->currentTunic != PLAYER_TUNIC_GORON) || (this->unk_A79 >= D_808544F4[sp48])))) {
@@ -4142,8 +4141,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
 
         if (!(this->stateFlags1 & PLAYER_STATE1_7) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (this->csMode == 0) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
-            (((poly != NULL) &&
-              (exitIndex = SurfaceType_GetSceneExitIndex(&play->colCtx, poly, bgId), exitIndex != 0)) ||
+            (((poly != NULL) && (exitIndex = SurfaceType_GetExitIndex(&play->colCtx, poly, bgId), exitIndex != 0)) ||
              (func_8083816C(D_808535E4) && (this->unk_A7A == 12)))) {
 
             sp34 = this->unk_A84 - (s32)this->actor.world.pos.y;
@@ -4171,7 +4169,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                                                  play->curSpawn];
                     Scene_SetTransitionForNextEntrance(play);
                 } else {
-                    if (SurfaceType_GetSlope(&play->colCtx, poly, bgId) == 2) {
+                    if (func_80041F7C(&play->colCtx, poly, bgId) == 2) {
                         gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = play->nextEntranceIndex;
                         Play_TriggerVoidOut(play);
                         gSaveContext.respawnFlag = -2;
@@ -5225,7 +5223,7 @@ s32 func_8083BDBC(Player* this, PlayState* play) {
 
     if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
         (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (D_808535E4 != 7) &&
-        (SurfaceType_GetSlope(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != 1)) {
+        (func_80041F7C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != 1)) {
         sp2C = this->unk_84B[this->unk_846];
 
         if (sp2C <= 0) {
@@ -6043,7 +6041,7 @@ s32 func_8083E318(PlayState* play, Player* this, CollisionPoly* floorPoly) {
     s16 velYawToDownwardSlope;
 
     if (!Player_InBlockingCsMode(play, this) && (func_8084F390 != this->func_674) &&
-        (SurfaceType_GetSlope(&play->colCtx, floorPoly, this->actor.floorBgId) == 1)) {
+        (func_80041F7C(&play->colCtx, floorPoly, this->actor.floorBgId) == 1)) {
 
         // Get direction of movement relative to the downward direction of the slope
         playerVelYaw = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
@@ -8093,7 +8091,7 @@ void func_80843CEC(Player* this, PlayState* play) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
         if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (D_808535E4 == 9) ||
             ((func_80838144(D_808535E4) >= 0) &&
-             !SurfaceType_IsWallDamage(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
+             !func_80042108(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
             func_8083821C(this);
         }
     }
@@ -9691,7 +9689,7 @@ void func_80847BA0(PlayState* play, Player* this) {
 
             if (this->actor.floorBgId == BGCHECK_SCENE) {
                 Environment_ChangeLightSetting(
-                    play, SurfaceType_GetLightSettingIndex(&play->colCtx, floorPoly, this->actor.floorBgId));
+                    play, SurfaceType_GetLightSetting(&play->colCtx, floorPoly, this->actor.floorBgId));
             } else {
                 func_80043508(&play->colCtx, this->actor.floorBgId);
             }
@@ -12617,7 +12615,7 @@ void func_8084F390(Player* this, PlayState* play) {
         sp4C = (sp50 * sp50) * 0.015f;
         sp48 = slopeNormal.y * 0.01f;
 
-        if (SurfaceType_GetSlope(&play->colCtx, floorPoly, this->actor.floorBgId) != 1) {
+        if (func_80041F7C(&play->colCtx, floorPoly, this->actor.floorBgId) != 1) {
             sp50 = 0;
             sp48 = slopeNormal.y * 10.0f;
         }
