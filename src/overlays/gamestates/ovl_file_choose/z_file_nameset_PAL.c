@@ -683,7 +683,7 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
         osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
         osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
         osSyncPrintf(VT_RST);
-        Audio_SetFileSelectSetting(gSaveContext.audioSetting);
+        func_800F6700(gSaveContext.audioSetting);
         osSyncPrintf("終了\n");
         return;
     }

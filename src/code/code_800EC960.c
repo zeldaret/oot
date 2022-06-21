@@ -1,6 +1,5 @@
 #include "ultra64.h"
 #include "global.h"
-#include "src/overlays/gamestates/ovl_file_choose/file_choose.h"
 
 // TODO: can these macros be shared between files? code_800F9280 seems to use
 // versions without any casts...
@@ -3167,7 +3166,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                                        &gSfxDefaultReverb);
                 break;
             case 4:
-                Audio_SetFileSelectSetting(sAudioSndContWork[sAudioSndContSel]);
+                func_800F6700(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 5:
                 Audio_SeqCmdE01(SEQ_PLAYER_BGM_MAIN, sAudioSndContWork[sAudioSndContSel]);
@@ -5012,27 +5011,27 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void Audio_SetFileSelectSetting(s8 audioSetting) {
+void func_800F6700(s8 audioSetting) {
     s8 soundModeIndex;
 
     switch (audioSetting) {
-        case FS_AUDIO_STEREO:
-            soundModeIndex = 0; // SOUNDMODE_STEREO
+        case 0:
+            soundModeIndex = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_STEREO;
             break;
 
-        case FS_AUDIO_MONO:
-            soundModeIndex = 3; // SOUNDMODE_MONO
+        case 1:
+            soundModeIndex = SOUNDMODE_MONO;
             sSoundMode = SOUNDMODE_MONO;
             break;
 
-        case FS_AUDIO_HEADSET:
-            soundModeIndex = 1; // SOUNDMODE_HEADSET
+        case 2:
+            soundModeIndex = SOUNDMODE_HEADSET;
             sSoundMode = SOUNDMODE_HEADSET;
             break;
 
-        case FS_AUDIO_SURROUND:
-            soundModeIndex = 0; // SOUNDMODE_STEREO
+        case 3:
+            soundModeIndex = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_SURROUND;
             break;
     }
