@@ -15,7 +15,7 @@
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void EnKusa_Init(Actor* thisx, PlayState* play);
-void EnKusa_Destroy(Actor* thisx, PlayState* play);
+void EnKusa_Destroy(Actor* thisx, PlayState* play2);
 void EnKusa_Update(Actor* thisx, PlayState* play);
 void EnKusa_Draw(Actor* thisx, PlayState* play);
 

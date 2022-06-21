@@ -27,7 +27,7 @@ typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);
 #define ENGOROIWA_LOOPMODE_ROUNDTRIP 3
 
 void EnGoroiwa_Init(Actor* thisx, PlayState* play);
-void EnGoroiwa_Destroy(Actor* thisx, PlayState* play);
+void EnGoroiwa_Destroy(Actor* thisx, PlayState* play2);
 void EnGoroiwa_Update(Actor* thisx, PlayState* play);
 void EnGoroiwa_Draw(Actor* thisx, PlayState* play);
 
