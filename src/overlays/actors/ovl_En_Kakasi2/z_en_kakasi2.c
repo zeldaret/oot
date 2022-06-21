@@ -32,7 +32,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnKakasi2_Init(Actor* thisx, PlayState* play);
 void EnKakasi2_Destroy(Actor* thisx, PlayState* play);
-void EnKakasi2_Update(Actor* thisx, PlayState* play);
+void EnKakasi2_Update(Actor* thisx, PlayState* play2);
 void func_80A90948(Actor* thisx, PlayState* play);
 
 void func_80A9062C(EnKakasi2* this, PlayState* play);

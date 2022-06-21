@@ -44,7 +44,7 @@ typedef struct {
 #define MO_FX_STRETCH 1
 #define MO_FX_MAX_SCALE 1
 
-void BossMo_Init(Actor* thisx, PlayState* play);
+void BossMo_Init(Actor* thisx, PlayState* play2);
 void BossMo_Destroy(Actor* thisx, PlayState* play);
 void BossMo_UpdateCore(Actor* thisx, PlayState* play);
 void BossMo_UpdateTent(Actor* thisx, PlayState* play);
@@ -3211,8 +3211,8 @@ void BossMo_Unknown(void) {
         NA_SE_IT_MAGIC_ARROW_SHOT,
         NA_SE_IT_EXPLOSION_FRAME,
         NA_SE_IT_EXPLOSION_ICE,
-        NA_SE_IT_YOBI19 - SFX_FLAG,
-        NA_SE_FISHING_REEL_SLOW2 - SFX_FLAG,
+        0x1850 - SFX_FLAG, // Invalid sfxId, OoB read
+        0x1851 - SFX_FLAG, // Invalid sfxId, OoB read
         NA_SE_OC_DOOR_OPEN,
         NA_SE_EV_DOOR_CLOSE,
         NA_SE_EV_EXPLOSION,

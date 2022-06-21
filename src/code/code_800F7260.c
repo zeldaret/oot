@@ -233,7 +233,7 @@ void Audio_ProcessSoundRequest(void) {
     index = gSoundBanks[bankId][0].next;
     while (index != 0xFF && index != 0) {
         if (gSoundBanks[bankId][index].posX == &req->pos->x) {
-            if ((gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].params & 0x20) &&
+            if ((gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].params & SFX_FLAG_5) &&
                 gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].importance ==
                     gSoundBanks[bankId][index].sfxImportance) {
                 return;
@@ -261,8 +261,8 @@ void Audio_ProcessSoundRequest(void) {
             }
             if (count == gUsedChannelsPerBank[gSfxChannelLayout][bankId]) {
                 soundParams = &gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];
-                if ((req->sfxId & 0xC00) || (soundParams->params & 4) || (index == evictIndex)) {
-                    if ((gSoundBanks[bankId][index].sfxParams & 8) &&
+                if ((req->sfxId & 0xC00) || (soundParams->params & SFX_FLAG_2) || (index == evictIndex)) {
+                    if ((gSoundBanks[bankId][index].sfxParams & SFX_FLAG_3) &&
                         gSoundBanks[bankId][index].state != SFX_STATE_QUEUED) {
                         Audio_ClearBGMMute(gSoundBanks[bankId][index].channelIdx);
                     }
@@ -314,7 +314,7 @@ void Audio_RemoveSoundBankEntry(u8 bankId, u8 entryIndex) {
     SoundBankEntry* entry = &gSoundBanks[bankId][entryIndex];
     u8 i;
 
-    if (entry->sfxParams & 8) {
+    if (entry->sfxParams & SFX_FLAG_3) {
         Audio_ClearBGMMute(entry->channelIdx);
     }
     if (entryIndex == sSoundBankListEnd[bankId]) {
@@ -382,7 +382,7 @@ void Audio_ChooseActiveSounds(u8 bankId) {
                 entry->dist = (SQ(*entry->posX) + SQ(tempf1) + SQ(*entry->posZ)) * 1;
             }
             sfxImportance = entry->sfxImportance;
-            if (entry->sfxParams & 0x10) {
+            if (entry->sfxParams & SFX_FLAG_4) {
                 entry->priority = SQ(0xFF - sfxImportance) * SQ(76);
             } else {
                 if (entry->dist > 0x7FFFFFD0) {
@@ -506,18 +506,18 @@ void Audio_PlayActiveSounds(u8 bankId) {
             channel = gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
             if (entry->state == SFX_STATE_READY) {
                 entry->channelIdx = sCurSfxPlayerChannelIdx;
-                if (entry->sfxParams & 8) {
+                if (entry->sfxParams & SFX_FLAG_3) {
                     Audio_QueueSeqCmdMute(sCurSfxPlayerChannelIdx);
                 }
-                if (entry->sfxParams & 0xC0) {
-                    switch (entry->sfxParams & 0xC0) {
-                        case 0x40:
+                if ((entry->sfxParams & SFX_PARAM_67_MASK) != (0 << SFX_PARAM_67_SHIFT)) {
+                    switch (entry->sfxParams & SFX_PARAM_67_MASK) {
+                        case (1 << SFX_PARAM_67_SHIFT):
                             entry->unk_2F = Audio_NextRandom() & 0xF;
                             break;
-                        case 0x80:
+                        case (2 << SFX_PARAM_67_SHIFT):
                             entry->unk_2F = Audio_NextRandom() & 0x1F;
                             break;
-                        case 0xC0:
+                        case (3 << SFX_PARAM_67_SHIFT):
                             entry->unk_2F = Audio_NextRandom() & 0x3F;
                             break;
                         default:
