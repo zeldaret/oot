@@ -32,7 +32,7 @@ void func_80967F10(Demo6K* this, PlayState* play);
 void func_80967FFC(Actor* thisx, PlayState* play);
 void func_80968298(Actor* thisx, PlayState* play);
 void func_8096865C(Actor* thisx, PlayState* play);
-void func_809688C4(Actor* thisx, PlayState* play);
+void func_809688C4(Actor* thisx, PlayState* play2);
 void func_80968B70(Actor* thisx, PlayState* play);
 void func_80968FB0(Actor* thisx, PlayState* play);
 void func_809691BC(Demo6K* this, PlayState* play, s32 params);
