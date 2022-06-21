@@ -187,7 +187,7 @@ void EnDekunuts_SetupBeginRun(EnDekunuts* this) {
 void EnDekunuts_SetupRun(EnDekunuts* this) {
     Animation_PlayLoop(&this->skelAnime, &gDekuNutsRunAnim);
     this->animFlagAndTimer = 2;
-    this->playWalkSound = false;
+    this->playWalkSfx = false;
     this->collider.base.acFlags |= AC_ON;
     this->actionFunc = EnDekunuts_Run;
 }
@@ -350,11 +350,11 @@ void EnDekunuts_Run(EnDekunuts* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && (this->animFlagAndTimer != 0)) {
         this->animFlagAndTimer--;
     }
-    if (this->playWalkSound) {
+    if (this->playWalkSfx) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
-        this->playWalkSound = false;
+        this->playWalkSfx = false;
     } else {
-        this->playWalkSound = true;
+        this->playWalkSfx = true;
     }
 
     Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);

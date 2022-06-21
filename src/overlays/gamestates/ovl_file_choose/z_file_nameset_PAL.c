@@ -508,7 +508,7 @@ void FileChoose_StartNameEntry(GameState* thisx) {
 }
 
 /**
- * Update the keyboard cursor and play sounds at the appropriate times.
+ * Update the keyboard cursor and play sound effects at the appropriate times.
  * There are many special cases for warping the cursor depending on where
  * the cursor currently is.
  * Update function for `CM_NAME_ENTRY`

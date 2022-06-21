@@ -490,7 +490,7 @@ void FileChoose_CopyAnim2(GameState* thisx) {
 }
 
 /**
- * Play sound to indicate that the copy has completed. Wait for a timer or for
+ * Play a sound effect to indicate that the copy has completed. Wait for a timer or for
  * the player to press a button before moving on.
  * Update function for `CM_COPY_ANIM_3`
  */

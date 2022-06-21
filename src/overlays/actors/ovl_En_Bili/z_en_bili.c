@@ -122,7 +122,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->playFlySound = false;
+    this->playFlySfx = false;
 
     if (this->actor.params == EN_BILI_TYPE_NORMAL) {
         EnBili_SetupFloatIdle(this);
@@ -610,11 +610,11 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
         if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
             if ((this->actionFunc == EnBili_FloatIdle) || (this->actionFunc == EnBili_SetNewHomeHeight) ||
                 (this->actionFunc == EnBili_ApproachPlayer) || (this->actionFunc == EnBili_Recoil)) {
-                if (this->playFlySound) {
+                if (this->playFlySfx) {
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIRI_FLY);
-                    this->playFlySound = false;
+                    this->playFlySfx = false;
                 } else {
-                    this->playFlySound = true;
+                    this->playFlySfx = true;
                 }
             }
         }

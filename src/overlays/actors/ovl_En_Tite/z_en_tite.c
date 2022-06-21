@@ -401,7 +401,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         }
     }
-    // if landed, kill XZ speed and play appropriate sounds
+    // if landed, kill XZ speed and play appropriate sound effect
     if (this->actor.params == TEKTITE_BLUE) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
             this->actor.speedXZ = 0.0f;
@@ -464,7 +464,7 @@ void EnTite_TurnTowardPlayer(EnTite* this, PlayState* play) {
     }
 
     /**
-     * Play sounds once every animation cycle
+     * Play sound effect once every animation cycle
      */
     SkelAnime_Update(&this->skelAnime);
     if (((s16)this->skelAnime.curFrame & 7) == 0) {
@@ -637,7 +637,7 @@ void EnTite_Recoil(EnTite* this, PlayState* play) {
         }
     }
 
-    // play sound and generate ripples
+    // play sound effect and generate ripples
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WATER_TOUCH)) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
             func_80033480(play, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
@@ -707,7 +707,7 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
             this->actor.world.pos.y += this->actor.yDistToWater;
         }
     }
-    // Play sounds and spawn dirt effects upon landing
+    // Play sound effect and spawn dirt effects upon landing
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WATER_TOUCH)) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
             func_80033480(play, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);

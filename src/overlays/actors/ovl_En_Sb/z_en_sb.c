@@ -428,7 +428,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             return 1;
         }
 
-        // if player attack didn't do damage, play recoil sound and spawn sparks
+        // if player attack didn't do damage, play recoil sound effect and spawn sparks
         if (!tookDamage) {
             hitPoint.x = this->collider.info.bumper.hitPos.x;
             hitPoint.y = this->collider.info.bumper.hitPos.y;

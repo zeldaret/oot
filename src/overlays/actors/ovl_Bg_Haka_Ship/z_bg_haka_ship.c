@@ -70,7 +70,7 @@ void BgHakaShip_Destroy(Actor* thisx, PlayState* play) {
     BgHakaShip* this = (BgHakaShip*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    Audio_StopSfxByPos(&this->bellSoundPos);
+    Audio_StopSfxByPos(&this->bellSfxPos);
 }
 
 void BgHakaShip_ChildUpdatePosition(BgHakaShip* this, PlayState* play) {
@@ -228,7 +228,7 @@ void BgHakaShip_Draw(Actor* thisx, PlayState* play) {
         sp2C.y = this->dyna.actor.world.pos.y + 62.0f;
         sp2C.z = this->dyna.actor.world.pos.z;
 
-        SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->bellSoundPos);
-        func_80078914(&this->bellSoundPos, NA_SE_EV_SHIP_BELL - SFX_FLAG);
+        SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->bellSfxPos);
+        func_80078914(&this->bellSfxPos, NA_SE_EV_SHIP_BELL - SFX_FLAG);
     }
 }

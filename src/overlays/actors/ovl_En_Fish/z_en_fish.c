@@ -398,7 +398,7 @@ void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
 void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     s32 pad;
     f32 randomFloat;
-    s32 playSound;
+    s32 playSfx;
 
     this->actor.gravity = -1.0f;
     this->actor.minVelocityY = -10.0f;
@@ -406,17 +406,17 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
 
     if (randomFloat < 0.1f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 3.0f) + 2.5f;
-        playSound = true;
+        playSfx = true;
     } else if (randomFloat < 0.2f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 1.2f) + 0.2f;
-        playSound = true;
+        playSfx = true;
     } else {
         this->actor.velocity.y = 0.0f;
 
         if (Rand_ZeroOne() < 0.2f) {
-            playSound = true;
+            playSfx = true;
         } else {
-            playSound = false;
+            playSfx = false;
         }
     }
 
@@ -425,7 +425,7 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     this->actionFunc = EnFish_Dropped_FlopOnGround;
     this->unk_250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
 
-    if (playSound && (this->actor.draw != NULL)) {
+    if (playSfx && (this->actor.draw != NULL)) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
     }
 }

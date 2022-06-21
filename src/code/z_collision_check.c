@@ -3391,7 +3391,7 @@ void CollisionCheck_SpawnShieldParticles(PlayState* play, Vec3f* v) {
 }
 
 /**
- * Spawns streaks of light and makes a metallic sound
+ * Spawns streaks of light and plays a metallic sound effect
  */
 void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v) {
     CollisionCheck_SpawnShieldParticles(play, v);
@@ -3400,7 +3400,7 @@ void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v) {
 }
 
 /**
- * Spawns streaks of light and makes a metallic sound at the specified position
+ * Spawns streaks of light and plays a metallic sound effect at the specified position
  */
 void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3f* pos) {
     CollisionCheck_SpawnShieldParticles(play, v);
@@ -3409,14 +3409,14 @@ void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3
 }
 
 /**
- * Spawns streaks of light and makes a metallic sound
+ * Spawns streaks of light and plays a metallic sound effect
  */
 void CollisionCheck_SpawnShieldParticlesMetal2(PlayState* play, Vec3f* v) {
     CollisionCheck_SpawnShieldParticlesMetal(play, v);
 }
 
 /**
- * Spawns streaks of light and makes a wooden sound
+ * Spawns streaks of light and plays a wooden sound effect
  */
 void CollisionCheck_SpawnShieldParticlesWood(PlayState* play, Vec3f* v, Vec3f* actorPos) {
     static EffectShieldParticleInit woodInit = {

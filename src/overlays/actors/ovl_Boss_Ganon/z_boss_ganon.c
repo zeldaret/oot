@@ -2915,7 +2915,7 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
             }
         }
 
-        // player hit, spawn shock and play sound
+        // player hit, spawn shock and play sound effect
         if (this->unk_2E8 != 0) {
             func_80078914(&player->actor.projectedPos, NA_SE_PL_SPARK - SFX_FLAG);
             BossGanonEff_SpawnShock(play, 700.0f, GDF_SHOCK_PLAYER_YELLOW);

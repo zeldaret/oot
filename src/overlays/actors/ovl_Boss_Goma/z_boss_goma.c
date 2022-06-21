@@ -1275,7 +1275,7 @@ void BossGoma_FloorAttackPosture(BossGoma* this, PlayState* play) {
 }
 
 /**
- * Only lasts 1 frame. Plays a sound.
+ * Only lasts 1 frame. Plays a sound effect.
  */
 void BossGoma_FloorPrepareAttack(BossGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);

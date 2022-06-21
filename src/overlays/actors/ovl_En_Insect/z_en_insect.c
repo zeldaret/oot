@@ -161,7 +161,7 @@ s32 EnInsect_TryFindNearbySoil(EnInsect* this, PlayState* play) {
 }
 
 /**
- * Update the crawl sound timer, and play the crawling sound when it reaches 0.
+ * Update the crawl sound timer, and play the crawling sound effect when it reaches 0.
  */
 void EnInsect_UpdateCrawlSfx(EnInsect* this) {
     if (this->crawlSoundDelay > 0) {

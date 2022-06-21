@@ -863,13 +863,13 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
         }
 
         if ((play->sceneNum == SCENE_LINK_HOME) && (gSaveContext.sceneSetupIndex == 4)) {
-            // play dash sound as Navi enters Links house in the intro
+            // play dash sound effect as Navi enters Links house in the intro
             if (1) {}
             if (play->csCtx.frames == 55) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FAIRY_DASH);
             }
 
-            // play dash sound in intervals as Navi is waking up Link in the intro
+            // play dash sound effect in intervals as Navi is waking up Link in the intro
             if (this->unk_2A8 == 6) {
                 if (this->fairyFlags & 0x40) {
                     if (prevPos.y < this->actor.world.pos.y) {
@@ -1002,7 +1002,7 @@ void func_80A04414(EnElf* this, PlayState* play) {
     Actor* arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
     Player* player = GET_PLAYER(play);
     f32 transitionRate;
-    u16 targetSound;
+    u16 sfxId;
 
     if (play->actorCtx.targetCtx.unk_40 != 0.0f) {
         this->unk_2C6 = 0;
@@ -1039,14 +1039,13 @@ void func_80A04414(EnElf* this, PlayState* play) {
     } else {
         if ((arrowPointedActor != NULL) && (player->unk_664 != NULL)) {
             if (arrowPointedActor->category == ACTORCAT_NPC) {
-                targetSound = NA_SE_VO_NAVY_HELLO;
+                sfxId = NA_SE_VO_NAVY_HELLO;
             } else {
-                targetSound =
-                    (arrowPointedActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+                sfxId = (arrowPointedActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
             }
 
             if (this->unk_2C7 == 0) {
-                Audio_PlayActorSfx2(&this->actor, targetSound);
+                Audio_PlayActorSfx2(&this->actor, sfxId);
             }
 
             this->fairyFlags |= 1;

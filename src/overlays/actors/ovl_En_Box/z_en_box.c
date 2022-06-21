@@ -432,7 +432,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
 }
 
 /**
- * Plays an animation to its end, playing sounds at key points
+ * Plays an animation to its end, playing sound effects at key points
  */
 void EnBox_Open(EnBox* this, PlayState* play) {
     u16 sfxId;

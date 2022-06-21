@@ -28,7 +28,7 @@ const ActorInit En_River_Sound_InitVars = {
 void EnRiverSound_Init(Actor* thisx, PlayState* play) {
     EnRiverSound* this = (EnRiverSound*)thisx;
 
-    this->playSound = false;
+    this->playSfx = false;
     this->pathIndex = (this->actor.params >> 8) & 0xFF;
     this->actor.params = this->actor.params & 0xFF;
 
@@ -206,23 +206,23 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
         if (EnRiverSound_GetSoundPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
             if (BgCheck_EntityRaycastFloor4(&play->colCtx, &thisx->floorPoly, &bgId, thisx, pos) != BGCHECK_Y_MIN) {
                 // Get the river sfx frequency based on the speed of the river current under the actor
-                this->soundFreqIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, thisx->floorPoly, bgId);
+                this->sfxFreqIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, thisx->floorPoly, bgId);
             } else {
-                this->soundFreqIndex = 0;
+                this->sfxFreqIndex = 0;
             }
 
-            if (this->soundFreqIndex == 0) {
+            if (this->sfxFreqIndex == 0) {
                 if (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ) {
-                    this->soundFreqIndex = 0;
+                    this->sfxFreqIndex = 0;
                 } else if (thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) {
-                    this->soundFreqIndex = 1;
+                    this->sfxFreqIndex = 1;
                 } else {
                     // RS_RIVER_DEFAULT_HIGH_FREQ
-                    this->soundFreqIndex = 2;
+                    this->sfxFreqIndex = 2;
                 }
             } else {
-                this->soundFreqIndex--;
-                this->soundFreqIndex = CLAMP_MAX(this->soundFreqIndex, 2);
+                this->sfxFreqIndex--;
+                this->sfxFreqIndex = CLAMP_MAX(this->sfxFreqIndex, 2);
             }
         }
     } else if ((thisx->params == RS_GORON_CITY_SARIAS_SONG) || (thisx->params == RS_GREAT_FAIRY)) {
@@ -257,15 +257,15 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         NA_SE_EV_TORCH - SFX_FLAG,
         NA_SE_EV_COW_CRY_LV - SFX_FLAG,
     };
-    static f32 soundFreq[] = { 0.7f, 1.0f, 1.4f };
+    static f32 sfxFreqs[] = { 0.7f, 1.0f, 1.4f };
     EnRiverSound* this = (EnRiverSound*)thisx;
 
-    if (!(this->playSound)) {
-        this->playSound = true;
+    if (!(this->playSfx)) {
+        this->playSfx = true;
     } else if ((this->actor.params == RS_RIVER_DEFAULT_LOW_FREQ) ||
                (this->actor.params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
                (this->actor.params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
-        Audio_PlaySfxRiver(&this->actor.projectedPos, soundFreq[this->soundFreqIndex]);
+        Audio_PlaySfxRiver(&this->actor.projectedPos, sfxFreqs[this->sfxFreqIndex]);
     } else if (this->actor.params == RS_LOWER_MAIN_BGM_VOLUME) {
         // Responsible for lowering market bgm in Child Market Entrance and Child Market Back Alley
         // Lower volume from default 127 to a volume of 90

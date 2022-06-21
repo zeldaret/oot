@@ -1051,7 +1051,7 @@ void EffectSsFCircle_Spawn(PlayState* play, Actor* actor, Vec3f* pos, s16 radius
 
 void EffectSsDeadDb_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                           s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused,
-                          s32 arg14, s16 playSound) {
+                          s32 arg14, s16 playSfx) {
     EffectSsDeadDbInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -1068,7 +1068,7 @@ void EffectSsDeadDb_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* a
     initParams.envColor.b = envB;
     initParams.unused = unused;
     initParams.unk_34 = arg14;
-    initParams.playSound = playSound;
+    initParams.playSfx = playSfx;
 
     EffectSs_Spawn(play, EFFECT_SS_DEAD_DB, 120, &initParams);
 }

@@ -621,7 +621,7 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
     }
 
     if (this->skelAnime.curFrame >= 32.0f && this->rewardTimer == 10) {
-        /* Play a reward sound shortly after digging */
+        /* Play a reward sound effect shortly after digging */
         if (this->validDigHere == 0) {
             /* Bad dig spot */
             Audio_PlayActorSfx2(&this->actor, NA_SE_SY_ERROR);
