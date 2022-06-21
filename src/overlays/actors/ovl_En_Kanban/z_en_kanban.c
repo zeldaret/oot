@@ -72,7 +72,7 @@ typedef enum {
 
 void EnKanban_Init(Actor* thisx, PlayState* play);
 void EnKanban_Destroy(Actor* thisx, PlayState* play);
-void EnKanban_Update(Actor* thisx, PlayState* play);
+void EnKanban_Update(Actor* thisx, PlayState* play2);
 void EnKanban_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_Kanban_InitVars = {

@@ -53,7 +53,7 @@ void OceffSpot_Init(Actor* thisx, PlayState* play) {
     Lights_PointNoGlowSetInfo(&this->lightInfo2, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, 0, 0, 0, 0);
     this->lightNode2 = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo2);
-    if (YREG(15)) {
+    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT) {
         this->actor.scale.y = 2.4f;
     } else {
         this->actor.scale.y = 0.3f;
@@ -71,7 +71,7 @@ void OceffSpot_Destroy(Actor* thisx, PlayState* play) {
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode2);
     Magic_Reset(play);
     if ((gSaveContext.nayrusLoveTimer != 0) && (play->actorCtx.actorLists[ACTORCAT_PLAYER].length != 0)) {
-        player->stateFlags3 |= PLAYER_STATE3_6;
+        player->stateFlags3 |= PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 }
 

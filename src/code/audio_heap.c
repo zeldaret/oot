@@ -1371,7 +1371,7 @@ void AudioHeap_ChangeStorage(StorageChange* change, Sample* sample) {
     }
 }
 
-void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 id);
+void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId);
 
 void AudioHeap_DiscardSampleBank(s32 sampleBankId) {
     AudioHeap_ApplySampleBankCacheInternal(false, sampleBankId);
