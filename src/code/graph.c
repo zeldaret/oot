@@ -102,7 +102,7 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     void* gameStateInitFunc = GameState_GetInit(gameState);
 
-    if (gameStateInitFunc == TitleSetup_Init) {
+    if (gameStateInitFunc == Setup_Init) {
         return &gGameStateOverlayTable[0];
     }
     if (gameStateInitFunc == Select_Init) {

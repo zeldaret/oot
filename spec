@@ -387,7 +387,7 @@ beginseg
     include "build/src/code/TwoHeadArena.o"
     include "build/src/code/code_800C3C20.o"
     include "build/src/code/audioMgr.o"
-    include "build/src/code/title_setup.o"
+    include "build/src/code/setup.o"
     include "build/src/code/game.o"
     include "build/src/code/gamealloc.o"
     include "build/src/code/graph.o"
