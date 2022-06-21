@@ -1707,7 +1707,7 @@ f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFl
         yIntersect = yIntersectDyna;
     }
 
-    if (yIntersect != BGCHECK_Y_MIN && func_80041EC8(colCtx, *outPoly, *outBgId)) {
+    if (yIntersect != BGCHECK_Y_MIN && SurfaceType_IsSoft(colCtx, *outPoly, *outBgId)) {
         yIntersect -= 1.0f;
     }
     return yIntersect;
@@ -4035,11 +4035,8 @@ u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SURFACETYPE0_FLOORPROPERTY(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
-/**
- * SurfaceType Is Floor Minus 1
- */
-u32 func_80041EC8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_30(SurfaceType_GetData(colCtx, poly, bgId, 0));
+u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return SURFACETYPE0_SOFT(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {

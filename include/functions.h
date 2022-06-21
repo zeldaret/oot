@@ -642,7 +642,7 @@ s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 func_80041EC8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041F10(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 SurfaceType_GetSfx(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
