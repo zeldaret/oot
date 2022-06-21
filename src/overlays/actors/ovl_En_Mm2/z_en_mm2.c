@@ -25,7 +25,7 @@ typedef enum {
     /* 1 */ RM2_MOUTH_OPEN
 } RunningManMouthTex;
 
-void EnMm2_Init(Actor* thisx, PlayState* play);
+void EnMm2_Init(Actor* thisx, PlayState* play2);
 void EnMm2_Destroy(Actor* thisx, PlayState* play);
 void EnMm2_Update(Actor* thisx, PlayState* play);
 void EnMm2_Draw(Actor* thisx, PlayState* play);

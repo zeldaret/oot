@@ -29,7 +29,7 @@ typedef struct {
 typedef struct {
     struct {
         s8 room;    // Room to switch to
-        s8 effects; // How the camera reacts during the transition
+        s8 bgCamIndex; // How the camera reacts during the transition. See `Camera_ChangeDoorCam`
     } /* 0x00 */ sides[2]; // 0 = front, 1 = back
     /* 0x04 */ s16   id;
     /* 0x06 */ Vec3s pos;
@@ -110,9 +110,9 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u16   unk_00;
     /* 0x02 */ u8    id;
-    /* 0x04 */ u32   source;
+    /* 0x04 */ void* source;
     /* 0x08 */ u32   unk_0C;
-    /* 0x0C */ u32   tlut;
+    /* 0x0C */ void* tlut;
     /* 0x10 */ u16   width;
     /* 0x12 */ u16   height;
     /* 0x14 */ u8    fmt;
@@ -328,7 +328,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  code;
-    /* 0x01 */ u8  cameraMovement;
+    /* 0x01 */ u8  sceneCamType;
     /* 0x04 */ u32 area;
 } SCmdMiscSettings;
 
@@ -453,6 +453,14 @@ typedef enum {
     /* 53 */ SDC_MAX
 } SceneDrawConfig;
 
+// R_SCENE_CAM_TYPE values
+#define SCENE_CAM_TYPE_DEFAULT 0
+#define SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT 0x10 // Camera exhibits fixed behaviors and viewpoint changing is handled by shops
+#define SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT 0x20 // Camera exhibits fixed behaviors and viewpoint can be toggled with c-up
+#define SCENE_CAM_TYPE_FIXED 0x30 // Camera exhibits fixed behaviors (see `Play_CamIsNotFixed` usages for examples)
+#define SCENE_CAM_TYPE_FIXED_MARKET 0x40 // Camera exhibits fixed behaviors and delays textboxes by a small amount before they start to appear
+#define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code, and set only by the main setup of the shooting gallery scene
+
 // Scene commands
 
 typedef enum {
@@ -561,8 +569,8 @@ typedef enum {
 #define SCENE_CMD_ALTERNATE_HEADER_LIST(alternateHeaderList) \
     { SCENE_CMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
 
-#define SCENE_CMD_MISC_SETTINGS(camMode, worldMapLocation) \
-    { SCENE_CMD_ID_MISC_SETTINGS, camMode, CMD_W(worldMapLocation) }
+#define SCENE_CMD_MISC_SETTINGS(sceneCamType, worldMapLocation) \
+    { SCENE_CMD_ID_MISC_SETTINGS, sceneCamType, CMD_W(worldMapLocation) }
 
 
 #endif

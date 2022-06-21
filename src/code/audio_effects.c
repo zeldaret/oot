@@ -215,7 +215,7 @@ void Audio_NotePortamentoInit(Note* note) {
     note->playbackState.portamento = note->playbackState.parentLayer->portamento;
 }
 
-void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut) {
+void Audio_AdsrInit(AdsrState* adsr, EnvelopePoint* envelope, s16* volOut) {
     adsr->action.asByte = 0;
     adsr->delay = 0;
     adsr->envelope = envelope;
@@ -242,8 +242,8 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
         case ADSR_STATE_START_LOOP:
             adsr->envIndex = 0;
             adsr->action.s.state = ADSR_STATE_LOOP;
-            FALLTHROUGH;
         retry:;
+            FALLTHROUGH;
         case ADSR_STATE_LOOP:
             adsr->delay = adsr->envelope[adsr->envIndex].delay;
             switch (adsr->delay) {

@@ -113,9 +113,9 @@ typedef enum {
     /* 24 */ DEATH_FINISH
 } BossVaCutscene;
 
-void BossVa_Init(Actor* thisx, PlayState* play);
+void BossVa_Init(Actor* thisx, PlayState* play2);
 void BossVa_Destroy(Actor* thisx, PlayState* play);
-void BossVa_Update(Actor* thisx, PlayState* play);
+void BossVa_Update(Actor* thisx, PlayState* play2);
 void BossVa_Draw(Actor* thisx, PlayState* play);
 
 void BossVa_UpdateEffects(PlayState* play);
@@ -2038,7 +2038,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
 
             this->skelAnime.playSpeed = 0.0f;
             if (Math_SmoothStepToF(&this->skelAnime.curFrame, 0.0f, 1.0f, 2.0f, 0.0f) == 0.0f) {
-                if (sp88 < sp90) {
+                if (sp88 < (u32)sp90) {
                     this->timer2 = 0;
                     this->burst++;
                     this->unk_1D8 = sp7C;

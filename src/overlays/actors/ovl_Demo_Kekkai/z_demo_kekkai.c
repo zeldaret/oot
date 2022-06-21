@@ -12,12 +12,12 @@
 
 void DemoKekkai_Init(Actor* thisx, PlayState* play);
 void DemoKekkai_Destroy(Actor* thisx, PlayState* play);
-void DemoKekkai_Update(Actor* thisx, PlayState* play);
+void DemoKekkai_Update(Actor* thisx, PlayState* play2);
 void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play);
 
 void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play);
 void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play);
-void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play);
+void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 

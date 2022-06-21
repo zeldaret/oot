@@ -35,7 +35,7 @@ typedef enum {
     ENBOX_STATE_2  // waiting for something message context-related
 } EnBoxStateUnk1FB;
 
-void EnBox_Init(Actor* thisx, PlayState* play);
+void EnBox_Init(Actor* thisx, PlayState* play2);
 void EnBox_Destroy(Actor* thisx, PlayState* play);
 void EnBox_Update(Actor* thisx, PlayState* play);
 void EnBox_Draw(Actor* thisx, PlayState* play);

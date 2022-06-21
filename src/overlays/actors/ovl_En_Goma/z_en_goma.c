@@ -27,7 +27,7 @@ void EnGoma_Stunned(EnGoma* this, PlayState* play);
 void EnGoma_LookAtPlayer(EnGoma* this, PlayState* play);
 void EnGoma_UpdateHit(EnGoma* this, PlayState* play);
 void EnGoma_Debris(EnGoma* this, PlayState* play);
-void EnGoma_SpawnHatchDebris(EnGoma* this, PlayState* play);
+void EnGoma_SpawnHatchDebris(EnGoma* this, PlayState* play2);
 void EnGoma_BossLimb(EnGoma* this, PlayState* play);
 
 void EnGoma_SetupFlee(EnGoma* this);
