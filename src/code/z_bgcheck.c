@@ -616,7 +616,7 @@ f32 BgCheck_RaycastFloorStatic(StaticLookup* lookup, CollisionContext* colCtx, u
 
 /**
  * Compute wall displacement on `posX` and `posZ`
- * sets `wallPolyPtr` to `poly` if `wallPolyPtr` is NULL or not a damage wall
+ * sets `wallPolyPtr` to `poly` if `wallPolyPtr` is NULL or doesn't have `SURFACETYPE1_27_FLAG` set
  * returns true if `wallPolyPtr` was changed
  * `invXZlength` is 1 / sqrt( sq(poly.normal.x) + sq(poly.normal.z) )
  */
@@ -624,7 +624,7 @@ s32 BgCheck_ComputeWallDisplacement(CollisionContext* colCtx, CollisionPoly* pol
                                     f32 nz, f32 invXZlength, f32 planeDist, f32 radius, CollisionPoly** wallPolyPtr) {
     CollisionPoly* wallPoly;
     u32 surfaceData;
-    u32 wallDamage;
+    u32 hasFlag27;
     f32 displacement = (radius - planeDist) * invXZlength;
 
     *posX += displacement * nx;
@@ -637,9 +637,9 @@ s32 BgCheck_ComputeWallDisplacement(CollisionContext* colCtx, CollisionPoly* pol
     }
 
     surfaceData = colCtx->colHeader->surfaceTypeList[wallPoly->type].data[1];
-    wallDamage = SURFACETYPE1_27(surfaceData);
+    hasFlag27 = SURFACETYPE1_27(surfaceData);
 
-    if (!wallDamage) {
+    if (!hasFlag27) {
         *wallPolyPtr = poly;
         return true;
     }
