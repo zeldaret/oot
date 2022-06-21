@@ -2923,7 +2923,7 @@ void DynaPoly_ResetInteractFlagsIfBgActor(PlayState* play, DynaCollisionContext*
         if (dyna->bgActorFlags[i] & BG_DYNA_ACTOR_FLAG_IS_USED) {
             dynaActor = DynaPoly_GetActor(&play->colCtx, i);
             if (dynaActor != NULL && &dynaActor->actor == actor) {
-                DynaPoly_ResetInteractFlags((DynaPolyActor*)actor);
+                DynaPolyActor_ResetInteractFlags((DynaPolyActor*)actor);
                 return;
             }
         }
