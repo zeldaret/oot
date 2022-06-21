@@ -954,7 +954,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         } break;
         case 9806:
             subCam->timer = -99;
-            if (func_800C0CB8(play)) {
+            if (Play_CamIsNotFixed(play)) {
                 func_800C0808(play, subCamId, player, CAM_SET_TURN_AROUND);
                 subCam->data2 = 0xC;
             } else {
@@ -963,7 +963,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             }
             break;
         case 9908:
-            if (func_800C0CB8(play)) {
+            if (Play_CamIsNotFixed(play)) {
                 D_801231B4[0].eyeTargetInit.z = D_801231B4[1].eyeTargetInit.z = !LINK_IS_ADULT ? 100.0f : 120.0f;
 
                 if (player->stateFlags1 & PLAYER_STATE1_27) {

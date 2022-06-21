@@ -27,11 +27,11 @@ void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play);
 
-void ObjectKankyo_DrawFairies(Actor* this, PlayState* play);
-void ObjectKankyo_DrawSnow(Actor* this, PlayState* play);
-void ObjectKankyo_DrawLightning(Actor* this, PlayState* play);
-void ObjectKankyo_DrawSunGraveSpark(Actor* this, PlayState* play);
-void ObjectKankyo_DrawBeams(Actor* this, PlayState* play);
+void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2);
+void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2);
+void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play);
+void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2);
+void ObjectKankyo_DrawBeams(Actor* thisx, PlayState* play2);
 
 static void* sEffLightningTextures[] = {
     gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
