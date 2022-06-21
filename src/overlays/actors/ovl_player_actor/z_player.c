@@ -473,7 +473,7 @@ static f32 D_808535D4 = 0.0f;
 static s16 D_808535D8 = 0;
 static s16 D_808535DC = 0;
 static s32 D_808535E0 = 0;
-static s32 D_808535E4 = 0;
+static s32 D_808535E4 = SURFACETYPE_FLOORTYPE_0;
 static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
 static u32 D_808535F0 = 0;
@@ -3719,9 +3719,9 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
 }
 
 s32 func_80838144(s32 arg0) {
-    s32 temp = arg0 - 2;
+    s32 temp = arg0 - SURFACETYPE_FLOORTYPE_2;
 
-    if ((temp >= 0) && (temp < 2)) {
+    if ((temp >= 0) && (temp <= (SURFACETYPE_FLOORTYPE_3 - SURFACETYPE_FLOORTYPE_2))) {
         return temp;
     } else {
         return -1;
@@ -3729,7 +3729,7 @@ s32 func_80838144(s32 arg0) {
 }
 
 s32 func_8083816C(s32 arg0) {
-    return (arg0 == 4) || (arg0 == 7) || (arg0 == 12);
+    return (arg0 == SURFACETYPE_FLOORTYPE_4) || (arg0 == SURFACETYPE_FLOORTYPE_7) || (arg0 == SURFACETYPE_FLOORTYPE_12);
 }
 
 void func_8083819C(Player* this, PlayState* play) {
@@ -3777,7 +3777,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
     } else {
         sp68 = ((Player_GetHeight(this) - 8.0f) < (this->unk_6C4 * this->actor.scale.y));
 
-        if (sp68 || (this->actor.bgCheckFlags & BGCHECKFLAG_CRUSHED) || (D_808535E4 == 9) ||
+        if (sp68 || (this->actor.bgCheckFlags & BGCHECKFLAG_CRUSHED) || (D_808535E4 == SURFACETYPE_FLOORTYPE_9) ||
             (this->stateFlags2 & PLAYER_STATE2_31)) {
             func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
 
@@ -4184,10 +4184,10 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
 
             if (!(this->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_29)) &&
                 !(this->stateFlags2 & PLAYER_STATE2_18) && !func_808332B8(this) &&
-                (temp = SurfaceType_GetFloorType(&play->colCtx, poly, bgId), (temp != 10)) &&
+                (temp = SurfaceType_GetFloorType(&play->colCtx, poly, bgId), (temp != SURFACETYPE_FLOORTYPE_10)) &&
                 ((sp34 < 100) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
 
-                if (temp == 11) {
+                if (temp == SURFACETYPE_FLOORTYPE_11) {
                     func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
                     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
@@ -5179,7 +5179,7 @@ s32 func_8083BB20(Player* this) {
 }
 
 s32 func_8083BBA0(Player* this, PlayState* play) {
-    if (func_8083BB20(this) && (D_808535E4 != 7)) {
+    if (func_8083BB20(this) && (D_808535E4 != SURFACETYPE_FLOORTYPE_7)) {
         func_8083BA90(play, this, PLAYER_MWA_JUMPSLASH_START, 3.0f, 4.5f);
         return 1;
     }
@@ -5194,7 +5194,7 @@ void func_8083BC04(Player* this, PlayState* play) {
 }
 
 s32 func_8083BC7C(Player* this, PlayState* play) {
-    if ((this->unk_84B[this->unk_846] == 0) && (D_808535E4 != 7)) {
+    if ((this->unk_84B[this->unk_846] == 0) && (D_808535E4 != SURFACETYPE_FLOORTYPE_7)) {
         func_8083BC04(this, play);
         return 1;
     }
@@ -5222,7 +5222,7 @@ s32 func_8083BDBC(Player* this, PlayState* play) {
     s32 sp2C;
 
     if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
-        (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (D_808535E4 != 7) &&
+        (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (D_808535E4 != SURFACETYPE_FLOORTYPE_7) &&
         (func_80041F7C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != 1)) {
         sp2C = this->unk_84B[this->unk_846];
 
@@ -5794,7 +5794,7 @@ void func_8083D6EC(PlayState* play, Player* this) {
         temp1 = fabsf(this->linearVelocity) * 20.0f;
         temp3 = 0.0f;
 
-        if (D_808535E4 == 4) {
+        if (D_808535E4 == SURFACETYPE_FLOORTYPE_4) {
             if (this->unk_6C4 > 1300.0f) {
                 temp2 = this->unk_6C4;
             } else {
@@ -5809,7 +5809,7 @@ void func_8083D6EC(PlayState* play, Player* this) {
             temp2 = 20000.0f;
             if (this->currentBoots != PLAYER_BOOTS_HOVER) {
                 temp1 += temp1;
-            } else if ((D_808535E4 == 7) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
+            } else if ((D_808535E4 == SURFACETYPE_FLOORTYPE_7) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
                 temp1 = 0;
             }
         }
@@ -5911,7 +5911,7 @@ void func_8083DC54(Player* this, PlayState* play) {
         return;
     }
 
-    if (D_808535E4 == 11) {
+    if (D_808535E4 == SURFACETYPE_FLOORTYPE_11) {
         Math_SmoothStepToS(&this->actor.focus.rot.x, -20000, 10, 4000, 800);
     } else {
         sp46 = 0;
@@ -7757,7 +7757,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                     if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &sp78, true,
                                                 false, false, true, &sp74) &&
                         !SurfaceType_IsIgnoredByEntities(&play->colCtx, sp78, sp74) &&
-                        (SurfaceType_GetFloorType(&play->colCtx, sp78, sp74) != 6) &&
+                        (SurfaceType_GetFloorType(&play->colCtx, sp78, sp74) != SURFACETYPE_FLOORTYPE_6) &&
                         (func_8002F9EC(play, &this->actor, sp78, sp74, &sp5C) == 0)) {
 
                         if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
@@ -8089,7 +8089,7 @@ static struct_80832924 D_808545F0[] = {
 
 void func_80843CEC(Player* this, PlayState* play) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
-        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (D_808535E4 == 9) ||
+        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (D_808535E4 == SURFACETYPE_FLOORTYPE_9) ||
             ((func_80838144(D_808535E4) >= 0) &&
              !func_80042108(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
             func_8083821C(this);
@@ -8130,7 +8130,7 @@ static FallImpactInfo D_80854600[] = {
 s32 func_80843E64(PlayState* play, Player* this) {
     s32 sp34;
 
-    if ((D_808535E4 == 6) || (D_808535E4 == 9)) {
+    if ((D_808535E4 == SURFACETYPE_FLOORTYPE_6) || (D_808535E4 == SURFACETYPE_FLOORTYPE_9)) {
         sp34 = 0;
     } else {
         sp34 = this->fallDistance;
@@ -8174,7 +8174,7 @@ s32 func_80843E64(PlayState* play, Player* this) {
 
         func_8083264C(this, (u8)sp34, (u8)(sp34 * 0.1f), (u8)sp34, 0);
 
-        if (D_808535E4 == 6) {
+        if (D_808535E4 == SURFACETYPE_FLOORTYPE_6) {
             func_80832698(this, NA_SE_VO_LI_CLIMB_END);
         }
     }
@@ -9537,7 +9537,7 @@ void func_808473D4(PlayState* play, Player* this) {
                                      !Player_IsChildWithHylianShield(this))) {
                     if ((!(this->stateFlags1 & PLAYER_STATE1_14) && (sp20 <= 0) &&
                          (func_8008E9C4(this) ||
-                          ((D_808535E4 != 7) &&
+                          ((D_808535E4 != SURFACETYPE_FLOORTYPE_7) &&
                            (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
                                                     !(this->stateFlags1 & PLAYER_STATE1_22) && (sp20 == 0))))))) {
                         doAction = DO_ACTION_ATTACK;
@@ -9598,7 +9598,7 @@ s32 func_80847A78(Player* this) {
         return 0;
     }
 
-    D_808535E4 = 0;
+    D_808535E4 = SURFACETYPE_FLOORTYPE_0;
     this->unk_898 = this->unk_89A = D_80853610 = 0;
 
     return 1;
@@ -10237,7 +10237,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         if (!(this->skelAnime.moveFlags & 0x80)) {
-            if (((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (D_808535E4 == 5) &&
+            if (((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (D_808535E4 == SURFACETYPE_FLOORTYPE_5) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((this->currentBoots == PLAYER_BOOTS_HOVER) &&
                  !(this->stateFlags1 & (PLAYER_STATE1_27 | PLAYER_STATE1_29)))) {
@@ -10284,7 +10284,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             func_8002D7EC(&this->actor);
             func_80847BA0(play, this);
         } else {
-            D_808535E4 = 0;
+            D_808535E4 = SURFACETYPE_FLOORTYPE_0;
             this->unk_A7A = 0;
 
             if (!(this->stateFlags1 & PLAYER_STATE1_0) && (this->stateFlags1 & PLAYER_STATE1_23)) {

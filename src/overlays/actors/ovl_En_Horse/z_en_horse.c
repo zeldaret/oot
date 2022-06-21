@@ -2854,7 +2854,7 @@ s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, Collisio
 
     if ((*floorPoly)->normal.y * COLPOLY_NORMAL_FRAC < 0.81915206f || // cos(35 degrees)
         SurfaceType_IsHorseBlocked(&play->colCtx, *floorPoly, bgId) ||
-        SurfaceType_GetFloorType(&play->colCtx, *floorPoly, bgId) == 7) {
+        SurfaceType_GetFloorType(&play->colCtx, *floorPoly, bgId) == SURFACETYPE_FLOORTYPE_7) {
         return 3; // Horse blocked surface
     }
     return 0;
@@ -2983,7 +2983,8 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
 
         if (ny < 0.81915206f || // cos(35 degrees)
             SurfaceType_IsHorseBlocked(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ||
-            SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == 7) {
+            SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
+                SURFACETYPE_FLOORTYPE_7) {
             if (this->actor.speedXZ >= 0.0f) {
                 EnHorse_ObstructMovement(this, play, 4, galloping);
             } else {
@@ -3252,7 +3253,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     ny = obstacleFloor->normal.y * COLPOLY_NORMAL_FRAC;
     if (ny < 0.81915206f || // cos(35 degrees)
         (SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) != 0) ||
-        (SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == 7)) {
+        (SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == SURFACETYPE_FLOORTYPE_7)) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
@@ -3289,7 +3290,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     ny = obstacleFloor->normal.y * COLPOLY_NORMAL_FRAC;
     if (ny < 0.81915206f || // cos(35 degrees)
         SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) ||
-        SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == 7) {
+        SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == SURFACETYPE_FLOORTYPE_7) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
