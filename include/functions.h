@@ -2266,8 +2266,8 @@ void func_80112098(PlayState* play);
 
 void ConsoleLogo_Init(GameState* thisx);
 void ConsoleLogo_Destroy(GameState* thisx);
-void Select_Init(GameState* thisx);
-void Select_Destroy(GameState* thisx);
+void MapSelect_Init(GameState* thisx);
+void MapSelect_Destroy(GameState* thisx);
 void TitleSetup_Init(GameState* thisx);
 void TitleSetup_Destroy(GameState* thisx);
 void FileSelect_Init(GameState* thisx);

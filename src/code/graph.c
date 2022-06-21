@@ -105,7 +105,7 @@ GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     if (gameStateInitFunc == Setup_Init) {
         return &gGameStateOverlayTable[0];
     }
-    if (gameStateInitFunc == Select_Init) {
+    if (gameStateInitFunc == MapSelect_Init) {
         return &gGameStateOverlayTable[1];
     }
     if (gameStateInitFunc == ConsoleLogo_Init) {
@@ -385,7 +385,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     if (gIsCtrlr2Valid && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
         CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
         gSaveContext.gameMode = 0;
-        SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
+        SET_NEXT_GAMESTATE(gameState, MapSelect_Init, MapSelectState);
         gameState->running = false;
     }
 

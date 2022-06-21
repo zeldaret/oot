@@ -1083,15 +1083,15 @@ typedef struct {
     /* 0x01E2 */ char unk_1E2[0x06];
 } ConsoleLogoState; // size = 0x1E8
 
-struct SelectContext;
+struct MapSelectState;
 
 typedef struct {
     /* 0x00 */ char* name;
-    /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
+    /* 0x04 */ void (*loadFunc)(struct MapSelectState*, s32);
     /* 0x08 */ s32 entranceIndex;
 } SceneSelectEntry; // size = 0xC
 
-typedef struct SelectContext {
+typedef struct MapSelectState {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ s32 count;
@@ -1111,7 +1111,7 @@ typedef struct SelectContext {
     /* 0x0230 */ s32 lockDown;
     /* 0x0234 */ s32 unk_234; // unused
     /* 0x0238 */ u8* staticSegment;
-} SelectContext; // size = 0x240
+} MapSelectState; // size = 0x240
 
 typedef struct {
     /* 0x0000 */ GameState state;
