@@ -68,6 +68,7 @@
 #define R_DBG_CAM_UPDATE            PREG(80)
 #define R_DBG_REG_UPDATE            PREG(82)
 #define R_RELOAD_CAM_PARAMS         QREG(0)
+#define R_SCENE_CAM_TYPE            YREG(15)
 #define R_C_UP_ICON_X               YREG(88)
 #define R_C_UP_ICON_Y               YREG(89)
 #define R_MAGIC_FILL_COLOR(i)       ZREG(0 + i)

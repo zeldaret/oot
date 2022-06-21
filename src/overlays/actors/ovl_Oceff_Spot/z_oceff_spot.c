@@ -53,7 +53,7 @@ void OceffSpot_Init(Actor* thisx, PlayState* play) {
     Lights_PointNoGlowSetInfo(&this->lightInfo2, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, 0, 0, 0, 0);
     this->lightNode2 = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo2);
-    if (YREG(15)) {
+    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT) {
         this->actor.scale.y = 2.4f;
     } else {
         this->actor.scale.y = 0.3f;
