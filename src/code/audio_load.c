@@ -1844,7 +1844,7 @@ s32 AudioLoad_ProcessSamplePreloads(s32 resetStatus) {
 
         // Pop requests with isFree = true off the stack, as far as possible,
         // and dispatch the next DMA.
-        for (;;) {
+        while (true) {
             if (gAudioContext.preloadSampleStackTop <= 0) {
                 break;
             }
