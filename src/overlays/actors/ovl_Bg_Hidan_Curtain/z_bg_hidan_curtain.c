@@ -11,7 +11,7 @@
 
 void BgHidanCurtain_Init(Actor* thisx, PlayState* play);
 void BgHidanCurtain_Destroy(Actor* thisx, PlayState* play);
-void BgHidanCurtain_Update(Actor* thisx, PlayState* play);
+void BgHidanCurtain_Update(Actor* thisx, PlayState* play2);
 void BgHidanCurtain_Draw(Actor* thisx, PlayState* play);
 
 void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain* this, PlayState* play);

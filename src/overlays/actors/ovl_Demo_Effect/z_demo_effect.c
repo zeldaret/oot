@@ -12,7 +12,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void DemoEffect_Init(Actor* thisx, PlayState* play);
+void DemoEffect_Init(Actor* thisx, PlayState* play2);
 void DemoEffect_Destroy(Actor* thisx, PlayState* play);
 void DemoEffect_Update(Actor* thisx, PlayState* play);
 
@@ -21,12 +21,12 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play);
 void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play);
 void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play);
 void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play);
-void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play);
+void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2);
 void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play);
 void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play);
 void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play);
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play);
-void DemoEffect_DrawJewel(Actor* thisx, PlayState* play);
+void DemoEffect_DrawJewel(Actor* thisx, PlayState* play2);
 
 void DemoEffect_Wait(DemoEffect* this, PlayState* play);
 void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play);

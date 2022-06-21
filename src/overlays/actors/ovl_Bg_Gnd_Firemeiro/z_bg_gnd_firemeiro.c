@@ -10,7 +10,7 @@
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgGndFiremeiro_Init(Actor* thisx, PlayState* play);
-void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play);
+void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2);
 void BgGndFiremeiro_Update(Actor* thisx, PlayState* play);
 void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play);
 

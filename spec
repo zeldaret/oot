@@ -6416,385 +6416,385 @@ endseg
 beginseg
     name "vr_fine0_static"
     romalign 0x1000
-    include "build/baserom/vr_fine0_static.o"
+    include "build/assets/textures/skyboxes/vr_fine0_static.o"
 endseg
 
 beginseg
     name "vr_fine0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine0_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine1_static"
     romalign 0x1000
-    include "build/baserom/vr_fine1_static.o"
+    include "build/assets/textures/skyboxes/vr_fine1_static.o"
 endseg
 
 beginseg
     name "vr_fine1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine1_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine2_static"
     romalign 0x1000
-    include "build/baserom/vr_fine2_static.o"
+    include "build/assets/textures/skyboxes/vr_fine2_static.o"
 endseg
 
 beginseg
     name "vr_fine2_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine2_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine2_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine3_static"
     romalign 0x1000
-    include "build/baserom/vr_fine3_static.o"
+    include "build/assets/textures/skyboxes/vr_fine3_static.o"
 endseg
 
 beginseg
     name "vr_fine3_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine3_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine3_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud0_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud0_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud0_static.o"
 endseg
 
 beginseg
     name "vr_cloud0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud0_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud1_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud1_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud1_static.o"
 endseg
 
 beginseg
     name "vr_cloud1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud1_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud2_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud2_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud2_static.o"
 endseg
 
 beginseg
     name "vr_cloud2_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud2_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud2_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud3_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud3_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud3_static.o"
 endseg
 
 beginseg
     name "vr_cloud3_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud3_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud3_pal_static.o"
 endseg
 
 beginseg
     name "vr_holy0_static"
     romalign 0x1000
-    include "build/baserom/vr_holy0_static.o"
+    include "build/assets/textures/skyboxes/vr_holy0_static.o"
 endseg
 
 beginseg
     name "vr_holy0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_holy0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_holy0_pal_static.o"
 endseg
 
 beginseg
     name "vr_holy1_static"
     romalign 0x1000
-    include "build/baserom/vr_holy1_static.o"
+    include "build/assets/textures/skyboxes/vr_holy1_static.o"
 endseg
 
 beginseg
     name "vr_holy1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_holy1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_holy1_pal_static.o"
 endseg
 
 beginseg
     name "vr_MDVR_static"
     romalign 0x1000
-    include "build/baserom/vr_MDVR_static.o"
+    include "build/assets/textures/backgrounds/vr_MDVR_static.o"
 endseg
 
 beginseg
     name "vr_MDVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_MDVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_MDVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_MNVR_static"
     romalign 0x1000
-    include "build/baserom/vr_MNVR_static.o"
+    include "build/assets/textures/backgrounds/vr_MNVR_static.o"
 endseg
 
 beginseg
     name "vr_MNVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_MNVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_MNVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_RUVR_static"
     romalign 0x1000
-    include "build/baserom/vr_RUVR_static.o"
+    include "build/assets/textures/backgrounds/vr_RUVR_static.o"
 endseg
 
 beginseg
     name "vr_RUVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_RUVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_RUVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_LHVR_static"
     romalign 0x1000
-    include "build/baserom/vr_LHVR_static.o"
+    include "build/assets/textures/backgrounds/vr_LHVR_static.o"
 endseg
 
 beginseg
     name "vr_LHVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_LHVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_LHVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KHVR_static"
     romalign 0x1000
-    include "build/baserom/vr_KHVR_static.o"
+    include "build/assets/textures/backgrounds/vr_KHVR_static.o"
 endseg
 
 beginseg
     name "vr_KHVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KHVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KHVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_K3VR_static"
     romalign 0x1000
-    include "build/baserom/vr_K3VR_static.o"
+    include "build/assets/textures/backgrounds/vr_K3VR_static.o"
 endseg
 
 beginseg
     name "vr_K3VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_K3VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_K3VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_K4VR_static"
     romalign 0x1000
-    include "build/baserom/vr_K4VR_static.o"
+    include "build/assets/textures/backgrounds/vr_K4VR_static.o"
 endseg
 
 beginseg
     name "vr_K4VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_K4VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_K4VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_K5VR_static"
     romalign 0x1000
-    include "build/baserom/vr_K5VR_static.o"
+    include "build/assets/textures/backgrounds/vr_K5VR_static.o"
 endseg
 
 beginseg
     name "vr_K5VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_K5VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_K5VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_SP1a_static"
     romalign 0x1000
-    include "build/baserom/vr_SP1a_static.o"
+    include "build/assets/textures/backgrounds/vr_SP1a_static.o"
 endseg
 
 beginseg
     name "vr_SP1a_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_SP1a_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_SP1a_pal_static.o"
 endseg
 
 beginseg
     name "vr_MLVR_static"
     romalign 0x1000
-    include "build/baserom/vr_MLVR_static.o"
+    include "build/assets/textures/backgrounds/vr_MLVR_static.o"
 endseg
 
 beginseg
     name "vr_MLVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_MLVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_MLVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KKRVR_static"
     romalign 0x1000
-    include "build/baserom/vr_KKRVR_static.o"
+    include "build/assets/textures/backgrounds/vr_KKRVR_static.o"
 endseg
 
 beginseg
     name "vr_KKRVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KKRVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KKRVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KR3VR_static"
     romalign 0x1000
-    include "build/baserom/vr_KR3VR_static.o"
+    include "build/assets/textures/backgrounds/vr_KR3VR_static.o"
 endseg
 
 beginseg
     name "vr_KR3VR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KR3VR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KR3VR_pal_static.o"
 endseg
 
 beginseg
     name "vr_IPVR_static"
     romalign 0x1000
-    include "build/baserom/vr_IPVR_static.o"
+    include "build/assets/textures/backgrounds/vr_IPVR_static.o"
 endseg
 
 beginseg
     name "vr_IPVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_IPVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_IPVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_KSVR_static"
     romalign 0x1000
-    include "build/baserom/vr_KSVR_static.o"
+    include "build/assets/textures/backgrounds/vr_KSVR_static.o"
 endseg
 
 beginseg
     name "vr_KSVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_KSVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_KSVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_GLVR_static"
     romalign 0x1000
-    include "build/baserom/vr_GLVR_static.o"
+    include "build/assets/textures/backgrounds/vr_GLVR_static.o"
 endseg
 
 beginseg
     name "vr_GLVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_GLVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_GLVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_ZRVR_static"
     romalign 0x1000
-    include "build/baserom/vr_ZRVR_static.o"
+    include "build/assets/textures/backgrounds/vr_ZRVR_static.o"
 endseg
 
 beginseg
     name "vr_ZRVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_ZRVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_ZRVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_DGVR_static"
     romalign 0x1000
-    include "build/baserom/vr_DGVR_static.o"
+    include "build/assets/textures/backgrounds/vr_DGVR_static.o"
 endseg
 
 beginseg
     name "vr_DGVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_DGVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_DGVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_ALVR_static"
     romalign 0x1000
-    include "build/baserom/vr_ALVR_static.o"
+    include "build/assets/textures/backgrounds/vr_ALVR_static.o"
 endseg
 
 beginseg
     name "vr_ALVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_ALVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_ALVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_NSVR_static"
     romalign 0x1000
-    include "build/baserom/vr_NSVR_static.o"
+    include "build/assets/textures/backgrounds/vr_NSVR_static.o"
 endseg
 
 beginseg
     name "vr_NSVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_NSVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_NSVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_LBVR_static"
     romalign 0x1000
-    include "build/baserom/vr_LBVR_static.o"
+    include "build/assets/textures/backgrounds/vr_LBVR_static.o"
 endseg
 
 beginseg
     name "vr_LBVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_LBVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_LBVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_TTVR_static"
     romalign 0x1000
-    include "build/baserom/vr_TTVR_static.o"
+    include "build/assets/textures/backgrounds/vr_TTVR_static.o"
 endseg
 
 beginseg
     name "vr_TTVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_TTVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_TTVR_pal_static.o"
 endseg
 
 beginseg
     name "vr_FCVR_static"
     romalign 0x1000
-    include "build/baserom/vr_FCVR_static.o"
+    include "build/assets/textures/backgrounds/vr_FCVR_static.o"
 endseg
 
 beginseg
     name "vr_FCVR_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_FCVR_pal_static.o"
+    include "build/assets/textures/backgrounds/vr_FCVR_pal_static.o"
 endseg
 
 beginseg

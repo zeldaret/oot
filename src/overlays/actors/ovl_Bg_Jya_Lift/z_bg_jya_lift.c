@@ -11,7 +11,7 @@
 
 void BgJyaLift_Init(Actor* thisx, PlayState* play);
 void BgJyaLift_Destroy(Actor* thisx, PlayState* play);
-void BgJyaLift_Update(Actor* thisx, PlayState* play);
+void BgJyaLift_Update(Actor* thisx, PlayState* play2);
 void BgJyaLift_Draw(Actor* thisx, PlayState* play);
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);

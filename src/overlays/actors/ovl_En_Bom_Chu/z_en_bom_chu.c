@@ -8,7 +8,7 @@
 
 void EnBomChu_Init(Actor* thisx, PlayState* play);
 void EnBomChu_Destroy(Actor* thisx, PlayState* play);
-void EnBomChu_Update(Actor* thisx, PlayState* play);
+void EnBomChu_Update(Actor* thisx, PlayState* play2);
 void EnBomChu_Draw(Actor* thisx, PlayState* play);
 
 void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play);

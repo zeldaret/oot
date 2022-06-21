@@ -302,7 +302,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 14:
             if (sp3F != 0) {
-                func_800BC490(play, 1);
+                Play_SetViewpoint(play, VIEWPOINT_LOCKED);
             }
             break;
         case 15:
