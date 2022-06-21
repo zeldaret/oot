@@ -112,7 +112,7 @@ s32 EnRiverSound_FindClosestPointOnLineSegment(Vec3f* pointA, Vec3f* pointB, Vec
  * player.
  * Returns true if the distance between the `hearPos` and `soundPos` is less than 10000, false if not.
  */
-s32 EnRiverSound_GetSoundPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* soundPos) {
+s32 EnRiverSound_GetSfxPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* soundPos) {
     s32 i;
     s32 closestPointIdx;
     s32 useAdjacentPoints[2] = {
@@ -203,7 +203,7 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
         path = &play->setupPathList[this->pathIndex];
         pos = &thisx->world.pos;
 
-        if (EnRiverSound_GetSoundPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
+        if (EnRiverSound_GetSfxPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
             if (BgCheck_EntityRaycastFloor4(&play->colCtx, &thisx->floorPoly, &bgId, thisx, pos) != BGCHECK_Y_MIN) {
                 // Get the river sfx frequency based on the speed of the river current under the actor
                 this->sfxFreqIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, thisx->floorPoly, bgId);

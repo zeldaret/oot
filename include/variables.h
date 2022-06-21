@@ -200,7 +200,7 @@ extern volatile OSTime gRSPGFXTotalTime;
 extern volatile OSTime gRSPOtherTotalTime;
 extern volatile OSTime gRDPTotalTime;
 
-extern ActiveSfx gActiveSfxs[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
+extern ActiveSfx gActiveSfx[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
 extern u8 gSfxBankMuted[];
 extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];

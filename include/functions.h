@@ -1968,7 +1968,7 @@ void Audio_PreNMI(void);
 void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val);
 void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 void Audio_Init(void);
-void Audio_InitSfx(void);
+void Audio_InitSound(void);
 void func_800F7170(void);
 void func_800F71BC(s32 arg0);
 void Audio_SetSfxBanksMute(u16 muteMask);

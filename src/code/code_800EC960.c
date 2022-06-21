@@ -2546,7 +2546,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%s <%d>", sSfxBankNames[k], sAudioIntInfoBankPage[k]);
 
                 for (k2 = 0; k2 < gChannelsPerBank[gSfxChannelLayout][k]; k2++) {
-#define entryIndex (gActiveSfxs[k][k2].entryIndex)
+#define entryIndex (gActiveSfx[k][k2].entryIndex)
 #define entry (&gSfxBanks[k][entryIndex])
 #define chan (gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[entry->channelIdx])
                     GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 5 + ind + sAudioIntInfoY);
@@ -4417,8 +4417,8 @@ void func_800F4C58(Vec3f* pos, u16 sfxId, u8 arg2) {
     }
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
-        if ((gActiveSfxs[bankId][i].entryIndex != 0xFF) &&
-            (sfxId == gSfxBanks[bankId][gActiveSfxs[bankId][i].entryIndex].sfxId)) {
+        if ((gActiveSfx[bankId][i].entryIndex != 0xFF) &&
+            (sfxId == gSfxBanks[bankId][gActiveSfx[bankId][i].entryIndex].sfxId)) {
             Audio_QueueCmdS8(
                 _SHIFTL(0x6, 24, 8) | _SHIFTL(SEQ_PLAYER_SFX, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
         }
@@ -5263,7 +5263,7 @@ void Audio_Init(void) {
     AudioLoad_Init(NULL, 0);
 }
 
-void Audio_InitSfx(void) {
+void Audio_InitSound(void) {
     func_800F6C34();
     AudioOcarina_ResetStaffs();
     Audio_ResetSfxChannelState();

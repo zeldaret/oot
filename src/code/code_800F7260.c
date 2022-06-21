@@ -43,7 +43,7 @@ SfxRequest sSfxRequests[0x100];
 u8 sSfxBankListEnd[7];
 u8 sSfxBankFreeListStart[7];
 u8 sSfxBankUnused[7];
-ActiveSfx gActiveSfxs[7][3];
+ActiveSfx gActiveSfx[7][3];
 u8 sCurSfxPlayerChannelIdx;
 u8 gSfxBankMuted[7];
 UnusedBankLerp sUnusedBankLerp[7];
@@ -330,8 +330,8 @@ void Audio_RemoveSfxBankEntry(u8 bankId, u8 entryIndex) {
     entry->state = SFX_STATE_EMPTY;
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
-        if (gActiveSfxs[bankId][i].entryIndex == entryIndex) {
-            gActiveSfxs[bankId][i].entryIndex = 0xFF;
+        if (gActiveSfx[bankId][i].entryIndex == entryIndex) {
+            gActiveSfx[bankId][i].entryIndex = 0xFF;
             i = gChannelsPerBank[gSfxChannelLayout][bankId];
         }
     }
@@ -438,7 +438,7 @@ void Audio_ChooseActiveSfx(u8 bankId) {
     numChannels = gChannelsPerBank[gSfxChannelLayout][bankId];
     for (i = 0; i < numChannels; i++) {
         needNewSfx = false;
-        activeSfx = &gActiveSfxs[bankId][i];
+        activeSfx = &gActiveSfx[bankId][i];
 
         if (activeSfx->entryIndex == 0xFF) {
             needNewSfx = true;
@@ -472,7 +472,7 @@ void Audio_ChooseActiveSfx(u8 bankId) {
                 if ((chosenEntryIndex != 0xFF) &&
                     (gSfxBanks[bankId][chosenEntryIndex].state != SFX_STATE_PLAYING_REFRESH)) {
                     for (k = 0; k < numChannels; k++) {
-                        if (chosenEntryIndex == gActiveSfxs[bankId][k].entryIndex) {
+                        if (chosenEntryIndex == gActiveSfx[bankId][k].entryIndex) {
                             needNewSfx = false;
                             k = numChannels; // "break;"
                         }
@@ -500,7 +500,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
     u8 i;
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
-        entryIndex = gActiveSfxs[bankId][i].entryIndex;
+        entryIndex = gActiveSfx[bankId][i].entryIndex;
         if (entryIndex != 0xFF) {
             entry = &gSfxBanks[bankId][entryIndex];
             channel = gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
@@ -765,7 +765,7 @@ void Audio_ResetSfx(void) {
     }
     for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
         for (i = 0; i < MAX_CHANNELS_PER_BANK; i++) {
-            gActiveSfxs[bankId][i].entryIndex = 0xFF;
+            gActiveSfx[bankId][i].entryIndex = 0xFF;
         }
     }
     for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
