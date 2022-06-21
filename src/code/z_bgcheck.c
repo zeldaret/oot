@@ -25,14 +25,14 @@
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
 s32 D_80119D90[SURFACETYPE_WALLTYPE_MAX] = {
-    0,  // SURFACETYPE_WALLTYPE_0
-    1,  // SURFACETYPE_WALLTYPE_1
-    3,  // SURFACETYPE_WALLTYPE_2
-    5,  // SURFACETYPE_WALLTYPE_3
-    8,  // SURFACETYPE_WALLTYPE_4
-    16, // SURFACETYPE_WALLTYPE_5
-    32, // SURFACETYPE_WALLTYPE_6
-    64, // SURFACETYPE_WALLTYPE_7
+    0,                                               // SURFACETYPE_WALLTYPE_0
+    SURFACETYPE_WALLFLAG_0,                          // SURFACETYPE_WALLTYPE_1
+    SURFACETYPE_WALLFLAG_0 | SURFACETYPE_WALLFLAG_1, // SURFACETYPE_WALLTYPE_2
+    SURFACETYPE_WALLFLAG_0 | SURFACETYPE_WALLFLAG_2, // SURFACETYPE_WALLTYPE_3
+    SURFACETYPE_WALLFLAG_3,                          // SURFACETYPE_WALLTYPE_4
+    SURFACETYPE_WALLFLAG_4,                          // SURFACETYPE_WALLTYPE_5
+    SURFACETYPE_WALLFLAG_5,                          // SURFACETYPE_WALLTYPE_6
+    SURFACETYPE_WALLFLAG_6,                          // SURFACETYPE_WALLTYPE_7
 };
 
 // SurfaceType_GetSfx
@@ -3998,15 +3998,15 @@ s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 
 }
 
 s32 SurfaceType_CheckWallFlag0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & 1) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALLFLAG_0) ? true : false;
 }
 
 s32 SurfaceType_CheckWallFlag1(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & 2) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALLFLAG_1) ? true : false;
 }
 
 s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & 4) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALLFLAG_2) ? true : false;
 }
 
 u32 SurfaceType_GetFloorProperty2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
