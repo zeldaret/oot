@@ -1215,7 +1215,7 @@ typedef struct PlayState {
 typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
-} OpeningContext; // size = 0x1D0
+} TitleSetupState; // size = 0x1D0
 
 typedef struct {
     /* 0x00000 */ GameState state;

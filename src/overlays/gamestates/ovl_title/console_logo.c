@@ -141,7 +141,7 @@ void ConsoleLogo_Main(GameState* thisx) {
         gSaveContext.natureAmbienceId = 0xFF;
         gSaveContext.gameMode = 1;
         this->state.running = false;
-        SET_NEXT_GAMESTATE(&this->state, Opening_Init, OpeningContext);
+        SET_NEXT_GAMESTATE(&this->state, TitleSetup_Init, TitleSetupState);
     }
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_title.c", 541);

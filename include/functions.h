@@ -2268,8 +2268,8 @@ void ConsoleLogo_Init(GameState* thisx);
 void ConsoleLogo_Destroy(GameState* thisx);
 void Select_Init(GameState* thisx);
 void Select_Destroy(GameState* thisx);
-void Opening_Init(GameState* thisx);
-void Opening_Destroy(GameState* thisx);
+void TitleSetup_Init(GameState* thisx);
+void TitleSetup_Destroy(GameState* thisx);
 void FileChoose_Init(GameState* thisx);
 void FileChoose_Destroy(GameState* thisx);
 

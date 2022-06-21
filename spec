@@ -545,7 +545,7 @@ endseg
 
 beginseg
     name "ovl_opening"
-    include "build/src/overlays/gamestates/ovl_opening/z_opening.o"
+    include "build/src/overlays/gamestates/ovl_opening/title_setup.o"
     include "build/src/overlays/gamestates/ovl_opening/ovl_opening_reloc.o"
 endseg
 
