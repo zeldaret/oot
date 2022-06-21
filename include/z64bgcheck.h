@@ -92,10 +92,10 @@ typedef struct {
 #define WATERBOX_FLAG_19_SHIFT 19
 #define WATERBOX_FLAG_19 (1 << WATERBOX_FLAG_19_SHIFT)
 
-#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, roomIndex, setFlag19)         \
+#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19)              \
     ((((bgCamIndex) << WATERBOX_BGCAM_INDEX_SHIFT) & WATERBOX_BGCAM_INDEX_MASK) | \
      (((lightIndex) << WATERBOX_LIGHT_INDEX_SHIFT) & WATERBOX_LIGHT_INDEX_MASK) | \
-     (((lightIndex) << WATERBOX_ROOM_SHIFT) & WATERBOX_ROOM_MASK) | (((setFlag19) & 1) << WATERBOX_FLAG_19_SHIFT))
+     (((room) << WATERBOX_ROOM_SHIFT) & WATERBOX_ROOM_MASK) | (((setFlag19) & 1) << WATERBOX_FLAG_19_SHIFT))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
