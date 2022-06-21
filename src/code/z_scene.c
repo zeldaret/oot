@@ -447,7 +447,7 @@ void Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
 
 // Camera & World Map Area
 void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
-    YREG(15) = cmd->miscSettings.cameraMovement;
+    R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
     gSaveContext.worldMapArea = cmd->miscSettings.area;
 
     if ((play->sceneNum == SCENE_SHOP1) || (play->sceneNum == SCENE_SYATEKIJYOU)) {
