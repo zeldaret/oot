@@ -9687,7 +9687,7 @@ void func_80847BA0(PlayState* play, Player* this) {
             if (this->stateFlags2 & PLAYER_STATE2_9) {
                 this->unk_89E = 1;
             } else {
-                this->unk_89E = SurfaceType_GetSfx(&play->colCtx, floorPoly, this->actor.floorBgId);
+                this->unk_89E = SurfaceType_GetSfxId(&play->colCtx, floorPoly, this->actor.floorBgId);
             }
         }
 

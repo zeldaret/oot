@@ -35,7 +35,6 @@ s32 D_80119D90[SURFACETYPE_WALLTYPE_MAX] = {
     SURFACETYPE_WALLFLAG_6,                          // SURFACETYPE_WALLTYPE_7
 };
 
-// SurfaceType_GetSfx
 u16 D_80119E10[14] = {
     NA_SE_PL_WALK_GROUND - SFX_FLAG, NA_SE_PL_WALK_SAND - SFX_FLAG,   NA_SE_PL_WALK_CONCRETE - SFX_FLAG,
     NA_SE_PL_WALK_DIRT - SFX_FLAG,   NA_SE_PL_WALK_WATER0 - SFX_FLAG, NA_SE_PL_WALK_WATER1 - SFX_FLAG,
@@ -4029,10 +4028,10 @@ u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bg
     return SURFACETYPE1_SFXTYPE(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
-u16 SurfaceType_GetSfx(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     s32 sfxType = SurfaceType_GetSfxType(colCtx, poly, bgId);
 
-    if (sfxType < 0 || sfxType > 13) {
+    if (sfxType < 0 || sfxType >= ARRAY_COUNT(D_80119E10)) {
         return NA_SE_PL_WALK_GROUND - SFX_FLAG;
     }
     return D_80119E10[sfxType];
