@@ -4025,20 +4025,17 @@ u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s3
     return SURFACETYPE0_ISHORSEBLOCKED(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
-u32 func_80041F10(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_0(SurfaceType_GetData(colCtx, poly, bgId, 1));
+u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return SURFACETYPE1_SFXTYPE(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
-/**
- * SurfaceType Get Poly Sfx
- */
 u16 SurfaceType_GetSfx(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    s32 id = func_80041F10(colCtx, poly, bgId);
+    s32 sfxType = SurfaceType_GetSfxType(colCtx, poly, bgId);
 
-    if (id < 0 || id > 13) {
+    if (sfxType < 0 || sfxType > 13) {
         return NA_SE_PL_WALK_GROUND - SFX_FLAG;
     }
-    return D_80119E10[id];
+    return D_80119E10[sfxType];
 }
 
 u32 func_80041F7C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {

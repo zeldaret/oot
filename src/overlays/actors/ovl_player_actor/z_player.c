@@ -7775,7 +7775,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                         }
 
                         if (this->linearVelocity >= 0.0f) {
-                            sp48 = func_80041F10(&play->colCtx, sp78, sp74);
+                            sp48 = SurfaceType_GetSfxType(&play->colCtx, sp78, sp74);
 
                             if (sp48 == 0xA) {
                                 CollisionCheck_SpawnShieldParticlesWood(play, &sp5C, &this->actor.projectedPos);
@@ -11412,7 +11412,7 @@ void func_8084C5F8(Player* this, PlayState* play) {
         sp24.y = this->actor.world.pos.y + 20.0f;
         sp24.z = this->actor.world.pos.z;
         if (BgCheck_EntityRaycastFloor3(&play->colCtx, &sp34, &sp30, &sp24) != 0.0f) {
-            this->unk_89E = func_80041F10(&play->colCtx, sp34, sp30);
+            this->unk_89E = SurfaceType_GetSfxType(&play->colCtx, sp34, sp30);
             func_808328A0(this);
         }
     }
