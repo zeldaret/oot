@@ -7,7 +7,7 @@
 #include "global.h"
 
 void Opening_SetupTitleScreen(OpeningContext* this) {
-    gSaveContext.gameMode = 1;
+    gSaveContext.gameMode = GAMEMODE_TITLE_SCREEN;
     this->state.running = false;
     gSaveContext.linkAge = LINK_AGE_ADULT;
     Sram_InitDebugSave();

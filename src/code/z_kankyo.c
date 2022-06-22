@@ -881,7 +881,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
     EnvLightSettings* lightSettingsList = play->envCtx.lightSettingsList;
     s32 adjustment;
 
-    if ((((void)0, gSaveContext.gameMode) != 0) && (((void)0, gSaveContext.gameMode) != 3)) {
+    if ((((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL) && (((void)0, gSaveContext.gameMode) != GAMEMODE_3)) {
         func_800AA16C();
     }
 
@@ -918,9 +918,10 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
-            if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
+            if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == GAMEMODE_NORMAL)) ||
+                (((void)0, gSaveContext.gameMode) == GAMEMODE_3)) {
                 if ((envCtx->changeSkyboxTimer == 0) && !FrameAdvance_IsEnabled(play) &&
-                    (play->transitionMode == TRANS_MODE_OFF || ((void)0, gSaveContext.gameMode) != 0)) {
+                    (play->transitionMode == TRANS_MODE_OFF || ((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL)) {
 
                     if (IS_DAY || gTimeSpeed >= 400) {
                         gSaveContext.dayTime += gTimeSpeed;

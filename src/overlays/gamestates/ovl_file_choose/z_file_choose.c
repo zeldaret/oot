@@ -1445,7 +1445,7 @@ void FileChoose_LoadGame(GameState* thisx) {
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         gSaveContext.fileNum = this->buttonIndex;
         Sram_OpenSave(&this->sramCtx);
-        gSaveContext.gameMode = 0;
+        gSaveContext.gameMode = GAMEMODE_NORMAL;
         SET_NEXT_GAMESTATE(&this->state, Select_Init, SelectContext);
         this->state.running = false;
     } else {
@@ -1453,7 +1453,7 @@ void FileChoose_LoadGame(GameState* thisx) {
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         gSaveContext.fileNum = this->buttonIndex;
         Sram_OpenSave(&this->sramCtx);
-        gSaveContext.gameMode = 0;
+        gSaveContext.gameMode = GAMEMODE_NORMAL;
         SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
         this->state.running = false;
     }
