@@ -1038,12 +1038,60 @@ typedef struct {
  * bank     1111000000000000    observed in audio code
  */
 
+#define DEFINE_SFX(enum, _1, _2, _3, _4) enum,
+
+typedef enum {
+    NA_SE_PL_REF = 0x7FF,
+    #include "tables/sfx_playerbank_table.h"
+    NA_SE_PL_MAX
+} PlayerBankSfxId;
+
+typedef enum {
+    NA_SE_IT_REF = 0x17FF,
+    #include "tables/sfx_itembank_table.h"
+    NA_SE_IT_MAX
+} ItemBankSfxId;
+
+typedef enum {
+    NA_SE_EV_REF = 0x27FF,
+    #include "tables/sfx_environmentbank_table.h"
+    NA_SE_EV_MAX
+} EnvironmentBankSfxId;
+
+typedef enum {
+    NA_SE_EN_REF = 0x37FF,
+    #include "tables/sfx_enemybank_table.h"
+    NA_SE_EN_MAX
+} EnemyBankSfxId;
+
+typedef enum {
+    NA_SE_SY_REF = 0x47FF,
+    #include "tables/sfx_systembank_table.h"
+    NA_SE_SY_MAX
+} SystemBankSfxId;
+
+typedef enum {
+    NA_SE_OC_REF = 0x57FF,
+    #include "tables/sfx_ocarinabank_table.h"
+    NA_SE_OC_MAX
+} OcarinaBankSfxId;
+
+typedef enum {
+    NA_SE_VO_REF = 0x67FF,
+    #include "tables/sfx_voicebank_table.h"
+    NA_SE_VO_MAX
+} VoiceBankSfxId;
+
+#undef DEFINE_SFX
+
 #define SFX_BANK_SHIFT(sfxId)   (((sfxId) >> 12) & 0xFF)
 
 #define SFX_BANK_MASK(sfxId)    ((sfxId) & 0xF000)
 
 #define SFX_INDEX(sfxId)    ((sfxId) & 0x01FF)
 #define SFX_BANK(sfxId)     SFX_BANK_SHIFT(SFX_BANK_MASK(sfxId))
+
+#define SFX_FLAG 0x800
 
 typedef struct {
     u32 priority; // lower is more prioritized
