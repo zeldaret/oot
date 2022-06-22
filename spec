@@ -423,6 +423,7 @@ beginseg
     include "build/src/code/audio_effects.o"
     include "build/src/code/audio_seqplayer.o"
     include "build/src/code/code_800EC960.o"
+    include "build/src/code/audio_sound_params.o"
     include "build/src/code/code_800F7260.o"
     include "build/src/code/code_800F9280.o"
     include "build/src/code/audio_init_params.o"
