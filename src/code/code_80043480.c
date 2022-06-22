@@ -13,11 +13,11 @@ void DynaPolyActor_ResetInteractFlags(DynaPolyActor* dynaActor) {
 }
 
 void DynaPolyActor_SetActorOnTop(DynaPolyActor* dynaActor) {
-    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_ACTOR_ON_TOP;
+    dynaActor->interactFlags |= DYNA_INTERACT_ACTOR_ON_TOP;
 }
 
 void DynaPolyActor_SetPlayerOnTop(DynaPolyActor* dynaActor) {
-    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP;
+    dynaActor->interactFlags |= DYNA_INTERACT_PLAYER_ON_TOP;
 }
 
 void DynaPoly_SetPlayerOnTop(CollisionContext* colCtx, s32 floorBgId) {
@@ -29,7 +29,7 @@ void DynaPoly_SetPlayerOnTop(CollisionContext* colCtx, s32 floorBgId) {
 }
 
 void DynaPolyActor_SetPlayerAbove(DynaPolyActor* dynaActor) {
-    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE;
+    dynaActor->interactFlags |= DYNA_INTERACT_PLAYER_ABOVE;
 }
 
 void DynaPoly_SetPlayerAbove(CollisionContext* colCtx, s32 floorBgId) {
@@ -41,11 +41,11 @@ void DynaPoly_SetPlayerAbove(CollisionContext* colCtx, s32 floorBgId) {
 }
 
 void func_80043538(DynaPolyActor* dynaActor) {
-    dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_3;
+    dynaActor->interactFlags |= DYNA_INTERACT_3;
 }
 
 s32 DynaPolyActor_HasActorOnTop(DynaPolyActor* dynaActor) {
-    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_ACTOR_ON_TOP) {
+    if (dynaActor->interactFlags & DYNA_INTERACT_ACTOR_ON_TOP) {
         return true;
     } else {
         return false;
@@ -53,7 +53,7 @@ s32 DynaPolyActor_HasActorOnTop(DynaPolyActor* dynaActor) {
 }
 
 s32 DynaPolyActor_HasPlayerOnTop(DynaPolyActor* dynaActor) {
-    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP) {
+    if (dynaActor->interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) {
         return true;
     } else {
         return false;
@@ -61,7 +61,7 @@ s32 DynaPolyActor_HasPlayerOnTop(DynaPolyActor* dynaActor) {
 }
 
 s32 DynaPolyActor_IsPlayerAbove(DynaPolyActor* dynaActor) {
-    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE) {
+    if (dynaActor->interactFlags & DYNA_INTERACT_PLAYER_ABOVE) {
         return true;
     } else {
         return false;
@@ -69,7 +69,7 @@ s32 DynaPolyActor_IsPlayerAbove(DynaPolyActor* dynaActor) {
 }
 
 s32 func_800435B4(DynaPolyActor* dynaActor) {
-    if (dynaActor->interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_3) {
+    if (dynaActor->interactFlags & DYNA_INTERACT_3) {
         return true;
     } else {
         return false;

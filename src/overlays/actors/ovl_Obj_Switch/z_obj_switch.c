@@ -392,8 +392,8 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
                 }
                 break;
             case OBJSWITCH_SUBTYPE_TOGGLE:
-                if ((this->dyna.interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP) &&
-                    !(this->unk_17F & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP)) {
+                if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
+                    !(this->unk_17F & DYNA_INTERACT_PLAYER_ON_TOP)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
@@ -445,8 +445,8 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
             }
             break;
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->dyna.interactFlags & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP) &&
-                !(this->unk_17F & DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP)) {
+            if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
+                !(this->unk_17F & DYNA_INTERACT_PLAYER_ON_TOP)) {
                 ObjSwitch_FloorReleaseInit(this);
                 ObjSwitch_SetOff(this, play);
             }
