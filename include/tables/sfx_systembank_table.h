@@ -1,7 +1,7 @@
 /**
- * Sfx Enemy Bank
+ * Sfx System Bank
  *
- * DEFINE_SFX should be used for all sfx define in the enemy bank from sequence 0
+ * DEFINE_SFX should be used for all sfx define in the system bank from sequence 0
  *    - Argument 1: Enum value for this sfx
  *    - Argument 2: Importance for deciding which sfx to prioritize
  *    - Argument 3: A 2-bit number (0-3) that slows the decay of volume with distance
