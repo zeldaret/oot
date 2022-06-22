@@ -4,8 +4,8 @@
  * DEFINE_SFX should be used for all sfx define in the item bank from sequence 0
  *    - Argument 1: Enum value for this sfx
  *    - Argument 2: Importance for deciding which sfx to prioritize
- *    - Argument 3: A 2-bit number (0-3) that slows the decay of volume with distance
- *    - Argument 4: A 2-bit number (0-3) that applies increasingly random offsets to frequency
+ *    - Argument 3: Slows the decay of volume with distance (a 2-bit number ranging from 0-3)
+ *    - Argument 4: Applies increasingly random offsets to frequency (a 2-bit number ranging from 0-3)
  *    - Argument 5: Various flags to add properties to the sfx
  *
  * WARNING: entries must align with the table defined for the item bank in sequence 0
