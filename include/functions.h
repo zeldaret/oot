@@ -1564,9 +1564,6 @@ void AudioMgr_HandlePreNMI(AudioMgr* audioMgr);
 void AudioMgr_ThreadEntry(void* arg0);
 void AudioMgr_Unlock(AudioMgr* audioMgr);
 void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Scheduler* sched, IrqMgr* irqMgr);
-void Setup_InitImpl(GameState* this);
-void Setup_Destroy(GameState* this);
-void Setup_Init(GameState* this);
 void GameState_FaultPrint(void);
 void GameState_SetFBFilter(Gfx** gfx);
 // ? func_800C4344(?);
@@ -2264,6 +2261,8 @@ void func_801109B0(PlayState* play);
 void Message_Init(PlayState* play);
 void func_80112098(PlayState* play);
 
+void Setup_Init(GameState* thisx);
+void Setup_Destroy(GameState* thisx);
 void ConsoleLogo_Init(GameState* thisx);
 void ConsoleLogo_Destroy(GameState* thisx);
 void MapSelect_Init(GameState* thisx);

@@ -1068,6 +1068,10 @@ typedef struct GameState {
 } GameState; // size = 0xA4
 
 typedef struct {
+    /* 0x00 */ GameState state;
+} SetupState; // size = 0xA4
+
+typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
