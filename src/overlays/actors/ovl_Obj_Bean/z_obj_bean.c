@@ -856,9 +856,9 @@ void func_80B90A34(ObjBean* this, PlayState* play) {
 
     func_80B8EE24(this);
     if (trampled) {
-        DynaPoly_UnsetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        DynaPoly_UnsetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
     if ((this->timer <= 0) && (!trampled)) {
         func_80B8EBC8(this);
@@ -894,7 +894,7 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
             osSyncPrintf("馬と豆の木リフト衝突！！！\n");
             osSyncPrintf(VT_RST);
             ObjBean_Break(this, play);
-            DynaPoly_SetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             func_80B908EC(this);
         }
     } else {

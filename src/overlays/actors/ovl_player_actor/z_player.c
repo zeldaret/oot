@@ -9693,7 +9693,7 @@ void func_80847BA0(PlayState* play, Player* this) {
                 Environment_ChangeLightSetting(
                     play, SurfaceType_GetLightSettingIndex(&play->colCtx, floorPoly, this->actor.floorBgId));
             } else {
-                DynaPoly_SetBgIdPlayerAbove(&play->colCtx, this->actor.floorBgId);
+                DynaPoly_SetPlayerAbove(&play->colCtx, this->actor.floorBgId);
             }
         }
 
@@ -9842,7 +9842,7 @@ void func_80847BA0(PlayState* play, Player* this) {
             s32 pad3;
 
             if (this->actor.floorBgId != BGCHECK_SCENE) {
-                DynaPoly_SetBgIdPlayerOnTop(&play->colCtx, this->actor.floorBgId);
+                DynaPoly_SetPlayerOnTop(&play->colCtx, this->actor.floorBgId);
             }
 
             floorPolyNormalX = COLPOLY_GET_NORMAL(floorPoly->normal.x);

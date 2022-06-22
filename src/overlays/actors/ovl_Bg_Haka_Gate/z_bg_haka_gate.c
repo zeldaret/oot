@@ -242,7 +242,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
             } else {
                 func_80078884(NA_SE_SY_ERROR);
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
-                DynaPoly_SetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
+                DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->vTimer = 60;
                 this->actionFunc = BgHakaGate_FloorOpen;
             }
@@ -256,7 +256,7 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, PlayState* play) {
     }
     if (this->vTimer == 0) {
         if (Math_ScaledStepToS(&this->vOpenAngle, 0, 0x800)) {
-            DynaPoly_UnsetBgIdDisabled(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {

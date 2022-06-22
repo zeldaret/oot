@@ -20,7 +20,7 @@ void DynaPolyActor_SetPlayerOnTop(DynaPolyActor* dynaActor) {
     dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ON_TOP;
 }
 
-void DynaPoly_SetBgIdPlayerOnTop(CollisionContext* colCtx, s32 floorBgId) {
+void DynaPoly_SetPlayerOnTop(CollisionContext* colCtx, s32 floorBgId) {
     DynaPolyActor* dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
 
     if (dynaActor != NULL) {
@@ -32,7 +32,7 @@ void DynaPolyActor_SetPlayerAbove(DynaPolyActor* dynaActor) {
     dynaActor->interactFlags |= DYNAPOLYACTOR_INTERACT_FLAG_PLAYER_ABOVE;
 }
 
-void DynaPoly_SetBgIdPlayerAbove(CollisionContext* colCtx, s32 floorBgId) {
+void DynaPoly_SetPlayerAbove(CollisionContext* colCtx, s32 floorBgId) {
     DynaPolyActor* dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
 
     if (dynaActor != NULL) {
