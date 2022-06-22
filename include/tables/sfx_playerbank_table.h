@@ -3,7 +3,7 @@
  *
  * DEFINE_SFX should be used for all sfx define in the player bank from sequence 0
  *    - Argument 1: Enum value for this sfx
- *    - Argument 2: Importance for deciding which sfx to prioritize
+ *    - Argument 2: Importance for deciding which sfx to prioritize. Higher values have greater importance
  *    - Argument 3: Slows the decay of volume with distance (a 2-bit number ranging from 0-3)
  *    - Argument 4: Applies increasingly random offsets to frequency (a 2-bit number ranging from 0-3)
  *    - Argument 5: Various flags to add properties to the sfx
