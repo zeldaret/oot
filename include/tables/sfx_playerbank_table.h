@@ -1,5 +1,14 @@
 /**
  * Sfx Player Bank
+ *
+ * DEFINE_SFX should be used for all sfx define in the player bank from sequence 0
+ *    - Argument 1: Enum value for this sfx
+ *    - Argument 2: Importance for deciding which sfx to prioritize
+ *    - Argument 3: A 2-bit numer (0-3) that slows the decay of volume with distance
+ *    - Argument 4: A 2-bit number (0-3) for increasingly random offsets for frequency
+ *    - Argument 5: Various flags to add properties to the sfx
+ *
+ * WARNING: entries must align with the table defined for the player bank in sequence 0
  */
 /* 0x800 */ DEFINE_SFX(NA_SE_PL_WALK_GROUND, 0x20, 0, 2, SFX_FLAG_10)
 /* 0x801 */ DEFINE_SFX(NA_SE_PL_WALK_SAND, 0x20, 0, 2, SFX_FLAG_10)

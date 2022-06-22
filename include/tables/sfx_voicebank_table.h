@@ -1,5 +1,14 @@
 /**
  * Sfx Voice Bank
+ *
+ * DEFINE_SFX should be used for all sfx define in the voice bank from sequence 0
+ *    - Argument 1: Enum value for this sfx
+ *    - Argument 2: Importance for deciding which sfx to prioritize
+ *    - Argument 3: A 2-bit numer (0-3) that slows the decay of volume with distance
+ *    - Argument 4: A 2-bit number (0-3) for increasingly random offsets for frequency
+ *    - Argument 5: Various flags to add properties to the sfx
+ *
+ * WARNING: entries must align with the table defined for the voice bank in sequence 0
  */
 /* 0x6800 */ DEFINE_SFX(NA_SE_VO_LI_SWORD_N, 0x30, 2, 0, SFX_FLAG_10)
 /* 0x6801 */ DEFINE_SFX(NA_SE_VO_LI_SWORD_L, 0x30, 2, 0, SFX_FLAG_10)

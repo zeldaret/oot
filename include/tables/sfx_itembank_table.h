@@ -1,5 +1,14 @@
 /**
  * Sfx Item Bank
+ *
+ * DEFINE_SFX should be used for all sfx define in the item bank from sequence 0
+ *    - Argument 1: Enum value for this sfx
+ *    - Argument 2: Importance for deciding which sfx to prioritize
+ *    - Argument 3: A 2-bit numer (0-3) that slows the decay of volume with distance
+ *    - Argument 4: A 2-bit number (0-3) for increasingly random offsets for frequency
+ *    - Argument 5: Various flags to add properties to the sfx
+ *
+ * WARNING: entries must align with the table defined for the item bank in sequence 0
  */
 /* 0x1800 */ DEFINE_SFX(NA_SE_IT_SWORD_IMPACT, 0x30, 0, 1, SFX_FLAG_15)
 /* 0x1801 */ DEFINE_SFX(NA_SE_IT_SWORD_SWING, 0x30, 0, 1, 0)
