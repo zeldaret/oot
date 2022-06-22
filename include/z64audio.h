@@ -1041,43 +1041,43 @@ typedef struct {
 #define DEFINE_SFX(enum, _1, _2, _3, _4) enum,
 
 typedef enum {
-    NA_SE_PL_REF = 0x7FF,
+    NA_SE_PL_BASE = 0x7FF,
     #include "tables/sfx_playerbank_table.h"
     NA_SE_PL_MAX
 } PlayerBankSfxId;
 
 typedef enum {
-    NA_SE_IT_REF = 0x17FF,
+    NA_SE_IT_BASE = 0x17FF,
     #include "tables/sfx_itembank_table.h"
     NA_SE_IT_MAX
 } ItemBankSfxId;
 
 typedef enum {
-    NA_SE_EV_REF = 0x27FF,
+    NA_SE_EV_BASE = 0x27FF,
     #include "tables/sfx_environmentbank_table.h"
     NA_SE_EV_MAX
 } EnvironmentBankSfxId;
 
 typedef enum {
-    NA_SE_EN_REF = 0x37FF,
+    NA_SE_EN_BASE = 0x37FF,
     #include "tables/sfx_enemybank_table.h"
     NA_SE_EN_MAX
 } EnemyBankSfxId;
 
 typedef enum {
-    NA_SE_SY_REF = 0x47FF,
+    NA_SE_SY_BASE = 0x47FF,
     #include "tables/sfx_systembank_table.h"
     NA_SE_SY_MAX
 } SystemBankSfxId;
 
 typedef enum {
-    NA_SE_OC_REF = 0x57FF,
+    NA_SE_OC_BASE = 0x57FF,
     #include "tables/sfx_ocarinabank_table.h"
     NA_SE_OC_MAX
 } OcarinaBankSfxId;
 
 typedef enum {
-    NA_SE_VO_REF = 0x67FF,
+    NA_SE_VO_BASE = 0x67FF,
     #include "tables/sfx_voicebank_table.h"
     NA_SE_VO_MAX
 } VoiceBankSfxId;
