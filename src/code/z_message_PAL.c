@@ -3172,7 +3172,8 @@ void Message_Update(PlayState* play) {
                     R_TEXTBOX_TEXHEIGHT = 512;
                 } else {
                     Message_GrowTextbox(msgCtx);
-                    Audio_PlaySoundIfNotInCutscene(NA_SE_PL_WALK_GROUND - SFX_FLAG);
+                    // TODO: this may be NA_SE_PL_WALK_GROUND - SFX_FLAG, or not, investigate sfxId=0
+                    Audio_PlaySoundIfNotInCutscene(0);
                     msgCtx->stateTimer = 0;
                     msgCtx->msgMode = MSGMODE_TEXT_BOX_GROWING;
                 }
