@@ -228,7 +228,7 @@ void Play_Init(GameState* thisx) {
     if (gSaveContext.entranceIndex == ENTR_LOAD_OPENING) {
         gSaveContext.entranceIndex = 0;
         this->state.running = false;
-        SET_NEXT_GAMESTATE(&this->state, Opening_Init, OpeningContext);
+        SET_NEXT_GAMESTATE(&this->state, TitleSetup_Init, TitleSetupState);
         return;
     }
 
@@ -635,7 +635,7 @@ void Play_Update(PlayState* this) {
                                     gSaveContext.minigameState = 3;
                                 }
                             } else {
-                                SET_NEXT_GAMESTATE(&this->state, FileChoose_Init, FileChooseContext);
+                                SET_NEXT_GAMESTATE(&this->state, FileSelect_Init, FileSelectState);
                             }
                         } else {
                             this->transitionCtx.destroy(&this->transitionCtx.instanceData);
