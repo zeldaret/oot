@@ -150,7 +150,7 @@ void func_809CB054(EnBrob* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (DynaPolyActor_HasPlayerOnTop(&this->dyna) != 0) {
+        if (DynaPolyActor_PlayerOnTop(&this->dyna) != 0) {
             func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
             func_809CAE44(this, play);
         } else if (this->dyna.actor.xzDistToPlayer < 300.0f) {

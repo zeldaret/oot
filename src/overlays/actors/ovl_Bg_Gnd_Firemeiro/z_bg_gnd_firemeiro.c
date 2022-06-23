@@ -60,7 +60,7 @@ void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2) {
 void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
     f32 sunkHeight = this->initPos.y - 150.0f;
 
-    if (DynaPolyActor_HasPlayerOnTop(&this->dyna)) {
+    if (DynaPolyActor_PlayerOnTop(&this->dyna)) {
         this->timer = 10;
     }
 
@@ -85,7 +85,7 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
     s32 pad;
     f32 randSign;
 
-    if (DynaPolyActor_HasPlayerOnTop(&this->dyna)) { // Player standing on it
+    if (DynaPolyActor_PlayerOnTop(&this->dyna)) { // Player standing on it
         if (this->timer > 0) {
             this->timer--;
 
@@ -115,7 +115,7 @@ void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if ((player->currentBoots != PLAYER_BOOTS_HOVER) &&
-        DynaPolyActor_HasPlayerOnTop(&this->dyna)) { // Player standing on it
+        DynaPolyActor_PlayerOnTop(&this->dyna)) { // Player standing on it
         if (thisx->world.pos.y < this->initPos.y) {
             this->actionFunc = BgGndFiremeiro_Sink;
             this->timer = 20;

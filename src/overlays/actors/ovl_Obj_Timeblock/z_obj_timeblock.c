@@ -147,7 +147,7 @@ void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {
 }
 
 u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, PlayState* play) {
-    if (this->isVisible && DynaPolyActor_IsPlayerAbove(&this->dyna)) {
+    if (this->isVisible && DynaPolyActor_PlayerAbove(&this->dyna)) {
         return false;
     }
 

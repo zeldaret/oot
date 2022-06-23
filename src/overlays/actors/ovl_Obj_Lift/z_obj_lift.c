@@ -137,7 +137,7 @@ void func_80B96560(ObjLift* this, PlayState* play) {
     s32 pad;
     s32 quakeIndex;
 
-    if (DynaPolyActor_HasPlayerOnTop(&this->dyna)) {
+    if (DynaPolyActor_PlayerOnTop(&this->dyna)) {
         if (this->timer <= 0) {
             if (((this->dyna.actor.params >> 8) & 7) == 7) {
                 func_80B967C0(this);
