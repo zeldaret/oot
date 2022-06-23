@@ -784,7 +784,7 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
             Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
 
-    } else if (DynaPolyActor_PlayerOnTop(&this->dyna) != 0) {
+    } else if (DynaPolyActor_PlayerOnTop(&this->dyna)) {
 
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
