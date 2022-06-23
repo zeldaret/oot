@@ -607,7 +607,7 @@ void DynaPoly_Init(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_Alloc(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_DisableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 void DynaPoly_EnableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
-void DynaPoly_DisableCeilingsCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
+void DynaPoly_DisableCeilingCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* actor, CollisionHeader* colHeader);
 DynaPolyActor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId);
 void DynaPoly_DeleteBgActor(PlayState* play, DynaCollisionContext* dyna, s32 bgId);

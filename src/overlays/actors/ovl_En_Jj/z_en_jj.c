@@ -119,7 +119,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gJabuJabuBodyCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-            DynaPoly_DisableCeilingsCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->dyna.actor.update = EnJj_UpdateStaticCollision;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);

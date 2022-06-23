@@ -2676,16 +2676,16 @@ void DynaPoly_EnableCollision(PlayState* play, DynaCollisionContext* dyna, s32 b
     }
 }
 
-void DynaPoly_DisableCeilingsCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
+void DynaPoly_DisableCeilingCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        dyna->bgActorFlags[bgId] |= BGACTOR_CEILINGS_COLLISION_DISABLED;
+        dyna->bgActorFlags[bgId] |= BGACTOR_CEILING_COLLISION_DISABLED;
         dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
-void DynaPoly_EnableCeilingsCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
+void DynaPoly_EnableCeilingCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        dyna->bgActorFlags[bgId] &= ~BGACTOR_CEILINGS_COLLISION_DISABLED;
+        dyna->bgActorFlags[bgId] &= ~BGACTOR_CEILING_COLLISION_DISABLED;
         dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
@@ -2799,7 +2799,7 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
                 s16 polyIndex = pi;
                 DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &polyIndex);
             } else if (normalY < COLPOLY_SNORMAL(-0.8f)) {
-                if (!(dyna->bgActorFlags[bgId] & BGACTOR_CEILINGS_COLLISION_DISABLED)) {
+                if (!(dyna->bgActorFlags[bgId] & BGACTOR_CEILING_COLLISION_DISABLED)) {
                     s16 polyIndex = pi;
                     DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling,
                                                  &polyIndex);
