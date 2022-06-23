@@ -750,7 +750,7 @@ void ObjBean_SetupWaitForPlayer(ObjBean* this) {
 }
 
 void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
-    if (DynaPolyActor_PlayerOnTop(&this->dyna)) { // Player is standing on
+    if (DynaPolyActor_PlayerOnTop(&this->dyna)) {
         ObjBean_SetupFly(this);
         if (play->sceneNum == SCENE_SPOT10) { // Lost woods
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
@@ -784,7 +784,7 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
             Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
 
-    } else if (DynaPolyActor_PlayerOnTop(&this->dyna) != 0) { // Player is on top
+    } else if (DynaPolyActor_PlayerOnTop(&this->dyna) != 0) {
 
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
