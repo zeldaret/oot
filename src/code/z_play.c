@@ -15,6 +15,15 @@ u64 D_801614D0[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
+// This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
+// For example, it can be used to trace the play state execution at a high level.
+#define PLAY_LOG(line)                            \
+    do {                                          \
+        if (R_ENABLE_PLAY_LOGS) {                 \
+            LOG_NUM("1", 1, "../z_play.c", line); \
+        }                                         \
+    } while (0)
+
 void Play_ChangeViewpointBgCamIndex(PlayState* this) {
     Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1);
 }
@@ -167,6 +176,7 @@ void Play_Destroy(GameState* thisx) {
 
     this->state.gfxCtx->callback = NULL;
     this->state.gfxCtx->callbackParam = 0;
+
     SREG(91) = 0;
     R_PAUSE_MENU_MODE = 0;
 
@@ -309,6 +319,7 @@ void Play_Init(GameState* thisx) {
     Play_SpawnScene(
         this, gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneSetupIndex)].scene,
         gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneSetupIndex)].spawn);
+
     osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneSetupIndex);
 
     // When entering Gerudo Valley in the right setup, trigger the GC emulator to play the ending movie.
@@ -329,10 +340,12 @@ void Play_Init(GameState* thisx) {
             gSaveContext.totalDays++;
             gSaveContext.bgsDayCount++;
             gSaveContext.dogIsLost = true;
+
             if (Inventory_ReplaceItem(this, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(this, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
                 Message_StartTextbox(this, 0x3066, NULL);
             }
+
             gSaveContext.nextDayTime = NEXT_TIME_DAY_SET;
         } else {
             gSaveContext.nextDayTime = NEXT_TIME_NIGHT_SET;
@@ -444,12 +457,14 @@ void Play_Update(PlayState* this) {
         HREG(81) = 0;
         osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
         osSyncPrintf("RomStart RomEnd   Size\n");
+
         for (i = 0; i < gObjectTableSize; i++) {
             s32 size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
 
             osSyncPrintf("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
                          size / 1024.0f);
         }
+
         osSyncPrintf("\n");
     }
 
@@ -485,7 +500,7 @@ void Play_Update(PlayState* this) {
             }
         }
 
-        if (this->transitionMode) {
+        if (this->transitionMode) { // != TRANS_MODE_OFF
             switch (this->transitionMode) {
                 case TRANS_MODE_SETUP:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
@@ -559,6 +574,7 @@ void Play_Update(PlayState* this) {
                         (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_CS_DELAYED) ||
                         (this->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT)) {
                         this->transitionCtx.setColor(&this->transitionCtx.instanceData, RGBA8(160, 160, 160, 255));
+
                         if (this->transitionCtx.setUnkColor != NULL) {
                             this->transitionCtx.setUnkColor(&this->transitionCtx.instanceData,
                                                             RGBA8(160, 160, 160, 255));
@@ -725,7 +741,6 @@ void Play_Update(PlayState* this) {
 
                 case TRANS_MODE_SANDSTORM_INIT:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
-                        // trigger in, leaving area
                         this->envCtx.sandstormState = SANDSTORM_FILL;
                         this->transitionMode = TRANS_MODE_SANDSTORM;
                     } else {
@@ -776,6 +791,7 @@ void Play_Update(PlayState* this) {
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultReverb);
+
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
                         if (this->envCtx.sandstormPrimA <= 0) {
                             gTrnsnUnkState = 0;
@@ -799,6 +815,7 @@ void Play_Update(PlayState* this) {
                 case TRANS_MODE_CS_BLACK_FILL:
                     if (gSaveContext.cutsceneTransitionControl != 0) {
                         this->envCtx.screenFillColor[3] = gSaveContext.cutsceneTransitionControl;
+
                         if (gSaveContext.cutsceneTransitionControl <= 100) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
@@ -810,53 +827,36 @@ void Play_Update(PlayState* this) {
             }
         }
 
-        if (1 && HREG(63)) {
-            LOG_NUM("1", 1, "../z_play.c", 3533);
-        }
+        PLAY_LOG(3533);
 
         if (1 && (gTrnsnUnkState != 3)) {
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3542);
-            }
+            PLAY_LOG(3542);
 
             if ((gSaveContext.gameMode == 0) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
                 (this->gameOverCtx.state == GAMEOVER_INACTIVE)) {
                 KaleidoSetup_Update(this);
             }
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3551);
-            }
-
+            PLAY_LOG(3551);
             sp80 = (this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3555);
-            }
-
+            PLAY_LOG(3555);
             AnimationContext_Reset(&this->animationCtx);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3561);
-            }
-
+            PLAY_LOG(3561);
             Object_UpdateBank(&this->objectCtx);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3577);
-            }
+            PLAY_LOG(3577);
 
             if ((sp80 == 0) && (IREG(72) == 0)) {
-                if (1 && HREG(63)) {
-                    LOG_NUM("1", 1, "../z_play.c", 3580);
-                }
+                PLAY_LOG(3580);
 
                 this->gameplayFrames++;
-
                 func_800AA178(1);
 
                 if (this->actorCtx.freezeFlashTimer && (this->actorCtx.freezeFlashTimer-- < 5)) {
                     osSyncPrintf("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
+
                     if ((this->actorCtx.freezeFlashTimer > 0) && ((this->actorCtx.freezeFlashTimer % 2) != 0)) {
                         this->envCtx.fillScreen = true;
                         this->envCtx.screenFillColor[0] = this->envCtx.screenFillColor[1] =
@@ -866,91 +866,52 @@ void Play_Update(PlayState* this) {
                         this->envCtx.fillScreen = false;
                     }
                 } else {
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3606);
-                    }
-
+                    PLAY_LOG(3606);
                     func_800973FC(this, &this->roomCtx);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3612);
-                    }
-
+                    PLAY_LOG(3612);
                     CollisionCheck_AT(this, &this->colChkCtx);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3618);
-                    }
-
+                    PLAY_LOG(3618);
                     CollisionCheck_OC(this, &this->colChkCtx);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3624);
-                    }
-
+                    PLAY_LOG(3624);
                     CollisionCheck_Damage(this, &this->colChkCtx);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3631);
-                    }
-
+                    PLAY_LOG(3631);
                     CollisionCheck_ClearContext(this, &this->colChkCtx);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3637);
-                    }
+                    PLAY_LOG(3637);
 
                     if (!this->unk_11DE9) {
                         Actor_UpdateAll(this, &this->actorCtx);
                     }
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3643);
-                    }
-
+                    PLAY_LOG(3643);
                     func_80064558(this, &this->csCtx);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3648);
-                    }
-
+                    PLAY_LOG(3648);
                     func_800645A0(this, &this->csCtx);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3651);
-                    }
-
+                    PLAY_LOG(3651);
                     Effect_UpdateAll(this);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3657);
-                    }
-
+                    PLAY_LOG(3657);
                     EffectSs_UpdateAll(this);
 
-                    if (1 && HREG(63)) {
-                        LOG_NUM("1", 1, "../z_play.c", 3662);
-                    }
+                    PLAY_LOG(3662);
                 }
             } else {
                 func_800AA178(0);
             }
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3672);
-            }
-
+            PLAY_LOG(3672);
             func_80095AA0(this, &this->roomCtx.curRoom, &input[1], 0);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3675);
-            }
-
+            PLAY_LOG(3675);
             func_80095AA0(this, &this->roomCtx.prevRoom, &input[1], 1);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3677);
-            }
+            PLAY_LOG(3677);
 
             if (this->viewpoint != VIEWPOINT_NONE) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
@@ -969,85 +930,51 @@ void Play_Update(PlayState* this) {
                         Play_SetViewpoint(this, this->viewpoint ^ (VIEWPOINT_LOCKED ^ VIEWPOINT_PIVOT));
                     }
                 }
+                
                 Play_ChangeViewpointBgCamIndex(this);
             }
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3708);
-            }
-
+            PLAY_LOG(3708);
             SkyboxDraw_Update(&this->skyboxCtx);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3716);
-            }
+            PLAY_LOG(3716);
 
             if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
-                if (1 && HREG(63)) {
-                    LOG_NUM("1", 1, "../z_play.c", 3721);
-                }
-
+                PLAY_LOG(3721);
                 KaleidoScopeCall_Update(this);
             } else if (this->gameOverCtx.state != GAMEOVER_INACTIVE) {
-                if (1 && HREG(63)) {
-                    LOG_NUM("1", 1, "../z_play.c", 3727);
-                }
-
+                PLAY_LOG(3727);
                 GameOver_Update(this);
             } else {
-                if (1 && HREG(63)) {
-                    LOG_NUM("1", 1, "../z_play.c", 3733);
-                }
-
+                PLAY_LOG(3733);
                 Message_Update(this);
             }
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3737);
-            }
+            PLAY_LOG(3737);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3742);
-            }
-
+            PLAY_LOG(3742);
             Interface_Update(this);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3765);
-            }
-
+            PLAY_LOG(3765);
             AnimationContext_Update(this, &this->animationCtx);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3771);
-            }
-
+            PLAY_LOG(3771);
             SoundSource_UpdateAll(this);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3777);
-            }
-
+            PLAY_LOG(3777);
             ShrinkWindow_Update(R_UPDATE_RATE);
 
-            if (1 && HREG(63)) {
-                LOG_NUM("1", 1, "../z_play.c", 3783);
-            }
-
+            PLAY_LOG(3783);
             TransitionFade_Update(&this->transitionFade, R_UPDATE_RATE);
         } else {
             goto skip;
         }
     }
 
-    if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 3799);
-    }
+    PLAY_LOG(3799);
 
 skip:
-    if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 3801);
-    }
+    PLAY_LOG(3801);
 
     if ((sp80 == 0) || gDbgCamEnabled) {
         s32 pad3[5];
@@ -1055,31 +982,21 @@ skip:
 
         this->nextCamId = this->activeCamId;
 
-        if (1 && HREG(63)) {
-            LOG_NUM("1", 1, "../z_play.c", 3806);
-        }
+        PLAY_LOG(3806);
 
         for (i = 0; i < NUM_CAMS; i++) {
             if ((i != this->nextCamId) && (this->cameraPtrs[i] != NULL)) {
-                if (1 && HREG(63)) {
-                    LOG_NUM("1", 1, "../z_play.c", 3809);
-                }
-
+                PLAY_LOG(3809);
                 Camera_Update(this->cameraPtrs[i]);
             }
         }
 
         Camera_Update(this->cameraPtrs[this->nextCamId]);
 
-        if (1 && HREG(63)) {
-            LOG_NUM("1", 1, "../z_play.c", 3814);
-        }
+        PLAY_LOG(3814);
     }
 
-    if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 3816);
-    }
-
+    PLAY_LOG(3816);
     Environment_Update(this, &this->envCtx, &this->lightCtx, &this->pauseCtx, &this->msgCtx, &this->gameOverCtx,
                        this->state.gfxCtx);
 }
@@ -1363,9 +1280,7 @@ void Play_Main(GameState* thisx) {
 
     DebugDisplay_Init();
 
-    if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4556);
-    }
+    PLAY_LOG(4556);
 
     if ((HREG(80) == 10) && (HREG(94) != 10)) {
         HREG(81) = 1;
@@ -1388,15 +1303,11 @@ void Play_Main(GameState* thisx) {
         Play_Update(this);
     }
 
-    if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4583);
-    }
+    PLAY_LOG(4583);
 
     Play_Draw(this);
 
-    if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4587);
-    }
+    PLAY_LOG(4587);
 }
 
 // original name: "Game_play_demo_mode_check"
