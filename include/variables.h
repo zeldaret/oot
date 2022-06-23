@@ -118,7 +118,7 @@ extern f32 gBendPitchTwoSemitonesFrequencies[256];
 extern f32 gPitchFrequencies[];
 extern u8 gDefaultShortNoteVelocityTable[16];
 extern u8 gDefaultShortNoteGateTimeTable[16];
-extern AdsrEnvelope gDefaultEnvelope[4];
+extern EnvelopePoint gDefaultEnvelope[4];
 extern NoteSubEu gZeroNoteSub;
 extern NoteSubEu gDefaultNoteSub;
 extern u16 gHeadsetPanQuantization[64];
@@ -159,7 +159,7 @@ extern s32 __osPfsLastChannel;
 
 extern const s16 D_8014A6C0[];
 #define gTatumsPerBeat (D_8014A6C0[1])
-extern const AudioContextInitSizes D_8014A6C4;
+extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
 extern u8 gSoundFontTable[];
 extern u8 gSequenceFontTable[];

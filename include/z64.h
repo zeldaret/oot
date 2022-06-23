@@ -343,7 +343,7 @@ typedef struct {
     }                   flags;
     /* 0x0128 */ TitleCardContext titleCtx;
     /* 0x0138 */ char   unk_138[0x04];
-    /* 0x013C */ void*  absoluteSpace; // Space used to allocate actor overlays with alloc type ALLOCTYPE_ABSOLUTE
+    /* 0x013C */ void*  absoluteSpace; // Space used to allocate actor overlays with alloc type ACTOROVL_ALLOC_ABSOLUTE
 } ActorContext; // size = 0x140
 
 typedef struct {
@@ -539,7 +539,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Font   font;
-    /* 0xE2B0 */ void*  textboxSegment; // original name: "fukidashiSegment"
+    /* 0xE2B0 */ u8*    textboxSegment; // original name: "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x4];
     /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : "info"
     /* 0xE2BC */ char   unk_E2BC[0x3C];
@@ -840,80 +840,6 @@ typedef struct {
     /* 0x000C */ ObjectStatus status[OBJECT_EXCHANGE_BANK_MAX];
 } ObjectContext; // size = 0x518
 
-typedef struct {
-    /* 0x00 */ Gfx* opa;
-    /* 0x04 */ Gfx* xlu;
-} PolygonDlist; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ u8    type;
-} PolygonBase;
-
-typedef struct {
-    /* 0x00 */ PolygonBase base;
-    /* 0x01 */ u8    num; // number of dlist entries
-    /* 0x04 */ void* start;
-    /* 0x08 */ void* end;
-} PolygonType0; // size = 0xC
-
-typedef struct {
-    /* 0x00 */ u16   unk_00;
-    /* 0x02 */ u8    id;
-    /* 0x04 */ u32   source;
-    /* 0x08 */ u32   unk_0C;
-    /* 0x0C */ u32   tlut;
-    /* 0x10 */ u16   width;
-    /* 0x12 */ u16   height;
-    /* 0x14 */ u8    fmt;
-    /* 0x15 */ u8    siz;
-    /* 0x16 */ u16   mode0;
-    /* 0x18 */ u16   tlutCount;
-} BgImage; // size = 0x1C
-
-typedef struct {
-    /* 0x00 */ PolygonBase base;
-    /* 0x01 */ u8    format; // 1 = single, 2 = multi
-    /* 0x04 */ Gfx*  dlist;
-    union {
-        struct {
-            /* 0x08 */ void* source;
-            /* 0x0C */ u32   unk_0C;
-            /* 0x10 */ void* tlut;
-            /* 0x14 */ u16   width;
-            /* 0x16 */ u16   height;
-            /* 0x18 */ u8    fmt;
-            /* 0x19 */ u8    siz;
-            /* 0x1A */ u16   mode0;
-            /* 0x1C */ u16   tlutCount;
-        } single;
-        struct {
-            /* 0x08 */ u8    count;
-            /* 0x0C */ BgImage* list;
-        } multi;
-    };
-} PolygonType1;
-
-typedef struct {
-    /* 0x00 */ Vec3s pos;
-    /* 0x06 */ s16   unk_06;
-    /* 0x08 */ Gfx*  opa;
-    /* 0x0C */ Gfx*  xlu;
-} PolygonDlist2; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ PolygonBase base;
-    /* 0x01 */ u8    num; // number of dlist entries
-    /* 0x04 */ void* start;
-    /* 0x08 */ void* end;
-} PolygonType2; // size = 0xC
-
-typedef union {
-    PolygonBase  base;
-    PolygonType0 polygon0;
-    PolygonType1 polygon1;
-    PolygonType2 polygon2;
-} MeshHeader; // "Ground Shape"
-
 typedef enum {
     /* 0 */ LENS_MODE_HIDE_ACTORS, // lens actors are visible by default, and hidden by using lens (for example, fake walls)
     /* 1 */ LENS_MODE_SHOW_ACTORS // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
@@ -1096,29 +1022,6 @@ typedef struct {
     /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
     /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
-
-typedef struct {
-    /* 0x00 */ s16   id;
-    /* 0x02 */ Vec3s pos;
-    /* 0x08 */ Vec3s rot;
-    /* 0x0E */ s16   params;
-} ActorEntry; // size = 0x10
-
-typedef struct {
-    struct {
-        s8 room;    // Room to switch to
-        s8 effects; // How the camera reacts during the transition
-    } /* 0x00 */ sides[2]; // 0 = front, 1 = back
-    /* 0x04 */ s16   id;
-    /* 0x06 */ Vec3s pos;
-    /* 0x0C */ s16   rotY;
-    /* 0x0E */ s16   params;
-} TransitionActorEntry; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ u8 spawn;
-    /* 0x01 */ u8 room;
-} EntranceEntry;
 
 typedef struct {
     /* 0x00 */ u8* readBuff;
@@ -1304,7 +1207,7 @@ typedef struct PlayState {
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
     /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
-    /* 0x1242B */ u8 unk_1242B;
+    /* 0x1242B */ u8 viewpoint; // toggleable camera setting by shops or player. Is also equal to the bgCamIndex + 1
     /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
 } PlayState; // size = 0x12518
@@ -1440,6 +1343,20 @@ typedef struct {
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ s16 unk_24;
 } struct_80034A14_arg1; // size = 0x28
+
+// Macros for `EntranceInfo.field`
+#define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
+#define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
+#define ENTRANCE_INFO_END_TRANS_TYPE_MASK 0x3F80
+#define ENTRANCE_INFO_END_TRANS_TYPE_SHIFT 7
+#define ENTRANCE_INFO_END_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_END_TRANS_TYPE_MASK >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT))
+#define ENTRANCE_INFO_START_TRANS_TYPE_MASK 0x7F
+#define ENTRANCE_INFO_START_TRANS_TYPE_SHIFT 0
+#define ENTRANCE_INFO_START_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
 
 typedef struct {
     /* 0x00 */ s8  scene;
@@ -1628,7 +1545,7 @@ typedef struct {
     /* 0x04 */ u32 decSize;
     /* 0x08 */ u32 compInfoOffset; // only used in mio0
     /* 0x0C */ u32 uncompDataOffset; // only used in mio0
-    /* 0x10 */ u32 data[1];
+    /* 0x10 */ u8 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
 typedef struct {

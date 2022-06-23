@@ -47,6 +47,7 @@
 #define R_ENV_FOG_NEAR              REG(14)
 #define R_ENV_TIME_SPEED_OLD        REG(15) // Most likely used during development. Unused in the final game.
 #define R_RUN_SPEED_LIMIT           REG(45)
+#define R_ENABLE_PLAY_LOGS          HREG(63)
 #define R_ENABLE_ARENA_DBG          SREG(0)
 #define R_UPDATE_RATE               SREG(30)
 #define R_ENABLE_AUDIO_DBG          SREG(36)
@@ -68,6 +69,7 @@
 #define R_DBG_CAM_UPDATE            PREG(80)
 #define R_DBG_REG_UPDATE            PREG(82)
 #define R_RELOAD_CAM_PARAMS         QREG(0)
+#define R_SCENE_CAM_TYPE            YREG(15)
 #define R_C_UP_ICON_X               YREG(88)
 #define R_C_UP_ICON_Y               YREG(89)
 #define R_MAGIC_FILL_COLOR(i)       ZREG(0 + i)

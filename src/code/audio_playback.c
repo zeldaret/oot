@@ -19,8 +19,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
     sub->bitField0 = note->noteSubEu.bitField0;
     sub->bitField1 = note->noteSubEu.bitField1;
-    sub->sound.samples = note->noteSubEu.sound.samples;
-    sub->unk_06 = note->noteSubEu.unk_06;
+    sub->waveSampleAddr = note->noteSubEu.waveSampleAddr;
+    sub->harmonicIndexCurAndPrev = note->noteSubEu.harmonicIndexCurAndPrev;
 
     Audio_NoteSetResamplingRate(sub, attrs->frequency);
 
@@ -293,17 +293,17 @@ void Audio_ProcessNotes(void) {
     }
 }
 
-SoundFontSound* Audio_InstrumentGetSound(Instrument* instrument, s32 semitone) {
-    SoundFontSound* sound;
+TunedSample* Audio_GetInstrumentTunedSample(Instrument* instrument, s32 semitone) {
+    TunedSample* tunedSample;
 
     if (semitone < instrument->normalRangeLo) {
-        sound = &instrument->lowNotesSound;
+        tunedSample = &instrument->lowPitchTunedSample;
     } else if (semitone <= instrument->normalRangeHi) {
-        sound = &instrument->normalNotesSound;
+        tunedSample = &instrument->normalPitchTunedSample;
     } else {
-        sound = &instrument->highNotesSound;
+        tunedSample = &instrument->highPitchTunedSample;
     }
-    return sound;
+    return tunedSample;
 }
 
 Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
@@ -318,12 +318,12 @@ Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
         return NULL;
     }
 
-    if (instId >= gAudioContext.soundFonts[fontId].numInstruments) {
+    if (instId >= gAudioContext.soundFontList[fontId].numInstruments) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + instId) + 0x3000000;
         return NULL;
     }
 
-    inst = gAudioContext.soundFonts[fontId].instruments[instId];
+    inst = gAudioContext.soundFontList[fontId].instruments[instId];
     if (inst == NULL) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + instId) + 0x1000000;
         return inst;
@@ -344,14 +344,14 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
         return NULL;
     }
 
-    if (drumId >= gAudioContext.soundFonts[fontId].numDrums) {
+    if (drumId >= gAudioContext.soundFontList[fontId].numDrums) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x4000000;
         return NULL;
     }
-    if ((u32)gAudioContext.soundFonts[fontId].drums < 0x80000000) {
+    if ((u32)gAudioContext.soundFontList[fontId].drums < AUDIO_RELOCATED_ADDRESS_START) {
         return NULL;
     }
-    drum = gAudioContext.soundFonts[fontId].drums[drumId];
+    drum = gAudioContext.soundFontList[fontId].drums[drumId];
 
     if (drum == NULL) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + drumId) + 0x5000000;
@@ -360,8 +360,8 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     return drum;
 }
 
-SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
-    SoundFontSound* sfx;
+SoundEffect* Audio_GetSoundEffect(s32 fontId, s32 sfxId) {
+    SoundEffect* soundEffect;
 
     if (fontId == 0xFF) {
         return NULL;
@@ -372,26 +372,26 @@ SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
         return NULL;
     }
 
-    if (sfxId >= gAudioContext.soundFonts[fontId].numSfx) {
+    if (sfxId >= gAudioContext.soundFontList[fontId].numSfx) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x4000000;
         return NULL;
     }
 
-    if ((u32)gAudioContext.soundFonts[fontId].soundEffects < 0x80000000) {
+    if ((u32)gAudioContext.soundFontList[fontId].soundEffects < AUDIO_RELOCATED_ADDRESS_START) {
         return NULL;
     }
 
-    sfx = &gAudioContext.soundFonts[fontId].soundEffects[sfxId];
+    soundEffect = &gAudioContext.soundFontList[fontId].soundEffects[sfxId];
 
-    if (sfx == NULL) {
+    if (soundEffect == NULL) {
         gAudioContext.audioErrorFlags = ((fontId << 8) + sfxId) + 0x5000000;
     }
 
-    if (sfx->sample == NULL) {
+    if (soundEffect->tunedSample.sample == NULL) {
         return NULL;
     }
 
-    return sfx;
+    return soundEffect;
 }
 
 s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* value) {
@@ -405,24 +405,24 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
 
     switch (instrumentType) {
         case 0:
-            if (index >= gAudioContext.soundFonts[fontId].numDrums) {
+            if (index >= gAudioContext.soundFontList[fontId].numDrums) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].drums[index] = value;
+            gAudioContext.soundFontList[fontId].drums[index] = value;
             break;
 
         case 1:
-            if (index >= gAudioContext.soundFonts[fontId].numSfx) {
+            if (index >= gAudioContext.soundFontList[fontId].numSfx) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].soundEffects[index] = *(SoundFontSound*)value;
+            gAudioContext.soundFontList[fontId].soundEffects[index] = *(SoundEffect*)value;
             break;
 
         default:
-            if (index >= gAudioContext.soundFonts[fontId].numInstruments) {
+            if (index >= gAudioContext.soundFontList[fontId].numInstruments) {
                 return -3;
             }
-            gAudioContext.soundFonts[fontId].instruments[index] = value;
+            gAudioContext.soundFontList[fontId].instruments[index] = value;
             break;
     }
 
@@ -529,10 +529,18 @@ void Audio_SeqLayerNoteRelease(SequenceLayer* layer) {
     Audio_SeqLayerDecayRelease(layer, ADSR_STATE_RELEASE);
 }
 
+/**
+ * Extract the synthetic wave to use from gWaveSamples and update corresponding frequencies
+ *
+ * @param note
+ * @param layer
+ * @param waveId the index of the type of synthetic wave to use, offset by 128
+ * @return harmonicIndex, the index of the harmonic for the synthetic wave contained in gWaveSamples
+ */
 s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     f32 freqScale;
-    f32 ratio;
-    u8 sampleCountIndex;
+    f32 freqRatio;
+    u8 harmonicIndex;
 
     if (waveId < 128) {
         waveId = 128;
@@ -542,42 +550,48 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     if (layer->portamento.mode != 0 && 0.0f < layer->portamento.extent) {
         freqScale *= (layer->portamento.extent + 1.0f);
     }
+
+    // Map frequency to the harmonic to use from gWaveSamples
     if (freqScale < 0.99999f) {
-        sampleCountIndex = 0;
-        ratio = 1.0465f;
+        harmonicIndex = 0;
+        freqRatio = 1.0465f;
     } else if (freqScale < 1.99999f) {
-        sampleCountIndex = 1;
-        ratio = 0.52325f;
+        harmonicIndex = 1;
+        freqRatio = 1.0465f / 2;
     } else if (freqScale < 3.99999f) {
-        sampleCountIndex = 2;
-        ratio = 0.26263f;
+        harmonicIndex = 2;
+        freqRatio = 1.0465f / 4 + 1.005E-3;
     } else {
-        sampleCountIndex = 3;
-        ratio = 0.13081f;
+        harmonicIndex = 3;
+        freqRatio = 1.0465f / 8 - 2.5E-6;
     }
-    layer->freqScale *= ratio;
+
+    // Update results
+    layer->freqScale *= freqRatio;
     note->playbackState.waveId = waveId;
-    note->playbackState.sampleCountIndex = sampleCountIndex;
+    note->playbackState.harmonicIndex = harmonicIndex;
 
-    note->noteSubEu.sound.samples = &gWaveSamples[waveId - 128][sampleCountIndex * 64];
+    // Save the pointer to the synthethic wave
+    // waveId index starts at 128, there are WAVE_SAMPLE_COUNT samples to read from
+    note->noteSubEu.waveSampleAddr = &gWaveSamples[waveId - 128][harmonicIndex * WAVE_SAMPLE_COUNT];
 
-    return sampleCountIndex;
+    return harmonicIndex;
 }
 
 void Audio_InitSyntheticWave(Note* note, SequenceLayer* layer) {
-    s32 sampleCountIndex;
-    s32 waveSampleCountIndex;
+    s32 prevHarmonicIndex;
+    s32 curHarmonicIndex;
     s32 waveId = layer->instOrWave;
 
     if (waveId == 0xFF) {
         waveId = layer->channel->instOrWave;
     }
 
-    sampleCountIndex = note->playbackState.sampleCountIndex;
-    waveSampleCountIndex = Audio_BuildSyntheticWave(note, layer, waveId);
+    prevHarmonicIndex = note->playbackState.harmonicIndex;
+    curHarmonicIndex = Audio_BuildSyntheticWave(note, layer, waveId);
 
-    if (waveSampleCountIndex != sampleCountIndex) {
-        note->noteSubEu.unk_06 = waveSampleCountIndex * 4 + sampleCountIndex;
+    if (curHarmonicIndex != prevHarmonicIndex) {
+        note->noteSubEu.harmonicIndexCurAndPrev = (curHarmonicIndex << 2) + prevHarmonicIndex;
     }
 }
 
@@ -638,7 +652,7 @@ void Audio_NotePoolClear(NotePool* pool) {
                 break;
         }
 
-        for (;;) {
+        while (true) {
             cur = source->next;
             if (cur == source || cur == NULL) {
                 break;
@@ -763,7 +777,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     if (instId == 0xFF) {
         instId = layer->channel->instOrWave;
     }
-    sub->sound.soundFontSound = layer->sound;
+    sub->tunedSample = layer->tunedSample;
 
     if (instId >= 0x80 && instId < 0xC0) {
         sub->bitField1.isSyntheticWave = true;

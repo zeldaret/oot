@@ -13,7 +13,7 @@ typedef enum {
     /* 6 */ DH_DAMAGE
 } EnDhAction;
 
-void EnDh_Init(Actor* this, PlayState* play);
+void EnDh_Init(Actor* thisx, PlayState* play);
 void EnDh_Destroy(Actor* thisx, PlayState* play);
 void EnDh_Update(Actor* thisx, PlayState* play);
 void EnDh_Draw(Actor* thisx, PlayState* play);

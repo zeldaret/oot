@@ -101,7 +101,7 @@ EMU_FLAGS = --noosd
 INC        := -Iinclude -Isrc -Ibuild -I.
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
+CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -123,7 +123,7 @@ ifeq ($(COMPILER),gcc)
   MIPS_VERSION := -mips3
 else 
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-  CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 649,838,712 
+  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,649,838,712
   MIPS_VERSION := -mips2
 endif
 

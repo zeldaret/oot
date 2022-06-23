@@ -333,7 +333,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                             play->csCtx.segment = gAdultWarpInCS;
                         }
                     }
-                    if (func_800C0CB8(play) != 0) {
+                    if (Play_CamIsNotFixed(play)) {
                         gSaveContext.cutsceneTrigger = 1;
                     }
                     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
@@ -859,7 +859,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
         translateZ = this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z;
 
         if (this->unk_150[i].unk_22 < 2) {
-            disp = (u32)gEffFlash1DL;
+            disp = (Gfx*)(u32)gEffFlash1DL;
             if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {

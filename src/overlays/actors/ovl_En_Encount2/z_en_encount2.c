@@ -12,7 +12,7 @@ typedef enum {
 } Encount2State;
 
 void EnEncount2_Init(Actor* thisx, PlayState* play);
-void EnEncount2_Update(Actor* thisx, PlayState* play);
+void EnEncount2_Update(Actor* thisx, PlayState* play2);
 void EnEncount2_Draw(Actor* thisx, PlayState* play);
 
 void EnEncount2_Wait(EnEncount2* this, PlayState* play);

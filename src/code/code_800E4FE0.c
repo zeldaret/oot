@@ -154,8 +154,6 @@ AudioTask* func_800E5000(void) {
         // msg = 0000RREE R = read pos, E = End Pos
         while (osRecvMesg(gAudioContext.cmdProcQueueP, (OSMesg*)&sp4C, OS_MESG_NOBLOCK) != -1) {
             if (1) {}
-            if (1) {}
-            if (1) {}
             Audio_ProcessCmds(sp4C);
             j++;
         }
@@ -166,9 +164,15 @@ AudioTask* func_800E5000(void) {
 
     gAudioContext.curAbiCmdBuf =
         AudioSynth_Update(gAudioContext.curAbiCmdBuf, &abiCmdCnt, currAiBuffer, gAudioContext.aiBufLengths[index]);
+
+    // Update audioRandom to the next random number
     gAudioContext.audioRandom = (gAudioContext.audioRandom + gAudioContext.totalTaskCount) * osGetCount();
     gAudioContext.audioRandom =
-        gAudioContext.aiBuffers[index][gAudioContext.totalTaskCount & 0xFF] + gAudioContext.audioRandom;
+        gAudioContext.audioRandom + gAudioContext.aiBuffers[index][gAudioContext.totalTaskCount & 0xFF];
+
+    // gWaveSamples[8] interprets compiled assembly code as s16 samples as a way to generate sound with noise.
+    // Start with the address of func_800E4FE0, and offset it by a random number between 0 - 0xFFF0
+    // Use the resulting address as the starting address to interpret an array of samples i.e. `s16 samples[]`
     gWaveSamples[8] = (s16*)(((u8*)func_800E4FE0) + (gAudioContext.audioRandom & 0xFFF0));
 
     index = gAudioContext.rspTaskIndex;
@@ -223,11 +227,11 @@ void func_800E5584(AudioCmd* cmd) {
 
         case 0x82:
             AudioLoad_SyncInitSeqPlayer(cmd->arg0, cmd->arg1, cmd->arg2);
-            func_800E59AC(cmd->arg0, cmd->data);
+            func_800E59AC(cmd->arg0, cmd->asInt);
             break;
 
         case 0x85:
-            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->data);
+            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->asInt);
             break;
 
         case 0x83:
@@ -517,9 +521,9 @@ u8* func_800E5E84(s32 arg0, u32* arg1) {
     return AudioLoad_GetFontsForSequence(arg0, arg1);
 }
 
-void func_800E5EA4(s32 arg0, u32* arg1, u32* arg2) {
-    *arg1 = gAudioContext.soundFonts[arg0].sampleBankId1;
-    *arg2 = gAudioContext.soundFonts[arg0].sampleBankId2;
+void Audio_GetSampleBankIdsOfFont(s32 fontId, u32* sampleBankId1, u32* sampleBankId2) {
+    *sampleBankId1 = gAudioContext.soundFontList[fontId].sampleBankId1;
+    *sampleBankId2 = gAudioContext.soundFontList[fontId].sampleBankId2;
 }
 
 s32 func_800E5EDC(void) {
@@ -784,7 +788,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
     SequenceLayer* layer;
     Note* note;
-    SoundFontSound* sound;
+    TunedSample* tunedSample;
     s32 loopEnd;
     s32 samplePos;
 
@@ -806,11 +810,11 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
 
             note = layer->note;
             if (layer == note->playbackState.parentLayer) {
-                sound = note->noteSubEu.sound.soundFontSound;
-                if (sound == NULL) {
+                tunedSample = note->noteSubEu.tunedSample;
+                if (tunedSample == NULL) {
                     return 0;
                 }
-                loopEnd = sound->sample->loop->end;
+                loopEnd = tunedSample->sample->loop->end;
                 samplePos = note->synthesisState.samplePosInt;
                 return loopEnd - samplePos;
             }
@@ -834,7 +838,7 @@ s32 func_800E66C0(s32 arg0) {
     NoteSubEu* temp_a3;
     s32 i;
     Note* note;
-    SoundFontSound* sound;
+    TunedSample* tunedSample;
 
     phi_v1 = 0;
     for (i = 0; i < gAudioContext.numNotes; i++) {
@@ -844,11 +848,11 @@ s32 func_800E66C0(s32 arg0) {
             temp_a3 = &note->noteSubEu;
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
-                    sound = temp_a3->sound.soundFontSound;
-                    if (sound == NULL || temp_a3->bitField1.isSyntheticWave) {
+                    tunedSample = temp_a3->tunedSample;
+                    if (tunedSample == NULL || temp_a3->bitField1.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->medium == MEDIUM_RAM) {
+                    if (tunedSample->sample->medium == MEDIUM_RAM) {
                         continue;
                     }
                 }

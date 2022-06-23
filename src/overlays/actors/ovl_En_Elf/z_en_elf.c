@@ -1083,7 +1083,13 @@ void func_80A0461C(EnElf* this, PlayState* play) {
     } else {
         arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
 
-        if ((player->stateFlags1 & PLAYER_STATE1_10) || ((YREG(15) & 0x10) && func_800BC56C(play, 2))) {
+        // `R_SCENE_CAM_TYPE` is not a bit field, but this conditional checks for a specific bit.
+        // This `& 0x10` check will pass for either `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT`, `SCENE_CAM_TYPE_FIXED`, or
+        // `SCENE_CAM_TYPE_SHOOTING_GALLERY`.
+        // However, of these three, only `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` is used with `VIEWPOINT_PIVOT`,
+        // so here the bit check is equivalent to checking for `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT`.
+        if ((player->stateFlags1 & PLAYER_STATE1_10) ||
+            ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
             temp = 12;
             this->unk_2C0 = 100;
         } else if (arrowPointedActor == NULL || arrowPointedActor->category == ACTORCAT_NPC) {

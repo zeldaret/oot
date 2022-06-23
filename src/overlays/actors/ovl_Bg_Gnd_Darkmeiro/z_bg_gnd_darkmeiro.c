@@ -9,9 +9,9 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void BgGndDarkmeiro_Init(Actor* thisx, PlayState* play);
-void BgGndDarkmeiro_Destroy(Actor* thisx, PlayState* play);
-void BgGndDarkmeiro_Update(Actor* thisx, PlayState* play);
+void BgGndDarkmeiro_Init(Actor* thisx, PlayState* play2);
+void BgGndDarkmeiro_Destroy(Actor* thisx, PlayState* play2);
+void BgGndDarkmeiro_Update(Actor* thisx, PlayState* play2);
 void BgGndDarkmeiro_DrawInvisiblePath(Actor* thisx, PlayState* play);
 void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, PlayState* play);
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, PlayState* play);
