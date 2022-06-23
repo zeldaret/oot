@@ -9,7 +9,7 @@
     { NULL, 0, 0, NULL, NULL, NULL, init, destroy, NULL, NULL, 0, size }
 
 GameStateOverlay gGameStateOverlayTable[] = {
-    GAMESTATE_OVERLAY_INTERNAL(Setup_Init, Setup_Destroy, sizeof(GameState)),
+    GAMESTATE_OVERLAY_INTERNAL(Setup_Init, Setup_Destroy, sizeof(SetupState)),
     GAMESTATE_OVERLAY(select, MapSelect_Init, MapSelect_Destroy, sizeof(MapSelectState)),
     GAMESTATE_OVERLAY(title, ConsoleLogo_Init, ConsoleLogo_Destroy, sizeof(ConsoleLogoState)),
     GAMESTATE_OVERLAY_INTERNAL(Play_Init, Play_Destroy, sizeof(PlayState)),
