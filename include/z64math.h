@@ -76,7 +76,6 @@ typedef struct {
     /* 0x06 */ s16 yaw;    // azimuthal angle
 } VecSph; // size = 0x08
 
-#define BINANG_ROT180(angle) ((s16)((angle) - 0x7FFF))
 #define BINANG_SUB(a, b) ((s16)((a) - (b)))
 
 #define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
