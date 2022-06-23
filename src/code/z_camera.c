@@ -6534,7 +6534,7 @@ s32 Camera_Special5(Camera* camera) {
             temp_f0_2 = Rand_ZeroOne();
             sp74.yaw =
                 (s16)(playerPosRot->rot.y - 0x7FFF) + (s16)(spA4 < 0 ? -(s16)(0x1553 + (s16)(temp_f0_2 * 2730.0f))
-                                                                    : (s16)(0x1553 + (s16)(temp_f0_2 * 2730.0f)));
+                                                                     : (s16)(0x1553 + (s16)(temp_f0_2 * 2730.0f)));
             sp74.pitch = roData->pitch;
             Camera_Vec3fVecSphGeoAdd(eyeNext, &spA8.pos, &sp74);
             *eye = *eyeNext;
