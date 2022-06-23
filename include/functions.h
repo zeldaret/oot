@@ -612,7 +612,7 @@ s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* acto
 DynaPolyActor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId);
 void DynaPoly_DeleteBgActor(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 void DynaPoly_InvalidateLookup(PlayState* play, DynaCollisionContext* dyna);
-void DynaPoly_ClearInteractFlags(PlayState* play, DynaCollisionContext* dyna, Actor* actor);
+void DynaPoly_UnsetInteractFlags(PlayState* play, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_UpdateContext(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(PlayState* play, DynaCollisionContext* dyna);
 f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast);
@@ -672,7 +672,7 @@ void BgCheck_DrawStaticCollision(PlayState*, CollisionContext*);
 void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId);
 s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor);
 void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 flags);
-void DynaPolyActor_ClearInteractFlags(DynaPolyActor* dynaActor);
+void DynaPolyActor_UnsetInteractFlags(DynaPolyActor* dynaActor);
 void DynaPolyActor_SetActorOnTop(DynaPolyActor* dynaActor);
 void DynaPoly_SetPlayerOnTop(CollisionContext* colCtx, s32 floorBgId);
 void DynaPoly_SetPlayerAbove(CollisionContext* colCtx, s32 floorBgId);

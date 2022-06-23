@@ -2915,7 +2915,7 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
     }
 }
 
-void DynaPoly_ClearInteractFlags(PlayState* play, DynaCollisionContext* dyna, Actor* actor) {
+void DynaPoly_UnsetInteractFlags(PlayState* play, DynaCollisionContext* dyna, Actor* actor) {
     DynaPolyActor* dynaActor;
     s32 i;
 
@@ -2923,7 +2923,7 @@ void DynaPoly_ClearInteractFlags(PlayState* play, DynaCollisionContext* dyna, Ac
         if (dyna->bgActorFlags[i] & BGACTOR_IN_USE) {
             dynaActor = DynaPoly_GetActor(&play->colCtx, i);
             if (dynaActor != NULL && &dynaActor->actor == actor) {
-                DynaPolyActor_ClearInteractFlags((DynaPolyActor*)actor);
+                DynaPolyActor_UnsetInteractFlags((DynaPolyActor*)actor);
                 return;
             }
         }
