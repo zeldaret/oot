@@ -17,10 +17,10 @@ typedef enum {
     /* 3 */ JABUJABU_EYE_MAX
 } EnJjEyeState;
 
-void EnJj_Init(Actor* thisx, PlayState* play);
+void EnJj_Init(Actor* thisx, PlayState* play2);
 void EnJj_Destroy(Actor* thisx, PlayState* play);
 void EnJj_Update(Actor* thisx, PlayState* play);
-void EnJj_Draw(Actor* thisx, PlayState* play);
+void EnJj_Draw(Actor* thisx, PlayState* play2);
 
 void EnJj_UpdateStaticCollision(Actor* thisx, PlayState* play);
 void EnJj_WaitToOpenMouth(EnJj* this, PlayState* play);

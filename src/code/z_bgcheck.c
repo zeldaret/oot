@@ -1511,7 +1511,9 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     // "/*---------------- BGCheck Buffer Memory Size -------------*/\n"
     osSyncPrintf("/*---------------- BGCheck バッファーメモリサイズ -------------*/\n");
 
-    if (YREG(15) == 0x10 || YREG(15) == 0x20 || YREG(15) == 0x30 || YREG(15) == 0x40) {
+    if ((R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) ||
+        (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) || (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED) ||
+        (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_MARKET)) {
         if (play->sceneNum == SCENE_MALON_STABLE) {
             // "/* BGCheck LonLon Size %dbyte */\n"
             osSyncPrintf("/* BGCheck LonLonサイズ %dbyte */\n", 0x3520);

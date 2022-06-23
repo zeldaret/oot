@@ -18,12 +18,12 @@ const s16 D_8014A6C0[] = {
 
 // Sizes of everything on the init pool
 #define AI_BUFFERS_SIZE (AIBUF_LEN * sizeof(s16) * ARRAY_COUNT(gAudioContext.aiBuffers))
-#define SOUNDFONT_INFO_SIZE (NUM_SOUNDFONTS * sizeof(SoundFont))
+#define SOUNDFONT_LIST_SIZE (NUM_SOUNDFONTS * sizeof(SoundFont))
 #define PERMANENT_POOL_SIZE (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE)
 
 const AudioHeapInitSizes gAudioHeapInitSizes = {
     ALIGN16(sizeof(gAudioHeap) - 0x100),                                  // audio heap size
-    ALIGN16(PERMANENT_POOL_SIZE + AI_BUFFERS_SIZE + SOUNDFONT_INFO_SIZE), // init pool size
+    ALIGN16(PERMANENT_POOL_SIZE + AI_BUFFERS_SIZE + SOUNDFONT_LIST_SIZE), // init pool size
     ALIGN16(PERMANENT_POOL_SIZE),                                         // permanent pool size
 };
 

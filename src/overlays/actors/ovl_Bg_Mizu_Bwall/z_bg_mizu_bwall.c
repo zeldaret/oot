@@ -13,7 +13,7 @@
 void BgMizuBwall_Init(Actor* thisx, PlayState* play);
 void BgMizuBwall_Destroy(Actor* thisx, PlayState* play);
 void BgMizuBwall_Update(Actor* thisx, PlayState* play);
-void BgMizuBwall_Draw(Actor* thisx, PlayState* play);
+void BgMizuBwall_Draw(Actor* thisx, PlayState* play2);
 
 void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_Break(BgMizuBwall* this, PlayState* play);
