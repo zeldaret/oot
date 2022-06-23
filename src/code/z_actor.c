@@ -2112,7 +2112,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                         actor->colorFilterTimer--;
                     }
                     actor->update(actor, play);
-                    DynaPoly_ResetInteractFlags(play, &play->colCtx.dyna, actor);
+                    DynaPoly_ClearInteractFlags(play, &play->colCtx.dyna, actor);
                 }
 
                 CollisionCheck_ResetDamage(&actor->colChkInfo);
