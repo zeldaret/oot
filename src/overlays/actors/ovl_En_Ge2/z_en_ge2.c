@@ -53,7 +53,7 @@ void EnGe2_ForceTalk(EnGe2* this, PlayState* play);
 // Update functions
 void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play);
 void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
-void EnGe2_UpdateStunned(Actor* thisx, PlayState* play);
+void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,

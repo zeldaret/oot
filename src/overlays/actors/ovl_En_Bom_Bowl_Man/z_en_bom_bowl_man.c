@@ -13,7 +13,7 @@ typedef enum {
     /* 3 */ CHU_GIRL_EYES_AWAKE
 } BombchuGirlEyeMode;
 
-void EnBomBowlMan_Init(Actor* thisx, PlayState* play);
+void EnBomBowlMan_Init(Actor* thisx, PlayState* play2);
 void EnBomBowlMan_Destroy(Actor* thisx, PlayState* play);
 void EnBomBowlMan_Update(Actor* thisx, PlayState* play);
 void EnBomBowlMan_Draw(Actor* thisx, PlayState* play);

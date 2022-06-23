@@ -18,7 +18,7 @@
 
 #define DOOR_CHECK_RANGE 40.0f
 
-void EnDoor_Init(Actor* thisx, PlayState* play);
+void EnDoor_Init(Actor* thisx, PlayState* play2);
 void EnDoor_Destroy(Actor* thisx, PlayState* play);
 void EnDoor_Update(Actor* thisx, PlayState* play);
 void EnDoor_Draw(Actor* thisx, PlayState* play);

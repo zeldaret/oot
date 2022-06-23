@@ -16,7 +16,7 @@ typedef enum {
     /* 1 */ CHEST_RIGHT
 } ChangerChestSide;
 
-void EnChanger_Init(Actor* thisx, PlayState* play);
+void EnChanger_Init(Actor* thisx, PlayState* play2);
 void EnChanger_Destroy(Actor* thisx, PlayState* play);
 void EnChanger_Update(Actor* thisx, PlayState* play);
 
