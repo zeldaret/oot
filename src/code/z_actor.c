@@ -1507,7 +1507,6 @@ u32 Actor_ProcessTalkRequest(Actor* actor, PlayState* play) {
 s32 func_8002F1C4(Actor* actor, PlayState* play, f32 arg2, f32 arg3, u32 exchangeItemId) {
     Player* player = GET_PLAYER(play);
 
-    // This is convoluted but it seems like it must be a single if statement to match
     if ((player->actor.flags & ACTOR_FLAG_8) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
         (!actor->isTargeted &&
          ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
@@ -2182,10 +2181,10 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Lights_Draw(lights, play->state.gfxCtx);
 
     if (actor->flags & ACTOR_FLAG_12) {
-        Matrix_SetTranslateRotateYXZ(
-            actor->world.pos.x + play->mainCamera.skyboxOffset.x,
-            actor->world.pos.y + (f32)((actor->shape.yOffset * actor->scale.y) + play->mainCamera.skyboxOffset.y),
-            actor->world.pos.z + play->mainCamera.skyboxOffset.z, &actor->shape.rot);
+        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.skyboxOffset.x,
+                                     actor->world.pos.y +
+                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.skyboxOffset.y),
+                                     actor->world.pos.z + play->mainCamera.skyboxOffset.z, &actor->shape.rot);
     } else {
         Matrix_SetTranslateRotateYXZ(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
                                      actor->world.pos.z, &actor->shape.rot);
@@ -4214,14 +4213,14 @@ void Flags_SetEventChkInf(s32 flag) {
 }
 
 /**
- * Tests if "inf_table flag is set.
+ * Tests if inf_table flag is set.
  */
 s32 Flags_GetInfTable(s32 flag) {
     return GET_INFTABLE(flag);
 }
 
 /**
- * Sets "inf_table" flag.
+ * Sets inf_table flag.
  */
 void Flags_SetInfTable(s32 flag) {
     SET_INFTABLE(flag);
