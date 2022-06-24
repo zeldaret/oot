@@ -288,7 +288,7 @@ void Play_Init(GameState* thisx) {
 
     Cutscene_HandleConditionalTriggers(this);
 
-    if (gSaveContext.gameMode != 0 || gSaveContext.cutsceneIndex >= 0xFFF0) {
+    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.cutsceneIndex >= 0xFFF0) {
         gSaveContext.nayrusLoveTimer = 0;
         Magic_Reset(this);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
@@ -369,7 +369,7 @@ void Play_Init(GameState* thisx) {
     this->unk_11E18 = 0;
     this->unk_11DE9 = false;
 
-    if (gSaveContext.gameMode != 1) {
+    if (gSaveContext.gameMode != GAMEMODE_TITLE_SCREEN) {
         if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
             this->transitionType = ENTRANCE_INFO_END_TRANS_TYPE(
                 gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field);
@@ -627,7 +627,7 @@ void Play_Update(PlayState* this) {
                         } else if (this->transitionTrigger != TRANS_TRIGGER_END) {
                             this->state.running = false;
 
-                            if (gSaveContext.gameMode != 2) {
+                            if (gSaveContext.gameMode != GAMEMODE_FILE_SELECT) {
                                 SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
                                 gSaveContext.entranceIndex = this->nextEntranceIndex;
 
@@ -832,7 +832,7 @@ void Play_Update(PlayState* this) {
         if (1 && (gTrnsnUnkState != 3)) {
             PLAY_LOG(3542);
 
-            if ((gSaveContext.gameMode == 0) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
+            if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
                 (this->gameOverCtx.state == GAMEOVER_INACTIVE)) {
                 KaleidoSetup_Update(this);
             }
@@ -930,7 +930,7 @@ void Play_Update(PlayState* this) {
                         Play_SetViewpoint(this, this->viewpoint ^ (VIEWPOINT_LOCKED ^ VIEWPOINT_PIVOT));
                     }
                 }
-                
+
                 Play_ChangeViewpointBgCamIndex(this);
             }
 
@@ -1006,7 +1006,7 @@ void Play_DrawOverlayElements(PlayState* this) {
         KaleidoScopeCall_Draw(this);
     }
 
-    if (gSaveContext.gameMode == 0) {
+    if (gSaveContext.gameMode == GAMEMODE_NORMAL) {
         Interface_Draw(this);
     }
 
