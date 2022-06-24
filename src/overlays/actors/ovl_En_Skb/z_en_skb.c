@@ -22,6 +22,7 @@ void EnSkb_SetupRecoil(EnSkb* this);
 void EnSkb_Recoil(EnSkb* this, PlayState* play);
 void EnSkb_SetupStunned(EnSkb* this);
 void EnSkb_Stunned(EnSkb* this, PlayState* play);
+void EnSkb_SetupTakeDamage(EnSkb* this);
 void EnSkb_TakeDamage(EnSkb* this, PlayState* play);
 void EnSkb_SetupDeath(EnSkb* this, PlayState* play);
 void EnSkb_Death(EnSkb* this, PlayState* play);
@@ -363,7 +364,7 @@ void EnSkb_Stunned(EnSkb* this, PlayState* play) {
     }
 }
 
-void func_80AFD644(EnSkb* this) {
+void EnSkb_SetupTakeDamage(EnSkb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDamagedAnim, -4.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -4.0f;
@@ -487,7 +488,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                             this->bodybreakState = 1; // prepare for decapitation
                         }
                     }
-                    func_80AFD644(this);
+                    EnSkb_SetupTakeDamage(this);
                 }
             }
         }
