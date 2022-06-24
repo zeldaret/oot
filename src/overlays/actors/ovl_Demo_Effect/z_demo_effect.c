@@ -2071,8 +2071,7 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        Flags_GetEnv(play, 1) || gSaveContext.sceneLayer > SCENE_LAYER_ADULT_NIGHT ||
-        gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
+        Flags_GetEnv(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);

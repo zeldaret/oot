@@ -1060,8 +1060,7 @@ void Scene_DrawConfigSpot04(PlayState* play) {
         spA3 = 255 - (u8)play->roomCtx.unk_74[0];
     } else if (gSaveContext.sceneLayer == 6) {
         spA0 = play->roomCtx.unk_74[0] + 500;
-    } else if (((gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) || LINK_IS_ADULT) &&
-               GET_EVENTCHKINF(EVENTCHKINF_07)) {
+    } else if ((!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
         spA0 = 2150;
     }
 
@@ -1088,7 +1087,7 @@ void Scene_DrawConfigSpot06(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
 
-    if ((gSaveContext.sceneLayer > SCENE_LAYER_ADULT_NIGHT) || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
+    if (IS_CUTSCENE_LAYER || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
         play->roomCtx.unk_74[0] = 87;
     }
 

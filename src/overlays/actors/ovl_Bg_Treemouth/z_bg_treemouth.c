@@ -70,7 +70,7 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Actor_SetFocus(thisx, 50.0f);
 
-    if ((gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) && !LINK_IS_ADULT) {
+    if (!IS_CUTSCENE_LAYER && !LINK_IS_ADULT) {
         BgTreemouth_SetupAction(this, func_808BC8B8);
     } else if (LINK_IS_ADULT || (gSaveContext.sceneLayer == 7)) {
         this->unk_168 = 0.0f;
@@ -232,7 +232,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if ((gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) || LINK_IS_ADULT) {
+    if (!IS_CUTSCENE_LAYER || LINK_IS_ADULT) {
         if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }

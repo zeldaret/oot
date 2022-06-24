@@ -9153,7 +9153,7 @@ void func_80846648(PlayState* play, Player* this) {
 
 void func_80846660(PlayState* play, Player* this) {
     func_80835C58(play, this, func_8084F710, 0);
-    if ((play->sceneNum == SCENE_SPOT06) && (gSaveContext.sceneLayer > SCENE_LAYER_ADULT_NIGHT)) {
+    if ((play->sceneNum == SCENE_SPOT06) && IS_CUTSCENE_LAYER) {
         this->unk_84F = 1;
     }
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -9342,7 +9342,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     if ((respawnFlag == 0) || (respawnFlag < -1)) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
-            if ((gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) &&
+            if (!IS_CUTSCENE_LAYER &&
                 (gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
                  ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
                 ((play->sceneNum != SCENE_DDAN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&

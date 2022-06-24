@@ -259,6 +259,9 @@ typedef enum {
     /* 3 */ SCENE_LAYER_ADULT_NIGHT    
 } SceneLayer;
 
+#define SCENE_LAYER_CUTSCENE_START (SCENE_LAYER_ADULT_NIGHT + 1)
+#define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_START)
+
 typedef enum {
     /* 0 */ LINK_AGE_ADULT,
     /* 1 */ LINK_AGE_CHILD

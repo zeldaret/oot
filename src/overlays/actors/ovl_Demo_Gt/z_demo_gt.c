@@ -438,7 +438,7 @@ void func_8097ED64(DemoGt* this, PlayState* play, s32 actionIdx) {
 u8 DemoGt_IsCutsceneLayer(void) {
     if (kREG(2) != 0) {
         return true;
-    } else if (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+    } else if (!IS_CUTSCENE_LAYER) {
         return false;
     } else {
         return true;

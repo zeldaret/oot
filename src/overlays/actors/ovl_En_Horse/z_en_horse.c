@@ -828,7 +828,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     this->actor.focus.pos.y += 70.0f;
     this->playerControlled = false;
 
-    if ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT)) {
+    if ((play->sceneNum == SCENE_SPOT20) && !IS_CUTSCENE_LAYER) {
         if (this->type == HORSE_HNI) {
             if (this->actor.world.rot.z == 0 || !IS_DAY) {
                 Actor_Kill(&this->actor);

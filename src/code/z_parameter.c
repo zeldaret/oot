@@ -2439,7 +2439,7 @@ void Magic_Update(PlayState* play) {
             // Add magic until magicFillTarget is reached
             gSaveContext.magic += 4;
 
-            if (gSaveContext.gameMode == GAMEMODE_NORMAL && gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+            if (gSaveContext.gameMode == GAMEMODE_NORMAL && !IS_CUTSCENE_LAYER) {
                 Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
@@ -3889,7 +3889,7 @@ void Interface_Update(PlayState* play) {
     }
 
     if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
-        if ((gSaveContext.minigameState == 1) || (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) ||
+        if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||
             ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneLayer == 4))) {
             if ((msgCtx->msgMode == MSGMODE_NONE) ||
                 ((msgCtx->msgMode != MSGMODE_NONE) && (play->sceneNum == SCENE_BOWLING))) {

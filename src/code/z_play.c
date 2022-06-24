@@ -291,7 +291,7 @@ void Play_Init(GameState* thisx) {
     if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.cutsceneIndex >= 0xFFF0) {
         gSaveContext.nayrusLoveTimer = 0;
         Magic_Reset(this);
-        gSaveContext.sceneLayer = 4 + (gSaveContext.cutsceneIndex & 0xF);
+        gSaveContext.sceneLayer = SCENE_LAYER_CUTSCENE_START + (gSaveContext.cutsceneIndex & 0xF);
     } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneLayer = SCENE_LAYER_CHILD_DAY;
     } else if (!LINK_IS_ADULT && !IS_DAY) {
@@ -306,7 +306,7 @@ void Play_Init(GameState* thisx) {
     baseSceneLayer = gSaveContext.sceneLayer;
 
     if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && !LINK_IS_ADULT &&
-        gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+        !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
             gSaveContext.sceneLayer = 1;
@@ -314,7 +314,7 @@ void Play_Init(GameState* thisx) {
             gSaveContext.sceneLayer = 0;
         }
     } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
-               gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+               !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
@@ -510,7 +510,7 @@ void Play_Update(PlayState* this) {
                         Interface_ChangeAlpha(1);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-                            sceneLayer = 4 + (gSaveContext.cutsceneIndex & 0xF);
+                            sceneLayer = SCENE_LAYER_CUTSCENE_START + (gSaveContext.cutsceneIndex & 0xF);
                         }
 
                         // fade out bgm if "continue bgm" flag is not set

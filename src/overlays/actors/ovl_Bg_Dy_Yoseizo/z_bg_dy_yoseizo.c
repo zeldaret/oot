@@ -252,7 +252,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
     }
 
     if (givingReward) {
-        if (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+        if (!IS_CUTSCENE_LAYER) {
             if (play->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
                 switch (this->fountainType) {
                     case FAIRY_SPELL_FARORES_WIND:

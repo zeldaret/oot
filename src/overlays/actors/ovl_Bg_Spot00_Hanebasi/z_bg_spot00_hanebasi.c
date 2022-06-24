@@ -64,7 +64,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
-        if (LINK_IS_ADULT && (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT)) {
+        if (LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
@@ -137,11 +137,10 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, PlayState* play) {
 void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
     BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
 
-    if ((gSaveContext.sceneLayer > SCENE_LAYER_ADULT_NIGHT) || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) ||
-        !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) || !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) ||
-        GET_EVENTCHKINF(EVENTCHKINF_80)) {
+    if (IS_CUTSCENE_LAYER || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ||
+        !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) || GET_EVENTCHKINF(EVENTCHKINF_80)) {
         if (this->dyna.actor.shape.rot.x != 0) {
-            if (Flags_GetEnv(play, 0) || ((gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) && IS_DAY)) {
+            if (Flags_GetEnv(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY)) {
                 this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
                 this->destAngle = 0;
                 child->destAngle = 0;
@@ -150,8 +149,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
 
             if (this) {} // required to match
         }
-        if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) &&
-            !LINK_IS_ADULT && !IS_DAY) {
+        if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
             this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
             this->destAngle = -0x4000;
             child->destAngle = -0xFE0;
@@ -263,7 +261,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, PlayState* play2) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    if (gSaveContext.sceneLayer > SCENE_LAYER_ADULT_NIGHT) {
+    if (IS_CUTSCENE_LAYER) {
         sTorchFlameScale = 0.008f;
     } else {
         sTorchFlameScale = ((thisx->shape.rot.x * -1) - 0x2000) * (1.0f / 1024000.0f);
@@ -316,8 +314,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, PlayState* play) {
         thisx->child->child->world.pos.z = newPos.z;
 
         if (gSaveContext.sceneLayer != 12) {
-            if ((gSaveContext.sceneLayer > SCENE_LAYER_ADULT_NIGHT) ||
-                (!LINK_IS_ADULT && (thisx->shape.rot.x < -0x2000))) {
+            if (IS_CUTSCENE_LAYER || (!LINK_IS_ADULT && (thisx->shape.rot.x < -0x2000))) {
                 BgSpot00Hanebasi_DrawTorches(thisx, play);
             } else {
                 sTorchFlameScale = 0.0f;

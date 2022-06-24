@@ -203,7 +203,7 @@ void DemoGj_Explode(DemoGj* this, PlayState* play, Vec3f* initialPos, Vec3f* dir
 }
 
 s32 DemoGj_IsCutsceneLayer(void) {
-    if (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+    if (!IS_CUTSCENE_LAYER) {
         return false;
     }
     return true;

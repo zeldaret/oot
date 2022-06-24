@@ -300,7 +300,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gKakarikoWellArchCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+    if (!IS_CUTSCENE_LAYER) {
         if (GET_EVENTCHKINF(EVENTCHKINF_54) && LINK_IS_ADULT) {
             Actor_Kill(&this->dyna.actor);
         } else {

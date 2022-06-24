@@ -93,7 +93,7 @@ void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808BAF40(BgTokiSwd* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_4F) && (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_4F) && !IS_CUTSCENE_LAYER &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
         SET_EVENTCHKINF(EVENTCHKINF_4F);
         play->csCtx.segment = D_808BBD90;

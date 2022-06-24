@@ -347,7 +347,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
 
     if (gSaveContext.retainWeatherMode) {
-        if (((void)0, gSaveContext.sceneLayer) <= SCENE_LAYER_ADULT_NIGHT) {
+        if (!IS_CUTSCENE_LAYER) {
             switch (gWeatherMode) {
                 case WEATHER_MODE_CLOUDY_CONFIG3:
                     envCtx->skyboxConfig = 1;

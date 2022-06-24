@@ -325,7 +325,7 @@ void func_80985430(DemoIm* this, PlayState* play) {
 void func_8098544C(DemoIm* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 4) && (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT)) {
+    if ((gSaveContext.chamberCutsceneNum == 4) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;

@@ -228,7 +228,7 @@ void BgHidanCurtain_Update(Actor* thisx, PlayState* play2) {
             this->collider.dim.height = hcParams->height * riseProgress;
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-            if (gSaveContext.sceneLayer <= SCENE_LAYER_ADULT_NIGHT) {
+            if (!IS_CUTSCENE_LAYER) {
                 func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
             }
         } else if ((this->type == 1) && Flags_GetTreasure(play, this->treasureFlag)) {
