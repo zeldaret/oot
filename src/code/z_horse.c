@@ -243,7 +243,7 @@ void func_8006DC68(PlayState* play, Player* player) {
         }
 
         if (func_8006CFC0(play->sceneNum)) {
-            if ((gSaveContext.sceneSetupIndex > 3) ||
+            if ((gSaveContext.sceneLayer > SCENE_LAYER_ADULT_NIGHT) ||
                 ((gSaveContext.entranceIndex == ENTR_SPOT00_11 || gSaveContext.entranceIndex == ENTR_SPOT00_12 ||
                   gSaveContext.entranceIndex == ENTR_SPOT00_13 || gSaveContext.entranceIndex == ENTR_SPOT00_15) &&
                  (gSaveContext.respawnFlag == 0)) ||

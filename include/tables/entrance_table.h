@@ -10,11 +10,11 @@
  *    - Argument 6: Transition type when entering using this entrance (second half of a scene transition)
  *    - Argument 7: Transition type when exiting using this entrance (first half of a scene transition)
  *
- * WARNING: Due to how the entrance system is implemented, entries within the same group of scene setups are NOT shiftable.
- *          Groups of scene setups are indicated by line breaks.
+ * WARNING: Due to how the entrance system is implemented, entries within the same group of scene layers are NOT shiftable.
+ *          Groups of scene layers are indicated by line breaks.
  *
- *          Only the first entrance within a group of setups is expected to be referenced in code.
- *          The entrance system will apply the offset on its own to access the correct entrance for a given setup.
+ *          Only the first entrance within a group of layers is expected to be referenced in code.
+ *          The entrance system will apply the offset on its own to access the correct entrance for a given layer.
  */
 /* 0x000 */ DEFINE_ENTRANCE(ENTR_YDAN_0, SCENE_YDAN, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
 /* 0x001 */ DEFINE_ENTRANCE(ENTR_YDAN_0_1, SCENE_YDAN, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)

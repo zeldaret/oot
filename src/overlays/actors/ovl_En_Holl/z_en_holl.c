@@ -75,8 +75,8 @@ void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
     this->actionFunc = func;
 }
 
-s32 EnHoll_IsKokiriSetup8(void) {
-    return gSaveContext.entranceIndex == ENTR_SPOT04_0 && gSaveContext.sceneSetupIndex == 8;
+s32 EnHoll_IsKokiriLayer8(void) {
+    return gSaveContext.entranceIndex == ENTR_SPOT04_0 && gSaveContext.sceneLayer == 8;
 }
 
 void EnHoll_ChooseAction(EnHoll* this) {
@@ -164,7 +164,7 @@ void func_80A59014(EnHoll* this, PlayState* play) {
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &play->view.eye : &player->actor.world.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
 
-    temp = EnHoll_IsKokiriSetup8();
+    temp = EnHoll_IsKokiriLayer8();
     if (temp || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
                  (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
         s32 transitionActorIdx = (u16)this->actor.params >> 0xA;
@@ -304,7 +304,7 @@ void func_80A59618(EnHoll* this, PlayState* play) {
 }
 
 void EnHoll_NextAction(EnHoll* this, PlayState* play) {
-    if (!EnHoll_IsKokiriSetup8() && play->roomCtx.status == 0) {
+    if (!EnHoll_IsKokiriLayer8() && play->roomCtx.status == 0) {
         func_80097534(play, &play->roomCtx);
         if (play->unk_11E18 == 0) {
             this->unk_14F = 0;
