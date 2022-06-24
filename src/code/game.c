@@ -23,8 +23,7 @@ void GameState_FaultPrint(void) {
 }
 
 void GameState_SetFBFilter(Gfx** gfx) {
-    Gfx* gfxP;
-    gfxP = *gfx;
+    Gfx* gfxP = *gfx;
 
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
         D_801664F0.type = R_FB_FILTER_TYPE;

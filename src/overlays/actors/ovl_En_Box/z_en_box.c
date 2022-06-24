@@ -1,4 +1,5 @@
 #include "z_en_box.h"
+#include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 #include "assets/objects/object_box/object_box.h"
 
 #define FLAGS 0
@@ -359,7 +360,7 @@ void EnBox_AppearInit(EnBox* this, PlayState* play) {
         EnBox_SetupAction(this, EnBox_AppearAnimation);
         this->unk_1A8 = 0;
         Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
-                    this->dyna.actor.home.pos.z, 0, 0, 0, 0x0011);
+                    this->dyna.actor.home.pos.z, 0, 0, 0, DEMOKANKYO_SPARKLES);
         Audio_PlaySoundGeneral(NA_SE_EV_TRE_BOX_APPEAR, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }

@@ -4171,17 +4171,17 @@ u32 SurfaceType_IsWallDamage(CollisionContext* colCtx, CollisionPoly* poly, s32 
 /**
  * Zora's Domain WaterBox in King Zora's Room
  */
-WaterBox zdWaterBox = { -348, 877, -1746, 553, 780, 0x2104 };
+WaterBox sZorasDomainWaterBox = { -348, 877, -1746, 553, 780, 0x2104 };
 
 /**
  * WaterBox's effective bounding box
  */
-f32 zdWaterBoxMinX = -348.0f;
-f32 zdWaterBoxMinY = 777.0f;
-f32 zdWaterBoxMinZ = -1746.0f;
-f32 zdWaterBoxMaxX = 205.0f;
-f32 zdWaterBoxMaxY = 977.0f;
-f32 zdWaterBoxMaxZ = -967.0f;
+f32 sZorasDomainWaterBoxMinX = -348.0f;
+f32 sZorasDomainWaterBoxMinY = 777.0f;
+f32 sZorasDomainWaterBoxMinZ = -1746.0f;
+f32 sZorasDomainWaterBoxMaxX = 205.0f;
+f32 sZorasDomainWaterBoxMaxY = 977.0f;
+f32 sZorasDomainWaterBoxMaxZ = -967.0f;
 
 /**
  * Public. Get the water surface at point (`x`, `ySurface`, `z`). `ySurface` doubles as position y input
@@ -4191,10 +4191,10 @@ f32 zdWaterBoxMaxZ = -967.0f;
 s32 WaterBox_GetSurface1(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                          WaterBox** outWaterBox) {
     if (play->sceneNum == SCENE_SPOT07) {
-        if (zdWaterBoxMinX < x && x < zdWaterBoxMaxX && zdWaterBoxMinY < *ySurface && *ySurface < zdWaterBoxMaxY &&
-            zdWaterBoxMinZ < z && z < zdWaterBoxMaxZ) {
-            *outWaterBox = &zdWaterBox;
-            *ySurface = zdWaterBox.ySurface;
+        if (sZorasDomainWaterBoxMinX < x && x < sZorasDomainWaterBoxMaxX && sZorasDomainWaterBoxMinY < *ySurface &&
+            *ySurface < sZorasDomainWaterBoxMaxY && sZorasDomainWaterBoxMinZ < z && z < sZorasDomainWaterBoxMaxZ) {
+            *outWaterBox = &sZorasDomainWaterBox;
+            *ySurface = sZorasDomainWaterBox.ySurface;
             return true;
         }
     }
