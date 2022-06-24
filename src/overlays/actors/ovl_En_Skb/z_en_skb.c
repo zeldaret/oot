@@ -9,7 +9,7 @@ void EnSkb_Destroy(Actor* thisx, PlayState* play);
 void EnSkb_Update(Actor* thisx, PlayState* play);
 void EnSkb_Draw(Actor* thisx, PlayState* play);
 
-void EnSkb_Main(EnSkb* this);
+void EnSkb_DecideNextAction(EnSkb* this);
 void EnSkb_SetupRiseFromGround(EnSkb* this);
 void EnSkb_RiseFromGround(EnSkb* this, PlayState* play);
 void EnSkb_SetupDespawn(EnSkb* this);
@@ -188,7 +188,7 @@ void EnSkb_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-void EnSkb_Main(EnSkb* this) {
+void EnSkb_DecideNextAction(EnSkb* this) {
     if (IS_DAY) {
         EnSkb_SetupDespawn(this);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
@@ -220,7 +220,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
         EnSkb_SpawnDebris(play, this, &this->actor.world.pos);
     }
     if ((SkelAnime_Update(&this->skelAnime) != 0) && (0.0f == this->actor.shape.yOffset)) {
-        EnSkb_Main(this);
+        EnSkb_DecideNextAction(this);
     }
 }
 
@@ -317,7 +317,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
         this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         EnSkb_SetupRecoil(this);
     } else if (SkelAnime_Update(&this->skelAnime) != 0) {
-        EnSkb_Main(this);
+        EnSkb_DecideNextAction(this);
     }
 }
 
@@ -332,7 +332,7 @@ void EnSkb_SetupRecoil(EnSkb* this) {
 
 void EnSkb_Recoil(EnSkb* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        EnSkb_Main(this);
+        EnSkb_DecideNextAction(this);
     }
 }
 
@@ -359,7 +359,7 @@ void EnSkb_Stunned(EnSkb* this, PlayState* play) {
         if (this->actor.colChkInfo.health == 0) {
             EnSkb_SetupDeath(this, play);
         } else {
-            EnSkb_Main(this);
+            EnSkb_DecideNextAction(this);
         }
     }
 }
@@ -395,7 +395,7 @@ void EnSkb_TakeDamage(EnSkb* this, PlayState* play) {
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
         if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-            EnSkb_Main(this);
+            EnSkb_DecideNextAction(this);
         }
     }
 }
