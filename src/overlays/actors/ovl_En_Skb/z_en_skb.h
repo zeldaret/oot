@@ -8,17 +8,26 @@ struct EnSkb;
 
 typedef void (*EnSkbActionFunc)(struct EnSkb*, PlayState*);
 
+
+#define ACTION_STATE_SPAWNING 0
+#define ACTION_STATE_DYING 1
+#define ACTION_STATE_DAMAGED 2
+#define ACTION_STATE_ATTACKING 3
+#define ACTION_STATE_WALKING 4
+#define ACTION_STATE_RECOILING 5
+#define ACTION_STATE_STUNNED 6
+
 typedef struct EnSkb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s jointTable[20];
     /* 0x0208 */ Vec3s morphTable[20];
-    /* 0x0280 */ u8 unk_280;
-    /* 0x0281 */ u8 unk_281;
-    /* 0x0282 */ u8 unk_282;
-    /* 0x0283 */ u8 unk_283;
+    /* 0x0280 */ u8 actionState;
+    /* 0x0281 */ u8 hitboxActive;
+    /* 0x0282 */ u8 lastDamageEffect;
+    /* 0x0283 */ u8 bodybreakState;
     /* 0x0284 */ EnSkbActionFunc actionFunc;
-    /* 0x0288 */ s16 unk_288;
+    /* 0x0288 */ s16 headlessWalkDirectionOffset;
     /* 0x028C */ BodyBreak bodyBreak;
     /* 0x02A4 */ ColliderJntSph collider;
     /* 0x02C4 */ ColliderJntSphElement colliderItem[2];
