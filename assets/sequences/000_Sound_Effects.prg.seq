@@ -1,5 +1,6 @@
 .desc title "Sound Effects"
 .desc type "program"
+.cache CACHE_PERMANENT
 .usefont SOUNDFONT_SFX_2
 .usefont SOUNDFONT_SFX_1
 

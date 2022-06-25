@@ -7,7 +7,7 @@ from pathlib import Path
 import struct
 import sys
 import xml.etree.ElementTree as XmlTree
-from audio_common import StructPackSpec, parse_machine
+from audio_common import StructPackSpec, parse_machine, toCachePolicy
 from makeelf.elf import *
 
 class SequenceDefinition:
@@ -15,6 +15,7 @@ class SequenceDefinition:
         self.name = ""
         self.size = -1
         self.fonts = []
+        self.cachePolicy = 2
         self.ref = None
 
 def process_sequence_file(sequence, soundfont_path, output_path):
@@ -41,6 +42,8 @@ def process_sequence_file(sequence, soundfont_path, output_path):
     fontlines = result.stdout.split("\n")
     for line in fontlines:
         try:
+            if line.startswith("Cache="):
+                defn.cachePolicy = int(line.split("=")[1])
             fontid = int(line)
             defn.fonts.append(fontid)
         except:
@@ -66,6 +69,7 @@ def process_sequence_files(sequence_path, soundfont_path, output_path):
         defn = SequenceDefinition()
         defn.name = reference.get("Name")
         defn.ref = reference.get("Target")
+        defn.cachePolicy = toCachePolicy(reference.get("CachePolicy", default="Temporary"))
         result.append(defn)
 
     result = sorted(result, key=lambda defn: os.path.basename(defn.name))
@@ -77,7 +81,7 @@ def get_seq_index(refname, seqdefs):
         if defn.name.endswith(refname):
             return i
     
-    raise f"Sequence {refname} not found but referenced"
+    raise Exception(f"Sequence {refname} not found but referenced")
 
 def generate_sequence_table(sequences, output_path, machine, packspecs):
     with open(os.path.join(output_path, "assets", "data", "SequenceTable.o"), "wb") as seqtable:
@@ -87,9 +91,9 @@ def generate_sequence_table(sequences, output_path, machine, packspecs):
         for defn in sequences:
             spec = packspecs.genPackString("IIbbxxxxxx")
             if defn.ref:
-                packed = struct.pack(spec, get_seq_index(defn.ref, sequences), 0, 2, 2)
+                packed = struct.pack(spec, get_seq_index(defn.ref, sequences), 0, 2, defn.cachePolicy)
             else:
-                packed = struct.pack(spec, start_offset, defn.size, 2, 2)
+                packed = struct.pack(spec, start_offset, defn.size, 2, defn.cachePolicy)
                 start_offset += defn.size
             stream.write(packed)
 
@@ -99,10 +103,11 @@ def generate_sequence_table(sequences, output_path, machine, packspecs):
             e_type=ET.ET_REL,
             e_machine=machine
         )
-        rodata = elf._append_section(".rodata", stream.getvalue(), 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
-        elf.append_symbol("_SequenceTable_start", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("gSequenceTable", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("_SequenceTable_end", rodata, stream.getbuffer().nbytes, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+        data = elf._append_section(".data", stream.getvalue(), 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16, sh_entsize=1)
+        elf.append_symbol(".data", data, 0, stream.getbuffer().nbytes, STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
+        elf.append_symbol("_SequenceTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+        elf.append_symbol("gSequenceTable", data, 0, stream.getbuffer().nbytes, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+        elf.append_symbol("_SequenceTable_end", data, stream.getbuffer().nbytes, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
         seqtable.write(bytes(elf))
 
 def generate_sequence_font_table(sequences, output_path, machine, packspecs):
@@ -113,6 +118,8 @@ def generate_sequence_font_table(sequences, output_path, machine, packspecs):
         for i in range(len(sequences)):
             defn = sequences[i]
             seqoffsets[i] = stream.tell() + (len(sequences) * 2)
+            if defn.ref:
+                defn = sequences[get_seq_index(defn.ref, sequences)]
             stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
             for id in defn.fonts:
                 stream.write(struct.pack(packspecs.genPackString("b"), id))
@@ -122,6 +129,8 @@ def generate_sequence_font_table(sequences, output_path, machine, packspecs):
         for offset in seqoffsets.values():
             stream.write(struct.pack(packspecs.genPackString("H"), offset))
         for defn in sequences:
+            if defn.ref:
+                defn = sequences[get_seq_index(defn.ref, sequences)]
             stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
             for id in defn.fonts:
                 stream.write(struct.pack(packspecs.genPackString("b"), id))
@@ -135,16 +144,17 @@ def generate_sequence_font_table(sequences, output_path, machine, packspecs):
             e_type=ET.ET_REL,
             e_machine=machine
         )
-        rodata = elf._append_section(".rodata", stream.getvalue(), 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
-        elf.append_symbol("_SequenceFontTable_start", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("gSequenceFontTable", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("_SequenceFontTable_end", rodata, stream.getbuffer().nbytes, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+        data = elf._append_section(".data", stream.getvalue(), 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
+        elf.append_symbol(".data", data, 0, 0, STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
+        elf.append_symbol("_SequenceFontTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+        elf.append_symbol("gSequenceFontTable", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+        elf.append_symbol("_SequenceFontTable_end", data, stream.getbuffer().nbytes, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
         seqmap.write(bytes(elf))
 
 def main(args):
     packspecs = StructPackSpec(args.le, args.arch64)
     if args.machine:
-        machine = parse_machine(args.machine)
+        machine = parse_machine(args.machine[0])
 
     if not args.sequences.is_dir():
         print("Sequence asset path does not exist or is not a directory.", file=sys.stderr)
@@ -166,6 +176,6 @@ if __name__ == "__main__":
     parser.add_argument("output", metavar="<output path>", type=Path, help="The path to where built machine files should be stored.")
     parser.add_argument("--little-endian", dest="le", action="store_true", help="Use this flag if building for Little-Endian target. Overrides --match and --debug")
     parser.add_argument("--64", dest="arch64", action="store_true", help="Use this flag if building for 64-bit target. (Importantly, this does NOT include N64 itself). Overrides --match and --debug")
-    parser.add_argument("--machine", nargs=1, required=False, default="mips", help="The machine type to use for the output ELF files.")
+    parser.add_argument("--machine", nargs=1, required=False, default=["mips"], help="The machine type to use for the output ELF files.")
     args = parser.parse_args()
     main(args)

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from argparse import ArgumentParser
+import argparse
 import sys
 import re
 import os
@@ -9,47 +11,45 @@ def join(*args):
         ret.update(arg)
     return ret
 
-def get_symbols(header_path):
+def get_symbols(header_file):
     inst_syms = {}
     drum_syms = {}
     effect_syms = {}
     
-    with open(header_path, "r") as header_file:
-        current_mode = ""
-        for line in header_file.readlines():
-            if current_mode == "" and " INSTRUMENTS " in line:
-                current_mode = "instrument"
-                continue
-            elif current_mode == "instrument" and " DRUMS " in line:
-                current_mode = "drum"
-                continue
-            elif current_mode == "drum" and " EFFECTS " in line:
-                current_mode = "effect"
-                continue
-                
-            if ".define" in line and current_mode != "":
-                sym, index = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
-                if current_mode == "instrument":
-                    inst_syms[int(index)] = sym
-                elif current_mode == "drum":
-                    drum_syms[int(index)] = sym
-                elif current_mode == "effect":
-                    effect_syms[int(index)] = sym
-    
+    current_mode = ""
+    for line in header_file.readlines():
+        if current_mode == "" and " INSTRUMENTS " in line:
+            current_mode = "instrument"
+            continue
+        elif current_mode == "instrument" and " DRUMS " in line:
+            current_mode = "drum"
+            continue
+        elif current_mode == "drum" and " EFFECTS " in line:
+            current_mode = "effect"
+            continue
+            
+        if ".define" in line and current_mode != "":
+            sym, index = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
+            if current_mode == "instrument":
+                inst_syms[int(index)] = sym
+            elif current_mode == "drum":
+                drum_syms[int(index)] = sym
+            elif current_mode == "effect":
+                effect_syms[int(index)] = sym
+
     return (inst_syms, drum_syms, effect_syms)
 
-def get_sequence_symbols(inc_path):
+def get_sequence_symbols(seq_inc):
     pitches = {}
     fonts = {}
 
-    with open(inc_path, "r") as seq_inc:
-        for line in seq_inc.readlines():
-            if "PITCH" in line:
-                sym, id = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
-                pitches[int(id)] = sym
-            if "SOUNDFONT" in line:
-                sym, id = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
-                fonts[int(id)] = sym
+    for line in seq_inc.readlines():
+        if "PITCH" in line:
+            sym, id = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
+            pitches[int(id)] = sym
+        if "SOUNDFONT" in line:
+            sym, id = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
+            fonts[int(id)] = sym
 
     return (pitches, fonts)
 
@@ -233,45 +233,42 @@ def valid_cmd_for_nbits(cmd_list, nbits):
             return int(arg.split(':')[1]) == nbits
     return nbits == 0
 
-print_end_padding = False
-if "--print-end-padding" in sys.argv:
-    print_end_padding = True
-    sys.argv.remove("--print-end-padding")
+parser = ArgumentParser(add_help=False)
+parser.add_argument("filename", metavar="input.aseq", type=argparse.FileType("rb"), help="Input binary sequence to convert to a text sequence.")
+parser.add_argument("header", metavar="soundfont.inc", type=argparse.FileType("r"), help="Soundfont include file defining instruments and drums symbols.")
+parser.add_argument("sequence", metavar="sequence.inc", type=argparse.FileType("r"), help="sequence.inc file containing global defines")
+parser.add_argument("--print-end-padding", action="store_true", help="Adds padding bytes to the end of the sequence.")
+parser.add_argument("--cache-policy", nargs=1, required=False, default=["2"], help="Specifies the cache policy for this sequence.")
+args = parser.parse_args()
 
-if len(sys.argv) == 1 or \
-   len(sys.argv) > 4:
-    print(f"Usage: {sys.argv[0]} input.aseq soundfont.inc sequence.inc")
-    sys.exit(0)
-
-filename = sys.argv[1]
-
-header = sys.argv[2]
-
-sequence = sys.argv[3]
+print_end_padding = args.print_end_padding
+filename = args.filename
+header = args.header
+sequence = args.sequence
+cachePolicy = args.cache_policy[0]
 
 try:
     # should maybe renumber in hex?
-    seq_num = int(filename.split('/')[-1].split(' ')[0], 10)
+    seq_num = int(filename.name.split('/')[-1].split(' ')[0], 10)
 except Exception:
     seq_num = -1
 
 try:
-    with open(filename, 'rb') as f:
-        data = f.read()
+    data = filename.read()
 except Exception:
-    print("Error: could not open file {filename} for reading.", file=sys.stderr)
+    print(f"Error: could not open file {filename.name} for reading.", file=sys.stderr)
     sys.exit(1)
 
 try:
     inst_syms, drum_syms, effect_syms = get_symbols(header)
 except Exception as e:
-    print(f"Error: could not read symbols from {header}.", file=sys.stderr)
+    print(f"Error: could not read symbols from {header.name}.", file=sys.stderr)
     sys.exit(1)
 
 try:
     pitches, soundfonts = get_sequence_symbols(sequence)
 except Exception as e:
-    print(f"Error: could not read symbols from {sequence}.", file=sys.stderr)
+    print(f"Error: could not read symbols from {sequence.name}.", file=sys.stderr)
     sys.exit(1)
 
 output = [None] * len(data)
@@ -748,9 +745,18 @@ def main():
         print(end_padding)
         sys.exit(0)
 
-    header_str = os.path.splitext(os.path.basename(header))[0]
+    header_str = os.path.splitext(os.path.basename(header.name))[0]
     header_id = soundfonts[int(header_str)] if header_str.isdigit() else header_str
 
+    if cachePolicy != 2:
+        policyname = {
+            "0": "CACHE_PERMANENT",
+            "1": "CACHE_PERSISTENT",
+            "2": "CACHE_TEMPORARY",
+            "3": "CACHE_ANY",
+            "4": "CACHE_ANYNOSYNC"
+        }.get(cachePolicy)
+        print(f".cache {policyname}")
     print(f".usefont {header_id}")
     print()
     print(".sequence sequence_start")

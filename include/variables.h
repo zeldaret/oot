@@ -161,10 +161,10 @@ extern const s16 D_8014A6C0[];
 #define gTatumsPerBeat (D_8014A6C0[1])
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
-extern AudioTable gSoundFontTable;
+extern u8 gSoundFontTable[];
 extern u8 gSequenceFontTable[];
-extern AudioTable gSequenceTable;
-extern AudioTable gSampleBankTable;
+extern u8 gSequenceTable[];
+extern u8 gSampleBankTable[];
 
 extern SaveContext gSaveContext;
 extern GameInfo* gGameInfo;

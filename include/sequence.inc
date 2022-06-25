@@ -1,3 +1,10 @@
+# Cache Policies
+.define CACHE_PERMANENT  0
+.define CACHE_PERSISTENT 1
+.define CACHE_TEMPORARY  2
+.define CACHE_ANY        3
+.define CACHE_ANYNOSYNC  4
+
 # Hardcoded Instruments
 .define FONTANY_INSTR_SFX       126
 .define FONTANY_INSTR_DRUM      127

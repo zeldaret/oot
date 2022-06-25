@@ -601,6 +601,8 @@ public:
 	void write(ostream& os);
 	vector<uint8_t> getFontIds();
 	map<string, LabelDescriptor, less<>> getLabels();
+	uint8_t getCachePolicy();
+
 private:
 	struct Fixup {
 		size_t pos;
@@ -612,6 +614,7 @@ private:
 	};
 
 	string_view fontpath;
+	uint8_t cachePolicy = 2;
 	vector<uint8_t> output;
 	vector<Fixup> fixups;
 	static const map<string_view, SectionType> labelMetaCommands;
@@ -750,6 +753,10 @@ void Compiler::applyFixups() {
 
 vector<uint8_t> Compiler::getFontIds() {
 	return fontIds;
+}
+
+uint8_t Compiler::getCachePolicy() {
+	return cachePolicy;
 }
 
 map<string, LabelDescriptor, less<>> Compiler::getLabels() {
@@ -898,6 +905,9 @@ void Compiler::processMetaCommand(string_view cmd, Tokenizer& tk) {
 	} else if (cmd == ".usefont") {
 		assertMetaMode();
 		processUseFont(tk);
+	} else if (cmd == ".cache") {
+		assertMetaMode();
+		cachePolicy = tk.readInt(definedSymbols);
 	} else {
 		throw ParseError("unrecognized command: " + string(cmd));
 	}
@@ -1335,6 +1345,7 @@ int main(int argc, char** argv) {
 	}
 
 	if (printFonts) {
+		cout << "Cache=" << std::to_string(c.getCachePolicy()) << endl;
 		for (uint8_t id : c.getFontIds()) {
 			cout << std::to_string(id) << endl;
 		}

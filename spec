@@ -671,12 +671,11 @@ beginseg
     include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
-    include "build/data/audio_tables.rodata.o"
+    include_data_with_rodata "build/assets/data/SoundFontTable.o"
+    include_data_with_rodata "build/assets/data/SequenceFontTable.o"
+    include_data_with_rodata "build/assets/data/SequenceTable.o"
+    include_data_with_rodata "build/assets/data/SampleBankTable.o"
     include "build/data/rsp.text.o"
-    include "build/assets/data/SoundFontTable.o"
-    include "build/assets/data/SequenceFontTable.o"
-    include "build/assets/data/SequenceTable.o"
-    include "build/assets/data/SampleBankTable.o"
     include "build/data/rsp.rodata.o"
 endseg
 

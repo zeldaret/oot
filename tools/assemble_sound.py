@@ -474,7 +474,7 @@ def linkFontToBank(font):
         abname = font.apparent_banks[0]
         if abname in bank_lookup:
             abank = bank_lookup[abname]
-            font.apparent_bank = abank.idx	
+            font.bankIdx1 = abank.idx	
         else:
             # Try to isolate index from name...
             if abname[0:1].isnumeric():
@@ -805,22 +805,22 @@ def processBanks(sampledir, builddir, tabledir):
                 e_type=ET.ET_REL,
                 e_machine=machine
             )
-            with open(binpath, "rb") as rodatafile:
+            with open(binpath, "rb") as datafile:
                 with open(opath, "wb") as elffile:
-                    bankdata = rodatafile.read()
-                    rodata = elftable._append_section(".rodata", bankdata, 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
-                    elftable.append_symbol(get_sym_name(bankname + "_start"), rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT)
+                    bankdata = datafile.read()
+                    data = elftable._append_section(".data", bankdata, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
+                    elftable.append_symbol(get_sym_name(bankname + "_start"), data, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT)
                     for name, value, size, binding, type, visibility in syms:
                         elftable.append_symbol(
                             name,
-                            rodata,
+                            data,
                             value,
                             size,
                             binding,
                             type,
                             visibility
                         )
-                    elftable.append_symbol(get_sym_name(bankname + "_end"), rodata, len(bankdata), 4, STB.STB_GLOBAL, STT.STT_OBJECT)
+                    elftable.append_symbol(get_sym_name(bankname + "_end"), data, len(bankdata), 4, STB.STB_GLOBAL, STT.STT_OBJECT)
                     elffile.write(bytes(elftable))
 
         i += 1
@@ -864,10 +864,11 @@ def processBanks(sampledir, builddir, tabledir):
                 e_machine=machine
             )
             sampledata = tblfile.read()
-            rodata = elf._append_section(".rodata", sampledata, 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
-            elf.append_symbol("gSampleBankTable_start", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("gSampleBankTable", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("gSampleBankTable_end", rodata, len(sampledata), 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+            data = elf._append_section(".data", sampledata, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
+            elf.append_symbol(".data", data, 0, len(sampledata), STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
+            elf.append_symbol("gSampleBankTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+            elf.append_symbol("gSampleBankTable", data, 0, len(sampledata), STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+            elf.append_symbol("gSampleBankTable_end", data, len(sampledata), 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
             elftblfile.write(bytes(elf))
 
     Path(banktable_path).unlink(missing_ok=True)
@@ -1052,6 +1053,7 @@ def main(args):
                 with open(fontpaths[font.idx], 'ab') as f:
                     f.write(struct.pack(f"{diff}x"))
         
+
         with open(os.path.join(audiobank_dir, f"{getFileName(idx=font.idx, name=font.name)}.o"), "wb") as elffile:
             with open(fontpaths[font.idx], "rb") as bin:
                 elf = ELF(
@@ -1062,9 +1064,9 @@ def main(args):
                 )
                 fontbytes = bin.read()
                 fontsym = font.symbol if font.symbol else font.name
-                rodata = elf._append_section(".rodata", fontbytes, 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
-                elf.append_symbol(f"{get_sym_name(fontsym)}_start", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-                elf.append_symbol(f"{get_sym_name(fontsym)}_end", rodata, len(fontbytes), 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+                data = elf._append_section(".data", fontbytes, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
+                elf.append_symbol(f"{get_sym_name(fontsym)}_start", data, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+                elf.append_symbol(f"{get_sym_name(fontsym)}_end", data, len(fontbytes), 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
                 elffile.write(bytes(elf))
 
         os.makedirs(args.outinclude, exist_ok=True)
@@ -1098,16 +1100,6 @@ def main(args):
             current_pos += fontsize
             myentry.serializeTo(tblfile, packspecs)
 
-    # Pad audiobank to match if needed...
-    if match_mode:
-        if match_mode in audiobank_sizes:
-            target_size = audiobank_sizes[match_mode]
-            current_size = os.path.getsize(audiobank_tbl_tmp)
-            diff = target_size - current_size
-
-            with open(audiobank_tbl_tmp, 'ab') as f:
-                f.write(struct.pack(f"{diff}x"))
-
     with open(audiobank_tbl_path, "wb") as elftblfile:
         with open(audiobank_tbl_tmp, "rb") as tblfile:
             elf = ELF(
@@ -1117,10 +1109,11 @@ def main(args):
                 e_machine=machine
             )
             bankbytes = tblfile.read()
-            rodata = elf._append_section(".rodata", bankbytes, 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
-            elf.append_symbol("_gSoundFontTable_start", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("gSoundFontTable", rodata, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("_gSoundFontTable_end", rodata, len(bankbytes), 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+            data = elf._append_section(".data", bankbytes, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
+            elf.append_symbol(".data", data, 0, len(bankbytes), STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
+            elf.append_symbol("_gSoundFontTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+            elf.append_symbol("gSoundFontTable", data, 0, len(bankbytes), STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
+            elf.append_symbol("_gSoundFontTable_end", data, len(bankbytes), 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
             elftblfile.write(bytes(elf))
 
     # match audiobank

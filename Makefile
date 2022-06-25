@@ -159,7 +159,6 @@ else
 SRC_DIRS := $(shell find src -type d)
 endif
 
-ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
 ASSET_BIN_DIRS := $(shell find assets/code/* assets/misc/* assets/objects/* assets/overlays/* assets/scenes/* assets/textures/* -type d)
 SEQUENCE_DIR    := assets/sequences
 SOUNDFONT_DIR   := assets/soundfonts
@@ -173,17 +172,17 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
 # source files
-MUS_FILES     := $(foreach dir,$(SRC_DIRS) $(SEQUENCE_DIR),$(wildcard $(dir)/*.mus))
+SEQ_FILES     := $(foreach dir,$(SRC_DIRS) $(SEQUENCE_DIR),$(wildcard $(dir)/*.mus))
 FONT_FILES    := $(foreach dir,$(SOUNDFONT_DIR),$(wildcard $(dir)/*.xml))
 AIFC_FILES    := $(foreach dir,$(SAMPLES_DIR),$(wildcard $(dir)/*.aifc))
-INC_FILES     := $(foreach f,$(MUS_FILES:.mus=.inc),build/include/$f)
+INC_FILES     := $(foreach f,$(SEQ_FILES:.mus=.inc),build/include/$f)
 BANK_OUT      := $(foreach dir,$(SAMPLES_DIR:.=.o),build/assets/samplebanks/$(dir))
-MUS_OUT       := $(foreach f,$(MUS_FILES:.mus=.o),build/$f)
+MUS_OUT       := $(foreach f,$(SEQ_FILES:.mus=.o),build/$f)
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
-				 $(foreach f,$(FONT_FILES:.xml=.o),build/$f) \
+                 $(foreach f,$(FONT_FILES:.xml=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
