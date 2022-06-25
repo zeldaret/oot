@@ -3419,7 +3419,7 @@ void KaleidoScope_Update(PlayState* play) {
                         osSyncPrintf(VT_RST);
                     } else {
                         play->state.running = false;
-                        SET_NEXT_GAMESTATE(&play->state, Opening_Init, OpeningContext);
+                        SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
                     }
                 }
             }
