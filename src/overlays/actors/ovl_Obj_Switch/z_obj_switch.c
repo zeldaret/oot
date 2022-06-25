@@ -386,7 +386,7 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
     } else {
         switch (this->dyna.actor.params >> 4 & 7) {
             case OBJSWITCH_SUBTYPE_ONCE:
-                if (DynaPolyActor_PlayerOnTop(&this->dyna)) {
+                if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }

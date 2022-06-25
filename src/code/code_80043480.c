@@ -44,7 +44,7 @@ void func_80043538(DynaPolyActor* dynaActor) {
     dynaActor->interactFlags |= DYNA_INTERACT_3;
 }
 
-s32 DynaPolyActor_ActorOnTop(DynaPolyActor* dynaActor) {
+s32 DynaPolyActor_IsActorOnTop(DynaPolyActor* dynaActor) {
     if (dynaActor->interactFlags & DYNA_INTERACT_ACTOR_ON_TOP) {
         return true;
     } else {
@@ -52,7 +52,7 @@ s32 DynaPolyActor_ActorOnTop(DynaPolyActor* dynaActor) {
     }
 }
 
-s32 DynaPolyActor_PlayerOnTop(DynaPolyActor* dynaActor) {
+s32 DynaPolyActor_IsPlayerOnTop(DynaPolyActor* dynaActor) {
     if (dynaActor->interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) {
         return true;
     } else {
@@ -60,7 +60,7 @@ s32 DynaPolyActor_PlayerOnTop(DynaPolyActor* dynaActor) {
     }
 }
 
-s32 DynaPolyActor_PlayerAbove(DynaPolyActor* dynaActor) {
+s32 DynaPolyActor_IsPlayerAbove(DynaPolyActor* dynaActor) {
     if (dynaActor->interactFlags & DYNA_INTERACT_PLAYER_ABOVE) {
         return true;
     } else {
