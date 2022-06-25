@@ -8,7 +8,7 @@ void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 flags) {
     dynaActor->unk_154 = 0.0f;
 }
 
-void DynaPolyActor_UnsetInteractFlags(DynaPolyActor* dynaActor) {
+void DynaPolyActor_UnsetAllInteractFlags(DynaPolyActor* dynaActor) {
     dynaActor->interactFlags = 0;
 }
 
