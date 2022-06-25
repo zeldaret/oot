@@ -106,7 +106,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&gTreasureChestCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
 
     this->movementFlags = 0;
     this->type = thisx->params >> 12 & 0xF;
@@ -126,7 +126,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
         animFrameStart = endFrame;
     } else if ((this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_BIG || this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) &&
                !Flags_GetSwitch(play, this->switchFlag)) {
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         if (Rand_ZeroOne() < 0.5f) {
             this->movementFlags |= ENBOX_MOVE_FALL_ANGLE_SIDE;
         }
@@ -138,7 +138,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
     } else if ((this->type == ENBOX_TYPE_ROOM_CLEAR_BIG || this->type == ENBOX_TYPE_ROOM_CLEAR_SMALL) &&
                !Flags_GetClear(play, this->dyna.actor.room)) {
         EnBox_SetupAction(this, EnBox_AppearOnRoomClear);
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
@@ -146,14 +146,14 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
     } else if (this->type == ENBOX_TYPE_9 || this->type == ENBOX_TYPE_10) {
         EnBox_SetupAction(this, func_809C9700);
         this->dyna.actor.flags |= ACTOR_FLAG_25;
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
         this->dyna.actor.flags |= ACTOR_FLAG_4;
     } else if (this->type == ENBOX_TYPE_SWITCH_FLAG_BIG && !Flags_GetSwitch(play, this->switchFlag)) {
         EnBox_SetupAction(this, EnBox_AppearOnSwitchFlag);
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
@@ -273,7 +273,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play) {
     if (this->unk_1A8 >= 0) {
         EnBox_SetupAction(this, EnBox_Fall);
         this->subCamId = OnePointCutscene_Init(play, 4500, 9999, &this->dyna.actor, CAM_ID_MAIN);
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else if (this->unk_1A8 >= -11) {
         this->unk_1A8++;
     } else if (Flags_GetSwitch(play, this->switchFlag)) {
@@ -367,7 +367,7 @@ void EnBox_AppearInit(EnBox* this, PlayState* play) {
 }
 
 void EnBox_AppearAnimation(EnBox* this, PlayState* play) {
-    func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
 
     if (this->unk_1A8 < 0) {
         this->unk_1A8++;

@@ -9598,13 +9598,13 @@ s32 func_80847A78(Player* this) {
         if (!cond) {
             this->hoverBootsTimer = 19;
         }
-        return 0;
+        return false;
     }
 
     D_808535E4 = 0;
     this->unk_898 = this->unk_89A = D_80853610 = 0;
 
-    return 1;
+    return true;
 }
 
 static Vec3f D_80854798 = { 0.0f, 18.0f, 0.0f };
@@ -9694,7 +9694,7 @@ void func_80847BA0(PlayState* play, Player* this) {
                 Environment_ChangeLightSetting(
                     play, SurfaceType_GetLightSettingIndex(&play->colCtx, floorPoly, this->actor.floorBgId));
             } else {
-                func_80043508(&play->colCtx, this->actor.floorBgId);
+                DynaPoly_SetPlayerAbove(&play->colCtx, this->actor.floorBgId);
             }
         }
 
@@ -9843,7 +9843,7 @@ void func_80847BA0(PlayState* play, Player* this) {
             s32 pad3;
 
             if (this->actor.floorBgId != BGCHECK_SCENE) {
-                func_800434C8(&play->colCtx, this->actor.floorBgId);
+                DynaPoly_SetPlayerOnTop(&play->colCtx, this->actor.floorBgId);
             }
 
             floorPolyNormalX = COLPOLY_GET_NORMAL(floorPoly->normal.x);

@@ -250,7 +250,7 @@ void BgYdanSp_FloorWebBreaking(BgYdanSp* this, PlayState* play) {
 
     this->dyna.actor.world.pos.y = (sinf((f32)this->timer * (M_PI / 20)) * this->unk_16C) + this->dyna.actor.home.pos.y;
     if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 190.0f) {
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->timer = 40;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
@@ -288,7 +288,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
         BgYdanSp_BurnWeb(this, play);
         return;
     }
-    if (func_8004356C(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         sqrtFallDistance = sqrtf(CLAMP_MIN(player->fallDistance, 0.0f));
         if (player->fallDistance > 750.0f) {
             if (this->dyna.actor.xzDistToPlayer < 80.0f) {
