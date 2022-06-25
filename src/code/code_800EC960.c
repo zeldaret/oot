@@ -122,7 +122,7 @@ f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/
 f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
-s8 D_80130604 = 2;
+s8 sSoundMode = SOUNDMODE_SURROUND;
 s8 D_80130608 = 0;
 s8 sAudioCutsceneFlag = 0;
 s8 sSpecReverb = 0;
@@ -3987,7 +3987,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
         case BANK_ENV:
         case BANK_ENEMY:
         case BANK_VOICE:
-            if (D_80130604 == 2) {
+            if (sSoundMode == SOUNDMODE_SURROUND) {
                 sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
             FALLTHROUGH;
@@ -3997,7 +3997,8 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             reverb = Audio_ComputeSoundReverb(bankId, entryIdx, channelIdx);
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankId, entryIdx) * *entry->freqScale;
-            if (D_80130604 == 2) {
+
+            if (sSoundMode == SOUNDMODE_SURROUND) {
                 behindScreenZ = sBehindScreenZ[(entry->sfxParams & SFX_FLAG_10) >> SFX_FLAG_10_SHIFT];
                 if (!(entry->sfxParams & SFX_FLAG_11)) {
                     if (*entry->posZ < behindScreenZ) {
@@ -4023,7 +4024,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
 
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
-            } else if (D_80130604 == 2 && !(entry->sfxParams & SFX_FLAG_13)) {
+            } else if ((sSoundMode == SOUNDMODE_SURROUND) && !(entry->sfxParams & SFX_FLAG_13)) {
                 filter = func_800F37B8(behindScreenZ, entry, panSigned);
             }
             break;
@@ -5010,29 +5011,32 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void func_800F6700(s8 arg0) {
-    s8 sp1F;
+void func_800F6700(s8 audioSetting) {
+    s8 soundModeIndex;
 
-    switch (arg0) {
+    switch (audioSetting) {
         case 0:
-            sp1F = 0;
-            D_80130604 = 0;
+            soundModeIndex = SOUNDMODE_STEREO;
+            sSoundMode = SOUNDMODE_STEREO;
             break;
+
         case 1:
-            sp1F = 3;
-            D_80130604 = 3;
+            soundModeIndex = SOUNDMODE_MONO;
+            sSoundMode = SOUNDMODE_MONO;
             break;
+
         case 2:
-            sp1F = 1;
-            D_80130604 = 1;
+            soundModeIndex = SOUNDMODE_HEADSET;
+            sSoundMode = SOUNDMODE_HEADSET;
             break;
+
         case 3:
-            sp1F = 0;
-            D_80130604 = 2;
+            soundModeIndex = SOUNDMODE_STEREO;
+            sSoundMode = SOUNDMODE_SURROUND;
             break;
     }
 
-    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, sp1F);
+    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, soundModeIndex);
 }
 
 void Audio_SetBaseFilter(u8 filter) {
@@ -5255,7 +5259,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
             Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (port << 0x10) | (channelIdx << 8) | val);
         }
 
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, D_80130604);
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, sSoundMode);
     }
 }
 
