@@ -12,8 +12,8 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
     if (entry == NULL) {
         sStackInfoListStart = NULL;
     } else {
-        entry->head = (u32)stackTop;
-        entry->tail = (u32)stackBottom;
+        entry->head = (uintptr_t)stackTop;
+        entry->tail = (uintptr_t)stackBottom;
         entry->initValue = initValue;
         entry->minSpace = minSpace;
         entry->name = name;
@@ -40,7 +40,7 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
 
         if (entry->minSpace != -1) {
             addr = (u32*)entry->head;
-            while ((u32)addr < entry->tail) {
+            while ((uintptr_t)addr < entry->tail) {
                 *addr++ = entry->initValue;
             }
         }
@@ -78,14 +78,14 @@ s32 StackCheck_GetState(StackEntry* entry) {
     u32 free;
     s32 ret;
 
-    for (last = (u32*)entry->head; (u32)last < entry->tail; last++) {
+    for (last = (u32*)entry->head; (uintptr_t)last < entry->tail; last++) {
         if (entry->initValue != *last) {
             break;
         }
     }
 
-    used = entry->tail - (u32)last;
-    free = (u32)last - entry->head;
+    used = entry->tail - (uintptr_t)last;
+    free = (uintptr_t)last - entry->head;
 
     if (free == 0) {
         ret = STACK_STATUS_OVERFLOW;
