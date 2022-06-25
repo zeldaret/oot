@@ -414,7 +414,7 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
     osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
     if (gSaveContext.sceneLayer != SCENE_LAYER_CHILD_DAY) {
-        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
+        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - SCENE_LAYER_CHILD_NIGHT];
 
         if (1) {}
 
@@ -426,7 +426,7 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
             if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
-                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 2];
+                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - SCENE_LAYER_ADULT_DAY];
 
                 // "Using adult day data there!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");

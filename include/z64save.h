@@ -256,11 +256,11 @@ typedef enum {
     /* 0 */ SCENE_LAYER_CHILD_DAY,
     /* 1 */ SCENE_LAYER_CHILD_NIGHT,
     /* 2 */ SCENE_LAYER_ADULT_DAY,
-    /* 3 */ SCENE_LAYER_ADULT_NIGHT    
+    /* 3 */ SCENE_LAYER_ADULT_NIGHT,
+    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST 
 } SceneLayer;
 
-#define SCENE_LAYER_CUTSCENE_START (SCENE_LAYER_ADULT_NIGHT + 1)
-#define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_START)
+#define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
 
 typedef enum {
     /* 0 */ LINK_AGE_ADULT,
