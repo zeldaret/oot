@@ -1,7 +1,8 @@
 #include "global.h"
 
 void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
-    f32 volRight, volLeft;
+    f32 volLeft;
+    f32 volRight;
     s32 halfPanIndex;
     u64 pad;
     u8 strongLeft;
