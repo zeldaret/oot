@@ -40,14 +40,15 @@ Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 co
 u32 sEnvMixerOp = _SHIFTL(A_ENVMIXER, 24, 8);
 
 // Store the left dry channel in a temp space to be delayed to produce the haas effect
-u32 sEnvMixerLeftHaasDmem =
+u32 sEnvMixerLeftHaasDmemDests =
     MK_CMD(DMEM_HAAS_TEMP >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
 // Store the right dry channel in a temp space to be delayed to produce the haas effect
-u32 sEnvMixerRightHaasDmem =
+u32 sEnvMixerRightHaasDmemDests =
     MK_CMD(DMEM_LEFT_CH >> 4, DMEM_HAAS_TEMP >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
-u32 sEnvMixerDefaultDmem = MK_CMD(DMEM_LEFT_CH >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+u32 sEnvMixerDefaultDmemDests =
+    MK_CMD(DMEM_LEFT_CH >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
 u16 D_801304B0[] = {
     0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
@@ -1133,7 +1134,7 @@ Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 co
 
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
                                  u16 dmemSrc, s32 haasEffectDelaySide, s32 flags) {
-    u32 dmemDest;
+    u32 dmemDests;
     u16 curVolLeft;
     u16 targetVolLeft;
     s32 phi_t1;
@@ -1186,27 +1187,27 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         switch (haasEffectDelaySide) {
             case HAAS_EFFECT_DELAY_LEFT:
                 // Store the left dry channel in a temp space to be delayed to produce the haas effect
-                dmemDest = sEnvMixerLeftHaasDmem;
+                dmemDests = sEnvMixerLeftHaasDmemDests;
                 break;
 
             case HAAS_EFFECT_DELAY_RIGHT:
                 // Store the right dry channel in a temp space to be delayed to produce the haas effect
-                dmemDest = sEnvMixerRightHaasDmem;
+                dmemDests = sEnvMixerRightHaasDmemDests;
                 break;
 
             default: // HAAS_EFFECT_DELAY_NONE
-                dmemDest = sEnvMixerDefaultDmem;
+                dmemDests = sEnvMixerDefaultDmemDests;
                 break;
         }
     } else {
         aEnvSetup1(cmd++, phi_t1 * 2, rampReverb, rampLeft, rampRight);
         aEnvSetup2(cmd++, curVolLeft, curVolRight);
-        dmemDest = sEnvMixerDefaultDmem;
+        dmemDests = sEnvMixerDefaultDmemDests;
     }
 
     aEnvMixer(cmd++, dmemSrc, aiBufLen, (sourceReverbVol & 0x80) >> 7, noteSubEu->bitField0.stereoHeadsetEffects,
               noteSubEu->bitField0.usesHeadsetPanEffects, noteSubEu->bitField0.stereoStrongRight,
-              noteSubEu->bitField0.stereoStrongLeft, dmemDest, sEnvMixerOp);
+              noteSubEu->bitField0.stereoStrongLeft, dmemDests, sEnvMixerOp);
 
     return cmd;
 }
