@@ -461,12 +461,12 @@ typedef struct SequenceLayer {
 } SequenceLayer; // size = 0x80
 
 typedef struct {
-    /* 0x000 */ s16 adpcmdecState[0x10];
-    /* 0x020 */ s16 finalResampleState[0x10];
-    /* 0x040 */ s16 mixEnvelopeState[0x20];
-    /* 0x080 */ s16 unusedState[0x10];
-    /* 0x090 */ s16 haasEffectDelayState[0x20];
-    /* 0x0B0 */ s16 unkState[0x80];
+    /* 0x000 */ s16 adpcmdecState[16];
+    /* 0x020 */ s16 finalResampleState[16];
+    /* 0x040 */ s16 mixEnvelopeState[32];
+    /* 0x080 */ s16 unusedState[16];
+    /* 0x0A0 */ s16 haasEffectDelayState[32];
+    /* 0x0E0 */ s16 unkState[128];
 } NoteSynthesisBuffers; // size = 0x1E0
 
 typedef struct {
