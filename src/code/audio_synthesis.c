@@ -1306,13 +1306,13 @@ Acmd* AudioSynth_ApplyHaasEffect(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
             aDMEMMove(cmd++, DMEM_TEMP, DMEM_HAAS_TEMP, size + haasEffectDelaySize);
         }
     } else {
-        // Just shift right
+        // Just apply a delay directly
         aDMEMMove(cmd++, DMEM_HAAS_TEMP, DMEM_TEMP, size);
         aClearBuffer(cmd++, DMEM_HAAS_TEMP, haasEffectDelaySize);
         aDMEMMove(cmd++, DMEM_TEMP, DMEM_HAAS_TEMP + haasEffectDelaySize, size);
     }
 
-    if (haasEffectDelaySize) {
+    if (haasEffectDelaySize) { // != 0
         // Save excessive samples for next iteration
         aSaveBuffer(cmd++, DMEM_HAAS_TEMP + size, synthState->synthesisBuffers->haasEffectDelayState,
                     ALIGN16(haasEffectDelaySize));
