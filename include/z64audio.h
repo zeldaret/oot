@@ -461,19 +461,19 @@ typedef struct SequenceLayer {
 } SequenceLayer; // size = 0x80
 
 typedef struct {
-    /* 0x0000 */ s16 adpcmdecState[0x10];
-    /* 0x0020 */ s16 finalResampleState[0x10];
-    /* 0x0040 */ s16 mixEnvelopeState[0x28];
-    /* 0x0090 */ s16 panResampleState[0x10];
-    /* 0x00B0 */ s16 panSamplesBuffer[0x20];
-    /* 0x00F0 */ s16 dummyResampleState[0x10];
+    /* 0x000 */ s16 adpcmdecState[0x10];
+    /* 0x020 */ s16 finalResampleState[0x10];
+    /* 0x040 */ s16 mixEnvelopeState[0x20];
+    /* 0x080 */ s16 unusedState[0x10];
+    /* 0x090 */ s16 haasEffectDelayState[0x20];
+    /* 0x0B0 */ s16 unkBuffer[0x80];
 } NoteSynthesisBuffers; // size = 0x110
 
 typedef struct {
     /* 0x00 */ u8 restart;
     /* 0x01 */ u8 sampleDmaIndex;
-    /* 0x02 */ u8 prevHeadsetPanRight;
-    /* 0x03 */ u8 prevHeadsetPanLeft;
+    /* 0x02 */ u8 prevHaasEffectLeftDelaySize;
+    /* 0x03 */ u8 prevHaasEffectRightDelaySize;
     /* 0x04 */ u8 reverbVol;
     /* 0x05 */ u8 numParts;
     /* 0x06 */ u16 samplePosFrac;
@@ -536,11 +536,11 @@ typedef struct {
         /* 0x01 */ u8 bookOffset : 2;
         /* 0x01 */ u8 isSyntheticWave : 1;
         /* 0x01 */ u8 hasTwoParts : 1;
-        /* 0x01 */ u8 usesHeadsetPanEffects2 : 1;
+        /* 0x01 */ u8 useHaasEffect : 1;
     } bitField1;
     /* 0x02 */ u8 gain; // Increases volume by a multiplicative scaling factor. Represented as a UQ4.4 number
-    /* 0x03 */ u8 headsetPanRight;
-    /* 0x04 */ u8 headsetPanLeft;
+    /* 0x03 */ u8 haasEffectLeftDelaySize;
+    /* 0x04 */ u8 haasEffectRightDelaySize;
     /* 0x05 */ u8 reverbVol;
     /* 0x06 */ u8 harmonicIndexCurAndPrev; // bits 3..2 store curHarmonicIndex, bits 1..0 store prevHarmonicIndex
     /* 0x07 */ u8 unk_07;

@@ -17,6 +17,12 @@
 #define DMEM_WET_LEFT_CH 0xC80
 #define DMEM_WET_RIGHT_CH 0xE20 // = DMEM_WET_LEFT_CH + DEFAULT_LEN_1CH
 
+typedef enum {
+    /* 0 */ HAAS_EFFECT_DELAY_NONE,
+    /* 1 */ HAAS_EFFECT_DELAY_LEFT, // Delay left channel so that right channel is heard first
+    /* 2 */ HAAS_EFFECT_DELAY_RIGHT // Delay right channel so that left channel is heard first
+} HaasEffectDelaySide;
+
 Acmd* AudioSynth_LoadRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 length, SynthesisReverb* reverb);
 Acmd* AudioSynth_SaveBufferOffset(Acmd* cmd, u16 dmem, u16 offset, s32 length, s16* buf);
 Acmd* AudioSynth_SaveRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 length, SynthesisReverb* reverb);
@@ -24,17 +30,19 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex);
 Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 numSamplesToLoad);
-Acmd* AudioSynth_NoteApplyHeadsetPanEffects(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 bufLen,
-                                            s32 flags, s32 side);
+Acmd* AudioSynth_ApplyHaasEffect(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 size, s32 flags,
+                                 s32 haasEffectDelaySide);
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
-                                 u16 inBuf, s32 headsetPanSettings, s32 flags);
+                                 u16 dmemSrc, s32 haasEffectDelaySide, s32 flags);
 Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem,
                                s32 resampleFlags);
 
-u32 D_801304A0 = _SHIFTL(A_ENVMIXER, 24, 8);
-u32 D_801304A4 = MK_CMD(DMEM_NOTE_PAN_TEMP >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
-u32 D_801304A8 = MK_CMD(DMEM_LEFT_CH >> 4, DMEM_NOTE_PAN_TEMP >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
-u32 D_801304AC = MK_CMD(DMEM_LEFT_CH >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+u32 sEnvMixerOp = _SHIFTL(A_ENVMIXER, 24, 8);
+u32 sEnvMixerLeftHaasDmem =
+    MK_CMD(DMEM_NOTE_PAN_TEMP >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+u32 sEnvMixerRightHaasDmem =
+    MK_CMD(DMEM_LEFT_CH >> 4, DMEM_NOTE_PAN_TEMP >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+u32 sEnvMixerDefaultDmem = MK_CMD(DMEM_LEFT_CH >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
 u16 D_801304B0[] = {
     0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
@@ -725,7 +733,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 nParts;
     s32 curPart;
     s32 sampleDataStartPad;
-    s32 side;
+    s32 haasEffectDelaySide;
     s32 resampledTempLen;
     u16 sampleDmemBeforeResampling;
     s32 sampleDataOffset;
@@ -754,8 +762,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         synthState->samplePosFrac = 0;
         synthState->curVolLeft = 0;
         synthState->curVolRight = 0;
-        synthState->prevHeadsetPanRight = 0;
-        synthState->prevHeadsetPanLeft = 0;
+        synthState->prevHaasEffectLeftDelaySize = 0;
+        synthState->prevHaasEffectRightDelaySize = 0;
         synthState->reverbVol = noteSubEu->reverbVol;
         synthState->numParts = 0;
         synthState->unk_1A = 1;
@@ -1070,7 +1078,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
     unk7 = noteSubEu->unk_07;
     unkE = noteSubEu->unk_0E;
-    buf = &synthState->synthesisBuffers->panSamplesBuffer[0x18];
+    buf = synthState->synthesisBuffers->unkBuffer;
     if (unk7 != 0 && noteSubEu->unk_0E != 0) {
         AudioSynth_DMemMove(cmd++, DMEM_TEMP, DMEM_SCRATCH2, aiBufLen * 2);
         thing = DMEM_SCRATCH2 - unk7;
@@ -1087,20 +1095,23 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         synthState->unk_1A = 1;
     }
 
-    if (noteSubEu->headsetPanRight != 0 || synthState->prevHeadsetPanRight != 0) {
-        side = 1;
-    } else if (noteSubEu->headsetPanLeft != 0 || synthState->prevHeadsetPanLeft != 0) {
-        side = 2;
+    if ((noteSubEu->haasEffectLeftDelaySize != 0) || (synthState->prevHaasEffectLeftDelaySize != 0)) {
+        haasEffectDelaySide = HAAS_EFFECT_DELAY_LEFT;
+    } else if ((noteSubEu->haasEffectRightDelaySize != 0) || (synthState->prevHaasEffectRightDelaySize != 0)) {
+        haasEffectDelaySide = HAAS_EFFECT_DELAY_RIGHT;
     } else {
-        side = 0;
+        haasEffectDelaySide = HAAS_EFFECT_DELAY_NONE;
     }
-    cmd = AudioSynth_ProcessEnvelope(cmd, noteSubEu, synthState, aiBufLen, DMEM_TEMP, side, flags);
-    if (noteSubEu->bitField1.usesHeadsetPanEffects2) {
+
+    cmd = AudioSynth_ProcessEnvelope(cmd, noteSubEu, synthState, aiBufLen, DMEM_TEMP, haasEffectDelaySide, flags);
+
+    if (noteSubEu->bitField1.useHaasEffect) {
         if (!(flags & A_INIT)) {
             flags = A_CONTINUE;
         }
-        cmd = AudioSynth_NoteApplyHeadsetPanEffects(cmd, noteSubEu, synthState, aiBufLen * 2, flags, side);
+        cmd = AudioSynth_ApplyHaasEffect(cmd, noteSubEu, synthState, aiBufLen * 2, flags, haasEffectDelaySide);
     }
+
     return cmd;
 }
 
@@ -1116,8 +1127,8 @@ Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 co
 }
 
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
-                                 u16 inBuf, s32 headsetPanSettings, s32 flags) {
-    u32 phi_a1;
+                                 u16 dmemSrc, s32 haasEffectDelaySide, s32 flags) {
+    u32 dmemDest;
     u16 curVolLeft;
     u16 targetVolLeft;
     s32 phi_t1;
@@ -1162,30 +1173,33 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     synthState->curVolLeft = curVolLeft + (rampLeft * (aiBufLen >> 3));
     synthState->curVolRight = curVolRight + (rampRight * (aiBufLen >> 3));
 
-    if (noteSubEu->bitField1.usesHeadsetPanEffects2) {
+    if (noteSubEu->bitField1.useHaasEffect) {
         AudioSynth_ClearBuffer(cmd++, DMEM_NOTE_PAN_TEMP, DEFAULT_LEN_1CH);
         AudioSynth_EnvSetup1(cmd++, phi_t1 * 2, rampReverb, rampLeft, rampRight);
         AudioSynth_EnvSetup2(cmd++, curVolLeft, curVolRight);
-        switch (headsetPanSettings) {
-            case 1:
-                phi_a1 = D_801304A4;
+
+        switch (haasEffectDelaySide) {
+            case HAAS_EFFECT_DELAY_LEFT:
+                dmemDest = sEnvMixerLeftHaasDmem;
                 break;
-            case 2:
-                phi_a1 = D_801304A8;
+
+            case HAAS_EFFECT_DELAY_RIGHT:
+                dmemDest = sEnvMixerRightHaasDmem;
                 break;
-            default:
-                phi_a1 = D_801304AC;
+
+            default: // HAAS_EFFECT_DELAY_NONE
+                dmemDest = sEnvMixerDefaultDmem;
                 break;
         }
     } else {
         aEnvSetup1(cmd++, phi_t1 * 2, rampReverb, rampLeft, rampRight);
         aEnvSetup2(cmd++, curVolLeft, curVolRight);
-        phi_a1 = D_801304AC;
+        dmemDest = sEnvMixerDefaultDmem;
     }
 
-    aEnvMixer(cmd++, inBuf, aiBufLen, (sourceReverbVol & 0x80) >> 7, noteSubEu->bitField0.stereoHeadsetEffects,
+    aEnvMixer(cmd++, dmemSrc, aiBufLen, (sourceReverbVol & 0x80) >> 7, noteSubEu->bitField0.stereoHeadsetEffects,
               noteSubEu->bitField0.usesHeadsetPanEffects, noteSubEu->bitField0.stereoStrongRight,
-              noteSubEu->bitField0.stereoStrongLeft, phi_a1, D_801304A0);
+              noteSubEu->bitField0.stereoStrongLeft, dmemDest, sEnvMixerOp);
     return cmd;
 }
 
@@ -1233,61 +1247,70 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     return cmd;
 }
 
-Acmd* AudioSynth_NoteApplyHeadsetPanEffects(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 bufLen,
-                                            s32 flags, s32 side) {
-    u16 dest;
+Acmd* AudioSynth_ApplyHaasEffect(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 size, s32 flags,
+                                 s32 haasEffectDelaySide) {
+    u16 dmemDest;
     u16 pitch;
-    u8 prevPanShift;
-    u8 panShift;
+    u8 prevHaasEffectDelaySize;
+    u8 haasEffectDelaySize;
 
-    switch (side) {
-        case 1:
-            dest = DMEM_LEFT_CH;
-            panShift = noteSubEu->headsetPanRight;
-            prevPanShift = synthState->prevHeadsetPanRight;
-            synthState->prevHeadsetPanLeft = 0;
-            synthState->prevHeadsetPanRight = panShift;
+    switch (haasEffectDelaySide) {
+        case HAAS_EFFECT_DELAY_LEFT:
+            // Delay the sample on the left channel
+            // This allows the right channel to be heard first
+            dmemDest = DMEM_LEFT_CH;
+            haasEffectDelaySize = noteSubEu->haasEffectLeftDelaySize;
+            prevHaasEffectDelaySize = synthState->prevHaasEffectLeftDelaySize;
+            synthState->prevHaasEffectRightDelaySize = 0;
+            synthState->prevHaasEffectLeftDelaySize = haasEffectDelaySize;
             break;
-        case 2:
-            dest = DMEM_RIGHT_CH;
-            panShift = noteSubEu->headsetPanLeft;
-            prevPanShift = synthState->prevHeadsetPanLeft;
-            synthState->prevHeadsetPanLeft = panShift;
-            synthState->prevHeadsetPanRight = 0;
+
+        case HAAS_EFFECT_DELAY_RIGHT:
+            // Delay the sample on the right channel
+            // This allows the left channel to be heard first
+            dmemDest = DMEM_RIGHT_CH;
+            haasEffectDelaySize = noteSubEu->haasEffectRightDelaySize;
+            prevHaasEffectDelaySize = synthState->prevHaasEffectRightDelaySize;
+            synthState->prevHaasEffectRightDelaySize = haasEffectDelaySize;
+            synthState->prevHaasEffectLeftDelaySize = 0;
             break;
-        default:
+
+        default: // HAAS_EFFECT_DELAY_NONE
             return cmd;
     }
 
     if (flags != A_INIT) {
-        // Slightly adjust the sample rate in order to fit a change in pan shift
-        if (panShift != prevPanShift) {
-            pitch = (((bufLen << 0xF) / 2) - 1) / ((bufLen + panShift - prevPanShift - 2) / 2);
-            aSetBuffer(cmd++, 0, DMEM_NOTE_PAN_TEMP, DMEM_TEMP, bufLen + panShift - prevPanShift);
+        // Slightly adjust the sample rate in order to fit a sample delay
+        if (haasEffectDelaySize != prevHaasEffectDelaySize) {
+            pitch = (((size << 0xF) / 2) - 1) / ((size + haasEffectDelaySize - prevHaasEffectDelaySize - 2) / 2);
+            aSetBuffer(cmd++, 0, DMEM_NOTE_PAN_TEMP, DMEM_TEMP, size + haasEffectDelaySize - prevHaasEffectDelaySize);
             aResampleZoh(cmd++, pitch, 0);
         } else {
-            aDMEMMove(cmd++, DMEM_NOTE_PAN_TEMP, DMEM_TEMP, bufLen);
+            aDMEMMove(cmd++, DMEM_NOTE_PAN_TEMP, DMEM_TEMP, size);
         }
 
-        if (prevPanShift != 0) {
-            aLoadBuffer(cmd++, &synthState->synthesisBuffers->panResampleState[0x8], DMEM_NOTE_PAN_TEMP,
-                        ALIGN16(prevPanShift));
-            aDMEMMove(cmd++, DMEM_TEMP, DMEM_NOTE_PAN_TEMP + prevPanShift, bufLen + panShift - prevPanShift);
+        if (prevHaasEffectDelaySize != 0) {
+            aLoadBuffer(cmd++, synthState->synthesisBuffers->haasEffectDelayState, DMEM_NOTE_PAN_TEMP,
+                        ALIGN16(prevHaasEffectDelaySize));
+            aDMEMMove(cmd++, DMEM_TEMP, DMEM_NOTE_PAN_TEMP + prevHaasEffectDelaySize,
+                      size + haasEffectDelaySize - prevHaasEffectDelaySize);
         } else {
-            aDMEMMove(cmd++, DMEM_TEMP, DMEM_NOTE_PAN_TEMP, bufLen + panShift);
+            aDMEMMove(cmd++, DMEM_TEMP, DMEM_NOTE_PAN_TEMP, size + haasEffectDelaySize);
         }
     } else {
         // Just shift right
-        aDMEMMove(cmd++, DMEM_NOTE_PAN_TEMP, DMEM_TEMP, bufLen);
-        aClearBuffer(cmd++, DMEM_NOTE_PAN_TEMP, panShift);
-        aDMEMMove(cmd++, DMEM_TEMP, DMEM_NOTE_PAN_TEMP + panShift, bufLen);
+        aDMEMMove(cmd++, DMEM_NOTE_PAN_TEMP, DMEM_TEMP, size);
+        aClearBuffer(cmd++, DMEM_NOTE_PAN_TEMP, haasEffectDelaySize);
+        aDMEMMove(cmd++, DMEM_TEMP, DMEM_NOTE_PAN_TEMP + haasEffectDelaySize, size);
     }
 
-    if (panShift) {
+    if (haasEffectDelaySize) {
         // Save excessive samples for next iteration
-        aSaveBuffer(cmd++, DMEM_NOTE_PAN_TEMP + bufLen, &synthState->synthesisBuffers->panResampleState[0x8],
-                    ALIGN16(panShift));
+        aSaveBuffer(cmd++, DMEM_NOTE_PAN_TEMP + size, synthState->synthesisBuffers->haasEffectDelayState,
+                    ALIGN16(haasEffectDelaySize));
     }
-    aAddMixer(cmd++, ALIGN64(bufLen), DMEM_NOTE_PAN_TEMP, dest, 0x7FFF);
+
+    aAddMixer(cmd++, ALIGN64(size), DMEM_NOTE_PAN_TEMP, dmemDest, 0x7FFF);
+
     return cmd;
 }
