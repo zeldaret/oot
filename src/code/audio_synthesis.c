@@ -1288,7 +1288,7 @@ Acmd* AudioSynth_ApplyHaasEffect(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     }
 
     if (flags != A_INIT) {
-        // Slightly adjust the sample rate in order to fit a sample delay
+        // Slightly adjust the sample rate in order to fit a change in sample delay
         if (haasEffectDelaySize != prevHaasEffectDelaySize) {
             pitch = (((size << 0xF) / 2) - 1) / ((size + haasEffectDelaySize - prevHaasEffectDelaySize - 2) / 2);
             aSetBuffer(cmd++, 0, DMEM_HAAS_TEMP, DMEM_TEMP, size + haasEffectDelaySize - prevHaasEffectDelaySize);
