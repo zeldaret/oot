@@ -12,6 +12,12 @@
 
 #define MAX_CHANNELS_PER_BANK 3
 
+#define MUTE_BEHAVIOR_3 (1 << 3)           // stop processing noteSubEu
+#define MUTE_BEHAVIOR_4 (1 << 4)           // stop something in seqLayer instructions
+#define MUTE_BEHAVIOR_SOFTEN (1 << 5)      // lower volume, by default to half
+#define MUTE_BEHAVIOR_STOP_NOTES (1 << 6)  // prevent further notes from playing
+#define MUTE_BEHAVIOR_STOP_SCRIPT (1 << 7) // stop processing sequence/channel scripts
+
 #define ADSR_DISABLE 0
 #define ADSR_HANG -1
 #define ADSR_GOTO -2
@@ -23,6 +29,7 @@
 #define WAVE_SAMPLE_COUNT 64
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
+
 
 typedef enum {
     /* 0 */ SOUNDMODE_STEREO,

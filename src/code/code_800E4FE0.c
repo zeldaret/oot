@@ -264,8 +264,8 @@ void func_800E5584(AudioCmd* cmd) {
                     NoteSubEu* subEu = &note->noteSubEu;
 
                     if (subEu->bitField0.enabled && note->playbackState.unk_04 == 0) {
-                        if (note->playbackState.parentLayer->channel->muteBehavior & 8) {
-                            subEu->bitField0.finished = 1;
+                        if (note->playbackState.parentLayer->channel->muteBehavior & MUTE_BEHAVIOR_3) {
+                            subEu->bitField0.finished = true;
                         }
                     }
                 }
