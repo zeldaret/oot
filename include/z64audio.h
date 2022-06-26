@@ -466,8 +466,8 @@ typedef struct {
     /* 0x040 */ s16 mixEnvelopeState[0x20];
     /* 0x080 */ s16 unusedState[0x10];
     /* 0x090 */ s16 haasEffectDelayState[0x20];
-    /* 0x0B0 */ s16 unkBuffer[0x80];
-} NoteSynthesisBuffers; // size = 0x110
+    /* 0x0B0 */ s16 unkState[0x80];
+} NoteSynthesisBuffers; // size = 0x1E0
 
 typedef struct {
     /* 0x00 */ u8 restart;
