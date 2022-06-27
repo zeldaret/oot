@@ -485,7 +485,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                               (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||
                                player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT)))) {
                             BodyBreak_Alloc(&this->bodyBreak, 2, play);
-                            this->bodybreakState = 1; // prepare for decapitation
+                            this->bodybreakState = 1; // setup for head bodybreak
                         }
                     }
                     EnSkb_SetupTakeDamage(this);
