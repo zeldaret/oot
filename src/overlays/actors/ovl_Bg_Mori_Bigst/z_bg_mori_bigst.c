@@ -231,7 +231,7 @@ void BgMoriBigst_Update(Actor* thisx, PlayState* play) {
     if (this->waitTimer > 0) {
         this->waitTimer--;
     }
-    if (func_80043590(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         Environment_ChangeLightSetting(play, 6);
     }
     if (this->actionFunc != NULL) {

@@ -1,13 +1,13 @@
 #include "global.h"
 #include "vt.h"
 
-void func_80092320(PreNMIContext* this) {
+void func_80092320(PreNMIState* this) {
     this->state.running = false;
     this->state.init = NULL;
     this->state.size = 0;
 }
 
-void PreNMI_Update(PreNMIContext* this) {
+void PreNMI_Update(PreNMIState* this) {
     osSyncPrintf(VT_COL(YELLOW, BLACK) "prenmi_move\n" VT_RST);
 
     // Strings existing only in rodata
@@ -25,7 +25,7 @@ void PreNMI_Update(PreNMIContext* this) {
     this->timer--;
 }
 
-void PreNMI_Draw(PreNMIContext* this) {
+void PreNMI_Draw(PreNMIState* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
 
     osSyncPrintf(VT_COL(YELLOW, BLACK) "prenmi_draw\n" VT_RST);
@@ -42,7 +42,7 @@ void PreNMI_Draw(PreNMIContext* this) {
 }
 
 void PreNMI_Main(GameState* thisx) {
-    PreNMIContext* this = (PreNMIContext*)thisx;
+    PreNMIState* this = (PreNMIState*)thisx;
 
     PreNMI_Update(this);
     PreNMI_Draw(this);
@@ -54,7 +54,7 @@ void PreNMI_Destroy(GameState* thisx) {
 }
 
 void PreNMI_Init(GameState* thisx) {
-    PreNMIContext* this = (PreNMIContext*)thisx;
+    PreNMIState* this = (PreNMIState*)thisx;
 
     this->state.main = PreNMI_Main;
     this->state.destroy = PreNMI_Destroy;

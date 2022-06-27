@@ -489,8 +489,8 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
     Player* player = GET_PLAYER(play);
     s32 temp = 0;
 
-    if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (play->sceneNum != SCENE_SPOT00) &&
-        (csCtx->frames > 20) &&
+    if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS) &&
+        (play->sceneNum != SCENE_SPOT00) && (csCtx->frames > 20) &&
         (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)) &&
@@ -509,7 +509,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
 
         osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base); // "Future fork designation=No. [%d]"
 
-        if ((gSaveContext.gameMode != 0) && (csCtx->frames != cmd->startFrame)) {
+        if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->frames != cmd->startFrame)) {
             gSaveContext.unk_13E7 = 1;
         }
 
@@ -826,7 +826,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 54:
-                gSaveContext.gameMode = 3;
+                gSaveContext.gameMode = GAMEMODE_END_CREDITS;
                 Audio_SetSoundBanksMute(0x6F);
                 play->linkAgeOnLoad = LINK_AGE_CHILD;
                 play->nextEntranceIndex = ENTR_SPOT09_0;
@@ -1207,7 +1207,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 117:
-                gSaveContext.gameMode = 3;
+                gSaveContext.gameMode = GAMEMODE_END_CREDITS;
                 Audio_SetSoundBanksMute(0x6F);
                 play->linkAgeOnLoad = LINK_AGE_ADULT;
                 play->nextEntranceIndex = ENTR_SPOT00_0;
@@ -1959,7 +1959,7 @@ void func_80068DC0(PlayState* play, CutsceneContext* csCtx) {
 
         osSyncPrintf("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
         gSaveContext.cutsceneIndex = 0;
-        gSaveContext.gameMode = 0;
+        gSaveContext.gameMode = GAMEMODE_NORMAL;
 
         if (D_8015FCC8 != 0) {
             switch (gSaveContext.entranceIndex) {
@@ -2076,7 +2076,8 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
 void Cutscene_HandleConditionalTriggers(PlayState* play) {
     osSyncPrintf("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
-    if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (gSaveContext.respawnFlag <= 0) &&
+        (gSaveContext.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.entranceIndex == ENTR_SPOT11_1) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
             Flags_SetEventChkInf(EVENTCHKINF_AC);
             gSaveContext.entranceIndex = ENTR_SPOT11_0;

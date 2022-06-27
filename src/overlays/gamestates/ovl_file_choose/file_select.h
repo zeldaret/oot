@@ -1,5 +1,5 @@
-#ifndef _FILE_CHOOSE_H_
-#define _FILE_CHOOSE_H_
+#ifndef FILE_SELECT_H
+#define FILE_SELECT_H
 
 #include "libc/stddef.h"
 #include "ultra64.h"
@@ -170,50 +170,50 @@ typedef enum {
     /* 99 */ FS_KBD_BTN_NONE = 99
 } KeyboardButton;
 
-void FileChoose_SetupCopySource(GameState* thisx);
-void FileChoose_SelectCopySource(GameState* thisx);
-void FileChoose_SetupCopyDest1(GameState* thisx);
-void FileChoose_SetupCopyDest2(GameState* thisx);
-void FileChoose_SelectCopyDest(GameState* thisx);
-void FileChoose_ExitToCopySource1(GameState* thisx);
-void FileChoose_ExitToCopySource2(GameState* thisx);
-void FileChoose_SetupCopyConfirm1(GameState* thisx);
-void FileChoose_SetupCopyConfirm2(GameState* thisx);
-void FileChoose_CopyConfirm(GameState* thisx);
-void FileChoose_ReturnToCopyDest(GameState* thisx);
-void FileChoose_CopyAnim1(GameState* thisx);
-void FileChoose_CopyAnim2(GameState* thisx);
-void FileChoose_CopyAnim3(GameState* thisx);
-void FileChoose_CopyAnim4(GameState* thisx);
-void FileChoose_CopyAnim5(GameState* thisx);
+void FileSelect_SetupCopySource(GameState* thisx);
+void FileSelect_SelectCopySource(GameState* thisx);
+void FileSelect_SetupCopyDest1(GameState* thisx);
+void FileSelect_SetupCopyDest2(GameState* thisx);
+void FileSelect_SelectCopyDest(GameState* thisx);
+void FileSelect_ExitToCopySource1(GameState* thisx);
+void FileSelect_ExitToCopySource2(GameState* thisx);
+void FileSelect_SetupCopyConfirm1(GameState* thisx);
+void FileSelect_SetupCopyConfirm2(GameState* thisx);
+void FileSelect_CopyConfirm(GameState* thisx);
+void FileSelect_ReturnToCopyDest(GameState* thisx);
+void FileSelect_CopyAnim1(GameState* thisx);
+void FileSelect_CopyAnim2(GameState* thisx);
+void FileSelect_CopyAnim3(GameState* thisx);
+void FileSelect_CopyAnim4(GameState* thisx);
+void FileSelect_CopyAnim5(GameState* thisx);
 
-void FileChoose_ExitCopyToMain(GameState* thisx);
-void FileChoose_SetupEraseSelect(GameState* thisx);
-void FileChoose_EraseSelect(GameState* thisx);
-void FileChoose_SetupEraseConfirm1(GameState* thisx);
-void FileChoose_SetupEraseConfirm2(GameState* thisx);
-void FileChoose_EraseConfirm(GameState* thisx);
-void FileChoose_ExitToEraseSelect1(GameState* thisx);
-void FileChoose_ExitToEraseSelect2(GameState* thisx);
-void FileChoose_EraseAnim1(GameState* thisx);
-void FileChoose_EraseAnim2(GameState* thisx);
-void FileChoose_EraseAnim3(GameState* thisx);
-void FileChoose_ExitEraseToMain(GameState* thisx);
+void FileSelect_ExitCopyToMain(GameState* thisx);
+void FileSelect_SetupEraseSelect(GameState* thisx);
+void FileSelect_EraseSelect(GameState* thisx);
+void FileSelect_SetupEraseConfirm1(GameState* thisx);
+void FileSelect_SetupEraseConfirm2(GameState* thisx);
+void FileSelect_EraseConfirm(GameState* thisx);
+void FileSelect_ExitToEraseSelect1(GameState* thisx);
+void FileSelect_ExitToEraseSelect2(GameState* thisx);
+void FileSelect_EraseAnim1(GameState* thisx);
+void FileSelect_EraseAnim2(GameState* thisx);
+void FileSelect_EraseAnim3(GameState* thisx);
+void FileSelect_ExitEraseToMain(GameState* thisx);
 
-void FileChoose_UpdateKeyboardCursor(GameState* thisx);
-void FileChoose_StartNameEntry(GameState* thisx);
-void FileChoose_UpdateOptionsMenu(GameState* thisx);
-void FileChoose_StartOptions(GameState* thisx);
+void FileSelect_UpdateKeyboardCursor(GameState* thisx);
+void FileSelect_StartNameEntry(GameState* thisx);
+void FileSelect_UpdateOptionsMenu(GameState* thisx);
+void FileSelect_StartOptions(GameState* thisx);
 
-void FileChoose_InitModeDraw(GameState* thisx);
-void FileChoose_ConfigModeDraw(GameState* thisx);
-void FileChoose_SelectModeDraw(GameState* thisx);
+void FileSelect_InitModeDraw(GameState* thisx);
+void FileSelect_ConfigModeDraw(GameState* thisx);
+void FileSelect_SelectModeDraw(GameState* thisx);
 
-void FileChoose_PulsateCursor(GameState* thisx);
-void FileChoose_DrawOptions(GameState* thisx);
+void FileSelect_PulsateCursor(GameState* thisx);
+void FileSelect_DrawOptions(GameState* thisx);
 
-void FileChoose_DrawNameEntry(GameState* thisx);
-void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
+void FileSelect_DrawNameEntry(GameState* thisx);
+void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 
 extern s16 D_808123F0[];
 
