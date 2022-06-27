@@ -9,7 +9,7 @@ struct EnSkb;
 typedef void (*EnSkbActionFunc)(struct EnSkb*, PlayState*);
 
 typedef enum {
-    ENSKB_ACTION_SPAWNING,
+    ENSKB_ACTION_BURIED,
     ENSKB_ACTION_DYING,
     ENSKB_ACTION_DAMAGED,
     ENSKB_ACTION_ATTACKING,

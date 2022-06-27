@@ -201,7 +201,7 @@ void EnSkb_DecideNextAction(EnSkb* this) {
 
 void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
-    this->actionState = ENSKB_ACTION_SPAWNING;
+    this->actionState = ENSKB_ACTION_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, EnSkb_RiseFromGround);
@@ -227,7 +227,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
 void EnSkb_SetupDespawn(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f,
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
-    this->actionState = ENSKB_ACTION_SPAWNING;
+    this->actionState = ENSKB_ACTION_BURIED;
     this->hitboxActive = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
