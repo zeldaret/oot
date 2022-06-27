@@ -250,7 +250,7 @@ void EnSkb_SetupWalkForward(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f,
                      Animation_GetLastFrame(&gStalchildWalkingAnim), ANIMMODE_LOOP, -4.0f);
     this->actionState = ENSKB_ACTION_WALKING;
-    this->headlessWalkDirectionOffset = 0;
+    this->headlessWalkYawOffset = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
     EnSkb_SetupAction(this, EnSkb_WalkForward);
 }
@@ -262,9 +262,9 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((this->bodybreakState != 0) && ((play->gameplayFrames & 0xF) == 0)) {
-        this->headlessWalkDirectionOffset = Rand_CenteredFloat(50000.0f);
+        this->headlessWalkYawOffset = Rand_CenteredFloat(50000.0f);
     }
-    Math_SmoothStepToS(&this->actor.shape.rot.y, (this->actor.yawTowardsPlayer + this->headlessWalkDirectionOffset), 1, 0x2EE, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, (this->actor.yawTowardsPlayer + this->headlessWalkYawOffset), 1, 0x2EE, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     thisKeyFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
