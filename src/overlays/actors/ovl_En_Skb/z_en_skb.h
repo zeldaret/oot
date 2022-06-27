@@ -24,7 +24,7 @@ typedef struct EnSkb {
     /* 0x0190 */ Vec3s jointTable[20];
     /* 0x0208 */ Vec3s morphTable[20];
     /* 0x0280 */ u8 actionState;
-    /* 0x0281 */ u8 hitboxActive;
+    /* 0x0281 */ u8 enableATCollision;
     /* 0x0282 */ u8 lastDamageEffect;
     /* 0x0283 */ u8 bodybreakState;
     /* 0x0284 */ EnSkbActionFunc actionFunc;
