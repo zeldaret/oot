@@ -28,7 +28,7 @@ typedef struct EnSkb {
     /* 0x0282 */ u8 lastDamageEffect;
     /* 0x0283 */ u8 bodybreakState;
     /* 0x0284 */ EnSkbActionFunc actionFunc;
-    /* 0x0288 */ s16 headlessWalkYawOffset;
+    /* 0x0288 */ s16 headlessYawOffset;
     /* 0x028C */ BodyBreak bodyBreak;
     /* 0x02A4 */ ColliderJntSph collider;
     /* 0x02C4 */ ColliderJntSphElement colliderItem[2];

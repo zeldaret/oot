@@ -250,7 +250,7 @@ void EnSkb_SetupWalkForward(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f,
                      Animation_GetLastFrame(&gStalchildWalkingAnim), ANIMMODE_LOOP, -4.0f);
     this->actionState = ENSKB_ACTION_WALKING;
-    this->headlessWalkYawOffset = 0;
+    this->headlessYawOffset = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
     EnSkb_SetupAction(this, EnSkb_WalkForward);
 }
@@ -262,9 +262,9 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((this->bodybreakState != 0) && ((play->gameplayFrames & 0xF) == 0)) {
-        this->headlessWalkYawOffset = Rand_CenteredFloat(50000.0f);
+        this->headlessYawOffset = Rand_CenteredFloat(50000.0f);
     }
-    Math_SmoothStepToS(&this->actor.shape.rot.y, (this->actor.yawTowardsPlayer + this->headlessWalkYawOffset), 1, 0x2EE, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, (this->actor.yawTowardsPlayer + this->headlessYawOffset), 1, 0x2EE, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     thisKeyFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
@@ -440,7 +440,8 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
     s16 colorFilterDuration;
     Player* player;
 
-    if ((this->actionState != ENSKB_ACTION_DYING) && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
+    if ((this->actionState != ENSKB_ACTION_DYING) &&
+        (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
         (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->enableATCollision = false;
@@ -525,8 +526,8 @@ s32 EnSkb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     s16 color;
     s16 pad[2];
 
-    if (limbIndex == 11) { // head
-        if ((this->bodybreakState & 2) == 0) { // head is still attached
+    if (limbIndex == 11) {
+        if ((this->bodybreakState & 2) == 0) { // head limb, head is still attached
             OPEN_DISPS(play->state.gfxCtx, "../z_en_skb.c", 972);
             color = ABS((s16)(Math_SinS(play->gameplayFrames * 0x1770) * 95.0f)) + 160;
             gDPPipeSync(POLY_OPA_DISP++);
@@ -535,7 +536,7 @@ s32 EnSkb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
         } else {
             *dList = NULL;
         }
-    } else if ((limbIndex == 12) && ((this->bodybreakState & 2) != 0)) { // jaw, don't draw if headless
+    } else if ((limbIndex == 12) && ((this->bodybreakState & 2) != 0)) { // jaw limb, don't draw if headless
         *dList = NULL;
     }
     return 0;
