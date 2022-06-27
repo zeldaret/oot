@@ -145,7 +145,7 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
                         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-                        gSaveContext.gameMode = 2;
+                        gSaveContext.gameMode = GAMEMODE_FILE_SELECT;
                         play->transitionTrigger = TRANS_TRIGGER_START;
                         play->transitionType = TRANS_TYPE_FADE_BLACK;
                     }
