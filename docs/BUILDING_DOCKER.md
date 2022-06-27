@@ -34,7 +34,7 @@ sh run_docker.sh
 Or if you are using a different environment
 
 ```bash
-docker run -it --rm --mount type=bind,source="$(dirname $PWD)",destination=/oot oot /bin/bash
+docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/bash
 ```
 
 Where the mount, source portion is passing through the oot folder on your local filesystem into the Docker container and run an interactive bash session.
