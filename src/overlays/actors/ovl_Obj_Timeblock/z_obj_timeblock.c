@@ -147,7 +147,7 @@ void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {
 }
 
 u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, PlayState* play) {
-    if (this->isVisible && func_80043590(&this->dyna)) {
+    if (this->isVisible && DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         return false;
     }
 
@@ -324,9 +324,9 @@ void ObjTimeblock_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->isVisible) {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
 

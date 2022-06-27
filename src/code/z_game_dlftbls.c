@@ -9,10 +9,10 @@
     { NULL, 0, 0, NULL, NULL, NULL, init, destroy, NULL, NULL, 0, size }
 
 GameStateOverlay gGameStateOverlayTable[] = {
-    GAMESTATE_OVERLAY_INTERNAL(TitleSetup_Init, TitleSetup_Destroy, sizeof(GameState)),
-    GAMESTATE_OVERLAY(select, Select_Init, Select_Destroy, sizeof(SelectContext)),
-    GAMESTATE_OVERLAY(title, Title_Init, Title_Destroy, sizeof(TitleContext)),
+    GAMESTATE_OVERLAY_INTERNAL(Setup_Init, Setup_Destroy, sizeof(SetupState)),
+    GAMESTATE_OVERLAY(select, MapSelect_Init, MapSelect_Destroy, sizeof(MapSelectState)),
+    GAMESTATE_OVERLAY(title, ConsoleLogo_Init, ConsoleLogo_Destroy, sizeof(ConsoleLogoState)),
     GAMESTATE_OVERLAY_INTERNAL(Play_Init, Play_Destroy, sizeof(PlayState)),
-    GAMESTATE_OVERLAY(opening, Opening_Init, Opening_Destroy, sizeof(OpeningContext)),
-    GAMESTATE_OVERLAY(file_choose, FileChoose_Init, FileChoose_Destroy, sizeof(FileChooseContext)),
+    GAMESTATE_OVERLAY(opening, TitleSetup_Init, TitleSetup_Destroy, sizeof(TitleSetupState)),
+    GAMESTATE_OVERLAY(file_choose, FileSelect_Init, FileSelect_Destroy, sizeof(FileSelectState)),
 };
