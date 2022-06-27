@@ -8,16 +8,6 @@ struct EnSkb;
 
 typedef void (*EnSkbActionFunc)(struct EnSkb*, PlayState*);
 
-typedef enum {
-    ENSKB_ACTION_BURIED,
-    ENSKB_ACTION_DYING,
-    ENSKB_ACTION_DAMAGED,
-    ENSKB_ACTION_ATTACKING,
-    ENSKB_ACTION_WALKING,
-    ENSKB_ACTION_RECOILING,
-    ENSKB_ACTION_STUNNED
-} EnSkbActionState;
-
 typedef struct EnSkb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;

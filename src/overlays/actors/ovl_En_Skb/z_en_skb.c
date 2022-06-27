@@ -4,6 +4,16 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
+typedef enum {
+    ENSKB_ACTION_BURIED,
+    ENSKB_ACTION_DYING,
+    ENSKB_ACTION_DAMAGED,
+    ENSKB_ACTION_ATTACKING,
+    ENSKB_ACTION_WALKING,
+    ENSKB_ACTION_RECOILING,
+    ENSKB_ACTION_STUNNED
+} EnSkbActionState;
+
 void EnSkb_Init(Actor* thisx, PlayState* play);
 void EnSkb_Destroy(Actor* thisx, PlayState* play);
 void EnSkb_Update(Actor* thisx, PlayState* play);
