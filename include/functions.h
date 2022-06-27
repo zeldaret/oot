@@ -1781,8 +1781,6 @@ void* AudioHeap_AllocDmaMemoryZeroed(AudioAllocPool* pool, u32 size);
 void* AudioHeap_AllocZeroed(AudioAllocPool* pool, u32 size);
 void* AudioHeap_Alloc(AudioAllocPool* pool, u32 size);
 void AudioHeap_InitPool(AudioAllocPool* pool, void* ramAddr, u32 size);
-void AudioHeap_ClearPersistentCache(AudioPersistentCache* persistent);
-void AudioHeap_ClearTemporaryCache(AudioTemporaryCache* temporary);
 void AudioHeap_PopPersistentCache(s32 tableType);
 void AudioHeap_InitMainPools(s32 initPoolSize);
 void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id);
