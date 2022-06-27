@@ -25,6 +25,13 @@
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
 typedef enum {
+    /* 0 */ SOUNDMODE_STEREO,
+    /* 1 */ SOUNDMODE_HEADSET,
+    /* 2 */ SOUNDMODE_SURROUND,
+    /* 3 */ SOUNDMODE_MONO
+} SoundMode;
+
+typedef enum {
     /* 0 */ ADSR_STATE_DISABLED,
     /* 1 */ ADSR_STATE_INITIAL,
     /* 2 */ ADSR_STATE_START_LOOP,
