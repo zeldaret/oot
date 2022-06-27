@@ -30,7 +30,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     sub->bitField0.stereoStrongLeft = false;
     sub->bitField0.stereoHeadsetEffects = stereoData.stereoHeadsetEffects;
     sub->bitField0.usesHeadsetPanEffects = stereoData.usesHeadsetPanEffects;
-    if (stereoHeadsetEffects && gAudioContext.soundMode == 1) {
+    if (stereoHeadsetEffects && (gAudioContext.soundMode == SOUNDMODE_HEADSET)) {
         smallPanIndex = pan >> 1;
         if (smallPanIndex > 0x3F) {
             smallPanIndex = 0x3F;
@@ -42,7 +42,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
         volLeft = gHeadsetPanVolume[pan];
         volRight = gHeadsetPanVolume[0x7F - pan];
-    } else if (stereoHeadsetEffects && gAudioContext.soundMode == 0) {
+    } else if (stereoHeadsetEffects && (gAudioContext.soundMode == SOUNDMODE_STEREO)) {
         strongLeft = strongRight = 0;
         sub->headsetPanRight = 0;
         sub->headsetPanLeft = 0;
@@ -79,7 +79,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
                 break;
         }
 
-    } else if (gAudioContext.soundMode == 3) {
+    } else if (gAudioContext.soundMode == SOUNDMODE_MONO) {
         sub->bitField0.stereoHeadsetEffects = false;
         sub->bitField0.usesHeadsetPanEffects = false;
         volLeft = 0.707f; // approx 1/sqrt(2)

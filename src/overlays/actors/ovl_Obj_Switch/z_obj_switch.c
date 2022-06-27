@@ -386,13 +386,14 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
     } else {
         switch (this->dyna.actor.params >> 4 & 7) {
             case OBJSWITCH_SUBTYPE_ONCE:
-                if (func_8004356C(&this->dyna)) {
+                if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
                 break;
             case OBJSWITCH_SUBTYPE_TOGGLE:
-                if ((this->dyna.unk_160 & 2) && !(this->unk_17F & 2)) {
+                if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
+                    !(this->unk_17F & DYNA_INTERACT_PLAYER_ON_TOP)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
@@ -444,7 +445,8 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
             }
             break;
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->dyna.unk_160 & 2) && !(this->unk_17F & 2)) {
+            if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
+                !(this->unk_17F & DYNA_INTERACT_PLAYER_ON_TOP)) {
                 ObjSwitch_FloorReleaseInit(this);
                 ObjSwitch_SetOff(this, play);
             }
@@ -691,7 +693,7 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
     switch (this->dyna.actor.params & 7) {
         case OBJSWITCH_TYPE_FLOOR:
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
-            this->unk_17F = this->dyna.unk_160;
+            this->unk_17F = this->dyna.interactFlags;
             break;
         case OBJSWITCH_TYPE_EYE:
             this->unk_17F = this->tris.col.base.acFlags;

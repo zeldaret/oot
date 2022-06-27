@@ -119,7 +119,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gJabuJabuBodyCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-            func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->dyna.actor.update = EnJj_UpdateStaticCollision;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -182,7 +182,7 @@ void EnJj_OpenMouth(EnJj* this, PlayState* play) {
         this->mouthOpenAngle -= 102;
 
         if (this->mouthOpenAngle < -2600) {
-            func_8003EBF8(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         }
     }
 }
@@ -217,7 +217,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         EnJj_SetupAction(this, EnJj_RemoveDust);
         play->csCtx.segment = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
-        func_8003EBF8(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));
         SET_EVENTCHKINF(EVENTCHKINF_3A);
         func_80078884(NA_SE_SY_CORRECT_CHIME);

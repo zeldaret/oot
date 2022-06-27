@@ -1,4 +1,4 @@
-#include "file_choose.h"
+#include "file_select.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_File_Choose/ovl_file_choose.h"
 
@@ -18,7 +18,7 @@ static s16 D_80812544[] = {
     0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0003,
 };
 
-void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
+void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 110);
 
     gDPLoadTextureBlock_4b(POLY_OPA_DISP++, texture, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
@@ -28,8 +28,8 @@ void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     CLOSE_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 119);
 }
 
-void FileChoose_SetKeyboardVtx(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_SetKeyboardVtx(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
     s16 val;
     s16 phi_t2;
     s16 phi_t0;
@@ -108,8 +108,8 @@ static s16 D_80812604[] = {
  * Set vertices used by all elements of the name entry screen that are NOT the keyboard.
  * This includes the cursor highlight, the name entry plate and characters, and the buttons.
  */
-void FileChoose_SetNameEntryVtx(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_SetNameEntryVtx(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
     Font* font = &this->font;
     s16 phi_s0;
     s16 phi_t1;
@@ -211,7 +211,7 @@ void FileChoose_SetNameEntryVtx(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->nameEntryBoxAlpha);
 
     for (phi_v0 = 0, phi_s0 = 0; phi_s0 < 0x20; phi_s0 += 4, phi_v0++) {
-        FileChoose_DrawCharacter(this->state.gfxCtx,
+        FileSelect_DrawCharacter(this->state.gfxCtx,
                                  font->fontBuf + this->fileNames[this->buttonIndex][phi_v0] * FONT_CHAR_TEX_SIZE,
                                  phi_s0);
     }
@@ -229,8 +229,8 @@ void FileChoose_SetNameEntryVtx(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 307);
 }
 
-void FileChoose_DrawKeyboard(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_DrawKeyboard(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
     Font* font = &this->font;
     s16 i = 0;
     s16 tmp;
@@ -249,20 +249,20 @@ void FileChoose_DrawKeyboard(GameState* thisx) {
         gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[vtx], 32, 0);
 
         for (tmp = 0; tmp < 32; i++, tmp += 4) {
-            FileChoose_DrawCharacter(this->state.gfxCtx, font->fontBuf + D_808123F0[i] * FONT_CHAR_TEX_SIZE, tmp);
+            FileSelect_DrawCharacter(this->state.gfxCtx, font->fontBuf + D_808123F0[i] * FONT_CHAR_TEX_SIZE, tmp);
         }
 
         vtx += 32;
     }
 
     gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[0x100], 4, 0);
-    FileChoose_DrawCharacter(this->state.gfxCtx, font->fontBuf + D_808123F0[i] * FONT_CHAR_TEX_SIZE, 0);
+    FileSelect_DrawCharacter(this->state.gfxCtx, font->fontBuf + D_808123F0[i] * FONT_CHAR_TEX_SIZE, 0);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 347);
 }
 
-void FileChoose_DrawNameEntry(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_DrawNameEntry(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
     Font* font = &this->font;
     Input* input = &this->state.input[0];
     s16 i;
@@ -272,9 +272,9 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 368);
 
-    FileChoose_SetKeyboardVtx(&this->state);
-    FileChoose_SetNameEntryVtx(&this->state);
-    FileChoose_PulsateCursor(&this->state);
+    FileSelect_SetKeyboardVtx(&this->state);
+    FileSelect_SetNameEntryVtx(&this->state);
+    FileSelect_PulsateCursor(&this->state);
 
     tmp = (this->newFileNameCharCount * 4) + 4;
     this->nameEntryVtx[36].v.ob[0] = this->nameEntryVtx[38].v.ob[0] = this->nameEntryVtx[tmp].v.ob[0] - 6;
@@ -338,7 +338,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
 
     gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
 
-    FileChoose_DrawKeyboard(&this->state);
+    FileSelect_DrawKeyboard(&this->state);
     gDPPipeSync(POLY_OPA_DISP++);
     Gfx_SetupDL_42Opa(this->state.gfxCtx);
 
@@ -385,7 +385,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
                     gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[this->charIndex * 4], 4, 0);
 
-                    FileChoose_DrawCharacter(this->state.gfxCtx,
+                    FileSelect_DrawCharacter(this->state.gfxCtx,
                                              font->fontBuf + D_808123F0[this->charIndex] * FONT_CHAR_TEX_SIZE, 0);
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
@@ -486,8 +486,8 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
  * After the name entry box is in place, init the keyboard/cursor and change modes.
  * Update function for `CM_START_NAME_ENTRY`
  */
-void FileChoose_StartNameEntry(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_StartNameEntry(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
 
     this->nameEntryBoxAlpha += 25;
 
@@ -513,8 +513,8 @@ void FileChoose_StartNameEntry(GameState* thisx) {
  * the cursor currently is.
  * Update function for `CM_NAME_ENTRY`
  */
-void FileChoose_UpdateKeyboardCursor(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
     s16 prevKbdX;
 
     this->kbdButton = 99;
@@ -632,13 +632,13 @@ void FileChoose_UpdateKeyboardCursor(GameState* thisx) {
 }
 
 /**
- * This function is mostly a copy paste of `FileChoose_StartNameEntry`.
+ * This function is mostly a copy paste of `FileSelect_StartNameEntry`.
  * The name entry box fades and slides in even though it is not visible.
  * After this is complete, change to the options config mode.
  * Update function for `CM_START_OPTIONS`
  */
-void FileChoose_StartOptions(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_StartOptions(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
 
     this->nameEntryBoxAlpha += 25;
 
@@ -663,8 +663,8 @@ static u8 sSelectedSetting;
  * and set config mode to rotate back to the main menu.
  * Update function for `CM_OPTIONS_MENU`
  */
-void FileChoose_UpdateOptionsMenu(GameState* thisx) {
-    FileChooseContext* this = (FileChooseContext*)thisx;
+void FileSelect_UpdateOptionsMenu(GameState* thisx) {
+    FileSelectState* this = (FileSelectState*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* input = &this->state.input[0];
 
@@ -790,7 +790,7 @@ static OptionsMenuTextureInfo gOptionsMenuSettings[] = {
     },
 };
 
-void FileChoose_DrawOptionsImpl(GameState* thisx) {
+void FileSelect_DrawOptionsImpl(GameState* thisx) {
     static s16 cursorPrimRed = 255;
     static s16 cursorPrimGreen = 255;
     static s16 cursorPrimBlue = 255;
@@ -807,7 +807,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
         { 0, 0, 0 },
         { 0, 150, 150 },
     };
-    FileChooseContext* this = (FileChooseContext*)thisx;
+    FileSelectState* this = (FileSelectState*)thisx;
     s16 cursorRed;
     s16 cursorGreen;
     s16 cursorBlue;
@@ -1006,6 +1006,6 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1040);
 }
 
-void FileChoose_DrawOptions(GameState* thisx) {
-    FileChoose_DrawOptionsImpl(thisx);
+void FileSelect_DrawOptions(GameState* thisx) {
+    FileSelect_DrawOptionsImpl(thisx);
 }

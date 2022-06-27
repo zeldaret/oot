@@ -750,7 +750,7 @@ void ObjBean_SetupWaitForPlayer(ObjBean* this) {
 }
 
 void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
-    if (func_8004356C(&this->dyna)) { // Player is standing on
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         ObjBean_SetupFly(this);
         if (play->sceneNum == SCENE_SPOT10) { // Lost woods
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
@@ -784,7 +784,7 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
             Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
 
-    } else if (func_8004356C(&this->dyna) != 0) { // Player is on top
+    } else if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
 
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
@@ -810,7 +810,7 @@ void ObjBean_SetupWaitForStepOff(ObjBean* this) {
 }
 
 void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play) {
-    if (!func_80043590(&this->dyna)) {
+    if (!DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         ObjBean_SetupWaitForPlayer(this);
     }
     ObjBean_UpdatePosition(this);
@@ -822,7 +822,7 @@ void func_80B908EC(ObjBean* this) {
 }
 
 void func_80B90918(ObjBean* this, PlayState* play) {
-    if (!func_8004356C(&this->dyna)) {
+    if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         ObjBean_SetupPathCount(this, play);
         ObjBean_SetupPath(this, play);
         ObjBean_Move(this);
@@ -856,9 +856,9 @@ void func_80B90A34(ObjBean* this, PlayState* play) {
 
     func_80B8EE24(this);
     if (trampled) {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
     if ((this->timer <= 0) && (!trampled)) {
         func_80B8EBC8(this);
@@ -894,7 +894,7 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
             osSyncPrintf("馬と豆の木リフト衝突！！！\n");
             osSyncPrintf(VT_RST);
             ObjBean_Break(this, play);
-            func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             func_80B908EC(this);
         }
     } else {
@@ -902,7 +902,7 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
     }
     Actor_SetFocus(&this->dyna.actor, 6.0f);
     if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
-        if (func_8004356C(&this->dyna)) {
+        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             this->stateFlags |= BEAN_STATE_PLAYER_ON_TOP;
         } else {
             this->stateFlags &= ~BEAN_STATE_PLAYER_ON_TOP;
