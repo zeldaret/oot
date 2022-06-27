@@ -5,6 +5,7 @@
  */
 
 #include "z_shot_sun.h"
+#include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "assets/scenes/overworld/spot06/spot06_scene.h"
 #include "vt.h"
@@ -112,7 +113,7 @@ void ShotSun_TriggerFairy(ShotSun* this, PlayState* play) {
         this->timer = 50;
 
         Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, this->actor.home.pos.x, this->actor.home.pos.y,
-                    this->actor.home.pos.z, 0, 0, 0, 0x11);
+                    this->actor.home.pos.z, 0, 0, 0, DEMOKANKYO_SPARKLES);
 
         func_80078914(&this->actor.projectedPos, NA_SE_EV_TRE_BOX_APPEAR);
     }

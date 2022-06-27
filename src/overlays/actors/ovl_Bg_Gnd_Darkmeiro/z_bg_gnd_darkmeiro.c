@@ -36,11 +36,11 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, PlayState* play) {
     if (this->actionFlags & 2) {
         if (this->timer1 == 0) {
-            func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->actionFlags &= ~2;
         }
     } else if (this->timer1 != 0) {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->actionFlags |= 2;
     }
 }
@@ -68,7 +68,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, PlayState* play2) {
                 thisx->draw = BgGndDarkmeiro_DrawSwitchBlock;
                 this->updateFunc = BgGndDarkmeiro_UpdateSwitchBlock;
                 if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
-                    func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+                    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 } else {
                     this->timer1 = 64;
                     this->actionFlags |= 2;

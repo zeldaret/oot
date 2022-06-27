@@ -246,6 +246,13 @@ typedef enum {
 } SunsSongState;
 
 typedef enum {
+    /* 0 */ GAMEMODE_NORMAL,
+    /* 1 */ GAMEMODE_TITLE_SCREEN,
+    /* 2 */ GAMEMODE_FILE_SELECT, // Note: only instance type transitions swap to file select
+    /* 3 */ GAMEMODE_END_CREDITS
+} GameMode;
+
+typedef enum {
     /* 0 */ LINK_AGE_ADULT,
     /* 1 */ LINK_AGE_CHILD
 } LinkAge;
