@@ -201,7 +201,7 @@ void EnSkb_DecideNextAction(EnSkb* this) {
 
 void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
-    this->actionState = ACTION_STATE_SPAWNING;
+    this->actionState = ENSKB_ACTION_SPAWNING;
     this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, EnSkb_RiseFromGround);
@@ -227,7 +227,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
 void EnSkb_SetupDespawn(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f,
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
-    this->actionState = ACTION_STATE_SPAWNING;
+    this->actionState = ENSKB_ACTION_SPAWNING;
     this->hitboxActive = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
@@ -249,7 +249,7 @@ void EnSkb_Despawn(EnSkb* this, PlayState* play) {
 void EnSkb_SetupWalkForward(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f,
                      Animation_GetLastFrame(&gStalchildWalkingAnim), ANIMMODE_LOOP, -4.0f);
-    this->actionState = ACTION_STATE_WALKING;
+    this->actionState = ENSKB_ACTION_WALKING;
     this->headlessWalkDirectionOffset = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
     EnSkb_SetupAction(this, EnSkb_WalkForward);
@@ -298,7 +298,7 @@ void EnSkb_SetupAttack(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f,
                      Animation_GetLastFrame(&gStalchildAttackingAnim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
-    this->actionState = ACTION_STATE_ATTACKING;
+    this->actionState = ENSKB_ACTION_ATTACKING;
     this->actor.speedXZ = 0.0f;
     EnSkb_SetupAction(this, EnSkb_Attack);
 }
@@ -325,7 +325,7 @@ void EnSkb_SetupRecoil(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f,
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
-    this->actionState = ACTION_STATE_RECOILING;
+    this->actionState = ENSKB_ACTION_RECOILING;
     this->hitboxActive = 0;
     EnSkb_SetupAction(this, EnSkb_Recoil);
 }
@@ -342,7 +342,7 @@ void EnSkb_SetupStunned(EnSkb* this) {
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->hitboxActive = 0;
-    this->actionState = ACTION_STATE_STUNNED;
+    this->actionState = ENSKB_ACTION_STUNNED;
     EnSkb_SetupAction(this, EnSkb_Stunned);
 }
 
@@ -371,7 +371,7 @@ void EnSkb_SetupTakeDamage(EnSkb* this) {
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
-    this->actionState = ACTION_STATE_DAMAGED;
+    this->actionState = ENSKB_ACTION_DAMAGED;
     EnSkb_SetupAction(this, EnSkb_TakeDamage);
 }
 
@@ -407,7 +407,7 @@ void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -6.0f;
     }
-    this->actionState = ACTION_STATE_DYING;
+    this->actionState = ENSKB_ACTION_DYING;
     this->actor.flags &= ~ACTOR_FLAG_0;
     BodyBreak_Alloc(&this->bodyBreak, 18, play);
     this->bodybreakState |= 4;
@@ -440,12 +440,12 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
     s16 colorFilterDuration;
     Player* player;
 
-    if ((this->actionState != ACTION_STATE_DYING) && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
+    if ((this->actionState != ENSKB_ACTION_DYING) && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
         (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->hitboxActive = 0;
         EnSkb_SetupDeath(this, play);
-    } else if (this->actionState >= ACTION_STATE_ATTACKING) {
+    } else if (this->actionState >= ENSKB_ACTION_ATTACKING) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 6) {
@@ -453,7 +453,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
                 this->hitboxActive = 0;
                 if (this->actor.colChkInfo.damageEffect == 1) {
-                    if (this->actionState != ACTION_STATE_STUNNED) {
+                    if (this->actionState != ENSKB_ACTION_STUNNED) {
                         Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
                         Actor_ApplyDamage(&this->actor);
                         EnSkb_SetupStunned(this);
@@ -511,7 +511,7 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 
-    if (this->actionState >= ACTION_STATE_ATTACKING) {
+    if (this->actionState >= ENSKB_ACTION_ATTACKING) {
         if ((this->actor.colorFilterTimer == 0) || ((this->actor.colorFilterParams & 0x4000) == 0)) {
 
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
