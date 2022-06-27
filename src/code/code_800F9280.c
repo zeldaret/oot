@@ -16,7 +16,12 @@ u8 sSeqCmdWrPos = 0;
 u8 sSeqCmdRdPos = 0;
 u8 D_80133408 = 0;
 u8 D_8013340C = 1;
-u8 D_80133410[] = { 0, 1, 2, 3 };
+u8 sSoundModeList[] = {
+    SOUNDMODE_STEREO,
+    SOUNDMODE_HEADSET,
+    SOUNDMODE_SURROUND,
+    SOUNDMODE_MONO,
+};
 u8 gAudioSpecId = 0;
 u8 D_80133418 = 0;
 
@@ -342,7 +347,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             switch (subOp) {
                 case 0:
                     // set sound mode
-                    Audio_QueueCmdS32(0xF0000000, D_80133410[val]);
+                    Audio_QueueCmdS32(0xF0000000, sSoundModeList[val]);
                     break;
                 case 1:
                     // set sequence starting disabled?
