@@ -238,7 +238,7 @@ void EnSkb_SetupDespawn(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f,
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = ENSKB_ACTION_BURIED;
-    this->enableATCollision = false;
+    this->setColliderAT = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
@@ -319,9 +319,9 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
     frameData = this->skelAnime.curFrame;
     if (frameData == 3) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_ATTACK);
-        this->enableATCollision = true;
+        this->setColliderAT = true;
     } else if (frameData == 6) {
-        this->enableATCollision = false;
+        this->setColliderAT = false;
     }
     if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
@@ -336,7 +336,7 @@ void EnSkb_SetupRecoil(EnSkb* this) {
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = ENSKB_ACTION_RECOILING;
-    this->enableATCollision = false;
+    this->setColliderAT = false;
     EnSkb_SetupAction(this, EnSkb_Recoil);
 }
 
@@ -351,7 +351,7 @@ void EnSkb_SetupStunned(EnSkb* this) {
         this->actor.speedXZ = 0.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    this->enableATCollision = false;
+    this->setColliderAT = false;
     this->actionState = ENSKB_ACTION_STUNNED;
     EnSkb_SetupAction(this, EnSkb_Stunned);
 }
@@ -454,7 +454,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
         (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
         (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
-        this->enableATCollision = false;
+        this->setColliderAT = false;
         EnSkb_SetupDeath(this, play);
     } else if (this->actionState >= ENSKB_ACTION_ATTACKING) {
         if (this->collider.base.acFlags & AC_HIT) {
@@ -462,7 +462,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
-                this->enableATCollision = false;
+                this->setColliderAT = false;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->actionState != ENSKB_ACTION_STUNNED) {
                         Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
@@ -518,7 +518,7 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += (3000.0f * this->actor.scale.y);
-    if (this->enableATCollision) {
+    if (this->setColliderAT) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 
