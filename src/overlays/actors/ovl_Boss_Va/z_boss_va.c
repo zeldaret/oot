@@ -523,7 +523,7 @@ void BossVa_SetDeathEnv(PlayState* play) {
     play->envCtx.adjFogColor[1] = 220;
     play->envCtx.adjFogColor[2] = 150;
     play->envCtx.adjFogNear = -1000;
-    play->envCtx.adjFogFar = -900;
+    play->envCtx.adjZFar = -900;
     play->envCtx.adjAmbientColor[0] = 200;
     play->envCtx.adjAmbientColor[1] = 200;
     play->envCtx.adjAmbientColor[2] = 200;
@@ -3191,10 +3191,10 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
                 }
             }
 
-            if (play->envCtx.adjFogFar != 0) {
-                play->envCtx.adjFogFar += 350;
-                if (play->envCtx.adjFogFar > 0) {
-                    play->envCtx.adjFogFar = 0;
+            if (play->envCtx.adjZFar != 0) {
+                play->envCtx.adjZFar += 350;
+                if (play->envCtx.adjZFar > 0) {
+                    play->envCtx.adjZFar = 0;
                 }
             }
 

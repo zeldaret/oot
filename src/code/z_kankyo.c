@@ -319,7 +319,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
-            envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjFogFar = 0;
+            envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjZFar = 0;
 
     envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
@@ -1106,17 +1106,17 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         envCtx->lightSettings.fogNear = LERP16(blend16[0], blend16[1], sp88);
 
                         blend16[0] = LERP16(
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting].fogFar,
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting].fogFar,
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting].zFar,
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting].zFar,
                             sp8C);
                         blend16[1] = LERP16(
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
-                                .fogFar,
+                                .zFar,
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
-                                .fogFar,
+                                .zFar,
                             sp8C);
 
-                        envCtx->lightSettings.fogFar = LERP16(blend16[0], blend16[1], sp88);
+                        envCtx->lightSettings.zFar = LERP16(blend16[0], blend16[1], sp88);
 
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
@@ -1143,7 +1143,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                     }
 
                     envCtx->lightSettings.fogNear = lightSettingsList[envCtx->lightSetting].fogNear & 0x3FF;
-                    envCtx->lightSettings.fogFar = lightSettingsList[envCtx->lightSetting].fogFar;
+                    envCtx->lightSettings.zFar = lightSettingsList[envCtx->lightSetting].zFar;
                     envCtx->lightBlend = 1.0f;
                 } else {
                     u8 blendRate = (lightSettingsList[envCtx->lightSetting].fogNear >> 0xA) * 4;
@@ -1187,9 +1187,9 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                     envCtx->lightSettings.fogNear =
                         LERP16(lightSettingsList[envCtx->prevLightSetting].fogNear & 0x3FF,
                                lightSettingsList[envCtx->lightSetting].fogNear & 0x3FF, envCtx->lightBlend);
-                    envCtx->lightSettings.fogFar =
-                        LERP16(lightSettingsList[envCtx->prevLightSetting].fogFar,
-                               lightSettingsList[envCtx->lightSetting].fogFar, envCtx->lightBlend);
+                    envCtx->lightSettings.zFar =
+                        LERP16(lightSettingsList[envCtx->prevLightSetting].zFar,
+                               lightSettingsList[envCtx->lightSetting].zFar, envCtx->lightBlend);
                 }
 
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
@@ -1260,12 +1260,12 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->fogNear = 996;
         }
 
-        adjustment = envCtx->lightSettings.fogFar + envCtx->adjFogFar;
+        adjustment = envCtx->lightSettings.zFar + envCtx->adjZFar;
 
         if (adjustment <= 12800) {
-            lightCtx->fogFar = adjustment;
+            lightCtx->zFar = adjustment;
         } else {
-            lightCtx->fogFar = 12800;
+            lightCtx->zFar = 12800;
         }
 
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
@@ -1286,7 +1286,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             R_ENV_FOG_COLOR(1) = lightCtx->fogColor[1];
             R_ENV_FOG_COLOR(2) = lightCtx->fogColor[2];
 
-            R_ENV_FOG_FAR = lightCtx->fogFar;
+            R_ENV_Z_FAR = lightCtx->zFar;
             R_ENV_FOG_NEAR = lightCtx->fogNear;
 
             R_ENV_LIGHT1_DIR(0) = envCtx->dirLight1.params.dir.x;
@@ -1317,7 +1317,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->fogColor[1] = R_ENV_FOG_COLOR(1);
             lightCtx->fogColor[2] = R_ENV_FOG_COLOR(2);
             lightCtx->fogNear = R_ENV_FOG_NEAR;
-            lightCtx->fogFar = R_ENV_FOG_FAR;
+            lightCtx->zFar = R_ENV_Z_FAR;
 
             if (cREG(14)) {
                 R_ENV_LIGHT1_DIR(0) = Math_CosS(cREG(10)) * Math_CosS(cREG(11)) * 120.0f;
@@ -2233,8 +2233,8 @@ void Environment_FadeInGameOverLights(PlayState* play) {
             play->envCtx.adjFogColor[i] = -255;
         }
 
-        if (play->envCtx.lightSettings.fogFar + play->envCtx.adjFogFar > 900) {
-            play->envCtx.adjFogFar -= 100;
+        if (play->envCtx.lightSettings.zFar + play->envCtx.adjZFar > 900) {
+            play->envCtx.adjZFar -= 100;
         }
 
         if (play->envCtx.lightSettings.fogNear + play->envCtx.adjFogNear > 950) {
@@ -2277,7 +2277,7 @@ void Environment_FadeOutGameOverLights(PlayState* play) {
             Math_SmoothStepToS(&play->envCtx.adjLight1Color[i], 0, 5, 12, 1);
             play->envCtx.adjFogColor[i] = 0;
         }
-        play->envCtx.adjFogFar = 0;
+        play->envCtx.adjZFar = 0;
         play->envCtx.adjFogNear = 0;
     } else {
         play->envCtx.fillScreen = true;

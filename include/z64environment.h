@@ -140,7 +140,7 @@ typedef struct {
     /* 0x0C */ u8 light2Color[3];
     /* 0x0F */ u8 fogColor[3];
     /* 0x12 */ s16 fogNear;
-    /* 0x14 */ s16 fogFar;
+    /* 0x14 */ s16 zFar;
 } EnvLightSettings; // size = 0x16
 
 typedef EnvLightSettings LightSettings;
@@ -180,7 +180,7 @@ typedef struct {
     /* 0x92 */ s16 adjLight1Color[3];
     /* 0x98 */ s16 adjFogColor[3];
     /* 0x9E */ s16 adjFogNear;
-    /* 0xA0 */ s16 adjFogFar;
+    /* 0xA0 */ s16 adjZFar;
     /* 0xA2 */ char unk_A2[0x06];
     /* 0xA8 */ Vec3s windDirection;
     /* 0xB0 */ f32 windSpeed;

@@ -126,7 +126,7 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
         if (-(f32)meshHeader2Entry->unk_06 < projectedPos.z) {
             temp_f2 = projectedPos.z - meshHeader2Entry->unk_06;
-            if (temp_f2 < play->lightCtx.fogFar) {
+            if (temp_f2 < play->lightCtx.zFar) {
                 spA4->unk_00 = meshHeader2Entry;
                 spA4->unk_04 = temp_f2;
                 iter = spB4;

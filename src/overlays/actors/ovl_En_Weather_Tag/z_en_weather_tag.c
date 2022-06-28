@@ -292,10 +292,10 @@ void EnWeatherTag_SetSandstormIntensity(EnWeatherTag* this, PlayState* play) {
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         Math_SmoothStepToS(&play->envCtx.adjFogNear, -80, 1, 2, 1);
-        Math_SmoothStepToS(&play->envCtx.adjFogFar, -2000, 1, 50, 1);
+        Math_SmoothStepToS(&play->envCtx.adjZFar, -2000, 1, 50, 1);
     } else {
         Math_SmoothStepToS(&play->envCtx.adjFogNear, 0, 1, 1, 1);
-        Math_SmoothStepToS(&play->envCtx.adjFogFar, 0, 1, 25, 1);
+        Math_SmoothStepToS(&play->envCtx.adjZFar, 0, 1, 25, 1);
     }
 }
 

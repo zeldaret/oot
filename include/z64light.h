@@ -48,7 +48,7 @@ typedef struct {
     /* 0x4 */ u8 ambientColor[3];
     /* 0x7 */ u8 fogColor[3];
     /* 0xA */ s16 fogNear; // how close until fog starts taking effect. range 0 - 1000
-    /* 0xC */ s16 fogFar; // how far until fog starts to saturate. range 0 - 1000
+    /* 0xC */ s16 zFar; // draw distance. range 0 - 12800
 } LightContext; // size = 0x10
 
 typedef enum {
