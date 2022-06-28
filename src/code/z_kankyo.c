@@ -1254,18 +1254,18 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         // Adjust fog near and far if necessary
         adjustment = envCtx->lightSettings.fogNear + envCtx->adjFogNear;
 
-        if (adjustment <= 996) {
+        if (adjustment <= LIGHTCTX_FOGNEAR_MAX) {
             lightCtx->fogNear = adjustment;
         } else {
-            lightCtx->fogNear = 996;
+            lightCtx->fogNear = LIGHTCTX_FOGNEAR_MAX;
         }
 
         adjustment = envCtx->lightSettings.zFar + envCtx->adjZFar;
 
-        if (adjustment <= 12800) {
+        if (adjustment <= LIGHTCTX_ZFAR_MAX) {
             lightCtx->zFar = adjustment;
         } else {
-            lightCtx->zFar = 12800;
+            lightCtx->zFar = LIGHTCTX_ZFAR_MAX;
         }
 
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
@@ -1593,7 +1593,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
             alpha = alpha * lensFlareAlphas[i];
             alpha = CLAMP_MIN(alpha, 0.0f);
 
-            fogInfluence = (996 - play->lightCtx.fogNear) / 50.0f;
+            fogInfluence = (LIGHTCTX_FOGNEAR_MAX - play->lightCtx.fogNear) / 50.0f;
 
             fogInfluence = CLAMP_MAX(fogInfluence, 1.0f);
 
@@ -1640,7 +1640,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                 alpha = alpha * glareStrength;
                 alpha = CLAMP_MIN(alpha, 0.0f);
 
-                fogInfluence = (996 - play->lightCtx.fogNear) / 50.0f;
+                fogInfluence = (LIGHTCTX_FOGNEAR_MAX - play->lightCtx.fogNear) / 50.0f;
 
                 fogInfluence = CLAMP_MAX(fogInfluence, 1.0f);
 

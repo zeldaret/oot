@@ -198,7 +198,7 @@ s32 Lights_FreeNode(LightNode* light) {
 void LightContext_Init(PlayState* play, LightContext* lightCtx) {
     LightContext_InitList(play, lightCtx);
     LightContext_SetAmbientColor(lightCtx, 80, 80, 80);
-    LightContext_SetFog(lightCtx, 0, 0, 0, 996, 12800);
+    LightContext_SetFog(lightCtx, 0, 0, 0, LIGHTCTX_FOGNEAR_MAX, LIGHTCTX_ZFAR_MAX);
     bzero(&sLightsBuffer, sizeof(sLightsBuffer));
 }
 

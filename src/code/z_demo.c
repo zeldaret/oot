@@ -248,7 +248,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
         case 6:
-            if (play->envCtx.adjZFar < 12800) {
+            if (play->envCtx.adjZFar < LIGHTCTX_ZFAR_MAX) {
                 play->envCtx.adjZFar += 35;
             }
             break;
