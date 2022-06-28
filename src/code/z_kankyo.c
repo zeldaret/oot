@@ -1107,7 +1107,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                     .blendRateAndFogNear),
                             timeChangeBlend);
 
-                        envCtx->lightSettings.blendRateAndFogNear = LERP16(blend16[0], blend16[1], configChangeBlend);
+                        envCtx->lightSettings.fogNear = LERP16(blend16[0], blend16[1], configChangeBlend);
 
                         blend16[0] = LERP16(
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting].zFar,
@@ -1146,7 +1146,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         envCtx->lightSettings.fogColor[i] = lightSettingsList[envCtx->lightSetting].fogColor[i];
                     }
 
-                    envCtx->lightSettings.blendRateAndFogNear =
+                    envCtx->lightSettings.fogNear =
                         ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->lightSetting].blendRateAndFogNear);
                     envCtx->lightSettings.zFar = lightSettingsList[envCtx->lightSetting].zFar;
                     envCtx->lightBlend = 1.0f;
@@ -1190,7 +1190,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                             LERP(lightSettingsList[envCtx->prevLightSetting].fogColor[i],
                                  lightSettingsList[envCtx->lightSetting].fogColor[i], envCtx->lightBlend);
                     }
-                    envCtx->lightSettings.blendRateAndFogNear = LERP16(
+                    envCtx->lightSettings.fogNear = LERP16(
                         ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->prevLightSetting].blendRateAndFogNear),
                         ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->lightSetting].blendRateAndFogNear),
                         envCtx->lightBlend);
@@ -1259,7 +1259,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         envCtx->dirLight2.params.dir.z = envCtx->lightSettings.light2Dir[2];
 
         // Adjust fog near and far if necessary
-        adjustment = envCtx->lightSettings.blendRateAndFogNear + envCtx->adjFogNear;
+        adjustment = envCtx->lightSettings.fogNear + envCtx->adjFogNear;
 
         if (adjustment <= LIGHTCTX_FOGNEAR_MAX) {
             lightCtx->fogNear = adjustment;
@@ -2244,7 +2244,7 @@ void Environment_FadeInGameOverLights(PlayState* play) {
             play->envCtx.adjZFar -= 100;
         }
 
-        if (play->envCtx.lightSettings.blendRateAndFogNear + play->envCtx.adjFogNear > 950) {
+        if (play->envCtx.lightSettings.fogNear + play->envCtx.adjFogNear > 950) {
             play->envCtx.adjFogNear -= 10;
         }
     } else {
@@ -2508,7 +2508,7 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
             temp = 0.0f;
         }
 
-        play->envCtx.adjFogNear = (arg2 - play->envCtx.lightSettings.blendRateAndFogNear) * temp;
+        play->envCtx.adjFogNear = (arg2 - play->envCtx.lightSettings.fogNear) * temp;
 
         if (arg1 == 0.0f) {
             for (i = 0; i < 3; i++) {

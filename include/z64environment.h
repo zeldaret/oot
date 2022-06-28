@@ -150,6 +150,17 @@ typedef struct {
 typedef EnvLightSettings LightSettings;
 
 typedef struct {
+    /* 0x00 */ u8 ambientColor[3];
+    /* 0x03 */ s8 light1Dir[3];
+    /* 0x06 */ u8 light1Color[3];
+    /* 0x09 */ s8 light2Dir[3];
+    /* 0x0C */ u8 light2Color[3];
+    /* 0x0F */ u8 fogColor[3];
+    /* 0x12 */ s16 fogNear;
+    /* 0x14 */ s16 zFar;
+} CurrentEnvLightSettings; // size = 0x16
+
+typedef struct {
     /* 0x00 */ char unk_00[0x02];
     /* 0x02 */ u16 sceneTimeSpeed; // time speed value from the scene file
     /* 0x04 */ Vec3f sunPos; // moon position can be found by negating the sun position
@@ -194,7 +205,7 @@ typedef struct {
     /* 0xBD */ u8 lightSetting; // only used with `LIGHT_MODE_SETTINGS` or on override
     /* 0xBE */ u8 prevLightSetting;
     /* 0xBF */ u8 lightSettingOverride;
-    /* 0xC0 */ EnvLightSettings lightSettings; // settings for the currently "live" lights
+    /* 0xC0 */ CurrentEnvLightSettings lightSettings; // settings for the currently "live" lights
     /* 0xD6 */ u16 lightBlendRateOverride;
     /* 0xD8 */ f32 lightBlend; // only used with `LIGHT_MODE_SETTINGS` or on setting override
     /* 0xDC */ u8 lightBlendOverride;
