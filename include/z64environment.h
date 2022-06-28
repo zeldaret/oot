@@ -143,6 +143,8 @@ typedef struct {
     /* 0x14 */ s16 fogFar;
 } EnvLightSettings; // size = 0x16
 
+typedef EnvLightSettings LightSettings;
+
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
     /* 0x02 */ u16 sceneTimeSpeed; // time speed value from the scene file
