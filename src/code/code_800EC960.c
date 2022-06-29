@@ -4638,7 +4638,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, skipHarpIntro);
 
             if (!(sSeqFlags[seqId] & SEQ_FLAG_STORE_PREV_SPOT)) {
-                // Overwrite the sequence current sequence spot with an off flag
+                // Overwrite the sequence current sequence spot
                 sSeqSpot = SEQ_SPOT_NONE;
             }
         }
