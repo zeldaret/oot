@@ -153,25 +153,25 @@ u8 sSeqModeInput = 0;
 
 /**
  * These two sequence flags work together to implement a “continue playing from where you left off” system for scene
- * sequences when leaving and returning to a scene. For a scene to continue playing from where it left off, it must have
- * SEQ_FLAG_4 attached to it. Then, if the scene changes and the scene sequence contain SEQ_FLAG_5, the spot from the
- * previous scene sequence will be stored. Then, when returning to the scene with the sequence SEQ_FLAG_4, then the
- * sequence will continue playing from where it left off.
+ * sequences when leaving and returning to a scene. For a scene to continue playing from the spot where it left off, it
+ * must have `SEQ_FLAG_STORE_SPOT` attached to it. Then, if the scene changes and the new scene sequence contain
+ * `SEQ_FLAG_STORE_PREV_SPOT`, the spot from the previous scene sequence will be stored. Then, when returning to the
+ * scene with the sequence `SEQ_FLAG_STORE_SPOT`, then the sequence will continue playing from where it left off.
  *
- * There are only 5 sequences with SEQ_FLAG_4, and all 5 of those
- * sequences have special code in their sequences to read io port 7 and branch to different starting points along the
- * sequence (kokiri forest, kakariko child, kakariko adult, zoras domain, gerudo valley).
+ * There are only 5 sequences with `SEQ_FLAG_STORE_SPOT`, and all 5 of those sequences have special sequence
+ * instructions in their .seq files to read io port 7 and branch to different starting points along the sequence
+ * i.e. this system will only work for: kokiri forest, kakariko child, kakariko adult, zoras domain, gerudo valley
  */
-#define SEQ_FLAG_STORE_SPOT (1 << 4)      // Store the section of sequence to continue playing from
-#define SEQ_FLAG_STORE_PREV_SPOT (1 << 5) // Allows a `SEQ_FLAG_STORE_SPOT` to be stored
+#define SEQ_FLAG_STORE_SPOT (1 << 4)
+#define SEQ_FLAG_STORE_PREV_SPOT (1 << 5)
 
 /**
  * Will write a value of 1 to ioPort 7 when called through the scene. How it's used depends on the sequence:
  * NA_BGM_CHAMBER_OF_SAGES - ioPort 7 is never read from
  * NA_BGM_FILE_SELECT - ioPort 7 skips the harp intro when a value of 1 is written to it.
- *    note: NA_BGM_FILE_SELECT is not called through the scene. So this flag serves no purpose
+ * Note: NA_BGM_FILE_SELECT is not called through the scene. So this flag serves no purpose
  */
-#define SEQ_FLAG_CUSTOM (1 << 6)
+#define SEQ_FLAG_SKIP_HARP_INTRO (1 << 6)
 #define SEQ_FLAG_NO_AMBIENCE (1 << 7)
 
 u8 sSeqFlags[0x6E] = {
@@ -261,8 +261,8 @@ u8 sSeqFlags[0x6E] = {
     0,                                         // NA_BGM_MASTER_SWORD
     SEQ_FLAG_FANFARE_GANON,                    // NA_BGM_INTRO_GANON
     SEQ_FLAG_STORE_PREV_SPOT,                  // NA_BGM_SHOP
-    SEQ_FLAG_CUSTOM,                           // NA_BGM_CHAMBER_OF_SAGES
-    SEQ_FLAG_CUSTOM,                           // NA_BGM_FILE_SELECT
+    SEQ_FLAG_SKIP_HARP_INTRO,                  // NA_BGM_CHAMBER_OF_SAGES
+    SEQ_FLAG_SKIP_HARP_INTRO,                  // NA_BGM_FILE_SELECT
     SEQ_FLAG_ENEMY,                            // NA_BGM_ICE_CAVERN
     SEQ_FLAG_FANFARE,                          // NA_BGM_DOOR_OF_TIME
     SEQ_FLAG_FANFARE,                          // NA_BGM_OWL
@@ -4600,14 +4600,14 @@ void Audio_ClearSariaBgm2(void) {
 
 void Audio_PlayMorningSceneSequence(u16 seqId) {
     Audio_PlaySceneSequence(seqId);
-    // Setting ioData to 1 and writing it to ioPort 0 will be used by
+    // Writing a value of 1 to ioPort 0 will be used by
     // `NA_BGM_FIELD_LOGIC` to play `NA_BGM_FIELD_MORNING` first
     Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 0, 1);
 }
 
 void Audio_PlaySceneSequence(u16 seqId) {
     u8 fadeInDuration = 0;
-    u8 ioData;
+    u8 SkipHarpIntro;
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
         if (func_800FA0B4(SEQ_PLAYER_BGM_SUB) == NA_BGM_LONLON) {
@@ -4619,7 +4619,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
 
         if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_STORE_PREV_SPOT) &&
             sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_STORE_SPOT) {
-            // Start the sequence from where it last left off last time it was played in the scene
+            // Start the sequence from the spot where it last left off last time it was played in the scene
             if ((sSeqSpot & 0x3F) != 0) {
                 fadeInDuration = 30;
             }
@@ -4631,13 +4631,13 @@ void Audio_PlaySceneSequence(u16 seqId) {
         } else {
             // Start the sequence from the beginning
 
-            // Writes to ioPort 7, each sequence will read in a custom way although not
-            // many sequences read from ioPort 7. See `SEQ_FLAG_CUSTOM`
-            ioData = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_CUSTOM) ? 1 : 0xFF;
-            Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, ioData);
+            // Writes to ioPort 7. See `SEQ_FLAG_SKIP_HARP_INTRO` for writing a value of 1 to ioPort 7.
+            // Note: writing 0xFF (-1) to an ioPort will do nothing for all sequences.
+            SkipHarpIntro = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : 0xFF;
+            Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, SkipHarpIntro);
 
             if (!(sSeqFlags[seqId] & SEQ_FLAG_STORE_PREV_SPOT)) {
-                // Overwrite the sequence section info with an off flag
+                // Overwrite the sequence current sequence spot with an off flag
                 sSeqSpot = SEQ_SPOT_OFF;
             }
         }
@@ -4650,10 +4650,10 @@ void Audio_UpdateSceneSequenceSpot(void) {
 
     if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[(u8)seqId & 0xFF] & SEQ_FLAG_STORE_SPOT)) {
         if (sSeqSpot != SEQ_SPOT_OFF) {
-            // Get the current section the sequence is playing in
+            // Get the current spot the sequence is playing in
             sSeqSpot = gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
         } else {
-            // Initialize the current sequence section to the beginning
+            // Initialize the current sequence spot to the beginning
             sSeqSpot = 0;
         }
     }
