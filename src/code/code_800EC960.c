@@ -135,8 +135,8 @@ u16 sPrevMainBgmSeqId = NA_BGM_DISABLED;
 
 #define SEQ_SPOT_NONE 0xC0
 u8 sSeqSpot = 0;
-
 u8 sPrevSceneSeqId = NA_BGM_GENERAL_SFX;
+
 u32 sNumFramesStill = 0;
 u32 sNumFramesMoving = 0;
 u8 sAudioBaseFilter = 0;
