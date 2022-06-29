@@ -132,7 +132,10 @@ u8 sPrevSeqMode = 0;
 f32 sAudioEnemyDist = 0.0f;
 s8 sAudioEnemyVol = 127;
 u16 sPrevMainBgmSeqId = NA_BGM_DISABLED;
+
+#define SEQ_SPOT_OFF 0xC0
 u8 sSeqSpot = 0;
+
 u8 sPrevSceneSeqId = NA_BGM_GENERAL_SFX;
 u32 sNumFramesStill = 0;
 u32 sNumFramesMoving = 0;
@@ -162,7 +165,6 @@ u8 sSeqModeInput = 0;
  */
 #define SEQ_FLAG_STORE_SPOT (1 << 4)
 #define SEQ_FLAG_STORE_PREV_SPOT (1 << 5)
-#define SEQ_SPOT_OFF 0xC0
 
 /**
  * Will write a value of 1 to ioPort 7 when called through the scene. How it's used depends on the sequence:
