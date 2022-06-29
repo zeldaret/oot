@@ -144,7 +144,7 @@ Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
 u8 sSeqModeInput = 0;
 
-#define SEQ_SECTION_OFF 0xC0
+#define SEQ_SPOT_OFF 0xC0
 
 #define SEQ_FLAG_ENEMY (1 << 0) // Allows enemy bgm
 #define SEQ_FLAG_FANFARE (1 << 1)
@@ -1290,7 +1290,7 @@ f32 sAudioMalonBgmDist;
 
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
 void Audio_StepFreqLerp(FreqLerp* lerp);
-void Audio_UpdateSceneSequenceSection(void);
+void Audio_UpdateSceneSequenceSpot(void);
 void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol);
 
@@ -3728,7 +3728,7 @@ void func_800F3054(void) {
         Audio_StepFreqLerp(&sRiverFreqScaleLerp);
         Audio_StepFreqLerp(&sWaterfallFreqScaleLerp);
         Audio_UpdateRiverSoundVolumes();
-        Audio_UpdateSceneSequenceSection();
+        Audio_UpdateSceneSequenceSpot();
         func_800F5CF8();
         if (gAudioSpecId == 7) {
             Audio_ClearSariaBgm();
@@ -4631,24 +4631,25 @@ void Audio_PlaySceneSequence(u16 seqId) {
         } else {
             // Start the sequence from the beginning
 
-            // Writes to ioport 7. not many sequences read from ioPort 7
+            // Writes to ioPort 7, each sequence will read in a custom way although not
+            // many sequences read from ioPort 7. See `SEQ_FLAG_CUSTOM`
             ioData = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_CUSTOM) ? 1 : 0xFF;
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, ioData);
 
             if (!(sSeqFlags[seqId] & SEQ_FLAG_STORE_PREV_SPOT)) {
                 // Overwrite the sequence section info with an off flag
-                sSeqSpot = SEQ_SECTION_OFF;
+                sSeqSpot = SEQ_SPOT_OFF;
             }
         }
         sPrevSceneSeqId = seqId & 0xFF;
     }
 }
 
-void Audio_UpdateSceneSequenceSection(void) {
+void Audio_UpdateSceneSequenceSpot(void) {
     u16 seqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
     if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[(u8)seqId & 0xFF] & SEQ_FLAG_STORE_SPOT)) {
-        if (sSeqSpot != SEQ_SECTION_OFF) {
+        if (sSeqSpot != SEQ_SPOT_OFF) {
             // Get the current section the sequence is playing in
             sSeqSpot = gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
         } else {
