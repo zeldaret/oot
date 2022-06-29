@@ -144,8 +144,6 @@ Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
 u8 sSeqModeInput = 0;
 
-#define SEQ_SPOT_OFF 0xC0
-
 #define SEQ_FLAG_ENEMY (1 << 0) // Allows enemy bgm
 #define SEQ_FLAG_FANFARE (1 << 1)
 #define SEQ_FLAG_FANFARE_GANON (1 << 2)
@@ -164,6 +162,7 @@ u8 sSeqModeInput = 0;
  */
 #define SEQ_FLAG_STORE_SPOT (1 << 4)
 #define SEQ_FLAG_STORE_PREV_SPOT (1 << 5)
+#define SEQ_SPOT_OFF 0xC0
 
 /**
  * Will write a value of 1 to ioPort 7 when called through the scene. How it's used depends on the sequence:
@@ -4607,7 +4606,7 @@ void Audio_PlayMorningSceneSequence(u16 seqId) {
 
 void Audio_PlaySceneSequence(u16 seqId) {
     u8 fadeInDuration = 0;
-    u8 SkipHarpIntro;
+    u8 skipHarpIntro;
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
         if (func_800FA0B4(SEQ_PLAYER_BGM_SUB) == NA_BGM_LONLON) {
@@ -4633,8 +4632,8 @@ void Audio_PlaySceneSequence(u16 seqId) {
 
             // Writes to ioPort 7. See `SEQ_FLAG_SKIP_HARP_INTRO` for writing a value of 1 to ioPort 7.
             // Note: writing 0xFF (-1) to an ioPort will do nothing for all sequences.
-            SkipHarpIntro = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : 0xFF;
-            Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, SkipHarpIntro);
+            skipHarpIntro = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : 0xFF;
+            Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, skipHarpIntro);
 
             if (!(sSeqFlags[seqId] & SEQ_FLAG_STORE_PREV_SPOT)) {
                 // Overwrite the sequence current sequence spot with an off flag
