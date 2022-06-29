@@ -133,7 +133,7 @@ f32 sAudioEnemyDist = 0.0f;
 s8 sAudioEnemyVol = 127;
 u16 sPrevMainBgmSeqId = NA_BGM_DISABLED;
 
-#define SEQ_SPOT_OFF 0xC0
+#define SEQ_SPOT_NONE 0xC0
 u8 sSeqSpot = 0;
 
 u8 sPrevSceneSeqId = NA_BGM_GENERAL_SFX;
@@ -4639,7 +4639,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
 
             if (!(sSeqFlags[seqId] & SEQ_FLAG_STORE_PREV_SPOT)) {
                 // Overwrite the sequence current sequence spot with an off flag
-                sSeqSpot = SEQ_SPOT_OFF;
+                sSeqSpot = SEQ_SPOT_NONE;
             }
         }
         sPrevSceneSeqId = seqId & 0xFF;
@@ -4650,7 +4650,7 @@ void Audio_UpdateSceneSequenceSpot(void) {
     u16 seqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
     if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[(u8)seqId & 0xFF] & SEQ_FLAG_STORE_SPOT)) {
-        if (sSeqSpot != SEQ_SPOT_OFF) {
+        if (sSeqSpot != SEQ_SPOT_NONE) {
             // Get the current spot the sequence is playing in
             sSeqSpot = gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
         } else {
