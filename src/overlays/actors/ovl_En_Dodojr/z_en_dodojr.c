@@ -31,24 +31,6 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play);
 void EnDodojr_WaitFreezeFrames(EnDodojr* this, PlayState* play);
 void EnDodojr_EatBomb(EnDodojr* this, PlayState* play);
 
-void EnDodojr_SwallowedBombEffects(EnDodojr* this);
-void EnDodojr_SpawnLargeDust(EnDodojr* this, PlayState* play, s32 count);
-void EnDodojr_SpawnSmallDust(EnDodojr* this, PlayState* play, Vec3f* arg2);
-s32 EnDodojr_UpdateRemainingBounces(EnDodojr* this, PlayState* play);
-void EnDodojr_SetupCrawlTowardsTarget(EnDodojr* this);
-void EnDodojr_SetupFlipBounce(EnDodojr* this);
-void EnDodojr_PlayTwitchingAnimation(EnDodojr* this);
-void EnDodojr_SetupJumpAttackBounce(EnDodojr* this);
-void EnDodojr_SetupDespawn(EnDodojr* this);
-void EnDodojr_SetupEatBomb(EnDodojr* this);
-s32 EnDodojr_CheckNearbyBombs(EnDodojr* this, PlayState* play);
-s32 EnDodojr_CanEatBomb(EnDodojr* this);
-void EnDodojr_UpdateCrawl(EnDodojr* this, PlayState* play);
-s32 EnDodojr_IsPlayerWithinAttackRange(EnDodojr* this);
-void EnDodojr_SetupStandardDeathBounce(EnDodojr* this);
-s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play);
-void EnDodojr_UpdateCollider(EnDodojr* this, PlayState* play);
-
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
     ACTORCAT_ENEMY,
