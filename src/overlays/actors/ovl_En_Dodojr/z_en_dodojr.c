@@ -646,7 +646,7 @@ void EnDodojr_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->actionFunc != EnDodojr_WaitUnderground) && (this->actionFunc != EnDodojr_DropItem)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDodojr_OverrideLimbDraw, EnDodojr_PostLimbDraw,
-                          &this->actor);
+        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDodojr_OverrideLimbDraw,
+                          EnDodojr_PostLimbDraw, &this->actor);
     }
 }
