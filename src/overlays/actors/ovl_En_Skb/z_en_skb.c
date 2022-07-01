@@ -19,7 +19,6 @@ void EnSkb_Destroy(Actor* thisx, PlayState* play);
 void EnSkb_Update(Actor* thisx, PlayState* play);
 void EnSkb_Draw(Actor* thisx, PlayState* play);
 
-void EnSkb_DecideNextAction(EnSkb* this);
 void EnSkb_SetupRiseFromGround(EnSkb* this);
 void EnSkb_RiseFromGround(EnSkb* this, PlayState* play);
 void EnSkb_SetupDespawn(EnSkb* this);
@@ -30,13 +29,10 @@ void EnSkb_SetupAttack(EnSkb* this);
 void EnSkb_Attack(EnSkb* this, PlayState* play);
 void EnSkb_SetupRecoil(EnSkb* this);
 void EnSkb_Recoil(EnSkb* this, PlayState* play);
-void EnSkb_SetupStunned(EnSkb* this);
 void EnSkb_Stunned(EnSkb* this, PlayState* play);
-void EnSkb_SetupTakeDamage(EnSkb* this);
 void EnSkb_TakeDamage(EnSkb* this, PlayState* play);
 void EnSkb_SetupDeath(EnSkb* this, PlayState* play);
 void EnSkb_Death(EnSkb* this, PlayState* play);
-void EnSkb_CheckDamage(EnSkb* this, PlayState* play);
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
