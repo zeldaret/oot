@@ -64,7 +64,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
-        if (LINK_IS_ADULT && (gSaveContext.sceneSetupIndex < 4)) {
+        if (LINK_IS_ADULT && (gSaveContext.sceneSetupIndex < 0)) {
             Actor_Kill(&this->dyna.actor);
             return;
         }

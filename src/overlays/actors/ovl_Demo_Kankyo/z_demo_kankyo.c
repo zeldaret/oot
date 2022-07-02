@@ -3,6 +3,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
+#include "assets/objects/object_gi_melody/object_gi_melody.h" // added unused gi_melody
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -26,6 +27,7 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play);
 void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play);
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play);
 void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play);
+void DemoKankyo_DrawNotes(Actor* thisx, PlayState* globalCtx); // added unused gi_melody
 
 // adult warp songs cutscenes
 extern CutsceneData gAdultWarpInCS[];
@@ -262,6 +264,14 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             break;
+        case DEMOKANKYO_8: // added unused gi_melody
+        case DEMOKANKYO_9:
+        case DEMOKANKYO_A:
+        case DEMOKANKYO_B:
+        case DEMOKANKYO_C:
+        case DEMOKANKYO_D:
+            this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.5f;
+            break;
         default:
             break;
     }
@@ -358,6 +368,12 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                 break;
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_SPARKLES:
+            case DEMOKANKYO_8: // added unused gi_melody
+            case DEMOKANKYO_9:
+            case DEMOKANKYO_A:
+            case DEMOKANKYO_B:
+            case DEMOKANKYO_C:
+            case DEMOKANKYO_D:
                 break;
         }
     }
@@ -474,6 +490,14 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
             case DEMOKANKYO_SPARKLES:
                 DemoKankyo_DrawSparkles(thisx, play);
                 break;
+            case DEMOKANKYO_8: // added unused gi_melody
+            case DEMOKANKYO_9:
+            case DEMOKANKYO_A:
+            case DEMOKANKYO_B:
+            case DEMOKANKYO_C:
+            case DEMOKANKYO_D:
+                DemoKankyo_DrawNotes(thisx, play);
+                break;
         }
     }
     if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
@@ -506,6 +530,33 @@ void func_80989B54(Actor* thisx, PlayState* play, s16 i) {
             break;
     }
     this->unk_150[i].unk_18 = Rand_ZeroOne() * (D_8098CF80 * 4.0f) + D_8098CF80;
+}
+
+// added unused gi_melody
+void DemoKankyo_DrawNotes(Actor* thisx, PlayState* globalCtx) {
+    DemoKankyo* this = (DemoKankyo*)thisx;
+    switch (this->actor.params) {
+        case DEMOKANKYO_8:
+            Gfx_DrawDListXlu(globalCtx, gGiBoleroColorDL);
+            break;
+        case DEMOKANKYO_9:
+            Gfx_DrawDListXlu(globalCtx, gGiSerenadeColorDL);
+            break;
+        case DEMOKANKYO_A:
+            Gfx_DrawDListXlu(globalCtx, gGiRequiemColorDL);
+            break;
+        case DEMOKANKYO_B:
+            Gfx_DrawDListXlu(globalCtx, gGiNocturneColorDL);
+            break;
+        case DEMOKANKYO_C:
+            Gfx_DrawDListXlu(globalCtx, gGiMinuetColorDL);
+            break;
+        case DEMOKANKYO_D:
+            Gfx_DrawDListXlu(globalCtx, gGiPreludeColorDL);
+            break;
+    }
+
+    Gfx_DrawDListXlu(globalCtx, gGiSongNoteDL);
 }
 
 void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {

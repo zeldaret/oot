@@ -324,7 +324,7 @@ void Play_Init(GameState* thisx) {
 
     // When entering Gerudo Valley in the right setup, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT13) &&
         gSaveContext.sceneSetupIndex == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
@@ -1242,7 +1242,7 @@ void Play_Draw(PlayState* this) {
                     if (R_PAUSE_MENU_MODE == 1) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
                         func_800C20B4(&this->pauseBgPreRender, &sp70);
-                        R_PAUSE_MENU_MODE = 2;
+                        R_PAUSE_MENU_MODE = 3;
                     } else {
                         gTrnsnUnkState = 2;
                     }

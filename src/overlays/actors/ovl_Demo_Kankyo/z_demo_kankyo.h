@@ -26,7 +26,8 @@ typedef enum {
     /* 0x0E */ DEMOKANKYO_LIGHT_PLANE,
     /* 0x0F */ DEMOKANKYO_WARP_OUT,
     /* 0x10 */ DEMOKANKYO_WARP_IN,
-    /* 0x11 */ DEMOKANKYO_SPARKLES
+    /* 0x11 */ DEMOKANKYO_SPARKLES,
+    /* 0x12 */ DEMOKANKYO_D // added prelude gi_melody
 } DemoKankyoType;
 
 typedef struct {

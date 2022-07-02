@@ -14,5 +14,5 @@
 .word  0x00000000               /* Unknown */
 .word  0x0000004E               /* Cartridge */
 .ascii "ZL"                     /* Cartridge ID */
-.ascii "P"                      /* Region */
+.ascii "E"                      /* Region */
 .byte  0x0F                     /* Version */
