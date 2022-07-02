@@ -437,7 +437,7 @@ void EnDodojr_CrawlTowardsTarget(EnDodojr* this, PlayState* play) {
         this->crawlSfxTimer = 5;
     }
 
-    if (EnDodojr_CanEatBomb(this) != 0) {
+    if (EnDodojr_CanEatBomb(this)) {
         EnDodojr_SetupEatBomb(this);
         this->actionFunc = EnDodojr_EatBomb;
         return;
@@ -445,7 +445,7 @@ void EnDodojr_CrawlTowardsTarget(EnDodojr* this, PlayState* play) {
 
     EnDodojr_UpdateCrawl(this, play);
 
-    if (EnDodojr_IsPlayerWithinAttackRange(this) != 0) {
+    if (EnDodojr_IsPlayerWithinAttackRange(this)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_CRY);
         EnDodojr_SetupJumpAttackBounce(this);
         this->actionFunc = EnDodojr_JumpAttackBounce;
