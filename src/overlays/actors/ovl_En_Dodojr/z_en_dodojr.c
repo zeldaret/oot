@@ -140,7 +140,7 @@ s32 EnDodojr_UpdateRemainingBounces(EnDodojr* this, PlayState* play) {
         return false;
     }
 
-    if (this->bounceCounter == 0) {
+    if (this->counter == 0) {
         return false;
     }
 
@@ -148,10 +148,10 @@ s32 EnDodojr_UpdateRemainingBounces(EnDodojr* this, PlayState* play) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         this->dustPos = this->actor.world.pos;
         EnDodojr_SpawnLargeDust(this, play, 10);
-        this->actor.velocity.y = 10.0f / (4 - this->bounceCounter);
-        this->bounceCounter--;
+        this->actor.velocity.y = 10.0f / (4 - this->counter);
+        this->counter--;
 
-        if (this->bounceCounter == 0) {
+        if (this->counter == 0) {
             this->actor.velocity.y = 0.0f;
             return true;
         }
@@ -178,8 +178,8 @@ void EnDodojr_SetupFlipBounce(EnDodojr* this) {
     this->actor.velocity.z = 0.0f;
     this->actor.gravity = -0.8f;
 
-    if (this->bounceCounter == 0) {
-        this->bounceCounter = 3;
+    if (this->counter == 0) {
+        this->counter = 3;
         this->actor.velocity.y = 10.0f;
     }
 }
@@ -197,7 +197,7 @@ void EnDodojr_SetupJumpAttackBounce(EnDodojr* this) {
 
     Animation_Change(&this->skelAnime, &object_dodojr_Anim_000724, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.gravity = -0.8f;
-    this->bounceCounter = 3;
+    this->counter = 3;
     this->actor.velocity.y = 10.0f;
 }
 
@@ -469,7 +469,7 @@ void EnDodojr_EatBomb(EnDodojr* this, PlayState* play) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DRINK);
         Actor_Kill(this->bomb);
         this->timer = 24;
-        this->bounceCounter = 0;
+        this->counter = 0;
         this->actionFunc = EnDodojr_SwallowBomb;
     }
 }
@@ -492,7 +492,7 @@ void EnDodojr_SwallowedBombDeathBounce(EnDodojr* this, PlayState* play) {
     if (EnDodojr_UpdateRemainingBounces(this, play) != 0) {
         this->timer = 60;
         EnDodojr_PlayTwitchingAnimation(this);
-        this->bounceCounter = 7;
+        this->counter = 7;
         this->actionFunc = EnDodojr_SwallowedBombDeathSequence;
     }
 }
@@ -567,7 +567,7 @@ void EnDodojr_StandardDeathBounce(EnDodojr* this, PlayState* play) {
     if (EnDodojr_UpdateRemainingBounces(this, play) != 0) {
         this->timer = 60;
         EnDodojr_PlayTwitchingAnimation(this);
-        this->bounceCounter = 7;
+        this->counter = 7;
         this->actionFunc = EnDodojr_DeathSequence;
     }
 }
@@ -575,10 +575,10 @@ void EnDodojr_StandardDeathBounce(EnDodojr* this, PlayState* play) {
 void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play) {
     EnBom* bomb;
 
-    if (this->bounceCounter != 0) {
+    if (this->counter != 0) {
         if (this->actor.colorFilterTimer == 0) {
-            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, this->bounceCounter);
-            this->bounceCounter--;
+            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, this->counter);
+            this->counter--;
         }
     } else {
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
