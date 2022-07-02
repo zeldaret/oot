@@ -137,11 +137,11 @@ void EnDodojr_SpawnSmallDust(EnDodojr* this, PlayState* play, Vec3f* arg2) {
 
 s32 EnDodojr_UpdateRemainingBounces(EnDodojr* this, PlayState* play) {
     if (this->actor.velocity.y >= 0.0f) {
-        return 0;
+        return false;
     }
 
     if (this->bounceCounter == 0) {
-        return 0;
+        return false;
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
@@ -153,11 +153,11 @@ s32 EnDodojr_UpdateRemainingBounces(EnDodojr* this, PlayState* play) {
 
         if (this->bounceCounter == 0) {
             this->actor.velocity.y = 0.0f;
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void EnDodojr_SetupCrawlTowardsTarget(EnDodojr* this) {
