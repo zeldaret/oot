@@ -404,6 +404,7 @@ void EnDodojr_WaitUnderground(EnDodojr* this, PlayState* play) {
             this->actor.world.rot.x -= 0x4000;
             this->actor.shape.rot.x = this->actor.world.rot.x;
             this->dustPos = this->actor.world.pos;
+            //! @bug floorHeight is always 0 at this point, so the dust is consistently drawn at y=0
             this->dustPos.y = this->actor.floorHeight;
             this->actionFunc = EnDodojr_EmergeFromGround;
         }
