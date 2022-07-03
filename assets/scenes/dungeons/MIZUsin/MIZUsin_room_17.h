@@ -1,0 +1,49 @@
+#ifndef MIZUSIN_ROOM_17_H
+#define MIZUSIN_ROOM_17_H 1
+
+extern SceneCmd MIZUsin_room_17Commands[];
+extern s16 MIZUsin_room_17ObjectList_000040[];
+extern ActorEntry MIZUsin_room_17ActorList_000050[];
+extern PolygonType2 MIZUsin_room_17PolygonType2_0001A0;
+extern PolygonDlist2 MIZUsin_room_17PolygonDlist2_0001AC[16];
+extern s32 MIZUsin_room_17_terminatorMaybe_0002AC;
+extern Vtx MIZUsin_room_17Vtx_0002B0[];
+extern Gfx MIZUsin_room_17DL_001010[];
+extern Vtx MIZUsin_room_17Vtx_001610[];
+extern Gfx MIZUsin_room_17DL_0016E0[];
+extern Vtx MIZUsin_room_17Vtx_0017A0[];
+extern Gfx MIZUsin_room_17DL_001910[];
+extern Vtx MIZUsin_room_17Vtx_001A38[];
+extern Gfx MIZUsin_room_17DL_0020B8[];
+extern Vtx MIZUsin_room_17Vtx_002278[];
+extern Gfx MIZUsin_room_17DL_0025F8[];
+extern Vtx MIZUsin_room_17Vtx_002750[];
+extern Gfx MIZUsin_room_17DL_002910[];
+extern Vtx MIZUsin_room_17Vtx_002A30[];
+extern Gfx MIZUsin_room_17DL_002C70[];
+extern Vtx MIZUsin_room_17Vtx_002D98[];
+extern Gfx MIZUsin_room_17DL_003458[];
+extern Vtx MIZUsin_room_17Vtx_003640[];
+extern Gfx MIZUsin_room_17DL_0038C0[];
+extern Vtx MIZUsin_room_17Vtx_0039F0[];
+extern Gfx MIZUsin_room_17DL_003B00[];
+extern Vtx MIZUsin_room_17Vtx_003C08[];
+extern Gfx MIZUsin_room_17DL_0041C8[];
+extern Vtx MIZUsin_room_17Vtx_0043B0[];
+extern Gfx MIZUsin_room_17DL_004B30[];
+extern Vtx MIZUsin_room_17Vtx_004D18[];
+extern Gfx MIZUsin_room_17DL_005118[];
+extern Vtx MIZUsin_room_17Vtx_005280[];
+extern Gfx MIZUsin_room_17DL_0054E0[];
+extern Vtx MIZUsin_room_17Vtx_005618[];
+extern Gfx MIZUsin_room_17DL_0056E8[];
+extern Vtx MIZUsin_room_17Vtx_0057E8[];
+extern Gfx MIZUsin_room_17DL_005928[];
+extern u64 MIZUsin_room_17Tex_005AA8[];
+extern u64 MIZUsin_room_17Tex_0062A8[];
+extern u64 MIZUsin_room_17Tex_006AA8[];
+extern u64 MIZUsin_room_17Tex_0072A8[];
+extern u64 MIZUsin_room_17Tex_007AA8[];
+extern u64 MIZUsin_room_17Tex_0082A8[];
+
+#endif

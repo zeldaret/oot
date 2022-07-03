@@ -1,0 +1,49 @@
+#ifndef MORIBOSSROOM_ROOM_1_H
+#define MORIBOSSROOM_ROOM_1_H 1
+
+extern SceneCmd moribossroom_room_1Commands[];
+extern s16 moribossroom_room_1ObjectList_000040[];
+extern ActorEntry moribossroom_room_1ActorList_00004C[];
+extern PolygonType0 moribossroom_room_1PolygonType0_000060;
+extern PolygonDlist moribossroom_room_1PolygonDlist_00006C[1];
+extern s32 moribossroom_room_1_terminatorMaybe_000074;
+extern Vtx moribossroom_room_1Vtx_000080[];
+extern Gfx moribossroom_room_1DL_000BC0[];
+extern Vtx moribossroom_room_1Vtx_000F00[];
+extern Gfx moribossroom_room_1DL_001A20[];
+extern Vtx moribossroom_room_1Vtx_001CB0[];
+extern Gfx moribossroom_room_1DL_002270[];
+extern Vtx moribossroom_room_1Vtx_002730[];
+extern Gfx moribossroom_room_1DL_002CD0[];
+extern Vtx moribossroom_room_1Vtx_003180[];
+extern Gfx moribossroom_room_1DL_003740[];
+extern Vtx moribossroom_room_1Vtx_003C00[];
+extern Gfx moribossroom_room_1DL_0041C0[];
+extern Vtx moribossroom_room_1Vtx_004680[];
+extern Gfx moribossroom_room_1DL_004C60[];
+extern Vtx moribossroom_room_1Vtx_005120[];
+extern Gfx moribossroom_room_1DL_005910[];
+extern Vtx moribossroom_room_1Vtx_005EC8[];
+extern Gfx moribossroom_room_1DL_006148[];
+extern Vtx moribossroom_room_1Vtx_006270[];
+extern Gfx moribossroom_room_1DL_006610[];
+extern Gfx moribossroom_room_1DL_0067D0[];
+extern u64 moribossroom_room_1TLUT_006828[];
+extern u64 moribossroom_room_1Tex_006A20[];
+extern u64 moribossroom_room_1Tex_007A20[];
+extern u64 moribossroom_room_1Tex_008A20[];
+extern u64 moribossroom_room_1Tex_009A20[];
+extern u64 moribossroom_room_1Tex_009B20[];
+extern u64 moribossroom_room_1Tex_009D20[];
+extern u64 moribossroom_room_1Tex_00A520[];
+extern u64 moribossroom_room_1Tex_00AD20[];
+extern u64 moribossroom_room_1Tex_00B520[];
+extern u64 moribossroom_room_1Tex_00BD20[];
+extern u64 moribossroom_room_1Tex_00C520[];
+extern u64 moribossroom_room_1Tex_00CD20[];
+extern Vtx moribossroom_room_1Vtx_00D520[];
+extern Gfx moribossroom_room_1DL_00D5E0[];
+extern Gfx moribossroom_room_1DL_00D698[];
+extern u64 moribossroom_room_1Tex_00D6A8[];
+
+#endif

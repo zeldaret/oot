@@ -1,0 +1,53 @@
+#ifndef HYLIA_LABO_ROOM_0_H
+#define HYLIA_LABO_ROOM_0_H 1
+
+extern SceneCmd hylia_labo_room_0Commands[];
+extern s16 hylia_labo_room_0ObjectList_000040[];
+extern ActorEntry hylia_labo_room_0ActorList_000048[];
+extern PolygonType2 hylia_labo_room_0PolygonType2_0000C0;
+extern PolygonDlist2 hylia_labo_room_0PolygonDlist2_0000CC[19];
+extern s32 hylia_labo_room_0_terminatorMaybe_0001FC;
+extern Vtx hylia_labo_room_0Vtx_000200[];
+extern Gfx hylia_labo_room_0DL_0002C0[];
+extern Vtx hylia_labo_room_0Vtx_000340[];
+extern Gfx hylia_labo_room_0DL_000AC0[];
+extern Vtx hylia_labo_room_0Vtx_000FD8[];
+extern Gfx hylia_labo_room_0DL_001318[];
+extern Vtx hylia_labo_room_0Vtx_001440[];
+extern Gfx hylia_labo_room_0DL_001500[];
+extern Vtx hylia_labo_room_0Vtx_0015B8[];
+extern Gfx hylia_labo_room_0DL_001AB8[];
+extern Vtx hylia_labo_room_0Vtx_001CC0[];
+extern Gfx hylia_labo_room_0DL_001E10[];
+extern Vtx hylia_labo_room_0Vtx_001EE8[];
+extern Gfx hylia_labo_room_0DL_002318[];
+extern Vtx hylia_labo_room_0Vtx_002620[];
+extern Gfx hylia_labo_room_0DL_002A30[];
+extern Vtx hylia_labo_room_0Vtx_002C20[];
+extern Gfx hylia_labo_room_0DL_003500[];
+extern Vtx hylia_labo_room_0Vtx_0037C0[];
+extern Gfx hylia_labo_room_0DL_0039F0[];
+extern Vtx hylia_labo_room_0Vtx_003AE0[];
+extern Gfx hylia_labo_room_0DL_003C80[];
+extern Vtx hylia_labo_room_0Vtx_003D80[];
+extern Gfx hylia_labo_room_0DL_0040E0[];
+extern Vtx hylia_labo_room_0Vtx_004200[];
+extern Gfx hylia_labo_room_0DL_004610[];
+extern Vtx hylia_labo_room_0Vtx_004790[];
+extern Gfx hylia_labo_room_0DL_0048B0[];
+extern Vtx hylia_labo_room_0Vtx_0049C0[];
+extern Gfx hylia_labo_room_0DL_004A80[];
+extern Vtx hylia_labo_room_0Vtx_004C00[];
+extern Gfx hylia_labo_room_0DL_005120[];
+extern Vtx hylia_labo_room_0Vtx_0053B8[];
+extern Gfx hylia_labo_room_0DL_005738[];
+extern Vtx hylia_labo_room_0Vtx_0058A8[];
+extern Gfx hylia_labo_room_0DL_005A38[];
+extern Vtx hylia_labo_room_0Vtx_005B60[];
+extern Gfx hylia_labo_room_0DL_005F20[];
+extern Vtx hylia_labo_room_0Vtx_006070[];
+extern Gfx hylia_labo_room_0DL_006CE0[];
+extern Vtx hylia_labo_room_0Vtx_007020[];
+extern Gfx hylia_labo_room_0DL_007460[];
+
+#endif

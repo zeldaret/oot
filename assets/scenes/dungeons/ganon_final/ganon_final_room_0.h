@@ -1,0 +1,53 @@
+#ifndef GANON_FINAL_ROOM_0_H
+#define GANON_FINAL_ROOM_0_H 1
+
+extern SceneCmd ganon_final_room_0Commands[];
+extern s16 ganon_final_room_0ObjectList_000040[];
+extern ActorEntry ganon_final_room_0ActorList_000050[];
+extern PolygonType0 ganon_final_room_0PolygonType0_0000F0;
+extern PolygonDlist ganon_final_room_0PolygonDlist_0000FC[1];
+extern s32 ganon_final_room_0_terminatorMaybe_000104;
+extern Vtx ganon_final_room_0Vtx_000110[];
+extern Gfx ganon_final_room_0DL_000500[];
+extern Vtx ganon_final_room_0Vtx_000630[];
+extern Gfx ganon_final_room_0DL_0009B0[];
+extern Vtx ganon_final_room_0Vtx_000AC0[];
+extern Gfx ganon_final_room_0DL_000F10[];
+extern Vtx ganon_final_room_0Vtx_0010B0[];
+extern Gfx ganon_final_room_0DL_0015B0[];
+extern Vtx ganon_final_room_0Vtx_001708[];
+extern Gfx ganon_final_room_0DL_001E18[];
+extern Vtx ganon_final_room_0Vtx_001FC0[];
+extern Gfx ganon_final_room_0DL_0023D0[];
+extern Vtx ganon_final_room_0Vtx_002520[];
+extern Gfx ganon_final_room_0DL_0029C0[];
+extern Vtx ganon_final_room_0Vtx_002B18[];
+extern Gfx ganon_final_room_0DL_003608[];
+extern Vtx ganon_final_room_0Vtx_004150[];
+extern Gfx ganon_final_room_0DL_005090[];
+extern Vtx ganon_final_room_0Vtx_005F08[];
+extern Gfx ganon_final_room_0DL_006CC8[];
+extern Vtx ganon_final_room_0Vtx_0079E8[];
+extern Gfx ganon_final_room_0DL_0081A8[];
+extern Vtx ganon_final_room_0Vtx_0089E8[];
+extern Gfx ganon_final_room_0DL_0093E8[];
+extern Vtx ganon_final_room_0Vtx_009808[];
+extern Gfx ganon_final_room_0DL_009A08[];
+extern Vtx ganon_final_room_0Vtx_009B30[];
+extern Gfx ganon_final_room_0DL_00A190[];
+extern Vtx ganon_final_room_0Vtx_00A5B0[];
+extern Gfx ganon_final_room_0DL_00ACB0[];
+extern Vtx ganon_final_room_0Vtx_00B1D8[];
+extern Gfx ganon_final_room_0DL_00B6D8[];
+extern Vtx ganon_final_room_0Vtx_00BA38[];
+extern Gfx ganon_final_room_0DL_00BFD8[];
+extern Vtx ganon_final_room_0Vtx_00C3B8[];
+extern Gfx ganon_final_room_0DL_00C578[];
+extern Vtx ganon_final_room_0Vtx_00C670[];
+extern Gfx ganon_final_room_0DL_00C920[];
+extern Gfx ganon_final_room_0DL_00CA40[];
+extern Vtx ganon_final_room_0Vtx_00CAE0[];
+extern Gfx ganon_final_room_0DL_00CD90[];
+extern Gfx ganon_final_room_0DL_00CE98[];
+
+#endif

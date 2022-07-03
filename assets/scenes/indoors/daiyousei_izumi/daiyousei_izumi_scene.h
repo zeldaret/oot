@@ -1,0 +1,52 @@
+#ifndef DAIYOUSEI_IZUMI_SCENE_H
+#define DAIYOUSEI_IZUMI_SCENE_H 1
+
+extern SceneCmd daiyousei_izumi_sceneCommands[];
+extern SceneCmd* daiyousei_izumi_sceneAlternateHeaders0x000060[];
+extern ActorEntry daiyousei_izumi_sceneStartPositionList0x000078[];
+extern RomFile daiyousei_izumi_sceneRoomList0x0000A8[];
+extern EntranceEntry daiyousei_izumi_sceneEntranceList0x0000B0[];
+extern u16 daiyousei_izumi_sceneExitList_0000B8[];
+extern LightSettings daiyousei_izumi_sceneLightSettings0x0000BC[];
+extern CutsceneData gGreatFairyMagicCs[];
+extern CutsceneData gGreatFairyDoubleMagicCs[];
+extern CutsceneData gGreatFairyDoubleDefenceCs[];
+extern CamData daiyousei_izumi_sceneCollisionHeader_0043A4CamDataList[];
+extern SurfaceType daiyousei_izumi_sceneCollisionHeader_0043A4SurfaceType[];
+extern CollisionPoly daiyousei_izumi_sceneCollisionHeader_0043A4Polygons[];
+extern Vec3s daiyousei_izumi_sceneCollisionHeader_0043A4Vertices[];
+extern CollisionHeader daiyousei_izumi_sceneCollisionHeader_0043A4;
+extern SceneCmd daiyousei_izumi_sceneSet_0044A0[];
+extern ActorEntry daiyousei_izumi_sceneStartPositionList0x004500[];
+extern RomFile daiyousei_izumi_sceneRoomList0x004530[];
+extern EntranceEntry daiyousei_izumi_sceneEntranceList0x004538[];
+extern u16 daiyousei_izumi_sceneExitList_004540[];
+extern LightSettings daiyousei_izumi_sceneLightSettings0x004544[];
+extern SceneCmd daiyousei_izumi_sceneSet_0045C0[];
+extern ActorEntry daiyousei_izumi_sceneStartPositionList0x004620[];
+extern RomFile daiyousei_izumi_sceneRoomList0x004650[];
+extern EntranceEntry daiyousei_izumi_sceneEntranceList0x004658[];
+extern u16 daiyousei_izumi_sceneExitList_004660[];
+extern LightSettings daiyousei_izumi_sceneLightSettings0x004664[];
+extern SceneCmd daiyousei_izumi_sceneSet_0046E0[];
+extern ActorEntry daiyousei_izumi_sceneStartPositionList0x004740[];
+extern RomFile daiyousei_izumi_sceneRoomList0x004770[];
+extern EntranceEntry daiyousei_izumi_sceneEntranceList0x004778[];
+extern u16 daiyousei_izumi_sceneExitList_004780[];
+extern LightSettings daiyousei_izumi_sceneLightSettings0x004784[];
+extern u64 daiyousei_izumi_sceneTex_004800[];
+extern u64 daiyousei_izumi_sceneTex_005000[];
+extern u64 daiyousei_izumi_sceneTex_005800[];
+extern u64 daiyousei_izumi_sceneTex_006000[];
+extern u64 daiyousei_izumi_sceneTex_007000[];
+extern u64 daiyousei_izumi_sceneTex_008000[];
+extern u64 daiyousei_izumi_sceneTex_009000[];
+extern u64 daiyousei_izumi_sceneTex_00A000[];
+extern u64 daiyousei_izumi_sceneTex_00A800[];
+extern u64 daiyousei_izumi_sceneTex_00B000[];
+extern u64 daiyousei_izumi_sceneTex_00C000[];
+extern u64 daiyousei_izumi_sceneTex_00C800[];
+extern u64 daiyousei_izumi_sceneTex_00D000[];
+extern u64 daiyousei_izumi_sceneTex_00D800[];
+
+#endif

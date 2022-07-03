@@ -1,0 +1,17 @@
+#ifndef KOKIRI_HOME4_SCENE_H
+#define KOKIRI_HOME4_SCENE_H 1
+
+extern SceneCmd kokiri_home4_sceneCommands[];
+extern ActorEntry kokiri_home4_sceneStartPositionList0x000050[];
+extern RomFile kokiri_home4_sceneRoomList0x000060[];
+extern EntranceEntry kokiri_home4_sceneEntranceList0x000068[];
+extern u16 kokiri_home4_sceneExitList_00006C[];
+extern LightSettings kokiri_home4_sceneLightSettings0x000070[];
+extern Vec3s kokiri_home4_sceneCollisionHeader_001A84CamPosData[];
+extern CamData kokiri_home4_sceneCollisionHeader_001A84CamDataList[];
+extern SurfaceType kokiri_home4_sceneCollisionHeader_001A84SurfaceType[];
+extern CollisionPoly kokiri_home4_sceneCollisionHeader_001A84Polygons[];
+extern Vec3s kokiri_home4_sceneCollisionHeader_001A84Vertices[];
+extern CollisionHeader kokiri_home4_sceneCollisionHeader_001A84;
+
+#endif

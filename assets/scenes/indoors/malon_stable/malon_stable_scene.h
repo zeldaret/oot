@@ -1,0 +1,18 @@
+#ifndef MALON_STABLE_SCENE_H
+#define MALON_STABLE_SCENE_H 1
+
+extern SceneCmd malon_stable_sceneCommands[];
+extern ActorEntry malon_stable_sceneStartPositionList0x000060[];
+extern TransitionActorEntry malon_stable_sceneTransitionActorList_000070[];
+extern RomFile malon_stable_sceneRoomList0x000080[];
+extern EntranceEntry malon_stable_sceneEntranceList0x000088[];
+extern u16 malon_stable_sceneExitList_00008C[];
+extern LightSettings malon_stable_sceneLightSettings0x000090[];
+extern Vec3s malon_stable_sceneCollisionHeader_000644CamPosData[];
+extern CamData malon_stable_sceneCollisionHeader_000644CamDataList[];
+extern SurfaceType malon_stable_sceneCollisionHeader_000644SurfaceType[];
+extern CollisionPoly malon_stable_sceneCollisionHeader_000644Polygons[];
+extern Vec3s malon_stable_sceneCollisionHeader_000644Vertices[];
+extern CollisionHeader malon_stable_sceneCollisionHeader_000644;
+
+#endif

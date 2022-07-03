@@ -1,0 +1,53 @@
+#ifndef BOWLING_ROOM_0_H
+#define BOWLING_ROOM_0_H 1
+
+extern SceneCmd bowling_room_0Commands[];
+extern s16 bowling_room_0ObjectList_000040[];
+extern ActorEntry bowling_room_0ActorList_000058[];
+extern PolygonType0 bowling_room_0PolygonType0_0000B0;
+extern PolygonDlist bowling_room_0PolygonDlist_0000BC[1];
+extern s32 bowling_room_0_terminatorMaybe_0000C4;
+extern Vtx bowling_room_0Vtx_0000D0[];
+extern Gfx bowling_room_0DL_000980[];
+extern Vtx bowling_room_0Vtx_000C20[];
+extern Gfx bowling_room_0DL_000DC0[];
+extern Vtx bowling_room_0Vtx_000F28[];
+extern Gfx bowling_room_0DL_001058[];
+extern Vtx bowling_room_0Vtx_001160[];
+extern Gfx bowling_room_0DL_0012A0[];
+extern Vtx bowling_room_0Vtx_001370[];
+extern Gfx bowling_room_0DL_001470[];
+extern Vtx bowling_room_0Vtx_001530[];
+extern Gfx bowling_room_0DL_002040[];
+extern Vtx bowling_room_0Vtx_0022E0[];
+extern Gfx bowling_room_0DL_002600[];
+extern Vtx bowling_room_0Vtx_0026E8[];
+extern Gfx bowling_room_0DL_002BA8[];
+extern Vtx bowling_room_0Vtx_002E30[];
+extern Gfx bowling_room_0DL_003170[];
+extern Vtx bowling_room_0Vtx_003288[];
+extern Gfx bowling_room_0DL_003608[];
+extern Vtx bowling_room_0Vtx_0037C0[];
+extern Gfx bowling_room_0DL_0041C0[];
+extern Vtx bowling_room_0Vtx_0043C0[];
+extern Gfx bowling_room_0DL_004540[];
+extern Vtx bowling_room_0Vtx_004618[];
+extern Gfx bowling_room_0DL_0047D8[];
+extern Vtx bowling_room_0Vtx_004930[];
+extern Gfx bowling_room_0DL_004A30[];
+extern Vtx bowling_room_0Vtx_004B08[];
+extern Gfx bowling_room_0DL_004C78[];
+extern Gfx bowling_room_0DL_004D90[];
+extern Vtx bowling_room_0Vtx_004E10[];
+extern Gfx bowling_room_0DL_005090[];
+extern Vtx bowling_room_0Vtx_005260[];
+extern Gfx bowling_room_0DL_0056A0[];
+extern Vtx bowling_room_0Vtx_005838[];
+extern Gfx bowling_room_0DL_005AB8[];
+extern Vtx bowling_room_0Vtx_005BB0[];
+extern Gfx bowling_room_0DL_005E10[];
+extern Vtx bowling_room_0Vtx_005FF8[];
+extern Gfx bowling_room_0DL_0060E8[];
+extern Gfx bowling_room_0DL_0061A8[];
+
+#endif

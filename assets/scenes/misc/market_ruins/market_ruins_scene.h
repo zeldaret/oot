@@ -1,0 +1,17 @@
+#ifndef MARKET_RUINS_SCENE_H
+#define MARKET_RUINS_SCENE_H 1
+
+extern SceneCmd market_ruins_sceneCommands[];
+extern ActorEntry market_ruins_sceneStartPositionList0x000058[];
+extern RomFile market_ruins_sceneRoomList0x000108[];
+extern EntranceEntry market_ruins_sceneEntranceList0x000110[];
+extern u16 market_ruins_sceneExitList_000128[];
+extern LightSettings market_ruins_sceneLightSettings0x000134[];
+extern Vec3s market_ruins_sceneCollisionHeader_0015F8CamPosData[];
+extern CamData market_ruins_sceneCollisionHeader_0015F8CamDataList[];
+extern SurfaceType market_ruins_sceneCollisionHeader_0015F8SurfaceType[];
+extern CollisionPoly market_ruins_sceneCollisionHeader_0015F8Polygons[];
+extern Vec3s market_ruins_sceneCollisionHeader_0015F8Vertices[];
+extern CollisionHeader market_ruins_sceneCollisionHeader_0015F8;
+
+#endif

@@ -1,0 +1,51 @@
+#ifndef HIDAN_ROOM_10_H
+#define HIDAN_ROOM_10_H 1
+
+extern SceneCmd HIDAN_room_10Commands[];
+extern s16 HIDAN_room_10ObjectList_000040[];
+extern ActorEntry HIDAN_room_10ActorList_000058[];
+extern PolygonType2 HIDAN_room_10PolygonType2_0003C0;
+extern PolygonDlist2 HIDAN_room_10PolygonDlist2_0003CC[12];
+extern s32 HIDAN_room_10_terminatorMaybe_00048C;
+extern Vtx HIDAN_room_10Vtx_000490[];
+extern Gfx HIDAN_room_10DL_000680[];
+extern Vtx HIDAN_room_10Vtx_0007C0[];
+extern Gfx HIDAN_room_10DL_000B40[];
+extern Vtx HIDAN_room_10Vtx_000E10[];
+extern Gfx HIDAN_room_10DL_002620[];
+extern Vtx HIDAN_room_10Vtx_003F80[];
+extern Gfx HIDAN_room_10DL_004900[];
+extern Vtx HIDAN_room_10Vtx_005240[];
+extern Gfx HIDAN_room_10DL_0055C0[];
+extern Vtx HIDAN_room_10Vtx_005A20[];
+extern Gfx HIDAN_room_10DL_0069D0[];
+extern Vtx HIDAN_room_10Vtx_007260[];
+extern Gfx HIDAN_room_10DL_007B70[];
+extern Vtx HIDAN_room_10Vtx_008060[];
+extern Gfx HIDAN_room_10DL_009FB0[];
+extern Vtx HIDAN_room_10Vtx_00B6C8[];
+extern Gfx HIDAN_room_10DL_00C608[];
+extern Vtx HIDAN_room_10Vtx_00CD40[];
+extern Gfx HIDAN_room_10DL_00D970[];
+extern Vtx HIDAN_room_10Vtx_00E180[];
+extern Gfx HIDAN_room_10DL_00FBD0[];
+extern Vtx HIDAN_room_10Vtx_011390[];
+extern Gfx HIDAN_room_10DL_011610[];
+extern u64 HIDAN_room_10Tex_011818[];
+extern u64 HIDAN_room_10Tex_011A18[];
+extern u64 HIDAN_room_10Tex_012218[];
+extern u64 HIDAN_room_10Tex_012618[];
+extern u64 HIDAN_room_10Tex_012E18[];
+extern u64 HIDAN_room_10Tex_013218[];
+extern u64 HIDAN_room_10Tex_013418[];
+extern u64 HIDAN_room_10Tex_014418[];
+extern u64 HIDAN_room_10Tex_015418[];
+extern u64 HIDAN_room_10Tex_015818[];
+extern u64 HIDAN_room_10Tex_015A18[];
+extern u64 HIDAN_room_10Tex_016A18[];
+extern u64 HIDAN_room_10Tex_016C18[];
+extern u64 HIDAN_room_10Tex_017018[];
+extern u64 HIDAN_room_10Tex_017818[];
+extern u64 HIDAN_room_10Tex_017C18[];
+
+#endif

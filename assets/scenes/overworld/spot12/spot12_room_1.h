@@ -1,0 +1,56 @@
+#ifndef SPOT12_ROOM_1_H
+#define SPOT12_ROOM_1_H 1
+
+extern SceneCmd spot12_room_1Commands[];
+extern SceneCmd* spot12_room_1AlternateHeaders0x000048[];
+extern s16 spot12_room_1ObjectList_000060[];
+extern ActorEntry spot12_room_1ActorList_000070[];
+extern PolygonType2 spot12_room_1PolygonType2_000150;
+extern PolygonDlist2 spot12_room_1PolygonDlist2_00015C[10];
+extern s32 spot12_room_1_terminatorMaybe_0001FC;
+extern SceneCmd spot12_room_1Set_000200[];
+extern s16 spot12_room_1ObjectList_000248[];
+extern ActorEntry spot12_room_1ActorList_00025C[];
+extern SceneCmd spot12_room_1Set_0003B0[];
+extern s16 spot12_room_1ObjectList_0003F8[];
+extern ActorEntry spot12_room_1ActorList_00040C[];
+extern SceneCmd spot12_room_1Set_000500[];
+extern s16 spot12_room_1ObjectList_000540[];
+extern ActorEntry spot12_room_1ActorList_000558[];
+extern SceneCmd spot12_room_1Set_000720[];
+extern s16 spot12_room_1ObjectList_000760[];
+extern ActorEntry spot12_room_1ActorList_000774[];
+extern SceneCmd spot12_room_1Set_0007F0[];
+extern s16 spot12_room_1ObjectList_000830[];
+extern ActorEntry spot12_room_1ActorList_000840[];
+extern Vtx spot12_room_1Vtx_0008A0[];
+extern Gfx spot12_room_1DL_001180[];
+extern Vtx spot12_room_1Vtx_001548[];
+extern Gfx spot12_room_1DL_001E58[];
+extern Vtx spot12_room_1Vtx_002228[];
+extern Gfx spot12_room_1DL_0026A8[];
+extern Vtx spot12_room_1Vtx_002960[];
+extern Gfx spot12_room_1DL_002A60[];
+extern Vtx spot12_room_1Vtx_002B20[];
+extern Gfx spot12_room_1DL_002DB0[];
+extern Vtx spot12_room_1Vtx_002F38[];
+extern Gfx spot12_room_1DL_0034E8[];
+extern Vtx spot12_room_1Vtx_003890[];
+extern Gfx spot12_room_1DL_003E40[];
+extern Vtx spot12_room_1Vtx_0041E8[];
+extern Gfx spot12_room_1DL_004798[];
+extern Vtx spot12_room_1Vtx_004B40[];
+extern Gfx spot12_room_1DL_0050A0[];
+extern u64 spot12_room_1Tex_005638[];
+extern u64 spot12_room_1Tex_006638[];
+extern u64 spot12_room_1Tex_007638[];
+extern u64 spot12_room_1Tex_007E38[];
+extern u64 spot12_room_1Tex_008E38[];
+extern u64 spot12_room_1Tex_009E38[];
+extern u64 spot12_room_1Tex_00A638[];
+extern Vtx spot12_room_1Vtx_00AE40[];
+extern Gfx spot12_room_1DL_00AF80[];
+extern u64 spot12_room_1Tex_00B0A0[];
+extern u64 spot12_room_1Tex_00B8A0[];
+
+#endif

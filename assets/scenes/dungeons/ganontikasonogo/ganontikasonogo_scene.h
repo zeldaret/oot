@@ -1,0 +1,22 @@
+#ifndef GANONTIKASONOGO_SCENE_H
+#define GANONTIKASONOGO_SCENE_H 1
+
+extern SceneCmd ganontikasonogo_sceneCommands[];
+extern ActorEntry ganontikasonogo_sceneStartPositionList0x000068[];
+extern TransitionActorEntry ganontikasonogo_sceneTransitionActorList_000088[];
+extern RomFile ganontikasonogo_sceneRoomList0x000098[];
+extern EntranceEntry ganontikasonogo_sceneEntranceList0x0000A8[];
+extern u16 ganontikasonogo_sceneExitList_0000AC[];
+extern LightSettings ganontikasonogo_sceneLightSettings0x0000B0[];
+extern Vec3s ganontikasonogo_scenePathwayList_000134[];
+extern Vec3s ganontikasonogo_scenePathwayList_00014C[];
+extern Path ganontikasonogo_scenePathList_000184[];
+extern CamData ganontikasonogo_sceneCollisionHeader_002ACCCamDataList[];
+extern SurfaceType ganontikasonogo_sceneCollisionHeader_002ACCSurfaceType[];
+extern CollisionPoly ganontikasonogo_sceneCollisionHeader_002ACCPolygons[];
+extern Vec3s ganontikasonogo_sceneCollisionHeader_002ACCVertices[];
+extern CollisionHeader ganontikasonogo_sceneCollisionHeader_002ACC;
+extern u64 ganontikasonogo_sceneTex_002B00[];
+extern u64 ganontikasonogo_sceneTex_003B00[];
+
+#endif

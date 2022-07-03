@@ -1,0 +1,57 @@
+#ifndef SPOT18_SCENE_H
+#define SPOT18_SCENE_H 1
+
+extern SceneCmd spot18_sceneCommands[];
+extern SceneCmd* spot18_sceneAlternateHeaders0x000070[];
+extern ActorEntry spot18_sceneStartPositionList0x000084[];
+extern TransitionActorEntry spot18_sceneTransitionActorList_0000C4[];
+extern RomFile spot18_sceneRoomList0x0000F4[];
+extern EntranceEntry spot18_sceneEntranceList0x000114[];
+extern u16 spot18_sceneExitList_00011C[];
+extern LightSettings spot18_sceneLightSettings0x000124[];
+extern Vec3s spot18_scenePathwayList_00013C[];
+extern Path spot18_scenePathway_000190[];
+extern Vec3s spot18_sceneCollisionHeader_0059ACCamPosData[];
+extern CamData spot18_sceneCollisionHeader_0059ACCamDataList[];
+extern SurfaceType spot18_sceneCollisionHeader_0059ACSurfaceType[];
+extern CollisionPoly spot18_sceneCollisionHeader_0059ACPolygons[];
+extern Vec3s spot18_sceneCollisionHeader_0059ACVertices[];
+extern CollisionHeader spot18_sceneCollisionHeader_0059AC;
+extern CutsceneData gGoronCityDaruniaCorrectCs[];
+extern CutsceneData gGoronCityDarunia01Cs[];
+extern CutsceneData spot18_sceneCutsceneData_007840[];
+extern SceneCmd spot18_sceneSet_007A30[];
+extern ActorEntry spot18_sceneStartPositionList0x007A98[];
+extern TransitionActorEntry spot18_sceneTransitionActorList_007AD8[];
+extern RomFile spot18_sceneRoomList0x007B08[];
+extern EntranceEntry spot18_sceneEntranceList0x007B28[];
+extern u16 spot18_sceneExitList_007B30[];
+extern LightSettings spot18_sceneLightSettings0x007B38[];
+extern Vec3s spot18_scenePathwayList_007B50[];
+extern Path spot18_scenePathway_007B94[];
+extern SceneCmd spot18_sceneSet_007BA0[];
+extern ActorEntry spot18_sceneStartPositionList0x007C10[];
+extern ActorEntry spot18_sceneActorList_007C20[];
+extern TransitionActorEntry spot18_sceneTransitionActorList_007C30[];
+extern RomFile spot18_sceneRoomList0x007C60[];
+extern EntranceEntry spot18_sceneEntranceList0x007C80[];
+extern u16 spot18_sceneExitList_007C84[];
+extern LightSettings spot18_sceneLightSettings0x007C8C[];
+extern SceneCmd spot18_sceneSet_007CF0[];
+extern ActorEntry spot18_sceneStartPositionList0x007D58[];
+extern TransitionActorEntry spot18_sceneTransitionActorList_007D68[];
+extern RomFile spot18_sceneRoomList0x007D98[];
+extern EntranceEntry spot18_sceneEntranceList0x007DB8[];
+extern u16 spot18_sceneExitList_007DBC[];
+extern LightSettings spot18_sceneLightSettings0x007DC4[];
+extern CutsceneData gGoronCityDaruniaWrongCs[];
+extern CutsceneData gGoronCityIntroCs[];
+extern u64 spot18_sceneTLUT_0085C0[];
+extern u64 spot18_sceneTex_0087C8[];
+extern u64 gGoronCityNightEntranceTex[];
+extern u64 spot18_sceneTex_009008[];
+extern u64 gGoronCityDayEntranceTex[];
+extern u64 spot18_sceneTex_009848[];
+extern u64 spot18_sceneTex_009C48[];
+
+#endif

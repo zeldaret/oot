@@ -1,0 +1,49 @@
+#ifndef SPOT10_ROOM_5_H
+#define SPOT10_ROOM_5_H 1
+
+extern SceneCmd spot10_room_5Commands[];
+extern SceneCmd* spot10_room_5AlternateHeaders0x000048[];
+extern s16 spot10_room_5ObjectList_000058[];
+extern ActorEntry spot10_room_5ActorList_000070[];
+extern PolygonType0 spot10_room_5PolygonType0_0000C0;
+extern PolygonDlist spot10_room_5PolygonDlist_0000CC[1];
+extern s32 spot10_room_5_terminatorMaybe_0000D4;
+extern SceneCmd spot10_room_5Set_0000E0[];
+extern s16 spot10_room_5ObjectList_000120[];
+extern ActorEntry spot10_room_5ActorList_000138[];
+extern SceneCmd spot10_room_5Set_000180[];
+extern s16 spot10_room_5ObjectList_0001C0[];
+extern ActorEntry spot10_room_5ActorList_0001C8[];
+extern Vtx spot10_room_5Vtx_000210[];
+extern Gfx spot10_room_5DL_000380[];
+extern Vtx spot10_room_5Vtx_000490[];
+extern Gfx spot10_room_5DL_000AC0[];
+extern Vtx spot10_room_5Vtx_000E20[];
+extern Gfx spot10_room_5DL_0013B0[];
+extern Vtx spot10_room_5Vtx_0016F8[];
+extern Gfx spot10_room_5DL_001BA8[];
+extern Vtx spot10_room_5Vtx_001EC8[];
+extern Gfx spot10_room_5DL_002058[];
+extern Vtx spot10_room_5Vtx_002188[];
+extern Gfx spot10_room_5DL_0022B8[];
+extern Vtx spot10_room_5Vtx_0023D0[];
+extern Gfx spot10_room_5DL_002500[];
+extern Vtx spot10_room_5Vtx_002618[];
+extern Gfx spot10_room_5DL_002748[];
+extern Vtx spot10_room_5Vtx_002860[];
+extern Gfx spot10_room_5DL_002990[];
+extern Vtx spot10_room_5Vtx_002AA8[];
+extern Gfx spot10_room_5DL_002BD8[];
+extern Vtx spot10_room_5Vtx_002CF0[];
+extern Gfx spot10_room_5DL_002E30[];
+extern Vtx spot10_room_5Vtx_002F18[];
+extern Gfx spot10_room_5DL_003258[];
+extern Vtx spot10_room_5Vtx_0033B8[];
+extern Gfx spot10_room_5DL_003638[];
+extern Gfx spot10_room_5DL_003780[];
+extern u64 spot10_room_5Tex_0037F0[];
+extern u64 spot10_room_5Tex_0047F0[];
+extern u64 spot10_room_5Tex_0057F0[];
+extern u64 spot10_room_5Tex_0067F0[];
+
+#endif

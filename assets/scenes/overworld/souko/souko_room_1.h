@@ -1,0 +1,49 @@
+#ifndef SOUKO_ROOM_1_H
+#define SOUKO_ROOM_1_H 1
+
+extern SceneCmd souko_room_1Commands[];
+extern s16 souko_room_1ObjectList_000040[];
+extern ActorEntry souko_room_1ActorList_000044[];
+extern PolygonType2 souko_room_1PolygonType2_000100;
+extern PolygonDlist2 souko_room_1PolygonDlist2_00010C[12];
+extern s32 souko_room_1_terminatorMaybe_0001CC;
+extern Vtx souko_room_1Vtx_0001D0[];
+extern Gfx souko_room_1DL_000890[];
+extern Vtx souko_room_1Vtx_000C38[];
+extern Gfx souko_room_1DL_000FB8[];
+extern Vtx souko_room_1Vtx_0010E8[];
+extern Gfx souko_room_1DL_001288[];
+extern Vtx souko_room_1Vtx_001380[];
+extern Gfx souko_room_1DL_001DF0[];
+extern Vtx souko_room_1Vtx_002020[];
+extern Gfx souko_room_1DL_0022B0[];
+extern Vtx souko_room_1Vtx_0024D0[];
+extern Gfx souko_room_1DL_002590[];
+extern Vtx souko_room_1Vtx_002648[];
+extern Gfx souko_room_1DL_0029C8[];
+extern Vtx souko_room_1Vtx_002B40[];
+extern Gfx souko_room_1DL_003A00[];
+extern Vtx souko_room_1Vtx_003F08[];
+extern Gfx souko_room_1DL_0040C8[];
+extern Vtx souko_room_1Vtx_004230[];
+extern Gfx souko_room_1DL_004790[];
+extern Vtx souko_room_1Vtx_004A40[];
+extern Gfx souko_room_1DL_004F50[];
+extern u64 souko_room_1Tex_005118[];
+extern u64 souko_room_1Tex_005918[];
+extern u64 souko_room_1Tex_006118[];
+extern u64 souko_room_1Tex_007118[];
+extern u64 souko_room_1Tex_007518[];
+extern u64 souko_room_1Tex_007D18[];
+extern u64 souko_room_1Tex_008D18[];
+extern Vtx souko_room_1Vtx_009520[];
+extern Gfx souko_room_1DL_0097E0[];
+extern Vtx souko_room_1Vtx_009A48[];
+extern Gfx souko_room_1DL_009B08[];
+extern Vtx souko_room_1Vtx_009BC0[];
+extern Gfx souko_room_1DL_009DC0[];
+extern u64 souko_room_1Tex_009F28[];
+extern u64 souko_room_1Tex_00A128[];
+extern u64 souko_room_1Tex_00A228[];
+
+#endif

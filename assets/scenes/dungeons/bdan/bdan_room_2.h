@@ -1,0 +1,50 @@
+#ifndef BDAN_ROOM_2_H
+#define BDAN_ROOM_2_H 1
+
+extern SceneCmd bdan_room_2Commands[];
+extern SceneCmd* bdan_room_2AlternateHeaders0x000048[];
+extern s16 bdan_room_2ObjectList_000058[];
+extern ActorEntry bdan_room_2ActorList_000074[];
+extern PolygonType0 bdan_room_2PolygonType0_000160;
+extern PolygonDlist bdan_room_2PolygonDlist_00016C[1];
+extern s32 bdan_room_2_terminatorMaybe_000174;
+extern SceneCmd bdan_room_2Set_000180[];
+extern s16 bdan_room_2ObjectList_0001C0[];
+extern ActorEntry bdan_room_2ActorList_0001CC[];
+extern Vtx bdan_room_2Vtx_000240[];
+extern Gfx bdan_room_2DL_001AB0[];
+extern Vtx bdan_room_2Vtx_002460[];
+extern Mtx bdan_room_2DL_0030B0Mtx_000000;
+extern Gfx bdan_room_2DL_0030B0[];
+extern Vtx bdan_room_2Vtx_0033B8[];
+extern Mtx bdan_room_2DL_003988Mtx_000000;
+extern Gfx bdan_room_2DL_003988[];
+extern Vtx bdan_room_2Vtx_003BF0[];
+extern Mtx bdan_room_2DL_0041F0Mtx_000000;
+extern Gfx bdan_room_2DL_0041F0[];
+extern Vtx bdan_room_2Vtx_004468[];
+extern Mtx bdan_room_2DL_0049D8Mtx_000000;
+extern Gfx bdan_room_2DL_0049D8[];
+extern Vtx bdan_room_2Vtx_004C08[];
+extern Mtx bdan_room_2DL_005068Mtx_000000;
+extern Gfx bdan_room_2DL_005068[];
+extern Vtx bdan_room_2Vtx_005268[];
+extern Mtx bdan_room_2DL_005878Mtx_000000;
+extern Gfx bdan_room_2DL_005878[];
+extern Vtx bdan_room_2Vtx_005AE8[];
+extern Mtx bdan_room_2DL_005D88Mtx_000000;
+extern Gfx bdan_room_2DL_005D88[];
+extern Vtx bdan_room_2Vtx_005F18[];
+extern Mtx bdan_room_2DL_0061B8Mtx_000000;
+extern Gfx bdan_room_2DL_0061B8[];
+extern Vtx bdan_room_2Vtx_006348[];
+extern Gfx bdan_room_2DL_0069F8[];
+extern Vtx bdan_room_2Vtx_006B98[];
+extern Gfx bdan_room_2DL_006CE8[];
+extern Gfx bdan_room_2DL_006DD8[];
+extern u64 bdan_room_2Tex_006E38[];
+extern u64 bdan_room_2Tex_007E38[];
+extern u64 bdan_room_2Tex_008638[];
+extern u64 bdan_room_2Tex_008E38[];
+
+#endif

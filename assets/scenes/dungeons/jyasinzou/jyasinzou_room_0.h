@@ -1,0 +1,56 @@
+#ifndef JYASINZOU_ROOM_0_H
+#define JYASINZOU_ROOM_0_H 1
+
+extern SceneCmd jyasinzou_room_0Commands[];
+extern s16 jyasinzou_room_0ObjectList_000040[];
+extern ActorEntry jyasinzou_room_0ActorList_000054[];
+extern PolygonType2 jyasinzou_room_0PolygonType2_000210;
+extern PolygonDlist2 jyasinzou_room_0PolygonDlist2_00021C[14];
+extern s32 jyasinzou_room_0_terminatorMaybe_0002FC;
+extern Vtx jyasinzou_room_0Vtx_0003A0[];
+extern Gfx jyasinzou_room_0DL_001700[];
+extern Vtx jyasinzou_room_0Vtx_001D40[];
+extern Gfx jyasinzou_room_0DL_0030A0[];
+extern Vtx jyasinzou_room_0Vtx_0036E0[];
+extern Gfx jyasinzou_room_0DL_004820[];
+extern Vtx jyasinzou_room_0Vtx_005250[];
+extern Gfx jyasinzou_room_0DL_005CB0[];
+extern Vtx jyasinzou_room_0Vtx_0064D8[];
+extern Gfx jyasinzou_room_0DL_006768[];
+extern Vtx jyasinzou_room_0Vtx_006918[];
+extern Gfx jyasinzou_room_0DL_007248[];
+extern Vtx jyasinzou_room_0Vtx_007708[];
+extern Gfx jyasinzou_room_0DL_007BE8[];
+extern Vtx jyasinzou_room_0Vtx_007F40[];
+extern Gfx jyasinzou_room_0DL_008020[];
+extern Vtx jyasinzou_room_0Vtx_008110[];
+extern Gfx jyasinzou_room_0DL_008200[];
+extern Vtx jyasinzou_room_0Vtx_0082F0[];
+extern Gfx jyasinzou_room_0DL_008AE0[];
+extern Vtx jyasinzou_room_0Vtx_008FD0[];
+extern Gfx jyasinzou_room_0DL_0092D0[];
+extern Vtx jyasinzou_room_0Vtx_0095E8[];
+extern Gfx jyasinzou_room_0DL_009A08[];
+extern Vtx jyasinzou_room_0Vtx_009DE0[];
+extern Gfx jyasinzou_room_0DL_00A2B0[];
+extern u64 jyasinzou_room_0Tex_00A9D8[];
+extern u64 jyasinzou_room_0Tex_00B1D8[];
+extern u64 jyasinzou_room_0Tex_00B9D8[];
+extern u64 jyasinzou_room_0Tex_00C1D8[];
+extern u64 jyasinzou_room_0Tex_00C9D8[];
+extern u64 jyasinzou_room_0Tex_00D1D8[];
+extern u64 jyasinzou_room_0Tex_00D5D8[];
+extern u64 jyasinzou_room_0Tex_00DDD8[];
+extern u64 jyasinzou_room_0Tex_00E1D8[];
+extern u64 jyasinzou_room_0Tex_00E9D8[];
+extern u64 jyasinzou_room_0Tex_00F1D8[];
+extern u64 jyasinzou_room_0Tex_00F9D8[];
+extern Vtx jyasinzou_room_0Vtx_0101E0[];
+extern Gfx jyasinzou_room_0DL_0102C0[];
+extern Vtx jyasinzou_room_0Vtx_010388[];
+extern Gfx jyasinzou_room_0DL_010468[];
+extern Vtx jyasinzou_room_0Vtx_010530[];
+extern Gfx jyasinzou_room_0DL_0106F0[];
+extern u64 jyasinzou_room_0Tex_0107E8[];
+
+#endif
