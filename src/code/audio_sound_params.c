@@ -6,31 +6,31 @@
                    (((randParam) << SFX_PARAM_67_SHIFT) & SFX_PARAM_67_MASK) | (flags)) },
 
 SoundParams sEnemyBankParams[] = {
-#include "tables/sfx_enemybank_table.h"
+#include "tables/sfx/enemybank_table.h"
 };
 
 SoundParams sPlayerBankParams[] = {
-#include "tables/sfx_playerbank_table.h"
+#include "tables/sfx/playerbank_table.h"
 };
 
 SoundParams sItemBankParams[] = {
-#include "tables/sfx_itembank_table.h"
+#include "tables/sfx/itembank_table.h"
 };
 
 SoundParams sEnvBankParams[] = {
-#include "tables/sfx_environmentbank_table.h"
+#include "tables/sfx/environmentbank_table.h"
 };
 
 SoundParams sSystemBankParams[] = {
-#include "tables/sfx_systembank_table.h"
+#include "tables/sfx/systembank_table.h"
 };
 
 SoundParams sOcarinaBankParams[] = {
-#include "tables/sfx_ocarinabank_table.h"
+#include "tables/sfx/ocarinabank_table.h"
 };
 
 SoundParams sVoiceBankParams[] = {
-#include "tables/sfx_voicebank_table.h"
+#include "tables/sfx/voicebank_table.h"
 };
 
 #undef DEFINE_SFX
