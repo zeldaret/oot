@@ -113,8 +113,8 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->state.frames * 2, 0, 0x20, 0x40, 1, play->state.frames,
-                                play->state.frames * -8, 0x10, 0x10));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->state.frames * 2, 0, 0x20, 0x40, 1,
+                                play->state.frames, play->state.frames * -8, 0x10, 0x10));
     gDPPipeSync(POLY_XLU_DISP++);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

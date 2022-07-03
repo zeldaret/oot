@@ -3155,8 +3155,8 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         if (this->effectMode == BONGO_ICE) {
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, play->gameplayFrames % 256, 0x20, 0x10, 1, 0,
-                                        (play->gameplayFrames * 2) % 256, 0x40, 0x20));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->gameplayFrames % 256, 0x20, 0x10,
+                                        1, 0, (play->gameplayFrames * 2) % 256, 0x40, 0x20));
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->effects[0].alpha);
             gSPDisplayList(POLY_XLU_DISP++, gBongoIceCrystalDL);
 
@@ -3185,8 +3185,8 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
 
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->gameplayFrames % 128, 0, 0x20, 0x40, 1, 0,
-                                        (play->gameplayFrames * -15) % 256, 0x20, 0x40));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames % 128, 0, 0x20, 0x40,
+                                        1, 0, (play->gameplayFrames * -15) % 256, 0x20, 0x40));
 
             for (i = 0; i < 3; i++, scaleY -= 0.001f) {
                 effect = &this->effects[i];

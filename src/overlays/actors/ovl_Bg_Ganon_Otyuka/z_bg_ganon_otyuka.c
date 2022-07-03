@@ -332,7 +332,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
 
             if ((platform->dyna.actor.projectedPos.z > -30.0f) && (platform->flashState != FLASH_NONE)) {
                 gSPSegment(POLY_XLU_DISP++, 0x08,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, platform->flashTimer * 4, 0, 32, 64, 1,
+                           Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, platform->flashTimer * 4, 0, 32, 64, 1,
                                             platform->flashTimer * 4, 0, 32, 64));
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, platform->flashPrimColorR, platform->flashPrimColorG,

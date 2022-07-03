@@ -265,7 +265,7 @@ void BgHidanFwbig_Draw(Actor* thisx, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->gameplayFrames % 0x80, 0, 0x20, 0x40, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames % 0x80, 0, 0x20, 0x40, 1, 0,
                                 (u8)(play->gameplayFrames * -15), 0x20, 0x40));
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_fwbig.c", 660),
