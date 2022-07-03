@@ -6502,7 +6502,7 @@ TransitionActorEntry bdan_sceneTransitionActorList_0137A8[] = {
     { 1, 255, 14, 255, ACTOR_DOOR_SHUTTER, 313, -1153, -1703, 16384, 0x003F },
     { 2, 255, 3, 255, ACTOR_EN_HOLL, -40, -638, -3083, 16384, 0x00BF },
     { 2, 255, 3, 255, ACTOR_EN_HOLL, 40, -638, -3323, 16384, 0x00BF },
-    { 2, 255, 3, 255, ACTOR_EN_HOLL, -260, -638, -3403, 16384, 0x00BF },
+    { 2, 255, 3, 255, ACTOR_EN_HOLL, -260, -638, -2863, 16384, 0x00BF },
     { 2, 255, 3, 255, ACTOR_EN_HOLL, -300, -638, -2963, 16384, 0x00BF },
     { 2, 255, 3, 255, ACTOR_EN_HOLL, 220, -638, -3203, 16384, 0x00BF },
     { 2, 255, 3, 255, ACTOR_EN_HOLL, -60, -638, -3543, 16384, 0x00BF },
