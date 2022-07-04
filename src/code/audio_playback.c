@@ -759,12 +759,12 @@ Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
 void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     s32 pad[3];
     s16 instId;
-    NotePlaybackState* playback = &note->playbackState;
+    NotePlaybackState* playbackState = &note->playbackState;
     NoteSubEu* sub = &note->noteSubEu;
 
     note->playbackState.prevParentLayer = NO_LAYER;
     note->playbackState.parentLayer = layer;
-    playback->priority = layer->channel->notePriority;
+    playbackState->priority = layer->channel->notePriority;
     layer->notePropertiesNeedInit = true;
     layer->bit3 = true;
     layer->note = note;
@@ -789,8 +789,8 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
         Audio_BuildSyntheticWave(note, layer, instId);
     }
 
-    playback->fontId = layer->channel->fontId;
-    playback->stereoHeadsetEffects = layer->channel->stereoHeadsetEffects;
+    playbackState->fontId = layer->channel->fontId;
+    playbackState->stereoHeadsetEffects = layer->channel->stereoHeadsetEffects;
     sub->bitField1.reverbIndex = layer->channel->reverbIndex & 3;
 }
 
