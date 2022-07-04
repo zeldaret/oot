@@ -178,7 +178,7 @@ typedef struct {
     /* 0x03 */ u8 typeh;
     /* 0x04 */ u8 typel;
     /* 0x05 */ u8 status;
-} __OSContRequestFormatShort; // size = 0x6
+} __OSContRequesFormatShort; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u8 unk_00;
