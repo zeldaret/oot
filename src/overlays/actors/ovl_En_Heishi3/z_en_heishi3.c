@@ -212,7 +212,7 @@ void func_80A55D00(EnHeishi3* this, PlayState* play) {
 
 void EnHeishi3_Update(Actor* thisx, PlayState* play) {
     EnHeishi3* this = (EnHeishi3*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     Actor_SetFocus(&this->actor, 60.0f);
     this->unk_274 += 1;

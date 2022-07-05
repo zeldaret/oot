@@ -216,7 +216,7 @@ void IrqMgr_HandlePreNMI480(IrqMgr* irqMgr) {
     }
 }
 
-void IrqMgr_HandlePreNMI500(IrqMgr* irqMgr) {
+void IrqMgr_HandlePreNMI500(UNUSED IrqMgr* irqMgr) {
     IrqMgr_CheckStacks();
 }
 

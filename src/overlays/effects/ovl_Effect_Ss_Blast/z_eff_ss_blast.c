@@ -58,7 +58,7 @@ u32 EffectSsBlast_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 void EffectSsBlast_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     MtxF mf;
-    s32 pad;
+    UNUSED s32 pad;
     f32 radius;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_blast.c", 170);

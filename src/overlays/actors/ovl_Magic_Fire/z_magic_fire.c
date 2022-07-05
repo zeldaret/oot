@@ -119,7 +119,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play) {
 void MagicFire_Update(Actor* thisx, PlayState* play) {
     MagicFire* this = (MagicFire*)thisx;
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
 
     if (1) {}
     this->actor.world.pos = player->actor.world.pos;
@@ -218,9 +218,9 @@ void MagicFire_Update(Actor* thisx, PlayState* play) {
 
 void MagicFire_Draw(Actor* thisx, PlayState* play) {
     MagicFire* this = (MagicFire*)thisx;
-    s32 pad1;
+    UNUSED s32 pad1;
     u32 gameplayFrames = play->gameplayFrames;
-    s32 pad2;
+    UNUSED s32 pad2;
     s32 i;
     u8 alpha;
 

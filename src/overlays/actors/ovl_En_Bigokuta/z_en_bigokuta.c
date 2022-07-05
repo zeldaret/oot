@@ -477,7 +477,7 @@ void func_809BDB90(EnBigokuta* this, PlayState* play) {
 void func_809BDC08(EnBigokuta* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_v0;
-    s16 pad;
+    UNUSED s16 pad;
     s16 phi_v1;
     Vec3f sp28;
 

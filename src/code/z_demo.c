@@ -34,7 +34,7 @@ u16 D_8011E1C4 = 0;
 
 typedef void (*CutsceneStateHandler)(PlayState*, CutsceneContext*);
 
-void func_80064720(PlayState* play, CutsceneContext* csCtx);
+void func_80064720(UNUSED  PlayState* play, UNUSED  CutsceneContext* csCtx);
 void func_80064760(PlayState* play, CutsceneContext* csCtx);
 void func_800647C0(PlayState* play, CutsceneContext* csCtx);
 void func_80068C3C(PlayState* play, CutsceneContext* csCtx);
@@ -105,9 +105,9 @@ u8 D_8015FCE4;       // only written to, never read
 
 void func_80068ECC(PlayState* play, CutsceneContext* csCtx);
 
-void Cutscene_DrawDebugInfo(PlayState* play, Gfx** dlist, CutsceneContext* csCtx) {
+void Cutscene_DrawDebugInfo(UNUSED PlayState* play, Gfx** dlist, CutsceneContext* csCtx) {
     GfxPrint printer;
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *dlist);
@@ -125,17 +125,17 @@ void Cutscene_DrawDebugInfo(PlayState* play, Gfx** dlist, CutsceneContext* csCtx
     GfxPrint_Destroy(&printer);
 }
 
-void func_8006450C(PlayState* play, CutsceneContext* csCtx) {
+void func_8006450C(UNUSED PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_IDLE;
     csCtx->unk_0C = 0.0f;
 }
 
-void func_80064520(PlayState* play, CutsceneContext* csCtx) {
+void func_80064520(UNUSED PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_SKIPPABLE_INIT;
     csCtx->linkAction = NULL;
 }
 
-void func_80064534(PlayState* play, CutsceneContext* csCtx) {
+void func_80064534(UNUSED PlayState* play, CutsceneContext* csCtx) {
     if (csCtx->state != CS_STATE_UNSKIPPABLE_EXEC) {
         csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
     }
@@ -180,10 +180,10 @@ void func_800645A0(PlayState* play, CutsceneContext* csCtx) {
     }
 }
 
-void func_80064720(PlayState* play, CutsceneContext* csCtx) {
+void func_80064720(UNUSED PlayState* play, UNUSED CutsceneContext* csCtx) {
 }
 
-u32 func_8006472C(PlayState* play, CutsceneContext* csCtx, f32 target) {
+u32 func_8006472C(UNUSED PlayState* play, CutsceneContext* csCtx, f32 target) {
     return Math_StepToF(&csCtx->unk_0C, target, 0.1f);
 }
 
@@ -435,21 +435,21 @@ void Cutscene_Command_SetLighting(PlayState* play, CutsceneContext* csCtx, CsCmd
 }
 
 // Command 0x56: Play Background Music
-void Cutscene_Command_PlayBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
+void Cutscene_Command_PlayBGM(UNUSED PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F595C(cmd->sequence - 1);
     }
 }
 
 // Command 0x57: Stop Background Music
-void Cutscene_Command_StopBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
+void Cutscene_Command_StopBGM(UNUSED PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F59E8(cmd->sequence - 1);
     }
 }
 
 // Command 0x7C: Fade Background Music over duration
-void Cutscene_Command_FadeBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
+void Cutscene_Command_FadeBGM(UNUSED PlayState* play, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
     u8 var1;
 
     if ((csCtx->frames == cmd->startFrame) && (csCtx->frames < cmd->endFrame)) {
@@ -464,14 +464,14 @@ void Cutscene_Command_FadeBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusi
 }
 
 // Command 9: ?
-void Cutscene_Command_09(PlayState* play, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
+void Cutscene_Command_09(UNUSED PlayState* play, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800AA000(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
     }
 }
 
 // Command 0x8C: Set Time of Day & Environment Time
-void func_80065134(PlayState* play, CutsceneContext* csCtx, CsCmdDayTime* cmd) {
+void func_80065134(UNUSED PlayState* play, CutsceneContext* csCtx, CsCmdDayTime* cmd) {
     s16 temp1;
     s16 temp2;
 
@@ -1405,7 +1405,7 @@ s32 Cutscene_Command_CameraLookAtPoints(PlayState* play, CutsceneContext* csCtx,
 }
 
 // Command 0x7: ? (Related to camera positons)
-s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, UNUSED u8 arg3) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
     Vec3f sp3C;
@@ -1448,13 +1448,13 @@ s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unu
 }
 
 // Command 0x8: ? (Related to camera focus points)
-s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, UNUSED u8 arg3) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
     Vec3f sp3C;
     Vec3f sp30;
     Camera* subCam;
-    f32 sp28;
+    UNUSED f32 sp28;
 
     cmd += 8;
     size = 8;
@@ -2031,7 +2031,7 @@ void func_80068ECC(PlayState* play, CutsceneContext* csCtx) {
     }
 }
 
-void func_80069048(PlayState* play) {
+void func_80069048(UNUSED PlayState* play) {
     s16 i;
 
     D_8015FCCC = 0;
@@ -2041,7 +2041,7 @@ void func_80069048(PlayState* play) {
     D_8015FCE4 = 0;
 }
 
-void func_8006907C(PlayState* play) {
+void func_8006907C(UNUSED PlayState* play) {
     if (D_8015FCCC != 0) {
         D_8015FCCC = 0;
     }

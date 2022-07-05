@@ -119,7 +119,7 @@ void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play) {
 void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play) {
     BgSpot16Doughnut* this = (BgSpot16Doughnut*)thisx;
     u32 scroll = play->gameplayFrames & 0xFFFF;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 210);
 

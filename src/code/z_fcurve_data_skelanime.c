@@ -44,9 +44,9 @@ void SkelCurve_Clear(SkelCurve* skelCurve) {
  *
  * @return bool always true
  */
-s32 SkelCurve_Init(PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* skeletonHeaderSeg,
-                   CurveAnimationHeader* animation) {
-    SkelCurveLimb** limbs;
+s32 SkelCurve_Init(UNUSED PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* skeletonHeaderSeg,
+                   UNUSED CurveAnimationHeader* animation) {
+    UNUSED s32 pad;
     CurveSkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelCurve->limbCount = skeletonHeader->limbCount;
@@ -62,7 +62,7 @@ s32 SkelCurve_Init(PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* s
 /**
  * Frees the joint table.
  */
-void SkelCurve_Destroy(PlayState* play, SkelCurve* skelCurve) {
+void SkelCurve_Destroy(UNUSED PlayState* play, SkelCurve* skelCurve) {
     if (skelCurve->jointTable != NULL) {
         ZeldaArena_FreeDebug(skelCurve->jointTable, "../z_fcurve_data_skelanime.c", 146);
     }
@@ -92,7 +92,7 @@ typedef enum {
  *
  * @return bool true when the animation has finished.
  */
-s32 SkelCurve_Update(PlayState* play, SkelCurve* skelCurve) {
+s32 SkelCurve_Update(UNUSED PlayState* play, SkelCurve* skelCurve) {
     s16* jointData;
     u8* knotCounts;
     CurveAnimationHeader* animation;
@@ -188,7 +188,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
         if (lod == 0) {
-            s32 pad1;
+            UNUSED s32 pad1;
 
             dList = limb->dList[0];
             if (dList != NULL) {
@@ -197,7 +197,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
         } else if (lod == 1) {
-            s32 pad2;
+            UNUSED s32 pad2;
 
             dList = limb->dList[0];
             if (dList != NULL) {
@@ -234,7 +234,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
     CLOSE_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
 
-void SkelCurve_Draw(Actor* actor, PlayState* play, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
+void SkelCurve_Draw(UNUSED Actor* actor, PlayState* play, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
                     PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     if (skelCurve->jointTable != NULL) {
         SkelCurve_DrawLimb(play, 0, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);

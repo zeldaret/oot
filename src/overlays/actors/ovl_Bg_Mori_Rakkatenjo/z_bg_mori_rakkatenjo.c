@@ -46,7 +46,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -78,7 +78,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -144,7 +144,7 @@ void BgMoriRakkatenjo_SetupFall(BgMoriRakkatenjo* this) {
 
 void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
     static f32 bounceVel[] = { 4.0f, 1.5f, 0.4f, 0.1f };
-    s32 pad;
+    UNUSED s32 pad;
     Actor* thisx = &this->dyna.actor;
     s32 quake;
 
@@ -196,7 +196,7 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play) {
 }
 
 void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     if (this->timer > 0) {
@@ -218,7 +218,7 @@ void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 497);

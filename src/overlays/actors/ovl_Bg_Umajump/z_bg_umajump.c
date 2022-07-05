@@ -31,7 +31,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgUmaJump_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgUmaJump* this = (BgUmaJump*)thisx;
     CollisionHeader* colHeader = NULL;
 

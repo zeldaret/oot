@@ -27,7 +27,7 @@ const ActorInit En_Encount1_InitVars = {
 };
 
 void EnEncount1_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnEncount1* this = (EnEncount1*)thisx;
     f32 spawnRange;
 
@@ -313,7 +313,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
 }
 
 void EnEncount1_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnEncount1* this = (EnEncount1*)thisx;
 
     if (this->timer != 0) {

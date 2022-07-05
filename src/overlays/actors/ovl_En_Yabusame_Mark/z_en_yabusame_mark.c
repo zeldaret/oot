@@ -119,7 +119,7 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f arrowHitPos;
     Vec3f distanceFromCenter;
-    s32 pad;
+    UNUSED s32 pad;
     s32 scoreIndex;
     f32 scoreDistance100;
     f32 scoreDistance60;

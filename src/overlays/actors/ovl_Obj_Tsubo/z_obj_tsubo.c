@@ -153,7 +153,7 @@ void ObjTsubo_Destroy(Actor* thisx, PlayState* play2) {
 }
 
 void ObjTsubo_AirBreak(ObjTsubo* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     f32 rand;
     s16 angle;
     Vec3f pos;
@@ -189,7 +189,7 @@ void ObjTsubo_AirBreak(ObjTsubo* this, PlayState* play) {
 }
 
 void ObjTsubo_WaterBreak(ObjTsubo* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     s16 angle;
     Vec3f pos = this->actor.world.pos;
     Vec3f velocity;
@@ -234,7 +234,7 @@ void ObjTsubo_SetupIdle(ObjTsubo* this) {
 }
 
 void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s16 temp_v0;
     s32 phi_v1;
 
@@ -302,7 +302,7 @@ void ObjTsubo_SetupThrown(ObjTsubo* this) {
 }
 
 void ObjTsubo_Thrown(ObjTsubo* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
         (this->collider.base.atFlags & AT_HIT)) {

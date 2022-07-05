@@ -64,7 +64,7 @@ static Gfx* sDLists[] = {
 
 void EnNutsball_Init(Actor* thisx, PlayState* play) {
     EnNutsball* this = (EnNutsball*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
     Collider_InitCylinder(play, &this->collider);
@@ -145,7 +145,7 @@ void func_80ABBBA8(EnNutsball* this, PlayState* play) {
 void EnNutsball_Update(Actor* thisx, PlayState* play) {
     EnNutsball* this = (EnNutsball*)thisx;
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
         (this->actionFunc == func_80ABBB34)) {
@@ -165,7 +165,7 @@ void EnNutsball_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnNutsball_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nutsball.c", 327);
 

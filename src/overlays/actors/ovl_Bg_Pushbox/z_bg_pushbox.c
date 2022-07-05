@@ -38,10 +38,10 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 }
 
 void BgPushbox_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgPushbox* this = (BgPushbox*)thisx;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
@@ -78,7 +78,7 @@ void BgPushbox_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgPushbox_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_pushbox.c", 263);
 

@@ -39,7 +39,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHaka_Init(Actor* thisx, PlayState* play) {
     BgHaka* this = (BgHaka*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -124,7 +124,7 @@ void func_8087BAAC(BgHaka* this, PlayState* play) {
 
 void func_8087BAE4(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.params -= 1;

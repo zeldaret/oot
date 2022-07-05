@@ -64,7 +64,7 @@ void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc action)
 
 void ObjectKankyo_Init(Actor* thisx, PlayState* play) {
     ObjectKankyo* this = (ObjectKankyo*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s16 i;
 
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
@@ -593,8 +593,8 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
     Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
     Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
-    s32 pad;
-    s32 pad2;
+    UNUSED s32 pad;
+    UNUSED s32 pad2;
 
     if (!(play->cameraPtrs[CAM_ID_MAIN]->unk_14C & 0x100)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 958);
@@ -750,7 +750,7 @@ void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
 }
 
 void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjectKankyo* this = (ObjectKankyo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 1182);

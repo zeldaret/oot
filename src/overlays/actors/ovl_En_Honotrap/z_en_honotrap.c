@@ -126,7 +126,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnHonotrap_FlameCollisionCheck(EnHonotrap* this, PlayState* play) {
-    s32 pad[3];
+    UNUSED s32 pad[3];
 
     Collider_UpdateCylinder(&this->actor, &this->collider.cyl);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.cyl.base);
@@ -153,7 +153,7 @@ void EnHonotrap_GetNormal(Vec3f* normal, Vec3f* vec) {
 }
 
 void EnHonotrap_InitEye(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnHonotrap* this = (EnHonotrap*)thisx;
     s32 i;
     s32 j;
@@ -184,7 +184,7 @@ void EnHonotrap_InitEye(Actor* thisx, PlayState* play) {
 }
 
 void EnHonotrap_InitFlame(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     Actor_SetScale(&this->actor, 0.0001f);
@@ -218,7 +218,7 @@ void EnHonotrap_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnHonotrap_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->actor.params == HONOTRAP_EYE) {
@@ -295,7 +295,7 @@ void EnHonotrap_SetupFlame(EnHonotrap* this) {
 }
 
 void EnHonotrap_Flame(EnHonotrap* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 ready =
         Math_StepToF(&this->actor.scale.x, (this->actor.params == HONOTRAP_FLAME_MOVE) ? 0.004f : 0.0048f, 0.0006f);
 
@@ -355,7 +355,7 @@ void EnHonotrap_SetupFlameMove(EnHonotrap* this) {
 }
 
 void EnHonotrap_FlameMove(EnHonotrap* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f speed;
     s32 ready;
 
@@ -410,7 +410,7 @@ void EnHonotrap_SetupFlameChase(EnHonotrap* this) {
 }
 
 void EnHonotrap_FlameChase(EnHonotrap* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x300);
     Math_StepToF(&this->actor.speedXZ, 3.0f, 0.1f);
@@ -447,7 +447,7 @@ void EnHonotrap_SetupFlameVanish(EnHonotrap* this) {
 }
 
 void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 ready = Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
@@ -463,7 +463,7 @@ void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play) {
 void EnHonotrap_Update(Actor* thisx, PlayState* play) {
     static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     static Vec3f accel = { 0.0f, 0.1f, 0.0f };
-    s32 pad;
+    UNUSED s32 pad;
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->timer > 0) {
@@ -513,7 +513,7 @@ void EnHonotrap_DrawEye(Actor* thisx, PlayState* play) {
 }
 
 void EnHonotrap_DrawFlame(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_honotrap.c", 1000);

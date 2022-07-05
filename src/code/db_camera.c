@@ -436,7 +436,7 @@ void DbCamera_PrintF32Bytes(f32 value) {
 }
 
 void DbCamera_PrintU16Bytes(u16 value) {
-    u16 pad;
+    UNUSED u16 pad;
     u16 b = value;
     char* a = (char*)&b;
 
@@ -444,7 +444,7 @@ void DbCamera_PrintU16Bytes(u16 value) {
 }
 
 void DbCamera_PrintS16Bytes(s16 value) {
-    u16 pad;
+    UNUSED u16 pad;
     s16 b = value;
     char* a = (char*)&b;
 
@@ -578,7 +578,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     UNUSED Vec3f* at;
     Vec3f* phi_s0;
     Vec3f spD8;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f* sp90;
     Vec3f* sp80;
     Vec3f* sp7C;
@@ -1644,7 +1644,7 @@ s32 DbCamera_LoadCallback(char* c) {
 }
 
 s32 DbCamera_SaveCallback(char* c) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     s32 ret;
     u32 freeSize;
     s32 off;
@@ -1714,7 +1714,7 @@ void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorId) {
     func_8006376C(x + 0x14, y, colorId, str + 0x14);
 }
 
-void DbCamera_PrintAllCuts(Camera* cam) {
+void DbCamera_PrintAllCuts(UNUSED Camera* cam) {
     s32 i;
 
     Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1744,8 +1744,7 @@ char D_8012D128[] = GFXP_KATAKANA "ﾄ-ﾀﾙ         ";
 char D_8012D13C[] = GFXP_KATAKANA "ｷ-     /   ";
 
 s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
-    s32 pointCount;
-    s32 curPoint;
+    UNUSED s32 pad[2];
 
     while (sDbCameraCuts[D_8016110C].letter == '?') {
         D_8016110C++;
@@ -1815,7 +1814,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
     return D_8016110C | 0x8000;
 }
 
-void DbCamera_Reset(Camera* cam, DbCamera* dbCam) {
+void DbCamera_Reset(UNUSED Camera* cam, DbCamera* dbCam) {
     s32 i;
 
     D_801612EA = '*';

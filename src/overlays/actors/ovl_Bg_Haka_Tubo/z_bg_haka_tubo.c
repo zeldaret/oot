@@ -78,7 +78,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaTubo_Init(Actor* thisx, PlayState* play) {
     BgHakaTubo* this = (BgHakaTubo*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -219,7 +219,7 @@ void BgHakaTubo_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_haka_tubo.c", 476);
 

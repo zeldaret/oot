@@ -89,7 +89,7 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
 void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
     static Color_RGB8 colors[] = { { 255, 255, 255 }, { 235, 170, 130 } };
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    UNUSED s32 pad;
     f32 scale;
     s32 colorIdx;
 

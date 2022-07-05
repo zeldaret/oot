@@ -135,7 +135,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnSth_SetupShapeColliderUpdate2AndDraw(EnSth* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     Collider_InitCylinder(play, &this->collider);
@@ -146,7 +146,7 @@ void EnSth_SetupShapeColliderUpdate2AndDraw(EnSth* this, PlayState* play) {
 }
 
 void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, play);
@@ -178,7 +178,7 @@ void EnSth_WaitForObjectLoaded(EnSth* this, PlayState* play) {
 }
 
 void EnSth_FacePlayer(EnSth* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s16 diffRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(diffRot) <= 0x4000) {
@@ -313,7 +313,7 @@ void EnSth_Update(Actor* thisx, PlayState* play) {
 
 void EnSth_Update2(Actor* thisx, PlayState* play) {
     EnSth* this = (EnSth*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

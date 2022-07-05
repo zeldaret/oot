@@ -67,9 +67,9 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJya1flift_InitDynapoly(BgJya1flift* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);

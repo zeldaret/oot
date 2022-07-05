@@ -1132,7 +1132,7 @@ void func_80B16938(EnTa* this) {
 
 void EnTa_Update(Actor* thisx, PlayState* play) {
     EnTa* this = (EnTa*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -1207,7 +1207,7 @@ void EnTa_Draw(Actor* thisx, PlayState* play) {
         gTalonEyeClosedTex,
     };
     EnTa* this = (EnTa*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ta.c", 2381);
 

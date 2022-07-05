@@ -7,7 +7,7 @@ u8 sJpegBitStreamDontSkip;
 u32 sJpegBitStreamCurWord;
 
 s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollowing, JpegDecoderState* state) {
-    s16 pad;
+    UNUSED s16 pad;
     s16 unk0;
     s16 unk1;
     s16 unk2;

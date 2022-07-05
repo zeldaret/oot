@@ -118,5 +118,5 @@ void KaleidoSetup_Init(PlayState* play) {
     View_Init(&pauseCtx->view, play->state.gfxCtx);
 }
 
-void KaleidoSetup_Destroy(PlayState* play) {
+void KaleidoSetup_Destroy(UNUSED PlayState* play) {
 }

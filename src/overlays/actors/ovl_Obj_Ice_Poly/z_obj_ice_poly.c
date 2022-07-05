@@ -102,7 +102,7 @@ void ObjIcePoly_Init(Actor* thisx, PlayState* play) {
 }
 
 void ObjIcePoly_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     if ((this->actor.params >= 0) && (this->actor.params < 3)) {
@@ -113,7 +113,7 @@ void ObjIcePoly_Destroy(Actor* thisx, PlayState* play) {
 
 void ObjIcePoly_Idle(ObjIcePoly* this, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f pos;
 
     if (this->colliderIce.base.acFlags & AC_HIT) {
@@ -182,14 +182,14 @@ void ObjIcePoly_Melt(ObjIcePoly* this, PlayState* play) {
 }
 
 void ObjIcePoly_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     this->actionFunc(this, play);
 }
 
 void ObjIcePoly_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_ice_poly.c", 421);

@@ -28,7 +28,7 @@ void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32
     Room_Draw2,
 };
 
-void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3) {
+void func_80095AA0(UNUSED PlayState* play, UNUSED Room* room, UNUSED Input* arg2, UNUSED UNK_TYPE arg3) {
 }
 
 void Room_Draw0(PlayState* play, Room* room, u32 flags) {
@@ -85,14 +85,14 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
     struct_80095D04* spB4 = NULL;
     struct_80095D04* spB0 = NULL;
     struct_80095D04* iter;
-    s32 pad;
+    UNUSED s32 pad;
     struct_80095D04* spA4;
     s32 j;
     s32 i;
     Vec3f pos;
     Vec3f projectedPos;
     f32 projectedW;
-    s32 pad2;
+    UNUSED s32 pad2;
     MeshHeader2Entry* meshHeader2Entries;
     MeshHeader2Entry* meshHeader2EntryIter;
     f32 temp_f2;
@@ -463,7 +463,7 @@ void Room_Draw1(PlayState* play, Room* room, u32 flags) {
     }
 }
 
-void func_80096FD4(PlayState* play, Room* room) {
+void func_80096FD4(UNUSED PlayState* play, Room* room) {
     room->num = -1;
     room->segment = NULL;
 }

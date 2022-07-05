@@ -390,7 +390,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
     f32 frameCount;
     AnimationHeader* anim;
     s32 linkAge;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp4C;
     Player* player;
 
@@ -545,7 +545,7 @@ void EnBox_Update(Actor* thisx, PlayState* play) {
 
 void EnBox_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnBox* this = (EnBox*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (limbIndex == 1) {
         gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_box.c", 1492),

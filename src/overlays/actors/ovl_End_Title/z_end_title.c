@@ -113,7 +113,7 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
 // Used in the Temple of Time
 void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play) {
     EndTitle* this = (EndTitle*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s32 frames = play->csCtx.frames;
 
     if ((frames >= 1101) && (this->endAlpha < 255)) {

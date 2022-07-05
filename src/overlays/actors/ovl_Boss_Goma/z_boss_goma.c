@@ -339,7 +339,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BossGoma_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossGoma* this = (BossGoma*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -672,7 +672,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
 void BossGoma_Encounter(BossGoma* this, PlayState* play) {
     Camera* mainCam;
     Player* player = GET_PLAYER(play);
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
 
@@ -1897,7 +1897,7 @@ void BossGoma_UpdateEyeEnvColor(BossGoma* this) {
 
 void BossGoma_Update(Actor* thisx, PlayState* play) {
     BossGoma* this = (BossGoma*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     this->visualState = VISUALSTATE_DEFAULT;
     this->frameCount++;
@@ -2049,7 +2049,7 @@ void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
     Vec3s childRot;
     EnGoma* babyGohma;
     BossGoma* this = (BossGoma*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     MtxF mtx;
 
     if (limbIndex == BOSSGOMA_LIMB_TAIL4) { // tail end/last part

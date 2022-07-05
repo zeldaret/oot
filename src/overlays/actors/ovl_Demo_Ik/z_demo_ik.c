@@ -155,7 +155,7 @@ void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 index) {
 }
 
 void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
-    s32 pad[3];
+    UNUSED s32 pad[3];
     SkeletonHeader* skeleton;
     AnimationHeader* animation;
     f32 phi_f0;
@@ -278,7 +278,7 @@ void DemoIk_Type1PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 }
 
 void DemoIk_Type1Draw(DemoIk* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -294,7 +294,7 @@ void DemoIk_Type1Draw(DemoIk* this, PlayState* play) {
 }
 
 void DemoIk_Type2Init(DemoIk* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     FlexSkeletonHeader* skeleton;
     AnimationHeader* animation;
 
@@ -445,7 +445,7 @@ void DemoIk_Type2PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 }
 
 void DemoIk_Type2Draw(DemoIk* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -467,7 +467,7 @@ static DemoIkActionFunc sActionFuncs[] = {
 };
 
 void DemoIk_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
@@ -489,7 +489,7 @@ static DemoIkDrawFunc sDrawFuncs[] = {
 };
 
 void DemoIk_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
@@ -513,7 +513,7 @@ const ActorInit Demo_Ik_InitVars = {
 };
 
 void DemoIk_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->actor.params == 0 || this->actor.params == 1 || this->actor.params == 2) {

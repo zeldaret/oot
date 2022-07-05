@@ -191,7 +191,7 @@ void func_80A3DBF4(EnGm* this, PlayState* play) {
 void func_80A3DC44(EnGm* this, PlayState* play) {
     f32 dx;
     f32 dz;
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
 
     EnGm_SetTextID(this);
@@ -320,7 +320,7 @@ void func_80A3E090(EnGm* this) {
 void EnGm_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     EnGm* this = (EnGm*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_gm.c", 613);
 

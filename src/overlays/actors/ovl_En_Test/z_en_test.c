@@ -359,7 +359,7 @@ void EnTest_ChooseRandomAction(EnTest* this, PlayState* play) {
 }
 
 void EnTest_ChooseAction(EnTest* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
     s16 yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
@@ -566,9 +566,9 @@ void EnTest_SetupWalkAndBlock(EnTest* this) {
 }
 
 void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     f32 checkDist = 0.0f;
-    s32 pad1;
+    UNUSED s32 pad1;
     s32 prevFrame;
     s32 beforeCurFrame;
     f32 playSpeed;
@@ -789,7 +789,7 @@ void func_80860EC0(EnTest* this) {
 // a variation of sidestep
 void func_80860F84(EnTest* this, PlayState* play) {
     s16 playerYaw180;
-    s32 pad;
+    UNUSED s32 pad;
     s32 prevFrame;
     s32 beforeCurFrame;
     s16 yawDiff;
@@ -1361,12 +1361,12 @@ void func_808627C4(EnTest* this, PlayState* play) {
 
 // a variation of sidestep
 void func_808628C8(EnTest* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
-    s32 pad1;
+    UNUSED s32 pad1;
     s32 prevFrame;
     s32 beforeCurFrame;
-    s32 pad2;
+    UNUSED s32 pad2;
     f32 checkDist = 0.0f;
     s16 newYaw;
     f32 absPlaySpeed;
@@ -1703,7 +1703,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
     EnTest* this = (EnTest*)thisx;
     f32 oldWeight;
     u32 floorProperty;
-    s32 pad;
+    UNUSED s32 pad;
 
     EnTest_UpdateDamage(this, play);
 
@@ -1821,7 +1821,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
 
 s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTest* this = (EnTest*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
         rot->x += this->headRot.y;
@@ -1862,7 +1862,7 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
     Vec3f sp70;
     Vec3f sp64;
     EnTest* this = (EnTest*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp50;
 
     BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_DEFAULT);

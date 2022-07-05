@@ -15,7 +15,7 @@ s32 func_8006CFC0(s32 scene) {
     return 0;
 }
 
-void func_8006D074(PlayState* play) {
+void func_8006D074(UNUSED PlayState* play) {
     gSaveContext.horseData.scene = SCENE_SPOT00;
     gSaveContext.horseData.pos.x = -1840;
     gSaveContext.horseData.pos.y = 72;
@@ -23,7 +23,7 @@ void func_8006D074(PlayState* play) {
     gSaveContext.horseData.angle = -27353;
 }
 
-void func_8006D0AC(PlayState* play) {
+void func_8006D0AC(UNUSED PlayState* play) {
     if (gSaveContext.horseData.scene == SCENE_SPOT06) {
         gSaveContext.horseData.scene = SCENE_SPOT06;
         gSaveContext.horseData.pos.x = -2065;
@@ -126,7 +126,7 @@ typedef struct {
 } struct_8011F9B8;
 
 void func_8006D684(PlayState* play, Player* player) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 i;
     Vec3s spawnPos;
 

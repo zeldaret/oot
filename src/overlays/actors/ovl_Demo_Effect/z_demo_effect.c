@@ -1399,8 +1399,8 @@ void DemoEffect_MoveJewelSplit(PosRot* world, DemoEffect* this) {
  */
 void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos, Vec3f endPos, f32 radius,
                                    Vec3s rotation, DemoEffect* this) {
-    s32 pad;
-    s32 pad2;
+    UNUSED s32 pad;
+    UNUSED s32 pad2;
     f32 distance;
     f32 xPos;
     f32 ySpherical;
@@ -1795,7 +1795,7 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
  */
 void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2737);
@@ -1896,7 +1896,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
  */
 void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2892);
     gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 188, 255, 255, this->blueOrb.alpha);
@@ -1916,7 +1916,7 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play) {
  */
 void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2921);
@@ -1960,7 +1960,7 @@ void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2) {
  */
 void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(gTriforceVtx);
     u32 frames = play->gameplayFrames;
 
@@ -2039,7 +2039,7 @@ void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play) {
  * Callback for the SkelCurve system to draw the animated limbs.
  */
 s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
-    s32 pad;
+    UNUSED s32 pad;
     DemoEffect* this = (DemoEffect*)thisx;
     u32 frames = play->gameplayFrames;
 
@@ -2087,7 +2087,7 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
  * Faces/rotates the Actor towards the current cutscene action end point.
  */
 void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos) {
-    s32 pad;
+    UNUSED s32 pad;
     f32 x = endPos.x - startPos.x;
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));

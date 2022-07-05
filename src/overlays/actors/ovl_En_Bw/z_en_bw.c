@@ -154,7 +154,7 @@ void EnBw_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnBw_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBw* this = (EnBw*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider1);
@@ -744,7 +744,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     EnBw* this = (EnBw*)thisx;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
-    s32 pad[3]; // probably an unused Vec3f
+    UNUSED s32 pad[3]; // probably an unused Vec3f
     Color_RGBA8 sp50 = { 255, 200, 0, 255 };
     Color_RGBA8 sp4C = { 255, 80, 0, 255 };
     Color_RGBA8 sp48 = { 0, 0, 0, 255 };

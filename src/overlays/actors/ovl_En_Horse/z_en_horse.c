@@ -2914,7 +2914,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
     f32 dist;
     f32 waterHeight;
     WaterBox* waterBox;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
                                 &waterBox) == 1 &&
@@ -3015,7 +3015,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
 s32 EnHorse_GetMountSide(EnHorse* this, PlayState* play);
 
 void EnHorse_MountDismount(EnHorse* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     s32 mountSide;
     Player* player = GET_PLAYER(play);
 
@@ -3109,8 +3109,8 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    UNUSED s32 pad;
+    UNUSED s32 pad2;
     Vec3f startPos;
     Vec3f endPos;
     Vec3f obstaclePos;
@@ -3123,7 +3123,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     f32 behindObstacleHeight;
     f32 ny;
     s32 movingFast;
-    s32 pad5;
+    UNUSED s32 pad5;
     DynaPolyActor* dynaPoly;
     Vec3f intersect;
     Vec3f obstacleTop;
@@ -3314,7 +3314,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 void EnHorse_CheckBoost(EnHorse* thisx, PlayState* play2) {
     EnHorse* this = (EnHorse*)thisx;
     PlayState* play = play2;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->action == ENHORSE_ACT_MOUNTED_WALK || this->action == ENHORSE_ACT_MOUNTED_TROT ||
         this->action == ENHORSE_ACT_MOUNTED_GALLOP) {
@@ -3671,7 +3671,7 @@ void EnHorse_RandomOffset(Vec3f* src, f32 dist, Vec3f* dst) {
 
 void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     EnHorse* this = (EnHorse*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp94 = { 0.0f, 0.0f, 0.0f };
     Vec3f hoofOffset = { 5.0f, -4.0f, 5.0f };
     Vec3f riderOffset = { 600.0f, -1670.0f, 0.0f };

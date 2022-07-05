@@ -582,7 +582,7 @@ void func_80B3368C(EnWeiyer* this, PlayState* play) {
 
 void EnWeiyer_Update(Actor* thisx, PlayState* play) {
     EnWeiyer* this = (EnWeiyer*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     this->actor.home.pos.y = this->actor.yDistToWater + this->actor.world.pos.y - 5.0f;
     func_80B3368C(this, play);

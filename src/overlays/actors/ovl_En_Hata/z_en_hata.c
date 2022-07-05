@@ -51,7 +51,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 void EnHata_Init(Actor* thisx, PlayState* play) {
     EnHata* this = (EnHata*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
     f32 frameCount = Animation_GetLastFrame(&gFlagpoleFlapAnim);
 

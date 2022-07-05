@@ -39,9 +39,9 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
 }
 
 void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -170,7 +170,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, PlayState* play) {
     f32 playerCentroidDist;
     s32 rollDataIndex;
     MtxF mtx;
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
 
     switch (this->dyna.actor.params & 0xFF) {
@@ -251,7 +251,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, PlayState* play) {
 }
 
 void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     f32 sin;
     f32 cos;
 

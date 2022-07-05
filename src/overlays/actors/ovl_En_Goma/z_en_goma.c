@@ -698,7 +698,7 @@ void EnGoma_SetFloorRot(EnGoma* this) {
 
 void EnGoma_Update(Actor* thisx, PlayState* play) {
     EnGoma* this = (EnGoma*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
 
     if (this->actionTimer != 0) {
@@ -781,7 +781,7 @@ Gfx* EnGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
 void EnGoma_Draw(Actor* thisx, PlayState* play) {
     EnGoma* this = (EnGoma*)thisx;
     s32 y;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_goma.c", 2040);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

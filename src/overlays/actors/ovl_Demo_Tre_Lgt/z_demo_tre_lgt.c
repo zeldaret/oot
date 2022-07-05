@@ -81,7 +81,7 @@ void func_8099375C(DemoTreLgt* this, PlayState* play) {
 
 void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame) {
     SkelCurve* skelCurve = &this->skelCurve;
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
@@ -132,7 +132,7 @@ void DemoTreLgt_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 DemoTreLgt_OverrideLimbDraw(PlayState* play, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
-    s32 pad;
+    UNUSED s32 pad;
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_tre_lgt.c", 423);

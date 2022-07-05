@@ -43,7 +43,7 @@ const f64 D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 1
 void _Ldtob(_Pft* args, u8 type) {
     u8 buff[BUFF_LEN];
     u8* ptr = buff;
-    u32 sp70;
+    UNUSED s32 pad;
     f64 val = args->v.ld;
     /* maybe struct? */
     s16 err;

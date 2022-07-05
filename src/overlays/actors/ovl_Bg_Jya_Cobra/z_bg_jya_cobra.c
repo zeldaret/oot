@@ -116,9 +116,9 @@ void func_808958F0(Vec3f* dest, Vec3f* src, f32 arg2, f32 arg3) {
 }
 
 void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -142,7 +142,7 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
 }
 
 void func_80895A70(BgJyaCobra* this) {
-    s32 pad;
+    UNUSED s32 pad;
     BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
     MirRay* mirRay;
 
@@ -190,7 +190,7 @@ void func_80895A70(BgJyaCobra* this) {
 
 void func_80895BEC(BgJyaCobra* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp2C;
 
     func_808958F0(&sp2C, &this->unk_174, Math_SinS(this->unk_170), Math_CosS(this->unk_170));
@@ -536,7 +536,7 @@ void func_80896CB4(PlayState* play) {
 }
 
 void func_80896D78(BgJyaCobra* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3s sp44;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_cobra.c", 924);
@@ -557,7 +557,7 @@ void func_80896D78(BgJyaCobra* this, PlayState* play) {
 }
 
 void BgJyaCobra_DrawShadow(BgJyaCobra* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s16 params = this->dyna.actor.params & 3;
     Vec3f sp64;
     Vec3s* phi_a3;

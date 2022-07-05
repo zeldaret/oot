@@ -68,7 +68,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanRock_Init(Actor* thisx, PlayState* play) {
     BgHidanRock* this = (BgHidanRock*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -349,7 +349,7 @@ static void* sVerticalFlamesTexs[] = {
 };
 
 void func_8088BC40(PlayState* play, BgHidanRock* this) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
 
@@ -378,7 +378,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this) {
 
 void BgHidanRock_Draw(Actor* thisx, PlayState* play) {
     BgHidanRock* this = (BgHidanRock*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->type == 0) {
         Gfx_DrawDListOpa(play, gFireTempleStoneBlock1DL);

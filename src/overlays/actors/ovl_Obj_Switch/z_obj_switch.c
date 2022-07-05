@@ -183,9 +183,9 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
 }
 
 void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -239,7 +239,7 @@ Actor* ObjSwitch_SpawnIce(ObjSwitch* this, PlayState* play) {
 }
 
 void ObjSwitch_SetOn(ObjSwitch* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 subType;
 
     if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
@@ -731,7 +731,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
         { gEyeSwitchSilverOpenTex, gEyeSwitchSilverHalfTex, gEyeSwitchSilverClosedTex, gEyeSwitchSilverClosedTex },
     };
     static Gfx* eyeDlists[] = { gEyeSwitch1DL, gEyeSwitch2DL };
-    s32 pad;
+    UNUSED s32 pad;
     s32 subType = (this->dyna.actor.params >> 4 & 7);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
@@ -750,8 +750,8 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
                                 gCrystalSwitchCoreXluDL };
     static Gfx* opaDLists[] = { gCrystalSwitchCoreOpaDL, gCrystalSwitchDiamondOpaDL, NULL, NULL,
                                 gCrystalSwitchCoreOpaDL };
-    s32 pad1;
-    s32 pad2;
+    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     s32 subType;
 
     subType = (this->dyna.actor.params >> 4 & 7);

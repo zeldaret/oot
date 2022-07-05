@@ -273,9 +273,9 @@ void EnFr_DrawActive(EnFr* this) {
 
 void EnFr_Update(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s32 frogIndex;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;

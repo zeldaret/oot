@@ -49,9 +49,9 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnVbBall_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnVbBall* this = (EnVbBall*)thisx;
-    s32 pad2;
+    UNUSED s32 pad2;
     f32 angle;
 
     if (this->actor.params >= 200) { // Volvagia's bones
@@ -76,7 +76,7 @@ void EnVbBall_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnVbBall_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnVbBall* this = (EnVbBall*)thisx;
 
     if (this->actor.params < 200) {
@@ -297,7 +297,7 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
 }
 
 void EnVbBall_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnVbBall* this = (EnVbBall*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vb_ball.c", 604);

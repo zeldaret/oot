@@ -59,7 +59,7 @@ void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc
 }
 
 void BgTreemouth_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgTreemouth* this = (BgTreemouth*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -225,7 +225,7 @@ void BgTreemouth_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     u16 alpha = 500;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_treemouth.c", 893);

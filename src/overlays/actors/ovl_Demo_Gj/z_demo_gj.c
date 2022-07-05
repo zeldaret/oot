@@ -238,7 +238,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
-    s32 pad[3];
+    UNUSED s32 pad[3];
     CollisionHeader* newHeader;
 
     if (header != NULL) {
@@ -281,12 +281,12 @@ void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
 }
 
 void DemoGj_DrawRotated(DemoGj* this, PlayState* play, Gfx* displayList) {
-    s32 pad;
+    UNUSED s32 pad;
     GraphicsContext* gfxCtx;
     s16 x = this->rotationVec.x;
     s16 y = this->rotationVec.y;
     s16 z = this->rotationVec.z;
-    s32 pad2;
+    UNUSED s32 pad2;
     Mtx* matrix;
 
     gfxCtx = play->state.gfxCtx;
@@ -986,7 +986,7 @@ void func_8097AEE8(DemoGj* this, PlayState* play) {
     ColliderCylinder* cylinder1 = &this->cylinders[1];
     ColliderCylinder* cylinder2 = &this->cylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
-    s32 pad;
+    UNUSED s32 pad;
     s16 theta = this->dyna.actor.world.rot.y;
     f32 cos_theta = Math_CosS(theta);
     f32 sin_theta = Math_SinS(theta);
@@ -1005,11 +1005,11 @@ void func_8097AEE8(DemoGj* this, PlayState* play) {
 }
 
 void DemoGj_SetCylindersAsAC(DemoGj* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     Collider* cylinder0 = &this->cylinders[0].base;
     Collider* cylinder1 = &this->cylinders[1].base;
     Collider* cylinder2 = &this->cylinders[2].base;
-    s32 pad2[3];
+    UNUSED s32 pad2[3];
 
     CollisionCheck_SetAC(play, &play->colChkCtx, cylinder0);
     CollisionCheck_SetAC(play, &play->colChkCtx, cylinder1);
@@ -1116,7 +1116,7 @@ void func_8097B450(DemoGj* this, PlayState* play) {
     ColliderCylinder* cylinder1 = &this->cylinders[1];
     ColliderCylinder* cylinder2 = &this->cylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
-    s32 pad;
+    UNUSED s32 pad;
     s16 theta = this->dyna.actor.world.rot.y;
     f32 cos_theta = Math_CosS(theta);
     f32 sin_theta = Math_SinS(theta);
@@ -1135,11 +1135,11 @@ void func_8097B450(DemoGj* this, PlayState* play) {
 }
 
 void DemoGj_SetCylindersAsAC2(DemoGj* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     Collider* cylinder0 = &this->cylinders[0].base;
     Collider* cylinder1 = &this->cylinders[1].base;
     Collider* cylinder2 = &this->cylinders[2].base;
-    s32 pad2[3];
+    UNUSED s32 pad2[3];
 
     CollisionCheck_SetAC(play, &play->colChkCtx, cylinder0);
     CollisionCheck_SetAC(play, &play->colChkCtx, cylinder1);
@@ -1274,7 +1274,7 @@ void func_8097B9BC(DemoGj* this, PlayState* play) {
 void func_8097BA48(DemoGj* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     ColliderCylinder* cylinder = &this->cylinders[0];
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(thisx);

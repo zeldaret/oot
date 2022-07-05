@@ -144,7 +144,7 @@ void UCodeDisas_Init(UCodeDisas* this) {
     }
 }
 
-void UCodeDisas_Destroy(UCodeDisas* this) {
+void UCodeDisas_Destroy(UNUSED UCodeDisas* this) {
 }
 
 void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
@@ -446,7 +446,7 @@ typedef union {
 } GfxMod;
 
 void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
-    u32 pad;
+    UNUSED s32 pad;
     u32 addr;
     u32 rdpHalf;
     u16 linkDlLow;
@@ -1127,7 +1127,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                             }
 
                             case G_MOVEWORD: {
-                                u32 pad;
+                                UNUSED s32 pad;
                                 Gdma dma = ptr->dma;
                                 Gmovewd movewd = ptr->movewd;
 
@@ -1312,7 +1312,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                             } break;
 
                             case G_MOVEWORD: {
-                                u32 pad[2];
+                                UNUSED u32 pad[2];
                                 Gmovewd movewd = ptr->movewd;
 
                                 switch (movewd.index) {

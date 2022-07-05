@@ -72,7 +72,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaZou_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgHakaZou* this = (BgHakaZou*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -226,7 +226,7 @@ void func_80882CC4(BgHakaZou* this, PlayState* play) {
     Vec3f actorSpawnPos;
     f32 sin;
     f32 cos;
-    s32 pad;
+    UNUSED s32 pad;
 
     sin = Math_SinS(this->dyna.actor.shape.rot.y - 0x4000) * 40.0f;
     cos = Math_CosS(this->dyna.actor.shape.rot.y - 0x4000) * 40.0f;

@@ -105,7 +105,7 @@ void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
 }
 
 void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgBdanObjects* this = (BgBdanObjects*)thisx;
     CollisionHeader* colHeader = NULL;
 

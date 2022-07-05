@@ -44,7 +44,7 @@ void FlagSet_Update(PlayState* play) {
 
     {
         GfxPrint printer;
-        s32 pad;
+        UNUSED s32 pad;
 
         polyOpa = POLY_OPA_DISP;
         gfx = Graph_GfxPlusOne(polyOpa);

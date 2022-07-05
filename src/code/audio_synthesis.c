@@ -21,13 +21,13 @@ Acmd* AudioSynth_LoadRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 lengt
 Acmd* AudioSynth_SaveBufferOffset(Acmd* cmd, u16 dmem, u16 offset, s32 length, s16* buf);
 Acmd* AudioSynth_SaveRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 length, SynthesisReverb* reverb);
 Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIndex);
-Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
+Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, UNUSED s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex);
 Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 numSamplesToLoad);
 Acmd* AudioSynth_NoteApplyHeadsetPanEffects(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 bufLen,
                                             s32 flags, s32 side);
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
-                                 u16 inBuf, s32 headsetPanSettings, s32 flags);
+                                 u16 inBuf, s32 headsetPanSettings, UNUSED s32 flags);
 Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem,
                                s32 resampleFlags);
 
@@ -49,7 +49,7 @@ u8 sNumSamplesPerWavePeriod[] = {
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
-    s32 pad[3];
+    UNUSED s32 pad[3];
     SynthesisReverb* reverb = &gAudioContext.synthesisReverbs[reverbIndex];
     s32 temp_a0_2;
     s32 temp_a0_4;
@@ -144,7 +144,7 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     Acmd* cmdP;
     s32 i;
     s32 j;
-    SynthesisReverb* reverb;
+    UNUSED SynthesisReverb* reverb;
 
     cmdP = cmdStart;
     for (i = gAudioContext.audioBufferParameters.updatesPerFrame; i > 0; i--) {
@@ -467,7 +467,7 @@ void AudioSynth_LoadFilterCount(Acmd* cmd, s32 count, void* addr) {
     aFilter(cmd, 2, count, addr);
 }
 
-Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, UNUSED s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* ringBufferItem = &reverb->items[reverb->curFrame][updateIndex];
 
     cmd =
@@ -481,7 +481,7 @@ Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 aiBufLen, SynthesisReverb* rever
     return cmd;
 }
 
-Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, UNUSED s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][updateIndex];
 
     cmd = AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_LEFT_CH, bufItem->startPos, bufItem->lengthA, reverb);
@@ -689,9 +689,9 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     return cmd;
 }
 
-Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
+Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, UNUSED s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
-    s32 pad1[3];
+    UNUSED s32 pad1[3];
     Sample* sample;
     AdpcmLoop* loopInfo;
     s32 nSamplesUntilLoopEnd;
@@ -705,7 +705,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 gain;
     s32 frameIndex;
     s32 skipBytes;
-    s32 temp_v1_6;
+    UNUSED s32 pad;
     void* buf;
     s32 nSamplesToDecode;
     u32 sampleAddr;
@@ -716,7 +716,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 nSamplesToProcess;
     s32 phi_s4;
     s32 nFirstFrameSamplesToIgnore;
-    s32 pad2[7];
+    UNUSED s32 pad2[7];
     s32 frameSize;
     s32 nFramesToDecode;
     s32 skipInitialSamples;
@@ -740,7 +740,6 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 finished;
     s32 aligned;
     s16 addr;
-    u16 unused;
 
     bookOffset = noteSubEu->bitField1.bookOffset;
     finished = noteSubEu->bitField0.finished;
@@ -1116,7 +1115,7 @@ Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 co
 }
 
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
-                                 u16 inBuf, s32 headsetPanSettings, s32 flags) {
+                                 u16 inBuf, s32 headsetPanSettings, UNUSED s32 flags) {
     u32 phi_a1;
     u16 curVolLeft;
     u16 targetVolLeft;
@@ -1128,7 +1127,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     s16 rampReverb;
     s16 sourceReverbVol;
     u16 targetVolRight;
-    s32 pad;
+    UNUSED s32 pad;
 
     curVolLeft = synthState->curVolLeft;
     targetVolLeft = noteSubEu->targetVolLeft;

@@ -45,7 +45,7 @@ void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* mod
 void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3) {
     s32 modifCount;
     SkinLimb** skeleton;
-    SkinLimb* limb;
+    UNUSED s32 pad;
     SkinAnimatedLimbData* data;
     SkinLimbModif* modif;
     SkinLimbVtx* vtxEntry;
@@ -158,10 +158,10 @@ void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s
 /**
  * Draw a limb of type SKIN_LIMB_TYPE_NORMAL, of the skeleton `skin` at index `limbIndex`
  */
-void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags) {
+void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, UNUSED s32 drawFlags) {
     Gfx* gfx = dlistOverride;
     SkinLimb** skeleton;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 395);
 
@@ -191,7 +191,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
     s32 segmentType;
     SkinLimb** skeleton;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 471);
 

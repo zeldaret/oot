@@ -20,7 +20,7 @@ void func_800AD920(struct_80166500* this) {
 }
 
 // Destroy
-void func_800AD950(struct_80166500* this) {
+void func_800AD950(UNUSED struct_80166500* this) {
 }
 
 // Draw

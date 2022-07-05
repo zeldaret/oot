@@ -98,7 +98,7 @@ void ObjTimeblock_ToggleSwitchFlag(PlayState* play, s32 flag) {
 
 void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     ObjTimeblock* this = (ObjTimeblock*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
@@ -140,7 +140,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
 }
 
 void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjTimeblock* this = (ObjTimeblock*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);

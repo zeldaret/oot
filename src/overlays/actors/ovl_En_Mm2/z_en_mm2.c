@@ -289,7 +289,7 @@ void func_80AAF668(EnMm2* this, PlayState* play) {
 
 void EnMm2_Update(Actor* thisx, PlayState* play) {
     EnMm2* this = (EnMm2*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->unk_1F4 & 1) {
         Actor_TrackPlayer(play, &this->actor, &this->unk_1E8, &this->unk_1EE, this->actor.focus.pos);

@@ -81,7 +81,7 @@ void EnFhgFire_SetUpdate(EnFhgFire* this, EnFhgFireUpdateFunc updateFunc) {
 }
 
 void EnFhgFire_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnFhgFire* this = (EnFhgFire*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -163,7 +163,7 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnFhgFire_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnFhgFire* this = (EnFhgFire*)thisx;
 
     if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST) ||
@@ -681,7 +681,7 @@ void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play) {
 }
 
 void EnFhgFire_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnFhgFire* this = (EnFhgFire*)thisx;
 
     this->work[FHGFIRE_VARIANCE_TIMER]++;
@@ -701,7 +701,7 @@ static void* sDustTextures[] = {
 };
 
 void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnFhgFire* this = (EnFhgFire*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fhg_fire.c", 1723);

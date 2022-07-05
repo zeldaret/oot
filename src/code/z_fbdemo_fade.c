@@ -36,7 +36,7 @@ void* TransitionFade_Init(void* thisx) {
     return this;
 }
 
-void TransitionFade_Destroy(void* thisx) {
+void TransitionFade_Destroy(UNUSED void* thisx) {
 }
 
 void TransitionFade_Update(void* thisx, s32 updateRate) {

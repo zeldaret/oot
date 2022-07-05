@@ -74,7 +74,7 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
         ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
     };
     s32 i;
-    s32 pad;
+    UNUSED s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     thisx->scale.x = thisx->scale.z = 0.01f;
@@ -201,7 +201,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
         object_bxa_Tex_0029F0,
     };
     EnBx* this = (EnBx*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Mtx* mtx = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Mtx));
     s16 i;
 

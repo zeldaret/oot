@@ -301,7 +301,7 @@ static SceneSelectEntry sScenes[] = {
 
 void MapSelect_UpdateMenu(MapSelectState* this) {
     Input* input = &this->state.input[0];
-    s32 pad;
+    UNUSED s32 pad;
     SceneSelectEntry* selectedScene;
 
     if (this->verticalInputAccumulator == 0) {
@@ -724,7 +724,7 @@ void MapSelect_Destroy(GameState* thisx) {
 void MapSelect_Init(GameState* thisx) {
     MapSelectState* this = (MapSelectState*)thisx;
     u32 size;
-    s32 pad;
+    UNUSED s32 pad;
 
     this->state.main = MapSelect_Main;
     this->state.destroy = MapSelect_Destroy;

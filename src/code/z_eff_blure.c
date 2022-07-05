@@ -186,7 +186,7 @@ void EffectBlure_Init2(void* thisx, void* initParamsx) {
     }
 }
 
-void EffectBlure_Destroy(void* thisx) {
+void EffectBlure_Destroy(UNUSED void* thisx) {
 }
 
 s32 EffectBlure_Update(void* thisx) {
@@ -379,7 +379,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
     }
 }
 
-void EffectBlure_SetupSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
+void EffectBlure_SetupSmooth(UNUSED EffectBlure* this, GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 809);
 
     POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_38);
@@ -608,8 +608,8 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             f32 temp_f22 = temp_f2 - 2.0f * temp_f0 + temp_f28;    // t^3 - 2t^2 + t
             f32 temp_f24 = 2.0f * temp_f2 - temp_f0 * 3.0f + 1.0f; // 2t^3 - 3t^2 + 1
             f32 temp_f26 = temp_f0 * 3.0f - 2.0f * temp_f2;        // 3t^2 - 2t^3
-            s32 pad1;
-            s32 pad2;
+            UNUSED s32 pad1;
+            UNUSED s32 pad2;
 
             // p = (2t^3 - 3t^2 + 1)p0 + (3t^2 - 2t^3)p1 + (t^3 - 2t^2 + t)m0 + (t^3 - t^2)m1
             spE0.x = (temp_f24 * sp1CC.x) + (temp_f26 * sp18C.x) + (temp_f22 * sp1B4.x) + (temp_f20 * sp174.x);
@@ -711,7 +711,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this2, GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1263);
 }
 
-void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
+void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, UNUSED EffectBlure* this, UNUSED Vtx* vtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1280);
 
     POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_38);
@@ -719,7 +719,7 @@ void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vt
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1285);
 }
 
-void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
+void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, UNUSED Vtx* vtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1294);
 
     gDPPipeSync(POLY_XLU_DISP++);

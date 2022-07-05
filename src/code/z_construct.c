@@ -166,7 +166,7 @@ void func_801109B0(PlayState* play) {
 
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
-    s32 pad;
+    UNUSED s32 pad;
 
     Message_SetTables();
 
@@ -600,6 +600,6 @@ void func_80111070(void) {
     VREG(92) = -63;
 }
 
-void func_80112098(PlayState* play) {
+void func_80112098(UNUSED PlayState* play) {
     func_80111070();
 }

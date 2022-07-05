@@ -331,7 +331,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, PlayState* play) {
 }
 
 void EnSyatekiItm_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnSyatekiItm* this = (EnSyatekiItm*)thisx;
 
     this->actionFunc(this, play);

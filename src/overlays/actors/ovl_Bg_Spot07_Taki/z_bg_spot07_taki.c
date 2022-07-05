@@ -34,7 +34,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot07Taki_Init(Actor* thisx, PlayState* play) {
     BgSpot07Taki* this = (BgSpot07Taki*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);

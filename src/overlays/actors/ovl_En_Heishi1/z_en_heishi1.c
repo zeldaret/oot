@@ -64,7 +64,7 @@ static s32 sBgCamIndices[] = {
 static s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
 void EnHeishi1_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f rupeePos;
     s32 i;
@@ -381,9 +381,9 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
     EnHeishi1* this = (EnHeishi1*)thisx;
     s16 path;
     u8 i;
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
-    s32 pad2;
+    UNUSED s32 pad2;
     Camera* activeCam;
 
     this->activeTimer++;
@@ -481,7 +481,7 @@ s32 EnHeishi1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 }
 
 void EnHeishi1_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 

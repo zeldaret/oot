@@ -247,7 +247,7 @@ void EnExRuppy_EnterWater(EnExRuppy* this, PlayState* play) {
 void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame;
     Vec3f pos;
-    s32 pad;
+    UNUSED s32 pad;
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         pos = this->actor.world.pos;
@@ -378,7 +378,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
     static void* rupeeTextures[] = {
         gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
     };
-    s32 pad;
+    UNUSED s32 pad;
     EnExRuppy* this = (EnExRuppy*)thisx;
 
     if (!this->invisible) {

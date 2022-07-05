@@ -54,7 +54,7 @@ void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
 }
 
 void EnBlkobj_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBlkobj* this = (EnBlkobj*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -71,7 +71,7 @@ void EnBlkobj_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnBlkobj_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBlkobj* this = (EnBlkobj*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -120,7 +120,7 @@ void EnBlkobj_DoNothing(EnBlkobj* this, PlayState* play) {
 }
 
 void EnBlkobj_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBlkobj* this = (EnBlkobj*)thisx;
 
     this->actionFunc(this, play);
@@ -145,7 +145,7 @@ void EnBlkobj_DrawAlpha(PlayState* play, Gfx* dList, s32 alpha) {
 }
 
 void EnBlkobj_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBlkobj* this = (EnBlkobj*)thisx;
     s32 illusionAlpha;
     u32 gameplayFrames;

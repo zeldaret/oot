@@ -45,7 +45,7 @@ static InitChainEntry sInitChain[] = {
 static u8 sBlockPositions[2];
 
 void BgGndIceblock_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgGndIceblock* this = (BgGndIceblock*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -68,7 +68,7 @@ void BgGndIceblock_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgGndIceblock_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -344,14 +344,14 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
 }
 
 void BgGndIceblock_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     this->actionFunc(this, play);
 }
 
 void BgGndIceblock_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     Gfx_DrawDListOpa(play, gWaterTrialIceBlockDL);

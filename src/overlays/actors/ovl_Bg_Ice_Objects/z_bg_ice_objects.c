@@ -40,7 +40,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgIceObjects_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgIceObjects* this = (BgIceObjects*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -54,7 +54,7 @@ void BgIceObjects_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgIceObjects_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgIceObjects* this = (BgIceObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -223,14 +223,14 @@ void BgIceObjects_Stuck(BgIceObjects* this, PlayState* play) {
 }
 
 void BgIceObjects_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgIceObjects* this = (BgIceObjects*)thisx;
 
     this->actionFunc(this, play);
 }
 
 void BgIceObjects_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgIceObjects* this = (BgIceObjects*)thisx;
 
     Gfx_DrawDListOpa(play, object_ice_objects_DL_000190);

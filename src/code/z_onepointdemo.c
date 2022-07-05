@@ -1373,5 +1373,5 @@ s32 OnePointCutscene_CheckForCategory(PlayState* play, s32 actorCategory) {
 }
 
 // unused, also empty.
-void OnePointCutscene_Noop(PlayState* play, s32 arg1) {
+void OnePointCutscene_Noop(UNUSED PlayState* play, UNUSED s32 arg1) {
 }

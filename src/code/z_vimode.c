@@ -202,7 +202,7 @@ void ViMode_Init(ViMode* viMode) {
     ViMode_Save(viMode);
 }
 
-void ViMode_Destroy(ViMode* viMode) {
+void ViMode_Destroy(UNUSED ViMode* viMode) {
 }
 
 void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures) {

@@ -478,7 +478,7 @@ void EnTk_DigEff(EnTk* this) {
 
 void EnTk_Init(Actor* thisx, PlayState* play) {
     EnTk* this = (EnTk*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 24.0f);
 
@@ -654,7 +654,7 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
 
 void EnTk_Update(Actor* thisx, PlayState* play) {
     EnTk* this = (EnTk*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

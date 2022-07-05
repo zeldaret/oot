@@ -477,7 +477,7 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
 }
 
 void EnBomChu_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBomChu* this = (EnBomChu*)thisx;
     f32 colorIntensity;
     s32 blinkHalfPeriod;

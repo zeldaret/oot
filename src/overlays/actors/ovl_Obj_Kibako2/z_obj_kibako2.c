@@ -65,7 +65,7 @@ void ObjKibako2_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void ObjKibako2_Break(ObjKibako2* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     Vec3f* thisPos;
     Vec3f pos;
     Vec3f velocity;
@@ -116,7 +116,7 @@ void ObjKibako2_SpawnCollectible(ObjKibako2* this, PlayState* play) {
 
 void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     ObjKibako2* this = (ObjKibako2*)thisx;
-    s16 pad;
+    UNUSED s16 pad;
     CollisionHeader* colHeader = NULL;
     u32 bgId;
 

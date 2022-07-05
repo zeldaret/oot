@@ -50,7 +50,7 @@ void PreNMI_Main(GameState* thisx) {
     this->state.unk_A0 = 1;
 }
 
-void PreNMI_Destroy(GameState* thisx) {
+void PreNMI_Destroy(UNUSED GameState* thisx) {
 }
 
 void PreNMI_Init(GameState* thisx) {

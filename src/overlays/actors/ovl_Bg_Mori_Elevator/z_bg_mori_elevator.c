@@ -83,7 +83,7 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
 
 void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
     BgMoriElevator* this = (BgMoriElevator*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     this->unk_172 = sIsSpawned;
@@ -191,7 +191,7 @@ void BgMoriElevator_SetupSetPosition(BgMoriElevator* this) {
 }
 
 void BgMoriElevator_SetPosition(BgMoriElevator* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     if (BgMoriElevator_IsPlayerRiding(this, play)) {
         if (play->roomCtx.curRoom.num == 2) {
@@ -249,7 +249,7 @@ void BgMoriElevator_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriElevator_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_elevator.c", 575);

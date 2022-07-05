@@ -67,9 +67,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     s16 sp21A;
     s16 sp218;
     s16 sp216;
-    s16 pad1;
+    UNUSED s16 pad1;
     s16 phi_v1;
-    s16 pad2;
+    UNUSED s16 pad2;
     s16 cursorItem;
     s16 sp208[3];
 

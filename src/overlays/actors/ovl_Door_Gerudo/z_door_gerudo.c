@@ -36,7 +36,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DoorGerudo_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     DoorGerudo* this = (DoorGerudo*)thisx;
     CollisionHeader* colHeader = NULL;
 

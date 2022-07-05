@@ -90,7 +90,7 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnDntJiji_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnDntJiji* this = (EnDntJiji*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -368,7 +368,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
 }
 
 void EnDntJiji_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnDntJiji* this = (EnDntJiji*)thisx;
 
     Actor_SetScale(&this->actor, 0.015f);

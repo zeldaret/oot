@@ -171,7 +171,7 @@ void BossFd_UpdateCamera(BossFd* this, PlayState* play) {
 }
 
 void BossFd_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossFd* this = (BossFd*)thisx;
     s16 i;
 
@@ -224,7 +224,7 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
 }
 
 void BossFd_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossFd* this = (BossFd*)thisx;
 
     SkelAnime_Free(&this->skelAnimeHead, play);
@@ -1154,7 +1154,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
         Vec3f spawnVel1;
         Vec3f spawnAccel1;
         Vec3f spawnPos1;
-        s32 pad;
+        UNUSED s32 pad;
 
         Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_APPEAR - SFX_FLAG, &this->actor.projectedPos, 4,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1303,7 +1303,7 @@ void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
 }
 
 void BossFd_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossFd* this = (BossFd*)thisx;
     f32 headGlow;
     f32 rManeGlow;
@@ -1635,7 +1635,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
 }
 
 void BossFd_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossFd* this = (BossFd*)thisx;
 
     osSyncPrintf("FD DRAW START\n");

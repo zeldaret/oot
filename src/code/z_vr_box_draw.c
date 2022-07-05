@@ -80,5 +80,5 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
     CLOSE_DISPS(gfxCtx, "../z_vr_box_draw.c", 125);
 }
 
-void SkyboxDraw_Update(SkyboxContext* skyboxCtx) {
+void SkyboxDraw_Update(UNUSED SkyboxContext* skyboxCtx) {
 }

@@ -276,7 +276,7 @@ s32 func_809F6DD0(EnDodojr* this) {
 
 void func_809F6E54(EnDodojr* this, PlayState* play) {
     f32 angles[] = { 0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f };
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
     Vec3f pos;
     s16 angleIndex;

@@ -363,7 +363,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
     EnSkj* this = (EnSkj*)thisx;
     PlayState* play = play2;
-    s32 pad;
+    UNUSED s32 pad;
     Player* player;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -458,7 +458,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
 }
 
 void EnSkj_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnSkj* this = (EnSkj*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -488,7 +488,7 @@ f32 EnSkj_GetItemYRange(EnSkj* this) {
 }
 
 s32 EnSkj_ShootNeedle(EnSkj* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f pos;
     Vec3f pos2;
     EnSkjneedle* needle;
@@ -803,7 +803,7 @@ void EnSkj_SetupStand(EnSkj* this) {
 void EnSkj_Fight(EnSkj* this, PlayState* play) {
     Vec3f pos1;
     Vec3f pos2;
-    s32 pad[3];
+    UNUSED s32 pad[3];
     f32 prevPosX;
     f32 prevPosZ;
     f32 phi_f14;
@@ -1026,7 +1026,7 @@ void EnSkj_SetupTalk(EnSkj* this) {
 }
 
 void EnSkj_SariaSongTalk(EnSkj* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         if (GET_ITEMGETINF(ITEMGETINF_16)) {
@@ -1280,7 +1280,7 @@ void EnSkj_LeaveOcarinaGame(EnSkj* this, PlayState* play) {
 
 void EnSkj_Update(Actor* thisx, PlayState* play) {
     Vec3f dropPos;
-    s32 pad;
+    UNUSED s32 pad;
     EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_ProcessTalkRequest(&this->actor, play);
@@ -1640,7 +1640,7 @@ Gfx* EnSkj_OpaqueDL(GraphicsContext* gfxCtx, u32 alpha) {
 }
 
 void EnSkj_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnSkj* this = (EnSkj*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj.c", 2475);

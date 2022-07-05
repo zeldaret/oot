@@ -90,9 +90,9 @@ static InitChainEntry sInitChain[] = {
 static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
 void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    s16 pad1;
+    UNUSED s16 pad1;
     CollisionHeader* colHeader = NULL;
-    s16 pad2;
+    UNUSED s16 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -135,7 +135,7 @@ void func_8086D0EC(BgBdanSwitch* this) {
 
 void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
     BgBdanSwitch* this = (BgBdanSwitch*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s16 type;
     s32 flag;
 
@@ -217,7 +217,7 @@ void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8086D4B4(BgBdanSwitch* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 type;
 
     if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
@@ -481,7 +481,7 @@ void func_8086DDC0(BgBdanSwitch* this, PlayState* play) {
 }
 
 void BgBdanSwitch_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgBdanSwitch* this = (BgBdanSwitch*)thisx;
     s32 type;
 

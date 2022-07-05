@@ -95,7 +95,7 @@ void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
 }
 
 void EnGoroiwa_InitCollider(EnGoroiwa* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
@@ -235,7 +235,7 @@ void EnGoroiwa_InitRotation(EnGoroiwa* this) {
 }
 
 s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Path* path = &play->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
@@ -295,7 +295,7 @@ void EnGoroiwa_SpawnWaterEffects(PlayState* play, Vec3f* contactPos) {
 s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, PlayState* play) {
     Path* path;
     s32 result;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3s* nextPointPos;
 
     Math_StepToF(&this->actor.speedXZ, R_EN_GOROIWA_SPEED * 0.01f, 0.3f);
@@ -311,7 +311,7 @@ s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, PlayState* play) {
 
 s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
     Path* path = &play->setupPathList[this->actor.params & 0xFF];
-    s32 pad;
+    UNUSED s32 pad;
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
     s32 nextPointReached;
@@ -341,7 +341,7 @@ s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
 }
 
 s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Path* path = &play->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
@@ -352,7 +352,7 @@ s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
 }
 
 s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Path* path = &play->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     f32 nextPointY;
@@ -362,7 +362,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     CollisionPoly* floorPoly;
     Vec3f raycastFrom;
     f32 floorY;
-    s32 pad2;
+    UNUSED s32 pad2;
     s32 floorBgId;
     Vec3f dustPos;
     WaterBox* waterBox;
@@ -428,7 +428,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
 
 void EnGoroiwa_UpdateRotation(EnGoroiwa* this, PlayState* play) {
     static Vec3f unitY = { 0.0f, 1.0f, 0.0f };
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f* rollAxisPtr;
     f32 rollAngleDiff;
     Vec3f rollAxis;
@@ -488,7 +488,7 @@ void EnGoroiwa_SpawnFragments(EnGoroiwa* this, PlayState* play) {
     static f32 yOffsets[] = { 0.0f, 59.5f };
     s16 angle1;
     s16 angle2;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f* thisPos = &this->actor.world.pos;
     Vec3f effectPos;
     Vec3f fragmentVelocity;
@@ -722,7 +722,7 @@ void EnGoroiwa_MoveDown(EnGoroiwa* this, PlayState* play) {
 void EnGoroiwa_Update(Actor* thisx, PlayState* play) {
     EnGoroiwa* this = (EnGoroiwa*)thisx;
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
     s32 sp30;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {

@@ -89,7 +89,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjLightswitch_InitCollider(ObjLightswitch* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderItems);
@@ -136,7 +136,7 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, PlayState* play)
     f32 x;
     f32 y;
     f32 z;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->alpha >= (100 << 6)) {
         x = (CLAMP_MAX((1.0f - 1.0f / (255 << 6) * this->alpha) * 400.0f, 60.0f) - 30.0f + 30.0f) * Rand_ZeroOne();
@@ -444,7 +444,7 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
 }
 
 void ObjLightswitch_DrawXlu(ObjLightswitch* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp68;
     Vec3s sp60;
 

@@ -73,9 +73,9 @@ void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play
         &gFireTempleBombableWallCol,
         &gFireTempleLargeBombableWallCol,
     };
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     if (collisionHeaders[this->dyna.actor.params & 0xFF] != NULL) {
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
@@ -89,7 +89,7 @@ void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play
 void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState* play) {
     static s16 sphereRadii[] = { 80, 45, 80 };
     static s16 sphereYPositions[] = { 0, 500, 500 };
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
@@ -145,7 +145,7 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgHidanKowarerukabe_SpawnDust(BgHidanKowarerukabe* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f pos;
 
     pos = this->dyna.actor.world.pos;
@@ -300,7 +300,7 @@ void BgHidanKowarerukabe_Break(BgHidanKowarerukabe* this, PlayState* play) {
 
 void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play) {
     BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (Actor_GetCollidedExplosive(play, &this->collider.base) != NULL) {
         BgHidanKowarerukabe_Break(this, play);

@@ -111,7 +111,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, flag);
@@ -120,7 +120,7 @@ void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, PlayState* play, CollisionHeade
 }
 
 void BgJyaMegami_InitCollider(BgJyaMegami* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItem);
@@ -232,7 +232,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play) {
     u32 i;
     Vec3f sp8C;
     BgJyaMegamiPieceInit* temp2;
-    s32 pad;
+    UNUSED s32 pad;
 
     this->explosionTimer++;
     if (this->explosionTimer == 30) {
@@ -321,7 +321,7 @@ static Gfx* sDLists[] = {
 };
 
 void BgJyaMegami_DrawExplode(BgJyaMegami* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgJyaMegamiPiece* piece;
     u32 i;
 

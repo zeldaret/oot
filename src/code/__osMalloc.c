@@ -560,7 +560,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
     ArenaNode* overNext2;
     ArenaNode localCopy;
     u32 blockSize;
-    s32 pad;
+    UNUSED s32 pad;
 
     newSize = ALIGN16(newSize);
     osSyncPrintf("__osRealloc(%08x, %d)\n", ptr, newSize);
@@ -645,7 +645,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
     return ptr;
 }
 
-void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, s32 line) {
+void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, UNUSED const char* file, UNUSED s32 line) {
     return __osRealloc(arena, ptr, newSize);
 }
 

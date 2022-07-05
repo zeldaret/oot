@@ -159,7 +159,7 @@ void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
 }
 
 void MirRay_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     MirRay* this = (MirRay*)thisx;
     MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
 
@@ -237,7 +237,7 @@ void MirRay_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void MirRay_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     MirRay* this = (MirRay*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -266,7 +266,7 @@ void MirRay_SetIntensity(MirRay* this, PlayState* play) {
     f32 temp_f0;
     f32 temp_f0_2;
     f32 temp_f2_2;
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
     MtxF* shieldMtx = &player->shieldMf;
 

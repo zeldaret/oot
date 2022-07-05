@@ -53,10 +53,10 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
     EnNiwGirl* this = (EnNiwGirl*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f vec1;
     Vec3f vec2;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gNiwGirlSkel, &gNiwGirlRunAnim, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(play, &this->collider);
@@ -246,7 +246,7 @@ static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 void EnNiwGirl_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
     EnNiwGirl* this = (EnNiwGirl*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp4C = sConstVec3f;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_niw_girl.c", 573);

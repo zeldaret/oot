@@ -60,11 +60,11 @@ void ConsoleLogo_Draw(ConsoleLogoState* this) {
 
     u16 y;
     u16 idx;
-    s32 pad1;
+    UNUSED s32 pad1;
     Vec3f v3;
     Vec3f v1;
     Vec3f v2;
-    s32 pad2[2];
+    UNUSED s32 pad2[2];
 
     OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 395);
 
@@ -130,7 +130,7 @@ void ConsoleLogo_Main(GameState* thisx) {
 
     if (gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
-        s32 pad;
+        UNUSED s32 pad;
 
         ConsoleLogo_PrintBuildInfo(&gfx);
         POLY_OPA_DISP = gfx;

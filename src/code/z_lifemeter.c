@@ -296,7 +296,7 @@ static void* sHeartDDTextures[] = {
 };
 
 void Health_DrawMeter(PlayState* play) {
-    s32 pad[5];
+    UNUSED s32 pad[5];
     void* heartBgImg;
     u32 curColorSet;
     f32 offsetX;
@@ -312,7 +312,7 @@ void Health_DrawMeter(PlayState* play) {
     s32 curHeartFraction = gSaveContext.health % 0x10;
     s16 totalHeartCount = gSaveContext.healthCapacity / 0x10;
     s16 fullHeartCount = gSaveContext.health / 0x10;
-    s32 pad2;
+    UNUSED s32 pad2;
     f32 beatingHeartPulsingSize = interfaceCtx->beatingHeartOscillator * 0.1f;
     s32 curCombineModeSet = 0;
     u8* curBgImgLoaded = NULL;

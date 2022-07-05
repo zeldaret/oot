@@ -352,7 +352,7 @@ void Audio_ChooseActiveSounds(u8 bankId) {
     SoundBankEntry* entry;
     ActiveSound chosenSounds[MAX_CHANNELS_PER_BANK];
     ActiveSound* activeSound;
-    s32 pad;
+    UNUSED s32 pad;
 
     numChosenSounds = 0;
     for (i = 0; i < MAX_CHANNELS_PER_BANK; i++) {
@@ -555,7 +555,7 @@ void Audio_PlayActiveSounds(u8 bankId) {
 
 void Audio_StopSfxByBank(u8 bankId) {
     SoundBankEntry* entry;
-    s32 pad;
+    UNUSED s32 pad;
     SoundBankEntry cmp;
     u8 entryIndex = gSoundBanks[bankId][0].next;
 
@@ -750,7 +750,6 @@ u8 Audio_IsSfxPlaying(u32 sfxId) {
 void Audio_ResetSounds(void) {
     u8 bankId;
     u8 i;
-    u8 entryIndex;
 
     sSoundRequestWriteIndex = 0;
     sSoundRequestReadIndex = 0;

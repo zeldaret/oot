@@ -97,7 +97,7 @@ void BgZg_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgZg_Init(Actor* thisx, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     BgZg* this = (BgZg*)thisx;
     CollisionHeader* colHeader;
 

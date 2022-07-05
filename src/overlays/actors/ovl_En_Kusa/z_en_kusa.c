@@ -98,7 +98,7 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 }
 
 s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionPoly* poly;
     Vec3f pos;
     s32 bgId;
@@ -173,7 +173,7 @@ void EnKusa_SpawnFragments(EnKusa* this, PlayState* play) {
     s32 i;
     s32 scaleIndex;
     Vec3f* dir;
-    s32 pad;
+    UNUSED s32 pad;
 
     for (i = 0; i < ARRAY_COUNT(sUnitDirections); i++) {
         dir = &sUnitDirections[i];
@@ -296,7 +296,7 @@ void EnKusa_SetupMain(EnKusa* this) {
 }
 
 void EnKusa_Main(EnKusa* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     if (Actor_HasParent(&this->actor, play)) {
         EnKusa_SetupLiftedUp(this);
@@ -370,7 +370,7 @@ void EnKusa_SetupFall(EnKusa* this) {
 }
 
 void EnKusa_Fall(EnKusa* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f contactPos;
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {

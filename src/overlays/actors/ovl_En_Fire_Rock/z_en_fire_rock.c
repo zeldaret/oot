@@ -384,7 +384,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
 
 void EnFireRock_Draw(Actor* thisx, PlayState* play) {
     EnFireRock* this = (EnFireRock*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fire_rock.c", 747);
     Matrix_Translate(thisx->world.pos.x + this->relativePos.x, thisx->world.pos.y + this->relativePos.y,

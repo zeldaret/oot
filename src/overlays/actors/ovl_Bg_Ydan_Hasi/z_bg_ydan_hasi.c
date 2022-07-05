@@ -38,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgYdanHasi* this = (BgYdanHasi*)thisx;
     CollisionHeader* colHeader = NULL;
     WaterBox* waterBox;

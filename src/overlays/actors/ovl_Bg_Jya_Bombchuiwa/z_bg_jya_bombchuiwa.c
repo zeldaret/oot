@@ -62,7 +62,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJyaBombchuiwa_SetupCollider(BgJyaBombchuiwa* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);

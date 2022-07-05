@@ -242,7 +242,7 @@ s32 EnDog_Orient(EnDog* this, PlayState* play) {
 void EnDog_Init(Actor* thisx, PlayState* play) {
     EnDog* this = (EnDog*)thisx;
     s16 followingDog;
-    s32 pad;
+    UNUSED s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable, 13);
@@ -449,7 +449,7 @@ void EnDog_Wait(EnDog* this, PlayState* play) {
 
 void EnDog_Update(Actor* thisx, PlayState* play) {
     EnDog* this = (EnDog*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_Update(&this->skelAnime);

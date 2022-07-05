@@ -90,7 +90,7 @@ void EnfHG_Init(Actor* thisx, PlayState* play2) {
 }
 
 void EnfHG_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnfHG* this = (EnfHG*)thisx;
 
     osSyncPrintf("F DT1\n");
@@ -108,11 +108,11 @@ void EnfHG_SetupIntro(EnfHG* this, PlayState* play) {
 
 void EnfHG_Intro(EnfHG* this, PlayState* play) {
     static Vec3f audioVec = { 0.0f, 0.0f, 50.0f };
-    s32 pad64;
+    UNUSED s32 pad64;
     Player* player = GET_PLAYER(play);
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
-    s32 pad58;
-    s32 pad54;
+    UNUSED s32 pad58;
+    UNUSED s32 pad54;
 
     if (this->cutsceneState != INTRO_FINISH) {
         SkelAnime_Update(&this->skin.skelAnime);
@@ -677,7 +677,7 @@ void EnfHG_Done(EnfHG* this, PlayState* play) {
 }
 
 void EnfHG_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnfHG* this = (EnfHG*)thisx;
     u8 i;
 
@@ -713,7 +713,7 @@ void EnfHG_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
 void EnfHG_Draw(Actor* thisx, PlayState* play) {
     EnfHG* this = (EnfHG*)thisx;
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fhg.c", 2439);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

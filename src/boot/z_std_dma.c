@@ -49,7 +49,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, void* ram, u32 size) {
     OSMesg msg;
     s32 ret;
     u32 buffSize = gDmaMgrDmaBuffSize;
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     if (buffSize == 0) {
         buffSize = 0x2000;
@@ -309,7 +309,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
     }
 }
 
-void DmaMgr_ThreadEntry(void* arg) {
+void DmaMgr_ThreadEntry(UNUSED void* arg) {
     OSMesg msg;
     DmaRequest* req;
 
@@ -336,7 +336,7 @@ void DmaMgr_ThreadEntry(void* arg) {
     osSyncPrintf("ＤＭＡマネージャスレッド実行終了\n");
 }
 
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, u32 vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg) {
+s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, u32 vrom, u32 size, UNUSED u32 unk, OSMesgQueue* queue, OSMesg msg) {
     static s32 sDmaMgrQueueFullLogged = 0;
 
     if ((1 && (ram == NULL)) || (osMemSize < OS_K0_TO_PHYSICAL(ram) + size) || (vrom & 1) || (vrom > 0x4000000) ||
@@ -439,7 +439,7 @@ s32 DmaMgr_SendRequest1(void* ram, u32 vrom, u32 size, const char* file, s32 lin
     s32 ret;
     OSMesgQueue queue;
     OSMesg msg;
-    s32 pad;
+    UNUSED s32 pad;
 
     req.filename = file;
     req.line = line;

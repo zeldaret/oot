@@ -129,7 +129,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -306,7 +306,7 @@ void func_808B7F74(BgSpot18Basket* this) {
 }
 
 void func_808B7FC0(BgSpot18Basket* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 tempUnk214;
     f32 tempUnk210;
     s16 arrayValue;
@@ -425,7 +425,7 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
 }
 
 void BgSpot18Basket_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     s32 bgId;
 

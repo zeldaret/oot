@@ -68,7 +68,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnAni_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnAni* this = (EnAni*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -172,7 +172,7 @@ void func_809B064C(EnAni* this, PlayState* play) {
 }
 
 void func_809B07F8(EnAni* this, PlayState* play) {
-    s16 pad;
+    UNUSED s16 pad;
     s16 yawDiff;
     u16 textId;
 
@@ -234,7 +234,7 @@ void func_809B0A6C(EnAni* this, PlayState* play) {
 
 void EnAni_Update(Actor* thisx, PlayState* play) {
     EnAni* this = (EnAni*)thisx;
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -316,7 +316,7 @@ void EnAni_Draw(Actor* thisx, PlayState* play) {
         gRoofManEyeClosedTex,
     };
     EnAni* this = (EnAni*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ani.c", 719);
 

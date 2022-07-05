@@ -14,7 +14,7 @@ u8 sMempakExtName[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 s32 Mempak_Init(s32 controllerNb) {
     OSMesgQueue* mq;
-    s32 pad;
+    UNUSED s32 pad;
     s32 ret = false;
 
     mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
@@ -29,11 +29,11 @@ s32 Mempak_Init(s32 controllerNb) {
     return ret;
 }
 
-s32 Mempak_GetFreeBytes(s32 controllerNb) {
+s32 Mempak_GetFreeBytes(UNUSED s32 controllerNb) {
     return sMempakFreeBytes;
 }
 
-s32 Mempak_FindFile(s32 controllerNb, char start, char end) {
+s32 Mempak_FindFile(UNUSED s32 controllerNb, char start, char end) {
     OSMesgQueue* mq;
     s32 error;
     char idx;
@@ -63,11 +63,11 @@ s32 Mempak_FindFile(s32 controllerNb, char start, char end) {
     return flag;
 }
 
-s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) {
+s32 Mempak_Write(UNUSED s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
-    s32 pad;
+    UNUSED s32 pad;
 
     mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
 
@@ -83,11 +83,11 @@ s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size)
     return ret;
 }
 
-s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) {
+s32 Mempak_Read(UNUSED s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
-    s32 pad;
+    UNUSED s32 pad;
 
     mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
 
@@ -102,12 +102,12 @@ s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) 
     return ret;
 }
 
-s32 Mempak_Alloc(s32 controllerNb, char* idx, s32 size) {
+s32 Mempak_Alloc(UNUSED s32 controllerNb, char* idx, s32 size) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = 0;
     s32 i;
-    s32 pad;
+    UNUSED s32 pad;
 
     mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
 
@@ -154,7 +154,7 @@ s32 Mempak_Alloc(s32 controllerNb, char* idx, s32 size) {
     return ret;
 }
 
-s32 Mempak_DeleteFile(s32 controllerNb, char idx) {
+s32 Mempak_DeleteFile(UNUSED s32 controllerNb, char idx) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
@@ -172,11 +172,11 @@ s32 Mempak_DeleteFile(s32 controllerNb, char idx) {
     return ret;
 }
 
-s32 Mempak_GetFileSize(s32 controllerNb, char idx) {
+s32 Mempak_GetFileSize(UNUSED s32 controllerNb, char idx) {
     OSMesgQueue* mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
     OSPfsState state;
     s32 error = osPfsFileState(&sMempakPfsHandle, sMempakFiles[idx - 'A'], &state);
-    s32 pad;
+    UNUSED s32 pad;
 
     PadMgr_UnlockSerialMesgQueue(&gPadMgr, mq);
 

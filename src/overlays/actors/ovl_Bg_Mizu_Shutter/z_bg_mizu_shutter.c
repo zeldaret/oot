@@ -45,11 +45,11 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgMizuShutter_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMizuShutter* this = (BgMizuShutter*)thisx;
-    s32 pad2;
+    UNUSED s32 pad2;
     CollisionHeader* colHeader = NULL;
-    s32 pad3;
+    UNUSED s32 pad3;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->displayList = sDisplayLists[BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor)];
@@ -85,7 +85,7 @@ void BgMizuShutter_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuShutter_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMizuShutter* this = (BgMizuShutter*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -148,14 +148,14 @@ void BgMizuShutter_WaitForTimer(BgMizuShutter* this, PlayState* play) {
 }
 
 void BgMizuShutter_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMizuShutter* this = (BgMizuShutter*)thisx;
 
     this->actionFunc(this, play);
 }
 
 void BgMizuShutter_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMizuShutter* this = (BgMizuShutter*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 410);

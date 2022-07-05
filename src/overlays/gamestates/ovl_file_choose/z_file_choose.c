@@ -944,7 +944,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     s16 i;
     s16 quadVtxIndex;
     s16 isActive;
-    s16 pad;
+    UNUSED s16 pad;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1940);
 
@@ -1438,7 +1438,7 @@ void FileSelect_FadeOut(GameState* thisx) {
 void FileSelect_LoadGame(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     u16 swordEquipValue;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1872,7 +1872,7 @@ void FileSelect_Destroy(GameState* thisx) {
 void FileSelect_Init(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     u32 size = (u32)_title_staticSegmentRomEnd - (u32)_title_staticSegmentRomStart;
-    s32 pad;
+    UNUSED s32 pad;
 
     SREG(30) = 1;
     osSyncPrintf("SIZE=%x\n", size);

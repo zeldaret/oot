@@ -54,7 +54,7 @@ void En_Js_SetupAction(EnJs* this, EnJsActionFunc actionFunc) {
 
 void EnJs_Init(Actor* thisx, PlayState* play) {
     EnJs* this = (EnJs*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gCarpetMerchantSkel, &gCarpetMerchantSlappingKneeAnim, this->jointTable,
@@ -165,8 +165,8 @@ void func_80A89304(EnJs* this, PlayState* play) {
 
 void EnJs_Update(Actor* thisx, PlayState* play) {
     EnJs* this = (EnJs*)thisx;
-    s32 pad;
-    s32 pad2;
+    UNUSED s32 pad;
+    UNUSED s32 pad2;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

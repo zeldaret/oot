@@ -64,7 +64,7 @@ void EnWallTubo_FindGirl(EnWallTubo* this, PlayState* play) {
 
 void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play) {
     EnBomChu* chu;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f effAccel = { 0.0f, 0.1f, 0.0f };
     Vec3f effVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f chuPosDiff;

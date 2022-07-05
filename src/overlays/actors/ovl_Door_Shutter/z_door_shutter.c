@@ -221,7 +221,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     DoorShutter* this = (DoorShutter*)thisx;
     PlayState* play = play2;
     s32 phi_a3;
-    s32 pad;
+    UNUSED s32 pad;
     s32 objectIndex;
     s32 i;
 
@@ -312,7 +312,7 @@ void DoorShutter_SetupType(DoorShutter* this, PlayState* play) {
 }
 
 f32 func_80996840(PlayState* play, DoorShutter* this, f32 arg2, f32 arg3, f32 arg4) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp28;
     Vec3f sp1C;
     Player* player = GET_PLAYER(play);
@@ -705,7 +705,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
 
     if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
         (this->unk_16B == 0 || func_80997A34(this, play) != 0)) {
-        s32 pad[2];
+        UNUSED s32 pad[2];
         ShutterInfo* sp70 = &sShutterInfo[this->unk_16C];
 
         OPEN_DISPS(play->state.gfxCtx, "../z_door_shutter.c", 2048);

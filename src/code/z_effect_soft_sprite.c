@@ -31,7 +31,7 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     }
 }
 
-void EffectSs_ClearAll(PlayState* play) {
+void EffectSs_ClearAll(UNUSED PlayState* play) {
     u32 i;
     EffectSs* effectSs;
     EffectSsOverlay* overlay;

@@ -172,7 +172,7 @@ void EnDha_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnDha_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnDha* this = (EnDha*)thisx;
 
     Collider_DestroyJntSph(play, &this->collider);
@@ -193,8 +193,8 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
     Vec3f armPosMultiplier1 = { 0.0f, 0.0f, 55.0f };
     Vec3f armPosMultiplier2 = { 0.0f, 0.0f, -54.0f };
     Player* player = GET_PLAYER(play);
-    s32 pad;
-    s32 pad2;
+    UNUSED s32 pad;
+    UNUSED s32 pad2;
     Vec3f playerPos = player->actor.world.pos;
     Vec3s angle;
     s16 yaw;
@@ -402,7 +402,7 @@ void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
 }
 
 void EnDha_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnDha* this = (EnDha*)thisx;
 
     if (this->actor.parent == NULL) {
@@ -456,7 +456,7 @@ void EnDha_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 void EnDha_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnDha* this = (EnDha*)thisx;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

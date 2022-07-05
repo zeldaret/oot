@@ -138,7 +138,7 @@ void View_GetViewport(View* view, Viewport* viewport) {
 void View_ApplyShrinkWindow(View* view) {
     s32 varY;
     s32 varX;
-    s32 pad;
+    UNUSED s32 pad;
     s32 ulx;
     s32 uly;
     s32 lrx;
@@ -463,7 +463,7 @@ s32 View_ApplyOrthoToOverlay(View* view) {
  * Apply scissor, viewport, view and projection (perspective) to OVERLAY_DISP.
  */
 s32 View_ApplyPerspectiveToOverlay(View* view) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     f32 aspect;
     s32 width;
     s32 height;

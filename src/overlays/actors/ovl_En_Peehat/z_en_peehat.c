@@ -855,7 +855,7 @@ void EnPeehat_SetStateExplode(EnPeehat* this) {
 
 void EnPeehat_StateExplode(EnPeehat* this, PlayState* play) {
     EnBom* bomb;
-    s32 pad[2];
+    UNUSED s32 pad[2];
 
     if (this->animTimer == 5) {
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,

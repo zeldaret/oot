@@ -733,7 +733,7 @@ void AudioHeap_LoadFilter(s16* filter, s32 lowPassCutoff, s32 highPassCutoff) {
     }
 }
 
-void AudioHeap_UpdateReverb(SynthesisReverb* reverb) {
+void AudioHeap_UpdateReverb(UNUSED SynthesisReverb* reverb) {
 }
 
 void AudioHeap_UpdateReverbs(void) {
@@ -847,7 +847,7 @@ s32 AudioHeap_ResetStep(void) {
 }
 
 void AudioHeap_Init(void) {
-    s32 pad1[4];
+    UNUSED s32 pad1[4];
     s16* ramAddr;
     s32 persistentSize;
     s32 temporarySize;
@@ -856,7 +856,7 @@ void AudioHeap_Init(void) {
     OSIntMask intMask;
     s32 i;
     s32 j;
-    s32 pad2;
+    UNUSED s32 pad2;
     AudioSpec* spec = &gAudioSpecs[gAudioContext.audioResetSpecIdToLoad]; // Audio Specifications
 
     gAudioContext.sampleDmaCount = 0;
@@ -1396,7 +1396,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     Instrument* inst;
     SoundEffect* soundEffect;
     u32* fakematch;
-    s32 pad[4];
+    UNUSED s32 pad[4];
 
     sampleBankTable = gAudioContext.sampleBankTable;
     numFonts = gAudioContext.soundFontTable->numEntries;

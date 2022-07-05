@@ -339,7 +339,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
 
 void EnHeishi4_Update(Actor* thisx, PlayState* play) {
     EnHeishi4* this = (EnHeishi4*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
 
     thisx->world.pos.x = this->pos.x;

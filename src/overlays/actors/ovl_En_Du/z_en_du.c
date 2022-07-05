@@ -278,7 +278,7 @@ void func_809FE104(EnDu* this) {
 
 void EnDu_Init(Actor* thisx, PlayState* play) {
     EnDu* this = (EnDu*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gDaruniaSkel, NULL, 0, 0, 0);
@@ -535,7 +535,7 @@ void func_809FECE4(EnDu* this, PlayState* play) {
 
 void EnDu_Update(Actor* thisx, PlayState* play) {
     EnDu* this = (EnDu*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

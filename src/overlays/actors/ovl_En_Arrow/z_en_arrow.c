@@ -385,7 +385,7 @@ void func_809B4640(EnArrow* this, PlayState* play) {
 }
 
 void EnArrow_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnArrow* this = (EnArrow*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -449,7 +449,7 @@ void func_809B4800(EnArrow* this, PlayState* play) {
 }
 
 void EnArrow_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnArrow* this = (EnArrow*)thisx;
     u8 alpha;
     f32 scale;

@@ -546,7 +546,7 @@ Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
 
 s32 EnDivingGame_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDivingGame* this = (EnDivingGame*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (limbIndex == 6) {
         rot->x += this->vec_28A.y;

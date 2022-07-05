@@ -42,7 +42,7 @@ void VisMono_Destroy(VisMono* this) {
     SystemArena_FreeDebug(this->dList, "../z_vismono.c", 137);
 }
 
-void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
+void VisMono_DesaturateTLUT(UNUSED  VisMono* this, u16* tlut) {
     s32 i;
 
     for (i = 0; i < 256; i++) {
@@ -63,7 +63,7 @@ void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
     }
 }
 
-Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
+Gfx* VisMono_DesaturateDList(UNUSED VisMono* this, Gfx* gfx) {
     s32 y;
     s32 height = VISMONO_CFBFRAG_HEIGHT;
     u16* cfbFrag = D_0F000000;

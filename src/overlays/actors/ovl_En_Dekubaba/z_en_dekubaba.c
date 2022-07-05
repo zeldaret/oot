@@ -1109,7 +1109,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
 }
 
 void EnDekubaba_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnDekubaba* this = (EnDekubaba*)thisx;
 
     if (this->collider.base.atFlags & AT_HIT) {

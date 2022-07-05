@@ -40,7 +40,7 @@ void rmonPrintf(const char* fmt, ...) {
     va_end(args);
 }
 
-void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
+void* is_proutSyncPrintf(UNUSED void* arg, const char* str, u32 count) {
     u32 data;
     s32 pos;
     s32 start;
@@ -69,7 +69,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
         u32 addr = (u32)&gISVDbgPrnAdrs->data + (start & 0xFFFFFFC);
         s32 shift = ((3 - (start & 3)) * 8);
 
-        if (*str) {
+        if (*str != '\0') {
             osEPiReadIo(sISVHandle, addr, &data);
             osEPiWriteIo(sISVHandle, addr, (*str << shift) | (data & ~(0xFF << shift)));
 

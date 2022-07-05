@@ -521,7 +521,7 @@ void BossDodongo_Damaged(BossDodongo* this, PlayState* play) {
 void BossDodongo_Explode(BossDodongo* this, PlayState* play) {
     static Color_RGBA8 dustPrimColor = { 255, 255, 0, 255 };
     static Color_RGBA8 dustEnvColor = { 255, 10, 0, 255 };
-    s16 pad;
+    UNUSED s16 pad;
     Vec3f dustVel;
     Vec3f dustAcell;
     Vec3f dustPos;
@@ -598,7 +598,7 @@ void BossDodongo_GetUp(BossDodongo* this, PlayState* play) {
 }
 
 void BossDodongo_BlowFire(BossDodongo* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
     Vec3f unusedZeroVec2 = { 0.0f, 0.0f, 0.0f };
 
@@ -819,7 +819,7 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
     s16 i;
     Player* player = GET_PLAYER(play);
     Player* player2 = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
 
     this->unk_1E2 = 0;
     this->unk_19E++;
@@ -1088,7 +1088,7 @@ block_1:
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_boss_dodongo.c", 3826);
     }
-    { s32 pad; } // Required to match
+    { UNUSED s32 pad; } // Required to match
     return 1;
 }
 
@@ -1116,7 +1116,7 @@ void BossDodongo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 
 void BossDodongo_Draw(Actor* thisx, PlayState* play) {
     BossDodongo* this = (BossDodongo*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_dodongo.c", 3922);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -1145,7 +1145,7 @@ f32 func_808C4F6C(BossDodongo* this, PlayState* play) {
     f32 xDiff;
     f32 zDiff;
     f32 sp2C;
-    s32 pad;
+    UNUSED s32 pad;
     f32 temp_f2;
     f32 rotation;
     Player* player = GET_PLAYER(play);
@@ -1168,7 +1168,7 @@ f32 func_808C50A8(BossDodongo* this, PlayState* play) {
     f32 xDiff;
     f32 zDiff;
     f32 sp2C;
-    s32 pad;
+    UNUSED s32 pad;
     f32 temp_f2;
     f32 rotation;
     Player* player = GET_PLAYER(play);
@@ -1221,7 +1221,7 @@ void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params) {
 }
 
 void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ColliderInfo* item1;
     u8 swordDamage;
     s32 damage;
@@ -1553,7 +1553,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                                      { -890.0f, 0.0f, -3804.0f },
                                      { -1390.0f, 0.0f, -3304.0f } };
                     Vec3f* sp78;
-                    s32 pad74;
+                    UNUSED s32 pad74;
 
                     if (this->unk_1A2 == 0) {
                         sp78 = &spAC[this->unk_1A0];
@@ -1667,7 +1667,7 @@ void BossDodongo_UpdateEffects(PlayState* play) {
 }
 
 void BossDodongo_DrawEffects(PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s16 i;
     u8 materialFlag = 0;
     BossDodongoEffect* eff;

@@ -432,7 +432,7 @@ void func_80AFD880(EnSkb* this, PlayState* play) {
 }
 
 void func_80AFD968(EnSkb* this, PlayState* play) {
-    s16 pad;
+    UNUSED s16 pad;
     s32 i;
     Vec3f flamePos;
     s16 scale;
@@ -496,7 +496,7 @@ void func_80AFD968(EnSkb* this, PlayState* play) {
 
 void EnSkb_Update(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     func_80AFD968(this, play);
     Actor_MoveForward(&this->actor);
@@ -522,7 +522,7 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
 s32 EnSkb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSkb* this = (EnSkb*)thisx;
     s16 color;
-    s16 pad[2];
+    UNUSED s16 pad[2];
 
     if (limbIndex == 11) {
         if ((this->unk_283 & 2) == 0) {

@@ -316,7 +316,7 @@ void Scene_CommandTransitionActorList(PlayState* play, SceneCmd* cmd) {
     play->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
 }
 
-void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx) {
+void TransitionActor_InitContext(UNUSED GameState* state, TransitionActorContext* transiActorCtx) {
     transiActorCtx->numActors = 0;
 }
 
@@ -389,7 +389,7 @@ void Scene_CommandExitList(PlayState* play, SceneCmd* cmd) {
     play->setupExitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.data);
 }
 
-void Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
+void Scene_CommandUndefined9(UNUSED PlayState* play, UNUSED SceneCmd* cmd) {
 }
 
 void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
@@ -406,7 +406,7 @@ void Scene_CommandEchoSettings(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
-    s32 pad;
+    UNUSED s32 pad;
     SceneCmd* altHeader;
 
     osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.linkAge));

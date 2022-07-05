@@ -91,7 +91,7 @@ static InitChainEntry sInitChain[] = {
 void EnBa_Init(Actor* thisx, PlayState* play) {
     EnBa* this = (EnBa*)thisx;
     Vec3f sp38 = D_809B80E4;
-    s32 pad;
+    UNUSED s32 pad;
     s16 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -140,7 +140,7 @@ void EnBa_SetupIdle(EnBa* this) {
 void EnBa_Idle(EnBa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 i;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3s sp5C;
 
     if ((this->actor.colChkInfo.mass == MASS_IMMOVABLE) && (this->actor.xzDistToPlayer > 175.0f)) {
@@ -473,7 +473,7 @@ static void* D_809B8118[] = {
 
 void EnBa_Draw(Actor* thisx, PlayState* play) {
     EnBa* this = (EnBa*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s16 i;
     Mtx* mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 14);
     Vec3f unused = { 0.0f, 0.0f, 448.0f };

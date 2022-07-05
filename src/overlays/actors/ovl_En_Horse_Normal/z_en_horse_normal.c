@@ -183,7 +183,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
     EnHorseNormal* this = (EnHorseNormal*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01f);
@@ -290,7 +290,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, PlayState* play) {
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
     f32 dz;
-    s32 pad;
+    UNUSED s32 pad;
 
     pointPos += this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
@@ -369,7 +369,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, PlayState* play) {
     static s32 D_80A6D4F4[] = { 0, 1, 4, 5, 6, 2, 3 };
     static s32 D_80A6D510[] = { 0, 0, 2, 2, 1, 1, 1, 3, 3 };
     s32 phi_t0 = this->animationIdx;
-    s32 pad;
+    UNUSED s32 pad;
 
     switch (D_80A6D510[this->animationIdx]) {
         case 0:
@@ -556,9 +556,9 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, PlayState* play) {
 }
 
 void func_80A6C8E0(EnHorseNormal* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionPoly* sp38;
-    s32 pad2;
+    UNUSED s32 pad2;
     Vec3f sp28;
     s32 sp24;
 
@@ -576,7 +576,7 @@ static EnHorseNormalActionFunc sActionFuncs[] = {
 
 void EnHorseNormal_Update(Actor* thisx, PlayState* play) {
     EnHorseNormal* this = (EnHorseNormal*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     sActionFuncs[this->action](this, play);
     Actor_MoveForward(&this->actor);

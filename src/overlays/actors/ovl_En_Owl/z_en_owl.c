@@ -1073,7 +1073,7 @@ s32 func_80ACC624(EnOwl* this, PlayState* play) {
 }
 
 void EnOwl_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnOwl* this = (EnOwl*)thisx;
     s16 phi_a1;
 
@@ -1311,7 +1311,7 @@ void EnOwl_PostLimbUpdate(PlayState* play, s32 limbIndex, Gfx** gfx, Vec3s* rot,
 void EnOwl_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gObjOwlEyeOpenTex, gObjOwlEyeHalfTex, gObjOwlEyeClosedTex };
     EnOwl* this = (EnOwl*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_owl.c", 2247);
 

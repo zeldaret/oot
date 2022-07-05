@@ -40,7 +40,7 @@ u8 D_80133418 = 0;
 void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
     u8 i;
     u16 dur;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (D_80133408 == 0 || playerIdx == SEQ_PLAYER_SFX) {
         arg2 &= 0x7F;
@@ -101,7 +101,7 @@ typedef enum {
 } SeqCmdType;
 
 void Audio_ProcessSeqCmd(u32 cmd) {
-    s32 pad;
+    UNUSED s32 pad;
     u16 fadeTimer;
     u16 channelMask;
     u32 channelMaskReversed;
@@ -442,7 +442,7 @@ void func_800FA3DC(void) {
     u8 temp_s1;
     u8 temp_s0_3;
     u8 temp_a3_3;
-    s32 pad[3];
+    UNUSED s32 pad[3];
     u32 dummy;
     f32 phi_f0;
     u8 phi_t0;

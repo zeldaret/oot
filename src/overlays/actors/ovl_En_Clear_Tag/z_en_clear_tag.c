@@ -341,7 +341,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                 s16 worldRotationTargetY;
                 f32 loseTargetLockDistance;
                 s16 worldRotationTargetZ;
-                s32 pad;
+                UNUSED s32 pad;
 
                 // Check if the Arwing should crash.
                 if (this->collider.base.acFlags & AC_HIT) {
@@ -680,7 +680,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
  * Arwing clear tage types will draw the Arwing, the backfire, and a shadow.
  */
 void EnClearTag_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnClearTag* this = (EnClearTag*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_clear_tag.c", 983);

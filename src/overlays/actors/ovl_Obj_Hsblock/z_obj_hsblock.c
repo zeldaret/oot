@@ -53,9 +53,9 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
 }
 
 void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2[2];
+    UNUSED s32 pad2[2];
 
     DynaPolyActor_Init(&this->dyna, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);

@@ -7,7 +7,7 @@ u32 sYaz0CurSize;
 u8* sYaz0MaxPtr;
 
 void* Yaz0_FirstDMA(void) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     u32 dmaSize;
     u32 bufferSize;
 

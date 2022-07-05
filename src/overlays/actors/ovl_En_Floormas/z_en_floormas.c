@@ -123,7 +123,7 @@ void EnFloormas_Init(Actor* thisx, PlayState* play2) {
     EnFloormas* this = (EnFloormas*)thisx;
     PlayState* play = play2;
     s32 invisble;
-    s32 pad;
+    UNUSED s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
@@ -522,7 +522,7 @@ void EnFloormas_Run(EnFloormas* this, PlayState* play) {
 }
 
 void EnFloormas_Turn(EnFloormas* this, PlayState* play) {
-    char pad[4];
+    UNUSED s32 pad;
     f32 sp30;
     f32 sp2C;
 
@@ -974,7 +974,7 @@ void EnFloormas_Freeze(EnFloormas* this, PlayState* play) {
 }
 
 void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 isSmall;
 
     if (this->collider.base.acFlags & AC_HIT) {
@@ -1020,7 +1020,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
 
 void EnFloormas_Update(Actor* thisx, PlayState* play) {
     EnFloormas* this = (EnFloormas*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->actionFunc != EnFloormas_SmWait) {
         if (this->collider.base.atFlags & AT_HIT) {

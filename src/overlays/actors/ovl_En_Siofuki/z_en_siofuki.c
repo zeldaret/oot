@@ -38,7 +38,7 @@ void EnSiofuki_Init(Actor* thisx, PlayState* play) {
     EnSiofuki* this = (EnSiofuki*)thisx;
     s32 type;
     CollisionHeader* colHeader = NULL;
-    s32 pad;
+    UNUSED s32 pad;
 
     if ((thisx->room == 10) && Flags_GetSwitch(play, 0x1E)) {
         Actor_Kill(thisx);

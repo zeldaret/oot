@@ -60,7 +60,7 @@ void EnEncount2_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s16 quakeIndex;
     s16 spawnerState;
     Player* player = GET_PLAYER(play);

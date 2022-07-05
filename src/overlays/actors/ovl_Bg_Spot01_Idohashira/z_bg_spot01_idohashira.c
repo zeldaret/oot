@@ -106,7 +106,7 @@ void func_808AAD3C(PlayState* play, Vec3f* vec, u32 arg2) {
 }
 
 void func_808AAE6C(BgSpot01Idohashira* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp30 = this->dyna.actor.world.pos;
 
     sp30.y += kREG(15);
@@ -116,7 +116,7 @@ void func_808AAE6C(BgSpot01Idohashira* this, PlayState* play) {
 }
 
 void func_808AAF34(BgSpot01Idohashira* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     Vec3f dest;
     Vec3f src;
 
@@ -152,7 +152,7 @@ s32 BgSpot01Idohashira_NotInCsMode(PlayState* play) {
 }
 
 CsCmdActorAction* BgSpot01Idohashira_GetNpcAction(PlayState* play, s32 actionIdx) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     CsCmdActorAction* npcAction = NULL;
 
     if (!BgSpot01Idohashira_NotInCsMode(play)) {
@@ -189,7 +189,7 @@ s32 func_808AB29C(BgSpot01Idohashira* this, PlayState* play) {
     Vec3f* thisPos;
     f32 endX;
     f32 temp_f0;
-    s32 pad2;
+    UNUSED s32 pad2;
     Vec3f initPos;
     f32 endZ;
     f32 tempY;
@@ -290,7 +290,7 @@ void BgSpot01Idohashira_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
     CollisionHeader* colHeader;
 

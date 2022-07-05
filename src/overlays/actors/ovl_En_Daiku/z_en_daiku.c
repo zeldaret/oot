@@ -148,7 +148,7 @@ void EnDaiku_ChangeAnim(EnDaiku* this, s32 index, s32* currentIndex) {
 
 void EnDaiku_Init(Actor* thisx, PlayState* play) {
     EnDaiku* this = (EnDaiku*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s32 noKill = true;
     s32 isFree = false;
 
@@ -439,7 +439,7 @@ void EnDaiku_EscapeRotate(EnDaiku* this, PlayState* play) {
 }
 
 void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f eyePosDeltaLocal;
     Vec3f eyePosDeltaWorld;
 
@@ -473,7 +473,7 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
 }
 
 void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     this->subCamAtNext.x = this->actor.world.pos.x;
     this->subCamAtNext.y = this->actor.world.pos.y + 60.0f;
@@ -513,12 +513,12 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
  * The carpenter is running away
  */
 void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play) {
-    s32 pad1;
+    UNUSED s32 pad1;
     Path* path;
     s16 ry;
     f32 dx;
     f32 dz;
-    s32 pad2;
+    UNUSED s32 pad2;
     f32 dxz;
     Vec3s* pointPos;
 

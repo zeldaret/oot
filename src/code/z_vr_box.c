@@ -81,8 +81,8 @@ Struct_8012AF0C D_8012AF0C[6] = {
 
 s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8, s32 arg9) {
-    u32 pad42C;
-    s32 pad428;
+    UNUSED s32 pad42C;
+    UNUSED s32 pad428;
     s32 sp424;
     s32 i;
     s32 j;
@@ -98,7 +98,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     s32 sp1F0[9 * 5];
     s32 sp13C[9 * 5];
     s32 sp88[9 * 5];
-    s32 pad;
+    UNUSED s32 pad;
 
     switch (arg8) {
         case 0:
@@ -209,7 +209,7 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     s32 sp1EC[5 * 5];
     s32 sp188[5 * 5];
     s32 sp124[5 * 5];
-    s32 pad;
+    UNUSED s32 pad;
 
     switch (arg8) {
         case 0:

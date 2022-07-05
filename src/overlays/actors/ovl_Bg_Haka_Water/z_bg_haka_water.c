@@ -107,9 +107,9 @@ void BgHakaWater_Update(Actor* thisx, PlayState* play) {
 
 void BgHakaWater_Draw(Actor* thisx, PlayState* play) {
     BgHakaWater* this = (BgHakaWater*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     f32 temp;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_haka_water.c", 287);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);

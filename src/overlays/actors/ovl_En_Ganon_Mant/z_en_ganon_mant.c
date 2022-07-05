@@ -112,7 +112,7 @@ void EnGanonMant_Destroy(Actor* thisx, PlayState* play) {
  * Randomly zeros portions of the cloak texture
  */
 void EnGanonMant_Tear(EnGanonMant* this) {
-    s32 pad;
+    UNUSED s32 pad;
     s16 i;
     s16 areaX;
     s16 areaY;
@@ -157,7 +157,7 @@ void EnGanonMant_UpdateStrand(PlayState* play, EnGanonMant* this, Vec3f* root, V
     f32 xDiff;
     f32 zDiff;
     f32 gravity;
-    s32 pad[4];
+    UNUSED s32 pad[4];
     f32 yaw;
     s16 i;
     f32 x;
@@ -356,7 +356,7 @@ void EnGanonMant_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ganon_mant.c", 564);
 

@@ -289,9 +289,9 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
     Vec3f vec;
     f32 multiplier;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp60;
-    s32 pad1;
+    UNUSED s32 pad1;
 
     this->actionTimer++;
     if (this->actionTimer < 8) {
@@ -347,7 +347,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
 
 void EnPoRelay_Update(Actor* thisx, PlayState* play) {
     EnPoRelay* this = (EnPoRelay*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);

@@ -205,7 +205,7 @@ s32 EnAm_CanMove(EnAm* this, PlayState* play, f32 distance, s16 yaw) {
 
 void EnAm_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
-    s32 pad;
+    UNUSED s32 pad;
     EnAm* this = (EnAm*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -240,7 +240,7 @@ void EnAm_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnAm_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnAm* this = (EnAm*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -256,7 +256,7 @@ void EnAm_SpawnEffects(EnAm* this, PlayState* play) {
     Vec3f pos;
     Color_RGBA8 primColor = { 100, 100, 100, 0 };
     Color_RGBA8 envColor = { 40, 40, 40, 0 };
-    s32 pad;
+    UNUSED s32 pad;
 
     for (i = 4; i > 0; i--) {
         pos.x = this->dyna.actor.world.pos.x + ((Rand_ZeroOne() - 0.5f) * 65.0f);
@@ -366,7 +366,7 @@ void EnAm_SetupRicochet(EnAm* this, PlayState* play) {
 
 void EnAm_Sleep(EnAm* this, PlayState* play) {
     f32 cos;
-    s32 pad;
+    UNUSED s32 pad;
     f32 rand;
     f32 sin;
     Player* player = GET_PLAYER(play);
@@ -781,7 +781,7 @@ void EnAm_TransformSwordHitbox(Actor* thisx, PlayState* play) {
 }
 
 void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sparkPos;
 
     if (this->deathTimer == 0) {
@@ -831,13 +831,13 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 dustPrimColor = { 150, 150, 150, 255 };
     static Color_RGBA8 dustEnvColor = { 100, 100, 100, 150 };
-    s32 pad;
+    UNUSED s32 pad;
     EnAm* this = (EnAm*)thisx;
     EnBom* bomb;
     Vec3f dustPos;
     s32 i;
     f32 dustPosScale;
-    s32 pad1;
+    UNUSED s32 pad1;
 
     if (this->dyna.actor.params != ARMOS_STATUE) {
         EnAm_UpdateDamage(this, play);
@@ -943,7 +943,7 @@ static Vec3f sIcePosOffsets[] = {
 };
 
 void EnAm_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f sp68;
     EnAm* this = (EnAm*)thisx;
 

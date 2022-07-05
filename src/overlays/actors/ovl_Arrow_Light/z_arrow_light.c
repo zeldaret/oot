@@ -146,7 +146,7 @@ void ArrowLight_Hit(ArrowLight* this, PlayState* play) {
 void ArrowLight_Fly(ArrowLight* this, PlayState* play) {
     EnArrow* arrow = (EnArrow*)this->actor.parent;
     f32 distanceScaled;
-    s32 pad;
+    UNUSED s32 pad;
 
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
@@ -192,7 +192,7 @@ void ArrowLight_Update(Actor* thisx, PlayState* play) {
 
 void ArrowLight_Draw(Actor* thisx, PlayState* play) {
     ArrowLight* this = (ArrowLight*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     u32 stateFrames = play->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;
     Actor* transform;

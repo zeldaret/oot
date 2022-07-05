@@ -193,7 +193,7 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
         &sCylinderInit1, &sCylinderInit1, &sCylinderInit1, &sCylinderInit2, &sCylinderInit2, &sCylinderInit2,
     };
     s32 i;
-    s32 pad;
+    UNUSED s32 pad;
 
     for (i = 0; i < ARRAY_COUNT(cylinders); i++) {
         Collider_InitCylinder(play, &this->colCylinder[i]);
@@ -225,7 +225,7 @@ f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
     f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
     u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
     f32 frameCount = Animation_GetLastFrame(animation[animIndex]);
-    s32 pad;
+    UNUSED s32 pad;
 
     Animation_Change(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount,
                      mode[animIndex], -6.0f);
@@ -605,7 +605,7 @@ void EnSsh_SetColliders(EnSsh* this, PlayState* play) {
 
 void EnSsh_Init(Actor* thisx, PlayState* play) {
     f32 frameCount;
-    s32 pad;
+    UNUSED s32 pad;
     EnSsh* this = (EnSsh*)thisx;
 
     frameCount = Animation_GetLastFrame(&object_ssh_Anim_000304);
@@ -637,7 +637,7 @@ void EnSsh_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnSsh_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnSsh* this = (EnSsh*)thisx;
     s32 i;
 
@@ -805,7 +805,7 @@ void EnSsh_Start(EnSsh* this, PlayState* play) {
 }
 
 void EnSsh_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnSsh* this = (EnSsh*)thisx;
 
     EnSsh_UpdateColliderScale(this);
@@ -876,7 +876,7 @@ void EnSsh_Draw(Actor* thisx, PlayState* play) {
         object_ssh_Tex_000C60,
         object_ssh_Tex_001060,
     };
-    s32 pad;
+    UNUSED s32 pad;
     EnSsh* this = (EnSsh*)thisx;
 
     EnSsh_CheckBodyStickHit(this, play);

@@ -12,14 +12,14 @@ void EnAObj_Draw(Actor* thisx, PlayState* play);
 
 void EnAObj_WaitFinishedTalking(EnAObj* this, PlayState* play);
 void EnAObj_WaitTalk(EnAObj* this, PlayState* play);
-void EnAObj_BlockRot(EnAObj* this, PlayState* play);
-void EnAObj_BoulderFragment(EnAObj* this, PlayState* play);
-void EnAObj_Block(EnAObj* this, PlayState* play);
+void EnAObj_BlockRot(EnAObj* this, UNUSED PlayState* play);
+void EnAObj_BoulderFragment(EnAObj* this, UNUSED PlayState* play);
+void EnAObj_Block(EnAObj* this, UNUSED PlayState* play);
 
-void EnAObj_SetupWaitTalk(EnAObj* this, s16 type);
-void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
-void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
-void EnAObj_SetupBlock(EnAObj* this, s16 type);
+void EnAObj_SetupWaitTalk(EnAObj* this, UNUSED s16 type);
+void EnAObj_SetupBlockRot(EnAObj* this, UNUSED s16 type);
+void EnAObj_SetupBoulderFragment(EnAObj* this, UNUSED s16 type);
+void EnAObj_SetupBlock(EnAObj* this, UNUSED s16 type);
 
 const ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,
@@ -77,7 +77,7 @@ void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
 
 void EnAObj_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
-    s32 pad;
+    UNUSED s32 pad;
     EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 
@@ -194,7 +194,7 @@ void EnAObj_WaitFinishedTalking(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupWaitTalk(EnAObj* this, s16 type) {
+void EnAObj_SetupWaitTalk(EnAObj* this, UNUSED s16 type) {
     EnAObj_SetupAction(this, EnAObj_WaitTalk);
 }
 
@@ -214,7 +214,7 @@ void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupBlockRot(EnAObj* this, s16 type) {
+void EnAObj_SetupBlockRot(EnAObj* this, UNUSED s16 type) {
     this->rotateState = 0;
     this->rotateWaitTimer = 10;
     this->dyna.actor.world.rot.y = 0;
@@ -222,7 +222,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type) {
     EnAObj_SetupAction(this, EnAObj_BlockRot);
 }
 
-void EnAObj_BlockRot(EnAObj* this, PlayState* play) {
+void EnAObj_BlockRot(EnAObj* this, UNUSED PlayState* play) {
     if (this->rotateState == 0) {
         if (this->dyna.interactFlags != 0) {
             this->rotateState++;
@@ -261,11 +261,11 @@ void EnAObj_BlockRot(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type) {
+void EnAObj_SetupBoulderFragment(EnAObj* this, UNUSED s16 type) {
     EnAObj_SetupAction(this, EnAObj_BoulderFragment);
 }
 
-void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
+void EnAObj_BoulderFragment(EnAObj* this, UNUSED PlayState* play) {
     Math_SmoothStepToF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
     this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
@@ -288,13 +288,13 @@ void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupBlock(EnAObj* this, s16 type) {
+void EnAObj_SetupBlock(EnAObj* this, UNUSED s16 type) {
     this->dyna.actor.uncullZoneDownward = 1200.0f;
     this->dyna.actor.uncullZoneScale = 720.0f;
     EnAObj_SetupAction(this, EnAObj_Block);
 }
 
-void EnAObj_Block(EnAObj* this, PlayState* play) {
+void EnAObj_Block(EnAObj* this, UNUSED PlayState* play) {
     this->dyna.actor.speedXZ += this->dyna.unk_150;
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
     this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);

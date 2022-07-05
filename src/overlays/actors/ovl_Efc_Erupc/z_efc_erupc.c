@@ -162,7 +162,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
 void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
     for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effect++) {

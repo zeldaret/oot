@@ -216,7 +216,7 @@ void EnGeldB_SetupAction(EnGeldB* this, EnGeldBActionFunc actionFunc) {
 }
 
 void EnGeldB_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EffectBlureInit1 blureInit;
     EnGeldB* this = (EnGeldB*)thisx;
 
@@ -259,7 +259,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnGeldB_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnGeldB* this = (EnGeldB*)thisx;
 
     func_800F5B58();
@@ -418,7 +418,7 @@ void EnGeldB_SetupReady(EnGeldB* this) {
 
 void EnGeldB_Ready(EnGeldB* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
     s16 angleToLink;
 
     SkelAnime_Update(&this->skelAnime);
@@ -649,7 +649,7 @@ void EnGeldB_Circle(EnGeldB* this, PlayState* play) {
     s16 phi_v1;
     s32 afterPrevFrame;
     s32 prevFrame;
-    s32 pad;
+    UNUSED s32 pad;
     s32 beforeCurFrame;
     Player* player = GET_PLAYER(play);
 
@@ -763,7 +763,7 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, PlayState* play) {
 void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
     s16 phi_v1;
     s32 prevFrame;
-    s32 pad;
+    UNUSED s32 pad;
     s32 beforeCurFrame;
     s32 afterPrevFrame;
 
@@ -1131,7 +1131,7 @@ void EnGeldB_SetupBlock(EnGeldB* this) {
 
 void EnGeldB_Block(EnGeldB* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    UNUSED s32 pad;
     s16 angleToLink;
     s16 angleFacingLink;
 
@@ -1357,7 +1357,7 @@ void EnGeldB_TurnHead(EnGeldB* this, PlayState* play) {
 }
 
 void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnItem00* key;
 
     if (this->blockCollider.base.acFlags & AC_BOUNCED) {
@@ -1401,7 +1401,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
 }
 
 void EnGeldB_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnGeldB* this = (EnGeldB*)thisx;
 
     EnGeldB_CollisionCheck(this, play);
@@ -1557,7 +1557,7 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     };
     static void* eyeTextures[] = { gGerudoRedEyeOpenTex, gGerudoRedEyeHalfTex, gGerudoRedEyeShutTex,
                                    gGerudoRedEyeHalfTex };
-    s32 pad;
+    UNUSED s32 pad;
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2672);

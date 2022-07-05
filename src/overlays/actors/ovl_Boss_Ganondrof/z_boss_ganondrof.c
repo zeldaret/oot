@@ -274,7 +274,7 @@ void BossGanondrof_SetColliderPos(Vec3f* pos, ColliderCylinder* collider) {
 }
 
 void BossGanondrof_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossGanondrof* this = (BossGanondrof*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -310,7 +310,7 @@ void BossGanondrof_Init(Actor* thisx, PlayState* play) {
 }
 
 void BossGanondrof_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossGanondrof* this = (BossGanondrof*)thisx;
 
     osSyncPrintf("DT1\n");
@@ -332,7 +332,7 @@ void BossGanondrof_SetupIntro(BossGanondrof* this, PlayState* play) {
 
 void BossGanondrof_Intro(BossGanondrof* this, PlayState* play) {
     s16 i;
-    s32 pad;
+    UNUSED s32 pad;
     EnfHG* horse = (EnfHG*)this->actor.child;
 
     SkelAnime_Update(&this->skelAnime);
@@ -941,7 +941,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
     u8 bodyDecayLevel = 0;
     f32 camX;
     f32 camZ;
-    f32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
     Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
 
@@ -1289,9 +1289,9 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
     f32 legRotTargetY;
     f32 legRotTargetZ;
     f32 legSplitTarget;
-    s32 pad2;
+    UNUSED s32 pad2;
     s16 i;
-    s32 pad;
+    UNUSED s32 pad;
     BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
 
@@ -1483,7 +1483,7 @@ Gfx* BossGanondrof_EmptyDList(GraphicsContext* gfxCtx) {
 }
 
 void BossGanondrof_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
 

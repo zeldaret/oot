@@ -122,7 +122,7 @@ void EnCs_ChangeAnim(EnCs* this, s32 index, s32* currentIndex) {
 
 void EnCs_Init(Actor* thisx, PlayState* play) {
     EnCs* this = (EnCs*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (!IS_DAY) {
         Actor_Kill(&this->actor);
@@ -163,8 +163,8 @@ void EnCs_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 EnCs_GetTalkState(EnCs* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    UNUSED s32 pad;
+    UNUSED s32 pad2;
     s32 talkState = 1;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -226,7 +226,7 @@ s32 EnCs_GetTextID(EnCs* this, PlayState* play) {
 }
 
 void EnCs_HandleTalking(EnCs* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s16 sp2A;
     s16 sp28;
 
@@ -418,7 +418,7 @@ void EnCs_Talk(EnCs* this, PlayState* play) {
 void EnCs_Update(Actor* thisx, PlayState* play) {
     static s32 eyeBlinkFrames[] = { 70, 1, 1 };
     EnCs* this = (EnCs*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     if (this->currentAnimIndex == 0) {
         if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
@@ -459,7 +459,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
         gGraveyardKidEyesClosedTex,
     };
     EnCs* this = (EnCs*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_cs.c", 968);
 

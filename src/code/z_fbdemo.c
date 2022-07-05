@@ -27,8 +27,8 @@ Gfx D_8012B000[] = {
 
 void TransitionUnk_InitGraphics(TransitionUnk* this) {
     s32 row2;
-    s32 pad2;
-    s32 pad3;
+    UNUSED s32 pad2;
+    UNUSED s32 pad3;
     Vtx_t* vtx2;
     s32 frame;
     s32 rowTex;
@@ -222,9 +222,9 @@ void TransitionUnk_Update(TransitionUnk* this) {
     }
 }
 
-void func_800B23E8(TransitionUnk* this) {
+void func_800B23E8(UNUSED TransitionUnk* this) {
 }
 
-s32 func_800B23F0(TransitionUnk* this) {
+s32 func_800B23F0(UNUSED TransitionUnk* this) {
     return 0;
 }

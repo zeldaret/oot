@@ -1512,7 +1512,7 @@ void EnGo2_BiggoronAnimation(EnGo2* this) {
 
 void EnGo2_Init(Actor* thisx, PlayState* play) {
     EnGo2* this = (EnGo2*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
@@ -2005,7 +2005,7 @@ s32 EnGo2_DrawCurledUp(EnGo2* this, PlayState* play) {
 }
 
 s32 EnGo2_DrawRolling(EnGo2* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Vec3f D_80A48560 = { 0.0f, 0.0f, 0.0f };
     f32 speedXZ;
 

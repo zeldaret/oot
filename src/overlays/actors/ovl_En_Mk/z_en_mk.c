@@ -281,7 +281,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
 
 void EnMk_Update(Actor* thisx, PlayState* play) {
     EnMk* this = (EnMk*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     Vec3s vec;
     Player* player;
     s16 swimFlag;

@@ -52,7 +52,7 @@ static Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
 static Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
 
 void func_808B2180(BgSpot11Bakudankabe* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -109,7 +109,7 @@ void func_808B2218(BgSpot11Bakudankabe* this, PlayState* play) {
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play) {
     BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);

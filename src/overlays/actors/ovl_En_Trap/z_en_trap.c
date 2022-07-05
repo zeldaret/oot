@@ -128,7 +128,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     s16 angleToCollidedActor;
     s16 touchingActor;
     s16 blockedOnReturn;
-    s32 pad;
+    UNUSED s32 pad;
     s16 angleToWall;
     Vec3f icePos;
     Vec3f posAhead;

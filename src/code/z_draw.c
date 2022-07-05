@@ -380,7 +380,7 @@ void GetItem_Draw(PlayState* play, s16 drawId) {
 // All remaining functions in this file are draw functions referenced in the table and called by the function above
 
 void GetItem_DrawMaskOrBombchu(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 556);
 
@@ -392,7 +392,7 @@ void GetItem_DrawMaskOrBombchu(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawSoldOut(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 572);
 
@@ -404,7 +404,7 @@ void GetItem_DrawSoldOut(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawBlueFire(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 588);
 
@@ -427,7 +427,7 @@ void GetItem_DrawBlueFire(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawPoes(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 628);
 
@@ -452,7 +452,7 @@ void GetItem_DrawPoes(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawFairy(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 670);
 
@@ -476,7 +476,7 @@ void GetItem_DrawFairy(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawMirrorShield(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 712);
 
@@ -496,7 +496,7 @@ void GetItem_DrawMirrorShield(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawSkullToken(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 742);
 
@@ -515,7 +515,7 @@ void GetItem_DrawSkullToken(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawEggOrMedallion(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 772);
 
@@ -528,7 +528,7 @@ void GetItem_DrawEggOrMedallion(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawCompass(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 811);
 
@@ -544,7 +544,7 @@ void GetItem_DrawCompass(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawPotion(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 834);
 
@@ -567,7 +567,7 @@ void GetItem_DrawPotion(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawGoronSword(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 868);
 
@@ -582,7 +582,7 @@ void GetItem_DrawGoronSword(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawDekuNuts(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 890);
 
@@ -597,7 +597,7 @@ void GetItem_DrawDekuNuts(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawRecoveryHeart(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 913);
 
@@ -612,7 +612,7 @@ void GetItem_DrawRecoveryHeart(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawFish(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 936);
 
@@ -627,7 +627,7 @@ void GetItem_DrawFish(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawOpa0(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 959);
 
@@ -639,7 +639,7 @@ void GetItem_DrawOpa0(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawOpa0Xlu1(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 975);
 
@@ -655,7 +655,7 @@ void GetItem_DrawOpa0Xlu1(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawXlu01(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 998);
 
@@ -668,7 +668,7 @@ void GetItem_DrawXlu01(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawOpa10Xlu2(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1015);
 
@@ -685,7 +685,7 @@ void GetItem_DrawOpa10Xlu2(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawMagicArrow(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1039);
 
@@ -702,7 +702,7 @@ void GetItem_DrawMagicArrow(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawMagicSpell(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1063);
 
@@ -719,7 +719,7 @@ void GetItem_DrawMagicSpell(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawOpa1023(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1088);
 
@@ -734,7 +734,7 @@ void GetItem_DrawOpa1023(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawOpa10Xlu32(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1108);
 
@@ -752,7 +752,7 @@ void GetItem_DrawOpa10Xlu32(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawSmallRupee(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1133);
 
@@ -772,7 +772,7 @@ void GetItem_DrawSmallRupee(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawScale(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1162);
 
@@ -790,7 +790,7 @@ void GetItem_DrawScale(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawBulletBag(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1188);
 
@@ -809,7 +809,7 @@ void GetItem_DrawBulletBag(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawWallet(PlayState* play, s16 drawId) {
-    s32 pad;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1214);
 

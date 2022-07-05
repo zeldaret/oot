@@ -138,7 +138,7 @@ void Graph_Init(GraphicsContext* gfxCtx) {
     Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, NULL, NULL);
 }
 
-void Graph_Destroy(GraphicsContext* gfxCtx) {
+void Graph_Destroy(UNUSED GraphicsContext* gfxCtx) {
     func_800D3210();
     Fault_RemoveClient(&sGraphFaultClient);
 }
@@ -153,7 +153,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     OSTask_t* task = &gfxCtx->task.list.t;
     OSScTask* scTask = &gfxCtx->task;
     CfbInfo* cfb;
-    s32 pad1;
+    UNUSED s32 pad1;
 
     D_8016A528 = osGetTime() - sGraphSetTaskTime - D_8016A558;
 
@@ -215,7 +215,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
-    { s32 pad2; } // Necessary to match stack usage
+    { UNUSED s32 pad2; } // Necessary to match stack usage
 
     task->yield_data_ptr = gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
@@ -367,7 +367,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     {
         OSTime time = osGetTime();
-        s32 pad[4];
+        UNUSED s32 pad[4];
 
         D_8016A538 = gRSPGFXTotalTime;
         D_8016A530 = gRSPAudioTotalTime;
@@ -397,7 +397,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
 }
 
-void Graph_ThreadEntry(void* arg0) {
+void Graph_ThreadEntry(UNUSED void* arg) {
     GraphicsContext gfxCtx;
     GameState* gameState;
     u32 size;

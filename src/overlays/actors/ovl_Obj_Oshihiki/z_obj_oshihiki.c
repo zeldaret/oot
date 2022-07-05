@@ -84,9 +84,9 @@ static Vec2f sFaceDirection[] = {
 };
 
 void ObjOshihiki_InitDynapoly(ObjOshihiki* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -307,7 +307,7 @@ void ObjOshihiki_Init(Actor* thisx, PlayState* play2) {
 }
 
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -419,7 +419,7 @@ s32 ObjOshihiki_CheckWall(PlayState* play, s16 angle, f32 direction, ObjOshihiki
 }
 
 s32 ObjOshihiki_MoveWithBlockUnder(ObjOshihiki* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjOshihiki* blockUnder = ObjOshihiki_GetBlockUnder(this, play);
 
     if ((blockUnder != NULL) && (blockUnder->stateFlags & PUSHBLOCK_SETUP_PUSH) &&
@@ -450,7 +450,7 @@ void ObjOshihiki_SetupOnScene(ObjOshihiki* this, PlayState* play) {
 }
 
 void ObjOshihiki_OnScene(ObjOshihiki* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
 
     this->stateFlags |= PUSHBLOCK_ON_SCENE;
@@ -611,7 +611,7 @@ void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play) {
 }
 
 void ObjOshihiki_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     this->stateFlags &=
@@ -634,7 +634,7 @@ void ObjOshihiki_Update(Actor* thisx, PlayState* play) {
 }
 
 void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjOshihiki* this = (ObjOshihiki*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_oshihiki.c", 1289);

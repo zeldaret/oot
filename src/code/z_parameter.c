@@ -2158,7 +2158,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
 /**
  * @return false if player is out of health
  */
-s32 Health_ChangeBy(PlayState* play, s16 amount) {
+s32 Health_ChangeBy(UNUSED PlayState* play, s16 amount) {
     u16 heartCount;
     u16 healthLevel;
 
@@ -2272,7 +2272,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
     osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
 }
 
-void Magic_Fill(PlayState* play) {
+void Magic_Fill(UNUSED PlayState* play) {
     if (gSaveContext.isMagicAcquired) {
         gSaveContext.prevMagicState = gSaveContext.magicState;
         gSaveContext.magicFillTarget = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
@@ -2280,7 +2280,7 @@ void Magic_Fill(PlayState* play) {
     }
 }
 
-void Magic_Reset(PlayState* play) {
+void Magic_Reset(UNUSED PlayState* play) {
     if ((gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
         if (gSaveContext.magicState == MAGIC_STATE_ADD) {
             gSaveContext.prevMagicState = gSaveContext.magicState;
@@ -2683,7 +2683,7 @@ void func_80088AA0(s16 arg0) {
     }
 }
 
-void func_80088AF0(PlayState* play) {
+void func_80088AF0(UNUSED PlayState* play) {
     if (gSaveContext.timer2State != 0) {
         if (GET_EVENTINF(EVENTINF_10)) {
             gSaveContext.timer2Value = 239;
@@ -3060,15 +3060,14 @@ void Interface_Draw(PlayState* play) {
     static s16 magicArrowEffectsB[] = { 0, 255, 100 };
     static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
     static s16 digitWidth[] = { 9, 9, 8, 9, 9 };
-    // unused, most likely colors
-    static s16 D_80125B1C[][3] = {
+    UNUSED static s16 D_80125B1C[][3] = { // most likely colors
         { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
     };
     static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
     static s16 rupeeDigitsCount[] = { 2, 3, 3 };
     static s16 spoilingItemEntrances[] = { ENTR_SPOT10_2, ENTR_SPOT07_3, ENTR_SPOT07_3 };
-    static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
-    static s16 D_80125B5C[] = { 91, 91 };         // unused
+    UNUSED static f32 D_80125B54[] = { -40.0f, -35.0f };
+    UNUSED static s16 D_80125B5C[] = { 91, 91 };
     static s16 D_8015FFE0;
     static s16 D_8015FFE2;
     static s16 D_8015FFE4;
@@ -3081,7 +3080,7 @@ void Interface_Draw(PlayState* play) {
     s16 svar1;
     s16 svar2;
     s16 svar3;
-    s16 svar4;
+    UNUSED s16 pad;
     s16 svar5;
     s16 svar6;
 

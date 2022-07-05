@@ -93,9 +93,9 @@ s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
 }
 
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2[2];
+    UNUSED s32 pad2[2];
 
     if (D_808B1F90[this->dyna.actor.params] != NULL) {
         DynaPolyActor_Init(&this->dyna, DPM_UNK);

@@ -605,7 +605,7 @@ s32 EnViewer_ZeldaOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, 
 }
 
 void EnViewer_ZeldaPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    s32 pad;
+    UNUSED s32 pad;
 
     if (play->sceneNum == SCENE_TOKINOMA) {
         if (limbIndex == 16) {
@@ -691,7 +691,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 
 void EnViewer_Draw(Actor* thisx, PlayState* play) {
     EnViewer* this = (EnViewer*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s16 type;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1760);

@@ -50,7 +50,7 @@ void func_800636C0(void) {
 
 // Called when free movement is active.
 // 8011D394 to enable camera debugger
-void func_8006375C(s32 arg0, s32 arg1, const char* text) {
+void func_8006375C(UNUSED s32 arg0, UNUSED s32 arg1, UNUSED const char* text) {
 }
 
 // Copy Camera Debugger Text
@@ -186,7 +186,7 @@ void func_80063C04(GfxPrint* printer) {
     s32 i;
     s32 page = (gGameInfo->regPage * REG_PER_PAGE) - REG_PER_PAGE;
     s32 regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
-    s32 pad;
+    UNUSED s32 pad;
     char name[3];
 
     // set up register name string

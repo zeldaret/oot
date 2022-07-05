@@ -66,7 +66,7 @@ const ActorInit Bg_Hidan_Curtain_InitVars = {
 };
 
 void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams;
 
@@ -117,7 +117,7 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgHidanCurtain_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);

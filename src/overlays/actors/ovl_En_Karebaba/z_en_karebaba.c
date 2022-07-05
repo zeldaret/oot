@@ -409,7 +409,7 @@ void EnKarebaba_Regrow(EnKarebaba* this, PlayState* play) {
 }
 
 void EnKarebaba_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnKarebaba* this = (EnKarebaba*)thisx;
     f32 height;
 

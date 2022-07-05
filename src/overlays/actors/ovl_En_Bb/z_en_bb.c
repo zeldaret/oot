@@ -307,7 +307,7 @@ void EnBb_KillFlameTrail(EnBb* this) {
 
 void EnBb_Init(Actor* thisx, PlayState* play) {
     EffectBlureInit1 blureInit;
-    s32 pad;
+    UNUSED s32 pad;
     EnBb* this = (EnBb*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -399,7 +399,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnBb_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBb* this = (EnBb*)thisx;
 
     Collider_DestroyJntSph(play, &this->collider);
@@ -1277,7 +1277,7 @@ static Vec3f sFireIceOffsets[] = {
 };
 
 void EnBb_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnBb* this = (EnBb*)thisx;
     Vec3f blureBase1 = { 0.0f, 5000.0f, 0.0f };
     Vec3f blureBase2 = { 0.0f, 2000.0f, 0.0f };

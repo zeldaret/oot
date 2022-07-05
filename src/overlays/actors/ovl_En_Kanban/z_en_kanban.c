@@ -234,7 +234,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnKanban_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     EnKanban* this = (EnKanban*)thisx;
 
     if (this->actionState == ENKANBAN_SIGN) {

@@ -46,10 +46,10 @@ u32 EffectSsDeadDs_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 }
 
 void EffectSsDeadDs_Draw(PlayState* play, u32 index, EffectSs* this) {
-    s32 pad;
+    UNUSED s32 pad;
     f32 scale;
-    s32 pad1;
-    s32 pad2;
+    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     MtxF mf;
     f32 temp;
     Vec3f pos;

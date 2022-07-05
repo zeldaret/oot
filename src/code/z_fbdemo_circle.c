@@ -96,13 +96,12 @@ void* TransitionCircle_Init(void* thisx) {
     return this;
 }
 
-void TransitionCircle_Destroy(void* thisx) {
+void TransitionCircle_Destroy(UNUSED void* thisx) {
 }
 
 void TransitionCircle_Update(void* thisx, s32 updateRate) {
     TransitionCircle* this = (TransitionCircle*)thisx;
-    s32 temp_t2;
-    s32 temp_t3;
+    UNUSED s32 pad[2];
 
     if (this->direction != 0) {
         if (this->texY == 0) {

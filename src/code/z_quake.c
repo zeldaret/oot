@@ -62,7 +62,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
 }
 
 s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
-    s32 pad;
+    UNUSED s32 pad;
 
     if (req->countdown > 0) {
         f32 a = Math_SinS(req->speed * req->countdown);
@@ -84,7 +84,7 @@ s16 Quake_Callback5(QuakeRequest* req, ShakeInfo* shake) {
 }
 
 s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
-    s32 pad;
+    UNUSED s32 pad;
     f32 a;
 
     req->countdown--;
@@ -312,7 +312,7 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     ShakeInfo shake;
     f32 absSpeedDiv;
     s16* temp;
-    u32 pad2;
+    UNUSED s32 pad2;
     s32 idx;
     s32 ret;
     u32 eq;

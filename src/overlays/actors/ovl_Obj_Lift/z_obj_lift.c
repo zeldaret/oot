@@ -61,9 +61,9 @@ void ObjLift_SetupAction(ObjLift* this, ObjLiftActionFunc actionFunc) {
 }
 
 void ObjLift_InitDynaPoly(ObjLift* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    s32 pad;
+    UNUSED s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    UNUSED s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -79,7 +79,7 @@ void func_80B96160(ObjLift* this, PlayState* play) {
     Vec3f pos;
     Vec3f velocity;
     Vec3f* temp_s3;
-    s32 pad0;
+    UNUSED s32 pad0;
     s32 i;
 
     temp_s3 = &this->dyna.actor.world.pos;
@@ -134,7 +134,7 @@ void func_80B9651C(ObjLift* this) {
 }
 
 void func_80B96560(ObjLift* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 quakeIndex;
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
@@ -187,7 +187,7 @@ void func_80B967C0(ObjLift* this) {
 }
 
 void func_80B96840(ObjLift* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     s32 bgId;
     Vec3f sp2C;
 

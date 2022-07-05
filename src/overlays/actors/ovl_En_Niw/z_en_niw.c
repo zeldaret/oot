@@ -121,7 +121,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnNiw_Init(Actor* thisx, PlayState* play) {
     EnNiw* this = (EnNiw*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
     s32 i;
 
     if (this->actor.params < 0) {
@@ -471,7 +471,7 @@ void func_80AB6450(EnNiw* this, PlayState* play) {
 }
 
 void func_80AB6570(EnNiw* this, PlayState* play) {
-    s32 pad[2];
+    UNUSED s32 pad[2];
     f32 posY = Rand_CenteredFloat(100.0f);
     f32 posZ = Rand_CenteredFloat(100.0f);
     s16 tmp;
@@ -873,7 +873,7 @@ void func_80AB747C(EnNiw* this, PlayState* play) {
 }
 
 void EnNiw_Update(Actor* thisx, PlayState* play) {
-    s32 pad1;
+    UNUSED s32 pad1;
     EnNiw* this = (EnNiw*)thisx;
     Player* player = GET_PLAYER(play);
     s16 i;
@@ -883,12 +883,12 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     Vec3f pos;
     Vec3f vel;
     Vec3f accel;
-    s32 pad2;
+    UNUSED s32 pad2;
     f32 scale;
     Vec3f cam;
     f32 dist;
     f32 camResult;
-    s32 pad3[10];
+    UNUSED s32 pad3[10];
 
     if (1) {} // Required to match
     if (1) {}
@@ -1204,7 +1204,7 @@ void EnNiw_UpdateEffects(EnNiw* this, PlayState* play) {
 void EnNiw_DrawEffects(EnNiw* this, PlayState* play) {
     u8 materialFlag = 0;
     s16 i;
-    s32 pad;
+    UNUSED s32 pad;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     EnNiwEffect* effect = &this->effects[0];
 

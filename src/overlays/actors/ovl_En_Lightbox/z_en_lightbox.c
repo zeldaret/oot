@@ -29,7 +29,7 @@ const ActorInit En_Lightbox_InitVars = {
 void EnLightbox_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     EnLightbox* this = (EnLightbox*)thisx;
-    s32 pad[4];
+    UNUSED s32 pad[4];
 
     switch (thisx->params) {
         case 0:

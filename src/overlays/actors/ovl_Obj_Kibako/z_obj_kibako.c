@@ -88,7 +88,7 @@ void ObjKibako_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void ObjKibako_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjKibako* this = (ObjKibako*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -183,7 +183,7 @@ void ObjKibako_SetupIdle(ObjKibako* this) {
 }
 
 void ObjKibako_Idle(ObjKibako* this, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
 
     if (Actor_HasParent(&this->actor, play)) {
         ObjKibako_SetupHeld(this);
@@ -246,8 +246,8 @@ void ObjKibako_SetupThrown(ObjKibako* this) {
 }
 
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    UNUSED s32 pad;
+    UNUSED s32 pad2;
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
         (this->collider.base.atFlags & AT_HIT)) {
@@ -271,14 +271,14 @@ void ObjKibako_Thrown(ObjKibako* this, PlayState* play) {
 }
 
 void ObjKibako_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjKibako* this = (ObjKibako*)thisx;
 
     this->actionFunc(this, play);
 }
 
 void ObjKibako_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     ObjKibako* this = (ObjKibako*)thisx;
 
     Gfx_DrawDListOpa(play, gSmallWoodenBoxDL);

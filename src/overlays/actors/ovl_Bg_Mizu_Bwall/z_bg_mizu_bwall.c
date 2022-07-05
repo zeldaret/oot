@@ -170,7 +170,7 @@ void BgMizuBwall_RotateVec3f(Vec3f* out, Vec3f* in, f32 sin, f32 cos) {
 }
 
 void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMizuBwall* this = (BgMizuBwall*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -369,7 +369,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuBwall_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -413,7 +413,7 @@ void BgMizuBwall_SetAlpha(BgMizuBwall* this, PlayState* play) {
 
 void BgMizuBwall_SpawnDebris(BgMizuBwall* this, PlayState* play) {
     s32 i;
-    s32 pad;
+    UNUSED s32 pad;
     s16 rand1;
     s16 rand2;
     Vec3f* thisPos = &this->dyna.actor.world.pos;
@@ -491,7 +491,7 @@ void BgMizuBwall_DoNothing(BgMizuBwall* this, PlayState* play) {
 }
 
 void BgMizuBwall_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    UNUSED s32 pad;
     BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     this->actionFunc(this, play);

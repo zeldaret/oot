@@ -67,7 +67,7 @@ u32 EffectSsFireTail_Init(PlayState* play, u32 index, EffectSs* this, void* init
 
 void EffectSsFireTail_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    UNUSED s32 pad;
     s16 yaw;
     Vec3f scale;
     f32 temp1;

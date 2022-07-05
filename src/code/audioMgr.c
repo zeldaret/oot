@@ -42,7 +42,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     audioMgr->rspTask = rspTask;
 }
 
-void AudioMgr_HandlePreNMI(AudioMgr* audioMgr) {
+void AudioMgr_HandlePreNMI(UNUSED AudioMgr* audioMgr) {
     // "Audio manager received OS_SC_PRE_NMI_MSG"
     osSyncPrintf("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n");
     Audio_PreNMI();

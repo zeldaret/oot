@@ -271,7 +271,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, PlayState* play) {
 
 void EnTuboTrap_Update(Actor* thisx, PlayState* play) {
     EnTuboTrap* this = (EnTuboTrap*)thisx;
-    s32 pad;
+    UNUSED s32 pad;
 
     this->actionFunc(this, play);
     Actor_MoveForward(&this->actor);
