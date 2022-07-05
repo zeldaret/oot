@@ -1808,16 +1808,16 @@ UNSKIPPABLE  ITEM_ICON("\x4B")  QUICKTEXT_ENABLE "Vous changez votre carquois \n
 )
 
 DEFINE_MESSAGE(0x0057, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_MIDDLE,
-UNSKIPPABLE  ITEM_ICON("\x4B")  QUICKTEXT_ENABLE "You upgraded your quiver to\n"
+UNSKIPPABLE  ITEM_ICON("\x4C")  QUICKTEXT_ENABLE "You upgraded your quiver to\n"
 "the " COLOR(RED) "Biggest Quiver" COLOR(DEFAULT) "!" QUICKTEXT_DISABLE "\n"
 "Now you can carry even more \n"
 "arrows, to a maximum of " COLOR(YELLOW) "50" COLOR(DEFAULT) "!"
 ,
-UNSKIPPABLE  ITEM_ICON("\x4B")  QUICKTEXT_ENABLE "Der " COLOR(RED) "Riesenköcher" COLOR(DEFAULT) "!" QUICKTEXT_DISABLE "\n"
+UNSKIPPABLE  ITEM_ICON("\x4C")  QUICKTEXT_ENABLE "Der " COLOR(RED) "Riesenköcher" COLOR(DEFAULT) "!" QUICKTEXT_DISABLE "\n"
 "Jetzt kannst Du insgesamt\n"
 COLOR(YELLOW) "50" COLOR(DEFAULT) " Pfeile tragen!"
 ,
-UNSKIPPABLE  ITEM_ICON("\x4B")  QUICKTEXT_ENABLE "Vous changez votre carquois \n"
+UNSKIPPABLE  ITEM_ICON("\x4C")  QUICKTEXT_ENABLE "Vous changez votre carquois \n"
 "pour un " COLOR(RED) "Enorme Carquois" COLOR(DEFAULT) "!" QUICKTEXT_DISABLE "\n"
 "Vous pouvez désormais trans-\n"
 "porter jusqu'à " COLOR(YELLOW) "50 " COLOR(DEFAULT) "flèches!"
