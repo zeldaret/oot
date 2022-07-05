@@ -375,7 +375,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
 
 s32 func_809B5F98(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
-    Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->unk_2BC;

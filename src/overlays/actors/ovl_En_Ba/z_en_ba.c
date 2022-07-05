@@ -476,7 +476,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
     UNUSED s32 pad;
     s16 i;
     Mtx* mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 14);
-    Vec3f unused = { 0.0f, 0.0f, 448.0f };
+    UNUSED Vec3f unused = { 0.0f, 0.0f, 448.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ba.c", 933);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

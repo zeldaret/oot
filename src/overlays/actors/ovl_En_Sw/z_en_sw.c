@@ -216,7 +216,7 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
 void EnSw_Init(Actor* thisx, PlayState* play) {
     EnSw* this = (EnSw*)thisx;
     s32 phi_v0;
-    Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
     UNUSED s32 pad;
 
     if (thisx->params & 0x8000) {

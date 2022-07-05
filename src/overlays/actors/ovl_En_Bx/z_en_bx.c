@@ -69,7 +69,7 @@ static ColliderQuadInit sQuadInit = {
 void EnBx_Init(Actor* thisx, PlayState* play) {
     EnBx* this = (EnBx*)thisx;
     Vec3f sp48 = { 0.015f, 0.015f, 0.015f };
-    Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
     static InitChainEntry sInitChain[] = {
         ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
     };

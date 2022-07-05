@@ -3300,8 +3300,6 @@ static s32 (*D_80854448[])(Player* this, PlayState* play) = {
 };
 
 s32 func_80837348(PlayState* play, Player* this, s8* arg2, s32 arg3) {
-    s32 i;
-
     if (!(this->stateFlags1 & (PLAYER_STATE1_0 | PLAYER_STATE1_7 | PLAYER_STATE1_29))) {
         if (arg3 != 0) {
             D_808535E0 = func_80836670(this, play);

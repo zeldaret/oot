@@ -362,7 +362,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
 }
 
 void EnKz_SetupMweep(EnKz* this, PlayState* play) {
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f subCamAt;
     Vec3f subCamEye;
 
@@ -382,7 +382,7 @@ void EnKz_SetupMweep(EnKz* this, PlayState* play) {
 }
 
 void EnKz_Mweep(EnKz* this, PlayState* play) {
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f subCamAt;
     Vec3f subCamEye;
 

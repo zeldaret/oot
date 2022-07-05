@@ -642,9 +642,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
     Vec3f sp64;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
-    f32 pad3;
-    f32 pad2;
-    f32 pad1;
+    UNUSED s32 pad[3];
     f32 cameraShake;
     SkelAnime* skelAnime = &this->skelAnime;
 

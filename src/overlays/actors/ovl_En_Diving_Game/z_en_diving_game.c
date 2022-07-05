@@ -567,7 +567,7 @@ s32 EnDivingGame_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 
 void EnDivingGame_Draw(Actor* thisx, PlayState* play) {
     EnDivingGame* this = (EnDivingGame*)thisx;
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_diving_game.c", 1212);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

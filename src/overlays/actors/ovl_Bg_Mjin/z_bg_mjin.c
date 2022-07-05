@@ -100,7 +100,7 @@ void BgMjin_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMjin_Draw(Actor* thisx, PlayState* play) {
-    BgMjin* this = (BgMjin*)thisx;
+    UNUSED BgMjin* this = (BgMjin*)thisx;
     Gfx* dlist;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);

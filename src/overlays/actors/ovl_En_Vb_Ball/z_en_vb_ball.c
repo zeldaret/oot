@@ -121,8 +121,7 @@ void EnVbBall_SpawnDust(PlayState* play, BossFdEffect* effect, Vec3f* position, 
 
 void EnVbBall_UpdateBones(EnVbBall* this, PlayState* play) {
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    f32 pad2;
-    f32 pad1;
+    UNUSED s32 pad[2];
     f32 angle;
     s16 i;
 
@@ -166,7 +165,7 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
     EnVbBall* this = (EnVbBall*)thisx;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     f32 radius;
-    f32 pad2;
+    UNUSED s32 pad;
     s16 spawnNum;
     s16 i;
 

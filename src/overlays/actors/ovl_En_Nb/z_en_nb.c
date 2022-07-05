@@ -238,7 +238,6 @@ CsCmdActorAction* EnNb_GetNpcCsAction(PlayState* play, s32 npcActionIdx) {
 
 void EnNb_SetupCsPosRot(EnNb* this, PlayState* play, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(play, npcActionIdx);
-    s16 newRotY;
     Actor* thisx = &this->actor;
 
     if (csCmdNPCAction != NULL) {
@@ -967,7 +966,7 @@ void func_80AB2E70(EnNb* this, PlayState* play) {
 }
 
 s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnNb* this = (EnNb*)thisx;
+    UNUSED EnNb* this = (EnNb*)thisx;
 
     if (limbIndex == NB_LIMB_HEAD) {
         *dList = gNabooruHeadMouthOpenDL;

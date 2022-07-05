@@ -39,7 +39,7 @@ void OceffWipe3_Init(Actor* thisx, PlayState* play) {
 }
 
 void OceffWipe3_Destroy(Actor* thisx, PlayState* play) {
-    OceffWipe3* this = (OceffWipe3*)thisx;
+    UNUSED OceffWipe3* this = (OceffWipe3*)thisx;
     Player* player = GET_PLAYER(play);
 
     Magic_Reset(play);

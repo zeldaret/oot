@@ -106,7 +106,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnOwl_Init(Actor* thisx, PlayState* play) {
     EnOwl* this = (EnOwl*)thisx;
-    ColliderCylinder* collider;
+    UNUSED s32 pad;
     s32 owlType;
     s32 switchFlag;
 
@@ -918,8 +918,6 @@ void func_80ACBF50(EnOwl* this, PlayState* play) {
 
 void func_80ACC00C(EnOwl* this, PlayState* play) {
     s32 owlType;
-    s32 temp_v0;
-    s32 temp_v0_2;
 
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x384, 0x258);
     this->actor.shape.rot.y = this->actor.world.rot.y;

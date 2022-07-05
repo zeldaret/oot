@@ -183,8 +183,8 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
     f32 baseX;
     f32 baseY;
     f32 baseZ;
-    Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     f32 random;
     s16 i;
     Vec3f viewForwards;
@@ -497,8 +497,8 @@ void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     ObjectKankyo* this = (ObjectKankyo*)thisx;
     f32 alphaScale;
-    Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
     if (!(play->cameraPtrs[CAM_ID_MAIN]->unk_14C & 0x100)) {
@@ -590,11 +590,10 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
     f32 baseX;
     f32 baseY;
     f32 baseZ;
-    Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
 
     if (!(play->cameraPtrs[CAM_ID_MAIN]->unk_14C & 0x100)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 958);

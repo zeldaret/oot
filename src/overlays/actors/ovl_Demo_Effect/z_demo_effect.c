@@ -1033,7 +1033,7 @@ void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, PlayState* play) {
  * This function updates the position and scale of the actor based on the current cutscene command.
  */
 void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
-    u16 action;
+    UNUSED s32 pad;
     s32 isLargeSize;
 
     isLargeSize = ((this->actor.params & 0x0F00) >> 8);
@@ -1773,7 +1773,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, PlayState* play) {
  * Draw function for the Fire Ball Actor.
  */
 void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
-    DemoEffect* this = (DemoEffect*)thisx;
+    UNUSED DemoEffect* this = (DemoEffect*)thisx;
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2701);

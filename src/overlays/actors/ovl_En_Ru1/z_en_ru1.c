@@ -424,7 +424,6 @@ s32 func_80AEB480(PlayState* play, u16 action) {
 
 void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     Vec3f pos;
-    Actor* thisx = &this->actor;
 
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y + this->actor.yDistToWater;

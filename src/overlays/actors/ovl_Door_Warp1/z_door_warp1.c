@@ -289,7 +289,6 @@ void DoorWarp1_BlueCrystal(DoorWarp1* this, PlayState* play) {
 }
 
 void func_80999214(DoorWarp1* this, PlayState* play) {
-    s32 temp_f4;
     f32 darkness;
     s16 i;
 

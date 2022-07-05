@@ -240,7 +240,7 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
     UNUSED s32 pad;
     EnFdFire* this = (EnFdFire*)thisx;
     Vec3f scale = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
     s16 sp8E;
     f32 sp88;
     f32 sp84;

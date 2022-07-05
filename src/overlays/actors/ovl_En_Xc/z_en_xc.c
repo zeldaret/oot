@@ -1057,7 +1057,7 @@ s32 EnXc_PullingOutHarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dL
 }
 
 s32 EnXc_HarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnXc* this = (EnXc*)thisx;
+    UNUSED EnXc* this = (EnXc*)thisx;
 
     if (limbIndex == 12) {
         *dList = gSheikHarpDL;

@@ -3777,7 +3777,7 @@ void BossGanon_DrawShadowTexture(void* tex, BossGanon* this, PlayState* play) {
 }
 
 void BossGanon_Draw(Actor* thisx, PlayState* play) {
-    s32 i;
+    UNUSED s32 pad;
     BossGanon* this = (BossGanon*)thisx;
     void* shadowTex;
 

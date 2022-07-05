@@ -894,7 +894,6 @@ void EnGirlA_Noop(EnGirlA* this, PlayState* play) {
 
 void EnGirlA_SetItemDescription(PlayState* play, EnGirlA* this) {
     ShopItemEntry* tmp = &shopItemEntries[this->actor.params];
-    s32 params = this->actor.params;
     s32 maskId;
     s32 isMaskFreeToBorrow;
 

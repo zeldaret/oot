@@ -573,8 +573,8 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     UNUSED s32 pad;
     s16 i;
-    Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp78;
     Vec3f sp6C;
     Vec3f sp60;
@@ -671,7 +671,7 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
 
 s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
-    Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->unk_2BC.x;

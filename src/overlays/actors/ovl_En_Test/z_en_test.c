@@ -1844,7 +1844,7 @@ s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
 }
 
 void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f unused1 = { 1100.0f, -700.0f, 0.0f };
+    UNUSED static Vec3f unused1 = { 1100.0f, -700.0f, 0.0f };
     static Vec3f D_80864658 = { 300.0f, 0.0f, 0.0f };
     static Vec3f D_80864664 = { 3400.0f, 0.0f, 0.0f };
     static Vec3f D_80864670 = { 0.0f, 0.0f, 0.0f };
@@ -1852,12 +1852,12 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
     static Vec3f D_80864688 = { 3000.0f, -2000.0f, -1000.0f };
     static Vec3f D_80864694 = { 3000.0f, -2000.0f, 1000.0f };
     static Vec3f D_808646A0 = { -1300.0f, 1100.0f, 0.0f };
-    static Vec3f unused2 = { -3000.0f, 1900.0f, 800.0f };
-    static Vec3f unused3 = { -3000.0f, -1100.0f, 800.0f };
-    static Vec3f unused4 = { 1900.0f, 1900.0f, 800.0f };
-    static Vec3f unused5 = { -3000.0f, -1100.0f, 800.0f };
-    static Vec3f unused6 = { 1900.0f, -1100.0f, 800.0f };
-    static Vec3f unused7 = { 1900.0f, 1900.0f, 800.0f };
+    UNUSED static Vec3f unused2 = { -3000.0f, 1900.0f, 800.0f };
+    UNUSED static Vec3f unused3 = { -3000.0f, -1100.0f, 800.0f };
+    UNUSED static Vec3f unused4 = { 1900.0f, 1900.0f, 800.0f };
+    UNUSED static Vec3f unused5 = { -3000.0f, -1100.0f, 800.0f };
+    UNUSED static Vec3f unused6 = { 1900.0f, -1100.0f, 800.0f };
+    UNUSED static Vec3f unused7 = { 1900.0f, 1900.0f, 800.0f };
     s32 bodyPart = -1;
     Vec3f sp70;
     Vec3f sp64;

@@ -281,7 +281,6 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
     s32 action = this->action;
     s32 phi_a1;
     s32 idx25C;
-    s16 temp_t1;
     s32 temp_a0;
     s32 phi_v0;
     s32 phi_v1;
@@ -2575,8 +2574,7 @@ void func_80B59A80(EnZl3* this, PlayState* play) {
 }
 
 void func_80B59AD0(EnZl3* this, PlayState* play) {
-    // todo look into
-    Actor* thisx = &this->actor; // unused, necessary to use 'this' first to fix regalloc
+    if (this) {}
 
     Flags_SetSwitch(play, 0x36);
     func_80088AA0(180);

@@ -211,8 +211,7 @@ s32 func_80B203D8(EnToryo* this, PlayState* play) {
 }
 
 s32 func_80B205CC(EnToryo* this, PlayState* play) {
-    UNUSED s32 pad;
-    Player* player = GET_PLAYER(play);
+    UNUSED s32 pad[2];
     s32 ret = 5;
 
     switch (Message_GetState(&play->msgCtx)) {

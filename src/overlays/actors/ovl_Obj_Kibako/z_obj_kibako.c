@@ -279,7 +279,7 @@ void ObjKibako_Update(Actor* thisx, PlayState* play) {
 
 void ObjKibako_Draw(Actor* thisx, PlayState* play) {
     UNUSED s32 pad;
-    ObjKibako* this = (ObjKibako*)thisx;
+    UNUSED ObjKibako* this = (ObjKibako*)thisx;
 
     Gfx_DrawDListOpa(play, gSmallWoodenBoxDL);
 }

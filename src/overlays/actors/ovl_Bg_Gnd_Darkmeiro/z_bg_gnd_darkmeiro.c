@@ -170,11 +170,10 @@ void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, PlayState* play) {
     BgGndDarkmeiro_ToggleBlock(this, play);
 }
 
-void BgGndDarkmeiro_Update(Actor* thisx, PlayState* play2) {
+void BgGndDarkmeiro_Update(Actor* thisx, PlayState* play) {
     BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
-    PlayState* play = play2;
 
-    this->updateFunc(this, play2);
+    this->updateFunc(this, play);
 }
 
 void BgGndDarkmeiro_DrawInvisiblePath(Actor* thisx, PlayState* play) {

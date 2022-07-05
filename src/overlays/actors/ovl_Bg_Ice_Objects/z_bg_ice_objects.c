@@ -231,7 +231,7 @@ void BgIceObjects_Update(Actor* thisx, PlayState* play) {
 
 void BgIceObjects_Draw(Actor* thisx, PlayState* play) {
     UNUSED s32 pad;
-    BgIceObjects* this = (BgIceObjects*)thisx;
+    UNUSED BgIceObjects* this = (BgIceObjects*)thisx;
 
     Gfx_DrawDListOpa(play, object_ice_objects_DL_000190);
 }

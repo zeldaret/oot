@@ -267,8 +267,8 @@ void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
 
 void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame;
-    Vec3f D_80A0B388 = { 0.0f, 0.1f, 0.0f };
-    Vec3f D_80A0B394 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f D_80A0B388 = { 0.0f, 0.1f, 0.0f };
+    UNUSED Vec3f D_80A0B394 = { 0.0f, 0.0f, 0.0f };
     f32 localConst = 30.0f;
 
     if (this->timer == 0) {

@@ -1162,7 +1162,7 @@ void BossSst_HeadSetupFinish(BossSst* this) {
 void BossSst_HeadFinish(BossSst* this, PlayState* play) {
     static Color_RGBA8 colorIndigo = { 80, 80, 150, 255 };
     static Color_RGBA8 colorDarkIndigo = { 40, 40, 80, 255 };
-    static Color_RGBA8 colorUnused[2] = {
+    UNUSED static Color_RGBA8 colorUnused[2] = {
         { 0, 0, 0, 255 },
         { 100, 100, 100, 0 },
     };

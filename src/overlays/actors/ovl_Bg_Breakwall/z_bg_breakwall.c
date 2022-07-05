@@ -132,7 +132,7 @@ Actor* BgBreakwall_SpawnFragments(PlayState* play, BgBreakwall* this, Vec3f* pos
     s32 i;
     s16 angle1;
     s16 angle2 = 0;
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3s actorRotList[] = { { 0, 0, 0 }, { 0, 0, 0x4000 }, { 0, 0, -0x4000 }, { 0, 0, 0 } };
     Vec3f actorScaleList[] = {
         { 0.004f, 0.004f, 0.004f },

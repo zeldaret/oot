@@ -143,7 +143,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, PlayState* play) {
 }
 
 void BgMoriBigst_StalfosFight(BgMoriBigst* this, PlayState* play) {
-    Player* player = GET_PLAYER(play);
+    UNUSED s32 pad;
 
     if ((this->dyna.actor.home.rot.z == 0) &&
         ((this->dyna.actor.home.pos.y - 5.0f) <= GET_PLAYER(play)->actor.world.pos.y)) {

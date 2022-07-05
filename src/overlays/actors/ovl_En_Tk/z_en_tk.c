@@ -465,8 +465,8 @@ s32 EnTk_ChooseReward(EnTk* this) {
 
 void EnTk_DigEff(EnTk* this) {
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
-    Vec3f speed = { 0.0f, 0.0f, 0.0f };
-    Vec3f accel = { 0.0f, 0.3f, 0.0f };
+    UNUSED Vec3f speed = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f accel = { 0.0f, 0.3f, 0.0f };
 
     if (this->skelAnime.curFrame >= 32.0f && this->skelAnime.curFrame < 40.0f) {
         pos.x = (Rand_ZeroOne() - 0.5f) * 12.0f + this->v3f_304.x;

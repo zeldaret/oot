@@ -609,7 +609,6 @@ void func_80B90010(ObjBean* this) {
 // Control is returned to the player and the leaves start to flatten out
 void func_80B90050(ObjBean* this, PlayState* play) {
     s16 temp_a0;
-    f32 temp_f2;
 
     this->unk_1B6.x += 0x3E80;
     this->unk_1B6.y += -0xC8;

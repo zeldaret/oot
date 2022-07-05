@@ -1205,9 +1205,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
     Vec3f bubblePos;
     Vec3f bubblePos2;
     Camera* mainCam2;
-    f32 pad50;
-    f32 pad4C;
-    f32 pad48;
+    UNUSED s32 pad[3];
 
     if (this->csState < MO_INTRO_REVEAL) {
         this->subCamFov = 80.0f;

@@ -599,8 +599,8 @@ void BossDodongo_GetUp(BossDodongo* this, PlayState* play) {
 
 void BossDodongo_BlowFire(BossDodongo* this, PlayState* play) {
     UNUSED s32 pad;
-    Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f unusedZeroVec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
 
     SkelAnime_Update(&this->skelAnime);
 

@@ -422,7 +422,7 @@ void EnInsect_SetupDig(EnInsect* this) {
 
 void EnInsect_Dig(EnInsect* this, PlayState* play) {
     static Vec3f accel = { 0.0f, 0.0f, 0.0f };
-    static Vec3f unused = { 0.0f, 0.0f, 0.0f };
+    UNUSED static Vec3f unused = { 0.0f, 0.0f, 0.0f };
     UNUSED s32 pad[2];
     Vec3f velocity;
 
@@ -463,9 +463,9 @@ void EnInsect_SetupWalkOnWater(EnInsect* this) {
 }
 
 void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
-    f32 temp_f0;
+    UNUSED s32 pad;
     s16 temp_v1;
-    UNUSED s16 pad;
+    UNUSED s16 pad1;
     s16 type;
     Vec3f ripplePoint;
 
@@ -559,11 +559,11 @@ void EnInsect_SetupDropped(EnInsect* this) {
 }
 
 void EnInsect_Dropped(EnInsect* this, PlayState* play) {
-    s32 temp_a0;
+    UNUSED s32 pad;
     s32 sp50;
     f32 phi_f0;
     EnInsect* thisTemp = this;
-    s32 temp_a1;
+    UNUSED s32 pad1;
     f32 distanceSq;
     f32 phi_f2;
     s16 type;

@@ -581,7 +581,7 @@ u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
 }
 
 s16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
-    s32 unusedPad;
+    UNUSED s32 pad;
     u8 dialogState = this->dialogState;
 
     switch (EnGo2_GetDialogState(this, play)) {

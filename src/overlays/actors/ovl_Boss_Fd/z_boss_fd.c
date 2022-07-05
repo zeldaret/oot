@@ -268,7 +268,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 angleToTarget;
     f32 pitchToTarget;
-    Vec3f* holePosition1;
+    UNUSED s32 pad;
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
@@ -763,7 +763,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 Vec3f sp170;
                 Vec3f sp164 = { 0.0f, 0.03f, 0.0f };
                 Vec3f sp158;
-                f32 pad154;
+                UNUSED s32 pad;
                 s16 temp_rand2;
                 s16 sp150;
 
@@ -926,9 +926,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
         Vec3f spE0[3];
         Vec3f spBC[3];
         f32 phi_f20;
-        f32 padB4;
-        f32 padB0;
-        f32 padAC;
+        UNUSED s32 pad1[3];
 
         Math_ApproachS(&this->actor.world.rot.y, angleToTarget, 0xA, this->fwork[BFD_TURN_RATE]);
 
@@ -1887,7 +1885,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
             Vec3f spF0 = { 0.0f, 0.0f, 0.0f };
             Vec3f spE4;
             Vec3s spDC;
-            f32 padD8;
+            UNUSED s32 pad;
 
             if (this->bodyFallApart[i] < 2) {
                 f32 spD4 = 0.1f;

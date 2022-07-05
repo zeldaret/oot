@@ -50,7 +50,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnMk_Init(Actor* thisx, PlayState* play) {
     EnMk* this = (EnMk*)thisx;
-    s32 swimFlag;
+    UNUSED s32 pad;
 
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
@@ -211,7 +211,7 @@ void func_80AAD014(EnMk* this, PlayState* play) {
 
 void EnMk_Wait(EnMk* this, PlayState* play) {
     s16 angle;
-    s32 swimFlag;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
     s32 playerExchangeItem;
 

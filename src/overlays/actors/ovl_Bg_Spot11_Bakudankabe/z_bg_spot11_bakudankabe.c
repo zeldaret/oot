@@ -146,7 +146,7 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgSpot11Bakudankabe_Draw(Actor* thisx, PlayState* play) {
-    BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
+    UNUSED BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
 
     Gfx_DrawDListOpa(play, gDesertColossusBombableWallDL);
 }

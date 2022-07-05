@@ -758,7 +758,7 @@ void func_80A7A940(EnIn* this, PlayState* play) {
 }
 
 void func_80A7AA40(EnIn* this, PlayState* play) {
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f subCamAt;
     Vec3f subCamEye;
 

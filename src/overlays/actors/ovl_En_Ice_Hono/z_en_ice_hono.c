@@ -151,7 +151,7 @@ void EnIceHono_InitSmallFlame(Actor* thisx, PlayState* play) {
 
 void EnIceHono_Init(Actor* thisx, PlayState* play) {
     EnIceHono* this = (EnIceHono*)thisx;
-    s16 params = this->actor.params;
+    UNUSED s32 params = this->actor.params;
 
     switch (this->actor.params) {
         case -1:

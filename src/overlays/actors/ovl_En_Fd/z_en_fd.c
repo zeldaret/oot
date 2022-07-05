@@ -710,8 +710,8 @@ s32 EnFd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnFd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
     EnFd* this = (EnFd*)thisx;
-    Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
-    Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
+    UNUSED Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
+    UNUSED Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
     Vec3f initialPos = { 0.0f, 0.0f, 0.0f };
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };

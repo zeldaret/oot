@@ -96,7 +96,7 @@ void BgGjyoBridge_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
-    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
+    UNUSED BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
 

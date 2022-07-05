@@ -352,7 +352,7 @@ void BgGndIceblock_Update(Actor* thisx, PlayState* play) {
 
 void BgGndIceblock_Draw(Actor* thisx, PlayState* play) {
     UNUSED s32 pad;
-    BgGndIceblock* this = (BgGndIceblock*)thisx;
+    UNUSED BgGndIceblock* this = (BgGndIceblock*)thisx;
 
     Gfx_DrawDListOpa(play, gWaterTrialIceBlockDL);
 }

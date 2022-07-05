@@ -68,10 +68,9 @@ static ColliderCylinderInit D_80A12CCC = {
 };
 
 void EnFireRock_Init(Actor* thisx, PlayState* play) {
-    PlayState* play2 = play;
+    UNUSED s32 pad;
     Player* player = GET_PLAYER(play);
     EnFireRock* this = (EnFireRock*)thisx;
-    s16 temp;
 
     this->type = this->actor.params;
     if (this->type != FIRE_ROCK_CEILING_SPOT_SPAWNER) {
@@ -229,7 +228,6 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
     EnFireRock* spawnedFireRock;
     s32 nextRockType;
     s32 i;
-    s32 temp;
 
     nextRockType = FIRE_ROCK_SPAWNED_FALLING1;
     switch (this->type) {

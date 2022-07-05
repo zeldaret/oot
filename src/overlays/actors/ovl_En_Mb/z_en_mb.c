@@ -1446,7 +1446,7 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnMb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f unused = { 1100.0f, -700.0f, 0.0f };
+    UNUSED static Vec3f unused = { 1100.0f, -700.0f, 0.0f };
     static Vec3f feetPos = { 0.0f, 0.0f, 0.0f };
     static Vec3f effSpawnModelPos = { 0.0f, -8000.0f, 0.0f };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };

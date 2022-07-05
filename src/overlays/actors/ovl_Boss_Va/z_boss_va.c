@@ -2149,8 +2149,7 @@ void BossVa_SetupZapperDeath(BossVa* this, PlayState* play) {
 
 void BossVa_ZapperDeath(BossVa* this, PlayState* play) {
     f32 sp3C = 55.0f;
-    f32 tmpf1;
-    f32 tmpf2;
+    UNUSED s32 pad;
 
     BossVa_AttachToBody(this);
     if (((play->gameplayFrames % 32) == 0) && (sCsState <= DEATH_BODY_TUMORS)) {
@@ -2727,7 +2726,7 @@ void BossVa_SetupBariPhase3Stunned(BossVa* this, PlayState* play) {
 }
 
 void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
-    s32 sp44_pad;
+    UNUSED s32 pad;
     Vec3f sp40 = GET_BODY(this)->unk_1D8;
 
     this->actor.world.rot.x = Math_Vec3f_Pitch(&GET_BODY(this)->actor.world.pos, &this->actor.world.pos);
@@ -3144,7 +3143,7 @@ s32 BossVa_BariOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 }
 
 void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    BossVa* this = (BossVa*)thisx;
+    UNUSED BossVa* this = (BossVa*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4494);
 
@@ -3174,7 +3173,7 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     Vec3f sp8C = { -15.0f, 40.0f, 0.0f };
     Vec3f sp80 = { 15.0f, 40.0f, 0.0f };
     Vec3f sp74 = { -15.0f, 40.0f, 0.0f };
-    Color_RGBA8 unused = { 250, 250, 230, 200 };
+    UNUSED Color_RGBA8 unused = { 250, 250, 230, 200 };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4542);
 
@@ -3944,7 +3943,7 @@ void BossVa_SpawnGore(PlayState* play, BossVaEffect* effect, Vec3f* pos, s16 yaw
 
 void BossVa_SpawnZapperCharge(PlayState* play, BossVaEffect* effect, BossVa* this, Vec3f* pos, Vec3s* rot, s16 scale,
                               u8 mode) {
-    Vec3f unused = { 0.0f, -1000.0f, 0.0f };
+    UNUSED Vec3f unused = { 0.0f, -1000.0f, 0.0f };
     s16 i;
 
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {

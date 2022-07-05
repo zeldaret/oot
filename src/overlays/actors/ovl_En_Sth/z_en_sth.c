@@ -385,7 +385,7 @@ Gfx* EnSth_AllocColorDList(GraphicsContext* play, u8 envR, u8 envG, u8 envB, u8 
 
 void EnSth_Draw(Actor* thisx, PlayState* play) {
     EnSth* this = (EnSth*)thisx;
-    Color_RGB8* envColor1;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sth.c", 2133);
 

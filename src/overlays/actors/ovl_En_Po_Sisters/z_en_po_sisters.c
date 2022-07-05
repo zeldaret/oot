@@ -934,9 +934,6 @@ void func_80ADB51C(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80ADB770(EnPoSisters* this, PlayState* play) {
-    s32 temp_v0;
-    s32 phi_a0;
-
     if (this->unk_19A != 0) {
         this->unk_19A--;
     }

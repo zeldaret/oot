@@ -1038,7 +1038,7 @@ void func_808FFCFC(BossGanon2* this, PlayState* play) {
 }
 
 void func_808FFDB0(BossGanon2* this, PlayState* play) {
-    s32 sp28;
+    UNUSED s32 pad;
     s32 objectIdx = Object_GetIndex(&play->objectCtx, OBJECT_GANON2);
 
     if (Object_IsLoaded(&play->objectCtx, objectIdx)) {
@@ -1467,7 +1467,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
     f32 temp_f12;
     Camera* mainCam;
     s16 temp_a0_2;
-    f32 phi_f0;
+    UNUSED s32 pad;
     s32 phi_a1;
 
     player = GET_PLAYER(play);

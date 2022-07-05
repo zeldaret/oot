@@ -927,7 +927,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     };
     static s16 D_8082AE00 = 20;
     static s16 D_8082AE04 = 0;
-    static s16 D_8082AE08[] = {
+    UNUSED static s16 D_8082AE08[] = {
         10, 16, 16, 17, 12, 13, 18, 17, 17, 19, 13, 21, 20, 21, 14, 15, 15, 15, 11, 14,
     };
     static s16 D_8082AE30[] = {

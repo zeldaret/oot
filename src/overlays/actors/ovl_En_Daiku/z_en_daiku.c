@@ -351,8 +351,6 @@ void EnDaiku_TentIdle(EnDaiku* this, PlayState* play) {
  */
 void EnDaiku_Jailed(EnDaiku* this, PlayState* play) {
     EnGeldB* gerudo;
-    s32 temp_t9;
-    s32 temp_v1;
 
     if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING)) {
         EnDaiku_UpdateText(this, play);

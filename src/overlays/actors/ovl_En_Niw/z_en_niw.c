@@ -878,8 +878,8 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 i;
     s16 featherCount;
-    Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
     Vec3f vel;
     Vec3f accel;
@@ -1113,7 +1113,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
 s32 EnNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNiw* this = (EnNiw*)thisx;
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->unk_2DC;
@@ -1138,7 +1138,7 @@ s32 EnNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnNiw_Draw(Actor* thisx, PlayState* play) {
     EnNiw* this = (EnNiw*)thisx;
     Vec3f scale = { 0.15f, 0.15f, 0.15f };
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
+    UNUSED s32 pad;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

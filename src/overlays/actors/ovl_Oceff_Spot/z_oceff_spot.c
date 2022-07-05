@@ -146,7 +146,7 @@ void OceffSpot_Update(Actor* thisx, PlayState* play) {
 }
 
 void OceffSpot_Draw(Actor* thisx, PlayState* play) {
-    OceffSpot* this = (OceffSpot*)thisx;
+    UNUSED OceffSpot* this = (OceffSpot*)thisx;
     u32 scroll = play->state.frames & 0xFFFF;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_oceff_spot.c", 466);

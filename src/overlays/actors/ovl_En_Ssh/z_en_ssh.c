@@ -386,7 +386,7 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, PlayState* play) {
 
 s32 EnSsh_IsCloseToHome(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
-    f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
+    f32 nextY = this->actor.world.pos.y + 2.0f * vel;
 
     if (nextY >= this->actor.home.pos.y) {
         return 1;
@@ -396,7 +396,7 @@ s32 EnSsh_IsCloseToHome(EnSsh* this) {
 
 s32 EnSsh_IsCloseToGround(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
-    f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
+    f32 nextY = this->actor.world.pos.y + 2.0f * vel;
 
     if ((nextY - this->actor.floorHeight) <= this->floorHeightOffset) {
         return 1;

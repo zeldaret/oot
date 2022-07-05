@@ -325,7 +325,7 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuWater_Draw(Actor* thisx, PlayState* play) {
-    BgMizuWater* this = (BgMizuWater*)thisx;
+    UNUSED BgMizuWater* this = (BgMizuWater*)thisx;
     s32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_water.c", 738);

@@ -223,7 +223,7 @@ void BgMoriHineri_Update(Actor* thisx, PlayState* play) {
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
     BgMoriHineri* this = (BgMoriHineri*)thisx;
-    s8 objIndex;
+    UNUSED s32 pad;
     MtxF mtx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hineri.c", 611);

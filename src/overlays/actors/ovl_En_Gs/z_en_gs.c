@@ -559,7 +559,7 @@ void EnGs_Update(Actor* thisx, PlayState* play2) {
 
 void EnGs_Draw(Actor* thisx, PlayState* play) {
     EnGs* this = (EnGs*)thisx;
-    s32 tmp;
+    UNUSED s32 pad;
     u32 frames;
 
     if (!(this->unk_19E & 8)) {

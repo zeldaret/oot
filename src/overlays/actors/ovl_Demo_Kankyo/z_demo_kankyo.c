@@ -707,7 +707,7 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play) {
 }
 
 void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play) {
-    DemoKankyo* this = (DemoKankyo*)thisx;
+    UNUSED DemoKankyo* this = (DemoKankyo*)thisx;
     UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1514);
@@ -755,9 +755,8 @@ void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
     static f32 sWarpRoll;
     static f32 sWarpFoV;
-    // the following 2 vars are unused
-    static u32 D_8098CF90;
-    static u32 D_8098CF94;
+    UNUSED static s32 D_8098CF90;
+    UNUSED static s32 D_8098CF94;
     static Vec3f D_8098CF98;
 
     s16 i;
@@ -895,10 +894,9 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
 void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
     static f32 sSparklesRoll;
     static f32 sSparklesFoV;
-    // the following 3 vars are unused
-    static u32 D_8098CFAC;
-    static u32 D_8098CFB0;
-    static u32 D_8098CFB4;
+    UNUSED static s32 D_8098CFAC;
+    UNUSED static s32 D_8098CFB0;
+    UNUSED static s32 D_8098CFB4;
     static Vec3f D_8098CFB8;
 
     DemoKankyo* this = (DemoKankyo*)thisx;
