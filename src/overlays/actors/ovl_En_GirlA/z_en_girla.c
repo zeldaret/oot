@@ -203,7 +203,7 @@ static ShopItemEntry shopItemEntries[] = {
     { OBJECT_GI_CLOTHES, GID_TUNIC_ZORA, NULL, 300, 1, 0x00AB, 0x0094, GI_TUNIC_ZORA, EnGirlA_CanBuy_ZoraTunic,
       EnGirlA_ItemGive_ZoraTunic, EnGirlA_BuyEvent_ZoraTunic },
     /* SI_HEART */
-    { OBJECT_GI_HEART, GID_HEART, NULL, 10, 16, 0x00AC, 0x0095, GI_HEART, EnGirlA_CanBuy_Health,
+    { OBJECT_GI_HEART, GID_RECOVERY_HEART, NULL, 10, 16, 0x00AC, 0x0095, GI_RECOVERY_HEART, EnGirlA_CanBuy_Health,
       EnGirlA_ItemGive_Health, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_MILK_BOTTLE */
     { OBJECT_GI_MILK, GID_MILK, func_80A3C498, 100, 1, 0x00AD, 0x0097, GI_MILK_BOTTLE, EnGirlA_CanBuy_MilkBottle,
