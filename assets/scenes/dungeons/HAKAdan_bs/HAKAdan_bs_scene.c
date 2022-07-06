@@ -29,7 +29,7 @@ ActorEntry HAKAdan_bs_sceneStartPositionList0x000060[] = {
 };
 
 TransitionActorEntry HAKAdan_bs_sceneTransitionActorList_000070[] = {
-    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -50, 1680, -297, 0, 0x0154 },
+    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, -50, 1680, -297, -32768, 0x0154 },
 };
 
 RomFile HAKAdan_bs_sceneRoomList0x000080[] = {
@@ -43,7 +43,7 @@ EntranceEntry HAKAdan_bs_sceneEntranceList0x000090[] = {
 };
 
 u16 HAKAdan_bs_sceneExitList_000094[] = {
-    0x02B2,
+    0x02B6,
     0x0000,
 };
 

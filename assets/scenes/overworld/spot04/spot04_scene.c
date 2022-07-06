@@ -4404,7 +4404,7 @@ ActorEntry spot04_sceneStartPositionList0x00D288[] = {
 };
 
 TransitionActorEntry spot04_sceneTransitionActorList_00D298[] = {
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4462,7 +4462,7 @@ ActorEntry spot04_sceneStartPositionList0x00D3B8[] = {
 };
 
 TransitionActorEntry spot04_sceneTransitionActorList_00D3C8[] = {
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4524,7 +4524,7 @@ ActorEntry spot04_sceneStartPositionList0x00D4D8[] = {
 };
 
 TransitionActorEntry spot04_sceneTransitionActorList_00D4E8[] = {
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4587,7 +4587,7 @@ ActorEntry spot04_sceneStartPositionList0x00D600[] = {
 };
 
 TransitionActorEntry spot04_sceneTransitionActorList_00D610[] = {
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4676,7 +4676,7 @@ ActorEntry spot04_sceneStartPositionList0x00D7B0[] = {
 
 TransitionActorEntry spot04_sceneTransitionActorList_00D7C0[] = {
     { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1159, -32768, 0x013F },
-    { 1, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1279, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1279, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4759,7 +4759,7 @@ ActorEntry spot04_sceneStartPositionList0x00D960[] = {
 
 TransitionActorEntry spot04_sceneTransitionActorList_00D970[] = {
     { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1159, -32768, 0x013F },
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1279, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1279, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4840,7 +4840,7 @@ ActorEntry spot04_sceneStartPositionList0x00DB08[] = {
 };
 
 TransitionActorEntry spot04_sceneTransitionActorList_00DB18[] = {
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4894,7 +4894,7 @@ ActorEntry spot04_sceneStartPositionList0x00DBE8[] = {
 };
 
 TransitionActorEntry spot04_sceneTransitionActorList_00DBF8[] = {
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -4948,7 +4948,7 @@ ActorEntry spot04_sceneStartPositionList0x00DCC8[] = {
 };
 
 TransitionActorEntry spot04_sceneTransitionActorList_00DCD8[] = {
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1219, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 
@@ -5025,7 +5025,7 @@ ActorEntry spot04_sceneStartPositionList0x00DE98[] = {
 
 TransitionActorEntry spot04_sceneTransitionActorList_00DEA8[] = {
     { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1159, -32768, 0x013F },
-    { 0, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1279, 0, 0x013F },
+    { 2, 255, 2, 255, ACTOR_EN_HOLL, -785, 120, 1279, 0, 0x013F },
     { 1, 255, 0, 255, ACTOR_EN_HOLL, 2160, -1, -148, 0, 0x013F },
 };
 

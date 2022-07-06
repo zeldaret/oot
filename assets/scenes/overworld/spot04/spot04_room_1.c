@@ -264,10 +264,10 @@ SceneCmd spot04_room_1Set_000510[] = {
 };
 
 s16 spot04_room_1ObjectList_000550[] = {
-    OBJECT_OS_ANIME,
-    OBJECT_MD,
-    OBJECT_SA,
-    OBJECT_KM1,
+    OBJECT_SPOT04_OBJECTS,
+    OBJECT_GI_JEWEL,
+    OBJECT_MJIN,
+    OBJECT_MJIN_OKA,
 };
 
 ActorEntry spot04_room_1ActorList_000558[] = {
@@ -283,7 +283,7 @@ ActorEntry spot04_room_1ActorList_000558[] = {
     { ACTOR_EN_A_OBJ,       {   -193,    380,  -1307 }, {      0,      0,      0 }, 0x1009 },
     { ACTOR_EN_A_OBJ,       {   1420,      0,     21 }, {      0, 0XCE39,      0 }, 0x0F09 },
     { ACTOR_EN_MD,          {   1522,      0,    105 }, {      0, 0XBBBC,      0 }, 0x0000 },
-    { ACTOR_EN_ITEM00,      {    854,    185,   -487 }, {      0,      0,      0 }, 0x1F06 },
+    { ACTOR_EN_ITEM00,      {    854,    185,   -487 }, {      0,      0,      0 }, 0xFF06 },
     { ACTOR_EN_KO,          {   -228,      0,   -362 }, {      0,      0,      0 }, 0xD300 },
 };
 
@@ -303,10 +303,10 @@ SceneCmd spot04_room_1Set_000640[] = {
 };
 
 s16 spot04_room_1ObjectList_000680[] = {
-    OBJECT_OS_ANIME,
-    OBJECT_MD,
-    OBJECT_SA,
-    OBJECT_KM1,
+    OBJECT_SPOT04_OBJECTS,
+    OBJECT_GI_JEWEL,
+    OBJECT_MJIN,
+    OBJECT_MJIN_OKA,
 };
 
 ActorEntry spot04_room_1ActorList_000688[] = {
@@ -322,7 +322,7 @@ ActorEntry spot04_room_1ActorList_000688[] = {
     { ACTOR_EN_A_OBJ,       {   -193,    380,  -1307 }, {      0,      0,      0 }, 0x1009 },
     { ACTOR_EN_A_OBJ,       {   1420,      0,     21 }, {      0, 0XCE39,      0 }, 0x0F09 },
     { ACTOR_EN_MD,          {   1522,      0,    105 }, {      0, 0XBBBC,      0 }, 0x0000 },
-    { ACTOR_EN_ITEM00,      {    854,    185,   -487 }, {      0,      0,      0 }, 0x1F06 },
+    { ACTOR_EN_ITEM00,      {    854,    185,   -487 }, {      0,      0,      0 }, 0xFF06 },
     { ACTOR_EN_KO,          {   -228,      0,   -362 }, {      0,      0,      0 }, 0xD300 },
 };
 

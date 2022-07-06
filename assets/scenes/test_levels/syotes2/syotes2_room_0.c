@@ -12,7 +12,7 @@ SceneCmd syotes2_room_0Commands[] = {
     SCENE_CMD_ECHO_SETTINGS(5),
     SCENE_CMD_ROOM_BEHAVIOR(0x01, 0x00, false, false),
     SCENE_CMD_SKYBOX_DISABLES(true, false),
-    SCENE_CMD_TIME_SETTINGS(255, 255, 0),
+    SCENE_CMD_TIME_SETTINGS(0, 0, 255),
     SCENE_CMD_MESH(&syotes2_room_0PolygonType0_000060),
     SCENE_CMD_OBJECT_LIST(1, syotes2_room_0ObjectList_000040),
     SCENE_CMD_ACTOR_LIST(1, syotes2_room_0ActorList_000044),

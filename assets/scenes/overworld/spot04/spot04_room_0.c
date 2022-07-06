@@ -322,7 +322,7 @@ SceneCmd spot04_room_0Set_000C30[] = {
 };
 
 s16 spot04_room_0ObjectList_000C70[] = {
-    OBJECT_MAMENOKI,
+    OBJECT_SA,
     OBJECT_KM1,
     OBJECT_KW1,
     OBJECT_MD,

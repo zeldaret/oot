@@ -610,7 +610,7 @@ s16 spot20_room_0ObjectList_0013E0[] = {
 };
 
 ActorEntry spot20_room_0ActorList_0013F8[] = {
-    { ACTOR_EN_LIGHT, {    -59,      0,   -660 }, {      0,      0,      0 }, 0x03F4 },
+    { ACTOR_EN_LIGHT, {    -59,   -603,   -660 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT, {    323,      0,   -462 }, {      0, 0XA71C,      0 }, 0x03F5 },
     { ACTOR_EN_LIGHT, {    339,      0,   -492 }, {      0, 0XA71C,      0 }, 0x03F7 },
     { ACTOR_EN_LIGHT, {    299,      0,   -434 }, {      0, 0XA71C,      0 }, 0x03F8 },

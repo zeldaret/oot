@@ -24,7 +24,7 @@ SceneCmd spot10_room_8Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot10_room_8PolygonType0_000100),
-    SCENE_CMD_OBJECT_LIST(12, spot10_room_8ObjectList_000058),
+    SCENE_CMD_OBJECT_LIST(11, spot10_room_8ObjectList_000058),
     SCENE_CMD_ACTOR_LIST(9, spot10_room_8ActorList_000070),
     SCENE_CMD_END(),
 };
@@ -48,7 +48,6 @@ s16 spot10_room_8ObjectList_000058[] = {
     OBJECT_HINTNUTS,
     OBJECT_GI_DEKUPOUCH,
     OBJECT_ST,
-    OBJECT_OKUTA,
 };
 
 ActorEntry spot10_room_8ActorList_000070[] = {
@@ -91,7 +90,7 @@ SceneCmd spot10_room_8Set_000120[] = {
 };
 
 s16 spot10_room_8ObjectList_000160[] = {
-    OBJECT_OKUTA,
+    OBJECT_KM1,
     OBJECT_KW1,
     OBJECT_MD,
     OBJECT_FA,

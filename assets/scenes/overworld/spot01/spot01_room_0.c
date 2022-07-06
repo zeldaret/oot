@@ -398,7 +398,7 @@ SceneCmd spot01_room_0Set_000FC0[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
-    SCENE_CMD_OBJECT_LIST(10, spot01_room_0ObjectList_001000),
+    SCENE_CMD_OBJECT_LIST(9, spot01_room_0ObjectList_001000),
     SCENE_CMD_ACTOR_LIST(29, spot01_room_0ActorList_001014),
     SCENE_CMD_END(),
 };
@@ -413,7 +413,6 @@ s16 spot01_room_0ObjectList_001000[] = {
     OBJECT_EFC_DOUGHNUT,
     OBJECT_SPOT01_MATOYA,
     OBJECT_KIBAKO2,
-    OBJECT_SPOT01_MATOYAB,
 };
 
 ActorEntry spot01_room_0ActorList_001014[] = {
@@ -465,7 +464,7 @@ SceneCmd spot01_room_0Set_0011F0[] = {
 
 s16 spot01_room_0ObjectList_001230[] = {
     OBJECT_SPOT01_OBJECTS,
-    OBJECT_SPOT01_MATOYAB,
+    OBJECT_SD,
     OBJECT_WOOD02,
     OBJECT_NIW,
     OBJECT_XC,
@@ -537,7 +536,7 @@ SceneCmd spot01_room_0Set_001480[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(12, 0, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
-    SCENE_CMD_OBJECT_LIST(14, spot01_room_0ObjectList_0014C0),
+    SCENE_CMD_OBJECT_LIST(13, spot01_room_0ObjectList_0014C0),
     SCENE_CMD_ACTOR_LIST(21, spot01_room_0ActorList_0014DC),
     SCENE_CMD_END(),
 };
@@ -556,7 +555,6 @@ s16 spot01_room_0ObjectList_0014C0[] = {
     OBJECT_ANI,
     OBJECT_EFC_ERUPC,
     OBJECT_EFC_DOUGHNUT,
-    OBJECT_SPOT01_MATOYAB,
 };
 
 ActorEntry spot01_room_0ActorList_0014DC[] = {

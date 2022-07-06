@@ -85,8 +85,8 @@ SceneCmd hakaana_ouke_room_0Set_000130[] = {
 };
 
 s16 hakaana_ouke_room_0ObjectList_000170[] = {
-    OBJECT_OUKE_HAKA,
-    OBJECT_BWALL,
+    OBJECT_DDAN_OBJECTS,
+    OBJECT_RD,
     OBJECT_SYOKUDAI,
     OBJECT_FIREFLY,
 };
@@ -94,7 +94,7 @@ s16 hakaana_ouke_room_0ObjectList_000170[] = {
 ActorEntry hakaana_ouke_room_0ActorList_000178[] = {
     { ACTOR_OBJ_SYOKUDAI, {    -56,    120,   1208 }, {      0,      0,      0 }, 0x13FF },
     { ACTOR_OBJ_SYOKUDAI, {     55,    120,   1207 }, {      0,      0,      0 }, 0x13FF },
-    { ACTOR_BG_BREAKWALL, {     -1,    120,   1145 }, {      0,      0,      0 }, 0x2001 },
+    { ACTOR_BG_BREAKWALL, {     -1,    120,   1119 }, {      0,      0,      0 }, 0x2001 },
 };
 
 u8 hakaana_ouke_room_0_possiblePadding_0001A8[] = {
@@ -113,8 +113,8 @@ SceneCmd hakaana_ouke_room_0Set_0001B0[] = {
 };
 
 s16 hakaana_ouke_room_0ObjectList_0001F0[] = {
-    OBJECT_OUKE_HAKA,
-    OBJECT_BWALL,
+    OBJECT_DDAN_OBJECTS,
+    OBJECT_RD,
     OBJECT_SYOKUDAI,
     OBJECT_FIREFLY,
 };
@@ -122,7 +122,7 @@ s16 hakaana_ouke_room_0ObjectList_0001F0[] = {
 ActorEntry hakaana_ouke_room_0ActorList_0001F8[] = {
     { ACTOR_OBJ_SYOKUDAI, {    -56,    120,   1208 }, {      0,      0,      0 }, 0x13FF },
     { ACTOR_OBJ_SYOKUDAI, {     55,    120,   1207 }, {      0,      0,      0 }, 0x13FF },
-    { ACTOR_BG_BREAKWALL, {     -1,    120,   1145 }, {      0,      0,      0 }, 0x2001 },
+    { ACTOR_BG_BREAKWALL, {     -1,    120,   1119 }, {      0,      0,      0 }, 0x2001 },
 };
 
 u8 hakaana_ouke_room_0_possiblePadding_000228[] = {

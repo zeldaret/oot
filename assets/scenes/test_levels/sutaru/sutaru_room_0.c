@@ -12,10 +12,10 @@ SceneCmd sutaru_room_0Commands[] = {
     SCENE_CMD_ECHO_SETTINGS(15),
     SCENE_CMD_ROOM_BEHAVIOR(0x00, 0x00, false, false),
     SCENE_CMD_SKYBOX_DISABLES(true, true),
-    SCENE_CMD_TIME_SETTINGS(255, 255, 0),
+    SCENE_CMD_TIME_SETTINGS(0, 0, 255),
     SCENE_CMD_MESH(&sutaru_room_0PolygonType0_0000A0),
     SCENE_CMD_OBJECT_LIST(8, sutaru_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(5, sutaru_room_0ActorList_000050),
+    SCENE_CMD_ACTOR_LIST(1, sutaru_room_0ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -23,7 +23,7 @@ s16 sutaru_room_0ObjectList_000040[] = {
     OBJECT_WF,
     OBJECT_TORCH2,
     OBJECT_DH,
-    OBJECT_SK2,
+    OBJECT_RD,
     OBJECT_BB,
     OBJECT_WARP1,
     OBJECT_GI_HEART,
@@ -32,7 +32,7 @@ s16 sutaru_room_0ObjectList_000040[] = {
 
 ActorEntry sutaru_room_0ActorList_000050[] = {
     { ACTOR_EN_TORCH2,  {    119,    827,  -3240 }, {      0,      0,      0 }, 0xFFFF },
-    { ACTOR_EN_BB,      {    -23,    827,  -3381 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BB,      {    -23,    827,  -3381 }, {      0,      0,      0 }, 0x05FB },
     { ACTOR_EN_TEST,    {    -23,    827,  -3391 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_TEST,    {    -89,    827,  -3109 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_DOOR_WARP1, {    119,    827,  -3240 }, {      0,      0,      0 }, 0x0001 },

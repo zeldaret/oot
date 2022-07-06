@@ -29,7 +29,7 @@ ActorEntry moribossroom_sceneStartPositionList0x000060[] = {
 };
 
 TransitionActorEntry moribossroom_sceneTransitionActorList_000070[] = {
-    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -514, -193, -3017, 21845, 0x0154 },
+    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, -514, -193, -3017, -10923, 0x0154 },
 };
 
 RomFile moribossroom_sceneRoomList0x000080[] = {

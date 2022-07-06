@@ -24,7 +24,7 @@ SceneCmd spot10_room_5Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot10_room_5PolygonType0_0000C0),
-    SCENE_CMD_OBJECT_LIST(12, spot10_room_5ObjectList_000058),
+    SCENE_CMD_OBJECT_LIST(11, spot10_room_5ObjectList_000058),
     SCENE_CMD_ACTOR_LIST(5, spot10_room_5ActorList_000070),
     SCENE_CMD_END(),
 };
@@ -48,7 +48,6 @@ s16 spot10_room_5ObjectList_000058[] = {
     OBJECT_HINTNUTS,
     OBJECT_GI_DEKUPOUCH,
     OBJECT_ST,
-    OBJECT_OKUTA,
 };
 
 ActorEntry spot10_room_5ActorList_000070[] = {
@@ -87,7 +86,7 @@ SceneCmd spot10_room_5Set_0000E0[] = {
 };
 
 s16 spot10_room_5ObjectList_000120[] = {
-    OBJECT_OKUTA,
+    OBJECT_KM1,
     OBJECT_KW1,
     OBJECT_MD,
     OBJECT_FA,
@@ -130,7 +129,7 @@ s16 spot10_room_5ObjectList_0001C0[] = {
 };
 
 ActorEntry spot10_room_5ActorList_0001C8[] = {
-    { ACTOR_EN_SHOPNUTS,   {  -1121,   -200,   2183 }, {      0, 0XC000,      0 }, 0x0002 },
+    { ACTOR_EN_SHOPNUTS,   {  -1121,   -258,   2183 }, {      0, 0XC000,      0 }, 0x0002 },
     { ACTOR_OBJECT_KANKYO, {  -1191,   -220,   1626 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_OBJ_BEAN,      {  -1180,   -360,   1363 }, {      0,      0,      0 }, 0x1F04 },
     { ACTOR_DEMO_SA,       {  -1208,   -220,   1602 }, {      0,      0,      0 }, 0x0005 },

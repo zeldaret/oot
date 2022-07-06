@@ -252,13 +252,13 @@ s16 spot02_room_0ObjectList_000870[] = {
 };
 
 ActorEntry spot02_room_0ActorList_000888[] = {
-    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    -39 }, {      0, 0X2AAB,      0 }, 0x11A0 },
-    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    199 }, {      0, 0X5555,      0 }, 0x11A0 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,    318 }, {      0, 0X8000,      0 }, 0x11A0 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    199 }, {      0, 0XAAAB,      0 }, 0x11A0 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    -39 }, {      0, 0XD555,      0 }, 0x11A0 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,   -158 }, {      0,      0,      0 }, 0x11A0 },
-    { ACTOR_BG_SPOT02_OBJECTS, {   2676,    100,     80 }, {      0, 0XC000,      0 }, 0x2000 },
+    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    -39 }, {      0, 0X2AAB,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    199 }, {      0, 0X5555,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,    318 }, {      0, 0X8000,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    199 }, {      0, 0XAAAB,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    -39 }, {      0, 0XD555,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,   -158 }, {      0,      0,      0 }, 0x13FF },
+    { ACTOR_BG_SPOT02_OBJECTS, {   2676,    100,     80 }, {      0, 0XC000,      0 }, 0xFF00 },
 };
 
 u8 spot02_room_0_possiblePadding_0008F8[] = {
@@ -292,13 +292,13 @@ s16 spot02_room_0ObjectList_000940[] = {
 };
 
 ActorEntry spot02_room_0ActorList_000958[] = {
-    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    -39 }, {      0, 0X2AAB,      0 }, 0x11A1 },
-    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    199 }, {      0, 0X5555,      0 }, 0x11A1 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,    318 }, {      0, 0X8000,      0 }, 0x11A1 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    199 }, {      0, 0XAAAB,      0 }, 0x11A1 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    -39 }, {      0, 0XD555,      0 }, 0x11A1 },
-    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,   -158 }, {      0,      0,      0 }, 0x11A1 },
-    { ACTOR_BG_SPOT02_OBJECTS, {   2676,    100,     80 }, {      0, 0XC000,      0 }, 0x2100 },
+    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    -39 }, {      0, 0X2AAB,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   1930,    100,    199 }, {      0, 0X5555,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,    318 }, {      0, 0X8000,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    199 }, {      0, 0XAAAB,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2343,    100,    -39 }, {      0, 0XD555,      0 }, 0x13FF },
+    { ACTOR_OBJ_SYOKUDAI,      {   2136,    100,   -158 }, {      0,      0,      0 }, 0x13FF },
+    { ACTOR_BG_SPOT02_OBJECTS, {   2676,    100,     80 }, {      0, 0XC000,      0 }, 0xFF00 },
 };
 
 u8 spot02_room_0_possiblePadding_0009C8[] = {

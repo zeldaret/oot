@@ -1120,9 +1120,9 @@ SceneCmd ganon_tou_sceneSet_003180[] = {
 };
 
 ActorEntry ganon_tou_sceneStartPositionList0x0031E0[] = {
-    { ACTOR_PLAYER,     {   -453,   1085,   3400 }, {      0, 0X8000,      0 }, 0x0FFF },
+    { ACTOR_PLAYER,     {   -366,   1063,   3833 }, {      0, 0X8000,      0 }, 0x0FFF },
     { ACTOR_PLAYER,     {   -341,   1624,    707 }, {      0,      0,      0 }, 0x0FFF },
-    { ACTOR_PLAYER,     {   2956,   1186,    525 }, {      0, 0XC000,      0 }, 0x0FFF },
+    { ACTOR_PLAYER,     {   3018,   1186,    556 }, {      0, 0XC000,      0 }, 0x0FFF },
 };
 
 RomFile ganon_tou_sceneRoomList0x003210[] = {

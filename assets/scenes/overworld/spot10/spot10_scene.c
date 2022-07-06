@@ -3679,7 +3679,7 @@ Vec3s spot10_sceneCollisionHeader_00AC98Vertices[] = {
 };
 
 WaterBox spot10_sceneCollisionHeader_00AC98WaterBoxes[] = {
-    { 1896, -20, -1069, 445, 439, 0x0007E105 },
+    { 1896, -20, -1069, 445, 439, 0x00006105 },
 };
 
 CollisionHeader spot10_sceneCollisionHeader_00AC98 = { 

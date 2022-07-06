@@ -2386,7 +2386,7 @@ ActorEntry spot02_sceneStartPositionList0x006C80[] = {
 
 TransitionActorEntry spot02_sceneTransitionActorList_006C90[] = {
     { 1, 255, 1, 255, ACTOR_EN_DOOR, -820, 0, 599, 16384, 0x01BF },
-    { 1, 255, 0, 255, ACTOR_EN_HOLL, 1519, 239, 93, 16384, 0x013F },
+    { 0, 255, 0, 255, ACTOR_EN_HOLL, 1519, 239, 93, 16384, 0x013F },
 };
 
 RomFile spot02_sceneRoomList0x006CB0[] = {
@@ -2493,7 +2493,7 @@ ActorEntry spot02_sceneStartPositionList0x006F30[] = {
 
 TransitionActorEntry spot02_sceneTransitionActorList_006F40[] = {
     { 1, 255, 1, 255, ACTOR_EN_DOOR, -820, 0, 599, 16384, 0x01BF },
-    { 1, 255, 0, 255, ACTOR_EN_HOLL, 1519, 239, 93, 16384, 0x013F },
+    { 0, 255, 0, 255, ACTOR_EN_HOLL, 1519, 239, 93, 16384, 0x013F },
 };
 
 RomFile spot02_sceneRoomList0x006F60[] = {

@@ -36,9 +36,9 @@ s16 ydan_room_11ObjectList_000038[] = {
     OBJECT_DEKUBABA,
     OBJECT_HINTNUTS,
     OBJECT_BOX,
+    OBJECT_SYOKUDAI,
     OBJECT_KUSA,
     OBJECT_GI_HEART,
-    OBJECT_GI_SUTARU,
 };
 
 u8 ydan_room_11_possiblePadding_00004C[] = {
