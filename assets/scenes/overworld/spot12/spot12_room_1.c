@@ -34,7 +34,7 @@ s16 spot12_room_1ObjectList_000060[] = {
     OBJECT_SPOT12_OBJ,
     OBJECT_BOX,
     OBJECT_HATA,
-    OBJECT_HORSE,
+    OBJECT_KANBAN,
     OBJECT_HNI,
     OBJECT_KIBAKO2,
     OBJECT_GLA,
@@ -112,7 +112,7 @@ ActorEntry spot12_room_1ActorList_00025C[] = {
     { ACTOR_EN_YABUSAME_MARK, {   4490,   1670,  -1785 }, {      0,      0,      0 }, 0x0001 },
     { ACTOR_EN_YABUSAME_MARK, {   4490,   1720,  -2295 }, {      0,      0,      0 }, 0x0002 },
     { ACTOR_EN_HORSE,         {   3705,   1413,   -665 }, {      0, 0XC000,      0 }, 0xFFFF },
-    { ACTOR_EN_KANBAN,        {   3635,   1413,   -360 }, {      0, 0XC000,      0 }, 0x031A },
+    { ACTOR_EN_KANBAN,        {   3655,   1413,   -353 }, {      0, 0XC000,      0 }, 0x031A },
     { ACTOR_OBJ_KIBAKO2,      {   3303,   1441,  -5018 }, { 0XFFFF, 0XFDDE,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,      {   3330,   1441,    406 }, { 0XFFFF,  0XB61,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,      {   3406,   1441,    414 }, { 0XFFFF,  0X9F5,      0 }, 0xFFFF },
@@ -158,7 +158,7 @@ s16 spot12_room_1ObjectList_0003F8[] = {
 };
 
 ActorEntry spot12_room_1ActorList_00040C[] = {
-    { ACTOR_EN_KANBAN,   {   3635,   1413,   -360 }, {      0, 0XC000,      0 }, 0x031A },
+    { ACTOR_EN_KANBAN,   {   3655,   1413,   -353 }, {      0, 0XC000,      0 }, 0x031A },
     { ACTOR_OBJ_KIBAKO2, {   3303,   1441,  -5018 }, { 0XFFFF, 0XFDDE,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2, {   3330,   1441,    406 }, { 0XFFFF,  0XB61,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2, {   3406,   1441,    414 }, { 0XFFFF,  0X9F5,      0 }, 0xFFFF },
@@ -192,7 +192,7 @@ SceneCmd spot12_room_1Set_000500[] = {
 
 s16 spot12_room_1ObjectList_000540[] = {
     OBJECT_BOX,
-    OBJECT_O_ANIME,
+    OBJECT_KANBAN,
     OBJECT_OE_ANIME,
     OBJECT_HATA,
     OBJECT_HORSE,
@@ -233,7 +233,7 @@ ActorEntry spot12_room_1ActorList_000558[] = {
     { ACTOR_OBJ_KIBAKO2,         {   4090,   1413,  -2020 }, {      0, 0X13E9,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,         {   4090,   1413,  -1780 }, {      0, 0XEB61,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,         {   4090,   1413,  -1540 }, {      0, 0XDD28,      0 }, 0xFFFF },
-    { ACTOR_EN_KANBAN,           {   3635,   1413,   -360 }, {      0, 0XC000,      0 }, 0x031A },
+    { ACTOR_EN_KANBAN,           {   3655,   1413,   -353 }, {      0, 0XC000,      0 }, 0x031A },
 };
 
 u8 spot12_room_1_possiblePadding_000718[] = {
@@ -254,7 +254,7 @@ SceneCmd spot12_room_1Set_000720[] = {
 s16 spot12_room_1ObjectList_000760[] = {
     OBJECT_BOX,
     OBJECT_O_ANIME,
-    OBJECT_OE_ANIME,
+    OBJECT_SPOT12_OBJ,
     OBJECT_HATA,
     OBJECT_HORSE,
     OBJECT_GI_HEARTS,
@@ -293,8 +293,8 @@ s16 spot12_room_1ObjectList_000830[] = {
     OBJECT_HATA,
     OBJECT_HORSE,
     OBJECT_HORSE_NORMAL,
-    OBJECT_NIW,
-    OBJECT_UMAJUMP,
+    OBJECT_SPOT12_OBJ,
+    OBJECT_KIBAKO2,
     OBJECT_GE1,
     OBJECT_TSUBO,
 };

@@ -108,8 +108,8 @@ s16 bdan_room_7ObjectList_000190[] = {
 };
 
 ActorEntry bdan_room_7ActorList_000198[] = {
-    { ACTOR_EN_VALI,        {   -410,   -220,  -4670 }, {      0, 0X2EEF,      0 }, 0xFFFF },
-    { ACTOR_EN_VALI,        {    410,   -220,  -4671 }, {      0, 0XD49F,      0 }, 0xFFFF },
+    { ACTOR_EN_VALI,        {   -410,   -220,  -4550 }, {      0, 0X2EEF,      0 }, 0xFFFF },
+    { ACTOR_EN_VALI,        {    410,   -220,  -4550 }, {      0, 0XD49F,      0 }, 0xFFFF },
     { ACTOR_EN_BX,          {     -1,   -340,  -5218 }, {      0,      0,      0 }, 0x3FFF },
     { ACTOR_EN_BX,          {    658,   -340,  -5100 }, {      0,      0,      0 }, 0x3FFF },
     { ACTOR_EN_BX,          {   -660,   -340,  -5100 }, {      0,      0,      0 }, 0x3FFF },

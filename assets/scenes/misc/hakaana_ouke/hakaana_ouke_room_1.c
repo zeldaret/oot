@@ -77,8 +77,8 @@ SceneCmd hakaana_ouke_room_1Set_0000C0[] = {
 };
 
 s16 hakaana_ouke_room_1ObjectList_0000F8[] = {
-    OBJECT_DDAN_OBJECTS,
-    OBJECT_RD,
+    OBJECT_OUKE_HAKA,
+    OBJECT_BWALL,
     OBJECT_SYOKUDAI,
     OBJECT_FIREFLY,
 };
@@ -94,8 +94,8 @@ SceneCmd hakaana_ouke_room_1Set_000100[] = {
 };
 
 s16 hakaana_ouke_room_1ObjectList_000138[] = {
-    OBJECT_DDAN_OBJECTS,
-    OBJECT_RD,
+    OBJECT_OUKE_HAKA,
+    OBJECT_BWALL,
     OBJECT_SYOKUDAI,
     OBJECT_FIREFLY,
 };

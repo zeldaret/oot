@@ -257,7 +257,7 @@ SceneCmd spot08_room_0Set_0008E0[] = {
 
 s16 spot08_room_0ObjectList_000920[] = {
     OBJECT_JJ,
-    OBJECT_BUBBLE,
+    OBJECT_SPOT08_OBJ,
     OBJECT_TITE,
     OBJECT_MJIN,
     OBJECT_MJIN_OKA,
@@ -308,7 +308,7 @@ ActorEntry spot08_room_0ActorList_0009F0[] = {
     { ACTOR_EN_FISH,  {   -370,   -124,   -137 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_FISH,  {   -370,   -237,    390 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_FISH,  {    296,   -199,    415 }, {      0,      0,      0 }, 0xFFFF },
-    { ACTOR_EN_JJ,    {  -1050,     80,    -28 }, {      0, 0XC000,      0 }, 0xFFFF },
+    { ACTOR_EN_FISH,  {  -1050,   -199,    -28 }, {      0, 0XC000,      0 }, 0xFFFF },
     { ACTOR_EN_TITE,  {   1101,   -831,   -273 }, {      0,      0,      0 }, 0xFFFE },
     { ACTOR_EN_TITE,  {   -692,     28,   -580 }, {      0,      0,      0 }, 0xFFFE },
     { ACTOR_EN_TITE,  {   -920,     28,   -225 }, {      0,      0,      0 }, 0xFFFE },
@@ -331,7 +331,7 @@ SceneCmd spot08_room_0Set_000AD0[] = {
 
 s16 spot08_room_0ObjectList_000B10[] = {
     OBJECT_JJ,
-    OBJECT_BUBBLE,
+    OBJECT_SPOT08_OBJ,
     OBJECT_TITE,
     OBJECT_MJIN,
     OBJECT_MJIN_OKA,
@@ -346,7 +346,7 @@ ActorEntry spot08_room_0ActorList_000B20[] = {
     { ACTOR_EN_FISH,            {   -370,   -124,   -137 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_FISH,            {   -370,   -237,    390 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_FISH,            {    296,   -199,    415 }, {      0,      0,      0 }, 0xFFFF },
-    { ACTOR_EN_JJ,              {  -1050,     80,    -28 }, {      0, 0XC000,      0 }, 0xFFFF },
+    { ACTOR_EN_FISH,            {  -1050,   -199,    -28 }, {      0, 0XC000,      0 }, 0xFFFF },
     { ACTOR_EN_TITE,            {   1101,   -831,   -273 }, {      0,      0,      0 }, 0xFFFE },
     { ACTOR_EN_TITE,            {   -692,     28,   -580 }, {      0,      0,      0 }, 0xFFFE },
     { ACTOR_EN_TITE,            {   -920,     28,   -225 }, {      0,      0,      0 }, 0xFFFE },

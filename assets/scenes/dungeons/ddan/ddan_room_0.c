@@ -30,7 +30,7 @@ SceneCmd ddan_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_0PolygonType2_000240),
-    SCENE_CMD_OBJECT_LIST(15, ddan_room_0ObjectList_000040),
+    SCENE_CMD_OBJECT_LIST(16, ddan_room_0ObjectList_000040),
     SCENE_CMD_ACTOR_LIST(30, ddan_room_0ActorList_000060),
     SCENE_CMD_END(),
 };
@@ -40,7 +40,7 @@ s16 ddan_room_0ObjectList_000040[] = {
     OBJECT_BWALL,
     OBJECT_BOMBF,
     OBJECT_BOX,
-    OBJECT_AM,
+    OBJECT_KUSA,
     OBJECT_SHOPNUTS,
     OBJECT_D_ELEVATOR,
     OBJECT_BOMBIWA,
@@ -51,6 +51,7 @@ s16 ddan_room_0ObjectList_000040[] = {
     OBJECT_DODOJR,
     OBJECT_FIREFLY,
     OBJECT_KIBAKO2,
+    OBJECT_AM,
 };
 
 ActorEntry ddan_room_0ActorList_000060[] = {

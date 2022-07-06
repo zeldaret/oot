@@ -167,7 +167,7 @@ ActorEntry spot17_room_1ActorList_00051C[] = {
     { ACTOR_OBJ_HAMISHI,           {  -1699,    722,   -472 }, {      0, 0X349F,      0 }, 0x0017 },
     { ACTOR_OBJ_HAMISHI,           {  -1060,    829,    944 }, {      0, 0XDC72,      0 }, 0x0018 },
     { ACTOR_EN_BB,                 {    162,    247,   -780 }, {      0,      0,      0 }, 0xFFFE },
-    { ACTOR_EN_BB,                 {    437,    231,   -576 }, {      0, 0X216C,      0 }, 0xFFFE },
+    { ACTOR_EN_BB,                 {    437,    311,   -576 }, {      0, 0X216C,      0 }, 0xFFFE },
     { ACTOR_EN_BB,                 {    925,    247,   -579 }, {      0, 0XE222,      0 }, 0xFFFE },
     { ACTOR_EN_BB,                 {    990,    236,   -234 }, {      0, 0X5D28,      0 }, 0xFFFE },
     { ACTOR_EN_BB,                 {   1238,    229,    283 }, {      0, 0XC000,      0 }, 0xFFFE },

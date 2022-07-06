@@ -90,7 +90,7 @@ SceneCmd bdan_room_6Set_000120[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 255),
     SCENE_CMD_MESH(&bdan_room_6PolygonType0_000100),
-    SCENE_CMD_OBJECT_LIST(5, bdan_room_6ObjectList_000160),
+    SCENE_CMD_OBJECT_LIST(6, bdan_room_6ObjectList_000160),
     SCENE_CMD_ACTOR_LIST(4, bdan_room_6ActorList_00016C),
     SCENE_CMD_END(),
 };
@@ -101,6 +101,7 @@ s16 bdan_room_6ObjectList_000160[] = {
     OBJECT_VALI,
     OBJECT_EFC_FLASH,
     OBJECT_GI_JEWEL,
+    OBJECT_BIGOKUTA,
 };
 
 ActorEntry bdan_room_6ActorList_00016C[] = {

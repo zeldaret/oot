@@ -206,7 +206,7 @@ SceneCmd spot11_room_0Set_000710[] = {
 s16 spot11_room_0ObjectList_000750[] = {
     OBJECT_MJIN,
     OBJECT_MJIN_SOUL,
-    OBJECT_MJIN_OKA,
+    OBJECT_SPOT11_OBJ,
     OBJECT_XC,
     OBJECT_GI_MELODY,
     OBJECT_EFC_FLASH,
@@ -214,9 +214,9 @@ s16 spot11_room_0ObjectList_000750[] = {
 };
 
 ActorEntry spot11_room_0ActorList_000760[] = {
-    { ACTOR_OBJ_MURE2,             {    797,      0,   -542 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,             {    797,    235,   -542 }, {      0,      0,      0 }, 0xFF02 },
     { ACTOR_OBJ_MURE2,             {  -1035,      0,  -1004 }, {      0,      0,      0 }, 0xFF02 },
-    { ACTOR_BG_MJIN,               {   2128,      0,   -812 }, {      0,      0,      0 }, 0x0005 },
+    { ACTOR_BG_MJIN,               {   2128,    235,   -812 }, {      0,      0,      0 }, 0x0005 },
     { ACTOR_EN_XC,                 {     15,    428,   -734 }, {      0, 0X8000,      0 }, 0x0000 },
     { ACTOR_DEMO_KANKYO,           {     12,      0,   -890 }, {      0,      0,      0 }, 0x000A },
     { ACTOR_EN_OWL,                {  -1421,    810,   -380 }, {      0, 0X360B,      0 }, 0x0FFF },
@@ -238,7 +238,7 @@ SceneCmd spot11_room_0Set_0007F0[] = {
 
 s16 spot11_room_0ObjectList_000830[] = {
     OBJECT_MJIN,
-    OBJECT_MJIN_SOUL,
+    OBJECT_SPOT11_OBJ,
     OBJECT_NB,
     OBJECT_TR,
     OBJECT_FHG,

@@ -53,7 +53,7 @@ s16 HIDAN_room_7ObjectList_000040[] = {
 
 ActorEntry HIDAN_room_7ActorList_000048[] = {
     { ACTOR_OBJ_HSBLOCK,    {   1460,   4248,   -857 }, {      0,      0,      0 }, 0xFFC2 },
-    { ACTOR_OBJ_HSBLOCK,    {   1578,   4688,   -710 }, { 0X4000,      0,      0 }, 0xFFC2 },
+    { ACTOR_OBJ_HSBLOCK,    {   1578,   4546,   -710 }, { 0X4000,      0,      0 }, 0xFFC2 },
     { ACTOR_EN_BW,          {   1342,   4000,   -675 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BW,          {   1470,   4180,   -664 }, {      0, 0X8000,      0 }, 0xFFFF },
     { ACTOR_EN_WONDER_ITEM, {   1428,   4072,   -711 }, {      0,      0,    0X6 }, 0x18BF },

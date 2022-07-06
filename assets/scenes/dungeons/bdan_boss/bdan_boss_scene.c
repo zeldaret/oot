@@ -29,7 +29,7 @@ ActorEntry bdan_boss_sceneStartPositionList0x000060[] = {
 };
 
 TransitionActorEntry bdan_boss_sceneTransitionActorList_000070[] = {
-    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, 0, 80, 805, 0, 0x003F },
+    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, 0, 0, 805, 0, 0x003F },
 };
 
 RomFile bdan_boss_sceneRoomList0x000080[] = {

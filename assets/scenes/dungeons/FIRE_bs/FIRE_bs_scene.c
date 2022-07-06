@@ -29,7 +29,7 @@ ActorEntry FIRE_bs_sceneStartPositionList0x000060[] = {
 };
 
 TransitionActorEntry FIRE_bs_sceneTransitionActorList_000070[] = {
-    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, 1100, 200, 0, 16384, 0x0154 },
+    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, 1100, 200, 0, 49152, 0x0154 },
 };
 
 RomFile FIRE_bs_sceneRoomList0x000080[] = {

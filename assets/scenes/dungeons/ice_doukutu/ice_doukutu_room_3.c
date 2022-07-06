@@ -109,7 +109,7 @@ SceneCmd ice_doukutu_room_3Set_0001D0[] = {
 
 s16 ice_doukutu_room_3ObjectList_000210[] = {
     OBJECT_ICE_OBJECTS,
-    OBJECT_XC,
+    OBJECT_BOX,
     OBJECT_GI_MELODY,
 };
 

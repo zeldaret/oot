@@ -19,7 +19,7 @@ SceneCmd jyasinboss_sceneCommands[] = {
     SCENE_CMD_MISC_SETTINGS(0x00, 0x00000000),
     SCENE_CMD_COL_HEADER(&jyasinboss_sceneCollisionHeader_002B80),
     SCENE_CMD_ENTRANCE_LIST(jyasinboss_sceneEntranceList0x000100),
-    SCENE_CMD_SPECIAL_FILES(0x02, OBJECT_INVALID),
+    SCENE_CMD_SPECIAL_FILES(0x02, OBJECT_GAMEPLAY_DANGEON_KEEP),
     SCENE_CMD_SPAWN_LIST(3, jyasinboss_sceneStartPositionList0x000080),
     SCENE_CMD_SKYBOX_SETTINGS(0, 0, true),
     SCENE_CMD_EXIT_LIST(jyasinboss_sceneExitList_000108),
@@ -43,7 +43,7 @@ ActorEntry jyasinboss_sceneStartPositionList0x000080[] = {
 };
 
 TransitionActorEntry jyasinboss_sceneTransitionActorList_0000B0[] = {
-    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, -8192, 0x0154 },
+    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, 24576, 0x0154 },
     { 2, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1100, 0, 1100, -8192, 0x0085 },
     { 2, 255, 3, 255, ACTOR_DOOR_SHUTTER, -677, 0, 677, 24576, 0x00FF },
 };
@@ -1937,7 +1937,7 @@ ActorEntry jyasinboss_sceneStartPositionList0x006820[] = {
 };
 
 TransitionActorEntry jyasinboss_sceneTransitionActorList_006840[] = {
-    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, 24576, 0x017F },
+    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, 24576, 0x003F },
     { 1, 255, 2, 255, ACTOR_DOOR_SHUTTER, -1100, 0, 1100, 24576, 0x00FF },
     { 2, 255, 3, 255, ACTOR_DOOR_SHUTTER, -677, 0, 677, 24576, 0x00FF },
 };
@@ -2007,7 +2007,7 @@ ActorEntry jyasinboss_sceneStartPositionList0x0069E0[] = {
 };
 
 TransitionActorEntry jyasinboss_sceneTransitionActorList_006A00[] = {
-    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, 24576, 0x017F },
+    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, 24576, 0x003F },
     { 1, 255, 2, 255, ACTOR_DOOR_SHUTTER, -1100, 0, 1100, 24576, 0x00FF },
     { 2, 255, 3, 255, ACTOR_DOOR_SHUTTER, -677, 0, 677, 24576, 0x00FF },
 };
@@ -2076,7 +2076,7 @@ ActorEntry jyasinboss_sceneStartPositionList0x006BA0[] = {
 };
 
 TransitionActorEntry jyasinboss_sceneTransitionActorList_006BB0[] = {
-    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, -8192, 0x0154 },
+    { 0, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1694, 0, 1694, 24576, 0x0154 },
     { 2, 255, 1, 255, ACTOR_DOOR_SHUTTER, -1100, 0, 1100, -8192, 0x003F },
     { 3, 255, 2, 255, ACTOR_DOOR_SHUTTER, -677, 0, 677, -8192, 0x003F },
 };

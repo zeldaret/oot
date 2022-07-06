@@ -34,7 +34,7 @@ s16 spot12_room_0ObjectList_000060[] = {
     OBJECT_SPOT12_OBJ,
     OBJECT_BOX,
     OBJECT_HATA,
-    OBJECT_HORSE,
+    OBJECT_KANBAN,
     OBJECT_HNI,
     OBJECT_KIBAKO2,
     OBJECT_GLA,
@@ -233,7 +233,7 @@ SceneCmd spot12_room_0Set_000790[] = {
 
 s16 spot12_room_0ObjectList_0007D0[] = {
     OBJECT_BOX,
-    OBJECT_O_ANIME,
+    OBJECT_KANBAN,
     OBJECT_OE_ANIME,
     OBJECT_HATA,
     OBJECT_HORSE,
@@ -274,7 +274,7 @@ SceneCmd spot12_room_0Set_000860[] = {
 s16 spot12_room_0ObjectList_0008A0[] = {
     OBJECT_BOX,
     OBJECT_O_ANIME,
-    OBJECT_OE_ANIME,
+    OBJECT_SPOT12_OBJ,
     OBJECT_HATA,
     OBJECT_HORSE,
     OBJECT_GI_HEARTS,
@@ -302,8 +302,8 @@ s16 spot12_room_0ObjectList_000900[] = {
     OBJECT_HATA,
     OBJECT_HORSE,
     OBJECT_HORSE_NORMAL,
-    OBJECT_NIW,
-    OBJECT_UMAJUMP,
+    OBJECT_SPOT12_OBJ,
+    OBJECT_KIBAKO2,
     OBJECT_GE1,
     OBJECT_TSUBO,
 };

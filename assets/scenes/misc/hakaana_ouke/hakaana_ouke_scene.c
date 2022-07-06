@@ -840,7 +840,7 @@ ActorEntry hakaana_ouke_sceneStartPositionList0x0022E0[] = {
 };
 
 TransitionActorEntry hakaana_ouke_sceneTransitionActorList_0022F0[] = {
-    { 1, 255, 0, 255, ACTOR_EN_HOLL, 0, 60, 943, 0, 0x003F },
+    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, 0, 120, 1100, 0, 0x003F },
     { 2, 255, 1, 255, ACTOR_EN_HOLL, 0, 0, -420, 0, 0x003F },
 };
 
@@ -895,7 +895,7 @@ ActorEntry hakaana_ouke_sceneStartPositionList0x0023F0[] = {
 };
 
 TransitionActorEntry hakaana_ouke_sceneTransitionActorList_002400[] = {
-    { 1, 255, 0, 255, ACTOR_EN_HOLL, 0, 60, 943, 0, 0x003F },
+    { 1, 255, 0, 255, ACTOR_DOOR_SHUTTER, 0, 120, 1100, 0, 0x003F },
     { 2, 255, 1, 255, ACTOR_EN_HOLL, 0, 0, -420, 0, 0x003F },
 };
 

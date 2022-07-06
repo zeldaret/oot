@@ -35,9 +35,9 @@ TransitionActorEntry testroom_sceneTransitionActorList_000068[] = {
     { 2, 255, 1, 255, ACTOR_EN_DOOR, 2100, 0, -810, -16384, 0x003F },
     { 0, 255, 0, 255, ACTOR_EN_DOOR, -420, 0, -810, -16384, 0x003F },
     { 1, 255, 1, 255, ACTOR_EN_DOOR, 1260, 0, -810, -16384, 0x003F },
-    { 2, 255, 2, 255, ACTOR_EN_DOOR, 2810, 0, -80, 0, 0x003F },
-    { 4, 255, 4, 255, ACTOR_EN_HOLL, 24, 0, -300, -32768, 0x013F },
-    { 4, 255, 4, 255, ACTOR_EN_HOLL, 24, 0, 100, -32768, 0x013F },
+    { 1, 255, 2, 255, ACTOR_EN_DOOR, 2810, 0, -80, 0, 0x003F },
+    { 4, 255, 0, 255, ACTOR_EN_HOLL, 24, 0, -300, -32768, 0x013F },
+    { 3, 255, 4, 255, ACTOR_EN_HOLL, 24, 0, 100, -32768, 0x013F },
 };
 
 RomFile testroom_sceneRoomList0x0000D8[] = {

@@ -134,7 +134,7 @@ SceneCmd spot02_room_1Set_000490[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot02_room_1PolygonType2_000340),
-    SCENE_CMD_OBJECT_LIST(13, spot02_room_1ObjectList_0004D0),
+    SCENE_CMD_OBJECT_LIST(14, spot02_room_1ObjectList_0004D0),
     SCENE_CMD_ACTOR_LIST(57, spot02_room_1ActorList_0004EC),
     SCENE_CMD_END(),
 };
@@ -144,7 +144,7 @@ s16 spot02_room_1ObjectList_0004D0[] = {
     OBJECT_SPOT01_OBJECTS,
     OBJECT_MJIN,
     OBJECT_MJIN_DARK,
-    OBJECT_EFC_FLASH,
+    OBJECT_ST,
     OBJECT_POH,
     OBJECT_HAKA,
     OBJECT_MAMENOKI,
@@ -153,6 +153,7 @@ s16 spot02_room_1ObjectList_0004D0[] = {
     OBJECT_GS,
     OBJECT_KIBAKO2,
     OBJECT_WARP1,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry spot02_room_1ActorList_0004EC[] = {
@@ -225,7 +226,7 @@ SceneCmd spot02_room_1Set_000880[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot02_room_1PolygonType2_000340),
-    SCENE_CMD_OBJECT_LIST(13, spot02_room_1ObjectList_0008C0),
+    SCENE_CMD_OBJECT_LIST(14, spot02_room_1ObjectList_0008C0),
     SCENE_CMD_ACTOR_LIST(57, spot02_room_1ActorList_0008DC),
     SCENE_CMD_END(),
 };
@@ -235,7 +236,7 @@ s16 spot02_room_1ObjectList_0008C0[] = {
     OBJECT_SPOT01_OBJECTS,
     OBJECT_MJIN,
     OBJECT_MJIN_DARK,
-    OBJECT_EFC_FLASH,
+    OBJECT_ST,
     OBJECT_POH,
     OBJECT_HAKA,
     OBJECT_MAMENOKI,
@@ -244,6 +245,7 @@ s16 spot02_room_1ObjectList_0008C0[] = {
     OBJECT_GS,
     OBJECT_KIBAKO2,
     OBJECT_WARP1,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry spot02_room_1ActorList_0008DC[] = {

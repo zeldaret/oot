@@ -16,7 +16,7 @@ SceneCmd testroom_room_4Commands[] = {
     SCENE_CMD_ECHO_SETTINGS(0),
     SCENE_CMD_ROOM_BEHAVIOR(0x01, 0x00, false, false),
     SCENE_CMD_SKYBOX_DISABLES(true, true),
-    SCENE_CMD_TIME_SETTINGS(0, 0, 255),
+    SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&testroom_room_4PolygonType0_000050),
     SCENE_CMD_OBJECT_LIST(5, testroom_room_4ObjectList_000038),
     SCENE_CMD_END(),
@@ -25,7 +25,7 @@ SceneCmd testroom_room_4Commands[] = {
 s16 testroom_room_4ObjectList_000038[] = {
     OBJECT_BOX,
     OBJECT_YUKABYUN,
-    OBJECT_LIGHTBOX,
+    OBJECT_KUSA,
     OBJECT_TRAP,
     OBJECT_VM,
 };

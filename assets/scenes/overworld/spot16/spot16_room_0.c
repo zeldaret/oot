@@ -53,7 +53,7 @@ ActorEntry spot16_room_0ActorList_00008C[] = {
     { ACTOR_EN_RIVER_SOUND,      {   -688,   1946,   -285 }, {      0,      0,      0 }, 0x0015 },
     { ACTOR_EN_ITEM00,           {   -625,   1794,    -55 }, {      0,      0,      0 }, 0x0A02 },
     { ACTOR_EN_ITEM00,           {  -1060,   1694,    -51 }, {      0,      0,      0 }, 0x0701 },
-    { ACTOR_EN_OWL,              {    -42,   3347,  -4409 }, {      0,  0XAAB,      0 }, 0x0213 },
+    { ACTOR_EN_OWL,              {    -42,   3347,  -4409 }, {      0,  0XAAB,      0 }, 0x023F },
     { ACTOR_EN_GS,               {     40,   2872,  -3935 }, {      0,      0,      0 }, 0x3804 },
     { ACTOR_EN_GO2,              {  -1235,   1159,    892 }, {      0,      0,      0 }, 0xFFEC },
     { ACTOR_EN_SW,               {     62,   2619,  -3983 }, { 0X4000,      0,      0 }, 0x0000 },
@@ -306,7 +306,7 @@ SceneCmd spot16_room_0Set_000A90[] = {
 
 s16 spot16_room_0ObjectList_000AD0[] = {
     OBJECT_O_ANIME,
-    OBJECT_OE_ANIME,
+    OBJECT_SPOT16_OBJ,
     OBJECT_OF1D_MAP,
     OBJECT_DU,
     OBJECT_GI_JEWEL,
@@ -380,7 +380,7 @@ s16 spot16_room_0ObjectList_000C48[] = {
     OBJECT_NB,
     OBJECT_SA,
     OBJECT_DU,
-    OBJECT_EFC_FLASH,
+    OBJECT_EFC_DOUGHNUT,
 };
 
 ActorEntry spot16_room_0ActorList_000C54[] = {

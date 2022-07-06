@@ -117,13 +117,13 @@ SceneCmd spot18_room_2Set_000200[] = {
 
 s16 spot18_room_2ObjectList_000240[] = {
     OBJECT_SPOT18_OBJ,
-    OBJECT_DU,
+    OBJECT_BOMBIWA,
     OBJECT_GM,
     OBJECT_OF1D_MAP,
     OBJECT_MAMENOKI,
     OBJECT_TSUBO,
     OBJECT_BOX,
-    OBJECT_DDAN_OBJECTS,
+    OBJECT_BWALL,
 };
 
 ActorEntry spot18_room_2ActorList_000250[] = {

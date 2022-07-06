@@ -8,6 +8,15 @@
 #include "variables.h"
 #include "syotes_scene.h"
 
+SceneCmd syotes_room_0Commands[] = {
+    SCENE_CMD_ECHO_SETTINGS(5),
+    SCENE_CMD_ROOM_BEHAVIOR(0x01, 0x00, false, false),
+    SCENE_CMD_SKYBOX_DISABLES(true, false),
+    SCENE_CMD_TIME_SETTINGS(255, 255, 0),
+    SCENE_CMD_MESH(&syotes_room_0PolygonType0_000000),
+    SCENE_CMD_END(),
+};
+
 PolygonType0 syotes_room_0PolygonType0_000000[] = {
 
     0, 1,

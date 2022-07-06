@@ -44,8 +44,8 @@ s16 ydan_room_8ObjectList_000040[] = {
 };
 
 ActorEntry ydan_room_8ActorList_000054[] = {
-    { ACTOR_EN_KUSA,     {  -2732,  -1818,   -674 }, {      0,      0,      0 }, 0xFF01 },
-    { ACTOR_EN_KUSA,     {  -2489,  -1822,   -753 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_EN_KUSA,     {  -2732,   -760,   -674 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_EN_KUSA,     {  -2489,   -760,   -753 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_EN_DEKUBABA, {  -2675,   -760,   -703 }, {      0, 0X2000,      0 }, 0x0001 },
     { ACTOR_EN_SW,       {  -2717,   -626,   -746 }, {      0, 0X2000,      0 }, 0x8101 },
     { ACTOR_EN_KUSA,     {  -2553,   -760,   -433 }, {      0,      0,      0 }, 0xFF02 },
