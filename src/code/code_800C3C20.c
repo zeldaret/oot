@@ -5,9 +5,9 @@ u8 sSfxBankIds[] = {
 };
 
 void AudioMgr_StopAllSfx(void) {
-    volatile u8* bank;
+    volatile u8* bankIdPtr;
 
-    for (bank = &sSfxBankIds[0]; bank < (sSfxBankIds + ARRAY_COUNT(sSfxBankIds)); bank++) {
-        Audio_StopSfxByBank(*bank);
+    for (bankIdPtr = &sSfxBankIds[0]; bankIdPtr < (sSfxBankIds + ARRAY_COUNT(sSfxBankIds)); bankIdPtr++) {
+        Audio_StopSfxByBank(*bankIdPtr);
     }
 }
