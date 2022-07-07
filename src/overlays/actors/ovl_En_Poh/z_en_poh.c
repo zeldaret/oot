@@ -604,8 +604,7 @@ void func_80ADF15C(EnPoh* this, PlayState* play) {
     Vec3f vec;
     f32 multiplier;
     f32 newScale;
-    UNUSED s32 pad;
-    UNUSED s32 pad1;
+    UNUSED s32 pad[2];
 
     this->unk_198++;
     if (this->unk_198 < 8) {

@@ -5085,7 +5085,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     f32 target;
     f32 subCamAtMaxVelFrac;
     f32 lureDistXZ;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Player* player = GET_PLAYER(play);
     Input* input = &play->state.input[0];
 
@@ -5637,14 +5637,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = D_80B7A658;
 
     if ((u8)D_80B7A650 > 0) {
-        UNUSED s32 pad;
+        UNUSED s32 pad2;
         Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
         s16 i;
-        UNUSED s32 pad1;
+        UNUSED s32 pad3;
         Vec3f pos;
         Vec3f rot;
         Vec3f projectedPos;
-        UNUSED s32 pad2;
+        UNUSED s32 pad4;
 
         rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;

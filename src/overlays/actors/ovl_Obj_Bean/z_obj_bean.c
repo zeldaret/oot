@@ -134,7 +134,7 @@ void ObjBean_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader;
     UNUSED s32 pad2;
 

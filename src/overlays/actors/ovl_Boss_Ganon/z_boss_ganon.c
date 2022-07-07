@@ -3868,9 +3868,9 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
     f32 yDistFromGanondorf;
     f32 zDistFromGanondorf;
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
-    BossGanon* ganondorf = (BossGanon*)this->actor.parent;
     UNUSED s32 pad1;
+    BossGanon* ganondorf = (BossGanon*)this->actor.parent;
+    UNUSED s32 pad2;
 
     this->unk_1A2++;
     ganondorf->envLightMode = 1;
@@ -4591,7 +4591,7 @@ void BossGanon_UpdateEffects(PlayState* play) {
     Player* player = GET_PLAYER(play);
     GanondorfEffect* eff = play->specialEffects;
     s16 i;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     f32 xDiff;
     f32 yDiff;
     f32 zDiff;
@@ -4600,8 +4600,7 @@ void BossGanon_UpdateEffects(PlayState* play) {
     Vec3f spA0;
     s16 bodyPart;
     f32 distToPlayer;
-    UNUSED s32 pad2;
-    UNUSED s32 pad3;
+    UNUSED s32 pad2[2];
 
     spA0.x = 0.0f;
     spA0.y = 0.0f;

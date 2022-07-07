@@ -57,7 +57,6 @@ void ConsoleLogo_SetupView(ConsoleLogoState* this, f32 x, f32 y, f32 z) {
 void ConsoleLogo_Draw(ConsoleLogoState* this) {
     static s16 sTitleRotY = 0;
     static Lights1 sTitleLights = gdSPDefLights1(100, 100, 100, 255, 255, 255, 69, 69, 69);
-
     u16 y;
     u16 idx;
     UNUSED s32 pad1;

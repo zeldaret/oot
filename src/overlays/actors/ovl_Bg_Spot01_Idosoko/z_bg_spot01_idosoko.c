@@ -37,7 +37,7 @@ void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFun
 }
 
 void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     BgSpot01Idosoko* this = (BgSpot01Idosoko*)thisx;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;

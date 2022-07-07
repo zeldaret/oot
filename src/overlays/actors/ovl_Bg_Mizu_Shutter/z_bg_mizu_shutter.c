@@ -45,7 +45,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgMizuShutter_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     BgMizuShutter* this = (BgMizuShutter*)thisx;
     UNUSED s32 pad2;
     CollisionHeader* colHeader = NULL;

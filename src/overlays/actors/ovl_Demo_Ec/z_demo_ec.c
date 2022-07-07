@@ -1251,7 +1251,7 @@ void DemoEc_InitNpc(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 primary;
     s32 type;
     UNUSED s16 pad2;

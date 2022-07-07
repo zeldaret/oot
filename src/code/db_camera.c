@@ -436,7 +436,7 @@ void DbCamera_PrintF32Bytes(f32 value) {
 }
 
 void DbCamera_PrintU16Bytes(u16 value) {
-    UNUSED u16 pad;
+    UNUSED s16 pad;
     u16 b = value;
     char* a = (char*)&b;
 
@@ -444,7 +444,7 @@ void DbCamera_PrintU16Bytes(u16 value) {
 }
 
 void DbCamera_PrintS16Bytes(s16 value) {
-    UNUSED u16 pad;
+    UNUSED s16 pad;
     s16 b = value;
     char* a = (char*)&b;
 

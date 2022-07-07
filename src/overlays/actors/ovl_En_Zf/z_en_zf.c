@@ -1474,7 +1474,7 @@ void EnZf_HopAway(EnZf* this, PlayState* play) {
     f32 sp74;
     f32 sp70 = 1.0f;
     f32 phi_f20 = 550.0f;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     f32 phi_f20_2;
     f32 phi_f0;
     UNUSED s32 pad2;
@@ -2037,7 +2037,7 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
 }
 
 void EnZf_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     EnZf* this = (EnZf*)thisx;
     UNUSED s32 pad2;
 

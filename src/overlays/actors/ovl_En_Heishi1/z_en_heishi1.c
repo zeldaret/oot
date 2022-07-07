@@ -381,7 +381,7 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
     EnHeishi1* this = (EnHeishi1*)thisx;
     s16 path;
     u8 i;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Player* player = GET_PLAYER(play);
     UNUSED s32 pad2;
     Camera* activeCam;

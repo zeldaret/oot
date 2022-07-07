@@ -1477,9 +1477,9 @@ void AudioOcarina_CheckIfStartedSong(void) {
  */
 void AudioOcarina_CheckSongsWithMusicStaff(void) {
     u16 curOcarinaSongFlag;
-    UNUSED u16 pad;
+    UNUSED s16 pad1;
     u8 noNewValidInput = false;
-    UNUSED u16 pad2;
+    UNUSED s16 pad2;
     s8 staffOcarinaPlayingPosOffset = 0;
     u8 songIndex;
     OcarinaNote* curNote;
@@ -1924,12 +1924,12 @@ void AudioOcarina_PlaybackSong(void) {
 
 void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
     u16 i;
-    UNUSED u16 pad[2];
+    UNUSED s16 pad1[2];
     u8 pitch;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     u8 j;
     u8 k;
-    UNUSED s32 pad2;
+    UNUSED s32 pad3;
     OcarinaNote* recordedSong;
 
     if (sRecordingState == OCARINA_RECORD_SCARECROW_LONG) {
@@ -4767,7 +4767,7 @@ void Audio_PlayFanfare(u16 seqId) {
 
 void func_800F5CF8(void) {
     u16 sp26;
-    UNUSED u16 pad;
+    UNUSED s16 pad;
     u16 sp22;
 
     if (D_8016B9F4 != 0) {
@@ -4902,7 +4902,7 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
 }
 
 void func_800F6268(f32 dist, u16 arg1) {
-    UNUSED s8 pad;
+    UNUSED u8 pad;
     s8 phi_v1;
     s16 temp_a0;
 

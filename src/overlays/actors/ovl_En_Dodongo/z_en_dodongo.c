@@ -422,7 +422,7 @@ void EnDodongo_EndBreatheFire(EnDodongo* this, PlayState* play) {
 }
 
 void EnDodongo_BreatheFire(EnDodongo* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
@@ -742,7 +742,7 @@ void EnDodongo_UpdateQuad(EnDodongo* this, PlayState* play) {
     Vec3f sp88 = { -1000.0f, -200.0f, 1500.0f };
     Vec3f sp7C = { -1000.0f, -200.0f, -1500.0f };
     Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
-    UNUSED s32 pad4C[9]; // Possibly 3 more Vec3fs?
+    UNUSED s32 pad[9]; // Possibly 3 more Vec3fs?
     s32 a = 0;
     s32 b = 1; // These indices are needed to match.
     s32 c = 2; // Might be a way to quickly test vertex arrangements

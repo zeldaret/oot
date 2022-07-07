@@ -1553,7 +1553,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                                      { -890.0f, 0.0f, -3804.0f },
                                      { -1390.0f, 0.0f, -3304.0f } };
                     Vec3f* sp78;
-                    UNUSED s32 pad74;
+                    UNUSED s32 pad;
 
                     if (this->unk_1A2 == 0) {
                         sp78 = &spAC[this->unk_1A0];

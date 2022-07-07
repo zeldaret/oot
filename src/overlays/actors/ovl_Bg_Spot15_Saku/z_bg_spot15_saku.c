@@ -31,7 +31,7 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
 };
 
 void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     BgSpot15Saku* this = (BgSpot15Saku*)thisx;
     UNUSED s32 pad2;
     CollisionHeader* colHeader = NULL;

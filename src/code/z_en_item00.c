@@ -138,12 +138,12 @@ void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
 
 void EnItem00_Init(Actor* thisx, PlayState* play) {
     EnItem00* this = (EnItem00*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     f32 yOffset = 980.0f;
     f32 shadowScale = 6.0f;
     s32 getItemId = GI_NONE;
     s16 spawnParam8000 = this->actor.params & 0x8000;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     this->collectibleFlag = (this->actor.params & 0x3F00) >> 8;
 

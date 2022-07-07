@@ -1399,8 +1399,7 @@ void DemoEffect_MoveJewelSplit(PosRot* world, DemoEffect* this) {
  */
 void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos, Vec3f endPos, f32 radius,
                                    Vec3s rotation, DemoEffect* this) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     f32 distance;
     f32 xPos;
     f32 ySpherical;
@@ -1896,7 +1895,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
  */
 void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    UNUSED s32 pad2;
+    UNUSED s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2892);
     gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 188, 255, 255, this->blueOrb.alpha);

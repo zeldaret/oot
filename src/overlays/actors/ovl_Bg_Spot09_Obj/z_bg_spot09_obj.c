@@ -93,7 +93,7 @@ s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
 }
 
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2[2];
 

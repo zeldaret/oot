@@ -392,7 +392,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
     };
 
     if (Animation_OnFrame(&this->skelAnime, 31.0f) || Animation_OnFrame(&this->skelAnime, 41.0f)) {
-        UNUSED s32 pad[2];
+        UNUSED s32 pad1[2];
         s32 i;
         Player* player = GET_PLAYER(play);
         Vec3f* pos = &player->bodyPartsPos[PLAYER_BODYPART_L_FOREARM];

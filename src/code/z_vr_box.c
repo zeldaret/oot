@@ -81,8 +81,8 @@ Struct_8012AF0C D_8012AF0C[6] = {
 
 s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8, s32 arg9) {
-    UNUSED s32 pad42C;
-    UNUSED s32 pad428;
+    s32 sp42C;
+    s32 sp428;
     s32 sp424;
     s32 i;
     s32 j;
@@ -103,55 +103,55 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     switch (arg8) {
         case 0:
         case 2:
-            pad428 = arg4;
+            sp428 = arg4;
 
             for (i = 0, k = 0; k < 45; i++) {
-                pad42C = arg3;
+                sp42C = arg3;
                 for (j = 0; j < 5; j++, k++) {
                     sp1F0[k] = arg5;
-                    sp358[k] = pad42C;
-                    sp2A4[k] = pad428;
+                    sp358[k] = sp42C;
+                    sp2A4[k] = sp428;
                     sp13C[k] = D_8012AD20[j];
                     sp88[k] = D_8012AD2C[i];
-                    pad42C += arg6;
+                    sp42C += arg6;
                 }
-                pad428 += arg7;
+                sp428 += arg7;
             }
             break;
 
         case 1:
         case 3:
-            pad428 = arg4;
+            sp428 = arg4;
 
             for (i = 0, k = 0; k < 45; i++) {
-                pad42C = arg5;
+                sp42C = arg5;
                 for (j = 0; j < 5; j++, k++) {
                     sp358[k] = arg3;
-                    sp2A4[k] = pad428;
-                    sp1F0[k] = pad42C;
+                    sp2A4[k] = sp428;
+                    sp1F0[k] = sp42C;
                     sp13C[k] = D_8012AD20[j];
                     sp88[k] = D_8012AD2C[i];
-                    pad42C += arg6;
+                    sp42C += arg6;
                 }
-                pad428 += arg7;
+                sp428 += arg7;
             }
             break;
 
         case 4:
         case 5:
-            pad428 = arg5;
+            sp428 = arg5;
 
             for (i = 0, k = 0; k < 45; i++) {
-                pad42C = arg3;
+                sp42C = arg3;
                 for (j = 0; j < 5; j++, k++) {
                     sp2A4[k] = arg4;
-                    sp358[k] = pad42C;
-                    sp1F0[k] = pad428;
+                    sp358[k] = sp42C;
+                    sp1F0[k] = sp428;
                     sp13C[k] = D_8012AD20[j];
                     sp88[k] = D_8012AD2C[i];
-                    pad42C += arg6;
+                    sp42C += arg6;
                 }
-                pad428 += arg7;
+                sp428 += arg7;
             }
             break;
     }

@@ -262,7 +262,7 @@ void EnFish_Respawning_SetupFleePlayer(EnFish* this) {
 }
 
 void EnFish_Respawning_FleePlayer(EnFish* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     UNUSED s16 pad2;
     s16 frames;
     s16 yaw;
@@ -317,7 +317,7 @@ void EnFish_Respawning_SetupApproachPlayer(EnFish* this) {
 }
 
 void EnFish_Respawning_ApproachPlayer(EnFish* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Player* player = GET_PLAYER(play);
     UNUSED s32 pad2;
     Vec3f sp38;
@@ -536,9 +536,9 @@ void EnFish_Unique_SwimIdle(EnFish* this, PlayState* play) {
     f32 playSpeed;
     u32 frames = play->gameplayFrames;
     f32* speed;
-    UNUSED s32 pad2;
+    UNUSED s32 pad1;
     f32 extraPlaySpeed;
-    UNUSED s32 pad3;
+    UNUSED s32 pad2;
 
     if (this->actor.xzDistToPlayer < 60.0f) {
         if (this->timer < 12) {
@@ -616,8 +616,7 @@ void EnFish_Cutscene_WiggleFlyingThroughAir(EnFish* this, PlayState* play) {
 }
 
 void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     CsCmdActorAction* csAction = play->csCtx.npcActions[1];
     Vec3f startPos;
     Vec3f endPos;

@@ -656,7 +656,7 @@ void func_80AF390C(EnRu2* this, PlayState* play) {
 }
 
 void func_80AF39DC(EnRu2* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     MessageContext* msgCtx;
     UNUSED s32 pad2;
     u8 dialogState;

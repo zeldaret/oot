@@ -268,7 +268,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 angleToTarget;
     f32 pitchToTarget;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
@@ -763,7 +763,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 Vec3f sp170;
                 Vec3f sp164 = { 0.0f, 0.03f, 0.0f };
                 Vec3f sp158;
-                UNUSED s32 pad;
+                UNUSED s32 pad2;
                 s16 temp_rand2;
                 s16 sp150;
 
@@ -926,7 +926,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
         Vec3f spE0[3];
         Vec3f spBC[3];
         f32 phi_f20;
-        UNUSED s32 pad1[3];
+        UNUSED s32 pad3[3];
 
         Math_ApproachS(&this->actor.world.rot.y, angleToTarget, 0xA, this->fwork[BFD_TURN_RATE]);
 

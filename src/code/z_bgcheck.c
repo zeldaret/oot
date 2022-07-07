@@ -641,7 +641,7 @@ s32 BgCheck_ComputeWallDisplacement(CollisionContext* colCtx, CollisionPoly* pol
 s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ,
                             Vec3f* pos, f32 radius, CollisionPoly** outPoly) {
     Vec3f resultPos;
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     f32 planeDist;
     f32 intersect;
     s32 result;
@@ -658,8 +658,7 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
     f32 nz;
     f32 temp_f16;
     Vec3s* vtxList;
-    UNUSED u16 pad1;
-
+    UNUSED s16 pad2;
     f32 zMin;
     f32 zMax;
     f32 xMin;
@@ -2737,13 +2736,13 @@ void DynaPoly_AddBgActorToLookup(UNUSED PlayState* play, DynaCollisionContext* d
                                  s32* polyStartIndex) {
     MtxF mtx;
     Actor* actor;
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     f32 numVtxInverse;
     s32 i;
     Vec3f pos;
     Sphere16* sphere;
     Vec3s* dVtxList;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     Vec3f newCenterPoint;
     f32 newRadiusSq;
     CollisionHeader* pbgdata;
@@ -3182,7 +3181,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
 s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, SSList* ssList,
                                    f32* outX, f32* outZ, CollisionPoly** outPoly, s32* outBgId, Vec3f* pos, f32 radius,
                                    s32 bgId) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     f32 intersect;
     s32 result = false;
     CollisionPoly* poly;
@@ -3198,7 +3197,7 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
     f32 invNormalXZ;
     f32 planeDist;
     f32 temp_f18;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     f32 xIntersectDist;
     f32 zMin;
     f32 zMax;
@@ -3438,7 +3437,7 @@ s32 BgCheck_CheckDynaCeilingList(UNUSED CollisionContext* colCtx, u16 xpFlags, D
     f32 nz;
     s32 result = false;
     f32 intersectDist;
-    UNUSED u16 padding;
+    UNUSED s16 pad;
 
     if (ssList->head == SS_NULL) {
         return false;

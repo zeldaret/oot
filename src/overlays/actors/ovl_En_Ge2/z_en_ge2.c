@@ -486,8 +486,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

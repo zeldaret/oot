@@ -1289,9 +1289,9 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
     f32 legRotTargetY;
     f32 legRotTargetZ;
     f32 legSplitTarget;
-    UNUSED s32 pad2;
+    UNUSED s32 pad1;
     s16 i;
-    UNUSED s32 pad;
+    UNUSED s32 pad2;
     BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
 

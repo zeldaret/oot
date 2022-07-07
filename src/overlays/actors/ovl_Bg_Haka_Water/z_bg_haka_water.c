@@ -107,7 +107,7 @@ void BgHakaWater_Update(Actor* thisx, PlayState* play) {
 
 void BgHakaWater_Draw(Actor* thisx, PlayState* play) {
     BgHakaWater* this = (BgHakaWater*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     f32 temp;
     UNUSED s32 pad2;
 

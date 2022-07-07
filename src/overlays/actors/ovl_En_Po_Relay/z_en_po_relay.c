@@ -289,9 +289,9 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
     Vec3f vec;
     f32 multiplier;
-    UNUSED s32 pad;
-    Vec3f sp60;
     UNUSED s32 pad1;
+    Vec3f sp60;
+    UNUSED s32 pad2;
 
     this->actionTimer++;
     if (this->actionTimer < 8) {

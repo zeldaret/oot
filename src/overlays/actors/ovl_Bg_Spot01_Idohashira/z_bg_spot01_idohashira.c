@@ -189,11 +189,11 @@ s32 func_808AB29C(BgSpot01Idohashira* this, PlayState* play) {
     Vec3f* thisPos;
     f32 endX;
     f32 temp_f0;
-    UNUSED s32 pad2;
+    UNUSED s32 pad1;
     Vec3f initPos;
     f32 endZ;
     f32 tempY;
-    UNUSED s32 pad;
+    UNUSED s32 pad2;
 
     npcAction = BgSpot01Idohashira_GetNpcAction(play, 2);
     if (npcAction != NULL) {

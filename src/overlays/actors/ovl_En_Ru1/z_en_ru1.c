@@ -542,7 +542,7 @@ void func_80AEBA0C(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEBA2C(EnRu1* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Vec3f* unk_364 = &this->unk_364;
     Vec3f* thisPos;
     f32 temp_ret_2;
@@ -985,7 +985,7 @@ void func_80AECC84(EnRu1* this, PlayState* play) {
 }
 
 void func_80AECCB0(EnRu1* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Vec3f* pos;
     s16 yawTowardsPlayer;
     f32 spawnX;
@@ -1015,11 +1015,11 @@ void func_80AECE04(EnRu1* this, PlayState* play) {
 }
 
 void func_80AECE20(EnRu1* this, PlayState* play) {
-    UNUSED s32 pad2;
+    UNUSED s32 pad1;
     Player* player = GET_PLAYER(play);
     Vec3f* playerPos = &player->actor.world.pos;
     s16 shapeRotY = player->actor.shape.rot.y;
-    UNUSED s32 pad;
+    UNUSED s32 pad2;
     f32 unk_27C = this->unk_27C;
     Vec3f* pos = &this->actor.world.pos;
 
@@ -1046,7 +1046,7 @@ s32 func_80AECF6C(EnRu1* this, PlayState* play) {
     s16 temp_f16;
     f32 temp1;
     f32 temp2;
-    UNUSED s32 pad2[5];
+    UNUSED s32 pad[5];
 
     this->unk_26C += 1.0f;
     if ((player->actor.speedXZ == 0.0f) && (this->unk_26C >= 3.0f)) {
@@ -2333,13 +2333,13 @@ void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s16 eyeIndex = this->eyeIndex;
     void* eyeTex = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouthIndex];
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1324);
 

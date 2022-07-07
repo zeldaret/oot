@@ -421,7 +421,6 @@ void EnDekunuts_BeStunned(EnDekunuts* this, PlayState* play) {
 
 void EnDekunuts_Die(EnDekunuts* this, PlayState* play) {
     static Vec3f effectVelAndAccel = { 0.0f, 0.0f, 0.0f };
-
     UNUSED s32 pad;
     Vec3f effectPos;
 

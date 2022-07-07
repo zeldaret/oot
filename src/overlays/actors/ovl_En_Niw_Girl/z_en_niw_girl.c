@@ -53,7 +53,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
     EnNiwGirl* this = (EnNiwGirl*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Vec3f vec1;
     Vec3f vec2;
     UNUSED s32 pad2;

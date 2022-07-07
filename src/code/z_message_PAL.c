@@ -2005,14 +2005,14 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
     MessageContext* msgCtx = &play->msgCtx;
     u16 buttonIndexPos;
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Gfx* gfx = *p;
     s16 r;
     s16 g;
     s16 b;
     u16 i;
     u16 notePosX;
-    UNUSED u16 pad1;
+    UNUSED u16 pad2;
     u16 j;
 
     gSPSegment(gfx++, 0x02, play->interfaceCtx.parameterSegment);
@@ -2983,9 +2983,9 @@ void Message_DrawDebugVariableChanged(s16* var, GraphicsContext* gfxCtx) {
 }
 
 void Message_DrawDebugText(PlayState* play, Gfx** p) {
-    UNUSED s32 pad;
-    GfxPrint printer;
     UNUSED s32 pad1;
+    GfxPrint printer;
+    UNUSED s32 pad2;
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *p);

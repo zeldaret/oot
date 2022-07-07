@@ -705,7 +705,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 gain;
     s32 frameIndex;
     s32 skipBytes;
-    UNUSED s32 pad;
+    UNUSED s32 pad2;
     void* buf;
     s32 nSamplesToDecode;
     u32 sampleAddr;
@@ -716,7 +716,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 nSamplesToProcess;
     s32 phi_s4;
     s32 nFirstFrameSamplesToIgnore;
-    UNUSED s32 pad2[7];
+    UNUSED s32 pad3[7];
     s32 frameSize;
     s32 nFramesToDecode;
     s32 skipInitialSamples;

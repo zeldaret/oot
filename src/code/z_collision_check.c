@@ -3470,8 +3470,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     f32 actorDotItemXZ;
     f32 zero = 0.0f;
     f32 closeDist;
-    UNUSED s32 pad1;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
 
     actorToItem.x = itemPos->x - actorPos->x;
     actorToItem.y = itemPos->y - actorPos->y - offset;

@@ -148,7 +148,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     DynaPolyActor* dynaPolyActor;
     f32 curGrabbedDist;
     f32 grabbedDist;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionPoly* poly;
     s32 bgId;
     Vec3f intersectPos;
@@ -157,7 +157,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     f32 polyNormalX;
     f32 polyNormalZ;
     f32 velocity;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     if ((this->actor.parent == NULL) || (!Player_HoldsHookshot(player))) {
         ArmsHook_DetachHookFromActor(this);

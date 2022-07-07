@@ -43,7 +43,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

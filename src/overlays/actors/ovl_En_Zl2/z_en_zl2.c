@@ -433,7 +433,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 }
 
 s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     EnZl2* this = (EnZl2*)thisx;
     Mtx* sp74;
     MtxF sp34;
@@ -1565,7 +1565,7 @@ void func_80B52114(EnZl2* this, PlayState* play) {
 }
 
 void func_80B521A0(EnZl2* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     ObjectContext* objectCtx = &play->objectCtx;
     s32 bankIndex = Object_GetIndex(objectCtx, OBJECT_ZL2_ANIME1);
     UNUSED s32 pad2;
@@ -1628,7 +1628,7 @@ void func_80B523BC(EnZl2* this, PlayState* play) {
 }
 
 void func_80B523C8(EnZl2* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     s16 eyeTexIndex = this->eyeTexIndex;
     s16 eyeTexIndex2 = this->eyeTexIndex2;
     void* eyeTex = sEyeTextures[eyeTexIndex];
@@ -1636,7 +1636,7 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
     s16 mouthTexIndex = this->mouthTexIndex;
     void* mouthTex = sMouthTextures[mouthTexIndex];
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1623);
 
@@ -1655,13 +1655,13 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
 }
 
 void func_80B525D4(EnZl2* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouthTexIndex];
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1663);
 

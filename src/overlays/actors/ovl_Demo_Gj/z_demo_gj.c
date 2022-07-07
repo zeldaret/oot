@@ -281,7 +281,7 @@ void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
 }
 
 void DemoGj_DrawRotated(DemoGj* this, PlayState* play, Gfx* displayList) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     GraphicsContext* gfxCtx;
     s16 x = this->rotationVec.x;
     s16 y = this->rotationVec.y;
@@ -1005,7 +1005,7 @@ void func_8097AEE8(DemoGj* this, PlayState* play) {
 }
 
 void DemoGj_SetCylindersAsAC(DemoGj* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     Collider* cylinder0 = &this->cylinders[0].base;
     Collider* cylinder1 = &this->cylinders[1].base;
     Collider* cylinder2 = &this->cylinders[2].base;
@@ -1135,7 +1135,7 @@ void func_8097B450(DemoGj* this, PlayState* play) {
 }
 
 void DemoGj_SetCylindersAsAC2(DemoGj* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     Collider* cylinder0 = &this->cylinders[0].base;
     Collider* cylinder1 = &this->cylinders[1].base;
     Collider* cylinder2 = &this->cylinders[2].base;

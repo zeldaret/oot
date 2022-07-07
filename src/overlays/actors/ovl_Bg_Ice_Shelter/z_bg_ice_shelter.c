@@ -99,7 +99,7 @@ void func_80890740(BgIceShelter* this, PlayState* play) {
 }
 
 void func_80890874(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 
@@ -332,7 +332,6 @@ static void (*sEffSpawnFuncs[])(BgIceShelter* this, PlayState* play, f32 chance,
 };
 
 void func_808911D4(BgIceShelter* this, PlayState* play) {
-
     UNUSED s32 pad;
     s32 type = (this->dyna.actor.params >> 8) & 7;
     f32 phi_f0;

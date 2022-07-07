@@ -73,7 +73,7 @@ void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play
         &gFireTempleBombableWallCol,
         &gFireTempleLargeBombableWallCol,
     };
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

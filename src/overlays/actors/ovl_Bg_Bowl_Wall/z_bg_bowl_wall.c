@@ -46,8 +46,7 @@ static s16 sTargetRot[] = { 0x0000, 0x0000, 0x3FFF, -0x3FFF };
 
 void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     BgBowlWall* this = (BgBowlWall*)thisx;
-    UNUSED s32 pad1;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);

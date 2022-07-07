@@ -556,7 +556,7 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, PlayState* play) {
 }
 
 void func_80A6C8E0(EnHorseNormal* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionPoly* sp38;
     UNUSED s32 pad2;
     Vec3f sp28;

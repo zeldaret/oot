@@ -41,7 +41,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

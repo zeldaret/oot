@@ -50,7 +50,7 @@ void EnSceneChange_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnSceneChange_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     Gfx* displayList;
     UNUSED s32 pad2[2];
     Gfx* displayListHead;

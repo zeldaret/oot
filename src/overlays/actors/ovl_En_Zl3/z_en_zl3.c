@@ -699,7 +699,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 
 void EnZl3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZl3* this = (EnZl3*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Vec3f sp34;
     UNUSED s32 pad2;
     Vec3f sp24;
@@ -1633,7 +1633,7 @@ s16 func_80B57104(EnZl3* this, s32 arg1) {
 }
 
 s32 func_80B571A8(EnZl3* this) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s32 unk_314 = this->unk_314;
     UNUSED s32 pad2;
 
@@ -1836,7 +1836,7 @@ void func_80B57858(PlayState* play) {
 }
 
 s32 func_80B57890(EnZl3* this, PlayState* play) {
-    UNUSED s8 pad[2];
+    UNUSED u8 pad[2];
     u8 curSpawn = play->curSpawn;
     s16 sceneNum = play->sceneNum;
     s32 result = func_80B54DB4(this);
@@ -1904,7 +1904,7 @@ void func_80B57AAC(EnZl3* this, s32 arg1, AnimationHeader* arg2) {
 }
 
 void func_80B57AE0(EnZl3* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 shapeRotY = this->actor.shape.rot.y;
     UNUSED s32 pad2;
     Vec3f* unk_354 = &this->unk_354;
@@ -1969,7 +1969,7 @@ void func_80B57D60(EnZl3* this, PlayState* play) {
 }
 
 s32 func_80B57D80(EnZl3* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16* sp32 = &this->actor.shape.rot.y;
     struct_80034A14_arg1* unk_3F8 = &this->unk_3F8;
     Player* player = GET_PLAYER(play);
@@ -2616,7 +2616,7 @@ void func_80B59B6C(EnZl3* this, PlayState* play) {
 }
 
 void func_80B59DB8(EnZl3* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     ObjectContext* objCtx = &play->objectCtx;
     s32 objIndex = Object_GetIndex(objCtx, OBJECT_ZL2_ANIME2);
     UNUSED s32 pad2;
@@ -2696,7 +2696,7 @@ void func_80B59FE8(EnZl3* this, PlayState* play) {
 }
 
 void func_80B59FF4(EnZl3* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
@@ -2721,7 +2721,7 @@ void func_80B59FF4(EnZl3* this, PlayState* play) {
 }
 
 void func_80B5A1D0(EnZl3* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;

@@ -454,7 +454,7 @@ void func_8098F16C(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s16 eyeIndex = this->eyeIndex;
     void* sp78 = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
@@ -792,7 +792,7 @@ void DemoSa_DrawNothing(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s16 eyeIndex = this->eyeIndex;
     void* eyeTex = sEyeTextures[eyeIndex];
     UNUSED s32 pad2;

@@ -163,8 +163,7 @@ void EnCs_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 EnCs_GetTalkState(EnCs* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     s32 talkState = 1;
 
     switch (Message_GetState(&play->msgCtx)) {

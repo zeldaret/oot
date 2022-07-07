@@ -193,8 +193,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
     Vec3f armPosMultiplier1 = { 0.0f, 0.0f, 55.0f };
     Vec3f armPosMultiplier2 = { 0.0f, 0.0f, -54.0f };
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     Vec3f playerPos = player->actor.world.pos;
     Vec3s angle;
     s16 yaw;

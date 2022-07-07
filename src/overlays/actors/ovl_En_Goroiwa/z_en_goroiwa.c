@@ -352,7 +352,7 @@ s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
 }
 
 s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Path* path = &play->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     f32 nextPointY;

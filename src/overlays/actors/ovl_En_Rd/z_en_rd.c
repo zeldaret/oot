@@ -838,7 +838,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
 }
 
 void EnRd_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     EnRd* this = (EnRd*)thisx;
     Player* player = GET_PLAYER(play);
     UNUSED s32 pad2;

@@ -39,7 +39,7 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
 }
 
 void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

@@ -418,7 +418,7 @@ void EnIshi_SetupFly(EnIshi* this) {
 }
 
 void EnIshi_Fly(EnIshi* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 type = this->actor.params & 1;
     UNUSED s32 pad2;
     s32 quakeIdx;

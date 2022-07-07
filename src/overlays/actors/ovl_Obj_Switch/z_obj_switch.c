@@ -183,7 +183,7 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
 }
 
 void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 
@@ -750,8 +750,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
                                 gCrystalSwitchCoreXluDL };
     static Gfx* opaDLists[] = { gCrystalSwitchCoreOpaDL, gCrystalSwitchDiamondOpaDL, NULL, NULL,
                                 gCrystalSwitchCoreOpaDL };
-    UNUSED s32 pad1;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     s32 subType;
 
     subType = (this->dyna.actor.params >> 4 & 7);

@@ -558,7 +558,7 @@ void Demo6K_Update(Actor* thisx, PlayState* play) {
 
 void func_80967FFC(Actor* thisx, PlayState* play) {
     Demo6K* this = (Demo6K*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     u16 timer1 = this->timer1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1070);
@@ -571,7 +571,7 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
 
     {
         s32 i;
-        UNUSED s32 pad;
+        UNUSED s32 pad2;
         Color_RGB8 colors[6][2] = {
             { { 255, 170, 255 }, { 255, 0, 100 } }, { { 255, 255, 170 }, { 0, 255, 0 } },
             { { 255, 255, 170 }, { 255, 255, 0 } }, { { 255, 170, 255 }, { 50, 0, 255 } },

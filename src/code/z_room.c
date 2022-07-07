@@ -85,7 +85,7 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
     struct_80095D04* spB4 = NULL;
     struct_80095D04* spB0 = NULL;
     struct_80095D04* iter;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     struct_80095D04* spA4;
     s32 j;
     s32 i;

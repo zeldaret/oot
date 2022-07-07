@@ -246,8 +246,7 @@ void ObjKibako_SetupThrown(ObjKibako* this) {
 }
 
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
         (this->collider.base.atFlags & AT_HIT)) {

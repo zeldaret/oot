@@ -133,8 +133,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     s32 interactionType;
     u32 dmgFlags;
     Vec3f tipToFlame;
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
 
     litTimeScale = torchCount;
     if (torchCount == 10) {

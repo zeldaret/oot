@@ -916,8 +916,7 @@ void DoorWarp1_DrawPurpleCrystal(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad1;
+    UNUSED s32 pad[2];
     u32 spEC = play->state.frames * 10;
     f32 spE8 = (this->unk_194 >= 1.0f) ? 0.0f : 1.0f - this->unk_194;
     f32 spE4 = (this->unk_198 >= 1.0f) ? 0.0f : 1.0f - this->unk_198;

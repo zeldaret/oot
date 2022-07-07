@@ -49,7 +49,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnVbBall_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     EnVbBall* this = (EnVbBall*)thisx;
     UNUSED s32 pad2;
     f32 angle;

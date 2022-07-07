@@ -1454,7 +1454,7 @@ s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, UNUSED
     Vec3f sp3C;
     Vec3f sp30;
     Camera* subCam;
-    UNUSED f32 sp28;
+    UNUSED s32 pad;
 
     cmd += 8;
     size = 8;

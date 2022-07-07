@@ -126,7 +126,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     u16 temp;
     u16 point;
     u16 rowStart;
-    UNUSED u16 pad;
+    UNUSED s16 pad;
     s16 cursorMoveResult;
     u16 cursorItem;
     u16 cursorSlot;

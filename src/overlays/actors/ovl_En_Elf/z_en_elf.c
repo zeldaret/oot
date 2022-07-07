@@ -1502,11 +1502,11 @@ s32 EnElf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnElf_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     f32 alphaScale;
     s32 envAlpha;
     EnElf* this = (EnElf*)thisx;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     Gfx* dListHead;
     Player* player = GET_PLAYER(play);
 

@@ -289,8 +289,7 @@ void func_808887C4(BgHidanHamstep* this, PlayState* play) {
 }
 
 void func_80888860(BgHidanHamstep* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     s32 quakeIndex;
 
     Actor_MoveForward(&this->dyna.actor);
@@ -339,8 +338,7 @@ void func_808889B8(BgHidanHamstep* this, PlayState* play) {
 }
 
 void func_80888A58(BgHidanHamstep* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     s32 quakeIndex;
 
     Actor_MoveForward(&this->dyna.actor);

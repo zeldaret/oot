@@ -660,7 +660,7 @@ void func_80A75A38(EnIk* this, PlayState* play) {
 
 void func_80A75C38(EnIk* this, PlayState* play) {
     f32 temp_f0;
-    UNUSED u8 pad;
+    UNUSED u8 pad1;
     UNUSED u8 pad2;
     u8 prevHealth;
     s32 temp_v0_3;

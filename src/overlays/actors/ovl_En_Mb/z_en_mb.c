@@ -1115,8 +1115,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
 void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
-    UNUSED s32 pad1;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     Player* player = GET_PLAYER(play);
     s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s16 yawTowardsHome;

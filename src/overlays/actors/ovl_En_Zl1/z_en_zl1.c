@@ -158,9 +158,7 @@ void func_80B4AF18(EnZl1* this, PlayState* play) {
 
 void func_80B4B010(EnZl1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad2;
-    UNUSED s32 pad3;
-    UNUSED s32 pad;
+    UNUSED s32 pad[3];
     Vec3f subCamAt = { -460.0f, 118.0f, 0.0f };
     Vec3f subCamEye = { -406.0f, 110.0f, 0.0f };
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
@@ -199,7 +197,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
 void func_80B4B240(EnZl1* this, PlayState* play) {
     Vec3f subCamAt = { -427.0f, 108.0, 26.0 };
     Vec3f subCamEye = { -340.0f, 108.0f, 98.0f };
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Vec3f sp58 = { -434.0f, 84.0f, 0.0f };
     u8 sp54[] = { 0x00, 0x00, 0x02 };
     UNUSED s32 pad2;
@@ -367,13 +365,13 @@ void func_80B4B8B4(EnZl1* this, PlayState* play) {
     };
     Vec3f subCamAt = { -421.0f, 143.0f, -5.0f };
     Vec3f subCamEye = { -512.0f, 105.0f, -4.0f };
-    UNUSED s32 pad2;
+    UNUSED s32 pad1;
     f32 actionLength;
     CsCmdActorAction* npcAction;
     Vec3f sp74;
     Vec3f sp68;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-    UNUSED s32 pad;
+    UNUSED s32 pad2;
     f32 frameCount;
     Vec3f sp48;
 
@@ -446,13 +444,13 @@ void func_80B4BC78(EnZl1* this, PlayState* play) {
     u8 sp84[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
     };
-    UNUSED s32 pad2;
+    UNUSED s32 pad1;
     f32 actionLength;
     Vec3f sp70;
     Vec3f sp64;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     CsCmdActorAction* npcAction;
-    UNUSED s32 pad;
+    UNUSED s32 pad2;
     f32 frameCount;
 
     if (SkelAnime_Update(&this->skelAnime) && (this->skelAnime.animation == &gChildZelda1Anim_10B38)) {

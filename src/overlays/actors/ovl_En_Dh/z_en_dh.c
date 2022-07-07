@@ -501,10 +501,10 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
 }
 
 void EnDh_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     EnDh* this = (EnDh*)thisx;
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad40;
+    UNUSED s32 pad2;
 
     EnDh_CollisionCheck(this, play);
     this->actionFunc(this, play);

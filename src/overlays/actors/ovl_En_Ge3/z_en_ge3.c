@@ -170,8 +170,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_UpdateCollision(EnGe3* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

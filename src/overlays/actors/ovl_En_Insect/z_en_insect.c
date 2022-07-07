@@ -294,8 +294,7 @@ void EnInsect_SetupCrawl(EnInsect* this) {
 }
 
 void EnInsect_Crawl(EnInsect* this, PlayState* play) {
-    UNUSED s32 pad1;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     s16 yaw;
     s16 type = this->actor.params & 3;
 
@@ -339,9 +338,8 @@ void EnInsect_SetupRunFromPlayer(EnInsect* this) {
 }
 
 void EnInsect_RunFromPlayer(EnInsect* this, PlayState* play) {
-    UNUSED s32 pad1;
-    UNUSED s32 pad2;
-    UNUSED s16 pad3;
+    UNUSED s32 pad1[2];
+    UNUSED s16 pad2;
     s16 frames;
     s16 yaw;
     s16 playerIsClose = this->actor.xzDistToPlayer < 40.0f;
@@ -463,9 +461,9 @@ void EnInsect_SetupWalkOnWater(EnInsect* this) {
 }
 
 void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 temp_v1;
-    UNUSED s16 pad1;
+    UNUSED s16 pad2;
     s16 type;
     Vec3f ripplePoint;
 
@@ -559,11 +557,11 @@ void EnInsect_SetupDropped(EnInsect* this) {
 }
 
 void EnInsect_Dropped(EnInsect* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s32 sp50;
     f32 phi_f0;
     EnInsect* thisTemp = this;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     f32 distanceSq;
     f32 phi_f2;
     s16 type;

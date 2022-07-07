@@ -188,7 +188,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
         if (lod == 0) {
-            UNUSED s32 pad1;
+            UNUSED s32 pad;
 
             dList = limb->dList[0];
             if (dList != NULL) {
@@ -197,7 +197,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
         } else if (lod == 1) {
-            UNUSED s32 pad2;
+            UNUSED s32 pad;
 
             dList = limb->dList[0];
             if (dList != NULL) {

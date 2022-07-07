@@ -541,8 +541,7 @@ void EnPoField_Damage(EnPoField* this, PlayState* play) {
 void EnPoField_Death(EnPoField* this, PlayState* play) {
     Vec3f sp6C;
     f32 sp68;
-    UNUSED s32 pad;
-    UNUSED s32 pad1;
+    UNUSED s32 pad[2];
     f32 temp_f0;
 
     this->actionTimer++;

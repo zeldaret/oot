@@ -365,7 +365,7 @@ void EnXc_DoNothing(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetWalkingSFX(EnXc* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     u32 sfxId;
     UNUSED s32 pad2;
 
@@ -379,7 +379,7 @@ void EnXc_SetWalkingSFX(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetNutThrowSFX(EnXc* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     u32 sfxId;
     UNUSED s32 pad2;
 
@@ -1068,7 +1068,7 @@ s32 EnXc_HarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
 
 void EnXc_DrawPullingOutHarp(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 eyePattern = this->eyeIdx;
     void* eyeTexture = sEyeTextures[eyePattern];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -1090,7 +1090,7 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, PlayState* play) {
 
 void EnXc_DrawHarp(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 eyePattern = this->eyeIdx;
     void* eyeTexture = sEyeTextures[eyePattern];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -1701,7 +1701,7 @@ void EnXc_TriforcePostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 
 void EnXc_DrawTriforce(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 eyeIdx = this->eyeIdx;
     void* eyeTexture = sEyeTextures[eyeIdx];
     SkelAnime* skelAnime = &this->skelAnime;

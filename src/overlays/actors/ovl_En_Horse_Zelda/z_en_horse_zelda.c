@@ -214,7 +214,7 @@ void func_80A6DDFC(EnHorseZelda* this, PlayState* play) {
 }
 
 void func_80A6DE38(EnHorseZelda* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionPoly* poly;
     UNUSED s32 pad2;
     Vec3f pos;

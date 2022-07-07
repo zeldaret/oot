@@ -49,7 +49,7 @@ void BgMoriHashira4_SetupAction(BgMoriHashira4* this, BgMoriHashira4ActionFunc a
 }
 
 void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader;
     UNUSED s32 pad2;
 

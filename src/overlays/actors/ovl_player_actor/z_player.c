@@ -4312,7 +4312,7 @@ s32 func_80839800(Player* this, PlayState* play) {
     f32 sp74;
     Actor* doorActor;
     f32 sp6C;
-    UNUSED s32 pad3;
+    UNUSED s32 pad;
     s32 frontRoom;
     Actor* attachedActor;
     LinkAnimationHeader* sp5C;
@@ -9719,7 +9719,7 @@ void func_80847BA0(PlayState* play, Player* this) {
         CollisionPoly* spA0;
         s32 sp9C;
         s16 sp9A;
-        UNUSED s32 pad;
+        UNUSED s32 pad1;
 
         D_80854798.y = 18.0f;
         D_80854798.z = this->ageProperties->unk_38 + 10.0f;
@@ -9836,9 +9836,9 @@ void func_80847BA0(PlayState* play, Player* this) {
             f32 invFloorPolyNormalY;
             f32 floorPolyNormalZ;
             f32 sp4C;
-            UNUSED s32 pad2;
+            UNUSED s32 pad1;
             f32 sp44;
-            UNUSED s32 pad3;
+            UNUSED s32 pad2;
 
             if (this->actor.floorBgId != BGCHECK_SCENE) {
                 DynaPoly_SetPlayerOnTop(&play->colCtx, this->actor.floorBgId);
@@ -10116,7 +10116,7 @@ static f32 sWaterConveyorSpeeds[] = { 2.0f, 4.0f, 7.0f };
 static f32 sFloorConveyorSpeeds[] = { 0.5f, 1.0f, 3.0f };
 
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
 
     sControlInput = input;
 
@@ -10245,7 +10245,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 f32 sp70 = this->linearVelocity;
                 s16 sp6E = this->currentYaw;
                 s16 yawDiff = this->actor.world.rot.y - sp6E;
-                UNUSED s32 pad;
+                UNUSED s32 pad2;
 
                 if ((ABS(yawDiff) > 0x6000) && (this->actor.speedXZ != 0.0f)) {
                     sp70 = 0.0f;

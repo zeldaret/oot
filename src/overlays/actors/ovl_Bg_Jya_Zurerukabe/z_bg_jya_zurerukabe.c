@@ -60,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

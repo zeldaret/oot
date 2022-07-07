@@ -61,7 +61,7 @@ void ObjLift_SetupAction(ObjLift* this, ObjLiftActionFunc actionFunc) {
 }
 
 void ObjLift_InitDynaPoly(ObjLift* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 
@@ -79,7 +79,7 @@ void func_80B96160(ObjLift* this, PlayState* play) {
     Vec3f pos;
     Vec3f velocity;
     Vec3f* temp_s3;
-    UNUSED s32 pad0;
+    UNUSED s32 pad;
     s32 i;
 
     temp_s3 = &this->dyna.actor.world.pos;

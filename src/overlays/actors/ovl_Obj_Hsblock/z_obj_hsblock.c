@@ -53,7 +53,7 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
 }
 
 void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2[2];
 

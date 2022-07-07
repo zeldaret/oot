@@ -215,9 +215,7 @@ AudioTask* func_800E5000(void) {
 
 void func_800E5584(AudioCmd* cmd) {
     s32 i;
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
-    UNUSED s32 pad3;
+    UNUSED s32 pad[3];
     u32 temp_t7;
 
     switch (cmd->op) {

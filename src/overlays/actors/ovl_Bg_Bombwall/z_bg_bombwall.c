@@ -82,8 +82,7 @@ const ActorInit Bg_Bombwall_InitVars = {
 };
 
 void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
+    UNUSED s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);

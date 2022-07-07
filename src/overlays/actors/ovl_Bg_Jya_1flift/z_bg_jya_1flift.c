@@ -67,7 +67,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJya1flift_InitDynapoly(BgJya1flift* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

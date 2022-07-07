@@ -55,7 +55,7 @@ static Vec3f D_808B45DC[] = {
 };
 
 void func_808B3960(BgSpot15Rrbox* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

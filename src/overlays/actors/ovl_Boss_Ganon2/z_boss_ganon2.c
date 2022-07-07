@@ -179,7 +179,7 @@ void func_808FD5C4(BossGanon2* this, PlayState* play) {
 }
 
 void func_808FD5F4(BossGanon2* this, PlayState* play) {
-    UNUSED s16 pad;
+    UNUSED s16 pad1;
     u8 sp8D;
     Player* player;
     s32 objectIdx;
@@ -2539,7 +2539,7 @@ s32 BossGanon2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 }
 
 void BossGanon2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    UNUSED s8 pad;
+    UNUSED u8 pad;
     s8 temp_v0;
     BossGanon2* this = (BossGanon2*)thisx;
     Vec3f sp4C;

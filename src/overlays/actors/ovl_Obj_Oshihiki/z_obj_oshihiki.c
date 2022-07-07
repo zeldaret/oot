@@ -84,7 +84,7 @@ static Vec2f sFaceDirection[] = {
 };
 
 void ObjOshihiki_InitDynapoly(ObjOshihiki* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

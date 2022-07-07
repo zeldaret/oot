@@ -116,7 +116,7 @@ void func_808958F0(Vec3f* dest, Vec3f* src, f32 arg2, f32 arg3) {
 }
 
 void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
 

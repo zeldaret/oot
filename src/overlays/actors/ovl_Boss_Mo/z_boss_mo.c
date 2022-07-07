@@ -440,15 +440,10 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
     Vec3f sp138;
     Vec3f sp12C;
     Vec3f sp120;
-    UNUSED s32 pad11C;
-    UNUSED s32 pad118;
-    UNUSED s32 pad114;
-    UNUSED s32 pad110;
-    UNUSED s32 pad10C;
-    UNUSED s32 pad108;
+    UNUSED s32 pad[6];
     Vec3f spFC;
     Vec3f spF0;
-    f32 padEC;
+    f32 spEC;
     Vec3f spE0;
     Vec3f spD4;
     Vec3f spC8;
@@ -1071,8 +1066,8 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             } else {
                 this->fwork[MO_TENT_MAX_STRETCH] = 0.2f;
                 this->fwork[MO_TENT_MAX_STRETCH] += Math_SinS(this->work[MO_TENT_MOVE_TIMER] * 0x2000) * 0.05f;
-                padEC = Math_CosS(this->work[MO_TENT_MOVE_TIMER] * 0x2000) * 0.0005f;
-                Math_ApproachF(&this->actor.scale.x, 0.002f + padEC, 0.5f, 0.0005f);
+                spEC = Math_CosS(this->work[MO_TENT_MOVE_TIMER] * 0x2000) * 0.0005f;
+                Math_ApproachF(&this->actor.scale.x, 0.002f + spEC, 0.5f, 0.0005f);
                 this->actor.world.pos.y += this->actor.velocity.y;
                 this->actor.velocity.y -= 1.0f;
                 if (this->actor.world.pos.y < -250.0f) {
@@ -1196,7 +1191,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
     f32 dz;
     f32 tempX;
     f32 tempY;
-    UNUSED s32 pad84;
+    UNUSED s32 pad1;
     f32 sp80;
     f32 sp7C;
     f32 sp78;
@@ -1205,7 +1200,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
     Vec3f bubblePos;
     Vec3f bubblePos2;
     Camera* mainCam2;
-    UNUSED s32 pad[3];
+    UNUSED s32 pad2[3];
 
     if (this->csState < MO_INTRO_REVEAL) {
         this->subCamFov = 80.0f;
@@ -1845,19 +1840,18 @@ void BossMo_Core(BossMo* this, PlayState* play) {
     f32 spD4;
     f32 spD0;
     f32 spCC;
-    UNUSED s32 padC8;
+    UNUSED s32 pad1;
     s32 temp;         // not on stack
     f32 xScaleTarget; // not on stack
     f32 yScaleTarget;
     Vec3f effectPos;
     Vec3f effectVelocity;
     Vec3f effectAccel;
-    UNUSED s32 pad94;
-    UNUSED s32 pad90;
+    UNUSED s32 pad2[2];
     s16 j;
     s16 index; // not on stack
     f32 sp88;
-    UNUSED s32 pad84;
+    UNUSED s32 pad3;
     f32 sp80;
     f32 sp7C;
     Vec3f sp70;
@@ -2458,8 +2452,7 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
     BossMo_InitRand(1, 29100, 9786);
 
     for (i = 0; i < 41; i++, matrix++) {
-        UNUSED s32 pad;
-        UNUSED s32 pad2;
+        UNUSED s32 pad[2];
 
         if (i < 2) {
             Matrix_Push();

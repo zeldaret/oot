@@ -566,9 +566,9 @@ void EnTest_SetupWalkAndBlock(EnTest* this) {
 }
 
 void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
-    UNUSED s32 pad;
-    f32 checkDist = 0.0f;
     UNUSED s32 pad1;
+    f32 checkDist = 0.0f;
+    UNUSED s32 pad2;
     s32 prevFrame;
     s32 beforeCurFrame;
     f32 playSpeed;
@@ -1361,12 +1361,12 @@ void func_808627C4(EnTest* this, PlayState* play) {
 
 // a variation of sidestep
 void func_808628C8(EnTest* this, PlayState* play) {
-    UNUSED s32 pad;
-    Player* player = GET_PLAYER(play);
     UNUSED s32 pad1;
+    Player* player = GET_PLAYER(play);
+    UNUSED s32 pad2;
     s32 prevFrame;
     s32 beforeCurFrame;
-    UNUSED s32 pad2;
+    UNUSED s32 pad3;
     f32 checkDist = 0.0f;
     s16 newYaw;
     f32 absPlaySpeed;

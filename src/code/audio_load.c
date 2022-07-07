@@ -356,12 +356,12 @@ void AudioLoad_InitTable(AudioTable* table, u32 romAddr, u16 unkMediumParam) {
 }
 
 SoundFontData* AudioLoad_SyncLoadSeqFonts(s32 seqId, u32* outDefaultFontId) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s32 index;
     SoundFontData* fontData;
     s32 numFonts;
     s32 fontId;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     if (seqId >= gAudioContext.numSequences) {
         return NULL;
@@ -2064,7 +2064,7 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, SampleBankRelocInfo*
 }
 
 void AudioLoad_LoadPermanentSamples(void) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     u32 fontId;
     AudioTable* sampleBankTable;
     UNUSED s32 pad2;

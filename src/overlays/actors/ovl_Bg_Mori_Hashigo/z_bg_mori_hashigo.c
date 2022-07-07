@@ -77,7 +77,7 @@ static InitChainEntry sInitChainLadder[] = {
 };
 
 void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     CollisionHeader* colHeader;
     UNUSED s32 pad2;
 

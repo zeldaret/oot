@@ -296,7 +296,7 @@ static void* sHeartDDTextures[] = {
 };
 
 void Health_DrawMeter(PlayState* play) {
-    UNUSED s32 pad[5];
+    UNUSED s32 pad1[5];
     void* heartBgImg;
     u32 curColorSet;
     f32 offsetX;

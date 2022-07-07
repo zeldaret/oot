@@ -143,8 +143,7 @@ void EnBombf_SetupGrowBomb(EnBombf* this, s16 params) {
 
 void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
     EnBombf* bombFlower;
-    UNUSED s32 pad;
-    UNUSED s32 pad1;
+    UNUSED s32 pad1[2];
     Player* player = GET_PLAYER(play);
     UNUSED s32 pad2;
 

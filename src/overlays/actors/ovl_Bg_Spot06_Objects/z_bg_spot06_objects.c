@@ -281,7 +281,7 @@ void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, PlayState* play, s3
  * This is where the fish shaped lock waits to be pulled out by the hookshot. Once it does it will spawn bubbles.
  */
 void BgSpot06Objects_LockWait(BgSpot06Objects* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s32 i;
     UNUSED s32 pad2;
     Vec3f effectPos;

@@ -976,11 +976,11 @@ s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 }
 
 void func_80AB2FE4(EnNb* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 eyeIdx = this->eyeIdx;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeIdx];
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb_inConfrontion.c", 623);
 
@@ -1216,9 +1216,9 @@ void EnNb_SetupPathMovement(EnNb* this, PlayState* play) {
 }
 
 void EnNb_SetTextIdAsChild(EnNb* this, PlayState* play) {
-    UNUSED s32 pad;
-    u8 choiceIndex;
     UNUSED s32 pad1;
+    u8 choiceIndex;
+    UNUSED s32 pad2;
     u16 textId;
 
     textId = this->actor.textId;
@@ -1490,11 +1490,11 @@ void EnNb_DrawNothing(EnNb* this, PlayState* play) {
 }
 
 void EnNb_DrawDefault(EnNb* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 eyeIdx = this->eyeIdx;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeIdx];
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb.c", 992);
 

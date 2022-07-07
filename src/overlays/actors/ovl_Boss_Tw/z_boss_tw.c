@@ -2388,9 +2388,7 @@ void BossTw_TwinrovaSetupDeathCS(BossTw* this, PlayState* play) {
 }
 
 void BossTw_DeathCSMsgSfx(BossTw* this, PlayState* play) {
-    UNUSED s32 pad;
-    UNUSED s32 pad2;
-    UNUSED s32 pad3;
+    UNUSED s32 pad[3];
     s16 msgId2;
     s16 msgId1;
     u8 kotakeAnim;

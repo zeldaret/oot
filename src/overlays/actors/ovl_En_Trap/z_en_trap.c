@@ -65,7 +65,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     s16 zSpeed;
     s16 xSpeed;
     EnTrap* this = (EnTrap*)thisx;
-    UNUSED ColliderCylinder* unused = &this->collider; // required to match
+    UNUSED ColliderCylinder* collider = &this->collider; // required to match
 
     this->upperParams = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;

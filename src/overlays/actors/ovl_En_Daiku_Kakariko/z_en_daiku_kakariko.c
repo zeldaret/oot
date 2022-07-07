@@ -452,7 +452,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
 
 void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
     EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     Player* player = GET_PLAYER(play);
     UNUSED s32 pad2;
 

@@ -108,11 +108,10 @@ void EnfHG_SetupIntro(EnfHG* this, PlayState* play) {
 
 void EnfHG_Intro(EnfHG* this, PlayState* play) {
     static Vec3f audioVec = { 0.0f, 0.0f, 50.0f };
-    UNUSED s32 pad64;
+    UNUSED s32 pad1;
     Player* player = GET_PLAYER(play);
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
-    UNUSED s32 pad58;
-    UNUSED s32 pad54;
+    UNUSED s32 pad2[2];
 
     if (this->cutsceneState != INTRO_FINISH) {
         SkelAnime_Update(&this->skin.skelAnime);

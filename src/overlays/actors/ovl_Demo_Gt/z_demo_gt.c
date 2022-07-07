@@ -44,13 +44,13 @@ void DemoGt_SpawnDust(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel
 }
 
 void func_8097D7D8(PlayState* play, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
 
     if (!FrameAdvance_IsEnabled(play)) {
         s32 frames = play->gameplayFrames;
 
         if (ABS(frames % arg4) == arg5) {
-            UNUSED s32 pad[2];
+            UNUSED s32 pad2[2];
             Vec3f velocity = { 0.0f, 6.0f, 0.0f };
             Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
@@ -258,7 +258,7 @@ void func_8097E1D4(PlayState* play, Vec3f* arg1, s16 arg2) {
 
 void func_8097E454(PlayState* play, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* accel, f32 arg4, f32 scale, s32 arg6,
                    s32 arg7, s16 life) {
-    UNUSED s32 pad2[3];
+    UNUSED s32 pad[3];
     s16 increment;
     s32 frames;
     s32 i;
@@ -501,7 +501,7 @@ void func_8097EF40(DemoGt* this, PlayState* play) {
     Vec3f velocity = { 0.0f, -16.0f, 0.0f };
     Vec3f accel = { 0.0f, 1.2f, 0.0f };
     Vec3f* pos = &this->dyna.actor.world.pos;
-    UNUSED s32 pad;
+    UNUSED s32 pad2;
 
     if ((kREG(1) == 20) || (frames == 220)) {
         dustPos.x = pos->x + 256.0f;
@@ -519,12 +519,12 @@ void func_8097EF40(DemoGt* this, PlayState* play) {
 }
 
 void func_8097F0AC(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f sp38;
-    UNUSED s16 pad1[3];
+    UNUSED s16 pad2[3];
     Vec3f sp24;
     u16 frames = play->csCtx.frames;
-    UNUSED s32 pad2;
+    UNUSED s32 pad3;
 
     if ((frames == 140) || (kREG(1) == 19)) {
         sp38.x = this->dyna.actor.world.pos.x + 260.0f;
@@ -623,7 +623,7 @@ void DemoGt_Update8(DemoGt* this, PlayState* play) {
 }
 
 void DemoGt_Draw1(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     u32 gameplayFrames = play->gameplayFrames;
     UNUSED s16 pad2[2];
@@ -723,12 +723,12 @@ void func_8097F96C(DemoGt* this, PlayState* play) {
 }
 
 void func_8097FA1C(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { -12.0f, -17.0, 5.0 };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if (((frames > 502) && !(frames >= 581)) || (kREG(1) == 5)) {
         dustPos.x = pos->x + 300.0f;
@@ -766,12 +766,12 @@ void func_8097FAFC(DemoGt* this, PlayState* play) {
 }
 
 void func_8097FC1C(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if (frames > 682 || kREG(1) == 7) {
         dustPos.x = pos->x + 260.0f;
@@ -925,12 +925,12 @@ void func_80980218(DemoGt* this, PlayState* play) {
 }
 
 void func_809802AC(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 0.0f, 0.0f, -10.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if (frames > 109 && frames < 140) {
         dustPos.x = pos->x - 100.0f;
@@ -941,12 +941,12 @@ void func_809802AC(DemoGt* this, PlayState* play) {
 }
 
 void func_8098036C(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* world = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if ((frames > 284) && (frames < 421)) {
         dustPos.x = world->x + 760.0f;
@@ -957,12 +957,12 @@ void func_8098036C(DemoGt* this, PlayState* play) {
 }
 
 void func_80980430(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     s32 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if (frames > 709 || kREG(1) == 8) {
         dustPos.x = pos->x + 760.0f;
@@ -973,12 +973,12 @@ void func_80980430(DemoGt* this, PlayState* play) {
 }
 
 void func_80980504(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if ((frames > 704) || kREG(1) == 9) {
         dustPos.x = pos->x + 830.0f;
@@ -989,12 +989,12 @@ void func_80980504(DemoGt* this, PlayState* play) {
 }
 
 void func_809805D8(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* homePos = &this->dyna.actor.home.pos;
     Vec3f velOffset = { 15.0f, -26.0, 0.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if (((frames > 739) && (frames < 781)) || kREG(1) == 11) {
         dustPos.x = homePos->x + 550.0f;
@@ -1005,12 +1005,12 @@ void func_809805D8(DemoGt* this, PlayState* play) {
 }
 
 void func_809806B8(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if ((frames > 964) || (kREG(1) == 12)) {
         dustPos.x = pos->x + 460.0f;
@@ -1021,12 +1021,12 @@ void func_809806B8(DemoGt* this, PlayState* play) {
 }
 
 void func_8098078C(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
-    UNUSED s32 pad1[3];
+    UNUSED s32 pad2[3];
 
     if ((frames > 939) || (kREG(1) == 14)) {
         dustPos.x = pos->x + 360.0f;
@@ -1066,7 +1066,7 @@ void func_809809C0(DemoGt* this, PlayState* play2) {
     s32 gameplayFrames = play->gameplayFrames;
     u16 frames = play->csCtx.frames;
     Vec3f sp54;
-    UNUSED s16 pad[3];
+    UNUSED s16 pad1[3];
 
     if (((frames > 469) && (frames < 481)) || (kREG(1) == 3)) {
         Vec3f sp40 = { 20.0f, 6.0f, 0.0f };
@@ -1194,14 +1194,14 @@ void func_80980F58(DemoGt* this, PlayState* play) {
 }
 
 void func_80980F8C(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f sp58;
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
 
     if ((frames > 259) && (frames < 289)) {
         Vec3f velOfset = { 0.0f, -17.0f, 0.0f };
-        UNUSED s32 pad[3];
+        UNUSED s32 pad2[3];
 
         sp58.x = 640.0f;
         sp58.y = 2100.0f;
@@ -1246,7 +1246,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
     GraphicsContext* gfxCtx;
     PlayState* play = play2;
     u16 frames = play->csCtx.frames;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 sp76;
     f32 sp70;
     f32 sp6C;
@@ -1317,14 +1317,14 @@ void func_80981424(DemoGt* this, PlayState* play) {
 }
 
 void func_80981458(DemoGt* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    UNUSED s32 pad1[3];
     Vec3f sp58;
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
 
     if (((frames > 855) && (frames < 891)) || (kREG(1) == 13)) {
         Vec3f velOffset = { 0.0f, -30.0f, 0.0f };
-        UNUSED s32 pad1[3];
+        UNUSED s32 pad2[3];
 
         sp58.x = 0.0f;
         sp58.y = 1170.0f;
@@ -1367,13 +1367,13 @@ void DemoGt_Update17(DemoGt* this, PlayState* play) {
 
 void DemoGt_Draw5(DemoGt* this, PlayState* play) {
     GraphicsContext* gfxCtx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s16 sp76;
     f32 sp70;
     f32 sp6C;
     s16 sp6A;
     s16 sp68;
-    UNUSED s16 pad1;
+    UNUSED s16 pad2;
     Mtx* sp60;
     Vec3f sp54;
     Vec3f sp48;

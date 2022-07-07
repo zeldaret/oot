@@ -1917,7 +1917,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     s16 sp8E;
     u32 sp88;
     Vec3f sp7C;
-    UNUSED s32 pad3;
+    UNUSED s32 pad;
     f32 sp74;
     s32 i;
     s16 sp6E;
@@ -3291,18 +3291,18 @@ void BossVa_UpdateEffects(PlayState* play) {
     s16 spB6;
     s16 i;
     f32 floorY;
-    UNUSED s32 padAC;
+    UNUSED s32 pad;
     s16 pitch;
     s16 yaw;
     BossVa* refActor2;
     BossVa* refActor;
     Vec3f sp94;
     CollisionPoly* sp90;
-    f32 pad8C;
+    f32 sp8C;
     Vec3f sp80;
     CollisionPoly* sp7C;
-    f32 pad78;
-    f32 pad74;
+    f32 sp78;
+    f32 sp74;
 
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type != VA_NONE) {
@@ -3324,12 +3324,12 @@ void BossVa_UpdateEffects(PlayState* play) {
 
                 if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
                     pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
-                    pad8C = Math_SinS(refActor->actor.world.rot.y);
-                    effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * pad8C);
-                    pad74 = Math_CosS(refActor->actor.world.rot.y);
-                    effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * pad74);
-                    pad78 = Math_CosS(-pitch);
-                    effect->pos.y = (effect->offset.y * pad78) + refActor->actor.world.pos.y;
+                    sp8C = Math_SinS(refActor->actor.world.rot.y);
+                    effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * sp8C);
+                    sp74 = Math_CosS(refActor->actor.world.rot.y);
+                    effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * sp74);
+                    sp78 = Math_CosS(-pitch);
+                    effect->pos.y = (effect->offset.y * sp78) + refActor->actor.world.pos.y;
                 } else if ((effect->mode == SPARK_BARI) || (effect->mode == SPARK_BODY)) {
                     effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
                     effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;

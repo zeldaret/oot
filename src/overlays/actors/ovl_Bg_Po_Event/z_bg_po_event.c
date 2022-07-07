@@ -592,7 +592,7 @@ void BgPoEvent_Draw(Actor* thisx, PlayState* play) {
         gPoSistersAmyBlockDL,     gPoSistersAmyBethBlockDL, gPoSistersJoellePaintingDL,
         gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
     };
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     BgPoEvent* this = (BgPoEvent*)thisx;
     u8 alpha;
     Vec3f sp58;

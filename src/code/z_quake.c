@@ -312,7 +312,7 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     ShakeInfo shake;
     f32 absSpeedDiv;
     s16* temp;
-    UNUSED s32 pad2;
+    UNUSED s32 pad;
     s32 idx;
     s32 ret;
     u32 eq;

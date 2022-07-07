@@ -1312,7 +1312,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                             } break;
 
                             case G_MOVEWORD: {
-                                UNUSED u32 pad[2];
+                                UNUSED s32 pad[2];
                                 Gmovewd movewd = ptr->movewd;
 
                                 switch (movewd.index) {

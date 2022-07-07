@@ -397,8 +397,7 @@ void func_80AD9AA8(EnPoSisters* this, PlayState* play) {
                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x800);
     Actor* actor3 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,
                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xC00);
-    UNUSED s32 pad;
-    UNUSED s32 pad1;
+    UNUSED s32 pad[2];
 
     if (actor1 == NULL || actor2 == NULL || actor3 == NULL) {
         if (actor1 != NULL) {

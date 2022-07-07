@@ -831,13 +831,13 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 dustPrimColor = { 150, 150, 150, 255 };
     static Color_RGBA8 dustEnvColor = { 100, 100, 100, 150 };
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     EnAm* this = (EnAm*)thisx;
     EnBom* bomb;
     Vec3f dustPos;
     s32 i;
     f32 dustPosScale;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     if (this->dyna.actor.params != ARMOS_STATUE) {
         EnAm_UpdateDamage(this, play);

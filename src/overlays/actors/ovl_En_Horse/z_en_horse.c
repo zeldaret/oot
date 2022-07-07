@@ -3109,11 +3109,11 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     Vec3f startPos;
     Vec3f endPos;
     Vec3f obstaclePos;
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
     f32 intersectDist;
     CollisionPoly* wall = NULL;
     CollisionPoly* obstacleFloor = NULL;
@@ -3122,7 +3122,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     f32 behindObstacleHeight;
     f32 ny;
     s32 movingFast;
-    UNUSED s32 pad2;
+    UNUSED s32 pad3;
     DynaPolyActor* dynaPoly;
     Vec3f intersect;
     Vec3f obstacleTop;

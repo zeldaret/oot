@@ -273,7 +273,7 @@ void EnFr_DrawActive(EnFr* this) {
 
 void EnFr_Update(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     s32 frogIndex;
     UNUSED s32 pad2;
 

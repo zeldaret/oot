@@ -38,7 +38,7 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 }
 
 void BgPushbox_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    UNUSED s32 pad1;
     BgPushbox* this = (BgPushbox*)thisx;
     CollisionHeader* colHeader = NULL;
     UNUSED s32 pad2;
