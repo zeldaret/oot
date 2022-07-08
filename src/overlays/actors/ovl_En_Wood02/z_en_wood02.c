@@ -342,7 +342,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
             dropsSpawnPt.y += 200.0f;
 
             if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
-                Item_DropCollectibleRandom(play, &this->actor, &dropsSpawnPt, this->unk_14C << 4);
+                Item_DropCollectibleRandom(play, &this->actor, &dropsSpawnPt, DROP_TABLE_NUM(this->unk_14C));
             } else {
                 if (this->actor.home.rot.z != 0) {
                     this->actor.home.rot.z &= 0x1FFF;
@@ -387,7 +387,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                  (player->rideActor->speedXZ != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
-                                               ((this->unk_14C << 4) | 0x8000));
+                                               0x8000 | DROP_TABLE_NUM(this->unk_14C));
                 }
                 this->unk_14C = -0x15;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);

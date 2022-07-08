@@ -1098,7 +1098,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
                                      9, true);
             }
         } else {
-            Item_DropCollectibleRandom(play, &this->actor, &effPos, 0xC0);
+            Item_DropCollectibleRandom(play, &this->actor, &effPos, DROP_TABLE_NUM(12));
             Actor_Kill(&this->actor);
         }
     } else if ((s32)this->skelAnime.curFrame == 15 || (s32)this->skelAnime.curFrame == 22) {
@@ -1320,7 +1320,7 @@ void EnMb_SpearDead(EnMb* this, PlayState* play) {
                                      true);
             }
         } else {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(14));
             Actor_Kill(&this->actor);
         }
     }

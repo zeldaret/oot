@@ -570,7 +570,7 @@ void EnEiyer_Dead(EnEiyer* this, PlayState* play) {
     this->actor.world.pos.y -= 2.0f;
 
     if (this->actor.shape.shadowAlpha == 0) {
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 80);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(5));
         Actor_Kill(&this->actor);
     }
 }

@@ -674,7 +674,7 @@ void func_80B0DC7C(EnSw* this, PlayState* play) {
         this->actor.shape.rot.x += 0x1000;
         this->actor.shape.rot.z += 0x1000;
     } else {
-        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x30);
+        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, DROP_TABLE_NUM(3));
         Actor_Kill(&this->actor);
     }
 }

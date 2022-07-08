@@ -452,7 +452,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
         }
         if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, this->actor.params)) {
             if (!this->hitByWindArrow) {
-                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x80);
+                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(8));
             } else {
                 Item_DropCollectible(play, &this->actor.world.pos, ITEM00_ARROWS_SMALL);
             }

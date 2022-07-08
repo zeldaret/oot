@@ -247,7 +247,7 @@ void EnWallmas_SetupDie(EnWallmas* this, PlayState* play) {
     EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0, 255, 1,
                          9, true);
 
-    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xC0);
+    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(12));
     this->actionFunc = EnWallmas_Die;
 }
 
@@ -411,7 +411,7 @@ void EnWallmas_Cooldown(EnWallmas* this, PlayState* play) {
 void EnWallmas_Die(EnWallmas* this, PlayState* play) {
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.0015) != 0) {
         Actor_SetScale(&this->actor, 0.01f);
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xC0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(12));
         Actor_Kill(&this->actor);
     }
     this->actor.scale.z = this->actor.scale.x;

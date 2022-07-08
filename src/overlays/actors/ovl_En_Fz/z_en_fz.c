@@ -553,7 +553,7 @@ void EnFz_SetupDespawn(EnFz* this, PlayState* play) {
     this->actor.velocity.y = 0.0f;
     this->actor.speedXZ = 0.0f;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
-    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x60);
+    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(6));
     this->actionFunc = EnFz_Despawn;
 }
 

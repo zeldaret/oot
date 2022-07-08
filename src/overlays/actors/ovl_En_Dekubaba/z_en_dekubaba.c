@@ -999,7 +999,7 @@ void EnDekubaba_ShrinkDie(EnDekubaba* this, PlayState* play) {
                 Item_DropCollectible(play, &this->actor.world.pos, ITEM00_NUTS);
             }
         } else {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x30);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(3));
         }
         Actor_Kill(&this->actor);
     }

@@ -385,7 +385,7 @@ void func_80AD99D4(EnPoSisters* this, PlayState* play) {
 void func_80AD9A54(EnPoSisters* this, PlayState* play) {
     this->unk_19A = 0;
     this->actor.world.pos.y = this->unk_234[0].y;
-    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x80);
+    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(8));
     this->actionFunc = func_80ADB17C;
 }
 

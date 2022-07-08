@@ -350,7 +350,7 @@ void EnAnubice_Die(EnAnubice* this, PlayState* play) {
     if ((this->animLastFrame <= curFrame) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Math_ApproachF(&this->actor.shape.yOffset, -4230.0f, 0.5f, 300.0f);
         if (this->actor.shape.yOffset < -2000.0f) {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xC0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(12));
             Actor_Kill(&this->actor);
         }
     }

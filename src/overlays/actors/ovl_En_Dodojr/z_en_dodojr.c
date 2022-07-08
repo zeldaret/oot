@@ -592,7 +592,7 @@ void func_809F7B3C(EnDodojr* this, PlayState* play) {
 
 void func_809F7BE4(EnDodojr* this, PlayState* play) {
     if (DECR(this->timer3) == 0) {
-        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x40);
+        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, DROP_TABLE_NUM(4));
         Actor_Kill(&this->actor);
     }
 }

@@ -475,9 +475,9 @@ void func_80AE5C38(EnReeba* this, PlayState* play) {
             EffectSsDeadDb_Spawn(play, &pos, &velocity, &accel, 120, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
 
             if (!this->isBig) {
-                Item_DropCollectibleRandom(play, &this->actor, &pos, 0xE0);
+                Item_DropCollectibleRandom(play, &this->actor, &pos, DROP_TABLE_NUM(14));
             } else {
-                Item_DropCollectibleRandom(play, &this->actor, &pos, 0xC0);
+                Item_DropCollectibleRandom(play, &this->actor, &pos, DROP_TABLE_NUM(12));
             }
 
             if (this->actor.parent != NULL) {

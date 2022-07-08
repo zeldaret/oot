@@ -489,7 +489,7 @@ void EnBb_Death(EnBb* this, PlayState* play) {
         if (!BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, enpartType)) {
             return;
         }
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xD0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(13));
     } else {
         if (this->flamePrimAlpha) {
             if (this->flamePrimAlpha <= 20) {

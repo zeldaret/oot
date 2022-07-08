@@ -431,7 +431,7 @@ void EnOkuta_Die(EnOkuta* this, PlayState* play) {
     } else {
         if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.0005f)) {
             SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x70);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(7));
             for (i = 0; i < 20; i++) {
                 velocity.x = (Rand_ZeroOne() - 0.5f) * 7.0f;
                 velocity.y = Rand_ZeroOne() * 7.0f;

@@ -643,7 +643,7 @@ void func_809BE26C(EnBigokuta* this, PlayState* play) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             func_8005ACFC(play->cameraPtrs[CAM_ID_MAIN], 4);
             SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(11));
             Actor_Kill(&this->actor);
         }
     }

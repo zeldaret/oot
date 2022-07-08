@@ -435,7 +435,7 @@ void EnFloormas_Die(EnFloormas* this, PlayState* play) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SPLIT);
     } else {
         // Die
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x90);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(9));
         EnFloormas_SetupSmShrink(this, play);
     }
 }

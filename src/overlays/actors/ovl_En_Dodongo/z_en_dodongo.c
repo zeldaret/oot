@@ -693,7 +693,7 @@ void EnDodongo_Death(EnDodongo* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
         if (this->timer == 0) {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x40);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(4));
             Actor_Kill(&this->actor);
         }
     }

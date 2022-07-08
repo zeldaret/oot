@@ -989,7 +989,7 @@ void EnSt_Die(EnSt* this, PlayState* play) {
     if (DECR(this->finishDeathTimer) != 0) {
         EnSt_SpawnDeadEffect(this, play);
     } else {
-        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0xE0);
+        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, DROP_TABLE_NUM(14));
         Actor_Kill(&this->actor);
     }
 }

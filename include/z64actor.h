@@ -315,6 +315,8 @@ typedef enum {
     /* 0xFF */ ITEM00_NONE = 0xFF
 } Item00Type;
 
+#define DROP_TABLE_NUM(i) ((i) << 4)
+
 struct EnItem00;
 
 typedef void (*EnItem00ActionFunc)(struct EnItem00*, struct PlayState*);

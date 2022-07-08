@@ -259,7 +259,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
             }
             flareDancer = this->actor.parent;
             flareDancer->params |= 0x4000;
-            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0xA0);
+            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, DROP_TABLE_NUM(10));
             Actor_Kill(&this->actor);
             return;
         }

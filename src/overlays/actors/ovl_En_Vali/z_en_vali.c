@@ -244,7 +244,7 @@ void EnVali_SetupDivideAndDie(EnVali* this, PlayState* play) {
         this->actor.world.rot.y += 0x10000 / 3;
     }
 
-    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
+    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(5));
     this->timer = Rand_S16Offset(10, 10);
     this->bodyCollider.base.acFlags &= ~AC_ON;
     SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);

@@ -479,7 +479,7 @@ void func_80B33338(EnWeiyer* this, PlayState* play) {
     this->actor.world.pos.y -= 2.0f;
 
     if (this->actor.shape.shadowAlpha == 0) {
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(14));
         Actor_Kill(&this->actor);
     }
 }

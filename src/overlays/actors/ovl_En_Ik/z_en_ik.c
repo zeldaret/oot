@@ -646,7 +646,7 @@ void func_80A75A38(EnIk* this, PlayState* play) {
                 EffectSsDeadDb_Spawn(play, &pos, &sp7C, &sp7C, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
             }
             if (this->unk_2F9 == 0) {
-                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
+                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(11));
                 if (this->switchFlags != 0xFF) {
                     Flags_SetSwitch(play, this->switchFlags);
                 }

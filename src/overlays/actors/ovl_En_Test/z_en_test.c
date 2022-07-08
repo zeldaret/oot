@@ -1521,7 +1521,7 @@ void func_80862E6C(EnTest* this, PlayState* play) {
             EnTest_SetupJumpBack(this);
         } else if ((this->actor.params == STALFOS_TYPE_5) &&
                    !Actor_FindNearby(play, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xD0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(13));
 
             if (this->actor.parent != NULL) {
                 this->actor.parent->home.rot.z--;
@@ -1629,7 +1629,7 @@ void func_808633E8(EnTest* this, PlayState* play) {
     this->actor.params = STALFOS_TYPE_1;
 
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, this->actor.params)) {
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xD0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(13));
 
         if (this->actor.parent != NULL) {
             this->actor.parent->home.rot.z--;

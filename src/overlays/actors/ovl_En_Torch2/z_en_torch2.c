@@ -582,7 +582,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
             Enemy_StartFinishingBlow(play, &this->actor);
-            Item_DropCollectibleRandom(play, &this->actor, &thisx->world.pos, 0xC0);
+            Item_DropCollectibleRandom(play, &this->actor, &thisx->world.pos, DROP_TABLE_NUM(12));
             this->stateFlags3 &= ~PLAYER_STATE3_2;
         } else {
             func_800F5ACC(NA_BGM_MINI_BOSS);

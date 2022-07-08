@@ -131,11 +131,12 @@ void EnKusa_DropCollectible(EnKusa* this, PlayState* play) {
         case ENKUSA_TYPE_2:
             dropParams = (this->actor.params >> 8) & 0xF;
 
-            if (dropParams >= 0xD) {
+            if (dropParams > 12) {
                 dropParams = 0;
             }
-            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, dropParams << 4);
+            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, DROP_TABLE_NUM(dropParams));
             break;
+
         case ENKUSA_TYPE_1:
             if (Rand_ZeroOne() < 0.5f) {
                 Item_DropCollectible(play, &this->actor.world.pos, ITEM00_SEEDS);

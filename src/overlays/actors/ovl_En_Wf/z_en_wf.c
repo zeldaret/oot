@@ -1208,7 +1208,7 @@ void EnWf_Die(EnWf* this, PlayState* play) {
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xD0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(13));
 
         if (this->switchFlag != 0xFF) {
             Flags_SetSwitch(play, this->switchFlag);

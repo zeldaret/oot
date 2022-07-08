@@ -1991,7 +1991,7 @@ void EnZf_UpdateHeadRotation(EnZf* this, PlayState* play) {
 
 void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
     s32 pad;
-    s16 dropParams;
+    s16 dropTable;
 
     if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action <= ENZF_ACTION_STUNNED)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -2014,14 +2014,14 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
                 Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 8);
 
                 if (Actor_ApplyDamage(&this->actor) == 0) {
-                    dropParams = 0x40;
+                    dropTable = DROP_TABLE_NUM(4);
                     EnZf_SetupDie(this);
 
                     if (this->actor.params == ENZF_TYPE_DINOLFOS) {
-                        dropParams = 0xE0;
+                        dropTable = DROP_TABLE_NUM(14);
                     }
 
-                    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, dropParams);
+                    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, dropTable);
                     Enemy_StartFinishingBlow(play, &this->actor);
                 } else {
                     if ((D_80B4A1B4 != -1) && ((this->actor.colChkInfo.health + this->actor.colChkInfo.damage) >= 4) &&

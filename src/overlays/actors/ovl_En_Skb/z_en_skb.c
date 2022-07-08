@@ -417,7 +417,7 @@ void func_80AFD7B4(EnSkb* this, PlayState* play) {
 void func_80AFD880(EnSkb* this, PlayState* play) {
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, 1)) {
         if (this->actor.scale.x == 0.01f) {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x10);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, DROP_TABLE_NUM(1));
         } else if (this->actor.scale.x <= 0.015f) {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RUPEE_BLUE);
         } else {
