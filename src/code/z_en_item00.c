@@ -900,9 +900,9 @@ s16 func_8001F404(s16 dropId) {
 
 // External functions used by other actors to drop collectibles, which usually results in spawning an En_Item00 actor.
 
-EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
+Actor* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
     s32 pad[2];
-    EnItem00* spawnedActor = NULL;
+    Actor* spawnedActor = NULL;
     s16 param4000 = params & 0x4000;
     s16 param8000 = params & 0x8000;
     s16 param3F00 = params & 0x3F00;
@@ -910,9 +910,8 @@ EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
     params &= 0x3FFF;
 
     if (((params & 0x00FF) == ITEM00_FLEXIBLE) && !param4000) {
-        // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
-        spawnedActor = (EnItem00*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f,
-                                              spawnPos->z, 0, 0, 0, FAIRY_HEAL_TIMED);
+        spawnedActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z,
+                                   0, 0, 0, FAIRY_HEAL_TIMED);
         EffectSsDeadSound_SpawnStationary(play, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true, DEADSOUND_REPEAT_MODE_OFF,
                                           40);
     } else {
@@ -921,30 +920,32 @@ EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
         }
 
         if (params != -1) {
-            spawnedActor = (EnItem00*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, spawnPos->x, spawnPos->y,
-                                                  spawnPos->z, 0, 0, 0, params | param8000 | param3F00);
+            spawnedActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, spawnPos->x, spawnPos->y, spawnPos->z, 0,
+                                       0, 0, params | param8000 | param3F00);
             if ((spawnedActor != NULL) && !param8000) {
-                spawnedActor->actor.velocity.y = !param4000 ? 8.0f : -2.0f;
-                spawnedActor->actor.speedXZ = 2.0f;
-                spawnedActor->actor.gravity = -0.9f;
-                spawnedActor->actor.world.rot.y = Rand_CenteredFloat(65536.0f);
-                Actor_SetScale(&spawnedActor->actor, 0.0f);
-                EnItem00_SetupAction(spawnedActor, func_8001E304);
-                spawnedActor->despawnTimer = 220;
-                if ((spawnedActor->actor.params != ITEM00_SMALL_KEY) &&
-                    (spawnedActor->actor.params != ITEM00_HEART_PIECE) &&
-                    (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {
-                    spawnedActor->actor.room = -1;
+                EnItem00* spawnedItem00 = (EnItem00*)spawnedActor;
+
+                spawnedItem00->actor.velocity.y = !param4000 ? 8.0f : -2.0f;
+                spawnedItem00->actor.speedXZ = 2.0f;
+                spawnedItem00->actor.gravity = -0.9f;
+                spawnedItem00->actor.world.rot.y = Rand_CenteredFloat((f32)0x10000);
+                Actor_SetScale(&spawnedItem00->actor, 0.0f);
+                EnItem00_SetupAction(spawnedItem00, func_8001E304);
+                spawnedItem00->despawnTimer = 220;
+                if ((spawnedItem00->actor.params != ITEM00_SMALL_KEY) &&
+                    (spawnedItem00->actor.params != ITEM00_HEART_PIECE) &&
+                    (spawnedItem00->actor.params != ITEM00_HEART_CONTAINER)) {
+                    spawnedItem00->actor.room = -1;
                 }
-                spawnedActor->actor.flags |= ACTOR_FLAG_4;
+                spawnedItem00->actor.flags |= ACTOR_FLAG_4;
             }
         }
     }
     return spawnedActor;
 }
 
-EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
-    EnItem00* spawnedActor = NULL;
+Actor* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
+    Actor* spawnedActor = NULL;
     s32 pad;
     s16 param4000 = params & 0x4000;
     s16 param8000 = params & 0x8000;
@@ -953,22 +954,21 @@ EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
     params &= 0x3FFF;
 
     if (((params & 0x00FF) == ITEM00_FLEXIBLE) && !param4000) {
-        // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
-        spawnedActor = (EnItem00*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f,
-                                              spawnPos->z, 0, 0, 0, FAIRY_HEAL_TIMED);
+        spawnedActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z,
+                                   0, 0, 0, FAIRY_HEAL_TIMED);
         EffectSsDeadSound_SpawnStationary(play, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true, DEADSOUND_REPEAT_MODE_OFF,
                                           40);
     } else {
         params = func_8001F404(params & 0x00FF);
         if (params != -1) {
-            spawnedActor = (EnItem00*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, spawnPos->x, spawnPos->y,
-                                                  spawnPos->z, 0, 0, 0, params | param8000 | param3F00);
+            spawnedActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, spawnPos->x, spawnPos->y, spawnPos->z, 0,
+                                       0, 0, params | param8000 | param3F00);
             if ((spawnedActor != NULL) && !param8000) {
-                spawnedActor->actor.velocity.y = 0.0f;
-                spawnedActor->actor.speedXZ = 0.0f;
-                spawnedActor->actor.gravity = param4000 ? 0.0f : -0.9f;
-                spawnedActor->actor.world.rot.y = Rand_CenteredFloat(65536.0f);
-                spawnedActor->actor.flags |= ACTOR_FLAG_4;
+                spawnedActor->velocity.y = 0.0f;
+                spawnedActor->speedXZ = 0.0f;
+                spawnedActor->gravity = param4000 ? 0.0f : -0.9f;
+                spawnedActor->world.rot.y = Rand_CenteredFloat((f32)0x10000);
+                spawnedActor->flags |= ACTOR_FLAG_4;
             }
         }
     }
@@ -1046,7 +1046,8 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
             params = DROP_TABLE_NUM(10);
             dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) {
+        } else if ((gSaveContext.magicLevel != 0) &&
+                   (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) { // At most half current magic bar
             params = DROP_TABLE_NUM(10);
             dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_MAGIC_SMALL;

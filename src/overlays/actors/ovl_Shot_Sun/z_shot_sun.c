@@ -172,7 +172,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
             spawnPos.y = -800.0f;
             spawnPos.z = 7261.0f;
 
-            collectible = Item_DropCollectible(play, &spawnPos, ITEM00_MAGIC_LARGE);
+            collectible = (EnItem00*)Item_DropCollectible(play, &spawnPos, ITEM00_MAGIC_LARGE);
             if (collectible != NULL) {
                 collectible->despawnTimer = 6000;
                 collectible->actor.speedXZ = 0.0f;

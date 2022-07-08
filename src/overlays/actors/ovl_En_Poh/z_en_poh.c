@@ -211,7 +211,7 @@ void EnPoh_Init(Actor* thisx, PlayState* play) {
         if (D_80AE1A50 >= 3) {
             Actor_Kill(&this->actor);
         } else {
-            collectible = Item_DropCollectible(play, &this->actor.world.pos, 0x4000 | ITEM00_RUPEE_BLUE);
+            collectible = (EnItem00*)Item_DropCollectible(play, &this->actor.world.pos, 0x4000 | ITEM00_RUPEE_BLUE);
             if (collectible != NULL) {
                 collectible->actor.speedXZ = 0.0f;
             }

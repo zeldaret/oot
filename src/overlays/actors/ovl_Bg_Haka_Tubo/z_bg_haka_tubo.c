@@ -164,7 +164,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 // Drop rupees
                 for (i = 0; i < 9; i++) {
-                    collectible = Item_DropCollectible(
+                    collectible = (EnItem00*)Item_DropCollectible(
                         play, &spawnPos, (i % (ITEM00_RUPEE_RED - ITEM00_RUPEE_GREEN + 1)) + ITEM00_RUPEE_GREEN);
                     if (collectible != NULL) {
                         collectible->actor.velocity.y = 15.0f;
@@ -201,7 +201,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
         if (collectibleParams != -1) {
-            collectible = Item_DropCollectible(play, &spawnPos, collectibleParams);
+            collectible = (EnItem00*)Item_DropCollectible(play, &spawnPos, collectibleParams);
             if (collectible != NULL) {
                 collectible->actor.velocity.y = 15.0f;
                 collectible->actor.world.rot.y = this->dyna.actor.shape.rot.y;

@@ -158,8 +158,8 @@ void osViSetYScale(f32 scale);
 void osViSetXScale(f32 value);
 void __osSetWatchLo(u32);
 
-EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params);
-EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params);
+Actor* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params);
+Actor* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params);
 void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnPos, s16 params);
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2);
 void EffectBlure_AddSpace(EffectBlure* this);
