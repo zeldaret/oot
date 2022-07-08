@@ -73,8 +73,7 @@ static void* sItemDropTex[] = {
 
 #define DROP_TABLE_ROW(d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, dA, dB, dC, dD, dE, dF) \
     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7), (d8), (d9), (dA), (dB), (dC), (dD), (dE), (dF),
-#define DROP(item, quantity) (ITEM00_ ## item)
-
+#define DROP(item, quantity) (ITEM00_##item)
 
 static u8 sItemDropIds[] = {
 #include "tables/drop_tables.h"
@@ -979,8 +978,8 @@ EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
 
 /**
  * Drops an item based on the passed params and the dropping actor's `dropFlag`.
- * 
- * @param params should be a multiple of 0x10 (use the DROP_TABLE_NUM macro).
+ *
+ * @note `params` should be a multiple of 0x10 (use the DROP_TABLE_NUM macro).
  */
 void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnPos, s16 params) {
     s32 pad;
@@ -996,26 +995,26 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
     if (fromActor != NULL) {
         if (fromActor->dropFlag) {
             if (fromActor->dropFlag & 0x01) {
-                params = 1 * 0x10;
-                dropTableIndex = 11;
+                params = DROP_TABLE_NUM(1);
+                dropTableIndex = 11; // ITEM00_NONE, 1
             } else if (fromActor->dropFlag & 0x02) {
-                params = 1 * 0x10;
-                dropTableIndex = 6;
+                params = DROP_TABLE_NUM(1);
+                dropTableIndex = 6; // ITEM00_HEART, 1
             } else if (fromActor->dropFlag & 0x04) {
-                params = 6 * 0x10;
-                dropTableIndex = 9;
+                params = DROP_TABLE_NUM(6);
+                dropTableIndex = 9; // ITEM00_ARROWS_SMALL, 1
             } else if (fromActor->dropFlag & 0x08) {
-                params = 3 * 0x10;
-                dropTableIndex = 11;
+                params = DROP_TABLE_NUM(3);
+                dropTableIndex = 11; // ITEM00_FLEXIBLE, 1 (quantity ignored)
             } else if (fromActor->dropFlag & 0x10) {
-                params = 6 * 0x10;
-                dropTableIndex = 12;
+                params = DROP_TABLE_NUM(6);
+                dropTableIndex = 12; // ITEM00_MAGIC_SMALL, 1
             } else if (fromActor->dropFlag & 0x20) {
-                params = 0 * 0x10;
-                dropTableIndex = 0;
+                params = DROP_TABLE_NUM(0);
+                dropTableIndex = 0; // ITEM00_RUPEE_GREEN, 1
             } else if (fromActor->dropFlag & 0x40) {
-                params = 0 * 0x10;
-                dropTableIndex = 1;
+                params = DROP_TABLE_NUM(0);
+                dropTableIndex = 1; // ITEM00_RUPEE_BLUE, 1
             }
         }
         if (fromActor->dropFlag & 0x20) {
@@ -1028,6 +1027,7 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
     }
 
     if (dropId == ITEM00_FLEXIBLE) {
+        // The drop table indices used here are only for the quantity
         if (gSaveContext.health <= 0x10) { // 1 heart or less
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0,
                         FAIRY_HEAL_TIMED);
@@ -1035,36 +1035,36 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
                                               DEADSOUND_REPEAT_MODE_OFF, 40);
             return;
         } else if (gSaveContext.health <= 0x30) { // 3 hearts or less
-            params = 0xB * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(11);
+            dropTableIndex = 0; // quantity = 3
             dropId = ITEM00_HEART;
         } else if (gSaveContext.health <= 0x50) { // 5 hearts or less
-            params = 0xA * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(10);
+            dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_HEART;
         } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
-            params = 0xA * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(10);
+            dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_MAGIC_LARGE;
         } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) {
-            params = 0xA * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(10);
+            dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_MAGIC_SMALL;
         } else if (!LINK_IS_ADULT && (AMMO(ITEM_SLINGSHOT) <= 5)) {
-            params = 0xA * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(10);
+            dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_SEEDS;
         } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) <= 5)) {
-            params = 0xA * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(10);
+            dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_ARROWS_MEDIUM;
         } else if (AMMO(ITEM_BOMB) <= 5) {
-            params = 0xD * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(13);
+            dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_BOMBS_A;
         } else if (gSaveContext.rupees <= 10) {
-            params = 0xA * 0x10;
-            dropTableIndex = 0x0;
+            params = DROP_TABLE_NUM(10);
+            dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_RUPEE_RED;
         } else {
             return;
