@@ -225,7 +225,7 @@ typedef struct Actor {
     /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu
     /* 0x114 */ u8 colorFilterTimer; // A non-zero value enables the color filter. Decrements automatically
     /* 0x115 */ u8 isDrawn; // Set to true if the actor is currently being drawn. Always stays false for lens actors
-    /* 0x116 */ u8 dropFlag; // Configures what item is dropped by the actor from `Item_DropCollectibleRandom`
+    /* 0x116 */ u8 dropFlag; // Overrides what item is dropped by the actor from `Item_DropCollectibleRandom`
     /* 0x117 */ u8 naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
     /* 0x118 */ struct Actor* parent; // Usage is actor specific. Set if actor is spawned via `Actor_SpawnAsChild`
     /* 0x11C */ struct Actor* child; // Usage is actor specific. Set if actor is spawned via `Actor_SpawnAsChild`
@@ -316,6 +316,16 @@ typedef enum {
 } Item00Type;
 
 #define DROP_TABLE_NUM(i) ((i) << 4)
+
+//! Flags to be used with Actor.dropFlag, almost always via Actor_SetDropFlag or Actor_SetDropFlagJntSph
+#define DROPFLAG_NONE 0
+#define DROPFLAG_ARROW_FIRE (1 << 0)
+#define DROPFLAG_ARROW_ICE (1 << 1)
+#define DROPFLAG_ARROW_UNK1 (1 << 2)
+#define DROPFLAG_ARROW_UNK2 (1 << 3)
+#define DROPFLAG_ARROW_UNK3 (1 << 4)
+#define DROPFLAG_ARROW_LIGHT (1 << 5)
+#define DROPFLAG_MAGIC_LIGHT (1 << 6)
 
 struct EnItem00;
 

@@ -993,31 +993,31 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
     params &= 0x7FFF;
 
     if (fromActor != NULL) {
-        if (fromActor->dropFlag) {
-            if (fromActor->dropFlag & 0x01) {
+        if (fromActor->dropFlag != DROPFLAG_NONE) {
+            if (fromActor->dropFlag & DROPFLAG_ARROW_FIRE) {
                 params = DROP_TABLE_NUM(1);
                 dropTableIndex = 11; // ITEM00_NONE, 1
-            } else if (fromActor->dropFlag & 0x02) {
+            } else if (fromActor->dropFlag & DROPFLAG_ARROW_ICE) {
                 params = DROP_TABLE_NUM(1);
                 dropTableIndex = 6; // ITEM00_HEART, 1
-            } else if (fromActor->dropFlag & 0x04) {
+            } else if (fromActor->dropFlag & DROPFLAG_ARROW_UNK1) {
                 params = DROP_TABLE_NUM(6);
                 dropTableIndex = 9; // ITEM00_ARROWS_SMALL, 1
-            } else if (fromActor->dropFlag & 0x08) {
+            } else if (fromActor->dropFlag & DROPFLAG_ARROW_UNK2) {
                 params = DROP_TABLE_NUM(3);
                 dropTableIndex = 11; // ITEM00_FLEXIBLE, 1 (quantity ignored)
-            } else if (fromActor->dropFlag & 0x10) {
+            } else if (fromActor->dropFlag & DROPFLAG_ARROW_UNK3) {
                 params = DROP_TABLE_NUM(6);
-                dropTableIndex = 12; // ITEM00_MAGIC_SMALL, 1
-            } else if (fromActor->dropFlag & 0x20) {
+                dropTableIndex = 12; // ITEM00_MAGIC_SMALL, 1, dropId chosen separately below
+            } else if (fromActor->dropFlag & DROPFLAG_ARROW_LIGHT) {
                 params = DROP_TABLE_NUM(0);
                 dropTableIndex = 0; // ITEM00_RUPEE_GREEN, 1
-            } else if (fromActor->dropFlag & 0x40) {
+            } else if (fromActor->dropFlag & DROPFLAG_MAGIC_LIGHT) {
                 params = DROP_TABLE_NUM(0);
                 dropTableIndex = 1; // ITEM00_RUPEE_BLUE, 1
             }
         }
-        if (fromActor->dropFlag & 0x20) {
+        if (fromActor->dropFlag & DROPFLAG_ARROW_LIGHT) {
             dropId = ITEM00_RUPEE_PURPLE;
         } else {
             dropId = sItemDropIds[params + dropTableIndex];

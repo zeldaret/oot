@@ -991,7 +991,7 @@ void EnDekubaba_ShrinkDie(EnDekubaba* this, PlayState* play) {
 
     if (Math_StepToF(&this->actor.scale.x, this->size * 0.1f * 0.01f, this->size * 0.1f * 0.01f)) {
         func_800286CC(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->size * 500.0f, this->size * 100.0f);
-        if (this->actor.dropFlag == 0) {
+        if (this->actor.dropFlag == DROPFLAG_NONE) {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_NUTS);
 
             if (this->actor.params == DEKUBABA_BIG) {
@@ -1086,7 +1086,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
                (this->actionFunc != EnDekubaba_StunnedVertical) && (this->actionFunc != EnDekubaba_Hit) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;
-        this->actor.dropFlag = 0x00;
+        this->actor.dropFlag = DROPFLAG_NONE;
         EnDekubaba_SetupHit(this, 1);
     } else {
         return;
