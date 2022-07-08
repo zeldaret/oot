@@ -71,66 +71,23 @@ static void* sItemDropTex[] = {
     gDropMagicLargeTex,    gDropMagicSmallTex, gDropDekuSeedsTex, gDropKeySmallTex,
 };
 
+#define DROP_TABLE_ROW(d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, dA, dB, dC, dD, dE, dF) \
+    (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7), (d8), (d9), (dA), (dB), (dC), (dD), (dE), (dF),
+#define DROP(item, quantity) (ITEM00_ ## item)
+
+
 static u8 sItemDropIds[] = {
-    ITEM00_RUPEE_GREEN,   ITEM00_RUPEE_BLUE,    ITEM00_NONE,          ITEM00_NONE,         ITEM00_RUPEE_BLUE,
-    ITEM00_RUPEE_GREEN,   ITEM00_MAGIC_SMALL,   ITEM00_HEART,         ITEM00_HEART,        ITEM00_NONE,
-    ITEM00_MAGIC_SMALL,   ITEM00_FLEXIBLE,      ITEM00_SEEDS,         ITEM00_SEEDS,        ITEM00_NONE,
-    ITEM00_RUPEE_BLUE,    ITEM00_RUPEE_GREEN,   ITEM00_MAGIC_SMALL,   ITEM00_RUPEE_GREEN,  ITEM00_RUPEE_BLUE,
-    ITEM00_HEART,         ITEM00_NONE,          ITEM00_HEART,         ITEM00_NONE,         ITEM00_FLEXIBLE,
-    ITEM00_NONE,          ITEM00_BOMBS_A,       ITEM00_NONE,          ITEM00_SEEDS,        ITEM00_NONE,
-    ITEM00_NONE,          ITEM00_MAGIC_SMALL,   ITEM00_RUPEE_GREEN,   ITEM00_RUPEE_GREEN,  ITEM00_MAGIC_SMALL,
-    ITEM00_NONE,          ITEM00_HEART,         ITEM00_NONE,          ITEM00_NONE,         ITEM00_HEART,
-    ITEM00_NONE,          ITEM00_SEEDS,         ITEM00_SEEDS,         ITEM00_NONE,         ITEM00_BOMBS_A,
-    ITEM00_NONE,          ITEM00_FLEXIBLE,      ITEM00_MAGIC_SMALL,   ITEM00_RUPEE_GREEN,  ITEM00_RUPEE_GREEN,
-    ITEM00_NUTS,          ITEM00_NONE,          ITEM00_SEEDS,         ITEM00_SEEDS,        ITEM00_NUTS,
-    ITEM00_HEART,         ITEM00_HEART,         ITEM00_SEEDS,         ITEM00_NONE,         ITEM00_FLEXIBLE,
-    ITEM00_NONE,          ITEM00_NONE,          ITEM00_NONE,          ITEM00_NONE,         ITEM00_RUPEE_GREEN,
-    ITEM00_RUPEE_GREEN,   ITEM00_SEEDS,         ITEM00_BOMBS_A,       ITEM00_MAGIC_SMALL,  ITEM00_BOMBS_A,
-    ITEM00_NONE,          ITEM00_NONE,          ITEM00_HEART,         ITEM00_NONE,         ITEM00_NONE,
-    ITEM00_HEART,         ITEM00_HEART,         ITEM00_NONE,          ITEM00_NONE,         ITEM00_MAGIC_SMALL,
-    ITEM00_RUPEE_GREEN,   ITEM00_MAGIC_SMALL,   ITEM00_RUPEE_GREEN,   ITEM00_NONE,         ITEM00_RUPEE_BLUE,
-    ITEM00_NONE,          ITEM00_NONE,          ITEM00_HEART,         ITEM00_NONE,         ITEM00_NONE,
-    ITEM00_HEART,         ITEM00_FLEXIBLE,      ITEM00_SEEDS,         ITEM00_SEEDS,        ITEM00_NONE,
-    ITEM00_MAGIC_SMALL,   ITEM00_RUPEE_GREEN,   ITEM00_RUPEE_BLUE,    ITEM00_NONE,         ITEM00_RUPEE_GREEN,
-    ITEM00_NONE,          ITEM00_HEART,         ITEM00_NONE,          ITEM00_NONE,         ITEM00_BOMBS_A,
-    ITEM00_ARROWS_SMALL,  ITEM00_NONE,          ITEM00_ARROWS_MEDIUM, ITEM00_MAGIC_SMALL,  ITEM00_FLEXIBLE,
-    ITEM00_NONE,          ITEM00_MAGIC_LARGE,   ITEM00_RUPEE_GREEN,   ITEM00_NONE,         ITEM00_RUPEE_BLUE,
-    ITEM00_NONE,          ITEM00_RUPEE_GREEN,   ITEM00_HEART,         ITEM00_FLEXIBLE,     ITEM00_BOMBS_A,
-    ITEM00_ARROWS_SMALL,  ITEM00_NONE,          ITEM00_NONE,          ITEM00_NONE,         ITEM00_MAGIC_SMALL,
-    ITEM00_NONE,          ITEM00_NONE,          ITEM00_MAGIC_LARGE,   ITEM00_ARROWS_LARGE, ITEM00_ARROWS_MEDIUM,
-    ITEM00_ARROWS_MEDIUM, ITEM00_ARROWS_SMALL,  ITEM00_ARROWS_SMALL,  ITEM00_FLEXIBLE,     ITEM00_ARROWS_SMALL,
-    ITEM00_ARROWS_SMALL,  ITEM00_ARROWS_SMALL,  ITEM00_ARROWS_MEDIUM, ITEM00_ARROWS_SMALL, ITEM00_ARROWS_SMALL,
-    ITEM00_ARROWS_SMALL,  ITEM00_ARROWS_MEDIUM, ITEM00_ARROWS_LARGE,  ITEM00_ARROWS_LARGE, ITEM00_MAGIC_LARGE,
-    ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_SMALL,  ITEM00_MAGIC_LARGE,
-    ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_LARGE,  ITEM00_MAGIC_SMALL,
-    ITEM00_MAGIC_LARGE,   ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_SMALL,   ITEM00_MAGIC_SMALL,  ITEM00_MAGIC_LARGE,
-    ITEM00_BOMBS_A,       ITEM00_NONE,          ITEM00_BOMBS_A,       ITEM00_NONE,         ITEM00_BOMBS_A,
-    ITEM00_FLEXIBLE,      ITEM00_BOMBS_A,       ITEM00_BOMBS_A,       ITEM00_BOMBS_A,      ITEM00_NONE,
-    ITEM00_NONE,          ITEM00_NONE,          ITEM00_NONE,          ITEM00_BOMBS_A,      ITEM00_NONE,
-    ITEM00_BOMBS_A,       ITEM00_HEART,         ITEM00_HEART,         ITEM00_HEART,        ITEM00_HEART,
-    ITEM00_HEART,         ITEM00_HEART,         ITEM00_HEART,         ITEM00_HEART,        ITEM00_HEART,
-    ITEM00_HEART,         ITEM00_HEART,         ITEM00_HEART,         ITEM00_HEART,        ITEM00_HEART,
-    ITEM00_HEART,         ITEM00_HEART,         ITEM00_RUPEE_RED,     ITEM00_RUPEE_BLUE,   ITEM00_RUPEE_BLUE,
-    ITEM00_RUPEE_RED,     ITEM00_RUPEE_BLUE,    ITEM00_RUPEE_BLUE,    ITEM00_RUPEE_BLUE,   ITEM00_RUPEE_RED,
-    ITEM00_RUPEE_RED,     ITEM00_RUPEE_BLUE,    ITEM00_RUPEE_RED,     ITEM00_RUPEE_BLUE,   ITEM00_RUPEE_RED,
-    ITEM00_RUPEE_RED,     ITEM00_RUPEE_RED,     ITEM00_RUPEE_RED,     ITEM00_SEEDS,        ITEM00_NONE,
-    ITEM00_NUTS,          ITEM00_NONE,          ITEM00_STICK,         ITEM00_NONE,         ITEM00_NONE,
-    ITEM00_SEEDS,         ITEM00_NONE,          ITEM00_NONE,          ITEM00_NONE,         ITEM00_NUTS,
-    ITEM00_NONE,          ITEM00_NUTS,          ITEM00_HEART,         ITEM00_SEEDS,        ITEM00_HEART,
-    ITEM00_NONE,          ITEM00_SEEDS,         ITEM00_NONE,          ITEM00_HEART,        ITEM00_NONE,
-    ITEM00_NONE,          ITEM00_HEART,         ITEM00_HEART,         ITEM00_NONE,         ITEM00_NONE,
-    ITEM00_HEART,         ITEM00_NONE,          ITEM00_HEART,         ITEM00_SEEDS,        ITEM00_FLEXIBLE,
+#include "tables/drop_tables.h"
 };
 
+#undef DROP
+#define DROP(item, quantity) (quantity)
 static u8 sDropQuantities[] = {
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-    1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 1, 3, 1, 3, 1, 1, 1, 3, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 0, 0, 0,
+#include "tables/drop_tables.h"
 };
+#undef DROP
+
+static s32 pad = 0; // Inter-file padding
 
 void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -1020,6 +977,11 @@ EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
     return spawnedActor;
 }
 
+/**
+ * Drops an item based on the passed params and the dropping actor's `dropFlag`.
+ * 
+ * @param params should be a multiple of 0x10 (use the DROP_TABLE_NUM macro).
+ */
 void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnPos, s16 params) {
     s32 pad;
     EnItem00* spawnedActor;
@@ -1088,19 +1050,19 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;
-        } else if (!LINK_IS_ADULT && (AMMO(ITEM_SLINGSHOT) < 6)) {
+        } else if (!LINK_IS_ADULT && (AMMO(ITEM_SLINGSHOT) <= 5)) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_SEEDS;
-        } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) < 6)) {
+        } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) <= 5)) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_ARROWS_MEDIUM;
-        } else if (AMMO(ITEM_BOMB) < 6) {
+        } else if (AMMO(ITEM_BOMB) <= 5) {
             params = 0xD * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_BOMBS_A;
-        } else if (gSaveContext.rupees < 11) {
+        } else if (gSaveContext.rupees <= 10) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RUPEE_RED;
