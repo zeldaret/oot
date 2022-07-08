@@ -4093,7 +4093,7 @@ void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
 
 void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     ColliderInfo* curColInfo;
-    s32 flag;
+    s32 dropFlag;
     s32 i;
 
     actor->dropFlag = 0x00;
@@ -4101,32 +4101,32 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
     for (i = jntSph->count - 1; i >= 0; i--) {
         curColInfo = &jntSph->elements[i].info;
         if (curColInfo->acHitInfo == NULL) {
-            flag = 0x00;
+            dropFlag = 0x00;
         } else if (freezeFlag &&
                    (curColInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
             actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
-            flag = 0x00;
+            dropFlag = 0x00;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
-            flag = 0x01;
+            dropFlag = 0x01;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
-            flag = 0x02;
+            dropFlag = 0x02;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK1) {
-            flag = 0x04;
+            dropFlag = 0x04;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK2) {
-            flag = 0x08;
+            dropFlag = 0x08;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK3) {
-            flag = 0x10;
+            dropFlag = 0x10;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
-            flag = 0x20;
+            dropFlag = 0x20;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
             if (freezeFlag) {
                 actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             }
-            flag = 0x40;
+            dropFlag = 0x40;
         } else {
-            flag = 0x00;
+            dropFlag = 0x00;
         }
-        actor->dropFlag |= flag;
+        actor->dropFlag |= dropFlag;
     }
 }
 

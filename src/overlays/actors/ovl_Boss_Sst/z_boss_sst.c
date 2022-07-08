@@ -1688,7 +1688,7 @@ void BossSst_HandSetupClap(BossSst* this) {
 }
 
 void BossSst_HandClap(BossSst* this, PlayState* play) {
-    static s32 dropFlag = false;
+    static s32 shouldDropItem = false;
     Player* player = GET_PLAYER(play);
 
     SkelAnime_Update(&this->skelAnime);
@@ -1698,10 +1698,10 @@ void BossSst_HandClap(BossSst* this, PlayState* play) {
         }
 
         if (this->timer == 0) {
-            if (dropFlag) {
+            if (shouldDropItem) {
                 Item_DropCollectible(play, &this->actor.world.pos,
                                      (Rand_ZeroOne() < 0.5f) ? ITEM00_ARROWS_SMALL : ITEM00_MAGIC_SMALL);
-                dropFlag = false;
+                shouldDropItem = false;
             }
 
             BossSst_HandReleasePlayer(this, play, true);
@@ -1718,7 +1718,7 @@ void BossSst_HandClap(BossSst* this, PlayState* play) {
             this->timer = 30;
             this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             if (!(player->stateFlags2 & PLAYER_STATE2_7)) {
-                dropFlag = true;
+                shouldDropItem = true;
             }
         } else {
             this->handAngSpeed += 0x40;
