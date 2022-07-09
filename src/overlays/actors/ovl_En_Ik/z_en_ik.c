@@ -68,7 +68,7 @@ void EnIk_SingleHorizontalAttack(EnIk* this, PlayState* play);
 void EnIk_SetupStopAndBlock(EnIk* this);
 void EnIk_StopAndBlock(EnIk* this, PlayState* play);
 void EnIk_ReactToAttack(EnIk* this, PlayState* play);
-void EnIk_Death(EnIk* this, PlayState* play);
+void EnIk_Die(EnIk* this, PlayState* play);
 void EnIk_AxeAttackHitPlayer(Actor* thisx, PlayState* play);
 void EnIk_DrawParamType(Actor* thisx, PlayState* play);
 void EnIk_UpdateCs_03(EnIk* this, PlayState* play);
@@ -348,10 +348,10 @@ void EnIk_SetupIdle(EnIk* this) {
 }
 
 void EnIk_Idle(EnIk* this, PlayState* play) {
-    s32 phi_a0 = (this->armorStatusFlag == 0) ? 0xAAA : 0x3FFC;
+    s32 detectionThreshold = (this->armorStatusFlag == 0) ? 0xAAA : 0x3FFC;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistToPlayer < 100.0f) &&
+    if ((ABS(yawDiff) <= detectionThreshold) && (this->actor.xzDistToPlayer < 100.0f) &&
         (ABS(this->actor.yDistToPlayer) < 150.0f)) {
         if ((play->gameplayFrames & 1)) {
             EnIk_SetupVerticalAttack(this);
@@ -657,7 +657,7 @@ void EnIk_ReactToAttack(EnIk* this, PlayState* play) {
     }
 }
 
-void EnIk_SetupDeath(EnIk* this) {
+void EnIk_SetupDie(EnIk* this) {
     f32 frames = Animation_GetLastFrame(&gIronKnuckleDeathAnim);
 
     this->unk_2FE = 0;
@@ -667,10 +667,10 @@ void EnIk_SetupDeath(EnIk* this) {
     this->animationTimer = 24;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
-    EnIk_SetupAction(this, EnIk_Death);
+    EnIk_SetupAction(this, EnIk_Die);
 }
 
-void EnIk_Death(EnIk* this, PlayState* play) {
+void EnIk_Die(EnIk* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if ((this->actor.colChkInfo.health == 0) && (this->animationTimer != 0)) {
             s32 i;
@@ -700,8 +700,7 @@ void EnIk_Death(EnIk* this, PlayState* play) {
 
 void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
     f32 frames;
-    u8 pad;
-    u8 pad2;
+    s16 pad;
     u8 prevHealth;
     s32 damageEffect;
     Vec3f sp38;
@@ -757,7 +756,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
     }
 
     if (this->actor.colChkInfo.health == 0) {
-        EnIk_SetupDeath(this);
+        EnIk_SetupDie(this);
         Enemy_StartFinishingBlow(play, &this->actor);
         return;
     }
@@ -792,42 +791,42 @@ void EnIk_AxeAttackHitPlayer(Actor* thisx, PlayState* play) {
     EnIk_UpdateDamage(this, play);
     if ((this->actor.params == IK_TYPE_NABOORU) && (this->actor.colChkInfo.health <= 10)) {
         EnIk_CheckCsMode(&this->actor, play);
-        return;
-    }
-    this->actionFunc(this, play);
-    if (this->axeCollider.base.atFlags & AT_HIT) {
-        this->axeCollider.base.atFlags &= ~AT_HIT;
-        if (&player->actor == this->axeCollider.base.at) {
-            prevInvincibilityTimer = player->invincibilityTimer;
-            if (player->invincibilityTimer <= 0) {
-                if (player->invincibilityTimer < -39) {
-                    player->invincibilityTimer = 0;
-                } else {
-                    player->invincibilityTimer = 0;
-                    play->damagePlayer(play, -64);
-                    this->unk_2FE = 0;
+    } else {
+        this->actionFunc(this, play);
+        if (this->axeCollider.base.atFlags & AT_HIT) {
+            this->axeCollider.base.atFlags &= ~AT_HIT;
+            if (&player->actor == this->axeCollider.base.at) {
+                prevInvincibilityTimer = player->invincibilityTimer;
+                if (player->invincibilityTimer <= 0) {
+                    if (player->invincibilityTimer < -39) {
+                        player->invincibilityTimer = 0;
+                    } else {
+                        player->invincibilityTimer = 0;
+                        play->damagePlayer(play, -64);
+                        this->unk_2FE = 0;
+                    }
                 }
+                func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+                player->invincibilityTimer = prevInvincibilityTimer;
             }
-            func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
-            player->invincibilityTimer = prevInvincibilityTimer;
         }
-    }
-    Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                UPDBGCHECKINFO_FLAG_4);
-    this->actor.focus.pos = this->actor.world.pos;
-    this->actor.focus.pos.y += 45.0f;
-    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
-    if ((this->actor.colChkInfo.health > 0) && (this->actor.colorFilterTimer == 0) && (this->unk_2F8 >= 2)) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
-    }
-    if (this->unk_2FE > 0) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->axeCollider.base);
-    }
-    if (this->unk_2F8 == 9) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->shieldCollider.base);
+        Actor_MoveForward(&this->actor);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
+        this->actor.focus.pos = this->actor.world.pos;
+        this->actor.focus.pos.y += 45.0f;
+        Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
+        if ((this->actor.colChkInfo.health > 0) && (this->actor.colorFilterTimer == 0) && (this->unk_2F8 >= 2)) {
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
+        }
+        if (this->unk_2FE > 0) {
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->axeCollider.base);
+        }
+        if (this->unk_2F8 == 9) {
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->shieldCollider.base);
+        }
     }
 }
 
@@ -851,11 +850,11 @@ s32 EnIk_OverrideLimbDraw3(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (limbIndex == 12) {
         if (this->actor.params != 0) {
-            *dList = object_ik_DL_018E78;
+            *dList = gIronKnuckleHelmetDL;
         }
     } else if (limbIndex == 13) {
         if (this->actor.params != 0) {
-            *dList = object_ik_DL_019100;
+            *dList = gIronKnuckleGerudoHeadDL;
         }
     } else if ((limbIndex == 26) || (limbIndex == 27)) {
         if (this->drawArmorFlag & ARMOR_BROKEN) {
@@ -905,7 +904,7 @@ void EnIk_PostLimbDraw3(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->actor.params != 0) {
-            gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_019E08);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleHelmetMarkingDL);
         } else {
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
         }
@@ -954,7 +953,7 @@ void EnIk_PostLimbDraw3(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
             if (!(this->drawArmorFlag & ARMOR_BROKEN)) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             }
             break;
         case 27:
@@ -1209,10 +1208,8 @@ void EnIk_UpdateCs_05(EnIk* this, PlayState* play) {
 }
 
 s32 EnIk_OverrideLimbDraw2(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnIk* this = (EnIk*)thisx;
-
     if ((limbIndex == 13) || (limbIndex == 26) || (limbIndex == 27)) {
-        if (EnIk_GetAnimCurFrame(&this->actor) >= 30.0f) {
+        if (EnIk_GetAnimCurFrame(thisx) >= 30.0f) {
             *dList = NULL;
         }
     }
@@ -1251,7 +1248,7 @@ void EnIk_PostLimbDraw2(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             }
         } break;
         case 27: {
@@ -1406,7 +1403,7 @@ void EnIk_PostLimbDraw1(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
         case 26:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 593),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             break;
         case 27:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 599),
@@ -1493,10 +1490,10 @@ void EnIk_CheckCsMode(Actor* thisx, PlayState* play) {
 
 void EnIk_Init(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
-    s32 flag = this->actor.params & 0xFF00;
+    s32 ironKnuckleType = this->actor.params & 0xFF00;
 
     if (((this->actor.params & 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
-        (flag != 0 && Flags_GetSwitch(play, flag >> 8))) {
+        (ironKnuckleType != 0 && Flags_GetSwitch(play, ironKnuckleType >> 8))) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
