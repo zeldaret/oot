@@ -74,7 +74,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET(thisx->params, 8, 0xFF);
     thisx->params &= 0xFF;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (thisx->params == BGHAKAGATE_SKULL) {

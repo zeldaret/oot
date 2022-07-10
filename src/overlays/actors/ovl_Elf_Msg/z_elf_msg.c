@@ -47,21 +47,21 @@ s32 ElfMsg_KillCheck(ElfMsg* this, PlayState* play) {
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161); // "Mutual destruction"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        if (PARAMS_GET(this->actor.params, 8, 0x3F) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 8, 0x3F));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(play, this->actor.room)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172); // "Mutual destruction"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        if (PARAMS_GET(this->actor.params, 8, 0x3F) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 8, 0x3F));
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
+    } else if (PARAMS_GET(this->actor.params, 8, 0x3F) == 0x3F) {
         return 0;
-    } else if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    } else if (Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 0x3F))) {
         Actor_Kill(&this->actor);
         return 1;
     }
@@ -72,7 +72,7 @@ void ElfMsg_Init(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
     // "Conditions for Elf Tag disappearing"
-    osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", (thisx->params >> 8) & 0x3F);
+    osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", PARAMS_GET(thisx->params, 8, 0x3F));
     osSyncPrintf(VT_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" VT_RST, thisx->shape.rot.y);
     if (thisx->shape.rot.y >= 0x41) {
         // "Conditions for Elf Tag appearing"
@@ -94,7 +94,7 @@ void ElfMsg_Init(Actor* thisx, PlayState* play) {
             thisx->scale.y = thisx->world.rot.z * 0.04f;
         }
 
-        if (thisx->params & 0x4000) {
+        if (PARAMS_GET(thisx->params, 0, 0x4000)) {
             ElfMsg_SetupAction(this, ElfMsg_CallNaviCuboid);
         } else {
             ElfMsg_SetupAction(this, ElfMsg_CallNaviCylinder);
@@ -109,10 +109,10 @@ void ElfMsg_Destroy(Actor* thisx, PlayState* play) {
 
 s32 ElfMsg_GetMessageId(ElfMsg* this) {
     // Negative message ID forces link to talk to Navi
-    if (this->actor.params & 0x8000) {
-        return (this->actor.params & 0xFF) + 0x100;
+    if (PARAMS_GET(this->actor.params, 0, 0x8000)) {
+        return PARAMS_GET(this->actor.params, 0, 0xFF) + 0x100;
     } else {
-        return -((this->actor.params & 0xFF) + 0x100);
+        return -(PARAMS_GET(this->actor.params, 0, 0xFF) + 0x100);
     }
 }
 
@@ -150,8 +150,8 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
 
     if (!ElfMsg_KillCheck(this, play)) {
         if (Actor_ProcessTalkRequest(&this->actor, play)) {
-            if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-                Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+            if (PARAMS_GET(this->actor.params, 8, 0x3F) != 0x3F) {
+                Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 8, 0x3F));
             }
             Actor_Kill(&this->actor);
             return;
@@ -173,7 +173,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (thisx->params & 0x8000) {
+    if (PARAMS_GET(thisx->params, 0, 0x8000)) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
     } else {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
@@ -183,7 +183,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
-    if (thisx->params & 0x4000) {
+    if (PARAMS_GET(thisx->params, 0, 0x4000)) {
         gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);

@@ -4373,7 +4373,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->doorBgCamIndex = play->transiActorCtx.list[(u16)doorShutter->dyna.actor.params >> 10]
+                    this->doorBgCamIndex = play->transiActorCtx.list[PARAMS_GET_NOMASK((u16)doorShutter->dyna.actor.params, 10)]
                                                .sides[(doorDirection > 0) ? 0 : 1]
                                                .bgCamIndex;
 
@@ -4432,7 +4432,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                     this->stateFlags1 |= PLAYER_STATE1_29;
                     Actor_DisableLens(play);
 
-                    if (((doorActor->params >> 7) & 7) == 3) {
+                    if (PARAMS_GET(doorActor->params, 7, 7) == 3) {
                         sp4C.x = doorActor->world.pos.x - (sp6C * sp74);
                         sp4C.y = doorActor->world.pos.y + 10.0f;
                         sp4C.z = doorActor->world.pos.z - (sp6C * sp78);
@@ -4445,7 +4445,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Play_GetCamera(play, CAM_ID_MAIN), doorActor,
-                                             play->transiActorCtx.list[(u16)doorActor->params >> 10]
+                                             play->transiActorCtx.list[PARAMS_GET_NOMASK((u16)doorActor->params, 10)]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .bgCamIndex,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
@@ -4455,7 +4455,7 @@ s32 func_80839800(Player* this, PlayState* play) {
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
                 frontRoom =
-                    play->transiActorCtx.list[(u16)doorActor->params >> 10].sides[(doorDirection > 0) ? 0 : 1].room;
+                    play->transiActorCtx.list[PARAMS_GET_NOMASK((u16)doorActor->params, 10)].sides[(doorDirection > 0) ? 0 : 1].room;
 
                 if ((frontRoom >= 0) && (frontRoom != play->roomCtx.curRoom.num)) {
                     func_8009728C(play, &play->roomCtx, frontRoom);
@@ -4555,7 +4555,7 @@ void func_8083A0F4(PlayState* play, Player* this) {
                 func_80835C58(play, this, func_80846120, 0);
                 this->stateFlags1 |= PLAYER_STATE1_29;
                 anim = &gPlayerAnim_002F98;
-            } else if ((interactActorId == ACTOR_EN_ISHI) && ((interactRangeActor->params & 0xF) == 1)) {
+            } else if ((interactActorId == ACTOR_EN_ISHI) && (PARAMS_GET(interactRangeActor->params, 0, 0xF) == 1)) {
                 func_80835C58(play, this, func_80846260, 0);
                 anim = &gPlayerAnim_0032B0;
             } else if (((interactActorId == ACTOR_EN_BOMBF) || (interactActorId == ACTOR_EN_KUSA)) &&
@@ -6194,7 +6194,7 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
                 } else {
                     s32 strength = Player_GetStrength();
 
-                    if ((interactedActor->id == ACTOR_EN_ISHI) && ((interactedActor->params & 0xF) == 1) &&
+                    if ((interactedActor->id == ACTOR_EN_ISHI) && (PARAMS_GET(interactedActor->params, 0, 0xF) == 1) &&
                         (strength < PLAYER_STR_SILVER_G)) {
                         return 0;
                     }
@@ -9355,7 +9355,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (func_80845C68(play, (respawnFlag == 2) ? 1 : 0) == 0) {
-        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = (thisx->params & 0xFF) | 0xD00;
+        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = PARAMS_GET2(thisx->params, 0, 0xFF) | 0xD00;
     }
 
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
@@ -9364,7 +9364,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
         gSaveContext.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[play->sceneNum];
     }
 
-    initMode = (thisx->params & 0xF00) >> 8;
+    initMode = PARAMS_GET2(thisx->params, 8, 0xF00);
     if ((initMode == 5) || (initMode == 6)) {
         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
             initMode = 13;

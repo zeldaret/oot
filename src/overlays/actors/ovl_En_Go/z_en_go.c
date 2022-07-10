@@ -91,7 +91,7 @@ void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
 u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
 
-    switch (thisx->params & 0xF0) {
+    switch (PARAMS_GET(thisx->params, 0, 0xF0)) {
         case 0x90:
             if (gSaveContext.bgsFlag) {
                 return 0x305E;
@@ -135,7 +135,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 }
             }
         case 0x10:
-            if (Flags_GetSwitch(play, thisx->params >> 8)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_NOMASK(thisx->params, 8))) {
                 return 0x3052;
             } else {
                 return 0x3051;
@@ -351,7 +351,7 @@ s32 func_80A3ED24(PlayState* play, EnGo* this, struct_80034A14_arg1* arg2, f32 a
 
 void EnGo_ChangeAnim(EnGo* this, s32 index) {
     Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
-                     sAnimationInfo[index].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
+                     sAnimationInfo[index].playSpeed * (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
                      sAnimationInfo[index].morphFrames);
 }
@@ -359,18 +359,18 @@ void EnGo_ChangeAnim(EnGo* this, s32 index) {
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
-    } else if (play->sceneNum == SCENE_HIDAN && !Flags_GetSwitch(play, (this->actor.params) >> 8) && LINK_IS_ADULT &&
-               (this->actor.params & 0xF0) == 0x10) {
+    } else if (play->sceneNum == SCENE_HIDAN && !Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8)) && LINK_IS_ADULT &&
+               PARAMS_GET(this->actor.params, 0, 0xF0) == 0x10) {
         return true;
-    } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
+    } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && PARAMS_GET(this->actor.params, 0, 0xF0) == 0x00) {
         return true;
     } else if (play->sceneNum == SCENE_SPOT16 && LINK_IS_CHILD &&
-               ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30 ||
-                (this->actor.params & 0xF0) == 0x40)) {
+               (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x20 || PARAMS_GET(this->actor.params, 0, 0xF0) == 0x30 ||
+                PARAMS_GET(this->actor.params, 0, 0xF0) == 0x40)) {
         return true;
     } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD &&
-               ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60 ||
-                (this->actor.params & 0xF0) == 0x70)) {
+               (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x50 || PARAMS_GET(this->actor.params, 0, 0xF0) == 0x60 ||
+                PARAMS_GET(this->actor.params, 0, 0xF0) == 0x70)) {
         return true;
     } else {
         return false;
@@ -378,7 +378,7 @@ s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
 }
 
 f32 EnGo_GetGoronSize(EnGo* this) {
-    switch (this->actor.params & 0xF0) {
+    switch (PARAMS_GET(this->actor.params, 0, 0xF0)) {
         case 0x00:
             return 10.0f;
         case 0x20:
@@ -428,7 +428,7 @@ s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
     }
 
     xyzDistSq = (this->actor.scale.x / 0.01f) * 10000.0f;
-    if ((this->actor.params & 0xF0) == 0x90) {
+    if (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90) {
         Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
         xyzDistSq *= 4.8f;
     }
@@ -469,11 +469,11 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
     f32 xDist;
     f32 zDist;
 
-    if ((this->actor.params & 0xF) == 15) {
+    if (PARAMS_GET(this->actor.params, 0, 0xF) == 15) {
         return false;
     }
 
-    path = &play->setupPathList[this->actor.params & 0xF];
+    path = &play->setupPathList[PARAMS_GET(this->actor.params, 0, 0xF)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
@@ -486,9 +486,9 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
             this->unk_218 = 0;
         }
 
-        if ((this->actor.params & 0xF0) != 0x00) {
+        if (PARAMS_GET(this->actor.params, 0, 0xF0) != 0x00) {
             return true;
-        } else if (Flags_GetSwitch(play, this->actor.params >> 8)) {
+        } else if (Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8))) {
             return true;
         } else if (this->unk_218 >= this->actor.shape.rot.z) {
             this->unk_218 = 0;
@@ -504,10 +504,10 @@ s32 EnGo_SetMovedPos(EnGo* this, PlayState* play) {
     Path* path;
     Vec3s* pointPos;
 
-    if ((this->actor.params & 0xF) == 0xF) {
+    if (PARAMS_GET(this->actor.params, 0, 0xF) == 0xF) {
         return false;
     } else {
-        path = &play->setupPathList[this->actor.params & 0xF];
+        path = &play->setupPathList[PARAMS_GET(this->actor.params, 0, 0xF)];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
         this->actor.world.pos.x = pointPos->x;
@@ -581,18 +581,18 @@ void func_80A3F908(EnGo* this, PlayState* play) {
 
         float1 = (this->collider.dim.radius + 30.0f);
         float1 *= (this->actor.scale.x / 0.01f);
-        if ((this->actor.params & 0xF0) == 0x90) {
+        if (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90) {
             float1 *= 4.8f;
         }
 
-        if ((this->actor.params & 0xF0) == 0x90) {
+        if (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90) {
             isUnkCondition = func_80A3ED24(play, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
             isUnkCondition = func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, float1, EnGo_GetTextID,
                                            EnGo_SetFlagsGetStates);
         }
 
-        if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
+        if ((PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90) && (isUnkCondition == true)) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
                 if (func_8002F368(play) == EXCH_ITEM_SWORD_BROKEN) {
                     if (GET_INFTABLE(INFTABLE_B4)) {
@@ -635,7 +635,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if ((this->actor.params & 0xF0) && ((this->actor.params & 0xF0) != 0x90)) {
+    if (PARAMS_GET(this->actor.params, 0, 0xF0) && (PARAMS_GET(this->actor.params, 0, 0xF0) != 0x90)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.flags &= ~ACTOR_FLAG_5;
     }
@@ -645,7 +645,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     this->unk_1E0.unk_00 = 0;
     this->actor.gravity = -1.0f;
 
-    switch (this->actor.params & 0xF0) {
+    switch (PARAMS_GET(this->actor.params, 0, 0xF0)) {
         case 0x00:
             Actor_SetScale(&this->actor, 0.008f);
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
@@ -747,7 +747,7 @@ void func_80A4008C(EnGo* this, PlayState* play) {
 }
 
 void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
-    if ((EnGo_FollowPath(this, play) == true) && Flags_GetSwitch(play, this->actor.params >> 8) &&
+    if ((EnGo_FollowPath(this, play) == true) && Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8)) &&
         (this->unk_218 == 0)) {
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
@@ -770,10 +770,10 @@ void EnGo_CurledUp(EnGo* this, PlayState* play) {
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         this->skelAnime.playSpeed = 0.1f;
-        this->skelAnime.playSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
+        this->skelAnime.playSpeed *= PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90 ? 0.5f : 1.0f;
 
         EnGo_SetupAction(this, EnGo_WakeUp);
-        if ((this->actor.params & 0xF0) == 0x90) {
+        if (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90) {
             OnePointCutscene_Init(play, 4200, -99, &this->actor, CAM_ID_MAIN);
         }
     }
@@ -783,7 +783,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed, ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f,
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f,
                            1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
@@ -793,7 +793,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
         } else {
             this->skelAnime.curFrame = 12.0f;
             this->skelAnime.playSpeed = 0.0f;
-            if ((this->actor.params & 0xF0) != 0x90) {
+            if (PARAMS_GET(this->actor.params, 0, 0xF0) != 0x90) {
                 this->unk_212 = 30;
                 return;
             }
@@ -814,7 +814,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
 void func_80A40494(EnGo* this, PlayState* play) {
     f32 frame;
 
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f,
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f,
                        1000.0f, 0.1f);
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
@@ -836,7 +836,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
     f32 frame;
 
     lastFrame = Animation_GetLastFrame(&gGoronAnim_004930);
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f, 1000.0f,
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f, 1000.0f,
                        0.1f);
 
     frame = this->skelAnime.curFrame;
@@ -846,7 +846,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
         this->unk_212 = Rand_S16Offset(30, 30);
-        if (((this->actor.params & 0xF0) == 0x40) && !GET_INFTABLE(INFTABLE_EB)) {
+        if ((PARAMS_GET(this->actor.params, 0, 0xF0) == 0x40) && !GET_INFTABLE(INFTABLE_EB)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
             EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -855,7 +855,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
 }
 
 void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
-    if (((this->actor.params & 0xF0) == 0x90) && (this->unk_1E0.unk_00 == 2)) {
+    if ((PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90) && (this->unk_1E0.unk_00 == 2)) {
         if (gSaveContext.bgsFlag) {
             this->unk_1E0.unk_00 = 0;
         } else {
@@ -874,7 +874,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
                 EnGo_GetItem(this, play);
             }
         }
-    } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
+    } else if ((PARAMS_GET(this->actor.params, 0, 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -882,7 +882,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, play)) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
-            this->skelAnime.playSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
+            this->skelAnime.playSpeed *= PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90 ? 0.5f : 1.0f;
             EnGo_SetupAction(this, func_80A408D8);
         }
     }
@@ -892,7 +892,7 @@ void func_80A408D8(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed, ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -1.0f,
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90 ? 0.5f : 1.0f) * -1.0f,
                            0.1f, 1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
@@ -901,7 +901,7 @@ void func_80A408D8(EnGo* this, PlayState* play) {
         } else {
             this->skelAnime.curFrame = 12.0f;
             this->skelAnime.playSpeed = 0.0f;
-            if ((this->actor.params & 0xF0) != 0x90) {
+            if (PARAMS_GET(this->actor.params, 0, 0xF0) != 0x90) {
                 this->unk_212 = 30;
                 return;
             }
@@ -952,7 +952,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
         EnGo_SetupAction(this, func_80A40C78);
     } else {
         this->unk_20C = 0;
-        if ((this->actor.params & 0xF0) == 0x90) {
+        if (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x90) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
                 getItemId = GI_SWORD_BGS;
                 this->unk_20C = 1;
@@ -965,7 +965,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
             }
         }
 
-        if ((this->actor.params & 0xF0) == 0) {
+        if (PARAMS_GET(this->actor.params, 0, 0xF0) == 0) {
             getItemId = GI_TUNIC_GORON;
         }
 
@@ -978,7 +978,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
 void func_80A40C78(EnGo* this, PlayState* play) {
     if (this->unk_1E0.unk_00 == 3) {
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
-        if ((this->actor.params & 0xF0) != 0x90) {
+        if (PARAMS_GET(this->actor.params, 0, 0xF0) != 0x90) {
             this->unk_1E0.unk_00 = 0;
         } else if (this->unk_20C) {
             this->unk_1E0.unk_00 = 0;

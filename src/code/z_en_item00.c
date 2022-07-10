@@ -142,10 +142,10 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
     f32 yOffset = 980.0f;
     f32 shadowScale = 6.0f;
     s32 getItemId = GI_NONE;
-    s16 spawnParam8000 = this->actor.params & 0x8000;
+    s16 spawnParam8000 = PARAMS_GET2(this->actor.params, 0, 0x8000);
     s32 pad1;
 
-    this->collectibleFlag = (this->actor.params & 0x3F00) >> 8;
+    this->collectibleFlag = PARAMS_GET2(this->actor.params, 8, 0x3F00);
 
     this->actor.params &= 0xFF;
 

@@ -96,9 +96,9 @@ void func_80B96160(ObjLift* this, PlayState* play) {
                              OBJECT_D_LIFT, gCollapsingPlatformDL);
     }
 
-    if (((this->dyna.actor.params >> 1) & 1) == 0) {
+    if (PARAMS_GET(this->dyna.actor.params, 1, 1) == 0) {
         func_80033480(play, &this->dyna.actor.world.pos, 120.0f, 12, 120, 100, 1);
-    } else if (((this->dyna.actor.params >> 1) & 1) == 1) {
+    } else if (PARAMS_GET(this->dyna.actor.params, 1, 1) == 1) {
         func_80033480(play, &this->dyna.actor.world.pos, 60.0f, 8, 60, 100, 1);
     }
 }
@@ -108,12 +108,12 @@ void ObjLift_Init(Actor* thisx, PlayState* play) {
 
     ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DPM_PLAYER);
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 2) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 2, 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
 
-    Actor_SetScale(&this->dyna.actor, sScales[(this->dyna.actor.params >> 1) & 1]);
+    Actor_SetScale(&this->dyna.actor, sScales[PARAMS_GET(this->dyna.actor.params, 1, 1)]);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->unk_168.x = Rand_ZeroOne() * 65535.5f;
     this->unk_168.y = Rand_ZeroOne() * 65535.5f;
@@ -129,7 +129,7 @@ void ObjLift_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80B9651C(ObjLift* this) {
-    this->timer = sFallTimerDurations[(this->dyna.actor.params >> 8) & 7];
+    this->timer = sFallTimerDurations[PARAMS_GET(this->dyna.actor.params, 8, 7)];
     ObjLift_SetupAction(this, func_80B96560);
 }
 
@@ -139,7 +139,7 @@ void func_80B96560(ObjLift* this, PlayState* play) {
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->timer <= 0) {
-            if (((this->dyna.actor.params >> 8) & 7) == 7) {
+            if (PARAMS_GET(this->dyna.actor.params, 8, 7) == 7) {
                 func_80B967C0(this);
             } else {
                 quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
@@ -150,7 +150,7 @@ void func_80B96560(ObjLift* this, PlayState* play) {
             }
         }
     } else {
-        this->timer = sFallTimerDurations[(this->dyna.actor.params >> 8) & 7];
+        this->timer = sFallTimerDurations[PARAMS_GET(this->dyna.actor.params, 8, 7)];
     }
 }
 
@@ -193,15 +193,15 @@ void func_80B96840(ObjLift* this, PlayState* play) {
 
     Actor_MoveForward(&this->dyna.actor);
     Math_Vec3f_Copy(&sp2C, &this->dyna.actor.prevPos);
-    sp2C.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
+    sp2C.y += sMaxFallDistances[PARAMS_GET(this->dyna.actor.params, 1, 1)];
     this->dyna.actor.floorHeight =
         BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &sp2C);
 
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >=
-        (sMaxFallDistances[(this->dyna.actor.params >> 1) & 1] - 0.001f)) {
+        (sMaxFallDistances[PARAMS_GET(this->dyna.actor.params, 1, 1)] - 0.001f)) {
         func_80B96160(this, play);
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 2) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 2, 0x3F));
         Actor_Kill(&this->dyna.actor);
     }
 }

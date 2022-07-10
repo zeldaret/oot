@@ -66,9 +66,9 @@ void DoorAna_Init(Actor* thisx, PlayState* play) {
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.shape.rot.z;
     // init block for grottos that are initially "hidden" (require explosives/hammer/song of storms to open)
-    if ((this->actor.params & 0x300) != 0) {
+    if (PARAMS_GET(this->actor.params, 0, 0x300) != 0) {
         // only allocate collider for grottos that need bombing/hammering open
-        if ((this->actor.params & 0x200) != 0) {
+        if (PARAMS_GET(this->actor.params, 0, 0x200) != 0) {
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         } else {
@@ -86,7 +86,7 @@ void DoorAna_Destroy(Actor* thisx, PlayState* play) {
     DoorAna* this = (DoorAna*)thisx;
 
     // free collider if it has one
-    if ((this->actor.params & 0x200) != 0) {
+    if (PARAMS_GET(this->actor.params, 0, 0x200) != 0) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 }
@@ -95,7 +95,7 @@ void DoorAna_Destroy(Actor* thisx, PlayState* play) {
 void DoorAna_WaitClosed(DoorAna* this, PlayState* play) {
     u32 openGrotto = false;
 
-    if (!(this->actor.params & 0x200)) {
+    if (!PARAMS_GET(this->actor.params, 0, 0x200)) {
         // opening with song of storms
         if (this->actor.xyzDistToPlayerSq < SQ(200.0f) && Flags_GetEnv(play, 5)) {
             openGrotto = true;
@@ -130,11 +130,11 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
         if ((this->actor.targetMode != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (player->stateFlags1 & PLAYER_STATE1_31) && (player->unk_84F == 0)) {
-            destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
+            destinationIdx = PARAMS_GET(this->actor.params, 0xC, 7) - 1;
             Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN, 0x4FF);
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.home.rot.y;
-            gSaveContext.respawn[RESPAWN_MODE_RETURN].data = this->actor.params & 0xFFFF;
+            gSaveContext.respawn[RESPAWN_MODE_RETURN].data = PARAMS_GET(this->actor.params, 0, 0xFFFF);
             if (destinationIdx < 0) {
                 destinationIdx = this->actor.home.rot.z + 1;
             }

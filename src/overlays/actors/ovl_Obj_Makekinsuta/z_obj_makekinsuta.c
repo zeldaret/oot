@@ -30,7 +30,7 @@ const ActorInit Obj_Makekinsuta_InitVars = {
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play) {
     ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;
 
-    if ((this->actor.params & 0x6000) == 0x4000) {
+    if (PARAMS_GET(this->actor.params, 0, 0x6000) == 0x4000) {
         osSyncPrintf(VT_FGCOL(BLUE));
         // "Gold Star Enemy(arg_data %x)"
         osSyncPrintf("金スタ発生敵(arg_data %x)\n", this->actor.params);

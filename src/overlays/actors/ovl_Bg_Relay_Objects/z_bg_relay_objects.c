@@ -50,8 +50,8 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = thisx->params & 0x3F;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET(thisx->params, 0, 0x3F);
+    thisx->params = PARAMS_GET(thisx->params, 8, 0xFF);
     DynaPolyActor_Init(&this->dyna, 3);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);

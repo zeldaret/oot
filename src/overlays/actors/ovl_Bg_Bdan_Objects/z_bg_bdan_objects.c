@@ -111,7 +111,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    this->switchFlag = (thisx->params >> 8) & 0x3F;
+    this->switchFlag = PARAMS_GET(thisx->params, 8, 0x3F);
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;

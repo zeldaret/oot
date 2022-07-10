@@ -52,8 +52,8 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     EnExItem* this = (EnExItem*)thisx;
 
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->type = this->actor.params & 0xFF;
-    this->unusedParam = (this->actor.params >> 8) & 0xFF;
+    this->type = PARAMS_GET(this->actor.params, 0, 0xFF);
+    this->unusedParam = PARAMS_GET(this->actor.params, 8, 0xFF);
     osSyncPrintf("\n\n");
     // "What will come out?"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);

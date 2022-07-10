@@ -155,7 +155,7 @@ void func_80A0E70C(EnFdFire* this, PlayState* play) {
         this->actor.velocity = velocity;
         this->actor.speedXZ = 0.0f;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-        if (this->actor.params & 0x8000) {
+        if (PARAMS_GET2(this->actor.params, 0, 0x8000)) {
             this->deathTimer = 200;
             this->actionFunc = EnFdFire_DanceTowardsPlayer;
         } else {
@@ -179,7 +179,7 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play) {
     Vec3f pos;
     s16 idx;
 
-    idx = ((play->state.frames / 10) + (this->actor.params & 0x7FFF)) % ARRAY_COUNT(angles);
+    idx = ((play->state.frames / 10) + PARAMS_GET2(this->actor.params, 0, 0x7FFF)) % ARRAY_COUNT(angles);
     pos = player->actor.world.pos;
     pos.x += 120.0f * sinf(angles[idx]);
     pos.z += 120.0f * cosf(angles[idx]);
@@ -271,14 +271,14 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(
         POLY_XLU_DISP++, 0x8,
         Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, play->state.frames * this->tile2Y, 0x20, 0x80));
-    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[((this->actor.params & 0x8000) >> 0xF)].r,
-                    primColors[((this->actor.params & 0x8000) >> 0xF)].g,
-                    primColors[((this->actor.params & 0x8000) >> 0xF)].b,
-                    primColors[((this->actor.params & 0x8000) >> 0xF)].a);
-    gDPSetEnvColor(POLY_XLU_DISP++, envColors[((this->actor.params & 0x8000) >> 0xF)].r,
-                   envColors[((this->actor.params & 0x8000) >> 0xF)].g,
-                   envColors[((this->actor.params & 0x8000) >> 0xF)].b,
-                   envColors[((this->actor.params & 0x8000) >> 0xF)].a);
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].r,
+                    primColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].g,
+                    primColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].b,
+                    primColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].a);
+    gDPSetEnvColor(POLY_XLU_DISP++, envColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].r,
+                   envColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].g,
+                   envColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].b,
+                   envColors[PARAMS_GET2(this->actor.params, 0xF, 0x8000)].a);
     gDPPipeSync(POLY_XLU_DISP++);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 

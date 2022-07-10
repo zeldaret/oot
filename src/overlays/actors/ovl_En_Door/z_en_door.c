@@ -113,7 +113,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     }
 
     // Double doors
-    if (this->actor.params & 0x40) {
+    if (PARAMS_GET(this->actor.params, 0, 0x40)) {
         EnDoor* other;
 
         xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
@@ -135,7 +135,7 @@ void EnDoor_Destroy(Actor* thisx, PlayState* play) {
     TransitionActorEntry* transitionEntry;
     EnDoor* this = (EnDoor*)thisx;
 
-    transitionEntry = &play->transiActorCtx.list[(u16)this->actor.params >> 0xA];
+    transitionEntry = &play->transiActorCtx.list[PARAMS_GET_NOMASK((u16)this->actor.params, 0xA)];
     if (transitionEntry->id < 0) {
         transitionEntry->id = -transitionEntry->id;
     }
@@ -145,7 +145,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
     s32 doorType;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
-        doorType = this->actor.params >> 7 & 7;
+        doorType = PARAMS_GET(this->actor.params, 7, 7);
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actionFunc = EnDoor_Idle;
@@ -156,7 +156,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
         }
         this->actor.world.rot.y = 0x0000;
         if (doorType == DOOR_LOCKED) {
-            if (!Flags_GetSwitch(play, this->actor.params & 0x3F)) {
+            if (!Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F))) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
@@ -165,7 +165,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
                 this->actor.world.rot.y = -0x1800;
             }
         } else if (doorType == DOOR_CHECKABLE) {
-            this->actor.textId = (this->actor.params & 0x3F) + 0x0200;
+            this->actor.textId = PARAMS_GET(this->actor.params, 0, 0x3F) + 0x0200;
             if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 // Talon's house door. If Talon has not been woken up at Hyrule Castle
                 // this door should be openable at any time of day. Note that there is no
@@ -188,7 +188,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
     s16 yawDiff;
 
-    doorType = this->actor.params >> 7 & 7;
+    doorType = PARAMS_GET(this->actor.params, 7, 7);
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     if (this->playerIsOpening != 0) {
         this->actionFunc = EnDoor_Open;
@@ -196,7 +196,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
                                    (player->stateFlags1 & PLAYER_STATE1_27) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
-            Flags_SetSwitch(play, this->actor.params & 0x3F);
+            Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F));
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
     } else if (!Player_InCsMode(play)) {
@@ -306,7 +306,7 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
 
     if (limbIndex == 4) {
         doorDLists = sDoorDLists[this->dListIndex];
-        transitionEntry = &play->transiActorCtx.list[(u16)this->actor.params >> 0xA];
+        transitionEntry = &play->transiActorCtx.list[PARAMS_GET_NOMASK((u16)this->actor.params, 0xA)];
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             rotDiff = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -

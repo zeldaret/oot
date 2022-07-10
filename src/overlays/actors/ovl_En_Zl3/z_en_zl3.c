@@ -722,21 +722,21 @@ void EnZl3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 s32 func_80B54DB4(EnZl3* this) {
-    s32 params = this->actor.params >> 8;
+    s32 params = PARAMS_GET(this->actor.params, 8, 0xFF);
 
-    return params & 0xFF;
+    return params;
 }
 
 s32 func_80B54DC4(EnZl3* this) {
-    s32 params = this->actor.params >> 4;
+    s32 params = PARAMS_GET(this->actor.params, 4, 0xF);
 
-    return params & 0xF;
+    return params;
 }
 
 s32 func_80B54DD4(EnZl3* this) {
-    s32 params = this->actor.params;
+    s32 params = PARAMS_GET(this->actor.params, 0, 0xF);
 
-    return params & 0xF;
+    return params;
 }
 
 void func_80B54DE0(EnZl3* this, PlayState* play) {

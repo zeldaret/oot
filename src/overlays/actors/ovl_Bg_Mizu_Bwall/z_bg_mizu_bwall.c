@@ -176,14 +176,14 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->yRot = this->dyna.actor.world.pos.y;
-    this->dList = sDLists[(u16)this->dyna.actor.params & 0xF];
+    this->dList = sDLists[PARAMS_GET((u16)this->dyna.actor.params, 0, 0xF)];
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(sColHeaders[(u16)this->dyna.actor.params & 0xF], &colHeader);
+    CollisionHeader_GetVirtual(sColHeaders[PARAMS_GET((u16)this->dyna.actor.params, 0, 0xF)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    switch ((u16)this->dyna.actor.params & 0xF) {
+    switch (PARAMS_GET((u16)this->dyna.actor.params, 0, 0xF)) {
         case MIZUBWALL_FLOOR:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 8, 0x3F))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -218,7 +218,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case MIZUBWALL_RUTO_ROOM:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 8, 0x3F))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -253,7 +253,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case MIZUBWALL_UNUSED:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 8, 0x3F))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -290,7 +290,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case MIZUBWALL_STINGER_ROOM_1:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 8, 0x3F))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -328,7 +328,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case MIZUBWALL_STINGER_ROOM_2:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 8, 0x3F))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -425,7 +425,7 @@ void BgMizuBwall_SpawnDebris(BgMizuBwall* this, PlayState* play) {
     Vec3f debrisOffsets[15];
 
     for (i = 0; i < ARRAY_COUNT(debrisOffsets); i++) {
-        switch ((u16)this->dyna.actor.params & 0xF) {
+        switch (PARAMS_GET((u16)this->dyna.actor.params, 0, 0xF)) {
             case MIZUBWALL_FLOOR:
                 debrisOffsets[i].x = (Rand_ZeroOne() * 80.0f) - 40.0f;
                 debrisOffsets[i].y = Rand_ZeroOne() * 0;
@@ -465,7 +465,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play) {
     BgMizuBwall_SetAlpha(this, play);
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Flags_SetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 8, 0x3F));
         this->breakTimer = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dList = NULL;

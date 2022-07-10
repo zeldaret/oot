@@ -197,7 +197,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             // Drops a small key and sets a collect flag
-            collectibleParams = ((this->dyna.actor.params & 0x3F) << 8) | ITEM00_SMALL_KEY;
+            collectibleParams = (PARAMS_GET(this->dyna.actor.params, 0, 0x3F) << 8) | ITEM00_SMALL_KEY;
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
         if (collectibleParams != -1) {

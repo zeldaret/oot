@@ -189,13 +189,13 @@ void func_80AEADD8(EnRu1* this) {
 }
 
 u8 func_80AEADE0(EnRu1* this) {
-    u8 params = this->actor.params >> 8;
+    u8 params = PARAMS_GET(this->actor.params, 8, 0xFF);
 
     return params;
 }
 
 u8 func_80AEADF0(EnRu1* this) {
-    s16 params = this->actor.params;
+    u8 params = PARAMS_GET(this->actor.params, 0, 0xFF);
 
     return params;
 }
@@ -324,7 +324,7 @@ Actor* func_80AEB124(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIt != NULL) {
-        if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == 0x15)) {
+        if ((actorIt->id == ACTOR_DEMO_EFFECT) && (PARAMS_GET(actorIt->params, 0, 0xFF) == 0x15)) {
             return actorIt;
         }
         actorIt = actorIt->next;
@@ -1520,7 +1520,7 @@ void func_80AEE2F8(EnRu1* this, PlayState* play) {
         floorBgId = this->actor.floorBgId;
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, floorBgId);
         if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
-            if (((dynaPolyActor->actor.params >> 8) & 0x3F) == 0x38) {
+            if (PARAMS_GET(dynaPolyActor->actor.params, 8, 0x3F) == 0x38) {
                 SET_INFTABLE(INFTABLE_140);
                 return;
             }

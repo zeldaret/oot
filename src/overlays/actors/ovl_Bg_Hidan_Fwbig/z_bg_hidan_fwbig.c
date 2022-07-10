@@ -76,7 +76,7 @@ void BgHidanFwbig_Init(Actor* thisx, PlayState* play2) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->direction = (u16)(thisx->params >> 8);
+    this->direction = (u16)PARAMS_GET_NOMASK(thisx->params, 8);
     thisx->params &= 0xFF;
     if (this->direction != 0) {
         this->actor.home.pos.x = 1560.0f;

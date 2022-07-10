@@ -38,7 +38,7 @@ void EnStream_SetupAction(EnStream* this, EnStreamActionFunc actionFunc) {
 void EnStream_Init(Actor* thisx, PlayState* play) {
     EnStream* this = (EnStream*)thisx;
 
-    this->unk_150 = thisx->params & 0xFF;
+    this->unk_150 = PARAMS_GET(thisx->params, 0, 0xFF);
     Actor_ProcessInitChain(thisx, sInitChain);
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;

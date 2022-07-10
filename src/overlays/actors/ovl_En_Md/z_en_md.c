@@ -591,11 +591,11 @@ u8 EnMd_FollowPath(EnMd* this, PlayState* play) {
     f32 pathDiffX;
     f32 pathDiffZ;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET2(this->actor.params, 0, 0xFF00) == 0xFF00) {
         return 0;
     }
 
-    path = &play->setupPathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->setupPathList[PARAMS_GET2(this->actor.params, 8, 0xFF00)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->waypoint;
 
@@ -618,11 +618,11 @@ u8 EnMd_SetMovedPos(EnMd* this, PlayState* play) {
     Path* path;
     Vec3s* lastPointPos;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET2(this->actor.params, 0, 0xFF00) == 0xFF00) {
         return 0;
     }
 
-    path = &play->setupPathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->setupPathList[PARAMS_GET2(this->actor.params, 8, 0xFF00)];
     lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
     lastPointPos += path->count - 1;
 

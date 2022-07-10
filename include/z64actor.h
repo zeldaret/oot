@@ -507,4 +507,16 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
 
+#define PARAMS_GET(p, s, m) \
+    (((p) >> (s)) & (m))
+
+#define PARAMS_GET2(p, s, m) \
+    (((p) & (m)) >> (s))
+
+#define PARAMS_GET_NOMASK(p, s) \
+    ((p) >> (s))
+
+#define PARAMS_GET_NOSHIFT(p, s, m) \
+    ((p) & ((m) << (s)))
+
 #endif

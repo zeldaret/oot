@@ -75,7 +75,7 @@ void func_80890740(BgIceShelter* this, PlayState* play) {
     static s16 cylinderRadii[] = { 47, 33, 44, 41, 100 };
     static s16 cylinderHeights[] = { 80, 54, 90, 60, 200 };
     s32 pad;
-    s32 type = (this->dyna.actor.params >> 8) & 7;
+    s32 type = PARAMS_GET(this->dyna.actor.params, 8, 7);
 
     Collider_InitCylinder(play, &this->cylinder1);
     Collider_SetCylinder(play, &this->cylinder1, &this->dyna.actor, &D_8089170C);
@@ -132,7 +132,7 @@ static InitChainEntry sInitChain[] = {
 void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
     BgIceShelter* this = (BgIceShelter*)thisx;
-    s16 type = (this->dyna.actor.params >> 8) & 7;
+    s16 type = PARAMS_GET(this->dyna.actor.params, 8, 7);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
@@ -162,7 +162,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
-    if (!((this->dyna.actor.params >> 6) & 1) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
+    if (!PARAMS_GET(this->dyna.actor.params, 6, 1) && (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F)))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -175,7 +175,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play) {
     BgIceShelter* this = (BgIceShelter*)thisx;
 
-    switch ((this->dyna.actor.params >> 8) & 7) {
+    switch (PARAMS_GET(this->dyna.actor.params, 8, 7)) {
         case 2:
         case 3:
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -284,7 +284,7 @@ void func_80891064(BgIceShelter* this) {
 
 void func_8089107C(BgIceShelter* this, PlayState* play) {
     s32 pad;
-    s16 type = (this->dyna.actor.params >> 8) & 7;
+    s16 type = PARAMS_GET(this->dyna.actor.params, 8, 7);
 
     if (type == 4) {
         if (this->dyna.actor.parent != NULL) {
@@ -334,7 +334,7 @@ static void (*sEffSpawnFuncs[])(BgIceShelter* this, PlayState* play, f32 chance,
 void func_808911D4(BgIceShelter* this, PlayState* play) {
 
     s32 pad;
-    s32 type = (this->dyna.actor.params >> 8) & 7;
+    s32 type = PARAMS_GET(this->dyna.actor.params, 8, 7);
     f32 phi_f0;
 
     this->alpha -= 5;
@@ -365,8 +365,8 @@ void func_808911D4(BgIceShelter* this, PlayState* play) {
     sEffSpawnFuncs[type](this, play, phi_f0, D_808917D0[type]);
 
     if (this->alpha <= 0) {
-        if (!((this->dyna.actor.params >> 6) & 1)) {
-            Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        if (!PARAMS_GET(this->dyna.actor.params, 6, 1)) {
+            Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
         }
 
         if (type == 4) {
@@ -394,7 +394,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    switch ((this->dyna.actor.params >> 8) & 7) {
+    switch (PARAMS_GET(this->dyna.actor.params, 8, 7)) {
         case 0:
         case 1:
         case 2:
@@ -405,7 +405,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->alpha);
 
-    switch ((this->dyna.actor.params >> 8) & 7) {
+    switch (PARAMS_GET(this->dyna.actor.params, 8, 7)) {
         case 0:
         case 1:
         case 4:

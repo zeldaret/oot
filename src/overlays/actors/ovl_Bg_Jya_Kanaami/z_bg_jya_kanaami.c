@@ -58,7 +58,7 @@ void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
 
     BgJyaKanaami_InitDynaPoly(this, play, &gKanaamiCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) {
         func_80899A08(this);
     } else {
         func_80899880(this);
@@ -78,7 +78,7 @@ void func_80899880(BgJyaKanaami* this) {
 }
 
 void func_80899894(BgJyaKanaami* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || this->unk_16A > 0) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F)) || this->unk_16A > 0) {
         if (this->dyna.actor.world.pos.x > -1000.0f && this->unk_16A == 0) {
             OnePointCutscene_Init(play, 3450, -99, &this->dyna.actor, CAM_ID_MAIN);
         }

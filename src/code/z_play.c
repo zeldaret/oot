@@ -410,7 +410,7 @@ void Play_Init(GameState* thisx) {
     Camera_InitPlayerSettings(&this->mainCamera, player);
     Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamIndex = player->actor.params & 0xFF;
+    playerStartBgCamIndex = PARAMS_GET(player->actor.params, 0, 0xFF);
     if (playerStartBgCamIndex != 0xFF) {
         osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
@@ -1749,7 +1749,7 @@ s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw) {
         return 0;
     }
 
-    transitionActor = &this->transiActorCtx.list[(u16)actor->params >> 10];
+    transitionActor = &this->transiActorCtx.list[PARAMS_GET_NOMASK((u16)actor->params, 10)];
     frontRoom = transitionActor->sides[0].room;
 
     if (frontRoom == transitionActor->sides[1].room) {

@@ -104,7 +104,7 @@ void func_80B9ABA0(ObjMure3* this, PlayState* play) {
 }
 
 void func_80B9ACE4(ObjMure3* this, PlayState* play) {
-    s16 count = sRupeeCounts[(this->actor.params >> 13) & 7];
+    s16 count = sRupeeCounts[PARAMS_GET(this->actor.params, 13, 7)];
     s32 i;
 
     for (i = 0; i < count; i++) {
@@ -122,7 +122,7 @@ void func_80B9ACE4(ObjMure3* this, PlayState* play) {
 }
 
 void func_80B9ADCC(ObjMure3* this, PlayState* play) {
-    s16 count = sRupeeCounts[(this->actor.params >> 13) & 7];
+    s16 count = sRupeeCounts[PARAMS_GET(this->actor.params, 13, 7)];
     s32 i;
 
     for (i = 0; i < count; i++) {
@@ -130,7 +130,7 @@ void func_80B9ADCC(ObjMure3* this, PlayState* play) {
 
         if ((*collectible != NULL) && !((this->unk_16C >> i) & 1)) {
             if (Actor_HasParent(&(*collectible)->actor, play)) {
-                Flags_SetSwitch(play, this->actor.params & 0x3F);
+                Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F));
             }
             if ((*collectible)->actor.update == NULL) {
                 this->unk_16C |= (1 << i);
@@ -144,7 +144,7 @@ void ObjMure3_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     ObjMure3* this = (ObjMure3*)thisx;
 
-    if (Flags_GetSwitch(play, this->actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F))) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -172,7 +172,7 @@ void func_80B9AF64(ObjMure3* this, PlayState* play) {
 
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) < SQ(1150.0f)) {
         this->actor.flags |= ACTOR_FLAG_4;
-        spawnFuncs[(this->actor.params >> 13) & 7](this, play);
+        spawnFuncs[PARAMS_GET(this->actor.params, 13, 7)](this, play);
         func_80B9AFEC(this);
     }
 }

@@ -638,9 +638,9 @@ void EnFd_WaitForCore(EnFd* this, PlayState* play) {
         if (this->spinTimer == 0) {
             Actor_Kill(&this->actor);
         }
-    } else if (this->actor.params & FLG_COREDONE) {
+    } else if (PARAMS_GET(this->actor.params, 0, FLG_COREDONE)) {
         this->actionFunc = EnFd_Reappear;
-    } else if (this->actor.params & FLG_COREDEAD) {
+    } else if (PARAMS_GET(this->actor.params, 0, FLG_COREDEAD)) {
         this->actor.params = 0;
         this->spinTimer = 30;
     }

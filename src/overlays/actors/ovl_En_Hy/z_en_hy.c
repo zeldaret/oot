@@ -352,9 +352,9 @@ static EnHyInit2Info sInit2Info[] = {
 };
 
 s32 EnHy_FindSkelAndHeadObjects(EnHy* this, PlayState* play) {
-    u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
-    u8 skelInfoIndex2 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex2;
-    u8 skelInfoIndex1 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex1;
+    u8 headInfoIndex = sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].headInfoIndex;
+    u8 skelInfoIndex2 = sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].skelInfoIndex2;
+    u8 skelInfoIndex1 = sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].skelInfoIndex1;
 
     this->objBankIndexSkel1 = Object_GetIndex(&play->objectCtx, sSkeletonInfo[skelInfoIndex1].objectId);
     if (this->objBankIndexSkel1 < 0) {
@@ -417,16 +417,16 @@ void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
 u16 func_80A6F810(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
-    u16 textId = Text_GetFaceReaction(play, (this->actor.params & 0x7F) + 37);
+    u16 textId = Text_GetFaceReaction(play, PARAMS_GET2(this->actor.params, 0, 0x7F) + 37);
 
     if (textId != 0) {
-        if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
+        if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_5) {
             player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
         }
         return textId;
     }
 
-    switch (this->actor.params & 0x7F) {
+    switch (PARAMS_GET2(this->actor.params, 0, 0x7F)) {
         case ENHY_TYPE_AOB:
             if (play->sceneNum == SCENE_KAKARIKO) {
                 return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
@@ -673,7 +673,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
 
 void EnHy_UpdateEyes(EnHy* this) {
     if (DECR(this->nextEyeIndexTimer) == 0) {
-        u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
+        u8 headInfoIndex = sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].headInfoIndex;
 
         this->curEyeIndex++;
         if ((sHeadInfo[headInfoIndex].eyeTextures != NULL) &&
@@ -685,14 +685,14 @@ void EnHy_UpdateEyes(EnHy* this) {
 }
 
 void EnHy_InitCollider(EnHy* this) {
-    u8 type = this->actor.params & 0x7F;
+    u8 type = PARAMS_GET2(this->actor.params, 0, 0x7F);
 
     this->collider.dim.radius = sColliderInfo[type].radius;
     this->collider.dim.height = sColliderInfo[type].height;
 }
 
 void EnHy_InitSetProperties(EnHy* this) {
-    u8 type = this->actor.params & 0x7F;
+    u8 type = PARAMS_GET2(this->actor.params, 0, 0x7F);
 
     this->actor.shape.shadowScale = sInit2Info[type].shadowScale;
     Actor_SetScale(&this->actor, sInit2Info[type].scale);
@@ -708,9 +708,9 @@ void EnHy_UpdateCollider(EnHy* this, PlayState* play) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y;
     pos.z = this->actor.world.pos.z;
-    pos.x += sColliderInfo[this->actor.params & 0x7F].offset.x;
-    pos.y += sColliderInfo[this->actor.params & 0x7F].offset.y;
-    pos.z += sColliderInfo[this->actor.params & 0x7F].offset.z;
+    pos.x += sColliderInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].offset.x;
+    pos.y += sColliderInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].offset.y;
+    pos.z += sColliderInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].offset.z;
     this->collider.dim.pos = pos;
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
@@ -718,7 +718,7 @@ void EnHy_UpdateCollider(EnHy* this, PlayState* play) {
 void func_80A70834(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
+    if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_5) {
         if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_FISH)) {
             switch (func_8002F368(play)) {
@@ -760,7 +760,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_a3;
 
-    switch (this->actor.params & 0x7F) {
+    switch (PARAMS_GET2(this->actor.params, 0, 0x7F)) {
         case ENHY_TYPE_BOJ_3:
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
@@ -786,12 +786,12 @@ void func_80A70978(EnHy* this, PlayState* play) {
     this->unk_1E8.unk_18 = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
+        this->unk_1E8.unk_14 = sInit1Info[PARAMS_GET2(this->actor.params, 0, 0x7F)].unkValueAdult;
     } else {
-        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueChild;
+        this->unk_1E8.unk_14 = sInit1Info[PARAMS_GET2(this->actor.params, 0, 0x7F)].unkValueChild;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
+    func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[PARAMS_GET2(this->actor.params, 0, 0x7F)].unkPresetIndex, phi_a3);
 
     if (func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
         func_80A70834(this, play);
@@ -801,29 +801,29 @@ void func_80A70978(EnHy* this, PlayState* play) {
 s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
     switch (play->sceneNum) {
         case SCENE_SPOT01:
-            if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 ||
-                  (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
-                  (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
+            if (!(PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_9 || PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_10 ||
+                  PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_12 || PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_AHG_2 ||
+                  PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (!LINK_IS_ADULT) {
                 return true;
-            } else if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_12 && IS_NIGHT) {
+            } else if (PARAMS_GET2(this->actor.params, 0, 0x7F) != ENHY_TYPE_BOJ_12 && IS_NIGHT) {
                 return false;
             } else {
                 return true;
             }
         case SCENE_LABO:
-            if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_10) {
+            if (PARAMS_GET2(this->actor.params, 0, 0x7F) != ENHY_TYPE_BOJ_10) {
                 return true;
             } else if (LINK_IS_CHILD) {
                 return false;
-            } else if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 && IS_DAY) {
+            } else if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_10 && IS_DAY) {
                 return false;
             } else {
                 return true;
             }
         case SCENE_IMPA:
-            if ((this->actor.params & 0x7F) != ENHY_TYPE_AOB) {
+            if (PARAMS_GET2(this->actor.params, 0, 0x7F) != ENHY_TYPE_AOB) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -831,11 +831,11 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
                 return true;
             }
         case SCENE_KAKARIKO:
-            if ((this->actor.params & 0x7F) == ENHY_TYPE_AOB) {
+            if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_AOB) {
                 return !LINK_IS_ADULT ? false : true;
-            } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 ||
-                         (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
-                         (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
+            } else if (!(PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_9 ||
+                         PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_AHG_2 ||
+                         PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -846,7 +846,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             }
         case SCENE_MARKET_ALLEY:
         case SCENE_MARKET_ALLEY_N:
-            if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_14) {
+            if (PARAMS_GET2(this->actor.params, 0, 0x7F) != ENHY_TYPE_BOJ_14) {
                 return true;
             } else if (IS_NIGHT) {
                 return false;
@@ -856,7 +856,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
                 return true;
             }
         default:
-            switch (this->actor.params & 0x7F) {
+            switch (PARAMS_GET2(this->actor.params, 0, 0x7F)) {
                 case ENHY_TYPE_BJI_19:
                 case ENHY_TYPE_AHG_20:
                     if (LINK_IS_ADULT) {
@@ -870,7 +870,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
 void EnHy_Init(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
 
-    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, play) ||
+    if (PARAMS_GET2(this->actor.params, 0, 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, play) ||
         !EnHy_FindSkelAndHeadObjects(this, play)) {
         Actor_Kill(&this->actor);
     }
@@ -893,7 +893,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         this->actor.objBankIndex = this->objBankIndexSkel1;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(play, &this->skelAnime,
-                           sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex1].skeleton, NULL,
+                           sSkeletonInfo[sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].skelInfoIndex1].skeleton, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexOsAnime].segment);
@@ -901,7 +901,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].animInfoIndex);
 
         if ((play->sceneNum == SCENE_MARKET_ALLEY) || (play->sceneNum == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~ACTOR_FLAG_4;
@@ -913,9 +913,9 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         }
 
         EnHy_InitSetProperties(this);
-        this->path = Path_GetByIndex(play, (this->actor.params & 0x780) >> 7, 15);
+        this->path = Path_GetByIndex(play, PARAMS_GET2(this->actor.params, 7, 0x780), 15);
 
-        switch (this->actor.params & 0x7F) {
+        switch (PARAMS_GET2(this->actor.params, 0, 0x7F)) {
             case ENHY_TYPE_BOJ_3:
                 if (this->path != NULL) {
                     this->actor.speedXZ = 3.0f;
@@ -1104,7 +1104,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     if (limbIndex == 15) {
         gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->objBankIndexHead].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexHead].segment);
-        i = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
+        i = sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].headInfoIndex;
         *dList = sHeadInfo[i].headDList;
 
         if (sHeadInfo[i].eyeTextures != NULL) {
@@ -1151,7 +1151,7 @@ void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexSkel2].segment);
     }
 
-    if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
+    if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
         gSPDisplayList(POLY_OPA_DISP++, object_boj_DL_005BC8);
     }
 
@@ -1183,10 +1183,10 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc != EnHy_InitImpl) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Translate(this->modelOffset.x, this->modelOffset.y, this->modelOffset.z, MTXMODE_APPLY);
-        envColorSeg8 = sModelInfo[this->actor.params & 0x7F].envColorSeg8;
-        envColorSeg9 = sModelInfo[this->actor.params & 0x7F].envColorSeg9;
+        envColorSeg8 = sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].envColorSeg8;
+        envColorSeg9 = sModelInfo[PARAMS_GET2(this->actor.params, 0, 0x7F)].envColorSeg9;
 
-        switch (this->actor.params & 0x7F) {
+        switch (PARAMS_GET2(this->actor.params, 0, 0x7F)) {
             // ENHY_TYPE_AOB
             // ENHY_TYPE_COB
             case ENHY_TYPE_AHG_2:
@@ -1215,11 +1215,11 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
                            EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg9.r, envColorSeg9.g, envColorSeg9.b,
                                             envColorSeg9.a));
 
-                if ((this->actor.params & 0x7F) == ENHY_TYPE_CNE_8 || (this->actor.params & 0x7F) == ENHY_TYPE_CNE_11) {
-                    if ((this->actor.params & 0x7F) == ENHY_TYPE_CNE_8) {
+                if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_CNE_8 || PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_CNE_11) {
+                    if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_CNE_8) {
                         envColorSeg10 = envColorSeg8;
                     }
-                    if ((this->actor.params & 0x7F) == ENHY_TYPE_CNE_11) {
+                    if (PARAMS_GET2(this->actor.params, 0, 0x7F) == ENHY_TYPE_CNE_11) {
                         envColorSeg10.r = envColorSeg10.g = envColorSeg10.b = 255;
                         envColorSeg10.a = 0;
                     }

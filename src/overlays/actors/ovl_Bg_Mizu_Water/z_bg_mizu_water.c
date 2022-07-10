@@ -95,8 +95,8 @@ void BgMizuWater_Init(Actor* thisx, PlayState* play) {
     s32 waterLevelActionIndex;
 
     waterBoxes = play->colCtx.colHeader->waterBoxes;
-    this->type = this->actor.params & 0xFF;
-    this->switchFlag = (this->actor.params >> 8) & 0xFF;
+    this->type = PARAMS_GET(this->actor.params, 0, 0xFF);
+    this->switchFlag = PARAMS_GET(this->actor.params, 8, 0xFF);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     initialActorY = this->actor.world.pos.y;
     this->baseY = initialActorY;

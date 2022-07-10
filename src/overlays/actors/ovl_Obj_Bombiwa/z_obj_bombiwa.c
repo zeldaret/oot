@@ -74,7 +74,7 @@ void ObjBombiwa_InitCollision(Actor* thisx, PlayState* play) {
 void ObjBombiwa_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ObjBombiwa_InitCollision(thisx, play);
-    if ((Flags_GetSwitch(play, thisx->params & 0x3F) != 0)) {
+    if ((Flags_GetSwitch(play, PARAMS_GET(thisx->params, 0, 0x3F)) != 0)) {
         Actor_Kill(thisx);
     } else {
         CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
@@ -127,9 +127,9 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     if ((func_80033684(play, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER))) {
         ObjBombiwa_Break(this, play);
-        Flags_SetSwitch(play, this->actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F));
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
-        if (((this->actor.params >> 0xF) & 1) != 0) {
+        if (PARAMS_GET(this->actor.params, 0xF, 1) != 0) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
         Actor_Kill(&this->actor);

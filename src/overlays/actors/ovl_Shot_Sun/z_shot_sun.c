@@ -59,7 +59,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
 
     // "Ocarina secret occurrence"
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
-    params = this->actor.params & 0xFF;
+    params = PARAMS_GET(this->actor.params, 0, 0xFF);
     if (params == 0x40 || params == 0x41) {
         this->unk_1A4 = 0;
         this->actor.flags |= ACTOR_FLAG_4;
@@ -76,7 +76,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
 
 void ShotSun_Destroy(Actor* thisx, PlayState* play) {
     ShotSun* this = (ShotSun*)thisx;
-    s32 params = this->actor.params & 0xFF;
+    s32 params = PARAMS_GET(this->actor.params, 0, 0xFF);
 
     if (params != 0x40 && params != 0x41) {
         Collider_DestroyCylinder(play, &this->collider);
@@ -84,7 +84,7 @@ void ShotSun_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void ShotSun_SpawnFairy(ShotSun* this, PlayState* play) {
-    s32 params = this->actor.params & 0xFF;
+    s32 params = PARAMS_GET(this->actor.params, 0, 0xFF);
     s32 fairyType;
 
     if (this->timer > 0) {
@@ -122,7 +122,7 @@ void ShotSun_TriggerFairy(ShotSun* this, PlayState* play) {
 void func_80BADF0C(ShotSun* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
-    s32 params = this->actor.params & 0xFF;
+    s32 params = PARAMS_GET(this->actor.params, 0, 0xFF);
 
     if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
         this->unk_1A4 = 0;

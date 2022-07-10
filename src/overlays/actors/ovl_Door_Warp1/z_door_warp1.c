@@ -165,7 +165,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
                    gSaveContext.entranceIndex == ENTR_SPOT06_9 || gSaveContext.entranceIndex == ENTR_SPOT11_8 ||
                    gSaveContext.entranceIndex == ENTR_SPOT02_8) &&
                  gSaveContext.sceneSetupIndex < 4) ||
-                (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
+                PARAMS_GET(GET_PLAYER(play)->actor.params, 0, 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
             }
             if (Actor_WorldDistXZToActor(&player->actor, &this->actor) > 100.0f) {

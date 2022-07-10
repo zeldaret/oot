@@ -55,7 +55,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
 
     this->actor.flags &= ~ACTOR_FLAG_0;
 
-    switch (this->actor.params & 0xF) {
+    switch (PARAMS_GET(this->actor.params, 0, 0xF)) {
         case EN_WEATHER_TAG_TYPE_CLOUDY_MARKET:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ (;o;) About ☆☆☆☆☆☆"
