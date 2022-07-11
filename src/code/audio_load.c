@@ -1234,7 +1234,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         *((u32*)&gAudioHeapInitSizes.permanentPoolSize) = 0;
     }
 
-    AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, ramAddr, gAudioHeapInitSizes.permanentPoolSize);
+    AudioHeap_InitPool(&gAudioContext.permanentPool, ramAddr, gAudioHeapInitSizes.permanentPoolSize);
     gAudioContextInitalized = true;
     osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
 }
