@@ -93,7 +93,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
         thisx->params |= 4;
     }
 
-    switch (PARAMS_GET(thisx->params, 0, 0xFF)) {
+    switch (PARAMS_GET(thisx->params, 0, 8)) {
         case HEAVYBLOCK_BIG_PIECE:
             thisx->draw = BgHeavyBlock_DrawPiece;
             this->actionFunc = BgHeavyBlock_MovePiece;
@@ -113,7 +113,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
         case HEAVYBLOCK_BREAKABLE:
             BgHeavyBlock_SetupDynapoly(this, play);
 
-            if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 0x3F))) {
+            if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 6))) {
                 Actor_Kill(thisx);
                 return;
             }
@@ -123,7 +123,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
         case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
             BgHeavyBlock_SetupDynapoly(this, play);
 
-            if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 0x3F))) {
+            if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 6))) {
                 this->actionFunc = BgHeavyBlock_DoNothing;
                 thisx->shape.rot.x = thisx->world.rot.x = 0x8AD0;
                 thisx->shape.rot.y = thisx->world.rot.y = 0xC000;
@@ -150,7 +150,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
 
 void BgHeavyBlock_Destroy(Actor* thisx, PlayState* play) {
     BgHeavyBlock* this = (BgHeavyBlock*)thisx;
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0xFF)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
         case HEAVYBLOCK_BIG_PIECE:
             break;
         case HEAVYBLOCK_SMALL_PIECE:
@@ -319,7 +319,7 @@ void BgHeavyBlock_Wait(BgHeavyBlock* this, PlayState* play) {
     if (Actor_HasParent(&this->dyna.actor, play)) {
         this->timer = 0;
 
-        switch (PARAMS_GET(this->dyna.actor.params, 0, 0xFF)) {
+        switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
             case HEAVYBLOCK_BREAKABLE:
                 OnePointCutscene_Init(play, 4020, 270, &this->dyna.actor, CAM_ID_MAIN);
                 break;
@@ -392,10 +392,10 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
     if (this->dyna.actor.home.pos.y <= raycastResult) {
         func_800AA000(0.0f, 0xFF, 0x3C, 4);
 
-        switch (PARAMS_GET(this->dyna.actor.params, 0, 0xFF)) {
+        switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
             case HEAVYBLOCK_BREAKABLE:
                 BgHeavyBlock_SpawnPieces(this, play);
-                Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F));
+                Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6));
                 Actor_Kill(&this->dyna.actor);
 
                 quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 3);
@@ -419,7 +419,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
                 Quake_SetCountdown(quakeIndex, 40);
 
                 this->actionFunc = BgHeavyBlock_Land;
-                Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F));
+                Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6));
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
@@ -456,7 +456,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play) {
         this->dyna.actor.world.pos = this->dyna.actor.home.pos;
         Actor_MoveForward(&this->dyna.actor);
         this->dyna.actor.home.pos = this->dyna.actor.world.pos;
-        switch (PARAMS_GET(this->dyna.actor.params, 0, 0xFF)) {
+        switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 BgHeavyBlock_SpawnDust(play, Rand_CenteredFloat(30.0f) + 1678.0f, Rand_ZeroFloat(100.0f) + 1286.0f,
                                        Rand_CenteredFloat(30.0f) + 552.0f, 0.0f, 0.0f, 0.0f, 0);
@@ -510,7 +510,7 @@ void BgHeavyBlock_Draw(Actor* thisx, PlayState* play) {
 }
 
 void BgHeavyBlock_DrawPiece(Actor* thisx, PlayState* play) {
-    switch (PARAMS_GET(thisx->params, 0, 0xFF)) {
+    switch (PARAMS_GET(thisx->params, 0, 8)) {
         case HEAVYBLOCK_BIG_PIECE:
             Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);
             Gfx_DrawDListOpa(play, gHeavyBlockBigPieceDL);

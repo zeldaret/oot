@@ -80,8 +80,8 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnGSwitch* this = (EnGSwitch*)thisx;
 
-    this->type = PARAMS_GET(this->actor.params, 0xC, 0xF);
-    this->switchFlag = PARAMS_GET(this->actor.params, 0, 0x3F);
+    this->type = PARAMS_GET(this->actor.params, 12, 4);
+    this->switchFlag = PARAMS_GET(this->actor.params, 0, 6);
     this->numEffects = EN_GSWITCH_EFFECT_COUNT;
     // "index"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
@@ -94,7 +94,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             sCollectedCount = 0;
             // Ideally the following two lines would be
-            // this->silverCount = PARAMS_GET(this->actor.params, 6, 0x3F);
+            // this->silverCount = PARAMS_GET(this->actor.params, 6, 6);
             this->silverCount = PARAMS_GET_NOMASK(this->actor.params, 6);
             this->silverCount &= 0x3F;
             // "maximum number of checks"

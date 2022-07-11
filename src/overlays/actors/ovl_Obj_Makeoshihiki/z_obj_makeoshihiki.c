@@ -53,9 +53,9 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
     s32 typeIdx;
     Vec3f* spawnPos;
 
-    if (!PARAMS_GET(thisx->params, 6, 1) && Flags_GetSwitch(play, PARAMS_GET(thisx->params, 0, 0x3F))) {
+    if (!PARAMS_GET(thisx->params, 6, 1) && Flags_GetSwitch(play, PARAMS_GET(thisx->params, 0, 6))) {
         typeIdx = 1;
-    } else if (!PARAMS_GET(thisx->params, 0xE, 1) && Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 0x3F))) {
+    } else if (!PARAMS_GET(thisx->params, 14, 1) && Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 6))) {
         typeIdx = 2;
     } else {
         typeIdx = 0;
@@ -93,7 +93,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
                 if (PARAMS_GET(thisx->params, 6, 1)) {
                     sfxCond1 = false;
                 } else {
-                    if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 0, 0x3F))) {
+                    if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 0, 6))) {
                         cond = true;
                     } else {
                         cond = false;
@@ -101,10 +101,10 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
                     sfxCond1 = sFlags[i][0] ^ cond;
                 }
 
-                if (PARAMS_GET(thisx->params, 0xE, 1)) {
+                if (PARAMS_GET(thisx->params, 14, 1)) {
                     sfxCond2 = false;
                 } else {
-                    if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 0x3F))) {
+                    if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 6))) {
                         cond2 = true;
                     } else {
                         cond2 = false;
@@ -117,8 +117,8 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
                 }
             }
 
-            sFlagSwitchFuncs[sFlags[i][0]](play, PARAMS_GET(thisx->params, 0, 0x3F));
-            sFlagSwitchFuncs[sFlags[i][1]](play, PARAMS_GET(thisx->params, 8, 0x3F));
+            sFlagSwitchFuncs[sFlags[i][0]](play, PARAMS_GET(thisx->params, 0, 6));
+            sFlagSwitchFuncs[sFlags[i][1]](play, PARAMS_GET(thisx->params, 8, 6));
 
             if (block->unk_24[i] & 2) {
                 ((ObjOshihiki*)thisx->child)->cantMove = true;

@@ -202,7 +202,7 @@ void func_80A74398(Actor* thisx, PlayState* play) {
     this->unk_2FC = 0;
     thisx->colChkInfo.health = 30;
     thisx->gravity = -1.0f;
-    this->switchFlags = PARAMS_GET(thisx->params, 8, 0xFF);
+    this->switchFlags = PARAMS_GET(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == 0) {
@@ -1435,9 +1435,9 @@ void func_80A781CC(Actor* thisx, PlayState* play) {
 
 void EnIk_Init(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
-    s32 flag = PARAMS_GET_NOSHIFT(this->actor.params, 8, 0xFF);
+    s32 flag = PARAMS_GET_NOSHIFT(this->actor.params, 8, 8);
 
-    if ((PARAMS_GET(this->actor.params, 0, 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
+    if ((PARAMS_GET(this->actor.params, 0, 8) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
         (flag != 0 && Flags_GetSwitch(play, flag >> 8))) {
         Actor_Kill(&this->actor);
     } else {

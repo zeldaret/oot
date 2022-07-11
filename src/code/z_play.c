@@ -410,7 +410,7 @@ void Play_Init(GameState* thisx) {
     Camera_InitPlayerSettings(&this->mainCamera, player);
     Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamIndex = PARAMS_GET(player->actor.params, 0, 0xFF);
+    playerStartBgCamIndex = PARAMS_GET(player->actor.params, 0, 8);
     if (playerStartBgCamIndex != 0xFF) {
         osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);

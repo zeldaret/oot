@@ -82,7 +82,7 @@ s32 EnHoll_IsKokiriSetup8(void) {
 void EnHoll_ChooseAction(EnHoll* this) {
     s32 action;
 
-    action = PARAMS_GET(this->actor.params, 6, 7);
+    action = PARAMS_GET(this->actor.params, 6, 3);
     EnHoll_SetupAction(this, sActionFuncs[action]);
     if (action != 0) {
         this->actor.draw = NULL;
@@ -100,7 +100,7 @@ void EnHoll_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnHoll_Destroy(Actor* thisx, PlayState* play) {
-    s32 transitionActorIdx = PARAMS_GET_NOMASK((u16)thisx->params, 0xA);
+    s32 transitionActorIdx = PARAMS_GET_NOMASK((u16)thisx->params, 10);
     TransitionActorEntry* transitionEntry = &play->transiActorCtx.list[transitionActorIdx];
 
     transitionEntry->id = -transitionEntry->id;
@@ -129,7 +129,7 @@ void func_80A58DD4(EnHoll* this, PlayState* play) {
     absZ = fabsf(vec.z);
     if (vec.y > PLANE_Y_MIN && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH &&
         absZ < sHorizTriggerDists[phi_t0][0]) {
-        transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 0xA);
+        transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 10);
         if (absZ > sHorizTriggerDists[phi_t0][1]) {
             if (play->roomCtx.prevRoom.num >= 0 && play->roomCtx.status == 0) {
                 this->actor.room = play->transiActorCtx.list[transitionActorIdx].sides[this->side].room;
@@ -162,12 +162,12 @@ void func_80A59014(EnHoll* this, PlayState* play) {
     f32 absZ;
 
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &play->view.eye : &player->actor.world.pos);
-    planeHalfWidth = (PARAMS_GET(this->actor.params, 6, 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
+    planeHalfWidth = (PARAMS_GET(this->actor.params, 6, 3) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
 
     temp = EnHoll_IsKokiriSetup8();
     if (temp || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
                  (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
-        s32 transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 0xA);
+        s32 transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 10);
         s32 side = (vec.z < 0.0f) ? 0 : 1;
         TransitionActorEntry* transitionEntry = &play->transiActorCtx.list[transitionActorIdx];
         s32 room = transitionEntry->sides[side].room;
@@ -190,7 +190,7 @@ void func_80A591C0(EnHoll* this, PlayState* play) {
     s32 transitionActorIdx;
 
     if (this->actor.xzDistToPlayer < 500.0f && absY < 700.0f) {
-        transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 0xA);
+        transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 10);
         if (absY < 95.0f) {
             play->unk_11E18 = 0xFF;
         } else if (absY > 605.0f) {
@@ -228,7 +228,7 @@ void func_80A593A4(EnHoll* this, PlayState* play) {
             play->unk_11E18 = (200.0f - absY) * 1.7f;
         }
         if (absY > 50.0f) {
-            transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 0xA);
+            transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 10);
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
             this->actor.room = play->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != play->roomCtx.curRoom.num &&
@@ -252,7 +252,7 @@ void func_80A59520(EnHoll* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 120.0f) {
         absY = fabsf(this->actor.yDistToPlayer);
         if (absY < 200.0f && absY > 50.0f) {
-            transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 0xA);
+            transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 10);
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
             this->actor.room = play->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != play->roomCtx.curRoom.num &&
@@ -271,7 +271,7 @@ void func_80A59618(EnHoll* this, PlayState* play) {
     s32 side;
     s32 transitionActorIdx;
 
-    if (!Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F))) {
+    if (!Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 6))) {
         if (this->unk_14F != 0) {
             play->unk_11E18 = 0;
             this->unk_14F = 0;
@@ -281,7 +281,7 @@ void func_80A59618(EnHoll* this, PlayState* play) {
         absZ = fabsf(vec.z);
         if (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH_2 && absZ < 100.0f) {
             this->unk_14F = 1;
-            transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 0xA);
+            transitionActorIdx = PARAMS_GET_NOMASK((u16)this->actor.params, 10);
             play->unk_11E18 = 0xFF - (s32)((absZ - 50.0f) * 5.9f);
             if (play->unk_11E18 >= 0x100) {
                 play->unk_11E18 = 0xFF;

@@ -88,17 +88,17 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
     BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
-    if (PARAMS_GET(this->dyna.actor.params, 0, 0x3F) != 0x29) {
+    if (PARAMS_GET(this->dyna.actor.params, 0, 6) != 0x29) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
 
         // "Warning: Switch Number changed (%s %d)(SW %d)"
         osSyncPrintf("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
-                     PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
+                     PARAMS_GET(this->dyna.actor.params, 0, 6));
         osSyncPrintf(VT_RST);
     }
     BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, DPM_UNK);
     BgJyaBombiwa_InitCollider(this, play);
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -164,7 +164,7 @@ void BgJyaBombiwa_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, play);
-        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
+        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6));
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {

@@ -54,7 +54,7 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = func_808B9618;
             }
         } else {
-            if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) {
+            if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) {
                 this->actionFunc = func_808B95AC;
                 this->dyna.actor.world.pos.y += 180.0f;
             } else {
@@ -85,7 +85,7 @@ void func_808B95AC(BgSpot18Shutter* this, PlayState* play) {
 }
 
 void func_808B95B8(BgSpot18Shutter* this, PlayState* play) {
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) {
         Actor_SetFocus(&this->dyna.actor, 70.0f);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808B9698;

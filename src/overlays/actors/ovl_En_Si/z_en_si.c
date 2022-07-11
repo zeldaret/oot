@@ -128,7 +128,7 @@ void func_80AFB950(EnSi* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
-        SET_GS_FLAGS(PARAMS_GET2(this->actor.params, 8, 0x1F00), PARAMS_GET2(this->actor.params, 0, 0xFF));
+        SET_GS_FLAGS(PARAMS_GET2(this->actor.params, 8, 5), PARAMS_GET2(this->actor.params, 0, 8));
         Actor_Kill(&this->actor);
     }
 }

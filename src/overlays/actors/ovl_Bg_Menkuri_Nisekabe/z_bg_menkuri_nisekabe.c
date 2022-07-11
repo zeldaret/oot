@@ -49,7 +49,7 @@ void BgMenkuriNisekabe_Update(Actor* thisx, PlayState* play) {
 
 void BgMenkuriNisekabe_Draw(Actor* thisx, PlayState* play) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
-    u32 index = PARAMS_GET(this->actor.params, 0, 0xFF);
+    u32 index = PARAMS_GET(this->actor.params, 0, 8);
 
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(play, sDLists[index]);

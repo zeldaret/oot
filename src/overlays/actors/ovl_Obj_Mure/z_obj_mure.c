@@ -89,10 +89,10 @@ s32 ObjMure_SetCulling(Actor* thisx, PlayState* play) {
 void ObjMure_Init(Actor* thisx, PlayState* play) {
     ObjMure* this = (ObjMure*)thisx;
 
-    this->chNum = PARAMS_GET(thisx->params, 0xC, 0x0F);
-    this->ptn = PARAMS_GET(thisx->params, 8, 0x07);
-    this->svNum = PARAMS_GET(thisx->params, 5, 0x03);
-    this->type = PARAMS_GET(thisx->params, 0, 0x1F);
+    this->chNum = PARAMS_GET(thisx->params, 12, 4);
+    this->ptn = PARAMS_GET(thisx->params, 8, 3);
+    this->svNum = PARAMS_GET(thisx->params, 5, 2);
+    this->type = PARAMS_GET(thisx->params, 0, 5);
 
     if (this->ptn >= 4) {
         osSyncPrintf("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 237, thisx->params);

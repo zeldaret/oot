@@ -55,7 +55,7 @@ void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, Coll
 
 // Sets params to 0x10 (medium, nonrotating) if not in the cases listed.
 void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0xFF)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
         case 0xFF:
             this->dyna.actor.params = 0x10;
             break;
@@ -86,7 +86,7 @@ void BgSpot08Iceblock_SinkUnderPlayer(BgSpot08Iceblock* this) {
     f32 target;
     f32 step;
 
-    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 0xF)) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 4)) {
         case 0:
             step = 0.15f;
             break;
@@ -173,7 +173,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0xFF)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
         case 0x11: // Medium nonrotating
             rollDataIndex = 0;
             break;
@@ -296,7 +296,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0xF)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 4)) {
         case 2:
         case 3:
             BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DPM_UNK3);
@@ -313,7 +313,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 0xF)) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 4)) {
         case 0:
             Actor_SetScale(&this->dyna.actor, 0.2f);
             break;
@@ -330,7 +330,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     this->surfaceNormal.y = 1.0f;
     this->rotationAxis.x = 1.0f;
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0xF)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 4)) {
         case 0:
         case 1:
             BgSpot08Iceblock_SetupFloatNonrotating(this);
@@ -391,7 +391,7 @@ void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play
     BgSpot08Iceblock_SetWaterline(this);
 
     // parent handles rotations of both
-    if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 0, 0x100)) {
+    if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 8, 1)) {
         this->dyna.actor.world.rot.y += 0x190;
         sin = Math_SinS(this->dyna.actor.world.rot.y) * 100.0f;
         cos = Math_CosS(this->dyna.actor.world.rot.y) * 100.0f;

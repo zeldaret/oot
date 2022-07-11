@@ -48,7 +48,7 @@ void BgHakaHuta_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gBotwCoffinLidCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-    this->unk_16A = PARAMS_GET(thisx->params, 8, 0xFF);
+    this->unk_16A = PARAMS_GET(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     if (Flags_GetSwitch(play, thisx->params)) {
         this->counter = -1;

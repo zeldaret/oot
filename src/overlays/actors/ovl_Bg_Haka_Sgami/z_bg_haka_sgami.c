@@ -138,8 +138,8 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->unk_151 = PARAMS_GET(thisx->params, 0, 0xFF);
-    thisx->params = PARAMS_GET(thisx->params, 8, 0xFF);
+    this->unk_151 = PARAMS_GET(thisx->params, 0, 8);
+    thisx->params = PARAMS_GET(thisx->params, 8, 8);
 
     if (this->unk_151 != 0) {
         thisx->flags |= ACTOR_FLAG_7;

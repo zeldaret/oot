@@ -153,7 +153,7 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     this->alpha = this->unk_31D = 255;
     this->rdFlags = REDEAD_GET_FLAGS(thisx);
 
-    if (PARAMS_GET2(this->actor.params, 0, 0x80)) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         this->actor.params |= 0xFF00;
     } else {
         this->actor.params &= 0xFF;

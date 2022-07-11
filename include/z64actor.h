@@ -507,16 +507,27 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
 
+#define NBITS_TO_MASK(n) \
+    ((1 << (n)) - 1)
+
 #define PARAMS_GET(p, s, m) \
-    (((p) >> (s)) & (m))
+    (((p) >> (s)) & NBITS_TO_MASK(m))
 
 #define PARAMS_GET2(p, s, m) \
-    (((p) & (m)) >> (s))
+    (((p) & (NBITS_TO_MASK(m) << (s))) >> (s))
 
 #define PARAMS_GET_NOMASK(p, s) \
     ((p) >> (s))
 
 #define PARAMS_GET_NOSHIFT(p, s, m) \
-    ((p) & ((m) << (s)))
+    ((p) & (NBITS_TO_MASK(m) << (s)))
+
+// Shift (m) bits from (s1) bit position to (s2) bit position
+#define PARAMS_GET_PS(p, s1, s2, m) \
+    (((p) >> ((s1) - (s2))) & (NBITS_TO_MASK(m) << (s2)))
+
+// Shift (m) bits from (s1) bit position to (s2) bit position
+#define PARAMS_GET2_PS(p, s1, s2, m) \
+    (((p) & (NBITS_TO_MASK(m) << (s1))) >> ((s1) - (s2)))
 
 #endif

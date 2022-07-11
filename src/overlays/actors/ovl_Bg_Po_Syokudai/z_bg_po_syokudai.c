@@ -80,7 +80,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->flameColor = PARAMS_GET(thisx->params, 8, 0xFF);
+    this->flameColor = PARAMS_GET(thisx->params, 8, 8);
     thisx->params &= 0x3F;
 
     thisx->colChkInfo.mass = MASS_IMMOVABLE;

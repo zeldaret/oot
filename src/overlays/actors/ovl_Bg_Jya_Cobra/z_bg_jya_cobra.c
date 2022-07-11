@@ -146,7 +146,7 @@ void func_80895A70(BgJyaCobra* this) {
     BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
     MirRay* mirRay;
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 3)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 2)) {
         case 0:
             mirRay = (MirRay*)this->dyna.actor.child;
             if (mirRay == NULL) {
@@ -179,7 +179,7 @@ void func_80895A70(BgJyaCobra* this) {
         mirRay->unLit = 0;
         Math_Vec3f_Copy(&mirRay->sourcePt, &this->unk_180);
         Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_NEW);
-        Matrix_RotateX(BINANG_TO_RAD(D_80897308[PARAMS_GET(this->dyna.actor.params, 0, 3)]), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(D_80897308[PARAMS_GET(this->dyna.actor.params, 0, 2)]), MTXMODE_APPLY);
         sp28.x = 0.0f;
         sp28.y = 0.0;
         sp28.z = this->unk_190 * 2800.0f;
@@ -205,14 +205,14 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
     BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
     f32 phi_f0;
 
-    if (PARAMS_GET(params, 0, 3) == 2 && mirror != NULL &&
+    if (PARAMS_GET(params, 0, 2) == 2 && mirror != NULL &&
         (!(mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) ||
          !(mirror->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED))) {
         Math_StepToF(&this->unk_18C, 0.0f, 0.05f);
     } else {
         this->unk_18C = 1.0f;
-        if (D_80897310[PARAMS_GET(params, 0, 3)]) {
-            phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[PARAMS_GET(params, 0, 3)];
+        if (D_80897310[PARAMS_GET(params, 0, 2)]) {
+            phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[PARAMS_GET(params, 0, 2)];
             phi_v0 = ABS(phi_v0);
             if (phi_v0 < 0x2000 && phi_v0 != -0x8000) {
                 this->unk_18C += (phi_v0 - 0x2000) * (3.0f / 0x4000);
@@ -227,9 +227,9 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
     this->unk_180.y = this->dyna.actor.world.pos.y + 57.0f;
     this->unk_180.z = this->dyna.actor.world.pos.z;
 
-    if (PARAMS_GET(params, 0, 3) == 0) {
+    if (PARAMS_GET(params, 0, 2) == 0) {
         this->unk_190 = 0.1f;
-    } else if (PARAMS_GET(params, 0, 3) == 1) {
+    } else if (PARAMS_GET(params, 0, 2) == 1) {
         phi_f0 = 0.1f;
         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
         if (phi_v0 < 0x500 && phi_v0 > -0x500) {
@@ -242,7 +242,7 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
             }
         }
         Math_StepToF(&this->unk_190, phi_f0, 0.04f);
-    } else if (PARAMS_GET(params, 0, 3) == 2) {
+    } else if (PARAMS_GET(params, 0, 2) == 2) {
         phi_f0 = 0.1f;
         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
         if (phi_v0 < 0x500 && phi_v0 > -0x500) {
@@ -279,7 +279,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     Lib_MemSet(shadowTex, COBRA_SHADOW_TEX_SIZE, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
-    rotY = !PARAMS_GET(this->dyna.actor.params, 0, 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
+    rotY = !PARAMS_GET(this->dyna.actor.params, 0, 2) ? (this->dyna.actor.shape.rot.y + 0x4000)
                                           : (this->dyna.actor.shape.rot.y - 0x4000);
     Matrix_RotateY(BINANG_TO_RAD(rotY), MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
@@ -399,21 +399,21 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
 
     BgJyaCobra_InitDynapoly(this, play, &gCobraCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (!PARAMS_GET(this->dyna.actor.params, 0, 3) && Flags_GetSwitch(play, PARAMS_GET((s32)this->dyna.actor.params, 8, 0x3F))) {
+    if (!PARAMS_GET(this->dyna.actor.params, 0, 2) && Flags_GetSwitch(play, PARAMS_GET((s32)this->dyna.actor.params, 8, 6))) {
         this->dyna.actor.world.rot.y = this->dyna.actor.home.rot.y = this->dyna.actor.shape.rot.y = 0;
     }
 
-    if (!PARAMS_GET(this->dyna.actor.params, 0, 3)) {
+    if (!PARAMS_GET(this->dyna.actor.params, 0, 2)) {
         BgJyaCobra_SpawnRay(this, play);
     }
 
     func_80896918(this, play);
 
-    if (PARAMS_GET(this->dyna.actor.params, 0, 3) == 1 || PARAMS_GET(this->dyna.actor.params, 0, 3) == 2) {
+    if (PARAMS_GET(this->dyna.actor.params, 0, 2) == 1 || PARAMS_GET(this->dyna.actor.params, 0, 2) == 2) {
         this->dyna.actor.room = -1;
     }
 
-    if (PARAMS_GET(this->dyna.actor.params, 0, 3) == 1) {
+    if (PARAMS_GET(this->dyna.actor.params, 0, 2) == 1) {
         BgJyaCobra_UpdateShadowFromTop(this);
     }
 
@@ -519,7 +519,7 @@ void BgJyaCobra_Update(Actor* thisx, PlayState* play2) {
     func_80895C74(this, play);
     func_80895A70(this);
 
-    if (PARAMS_GET(this->dyna.actor.params, 0, 3) == 0 || PARAMS_GET(this->dyna.actor.params, 0, 3) == 2) {
+    if (PARAMS_GET(this->dyna.actor.params, 0, 2) == 0 || PARAMS_GET(this->dyna.actor.params, 0, 2) == 2) {
         BgJyaCobra_UpdateShadowFromSide(this);
     }
 }
@@ -542,7 +542,7 @@ void func_80896D78(BgJyaCobra* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_cobra.c", 924);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    sp44.x = D_80897308[PARAMS_GET(this->dyna.actor.params, 0, 3)] + this->dyna.actor.shape.rot.x;
+    sp44.x = D_80897308[PARAMS_GET(this->dyna.actor.params, 0, 2)] + this->dyna.actor.shape.rot.x;
     sp44.y = this->dyna.actor.shape.rot.y;
     sp44.z = this->dyna.actor.shape.rot.z;
     Matrix_SetTranslateRotateYXZ(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
@@ -558,7 +558,7 @@ void func_80896D78(BgJyaCobra* this, PlayState* play) {
 
 void BgJyaCobra_DrawShadow(BgJyaCobra* this, PlayState* play) {
     s32 pad;
-    s16 params = PARAMS_GET(this->dyna.actor.params, 0, 3);
+    s16 params = PARAMS_GET(this->dyna.actor.params, 0, 2);
     Vec3f sp64;
     Vec3s* phi_a3;
 
@@ -609,7 +609,7 @@ void BgJyaCobra_Draw(Actor* thisx, PlayState* play) {
         func_80896D78(this, play);
     }
 
-    if (PARAMS_GET(this->dyna.actor.params, 0, 3) == 2) {
+    if (PARAMS_GET(this->dyna.actor.params, 0, 2) == 2) {
         BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
 
         if (mirror != NULL && (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) &&

@@ -10,9 +10,9 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-// type:        PARAMS_GET(this->dyna.actor.params, 0, 7)
-// subtype:     PARAMS_GET(this->dyna.actor.params, 4, 7)
-// switch flag: PARAMS_GET(this->dyna.actor.params, 8, 0x3F)
+// type:        PARAMS_GET(this->dyna.actor.params, 0, 3)
+// subtype:     PARAMS_GET(this->dyna.actor.params, 4, 3)
+// switch flag: PARAMS_GET(this->dyna.actor.params, 8, 6)
 // frozen:      PARAMS_GET(this->dyna.actor.params, 7, 1)
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play);
@@ -235,18 +235,18 @@ Actor* ObjSwitch_SpawnIce(ObjSwitch* this, PlayState* play) {
 
     return Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_ICE_POLY, thisx->world.pos.x, thisx->world.pos.y,
                               thisx->world.pos.z, thisx->world.rot.x, thisx->world.rot.y, thisx->world.rot.z,
-                              PARAMS_GET(this->dyna.actor.params, 8, 0x3F) << 8);
+                              PARAMS_GET(this->dyna.actor.params, 8, 6) << 8);
 }
 
 void ObjSwitch_SetOn(ObjSwitch* this, PlayState* play) {
     s32 pad;
     s32 subType;
 
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
         this->cooldownOn = false;
     } else {
-        subType = PARAMS_GET(this->dyna.actor.params, 4, 7);
-        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F));
+        subType = PARAMS_GET(this->dyna.actor.params, 4, 3);
+        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6));
 
         if (subType == OBJSWITCH_SUBTYPE_ONCE || subType == OBJSWITCH_SUBTYPE_SYNC) {
             OnePointCutscene_AttentionSetSfx(play, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
@@ -261,10 +261,10 @@ void ObjSwitch_SetOn(ObjSwitch* this, PlayState* play) {
 void ObjSwitch_SetOff(ObjSwitch* this, PlayState* play) {
     this->cooldownOn = false;
 
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
-        Flags_UnsetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F));
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
+        Flags_UnsetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6));
 
-        if (PARAMS_GET(this->dyna.actor.params, 4, 7) == OBJSWITCH_SUBTYPE_TOGGLE) {
+        if (PARAMS_GET(this->dyna.actor.params, 4, 3) == OBJSWITCH_SUBTYPE_TOGGLE) {
             OnePointCutscene_AttentionSetSfx(play, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
             this->cooldownOn = true;
         }
@@ -283,8 +283,8 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     s32 switchFlagSet;
     s32 type;
 
-    switchFlagSet = Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F));
-    type = PARAMS_GET(this->dyna.actor.params, 0, 7);
+    switchFlagSet = Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6));
+    type = PARAMS_GET(this->dyna.actor.params, 0, 3);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DPM_PLAYER);
@@ -350,14 +350,14 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
 void ObjSwitch_Destroy(Actor* thisx, PlayState* play) {
     ObjSwitch* this = (ObjSwitch*)thisx;
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 7)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 3)) {
         case OBJSWITCH_TYPE_FLOOR:
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
             break;
     }
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 7)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 3)) {
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
         case OBJSWITCH_TYPE_EYE:
             Collider_DestroyTris(play, &this->tris.col);
@@ -375,7 +375,7 @@ void ObjSwitch_FloorUpInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
-    if (PARAMS_GET(this->dyna.actor.params, 0, 7) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
+    if (PARAMS_GET(this->dyna.actor.params, 0, 3) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         if (this->tris.col.base.acFlags & AC_HIT) {
             ObjSwitch_FloorPressInit(this);
             ObjSwitch_SetOn(this, play);
@@ -384,7 +384,7 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.col.base);
         }
     } else {
-        switch (PARAMS_GET(this->dyna.actor.params, 4, 7)) {
+        switch (PARAMS_GET(this->dyna.actor.params, 4, 3)) {
             case OBJSWITCH_SUBTYPE_ONCE:
                 if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
@@ -420,7 +420,7 @@ void ObjSwitch_FloorPressInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorPress(ObjSwitch* this, PlayState* play) {
-    if (PARAMS_GET(this->dyna.actor.params, 4, 7) == OBJSWITCH_SUBTYPE_HOLD_INVERTED || !this->cooldownOn ||
+    if (PARAMS_GET(this->dyna.actor.params, 4, 3) == OBJSWITCH_SUBTYPE_HOLD_INVERTED || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y -= 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
@@ -438,9 +438,9 @@ void ObjSwitch_FloorDownInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
-    switch (PARAMS_GET(this->dyna.actor.params, 4, 7)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 4, 3)) {
         case OBJSWITCH_SUBTYPE_ONCE:
-            if (!Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
+            if (!Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
                 ObjSwitch_FloorReleaseInit(this);
             }
             break;
@@ -456,7 +456,7 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
             if (!func_800435B4(&this->dyna) && !Player_InCsMode(play)) {
                 if (this->releaseTimer <= 0) {
                     ObjSwitch_FloorReleaseInit(this);
-                    if (PARAMS_GET(this->dyna.actor.params, 4, 7) == OBJSWITCH_SUBTYPE_HOLD) {
+                    if (PARAMS_GET(this->dyna.actor.params, 4, 3) == OBJSWITCH_SUBTYPE_HOLD) {
                         ObjSwitch_SetOff(this, play);
                     } else {
                         ObjSwitch_SetOn(this, play);
@@ -475,7 +475,7 @@ void ObjSwitch_FloorReleaseInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorRelease(ObjSwitch* this, PlayState* play) {
-    s16 subType = PARAMS_GET(this->dyna.actor.params, 4, 7);
+    s16 subType = PARAMS_GET(this->dyna.actor.params, 4, 3);
 
     if (((subType != OBJSWITCH_SUBTYPE_TOGGLE) && (subType != OBJSWITCH_SUBTYPE_HOLD_INVERTED)) || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
@@ -511,7 +511,7 @@ void ObjSwitch_EyeFrozenInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeInit(ObjSwitch* this, PlayState* play) {
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
         ObjSwitch_EyeClosedInit(this);
     } else {
         ObjSwitch_EyeOpenInit(this);
@@ -552,9 +552,9 @@ void ObjSwitch_EyeClosedInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeClosed(ObjSwitch* this, PlayState* play) {
-    switch (PARAMS_GET(this->dyna.actor.params, 4, 7)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 4, 3)) {
         case OBJSWITCH_SUBTYPE_ONCE:
-            if (!Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
+            if (!Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
                 ObjSwitch_EyeOpeningInit(this);
                 this->dyna.actor.params &= ~0x80;
             }
@@ -575,7 +575,7 @@ void ObjSwitch_EyeOpeningInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeOpening(ObjSwitch* this, PlayState* play) {
-    if (PARAMS_GET(this->dyna.actor.params, 4, 7) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
+    if (PARAMS_GET(this->dyna.actor.params, 4, 3) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->eyeTexIndex--;
         if (this->eyeTexIndex <= 0) {
@@ -594,7 +594,7 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
-    switch (PARAMS_GET(this->dyna.actor.params, 4, 7)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 4, 3)) {
         case OBJSWITCH_SUBTYPE_ONCE:
             if ((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
@@ -604,7 +604,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             break;
         case OBJSWITCH_SUBTYPE_SYNC:
             if (((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
-                Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
+                Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -629,7 +629,7 @@ void ObjSwitch_CrystalTurnOnInit(ObjSwitch* this) {
 void ObjSwitch_CrystalTurnOn(ObjSwitch* this, PlayState* play) {
     if (!this->cooldownOn || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOnInit(this);
-        if (PARAMS_GET(this->dyna.actor.params, 4, 7) == OBJSWITCH_SUBTYPE_TOGGLE) {
+        if (PARAMS_GET(this->dyna.actor.params, 4, 3) == OBJSWITCH_SUBTYPE_TOGGLE) {
             ObjSwitch_UpdateTwoTexScrollXY(this);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
@@ -645,10 +645,10 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
-    switch (PARAMS_GET(this->dyna.actor.params, 4, 7)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 4, 3)) {
         case OBJSWITCH_SUBTYPE_ONCE:
         case OBJSWITCH_SUBTYPE_SYNC:
-            if (!Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
+            if (!Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
                 ObjSwitch_CrystalTurnOffInit(this);
             }
             break;
@@ -670,7 +670,7 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play) {
-    if (PARAMS_GET(this->dyna.actor.params, 4, 7) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
+    if (PARAMS_GET(this->dyna.actor.params, 4, 3) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOffInit(this);
         ObjSwitch_UpdateTwoTexScrollXY(this);
@@ -690,7 +690,7 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 7)) {
+    switch (PARAMS_GET(this->dyna.actor.params, 0, 3)) {
         case OBJSWITCH_TYPE_FLOOR:
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
             this->unk_17F = this->dyna.interactFlags;
@@ -718,7 +718,7 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
 void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
     static Gfx* floorSwitchDLists[] = { gFloorSwitch1DL, gFloorSwitch3DL, gFloorSwitch2DL, gFloorSwitch2DL };
 
-    Gfx_DrawDListOpa(play, floorSwitchDLists[PARAMS_GET(this->dyna.actor.params, 4, 7)]);
+    Gfx_DrawDListOpa(play, floorSwitchDLists[PARAMS_GET(this->dyna.actor.params, 4, 3)]);
 }
 
 void ObjSwitch_DrawFloorRusty(ObjSwitch* this, PlayState* play) {
@@ -732,7 +732,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
     };
     static Gfx* eyeDlists[] = { gEyeSwitch1DL, gEyeSwitch2DL };
     s32 pad;
-    s32 subType = PARAMS_GET(this->dyna.actor.params, 4, 7);
+    s32 subType = PARAMS_GET(this->dyna.actor.params, 4, 3);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
 
@@ -754,7 +754,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     s32 pad2;
     s32 subType;
 
-    subType = PARAMS_GET(this->dyna.actor.params, 4, 7);
+    subType = PARAMS_GET(this->dyna.actor.params, 4, 3);
     func_8002ED80(&this->dyna.actor, play, 0);
 
     if (1) {}
@@ -794,5 +794,5 @@ static ObjSwitchActionFunc sDrawFuncs[] = {
 void ObjSwitch_Draw(Actor* thisx, PlayState* play) {
     ObjSwitch* this = (ObjSwitch*)thisx;
 
-    sDrawFuncs[PARAMS_GET(this->dyna.actor.params, 0, 7)](this, play);
+    sDrawFuncs[PARAMS_GET(this->dyna.actor.params, 0, 3)](this, play);
 }

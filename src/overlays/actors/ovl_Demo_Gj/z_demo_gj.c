@@ -77,21 +77,21 @@ typedef void (*DemoGjDrawFunc)(DemoGj*, PlayState*);
 
 // bits 11-15
 s32 DemoGj_GetCollectibleType(DemoGj* this) {
-    s32 type = PARAMS_GET(this->dyna.actor.params, 0xB, 0x1F);
+    s32 type = PARAMS_GET(this->dyna.actor.params, 11, 5);
 
     return type;
 }
 
 // bits 8-10
 s32 DemoGj_GetCollectibleAmount(DemoGj* this) {
-    s32 amount = PARAMS_GET(this->dyna.actor.params, 0x8, 7);
+    s32 amount = PARAMS_GET(this->dyna.actor.params, 8, 3);
 
     return amount;
 }
 
 // bits 0-7
 s32 DemoGj_GetType(DemoGj* this) {
-    s32 type = PARAMS_GET(this->dyna.actor.params, 0, 0xFF);
+    s32 type = PARAMS_GET(this->dyna.actor.params, 0, 8);
 
     return type;
 }

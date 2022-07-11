@@ -43,7 +43,7 @@ void BgJyaBlock_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(play, PARAMS_GET(thisx->params, 0, 0x3F))) {
+    if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(play, PARAMS_GET(thisx->params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
     }
 }

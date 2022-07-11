@@ -120,7 +120,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     this->animStyle = 0;
     this->playerIsOpening = 0;
 
-    switch ((u8)PARAMS_GET(this->actor.params, 0, 0xFF)) {
+    switch ((u8)PARAMS_GET(this->actor.params, 0, 8)) {
         case DOOR_KILLER_DOOR:
             // `jointTable` is used for both the `jointTable` and `morphTable` args here. Because this actor doesn't
             // play any animations it does not cause problems, but it would need to be changed otherwise.
@@ -143,8 +143,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             this->colliderJntSph.elements[0].dim.worldSphere.center.z = (s16)this->actor.world.pos.z;
 
             // If tied to a switch flag and that switch flag is already set, kill the actor.
-            if ((PARAMS_GET(this->actor.params, 8, 0x3F) != 0x3F) &&
-                Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 0x3F))) {
+            if ((PARAMS_GET(this->actor.params, 8, 6) != 0x3F) &&
+                Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 6))) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -179,7 +179,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
 void DoorKiller_Destroy(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    if (PARAMS_GET(thisx->params, 0, 0xFF) == DOOR_KILLER_DOOR) {
+    if (PARAMS_GET(thisx->params, 0, 8) == DOOR_KILLER_DOOR) {
         Collider_DestroyCylinder(play, &this->colliderCylinder);
         Collider_DestroyJntSph(play, &this->colliderJntSph);
     }
@@ -240,7 +240,7 @@ void DoorKiller_SetAC(DoorKiller* this, PlayState* play) {
 }
 
 void DoorKiller_Die(DoorKiller* this, PlayState* play) {
-    s32 switchFlag = PARAMS_GET(this->actor.params, 8, 0x3F);
+    s32 switchFlag = PARAMS_GET(this->actor.params, 8, 6);
 
     // Can set a switch flag on death based on params
     if (switchFlag != 0x3F) {
@@ -471,7 +471,7 @@ void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
 void DoorKiller_SetProperties(DoorKiller* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->doorObjBankIndex)) {
         DoorKiller_UpdateTexture(&this->actor, play);
-        switch (PARAMS_GET(this->actor.params, 0, 0xFF)) {
+        switch (PARAMS_GET(this->actor.params, 0, 8)) {
             case DOOR_KILLER_DOOR:
                 this->actionFunc = DoorKiller_Wait;
                 this->actor.draw = DoorKiller_DrawDoor;
@@ -514,7 +514,7 @@ void DoorKiller_DrawDoor(Actor* thisx, PlayState* play) {
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = { object_door_killer_DL_001250, object_door_killer_DL_001550, object_door_killer_DL_0017B8,
                              object_door_killer_DL_001A58 };
-    s32 rubblePieceIndex = PARAMS_GET(thisx->params, 0, 0xFF) - 1;
+    s32 rubblePieceIndex = PARAMS_GET(thisx->params, 0, 8) - 1;
     DoorKiller* this = (DoorKiller*)thisx;
 
     if ((this->timer >= 20) || ((this->timer & 1) == 0)) {

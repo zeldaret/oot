@@ -83,10 +83,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjTsubo_SpawnCollectible(ObjTsubo* this, PlayState* play) {
-    s16 dropParams = PARAMS_GET(this->actor.params, 0, 0x1F);
+    s16 dropParams = PARAMS_GET(this->actor.params, 0, 5);
 
     if ((dropParams >= 0) && (dropParams < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos, dropParams | (PARAMS_GET(this->actor.params, 9, 0x3F) << 8));
+        Item_DropCollectible(play, &this->actor.world.pos, dropParams | (PARAMS_GET(this->actor.params, 9, 6) << 8));
     }
 }
 

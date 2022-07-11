@@ -86,8 +86,8 @@ s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
 
     temp_a3 = this->dyna.actor.child;
     player = GET_PLAYER(play);
-    if ((this->dyna.actor.xzDistToPlayer <= sDistances[PARAMS_GET(this->dyna.actor.params, 0xB, 7)]) ||
-        (temp_a3->xzDistToPlayer <= sDistances[PARAMS_GET(temp_a3->params, 0xB, 7)])) {
+    if ((this->dyna.actor.xzDistToPlayer <= sDistances[PARAMS_GET(this->dyna.actor.params, 11, 3)]) ||
+        (temp_a3->xzDistToPlayer <= sDistances[PARAMS_GET(temp_a3->params, 11, 3)])) {
 
         func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
         temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
@@ -142,14 +142,14 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play) {
     this->dyna.actor.focus.rot = this->dyna.actor.child->focus.rot;
     this->dyna.actor.child->focus.rot = tempRot;
 
-    temp = PARAMS_GET(this->dyna.actor.params, 0, 0x7FFF);
-    this->dyna.actor.params = PARAMS_GET_NOSHIFT(this->dyna.actor.params, 15, 1) | PARAMS_GET(this->dyna.actor.child->params, 0, 0x7FFF);
+    temp = PARAMS_GET(this->dyna.actor.params, 0, 15);
+    this->dyna.actor.params = PARAMS_GET_NOSHIFT(this->dyna.actor.params, 15, 1) | PARAMS_GET(this->dyna.actor.child->params, 0, 15);
     this->dyna.actor.child->params = PARAMS_GET_NOSHIFT(this->dyna.actor.child->params, 15, 1) | (temp & 0x7FFF);
 
     if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &this->dyna.actor.home.pos) < 0.01f) {
-        Flags_UnsetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
+        Flags_UnsetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6));
     } else {
-        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
+        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6));
     }
 }
 
@@ -207,9 +207,9 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
     this->func_168 = func_80BA2218;
     Actor_SetFocus(&this->dyna.actor, sSpawnData[PARAMS_GET(this->dyna.actor.params, 8, 1)].focus);
 
-    if (PARAMS_GET(this->dyna.actor.params, 0xF, 1)) {
+    if (PARAMS_GET(this->dyna.actor.params, 15, 1)) {
         func_80BA24E8(this);
-        if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) {
+        if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) {
             this->dyna.actor.draw = NULL;
         }
         DynaPolyActor_Init(&this->dyna, 0);
@@ -219,13 +219,13 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         ObjWarp2block_SetInactive(this);
     }
 
-    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", PARAMS_GET(this->dyna.actor.params, 0, 0xFFFF),
-                 this->dyna.actor.home.rot.z & 7, PARAMS_GET(this->dyna.actor.params, 0xB, 7));
+    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", PARAMS_GET(this->dyna.actor.params, 0, 16),
+                 this->dyna.actor.home.rot.z & 7, PARAMS_GET(this->dyna.actor.params, 11, 3));
 }
 
 void ObjWarp2block_Destroy(Actor* thisx, PlayState* play) {
     ObjWarp2block* this = (ObjWarp2block*)thisx;
-    if (PARAMS_GET(this->dyna.actor.params, 0xF, 1)) {
+    if (PARAMS_GET(this->dyna.actor.params, 15, 1)) {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
@@ -246,10 +246,10 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play) {
     Actor* current = play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
 
     while (current != NULL) {
-        if (current->id == ACTOR_OBJ_WARP2BLOCK && !PARAMS_GET(current->params, 0xF, 1) &&
-            (PARAMS_GET(this->dyna.actor.params, 0, 0x3F) == PARAMS_GET(current->params, 0, 0x3F))) {
+        if (current->id == ACTOR_OBJ_WARP2BLOCK && !PARAMS_GET(current->params, 15, 1) &&
+            (PARAMS_GET(this->dyna.actor.params, 0, 6) == PARAMS_GET(current->params, 0, 6))) {
             this->dyna.actor.child = current;
-            if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) {
+            if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) {
                 ObjWarp2block_SwapWithChild(this, play);
                 this->dyna.actor.draw = ObjWarp2block_Draw;
             }

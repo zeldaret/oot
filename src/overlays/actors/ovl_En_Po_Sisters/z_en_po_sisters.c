@@ -191,10 +191,10 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->unk_194 = PARAMS_GET(thisx->params, 8, 3);
+    this->unk_194 = PARAMS_GET(thisx->params, 8, 2);
     this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
-    this->unk_195 = PARAMS_GET(thisx->params, 0xA, 3);
+    this->unk_195 = PARAMS_GET(thisx->params, 10, 2);
     this->unk_196 = 32;
     this->unk_197 = 20;
     this->unk_198 = 1;

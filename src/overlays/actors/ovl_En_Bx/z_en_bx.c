@@ -98,7 +98,7 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_14C = 0;
     thisx->uncullZoneDownward = 2000.0f;
-    if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 0xFF))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 8))) {
         Actor_Kill(&this->actor);
     }
     thisx->params &= 0xFF;
@@ -210,7 +210,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[PARAMS_GET(this->actor.params, 0, 0x7F)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[PARAMS_GET(this->actor.params, 0, 7)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0, (play->gameplayFrames * -10) % 128, 32, 32));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bx.c", 478),

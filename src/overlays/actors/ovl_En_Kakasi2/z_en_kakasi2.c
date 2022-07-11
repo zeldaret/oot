@@ -63,8 +63,8 @@ void EnKakasi2_Init(Actor* thisx, PlayState* play) {
     // "Visit Umeda"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
 
-    this->switchFlag = PARAMS_GET(this->actor.params, 0, 0x3F);
-    spawnRangeY = PARAMS_GET(this->actor.params, 6, 0xFF);
+    this->switchFlag = PARAMS_GET(this->actor.params, 0, 6);
+    spawnRangeY = PARAMS_GET(this->actor.params, 6, 8);
     spawnRangeXZ = this->actor.world.rot.z;
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;

@@ -60,10 +60,10 @@ void EnLight_Init(Actor* thisx, PlayState* play) {
     }
 
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
-    Actor_SetScale(&this->actor, D_80A9E840[PARAMS_GET2(this->actor.params, 0, 0xF)].scale * 0.0001f);
+    Actor_SetScale(&this->actor, D_80A9E840[PARAMS_GET2(this->actor.params, 0, 4)].scale * 0.0001f);
     this->timer = (s32)(Rand_ZeroOne() * 255.0f);
 
-    if (PARAMS_GET2(this->actor.params, 0, 0x400) != 0) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1)) {
         this->actor.update = EnLight_UpdateSwitch;
     }
 }
@@ -92,7 +92,7 @@ void EnLight_Update(Actor* thisx, PlayState* play) {
     s16 radius;
     EnLight* this = (EnLight*)thisx;
 
-    flameParams = &D_80A9E840[PARAMS_GET2(this->actor.params, 0, 0xF)];
+    flameParams = &D_80A9E840[PARAMS_GET2(this->actor.params, 0, 4)];
     intensity = (Rand_ZeroOne() * 0.5f) + 0.5f;
     radius = (this->actor.params < 0) ? 100 : 300;
     Lights_PointSetColorAndRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
@@ -111,11 +111,11 @@ void EnLight_UpdateSwitch(Actor* thisx, PlayState* play) {
     EnLight* this = (EnLight*)thisx;
     f32 scale;
 
-    flameParams = &D_80A9E840[PARAMS_GET2(this->actor.params, 0, 0xF)];
+    flameParams = &D_80A9E840[PARAMS_GET2(this->actor.params, 0, 4)];
     scale = this->actor.scale.x / ((f32)flameParams->scale * 0.0001);
 
-    if (PARAMS_GET2(this->actor.params, 0, 0x800) != 0) {
-        if (Flags_GetSwitch(play, PARAMS_GET2(this->actor.params, 4, 0x3F0))) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 11, 1)) {
+        if (Flags_GetSwitch(play, PARAMS_GET2(this->actor.params, 4, 6))) {
             Math_StepToF(&scale, 1.0f, 0.05f);
         } else {
             if (scale < 0.1f) {
@@ -125,7 +125,7 @@ void EnLight_UpdateSwitch(Actor* thisx, PlayState* play) {
             Math_StepToF(&scale, 0.0f, 0.05f);
         }
     } else {
-        if (Flags_GetSwitch(play, PARAMS_GET2(this->actor.params, 4, 0x3F0))) {
+        if (Flags_GetSwitch(play, PARAMS_GET2(this->actor.params, 4, 6))) {
             if (scale < 0.1f) {
                 Actor_SetScale(&this->actor, 0.0f);
                 return;
@@ -156,7 +156,7 @@ void EnLight_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    flameParams = &D_80A9E840[PARAMS_GET2(this->actor.params, 0, 0xF)];
+    flameParams = &D_80A9E840[PARAMS_GET2(this->actor.params, 0, 4)];
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_light.c", 441);
 

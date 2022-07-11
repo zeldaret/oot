@@ -50,8 +50,8 @@ void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
-            if (PARAMS_GET(dynaPolyActor->actor.params, 0, 0x000F) == PUSHBLOCK_HUGE_START_ON ||
-                PARAMS_GET(dynaPolyActor->actor.params, 0, 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
+            if (PARAMS_GET(dynaPolyActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_ON ||
+                PARAMS_GET(dynaPolyActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_OFF) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
             } else {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);

@@ -30,8 +30,8 @@ const ActorInit Obj_Roomtimer_InitVars = {
 void ObjRoomtimer_Init(Actor* thisx, PlayState* play) {
     ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
-    this->switchFlag = PARAMS_GET(this->actor.params, 10, 0x3F);
-    this->actor.params = PARAMS_GET(this->actor.params, 0, 0x3FF);
+    this->switchFlag = PARAMS_GET(this->actor.params, 10, 6);
+    this->actor.params = PARAMS_GET(this->actor.params, 0, 10);
 
     if (this->actor.params != 0x3FF) {
         this->actor.params = CLAMP_MAX(this->actor.params, 600);

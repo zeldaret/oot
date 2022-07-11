@@ -51,7 +51,7 @@ void EnSiofuki_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->sfxFlags |= 1;
 
-    type = PARAMS_GET((u16)thisx->params, 0xC, 0xF);
+    type = PARAMS_GET((u16)thisx->params, 12, 4);
     if (!((type == 0) || (type == 1))) {
         Actor_Kill(thisx);
         return;
@@ -81,13 +81,13 @@ void EnSiofuki_Init(Actor* thisx, PlayState* play) {
     thisx->shape.rot.y = 0;
     thisx->shape.rot.z = 0;
 
-    type = PARAMS_GET((u16)thisx->params, 0xC, 0xF);
+    type = PARAMS_GET((u16)thisx->params, 12, 4);
     if (type == EN_SIOFUKI_RAISING) {
         this->currentHeight = 10.0f;
         this->targetHeight = 10.0f;
         this->actionFunc = func_80AFC34C;
     } else if (type == EN_SIOFUKI_LOWERING) {
-        if (Flags_GetTreasure(play, PARAMS_GET((u16)thisx->params, 0, 0x3F))) {
+        if (Flags_GetTreasure(play, PARAMS_GET((u16)thisx->params, 0, 6))) {
             this->currentHeight = -45.0f;
             this->targetHeight = -45.0f;
             this->actionFunc = func_80AFC544;
@@ -189,8 +189,8 @@ void func_80AFC218(EnSiofuki* this, PlayState* play) {
 
     this->timer--;
     if (this->timer < 0) {
-        Flags_UnsetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 0x3F));
-        switch (PARAMS_GET((u16)this->dyna.actor.params, 0xC, 0xF)) {
+        Flags_UnsetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 6));
+        switch (PARAMS_GET((u16)this->dyna.actor.params, 12, 4)) {
             case EN_SIOFUKI_RAISING:
                 this->targetHeight = 10.0f;
                 this->actionFunc = func_80AFC34C;
@@ -204,11 +204,11 @@ void func_80AFC218(EnSiofuki* this, PlayState* play) {
         func_8002F994(&this->dyna.actor, this->timer);
     }
 
-    if ((PARAMS_GET((u16)this->dyna.actor.params, 0xC, 0xF) == EN_SIOFUKI_LOWERING) &&
-        Flags_GetTreasure(play, PARAMS_GET((u16)this->dyna.actor.params, 0, 0x3F))) {
+    if ((PARAMS_GET((u16)this->dyna.actor.params, 12, 4) == EN_SIOFUKI_LOWERING) &&
+        Flags_GetTreasure(play, PARAMS_GET((u16)this->dyna.actor.params, 0, 6))) {
         this->currentHeight = -45.0f;
         this->targetHeight = -45.0f;
-        Flags_UnsetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 0x3F));
+        Flags_UnsetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 6));
         this->actionFunc = func_80AFC544;
     }
 }
@@ -218,7 +218,7 @@ void func_80AFC34C(EnSiofuki* this, PlayState* play) {
     func_80AFBE8C(this, play);
     func_80AFC1D0(this, play);
 
-    if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 6))) {
         this->targetHeight = 400.0f;
         this->timer = 300;
         this->actionFunc = func_80AFC218;
@@ -237,7 +237,7 @@ void func_80AFC3C8(EnSiofuki* this, PlayState* play) {
         this->actionFunc = func_80AFC218;
     }
 
-    if (Flags_GetTreasure(play, PARAMS_GET((u16)this->dyna.actor.params, 0, 0x3F))) {
+    if (Flags_GetTreasure(play, PARAMS_GET((u16)this->dyna.actor.params, 0, 6))) {
         this->currentHeight = -45.0f;
         this->targetHeight = -45.0f;
         this->actionFunc = func_80AFC544;
@@ -249,14 +249,14 @@ void func_80AFC478(EnSiofuki* this, PlayState* play) {
     func_80AFBE8C(this, play);
     func_80AFC1D0(this, play);
 
-    if (PARAMS_GET((u16)this->dyna.actor.params, 0xC, 0xF) == EN_SIOFUKI_LOWERING) {
-        if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 0x3F))) {
+    if (PARAMS_GET((u16)this->dyna.actor.params, 12, 4) == EN_SIOFUKI_LOWERING) {
+        if (Flags_GetSwitch(play, PARAMS_GET((u16)this->dyna.actor.params, 6, 6))) {
             this->timer = 20;
             this->actionFunc = func_80AFC3C8;
             OnePointCutscene_Init(play, 5010, 40, &this->dyna.actor, CAM_ID_MAIN);
         }
 
-        if (Flags_GetTreasure(play, PARAMS_GET((u16)this->dyna.actor.params, 0, 0x3F))) {
+        if (Flags_GetTreasure(play, PARAMS_GET((u16)this->dyna.actor.params, 0, 6))) {
             this->currentHeight = -45.0f;
             this->targetHeight = -45.0f;
             this->actionFunc = func_80AFC544;
@@ -295,7 +295,7 @@ void EnSiofuki_Draw(Actor* thisx, PlayState* play) {
 
     if (this->sfxFlags & 1) {
         f32 heightRatio;
-        switch (PARAMS_GET((u16)thisx->params, 0xC, 0xF)) {
+        switch (PARAMS_GET((u16)thisx->params, 12, 4)) {
             case EN_SIOFUKI_RAISING:
                 heightRatio = (this->currentHeight - 10.0f) / (400.0f - 10.0f);
                 func_800F436C(&thisx->projectedPos, NA_SE_EV_FOUNTAIN - SFX_FLAG, 1.0f + heightRatio);

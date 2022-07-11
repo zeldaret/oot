@@ -72,7 +72,7 @@ void func_80892890(BgInGate* this, PlayState* play) {
 
     if (play->csCtx.frames >= 50) {
         phi0 = 0x4000;
-        if (PARAMS_GET(this->dyna.actor.params, 0, 2) == 0) {
+        if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 1, 1)) {
             phi0 = -0x4000;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
@@ -86,7 +86,7 @@ void func_80892890(BgInGate* this, PlayState* play) {
         }
         csFrames = (Math_SinS(csFrames) * 16384.0f);
         phi1 = csFrames;
-        if (PARAMS_GET(this->dyna.actor.params, 0, 2) == 0) {
+        if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 1, 1)) {
             phi1 = -phi1;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi1;

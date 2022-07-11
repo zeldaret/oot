@@ -250,7 +250,7 @@ void EnIshi_DropCollectible(EnIshi* this, PlayState* play) {
     s16 dropParams;
 
     if (PARAMS_GET(this->actor.params, 0, 1) == ROCK_SMALL) {
-        dropParams = PARAMS_GET(this->actor.params, 8, 0xF);
+        dropParams = PARAMS_GET(this->actor.params, 8, 4);
 
         if (dropParams >= 0xD) {
             dropParams = 0;
@@ -320,7 +320,7 @@ void EnIshi_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, sRockScales[type]);
     EnIshi_InitCollider(&this->actor, play);
     if ((type == ROCK_LARGE) &&
-        Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0xA, 0x3C) | PARAMS_GET(this->actor.params, 6, 3))) {
+        Flags_GetSwitch(play, PARAMS_GET_PS(this->actor.params, 12, 2, 4) | PARAMS_GET(this->actor.params, 6, 2))) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -391,7 +391,7 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
     if (Actor_HasNoParent(&this->actor, play)) {
         this->actor.room = play->roomCtx.curRoom.num;
         if (PARAMS_GET(this->actor.params, 0, 1) == ROCK_LARGE) {
-            Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0xA, 0x3C) | PARAMS_GET(this->actor.params, 6, 3));
+            Flags_SetSwitch(play, PARAMS_GET_PS(this->actor.params, 12, 2, 4) | PARAMS_GET(this->actor.params, 6, 2));
         }
         EnIshi_SetupFly(this);
         EnIshi_Fall(this);

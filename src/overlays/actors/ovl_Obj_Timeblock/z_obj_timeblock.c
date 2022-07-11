@@ -114,14 +114,14 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     if (PARAMS_GET(this->dyna.actor.params, 6, 1)) {
         this->unk_177 = 0;
     } else {
-        this->unk_177 = (PARAMS_GET(this->dyna.actor.params, 0, 0x3F) < 0x38) ? 2 : 1;
+        this->unk_177 = (PARAMS_GET(this->dyna.actor.params, 0, 6) < 0x38) ? 2 : 1;
     }
 
     this->songObserverFunc = ObjTimeblock_WaitForOcarina;
 
     Actor_SetFocus(&this->dyna.actor, sSizeOptions[PARAMS_GET(this->dyna.actor.params, 8, 1)].height);
 
-    this->unk_174 = (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) ? true : false;
+    this->unk_174 = (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) ? true : false;
     this->unk_175 = PARAMS_GET(this->dyna.actor.params, 15, 1) ? true : false;
     this->isVisible = ObjTimeblock_CalculateIsVisible(this);
 
@@ -135,7 +135,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
 
     // "Block of time"
     osSyncPrintf("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n", (u16)this->dyna.actor.params,
-                 this->unk_177, this->dyna.actor.home.rot.z & 7, PARAMS_GET(this->dyna.actor.params, 11, 7),
+                 this->unk_177, this->dyna.actor.home.rot.z & 7, PARAMS_GET(this->dyna.actor.params, 11, 3),
                  PARAMS_GET(this->dyna.actor.params, 10, 1));
 }
 
@@ -151,7 +151,7 @@ u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, PlayState* play) {
         return false;
     }
 
-    if (this->dyna.actor.xzDistToPlayer <= sRanges[PARAMS_GET(this->dyna.actor.params, 11, 7)]) {
+    if (this->dyna.actor.xzDistToPlayer <= sRanges[PARAMS_GET(this->dyna.actor.params, 11, 3)]) {
         Vec3f distance;
         f32 blockSize;
 
@@ -225,7 +225,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play) {
         if (this->unk_177 == 0) {
             this->dyna.actor.params ^= 0x8000;
         } else {
-            ObjTimeblock_ToggleSwitchFlag(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
+            ObjTimeblock_ToggleSwitchFlag(play, PARAMS_GET(this->dyna.actor.params, 0, 6));
         }
     }
 
@@ -236,7 +236,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play) {
             if (this->unk_177 == 0) {
                 this->unk_175 = PARAMS_GET(this->dyna.actor.params, 15, 1) ? true : false;
             } else {
-                this->unk_174 = (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) ? true : false;
+                this->unk_174 = (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) ? true : false;
             }
         }
     }
@@ -253,7 +253,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play) {
 }
 
 void func_80BA06AC(ObjTimeblock* this, PlayState* play) {
-    s32 switchFlag = PARAMS_GET(this->dyna.actor.params, 0, 0x3F);
+    s32 switchFlag = PARAMS_GET(this->dyna.actor.params, 0, 6);
 
     this->unk_172 = play->msgCtx.lastPlayedSong;
 
@@ -277,7 +277,7 @@ void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play) {
         OnePointCutscene_Attention(play, &this->dyna.actor);
         // "Time Block Attention Camera (frame counter)"
         osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", play->state.frames);
-        ObjTimeblock_ToggleSwitchFlag(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
+        ObjTimeblock_ToggleSwitchFlag(play, PARAMS_GET(this->dyna.actor.params, 0, 6));
     }
 
     func_80BA06AC(this, play);
@@ -296,7 +296,7 @@ void ObjTimeblock_SetupAltBehaviourNotVisible(ObjTimeblock* this) {
 }
 
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play) {
-    s32 switchFlag = PARAMS_GET(this->dyna.actor.params, 0, 0x3F);
+    s32 switchFlag = PARAMS_GET(this->dyna.actor.params, 0, 6);
     s8 switchFlagIsSet = (Flags_GetSwitch(play, switchFlag)) ? true : false;
 
     if (this->unk_176 ^ switchFlagIsSet && switchFlagIsSet ^ (PARAMS_GET(this->dyna.actor.params, 15, 1) ? true : false)) {

@@ -8,7 +8,7 @@ struct EnRd;
 
 typedef void (*EnRdActionFunc)(struct EnRd*, PlayState*);
 
-#define REDEAD_GET_FLAGS(thisx) PARAMS_GET2((thisx)->params, 8, 0xFF00)
+#define REDEAD_GET_FLAGS(thisx) PARAMS_GET2((thisx)->params, 8, 8)
 
 typedef enum {
     /*  0 */ REDEAD_GIBDO_LIMB_NONE,

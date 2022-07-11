@@ -123,7 +123,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     func_808B3960(this, play, &gLonLonMilkCrateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) {
         func_808B44B8(this, play);
         this->dyna.actor.world.pos = D_808B45C4[D_808B4590];
         D_808B4590++;

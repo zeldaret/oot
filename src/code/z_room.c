@@ -374,7 +374,7 @@ BgImage* func_80096A74(MeshHeader1Multi* meshHeader1Multi, PlayState* play) {
     }
 
     player = GET_PLAYER(play);
-    player->actor.params = PARAMS_GET_NOSHIFT(player->actor.params, 8, 0xFF) | bgCamIndex;
+    player->actor.params = PARAMS_GET_NOSHIFT(player->actor.params, 8, 8) | bgCamIndex;
 
     bgImage = SEGMENTED_TO_VIRTUAL(meshHeader1Multi->list);
     for (i = 0; i < meshHeader1Multi->count; i++) {

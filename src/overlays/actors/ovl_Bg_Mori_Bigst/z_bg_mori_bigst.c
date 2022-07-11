@@ -71,7 +71,7 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
 
     // "mori (bigST.keyceiling)"
     osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
-                 Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F)),
+                 Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6)),
                  Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
                  GET_PLAYER(play)->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, DPM_UNK);
@@ -84,7 +84,7 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6))) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
     } else {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 270.0f;
@@ -110,7 +110,7 @@ void BgMoriBigst_WaitForMoriTex(BgMoriBigst* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
         thisx->draw = BgMoriBigst_Draw;
         if (Flags_GetClear(play, thisx->room) && (GET_PLAYER(play)->actor.world.pos.y > 700.0f)) {
-            if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 0x3F))) {
+            if (Flags_GetSwitch(play, PARAMS_GET(thisx->params, 8, 6))) {
                 BgMoriBigst_SetupDone(this, play);
             } else {
                 BgMoriBigst_SetupStalfosFight(this, play);
@@ -214,7 +214,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
 
 void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, PlayState* play) {
     if ((this->dyna.actor.home.rot.z == 0) && !Player_InCsMode(play)) {
-        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 0x3F));
+        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6));
         BgMoriBigst_SetupDone(this, play);
     }
 }

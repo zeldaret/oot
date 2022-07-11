@@ -91,9 +91,9 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     f32 nSinsX;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->isDestroyedSwitchFlag = PARAMS_GET(thisx->params, 0, 0x3F);
-    this->burnSwitchFlag = PARAMS_GET(thisx->params, 6, 0x3F);
-    this->dyna.actor.params = PARAMS_GET(thisx->params, 0xC, 0xF);
+    this->isDestroyedSwitchFlag = PARAMS_GET(thisx->params, 0, 6);
+    this->burnSwitchFlag = PARAMS_GET(thisx->params, 6, 6);
+    this->dyna.actor.params = PARAMS_GET(thisx->params, 12, 4);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     Collider_InitTris(play, &this->trisCollider);
     Collider_SetTris(play, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);

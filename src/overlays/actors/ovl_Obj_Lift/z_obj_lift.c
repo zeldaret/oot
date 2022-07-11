@@ -108,7 +108,7 @@ void ObjLift_Init(Actor* thisx, PlayState* play) {
 
     ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DPM_PLAYER);
 
-    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 2, 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 2, 6))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -129,7 +129,7 @@ void ObjLift_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80B9651C(ObjLift* this) {
-    this->timer = sFallTimerDurations[PARAMS_GET(this->dyna.actor.params, 8, 7)];
+    this->timer = sFallTimerDurations[PARAMS_GET(this->dyna.actor.params, 8, 3)];
     ObjLift_SetupAction(this, func_80B96560);
 }
 
@@ -139,7 +139,7 @@ void func_80B96560(ObjLift* this, PlayState* play) {
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->timer <= 0) {
-            if (PARAMS_GET(this->dyna.actor.params, 8, 7) == 7) {
+            if (PARAMS_GET(this->dyna.actor.params, 8, 3) == 7) {
                 func_80B967C0(this);
             } else {
                 quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
@@ -150,7 +150,7 @@ void func_80B96560(ObjLift* this, PlayState* play) {
             }
         }
     } else {
-        this->timer = sFallTimerDurations[PARAMS_GET(this->dyna.actor.params, 8, 7)];
+        this->timer = sFallTimerDurations[PARAMS_GET(this->dyna.actor.params, 8, 3)];
     }
 }
 
@@ -201,7 +201,7 @@ void func_80B96840(ObjLift* this, PlayState* play) {
         (sMaxFallDistances[PARAMS_GET(this->dyna.actor.params, 1, 1)] - 0.001f)) {
         func_80B96160(this, play);
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
-        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 2, 0x3F));
+        Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 2, 6));
         Actor_Kill(&this->dyna.actor);
     }
 }

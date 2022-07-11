@@ -326,7 +326,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
     if (thisx->params <= ENBB_BLUE) {
         ActorShape_Init(&thisx->shape, 200.0f, ActorShadow_DrawCircle, 35.0f);
     }
-    if (PARAMS_GET_NOSHIFT(thisx->params, 8, 0xFF)) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 8, 8)) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
