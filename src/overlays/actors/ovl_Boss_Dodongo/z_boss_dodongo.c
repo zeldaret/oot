@@ -1050,12 +1050,17 @@ s32 BossDodongo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     f32 mtxScaleZ;
     BossDodongo* this = (BossDodongo*)thisx;
 
-    // required for matching
-    if ((limbIndex == 6) || (limbIndex == 7)) {
-        if (this->unk_25C) {}
-        goto block_1;
+    switch (limbIndex) {
+        case 6:
+        case 7:
+        case 8:
+            if (this->unk_25C[limbIndex] != 0.0f) {}
+            break;
+
+        default:
+            break;
     }
-block_1:
+
     Matrix_TranslateRotateZYX(pos, rot);
 
     if (*dList != NULL) {
@@ -1088,7 +1093,6 @@ block_1:
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_boss_dodongo.c", 3826);
     }
-    { s32 pad; } // Required to match
     return 1;
 }
 
