@@ -146,7 +146,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
-    if (PARAMS_GET(this->actor.params, 0, 0x8000) != 0) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1) != 0) {
         this->actor.flags |= ACTOR_FLAG_7;
         if (1) {}
         this->actor.draw = EnFirefly_DrawInvisible;

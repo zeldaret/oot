@@ -94,7 +94,7 @@ void ElfMsg_Init(Actor* thisx, PlayState* play) {
             thisx->scale.y = thisx->world.rot.z * 0.04f;
         }
 
-        if (PARAMS_GET(thisx->params, 0, 0x4000)) {
+        if (PARAMS_GET_NOSHIFT(thisx->params, 14, 1)) {
             ElfMsg_SetupAction(this, ElfMsg_CallNaviCuboid);
         } else {
             ElfMsg_SetupAction(this, ElfMsg_CallNaviCylinder);
@@ -109,7 +109,7 @@ void ElfMsg_Destroy(Actor* thisx, PlayState* play) {
 
 s32 ElfMsg_GetMessageId(ElfMsg* this) {
     // Negative message ID forces link to talk to Navi
-    if (PARAMS_GET(this->actor.params, 0, 0x8000)) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
         return PARAMS_GET(this->actor.params, 0, 0xFF) + 0x100;
     } else {
         return -(PARAMS_GET(this->actor.params, 0, 0xFF) + 0x100);
@@ -173,7 +173,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (PARAMS_GET(thisx->params, 0, 0x8000)) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 15, 1)) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
     } else {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
@@ -183,7 +183,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
-    if (PARAMS_GET(thisx->params, 0, 0x4000)) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 14, 1)) {
         gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);

@@ -140,7 +140,7 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
             (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
             tmp33 = player->invincibilityTimer & 0xFF;
             tmp32 = thisx->world.rot.y;
-            if (!PARAMS_GET(thisx->params, 0, 0x80)) {
+            if (!PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
                 tmp32 = thisx->yawTowardsPlayer;
             }
             if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
@@ -189,7 +189,7 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-    if (PARAMS_GET(thisx->params, 0, 0x80)) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderQuad.base);
     }
 }
@@ -216,7 +216,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bx.c", 478),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (PARAMS_GET(this->actor.params, 0, 0x80)) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         func_809D1D0C(&this->actor, play);
     }
 

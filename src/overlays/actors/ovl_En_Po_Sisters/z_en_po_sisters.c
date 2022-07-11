@@ -201,7 +201,7 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     this->unk_199 = 32;
     this->unk_294 = 110.0f;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    if (PARAMS_GET(this->actor.params, 0, 0x1000)) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
         func_80ADA094(this, play);
     } else if (this->unk_194 == 0) {
         if (this->unk_195 == 0) {

@@ -760,7 +760,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         DREG(4) = 70;
     }
 
-    if (PARAMS_GET(this->actor.params, 0, 0x8000)) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
         this->actor.params &= ~0x8000;
         this->type = HORSE_HNI;
 

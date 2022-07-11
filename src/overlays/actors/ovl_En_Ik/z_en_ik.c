@@ -1435,7 +1435,7 @@ void func_80A781CC(Actor* thisx, PlayState* play) {
 
 void EnIk_Init(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
-    s32 flag = PARAMS_GET(this->actor.params, 0, 0xFF00);
+    s32 flag = PARAMS_GET_NOSHIFT(this->actor.params, 8, 0xFF);
 
     if ((PARAMS_GET(this->actor.params, 0, 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
         (flag != 0 && Flags_GetSwitch(play, flag >> 8))) {

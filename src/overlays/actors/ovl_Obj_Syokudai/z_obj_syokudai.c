@@ -81,7 +81,7 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
     static u8 sColTypesStand[] = { 0x09, 0x0B, 0x0B };
     s32 pad;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
-    s32 torchType = PARAMS_GET(this->actor.params, 0, 0xF000);
+    s32 torchType = PARAMS_GET_NOSHIFT(this->actor.params, 12, 0xF);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -99,7 +99,7 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
                             this->actor.world.pos.z, 255, 255, 180, -1);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
 
-    if (PARAMS_GET(this->actor.params, 0, 0x400) || ((torchType != 2) && Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F)))) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1) || ((torchType != 2) && Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 0x3F)))) {
         this->litTimer = -1;
     }
 
@@ -122,7 +122,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 torchCount = PARAMS_GET(this->actor.params, 6, 0xF);
     s32 switchFlag = PARAMS_GET(this->actor.params, 0, 0x3F);
-    s32 torchType = PARAMS_GET(this->actor.params, 0, 0xF000);
+    s32 torchType = PARAMS_GET_NOSHIFT(this->actor.params, 12, 0xF);
     s32 litTimeScale;
     WaterBox* dummy;
     f32 waterSurface;
@@ -153,7 +153,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     } else {
         player = GET_PLAYER(play);
         interactionType = 0;
-        if (PARAMS_GET(this->actor.params, 0, 0x400)) {
+        if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1)) {
             this->litTimer = -1;
         }
         if (torchCount != 0) {

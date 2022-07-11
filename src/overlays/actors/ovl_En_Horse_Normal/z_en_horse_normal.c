@@ -259,7 +259,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
         Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
-    if (PARAMS_GET(this->actor.params, 0, 0xF0) == 0x10 && PARAMS_GET(this->actor.params, 0, 0xF) != 0xF) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 0xF) == 0x10 && PARAMS_GET(this->actor.params, 0, 0xF) != 0xF) {
         func_80A6B91C(this, play);
     } else {
         func_80A6BC48(this);

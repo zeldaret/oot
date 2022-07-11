@@ -62,7 +62,7 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
     switchFlagParam = PARAMS_GET(this->dyna.actor.params, 0, 0x3F);
-    t6 = PARAMS_GET(this->dyna.actor.params, 0, 0x4000);
+    t6 = PARAMS_GET_NOSHIFT(this->dyna.actor.params, 14, 1);
 
     if (t6 != 0) {
         this->switchFlag = switchFlagParam;

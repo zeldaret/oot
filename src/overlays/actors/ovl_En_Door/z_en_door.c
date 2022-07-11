@@ -113,7 +113,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     }
 
     // Double doors
-    if (PARAMS_GET(this->actor.params, 0, 0x40)) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 6, 1)) {
         EnDoor* other;
 
         xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;

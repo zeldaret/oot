@@ -86,7 +86,7 @@ void BgSpot08Iceblock_SinkUnderPlayer(BgSpot08Iceblock* this) {
     f32 target;
     f32 step;
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0xF0)) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 0xF)) {
         case 0:
             step = 0.15f;
             break;
@@ -258,7 +258,7 @@ void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, PlayState* play) {
     sin = Math_SinS(this->dyna.actor.home.rot.y) * 100.0f;
     cos = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
 
-    if (!PARAMS_GET(this->dyna.actor.params, 0, 0x100)) {
+    if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 8, 1)) {
         Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT08_ICEBLOCK,
                            this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
                            this->dyna.actor.home.rot.x, this->dyna.actor.home.rot.y, this->dyna.actor.home.rot.z,
@@ -287,7 +287,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     osSyncPrintf("(spot08 流氷)(arg_data 0x%04x)\n", this->dyna.actor.params);
     BgSpot08Iceblock_CheckParams(this);
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0x200)) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 9, 1)) {
         case 0:
             colHeader = &gZorasFountainIcebergCol;
             break;
@@ -313,7 +313,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0xF0)) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 0xF)) {
         case 0:
             Actor_SetScale(&this->dyna.actor, 0.2f);
             break;
@@ -391,7 +391,7 @@ void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play
     BgSpot08Iceblock_SetWaterline(this);
 
     // parent handles rotations of both
-    if (!PARAMS_GET(this->dyna.actor.params, 0, 0x100)) {
+    if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 0, 0x100)) {
         this->dyna.actor.world.rot.y += 0x190;
         sin = Math_SinS(this->dyna.actor.world.rot.y) * 100.0f;
         cos = Math_CosS(this->dyna.actor.world.rot.y) * 100.0f;
@@ -432,7 +432,7 @@ void BgSpot08Iceblock_Draw(Actor* thisx, PlayState* play) {
     Gfx* dList;
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 0x200)) {
+    switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 9, 1)) {
         case 0:
             dList = gZorasFountainIcebergDL;
             break;

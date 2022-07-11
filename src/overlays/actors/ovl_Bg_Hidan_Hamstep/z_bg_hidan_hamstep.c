@@ -112,7 +112,7 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, PlayState* play2) {
         pos.z = (((i * 160.0f) + 60.0f) * cos) + this->dyna.actor.home.pos.z;
 
         params = (i + 1) & 0xFF;
-        params |= PARAMS_GET(this->dyna.actor.params, 0, 0xFF00);
+        params |= PARAMS_GET_NOSHIFT(this->dyna.actor.params, 8, 0xFF);
 
         step = (BgHidanHamstep*)Actor_SpawnAsChild(&play->actorCtx, &step->dyna.actor, play, ACTOR_BG_HIDAN_HAMSTEP,
                                                    pos.x, pos.y, pos.z, this->dyna.actor.world.rot.x,

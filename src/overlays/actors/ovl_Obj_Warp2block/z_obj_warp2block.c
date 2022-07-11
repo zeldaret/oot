@@ -143,8 +143,8 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play) {
     this->dyna.actor.child->focus.rot = tempRot;
 
     temp = PARAMS_GET(this->dyna.actor.params, 0, 0x7FFF);
-    this->dyna.actor.params = PARAMS_GET(this->dyna.actor.params, 0, 0x8000) | PARAMS_GET(this->dyna.actor.child->params, 0, 0x7FFF);
-    this->dyna.actor.child->params = PARAMS_GET(this->dyna.actor.child->params, 0, 0x8000) | (temp & 0x7FFF);
+    this->dyna.actor.params = PARAMS_GET_NOSHIFT(this->dyna.actor.params, 15, 1) | PARAMS_GET(this->dyna.actor.child->params, 0, 0x7FFF);
+    this->dyna.actor.child->params = PARAMS_GET_NOSHIFT(this->dyna.actor.child->params, 15, 1) | (temp & 0x7FFF);
 
     if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &this->dyna.actor.home.pos) < 0.01f) {
         Flags_UnsetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 0x3F));
