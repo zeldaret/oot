@@ -18,12 +18,12 @@ Gfx D_801270B0[] = {
     gsSPEndDisplayList(),
 };
 
-void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags);
+void Room_DrawNormal(PlayState* play, Room* room, u32 flags);
 void Room_DrawPrerender(PlayState* play, Room* room, u32 flags);
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags);
 
 void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
-    Room_DrawAllMeshes, // MESH_HEADER_TYPE_ALL
+    Room_DrawNormal,    // MESH_HEADER_TYPE_NORMAL
     Room_DrawPrerender, // MESH_HEADER_TYPE_PRERENDER
     Room_DrawCullable,  // MESH_HEADER_TYPE_CULLABLE
 };
@@ -31,9 +31,9 @@ void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
 }
 
-void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags) {
+void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
     s32 i;
-    MeshHeaderAll* meshHeaderAll;
+    MeshHeaderNormal* meshHeaderNormal;
     MeshHeaderDListsEntry* dListsEntry;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 193);
@@ -52,9 +52,9 @@ void Room_DrawAllMeshes(PlayState* play, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    meshHeaderAll = &room->meshHeader->all;
-    dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderAll->entries);
-    for (i = 0; i < meshHeaderAll->numEntries; i++) {
+    meshHeaderNormal = &room->meshHeader->normal;
+    dListsEntry = SEGMENTED_TO_VIRTUAL(meshHeaderNormal->entries);
+    for (i = 0; i < meshHeaderNormal->numEntries; i++) {
         if ((flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL)) {
             gSPDisplayList(POLY_OPA_DISP++, dListsEntry->opa);
         }

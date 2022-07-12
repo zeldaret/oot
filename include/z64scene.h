@@ -61,7 +61,7 @@ typedef struct {
 // Mesh headers
 
 typedef enum {
-    /* 0 */ MESH_HEADER_TYPE_ALL,
+    /* 0 */ MESH_HEADER_TYPE_NORMAL,
     /* 1 */ MESH_HEADER_TYPE_PRERENDER,
     /* 2 */ MESH_HEADER_TYPE_CULLABLE,
     /* 3 */ MESH_HEADER_TYPE_MAX
@@ -81,7 +81,7 @@ typedef struct {
     /* 0x01 */ u8 numEntries;
     /* 0x04 */ MeshHeaderDListsEntry* entries;
     /* 0x08 */ MeshHeaderDListsEntry* entriesEnd;
-} MeshHeaderAll; // size = 0x0C
+} MeshHeaderNormal; // size = 0x0C
 
 typedef enum {
     /* 1 */ MESH_HEADER_PRERENDER_FORMAT_SINGLE = 1,
@@ -145,7 +145,7 @@ typedef struct {
 
 typedef union {
     MeshHeaderBase base;
-    MeshHeaderAll all;
+    MeshHeaderNormal normal;
     MeshHeaderPrerenderBase prerenderBase;
     MeshHeaderPrerenderSingle prerenderSingle;
     MeshHeaderPrerenderMulti prerenderMulti;
@@ -154,7 +154,7 @@ typedef union {
 
 // TODO update ZAPD
 typedef MeshHeaderDListsEntry PolygonDlist;
-typedef MeshHeaderAll PolygonType0;
+typedef MeshHeaderNormal PolygonType0;
 typedef MeshHeaderPrerenderSingle MeshHeader1Single;
 typedef MeshHeaderPrerenderMultiBackgroundEntry BgImage;
 typedef MeshHeaderPrerenderMulti MeshHeader1Multi;
