@@ -1044,8 +1044,9 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
             params = DROP_TABLE_NUM(10);
             dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((gSaveContext.magicLevel != 0) &&
-                   (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) { // At most half current magic bar
+        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) {
+            //! @bug Likely intended to be "at most half current magic bar", but that should use `magicCapacity >> 1`;
+            //! the current version will only run with both the double bar and exactly 1 point of magic.
             params = DROP_TABLE_NUM(10);
             dropTableIndex = 0; // quantity = 1
             dropId = ITEM00_MAGIC_SMALL;
