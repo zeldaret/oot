@@ -73,7 +73,7 @@ static void* sItemDropTex[] = {
 
 #define DROP_TABLE_ROW(d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, dA, dB, dC, dD, dE, dF) \
     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7), (d8), (d9), (dA), (dB), (dC), (dD), (dE), (dF),
-#define DROP(item, quantity) (ITEM00_##item)
+#define DROP(item, quantity) (item)
 
 static u8 sItemDropIds[] = {
 #include "tables/drop_tables.h"
