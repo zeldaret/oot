@@ -9,7 +9,7 @@ typedef enum {
     /* 4 */ BANK_SYSTEM,
     /* 5 */ BANK_OCARINA,
     /* 6 */ BANK_VOICE
-}SfxBankType;
+} SfxBankType;
 
 typedef enum {
     /* 0 */ SFX_STATE_EMPTY,
