@@ -34,7 +34,6 @@
 // Both left and right channels
 #define DMEM_2CH_SIZE (2 * DMEM_1CH_SIZE)
 
-// The length of the audio buffer is 88 frames
 #define AIBUF_LEN (88 * SAMPLES_PER_FRAME) // number of samples
 #define AIBUF_SIZE (AIBUF_LEN * SAMPLE_SIZE) // number of bytes
 
