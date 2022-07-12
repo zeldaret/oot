@@ -4365,7 +4365,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->doorBgCamIndex = play->transiActorCtx.list[ACTOR_TRANSITION_INDEX(&doorShutter->dyna.actor)]
+                    this->doorBgCamIndex = play->transiActorCtx.list[TRANSITION_ACTOR_INDEX(&doorShutter->dyna.actor)]
                                                .sides[(doorDirection > 0) ? 0 : 1]
                                                .bgCamIndex;
 
@@ -4440,7 +4440,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Play_GetCamera(play, CAM_ID_MAIN), doorActor,
-                                             play->transiActorCtx.list[ACTOR_TRANSITION_INDEX(doorActor)]
+                                             play->transiActorCtx.list[TRANSITION_ACTOR_INDEX(doorActor)]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .bgCamIndex,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
@@ -4449,7 +4449,7 @@ s32 func_80839800(Player* this, PlayState* play) {
             }
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
-                frontRoom = play->transiActorCtx.list[ACTOR_TRANSITION_INDEX(doorActor)]
+                frontRoom = play->transiActorCtx.list[TRANSITION_ACTOR_INDEX(doorActor)]
                                 .sides[(doorDirection > 0) ? 0 : 1]
                                 .room;
 
