@@ -81,7 +81,7 @@ void func_808ADEF0(BgSpot03Taki* this, PlayState* play) {
         if (this->openingAlpha > 0) {
             this->openingAlpha -= 5;
             if (this->openingAlpha <= 0.0f) {
-                func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+                DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->timer = 400;
                 this->state = WATERFALL_OPENED;
                 this->openingAlpha = 0;
@@ -96,7 +96,7 @@ void func_808ADEF0(BgSpot03Taki* this, PlayState* play) {
         if (this->openingAlpha < 255.0f) {
             this->openingAlpha += 5.0f;
             if (this->openingAlpha >= 255.0f) {
-                func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+                DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->state = WATERFALL_CLOSED;
                 this->openingAlpha = 255.0f;
                 Flags_UnsetSwitch(play, this->switchFlag);
