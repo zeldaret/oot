@@ -86,8 +86,6 @@ static u8 sDropQuantities[] = {
 };
 #undef DROP
 
-static s32 pad = 0; // Inter-file padding
-
 void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -993,7 +991,7 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
     params &= 0x7FFF;
 
     if (fromActor != NULL) {
-        if (fromActor->dropFlag != DROPFLAG_NONE) {
+        if (fromActor->dropFlag) {
             if (fromActor->dropFlag & DROPFLAG_ARROW_FIRE) {
                 params = DROP_TABLE_NUM(1);
                 dropTableIndex = 11; // ITEM00_NONE, 1
