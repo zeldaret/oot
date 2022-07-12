@@ -22,23 +22,23 @@ void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
 s32 DmaMgr_CompareName(const char* name1, const char* name2);
-s32 DmaMgr_DmaRomToRam(u32 rom, void* ram, u32 size);
+s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size);
 s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
 void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc);
-const char* DmaMgr_GetFileNameImpl(u32 vrom);
-const char* DmaMgr_GetFileName(u32 vrom);
+const char* DmaMgr_GetFileNameImpl(uintptr_t vrom);
+const char* DmaMgr_GetFileName(uintptr_t vrom);
 void DmaMgr_ProcessMsg(DmaRequest* req);
 void DmaMgr_ThreadEntry(void* arg);
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, u32 vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
-s32 DmaMgr_SendRequest0(void* ram, u32 vrom, u32 size);
+s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
+s32 DmaMgr_SendRequest0(void* ram, uintptr_t vrom, u32 size);
 void DmaMgr_Init(void);
-s32 DmaMgr_SendRequest2(DmaRequest* req, void* ram, u32 vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
+s32 DmaMgr_SendRequest2(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
                         const char* file, s32 line);
-s32 DmaMgr_SendRequest1(void* ram, u32 vrom, u32 size, const char* file, s32 line);
+s32 DmaMgr_SendRequest1(void* ram, uintptr_t vrom, u32 size, const char* file, s32 line);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
 void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
-void Yaz0_Decompress(u32 romStart, u8* dst, u32 size);
+void Yaz0_Decompress(uintptr_t romStart, u8* dst, u32 size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);
@@ -56,7 +56,7 @@ void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
-s32 StackCheck_GetState(StackEntry* entry);
+u32 StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
 f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
