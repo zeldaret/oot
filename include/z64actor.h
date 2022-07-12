@@ -318,7 +318,6 @@ typedef enum {
 #define DROP_TABLE_NUM(i) ((i) << 4)
 
 //! Flags to be used with Actor.dropFlag, almost always via Actor_SetDropFlag or Actor_SetDropFlagJntSph
-#define DROPFLAG_NONE 0
 #define DROPFLAG_ARROW_FIRE (1 << 0)
 #define DROPFLAG_ARROW_ICE (1 << 1)
 #define DROPFLAG_ARROW_UNK1 (1 << 2)

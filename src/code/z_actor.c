@@ -4064,11 +4064,11 @@ u8 Actor_ApplyDamage(Actor* actor) {
 
 void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
-        actor->dropFlag = DROPFLAG_NONE;
+        actor->dropFlag = 0;
     } else if (freezeFlag &&
                (colInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
         actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
-        actor->dropFlag = DROPFLAG_NONE;
+        actor->dropFlag = 0;
     } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
         actor->dropFlag = DROPFLAG_ARROW_FIRE;
     } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
@@ -4087,7 +4087,7 @@ void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
         }
         actor->dropFlag = DROPFLAG_MAGIC_LIGHT;
     } else {
-        actor->dropFlag = DROPFLAG_NONE;
+        actor->dropFlag = 0;
     }
 }
 
@@ -4096,16 +4096,16 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
     s32 dropFlag;
     s32 i;
 
-    actor->dropFlag = DROPFLAG_NONE;
+    actor->dropFlag = 0;
 
     for (i = jntSph->count - 1; i >= 0; i--) {
         curColInfo = &jntSph->elements[i].info;
         if (curColInfo->acHitInfo == NULL) {
-            dropFlag = DROPFLAG_NONE;
+            dropFlag = 0;
         } else if (freezeFlag &&
                    (curColInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
             actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
-            dropFlag = DROPFLAG_NONE;
+            dropFlag = 0;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
             dropFlag = DROPFLAG_ARROW_FIRE;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
@@ -4124,7 +4124,7 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
             }
             dropFlag = DROPFLAG_MAGIC_LIGHT;
         } else {
-            dropFlag = DROPFLAG_NONE;
+            dropFlag = 0;
         }
         actor->dropFlag |= dropFlag;
     }
