@@ -361,7 +361,7 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
     s32 i;
     Actor* actor = &this->dyna.actor;
     Vec3f tempVector;
-    EnItem00* collectible;
+    Actor* collectible;
 
     if (this->unk_216 == 1) {
         tempVector.x = actor->world.pos.x;
@@ -370,46 +370,46 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
 
         if (this->unk_218 == 0) {
             for (i = 0; i < ARRAY_COUNT(D_808B85E4); i++) {
-                collectible = (EnItem00*)Item_DropCollectible(play, &tempVector, ITEM00_BOMBS_A);
+                collectible = Item_DropCollectible(play, &tempVector, ITEM00_BOMBS_A);
                 if (collectible != NULL) {
-                    collectible->actor.velocity.y = 11.0f;
-                    collectible->actor.world.rot.y = D_808B85E4[i];
+                    collectible->velocity.y = 11.0f;
+                    collectible->world.rot.y = D_808B85E4[i];
                 }
             }
         } else if (this->unk_218 == 1) {
             for (i = 0; i < ARRAY_COUNT(D_808B85E4); i++) {
-                collectible = (EnItem00*)Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_GREEN);
+                collectible = Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_GREEN);
                 if (collectible != NULL) {
-                    collectible->actor.velocity.y = 11.0f;
-                    collectible->actor.world.rot.y = D_808B85E4[i];
+                    collectible->velocity.y = 11.0f;
+                    collectible->world.rot.y = D_808B85E4[i];
                 }
             }
         } else if (this->unk_218 == 2) {
             if ((this->unk_21A != 0) || Flags_GetCollectible(play, (actor->params & 0x3F))) {
-                collectible = (EnItem00*)Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_PURPLE);
+                collectible = Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_PURPLE);
                 if (collectible != NULL) {
-                    collectible->actor.velocity.y = 11.0f;
-                    collectible->actor.world.rot.y = D_808B85E4[1];
+                    collectible->velocity.y = 11.0f;
+                    collectible->world.rot.y = D_808B85E4[1];
                 }
             } else {
-                collectible = (EnItem00*)Item_DropCollectible(play, &tempVector, ((actor->params & 0x3F) << 8) | ITEM00_HEART_PIECE);
+                collectible = Item_DropCollectible(play, &tempVector, ((actor->params & 0x3F) << 8) | ITEM00_HEART_PIECE);
                 if (collectible != NULL) {
-                    collectible->actor.velocity.y = 11.0f;
-                    collectible->actor.world.rot.y = D_808B85E4[1];
+                    collectible->velocity.y = 11.0f;
+                    collectible->world.rot.y = D_808B85E4[1];
                     this->unk_21A = 1;
                 }
             }
 
-            collectible = (EnItem00*)Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_RED);
+            collectible = Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_RED);
             if (collectible != NULL) {
-                collectible->actor.velocity.y = 11.0f;
-                collectible->actor.world.rot.y = D_808B85E4[0];
+                collectible->velocity.y = 11.0f;
+                collectible->world.rot.y = D_808B85E4[0];
             }
 
-            collectible = (EnItem00*)Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_BLUE);
+            collectible = Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_BLUE);
             if (collectible != NULL) {
-                collectible->actor.velocity.y = 11.0f;
-                collectible->actor.world.rot.y = D_808B85E4[2];
+                collectible->velocity.y = 11.0f;
+                collectible->world.rot.y = D_808B85E4[2];
             }
         }
     } else if (this->unk_216 == 2) {

@@ -183,7 +183,6 @@ static Vec3f D_80AE1B6C = { 0.0f, 0.0f, 0.0f };
 
 void EnPoh_Init(Actor* thisx, PlayState* play) {
     s32 pad;
-    EnItem00* collectible;
     EnPoh* this = (EnPoh*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -211,9 +210,10 @@ void EnPoh_Init(Actor* thisx, PlayState* play) {
         if (D_80AE1A50 >= 3) {
             Actor_Kill(&this->actor);
         } else {
-            collectible = (EnItem00*)Item_DropCollectible(play, &this->actor.world.pos, 0x4000 | ITEM00_RUPEE_BLUE);
+            Actor* collectible = Item_DropCollectible(play, &this->actor.world.pos, 0x4000 | ITEM00_RUPEE_BLUE);
+
             if (collectible != NULL) {
-                collectible->actor.speedXZ = 0.0f;
+                collectible->speedXZ = 0.0f;
             }
         }
     } else if (this->actor.params == EN_POH_FLAT) {

@@ -144,7 +144,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play) {
 }
 
 void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
-    EnItem00* collectible;
+    Actor* collectible;
     f32 rnd;
     Vec3f spawnPos;
     s32 i;
@@ -164,11 +164,11 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 // Drop rupees
                 for (i = 0; i < 9; i++) {
-                    collectible = (EnItem00*)Item_DropCollectible(
+                    collectible = Item_DropCollectible(
                         play, &spawnPos, (i % (ITEM00_RUPEE_RED - ITEM00_RUPEE_GREEN + 1)) + ITEM00_RUPEE_GREEN);
                     if (collectible != NULL) {
-                        collectible->actor.velocity.y = 15.0f;
-                        collectible->actor.world.rot.y = this->dyna.actor.shape.rot.y + (i * 0x1C71);
+                        collectible->velocity.y = 15.0f;
+                        collectible->world.rot.y = this->dyna.actor.shape.rot.y + (i * 0x1C71);
                     }
                 }
             } else if (rnd < 0.2f) {
@@ -201,10 +201,10 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
         if (collectibleParams != -1) {
-            collectible = (EnItem00*)Item_DropCollectible(play, &spawnPos, collectibleParams);
+            collectible = Item_DropCollectible(play, &spawnPos, collectibleParams);
             if (collectible != NULL) {
-                collectible->actor.velocity.y = 15.0f;
-                collectible->actor.world.rot.y = this->dyna.actor.shape.rot.y;
+                collectible->velocity.y = 15.0f;
+                collectible->world.rot.y = this->dyna.actor.shape.rot.y;
             }
         }
         Actor_Kill(&this->dyna.actor);
