@@ -471,26 +471,26 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
     }
 }
 
-void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
+void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdLightSetting* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         play->envCtx.lightSettingOverride = cmd->setting - 1;
         play->envCtx.lightBlend = 1.0f;
     }
 }
 
-void CutsceneCmd_PlaySequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
+void CutsceneCmd_PlaySequence(PlayState* play, CutsceneContext* csCtx, CsCmdSeqChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F595C(cmd->sequence - 1);
     }
 }
 
-void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
+void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdSeqChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F59E8(cmd->sequence - 1);
     }
 }
 
-void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
+void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdSeqFade* cmd) {
     u8 duration;
 
     if ((csCtx->frames == cmd->startFrame) && (csCtx->frames < cmd->endFrame)) {
@@ -504,13 +504,13 @@ void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdMusi
     }
 }
 
-void CutsceneCmd_RumbleController(PlayState* play, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
+void CutsceneCmd_RumbleController(PlayState* play, CutsceneContext* csCtx, CsCmdRumble* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800AA000(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
     }
 }
 
-void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdDayTime* cmd) {
+void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd) {
     s16 hours;
     s16 minutes;
 

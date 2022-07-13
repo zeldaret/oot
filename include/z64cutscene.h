@@ -3,6 +3,30 @@
 
 #include "ultra64.h"
 
+/**
+ * Special type for blocks of cutscene data, asm-processor checks
+ * arrays for CutsceneData type and converts floats within the array
+ * to their IEEE-754 representation. The array must close with };
+ * on its own line.
+ *
+ * Files that contain this type that are included in other C files
+ * must be preceded by a '#pragma asmproc recurse' qualifier to
+ * inform asm-processor that it must recursively process that include.
+ *
+ * Example:
+ * #pragma asmproc recurse
+ * #include "file.c"
+ */
+typedef union CutsceneData {
+    s32 i;
+    f32 f;
+    s16 s[2];
+    s8  b[4];
+} CutsceneData;
+
+#define CS_CMD_CONTINUE 0
+#define CS_CMD_STOP -1
+
 typedef enum {
     CS_STATE_IDLE,
     CS_STATE_START,
@@ -11,12 +35,44 @@ typedef enum {
     CS_STATE_EXEC_TERMINATOR
 } CutsceneState;
 
+typedef enum {
+    CS_CMD_00 = 0x0000,
+    CS_CMD_CAM_EYE = 0x0001,
+    CS_CMD_CAM_AT = 0x0002,
+    CS_CMD_MISC = 0x0003,
+    CS_CMD_SET_LIGHTING = 0x0004,
+    CS_CMD_CAM_EYE_REL_TO_PLAYER = 0x0005,
+    CS_CMD_CAM_AT_REL_TO_PLAYER = 0x0006,
+    CS_CMD_07 = 0x0007,
+    CS_CMD_08 = 0x0008,
+    CS_CMD_09 = 0x0009,
+    CS_CMD_TEXTBOX = 0x0013,
+    CS_CMD_SET_PLAYER_ACTION = 0x000A,
+    CS_CMD_SET_ACTOR_ACTION_1 = 0x000F,
+    CS_CMD_SET_ACTOR_ACTION_2 = 0x000E,
+    CS_CMD_SET_ACTOR_ACTION_3 = 0x0019,
+    CS_CMD_SET_ACTOR_ACTION_4 = 0x001D,
+    CS_CMD_SET_ACTOR_ACTION_5 = 0x001E,
+    CS_CMD_SET_ACTOR_ACTION_6 = 0x002C,
+    CS_CMD_SET_ACTOR_ACTION_7 = 0x001F,
+    CS_CMD_SET_ACTOR_ACTION_8 = 0x0031,
+    CS_CMD_SET_ACTOR_ACTION_9 = 0x003E,
+    CS_CMD_SET_ACTOR_ACTION_10 = 0x008F,
+    CS_CMD_SCENE_TRANS_FX = 0x002D,
+    CS_CMD_NOP = 0x000B,
+    CS_CMD_PLAYBGM = 0x0056,
+    CS_CMD_STOPBGM = 0x0057,
+    CS_CMD_FADEBGM = 0x007C,
+    CS_CMD_SETTIME = 0x008C,
+    CS_CMD_TERMINATOR = 0x03E8,
+    CS_CMD_END = 0xFFFF
+} CutsceneCmd;
+
 typedef struct {
-    /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
-    /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
-    /* 0x03 */ u8  flag;           // eventChkInf flag bound to the entrance cutscene
-    /* 0x04 */ void* segAddr;      // segment offset location of the cutscene
-} EntranceCutscene; // size = 0x8
+    /* 0x00 */ u16 base;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+} CsCmdBase; // size = 0x6
 
 typedef struct {
     /* 0x00 */ s8    continueFlag;
@@ -40,30 +96,24 @@ typedef struct {
 } CutsceneCameraMove; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ u16 base;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-} CsCmdBase; // size = 0x6
-
-typedef struct {
     /* 0x00 */ u8  unk_00;
     /* 0x01 */ u8  setting;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdEnvLighting; // size = 0x6
+} CsCmdLightSetting; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u8  unk_00;
     /* 0x01 */ u8  sequence;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdMusicChange; // size = 0x6
+} CsCmdSeqChange; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u16 type;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdMusicFade; // size = 0x6
+} CsCmdSeqFade; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -72,7 +122,7 @@ typedef struct {
     /* 0x06 */ u8  unk_06;
     /* 0x07 */ u8  unk_07;
     /* 0x08 */ u8  unk_08;
-} CsCmdUnknown9; // size = 0xA
+} CsCmdRumble; // size = 0xA
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -80,7 +130,7 @@ typedef struct {
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8  hour;
     /* 0x07 */ u8  minute;
-} CsCmdDayTime; // size = 0x8
+} CsCmdTime; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u16 base;
@@ -103,8 +153,6 @@ typedef struct {
     /* 0x18 */ Vec3i endPos;
     /* 0x24 */ Vec3i normal;
 } CsCmdActorAction; // size = 0x30
-
-
 
 typedef enum {
     /* 0x01 */ CS_MISC_RAIN = 1,
@@ -142,63 +190,6 @@ typedef enum {
     /* 0x22 */ CS_MISC_FREEZE_TIME,
     /* 0x23 */ CS_MISC_LONG_SCARECROW_SONG
 } CutsceneMiscCommand;
-
-typedef enum {
-    CS_CMD_00 = 0x0000,
-    CS_CMD_CAM_EYE = 0x0001,
-    CS_CMD_CAM_AT = 0x0002,
-    CS_CMD_MISC = 0x0003,
-    CS_CMD_SET_LIGHTING = 0x0004,
-    CS_CMD_CAM_EYE_REL_TO_PLAYER = 0x0005,
-    CS_CMD_CAM_AT_REL_TO_PLAYER = 0x0006,
-    CS_CMD_07 = 0x0007,
-    CS_CMD_08 = 0x0008,
-    CS_CMD_09 = 0x0009,
-    CS_CMD_TEXTBOX = 0x0013,
-    CS_CMD_SET_PLAYER_ACTION = 0x000A,
-    CS_CMD_SET_ACTOR_ACTION_1 = 0x000F,
-    CS_CMD_SET_ACTOR_ACTION_2 = 0x000E,
-    CS_CMD_SET_ACTOR_ACTION_3 = 0x0019,
-    CS_CMD_SET_ACTOR_ACTION_4 = 0x001D,
-    CS_CMD_SET_ACTOR_ACTION_5 = 0x001E,
-    CS_CMD_SET_ACTOR_ACTION_6 = 0x002C,
-    CS_CMD_SET_ACTOR_ACTION_7 = 0x001F,
-    CS_CMD_SET_ACTOR_ACTION_8 = 0x0031,
-    CS_CMD_SET_ACTOR_ACTION_9 = 0x003E,
-    CS_CMD_SET_ACTOR_ACTION_10 = 0x008F,
-    CS_CMD_SCENE_TRANS_FX = 0x002D,
-    CS_CMD_NOP = 0x000B,
-    CS_CMD_PLAYBGM = 0x0056,
-    CS_CMD_STOPBGM = 0x0057,
-    CS_CMD_FADEBGM = 0x007C,
-    CS_CMD_SETTIME = 0x008C,
-    CS_CMD_TERMINATOR = 0x03E8,
-    CS_CMD_END = 0xFFFF
-} CutsceneCmd;
-
-/**
- * Special type for blocks of cutscene data, asm-processor checks
- * arrays for CutsceneData type and converts floats within the array
- * to their IEEE-754 representation. The array must close with };
- * on its own line.
- *
- * Files that contain this type that are included in other C files
- * must be preceded by a '#pragma asmproc recurse' qualifier to
- * inform asm-processor that it must recursively process that include.
- *
- * Example:
- * #pragma asmproc recurse
- * #include "file.c"
- */
-typedef union CutsceneData {
-    s32 i;
-    f32 f;
-    s16 s[2];
-    s8  b[4];
-} CutsceneData;
-
-#define CS_CMD_CONTINUE 0
-#define CS_CMD_STOP -1
 
 // TODO confirm correctness, clarify names
 typedef enum {
@@ -323,5 +314,12 @@ typedef enum {
     /* 0x76 */ GANON_BATTLE_TOWER_COLLAPSE,
     /* 0x77 */ ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneTerminatorDestination;
+
+typedef struct {
+    /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
+    /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
+    /* 0x03 */ u8  flag;           // eventChkInf flag bound to the entrance cutscene
+    /* 0x04 */ void* segAddr;      // segment offset location of the cutscene
+} EntranceCutscene; // size = 0x8
 
 #endif
