@@ -29,8 +29,8 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
     }
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-    gSaveContext.hudModeDimOnlyDisabledButtons = gSaveContext.requestHudMode = gSaveContext.curHudMode =
-        gSaveContext.hudModeCounter = 0;
+    gSaveContext.hudVisibilityDimOnlyDisabledButtons = gSaveContext.nextHudVisibility = gSaveContext.hudVisibility =
+        gSaveContext.hudVisibilityCounter = 0; // false, HUD_VISIBILITY_IDLE
     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;

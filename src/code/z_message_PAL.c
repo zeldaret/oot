@@ -1588,10 +1588,10 @@ void Message_OpenText(PlayState* play, u16 textId) {
     s16 textBoxType;
 
     if (msgCtx->msgMode == MSGMODE_NONE) {
-        gSaveContext.prevHudMode = gSaveContext.curHudMode;
+        gSaveContext.prevHudVisibility = gSaveContext.hudVisibility;
     }
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
-        Interface_ChangeHudMode(HUD_MODE_A_HEARTS_MAGIC_WITH_DIM_BTN);
+        Interface_SetHudVisibility(HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_DIM_BTN);
     }
 
     sMessageHasSetSfx = D_8014B2F4 = sTextboxSkipped = sTextIsCredits = 0;
@@ -1622,7 +1622,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         textId == 0x2061 || // Learning Epona's Song
         textId == 0x5035 || // Guru-Guru in Windmill
         textId == 0x40AC) { // Ocarina Frog Minigame
-        Interface_ChangeHudMode(HUD_MODE_OFF);
+        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
     }
     msgCtx->textId = textId;
 
@@ -1839,9 +1839,9 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
     if (noStop == false) {
         Interface_LoadActionLabelB(play, DO_ACTION_STOP);
-        noStop = gSaveContext.curHudMode;
-        Interface_ChangeHudMode(HUD_MODE_B_ALT);
-        gSaveContext.curHudMode = noStop;
+        noStop = gSaveContext.hudVisibility;
+        Interface_SetHudVisibility(HUD_VISIBILITY_B_ALT);
+        gSaveContext.hudVisibility = noStop;
     }
     // "Music Performance Start"
     osSyncPrintf("演奏開始\n");
@@ -1852,7 +1852,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->msgMode = MSGMODE_FROGS_START;
         msgCtx->textBoxType = TEXTBOX_TYPE_BLUE;
     } else if (ocarinaActionId == OCARINA_ACTION_MEMORY_GAME) {
-        Interface_ChangeHudMode(HUD_MODE_OFF);
+        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
         Message_Decode(play);
         msgCtx->msgMode = MSGMODE_MEMORY_GAME_START;
     } else if (ocarinaActionId == OCARINA_ACTION_SCARECROW_LONG_PLAYBACK) {
@@ -1867,8 +1867,8 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->stateTimer = 3;
         msgCtx->msgMode = MSGMODE_SCARECROW_LONG_PLAYBACK;
         AudioOcarina_SetPlaybackSong(OCARINA_SONG_SCARECROW_LONG + 1, 1);
-        gSaveContext.curHudMode = HUD_MODE_IDLE;
-        Interface_ChangeHudMode(HUD_MODE_OFF);
+        gSaveContext.hudVisibility = HUD_VISIBILITY_IDLE;
+        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
     }
     for (k = 0, j = 0; j < 48; j++, k += 0x80) {
         func_8006EE50(&play->msgCtx.font, 0x8140, k);
@@ -2138,7 +2138,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                 Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
                                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                        &gSfxDefaultReverb);
-                                Interface_ChangeHudMode(HUD_MODE_OFF);
+                                Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
                             }
                         } else if (msgCtx->ocarinaAction == OCARINA_ACTION_CHECK_SCARECROW_SPAWN) {
                             if (msgCtx->ocarinaStaff->state < OCARINA_SONG_SCARECROW_SPAWN) {
@@ -2158,7 +2158,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                 Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
                                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                        &gSfxDefaultReverb);
-                                Interface_ChangeHudMode(HUD_MODE_OFF);
+                                Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
                             }
                         } else if (msgCtx->ocarinaAction == OCARINA_ACTION_FREE_PLAY) {
                             // "Ocarina_Free Correct Example Performance"
@@ -2175,7 +2175,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                    &gSfxDefaultReverb);
                         }
-                        Interface_ChangeHudMode(HUD_MODE_OFF);
+                        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
                     } else {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3191,7 +3191,7 @@ void Message_Update(PlayState* play) {
         case MSGMODE_TEXT_NEXT_MSG:
             Message_Decode(play);
             if (sTextFade) {
-                Interface_ChangeHudMode(HUD_MODE_OFF);
+                Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
             }
             if (D_80153D74 != 0) {
                 msgCtx->textDrawPos = msgCtx->decodedTextLen;
@@ -3273,7 +3273,7 @@ void Message_Update(PlayState* play) {
             if (msgCtx->textId == 0x301F || msgCtx->textId == 0xA || msgCtx->textId == 0xC || msgCtx->textId == 0xCF ||
                 msgCtx->textId == 0x21C || msgCtx->textId == 9 || msgCtx->textId == 0x4078 ||
                 msgCtx->textId == 0x2015 || msgCtx->textId == 0x3040) {
-                gSaveContext.prevHudMode = HUD_MODE_ALL;
+                gSaveContext.prevHudVisibility = HUD_VISIBILITY_ALL;
             }
             if (play->csCtx.state == 0) {
                 osSyncPrintf(VT_FGCOL(GREEN));
@@ -3284,12 +3284,13 @@ void Message_Update(PlayState* play) {
                     (msgCtx->textId != 0x3055 && gSaveContext.cutsceneIndex < 0xFFF0)) {
                     osSyncPrintf("=== day_time=%x ", ((void)0, gSaveContext.cutsceneIndex));
                     if (play->activeCamId == CAM_ID_MAIN) {
-                        if (gSaveContext.prevHudMode == HUD_MODE_IDLE || gSaveContext.prevHudMode == HUD_MODE_OFF ||
-                            gSaveContext.prevHudMode == HUD_MODE_OFF_ALT) {
-                            gSaveContext.prevHudMode = HUD_MODE_ALL;
+                        if (gSaveContext.prevHudVisibility == HUD_VISIBILITY_IDLE ||
+                            gSaveContext.prevHudVisibility == HUD_VISIBILITY_NONE ||
+                            gSaveContext.prevHudVisibility == HUD_VISIBILITY_NONE_ALT) {
+                            gSaveContext.prevHudVisibility = HUD_VISIBILITY_ALL;
                         }
-                        gSaveContext.curHudMode = HUD_MODE_IDLE;
-                        Interface_ChangeHudMode(gSaveContext.prevHudMode);
+                        gSaveContext.hudVisibility = HUD_VISIBILITY_IDLE;
+                        Interface_SetHudVisibility(gSaveContext.prevHudVisibility);
                     }
                 }
             }

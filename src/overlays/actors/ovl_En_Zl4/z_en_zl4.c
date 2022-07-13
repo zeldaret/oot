@@ -330,7 +330,7 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
 
     EnZl4_SetActiveCamMove(play, 5);
     ShrinkWindow_SetVal(0x20);
-    Interface_ChangeHudMode(HUD_MODE_OFF_ALT);
+    Interface_SetHudVisibility(HUD_VISIBILITY_NONE_ALT);
     this->talkTimer2 = 0;
     return true;
 }
@@ -1150,7 +1150,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             this->mouthExpression = ZL4_MOUTH_SURPRISED;
             Audio_PlayFanfare(NA_BGM_APPEAR);
             EnZl4_SetActiveCamDir(play, 0);
-            Interface_ChangeHudMode(HUD_MODE_OFF_ALT);
+            Interface_SetHudVisibility(HUD_VISIBILITY_NONE_ALT);
             ShrinkWindow_SetVal(0x20);
             this->talkState = 0;
             this->csState++;
@@ -1194,7 +1194,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
         case ZL4_CS_PLAN:
             if (EnZl4_CsMakePlan(this, play)) {
                 func_8002DF54(play, &this->actor, 7);
-                gSaveContext.prevHudMode = HUD_MODE_ALL;
+                gSaveContext.prevHudVisibility = HUD_VISIBILITY_ALL;
                 SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;
             }

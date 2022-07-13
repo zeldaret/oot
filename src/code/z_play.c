@@ -506,7 +506,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         s16 sceneSetupIndex = 0;
 
-                        Interface_ChangeHudMode(HUD_MODE_OFF);
+                        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
                             sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
