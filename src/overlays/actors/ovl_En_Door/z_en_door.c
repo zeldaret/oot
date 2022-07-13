@@ -51,11 +51,11 @@ typedef struct {
 } EnDoorInfo;
 
 typedef enum {
-    /* 0 */ DOOR_DL_GAMEPLAY_KEEP,
-    /* 1 */ DOOR_DL_HIDAN,
-    /* 2 */ DOOR_DL_MIZU,
-    /* 3 */ DOOR_DL_HAKA,
-    /* 4 */ DOOR_DL_GAMEPLAY_FIELD_KEEP,
+    /* 0 */ DOOR_DL_DEFAULT,
+    /* 1 */ DOOR_DL_FIRE_TEMPLE,
+    /* 2 */ DOOR_DL_WATER_TEMPLE,
+    /* 3 */ DOOR_DL_SHADOW,
+    /* 4 */ DOOR_DL_DEFAULT_FIELD_KEEP,
     /* 5 */ DOOR_DL_MAX
 } EnDoorDListIndex;
 
@@ -63,13 +63,13 @@ typedef enum {
  * Controls which object and display lists to use in a given scene
  */
 static EnDoorInfo sDoorInfo[] = {
-    { SCENE_HIDAN, DOOR_DL_HIDAN, OBJECT_HIDAN_OBJECTS },
-    { SCENE_MIZUSIN, DOOR_DL_MIZU, OBJECT_MIZU_OBJECTS },
-    { SCENE_HAKADAN, DOOR_DL_HAKA, OBJECT_HAKA_DOOR },
-    { SCENE_HAKADANCH, DOOR_DL_HAKA, OBJECT_HAKA_DOOR },
+    { SCENE_HIDAN, DOOR_DL_FIRE_TEMPLE, OBJECT_HIDAN_OBJECTS },
+    { SCENE_MIZUSIN, DOOR_DL_WATER_TEMPLE, OBJECT_MIZU_OBJECTS },
+    { SCENE_HAKADAN, DOOR_DL_SHADOW, OBJECT_HAKA_DOOR },
+    { SCENE_HAKADANCH, DOOR_DL_SHADOW, OBJECT_HAKA_DOOR },
     // KEEP objects should remain last and in this order
-    { -1, DOOR_DL_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP },
-    { -1, DOOR_DL_GAMEPLAY_FIELD_KEEP, OBJECT_GAMEPLAY_FIELD_KEEP },
+    { -1, DOOR_DL_DEFAULT, OBJECT_GAMEPLAY_KEEP },
+    { -1, DOOR_DL_DEFAULT_FIELD_KEEP, OBJECT_GAMEPLAY_FIELD_KEEP },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -99,11 +99,11 @@ static u8 sDoorAnimCloseFrames[DOOR_OPEN_ANIM_MAX] = {
 };
 
 static Gfx* sDoorDLists[DOOR_DL_MAX][2] = {
-    { gDoorLeftDL, gDoorRightDL },                                         // DOOR_DL_GAMEPLAY_KEEP
-    { gFireTempleDoorWithHandleLeftDL, gFireTempleDoorWithHandleRightDL }, // DOOR_DL_HIDAN
-    { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },                   // DOOR_DL_MIZU
-    { gShadowDoorLeftDL, gShadowDoorRightDL },                             // DOOR_DL_HAKA
-    { gFieldDoorLeftDL, gFieldDoorRightDL },                               // DOOR_DL_GAMEPLAY_FIELD_KEEP
+    { gDoorLeftDL, gDoorRightDL },                                         // DOOR_DL_DEFAULT
+    { gFireTempleDoorWithHandleLeftDL, gFireTempleDoorWithHandleRightDL }, // DOOR_DL_FIRE_TEMPLE
+    { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },                   // DOOR_DL_WATER_TEMPLE
+    { gShadowDoorLeftDL, gShadowDoorRightDL },                             // DOOR_DL_SHADOW
+    { gFieldDoorLeftDL, gFieldDoorRightDL },                               // DOOR_DL_DEFAULT_FIELD_KEEP
 };
 
 void EnDoor_Init(Actor* thisx, PlayState* play2) {
