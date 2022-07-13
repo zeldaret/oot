@@ -560,7 +560,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
                 D_80157D90 = play->gameplayFrames;
                 D_80157D94[0] = 0;
                 for (i = 0; i < 50; i++) {
-                    if (play->colCtx.dyna.bgActorFlags[i] & 1) {
+                    if (play->colCtx.dyna.bgActorFlags[i] & BGACTOR_IN_USE) {
                         dynaActor = play->colCtx.dyna.bgActors[i].actor;
                         if ((dynaActor != NULL) && (dynaActor->update != NULL)) {
                             if ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||

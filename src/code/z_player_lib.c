@@ -903,7 +903,8 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
     SkelAnime_DrawFlexLod(play, skeleton, jointTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
     if ((overrideLimbDraw != Player_OverrideLimbDrawGameplayFirstPerson) &&
-        (overrideLimbDraw != Player_OverrideLimbDrawGameplay_80090440) && (gSaveContext.gameMode != 3)) {
+        (overrideLimbDraw != Player_OverrideLimbDrawGameplay_80090440) &&
+        (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
