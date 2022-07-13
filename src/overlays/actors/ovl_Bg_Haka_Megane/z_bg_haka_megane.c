@@ -110,10 +110,10 @@ void func_8087DBF0(BgHakaMegane* this, PlayState* play) {
 
     if (play->actorCtx.lensActive) {
         thisx->flags |= ACTOR_FLAG_7;
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
         thisx->flags &= ~ACTOR_FLAG_7;
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
 
