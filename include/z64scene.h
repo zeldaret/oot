@@ -139,7 +139,8 @@ typedef union {
     MeshHeader2 meshHeader2;
 } MeshHeader; // "Ground Shape"
 
-// TODO update ZAPD
+// ZAPD compatibility typedefs
+// TODO: Remove when ZAPD adds support for them
 typedef MeshHeader01Entry PolygonDlist;
 typedef MeshHeader0 PolygonType0;
 typedef MeshHeader2Entry PolygonDlist2;
