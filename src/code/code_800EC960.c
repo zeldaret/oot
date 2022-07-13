@@ -122,7 +122,7 @@ f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/
 f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
-s8 D_80130604 = 2;
+s8 sSoundMode = SOUNDMODE_SURROUND;
 s8 D_80130608 = 0;
 s8 sAudioCutsceneFlag = 0;
 s8 sSpecReverb = 0;
@@ -3740,14 +3740,14 @@ f32 Audio_ComputeSoundVolume(u8 bankId, u8 entryIdx) {
     f32 baseDist;
     f32 ret;
 
-    if (bankEntry->sfxParams & 0x2000) {
+    if (bankEntry->sfxParams & SFX_FLAG_13) {
         return 1.0f;
     }
 
     if (bankEntry->dist > 10000.0f) {
         ret = 0.0f;
     } else {
-        switch (bankEntry->sfxParams & 3) {
+        switch ((bankEntry->sfxParams & SFX_PARAM_01_MASK) >> SFX_PARAM_01_SHIFT) {
             case 1:
                 baseDist = 10000.0f / 15.0f;
                 break;
@@ -3785,7 +3785,7 @@ s8 Audio_ComputeSoundReverb(u8 bankId, u8 entryIdx, u8 channelIdx) {
     SoundBankEntry* entry = &gSoundBanks[bankId][entryIdx];
     s32 reverb;
 
-    if (!(entry->sfxParams & 0x1000)) {
+    if (!(entry->sfxParams & SFX_FLAG_12)) {
         if (entry->dist < 2500.0f) {
             distAdd = *entry->posZ > 0.0f ? (entry->dist / 2500.0f) * 70.0f : (entry->dist / 2500.0f) * 91.0f;
         } else {
@@ -3861,7 +3861,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
     f32 unk1C;
     f32 freq = 1.0f;
 
-    if (entry->sfxParams & 0x4000) {
+    if (entry->sfxParams & SFX_FLAG_14) {
         freq = 1.0f - ((gAudioContext.audioRandom & 0xF) / 192.0f);
     }
 
@@ -3885,14 +3885,14 @@ f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
     }
 
     if (phi_v0 == 1) {
-        if (!(entry->sfxParams & 0x800)) {
+        if (!(entry->sfxParams & SFX_FLAG_11)) {
             freq *= (1.0293 - ((gAudioContext.audioRandom & 0xF) / 144.0f));
         }
     }
 
     unk1C = entry->dist;
-    if (!(entry->sfxParams & 0x2000)) {
-        if (!(entry->sfxParams & 0x8000)) {
+    if (!(entry->sfxParams & SFX_FLAG_13)) {
+        if (!(entry->sfxParams & SFX_FLAG_15)) {
             if (unk1C >= 10000.0f) {
                 freq += 0.2f;
             } else {
@@ -3901,7 +3901,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankId, u8 entryIdx) {
         }
     }
 
-    if (entry->sfxParams & 0xC0) {
+    if ((entry->sfxParams & SFX_PARAM_67_MASK) != (0 << SFX_PARAM_67_SHIFT)) {
         freq += (entry->unk_2F / 192.0f);
     }
 
@@ -3930,12 +3930,12 @@ u8 func_800F37B8(f32 behindScreenZ, SoundBankEntry* arg1, s8 arg2) {
     }
 
     if (phi_v1 == 0) {
-        if (arg1->sfxParams & 0x200) {
+        if (arg1->sfxParams & SFX_FLAG_9) {
             phi_v1 = 0xF;
         }
     }
 
-    switch (arg1->sfxParams & 3) {
+    switch ((arg1->sfxParams & SFX_PARAM_01_MASK) >> SFX_PARAM_01_SHIFT) {
         case 1:
             phi_f0 = 12.0f;
             break;
@@ -3987,7 +3987,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
         case BANK_ENV:
         case BANK_ENEMY:
         case BANK_VOICE:
-            if (D_80130604 == 2) {
+            if (sSoundMode == SOUNDMODE_SURROUND) {
                 sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
             FALLTHROUGH;
@@ -3997,9 +3997,10 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             reverb = Audio_ComputeSoundReverb(bankId, entryIdx, channelIdx);
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSoundFreqScale(bankId, entryIdx) * *entry->freqScale;
-            if (D_80130604 == 2) {
-                behindScreenZ = sBehindScreenZ[(entry->sfxParams & 0x400) >> 10];
-                if (!(entry->sfxParams & 0x800)) {
+
+            if (sSoundMode == SOUNDMODE_SURROUND) {
+                behindScreenZ = sBehindScreenZ[(entry->sfxParams & SFX_FLAG_10) >> SFX_FLAG_10_SHIFT];
+                if (!(entry->sfxParams & SFX_FLAG_11)) {
                     if (*entry->posZ < behindScreenZ) {
                         stereoBits = 0x10;
                     }
@@ -4023,7 +4024,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
 
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
-            } else if (D_80130604 == 2 && (entry->sfxParams & 0x2000) == 0) {
+            } else if ((sSoundMode == SOUNDMODE_SURROUND) && !(entry->sfxParams & SFX_FLAG_13)) {
                 filter = func_800F37B8(behindScreenZ, entry, panSigned);
             }
             break;
@@ -5010,29 +5011,32 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void func_800F6700(s8 arg0) {
-    s8 sp1F;
+void func_800F6700(s8 audioSetting) {
+    s8 soundModeIndex;
 
-    switch (arg0) {
+    switch (audioSetting) {
         case 0:
-            sp1F = 0;
-            D_80130604 = 0;
+            soundModeIndex = SOUNDMODE_STEREO;
+            sSoundMode = SOUNDMODE_STEREO;
             break;
+
         case 1:
-            sp1F = 3;
-            D_80130604 = 3;
+            soundModeIndex = SOUNDMODE_MONO;
+            sSoundMode = SOUNDMODE_MONO;
             break;
+
         case 2:
-            sp1F = 1;
-            D_80130604 = 1;
+            soundModeIndex = SOUNDMODE_HEADSET;
+            sSoundMode = SOUNDMODE_HEADSET;
             break;
+
         case 3:
-            sp1F = 0;
-            D_80130604 = 2;
+            soundModeIndex = SOUNDMODE_STEREO;
+            sSoundMode = SOUNDMODE_SURROUND;
             break;
     }
 
-    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, sp1F);
+    Audio_SeqCmdE0(SEQ_PLAYER_BGM_MAIN, soundModeIndex);
 }
 
 void Audio_SetBaseFilter(u8 filter) {
@@ -5255,7 +5259,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
             Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (port << 0x10) | (channelIdx << 8) | val);
         }
 
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, D_80130604);
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_MAIN, CHANNEL_IO_PORT_7, NATURE_CHANNEL_UNK, sSoundMode);
     }
 }
 

@@ -20,7 +20,7 @@ typedef enum {
 void EnDodongo_Init(Actor* thisx, PlayState* play);
 void EnDodongo_Destroy(Actor* thisx, PlayState* play);
 void EnDodongo_Update(Actor* thisx, PlayState* play);
-void EnDodongo_Draw(Actor* thisx, PlayState* play);
+void EnDodongo_Draw(Actor* thisx, PlayState* play2);
 
 void EnDodongo_SetupDeath(EnDodongo* this, PlayState* play);
 void EnDodongo_ShiftVecRadial(s16 yaw, f32 radius, Vec3f* vec);

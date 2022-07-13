@@ -19,8 +19,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
     sub->bitField0 = note->noteSubEu.bitField0;
     sub->bitField1 = note->noteSubEu.bitField1;
-    sub->samples = note->noteSubEu.samples;
-    sub->unk_06 = note->noteSubEu.unk_06;
+    sub->waveSampleAddr = note->noteSubEu.waveSampleAddr;
+    sub->harmonicIndexCurAndPrev = note->noteSubEu.harmonicIndexCurAndPrev;
 
     Audio_NoteSetResamplingRate(sub, attrs->frequency);
 
@@ -30,7 +30,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     sub->bitField0.stereoStrongLeft = false;
     sub->bitField0.stereoHeadsetEffects = stereoData.stereoHeadsetEffects;
     sub->bitField0.usesHeadsetPanEffects = stereoData.usesHeadsetPanEffects;
-    if (stereoHeadsetEffects && gAudioContext.soundMode == 1) {
+    if (stereoHeadsetEffects && (gAudioContext.soundMode == SOUNDMODE_HEADSET)) {
         smallPanIndex = pan >> 1;
         if (smallPanIndex > 0x3F) {
             smallPanIndex = 0x3F;
@@ -42,7 +42,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
         volLeft = gHeadsetPanVolume[pan];
         volRight = gHeadsetPanVolume[0x7F - pan];
-    } else if (stereoHeadsetEffects && gAudioContext.soundMode == 0) {
+    } else if (stereoHeadsetEffects && (gAudioContext.soundMode == SOUNDMODE_STEREO)) {
         strongLeft = strongRight = 0;
         sub->headsetPanRight = 0;
         sub->headsetPanLeft = 0;
@@ -79,7 +79,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
                 break;
         }
 
-    } else if (gAudioContext.soundMode == 3) {
+    } else if (gAudioContext.soundMode == SOUNDMODE_MONO) {
         sub->bitField0.stereoHeadsetEffects = false;
         sub->bitField0.usesHeadsetPanEffects = false;
         volLeft = 0.707f; // approx 1/sqrt(2)
@@ -186,7 +186,7 @@ void Audio_ProcessNotes(void) {
                 playbackState->unk_04 = 1;
                 continue;
             } else if (playbackState->parentLayer->channel->seqPlayer->muted &&
-                       (playbackState->parentLayer->channel->muteBehavior & 0x40)) {
+                       (playbackState->parentLayer->channel->muteBehavior & MUTE_BEHAVIOR_STOP_NOTES)) {
                 // do nothing
             } else {
                 goto out;
@@ -277,7 +277,7 @@ void Audio_ProcessNotes(void) {
                 subAttrs.unk_16 = channel->unk_20;
                 bookOffset = channel->bookOffset & 0x7;
 
-                if (channel->seqPlayer->muted && (channel->muteBehavior & 8)) {
+                if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_3)) {
                     subAttrs.frequency = 0.0f;
                     subAttrs.velocity = 0.0f;
                 }
@@ -481,7 +481,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
 
             attrs->unk_6 = chan->unk_20;
             attrs->unk_4 = chan->unk_0F;
-            if (chan->seqPlayer->muted && (chan->muteBehavior & 8)) {
+            if (chan->seqPlayer->muted && (chan->muteBehavior & MUTE_BEHAVIOR_3)) {
                 note->noteSubEu.bitField0.finished = true;
             }
 
@@ -529,10 +529,18 @@ void Audio_SeqLayerNoteRelease(SequenceLayer* layer) {
     Audio_SeqLayerDecayRelease(layer, ADSR_STATE_RELEASE);
 }
 
+/**
+ * Extract the synthetic wave to use from gWaveSamples and update corresponding frequencies
+ *
+ * @param note
+ * @param layer
+ * @param waveId the index of the type of synthetic wave to use, offset by 128
+ * @return harmonicIndex, the index of the harmonic for the synthetic wave contained in gWaveSamples
+ */
 s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     f32 freqScale;
-    f32 ratio;
-    u8 sampleCountIndex;
+    f32 freqRatio;
+    u8 harmonicIndex;
 
     if (waveId < 128) {
         waveId = 128;
@@ -542,42 +550,48 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     if (layer->portamento.mode != 0 && 0.0f < layer->portamento.extent) {
         freqScale *= (layer->portamento.extent + 1.0f);
     }
+
+    // Map frequency to the harmonic to use from gWaveSamples
     if (freqScale < 0.99999f) {
-        sampleCountIndex = 0;
-        ratio = 1.0465f;
+        harmonicIndex = 0;
+        freqRatio = 1.0465f;
     } else if (freqScale < 1.99999f) {
-        sampleCountIndex = 1;
-        ratio = 0.52325f;
+        harmonicIndex = 1;
+        freqRatio = 1.0465f / 2;
     } else if (freqScale < 3.99999f) {
-        sampleCountIndex = 2;
-        ratio = 0.26263f;
+        harmonicIndex = 2;
+        freqRatio = 1.0465f / 4 + 1.005E-3;
     } else {
-        sampleCountIndex = 3;
-        ratio = 0.13081f;
+        harmonicIndex = 3;
+        freqRatio = 1.0465f / 8 - 2.5E-6;
     }
-    layer->freqScale *= ratio;
+
+    // Update results
+    layer->freqScale *= freqRatio;
     note->playbackState.waveId = waveId;
-    note->playbackState.sampleCountIndex = sampleCountIndex;
+    note->playbackState.harmonicIndex = harmonicIndex;
 
-    note->noteSubEu.samples = &gWaveSamples[waveId - 128][sampleCountIndex * 64];
+    // Save the pointer to the synthethic wave
+    // waveId index starts at 128, there are WAVE_SAMPLE_COUNT samples to read from
+    note->noteSubEu.waveSampleAddr = &gWaveSamples[waveId - 128][harmonicIndex * WAVE_SAMPLE_COUNT];
 
-    return sampleCountIndex;
+    return harmonicIndex;
 }
 
 void Audio_InitSyntheticWave(Note* note, SequenceLayer* layer) {
-    s32 sampleCountIndex;
-    s32 waveSampleCountIndex;
+    s32 prevHarmonicIndex;
+    s32 curHarmonicIndex;
     s32 waveId = layer->instOrWave;
 
     if (waveId == 0xFF) {
         waveId = layer->channel->instOrWave;
     }
 
-    sampleCountIndex = note->playbackState.sampleCountIndex;
-    waveSampleCountIndex = Audio_BuildSyntheticWave(note, layer, waveId);
+    prevHarmonicIndex = note->playbackState.harmonicIndex;
+    curHarmonicIndex = Audio_BuildSyntheticWave(note, layer, waveId);
 
-    if (waveSampleCountIndex != sampleCountIndex) {
-        note->noteSubEu.unk_06 = waveSampleCountIndex * 4 + sampleCountIndex;
+    if (curHarmonicIndex != prevHarmonicIndex) {
+        note->noteSubEu.harmonicIndexCurAndPrev = (curHarmonicIndex << 2) + prevHarmonicIndex;
     }
 }
 
@@ -638,7 +652,7 @@ void Audio_NotePoolClear(NotePool* pool) {
                 break;
         }
 
-        for (;;) {
+        while (true) {
             cur = source->next;
             if (cur == source || cur == NULL) {
                 break;
@@ -745,12 +759,12 @@ Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
 void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     s32 pad[3];
     s16 instId;
-    NotePlaybackState* playback = &note->playbackState;
+    NotePlaybackState* playbackState = &note->playbackState;
     NoteSubEu* sub = &note->noteSubEu;
 
     note->playbackState.prevParentLayer = NO_LAYER;
     note->playbackState.parentLayer = layer;
-    playback->priority = layer->channel->notePriority;
+    playbackState->priority = layer->channel->notePriority;
     layer->notePropertiesNeedInit = true;
     layer->bit3 = true;
     layer->note = note;
@@ -775,8 +789,8 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
         Audio_BuildSyntheticWave(note, layer, instId);
     }
 
-    playback->fontId = layer->channel->fontId;
-    playback->stereoHeadsetEffects = layer->channel->stereoHeadsetEffects;
+    playbackState->fontId = layer->channel->fontId;
+    playbackState->stereoHeadsetEffects = layer->channel->stereoHeadsetEffects;
     sub->bitField1.reverbIndex = layer->channel->reverbIndex & 3;
 }
 

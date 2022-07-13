@@ -9,9 +9,9 @@
 
 #define FLAGS 0
 
-void EnWood02_Init(Actor* thisx, PlayState* play);
+void EnWood02_Init(Actor* thisx, PlayState* play2);
 void EnWood02_Destroy(Actor* thisx, PlayState* play);
-void EnWood02_Update(Actor* thisx, PlayState* play);
+void EnWood02_Update(Actor* thisx, PlayState* play2);
 void EnWood02_Draw(Actor* thisx, PlayState* play);
 
 /**
