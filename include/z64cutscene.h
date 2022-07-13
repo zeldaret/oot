@@ -3,6 +3,14 @@
 
 #include "ultra64.h"
 
+typedef enum {
+    CS_STATE_IDLE,
+    CS_STATE_START,
+    CS_STATE_EXEC,
+    CS_STATE_STOP,
+    CS_STATE_EXEC_TERMINATOR
+} CutsceneState;
+
 typedef struct {
     /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
@@ -96,49 +104,43 @@ typedef struct {
     /* 0x24 */ Vec3i normal;
 } CsCmdActorAction; // size = 0x30
 
-typedef enum {
-    CS_STATE_0,
-    CS_STATE_1,
-    CS_STATE_2,
-    CS_STATE_3,
-    CS_STATE_4
-} CutsceneState;
+
 
 typedef enum {
     /* 0x01 */ CS_MISC_RAIN = 1,
     /* 0x02 */ CS_MISC_LIGHTNING,
-    /* 0x03 */ CS_MISC_3_ENV_FLAG,
+    /* 0x03 */ CS_MISC_SET_FLAG_0, // also sets flag 2 if in Temple of Time
+    /* 0x04 */ CS_MISC_UNIMPLEMENTED_4,
     /* 0x06 */ CS_MISC_LIFT_FOG = 6,
     /* 0x07 */ CS_MISC_CLOUDY_SKY,
     /* 0x08 */ CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA,
     /* 0x09 */ CS_MISC_SNOW,
     /* 0x0A */ CS_MISC_SET_FLAG_1,
     /* 0x0B */ CS_MISC_DEKU_TREE_DEATH,
-    /* 0x0C */ CS_MISC_SET_STATE_3,
+    /* 0x0C */ CS_MISC_STOP,
     /* 0x0D */ CS_MISC_TRIFORCE_FLASH,
-    /* 0x00 */ CS_MISC_SET_LOCKED_VIEWPOINT,
-    /* 0x00 */ CS_MISC_TITLE_CARD,
-    /* 0x00 */ CS_MISC_QUAKE_START,
-    /* 0x00 */ CS_MISC_QUAKE_STOP,
-    /* 0x00 */ CS_MISC_STORM_STOP,
-    /* 0x00 */ CS_MISC_SET_FLAG_FAST_WINDMILL,
-    /* 0x00 */ CS_MISC_SET_FLAG_WELL_DRAINED,
-    /* 0x00 */ CS_MISC_SET_FLAG_LAKE_HYLIA_FILLED,
-    /* 0x00 */ CS_MISC_VISMONO_BLACK_AND_WHITE,
-    /* 0x00 */ CS_MISC_VISMONO_SEPIA,
-    /* 0x00 */ CS_MISC_HIDE_ROOM,
-    /* 0x00 */ CS_MISC_TIME_ADVANCE_TO_NIGHT,
-    /* 0x00 */ CS_MISC_25,
-    /* 0x00 */ CS_MISC_26,
-    /* 0x00 */ CS_MISC_27,
-    /* 0x00 */ CS_MISC_HALT_ALL_ACTORS,
-    /* 0x00 */ CS_MISC_RESUME_ALL_ACTORS,
-    /* 0x00 */ CS_MISC_ENV_FLAG_3,
-    /* 0x00 */ CS_MISC_ENV_FLAG_4,
-    /* 0x00 */ CS_MISC_SANDSTORM,
-    /* 0x00 */ CS_MISC_SUNSSONG_START,
-    /* 0x00 */ CS_MISC_FREEZE_TIME,
-    /* 0x00 */ CS_MISC_LONG_SCARECROW_SONG,
+    /* 0x0E */ CS_MISC_SET_LOCKED_VIEWPOINT,
+    /* 0x0F */ CS_MISC_SHOW_TITLE_CARD,
+    /* 0x10 */ CS_MISC_QUAKE_START,
+    /* 0x11 */ CS_MISC_QUAKE_STOP,
+    /* 0x12 */ CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY,
+    /* 0x13 */ CS_MISC_SET_FLAG_FAST_WINDMILL,
+    /* 0x14 */ CS_MISC_SET_FLAG_WELL_DRAINED,
+    /* 0x15 */ CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED,
+    /* 0x16 */ CS_MISC_VISMONO_BLACK_AND_WHITE,
+    /* 0x17 */ CS_MISC_VISMONO_SEPIA,
+    /* 0x18 */ CS_MISC_HIDE_ROOM,
+    /* 0x19 */ CS_MISC_TIME_ADVANCE_TO_NIGHT,
+    /* 0x1A */ CS_MISC_SET_TIME_BASED_LIGHT_SETTING,
+    /* 0x1B */ CS_MISC_PULSATE_LIGHTS,
+    /* 0x1C */ CS_MISC_HALT_ALL_ACTORS,
+    /* 0x1D */ CS_MISC_RESUME_ALL_ACTORS,
+    /* 0x1E */ CS_MISC_SET_FLAG_3,
+    /* 0x1F */ CS_MISC_SET_FLAG_4,
+    /* 0x20 */ CS_MISC_SANDSTORM,
+    /* 0x21 */ CS_MISC_SUNSSONG_START,
+    /* 0x22 */ CS_MISC_FREEZE_TIME,
+    /* 0x23 */ CS_MISC_LONG_SCARECROW_SONG
 } CutsceneMiscCommand;
 
 typedef enum {

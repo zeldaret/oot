@@ -904,9 +904,9 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
             this->talkState++;
             break;
         case 1:
-            if (play->csCtx.state != CS_STATE_0) {
+            if (play->csCtx.state != CS_STATE_IDLE) {
                 if (play->csCtx.frames == 90) {
-                    play->csCtx.state = CS_STATE_3;
+                    play->csCtx.state = CS_STATE_STOP;
                 }
             } else {
                 play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
@@ -916,9 +916,9 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
             }
             break;
         case 2:
-            if (play->csCtx.state != CS_STATE_0) {
+            if (play->csCtx.state != CS_STATE_IDLE) {
                 if (play->csCtx.frames == 209) {
-                    play->csCtx.state = CS_STATE_3;
+                    play->csCtx.state = CS_STATE_STOP;
                 }
             } else {
                 func_800AA000(0.0f, 0xA0, 0xA, 0x28);

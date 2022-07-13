@@ -240,7 +240,7 @@ void func_80AEAECC(EnRu1* this, PlayState* play) {
 }
 
 s32 EnRu1_IsCsStateIdle(PlayState* play) {
-    if (play->csCtx.state == CS_STATE_0) {
+    if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
     }
     return false;
@@ -980,7 +980,7 @@ void func_80AECC1C(EnRu1* this, PlayState* play) {
 }
 
 void func_80AECC84(EnRu1* this, PlayState* play) {
-    if (play->csCtx.state == CS_STATE_0) {
+    if (play->csCtx.state == CS_STATE_IDLE) {
         Actor_Kill(&this->actor);
     }
 }

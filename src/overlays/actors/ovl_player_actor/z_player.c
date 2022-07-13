@@ -2136,7 +2136,7 @@ void func_808340DC(Player* this, PlayState* play) {
 void func_80834298(Player* this, PlayState* play) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_8) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
-        (gSaveContext.health != 0) && (play->csCtx.state == CS_STATE_0) && (this->csMode == 0) &&
+        (gSaveContext.health != 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
         (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
         (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, play);
@@ -3118,7 +3118,7 @@ void func_80836BEC(Player* this, PlayState* play) {
         this->stateFlags1 &= ~PLAYER_STATE1_30;
     }
 
-    if ((play->csCtx.state != CS_STATE_0) || (this->csMode != 0) ||
+    if ((play->csCtx.state != CS_STATE_IDLE) || (this->csMode != 0) ||
         (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->stateFlags3 & PLAYER_STATE3_7)) {
         this->unk_66C = 0;
     } else if (zTrigPressed || (this->stateFlags2 & PLAYER_STATE2_13) || (this->unk_684 != NULL)) {
@@ -3809,7 +3809,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             }
 
             func_80832698(this, NA_SE_VO_LI_TAKEN_AWAY);
-            play->unk_11DE9 = true;
+            play->haltAllActors = true;
             func_80078884(NA_SE_OC_ABYSS);
         } else if ((this->unk_8A1 != 0) && ((this->unk_8A1 >= 2) || (this->invincibilityTimer == 0))) {
             u8 sp5C[] = { 2, 1, 1 };
@@ -10365,7 +10365,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             }
         }
 
-        if ((play->csCtx.state != CS_STATE_0) && (this->csMode != 6) && !(this->stateFlags1 & PLAYER_STATE1_23) &&
+        if ((play->csCtx.state != CS_STATE_IDLE) && (this->csMode != 6) && !(this->stateFlags1 & PLAYER_STATE1_23) &&
             !(this->stateFlags2 & PLAYER_STATE2_7) && (this->actor.category == ACTORCAT_PLAYER)) {
             CsCmdActorAction* linkActionCsCmd = play->csCtx.linkAction;
 
@@ -10373,7 +10373,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 func_8002DF54(play, NULL, 6);
                 func_80832210(this);
             } else if ((this->csMode == 0) && !(this->stateFlags2 & PLAYER_STATE2_10) &&
-                       (play->csCtx.state != CS_STATE_3)) {
+                       (play->csCtx.state != CS_STATE_STOP)) {
                 func_8002DF54(play, NULL, 0x31);
                 func_80832210(this);
             }
@@ -11507,7 +11507,7 @@ s32 func_8084C9BC(Player* this, PlayState* play) {
             }
         }
 
-        if ((play->csCtx.state == CS_STATE_0) && (play->transitionMode == TRANS_MODE_OFF) &&
+        if ((play->csCtx.state == CS_STATE_IDLE) && (play->transitionMode == TRANS_MODE_OFF) &&
             (EN_HORSE_CHECK_1(rideActor) || EN_HORSE_CHECK_4(rideActor))) {
             this->stateFlags2 |= PLAYER_STATE2_22;
 
@@ -11661,7 +11661,7 @@ void func_8084CC98(Player* this, PlayState* play) {
     AnimationContext_SetCopyAll(play, this->skelAnime.limbCount, this->skelAnime.morphTable,
                                 this->skelAnime.jointTable);
 
-    if ((play->csCtx.state != CS_STATE_0) || (this->csMode != 0)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) || (this->csMode != 0)) {
         if (this->csMode == 7) {
             this->csMode = 0;
         }
@@ -12686,7 +12686,7 @@ void func_8084F710(Player* this, PlayState* play) {
         return;
     }
 
-    if ((play->csCtx.state != CS_STATE_0) && (play->csCtx.linkAction != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.linkAction != NULL)) {
         f32 sp28 = this->actor.world.pos.y;
         func_808529D0(play, this, play->csCtx.linkAction);
         this->actor.world.pos.y = sp28;
@@ -13683,7 +13683,7 @@ void func_808515A4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 
 void func_80851688(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     if (func_8084B3CC(play, this) == 0) {
-        if ((this->csMode == 0x31) && (play->csCtx.state == CS_STATE_0)) {
+        if ((this->csMode == 0x31) && (play->csCtx.state == CS_STATE_IDLE)) {
             func_8002DF54(play, NULL, 7);
             return;
         }
@@ -14254,7 +14254,7 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     s32 pad;
     s32 sp24;
 
-    if (play->csCtx.state == CS_STATE_3) {
+    if (play->csCtx.state == CS_STATE_STOP) {
         func_8002DF54(play, NULL, 7);
         this->unk_446 = 0;
         func_80832210(this);

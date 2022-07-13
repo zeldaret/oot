@@ -1,7 +1,7 @@
 #include "global.h"
 #include "vt.h"
 
-void* D_8012D1F0 = NULL;
+void* gDebugCutscenePtr = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 Input* D_8012D1F8 = NULL;
 
@@ -11,7 +11,7 @@ VisMono D_80161498;
 Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 sTransitionFillTimer;
-u64 D_801614D0[0xA00];
+u64 sDebugCutsceneData[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
@@ -264,7 +264,7 @@ void Play_Init(GameState* thisx) {
     EffectSs_InitInfo(this, 0x55);
     CollisionCheck_InitContext(this, &this->colChkCtx);
     AnimationContext_Reset(&this->animationCtx);
-    func_8006450C(this, &this->csCtx);
+    Cutscene_Init(this, &this->csCtx);
 
     if (gSaveContext.nextCutsceneIndex != 0xFFEF) {
         gSaveContext.cutsceneIndex = gSaveContext.nextCutsceneIndex;
@@ -367,7 +367,7 @@ void Play_Init(GameState* thisx) {
     this->transitionTrigger = TRANS_TRIGGER_END;
     this->unk_11E16 = 0xFF;
     this->unk_11E18 = 0;
-    this->unk_11DE9 = false;
+    this->haltAllActors = false;
 
     if (gSaveContext.gameMode != GAMEMODE_TITLE_SCREEN) {
         if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
@@ -432,10 +432,10 @@ void Play_Init(GameState* thisx) {
     AnimationContext_Update(this, &this->animationCtx);
     gSaveContext.respawnFlag = 0;
 
-    if (dREG(95) != 0) {
-        D_8012D1F0 = D_801614D0;
-        osSyncPrintf("\nkawauso_data=[%x]", D_8012D1F0);
-        DmaMgr_DmaRomToRam(0x03FEB000, D_8012D1F0, sizeof(D_801614D0));
+    if (R_USE_DEBUG_CUTSCENE) {
+        gDebugCutscenePtr = sDebugCutsceneData;
+        osSyncPrintf("\nkawauso_data=[%x]", gDebugCutscenePtr);
+        DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutscenePtr, sizeof(sDebugCutsceneData));
     }
 }
 
@@ -883,15 +883,15 @@ void Play_Update(PlayState* this) {
 
                     PLAY_LOG(3637);
 
-                    if (!this->unk_11DE9) {
+                    if (!this->haltAllActors) {
                         Actor_UpdateAll(this, &this->actorCtx);
                     }
 
                     PLAY_LOG(3643);
-                    func_80064558(this, &this->csCtx);
+                    Cutscene_UpdateManual(this, &this->csCtx);
 
                     PLAY_LOG(3648);
-                    func_800645A0(this, &this->csCtx);
+                    Cutscene_UpdateScripted(this, &this->csCtx);
 
                     PLAY_LOG(3651);
                     Effect_UpdateAll(this);

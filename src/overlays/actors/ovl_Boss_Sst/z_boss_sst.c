@@ -370,7 +370,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     player->fallStartHeight = 0;
     player->stateFlags1 |= PLAYER_STATE1_5;
 
-    func_80064520(play, &play->csCtx);
+    Cutscene_StartManual(play, &play->csCtx);
     func_8002DF54(play, &this->actor, 8);
     sSubCamId = Play_CreateSubCamera(play);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -403,7 +403,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         sHands[RIGHT]->actor.flags |= ACTOR_FLAG_0;
         sHands[LEFT]->actor.flags |= ACTOR_FLAG_0;
         player->stateFlags1 &= ~PLAYER_STATE1_5;
-        func_80064534(play, &play->csCtx);
+        Cutscene_StopManual(play, &play->csCtx);
         func_8002DF54(play, &this->actor, 7);
         sSubCamAt.y += 30.0f;
         sSubCamAt.z += 300.0f;
@@ -1015,7 +1015,7 @@ void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
     Play_CopyCamera(play, sSubCamId, CAM_ID_MAIN);
     func_8002DF54(play, &player->actor, 8);
-    func_80064520(play, &play->csCtx);
+    Cutscene_StartManual(play, &play->csCtx);
     Math_Vec3f_Copy(&sSubCamEye, &GET_ACTIVE_CAM(play)->eye);
     this->actionFunc = BossSst_HeadDeath;
 }
@@ -1178,7 +1178,7 @@ void BossSst_HeadFinish(BossSst* this, PlayState* play) {
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, sSubCamId);
             func_8002DF54(play, &GET_PLAYER(play)->actor, 7);
-            func_80064534(play, &play->csCtx);
+            Cutscene_StopManual(play, &play->csCtx);
             Actor_Kill(&this->actor);
             Actor_Kill(&sHands[LEFT]->actor);
             Actor_Kill(&sHands[RIGHT]->actor);

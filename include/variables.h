@@ -104,7 +104,7 @@ extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
-extern void* D_8012D1F0;
+extern void* gDebugCutscenePtr;
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
@@ -171,7 +171,7 @@ extern GameInfo* gGameInfo;
 extern u16 D_8015FCC0;
 extern u16 D_8015FCC2;
 extern u16 D_8015FCC4;
-extern u8 D_8015FCC8;
+extern u8 gCutsceneUsesSubcam;
 extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 gLensFlareScale;

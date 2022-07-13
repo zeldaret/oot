@@ -1504,7 +1504,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
     switch (this->csState2) {
         case 0:
             this->csState2 = 1;
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, 0x39);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1720,7 +1720,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
                 func_800C08AC(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 this->csState2 = this->subCamId;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
                 this->work[TW_PLLR_IDX] = 0;
                 this->targetPos = sTwinrovaPillarPos[0];
@@ -1800,7 +1800,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
             if (SQ(player->actor.world.pos.x) + SQ(player->actor.world.pos.z) < SQ(150.0f)) {
                 player->actor.world.pos.x = player->actor.world.pos.z = .0f;
                 this->csState2 = 1;
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 0x39);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -2283,7 +2283,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                 func_800C08AC(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 this->csState2 = this->subCamId;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
                 BossTw_SetupWait(this, play);
             }
@@ -2687,7 +2687,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
     switch (this->csState2) {
         case 0:
             this->csState2 = 1;
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, 8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -2815,7 +2815,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
                 func_800C08AC(play, this->subCamId, 0);
                 this->csState2 = 4;
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 600.0f, 230.0f, 0.0f, 0, 0, 0,

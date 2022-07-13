@@ -350,7 +350,7 @@ typedef struct {
     /* 0x00 */ char  unk_00[0x4];
     /* 0x04 */ void* segment;
     /* 0x08 */ u8    state;
-    /* 0x0C */ f32   unk_0C;
+    /* 0x0C */ f32   timer;
     /* 0x10 */ u16   frames;
     /* 0x12 */ u16   unk_12;
     /* 0x14 */ s32   subCamId;
@@ -1179,7 +1179,7 @@ typedef struct PlayState {
     /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
-    /* 0x11DE9 */ u8 unk_11DE9;
+    /* 0x11DE9 */ u8 haltAllActors;
     /* 0x11DEA */ u8 curSpawn;
     /* 0x11DEB */ u8 numSetupActors;
     /* 0x11DEC */ u8 numRooms;

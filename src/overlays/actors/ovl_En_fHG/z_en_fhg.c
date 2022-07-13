@@ -150,7 +150,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 }
                 break;
             }
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, 8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -399,7 +399,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 mainCam->at = this->subCamAt;
                 func_800C08AC(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
                 this->actionFunc = EnfHG_Retreat;
             }

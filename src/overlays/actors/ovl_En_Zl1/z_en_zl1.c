@@ -379,7 +379,7 @@ void func_80B4B8B4(EnZl1* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     func_80B4B874(this, play);
-    if (play->csCtx.state == CS_STATE_0) {
+    if (play->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = func_80B4BBC4;
         return;
     }

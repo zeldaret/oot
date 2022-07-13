@@ -815,11 +815,11 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(PlayState* play);
-void func_8006450C(PlayState* play, CutsceneContext* csCtx);
-void func_80064520(PlayState* play, CutsceneContext* csCtx);
-void func_80064534(PlayState* play, CutsceneContext* csCtx);
-void func_80064558(PlayState* play, CutsceneContext* csCtx);
-void func_800645A0(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_Init(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_HandleEntranceTriggers(PlayState* play);
 void Cutscene_HandleConditionalTriggers(PlayState* play);
 void Cutscene_SetSegment(PlayState* play, void* segment);

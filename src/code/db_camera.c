@@ -2155,7 +2155,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             }
 
             if (CHECK_BTN_ALL(sPlay->state.input[1].press.button, BTN_CRIGHT)) {
-                D_8015FCC8 = 0;
+                gCutsceneUsesSubcam = false;
                 gSaveContext.cutsceneIndex = 0xFFFD;
                 gSaveContext.cutsceneTrigger = 1;
                 sDbCamAnim.curFrame = 0.0f;

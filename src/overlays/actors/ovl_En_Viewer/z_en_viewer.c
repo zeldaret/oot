@@ -278,7 +278,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
 
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF) {
-        if (play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[1] != NULL) {
+        if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL) {
             if (play->csCtx.npcActions[1]->action == 2 && sTimer == 0) {
                 if (type == ENVIEWER_TYPE_3_GANONDORF) {
                     if (this->skin.skelAnime.animation != &object_gndd_Anim_002928) {
@@ -364,7 +364,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
         }
         switch (this->state) {
             case 0:
-                if (play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[0] != NULL &&
+                if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL &&
                     play->csCtx.npcActions[0]->action == 6 &&
                     this->skin.skelAnime.animation != &object_opening_demo1_Anim_002574) {
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_opening_demo1_Anim_002574, 1.5f);
@@ -372,7 +372,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                 }
                 break;
             case 1:
-                if (play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[0] != NULL &&
+                if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL &&
                     play->csCtx.npcActions[0]->action == 2 &&
                     this->skin.skelAnime.animation != &object_opening_demo1_Anim_0029CC) {
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_opening_demo1_Anim_0029CC, 3.0f);
@@ -384,7 +384,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
         if (play->sceneNum == SCENE_SPOT00) { // Hyrule Field
             switch (this->state) {
                 case 0:
-                    if (play->csCtx.state != CS_STATE_0) {
+                    if (play->csCtx.state != CS_STATE_IDLE) {
                         if (play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 6 &&
                             this->skin.skelAnime.animation != &object_opening_demo1_Anim_001410) {
                             Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_opening_demo1_Anim_001410, 1.5f);
@@ -393,7 +393,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                     }
                     break;
                 case 1:
-                    if (play->csCtx.state != CS_STATE_0) {
+                    if (play->csCtx.state != CS_STATE_IDLE) {
                         if (play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 2 &&
                             this->skin.skelAnime.animation != &object_opening_demo1_Anim_000450) {
                             Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_opening_demo1_Anim_000450, 3.0f);
@@ -428,7 +428,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
     } else if (type == ENVIEWER_TYPE_7_GANONDORF) {
         switch (this->state) {
             case 0:
-                if (play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[1] != NULL &&
+                if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL &&
                     play->csCtx.npcActions[1]->action == 7) {
                     Audio_PlaySoundGeneral(NA_SE_EN_GANON_LAUGH, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -446,7 +446,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
     } else if (type == ENVIEWER_TYPE_8_GANONDORF) {
         switch (this->state) {
             case 0:
-                if (play->csCtx.state != CS_STATE_0) {
+                if (play->csCtx.state != CS_STATE_IDLE) {
                     if (play->csCtx.npcActions[1] != NULL && play->csCtx.npcActions[1]->action == 9) {
                         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_gndd_Anim_0050A8, 1.0f);
                         this->state++;
@@ -564,7 +564,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, PlayState* play) {
         EnViewer_UpdateGanondorfCape(play, this);
     } else if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF ||
                type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF) {
-        if ((play->csCtx.state != CS_STATE_0) && (play->csCtx.npcActions[1] != NULL)) {
+        if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[1] != NULL)) {
             SkelAnime_DrawFlexOpa(play, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                                   this->skin.skelAnime.dListCount, NULL, EnViewer_GanondorfPostLimbDrawUpdateCapeVec,
                                   this);
@@ -698,11 +698,11 @@ void EnViewer_Draw(Actor* thisx, PlayState* play) {
     if (this->isVisible) {
         type = this->actor.params >> 8;
         if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
-            if (play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[0] != NULL) {
+            if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL) {
                 Gfx_SetupDL_25Opa(play->state.gfxCtx);
                 sDrawFuncs[this->drawFuncIndex](this, play);
             }
-        } else if ((play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[1] != NULL) ||
+        } else if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL) ||
                    type == ENVIEWER_TYPE_9_GANONDORF) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
             sDrawFuncs[this->drawFuncIndex](this, play);
@@ -718,7 +718,7 @@ void EnViewer_UpdatePosition(EnViewer* this, PlayState* play) {
     s16 type = this->actor.params >> 8;
 
     if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
-        if (play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[0] != NULL &&
+        if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL &&
             play->csCtx.frames < play->csCtx.npcActions[0]->endFrame) {
             if (type == ENVIEWER_TYPE_0_HORSE_ZELDA) {
                 if (!sHorseSfxPlayed) {
@@ -743,7 +743,7 @@ void EnViewer_UpdatePosition(EnViewer* this, PlayState* play) {
             this->actor.world.pos.z = (endPos.z - startPos.z) * lerpFactor + startPos.z;
         }
     } else { // ganondorf and ganondorf's horse
-        if (play->csCtx.state != CS_STATE_0 && play->csCtx.npcActions[1] != NULL &&
+        if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL &&
             play->csCtx.frames < play->csCtx.npcActions[1]->endFrame) {
             startPos.x = play->csCtx.npcActions[1]->startPos.x;
             startPos.y = play->csCtx.npcActions[1]->startPos.y;
