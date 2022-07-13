@@ -2854,7 +2854,7 @@ s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, Collisio
 
     if ((*floorPoly)->normal.y * COLPOLY_NORMAL_FRAC < 0.81915206f || // cos(35 degrees)
         SurfaceType_IsHorseBlocked(&play->colCtx, *floorPoly, bgId) ||
-        SurfaceType_GetFloorType(&play->colCtx, *floorPoly, bgId) == SURFACETYPE_FLOORTYPE_7) {
+        SurfaceType_GetFloorType(&play->colCtx, *floorPoly, bgId) == SURFACETYPE_FLOOR_TYPE_7) {
         return 3; // Horse blocked surface
     }
     return 0;
@@ -2984,7 +2984,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
         if (ny < 0.81915206f || // cos(35 degrees)
             SurfaceType_IsHorseBlocked(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ||
             SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
-                SURFACETYPE_FLOORTYPE_7) {
+                SURFACETYPE_FLOOR_TYPE_7) {
             if (this->actor.speedXZ >= 0.0f) {
                 EnHorse_ObstructMovement(this, play, 4, galloping);
             } else {
@@ -3253,7 +3253,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     ny = obstacleFloor->normal.y * COLPOLY_NORMAL_FRAC;
     if (ny < 0.81915206f || // cos(35 degrees)
         (SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) != 0) ||
-        (SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == SURFACETYPE_FLOORTYPE_7)) {
+        (SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == SURFACETYPE_FLOOR_TYPE_7)) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
@@ -3290,7 +3290,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     ny = obstacleFloor->normal.y * COLPOLY_NORMAL_FRAC;
     if (ny < 0.81915206f || // cos(35 degrees)
         SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) ||
-        SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == SURFACETYPE_FLOORTYPE_7) {
+        SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == SURFACETYPE_FLOOR_TYPE_7) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
@@ -3461,7 +3461,7 @@ s32 EnHorse_UpdateConveyors(EnHorse* this, PlayState* play) {
         return 0;
     }
     conveyorDir = SurfaceType_GetConveyorDirection(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-    conveyorDir = SURFACETYPE_CONVEYORDIRECTION_TO_BINANG(conveyorDir) - this->actor.world.rot.y;
+    conveyorDir = SURFACETYPE_CONVEYOR_DIRECTION_TO_BINANG(conveyorDir) - this->actor.world.rot.y;
     if (conveyorDir > 800.0f) {
         this->actor.world.rot.y += 800.0f;
     } else if (conveyorDir < -800.0f) {

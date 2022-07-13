@@ -1039,7 +1039,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
 
             temp3 = SurfaceType_GetFloorType(&play->colCtx, sp88, sp84);
 
-            if ((temp3 >= SURFACETYPE_FLOORTYPE_2) && (temp3 <= SURFACETYPE_FLOORTYPE_3) &&
+            if ((temp3 >= SURFACETYPE_FLOOR_TYPE_2) && (temp3 <= SURFACETYPE_FLOOR_TYPE_3) &&
                 !func_80042108(&play->colCtx, sp88, sp84)) {
                 footprintPos.y = sp80;
                 EffectSsGFire_Spawn(play, &footprintPos);

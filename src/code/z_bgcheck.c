@@ -24,32 +24,32 @@
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
-s32 D_80119D90[SURFACETYPE_WALLTYPE_MAX] = {
-    0,                                               // SURFACETYPE_WALLTYPE_0
-    SURFACETYPE_WALLFLAG_0,                          // SURFACETYPE_WALLTYPE_1
-    SURFACETYPE_WALLFLAG_0 | SURFACETYPE_WALLFLAG_1, // SURFACETYPE_WALLTYPE_2
-    SURFACETYPE_WALLFLAG_0 | SURFACETYPE_WALLFLAG_2, // SURFACETYPE_WALLTYPE_3
-    SURFACETYPE_WALLFLAG_3,                          // SURFACETYPE_WALLTYPE_4
-    SURFACETYPE_WALLFLAG_4,                          // SURFACETYPE_WALLTYPE_5
-    SURFACETYPE_WALLFLAG_5,                          // SURFACETYPE_WALLTYPE_6
-    SURFACETYPE_WALLFLAG_6,                          // SURFACETYPE_WALLTYPE_7
+s32 D_80119D90[SURFACETYPE_WALL_TYPE_MAX] = {
+    0,                                                 // SURFACETYPE_WALL_TYPE_0
+    SURFACETYPE_WALL_FLAG_0,                           // SURFACETYPE_WALL_TYPE_1
+    SURFACETYPE_WALL_FLAG_0 | SURFACETYPE_WALL_FLAG_1, // SURFACETYPE_WALL_TYPE_2
+    SURFACETYPE_WALL_FLAG_0 | SURFACETYPE_WALL_FLAG_2, // SURFACETYPE_WALL_TYPE_3
+    SURFACETYPE_WALL_FLAG_3,                           // SURFACETYPE_WALL_TYPE_4
+    SURFACETYPE_WALL_FLAG_4,                           // SURFACETYPE_WALL_TYPE_5
+    SURFACETYPE_WALL_FLAG_5,                           // SURFACETYPE_WALL_TYPE_6
+    SURFACETYPE_WALL_FLAG_6,                           // SURFACETYPE_WALL_TYPE_7
 };
 
-u16 D_80119E10[SURFACETYPE_SFXTYPE_MAX] = {
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACETYPE_SFXTYPE_0
-    NA_SE_PL_WALK_SAND - SFX_FLAG,     // SURFACETYPE_SFXTYPE_1
-    NA_SE_PL_WALK_CONCRETE - SFX_FLAG, // SURFACETYPE_SFXTYPE_2
-    NA_SE_PL_WALK_DIRT - SFX_FLAG,     // SURFACETYPE_SFXTYPE_3
-    NA_SE_PL_WALK_WATER0 - SFX_FLAG,   // SURFACETYPE_SFXTYPE_4
-    NA_SE_PL_WALK_WATER1 - SFX_FLAG,   // SURFACETYPE_SFXTYPE_5
-    NA_SE_PL_WALK_WATER2 - SFX_FLAG,   // SURFACETYPE_SFXTYPE_6
-    NA_SE_PL_WALK_MAGMA - SFX_FLAG,    // SURFACETYPE_SFXTYPE_7
-    NA_SE_PL_WALK_GRASS - SFX_FLAG,    // SURFACETYPE_SFXTYPE_8
-    NA_SE_PL_WALK_GLASS - SFX_FLAG,    // SURFACETYPE_SFXTYPE_9
-    NA_SE_PL_WALK_LADDER - SFX_FLAG,   // SURFACETYPE_SFXTYPE_10
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACETYPE_SFXTYPE_11
-    NA_SE_PL_WALK_ICE - SFX_FLAG,      // SURFACETYPE_SFXTYPE_12
-    NA_SE_PL_WALK_IRON - SFX_FLAG,     // SURFACETYPE_SFXTYPE_13
+u16 D_80119E10[SURFACETYPE_SFX_TYPE_MAX] = {
+    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_0
+    NA_SE_PL_WALK_SAND - SFX_FLAG,     // SURFACETYPE_SFX_TYPE_1
+    NA_SE_PL_WALK_CONCRETE - SFX_FLAG, // SURFACETYPE_SFX_TYPE_2
+    NA_SE_PL_WALK_DIRT - SFX_FLAG,     // SURFACETYPE_SFX_TYPE_3
+    NA_SE_PL_WALK_WATER0 - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_4
+    NA_SE_PL_WALK_WATER1 - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_5
+    NA_SE_PL_WALK_WATER2 - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_6
+    NA_SE_PL_WALK_MAGMA - SFX_FLAG,    // SURFACETYPE_SFX_TYPE_7
+    NA_SE_PL_WALK_GRASS - SFX_FLAG,    // SURFACETYPE_SFX_TYPE_8
+    NA_SE_PL_WALK_GLASS - SFX_FLAG,    // SURFACETYPE_SFX_TYPE_9
+    NA_SE_PL_WALK_LADDER - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_10
+    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_11
+    NA_SE_PL_WALK_ICE - SFX_FLAG,      // SURFACETYPE_SFX_TYPE_12
+    NA_SE_PL_WALK_IRON - SFX_FLAG,     // SURFACETYPE_SFX_TYPE_13
 };
 
 /**
@@ -3847,7 +3847,7 @@ u32 SurfaceType_GetData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId,
 }
 
 u32 SurfaceType_GetBgCamIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_BGCAMINDEX(SurfaceType_GetData(colCtx, poly, bgId, 0));
+    return SURFACETYPE0_BG_CAM_INDEX(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 /**
@@ -3983,11 +3983,11 @@ Vec3s* BgCheck_GetBgCamFuncData(CollisionContext* colCtx, CollisionPoly* poly, s
 }
 
 u32 SurfaceType_GetExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_EXITINDEX(SurfaceType_GetData(colCtx, poly, bgId, 0));
+    return SURFACETYPE0_EXIT_INDEX(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 u32 SurfaceType_GetFloorType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_FLOORTYPE(SurfaceType_GetData(colCtx, poly, bgId, 0));
+    return SURFACETYPE0_FLOOR_TYPE(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 /**
@@ -3998,7 +3998,7 @@ u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 }
 
 u32 SurfaceType_GetWallType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_WALLTYPE(SurfaceType_GetData(colCtx, poly, bgId, 0));
+    return SURFACETYPE0_WALL_TYPE(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
@@ -4006,23 +4006,23 @@ s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 
 }
 
 s32 SurfaceType_CheckWallFlag0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALLFLAG_0) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALL_FLAG_0) ? true : false;
 }
 
 s32 SurfaceType_CheckWallFlag1(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALLFLAG_1) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALL_FLAG_1) ? true : false;
 }
 
 s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALLFLAG_2) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALL_FLAG_2) ? true : false;
 }
 
 u32 SurfaceType_GetFloorProperty2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_FLOORPROPERTY(SurfaceType_GetData(colCtx, poly, bgId, 0));
+    return SURFACETYPE0_FLOOR_PROPERTY(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 u32 SurfaceType_GetFloorProperty(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_FLOORPROPERTY(SurfaceType_GetData(colCtx, poly, bgId, 0));
+    return SURFACETYPE0_FLOOR_PROPERTY(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
@@ -4030,11 +4030,11 @@ u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) 
 }
 
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE0_ISHORSEBLOCKED(SurfaceType_GetData(colCtx, poly, bgId, 0));
+    return SURFACETYPE0_IS_HORSE_BLOCKED(SurfaceType_GetData(colCtx, poly, bgId, 0));
 }
 
 u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_SFXTYPE(SurfaceType_GetData(colCtx, poly, bgId, 1));
+    return SURFACETYPE1_SFX_TYPE(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
 u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
@@ -4047,11 +4047,11 @@ u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId
 }
 
 u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_FLOOREFFECT(SurfaceType_GetData(colCtx, poly, bgId, 1));
+    return SURFACETYPE1_FLOOR_EFFECT(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
 u32 SurfaceType_GetLightSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_LIGHTSETTING(SurfaceType_GetData(colCtx, poly, bgId, 1));
+    return SURFACETYPE1_LIGHT_SETTING(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
 u32 SurfaceType_GetEcho(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
@@ -4059,7 +4059,7 @@ u32 SurfaceType_GetEcho(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId)
 }
 
 u32 SurfaceType_CanHookshot(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_CANHOOKSHOT(SurfaceType_GetData(colCtx, poly, bgId, 1));
+    return SURFACETYPE1_CAN_HOOKSHOT(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
 /**
@@ -4110,14 +4110,14 @@ s32 SurfaceType_IsFloorConveyor(CollisionContext* colCtx, CollisionPoly* poly, s
 }
 
 u32 SurfaceType_GetConveyorSpeed(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_CONVEYORSPEED(SurfaceType_GetData(colCtx, poly, bgId, 1));
+    return SURFACETYPE1_CONVEYOR_SPEED(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
 /**
  * returns a value between 0-63, representing 360 / 64 degrees of rotation
  */
 u32 SurfaceType_GetConveyorDirection(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return SURFACETYPE1_CONVEYORDIRECTION(SurfaceType_GetData(colCtx, poly, bgId, 1));
+    return SURFACETYPE1_CONVEYOR_DIRECTION(SurfaceType_GetData(colCtx, poly, bgId, 1));
 }
 
 u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
