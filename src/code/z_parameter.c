@@ -3926,7 +3926,7 @@ void Interface_Update(PlayState* play) {
         }
     }
 
-    // Update hud display
+    // Update hud mode
     switch (gSaveContext.requestHudMode) {
         case HUD_MODE_OFF:
         case HUD_MODE_OFF_ALT:
@@ -4020,11 +4020,11 @@ void Interface_Update(PlayState* play) {
             break;
 
         case HUD_MODE_OFF_NOW:
-            // Turn off all Hud display immediately
+            // Turn off all Hud immediately
             gSaveContext.requestHudMode = HUD_MODE_OFF;
             Interface_UpdateHudAlphas(play, 0);
             gSaveContext.requestHudMode = HUD_MODE_IDLE;
-            // fallthrough
+            FALLTHROUGH;
         default:
             break;
     }
