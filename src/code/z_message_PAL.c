@@ -1591,7 +1591,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         gSaveContext.prevHudMode = gSaveContext.curHudMode;
     }
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
-        Interface_ChangeHudMode(HUD_MODE_A_HEARTS_MAGIC_W_OVERWRITE);
+        Interface_ChangeHudMode(HUD_MODE_A_HEARTS_MAGIC_WITH_DIM_BTN);
     }
 
     sMessageHasSetSfx = D_8014B2F4 = sTextboxSkipped = sTextIsCredits = 0;
