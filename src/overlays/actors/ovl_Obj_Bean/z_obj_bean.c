@@ -632,7 +632,7 @@ void ObjBean_SetupWaitForWater(ObjBean* this) {
 void ObjBean_WaitForWater(ObjBean* this, PlayState* play) {
     this->transformFunc(this);
 
-    if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && Flags_GetEnv(play, 5) && (D_80B90E30 == NULL) &&
+    if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && CutsceneFlags_Get(play, 5) && (D_80B90E30 == NULL) &&
         (this->dyna.actor.xzDistToPlayer < 50.0f)) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
@@ -641,7 +641,7 @@ void ObjBean_WaitForWater(ObjBean* this, PlayState* play) {
         return;
     }
 
-    if ((D_80B90E30 == this) && !Flags_GetEnv(play, 5)) {
+    if ((D_80B90E30 == this) && !CutsceneFlags_Get(play, 5)) {
         D_80B90E30 = NULL;
         if (D_80B90E30) {}
     }

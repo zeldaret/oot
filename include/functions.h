@@ -831,10 +831,10 @@ void SoundSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 du
 u16 ElfMessage_GetSariaText(PlayState* play);
 u16 ElfMessage_GetCUpText(PlayState* play);
 u16 Text_GetFaceReaction(PlayState* play, u32 reactionSet);
-void Flags_UnsetAllEnv(PlayState* play);
-void Flags_SetEnv(PlayState* play, s16 flag);
-void Flags_UnsetEnv(PlayState* play, s16 flag);
-s32 Flags_GetEnv(PlayState* play, s16 flag);
+void CutsceneFlags_UnsetAll(PlayState* play);
+void CutsceneFlags_Set(PlayState* play, s16 flag);
+void CutsceneFlags_Unset(PlayState* play, s16 flag);
+s32 CutsceneFlags_Get(PlayState* play, s16 flag);
 s32 func_8006CFC0(s32 scene);
 void func_8006D074(PlayState* play);
 void func_8006D0AC(PlayState* play);

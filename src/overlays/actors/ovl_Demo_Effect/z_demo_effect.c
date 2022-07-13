@@ -715,7 +715,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
  * It changes the Background Music and updates its SkelCurve animation.
  */
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play) {
-    if (Flags_GetEnv(play, 1)) {
+    if (CutsceneFlags_Get(play, 1)) {
         if (!(this->effectFlags & 0x2)) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SWORD_GLOW);
             this->effectFlags |= 0x2;
@@ -2071,7 +2071,7 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        Flags_GetEnv(play, 1) || gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
+        CutsceneFlags_Get(play, 1) || gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);

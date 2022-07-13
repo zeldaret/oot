@@ -366,7 +366,7 @@ void Play_Init(GameState* thisx) {
     TransitionFade_Start(&this->transitionFade);
     VisMono_Init(&D_80161498);
     D_801614B0.a = 0;
-    Flags_UnsetAllEnv(this);
+    CutsceneFlags_UnsetAll(this);
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&this->state.tha));
     zAllocSize = THA_GetSize(&this->state.tha);

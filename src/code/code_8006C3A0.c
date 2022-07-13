@@ -1,6 +1,6 @@
 #include "global.h"
 
-void Flags_UnsetAllEnv(PlayState* play) {
+void CutsceneFlags_UnsetAll(PlayState* play) {
     u8 i;
 
     for (i = 0; i < ARRAY_COUNT(play->envFlags); i++) {
@@ -8,7 +8,7 @@ void Flags_UnsetAllEnv(PlayState* play) {
     }
 }
 
-void Flags_SetEnv(PlayState* play, s16 flag) {
+void CutsceneFlags_Set(PlayState* play, s16 flag) {
     s16 index = flag / 16;
     s16 bit = flag % 16;
     s16 mask = 1 << bit;
@@ -16,7 +16,7 @@ void Flags_SetEnv(PlayState* play, s16 flag) {
     play->envFlags[index] |= mask;
 }
 
-void Flags_UnsetEnv(PlayState* play, s16 flag) {
+void CutsceneFlags_Unset(PlayState* play, s16 flag) {
     s16 index = flag / 16;
     s16 bit = flag % 16;
     s16 mask = (1 << bit) ^ 0xFFFF;
@@ -24,7 +24,7 @@ void Flags_UnsetEnv(PlayState* play, s16 flag) {
     play->envFlags[index] &= mask;
 }
 
-s32 Flags_GetEnv(PlayState* play, s16 flag) {
+s32 CutsceneFlags_Get(PlayState* play, s16 flag) {
     s16 index = flag / 16;
     s16 bit = flag % 16;
     s16 mask = 1 << bit;

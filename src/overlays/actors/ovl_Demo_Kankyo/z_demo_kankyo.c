@@ -292,7 +292,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                 DemoKankyo_SetupAction(this, DemoKankyo_UpdateClouds);
                 break;
             case DEMOKANKYO_DOOR_OF_TIME:
-                if (Flags_GetEnv(play, 2)) {
+                if (CutsceneFlags_Get(play, 2)) {
                     DemoKankyo_SetupAction(this, DemoKankyo_UpdateDoorOfTime);
                 }
                 break;
@@ -433,7 +433,7 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
                 if (play->sceneNum == SCENE_TOKINOMA) {
-                    if (!Flags_GetEnv(play, 1)) {
+                    if (!CutsceneFlags_Get(play, 1)) {
                         break;
                     } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;

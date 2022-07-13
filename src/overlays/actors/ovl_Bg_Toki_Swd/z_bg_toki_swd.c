@@ -146,7 +146,7 @@ void func_808BB0AC(BgTokiSwd* this, PlayState* play) {
 }
 
 void func_808BB128(BgTokiSwd* this, PlayState* play) {
-    if (Flags_GetEnv(play, 1) && (play->roomCtx.unk_74[0] < 0xFF)) {
+    if (CutsceneFlags_Get(play, 1) && (play->roomCtx.unk_74[0] < 0xFF)) {
         play->roomCtx.unk_74[0] += 5;
     }
 }

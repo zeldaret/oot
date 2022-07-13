@@ -243,15 +243,15 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
 
         case CS_MISC_3_ENV_FLAG:
             if (isFirstFrame) {
-                Flags_SetEnv(play, 0);
+                CutsceneFlags_Set(play, 0);
                 
                 if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
-                    Flags_SetEnv(play, 2);
+                    CutsceneFlags_Set(play, 2);
                 }
             }
             break;
 
-        case 6:
+        case CS_MISC_LIFT_FOG:
             if (play->envCtx.adjFogFar < 12800) {
                 play->envCtx.adjFogFar += 35;
             }
@@ -270,18 +270,18 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
 
-        case 8:
+        case CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA:
             if (play->roomCtx.unk_74[0] < 0x80) {
                 play->roomCtx.unk_74[0] += 4;
             }
             break;
 
-        case 9:
+        case CS_MISC_SNOW:
             play->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
             break;
             
         case 10:
-            Flags_SetEnv(play, 1);
+            CutsceneFlags_Set(play, 1);
             break;
 
         case 11:
@@ -431,11 +431,11 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
 
         case 30:
-            Flags_SetEnv(play, 3);
+            CutsceneFlags_Set(play, 3);
             break;
 
         case 31:
-            Flags_SetEnv(play, 4);
+            CutsceneFlags_Set(play, 4);
             break;
 
         case 32:
@@ -2089,7 +2089,7 @@ void func_80068ECC(PlayState* play, CutsceneContext* csCtx) {
     }
 
     if ((gSaveContext.cutsceneIndex >= 0xFFF0) && (csCtx->state == CS_STATE_IDLE)) {
-        Flags_UnsetEnv(play, 0);
+        CutsceneFlags_Unset(play, 0);
 
         D_8011E1C0 = 0;
         D_8011E1C4 = 0;

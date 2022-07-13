@@ -251,12 +251,12 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->globalState == MAG_STATE_INITIAL) {
-        if (Flags_GetEnv(play, 3)) {
+        if (CutsceneFlags_Get(play, 3)) {
             this->effectFadeInTimer = 40;
             this->globalState = MAG_STATE_FADE_IN;
         }
     } else if (this->globalState == MAG_STATE_DISPLAY) {
-        if (Flags_GetEnv(play, 4)) {
+        if (CutsceneFlags_Get(play, 4)) {
             this->globalState = MAG_STATE_FADE_OUT;
         }
     }
