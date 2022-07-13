@@ -47,7 +47,6 @@
 #define R_ENV_FOG_NEAR                           REG(14)
 #define R_ENV_TIME_SPEED_OLD                     REG(15) // Most likely used during development. Unused in the final game.
 #define R_RUN_SPEED_LIMIT                        REG(45)
-#define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_ENABLE_ARENA_DBG                       SREG(0)
 #define R_UPDATE_RATE                            SREG(30)
 #define R_ENABLE_AUDIO_DBG                       SREG(36)
@@ -124,8 +123,11 @@
 #define R_ITEM_ICON_WIDTH(i)                     VREG(76 + (i))
 #define R_ITEM_BTN_WIDTH(i)                      VREG(80 + (i))
 #define R_DISABLE_INPUT_DISPLAY                  HREG(47)
+#define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_EN_GOROIWA_SPEED                       mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA                  nREG(87)
+
+// message system
 #define R_TEXT_DROP_SHADOW_OFFSET                XREG(60)
 #define R_TEXTBOX_X_TARGET                       XREG(72)
 #define R_TEXTBOX_Y_TARGET                       XREG(73)
