@@ -2724,7 +2724,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
 void BossMo_DrawTent(Actor* thisx, PlayState* play) {
     s32 pad;
     BossMo* this = (BossMo*)thisx;
-    u16 scale;
+    u16 texCoordScale;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_mo.c", 6958);
     if (1) {}
@@ -2739,8 +2739,8 @@ void BossMo_DrawTent(Actor* thisx, PlayState* play) {
                                 this->work[MO_TENT_BASE_TEX2_Y], 32, 32));
     gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)((this->baseAlpha * 12.0f) / 10.0f));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->baseAlpha);
-    scale = (s16)(Math_SinS(this->work[MO_TENT_VAR_TIMER] * 0xB00) * 30.0f) + 350;
-    gSPTexture(POLY_XLU_DISP++, scale, scale, 0, G_TX_RENDERTILE, G_ON);
+    texCoordScale = (s16)(Math_SinS(this->work[MO_TENT_VAR_TIMER] * 0xB00) * 30.0f) + 350;
+    gSPTexture(POLY_XLU_DISP++, texCoordScale, texCoordScale, 0, G_TX_RENDERTILE, G_ON);
 
     if (this->drawActor) {
         BossMo_DrawTentacle(this, play);
