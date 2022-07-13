@@ -170,17 +170,17 @@ static Gfx sSetupDL_80125A60[] = {
 
 // original name: "alpha_change"
 void Interface_ChangeHudMode(u16 hudMode) {
-    if (hudMode != gSaveContext.hudModeCur) {
-        osSyncPrintf("ＡＬＰＨＡーＴＹＰＥ＝%d  LAST_TIME_TYPE=%d\n", hudMode, gSaveContext.hudModePrev);
-        gSaveContext.hudModeCur = gSaveContext.hudModeRequest = hudMode;
+    if (hudMode != gSaveContext.curHudMode) {
+        osSyncPrintf("ＡＬＰＨＡーＴＹＰＥ＝%d  LAST_TIME_TYPE=%d\n", hudMode, gSaveContext.prevHudMode);
+        gSaveContext.curHudMode = gSaveContext.requestHudMode = hudMode;
         gSaveContext.hudModeCounter = 1;
     }
 }
 
 /**
- * Slowly restore buttons to the hud
+ * Slowly restore buttons to the hud unless a button is disabled
  */
-void Interface_RaiseButtonAlphas(PlayState* play, s16 risingAlpha) {
+void Interface_RaiseNonDisabledButtonAlphas(PlayState* play, s16 risingAlpha) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     if (gSaveContext.buttonStatus[0] == BTN_DISABLED) {
@@ -236,13 +236,14 @@ void Interface_RaiseButtonAlphas(PlayState* play, s16 risingAlpha) {
 
 /**
  * Slowly diminish button alphas on the hud
- * If gSaveContext.hudModeOverrideButton != 0, then force the buttons to raise instead
+ * If (gSaveContext.hudModeDimOnlyDisabledButtons), then only dim disabled buttons,
+ * and raise active button alphas instead
  */
 void Interface_DimButtonAlphas(PlayState* play, s16 dimmingAlpha, s16 risingAlpha) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
-    if (gSaveContext.hudModeOverrideButton != 0) {
-        Interface_RaiseButtonAlphas(play, risingAlpha);
+    if (gSaveContext.hudModeDimOnlyDisabledButtons) {
+        Interface_RaiseNonDisabledButtonAlphas(play, risingAlpha);
         return;
     }
 
@@ -271,13 +272,13 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 risingAlpha = 255 - dimmingAlpha;
 
-    switch (gSaveContext.hudModeRequest) {
+    switch (gSaveContext.requestHudMode) {
         case HUD_MODE_OFF:
         case HUD_MODE_OFF_ALT:
         case HUD_MODE_B:
             osSyncPrintf("a_alpha=%d, c_alpha=%d   →   ", interfaceCtx->aAlpha, interfaceCtx->cLeftAlpha);
 
-            if (gSaveContext.hudModeRequest == HUD_MODE_B) {
+            if (gSaveContext.requestHudMode == HUD_MODE_B) {
                 if (interfaceCtx->bAlpha != 255) {
                     interfaceCtx->bAlpha = risingAlpha;
                 }
@@ -319,7 +320,8 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_MODE_HEARTS:
+        case HUD_MODE_HEARTS_W_OVERWRITE:
+            // aAlpha is immediately overwritten in Interface_DimButtonAlphas
             if ((interfaceCtx->aAlpha != 0) && (interfaceCtx->aAlpha > dimmingAlpha)) {
                 interfaceCtx->aAlpha = dimmingAlpha;
             }
@@ -345,6 +347,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
                 interfaceCtx->bAlpha = dimmingAlpha;
             }
 
+            // aAlpha is immediately overwritten below
             if ((interfaceCtx->aAlpha != 0) && (interfaceCtx->aAlpha > dimmingAlpha)) {
                 interfaceCtx->aAlpha = dimmingAlpha;
             }
@@ -379,13 +382,14 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_MODE_A_HEARTS_MAGIC:
+        case HUD_MODE_A_HEARTS_MAGIC_W_OVERWRITE:
             Interface_DimButtonAlphas(play, dimmingAlpha, risingAlpha);
 
             if ((interfaceCtx->minimapAlpha != 0) && (interfaceCtx->minimapAlpha > dimmingAlpha)) {
                 interfaceCtx->minimapAlpha = dimmingAlpha;
             }
 
+            // aAlpha overwrites the value set in Interface_DimButtonAlphas
             if (interfaceCtx->aAlpha != 255) {
                 interfaceCtx->aAlpha = risingAlpha;
             }
@@ -400,9 +404,10 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_MODE_A_HEARTS_MAGIC_MINIMAP:
+        case HUD_MODE_A_HEARTS_MAGIC_MINIMAP_W_OVERWRITE:
             Interface_DimButtonAlphas(play, dimmingAlpha, risingAlpha);
 
+            // aAlpha overwrites the value set in Interface_DimButtonAlphas
             if (interfaceCtx->aAlpha != 255) {
                 interfaceCtx->aAlpha = risingAlpha;
             }
@@ -442,6 +447,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
                         interfaceCtx->minimapAlpha = 170;
                     }
                     break;
+
                 default:
                     if (interfaceCtx->minimapAlpha != 255) {
                         interfaceCtx->minimapAlpha = risingAlpha;
@@ -450,12 +456,12 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
             }
             break;
 
-        case HUD_MODE_ALL_NO_MINIMAP:
+        case HUD_MODE_ALL_NO_MINIMAP_W_DISABLED:
             if ((interfaceCtx->minimapAlpha != 0) && (interfaceCtx->minimapAlpha > dimmingAlpha)) {
                 interfaceCtx->minimapAlpha = dimmingAlpha;
             }
 
-            Interface_RaiseButtonAlphas(play, risingAlpha);
+            Interface_RaiseNonDisabledButtonAlphas(play, risingAlpha);
 
             if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = risingAlpha;
@@ -502,7 +508,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_MODE_B_TOGGLE:
+        case HUD_MODE_B_ALT:
             if ((interfaceCtx->aAlpha != 0) && (interfaceCtx->aAlpha > dimmingAlpha)) {
                 interfaceCtx->aAlpha = dimmingAlpha;
             }
@@ -537,7 +543,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_MODE_HEARTS_ALT:
+        case HUD_MODE_HEARTS:
             if ((interfaceCtx->bAlpha != 0) && (interfaceCtx->bAlpha > dimmingAlpha)) {
                 interfaceCtx->bAlpha = dimmingAlpha;
             }
@@ -607,13 +613,14 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_MODE_HEARTS_MAGIC_ALT:
+        case HUD_MODE_HEARTS_MAGIC_W_OVERWRITE:
             Interface_DimButtonAlphas(play, dimmingAlpha, risingAlpha);
 
             if ((interfaceCtx->minimapAlpha != 0) && (interfaceCtx->minimapAlpha > dimmingAlpha)) {
                 interfaceCtx->minimapAlpha = dimmingAlpha;
             }
 
+            // aAlpha overwrites the value set in Interface_DimButtonAlphas
             if ((interfaceCtx->aAlpha != 0) && (interfaceCtx->aAlpha > dimmingAlpha)) {
                 interfaceCtx->aAlpha = dimmingAlpha;
             }
@@ -643,12 +650,12 @@ void func_80083108(PlayState* play) {
 
     if ((gSaveContext.cutsceneIndex < 0xFFF0) ||
         ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
-        gSaveContext.hudModeOverrideButton = 0;
+        gSaveContext.hudModeDimOnlyDisabledButtons = false;
 
         if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
             ((play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
-                gSaveContext.hudModeOverrideButton = 1;
+                gSaveContext.hudModeDimOnlyDisabledButtons = true;
 
                 if (gSaveContext.buttonStatus[0] == BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
@@ -683,7 +690,7 @@ void func_80083108(PlayState* play) {
 
                     gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] = gSaveContext.buttonStatus[3] =
                         BTN_DISABLED;
-                    Interface_ChangeHudMode(HUD_MODE_A_HEARTS_MAGIC_MINIMAP);
+                    Interface_ChangeHudMode(HUD_MODE_A_HEARTS_MAGIC_MINIMAP_W_OVERWRITE);
                 }
 
                 if (play->transitionMode != TRANS_MODE_OFF) {
@@ -705,22 +712,23 @@ void func_80083108(PlayState* play) {
         } else if (play->sceneNum == SCENE_KENJYANOMA) {
             Interface_ChangeHudMode(HUD_MODE_OFF);
         } else if (play->sceneNum == SCENE_TURIBORI) {
-            gSaveContext.hudModeOverrideButton = 2;
+            // should likely be set to 1
+            gSaveContext.hudModeDimOnlyDisabledButtons = 2;
             if (play->interfaceCtx.unk_260 != 0) {
                 if (gSaveContext.equips.buttonItems[0] != ITEM_FISHING_POLE) {
                     gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
                     gSaveContext.equips.buttonItems[0] = ITEM_FISHING_POLE;
-                    gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                    gSaveContext.curHudMode = HUD_MODE_IDLE;
                     Interface_LoadItemIcon1(play, 0);
                     Interface_ChangeHudMode(HUD_MODE_A_B_MINIMAP);
                 }
 
-                if (gSaveContext.hudModeCur != HUD_MODE_A_B_MINIMAP) {
+                if (gSaveContext.curHudMode != HUD_MODE_A_B_MINIMAP) {
                     Interface_ChangeHudMode(HUD_MODE_A_B_MINIMAP);
                 }
             } else if (gSaveContext.equips.buttonItems[0] == ITEM_FISHING_POLE) {
                 gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
-                gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                gSaveContext.curHudMode = HUD_MODE_IDLE;
 
                 if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                     Interface_LoadItemIcon1(play, 0);
@@ -731,7 +739,7 @@ void func_80083108(PlayState* play) {
                 Interface_ChangeHudMode(HUD_MODE_ALL);
             } else {
                 if (gSaveContext.buttonStatus[0] == BTN_ENABLED) {
-                    gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                    gSaveContext.curHudMode = HUD_MODE_IDLE;
                 }
 
                 gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
@@ -772,7 +780,7 @@ void func_80083108(PlayState* play) {
                 }
 
                 if (sp28) {
-                    gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                    gSaveContext.curHudMode = HUD_MODE_IDLE;
                 }
 
                 Interface_ChangeHudMode(HUD_MODE_ALL);
@@ -782,7 +790,7 @@ void func_80083108(PlayState* play) {
                     gSaveContext.buttonStatus[1] = BTN_DISABLED;
                     gSaveContext.buttonStatus[2] = BTN_DISABLED;
                     gSaveContext.buttonStatus[3] = BTN_DISABLED;
-                    gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                    gSaveContext.curHudMode = HUD_MODE_IDLE;
                     Interface_ChangeHudMode(HUD_MODE_ALL);
                 }
             } else if (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_1) {
@@ -835,7 +843,7 @@ void func_80083108(PlayState* play) {
                 }
 
                 if (sp28) {
-                    gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                    gSaveContext.curHudMode = HUD_MODE_IDLE;
                 }
 
                 Interface_ChangeHudMode(HUD_MODE_ALL);
@@ -1080,7 +1088,7 @@ void func_80083108(PlayState* play) {
     }
 
     if (sp28) {
-        gSaveContext.hudModeCur = HUD_MODE_IDLE;
+        gSaveContext.curHudMode = HUD_MODE_IDLE;
         if ((play->transitionTrigger == TRANS_TRIGGER_OFF) && (play->transitionMode == TRANS_MODE_OFF)) {
             Interface_ChangeHudMode(HUD_MODE_ALL);
             osSyncPrintf("????????  alpha_change( 50 );  ?????\n");
@@ -1331,7 +1339,7 @@ void func_80084BF4(PlayState* play, u16 flag) {
 
         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-        Interface_ChangeHudMode(HUD_MODE_ALL_NO_MINIMAP);
+        Interface_ChangeHudMode(HUD_MODE_ALL_NO_MINIMAP_W_DISABLED);
     } else {
         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
             gSaveContext.buttonStatus[3] = BTN_ENABLED;
@@ -2814,8 +2822,8 @@ void Interface_DrawItemButtons(PlayState* play) {
             // C-Up Button Texture, Color & Label (Navi Text)
             gDPPipeSync(OVERLAY_DISP++);
 
-            if ((gSaveContext.hudModeCur == HUD_MODE_OFF) || (gSaveContext.hudModeCur == HUD_MODE_OFF_ALT) ||
-                (gSaveContext.hudModeCur == HUD_MODE_A_HEARTS_MAGIC)) {
+            if ((gSaveContext.curHudMode == HUD_MODE_OFF) || (gSaveContext.curHudMode == HUD_MODE_OFF_ALT) ||
+                (gSaveContext.curHudMode == HUD_MODE_A_HEARTS_MAGIC_W_OVERWRITE)) {
                 temp = 0;
             } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (func_8008F2F8(play) == 4) ||
                        (player->stateFlags2 & PLAYER_STATE2_18)) {
@@ -3919,20 +3927,20 @@ void Interface_Update(PlayState* play) {
     }
 
     // Update hud display
-    switch (gSaveContext.hudModeRequest) {
+    switch (gSaveContext.requestHudMode) {
         case HUD_MODE_OFF:
         case HUD_MODE_OFF_ALT:
-        case HUD_MODE_HEARTS:
+        case HUD_MODE_HEARTS_W_OVERWRITE:
         case HUD_MODE_A:
-        case HUD_MODE_A_HEARTS_MAGIC:
-        case HUD_MODE_A_HEARTS_MAGIC_MINIMAP:
-        case HUD_MODE_ALL_NO_MINIMAP:
+        case HUD_MODE_A_HEARTS_MAGIC_W_OVERWRITE:
+        case HUD_MODE_A_HEARTS_MAGIC_MINIMAP_W_OVERWRITE:
+        case HUD_MODE_ALL_NO_MINIMAP_W_DISABLED:
         case HUD_MODE_B:
         case HUD_MODE_HEARTS_MAGIC:
-        case HUD_MODE_B_TOGGLE:
-        case HUD_MODE_HEARTS_ALT:
+        case HUD_MODE_B_ALT:
+        case HUD_MODE_HEARTS:
         case HUD_MODE_A_B_MINIMAP:
-        case HUD_MODE_HEARTS_MAGIC_ALT:
+        case HUD_MODE_HEARTS_MAGIC_W_OVERWRITE:
             dimmingAlpha = 255 - (32 * gSaveContext.hudModeCounter);
             if (dimmingAlpha < 0) {
                 dimmingAlpha = 0;
@@ -3942,7 +3950,7 @@ void Interface_Update(PlayState* play) {
             gSaveContext.hudModeCounter++;
 
             if (dimmingAlpha == 0) {
-                gSaveContext.hudModeRequest = HUD_MODE_IDLE;
+                gSaveContext.requestHudMode = HUD_MODE_IDLE;
             }
             break;
 
@@ -3959,7 +3967,7 @@ void Interface_Update(PlayState* play) {
 
             osSyncPrintf("case 50 : alpha=%d  alpha1=%d\n", dimmingAlpha, risingAlpha);
 
-            Interface_RaiseButtonAlphas(play, risingAlpha);
+            Interface_RaiseNonDisabledButtonAlphas(play, risingAlpha);
 
             if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = risingAlpha;
@@ -4006,16 +4014,16 @@ void Interface_Update(PlayState* play) {
 
             gSaveContext.hudModeCounter++;
             if (risingAlpha == 255) {
-                gSaveContext.hudModeRequest = HUD_MODE_IDLE;
+                gSaveContext.requestHudMode = HUD_MODE_IDLE;
             }
 
             break;
 
         case HUD_MODE_OFF_NOW:
             // Turn off all Hud display immediately
-            gSaveContext.hudModeRequest = HUD_MODE_OFF;
+            gSaveContext.requestHudMode = HUD_MODE_OFF;
             Interface_UpdateHudAlphas(play, 0);
-            gSaveContext.hudModeRequest = HUD_MODE_IDLE;
+            gSaveContext.requestHudMode = HUD_MODE_IDLE;
             // fallthrough
         default:
             break;

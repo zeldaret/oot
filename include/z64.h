@@ -625,20 +625,20 @@ typedef enum {
 } DoAction;
 
 typedef enum {
-    /* 0 */ HUD_MODE_IDLE,
-    /* 1 */ HUD_MODE_OFF,
-    /* 2 */ HUD_MODE_OFF_ALT,
-    /* 3 */ HUD_MODE_HEARTS, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
-    /* 4 */ HUD_MODE_A,
-    /* 5 */ HUD_MODE_A_HEARTS_MAGIC,
-    /* 6 */ HUD_MODE_A_HEARTS_MAGIC_MINIMAP,
-    /* 7 */ HUD_MODE_ALL_NO_MINIMAP,
-    /* 8 */ HUD_MODE_B,
-    /* 9 */ HUD_MODE_HEARTS_MAGIC, // Sets all alpha's directly, no opportunity to overwrite
-    /* 10 */ HUD_MODE_B_TOGGLE,
-    /* 11 */ HUD_MODE_HEARTS_ALT, // Sets all alpha's directly, no opportunity to overwrite
+    /*  0 */ HUD_MODE_IDLE,
+    /*  1 */ HUD_MODE_OFF,
+    /*  2 */ HUD_MODE_OFF_ALT, // Identical to HUD_MODE_OFF
+    /*  3 */ HUD_MODE_HEARTS_W_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
+    /*  4 */ HUD_MODE_A,
+    /*  5 */ HUD_MODE_A_HEARTS_MAGIC_W_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
+    /*  6 */ HUD_MODE_A_HEARTS_MAGIC_MINIMAP_W_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
+    /*  7 */ HUD_MODE_ALL_NO_MINIMAP_W_DISABLED, // Only raises button alphas if not disabled
+    /*  8 */ HUD_MODE_B,
+    /*  9 */ HUD_MODE_HEARTS_MAGIC,
+    /* 10 */ HUD_MODE_B_ALT, // Identical to HUD_MODE_OFF but without osSyncPrintf calls
+    /* 11 */ HUD_MODE_HEARTS,
     /* 12 */ HUD_MODE_A_B_MINIMAP,
-    /* 13 */ HUD_MODE_HEARTS_MAGIC_ALT, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
+    /* 13 */ HUD_MODE_HEARTS_MAGIC_W_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
     /* 50 */ HUD_MODE_ALL = 50,
     /* 52 */ HUD_MODE_OFF_NOW = 52
 } HudMode;

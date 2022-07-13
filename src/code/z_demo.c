@@ -510,7 +510,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
         osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base); // "Future fork designation=No. [%d]"
 
         if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->frames != cmd->startFrame)) {
-            gSaveContext.hudModeOverrideButton = 1;
+            gSaveContext.hudModeDimOnlyDisabledButtons = true;
         }
 
         gSaveContext.cutsceneIndex = 0;

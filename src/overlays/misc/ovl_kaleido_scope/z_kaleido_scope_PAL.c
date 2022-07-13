@@ -387,7 +387,7 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
 
     osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
-    gSaveContext.hudModeCur = HUD_MODE_IDLE;
+    gSaveContext.curHudMode = HUD_MODE_IDLE;
     Interface_ChangeHudMode(HUD_MODE_ALL);
 }
 
@@ -2915,7 +2915,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                        gSaveContext.curHudMode = HUD_MODE_IDLE;
                         Interface_ChangeHudMode(HUD_MODE_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
@@ -2962,7 +2962,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                        gSaveContext.curHudMode = HUD_MODE_IDLE;
                         Interface_ChangeHudMode(HUD_MODE_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
@@ -3012,7 +3012,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                        gSaveContext.curHudMode = HUD_MODE_IDLE;
                         Interface_ChangeHudMode(HUD_MODE_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
@@ -3046,7 +3046,7 @@ void KaleidoScope_Update(PlayState* play) {
                             Interface_SetDoAction(play, DO_ACTION_NONE);
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                            gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                            gSaveContext.curHudMode = HUD_MODE_IDLE;
                             Interface_ChangeHudMode(HUD_MODE_ALL);
                             pauseCtx->unk_1EC = 2;
                             WREG(2) = -6240;
@@ -3071,7 +3071,7 @@ void KaleidoScope_Update(PlayState* play) {
                         func_800F64E0(0);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                        gSaveContext.curHudMode = HUD_MODE_IDLE;
                         Interface_ChangeHudMode(HUD_MODE_ALL);
                     }
                     break;
@@ -3082,7 +3082,7 @@ void KaleidoScope_Update(PlayState* play) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.hudModeCur = HUD_MODE_IDLE;
+                        gSaveContext.curHudMode = HUD_MODE_IDLE;
                         Interface_ChangeHudMode(HUD_MODE_ALL);
                         pauseCtx->unk_1EC = 5;
                         WREG(2) = -6240;
@@ -3486,9 +3486,9 @@ void KaleidoScope_Update(PlayState* play) {
             gSaveContext.buttonStatus[4] = D_808321A8[4];
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
             osSyncPrintf(VT_FGCOL(YELLOW));
-            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.hudModePrev);
-            gSaveContext.hudModeCur = HUD_MODE_IDLE;
-            Interface_ChangeHudMode(gSaveContext.hudModePrev);
+            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.prevHudMode);
+            gSaveContext.curHudMode = HUD_MODE_IDLE;
+            Interface_ChangeHudMode(gSaveContext.prevHudMode);
             player->targetActor = NULL;
             Player_SetEquipmentData(play, player);
             osSyncPrintf(VT_RST);

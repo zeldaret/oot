@@ -11,7 +11,7 @@ void func_801109B0(PlayState* play) {
     u8 temp;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-    gSaveContext.hudModeRequest = gSaveContext.hudModeCur = HUD_MODE_IDLE;
+    gSaveContext.requestHudMode = gSaveContext.curHudMode = HUD_MODE_IDLE;
 
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 

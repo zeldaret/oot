@@ -783,7 +783,7 @@ void Camera_UpdateInterface(s16 flags) {
     if ((flags & IFACE_ALPHA_MASK) != IFACE_ALPHA_MASK) {
         interfaceAlpha = (flags & IFACE_ALPHA_MASK) >> 8;
         if (interfaceAlpha == 0) {
-            interfaceAlpha = 0x32;
+            interfaceAlpha = HUD_MODE_ALL;
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
             sCameraInterfaceAlpha = interfaceAlpha;

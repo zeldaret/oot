@@ -177,11 +177,11 @@ typedef struct {
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 hudModeOverrideButton; // for certain hud displays, will override button dim request and ensure the buttons are still visible
-    /* 0x13E8 */ u16 hudModeRequest; // requested hud display. Reset to 0 when the hud display target is reached
-    /* 0x13EA */ u16 hudModeCur; // current hud display
-    /* 0x13EC */ u16 hudModeCounter; // Number of frames in the transition to a new hud display. Used to step alpha
-    /* 0x13EE */ u16 hudModePrev; // previous hud display. Used to store and recover hud display for pause menu and text boxes
+    /* 0x13E7 */ u8 hudModeDimOnlyDisabledButtons; // for certain hud displays, will override button dim request and ensure the buttons are still visible
+    /* 0x13E8 */ u16 requestHudMode; // triggers the hud to change modes to the requested value. Reset to 0 when target is reached
+    /* 0x13EA */ u16 curHudMode; // current hud mode
+    /* 0x13EC */ u16 hudModeCounter; // number of frames in the transition to a new hud display. Used to step alpha
+    /* 0x13EE */ u16 prevHudMode; // used to store and recover hud display for pause menu and text boxes
     /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
     /* 0x13F4 */ s16 magicCapacity; // maximum magic available

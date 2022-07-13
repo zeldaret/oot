@@ -1588,10 +1588,10 @@ void Message_OpenText(PlayState* play, u16 textId) {
     s16 textBoxType;
 
     if (msgCtx->msgMode == MSGMODE_NONE) {
-        gSaveContext.hudModePrev = gSaveContext.hudModeCur;
+        gSaveContext.prevHudMode = gSaveContext.curHudMode;
     }
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
-        Interface_ChangeHudMode(HUD_MODE_A_HEARTS_MAGIC);
+        Interface_ChangeHudMode(HUD_MODE_A_HEARTS_MAGIC_W_OVERWRITE);
     }
 
     sMessageHasSetSfx = D_8014B2F4 = sTextboxSkipped = sTextIsCredits = 0;
@@ -1839,9 +1839,9 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
     if (noStop == false) {
         Interface_LoadActionLabelB(play, DO_ACTION_STOP);
-        noStop = gSaveContext.hudModeCur;
-        Interface_ChangeHudMode(HUD_MODE_B_TOGGLE);
-        gSaveContext.hudModeCur = noStop;
+        noStop = gSaveContext.curHudMode;
+        Interface_ChangeHudMode(HUD_MODE_B_ALT);
+        gSaveContext.curHudMode = noStop;
     }
     // "Music Performance Start"
     osSyncPrintf("演奏開始\n");
@@ -1867,7 +1867,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->stateTimer = 3;
         msgCtx->msgMode = MSGMODE_SCARECROW_LONG_PLAYBACK;
         AudioOcarina_SetPlaybackSong(OCARINA_SONG_SCARECROW_LONG + 1, 1);
-        gSaveContext.hudModeCur = HUD_MODE_IDLE;
+        gSaveContext.curHudMode = HUD_MODE_IDLE;
         Interface_ChangeHudMode(HUD_MODE_OFF);
     }
     for (k = 0, j = 0; j < 48; j++, k += 0x80) {
@@ -3273,7 +3273,7 @@ void Message_Update(PlayState* play) {
             if (msgCtx->textId == 0x301F || msgCtx->textId == 0xA || msgCtx->textId == 0xC || msgCtx->textId == 0xCF ||
                 msgCtx->textId == 0x21C || msgCtx->textId == 9 || msgCtx->textId == 0x4078 ||
                 msgCtx->textId == 0x2015 || msgCtx->textId == 0x3040) {
-                gSaveContext.hudModePrev = HUD_MODE_ALL;
+                gSaveContext.prevHudMode = HUD_MODE_ALL;
             }
             if (play->csCtx.state == 0) {
                 osSyncPrintf(VT_FGCOL(GREEN));
@@ -3284,12 +3284,12 @@ void Message_Update(PlayState* play) {
                     (msgCtx->textId != 0x3055 && gSaveContext.cutsceneIndex < 0xFFF0)) {
                     osSyncPrintf("=== day_time=%x ", ((void)0, gSaveContext.cutsceneIndex));
                     if (play->activeCamId == CAM_ID_MAIN) {
-                        if (gSaveContext.hudModePrev == HUD_MODE_IDLE || gSaveContext.hudModePrev == HUD_MODE_OFF ||
-                            gSaveContext.hudModePrev == HUD_MODE_OFF_ALT) {
-                            gSaveContext.hudModePrev = HUD_MODE_ALL;
+                        if (gSaveContext.prevHudMode == HUD_MODE_IDLE || gSaveContext.prevHudMode == HUD_MODE_OFF ||
+                            gSaveContext.prevHudMode == HUD_MODE_OFF_ALT) {
+                            gSaveContext.prevHudMode = HUD_MODE_ALL;
                         }
-                        gSaveContext.hudModeCur = HUD_MODE_IDLE;
-                        Interface_ChangeHudMode(gSaveContext.hudModePrev);
+                        gSaveContext.curHudMode = HUD_MODE_IDLE;
+                        Interface_ChangeHudMode(gSaveContext.prevHudMode);
                     }
                 }
             }

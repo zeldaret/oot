@@ -1194,7 +1194,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
         case ZL4_CS_PLAN:
             if (EnZl4_CsMakePlan(this, play)) {
                 func_8002DF54(play, &this->actor, 7);
-                gSaveContext.hudModePrev = HUD_MODE_ALL;
+                gSaveContext.prevHudMode = HUD_MODE_ALL;
                 SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;
             }
