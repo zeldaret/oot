@@ -3927,7 +3927,7 @@ void Interface_Update(PlayState* play) {
         }
     }
 
-    // Update hud mode
+    // Update hud visibility
     switch (gSaveContext.nextHudVisibility) {
         case HUD_VISIBILITY_NONE:
         case HUD_VISIBILITY_NONE_ALT:
