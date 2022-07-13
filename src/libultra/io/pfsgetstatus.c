@@ -30,7 +30,7 @@ s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel) {
 
 void __osPfsRequestOneChannel(s32 channel, u8 cmd) {
     u8* ptr;
-    __OSContRequestFormatShort req;
+    __OSContRequesFormatShort req;
     s32 idx;
 
     __osContLastCmd = CONT_CMD_END;
@@ -49,21 +49,21 @@ void __osPfsRequestOneChannel(s32 channel, u8 cmd) {
         *ptr++ = CONT_CMD_SKIP_CHNL;
     }
 
-    *((__OSContRequestFormatShort*)ptr) = req;
+    *((__OSContRequesFormatShort*)ptr) = req;
     ptr += sizeof(req);
     *ptr = CONT_CMD_END;
 }
 
 void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData) {
     u8* ptr = (u8*)&__osPfsPifRam;
-    __OSContRequestFormatShort req;
+    __OSContRequesFormatShort req;
     s32 idx;
 
     for (idx = 0; idx < channel; idx++) {
         ptr++;
     }
 
-    req = *((__OSContRequestFormatShort*)ptr);
+    req = *((__OSContRequesFormatShort*)ptr);
     contData->errno = CHNL_ERR(req);
     if (contData->errno) {
         return;

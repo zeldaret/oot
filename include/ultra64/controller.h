@@ -9,12 +9,12 @@
  * the Rx and Tx data size area bytes. Programmers need to clear these bits
  * when setting the Tx/Rx size area values for a channel
  */
-#define CHNL_ERR_NORESP		0x80	/* Bit 7 (Rx): No response error */
-#define CHNL_ERR_OVERRUN	0x40	/* Bit 6 (Rx): Overrun error */
-#define CHNL_ERR_FRAME		0x80	/* Bit 7 (Tx): Frame error */
-#define CHNL_ERR_COLLISION	0x40	/* Bit 6 (Tx): Collision error */
+#define CHNL_ERR_NORESP     0x80    /* Bit 7 (Rx): No response error */
+#define CHNL_ERR_OVERRUN    0x40    /* Bit 6 (Rx): Overrun error */
+#define CHNL_ERR_FRAME      0x80    /* Bit 7 (Tx): Frame error */
+#define CHNL_ERR_COLLISION  0x40    /* Bit 6 (Tx): Collision error */
 
-#define CHNL_ERR_MASK		0xC0	/* Bit 6-7: channel errors */
+#define CHNL_ERR_MASK       0xC0    /* Bit 6-7: channel errors */
 
 #define CHNL_ERR(readFormat) (((readFormat).rxsize & CHNL_ERR_MASK) >> 4)
 
@@ -95,13 +95,14 @@
 #define CONT_ADDR_CRC_ER        0x04
 #define CONT_EEPROM_BUSY        0x80
 
-// Accesory detection
+/* Accessory detection */
 #define CONT_ADDR_DETECT    0x8000
+
 // Rumble
 #define CONT_ADDR_RUMBLE    0xC000
-// Controller Pak
-// Transfer Pak
-#define CONT_ADDR_GB_POWER  0x8000 // Same as the detection address, but semantically different
+
+// Controller Pak / Transfer Pak
+#define CONT_ADDR_GB_POWER  0x8000  // Same as the detection address, but semantically different
 #define CONT_ADDR_GB_BANK   0xA000
 #define CONT_ADDR_GB_STATUS 0xB000
 
