@@ -507,27 +507,37 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
 
+// Converts a number of bits to a bitmask, helper for params macros
+// i.e. 3 becomes 0b111 / 7
 #define NBITS_TO_MASK(n) \
     ((1 << (n)) - 1)
 
-#define PARAMS_GET(p, s, m) \
-    (((p) >> (s)) & NBITS_TO_MASK(m))
+// Extracts the `w`-bit value at position `s` in `p`, shifts then masks
+// No possibility of sign extension
+#define PARAMS_GET(p, s, w) \
+    (((p) >> (s)) & NBITS_TO_MASK(w))
 
-#define PARAMS_GET2(p, s, m) \
-    (((p) & (NBITS_TO_MASK(m) << (s))) >> (s))
+// Extracts the `w`-bit value at position `s` in `p`, masks then shifts
+// Possibility of sign extension
+#define PARAMS_GET2(p, s, w) \
+    (((p) & (NBITS_TO_MASK(w) << (s))) >> (s))
 
+// Extracts all bits past position `s` in `p`
 #define PARAMS_GET_NOMASK(p, s) \
     ((p) >> (s))
 
-#define PARAMS_GET_NOSHIFT(p, s, m) \
-    ((p) & (NBITS_TO_MASK(m) << (s)))
+// Extracts the `w`-bit value at position `s` in `p` without shifting it from its current position
+#define PARAMS_GET_NOSHIFT(p, s, w) \
+    ((p) & (NBITS_TO_MASK(w) << (s)))
 
-// Shift (m) bits from (s1) bit position to (s2) bit position
-#define PARAMS_GET_PS(p, s1, s2, m) \
-    (((p) >> ((s1) - (s2))) & (NBITS_TO_MASK(m) << (s2)))
+// Extracts the `w`-bit value at position `s1` in `p` and shifts it down to position `s2`, shifts then masks
+// No possibility of sign extension
+#define PARAMS_GET_S(p, s1, s2, w) \
+    (((p) >> ((s1) - (s2))) & (NBITS_TO_MASK(w) << (s2)))
 
-// Shift (m) bits from (s1) bit position to (s2) bit position
-#define PARAMS_GET2_PS(p, s1, s2, m) \
+// Extracts the `w`-bit value at position `s1` in `p` and shifts it down to position `s2`, masks then shifts
+// Possibility of sign extension
+#define PARAMS_GET2_S(p, s1, s2, m) \
     (((p) & (NBITS_TO_MASK(m) << (s1))) >> ((s1) - (s2)))
 
 #endif

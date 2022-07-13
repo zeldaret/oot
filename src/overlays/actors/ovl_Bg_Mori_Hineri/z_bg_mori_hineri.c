@@ -70,7 +70,7 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
         this->switchFlag = PARAMS_GET(this->dyna.actor.params, 8, 6);
         this->switchFlag = (Flags_GetSwitch(play, this->switchFlag)) ? 1 : 0;
     }
-    this->dyna.actor.params = PARAMS_GET2_PS(this->dyna.actor.params, 15, 1, 1);
+    this->dyna.actor.params = PARAMS_GET2_S(this->dyna.actor.params, 15, 1, 1);
     if (Flags_GetSwitch(play, switchFlagParam)) {
         if (this->dyna.actor.params == 0) {
             this->dyna.actor.params = 1;
