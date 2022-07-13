@@ -764,7 +764,7 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB904(EnOwl* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.npcActions[7] != NULL)) {
+    if (play->csCtx.state != CS_STATE_0 && (play->csCtx.npcActions[7] != NULL)) {
         if (this->unk_40A != play->csCtx.npcActions[7]->action) {
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);

@@ -149,7 +149,7 @@ void func_80AF26AC(EnRu2* this) {
 void func_80AF26D0(EnRu2* this, PlayState* play) {
     s32 one; // Needed to match
 
-    if (play->csCtx.state == CS_STATE_IDLE) {
+    if (play->csCtx.state == CS_STATE_0) {
         if (D_80AF4118 != 0) {
             if (this->actor.params == 2) {
                 func_80AF26AC(this);
@@ -174,7 +174,7 @@ s32 EnRu2_UpdateSkelAnime(EnRu2* this) {
 }
 
 CsCmdActorAction* func_80AF27AC(PlayState* play, s32 npcActionIdx) {
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         return play->csCtx.npcActions[npcActionIdx];
     }
     return NULL;
@@ -281,7 +281,7 @@ void func_80AF2B44(EnRu2* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
     CsCmdActorAction* csCmdNPCAction;
 
-    if (csCtx->state != CS_STATE_IDLE) {
+    if (csCtx->state != CS_STATE_0) {
         csCmdNPCAction = csCtx->npcActions[3];
         if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
             this->action = 2;
@@ -302,7 +302,7 @@ void func_80AF2BC0(EnRu2* this, PlayState* play) {
     AnimationHeader* animation = &gAdultRutoRaisingArmsUpAnim;
     CsCmdActorAction* csCmdNPCAction;
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         csCmdNPCAction = play->csCtx.npcActions[3];
         if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 3)) {
             Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
@@ -321,7 +321,7 @@ void func_80AF2C54(EnRu2* this, s32 arg1) {
 void func_80AF2C68(EnRu2* this, PlayState* play) {
     CsCmdActorAction* csCmdNPCAction;
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         csCmdNPCAction = play->csCtx.npcActions[6];
         if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
             this->action = 6;

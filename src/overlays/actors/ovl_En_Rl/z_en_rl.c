@@ -64,7 +64,7 @@ void func_80AE7358(EnRl* this) {
 void func_80AE73D8(EnRl* this, PlayState* play) {
     static s32 D_80AE81AC = 0;
 
-    if (play->csCtx.state == CS_STATE_IDLE) {
+    if (play->csCtx.state == CS_STATE_0) {
         if (D_80AE81AC) {
             if (this->actor.params == 2) {
                 func_80AE7358(this);
@@ -87,7 +87,7 @@ s32 func_80AE7494(EnRl* this) {
 s32 func_80AE74B4(EnRl* this, PlayState* play, u16 arg2, s32 arg3) {
     CsCmdActorAction* csCmdActorAction;
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         csCmdActorAction = play->csCtx.npcActions[arg3];
         if (csCmdActorAction != NULL && csCmdActorAction->action == arg2) {
             return 1;
@@ -99,7 +99,7 @@ s32 func_80AE74B4(EnRl* this, PlayState* play, u16 arg2, s32 arg3) {
 s32 func_80AE74FC(EnRl* this, PlayState* play, u16 arg2, s32 arg3) {
     CsCmdActorAction* csCmdActorAction;
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         csCmdActorAction = play->csCtx.npcActions[arg3];
         if (csCmdActorAction != NULL && csCmdActorAction->action != arg2) {
             return 1;
@@ -118,7 +118,7 @@ void func_80AE7590(EnRl* this, PlayState* play) {
     Vec3f pos;
     s16 sceneNum = play->sceneNum;
 
-    if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && play->csCtx.state != CS_STATE_IDLE &&
+    if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && play->csCtx.state != CS_STATE_0 &&
         play->csCtx.npcActions[6] != NULL && play->csCtx.npcActions[6]->action == 2 && !this->lightMedallionGiven) {
         player = GET_PLAYER(play);
         pos.x = player->actor.world.pos.x;
@@ -141,7 +141,7 @@ void func_80AE7668(EnRl* this, PlayState* play) {
 void func_80AE7698(EnRl* this, PlayState* play) {
     CsCmdActorAction* csCmdActorAction;
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         csCmdActorAction = play->csCtx.npcActions[0];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
             Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f,

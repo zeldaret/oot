@@ -165,7 +165,7 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
 void func_808BC9EC(BgTreemouth* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (play->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
+    if (play->csCtx.state == CS_STATE_3) {
         if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 350.0f, 0x7530)) {
             player->actor.world.pos.x = 3827.0f;
             player->actor.world.pos.y = -161.0f;
@@ -179,7 +179,7 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
         D_8015FCC4 = 0xFFFF;
         play->csCtx.unk_1A = 0;
         play->csCtx.unk_1B = 0;
-        play->csCtx.state = CS_STATE_SKIPPABLE_EXEC;
+        play->csCtx.state = CS_STATE_2;
 
         if (play->msgCtx.choiceIndex == 0) {
             play->csCtx.segment = D_808BD520;

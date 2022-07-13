@@ -211,7 +211,7 @@ s32 EnZl2_UpdateSkelAnime(EnZl2* this) {
 }
 
 CsCmdActorAction* EnZl2_GetNpcAction(PlayState* play, s32 idx) {
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         return play->csCtx.npcActions[idx];
     }
     return NULL;

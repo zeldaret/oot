@@ -91,7 +91,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play) {
     f32 actionLength;
     f32 gravity;
 
-    if (play->csCtx.state == CS_STATE_IDLE) {
+    if (play->csCtx.state == CS_STATE_0) {
         this->unk_19C = 2;
         this->unk_19B = 0;
     } else {

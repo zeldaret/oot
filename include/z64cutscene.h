@@ -97,11 +97,11 @@ typedef struct {
 } CsCmdActorAction; // size = 0x30
 
 typedef enum {
-    CS_STATE_IDLE,
-    CS_STATE_SKIPPABLE_INIT,
-    CS_STATE_SKIPPABLE_EXEC,
-    CS_STATE_UNSKIPPABLE_INIT,
-    CS_STATE_UNSKIPPABLE_EXEC
+    CS_STATE_0,
+    CS_STATE_1,
+    CS_STATE_2,
+    CS_STATE_3,
+    CS_STATE_4
 } CutsceneState;
 
 typedef enum {
@@ -112,10 +112,10 @@ typedef enum {
     /* 0x07 */ CS_MISC_CLOUDY_SKY,
     /* 0x08 */ CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA,
     /* 0x09 */ CS_MISC_SNOW,
-    /* 0x0A */ CS_MISC_10_ENV_FLAG,
-    /* 0x00 */ CS_MISC_DEKU_TREE_DEATH,
-    /* 0x00 */ CS_MISC_12,
-    /* 0x00 */ CS_MISC_TRIFORCE_FLASH,
+    /* 0x0A */ CS_MISC_SET_FLAG_1,
+    /* 0x0B */ CS_MISC_DEKU_TREE_DEATH,
+    /* 0x0C */ CS_MISC_SET_STATE_3,
+    /* 0x0D */ CS_MISC_TRIFORCE_FLASH,
     /* 0x00 */ CS_MISC_SET_LOCKED_VIEWPOINT,
     /* 0x00 */ CS_MISC_TITLE_CARD,
     /* 0x00 */ CS_MISC_QUAKE_START,

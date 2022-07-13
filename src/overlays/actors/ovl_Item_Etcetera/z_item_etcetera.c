@@ -178,7 +178,7 @@ void func_80B85B28(ItemEtcetera* this, PlayState* play) {
 }
 
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_0) && (play->csCtx.npcActions[0] != NULL)) {
         LOG_NUM("(game_play->demo_play.npcdemopnt[0]->dousa)", play->csCtx.npcActions[0]->action,
                 "../z_item_etcetera.c", 441);
         if (play->csCtx.npcActions[0]->action == 2) {

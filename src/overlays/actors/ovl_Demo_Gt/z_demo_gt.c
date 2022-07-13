@@ -290,7 +290,7 @@ void func_8097E454(PlayState* play, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* a
 }
 
 u8 func_8097E69C(PlayState* play) {
-    if (play->csCtx.state == CS_STATE_IDLE) {
+    if (play->csCtx.state == CS_STATE_0) {
         return true;
     } else {
         return false;

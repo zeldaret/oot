@@ -142,7 +142,7 @@ void EnTr_DoNothing(EnTr* this, PlayState* play) {
 }
 
 void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         if (play->csCtx.npcActions[this->actionIndex] != NULL) {
             switch (play->csCtx.npcActions[this->actionIndex]->action) {
 
@@ -178,7 +178,7 @@ void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
 void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
     Vec3f originalPos = this->actor.world.pos;
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         if (play->csCtx.npcActions[this->actionIndex] != NULL) {
             if (play->csCtx.npcActions[this->actionIndex]->action == 8) {
                 func_80B24038(this, play, this->actionIndex);
@@ -293,7 +293,7 @@ void EnTr_Reappear(EnTr* this, PlayState* play) {
 }
 
 void EnTr_WaitToReappear(EnTr* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         if ((play->csCtx.npcActions[this->actionIndex] != NULL) &&
             ((play->csCtx.npcActions[this->actionIndex]->action == 3) ||
              (play->csCtx.npcActions[this->actionIndex]->action == 5))) {
@@ -311,7 +311,7 @@ void EnTr_WaitToReappear(EnTr* this, PlayState* play) {
 void EnTr_TakeOff(EnTr* this, PlayState* play) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24378[this->actor.params]);
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         if ((play->csCtx.npcActions[this->actionIndex] != NULL) &&
             (play->csCtx.npcActions[this->actionIndex]->action == 3)) {
             Animation_Change(&this->skelAnime, D_80B24378[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP,
@@ -325,7 +325,7 @@ void EnTr_TakeOff(EnTr* this, PlayState* play) {
 void EnTr_TurnLookOverShoulder(EnTr* this, PlayState* play) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24368[this->actor.params]);
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         if ((play->csCtx.npcActions[this->actionIndex] != NULL) &&
             (play->csCtx.npcActions[this->actionIndex]->action == 2)) {
             Animation_Change(&this->skelAnime, D_80B24368[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE,
@@ -339,7 +339,7 @@ void EnTr_TurnLookOverShoulder(EnTr* this, PlayState* play) {
 void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
     u32 frames = play->gameplayFrames;
 
-    if (play->csCtx.state != CS_STATE_IDLE) {
+    if (play->csCtx.state != CS_STATE_0) {
         if (play->csCtx.npcActions[this->actionIndex] != NULL) {
             switch (play->csCtx.npcActions[this->actionIndex]->action) {
                 case 1:
@@ -431,7 +431,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == 0)) {
+    if ((play->csCtx.state == CS_STATE_0) || (play->csCtx.npcActions[this->actionIndex] == 0)) {
         this->actor.shape.shadowDraw = NULL;
     } else {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
