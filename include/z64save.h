@@ -99,6 +99,38 @@ typedef struct {
     /* 0x24 */ s32 tempCollectFlags;
 } FaroresWindData; // size = 0x28
 
+typedef enum {
+    /* 0x0 */ TIMER1_STATE_OFF,
+    /* 0x1 */ TIMER1_STATE_ENV_0, // init env timer that counts down, total time based on health, resets on void-out, kills at 0
+    /* 0x2 */ TIMER1_STATE_ENV_1, // Frozen at the screen center
+    /* 0x3 */ TIMER1_STATE_ENV_2, // Move to top-left corner
+    /* 0x4 */ TIMER1_STATE_ENV_3, // Begin counting down
+    /* 0x5 */ TIMER1_STATE_DOWN_0, // Init timer that counts down
+    /* 0x6 */ TIMER1_STATE_DOWN_1, // Frozen at the screen center
+    /* 0x7 */ TIMER1_STATE_DOWN_2, // Move to top-left corner
+    /* 0x8 */ TIMER1_STATE_DOWN_3, // Begin counting down
+    /* 0xA */ TIMER1_STATE_STOP = 10,
+    /* 0xB */ TIMER1_STATE_UP_0, // Init timer that counts up
+    /* 0xC */ TIMER1_STATE_UP_1, // Frozen at the screen center
+    /* 0xD */ TIMER1_STATE_UP_2, // Move to top-left corner
+    /* 0xE */ TIMER1_STATE_UP_3, // Begin counting up
+    /* 0xF */ TIMER1_STATE_UP_4  // Stuck at 59 min, 59 seconds
+} Timer1State;
+
+typedef enum {
+    /* 0x0 */ TIMER2_STATE_OFF,
+    /* 0x1 */ TIMER2_STATE_DOWN_0,
+    /* 0x2 */ TIMER2_STATE_DOWN_1,
+    /* 0x3 */ TIMER2_STATE_DOWN_2,
+    /* 0x4 */ TIMER2_STATE_DOWN_3,
+    /* 0x5 */ TIMER2_STATE_RESPAWN,
+    /* 0x6 */ TIMER2_STATE_STOP,
+    /* 0x7 */ TIMER2_STATE_UP_0,
+    /* 0x8 */ TIMER2_STATE_UP_1,
+    /* 0x9 */ TIMER2_STATE_UP_2,
+    /* 0xA */ TIMER2_STATE_UP_3
+} Timer2State;
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child (see enum `LinkAge`)

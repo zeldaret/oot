@@ -119,7 +119,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                 play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 SET_EVENTINF(EVENTINF_HORSES_0A);
-                gSaveContext.timer1State = 0xF;
+                gSaveContext.timer1State = TIMER1_STATE_UP_4;
             }
             break;
         case TEXT_STATE_CHOICE:
@@ -155,7 +155,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
                     ret = 0;
-                    gSaveContext.timer1State = 0xA;
+                    gSaveContext.timer1State = TIMER1_STATE_STOP;
                     break;
                 case 0x2002:
                     SET_INFTABLE(INFTABLE_B9);

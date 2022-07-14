@@ -782,35 +782,38 @@ return_neg:
 s32 func_8008F2F8(PlayState* play) {
     Player* this = GET_PLAYER(play);
     TextTriggerEntry* triggerEntry;
-    s32 var;
+    s32 envTimerType;
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
-        var = 0;
-    } else if ((this->unk_840 > 80) &&
-               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) ? 1 : 3;
+        envTimerType = (PLAYER_ENV_TIMER_TYPE_HOTROOM - 1);
+    } else if ((this->underwaterCounter > 80) &&
+               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterCounter >= 300))) { // Deep underwater
+        envTimerType = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
+                           ? (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR - 1)
+                           : (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE - 1);
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
-        var = 2;
+        envTimerType = (PLAYER_ENV_TIMER_TYPE_SWIMMING - 1);
     } else {
-        return 0;
+        return PLAYER_ENV_TIMER_TYPE_NONE;
     }
 
     // Trigger general textboxes under certain conditions, like "It's so hot in here!"
     if (!Player_InCsMode(play)) {
-        triggerEntry = &sTextTriggers[var];
+        triggerEntry = &sTextTriggers[envTimerType];
 
         if (0) {}
 
         if ((triggerEntry->flag != 0) && !(gSaveContext.textTriggerFlags & triggerEntry->flag) &&
-            (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
-             (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
-              (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
+            (((envTimerType == (PLAYER_ENV_TIMER_TYPE_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
+             (((envTimerType == (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR - 1)) ||
+               (envTimerType == (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE - 1))) &&
+              (this->currentBoots == PLAYER_BOOTS_IRON) && (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             Message_StartTextbox(play, triggerEntry->textId, NULL);
             gSaveContext.textTriggerFlags |= triggerEntry->flag;
         }
     }
 
-    return var + 1;
+    return envTimerType + 1;
 }
 
 u8 sEyeMouthIndices[][2] = {

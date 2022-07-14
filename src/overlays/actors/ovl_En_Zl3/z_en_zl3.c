@@ -2492,7 +2492,7 @@ s32 func_80B59698(EnZl3* this, PlayState* play) {
         u8 curSpawn = play->curSpawn;
 
         if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
-            ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
+            ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == TIMER2_STATE_OFF))) {
             return 1;
         }
     }
@@ -2534,7 +2534,7 @@ void func_80B59828(EnZl3* this, PlayState* play) {
     }
 
     if (func_80B59698(this, play) != 0) {
-        func_80088AA0(180);
+        Interface_SetTimer2(180);
         func_80B53468();
         gSaveContext.healthAccumulator = 320;
         Magic_Fill(play);
@@ -2579,7 +2579,7 @@ void func_80B59AD0(EnZl3* this, PlayState* play) {
     Actor* thisx = &this->actor; // unused, necessary to use 'this' first to fix regalloc
 
     Flags_SetSwitch(play, 0x36);
-    func_80088AA0(180);
+    Interface_SetTimer2(180);
     func_80B54EA4(this, play);
     func_80B53614(this, play);
     CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
@@ -2667,7 +2667,7 @@ void EnZl3_Init(Actor* thisx, PlayState* play) {
 
     switch (func_80B54DD4(this)) {
         case 1:
-            gSaveContext.timer2State = 0;
+            gSaveContext.timer2State = TIMER2_STATE_OFF;
             break;
         case 3:
             func_80B59A80(this, play);

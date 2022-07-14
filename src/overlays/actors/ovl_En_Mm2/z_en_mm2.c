@@ -105,14 +105,14 @@ void func_80AAEF70(EnMm2* this, PlayState* play) {
     } else if (GET_INFTABLE(INFTABLE_17F)) {
         if (GET_EVENTINF(EVENTINF_10)) {
             this->actor.textId = 0x6082;
-        } else if (gSaveContext.timer2State != 0) {
+        } else if (gSaveContext.timer2State != TIMER2_STATE_OFF) {
             this->actor.textId = 0x6076;
         } else if (HIGH_SCORE(HS_MARATHON) == 158) {
             this->actor.textId = 0x607E;
         } else {
             this->actor.textId = 0x6081;
         }
-    } else if (gSaveContext.timer2State) {
+    } else if (gSaveContext.timer2State != TIMER2_STATE_OFF) {
         this->actor.textId = 0x6076;
     } else {
         this->actor.textId = 0x607D;
@@ -193,7 +193,7 @@ void func_80AAF330(EnMm2* this, PlayState* play) {
         if (!(this->unk_1F4 & 2)) {
             Message_CloseTextbox(play);
         }
-        gSaveContext.timer2State = 0;
+        gSaveContext.timer2State = TIMER2_STATE_OFF;
         CLEAR_EVENTINF(EVENTINF_10);
     }
 }
@@ -235,7 +235,7 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         if (this->actor.textId == 0x607F) {
-            func_80088AA0(0);
+            Interface_SetTimer2(0);
             this->actionFunc = func_80AAF57C;
         } else {
             this->actionFunc = func_80AAF57C;

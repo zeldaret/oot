@@ -1065,7 +1065,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
                 this->actor.textId = 0x3058;
             }
             if (this->actor.textId == 0x3059) {
-                gSaveContext.timer2State = 0;
+                gSaveContext.timer2State = TIMER2_STATE_OFF;
             }
             player->actor.textId = this->actor.textId;
 

@@ -50,13 +50,13 @@ void ObjRoomtimer_Destroy(Actor* thisx, PlayState* play) {
     ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
     if ((this->actor.params != 0x3FF) && (gSaveContext.timer1Value > 0)) {
-        gSaveContext.timer1State = 10;
+        gSaveContext.timer1State = TIMER1_STATE_STOP;
     }
 }
 
 void func_80B9D054(ObjRoomtimer* this, PlayState* play) {
     if (this->actor.params != 0x3FF) {
-        func_80088B34(this->actor.params);
+        Interface_SetTimer1(this->actor.params);
     }
 
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
@@ -66,7 +66,7 @@ void func_80B9D054(ObjRoomtimer* this, PlayState* play) {
 void func_80B9D0B0(ObjRoomtimer* this, PlayState* play) {
     if (Flags_GetTempClear(play, this->actor.room)) {
         if (this->actor.params != 0x3FF) {
-            gSaveContext.timer1State = 10;
+            gSaveContext.timer1State = TIMER1_STATE_STOP;
         }
         Flags_SetClear(play, this->actor.room);
         Flags_SetSwitch(play, this->switchFlag);

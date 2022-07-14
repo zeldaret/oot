@@ -1,10 +1,10 @@
 #include "global.h"
 
-void func_80110990(PlayState* play) {
+void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
-void func_801109B0(PlayState* play) {
+void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
     u16 doActionOffset;
@@ -111,19 +111,19 @@ void func_801109B0(PlayState* play) {
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
 
-    if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8) || (gSaveContext.timer2State == 4) ||
-        (gSaveContext.timer2State == 10)) {
+    if ((gSaveContext.timer1State == TIMER1_STATE_ENV_3) || (gSaveContext.timer1State == TIMER1_STATE_DOWN_3) ||
+        (gSaveContext.timer2State == TIMER2_STATE_DOWN_3) || (gSaveContext.timer2State == TIMER2_STATE_UP_3)) {
         osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
-            if (gSaveContext.timer1State == 4) {
-                gSaveContext.timer1State = 1;
+            if (gSaveContext.timer1State == TIMER1_STATE_ENV_3) {
+                gSaveContext.timer1State = TIMER1_STATE_ENV_0;
                 gSaveContext.timerX[0] = 140;
                 gSaveContext.timerY[0] = 80;
             }
         }
 
-        if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
+        if ((gSaveContext.timer1State == TIMER1_STATE_ENV_3) || (gSaveContext.timer1State == TIMER1_STATE_DOWN_3)) {
             temp = 0;
         } else {
             temp = 1;
@@ -138,8 +138,8 @@ void func_801109B0(PlayState* play) {
         }
     }
 
-    if ((gSaveContext.timer1State >= 11) && (gSaveContext.timer1State < 16)) {
-        gSaveContext.timer1State = 0;
+    if ((gSaveContext.timer1State >= TIMER1_STATE_UP_0) && (gSaveContext.timer1State <= TIMER1_STATE_UP_4)) {
+        gSaveContext.timer1State = TIMER1_STATE_OFF;
         // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer1State);
     }

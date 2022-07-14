@@ -235,7 +235,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 
     if (this->actor.params != 1 && this->actor.params != 2 && play->sceneNum == SCENE_SOUKO) {
-        gSaveContext.timer1State = 0;
+        gSaveContext.timer1State = TIMER1_STATE_OFF;
     }
 
     if (this->unk_2E0 & 0x200) {
@@ -698,7 +698,7 @@ void func_80B154FC(EnTa* this, PlayState* play) {
 
                     switch (EnTa_GetSuperCuccosCount(this, play)) {
                         case 1:
-                            gSaveContext.timer1State = 0;
+                            gSaveContext.timer1State = TIMER1_STATE_OFF;
                             func_8002DF54(play, &this->actor, 1);
 
                             Message_StartTextbox(play, 0x2084, &this->actor);
@@ -740,7 +740,7 @@ void func_80B154FC(EnTa* this, PlayState* play) {
         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);
-        gSaveContext.timer1State = 0;
+        gSaveContext.timer1State = TIMER1_STATE_OFF;
         func_8002DF54(play, &this->actor, 1);
         Message_StartTextbox(play, 0x2081, &this->actor);
         this->actionFunc = func_80B15424;
@@ -805,7 +805,7 @@ void func_80B15AD4(EnTa* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 1.0f,
                          Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE, 0.0f);
         this->unk_2CC = 50;
-        func_80088B34(0x1E);
+        Interface_SetTimer1(30);
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         this->unk_2E0 |= 0x200;
         Message_CloseTextbox(play);
