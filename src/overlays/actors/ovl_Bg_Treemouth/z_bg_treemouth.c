@@ -173,12 +173,15 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
         }
 
         play->csCtx.frames = 0;
-        play->csCtx.unk_18 = 0xFFFF;
-        D_8015FCC0 = 0xFFFF;
-        D_8015FCC2 = 0xFFFF;
-        D_8015FCC4 = 0xFFFF;
-        play->csCtx.unk_1A = 0;
-        play->csCtx.unk_1B = 0;
+
+        play->csCtx.camEyeSplineAppliedFrame = 0xFFFF;
+        gCamAtSplineAppliedFrame = 0xFFFF;
+        gCamEyeSingleAppliedFrame = 0xFFFF;
+        gCamAtSingleAppliedFrame = 0xFFFF;
+
+        play->csCtx.camAtReady = false;
+        play->csCtx.camEyeReady = false;
+        
         play->csCtx.state = CS_STATE_EXEC;
 
         if (play->msgCtx.choiceIndex == 0) {

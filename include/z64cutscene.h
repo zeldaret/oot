@@ -36,36 +36,120 @@ typedef enum {
 } CutsceneState;
 
 typedef enum {
-    CS_CMD_00 = 0x0000,
-    CS_CMD_CAM_EYE = 0x0001,
-    CS_CMD_CAM_AT = 0x0002,
-    CS_CMD_MISC = 0x0003,
-    CS_CMD_SET_LIGHTING = 0x0004,
-    CS_CMD_CAM_EYE_REL_TO_PLAYER = 0x0005,
-    CS_CMD_CAM_AT_REL_TO_PLAYER = 0x0006,
-    CS_CMD_07 = 0x0007,
-    CS_CMD_08 = 0x0008,
-    CS_CMD_09 = 0x0009,
-    CS_CMD_TEXTBOX = 0x0013,
-    CS_CMD_SET_PLAYER_ACTION = 0x000A,
-    CS_CMD_SET_ACTOR_ACTION_1 = 0x000F,
-    CS_CMD_SET_ACTOR_ACTION_2 = 0x000E,
-    CS_CMD_SET_ACTOR_ACTION_3 = 0x0019,
-    CS_CMD_SET_ACTOR_ACTION_4 = 0x001D,
-    CS_CMD_SET_ACTOR_ACTION_5 = 0x001E,
-    CS_CMD_SET_ACTOR_ACTION_6 = 0x002C,
-    CS_CMD_SET_ACTOR_ACTION_7 = 0x001F,
-    CS_CMD_SET_ACTOR_ACTION_8 = 0x0031,
-    CS_CMD_SET_ACTOR_ACTION_9 = 0x003E,
-    CS_CMD_SET_ACTOR_ACTION_10 = 0x008F,
-    CS_CMD_SCENE_TRANS_FX = 0x002D,
-    CS_CMD_NOP = 0x000B,
-    CS_CMD_PLAYBGM = 0x0056,
-    CS_CMD_STOPBGM = 0x0057,
-    CS_CMD_FADEBGM = 0x007C,
-    CS_CMD_SETTIME = 0x008C,
-    CS_CMD_TERMINATOR = 0x03E8,
-    CS_CMD_END = 0xFFFF
+    /* 0x0001 */ CS_CMD_CAM_EYE = 0x01,
+    /* 0x0002 */ CS_CMD_CAM_AT = 0x02,
+    /* 0x0003 */ CS_CMD_MISC = 0x03,
+    /* 0x0004 */ CS_CMD_SET_LIGHTING = 0x04,
+    /* 0x0005 */ CS_CMD_CAM_EYE_REL_TO_PLAYER = 0x05,
+    /* 0x0006 */ CS_CMD_CAM_AT_REL_TO_PLAYER = 0x06,
+    /* 0x0007 */ CS_CMD_07 = 0x07,
+    /* 0x0008 */ CS_CMD_08 = 0x08,
+    /* 0x0009 */ CS_CMD_09 = 0x09,
+    /* 0x000A */ CS_CMD_SET_PLAYER_ACTION = 0x0A,
+    /* 0x000E */ CS_CMD_SET_ACTOR_ACTION_2 = 0x0E,
+    /* 0x000F */ CS_CMD_SET_ACTOR_ACTION_1 = 0x0F,
+    /* 0x0010 */ CS_CMD_SET_ACTOR_ACTION_2_1 = 0x10,
+    /* 0x0011 */ CS_CMD_SET_ACTOR_ACTION_1_1 = 0x11,
+    /* 0x0012 */ CS_CMD_SET_ACTOR_ACTION_1_2 = 0x12,
+    /* 0x0013 */ CS_CMD_TEXTBOX = 0x13,
+    /* 0x0017 */ CS_CMD_SET_ACTOR_ACTION_1_3 = 0x17,
+    /* 0x0018 */ CS_CMD_SET_ACTOR_ACTION_2_2 = 0x18,
+    /* 0x0019 */ CS_CMD_SET_ACTOR_ACTION_3 = 0x19,
+    /* 0x001D */ CS_CMD_SET_ACTOR_ACTION_4 = 0x1D,
+    /* 0x001E */ CS_CMD_SET_ACTOR_ACTION_5 = 0x1E,
+    /* 0x001F */ CS_CMD_SET_ACTOR_ACTION_7 = 0x1F,
+    /* 0x0022 */ CS_CMD_SET_ACTOR_ACTION_1_4 = 0x22,
+    /* 0x0023 */ CS_CMD_SET_ACTOR_ACTION_2_3 = 0x23,
+    /* 0x0024 */ CS_CMD_SET_ACTOR_ACTION_3_1 = 0x24,
+    /* 0x0025 */ CS_CMD_SET_ACTOR_ACTION_4_1 = 0x25,
+    /* 0x0026 */ CS_CMD_SET_ACTOR_ACTION_5_1 = 0x26,
+    /* 0x0027 */ CS_CMD_SET_ACTOR_ACTION_1_5 = 0x27,
+    /* 0x0028 */ CS_CMD_SET_ACTOR_ACTION_2_4 = 0x28,
+    /* 0x0029 */ CS_CMD_SET_ACTOR_ACTION_3_2 = 0x29,
+    /* 0x002A */ CS_CMD_SET_ACTOR_ACTION_4_2 = 0x2A,
+    /* 0x002B */ CS_CMD_SET_ACTOR_ACTION_5_2 = 0x2B,
+    /* 0x002C */ CS_CMD_SET_ACTOR_ACTION_6 = 0x2C,
+    /* 0x002D */ CS_CMD_SCENE_TRANS_FX = 0x2D,
+    /* 0x002E */ CS_CMD_SET_ACTOR_ACTION_1_6 = 0x2E,
+    /* 0x002F */ CS_CMD_SET_ACTOR_ACTION_5_3 = 0x2F,
+    /* 0x0030 */ CS_CMD_SET_ACTOR_ACTION_2_5 = 0x30,
+    /* 0x0031 */ CS_CMD_SET_ACTOR_ACTION_8 = 0x31,
+    /* 0x0032 */ CS_CMD_SET_ACTOR_ACTION_3_3 = 0x32,
+    /* 0x0033 */ CS_CMD_SET_ACTOR_ACTION_4_3 = 0x33,
+    /* 0x0034 */ CS_CMD_SET_ACTOR_ACTION_7_1 = 0x34,
+    /* 0x0035 */ CS_CMD_SET_ACTOR_ACTION_4_4 = 0x35,
+    /* 0x0036 */ CS_CMD_SET_ACTOR_ACTION_5_4 = 0x36,
+    /* 0x0037 */ CS_CMD_SET_ACTOR_ACTION_6_1 = 0x37,
+    /* 0x0039 */ CS_CMD_SET_ACTOR_ACTION_7_2 = 0x39,
+    /* 0x003A */ CS_CMD_SET_ACTOR_ACTION_7_3 = 0x3A,
+    /* 0x003C */ CS_CMD_SET_ACTOR_ACTION_8_1 = 0x3C,
+    /* 0x003E */ CS_CMD_SET_ACTOR_ACTION_9 = 0x3E,
+    /* 0x003F */ CS_CMD_SET_ACTOR_ACTION_4_5 = 0x3F,
+    /* 0x0040 */ CS_CMD_SET_ACTOR_ACTION_2_6 = 0x40,
+    /* 0x0041 */ CS_CMD_SET_ACTOR_ACTION_4_6 = 0x41,
+    /* 0x0042 */ CS_CMD_SET_ACTOR_ACTION_4_7 = 0x42,
+    /* 0x0043 */ CS_CMD_SET_ACTOR_ACTION_3_4 = 0x43,
+    /* 0x0044 */ CS_CMD_SET_ACTOR_ACTION_2_7 = 0x44,
+    /* 0x0045 */ CS_CMD_SET_ACTOR_ACTION_3_5 = 0x45,
+    /* 0x0046 */ CS_CMD_SET_ACTOR_ACTION_2_8 = 0x46,
+    /* 0x0048 */ CS_CMD_SET_ACTOR_ACTION_3_6 = 0x48,
+    /* 0x004A */ CS_CMD_SET_ACTOR_ACTION_3_7 = 0x4A,
+    /* 0x004B */ CS_CMD_SET_ACTOR_ACTION_4_8 = 0x4B,
+    /* 0x004C */ CS_CMD_SET_ACTOR_ACTION_1_7 = 0x4C,
+    /* 0x004D */ CS_CMD_SET_ACTOR_ACTION_6_2 = 0x4D,
+    /* 0x004E */ CS_CMD_SET_ACTOR_ACTION_2_9 = 0x4E,
+    /* 0x004F */ CS_CMD_SET_ACTOR_ACTION_5_5 = 0x4F,
+    /* 0x0050 */ CS_CMD_SET_ACTOR_ACTION_2_10 = 0x50,
+    /* 0x0051 */ CS_CMD_SET_ACTOR_ACTION_3_8 = 0x51,
+    /* 0x0052 */ CS_CMD_SET_ACTOR_ACTION_4_9 = 0x52,
+    /* 0x0053 */ CS_CMD_SET_ACTOR_ACTION_5_6 = 0x53,
+    /* 0x0054 */ CS_CMD_SET_ACTOR_ACTION_6_3 = 0x54,
+    /* 0x0055 */ CS_CMD_SET_ACTOR_ACTION_1_8 = 0x55,
+    /* 0x0056 */ CS_CMD_PLAYBGM = 0x56,
+    /* 0x0057 */ CS_CMD_STOPBGM = 0x57,
+    /* 0x0058 */ CS_CMD_SET_ACTOR_ACTION_7_4 = 0x58,
+    /* 0x0059 */ CS_CMD_SET_ACTOR_ACTION_8_2 = 0x59,
+    /* 0x005A */ CS_CMD_SET_ACTOR_ACTION_6_4 = 0x5A,
+    /* 0x005D */ CS_CMD_SET_ACTOR_ACTION_1_9 = 0x5D,
+    /* 0x005E */ CS_CMD_SET_ACTOR_ACTION_2_11 = 0x5E,
+    /* 0x0069 */ CS_CMD_SET_ACTOR_ACTION_1_10 = 0x69,
+    /* 0x006A */ CS_CMD_SET_ACTOR_ACTION_3_9 = 0x6A,
+    /* 0x006B */ CS_CMD_SET_ACTOR_ACTION_1_11 = 0x6B,
+    /* 0x006C */ CS_CMD_SET_ACTOR_ACTION_4_10 = 0x6C,
+    /* 0x006E */ CS_CMD_SET_ACTOR_ACTION_1_12 = 0x6E,
+    /* 0x006F */ CS_CMD_SET_ACTOR_ACTION_8_3 = 0x6F,
+    /* 0x0072 */ CS_CMD_SET_ACTOR_ACTION_8_4 = 0x72,
+    /* 0x0073 */ CS_CMD_SET_ACTOR_ACTION_7_5 = 0x73,
+    /* 0x0074 */ CS_CMD_SET_ACTOR_ACTION_2_12 = 0x74,
+    /* 0x0075 */ CS_CMD_SET_ACTOR_ACTION_3_10 = 0x75,
+    /* 0x0076 */ CS_CMD_SET_ACTOR_ACTION_2_13 = 0x76,
+    /* 0x0077 */ CS_CMD_SET_ACTOR_ACTION_1_13 = 0x77,
+    /* 0x0078 */ CS_CMD_SET_ACTOR_ACTION_2_14 = 0x78,
+    /* 0x0079 */ CS_CMD_SET_ACTOR_ACTION_3_11 = 0x79,
+    /* 0x007B */ CS_CMD_SET_ACTOR_ACTION_1_14 = 0x7B,
+    /* 0x007C */ CS_CMD_FADEBGM = 0x7C,
+    /* 0x007D */ CS_CMD_SET_ACTOR_ACTION_2_15 = 0x7D,
+    /* 0x007E */ CS_CMD_SET_ACTOR_ACTION_3_12 = 0x7E,
+    /* 0x007F */ CS_CMD_SET_ACTOR_ACTION_4_11 = 0x7F,
+    /* 0x0080 */ CS_CMD_SET_ACTOR_ACTION_5_7 = 0x80,
+    /* 0x0081 */ CS_CMD_SET_ACTOR_ACTION_6_5 = 0x81,
+    /* 0x0082 */ CS_CMD_SET_ACTOR_ACTION_7_6 = 0x82,
+    /* 0x0083 */ CS_CMD_SET_ACTOR_ACTION_2_16 = 0x83,
+    /* 0x0084 */ CS_CMD_SET_ACTOR_ACTION_3_13 = 0x84,
+    /* 0x0085 */ CS_CMD_SET_ACTOR_ACTION_4_12 = 0x85,
+    /* 0x0086 */ CS_CMD_SET_ACTOR_ACTION_8_5 = 0x86,
+    /* 0x0087 */ CS_CMD_SET_ACTOR_ACTION_5_8 = 0x87,
+    /* 0x0088 */ CS_CMD_SET_ACTOR_ACTION_6_6 = 0x88,
+    /* 0x0089 */ CS_CMD_SET_ACTOR_ACTION_7_7 = 0x89,
+    /* 0x008A */ CS_CMD_SET_ACTOR_ACTION_1_15 = 0x8A,
+    /* 0x008B */ CS_CMD_SET_ACTOR_ACTION_1_16 = 0x8B,
+    /* 0x008C */ CS_CMD_SETTIME = 0x8C,
+    /* 0x008D */ CS_CMD_SET_ACTOR_ACTION_2_17 = 0x8D,
+    /* 0x008E */ CS_CMD_SET_ACTOR_ACTION_8_6 = 0x8E,
+    /* 0x008F */ CS_CMD_SET_ACTOR_ACTION_10 = 0x8F,
+    /* 0x0090 */ CS_CMD_SET_ACTOR_ACTION_1_17 = 0x90,
+    /* 0x03E8 */ CS_CMD_TERMINATOR = 0x03E8,
+    /* 0xFFFF */ CS_CMD_END = 0xFFFF
 } CutsceneCmd;
 
 typedef struct {
@@ -73,27 +157,6 @@ typedef struct {
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
 } CsCmdBase; // size = 0x6
-
-typedef struct {
-    /* 0x00 */ s8    continueFlag;
-    /* 0x01 */ s8    cameraRoll;
-    /* 0x02 */ u16   nextPointFrame;
-    /* 0x04 */ f32   viewAngle; // in degrees
-    /* 0x08 */ Vec3s pos;
-} CutsceneCameraPoint; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ Vec3f at;
-    /* 0x0C */ Vec3f eye;
-    /* 0x18 */ s16 roll;
-    /* 0x1A */ s16 fov;
-} CutsceneCameraDirection; // size = 0x1C
-
-typedef struct {
-    /* 0x0 */ CutsceneCameraPoint* atPoints;
-    /* 0x4 */ CutsceneCameraPoint* eyePoints;
-    /* 0x8 */ s16 relativeToPlayer;
-} CutsceneCameraMove; // size = 0xC
 
 typedef struct {
     /* 0x00 */ u8  unk_00;
@@ -321,5 +384,26 @@ typedef struct {
     /* 0x03 */ u8  flag;           // eventChkInf flag bound to the entrance cutscene
     /* 0x04 */ void* segAddr;      // segment offset location of the cutscene
 } EntranceCutscene; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ s8    continueFlag;
+    /* 0x01 */ s8    cameraRoll;
+    /* 0x02 */ u16   nextPointFrame;
+    /* 0x04 */ f32   viewAngle; // in degrees
+    /* 0x08 */ Vec3s pos;
+} CutsceneCameraPoint; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Vec3f at;
+    /* 0x0C */ Vec3f eye;
+    /* 0x18 */ s16 roll;
+    /* 0x1A */ s16 fov;
+} CutsceneCameraDirection; // size = 0x1C
+
+typedef struct {
+    /* 0x0 */ CutsceneCameraPoint* atPoints;
+    /* 0x4 */ CutsceneCameraPoint* eyePoints;
+    /* 0x8 */ s16 relativeToPlayer;
+} CutsceneCameraMove; // size = 0xC
 
 #endif

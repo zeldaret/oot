@@ -349,14 +349,14 @@ typedef struct {
 typedef struct {
     /* 0x00 */ char  unk_00[0x4];
     /* 0x04 */ void* segment;
-    /* 0x08 */ u8    state;
-    /* 0x0C */ f32   timer;
-    /* 0x10 */ u16   frames;
-    /* 0x12 */ u16   unk_12;
-    /* 0x14 */ s32   subCamId;
-    /* 0x18 */ u16   unk_18;
-    /* 0x1A */ u8    unk_1A;
-    /* 0x1B */ u8    unk_1B;
+    /* 0x08 */ u8 state;
+    /* 0x0C */ f32 timer;
+    /* 0x10 */ u16 frames;
+    /* 0x12 */ u16 unk_12;
+    /* 0x14 */ s32 subCamId;
+    /* 0x18 */ u16 camEyeSplineAppliedFrame; // when set, indicates that the cam eye data was applied
+    /* 0x1A */ u8 camAtReady; // cam at data is ready to be applied
+    /* 0x1B */ u8 camEyeReady; // cam eye data is ready to be applied
     /* 0x1C */ CutsceneCameraPoint* subCamLookAtPoints;
     /* 0x20 */ CutsceneCameraPoint* subCamEyePoints;
     /* 0x24 */ CsCmdActorAction* linkAction;

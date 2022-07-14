@@ -168,10 +168,12 @@ extern u8 gSampleBankTable[];
 
 extern SaveContext gSaveContext;
 extern GameInfo* gGameInfo;
-extern u16 D_8015FCC0;
-extern u16 D_8015FCC2;
-extern u16 D_8015FCC4;
+
+extern u16 gCamAtSplineAppliedFrame;
+extern u16 gCamEyeSingleAppliedFrame;
+extern u16 gCamAtSingleAppliedFrame;
 extern u8 gCutsceneUsesSubcam;
+
 extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 gLensFlareScale;
