@@ -391,7 +391,7 @@ void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
 
     if ((this->dialogState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        Interface_SetHudVisibility(HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_DIM_BTN);
+        Interface_SetHudVisibility(HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_BTN_STATUS);
         this->actionFunc = BgDyYoseizo_SetupHealPlayer_NoReward;
     }
 

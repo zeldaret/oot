@@ -5,6 +5,25 @@
 #include "z64math.h"
 
 typedef enum {
+    /*  0 */ HUD_VISIBILITY_IDLE,
+    /*  1 */ HUD_VISIBILITY_NONE,
+    /*  2 */ HUD_VISIBILITY_NONE_ALT, // Identical to HUD_VISIBILITY_NONE
+    /*  3 */ HUD_VISIBILITY_HEARTS_WITH_BTN_STATUS, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
+    /*  4 */ HUD_VISIBILITY_A,
+    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_BTN_STATUS, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
+    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_BTN_STATUS, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
+    /*  7 */ HUD_VISIBILITY_ALL_NO_MINIMAP_W_DISABLED, // Only raises button alphas if not disabled
+    /*  8 */ HUD_VISIBILITY_B,
+    /*  9 */ HUD_VISIBILITY_HEARTS_MAGIC,
+    /* 10 */ HUD_VISIBILITY_B_ALT, // Identical to HUD_VISIBILITY_NONE but without osSyncPrintf calls
+    /* 11 */ HUD_VISIBILITY_HEARTS,
+    /* 12 */ HUD_VISIBILITY_A_B_MINIMAP,
+    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_WITH_BTN_STATUS, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
+    /* 50 */ HUD_VISIBILITY_ALL = 50,
+    /* 52 */ HUD_VISIBILITY_NONE_INSTANT = 52
+} HudVisibility;
+
+typedef enum {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
     /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed at which magic border flashes
     /* 0x2 */ MAGIC_STATE_CONSUME, // Consume magic until target is reached or no more magic is available
@@ -177,7 +196,7 @@ typedef struct {
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 hudVisibilityDimOnlyDisabledButtons; // if the buttons are requested to dim, only dim disabled buttons
+    /* 0x13E7 */ u8 hudVisibilityForceButtonAlphasByStatus; // if btn alphas are updated through Interface_UpdateButtonAlphas, instead update them through Interface_UpdateButtonAlphasByStatus
     /* 0x13E8 */ u16 nextHudVisibility; // triggers the hud to change visibility to the requested value. Reset to HUD_VISIBILITY_IDLE when target is reached
     /* 0x13EA */ u16 hudVisibility; // current hud visibility
     /* 0x13EC */ u16 hudVisibilityCounter; // number of frames in the transition to a new hud visibility. Used to step alpha
