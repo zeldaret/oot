@@ -206,11 +206,11 @@ void func_80966DB0(Demo6K* this, PlayState* play) {
 }
 
 void func_80966E04(Demo6K* this, PlayState* play) {
-    if (play->csCtx.frames > 214) {
+    if (play->csCtx.curFrame > 214) {
         func_8002F948(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 
-    if (play->csCtx.frames > 264) {
+    if (play->csCtx.curFrame > 264) {
         func_8002F948(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
     }
 
@@ -221,12 +221,12 @@ void func_80966E04(Demo6K* this, PlayState* play) {
 }
 
 void func_80966E98(Demo6K* this, PlayState* play) {
-    if (play->csCtx.frames < 353) {
+    if (play->csCtx.curFrame < 353) {
         func_8002F948(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
         func_8002F948(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
     }
 
-    if (play->csCtx.frames == 342) {
+    if (play->csCtx.curFrame == 342) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SAGE_SEAL);
     }
 
@@ -299,7 +299,7 @@ void func_8096712C(Demo6K* this, PlayState* play) {
 
     this->timer2++;
 
-    if ((play->sceneNum == SCENE_GANONTIKA) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
+    if ((play->sceneNum == SCENE_GANONTIKA) && (play->csCtx.curFrame < D_8096932C[this->actor.params - 3])) {
         func_8002F974(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 }
@@ -333,7 +333,7 @@ void func_80967244(Demo6K* this, PlayState* play) {
 
     if (play->sceneNum == SCENE_TOKINOMA) {
         scale = 6000;
-    } else if (play->csCtx.frames < 419) {
+    } else if (play->csCtx.curFrame < 419) {
         scale = 6000;
     } else {
         scale = 18000;
@@ -809,7 +809,7 @@ void func_809691BC(Demo6K* this, PlayState* play, s32 channel) {
     endPos.y = cue->endPos.y;
     endPos.z = cue->endPos.z;
 
-    temp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.frames);
+    temp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
 
     this->actor.world.pos.x = (((endPos.x - startPos.x) * temp) + startPos.x);
     this->actor.world.pos.y = (((endPos.y - startPos.y) * temp) + startPos.y);

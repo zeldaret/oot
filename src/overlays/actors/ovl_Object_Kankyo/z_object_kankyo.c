@@ -204,7 +204,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
         }
 
         func_800F436C(&sSoundPos, NA_SE_EV_NAVY_FLY - SFX_FLAG, (0.4f * dist) + 0.6f);
-        switch (play->csCtx.frames) {
+        switch (play->csCtx.curFrame) {
             case 473:
                 func_800788CC(NA_SE_VO_NA_HELLO_3);
                 break;
@@ -848,7 +848,7 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
             end.z = play->csCtx.actorCues[1]->endPos.z;
 
             weight = Environment_LerpWeight(play->csCtx.actorCues[1]->endFrame, play->csCtx.actorCues[1]->startFrame,
-                                            play->csCtx.frames);
+                                            play->csCtx.curFrame);
             Matrix_Translate((end.x - start.x) * weight + start.x, (end.y - start.y) * weight + start.y,
                              (end.z - start.z) * weight + start.z, MTXMODE_NEW);
             Matrix_Scale(this->effects[0].size, this->effects[0].size, this->effects[0].size, MTXMODE_APPLY);

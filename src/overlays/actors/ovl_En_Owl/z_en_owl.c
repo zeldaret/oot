@@ -743,20 +743,20 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
     switch (owlType) {
         case 7:
             func_800F436C(&D_80ACD62C, NA_SE_EV_FLYING_AIR - SFX_FLAG, weight * 2.0f);
-            if ((play->csCtx.frames > 324) || ((play->csCtx.frames >= 142 && (play->csCtx.frames <= 266)))) {
+            if ((play->csCtx.curFrame > 324) || ((play->csCtx.curFrame >= 142 && (play->csCtx.curFrame <= 266)))) {
                 func_800F4414(&D_80ACD62C, NA_SE_EN_OWL_FLUTTER, weight * 2.0f);
             }
-            if (play->csCtx.frames == 85) {
+            if (play->csCtx.curFrame == 85) {
                 func_800F436C(&D_80ACD62C, NA_SE_EV_PASS_AIR, weight * 2.0f);
             }
             break;
         case 8:
         case 9:
             func_800F436C(&D_80ACD62C, NA_SE_EV_FLYING_AIR - SFX_FLAG, weight * 2.0f);
-            if ((play->csCtx.frames >= 420) || ((0xC1 < play->csCtx.frames && (play->csCtx.frames <= 280)))) {
+            if ((play->csCtx.curFrame >= 420) || ((0xC1 < play->csCtx.curFrame && (play->csCtx.curFrame <= 280)))) {
                 func_800F4414(&D_80ACD62C, NA_SE_EN_OWL_FLUTTER, weight * 2.0f);
             }
-            if (play->csCtx.frames == 217) {
+            if (play->csCtx.curFrame == 217) {
                 func_800F436C(&D_80ACD62C, NA_SE_EV_PASS_AIR, weight * 2.0f);
             }
             break;
@@ -1063,9 +1063,9 @@ s32 func_80ACC624(EnOwl* this, PlayState* play) {
         return true;
     } else if (switchFlag == 0xA) {
         return true;
-    } else if (play->csCtx.frames >= 300 && play->csCtx.frames <= 430) {
+    } else if (play->csCtx.curFrame >= 300 && play->csCtx.curFrame <= 430) {
         return true;
-    } else if (play->csCtx.frames >= 1080 && play->csCtx.frames <= 1170) {
+    } else if (play->csCtx.curFrame >= 1080 && play->csCtx.curFrame <= 1170) {
         return true;
     } else {
         return false;
@@ -1345,7 +1345,7 @@ void func_80ACD130(EnOwl* this, PlayState* play, s32 idx) {
 
 f32 func_80ACD1C4(PlayState* play, s32 idx) {
     f32 ret = Environment_LerpWeight(play->csCtx.actorCues[idx]->endFrame, play->csCtx.actorCues[idx]->startFrame,
-                                     play->csCtx.frames);
+                                     play->csCtx.curFrame);
 
     ret = CLAMP_MAX(ret, 1.0f);
     return ret;

@@ -330,7 +330,7 @@ void func_8097E744(DemoGt* this, PlayState* play, u32 channel) {
     f32 lerp;
 
     if (cue != NULL) {
-        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.frames, 8, 0);
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.curFrame, 8, 0);
 
         startX = cue->startPos.x;
         startY = cue->startPos.y;
@@ -485,7 +485,7 @@ void func_8097EEA8_Init0(DemoGt* this, PlayState* play) {
 }
 
 void func_8097EF00(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (frames == 527) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TOWER_COLLAPSE);
@@ -496,7 +496,7 @@ void func_8097EF34(DemoGt* this, PlayState* play) {
 }
 
 void func_8097EF40(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     s32 pad1[3];
     Vec3f dustPos;
     Vec3f velocity = { 0.0f, -16.0f, 0.0f };
@@ -524,7 +524,7 @@ void func_8097F0AC(DemoGt* this, PlayState* play) {
     Vec3f sp38;
     s16 pad1[3];
     Vec3f sp24;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     s32 pad2;
 
     if ((frames == 140) || (kREG(1) == 19)) {
@@ -565,7 +565,7 @@ void func_8097F280(DemoGt* this, PlayState* play) {
     s32* unk198 = this->unk_198;
     f32 temp_f0;
 
-    if (play->csCtx.frames < 160) {
+    if (play->csCtx.curFrame < 160) {
         unk178[0] = 100;
         unk178[1] = 255;
         unk178[2] = 200;
@@ -576,8 +576,8 @@ void func_8097F280(DemoGt* this, PlayState* play) {
 
         unk198[0]++;
         unk198[1]--;
-    } else if (play->csCtx.frames < 170) {
-        temp_f0 = Environment_LerpWeightAccelDecel(170, 160, play->csCtx.frames, 0, 0);
+    } else if (play->csCtx.curFrame < 170) {
+        temp_f0 = Environment_LerpWeightAccelDecel(170, 160, play->csCtx.curFrame, 0, 0);
 
         unk178[0] = (temp_f0 * -63.0f) + 163.0f;
         unk178[1] = (temp_f0 * -155.0f) + 255.0f;
@@ -705,7 +705,7 @@ void func_8097F96C(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (((frames > 1059) && (frames < 1062)) || kREG(1) == 17) {
         pos.x = this->dyna.actor.world.pos.x;
@@ -726,7 +726,7 @@ void func_8097F96C(DemoGt* this, PlayState* play) {
 void func_8097FA1C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { -12.0f, -17.0, 5.0 };
     s32 pad1[3];
@@ -748,7 +748,7 @@ void func_8097FAFC(DemoGt* this, PlayState* play) {
     static s32 arg7 = 1;
     static s16 life = 3;
     s32 pad[2];
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f pos;
     f32 new_var = -200.0;
 
@@ -769,7 +769,7 @@ void func_8097FAFC(DemoGt* this, PlayState* play) {
 void func_8097FC1C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
@@ -785,7 +785,7 @@ void func_8097FC1C(DemoGt* this, PlayState* play) {
 void func_8097FCE4(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f vec;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (frames == 0x1F7 || kREG(1) == 4) {
         vec.x = this->dyna.actor.world.pos.x + 300.0f;
@@ -808,14 +808,14 @@ void func_8097FDDC(DemoGt* this, PlayState* play) {
     s32* unk178 = this->unk_178;
     s32* unk198 = this->unk_198;
 
-    if (play->csCtx.frames < 610) {
+    if (play->csCtx.curFrame < 610) {
         unk178[0] = 163;
         unk178[1] = 193;
         unk178[2] = 193;
         unk198[0]++;
         unk198[1]--;
-    } else if (play->csCtx.frames < 620) {
-        f32 temp_f0 = Environment_LerpWeightAccelDecel(620, 610, play->csCtx.frames, 0, 0);
+    } else if (play->csCtx.curFrame < 620) {
+        f32 temp_f0 = Environment_LerpWeightAccelDecel(620, 610, play->csCtx.curFrame, 0, 0);
 
         unk178[0] = (temp_f0 * (-13.0f)) + 163.0f;
         unk178[1] = (temp_f0 * (-43.0f)) + 193.0f;
@@ -887,7 +887,7 @@ void func_80980184(DemoGt* this, PlayState* play) {
     Vec3f pos;
     Actor* actor;
 
-    if ((play->csCtx.frames > 1027) && (play->csCtx.frames < 1031)) {
+    if ((play->csCtx.curFrame > 1027) && (play->csCtx.curFrame < 1031)) {
         pos.x = this->dyna.actor.world.pos.x;
         pos.y = this->dyna.actor.world.pos.y + 247.0f;
         pos.z = this->dyna.actor.world.pos.z;
@@ -909,7 +909,7 @@ void func_80980218(DemoGt* this, PlayState* play) {
     Vec3f pos;
     Actor* actor;
 
-    if ((play->csCtx.frames > 997) && (play->csCtx.frames < 1001)) {
+    if ((play->csCtx.curFrame > 997) && (play->csCtx.curFrame < 1001)) {
         pos.x = this->dyna.actor.home.pos.x;
         pos.y = this->dyna.actor.home.pos.y + 38.0f;
         pos.z = this->dyna.actor.home.pos.z;
@@ -928,7 +928,7 @@ void func_80980218(DemoGt* this, PlayState* play) {
 void func_809802AC(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 0.0f, 0.0f, -10.0f };
     s32 pad1[3];
@@ -944,7 +944,7 @@ void func_809802AC(DemoGt* this, PlayState* play) {
 void func_8098036C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* world = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
@@ -960,7 +960,7 @@ void func_8098036C(DemoGt* this, PlayState* play) {
 void func_80980430(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    s32 frames = play->csCtx.frames;
+    s32 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
@@ -976,7 +976,7 @@ void func_80980430(DemoGt* this, PlayState* play) {
 void func_80980504(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
@@ -992,7 +992,7 @@ void func_80980504(DemoGt* this, PlayState* play) {
 void func_809805D8(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* homePos = &this->dyna.actor.home.pos;
     Vec3f velOffset = { 15.0f, -26.0, 0.0f };
     s32 pad1[3];
@@ -1008,7 +1008,7 @@ void func_809805D8(DemoGt* this, PlayState* play) {
 void func_809806B8(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
@@ -1024,7 +1024,7 @@ void func_809806B8(DemoGt* this, PlayState* play) {
 void func_8098078C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
@@ -1040,7 +1040,7 @@ void func_8098078C(DemoGt* this, PlayState* play) {
 void func_8098085C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f sp28;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
 
     if ((frames == 58) || (kREG(1) == 1)) {
@@ -1065,7 +1065,7 @@ void func_809809C0(DemoGt* this, PlayState* play2) {
     PlayState* play = play2;
     DemoGt* this2 = this;
     s32 gameplayFrames = play->gameplayFrames;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     Vec3f sp54;
     s16 pad[3];
 
@@ -1087,7 +1087,7 @@ void func_809809C0(DemoGt* this, PlayState* play2) {
 void func_80980AD4(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if ((frames == 477) || (kREG(2) == 1)) {
         pos.x = this->dyna.actor.world.pos.x + 790.0f;
@@ -1102,7 +1102,7 @@ void func_80980AD4(DemoGt* this, PlayState* play) {
 void func_80980B68(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if ((frames == 317) || (kREG(3) == 1)) {
         pos.x = this->dyna.actor.world.pos.x + 980.0f;
@@ -1116,7 +1116,7 @@ void func_80980B68(DemoGt* this, PlayState* play) {
 void func_80980BFC(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if ((frames == 740) || (kREG(4) == 1)) {
         pos.x = this->dyna.actor.world.pos.x + 790.0f;
@@ -1187,7 +1187,7 @@ void func_80980F00_Init5(DemoGt* this, PlayState* play) {
 }
 
 void func_80980F58(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (frames == 244) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
@@ -1198,7 +1198,7 @@ void func_80980F8C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f sp58;
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if ((frames > 259) && (frames < 289)) {
         Vec3f velOfset = { 0.0f, -17.0f, 0.0f };
@@ -1246,7 +1246,7 @@ void DemoGt_Update16(DemoGt* this, PlayState* play) {
 void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
     GraphicsContext* gfxCtx;
     PlayState* play = play2;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
     s32 pad;
     s16 sp76;
     f32 sp70;
@@ -1310,7 +1310,7 @@ void func_809813CC_Init6(DemoGt* this, PlayState* play) {
 }
 
 void func_80981424(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (frames == 789) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
@@ -1321,7 +1321,7 @@ void func_80981458(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f sp58;
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (((frames > 855) && (frames < 891)) || (kREG(1) == 13)) {
         Vec3f velOffset = { 0.0f, -30.0f, 0.0f };
@@ -1428,7 +1428,7 @@ void func_809818A4_Init7(DemoGt* this, PlayState* play) {
 }
 
 void func_809818FC(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (frames == 845) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
@@ -1519,7 +1519,7 @@ void func_80981C94_Init23(DemoGt* this, PlayState* play) {
 }
 
 void func_80981CEC(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (frames == 183) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
@@ -1610,7 +1610,7 @@ void func_80982054_Init24(DemoGt* this, PlayState* play) {
 }
 
 void func_809820AC(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 frames = play->csCtx.curFrame;
 
     if (frames == 154) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);

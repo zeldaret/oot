@@ -384,7 +384,7 @@ void DemoKankyo_SetCuePos(DemoKankyo* this, PlayState* play, s32 channel) {
     endPos.y = cue->endPos.y;
     endPos.z = cue->endPos.z;
 
-    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.frames);
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
 
     this->actor.world.pos.x = ((endPos.x - startPos.x) * lerp) + startPos.x;
     this->actor.world.pos.y = ((endPos.y - startPos.y) * lerp) + startPos.y;
@@ -443,11 +443,11 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
                         break;
                     } else {
                         if (!LINK_IS_ADULT) {
-                            if (play->csCtx.frames < 170 || play->csCtx.state == CS_STATE_IDLE) {
+                            if (play->csCtx.curFrame < 170 || play->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         } else {
-                            if (play->csCtx.frames < 120 || play->csCtx.state == CS_STATE_IDLE) {
+                            if (play->csCtx.curFrame < 120 || play->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         }
@@ -800,7 +800,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
-                    if (play->sceneNum == SCENE_TOKINOMA && play->csCtx.frames == 25) {
+                    if (play->sceneNum == SCENE_TOKINOMA && play->csCtx.curFrame == 25) {
                         this->unk_150[i].unk_22++;
                     }
                 } else {
@@ -811,7 +811,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
-                    if (D_8098CF84 < play->csCtx.frames && this->actor.params == DEMOKANKYO_WARP_OUT) {
+                    if (D_8098CF84 < play->csCtx.curFrame && this->actor.params == DEMOKANKYO_WARP_OUT) {
                         this->unk_150[i].unk_22++;
                     }
                 }

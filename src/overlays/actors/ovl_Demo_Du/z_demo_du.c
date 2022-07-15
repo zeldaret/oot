@@ -309,7 +309,7 @@ void DemoDu_CsPlaySfx_GoronLanding(DemoDu* this) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Darunia is falling at the start of the cutscene.
 void DemoDu_CsPlaySfx_DaruniaFalling(PlayState* play) {
-    if (play->csCtx.frames == 160) {
+    if (play->csCtx.curFrame == 160) {
         func_800788CC(NA_SE_EV_OBJECT_FALL);
     }
 }
@@ -332,7 +332,7 @@ void DemoDu_CsPlaySfx_HitBreast(DemoDu* this) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Link is escaping from the gorons at the end of the scene.
 void DemoDu_CsPlaySfx_LinkEscapeFromGorons(PlayState* play) {
-    if (play->csCtx.frames == 1400) {
+    if (play->csCtx.curFrame == 1400) {
         Player* player = GET_PLAYER(play);
 
         Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -343,7 +343,7 @@ void DemoDu_CsPlaySfx_LinkEscapeFromGorons(PlayState* play) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Link is surprised by Darunia falling from the sky.
 void DemoDu_CsPlaySfx_LinkSurprised(PlayState* play) {
-    if (play->csCtx.frames == 174) {
+    if (play->csCtx.curFrame == 174) {
         Player* player = GET_PLAYER(play);
 
         Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
@@ -352,7 +352,7 @@ void DemoDu_CsPlaySfx_LinkSurprised(PlayState* play) {
 }
 
 void DemoDu_CsGoronsRuby_UpdateFaceTextures(DemoDu* this, PlayState* play) {
-    u16* frames = &play->csCtx.frames;
+    u16* frames = &play->csCtx.curFrame;
 
     if (*frames < 260) {
         DemoDu_UpdateEyes(this);
@@ -444,7 +444,7 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, PlayState* play) {
         Vec3f* pos = &this->actor.world.pos;
 
         if (cue != NULL) {
-            f32 traveledPercent = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->frames);
+            f32 traveledPercent = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->curFrame);
 
             startPos.x = cue->startPos.x;
             startPos.y = cue->startPos.y;
@@ -485,7 +485,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo03(DemoDu* this, PlayState* play) {
     if (csCtx->state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = csCtx->actorCues[2];
 
-        if ((cue != NULL) && (csCtx->frames >= cue->endFrame)) {
+        if ((cue != NULL) && (csCtx->curFrame >= cue->endFrame)) {
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(3);
             func_8096A630(this, play);
         }

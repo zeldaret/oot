@@ -156,7 +156,7 @@ void func_808ACA08(BgSpot02Objects* this, PlayState* play) {
         Actor_Kill(&this->dyna.actor);
     }
 
-    if (play->csCtx.frames == 402) {
+    if (play->csCtx.curFrame == 402) {
         if (!LINK_IS_ADULT) {
             func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE_KID);
         } else {
@@ -207,7 +207,7 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
         }
     }
 
-    if (play->csCtx.frames == 245 || play->csCtx.frames == 351) {
+    if (play->csCtx.curFrame == 245 || play->csCtx.curFrame == 351) {
         func_800788CC(NA_SE_EV_LIGHTNING);
     }
 }
@@ -299,7 +299,7 @@ void func_808AD450(Actor* thisx, PlayState* play) {
         }
 
         lerp = Environment_LerpWeight(play->csCtx.actorCues[2]->endFrame, play->csCtx.actorCues[2]->startFrame,
-                                      play->csCtx.frames);
+                                      play->csCtx.curFrame);
 
         // should be able to remove & 0xFFFF with some other change
         if ((play->csCtx.actorCues[2]->id & 0xFFFF) == 2) {

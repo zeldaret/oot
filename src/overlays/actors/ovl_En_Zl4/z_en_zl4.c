@@ -905,7 +905,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
             break;
         case 1:
             if (play->csCtx.state != CS_STATE_IDLE) {
-                if (play->csCtx.frames == 90) {
+                if (play->csCtx.curFrame == 90) {
                     play->csCtx.state = CS_STATE_STOP;
                 }
             } else {
@@ -917,7 +917,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
             break;
         case 2:
             if (play->csCtx.state != CS_STATE_IDLE) {
-                if (play->csCtx.frames == 209) {
+                if (play->csCtx.curFrame == 209) {
                     play->csCtx.state = CS_STATE_STOP;
                 }
             } else {
@@ -1227,11 +1227,11 @@ void EnZl4_TheEnd(EnZl4* this, PlayState* play) {
         EnZl4_SetMove(this, play);
     }
 
-    if (play->csCtx.frames == 100) {
+    if (play->csCtx.curFrame == 100) {
         this->eyeExpression = ZL4_EYES_LOOK_LEFT;
     }
 
-    if (play->csCtx.frames == 450) {
+    if (play->csCtx.curFrame == 450) {
         this->blinkTimer = 3;
         this->eyeExpression = ZL4_EYES_NEUTRAL;
         this->mouthExpression = ZL4_MOUTH_SURPRISED;

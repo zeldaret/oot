@@ -404,7 +404,7 @@ void func_80B4B8B4(EnZl1* this, PlayState* play) {
 
         this->actor.velocity = velocity;
 
-        if (play->csCtx.frames < cue->endFrame) {
+        if (play->csCtx.curFrame < cue->endFrame) {
             cueDuration = cue->endFrame - cue->startFrame;
 
             this->actor.velocity.x = (sp68.x - sp74.x) / cueDuration;
@@ -487,7 +487,7 @@ void func_80B4BC78(EnZl1* this, PlayState* play) {
 
         this->actor.velocity = velocity;
 
-        if (play->csCtx.frames < cue->endFrame) {
+        if (play->csCtx.curFrame < cue->endFrame) {
             cueDuration = cue->endFrame - cue->startFrame;
 
             this->actor.velocity.x = (sp64.x - sp70.x) / cueDuration;

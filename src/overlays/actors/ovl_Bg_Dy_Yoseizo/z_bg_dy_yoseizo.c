@@ -819,19 +819,19 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         sfx = 0;
         if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) || (play->csCtx.frames == 426) ||
-                (play->csCtx.frames == 851)) {
+            if ((play->csCtx.curFrame == 32) || (play->csCtx.curFrame == 291) || (play->csCtx.curFrame == 426) ||
+                (play->csCtx.curFrame == 851)) {
                 sfx = 1;
             }
-            if (play->csCtx.frames == 101) {
+            if (play->csCtx.curFrame == 101) {
                 sfx = 2;
             }
         } else {
-            if ((play->csCtx.frames == 35) || (play->csCtx.frames == 181) || (play->csCtx.frames == 462) ||
-                (play->csCtx.frames == 795)) {
+            if ((play->csCtx.curFrame == 35) || (play->csCtx.curFrame == 181) || (play->csCtx.curFrame == 462) ||
+                (play->csCtx.curFrame == 795)) {
                 sfx = 1;
             }
-            if (play->csCtx.frames == 90) {
+            if (play->csCtx.curFrame == 90) {
                 sfx = 2;
             }
         }

@@ -480,7 +480,7 @@ void func_809FE890(EnDu* this, PlayState* play) {
 
         this->actor.velocity = velocity;
 
-        if (play->csCtx.frames < cue->endFrame) {
+        if (play->csCtx.curFrame < cue->endFrame) {
             frame = cue->endFrame - cue->startFrame;
 
             this->actor.velocity.x = (endPos.x - startPos.x) / frame;

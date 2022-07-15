@@ -481,7 +481,7 @@ void func_80AEB7D0(EnRu1* this) {
 }
 
 f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
-    s32 csCtxFrames = play->csCtx.frames;
+    s32 csCtxFrames = play->csCtx.curFrame;
 
     if ((csCtxFrames < cue->endFrame) && (cue->endFrame - cue->startFrame > 0)) {
         return (Math_CosS(((csCtxFrames - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame)) * 32768.0f) *
@@ -586,7 +586,7 @@ void func_80AEBBF4(EnRu1* this) {
 void func_80AEBC30(PlayState* play) {
     Player* player;
 
-    if (play->csCtx.frames == 0xCD) {
+    if (play->csCtx.curFrame == 0xCD) {
         player = GET_PLAYER(play);
         Audio_PlaySoundGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -594,7 +594,7 @@ void func_80AEBC30(PlayState* play) {
 }
 
 void func_80AEBC84(EnRu1* this, PlayState* play) {
-    if (play->csCtx.frames == 0x82) {
+    if (play->csCtx.curFrame == 0x82) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
@@ -675,7 +675,7 @@ void func_80AEBFD8(EnRu1* this, PlayState* play) {
     u16 endFrame;
 
     if (cue != NULL) {
-        csCtxFrames = play->csCtx.frames;
+        csCtxFrames = play->csCtx.curFrame;
         endFrame = cue->endFrame;
 
         if (csCtxFrames >= endFrame - 2) {

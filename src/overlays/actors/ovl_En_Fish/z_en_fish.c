@@ -663,7 +663,7 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     endPos.y = cue->endPos.y;
     endPos.z = cue->endPos.z;
 
-    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.frames);
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
 
     this->actor.world.pos.x = (endPos.x - startPos.x) * lerp + startPos.x;
     this->actor.world.pos.y = (endPos.y - startPos.y) * lerp + startPos.y + D_80A17014;

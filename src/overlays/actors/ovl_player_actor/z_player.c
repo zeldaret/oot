@@ -8766,7 +8766,7 @@ s32 func_80845964(PlayState* play, Player* this, CsCmdActorCue* arg2, f32 arg3, 
         f32 selfDistX = arg2->endPos.x - this->actor.world.pos.x;
         f32 selfDistZ = arg2->endPos.z - this->actor.world.pos.z;
         f32 sp28 = sqrtf(SQ(selfDistX) + SQ(selfDistZ)) / sp34;
-        s32 sp24 = (arg2->endFrame - play->csCtx.frames) + 1;
+        s32 sp24 = (arg2->endFrame - play->csCtx.curFrame) + 1;
 
         arg4 = Math_Atan2S(selfDistZ, selfDistX);
 
@@ -12661,7 +12661,7 @@ void func_8084F698(Player* this, PlayState* play) {
 void func_8084F710(Player* this, PlayState* play) {
     s32 pad;
 
-    if ((this->unk_84F != 0) && (play->csCtx.frames < 0x131)) {
+    if ((this->unk_84F != 0) && (play->csCtx.curFrame < 0x131)) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
     } else if (D_80853600 < 150.0f) {
@@ -13968,7 +13968,7 @@ void func_808520BC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     f32 distY = (cue->endPos.y - startY);
     f32 distZ = (cue->endPos.z - startZ);
 
-    f32 sp4 = (f32)(play->csCtx.frames - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame);
+    f32 sp4 = (f32)(play->csCtx.curFrame - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame);
 
     this->actor.world.pos.x = distX * sp4 + startX;
     this->actor.world.pos.y = distY * sp4 + startY;
@@ -14045,7 +14045,7 @@ void func_80852388(PlayState* play, Player* this, CsCmdActorCue* cue) {
         this->unk_850 = 1;
     }
 
-    if ((this->unk_850 != 0) && (play->csCtx.frames >= 900)) {
+    if ((this->unk_850 != 0) && (play->csCtx.curFrame >= 900)) {
         this->rightHandType = PLAYER_MODELTYPE_LH_OPEN;
     } else {
         this->rightHandType = PLAYER_MODELTYPE_RH_FF;

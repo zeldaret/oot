@@ -790,7 +790,7 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     Message_StartTextbox(play, this->actor.textId, NULL);
     this->unk_308.unk_00 = 1;
     this->unk_1FC = 0;
-    play->csCtx.frames = 0;
+    play->csCtx.curFrame = 0;
     ShrinkWindow_SetVal(0x20);
     Interface_ChangeAlpha(2);
     this->actionFunc = func_80A7ABD4;
@@ -826,11 +826,11 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
             }
         }
     } else {
-        if (play->csCtx.frames++ >= 50) {
+        if (play->csCtx.curFrame++ >= 50) {
             this->actionFunc = func_80A7AE84;
             return;
         }
-        if (play->csCtx.frames == 44) {
+        if (play->csCtx.curFrame == 44) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_RONRON_DOOR_CLOSE);
         }
         Math_SmoothStepToF(&this->subCamAtOffset.x, 0.0f, 0.06f, 10000.0f, 0.0f);

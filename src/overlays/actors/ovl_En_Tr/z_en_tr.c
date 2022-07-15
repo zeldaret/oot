@@ -199,7 +199,7 @@ void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
                 this->actor.velocity.z = this->actor.world.pos.z - originalPos.z;
             }
 
-            if (play->csCtx.frames < 670) {
+            if (play->csCtx.curFrame < 670) {
                 func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
             }
         }
@@ -445,7 +445,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
 
 f32 func_80B23FDC(PlayState* play, s32 channel) {
     f32 phi_f2 = Environment_LerpWeight(play->csCtx.actorCues[channel]->endFrame,
-                                        play->csCtx.actorCues[channel]->startFrame, play->csCtx.frames);
+                                        play->csCtx.actorCues[channel]->startFrame, play->csCtx.curFrame);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }

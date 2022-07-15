@@ -173,7 +173,7 @@ void func_80B3C620(EnXc* this, PlayState* play, s32 channel) {
     f32 lerp;
 
     if (cue != NULL) {
-        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.frames, 0, 0);
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.curFrame, 0, 0);
 
         startX = cue->startPos.x;
         startY = cue->startPos.y;
@@ -354,7 +354,7 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
 
         if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
             !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
-            Cutscene_SetSegment(play, &gIceCavernSerenadeCs);
+            Cutscene_SetScript(play, &gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
             Item_Give(play, ITEM_SONG_SERENADE);
@@ -422,7 +422,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
         sceneNum = play->sceneNum;
         if (sceneNum == SCENE_SPOT11) {
             CutsceneContext* csCtx = &play->csCtx;
-            u16 frameCount = csCtx->frames;
+            u16 frameCount = csCtx->curFrame;
             f32 wDest[2];
 
             if (frameCount == 119) {
@@ -462,7 +462,7 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
 
         if (sceneNum == SCENE_SPOT11) {
             CutsceneContext* csCtx = &play->csCtx;
-            u16 frameCount = csCtx->frames;
+            u16 frameCount = csCtx->curFrame;
 
             if ((frameCount >= 120) && (frameCount < 164)) {
                 s32 pad;
@@ -1397,7 +1397,7 @@ void EnXc_LakeHyliaDive(PlayState* play) {
 
 void func_80B3F534(PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
-    u16 frameCount = csCtx->frames;
+    u16 frameCount = csCtx->curFrame;
 
     if (frameCount == 310) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0, WARP_DESTINATION);
@@ -1764,7 +1764,7 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
 }
 
 void EnXc_PlayLinkScreamSFX(EnXc* this, PlayState* play) {
-    if (play->csCtx.frames == 1455) {
+    if (play->csCtx.curFrame == 1455) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_HURL_LINK);
     }
 }
@@ -1772,9 +1772,9 @@ void EnXc_PlayLinkScreamSFX(EnXc* this, PlayState* play) {
 void EnXc_SetCrySFX(EnXc* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
 
-    if (csCtx->frames == 869) {
+    if (csCtx->curFrame == 869) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_SK_CRY_0);
-    } else if (csCtx->frames == 939) {
+    } else if (csCtx->curFrame == 939) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_SK_CRY_1);
     }
 }

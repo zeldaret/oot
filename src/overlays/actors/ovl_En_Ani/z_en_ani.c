@@ -259,7 +259,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
                 break;
         }
 
-        if (play->csCtx.frames == 100) {
+        if (play->csCtx.curFrame == 100) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {

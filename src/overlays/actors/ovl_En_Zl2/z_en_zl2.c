@@ -537,7 +537,7 @@ void EnZl2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     s32 pad[2];
 
     if (limbIndex == 10) {
-        if ((this->unk_254 != 0) && (play->csCtx.frames >= 900)) {
+        if ((this->unk_254 != 0) && (play->csCtx.curFrame >= 900)) {
             gSPDisplayList((*gfx)++, gZelda2OcarinaDL);
         }
 
@@ -595,7 +595,7 @@ void func_80B4FDD4(EnZl2* this) {
 }
 
 void func_80B4FE10(PlayState* play) {
-    if ((play->csCtx.frames >= 830) && (play->csCtx.frames < 1081)) {
+    if ((play->csCtx.curFrame >= 830) && (play->csCtx.curFrame < 1081)) {
         func_800788CC(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
     }
 }
@@ -690,7 +690,7 @@ void func_80B500E0(EnZl2* this, PlayState* play) {
     f32 lerp;
 
     if (cue != NULL) {
-        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.frames, 8, 8);
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.curFrame, 8, 8);
 
         startX = cue->startPos.x;
         startY = cue->startPos.y;
@@ -717,7 +717,7 @@ void func_80B501E8(EnZl2* this, PlayState* play) {
 
     if (cue != NULL) {
         this->actor.shape.shadowAlpha = this->alpha =
-            (1.0f - Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.frames)) * 255.0f;
+            (1.0f - Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame)) * 255.0f;
         func_80B501C4(this, this->alpha);
     }
 }
@@ -763,7 +763,7 @@ void func_80B50304(EnZl2* this, PlayState* play) {
 void func_80B503DC(EnZl2* this, PlayState* play) {
     CsCmdActorCue* cue = EnZl2_GetCue(play, 0);
 
-    if ((cue != NULL) && (play->csCtx.frames >= cue->endFrame)) {
+    if ((cue != NULL) && (play->csCtx.curFrame >= cue->endFrame)) {
         this->action = 4;
     }
 }
@@ -909,7 +909,7 @@ void func_80B509A0(EnZl2* this, PlayState* play) {
     CsCmdActorCue* cue = EnZl2_GetCue(play, 0);
 
     if (cue != NULL) {
-        if (play->csCtx.frames >= cue->endFrame) {
+        if (play->csCtx.curFrame >= cue->endFrame) {
             this->action = 24;
             this->drawConfig = 0;
             func_80B4FE6C(this);
@@ -1195,7 +1195,7 @@ void func_80B513A8(EnZl2* this, PlayState* play) {
 
 void func_80B51418(EnZl2* this, PlayState* play) {
     EnZl2_UpdateEyes(this);
-    if (play->csCtx.frames < 431) {
+    if (play->csCtx.curFrame < 431) {
         EnZl2_setMouthIndex(this, 1);
     } else {
         EnZl2_setMouthIndex(this, 0);
@@ -1208,7 +1208,7 @@ void func_80B5146C(EnZl2* this, PlayState* play) {
 }
 
 void func_80B5149C(EnZl2* this, PlayState* play) {
-    if (play->csCtx.frames < 988) {
+    if (play->csCtx.curFrame < 988) {
         EnZl2_setEyesIndex(this, 7);
         EnZl2_setEyeIndex2(this, 8);
     } else {
@@ -1219,7 +1219,7 @@ void func_80B5149C(EnZl2* this, PlayState* play) {
 
 void func_80B514F8(EnZl2* this, PlayState* play) {
     EnZl2_UpdateEyes(this);
-    if (play->csCtx.frames < 1190) {
+    if (play->csCtx.curFrame < 1190) {
         EnZl2_setMouthIndex(this, 1);
     } else {
         EnZl2_setMouthIndex(this, 0);
@@ -1233,9 +1233,9 @@ void func_80B5154C(EnZl2* this, PlayState* play) {
         EnZl2_UpdateEyes(this);
     } else {
         csCtx = &play->csCtx;
-        if (csCtx->frames < 0x5F0) {
+        if (csCtx->curFrame < 0x5F0) {
             func_80B4EBB8(this);
-        } else if (csCtx->frames == 0x5F0) {
+        } else if (csCtx->curFrame == 0x5F0) {
             this->unk_27C = 0.0f;
         } else {
             func_80B4EC48(this);
@@ -1463,7 +1463,7 @@ void func_80B51DA4(EnZl2* this, PlayState* play) {
     f32 lerp;
 
     if (cue != NULL) {
-        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.frames, 0, 8);
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.curFrame, 0, 8);
         startX = cue->startPos.x;
         startY = cue->startPos.y;
         startZ = cue->startPos.z;
@@ -1473,7 +1473,7 @@ void func_80B51DA4(EnZl2* this, PlayState* play) {
         worldPos->x = ((endX - startX) * lerp) + startX;
         worldPos->y = ((endY - startY) * lerp) + startY;
         worldPos->z = ((endZ - startZ) * lerp) + startZ;
-        if (cue->endFrame < play->csCtx.frames) {
+        if (cue->endFrame < play->csCtx.curFrame) {
             Actor_Kill(&this->actor);
         }
     }
@@ -1501,7 +1501,7 @@ void func_80B51F38(EnZl2* this, PlayState* play) {
     CsCmdActorCue* cue = EnZl2_GetCue(play, 0);
 
     if (cue != NULL) {
-        if (play->csCtx.frames - 8 >= cue->endFrame) {
+        if (play->csCtx.curFrame - 8 >= cue->endFrame) {
             func_80B4FD00(this, &gZelda2Anime1Anim_00B5FC, 0, -8.0f, 0);
             this->action = 35;
         }

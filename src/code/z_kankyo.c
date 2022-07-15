@@ -417,7 +417,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     cREG(12) = 0;
     cREG(13) = 0;
     cREG(14) = 0;
-    gCutsceneUsesSubcam = true;
+    gUseCutsceneCam = true;
 
     for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
         sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;

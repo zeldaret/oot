@@ -124,7 +124,7 @@ void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
  */
 f32 DemoEffect_InterpolateCsFrames(PlayState* play, s32 channel) {
     f32 interpolated = Environment_LerpWeight(play->csCtx.actorCues[channel]->endFrame,
-                                              play->csCtx.actorCues[channel]->startFrame, play->csCtx.frames);
+                                              play->csCtx.actorCues[channel]->startFrame, play->csCtx.curFrame);
     if (interpolated > 1.0f) {
         interpolated = 1.0f;
     }
@@ -834,7 +834,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0 && gSaveContext.sceneSetupIndex == 6 &&
-            play->csCtx.frames == 143) {
+            play->csCtx.curFrame == 143) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
     }
@@ -1048,7 +1048,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
                 break;
         }
 
-        if (play->sceneNum == SCENE_SPOT04 && gSaveContext.sceneSetupIndex == 6 && play->csCtx.frames == 197) {
+        if (play->sceneNum == SCENE_SPOT04 && gSaveContext.sceneSetupIndex == 6 && play->csCtx.curFrame == 197) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
         }
 
@@ -1056,7 +1056,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
             if (!DemoEffect_CheckForCue(this, play, 1)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
-            if (play->csCtx.frames == 640) {
+            if (play->csCtx.curFrame == 640) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
             }
 
@@ -1067,7 +1067,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
             if (!DemoEffect_CheckForCue(this, play, 1)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
-            if (play->csCtx.frames == 648) {
+            if (play->csCtx.curFrame == 648) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
             }
 
@@ -1134,22 +1134,22 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
         if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
-                    if (play->csCtx.frames == 288) {
+                    if (play->csCtx.curFrame == 288) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
-                    if (play->csCtx.frames == 635) {
+                    if (play->csCtx.curFrame == 635) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.frames == 55) {
+                    if (play->csCtx.curFrame == 55) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.frames == 350) {
+                    if (play->csCtx.curFrame == 350) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1189,19 +1189,19 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
-                    if (play->csCtx.frames == 298) {
+                    if (play->csCtx.curFrame == 298) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.frames == 105) {
+                    if (play->csCtx.curFrame == 105) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.frames == 360) {
+                    if (play->csCtx.curFrame == 360) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1209,10 +1209,10 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.entranceIndex == ENTR_SPOT16_0 && gSaveContext.sceneSetupIndex == 4) {
-            if (play->csCtx.frames == 72) {
+            if (play->csCtx.curFrame == 72) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
-            if (play->csCtx.frames == 80) {
+            if (play->csCtx.curFrame == 80) {
                 Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_NAYRU_MAGIC);
             }
         }
@@ -1249,19 +1249,19 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
         if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
-                    if (play->csCtx.frames == 315) {
+                    if (play->csCtx.curFrame == 315) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.frames == 80) {
+                    if (play->csCtx.curFrame == 80) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.frames == 370) {
+                    if (play->csCtx.curFrame == 370) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1759,7 +1759,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
     if (!DemoEffect_CheckForCue(this, play, 2)) {
         if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             if (gSaveContext.sceneSetupIndex == 4) {
-                if (play->csCtx.frames <= 680) {
+                if (play->csCtx.curFrame <= 680) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
                 }
             } else {
@@ -1906,7 +1906,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2994);
-    if (gSaveContext.entranceIndex != ENTR_NAKANIWA_0 || play->csCtx.frames < 885) {
+    if (gSaveContext.entranceIndex != ENTR_NAKANIWA_0 || play->csCtx.curFrame < 885) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (this->triforceSpot.lightColumnOpacity > 0) {

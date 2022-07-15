@@ -865,7 +865,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
         if ((play->sceneNum == SCENE_LINK_HOME) && (gSaveContext.sceneSetupIndex == 4)) {
             // play dash sound as Navi enters Links house in the intro
             if (1) {}
-            if (play->csCtx.frames == 55) {
+            if (play->csCtx.curFrame == 55) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
             }
 
@@ -1559,7 +1559,7 @@ void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 channel) {
     endPos.y = cue->endPos.y;
     endPos.z = cue->endPos.z;
 
-    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.frames);
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
 
     dest->x = ((endPos.x - startPos.x) * lerp) + startPos.x;
     dest->y = ((endPos.y - startPos.y) * lerp) + startPos.y;

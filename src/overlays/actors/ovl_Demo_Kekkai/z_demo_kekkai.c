@@ -207,7 +207,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     s32 pad;
     DemoKekkai* this = (DemoKekkai*)thisx;
 
-    if (play->csCtx.frames == csFrames[this->actor.params]) {
+    if (play->csCtx.curFrame == csFrames[this->actor.params]) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TRIAL_WARP);
     }
     if (this->energyAlpha >= 0.05f) {

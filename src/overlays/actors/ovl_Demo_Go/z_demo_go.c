@@ -139,7 +139,7 @@ void func_8097CB0C(DemoGo* this, PlayState* play) {
         cue = csCtx->actorCues[DemoGo_GetCueChannel(this)];
 
         if (cue != NULL) {
-            temp_ret = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->frames);
+            temp_ret = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->curFrame);
 
             startPos.x = cue->startPos.x;
             startPos.y = cue->startPos.y;
@@ -237,7 +237,7 @@ void func_8097CE78(DemoGo* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         cue = csCtx->actorCues[DemoGo_GetCueChannel(this)];
 
-        if (cue != NULL && csCtx->frames >= cue->endFrame) {
+        if (cue != NULL && csCtx->curFrame >= cue->endFrame) {
             func_8097CA78(this, play);
             this->action = 3;
         }

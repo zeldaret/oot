@@ -115,7 +115,7 @@ void func_808BC6F8(BgTreemouth* this, PlayState* play) {
         this->unk_168 = 1.0f;
     }
 
-    if ((gSaveContext.sceneSetupIndex == 6) && (play->csCtx.frames >= 0x2BD) && (play->state.frames % 8 == 0)) {
+    if ((gSaveContext.sceneSetupIndex == 6) && (play->csCtx.curFrame >= 0x2BD) && (play->state.frames % 8 == 0)) {
         sp34.x = (Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Rand_ZeroOne() * 2026.0f) + -2163.0f;
@@ -172,12 +172,12 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
             player->actor.world.pos.z = -1142.0f;
         }
 
-        play->csCtx.frames = 0;
+        play->csCtx.curFrame = 0;
 
-        play->csCtx.camEyeSplineAppliedFrame = 0xFFFF;
-        gCamAtSplineAppliedFrame = 0xFFFF;
-        gCamEyeSingleAppliedFrame = 0xFFFF;
-        gCamAtSingleAppliedFrame = 0xFFFF;
+        play->csCtx.camEyePointsAppliedFrame = 0xFFFF;
+        gCamAtPointsAppliedFrame = 0xFFFF;
+        gCamEyeAppliedFrame = 0xFFFF;
+        gCamAtAppliedFrame = 0xFFFF;
 
         play->csCtx.camAtReady = false;
         play->csCtx.camEyeReady = false;
@@ -190,7 +190,7 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
             play->csCtx.script = D_808BD790;
-            play->csCtx.frames = 0;
+            play->csCtx.curFrame = 0;
             BgTreemouth_SetupAction(this, func_808BC8B8);
         }
     }

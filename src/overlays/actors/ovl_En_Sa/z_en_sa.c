@@ -689,7 +689,7 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
         this->actor.shape.rot.z = cue->urot.z;
         this->actor.velocity = D_80AF7448;
 
-        if (play->csCtx.frames < cue->endFrame) {
+        if (play->csCtx.curFrame < cue->endFrame) {
             temp_f0 = cue->endFrame - cue->startFrame;
             this->actor.velocity.x = (endPos.x - startPos.x) / temp_f0;
             this->actor.velocity.y = (endPos.y - startPos.y) / temp_f0;

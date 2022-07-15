@@ -1427,7 +1427,7 @@ void func_80A781CC(Actor* thisx, PlayState* play) {
     if (!Play_InCsMode(play)) {
         this->actor.update = EnIk_Update;
         this->actor.draw = EnIk_Draw;
-        Cutscene_SetSegment(play, gSpiritBossNabooruKnuckleDefeatCs);
+        Cutscene_SetScript(play, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
         SET_EVENTCHKINF(EVENTCHKINF_3C);

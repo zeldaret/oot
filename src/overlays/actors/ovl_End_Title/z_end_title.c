@@ -49,7 +49,7 @@ void EndTitle_Update(Actor* thisx, PlayState* play) {
 void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     MtxF* mf;
     EndTitle* this = (EndTitle*)thisx;
-    s32 frameCount = play->csCtx.frames;
+    s32 frameCount = play->csCtx.curFrame;
     Player* player = GET_PLAYER(play);
 
     mf = &player->mf_9E0;
@@ -114,7 +114,7 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
 void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play) {
     EndTitle* this = (EndTitle*)thisx;
     s32 pad;
-    s32 frames = play->csCtx.frames;
+    s32 frames = play->csCtx.curFrame;
 
     if ((frames >= 1101) && (this->endAlpha < 255)) {
         this->endAlpha += 3;

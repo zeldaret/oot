@@ -567,13 +567,13 @@ void EnNb_InitKidnap(EnNb* this, PlayState* play) {
 }
 
 void EnNb_PlayCrySFX(EnNb* this, PlayState* play) {
-    if (play->csCtx.frames == 3) {
+    if (play->csCtx.curFrame == 3) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
     }
 }
 
 void EnNb_PlayAgonySFX(EnNb* this, PlayState* play) {
-    if (play->csCtx.frames == 420) {
+    if (play->csCtx.curFrame == 420) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_AGONY);
     }
 }
@@ -587,7 +587,7 @@ void EnNb_SetPosInPortal(EnNb* this, PlayState* play) {
     Vec3f endPos;
 
     if (cue != NULL) {
-        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.frames, 4, 4);
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.curFrame, 4, 4);
         startPos.x = cue->startPos.x;
         startPos.y = cue->startPos.y;
         startPos.z = cue->startPos.z;
@@ -701,7 +701,7 @@ void EnNb_SetupConfrontation(EnNb* this, PlayState* play) {
 void EnNb_PlayKnuckleDefeatSFX(EnNb* this, PlayState* play) {
     s32 pad[2];
 
-    if (play->csCtx.frames == 548) {
+    if (play->csCtx.curFrame == 548) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
         func_80078914(&this->actor.projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
     }

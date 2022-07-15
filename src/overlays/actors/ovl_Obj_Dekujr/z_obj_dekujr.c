@@ -95,7 +95,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play) {
         this->unk_19C = 2;
         this->unk_19B = 0;
     } else {
-        if (play->csCtx.frames == 351) {
+        if (play->csCtx.curFrame == 351) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
         }
 
@@ -116,7 +116,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play) {
 
             this->actor.velocity = velocity;
 
-            if (cue->endFrame >= play->csCtx.frames) {
+            if (cue->endFrame >= play->csCtx.curFrame) {
                 cueDuration = cue->endFrame - cue->startFrame;
 
                 this->actor.velocity.x = (finalPos.x - initPos.x) / cueDuration;

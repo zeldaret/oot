@@ -544,7 +544,7 @@ void func_80985E60(DemoIm* this, PlayState* play) {
 }
 
 void func_80985EAC(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.frames >= 80) && (play->csCtx.frames < 243)) {
+    if ((play->csCtx.curFrame >= 80) && (play->csCtx.curFrame < 243)) {
         func_80984F10(this, play);
     } else {
         func_80984DB8(this);
