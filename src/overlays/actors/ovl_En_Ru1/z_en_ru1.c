@@ -497,13 +497,9 @@ f32 func_80AEB87C(f32 arg0, s32 arg1, s32 arg2) {
 
 void func_80AEB89C(EnRu1* this, PlayState* play) {
     CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
-    s16 cueRotY;
 
     if (cue != NULL) {
-        // todo: probably a chained assign
-        cueRotY = cue->rot.y;
-        this->actor.shape.rot.y = cueRotY;
-        this->actor.world.rot.y = cueRotY;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
 
         this->actor.world.pos.x = cue->startPos.x;
         this->actor.world.pos.y = cue->startPos.y;

@@ -825,13 +825,13 @@ void func_8096F26C(DemoEc* this, s32 arg1) {
 
 void func_8096F2B0(DemoEc* this, PlayState* play, s32 channel) {
     CsCmdActorCue* cue = DemoEc_GetCue(play, channel);
-    s32 nextCueId;
 
     if (cue != NULL) {
-        nextCueId = cue->id;
+        s32 nextCueId = cue->id;
+        s32 currentCueId = this->cueId;
 
-        if (nextCueId != this->cueId) {
-            if (this->cueId) {} // todo: try using a temp like other actors to remove this
+        if (nextCueId != currentCueId) {
+            if (1) {}
 
             if (nextCueId == 2) {
                 func_8096F224(this, play);
@@ -900,19 +900,20 @@ void func_8096F544(DemoEc* this, s32 changeAnim) {
 
 void func_8096F578(DemoEc* this, PlayState* play, s32 channel) {
     CsCmdActorCue* cue;
-    s32 nextCueId;
 
     cue = DemoEc_GetCue(play, channel);
 
     if (cue != NULL) {
-        nextCueId = cue->id;
-        if (nextCueId != this->cueId) {
-            if (this->cueId) {}
+        s32 nextCueId = cue->id;
+        s32 currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            if (1) {}
 
             if (nextCueId == 2) {
                 func_8096F4FC(this, play);
             }
-
+            
             this->cueId = nextCueId;
         }
     }

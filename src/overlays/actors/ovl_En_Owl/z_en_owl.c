@@ -808,24 +808,23 @@ void EnOwl_WaitDefault(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACBAB8(EnOwl* this, PlayState* play) {
-    // todo: should be able to remove -1 by changing case numbers
-    switch (play->csCtx.actorCues[7]->id - 1) {
-        case 0:
-            EnOwl_ChangeMode(this, func_80ACB904, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
-            break;
+    switch (play->csCtx.actorCues[7]->id) {
         case 1:
-            this->actor.draw = EnOwl_Draw;
-            EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime, &gOwlPerchAnim, 0.0f);
+            EnOwl_ChangeMode(this, func_80ACB904, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
             break;
         case 2:
             this->actor.draw = EnOwl_Draw;
-            EnOwl_ChangeMode(this, func_80ACB994, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
+            EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime, &gOwlPerchAnim, 0.0f);
             break;
         case 3:
+            this->actor.draw = EnOwl_Draw;
+            EnOwl_ChangeMode(this, func_80ACB994, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
+            break;
+        case 4:
             this->actor.draw = NULL;
             this->actionFunc = EnOwl_WaitDefault;
             break;
-        case 4:
+        case 5:
             Actor_Kill(&this->actor);
             break;
     }

@@ -200,7 +200,6 @@ s32 func_80AF281C(EnRu2* this, PlayState* play, u16 cueId, s32 channel) {
 
 void func_80AF2868(EnRu2* this, PlayState* play, u32 channel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, channel);
-    s16 newRotY;
     Actor* thisx = &this->actor;
 
     if (cue != NULL) {
@@ -208,10 +207,7 @@ void func_80AF2868(EnRu2* this, PlayState* play, u32 channel) {
         thisx->world.pos.y = cue->startPos.y;
         thisx->world.pos.z = cue->startPos.z;
 
-        // todo try chained assign
-        newRotY = cue->rot.y;
-        thisx->shape.rot.y = newRotY;
-        thisx->world.rot.y = newRotY;
+        thisx->world.rot.y = thisx->shape.rot.y = cue->rot.y;
     }
 }
 
