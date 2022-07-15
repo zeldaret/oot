@@ -256,30 +256,30 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
             if (play->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
                 switch (this->fountainType) {
                     case FAIRY_SPELL_FARORES_WIND:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_SPELL_DINS_FIRE:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_SPELL_NAYRUS_LOVE:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             } else {
                 switch (this->fountainType) {
                     case FAIRY_UPGRADE_MAGIC:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_UPGRADE_DOUBLE_MAGIC:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_UPGRADE_HALF_DAMAGE:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
+                        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
@@ -567,7 +567,7 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, PlayState* play) {
 
 void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.npcActions[0] != NULL) && (play->csCtx.npcActions[0]->action == 2)) {
+        if ((play->csCtx.actorCues[0] != NULL) && (play->csCtx.actorCues[0]->id == 2)) {
             this->actor.draw = BgDyYoseizo_Draw;
             func_8002DF54(play, &this->actor, 1);
             this->finishedSpinGrow = false;
@@ -628,7 +628,7 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, PlayState* play) {
         }
 
         if ((play->csCtx.state != CS_STATE_IDLE) &&
-            ((play->csCtx.npcActions[0] != NULL) && (play->csCtx.npcActions[0]->action == 3))) {
+            ((play->csCtx.actorCues[0] != NULL) && (play->csCtx.actorCues[0]->id == 3))) {
             this->finishedSpinGrow = this->animationChanged = false;
             if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->frameCount = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
@@ -682,13 +682,13 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         this->animationChanged = true;
     }
 
-    if (play->csCtx.npcActions[0]->action == 13) {
+    if (play->csCtx.actorCues[0]->id == 13) {
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;
         return;
     }
 
-    if ((play->csCtx.npcActions[0]->action >= 4) && (play->csCtx.npcActions[0]->action < 7)) {
-        actionIndex = play->csCtx.npcActions[0]->action - 4;
+    if ((play->csCtx.actorCues[0]->id >= 4) && (play->csCtx.actorCues[0]->id < 7)) {
+        actionIndex = play->csCtx.actorCues[0]->id - 4;
         if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             actionIndex++;
             BgDyYoseizo_SpawnEffects(this, play, actionIndex);
@@ -703,9 +703,9 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         BgDyYoseizo_SpawnEffects(this, play, 0);
     }
 
-    if ((play->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action >= 10) &&
-        (play->csCtx.npcActions[0]->action < 13)) {
-        actionIndex = play->csCtx.npcActions[0]->action - 10;
+    if ((play->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.actorCues[0]->id >= 10) &&
+        (play->csCtx.actorCues[0]->id < 13)) {
+        actionIndex = play->csCtx.actorCues[0]->id - 10;
 
         switch (actionIndex) {
             case FAIRY_UPGRADE_MAGIC:
@@ -739,9 +739,9 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action >= 14) &&
-        (play->csCtx.npcActions[0]->action < 17)) {
-        actionIndex = play->csCtx.npcActions[0]->action - 14;
+    if ((play->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.actorCues[0]->id >= 14) &&
+        (play->csCtx.actorCues[0]->id < 17)) {
+        actionIndex = play->csCtx.actorCues[0]->id - 14;
 
         if (!this->itemSpawned) {
             itemPos.x = player->actor.world.pos.x;
@@ -773,13 +773,12 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action == 17) &&
-        (this->item != NULL)) {
+    if ((play->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.actorCues[0]->id == 17) && (this->item != NULL)) {
         Actor_Kill(&this->item->actor);
         this->item = NULL;
     }
 
-    if ((play->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.npcActions[0]->action == 18)) {
+    if ((play->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (play->csCtx.actorCues[0]->id == 18)) {
         this->giveDefenseHearts = true;
     }
 
@@ -789,9 +788,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         }
     }
 
-    if ((play->csCtx.npcActions[0]->action >= 19) && (play->csCtx.npcActions[0]->action < 22) &&
-        !this->warpEffectSpawned) {
-        actionIndex = play->csCtx.npcActions[0]->action - 11;
+    if ((play->csCtx.actorCues[0]->id >= 19) && (play->csCtx.actorCues[0]->id < 22) && !this->warpEffectSpawned) {
+        actionIndex = play->csCtx.actorCues[0]->id - 11;
         Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x, player->actor.world.pos.y,
                     player->actor.world.pos.z, 0, 0, 0, actionIndex);
         this->warpEffectSpawned = true;

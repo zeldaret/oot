@@ -30,9 +30,9 @@ typedef union CutsceneData {
 typedef enum {
     CS_STATE_IDLE,
     CS_STATE_START,
-    CS_STATE_EXEC,
+    CS_STATE_RUN,
     CS_STATE_STOP,
-    CS_STATE_EXEC_TERMINATOR
+    CS_STATE_RUN_TERMINATOR
 } CutsceneState;
 
 typedef enum {
@@ -117,7 +117,7 @@ typedef enum {
     /* 0x0053 */ CS_CMD_ACTOR_CUE_4_6,
     /* 0x0054 */ CS_CMD_ACTOR_CUE_5_3,
     /* 0x0055 */ CS_CMD_ACTOR_CUE_0_8,
-    /* 0x0056 */ CS_CMD_PLAY_SEQ,
+    /* 0x0056 */ CS_CMD_START_SEQ,
     /* 0x0057 */ CS_CMD_STOP_SEQ,
     /* 0x0058 */ CS_CMD_ACTOR_CUE_6_4,
     /* 0x0059 */ CS_CMD_ACTOR_CUE_7_2,
@@ -196,27 +196,45 @@ typedef struct {
     /* 0x00 */ u16 base;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdBase; // size = 0x6
-
-typedef struct {
-    /* 0x00 */ u8  unk_00;
-    /* 0x01 */ u8  setting;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-} CsCmdLightSetting; // size = 0x6
-
-typedef struct {
-    /* 0x00 */ u8  unk_00;
-    /* 0x01 */ u8  sequence;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-} CsCmdSeqChange; // size = 0x6
+} CsCmdGeneric; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u16 type;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdSeqFade; // size = 0x6
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdMisc; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u8 unused_00;
+    /* 0x01 */ u8 setting;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdLightSetting; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u8  unused_00;
+    /* 0x01 */ u8  seqId;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdStartSeq; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u8  unused_00;
+    /* 0x01 */ u8  seqId;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdStopSeq; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u16 type;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdFadeSeq; // size = 0x30
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -225,7 +243,8 @@ typedef struct {
     /* 0x06 */ u8  unk_06;
     /* 0x07 */ u8  unk_07;
     /* 0x08 */ u8  unk_08;
-} CsCmdRumble; // size = 0xA
+    /* 0x0A */ u8 unused_0A[0x2];
+} CsCmdRumble; // size = 0xC
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -233,7 +252,15 @@ typedef struct {
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8  hour;
     /* 0x07 */ u8  minute;
-} CsCmdTime; // size = 0x8
+    /* 0x08 */ u8 unused_08[0x4];
+} CsCmdTime; // size = 0xC
+
+typedef struct {
+    /* 0x00 */ u16 destination;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2];
+} CsCmdTerminator; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u16 base;
@@ -245,7 +272,14 @@ typedef struct {
 } CsCmdTextbox; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ u16 action; // "dousa"
+    /* 0x00 */ u16 type;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2];
+} CsCmdTransition; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u16 id; // "dousa"
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     union {
@@ -255,7 +289,7 @@ typedef struct {
     /* 0x0C */ Vec3i startPos;
     /* 0x18 */ Vec3i endPos;
     /* 0x24 */ Vec3i normal;
-} CsCmdActorAction; // size = 0x30
+} CsCmdActorCue; // size = 0x30
 
 typedef enum {
     /* 0x01 */ CS_MISC_RAIN = 1,
@@ -293,6 +327,22 @@ typedef enum {
     /* 0x22 */ CS_MISC_FREEZE_TIME,
     /* 0x23 */ CS_MISC_LONG_SCARECROW_SONG
 } CutsceneMiscCommand;
+
+typedef enum {
+    /* 0x01 */ CS_TRANS_GRAY_FILL = 1, // has hardcoded sounds for some scenes
+    /* 0x02 */ CS_TRANS_BLUE_FILL,
+    /* 0x03 */ CS_TRANS_RED_FILL,
+    /* 0x04 */ CS_TRANS_GREEN_FILL,
+    /* 0x05 */ CS_TRANS_GRAY_UNFILL,
+    /* 0x06 */ CS_TRANS_BLUE_UNFILL,
+    /* 0x07 */ CS_TRANS_RED_UNFILL,
+    /* 0x08 */ CS_TRANS_GREEN_UNFILL,
+    /* 0x09 */ CS_TRANS_TRIGGER_INSTANCE, // used with `TRANS_MODE_INSTANCE_WAIT`
+    /* 0x0A */ CS_TRANS_BLACK_FILL,
+    /* 0x0B */ CS_TRANS_BLACK_UNFILL,
+    /* 0x0C */ CS_TRANS_BLACK_HALF_FILL, // used with `TRANS_MODE_CS_BLACK_FILL`
+    /* 0x0D */ CS_TRANS_BLACK_HALF_UNFILL
+} CutsceneTransitionTypes;
 
 // TODO confirm correctness, clarify names
 typedef enum {

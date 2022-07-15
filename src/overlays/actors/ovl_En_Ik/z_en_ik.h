@@ -32,7 +32,7 @@ typedef struct EnIk {
     /* 0x04C4 */ s32 blureIdx;
     /* 0x04C8 */ s32 action;
     /* 0x04CC */ s32 drawMode;
-    /* 0x04D0 */ u32 npcAction;
+    /* 0x04D0 */ u32 cueId;
     /* 0x04D4 */ s32 unk_4D4;
     /* 0x04D8 */ char unk_4D8[0x04];
 } EnIk; // size = 0x04DC

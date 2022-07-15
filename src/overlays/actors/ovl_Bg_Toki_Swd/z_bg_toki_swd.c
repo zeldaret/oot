@@ -96,16 +96,16 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
     if (!GET_EVENTCHKINF(EVENTCHKINF_4F) && (gSaveContext.sceneSetupIndex < 4) &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
         SET_EVENTCHKINF(EVENTCHKINF_4F);
-        play->csCtx.segment = D_808BBD90;
+        play->csCtx.script = D_808BBD90;
         gSaveContext.cutsceneTrigger = 1;
     }
     if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
         if (Actor_HasParent(&this->actor, play)) {
             if (!LINK_IS_ADULT) {
                 Item_Give(play, ITEM_SWORD_MASTER);
-                play->csCtx.segment = D_808BB2F0;
+                play->csCtx.script = D_808BB2F0;
             } else {
-                play->csCtx.segment = D_808BB7A0;
+                play->csCtx.script = D_808BB7A0;
             }
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_MASTER_SWORD);

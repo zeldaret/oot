@@ -321,16 +321,16 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                     if (play->sceneNum == SCENE_TOKINOMA) {
                         D_8098CF84 = 25;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.segment = gChildWarpInToTCS;
+                            play->csCtx.script = gChildWarpInToTCS;
                         } else {
-                            play->csCtx.segment = gAdultWarpInToTCS;
+                            play->csCtx.script = gAdultWarpInToTCS;
                         }
                     } else {
                         D_8098CF84 = 32;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.segment = gChildWarpInCS;
+                            play->csCtx.script = gChildWarpInCS;
                         } else {
-                            play->csCtx.segment = gAdultWarpInCS;
+                            play->csCtx.script = gAdultWarpInCS;
                         }
                     }
                     if (Play_CamIsNotFixed(play)) {
@@ -342,15 +342,15 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
             case DEMOKANKYO_WARP_IN:
                 if (play->sceneNum == SCENE_TOKINOMA) {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.segment = gChildWarpOutToTCS;
+                        play->csCtx.script = gChildWarpOutToTCS;
                     } else {
-                        play->csCtx.segment = gAdultWarpOutToTCS;
+                        play->csCtx.script = gAdultWarpOutToTCS;
                     }
                 } else {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.segment = gChildWarpOutCS;
+                        play->csCtx.script = gChildWarpOutCS;
                     } else {
-                        play->csCtx.segment = gAdultWarpOutCS;
+                        play->csCtx.script = gAdultWarpOutCS;
                     }
                 }
                 gSaveContext.cutsceneTrigger = 1;
@@ -370,28 +370,32 @@ void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
-void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 npcActionIndex) {
+void DemoKankyo_SetCuePos(DemoKankyo* this, PlayState* play, s32 channel) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[npcActionIndex];
-    f32 temp_f0;
+    CsCmdActorCue* cue = play->csCtx.actorCues[channel];
+    f32 lerp;
 
-    startPos.x = csAction->startPos.x;
-    startPos.y = csAction->startPos.y;
-    startPos.z = csAction->startPos.z;
-    endPos.x = csAction->endPos.x;
-    endPos.y = csAction->endPos.y;
-    endPos.z = csAction->endPos.z;
-    temp_f0 = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, play->csCtx.frames);
-    this->actor.world.pos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
-    this->actor.world.pos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
-    this->actor.world.pos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
+    startPos.x = cue->startPos.x;
+    startPos.y = cue->startPos.y;
+    startPos.z = cue->startPos.z;
+
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
+
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.frames);
+
+    this->actor.world.pos.x = ((endPos.x - startPos.x) * lerp) + startPos.x;
+    this->actor.world.pos.y = ((endPos.y - startPos.y) * lerp) + startPos.y;
+    this->actor.world.pos.z = ((endPos.z - startPos.z) * lerp) + startPos.z;
 }
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
-        DemoKankyo_SetRockPos(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
+        DemoKankyo_SetCuePos(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
     }
+
     this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
     this->unk_150[0].unk_C.y += this->unk_150[0].unk_0.y;
     this->unk_150[0].unk_C.z += this->unk_150[0].unk_0.z;

@@ -348,7 +348,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ char  unk_00[0x4];
-    /* 0x04 */ void* segment;
+    /* 0x04 */ void* script;
     /* 0x08 */ u8 state;
     /* 0x0C */ f32 timer;
     /* 0x10 */ u16 frames;
@@ -359,8 +359,8 @@ typedef struct {
     /* 0x1B */ u8 camEyeReady; // cam eye data is ready to be applied
     /* 0x1C */ CutsceneCameraPoint* subCamLookAtPoints;
     /* 0x20 */ CutsceneCameraPoint* subCamEyePoints;
-    /* 0x24 */ CsCmdActorAction* linkAction;
-    /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
+    /* 0x24 */ CsCmdActorCue* playerCue;
+    /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
 typedef struct {

@@ -289,7 +289,7 @@ void func_8097E454(PlayState* play, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* a
     }
 }
 
-u8 func_8097E69C(PlayState* play) {
+u8 DemoGt_CutsceneIsIdle(PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
     } else {
@@ -297,29 +297,29 @@ u8 func_8097E69C(PlayState* play) {
     }
 }
 
-CsCmdActorAction* DemoGt_GetNpcAction(PlayState* play, u32 actionIdx) {
+CsCmdActorCue* DemoGt_GetCue(PlayState* play, u32 channel) {
     s32 pad[2];
-    CsCmdActorAction* ret = NULL;
+    CsCmdActorCue* cue = NULL;
 
-    if (!func_8097E69C(play)) {
-        ret = play->csCtx.npcActions[actionIdx];
+    if (!DemoGt_CutsceneIsIdle(play)) {
+        cue = play->csCtx.actorCues[channel];
     }
 
-    return ret;
+    return cue;
 }
 
-u8 func_8097E704(PlayState* play, u16 arg1, s32 arg2) {
-    CsCmdActorAction* action = DemoGt_GetNpcAction(play, arg2);
+u8 func_8097E704(PlayState* play, u16 cueId, s32 channel) {
+    CsCmdActorCue* cue = DemoGt_GetCue(play, channel);
 
-    if ((action != NULL) && (action->action == arg1)) {
+    if ((cue != NULL) && (cue->id == cueId)) {
         return true;
     } else {
         return false;
     }
 }
 
-void func_8097E744(DemoGt* this, PlayState* play, u32 actionIdx) {
-    CsCmdActorAction* npcAction = DemoGt_GetNpcAction(play, actionIdx);
+void func_8097E744(DemoGt* this, PlayState* play, u32 channel) {
+    CsCmdActorCue* cue = DemoGt_GetCue(play, channel);
     Vec3f* pos = &this->dyna.actor.world.pos;
     f32 startX;
     f32 startY;
@@ -327,21 +327,22 @@ void func_8097E744(DemoGt* this, PlayState* play, u32 actionIdx) {
     f32 endX;
     f32 endY;
     f32 endZ;
-    f32 someFloat;
+    f32 lerp;
 
-    if (npcAction != NULL) {
-        someFloat =
-            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames, 8, 0);
-        startX = npcAction->startPos.x;
-        startY = npcAction->startPos.y;
-        startZ = npcAction->startPos.z;
-        endX = npcAction->endPos.x;
-        endY = npcAction->endPos.y;
-        endZ = npcAction->endPos.z;
+    if (cue != NULL) {
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.frames, 8, 0);
 
-        pos->x = ((endX - startX) * someFloat) + startX;
-        pos->y = ((endY - startY) * someFloat) + startY;
-        pos->z = ((endZ - startZ) * someFloat) + startZ;
+        startX = cue->startPos.x;
+        startY = cue->startPos.y;
+        startZ = cue->startPos.z;
+
+        endX = cue->endPos.x;
+        endY = cue->endPos.y;
+        endZ = cue->endPos.z;
+
+        pos->x = ((endX - startX) * lerp) + startX;
+        pos->y = ((endY - startY) * lerp) + startY;
+        pos->z = ((endZ - startZ) * lerp) + startZ;
     }
 }
 
@@ -430,9 +431,9 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     pos->z += tempf3;
 }
 
-void func_8097ED64(DemoGt* this, PlayState* play, s32 actionIdx) {
-    func_8097E744(this, play, actionIdx);
-    func_8097E824(this, actionIdx);
+void func_8097ED64(DemoGt* this, PlayState* play, s32 channel) {
+    func_8097E744(this, play, channel);
+    func_8097E824(this, channel);
 }
 
 u8 func_8097ED94(void) {

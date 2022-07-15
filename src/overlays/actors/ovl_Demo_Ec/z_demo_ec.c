@@ -332,23 +332,23 @@ void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[animObjBankIndex].segment);
 }
 
-CsCmdActorAction* DemoEc_GetNpcAction(PlayState* play, s32 actionIndex) {
+CsCmdActorCue* DemoEc_GetCue(PlayState* play, s32 channel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[actionIndex];
+        return play->csCtx.actorCues[channel];
     } else {
         return NULL;
     }
 }
 
-void DemoEc_SetNpcActionPosRot(DemoEc* this, PlayState* play, s32 actionIndex) {
-    CsCmdActorAction* npcAction = DemoEc_GetNpcAction(play, actionIndex);
+void DemoEc_SetCuePosRot(DemoEc* this, PlayState* play, s32 channel) {
+    CsCmdActorCue* cue = DemoEc_GetCue(play, channel);
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
 
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -823,20 +823,21 @@ void func_8096F26C(DemoEc* this, s32 arg1) {
     }
 }
 
-void func_8096F2B0(DemoEc* this, PlayState* play, s32 arg2) {
-    CsCmdActorAction* npcAction;
-    s32 sp18;
+void func_8096F2B0(DemoEc* this, PlayState* play, s32 channel) {
+    CsCmdActorCue* cue = DemoEc_GetCue(play, channel);
+    s32 nextCueId;
 
-    npcAction = DemoEc_GetNpcAction(play, arg2);
+    if (cue != NULL) {
+        nextCueId = cue->id;
 
-    if (npcAction != NULL) {
-        sp18 = npcAction->action;
-        if (sp18 != this->npcAction) {
-            if (this->npcAction) {}
-            if (sp18 == 2) {
+        if (nextCueId != this->cueId) {
+            if (this->cueId) {} // todo: try using a temp like other actors to remove this
+
+            if (nextCueId == 2) {
                 func_8096F224(this, play);
             }
-            this->npcAction = sp18;
+
+            this->cueId = nextCueId;
         }
     }
 }
@@ -844,7 +845,7 @@ void func_8096F2B0(DemoEc* this, PlayState* play, s32 arg2) {
 void DemoEc_UpdateKingZora(DemoEc* this, PlayState* play) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, play);
-    DemoEc_SetNpcActionPosRot(this, play, 6);
+    DemoEc_SetCuePosRot(this, play, 6);
     DemoEc_UpdateBgFlags(this, play);
     func_8096F2B0(this, play, 6);
 }
@@ -897,19 +898,22 @@ void func_8096F544(DemoEc* this, s32 changeAnim) {
     }
 }
 
-void func_8096F578(DemoEc* this, PlayState* play, s32 arg2) {
-    CsCmdActorAction* npcAction;
-    s32 sp18;
+void func_8096F578(DemoEc* this, PlayState* play, s32 channel) {
+    CsCmdActorCue* cue;
+    s32 nextCueId;
 
-    npcAction = DemoEc_GetNpcAction(play, arg2);
-    if (npcAction != NULL) {
-        sp18 = npcAction->action;
-        if (sp18 != this->npcAction) {
-            if (this->npcAction) {}
-            if (sp18 == 2) {
+    cue = DemoEc_GetCue(play, channel);
+
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        if (nextCueId != this->cueId) {
+            if (this->cueId) {}
+
+            if (nextCueId == 2) {
                 func_8096F4FC(this, play);
             }
-            this->npcAction = sp18;
+
+            this->cueId = nextCueId;
         }
     }
 }
@@ -917,7 +921,7 @@ void func_8096F578(DemoEc* this, PlayState* play, s32 arg2) {
 void DemoEc_UpdateMido(DemoEc* this, PlayState* play) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, play);
-    DemoEc_SetNpcActionPosRot(this, play, 7);
+    DemoEc_SetCuePosRot(this, play, 7);
     DemoEc_UpdateBgFlags(this, play);
     func_8096F578(this, play, 7);
 }

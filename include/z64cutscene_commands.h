@@ -182,21 +182,22 @@
     CS_TEXT(ocarinaSongAction, startFrame, endFrame, 0x0002, messageId, 0xFFFF)
 
 /**
- * 
+ * Controls various types of screen transitions.
+ * @see `CutsceneTransitionTypes` for type options.
  */
-#define CS_TRANSITION(transitionType, startFrame, endFrame) \
-    CS_CMD_TRANSITION, 0x00000001, CMD_HH(transitionType, startFrame), CMD_HH(endFrame, endFrame)
+#define CS_TRANSITION(type, startFrame, endFrame) \
+    CS_CMD_TRANSITION, 0x00000001, CMD_HH(type, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
- * Declares a list of `CS_PLAY_SEQ` entries.
+ * Declares a list of `CS_START_SEQ` entries.
  */
-#define CS_PLAY_SEQ_LIST(entries) \
-    CS_CMD_PLAY_SEQ, CMD_W(entries)
+#define CS_START_SEQ_LIST(entries) \
+    CS_CMD_START_SEQ, CMD_W(entries)
 
 /**
  * 
  */
-#define CS_PLAY_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+#define CS_START_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(seqId, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
     CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
@@ -247,7 +248,7 @@
  * 
  */
 #define CS_TERMINATOR(dest, startFrame, endFrame) \
-    CS_CMD_TERMINATOR, 0x00000001, CMD_HH(dest, startFrame), CMD_HH(endFrame, endFrame)
+    CS_CMD_TERMINATOR, 1, CMD_HH(dest, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
  * Marks the end of a cutscene.
@@ -283,8 +284,8 @@
 #define CS_CMD_09                      CS_RUMBLE_CONTROLLER
 #define CS_TEXT_DISPLAY_TEXTBOX        CS_TEXT
 #define CS_SCENE_TRANS_FX              CS_TRANSITION
-#define CS_PLAY_BGM_LIST               CS_PLAY_SEQ_LIST
-#define CS_PLAY_BGM                    CS_PLAY_SEQ
+#define CS_PLAY_BGM_LIST               CS_START_SEQ_LIST
+#define CS_PLAY_BGM                    CS_START_SEQ
 #define CS_STOP_BGM_LIST               CS_STOP_SEQ_LIST
 #define CS_STOP_BGM                    CS_STOP_SEQ
 #define CS_FADE_BGM_LIST               CS_FADE_SEQ_LIST

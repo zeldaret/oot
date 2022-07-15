@@ -1038,22 +1038,23 @@ s32 func_80A7707C(EnIk* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorAction* EnIk_GetNpcAction(PlayState* play, s32 actionIdx) {
+CsCmdActorCue* EnIk_GetCue(PlayState* play, s32 channel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[actionIdx];
+        return play->csCtx.actorCues[channel];
     } else {
         return NULL;
     }
 }
 
-void func_80A770C0(EnIk* this, PlayState* play, s32 actionIdx) {
-    CsCmdActorAction* npcAction = EnIk_GetNpcAction(play, actionIdx);
+void func_80A770C0(EnIk* this, PlayState* play, s32 channel) {
+    CsCmdActorCue* cue = EnIk_GetCue(play, channel);
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -1088,7 +1089,7 @@ void func_80A771E4(EnIk* this) {
 }
 
 void func_80A77264(EnIk* this, PlayState* play, s32 arg2) {
-    if ((arg2 != 0) && (EnIk_GetNpcAction(play, 4) != NULL)) {
+    if ((arg2 != 0) && (EnIk_GetCue(play, 4) != NULL)) {
         func_80A78160(this, play);
     }
 }
@@ -1146,7 +1147,7 @@ void func_80A774BC(EnIk* this, PlayState* play) {
 }
 
 void func_80A774F8(EnIk* this, PlayState* play) {
-    if (EnIk_GetNpcAction(play, 4) == NULL) {
+    if (EnIk_GetCue(play, 4) == NULL) {
         Actor_Kill(&this->actor);
     }
 }
@@ -1230,15 +1231,16 @@ void func_80A77844(EnIk* this, PlayState* play) {
 }
 
 void func_80A779DC(EnIk* this, PlayState* play) {
-    CsCmdActorAction* npcAction = EnIk_GetNpcAction(play, 4);
-    u32 action;
-    u32 currentNpcAction;
+    CsCmdActorCue* cue = EnIk_GetCue(play, 4);
+    u32 nextCueId;
+    u32 currentCueId;
 
-    if (npcAction != NULL) {
-        action = npcAction->action;
-        currentNpcAction = this->npcAction;
-        if (action != currentNpcAction) {
-            switch (action) {
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     func_80A77148(this);
                     break;
@@ -1264,7 +1266,7 @@ void func_80A779DC(EnIk* this, PlayState* play) {
                     osSyncPrintf("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
 
-            this->npcAction = action;
+            this->cueId = nextCueId;
         }
     }
 }

@@ -37,31 +37,33 @@ typedef void (*CutsceneHandler)(PlayState*, CutsceneContext*);
 void CutsceneHandler_DoNothing(PlayState* play, CutsceneContext* csCtx);
 void CutsceneHandler_StartManual(PlayState* play, CutsceneContext* csCtx);
 void CutsceneHandler_StartScripted(PlayState* play, CutsceneContext* csCtx);
-void CutsceneHandler_ExecScripted(PlayState* play, CutsceneContext* csCtx);
+void CutsceneHandler_RunScripted(PlayState* play, CutsceneContext* csCtx);
 void CutsceneHandler_StopManual(PlayState* play, CutsceneContext* csCtx);
 void CutsceneHandler_StopScripted(PlayState* play, CutsceneContext* csCtx);
 
 CutsceneHandler sManualCutsceneHandlers[] = {
     CutsceneHandler_DoNothing,   // CS_STATE_IDLE
     CutsceneHandler_StartManual, // CS_STATE_START
-    CutsceneHandler_DoNothing,   // CS_STATE_EXEC
+    CutsceneHandler_DoNothing,   // CS_STATE_RUN
     CutsceneHandler_StopManual,  // CS_STATE_STOP
-    CutsceneHandler_DoNothing,   // CS_STATE_EXEC_TERMINATOR
+    CutsceneHandler_DoNothing,   // CS_STATE_RUN_TERMINATOR
 };
 
 CutsceneHandler sScriptedCutsceneHandlers[] = {
     CutsceneHandler_DoNothing,     // CS_STATE_IDLE
     CutsceneHandler_StartScripted, // CS_STATE_START
-    CutsceneHandler_ExecScripted,  // CS_STATE_EXEC
+    CutsceneHandler_RunScripted,   // CS_STATE_RUN
     CutsceneHandler_StopScripted,  // CS_STATE_STOP
-    CutsceneHandler_ExecScripted,  // CS_STATE_EXEC_TERMINATOR
+    CutsceneHandler_RunScripted,   // CS_STATE_RUN_TERMINATOR
 };
 
 typedef enum {
-    /* 0 */ TITLE_CS_
-} TitleCutsceneState;
+    /* 0 */ TITLE_CS_SPIRIT,
+    /* 1 */ TITLE_CS_DEATH_MOUNTAIN_CRATER,
+    /* 2 */ TITLE_CS_GANONDORF_HORSE
+} TitleCutsceneNext;
 
-u8 sTitleCsState = 0;
+u8 sTitleCsNextDestination = TITLE_CS_SPIRIT;
 
 EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_SPOT00_3, 2, EVENTCHKINF_A0, gHyruleFieldIntroCs },
@@ -142,11 +144,11 @@ void Cutscene_Init(PlayState* play, CutsceneContext* csCtx) {
 
 void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_START;
-    csCtx->linkAction = NULL;
+    csCtx->playerCue = NULL;
 }
 
 void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx) {
-    if (csCtx->state != CS_STATE_EXEC_TERMINATOR) {
+    if (csCtx->state != CS_STATE_RUN_TERMINATOR) {
         csCtx->state = CS_STATE_STOP;
     }
 }
@@ -208,7 +210,7 @@ void CutsceneHandler_StartManual(PlayState* play, CutsceneContext* csCtx) {
 }
 
 void CutsceneHandler_StartScripted(PlayState* play, CutsceneContext* csCtx) {
-    CutsceneHandler_ExecScripted(play, csCtx);
+    CutsceneHandler_RunScripted(play, csCtx);
     Interface_ChangeAlpha(1);
     ShrinkWindow_SetVal(0x20);
 
@@ -218,7 +220,7 @@ void CutsceneHandler_StartScripted(PlayState* play, CutsceneContext* csCtx) {
     }
 }
 
-void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
+void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
     Player* player = GET_PLAYER(play);
     f32 lerp;
     u8 isFirstFrame = false;
@@ -233,7 +235,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
         isFirstFrame = true;
     }
 
-    switch (cmd->base) {
+    switch (cmd->type) {
         case CS_MISC_RAIN:
             if (isFirstFrame) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_4, 0x3F);
@@ -310,7 +312,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
 
         case CS_MISC_STOP:
             if (isFirstFrame) {
-                if (csCtx->state != CS_STATE_EXEC_TERMINATOR) {
+                if (csCtx->state != CS_STATE_RUN_TERMINATOR) {
                     csCtx->state = CS_STATE_STOP;
                 }
             }
@@ -484,19 +486,19 @@ void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdL
     }
 }
 
-void CutsceneCmd_PlaySequence(PlayState* play, CutsceneContext* csCtx, CsCmdSeqChange* cmd) {
+void CutsceneCmd_StartSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStartSeq* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        func_800F595C(cmd->sequence - 1);
+        func_800F595C(cmd->seqId - 1);
     }
 }
 
-void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdSeqChange* cmd) {
+void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStopSeq* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        func_800F59E8(cmd->sequence - 1);
+        func_800F59E8(cmd->seqId - 1);
     }
 }
 
-void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdSeqFade* cmd) {
+void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdFadeSeq* cmd) {
     u8 duration;
 
     if ((csCtx->frames == cmd->startFrame) && (csCtx->frames < cmd->endFrame)) {
@@ -529,7 +531,7 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     }
 }
 
-void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
+void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdTerminator* cmd) {
     Player* player = GET_PLAYER(play);
     s32 titleCsSkipped = false;
 
@@ -547,11 +549,11 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
     if ((csCtx->frames == cmd->startFrame) || titleCsSkipped ||
         ((csCtx->frames > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
-        csCtx->state = CS_STATE_EXEC_TERMINATOR;
+        csCtx->state = CS_STATE_RUN_TERMINATOR;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
 
-        osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base); // "Future fork designation=No. [%d]"
+        osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->destination); // "Future fork designation=No. [%d]"
 
         // `unk_13E7` has a secondary purpose, which is to signal to the title screen actor
         // that it should display immediately. This occurs when a title screen cutscene that is not the main
@@ -564,7 +566,7 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
 
         gSaveContext.cutsceneIndex = 0;
 
-        switch (cmd->base) {
+        switch (cmd->destination) {
             case 1:
                 play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
@@ -1154,11 +1156,13 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
                             play->transitionTrigger = TRANS_TRIGGER_START;
                             play->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
+
                         case 9:
                             play->nextEntranceIndex = ENTR_SPOT17_0;
                             play->transitionTrigger = TRANS_TRIGGER_START;
                             play->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
+
                         case 10:
                             play->nextEntranceIndex = ENTR_SPOT06_0;
                             play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1240,27 +1244,29 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
                 break;
 
             case 104:
-                switch (sTitleCsState) {
-                    case 0:
+                switch (sTitleCsNextDestination) {
+                    case TITLE_CS_SPIRIT:
                         play->nextEntranceIndex = ENTR_JYASINBOSS_0;
                         play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF2;
                         play->transitionType = TRANS_TYPE_FADE_BLACK;
-                        sTitleCsState++;
+                        sTitleCsNextDestination++;
                         break;
-                    case 1:
+
+                    case TITLE_CS_DEATH_MOUNTAIN_CRATER:
                         play->nextEntranceIndex = ENTR_SPOT17_0;
                         play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF1;
                         play->transitionType = TRANS_TYPE_FADE_BLACK;
-                        sTitleCsState++;
+                        sTitleCsNextDestination++;
                         break;
-                    case 2:
+
+                    case TITLE_CS_GANONDORF_HORSE:
                         play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
                         play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF6;
                         play->transitionType = TRANS_TYPE_FADE_BLACK;
-                        sTitleCsState = 0;
+                        sTitleCsNextDestination = 0;
                         break;
                 }
                 break;
@@ -1318,7 +1324,7 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
                 if (Flags_GetEventChkInf(EVENTCHKINF_BB) && Flags_GetEventChkInf(EVENTCHKINF_BC) &&
                     Flags_GetEventChkInf(EVENTCHKINF_BD) && Flags_GetEventChkInf(EVENTCHKINF_BE) &&
                     Flags_GetEventChkInf(EVENTCHKINF_BF) && Flags_GetEventChkInf(EVENTCHKINF_AD)) {
-                    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
+                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
                     play->csCtx.frames = 0;
                     gSaveContext.cutsceneTrigger = 1;
                     gSaveContext.cutsceneIndex = 0xFFFF;
@@ -1384,21 +1390,23 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
     }
 }
 
-void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
+void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransition* cmd) {
     f32 lerp;
 
     if ((csCtx->frames >= cmd->startFrame) && (csCtx->frames <= cmd->endFrame)) {
         play->envCtx.fillScreen = true;
         lerp = Environment_LerpWeight(cmd->endFrame, cmd->startFrame, csCtx->frames);
 
-        switch (cmd->base) {
-            case 1:
-            case 5:
+        switch (cmd->type) {
+            case CS_TRANS_GRAY_FILL:
+            case CS_TRANS_GRAY_UNFILL:
                 play->envCtx.screenFillColor[0] = 160;
                 play->envCtx.screenFillColor[1] = 160;
                 play->envCtx.screenFillColor[2] = 160;
-                if (cmd->base == 1) {
+
+                if (cmd->type == CS_TRANS_GRAY_FILL) {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
+
                     if ((lerp == 0.0f) && (gSaveContext.entranceIndex == ENTR_KENJYANOMA_0)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1415,67 +1423,67 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
                 }
                 break;
 
-            case 2:
-            case 6:
+            case CS_TRANS_BLUE_FILL:
+            case CS_TRANS_BLUE_UNFILL:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 255;
 
-                if (cmd->base == 2) {
+                if (cmd->type == CS_TRANS_BLUE_FILL) {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 } else {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 }
                 break;
 
-            case 3:
-            case 7:
+            case CS_TRANS_RED_FILL:
+            case CS_TRANS_RED_UNFILL:
                 play->envCtx.screenFillColor[0] = 255;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->base == 3) {
+                if (cmd->type == CS_TRANS_RED_FILL) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 }
                 break;
 
-            case 4:
-            case 8:
+            case CS_TRANS_GREEN_FILL:
+            case CS_TRANS_GREEN_UNFILL:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 255;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->base == 4) {
+                if (cmd->type == CS_TRANS_GREEN_FILL) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 }
                 break;
 
-            case 9:
+            case CS_TRANS_TRIGGER_INSTANCE:
                 gSaveContext.cutsceneTransitionControl = 1;
                 break;
 
-            case 10:
-            case 11:
+            case CS_TRANS_BLACK_FILL:
+            case CS_TRANS_BLACK_UNFILL:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->base == 10) {
+                if (cmd->type == CS_TRANS_BLACK_FILL) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 }
                 break;
 
-            case 12:
+            case CS_TRANS_BLACK_HALF_FILL:
                 gSaveContext.cutsceneTransitionControl = 255.0f - (155.0f * lerp);
                 break;
 
-            case 13:
+            case CS_TRANS_BLACK_HALF_UNFILL:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
@@ -1487,7 +1495,7 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdBase* 
 
 s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
     s32 shouldContinue = 1;
-    CsCmdBase* cmdBase = (CsCmdBase*)cmd;
+    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
     s32 size;
 
     cmd += 8;
@@ -1525,7 +1533,7 @@ s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd
 
 s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
     s32 shouldContinue = true;
-    CsCmdBase* cmdBase = (CsCmdBase*)cmd;
+    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
     s32 size;
 
     cmd += 8;
@@ -1563,7 +1571,7 @@ s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd,
 }
 
 s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
-    CsCmdBase* cmdBase = (CsCmdBase*)cmd;
+    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
     s32 size;
     Vec3f at;
     Vec3f eye;
@@ -1612,7 +1620,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 u
 }
 
 s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
-    CsCmdBase* cmdBase = (CsCmdBase*)cmd;
+    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
     s32 size;
     Vec3f at;
     Vec3f eye;
@@ -1731,22 +1739,22 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd
     }
 }
 
-void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscenePtr) {
+void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr) {
     s16 i;
     s32 totalEntries;
     s32 cmdType;
     s32 cmdEntries;
-    CsCmdBase* cmd;
+    CsCmdGeneric* cmd;
     s32 cutsceneEndFrame;
     s16 j;
 
-    MemCpy(&totalEntries, cutscenePtr, 4);
-    cutscenePtr += 4;
+    MemCpy(&totalEntries, scriptPtr, sizeof(totalEntries));
+    scriptPtr += sizeof(totalEntries);
 
-    MemCpy(&cutsceneEndFrame, cutscenePtr, 4);
-    cutscenePtr += 4;
+    MemCpy(&cutsceneEndFrame, scriptPtr, sizeof(cutsceneEndFrame));
+    scriptPtr += sizeof(cutsceneEndFrame);
 
-    if ((cutsceneEndFrame < csCtx->frames) && (csCtx->state != CS_STATE_EXEC_TERMINATOR)) {
+    if ((cutsceneEndFrame < csCtx->frames) && (csCtx->state != CS_STATE_RUN_TERMINATOR)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }
@@ -1757,94 +1765,96 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
     }
 
     for (i = 0; i < totalEntries; i++) {
-        MemCpy(&cmdType, cutscenePtr, 4);
-        cutscenePtr += 4;
+        MemCpy(&cmdType, scriptPtr, sizeof(cmdType));
+        scriptPtr += sizeof(cmdType);
 
-        if (cmdType == -1) {
+        if (cmdType == CS_CMD_STOP) {
             return;
         }
 
         switch (cmdType) {
             case CS_CMD_MISC:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_Misc(play, csCtx, (void*)cutscenePtr);
-                    cutscenePtr += 0x30;
+                    CutsceneCmd_Misc(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdMisc);
                 }
                 break;
 
             case CS_CMD_LIGHT_SETTING:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_SetLightSetting(play, csCtx, (void*)cutscenePtr);
-                    cutscenePtr += 0x30;
+                    CutsceneCmd_SetLightSetting(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdLightSetting);
                 }
                 break;
 
-            case CS_CMD_PLAY_SEQ:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+            case CS_CMD_START_SEQ:
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_PlaySequence(play, csCtx, (void*)cutscenePtr);
-                    cutscenePtr += 0x30;
+                    CutsceneCmd_StartSequence(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdStartSeq);
                 }
                 break;
 
             case CS_CMD_STOP_SEQ:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_StopSequence(play, csCtx, (void*)cutscenePtr);
-                    cutscenePtr += 0x30;
+                    CutsceneCmd_StopSequence(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdStopSeq);
                 }
                 break;
 
             case CS_CMD_FADE_SEQ:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_FadeSequence(play, csCtx, (void*)cutscenePtr);
-                    cutscenePtr += 0x30;
+                    CutsceneCmd_FadeSequence(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdFadeSeq);
                 }
                 break;
 
             case CS_CMD_RUMBLE_CONTROLLER:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_RumbleController(play, csCtx, (void*)cutscenePtr);
-                    cutscenePtr += 0xC;
+                    CutsceneCmd_RumbleController(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdRumble);
                 }
                 break;
 
             case CS_CMD_TIME:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_SetTime(play, csCtx, (void*)cutscenePtr);
-                    cutscenePtr += 0xC;
+                    CutsceneCmd_SetTime(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdTime);
                 }
                 break;
 
             case CS_CMD_PLAYER_CUE:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
+
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->linkAction = (void*)cutscenePtr;
+                        csCtx->playerCue = (void*)scriptPtr;
                     }
-                    cutscenePtr += 0x30;
+
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -1866,17 +1876,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_0_15:
             case CS_CMD_ACTOR_CUE_0_16:
             case CS_CMD_ACTOR_CUE_0_17:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[0] = (void*)cutscenePtr;
+                        csCtx->actorCues[0] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -1898,17 +1908,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_1_15:
             case CS_CMD_ACTOR_CUE_1_16:
             case CS_CMD_ACTOR_CUE_1_17:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[1] = (void*)cutscenePtr;
+                        csCtx->actorCues[1] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -1926,17 +1936,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_2_11:
             case CS_CMD_ACTOR_CUE_2_12:
             case CS_CMD_ACTOR_CUE_2_13:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[2] = (void*)cutscenePtr;
+                        csCtx->actorCues[2] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -1953,17 +1963,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_3_10:
             case CS_CMD_ACTOR_CUE_3_11:
             case CS_CMD_ACTOR_CUE_3_12:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[3] = (void*)cutscenePtr;
+                        csCtx->actorCues[3] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -1976,17 +1986,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_4_6:
             case CS_CMD_ACTOR_CUE_4_7:
             case CS_CMD_ACTOR_CUE_4_8:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[4] = (void*)cutscenePtr;
+                        csCtx->actorCues[4] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -1997,17 +2007,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_5_4:
             case CS_CMD_ACTOR_CUE_5_5:
             case CS_CMD_ACTOR_CUE_5_6:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[5] = (void*)cutscenePtr;
+                        csCtx->actorCues[5] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -2019,17 +2029,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_6_5:
             case CS_CMD_ACTOR_CUE_6_6:
             case CS_CMD_ACTOR_CUE_6_7:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[6] = (void*)cutscenePtr;
+                        csCtx->actorCues[6] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
@@ -2040,114 +2050,114 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* cutscen
             case CS_CMD_ACTOR_CUE_7_4:
             case CS_CMD_ACTOR_CUE_7_5:
             case CS_CMD_ACTOR_CUE_7_6:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[7] = (void*)cutscenePtr;
+                        csCtx->actorCues[7] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
             case CS_CMD_ACTOR_CUE_8_0:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[8] = (void*)cutscenePtr;
+                        csCtx->actorCues[8] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
             case CS_CMD_ACTOR_CUE_9_0:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->npcActions[9] = (void*)cutscenePtr;
+                        csCtx->actorCues[9] = (void*)scriptPtr;
                     }
 
-                    cutscenePtr += 0x30;
+                    scriptPtr += sizeof(CsCmdActorCue);
                 }
                 break;
 
             case CS_CMD_CAM_EYE_POINTS:
-                cutscenePtr += CutsceneCmd_SetCamEyePoints(play, csCtx, (void*)cutscenePtr, false);
+                scriptPtr += CutsceneCmd_SetCamEyePoints(play, csCtx, (void*)scriptPtr, false);
                 break;
 
             case CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER:
-                cutscenePtr += CutsceneCmd_SetCamEyePoints(play, csCtx, (void*)cutscenePtr, true);
+                scriptPtr += CutsceneCmd_SetCamEyePoints(play, csCtx, (void*)scriptPtr, true);
                 break;
 
             case CS_CMD_CAM_AT_POINTS:
-                cutscenePtr += CutsceneCmd_SetCamAtPoints(play, csCtx, (void*)cutscenePtr, false);
+                scriptPtr += CutsceneCmd_SetCamAtPoints(play, csCtx, (void*)scriptPtr, false);
                 break;
 
             case CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER:
-                cutscenePtr += CutsceneCmd_SetCamAtPoints(play, csCtx, (void*)cutscenePtr, true);
+                scriptPtr += CutsceneCmd_SetCamAtPoints(play, csCtx, (void*)scriptPtr, true);
                 break;
 
             case CS_CMD_CAM_EYE_NEW:
-                cutscenePtr += CutsceneCmd_SetCamEye(play, csCtx, (void*)cutscenePtr, 0);
+                scriptPtr += CutsceneCmd_SetCamEye(play, csCtx, (void*)scriptPtr, 0);
                 break;
 
             case CS_CMD_CAM_AT_NEW:
-                cutscenePtr += CutsceneCmd_SetCamAt(play, csCtx, (void*)cutscenePtr, 0);
+                scriptPtr += CutsceneCmd_SetCamAt(play, csCtx, (void*)scriptPtr, 0);
                 break;
 
             case CS_CMD_TERMINATOR:
-                cutscenePtr += 4;
-                CutsceneCmd_Terminator(play, csCtx, (void*)cutscenePtr);
-                cutscenePtr += 8;
+                scriptPtr += sizeof(cmdEntries);
+                CutsceneCmd_Terminator(play, csCtx, (void*)scriptPtr);
+                scriptPtr += sizeof(CsCmdTerminator);
                 break;
 
             case CS_CMD_TEXT:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdBase*)cutscenePtr;
+                    cmd = (CsCmdGeneric*)scriptPtr;
 
                     if (cmd->base != 0xFFFF) {
-                        CutsceneCmd_Text(play, csCtx, (void*)cutscenePtr);
+                        CutsceneCmd_Text(play, csCtx, (void*)scriptPtr);
                     }
 
-                    cutscenePtr += 0xC;
+                    scriptPtr += sizeof(CsCmdTextbox);
                 }
                 break;
 
             case CS_CMD_TRANSITION:
-                cutscenePtr += 4;
-                CutsceneCmd_Transition(play, csCtx, (void*)cutscenePtr);
-                cutscenePtr += 8;
+                scriptPtr += sizeof(cmdEntries);
+                CutsceneCmd_Transition(play, csCtx, (void*)scriptPtr);
+                scriptPtr += sizeof(CsCmdTransition);
                 break;
 
             default:
-                MemCpy(&cmdEntries, cutscenePtr, 4);
-                cutscenePtr += 4;
+                MemCpy(&cmdEntries, scriptPtr, 4);
+                scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cutscenePtr += 0x30;
+                    scriptPtr += 0x30;
                 }
                 break;
         }
     }
 }
 
-void CutsceneHandler_ExecScripted(PlayState* play, CutsceneContext* csCtx) {
+void CutsceneHandler_RunScripted(PlayState* play, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
 
@@ -2175,7 +2185,7 @@ void CutsceneHandler_ExecScripted(PlayState* play, CutsceneContext* csCtx) {
         if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutscenePtr);
         } else {
-            Cutscene_ProcessScript(play, csCtx, play->csCtx.segment);
+            Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
     }
 }
@@ -2191,10 +2201,10 @@ void CutsceneHandler_StopScripted(PlayState* play, CutsceneContext* csCtx) {
     s16 i;
 
     if (Cutscene_StepTimer(play, csCtx, 0.0f)) {
-        csCtx->linkAction = NULL;
+        csCtx->playerCue = NULL;
 
-        for (i = 0; i < ARRAY_COUNT(csCtx->npcActions); i++) {
-            csCtx->npcActions[i] = NULL;
+        for (i = 0; i < ARRAY_COUNT(csCtx->actorCues); i++) {
+            csCtx->actorCues[i] = NULL;
         }
 
         osSyncPrintf("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
@@ -2234,10 +2244,10 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
         sCurTextId = 0;
         sCurOcarinaAction = 0;
         csCtx->unk_12 = 0;
-        csCtx->linkAction = NULL;
+        csCtx->playerCue = NULL;
 
-        for (i = 0; i < ARRAY_COUNT(csCtx->npcActions); i++) {
-            csCtx->npcActions[i] = NULL;
+        for (i = 0; i < ARRAY_COUNT(csCtx->actorCues); i++) {
+            csCtx->actorCues[i] = NULL;
         }
 
         csCtx->state++;
@@ -2268,7 +2278,7 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
                 csCtx->state++;
             }
 
-            CutsceneHandler_ExecScripted(play, csCtx);
+            CutsceneHandler_RunScripted(play, csCtx);
         }
 
         gSaveContext.cutsceneTrigger = 0;
@@ -2357,8 +2367,8 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
 
 void Cutscene_SetSegment(PlayState* play, void* segment) {
     if (SEGMENT_NUMBER(segment) != 0) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(segment);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(segment);
     } else {
-        play->csCtx.segment = segment;
+        play->csCtx.script = segment;
     }
 }

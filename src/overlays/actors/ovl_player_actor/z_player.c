@@ -116,7 +116,7 @@ typedef struct {
     /* 0x00 */ s8 type;
     /* 0x04 */ union {
         void* ptr;
-        void (*func)(PlayState*, Player*, CsCmdActorAction*);
+        void (*func)(PlayState*, Player*, CsCmdActorCue*);
     };
 } struct_80854B18; // size = 0x08
 
@@ -289,62 +289,62 @@ void func_808511FC(PlayState* play, Player* this, void* anim);
 void func_80851248(PlayState* play, Player* this, void* anim);
 void func_80851294(PlayState* play, Player* this, void* anim);
 void func_808512E0(PlayState* play, Player* this, void* arg2);
-void func_80851368(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808513BC(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808514C0(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_8085157C(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808515A4(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851688(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851750(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851788(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851828(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808518DC(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_8085190C(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851998(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808519C0(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808519EC(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851B90(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851BE8(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851CA4(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851D2C(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851D80(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851DEC(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851E28(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851E64(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851E90(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851ECC(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851F84(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80851FB0(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852048(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852080(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852174(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808521B8(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808521F4(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852234(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_8085225C(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852280(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852358(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852388(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852298(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852328(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852480(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852450(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808524B0(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808524D0(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852514(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852544(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852554(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852564(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808525C0(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852608(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808526EC(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_8085283C(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808528C8(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852944(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_808529D0(PlayState* play, Player* this, CsCmdActorAction* arg2);
-void func_80852C50(PlayState* play, Player* this, CsCmdActorAction* arg2);
+void func_80851368(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808513BC(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808514C0(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_8085157C(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808515A4(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851688(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851750(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851788(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851828(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808518DC(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_8085190C(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851998(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808519C0(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808519EC(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851A50(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851B90(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851BE8(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851CA4(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851D2C(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851D80(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851DEC(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851E28(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851E64(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851E90(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851ECC(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851F84(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852048(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852080(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852174(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808521B8(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808521F4(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852358(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852388(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852298(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852328(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852480(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852450(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808524B0(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808524D0(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852514(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852544(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852554(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852564(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808525C0(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852608(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852648(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808526EC(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_8085283C(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808528C8(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852944(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_808529D0(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852E14(Player* this, PlayState* play);
 s32 Player_IsDroppingFish(PlayState* play);
 s32 Player_StartFishing(PlayState* play);
@@ -8756,7 +8756,7 @@ void func_808458D0(Player* this, PlayState* play) {
     }
 }
 
-s32 func_80845964(PlayState* play, Player* this, CsCmdActorAction* arg2, f32 arg3, s16 arg4, s32 arg5) {
+s32 func_80845964(PlayState* play, Player* this, CsCmdActorCue* arg2, f32 arg3, s16 arg4, s32 arg5) {
     if ((arg5 != 0) && (this->linearVelocity == 0.0f)) {
         return LinkAnimation_Update(play, &this->skelAnime);
     }
@@ -10367,9 +10367,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         if ((play->csCtx.state != CS_STATE_IDLE) && (this->csMode != 6) && !(this->stateFlags1 & PLAYER_STATE1_23) &&
             !(this->stateFlags2 & PLAYER_STATE2_7) && (this->actor.category == ACTORCAT_PLAYER)) {
-            CsCmdActorAction* linkActionCsCmd = play->csCtx.linkAction;
+            CsCmdActorCue* cue = play->csCtx.playerCue;
 
-            if ((linkActionCsCmd != NULL) && (D_808547C4[linkActionCsCmd->action] != 0)) {
+            if ((cue != NULL) && (D_808547C4[cue->id] != 0)) {
                 func_8002DF54(play, NULL, 6);
                 func_80832210(this);
             } else if ((this->csMode == 0) && !(this->stateFlags2 & PLAYER_STATE2_10) &&
@@ -12686,9 +12686,9 @@ void func_8084F710(Player* this, PlayState* play) {
         return;
     }
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.linkAction != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.playerCue != NULL)) {
         f32 sp28 = this->actor.world.pos.y;
-        func_808529D0(play, this, play->csCtx.linkAction);
+        func_808529D0(play, this, play->csCtx.playerCue);
         this->actor.world.pos.y = sp28;
     }
 }
@@ -13602,7 +13602,7 @@ void func_80851314(Player* this) {
     }
 }
 
-void func_80851368(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851368(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->stateFlags1 |= PLAYER_STATE1_27;
     this->stateFlags2 |= PLAYER_STATE2_10;
     this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_19);
@@ -13610,7 +13610,7 @@ void func_80851368(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     func_80832284(play, this, &gPlayerAnim_0032F0);
 }
 
-void func_808513BC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808513BC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->actor.gravity = 0.0f;
 
     if (this->unk_84F == 0) {
@@ -13636,7 +13636,7 @@ void func_808513BC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     func_8084AEEC(this, &this->linearVelocity, 0.0f, this->actor.shape.rot.y);
 }
 
-void func_808514C0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808514C0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80851314(this);
 
     if (func_808332B8(this)) {
@@ -13656,11 +13656,11 @@ void func_808514C0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_8085157C(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_8085157C(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
 }
 
-void func_808515A4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808515A4(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimationHeader* anim;
 
     if (func_808332B8(this)) {
@@ -13670,7 +13670,7 @@ void func_808515A4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 
     anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_44, this->modelAnimType);
 
-    if ((this->unk_446 == 6) || (this->unk_446 == 0x2E)) {
+    if ((this->cueId == 6) || (this->cueId == 0x2E)) {
         func_80832264(play, this, anim);
     } else {
         func_80832DB0(this);
@@ -13681,7 +13681,7 @@ void func_808515A4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     func_80832210(this);
 }
 
-void func_80851688(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851688(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (func_8084B3CC(play, this) == 0) {
         if ((this->csMode == 0x31) && (play->csCtx.state == CS_STATE_IDLE)) {
             func_8002DF54(play, NULL, 7);
@@ -13706,12 +13706,12 @@ static struct_80832924 D_80855188[] = {
     { 0, -0x3030 },
 };
 
-void func_80851750(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851750(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
     func_80832924(this, D_80855188);
 }
 
-void func_80851788(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851788(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->stateFlags1 &= ~PLAYER_STATE1_25;
 
     this->currentYaw = this->actor.shape.rot.y = this->actor.world.rot.y =
@@ -13724,7 +13724,7 @@ void func_80851788(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_80851828(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851828(PlayState* play, Player* this, CsCmdActorCue* cue) {
     f32 sp1C = 2.5f;
 
     func_80845BA0(play, this, &sp1C, 10);
@@ -13747,11 +13747,11 @@ void func_80851828(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_808518DC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808518DC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_8083CEAC(this, play);
 }
 
-void func_8085190C(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_8085190C(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80851314(this);
 
     if (this->unk_850 != 0) {
@@ -13766,12 +13766,12 @@ void func_8085190C(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_80851998(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    func_80845964(play, this, arg2, 0.0f, 0, 0);
+void func_80851998(PlayState* play, Player* this, CsCmdActorCue* cue) {
+    func_80845964(play, this, cue, 0.0f, 0, 0);
 }
 
-void func_808519C0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    func_80845964(play, this, arg2, 0.0f, 0, 1);
+void func_808519C0(PlayState* play, Player* this, CsCmdActorCue* cue) {
+    func_80845964(play, this, cue, 0.0f, 0, 1);
 }
 
 // unused
@@ -13782,7 +13782,7 @@ static LinkAnimationHeader* D_80855190[] = {
 
 static Vec3f D_80855198 = { -1.0f, 70.0f, 20.0f };
 
-void func_808519EC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808519EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Math_Vec3f_Copy(&this->actor.world.pos, &D_80855198);
     this->actor.shape.rot.y = -0x8000;
     func_808322D0(play, this, this->ageProperties->unk_9C);
@@ -13799,7 +13799,7 @@ static struct_80832924 D_808551AC[] = {
     { 0, -0x4027 },
 };
 
-void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851A50(PlayState* play, Player* this, CsCmdActorCue* cue) {
     struct_808551A4* sp2C;
     Gfx** dLists;
 
@@ -13830,7 +13830,7 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_80851B90(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851B90(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_002860, -(2.0f / 3.0f), 12.0f, 12.0f, ANIMMODE_ONCE,
                          0.0f);
 }
@@ -13839,7 +13839,7 @@ static struct_80832924 D_808551B4[] = {
     { 0, -0x281E },
 };
 
-void func_80851BE8(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851BE8(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
 
     this->unk_850++;
@@ -13853,7 +13853,7 @@ void func_80851BE8(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_80851CA4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851CA4(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime) && (this->unk_850 == 0) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         func_80832264(play, this, &gPlayerAnim_002DB8);
@@ -13865,7 +13865,7 @@ void func_80851CA4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_80851D2C(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851D2C(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80850F1C(play, this, &gPlayerAnim_0030A0);
     func_8084B498(this);
     Player_SetModels(this, Player_ActionToModelGroup(this, this->itemActionParam));
@@ -13875,7 +13875,7 @@ static struct_80832924 D_808551B8[] = {
     { NA_SE_IT_SWORD_PICKOUT, -0x80C },
 };
 
-void func_80851D80(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851D80(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 6.0f)) {
@@ -13885,26 +13885,26 @@ void func_80851D80(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_80851DEC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851DEC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
     Math_StepToS(&this->actor.shape.face, 0, 1);
 }
 
-void func_80851E28(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851E28(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
     Math_StepToS(&this->actor.shape.face, 2, 1);
 }
 
-void func_80851E64(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851E64(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80833064(play, this, &gPlayerAnim_003318, 0x98);
 }
 
-void func_80851E90(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851E90(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_8083303C(play, this, &gPlayerAnim_002408, 0x9C);
     func_80832698(this, NA_SE_VO_LI_GROAN);
 }
 
-void func_80851ECC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851ECC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_808330EC(play, this, &gPlayerAnim_002428, 0x9C);
     }
@@ -13919,7 +13919,7 @@ void func_80851F14(PlayState* play, Player* this, LinkAnimationHeader* anim, str
     }
 }
 
-void func_80851F84(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851F84(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->actor.shape.shadowDraw = NULL;
     func_80851134(play, this, &gPlayerAnim_002420);
 }
@@ -13930,7 +13930,7 @@ static struct_80832924 D_808551BC[] = {
     { NA_SE_PL_SLIPDOWN, -0x900 },
 };
 
-void func_80851FB0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_808330EC(play, this, &gPlayerAnim_002430, 0x9C);
         this->unk_850 = 1;
@@ -13949,24 +13949,26 @@ static struct_80832924 D_808551C8[] = {
     { 0, -0x4860 },
 };
 
-void func_80852048(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852048(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
     func_80832924(this, D_808551C8);
 }
 
-void func_80852080(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852080(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80833064(play, this, &gPlayerAnim_002340, 0x9D);
     func_80832698(this, NA_SE_VO_LI_FALL_L);
 }
 
-void func_808520BC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    f32 startX = arg2->startPos.x;
-    f32 startY = arg2->startPos.y;
-    f32 startZ = arg2->startPos.z;
-    f32 distX = (arg2->endPos.x - startX);
-    f32 distY = (arg2->endPos.y - startY);
-    f32 distZ = (arg2->endPos.z - startZ);
-    f32 sp4 = (f32)(play->csCtx.frames - arg2->startFrame) / (f32)(arg2->endFrame - arg2->startFrame);
+void func_808520BC(PlayState* play, Player* this, CsCmdActorCue* cue) {
+    f32 startX = cue->startPos.x;
+    f32 startY = cue->startPos.y;
+    f32 startZ = cue->startPos.z;
+
+    f32 distX = (cue->endPos.x - startX);
+    f32 distY = (cue->endPos.y - startY);
+    f32 distZ = (cue->endPos.z - startZ);
+
+    f32 sp4 = (f32)(play->csCtx.frames - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame);
 
     this->actor.world.pos.x = distX * sp4 + startX;
     this->actor.world.pos.y = distY * sp4 + startY;
@@ -13978,37 +13980,37 @@ static struct_80832924 D_808551D8[] = {
     { NA_SE_PL_BOUND, -0x101E },
 };
 
-void func_80852174(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    func_808520BC(play, this, arg2);
+void func_80852174(PlayState* play, Player* this, CsCmdActorCue* cue) {
+    func_808520BC(play, this, cue);
     LinkAnimation_Update(play, &this->skelAnime);
     func_80832924(this, D_808551D8);
 }
 
-void func_808521B8(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    if (arg2 != NULL) {
-        func_808520BC(play, this, arg2);
+void func_808521B8(PlayState* play, Player* this, CsCmdActorCue* cue) {
+    if (cue != NULL) {
+        func_808520BC(play, this, cue);
     }
     LinkAnimation_Update(play, &this->skelAnime);
 }
 
-void func_808521F4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808521F4(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80832B0C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_44, this->modelAnimType));
     func_80832210(this);
 }
 
-void func_80852234(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
 }
 
-void func_8085225C(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80832F54(play, this, 0x98);
 }
 
-void func_80852280(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->actor.draw = Player_Draw;
 }
 
-void func_80852298(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852298(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083313C(play, this, &gPlayerAnim_002378);
         this->unk_850 = 1;
@@ -14024,7 +14026,7 @@ static struct_80832924 D_808551E0[] = {
     { 0, -0x3018 },
 };
 
-void func_80852328(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852328(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80851F14(play, this, &gPlayerAnim_002770, D_808551E0);
 }
 
@@ -14033,11 +14035,11 @@ static struct_80832924 D_808551E8[] = {
     { 0, -0x4023 },
 };
 
-void func_80852358(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852358(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80851F14(play, this, &gPlayerAnim_002830, D_808551E8);
 }
 
-void func_80852388(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852388(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_808322A4(play, this, &gPlayerAnim_002468);
         this->unk_850 = 1;
@@ -14062,7 +14064,7 @@ static struct_80832924 D_808551F0[] = {
     { 0, -0x3021 },
 };
 
-void func_80852450(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852450(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80852414(play, this, &gPlayerAnim_002378, D_808551F0);
 }
 
@@ -14070,31 +14072,31 @@ static struct_80832924 D_808551F8[] = {
     { NA_SE_PL_KNOCK, -0x84E },
 };
 
-void func_80852480(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852480(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80852414(play, this, &gPlayerAnim_0027D0, D_808551F8);
 }
 
-void func_808524B0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808524B0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80837704(play, this);
 }
 
-void func_808524D0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808524D0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     sControlInput->press.button |= BTN_B;
 
     func_80844E68(this, play);
 }
 
-void func_80852514(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852514(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80844E68(this, play);
 }
 
-void func_80852544(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852544(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
-void func_80852554(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852554(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
-void func_80852564(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852564(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->stateFlags3 |= PLAYER_STATE3_1;
     this->linearVelocity = 2.0f;
     this->actor.velocity.y = -1.0f;
@@ -14109,16 +14111,16 @@ static void (*D_808551FC[])(Player* this, PlayState* play) = {
     func_80843A38,
 };
 
-void func_808525C0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808525C0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     D_808551FC[this->unk_850](this, play);
 }
 
-void func_80852608(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852608(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80846720(play, this, 0);
     func_808322D0(play, this, &gPlayerAnim_002838);
 }
 
-void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852648(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 10.0f)) {
@@ -14142,7 +14144,7 @@ static Vec3s D_80855210[2][2] = {
     { { -200, 500, 0 }, { 600, 400, 600 } },
 };
 
-void func_808526EC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808526EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 primColor = { 255, 255, 255, 0 };
     static Color_RGBA8 envColor = { 0, 128, 128, 0 };
@@ -14169,9 +14171,9 @@ void func_808526EC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     EffectSsKiraKira_SpawnDispersed(play, &sparklePos, &zeroVec, &zeroVec, &primColor, &envColor, 600, -10);
 }
 
-void func_8085283C(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_8085283C(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        func_80852944(play, this, arg2);
+        func_80852944(play, this, cue);
     } else if (this->unk_850 == 0) {
         Item_Give(play, ITEM_SWORD_MASTER);
         func_80846720(play, this, 0);
@@ -14180,7 +14182,7 @@ void func_8085283C(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_808528C8(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_808528C8(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8084285C(this, 0.0f, 99.0f, this->skelAnime.endFrame - 8.0f);
     }
@@ -14190,7 +14192,7 @@ void func_808528C8(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 }
 
-void func_80852944(PlayState* play, Player* this, CsCmdActorAction* arg2) {
+void func_80852944(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (func_808332B8(this)) {
         func_80838F18(play, this);
         func_80832340(play, this);
@@ -14205,36 +14207,38 @@ void func_80852944(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     this->unk_6AD = 0;
 }
 
-void func_808529D0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    this->actor.world.pos.x = arg2->startPos.x;
-    this->actor.world.pos.y = arg2->startPos.y;
+void func_808529D0(PlayState* play, Player* this, CsCmdActorCue* cue) {
+    this->actor.world.pos.x = cue->startPos.x;
+    this->actor.world.pos.y = cue->startPos.y;
+
     if ((play->sceneNum == SCENE_SPOT04) && !LINK_IS_ADULT) {
         this->actor.world.pos.y -= 1.0f;
     }
-    this->actor.world.pos.z = arg2->startPos.z;
-    this->currentYaw = this->actor.shape.rot.y = arg2->rot.y;
+
+    this->actor.world.pos.z = cue->startPos.z;
+    this->currentYaw = this->actor.shape.rot.y = cue->rot.y;
 }
 
-void func_80852A54(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    f32 dx = arg2->startPos.x - (s32)this->actor.world.pos.x;
-    f32 dy = arg2->startPos.y - (s32)this->actor.world.pos.y;
-    f32 dz = arg2->startPos.z - (s32)this->actor.world.pos.z;
+void func_80852A54(PlayState* play, Player* this, CsCmdActorCue* cue) {
+    f32 dx = cue->startPos.x - (s32)this->actor.world.pos.x;
+    f32 dy = cue->startPos.y - (s32)this->actor.world.pos.y;
+    f32 dz = cue->startPos.z - (s32)this->actor.world.pos.z;
     f32 dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
-    s16 yawDiff = arg2->rot.y - this->actor.shape.rot.y;
+    s16 yawDiff = cue->rot.y - this->actor.shape.rot.y;
 
     if ((this->linearVelocity == 0.0f) && ((dist > 50.0f) || (ABS(yawDiff) > 0x4000))) {
-        func_808529D0(play, this, arg2);
+        func_808529D0(play, this, cue);
     }
 
     this->skelAnime.moveFlags = 0;
     func_80832DB0(this);
 }
 
-void func_80852B4C(PlayState* play, Player* this, CsCmdActorAction* arg2, struct_80854B18* arg3) {
+void func_80852B4C(PlayState* play, Player* this, CsCmdActorCue* cue, struct_80854B18* arg3) {
     if (arg3->type > 0) {
         D_80854AA4[arg3->type](play, this, arg3->ptr);
     } else if (arg3->type < 0) {
-        arg3->func(play, this, arg2);
+        arg3->func(play, this, cue);
     }
 
     if ((D_80858AA0 & 4) && !(this->skelAnime.moveFlags & 4)) {
@@ -14249,30 +14253,31 @@ void func_80852C0C(PlayState* play, Player* this, s32 csMode) {
     }
 }
 
-void func_80852C50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    CsCmdActorAction* linkCsAction = play->csCtx.linkAction;
+void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
+    CsCmdActorCue* cue = play->csCtx.playerCue;
     s32 pad;
     s32 sp24;
 
     if (play->csCtx.state == CS_STATE_STOP) {
         func_8002DF54(play, NULL, 7);
-        this->unk_446 = 0;
+        this->cueId = 0;
         func_80832210(this);
         return;
     }
 
-    if (linkCsAction == NULL) {
+    if (cue == NULL) {
         this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
-    if (this->unk_446 != linkCsAction->action) {
-        sp24 = D_808547C4[linkCsAction->action];
+    if (this->cueId != cue->id) {
+        sp24 = D_808547C4[cue->id];
+
         if (sp24 >= 0) {
             if ((sp24 == 3) || (sp24 == 4)) {
-                func_80852A54(play, this, linkCsAction);
+                func_80852A54(play, this, cue);
             } else {
-                func_808529D0(play, this, linkCsAction);
+                func_808529D0(play, this, cue);
             }
         }
 
@@ -14281,15 +14286,15 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         func_80832DBC(this);
         osSyncPrintf("TOOL MODE=%d\n", sp24);
         func_80852C0C(play, this, ABS(sp24));
-        func_80852B4C(play, this, linkCsAction, &D_80854B18[ABS(sp24)]);
+        func_80852B4C(play, this, cue, &D_80854B18[ABS(sp24)]);
 
         this->unk_850 = 0;
         this->unk_84F = 0;
-        this->unk_446 = linkCsAction->action;
+        this->cueId = cue->id;
     }
 
-    sp24 = D_808547C4[this->unk_446];
-    func_80852B4C(play, this, linkCsAction, &D_80854E50[ABS(sp24)]);
+    sp24 = D_808547C4[this->cueId];
+    func_80852B4C(play, this, cue, &D_80854E50[ABS(sp24)]);
 }
 
 void func_80852E14(Player* this, PlayState* play) {

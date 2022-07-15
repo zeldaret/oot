@@ -231,8 +231,8 @@ cutscene_command_macros = {
         ("CS_LIGHT_SETTING_LIST(%w1:1:s)", 2, None, 0,
               "CS_LIGHT_SETTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     86:
-        ("CS_PLAY_SEQ_LIST(%w1:1:s)", 2, None, 0,
-              "CS_PLAY_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_START_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_START_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     87:
         ("CS_STOP_SEQ_LIST(%w1:1:s)", 2, None, 0,
               "CS_STOP_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),

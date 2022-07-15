@@ -26,7 +26,7 @@ typedef struct EnZl4 {
     /* 0x0210 */ s16 blinkTimer;
     /* 0x0212 */ s16 talkTimer1;
     /* 0x0214 */ s16 talkTimer2;
-    /* 0x0216 */ s16 lastAction;
+    /* 0x0216 */ s16 cueId;
     /* 0x0218 */ Vec3s jointTable[18];
     /* 0x0284 */ Vec3s morphTable[18];
 } EnZl4; // size = 0x02F0
