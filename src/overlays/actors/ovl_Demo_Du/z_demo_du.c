@@ -198,7 +198,7 @@ void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(1);
-        play->csCtx.script = D_8096C1A4;
+        play->csCtx.scriptPtr = D_8096C1A4;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_FIRE);
 

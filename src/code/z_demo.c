@@ -1324,7 +1324,7 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdTermin
                 if (Flags_GetEventChkInf(EVENTCHKINF_BB) && Flags_GetEventChkInf(EVENTCHKINF_BC) &&
                     Flags_GetEventChkInf(EVENTCHKINF_BD) && Flags_GetEventChkInf(EVENTCHKINF_BE) &&
                     Flags_GetEventChkInf(EVENTCHKINF_BF) && Flags_GetEventChkInf(EVENTCHKINF_AD)) {
-                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
+                    play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
                     play->csCtx.curFrame = 0;
                     gSaveContext.cutsceneTrigger = 1;
                     gSaveContext.cutsceneIndex = 0xFFFF;
@@ -2184,7 +2184,7 @@ void CutsceneHandler_RunScripted(PlayState* play, CutsceneContext* csCtx) {
         if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutscenePtr);
         } else {
-            Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+            Cutscene_ProcessScript(play, csCtx, play->csCtx.scriptPtr);
         }
     }
 }
@@ -2366,8 +2366,8 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
 
 void Cutscene_SetScript(PlayState* play, void* script) {
     if (SEGMENT_NUMBER(script) != 0) {
-        play->csCtx.script = SEGMENTED_TO_VIRTUAL(script);
+        play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(script);
     } else {
-        play->csCtx.script = script;
+        play->csCtx.scriptPtr = script;
     }
 }

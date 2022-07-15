@@ -321,16 +321,16 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                     if (play->sceneNum == SCENE_TOKINOMA) {
                         D_8098CF84 = 25;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.script = gChildWarpInToTCS;
+                            play->csCtx.scriptPtr = gChildWarpInToTCS;
                         } else {
-                            play->csCtx.script = gAdultWarpInToTCS;
+                            play->csCtx.scriptPtr = gAdultWarpInToTCS;
                         }
                     } else {
                         D_8098CF84 = 32;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.script = gChildWarpInCS;
+                            play->csCtx.scriptPtr = gChildWarpInCS;
                         } else {
-                            play->csCtx.script = gAdultWarpInCS;
+                            play->csCtx.scriptPtr = gAdultWarpInCS;
                         }
                     }
                     if (Play_CamIsNotFixed(play)) {
@@ -342,15 +342,15 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
             case DEMOKANKYO_WARP_IN:
                 if (play->sceneNum == SCENE_TOKINOMA) {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.script = gChildWarpOutToTCS;
+                        play->csCtx.scriptPtr = gChildWarpOutToTCS;
                     } else {
-                        play->csCtx.script = gAdultWarpOutToTCS;
+                        play->csCtx.scriptPtr = gAdultWarpOutToTCS;
                     }
                 } else {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.script = gChildWarpOutCS;
+                        play->csCtx.scriptPtr = gChildWarpOutCS;
                     } else {
-                        play->csCtx.script = gAdultWarpOutCS;
+                        play->csCtx.scriptPtr = gAdultWarpOutCS;
                     }
                 }
                 gSaveContext.cutsceneTrigger = 1;

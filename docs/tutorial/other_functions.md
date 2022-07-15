@@ -377,7 +377,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
     sp1C = temp_v1;
     play = play;
     func_80A87800(this, &func_80A87EF0);
-    play->csCtx.script = &D_80A88164;
+    play->csCtx.scriptPtr = &D_80A88164;
     gSaveContext.cutsceneTrigger = (u8)1U;
     func_8003EBF8(play, &play->colCtx.dyna, (s32) temp_v1->bgId);
     func_8005B1A4(play->cameraPtrs[play->activeCamId]);
@@ -415,7 +415,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
         return;
     }
     func_80A87800(this, func_80A87EF0);
-    play->csCtx.script = &D_80A88164;
+    play->csCtx.scriptPtr = &D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
     func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
     func_8005B1A4(GET_ACTIVE_CAM(play));
@@ -434,7 +434,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
         this->unk_30C--;
     } else {
         func_80A87800(this, func_80A87EF0);
-        play->csCtx.script = &D_80A88164;
+        play->csCtx.scriptPtr = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));

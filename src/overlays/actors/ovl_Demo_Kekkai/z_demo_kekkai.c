@@ -256,7 +256,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
         LOG_STRING("当ったよ", "../z_demo_kekkai.c", 572);
         this->actor.update = DemoKekkai_TrialBarrierDispel;
         this->timer = 0;
-        play->csCtx.script = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
+        play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
         gSaveContext.cutsceneTrigger = 1;
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);

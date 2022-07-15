@@ -465,7 +465,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, PlayState* play) {
             break;
         case 2:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardMeetCs);
+                play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardMeetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 EnZl4_SetActiveCamMove(play, 0);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -899,7 +899,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
     switch (this->talkState) {
         case 0:
             EnZl4_SetActiveCamMove(play, 7);
-            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardWindowCs);
+            play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardWindowCs);
             gSaveContext.cutsceneTrigger = 1;
             this->talkState++;
             break;
@@ -909,7 +909,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                     play->csCtx.state = CS_STATE_STOP;
                 }
             } else {
-                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
+                play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
                 gSaveContext.cutsceneTrigger = 1;
                 this->talkState++;
                 func_8002DF54(play, &this->actor, 8);

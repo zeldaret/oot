@@ -145,14 +145,14 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
                     this->dyna.actor.flags |= ACTOR_FLAG_0;
                     if (this->dyna.actor.isTargeted) {
                         this->dyna.actor.flags &= ~ACTOR_FLAG_0;
-                        play->csCtx.script = D_808BD2A0;
+                        play->csCtx.scriptPtr = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
                     }
                 }
             } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
                 Flags_SetEventChkInf(EVENTCHKINF_0C);
-                play->csCtx.script = D_808BCE20;
+                play->csCtx.scriptPtr = D_808BCE20;
                 gSaveContext.cutsceneTrigger = 1;
                 BgTreemouth_SetupAction(this, func_808BC9EC);
             }
@@ -185,11 +185,11 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
         play->csCtx.state = CS_STATE_RUN;
 
         if (play->msgCtx.choiceIndex == 0) {
-            play->csCtx.script = D_808BD520;
+            play->csCtx.scriptPtr = D_808BD520;
             Flags_SetEventChkInf(EVENTCHKINF_05);
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
-            play->csCtx.script = D_808BD790;
+            play->csCtx.scriptPtr = D_808BD790;
             play->csCtx.curFrame = 0;
             BgTreemouth_SetupAction(this, func_808BC8B8);
         }
