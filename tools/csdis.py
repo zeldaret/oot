@@ -228,26 +228,26 @@ cutscene_command_macros = {
         ("CS_MISC_LIST(%w1:1:s)", 2, None, 0,
               "CS_MISC(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     4:
-        ("CS_LIGHTING_LIST(%w1:1:s)", 2, None, 0,
-              "CS_LIGHTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_LIGHT_SETTING_LIST(%w1:1:s)", 2, None, 0,
+              "CS_LIGHT_SETTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     86:
-        ("CS_PLAY_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_PLAY_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_PLAY_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_PLAY_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     87:
-        ("CS_STOP_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_STOP_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_STOP_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_STOP_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     124:
-        ("CS_FADE_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_FADE_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_FADE_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_FADE_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     9:
-        ("CS_CMD_09_LIST(%w1:1:s)", 2, None, 0,
-              "CS_CMD_09(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
+        ("CS_RUMBLE_CONTROLLER_LIST(%w1:1:s)", 2, None, 0,
+              "CS_RUMBLE_CONTROLLER(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
     140:
         ("CS_TIME_LIST(%w1:1:s)", 2, None, 0,
               "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %w1:3:x)", 3),
     10:
-        ("CS_PLAYER_ACTION_LIST(%w1:1:s)", 2, None, 0,
-              "CS_PLAYER_ACTION(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
+        ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
+              "CS_PLAYER_CUE(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
     (15,17,18,23,34,39,46,76,85,93,105,107,110,119,123,138,139,144, # npc action 1
      14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # npc action 2
      25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # npc action 3
@@ -258,26 +258,26 @@ cutscene_command_macros = {
      49,60,89,111,114,134,142,                                      # npc action 8
      62,                                                            # npc action 9
      143):                                                          # npc action 10
-        ("CS_NPC_ACTION_LIST(%w1:0:s, %w1:1:s)", 2, None, 0,
-              "CS_NPC_ACTION(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
+        ("CS_ACTOR_CUE_LIST(%w1:0:s, %w1:1:s)", 2, None, 0,
+              "CS_ACTOR_CUE(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
     1:
-        ("CS_CAM_EYE_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_EYE(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_EYE_POINTS_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
+              "CS_CAM_EYE_POINTS(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     5:
-        ("CS_CAM_EYE_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
+        ("CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
               "CS_CAM_EYE_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     2:
-        ("CS_CAM_AT_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_AT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_AT_POINTS_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
+              "CS_CAM_AT_POINTS(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     6:
-        ("CS_CAM_AT_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
+        ("CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
               "CS_CAM_AT_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     7:
-        ("CS_CMD_07_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
-              "CS_CMD_07(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_EYE_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
+              "CS_CAM_EYE(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     8:
-        ("CS_CMD_08_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
-              "CS_CMD_08(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_AT_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
+              "CS_CAM_AT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     1000:
         ("CS_TERMINATOR(%h2:2:e1, %h1:2:s, %h2:3:s)", 4, None, None,
               None, None),
@@ -285,7 +285,7 @@ cutscene_command_macros = {
         ("CS_TEXT_LIST(%w1:1:s)", 2, None, 0,
               "__SPECIAL(CS_TEXT_LIST)", 3),
     45:
-        ("CS_SCENE_TRANS_FX(%h2:2:x, %h1:2:s, %h2:3:s)", 4, None, None,
+        ("CS_TRANSITION(%h2:2:x, %h1:2:s, %h2:3:s)", 4, None, None,
               None, None),
 }
 
@@ -414,7 +414,7 @@ def format_cmd(cmd, words):
             elif get_short(words[2], 1) == 2:
                 cmd = "CS_TEXT_LEARN_SONG(%h2:1:e2, %h1:1:s, %h2:2:s, %h2:3:x)"
             else:
-                cmd = "CS_TEXT_DISPLAY_TEXTBOX(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x)"
+                cmd = "CS_TEXT(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x)"
     for arg in args_list(cmd):
         cmd = cmd.replace(arg, format_arg(arg, words))
     return cmd

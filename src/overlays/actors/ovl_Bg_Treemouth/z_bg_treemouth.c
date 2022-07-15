@@ -181,7 +181,7 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
 
         play->csCtx.camAtReady = false;
         play->csCtx.camEyeReady = false;
-        
+
         play->csCtx.state = CS_STATE_EXEC;
 
         if (play->msgCtx.choiceIndex == 0) {
