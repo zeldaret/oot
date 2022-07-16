@@ -71,7 +71,7 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                 gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
             gSaveContext.hudVisibilityForceButtonAlphasByStatus = gSaveContext.nextHudVisibility =
-                gSaveContext.hudVisibility = gSaveContext.hudVisibilityCounter = 0; // false, HUD_VISIBILITY_IDLE
+                gSaveContext.hudVisibility = gSaveContext.hudVisibilityTimer = 0; // false, HUD_VISIBILITY_IDLE
 
             Environment_InitGameOverLights(play);
             gGameOverTimer = 20;

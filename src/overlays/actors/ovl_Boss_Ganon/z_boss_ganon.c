@@ -785,7 +785,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
 
             if (this->csTimer == 20) {
                 func_8002DF54(play, &this->actor, 0x17);
-                Interface_SetHudVisibility(HUD_VISIBILITY_HEARTS); // show hearts only
+                Interface_SetHudVisibility(HUD_VISIBILITY_HEARTS);
             }
 
             if (this->csTimer == 25) {

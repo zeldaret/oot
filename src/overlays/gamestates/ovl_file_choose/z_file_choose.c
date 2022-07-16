@@ -1488,7 +1488,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
     gSaveContext.hudVisibilityForceButtonAlphasByStatus = gSaveContext.nextHudVisibility = gSaveContext.hudVisibility =
-        gSaveContext.hudVisibilityCounter = gSaveContext.magicCapacity = 0; // false, HUD_VISIBILITY_IDLE
+        gSaveContext.hudVisibilityTimer = gSaveContext.magicCapacity = 0; // false, HUD_VISIBILITY_IDLE
 
     // Set the fill target to be the saved magic amount
     gSaveContext.magicFillTarget = gSaveContext.magic;
