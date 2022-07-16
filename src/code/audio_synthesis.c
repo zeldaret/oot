@@ -172,7 +172,7 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
         cmdP = AudioSynth_DoOneAudioUpdate(aiBufP, chunkLen, cmdP,
                                            gAudioContext.audioBufferParameters.updatesPerFrame - i);
         aiBufLen -= chunkLen;
-        aiBufP += chunkLen * SAMPLE_SIZE;
+        aiBufP += 2 * chunkLen;
     }
 
     for (j = 0; j < gAudioContext.numSynthesisReverbs; j++) {
@@ -384,8 +384,8 @@ void func_800DBCA0(void) {
 void func_800DBCA8(void) {
 }
 
-void AudioSynth_InterL(Acmd* cmd, s32 dmemIn, s32 dmemOut, s32 size) {
-    cmd->words.w0 = _SHIFTL(A_INTERL, 24, 8) | _SHIFTL(size, 0, 16);
+void AudioSynth_InterL(Acmd* cmd, s32 dmemIn, s32 dmemOut, s32 numSamples) {
+    cmd->words.w0 = _SHIFTL(A_INTERL, 24, 8) | _SHIFTL(numSamples, 0, 16);
     cmd->words.w1 = _SHIFTL(dmemIn, 16, 16) | _SHIFTL(dmemOut, 0, 16);
 }
 
@@ -681,7 +681,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
         i++;
     }
 
-    aInterleave(cmd++, DMEM_TEMP, DMEM_LEFT_CH, DMEM_RIGHT_CH, aiBufLen * (s32)SAMPLE_SIZE);
+    aInterleave(cmd++, DMEM_TEMP, DMEM_LEFT_CH, DMEM_RIGHT_CH, 2 * aiBufLen);
     aSaveBuffer(cmd++, DMEM_TEMP, aiBuf, 2 * (aiBufLen * (s32)SAMPLE_SIZE));
 
     return cmd;
@@ -837,7 +837,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
                 if (nSamplesToProcess < nSamplesUntilLoopEnd) {
                     nFramesToDecode =
-                        (s32)(nSamplesToProcess - nSamplesInFirstFrame + (SAMPLES_PER_FRAME - 1)) / SAMPLES_PER_FRAME;
+                        (s32)(nSamplesToProcess - nSamplesInFirstFrame + SAMPLES_PER_FRAME - 1) / SAMPLES_PER_FRAME;
                     nSamplesToDecode = nFramesToDecode * SAMPLES_PER_FRAME;
                     nTrailingSamplesToIgnore = nSamplesInFirstFrame + nSamplesToDecode - nSamplesToProcess;
                 } else {
@@ -847,7 +847,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         nSamplesToDecode = 0;
                         nSamplesInFirstFrame = nSamplesUntilLoopEnd;
                     }
-                    nFramesToDecode = (nSamplesToDecode + (SAMPLES_PER_FRAME - 1)) / SAMPLES_PER_FRAME;
+                    nFramesToDecode = (nSamplesToDecode + SAMPLES_PER_FRAME - 1) / SAMPLES_PER_FRAME;
                     if (loopInfo->count != 0) {
                         // Loop around and restart
                         restart = true;
@@ -858,19 +858,21 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
                 switch (sample->codec) {
                     case CODEC_ADPCM:
-                        frameSize = 9; // 16 samples (32 bytes) compressed into 8 bytes + 1 header byte
+                        frameSize =
+                            9; // 16 2-byte samples (32 bytes) compressed into 4-bit samples (8 bytes) + 1 header byte
                         skipInitialSamples = SAMPLES_PER_FRAME;
                         sampleDataStart = 0;
                         break;
 
                     case CODEC_SMALL_ADPCM:
-                        frameSize = 5; // 16 samples (32 bytes) compressed into 4 bytes + 1 header byte
+                        frameSize =
+                            5; // 16 2-byte samples (32 bytes) compressed into 2-bit samples (4 bytes) + 1 header byte
                         skipInitialSamples = SAMPLES_PER_FRAME;
                         sampleDataStart = 0;
                         break;
 
                     case CODEC_S8:
-                        frameSize = 16; // 16 samples (32 bytes) compressed into 16 bytes
+                        frameSize = 16; // 16 2-byte samples (32 bytes) compressed into 8-bit samples (16 bytes)
                         skipInitialSamples = SAMPLES_PER_FRAME;
                         sampleDataStart = 0;
                         break;
@@ -1228,7 +1230,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
             // Duplicate (copy) the WAVE_SAMPLE_COUNT samples as many times as needed to reach numSamplesToLoad.
             // (numSamplesToLoad - numSamplesAvail) is the number of samples missing.
             // Divide by WAVE_SAMPLE_COUNT, rounding up, to get the amount of duplicates
-            numDuplicates = ((numSamplesToLoad - numSamplesAvail + (WAVE_SAMPLE_COUNT - 1)) / WAVE_SAMPLE_COUNT);
+            numDuplicates = ((numSamplesToLoad - numSamplesAvail + WAVE_SAMPLE_COUNT - 1) / WAVE_SAMPLE_COUNT);
             if (numDuplicates != 0) {
                 aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE,
                            DMEM_UNCOMPRESSED_NOTE + (WAVE_SAMPLE_COUNT * SAMPLE_SIZE));
