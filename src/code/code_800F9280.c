@@ -1,5 +1,5 @@
 /**
- * @file audio_seqcmd.c
+ * @file code_800F9280.c
  *
  * This file implements a set of high-level audio sequence commands that allow sequences to be modified in real-time.
  * These commands are intended to interface external to the audio library.
@@ -34,13 +34,13 @@ typedef struct {
 SeqRequest sSeqRequests[4][5];
 u8 sNumSeqRequests[4];
 u32 sAudioSeqCmds[0x100];
-ActiveSequences gActiveSeqs[4];
+ActiveSequence gActiveSeqs[4];
 
-u8 sSeqCmdWritePos = 0;
-u8 sSeqCmdReadPos = 0;
+u8 gSeqCmdWritePos = 0;
+u8 gSeqCmdReadPos = 0;
 u8 gNewSeqDisabled = false;
 u8 gAudioDebugPrintSeqCmd = true;
-u8 sSoundModeList[] = {
+u8 gSoundModeList[] = {
     SOUNDMODE_STEREO,
     SOUNDMODE_HEADSET,
     SOUNDMODE_SURROUND,
@@ -116,11 +116,9 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     f32 freqScaleTarget;
     s32 pad;
 
-    if (gAudioDebugPrintSeqCmd && ((cmd & SEQCMD_MASK) != (SEQCMD_OP_SET_PLAYER_IO << 28))) {
-        // print cmd high-bits, "SEQ H"
-        AudioDebug_ScrPrt((const s8*)gAudioDebugTextSeqCmdHighBits, (cmd >> 16) & 0xFFFF);
-        // pring cmd low-bits, "    L"
-        AudioDebug_ScrPrt((const s8*)gAudioDebugTextSeqCmdLowBits, cmd & 0xFFFF);
+    if (gAudioDebugPrintSeqCmd && ((cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_PLAYER_IO << 28))) {
+        AudioDebug_ScrPrt((const s8*)D_80133390, (cmd >> 16) & 0xFFFF); // "SEQ H"
+        AudioDebug_ScrPrt((const s8*)D_80133398, cmd & 0xFFFF);         // "    L"
     }
 
     op = cmd >> 28;
@@ -174,12 +172,13 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
 
             // Check if the queue is full
-            if (sNumSeqRequests[seqPlayerIndex] < 5) {
+            if (sNumSeqRequests[seqPlayerIndex] < ARRAY_COUNT(sSeqRequests[seqPlayerIndex])) {
                 sNumSeqRequests[seqPlayerIndex]++;
             }
 
             for (i = sNumSeqRequests[seqPlayerIndex] - 1; i != found; i--) {
                 // Move all requests of lower priority backwards 1 place in the queue
+                // If the queue is full, overwrite the entry with the lowest priority
                 sSeqRequests[seqPlayerIndex][i].priority = sSeqRequests[seqPlayerIndex][i - 1].priority;
                 sSeqRequests[seqPlayerIndex][i].seqId = sSeqRequests[seqPlayerIndex][i - 1].seqId;
             }
@@ -385,7 +384,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             switch (subOp) {
                 case SEQCMD_SUB_OP_GLOBAL_SET_SOUND_MODE:
                     // Set sound mode
-                    Audio_QueueCmdS32(0xF0000000, sSoundModeList[val]);
+                    Audio_QueueCmdS32(0xF0000000, gSoundModeList[val]);
                     break;
 
                 case SEQCMD_SUB_OP_GLOBAL_DISABLE_NEW_SEQUENCES:
@@ -412,12 +411,12 @@ void Audio_ProcessSeqCmd(u32 cmd) {
  * Add the sequence cmd to the `sAudioSeqCmds` queue
  */
 void Audio_QueueSeqCmd(u32 cmd) {
-    sAudioSeqCmds[sSeqCmdWritePos++] = cmd;
+    sAudioSeqCmds[gSeqCmdWritePos++] = cmd;
 }
 
 void Audio_ProcessSeqCmds(void) {
-    while (sSeqCmdWritePos != sSeqCmdReadPos) {
-        Audio_ProcessSeqCmd(sAudioSeqCmds[sSeqCmdReadPos++]);
+    while (gSeqCmdWritePos != gSeqCmdReadPos) {
+        Audio_ProcessSeqCmd(sAudioSeqCmds[gSeqCmdReadPos++]);
     }
 }
 
@@ -431,7 +430,7 @@ u16 Audio_GetActiveSeqId(u8 seqPlayerIndex) {
 s32 Audio_IsSeqCmdNotQueued(u32 cmdVal, u32 cmdMask) {
     u8 i;
 
-    for (i = sSeqCmdReadPos; i != sSeqCmdWritePos; i++) {
+    for (i = gSeqCmdReadPos; i != gSeqCmdWritePos; i++) {
         if ((sAudioSeqCmds[i] & cmdMask) == cmdVal) {
             return false;
         }
@@ -659,7 +658,7 @@ void Audio_UpdateActiveSequences(void) {
         // Process setup commands
         if (gActiveSeqs[seqPlayerIndex].setupCmdNum != 0) {
             // If there is a SeqCmd to reset the audio heap queued, then drop all setup commands
-            if (!Audio_IsSeqCmdNotQueued(SEQCMD_OP_RESET_AUDIO_HEAP << 28, SEQCMD_MASK)) {
+            if (!Audio_IsSeqCmdNotQueued(SEQCMD_OP_RESET_AUDIO_HEAP << 28, SEQCMD_OP_MASK)) {
                 gActiveSeqs[seqPlayerIndex].setupCmdNum = 0;
                 return;
             }
@@ -748,7 +747,7 @@ void Audio_UpdateActiveSequences(void) {
                         Audio_SetVolumeScale(targetSeqPlayerIndex, setupVal2, 0x7F, setupVal1);
                         break;
 
-                    case SEQCMD_SUB_OP_SETUP_POP_CACHE:
+                    case SEQCMD_SUB_OP_SETUP_POP_PERSISTENT_CACHE:
                         // Discard audio data by popping one more more audio caches from the audio heap
                         if (setupVal1 & (1 << SEQUENCE_TABLE)) {
                             Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);

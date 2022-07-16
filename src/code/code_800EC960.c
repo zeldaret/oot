@@ -4625,7 +4625,7 @@ void func_800F574C(f32 scaleTempoAndFreq, u8 duration) {
 
 void func_800F5918(void) {
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME &&
-        Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28, SEQCMD_MASK)) {
+        Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28, SEQCMD_OP_MASK)) {
         SEQCMD_SET_TEMPO(SEQ_PLAYER_BGM_MAIN, 5, 210);
     }
 }
@@ -5175,7 +5175,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) 
     u8 channelIdx;
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) &&
-        Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28 | NA_BGM_NATURE_AMBIENCE, SEQCMD_MASK | 0xFF)) {
+        Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28 | NA_BGM_NATURE_AMBIENCE, SEQCMD_OP_MASK | 0xFF)) {
         sAudioNatureFailed = true;
         return;
     }
