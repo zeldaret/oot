@@ -133,7 +133,7 @@ void func_80B5357C(EnZl3* this, PlayState* play) {
     sp20.x = thisPos->x + ((Rand_ZeroOne() - 0.5f) * 10.0f);
     sp20.y = thisPos->y;
     sp20.z = thisPos->z + ((Rand_ZeroOne() - 0.5f) * 10.0f);
-    Item_DropCollectible(play, &sp20, ITEM00_HEART);
+    Item_DropCollectible(play, &sp20, ITEM00_RECOVERY_HEART);
 }
 
 void func_80B53614(EnZl3* this, PlayState* play) {

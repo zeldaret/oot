@@ -253,7 +253,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
             dropPos.y = this->dyna.actor.world.pos.y + 20.0f;
             dropPos.z = this->dyna.actor.world.pos.z;
             for (i = 0; i < 3; i++) {
-                Item_DropCollectible(play, &dropPos, ITEM00_HEART);
+                Item_DropCollectible(play, &dropPos, ITEM00_RECOVERY_HEART);
                 dropPos.y += 18.0f;
             }
             Actor_Kill(&this->dyna.actor);
