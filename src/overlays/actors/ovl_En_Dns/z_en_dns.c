@@ -464,7 +464,7 @@ void EnDns_Burrow(EnDns* this, PlayState* play) {
             initPos.y = this->yInitPos;
             initPos.z = this->actor.world.pos.z;
             for (i = 0; i < 3; i++) {
-                Item_DropCollectible(play, &initPos, ITEM00_HEART);
+                Item_DropCollectible(play, &initPos, ITEM00_RECOVERY_HEART);
             }
         }
         Actor_Kill(&this->actor);

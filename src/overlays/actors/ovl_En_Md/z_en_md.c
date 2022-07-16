@@ -654,7 +654,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, ENMD_LIMB_MAX);
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -694,7 +694,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 
 void func_80AAB874(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, 17);
+        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
     }
@@ -704,7 +704,7 @@ void func_80AAB874(EnMd* this, PlayState* play) {
 
 void func_80AAB8F8(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, 17);
+        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     }
     func_80AAA93C(this);
 }
@@ -756,7 +756,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
     }
 
     if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, 17);
+        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     }
 
     if ((this->unk_1E0.unk_00 == 0) && (play->sceneNum == SCENE_SPOT10)) {
@@ -794,7 +794,7 @@ void func_80AABC10(EnMd* this, PlayState* play) {
 }
 
 void func_80AABD0C(EnMd* this, PlayState* play) {
-    func_80034F54(play, this->unk_214, this->unk_236, 17);
+    func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     func_80AAA93C(this);
 
     if (!(EnMd_FollowPath(this, play)) || (this->waypoint != 0)) {
@@ -837,20 +837,21 @@ s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnMd* this = (EnMd*)thisx;
     Vec3s vec;
 
-    if (limbIndex == 16) {
+    if (limbIndex == ENMD_LIMB_HEAD) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec = this->unk_1E0.unk_08;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == 9) {
+    if (limbIndex == ENMD_LIMB_TORSO) {
         vec = this->unk_1E0.unk_0E;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
     }
 
-    if (((limbIndex == 9) || (limbIndex == 10)) || (limbIndex == 13)) {
+    if (((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM)) ||
+        (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
         rot->y += Math_SinS(this->unk_214[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_236[limbIndex]) * 200.0f;
     }
@@ -862,7 +863,7 @@ void EnMd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     EnMd* this = (EnMd*)thisx;
     Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 16) {
+    if (limbIndex == ENMD_LIMB_HEAD) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }

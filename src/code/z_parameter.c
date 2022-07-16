@@ -1691,7 +1691,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.healthCapacity += 0x10;
         gSaveContext.health += 0x10;
         return ITEM_NONE;
-    } else if (item == ITEM_HEART) {
+    } else if (item == ITEM_RECOVERY_HEART) {
         osSyncPrintf("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
         Health_ChangeBy(play, 0x10);
         return item;
@@ -1898,8 +1898,8 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_HEART_CONTAINER) {
         return ITEM_NONE;
-    } else if (item == ITEM_HEART) {
-        return ITEM_HEART;
+    } else if (item == ITEM_RECOVERY_HEART) {
+        return ITEM_RECOVERY_HEART;
     } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
         osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
