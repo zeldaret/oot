@@ -82,15 +82,13 @@ typedef struct{
     /* 0x04 */ MtxF mf;
 } HorseStruct;
 
-// Game Info aka. Static Context (dbg ram start: 80210A10)
-// Data normally accessed through REG macros (see regs.h)
 typedef struct {
-    /* 0x00 */ s32  regPage;   // 1 is first page
-    /* 0x04 */ s32  regGroup;  // "register" group (R, RS, RO, RP etc.)
-    /* 0x08 */ s32  regCur;    // selected register within page
-    /* 0x0C */ s32  dpadLast;
-    /* 0x10 */ s32  repeat;
-    /* 0x14 */ s16  data[REG_GROUPS * REG_PER_GROUP]; // 0xAE0 entries
+    /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
+    /* 0x04 */ s32  regGroup; // Indexed from 0 to `REG_GROUPS`-1. Each group has its own character to identify it.
+    /* 0x08 */ s32  regCur; // Selected reg, indexed from 0 as the page start
+    /* 0x0C */ s32  dPadInputPrev;
+    /* 0x10 */ s32  inputRepeatTimer;
+    /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
 } GameInfo; // size = 0x15D4
 
 typedef struct {
@@ -1509,8 +1507,8 @@ typedef struct {
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
     /* 0x04 */ struct StackEntry* prev;
-    /* 0x08 */ u32 head;
-    /* 0x0C */ u32 tail;
+    /* 0x08 */ u32* head;
+    /* 0x0C */ u32* tail;
     /* 0x10 */ u32 initValue;
     /* 0x14 */ s32 minSpace;
     /* 0x18 */ const char* name;
