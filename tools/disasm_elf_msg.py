@@ -134,7 +134,7 @@ item_ids = {
     0x80 : "ITEM_INVALID_6",
     0x81 : "ITEM_INVALID_7",
     0x82 : "ITEM_MILK",
-    0x83 : "ITEM_HEART",
+    0x83 : "ITEM_RECOVERY_HEART",
     0x84 : "ITEM_RUPEE_GREEN",
     0x85 : "ITEM_RUPEE_BLUE",
     0x86 : "ITEM_RUPEE_RED",

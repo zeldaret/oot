@@ -140,7 +140,7 @@ void EnKusa_DropCollectible(EnKusa* this, PlayState* play) {
             if (Rand_ZeroOne() < 0.5f) {
                 Item_DropCollectible(play, &this->actor.world.pos, ITEM00_SEEDS);
             } else {
-                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_HEART);
+                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RECOVERY_HEART);
             }
             break;
     }
