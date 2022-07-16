@@ -55,7 +55,7 @@ typedef enum {
     /* 0x07 */ OWL_HYLIA_SHORTCUT,
     /* 0x08 */ OWL_DEATH_MOUNTAIN,
     /* 0x09 */ OWL_DEATH_MOUNTAIN2,
-    /* 0x0A */ OWL_DESSERT_COLOSSUS,
+    /* 0x0A */ OWL_DESERT_COLOSSUS,
     /* 0x0B */ OWL_LOST_WOODS_PRESARIA,
     /* 0x0C */ OWL_LOST_WOODS_POSTSARIA
 } EnOwlType;
@@ -199,7 +199,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_DEATH_MOUNTAIN2:
             this->actionFunc = EnOwl_WaitDeathMountainShortcut;
             break;
-        case OWL_DESSERT_COLOSSUS:
+        case OWL_DESERT_COLOSSUS:
             this->actionFunc = func_80ACB3E0;
             break;
         case OWL_LOST_WOODS_PRESARIA:

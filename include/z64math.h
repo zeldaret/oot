@@ -76,16 +76,14 @@ typedef struct {
     /* 0x06 */ s16 yaw;    // azimuthal angle
 } VecSph; // size = 0x08
 
-#define BINANG_SUB(a, b) ((s16)((a) - (b)))
-
 #define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
 #define LERP32(x, y, scale) ((s32)(((y) - (x)) * (scale)) + (x))
 #define LERP16(x, y, scale) ((s16)(((y) - (x)) * (scale)) + (x))
 #define F32_LERP(v0,v1,t) ((v0) * (1.0f - (t)) + (v1) * (t))
 #define F32_LERPIMP(v0, v1, t) (v0 + ((v1 - v0) * t))
 #define F32_LERPIMPINV(v0, v1, t) ((v0) + (((v1) - (v0)) / (t)))
-#define BINANG_LERPIMP(v0, v1, t) ((v0) + (s16)(BINANG_SUB((v1), (v0)) * (t)))
-#define BINANG_LERPIMPINV(v0, v1, t) ((v0) + BINANG_SUB((v1), (v0)) / (t))
+#define BINANG_LERPIMP(v0, v1, t) ((v0) + (s16)((s16)((v1) - (v0)) * (t)))
+#define BINANG_LERPIMPINV(v0, v1, t) ((v0) + (s16)((v1) - (v0)) / (t))
 
 #define VEC3F_LERPIMPDST(dst, v0, v1, t){ \
     (dst)->x = (v0)->x + (((v1)->x - (v0)->x) * t); \
