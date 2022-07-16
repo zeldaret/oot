@@ -858,21 +858,22 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
                 switch (sample->codec) {
                     case CODEC_ADPCM:
-                        frameSize =
-                            9; // 16 2-byte samples (32 bytes) compressed into 4-bit samples (8 bytes) + 1 header byte
+                        // 16 2-byte samples (32 bytes) compressed into 4-bit samples (8 bytes) + 1 header byte
+                        frameSize = 9;
                         skipInitialSamples = SAMPLES_PER_FRAME;
                         sampleDataStart = 0;
                         break;
 
                     case CODEC_SMALL_ADPCM:
-                        frameSize =
-                            5; // 16 2-byte samples (32 bytes) compressed into 2-bit samples (4 bytes) + 1 header byte
+                        // 16 2-byte samples (32 bytes) compressed into 2-bit samples (4 bytes) + 1 header byte
+                        frameSize = 5;
                         skipInitialSamples = SAMPLES_PER_FRAME;
                         sampleDataStart = 0;
                         break;
 
                     case CODEC_S8:
-                        frameSize = 16; // 16 2-byte samples (32 bytes) compressed into 8-bit samples (16 bytes)
+                        // 16 2-byte samples (32 bytes) compressed into 8-bit samples (16 bytes)
+                        frameSize = 16;
                         skipInitialSamples = SAMPLES_PER_FRAME;
                         sampleDataStart = 0;
                         break;
