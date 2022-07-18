@@ -332,16 +332,16 @@ void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[animObjBankIndex].segment);
 }
 
-CsCmdActorCue* DemoEc_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* DemoEc_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[channel];
+        return play->csCtx.actorCues[cueChannel];
     } else {
         return NULL;
     }
 }
 
-void DemoEc_SetCuePosRot(DemoEc* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = DemoEc_GetCue(play, channel);
+void DemoEc_SetCuePosRot(DemoEc* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoEc_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         this->actor.world.pos.x = cue->startPos.x;
@@ -823,8 +823,8 @@ void func_8096F26C(DemoEc* this, s32 arg1) {
     }
 }
 
-void func_8096F2B0(DemoEc* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = DemoEc_GetCue(play, channel);
+void func_8096F2B0(DemoEc* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoEc_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         s32 nextCueId = cue->id;
@@ -898,10 +898,10 @@ void func_8096F544(DemoEc* this, s32 changeAnim) {
     }
 }
 
-void func_8096F578(DemoEc* this, PlayState* play, s32 channel) {
+void func_8096F578(DemoEc* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue;
 
-    cue = DemoEc_GetCue(play, channel);
+    cue = DemoEc_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         s32 nextCueId = cue->id;
@@ -913,7 +913,7 @@ void func_8096F578(DemoEc* this, PlayState* play, s32 channel) {
             if (nextCueId == 2) {
                 func_8096F4FC(this, play);
             }
-            
+
             this->cueId = nextCueId;
         }
     }

@@ -297,19 +297,19 @@ u8 DemoGt_CutsceneIsIdle(PlayState* play) {
     }
 }
 
-CsCmdActorCue* DemoGt_GetCue(PlayState* play, u32 channel) {
+CsCmdActorCue* DemoGt_GetCue(PlayState* play, u32 cueChannel) {
     s32 pad[2];
     CsCmdActorCue* cue = NULL;
 
     if (!DemoGt_CutsceneIsIdle(play)) {
-        cue = play->csCtx.actorCues[channel];
+        cue = play->csCtx.actorCues[cueChannel];
     }
 
     return cue;
 }
 
-u8 func_8097E704(PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = DemoGt_GetCue(play, channel);
+u8 func_8097E704(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoGt_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
         return true;
@@ -318,8 +318,8 @@ u8 func_8097E704(PlayState* play, u16 cueId, s32 channel) {
     }
 }
 
-void func_8097E744(DemoGt* this, PlayState* play, u32 channel) {
-    CsCmdActorCue* cue = DemoGt_GetCue(play, channel);
+void func_8097E744(DemoGt* this, PlayState* play, u32 cueChannel) {
+    CsCmdActorCue* cue = DemoGt_GetCue(play, cueChannel);
     Vec3f* pos = &this->dyna.actor.world.pos;
     f32 startX;
     f32 startY;
@@ -431,9 +431,9 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     pos->z += tempf3;
 }
 
-void func_8097ED64(DemoGt* this, PlayState* play, s32 channel) {
-    func_8097E744(this, play, channel);
-    func_8097E824(this, channel);
+void func_8097ED64(DemoGt* this, PlayState* play, s32 cueChannel) {
+    func_8097E744(this, play, cueChannel);
+    func_8097E824(this, cueChannel);
 }
 
 u8 func_8097ED94(void) {

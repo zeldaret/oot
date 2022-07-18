@@ -151,12 +151,12 @@ s32 BgSpot01Idohashira_NotInCsMode(PlayState* play) {
     return false;
 }
 
-CsCmdActorCue* BgSpot01Idohashira_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* BgSpot01Idohashira_GetCue(PlayState* play, s32 cueChannel) {
     s32 pad[2];
     CsCmdActorCue* cue = NULL;
 
     if (!BgSpot01Idohashira_NotInCsMode(play)) {
-        cue = play->csCtx.actorCues[channel];
+        cue = play->csCtx.actorCues[cueChannel];
     }
     return cue;
 }

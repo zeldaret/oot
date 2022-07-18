@@ -222,19 +222,19 @@ s32 DemoIm_IsCutsceneIdle(PlayState* play) {
     }
 }
 
-CsCmdActorCue* DemoIm_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* DemoIm_GetCue(PlayState* play, s32 cueChannel) {
     s32 pad[2];
     CsCmdActorCue* ret = NULL;
 
     if (!DemoIm_IsCutsceneIdle(play)) {
-        ret = play->csCtx.actorCues[channel];
+        ret = play->csCtx.actorCues[cueChannel];
     }
 
     return ret;
 }
 
-s32 func_809850E8(DemoIm* this, PlayState* play, u16 action, s32 channel) {
-    CsCmdActorCue* cue = DemoIm_GetCue(play, channel);
+s32 func_809850E8(DemoIm* this, PlayState* play, u16 action, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         if (cue->id == action) {
@@ -244,8 +244,8 @@ s32 func_809850E8(DemoIm* this, PlayState* play, u16 action, s32 channel) {
     return false;
 }
 
-s32 func_80985134(DemoIm* this, PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = DemoIm_GetCue(play, channel);
+s32 func_80985134(DemoIm* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         if (cue->id != cueId) {
@@ -255,8 +255,8 @@ s32 func_80985134(DemoIm* this, PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-void func_80985180(DemoIm* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = DemoIm_GetCue(play, channel);
+void func_80985180(DemoIm* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         this->actor.world.pos.x = cue->startPos.x;
@@ -266,8 +266,8 @@ void func_80985180(DemoIm* this, PlayState* play, s32 channel) {
     }
 }
 
-void func_80985200(DemoIm* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = DemoIm_GetCue(play, channel);
+void func_80985200(DemoIm* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         this->actor.world.pos.x = cue->startPos.x;

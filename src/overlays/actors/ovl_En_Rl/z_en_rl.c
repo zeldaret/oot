@@ -84,11 +84,11 @@ s32 func_80AE7494(EnRl* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-s32 func_80AE74B4(EnRl* this, PlayState* play, u16 cueId, s32 channel) {
+s32 func_80AE74B4(EnRl* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        cue = play->csCtx.actorCues[channel];
+        cue = play->csCtx.actorCues[cueChannel];
 
         if (cue != NULL && cue->id == cueId) {
             return true;
@@ -97,11 +97,11 @@ s32 func_80AE74B4(EnRl* this, PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-s32 func_80AE74FC(EnRl* this, PlayState* play, u16 cueId, s32 channel) {
+s32 func_80AE74FC(EnRl* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        cue = play->csCtx.actorCues[channel];
+        cue = play->csCtx.actorCues[cueChannel];
 
         if (cue != NULL && cue->id != cueId) {
             return true;

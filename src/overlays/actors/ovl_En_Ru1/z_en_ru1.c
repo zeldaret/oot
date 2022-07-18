@@ -246,18 +246,18 @@ s32 EnRu1_IsCsStateIdle(PlayState* play) {
     return false;
 }
 
-CsCmdActorCue* EnRu1_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* EnRu1_GetCue(PlayState* play, s32 cueChannel) {
     s32 pad[2];
     CsCmdActorCue* cue = NULL;
 
     if (!EnRu1_IsCsStateIdle(play)) {
-        cue = play->csCtx.actorCues[channel];
+        cue = play->csCtx.actorCues[cueChannel];
     }
     return cue;
 }
 
-s32 func_80AEAFA0(PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = EnRu1_GetCue(play, channel);
+s32 func_80AEAFA0(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu1_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
         return true;
@@ -265,8 +265,8 @@ s32 func_80AEAFA0(PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-s32 func_80AEAFE0(PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = EnRu1_GetCue(play, channel);
+s32 func_80AEAFE0(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu1_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id != cueId)) {
         return true;

@@ -58,9 +58,9 @@ void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play)
 void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, PlayState* play);
 
 s32 DemoEffect_CheckForCue(DemoEffect* this, PlayState* play, s32 cueId);
-void DemoEffect_SetCueStartPos(DemoEffect* this, PlayState* play, s32 channel);
-void DemoEffect_SetCuePosRot(DemoEffect* this, PlayState* play, s32 channel, s32 shouldUpdateFacing);
-void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 channel, f32 speed);
+void DemoEffect_SetCueStartPos(DemoEffect* this, PlayState* play, s32 cueChannel);
+void DemoEffect_SetCuePosRot(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing);
+void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed);
 
 const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
@@ -122,9 +122,9 @@ void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
 /**
  * Gives a number on the range of 0.0f - 1.0f representing current cue completion percentage.
  */
-f32 DemoEffect_InterpolateCsFrames(PlayState* play, s32 channel) {
-    f32 interpolated = Environment_LerpWeight(play->csCtx.actorCues[channel]->endFrame,
-                                              play->csCtx.actorCues[channel]->startFrame, play->csCtx.curFrame);
+f32 DemoEffect_InterpolateCsFrames(PlayState* play, s32 cueChannel) {
+    f32 interpolated = Environment_LerpWeight(play->csCtx.actorCues[cueChannel]->endFrame,
+                                              play->csCtx.actorCues[cueChannel]->startFrame, play->csCtx.curFrame);
     if (interpolated > 1.0f) {
         interpolated = 1.0f;
     }
@@ -1414,17 +1414,17 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, PlayState* play) {
     f32 frameDivisor;
     f32 degrees;
     f32 radius;
-    s32 channel = this->cueChannel;
+    s32 cueChannel = this->cueChannel;
 
-    startPos.x = play->csCtx.actorCues[channel]->startPos.x;
-    startPos.y = play->csCtx.actorCues[channel]->startPos.y;
-    startPos.z = play->csCtx.actorCues[channel]->startPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
-    endPos.x = play->csCtx.actorCues[channel]->endPos.x;
-    endPos.y = play->csCtx.actorCues[channel]->endPos.y;
-    endPos.z = play->csCtx.actorCues[channel]->endPos.z;
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
 
-    frameDivisor = DemoEffect_InterpolateCsFrames(play, channel);
+    frameDivisor = DemoEffect_InterpolateCsFrames(play, cueChannel);
 
     switch (this->jewel.type) {
         case DEMO_EFFECT_JEWEL_KOKIRI:
@@ -2028,20 +2028,20 @@ void DemoEffect_FaceTowardPoint(DemoEffect* this, Vec3f startPos, Vec3f endPos) 
     this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(-(endPos.y - startPos.y), xzDistance));
 }
 
-void DemoEffect_SetCuePosRot(DemoEffect* this, PlayState* play, s32 channel, s32 shouldUpdateFacing) {
+void DemoEffect_SetCuePosRot(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing) {
     Vec3f startPos;
     Vec3f endPos;
     f32 speed;
 
-    startPos.x = play->csCtx.actorCues[channel]->startPos.x;
-    startPos.y = play->csCtx.actorCues[channel]->startPos.y;
-    startPos.z = play->csCtx.actorCues[channel]->startPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
-    endPos.x = play->csCtx.actorCues[channel]->endPos.x;
-    endPos.y = play->csCtx.actorCues[channel]->endPos.y;
-    endPos.z = play->csCtx.actorCues[channel]->endPos.z;
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
 
-    speed = DemoEffect_InterpolateCsFrames(play, channel);
+    speed = DemoEffect_InterpolateCsFrames(play, cueChannel);
 
     this->actor.world.pos.x = ((endPos.x - startPos.x) * speed) + startPos.x;
     this->actor.world.pos.y = ((endPos.y - startPos.y) * speed) + startPos.y;
@@ -2052,20 +2052,20 @@ void DemoEffect_SetCuePosRot(DemoEffect* this, PlayState* play, s32 channel, s32
     }
 }
 
-void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 channel, f32 speed) {
+void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed) {
     Vec3f endPos;
 
-    endPos.x = play->csCtx.actorCues[channel]->endPos.x;
-    endPos.y = play->csCtx.actorCues[channel]->endPos.y;
-    endPos.z = play->csCtx.actorCues[channel]->endPos.z;
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
 
     DemoEffect_MoveTowardTarget(endPos, this, speed);
 }
 
-void DemoEffect_SetCueStartPos(DemoEffect* this, PlayState* play, s32 channel) {
-    f32 x = play->csCtx.actorCues[channel]->startPos.x;
-    f32 y = play->csCtx.actorCues[channel]->startPos.y;
-    f32 z = play->csCtx.actorCues[channel]->startPos.z;
+void DemoEffect_SetCueStartPos(DemoEffect* this, PlayState* play, s32 cueChannel) {
+    f32 x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    f32 y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    f32 z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
     this->actor.world.pos.x = x;
     this->actor.world.pos.y = y;

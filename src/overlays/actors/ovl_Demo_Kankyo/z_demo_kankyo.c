@@ -370,10 +370,10 @@ void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
-void DemoKankyo_SetCuePos(DemoKankyo* this, PlayState* play, s32 channel) {
+void DemoKankyo_SetCuePos(DemoKankyo* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorCue* cue = play->csCtx.actorCues[channel];
+    CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
     f32 lerp;
 
     startPos.x = cue->startPos.x;

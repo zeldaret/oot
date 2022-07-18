@@ -822,7 +822,7 @@ void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_HandleEntranceTriggers(PlayState* play);
 void Cutscene_HandleConditionalTriggers(PlayState* play);
-void Cutscene_SetScript(PlayState* play, void* segment);
+void Cutscene_SetScript(PlayState* play, void* script);
 void* MemCpy(void* dest, const void* src, s32 len);
 void GetItem_Draw(PlayState* play, s16 drawId);
 void SoundSource_InitAll(PlayState* play);

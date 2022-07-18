@@ -36,34 +36,34 @@ typedef void (*CutsceneHandler)(PlayState*, CutsceneContext*);
 
 void CutsceneHandler_DoNothing(PlayState* play, CutsceneContext* csCtx);
 void CutsceneHandler_StartManual(PlayState* play, CutsceneContext* csCtx);
-void CutsceneHandler_StartScripted(PlayState* play, CutsceneContext* csCtx);
-void CutsceneHandler_RunScripted(PlayState* play, CutsceneContext* csCtx);
+void CutsceneHandler_StartScript(PlayState* play, CutsceneContext* csCtx);
+void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx);
 void CutsceneHandler_StopManual(PlayState* play, CutsceneContext* csCtx);
-void CutsceneHandler_StopScripted(PlayState* play, CutsceneContext* csCtx);
+void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx);
 
 CutsceneHandler sManualCutsceneHandlers[] = {
     CutsceneHandler_DoNothing,   // CS_STATE_IDLE
     CutsceneHandler_StartManual, // CS_STATE_START
     CutsceneHandler_DoNothing,   // CS_STATE_RUN
     CutsceneHandler_StopManual,  // CS_STATE_STOP
-    CutsceneHandler_DoNothing,   // CS_STATE_RUN_TERMINATOR
+    CutsceneHandler_DoNothing,   // CS_STATE_RUN_UNSKIPPABLE
 };
 
 CutsceneHandler sScriptedCutsceneHandlers[] = {
-    CutsceneHandler_DoNothing,     // CS_STATE_IDLE
-    CutsceneHandler_StartScripted, // CS_STATE_START
-    CutsceneHandler_RunScripted,   // CS_STATE_RUN
-    CutsceneHandler_StopScripted,  // CS_STATE_STOP
-    CutsceneHandler_RunScripted,   // CS_STATE_RUN_TERMINATOR
+    CutsceneHandler_DoNothing,   // CS_STATE_IDLE
+    CutsceneHandler_StartScript, // CS_STATE_START
+    CutsceneHandler_RunScript,   // CS_STATE_RUN
+    CutsceneHandler_StopScript,  // CS_STATE_STOP
+    CutsceneHandler_RunScript,   // CS_STATE_RUN_UNSKIPPABLE
 };
 
 typedef enum {
-    /* 0 */ TITLE_CS_SPIRIT,
+    /* 0 */ TITLE_CS_SPIRIT_TEMPLE,
     /* 1 */ TITLE_CS_DEATH_MOUNTAIN_CRATER,
     /* 2 */ TITLE_CS_GANONDORF_HORSE
 } TitleCutsceneNext;
 
-u8 sTitleCsNextDestination = TITLE_CS_SPIRIT;
+u8 sTitleCsNextDestination = TITLE_CS_SPIRIT_TEMPLE;
 
 EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_SPOT00_3, 2, EVENTCHKINF_A0, gHyruleFieldIntroCs },
@@ -148,7 +148,7 @@ void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx) {
 }
 
 void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx) {
-    if (csCtx->state != CS_STATE_RUN_TERMINATOR) {
+    if (csCtx->state != CS_STATE_RUN_UNSKIPPABLE) {
         csCtx->state = CS_STATE_STOP;
     }
 }
@@ -209,8 +209,8 @@ void CutsceneHandler_StartManual(PlayState* play, CutsceneContext* csCtx) {
     }
 }
 
-void CutsceneHandler_StartScripted(PlayState* play, CutsceneContext* csCtx) {
-    CutsceneHandler_RunScripted(play, csCtx);
+void CutsceneHandler_StartScript(PlayState* play, CutsceneContext* csCtx) {
+    CutsceneHandler_RunScript(play, csCtx);
     Interface_ChangeAlpha(1);
     ShrinkWindow_SetVal(0x20);
 
@@ -225,7 +225,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
     f32 lerp;
     u8 isFirstFrame = false;
 
-    if ((csCtx->curFrame < cmd->startFrame) || ((csCtx->curFrame >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
+    if ((csCtx->curFrame < cmd->startFrame) ||
+        ((csCtx->curFrame >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
         return;
     }
 
@@ -312,7 +313,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 
         case CS_MISC_STOP:
             if (isFirstFrame) {
-                if (csCtx->state != CS_STATE_RUN_TERMINATOR) {
+                if (csCtx->state != CS_STATE_RUN_UNSKIPPABLE) {
                     csCtx->state = CS_STATE_STOP;
                 }
             }
@@ -549,7 +550,7 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdTermin
     if ((csCtx->curFrame == cmd->startFrame) || titleCsSkipped ||
         ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
-        csCtx->state = CS_STATE_RUN_TERMINATOR;
+        csCtx->state = CS_STATE_RUN_UNSKIPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
 
@@ -1245,7 +1246,7 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdTermin
 
             case 104:
                 switch (sTitleCsNextDestination) {
-                    case TITLE_CS_SPIRIT:
+                    case TITLE_CS_SPIRIT_TEMPLE:
                         play->nextEntranceIndex = ENTR_JYASINBOSS_0;
                         play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF2;
@@ -1266,7 +1267,7 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdTermin
                         play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF6;
                         play->transitionType = TRANS_TYPE_FADE_BLACK;
-                        sTitleCsNextDestination = 0;
+                        sTitleCsNextDestination = TITLE_CS_SPIRIT_TEMPLE;
                         break;
                 }
                 break;
@@ -1494,7 +1495,7 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
 }
 
 s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
-    s32 shouldContinue = 1;
+    s32 shouldContinue = true;
     CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
     s32 size;
 
@@ -1507,6 +1508,7 @@ s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd
         csCtx->camEyePoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camAtReady) {
+            // the frame number set here isn't important, it just signals that the camera data has been applied
             csCtx->camEyePointsAppliedFrame = cmdBase->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1514,18 +1516,19 @@ s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd
                 Play_ChangeCameraStatus(play, sPrevCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
-                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camLookAtPoints,
-                                   csCtx->camEyePoints, GET_PLAYER(play), relativeToPlayer);
+                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camLookAtPoints, csCtx->camEyePoints,
+                                   GET_PLAYER(play), relativeToPlayer);
             }
         }
     }
 
     while (shouldContinue) {
         if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
-            shouldContinue = 0;
+            shouldContinue = false;
         }
-        cmd += 0x10;
-        size += 0x10;
+
+        cmd += sizeof(CutsceneCameraPoint);
+        size += sizeof(CutsceneCameraPoint);
     }
 
     return size;
@@ -1545,6 +1548,7 @@ s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd,
         csCtx->camLookAtPoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camEyeReady) {
+            // the frame number set here isn't important, it just signals that the camera data has been applied
             gCamAtPointsAppliedFrame = cmdBase->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1552,8 +1556,8 @@ s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd,
                 Play_ChangeCameraStatus(play, sPrevCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
-                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camLookAtPoints,
-                                   csCtx->camEyePoints, GET_PLAYER(play), relativeToPlayer);
+                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camLookAtPoints, csCtx->camEyePoints,
+                                   GET_PLAYER(play), relativeToPlayer);
             }
         }
     }
@@ -1563,8 +1567,8 @@ s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd,
             shouldContinue = false;
         }
 
-        cmd += 0x10;
-        size += 0x10;
+        cmd += sizeof(CutsceneCameraPoint);
+        size += sizeof(CutsceneCameraPoint);
     }
 
     return size;
@@ -1587,6 +1591,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 u
         csCtx->camEyePoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camAtReady) {
+            // the frame number set here isn't important, it just signals that the camera data has been applied
             gCamEyeAppliedFrame = cmdBase->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1614,7 +1619,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 u
         }
     }
 
-    size += 0x10;
+    size += sizeof(CutsceneCameraPoint);
 
     return size;
 }
@@ -1635,6 +1640,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 un
         csCtx->camLookAtPoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camEyeReady) {
+            // the frame number set here isn't important, it just signals that the camera data has been applied
             gCamAtAppliedFrame = cmdBase->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1659,7 +1665,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 un
         }
     }
 
-    size += 0x10;
+    size += sizeof(CutsceneCameraPoint);
 
     return size;
 }
@@ -1753,7 +1759,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
     MemCpy(&cutsceneEndFrame, scriptPtr, sizeof(cutsceneEndFrame));
     scriptPtr += sizeof(cutsceneEndFrame);
 
-    if ((cutsceneEndFrame < csCtx->curFrame) && (csCtx->state != CS_STATE_RUN_TERMINATOR)) {
+    if ((cutsceneEndFrame < csCtx->curFrame) && (csCtx->state != CS_STATE_RUN_UNSKIPPABLE)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }
@@ -2156,7 +2162,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
     }
 }
 
-void CutsceneHandler_RunScripted(PlayState* play, CutsceneContext* csCtx) {
+void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
 
@@ -2182,7 +2188,7 @@ void CutsceneHandler_RunScripted(PlayState* play, CutsceneContext* csCtx) {
         csCtx->curFrame++;
 
         if (R_USE_DEBUG_CUTSCENE) {
-            Cutscene_ProcessScript(play, csCtx, gDebugCutscenePtr);
+            Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScriptPtr);
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.scriptPtr);
         }
@@ -2196,7 +2202,7 @@ void CutsceneHandler_StopManual(PlayState* play, CutsceneContext* csCtx) {
     }
 }
 
-void CutsceneHandler_StopScripted(PlayState* play, CutsceneContext* csCtx) {
+void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
     s16 i;
 
     if (Cutscene_StepTimer(play, csCtx, 0.0f)) {
@@ -2277,7 +2283,7 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
                 csCtx->state++; // CS_STATE_RUN
             }
 
-            CutsceneHandler_RunScripted(play, csCtx);
+            CutsceneHandler_RunScript(play, csCtx);
         }
 
         gSaveContext.cutsceneTrigger = 0;

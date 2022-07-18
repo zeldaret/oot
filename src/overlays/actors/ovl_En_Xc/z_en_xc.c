@@ -117,17 +117,17 @@ s32 EnXc_AnimIsFinished(EnXc* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorCue* EnXc_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* EnXc_GetCue(PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = NULL;
 
     if (play->csCtx.state != 0) {
-        cue = play->csCtx.actorCues[channel];
+        cue = play->csCtx.actorCues[cueChannel];
     }
     return cue;
 }
 
-s32 EnXc_CheckForCue(EnXc* this, PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = EnXc_GetCue(play, channel);
+s32 EnXc_CheckForCue(EnXc* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnXc_GetCue(play, cueChannel);
 
     if (cue != NULL && cue->id == cueId) {
         return true;
@@ -136,8 +136,8 @@ s32 EnXc_CheckForCue(EnXc* this, PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-s32 EnXc_CheckForNoCue(EnXc* this, PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = EnXc_GetCue(play, channel);
+s32 EnXc_CheckForNoCue(EnXc* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnXc_GetCue(play, cueChannel);
 
     if (cue && cue->id != cueId) {
         return true;
@@ -146,8 +146,8 @@ s32 EnXc_CheckForNoCue(EnXc* this, PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-void func_80B3C588(EnXc* this, PlayState* play, u32 channel) {
-    CsCmdActorCue* cue = EnXc_GetCue(play, channel);
+void func_80B3C588(EnXc* this, PlayState* play, u32 cueChannel) {
+    CsCmdActorCue* cue = EnXc_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
     if (cue != NULL) {
@@ -161,8 +161,8 @@ void func_80B3C588(EnXc* this, PlayState* play, u32 channel) {
     }
 }
 
-void func_80B3C620(EnXc* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = EnXc_GetCue(play, channel);
+void func_80B3C620(EnXc* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = EnXc_GetCue(play, cueChannel);
     Vec3f* worldPos = &this->actor.world.pos;
     f32 startX;
     f32 startY;

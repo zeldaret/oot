@@ -173,15 +173,15 @@ s32 EnRu2_UpdateSkelAnime(EnRu2* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorCue* EnRu2_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* EnRu2_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[channel];
+        return play->csCtx.actorCues[cueChannel];
     }
     return NULL;
 }
 
-s32 func_80AF27D0(EnRu2* this, PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = EnRu2_GetCue(play, channel);
+s32 func_80AF27D0(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
         return true;
@@ -189,8 +189,8 @@ s32 func_80AF27D0(EnRu2* this, PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-s32 func_80AF281C(EnRu2* this, PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = EnRu2_GetCue(play, channel);
+s32 func_80AF281C(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id != cueId)) {
         return true;
@@ -198,8 +198,8 @@ s32 func_80AF281C(EnRu2* this, PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-void func_80AF2868(EnRu2* this, PlayState* play, u32 channel) {
-    CsCmdActorCue* cue = EnRu2_GetCue(play, channel);
+void func_80AF2868(EnRu2* this, PlayState* play, u32 cueChannel) {
+    CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
     if (cue != NULL) {

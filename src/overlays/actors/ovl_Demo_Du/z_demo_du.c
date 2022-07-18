@@ -102,15 +102,15 @@ void DemoDu_UpdateBgCheckInfo(DemoDu* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
-CsCmdActorCue* DemoDu_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* DemoDu_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[channel];
+        return play->csCtx.actorCues[cueChannel];
     }
     return NULL;
 }
 
-s32 DemoDu_CheckForCue(DemoDu* this, PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = DemoDu_GetCue(play, channel);
+s32 DemoDu_CheckForCue(DemoDu* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
         return true;
@@ -118,8 +118,8 @@ s32 DemoDu_CheckForCue(DemoDu* this, PlayState* play, u16 cueId, s32 channel) {
     return false;
 }
 
-s32 DemoDu_CheckForNoCue(DemoDu* this, PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = DemoDu_GetCue(play, channel);
+s32 DemoDu_CheckForNoCue(DemoDu* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id != cueId)) {
         return true;
@@ -127,8 +127,8 @@ s32 DemoDu_CheckForNoCue(DemoDu* this, PlayState* play, u16 cueId, s32 channel) 
     return false;
 }
 
-void DemoDu_SetCuePosRot(DemoDu* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = DemoDu_GetCue(play, channel);
+void DemoDu_SetCuePosRot(DemoDu* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
     s32 pad;
 
     if (cue != NULL) {

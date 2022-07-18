@@ -19,9 +19,9 @@ void EnTr_ShrinkVanish(EnTr* this, PlayState* play);
 void EnTr_WaitToReappear(EnTr* this, PlayState* play);
 void EnTr_ChooseAction1(EnTr* this, PlayState* play);
 
-void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 channel);
-void func_80B24038(EnTr* this, PlayState* play, s32 channel);
-void EnTr_SetCueStartPosRot(EnTr* this, PlayState* play, s32 channel);
+void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 cueChannel);
+void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
+void EnTr_SetCueStartPosRot(EnTr* this, PlayState* play, s32 cueChannel);
 
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
@@ -443,29 +443,29 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-f32 func_80B23FDC(PlayState* play, s32 channel) {
-    f32 phi_f2 = Environment_LerpWeight(play->csCtx.actorCues[channel]->endFrame,
-                                        play->csCtx.actorCues[channel]->startFrame, play->csCtx.curFrame);
+f32 func_80B23FDC(PlayState* play, s32 cueChannel) {
+    f32 phi_f2 = Environment_LerpWeight(play->csCtx.actorCues[cueChannel]->endFrame,
+                                        play->csCtx.actorCues[cueChannel]->startFrame, play->csCtx.curFrame);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }
 
-void func_80B24038(EnTr* this, PlayState* play, s32 channel) {
+void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
     f32 temp_f0;
     f32 temp_f0_2;
     f32 phi_f12;
 
-    startPos.x = play->csCtx.actorCues[channel]->startPos.x;
-    startPos.y = play->csCtx.actorCues[channel]->startPos.y;
-    startPos.z = play->csCtx.actorCues[channel]->startPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
-    endPos.x = play->csCtx.actorCues[channel]->endPos.x;
-    endPos.y = play->csCtx.actorCues[channel]->endPos.y;
-    endPos.z = play->csCtx.actorCues[channel]->endPos.z;
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
 
-    temp_f0 = func_80B23FDC(play, channel);
+    temp_f0 = func_80B23FDC(play, cueChannel);
 
     startPos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
     startPos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
@@ -490,8 +490,8 @@ void func_80B24038(EnTr* this, PlayState* play, s32 channel) {
     func_8002D7EC(&this->actor);
 }
 
-void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 channel) {
-    s16 rotY = play->csCtx.actorCues[channel]->rot.y;
+void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 cueChannel) {
+    s16 rotY = play->csCtx.actorCues[cueChannel]->rot.y;
     s32 rotDiff = this->actor.world.rot.y - rotY;
     s32 rotSign;
 
@@ -513,13 +513,13 @@ void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 channel) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-void EnTr_SetCueStartPosRot(EnTr* this, PlayState* play, s32 channel) {
+void EnTr_SetCueStartPosRot(EnTr* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
 
-    startPos.x = play->csCtx.actorCues[channel]->startPos.x;
-    startPos.y = play->csCtx.actorCues[channel]->startPos.y;
-    startPos.z = play->csCtx.actorCues[channel]->startPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
     this->actor.world.pos = startPos;
-    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.actorCues[channel]->rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.actorCues[cueChannel]->rot.y;
 }

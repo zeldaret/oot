@@ -207,10 +207,10 @@ s32 DemoGo_UpdateSkelAnime(DemoGo* this) {
 
 s32 func_8097CDB0(DemoGo* this, PlayState* play, u16 id) {
     CutsceneContext* csCtx = &play->csCtx;
-    s32 channel = DemoGo_GetCueChannel(this);
+    s32 cueChannel = DemoGo_GetCueChannel(this);
 
-    if ((csCtx->state != CS_STATE_IDLE) && (csCtx->actorCues[channel] != NULL) &&
-        (csCtx->actorCues[channel]->id == id)) {
+    if ((csCtx->state != CS_STATE_IDLE) && (csCtx->actorCues[cueChannel] != NULL) &&
+        (csCtx->actorCues[cueChannel]->id == id)) {
         return true;
     }
 

@@ -52,7 +52,7 @@ void func_80A01FE0(EnElf* this, PlayState* play);
 void func_80A04414(EnElf* this, PlayState* play);
 void func_80A0461C(EnElf* this, PlayState* play);
 void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife);
-void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 channel);
+void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 cueChannel);
 
 const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
@@ -1545,10 +1545,10 @@ void EnElf_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 channel) {
+void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorCue* cue = play->csCtx.actorCues[channel];
+    CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
     f32 lerp;
 
     startPos.x = cue->startPos.x;

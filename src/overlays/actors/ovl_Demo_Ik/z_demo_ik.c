@@ -34,15 +34,15 @@ s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorCue* DemoIk_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* DemoIk_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[channel];
+        return play->csCtx.actorCues[cueChannel];
     }
     return NULL;
 }
 
-s32 DemoIk_CheckCue(PlayState* play, u16 cueId, s32 channel) {
-    CsCmdActorCue* cue = DemoIk_GetCue(play, channel);
+s32 DemoIk_CheckCue(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIk_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
         return 1;
@@ -116,18 +116,18 @@ void DemoIk_SpawnDeadDb(DemoIk* this, PlayState* play) {
         { -6.0f, 13.0f, -5.0f }, { 1.0f, 9.0f, 3.0f },    { -10.0f, 9.0f, 1.0f },
     };
     s32 i;
-    s32 channel = DemoIk_GetCueChannel(this->actor.params);
+    s32 cueChannel = DemoIk_GetCueChannel(this->actor.params);
 
-    if (DemoIk_CheckCue(play, 5, channel)) {
+    if (DemoIk_CheckCue(play, 5, cueChannel)) {
         Vec3f pos;
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         s32 startIndex;
         s32 endIndex;
 
-        if (channel == 5) {
+        if (cueChannel == 5) {
             startIndex = 0;
             endIndex = 4;
-        } else if (channel == 7) {
+        } else if (cueChannel == 7) {
             startIndex = 4;
             endIndex = 8;
         } else {
@@ -143,8 +143,8 @@ void DemoIk_SpawnDeadDb(DemoIk* this, PlayState* play) {
     }
 }
 
-void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = DemoIk_GetCue(play, channel);
+void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIk_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         this->actor.world.pos.x = cue->startPos.x;

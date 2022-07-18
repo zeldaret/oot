@@ -50,9 +50,9 @@ void DemoExt_PlayVortexSFX(DemoExt* this) {
     }
 }
 
-CsCmdActorCue* DemoExt_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* DemoExt_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[channel];
+        return play->csCtx.actorCues[cueChannel];
     }
 
     return NULL;

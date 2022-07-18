@@ -210,15 +210,15 @@ s32 EnZl2_UpdateSkelAnime(EnZl2* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorCue* EnZl2_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* EnZl2_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[channel];
+        return play->csCtx.actorCues[cueChannel];
     }
     return NULL;
 }
 
-void func_80B4EDB8(EnZl2* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = EnZl2_GetCue(play, channel);
+void func_80B4EDB8(EnZl2* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = EnZl2_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         this->actor.world.pos.x = cue->startPos.x;

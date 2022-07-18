@@ -229,16 +229,16 @@ s32 EnNb_UpdateSkelAnime(EnNb* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorCue* EnNb_GetCue(PlayState* play, s32 channel) {
+CsCmdActorCue* EnNb_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[channel];
+        return play->csCtx.actorCues[cueChannel];
     }
 
     return NULL;
 }
 
-void EnNb_SetCueStartPos(EnNb* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = EnNb_GetCue(play, channel);
+void EnNb_SetCueStartPos(EnNb* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = EnNb_GetCue(play, cueChannel);
     s16 newRotY;
     Actor* thisx = &this->actor;
 
@@ -251,28 +251,28 @@ void EnNb_SetCueStartPos(EnNb* this, PlayState* play, s32 channel) {
     }
 }
 
-s32 func_80AB1390(EnNb* this, PlayState* play, u16 cueId, s32 channel) {
+s32 func_80AB1390(EnNb* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (cue = play->csCtx.actorCues[channel], cue != NULL) &&
+    if ((play->csCtx.state != CS_STATE_IDLE) && (cue = play->csCtx.actorCues[cueChannel], cue != NULL) &&
         (cue->id == cueId)) {
         return true;
     }
     return false;
 }
 
-s32 func_80AB13D8(EnNb* this, PlayState* play, u16 arg2, s32 channel) {
+s32 func_80AB13D8(EnNb* this, PlayState* play, u16 arg2, s32 cueChannel) {
     CsCmdActorCue* cue;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (cue = play->csCtx.actorCues[channel], cue != NULL) &&
+    if ((play->csCtx.state != CS_STATE_IDLE) && (cue = play->csCtx.actorCues[cueChannel], cue != NULL) &&
         (cue->id != arg2)) {
         return true;
     }
     return false;
 }
 
-void EnNb_SetCuePosRot(EnNb* this, PlayState* play, s32 channel) {
-    CsCmdActorCue* cue = EnNb_GetCue(play, channel);
+void EnNb_SetCuePosRot(EnNb* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = EnNb_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
     if (cue != NULL) {

@@ -1,7 +1,7 @@
 #include "global.h"
 #include "vt.h"
 
-void* gDebugCutscenePtr = NULL;
+void* gDebugCutsceneScriptPtr = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 Input* D_8012D1F8 = NULL;
 
@@ -11,7 +11,7 @@ VisMono D_80161498;
 Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 sTransitionFillTimer;
-u64 sDebugCutsceneData[0xA00];
+u64 sDebugCutsceneScript[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
@@ -433,9 +433,9 @@ void Play_Init(GameState* thisx) {
     gSaveContext.respawnFlag = 0;
 
     if (R_USE_DEBUG_CUTSCENE) {
-        gDebugCutscenePtr = sDebugCutsceneData;
-        osSyncPrintf("\nkawauso_data=[%x]", gDebugCutscenePtr);
-        DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutscenePtr, sizeof(sDebugCutsceneData));
+        gDebugCutsceneScriptPtr = sDebugCutsceneScript;
+        osSyncPrintf("\nkawauso_data=[%x]", gDebugCutsceneScriptPtr);
+        DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScriptPtr, sizeof(sDebugCutsceneScript));
     }
 }
 

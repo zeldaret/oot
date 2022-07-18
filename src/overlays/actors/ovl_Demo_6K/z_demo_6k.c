@@ -35,7 +35,7 @@ void func_8096865C(Actor* thisx, PlayState* play);
 void func_809688C4(Actor* thisx, PlayState* play2);
 void func_80968B70(Actor* thisx, PlayState* play);
 void func_80968FB0(Actor* thisx, PlayState* play);
-void func_809691BC(Demo6K* this, PlayState* play, s32 channel);
+void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel);
 
 const ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
@@ -795,11 +795,11 @@ void func_80968FB0(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1411);
 }
 
-void func_809691BC(Demo6K* this, PlayState* play, s32 channel) {
+void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
     f32 temp;
-    CsCmdActorCue* cue = play->csCtx.actorCues[channel];
+    CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
 
     startPos.x = cue->startPos.x;
     startPos.y = cue->startPos.y;
