@@ -65,6 +65,13 @@ typedef enum {
 
 u8 sTitleCsNextDestination = TITLE_CS_SPIRIT_TEMPLE;
 
+typedef struct {
+    /* 0x00 */ u16 entrance;      // entrance index upon which the cutscene should trigger
+    /* 0x02 */ u8 ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
+    /* 0x03 */ u8 flag;           // eventChkInf flag bound to the entrance cutscene
+    /* 0x04 */ void* scriptPtr;   // pointer to the cutscene script
+} EntranceCutscene;               // size = 0x8
+
 EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_SPOT00_3, 2, EVENTCHKINF_A0, gHyruleFieldIntroCs },
     { ENTR_SPOT16_0, 2, EVENTCHKINF_A1, gDMTIntroCs },
@@ -1494,22 +1501,22 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
     }
 }
 
-s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
+s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr, u8 relativeToPlayer) {
     s32 shouldContinue = true;
-    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
+    CsCmdGeneric* cmd = (CsCmdGeneric*)scriptPtr;
     s32 size;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CsCmdGeneric);
+    size = sizeof(CsCmdGeneric);
 
-    if ((cmdBase->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmdBase->endFrame) &&
-        ((csCtx->camEyePointsAppliedFrame < cmdBase->startFrame) || (csCtx->camEyePointsAppliedFrame >= 0xF000))) {
+    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+        ((csCtx->camEyePointsAppliedFrame < cmd->startFrame) || (csCtx->camEyePointsAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camAtReady) {
             // the frame number set here isn't important, it just signals that the camera data has been applied
-            csCtx->camEyePointsAppliedFrame = cmdBase->startFrame;
+            csCtx->camEyePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
@@ -1534,22 +1541,22 @@ s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd
     return size;
 }
 
-s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToPlayer) {
+s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr, u8 relativeToPlayer) {
     s32 shouldContinue = true;
-    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
+    CsCmdGeneric* cmd = (CsCmdGeneric*)scriptPtr;
     s32 size;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CsCmdGeneric);
+    size = sizeof(CsCmdGeneric);
 
-    if ((cmdBase->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmdBase->endFrame) &&
-        ((gCamAtPointsAppliedFrame < cmdBase->startFrame) || (gCamAtPointsAppliedFrame >= 0xF000))) {
+    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+        ((gCamAtPointsAppliedFrame < cmd->startFrame) || (gCamAtPointsAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camLookAtPoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camEyeReady) {
             // the frame number set here isn't important, it just signals that the camera data has been applied
-            gCamAtPointsAppliedFrame = cmdBase->startFrame;
+            gCamAtPointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
@@ -1574,25 +1581,25 @@ s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd,
     return size;
 }
 
-s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
-    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
+s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr, u8 unused) {
+    CsCmdGeneric* cmd = (CsCmdGeneric*)scriptPtr;
     s32 size;
     Vec3f at;
     Vec3f eye;
     Camera* subCam;
     f32 sp28;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CsCmdGeneric);
+    size = sizeof(CsCmdGeneric);
 
-    if ((cmdBase->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmdBase->endFrame) &&
-        ((gCamEyeAppliedFrame < cmdBase->startFrame) || (gCamEyeAppliedFrame >= 0xF000))) {
+    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+        ((gCamEyeAppliedFrame < cmd->startFrame) || (gCamEyeAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camAtReady) {
             // the frame number set here isn't important, it just signals that the camera data has been applied
-            gCamEyeAppliedFrame = cmdBase->startFrame;
+            gCamEyeAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 subCam = Play_GetCamera(play, csCtx->subCamId);
@@ -1624,24 +1631,24 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 u
     return size;
 }
 
-s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
-    CsCmdGeneric* cmdBase = (CsCmdGeneric*)cmd;
+s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr, u8 unused) {
+    CsCmdGeneric* cmd = (CsCmdGeneric*)scriptPtr;
     s32 size;
     Vec3f at;
     Vec3f eye;
     Camera* subCam;
 
-    cmd += 8;
-    size = 8;
+    cmd += sizeof(CsCmdGeneric);
+    size = sizeof(CsCmdGeneric);
 
-    if ((cmdBase->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmdBase->endFrame) &&
-        ((gCamAtAppliedFrame < cmdBase->startFrame) || (gCamAtAppliedFrame >= 0xF000))) {
+    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+        ((gCamAtAppliedFrame < cmd->startFrame) || (gCamAtAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camLookAtPoints = (CutsceneCameraPoint*)cmd;
 
         if (csCtx->camEyeReady) {
             // the frame number set here isn't important, it just signals that the camera data has been applied
-            gCamAtAppliedFrame = cmdBase->startFrame;
+            gCamAtAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 subCam = Play_GetCamera(play, csCtx->subCamId);
@@ -2328,7 +2335,7 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
             (gSaveContext.cutsceneIndex < 0xFFF0) && ((u8)gSaveContext.linkAge == requiredAge) &&
             (gSaveContext.respawnFlag <= 0)) {
             Flags_SetEventChkInf(entranceCutscene->flag);
-            Cutscene_SetScript(play, entranceCutscene->segAddr);
+            Cutscene_SetScript(play, entranceCutscene->scriptPtr);
             gSaveContext.cutsceneTrigger = 2;
             gSaveContext.showTitleCard = false;
             break;
