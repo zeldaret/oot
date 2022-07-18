@@ -2280,7 +2280,7 @@ void EnHorse_WarpMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
 
     this->actor.prevPos = this->actor.world.pos;
 
-    this->actor.world.rot.y = cue->urot.y;
+    this->actor.world.rot.y = cue->rot.y;
     this->actor.shape.rot = this->actor.world.rot;
 
     this->animationIdx = ENHORSE_ANIM_GALLOP;
@@ -2321,7 +2321,7 @@ void EnHorse_CsWarpRearingInit(EnHorse* this, PlayState* play, CsCmdActorCue* cu
 
     this->actor.prevPos = this->actor.world.pos;
 
-    this->actor.world.rot.y = cue->urot.y;
+    this->actor.world.rot.y = cue->rot.y;
     this->actor.shape.rot = this->actor.world.rot;
 
     this->animationIdx = ENHORSE_ANIM_REARING;
@@ -2405,7 +2405,7 @@ void EnHorse_CutsceneUpdate(EnHorse* this, PlayState* play) {
                     this->actor.world.pos.y = playerCue->startPos.y;
                     this->actor.world.pos.z = playerCue->startPos.z;
 
-                    this->actor.world.rot.y = playerCue->urot.y;
+                    this->actor.world.rot.y = playerCue->rot.y;
                     this->actor.shape.rot = this->actor.world.rot;
 
                     this->actor.prevPos = this->actor.world.pos;

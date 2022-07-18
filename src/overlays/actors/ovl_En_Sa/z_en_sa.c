@@ -684,9 +684,9 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
                 this->unk_20C = 8;
             }
         }
-        this->actor.shape.rot.x = cue->urot.x;
-        this->actor.shape.rot.y = cue->urot.y;
-        this->actor.shape.rot.z = cue->urot.z;
+        this->actor.shape.rot.x = cue->rot.x;
+        this->actor.shape.rot.y = cue->rot.y;
+        this->actor.shape.rot.z = cue->rot.z;
         this->actor.velocity = D_80AF7448;
 
         if (play->csCtx.curFrame < cue->endFrame) {

@@ -110,9 +110,9 @@ void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play) {
                 this->unk_19C = 1;
             }
 
-            this->actor.shape.rot.x = cue->urot.x;
-            this->actor.shape.rot.y = cue->urot.y;
-            this->actor.shape.rot.z = cue->urot.z;
+            this->actor.shape.rot.x = cue->rot.x;
+            this->actor.shape.rot.y = cue->rot.y;
+            this->actor.shape.rot.z = cue->rot.z;
 
             this->actor.velocity = velocity;
 

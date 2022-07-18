@@ -557,7 +557,7 @@ void func_80B3D48C(EnXc* this, PlayState* play) {
     s16 yaw;
 
     if (playerCue != NULL) {
-        yaw = playerCue->urot.y + 0x8000;
+        yaw = playerCue->rot.y + 0x8000;
     } else {
         Player* player = GET_PLAYER(play);
         yaw = player->actor.world.rot.y + 0x8000;

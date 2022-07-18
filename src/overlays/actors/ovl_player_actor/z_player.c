@@ -14224,7 +14224,7 @@ void func_80852A54(PlayState* play, Player* this, CsCmdActorCue* cue) {
     f32 dy = cue->startPos.y - (s32)this->actor.world.pos.y;
     f32 dz = cue->startPos.z - (s32)this->actor.world.pos.z;
     f32 dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
-    s16 yawDiff = cue->rot.y - this->actor.shape.rot.y;
+    s16 yawDiff = (s16)cue->rot.y - this->actor.shape.rot.y;
 
     if ((this->linearVelocity == 0.0f) && ((dist > 50.0f) || (ABS(yawDiff) > 0x4000))) {
         func_808529D0(play, this, cue);

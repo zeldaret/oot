@@ -765,12 +765,12 @@ void EnViewer_UpdatePosition(EnViewer* this, PlayState* play) {
             }
 
             if (type == ENVIEWER_TYPE_9_GANONDORF) {
-                this->actor.world.rot.x = play->csCtx.actorCues[1]->urot.x;
-                this->actor.world.rot.y = play->csCtx.actorCues[1]->urot.y;
-                this->actor.world.rot.z = play->csCtx.actorCues[1]->urot.z;
-                this->actor.shape.rot.x = play->csCtx.actorCues[1]->urot.x;
-                this->actor.shape.rot.y = play->csCtx.actorCues[1]->urot.y;
-                this->actor.shape.rot.z = play->csCtx.actorCues[1]->urot.z;
+                this->actor.world.rot.x = play->csCtx.actorCues[1]->rot.x;
+                this->actor.world.rot.y = play->csCtx.actorCues[1]->rot.y;
+                this->actor.world.rot.z = play->csCtx.actorCues[1]->rot.z;
+                this->actor.shape.rot.x = play->csCtx.actorCues[1]->rot.x;
+                this->actor.shape.rot.y = play->csCtx.actorCues[1]->rot.y;
+                this->actor.shape.rot.z = play->csCtx.actorCues[1]->rot.z;
             }
         }
         if (type == ENVIEWER_TYPE_5_GANONDORF) {

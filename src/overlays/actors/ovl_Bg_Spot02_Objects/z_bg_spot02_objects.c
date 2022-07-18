@@ -244,9 +244,9 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 
         Matrix_Translate(play->csCtx.actorCues[0]->startPos.x, play->csCtx.actorCues[0]->startPos.y,
                          play->csCtx.actorCues[0]->startPos.z, MTXMODE_NEW);
-        Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[0]->urot.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[0]->urot.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(play->csCtx.actorCues[0]->urot.z), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.z), MTXMODE_APPLY);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
@@ -286,7 +286,7 @@ void func_808AD450(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 736);
 
     if (play->csCtx.state != 0 && play->csCtx.actorCues[2] != NULL) {
-        u16 temp_v1 = CAM_BINANG_TO_DEG(play->csCtx.actorCues[2]->urot.z);
+        u16 temp_v1 = CAM_BINANG_TO_DEG(play->csCtx.actorCues[2]->rot.z);
 
         if (this->unk_170 != temp_v1) {
             if (this->unk_170 == 0xFFFF) {
@@ -305,8 +305,8 @@ void func_808AD450(Actor* thisx, PlayState* play) {
         if ((play->csCtx.actorCues[2]->id & 0xFFFF) == 2) {
             Matrix_Translate(play->csCtx.actorCues[2]->startPos.x, play->csCtx.actorCues[2]->startPos.y,
                              play->csCtx.actorCues[2]->startPos.z, MTXMODE_NEW);
-            Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[2]->urot.x), MTXMODE_APPLY);
-            Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[2]->urot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[2]->rot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[2]->rot.y), MTXMODE_APPLY);
             Matrix_Scale(0.9f, 0.9f, (((this->unk_170 - this->unk_172) * lerp) + this->unk_172) * 0.1f, MTXMODE_APPLY);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 

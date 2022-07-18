@@ -282,13 +282,10 @@ typedef struct {
     /* 0x00 */ u16 id; // "dousa"
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-    union {
-        /* 0x06 */ Vec3s rot;
-        /* 0x06 */ Vec3us urot;
-    };
+    /* 0x06 */ Vec3us rot;
     /* 0x0C */ Vec3i startPos;
     /* 0x18 */ Vec3i endPos;
-    /* 0x24 */ Vec3i normal;
+    /* 0x24 */ u8 unused_24[0xC];
 } CsCmdActorCue; // size = 0x30
 
 typedef enum {

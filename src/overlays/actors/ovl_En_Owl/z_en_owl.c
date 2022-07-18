@@ -798,7 +798,7 @@ void EnOwl_WaitDefault(EnOwl* this, PlayState* play) {
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);
         } else {
-            this->actor.world.rot.z = play->csCtx.actorCues[7]->urot.y;
+            this->actor.world.rot.z = play->csCtx.actorCues[7]->rot.y;
         }
     }
 
@@ -1340,7 +1340,7 @@ void func_80ACD130(EnOwl* this, PlayState* play, s32 idx) {
     startPos.z = play->csCtx.actorCues[idx]->startPos.z;
     this->actor.world.pos = startPos;
     this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.actorCues[idx]->rot.y;
-    this->actor.shape.rot.z = play->csCtx.actorCues[idx]->urot.z;
+    this->actor.shape.rot.z = play->csCtx.actorCues[idx]->rot.z;
 }
 
 f32 func_80ACD1C4(PlayState* play, s32 idx) {
@@ -1379,7 +1379,7 @@ void func_80ACD2CC(EnOwl* this, PlayState* play) {
     angle = (s16)((t * angle) + this->actor.world.rot.z);
     angle = (u16)angle;
     if (this->actionFlags & 4) {
-        f32 phi_f2 = play->csCtx.actorCues[7]->urot.x;
+        f32 phi_f2 = play->csCtx.actorCues[7]->rot.x;
 
         phi_f2 *= 10.0f * (360.0f / 0x10000);
         if (phi_f2 < 0.0f) {

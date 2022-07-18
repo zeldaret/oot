@@ -185,10 +185,10 @@ void func_8097CCE0(DemoGo* this, PlayState* play) {
 
         if (cue != NULL) {
             thisRotY = thisx->world.rot.y;
-            rotYDelta = cue->rot.y - thisRotY;
+            rotYDelta = (s16)cue->rot.y - thisRotY;
 
             if ((rotYDelta > -(kREG(16) + 0x96)) && (rotYDelta < kREG(16) + 0x96)) {
-                newRotY = cue->rot.y;
+                newRotY = (s16)cue->rot.y;
             } else if (rotYDelta > 0) {
                 newRotY = (thisRotY + kREG(16)) + 0x96;
             } else {
