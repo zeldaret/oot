@@ -423,7 +423,7 @@ std::string CutsceneSubCommandEntry_TextBox::GetBodySourceCode() const
 		}
 	}
 
-	return StringHelper::Sprintf("CS_TEXT(0x%X, %i, %i, %i, 0x%X, 0x%X)", base,
+	return StringHelper::Sprintf("CS_TEXT_DISPLAY_TEXTBOX(0x%X, %i, %i, %i, 0x%X, 0x%X)", base,
 	                             startFrame, endFrame, type, textId1, textId2);
 }
 
@@ -540,7 +540,7 @@ std::string CutsceneCommand_ActorAction::GetCommandMacro() const
 	{
 		return StringHelper::Sprintf("CS_PLAYER_ACTION_LIST(%i)", entries.size());
 	}
-	return StringHelper::Sprintf("CS_ACTOR_CUE_LIST(0x%03X, %i)", commandID, entries.size());
+	return StringHelper::Sprintf("CS_NPC_ACTION_LIST(0x%03X, %i)", commandID, entries.size());
 }
 
 CutsceneCommand_Terminator::CutsceneCommand_Terminator(const std::vector<uint8_t>& rawData,
