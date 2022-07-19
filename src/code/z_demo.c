@@ -1507,7 +1507,7 @@ s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* scr
     scriptPtr += sizeof(CsCmdGeneric);
     size = sizeof(CsCmdGeneric);
 
-    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((csCtx->camEyePointsAppliedFrame < cmd->startFrame) || (csCtx->camEyePointsAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)scriptPtr;
@@ -1547,7 +1547,7 @@ s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* scri
     scriptPtr += sizeof(CsCmdGeneric);
     size = sizeof(CsCmdGeneric);
 
-    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((gCamAtPointsAppliedFrame < cmd->startFrame) || (gCamAtPointsAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camLookAtPoints = (CutsceneCameraPoint*)scriptPtr;
@@ -1590,7 +1590,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr
     scriptPtr += sizeof(CsCmdGeneric);
     size = sizeof(CsCmdGeneric);
 
-    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((gCamEyeAppliedFrame < cmd->startFrame) || (gCamEyeAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)scriptPtr;
@@ -1639,7 +1639,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr,
     scriptPtr += sizeof(CsCmdGeneric);
     size = sizeof(CsCmdGeneric);
 
-    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame < cmd->endFrame) &&
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((gCamAtAppliedFrame < cmd->startFrame) || (gCamAtAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camLookAtPoints = (CutsceneCameraPoint*)scriptPtr;
@@ -1679,7 +1679,7 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd
     u8 dialogState;
     s16 initialEndingFrame;
 
-    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
         if (cmd->type != CS_TEXT_OCARINA_ACTION) {
             if (sCurTextId != cmd->textId) {
                 sCurTextId = cmd->textId;
@@ -1860,7 +1860,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->playerCue = (void*)scriptPtr;
                     }
 
@@ -1892,7 +1892,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[0] = (void*)scriptPtr;
                     }
 
@@ -1924,7 +1924,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[1] = (void*)scriptPtr;
                     }
 
@@ -1952,7 +1952,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[2] = (void*)scriptPtr;
                     }
 
@@ -1979,7 +1979,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[3] = (void*)scriptPtr;
                     }
 
@@ -2002,7 +2002,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[4] = (void*)scriptPtr;
                     }
 
@@ -2023,7 +2023,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[5] = (void*)scriptPtr;
                     }
 
@@ -2045,7 +2045,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[6] = (void*)scriptPtr;
                     }
 
@@ -2066,7 +2066,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[7] = (void*)scriptPtr;
                     }
 
@@ -2081,7 +2081,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[8] = (void*)scriptPtr;
                     }
 
@@ -2096,7 +2096,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
                         csCtx->actorCues[9] = (void*)scriptPtr;
                     }
 
