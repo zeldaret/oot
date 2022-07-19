@@ -193,105 +193,6 @@ typedef enum {
 #define CS_CMD_SET_ACTOR_ACTION_10 CS_CMD_ACTOR_CUE_9_0
 #define CS_CMD_TERMINATOR CS_CMD_DESTINATION
 
-typedef struct {
-    /* 0x00 */ u16 base;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2];
-} CsCmdGeneric; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ u16 type;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
-} CsCmdMisc; // size = 0x30
-
-typedef struct {
-    /* 0x00 */ u8 unused_00;
-    /* 0x01 */ u8 setting;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
-} CsCmdLightSetting; // size = 0x30
-
-typedef struct {
-    /* 0x00 */ u8  unused_00;
-    /* 0x01 */ u8  seqId;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
-} CsCmdStartSeq; // size = 0x30
-
-typedef struct {
-    /* 0x00 */ u8  unused_00;
-    /* 0x01 */ u8  seqId;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
-} CsCmdStopSeq; // size = 0x30
-
-typedef struct {
-    /* 0x00 */ u16 type;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
-} CsCmdFadeSeq; // size = 0x30
-
-typedef struct {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8  unk_06;
-    /* 0x07 */ u8  unk_07;
-    /* 0x08 */ u8  unk_08;
-    /* 0x0A */ u8 unused_0A[0x2];
-} CsCmdRumble; // size = 0xC
-
-typedef struct {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8  hour;
-    /* 0x07 */ u8  minute;
-    /* 0x08 */ u8 unused_08[0x4];
-} CsCmdTime; // size = 0xC
-
-typedef struct {
-    /* 0x00 */ u16 destination;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2];
-} CsCmdDestination; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ u16 textId; // can also be an ocarina action for `CS_TEXT_OCARINA_ACTION`
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u16 type;
-    /* 0x08 */ u16 altTextId1;
-    /* 0x0A */ u16 altTextId2;
-} CsCmdTextbox; // size = 0xC
-
-#define CS_TEXT_ID_NONE 0xFFFF
-
-typedef struct {
-    /* 0x00 */ u16 type;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2];
-} CsCmdTransition; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ u16 id; // "dousa"
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ Vec3us rot;
-    /* 0x0C */ Vec3i startPos;
-    /* 0x18 */ Vec3i endPos;
-    /* 0x24 */ u8 unused_24[0xC];
-} CsCmdActorCue; // size = 0x30
-
 typedef enum {
     /* 0x01 */ CS_MISC_RAIN = 1,
     /* 0x02 */ CS_MISC_LIGHTNING,
@@ -475,6 +376,105 @@ typedef enum {
     /* 0x76 */ CS_DEST_GANON_BATTLE_TOWER_COLLAPSE,
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
+
+typedef struct {
+    /* 0x00 */ u16 base;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2];
+} CsCmdGeneric; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u16 type;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdMisc; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u8 unused_00;
+    /* 0x01 */ u8 setting;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdLightSetting; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u8  unused_00;
+    /* 0x01 */ u8  seqId;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdStartSeq; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u8  unused_00;
+    /* 0x01 */ u8  seqId;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdStopSeq; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u16 type;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2A];
+} CsCmdFadeSeq; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ u16 unk_00;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8  unk_06;
+    /* 0x07 */ u8  unk_07;
+    /* 0x08 */ u8  unk_08;
+    /* 0x0A */ u8 unused_0A[0x2];
+} CsCmdRumble; // size = 0xC
+
+typedef struct {
+    /* 0x00 */ u16 unk_00;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8  hour;
+    /* 0x07 */ u8  minute;
+    /* 0x08 */ u8 unused_08[0x4];
+} CsCmdTime; // size = 0xC
+
+typedef struct {
+    /* 0x00 */ u16 destination;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2];
+} CsCmdDestination; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u16 textId; // can also be an ocarina action for `CS_TEXT_OCARINA_ACTION`
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u16 type;
+    /* 0x08 */ u16 altTextId1;
+    /* 0x0A */ u16 altTextId2;
+} CsCmdTextbox; // size = 0xC
+
+#define CS_TEXT_ID_NONE 0xFFFF
+
+typedef struct {
+    /* 0x00 */ u16 type;
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ u8 unused_06[0x2];
+} CsCmdTransition; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u16 id; // "dousa"
+    /* 0x02 */ u16 startFrame;
+    /* 0x04 */ u16 endFrame;
+    /* 0x06 */ Vec3us rot;
+    /* 0x0C */ Vec3i startPos;
+    /* 0x18 */ Vec3i endPos;
+    /* 0x24 */ u8 unused_24[0xC];
+} CsCmdActorCue; // size = 0x30
 
 typedef struct {
     /* 0x00 */ s8 continueFlag;
