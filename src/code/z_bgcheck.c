@@ -24,6 +24,14 @@
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
+// floor raycast flags (frcFlags)
+#define BGCHECK_FRC_0 0
+#define BGCHECK_FRC_1 (1 << 0)
+#define BGCHECK_FRC_2 (1 << 1)
+#define BGCHECK_FRC_4 (1 << 2)
+#define BGCHECK_FRC_8 (1 << 3)
+#define BGCHECK_FRC_10 (1 << 4)
+
 // func_80041DB8, SurfaceType wall properties
 s32 D_80119D90[32] = {
     0, 1, 3, 5, 8, 16, 32, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -571,26 +579,26 @@ f32 BgCheck_RaycastFloorStaticList(CollisionContext* colCtx, u16 xpFlags, SSList
  * stores the pointer of the closest poly to `outPoly`
  */
 f32 BgCheck_RaycastFloorStatic(StaticLookup* lookup, CollisionContext* colCtx, u16 xpFlags, CollisionPoly** poly,
-                               Vec3f* pos, u32 arg5, f32 chkDist, f32 yIntersectMin) {
+                               Vec3f* pos, u32 frcFlags, f32 chkDist, f32 yIntersectMin) {
     s32 flag; // skip polys with normal.y < 0
     f32 yIntersect = yIntersectMin;
 
-    if (arg5 & 4) {
+    if (frcFlags & BGCHECK_FRC_4) {
         yIntersect = BgCheck_RaycastFloorStaticList(colCtx, xpFlags, &lookup->floor, poly, pos, yIntersect, chkDist, 0);
     }
 
-    if ((arg5 & 2) || (arg5 & 8)) {
+    if ((frcFlags & BGCHECK_FRC_2) || (frcFlags & BGCHECK_FRC_8)) {
         flag = 0;
-        if (arg5 & 0x10) {
+        if (frcFlags & BGCHECK_FRC_10) {
             flag = 1;
         }
         yIntersect =
             BgCheck_RaycastFloorStaticList(colCtx, xpFlags, &lookup->wall, poly, pos, yIntersect, chkDist, flag);
     }
 
-    if (arg5 & 1) {
+    if (frcFlags & BGCHECK_FRC_1) {
         flag = 0;
-        if (arg5 & 0x10) {
+        if (frcFlags & BGCHECK_FRC_10) {
             flag = 1;
         }
         yIntersect =
@@ -1651,8 +1659,7 @@ s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos) {
  * returns the poly found in `outPoly`, and the bgId of the entity in `outBgId`
  */
 f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly,
-                             s32* outBgId, Vec3f* pos, Actor* actor, u32 arg7, f32 chkDist) {
-
+                             s32* outBgId, Vec3f* pos, Actor* actor, u32 frcFlags, f32 chkDist) {
     f32 yIntersectDyna;
     s32* temp_a0;
     StaticLookup* lookupTbl;
@@ -1681,7 +1688,7 @@ f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFl
             checkPos.y -= colCtx->subdivLength.y;
             continue;
         }
-        yIntersect = BgCheck_RaycastFloorStatic(lookup, colCtx, xpFlags, outPoly, pos, arg7, chkDist, BGCHECK_Y_MIN);
+        yIntersect = BgCheck_RaycastFloorStatic(lookup, colCtx, xpFlags, outPoly, pos, frcFlags, chkDist, BGCHECK_Y_MIN);
         if (yIntersect > BGCHECK_Y_MIN) {
             break;
         }
@@ -1693,7 +1700,7 @@ f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFl
     dynaRaycast.yIntersect = yIntersect;
     dynaRaycast.pos = pos;
     dynaRaycast.actor = actor;
-    dynaRaycast.unk_20 = arg7;
+    dynaRaycast.frcFlags = frcFlags;
     dynaRaycast.chkDist = chkDist;
     dynaRaycast.play = play;
     dynaRaycast.resultPoly = outPoly;
@@ -1718,7 +1725,7 @@ f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFl
 f32 BgCheck_CameraRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos) {
     s32 bgId;
 
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_CAMERA, outPoly, &bgId, pos, NULL, 0x1C, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_CAMERA, outPoly, &bgId, pos, NULL, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 }
 
 /**
@@ -1728,7 +1735,7 @@ f32 BgCheck_CameraRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPol
 f32 BgCheck_EntityRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos) {
     s32 bgId;
 
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, &bgId, pos, NULL, 0x1C, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, &bgId, pos, NULL, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 }
 
 /**
@@ -1738,7 +1745,7 @@ f32 BgCheck_EntityRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPol
 f32 BgCheck_EntityRaycastFloor2(PlayState* play, CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos) {
     s32 bgId;
 
-    return BgCheck_RaycastFloorImpl(play, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, &bgId, pos, NULL, 0x1C, 1.0f);
+    return BgCheck_RaycastFloorImpl(play, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, &bgId, pos, NULL, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 }
 
 /**
@@ -1746,7 +1753,7 @@ f32 BgCheck_EntityRaycastFloor2(PlayState* play, CollisionContext* colCtx, Colli
  * returns yIntersect of the poly found, or BGCHECK_Y_MIN if no poly detected
  */
 f32 BgCheck_EntityRaycastFloor3(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, NULL, 0x1C, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, NULL, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 }
 
 /**
@@ -1755,7 +1762,7 @@ f32 BgCheck_EntityRaycastFloor3(CollisionContext* colCtx, CollisionPoly** outPol
  */
 f32 BgCheck_EntityRaycastFloor4(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
                                 Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, 0x1C, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 }
 
 /**
@@ -1764,7 +1771,7 @@ f32 BgCheck_EntityRaycastFloor4(CollisionContext* colCtx, CollisionPoly** outPol
  */
 f32 BgCheck_EntityRaycastFloor5(PlayState* play, CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId,
                                 Actor* actor, Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(play, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, 0x1C, 1.0f);
+    return BgCheck_RaycastFloorImpl(play, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 }
 
 /**
@@ -1773,7 +1780,7 @@ f32 BgCheck_EntityRaycastFloor5(PlayState* play, CollisionContext* colCtx, Colli
  */
 f32 BgCheck_EntityRaycastFloor6(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos,
                                 f32 chkDist) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, 0x1C, chkDist);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, chkDist);
 }
 
 /**
@@ -1782,7 +1789,7 @@ f32 BgCheck_EntityRaycastFloor6(CollisionContext* colCtx, CollisionPoly** outPol
  */
 f32 BgCheck_EntityRaycastFloor7(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
                                 Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, 0x06, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, BGCHECK_FRC_2 | BGCHECK_FRC_4, 1.0f);
 }
 
 /**
@@ -1794,7 +1801,7 @@ f32 BgCheck_AnyRaycastFloor1(CollisionContext* colCtx, CollisionPoly* outPoly, V
     f32 result;
     s32 bgId;
 
-    result = BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_NONE, &tempPoly, &bgId, pos, NULL, 0x1C, 1.0f);
+    result = BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_NONE, &tempPoly, &bgId, pos, NULL, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 
     if (tempPoly != NULL) {
         *outPoly = *tempPoly;
@@ -1808,7 +1815,7 @@ f32 BgCheck_AnyRaycastFloor1(CollisionContext* colCtx, CollisionPoly* outPoly, V
  */
 f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s32* bgId, Vec3f* pos) {
     CollisionPoly* tempPoly;
-    f32 result = BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_NONE, &tempPoly, bgId, pos, NULL, 0x1C, 1.0f);
+    f32 result = BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_NONE, &tempPoly, bgId, pos, NULL, BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
 
     if (tempPoly != NULL) {
         *outPoly = *tempPoly;
@@ -1821,7 +1828,7 @@ f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s
  * returns yIntersect of the poly found, or BGCHECK_Y_MIN if no poly detected
  */
 f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_CAMERA, outPoly, bgId, pos, NULL, 0x06, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_CAMERA, outPoly, bgId, pos, NULL, BGCHECK_FRC_2 | BGCHECK_FRC_4, 1.0f);
 }
 
 /**
@@ -1830,7 +1837,7 @@ f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPol
  */
 f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
                                 Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, 0x02, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, BGCHECK_FRC_2, 1.0f);
 }
 
 /**
@@ -1838,7 +1845,7 @@ f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPol
  * returns yIntersect of the poly found, or BGCHECK_Y_MIN if no poly detected
  */
 f32 BgCheck_EntityRaycastFloor9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, NULL, 0x06, 1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, NULL, BGCHECK_FRC_2 | BGCHECK_FRC_4, 1.0f);
 }
 
 /**
@@ -3025,7 +3032,7 @@ f32 BgCheck_RaycastFloorDynaList(DynaRaycast* dynaRaycast, u32 listType) {
                 continue;
             }
         }
-        if ((listType & (DYNA_RAYCAST_WALLS | DYNA_RAYCAST_CEILINGS)) && (dynaRaycast->unk_20 & 0x10) &&
+        if ((listType & (DYNA_RAYCAST_WALLS | DYNA_RAYCAST_CEILINGS)) && (dynaRaycast->frcFlags & BGCHECK_FRC_10) &&
             COLPOLY_GET_NORMAL(polyList[id].normal.y) < 0.0f) {
             if (curNode->next == SS_NULL) {
                 break;
@@ -3091,7 +3098,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
         }
 
         dynaRaycast->dyna = &dynaRaycast->colCtx->dyna;
-        if (dynaRaycast->unk_20 & BGCHECK_IGNORE_FLOOR) {
+        if (dynaRaycast->frcFlags & BGCHECK_FRC_4) {
             dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.floor;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_FLOORS);
 
@@ -3102,8 +3109,8 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
                 result = intersect2;
             }
         }
-        if ((dynaRaycast->unk_20 & BGCHECK_IGNORE_WALL) ||
-            (*dynaRaycast->resultPoly == NULL && (dynaRaycast->unk_20 & 8))) {
+        if ((dynaRaycast->frcFlags & BGCHECK_FRC_2) ||
+            (*dynaRaycast->resultPoly == NULL && (dynaRaycast->frcFlags & BGCHECK_FRC_8))) {
             dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.wall;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_WALLS);
             if (dynaRaycast->yIntersect < intersect2) {
@@ -3114,7 +3121,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
             }
         }
 
-        if (dynaRaycast->unk_20 & BGCHECK_IGNORE_CEILING) {
+        if (dynaRaycast->frcFlags & BGCHECK_FRC_1) {
             dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.ceiling;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_CEILINGS);
             if (dynaRaycast->yIntersect < intersect2) {
