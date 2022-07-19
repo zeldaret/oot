@@ -240,7 +240,7 @@ typedef enum {
 
 typedef enum {
     /* 0x03 */ CS_FADE_FANFARE = 3, 
-    /* 0x04 */ CS_FADE_BGM, 
+    /* 0x04 */ CS_FADE_BGM
 } CutsceneFadeSeqType;
 
 typedef enum {

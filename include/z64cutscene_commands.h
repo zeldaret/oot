@@ -16,71 +16,54 @@
 #define CS_BEGIN_CUTSCENE(totalEntries, endFrame) CMD_W(totalEntries), CMD_W(endFrame)
 
 /**
- * Declares a list of `CS_CAM_EYE_POINTS` entries.
+ * Declares a list of camera `eye` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
  */
 #define CS_CAM_EYE_POINTS_LIST(startFrame, endFrame) \
     CS_CMD_CAM_EYE_POINTS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
- * Defines camera `eye` data for a single point of a spline. 
+ * Declares a list of camera `eye` points that form a spline.
  * The points of the spline are interpolated over time to create smooth camera movements.
- */
-#define CS_CAM_EYE_POINTS(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
-
-/**
- * Declares a list of `CS_CAM_EYE_POINTS_REL_TO_PLAYER` entries.
+ * The camera is moved relative to player.
  */
 #define CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
     CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
-#define CS_CAM_EYE_POINTS_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
-
 /**
- * Declares a list of `CS_CAM_EYE` entries.
+ * Declares a list of camera `eye` data that will be set on the specified frame.
+ * This is a single point that will be set, the list of points are not interpolated over time.
  */
 #define CS_CAM_EYE_LIST(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_EYE_NEW, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
- * Defines camera `eye` data that will be set on the specified frame.
- */
-#define CS_CAM_EYE(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
-
-/**
- * Declares a list of `CS_CAM_AT_POINTS` entries.
+ * Declares a list of camera `at` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
  */
 #define CS_CAM_AT_POINTS_LIST(startFrame, endFrame) \
     CS_CMD_CAM_AT_POINTS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
- * Defines camera `at` data for a single point of a spline. 
+ * Declares a list of camera `at` points that form a spline.
  * The points of the spline are interpolated over time to create smooth camera movements.
- */
-#define CS_CAM_AT_POINTS(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
-
-/**
- * Declares a list of `CS_CAM_AT_POINTS_REL_TO_PLAYER` entries.
+ * The camera is moved relative to player.
  */
 #define CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
     CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
-#define CS_CAM_AT_POINTS_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
- * Declares a list of `CS_CAM_AT` entries.
+ * Declares a list of camera `at` data that will be set on the specified frame.
+ * This is a single point that will be set, the list of points are not interpolated over time.
  */
 #define CS_CAM_AT_LIST(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_AT_NEW, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
- * Defines camera `at` data that will be set on the specified frame.
+ * Defines data for `CutsceneCameraPoint`, which can be used with any of the `eye` or `at` camera commands.
  */
-#define CS_CAM_AT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+#define CS_CAM_POINT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
@@ -265,13 +248,13 @@
 
 // TODO: Fix ZAPD and delete these
 #define CS_CAM_POS_LIST                CS_CAM_EYE_POINTS_LIST
-#define CS_CAM_POS                     CS_CAM_EYE_POINTS
+#define CS_CAM_POS                     CS_CAM_POINT
 #define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_POINTS_LIST
-#define CS_CAM_FOCUS_POINT             CS_CAM_AT_POINTS
+#define CS_CAM_FOCUS_POINT             CS_CAM_POINT
 #define CS_CAM_POS_PLAYER_LIST         CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST
-#define CS_CAM_POS_PLAYER              CS_CAM_EYE_POINTS_REL_TO_PLAYER
+#define CS_CAM_POS_PLAYER              CS_CAM_POINT
 #define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST
-#define CS_CAM_FOCUS_POINT_PLAYER      CS_CAM_AT_POINTS_REL_TO_PLAYER
+#define CS_CAM_FOCUS_POINT_PLAYER      CS_CAM_POINT
 #define CS_NPC_ACTION_LIST             CS_ACTOR_CUE_LIST
 #define CS_NPC_ACTION                  CS_ACTOR_CUE
 #define CS_PLAYER_ACTION_LIST          CS_PLAYER_CUE_LIST
