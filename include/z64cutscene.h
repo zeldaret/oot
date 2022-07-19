@@ -239,6 +239,11 @@ typedef enum {
 } CutsceneTextType;
 
 typedef enum {
+    /* 0x03 */ CS_FADE_FANFARE = 3, 
+    /* 0x04 */ CS_FADE_BGM, 
+} CutsceneFadeSeqType;
+
+typedef enum {
     /* 0x01 */ CS_TRANS_GRAY_FILL = 1, // has hardcoded sounds for some scenes
     /* 0x02 */ CS_TRANS_BLUE_FILL,
     /* 0x03 */ CS_TRANS_RED_FILL,

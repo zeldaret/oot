@@ -22,7 +22,8 @@
     CS_CMD_CAM_EYE_POINTS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
- * 
+ * Defines camera `eye` data for a single point of a spline. 
+ * The points of the spline are interpolated over time to create smooth camera movements.
  */
 #define CS_CAM_EYE_POINTS(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
@@ -33,9 +34,6 @@
 #define CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
     CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
-/**
- * 
- */
 #define CS_CAM_EYE_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
@@ -46,7 +44,7 @@
     CS_CMD_CAM_EYE_NEW, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
- * 
+ * Defines camera `eye` data that will be set on the specified frame.
  */
 #define CS_CAM_EYE(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
@@ -58,7 +56,8 @@
     CS_CMD_CAM_AT_POINTS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
- *
+ * Defines camera `at` data for a single point of a spline. 
+ * The points of the spline are interpolated over time to create smooth camera movements.
  */
 #define CS_CAM_AT_POINTS(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
@@ -69,9 +68,6 @@
 #define CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
     CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
-/**
- * 
- */
 #define CS_CAM_AT_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
@@ -82,7 +78,7 @@
     CS_CMD_CAM_AT_NEW, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
- * 
+ * Defines camera `at` data that will be set on the specified frame.
  */
 #define CS_CAM_AT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
@@ -124,9 +120,6 @@
 #define CS_RUMBLE_CONTROLLER_LIST(entries) \
     CS_CMD_RUMBLE_CONTROLLER, CMD_W(entries)
 
-/**
- * 
- */
 #define CS_RUMBLE_CONTROLLER(unk, startFrame, endFrame, unk2, unk3, unk4, unused0, unused1) \
     CMD_HH(unk, startFrame), CMD_HBB(endFrame, unk2, unk3), CMD_BBH(unk4, unused0, unused1)
 
@@ -137,13 +130,14 @@
     CMD_W(cmdType), CMD_W(entries)
 
 /**
- * 
+ * Defines a cue that an actor an actor can listen for. The actor can choose to use the position and rotatation data supplied to it.
+ * The cue `id` is a number that each has an actor specific meaning which will signal that it should do something.
  */
-#define CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
+#define CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
     CMD_HH(id, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
     CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
     CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
-    CMD_F(normX), CMD_F(normY), CMD_F(normZ)
+    CMD_F(unused0), CMD_F(unused1), CMD_F(unused2)
 
 /**
  * Declares a list of `CS_PLAYER_CUE` entries.
@@ -152,10 +146,10 @@
     CS_CMD_PLAYER_CUE, CMD_W(entries)
 
 /**
- * 
+ * A player cue is the same as `CS_ACTOR_CUE` but is specifically for player. 
  */
-#define CS_PLAYER_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
+#define CS_PLAYER_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
+    CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2)
 
 /**
  * Declares a list of `CS_TEXT_*` entries.
@@ -164,22 +158,18 @@
     CS_CMD_TEXT, CMD_W(entries)
 
 /**
- * 
+ * Starts a textbox at the specified time. 
+ * For `CS_TEXT_OCARINA_ACTION`, `textId` is used as an ocarina action.
+ * For a choice textbox, `altTextId1` is the top text id to branch to and `altTextId2` is the bottom.
  */
-#define CS_TEXT(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch) \
-    CMD_HH(messageId, startFrame), CMD_HH(endFrame, type), CMD_HH(topOptionBranch, bottomOptionBranch)
+#define CS_TEXT(textId, startFrame, endFrame, type, altTextId1, altTextId2) \
+    CMD_HH(textId, startFrame), CMD_HH(endFrame, type), CMD_HH(altTextId1, altTextId2)
 
-/**
- * 
- */
 #define CS_TEXT_NONE(startFrame, endFrame) \
-    CS_TEXT(0xFFFF, startFrame, endFrame, 0xFFFF, 0xFFFF, 0xFFFF)
+    CS_TEXT(CS_TEXT_ID_NONE, startFrame, endFrame, 0xFFFF, CS_TEXT_ID_NONE, CS_TEXT_ID_NONE)
 
-/**
- * 
- */
 #define CS_TEXT_LEARN_SONG(ocarinaSongAction, startFrame, endFrame, messageId) \
-    CS_TEXT(ocarinaSongAction, startFrame, endFrame, 0x0002, messageId, 0xFFFF)
+    CS_TEXT(ocarinaSongAction, startFrame, endFrame, CS_TEXT_OCARINA_ACTION, messageId, CS_TEXT_ID_NONE)
 
 /**
  * Controls various types of screen transitions.
@@ -195,7 +185,9 @@
     CS_CMD_START_SEQ, CMD_W(entries)
 
 /**
- * 
+ * Starts a sequence at the specified time.
+ * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
+ * @note The value for `endFrame` is not used, only the starting frame matters.
  */
 #define CS_START_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(seqId, startFrame), CMD_HH(endFrame, unused0), \
@@ -209,7 +201,9 @@
     CS_CMD_STOP_SEQ, CMD_W(entries)
 
 /**
- * 
+ * Stops a sequence at the specified time.
+ * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
+ * @note The value for `endFrame` is not used, only the starting frame matters.
  */
 #define CS_STOP_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(seqId, startFrame), CMD_HH(endFrame, unused0), \
@@ -223,7 +217,7 @@
     CS_CMD_FADE_SEQ, CMD_W(entries)
 
 /**
- * 
+ * Fades a sequence out over the specified duration.
  */
 #define CS_FADE_SEQ(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(fadeType, startFrame), CMD_HH(endFrame, unused0), \
@@ -237,7 +231,8 @@
     CS_CMD_SETTIME, CMD_W(entries)
 
 /**
- * 
+ * Sets the time of day.
+ * @note The value for `endFrame` is not used, only the starting frame matters.
  */
 #define CS_TIME(unk, startFrame, endFrame, hour, min, unused) \
     CMD_HH(unk, startFrame), \
@@ -245,10 +240,14 @@
     CMD_W(unused)
 
 /**
- * 
+ * Sends the player to a new destination. 
+ * `destination` maps to a custom block of code that must implement the scene transitioning on its own.
+ * This custom code can also do other tasks like changing age, setting flags, or any other setup that is needed
+ * before going to the next destination.
+ * @note The value for `endFrame` is not used, only the starting frame matters.
  */
-#define CS_DESTINATION(dest, startFrame, endFrame) \
-    CS_CMD_DESTINATION, 1, CMD_HH(dest, startFrame), CMD_HH(endFrame, endFrame)
+#define CS_DESTINATION(destination, startFrame, endFrame) \
+    CS_CMD_DESTINATION, 1, CMD_HH(destination, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
  * Marks the end of a cutscene.

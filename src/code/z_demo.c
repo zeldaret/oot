@@ -512,7 +512,7 @@ void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdFade
     if ((csCtx->curFrame == cmd->startFrame) && (csCtx->curFrame < cmd->endFrame)) {
         duration = cmd->endFrame - cmd->startFrame;
 
-        if (cmd->type == 3) {
+        if (cmd->type == CS_FADE_FANFARE) {
             Audio_QueueSeqCmd(duration << 0x10 | (0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF));
         } else {
             Audio_QueueSeqCmd(duration << 0x10 | (0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xFF));
