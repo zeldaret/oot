@@ -279,7 +279,7 @@ cutscene_command_macros = {
         ("CS_CAM_AT_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
               "CS_CAM_AT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     1000:
-        ("CS_TERMINATOR(%h2:2:e1, %h1:2:s, %h2:3:s)", 4, None, None,
+        ("CS_DESTINATION(%h2:2:e1, %h1:2:s, %h2:3:s)", 4, None, None,
               None, None),
     19:
         ("CS_TEXT_LIST(%w1:1:s)", 2, None, 0,

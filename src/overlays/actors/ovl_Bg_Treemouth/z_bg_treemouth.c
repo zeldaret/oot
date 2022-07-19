@@ -174,10 +174,10 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
 
         play->csCtx.curFrame = 0;
 
-        play->csCtx.camEyePointsAppliedFrame = 0xFFFF;
-        gCamAtPointsAppliedFrame = 0xFFFF;
-        gCamEyeAppliedFrame = 0xFFFF;
-        gCamAtAppliedFrame = 0xFFFF;
+        play->csCtx.camEyePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+        gCamAtPointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+        gCamEyeAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+        gCamAtAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
 
         play->csCtx.camAtReady = false;
         play->csCtx.camEyeReady = false;

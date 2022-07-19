@@ -247,8 +247,8 @@
 /**
  * 
  */
-#define CS_TERMINATOR(dest, startFrame, endFrame) \
-    CS_CMD_TERMINATOR, 1, CMD_HH(dest, startFrame), CMD_HH(endFrame, endFrame)
+#define CS_DESTINATION(dest, startFrame, endFrame) \
+    CS_CMD_DESTINATION, 1, CMD_HH(dest, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
  * Marks the end of a cutscene.
@@ -290,5 +290,6 @@
 #define CS_STOP_BGM                    CS_STOP_SEQ
 #define CS_FADE_BGM_LIST               CS_FADE_SEQ_LIST
 #define CS_FADE_BGM                    CS_FADE_SEQ
+#define CS_TERMINATOR                  CS_DESTINATION
 
 #endif

@@ -24,9 +24,6 @@ typedef union CutsceneData {
     s8  b[4];
 } CutsceneData;
 
-#define CS_CMD_CONTINUE 0
-#define CS_CMD_STOP -1
-
 typedef enum {
     CS_STATE_IDLE,
     CS_STATE_START,
@@ -163,9 +160,12 @@ typedef enum {
     /* 0x008E */ CS_CMD_ACTOR_CUE_7_6,
     /* 0x008F */ CS_CMD_ACTOR_CUE_9_0,
     /* 0x0090 */ CS_CMD_ACTOR_CUE_0_17,
-    /* 0x03E8 */ CS_CMD_TERMINATOR = 0x03E8,
+    /* 0x03E8 */ CS_CMD_DESTINATION = 0x03E8,
     /* 0xFFFF */ CS_CMD_END = 0xFFFF
 } CutsceneCmd;
+
+#define CS_CMD_CONTINUE 0
+#define CS_CMD_STOP -1
 
 // TODO: fix ZAPD to use new names and delete these:
 #define CS_CMD_CAM_EYE CS_CMD_CAM_EYE_POINTS
@@ -191,6 +191,7 @@ typedef enum {
 #define CS_CMD_SET_ACTOR_ACTION_8 CS_CMD_ACTOR_CUE_7_0
 #define CS_CMD_SET_ACTOR_ACTION_9 CS_CMD_ACTOR_CUE_8_0
 #define CS_CMD_SET_ACTOR_ACTION_10 CS_CMD_ACTOR_CUE_9_0
+#define CS_CMD_TERMINATOR CS_CMD_DESTINATION
 
 typedef struct {
     /* 0x00 */ u16 base;
@@ -261,16 +262,18 @@ typedef struct {
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8 unused_06[0x2];
-} CsCmdTerminator; // size = 0x8
+} CsCmdDestination; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ u16 base;
+    /* 0x00 */ u16 textId; // can also be an ocarina action for `CS_TEXT_OCARINA_ACTION`
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u16 type;
-    /* 0x08 */ u16 textId1;
-    /* 0x0A */ u16 textId2;
+    /* 0x08 */ u16 altTextId1;
+    /* 0x0A */ u16 altTextId2;
 } CsCmdTextbox; // size = 0xC
+
+#define CS_TEXT_ID_NONE 0xFFFF
 
 typedef struct {
     /* 0x00 */ u16 type;
@@ -315,7 +318,7 @@ typedef enum {
     /* 0x18 */ CS_MISC_HIDE_ROOM,
     /* 0x19 */ CS_MISC_TIME_ADVANCE_TO_NIGHT,
     /* 0x1A */ CS_MISC_SET_TIME_BASED_LIGHT_SETTING,
-    /* 0x1B */ CS_MISC_PULSATE_LIGHTS,
+    /* 0x1B */ CS_MISC_RED_PULSATING_LIGHTS,
     /* 0x1C */ CS_MISC_HALT_ALL_ACTORS,
     /* 0x1D */ CS_MISC_RESUME_ALL_ACTORS,
     /* 0x1E */ CS_MISC_SET_FLAG_3,
@@ -324,7 +327,15 @@ typedef enum {
     /* 0x21 */ CS_MISC_SUNSSONG_START,
     /* 0x22 */ CS_MISC_FREEZE_TIME,
     /* 0x23 */ CS_MISC_LONG_SCARECROW_SONG
-} CutsceneMiscCommand;
+} CutsceneMiscType;
+
+typedef enum {
+    /* 0x00 */ CS_TEXT_NORMAL,
+    /* 0x01 */ CS_TEXT_CHOICE,
+    /* 0x02 */ CS_TEXT_OCARINA_ACTION,
+    /* 0x03 */ CS_TEXT_GORON_RUBY, // use `altTextId1` if sapphire is arleady obtained
+    /* 0x04 */ CS_TEXT_ZORA_SAPPHIRE // use `altTextId1` if ruby is arleady obtained
+} CutsceneTextType;
 
 typedef enum {
     /* 0x01 */ CS_TRANS_GRAY_FILL = 1, // has hardcoded sounds for some scenes
@@ -340,7 +351,7 @@ typedef enum {
     /* 0x0B */ CS_TRANS_BLACK_UNFILL,
     /* 0x0C */ CS_TRANS_BLACK_HALF_FILL, // used with `TRANS_MODE_CS_BLACK_FILL`
     /* 0x0D */ CS_TRANS_BLACK_HALF_UNFILL
-} CutsceneTransitionTypes;
+} CutsceneTransitionType;
 
 // TODO confirm correctness, clarify names
 typedef enum {
@@ -464,7 +475,7 @@ typedef enum {
     /* 0x75 */ HYRULE_FIELD_SKY,
     /* 0x76 */ GANON_BATTLE_TOWER_COLLAPSE,
     /* 0x77 */ ZELDAS_COURTYARD_RECEIVE_LETTER
-} CutsceneTerminatorDestination;
+} CutsceneDestination;
 
 typedef struct {
     /* 0x00 */ s8 continueFlag;
@@ -473,6 +484,8 @@ typedef struct {
     /* 0x04 */ f32 viewAngle; // in degrees
     /* 0x08 */ Vec3s pos;
 } CutsceneCameraPoint; // size = 0x10
+
+#define CS_CAM_DATA_NOT_APPLIED 0xFFFF
 
 typedef struct {
     /* 0x00 */ Vec3f at;

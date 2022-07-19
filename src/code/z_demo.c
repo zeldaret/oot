@@ -428,7 +428,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             }
             break;
 
-        case CS_MISC_PULSATE_LIGHTS:
+        case CS_MISC_RED_PULSATING_LIGHTS:
             if (play->state.frames & 8) {
                 if (play->envCtx.adjAmbientColor[0] < 40) {
                     play->envCtx.adjAmbientColor[0] += 2;
@@ -539,7 +539,7 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     }
 }
 
-void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdTerminator* cmd) {
+void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDestination* cmd) {
     Player* player = GET_PLAYER(play);
     s32 titleCsSkipped = false;
 
@@ -566,8 +566,6 @@ void CutsceneCmd_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdTermin
         // `unk_13E7` has a secondary purpose, which is to signal to the title screen actor
         // that it should display immediately. This occurs when a title screen cutscene that is not the main
         // hyrule field scene is skipped.
-        // `csCtx->curFrame != cmd->startFrame` is an indirect way to check that the terminator is occuring
-        // due to an unnatural cause, like via `titleCsSkipped`.
         if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->curFrame != cmd->startFrame)) {
             gSaveContext.unk_13E7 = 1;
         }
@@ -1682,23 +1680,23 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd
     s16 initialEndingFrame;
 
     if ((cmd->startFrame < csCtx->curFrame) && (csCtx->curFrame <= cmd->endFrame)) {
-        if (cmd->type != 2) {
-            if (sCurTextId != cmd->base) {
-                sCurTextId = cmd->base;
+        if (cmd->type != CS_TEXT_OCARINA_ACTION) {
+            if (sCurTextId != cmd->textId) {
+                sCurTextId = cmd->textId;
 
-                if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    Message_StartTextbox(play, cmd->textId1, NULL);
-                } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    Message_StartTextbox(play, cmd->textId1, NULL);
+                if ((cmd->type == CS_TEXT_GORON_RUBY) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
+                    Message_StartTextbox(play, cmd->altTextId1, NULL);
+                } else if ((cmd->type == CS_TEXT_ZORA_SAPPHIRE) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
+                    Message_StartTextbox(play, cmd->altTextId1, NULL);
                 } else {
-                    Message_StartTextbox(play, cmd->base, NULL);
+                    Message_StartTextbox(play, cmd->textId, NULL);
                 }
                 return;
             }
         } else {
-            if (sCurOcarinaAction != cmd->base) {
-                sCurOcarinaAction = cmd->base;
-                func_8010BD58(play, cmd->base);
+            if (sCurOcarinaAction != cmd->textId) {
+                sCurOcarinaAction = cmd->textId;
+                func_8010BD58(play, cmd->textId);
                 return;
             }
         }
@@ -1713,14 +1711,14 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd
 
                 if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
                     if (play->msgCtx.choiceIndex == 0) {
-                        if (cmd->textId1 != 0xFFFF) {
-                            Message_ContinueTextbox(play, cmd->textId1);
+                        if (cmd->altTextId1 != CS_TEXT_ID_NONE) {
+                            Message_ContinueTextbox(play, cmd->altTextId1);
                         } else {
                             csCtx->curFrame++;
                         }
                     } else {
-                        if (cmd->textId2 != 0xFFFF) {
-                            Message_ContinueTextbox(play, cmd->textId2);
+                        if (cmd->altTextId2 != CS_TEXT_ID_NONE) {
+                            Message_ContinueTextbox(play, cmd->altTextId2);
                         } else {
                             csCtx->curFrame++;
                         }
@@ -1728,8 +1726,8 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd
                 }
 
                 if (dialogState == TEXT_STATE_9) {
-                    if (cmd->textId1 != 0xFFFF) {
-                        Message_ContinueTextbox(play, cmd->textId1);
+                    if (cmd->altTextId1 != CS_TEXT_ID_NONE) {
+                        Message_ContinueTextbox(play, cmd->altTextId1);
                     } else {
                         csCtx->curFrame++;
                     }
@@ -1737,7 +1735,7 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd
 
                 if (dialogState == TEXT_STATE_EVENT) {
                     if (Message_ShouldAdvance(play)) {
-                        func_8010BD58(play, cmd->base);
+                        func_8010BD58(play, cmd->textId);
                     }
                 }
             }
@@ -2130,10 +2128,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 scriptPtr += CutsceneCmd_SetCamAt(play, csCtx, (void*)scriptPtr, 0);
                 break;
 
-            case CS_CMD_TERMINATOR:
+            case CS_CMD_DESTINATION:
                 scriptPtr += sizeof(cmdEntries);
-                CutsceneCmd_Terminator(play, csCtx, (void*)scriptPtr);
-                scriptPtr += sizeof(CsCmdTerminator);
+                CutsceneCmd_Destination(play, csCtx, (void*)scriptPtr);
+                scriptPtr += sizeof(CsCmdDestination);
                 break;
 
             case CS_CMD_TEXT:
@@ -2143,7 +2141,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if (cmd->base != 0xFFFF) {
+                    if (cmd->base != CS_TEXT_ID_NONE) {
                         CutsceneCmd_Text(play, csCtx, (void*)scriptPtr);
                     }
 
@@ -2269,10 +2267,10 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
 
             csCtx->curFrame = 0xFFFF;
 
-            csCtx->camEyePointsAppliedFrame = 0xFFFF;
-            gCamAtPointsAppliedFrame = 0xFFFF;
-            gCamEyeAppliedFrame = 0xFFFF;
-            gCamAtAppliedFrame = 0xFFFF;
+            csCtx->camEyePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+            gCamAtPointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+            gCamEyeAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+            gCamAtAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
 
             csCtx->camAtReady = false;
             csCtx->camEyeReady = false;
