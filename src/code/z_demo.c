@@ -390,17 +390,17 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_VISMONO_BLACK_AND_WHITE:
-            D_801614B0.r = 255;
-            D_801614B0.g = 255;
-            D_801614B0.b = 255;
-            D_801614B0.a = 255;
+            gVisMonoColor.r = 255;
+            gVisMonoColor.g = 255;
+            gVisMonoColor.b = 255;
+            gVisMonoColor.a = 255;
             break;
 
         case CS_MISC_VISMONO_SEPIA:
-            D_801614B0.r = 255;
-            D_801614B0.g = 180;
-            D_801614B0.b = 100;
-            D_801614B0.a = 255.0f * lerp;
+            gVisMonoColor.r = 255;
+            gVisMonoColor.g = 180;
+            gVisMonoColor.b = 100;
+            gVisMonoColor.a = 255.0f * lerp;
             break;
 
         case CS_MISC_HIDE_ROOM:

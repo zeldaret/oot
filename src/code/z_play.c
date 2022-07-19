@@ -8,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
 VisMono D_80161498;
-Color_RGBA8_u32 D_801614B0;
+Color_RGBA8_u32 gVisMonoColor;
 FaultClient D_801614B8;
 s16 sTransitionFillTimer;
 u64 sDebugCutsceneScript[0xA00];
@@ -387,7 +387,7 @@ void Play_Init(GameState* thisx) {
     TransitionFade_SetColor(&this->transitionFade, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFade);
     VisMono_Init(&D_80161498);
-    D_801614B0.a = 0;
+    gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&this->state.tha));
@@ -1091,8 +1091,8 @@ void Play_Draw(PlayState* this) {
 
             TransitionFade_Draw(&this->transitionFade, &gfxP);
 
-            if (D_801614B0.a > 0) {
-                D_80161498.primColor.rgba = D_801614B0.rgba;
+            if (gVisMonoColor.a > 0) {
+                D_80161498.primColor.rgba = gVisMonoColor.rgba;
                 VisMono_Draw(&D_80161498, &gfxP);
             }
 
