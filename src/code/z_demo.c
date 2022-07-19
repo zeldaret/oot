@@ -1150,9 +1150,10 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
 
             case CS_DEST_STONES_RESTORED_CONDITIONAL:
                 // At one point in development, Forest, Fire and Water temple blocked your ability to return to child.
-                // Completing each dungeon would "restore" their respective stone, with the Door of Time opening after all 3 are restored.
-                // This cutscene destination sends you to the correct blue warp destination, unless all 3 dungeons have been cleared.
-                // In that case, the destination is the Temple of Time which plays a cutscene where the door opens.
+                // Completing each dungeon would "restore" their respective stone, with the Door of Time opening after
+                // all 3 are restored. This cutscene destination sends you to the correct blue warp destination, unless
+                // all 3 dungeons have been cleared. In that case, the destination is the Temple of Time which plays a
+                // cutscene where the door opens.
                 if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
                     GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                     play->nextEntranceIndex = ENTR_TOKINOMA_0;

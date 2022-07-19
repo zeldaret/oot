@@ -257,15 +257,14 @@
 
 
 // most instances of this look like unimplemented actor cues.
-// after confirming this, can probably switch those 
-// over to use an actual cue command and delete this
+// after confirming this, can probably switch those over and delete this
 #define CS_UNK_DATA_LIST(cmdType, entries) CMD_W(cmdType), CMD_W(entries)
 
 #define CS_UNK_DATA(unk1, unk2, unk3, unk4, unk5, unk6, unk7, unk8, unk9, unk10, unk11, unk12) \
     CMD_W(unk1), CMD_W(unk2), CMD_W(unk3), CMD_W(unk4), CMD_W(unk5), CMD_W(unk6), \
     CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
 
-// TODO: Fix ZAP and delete these
+// TODO: Fix ZAPD and delete these
 #define CS_CAM_POS_LIST                CS_CAM_EYE_POINTS_LIST
 #define CS_CAM_POS                     CS_CAM_EYE_POINTS
 #define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_POINTS_LIST
