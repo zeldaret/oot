@@ -805,7 +805,7 @@ void SaveContext_Init(void);
 s32 func_800635D0(s32);
 void func_800636C0(void);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);
-void func_8006376C(u8 x, u8 y, u8 colorId, const char* text);
+void func_8006376C(u8 x, u8 y, u8 colorIndex, const char* text);
 // ? func_80063828(?);
 void func_8006390C(Input* input);
 // ? func_80063C04(?);

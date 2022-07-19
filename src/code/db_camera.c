@@ -1700,7 +1700,7 @@ s32 DbCamera_ClearCallback(char* c) {
     return Mempak_DeleteFile(2, *c);
 }
 
-void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorId) {
+void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorIndex) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
@@ -1709,9 +1709,9 @@ void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorId) {
     }
 
     str[0x14] = str[i * 2 + 1] = '\0';
-    func_8006376C(x, y, colorId, str);
+    func_8006376C(x, y, colorIndex, str);
     str[0x14] = str[i * 2 + 0] = '-';
-    func_8006376C(x + 0x14, y, colorId, str + 0x14);
+    func_8006376C(x + 0x14, y, colorIndex, str + 0x14);
 }
 
 void DbCamera_PrintAllCuts(Camera* cam) {
