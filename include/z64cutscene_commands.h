@@ -29,12 +29,12 @@
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
- * Declares a list of `CS_CAM_EYE_REL_TO_PLAYER` entries.
+ * Declares a list of `CS_CAM_EYE_POINTS_REL_TO_PLAYER` entries.
  */
 #define CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
     CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
-#define CS_CAM_EYE_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+#define CS_CAM_EYE_POINTS_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
@@ -63,12 +63,12 @@
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
- * Declares a list of `CS_CAM_AT_REL_TO_PLAYER` entries.
+ * Declares a list of `CS_CAM_AT_POINTS_REL_TO_PLAYER` entries.
  */
 #define CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
     CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
-#define CS_CAM_AT_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+#define CS_CAM_AT_POINTS_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
     CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
@@ -269,9 +269,9 @@
 #define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_POINTS_LIST
 #define CS_CAM_FOCUS_POINT             CS_CAM_AT_POINTS
 #define CS_CAM_POS_PLAYER_LIST         CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST
-#define CS_CAM_POS_PLAYER              CS_CAM_EYE_REL_TO_PLAYER
+#define CS_CAM_POS_PLAYER              CS_CAM_EYE_POINTS_REL_TO_PLAYER
 #define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST
-#define CS_CAM_FOCUS_POINT_PLAYER      CS_CAM_AT_REL_TO_PLAYER
+#define CS_CAM_FOCUS_POINT_PLAYER      CS_CAM_AT_POINTS_REL_TO_PLAYER
 #define CS_NPC_ACTION_LIST             CS_ACTOR_CUE_LIST
 #define CS_NPC_ACTION                  CS_ACTOR_CUE
 #define CS_PLAYER_ACTION_LIST          CS_PLAYER_CUE_LIST

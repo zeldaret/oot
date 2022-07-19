@@ -265,13 +265,13 @@ cutscene_command_macros = {
               "CS_CAM_EYE_POINTS(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     5:
         ("CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_EYE_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+              "CS_CAM_EYE_POINTS_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     2:
         ("CS_CAM_AT_POINTS_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
               "CS_CAM_AT_POINTS(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     6:
         ("CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_AT_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+              "CS_CAM_AT_POINTS_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     7:
         ("CS_CAM_EYE_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
               "CS_CAM_EYE(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
