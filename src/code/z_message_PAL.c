@@ -3031,13 +3031,13 @@ void Message_Update(PlayState* play) {
     static s16 sTextboxXPositions[] = {
         34, 34, 34, 34, 34, 34,
     };
-    static s16 sTextboxMidYPositions[] = {
+    static s16 sTextboxLowerYPositions[] = {
         142, 142, 142, 142, 174, 142,
     };
     static s16 sTextboxUpperYPositions[] = {
         38, 38, 38, 38, 174, 38,
     };
-    static s16 sTextboxLowerYPositions[] = {
+    static s16 sTextboxMidYPositions[] = {
         90, 90, 90, 90, 174, 90,
     };
     static s16 sTextboxEndIconYOffset[] = {
@@ -3127,32 +3127,30 @@ void Message_Update(PlayState* play) {
                 if (!msgCtx->textBoxPos) { // variable position
                     if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneNum == SCENE_HAIRAL_NIWA) {
                         if (averageY < XREG(92)) {
-                            R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
+                            R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {
                             R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
                         }
                     } else if (play->sceneNum == SCENE_MARKET_DAY || play->sceneNum == SCENE_MARKET_NIGHT ||
                                play->sceneNum == SCENE_MARKET_RUINS) {
                         if (averageY < XREG(93)) {
-                            R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
+                            R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {
                             R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
                         }
                     } else {
                         if (averageY < XREG(94)) {
-                            R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
+                            R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {
                             R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
                         }
                     }
+                } else if (msgCtx->textBoxPos == TEXTBOX_POS_TOP) {
+                    R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
+                } else if (msgCtx->textBoxPos == TEXTBOX_POS_MIDDLE) {
+                    R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
                 } else {
-                    if (msgCtx->textBoxPos == TEXTBOX_POS_TOP) {
-                        R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
-                    } else if (msgCtx->textBoxPos == TEXTBOX_POS_BOTTOM) {
-                        R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
-                    } else {
-                        R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
-                    }
+                    R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                 }
 
                 R_TEXTBOX_X_TARGET = sTextboxXPositions[var];
