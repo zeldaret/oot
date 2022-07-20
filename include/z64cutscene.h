@@ -406,7 +406,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  unused_00;
-    /* 0x01 */ u8  seqId;
+    /* 0x01 */ u8  seqIdPlusOne;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8 unused_06[0x2A];
@@ -414,7 +414,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  unused_00;
-    /* 0x01 */ u8  seqId;
+    /* 0x01 */ u8  seqIdPlusOne;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8 unused_06[0x2A];

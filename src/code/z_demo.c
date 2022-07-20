@@ -496,13 +496,13 @@ void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdL
 
 void CutsceneCmd_StartSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStartSeq* cmd) {
     if (csCtx->curFrame == cmd->startFrame) {
-        func_800F595C(cmd->seqId - 1);
+        func_800F595C(cmd->seqIdPlusOne - 1);
     }
 }
 
 void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStopSeq* cmd) {
     if (csCtx->curFrame == cmd->startFrame) {
-        func_800F59E8(cmd->seqId - 1);
+        func_800F59E8(cmd->seqIdPlusOne - 1);
     }
 }
 
