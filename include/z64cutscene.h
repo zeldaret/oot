@@ -234,8 +234,8 @@ typedef enum {
     /* 0x00 */ CS_TEXT_NORMAL,
     /* 0x01 */ CS_TEXT_CHOICE,
     /* 0x02 */ CS_TEXT_OCARINA_ACTION,
-    /* 0x03 */ CS_TEXT_GORON_RUBY, // use `altTextId1` if sapphire is already obtained
-    /* 0x04 */ CS_TEXT_ZORA_SAPPHIRE // use `altTextId1` if ruby is already obtained
+    /* 0x03 */ CS_TEXT_GORON_RUBY, // use `altTextId1` in the ruby cutscene if sapphire is already obtained
+    /* 0x04 */ CS_TEXT_ZORA_SAPPHIRE // use `altTextId1` in the sapphire cutscene if ruby is already obtained
 } CutsceneTextType;
 
 typedef enum {
