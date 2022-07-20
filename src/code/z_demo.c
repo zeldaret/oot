@@ -264,8 +264,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             if (isFirstFrame) {
                 CutsceneFlags_Set(play, 0);
 
-                // Because this check uses an entrance index, the door of time will only open
-                // if you came from the front entrance of Temple of Time.
+                // Because this check uses an entrance index, the Door of Time will only open
+                // after entering Temple of Time from the front entrance.
                 // This is not an issue in the context of normal gameplay.
                 if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     CutsceneFlags_Set(play, 2);
@@ -488,20 +488,20 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 }
 
 void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdLightSetting* cmd) {
-    if (csCtx->curFrame == cmd->startFrame) {
-        play->envCtx.lightSettingOverride = cmd->setting - 1;
+    if (csCtx->curFrame == cmd->frame) {
+        play->envCtx.lightSettingOverride = cmd->settingPlusOne - 1;
         play->envCtx.lightBlend = 1.0f;
     }
 }
 
 void CutsceneCmd_StartSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStartSeq* cmd) {
-    if (csCtx->curFrame == cmd->startFrame) {
+    if (csCtx->curFrame == cmd->frame) {
         func_800F595C(cmd->seqIdPlusOne - 1);
     }
 }
 
 void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStopSeq* cmd) {
-    if (csCtx->curFrame == cmd->startFrame) {
+    if (csCtx->curFrame == cmd->frame) {
         func_800F59E8(cmd->seqIdPlusOne - 1);
     }
 }
@@ -530,7 +530,7 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     s16 hours;
     s16 minutes;
 
-    if (csCtx->curFrame == cmd->startFrame) {
+    if (csCtx->curFrame == cmd->frame) {
         hours = (cmd->hour * 60.0f) / (360.0f / 0x4000);
         minutes = (cmd->minute + 1) / (360.0f / 0x4000);
 
@@ -554,7 +554,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         titleDemoSkipped = true;
     }
 
-    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped ||
+    if ((csCtx->curFrame == cmd->frame) || titleDemoSkipped ||
         ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_RUN_UNSKIPPABLE;
@@ -566,7 +566,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         // `unk_13E7` has a secondary purpose, which is to signal to the title screen actor
         // that it should display immediately. This occurs when a title screen cutscene that is not the main
         // hyrule field scene is skipped.
-        if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->curFrame != cmd->startFrame)) {
+        if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->curFrame != cmd->frame)) {
             gSaveContext.unk_13E7 = 1;
         }
 

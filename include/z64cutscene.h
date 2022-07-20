@@ -397,27 +397,24 @@ typedef struct {
 } CsCmdMisc; // size = 0x30
 
 typedef struct {
-    /* 0x00 */ u8 unused_00;
-    /* 0x01 */ u8 setting;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
+    /* 0x00 */ u8 unused_00[0x1];
+    /* 0x01 */ u8 settingPlusOne;
+    /* 0x02 */ u16 frame;
+    /* 0x04 */ u8 unused_04[0x2C];
 } CsCmdLightSetting; // size = 0x30
 
 typedef struct {
-    /* 0x00 */ u8  unused_00;
-    /* 0x01 */ u8  seqIdPlusOne;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
+    /* 0x00 */ u8 unused_00[0x1];
+    /* 0x01 */ u8 seqIdPlusOne;
+    /* 0x02 */ u16 frame;
+    /* 0x04 */ u8 unused_04[0x2C];
 } CsCmdStartSeq; // size = 0x30
 
 typedef struct {
-    /* 0x00 */ u8  unused_00;
-    /* 0x01 */ u8  seqIdPlusOne;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
+    /* 0x00 */ u8 unused_00[0x1];
+    /* 0x01 */ u8 seqIdPlusOne;
+    /* 0x02 */ u16 frame;
+    /* 0x04 */ u8 unused_04[0x2C];
 } CsCmdStopSeq; // size = 0x30
 
 typedef struct {
@@ -428,7 +425,7 @@ typedef struct {
 } CsCmdFadeSeq; // size = 0x30
 
 typedef struct {
-    /* 0x00 */ u16 unk_00;
+    /* 0x00 */ u8 unused_00[0x2];
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8  unk_06;
@@ -438,9 +435,9 @@ typedef struct {
 } CsCmdRumble; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
+    /* 0x00 */ u8 unused_00[0x2];
+    /* 0x02 */ u16 frame;
+    /* 0x04 */ u8 unused_04[0x2];
     /* 0x06 */ u8  hour;
     /* 0x07 */ u8  minute;
     /* 0x08 */ u8 unused_08[0x4];
@@ -448,9 +445,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 destination;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2];
+    /* 0x02 */ u16 frame;
+    /* 0x04 */ u8 unused_04[0x4];
 } CsCmdDestination; // size = 0x8
 
 typedef struct {

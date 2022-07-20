@@ -13,7 +13,7 @@
 /**
  * Marks the beginning of a cutscene.
  */
-#define CS_BEGIN_CUTSCENE(totalEntries, endFrame) CMD_W(totalEntries), CMD_W(endFrame)
+#define CS_BEGIN_CUTSCENE(totalEntries, duration) CMD_W(totalEntries), CMD_W(duration)
 
 /**
  * Declares a list of camera `eye` points that form a spline.
@@ -90,12 +90,12 @@
 /**
  * Changes the lights to the specified setting.
  * @note This will only work for `LIGHT_MODE_SETTINGS`, it will not override time-based light configs.
- * @note The value for `endFrame` is not used, only the starting frame matters.
+ * @note The light setting is subtracted by 1 before being used. Add +1 to the desired setting when passing it in.
  */
-#define CS_LIGHT_SETTING(setting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(setting, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+#define CS_LIGHT_SETTING(settingPlusOne, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+    CMD_HH(settingPlusOne, frame), CMD_HH(unused0, unused1), \
+    CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
+    CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_RUMBLE_CONTROLLER` entries.
@@ -170,12 +170,11 @@
 /**
  * Starts a sequence at the specified time.
  * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
- * @note The value for `endFrame` is not used, only the starting frame matters.
  */
-#define CS_START_SEQ(seqIdPlusOne, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(seqIdPlusOne, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+#define CS_START_SEQ(seqIdPlusOne, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+    CMD_HH(seqIdPlusOne, frame), CMD_HH(unused0, unused1), \
+    CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
+    CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_STOP_SEQ` entries.
@@ -186,12 +185,11 @@
 /**
  * Stops a sequence at the specified time.
  * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
- * @note The value for `endFrame` is not used, only the starting frame matters.
  */
-#define CS_STOP_SEQ(seqIdPlusOne, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(seqIdPlusOne, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+#define CS_STOP_SEQ(seqIdPlusOne, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+    CMD_HH(seqIdPlusOne, frame), CMD_HH(unused0, unused1), \
+    CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
+    CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_FADE_SEQ` entries.
@@ -215,22 +213,21 @@
 
 /**
  * Sets the time of day.
- * @note The value for `endFrame` is not used, only the starting frame matters.
+ * Both the day time and skybox time are set by this command.
  */
-#define CS_TIME(unk, startFrame, endFrame, hour, min, unused) \
-    CMD_HH(unk, startFrame), \
-    CMD_HBB(endFrame, hour, min), \
-    CMD_W(unused)
+#define CS_TIME(unk, frame, unused0, hour, min, unused1) \
+    CMD_HH(unk, frame), \
+    CMD_HBB(unused0, hour, min), \
+    CMD_W(unused1)
 
 /**
  * Sends the player to a new destination. 
  * `destination` maps to a custom block of code that must implement the scene transitioning on its own.
  * This custom code can also do other tasks like changing age, setting flags, or any other setup that is needed
  * before going to the next destination.
- * @note The value for `endFrame` is not used, only the starting frame matters.
  */
-#define CS_DESTINATION(destination, startFrame, endFrame) \
-    CS_CMD_DESTINATION, 1, CMD_HH(destination, startFrame), CMD_HH(endFrame, endFrame)
+#define CS_DESTINATION(destination, frame, unused) \
+    CS_CMD_DESTINATION, 1, CMD_HH(destination, frame), CMD_HH(unused, unused)
 
 /**
  * Marks the end of a cutscene.
