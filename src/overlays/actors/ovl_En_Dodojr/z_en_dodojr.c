@@ -184,7 +184,7 @@ void EnDodojr_SetupFlipBounce(EnDodojr* this) {
     }
 }
 
-void EnDodojr_PlayTwitchingAnimation(EnDodojr* this) {
+void EnDodojr_SetupSwallowedBombDeathSequence(EnDodojr* this) {
     f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_0005F0);
 
     Animation_Change(&this->skelAnime, &object_dodojr_Anim_0005F0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, 0.0f);
@@ -489,9 +489,9 @@ void EnDodojr_SwallowedBombDeathBounce(EnDodojr* this, PlayState* play) {
     this->rootScale *= ((f32)this->actor.colorFilterTimer / 8);
     func_8002D868(&this->actor);
 
-    if (EnDodojr_UpdateRemainingBounces(this, play) != 0) {
+    if (EnDodojr_UpdateRemainingBounces(this, play)) {
         this->timer = 60;
-        EnDodojr_PlayTwitchingAnimation(this);
+        EnDodojr_SetupSwallowedBombDeathSequence(this);
         this->counter = 7;
         this->actionFunc = EnDodojr_SwallowedBombDeathSequence;
     }
@@ -504,8 +504,8 @@ void EnDodojr_SwallowedBombDeathSequence(EnDodojr* this, PlayState* play) {
 void EnDodojr_StunnedBounce(EnDodojr* this, PlayState* play) {
     func_8002D868(&this->actor);
 
-    if (EnDodojr_UpdateRemainingBounces(this, play) != 0) {
-        EnDodojr_PlayTwitchingAnimation(this);
+    if (EnDodojr_UpdateRemainingBounces(this, play)) {
+        EnDodojr_SetupSwallowedBombDeathSequence(this);
         this->actionFunc = EnDodojr_Stunned;
     }
 
@@ -538,7 +538,7 @@ void EnDodojr_JumpAttackBounce(EnDodojr* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_24;
     func_8002D868(&this->actor);
 
-    if (EnDodojr_UpdateRemainingBounces(this, play) != 0) {
+    if (EnDodojr_UpdateRemainingBounces(this, play)) {
         EnDodojr_SetupCrawlTowardsTarget(this);
         this->actionFunc = EnDodojr_CrawlTowardsTarget;
     }
@@ -564,9 +564,9 @@ void EnDodojr_StandardDeathBounce(EnDodojr* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.world.rot.x = this->actor.shape.rot.x;
 
-    if (EnDodojr_UpdateRemainingBounces(this, play) != 0) {
+    if (EnDodojr_UpdateRemainingBounces(this, play)) {
         this->timer = 60;
-        EnDodojr_PlayTwitchingAnimation(this);
+        EnDodojr_SetupSwallowedBombDeathSequence(this);
         this->counter = 7;
         this->actionFunc = EnDodojr_DeathSequence;
     }
