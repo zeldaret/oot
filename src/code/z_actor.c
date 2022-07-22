@@ -337,11 +337,11 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
 
         Actor_ProjectPos(play, &targetCtx->targetCenterPos, &projTargetCenter, &projTargetCappedInvW);
 
-        projTargetCenter.x = (160 * (projTargetCenter.x * projTargetCappedInvW)) * var1;
-        projTargetCenter.x = CLAMP(projTargetCenter.x, -320.0f, 320.0f);
+        projTargetCenter.x = ((SCREEN_WIDTH / 2) * (projTargetCenter.x * projTargetCappedInvW)) * var1;
+        projTargetCenter.x = CLAMP(projTargetCenter.x, -SCREEN_WIDTH, SCREEN_WIDTH);
 
-        projTargetCenter.y = (120 * (projTargetCenter.y * projTargetCappedInvW)) * var1;
-        projTargetCenter.y = CLAMP(projTargetCenter.y, -240.0f, 240.0f);
+        projTargetCenter.y = ((SCREEN_HEIGHT / 2) * (projTargetCenter.y * projTargetCappedInvW)) * var1;
+        projTargetCenter.y = CLAMP(projTargetCenter.y, -SCREEN_HEIGHT, SCREEN_HEIGHT);
 
         projTargetCenter.z = projTargetCenter.z * var1;
 
@@ -1554,8 +1554,8 @@ void Actor_GetScreenPos(PlayState* play, Actor* actor, s16* x, s16* y) {
     f32 cappedInvW;
 
     Actor_ProjectPos(play, &actor->focus.pos, &projectedPos, &cappedInvW);
-    *x = projectedPos.x * cappedInvW * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2);
-    *y = projectedPos.y * cappedInvW * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
+    *x = PROJECTED_TO_SCREEN_X(projectedPos, cappedInvW);
+    *y = PROJECTED_TO_SCREEN_Y(projectedPos, cappedInvW);
 }
 
 u32 Actor_HasParent(Actor* actor, PlayState* play) {

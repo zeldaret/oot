@@ -335,9 +335,9 @@ void Lights_GlowCheck(PlayState* play) {
             params->drawGlow = false;
 
             if ((multDest.z > 1) && (fabsf(multDest.x * cappedInvWDest) < 1) && (fabsf(multDest.y * cappedInvWDest) < 1)) {
-                s32 wX = multDest.x * cappedInvWDest * 160 + 160;
-                s32 wY = multDest.y * cappedInvWDest * -120 + 120;
-                s32 wZ = (s32)((multDest.z * cappedInvWDest) * 16352) + 16352;
+                s32 wX = PROJECTED_TO_SCREEN_X(multDest, cappedInvWDest);
+                s32 wY = PROJECTED_TO_SCREEN_Y(multDest, cappedInvWDest);
+                s32 wZ = PROJECTED_TO_SCREEN_Z(multDest, cappedInvWDest);
                 s32 zBuf = gZBuffer[wY][wX] << 2;
 
                 if (wZ < (Environment_ZBufValToFixedPoint(zBuf) >> 3)) {

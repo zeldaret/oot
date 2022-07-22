@@ -141,6 +141,13 @@
     }                                      \
     (void)0
 
+// horizontal, left to right
+#define PROJECTED_TO_SCREEN_X(projectedPos, invW) (s32)((projectedPos).x * (invW) * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2))
+// vertical, top to bottom
+#define PROJECTED_TO_SCREEN_Y(projectedPos, invW) (s32)((projectedPos).y * (invW) * (-SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2))
+// depth
+#define PROJECTED_TO_SCREEN_Z(projectedPos, invW) (s32)(((projectedPos).z * (invW)) * 16352) + 16352
+
 extern GraphicsContext* __gfxCtx;
 
 #define WORK_DISP       __gfxCtx->work.p
