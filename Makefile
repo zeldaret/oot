@@ -199,7 +199,10 @@ build/src/code/fmodf.o: OPTFLAGS := -g
 build/src/code/__osMemset.o: OPTFLAGS := -g
 build/src/code/__osMemmove.o: OPTFLAGS := -g
 
+# Use signed chars instead of unsigned for code_800EC960.c (needed to match AudioDebug_ScrPrt)
 build/src/code/code_800EC960.o: CFLAGS += -signed
+
+# Put string literals in .data for some audio files (needed to match these files with literals)
 build/src/code/code_800F7260.o: CFLAGS += -use_readwrite_const
 build/src/code/code_800F9280.o: CFLAGS += -use_readwrite_const
 
