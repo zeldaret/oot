@@ -24,13 +24,15 @@
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
-// floor raycast flags (frcFlags)
-#define BGCHECK_FRC_0 0
-#define BGCHECK_FRC_1 (1 << 0)
-#define BGCHECK_FRC_2 (1 << 1)
-#define BGCHECK_FRC_4 (1 << 2)
-#define BGCHECK_FRC_8 (1 << 3)
-#define BGCHECK_FRC_10 (1 << 4)
+// raycast floor flags (rcFlags)
+#define BGCHECK_RAYCAST_FLOOR_CHECK_CEILINGS (1 << 0)
+#define BGCHECK_RAYCAST_FLOOR_CHECK_WALLS (1 << 1)
+#define BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS (1 << 2)
+#define BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE (1 << 3) // skips checking dyna walls after a candidate result poly is found
+#define BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY (1 << 4) // skips walls and ceilings with normal.y < 0
+
+// raycast floor groundChk flag. When enabled, search range is limited to floors and walls with a normal.y >= 0
+#define BGCHECK_GROUND_CHECK_ON 1
 
 // func_80041DB8, SurfaceType wall properties
 s32 D_80119D90[32] = {
@@ -521,10 +523,10 @@ void StaticLookup_AddPoly(StaticLookup* lookup, CollisionContext* colCtx, Collis
  * Locates the closest static poly directly underneath `pos`, starting at list `ssList`
  * returns yIntersect of the closest poly, or `yIntersectMin`
  * stores the pointer of the closest poly to `outPoly`
- * if (flags & 1), ignore polys with a normal.y < 0 (from vertical walls to ceilings)
+ * if BGCHECK_GROUND_CHECK_ON, ignore polys with a normal.y < 0 (from vertical walls to ceilings)
  */
 f32 BgCheck_RaycastFloorStaticList(CollisionContext* colCtx, u16 xpFlags, SSList* ssList, CollisionPoly** outPoly,
-                                   Vec3f* pos, f32 yIntersectMin, f32 chkDist, s32 flags) {
+                                   Vec3f* pos, f32 yIntersectMin, f32 chkDist, s32 groundChk) {
     SSNode* curNode;
     s32 polyId;
     f32 result;
@@ -541,7 +543,7 @@ f32 BgCheck_RaycastFloorStaticList(CollisionContext* colCtx, u16 xpFlags, SSList
         polyId = curNode->polyId;
 
         if (COLPOLY_VIA_FLAG_TEST(colCtx->colHeader->polyList[polyId].flags_vIA, xpFlags) ||
-            ((flags & 1) && colCtx->colHeader->polyList[polyId].normal.y < 0)) {
+            ((groundChk & BGCHECK_GROUND_CHECK_ON) && colCtx->colHeader->polyList[polyId].normal.y < 0)) {
             if (curNode->next == SS_NULL) {
                 break;
             }
@@ -578,30 +580,30 @@ f32 BgCheck_RaycastFloorStaticList(CollisionContext* colCtx, u16 xpFlags, SSList
  * stores the pointer of the closest poly to `outPoly`
  */
 f32 BgCheck_RaycastFloorStatic(StaticLookup* lookup, CollisionContext* colCtx, u16 xpFlags, CollisionPoly** poly,
-                               Vec3f* pos, u32 frcFlags, f32 chkDist, f32 yIntersectMin) {
-    s32 flag; // skip polys with normal.y < 0
+                               Vec3f* pos, u32 rcFlags, f32 chkDist, f32 yIntersectMin) {
     f32 yIntersect = yIntersectMin;
+    s32 groundChk;
 
-    if (frcFlags & BGCHECK_FRC_4) {
+    if (rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS) {
         yIntersect = BgCheck_RaycastFloorStaticList(colCtx, xpFlags, &lookup->floor, poly, pos, yIntersect, chkDist, 0);
     }
 
-    if ((frcFlags & BGCHECK_FRC_2) || (frcFlags & BGCHECK_FRC_8)) {
-        flag = 0;
-        if (frcFlags & BGCHECK_FRC_10) {
-            flag = 1;
+    if ((rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_WALLS) || (rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE)) {
+        groundChk = 0;
+        if (rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY) {
+            groundChk |= BGCHECK_GROUND_CHECK_ON;
         }
         yIntersect =
-            BgCheck_RaycastFloorStaticList(colCtx, xpFlags, &lookup->wall, poly, pos, yIntersect, chkDist, flag);
+            BgCheck_RaycastFloorStaticList(colCtx, xpFlags, &lookup->wall, poly, pos, yIntersect, chkDist, groundChk);
     }
 
-    if (frcFlags & BGCHECK_FRC_1) {
-        flag = 0;
-        if (frcFlags & BGCHECK_FRC_10) {
-            flag = 1;
+    if (rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_CEILINGS) {
+        groundChk = 0;
+        if (rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY) {
+            groundChk |= BGCHECK_GROUND_CHECK_ON;
         }
         yIntersect =
-            BgCheck_RaycastFloorStaticList(colCtx, xpFlags, &lookup->ceiling, poly, pos, yIntersect, chkDist, flag);
+            BgCheck_RaycastFloorStaticList(colCtx, xpFlags, &lookup->ceiling, poly, pos, yIntersect, chkDist, groundChk);
     }
 
     return yIntersect;
@@ -1658,7 +1660,7 @@ s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos) {
  * returns the poly found in `outPoly`, and the bgId of the entity in `outBgId`
  */
 f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly,
-                             s32* outBgId, Vec3f* pos, Actor* actor, u32 frcFlags, f32 chkDist) {
+                             s32* outBgId, Vec3f* pos, Actor* actor, u32 rcFlags, f32 chkDist) {
     f32 yIntersectDyna;
     s32* temp_a0;
     StaticLookup* lookupTbl;
@@ -1688,7 +1690,7 @@ f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFl
             continue;
         }
         yIntersect =
-            BgCheck_RaycastFloorStatic(lookup, colCtx, xpFlags, outPoly, pos, frcFlags, chkDist, BGCHECK_Y_MIN);
+            BgCheck_RaycastFloorStatic(lookup, colCtx, xpFlags, outPoly, pos, rcFlags, chkDist, BGCHECK_Y_MIN);
         if (yIntersect > BGCHECK_Y_MIN) {
             break;
         }
@@ -1700,7 +1702,7 @@ f32 BgCheck_RaycastFloorImpl(PlayState* play, CollisionContext* colCtx, u16 xpFl
     dynaRaycast.yIntersect = yIntersect;
     dynaRaycast.pos = pos;
     dynaRaycast.actor = actor;
-    dynaRaycast.frcFlags = frcFlags;
+    dynaRaycast.rcFlags = rcFlags;
     dynaRaycast.chkDist = chkDist;
     dynaRaycast.play = play;
     dynaRaycast.resultPoly = outPoly;
@@ -1726,7 +1728,9 @@ f32 BgCheck_CameraRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPol
     s32 bgId;
 
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_CAMERA, outPoly, &bgId, pos, NULL,
-                                    BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                        BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                    1.0f);
 }
 
 /**
@@ -1737,7 +1741,9 @@ f32 BgCheck_EntityRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPol
     s32 bgId;
 
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, &bgId, pos, NULL,
-                                    BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                        BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                    1.0f);
 }
 
 /**
@@ -1748,7 +1754,9 @@ f32 BgCheck_EntityRaycastFloor2(PlayState* play, CollisionContext* colCtx, Colli
     s32 bgId;
 
     return BgCheck_RaycastFloorImpl(play, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, &bgId, pos, NULL,
-                                    BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                        BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                    1.0f);
 }
 
 /**
@@ -1757,7 +1765,9 @@ f32 BgCheck_EntityRaycastFloor2(PlayState* play, CollisionContext* colCtx, Colli
  */
 f32 BgCheck_EntityRaycastFloor3(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos) {
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, NULL,
-                                    BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                        BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                    1.0f);
 }
 
 /**
@@ -1767,7 +1777,9 @@ f32 BgCheck_EntityRaycastFloor3(CollisionContext* colCtx, CollisionPoly** outPol
 f32 BgCheck_EntityRaycastFloor4(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
                                 Vec3f* pos) {
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor,
-                                    BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                        BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                    1.0f);
 }
 
 /**
@@ -1777,7 +1789,9 @@ f32 BgCheck_EntityRaycastFloor4(CollisionContext* colCtx, CollisionPoly** outPol
 f32 BgCheck_EntityRaycastFloor5(PlayState* play, CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId,
                                 Actor* actor, Vec3f* pos) {
     return BgCheck_RaycastFloorImpl(play, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor,
-                                    BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                        BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                    1.0f);
 }
 
 /**
@@ -1787,7 +1801,9 @@ f32 BgCheck_EntityRaycastFloor5(PlayState* play, CollisionContext* colCtx, Colli
 f32 BgCheck_EntityRaycastFloor6(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos,
                                 f32 chkDist) {
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor,
-                                    BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, chkDist);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                        BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                    chkDist);
 }
 
 /**
@@ -1797,7 +1813,7 @@ f32 BgCheck_EntityRaycastFloor6(CollisionContext* colCtx, CollisionPoly** outPol
 f32 BgCheck_EntityRaycastFloor7(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
                                 Vec3f* pos) {
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor,
-                                    BGCHECK_FRC_2 | BGCHECK_FRC_4, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_WALLS | BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS, 1.0f);
 }
 
 /**
@@ -1810,7 +1826,9 @@ f32 BgCheck_AnyRaycastFloor1(CollisionContext* colCtx, CollisionPoly* outPoly, V
     s32 bgId;
 
     result = BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_NONE, &tempPoly, &bgId, pos, NULL,
-                                      BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+                                      BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                          BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                      1.0f);
 
     if (tempPoly != NULL) {
         *outPoly = *tempPoly;
@@ -1824,8 +1842,11 @@ f32 BgCheck_AnyRaycastFloor1(CollisionContext* colCtx, CollisionPoly* outPoly, V
  */
 f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s32* bgId, Vec3f* pos) {
     CollisionPoly* tempPoly;
-    f32 result = BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_NONE, &tempPoly, bgId, pos, NULL,
-                                          BGCHECK_FRC_4 | BGCHECK_FRC_8 | BGCHECK_FRC_10, 1.0f);
+    f32 result =
+        BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_NONE, &tempPoly, bgId, pos, NULL,
+                                 BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS | BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE |
+                                     BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY,
+                                 1.0f);
 
     if (tempPoly != NULL) {
         *outPoly = *tempPoly;
@@ -1839,7 +1860,7 @@ f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s
  */
 f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos) {
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_CAMERA, outPoly, bgId, pos, NULL,
-                                    BGCHECK_FRC_2 | BGCHECK_FRC_4, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_WALLS | BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS, 1.0f);
 }
 
 /**
@@ -1848,8 +1869,8 @@ f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPol
  */
 f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
                                 Vec3f* pos) {
-    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor, BGCHECK_FRC_2,
-                                    1.0f);
+    return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, actor,
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_WALLS, 1.0f);
 }
 
 /**
@@ -1858,7 +1879,7 @@ f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPol
  */
 f32 BgCheck_EntityRaycastFloor9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos) {
     return BgCheck_RaycastFloorImpl(NULL, colCtx, COLPOLY_IGNORE_ENTITY, outPoly, bgId, pos, NULL,
-                                    BGCHECK_FRC_2 | BGCHECK_FRC_4, 1.0f);
+                                    BGCHECK_RAYCAST_FLOOR_CHECK_WALLS | BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS, 1.0f);
 }
 
 /**
@@ -3045,7 +3066,8 @@ f32 BgCheck_RaycastFloorDynaList(DynaRaycast* dynaRaycast, u32 listType) {
                 continue;
             }
         }
-        if ((listType & (DYNA_RAYCAST_WALLS | DYNA_RAYCAST_CEILINGS)) && (dynaRaycast->frcFlags & BGCHECK_FRC_10) &&
+        if ((listType & (DYNA_RAYCAST_WALLS | DYNA_RAYCAST_CEILINGS)) &&
+            (dynaRaycast->rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_GROUND_ONLY) &&
             COLPOLY_GET_NORMAL(polyList[id].normal.y) < 0.0f) {
             if (curNode->next == SS_NULL) {
                 break;
@@ -3111,7 +3133,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
         }
 
         dynaRaycast->dyna = &dynaRaycast->colCtx->dyna;
-        if (dynaRaycast->frcFlags & BGCHECK_FRC_4) {
+        if (dynaRaycast->rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_FLOORS) {
             dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.floor;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_FLOORS);
 
@@ -3121,8 +3143,8 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
                 result = intersect2;
             }
         }
-        if ((dynaRaycast->frcFlags & BGCHECK_FRC_2) ||
-            (*dynaRaycast->resultPoly == NULL && (dynaRaycast->frcFlags & BGCHECK_FRC_8))) {
+        if ((dynaRaycast->rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_WALLS) ||
+            (*dynaRaycast->resultPoly == NULL && (dynaRaycast->rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_WALLS_SIMPLE))) {
             dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.wall;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_WALLS);
 
@@ -3133,7 +3155,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
             }
         }
 
-        if (dynaRaycast->frcFlags & BGCHECK_FRC_1) {
+        if (dynaRaycast->rcFlags & BGCHECK_RAYCAST_FLOOR_CHECK_CEILINGS) {
             dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.ceiling;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_CEILINGS);
 
