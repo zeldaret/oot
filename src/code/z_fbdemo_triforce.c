@@ -10,6 +10,9 @@ void TransitionTriforce_Start(void* thisx) {
         case 2:
             this->transPos = 1.0f;
             return;
+
+        default:
+            break;
     }
     this->transPos = 0.03f;
 }
@@ -18,7 +21,7 @@ void* TransitionTriforce_Init(void* thisx) {
     TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     bzero(this, sizeof(*this));
-    guOrtho(&this->projection, -160.0f, 160.0f, -120.0f, 120.0f, -1000.0f, 1000.0f, 1.0f);
+    guOrtho(&this->projection, -SCREEN_WIDTH / 2, SCREEN_WIDTH / 2, - SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2, -1000.0f, 1000.0f, 1.0f);
     this->transPos = 1.0f;
     this->state = 2;
     this->step = 0.015f;
