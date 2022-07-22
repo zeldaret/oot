@@ -75,7 +75,7 @@ const ActorInit Demo_Effect_InitVars = {
 };
 
 // This variable assures only one jewel will play SFX
-static s16 sSfxJewelId[] = { 0 };
+static s16 sSfxJewelId = 0;
 
 // The object used by the effectType
 static s16 sEffectTypeObjects[] = {
@@ -154,7 +154,7 @@ void DemoEffect_InitJewel(PlayState* play, DemoEffect* this) {
     DemoEffect_InitJewelColor(this);
     this->jewel.alpha = 0;
     this->jewelCsRotation.x = this->jewelCsRotation.y = this->jewelCsRotation.z = 0;
-    sSfxJewelId[0] = 0;
+    sSfxJewelId = 0;
 }
 
 /**
@@ -673,7 +673,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
 
 /**
  * Initializes Timewarp Actors.
- * This is an Update Function that is only ran for one frame.
+ * This is an Update Function that is only run for one frame.
  * Timewarp actors are spawned when Link...
  * 1) Pulls the Master Sword
  * 2) Returns from the Chamber of Sages for the first time
@@ -809,7 +809,7 @@ void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, PlayState* play) {
 
 /**
  * Initializes information for the Timewarp Actor used for the Timeblock clear effect.
- * This is an Update Func that is only ran for one frame.
+ * This is an Update Func that is only run for one frame.
  */
 void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, PlayState* play) {
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
@@ -1518,14 +1518,14 @@ void DemoEffect_JewelSparkle(DemoEffect* this, PlayState* play, s32 spawnerCount
 
 /**
  * Plays Jewel sound effects.
- * The sSfxJewelId global variable is used to ensure only one Jewel Actor is playing SFX when all are spawned.
+ * The sSfxJewelId static variable is used to ensure only one Jewel Actor is playing SFX when all are spawned.
  */
 void DemoEffect_PlayJewelSfx(DemoEffect* this, PlayState* play) {
     if (!DemoEffect_CheckCsAction(this, play, 1)) {
-        if (this->actor.params == sSfxJewelId[0]) {
+        if (sSfxJewelId == this->actor.params) {
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
-        } else if (sSfxJewelId[0] == 0) {
-            sSfxJewelId[0] = this->actor.params;
+        } else if (sSfxJewelId == 0) {
+            sSfxJewelId = this->actor.params;
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
         }
     }
@@ -1644,6 +1644,7 @@ void DemoEffect_UpdateDust(DemoEffect* this, PlayState* play) {
  */
 void DemoEffect_Update(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
+
     this->updateFunc(this, play);
 }
 
@@ -1653,10 +1654,10 @@ void DemoEffect_Update(Actor* thisx, PlayState* play) {
 s32 DemoEffect_CheckCsAction(DemoEffect* this, PlayState* play, s32 csActionCompareId) {
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL &&
         play->csCtx.npcActions[this->csActionId]->action == csActionCompareId) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 /**
@@ -1899,6 +1900,7 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2892);
+
     gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 188, 255, 255, this->blueOrb.alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 255);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -1908,6 +1910,7 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->blueOrb.rotation += 0x01F4;
     gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2907);
 }
 
@@ -1920,6 +1923,7 @@ void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play) {
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2921);
+
     gDPSetPrimColor(POLY_XLU_DISP++, 64, 64, 255, 255, 160, this->lgtShower.alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 50, 200, 0, 255);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -1929,6 +1933,7 @@ void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, (frames * 5) % 1024, 0, 256, 64, 1, (frames * 10) % 128,
                                 512 - ((frames * 50) % 512), 32, 16));
     gSPDisplayList(POLY_XLU_DISP++, gEnliveningLightDL);
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2942);
 }
 
@@ -2024,7 +2029,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
  */
 void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    if (!DemoEffect_CheckCsAction(this, play, 1) && !DemoEffect_CheckCsAction(this, play, 4)) {
+    if (!(DemoEffect_CheckCsAction(this, play, 1) || DemoEffect_CheckCsAction(this, play, 4))) {
         if (!this->getItem.isLoaded) {
             this->getItem.isLoaded = 1;
             return;
