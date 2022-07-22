@@ -317,42 +317,36 @@ Lights* Lights_New(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambient
 }
 
 void Lights_GlowCheck(PlayState* play) {
-    LightNode* node;
-    LightPoint* params;
-    Vec3f pos;
-    Vec3f multDest;
-    f32 cappedInvWDest;
-    f32 wX;
-    f32 wY;
-    s32 wZ;
-    s32 zBuf;
+    LightNode* light = play->lightCtx.listHead;
 
-    node = play->lightCtx.listHead;
+    while (light != NULL) {
+        LightPoint* params = &light->info->params.point;
 
-    while (node != NULL) {
-        params = &node->info->params.point;
+        if (light->info->type == LIGHT_POINT_GLOW) {
+            Vec3f pos;
+            Vec3f multDest;
+            f32 wDest;
 
-        if (node->info->type == LIGHT_POINT_GLOW) {
             pos.x = params->x;
             pos.y = params->y;
             pos.z = params->z;
-            Actor_ProjectPos(play, &pos, &multDest, &cappedInvWDest);
-            params->drawGlow = false;
-            wX = multDest.x * cappedInvWDest;
-            wY = multDest.y * cappedInvWDest;
+            Actor_ProjectPos(play, &pos, &multDest, &wDest);
 
-            if ((multDest.z > 1.0f) && (fabsf(wX) < 1.0f) && (fabsf(wY) < 1.0f)) {
-                wZ = (s32)((multDest.z * cappedInvWDest) * 16352.0f) + 16352;
-                zBuf = gZBuffer[(s32)((wY * -120.0f) + 120.0f)][(s32)((wX * 160.0f) + 160.0f)] * 4;
-                if (1) {}
-                if (1) {}
+            params->drawGlow = false;
+
+            if ((multDest.z > 1) && (fabsf(multDest.x * wDest) < 1) && (fabsf(multDest.y * wDest) < 1)) {
+                s32 wX = multDest.x * wDest * 160 + 160;
+                s32 wY = multDest.y * wDest * -120 + 120;
+                s32 wZ = (s32)((multDest.z * wDest) * 16352) + 16352;
+                s32 zBuf = gZBuffer[wY][wX] << 2;
 
                 if (wZ < (Environment_ZBufValToFixedPoint(zBuf) >> 3)) {
                     params->drawGlow = true;
                 }
             }
         }
-        node = node->next;
+
+        light = light->next;
     }
 }
 
