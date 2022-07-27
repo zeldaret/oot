@@ -73,7 +73,7 @@
     CS_CMD_MISC, CMD_W(entries)
 
 /**
- * Various miscellanious commands.
+ * Various miscellaneous commands.
  * @see `CutsceneMiscCommand` enum for the different types of commands.
  */
 #define CS_MISC(cmd, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \

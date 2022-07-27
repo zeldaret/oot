@@ -1590,7 +1590,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr
     Vec3f at;
     Vec3f eye;
     Camera* subCam;
-    f32 sp28;
+    f32 roll;
 
     scriptPtr += sizeof(CsCmdGeneric);
     size = sizeof(CsCmdGeneric);
@@ -1612,8 +1612,8 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
-                sp28 = csCtx->camLookAtPoints->cameraRoll * 1.40625f;
-                Camera_SetParam(subCam, 64, &sp28);
+                roll = csCtx->camLookAtPoints->cameraRoll * 1.40625f;
+                Camera_SetParam(subCam, 64, &roll);
 
                 at.x = csCtx->camLookAtPoints->pos.x;
                 at.y = csCtx->camLookAtPoints->pos.y;
