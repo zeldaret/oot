@@ -244,7 +244,7 @@ DrawItemTableEntry sDrawItemTable[] = {
     { GetItem_DrawOpa1023, { gGiTunicCollarDL, gGiGoronCollarColorDL, gGiGoronTunicColorDL, gGiTunicDL } },
     // zora tunic, OBJECT_GI_CLOTHES
     { GetItem_DrawOpa1023, { gGiTunicCollarDL, gGiZoraCollarColorDL, gGiZoraTunicColorDL, gGiTunicDL } },
-    // beans, OBJECT_GI_BEAN
+    // beans, OBJECT_GI_BEANS
     { GetItem_DrawOpa0, { gGiBeanDL } },
     // fish, OBJECT_GI_FISH
     { GetItem_DrawFish, { gGiFishDL } },

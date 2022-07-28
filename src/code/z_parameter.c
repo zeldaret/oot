@@ -1050,11 +1050,28 @@ void func_80083108(PlayState* play) {
                               (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) &&
                             !((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
-                            if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
-                                sp28 = true;
-                            }
 
-                            gSaveContext.buttonStatus[i] = BTN_ENABLED;
+                                /*
+                                 * This fades the C-button out when there are no charges
+                                 * left for the jump. If you use scene restrictions, then
+                                 * this should be refactored out and included in all the
+                                 * relevant places in the giant conditional above.
+                                 */
+                                if ((gSaveContext.equips.buttonItems[i] == ITEM_BEAN)
+                                    && (player->featherJumpCount == 0xFF)
+                                ) {
+                                    if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
+                                        sp28 = true;
+                                    }
+
+                                    gSaveContext.buttonStatus[i] = BTN_DISABLED;
+                                } else {
+                                    if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
+                                        sp28 = true;
+                                    }
+
+                                    gSaveContext.buttonStatus[i] = BTN_ENABLED;
+                                }
                         }
                     }
                 }
@@ -1676,14 +1693,9 @@ u8 Item_Give(PlayState* play, u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_BEAN) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(item) = item;
-            AMMO(ITEM_BEAN) = 1;
-            BEANS_BOUGHT = 1;
-        } else {
-            AMMO(ITEM_BEAN)++;
-            BEANS_BOUGHT++;
+            INV_CONTENT(item) = ITEM_BEAN;
         }
-        return ITEM_NONE;
+        Inventory_ChangeUpgrade(UPG_BULLET_BAG, CUR_UPG_VALUE(UPG_BULLET_BAG) + 1);
     } else if ((item == ITEM_HEART_PIECE_2) || (item == ITEM_HEART_PIECE)) {
         gSaveContext.inventory.questItems += 1 << QUEST_HEART_PIECE_COUNT;
         return ITEM_NONE;
@@ -2879,8 +2891,7 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
     i = gSaveContext.equips.buttonItems[button];
 
     if ((i == ITEM_STICK) || (i == ITEM_NUT) || (i == ITEM_BOMB) || (i == ITEM_BOW) ||
-        ((i >= ITEM_BOW_ARROW_FIRE) && (i <= ITEM_BOW_ARROW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU) ||
-        (i == ITEM_BEAN)) {
+        ((i >= ITEM_BOW_ARROW_FIRE) && (i <= ITEM_BOW_ARROW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU)) {
 
         if ((i >= ITEM_BOW_ARROW_FIRE) && (i <= ITEM_BOW_ARROW_LIGHT)) {
             i = ITEM_BOW;
@@ -2903,8 +2914,8 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
                    ((i == ITEM_BOMB) && (AMMO(i) == CUR_CAPACITY(UPG_BOMB_BAG))) ||
                    ((i == ITEM_SLINGSHOT) && (AMMO(i) == CUR_CAPACITY(UPG_BULLET_BAG))) ||
                    ((i == ITEM_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_STICKS))) ||
-                   ((i == ITEM_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_NUTS))) || ((i == ITEM_BOMBCHU) && (ammo == 50)) ||
-                   ((i == ITEM_BEAN) && (ammo == 15))) {
+                   ((i == ITEM_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_NUTS))) || ((i == ITEM_BOMBCHU) && (ammo == 50))
+        ) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, alpha);
         }
 

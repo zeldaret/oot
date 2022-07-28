@@ -352,6 +352,7 @@ s32 func_80852FFC(PlayState* play, Actor* actor, s32 csMode);
 void func_80853080(Player* this, PlayState* play);
 s32 Player_InflictDamage(PlayState* play, s32 damage);
 void func_80853148(PlayState* play, Actor* actor);
+void Player_TryUseItem_Feather(PlayState* play, Player* this);
 
 // .bss part 1
 static s32 D_80858AA0;
@@ -517,7 +518,7 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_FAIRY, OBJECT_GI_BOTTLE, GID_BOTTLE, 0x46, 0x80, CHEST_ANIM_LONG),
     GET_ITEM(ITEM_MILK_BOTTLE, OBJECT_GI_MILK, GID_MILK, 0x98, 0x80, CHEST_ANIM_LONG),
     GET_ITEM(ITEM_LETTER_RUTO, OBJECT_GI_BOTTLE_LETTER, GID_LETTER_RUTO, 0x99, 0x80, CHEST_ANIM_LONG),
-    GET_ITEM(ITEM_BEAN, OBJECT_GI_BEAN, GID_BEAN, 0x48, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BEAN, OBJECT_GI_BEAN, GID_BEAN, 0x48, 0x80, CHEST_ANIM_LONG),
     GET_ITEM(ITEM_MASK_SKULL, OBJECT_GI_SKJ_MASK, GID_MASK_SKULL, 0x10, 0x80, CHEST_ANIM_LONG),
     GET_ITEM(ITEM_MASK_SPOOKY, OBJECT_GI_REDEAD_MASK, GID_MASK_SPOOKY, 0x11, 0x80, CHEST_ANIM_LONG),
     GET_ITEM(ITEM_CHICKEN, OBJECT_GI_NIWATORI, GID_CHICKEN, 0x48, 0x80, CHEST_ANIM_LONG),
@@ -2875,7 +2876,6 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
 
             if ((play->bombchuBowlingStatus == 0) &&
                 (((actionParam == PLAYER_AP_STICK) && (AMMO(ITEM_STICK) == 0)) ||
-                 ((actionParam == PLAYER_AP_BEAN) && (AMMO(ITEM_BEAN) == 0)) ||
                  (temp = Player_ActionToExplosive(this, actionParam),
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
@@ -2898,6 +2898,8 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
+            } else if (actionParam == PLAYER_AP_BEAN) {
+                    Player_TryUseItem_Feather(play, this);
             } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
                     ((gSaveContext.magicCapacity != 0) && (gSaveContext.magicState == MAGIC_STATE_IDLE) &&
@@ -5203,8 +5205,24 @@ s32 func_8083BC7C(Player* this, PlayState* play) {
     return 0;
 }
 
+/*
+ *   arg2 is relative stick input.
+ *   arg2 = 1: sidehop left
+ *   arg2 = 2: backflip
+ *   arg2 = 3: sidehop right
+ *   arg2 = 4: new roc's feather behavior
+*/
 void func_8083BCD0(Player* this, PlayState* play, s32 arg2) {
-    func_80838940(this, D_80853D4C[arg2][0], !(arg2 & 1) ? 5.8f : 3.5f, play, NA_SE_VO_LI_SWORD_N);
+    if (arg2 == 4) {
+        if ((play->mainCamera.mode == CAM_MODE_BOWARROWZ) || (play->mainCamera.mode == CAM_MODE_BOWARROW)) {
+            // backflip instead if 3rd-person z target on bow, allows double-jump snipes to work
+            func_80838940(this, D_80853D4C[2][0], !(arg2 & 1) ? 5.8f : 3.5f, play, NA_SE_VO_LI_SWORD_N);
+        } else {
+            func_80838940(this, &gPlayerAnim_FrontFlipStart, !(arg2 & 1) ? 5.8f : 3.5f, play, NA_SE_EN_DEKU_WAKEUP);
+        }
+    } else {
+        func_80838940(this, D_80853D4C[arg2][0], !(arg2 & 1) ? 5.8f : 3.5f, play, NA_SE_VO_LI_SWORD_N);
+    }
 
     if (arg2) {}
 
@@ -5216,7 +5234,7 @@ void func_8083BCD0(Player* this, PlayState* play, s32 arg2) {
 
     this->stateFlags2 |= PLAYER_STATE2_19;
 
-    func_8002F7DC(&this->actor, ((arg2 << 0xE) == 0x8000) ? NA_SE_PL_ROLL : NA_SE_PL_SKIP);
+    func_8002F7DC(&this->actor, ((arg2 == 4) || ((arg2 << 0xE) == 0x8000)) ? NA_SE_PL_ROLL : NA_SE_PL_SKIP);
 }
 
 s32 func_8083BDBC(Player* this, PlayState* play) {
@@ -8237,9 +8255,11 @@ void func_8084411C(Player* this, PlayState* play) {
                             func_80843E14(this, NA_SE_VO_LI_FALL_S);
                             this->stateFlags1 &= ~PLAYER_STATE1_2;
                         }
-
-                        LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_003020, 1.0f, 0.0f, 0.0f,
-                                             ANIMMODE_ONCE, 8.0f);
+                        // fixes weird animation lerp when using feather to flip into a wall
+                        if (this->featherJumpCount == 0) {
+                            LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_003020, 1.0f, 0.0f, 0.0f,
+                                                ANIMMODE_ONCE, 8.0f);
+                        }
                         this->unk_850 = -1;
                     }
                 } else {
@@ -10129,6 +10149,10 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     }
 
     Math_Vec3f_Copy(&this->actor.prevPos, &this->actor.home.pos);
+
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
+        this->featherJumpCount = 0;
+    }
 
     if (this->unk_A73 != 0) {
         this->unk_A73--;
@@ -14427,4 +14451,21 @@ void func_80853148(PlayState* play, Actor* actor) {
         this->naviActor->flags |= ACTOR_FLAG_8;
         func_80835EA4(play, 0xB);
     }
+}
+
+void Player_TryUseItem_Feather(PlayState* play, Player* this) {
+    if (this->featherJumpCount == 0xFF) {
+        return;
+    }
+ 
+    this->featherJumpCount++;
+    if (this->featherJumpCount >= CUR_UPG_VALUE(UPG_BULLET_BAG)) {
+        this->featherJumpCount = 0xFF;
+    }
+
+    func_8083BCD0(this, play, 4);
+    this->actor.velocity.y += 1.3f;
+    this->stateFlags2 &= ~PLAYER_STATE2_19;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
+    EffectSsGRipple_Spawn(play, &this->actor.world.pos, 10, 800, 0);
 }

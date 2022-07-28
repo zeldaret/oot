@@ -94,7 +94,7 @@ void* gItemIcons[] = {
     gFaroresWindIconTex,
     gBoomerangIconTex,
     gLensofTruthIconTex,
-    gMagicBeansIconTex,
+    gRocsFeatherIconTex,
     gMegatonHammerIconTex,
     gLightArrowIconTex,
     gNayrusLoveIconTex,
