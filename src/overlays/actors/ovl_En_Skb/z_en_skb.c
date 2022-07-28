@@ -1,3 +1,9 @@
+/*
+ * File: z_en_skb.c
+ * Overlay: ovl_En_Skb
+ * Description: Stalchild
+ */
+
 #include "z_en_skb.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "assets/objects/object_skb/object_skb.h"
@@ -5,14 +11,14 @@
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 typedef enum {
-    ENSKB_ACTION_BURIED,
-    ENSKB_ACTION_DYING,
-    ENSKB_ACTION_DAMAGED,
-    ENSKB_ACTION_ATTACKING,
-    ENSKB_ACTION_WALKING,
-    ENSKB_ACTION_RECOILING,
-    ENSKB_ACTION_STUNNED
-} EnSkbActionState;
+    SKB_BEHAVIOR_BURIED,
+    SKB_BEHAVIOR_DYING,
+    SKB_BEHAVIOR_DAMAGED,
+    SKB_BEHAVIOR_ATTACKING,
+    SKB_BEHAVIOR_WALKING,
+    SKB_BEHAVIOR_RECOILING,
+    SKB_BEHAVIOR_STUNNED
+} StalchildBehavior;
 
 void EnSkb_Init(Actor* thisx, PlayState* play);
 void EnSkb_Destroy(Actor* thisx, PlayState* play);
@@ -149,8 +155,8 @@ static InitChainEntry sInitChain[] = {
 
 void EnSkb_Init(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
-    s16 paramOffsetArm;
-    s16 paramOffsetBody;
+    s16 armOffset;
+    s16 bodyOffset;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -167,13 +173,13 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
     Actor_SetScale(&this->actor, ((this->actor.params * 0.1f) + 1.0f) * 0.01f);
 
-    paramOffsetArm = this->actor.params + 0xA;
-    this->collider.elements[0].dim.worldSphere.radius = paramOffsetArm;
-    this->collider.elements[0].dim.modelSphere.radius = paramOffsetArm;
+    armOffset = this->actor.params + 0xA;
+    this->collider.elements[0].dim.worldSphere.radius = armOffset;
+    this->collider.elements[0].dim.modelSphere.radius = armOffset;
     if (1) {};
-    paramOffsetBody = (this->actor.params * 2) + 0x14;
-    this->collider.elements[1].dim.worldSphere.radius = paramOffsetBody;
-    this->collider.elements[1].dim.modelSphere.radius = paramOffsetBody;
+    bodyOffset = (this->actor.params * 2) + 0x14;
+    this->collider.elements[1].dim.worldSphere.radius = bodyOffset;
+    this->collider.elements[1].dim.modelSphere.radius = bodyOffset;
     this->actor.home.pos = this->actor.world.pos;
     this->actor.floorHeight = this->actor.world.pos.y;
     EnSkb_SetupRiseFromGround(this);
@@ -207,7 +213,7 @@ void EnSkb_DecideNextAction(EnSkb* this) {
 
 void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
-    this->actionState = ENSKB_ACTION_BURIED;
+    this->actionState = SKB_BEHAVIOR_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, EnSkb_RiseFromGround);
@@ -233,7 +239,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
 void EnSkb_SetupDespawn(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f,
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
-    this->actionState = ENSKB_ACTION_BURIED;
+    this->actionState = SKB_BEHAVIOR_BURIED;
     this->setColliderAT = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
@@ -255,7 +261,7 @@ void EnSkb_Despawn(EnSkb* this, PlayState* play) {
 void EnSkb_SetupWalkForward(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f,
                      Animation_GetLastFrame(&gStalchildWalkingAnim), ANIMMODE_LOOP, -4.0f);
-    this->actionState = ENSKB_ACTION_WALKING;
+    this->actionState = SKB_BEHAVIOR_WALKING;
     this->headlessYawOffset = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
     EnSkb_SetupAction(this, EnSkb_WalkForward);
@@ -267,7 +273,7 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
     f32 playSpeed;
     Player* player = GET_PLAYER(play);
 
-    if ((this->bodybreakState != 0) && ((play->gameplayFrames & 0xF) == 0)) {
+    if ((this->breakFlags != 0) && ((play->gameplayFrames & 0xF) == 0)) {
         this->headlessYawOffset = Rand_CenteredFloat(50000.0f);
     }
     Math_SmoothStepToS(&this->actor.shape.rot.y, (this->actor.yawTowardsPlayer + this->headlessYawOffset), 1, 0x2EE, 0);
@@ -304,7 +310,7 @@ void EnSkb_SetupAttack(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f,
                      Animation_GetLastFrame(&gStalchildAttackingAnim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
-    this->actionState = ENSKB_ACTION_ATTACKING;
+    this->actionState = SKB_BEHAVIOR_ATTACKING;
     this->actor.speedXZ = 0.0f;
     EnSkb_SetupAction(this, EnSkb_Attack);
 }
@@ -331,7 +337,7 @@ void EnSkb_SetupRecoil(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f,
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
-    this->actionState = ENSKB_ACTION_RECOILING;
+    this->actionState = SKB_BEHAVIOR_RECOILING;
     this->setColliderAT = false;
     EnSkb_SetupAction(this, EnSkb_Recoil);
 }
@@ -348,7 +354,7 @@ void EnSkb_SetupStunned(EnSkb* this) {
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->setColliderAT = false;
-    this->actionState = ENSKB_ACTION_STUNNED;
+    this->actionState = SKB_BEHAVIOR_STUNNED;
     EnSkb_SetupAction(this, EnSkb_Stunned);
 }
 
@@ -377,7 +383,7 @@ void EnSkb_SetupTakeDamage(EnSkb* this) {
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
-    this->actionState = ENSKB_ACTION_DAMAGED;
+    this->actionState = SKB_BEHAVIOR_DAMAGED;
     EnSkb_SetupAction(this, EnSkb_TakeDamage);
 }
 
@@ -385,10 +391,10 @@ void EnSkb_TakeDamage(EnSkb* this, PlayState* play) {
     // this cast is likely not real, but allows for a match
     u8* new_var;
 
-    new_var = &this->bodybreakState;
-    if ((this->bodybreakState != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, 1)) {
+    new_var = &this->breakFlags;
+    if ((this->breakFlags != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, 1)) {
         if ((*new_var) != 0) {
-            this->bodybreakState = (*new_var) | 2;
+            this->breakFlags = (*new_var) | 2;
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             this->actor.speedXZ = 0;
@@ -413,10 +419,10 @@ void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -6.0f;
     }
-    this->actionState = ENSKB_ACTION_DYING;
+    this->actionState = SKB_BEHAVIOR_DYING;
     this->actor.flags &= ~ACTOR_FLAG_0;
     BodyBreak_Alloc(&this->bodyBreak, 18, play);
-    this->bodybreakState |= 4;
+    this->breakFlags |= 4;
     EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 0x28);
     EnSkb_SetupAction(this, EnSkb_Death);
 }
@@ -433,7 +439,7 @@ void EnSkb_Death(EnSkb* this, PlayState* play) {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
 
-        this->bodybreakState |= 8;
+        this->breakFlags |= 8;
         Actor_Kill(&this->actor);
     }
 }
@@ -446,13 +452,13 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
     s16 colorFilterDuration;
     Player* player;
 
-    if ((this->actionState != ENSKB_ACTION_DYING) &&
+    if ((this->actionState != SKB_BEHAVIOR_DYING) &&
         (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
         (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->setColliderAT = false;
         EnSkb_SetupDeath(this, play);
-    } else if (this->actionState >= ENSKB_ACTION_ATTACKING) {
+    } else if (this->actionState >= SKB_BEHAVIOR_ATTACKING) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 6) {
@@ -460,7 +466,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
                 this->setColliderAT = false;
                 if (this->actor.colChkInfo.damageEffect == 1) {
-                    if (this->actionState != ENSKB_ACTION_STUNNED) {
+                    if (this->actionState != SKB_BEHAVIOR_STUNNED) {
                         Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
                         Actor_ApplyDamage(&this->actor);
                         EnSkb_SetupStunned(this);
@@ -484,7 +490,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                         return;
                     }
                     player = GET_PLAYER(play);
-                    if (this->bodybreakState == 0) {
+                    if (this->breakFlags == 0) {
                         if ((this->actor.colChkInfo.damageEffect == 0xD) ||
                             ((this->actor.colChkInfo.damageEffect == 0xE) &&
                              ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H &&
@@ -492,7 +498,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                               (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||
                                player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT)))) {
                             BodyBreak_Alloc(&this->bodyBreak, 2, play);
-                            this->bodybreakState = 1; // setup for head bodybreak
+                            this->breakFlags = 1; // setup for head bodybreak
                         }
                     }
                     EnSkb_SetupTakeDamage(this);
@@ -518,7 +524,7 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 
-    if (this->actionState >= ENSKB_ACTION_ATTACKING) {
+    if (this->actionState >= SKB_BEHAVIOR_ATTACKING) {
         if ((this->actor.colorFilterTimer == 0) || ((this->actor.colorFilterParams & 0x4000) == 0)) {
 
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -533,7 +539,7 @@ s32 EnSkb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     s16 pad[2];
 
     if (limbIndex == 11) {
-        if ((this->bodybreakState & 2) == 0) { // head limb, head is still attached
+        if ((this->breakFlags & 2) == 0) { // head limb, head is still attached
             OPEN_DISPS(play->state.gfxCtx, "../z_en_skb.c", 972);
             color = ABS((s16)(Math_SinS(play->gameplayFrames * 0x1770) * 95.0f)) + 160;
             gDPPipeSync(POLY_OPA_DISP++);
@@ -542,7 +548,7 @@ s32 EnSkb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
         } else {
             *dList = NULL;
         }
-    } else if ((limbIndex == 12) && ((this->bodybreakState & 2) != 0)) { // jaw limb, don't draw if headless
+    } else if ((limbIndex == 12) && ((this->breakFlags & 2) != 0)) { // jaw limb, don't draw if headless
         *dList = NULL;
     }
     return 0;
@@ -553,9 +559,9 @@ void EnSkb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
-    if ((this->bodybreakState ^ 1) == 0) {
+    if ((this->breakFlags ^ 1) == 0) {
         BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_DEFAULT);
-    } else if ((this->bodybreakState ^ (this->bodybreakState | 4)) == 0) {
+    } else if ((this->breakFlags ^ (this->breakFlags | 4)) == 0) {
         BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_DEFAULT);
     }
 }
