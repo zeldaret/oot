@@ -39,6 +39,24 @@
 #define VI_X_SCALE_REG          0x04400030  //VI x-scale
 #define VI_Y_SCALE_REG          0x04400034  //VI y-scale
 
+// VI_CONTROL_REG (read) bits
+#define VI_CTRL_TYPE_16             0x00002 // [1:0] pixel size: 16 bit
+#define VI_CTRL_TYPE_32             0x00003 // [1:0] pixel size: 32 bit
+#define VI_CTRL_GAMMA_DITHER_ON     0x00004 // 2: default = on
+#define VI_CTRL_GAMMA_ON            0x00008 // 3: default = on
+#define VI_CTRL_DIVOT_ON            0x00010 // 4: default = on
+#define VI_CTRL_SERRATE_ON          0x00040 // 6: on if interlaced
+#define VI_CTRL_ANTIALIAS_MASK      0x00300 // [9:8] anti-alias mode
+#define VI_CTRL_ANTIALIAS_MODE_0    0x00000 // Bit [9:8] anti-alias mode: AA enabled, resampling enabled, always fetch extra lines
+#define VI_CTRL_ANTIALIAS_MODE_1    0x00100 // Bit [9:8] anti-alias mode: AA enabled, resampling enabled, fetch extra lines as-needed
+#define VI_CTRL_ANTIALIAS_MODE_2    0x00200 // Bit [9:8] anti-alias mode: AA disabled, resampling enabled, operate as if everything is covered
+#define VI_CTRL_ANTIALIAS_MODE_3    0x00300 // Bit [9:8] anti-alias mode: AA disabled, resampling disabled, replicate pixels
+#define VI_CTRL_PIXEL_ADV_MASK      0x01000 // [15:12] pixel advance mode
+#define VI_CTRL_PIXEL_ADV_1         0x01000 // Bit [15:12] pixel advance mode: ?
+#define VI_CTRL_PIXEL_ADV_2         0x02000 // Bit [15:12] pixel advance mode: ?
+#define VI_CTRL_PIXEL_ADV_3         0x03000 // Bit [15:12] pixel advance mode: ?
+#define VI_CTRL_DITHER_FILTER_ON    0x10000 // 16: dither-filter mode
+
 #define SP_IMEM_START           0x04001000
 #define SP_DMEM_START           0x04000000
 
@@ -135,5 +153,22 @@
 #define VI_NTSC_CLOCK           48681812    /* Hz = 48.681812 MHz */
 #define VI_PAL_CLOCK            49656530    /* Hz = 49.656530 MHz */
 #define VI_MPAL_CLOCK           48628316    /* Hz = 48.628316 MHz */
+
+#define PI_DOM1_ADDR1   0x06000000  /* to 0x07FFFFFF */
+#define PI_DOM1_ADDR2   0x10000000  /* to 0x1FBFFFFF */
+#define PI_DOM1_ADDR3   0x1FD00000  /* to 0x7FFFFFFF */
+#define PI_DOM2_ADDR1   0x05000000  /* to 0x05FFFFFF */
+#define PI_DOM2_ADDR2   0x08000000  /* to 0x0FFFFFFF */
+
+/**
+ * External device info
+ */
+#define DEVICE_TYPE_CART    0   /* ROM cartridge */
+#define DEVICE_TYPE_BULK    1   /* ROM bulk */
+#define DEVICE_TYPE_64DD    2   /* 64 Disk Drive */
+#define DEVICE_TYPE_SRAM    3   /* SRAM */
+/* 4-6 are reserved */
+#define DEVICE_TYPE_INIT    7   /* initial value */
+/* 8-14 are reserved */
 
 #endif

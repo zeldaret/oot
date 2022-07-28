@@ -30,7 +30,7 @@ beginseg
     include "build/src/libultra/io/piacs.o"
     include "build/src/libultra/os/sendmesg.o"
     include "build/src/libultra/os/stopthread.o"
-    include "build/src/libultra/io/viextend.o"
+    include "build/src/libultra/io/viextendvstart.o"
     include "build/src/libultra/io/vimodepallan1.o"
     include "build/src/libultra/os/recvmesg.o"
     include "build/src/libultra/os/initialize.o"
