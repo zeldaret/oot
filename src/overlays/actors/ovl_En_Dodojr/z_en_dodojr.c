@@ -135,7 +135,7 @@ void EnDodojr_SpawnSmallDust(EnDodojr* this, PlayState* play, Vec3f* arg2) {
     func_8002836C(play, &pos, &velocity, &accel, &prim, &env, 100, 60, 8);
 }
 
-s32 EnDodojr_UpdateRemainingBounces(EnDodojr* this, PlayState* play) {
+s32 EnDodojr_UpdateBounces(EnDodojr* this, PlayState* play) {
     if (this->actor.velocity.y >= 0.0f) {
         return false;
     }
@@ -489,7 +489,7 @@ void EnDodojr_SwallowedBombDeathBounce(EnDodojr* this, PlayState* play) {
     this->rootScale *= ((f32)this->actor.colorFilterTimer / 8);
     func_8002D868(&this->actor);
 
-    if (EnDodojr_UpdateRemainingBounces(this, play)) {
+    if (EnDodojr_UpdateBounces(this, play)) {
         this->timer = 60;
         EnDodojr_SetupSwallowedBombDeathSequence(this);
         this->counter = 7;
@@ -504,7 +504,7 @@ void EnDodojr_SwallowedBombDeathSequence(EnDodojr* this, PlayState* play) {
 void EnDodojr_StunnedBounce(EnDodojr* this, PlayState* play) {
     func_8002D868(&this->actor);
 
-    if (EnDodojr_UpdateRemainingBounces(this, play)) {
+    if (EnDodojr_UpdateBounces(this, play)) {
         EnDodojr_SetupSwallowedBombDeathSequence(this);
         this->actionFunc = EnDodojr_Stunned;
     }
@@ -538,7 +538,7 @@ void EnDodojr_JumpAttackBounce(EnDodojr* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_24;
     func_8002D868(&this->actor);
 
-    if (EnDodojr_UpdateRemainingBounces(this, play)) {
+    if (EnDodojr_UpdateBounces(this, play)) {
         EnDodojr_SetupCrawlTowardsTarget(this);
         this->actionFunc = EnDodojr_CrawlTowardsTarget;
     }
@@ -564,7 +564,7 @@ void EnDodojr_StandardDeathBounce(EnDodojr* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.world.rot.x = this->actor.shape.rot.x;
 
-    if (EnDodojr_UpdateRemainingBounces(this, play)) {
+    if (EnDodojr_UpdateBounces(this, play)) {
         this->timer = 60;
         EnDodojr_SetupSwallowedBombDeathSequence(this);
         this->counter = 7;
