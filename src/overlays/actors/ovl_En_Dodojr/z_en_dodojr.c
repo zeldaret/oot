@@ -89,7 +89,7 @@ void EnDodojr_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnDodojr_SwallowedBombEffects(EnDodojr* this) {
+void EnDodojr_SetupSwallowedBombEffects(EnDodojr* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
     Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 8);
 }
@@ -476,7 +476,7 @@ void EnDodojr_EatBomb(EnDodojr* this, PlayState* play) {
 
 void EnDodojr_SwallowBomb(EnDodojr* this, PlayState* play) {
     if (DECR(this->timer) == 0) {
-        EnDodojr_SwallowedBombEffects(this);
+        EnDodojr_SetupSwallowedBombEffects(this);
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDodojr_SetupFlipBounce(this);
         this->actionFunc = EnDodojr_SwallowedBombDeathBounce;
