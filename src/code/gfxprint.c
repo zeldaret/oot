@@ -179,7 +179,7 @@ void GfxPrint_SetPosPx(GfxPrint* this, s32 x, s32 y) {
 }
 
 void GfxPrint_SetPos(GfxPrint* this, s32 x, s32 y) {
-    GfxPrint_SetPosPx(this, x * GFXP_CHAR_WIDTH, y * GFXP_CHAR_HEIGHT);
+    GfxPrint_SetPosPx(this, x * GFX_CHAR_X_SPACING, y * GFX_CHAR_Y_SPACING);
 }
 
 void GfxPrint_SetBasePosPx(GfxPrint* this, s32 x, s32 y) {
@@ -230,14 +230,14 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
                             (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
     }
 
-    this->posX += GFXP_CHAR_WIDTH << 2;
+    this->posX += GFX_CHAR_X_SPACING << 2;
 }
 
 void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
     u8 charParam = c;
 
     if (c == ' ') {
-        this->posX += GFXP_CHAR_WIDTH << 2;
+        this->posX += GFX_CHAR_X_SPACING << 2;
     } else if (c > ' ' && c < 0x7F) {
         GfxPrint_PrintCharImpl(this, charParam);
     } else if (c >= 0xA0 && c < 0xE0) {
@@ -254,7 +254,7 @@ void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
             case '\0':
                 break;
             case '\n':
-                this->posY += GFXP_CHAR_HEIGHT << 2;
+                this->posY += GFX_CHAR_Y_SPACING << 2;
                 FALLTHROUGH;
             case '\r':
                 this->posX = this->baseX;

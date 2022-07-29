@@ -1488,8 +1488,8 @@ typedef struct {
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
-#define GFXP_CHAR_WIDTH  8
-#define GFXP_CHAR_HEIGHT 8
+#define GFX_CHAR_X_SPACING    8
+#define GFX_CHAR_Y_SPACING    8
 
 #define GFXP_UNUSED "\x8E"
 #define GFXP_UNUSED_CHAR 0x8E
