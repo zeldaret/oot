@@ -2,7 +2,7 @@
 
 u8 sYaz0DataBuffer[0x400];
 u8* sYaz0DataBufferEnd;
-u32 sYaz0CurRomStart;
+uintptr_t sYaz0CurRomStart;
 u32 sYaz0CurSize;
 u8* sYaz0MaxPtr;
 
@@ -92,7 +92,7 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
     } while (dst != dstEnd);
 }
 
-void Yaz0_Decompress(u32 romStart, u8* dst, u32 size) {
+void Yaz0_Decompress(uintptr_t romStart, u8* dst, u32 size) {
     sYaz0CurRomStart = romStart;
     sYaz0CurSize = size;
     sYaz0DataBufferEnd = sYaz0DataBuffer + sizeof(sYaz0DataBuffer);

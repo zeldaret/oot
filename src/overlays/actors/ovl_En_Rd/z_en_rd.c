@@ -772,7 +772,7 @@ void EnRd_TurnTowardsPlayer(EnRd* this, PlayState* play) {
     headAngleTemp -= this->headYRotation;
     headAngle = CLAMP(headAngleTemp, -500, 500);
 
-    if (BINANG_SUB(this->actor.yawTowardsPlayer, this->actor.shape.rot.y) >= 0) {
+    if ((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) >= 0) {
         this->upperBodyYRotation += ABS(upperBodyAngle);
         this->headYRotation += ABS(headAngle);
     } else {

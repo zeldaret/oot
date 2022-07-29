@@ -2762,7 +2762,7 @@ s32 BossSst_OverrideHeadDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
                              Gfx** gfx) {
     BossSst* this = (BossSst*)thisx;
     s32 shakeAmp;
-    s32 pad;
+    s32 temp;
     s32 timer12;
     f32 shakeMod;
 
@@ -2810,8 +2810,8 @@ s32 BossSst_OverrideHeadDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
         if (this->timer > 48) {
             timer12 = this->timer - 36;
         } else {
-            pad = ((this->timer > 6) ? 6 : this->timer);
-            timer12 = pad * 2;
+            temp = ((this->timer > 6) ? 6 : this->timer);
+            timer12 = temp * 2;
         }
 
         if ((limbIndex == 3) || (limbIndex == 39) || (limbIndex == 42)) {

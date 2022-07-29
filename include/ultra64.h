@@ -7,6 +7,7 @@
 #include "libc/stdarg.h"
 #include "libc/stdbool.h"
 #include "libc/stddef.h"
+#include "libc/stdint.h"
 #include "libc/stdlib.h"
 #include "libc/math.h"
 

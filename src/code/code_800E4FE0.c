@@ -262,8 +262,8 @@ void func_800E5584(AudioCmd* cmd) {
                     NoteSubEu* subEu = &note->noteSubEu;
 
                     if (subEu->bitField0.enabled && note->playbackState.unk_04 == 0) {
-                        if (note->playbackState.parentLayer->channel->muteBehavior & 8) {
-                            subEu->bitField0.finished = 1;
+                        if (note->playbackState.parentLayer->channel->muteBehavior & MUTE_BEHAVIOR_3) {
+                            subEu->bitField0.finished = true;
                         }
                     }
                 }
@@ -331,7 +331,7 @@ void func_800E5584(AudioCmd* cmd) {
             break;
 
         case 0xE3:
-            AudioHeap_PopCache(cmd->asInt);
+            AudioHeap_PopPersistentCache(cmd->asInt);
             break;
 
         default:
@@ -594,7 +594,7 @@ s8 func_800E60C4(s32 playerIdx, s32 port) {
 }
 
 void Audio_InitExternalPool(void* ramAddr, u32 size) {
-    AudioHeap_AllocPoolInit(&gAudioContext.externalPool, ramAddr, size);
+    AudioHeap_InitPool(&gAudioContext.externalPool, ramAddr, size);
 }
 
 void Audio_DestroyExternalPool(void) {
@@ -832,8 +832,8 @@ void func_800E66A0(void) {
 
 s32 func_800E66C0(s32 arg0) {
     s32 phi_v1;
-    NotePlaybackState* temp_a2;
-    NoteSubEu* temp_a3;
+    NotePlaybackState* playbackState;
+    NoteSubEu* noteSubEu;
     s32 i;
     Note* note;
     TunedSample* tunedSample;
@@ -841,13 +841,13 @@ s32 func_800E66C0(s32 arg0) {
     phi_v1 = 0;
     for (i = 0; i < gAudioContext.numNotes; i++) {
         note = &gAudioContext.notes[i];
-        temp_a2 = &note->playbackState;
+        playbackState = &note->playbackState;
         if (note->noteSubEu.bitField0.enabled) {
-            temp_a3 = &note->noteSubEu;
-            if (temp_a2->adsr.action.s.state != 0) {
+            noteSubEu = &note->noteSubEu;
+            if (playbackState->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
-                    tunedSample = temp_a3->tunedSample;
-                    if (tunedSample == NULL || temp_a3->bitField1.isSyntheticWave) {
+                    tunedSample = noteSubEu->tunedSample;
+                    if (tunedSample == NULL || noteSubEu->bitField1.isSyntheticWave) {
                         continue;
                     }
                     if (tunedSample->sample->medium == MEDIUM_RAM) {
@@ -857,8 +857,8 @@ s32 func_800E66C0(s32 arg0) {
 
                 phi_v1++;
                 if ((arg0 & 1) == 1) {
-                    temp_a2->adsr.fadeOutVel = gAudioContext.audioBufferParameters.updatesPerFrameInv;
-                    temp_a2->adsr.action.s.release = 1;
+                    playbackState->adsr.fadeOutVel = gAudioContext.audioBufferParameters.updatesPerFrameInv;
+                    playbackState->adsr.action.s.release = 1;
                 }
             }
         }

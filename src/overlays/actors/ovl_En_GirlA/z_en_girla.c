@@ -33,7 +33,7 @@ s32 EnGirlA_CanBuy_HylianShield(PlayState* play, EnGirlA* this);
 s32 EnGirlA_CanBuy_DekuShield(PlayState* play, EnGirlA* this);
 s32 EnGirlA_CanBuy_GoronTunic(PlayState* play, EnGirlA* this);
 s32 EnGirlA_CanBuy_ZoraTunic(PlayState* play, EnGirlA* this);
-s32 EnGirlA_CanBuy_Health(PlayState* play, EnGirlA* this);
+s32 EnGirlA_CanBuy_RecoveryHeart(PlayState* play, EnGirlA* this);
 s32 EnGirlA_CanBuy_MilkBottle(PlayState* play, EnGirlA* this);
 s32 EnGirlA_CanBuy_WeirdEgg(PlayState* play, EnGirlA* this);
 s32 EnGirlA_CanBuy_Unk19(PlayState* play, EnGirlA* this);
@@ -202,9 +202,9 @@ static ShopItemEntry shopItemEntries[] = {
     /* SI_ZORA_TUNIC */
     { OBJECT_GI_CLOTHES, GID_TUNIC_ZORA, NULL, 300, 1, 0x00AB, 0x0094, GI_TUNIC_ZORA, EnGirlA_CanBuy_ZoraTunic,
       EnGirlA_ItemGive_ZoraTunic, EnGirlA_BuyEvent_ZoraTunic },
-    /* SI_HEART */
-    { OBJECT_GI_HEART, GID_HEART, NULL, 10, 16, 0x00AC, 0x0095, GI_HEART, EnGirlA_CanBuy_Health,
-      EnGirlA_ItemGive_Health, EnGirlA_BuyEvent_ShieldDiscount },
+    /* SI_RECOVERY_HEART */
+    { OBJECT_GI_HEART, GID_RECOVERY_HEART, NULL, 10, 16, 0x00AC, 0x0095, GI_RECOVERY_HEART,
+      EnGirlA_CanBuy_RecoveryHeart, EnGirlA_ItemGive_Health, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_MILK_BOTTLE */
     { OBJECT_GI_MILK, GID_MILK, func_80A3C498, 100, 1, 0x00AD, 0x0097, GI_MILK_BOTTLE, EnGirlA_CanBuy_MilkBottle,
       EnGirlA_ItemGive_MilkBottle, EnGirlA_BuyEvent_ShieldDiscount },
@@ -317,7 +317,7 @@ s32 EnGirlA_TryChangeShopItem(EnGirlA* this) {
     switch (this->actor.params) {
         case SI_MILK_BOTTLE:
             if (GET_ITEMGETINF(ITEMGETINF_02)) {
-                this->actor.params = SI_HEART;
+                this->actor.params = SI_RECOVERY_HEART;
                 return true;
             }
             break;
@@ -594,7 +594,7 @@ s32 EnGirlA_CanBuy_ZoraTunic(PlayState* play, EnGirlA* this) {
     return CANBUY_RESULT_SUCCESS;
 }
 
-s32 EnGirlA_CanBuy_Health(PlayState* play, EnGirlA* this) {
+s32 EnGirlA_CanBuy_RecoveryHeart(PlayState* play, EnGirlA* this) {
     if (gSaveContext.healthCapacity == gSaveContext.health) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
