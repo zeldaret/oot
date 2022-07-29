@@ -132,7 +132,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     meshHeaderCullableEntry = SEGMENTED_TO_VIRTUAL(meshHeaderCullable->entries);
     insert = linkedEntriesBuffer;
 
-    ASSERT(meshHeaderCullable->numEntries <= ARRAY_COUNT(linkedEntriesBuffer), "polygon2->num <= SHAPE_SORT_MAX",
+    ASSERT(meshHeaderCullable->numEntries <= MESH_HEADER_CULLABLE_MAX_ENTRIES, "polygon2->num <= SHAPE_SORT_MAX",
            "../z_room.c", 317);
 
     meshHeaderCullableEntries = meshHeaderCullableEntry;
