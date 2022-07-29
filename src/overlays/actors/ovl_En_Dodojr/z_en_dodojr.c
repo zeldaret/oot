@@ -261,7 +261,7 @@ s32 EnDodojr_CheckNearbyBombs(EnDodojr* this, PlayState* play) {
     return foundBomb;
 }
 
-s32 EnDodojr_CanEatBomb(EnDodojr* this) {
+s32 EnDodojr_TryEatBomb(EnDodojr* this) {
     if (this->bomb == NULL) {
         return false;
     } else if (this->bomb->parent != NULL) {
@@ -437,7 +437,7 @@ void EnDodojr_CrawlTowardsTarget(EnDodojr* this, PlayState* play) {
         this->crawlSfxTimer = 5;
     }
 
-    if (EnDodojr_CanEatBomb(this)) {
+    if (EnDodojr_TryEatBomb(this)) {
         EnDodojr_SetupEatBomb(this);
         this->actionFunc = EnDodojr_EatBomb;
         return;
