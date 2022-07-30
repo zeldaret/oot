@@ -1321,11 +1321,10 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
 
     View_ErrorCheckEyePosition(correctedEyeX, eye->y, eye->z);
     guLookAtHilite(&D_8015BBA8, lookAt, *hilite, correctedEyeX, eye->y, eye->z, object->x, object->y, object->z, 0.0f,
-                   1.0f, 0.0f, lightDir->x, lightDir->y, lightDir->z, lightDir->x, lightDir->y, lightDir->z, 0x10,
-                   0x10);
+                   1.0f, 0.0f, lightDir->x, lightDir->y, lightDir->z, lightDir->x, lightDir->y, lightDir->z, 16, 16);
 
     gSPLookAt(gfx++, lookAt);
-    gDPSetHilite1Tile(gfx++, 1, *hilite, 0x10, 0x10);
+    gDPSetHilite1Tile(gfx++, 1, *hilite, 16, 16);
 
     return gfx;
 }
@@ -1377,7 +1376,7 @@ void func_8002EBCC(Actor* actor, PlayState* play, s32 flag) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 4384);
 
-        gDPSetHilite1Tile(displayListHead++, 1, hilite, 0x10, 0x10);
+        gDPSetHilite1Tile(displayListHead++, 1, hilite, 16, 16);
         gSPEndDisplayList(displayListHead);
         gSPSegment(POLY_OPA_DISP++, 0x07, displayList);
 
@@ -1403,7 +1402,7 @@ void func_8002ED80(Actor* actor, PlayState* play, s32 flag) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 4429);
 
-        gDPSetHilite1Tile(displayListHead++, 1, hilite, 0x10, 0x10);
+        gDPSetHilite1Tile(displayListHead++, 1, hilite, 16, 16);
         gSPEndDisplayList(displayListHead);
         gSPSegment(POLY_XLU_DISP++, 0x07, displayList);
 

@@ -273,7 +273,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, PlayState* play2) {
 
     for (i = 0; i < 2; i++) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0,
                                     ((play->gameplayFrames + i) * -20) & 0x1FF, 32, 128));
 
         Matrix_Translate((i == 0) ? 260.0f : -260.0f, 128.0f, 690.0f, MTXMODE_NEW);

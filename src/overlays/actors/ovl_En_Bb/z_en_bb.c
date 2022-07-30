@@ -1327,7 +1327,7 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
         if (this->actor.params != ENBB_WHITE) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                         ((play->gameplayFrames + (this->flameScrollMod * 10)) *
                                          (-20 - (this->flameScrollMod * -2))) %
                                             0x200,
