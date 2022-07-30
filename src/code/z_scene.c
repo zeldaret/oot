@@ -426,9 +426,10 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
             if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
+                // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
                 altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
                     cmd->altHeaders
-                        .data))[gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT + SCENE_LAYER_ADULT_DAY - 1];
+                        .data))[(gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
                 // "Using adult day data there!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
