@@ -193,7 +193,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
             }
         } else if (Flags_GetCollectible(play, this->dyna.actor.params) != 0) {
             // If small key already collected, drop recovery heart instead
-            collectibleParams = ITEM00_HEART;
+            collectibleParams = ITEM00_RECOVERY_HEART;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             // Drops a small key and sets a collect flag
