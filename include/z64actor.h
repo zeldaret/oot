@@ -499,7 +499,7 @@ typedef enum {
 } NaviEnemy;
 
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
-#define TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
+#define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
 
 // EnDoor and DoorKiller share openAnim and playerIsOpening
 // Due to alignment, a substruct cannot be used in the structs of these actors.
