@@ -409,6 +409,7 @@ beginseg
     include "build/src/code/fault.o"
     include "build/data/fault.bss.o"
     include "build/src/code/fault_drawer.o"
+    include "build/data/fault_drawer.bss.o"
     include "build/src/code/kanread.o"
     include "build/src/code/ucode_disas.o"
     pad_text // audio library aligned to 32 bytes?
