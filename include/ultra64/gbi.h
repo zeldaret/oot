@@ -312,10 +312,10 @@
 #define G_TX_LOADTILE   7
 #define G_TX_RENDERTILE 0
 
-#define G_TX_NOMIRROR   0
-#define G_TX_WRAP       0
-#define G_TX_MIRROR     1
-#define G_TX_CLAMP      2
+#define G_TX_NOMIRROR   (0 << 0)
+#define G_TX_WRAP       (0 << 1)
+#define G_TX_MIRROR     (1 << 0)
+#define G_TX_CLAMP      (1 << 1)
 #define G_TX_NOMASK     0
 #define G_TX_NOLOD      0
 #endif
@@ -583,19 +583,19 @@
 #define G_ZS_PRIM           (1 << G_MDSFT_ZSRCSEL)
 
 /* G_SETOTHERMODE_L gSetRenderMode */
-#define AA_EN           0x8
-#define Z_CMP           0x10
-#define Z_UPD           0x20
-#define IM_RD           0x40
-#define CLR_ON_CVG      0x80
-#define CVG_DST_CLAMP   0
-#define CVG_DST_WRAP    0x100
-#define CVG_DST_FULL    0x200
-#define CVG_DST_SAVE    0x300
-#define ZMODE_OPA       0
-#define ZMODE_INTER     0x400
-#define ZMODE_XLU       0x800
-#define ZMODE_DEC       0xc00
+#define AA_EN           0x0008
+#define Z_CMP           0x0010
+#define Z_UPD           0x0020
+#define IM_RD           0x0040
+#define CLR_ON_CVG      0x0080
+#define CVG_DST_CLAMP   0x0000
+#define CVG_DST_WRAP    0x0100
+#define CVG_DST_FULL    0x0200
+#define CVG_DST_SAVE    0x0300
+#define ZMODE_OPA       0x0000
+#define ZMODE_INTER     0x0400
+#define ZMODE_XLU       0x0800
+#define ZMODE_DEC       0x0c00
 #define CVG_X_ALPHA     0x1000
 #define ALPHA_CVG_SEL   0x2000
 #define FORCE_BL        0x4000
@@ -955,8 +955,8 @@
 #define G_SC_EVEN_INTERLACE 2
 
 /* flags to inhibit pushing of the display list (on branch) */
-#define G_DL_PUSH       0x00
-#define G_DL_NOPUSH     0x01
+#define G_DL_PUSH       0
+#define G_DL_NOPUSH     1
 
 /*
  * BEGIN C-specific section: (typedef's)
@@ -1692,6 +1692,7 @@ typedef struct {
 /*
  *  Graphics Moveword Packet
  */
+// Inaccurate for F3DEX2, offset and index are swapped
 typedef struct {
     int          cmd    : 8;
     unsigned int offset : 16;
@@ -1746,25 +1747,18 @@ typedef struct {
     unsigned short dz;
 } Gsetprimdepth;
 
-#ifdef F3DEX_GBI_2
-typedef Gdma2 Gmatrix;
-#else
-typedef Gdma Gmatrix;
-#endif
-
 typedef struct {
     int           cmd   : 8;
     int           pad1  : 24;
 #ifdef F3DEX_GBI_2
-    unsigned int  param : 26;
-    unsigned char pad3  : 6;
+    unsigned int  param;
 #else
     int           pad2  : 24;
     unsigned char param : 8;
 #endif
 } Gpopmtx;
 
-/*
+/* 
  * typedef struct {
  *      int     cmd:8;
  *      int     pad0:24;
@@ -1848,12 +1842,14 @@ typedef struct {
 
 typedef struct {
     int          cmd : 8;
+    // muxs0
     unsigned int a0  : 4;
     unsigned int c0  : 5;
     unsigned int Aa0 : 3;
     unsigned int Ac0 : 3;
     unsigned int a1  : 4;
     unsigned int c1  : 5;
+    // muxs1
     unsigned int b0  : 4;
     unsigned int b1  : 4;
     unsigned int Aa1 : 3;
@@ -1986,7 +1982,6 @@ typedef struct {
 typedef union {
     Gwords          words;
     Gnoop           noop;
-    Gmatrix         matrix;
     Gdma            dma;
 #ifdef F3DEX_GBI_2
     Gdma2           dma2;
@@ -2685,6 +2680,7 @@ _DW({                                               \
  *  flag = G_BZ_PERSP or G_BZ_ORTHO
  */
 
+// From gu.h
 #ifndef FTOFIX32
 # define FTOFIX32(x) (long)((x) * (float)0x00010000)
 #endif
@@ -2762,9 +2758,10 @@ _DW({                                               \
     _SHIFTL(G_RDPHALF_1, 24, 8),            \
     (unsigned int)(dl),                     \
 },                                          \
-{   _SHIFTL(G_BRANCH_Z, 24, 8) |            \
-        _SHIFTL((vtx) * 5, 12, 12) |        \
-        _SHIFTL((vtx) * 2, 0, 12),          \
+{                                           \
+   (_SHIFTL(G_BRANCH_Z, 24,  8) |           \
+    _SHIFTL((vtx) * 5,  12, 12) |           \
+    _SHIFTL((vtx) * 2,   0, 12)),           \
     (unsigned int)(zval),                   \
 }
 
@@ -3718,10 +3715,10 @@ _DW({                                                   \
 #define G_TX_LOADTILE   7
 #define G_TX_RENDERTILE 0
 
-#define G_TX_NOMIRROR   0
-#define G_TX_WRAP       0
-#define G_TX_MIRROR     1
-#define G_TX_CLAMP      2
+#define G_TX_NOMIRROR   (0 << 0)
+#define G_TX_WRAP       (0 << 1)
+#define G_TX_MIRROR     (1 << 0)
+#define G_TX_CLAMP      (1 << 1)
 #define G_TX_NOMASK     0
 #define G_TX_NOLOD      0
 

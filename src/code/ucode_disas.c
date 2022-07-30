@@ -40,7 +40,7 @@ F3dzexFlag sUCodeDisasMtxFlags[] = {
 
 typedef enum { COMBINER_A = 1, COMBINER_B, COMBINER_C, COMBINER_D } CombinerArg;
 
-const char* UCodeDisas_CombineColorStr(u32 value, u32 arg) {
+const char* UCodeDisas_GetCombineColorName(u32 value, u32 arg) {
     const char* ret = "?";
 
     switch (value) {
@@ -109,7 +109,7 @@ const char* UCodeDisas_CombineColorStr(u32 value, u32 arg) {
     return ret;
 }
 
-const char* UCodeDisas_CombineAlphaStr(u32 value, u32 arg) {
+const char* UCodeDisas_GetCombineAlphaName(u32 value, u32 arg) {
     const char* ret = "?";
 
     switch (value) {
@@ -396,25 +396,25 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 Gsetcombine setcombine = ptr->setcombine;
 
                 DISAS_LOG("gsDPSetCombineLERP(%s,%s,%s,%s, %s,%s,%s,%s, %s,%s,%s,%s, %s,%s,%s,%s),",
-                          UCodeDisas_CombineColorStr(setcombine.a0, COMBINER_A),
-                          UCodeDisas_CombineColorStr(setcombine.b0, COMBINER_B),
-                          UCodeDisas_CombineColorStr(setcombine.c0, COMBINER_C),
-                          UCodeDisas_CombineColorStr(setcombine.d0, COMBINER_D),
+                          UCodeDisas_GetCombineColorName(setcombine.a0, COMBINER_A),
+                          UCodeDisas_GetCombineColorName(setcombine.b0, COMBINER_B),
+                          UCodeDisas_GetCombineColorName(setcombine.c0, COMBINER_C),
+                          UCodeDisas_GetCombineColorName(setcombine.d0, COMBINER_D),
 
-                          UCodeDisas_CombineAlphaStr(setcombine.Aa0, COMBINER_A),
-                          UCodeDisas_CombineAlphaStr(setcombine.Ab0, COMBINER_B),
-                          UCodeDisas_CombineAlphaStr(setcombine.Ac0, COMBINER_C),
-                          UCodeDisas_CombineAlphaStr(setcombine.Ad0, COMBINER_D),
+                          UCodeDisas_GetCombineAlphaName(setcombine.Aa0, COMBINER_A),
+                          UCodeDisas_GetCombineAlphaName(setcombine.Ab0, COMBINER_B),
+                          UCodeDisas_GetCombineAlphaName(setcombine.Ac0, COMBINER_C),
+                          UCodeDisas_GetCombineAlphaName(setcombine.Ad0, COMBINER_D),
 
-                          UCodeDisas_CombineColorStr(setcombine.a1, COMBINER_A),
-                          UCodeDisas_CombineColorStr(setcombine.b1, COMBINER_B),
-                          UCodeDisas_CombineColorStr(setcombine.c1, COMBINER_C),
-                          UCodeDisas_CombineColorStr(setcombine.d1, COMBINER_D),
+                          UCodeDisas_GetCombineColorName(setcombine.a1, COMBINER_A),
+                          UCodeDisas_GetCombineColorName(setcombine.b1, COMBINER_B),
+                          UCodeDisas_GetCombineColorName(setcombine.c1, COMBINER_C),
+                          UCodeDisas_GetCombineColorName(setcombine.d1, COMBINER_D),
 
-                          UCodeDisas_CombineAlphaStr(setcombine.Aa1, COMBINER_A),
-                          UCodeDisas_CombineAlphaStr(setcombine.Ab1, COMBINER_B),
-                          UCodeDisas_CombineAlphaStr(setcombine.Ac1, COMBINER_C),
-                          UCodeDisas_CombineAlphaStr(setcombine.Ad1, COMBINER_D));
+                          UCodeDisas_GetCombineAlphaName(setcombine.Aa1, COMBINER_A),
+                          UCodeDisas_GetCombineAlphaName(setcombine.Ab1, COMBINER_B),
+                          UCodeDisas_GetCombineAlphaName(setcombine.Ac1, COMBINER_C),
+                          UCodeDisas_GetCombineAlphaName(setcombine.Ad1, COMBINER_D));
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -745,7 +745,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                     case UCODE_UNK: {
                         switch (cmd) {
                             case G_MTX: {
-                                Gmatrix gmtx = ptr->matrix;
+                                Gdma2 gmtx = ptr->dma2;
                                 u32 params;
                                 MtxF mtxF;
                                 s32 j = 0;
@@ -910,10 +910,10 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                             case G_POPMTX: {
                                 Gpopmtx popmtx = ptr->popmtx;
 
-                                if (popmtx.param == 1) {
+                                if (popmtx.param / 64 == 1) {
                                     DISAS_LOG("gsSPPopMatrix(G_MTX_MODELVIEW),");
                                 } else {
-                                    DISAS_LOG("gsSPPopMatrixN(G_MTX_MODELVIEW, %d),", popmtx.param);
+                                    DISAS_LOG("gsSPPopMatrixN(G_MTX_MODELVIEW, %d),", popmtx.param / 64);
                                 }
                             } break;
 
