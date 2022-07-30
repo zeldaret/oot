@@ -184,9 +184,9 @@ void func_80AE4F40(EnReeba* this, PlayState* play) {
     this->actor.world.pos.y = this->actor.floorHeight;
 
     if (this->isBig) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
     } else {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     }
 
     this->actionfunc = func_80AE5054;
@@ -260,7 +260,7 @@ void func_80AE5270(EnReeba* this, PlayState* play) {
                (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else if (this->unk_274 == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_MOVE);
         this->unk_274 = 10;
     }
 }
@@ -307,7 +307,7 @@ void func_80AE53AC(EnReeba* this, PlayState* play) {
         this->actor.world.rot.y += yaw * 2.0f;
 
         if (this->unk_274 == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_MOVE);
             this->unk_274 = 20;
         }
     }
@@ -327,7 +327,7 @@ void func_80AE561C(EnReeba* this, PlayState* play) {
 
 void func_80AE5688(EnReeba* this, PlayState* play) {
     this->unk_27E = 0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     this->actor.flags |= ACTOR_FLAG_27;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = func_80AE56E0;
@@ -437,7 +437,7 @@ void func_80AE5A9C(EnReeba* this, PlayState* play) {
             EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
         }
     } else {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DEAD);
         Enemy_StartFinishingBlow(play, &this->actor);
         this->actionfunc = func_80AE5C38;
     }
@@ -527,7 +527,7 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                 case 12: // boomerang
                     if ((this->actor.colChkInfo.health > 1) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
                         this->actionfunc = func_80AE58EC;
                         break;
@@ -537,7 +537,7 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                     if ((this->actor.colChkInfo.health > 2) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
@@ -546,14 +546,14 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                     this->unk_27C = 6;
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DEAD);
                         Enemy_StartFinishingBlow(play, &this->actor);
                         this->actionfunc = func_80AE5BC4;
                     } else {
                         if (this->actionfunc == func_80AE5E48) {
                             this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
                         }
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DAMAGE);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DAMAGE);
                         this->actionfunc = func_80AE57F0;
                     }
                     break;
