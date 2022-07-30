@@ -104,7 +104,7 @@ void EnBrob_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_809CADDC(EnBrob* this, PlayState* play) {
-    func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     this->timer = this->actionFunc == func_809CB2B8 ? 200 : 0;
     this->unk_1AE = 0;
     this->actionFunc = func_809CB054;
@@ -112,7 +112,7 @@ void func_809CADDC(EnBrob* this, PlayState* play) {
 
 void func_809CAE44(EnBrob* this, PlayState* play) {
     Animation_PlayOnce(&this->skelAnime, &object_brob_Anim_001750);
-    func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     this->unk_1AE = 1000;
     this->actionFunc = func_809CB114;
 }
@@ -128,7 +128,7 @@ void func_809CAEF4(EnBrob* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_brob_Anim_000290, -5.0f);
     this->unk_1AE -= 125.0f;
     Actor_SetColorFilter(&this->dyna.actor, 0, 0xFF, 0, 0x50);
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_809CB2B8;
 }
 
@@ -150,7 +150,7 @@ void func_809CB054(EnBrob* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (func_8004356C(&this->dyna) != 0) {
+        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
             func_809CAE44(this, play);
         } else if (this->dyna.actor.xzDistToPlayer < 300.0f) {
@@ -181,7 +181,7 @@ void func_809CB114(EnBrob* this, PlayState* play) {
 void func_809CB218(EnBrob* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 6.0f) || Animation_OnFrame(&this->skelAnime, 15.0f)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
     }
     if (this->timer != 0) {
         this->timer--;

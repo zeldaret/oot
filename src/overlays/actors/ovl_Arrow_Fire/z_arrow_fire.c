@@ -164,7 +164,7 @@ void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
     func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
         this->alpha = 255;

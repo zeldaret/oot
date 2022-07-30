@@ -197,7 +197,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
             Flags_SetSwitch(play, this->actor.params & 0x3F);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
     } else if (!Player_InCsMode(play)) {
         if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
@@ -270,10 +270,10 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
             this->actionFunc = EnDoor_Idle;
             this->playerIsOpening = 0;
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->animStyle])) {
-            Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                                 play->sceneNum == SCENE_HIDAN)
-                                                    ? NA_SE_EV_IRON_DOOR_OPEN
-                                                    : NA_SE_OC_DOOR_OPEN);
+            Audio_PlayActorSfx2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
+                                               play->sceneNum == SCENE_HIDAN)
+                                                  ? NA_SE_EV_IRON_DOOR_OPEN
+                                                  : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {
                 numEffects = (s32)(Rand_ZeroOne() * 30.0f) + 50;
                 for (i = 0; i < numEffects; i++) {
@@ -281,10 +281,10 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
                 }
             }
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->animStyle])) {
-            Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                                 play->sceneNum == SCENE_HIDAN)
-                                                    ? NA_SE_EV_IRON_DOOR_CLOSE
-                                                    : NA_SE_EV_DOOR_CLOSE);
+            Audio_PlayActorSfx2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
+                                               play->sceneNum == SCENE_HIDAN)
+                                                  ? NA_SE_EV_IRON_DOOR_CLOSE
+                                                  : NA_SE_EV_DOOR_CLOSE);
         }
     }
 }

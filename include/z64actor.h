@@ -189,7 +189,7 @@ typedef struct Actor {
     /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data"
     /* 0x01E */ s8 objBankIndex; // Object bank index of the actor's object dependency; original name: "bank"
     /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on
-    /* 0x020 */ u16 sfx; // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle
+    /* 0x020 */ u16 sfx; // SFX ID to play. Sfx plays when value is set, then is cleared the following update cycle
     /* 0x024 */ PosRot world; // Position/rotation in the world
     /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head pos and rot
     /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `focus` position
@@ -254,6 +254,11 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
+#define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
+#define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
+#define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
+#define DYNA_INTERACT_3 (1 << 3) // Like the ACTOR_ON_TOP flag but only actors with ACTOR_FLAG_26
+
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
     /* 0x14C */ s32 bgId;
@@ -262,7 +267,7 @@ typedef struct DynaPolyActor {
     /* 0x158 */ s16 unk_158; // y rotation?
     /* 0x15A */ u16 unk_15A;
     /* 0x15C */ u32 unk_15C;
-    /* 0x160 */ u8 unk_160;
+    /* 0x160 */ u8 interactFlags;
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
 
@@ -283,7 +288,7 @@ typedef enum {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
     /* 0x01 */ ITEM00_RUPEE_BLUE,
     /* 0x02 */ ITEM00_RUPEE_RED,
-    /* 0x03 */ ITEM00_HEART,
+    /* 0x03 */ ITEM00_RECOVERY_HEART,
     /* 0x04 */ ITEM00_BOMBS_A,
     /* 0x05 */ ITEM00_ARROWS_SINGLE,
     /* 0x06 */ ITEM00_HEART_PIECE,

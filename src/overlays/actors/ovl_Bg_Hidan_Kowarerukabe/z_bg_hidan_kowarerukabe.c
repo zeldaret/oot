@@ -307,9 +307,9 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play) {
         Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
 
         if ((this->dyna.actor.params & 0xFF) == 0) {
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_EXPLOSION);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_EXPLOSION);
         } else {
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
 
         func_80078884(NA_SE_SY_CORRECT_CHIME);

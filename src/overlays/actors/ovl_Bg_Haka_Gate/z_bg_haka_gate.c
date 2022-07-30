@@ -241,8 +241,8 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
                 this->actionFunc = BgHakaGate_DoNothing;
             } else {
                 func_80078884(NA_SE_SY_ERROR);
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
-                func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
+                DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->vTimer = 60;
                 this->actionFunc = BgHakaGate_FloorOpen;
             }
@@ -256,7 +256,7 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, PlayState* play) {
     }
     if (this->vTimer == 0) {
         if (Math_ScaledStepToS(&this->vOpenAngle, 0, 0x800)) {
-            func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {
@@ -273,7 +273,7 @@ void BgHakaGate_GateWait(BgHakaGate* this, PlayState* play) {
 
 void BgHakaGate_GateOpen(BgHakaGate* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 80.0f, 1.0f)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->actionFunc = BgHakaGate_DoNothing;
     } else {

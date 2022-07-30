@@ -23,8 +23,7 @@ void GameState_FaultPrint(void) {
 }
 
 void GameState_SetFBFilter(Gfx** gfx) {
-    Gfx* gfxP;
-    gfxP = *gfx;
+    Gfx* gfxP = *gfx;
 
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
         D_801664F0.type = R_FB_FILTER_TYPE;
@@ -425,7 +424,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
 void GameState_Destroy(GameState* gameState) {
     osSyncPrintf("game デストラクタ開始\n"); // "game destructor start"
-    func_800C3C20();
+    AudioMgr_StopAllSfx();
     func_800F3054();
     osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1139);

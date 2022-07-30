@@ -490,7 +490,7 @@ typedef enum {
     /* 0x17 */ SCENE_CMD_ID_CUTSCENE_DATA,
     /* 0x18 */ SCENE_CMD_ID_ALTERNATE_HEADER_LIST,
     /* 0x19 */ SCENE_CMD_ID_MISC_SETTINGS,
-    /* 0x20 */ SCENE_CMD_ID_MAX
+    /* 0x1A */ SCENE_CMD_ID_MAX
 } SceneCommandTypeID;
 
 #define SCENE_CMD_SPAWN_LIST(numSpawns, spawnList) \
