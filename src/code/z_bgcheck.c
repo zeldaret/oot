@@ -616,7 +616,7 @@ f32 BgCheck_RaycastFloorStatic(StaticLookup* lookup, CollisionContext* colCtx, u
 
 /**
  * Compute wall displacement on `posX` and `posZ`
- * sets `wallPolyPtr` to `poly` if `wallPolyPtr` is NULL or doesn't have `SURFACETYPE1_27_FLAG` set
+ * sets `wallPolyPtr` to `poly` if `wallPolyPtr` is NULL or doesn't have `surfaceData[0] & 0x08000000` set
  * returns true if `wallPolyPtr` was changed
  * `invXZlength` is 1 / sqrt( sq(poly.normal.x) + sq(poly.normal.z) )
  */
