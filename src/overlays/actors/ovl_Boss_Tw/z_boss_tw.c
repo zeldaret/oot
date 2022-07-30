@@ -680,7 +680,7 @@ void BossTw_FlyTo(BossTw* this, PlayState* play) {
     f32 yawTarget;
     f32 xzDist;
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
     Math_ApproachF(&this->scepterAlpha, 0.0f, 1.0f, 10.0f);
     SkelAnime_Update(&this->skelAnime);
 
@@ -1002,7 +1002,7 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
                 if (this->timers[1] == 9) {
                     play->envCtx.lightBlend = 0.5f;
                     play->envCtx.lightSetting = 3 - this->actor.params;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MASIC_SET);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_MASIC_SET);
                 }
 
                 if (this->timers[1] == 5) {
@@ -1039,9 +1039,9 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
             } else {
                 Math_ApproachF(&this->flameAlpha, 255.0f, 1.0f, 10.0f);
                 if (this->actor.params == 1) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MS_FIRE - SFX_FLAG);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_MS_FIRE - SFX_FLAG);
                 } else {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MS_FREEZE - SFX_FLAG);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_MS_FREEZE - SFX_FLAG);
                 }
             }
 
@@ -1075,8 +1075,8 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
         }
 
         if (Animation_OnFrame(&this->skelAnime, this->workf[ANIM_SW_TGT] - 13.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_THROW_MASIC);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_VOICE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_THROW_MASIC);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_VOICE);
         }
 
         xDiff = this->targetPos.x - this->beamOrigin.x;
@@ -1133,13 +1133,11 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
                                              &this->actor.projectedW);
 
                 if (this->actor.params == 1) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_54C, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_54C, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_54C, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_54C, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
                 break;
 
@@ -1165,19 +1163,15 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
                                              &this->actor.projectedW);
 
                 if (this->actor.params == 1) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_558, 4U,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG, &this->unk_558, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_558, 4U,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG, &this->unk_558, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_558, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG, &this->unk_558, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_558, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG, &this->unk_558, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
                 break;
         }
@@ -1316,7 +1310,7 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
             }
 
             BossTw_SetupHitByBeam(otherTw, play);
-            Audio_PlayActorSound2(&otherTw->actor, NA_SE_EN_TWINROBA_DAMAGE_VOICE);
+            Audio_PlayActorSfx2(&otherTw->actor, NA_SE_EN_TWINROBA_DAMAGE_VOICE);
             play->envCtx.lightBlend = 1.0f;
             otherTw->actor.colChkInfo.health++;
         }
@@ -1421,9 +1415,9 @@ void BossTw_Laugh(BossTw* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 10.0f)) {
         if (this->actor.params == TW_KOUME) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
         }
     }
 
@@ -1447,7 +1441,7 @@ void BossTw_Spin(BossTw* this, PlayState* play) {
         this->actor.shape.rot.y -= 0x3000;
 
         if ((this->timers[0] % 4) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_ROLL);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_ROLL);
         }
     } else {
         SkelAnime_Update(&this->skelAnime);
@@ -1575,8 +1569,8 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
 
     switch (this->csState1) {
         case 0:
-            Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
-            Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
+            Audio_PlayActorSfx2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
+            Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
             spB0.x = this->workf[UNK_F11];
             spB0.y = 400.0f;
             spB0.z = 0.0f;
@@ -1595,7 +1589,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
             Math_ApproachF(&this->workf[UNK_F10], 0.5f, 1, 0.0039999997f);
             if (this->workf[UNK_F11] < 10.0f) {
                 if (!this->work[PLAYED_CHRG_SFX]) {
-                    Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_POWERUP);
+                    Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_POWERUP);
                     this->work[PLAYED_CHRG_SFX] = true;
                 }
 
@@ -1646,7 +1640,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
                     this->workf[ANIM_SW_TGT] = Animation_GetLastFrame(&object_tw_Anim_038E2C);
                     this->timers[0] = 50;
                     func_8002DF54(play, &this->actor, 2);
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
                     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
                 }
             }
@@ -1975,7 +1969,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                         BossTw_AddFlameEffect(play, &pos, &velocity, &sZeroVector, Rand_ZeroFloat(10.0f) + 25.0f, 1);
                     }
 
-                    Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_TRANSFORM);
+                    Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_TRANSFORM);
                     play->envCtx.lightBlend = 0;
                 }
 
@@ -1991,7 +1985,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                         }
 
                         if (this->work[CS_TIMER_1] == 60) {
-                            Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_LAUGH);
+                            Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_LAUGH);
                         }
 
                         if (Animation_OnFrame(&sKoumePtr->skelAnime, this->workf[ANIM_SW_TGT])) {
@@ -2032,7 +2026,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                 }
             } else {
                 if ((this->work[CS_TIMER_1] % 8) == 0) {
-                    Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_ROLL);
+                    Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_ROLL);
                 }
 
                 sKoumePtr->actor.shape.rot.y = sKoumePtr->actor.shape.rot.y + (s16)this->subCamYawStep;
@@ -2136,7 +2130,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                         BossTw_AddFlameEffect(play, &pos, &velocity, &sZeroVector, Rand_ZeroFloat(10.f) + 25.0f, 0);
                     }
 
-                    Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_TRANSFORM);
+                    Audio_PlayActorSfx2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_TRANSFORM);
                     play->envCtx.lightBlend = 0.0f;
                 }
 
@@ -2152,7 +2146,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                         }
 
                         if (this->work[CS_TIMER_1] == 60) {
-                            Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_LAUGH2);
+                            Audio_PlayActorSfx2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_LAUGH2);
                         }
 
                         if (Animation_OnFrame(&sKotakePtr->skelAnime, this->workf[ANIM_SW_TGT])) {
@@ -2192,7 +2186,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                 }
             } else {
                 if ((this->work[CS_TIMER_1] % 8) == 0) {
-                    Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_ROLL);
+                    Audio_PlayActorSfx2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_ROLL);
                 }
 
                 sKotakePtr->actor.shape.rot.y = sKotakePtr->actor.shape.rot.y + (s16)this->subCamYawStep;
@@ -2239,8 +2233,8 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
             }
 
             if (this->work[CS_TIMER_1] < 200) {
-                Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
-                Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
+                Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
+                Audio_PlayActorSfx2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
                 sp90.x = this->workf[UNK_F11];
                 sp90.y = 400.0f;
                 sp90.z = 0.0f;
@@ -2319,7 +2313,7 @@ void BossTw_DeathBall(BossTw* this, PlayState* play) {
     s16 yaw;
 
     if ((this->work[CS_TIMER_1] % 16) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_FB_FLY);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_FB_FLY);
     }
 
     if (sTwinrovaPtr->csState2 < 2) {
@@ -2420,7 +2414,7 @@ void BossTw_DeathCSMsgSfx(BossTw* this, PlayState* play) {
         kotakeAnim = 3;
         sKotakePtr->work[YAW_TGT] = -0x4000;
         sKotakePtr->rotateSpeed = 0.0f;
-        Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_SENSE);
+        Audio_PlayActorSfx2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_SENSE);
         msgId2 = 0x604C;
     }
 
@@ -2432,7 +2426,7 @@ void BossTw_DeathCSMsgSfx(BossTw* this, PlayState* play) {
         koumeAnim = 3;
         sKoumePtr->work[YAW_TGT] = 0x4000;
         sKoumePtr->rotateSpeed = 0.0f;
-        Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_SENSE);
+        Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_SENSE);
     }
 
     if (this->work[CS_TIMER_2] == 290) {
@@ -2526,8 +2520,8 @@ void BossTw_DeathCSMsgSfx(BossTw* this, PlayState* play) {
     }
 
     if (this->work[CS_TIMER_2] == 900) {
-        Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_DIE);
-        Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_DIE);
+        Audio_PlayActorSfx2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_DIE);
+        Audio_PlayActorSfx2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_DIE);
     }
 
     if (this->work[CS_TIMER_2] == 930) {
@@ -2598,7 +2592,7 @@ void BossTw_DeathCSMsgSfx(BossTw* this, PlayState* play) {
                 Math_ApproachF(&this->workf[UNK_F18], 0.0f, 1.0f, 3.0f);
             }
 
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_GOTO_HEAVEN - SFX_FLAG);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_GOTO_HEAVEN - SFX_FLAG);
         } else {
             f32 yTarget = Math_CosS(this->work[CS_TIMER_2] * 1700) * 4.0f;
             Math_ApproachF(&sKotakePtr->actor.world.pos.y, 20.0f + (263.0f + yTarget), 0.1f, this->actor.speedXZ);
@@ -2649,7 +2643,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
                 this->workf[UNK_F13] += this->actor.speedXZ;
                 if (this->workf[UNK_F13] > 65536.0f) {
                     this->workf[UNK_F13] -= 65536.0f;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_ROLL);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_ROLL);
                 }
                 Math_ApproachF(&this->actor.speedXZ, 12288.0f, 1.0f, 256.0f);
                 if (this->work[CS_TIMER_1] == 135) {
@@ -3095,7 +3089,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
                 this->twinrovaStun = 0;
                 this->work[FOG_TIMER] = 10;
                 BossTw_TwinrovaDamage(this, play, 0);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE);
             } else if (this->collider.base.acFlags & AC_HIT) {
                 ColliderInfo* info = this->collider.info.acHitInfo;
 
@@ -3941,7 +3935,7 @@ void BossTw_BlastFire(BossTw* this, PlayState* play) {
                     if (this->timers[0] == 0) {
                         func_8002D908(&this->actor);
                         func_8002D7EC(&this->actor);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FIRE & ~SFX_FLAG);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FIRE & ~SFX_FLAG);
                     } else {
                         Vec3f velocity;
                         Vec3f velDir;
@@ -3963,8 +3957,8 @@ void BossTw_BlastFire(BossTw* this, PlayState* play) {
                         }
 
                         if (this->timers[0] <= 50) {
-                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FIRE & ~SFX_FLAG);
-                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_REFL_FIRE & ~SFX_FLAG);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FIRE & ~SFX_FLAG);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_REFL_FIRE & ~SFX_FLAG);
                             Matrix_RotateY((this->magicDir.y / 32678.0f) * M_PI, MTXMODE_NEW);
                             Matrix_RotateX((this->magicDir.x / 32678.0f) * M_PI, MTXMODE_APPLY);
                             velDir.x = 0.0f;
@@ -4050,7 +4044,7 @@ void BossTw_BlastFire(BossTw* this, PlayState* play) {
                     this->timers[0] = 0;
                 }
 
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_FIRE_EXP - SFX_FLAG);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_FIRE_EXP - SFX_FLAG);
 
                 xDiff = sKoumePtr->groundBlastPos2.x - player->actor.world.pos.x;
                 yDiff = sKoumePtr->groundBlastPos2.y - player->actor.world.pos.y;
@@ -4130,7 +4124,7 @@ void BossTw_BlastIce(BossTw* this, PlayState* play) {
                     if (this->timers[0] == 0) {
                         func_8002D908(&this->actor);
                         func_8002D7EC(&this->actor);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG);
                     } else {
                         Vec3f velocity;
                         Vec3f spF4;
@@ -4152,8 +4146,8 @@ void BossTw_BlastIce(BossTw* this, PlayState* play) {
                         }
 
                         if (this->timers[0] <= 50) {
-                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG);
-                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG);
                             Matrix_RotateY((this->magicDir.y / 32678.0f) * M_PI, MTXMODE_NEW);
                             Matrix_RotateX((this->magicDir.x / 32678.0f) * M_PI, MTXMODE_APPLY);
                             spF4.x = 0.0f;
@@ -4240,7 +4234,7 @@ void BossTw_BlastIce(BossTw* this, PlayState* play) {
                     this->timers[0] = 0;
                 }
 
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_ICE_FREEZE - SFX_FLAG);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_ICE_FREEZE - SFX_FLAG);
 
                 if (this->timers[0] > (sTwinrovaPtr->actionFunc == BossTw_Wait ? 70 : 20)) {
                     s32 pad;
@@ -5180,8 +5174,8 @@ void BossTw_TwinrovaShootBlast(BossTw* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_THROW_MASIC);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_SHOOTVC);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_THROW_MASIC);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_SHOOTVC);
     }
 
     if (Animation_OnFrame(&this->skelAnime, 12.0f)) {
@@ -5265,12 +5259,12 @@ void BossTw_TwinrovaDamage(BossTw* this, PlayState* play, u8 damage) {
         if ((s8)this->actor.colChkInfo.health <= 0) {
             BossTw_TwinrovaSetupDeathCS(this, play);
             Enemy_StartFinishingBlow(play, &this->actor);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DEAD);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DEAD);
             return;
         }
 
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE2);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_CUTBODY);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE2);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_CUTBODY);
     }
 
     this->actionFunc = BossTw_TwinrovaStun;
@@ -5392,7 +5386,7 @@ void BossTw_TwinrovaFly(BossTw* this, PlayState* play) {
     f32 yaw;
     f32 xzDist;
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_FLY - SFX_FLAG);
     SkelAnime_Update(&this->skelAnime);
     xDiff = this->targetPos.x - this->actor.world.pos.x;
     yDiff = this->targetPos.y - this->actor.world.pos.y;
@@ -5429,7 +5423,7 @@ void BossTw_TwinrovaSpin(BossTw* this, PlayState* play) {
         this->actor.shape.rot.y -= 0x3000;
 
         if ((this->timers[0] % 4) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_ROLL);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_ROLL);
         }
     } else {
         BossTw_TwinrovaSetupFly(this, play);
@@ -5447,7 +5441,7 @@ void BossTw_TwinrovaLaugh(BossTw* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (Animation_OnFrame(&this->skelAnime, 10.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_LAUGH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_LAUGH);
     }
 
     if (Animation_OnFrame(&this->skelAnime, this->workf[ANIM_SW_TGT])) {

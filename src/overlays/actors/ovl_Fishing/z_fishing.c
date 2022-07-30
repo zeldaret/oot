@@ -410,7 +410,7 @@ static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
 static FishingEffect sEffects[FISHING_EFFECT_COUNT];
-static Vec3f sStreamSoundProjectedPos;
+static Vec3f sStreamSfxProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
     collider->elements[index].dim.worldSphere.center.x = pos->x;
@@ -2820,7 +2820,7 @@ void func_80B71278(Fishing* this, u8 arg1) {
         }
     }
 
-    Audio_PlayActorSound2(&this->actor, sfxId);
+    Audio_PlayActorSfx2(&this->actor, sfxId);
 }
 
 void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
@@ -3248,7 +3248,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 30.0f, 400.0f, 150,
                                             90);
 
-                        Audio_PlayActorSound2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
                         break;
                     }
                 }
@@ -3522,7 +3522,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->unk_194 = 2000.0f;
             } else if (sp124 < 10.0f) {
                 if (sLurePos.y > (WATER_SURFACE_Y(play) - 10.0f)) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
                     func_80078884(NA_SE_PL_CATCH_BOOMERANG);
                 }
 
@@ -4152,7 +4152,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->actor.velocity.x = this->actor.world.pos.x * -0.003f;
                     this->actor.velocity.z = this->actor.world.pos.z * -0.003f;
 
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
                     func_80B70CF0(this, play);
 
                     if (Rand_ZeroOne() < 0.5f) {
@@ -5065,7 +5065,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
 
 static s16 D_80B7AFC4[] = { 0, 1, 2, 2, 1 };
 
-static Vec3f sStreamSoundPos = { 670.0f, 0.0f, -600.0f };
+static Vec3f sStreamSfxPos = { 670.0f, 0.0f, -600.0f };
 
 static Vec3s sSinkingLureLocationPos[] = {
     { -364, -30, -269 },
@@ -5667,9 +5667,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSoundPos, &sStreamSoundProjectedPos, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSfxPos, &sStreamSfxProjectedPos, &sProjectedW);
 
-    func_80078914(&sStreamSoundProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
+    func_80078914(&sStreamSfxProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
 
     gSaveContext.minigameScore = (SQ((f32)D_80B7A678) * 0.0036f) + 0.5f;
 

@@ -312,7 +312,7 @@ void func_80B14570(EnTa* this, PlayState* play) {
         this->unk_2CC = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
         this->currentAnimation = &gTalonStandAnim;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
     }
 }
 
@@ -384,7 +384,7 @@ void func_80B14818(EnTa* this, PlayState* play) {
     s32 framesMod12 = (s32)play->state.frames % 12;
 
     if (framesMod12 == 0 || framesMod12 == 6) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND);
     }
     if (this->actor.speedXZ < 6.0f) {
         this->actor.speedXZ += 0.4f;
@@ -449,7 +449,7 @@ void func_80B14AF4(EnTa* this, PlayState* play) {
     this->actor.shape.rot.y -= 0xC00;
 
     if (this->unk_2CC == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
         func_80B13AA0(this, func_80B14A54, func_80B167C0);
         this->unk_2CC = 65;
         this->actor.flags |= ACTOR_FLAG_4;
@@ -714,11 +714,11 @@ void func_80B154FC(EnTa* this, PlayState* play) {
                             return;
                         case 2:
                             this->actor.textId = 0x2083;
-                            Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
                             break;
                         case 3:
                             this->actor.textId = 0x2082;
-                            Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
                             break;
                     }
                     this->actionFunc = func_80B15260;
@@ -1007,7 +1007,7 @@ void func_80B16504(EnTa* this, PlayState* play) {
     func_80B13AAC(this, play);
 
     if (func_80B142F4(this, play, this->actor.textId)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
 
         if (faceReaction != 0) {
             func_80B14FAC(this, func_80B15E28);
@@ -1097,7 +1097,7 @@ void func_80B167C0(EnTa* this) {
 void func_80B167FC(EnTa* this) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SLEEP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SLEEP);
     }
     this->unk_2E0 |= 0xC;
 }

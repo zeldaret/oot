@@ -961,7 +961,7 @@ void AudioHeap_Init(void) {
     // Initialize audio binary interface command list buffers
     for (i = 0; i != 2; i++) {
         gAudioContext.abiCmdBufs[i] =
-            AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.miscPool, gAudioContext.maxAudioCmds * sizeof(u64));
+            AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.miscPool, gAudioContext.maxAudioCmds * sizeof(Acmd));
     }
 
     // Initialize the decay rate table for adsr
@@ -992,9 +992,9 @@ void AudioHeap_Init(void) {
         reverb->unk_08 = settings->unk_12;
         reverb->useReverb = 8;
         reverb->leftRingBuf =
-            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, reverb->windowSize * sizeof(s16));
+            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, reverb->windowSize * SAMPLE_SIZE);
         reverb->rightRingBuf =
-            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, reverb->windowSize * sizeof(s16));
+            AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, reverb->windowSize * SAMPLE_SIZE);
         reverb->nextRingBufPos = 0;
         reverb->unk_20 = 0;
         reverb->curFrame = 0;
@@ -1006,7 +1006,7 @@ void AudioHeap_Init(void) {
         reverb->tunedSample.tuning = 1.0f;
         reverb->sample.codec = CODEC_REVERB;
         reverb->sample.medium = MEDIUM_RAM;
-        reverb->sample.size = reverb->windowSize * 2;
+        reverb->sample.size = reverb->windowSize * SAMPLE_SIZE;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
         reverb->loop.count = 1;
@@ -1014,32 +1014,34 @@ void AudioHeap_Init(void) {
 
         if (reverb->downsampleRate != 1) {
             reverb->unk_0E = 0x8000 / reverb->downsampleRate;
-            reverb->unk_30 = AudioHeap_AllocZeroed(&gAudioContext.miscPool, 0x20);
-            reverb->unk_34 = AudioHeap_AllocZeroed(&gAudioContext.miscPool, 0x20);
-            reverb->unk_38 = AudioHeap_AllocZeroed(&gAudioContext.miscPool, 0x20);
-            reverb->unk_3C = AudioHeap_AllocZeroed(&gAudioContext.miscPool, 0x20);
+            reverb->unk_30 = AudioHeap_AllocZeroed(&gAudioContext.miscPool, sizeof(RESAMPLE_STATE));
+            reverb->unk_34 = AudioHeap_AllocZeroed(&gAudioContext.miscPool, sizeof(RESAMPLE_STATE));
+            reverb->unk_38 = AudioHeap_AllocZeroed(&gAudioContext.miscPool, sizeof(RESAMPLE_STATE));
+            reverb->unk_3C = AudioHeap_AllocZeroed(&gAudioContext.miscPool, sizeof(RESAMPLE_STATE));
             for (j = 0; j < gAudioContext.audioBufferParameters.updatesPerFrame; j++) {
-                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, 0x340);
+                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, DMEM_2CH_SIZE);
                 reverb->items[0][j].toDownsampleLeft = ramAddr;
-                reverb->items[0][j].toDownsampleRight = ramAddr + 0x1A0 / sizeof(s16);
+                reverb->items[0][j].toDownsampleRight = ramAddr + DMEM_1CH_SIZE / SAMPLE_SIZE;
 
-                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, 0x340);
+                ramAddr = AudioHeap_AllocZeroedAttemptExternal(&gAudioContext.miscPool, DMEM_2CH_SIZE);
                 reverb->items[1][j].toDownsampleLeft = ramAddr;
-                reverb->items[1][j].toDownsampleRight = ramAddr + 0x1A0 / sizeof(s16);
+                reverb->items[1][j].toDownsampleRight = ramAddr + DMEM_1CH_SIZE / SAMPLE_SIZE;
             }
         }
 
         if (settings->lowPassFilterCutoffLeft != 0) {
-            reverb->filterLeftState = AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.miscPool, 0x40);
-            reverb->filterLeft = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, 8 * sizeof(s16));
+            reverb->filterLeftState =
+                AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.miscPool, 2 * (FILTER_BUF_PART1 + FILTER_BUF_PART2));
+            reverb->filterLeft = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, FILTER_SIZE);
             AudioHeap_LoadLowPassFilter(reverb->filterLeft, settings->lowPassFilterCutoffLeft);
         } else {
             reverb->filterLeft = NULL;
         }
 
         if (settings->lowPassFilterCutoffRight != 0) {
-            reverb->filterRightState = AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.miscPool, 0x40);
-            reverb->filterRight = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, 8 * sizeof(s16));
+            reverb->filterRightState =
+                AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.miscPool, 2 * (FILTER_BUF_PART1 + FILTER_BUF_PART2));
+            reverb->filterRight = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, FILTER_SIZE);
             AudioHeap_LoadLowPassFilter(reverb->filterRight, settings->lowPassFilterCutoffRight);
         } else {
             reverb->filterRight = NULL;

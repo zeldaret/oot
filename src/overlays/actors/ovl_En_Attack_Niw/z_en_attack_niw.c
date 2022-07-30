@@ -365,11 +365,11 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     }
     if (this->unk_25E == 0) {
         this->unk_25E = 30;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
     }
     if (this->unk_260 == 0) {
         this->unk_260 = 7;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
     }
 }
 

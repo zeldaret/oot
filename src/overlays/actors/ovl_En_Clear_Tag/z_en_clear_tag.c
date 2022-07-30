@@ -248,7 +248,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
 
         func_8002D908(&this->actor);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sLaserCylinderInit);
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
         this->actor.flags |= ACTOR_FLAG_0;
         this->actor.targetMode = 5;
@@ -353,7 +353,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     this->acceleration.y = Rand_CenteredFloat(15.0f);
                     this->acceleration.z = Rand_CenteredFloat(15.0f);
 
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND);
                     this->actor.colChkInfo.health--;
                     if ((s8)this->actor.colChkInfo.health <= 0) {
                         this->state = CLEAR_TAG_STATE_CRASHING;
@@ -524,7 +524,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     this->actor.velocity.y -= 0.2f;
                     this->actor.shape.rot.x += 0x10;
 
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
 
                     // Check if the Arwing has hit the ground or a wall.
                     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
@@ -565,8 +565,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.
                     if (this->timers[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
-                        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20,
-                                                           NA_SE_EN_FANTOM_THUNDER_GND);
+                        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_FANTOM_THUNDER_GND);
                     }
                 }
                 break;
@@ -634,7 +633,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
         Vec3f debrisEffectAcceleration;
 
         this->shouldExplode = false;
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
 
         // Spawn flash effect.
         crashEffectLocation.x = this->actor.world.pos.x;
