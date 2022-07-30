@@ -169,7 +169,7 @@ void ObjectKankyo_Snow(ObjectKankyo* this, PlayState* play) {
 }
 
 void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
-    static Vec3f sSoundPos = { 0.0f, 0.0f, 0.0f };
+    static Vec3f sSfxPos = { 0.0f, 0.0f, 0.0f };
     Player* player;
     f32 dist;
     s32 playerMoved;
@@ -203,7 +203,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
             dist = 1.0f;
         }
 
-        func_800F436C(&sSoundPos, NA_SE_EV_NAVY_FLY - SFX_FLAG, (0.4f * dist) + 0.6f);
+        func_800F436C(&sSfxPos, NA_SE_EV_NAVY_FLY - SFX_FLAG, (0.4f * dist) + 0.6f);
         switch (play->csCtx.frames) {
             case 473:
                 func_800788CC(NA_SE_VO_NA_HELLO_3);
@@ -799,7 +799,7 @@ void ObjectKankyo_WaitForSunGraveSparkObject(ObjectKankyo* this, PlayState* play
 void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play) {
     if (play->csCtx.state != 0) {
         if (play->csCtx.npcActions[1] != NULL && play->csCtx.npcActions[1]->action == 2) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
             if ((s16)this->effects[0].alpha + 20 > 255) {
                 this->effects[0].alpha = 255;
             } else {

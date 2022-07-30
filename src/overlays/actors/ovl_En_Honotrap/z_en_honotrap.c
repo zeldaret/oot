@@ -199,7 +199,7 @@ void EnHonotrap_InitFlame(Actor* thisx, PlayState* play) {
     this->targetPos.y += 10.0f;
     this->flameScroll = Rand_ZeroOne() * 511.0f;
     EnHonotrap_SetupFlame(this);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_FLAME_IGNITION);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FLAME_IGNITION);
     if (this->actor.params == HONOTRAP_FLAME_DROP) {
         this->actor.room = -1;
         this->collider.cyl.dim.radius = 12;
@@ -248,7 +248,7 @@ void EnHonotrap_SetupEyeOpen(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_EyeOpen;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x28);
     this->timer = 30;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_RED_EYE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_RED_EYE);
 }
 
 void EnHonotrap_EyeOpen(EnHonotrap* this, PlayState* play) {
@@ -478,7 +478,7 @@ void EnHonotrap_Update(Actor* thisx, PlayState* play) {
         this->bobPhase += 0x640;
         this->actor.shape.yOffset = (Math_SinS(this->bobPhase) * 1000.0f) + 600.0f;
         Actor_SetFocus(&this->actor, 5.0f);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
     }
     this->actionFunc(this, play);
     if (this->actor.params == HONOTRAP_EYE) {

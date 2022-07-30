@@ -8,8 +8,8 @@ struct EnRiverSound;
 
 typedef struct EnRiverSound {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 playSound;
-    /* 0x014D */ u8 soundFreqIndex;
+    /* 0x014C */ u8 playSfx;
+    /* 0x014D */ u8 sfxFreqIndex;
     /* 0x014E */ s16 pathIndex;
 } EnRiverSound; // size = 0x0150
 

@@ -16,7 +16,7 @@ void BgHakaHuta_Update(Actor* thisx, PlayState* play);
 void BgHakaHuta_Draw(Actor* thisx, PlayState* play);
 
 void BgHakaHuta_SpawnDust(BgHakaHuta* this, PlayState* play);
-void BgHakaHuta_PlaySound(BgHakaHuta* this, PlayState* play, u16 sfx);
+void BgHakaHuta_PlaySfx(BgHakaHuta* this, PlayState* play, u16 sfx);
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, PlayState* play);
 void BgHakaHuta_Open(BgHakaHuta* this, PlayState* play);
 void BgHakaHuta_SlideOpen(BgHakaHuta* this, PlayState* play);
@@ -94,14 +94,14 @@ void BgHakaHuta_SpawnDust(BgHakaHuta* this, PlayState* play) {
     }
 }
 
-void BgHakaHuta_PlaySound(BgHakaHuta* this, PlayState* play, u16 sfx) {
+void BgHakaHuta_PlaySfx(BgHakaHuta* this, PlayState* play, u16 sfx) {
     Vec3f pos;
 
     pos.z = (this->dyna.actor.shape.rot.y == 0) ? this->dyna.actor.world.pos.z + 120.0f
                                                 : this->dyna.actor.world.pos.z - 120.0f;
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y;
-    SoundSource_PlaySfxAtFixedWorldPos(play, &pos, 30, sfx);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &pos, 30, sfx);
 }
 
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, PlayState* play) {
@@ -148,7 +148,7 @@ void BgHakaHuta_Open(BgHakaHuta* this, PlayState* play) {
     Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + posOffset, 2.0f);
     if (this->counter == 0) {
         this->counter = 37;
-        BgHakaHuta_PlaySound(this, play, NA_SE_EV_COFFIN_CAP_OPEN);
+        BgHakaHuta_PlaySfx(this, play, NA_SE_EV_COFFIN_CAP_OPEN);
         this->actionFunc = BgHakaHuta_SlideOpen;
     }
 }
@@ -164,7 +164,7 @@ void BgHakaHuta_SlideOpen(BgHakaHuta* this, PlayState* play) {
         BgHakaHuta_SpawnDust(this, play);
     }
     if (this->counter == 0) {
-        BgHakaHuta_PlaySound(this, play, NA_SE_EV_COFFIN_CAP_BOUND);
+        BgHakaHuta_PlaySfx(this, play, NA_SE_EV_COFFIN_CAP_BOUND);
         this->actionFunc = func_8087D720;
     }
 }

@@ -260,8 +260,8 @@ void func_809BD1C8(EnBigokuta* this, PlayState* play) {
         EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 2000);
     }
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
     func_80033E88(&this->actor, play, 0xA, 8);
 }
 
@@ -283,7 +283,7 @@ void func_809BD318(EnBigokuta* this) {
 
 void func_809BD370(EnBigokuta* this) {
     this->unk_196 = 21;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actionFunc = func_809BD8DC;
 }
 
@@ -332,7 +332,7 @@ void func_809BD524(EnBigokuta* this) {
     this->unk_196 = 80;
     this->unk_19A = 0;
     this->cylinder[0].base.atFlags |= AT_ON;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
     if (this->collider.elements->info.acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
         this->unk_195 = true;
         this->unk_196 = 20;
@@ -355,7 +355,7 @@ void func_809BD5E0(EnBigokuta* this) {
 void func_809BD658(EnBigokuta* this) {
 
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000A74, -5.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_DEAD2);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_DEAD2);
     this->unk_196 = 38;
     this->unk_198 = 10;
     this->actionFunc = func_809BE26C;
@@ -385,7 +385,7 @@ void func_809BD768(EnBigokuta* this) {
     this->unk_19A = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->cylinder[0].base.atFlags &= ~AT_ON;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_SINK);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_SINK);
     this->actionFunc = func_809BE4A4;
 }
 
@@ -402,7 +402,7 @@ void func_809BD84C(EnBigokuta* this, PlayState* play) {
     this->unk_196--;
 
     if (this->unk_196 == 13 || this->unk_196 == -20) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
     }
     if (this->unk_196 == 1) {
         func_800F5ACC(NA_BGM_MINI_BOSS);
@@ -433,8 +433,8 @@ void func_809BD8DC(EnBigokuta* this, PlayState* play) {
             EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 2000);
             effectPos.x = this->actor.world.pos.x - 40.0f;
             EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 2000);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
             func_800AA000(0.0f, 0xFF, 0x14, 0x96);
         }
     } else if (this->unk_196 < -1) {
@@ -455,7 +455,7 @@ void func_809BDAE8(EnBigokuta* this, PlayState* play) {
             this->actor.home.pos.y = this->actor.world.pos.y;
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
             this->actor.params = 2;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
             func_809BD3E0(this);
         }
     }
@@ -483,7 +483,7 @@ void func_809BDC08(EnBigokuta* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
     }
 
     if (this->unk_196 < 0) {
@@ -562,7 +562,7 @@ void func_809BDFC8(EnBigokuta* this, PlayState* play) {
         this->unk_196--;
     }
     if (this->unk_196 == 20) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
     }
     if ((this->unk_196 == 0) && Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.x, 0x800)) {
         this->unk_194 = -this->unk_194;
@@ -636,13 +636,13 @@ void func_809BE26C(EnBigokuta* this, PlayState* play) {
             effectPos.z = this->actor.world.pos.z;
             func_8002829C(play, &effectPos, &sEffectPosAccel, &sEffectPosAccel, &sEffectPrimColor, &sEffectEnvColor,
                           1200, 20);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
         }
         if (this->unk_198 == 0 && Math_StepToF(&this->actor.scale.y, 0.0f, 0.001f)) {
             Flags_SetClear(play, this->actor.room);
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             func_8005ACFC(play->cameraPtrs[CAM_ID_MAIN], 4);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
             Actor_Kill(&this->actor);
         }
@@ -756,10 +756,10 @@ void EnBigokuta_UpdateDamage(EnBigokuta* this, PlayState* play) {
                 func_809BD47C(this);
             } else if (!Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                 if (Actor_ApplyDamage(&this->actor) == 0) { // Dead
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_DEAD);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_DEAD);
                     Enemy_StartFinishingBlow(play, &this->actor);
                 } else {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_DAMAGE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_DAMAGE);
                 }
                 func_809BD5E0(this);
             }

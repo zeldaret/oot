@@ -365,7 +365,7 @@ typedef struct {
     /* 0x00 */ u16 countdown;
     /* 0x04 */ Vec3f worldPos;
     /* 0x10 */ Vec3f projectedPos;
-} SoundSource; // size = 0x1C
+} SfxSource; // size = 0x1C
 
 typedef enum {
     /* 0x00 */ SKYBOX_NONE,
@@ -1151,7 +1151,7 @@ typedef struct PlayState {
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
-    /* 0x01DB4 */ SoundSource soundSources[16];
+    /* 0x01DB4 */ SfxSource sfxSources[16];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020D8 */ MessageContext msgCtx; // "message"
