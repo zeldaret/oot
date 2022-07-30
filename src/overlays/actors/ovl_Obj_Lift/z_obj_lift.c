@@ -176,7 +176,7 @@ void func_80B96678(ObjLift* this, PlayState* play) {
     }
 
     if ((this->timer & 3) == 3) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
@@ -200,7 +200,7 @@ void func_80B96840(ObjLift* this, PlayState* play) {
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >=
         (sMaxFallDistances[PARAMS_GET(this->dyna.actor.params, 1, 1)] - 0.001f)) {
         func_80B96160(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
         Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 2, 6));
         Actor_Kill(&this->dyna.actor);
     }

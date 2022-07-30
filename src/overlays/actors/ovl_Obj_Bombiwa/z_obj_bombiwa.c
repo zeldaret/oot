@@ -128,7 +128,7 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER))) {
         ObjBombiwa_Break(this, play);
         Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0, 6));
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
         if (PARAMS_GET(this->actor.params, 15, 1) != 0) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }

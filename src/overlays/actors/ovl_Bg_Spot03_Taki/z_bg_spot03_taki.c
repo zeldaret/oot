@@ -152,8 +152,8 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
     this->bufferIndex = this->bufferIndex == 0;
 
     if (this->state >= WATERFALL_OPENING_IDLE && this->state <= WATERFALL_OPENED) {
-        Audio_PlaySoundWaterfall(&this->dyna.actor.projectedPos, 0.5f);
+        Audio_PlaySfxWaterfall(&this->dyna.actor.projectedPos, 0.5f);
     } else {
-        Audio_PlaySoundWaterfall(&this->dyna.actor.projectedPos, 1.0f);
+        Audio_PlaySfxWaterfall(&this->dyna.actor.projectedPos, 1.0f);
     }
 }

@@ -77,16 +77,16 @@ typedef struct {
     /* 0x2C */ u8 label[32];
     /* 0x4C */ s32 version;
     /* 0x50 */ s32 dir_size;
-    /* 0x54 */ s32 inode_table;         /* block location */
-    /* 0x58 */ s32 minode_table;        /* mirrioring inode_table */
-    /* 0x5C */ s32 dir_table;           /* block location */
-    /* 0x60 */ s32 inodeStartPage;    /* page # */
+    /* 0x54 */ s32 inode_table;     /* block location */
+    /* 0x58 */ s32 minode_table;    /* mirroring inode_table */
+    /* 0x5C */ s32 dir_table;       /* block location */
+    /* 0x60 */ s32 inodeStartPage;  /* page # */
     /* 0x64 */ u8 banks;
     /* 0x65 */ u8 activebank;
 } OSPfs; // size = 0x68
 
 typedef struct {
-    /* 0x00 */ u32 file_size;   /* bytes */
+    /* 0x00 */ u32 file_size;       /* bytes */
     /* 0x04 */ u32 game_code;
     /* 0x08 */ u16 company_code;
     /* 0x0C */ char ext_name[4];

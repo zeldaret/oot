@@ -160,7 +160,7 @@ void BgJya1flift_Move(BgJya1flift* this, PlayState* play) {
                                  tempVelocity, 1.0f)) < 0.001f) {
         this->dyna.actor.world.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }

@@ -12,8 +12,8 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
     if (entry == NULL) {
         sStackInfoListStart = NULL;
     } else {
-        entry->head = (u32)stackTop;
-        entry->tail = (u32)stackBottom;
+        entry->head = stackTop;
+        entry->tail = stackBottom;
         entry->initValue = initValue;
         entry->minSpace = minSpace;
         entry->name = name;
@@ -39,8 +39,8 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
         }
 
         if (entry->minSpace != -1) {
-            addr = (u32*)entry->head;
-            while ((u32)addr < entry->tail) {
+            addr = entry->head;
+            while (addr < entry->tail) {
                 *addr++ = entry->initValue;
             }
         }
@@ -72,20 +72,20 @@ void StackCheck_Cleanup(StackEntry* entry) {
     }
 }
 
-s32 StackCheck_GetState(StackEntry* entry) {
+u32 StackCheck_GetState(StackEntry* entry) {
     u32* last;
     u32 used;
     u32 free;
-    s32 ret;
+    u32 ret;
 
-    for (last = (u32*)entry->head; (u32)last < entry->tail; last++) {
+    for (last = entry->head; last < entry->tail; last++) {
         if (entry->initValue != *last) {
             break;
         }
     }
 
-    used = entry->tail - (u32)last;
-    free = (u32)last - entry->head;
+    used = (uintptr_t)entry->tail - (uintptr_t)last;
+    free = (uintptr_t)last - (uintptr_t)entry->head;
 
     if (free == 0) {
         ret = STACK_STATUS_OVERFLOW;
@@ -103,7 +103,7 @@ s32 StackCheck_GetState(StackEntry* entry) {
     osSyncPrintf(VT_RST);
 
     if (ret != STACK_STATUS_OK) {
-        LogUtils_LogHexDump((void*)entry->head, entry->tail - entry->head);
+        LogUtils_LogHexDump(entry->head, (uintptr_t)entry->tail - (uintptr_t)entry->head);
     }
 
     return ret;

@@ -1200,8 +1200,8 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     AudioHeap_InitMainPools(gAudioHeapInitSizes.initPoolSize);
 
     // Initialize the audio interface buffers
-    for (i = 0; i < 3; i++) {
-        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_LEN * sizeof(s16));
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.aiBuffers); i++) {
+        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_SIZE);
     }
 
     // Set audio tables pointers
@@ -1234,7 +1234,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         *((u32*)&gAudioHeapInitSizes.permanentPoolSize) = 0;
     }
 
-    AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, ramAddr, gAudioHeapInitSizes.permanentPoolSize);
+    AudioHeap_InitPool(&gAudioContext.permanentPool, ramAddr, gAudioHeapInitSizes.permanentPoolSize);
     gAudioContextInitalized = true;
     osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
 }

@@ -161,7 +161,7 @@ void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, PlayState* play) {
     distToTarget = func_808A1800(&this->dyna.actor.world.pos.y, 73.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         BgMoriElevator_SetupSetPosition(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_808A18FC(this, distToTarget);
     }
@@ -180,7 +180,7 @@ void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, PlayState* play) {
     distToTarget = func_808A1800(&this->dyna.actor.world.pos.y, 233.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         BgMoriElevator_SetupSetPosition(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_808A18FC(this, distToTarget);
     }
@@ -233,7 +233,7 @@ void func_808A2008(BgMoriElevator* this, PlayState* play) {
     distTo = func_808A1800(&this->dyna.actor.world.pos.y, this->targetY, 0.1f, this->dyna.actor.velocity.y, 0.3f);
     if (fabsf(distTo) < 0.001f) {
         BgMoriElevator_SetupSetPosition(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
 
     } else {
         func_808A18FC(this, distTo);

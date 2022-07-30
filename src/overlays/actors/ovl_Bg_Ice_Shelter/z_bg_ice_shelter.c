@@ -303,7 +303,7 @@ void func_8089107C(BgIceShelter* this, PlayState* play) {
             }
 
             func_808911BC(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
         }
     }
 

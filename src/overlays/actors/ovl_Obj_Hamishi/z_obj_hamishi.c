@@ -179,7 +179,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
             this->shakeRotSize = 400.0f;
         } else {
             ObjHamishi_Break(this, play);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
             Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0, 6));
             Actor_Kill(&this->actor);
         }

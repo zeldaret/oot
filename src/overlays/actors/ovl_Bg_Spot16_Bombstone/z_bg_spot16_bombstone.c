@@ -513,7 +513,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, PlayState* play) {
         ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && actor->velocity.y < 0.0f)) {
         BgSpot16Bombstone_SpawnFragments(this, play);
         BgSpot16Bombstone_SpawnDust(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);
         Actor_Kill(actor);
         return;
     }
