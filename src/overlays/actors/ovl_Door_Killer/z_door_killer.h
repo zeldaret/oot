@@ -19,7 +19,7 @@ struct DoorKiller;
 typedef void (*DoorKillerActionFunc)(struct DoorKiller*, PlayState*);
 
 typedef struct DoorKiller {
-    /* 0x0000 */ DOOR_ACTOR_BASE
+    /* 0x0000 */ DOOR_ACTOR_BASE;
     /* 0x0192 */ Vec3s jointTable[9];
     /* 0x01C8 */ ColliderCylinder colliderCylinder;
     /* 0x0214 */ void* texture;

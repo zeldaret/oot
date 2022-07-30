@@ -507,10 +507,10 @@ typedef enum {
     /* 0x0000 */ Actor actor;         \
     /* 0x014C */ SkelAnime skelAnime; \
     /* 0x0190 */ u8 openAnim;         \
-    /* 0x0191 */ u8 playerIsOpening;
+    /* 0x0191 */ u8 playerIsOpening
 
 typedef struct DoorActorBase {
-    /* 0x0000 */ DOOR_ACTOR_BASE
+    /* 0x0000 */ DOOR_ACTOR_BASE;
 } DoorActorBase;
 
 typedef enum {

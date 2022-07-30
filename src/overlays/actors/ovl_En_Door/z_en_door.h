@@ -47,7 +47,7 @@ struct EnDoor;
 typedef void (*EnDoorActionFunc)(struct EnDoor*, PlayState*);
 
 typedef struct EnDoor {
-    /* 0x0000 */ DOOR_ACTOR_BASE
+    /* 0x0000 */ DOOR_ACTOR_BASE;
     /* 0x0192 */ u8 unk_192;
     /* 0x0193 */ s8 requiredObjBankIndex;
     /* 0x0194 */ s8 dListIndex;
