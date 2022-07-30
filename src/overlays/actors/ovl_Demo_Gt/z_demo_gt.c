@@ -19,16 +19,16 @@ void DemoGt_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-void DemoGt_PlayEarthquakeSfx() {
+void DemoGt_PlayEarthquakeSfx(void) {
     func_800788CC(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
 }
 
 void DemoGt_PlayExplosion1Sfx(PlayState* play, Vec3f* pos) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
 }
 
 void DemoGt_PlayExplosion2Sfx(PlayState* play, Vec3f* pos) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGt_Rumble(PlayState* play) {
@@ -435,7 +435,7 @@ void func_8097ED64(DemoGt* this, PlayState* play, s32 actionIdx) {
     func_8097E824(this, actionIdx);
 }
 
-u8 func_8097ED94() {
+u8 func_8097ED94(void) {
     if (kREG(2) != 0) {
         return true;
     } else if (gSaveContext.sceneSetupIndex < 4) {

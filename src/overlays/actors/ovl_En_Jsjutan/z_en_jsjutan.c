@@ -11,8 +11,8 @@
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play);
 void EnJsjutan_Destroy(Actor* thisx, PlayState* play);
-void EnJsjutan_Update(Actor* thisx, PlayState* play);
-void EnJsjutan_Draw(Actor* thisx, PlayState* play);
+void EnJsjutan_Update(Actor* thisx, PlayState* play2);
+void EnJsjutan_Draw(Actor* thisx, PlayState* play2);
 
 const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,

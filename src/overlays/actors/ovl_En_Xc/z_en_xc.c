@@ -1360,7 +1360,7 @@ void func_80B3F3C8(EnXc* this, PlayState* play) {
     this->action = SHEIK_ACTION_45;
 }
 
-void func_80B3F3D8() {
+void func_80B3F3D8(void) {
     func_800788CC(NA_SE_PL_SKIP);
 }
 
@@ -1537,7 +1537,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, PlayState* play) {
 
         Matrix_MultVec3f(&sp1C, &src);
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &src, &pos, &wDest);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
         this->unk_2A8 = 0;
     }
 }

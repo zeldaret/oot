@@ -144,10 +144,12 @@ typedef enum {
  * on its own line.
  *
  * Files that contain this type that are included in other C files
- * must include an 'EARLY' qualifier to inform asm-processor that it
- * must recursively process that include.
+ * must be preceded by a '#pragma asmproc recurse' qualifier to
+ * inform asm-processor that it must recursively process that include.
  *
- * Example: #include "file.c" EARLY
+ * Example:
+ * #pragma asmproc recurse
+ * #include "file.c"
  */
 typedef union CutsceneData {
     s32 i;

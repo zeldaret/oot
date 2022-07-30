@@ -209,7 +209,7 @@ void func_8088B5F4(BgHidanRock* this, PlayState* play) {
 }
 
 void func_8088B634(BgHidanRock* this, PlayState* play) {
-    if (func_8004356C(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         this->timer = 20;
         this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
         this->actionFunc = func_8088B69C;
@@ -234,7 +234,7 @@ void func_8088B69C(BgHidanRock* this, PlayState* play) {
 
     if (!(this->timer % 4)) {
         func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0xB4, 0x0A, 0x64);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
@@ -250,22 +250,22 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
             this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
         }
 
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSound2(
-            &this->dyna.actor,
-            SurfaceType_GetSfx(&play->colCtx, this->dyna.actor.floorPoly, this->dyna.actor.floorBgId) + 0x800);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor,
+                            SurfaceType_GetSfx(&play->colCtx, this->dyna.actor.floorPoly, this->dyna.actor.floorBgId) +
+                                SFX_FLAG);
     }
 
     this->unk_16C -= 0.5f;
     this->unk_16C = CLAMP_MIN(this->unk_16C, 0.0f);
 
     if (this->type == 0) {
-        if (func_8004356C(&this->dyna)) {
+        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
-        } else if (!func_8004356C(&this->dyna)) {
+        } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
@@ -305,7 +305,7 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
         ((this->type != 0) && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 480.0,
                                                   0.25f, 20.0f, 0.5f) < 0.1f))) {
         if (this->type == 0) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }
         this->timer = 20;
         this->actionFunc = func_8088B954;
@@ -313,12 +313,12 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
 
     this->unk_16C = (this->dyna.actor.world.pos.y + 50.0f - this->dyna.actor.home.pos.y + 40.0f) / 80.0f;
     if (this->type == 0) {
-        if (func_8004356C(&this->dyna)) {
+        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
-        } else if (!func_8004356C(&this->dyna)) {
+        } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }

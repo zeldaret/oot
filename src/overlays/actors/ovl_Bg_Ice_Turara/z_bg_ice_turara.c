@@ -96,7 +96,7 @@ void BgIceTurara_Break(BgIceTurara* this, PlayState* play, f32 arg2) {
     s32 j;
     s32 i;
 
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 10; j++) {
             pos.x = this->dyna.actor.world.pos.x + Rand_CenteredFloat(8.0f);
@@ -137,14 +137,14 @@ void BgIceTurara_Shiver(BgIceTurara* this, PlayState* play) {
         this->shiverTimer--;
     }
     if (!(this->shiverTimer % 4)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
     }
     if (this->shiverTimer == 0) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
         Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->actionFunc = BgIceTurara_Fall;
     } else {
         sp28 = Rand_ZeroOne();
@@ -166,7 +166,7 @@ void BgIceTurara_Fall(BgIceTurara* this, PlayState* play) {
         BgIceTurara_Break(this, play, 40.0f);
         if (this->dyna.actor.params == TURARA_STALACTITE_REGROW) {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 120.0f;
-            func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgIceTurara_Regrow;
         } else {
             Actor_Kill(&this->dyna.actor);

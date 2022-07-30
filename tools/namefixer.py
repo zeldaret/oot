@@ -153,7 +153,7 @@ wordReplace = {
     "func_800D20CC": "Matrix_MtxFToYXZRotS",
     "func_800D2264": "Matrix_MtxFToZYXRotS",
     "func_800D23FC": "Matrix_RotateAxis",
-    "PLAYER": ("GET_PLAYER(play)", {"ignore": (-1, '"PLAYER"')}), # ignore "PLAYER" in sSoundBankNames
+    "PLAYER": ("GET_PLAYER(play)", {"ignore": (-1, '"PLAYER"')}), # ignore "PLAYER" in sSfxBankNames
     "ACTIVE_CAM": "GET_ACTIVE_CAM(play)",
     "SkinMatrix_SetRotateRPY": "SkinMatrix_SetRotateZYX",
     "SkinMatrix_SetScaleRotateYRPTranslate": "SkinMatrix_SetScaleRotateYXZTranslate",

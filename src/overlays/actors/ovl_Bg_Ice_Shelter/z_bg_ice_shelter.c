@@ -6,7 +6,7 @@
 void BgIceShelter_Init(Actor* thisx, PlayState* play);
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play);
 void BgIceShelter_Update(Actor* thisx, PlayState* play);
-void BgIceShelter_Draw(Actor* thisx, PlayState* play);
+void BgIceShelter_Draw(Actor* thisx, PlayState* play2);
 
 void func_80891064(BgIceShelter* this);
 void func_808911BC(BgIceShelter* this);
@@ -303,7 +303,7 @@ void func_8089107C(BgIceShelter* this, PlayState* play) {
             }
 
             func_808911BC(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
         }
     }
 

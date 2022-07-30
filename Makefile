@@ -101,7 +101,7 @@ EMU_FLAGS = --noosd
 INC        := -Iinclude -Isrc -Ibuild -I.
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
+CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -123,7 +123,7 @@ ifeq ($(COMPILER),gcc)
   MIPS_VERSION := -mips3
 else 
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-  CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 649,838,712 
+  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,649,838,712
   MIPS_VERSION := -mips2
 endif
 
@@ -198,6 +198,13 @@ build/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 build/src/code/fmodf.o: OPTFLAGS := -g
 build/src/code/__osMemset.o: OPTFLAGS := -g
 build/src/code/__osMemmove.o: OPTFLAGS := -g
+
+# Use signed chars instead of unsigned for code_800EC960.c (needed to match AudioDebug_ScrPrt)
+build/src/code/code_800EC960.o: CFLAGS += -signed
+
+# Put string literals in .data for some audio files (needed to match these files with literals)
+build/src/code/code_800F7260.o: CFLAGS += -use_readwrite_const
+build/src/code/code_800F9280.o: CFLAGS += -use_readwrite_const
 
 build/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 build/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3

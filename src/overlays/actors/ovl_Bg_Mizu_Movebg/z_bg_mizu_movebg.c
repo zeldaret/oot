@@ -19,7 +19,7 @@
 void BgMizuMovebg_Init(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Update(Actor* thisx, PlayState* play);
-void BgMizuMovebg_Draw(Actor* thisx, PlayState* play);
+void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2);
 
 void func_8089E318(BgMizuMovebg* this, PlayState* play);
 void func_8089E650(BgMizuMovebg* this, PlayState* play);

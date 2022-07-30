@@ -17,7 +17,7 @@
     if (this->enableLog) \
     osSyncPrintf
 
-u32 UCodeDisas_TranslateAddr(UCodeDisas* this, u32 addr) {
+void* UCodeDisas_TranslateAddr(UCodeDisas* this, u32 addr) {
     u32 physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
 
     return PHYSICAL_TO_VIRTUAL(physical);
@@ -275,12 +275,12 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
     while (!exit) {
         this->dlCnt++;
 
-        ptr = UCodeDisas_TranslateAddr(this, ptr);
+        ptr = UCodeDisas_TranslateAddr(this, (u32)ptr);
         DISAS_LOG("%08x:", ptr);
 
         *curGfx = *ptr;
         cmd = curGfx->noop.cmd;
-        addr = UCodeDisas_TranslateAddr(this, curGfx->noop.value.addr);
+        addr = (u32)UCodeDisas_TranslateAddr(this, (u32)curGfx->noop.value.addr);
 
         DISAS_LOG("%08x-%08x:", curGfx->words.w0, curGfx->words.w1);
 
@@ -299,7 +299,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 switch (dma.par) {
                     case G_DL_PUSH: {
                         DISAS_LOG("gsSPDisplayList(0x%08x),", dma.addr);
-                        this->dlStack[this->dlDepth++] = (u32)(ptr + 1);
+                        this->dlStack[this->dlDepth++] = (Gfx*)(ptr + 1);
                         ptr = (Gfx*)addr - 1;
                     } break;
 
@@ -333,7 +333,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                     DISAS_LOG("gsSPLoadUcodeEx(0x%08x, 0x%08x, 0x%05x),", curGfx->dma.addr, rdpHalf,
                               curGfx->dma.len + 1);
                 }
-                UCodeDisas_SetCurUCodeImpl(this, (void*)UCodeDisas_TranslateAddr(this, curGfx->dma.addr));
+                UCodeDisas_SetCurUCodeImpl(this, UCodeDisas_TranslateAddr(this, curGfx->dma.addr));
                 this->loaducodeCnt++;
             } break;
 
@@ -810,7 +810,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                                 this->spvtxCnt++;
 
                                 if (this->enableLog >= 2) {
-                                    UCodeDisas_PrintVertices(this, addr, numv, vbidx);
+                                    UCodeDisas_PrintVertices(this, (Vtx*)addr, numv, vbidx);
                                 }
                             } break;
 
@@ -888,7 +888,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                             } break;
 
                             case G_BRANCH_Z: {
-                                addr = UCodeDisas_TranslateAddr(this, rdpHalf);
+                                addr = (u32)UCodeDisas_TranslateAddr(this, rdpHalf);
                                 DISAS_LOG("gsSPBranchLessZraw(0x%08x(0x%08x), %d, 0x%08x),", rdpHalf, addr,
                                           (curGfx->words.w0 & 0xFFF) / 2, curGfx->words.w1);
                                 ptr = (Gfx*)addr - 1;
@@ -1120,7 +1120,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
                             case G_SELECT_DL: {
                                 Gdma dma = ptr->dma;
-                                u32 dlAddr = UCodeDisas_TranslateAddr(this, (dma.len << 16) | (linkDlLow));
+                                u32 dlAddr = (u32)UCodeDisas_TranslateAddr(this, (dma.len << 16) | (linkDlLow));
                                 u32 dmaAddr = dma.addr;
 
                                 if (dma.par == 0) {

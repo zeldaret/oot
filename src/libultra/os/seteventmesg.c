@@ -1,7 +1,7 @@
 #include "global.h"
 #include "ultra64/internal.h"
 
-__OSEventState __osEventStateTab[OS_NUM_EVENTS + 1];
+__OSEventState __osEventStateTab[OS_NUM_EVENTS];
 
 u32 __osPreNMI = false;
 

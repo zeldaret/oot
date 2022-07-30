@@ -16,8 +16,8 @@ typedef enum {
     /* 0x02 */ FLASH_SHRINK
 } FlashState;
 
-void BgGanonOtyuka_Init(Actor* thisx, PlayState* play);
-void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play);
+void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2);
+void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2);
 void BgGanonOtyuka_Update(Actor* thisx, PlayState* play);
 void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play);
 
@@ -212,17 +212,17 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
                 }
 
                 func_80033DB8(play, 10, 15);
-                SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
+                SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
             }
             Actor_Kill(&this->dyna.actor);
         }
     } else {
         if (this->dropTimer == 1) {
-            Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);

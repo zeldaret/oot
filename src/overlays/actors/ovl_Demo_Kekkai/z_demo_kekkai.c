@@ -12,12 +12,12 @@
 
 void DemoKekkai_Init(Actor* thisx, PlayState* play);
 void DemoKekkai_Destroy(Actor* thisx, PlayState* play);
-void DemoKekkai_Update(Actor* thisx, PlayState* play);
+void DemoKekkai_Update(Actor* thisx, PlayState* play2);
 void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play);
 
 void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play);
 void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play);
-void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play);
+void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 
@@ -220,7 +220,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     } else if (this->timer < 50) {
         this->orbScale = 2.0f;
     } else if (this->timer == 50) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         DemoKekkai_SpawnParticles(this, play);
     } else {
         this->orbScale = 0.0f;

@@ -18,9 +18,9 @@ typedef enum {
     /* 2 */ DNT_LOVE
 } EnDntDemoResults;
 
-void EnDntDemo_Init(Actor* thisx, PlayState* play);
+void EnDntDemo_Init(Actor* thisx, PlayState* play2);
 void EnDntDemo_Destroy(Actor* thisx, PlayState* play);
-void EnDntDemo_Update(Actor* this, PlayState* play);
+void EnDntDemo_Update(Actor* thisx, PlayState* play);
 
 void EnDntDemo_Judge(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Results(EnDntDemo* this, PlayState* play);
@@ -165,8 +165,8 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                     FALLTHROUGH;
                 case PLAYER_MASK_TRUTH:
                     if (!GET_ITEMGETINF(ITEMGETINF_1F) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         reaction = DNT_SIGNAL_LOOK;

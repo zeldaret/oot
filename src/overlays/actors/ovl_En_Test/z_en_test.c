@@ -543,7 +543,7 @@ void EnTest_Fall(EnTest* this, PlayState* play) {
         this->skelAnime.playSpeed = 1.0f;
         this->unk_7C8 = 0xC;
         this->timer = this->unk_7E4 * 0.15f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
         EnTest_SetupAction(this, EnTest_Land);
     }
 }
@@ -647,12 +647,12 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
             s32 afterPrevFrame = absPlaySpeed + prevFrame;
 
             if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
 
         if ((this->timer % 32) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WARAU);
             this->timer += (s16)(Rand_ZeroOne() * 5.0f);
         }
 
@@ -757,7 +757,7 @@ void func_80860C24(EnTest* this, PlayState* play) {
             afterPrevFrame = absPlaySpeed + prevFrame;
 
             if (((afterPrevFrame > 2) && (beforeCurFrame <= 0)) || ((beforeCurFrame < 7) && (afterPrevFrame >= 9))) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
 
@@ -872,12 +872,12 @@ void func_80860F84(EnTest* this, PlayState* play) {
             s32 afterPrevFrame = absPlaySpeed + prevFrame;
 
             if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
 
         if ((play->gameplayFrames & 95) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WARAU);
         }
 
         yawDiff = playerYaw180 - this->actor.shape.rot.y;
@@ -913,7 +913,7 @@ void EnTest_SlashDown(EnTest* this, PlayState* play) {
     }
 
     if ((s32)this->skelAnime.curFrame == 7) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_SAKEBI);
     }
 
     if ((this->skelAnime.curFrame > 7.0f) && (this->skelAnime.curFrame < 11.0f)) {
@@ -1008,7 +1008,7 @@ void EnTest_SlashUp(EnTest* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
 
     if ((s32)this->skelAnime.curFrame == 2) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_SAKEBI);
     }
 
     if ((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 8.0f)) {
@@ -1024,7 +1024,7 @@ void EnTest_SlashUp(EnTest* this, PlayState* play) {
 
 void EnTest_SetupJumpBack(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosJumpBackwardsAnim);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->unk_7C8 = 0x14;
     this->timer = 5;
     EnTest_SetupAction(this, EnTest_JumpBack);
@@ -1044,7 +1044,7 @@ void EnTest_JumpBack(EnTest* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
 
     if (this->timer == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WARAU);
     } else {
         this->timer--;
     }
@@ -1069,7 +1069,7 @@ void EnTest_JumpBack(EnTest* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_0;
         }
     } else if (this->skelAnime.curFrame == (this->skelAnime.endFrame - 4.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 }
 
@@ -1080,7 +1080,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
     this->unk_7C8 = 0x17;
     this->actor.velocity.y = 10.0f;
     this->actor.speedXZ = 8.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     EnTest_SetupAction(this, EnTest_Jumpslash);
@@ -1097,8 +1097,8 @@ void EnTest_Jumpslash(EnTest* this, PlayState* play) {
             Animation_PlayOnce(&this->skelAnime, &gStalfosJumpslashAnim);
             this->timer = 1;
             this->swordState = 1;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_SAKEBI);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
         } else {
             this->actor.speedXZ = 0.0f;
             EnTest_SetupIdle(this);
@@ -1111,7 +1111,7 @@ void EnTest_Jumpslash(EnTest* this, PlayState* play) {
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
         if (this->actor.speedXZ != 0.0f) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
 
         this->actor.world.pos.y = this->actor.floorHeight;
@@ -1126,7 +1126,7 @@ void EnTest_SetupJumpUp(EnTest* this) {
     this->unk_7C8 = 4;
     this->actor.velocity.y = 14.0f;
     this->actor.speedXZ = 6.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnTest_SetupAction(this, EnTest_JumpUp);
 }
@@ -1136,7 +1136,7 @@ void EnTest_JumpUp(EnTest* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.world.pos.y = this->actor.floorHeight;
         this->unk_7E4 = -(s32)this->actor.velocity.y;
@@ -1208,7 +1208,7 @@ void EnTest_IdleFromBlock(EnTest* this, PlayState* play) {
 
 void func_80862154(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFlinchFromHitFrontAnim);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 8;
     this->actor.speedXZ = -2.0f;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
@@ -1252,7 +1252,7 @@ void func_808621D4(EnTest* this, PlayState* play) {
 
 void func_80862398(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFlinchFromHitBehindAnim);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 9;
     this->actor.speedXZ = -2.0f;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
@@ -1309,7 +1309,7 @@ void EnTest_SetupStunned(EnTest* this) {
         }
     }
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnTest_SetupAction(this, EnTest_Stunned);
 }
 
@@ -1445,13 +1445,13 @@ void func_808628C8(EnTest* this, PlayState* play) {
     absPlaySpeed = ABS(this->skelAnime.playSpeed);
 
     if ((this->timer % 32) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WARAU);
     }
     if ((s32)this->skelAnime.curFrame != prevFrame) {
         s32 afterPrevFrame = (s32)absPlaySpeed + prevFrame;
 
         if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_WALK);
         }
     }
 
@@ -1478,7 +1478,7 @@ void func_808628C8(EnTest* this, PlayState* play) {
 }
 
 void func_80862DBC(EnTest* this, PlayState* play) {
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 2;
     BodyBreak_Alloc(&this->bodyBreak, 60, play);
     this->actor.home.rot.x = 0;
@@ -1534,7 +1534,7 @@ void func_80862E6C(EnTest* this, PlayState* play) {
 
 void func_80862FA8(EnTest* this, PlayState* play) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverBackwardsAnim);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7DE = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colorFilterTimer = 0;
@@ -1557,13 +1557,13 @@ void func_80863044(EnTest* this, PlayState* play) {
     }
 
     if ((s32)this->skelAnime.curFrame == 15) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
 
 void func_808630F0(EnTest* this, PlayState* play) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverForwardsAnim);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7C8 = 6;
     this->actor.colorFilterTimer = 0;
     this->unk_7DE = 0;
@@ -1586,7 +1586,7 @@ void func_8086318C(EnTest* this, PlayState* play) {
     }
 
     if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
 
