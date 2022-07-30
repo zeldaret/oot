@@ -58,44 +58,44 @@ typedef struct {
     /* 0x04 */ Vec3s* points; // Segment Address to the array of points
 } Path; // size = 0x8
 
-// Mesh headers
+// Room shapes
 
 typedef enum {
-    /* 0 */ MESH_HEADER_TYPE_NORMAL,
-    /* 1 */ MESH_HEADER_TYPE_PRERENDER,
-    /* 2 */ MESH_HEADER_TYPE_CULLABLE,
-    /* 3 */ MESH_HEADER_TYPE_MAX
-} MeshHeaderType;
+    /* 0 */ ROOM_SHAPE_TYPE_NORMAL,
+    /* 1 */ ROOM_SHAPE_TYPE_PRERENDER,
+    /* 2 */ ROOM_SHAPE_TYPE_CULLABLE,
+    /* 3 */ ROOM_SHAPE_TYPE_MAX
+} RoomShapeType;
 
 typedef struct {
     /* 0x00 */ u8 type;
-} MeshHeaderBase; // size = 0x01
+} RoomShapeBase; // size = 0x01
 
 typedef struct {
     /* 0x00 */ Gfx* opa;
     /* 0x04 */ Gfx* xlu;
-} MeshHeaderDListsEntry; // size = 0x08
+} RoomShapeDListsEntry; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ MeshHeaderBase base;
+    /* 0x00 */ RoomShapeBase base;
     /* 0x01 */ u8 numEntries;
-    /* 0x04 */ MeshHeaderDListsEntry* entries;
-    /* 0x08 */ MeshHeaderDListsEntry* entriesEnd;
-} MeshHeaderNormal; // size = 0x0C
+    /* 0x04 */ RoomShapeDListsEntry* entries;
+    /* 0x08 */ RoomShapeDListsEntry* entriesEnd;
+} RoomShapeNormal; // size = 0x0C
 
 typedef enum {
-    /* 1 */ MESH_HEADER_PRERENDER_FORMAT_SINGLE = 1,
-    /* 2 */ MESH_HEADER_PRERENDER_FORMAT_MULTI
-} MeshHeaderPrerenderFormat;
+    /* 1 */ ROOM_SHAPE_PRERENDER_FORMAT_SINGLE = 1,
+    /* 2 */ ROOM_SHAPE_PRERENDER_FORMAT_MULTI
+} RoomShapePrerenderFormat;
 
 typedef struct {
-    /* 0x00 */ MeshHeaderBase base;
-    /* 0x01 */ u8    format; // MeshHeaderPrerenderFormat
-    /* 0x04 */ MeshHeaderDListsEntry* entry;
-} MeshHeaderPrerenderBase; // size = 0x08
+    /* 0x00 */ RoomShapeBase base;
+    /* 0x01 */ u8    format; // RoomShapePrerenderFormat
+    /* 0x04 */ RoomShapeDListsEntry* entry;
+} RoomShapePrerenderBase; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ MeshHeaderPrerenderBase base;
+    /* 0x00 */ RoomShapePrerenderBase base;
     /* 0x08 */ void* source;
     /* 0x0C */ u32   unk_0C;
     /* 0x10 */ void* tlut;
@@ -105,7 +105,7 @@ typedef struct {
     /* 0x19 */ u8    siz;
     /* 0x1A */ u16   tlutMode;
     /* 0x1C */ u16   tlutCount;
-} MeshHeaderPrerenderSingle; // size = 0x20
+} RoomShapePrerenderSingle; // size = 0x20
 
 typedef struct {
     /* 0x00 */ u16   unk_00;
@@ -119,47 +119,48 @@ typedef struct {
     /* 0x15 */ u8    siz;
     /* 0x16 */ u16   tlutMode;
     /* 0x18 */ u16   tlutCount;
-} MeshHeaderPrerenderMultiBackgroundEntry; // size = 0x1C
+} RoomShapePrerenderMultiBackgroundEntry; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ MeshHeaderPrerenderBase base;
+    /* 0x00 */ RoomShapePrerenderBase base;
     /* 0x08 */ u8    numBackgrounds;
-    /* 0x0C */ MeshHeaderPrerenderMultiBackgroundEntry* backgrounds;
-} MeshHeaderPrerenderMulti; // size = 0x10
+    /* 0x0C */ RoomShapePrerenderMultiBackgroundEntry* backgrounds;
+} RoomShapePrerenderMulti; // size = 0x10
 
 typedef struct {
     /* 0x00 */ Vec3s boundsSphereCenter;
     /* 0x06 */ s16   boundsSphereRadius;
     /* 0x08 */ Gfx* opa;
     /* 0x0C */ Gfx* xlu;
-} MeshHeaderCullableEntry; // size = 0x10
+} RoomShapeCullableEntry; // size = 0x10
 
-#define MESH_HEADER_CULLABLE_MAX_ENTRIES 64
+#define ROOM_SHAPE_CULLABLE_MAX_ENTRIES 64
 
 typedef struct {
-    /* 0x00 */ MeshHeaderBase base;
+    /* 0x00 */ RoomShapeBase base;
     /* 0x01 */ u8 numEntries;
-    /* 0x04 */ MeshHeaderCullableEntry* entries;
-    /* 0x08 */ MeshHeaderCullableEntry* entriesEnd;
-} MeshHeaderCullable; // size = 0x0C
+    /* 0x04 */ RoomShapeCullableEntry* entries;
+    /* 0x08 */ RoomShapeCullableEntry* entriesEnd;
+} RoomShapeCullable; // size = 0x0C
 
 typedef union {
-    MeshHeaderBase base;
-    MeshHeaderNormal normal;
-    MeshHeaderPrerenderBase prerenderBase;
-    MeshHeaderPrerenderSingle prerenderSingle;
-    MeshHeaderPrerenderMulti prerenderMulti;
-    MeshHeaderCullable cullable;
-} MeshHeader; // "Ground Shape"
+    RoomShapeBase base;
+    RoomShapeNormal normal;
+    RoomShapePrerenderBase prerenderBase;
+    RoomShapePrerenderSingle prerenderSingle;
+    RoomShapePrerenderMulti prerenderMulti;
+    RoomShapeCullable cullable;
+} RoomShape; // "Ground Shape"
 
 // TODO update ZAPD
-typedef MeshHeaderDListsEntry PolygonDlist;
-typedef MeshHeaderNormal PolygonType0;
-typedef MeshHeaderPrerenderSingle MeshHeader1Single;
-typedef MeshHeaderPrerenderMultiBackgroundEntry BgImage;
-typedef MeshHeaderPrerenderMulti MeshHeader1Multi;
-typedef MeshHeaderCullableEntry PolygonDlist2;
-typedef MeshHeaderCullable PolygonType2;
+typedef RoomShapeDListsEntry PolygonDlist;
+typedef RoomShapeNormal PolygonType0;
+typedef RoomShapePrerenderSingle MeshHeader1Single;
+typedef RoomShapePrerenderMultiBackgroundEntry BgImage;
+typedef RoomShapePrerenderMulti MeshHeader1Multi;
+typedef RoomShapeCullableEntry PolygonDlist2;
+typedef RoomShapeCullable PolygonType2;
+#define SCENE_CMD_MESH SCENE_CMD_ROOM_SHAPE
 
 #define ROOM_DRAW_OPA (1 << 0)
 #define ROOM_DRAW_XLU (1 << 1)
@@ -233,7 +234,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ MeshHeaderBase* data;
+    /* 0x04 */ RoomShapeBase* data;
 } SCmdMesh;
 
 typedef struct {
@@ -479,7 +480,7 @@ typedef enum {
     /* 0x07 */ SCENE_CMD_ID_SPECIAL_FILES,
     /* 0x08 */ SCENE_CMD_ID_ROOM_BEHAVIOR,
     /* 0x09 */ SCENE_CMD_ID_UNDEFINED_9,
-    /* 0x0A */ SCENE_CMD_ID_MESH_HEADER,
+    /* 0x0A */ SCENE_CMD_ID_ROOM_SHAPE,
     /* 0x0B */ SCENE_CMD_ID_OBJECT_LIST,
     /* 0x0C */ SCENE_CMD_ID_LIGHT_LIST,
     /* 0x0D */ SCENE_CMD_ID_PATH_LIST,
@@ -529,8 +530,8 @@ typedef enum {
 #define SCENE_CMD_UNK_09() \
     { SCENE_CMD_ID_UNDEFINED_9, 0, CMD_W(0) }
 
-#define SCENE_CMD_MESH(meshHeader) \
-    { SCENE_CMD_ID_MESH_HEADER, 0, CMD_PTR(meshHeader) }
+#define SCENE_CMD_ROOM_SHAPE(roomShape) \
+    { SCENE_CMD_ID_ROOM_SHAPE, 0, CMD_PTR(roomShape) }
 
 #define SCENE_CMD_OBJECT_LIST(numObjects, objectList) \
     { SCENE_CMD_ID_OBJECT_LIST, numObjects, CMD_PTR(objectList) }

@@ -22,10 +22,10 @@ void Room_DrawNormal(PlayState* play, Room* room, u32 flags);
 void Room_DrawPrerender(PlayState* play, Room* room, u32 flags);
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags);
 
-void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
-    Room_DrawNormal,    // MESH_HEADER_TYPE_NORMAL
-    Room_DrawPrerender, // MESH_HEADER_TYPE_PRERENDER
-    Room_DrawCullable,  // MESH_HEADER_TYPE_CULLABLE
+void (*sRoomDrawHandlers[ROOM_SHAPE_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
+    Room_DrawNormal,    // ROOM_SHAPE_TYPE_NORMAL
+    Room_DrawPrerender, // ROOM_SHAPE_TYPE_PRERENDER
+    Room_DrawCullable,  // ROOM_SHAPE_TYPE_CULLABLE
 };
 
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
@@ -33,8 +33,8 @@ void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
 
 void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
     s32 i;
-    MeshHeaderNormal* header;
-    MeshHeaderDListsEntry* entry;
+    RoomShapeNormal* header;
+    RoomShapeDListsEntry* entry;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 193);
 
@@ -52,7 +52,7 @@ void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    header = &room->meshHeader->normal;
+    header = &room->roomShape->normal;
     entry = SEGMENTED_TO_VIRTUAL(header->entries);
     for (i = 0; i < header->numEntries; i++) {
         if ((flags & ROOM_DRAW_OPA) && (entry->opa != NULL)) {
@@ -75,15 +75,15 @@ typedef enum {
     /* 2 */ ROOM_CULL_DEBUG_MODE_ONLY_TARGET
 } RoomCullableDebugMode;
 
-typedef struct MeshHeaderCullableEntryLinked {
-    /* 0x00 */ MeshHeaderCullableEntry* entry;
+typedef struct RoomShapeCullableEntryLinked {
+    /* 0x00 */ RoomShapeCullableEntry* entry;
     /* 0x04 */ f32 boundsNearZ;
-    /* 0x08 */ struct MeshHeaderCullableEntryLinked* prev;
-    /* 0x0C */ struct MeshHeaderCullableEntryLinked* next;
-} MeshHeaderCullableEntryLinked; // size = 0x10
+    /* 0x08 */ struct RoomShapeCullableEntryLinked* prev;
+    /* 0x0C */ struct RoomShapeCullableEntryLinked* next;
+} RoomShapeCullableEntryLinked; // size = 0x10
 
 /**
- * Handle room drawing for the "cullable" type of mesh header.
+ * Handle room drawing for the "cullable" type of room shape.
  *
  * Each entry referenced by the header is attached to display lists, and a position and radius indicating the bounding
  * sphere for the geometry drawn.
@@ -92,22 +92,22 @@ typedef struct MeshHeaderCullableEntryLinked {
  * The second step draws the entries that remain, from nearest to furthest.
  */
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
-    MeshHeaderCullable* meshHeaderCullable;
-    MeshHeaderCullableEntry* meshHeaderCullableEntry;
-    MeshHeaderCullableEntryLinked linkedEntriesBuffer[MESH_HEADER_CULLABLE_MAX_ENTRIES];
-    MeshHeaderCullableEntryLinked* head = NULL;
-    MeshHeaderCullableEntryLinked* tail = NULL;
-    MeshHeaderCullableEntryLinked* iter;
+    RoomShapeCullable* roomShapeCullable;
+    RoomShapeCullableEntry* roomShapeCullableEntry;
+    RoomShapeCullableEntryLinked linkedEntriesBuffer[ROOM_SHAPE_CULLABLE_MAX_ENTRIES];
+    RoomShapeCullableEntryLinked* head = NULL;
+    RoomShapeCullableEntryLinked* tail = NULL;
+    RoomShapeCullableEntryLinked* iter;
     s32 pad;
-    MeshHeaderCullableEntryLinked* insert;
+    RoomShapeCullableEntryLinked* insert;
     s32 j;
     s32 i;
     Vec3f pos;
     Vec3f projectedPos;
     f32 projectedW;
     s32 pad2;
-    MeshHeaderCullableEntry* meshHeaderCullableEntries;
-    MeshHeaderCullableEntry* meshHeaderCullableEntryIter;
+    RoomShapeCullableEntry* roomShapeCullableEntries;
+    RoomShapeCullableEntry* roomShapeCullableEntryIter;
     f32 entryBoundsNearZ;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
@@ -128,35 +128,35 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    meshHeaderCullable = &room->meshHeader->cullable;
-    meshHeaderCullableEntry = SEGMENTED_TO_VIRTUAL(meshHeaderCullable->entries);
+    roomShapeCullable = &room->roomShape->cullable;
+    roomShapeCullableEntry = SEGMENTED_TO_VIRTUAL(roomShapeCullable->entries);
     insert = linkedEntriesBuffer;
 
-    ASSERT(meshHeaderCullable->numEntries <= MESH_HEADER_CULLABLE_MAX_ENTRIES, "polygon2->num <= SHAPE_SORT_MAX",
+    ASSERT(roomShapeCullable->numEntries <= ROOM_SHAPE_CULLABLE_MAX_ENTRIES, "polygon2->num <= SHAPE_SORT_MAX",
            "../z_room.c", 317);
 
-    meshHeaderCullableEntries = meshHeaderCullableEntry;
+    roomShapeCullableEntries = roomShapeCullableEntry;
 
     // Pick and sort entries by depth
-    for (i = 0; i < meshHeaderCullable->numEntries; i++, meshHeaderCullableEntry++) {
+    for (i = 0; i < roomShapeCullable->numEntries; i++, roomShapeCullableEntry++) {
 
         // Project the entry position, to get the depth it is at.
-        pos.x = meshHeaderCullableEntry->boundsSphereCenter.x;
-        pos.y = meshHeaderCullableEntry->boundsSphereCenter.y;
-        pos.z = meshHeaderCullableEntry->boundsSphereCenter.z;
+        pos.x = roomShapeCullableEntry->boundsSphereCenter.x;
+        pos.y = roomShapeCullableEntry->boundsSphereCenter.y;
+        pos.z = roomShapeCullableEntry->boundsSphereCenter.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
 
         // If the entry bounding sphere isn't fully before the rendered depth range
-        if (-(f32)meshHeaderCullableEntry->boundsSphereRadius < projectedPos.z) {
+        if (-(f32)roomShapeCullableEntry->boundsSphereRadius < projectedPos.z) {
 
             // Compute the depth of the nearest point in the entry's bounding sphere
-            entryBoundsNearZ = projectedPos.z - meshHeaderCullableEntry->boundsSphereRadius;
+            entryBoundsNearZ = projectedPos.z - roomShapeCullableEntry->boundsSphereRadius;
 
             // If the entry bounding sphere isn't fully beyond the rendered depth range
             if (entryBoundsNearZ < play->lightCtx.fogFar) {
 
                 // This entry will be rendered
-                insert->entry = meshHeaderCullableEntry;
+                insert->entry = roomShapeCullableEntry;
                 insert->boundsNearZ = entryBoundsNearZ;
 
                 // Insert into the linked list, ordered by ascending depth of the nearest point in the bounding sphere
@@ -195,21 +195,21 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     }
 
     // if this is real then I might not be
-    R_ROOM_CULL_NUM_ENTRIES = meshHeaderCullable->numEntries & 0xFFFF & 0xFFFF & 0xFFFF;
+    R_ROOM_CULL_NUM_ENTRIES = roomShapeCullable->numEntries & 0xFFFF & 0xFFFF & 0xFFFF;
 
     // Draw entries, from nearest to furthest
     for (i = 1; head != NULL; head = head->next, i++) {
         Gfx* displayList;
 
-        meshHeaderCullableEntry = head->entry;
+        roomShapeCullableEntry = head->entry;
 
         if (R_ROOM_CULL_DEBUG_MODE != ROOM_CULL_DEBUG_MODE_OFF) {
             // Debug mode drawing
 
             // This loop does nothing
-            meshHeaderCullableEntryIter = meshHeaderCullableEntries;
-            for (j = 0; j < meshHeaderCullable->numEntries; j++, meshHeaderCullableEntryIter++) {
-                if (meshHeaderCullableEntry == meshHeaderCullableEntryIter) {
+            roomShapeCullableEntryIter = roomShapeCullableEntries;
+            for (j = 0; j < roomShapeCullable->numEntries; j++, roomShapeCullableEntryIter++) {
+                if (roomShapeCullableEntry == roomShapeCullableEntryIter) {
                     break;
                 }
             }
@@ -217,14 +217,14 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
             if (((R_ROOM_CULL_DEBUG_MODE == ROOM_CULL_DEBUG_MODE_UP_TO_TARGET) && (i <= R_ROOM_CULL_DEBUG_TARGET)) ||
                 ((R_ROOM_CULL_DEBUG_MODE == ROOM_CULL_DEBUG_MODE_ONLY_TARGET) && (i == R_ROOM_CULL_DEBUG_TARGET))) {
                 if (flags & ROOM_DRAW_OPA) {
-                    displayList = meshHeaderCullableEntry->opa;
+                    displayList = roomShapeCullableEntry->opa;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_OPA_DISP++, displayList);
                     }
                 }
 
                 if (flags & ROOM_DRAW_XLU) {
-                    displayList = meshHeaderCullableEntry->xlu;
+                    displayList = roomShapeCullableEntry->xlu;
                     if (displayList != NULL) {
                         gSPDisplayList(POLY_XLU_DISP++, displayList);
                     }
@@ -232,14 +232,14 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
             }
         } else {
             if (flags & ROOM_DRAW_OPA) {
-                displayList = meshHeaderCullableEntry->opa;
+                displayList = roomShapeCullableEntry->opa;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_OPA_DISP++, displayList);
                 }
             }
 
             if (flags & ROOM_DRAW_XLU) {
-                displayList = meshHeaderCullableEntry->xlu;
+                displayList = roomShapeCullableEntry->xlu;
                 if (displayList != NULL) {
                     gSPDisplayList(POLY_XLU_DISP++, displayList);
                 }
@@ -355,8 +355,8 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
 void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    MeshHeaderPrerenderSingle* header;
-    MeshHeaderDListsEntry* entry;
+    RoomShapePrerenderSingle* header;
+    RoomShapeDListsEntry* entry;
     u32 isFixedCamera;
     u32 drawBackground;
     u32 drawOpa;
@@ -366,7 +366,7 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    header = &room->meshHeader->prerenderSingle;
+    header = &room->roomShape->prerenderSingle;
     entry = SEGMENTED_TO_VIRTUAL(header->base.entry);
     drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (header->source != NULL) &&
                      !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
@@ -413,13 +413,13 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-MeshHeaderPrerenderMultiBackgroundEntry*
-Room_GetPrerenderMultiBackgroundEntry(MeshHeaderPrerenderMulti* meshHeaderPrerenderMulti, PlayState* play) {
+RoomShapePrerenderMultiBackgroundEntry*
+Room_GetPrerenderMultiBackgroundEntry(RoomShapePrerenderMulti* roomShapePrerenderMulti, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
     s32 bgCamIndex = activeCam->bgCamIndex;
     s16 overrideBgCamIndex;
     Player* player;
-    MeshHeaderPrerenderMultiBackgroundEntry* backgroundEntry;
+    RoomShapePrerenderMultiBackgroundEntry* backgroundEntry;
     s32 i;
 
     // In mq debug vanilla scenes, overrideBgCamIndex is always -1 or the same as bgCamIndex
@@ -432,8 +432,8 @@ Room_GetPrerenderMultiBackgroundEntry(MeshHeaderPrerenderMulti* meshHeaderPreren
     player = GET_PLAYER(play);
     player->actor.params = (player->actor.params & 0xFF00) | bgCamIndex;
 
-    backgroundEntry = SEGMENTED_TO_VIRTUAL(meshHeaderPrerenderMulti->backgrounds);
-    for (i = 0; i < meshHeaderPrerenderMulti->numBackgrounds; i++) {
+    backgroundEntry = SEGMENTED_TO_VIRTUAL(roomShapePrerenderMulti->backgrounds);
+    for (i = 0; i < roomShapePrerenderMulti->numBackgrounds; i++) {
         if (backgroundEntry->bgCamIndex == bgCamIndex) {
             return backgroundEntry;
         }
@@ -450,9 +450,9 @@ Room_GetPrerenderMultiBackgroundEntry(MeshHeaderPrerenderMulti* meshHeaderPreren
 void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    MeshHeaderPrerenderMulti* header;
-    MeshHeaderPrerenderMultiBackgroundEntry* backgroundEntry;
-    MeshHeaderDListsEntry* dListsEntry;
+    RoomShapePrerenderMulti* header;
+    RoomShapePrerenderMultiBackgroundEntry* backgroundEntry;
+    RoomShapeDListsEntry* dListsEntry;
     u32 isFixedCamera;
     u32 drawBackground;
     u32 drawOpa;
@@ -462,7 +462,7 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    header = &room->meshHeader->prerenderMulti;
+    header = &room->roomShape->prerenderMulti;
     dListsEntry = SEGMENTED_TO_VIRTUAL(header->base.entry);
 
     backgroundEntry = Room_GetPrerenderMultiBackgroundEntry(header, play);
@@ -514,11 +514,11 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
 }
 
 void Room_DrawPrerender(PlayState* play, Room* room, u32 flags) {
-    MeshHeaderPrerenderBase* header = &room->meshHeader->prerenderBase;
+    RoomShapePrerenderBase* header = &room->roomShape->prerenderBase;
 
-    if (header->format == MESH_HEADER_PRERENDER_FORMAT_SINGLE) {
+    if (header->format == ROOM_SHAPE_PRERENDER_FORMAT_SINGLE) {
         Room_DrawPrerenderSingle(play, room, flags);
-    } else if (header->format == MESH_HEADER_PRERENDER_FORMAT_MULTI) {
+    } else if (header->format == ROOM_SHAPE_PRERENDER_FORMAT_MULTI) {
         Room_DrawPrerenderMulti(play, room, flags);
     } else {
         LogUtils_HungupThread("../z_room.c", 841);
@@ -640,9 +640,9 @@ s32 func_800973FC(PlayState* play, RoomContext* roomCtx) {
 void Room_Draw(PlayState* play, Room* room, u32 flags) {
     if (room->segment != NULL) {
         gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
-        ASSERT(room->meshHeader->base.type < ARRAY_COUNTU(sRoomDrawHandlers),
+        ASSERT(room->roomShape->base.type < ARRAY_COUNTU(sRoomDrawHandlers),
                "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
-        sRoomDrawHandlers[room->meshHeader->base.type](play, room, flags);
+        sRoomDrawHandlers[room->roomShape->base.type](play, room, flags);
     }
 }
 
