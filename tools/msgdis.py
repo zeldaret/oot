@@ -254,8 +254,8 @@ textbox_type = {
 textbox_ypos = {
     0: "TEXTBOX_POS_VARIABLE",
     1: "TEXTBOX_POS_TOP",
-    2: "TEXTBOX_POS_BOTTOM",
-    3: "TEXTBOX_POS_MIDDLE",
+    2: "TEXTBOX_POS_MIDDLE",
+    3: "TEXTBOX_POS_BOTTOM",
 }
 
 # message entry tables vrom addresses

@@ -225,7 +225,7 @@ void func_808B7BCC(BgSpot18Basket* this, PlayState* play) {
                                     this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) < SQ(32.0f)) {
                     OnePointCutscene_Init(play, 4210, 240, &this->dyna.actor, CAM_ID_MAIN);
                     func_808B7D38(this);
-                    func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+                    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 }
             }
         }
@@ -333,7 +333,7 @@ void func_808B7FC0(BgSpot18Basket* this, PlayState* play) {
             this->dyna.actor.shape.rot.y = arrayValue;
 
             func_808B818C(this);
-            func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         }
     }
 

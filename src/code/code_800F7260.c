@@ -18,20 +18,6 @@ typedef struct {
     /* 0x0C */ u16 remainingFrames;
 } UnusedBankLerp; // size = 0x10
 
-// rodata for Audio_ProcessSoundRequest (this file)
-// (probably moved to .data due to -use_readwrite_const)
-char D_80133340[] = "SE";
-
-// rodata for Audio_ChooseActiveSounds (this file)
-char D_80133344[] = VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n";
-
-// file padding
-s32 D_8013338C = 0;
-
-// rodata for Audio_ProcessSeqCmd (code_800F9280.c)
-char D_80133390[] = "SEQ H";
-char D_80133398[] = "    L";
-
 SoundBankEntry D_8016BAD0[9];
 SoundBankEntry D_8016BC80[12];
 SoundBankEntry D_8016BEC0[22];
@@ -50,55 +36,6 @@ UnusedBankLerp sUnusedBankLerp[7];
 u16 gAudioSfxSwapSource[10];
 u16 gAudioSfxSwapTarget[10];
 u8 gAudioSfxSwapMode[10];
-
-// sSoundRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
-u8 sSoundRequestWriteIndex = 0;
-u8 sSoundRequestReadIndex = 0;
-
-/**
- * Array of pointers to arrays of SoundBankEntry of sizes: 9, 12, 22, 20, 8, 3, 5
- *
- * 0 : Player Bank          size 9
- * 1 : Item Bank            size 12
- * 2 : Environment Bank     size 22
- * 3 : Enemy Bank           size 20
- * 4 : System Bank          size 8
- * 5 : Ocarina Bank         size 3
- * 6 : Voice Bank           size 5
- */
-SoundBankEntry* gSoundBanks[7] = {
-    D_8016BAD0, D_8016BC80, D_8016BEC0, D_8016C2E0, D_8016C6A0, D_8016C820, D_8016C8B0,
-};
-
-u8 sBankSizes[ARRAY_COUNT(gSoundBanks)] = {
-    ARRAY_COUNT(D_8016BAD0), ARRAY_COUNT(D_8016BC80), ARRAY_COUNT(D_8016BEC0), ARRAY_COUNT(D_8016C2E0),
-    ARRAY_COUNT(D_8016C6A0), ARRAY_COUNT(D_8016C820), ARRAY_COUNT(D_8016C8B0),
-};
-
-u8 gSfxChannelLayout = 0;
-
-u16 D_801333D0 = 0;
-
-// The center of the screen in projected coordinates.
-// Gives the impression that the sfx has no specific location
-Vec3f gSfxDefaultPos = { 0.0f, 0.0f, 0.0f };
-
-// Reused as either frequency or volume multiplicative scaling factor
-// Does not alter or change frequency or volume
-f32 gSfxDefaultFreqAndVolScale = 1.0f;
-
-s32 D_801333E4 = 0; // unused
-
-// Adds no reverb to the existing reverb
-s8 gSfxDefaultReverb = 0;
-
-s32 D_801333EC = 0; // unused
-
-u8 D_801333F0 = 0;
-
-u8 gAudioSfxSwapOff = 0;
-
-u8 D_801333F8 = 0;
 
 void Audio_SetSoundBanksMute(u16 muteMask) {
     u8 bankId;
@@ -132,7 +69,7 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32
     SoundRequest* req;
 
     if (!gSoundBankMuted[SFX_BANK_SHIFT(sfxId)]) {
-        req = &sSoundRequests[sSoundRequestWriteIndex];
+        req = &sSoundRequests[gSoundRequestWriteIndex];
         if (!gAudioSfxSwapOff) {
             for (i = 0; i < 10; i++) {
                 if (sfxId == gAudioSfxSwapSource[i]) {
@@ -145,8 +82,8 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32
                         req->freqScale = freqScale;
                         req->vol = vol;
                         req->reverbAdd = reverbAdd;
-                        sSoundRequestWriteIndex++;
-                        req = &sSoundRequests[sSoundRequestWriteIndex];
+                        gSoundRequestWriteIndex++;
+                        req = &sSoundRequests[gSoundRequestWriteIndex];
                     }
                     i = 10; // "break;"
                 }
@@ -158,16 +95,16 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32
         req->freqScale = freqScale;
         req->vol = vol;
         req->reverbAdd = reverbAdd;
-        sSoundRequestWriteIndex++;
+        gSoundRequestWriteIndex++;
     }
 }
 
 void Audio_RemoveMatchingSoundRequests(u8 aspect, SoundBankEntry* cmp) {
     SoundRequest* req;
     s32 remove;
-    u8 i = sSoundRequestReadIndex;
+    u8 i = gSoundRequestReadIndex;
 
-    for (; i != sSoundRequestWriteIndex; i++) {
+    for (; i != gSoundRequestWriteIndex; i++) {
         remove = false;
         req = &sSoundRequests[i];
         switch (aspect) {
@@ -219,14 +156,14 @@ void Audio_ProcessSoundRequest(void) {
     u8 evictImportance;
     u8 evictIndex;
 
-    req = &sSoundRequests[sSoundRequestReadIndex];
+    req = &sSoundRequests[gSoundRequestReadIndex];
     evictIndex = 0x80;
     if (req->sfxId == 0) {
         return;
     }
     bankId = SFX_BANK(req->sfxId);
     if ((1 << bankId) & D_801333F0) {
-        AudioDebug_ScrPrt((const s8*)D_80133340, req->sfxId);
+        AudioDebug_ScrPrt("SE", req->sfxId);
         bankId = SFX_BANK(req->sfxId);
     }
     count = 0;
@@ -387,8 +324,9 @@ void Audio_ChooseActiveSounds(u8 bankId) {
             } else {
                 if (entry->dist > 0x7FFFFFD0) {
                     entry->dist = 0x70000008;
-                    osSyncPrintf(D_80133344, entry->sfxId, entry->posX, entry->posZ, *entry->posX, *entry->posY,
-                                 *entry->posZ);
+                    osSyncPrintf(VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! "
+                                                    "flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n",
+                                 entry->sfxId, entry->posX, entry->posZ, *entry->posX, *entry->posY, *entry->posZ);
                 }
                 temp3 = entry->sfxId; // fake
                 entry->priority = (u32)entry->dist + (SQ(0xFF - sfxImportance) * SQ(76)) + temp3 - temp3;
@@ -694,9 +632,9 @@ void Audio_StopSfxById(u32 sfxId) {
 }
 
 void Audio_ProcessSoundRequests(void) {
-    while (sSoundRequestWriteIndex != sSoundRequestReadIndex) {
+    while (gSoundRequestWriteIndex != gSoundRequestReadIndex) {
         Audio_ProcessSoundRequest();
-        sSoundRequestReadIndex++;
+        gSoundRequestReadIndex++;
     }
 }
 
@@ -752,8 +690,8 @@ void Audio_ResetSounds(void) {
     u8 i;
     u8 entryIndex;
 
-    sSoundRequestWriteIndex = 0;
-    sSoundRequestReadIndex = 0;
+    gSoundRequestWriteIndex = 0;
+    gSoundRequestReadIndex = 0;
     D_801333D0 = 0;
     for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
         sSoundBankListEnd[bankId] = 0;
@@ -771,7 +709,7 @@ void Audio_ResetSounds(void) {
     for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
         gSoundBanks[bankId][0].prev = 0xFF;
         gSoundBanks[bankId][0].next = 0xFF;
-        for (i = 1; i < sBankSizes[bankId] - 1; i++) {
+        for (i = 1; i < gSoundBankSizes[bankId] - 1; i++) {
             gSoundBanks[bankId][i].prev = i - 1;
             gSoundBanks[bankId][i].next = i + 1;
         }

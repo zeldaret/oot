@@ -20,7 +20,7 @@ void func_808992D8(BgJyaIronobj* this);
 void func_808992E8(BgJyaIronobj* this, PlayState* play);
 
 void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
-void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
+void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 
 static int sUnused = 0;
 
@@ -157,7 +157,7 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
 /*
  * Spawns particles for the destroyed throne
  */
-void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk) {
+void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk) {
     s32 i;
     s32 j;
     s16 unkArg5;
@@ -238,7 +238,7 @@ void func_808992D8(BgJyaIronobj* this) {
 }
 
 void func_808992E8(BgJyaIronobj* this, PlayState* play) {
-    static BgJyaIronobjIkFunc particleFunc[] = { BgJyaIronobj_SpawnPillarParticles, BgJyaIronobj_SpawnThoneParticles };
+    static BgJyaIronobjIkFunc particleFunc[] = { BgJyaIronobj_SpawnPillarParticles, BgJyaIronobj_SpawnThroneParticles };
     Actor* actor;
     Vec3f dropPos;
     s32 i;
@@ -253,7 +253,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
             dropPos.y = this->dyna.actor.world.pos.y + 20.0f;
             dropPos.z = this->dyna.actor.world.pos.z;
             for (i = 0; i < 3; i++) {
-                Item_DropCollectible(play, &dropPos, ITEM00_HEART);
+                Item_DropCollectible(play, &dropPos, ITEM00_RECOVERY_HEART);
                 dropPos.y += 18.0f;
             }
             Actor_Kill(&this->dyna.actor);

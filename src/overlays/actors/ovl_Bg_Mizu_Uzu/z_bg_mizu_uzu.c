@@ -57,9 +57,9 @@ void func_8089F788(BgMizuUzu* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (GET_PLAYER(play)->currentBoots == PLAYER_BOOTS_IRON) {
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
     Audio_PlayActorSound2(thisx, NA_SE_EV_WATER_CONVECTION - SFX_FLAG);
     thisx->shape.rot.y += 0x1C0;

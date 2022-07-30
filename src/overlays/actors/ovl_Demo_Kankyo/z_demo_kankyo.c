@@ -370,10 +370,10 @@ void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
-void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 params) {
+void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 npcActionIndex) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[params];
+    CsCmdActorAction* csAction = play->csCtx.npcActions[npcActionIndex];
     f32 temp_f0;
 
     startPos.x = csAction->startPos.x;
@@ -389,8 +389,8 @@ void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 params) {
 }
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->actor.params - 2] != NULL) {
-        DemoKankyo_SetRockPos(this, play, this->actor.params - 2);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
+        DemoKankyo_SetRockPos(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
     }
     this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
     this->unk_150[0].unk_C.y += this->unk_150[0].unk_0.y;
@@ -859,7 +859,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
         translateZ = this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z;
 
         if (this->unk_150[i].unk_22 < 2) {
-            disp = (Gfx*)(u32)gEffFlash1DL;
+            disp = (Gfx*)(uintptr_t)gEffFlash1DL; // necessary to match but probably fake
             if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
