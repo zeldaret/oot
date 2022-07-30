@@ -78,11 +78,11 @@ void func_80878300(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->world.pos.x -= 2.0f;
         Math_ApproachF(&thisx->world.pos.z, -1375.0f, 0.8f, 0.3f);
         if (thisx->world.pos.x < -89.0f) {
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 0x1E;
             this->actionFunc = func_808783AC;
         }
@@ -100,12 +100,12 @@ void func_808783D4(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->world.pos.x += 2.0f;
         Math_ApproachF(&thisx->world.pos.z, -1350.0f, 0.8f, 0.3f);
         if (thisx->world.pos.x > 90.0f) {
             thisx->world.pos.x = 91.0f;
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 30;
             this->actionFunc = func_808783AC;
         }

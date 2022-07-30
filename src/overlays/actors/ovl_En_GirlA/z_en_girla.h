@@ -52,7 +52,7 @@ typedef enum {
     /* 0x0D */ SI_DEKU_SHIELD,
     /* 0x0E */ SI_GORON_TUNIC,
     /* 0x0F */ SI_ZORA_TUNIC,
-    /* 0x10 */ SI_HEART,
+    /* 0x10 */ SI_RECOVERY_HEART,
     /* 0x11 */ SI_MILK_BOTTLE,
     /* 0x12 */ SI_WEIRD_EGG,
     /* 0x13 */ SI_19,

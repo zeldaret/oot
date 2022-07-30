@@ -133,7 +133,7 @@ void func_808BB0AC(BgTokiSwd* this, PlayState* play) {
     // if sword has a parent it has been pulled/placed from the pedestal
     if (Actor_HasParent(&this->actor, play)) {
         if (!LINK_IS_ADULT) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);
             this->actor.draw = NULL; // sword has been pulled, dont draw sword
         } else {
             this->actor.draw = BgTokiSwd_Draw; // sword has been placed, draw the master sword
