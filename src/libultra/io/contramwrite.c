@@ -1,8 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define READFORMAT(ptr) ((__OSContRamReadFormat*)(ptr))
-
 s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 force) {
     s32 ret = 0;
     s32 i;

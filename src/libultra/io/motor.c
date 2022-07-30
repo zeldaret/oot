@@ -4,8 +4,6 @@
 
 OSPifRam __MotorDataBuf[MAXCONTROLLERS];
 
-#define READFORMAT(ptr) ((__OSContRamReadFormat*)(ptr))
-
 s32 __osMotorAccess(OSPfs* pfs, u32 vibrate) {
     s32 i;
     s32 ret;

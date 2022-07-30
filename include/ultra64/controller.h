@@ -192,6 +192,8 @@ typedef struct {
     /* 0x26 */ u8 datacrc;
 } __OSContRamReadFormat; // size = 0x27
 
+#define READFORMAT(ptr) ((__OSContRamReadFormat*)(ptr))
+
 typedef struct {
     /* 0x00 */ u8 align;
     /* 0x01 */ u8 txsize;

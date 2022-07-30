@@ -4,8 +4,6 @@
 
 s32 __osPfsLastChannel = -1;
 
-#define READFORMAT(ptr) ((__OSContRamReadFormat*)(ptr))
-
 s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
     s32 ret;
     s32 i;
