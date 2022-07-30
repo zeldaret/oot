@@ -101,7 +101,7 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
         (ABS((s16)(this->collider.base.ac->world.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->framesUntilDisable == -1) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
             D_8089C1A0 += 1;
             D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
         }
