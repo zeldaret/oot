@@ -20,42 +20,41 @@ void Overlay_LoadGameState(GameStateOverlay* overlayEntry) {
 
         osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("OVL(d):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart, overlayEntry->vramEnd,
-                     overlayEntry->loadedRamAddr,
-                     (u32)overlayEntry->loadedRamAddr + (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart,
-                     (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, "");
+                     overlayEntry->loadedRamAddr, (uintptr_t)overlayEntry->loadedRamAddr + VRAM_PTR_SIZE(overlayEntry),
+                     OVERLAY_RELOCATION_OFFSET(overlayEntry), "");
         osSyncPrintf(VT_RST);
 
         if (overlayEntry->unk_14 != NULL) {
-            overlayEntry->unk_14 = (void*)((u32)overlayEntry->unk_14 -
-                                           (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+            overlayEntry->unk_14 =
+                (void*)((uintptr_t)overlayEntry->unk_14 - (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
         } else {
             overlayEntry->unk_14 = NULL;
         }
 
         if (overlayEntry->init != NULL) {
-            overlayEntry->init = (void*)((u32)overlayEntry->init -
-                                         (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+            overlayEntry->init =
+                (void*)((uintptr_t)overlayEntry->init - (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
         } else {
             overlayEntry->init = NULL;
         }
 
         if (overlayEntry->destroy != NULL) {
-            overlayEntry->destroy = (void*)((u32)overlayEntry->destroy -
-                                            (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+            overlayEntry->destroy =
+                (void*)((uintptr_t)overlayEntry->destroy - (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
         } else {
             overlayEntry->destroy = NULL;
         }
 
         if (overlayEntry->unk_20 != NULL) {
-            overlayEntry->unk_20 = (void*)((u32)overlayEntry->unk_20 -
-                                           (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+            overlayEntry->unk_20 =
+                (void*)((uintptr_t)overlayEntry->unk_20 - (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
         } else {
             overlayEntry->unk_20 = NULL;
         }
 
         if (overlayEntry->unk_24 != NULL) {
-            overlayEntry->unk_24 = (void*)((u32)overlayEntry->unk_24 -
-                                           (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+            overlayEntry->unk_24 =
+                (void*)((uintptr_t)overlayEntry->unk_24 - (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
         } else {
             overlayEntry->unk_24 = NULL;
         }
@@ -70,36 +69,36 @@ void Overlay_FreeGameState(GameStateOverlay* overlayEntry) {
 
         if (temp == 0) {
             if (overlayEntry->unk_14 != NULL) {
-                overlayEntry->unk_14 = (void*)((u32)overlayEntry->unk_14 +
-                                               (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+                overlayEntry->unk_14 =
+                    (void*)((uintptr_t)overlayEntry->unk_14 + (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
             } else {
                 overlayEntry->unk_14 = NULL;
             }
 
             if (overlayEntry->init != NULL) {
-                overlayEntry->init = (void*)((u32)overlayEntry->init +
-                                             (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+                overlayEntry->init =
+                    (void*)((uintptr_t)overlayEntry->init + (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
             } else {
                 overlayEntry->init = NULL;
             }
 
             if (overlayEntry->destroy != NULL) {
-                overlayEntry->destroy = (void*)((u32)overlayEntry->destroy +
-                                                (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+                overlayEntry->destroy =
+                    (void*)((uintptr_t)overlayEntry->destroy + (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
             } else {
                 overlayEntry->destroy = NULL;
             }
 
             if (overlayEntry->unk_20 != NULL) {
-                overlayEntry->unk_20 = (void*)((u32)overlayEntry->unk_20 +
-                                               (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+                overlayEntry->unk_20 =
+                    (void*)((uintptr_t)overlayEntry->unk_20 + (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
             } else {
                 overlayEntry->unk_20 = NULL;
             }
 
             if (overlayEntry->unk_24 != NULL) {
-                overlayEntry->unk_24 = (void*)((u32)overlayEntry->unk_24 +
-                                               (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr));
+                overlayEntry->unk_24 =
+                    (void*)((uintptr_t)overlayEntry->unk_24 + (intptr_t)OVERLAY_RELOCATION_OFFSET(overlayEntry));
             } else {
                 overlayEntry->unk_24 = NULL;
             }
