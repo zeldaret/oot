@@ -5,8 +5,6 @@
 
 typedef unsigned long size_t;
 
-typedef unsigned int uintptr_t;
-
 #ifdef __GNUC__
 #define offsetof(structure, member) __builtin_offsetof (structure, member)
 #else

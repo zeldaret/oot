@@ -49,8 +49,7 @@ void EnLight_Init(Actor* thisx, PlayState* play) {
     EnLight* this = (EnLight*)thisx;
     s16 yOffset;
 
-    if (gSaveContext.gameMode == 3) {
-        // special case for the credits
+    if (gSaveContext.gameMode == GAMEMODE_END_CREDITS) {
         yOffset = (this->actor.params < 0) ? 1 : 40;
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, yOffset + (s16)this->actor.world.pos.y,
                                   this->actor.world.pos.z, 255, 255, 180, -1);
@@ -102,7 +101,7 @@ void EnLight_Update(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 
@@ -145,7 +144,7 @@ void EnLight_UpdateSwitch(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 

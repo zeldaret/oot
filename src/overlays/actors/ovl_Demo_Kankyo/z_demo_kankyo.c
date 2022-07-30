@@ -253,8 +253,8 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                Audio_PlaySoundGeneral(NA_SE_EV_SARIA_MELODY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EV_SARIA_MELODY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case DEMOKANKYO_SPARKLES:
@@ -333,7 +333,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                             play->csCtx.segment = gAdultWarpInCS;
                         }
                     }
-                    if (func_800C0CB8(play) != 0) {
+                    if (Play_CamIsNotFixed(play)) {
                         gSaveContext.cutsceneTrigger = 1;
                     }
                     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
@@ -370,10 +370,10 @@ void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
-void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 params) {
+void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 npcActionIndex) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[params];
+    CsCmdActorAction* csAction = play->csCtx.npcActions[npcActionIndex];
     f32 temp_f0;
 
     startPos.x = csAction->startPos.x;
@@ -389,8 +389,8 @@ void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 params) {
 }
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->actor.params - 2] != NULL) {
-        DemoKankyo_SetRockPos(this, play, this->actor.params - 2);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
+        DemoKankyo_SetRockPos(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
     }
     this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
     this->unk_150[0].unk_C.y += this->unk_150[0].unk_0.y;
@@ -406,10 +406,10 @@ void DemoKankyo_UpdateClouds(DemoKankyo* this, PlayState* play) {
 }
 
 void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, PlayState* play) {
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     this->unk_150[0].unk_18 += 1.0f;
     if (this->unk_150[0].unk_18 >= 102.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONEDOOR_STOP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONEDOOR_STOP);
         SET_EVENTCHKINF(EVENTCHKINF_4B);
         Actor_Kill(this->actor.child);
         DemoKankyo_SetupAction(this, DemoKankyo_KillDoorOfTimeCollision);
@@ -800,9 +800,8 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                         this->unk_150[i].unk_22++;
                     }
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
@@ -859,7 +858,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
         translateZ = this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z;
 
         if (this->unk_150[i].unk_22 < 2) {
-            disp = (Gfx*)(u32)gEffFlash1DL;
+            disp = (Gfx*)(uintptr_t)gEffFlash1DL; // necessary to match but probably fake
             if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {

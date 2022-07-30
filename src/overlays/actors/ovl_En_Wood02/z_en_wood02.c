@@ -9,9 +9,9 @@
 
 #define FLAGS 0
 
-void EnWood02_Init(Actor* thisx, PlayState* play);
+void EnWood02_Init(Actor* thisx, PlayState* play2);
 void EnWood02_Destroy(Actor* thisx, PlayState* play);
-void EnWood02_Update(Actor* thisx, PlayState* play);
+void EnWood02_Update(Actor* thisx, PlayState* play2);
 void EnWood02_Draw(Actor* thisx, PlayState* play);
 
 /**
@@ -334,7 +334,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            Audio_PlayActorSound2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
 
         if (this->actor.home.rot.y != 0) {
@@ -361,7 +361,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                     (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {
                     leavesParams = WOOD_LEAF_YELLOW;
                 }
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
 
                 for (i = 3; i >= 0; i--) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_WOOD02, dropsSpawnPt.x, dropsSpawnPt.y, dropsSpawnPt.z,
@@ -390,7 +390,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                                                ((this->unk_14C << 4) | 0x8000));
                 }
                 this->unk_14C = -0x15;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
             }
         }
     } else { // Leaves

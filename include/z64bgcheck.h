@@ -52,10 +52,26 @@ typedef struct {
 } CollisionPoly; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ u16 cameraSType;
-    /* 0x02 */ s16 numCameras;
-    /* 0x04 */ Vec3s* camPosData;
-} CamData;
+    /* 0x0 */ u16 setting; // camera setting described by CameraSettingType enum
+    /* 0x2 */ s16 count; // only used when `bgCamFuncData` is a list of points used for crawlspaces
+    /* 0x4 */ Vec3s* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
+} BgCamInfo; // size = 0x8
+
+typedef BgCamInfo CamData; // Todo: Zapd compatibility
+
+// The structure used for all instances of s16 data from `BgCamInfo` with the exception of crawlspaces.
+// See `Camera_Subj4` for Vec3s data usage in crawlspaces
+typedef struct {
+    /* 0x00 */ Vec3s pos;
+    /* 0x06 */ Vec3s rot;
+    /* 0x0C */ s16 fov;
+    /* 0x0E */ union {
+        s16 jfifId;
+        s16 timer;
+        s16 flags;
+    };
+    /* 0x10 */ s16 unk_10; // unused
+} BgCamFuncData; // size = 0x12
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -68,7 +84,7 @@ typedef struct {
     // 0x0008_0000 = ?
     // 0x0007_E000 = Room Index, 0x3F = all rooms
     // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = CamData index
+    // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
 
 typedef struct {
@@ -86,7 +102,7 @@ typedef struct {
     /* 0x14 */ u16 numPolygons;
     /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* surfaceTypeList;
-    /* 0x20 */ CamData* cameraDataList;
+    /* 0x20 */ BgCamInfo* bgCamList;
     /* 0x24 */ u16 numWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo
@@ -139,10 +155,15 @@ typedef struct {
     /* 0x60 */ f32 maxY;
 } BgActor; // size = 0x64
 
+#define BGACTOR_IN_USE (1 << 0) // The bgActor entry is in use
+#define BGACTOR_1 (1 << 1)
+#define BGACTOR_COLLISION_DISABLED (1 << 2) // The collision of the bgActor is disabled
+#define BGACTOR_CEILING_COLLISION_DISABLED (1 << 3) // The ceilings in the collision of the bgActor are ignored
+
 typedef struct {
     /* 0x0000 */ u8 bitFlag;
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
-    /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
+    /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX];
     /* 0x13F0 */ CollisionPoly* polyList;
     /* 0x13F4 */ Vec3s* vtxList;
     /* 0x13F8 */ DynaSSNodeList polyNodes;

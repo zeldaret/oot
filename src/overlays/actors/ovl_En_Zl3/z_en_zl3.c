@@ -133,7 +133,7 @@ void func_80B5357C(EnZl3* this, PlayState* play) {
     sp20.x = thisPos->x + ((Rand_ZeroOne() - 0.5f) * 10.0f);
     sp20.y = thisPos->y;
     sp20.z = thisPos->z + ((Rand_ZeroOne() - 0.5f) * 10.0f);
-    Item_DropCollectible(play, &sp20, ITEM00_HEART);
+    Item_DropCollectible(play, &sp20, ITEM00_RECOVERY_HEART);
 }
 
 void func_80B53614(EnZl3* this, PlayState* play) {
@@ -1017,7 +1017,7 @@ void func_80B55808(EnZl3* this) {
 }
 
 void func_80B5582C(EnZl3* this) {
-    Audio_PlaySoundRandom(&D_80B5A488, NA_SE_VO_Z1_CRY_0, NA_SE_VO_Z1_CRY_1 - NA_SE_VO_Z1_CRY_0 + 1);
+    Audio_PlaySfxRandom(&D_80B5A488, NA_SE_VO_Z1_CRY_0, NA_SE_VO_Z1_CRY_1 - NA_SE_VO_Z1_CRY_0 + 1);
 }
 
 void func_80B5585C(EnZl3* this) {
@@ -2569,8 +2569,8 @@ void func_80B59828(EnZl3* this, PlayState* play) {
 
 void func_80B59A80(EnZl3* this, PlayState* play) {
     if (func_80B59768(this, play)) {
-        Audio_PlaySoundGeneral(NA_SE_OC_REVENGE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_OC_REVENGE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 

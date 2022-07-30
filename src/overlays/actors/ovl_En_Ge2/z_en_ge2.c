@@ -53,7 +53,7 @@ void EnGe2_ForceTalk(EnGe2* this, PlayState* play);
 // Update functions
 void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play);
 void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
-void EnGe2_UpdateStunned(Actor* thisx, PlayState* play);
+void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
@@ -565,7 +565,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
     } else {
         this->actionFunc(this, play);
 
@@ -611,7 +611,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 

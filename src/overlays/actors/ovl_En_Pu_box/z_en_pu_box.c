@@ -51,7 +51,7 @@ void EnPubox_Init(Actor* thisx, PlayState* play) {
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
-    this->dyna.unk_160 = 0;
+    this->dyna.interactFlags = 0;
     this->dyna.unk_15C = DPM_UNK;
     thisx->targetMode = 1;
     thisx->gravity = -2.0f;
@@ -73,8 +73,8 @@ void EnPubox_Update(Actor* thisx, PlayState* play) {
     thisx->speedXZ = (thisx->speedXZ < -2.5f) ? -2.5f : ((thisx->speedXZ > 2.5f) ? 2.5f : thisx->speedXZ);
     Math_SmoothStepToF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speedXZ != 0.0f) {
-        Audio_PlaySoundGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;

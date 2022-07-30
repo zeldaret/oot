@@ -8,8 +8,8 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play);
 void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
-u16 func_80AA19A0(PlayState* play, Actor* this);
-s16 func_80AA1A38(PlayState* play, Actor* this);
+u16 func_80AA19A0(PlayState* play, Actor* thisx);
+s16 func_80AA1A38(PlayState* play, Actor* thisx);
 
 void func_80AA1AE4(EnMa2* this, PlayState* play);
 s32 func_80AA1C68(EnMa2* this);
@@ -281,8 +281,8 @@ void func_80AA20E4(EnMa2* this, PlayState* play) {
         this->actionFunc = func_80AA204C;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk_208 = 0x1E;
         SET_INFTABLE(INFTABLE_8E);
         this->actionFunc = func_80AA21C8;

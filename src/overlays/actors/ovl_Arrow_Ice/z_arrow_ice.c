@@ -165,7 +165,7 @@ void ArrowIce_Fly(ArrowIce* this, PlayState* play) {
     func_80867E8C(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_ICE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_EXPLOSION_ICE);
         ArrowIce_SetupAction(this, ArrowIce_Hit);
         this->timer = 32;
         this->alpha = 255;
@@ -181,11 +181,15 @@ void ArrowIce_Fly(ArrowIce* this, PlayState* play) {
 void ArrowIce_Update(Actor* thisx, PlayState* play) {
     ArrowIce* this = (ArrowIce*)thisx;
 
-    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
-    } else {
-        this->actionFunc(this, play);
+        return;
     }
+
+    this->actionFunc(this, play);
 }
 
 void ArrowIce_Draw(Actor* thisx, PlayState* play) {

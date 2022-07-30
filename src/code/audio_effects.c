@@ -8,7 +8,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculate
 
     if (channel->changes.s.volume || recalculateVolume) {
         channelVolume = channel->volume * channel->volumeScale * channel->seqPlayer->appliedFadeVolume;
-        if (channel->seqPlayer->muted && (channel->muteBehavior & 0x20)) {
+        if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_SOFTEN)) {
             channelVolume = channel->seqPlayer->muteVolumeScale * channelVolume;
         }
         channel->appliedVolume = channelVolume * channelVolume;
@@ -215,7 +215,7 @@ void Audio_NotePortamentoInit(Note* note) {
     note->playbackState.portamento = note->playbackState.parentLayer->portamento;
 }
 
-void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut) {
+void Audio_AdsrInit(AdsrState* adsr, EnvelopePoint* envelope, s16* volOut) {
     adsr->action.asByte = 0;
     adsr->delay = 0;
     adsr->envelope = envelope;

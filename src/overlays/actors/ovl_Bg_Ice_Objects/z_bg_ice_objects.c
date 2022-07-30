@@ -173,7 +173,7 @@ void BgIceObjects_Slide(BgIceObjects* this, PlayState* play) {
         }
         thisx->params = 0;
         func_8002DF54(play, thisx, 7);
-        Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_BLOCK_BOUND);
         if ((fabsf(thisx->world.pos.x + 1387.0f) < 1.0f) && (fabsf(thisx->world.pos.z + 260.0f) < 1.0f)) {
             this->actionFunc = BgIceObjects_Stuck;
         } else {

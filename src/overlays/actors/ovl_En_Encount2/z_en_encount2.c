@@ -12,7 +12,7 @@ typedef enum {
 } Encount2State;
 
 void EnEncount2_Init(Actor* thisx, PlayState* play);
-void EnEncount2_Update(Actor* thisx, PlayState* play);
+void EnEncount2_Update(Actor* thisx, PlayState* play2);
 void EnEncount2_Draw(Actor* thisx, PlayState* play);
 
 void EnEncount2_Wait(EnEncount2* this, PlayState* play);
@@ -151,7 +151,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
             spawnerState = ENCOUNT2_ACTIVE_DEATH_MOUNTAIN;
         }
 
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37) != 0)) {
         s16 scene = play->sceneNum;
 

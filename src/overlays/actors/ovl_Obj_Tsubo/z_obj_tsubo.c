@@ -12,7 +12,7 @@
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void ObjTsubo_Init(Actor* thisx, PlayState* play);
-void ObjTsubo_Destroy(Actor* thisx, PlayState* play);
+void ObjTsubo_Destroy(Actor* thisx, PlayState* play2);
 void ObjTsubo_Update(Actor* thisx, PlayState* play);
 void ObjTsubo_Draw(Actor* thisx, PlayState* play);
 
@@ -242,7 +242,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
         ObjTsubo_SetupLiftedUp(this);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         ObjTsubo_WaterBreak(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         ObjTsubo_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->collider.base.acFlags & AC_HIT) &&
@@ -250,7 +250,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         if (this->actor.xzDistToPlayer < 600.0f) {
@@ -308,12 +308,12 @@ void ObjTsubo_Thrown(ObjTsubo* this, PlayState* play) {
         (this->collider.base.atFlags & AT_HIT)) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         ObjTsubo_WaterBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_ApplyGravity(this);
