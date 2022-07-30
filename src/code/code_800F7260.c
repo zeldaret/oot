@@ -9,7 +9,7 @@ typedef struct {
     /* 0x0C */ f32* freqScale;
     /* 0x10 */ f32* vol;
     /* 0x14 */ s8* reverbAdd;
-} SoundRequest; // size = 0x18
+} SfxRequest; // size = 0x18
 
 typedef struct {
     /* 0x00 */ f32 value;
@@ -18,33 +18,33 @@ typedef struct {
     /* 0x0C */ u16 remainingFrames;
 } UnusedBankLerp; // size = 0x10
 
-SoundBankEntry D_8016BAD0[9];
-SoundBankEntry D_8016BC80[12];
-SoundBankEntry D_8016BEC0[22];
-SoundBankEntry D_8016C2E0[20];
-SoundBankEntry D_8016C6A0[8];
-SoundBankEntry D_8016C820[3];
-SoundBankEntry D_8016C8B0[5];
-SoundRequest sSoundRequests[0x100];
-u8 sSoundBankListEnd[7];
-u8 sSoundBankFreeListStart[7];
-u8 sSoundBankUnused[7];
-ActiveSound gActiveSounds[7][3];
+SfxBankEntry D_8016BAD0[9];
+SfxBankEntry D_8016BC80[12];
+SfxBankEntry D_8016BEC0[22];
+SfxBankEntry D_8016C2E0[20];
+SfxBankEntry D_8016C6A0[8];
+SfxBankEntry D_8016C820[3];
+SfxBankEntry D_8016C8B0[5];
+SfxRequest sSfxRequests[0x100];
+u8 sSfxBankListEnd[7];
+u8 sSfxBankFreeListStart[7];
+u8 sSfxBankUnused[7];
+ActiveSfx gActiveSfx[7][3];
 u8 sCurSfxPlayerChannelIdx;
-u8 gSoundBankMuted[7];
+u8 gSfxBankMuted[7];
 UnusedBankLerp sUnusedBankLerp[7];
 u16 gAudioSfxSwapSource[10];
 u16 gAudioSfxSwapTarget[10];
 u8 gAudioSfxSwapMode[10];
 
-void Audio_SetSoundBanksMute(u16 muteMask) {
+void Audio_SetSfxBanksMute(u16 muteMask) {
     u8 bankId;
 
-    for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
+    for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
         if (muteMask & 1) {
-            gSoundBankMuted[bankId] = true;
+            gSfxBankMuted[bankId] = true;
         } else {
-            gSoundBankMuted[bankId] = false;
+            gSfxBankMuted[bankId] = false;
         }
         muteMask = muteMask >> 1;
     }
@@ -64,12 +64,12 @@ void Audio_ClearBGMMute(u8 channelIdx) {
     }
 }
 
-void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd) {
+void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd) {
     u8 i;
-    SoundRequest* req;
+    SfxRequest* req;
 
-    if (!gSoundBankMuted[SFX_BANK_SHIFT(sfxId)]) {
-        req = &sSoundRequests[gSoundRequestWriteIndex];
+    if (!gSfxBankMuted[SFX_BANK_SHIFT(sfxId)]) {
+        req = &sSfxRequests[gSfxRequestWriteIndex];
         if (!gAudioSfxSwapOff) {
             for (i = 0; i < 10; i++) {
                 if (sfxId == gAudioSfxSwapSource[i]) {
@@ -82,8 +82,8 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32
                         req->freqScale = freqScale;
                         req->vol = vol;
                         req->reverbAdd = reverbAdd;
-                        gSoundRequestWriteIndex++;
-                        req = &sSoundRequests[gSoundRequestWriteIndex];
+                        gSfxRequestWriteIndex++;
+                        req = &sSfxRequests[gSfxRequestWriteIndex];
                     }
                     i = 10; // "break;"
                 }
@@ -95,18 +95,18 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32
         req->freqScale = freqScale;
         req->vol = vol;
         req->reverbAdd = reverbAdd;
-        gSoundRequestWriteIndex++;
+        gSfxRequestWriteIndex++;
     }
 }
 
-void Audio_RemoveMatchingSoundRequests(u8 aspect, SoundBankEntry* cmp) {
-    SoundRequest* req;
+void Audio_RemoveMatchingSfxRequests(u8 aspect, SfxBankEntry* cmp) {
+    SfxRequest* req;
     s32 remove;
-    u8 i = gSoundRequestReadIndex;
+    u8 i = gSfxRequestReadIndex;
 
-    for (; i != gSoundRequestWriteIndex; i++) {
+    for (; i != gSfxRequestWriteIndex; i++) {
         remove = false;
-        req = &sSoundRequests[i];
+        req = &sSfxRequests[i];
         switch (aspect) {
             case 0:
                 if (SFX_BANK_MASK(req->sfxId) == SFX_BANK_MASK(cmp->sfxId)) {
@@ -145,18 +145,18 @@ void Audio_RemoveMatchingSoundRequests(u8 aspect, SoundBankEntry* cmp) {
     }
 }
 
-void Audio_ProcessSoundRequest(void) {
+void Audio_ProcessSfxRequest(void) {
     u16 sfxId;
     u8 count;
     u8 index;
-    SoundRequest* req;
-    SoundBankEntry* entry;
-    SoundParams* soundParams;
+    SfxRequest* req;
+    SfxBankEntry* entry;
+    SfxParams* sfxParams;
     s32 bankId;
     u8 evictImportance;
     u8 evictIndex;
 
-    req = &sSoundRequests[gSoundRequestReadIndex];
+    req = &sSfxRequests[gSfxRequestReadIndex];
     evictIndex = 0x80;
     if (req->sfxId == 0) {
         return;
@@ -167,29 +167,29 @@ void Audio_ProcessSoundRequest(void) {
         bankId = SFX_BANK(req->sfxId);
     }
     count = 0;
-    index = gSoundBanks[bankId][0].next;
+    index = gSfxBanks[bankId][0].next;
     while (index != 0xFF && index != 0) {
-        if (gSoundBanks[bankId][index].posX == &req->pos->x) {
-            if ((gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].params & SFX_FLAG_5) &&
-                gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].importance ==
-                    gSoundBanks[bankId][index].sfxImportance) {
+        if (gSfxBanks[bankId][index].posX == &req->pos->x) {
+            if ((gSfxParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].params & SFX_FLAG_5) &&
+                gSfxParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].importance ==
+                    gSfxBanks[bankId][index].sfxImportance) {
                 return;
             }
-            if (gSoundBanks[bankId][index].sfxId == req->sfxId) {
+            if (gSfxBanks[bankId][index].sfxId == req->sfxId) {
                 count = gUsedChannelsPerBank[gSfxChannelLayout][bankId];
             } else {
                 if (count == 0) {
                     evictIndex = index;
-                    sfxId = gSoundBanks[bankId][index].sfxId & 0xFFFF;
-                    evictImportance = gSoundParams[SFX_BANK_SHIFT(sfxId)][SFX_INDEX(sfxId)].importance;
-                } else if (gSoundBanks[bankId][index].sfxImportance < evictImportance) {
+                    sfxId = gSfxBanks[bankId][index].sfxId & 0xFFFF;
+                    evictImportance = gSfxParams[SFX_BANK_SHIFT(sfxId)][SFX_INDEX(sfxId)].importance;
+                } else if (gSfxBanks[bankId][index].sfxImportance < evictImportance) {
                     evictIndex = index;
-                    sfxId = gSoundBanks[bankId][index].sfxId & 0xFFFF;
-                    evictImportance = gSoundParams[SFX_BANK_SHIFT(sfxId)][SFX_INDEX(sfxId)].importance;
+                    sfxId = gSfxBanks[bankId][index].sfxId & 0xFFFF;
+                    evictImportance = gSfxParams[SFX_BANK_SHIFT(sfxId)][SFX_INDEX(sfxId)].importance;
                 }
                 count++;
                 if (count == gUsedChannelsPerBank[gSfxChannelLayout][bankId]) {
-                    if (gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].importance >= evictImportance) {
+                    if (gSfxParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)].importance >= evictImportance) {
                         index = evictIndex;
                     } else {
                         index = 0;
@@ -197,34 +197,34 @@ void Audio_ProcessSoundRequest(void) {
                 }
             }
             if (count == gUsedChannelsPerBank[gSfxChannelLayout][bankId]) {
-                soundParams = &gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];
-                if ((req->sfxId & 0xC00) || (soundParams->params & SFX_FLAG_2) || (index == evictIndex)) {
-                    if ((gSoundBanks[bankId][index].sfxParams & SFX_FLAG_3) &&
-                        gSoundBanks[bankId][index].state != SFX_STATE_QUEUED) {
-                        Audio_ClearBGMMute(gSoundBanks[bankId][index].channelIdx);
+                sfxParams = &gSfxParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];
+                if ((req->sfxId & 0xC00) || (sfxParams->params & SFX_FLAG_2) || (index == evictIndex)) {
+                    if ((gSfxBanks[bankId][index].sfxParams & SFX_FLAG_3) &&
+                        gSfxBanks[bankId][index].state != SFX_STATE_QUEUED) {
+                        Audio_ClearBGMMute(gSfxBanks[bankId][index].channelIdx);
                     }
-                    gSoundBanks[bankId][index].token = req->token;
-                    gSoundBanks[bankId][index].sfxId = req->sfxId;
-                    gSoundBanks[bankId][index].state = SFX_STATE_QUEUED;
-                    gSoundBanks[bankId][index].freshness = 2;
-                    gSoundBanks[bankId][index].freqScale = req->freqScale;
-                    gSoundBanks[bankId][index].vol = req->vol;
-                    gSoundBanks[bankId][index].reverbAdd = req->reverbAdd;
-                    gSoundBanks[bankId][index].sfxParams = soundParams->params;
-                    gSoundBanks[bankId][index].sfxImportance = soundParams->importance;
-                } else if (gSoundBanks[bankId][index].state == SFX_STATE_PLAYING_2) {
-                    gSoundBanks[bankId][index].state = SFX_STATE_PLAYING_1;
+                    gSfxBanks[bankId][index].token = req->token;
+                    gSfxBanks[bankId][index].sfxId = req->sfxId;
+                    gSfxBanks[bankId][index].state = SFX_STATE_QUEUED;
+                    gSfxBanks[bankId][index].freshness = 2;
+                    gSfxBanks[bankId][index].freqScale = req->freqScale;
+                    gSfxBanks[bankId][index].vol = req->vol;
+                    gSfxBanks[bankId][index].reverbAdd = req->reverbAdd;
+                    gSfxBanks[bankId][index].sfxParams = sfxParams->params;
+                    gSfxBanks[bankId][index].sfxImportance = sfxParams->importance;
+                } else if (gSfxBanks[bankId][index].state == SFX_STATE_PLAYING_2) {
+                    gSfxBanks[bankId][index].state = SFX_STATE_PLAYING_1;
                 }
                 index = 0;
             }
         }
         if (index != 0) {
-            index = gSoundBanks[bankId][index].next;
+            index = gSfxBanks[bankId][index].next;
         }
     }
-    if (gSoundBanks[bankId][sSoundBankFreeListStart[bankId]].next != 0xFF && index != 0) {
-        index = sSoundBankFreeListStart[bankId];
-        entry = &gSoundBanks[bankId][index];
+    if (gSfxBanks[bankId][sSfxBankFreeListStart[bankId]].next != 0xFF && index != 0) {
+        index = sSfxBankFreeListStart[bankId];
+        entry = &gSfxBanks[bankId][index];
         entry->posX = &req->pos->x;
         entry->posY = &req->pos->y;
         entry->posZ = &req->pos->z;
@@ -232,85 +232,85 @@ void Audio_ProcessSoundRequest(void) {
         entry->freqScale = req->freqScale;
         entry->vol = req->vol;
         entry->reverbAdd = req->reverbAdd;
-        soundParams = &gSoundParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];
-        entry->sfxParams = soundParams->params;
-        entry->sfxImportance = soundParams->importance;
+        sfxParams = &gSfxParams[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];
+        entry->sfxParams = sfxParams->params;
+        entry->sfxImportance = sfxParams->importance;
         entry->sfxId = req->sfxId;
         entry->state = SFX_STATE_QUEUED;
         entry->freshness = 2;
-        entry->prev = sSoundBankListEnd[bankId];
-        gSoundBanks[bankId][sSoundBankListEnd[bankId]].next = sSoundBankFreeListStart[bankId];
-        sSoundBankListEnd[bankId] = sSoundBankFreeListStart[bankId];
-        sSoundBankFreeListStart[bankId] = gSoundBanks[bankId][sSoundBankFreeListStart[bankId]].next;
-        gSoundBanks[bankId][sSoundBankFreeListStart[bankId]].prev = 0xFF;
+        entry->prev = sSfxBankListEnd[bankId];
+        gSfxBanks[bankId][sSfxBankListEnd[bankId]].next = sSfxBankFreeListStart[bankId];
+        sSfxBankListEnd[bankId] = sSfxBankFreeListStart[bankId];
+        sSfxBankFreeListStart[bankId] = gSfxBanks[bankId][sSfxBankFreeListStart[bankId]].next;
+        gSfxBanks[bankId][sSfxBankFreeListStart[bankId]].prev = 0xFF;
         entry->next = 0xFF;
     }
 }
 
-void Audio_RemoveSoundBankEntry(u8 bankId, u8 entryIndex) {
-    SoundBankEntry* entry = &gSoundBanks[bankId][entryIndex];
+void Audio_RemoveSfxBankEntry(u8 bankId, u8 entryIndex) {
+    SfxBankEntry* entry = &gSfxBanks[bankId][entryIndex];
     u8 i;
 
     if (entry->sfxParams & SFX_FLAG_3) {
         Audio_ClearBGMMute(entry->channelIdx);
     }
-    if (entryIndex == sSoundBankListEnd[bankId]) {
-        sSoundBankListEnd[bankId] = entry->prev;
+    if (entryIndex == sSfxBankListEnd[bankId]) {
+        sSfxBankListEnd[bankId] = entry->prev;
     } else {
-        gSoundBanks[bankId][entry->next].prev = entry->prev;
+        gSfxBanks[bankId][entry->next].prev = entry->prev;
     }
-    gSoundBanks[bankId][entry->prev].next = entry->next;
-    entry->next = sSoundBankFreeListStart[bankId];
+    gSfxBanks[bankId][entry->prev].next = entry->next;
+    entry->next = sSfxBankFreeListStart[bankId];
     entry->prev = 0xFF;
-    gSoundBanks[bankId][sSoundBankFreeListStart[bankId]].prev = entryIndex;
-    sSoundBankFreeListStart[bankId] = entryIndex;
+    gSfxBanks[bankId][sSfxBankFreeListStart[bankId]].prev = entryIndex;
+    sSfxBankFreeListStart[bankId] = entryIndex;
     entry->state = SFX_STATE_EMPTY;
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
-        if (gActiveSounds[bankId][i].entryIndex == entryIndex) {
-            gActiveSounds[bankId][i].entryIndex = 0xFF;
+        if (gActiveSfx[bankId][i].entryIndex == entryIndex) {
+            gActiveSfx[bankId][i].entryIndex = 0xFF;
             i = gChannelsPerBank[gSfxChannelLayout][bankId];
         }
     }
 }
 
-void Audio_ChooseActiveSounds(u8 bankId) {
-    u8 numChosenSounds;
+void Audio_ChooseActiveSfx(u8 bankId) {
+    u8 numChosenSfx;
     u8 numChannels;
     u8 entryIndex;
     u8 i;
     u8 j;
     u8 k;
     u8 sfxImportance;
-    u8 needNewSound;
+    u8 needNewSfx;
     u8 chosenEntryIndex;
     u16 temp3;
     f32 tempf1;
-    SoundBankEntry* entry;
-    ActiveSound chosenSounds[MAX_CHANNELS_PER_BANK];
-    ActiveSound* activeSound;
+    SfxBankEntry* entry;
+    ActiveSfx chosenSfx[MAX_CHANNELS_PER_BANK];
+    ActiveSfx* activeSfx;
     s32 pad;
 
-    numChosenSounds = 0;
+    numChosenSfx = 0;
     for (i = 0; i < MAX_CHANNELS_PER_BANK; i++) {
-        chosenSounds[i].priority = 0x7FFFFFFF;
-        chosenSounds[i].entryIndex = 0xFF;
+        chosenSfx[i].priority = 0x7FFFFFFF;
+        chosenSfx[i].entryIndex = 0xFF;
     }
-    entryIndex = gSoundBanks[bankId][0].next;
+    entryIndex = gSfxBanks[bankId][0].next;
     k = 0;
     while (entryIndex != 0xFF) {
-        if ((gSoundBanks[bankId][entryIndex].state == SFX_STATE_QUEUED) &&
-            (gSoundBanks[bankId][entryIndex].sfxId & 0xC00)) {
-            gSoundBanks[bankId][entryIndex].freshness--;
-        } else if (!(gSoundBanks[bankId][entryIndex].sfxId & 0xC00) &&
-                   (gSoundBanks[bankId][entryIndex].state == SFX_STATE_PLAYING_2)) {
-            Audio_QueueCmdS8((gSoundBanks[bankId][entryIndex].channelIdx << 8) | 0x6020000, 0);
-            Audio_RemoveSoundBankEntry(bankId, entryIndex);
+        if ((gSfxBanks[bankId][entryIndex].state == SFX_STATE_QUEUED) &&
+            (gSfxBanks[bankId][entryIndex].sfxId & 0xC00)) {
+            gSfxBanks[bankId][entryIndex].freshness--;
+        } else if (!(gSfxBanks[bankId][entryIndex].sfxId & 0xC00) &&
+                   (gSfxBanks[bankId][entryIndex].state == SFX_STATE_PLAYING_2)) {
+            Audio_QueueCmdS8((gSfxBanks[bankId][entryIndex].channelIdx << 8) | 0x6020000, 0);
+            Audio_RemoveSfxBankEntry(bankId, entryIndex);
         }
-        if (gSoundBanks[bankId][entryIndex].freshness == 0) {
-            Audio_RemoveSoundBankEntry(bankId, entryIndex);
-        } else if (gSoundBanks[bankId][entryIndex].state != SFX_STATE_EMPTY) {
-            entry = &gSoundBanks[bankId][entryIndex];
+        if (gSfxBanks[bankId][entryIndex].freshness == 0) {
+            Audio_RemoveSfxBankEntry(bankId, entryIndex);
+        } else if (gSfxBanks[bankId][entryIndex].state != SFX_STATE_EMPTY) {
+            entry = &gSfxBanks[bankId][entryIndex];
 
             if (&gSfxDefaultPos.x == entry[0].posX) {
                 entry->dist = 0.0f;
@@ -338,33 +338,33 @@ void Audio_ChooseActiveSounds(u8 bankId) {
                 if (entry->state == SFX_STATE_PLAYING_1) {
                     Audio_QueueCmdS8((entry->channelIdx << 8) | 0x6020000, 0);
                     if (entry->sfxId & 0xC00) {
-                        Audio_RemoveSoundBankEntry(bankId, entryIndex);
+                        Audio_RemoveSfxBankEntry(bankId, entryIndex);
                         entryIndex = k;
                     }
                 }
             } else {
                 numChannels = gChannelsPerBank[gSfxChannelLayout][bankId];
                 for (i = 0; i < numChannels; i++) {
-                    if (chosenSounds[i].priority >= entry->priority) {
-                        if (numChosenSounds < gChannelsPerBank[gSfxChannelLayout][bankId]) {
-                            numChosenSounds++;
+                    if (chosenSfx[i].priority >= entry->priority) {
+                        if (numChosenSfx < gChannelsPerBank[gSfxChannelLayout][bankId]) {
+                            numChosenSfx++;
                         }
                         for (j = numChannels - 1; j > i; j--) {
-                            chosenSounds[j].priority = chosenSounds[j - 1].priority;
-                            chosenSounds[j].entryIndex = chosenSounds[j - 1].entryIndex;
+                            chosenSfx[j].priority = chosenSfx[j - 1].priority;
+                            chosenSfx[j].entryIndex = chosenSfx[j - 1].entryIndex;
                         }
-                        chosenSounds[i].priority = entry->priority;
-                        chosenSounds[i].entryIndex = entryIndex;
+                        chosenSfx[i].priority = entry->priority;
+                        chosenSfx[i].entryIndex = entryIndex;
                         i = numChannels; // "break;"
                     }
                 }
             }
             k = entryIndex;
         }
-        entryIndex = gSoundBanks[bankId][k].next;
+        entryIndex = gSfxBanks[bankId][k].next;
     }
-    for (i = 0; i < numChosenSounds; i++) {
-        entry = &gSoundBanks[bankId][chosenSounds[i].entryIndex];
+    for (i = 0; i < numChosenSfx; i++) {
+        entry = &gSfxBanks[bankId][chosenSfx[i].entryIndex];
         if (entry->state == SFX_STATE_QUEUED) {
             entry->state = SFX_STATE_READY;
         } else if (entry->state == SFX_STATE_PLAYING_1) {
@@ -375,72 +375,72 @@ void Audio_ChooseActiveSounds(u8 bankId) {
     // Pick something to play for all channels.
     numChannels = gChannelsPerBank[gSfxChannelLayout][bankId];
     for (i = 0; i < numChannels; i++) {
-        needNewSound = false;
-        activeSound = &gActiveSounds[bankId][i];
+        needNewSfx = false;
+        activeSfx = &gActiveSfx[bankId][i];
 
-        if (activeSound->entryIndex == 0xFF) {
-            needNewSound = true;
+        if (activeSfx->entryIndex == 0xFF) {
+            needNewSfx = true;
         } else {
-            entry = &gSoundBanks[bankId][activeSound[0].entryIndex];
+            entry = &gSfxBanks[bankId][activeSfx[0].entryIndex];
             if (entry->state == SFX_STATE_PLAYING_1) {
                 if (entry->sfxId & 0xC00) {
-                    Audio_RemoveSoundBankEntry(bankId, activeSound->entryIndex);
+                    Audio_RemoveSfxBankEntry(bankId, activeSfx->entryIndex);
                 } else {
                     entry->state = SFX_STATE_QUEUED;
                 }
-                needNewSound = true;
+                needNewSfx = true;
             } else if (entry->state == SFX_STATE_EMPTY) {
-                activeSound->entryIndex = 0xFF;
-                needNewSound = true;
+                activeSfx->entryIndex = 0xFF;
+                needNewSfx = true;
             } else {
-                // Sound is already playing as it should, nothing to do.
+                // Sfx is already playing as it should, nothing to do.
                 for (j = 0; j < numChannels; j++) {
-                    if (activeSound->entryIndex == chosenSounds[j].entryIndex) {
-                        chosenSounds[j].entryIndex = 0xFF;
+                    if (activeSfx->entryIndex == chosenSfx[j].entryIndex) {
+                        chosenSfx[j].entryIndex = 0xFF;
                         j = numChannels;
                     }
                 }
-                numChosenSounds--;
+                numChosenSfx--;
             }
         }
 
-        if (needNewSound == true) {
+        if (needNewSfx == true) {
             for (j = 0; j < numChannels; j++) {
-                chosenEntryIndex = chosenSounds[j].entryIndex;
+                chosenEntryIndex = chosenSfx[j].entryIndex;
                 if ((chosenEntryIndex != 0xFF) &&
-                    (gSoundBanks[bankId][chosenEntryIndex].state != SFX_STATE_PLAYING_REFRESH)) {
+                    (gSfxBanks[bankId][chosenEntryIndex].state != SFX_STATE_PLAYING_REFRESH)) {
                     for (k = 0; k < numChannels; k++) {
-                        if (chosenEntryIndex == gActiveSounds[bankId][k].entryIndex) {
-                            needNewSound = false;
+                        if (chosenEntryIndex == gActiveSfx[bankId][k].entryIndex) {
+                            needNewSfx = false;
                             k = numChannels; // "break;"
                         }
                     }
-                    if (needNewSound == true) {
-                        activeSound->entryIndex = chosenEntryIndex;
-                        chosenSounds[j].entryIndex = 0xFF;
+                    if (needNewSfx == true) {
+                        activeSfx->entryIndex = chosenEntryIndex;
+                        chosenSfx[j].entryIndex = 0xFF;
                         j = numChannels + 1;
-                        numChosenSounds--;
+                        numChosenSfx--;
                     }
                 }
             }
             if (j == numChannels) {
                 // nothing found
-                activeSound->entryIndex = 0xFF;
+                activeSfx->entryIndex = 0xFF;
             }
         }
     }
 }
 
-void Audio_PlayActiveSounds(u8 bankId) {
+void Audio_PlayActiveSfx(u8 bankId) {
     u8 entryIndex;
     SequenceChannel* channel;
-    SoundBankEntry* entry;
+    SfxBankEntry* entry;
     u8 i;
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
-        entryIndex = gActiveSounds[bankId][i].entryIndex;
+        entryIndex = gActiveSfx[bankId][i].entryIndex;
         if (entryIndex != 0xFF) {
-            entry = &gSoundBanks[bankId][entryIndex];
+            entry = &gSfxBanks[bankId][entryIndex];
             channel = gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
             if (entry->state == SFX_STATE_READY) {
                 entry->channelIdx = sCurSfxPlayerChannelIdx;
@@ -463,11 +463,11 @@ void Audio_PlayActiveSounds(u8 bankId) {
                             break;
                     }
                 }
-                Audio_SetSoundProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);
+                Audio_SetSfxProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);
                 Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((sCurSfxPlayerChannelIdx & 0xFF) << 8), 1);
                 Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((sCurSfxPlayerChannelIdx & 0xFF) << 8) | 4,
                                  entry->sfxId & 0xFF);
-                if (gIsLargeSoundBank[bankId]) {
+                if (gIsLargeSfxBank[bankId]) {
                     Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((sCurSfxPlayerChannelIdx & 0xFF) << 8) | 5,
                                      (entry->sfxId & 0x100) >> 8);
                 }
@@ -477,9 +477,9 @@ void Audio_PlayActiveSounds(u8 bankId) {
                     entry->state = SFX_STATE_PLAYING_2;
                 }
             } else if ((u8)channel->soundScriptIO[1] == 0xFF) {
-                Audio_RemoveSoundBankEntry(bankId, entryIndex);
+                Audio_RemoveSfxBankEntry(bankId, entryIndex);
             } else if (entry->state == SFX_STATE_PLAYING_REFRESH) {
-                Audio_SetSoundProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);
+                Audio_SetSfxProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);
                 if (entry->sfxId & 0xC00) {
                     entry->state = SFX_STATE_PLAYING_1;
                 } else {
@@ -492,149 +492,149 @@ void Audio_PlayActiveSounds(u8 bankId) {
 }
 
 void Audio_StopSfxByBank(u8 bankId) {
-    SoundBankEntry* entry;
+    SfxBankEntry* entry;
     s32 pad;
-    SoundBankEntry cmp;
-    u8 entryIndex = gSoundBanks[bankId][0].next;
+    SfxBankEntry cmp;
+    u8 entryIndex = gSfxBanks[bankId][0].next;
 
     while (entryIndex != 0xFF) {
-        entry = &gSoundBanks[bankId][entryIndex];
+        entry = &gSfxBanks[bankId][entryIndex];
         if (entry->state >= SFX_STATE_PLAYING_REFRESH) {
             Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((entry->channelIdx & 0xFF) << 8), 0);
         }
         if (entry->state != SFX_STATE_EMPTY) {
-            Audio_RemoveSoundBankEntry(bankId, entryIndex);
+            Audio_RemoveSfxBankEntry(bankId, entryIndex);
         }
-        entryIndex = gSoundBanks[bankId][0].next;
+        entryIndex = gSfxBanks[bankId][0].next;
     }
     cmp.sfxId = bankId << 12;
-    Audio_RemoveMatchingSoundRequests(0, &cmp);
+    Audio_RemoveMatchingSfxRequests(0, &cmp);
 }
 
 void func_800F8884(u8 bankId, Vec3f* pos) {
-    SoundBankEntry* entry;
-    u8 entryIndex = gSoundBanks[bankId][0].next;
+    SfxBankEntry* entry;
+    u8 entryIndex = gSfxBanks[bankId][0].next;
     u8 prevEntryIndex = 0;
 
     while (entryIndex != 0xFF) {
-        entry = &gSoundBanks[bankId][entryIndex];
+        entry = &gSfxBanks[bankId][entryIndex];
         if (entry->posX == &pos->x) {
             if (entry->state >= SFX_STATE_PLAYING_REFRESH) {
                 Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((entry->channelIdx & 0xFF) << 8), 0);
             }
             if (entry->state != SFX_STATE_EMPTY) {
-                Audio_RemoveSoundBankEntry(bankId, entryIndex);
+                Audio_RemoveSfxBankEntry(bankId, entryIndex);
             }
         } else {
             prevEntryIndex = entryIndex;
         }
-        entryIndex = gSoundBanks[bankId][prevEntryIndex].next;
+        entryIndex = gSfxBanks[bankId][prevEntryIndex].next;
     }
 }
 
 void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos) {
-    SoundBankEntry cmp;
+    SfxBankEntry cmp;
 
     func_800F8884(bankId, pos);
     cmp.sfxId = bankId << 12;
     cmp.posX = &pos->x;
-    Audio_RemoveMatchingSoundRequests(1, &cmp);
+    Audio_RemoveMatchingSfxRequests(1, &cmp);
 }
 
 void Audio_StopSfxByPos(Vec3f* pos) {
     u8 i;
-    SoundBankEntry cmp;
+    SfxBankEntry cmp;
 
-    for (i = 0; i < ARRAY_COUNT(gSoundBanks); i++) {
+    for (i = 0; i < ARRAY_COUNT(gSfxBanks); i++) {
         func_800F8884(i, pos);
     }
     cmp.posX = &pos->x;
-    Audio_RemoveMatchingSoundRequests(2, &cmp);
+    Audio_RemoveMatchingSfxRequests(2, &cmp);
 }
 
 void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId) {
-    SoundBankEntry* entry;
-    u8 entryIndex = gSoundBanks[SFX_BANK(sfxId)][0].next;
+    SfxBankEntry* entry;
+    u8 entryIndex = gSfxBanks[SFX_BANK(sfxId)][0].next;
     u8 prevEntryIndex = 0;
-    SoundBankEntry cmp;
+    SfxBankEntry cmp;
 
     while (entryIndex != 0xFF) {
-        entry = &gSoundBanks[SFX_BANK(sfxId)][entryIndex];
+        entry = &gSfxBanks[SFX_BANK(sfxId)][entryIndex];
         if (entry->posX == &pos->x && entry->sfxId == sfxId) {
             if (entry->state >= SFX_STATE_PLAYING_REFRESH) {
                 Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((entry->channelIdx & 0xFF) << 8), 0);
             }
             if (entry->state != SFX_STATE_EMPTY) {
-                Audio_RemoveSoundBankEntry(SFX_BANK(sfxId), entryIndex);
+                Audio_RemoveSfxBankEntry(SFX_BANK(sfxId), entryIndex);
             }
             entryIndex = 0xFF;
         } else {
             prevEntryIndex = entryIndex;
         }
         if (entryIndex != 0xFF) {
-            entryIndex = gSoundBanks[SFX_BANK(sfxId)][prevEntryIndex].next;
+            entryIndex = gSfxBanks[SFX_BANK(sfxId)][prevEntryIndex].next;
         }
     }
     cmp.posX = &pos->x;
     cmp.sfxId = sfxId;
-    Audio_RemoveMatchingSoundRequests(3, &cmp);
+    Audio_RemoveMatchingSfxRequests(3, &cmp);
 }
 
 void Audio_StopSfxByTokenAndId(u8 token, u16 sfxId) {
-    SoundBankEntry* entry;
-    u8 entryIndex = gSoundBanks[SFX_BANK(sfxId)][0].next;
+    SfxBankEntry* entry;
+    u8 entryIndex = gSfxBanks[SFX_BANK(sfxId)][0].next;
     u8 prevEntryIndex = 0;
-    SoundBankEntry cmp;
+    SfxBankEntry cmp;
 
     while (entryIndex != 0xFF) {
-        entry = &gSoundBanks[SFX_BANK(sfxId)][entryIndex];
+        entry = &gSfxBanks[SFX_BANK(sfxId)][entryIndex];
         if (entry->token == token && entry->sfxId == sfxId) {
             if (entry->state >= SFX_STATE_PLAYING_REFRESH) {
                 Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((entry->channelIdx & 0xFF) << 8), 0);
             }
             if (entry->state != SFX_STATE_EMPTY) {
-                Audio_RemoveSoundBankEntry(SFX_BANK(sfxId), entryIndex);
+                Audio_RemoveSfxBankEntry(SFX_BANK(sfxId), entryIndex);
             }
         } else {
             prevEntryIndex = entryIndex;
         }
         if (entryIndex != 0xFF) {
-            entryIndex = gSoundBanks[SFX_BANK(sfxId)][prevEntryIndex].next;
+            entryIndex = gSfxBanks[SFX_BANK(sfxId)][prevEntryIndex].next;
         }
     }
     cmp.token = token;
     cmp.sfxId = sfxId;
-    Audio_RemoveMatchingSoundRequests(4, &cmp);
+    Audio_RemoveMatchingSfxRequests(4, &cmp);
 }
 
 void Audio_StopSfxById(u32 sfxId) {
-    SoundBankEntry* entry;
-    u8 entryIndex = gSoundBanks[SFX_BANK(sfxId)][0].next;
+    SfxBankEntry* entry;
+    u8 entryIndex = gSfxBanks[SFX_BANK(sfxId)][0].next;
     u8 prevEntryIndex = 0;
-    SoundBankEntry cmp;
+    SfxBankEntry cmp;
 
     while (entryIndex != 0xFF) {
-        entry = &gSoundBanks[SFX_BANK(sfxId)][entryIndex];
+        entry = &gSfxBanks[SFX_BANK(sfxId)][entryIndex];
         if (entry->sfxId == sfxId) {
             if (entry->state >= SFX_STATE_PLAYING_REFRESH) {
                 Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | ((entry->channelIdx & 0xFF) << 8), 0);
             }
             if (entry->state != SFX_STATE_EMPTY) {
-                Audio_RemoveSoundBankEntry(SFX_BANK(sfxId), entryIndex);
+                Audio_RemoveSfxBankEntry(SFX_BANK(sfxId), entryIndex);
             }
         } else {
             prevEntryIndex = entryIndex;
         }
-        entryIndex = gSoundBanks[SFX_BANK(sfxId)][prevEntryIndex].next;
+        entryIndex = gSfxBanks[SFX_BANK(sfxId)][prevEntryIndex].next;
     }
     cmp.sfxId = sfxId;
-    Audio_RemoveMatchingSoundRequests(5, &cmp);
+    Audio_RemoveMatchingSfxRequests(5, &cmp);
 }
 
-void Audio_ProcessSoundRequests(void) {
-    while (gSoundRequestWriteIndex != gSoundRequestReadIndex) {
-        Audio_ProcessSoundRequest();
-        gSoundRequestReadIndex++;
+void Audio_ProcessSfxRequests(void) {
+    while (gSfxRequestWriteIndex != gSfxRequestReadIndex) {
+        Audio_ProcessSfxRequest();
+        gSfxRequestReadIndex++;
     }
 }
 
@@ -663,20 +663,20 @@ void func_800F8F88(void) {
 
     if (IS_SEQUENCE_CHANNEL_VALID(gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[0])) {
         sCurSfxPlayerChannelIdx = 0;
-        for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
-            Audio_ChooseActiveSounds(bankId);
-            Audio_PlayActiveSounds(bankId);
+        for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
+            Audio_ChooseActiveSfx(bankId);
+            Audio_PlayActiveSfx(bankId);
             Audio_StepUnusedBankLerp(bankId);
         }
     }
 }
 
 u8 Audio_IsSfxPlaying(u32 sfxId) {
-    SoundBankEntry* entry;
-    u8 entryIndex = gSoundBanks[SFX_BANK(sfxId)][0].next;
+    SfxBankEntry* entry;
+    u8 entryIndex = gSfxBanks[SFX_BANK(sfxId)][0].next;
 
     while (entryIndex != 0xFF) {
-        entry = &gSoundBanks[SFX_BANK(sfxId)][entryIndex];
+        entry = &gSfxBanks[SFX_BANK(sfxId)][entryIndex];
         if (entry->sfxId == sfxId) {
             return true;
         }
@@ -685,36 +685,36 @@ u8 Audio_IsSfxPlaying(u32 sfxId) {
     return false;
 }
 
-void Audio_ResetSounds(void) {
+void Audio_ResetSfx(void) {
     u8 bankId;
     u8 i;
     u8 entryIndex;
 
-    gSoundRequestWriteIndex = 0;
-    gSoundRequestReadIndex = 0;
+    gSfxRequestWriteIndex = 0;
+    gSfxRequestReadIndex = 0;
     D_801333D0 = 0;
-    for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
-        sSoundBankListEnd[bankId] = 0;
-        sSoundBankFreeListStart[bankId] = 1;
-        sSoundBankUnused[bankId] = 0;
-        gSoundBankMuted[bankId] = false;
+    for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
+        sSfxBankListEnd[bankId] = 0;
+        sSfxBankFreeListStart[bankId] = 1;
+        sSfxBankUnused[bankId] = 0;
+        gSfxBankMuted[bankId] = false;
         sUnusedBankLerp[bankId].value = 1.0f;
         sUnusedBankLerp[bankId].remainingFrames = 0;
     }
-    for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
+    for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
         for (i = 0; i < MAX_CHANNELS_PER_BANK; i++) {
-            gActiveSounds[bankId][i].entryIndex = 0xFF;
+            gActiveSfx[bankId][i].entryIndex = 0xFF;
         }
     }
-    for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
-        gSoundBanks[bankId][0].prev = 0xFF;
-        gSoundBanks[bankId][0].next = 0xFF;
-        for (i = 1; i < gSoundBankSizes[bankId] - 1; i++) {
-            gSoundBanks[bankId][i].prev = i - 1;
-            gSoundBanks[bankId][i].next = i + 1;
+    for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
+        gSfxBanks[bankId][0].prev = 0xFF;
+        gSfxBanks[bankId][0].next = 0xFF;
+        for (i = 1; i < gSfxBankSizes[bankId] - 1; i++) {
+            gSfxBanks[bankId][i].prev = i - 1;
+            gSfxBanks[bankId][i].next = i + 1;
         }
-        gSoundBanks[bankId][i].prev = i - 1;
-        gSoundBanks[bankId][i].next = 0xFF;
+        gSfxBanks[bankId][i].prev = i - 1;
+        gSfxBanks[bankId][i].next = 0xFF;
     }
     if (D_801333F8 == 0) {
         for (bankId = 0; bankId < 10; bankId++) {

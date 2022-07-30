@@ -126,14 +126,14 @@ void BgMoriHashira4_SetupPillarsRotate(BgMoriHashira4* this) {
 
 void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, PlayState* play) {
     this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y += 0x96;
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
 }
 
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag) || (this->gateTimer != 0)) {
         this->gateTimer++;
         if (this->gateTimer > 30) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
             BgMoriHashira4_SetupAction(this, BgMoriHashira4_GateOpen);
             OnePointCutscene_Init(play, 6010, 20, &this->dyna.actor, CAM_ID_MAIN);
             sUnkTimer++;
