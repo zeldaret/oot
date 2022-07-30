@@ -158,8 +158,8 @@ static ShopItemEntry shopItemEntries[] = {
     { OBJECT_GI_NUTS, GID_DEKU_NUTS, func_8002ED80, 15, 5, 0x00B2, 0x007F, GI_NUTS_5_2, EnGirlA_CanBuy_DekuNuts,
       EnGirlA_ItemGive_DekuNuts, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_ARROWS_30 */
-    { OBJECT_GI_ARROW, GID_ARROWS_10, func_8002EBCC, 60, 30, 0x00C1, 0x009B, GI_ARROWS_MEDIUM,
-      EnGirlA_CanBuy_Arrows, EnGirlA_ItemGive_Arrows, EnGirlA_BuyEvent_ShieldDiscount },
+    { OBJECT_GI_ARROW, GID_ARROWS_10, func_8002EBCC, 60, 30, 0x00C1, 0x009B, GI_ARROWS_MEDIUM, EnGirlA_CanBuy_Arrows,
+      EnGirlA_ItemGive_Arrows, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_ARROWS_50 */
     { OBJECT_GI_ARROW, GID_ARROWS_30, func_8002EBCC, 90, 50, 0x00B0, 0x007D, GI_ARROWS_LARGE, EnGirlA_CanBuy_Arrows,
       EnGirlA_ItemGive_Arrows, EnGirlA_BuyEvent_ShieldDiscount },
