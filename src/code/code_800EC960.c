@@ -1225,7 +1225,7 @@ s8 D_8016B7DC;
 f32 D_8016B7E0;
 u16 D_8016B7E4;
 struct {
-    s8 str[5];
+    char str[5];
     u16 num;
 } sAudioScrPrtBuf[SCROLL_PRINT_BUF_SIZE];
 u8 sRiverSoundMainBgmVol;
@@ -3586,18 +3586,18 @@ void AudioDebug_ProcessInput_SfxParamChg(void) {
     }
 }
 
-void AudioDebug_ScrPrt(const s8* str, u16 num) {
+void AudioDebug_ScrPrt(const char* str, u16 num) {
     u8 i = 0;
 
     sAudioScrPrtBuf[sAudioScrPrtInd].num = num;
 
-    while (str[i] != 0) {
+    while (str[i] != '\0') {
         sAudioScrPrtBuf[sAudioScrPrtInd].str[i] = str[i];
         i++;
     }
 
     while (i < 5) {
-        sAudioScrPrtBuf[sAudioScrPrtInd].str[i] = 0;
+        sAudioScrPrtBuf[sAudioScrPrtInd].str[i] = '\0';
         i++;
     }
 
