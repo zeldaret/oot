@@ -1899,7 +1899,7 @@ void AudioOcarina_MemoryGameInit(u8 minigameRound);
 s32 AudioOcarina_MemoryGameNextNote(void);
 void AudioOcarina_PlayLongScarecrowAfterCredits(void);
 void AudioDebug_Draw(GfxPrint* printer);
-void AudioDebug_ScrPrt(const s8* str, u16 num);
+void AudioDebug_ScrPrt(const char* str, u16 num);
 void func_800F3054(void);
 void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx);
 void Audio_PlayCutsceneEffectsSequence(u8 csEffectType);
