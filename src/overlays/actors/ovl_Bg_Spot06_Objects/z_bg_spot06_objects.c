@@ -150,7 +150,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             thisx->flags = ACTOR_FLAG_4 | ACTOR_FLAG_5;
 
             if (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69)) {
-                if (gSaveContext.sceneSetupIndex < 4) {
+                if (!IS_CUTSCENE_LAYER) {
                     this->lakeHyliaWaterLevel = -681.0f;
                     play->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
                         WATER_LEVEL_RIVER_LOWERED;
@@ -445,7 +445,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 
-    if ((this->lakeHyliaWaterLevel < -680.0f) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((this->lakeHyliaWaterLevel < -680.0f) && !IS_CUTSCENE_LAYER) {
         gSPDisplayList(POLY_XLU_DISP++, gLakeHyliaLowWaterDL);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, gLakeHyliaHighWaterDL);

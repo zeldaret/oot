@@ -238,7 +238,7 @@ void Scene_DrawConfigTokinoma(PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5145);
 
-    if (gSaveContext.sceneSetupIndex == 5) {
+    if (gSaveContext.sceneLayer == 5) {
         gCustomLensFlareOn = true;
         gCustomLensFlarePos.x = -20.0f;
         gCustomLensFlarePos.y = 1220.0f;
@@ -1056,11 +1056,11 @@ void Scene_DrawConfigSpot04(PlayState* play) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    if (gSaveContext.sceneSetupIndex == 4) {
+    if (gSaveContext.sceneLayer == 4) {
         spA3 = 255 - (u8)play->roomCtx.unk_74[0];
-    } else if (gSaveContext.sceneSetupIndex == 6) {
+    } else if (gSaveContext.sceneLayer == 6) {
         spA0 = play->roomCtx.unk_74[0] + 500;
-    } else if (((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
+    } else if ((!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
         spA0 = 2150;
     }
 
@@ -1087,7 +1087,7 @@ void Scene_DrawConfigSpot06(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
 
-    if ((gSaveContext.sceneSetupIndex > 3) || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
+    if (IS_CUTSCENE_LAYER || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
         play->roomCtx.unk_74[0] = 87;
     }
 

@@ -399,7 +399,7 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
     u32 sfxId;
     s16 sceneNum = play->sceneNum;
 
-    if ((gSaveContext.sceneSetupIndex != 4) || (sceneNum != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneNum != SCENE_SPOT11)) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
@@ -412,7 +412,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
     static Vec3f sXyzDist;
     s16 sceneNum;
 
-    if (gSaveContext.sceneSetupIndex == 4) {
+    if (gSaveContext.sceneLayer == 4) {
         sceneNum = play->sceneNum;
         if (sceneNum == SCENE_SPOT11) {
             CutsceneContext* csCtx = &play->csCtx;
@@ -438,7 +438,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
 void func_80B3D118(PlayState* play) {
     s16 sceneNum;
 
-    if ((gSaveContext.sceneSetupIndex != 4) || (sceneNum = play->sceneNum, sceneNum != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneNum = play->sceneNum, sceneNum != SCENE_SPOT11)) {
         func_800788CC(NA_SE_PL_SKIP);
     }
 }
@@ -446,7 +446,7 @@ void func_80B3D118(PlayState* play) {
 static Vec3f D_80B42DA0;
 
 void EnXc_SetColossusWindSFX(PlayState* play) {
-    if (gSaveContext.sceneSetupIndex == 4) {
+    if (gSaveContext.sceneLayer == 4) {
         static s32 D_80B41D90 = 0;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
         static f32 sMaxSpeed = 0.0f;

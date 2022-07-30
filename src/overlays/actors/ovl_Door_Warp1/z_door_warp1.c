@@ -164,7 +164,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             if ((!(gSaveContext.entranceIndex == ENTR_SPOT05_3 || gSaveContext.entranceIndex == ENTR_SPOT17_5 ||
                    gSaveContext.entranceIndex == ENTR_SPOT06_9 || gSaveContext.entranceIndex == ENTR_SPOT11_8 ||
                    gSaveContext.entranceIndex == ENTR_SPOT02_8) &&
-                 gSaveContext.sceneSetupIndex < 4) ||
+                 !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
             }

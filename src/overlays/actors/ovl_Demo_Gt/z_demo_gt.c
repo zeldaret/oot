@@ -435,10 +435,10 @@ void func_8097ED64(DemoGt* this, PlayState* play, s32 actionIdx) {
     func_8097E824(this, actionIdx);
 }
 
-u8 func_8097ED94(void) {
+u8 DemoGt_IsCutsceneLayer(void) {
     if (kREG(2) != 0) {
         return true;
-    } else if (gSaveContext.sceneSetupIndex < 4) {
+    } else if (!IS_CUTSCENE_LAYER) {
         return false;
     } else {
         return true;
@@ -463,8 +463,7 @@ void func_8097EDD8(DemoGt* this, PlayState* play, CollisionHeader* collision) {
 }
 
 u8 func_8097EE44(DemoGt* this, PlayState* play, s32 updateMode, s32 drawConfig, CollisionHeader* colHeader) {
-
-    if (func_8097ED94()) {
+    if (DemoGt_IsCutsceneLayer()) {
         this->updateMode = updateMode;
         this->drawConfig = drawConfig;
         func_8097EDD8(this, play, colHeader);

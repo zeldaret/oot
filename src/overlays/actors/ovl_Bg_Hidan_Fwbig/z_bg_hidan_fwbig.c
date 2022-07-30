@@ -235,7 +235,7 @@ void BgHidanFwbig_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if ((this->actor.home.pos.y - 200.0f) < this->actor.world.pos.y) {
-        if (gSaveContext.sceneSetupIndex < 4) {
+        if (!IS_CUTSCENE_LAYER) {
             func_8002F974(&this->actor, NA_SE_EV_BURNING - SFX_FLAG);
         } else if ((s16)this->actor.world.pos.x == -513) {
             func_8002F974(&this->actor, NA_SE_EV_FLAME_OF_FIRE - SFX_FLAG);

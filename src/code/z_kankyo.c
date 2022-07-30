@@ -347,7 +347,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
 
     if (gSaveContext.retainWeatherMode) {
-        if (((void)0, gSaveContext.sceneSetupIndex) < 4) {
+        if (!IS_CUTSCENE_LAYER) {
             switch (gWeatherMode) {
                 case WEATHER_MODE_CLOUDY_CONFIG3:
                     envCtx->skyboxConfig = 1;
@@ -934,7 +934,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
-        if (((((void)0, gSaveContext.sceneSetupIndex) >= 5 || gTimeSpeed != 0) &&
+        if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
              ((void)0, gSaveContext.dayTime) > gSaveContext.skyboxTime) ||
             (((void)0, gSaveContext.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
 
@@ -1387,7 +1387,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneSetupIndex) != 5) {
+    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
