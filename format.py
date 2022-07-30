@@ -41,7 +41,7 @@ def get_clang_executable(allowed_executables: List[str]):
 
 
 def get_tidy_version(tidy_executable: str):
-    tidy_version_run = subprocess.run([tidy_executable, "--version"], stdout=subprocess.PIPE, text=True)
+    tidy_version_run = subprocess.run([tidy_executable, "--version"], stdout=subprocess.PIPE, universal_newlines=True)
     match = re.search(r"LLVM version ([0-9]+)", tidy_version_run.stdout)
     return int(match.group(1))
 
