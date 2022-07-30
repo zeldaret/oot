@@ -24,11 +24,11 @@
 
 #define ENDOOR_PARAMS_TYPE_SHIFT 7
 #define ENDOOR_PARAMS_TYPE_MASK (7 << ENDOOR_PARAMS_TYPE_SHIFT)
-#define ENDOOR_TYPE(thisx) ((thisx)->params >> ENDOOR_PARAMS_TYPE_SHIFT & 7)
-#define ENDOOR_PARAMS_DOUBLE_DOOR_MASK 0x40
-#define ENDOOR_DOUBLE_DOOR(thisx) ((thisx)->params & ENDOOR_PARAMS_DOUBLE_DOOR_MASK)
-#define ENDOOR_LOCKED_SWITCH_FLAG(thisx) ((thisx)->params & 0x3F)
-#define ENDOOR_CHECKABLE_TEXT_ID(thisx) ((thisx)->params & 0x3F)
+#define ENDOOR_GET_TYPE(thisx) ((thisx)->params >> ENDOOR_PARAMS_TYPE_SHIFT & 7)
+#define ENDOOR_PARAMS_DOUBLE_DOOR_FLAG 0x40
+#define ENDOOR_IS_DOUBLE_DOOR(thisx) ((thisx)->params & ENDOOR_PARAMS_DOUBLE_DOOR_FLAG)
+#define ENDOOR_GET_LOCKED_SWITCH_FLAG(thisx) ((thisx)->params & 0x3F)
+#define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx) ((thisx)->params & 0x3F)
 
 
 typedef enum {

@@ -144,7 +144,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     }
 
     // Double doors
-    if (ENDOOR_DOUBLE_DOOR(&this->actor)) {
+    if (ENDOOR_IS_DOUBLE_DOOR(&this->actor)) {
         EnDoor* other;
 
         xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
@@ -152,7 +152,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         other = (EnDoor*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DOOR,
                                             this->actor.world.pos.x + xOffset, this->actor.world.pos.y,
                                             this->actor.world.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,
-                                            this->actor.params & ~ENDOOR_PARAMS_DOUBLE_DOOR_MASK);
+                                            this->actor.params & ~ENDOOR_PARAMS_DOUBLE_DOOR_FLAG);
         if (other != NULL) {
             other->unk_192 = 1;
         }
@@ -176,7 +176,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
     s32 doorType;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
-        doorType = ENDOOR_TYPE(&this->actor);
+        doorType = ENDOOR_GET_TYPE(&this->actor);
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actionFunc = EnDoor_Idle;
@@ -187,7 +187,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
         }
         this->actor.world.rot.y = 0x0000;
         if (doorType == DOOR_LOCKED) {
-            if (!Flags_GetSwitch(play, ENDOOR_LOCKED_SWITCH_FLAG(&this->actor))) {
+            if (!Flags_GetSwitch(play, ENDOOR_GET_LOCKED_SWITCH_FLAG(&this->actor))) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
@@ -196,7 +196,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
                 this->actor.world.rot.y = -0x1800;
             }
         } else if (doorType == DOOR_CHECKABLE) {
-            this->actor.textId = ENDOOR_CHECKABLE_TEXT_ID(&this->actor) + 0x0200;
+            this->actor.textId = ENDOOR_GET_CHECKABLE_TEXT_ID(&this->actor) + 0x0200;
             if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 // Talon's house door. If Talon has not been woken up at Hyrule Castle
                 // this door should be openable at any time of day. Note that there is no
@@ -219,7 +219,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
     s16 yawDiff;
 
-    doorType = ENDOOR_TYPE(&this->actor);
+    doorType = ENDOOR_GET_TYPE(&this->actor);
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     if (this->playerIsOpening) {
         this->actionFunc = EnDoor_Open;
@@ -227,7 +227,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
                                    (player->stateFlags1 & PLAYER_STATE1_27) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
-            Flags_SetSwitch(play, ENDOOR_LOCKED_SWITCH_FLAG(&this->actor));
+            Flags_SetSwitch(play, ENDOOR_GET_LOCKED_SWITCH_FLAG(&this->actor));
             Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
     } else if (!Player_InCsMode(play)) {

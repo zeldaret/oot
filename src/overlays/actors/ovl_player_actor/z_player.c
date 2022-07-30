@@ -4429,7 +4429,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                     this->stateFlags1 |= PLAYER_STATE1_29;
                     Actor_DisableLens(play);
 
-                    if (ENDOOR_TYPE(doorActor) == DOOR_SCENEEXIT) {
+                    if (ENDOOR_GET_TYPE(doorActor) == DOOR_SCENEEXIT) {
                         sp4C.x = doorActor->world.pos.x - (sp6C * sp74);
                         sp4C.y = doorActor->world.pos.y + 10.0f;
                         sp4C.z = doorActor->world.pos.z - (sp6C * sp78);
