@@ -211,7 +211,7 @@ static SavePlayerData sDebugSavePlayerData = {
     },                                                  // adultEquips
     0,                                                  // unk_38
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },       // unk_3C
-    0x51,                                               // savedSceneId
+    SCENE_SPOT00,                                       // savedSceneId
 };
 
 static ItemEquips sDebugSaveEquips = {
