@@ -574,7 +574,7 @@ void EnNy_DrawDeathEffect(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ny.c", 900);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gDPSetEnvColor(POLY_OPA_DISP++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
     gDPPipeSync(POLY_OPA_DISP++);
     for (i = 0; i < 8; i++) {

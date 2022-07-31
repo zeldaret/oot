@@ -174,8 +174,9 @@ void BgMoriIdomizu_Draw(Actor* thisx, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 128);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0x7F - (gameplayFrames & 0x7F), gameplayFrames % 0x80, 0x20,
-                                0x20, 1, gameplayFrames & 0x7F, gameplayFrames % 0x80, 0x20, 0x20));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0x7F - (gameplayFrames & 0x7F),
+                                gameplayFrames % 0x80, 0x20, 0x20, 1, gameplayFrames & 0x7F, gameplayFrames % 0x80,
+                                0x20, 0x20));
 
     gSPDisplayList(POLY_XLU_DISP++, gMoriIdomizuWaterDL);
 

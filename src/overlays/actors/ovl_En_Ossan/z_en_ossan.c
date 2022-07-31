@@ -2264,7 +2264,7 @@ void EnOssan_DrawCursor(PlayState* play, EnOssan* this, f32 x, f32 y, f32 z, u8 
 
 void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 dx,
                          f32 dy) {
-    f32 unk;
+    f32 texCoordScale;
     s32 ulx, uly, lrx, lry;
     f32 w, h;
     s32 dsdx, dtdy;
@@ -2275,9 +2275,9 @@ void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32
 
     w = 8.0f * z;
     h = 12.0f * z;
-    unk = (1.0f / z) * 1024;
-    dsdx = unk * dx;
-    dtdy = dy * unk;
+    texCoordScale = (1.0f / z) * 1024;
+    dsdx = texCoordScale * dx;
+    dtdy = dy * texCoordScale;
 
     ulx = (x - w) * 4.0f;
     uly = (y - h) * 4.0f;

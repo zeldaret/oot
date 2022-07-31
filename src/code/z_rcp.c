@@ -1365,7 +1365,7 @@ Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
     Gfx* displayList = Graph_DlistAlloc(gfxp, 3 * sizeof(Gfx));
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
+    gDPSetTileSize(displayList + 1, G_TX_RENDERTILE, x, y, x + ((width - 1) << 2), y + ((height - 1) << 2));
     gSPEndDisplayList(displayList + 2);
 
     return displayList;
@@ -1382,11 +1382,11 @@ Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 3 * sizeof(Gfx));
 
-    x %= 2048;
-    y %= 2048;
+    x %= 512 << 2;
+    y %= 512 << 2;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
+    gDPSetTileSize(displayList + 1, G_TX_RENDERTILE, x, y, x + ((width - 1) << 2), y + ((height - 1) << 2));
     gSPEndDisplayList(displayList + 2);
 
     return displayList;
@@ -1396,15 +1396,15 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
                       u32 y2, s32 width2, s32 height2) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 5 * sizeof(Gfx));
 
-    x1 %= 2048;
-    y1 %= 2048;
-    x2 %= 2048;
-    y2 %= 2048;
+    x1 %= 512 << 2;
+    y1 %= 512 << 2;
+    x2 %= 512 << 2;
+    y2 %= 512 << 2;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, tile1, x1, y1, (x1 + ((width1 - 1) << 2)), (y1 + ((height1 - 1) << 2)));
+    gDPSetTileSize(displayList + 1, tile1, x1, y1, x1 + ((width1 - 1) << 2), y1 + ((height1 - 1) << 2));
     gDPTileSync(displayList + 2);
-    gDPSetTileSize(displayList + 3, tile2, x2, y2, (x2 + ((width2 - 1) << 2)), (y2 + ((height2 - 1) << 2)));
+    gDPSetTileSize(displayList + 3, tile2, x2, y2, x2 + ((width2 - 1) << 2), y2 + ((height2 - 1) << 2));
     gSPEndDisplayList(displayList + 4);
 
     return displayList;
@@ -1414,15 +1414,15 @@ Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 6 * sizeof(Gfx));
 
-    x1 %= 2048;
-    y1 %= 2048;
-    x2 %= 2048;
-    y2 %= 2048;
+    x1 %= 512 << 2;
+    y1 %= 512 << 2;
+    x2 %= 512 << 2;
+    y2 %= 512 << 2;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, tile1, x1, y1, (x1 + ((width1 - 1) << 2)), (y1 + ((height1 - 1) << 2)));
+    gDPSetTileSize(displayList + 1, tile1, x1, y1, x1 + ((width1 - 1) << 2), y1 + ((height1 - 1) << 2));
     gDPTileSync(displayList + 2);
-    gDPSetTileSize(displayList + 3, tile2, x2, y2, (x2 + ((width2 - 1) << 2)), (y2 + ((height2 - 1) << 2)));
+    gDPSetTileSize(displayList + 3, tile2, x2, y2, x2 + ((width2 - 1) << 2), y2 + ((height2 - 1) << 2));
     gDPSetEnvColor(displayList + 4, r, g, b, a);
     gSPEndDisplayList(displayList + 5);
 
