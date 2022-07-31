@@ -525,7 +525,7 @@ void func_80967DBC(Demo6K* this, PlayState* play) {
             Actor_SetScale(&this->actor, this->actor.scale.x + 0.03f);
 
             if (this->timer2 == 95) {
-                osSyncPrintf(VT_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" VT_RST);
+                osSyncPrintf(T_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" T_RST);
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
             }
         }

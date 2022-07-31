@@ -150,7 +150,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
     }
     if (this->actor.params == 1) {
         if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_10)) {
-            osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
+            osSyncPrintf(T_FGCOL(CYAN) " マラソン 開始されていない \n" T_RST "\n");
             Actor_Kill(&this->actor);
         }
     }

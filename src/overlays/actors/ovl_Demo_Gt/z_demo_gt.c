@@ -1704,7 +1704,7 @@ void DemoGt_Update(Actor* thisx, PlayState* play) {
 
     if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
         // "The main mode is strange!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
 
@@ -1760,7 +1760,7 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 9) || (drawFunc = sDrawFuncs[this->drawConfig]) == NULL) {
         // "The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
 

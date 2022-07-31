@@ -86,10 +86,10 @@ void func_8006D0EC(PlayState* play, Player* player) {
                 horseActor->room = -1;
             }
         } else {
-            osSyncPrintf(VT_COL(RED, WHITE));
+            osSyncPrintf(T_COL(RED, WHITE));
             // "Horse_SetNormal():%d set spot is no good."
             osSyncPrintf("Horse_SetNormal():%d セットスポットまずいです。\n", gSaveContext.horseData.scene);
-            osSyncPrintf(VT_RST);
+            osSyncPrintf(T_RST);
             func_8006D074(play);
         }
     } else if ((play->sceneNum == SCENE_SPOT20) && !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0)) {
@@ -239,10 +239,10 @@ void func_8006D684(PlayState* play, Player* player) {
 void func_8006DC68(PlayState* play, Player* player) {
     if (LINK_IS_ADULT) {
         if (!func_8006CFC0(gSaveContext.horseData.scene)) {
-            osSyncPrintf(VT_COL(RED, WHITE));
+            osSyncPrintf(T_COL(RED, WHITE));
             // "Horse_Set_Check():%d set spot is no good."
             osSyncPrintf("Horse_Set_Check():%d セットスポットまずいです。\n", gSaveContext.horseData.scene);
-            osSyncPrintf(VT_RST);
+            osSyncPrintf(T_RST);
             func_8006D074(play);
         }
 

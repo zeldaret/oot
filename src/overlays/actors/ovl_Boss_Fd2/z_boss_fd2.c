@@ -873,10 +873,10 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
                 bossFd->actor.colChkInfo.health -= damage;
-                osSyncPrintf(VT_FGCOL(GREEN));
+                osSyncPrintf(T_FGCOL(GREEN));
                 osSyncPrintf("damage   %d\n", damage);
             }
-            osSyncPrintf(VT_RST);
+            osSyncPrintf(T_RST);
             osSyncPrintf("hp %d\n", bossFd->actor.colChkInfo.health);
 
             if ((s8)bossFd->actor.colChkInfo.health <= 0) {

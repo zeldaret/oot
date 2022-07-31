@@ -81,7 +81,7 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
     this->stage = (EnDntDemo*)this->actor.parent;
     osSyncPrintf("\n\n");
     // "Deku Scrub mask show elder"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
+    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" T_RST, this->stage);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.targetMode = 6;
@@ -375,7 +375,7 @@ void EnDntJiji_Update(Actor* thisx, PlayState* play) {
     this->unkTimer++;
     if (BREG(0)) {
         // "time"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" VT_RST, this->timer);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" T_RST, this->timer);
     }
     if ((this->timer > 1) && (this->timer != 0)) {
         this->timer--;

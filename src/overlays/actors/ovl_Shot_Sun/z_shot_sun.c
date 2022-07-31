@@ -161,7 +161,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" T_RST);
         if (INV_CONTENT(ITEM_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
             play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaFireArrowsCS);

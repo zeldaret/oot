@@ -1496,9 +1496,9 @@ void FileSelect_LoadGame(GameState* thisx) {
     // capacity and `magicFillTarget`
     gSaveContext.magicLevel = gSaveContext.magic = 0;
 
-    osSyncPrintf(VT_FGCOL(GREEN));
+    osSyncPrintf(T_FGCOL(GREEN));
     osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicFillTarget), gSaveContext.magic);
-    osSyncPrintf(VT_RST);
+    osSyncPrintf(T_RST);
 
     gSaveContext.naviTimer = 0;
 

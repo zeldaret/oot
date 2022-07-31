@@ -314,9 +314,9 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if ((this->dyna.actor.params >> 7 & 1) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         osSyncPrintf("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
         this->dyna.actor.params &= ~0x80;
     }
 

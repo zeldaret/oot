@@ -134,10 +134,10 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_MIR_RAY, this->dyna.actor.world.pos.x,
                        this->dyna.actor.world.pos.y + 57.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 6);
     if (this->dyna.actor.child == NULL) {
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         // "Ｅｒｒｏｒ : Mir Ray occurrence failure"
         osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
     }
 }
 

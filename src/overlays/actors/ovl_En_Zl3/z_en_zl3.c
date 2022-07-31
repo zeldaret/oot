@@ -2612,7 +2612,7 @@ void func_80B59B6C(EnZl3* this, PlayState* play) {
             func_80B59828(this, play);
             break;
         default:
-            osSyncPrintf(VT_FGCOL(RED) " En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+            osSyncPrintf(T_FGCOL(RED) " En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
             Actor_Kill(&this->actor);
     }
 }
@@ -2624,7 +2624,7 @@ void func_80B59DB8(EnZl3* this, PlayState* play) {
     s32 pad2;
 
     if (objIndex < 0) {
-        osSyncPrintf(VT_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" T_RST);
         return;
     }
 
@@ -2648,7 +2648,7 @@ void EnZl3_Update(Actor* thisx, PlayState* play) {
     EnZl3* this = (EnZl3*)thisx;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -2688,7 +2688,7 @@ s32 EnZl3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (this->unk_308 < 0 || this->unk_308 >= ARRAY_COUNT(sOverrideLimbDrawFuncs) ||
         sOverrideLimbDrawFuncs[this->unk_308] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return 0;
     }
     return sOverrideLimbDrawFuncs[this->unk_308](play, limbIndex, dList, pos, rot, thisx, gfx);
@@ -2757,7 +2757,7 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
     EnZl3* this = (EnZl3*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

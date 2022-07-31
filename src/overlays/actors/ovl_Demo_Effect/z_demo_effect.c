@@ -185,13 +185,13 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     effectType = (this->actor.params & 0x00FF);
     lightEffect = ((this->actor.params & 0xF000) >> 12);
 
-    osSyncPrintf(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
+    osSyncPrintf(T_FGCOL(CYAN) " no = %d\n" T_RST, effectType);
 
     objectIndex = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
                       ? 0
                       : Object_GetIndex(&play->objectCtx, sEffectTypeObjects[effectType]);
 
-    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectIndex);
+    osSyncPrintf(T_FGCOL(CYAN) " bank_ID = %d\n" T_RST, objectIndex);
 
     if (objectIndex < 0) {
         ASSERT(0, "0", "../z_demo_effect.c", 723);
@@ -539,7 +539,7 @@ void DemoEffect_Wait(DemoEffect* this, PlayState* play) {
         this->actor.draw = this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 
-        osSyncPrintf(VT_FGCOL(CYAN) " 転送終了 move_wait " VT_RST);
+        osSyncPrintf(T_FGCOL(CYAN) " 転送終了 move_wait " T_RST);
     }
 }
 
@@ -701,12 +701,12 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
-        osSyncPrintf(VT_FGCOL(CYAN) " 縮むバージョン \n" VT_RST);
+        osSyncPrintf(T_FGCOL(CYAN) " 縮むバージョン \n" T_RST);
     } else {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 1.0f, 1.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
-        osSyncPrintf(VT_FGCOL(CYAN) " 通常 バージョン \n" VT_RST);
+        osSyncPrintf(T_FGCOL(CYAN) " 通常 バージョン \n" T_RST);
     }
 }
 

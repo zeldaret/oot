@@ -1296,7 +1296,7 @@ void EnIk_Update(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
 
@@ -1389,7 +1389,7 @@ void EnIk_Draw(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
 

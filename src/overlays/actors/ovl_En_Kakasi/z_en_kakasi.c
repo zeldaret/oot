@@ -65,7 +65,7 @@ void EnKakasi_Init(Actor* thisx, PlayState* play) {
     EnKakasi* this = (EnKakasi*)thisx;
 
     osSyncPrintf("\n\n");
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.world.pos.y);
+    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n" T_RST, this->actor.world.pos.y);
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -237,7 +237,7 @@ void func_80A8F8D0(EnKakasi* this, PlayState* play) {
 
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_04 && play->msgCtx.msgMode == MSGMODE_NONE) {
         // "end?"
-        osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
+        osSyncPrintf(T_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" T_RST);
 
         if (this->unk_19A != 0) {
             Message_CloseTextbox(play);
@@ -341,7 +341,7 @@ void EnKakasi_Draw(Actor* thisx, PlayState* play) {
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowLongSongSet);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" T_RST, gSaveContext.scarecrowLongSongSet);
     }
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount, NULL,

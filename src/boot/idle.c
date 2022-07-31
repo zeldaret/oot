@@ -39,7 +39,7 @@ void Idle_ThreadEntry(void* arg) {
     osSyncPrintf("作製者    : %s\n", gBuildTeam);
     osSyncPrintf("作成日時  : %s\n", gBuildDate);
     osSyncPrintf("MAKEOPTION: %s\n", gBuildMakeOption);
-    osSyncPrintf(VT_FGCOL(GREEN));
+    osSyncPrintf(T_FGCOL(GREEN));
     osSyncPrintf("ＲＡＭサイズは %d キロバイトです(osMemSize/osGetMemSize)\n", (s32)osMemSize / 1024);
     osSyncPrintf("_bootSegmentEnd(%08x) 以降のＲＡＭ領域はクリアされました(boot)\n", _bootSegmentEnd);
     osSyncPrintf("Ｚバッファのサイズは %d キロバイトです\n", 0x96);
@@ -48,7 +48,7 @@ void Idle_ThreadEntry(void* arg) {
     osSyncPrintf("ＹＩＥＬＤバッファのサイズは %d キロバイトです\n", 3);
     osSyncPrintf("オーディオヒープのサイズは %d キロバイトです\n",
                  ((intptr_t)gSystemHeap - (intptr_t)gAudioHeap) / 1024);
-    osSyncPrintf(VT_RST);
+    osSyncPrintf(T_RST);
 
     osCreateViManager(OS_PRIORITY_VIMGR);
 

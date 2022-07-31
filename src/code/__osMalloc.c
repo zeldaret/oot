@@ -71,7 +71,7 @@ ArenaNode* ArenaImpl_GetNextBlock(ArenaNode* node) {
     ArenaNode* next = node->next;
 
     if (next != NULL && (next == NULL || (next->magic != NODE_MAGIC))) {
-        osSyncPrintf(VT_COL(RED, WHITE) "緊急事態！メモリリーク発見！ (block=%08x)\n" VT_RST, next);
+        osSyncPrintf(T_COL(RED, WHITE) "緊急事態！メモリリーク発見！ (block=%08x)\n" T_RST, next);
         next = NULL;
         node->next = NULL;
     }
@@ -82,7 +82,7 @@ ArenaNode* ArenaImpl_GetPrevBlock(ArenaNode* node) {
     ArenaNode* prev = node->prev;
 
     if (prev != NULL && (prev == NULL || (prev->magic != NODE_MAGIC))) {
-        osSyncPrintf(VT_COL(RED, WHITE) "緊急事態！メモリリーク発見！ (block=%08x)\n" VT_RST, prev);
+        osSyncPrintf(T_COL(RED, WHITE) "緊急事態！メモリリーク発見！ (block=%08x)\n" T_RST, prev);
         prev = NULL;
         node->prev = NULL;
     }
@@ -181,7 +181,7 @@ void __osMalloc_FreeBlockTest(Arena* arena, ArenaNode* node) {
         while (iter < end) {
             if (*iter != BLOCK_UNINIT_MAGIC_32 && *iter != BLOCK_FREE_MAGIC_32) {
                 osSyncPrintf(
-                    VT_COL(RED, WHITE) "緊急事態！メモリリーク検出！ (block=%08x s=%08x e=%08x p=%08x)\n" VT_RST, node,
+                    T_COL(RED, WHITE) "緊急事態！メモリリーク検出！ (block=%08x s=%08x e=%08x p=%08x)\n" T_RST, node,
                     start, end, iter);
                 __osDisplayArena(arena);
                 return;
@@ -422,16 +422,16 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
         // "__osFree: Unauthorized release (%08x)"
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x)\n" VT_RST, ptr);
+        osSyncPrintf(T_COL(RED, WHITE) "__osFree:不正解放(%08x)\n" T_RST, ptr);
         return;
     }
     if (node->isFree) {
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:二重解放(%08x)\n" VT_RST, ptr); // "__osFree: Double release (%08x)"
+        osSyncPrintf(T_COL(RED, WHITE) "__osFree:二重解放(%08x)\n" T_RST, ptr); // "__osFree: Double release (%08x)"
         return;
     }
     if (arena != node->arena && arena != NULL) {
         // "__osFree:Tried to release in a different way than when it was secured (%08x:%08x)"
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" VT_RST, arena,
+        osSyncPrintf(T_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" T_RST, arena,
                      node->arena);
         return;
     }
@@ -491,17 +491,17 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
         // "__osFree: Unauthorized release (%08x)"
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x) [%s:%d ]\n" VT_RST, ptr, file, line);
+        osSyncPrintf(T_COL(RED, WHITE) "__osFree:不正解放(%08x) [%s:%d ]\n" T_RST, ptr, file, line);
         return;
     }
     if (node->isFree) {
         // "__osFree: Double release (%08x)"
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:二重解放(%08x) [%s:%d ]\n" VT_RST, ptr, file, line);
+        osSyncPrintf(T_COL(RED, WHITE) "__osFree:二重解放(%08x) [%s:%d ]\n" T_RST, ptr, file, line);
         return;
     }
     if (arena != node->arena && arena != NULL) {
         // "__osFree:Tried to release in a different way than when it was secured (%08x:%08x)"
-        osSyncPrintf(VT_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" VT_RST, arena,
+        osSyncPrintf(T_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" T_RST, arena,
                      node->arena);
         return;
     }
@@ -799,7 +799,7 @@ u32 __osCheckArena(Arena* arena) {
     while (iter != NULL) {
         if (iter && iter->magic == NODE_MAGIC) {
             // "Oops!! (%08x %08x)"
-            osSyncPrintf(VT_COL(RED, WHITE) "おおっと！！ (%08x %08x)\n" VT_RST, iter, iter->magic);
+            osSyncPrintf(T_COL(RED, WHITE) "おおっと！！ (%08x %08x)\n" T_RST, iter, iter->magic);
             error = 1;
             break;
         }

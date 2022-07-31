@@ -132,7 +132,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         switchFlag = 0x20;
     }
     // "conversation owl %4x no = %d, sv = %d"
-    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType, switchFlag);
+    osSyncPrintf(T_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" T_RST, this->actor.params, owlType, switchFlag);
 
     if ((owlType != OWL_DEFAULT) && (switchFlag < 0x20) && Flags_GetSwitch(play, switchFlag)) {
         osSyncPrintf("savebitでフクロウ退避\n"); // "Save owl with savebit"
@@ -220,11 +220,11 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             // Outside kokiri forest
-            osSyncPrintf(VT_FGCOL(CYAN));
+            osSyncPrintf(T_FGCOL(CYAN));
             osSyncPrintf("no = %d  \n", owlType);
             // "Unfinished owl unfinished owl unfinished owl"
             osSyncPrintf("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n");
-            osSyncPrintf(VT_RST);
+            osSyncPrintf(T_RST);
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
             this->actionFunc = EnOwl_WaitOutsideKokiri;
@@ -306,7 +306,7 @@ void func_80ACA62C(EnOwl* this, PlayState* play) {
 
     if (switchFlag < 0x20) {
         Flags_SetSwitch(play, switchFlag);
-        osSyncPrintf(VT_FGCOL(CYAN) " Actor_Environment_sw = %d\n" VT_RST, Flags_GetSwitch(play, switchFlag));
+        osSyncPrintf(T_FGCOL(CYAN) " Actor_Environment_sw = %d\n" T_RST, Flags_GetSwitch(play, switchFlag));
     }
     func_80ACA5C8(this);
 }
@@ -927,14 +927,14 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 50.0f) {
         if (!Play_InCsMode(play)) {
             owlType = (this->actor.params & 0xFC0) >> 6;
-            osSyncPrintf(VT_FGCOL(CYAN));
+            osSyncPrintf(T_FGCOL(CYAN));
             osSyncPrintf("%dのフクロウ\n", owlType); // "%d owl"
-            osSyncPrintf(VT_RST);
+            osSyncPrintf(T_RST);
             switch (owlType) {
                 case 7:
-                    osSyncPrintf(VT_FGCOL(CYAN));
+                    osSyncPrintf(T_FGCOL(CYAN));
                     osSyncPrintf("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
-                    osSyncPrintf(VT_RST);
+                    osSyncPrintf(T_RST);
                     play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;

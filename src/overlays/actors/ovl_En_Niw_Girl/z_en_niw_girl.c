@@ -76,15 +76,15 @@ void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
         &play->actorCtx, &this->actor, play, ACTOR_EN_NIW, this->actor.world.pos.x + vec2.x,
         this->actor.world.pos.y + vec2.y, this->actor.world.pos.z + vec2.z, 0, this->actor.world.rot.y, 0, 0xA);
     if (this->chasedEnNiw != NULL) {
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" VT_RST, this->path);
+        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" T_RST, this->actor.params);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" T_RST, this->path);
         osSyncPrintf("\n\n");
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = EnNiwGirl_Talk;
     } else {
         osSyncPrintf("\n\n");
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n" VT_RST, this->path);
+        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n" T_RST, this->actor.params);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n" T_RST, this->path);
         osSyncPrintf("\n\n");
         Actor_Kill(&this->actor);
     }

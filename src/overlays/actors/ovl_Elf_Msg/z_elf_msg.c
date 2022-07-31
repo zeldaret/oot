@@ -72,11 +72,11 @@ void ElfMsg_Init(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
     // "Conditions for Elf Tag disappearing"
-    osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", (thisx->params >> 8) & 0x3F);
-    osSyncPrintf(VT_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" VT_RST, thisx->shape.rot.y);
+    osSyncPrintf(T_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" T_RST "\n", (thisx->params >> 8) & 0x3F);
+    osSyncPrintf(T_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" T_RST, thisx->shape.rot.y);
     if (thisx->shape.rot.y >= 0x41) {
         // "Conditions for Elf Tag appearing"
-        osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 出現条件 %d" VT_RST "\n", thisx->shape.rot.y - 0x41);
+        osSyncPrintf(T_FGCOL(CYAN) "\nエルフ タグ 出現条件 %d" T_RST "\n", thisx->shape.rot.y - 0x41);
     }
 
     if (!ElfMsg_KillCheck(this, play)) {

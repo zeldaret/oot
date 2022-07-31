@@ -370,9 +370,9 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         osSyncPrintf("ClObjJntSph_set():zelda_malloc()出来ません。\n"); // "Can not."
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
         return false;
     }
 
@@ -398,9 +398,9 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         osSyncPrintf("ClObjJntSph_set3():zelda_malloc_出来ません。\n"); // "Can not."
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
         return false;
     }
 
@@ -426,9 +426,9 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         osSyncPrintf("ClObjJntSph_set5():zelda_malloc出来ません\n"); // "Can not."
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -733,9 +733,9 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
     dest->elements = ZeldaArena_MallocDebug(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
     if (dest->elements == NULL) {
         dest->count = 0;
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         osSyncPrintf("ClObjTris_set3():zelda_malloc()出来ません\n"); // "Can not."
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -759,9 +759,9 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
     dest->elements = ZeldaArena_MallocDebug(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2207);
 
     if (dest->elements == NULL) {
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         osSyncPrintf("ClObjTris_set5():zelda_malloc出来ません\n"); // "Can not."
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
         dest->count = 0;
         return false;
     }

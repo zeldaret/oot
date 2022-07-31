@@ -120,7 +120,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
 
     switch (this->actor.params) {
         case 1:
-            osSyncPrintf(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
+            osSyncPrintf(T_FGCOL(CYAN) " 追放タロン \n" T_RST);
             if (GET_EVENTCHKINF(EVENTCHKINF_6B)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
@@ -139,14 +139,14 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             }
             break;
         case 2:
-            osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
+            osSyncPrintf(T_FGCOL(CYAN) " 出戻りタロン \n" T_RST);
             if (!GET_EVENTCHKINF(EVENTCHKINF_6B)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (play->sceneNum == SCENE_MALON_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
-                osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
+                osSyncPrintf(T_FGCOL(CYAN) " 夜はいない \n" T_RST);
             } else {
                 func_80B13AA0(this, func_80B14D98, func_80B167C0);
                 this->eyeIndex = 0;
@@ -155,7 +155,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             }
             break;
         default:
-            osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
+            osSyncPrintf(T_FGCOL(CYAN) " その他のタロン \n" T_RST);
             if (play->sceneNum == SCENE_SPOT15) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
@@ -172,7 +172,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->actor.shape.shadowScale = 54.0f;
                 }
             } else if (play->sceneNum == SCENE_SOUKO) {
-                osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
+                osSyncPrintf(T_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" T_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {

@@ -79,11 +79,11 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     osSyncPrintf("\n\n");
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" T_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->typeIndex = this->actor.params;
     this->actor.targetMode = 5;
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
+    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" T_RST, this->typeIndex);
     switch (this->typeIndex) {
         case 0:
             this->subTypeIndex = 0;
@@ -109,8 +109,8 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
-    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n" VT_RST, this->subTypeIndex);
+    osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n" T_RST, this->typeIndex);
+    osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n" T_RST, this->subTypeIndex);
     this->actionFunc = func_80B42F74;
 }
 
@@ -160,15 +160,15 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
         }
 
         osSyncPrintf("\n\n");
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.x);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.y);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.z);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].x);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].y);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].z);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance100);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance60);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ point ☆☆☆☆☆ %d\n" VT_RST, scoreIndex);
+        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n" T_RST, arrowHitPos.x);
+        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n" T_RST, arrowHitPos.y);
+        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n" T_RST, arrowHitPos.z);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n" T_RST, sTargetPos[this->subTypeIndex].x);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n" T_RST, sTargetPos[this->subTypeIndex].y);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n" T_RST, sTargetPos[this->subTypeIndex].z);
+        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n" T_RST, scoreDistance100);
+        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n" T_RST, scoreDistance60);
+        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ point ☆☆☆☆☆ %d\n" T_RST, scoreIndex);
         osSyncPrintf("\n\n");
 
         if (scoreIndex == 2) {

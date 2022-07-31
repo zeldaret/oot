@@ -302,7 +302,7 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
         actorIt = actorIt->next;
     }
     // "There is no stand"
-    osSyncPrintf(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    osSyncPrintf(T_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
     return NULL;
 }
 
@@ -2212,7 +2212,7 @@ void EnRu1_Update(Actor* thisx, PlayState* play) {
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
         // "Main mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
 
@@ -2281,7 +2281,7 @@ s32 EnRu1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
         // "Neck rotation mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
     } else {
         sPreLimbDrawFuncs[this->unk_290](this, play, limbIndex, rot);
     }
@@ -2363,7 +2363,7 @@ void EnRu1_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == 0) {
         // "Draw mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

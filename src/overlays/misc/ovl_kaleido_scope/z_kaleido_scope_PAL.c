@@ -1141,10 +1141,10 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
-                osSyncPrintf(VT_FGCOL(YELLOW));
+                osSyncPrintf(T_FGCOL(YELLOW));
                 osSyncPrintf("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
                              gAreaGsFlags[YREG(6)], gSaveContext.gsFlags[YREG(6) >> 2]);
-                osSyncPrintf(VT_RST);
+                osSyncPrintf(T_RST);
 
                 YREG(7) = 0;
                 SET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]],
@@ -3410,7 +3410,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.healthAccumulator = 0;
                         gSaveContext.magicState = MAGIC_STATE_IDLE;
                         gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
-                        osSyncPrintf(VT_FGCOL(YELLOW));
+                        osSyncPrintf(T_FGCOL(YELLOW));
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
                         osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicFillTarget);
                         gSaveContext.magicCapacity = 0;
@@ -3421,7 +3421,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.magicLevel = gSaveContext.magic = 0;
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
                         osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
-                        osSyncPrintf(VT_RST);
+                        osSyncPrintf(T_RST);
                     } else {
                         play->state.running = false;
                         SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
@@ -3490,13 +3490,13 @@ void KaleidoScope_Update(PlayState* play) {
             gSaveContext.buttonStatus[3] = D_808321A8[3];
             gSaveContext.buttonStatus[4] = D_808321A8[4];
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
-            osSyncPrintf(VT_FGCOL(YELLOW));
+            osSyncPrintf(T_FGCOL(YELLOW));
             osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.unk_13EE);
             gSaveContext.unk_13EA = 0;
             Interface_ChangeAlpha(gSaveContext.unk_13EE);
             player->targetActor = NULL;
             Player_SetEquipmentData(play, player);
-            osSyncPrintf(VT_RST);
+            osSyncPrintf(T_RST);
             break;
     }
 }

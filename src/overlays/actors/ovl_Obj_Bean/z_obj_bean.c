@@ -472,20 +472,20 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
         if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (mREG(1) == 1)) {
             path = (this->dyna.actor.params >> 8) & 0x1F;
             if (path == 0x1F) {
-                osSyncPrintf(VT_COL(RED, WHITE));
+                osSyncPrintf(T_COL(RED, WHITE));
                 // "No path data?"
                 osSyncPrintf("パスデータが無い？(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 909,
                              this->dyna.actor.params);
-                osSyncPrintf(VT_RST);
+                osSyncPrintf(T_RST);
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
             if (play->setupPathList[path].count < 3) {
-                osSyncPrintf(VT_COL(RED, WHITE));
+                osSyncPrintf(T_COL(RED, WHITE));
                 // "Incorrect number of path data"
                 osSyncPrintf("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921,
                              this->dyna.actor.params);
-                osSyncPrintf(VT_RST);
+                osSyncPrintf(T_RST);
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
@@ -889,10 +889,10 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
         this->dyna.actor.shape.shadowScale = this->dyna.actor.scale.x * 88.0f;
 
         if (ObjBean_CheckForHorseTrample(this, play)) {
-            osSyncPrintf(VT_FGCOL(CYAN));
+            osSyncPrintf(T_FGCOL(CYAN));
             // "Horse and bean tree lift collision"
             osSyncPrintf("馬と豆の木リフト衝突！！！\n");
-            osSyncPrintf(VT_RST);
+            osSyncPrintf(T_RST);
             ObjBean_Break(this, play);
             DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             func_80B908EC(this);

@@ -70,7 +70,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Obonur" -- Related to the name of the scarecrow (Bonooru)
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
+    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" T_RST);
     this->actor.targetMode = 6;
 
     Collider_InitCylinder(play, &this->collider);
@@ -343,7 +343,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
 
     if (BREG(3) != 0) {
         // "No way!"
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" T_RST, play->msgCtx.ocarinaMode);
     }
     if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04 ||
          (play->msgCtx.ocarinaMode >= OCARINA_MODE_05 && play->msgCtx.ocarinaMode < OCARINA_MODE_0B)) &&
@@ -363,7 +363,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
         if (BREG(3) != 0) {
             osSyncPrintf("\n\n");
             // "With this, other guys are OK! That's it!"
-            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+            osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n" T_RST, play->msgCtx.ocarinaMode);
         }
         this->unk_195 = true;
         Message_StartTextbox(play, 0x40A7, NULL);
@@ -411,7 +411,7 @@ void EnKakasi3_Update(Actor* thisx, PlayState* play) {
     if (BREG(2) != 0) {
         osSyncPrintf("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowSpawnSongSet);
+        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" T_RST, gSaveContext.scarecrowSpawnSongSet);
     }
 
     this->unk_198++;

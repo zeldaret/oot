@@ -28,13 +28,13 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
             if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
                 pos.y <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.z || pos.z <= -BGCHECK_XYZ_ABSMAX) {
 
-                osSyncPrintf(VT_FGCOL(RED));
+                osSyncPrintf(T_FGCOL(RED));
                 //! @bug file and line are not passed to osSyncPrintf
                 // "Position is not valid"
                 osSyncPrintf(
                     "BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n",
                     pos.x, pos.y, pos.z);
-                osSyncPrintf(VT_RST);
+                osSyncPrintf(T_RST);
             }
         }
     }

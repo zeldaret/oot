@@ -119,7 +119,7 @@ void IrqMgr_SendMesgToClients(IrqMgr* irqMgr, OSMesg msg) {
         if (MQ_IS_FULL(client->queue)) {
             // "irqmgr_SendMesgForClient: Message queue is overflowing mq=%08x cnt=%d"
             osSyncPrintf(
-                VT_COL(RED, WHITE) "irqmgr_SendMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" VT_RST,
+                T_COL(RED, WHITE) "irqmgr_SendMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" T_RST,
                 client->queue, MQ_GET_COUNT(client->queue));
         } else {
             osSendMesg(client->queue, msg, OS_MESG_NOBLOCK);
@@ -142,7 +142,7 @@ void IrqMgr_JamMesgToClients(IrqMgr* irqMgr, OSMesg msg) {
         if (MQ_IS_FULL(client->queue)) {
             // "irqmgr_JamMesgForClient: Message queue is overflowing mq=%08x cnt=%d"
             osSyncPrintf(
-                VT_COL(RED, WHITE) "irqmgr_JamMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" VT_RST,
+                T_COL(RED, WHITE) "irqmgr_JamMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" T_RST,
                 client->queue, MQ_GET_COUNT(client->queue));
         } else {
             //! @bug The function's name suggests this would use osJamMesg rather than osSendMesg, using the
@@ -178,12 +178,12 @@ void IrqMgr_CheckStacks(void) {
         osSyncPrintf("スタックは大丈夫みたいです\n");
     } else {
         osSyncPrintf("%c", BEL);
-        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf(T_FGCOL(RED));
         // "Stack overflow or dangerous"
         osSyncPrintf("スタックがオーバーフローしたか危険な状態です\n");
         // "Increase stack size early or don't consume stack"
         osSyncPrintf("早々にスタックサイズを増やすか、スタックを消費しないようにしてください\n");
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
     }
 }
 

@@ -89,9 +89,9 @@ void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 
-    osSyncPrintf(VT_FGCOL(GREEN));
+    osSyncPrintf(T_FGCOL(GREEN));
     osSyncPrintf("WHY !!!!!!!!!!!!!!!!\n");
-    osSyncPrintf(VT_RST);
+    osSyncPrintf(T_RST);
 }
 
 void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {

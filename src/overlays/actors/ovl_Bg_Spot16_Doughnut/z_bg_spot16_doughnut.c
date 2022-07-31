@@ -69,7 +69,7 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
                 Actor_SetScale(&this->actor, 0.1f);
                 break;
         }
-        osSyncPrintf(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
+        osSyncPrintf(T_FGCOL(CYAN) "%f" T_RST "\n", this->actor.scale.x);
         if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_2F)) {
             this->fireFlag &= ~1;
         } else {

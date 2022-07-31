@@ -182,16 +182,16 @@ void FaultDrawer_UpdatePrintColor(void) {
     s32 idx;
 
     if (sFaultDrawer.osSyncPrintfEnabled) {
-        osSyncPrintf(VT_RST);
+        osSyncPrintf(T_RST);
 
         idx = FaultDrawer_ColorToPrintColor(sFaultDrawer.foreColor);
         if (idx >= 0 && idx < ARRAY_COUNT(sFaultDrawer.printColors) - 2) {
-            osSyncPrintf(VT_SGR("3%d"), idx);
+            osSyncPrintf(T_SGR("3%d"), idx);
         }
 
         idx = FaultDrawer_ColorToPrintColor(sFaultDrawer.backColor);
         if (idx >= 0 && idx < ARRAY_COUNT(sFaultDrawer.printColors) - 2) {
-            osSyncPrintf(VT_SGR("4%d"), idx);
+            osSyncPrintf(T_SGR("4%d"), idx);
         }
     }
 }
@@ -217,7 +217,7 @@ void FaultDrawer_SetCharPad(s8 padW, s8 padH) {
 
 void FaultDrawer_SetCursor(s32 x, s32 y) {
     if (sFaultDrawer.osSyncPrintfEnabled) {
-        osSyncPrintf(VT_CUP("%d", "%d"), (y - sFaultDrawer.yStart) / (sFaultDrawer.charH + sFaultDrawer.charHPad),
+        osSyncPrintf(T_CUP("%d", "%d"), (y - sFaultDrawer.yStart) / (sFaultDrawer.charH + sFaultDrawer.charHPad),
                      (x - sFaultDrawer.xStart) / (sFaultDrawer.charW + sFaultDrawer.charWPad));
     }
     sFaultDrawer.cursorX = x;
@@ -226,7 +226,7 @@ void FaultDrawer_SetCursor(s32 x, s32 y) {
 
 void FaultDrawer_FillScreen(void) {
     if (sFaultDrawer.osSyncPrintfEnabled) {
-        osSyncPrintf(VT_CLS);
+        osSyncPrintf(T_CLS);
     }
 
     FaultDrawer_DrawRecImpl(sFaultDrawer.xStart, sFaultDrawer.yStart, sFaultDrawer.xEnd, sFaultDrawer.yEnd,

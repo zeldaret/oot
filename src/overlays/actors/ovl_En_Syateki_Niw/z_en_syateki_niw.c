@@ -82,12 +82,12 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
     if (this->unk_29E == 0) {
         osSyncPrintf("\n\n");
         // "Archery range chicken"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
+        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" T_RST);
         Actor_SetScale(&this->actor, 0.01f);
     } else {
         osSyncPrintf("\n\n");
         // "Bomb chicken"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
+        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" T_RST);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         Actor_SetScale(&this->actor, 0.01f);
     }
