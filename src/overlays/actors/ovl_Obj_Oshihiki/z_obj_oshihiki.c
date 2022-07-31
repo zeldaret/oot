@@ -250,7 +250,7 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
     paramsColorIdx = (this->dyna.actor.params >> 6) & 3;
 
     for (i = 0; i < ARRAY_COUNT(sSceneIds); i++) {
-        if (sScenes[i] == play->sceneId) {
+        if (sSceneIds[i] == play->sceneId) {
             break;
         }
     }
