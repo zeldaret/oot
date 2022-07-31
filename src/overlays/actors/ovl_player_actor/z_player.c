@@ -3723,8 +3723,7 @@ s32 func_80838144(s32 arg0) {
 }
 
 s32 func_8083816C(s32 arg0) {
-    return (arg0 == FLOOR_TYPE_4) || (arg0 == FLOOR_TYPE_7) ||
-           (arg0 == FLOOR_TYPE_12);
+    return (arg0 == FLOOR_TYPE_4) || (arg0 == FLOOR_TYPE_7) || (arg0 == FLOOR_TYPE_12);
 }
 
 void func_8083819C(Player* this, PlayState* play) {
@@ -4223,8 +4222,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
             if (play->transitionTrigger == TRANS_TRIGGER_OFF) {
 
                 if ((this->actor.world.pos.y < -4000.0f) ||
-                    (((this->unk_A7A == FLOOR_PROPERTY_5) ||
-                      (this->unk_A7A == FLOOR_PROPERTY_12)) &&
+                    (((this->unk_A7A == FLOOR_PROPERTY_5) || (this->unk_A7A == FLOOR_PROPERTY_12)) &&
                      ((D_80853600 < 100.0f) || (this->fallDistance > 400.0f) ||
                       ((play->sceneNum != SCENE_HAKADAN) && (this->fallDistance > 200.0f)))) ||
                     ((play->sceneNum == SCENE_GANON_FINAL) && (this->fallDistance > 320.0f))) {
@@ -4782,9 +4780,8 @@ void func_8083AA10(Player* this, PlayState* play) {
                 this->unk_89E = this->unk_A82;
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
-                    (D_80853604 != FLOOR_PROPERTY_6) && (D_80853604 != FLOOR_PROPERTY_9) &&
-                    (D_80853600 > 20.0f) && (this->meleeWeaponState == 0) && (ABS(sp5C) < 0x2000) &&
-                    (this->linearVelocity > 3.0f)) {
+                    (D_80853604 != FLOOR_PROPERTY_6) && (D_80853604 != FLOOR_PROPERTY_9) && (D_80853600 > 20.0f) &&
+                    (this->meleeWeaponState == 0) && (ABS(sp5C) < 0x2000) && (this->linearVelocity > 3.0f)) {
 
                     if ((D_80853604 == FLOOR_PROPERTY_11) && !(this->stateFlags1 & PLAYER_STATE1_11)) {
 
@@ -5226,8 +5223,7 @@ s32 func_8083BDBC(Player* this, PlayState* play) {
 
     if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
         (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (D_808535E4 != FLOOR_TYPE_7) &&
-        (SurfaceType_GetFloorEffect(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) !=
-         FLOOR_EFFECT_1)) {
+        (SurfaceType_GetFloorEffect(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1)) {
         sp2C = this->unk_84B[this->unk_846];
 
         if (sp2C <= 0) {
@@ -6367,8 +6363,7 @@ s32 func_8083F0C8(Player* this, PlayState* play, u32 arg2) {
     f32 phi_f12;
     s32 i;
 
-    if (!LINK_IS_ADULT && !(this->stateFlags1 & PLAYER_STATE1_27) &&
-        (arg2 & (WALL_FLAG_4 | WALL_FLAG_5))) {
+    if (!LINK_IS_ADULT && !(this->stateFlags1 & PLAYER_STATE1_27) && (arg2 & (WALL_FLAG_4 | WALL_FLAG_5))) {
         wallPoly = this->actor.wallPoly;
         CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &play->colCtx, sp50);
 
@@ -8097,8 +8092,7 @@ static struct_80832924 D_808545F0[] = {
 
 void func_80843CEC(Player* this, PlayState* play) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
-        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) ||
-            (D_808535E4 == FLOOR_TYPE_9) ||
+        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (D_808535E4 == FLOOR_TYPE_9) ||
             ((func_80838144(D_808535E4) >= 0) &&
              !func_80042108(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
             func_8083821C(this);

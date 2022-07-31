@@ -25,14 +25,14 @@
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
 s32 D_80119D90[WALL_TYPE_MAX] = {
-    0,                                                 // WALL_TYPE_0
-    WALL_FLAG_0,                           // WALL_TYPE_1
+    0,                         // WALL_TYPE_0
+    WALL_FLAG_0,               // WALL_TYPE_1
     WALL_FLAG_0 | WALL_FLAG_1, // WALL_TYPE_2
     WALL_FLAG_0 | WALL_FLAG_2, // WALL_TYPE_3
-    WALL_FLAG_3,                           // WALL_TYPE_4
-    WALL_FLAG_4,                           // WALL_TYPE_5
-    WALL_FLAG_5,                           // WALL_TYPE_6
-    WALL_FLAG_6,                           // WALL_TYPE_7
+    WALL_FLAG_3,               // WALL_TYPE_4
+    WALL_FLAG_4,               // WALL_TYPE_5
+    WALL_FLAG_5,               // WALL_TYPE_6
+    WALL_FLAG_6,               // WALL_TYPE_7
 };
 
 u16 D_80119E10[SURFACE_SFX_TYPE_MAX] = {

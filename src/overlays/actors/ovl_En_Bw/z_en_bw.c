@@ -456,8 +456,7 @@ void func_809CF984(EnBw* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) {
         floorPolyType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        if ((floorPolyType == FLOOR_TYPE_2) || (floorPolyType == FLOOR_TYPE_3) ||
-            (floorPolyType == FLOOR_TYPE_9)) {
+        if ((floorPolyType == FLOOR_TYPE_2) || (floorPolyType == FLOOR_TYPE_3) || (floorPolyType == FLOOR_TYPE_9)) {
             Actor_Kill(&this->actor);
             return;
         }

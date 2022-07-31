@@ -284,8 +284,8 @@ void func_80AE53AC(EnReeba* this, PlayState* play) {
 
     surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
-    if (((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) ||
-        (this->actor.xzDistToPlayer > 400.0f) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+    if (((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) || (this->actor.xzDistToPlayer > 400.0f) ||
+        (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else {
         if ((this->actor.xzDistToPlayer < 70.0f) && (this->unk_270 == 0)) {

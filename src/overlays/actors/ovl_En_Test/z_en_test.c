@@ -1726,8 +1726,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
             floorProperty = SurfaceType_GetFloorProperty(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
             if ((floorProperty == FLOOR_PROPERTY_5) || (floorProperty == FLOOR_PROPERTY_12) ||
-                SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
-                    FLOOR_TYPE_9) {
+                SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == FLOOR_TYPE_9) {
                 Actor_Kill(&this->actor);
                 return;
             }

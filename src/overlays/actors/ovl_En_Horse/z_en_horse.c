@@ -2983,8 +2983,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
 
         if (ny < 0.81915206f || // cos(35 degrees)
             SurfaceType_IsHorseBlocked(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ||
-            SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
-                FLOOR_TYPE_7) {
+            SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == FLOOR_TYPE_7) {
             if (this->actor.speedXZ >= 0.0f) {
                 EnHorse_ObstructMovement(this, play, 4, galloping);
             } else {
