@@ -371,7 +371,7 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
     this->actor.textId = -1;
     this->eyeExpression = this->mouthExpression = ZL4_MOUTH_NEUTRAL;
 
-    if (gSaveContext.sceneSetupIndex >= 4) {
+    if (IS_CUTSCENE_LAYER) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_TheEnd;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
@@ -446,7 +446,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, PlayState* play) {
     switch (this->talkState) {
         case 0:
             if (this->skelAnime.curFrame == 50.0f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_MEET);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_MEET);
             }
             if (!EnZl4_SetNextAnim(this, ZL4_ANIM_4)) {
                 break;
@@ -551,7 +551,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             break;
         case 4:
             if (this->skelAnime.curFrame == 16.0f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_QUESTION);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_QUESTION);
             }
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_10)) {
                 this->talkState++;
@@ -598,7 +598,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             break;
         case 7:
             if (this->skelAnime.curFrame == 17.0f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_SMILE_0);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_SMILE_0);
             }
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_29)) {
                 this->talkState++;
@@ -739,7 +739,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             break;
         case 12:
             if (this->skelAnime.curFrame == 5.0f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_SIGH_0);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_SIGH_0);
             }
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_12)) {
                 this->talkState++;
@@ -834,7 +834,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, PlayState* play) {
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
                 Message_StartTextbox(play, 0x7038, NULL);
                 this->talkState++;
-                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_HURRY);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_HURRY);
             }
             break;
         case 5:

@@ -490,7 +490,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             swingRateAccel = 30.0f;
             swingSizeAccel = 60.0f;
             if (((this->sfxTimer % 16) == 0) && (this->timers[0] < 30)) {
-                Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
+                Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
             }
         } else if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_SHAKE) {
             if (this->timers[0] > 40) {
@@ -503,8 +503,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 swingRateAccel = 30.0f;
                 swingSizeAccel = 60.0f;
                 if ((this->sfxTimer % 32) == 0) {
-                    Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE,
-                                                          gMorphaTransposeTable);
+                    Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
                     func_800AA000(0, 100, 5, 2);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
@@ -518,8 +517,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 swingRateAccel = 70.0f;
                 swingSizeAccel = 70.0f;
                 if ((this->sfxTimer % 16) == 0) {
-                    Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE,
-                                                          gMorphaTransposeTable);
+                    Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
                     func_800AA000(0, 160, 5, 4);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
@@ -732,9 +730,9 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                         player->actor.parent = &this->actor;
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_GRAB;
                         func_80078914(&this->tentTipPos, NA_SE_EN_MOFER_CATCH);
-                        Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S, &player->actor.projectedPos, 4,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_VO_LI_DAMAGE_S, &player->actor.projectedPos, 4,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultReverb);
                     } else {
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                         this->tentMaxAngle = .001f;
@@ -1548,7 +1546,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
             Math_ApproachF(&this->subCamEye.y, 100.0f, 0.05f, 2.0f);
             this->subCamAt = this->subCamAtNext = this->actor.world.pos;
             if (this->timers[0] > 20) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_DEAD - SFX_FLAG);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_DEAD - SFX_FLAG);
             }
             if (this->timers[0] == 20) {
                 for (i = 0; i < 300; i++) {
@@ -1564,8 +1562,8 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                 }
                 this->drawActor = false;
                 this->actor.flags &= ~ACTOR_FLAG_0;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
-                SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 70, NA_SE_EN_MOFER_LASTVOICE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
+                SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 70, NA_SE_EN_MOFER_LASTVOICE);
             }
             if (this->timers[0] == 0) {
                 this->csState = MO_DEATH_DRAIN_WATER_1;
@@ -1769,7 +1767,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
 
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
                 this->work[MO_CORE_DMG_FLASH_TIMER] = 15;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_DAMAGE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_CORE_DAMAGE);
                 this->actor.colChkInfo.health -= damage;
                 this->hitCount++;
                 if ((s8)this->actor.colChkInfo.health <= 0) {
@@ -2069,7 +2067,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                         }
                     } else {
                         this->timers[1] = 2;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_LAND);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_CORE_LAND);
                         for (i = 0; i < 10; i++) {
                             effectVelocity.x = Rand_CenteredFloat(4.0f);
                             effectVelocity.y = Rand_ZeroFloat(2.0f) + 3.0f;
@@ -2090,7 +2088,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
             } else if (this->actor.world.pos.y < MO_WATER_LEVEL(play)) {
                 this->actor.velocity.y = BossMo_NearLand(&this->actor.world.pos, 40.0f) ? 15.0f : 6.0f;
                 if ((this->actor.world.pos.y + 15.0f) >= MO_WATER_LEVEL(play)) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
                 }
             }
         } else if (this->work[MO_TENT_ACTION_STATE] >= MO_CORE_MOVE) {
@@ -2124,7 +2122,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                             if (this->timers[0] == 0) {
                                 this->work[MO_CORE_WAIT_IN_WATER] = false;
                                 this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 20;
-                                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_MOVE_WT);
+                                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_CORE_MOVE_WT);
                             }
                             break;
                     }
@@ -2156,9 +2154,9 @@ void BossMo_Core(BossMo* this, PlayState* play) {
     }
     if ((this->actor.world.pos.y < MO_WATER_LEVEL(play)) && (MO_WATER_LEVEL(play) <= this->actor.prevPos.y)) {
         if (this->actor.velocity.y < -5.0f) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_SMJUMP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MOFER_CORE_SMJUMP);
         }
         if ((this->timers[3] != 0) || ((sMorphaTent1->fwork[MO_TENT_MAX_STRETCH] > 0.2f) &&
                                        (fabsf(this->actor.world.pos.x - sMorphaTent1->actor.world.pos.x) < 30.0f) &&
@@ -2574,8 +2572,8 @@ void BossMo_DrawWater(BossMo* this, PlayState* play) {
     Matrix_Translate(0.0f, MO_WATER_LEVEL(play), 0.0f, MTXMODE_NEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x0D,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (s16)this->waterTex1x, (s16)this->waterTex1y, 32, 32, 1,
-                                (s16)this->waterTex2x, (s16)this->waterTex2y, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (s16)this->waterTex1x, (s16)this->waterTex1y, 32,
+                                32, 1, (s16)this->waterTex2x, (s16)this->waterTex2y, 32, 32));
 
     gDPPipeSync(POLY_XLU_DISP++);
 
@@ -2605,13 +2603,13 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, sMorphaTent1->work[MO_TENT_VAR_TIMER] * 3,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, sMorphaTent1->work[MO_TENT_VAR_TIMER] * 3,
                                     sMorphaTent1->work[MO_TENT_VAR_TIMER] * 3, 32, 32, 1,
                                     sMorphaTent1->work[MO_TENT_VAR_TIMER] * -3,
                                     sMorphaTent1->work[MO_TENT_VAR_TIMER] * -3, 32, 32));
         gSPSegment(POLY_XLU_DISP++, 0x09,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, sMorphaTent1->work[MO_TENT_VAR_TIMER] * 5, 0, 32, 32, 1, 0,
-                                    sMorphaTent1->work[MO_TENT_VAR_TIMER] * -10, 32, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, sMorphaTent1->work[MO_TENT_VAR_TIMER] * 5, 0,
+                                    32, 32, 1, 0, sMorphaTent1->work[MO_TENT_VAR_TIMER] * -10, 32, 32));
 
         Matrix_RotateX(this->work[MO_TENT_MOVE_TIMER] * 0.5f, MTXMODE_APPLY);
         Matrix_RotateZ(this->work[MO_TENT_MOVE_TIMER] * 0.8f, MTXMODE_APPLY);
@@ -2680,8 +2678,9 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->fwork[MO_CORE_INTRO_WATER_ALPHA]);
 
         gSPSegment(POLY_XLU_DISP++, 0x0D,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (s16)sMorphaTent1->waterTex1x, (s16)sMorphaTent1->waterTex1y,
-                                    32, 32, 1, (s16)sMorphaTent1->waterTex2x, (s16)sMorphaTent1->waterTex2y, 32, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (s16)sMorphaTent1->waterTex1x,
+                                    (s16)sMorphaTent1->waterTex1y, 32, 32, 1, (s16)sMorphaTent1->waterTex2x,
+                                    (s16)sMorphaTent1->waterTex2y, 32, 32));
 
         sp8C = this->subCamAt.x - this->subCamEye.x;
         sp88 = this->subCamAt.y - this->subCamEye.y;
@@ -2723,7 +2722,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
 void BossMo_DrawTent(Actor* thisx, PlayState* play) {
     s32 pad;
     BossMo* this = (BossMo*)thisx;
-    u16 scroll;
+    u16 texCoordScale;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_mo.c", 6958);
     if (1) {}
@@ -2733,12 +2732,13 @@ void BossMo_DrawTent(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->work[MO_TENT_BASE_TEX1_X], this->work[MO_TENT_BASE_TEX1_Y],
-                                32, 32, 1, this->work[MO_TENT_BASE_TEX2_X], this->work[MO_TENT_BASE_TEX2_Y], 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->work[MO_TENT_BASE_TEX1_X],
+                                this->work[MO_TENT_BASE_TEX1_Y], 32, 32, 1, this->work[MO_TENT_BASE_TEX2_X],
+                                this->work[MO_TENT_BASE_TEX2_Y], 32, 32));
     gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)((this->baseAlpha * 12.0f) / 10.0f));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->baseAlpha);
-    scroll = (s16)(Math_SinS(this->work[MO_TENT_VAR_TIMER] * 0xB00) * 30.0f) + 350;
-    gSPTexture(POLY_XLU_DISP++, scroll, scroll, 0, G_TX_RENDERTILE, G_ON);
+    texCoordScale = (s16)(Math_SinS(this->work[MO_TENT_VAR_TIMER] * 0xB00) * 30.0f) + 350;
+    gSPTexture(POLY_XLU_DISP++, texCoordScale, texCoordScale, 0, G_TX_RENDERTILE, G_ON);
 
     if (this->drawActor) {
         BossMo_DrawTentacle(this, play);

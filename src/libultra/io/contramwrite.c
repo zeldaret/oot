@@ -15,43 +15,43 @@ s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 
     __osSiGetAccess();
 
     do {
-        ptr = (u8*)(&gPifMempakBuf);
+        ptr = (u8*)&__osPfsPifRam;
 
-        if (__osContLastPoll != CONT_CMD_WRITE_MEMPACK || __osPfsLastChannel != channel) {
-            __osContLastPoll = CONT_CMD_WRITE_MEMPACK;
+        if (__osContLastCmd != CONT_CMD_WRITE_MEMPACK || __osPfsLastChannel != channel) {
+            __osContLastCmd = CONT_CMD_WRITE_MEMPACK;
             __osPfsLastChannel = channel;
 
             // clang-format off
             for (i = 0; i < channel; i++) { *ptr++ = 0; }
             // clang-format on
 
-            gPifMempakBuf.status = 1;
+            __osPfsPifRam.status = CONT_CMD_EXE;
 
-            ((__OSContRamHeader*)ptr)->unk_00 = 0xFF;
-            ((__OSContRamHeader*)ptr)->txsize = 35;
-            ((__OSContRamHeader*)ptr)->rxsize = 1;
-            ((__OSContRamHeader*)ptr)->poll = CONT_CMD_WRITE_MEMPACK;
-            ((__OSContRamHeader*)ptr)->datacrc = 0xFF;
+            READFORMAT(ptr)->unk_00 = CONT_CMD_NOP;
+            READFORMAT(ptr)->txsize = CONT_CMD_WRITE_MEMPACK_TX;
+            READFORMAT(ptr)->rxsize = CONT_CMD_WRITE_MEMPACK_RX;
+            READFORMAT(ptr)->cmd = CONT_CMD_WRITE_MEMPACK;
+            READFORMAT(ptr)->datacrc = CONT_CMD_NOP;
 
-            ptr[sizeof(__OSContRamHeader)] = CONT_CMD_END;
+            ptr[sizeof(__OSContRamReadFormat)] = CONT_CMD_END;
         } else {
             ptr += channel;
         }
-        ((__OSContRamHeader*)ptr)->hi = address >> 3;
-        ((__OSContRamHeader*)ptr)->lo = ((address << 5) | __osContAddressCrc(address));
+        READFORMAT(ptr)->hi = address >> 3;
+        READFORMAT(ptr)->lo = ((address << 5) | __osContAddressCrc(address));
 
-        bcopy(buffer, ((__OSContRamHeader*)ptr)->data, BLOCKSIZE);
+        bcopy(buffer, READFORMAT(ptr)->data, BLOCKSIZE);
 
-        ret = __osSiRawStartDma(OS_WRITE, &gPifMempakBuf);
+        ret = __osSiRawStartDma(OS_WRITE, &__osPfsPifRam);
         crc = __osContDataCrc(buffer);
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
 
-        ret = __osSiRawStartDma(OS_READ, &gPifMempakBuf);
+        ret = __osSiRawStartDma(OS_READ, &__osPfsPifRam);
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
 
-        ret = ((((__OSContRamHeader*)ptr)->rxsize & 0xC0) >> 4);
+        ret = CHNL_ERR(*READFORMAT(ptr));
         if (!ret) {
-            if (crc != ((__OSContRamHeader*)ptr)->datacrc) {
+            if (crc != READFORMAT(ptr)->datacrc) {
                 if ((ret = __osPfsGetStatus(mq, channel))) {
                     break;
                 } else {

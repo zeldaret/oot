@@ -303,7 +303,7 @@ void func_8089107C(BgIceShelter* this, PlayState* play) {
             }
 
             func_808911BC(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
         }
     }
 
@@ -410,7 +410,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
         case 1:
         case 4:
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, -play->gameplayFrames & 0x7F,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -play->gameplayFrames & 0x7F,
                                         -play->gameplayFrames & 0x7F, 0x20, 0x20, 1, -play->gameplayFrames & 0x7F,
                                         play->gameplayFrames & 0x7F, 0x20, 0x20));
             gSPDisplayList(POLY_XLU_DISP++, object_ice_objects_DL_0006F0);
@@ -418,10 +418,10 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
 
         case 2:
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, play->gameplayFrames & 0xFF, 0x40, 0x40, 1, 0,
-                                        -play->gameplayFrames & 0xFF, 0x40, 0x40));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->gameplayFrames & 0xFF, 0x40, 0x40,
+                                        1, 0, -play->gameplayFrames & 0xFF, 0x40, 0x40));
             gSPSegment(POLY_XLU_DISP++, 0x09,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, -play->gameplayFrames & 0xFF,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -play->gameplayFrames & 0xFF,
                                         play->gameplayFrames & 0xFF, 0x40, 0x40, 1, play->gameplayFrames & 0xFF,
                                         play->gameplayFrames & 0xFF, 0x40, 0x40));
             gSPDisplayList(POLY_XLU_DISP++, object_ice_objects_DL_0012A0);
