@@ -316,8 +316,8 @@ void func_808AD450(Actor* thisx, PlayState* play) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 2 * this->timer, -3 * this->timer, 32, 64, 1,
-                                        4 * this->timer, -6 * this->timer, 32, 64));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 2 * this->timer, -3 * this->timer, 32, 64,
+                                        1, 4 * this->timer, -6 * this->timer, 32, 64));
             gDPPipeSync(POLY_XLU_DISP++);
             gSPDisplayList(POLY_XLU_DISP++, object_spot02_objects_DL_0013F0);
             gDPPipeSync(POLY_XLU_DISP++);
