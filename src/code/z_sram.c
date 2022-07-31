@@ -126,7 +126,7 @@ static SavePlayerData sNewSavePlayerData = {
     },                                                  // adultEquips
     0,                                                  // unk_38
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },       // unk_3C
-    0x34,                                               // savedSceneId
+    SCENE_LINK_HOME,                                    // savedSceneId
 };
 
 static ItemEquips sNewSaveEquips = {
