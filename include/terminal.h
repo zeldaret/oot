@@ -1,5 +1,5 @@
-#ifndef VT_H
-#define VT_H
+#ifndef TERMINAL_H
+#define TERMINAL_H
 
 // 3-bit color codes
 #define VT_COLOR_BLACK         0
