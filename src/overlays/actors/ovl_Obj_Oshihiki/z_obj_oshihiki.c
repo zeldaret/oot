@@ -52,7 +52,7 @@ static Color_RGB8 sColors[][4] = {
     { { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 } }, // gerudo training grounds
 };
 
-static s16 sScenes[] = {
+static s16 sSceneIds[] = {
     SCENE_YDAN,      SCENE_DDAN,    SCENE_BMORI1, SCENE_HIDAN, SCENE_MIZUSIN,
     SCENE_JYASINZOU, SCENE_HAKADAN, SCENE_GANON,  SCENE_MEN,
 };
@@ -249,7 +249,7 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
 
     paramsColorIdx = (this->dyna.actor.params >> 6) & 3;
 
-    for (i = 0; i < ARRAY_COUNT(sScenes); i++) {
+    for (i = 0; i < ARRAY_COUNT(sSceneIds); i++) {
         if (sScenes[i] == play->sceneId) {
             break;
         }

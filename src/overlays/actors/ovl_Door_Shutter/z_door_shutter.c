@@ -143,8 +143,8 @@ static ShutterSceneInfo sSceneInfo[] = {
 };
 
 typedef struct {
-    s16 dungeonScene;
-    s16 bossScene;
+    s16 dungeonSceneId;
+    s16 bossSceneId;
     u8 index;
 } BossDoorInfo;
 
@@ -243,7 +243,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
         BossDoorInfo* phi_v1_2;
 
         for (phi_v1_2 = &D_80998288[0], i = 0; i < ARRAY_COUNT(D_80998288) - 1; i++, phi_v1_2++) {
-            if (play->sceneId == phi_v1_2->dungeonScene || play->sceneId == phi_v1_2->bossScene) {
+            if (play->sceneId == phi_v1_2->dungeonSceneId || play->sceneId == phi_v1_2->bossSceneId) {
                 break;
             }
         }
