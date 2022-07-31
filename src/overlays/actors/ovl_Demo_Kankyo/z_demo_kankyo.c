@@ -712,7 +712,7 @@ void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1514);
 
-    if (play->csCtx.state == CS_STATE_IDLE || gSaveContext.sceneSetupIndex >= 4) {
+    if (play->csCtx.state == CS_STATE_IDLE || IS_CUTSCENE_LAYER) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(play->state.gfxCtx, 0, play->state.frames & 0x7F, 64, 32));

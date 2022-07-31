@@ -957,8 +957,9 @@ void EnClearTag_DrawEffects(PlayState* play) {
                            128);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s8)effect->primColor.r, (s8)effect->primColor.g,
                             (s8)effect->primColor.b, (s8)effect->primColor.a);
-            gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, effect->random * -5, 32, 64, 1, 0, 0, 32, 32));
+            gSPSegment(
+                POLY_XLU_DISP++, 8,
+                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, effect->random * -5, 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
@@ -983,9 +984,9 @@ void EnClearTag_DrawEffects(PlayState* play) {
 
             // Draw the fire effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, (s8)effect->primColor.a);
-            gSPSegment(
-                POLY_XLU_DISP++, 8,
-                Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0, 32, 32));
+            gSPSegment(POLY_XLU_DISP++, 8,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (effect->random * -15) & 0xFF, 32, 64,
+                                        1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);

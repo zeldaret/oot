@@ -379,7 +379,7 @@ void EnPoh_SetupDeath(EnPoh* this, PlayState* play) {
     if (this->infoIdx != EN_POH_INFO_COMPOSER) {
         this->actor.shape.rot.x = -0x8000;
     }
-    Actor_ChangeCategory(play, &play->actorCtx, &this->actor, 8);
+    Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_MISC);
     this->unk_198 = 60;
     this->actionFunc = EnPoh_Death;
 }
@@ -1184,7 +1184,7 @@ void EnPoh_DrawSoul(Actor* thisx, PlayState* play) {
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                     (this->visibilityTimer * this->info->unk_8) % 512U, 0x20, 0x80));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, this->info->primColor.r, this->info->primColor.g,
                         this->info->primColor.b, this->lightColor.a);

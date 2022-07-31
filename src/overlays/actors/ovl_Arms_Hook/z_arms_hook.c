@@ -266,7 +266,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
             this->actor.world.pos.x += 10.0f * polyNormalX;
             this->actor.world.pos.z += 10.0f * polyNormalZ;
             this->timer = 0;
-            if (SurfaceType_IsHookshotSurface(&play->colCtx, poly, bgId)) {
+            if (SurfaceType_CanHookshot(&play->colCtx, poly, bgId)) {
                 if (bgId != BGCHECK_SCENE) {
                     dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
                     if (dynaPolyActor != NULL) {

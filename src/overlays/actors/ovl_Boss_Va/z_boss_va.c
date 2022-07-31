@@ -2870,9 +2870,9 @@ s32 BossVa_BodyOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 
     if (limbIndex == 20) {
         gDPPipeSync(POLY_OPA_DISP++);
-        gSPSegment(
-            POLY_OPA_DISP++, 0x08,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 8, 16, 1, 0, (play->gameplayFrames * -2) % 64, 16, 16));
+        gSPSegment(POLY_OPA_DISP++, 0x08,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 8, 16, 1, 0,
+                                    (play->gameplayFrames * -2) % 64, 16, 16));
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->bodyGlow);
         Matrix_RotateX(-M_PI / 2, MTXMODE_APPLY);
     } else if ((limbIndex >= 10) && (limbIndex < 20)) {
@@ -2923,8 +2923,8 @@ void BossVa_BodyPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         Matrix_MultVec3f(&sp78, &this->effectPos[limbIndex - 10]);
     } else if (limbIndex == 25) {
         gSPSegment(POLY_XLU_DISP++, 0x09,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (play->gameplayFrames * 10) % 128, 16, 32, 1, 0,
-                                    (play->gameplayFrames * 5) % 128, 16, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (play->gameplayFrames * 10) % 128, 16, 32,
+                                    1, 0, (play->gameplayFrames * 5) % 128, 16, 32));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4232),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008D70);
@@ -3150,8 +3150,8 @@ void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
 
     if (limbIndex == 2) {
         gSPSegment(POLY_XLU_DISP++, 0x0A,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (play->gameplayFrames * 10) % 32, 16, 32, 1, 0,
-                                    (play->gameplayFrames * -5) % 32, 16, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (play->gameplayFrames * 10) % 32, 16, 32, 1,
+                                    0, (play->gameplayFrames * -5) % 32, 16, 32));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4508),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_000FA0);
@@ -3200,11 +3200,11 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
 
             if (!this->isDead) {
                 gSPSegment(POLY_OPA_DISP++, 0x08,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 8, 16, 1, 0, (play->gameplayFrames * -10) % 16,
-                                            16, 16));
+                           Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 8, 16, 1, 0,
+                                            (play->gameplayFrames * -10) % 16, 16, 16));
                 gSPSegment(POLY_OPA_DISP++, 0x09,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (play->gameplayFrames * -10) % 32, 16, 0x20, 1, 0,
-                                            (play->gameplayFrames * -5) % 32, 16, 32));
+                           Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (play->gameplayFrames * -10) % 32,
+                                            16, 0x20, 1, 0, (play->gameplayFrames * -5) % 32, 16, 32));
                 SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   BossVa_BodyOverrideLimbDraw, BossVa_BodyPostLimbDraw, this);
             }

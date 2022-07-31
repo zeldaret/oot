@@ -22,11 +22,11 @@ SpeedMeterTimeEntry sSpeedMeterTimeEntryArray[] = {
     { &D_8016A540, 0, 8, GPACK_RGBA5551(0, 255, 0, 1) }, { &D_8016A548, 0, 10, GPACK_RGBA5551(255, 0, 255, 1) },
 };
 
-#define DrawRec(gfx, color, ulx, uly, lrx, lry)        \
+#define gDrawRect(gfx, color, ulx, uly, lrx, lry)      \
     gDPPipeSync(gfx);                                  \
     gDPSetFillColor(gfx, ((color) << 16) | (color));   \
     gDPFillRectangle(gfx, (ulx), (uly), (lrx), (lry)); \
-    gDPPipeSync(gfx);
+    gDPPipeSync(gfx)
 
 void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y) {
     LogUtils_CheckNullPointer("this", this, "../speed_meter.c", 181);
@@ -83,15 +83,15 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
                         G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
 
-    DrawRec(gfx++, GPACK_RGBA5551(0, 0, 255, 1), baseX + 64 * 0, uly, baseX + 64 * 1, lry);
-    DrawRec(gfx++, GPACK_RGBA5551(0, 255, 0, 1), baseX + 64 * 1, uly, baseX + 64 * 2, lry);
-    DrawRec(gfx++, GPACK_RGBA5551(255, 0, 0, 1), baseX + 64 * 2, uly, baseX + 64 * 3, lry);
-    DrawRec(gfx++, GPACK_RGBA5551(255, 0, 255, 1), baseX + 64 * 3, uly, baseX + 64 * 4, lry);
+    gDrawRect(gfx++, GPACK_RGBA5551(0, 0, 255, 1), baseX + 64 * 0, uly, baseX + 64 * 1, lry);
+    gDrawRect(gfx++, GPACK_RGBA5551(0, 255, 0, 1), baseX + 64 * 1, uly, baseX + 64 * 2, lry);
+    gDrawRect(gfx++, GPACK_RGBA5551(255, 0, 0, 1), baseX + 64 * 2, uly, baseX + 64 * 3, lry);
+    gDrawRect(gfx++, GPACK_RGBA5551(255, 0, 255, 1), baseX + 64 * 3, uly, baseX + 64 * 4, lry);
 
     sSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        DrawRec(gfx++, sSpeedMeterTimeEntryPtr->color, baseX, lry + sSpeedMeterTimeEntryPtr->y,
-                sSpeedMeterTimeEntryPtr->x, lry + sSpeedMeterTimeEntryPtr->y + 1);
+        gDrawRect(gfx++, sSpeedMeterTimeEntryPtr->color, baseX, lry + sSpeedMeterTimeEntryPtr->y,
+                  sSpeedMeterTimeEntryPtr->x, lry + sSpeedMeterTimeEntryPtr->y + 1);
         sSpeedMeterTimeEntryPtr++;
     }
     gDPPipeSync(gfx++);
@@ -140,8 +140,8 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
                         G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
 
         usedOff = ((this->lrx - this->ulx) * this->val) / this->maxval + this->ulx;
-        DrawRec(gfx++, this->backColor, usedOff, this->uly, this->lrx, this->lry);
-        DrawRec(gfx++, this->foreColor, this->ulx, this->uly, usedOff, this->lry);
+        gDrawRect(gfx++, this->backColor, usedOff, this->uly, this->lrx, this->lry);
+        gDrawRect(gfx++, this->foreColor, this->ulx, this->uly, usedOff, this->lry);
 
         gDPPipeSync(gfx++);
 

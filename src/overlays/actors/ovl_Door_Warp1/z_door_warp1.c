@@ -164,7 +164,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             if ((!(gSaveContext.entranceIndex == ENTR_SPOT05_3 || gSaveContext.entranceIndex == ENTR_SPOT17_5 ||
                    gSaveContext.entranceIndex == ENTR_SPOT06_9 || gSaveContext.entranceIndex == ENTR_SPOT11_8 ||
                    gSaveContext.entranceIndex == ENTR_SPOT02_8) &&
-                 gSaveContext.sceneSetupIndex < 4) ||
+                 !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
             }
@@ -967,9 +967,9 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     Matrix_Push();
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511),
-                                0x100, 0x100, 1, spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100,
-                                0x100));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, spEC & 0xFF,
+                                -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100, 1, spEC & 0xFF,
+                                -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100));
 
     Matrix_Translate(0.0f, this->unk_194 * 230.0f, 0.0f, MTXMODE_APPLY);
     xzScale = (((f32)this->unk_1AE * spE8) / 100.0f) + 1.0f;
@@ -1004,8 +1004,8 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
         spEC *= 2;
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100, 1,
-                                    spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, spEC & 0xFF, -((s16)this->unk_19C & 511),
+                                    0x100, 0x100, 1, spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
 
         Matrix_Translate(0.0f, this->unk_198 * 60.0f, 0.0f, MTXMODE_APPLY);
 
