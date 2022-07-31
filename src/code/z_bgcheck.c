@@ -24,32 +24,32 @@
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
-s32 D_80119D90[SURFACETYPE_WALL_TYPE_MAX] = {
-    0,                                                 // SURFACETYPE_WALL_TYPE_0
-    SURFACETYPE_WALL_FLAG_0,                           // SURFACETYPE_WALL_TYPE_1
-    SURFACETYPE_WALL_FLAG_0 | SURFACETYPE_WALL_FLAG_1, // SURFACETYPE_WALL_TYPE_2
-    SURFACETYPE_WALL_FLAG_0 | SURFACETYPE_WALL_FLAG_2, // SURFACETYPE_WALL_TYPE_3
-    SURFACETYPE_WALL_FLAG_3,                           // SURFACETYPE_WALL_TYPE_4
-    SURFACETYPE_WALL_FLAG_4,                           // SURFACETYPE_WALL_TYPE_5
-    SURFACETYPE_WALL_FLAG_5,                           // SURFACETYPE_WALL_TYPE_6
-    SURFACETYPE_WALL_FLAG_6,                           // SURFACETYPE_WALL_TYPE_7
+s32 D_80119D90[WALL_TYPE_MAX] = {
+    0,                                                 // WALL_TYPE_0
+    WALL_FLAG_0,                           // WALL_TYPE_1
+    WALL_FLAG_0 | WALL_FLAG_1, // WALL_TYPE_2
+    WALL_FLAG_0 | WALL_FLAG_2, // WALL_TYPE_3
+    WALL_FLAG_3,                           // WALL_TYPE_4
+    WALL_FLAG_4,                           // WALL_TYPE_5
+    WALL_FLAG_5,                           // WALL_TYPE_6
+    WALL_FLAG_6,                           // WALL_TYPE_7
 };
 
-u16 D_80119E10[SURFACETYPE_SFX_TYPE_MAX] = {
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_0
-    NA_SE_PL_WALK_SAND - SFX_FLAG,     // SURFACETYPE_SFX_TYPE_1
-    NA_SE_PL_WALK_CONCRETE - SFX_FLAG, // SURFACETYPE_SFX_TYPE_2
-    NA_SE_PL_WALK_DIRT - SFX_FLAG,     // SURFACETYPE_SFX_TYPE_3
-    NA_SE_PL_WALK_WATER0 - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_4
-    NA_SE_PL_WALK_WATER1 - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_5
-    NA_SE_PL_WALK_WATER2 - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_6
-    NA_SE_PL_WALK_MAGMA - SFX_FLAG,    // SURFACETYPE_SFX_TYPE_7
-    NA_SE_PL_WALK_GRASS - SFX_FLAG,    // SURFACETYPE_SFX_TYPE_8
-    NA_SE_PL_WALK_GLASS - SFX_FLAG,    // SURFACETYPE_SFX_TYPE_9
-    NA_SE_PL_WALK_LADDER - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_10
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACETYPE_SFX_TYPE_11
-    NA_SE_PL_WALK_ICE - SFX_FLAG,      // SURFACETYPE_SFX_TYPE_12
-    NA_SE_PL_WALK_IRON - SFX_FLAG,     // SURFACETYPE_SFX_TYPE_13
+u16 D_80119E10[SURFACE_SFX_TYPE_MAX] = {
+    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACE_SFX_TYPE_0
+    NA_SE_PL_WALK_SAND - SFX_FLAG,     // SURFACE_SFX_TYPE_1
+    NA_SE_PL_WALK_CONCRETE - SFX_FLAG, // SURFACE_SFX_TYPE_2
+    NA_SE_PL_WALK_DIRT - SFX_FLAG,     // SURFACE_SFX_TYPE_3
+    NA_SE_PL_WALK_WATER0 - SFX_FLAG,   // SURFACE_SFX_TYPE_4
+    NA_SE_PL_WALK_WATER1 - SFX_FLAG,   // SURFACE_SFX_TYPE_5
+    NA_SE_PL_WALK_WATER2 - SFX_FLAG,   // SURFACE_SFX_TYPE_6
+    NA_SE_PL_WALK_MAGMA - SFX_FLAG,    // SURFACE_SFX_TYPE_7
+    NA_SE_PL_WALK_GRASS - SFX_FLAG,    // SURFACE_SFX_TYPE_8
+    NA_SE_PL_WALK_GLASS - SFX_FLAG,    // SURFACE_SFX_TYPE_9
+    NA_SE_PL_WALK_LADDER - SFX_FLAG,   // SURFACE_SFX_TYPE_10
+    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACE_SFX_TYPE_11
+    NA_SE_PL_WALK_ICE - SFX_FLAG,      // SURFACE_SFX_TYPE_12
+    NA_SE_PL_WALK_IRON - SFX_FLAG,     // SURFACE_SFX_TYPE_13
 };
 
 /**
@@ -4006,15 +4006,15 @@ s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 
 }
 
 s32 SurfaceType_CheckWallFlag0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALL_FLAG_0) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_0) ? true : false;
 }
 
 s32 SurfaceType_CheckWallFlag1(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALL_FLAG_1) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_1) ? true : false;
 }
 
 s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & SURFACETYPE_WALL_FLAG_2) ? true : false;
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_2) ? true : false;
 }
 
 u32 SurfaceType_GetFloorProperty2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {

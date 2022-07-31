@@ -208,10 +208,10 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
                 // Get the river sfx frequency based on the speed of the river current under the actor
                 this->sfxFreqIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, thisx->floorPoly, bgId);
             } else {
-                this->sfxFreqIndex = SURFACETYPE_CONVEYOR_SPEED_DISABLED;
+                this->sfxFreqIndex = CONVEYOR_SPEED_DISABLED;
             }
 
-            if (this->sfxFreqIndex == SURFACETYPE_CONVEYOR_SPEED_DISABLED) {
+            if (this->sfxFreqIndex == CONVEYOR_SPEED_DISABLED) {
                 if (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ) {
                     this->sfxFreqIndex = 0;
                 } else if (thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) {
@@ -222,7 +222,7 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
                 }
             } else {
                 this->sfxFreqIndex--;
-                this->sfxFreqIndex = CLAMP_MAX(this->sfxFreqIndex, SURFACETYPE_CONVEYOR_SPEED_MAX - 2);
+                this->sfxFreqIndex = CLAMP_MAX(this->sfxFreqIndex, CONVEYOR_SPEED_MAX - 2);
             }
         }
     } else if ((thisx->params == RS_GORON_CITY_SARIAS_SONG) || (thisx->params == RS_GREAT_FAIRY)) {
@@ -257,10 +257,10 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         NA_SE_EV_TORCH - SFX_FLAG,
         NA_SE_EV_COW_CRY_LV - SFX_FLAG,
     };
-    static f32 sfxFreqs[SURFACETYPE_CONVEYOR_SPEED_MAX - 1] = {
-        0.7f, // SURFACETYPE_CONVEYOR_SPEED_SLOW
-        1.0f, // SURFACETYPE_CONVEYOR_SPEED_MEDIUM
-        1.4f, // SURFACETYPE_CONVEYOR_SPEED_FAST
+    static f32 sfxFreqs[CONVEYOR_SPEED_MAX - 1] = {
+        0.7f, // CONVEYOR_SPEED_SLOW
+        1.0f, // CONVEYOR_SPEED_MEDIUM
+        1.4f, // CONVEYOR_SPEED_FAST
     };
     EnRiverSound* this = (EnRiverSound*)thisx;
 

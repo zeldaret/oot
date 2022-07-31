@@ -1725,9 +1725,9 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             floorProperty = SurfaceType_GetFloorProperty(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
-            if ((floorProperty == SURFACETYPE_FLOOR_PROPERTY_5) || (floorProperty == SURFACETYPE_FLOOR_PROPERTY_12) ||
+            if ((floorProperty == FLOOR_PROPERTY_5) || (floorProperty == FLOOR_PROPERTY_12) ||
                 SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
-                    SURFACETYPE_FLOOR_TYPE_9) {
+                    FLOOR_TYPE_9) {
                 Actor_Kill(&this->actor);
                 return;
             }
