@@ -148,7 +148,7 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit D_80A65F38 = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct {
-    s16 scene;
+    s16 sceneId;
     Vec3s pos;
     s16 angle;
 } EnHorseSpawnpoint;
@@ -678,7 +678,7 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
     Vec3f spawnPos;
 
     for (i = 0; i < 169; i++) {
-        if (sHorseSpawns[i].scene == play->sceneId) {
+        if (sHorseSpawns[i].sceneId == play->sceneId) {
             player = GET_PLAYER(play);
             if (play->sceneId != SCENE_SPOT20 ||
                 //! Same flag checked twice
@@ -1748,7 +1748,7 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->stateFlags &= ~ENHORSE_INACTIVE;
-            gSaveContext.horseData.scene = play->sceneId;
+            gSaveContext.horseData.sceneId = play->sceneId;
 
             // Focus the camera on Epona
             Camera_SetParam(play->cameraPtrs[CAM_ID_MAIN], 8, this);

@@ -59,7 +59,7 @@ typedef struct {
 } SavedSceneFlags; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ s16 scene;
+    /* 0x00 */ s16 sceneId;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ s16 angle;
 } HorseData; // size = 0x0A

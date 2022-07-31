@@ -10,7 +10,7 @@
 #define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
 
 typedef struct {
-    /* 0x00 */ u8 scene;
+    /* 0x00 */ u8 sceneId;
     /* 0x01 */ u8 flags1;
     /* 0x02 */ u8 flags2;
     /* 0x03 */ u8 flags3;
@@ -1076,7 +1076,7 @@ void func_80083108(PlayState* play) {
 void Interface_SetSceneRestrictions(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 i;
-    u8 currentScene;
+    u8 sceneId;
 
     interfaceCtx->restrictions.hGauge = interfaceCtx->restrictions.bButton = interfaceCtx->restrictions.aButton =
         interfaceCtx->restrictions.bottles = interfaceCtx->restrictions.tradeItems =
@@ -1091,8 +1091,8 @@ void Interface_SetSceneRestrictions(PlayState* play) {
     osSyncPrintf("ボタン表示関係データ設定 scene_data_ID=%d\n", play->sceneId);
 
     do {
-        currentScene = (u8)play->sceneId;
-        if (sRestrictionFlags[i].scene == currentScene) {
+        sceneId = (u8)play->sceneId;
+        if (sRestrictionFlags[i].sceneId == sceneId) {
             interfaceCtx->restrictions.hGauge = (sRestrictionFlags[i].flags1 & 0xC0) >> 6;
             interfaceCtx->restrictions.bButton = (sRestrictionFlags[i].flags1 & 0x30) >> 4;
             interfaceCtx->restrictions.aButton = (sRestrictionFlags[i].flags1 & 0x0C) >> 2;
@@ -1122,7 +1122,7 @@ void Interface_SetSceneRestrictions(PlayState* play) {
             return;
         }
         i++;
-    } while (sRestrictionFlags[i].scene != 0xFF);
+    } while (sRestrictionFlags[i].sceneId != 0xFF);
 }
 
 Gfx* Gfx_TextureIA8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 textureHeight, s16 rectLeft, s16 rectTop,

@@ -171,7 +171,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.inventory = sNewSaveInventory;
 
     temp->checksum = sNewSaveChecksum;
-    gSaveContext.horseData.scene = SCENE_SPOT00;
+    gSaveContext.horseData.sceneId = SCENE_SPOT00;
     gSaveContext.horseData.pos.x = -1840;
     gSaveContext.horseData.pos.y = 72;
     gSaveContext.horseData.pos.z = 5497;
@@ -274,7 +274,7 @@ void Sram_InitDebugSave(void) {
     gSaveContext.inventory = sDebugSaveInventory;
 
     temp->checksum = sDebugSaveChecksum;
-    gSaveContext.horseData.scene = SCENE_SPOT00;
+    gSaveContext.horseData.sceneId = SCENE_SPOT00;
     gSaveContext.horseData.pos.x = -1840;
     gSaveContext.horseData.pos.y = 72;
     gSaveContext.horseData.pos.z = 5497;

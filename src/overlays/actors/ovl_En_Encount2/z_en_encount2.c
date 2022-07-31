@@ -73,10 +73,10 @@ void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
             spawnerState = ENCOUNT2_ACTIVE_DEATH_MOUNTAIN;
         }
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37))) {
-        s16 scene = play->sceneId;
+        s16 sceneId = play->sceneId;
 
-        if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
-             (scene == SCENE_GANONTIKA_SONOGO)) &&
+        if (((sceneId == SCENE_GANON_DEMO) || (sceneId == SCENE_GANON_FINAL) || (sceneId == SCENE_GANON_SONOGO) ||
+             (sceneId == SCENE_GANONTIKA_SONOGO)) &&
             (!this->collapseSpawnerInactive)) {
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
@@ -153,10 +153,10 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
 
         Audio_PlayActorSfx2(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37) != 0)) {
-        s16 scene = play->sceneId;
+        s16 sceneId = play->sceneId;
 
-        if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
-             (scene == SCENE_GANONTIKA_SONOGO)) &&
+        if (((sceneId == SCENE_GANON_DEMO) || (sceneId == SCENE_GANON_FINAL) || (sceneId == SCENE_GANON_SONOGO) ||
+             (sceneId == SCENE_GANONTIKA_SONOGO)) &&
             (!this->collapseSpawnerInactive)) {
             maxRocks = 1;
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;

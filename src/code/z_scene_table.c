@@ -25,7 +25,7 @@
 
 // Entrance Table definition
 #define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
-    { scene, spawn,                                                                                    \
+    { sceneId, spawn,                                                                                    \
       (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                         \
        ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                              \
        (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |  \

@@ -305,7 +305,7 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = gSaveContext.sceneLayer;
 
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && !LINK_IS_ADULT &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT &&
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -313,20 +313,20 @@ void Play_Init(GameState* thisx) {
         } else {
             gSaveContext.sceneLayer = 0;
         }
-    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
+    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT04) && LINK_IS_ADULT &&
                !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
     Play_SpawnScene(this,
-                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].scene,
+                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
                     gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
 
     osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneLayer);
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) && gSaveContext.sceneLayer == 6) {
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT09) && gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
         osSyncPrintf("出戻り？\n"); // "Return?"

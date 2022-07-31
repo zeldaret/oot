@@ -507,7 +507,7 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
 }
 
 void MapSelect_PrintMenu(MapSelectState* this, GfxPrint* printer) {
-    s32 scene;
+    s32 sceneId;
     s32 i;
     char* name;
 
@@ -519,14 +519,14 @@ void MapSelect_PrintMenu(MapSelectState* this, GfxPrint* printer) {
     for (i = 0; i < 20; i++) {
         GfxPrint_SetPos(printer, 9, i + 4);
 
-        scene = (this->topDisplayedScene + i + this->count) % this->count;
-        if (scene == this->currentScene) {
+        sceneId = (this->topDisplayedScene + i + this->count) % this->count;
+        if (sceneId == this->currentScene) {
             GfxPrint_SetColor(printer, 255, 20, 20, 255);
         } else {
             GfxPrint_SetColor(printer, 200, 200, 55, 255);
         }
 
-        name = this->scenes[scene].name;
+        name = this->scenes[sceneId].name;
         if (name == NULL) {
             name = "**Null**";
         }

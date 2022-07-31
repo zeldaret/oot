@@ -2093,12 +2093,12 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_C4) &&
-                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_TOKINOMA)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(EVENTCHKINF_C4);
             gSaveContext.entranceIndex = ENTR_TOKINOMA_0;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
-                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_GANON_DEMO)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(EVENTCHKINF_C7);
             gSaveContext.entranceIndex = ENTR_GANON_DEMO_0;
             gSaveContext.cutsceneIndex = 0xFFF0;

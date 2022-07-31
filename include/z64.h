@@ -1361,7 +1361,7 @@ typedef struct {
      & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
 
 typedef struct {
-    /* 0x00 */ s8  scene;
+    /* 0x00 */ s8  sceneId;
     /* 0x01 */ s8  spawn;
     /* 0x02 */ u16 field;
 } EntranceInfo; // size = 0x4
