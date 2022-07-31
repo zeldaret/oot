@@ -6,7 +6,7 @@
 
 #include "z_en_rr.h"
 #include "assets/objects/object_rr/object_rr.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
 

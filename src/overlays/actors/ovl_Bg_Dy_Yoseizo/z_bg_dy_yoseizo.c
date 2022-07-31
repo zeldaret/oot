@@ -6,7 +6,7 @@
 
 #include "z_bg_dy_yoseizo.h"
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"

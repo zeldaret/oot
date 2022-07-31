@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 QuakeRequest sQuakeRequest[4];
 s16 D_80126250 = 1;

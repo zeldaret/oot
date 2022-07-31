@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ge1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ge1/object_ge1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)

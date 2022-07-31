@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 void func_80092320(PreNMIState* this) {
     this->state.running = false;

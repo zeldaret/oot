@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ta.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ta/object_ta.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)

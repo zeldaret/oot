@@ -4,7 +4,7 @@
  * Description: Uncursed House of Skulltula People
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_en_sth.h"
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_boj/object_boj.h"

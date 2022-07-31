@@ -6,7 +6,7 @@
 
 #include "z_bg_gate_shutter.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 

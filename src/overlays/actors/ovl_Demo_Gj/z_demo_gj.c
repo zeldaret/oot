@@ -6,7 +6,7 @@
 
 #include "z_demo_gj.h"
 #include "assets/objects/object_gj/object_gj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

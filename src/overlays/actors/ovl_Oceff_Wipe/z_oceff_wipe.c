@@ -5,7 +5,7 @@
  */
 
 #include "z_oceff_wipe.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 

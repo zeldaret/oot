@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 void Room_Draw0(PlayState* play, Room* room, u32 flags);
 void Room_Draw2(PlayState* play, Room* room, u32 flags);

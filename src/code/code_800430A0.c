@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     MtxF prevTransform;

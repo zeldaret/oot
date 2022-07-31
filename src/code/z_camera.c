@@ -1,6 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags);

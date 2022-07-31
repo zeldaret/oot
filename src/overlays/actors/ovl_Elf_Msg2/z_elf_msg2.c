@@ -5,7 +5,7 @@
  */
 
 #include "z_elf_msg2.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 

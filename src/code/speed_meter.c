@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 volatile OSTime D_8016A520;
 volatile OSTime D_8016A528;

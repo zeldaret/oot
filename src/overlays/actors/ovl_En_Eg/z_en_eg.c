@@ -5,7 +5,7 @@
  */
 
 #include "z_en_eg.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
