@@ -4121,7 +4121,7 @@ u32 SurfaceType_GetConveyorDirection(CollisionContext* colCtx, CollisionPoly* po
 }
 
 u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetData(colCtx, poly, bgId, 1) & 0x8000000) ? 1 : 0;
+    return (SurfaceType_GetData(colCtx, poly, bgId, 1) & 0x08000000) ? 1 : 0;
 }
 
 /**
