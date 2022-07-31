@@ -2361,7 +2361,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
 
     switch (sandstormState) {
         case SANDSTORM_ACTIVE:
-            if ((play->sceneNum == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
+            if ((play->sceneId == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (play->envCtx.sandstormEnvA > 128) ? 255 : play->envCtx.sandstormEnvA >> 1;
             } else {

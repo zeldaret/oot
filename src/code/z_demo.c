@@ -489,7 +489,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
     s32 temp = 0;
 
     if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS) &&
-        (play->sceneNum != SCENE_SPOT00) && (csCtx->frames > 20) &&
+        (play->sceneId != SCENE_SPOT00) && (csCtx->frames > 20) &&
         (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)) &&
@@ -1255,7 +1255,7 @@ void Cutscene_Command_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCm
                                                   (gSaveContext.entranceIndex == ENTR_YOUSEI_IZUMI_YOKO_0))) {
                         Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    } else if ((temp == 0.0f) && (play->sceneNum == SCENE_GANONTIKA)) {
+                    } else if ((temp == 0.0f) && (play->sceneId == SCENE_GANONTIKA)) {
                         func_800788CC(NA_SE_EV_WHITE_OUT);
                     }
                 } else {

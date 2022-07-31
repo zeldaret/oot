@@ -250,7 +250,7 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
     paramsColorIdx = (this->dyna.actor.params >> 6) & 3;
 
     for (i = 0; i < ARRAY_COUNT(sScenes); i++) {
-        if (sScenes[i] == play->sceneNum) {
+        if (sScenes[i] == play->sceneId) {
             break;
         }
     }
@@ -648,7 +648,7 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_YDAN:
         case SCENE_DDAN:
         case SCENE_BMORI1:

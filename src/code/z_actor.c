@@ -1958,7 +1958,7 @@ void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEnt
     SavedSceneFlags* savedSceneFlags;
     s32 i;
 
-    savedSceneFlags = &gSaveContext.sceneFlags[play->sceneNum];
+    savedSceneFlags = &gSaveContext.sceneFlags[play->sceneId];
 
     bzero(actorCtx, sizeof(*actorCtx));
 
@@ -3323,7 +3323,7 @@ Actor* Actor_GetProjectileActor(PlayState* play, Actor* refActor, f32 radius) {
 void Actor_SetTextWithPrefix(PlayState* play, Actor* actor, s16 baseTextId) {
     s16 prefix;
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_YDAN:
         case SCENE_YDAN_BOSS:
         case SCENE_MORIBOSSROOM:
@@ -4515,7 +4515,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             }
             break;
         case 16:
-            if (play->sceneNum == SCENE_SPOT15) {
+            if (play->sceneId == SCENE_SPOT15) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(INFTABLE_6A)) {
                 retTextId = 0x7004;
