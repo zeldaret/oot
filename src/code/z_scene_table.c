@@ -24,11 +24,11 @@
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 // Entrance Table definition
-#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
-    { scene, spawn,                                                                                    \
-      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                         \
-       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                              \
-       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |  \
+#define DEFINE_ENTRANCE(_0, sceneId, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
+    { sceneId, spawn,                                                                                    \
+      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                           \
+       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                                \
+       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |    \
        (((startTransType) << ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_START_TRANS_TYPE_MASK)) },
 
 EntranceInfo gEntranceTable[] = {
@@ -378,7 +378,7 @@ void Scene_DrawConfigHakadan(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneNum == SCENE_HAKADAN_BS) {
+    if (play->sceneId == SCENE_HAKADAN_BS) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 2) % 128, 0, 32, 32, 1,
                                     (gameplayFrames * 2) % 128, 0, 32, 32));
@@ -533,7 +533,7 @@ void Scene_DrawConfigHairalNiwa(PlayState* play) {
                                 (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
                                 32, 32));
 
-    if (play->sceneNum == SCENE_HAIRAL_NIWA) {
+    if (play->sceneId == SCENE_HAIRAL_NIWA) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 10) % 256, 32, 64));
     }
 
@@ -558,7 +558,7 @@ void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneNum == SCENE_GANON_TOU) {
+    if (play->sceneId == SCENE_GANON_TOU) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 64, 64));
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 255 - (gameplayFrames * 1) % 256, 64, 64, 1,
@@ -636,8 +636,8 @@ void Scene_DrawConfigGanonFinal(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6004);
 
     if (Flags_GetSwitch(play, 0x37)) {
-        if ((play->sceneNum == SCENE_GANON_DEMO) || (play->sceneNum == SCENE_GANON_FINAL) ||
-            (play->sceneNum == SCENE_GANON_SONOGO) || (play->sceneNum == SCENE_GANONTIKA_SONOGO)) {
+        if ((play->sceneId == SCENE_GANON_DEMO) || (play->sceneId == SCENE_GANON_FINAL) ||
+            (play->sceneId == SCENE_GANON_SONOGO) || (play->sceneId == SCENE_GANONTIKA_SONOGO)) {
             func_8009BEEC(play);
         }
     }
@@ -1468,7 +1468,7 @@ void Scene_DrawConfigBdan(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7712);
 
     gameplayFrames = play->gameplayFrames;
-    if (play->sceneNum == SCENE_BDAN) {
+    if (play->sceneId == SCENE_BDAN) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames % 128,
                                     (gameplayFrames * 2) % 128, 32, 32, 1, 127 - gameplayFrames % 128,

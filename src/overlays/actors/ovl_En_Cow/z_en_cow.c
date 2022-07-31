@@ -116,7 +116,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             Collider_SetCylinder(play, &this->colliders[1], &this->actor, &sCylinderInit);
             func_809DEE9C(this);
             this->actionFunc = func_809DF96C;
-            if (play->sceneNum == SCENE_LINK_HOME) {
+            if (play->sceneId == SCENE_LINK_HOME) {
                 if (!LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
                     return;

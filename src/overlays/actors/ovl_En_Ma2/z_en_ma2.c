@@ -141,15 +141,15 @@ u16 func_80AA1B58(EnMa2* this, PlayState* play) {
     if (LINK_IS_CHILD) {
         return 0;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (play->sceneNum == SCENE_MALON_STABLE) && IS_DAY &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (play->sceneId == SCENE_MALON_STABLE) && IS_DAY &&
         (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (play->sceneNum == SCENE_SPOT20) && IS_NIGHT &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (play->sceneId == SCENE_SPOT20) && IS_NIGHT &&
         (this->actor.shape.rot.z == 6)) {
         return 2;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18) || (play->sceneNum != SCENE_SPOT20)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18) || (play->sceneId != SCENE_SPOT20)) {
         return 0;
     }
     if ((this->actor.shape.rot.z == 7) && IS_DAY) {

@@ -363,15 +363,15 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
 }
 
 s32 func_80A79830(EnIn* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
+    if (play->sceneId == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
         !GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
-    if (play->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
+    if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
         GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
-    if (play->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
+    if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
         if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
             return 1;
         }
@@ -379,7 +379,7 @@ s32 func_80A79830(EnIn* this, PlayState* play) {
             return 1;
         }
     }
-    if (play->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
+    if (play->sceneId == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
         if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
             return 2;
         }
@@ -387,7 +387,7 @@ s32 func_80A79830(EnIn* this, PlayState* play) {
             return 4;
         }
     }
-    if (play->sceneNum == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
+    if (play->sceneId == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
         if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
             return 3;
         }
