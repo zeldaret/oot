@@ -117,8 +117,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.01f);
     this->timer = 0;
     this->hasHitPlayerOrGround = 0;
-    this->animStyle = 0;
-    this->playerIsOpening = 0;
+    this->openAnim = 0;
+    this->playerIsOpening = false;
 
     switch ((u8)(this->actor.params & 0xFF)) {
         case DOOR_KILLER_DOOR:
@@ -416,7 +416,7 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
     if (this->playerIsOpening) {
         this->actionFunc = DoorKiller_WaitBeforeWobble;
         this->timer = 10;
-        this->playerIsOpening = 0;
+        this->playerIsOpening = false;
         return;
     }
 

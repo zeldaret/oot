@@ -39,13 +39,6 @@ typedef struct {
 #define GET_ITEM_NONE \
     { ITEM_NONE, 0, 0, 0, OBJECT_INVALID }
 
-typedef enum {
-    /* 0x00 */ KNOB_ANIM_ADULT_L,
-    /* 0x01 */ KNOB_ANIM_CHILD_L,
-    /* 0x02 */ KNOB_ANIM_ADULT_R,
-    /* 0x03 */ KNOB_ANIM_CHILD_R
-} KnobDoorAnim;
-
 typedef struct {
     /* 0x00 */ u8 itemId;
     /* 0x02 */ s16 actorId;
@@ -4308,7 +4301,7 @@ s32 func_80839768(PlayState* play, Player* this, Vec3f* arg2, CollisionPoly** ar
 
 s32 func_80839800(Player* this, PlayState* play) {
     DoorShutter* doorShutter;
-    EnDoor* door; // Can also be DoorKiller*
+    DoorActorBase* door;
     s32 doorDirection;
     f32 sp78;
     f32 sp74;
@@ -4373,26 +4366,26 @@ s32 func_80839800(Player* this, PlayState* play) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->doorBgCamIndex = play->transiActorCtx.list[(u16)doorShutter->dyna.actor.params >> 10]
-                                               .sides[(doorDirection > 0) ? 0 : 1]
-                                               .bgCamIndex;
+                    this->doorBgCamIndex =
+                        play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&doorShutter->dyna.actor)]
+                            .sides[(doorDirection > 0) ? 0 : 1]
+                            .bgCamIndex;
 
                     Actor_DisableLens(play);
                 }
             } else {
-                // This actor can be either EnDoor or DoorKiller.
-                // Don't try to access any struct vars other than `animStyle` and `playerIsOpening`! These two variables
-                // are common across the two actors' structs however most other variables are not!
-                door = (EnDoor*)doorActor;
+                // The door actor can be either EnDoor or DoorKiller.
+                door = (DoorActorBase*)doorActor;
 
-                door->animStyle = (doorDirection < 0.0f) ? (LINK_IS_ADULT ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
-                                                         : (LINK_IS_ADULT ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
+                door->openAnim = (doorDirection < 0.0f)
+                                     ? (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_L : DOOR_OPEN_ANIM_CHILD_L)
+                                     : (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_R : DOOR_OPEN_ANIM_CHILD_R);
 
-                if (door->animStyle == KNOB_ANIM_ADULT_L) {
+                if (door->openAnim == DOOR_OPEN_ANIM_ADULT_L) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_9, this->modelAnimType);
-                } else if (door->animStyle == KNOB_ANIM_CHILD_L) {
+                } else if (door->openAnim == DOOR_OPEN_ANIM_CHILD_L) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_10, this->modelAnimType);
-                } else if (door->animStyle == KNOB_ANIM_ADULT_R) {
+                } else if (door->openAnim == DOOR_OPEN_ANIM_ADULT_R) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_11, this->modelAnimType);
                 } else {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_12, this->modelAnimType);
@@ -4422,17 +4415,21 @@ s32 func_80839800(Player* this, PlayState* play) {
                 func_80832224(this);
                 func_80832F54(play, this, 0x28F);
 
+                // If this door is the second half of a double door (spawned as child)
                 if (doorActor->parent != NULL) {
                     doorDirection = -doorDirection;
                 }
 
-                door->playerIsOpening = 1;
+                door->playerIsOpening = true;
 
+                // If the door actor is not DoorKiller
                 if (this->doorType != PLAYER_DOORTYPE_FAKE) {
+                    // The door actor is EnDoor
+
                     this->stateFlags1 |= PLAYER_STATE1_29;
                     Actor_DisableLens(play);
 
-                    if (((doorActor->params >> 7) & 7) == 3) {
+                    if (ENDOOR_GET_TYPE(doorActor) == DOOR_SCENEEXIT) {
                         sp4C.x = doorActor->world.pos.x - (sp6C * sp74);
                         sp4C.y = doorActor->world.pos.y + 10.0f;
                         sp4C.z = doorActor->world.pos.z - (sp6C * sp78);
@@ -4445,7 +4442,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Play_GetCamera(play, CAM_ID_MAIN), doorActor,
-                                             play->transiActorCtx.list[(u16)doorActor->params >> 10]
+                                             play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(doorActor)]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .bgCamIndex,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
@@ -4454,8 +4451,9 @@ s32 func_80839800(Player* this, PlayState* play) {
             }
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
-                frontRoom =
-                    play->transiActorCtx.list[(u16)doorActor->params >> 10].sides[(doorDirection > 0) ? 0 : 1].room;
+                frontRoom = play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(doorActor)]
+                                .sides[(doorDirection > 0) ? 0 : 1]
+                                .room;
 
                 if ((frontRoom >= 0) && (frontRoom != play->roomCtx.curRoom.num)) {
                     func_8009728C(play, &play->roomCtx, frontRoom);
