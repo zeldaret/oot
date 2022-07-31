@@ -455,8 +455,8 @@ void func_809CF984(EnBw* this, PlayState* play) {
     }
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) {
-        floorPolyType = func_80041D4C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        if ((floorPolyType == 2) || (floorPolyType == 3) || (floorPolyType == 9)) {
+        floorPolyType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+        if ((floorPolyType == FLOOR_TYPE_2) || (floorPolyType == FLOOR_TYPE_3) || (floorPolyType == FLOOR_TYPE_9)) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -815,8 +815,9 @@ s32 EnBw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnBw* this = (EnBw*)thisx;
 
     if (limbIndex == 1) {
-        gSPSegment((*gfx)++, 0x09,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, this->unk_23A, 0x20, 0x20));
+        gSPSegment(
+            (*gfx)++, 0x09,
+            Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x20, 1, 0, this->unk_23A, 0x20, 0x20));
         if ((this->unk_220 == 1) || (this->unk_220 == 5)) {
             Matrix_Push();
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
@@ -884,8 +885,8 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, (play->gameplayFrames * -20) % 0x200,
-                                0x20, 0x80));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
+                                (play->gameplayFrames * -20) % 0x200, 0x20, 0x80));
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
     Matrix_Scale(this->unk_248 * 0.01f, this->unk_248 * 0.01f, this->unk_248 * 0.01f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);

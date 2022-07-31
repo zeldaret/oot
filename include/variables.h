@@ -226,11 +226,11 @@ extern void(*D_801755D0)(void);
 
 extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
-extern OSPifRam __osPifInternalBuff;
-extern u8 __osContLastPoll;
+extern OSPifRam __osContPifRam;
+extern u8 __osContLastCmd;
 extern u8 __osMaxControllers;
 extern __OSInode __osPfsInodeCache;
-extern OSPifRam gPifMempakBuf;
+extern OSPifRam __osPfsPifRam;
 extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 bytes
