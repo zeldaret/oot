@@ -24,9 +24,9 @@
  *  1   2   3   4       5           : The joybus devices plugged into the four controller ports or on the cartridge
  *
  * Joybus communication is handled on another thread as polling and receiving controller data is a slow process; the
- * N64 programming manual quotes 2 milliseconds as the expected value from calling `osContStartReadData` to receiving
- * the data. By running this on a separate thread to the game state, work can be done while waiting for this operation
- * to complete.
+ * N64 programming manual section 26.2.4.1 quotes 2 milliseconds as the expected delay from calling
+ * `osContStartReadData` to receiving the data. By running this on a separate thread to the game state, work can be
+ * done while waiting for this operation to complete.
  */
 #include "global.h"
 #include "vt.h"
@@ -52,7 +52,7 @@ s32 gPadMgrLogSeverity = LOG_SEVERITY_INFO;
  * released. Note the possibility for a double lock, if the thread that already holds the serial event queue attempts
  * to acquire it again it will block forever.
  *
- * @return The message queue to which SI interrupt events are posted to.
+ * @return The message queue to which SI interrupt events are posted.
  *
  * @see PadMgr_ReleaseSerialEventQueue
  */
