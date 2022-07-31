@@ -162,7 +162,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     this->unk_1F0 = 0;
     this->eyeTexIndex = 0;
 
-    if (gSaveContext.sceneSetupIndex > 3) {
+    if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
     } else if (play->sceneNum == SCENE_SPOT20) {
         if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {

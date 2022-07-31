@@ -430,7 +430,7 @@ void EnVm_Update(Actor* thisx, PlayState* play) {
     }
 
     this->actionFunc(this, play);
-    this->beamTexScroll += 0xC;
+    this->beamTexScroll += 3 << 2;
 
     if (this->actor.colChkInfo.health != 0 && this->unk_21C != 2) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIMOS_ROLL_HEAD - SFX_FLAG);

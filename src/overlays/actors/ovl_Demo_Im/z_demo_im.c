@@ -325,7 +325,7 @@ void func_80985430(DemoIm* this, PlayState* play) {
 void func_8098544C(DemoIm* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 4) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gSaveContext.chamberCutsceneNum == 4) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
@@ -923,7 +923,7 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 }
 
 void func_80986D40(DemoIm* this, PlayState* play) {
-    if (gSaveContext.sceneSetupIndex == 6) {
+    if (gSaveContext.sceneLayer == 6) {
         this->action = 19;
         this->drawConfig = 1;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
