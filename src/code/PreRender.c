@@ -359,7 +359,7 @@ void PreRender_DrawCoverage16b(PreRender* this, Gfx** gfxp) {
     gDPPipeSync(gfx++);
     // Set the blend color to full white and set maximum depth
     gDPSetBlendColor(gfx++, 255, 255, 255, 8);
-    gDPSetPrimDepth(gfx++, -1, -1);
+    gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
     // Uses G_RM_VISCVG to blit the coverage values to the framebuffer
     //

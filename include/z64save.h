@@ -154,7 +154,7 @@ typedef struct {
     /* 0x1354 */ s32 fileNum; // "file_no"
     /* 0x1358 */ char unk_1358[0x0004];
     /* 0x135C */ s32 gameMode;
-    /* 0x1360 */ s32 sceneSetupIndex;
+    /* 0x1360 */ s32 sceneLayer; // "counter"
     /* 0x1364 */ s32 respawnFlag; // "restart_flag"
     /* 0x1368 */ RespawnData respawn[RESPAWN_MODE_MAX]; // "restart_data"
     /* 0x13BC */ f32 entranceSpeed;
@@ -251,6 +251,16 @@ typedef enum {
     /* 2 */ GAMEMODE_FILE_SELECT, // Note: only instance type transitions swap to file select
     /* 3 */ GAMEMODE_END_CREDITS
 } GameMode;
+
+typedef enum {
+    /* 0 */ SCENE_LAYER_CHILD_DAY,
+    /* 1 */ SCENE_LAYER_CHILD_NIGHT,
+    /* 2 */ SCENE_LAYER_ADULT_DAY,
+    /* 3 */ SCENE_LAYER_ADULT_NIGHT,
+    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST 
+} SceneLayer;
+
+#define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
 
 typedef enum {
     /* 0 */ LINK_AGE_ADULT,

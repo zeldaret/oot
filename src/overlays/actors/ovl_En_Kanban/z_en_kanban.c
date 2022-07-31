@@ -403,7 +403,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     piece->actor.flags &= ~ACTOR_FLAG_0;
                     piece->actor.flags |= ACTOR_FLAG_25;
                     this->cutMarkTimer = 5;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_STRIKE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }
             }
             this->actor.focus.pos = this->actor.world.pos;
@@ -499,11 +499,11 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             }
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 this->actor.speedXZ *= -0.5f;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_WOODPLATE_BOUND);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WOODPLATE_BOUND);
             }
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
                 this->actionState = ENKANBAN_WATER;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
                 this->bounceX = this->bounceZ = 0;
                 this->actor.world.pos.y += this->actor.yDistToWater;
                 EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 0, (this->partCount * 20) + 300);
@@ -568,7 +568,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 Vec3f accel;
                 Vec3f pos;
 
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_WOODPLATE_BOUND);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WOODPLATE_BOUND);
                 accel.x = 0.0f;
                 accel.y = 0.1f;
                 accel.z = 0.0f;
@@ -732,8 +732,8 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                         (play->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
                         this->actionState = ENKANBAN_REPAIR;
                         this->bounceX = 1;
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
                     break;
             }

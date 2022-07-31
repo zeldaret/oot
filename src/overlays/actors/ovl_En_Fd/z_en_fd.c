@@ -292,7 +292,7 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
         }
         this->invincibilityTimer = 30;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
         Enemy_StartFinishingBlow(play, &this->actor);
         return true;
     } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & AT_HIT) {
@@ -305,7 +305,7 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
             return false;
         }
         this->attackTimer = 30;
-        Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+        Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
         func_8002F71C(play, &this->actor, this->actor.speedXZ + 2.0f, this->actor.yawTowardsPlayer, 6.0f);
     }
     return false;
@@ -479,7 +479,7 @@ void EnFd_Reappear(EnFd* this, PlayState* play) {
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_0);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_LAUGH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_LAUGH);
     this->actionFunc = EnFd_SpinAndGrow;
 }
 
@@ -622,7 +622,7 @@ void EnFd_Run(EnFd* this, PlayState* play) {
     this->actor.world.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.curFrame == 6.0f || this->skelAnime.curFrame == 13.0f || this->skelAnime.curFrame == 28.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_KICK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_KICK);
     }
     Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
 }
@@ -665,7 +665,7 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
         if (EnFd_SpawnCore(this, play)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->invincibilityTimer = 30;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
             Enemy_StartFinishingBlow(play, &this->actor);
         } else {
             this->actor.flags &= ~ACTOR_FLAG_13;
@@ -779,7 +779,8 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth / 8].r, envColors[clampedHealth / 8].g,
                        envColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
         gSPSegment(POLY_XLU_DISP++, 0x8,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, 0xFF - (u8)(frames * 6), 8, 0x40));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
+                                    0xFF - (u8)(frames * 6), 8, 0x40));
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_XLU_DISP++, 0x9, D_80116280);
 
