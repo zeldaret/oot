@@ -75,7 +75,7 @@ void func_8097C8A8(DemoGo* this, PlayState* play) {
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &thisx->world.pos, &sp20, &sp1C);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &sp20, 20, NA_SE_EV_OBJECT_FALL);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
 

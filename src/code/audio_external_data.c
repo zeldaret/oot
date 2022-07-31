@@ -1,12 +1,12 @@
 #include "ultra64.h"
 #include "global.h"
 
-// sSoundRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
-u8 gSoundRequestWriteIndex = 0;
-u8 gSoundRequestReadIndex = 0;
+// sSfxRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
+u8 gSfxRequestWriteIndex = 0;
+u8 gSfxRequestReadIndex = 0;
 
 /**
- * Array of pointers to arrays of SoundBankEntry of sizes: 9, 12, 22, 20, 8, 3, 5
+ * Array of pointers to arrays of SfxBankEntry of sizes: 9, 12, 22, 20, 8, 3, 5
  *
  * 0 : Player Bank          size 9
  * 1 : Item Bank            size 12
@@ -16,11 +16,11 @@ u8 gSoundRequestReadIndex = 0;
  * 5 : Ocarina Bank         size 3
  * 6 : Voice Bank           size 5
  */
-SoundBankEntry* gSoundBanks[7] = {
+SfxBankEntry* gSfxBanks[7] = {
     D_8016BAD0, D_8016BC80, D_8016BEC0, D_8016C2E0, D_8016C6A0, D_8016C820, D_8016C8B0,
 };
 
-u8 gSoundBankSizes[ARRAY_COUNT(gSoundBanks)] = {
+u8 gSfxBankSizes[ARRAY_COUNT(gSfxBanks)] = {
     ARRAY_COUNT(D_8016BAD0), ARRAY_COUNT(D_8016BC80), ARRAY_COUNT(D_8016BEC0), ARRAY_COUNT(D_8016C2E0),
     ARRAY_COUNT(D_8016C6A0), ARRAY_COUNT(D_8016C820), ARRAY_COUNT(D_8016C8B0),
 };

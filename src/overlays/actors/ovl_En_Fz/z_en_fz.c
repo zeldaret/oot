@@ -346,15 +346,15 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
                     if (this->actor.colChkInfo.health) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                         vec.x = this->actor.world.pos.x;
                         vec.y = this->actor.world.pos.y;
                         vec.z = this->actor.world.pos.z;
                         EnFz_Damaged(this, play, &vec, 10, 0.0f);
                         this->unusedCounter++;
                     } else {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EV_ICE_BROKEN);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_ICE_BROKEN);
                         vec.x = this->actor.world.pos.x;
                         vec.y = this->actor.world.pos.y;
                         vec.z = this->actor.world.pos.z;
@@ -366,10 +366,10 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
                 Actor_ApplyDamage(&this->actor);
                 Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
                 if (this->actor.colChkInfo.health == 0) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
                     EnFz_SetupMelt(this);
                 } else {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                 }
             }
         }
@@ -727,7 +727,7 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
         func_8002ED80(&this->actor, play, 0);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, play->state.frames & 0x7F, 32, 32, 1, 0,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->state.frames & 0x7F, 32, 32, 1, 0,
                                     (2 * play->state.frames) & 0x7F, 32, 32));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fz.c", 1183),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -874,7 +874,7 @@ void EnFz_DrawEffects(EnFz* this, PlayState* play) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, effect->primAlpha);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 3 * (effect->timer + (3 * i)),
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 3 * (effect->timer + (3 * i)),
                                         15 * (effect->timer + (3 * i)), 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);

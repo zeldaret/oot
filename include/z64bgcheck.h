@@ -87,11 +87,94 @@ typedef struct {
     // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
 
+typedef enum {
+    /*  0 */ FLOOR_TYPE_0,
+    /*  1 */ FLOOR_TYPE_1,
+    /*  2 */ FLOOR_TYPE_2,
+    /*  3 */ FLOOR_TYPE_3,
+    /*  4 */ FLOOR_TYPE_4,
+    /*  5 */ FLOOR_TYPE_5,
+    /*  6 */ FLOOR_TYPE_6,
+    /*  7 */ FLOOR_TYPE_7,
+    /*  8 */ FLOOR_TYPE_8,
+    /*  9 */ FLOOR_TYPE_9,
+    /* 10 */ FLOOR_TYPE_10,
+    /* 11 */ FLOOR_TYPE_11,
+    /* 12 */ FLOOR_TYPE_12
+} FloorType;
+
+typedef enum {
+    /*  0 */ WALL_TYPE_0,
+    /*  1 */ WALL_TYPE_1,
+    /*  2 */ WALL_TYPE_2,
+    /*  3 */ WALL_TYPE_3,
+    /*  4 */ WALL_TYPE_4,
+    /*  5 */ WALL_TYPE_5,
+    /*  6 */ WALL_TYPE_6,
+    /*  7 */ WALL_TYPE_7,
+    /*  8 */ WALL_TYPE_8,
+    /*  9 */ WALL_TYPE_9,
+    /* 10 */ WALL_TYPE_10,
+    /* 11 */ WALL_TYPE_11,
+    /* 12 */ WALL_TYPE_12,
+    /* 32 */ WALL_TYPE_MAX = 32
+} WallType;
+
+#define WALL_FLAG_0 (1 << 0)
+#define WALL_FLAG_1 (1 << 1)
+#define WALL_FLAG_2 (1 << 2)
+#define WALL_FLAG_3 (1 << 3)
+#define WALL_FLAG_4 (1 << 4)
+#define WALL_FLAG_5 (1 << 5)
+#define WALL_FLAG_6 (1 << 6)
+
+typedef enum {
+    /*  0 */ FLOOR_PROPERTY_0,
+    /*  5 */ FLOOR_PROPERTY_5 = 5,
+    /*  6 */ FLOOR_PROPERTY_6,
+    /*  7 */ FLOOR_PROPERTY_7,
+    /*  8 */ FLOOR_PROPERTY_8,
+    /*  9 */ FLOOR_PROPERTY_9,
+    /* 11 */ FLOOR_PROPERTY_11 = 11,
+    /* 12 */ FLOOR_PROPERTY_12
+} FloorProperty;
+
+typedef enum {
+    /*  0 */ SURFACE_SFX_TYPE_0,
+    /*  1 */ SURFACE_SFX_TYPE_1,
+    /*  2 */ SURFACE_SFX_TYPE_2,
+    /*  3 */ SURFACE_SFX_TYPE_3,
+    /*  4 */ SURFACE_SFX_TYPE_4,
+    /*  5 */ SURFACE_SFX_TYPE_5,
+    /*  6 */ SURFACE_SFX_TYPE_6,
+    /*  7 */ SURFACE_SFX_TYPE_7,
+    /*  8 */ SURFACE_SFX_TYPE_8,
+    /*  9 */ SURFACE_SFX_TYPE_9,
+    /* 10 */ SURFACE_SFX_TYPE_10,
+    /* 11 */ SURFACE_SFX_TYPE_11,
+    /* 12 */ SURFACE_SFX_TYPE_12,
+    /* 13 */ SURFACE_SFX_TYPE_13,
+    /* 14 */ SURFACE_SFX_TYPE_MAX
+} SurfaceSfxType;
+
+typedef enum {
+    /*  0 */ FLOOR_EFFECT_0,
+    /*  1 */ FLOOR_EFFECT_1,
+    /*  2 */ FLOOR_EFFECT_2
+} FloorEffect;
+
+typedef enum {
+    /*  0 */ CONVEYOR_SPEED_DISABLED,
+    /*  1 */ CONVEYOR_SPEED_SLOW,
+    /*  2 */ CONVEYOR_SPEED_MEDIUM,
+    /*  3 */ CONVEYOR_SPEED_FAST,
+    /*  4 */ CONVEYOR_SPEED_MAX
+} ConveyorSpeed;
+
+#define CONVEYOR_DIRECTION_TO_BINANG(conveyorDirection) ((conveyorDirection) * (0x10000 / 64))
+
 typedef struct {
     u32 data[2];
-
-    // Type 1
-    // 0x0800_0000 = wall damage
 } SurfaceType;
 
 typedef struct {

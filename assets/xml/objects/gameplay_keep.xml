@@ -654,15 +654,15 @@
         <DList Name="gBoulderFragmentsDL" Offset="0xD340"/>
         <Texture Name="gRockFragment1Tex" OutName="rock_fragment_1" Format="rgba16" Width="32" Height="32" Offset="0xD4E0"/>
         <Texture Name="gRockFragment2Tex" OutName="rock_fragment_2" Format="rgba16" Width="32" Height="32" Offset="0xDCE0"/>
-        <Animation Name="gDoor1Anim" Offset="0xE5B4"/>
-        <Animation Name="gDoor2Anim" Offset="0xE6A0"/>
-        <Animation Name="gDoor3Anim" Offset="0xE758"/>
+        <Animation Name="gDoorChildOpeningLeftAnim" Offset="0xE5B4"/>
+        <Animation Name="gDoorChildOpeningRightAnim" Offset="0xE6A0"/>
+        <Animation Name="gDoorAdultOpeningLeftAnim" Offset="0xE758"/>
         <DList Name="gDoorFrameDL" Offset="0xEC30"/>
         <DList Name="gDoorLeftDL" Offset="0xECB8"/>
         <DList Name="gDoorRightDL" Offset="0xEE00"/>
         <Texture Name="gWoodenDoorTex" OutName="wooden_door" Format="rgba16" Width="32" Height="64" Offset="0xEF38"/>
         <Skeleton Name="gDoorSkel" Type="Normal" LimbType="Standard" Offset="0xFF78"/>
-        <Animation Name="gDoor4Anim" Offset="0x10038"/>
+        <Animation Name="gDoorAdultOpeningRightAnim" Offset="0x10038"/>
         <DList Name="gEffDustDL" Offset="0x10050"/>
         <DList Name="gEffFlash1DL" Offset="0x10130"/>
         <DList Name="gEffFlash2DL" Offset="0x101A8"/>
