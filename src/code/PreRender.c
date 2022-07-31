@@ -172,17 +172,8 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxp) {
 }
 
 /**
- * Copies `fbuf` to `fbufSave`, discarding the alpha channel and modulating the RGB channel by
+ * Copies `buf` to `bufSave`, discarding the alpha channel and modulating the RGB channel by
  * the color ('r', 'g', 'b', 'a')
- *
- * @param this      PreRender instance
- * @param gfxp      Display list pointer
- * @param fbuf      Source image
- * @param fbufSave  Destination vuffer
- * @param r         Red
- * @param g         Green
- * @param b         Blue
- * @param a         Alpha
  */
 void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a) {
     Gfx* gfx;
