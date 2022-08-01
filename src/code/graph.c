@@ -37,12 +37,15 @@ void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
 void Graph_DisassembleUCode(Gfx* workBuf) {
     UCodeDisas disassembler;
 
-    if (HREG(80) == 7 && HREG(81) != 0) {
+    if (HREG(80) == HREG_MODE_UCODE_DISAS && HREG(81) != 0) {
         UCodeDisas_Init(&disassembler);
         disassembler.enableLog = HREG(83);
+
         UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
         UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
+
         UCodeDisas_Disassemble(&disassembler, workBuf);
+
         HREG(93) = disassembler.dlCnt;
         HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
         HREG(85) = disassembler.vtxCnt;
@@ -53,6 +56,7 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
         HREG(90) = disassembler.lineCnt;
         HREG(91) = disassembler.syncErr;
         HREG(92) = disassembler.loaducodeCnt;
+
         if (HREG(82) == 1 || HREG(82) == 2) {
             osSyncPrintf("vtx_cnt=%d\n", disassembler.vtxCnt);
             osSyncPrintf("spvtx_cnt=%d\n", disassembler.spvtxCnt);
@@ -65,6 +69,7 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
             osSyncPrintf("dl_depth=%d\n", disassembler.dlDepth);
             osSyncPrintf("dl_cnt=%d\n", disassembler.dlCnt);
         }
+
         UCodeDisas_Destroy(&disassembler);
     }
 }
@@ -171,13 +176,15 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
+
         if (D_8012D260 != NULL) {
-            HREG(80) = 7;
+            HREG(80) = HREG_MODE_UCODE_DISAS;
             HREG(81) = 1;
             HREG(83) = 2;
             D_8012D260 = D_8012D260;
             Graph_DisassembleUCode(D_8012D260);
         }
+
         Fault_AddHungupAndCrashImpl("RCP is HUNG UP!!", "Oh! MY GOD!!");
     }
 
@@ -290,13 +297,13 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 1028);
 
-    if (HREG(80) == 10 && HREG(93) == 2) {
-        HREG(80) = 7;
+    if (HREG(80) == HREG_MODE_PLAY && HREG(93) == 2) {
+        HREG(80) = HREG_MODE_UCODE_DISAS;
         HREG(81) = -1;
         HREG(83) = HREG(92);
     }
 
-    if (HREG(80) == 7 && HREG(81) != 0) {
+    if (HREG(80) == HREG_MODE_UCODE_DISAS && HREG(81) != 0) {
         if (HREG(82) == 3) {
             Fault_AddClient(&sGraphUcodeFaultClient, Graph_UCodeFaultClient, gfxCtx->workBuffer, "do_count_fault");
         }
@@ -461,7 +468,7 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
 }
 
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
-    if (HREG(80) == 7 && HREG(82) != 4) {
+    if (HREG(80) == HREG_MODE_UCODE_DISAS && HREG(82) != 4) {
         dispRefs[0] = gfxCtx->polyOpa.p;
         dispRefs[1] = gfxCtx->polyXlu.p;
         dispRefs[2] = gfxCtx->overlay.p;
@@ -473,7 +480,7 @@ void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, 
 }
 
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
-    if (HREG(80) == 7 && HREG(82) != 4) {
+    if (HREG(80) == HREG_MODE_UCODE_DISAS && HREG(82) != 4) {
         if (dispRefs[0] + 1 == gfxCtx->polyOpa.p) {
             gfxCtx->polyOpa.p = dispRefs[0];
         } else {

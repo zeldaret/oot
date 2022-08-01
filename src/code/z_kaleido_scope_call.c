@@ -59,7 +59,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
     if ((pauseCtx->state != 0) || (pauseCtx->debugState != 0)) {
         if (pauseCtx->state == 1) {
             if (ShrinkWindow_GetCurrentVal() == 0) {
-                HREG(80) = 7;
+                HREG(80) = HREG_MODE_UCODE_DISAS;
                 HREG(82) = 3;
                 R_PAUSE_MENU_MODE = 1;
                 pauseCtx->unk_1E4 = 0;
@@ -67,7 +67,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
             }
         } else if (pauseCtx->state == 8) {
-            HREG(80) = 7;
+            HREG(80) = HREG_MODE_UCODE_DISAS;
             HREG(82) = 3;
             R_PAUSE_MENU_MODE = 1;
             pauseCtx->unk_1E4 = 0;

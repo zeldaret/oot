@@ -166,4 +166,86 @@
 #define R_EN_GOROIWA_SPEED                       mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA                  nREG(87)
 
+
+#define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options
+
+typedef enum {
+    /*  6 */ HREG_MODE_HILITE = 6, // print debug info for hilite 
+    /*  7 */ HREG_MODE_UCODE_DISAS, // various controls for the ucode disas system
+    /*  8 */ HREG_MODE_PRINT_MEMORY, // print memory at a specified address
+    /* 10 */ HREG_MODE_PLAY = 10, // various debug controls for the Play state
+    /* 11 */ HREG_MODE_PERSPECTIVE, // set various properties of the view perspective
+    /* 12 */ HREG_MODE_INPUT_TEST, // displays inputs from the specified controller
+    /* 13 */ HREG_MODE_SCHED, // toggle various special vi special features
+    /* 15 */ HREG_MODE_PRERENDER = 15,
+    /* 16 */ HREG_MODE_BASE_COLOR, // set the base screen color (and by extension, shrink window color too)
+    /* 17 */ HREG_MODE_SCENE_CONFIG,
+    /* 18 */ HREG_MODE_PRINT_OBJECT_TABLE,
+    /* 19 */ HREG_MODE_SHRINK_WINDOW,
+    /* 20 */ HREG_MODE_HEAP_FREE_BLOCK_TEST,
+    /* 21 */ HREG_MODE_VI_CONFIG
+} HRegMode;
+
+// HREG_MODE_UCODE_DISAS
+
+// HREG_MODE_PRINT_MEMORY
+#define R_PRINT_MEMORY_INIT     HREG(94) // set to `HREG_MODE_PRINT_MEMORY` when init is complete
+#define R_PRINT_MEMORY_TRIGGER  HREG(81) // set to a negative number to print memory
+#define R_PRINT_MEMORY_ADDR     HREG(82) // upper 16 bits of the address to print from
+#define R_PRINT_MEMORY_SIZE     HREG(83) // value * 0x10 = length of the log
+
+// HREG_MODE_PLAY
+
+// HREG_MODE_PERSPECTIVE
+#define R_PERSPECTIVE_INIT    HREG(94) // set to `HREG_MODE_PERSPECTIVE` when init is complete
+#define R_PERSPECTIVE_FOVY    HREG(83) // value to use for `fovy`
+#define R_PERSPECTIVE_ASPECT  HREG(84) // value to use for `aspect`, divided by 10000
+#define R_PERSPECTIVE_NEAR    HREG(85) // value to use for `near`
+#define R_PERSPECTIVE_FAR     HREG(86) // value to use for `far`
+#define R_PERSPECTIVE_SCALE   HREG(87) // value to use for `scale`, divided by 100
+
+// HREG_MODE_INPUT_TEST
+#define R_INPUT_TEST_CONTROLLER_PORT      HREG(81) // controller to copy values from
+#define R_INPUT_TEST_COMPARE_VALUE        HREG(82) // input value compared against for various tests
+#define R_INPUT_TEST_BUTTON_CUR           HREG(83) // buttons held on the test controller
+#define R_INPUT_TEST_BUTTON_PRESS         HREG(84) // buttons pressed on the test controller
+#define R_INPUT_TEST_REL_STICK_X          HREG(85) // current stick value on the x axis (ignoring the deadzone)
+#define R_INPUT_TEST_REL_STICK_Y          HREG(86) // current stick value on the y axis (ignoring the deadzone)
+#define R_INPUT_TEST_REL_STICK_X_2        HREG(87) // same as R_INPUT_TEST_REL_STICK_X
+#define R_INPUT_TEST_REL_STICK_Y_2        HREG(88) // same as R_INPUT_TEST_REL_STICK_Y
+#define R_INPUT_TEST_CUR_STICK_X          HREG(89) // current stick value on the x axis
+#define R_INPUT_TEST_CUR_STICK_Y          HREG(90) // current stick value on the y axis
+#define R_INPUT_TEST_COMPARE_BUTTON_CUR   HREG(93) // set to 1 if cur.button matches R_INPUT_TEST_COMPARE_VALUE
+#define R_INPUT_TEST_COMPARE_COMBO_CUR    HREG(94) // set to 1 if cur.button combo matches R_INPUT_TEST_COMPARE_VALUE
+#define R_INPUT_TEST_COMPARE_COMBO_PRESS  HREG(95) // set to 1 if cur.button combo matches R_INPUT_TEST_COMPARE_VALUE
+
+// HREG_MODE_SCHED
+#define R_SCHED_INIT                     HREG(95) // set to `HREG_MODE_SCHED` when init is complete
+#define R_SCHED_TOGGLE_SPECIAL_FEATURES  HREG(81) // set to 2 to allow special features to be applied
+#define R_SCHED_GAMMA_ON                 HREG(82) // set OS_VI_GAMMA_ON
+#define R_SCHED_DITHER_FILTER_ON         HREG(83) // set OS_VI_DITHER_FILTER_ON
+#define R_SCHED_GAMMA_DITHER_ON          HREG(84) // set OS_VI_GAMMA_DITHER_ON
+#define R_SCHED_DIVOT_ON                 HREG(85) // set OS_VI_DIVOT_ON
+
+// HREG_MODE_PRERENDER
+
+// HREG_MODE_BASE_COLOR
+
+// HREG_MODE_SCENE_CONFIG
+#define R_SCENE_CONFIG_INIT                HREG(95) // set to `HREG_MODE_SCENE_CONFIG` when init is complete
+#define R_SCENE_CONFIG_DRAW_DEFAULT_DLIST  HREG(81) // set to 1 to draw the default display list
+#define R_SCENE_CONFIG_DRAW_SCENE_CONFIG   HREG(82) // set to 1 to draw the scene config
+
+// HREG_MODE_PRINT_OBJECT_TABLE
+#define R_PRINT_OBJECT_TABLE_TOGGLE  HREG(81) // set to a negative number to print the whole object table
+
+// HREG_MODE_SHRINK_WINDOW
+#define R_SHRINK_WINDOW_INIT         HREG(94) // set to `HREG_MODE_SHRINK_WINDOW` when init is complete
+#define R_SHRINK_WINDOW_ENABLE_LOGS  HREG(81) // set to 1 to enable logging
+
+// HREG_MODE_HEAP_FREE_BLOCK_TEST
+#define R_HEAP_FREE_BLOCK_TEST_TOGGLE  HREG(82) // 0 = disabled, 1 = enabled
+
+// HREG_MODE_VI_CONFIG
+
 #endif

@@ -1461,8 +1461,8 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     if ((R_PAUSE_MENU_MODE < 2) && (gTrnsnUnkState < 2)) {
         s32 ret = ShrinkWindow_GetCurrentVal();
 
-        if (HREG(80) == 16) {
-            if (HREG(95) != 16) {
+        if (R_HREG_MODE == HREG_MODE_BASE_COLOR) {
+            if (HREG(95) != HREG_MODE_BASE_COLOR) {
                 HREG(81) = 3;
                 HREG(82) = 3;
                 HREG(83) = 0;
@@ -1477,7 +1477,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
                 HREG(92) = 0;
                 HREG(93) = 0;
                 HREG(94) = 0;
-                HREG(95) = 16;
+                HREG(95) = HREG_MODE_BASE_COLOR;
             }
 
             if (HREG(81) & 1) {
