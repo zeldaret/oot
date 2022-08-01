@@ -1825,7 +1825,7 @@ void FileSelect_InitContext(GameState* thisx) {
     this->unk_1CAD6[3] = 8;
     this->unk_1CAD6[4] = 10;
 
-    ShrinkWindow_SetVal(0);
+    Letterbox_SetSizeTarget(0);
 
     gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
     gSaveContext.dayTime = CLOCK_TIME(0, 0);

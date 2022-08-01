@@ -1459,7 +1459,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     gDPSetDepthImage(OVERLAY_DISP++, gZBuffer);
 
     if ((R_PAUSE_MENU_MODE < 2) && (gTrnsnUnkState < 2)) {
-        s32 ret = ShrinkWindow_GetCurrentVal();
+        s32 letterboxSize = Letterbox_GetSize();
 
         if (HREG(80) == 16) {
             if (HREG(95) != 16) {
@@ -1481,7 +1481,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
             }
 
             if (HREG(81) & 1) {
-                HREG(83) = ret;
+                HREG(83) = letterboxSize;
             }
 
             if (HREG(81) & 2) {
@@ -1491,7 +1491,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
             }
 
             if (HREG(82) & 1) {
-                ret = HREG(83);
+                letterboxSize = HREG(83);
             }
 
             if (HREG(82) & 2) {
@@ -1505,23 +1505,23 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
         gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
         gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetFillColor(POLY_OPA_DISP++, (GPACK_ZDZ(G_MAXFBZ, 0) << 16) | GPACK_ZDZ(G_MAXFBZ, 0));
-        gDPFillRectangle(POLY_OPA_DISP++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
+        gDPFillRectangle(POLY_OPA_DISP++, 0, letterboxSize, gScreenWidth - 1, gScreenHeight - letterboxSize - 1);
         gDPPipeSync(POLY_OPA_DISP++);
 
         gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
         gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
         gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
-        gDPFillRectangle(POLY_OPA_DISP++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
+        gDPFillRectangle(POLY_OPA_DISP++, 0, letterboxSize, gScreenWidth - 1, gScreenHeight - letterboxSize - 1);
         gDPPipeSync(POLY_OPA_DISP++);
 
-        if (ret > 0) {
+        if (letterboxSize > 0) {
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCycleType(OVERLAY_DISP++, G_CYC_FILL);
             gDPSetRenderMode(OVERLAY_DISP++, G_RM_NOOP, G_RM_NOOP2);
             gDPSetFillColor(OVERLAY_DISP++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
-            gDPFillRectangle(OVERLAY_DISP++, 0, 0, gScreenWidth - 1, ret - 1);
-            gDPFillRectangle(OVERLAY_DISP++, 0, gScreenHeight - ret, gScreenWidth - 1, gScreenHeight - 1);
+            gDPFillRectangle(OVERLAY_DISP++, 0, 0, gScreenWidth - 1, letterboxSize - 1);
+            gDPFillRectangle(OVERLAY_DISP++, 0, gScreenHeight - letterboxSize, gScreenWidth - 1, gScreenHeight - 1);
             gDPPipeSync(OVERLAY_DISP++);
         }
     }
