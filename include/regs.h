@@ -170,20 +170,21 @@
 #define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options
 
 typedef enum {
-    /*  6 */ HREG_MODE_HILITE = 6, // print debug info for hilite 
-    /*  7 */ HREG_MODE_UCODE_DISAS, // various controls for the ucode disas system
+    /*  7 */ HREG_MODE_UCODE_DISAS = 7, // various controls for the ucode disas system
     /*  8 */ HREG_MODE_PRINT_MEMORY, // print memory at a specified address
-    /* 10 */ HREG_MODE_PLAY = 10, // various debug controls for the Play state
+    /*  9 */ HREG_MODE_UNUSED_9,
+    /* 10 */ HREG_MODE_PLAY, // various debug controls for the Play state
     /* 11 */ HREG_MODE_PERSPECTIVE, // set various properties of the view perspective
     /* 12 */ HREG_MODE_INPUT_TEST, // displays inputs from the specified controller
     /* 13 */ HREG_MODE_SCHED, // toggle various special vi special features
-    /* 15 */ HREG_MODE_PRERENDER = 15,
+    /* 14 */ HREG_MODE_UNUSED_14,
+    /* 15 */ HREG_MODE_PRERENDER,
     /* 16 */ HREG_MODE_BASE_COLOR, // set the base screen color (and by extension, shrink window color too)
-    /* 17 */ HREG_MODE_SCENE_CONFIG,
-    /* 18 */ HREG_MODE_PRINT_OBJECT_TABLE,
-    /* 19 */ HREG_MODE_SHRINK_WINDOW,
-    /* 20 */ HREG_MODE_HEAP_FREE_BLOCK_TEST,
-    /* 21 */ HREG_MODE_VI_CONFIG
+    /* 17 */ HREG_MODE_SCENE_CONFIG, // toggle drawing the scene config
+    /* 18 */ HREG_MODE_UNUSED_18,
+    /* 19 */ HREG_MODE_LETTERBOX, // toggle logging and view values for the letterbox system
+    /* 20 */ HREG_MODE_HEAP_FREE_BLOCK_TEST, // enable or disable heap free block test
+    /* 21 */ HREG_MODE_VI
 } HRegMode;
 
 // HREG_MODE_UCODE_DISAS
@@ -195,6 +196,23 @@ typedef enum {
 #define R_PRINT_MEMORY_SIZE     HREG(83) // value * 0x10 = length of the log
 
 // HREG_MODE_PLAY
+#define R_PLAY_INIT              HREG(94) // set to `HREG_MODE_PLAY` when init is complete
+#define R_RUN_UPDATE             HREG(81)
+#define R_RUN_DRAW               HREG(82)
+#define R_DRAW_SKYBOX            HREG(83)
+#define R_DRAW_ROOM_FLAGS        HREG(84) // also enables drawing the scene config and room bg cover
+#define R_DRAW_ACTORS            HREG(85)
+#define R_DRAW_LENS_FLARES       HREG(86)
+#define R_DRAW_SCREEN_FILLS      HREG(87)
+#define R_DRAW_SANDSTORM         HREG(88)
+#define R_DRAW_OVERLAY_ELEMENTS  HREG(89)
+#define R_DRAW_ASSORTED_FLAGS    HREG(90) // see flags below
+#define R_DRAW_SKYBOX_FILTERS    (R_DRAW_ASSORTED_FLAGS & (1 << 0))
+#define R_DRAW_SUN_AND_MOON      (R_DRAW_ASSORTED_FLAGS & (1 << 1))
+#define R_DRAW_LIGHTNING         (R_DRAW_ASSORTED_FLAGS & (1 << 2))
+#define R_DRAW_LIGHTs            (R_DRAW_ASSORTED_FLAGS & (1 << 3))
+#define R_DRAW_COVER_ELEMENTS    HREG(92) // draw transition instance and vismono
+#define R_DRAW_DEBUG_OBJECTS    HREG(93)
 
 // HREG_MODE_PERSPECTIVE
 #define R_PERSPECTIVE_INIT    HREG(94) // set to `HREG_MODE_PERSPECTIVE` when init is complete
@@ -239,13 +257,22 @@ typedef enum {
 // HREG_MODE_PRINT_OBJECT_TABLE
 #define R_PRINT_OBJECT_TABLE_TOGGLE  HREG(81) // set to a negative number to print the whole object table
 
-// HREG_MODE_SHRINK_WINDOW
-#define R_SHRINK_WINDOW_INIT         HREG(94) // set to `HREG_MODE_SHRINK_WINDOW` when init is complete
-#define R_SHRINK_WINDOW_ENABLE_LOGS  HREG(81) // set to 1 to enable logging
+// HREG_MODE_LETTERBOX
+#define R_LETTERBOX_INIT         HREG(94) // set to `HREG_MODE_LETTERBOX` when init is complete
+#define R_LETTERBOX_ENABLE_LOGS  HREG(81) // set to 1 to enable logging
+#define R_LETTERBOX_STATE        HREG(83) // only used for displaying, changing this reg will not set its value
+#define R_LETTERBOX_SIZE         HREG(84) // only used for displaying, changing this reg will not set its value
+#define R_LETTERBOX_TARGET_SIZE  HREG(85) // only used for displaying, changing this reg will not set its value
+#define R_LETTERBOX_STEP         HREG(86) // only used for displaying, changing this reg will not set its value
 
 // HREG_MODE_HEAP_FREE_BLOCK_TEST
 #define R_HEAP_FREE_BLOCK_TEST_TOGGLE  HREG(82) // 0 = disabled, 1 = enabled
 
-// HREG_MODE_VI_CONFIG
+// HREG_MODE_VI
+#define R_VI_INIT                  HREG(95) // set to `HREG_MODE_VI` when init is complete
+#define R_VI_NEXT_Y_SCALE_MODE     HREG(81) // set to 0 to scale yScale with additional scan lines, else use 1.0
+#define R_VI_NEXT_ADDI_SCAN_LINES  HREG(82)
+#define R_VI_CUR_ADDI_SCAN_LINES   HREG(83)
+#define R_VI_CUR_Y_SCALE_MODE      HREG(84)
 
 #endif

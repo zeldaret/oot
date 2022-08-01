@@ -286,27 +286,31 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viMode = NULL;
     }
 
-    if (HREG(80) == HREG_MODE_VI_CONFIG) {
-        if (HREG(95) != HREG_MODE_VI_CONFIG) {
-            HREG(95) = HREG_MODE_VI_CONFIG;
-            HREG(81) = 0;
-            HREG(82) = gViConfigAdditionalScanLines;
-            HREG(83) = 0;
-            HREG(84) = 0;
+    if (R_HREG_MODE == HREG_MODE_VI) {
+        if (R_VI_INIT != HREG_MODE_VI) {
+            R_VI_INIT = HREG_MODE_VI;
+            R_VI_NEXT_Y_SCALE_MODE = 0;
+            R_VI_NEXT_ADDI_SCAN_LINES = gViConfigAdditionalScanLines;
+            R_VI_CUR_ADDI_SCAN_LINES = 0;
+            R_VI_CUR_Y_SCALE_MODE = 0;
         }
 
-        if (HREG(82) < 0) {
-            HREG(82) = 0;
-        }
-        if (HREG(82) > 0x30) {
-            HREG(82) = 0x30;
+        if (R_VI_NEXT_ADDI_SCAN_LINES < 0) {
+            R_VI_NEXT_ADDI_SCAN_LINES = 0;
         }
 
-        if ((HREG(83) != HREG(82)) || HREG(84) != HREG(81)) {
-            HREG(83) = HREG(82);
-            HREG(84) = HREG(81);
-            gViConfigAdditionalScanLines = HREG(82);
-            gViConfigYScale = HREG(81) == 0 ? 240.0f / (gViConfigAdditionalScanLines + 240.0f) : 1.0f;
+        if (R_VI_NEXT_ADDI_SCAN_LINES > 0x30) {
+            R_VI_NEXT_ADDI_SCAN_LINES = 0x30;
+        }
+
+        if ((R_VI_CUR_ADDI_SCAN_LINES != R_VI_NEXT_ADDI_SCAN_LINES) ||
+            R_VI_CUR_Y_SCALE_MODE != R_VI_NEXT_Y_SCALE_MODE) {
+            
+            R_VI_CUR_ADDI_SCAN_LINES = R_VI_NEXT_ADDI_SCAN_LINES;
+            R_VI_CUR_Y_SCALE_MODE = R_VI_NEXT_Y_SCALE_MODE;
+
+            gViConfigAdditionalScanLines = R_VI_NEXT_ADDI_SCAN_LINES;
+            gViConfigYScale = R_VI_NEXT_Y_SCALE_MODE == 0 ? 240.0f / (gViConfigAdditionalScanLines + 240.0f) : 1.0f;
             D_80009430 = 1;
         }
     }
