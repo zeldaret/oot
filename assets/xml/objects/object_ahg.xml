@@ -51,10 +51,10 @@
         <DList Name="object_ahg_DL_004628" Offset="0x4628"/>
 
         <Texture Name="object_ahg_TLUT_0047C8" OutName="tlut_000047C8" Format="rgba16" Width="16" Height="12" Offset="0x47C8"/>
-        <Texture Name="object_ahg_Tex_004948" OutName="tex_00004948" Format="ci8" Width="8" Height="8" Offset="0x4948" TlutOffset="0x47c8"/>
-        <Texture Name="object_ahg_Tex_004988" OutName="tex_00004988" Format="ci8" Width="32" Height="16" Offset="0x4988" TlutOffset="0x47c8"/>
-        <Texture Name="object_ahg_Tex_004B88" OutName="tex_00004B88" Format="ci8" Width="16" Height="16" Offset="0x4B88" TlutOffset="0x47c8"/>
-        <Texture Name="object_ahg_Tex_004C88" OutName="tex_00004C88" Format="ci8" Width="8" Height="16" Offset="0x4C88" TlutOffset="0x47c8"/>
+        <Texture Name="object_ahg_Tex_004948" OutName="tex_00004948" Format="ci8" Width="8" Height="8" Offset="0x4948" TlutOffset="0x47C8"/>
+        <Texture Name="object_ahg_Tex_004988" OutName="tex_00004988" Format="ci8" Width="32" Height="16" Offset="0x4988" TlutOffset="0x47C8"/>
+        <Texture Name="object_ahg_Tex_004B88" OutName="tex_00004B88" Format="ci8" Width="16" Height="16" Offset="0x4B88" TlutOffset="0x47C8"/>
+        <Texture Name="object_ahg_Tex_004C88" OutName="tex_00004C88" Format="ci8" Width="8" Height="16" Offset="0x4C88" TlutOffset="0x47C8"/>
         <DList Name="object_ahg_DL_005508" Offset="0x5508"/>
         <DList Name="object_ahg_DL_005728" Offset="0x5728"/>
     </File>
