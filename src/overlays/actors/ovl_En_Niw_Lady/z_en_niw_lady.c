@@ -212,8 +212,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                         D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
                         // "GET inside the chicken fence!"
-                        osSyncPrintf(T_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" T_RST,
-                                     D_80ABB3B4[currentCucco->unk_2AA]);
+                        osSyncPrintf(T_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" T_RST, D_80ABB3B4[currentCucco->unk_2AA]);
                     }
                 }
                 this->cuccosInPen++;

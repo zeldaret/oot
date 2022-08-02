@@ -155,8 +155,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
         // "Identification Completed!"
         osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" T_RST, this->type);
         // "Message completed!"
-        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" T_RST,
-                     (this->actor.params >> 8) & 0xF);
+        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" T_RST, (this->actor.params >> 8) & 0xF);
     }
 }
 

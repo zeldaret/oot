@@ -348,8 +348,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                         }
                     } else {
                         if (!GET_ITEMGETINF(ITEMGETINF_0E)) {
-                            osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" T_RST,
-                                         CUR_UPG_VALUE(UPG_QUIVER));
+                            osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" T_RST, CUR_UPG_VALUE(UPG_QUIVER));
                             switch (CUR_UPG_VALUE(UPG_QUIVER)) {
                                 case 0:
                                     this->getItemId = GI_RUPEE_PURPLE;

@@ -343,8 +343,7 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
         req = &sQuakeRequest[idx];
         if (req->callbackIdx != 0) {
             if (play->cameraPtrs[req->camPtrIdx] == NULL) {
-                osSyncPrintf(T_COL(YELLOW, BLACK) "quake: stopped! 'coz camera [%d] killed!!\n" T_RST,
-                             req->camPtrIdx);
+                osSyncPrintf(T_COL(YELLOW, BLACK) "quake: stopped! 'coz camera [%d] killed!!\n" T_RST, req->camPtrIdx);
                 Quake_Remove(req);
             } else {
                 temp = &camera->camId;

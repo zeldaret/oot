@@ -2821,8 +2821,7 @@ s32 Camera_Battle1(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&atToEyeNextDir, at, eyeNext);
     if (camera->target == NULL || camera->target->update == NULL) {
         if (camera->target == NULL) {
-            osSyncPrintf(
-                T_COL(YELLOW, BLACK) "camera: warning: battle: target is not valid, change parallel\n" T_RST);
+            osSyncPrintf(T_COL(YELLOW, BLACK) "camera: warning: battle: target is not valid, change parallel\n" T_RST);
         }
         camera->target = NULL;
         Camera_ChangeMode(camera, CAM_MODE_TARGET);
@@ -3100,8 +3099,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     playerHeight = Player_GetHeight(camera->player);
     if ((camera->target == NULL) || (camera->target->update == NULL)) {
         if (camera->target == NULL) {
-            osSyncPrintf(
-                T_COL(YELLOW, BLACK) "camera: warning: keepon: target is not valid, change parallel\n" T_RST);
+            osSyncPrintf(T_COL(YELLOW, BLACK) "camera: warning: keepon: target is not valid, change parallel\n" T_RST);
         }
         camera->target = NULL;
         Camera_ChangeMode(camera, CAM_MODE_TARGET);
@@ -3531,8 +3529,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     }
 
     if (rwData->unk_14 != *temp_s0) {
-        osSyncPrintf(T_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" T_RST, rwData->unk_14,
-                     *temp_s0);
+        osSyncPrintf(T_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" T_RST, rwData->unk_14, *temp_s0);
         camera->animState = 20;
         camera->unk_14C |= 0x20;
         camera->unk_14C &= ~(0x4 | 0x2);

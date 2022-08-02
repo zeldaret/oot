@@ -61,8 +61,7 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     // "☆ Man, my shoulders hurt~ ☆"
     osSyncPrintf(T_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" T_RST);
     // "☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d"
-    osSyncPrintf(T_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" T_RST,
-                 play->bombchuBowlingStatus);
+    osSyncPrintf(T_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" T_RST, play->bombchuBowlingStatus);
     this->posCopy = this->actor.world.pos;
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
