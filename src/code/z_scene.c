@@ -54,19 +54,19 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     u32 spaceSize;
     s32 i;
 
-    if (play2->sceneNum == SCENE_SPOT00) {
+    if (play2->sceneId == SCENE_SPOT00) {
         spaceSize = OBJECT_SPACE_SIZE_BASE;
-    } else if (play2->sceneNum == SCENE_GANON_DEMO) {
+    } else if (play2->sceneId == SCENE_GANON_DEMO) {
         if (gSaveContext.sceneLayer != 4) {
             spaceSize = OBJECT_SPACE_SIZE_BASE + (150 * 1024);
         } else {
             spaceSize = OBJECT_SPACE_SIZE_BASE;
         }
-    } else if (play2->sceneNum == SCENE_JYASINBOSS) {
+    } else if (play2->sceneId == SCENE_JYASINBOSS) {
         spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
-    } else if (play2->sceneNum == SCENE_KENJYANOMA) {
+    } else if (play2->sceneId == SCENE_KENJYANOMA) {
         spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
-    } else if (play2->sceneNum == SCENE_GANON_BOSS) {
+    } else if (play2->sceneId == SCENE_GANON_BOSS) {
         spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
     } else {
         spaceSize = OBJECT_SPACE_SIZE_BASE;
@@ -471,14 +471,14 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
     gSaveContext.worldMapArea = cmd->miscSettings.area;
 
-    if ((play->sceneNum == SCENE_SHOP1) || (play->sceneNum == SCENE_SYATEKIJYOU)) {
+    if ((play->sceneId == SCENE_SHOP1) || (play->sceneId == SCENE_SYATEKIJYOU)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
             gSaveContext.worldMapArea = 1;
         }
     }
 
-    if (((play->sceneNum >= SCENE_SPOT00) && (play->sceneNum <= SCENE_GANON_TOU)) ||
-        ((play->sceneNum >= SCENE_ENTRA) && (play->sceneNum <= SCENE_SHRINE_R))) {
+    if (((play->sceneId >= SCENE_SPOT00) && (play->sceneId <= SCENE_GANON_TOU)) ||
+        ((play->sceneId >= SCENE_ENTRA) && (play->sceneId <= SCENE_SHRINE_R))) {
         if (gSaveContext.cutsceneIndex < 0xFFF0) {
             gSaveContext.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
             osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.worldMapAreaData,

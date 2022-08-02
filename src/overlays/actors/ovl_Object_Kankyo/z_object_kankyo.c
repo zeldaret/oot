@@ -191,7 +191,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
     player = GET_PLAYER(play);
 
-    if (play->sceneNum == SCENE_SPOT04 && gSaveContext.sceneLayer == 7) {
+    if (play->sceneId == SCENE_SPOT04 && gSaveContext.sceneLayer == 7) {
         dist = Math3D_Vec3f_DistXYZ(&this->prevEyePos, &play->view.eye);
 
         this->prevEyePos.x = play->view.eye.x;

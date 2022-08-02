@@ -381,7 +381,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                 break;
         }
     } else if (type == ENVIEWER_TYPE_2_ZELDA) {
-        if (play->sceneNum == SCENE_SPOT00) { // Hyrule Field
+        if (play->sceneId == SCENE_SPOT00) { // Hyrule Field
             switch (this->state) {
                 case 0:
                     if (play->csCtx.state != CS_STATE_IDLE) {
@@ -581,7 +581,7 @@ void EnViewer_DrawHorse(EnViewer* this, PlayState* play) {
 }
 
 s32 EnViewer_ZeldaOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    if (play->sceneNum == SCENE_SPOT00) { // Hyrule Field
+    if (play->sceneId == SCENE_SPOT00) { // Hyrule Field
         if (limbIndex == 2) {
             *dList = gChildZeldaCutsceneDressDL;
         }
@@ -607,7 +607,7 @@ s32 EnViewer_ZeldaOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, 
 void EnViewer_ZeldaPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s32 pad;
 
-    if (play->sceneNum == SCENE_TOKINOMA) {
+    if (play->sceneId == SCENE_TOKINOMA) {
         if (limbIndex == 16) {
             OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1568);
             gSPDisplayList(POLY_OPA_DISP++, gChildZeldaOcarinaOfTimeDL);
@@ -618,7 +618,7 @@ void EnViewer_ZeldaPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 
 void EnViewer_DrawZelda(EnViewer* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1583);
-    if (play->sceneNum == SCENE_SPOT00) { // Hyrule Field
+    if (play->sceneId == SCENE_SPOT00) { // Hyrule Field
         if (play->csCtx.frames < 771) {
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gChildZeldaEyeInTex));
             gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gChildZeldaEyeOutTex));

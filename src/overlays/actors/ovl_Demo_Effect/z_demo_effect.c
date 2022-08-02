@@ -144,7 +144,7 @@ void DemoEffect_InitJewel(PlayState* play, DemoEffect* this) {
     } else {
         this->initUpdateFunc = DemoEffect_UpdateJewelAdult;
     }
-    if (play->sceneNum == SCENE_TOKINOMA) {
+    if (play->sceneId == SCENE_TOKINOMA) {
         Actor_SetScale(&this->actor, 0.35f);
     } else {
         Actor_SetScale(&this->actor, 0.10f);
@@ -492,7 +492,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(play, this);
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
-            if ((play->sceneNum == SCENE_BDAN) && GET_INFTABLE(INFTABLE_145)) {
+            if ((play->sceneId == SCENE_BDAN) && GET_INFTABLE(INFTABLE_145)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -1068,11 +1068,11 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
                 break;
         }
 
-        if (play->sceneNum == SCENE_SPOT04 && gSaveContext.sceneLayer == 6 && play->csCtx.frames == 197) {
+        if (play->sceneId == SCENE_SPOT04 && gSaveContext.sceneLayer == 6 && play->csCtx.frames == 197) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WHITE_OUT);
         }
 
-        if (play->sceneNum == SCENE_SPOT16 && gSaveContext.sceneLayer == 5) {
+        if (play->sceneId == SCENE_SPOT16 && gSaveContext.sceneLayer == 5) {
             if (!DemoEffect_CheckCsAction(this, play, 1)) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
@@ -1083,7 +1083,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
             if (0) {}
         }
 
-        if (play->sceneNum == SCENE_SPOT08 && gSaveContext.sceneLayer == 4) {
+        if (play->sceneId == SCENE_SPOT08 && gSaveContext.sceneLayer == 4) {
             if (!DemoEffect_CheckCsAction(this, play, 1)) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
@@ -1095,7 +1095,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
             if (0) {}
         }
 
-        if (play->sceneNum == SCENE_TOKINOMA && gSaveContext.sceneLayer == 14) {
+        if (play->sceneId == SCENE_TOKINOMA && gSaveContext.sceneLayer == 14) {
             if (1) {}
 
             if (play->csCtx.npcActions[this->csActionId]->action == 2) {
@@ -1103,7 +1103,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI || play->sceneNum == SCENE_YOUSEI_IZUMI_YOKO) {
+        if (play->sceneId == SCENE_DAIYOUSEI_IZUMI || play->sceneId == SCENE_YOUSEI_IZUMI_YOKO) {
             if (play->csCtx.npcActions[this->csActionId]->action == 2) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }

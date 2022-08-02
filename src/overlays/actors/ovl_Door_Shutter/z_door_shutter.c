@@ -129,7 +129,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 typedef struct {
-    s16 sceneNum;
+    s16 sceneId;
     u8 index;
 } ShutterSceneInfo;
 
@@ -143,8 +143,8 @@ static ShutterSceneInfo sSceneInfo[] = {
 };
 
 typedef struct {
-    s16 dungeonScene;
-    s16 bossScene;
+    s16 dungeonSceneId;
+    s16 bossSceneId;
     u8 index;
 } BossDoorInfo;
 
@@ -234,7 +234,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
         ShutterSceneInfo* phi_v1;
 
         for (phi_v1 = &sSceneInfo[0], i = 0; i < ARRAY_COUNT(sSceneInfo) - 1; i++, phi_v1++) {
-            if (play->sceneNum == phi_v1->sceneNum) {
+            if (play->sceneId == phi_v1->sceneId) {
                 break;
             }
         }
@@ -243,7 +243,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
         BossDoorInfo* phi_v1_2;
 
         for (phi_v1_2 = &D_80998288[0], i = 0; i < ARRAY_COUNT(D_80998288) - 1; i++, phi_v1_2++) {
-            if (play->sceneNum == phi_v1_2->dungeonScene || play->sceneNum == phi_v1_2->bossScene) {
+            if (play->sceneId == phi_v1_2->dungeonSceneId || play->sceneId == phi_v1_2->bossSceneId) {
                 break;
             }
         }
@@ -475,7 +475,7 @@ void func_80996EE8(DoorShutter* this, PlayState* play) {
         } else if (func_809968D4(this, play)) {
             Player* player = GET_PLAYER(play);
             // Jabu navi text for switch doors is different
-            player->naviTextId = (play->sceneNum == SCENE_BDAN) ? -0x20B : -0x202;
+            player->naviTextId = (play->sceneId == SCENE_BDAN) ? -0x20B : -0x202;
         }
     }
 }

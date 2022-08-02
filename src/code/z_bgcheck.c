@@ -1451,7 +1451,7 @@ s32 BgCheck_IsSpotScene(PlayState* play) {
     s16* i;
 
     for (i = spotScenes; i < spotScenes + ARRAY_COUNT(spotScenes); i++) {
-        if (play->sceneNum == *i) {
+        if (play->sceneId == *i) {
             return true;
         }
     }
@@ -1528,7 +1528,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     if ((R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) ||
         (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) || (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED) ||
         (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_MARKET)) {
-        if (play->sceneNum == SCENE_MALON_STABLE) {
+        if (play->sceneId == SCENE_MALON_STABLE) {
             // "/* BGCheck LonLon Size %dbyte */\n"
             osSyncPrintf("/* BGCheck LonLonサイズ %dbyte */\n", 0x3520);
             colCtx->memSize = 0x3520;
@@ -1554,7 +1554,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
         colCtx->subdivAmount.y = 4;
         colCtx->subdivAmount.z = 16;
     } else {
-        if (BgCheck_TryGetCustomMemsize(play->sceneNum, &customMemSize)) {
+        if (BgCheck_TryGetCustomMemsize(play->sceneId, &customMemSize)) {
             colCtx->memSize = customMemSize;
         } else {
             colCtx->memSize = 0x1CC00;
@@ -1567,7 +1567,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
         useCustomSubdivisions = false;
 
         for (i = 0; i < ARRAY_COUNT(sceneSubdivisionList); i++) {
-            if (play->sceneNum == sceneSubdivisionList[i].sceneId) {
+            if (play->sceneId == sceneSubdivisionList[i].sceneId) {
                 colCtx->subdivAmount.x = sceneSubdivisionList[i].subdivAmount.x;
                 colCtx->subdivAmount.y = sceneSubdivisionList[i].subdivAmount.y;
                 colCtx->subdivAmount.z = sceneSubdivisionList[i].subdivAmount.z;
@@ -4146,7 +4146,7 @@ f32 sZorasDomainWaterBoxMaxZ = -967.0f;
  */
 s32 WaterBox_GetSurface1(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                          WaterBox** outWaterBox) {
-    if (play->sceneNum == SCENE_SPOT07) {
+    if (play->sceneId == SCENE_SPOT07) {
         if (sZorasDomainWaterBoxMinX < x && x < sZorasDomainWaterBoxMaxX && sZorasDomainWaterBoxMinY < *ySurface &&
             *ySurface < sZorasDomainWaterBoxMaxY && sZorasDomainWaterBoxMinZ < z && z < sZorasDomainWaterBoxMaxZ) {
             *outWaterBox = &sZorasDomainWaterBox;
