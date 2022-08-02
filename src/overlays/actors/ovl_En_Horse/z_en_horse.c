@@ -148,7 +148,7 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit D_80A65F38 = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct {
-    s16 scene;
+    s16 sceneId;
     Vec3s pos;
     s16 angle;
 } EnHorseSpawnpoint;
@@ -455,7 +455,7 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, PlayState* play) {
     f32 xMax;
     s32 i;
 
-    if (play->sceneNum != SCENE_SPOT09) {
+    if (play->sceneId != SCENE_SPOT09) {
         return false;
     }
     if (this->actor.speedXZ < 12.8f) {
@@ -678,9 +678,9 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
     Vec3f spawnPos;
 
     for (i = 0; i < 169; i++) {
-        if (sHorseSpawns[i].scene == play->sceneNum) {
+        if (sHorseSpawns[i].sceneId == play->sceneId) {
             player = GET_PLAYER(play);
-            if (play->sceneNum != SCENE_SPOT20 ||
+            if (play->sceneId != SCENE_SPOT20 ||
                 //! Same flag checked twice
                 (Flags_GetEventChkInf(EVENTCHKINF_18) &&
                  (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6 || Flags_GetEventChkInf(EVENTCHKINF_18))) ||
@@ -693,7 +693,7 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
                 spawnPos.z = sHorseSpawns[i].pos.z;
                 dist = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &spawnPos);
 
-                if (play->sceneNum) {}
+                if (play->sceneId) {}
                 if (!(minDist < dist) && !func_80A5BBBC(play, this, &spawnPos)) {
                     minDist = dist;
                     this->actor.world.pos.x = sHorseSpawns[i].pos.x;
@@ -785,9 +785,9 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         this->actor.params = 1;
     }
 
-    if (play->sceneNum == SCENE_SOUKO) {
+    if (play->sceneId == SCENE_SOUKO) {
         this->stateFlags = ENHORSE_UNRIDEABLE;
-    } else if (play->sceneNum == SCENE_SPOT12 && this->type == HORSE_HNI) {
+    } else if (play->sceneId == SCENE_SPOT12 && this->type == HORSE_HNI) {
         this->stateFlags = ENHORSE_FLAG_18 | ENHORSE_UNRIDEABLE;
     } else {
         if (this->actor.params == 3) {
@@ -807,7 +807,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         }
     }
 
-    if (play->sceneNum == SCENE_SPOT20 && GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6 &&
+    if (play->sceneId == SCENE_SPOT20 && GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6 &&
         !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
         this->stateFlags |= ENHORSE_FLAG_25;
     }
@@ -828,7 +828,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     this->actor.focus.pos.y += 70.0f;
     this->playerControlled = false;
 
-    if ((play->sceneNum == SCENE_SPOT20) && !IS_CUTSCENE_LAYER) {
+    if ((play->sceneId == SCENE_SPOT20) && !IS_CUTSCENE_LAYER) {
         if (this->type == HORSE_HNI) {
             if (this->actor.world.rot.z == 0 || !IS_DAY) {
                 Actor_Kill(&this->actor);
@@ -846,7 +846,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
             Actor_Kill(&this->actor);
             return;
         }
-    } else if (play->sceneNum == SCENE_MALON_STABLE) {
+    } else if (play->sceneId == SCENE_MALON_STABLE) {
         if (IS_DAY || Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0 || !LINK_IS_ADULT) {
             Actor_Kill(&this->actor);
             return;
@@ -882,12 +882,12 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     } else if (this->actor.params == 8) {
         EnHorse_InitHorsebackArchery(this);
         Interface_InitHorsebackArchery(play);
-    } else if (play->sceneNum == SCENE_SPOT20 && !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
+    } else if (play->sceneId == SCENE_SPOT20 && !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
         EnHorse_InitFleePlayer(this);
     } else {
-        if (play->sceneNum == SCENE_SOUKO) {
+        if (play->sceneId == SCENE_SOUKO) {
             EnHorse_ResetIdleAnimation(this);
-        } else if (play->sceneNum == SCENE_SPOT12 && this->type == HORSE_HNI) {
+        } else if (play->sceneId == SCENE_SPOT12 && this->type == HORSE_HNI) {
             EnHorse_ResetIdleAnimation(this);
         } else {
             EnHorse_StartIdleRidable(this);
@@ -1748,7 +1748,7 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->stateFlags &= ~ENHORSE_INACTIVE;
-            gSaveContext.horseData.scene = play->sceneNum;
+            gSaveContext.horseData.sceneId = play->sceneId;
 
             // Focus the camera on Epona
             Camera_SetParam(play->cameraPtrs[CAM_ID_MAIN], 8, this);
@@ -3091,7 +3091,7 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
     CollisionPoly* colPoly;
     s32 bgId;
 
-    if (play->sceneNum == SCENE_SPOT20) {
+    if (play->sceneId == SCENE_SPOT20) {
         yOffset = 19.0f;
     } else {
         yOffset = 40.0f;
@@ -3128,7 +3128,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     Vec3f intersect;
     Vec3f obstacleTop;
 
-    Actor_UpdateBgCheckInfo(play, &this->actor, play->sceneNum == SCENE_SPOT20 ? 19.0f : 40.0f, 35.0f, 100.0f,
+    Actor_UpdateBgCheckInfo(play, &this->actor, play->sceneId == SCENE_SPOT20 ? 19.0f : 40.0f, 35.0f, 100.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 
@@ -3552,7 +3552,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl1.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl2.base);
         if ((player->stateFlags1 & PLAYER_STATE1_0) && player->rideActor != NULL) {
-            if (play->sceneNum != SCENE_SPOT20 || (play->sceneNum == SCENE_SPOT20 && (thisx->world.pos.z < -2400.0f))) {
+            if (play->sceneId != SCENE_SPOT20 || (play->sceneId == SCENE_SPOT20 && (thisx->world.pos.z < -2400.0f))) {
                 EnHorse_UpdateConveyors(this, play);
             }
         }
@@ -3571,7 +3571,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
             this->stateFlags &= ~ENHORSE_FLAG_24;
         }
 
-        if (play->sceneNum == SCENE_SPOT09 && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+        if (play->sceneId == SCENE_SPOT09 && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
             EnHorse_CheckBridgeJumps(this, play);
         }
 

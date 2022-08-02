@@ -590,7 +590,7 @@ void func_80097534(PlayState* play, RoomContext* roomCtx) {
     func_80031B14(play, &play->actorCtx);
     Actor_SpawnTransitionActors(play, &play->actorCtx);
     Map_InitRoomData(play, roomCtx->curRoom.num);
-    if (!((play->sceneNum >= SCENE_SPOT00) && (play->sceneNum <= SCENE_SPOT20))) {
+    if (!((play->sceneId >= SCENE_SPOT00) && (play->sceneId <= SCENE_SPOT20))) {
         Map_SavePlayerInitialInfo(play);
     }
     Audio_SetEnvReverb(play->roomCtx.curRoom.echo);

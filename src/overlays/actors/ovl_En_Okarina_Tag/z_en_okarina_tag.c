@@ -149,10 +149,10 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
             if (this->switchFlag >= 0) {
                 Flags_SetSwitch(play, this->switchFlag);
             }
-            if (play->sceneNum == SCENE_MIZUSIN) {
+            if (play->sceneId == SCENE_MIZUSIN) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
             }
-            if ((play->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (play->sceneNum != SCENE_YOUSEI_IZUMI_YOKO)) {
+            if ((play->sceneId != SCENE_DAIYOUSEI_IZUMI) && (play->sceneId != SCENE_YOUSEI_IZUMI_YOKO)) {
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
             func_80078884(NA_SE_SY_CORRECT_CHIME);

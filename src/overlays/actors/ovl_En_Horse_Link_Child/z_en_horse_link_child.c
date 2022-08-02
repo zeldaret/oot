@@ -164,7 +164,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
 
     if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
-    } else if (play->sceneNum == SCENE_SPOT20) {
+    } else if (play->sceneId == SCENE_SPOT20) {
         if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {
             Actor_Kill(&this->actor);
             return;
@@ -359,7 +359,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     }
 
     if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
-        ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
+        ((play->sceneId == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
         this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
@@ -559,7 +559,7 @@ void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 
-    if ((play->sceneNum == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
+    if ((play->sceneId == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
         this->actor.world.pos.z = -2400.0f;
     }
 

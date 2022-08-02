@@ -132,7 +132,7 @@ void MapMark_DrawForDungeon(PlayState* play) {
 }
 
 void MapMark_Draw(PlayState* play) {
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_YDAN:
         case SCENE_DDAN:
         case SCENE_BDAN:

@@ -43,7 +43,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneNum == SCENE_SPOT01)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneId == SCENE_SPOT01)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }
