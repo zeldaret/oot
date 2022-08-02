@@ -1,4 +1,5 @@
 <Root>
+    <!-- gGanonsCastle -->
     <File Name="ganon_tou_scene" Segment="2">
         <Cutscene Name="gRainbowBridgeCs" Offset="0x2640"/>
         <Cutscene Name="gGanonsCastleIntroCs" Offset="0x4280"/>

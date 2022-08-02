@@ -1,4 +1,5 @@
 <Root>
+    <!-- gPotionShopKakariko -->
     <File Name="drag_scene" Segment="2">
         <Scene Name="drag_scene" Offset="0x0"/>
     </File>

@@ -1,4 +1,5 @@
 <Root>
+    <!-- gFishingPond -->
     <File Name="turibori_scene" Segment="2">
         <Scene Name="turibori_scene" Offset="0x0"/>
     </File>

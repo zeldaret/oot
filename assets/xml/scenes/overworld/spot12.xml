@@ -1,4 +1,5 @@
 <Root>
+    <!-- gGerudosFortress -->
     <File Name="spot12_scene" Segment="2">
         <Cutscene Name="gGerudoFortressFirstCaptureCs" Offset="0x55C0"/>
         <Cutscene Name="gGerudoFortressIntroCs" Offset="0x6490"/>

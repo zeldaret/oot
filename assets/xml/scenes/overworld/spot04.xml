@@ -1,4 +1,5 @@
 <Root>
+    <!-- gKokiriForest -->
     <File Name="spot04_scene" Segment="2">
         <Path Name="spot04_scenePathList_00030C" Offset="0x030C" NumPaths="3"/>
         <Path Name="spot04_scenePathList_00D728" Offset="0xD728" NumPaths="2"/>

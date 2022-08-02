@@ -1,4 +1,5 @@
 <Root>
+    <!-- gHyruleCastle -->
     <File Name="spot15_scene" Segment="2">
         <Cutscene Name="gHyruleCastleIntroCs" Offset="0x3F40"/>
         <Scene Name="spot15_scene" Offset="0x0"/>

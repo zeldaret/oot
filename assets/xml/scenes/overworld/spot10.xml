@@ -1,4 +1,5 @@
 <Root>
+    <!-- gLostWoods -->
     <File Name="spot10_scene" Segment="2">
         <Path Name="spot10_scenePathList_00C080" Offset="0xC080" NumPaths="3"/>
 

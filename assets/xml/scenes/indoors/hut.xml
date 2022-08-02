@@ -1,4 +1,5 @@
 <Root>
+    <!-- gGravekeepersHut -->
     <File Name="hut_scene" Segment="2">
         <Scene Name="hut_scene" Offset="0x0"/>
     </File>

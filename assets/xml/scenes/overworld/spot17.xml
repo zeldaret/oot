@@ -1,4 +1,5 @@
 <Root>
+    <!-- gDMC -->
     <File Name="spot17_scene" Segment="2">
         <Cutscene Name="gDeathMountainCraterBoleroCs" Offset="0x45D0"/>
         <Cutscene Name="gDeathMountainCraterIntroCs" Offset="0x76D0"/>

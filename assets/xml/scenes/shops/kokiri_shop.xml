@@ -1,4 +1,5 @@
 <Root>
+    <!-- gKokiriShop -->
     <File Name="kokiri_shop_scene" Segment="2">
         <Scene Name="kokiri_shop_scene" Offset="0x0"/>
     </File>

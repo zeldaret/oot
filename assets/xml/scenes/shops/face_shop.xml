@@ -1,4 +1,5 @@
 <Root>
+    <!-- gHappyMaskShop -->
     <File Name="face_shop_scene" Segment="2">
         <Scene Name="face_shop_scene" Offset="0x0"/>
     </File>

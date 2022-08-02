@@ -1,4 +1,5 @@
 <Root>
+    <!-- gRoyalFamilysTomb -->
     <File Name="hakaana_ouke_scene" Segment="2">
         <Cutscene Name="gSunSongGraveSunSongTeachCs" Offset="0x24A0"/>
         <Cutscene Name="gSunSongGraveSunSongTeachPart2Cs" Offset="0x28E0"/>

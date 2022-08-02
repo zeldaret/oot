@@ -1,4 +1,5 @@
 <Root>
+    <!-- gGreatFairysFountainMagic -->
     <File Name="daiyousei_izumi_scene" Segment="2">
         <Cutscene Name="gGreatFairyMagicCs" Offset="0x0130"/>
         <Cutscene Name="gGreatFairyDoubleMagicCs" Offset="0x13E0"/>

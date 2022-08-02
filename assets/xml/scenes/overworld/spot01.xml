@@ -1,4 +1,5 @@
 <Root>
+    <!-- gKak -->
     <File Name="spot01_scene" Segment="2">
         <Path Name="spot01_scenePathList_0003D0" Offset="0x03D0" NumPaths="3"/>
         <Cutscene Name="gKakarikoVillageIntroCs" Offset="0xA540"/>

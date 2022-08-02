@@ -1,4 +1,5 @@
 <Root>
+    <!-- gStable -->
     <File Name="malon_stable_scene" Segment="2">
         <Scene Name="malon_stable_scene" Offset="0x0"/>
     </File>
