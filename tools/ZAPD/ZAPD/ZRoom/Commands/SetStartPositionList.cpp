@@ -57,7 +57,7 @@ std::string SetStartPositionList::GetBodySourceCode() const
 
 std::string SetStartPositionList::GetCommandCName() const
 {
-	return "SCmdPlayerEntryList";
+	return "SCmdSpawnList";
 }
 
 RoomCommand SetStartPositionList::GetRoomCommand() const
