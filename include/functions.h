@@ -1512,7 +1512,7 @@ void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf,
 void PreRender_Init(PreRender* this);
 void PreRender_SetValues(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf);
 void PreRender_Destroy(PreRender* this);
-void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* buf, void* bufSave);
+void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* img, void* imgDst);
 void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxp);
 void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a);
 void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave);

@@ -8,9 +8,6 @@
 #include "global.h"
 #include "alloca.h"
 
-// Texture memory size, 4 KiB
-#define TMEM_SIZE 0x1000
-
 void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;
     this->heightSave = height;
@@ -44,14 +41,14 @@ void PreRender_Destroy(PreRender* this) {
 }
 
 /**
- * Copies RGBA16 image `buf` to `bufSave`
+ * Copies RGBA16 image `img` to `imgDst`
  *
  * @param this      PreRender instance
  * @param gfxp      Display list pointer
- * @param buf       Image to copy from
- * @param bufSave   Buffer to copy to
+ * @param img       Image to copy from
+ * @param imgDst    Buffer to copy to
  */
-void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* buf, void* bufSave) {
+void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* img, void* imgDst) {
     Gfx* gfx;
     s32 rowsRemaining;
     s32 curRow;
@@ -69,7 +66,7 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* buf, void* bufSave) 
                         G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
     // Set the destination buffer as the color image and set the scissoring region to the entire image
-    gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, bufSave);
+    gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, imgDst);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
     // Calculate the max number of rows that can fit into TMEM at once
@@ -91,7 +88,7 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* buf, void* bufSave) 
         lrt = ult + nRows - 1;
 
         // Load a horizontal strip of the source image in RGBA16 format
-        gDPLoadTextureTile(gfx++, buf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
+        gDPLoadTextureTile(gfx++, img, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
 
@@ -505,7 +502,13 @@ void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp) {
  * This is a software implementation of the same algorithm used in the Video Interface hardware when Anti-Aliasing is
  * enabled in the VI Control Register.
  *
- * https://patentimages.storage.googleapis.com/e9/9a/9b/7ce82de3a82ff8/US5742277.pdf
+ * Patent describing the algorithm:
+ *
+ * Gossett, C. P., & van Hook, T. J. (Filed 1995, Published 1998)
+ * Antialiasing of silhouette edges (USOO5742277A)
+ * U.S. Patent and Trademark Office
+ * Expired 2015-10-06
+ * https://patents.google.com/patent/US5742277A/en
  *
  * @param this  PreRender instance
  * @param x     Center pixel x
@@ -514,10 +517,10 @@ void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp) {
 void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     s32 i;
     s32 j;
-    s32 buffCvg[3 * 5];
-    s32 buffR[3 * 5];
-    s32 buffG[3 * 5];
-    s32 buffB[3 * 5];
+    s32 buffCvg[5 * 3];
+    s32 buffR[5 * 3];
+    s32 buffG[5 * 3];
+    s32 buffB[5 * 3];
     s32 xi;
     s32 yi;
     s32 pad;
@@ -629,7 +632,8 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     }
 
     // The background color is determined by averaging the penultimate minimum and maximum pixels, and subtracting the
-    // ForeGround color (pMax + pMin) - (ForeGround) * 2
+    // ForeGround color:
+    //      BackGround = (pMax + pMin) - (ForeGround) * 2
 
     // OutputColor = cvg * ForeGround + (1.0 - cvg) * BackGround
     outR = buffR[7] + ((s32)((7 - buffCvg[7]) * (pmaxR + pminR - (buffR[7] * 2)) + 4) >> 3);
