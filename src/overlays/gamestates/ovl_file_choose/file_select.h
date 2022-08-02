@@ -4,7 +4,6 @@
 #include "libc/stddef.h"
 #include "ultra64.h"
 #include "global.h"
-#include "terminal.h"
 
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, newf[index])])
