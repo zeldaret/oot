@@ -750,7 +750,7 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
 }
 
 #define LETTERBOX_MASK (0xF000)
-#define LETTERBOX_SIZE (0x7000)
+#define LETTERBOX_SIZE_MASK (0x7000)
 #define LETTERBOX_INSTANT (0x8000)
 #define IFACE_ALPHA_MASK (0x0F00)
 
@@ -758,7 +758,7 @@ void Camera_UpdateInterface(s16 flags) {
     s16 interfaceAlpha;
 
     if ((flags & LETTERBOX_MASK) != LETTERBOX_MASK) {
-        switch (flags & LETTERBOX_SIZE) {
+        switch (flags & LETTERBOX_SIZE_MASK) {
             case 0x1000:
                 sCameraLetterboxSize = 26;
                 break;
