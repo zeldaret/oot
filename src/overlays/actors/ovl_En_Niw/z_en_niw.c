@@ -603,7 +603,7 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
             this->unk_2FC = this->unk_300 = 0.0f;
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        path = &play->setupPathList[pathIndex];
+        path = &play->pathList[pathIndex];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;

@@ -38,9 +38,12 @@ typedef struct {
 } TransitionActorEntry; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ u8 spawn;
+    /* 0x00 */ u8 playerEntryIndex;
     /* 0x01 */ u8 room;
-} EntranceEntry;
+} Spawn;
+
+// TODO: ZAPD Compatibility
+#define EntranceEntry Spawn 
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
@@ -171,7 +174,7 @@ typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  length;
     /* 0x04 */ ActorEntry* data;
-} SCmdSpawnList;
+} SCmdPlayerEntryList;
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -210,8 +213,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ EntranceEntry* data;
-} SCmdEntranceList;
+    /* 0x04 */ Spawn* data;
+} SCmdSpawnList;
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -334,11 +337,11 @@ typedef struct {
 
 typedef union {
     SCmdBase              base;
-    SCmdSpawnList         spawnList;
-    SCmdActorList         actorList;
+    SCmdPlayerEntryList   playerEntryList;
+    SCmdActorList         actorEntryList;
     SCmdUnused02          unused02;
     SCmdRoomList          roomList;
-    SCmdEntranceList      entranceList;
+    SCmdSpawnList         spawnList;
     SCmdObjectList        objectList;
     SCmdLightList         lightList;
     SCmdPathList          pathList;

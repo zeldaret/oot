@@ -471,7 +471,7 @@ void EnOssan_TalkDefaultShopkeeper(PlayState* play) {
 }
 
 void EnOssan_TalkKakarikoPotionShopkeeper(PlayState* play) {
-    if (play->curSpawn == 0) {
+    if (play->spawn == 0) {
         Message_ContinueTextbox(play, 0x5046);
     } else {
         Message_ContinueTextbox(play, 0x504E);
@@ -487,7 +487,7 @@ void EnOssan_TalkKokiriShopkeeper(PlayState* play) {
 }
 
 void EnOssan_TalkBazaarShopkeeper(PlayState* play) {
-    if (play->curSpawn == 0) {
+    if (play->spawn == 0) {
         Message_ContinueTextbox(play, 0x9D);
     } else {
         Message_ContinueTextbox(play, 0x9C);

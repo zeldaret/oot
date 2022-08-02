@@ -226,13 +226,13 @@ void ObjBean_SetDrawMode(ObjBean* this, u8 drawFlag) {
 }
 
 void ObjBean_SetupPathCount(ObjBean* this, PlayState* play) {
-    this->pathCount = play->setupPathList[(this->dyna.actor.params >> 8) & 0x1F].count - 1;
+    this->pathCount = play->pathList[(this->dyna.actor.params >> 8) & 0x1F].count - 1;
     this->currentPointIndex = 0;
     this->nextPointIndex = 1;
 }
 
 void ObjBean_SetupPath(ObjBean* this, PlayState* play) {
-    Path* path = &play->setupPathList[(this->dyna.actor.params >> 8) & 0x1F];
+    Path* path = &play->pathList[(this->dyna.actor.params >> 8) & 0x1F];
     Math_Vec3s_ToVec3f(&this->pathPoints, SEGMENTED_TO_VIRTUAL(path->points));
 }
 
@@ -250,7 +250,7 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
     f32 mag;
 
     Math_StepToF(&this->dyna.actor.speedXZ, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
-    path = &play->setupPathList[(this->dyna.actor.params >> 8) & 0x1F];
+    path = &play->pathList[(this->dyna.actor.params >> 8) & 0x1F];
     nextPathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->nextPointIndex];
 
     Math_Vec3s_ToVec3f(&pathPointsFloat, nextPathPoint);
@@ -480,7 +480,7 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
-            if (play->setupPathList[path].count < 3) {
+            if (play->pathList[path].count < 3) {
                 osSyncPrintf(VT_COL(RED, WHITE));
                 // "Incorrect number of path data"
                 osSyncPrintf("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921,

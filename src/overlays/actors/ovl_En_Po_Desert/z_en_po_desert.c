@@ -87,7 +87,7 @@ void EnPoDesert_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnPoDesert_SetNextPathPoint(EnPoDesert* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->actor.params];
+    Path* path = &play->pathList[this->actor.params];
     Vec3s* pathPoint;
 
     Animation_MorphToLoop(&this->skelAnime, &gPoeFieldDisappearAnim, -6.0f);
