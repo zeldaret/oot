@@ -254,9 +254,6 @@ typedef enum {
 #define R_SCENE_CONFIG_DRAW_DEFAULT_DLIST  HREG(81) // set to 1 to draw the default display list
 #define R_SCENE_CONFIG_DRAW_SCENE_CONFIG   HREG(82) // set to 1 to draw the scene config
 
-// HREG_MODE_PRINT_OBJECT_TABLE
-#define R_PRINT_OBJECT_TABLE_TOGGLE  HREG(81) // set to a negative number to print the whole object table
-
 // HREG_MODE_LETTERBOX
 #define R_LETTERBOX_INIT         HREG(94) // set to `HREG_MODE_LETTERBOX` when init is complete
 #define R_LETTERBOX_ENABLE_LOGS  HREG(81) // set to 1 to enable logging
