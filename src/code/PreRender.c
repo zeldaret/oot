@@ -244,14 +244,15 @@ void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave) {
 }
 
 /**
- * Reads the coverage values from RGBA16 `img` with dimensions `this->width`, `this->height` and stores them
+ * Reads the coverage values stored in the RGBA16 format `img` with dimensions `this->width`, `this->height` and
+ * converts it to an 8-bpp intensity image.
  *
  * @param this      PreRender instance
  * @param gfxp      Display list pointer
  * @param img       Image to read coverage from
  * @param cvgDst    Buffer to store coverage into
  */
-void PreRender_DrawCoverage8b(PreRender* this, Gfx** gfxp, void* img, void* cvgDst) {
+void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxp, void* img, void* cvgDst) {
     Gfx* gfx;
     s32 rowsRemaining;
     s32 curRow;
@@ -294,12 +295,28 @@ void PreRender_DrawCoverage8b(PreRender* this, Gfx** gfxp, void* img, void* cvgD
         ult = curRow;
         lrt = curRow + nRows - 1;
 
-        // Load a horizontal strip of the source image in IA16 format
+        // Load a horizontal strip of the source image in IA16 format. Since the source image is stored in memory as
+        // RGBA16, the bits are reinterpreted into IA16:
+        //
+        // r     g      b     a
+        // 11111 111 11 11111 1
+        // i         a
+        // 11111 111 11 11111 1
+        //
+        // I = (r << 3) | (g >> 2)
+        // A = (g << 6) | (b << 1) | a
+        //
+        // Since it is expected that r = g = b = cvg in the source image, this results in
+        //  I = (cvg << 3) | (cvg >> 2)
+        // This expands the 5-bit coverage into an 8-bit value
         gDPLoadTextureTile(gfx++, img, G_IM_FMT_IA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
 
-        // Draw that horizontal strip to the destination image
+        // Draw that horizontal strip to the destination image. With the combiner and blender configuration set above,
+        // the intensity (I) channel of the loaded IA16 texture will be written as-is to the I8 color image, each pixel
+        // in the final image is
+        //  I = (cvg << 3) | (cvg >> 2)
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
@@ -339,9 +356,10 @@ void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxp) {
 }
 
 /**
- * Draws the coverage of the current framebuffer, overwriting it.
+ * Fetches the coverage of the current framebuffer into an image of the same format as the currentcolor image, storing
+ * it over the framebuffer in memory.
  */
-void PreRender_DrawCoverage16b(PreRender* this, Gfx** gfxp) {
+void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
@@ -357,7 +375,8 @@ void PreRender_DrawCoverage16b(PreRender* this, Gfx** gfxp) {
     //  (G_BL_CLR_IN * G_BL_0 + G_BL_CLR_BL * G_BL_A_MEM) / (G_BL_0 + G_BL_CLR_BL) = G_BL_A_MEM
     //
     // G_BL_A_MEM ("memory alpha") is coverage, therefore this blender configuration emits only the coverage
-    // and discards any pixel colors
+    // and discards any pixel colors. For an RGBA16 framebuffer, each of the three color channels r,g,b will
+    // receive the coverage value individually.
     //
     // Also disables other modes such as alpha compare and texture perspective correction
     gDPSetOtherMode(gfx++,
@@ -378,10 +397,10 @@ void PreRender_DrawCoverage16b(PreRender* this, Gfx** gfxp) {
  * `this->fbuf` in the process.
  */
 void PreRender_DrawCoverage(PreRender* this, Gfx** gfxp) {
-    PreRender_DrawCoverage16b(this, gfxp);
+    PreRender_FetchFbufCoverage(this, gfxp);
     LogUtils_CheckNullPointer("this->cvg_save", this->cvgSave, "../PreRender.c", 532);
     if (this->cvgSave != NULL) {
-        PreRender_DrawCoverage8b(this, gfxp, this->fbuf, this->cvgSave);
+        PreRender_CoverageRgba16ToI8(this, gfxp, this->fbuf, this->cvgSave);
     }
 }
 
@@ -553,7 +572,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
             yi = this->height - 1;
         }
 
-        // Extract color channels for each pixel
+        // Extract color channels for each pixel, convert 5-bit color channels to 8-bit
         pxIn.rgba = this->fbufSave[xi + yi * this->width];
         buffR[i] = (pxIn.r << 3) | (pxIn.r >> 2);
         buffG[i] = (pxIn.g << 3) | (pxIn.g >> 2);
