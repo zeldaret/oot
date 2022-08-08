@@ -52,10 +52,9 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, 
 
 // Fetching inputs
 
-// This function cannot be prototyped here because it is called incorrectly in
-// fault.c (see bug in `Fault_PadCallback`), the correct prototype is left below
-// for reference.
-#if 0
+// This function cannot be prototyped here without AVOID_UB because it is called incorrectly in fault.c (see bug in
+// `Fault_PadCallback`)
+#ifdef AVOID_UB
 void PadMgr_RequestPadData(PadMgr* padmgr, Input inputs[MAXCONTROLLERS], s32 gameRequest);
 #endif
 

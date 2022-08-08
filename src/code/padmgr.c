@@ -31,6 +31,14 @@
 #include "global.h"
 #include "vt.h"
 
+#define PADMGR_LOG(controllerNo, msg)                                    \
+    if (1) {                                                             \
+        osSyncPrintf(VT_FGCOL(YELLOW));                                  \
+        /* padmgr: Controller %d: %s */                                  \
+        osSyncPrintf("padmgr: %dコン: %s\n", (controllerNo) + 1, (msg)); \
+        osSyncPrintf(VT_RST);                                            \
+    }(void)0
+
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_INFO 1
 #define LOG_SEVERITY_ERROR 2
@@ -46,7 +54,7 @@ s32 gPadMgrLogSeverity = LOG_SEVERITY_INFO;
  * it becomes ambiguous as to which DMA has completed, so a locking system is required to arbitrate access to the SI.
  *
  * Once the task requiring the serial event queue is complete, it should be released with a call to
- * `PadMgr_ReleaseSerialEventQueue`.
+ * `PadMgr_ReleaseSerialEventQueue()`.
  *
  * If another process tries to acquire the event queue, the current thread will be blocked until the event queue is
  * released. Note the possibility for a double lock, if the thread that already holds the serial event queue attempts
@@ -126,7 +134,7 @@ void PadMgr_UnlockPadData(PadMgr* padMgr) {
 void PadMgr_UpdateRumble(PadMgr* padMgr) {
     static u32 sRumbleErrorCount = 0; // original name: "errcnt"
     static u32 sRumbleUpdateCounter;
-    s32 one = 1; // Required for matching
+    s32 motorStart = MOTOR_START; // required for matching?
     s32 triedRumbleComm;
     OSMesgQueue* serialEventQueue = PadMgr_AcquireSerialEventQueue(padMgr);
     s32 ret;
@@ -138,24 +146,19 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
         if (padMgr->ctrlrIsConnected[i]) {
             // Check status for whether a controller pak is connected
             if (padMgr->padStatus[i].status & CONT_CARD_ON) {
-                if (padMgr->pakType[i] == one) { // CONT_PAK_RUMBLE
+                if (padMgr->pakType[i] == CONT_PAK_RUMBLE) {
                     if (padMgr->rumbleEnable[i]) {
                         if (padMgr->rumbleTimer[i] < 3) {
-                            // clang-format off
-                            if (1) {} osSyncPrintf(VT_FGCOL(YELLOW));
-                            // clang-format on
-
                             // "Rumble pack brrr"
-                            osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック ぶるぶるぶるぶる");
-                            osSyncPrintf(VT_RST);
+                            PADMGR_LOG(i, "振動パック ぶるぶるぶるぶる");
 
-                            // This should be the osMotorStart macro
-                            if (__osMotorAccess(&padMgr->rumblePfs[i], one) != 0) {
+                            // This should be the osMotorStart macro, however the temporary variable motorStart is
+                            // currently required for matching
+                            if (__osMotorAccess(&padMgr->rumblePfs[i], motorStart) != 0) {
                                 padMgr->pakType[i] = CONT_PAK_NONE;
-                                osSyncPrintf(VT_FGCOL(YELLOW));
+
                                 // "A communication error has occurred with the vibration pack"
-                                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
-                                osSyncPrintf(VT_RST);
+                                PADMGR_LOG(i, "振動パックで通信エラーが発生しました");
                             } else {
                                 padMgr->rumbleTimer[i] = 3;
                             }
@@ -164,20 +167,14 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
                         }
                     } else {
                         if (padMgr->rumbleTimer[i] != 0) {
-                            // clang-format off
-                            if (1) {} osSyncPrintf(VT_FGCOL(YELLOW));
-                            // clang-format on
-
                             // "Stop vibration pack"
-                            osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
-                            osSyncPrintf(VT_RST);
+                            PADMGR_LOG(i, "振動パック 停止");
 
                             if (osMotorStop(&padMgr->rumblePfs[i]) != 0) {
                                 padMgr->pakType[i] = CONT_PAK_NONE;
-                                osSyncPrintf(VT_FGCOL(YELLOW));
+
                                 // "A communication error has occurred with the vibration pack"
-                                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
-                                osSyncPrintf(VT_RST);
+                                PADMGR_LOG(i, "振動パックで通信エラーが発生しました");
                             } else {
                                 padMgr->rumbleTimer[i]--;
                             }
@@ -189,17 +186,12 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
             } else {
                 if (padMgr->pakType[i] != CONT_PAK_NONE) {
                     if (padMgr->pakType[i] == CONT_PAK_RUMBLE) {
-                        osSyncPrintf(VT_FGCOL(YELLOW));
                         // "It seems that a vibration pack was pulled out"
-                        osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックが抜かれたようです");
-                        osSyncPrintf(VT_RST);
+                        PADMGR_LOG(i, "振動パックが抜かれたようです");
                         padMgr->pakType[i] = CONT_PAK_NONE;
                     } else {
-                        osSyncPrintf(VT_FGCOL(YELLOW));
                         // "It seems that a controller pack that is not a vibration pack was pulled out"
-                        osSyncPrintf("padmgr: %dコン: %s\n", i + 1,
-                                     "振動パックではないコントローラパックが抜かれたようです");
-                        osSyncPrintf(VT_RST);
+                        PADMGR_LOG(i, "振動パックではないコントローラパックが抜かれたようです");
                         padMgr->pakType[i] = CONT_PAK_NONE;
                     }
                 }
@@ -220,18 +212,16 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
                 padMgr->pakType[i] = CONT_PAK_RUMBLE;
                 osMotorStart(&padMgr->rumblePfs[i]);
                 osMotorStop(&padMgr->rumblePfs[i]);
-                osSyncPrintf(VT_FGCOL(YELLOW));
+
                 // "Recognized vibration pack"
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックを認識しました");
-                osSyncPrintf(VT_RST);
+                PADMGR_LOG(i, "振動パックを認識しました");
             } else if (ret == PFS_ERR_DEVICE) {
                 padMgr->pakType[i] = CONT_PAK_OTHER;
             } else if (ret == PFS_ERR_CONTRFAIL) {
                 LOG_NUM("++errcnt", ++sRumbleErrorCount, "../padmgr.c", 282);
-                osSyncPrintf(VT_FGCOL(YELLOW));
+
                 // "Controller pack communication error"
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "コントローラパックの通信エラー");
-                osSyncPrintf(VT_RST);
+                PADMGR_LOG(i, "コントローラパックの通信エラー");
             }
         }
     }
@@ -252,10 +242,8 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
             // If there is a rumble pak attached to this controller, stop it
 
             if (gFaultMgr.msgId == 0 && padMgr->rumbleOnTimer != 0) {
-                osSyncPrintf(VT_FGCOL(YELLOW));
-                // "Stop vibration pack"
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
-                osSyncPrintf(VT_RST);
+                // "Stop rumble pak"
+                PADMGR_LOG(i, "振動パック 停止");
             }
             osMotorStop(&padMgr->rumblePfs[i]);
         }
@@ -310,27 +298,22 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
     for (input = &padMgr->inputs[0], pad = &padMgr->pads[0], i = 0; i < padMgr->nControllers; i++, input++, pad++) {
         input->prev = input->cur;
 
-        if (1) {} // Necessary to match
-
         switch (pad->errno) {
             case 0:
                 // No error, copy inputs
                 input->cur = *pad;
                 if (!padMgr->ctrlrIsConnected[i]) {
                     padMgr->ctrlrIsConnected[i] = true;
-                    osSyncPrintf(VT_FGCOL(YELLOW));
-                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "認識しました"); // "Recognized"
-                    osSyncPrintf(VT_RST);
+                    // "Recognized"
+                    PADMGR_LOG(i, "認識しました");
                 }
                 break;
             case (CHNL_ERR_OVERRUN >> 4):
                 // Overrun error, reuse previous inputs
                 input->cur = input->prev;
                 LOG_NUM("this->Key_switch[i]", padMgr->ctrlrIsConnected[i], "../padmgr.c", 380);
-                osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Overrun error occurred"
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "オーバーランエラーが発生");
-                osSyncPrintf(VT_RST);
+                PADMGR_LOG(i, "オーバーランエラーが発生");
                 break;
             case (CHNL_ERR_NORESP >> 4):
                 // No response error, take inputs as 0
@@ -342,11 +325,9 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
                     // If we get no response, consider the controller disconnected
                     padMgr->ctrlrIsConnected[i] = false;
                     padMgr->pakType[i] = CONT_PAK_NONE;
-                    padMgr->rumbleTimer[i] = 0xFF;
-                    osSyncPrintf(VT_FGCOL(YELLOW));
-                    // "Do not respond"?
-                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "応答しません");
-                    osSyncPrintf(VT_RST);
+                    padMgr->rumbleTimer[i] = UINT8_MAX;
+                    // "Not responding"
+                    PADMGR_LOG(i, "応答しません");
                 }
                 break;
             default:
