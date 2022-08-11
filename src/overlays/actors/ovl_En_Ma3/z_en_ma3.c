@@ -201,7 +201,7 @@ s32 func_80AA2EC8(EnMa3* this, PlayState* play) {
     if (LINK_IS_CHILD) {
         return 2;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         return 2;
     }
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {

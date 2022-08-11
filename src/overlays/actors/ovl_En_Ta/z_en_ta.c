@@ -73,7 +73,7 @@ void func_80B13AAC(EnTa* this, PlayState* play) {
 
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
         if (GET_EVENTINF(EVENTINF_HORSES_08)) {
-            if (GET_ITEMGETINF(ITEMGETINF_02)) {
+            if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
                 this->actor.textId = 0x2088;
             } else {
                 this->actor.textId = 0x2086;
@@ -83,8 +83,8 @@ void func_80B13AAC(EnTa* this, PlayState* play) {
         }
         CLEAR_EVENTINF(EVENTINF_HORSES_08);
     } else if (faceReaction == 0) {
-        if (GET_INFTABLE(INFTABLE_7E)) {
-            if (GET_ITEMGETINF(ITEMGETINF_02)) {
+        if (GET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE)) {
+            if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
                 this->actor.textId = 0x208B;
             } else {
                 this->actor.textId = 0x207F;
@@ -121,11 +121,11 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
     switch (this->actor.params) {
         case 1:
             osSyncPrintf(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
-            if (GET_EVENTCHKINF(EVENTCHKINF_6B)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
                 func_80B13AA0(this, func_80B14CAC, func_80B167C0);
                 this->eyeIndex = 0;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
@@ -140,7 +140,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             break;
         case 2:
             osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
-            if (!GET_EVENTCHKINF(EVENTCHKINF_6B)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
@@ -157,9 +157,9 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
         default:
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
             if (play->sceneId == SCENE_SPOT15) {
-                if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
-                } else if (GET_EVENTCHKINF(EVENTCHKINF_13)) {
+                } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE)) {
                     func_80B13AA0(this, func_80B14C18, func_80B167C0);
                     this->eyeIndex = 0;
                     Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
@@ -173,7 +173,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 }
             } else if (play->sceneId == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
-                if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
@@ -273,10 +273,10 @@ void func_80B143D4(EnTa* this, PlayState* play) {
 void func_80B14410(EnTa* this) {
     if (!LINK_IS_ADULT) {
         func_80B13AA0(this, func_80B14C18, func_80B167C0);
-        SET_EVENTCHKINF(EVENTCHKINF_13);
+        SET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE);
     } else {
         func_80B13AA0(this, func_80B14CAC, func_80B167C0);
-        SET_EVENTCHKINF(EVENTCHKINF_6A);
+        SET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO);
     }
 }
 
@@ -461,7 +461,7 @@ void func_80B14B6C(EnTa* this, PlayState* play) {
         OnePointCutscene_Init(play, 4175, -99, &this->actor, CAM_ID_MAIN);
         func_80B13AA0(this, func_80B14AF4, func_80B167C0);
         this->unk_2CC = 5;
-        SET_EVENTCHKINF(EVENTCHKINF_14);
+        SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE);
         Animation_PlayOnce(&this->skelAnime, &gTalonRunTransitionAnim);
         this->currentAnimation = &gTalonRunAnim;
     }
@@ -483,10 +483,10 @@ void func_80B14C60(EnTa* this, PlayState* play) {
 }
 
 void func_80B14CAC(EnTa* this, PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (func_80B142F4(this, play, 0x5017)) {
             func_80B13AA0(this, func_80B14C60, func_80B167C0);
-            SET_EVENTCHKINF(EVENTCHKINF_6B);
+            SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO);
         }
     } else if (func_80B142F4(this, play, 0x5016)) {
         func_80B13AA0(this, func_80B14C60, func_80B167C0);
@@ -865,7 +865,7 @@ void func_80B15E80(EnTa* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = func_80B15E28;
         if (!(this->unk_2E0 & 0x2)) {
-            SET_ITEMGETINF(ITEMGETINF_02);
+            SET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE);
         }
         this->unk_2E0 &= ~0x2;
     } else if (this->unk_2E0 & 2) {
@@ -972,8 +972,8 @@ void func_80B162E8(EnTa* this, PlayState* play) {
 
 void func_80B16364(EnTa* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        SET_INFTABLE(INFTABLE_7E);
-        if (GET_ITEMGETINF(ITEMGETINF_02)) {
+        SET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE);
+        if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
             Message_ContinueTextbox(play, 0x208B);
             func_80B13AA0(this, func_80B15FE8, func_80B16938);
         } else {
@@ -1012,7 +1012,7 @@ void func_80B16504(EnTa* this, PlayState* play) {
         if (faceReaction != 0) {
             func_80B14FAC(this, func_80B15E28);
         } else {
-            SET_INFTABLE(INFTABLE_7E);
+            SET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE);
 
             switch (this->actor.textId) {
                 case 0x207E:
