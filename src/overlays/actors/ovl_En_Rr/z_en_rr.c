@@ -708,7 +708,7 @@ void EnRr_Death(EnRr* this, PlayState* play) {
         for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
             Math_ApproachF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z =
-                (SQ(4 - i) * (f32)this->frameCount * 0.003f) + 1.0f;
+                (SQ(LIKELIKE_BODY_SEG_COUNT - 1 - i) * (f32)this->frameCount * 0.003f) + 1.0f;
         }
     } else if (this->frameCount >= 95) {
         Vec3f dropPos;
@@ -910,7 +910,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
     Vec3f zeroVec;
     EnRr* this = (EnRr*)thisx;
     s32 i;
-    Mtx* segMtx = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Mtx));
+    Mtx* segMtx = Graph_Alloc(play->state.gfxCtx, (LIKELIKE_BODY_SEG_COUNT - 1) * sizeof(Mtx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_rr.c", 1478);
     if (1) {}
@@ -955,7 +955,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
 
         this->actor.colorFilterTimer++;
         if ((effectTimer & 1) == 0) {
-            s32 segIndex = 4 - (effectTimer >> 2);
+            s32 segIndex = LIKELIKE_BODY_SEG_COUNT - 1 - (effectTimer >> 2);
             s32 offIndex = (effectTimer >> 1) & 3;
 
             effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
