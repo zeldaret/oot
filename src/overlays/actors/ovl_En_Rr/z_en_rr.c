@@ -31,9 +31,9 @@ typedef enum {
     /* 0x3 */ RR_DMG_ICE,
     /* 0x4 */ RR_DMG_LIGHT_MAGIC,
     /* 0xB */ RR_DMG_LIGHT_ARROW = 11,
-    /* 0xC */ RR_DMG_SHDW_ARROW,
-    /* 0xD */ RR_DMG_WIND_ARROW,
-    /* 0xE */ RR_DMG_SPRT_ARROW,
+    /* 0xC */ RR_DMG_UNK2_ARROW,
+    /* 0xD */ RR_DMG_UNK1_ARROW,
+    /* 0xE */ RR_DMG_UNK3_ARROW,
     /* 0xF */ RR_DMG_NORMAL
 } EnRrDamageEffect;
 
@@ -76,7 +76,7 @@ const ActorInit En_Rr_InitVars = {
     (ActorFunc)EnRr_Draw,
 };
 
-static char* sDropNames[] = {
+static const char* sDropNames[] = {
     // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",
 };
@@ -134,9 +134,9 @@ static DamageTable sDamageTable = {
     /* Fire arrow    */ DMG_ENTRY(4, RR_DMG_FIRE),
     /* Ice arrow     */ DMG_ENTRY(4, RR_DMG_ICE),
     /* Light arrow   */ DMG_ENTRY(15, RR_DMG_LIGHT_ARROW),
-    /* Unk arrow 1   */ DMG_ENTRY(4, RR_DMG_WIND_ARROW),
-    /* Unk arrow 2   */ DMG_ENTRY(15, RR_DMG_SHDW_ARROW),
-    /* Unk arrow 3   */ DMG_ENTRY(15, RR_DMG_SPRT_ARROW),
+    /* Unk arrow 1   */ DMG_ENTRY(4, RR_DMG_UNK1_ARROW),
+    /* Unk arrow 2   */ DMG_ENTRY(15, RR_DMG_UNK2_ARROW),
+    /* Unk arrow 3   */ DMG_ENTRY(15, RR_DMG_UNK3_ARROW),
     /* Fire magic    */ DMG_ENTRY(4, RR_DMG_FIRE),
     /* Ice magic     */ DMG_ENTRY(3, RR_DMG_ICE),
     /* Light magic   */ DMG_ENTRY(10, RR_DMG_LIGHT_MAGIC),
@@ -148,7 +148,7 @@ static DamageTable sDamageTable = {
     /* Kokiri jump   */ DMG_ENTRY(2, RR_DMG_NORMAL),
     /* Giant jump    */ DMG_ENTRY(8, RR_DMG_NORMAL),
     /* Master jump   */ DMG_ENTRY(4, RR_DMG_NORMAL),
-    /* Unknown 1     */ DMG_ENTRY(10, RR_DMG_SPRT_ARROW),
+    /* Unknown 1     */ DMG_ENTRY(10, RR_DMG_UNK3_ARROW),
     /* Unblockable   */ DMG_ENTRY(0, RR_DMG_NONE),
     /* Hammer jump   */ DMG_ENTRY(0, RR_DMG_NONE),
     /* Unknown 2     */ DMG_ENTRY(0, RR_DMG_NONE),
@@ -190,7 +190,8 @@ void EnRr_Init(Actor* thisx, PlayState* play2) {
     this->ocTimer = 0;
     this->reachState = this->isDead = false;
     this->actionFunc = EnRr_Approach;
-    for (i = 0; i < 5; i++) {
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].height = this->bodySegs[i].heightTarget = this->bodySegs[i].scaleMod.x =
             this->bodySegs[i].scaleMod.y = this->bodySegs[i].scaleMod.z = 0.0f;
     }
@@ -218,12 +219,14 @@ void EnRr_SetupReach(EnRr* this) {
     this->actionTimer = 20;
     this->segPhaseVelTarget = 2500.0f;
     this->segMoveRate = 0.0f;
-    for (i = 0; i < 5; i++) {
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].heightTarget = segmentHeights[i];
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 0.8f;
         this->bodySegs[i].rotTarget.x = 6000.0f;
         this->bodySegs[i].rotTarget.z = 0.0f;
     }
+
     this->actionFunc = EnRr_Reach;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_UNARI);
 }
@@ -234,11 +237,13 @@ void EnRr_SetupNeutral(EnRr* this) {
     this->reachState = 0;
     this->segMoveRate = 0.0f;
     this->segPhaseVelTarget = 2500.0f;
-    for (i = 0; i < 5; i++) {
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
+
     if (this->retreat) {
         this->actionTimer = 100;
         this->actionFunc = EnRr_Retreat;
@@ -259,12 +264,14 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
     this->segMoveRate = this->swallowOffset = this->actor.speedXZ = 0.0f;
     this->pulseSizeTarget = 0.15f;
     this->segPhaseVelTarget = 5000.0f;
-    this->wobbleSizeTarget = 512.0f;
-    for (i = 0; i < 5; i++) {
+    this->wobbleSizeTarget = 0x200;
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
+
     this->actionFunc = EnRr_GrabPlayer;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_DRINK);
 }
@@ -292,7 +299,8 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
     this->ocTimer = 110;
     this->segMoveRate = 0.0f;
     this->segPhaseVelTarget = 2500.0f;
-    this->wobbleSizeTarget = 2048.0f;
+    this->wobbleSizeTarget = 0x800;
+
     tunic = 0;
     shield = 0;
     if (CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD) != EQUIP_VALUE_SHIELD_MIRROR) {
@@ -302,6 +310,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
             this->retreat = true;
         }
     }
+
     if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) != EQUIP_VALUE_TUNIC_KOKIRI) {
         tunic = Inventory_DeleteEquippedItem(play, EQUIP_TYPE_TUNIC);
         if (tunic != 0) {
@@ -309,20 +318,26 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
             this->retreat = true;
         }
     }
+
     player->actor.parent = NULL;
+
     switch (EnRr_GetMessage(shield, tunic)) {
         case RR_MESSAGE_SHIELD:
             Message_StartTextbox(play, 0x305F, NULL);
             break;
+
         case RR_MESSAGE_TUNIC:
             Message_StartTextbox(play, 0x3060, NULL);
             break;
+
         case RR_MESSAGE_TUNIC | RR_MESSAGE_SHIELD:
             Message_StartTextbox(play, 0x3061, NULL);
             break;
     }
+
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
     func_8002F6D4(play, &this->actor, 4.0f, this->actor.shape.rot.y, 12.0f, 8);
+
     if (this->actor.colorFilterTimer == 0) {
         this->actionFunc = EnRr_Approach;
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_THROW);
@@ -342,11 +357,13 @@ void EnRr_SetupDamage(EnRr* this) {
     this->segPhaseVelTarget = 2500.0f;
     this->pulseSizeTarget = 0.0f;
     this->wobbleSizeTarget = 0.0f;
-    for (i = 0; i < 5; i++) {
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
+
     this->actionFunc = EnRr_Damage;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_DAMAGE);
 }
@@ -357,12 +374,14 @@ void EnRr_SetupApproach(EnRr* this) {
     this->segMoveRate = 0.0f;
     this->pulseSizeTarget = 0.15f;
     this->segPhaseVelTarget = 2500.0f;
-    this->wobbleSizeTarget = 2048.0f;
-    for (i = 0; i < 5; i++) {
+    this->wobbleSizeTarget = 0x800;
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
+
     this->actionFunc = EnRr_Approach;
 }
 
@@ -373,10 +392,12 @@ void EnRr_SetupDeath(EnRr* this) {
     this->frameCount = 0;
     this->shrinkRate = 0.0f;
     this->segMoveRate = 0.0f;
-    for (i = 0; i < 5; i++) {
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
     }
+
     this->actionFunc = EnRr_Death;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_DEAD);
     this->actor.flags &= ~ACTOR_FLAG_0;
@@ -397,8 +418,9 @@ void EnRr_SetupStunned(EnRr* this) {
     this->pulseSize = 0.0f;
     this->pulseSizeTarget = 0.15f;
     this->wobbleSize = 0.0f;
-    this->wobbleSizeTarget = 2048.0f;
-    for (i = 0; i < 5; i++) {
+    this->wobbleSizeTarget = 0x800;
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].scaleMod.y = 0.0f;
         this->bodySegs[i].rotTarget.x = 0.0f;
         this->bodySegs[i].rotTarget.y = 0.0f;
@@ -406,6 +428,7 @@ void EnRr_SetupStunned(EnRr* this) {
         this->bodySegs[i].scale.x = this->bodySegs[i].scale.y = this->bodySegs[i].scale.z =
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.y = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
+
     this->actionFunc = EnRr_Stunned;
 }
 
@@ -432,17 +455,18 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                 hitPos.z = this->collider1.info.bumper.hitPos.z;
                 CollisionCheck_BlueBlood(play, NULL, &hitPos);
             }
+
             switch (this->actor.colChkInfo.damageEffect) {
                 case RR_DMG_LIGHT_ARROW:
                     dropType++; // purple rupee
                     FALLTHROUGH;
-                case RR_DMG_SHDW_ARROW:
+                case RR_DMG_UNK2_ARROW:
                     dropType++; // flexible
                     FALLTHROUGH;
-                case RR_DMG_WIND_ARROW:
+                case RR_DMG_UNK1_ARROW:
                     dropType++; // arrow
                     FALLTHROUGH;
-                case RR_DMG_SPRT_ARROW:
+                case RR_DMG_UNK3_ARROW:
                     dropType++; // magic jar
                     FALLTHROUGH;
                 case RR_DMG_NORMAL:
@@ -463,34 +487,42 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                         EnRr_SetupDeath(this);
                     }
                     return;
+
                 case RR_DMG_FIRE: // Fire Arrow and Din's Fire
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
+
                     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                     this->effectTimer = 20;
                     EnRr_SetupStunned(this);
                     return;
+
                 case RR_DMG_ICE: // Ice Arrow and unused ice magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
+
                     if (this->actor.colorFilterTimer == 0) {
                         this->effectTimer = 20;
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     }
+
                     EnRr_SetupStunned(this);
                     return;
+
                 case RR_DMG_LIGHT_MAGIC: // Unused light magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RUPEE_RED;
                     }
+
                     Actor_SetColorFilter(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);
                     return;
+
                 case RR_DMG_STUN: // Boomerang and Hookshot
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
@@ -498,6 +530,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     return;
             }
         }
+
         if ((this->ocTimer == 0) && (this->actor.colorFilterTimer == 0) && (player->invincibilityTimer == 0) &&
             !(player->stateFlags2 & PLAYER_STATE2_7) &&
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
@@ -505,6 +538,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
             this->collider2.base.ocFlags1 &= ~OC1_HIT;
             // "catch"
             osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
+
             if (play->grabPlayer(play, player)) {
                 player->actor.parent = &this->actor;
                 this->stopScroll = false;
@@ -528,8 +562,9 @@ void EnRr_InitBodySegments(EnRr* this, PlayState* play) {
     this->pulseSize = 0.0f;
     this->pulseSizeTarget = 0.15f;
     this->wobbleSize = 0.0f;
-    this->wobbleSizeTarget = 2048.0f;
-    for (i = 0; i < 5; i++) {
+    this->wobbleSizeTarget = 0x800;
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].scaleMod.y = 0.0f;
         this->bodySegs[i].rotTarget.x = 0.0f;
         this->bodySegs[i].rotTarget.y = 0.0f;
@@ -537,11 +572,13 @@ void EnRr_InitBodySegments(EnRr* this, PlayState* play) {
         this->bodySegs[i].scale.x = this->bodySegs[i].scale.y = this->bodySegs[i].scale.z =
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.y = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
-    for (i = 0; i < 5; i++) {
+
+    for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
             Math_CosS(i * (u32)(s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
     }
-    for (i = 1; i < 5; i++) {
+
+    for (i = 1; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         this->bodySegs[i].rotTarget.x = Math_CosS(i * (u32)(s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
         this->bodySegs[i].rotTarget.z = Math_SinS(i * (u32)(s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
     }
@@ -552,13 +589,15 @@ void EnRr_UpdateBodySegments(EnRr* this, PlayState* play) {
     s16 phase = this->segMovePhase;
 
     if (!this->isDead) {
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
             this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
                 Math_CosS(phase + i * (s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
         }
+
         phase = this->segMovePhase;
+
         if (!this->isDead && (this->reachState == 0)) {
-            for (i = 1; i < 5; i++) {
+            for (i = 1; i < LIKELIKE_BODY_SEG_COUNT; i++) {
                 this->bodySegs[i].rotTarget.x =
                     Math_CosS(phase + i * (s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
                 this->bodySegs[i].rotTarget.z =
@@ -566,6 +605,7 @@ void EnRr_UpdateBodySegments(EnRr* this, PlayState* play) {
             }
         }
     }
+
     if (!this->stopScroll) {
         this->segMovePhase += (s16)this->segPhaseVel;
     }
@@ -590,6 +630,7 @@ void EnRr_Reach(EnRr* this, PlayState* play) {
                 this->reachState = REACH_STOP;
             }
             break;
+
         case REACH_STOP:
             if (this->actionTimer == 0) {
                 this->actionTimer = 5;
@@ -597,6 +638,7 @@ void EnRr_Reach(EnRr* this, PlayState* play) {
                 this->reachState = REACH_OPEN;
             }
             break;
+
         case REACH_OPEN:
             if (this->actionTimer == 0) {
                 this->actionTimer = 2;
@@ -604,6 +646,7 @@ void EnRr_Reach(EnRr* this, PlayState* play) {
                 this->reachState = REACH_GAPE;
             }
             break;
+
         case REACH_GAPE:
             if (this->actionTimer == 0) {
                 this->actionTimer = 20;
@@ -611,6 +654,7 @@ void EnRr_Reach(EnRr* this, PlayState* play) {
                 this->reachState = REACH_CLOSE;
             }
             break;
+
         case REACH_CLOSE:
             if (this->actionTimer == 0) {
                 EnRr_SetupNeutral(this);
@@ -623,10 +667,13 @@ void EnRr_GrabPlayer(EnRr* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     func_800AA000(this->actor.xyzDistToPlayerSq, 120, 2, 120);
+
     if ((this->frameCount % 8) == 0) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
+
     this->ocTimer = 8;
+
     if ((this->grabTimer == 0) || !(player->stateFlags2 & PLAYER_STATE2_7)) {
         EnRr_SetupReleasePlayer(this, play);
     } else {
@@ -643,11 +690,11 @@ void EnRr_Damage(EnRr* this, PlayState* play) {
     if (this->actor.colorFilterTimer == 0) {
         EnRr_SetupApproach(this);
     } else if ((this->actor.colorFilterTimer & 8) != 0) {
-        for (i = 1; i < 5; i++) {
+        for (i = 1; i < LIKELIKE_BODY_SEG_COUNT; i++) {
             this->bodySegs[i].rotTarget.z = 5000.0f;
         }
     } else {
-        for (i = 1; i < 5; i++) {
+        for (i = 1; i < LIKELIKE_BODY_SEG_COUNT; i++) {
             this->bodySegs[i].rotTarget.z = -5000.0f;
         }
     }
@@ -658,7 +705,7 @@ void EnRr_Death(EnRr* this, PlayState* play) {
     s32 i;
 
     if (this->frameCount < 40) {
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
             Math_ApproachF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z =
                 (SQ(4 - i) * (f32)this->frameCount * 0.003f) + 1.0f;
@@ -669,40 +716,56 @@ void EnRr_Death(EnRr* this, PlayState* play) {
         dropPos.x = this->actor.world.pos.x;
         dropPos.y = this->actor.world.pos.y;
         dropPos.z = this->actor.world.pos.z;
+
         switch (this->eatenShield) {
-            case 1:
+            case EQUIP_VALUE_SHIELD_DEKU:
                 Item_DropCollectible(play, &dropPos, ITEM00_SHIELD_DEKU);
                 break;
-            case 2:
+
+            case EQUIP_VALUE_SHIELD_HYLIAN:
                 Item_DropCollectible(play, &dropPos, ITEM00_SHIELD_HYLIAN);
                 break;
+
+            default:
+                break;
         }
+
         switch (this->eatenTunic) {
-            case 2:
+            case EQUIP_VALUE_TUNIC_GORON:
                 Item_DropCollectible(play, &dropPos, ITEM00_TUNIC_GORON);
                 break;
-            case 3:
+
+            case EQUIP_VALUE_TUNIC_ZORA:
                 Item_DropCollectible(play, &dropPos, ITEM00_TUNIC_ZORA);
                 break;
+
+            default:
+                break;
         }
+
         // "dropped"
         osSyncPrintf(VT_FGCOL(GREEN) "「%s」が出た！！" VT_RST "\n", sDropNames[this->dropType]);
         switch (this->dropType) {
             case RR_DROP_MAGIC:
                 Item_DropCollectible(play, &dropPos, ITEM00_MAGIC_SMALL);
                 break;
+
             case RR_DROP_ARROW:
                 Item_DropCollectible(play, &dropPos, ITEM00_ARROWS_SINGLE);
                 break;
+
             case RR_DROP_FLEXIBLE:
                 Item_DropCollectible(play, &dropPos, ITEM00_FLEXIBLE);
                 break;
+
             case RR_DROP_RUPEE_PURPLE:
                 Item_DropCollectible(play, &dropPos, ITEM00_RUPEE_PURPLE);
                 break;
+
             case RR_DROP_RUPEE_RED:
                 Item_DropCollectible(play, &dropPos, ITEM00_RUPEE_RED);
                 break;
+
             case RR_DROP_RANDOM_RUPEE:
             default:
                 Item_DropCollectibleRandom(play, &this->actor, &dropPos, 12 << 4);
@@ -822,7 +885,7 @@ void EnRr_Update(Actor* thisx, PlayState* play) {
         Math_ApproachF(&this->segWobblePhaseDiffZ, this->segWobbleZTarget, 1.0f, 0.01f);
         Math_ApproachF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
         Math_ApproachF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < LIKELIKE_BODY_SEG_COUNT; i++) {
             Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->segMoveRate * 1000.0f,
                                0);
             Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->segMoveRate * 1000.0f,
@@ -868,7 +931,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
     zeroVec.x = 0.0f;
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
-    for (i = 1; i < 5; i++) {
+    for (i = 1; i < LIKELIKE_BODY_SEG_COUNT; i++) {
         Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, MTXMODE_APPLY);
 
         Matrix_RotateZYX(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, MTXMODE_APPLY);

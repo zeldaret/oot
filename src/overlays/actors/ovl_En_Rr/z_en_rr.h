@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define LIKELIKE_BODY_SEG_COUNT 5
+
 struct EnRr;
 
 typedef void (*EnRrActionFunc)(struct EnRr*, PlayState*);
@@ -42,7 +44,7 @@ typedef struct EnRr {
     /* 0x0218 */ f32 pulseSizeTarget;
     /* 0x021C */ f32 wobbleSize; // Amplitude of the wobbling motion
     /* 0x0220 */ f32 wobbleSizeTarget;
-    /* 0x0224 */ EnRrBodySegment bodySegs[5];
+    /* 0x0224 */ EnRrBodySegment bodySegs[LIKELIKE_BODY_SEG_COUNT];
     /* 0x0364 */ f32 segMoveRate;
     /* 0x0368 */ f32 shrinkRate;
     /* 0x036C */ f32 swallowOffset;
@@ -55,7 +57,7 @@ typedef struct EnRr {
     /* 0x0376 */ u8 stopScroll;
     /* 0x0378 */ s16 hasPlayer;
     /* 0x037C */ Vec3f mouthPos;
-    /* 0x0388 */ Vec3f effectPos[5];
+    /* 0x0388 */ Vec3f effectPos[LIKELIKE_BODY_SEG_COUNT];
     /* 0x03C4 */ char unk_3C4[0x2000]; //! @bug This is a huge amount of wasted memory.
 } EnRr; // size = 0x23C4
 
