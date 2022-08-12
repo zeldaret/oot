@@ -308,11 +308,11 @@ static s16 sDungeonEntrances[] = {
 /**
  *  Copy save currently on the buffer to Save Context and complete various tasks to open the save.
  *  This includes:
- *  - Set proper entrance depending on where the game was saved
- *  - If health is less than 3 hearts, give 3 hearts
- *  - If either scarecrow song is set, copy them from save context to the proper location
- *  - Handle a case where the player saved and quit after zelda cutscene but didnt get the song
- *  - Give and equip master sword if player is adult and doesnt have kokiri sword (bug?)
+ *  - Set proper entrance depending on where the game was saved.
+ *  - If health is less than 3 hearts, give 3 hearts.
+ *  - If either Scarecrow's Song is set, copy it from SaveContext to the proper location.
+ *  - Handle a case where the player saved and quit after Zelda cutscene but didn't get the song.
+ *  - Return and re-equip Master Sword if player saved without it, such as during the first phase of the Ganon fight.
  *  - Revert any trade items that spoil
  */
 void Sram_OpenSave(SramContext* sramCtx) {
@@ -434,7 +434,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_RST);
     }
 
-    // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
+    // If Zelda cutscene has been watched but Lullaby was not obtained, restore cutscene and take away letter
     if (GET_EVENTCHKINF(EVENTCHKINF_40) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
         i = gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
         gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] = i;
@@ -448,9 +448,13 @@ void Sram_OpenSave(SramContext* sramCtx) {
         }
     }
 
-    if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
+    //! Restore Master Sword to inventory and re-equip it if missing. Patch for one way of getting the "swordless Link"
+    //! glitch
+    if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
         gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
+
+        // Functionally the same as using Inventory_ChangeEquipment()
         gSaveContext.equips.equipment &= ~(0xF << (EQUIP_TYPE_SWORD * 4));
         gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4);
     }

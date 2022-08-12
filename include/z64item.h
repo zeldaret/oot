@@ -9,7 +9,7 @@ typedef enum {
     /* 4 */ EQUIP_TYPE_MAX
 } EquipmentType;
 
-// `EquipInv*` enums are for Inventory.equipment (for example used in the `CHECK_OWNED_EQUIP` macro)
+// `EquipInv____` enums are for Inventory.equipment (for example used in the `CHECK_OWNED_EQUIP` macro)
 
 typedef enum {
     /* 0 */ EQUIP_INV_SWORD_KOKIRI,
@@ -36,7 +36,7 @@ typedef enum {
     /* 2 */ EQUIP_INV_BOOTS_HOVER
 } EquipInvBoots;
 
-// `EquipValue*` enums are for ItemEquips.equipment (for example used in the `CUR_EQUIP_VALUE` macro)
+// `EquipValue____` enums are for ItemEquips.equipment (for example used in the `CUR_EQUIP_VALUE` macro)
 
 typedef enum {
     /* 0 */ EQUIP_VALUE_SWORD_NONE,

@@ -956,7 +956,7 @@ void EffectSsFireTail_Spawn(PlayState* play, Actor* actor, Vec3f* pos, f32 scale
     EffectSs_Spawn(play, EFFECT_SS_FIRE_TAIL, 128, &initParams);
 }
 
-void EffectSsFireTail_SpawnFlame(PlayState* play, Actor* actor, Vec3f* pos, f32 arg3, s16 bodyPart,
+void EffectSsFireTail_SpawnFlame(PlayState* play, Actor* actor, Vec3f* pos, f32 scale, s16 bodyPart,
                                  f32 colorIntensity) {
     static Color_RGBA8 primColor = { 255, 255, 0, 255 };
     static Color_RGBA8 envColor = { 255, 0, 0, 255 };
@@ -968,7 +968,7 @@ void EffectSsFireTail_SpawnFlame(PlayState* play, Actor* actor, Vec3f* pos, f32 
     envColor.b = 0;
     primColor.r = envColor.r = (s32)(255.0f * colorIntensity);
 
-    EffectSsFireTail_Spawn(play, actor, pos, arg3, &actor->velocity, 15, &primColor, &envColor,
+    EffectSsFireTail_Spawn(play, actor, pos, scale, &actor->velocity, 15, &primColor, &envColor,
                            (colorIntensity == 1.0f) ? 0 : 1, bodyPart, 1);
 }
 

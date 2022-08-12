@@ -311,7 +311,7 @@ void EffectSsEnIce_Spawn(PlayState* play, Vec3f* pos, f32 scale, Vec3f* velocity
                          Color_RGBA8* primColor, Color_RGBA8* envColor, s32 life);
 void EffectSsFireTail_Spawn(PlayState* play, Actor* actor, Vec3f* pos, f32 scale, Vec3f* arg4, s16 arg5,
                             Color_RGBA8* primColor, Color_RGBA8* envColor, s16 type, s16 bodyPart, s32 life);
-void EffectSsFireTail_SpawnFlame(PlayState* play, Actor* actor, Vec3f* pos, f32 arg3, s16 bodyPart,
+void EffectSsFireTail_SpawnFlame(PlayState* play, Actor* actor, Vec3f* pos, f32 scale, s16 bodyPart,
                                  f32 colorIntensity);
 void EffectSsFireTail_SpawnFlameOnPlayer(PlayState* play, f32 scale, s16 bodyPart, f32 colorIntensity);
 void EffectSsEnFire_SpawnVec3f(PlayState* play, Actor* actor, Vec3f* pos, s16 scale, s16 arg4, s16 flags, s16 bodyPart);
@@ -1172,9 +1172,9 @@ void Room_Draw(PlayState* play, Room* room, u32 flags);
 void func_80097534(PlayState* play, RoomContext* roomCtx);
 void Sample_Destroy(GameState* thisx);
 void Sample_Init(GameState* thisx);
-void Inventory_ChangeEquipment(s16 equipment, u16 value);
-u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment);
-void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
+void Inventory_ChangeEquipment(s16 type, u16 value);
+u8 Inventory_DeleteEquippedItem(PlayState* play, s16 equipmentType);
+void Inventory_ChangeUpgrade(s16 type, s16 value);
 s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId);
 void Object_InitBank(PlayState* play, ObjectContext* objectCtx);
 void Object_UpdateBank(ObjectContext* objectCtx);

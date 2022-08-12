@@ -77,13 +77,16 @@ void EnBlkobj_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
+/**
+ * Draw Player's reflection until it is close enough to start the fight
+ */
 void EnBlkobj_Wait(EnBlkobj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->dyna.actor.xzDistToPlayer < 120.0f) {
         EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);
     }
-    player->stateFlags2 |= PLAYER_STATE2_26;
+    player->stateFlags2 |= PLAYER_STATE2_DRAW_REFLECTION;
 }
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, PlayState* play) {

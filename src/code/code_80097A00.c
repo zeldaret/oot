@@ -17,6 +17,7 @@ u16 gEquipMasks[EQUIP_TYPE_MAX] = {
     0xF << (EQUIP_TYPE_TUNIC * 4),  // EQUIP_TYPE_TUNIC
     0xF << (EQUIP_TYPE_BOOTS * 4),  // EQUIP_TYPE_BOOTS
 };
+
 u16 gEquipNegMasks[EQUIP_TYPE_MAX] = {
     (u16) ~(0xF << (EQUIP_TYPE_SWORD * 4)),  // EQUIP_TYPE_SWORD
     (u16) ~(0xF << (EQUIP_TYPE_SHIELD * 4)), // EQUIP_TYPE_SHIELD
@@ -224,30 +225,43 @@ u8 gItemSlots[] = {
     SLOT_TRADE_ADULT, SLOT_TRADE_ADULT,
 };
 
-void Inventory_ChangeEquipment(s16 equipment, u16 value) {
-    gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
-    gSaveContext.equips.equipment |= value << gEquipShifts[equipment];
+/**
+ * Change currently-equipped item
+ * 
+ * @param type Type of equipment to change. Use `EquipmentType` enum
+ * @param value Value of equipment to change. Use the appropriate `EquipValue____` enum
+ */
+void Inventory_ChangeEquipment(s16 type, u16 value) {
+    gSaveContext.equips.equipment &= gEquipNegMasks[type];
+    gSaveContext.equips.equipment |= value << gEquipShifts[type];
 }
 
-u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
+/**
+ * Deletes the currently-equipped equipment of type `equipmentType`
+ * 
+ * @param equipmentType Type of equipment (sword/shield/tunic/boots) to delete (uses `EquipmentType` enum).
+ * 
+ * @return u8 deleted item
+ */
+u8 Inventory_DeleteEquippedItem(PlayState* play, s16 equipmentType) {
     Player* player = GET_PLAYER(play);
     s32 pad;
-    u16 equipValue = gSaveContext.equips.equipment & gEquipMasks[equipment];
+    u16 equipValue = gSaveContext.equips.equipment & gEquipMasks[equipmentType];
 
     // "Erasing equipment item = %d  zzz=%d"
-    osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, equipValue);
+    osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipmentType, equipValue);
 
     if (equipValue) {
-        equipValue >>= gEquipShifts[equipment];
+        equipValue >>= gEquipShifts[equipmentType];
 
-        gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
-        gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG(equipment, equipValue - 1);
+        gSaveContext.equips.equipment &= gEquipNegMasks[equipmentType];
+        gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG(equipmentType, equipValue - 1);
 
-        if (equipment == EQUIP_TYPE_TUNIC) {
+        if (equipmentType == EQUIP_TYPE_TUNIC) {
             gSaveContext.equips.equipment |= EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4);
         }
 
-        if (equipment == EQUIP_TYPE_SWORD) {
+        if (equipmentType == EQUIP_TYPE_SWORD) {
             gSaveContext.equips.buttonItems[0] = ITEM_NONE;
             gSaveContext.infTable[INFTABLE_1DX_INDEX] = 1;
         }
@@ -259,7 +273,13 @@ u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
     return equipValue;
 }
 
-void Inventory_ChangeUpgrade(s16 upgrade, s16 value) {
-    gSaveContext.inventory.upgrades &= gUpgradeNegMasks[upgrade];
-    gSaveContext.inventory.upgrades |= value << gUpgradeShifts[upgrade];
+/**
+ * Changes the current upgrade
+ * 
+ * @param type Type of upgrade (uses `UpgradeType` enum).
+ * @param value Level to change upgrade to (plain number, valid range depends on `upgrade`).
+ */
+void Inventory_ChangeUpgrade(s16 type, s16 value) {
+    gSaveContext.inventory.upgrades &= gUpgradeNegMasks[type];
+    gSaveContext.inventory.upgrades |= value << gUpgradeShifts[type];
 }

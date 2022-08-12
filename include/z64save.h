@@ -33,13 +33,13 @@ typedef enum {
 typedef struct {
     /* 0x00 */ u8 buttonItems[4];
     /* 0x04 */ u8 cButtonSlots[3];
-    /* 0x08 */ u16 equipment; // a mask where each nibble corresponds to a type of equipment `EquipmentType`, and each nibble is a piece `EquipValue*`
+    /* 0x08 */ u16 equipment; // a mask where each nibble carries data for one type of equipment (`EquipmentType` enum), and the contents of that nibble is one piece of that type of equipment (`EquipValue____` enums)
 } ItemEquips; // size = 0x0A
 
 typedef struct {
     /* 0x00 */ u8 items[24];
     /* 0x18 */ s8 ammo[16];
-    /* 0x28 */ u16 equipment; // a mask where each nibble corresponds to a type of equipment `EquipmentType`, and each bit to an owned piece `EquipInv*`
+    /* 0x28 */ u16 equipment; // a mask where each nibble carries data for one type of equipment (`EquipmentType` enum), and each bit to a single owned piece (`EquipInv____` enums)
     /* 0x2C */ u32 upgrades;
     /* 0x30 */ u32 questItems;
     /* 0x34 */ u8 dungeonItems[20];

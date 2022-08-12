@@ -4573,7 +4573,7 @@ void BossTw_UpdateEffects(PlayState* play) {
     Actor* unk44;
 
     for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
-        if (eff->type != 0) {
+        if (eff->type != TWEFF_NONE) {
             eff->pos.x += eff->curSpeed.x;
             eff->pos.y += eff->curSpeed.y;
             eff->pos.z += eff->curSpeed.z;
@@ -4582,7 +4582,7 @@ void BossTw_UpdateEffects(PlayState* play) {
             eff->curSpeed.y += eff->accel.y;
             eff->curSpeed.z += eff->accel.z;
 
-            if (eff->type == 1) {
+            if (eff->type == TWEFF_DOT) {
                 colorIdx = eff->frame % 4;
 
                 if (eff->work[EFF_ARGS] == 0) {
@@ -4599,7 +4599,7 @@ void BossTw_UpdateEffects(PlayState* play) {
                     eff->type = TWEFF_NONE;
                 }
 
-            } else if ((eff->type == 3) || (eff->type == 2)) {
+            } else if ((eff->type == TWEFF_3) || (eff->type == TWEFF_2)) {
                 if (eff->work[EFF_ARGS] == 2) {
                     eff->alpha -= 20;
                     if (eff->alpha <= 0) {
@@ -4763,7 +4763,7 @@ void BossTw_UpdateEffects(PlayState* play) {
                 }
 
                 BossTw_AddFlameEffect(play, &eff->pos, &sZeroVector, &sZeroVector, 10, eff->work[EFF_ARGS]);
-            } else if (eff->type == 4) {
+            } else if (eff->type == TWEFF_RING) {
                 if (eff->work[EFF_UNKS1] == 0) {
                     Math_ApproachF(&eff->workf[EFF_SCALE], eff->workf[EFF_DIST], 0.05f, 1.0f);
 
@@ -4796,7 +4796,7 @@ void BossTw_UpdateEffects(PlayState* play) {
                     if (eff->workf[EFF_SCALE] == 0.0f) {
                         eff->type = TWEFF_NONE;
                         if (eff->target == NULL) {
-                            player->stateFlags2 &= ~PLAYER_STATE2_15;
+                            player->stateFlags2 &= ~PLAYER_STATE2_FREEZE_WITH_GRAVITY;
                             sFreezeState = 0;
                         }
                     }
@@ -4812,9 +4812,9 @@ void BossTw_UpdateEffects(PlayState* play) {
 
                         if (eff->workf[EFF_ROLL] >= 0.8f) {
                             eff->workf[EFF_ROLL] -= 0.8f;
-                            player->stateFlags2 |= PLAYER_STATE2_15;
+                            player->stateFlags2 |= PLAYER_STATE2_FREEZE_WITH_GRAVITY;
                         } else {
-                            player->stateFlags2 &= ~PLAYER_STATE2_15;
+                            player->stateFlags2 &= ~PLAYER_STATE2_FREEZE_WITH_GRAVITY;
                         }
 
                         if ((sKotakePtr->workf[UNK_F11] > 10.0f) && (sKotakePtr->workf[UNK_F11] < 200.0f)) {

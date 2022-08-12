@@ -296,14 +296,14 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
     tunic = 0;
     shield = 0;
     if (CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD) != EQUIP_VALUE_SHIELD_MIRROR) {
-        shield = Inventory_DeleteEquipment(play, EQUIP_TYPE_SHIELD);
+        shield = Inventory_DeleteEquippedItem(play, EQUIP_TYPE_SHIELD);
         if (shield != 0) {
             this->eatenShield = shield;
             this->retreat = true;
         }
     }
     if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) != EQUIP_VALUE_TUNIC_KOKIRI) {
-        tunic = Inventory_DeleteEquipment(play, EQUIP_TYPE_TUNIC);
+        tunic = Inventory_DeleteEquippedItem(play, EQUIP_TYPE_TUNIC);
         if (tunic != 0) {
             this->eatenTunic = tunic;
             this->retreat = true;

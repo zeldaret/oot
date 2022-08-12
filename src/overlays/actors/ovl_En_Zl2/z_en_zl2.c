@@ -435,15 +435,15 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     s32 pad;
     EnZl2* this = (EnZl2*)thisx;
-    Mtx* sp74;
+    Mtx* mtxs;
     MtxF sp34;
     Vec3s sp2C;
     s16 pad2;
     s16* unk_1DC = this->unk_1DC;
 
     if (limbIndex == 14) {
-        sp74 = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
-        gSPSegment((*gfx)++, 0x0C, sp74);
+        mtxs = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
+        gSPSegment(gfx[0]++, 0x0C, mtxs);
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
@@ -459,7 +459,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_1DC[0] + kREG(31), unk_1DC[1] + kREG(32), unk_1DC[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
+        Matrix_ToMtx(&mtxs[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
         Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -468,7 +468,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_1DC[3] + kREG(34), unk_1DC[4] + kREG(35), unk_1DC[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
+        Matrix_ToMtx(&mtxs[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
         Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -477,7 +477,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp74[2], "../z_en_zl2.c", 1120);
+        Matrix_ToMtx(&mtxs[2], "../z_en_zl2.c", 1120);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
@@ -490,7 +490,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_1DC[9] + kREG(40), unk_1DC[10] + kREG(41), unk_1DC[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
+        Matrix_ToMtx(&mtxs[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
         Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -500,7 +500,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp74[4], "../z_en_zl2.c", 1164);
+        Matrix_ToMtx(&mtxs[4], "../z_en_zl2.c", 1164);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
@@ -513,7 +513,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_1DC[15] + kREG(46), unk_1DC[16] + kREG(47), unk_1DC[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
+        Matrix_ToMtx(&mtxs[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
         Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -523,7 +523,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp74[6], "../z_en_zl2.c", 1208);
+        Matrix_ToMtx(&mtxs[6], "../z_en_zl2.c", 1208);
         Matrix_Pop();
         Matrix_Pop();
         this->unk_24C = 1;
