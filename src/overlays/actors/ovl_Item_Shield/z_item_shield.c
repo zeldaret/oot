@@ -18,8 +18,8 @@ void ItemShield_Destroy(Actor* thisx, PlayState* play);
 void ItemShield_Update(Actor* thisx, PlayState* play);
 void ItemShield_Draw(Actor* thisx, PlayState* play);
 
-void func_80B86F68(ItemShield* this, PlayState* play);
-void func_80B86BC8(ItemShield* this, PlayState* play);
+void ItemShield_Burning_FlyFromPlayer(ItemShield* this, PlayState* play);
+void ItemShield_Collectable_Wait(ItemShield* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -71,12 +71,12 @@ void ItemShield_Init(Actor* thisx, PlayState* play) {
         case ITEMSHIELD_TYPE_COLLECTIBLE:
             ActorShape_Init(&this->actor.shape, 1400.0f, NULL, 0.0f);
             this->actor.shape.rot.x = 0x4000;
-            ItemShield_SetupAction(this, func_80B86BC8);
+            ItemShield_SetupAction(this, ItemShield_Collectable_Wait);
             break;
 
         case ITEMSHIELD_TYPE_BURNING:
             ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-            ItemShield_SetupAction(this, func_80B86F68);
+            ItemShield_SetupAction(this, ItemShield_Burning_FlyFromPlayer);
             this->stateFlags |= ITEMSHIELD_STATE_INVISIBLE;
             for (i = 0; i < ITEMSHIELD_FLAME_COUNT; i++) {
                 this->reverseflameTypeIndices[i] = 1 + 2 * i;
@@ -99,14 +99,16 @@ void ItemShield_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80B86AC8(ItemShield* this, PlayState* play) {
+void ItemShield_Collectable_ReactToHit(ItemShield* this, PlayState* play) {
     Actor_MoveForward(&this->actor);
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
         return;
     }
+
     func_8002F434(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->timer--;
 
@@ -124,7 +126,7 @@ void func_80B86AC8(ItemShield* this, PlayState* play) {
     }
 }
 
-void func_80B86BC8(ItemShield* this, PlayState* play) {
+void ItemShield_Collectable_Wait(ItemShield* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
         return;
@@ -133,7 +135,7 @@ void func_80B86BC8(ItemShield* this, PlayState* play) {
     func_8002F434(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
 
     if (this->collider.base.acFlags & AC_HIT) {
-        ItemShield_SetupAction(this, func_80B86AC8);
+        ItemShield_SetupAction(this, ItemShield_Collectable_ReactToHit);
         this->actor.velocity.y = 4.0f;
         this->actor.minVelocityY = -4.0f;
         this->actor.gravity = -0.8f;
@@ -147,7 +149,7 @@ void func_80B86BC8(ItemShield* this, PlayState* play) {
 
 #define ITEMSHIELD_FLAME_TYPE_COUNT 15
 
-void func_80B86CA8(ItemShield* this, PlayState* play) {
+void ItemShield_Burning_Combust(ItemShield* this, PlayState* play) {
     static Vec3f sFlamePos = { 0.0f, 0.0f, 0.0f };
     static f32 sFlameScales[] = {
         0.3f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.85f, 0.7f, 0.55f, 0.4f, 0.25f, 0.1f, 0.0f,
@@ -171,7 +173,7 @@ void func_80B86CA8(ItemShield* this, PlayState* play) {
         EffectSsFireTail_SpawnFlame(play, &this->actor, &sFlamePos, sFlameScales[type] * 0.2f, -1,
                                     sFlameIntensities[type]);
 
-        // 
+        // cycle through flame types and rechoose random positions until about to disappear
         if (this->reverseflameTypeIndices[i] != 0) {
             this->reverseflameTypeIndices[i]--;
         } else if (this->timer > 16) {
@@ -182,7 +184,7 @@ void func_80B86CA8(ItemShield* this, PlayState* play) {
         }
     }
 
-    // Settle to 
+    // Settle to ground
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->pitchSpeed -= this->actor.shape.rot.x >> 1;
         this->pitchSpeed -= this->pitchSpeed >> 2;
@@ -198,7 +200,10 @@ void func_80B86CA8(ItemShield* this, PlayState* play) {
     }
 }
 
-void func_80B86F68(ItemShield* this, PlayState* play) {
+/**
+ * Position and orient like Player's actual shield, then fly off
+ */
+void ItemShield_Burning_FlyFromPlayer(ItemShield* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
     MtxF* shield = &player->shieldMf;
@@ -215,7 +220,7 @@ void func_80B86F68(ItemShield* this, PlayState* play) {
         this->stateFlags |= ITEMSHIELD_STATE_UPSIDE_DOWN;
     }
 
-    ItemShield_SetupAction(this, func_80B86CA8);
+    ItemShield_SetupAction(this, ItemShield_Burning_Combust);
 
     this->actor.velocity.y = 4.0;
     this->actor.minVelocityY = -4.0;
