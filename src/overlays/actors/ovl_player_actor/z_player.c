@@ -13498,7 +13498,7 @@ static struct_80854B18 D_80854E50[] = {
     /* 0x53 */ { 11, NULL },
     /* 0x54 */ { 11, NULL },
     /* 0x55 */ { 11, NULL },
-    /* 0x56 */ { -1, func_80852648 },
+    /* 0x56 */ { -1, func_80852648 }, // Remove Master Sword
     /* 0x57 */ { 11, NULL },
     /* 0x58 */ { 12, &gPlayerAnim_0034A0 },
     /* 0x59 */ { -1, func_808524D0 },
