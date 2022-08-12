@@ -1413,7 +1413,7 @@ void func_80832564(PlayState* play, Player* this) {
 s32 func_80832594(Player* this, s32 arg1, s32 arg2) {
     s16 temp = this->unk_A80 - D_808535D8;
 
-    this->unk_850 += arg1 + (s16)(ABS(temp) * fabsf(D_808535D4) * 2.5415802156203426e-06f);
+    this->unk_850 += arg1 + (s16)(ABS(temp) * fabsf(D_808535D4) * (1.0f / 393456.0f));
 
     if (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B)) {
         this->unk_850 += 5;
@@ -3571,7 +3571,7 @@ static LinkAnimationHeader* D_808544B0[] = {
     &gPlayerAnim_002F70, &gPlayerAnim_002528, &gPlayerAnim_002DC8, &gPlayerAnim_0024F0,
 };
 
-void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, s16 arg5, s32 arg6) {
+void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 speedXZ, f32 velocityY, s16 yaw, s32 timer) {
     LinkAnimationHeader* sp2C = NULL;
     LinkAnimationHeader** sp28;
 
@@ -3591,7 +3591,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
         return;
     }
 
-    func_80837AE0(this, arg6);
+    func_80837AE0(this, timer);
 
     if (arg2 == 3) {
         func_80835C58(play, this, func_8084FB10, 0);
@@ -3613,7 +3613,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
 
         this->unk_850 = 20;
     } else {
-        arg5 -= this->actor.shape.rot.y;
+        yaw -= this->actor.shape.rot.y;
         if (this->stateFlags1 & PLAYER_STATE1_27) {
             func_80835C58(play, this, func_8084E30C, 0);
             func_8083264C(this, 180, 20, 50, 0);
@@ -3643,11 +3643,11 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
                 func_80832C2C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_3, this->modelAnimType));
                 func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
             } else {
-                this->actor.speedXZ = arg3;
-                this->linearVelocity = arg3;
-                this->actor.velocity.y = arg4;
+                this->actor.speedXZ = speedXZ;
+                this->linearVelocity = speedXZ;
+                this->actor.velocity.y = velocityY;
 
-                if (ABS(arg5) > 0x4000) {
+                if (ABS(yaw) > 0x4000) {
                     sp2C = &gPlayerAnim_002F58;
                 } else {
                     sp2C = &gPlayerAnim_002DB0;
@@ -3683,7 +3683,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
                 sp28 += 4;
             }
 
-            if (ABS(arg5) <= 0x4000) {
+            if (ABS(yaw) <= 0x4000) {
                 sp28 += 2;
             }
 
@@ -3696,10 +3696,10 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
             func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
         }
 
-        this->actor.shape.rot.y += arg5;
+        this->actor.shape.rot.y += yaw;
         this->currentYaw = this->actor.shape.rot.y;
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        if (ABS(arg5) > 0x4000) {
+        if (ABS(yaw) > 0x4000) {
             this->actor.shape.rot.y += 0x8000;
         }
     }
@@ -3713,8 +3713,8 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
     }
 }
 
-s32 func_80838144(s32 arg0) {
-    s32 temp = arg0 - FLOOR_TYPE_2;
+s32 func_80838144(s32 floorType) {
+    s32 temp = floorType - FLOOR_TYPE_2;
 
     if ((temp >= 0) && (temp <= (FLOOR_TYPE_3 - FLOOR_TYPE_2))) {
         return temp;
@@ -3723,8 +3723,8 @@ s32 func_80838144(s32 arg0) {
     }
 }
 
-s32 func_8083816C(s32 arg0) {
-    return (arg0 == FLOOR_TYPE_4) || (arg0 == FLOOR_TYPE_7) || (arg0 == FLOOR_TYPE_12);
+s32 func_8083816C(s32 floorType) {
+    return (floorType == FLOOR_TYPE_4) || (floorType == FLOOR_TYPE_7) || (floorType == FLOOR_TYPE_12);
 }
 
 void Player_TryBurnShield(Player* this, PlayState* play) {
