@@ -151,27 +151,29 @@ void EnIceHono_InitSmallFlame(Actor* thisx, PlayState* play) {
 
 void EnIceHono_Init(Actor* thisx, PlayState* play) {
     EnIceHono* this = (EnIceHono*)thisx;
-    s16 params = this->actor.params;
+    s16 params = this->actor.params; // Required for regalloc
 
     switch (this->actor.params) {
-        case -1:
+        case BLUEFIRE_TYPE_CAPTURABLE:
             EnIceHono_InitCapturableFlame(&this->actor, play);
             break;
-        case 0:
+
+        case BLUEFIRE_TYPE_DROPPED:
             EnIceHono_InitDroppedFlame(&this->actor, play);
             break;
-        case 1:
-        case 2:
+
+        case BLUEFIRE_TYPE_SMALL1:
+        case BLUEFIRE_TYPE_SMALL2:
             EnIceHono_InitSmallFlame(&this->actor, play);
             break;
     }
 
-    if ((this->actor.params == -1) || (this->actor.params == 0)) {
+    if ((this->actor.params == BLUEFIRE_TYPE_CAPTURABLE) || (this->actor.params == BLUEFIRE_TYPE_DROPPED)) {
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, (s16)this->actor.world.pos.y + 10,
                                   this->actor.world.pos.z, 155, 210, 255, 0);
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
-        this->unk_154 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
-        this->unk_156 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
+        this->intensityPhaseSlow = Rand_ZeroOne() * (0x1FFFF / 2.0f);
+        this->intensityPhaseFast = Rand_ZeroOne() * (0x1FFFF / 2.0f);
         osSyncPrintf("(ice 炎)(arg_data 0x%04x)\n", this->actor.params); // "(ice flame)"
     }
 }
@@ -179,7 +181,7 @@ void EnIceHono_Init(Actor* thisx, PlayState* play) {
 void EnIceHono_Destroy(Actor* thisx, PlayState* play) {
     EnIceHono* this = (EnIceHono*)thisx;
 
-    if ((this->actor.params == -1) || (this->actor.params == 0)) {
+    if ((this->actor.params == BLUEFIRE_TYPE_CAPTURABLE) || (this->actor.params == BLUEFIRE_TYPE_DROPPED)) {
         LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
         Collider_DestroyCylinder(play, &this->collider);
     }
@@ -190,6 +192,7 @@ u32 EnIceHono_InBottleRange(EnIceHono* this, PlayState* play) {
 
     if (this->actor.xzDistToPlayer < 60.0f) {
         Vec3f tempPos;
+
         tempPos.x = Math_SinS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.x;
         tempPos.y = player->actor.world.pos.y;
         tempPos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.z;
@@ -221,6 +224,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 200.0f) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
+
     func_8002F8F0(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
 }
 
@@ -239,12 +243,15 @@ void EnIceHono_DropFlame(EnIceHono* this, PlayState* play) {
 
     if (bgFlag != 0) {
         s32 i;
+
         for (i = 0; i < 8; i++) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ICE_HONO, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, ((s32)(Rand_ZeroOne() * 1000.0f) + i * 0x2000) - 0x1F4, 0, 1);
+                        this->actor.world.pos.z, 0, ((s32)(Rand_ZeroOne() * 1000.0f) + i * (0x10000 / 8)) - 0x1F4, 0,
+                        BLUEFIRE_TYPE_SMALL1);
         }
         EnIceHono_SetupActionSpreadFlames(this);
     }
+
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -274,8 +281,10 @@ void EnIceHono_SpreadFlames(EnIceHono* this, PlayState* play) {
         Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
+
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+
     if (this->timer < 25) {
         this->alpha -= 10;
         this->alpha = CLAMP(this->alpha, 0, 255);
@@ -287,12 +296,16 @@ void EnIceHono_SpreadFlames(EnIceHono* this, PlayState* play) {
         this->collider.dim.height = this->actor.scale.y * 8000.0f;
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
+
     if (this->timer == 46) {
         s32 i;
+
         for (i = 0; i < 10; i++) {
-            s32 rot = i * 0x1999;
+            s32 rot = i * (0x10000 / 10);
+
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ICE_HONO, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, ((s32)(Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0, 2);
+                        this->actor.world.pos.z, 0, ((s32)(Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0,
+                        BLUEFIRE_TYPE_SMALL2);
         }
     }
 
@@ -305,10 +318,11 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
     this->actionFunc = EnIceHono_SmallFlameMove;
     this->timer = 44;
     this->alpha = 255;
-    if (this->actor.params == 1) {
+
+    if (this->actor.params == BLUEFIRE_TYPE_SMALL1) {
         this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.004f;
         this->actor.speedXZ = (Rand_ZeroOne() * 1.6f) + 0.5f;
-    } else {
+    } else { // BLUEFIRE_TYPE_SMALL2
         this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.003f;
         this->actor.speedXZ = (Rand_ZeroOne() * 2.0f) + 0.5f;
     }
@@ -323,6 +337,7 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, PlayState* play) {
         Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
+
     Math_StepToF(&this->actor.speedXZ, 0, 0.06f);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -331,31 +346,34 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, PlayState* play) {
         this->alpha -= 10;
         this->alpha = CLAMP(this->alpha, 0, 255);
     }
+
     if (this->timer <= 0) {
         Actor_Kill(&this->actor);
     }
 }
 
 void EnIceHono_Update(Actor* thisx, PlayState* play) {
-    EnIceHono* this = (EnIceHono*)thisx;
     s32 pad1;
+    EnIceHono* this = (EnIceHono*)thisx;
     f32 intensity;
     s32 pad2;
-    f32 sin154;
-    f32 sin156;
+    f32 intensityMagnitudeSlow;
+    f32 intensityMagnitudeFast;
 
     if (this->timer > 0) {
         this->timer--;
     }
-    if (this->actor.params == 0) {
+    if (this->actor.params == BLUEFIRE_TYPE_DROPPED) {
         func_8002F8F0(&this->actor, NA_SE_IT_FLAME - SFX_FLAG);
     }
-    if ((this->actor.params == -1) || (this->actor.params == 0)) {
-        this->unk_154 += 0x1111;
-        this->unk_156 += 0x4000;
-        sin156 = Math_SinS(this->unk_156);
-        sin154 = Math_SinS(this->unk_154);
-        intensity = (Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
+    if ((this->actor.params == BLUEFIRE_TYPE_CAPTURABLE) || (this->actor.params == BLUEFIRE_TYPE_DROPPED)) {
+        this->intensityPhaseSlow += 0x10000 / 15;
+        this->intensityPhaseFast += 0x10000 / 4;
+        intensityMagnitudeFast = Math_SinS(this->intensityPhaseFast);
+        intensityMagnitudeSlow = Math_SinS(this->intensityPhaseSlow);
+
+        intensity =
+            (intensityMagnitudeSlow * 0.125f) + (intensityMagnitudeFast * 0.1f) + (Rand_ZeroOne() * 0.05f) + 0.425f;
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             osSyncPrintf("ありえない値(ratio = %f)\n", intensity); // "impossible value(ratio = %f)"
         }
@@ -370,8 +388,8 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnIceHono_Draw(Actor* thisx, PlayState* play) {
+    s32 pad;
     EnIceHono* this = (EnIceHono*)thisx;
-    u32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ice_hono.c", 695);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -381,7 +399,6 @@ void EnIceHono_Draw(Actor* thisx, PlayState* play) {
                                 (play->state.frames * -20) % 512, 32, 128));
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 170, 255, 255, this->alpha);
-
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 0);
 
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
