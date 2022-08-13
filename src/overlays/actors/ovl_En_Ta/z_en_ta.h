@@ -13,30 +13,30 @@ typedef void (*EnTaBlinkFunc)(struct EnTa*);
 typedef void (*EnTaAnimFunc)(struct EnTa*);
 
 typedef enum {
-    ENTA_OTHER, // child time
-    ENTA_IN_KAKARIKO,
-    ENTA_RETURNED_FROM_KAKARIKO
+    /* 0 */ ENTA_OTHER, // Child era
+    /* 1 */ ENTA_IN_KAKARIKO,
+    /* 2 */ ENTA_RETURNED_FROM_KAKARIKO
  } EnTaType;
 
 typedef enum {
-    ENTA_LIMB_NONE,
-    ENTA_LIMB_ROOT,
-    ENTA_LIMB_LEFT_THIGH,
-    ENTA_LIMB_LEFT_LEG,
-    ENTA_LIMB_LEFT_FOOT,
-    ENTA_LIMB_RIGHT_THIGH,
-    ENTA_LIMB_RIGHT_LEG,
-    ENTA_LIMB_RIGHT_FOOT,
-    ENTA_LIMB_CHEST,
-    ENTA_LIMB_LEFT_SHOULDER,
-    ENTA_LIMB_LEFT_ARM,
-    ENTA_LIMB_LEFT_HAND,
-    ENTA_LIMB_RIGHT_SHOULDER,
-    ENTA_LIMB_RIGHT_ARM,
-    ENTA_LIMB_RIGHT_HAND,
-    ENTA_LIMB_HEAD,
-    ENTA_LIMB_TORSO,
-    ENTA_LIMB_MAX
+    /* 0x00 */ ENTA_LIMB_NONE,
+    /* 0x01 */ ENTA_LIMB_ROOT,
+    /* 0x02 */ ENTA_LIMB_LEFT_THIGH,
+    /* 0x03 */ ENTA_LIMB_LEFT_LEG,
+    /* 0x04 */ ENTA_LIMB_LEFT_FOOT,
+    /* 0x05 */ ENTA_LIMB_RIGHT_THIGH,
+    /* 0x06 */ ENTA_LIMB_RIGHT_LEG,
+    /* 0x07 */ ENTA_LIMB_RIGHT_FOOT,
+    /* 0x08 */ ENTA_LIMB_CHEST,
+    /* 0x09 */ ENTA_LIMB_LEFT_SHOULDER,
+    /* 0x0A */ ENTA_LIMB_LEFT_ARM,
+    /* 0x0B */ ENTA_LIMB_LEFT_HAND,
+    /* 0x0C */ ENTA_LIMB_RIGHT_SHOULDER,
+    /* 0x0D */ ENTA_LIMB_RIGHT_ARM,
+    /* 0x0E */ ENTA_LIMB_RIGHT_HAND,
+    /* 0x0F */ ENTA_LIMB_HEAD,
+    /* 0x10 */ ENTA_LIMB_TORSO,
+    /* 0x11 */ ENTA_LIMB_MAX
 } EnTaLimb;
 
 typedef struct EnTa {
@@ -57,7 +57,7 @@ typedef struct EnTa {
     /* 0x02CE */ s16 rapidBlinks;
     /* 0x02D0 */ s16 subCamId;
     /* 0x02D2 */ s16 returnToCamId;
-    /* 0x02D4 */ Vec3s headRotStep;
+    /* 0x02D4 */ Vec3s headRot;
     /* 0x02DA */ Vec3s torsoRot;
     /* 0x02E0 */ u16 stateFlags;
     /* 0x02E2 */ s16 nodOffTimer;

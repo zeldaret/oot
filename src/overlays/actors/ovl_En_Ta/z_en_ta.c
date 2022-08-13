@@ -26,12 +26,17 @@
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
 #define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 
-typedef enum { TALON_EYE_INDEX_OPEN, TALON_EYE_INDEX_HALF, TALON_EYE_INDEX_CLOSED } TalonEyeIndex;
+typedef enum { 
+    /* 0 */ TALON_EYE_INDEX_OPEN,
+    /* 1 */ TALON_EYE_INDEX_HALF,
+    /* 2 */ TALON_EYE_INDEX_CLOSED,
+    /* 3 */ TALON_EYE_INDEX_MAX
+} TalonEyeIndex;
 
 typedef enum {
-    TALON_CANBUYMILK_NOT_ENOUGH_RUPEES,
-    TALON_CANBUYMILK_NO_EMPTY_BOTTLE,
-    TALON_CANBUYMILK_SUCCESS
+    /* 0 */ TALON_CANBUYMILK_NOT_ENOUGH_RUPEES,
+    /* 1 */ TALON_CANBUYMILK_NO_EMPTY_BOTTLE,
+    /* 2 */ TALON_CANBUYMILK_SUCCESS
 } TalonCanBuyMilkResult;
 
 void EnTa_Init(Actor* thisx, PlayState* play2);
@@ -89,9 +94,9 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-void EnTa_SetActionFunctions(EnTa* this, EnTaActionFunc arg1, EnTaBlinkFunc arg2) {
-    this->actionFunc = arg1;
-    this->animFunc = arg2;
+void EnTa_SetupAction(EnTa* this, EnTaActionFunc actionFunc, EnTaAnimFunc animFunc) {
+    this->actionFunc = actionFunc;
+    this->animFunc = animFunc;
 }
 
 void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
@@ -102,29 +107,28 @@ void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
         // Check if the game was won
         if (GET_EVENTINF(EVENTINF_CUCCO_GAME_WON)) {
             if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
-                // "Why don't you come to work here, on this ranch"
+                // Game won already before
                 this->actor.textId = 0x2088;
             } else {
-                // "Marry malon?"
+                // First time winning
                 this->actor.textId = 0x2086;
             }
         } else {
-            // "Try again?" (Super cucco game)
+            // Try again
             this->actor.textId = 0x2085;
         }
         CLEAR_EVENTINF(EVENTINF_CUCCO_GAME_WON);
     } else if (faceReaction == 0) {
         if (GET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE)) {
             if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
-                // "Play cucco-findin' game or buy milk?"
+                // Play cucco game or buy milk
                 this->actor.textId = 0x208B;
             } else {
-                // "Play cucco game?" (Initial question before chance to buy milk)
+                // Play cucco game?
                 this->actor.textId = 0x207F;
             }
         } else {
-            // "If it ain't the forest kid from the other day"
-            // Play cucco game?
+            // First time talking to Talon in Lon Lon house
             this->actor.textId = 0x207E;
         }
     } else {
@@ -162,12 +166,12 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
-                EnTa_SetActionFunctions(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
                 this->eyeIndex = TALON_EYE_INDEX_OPEN;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
             } else {
-                EnTa_SetActionFunctions(this, EnTa_IdleAsleepInKakariko, EnTa_AnimSleeping);
+                EnTa_SetupAction(this, EnTa_IdleAsleepInKakariko, EnTa_AnimSleeping);
                 this->eyeIndex = TALON_EYE_INDEX_CLOSED;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                 this->currentAnimation = &gTalonSleepAnim;
@@ -185,31 +189,31 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
-                EnTa_SetActionFunctions(this, EnTa_IdleBackAtRanch, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_IdleBackAtRanch, EnTa_AnimLoopCurrent);
                 this->eyeIndex = TALON_EYE_INDEX_OPEN;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
             }
             break;
-        default:
-            // "Other Talon" == child Talon
+        default: // Child era Talon
+            // "Other Talon"
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (play->sceneId == SCENE_SPOT15) { // Hyrule Castle
+            if (play->sceneId == SCENE_SPOT15) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE)) {
-                    EnTa_SetActionFunctions(this, EnTa_IdleWokenInCastle, EnTa_AnimLoopCurrent);
+                    EnTa_SetupAction(this, EnTa_IdleWokenInCastle, EnTa_AnimLoopCurrent);
                     this->eyeIndex = TALON_EYE_INDEX_OPEN;
                     Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                     this->currentAnimation = &gTalonStandAnim;
                 } else {
-                    EnTa_SetActionFunctions(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
+                    EnTa_SetupAction(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
                     this->eyeIndex = TALON_EYE_INDEX_CLOSED;
                     Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (play->sceneId == SCENE_SOUKO) { // Talon's house
+            } else if (play->sceneId == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
@@ -233,19 +237,19 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                         // Check if cucco game was just finished. The room is reloaded
                         // when the game ends, therefore this is read from eventinf
                         if (GET_EVENTINF(EVENTINF_CUCCO_GAME_FINISHED)) {
-                            EnTa_SetActionFunctions(this, EnTa_IdleAfterCuccoGameFinished, EnTa_AnimRunToEnd);
+                            EnTa_SetupAction(this, EnTa_IdleAfterCuccoGameFinished, EnTa_AnimRunToEnd);
                             Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                                              Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                                              Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 0.0f);
                             CLEAR_EVENTINF(EVENTINF_CUCCO_GAME_FINISHED);
                         } else {
-                            EnTa_SetActionFunctions(this, EnTa_IdleSittingInLonLonHouse, EnTa_AnimSitSleeping);
+                            EnTa_SetupAction(this, EnTa_IdleSittingInLonLonHouse, EnTa_AnimSitSleeping);
                             this->eyeIndex = TALON_EYE_INDEX_OPEN;
                             Animation_PlayOnce(&this->skelAnime, &gTalonSitSleepingAnim);
                             this->currentAnimation = &gTalonSitSleepingAnim;
                         }
                     } else {
-                        EnTa_SetActionFunctions(this, EnTa_IdleAsleepInLonLonHouse, EnTa_AnimSleeping);
+                        EnTa_SetupAction(this, EnTa_IdleAsleepInLonLonHouse, EnTa_AnimSleeping);
                         this->eyeIndex = TALON_EYE_INDEX_CLOSED;
                         Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                         this->currentAnimation = &gTalonSleepAnim;
@@ -253,7 +257,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     }
                 }
             } else {
-                EnTa_SetActionFunctions(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
+                EnTa_SetupAction(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
                 this->eyeIndex = TALON_EYE_INDEX_CLOSED;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                 this->currentAnimation = &gTalonSleepAnim;
@@ -301,22 +305,22 @@ s32 EnTa_TalkToPlayer(EnTa* this, PlayState* play, u16 textId) {
 
 void EnTa_SleepTalkInKakariko(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        EnTa_SetActionFunctions(this, EnTa_IdleAsleepInKakariko, EnTa_AnimSleeping);
+        EnTa_SetupAction(this, EnTa_IdleAsleepInKakariko, EnTa_AnimSleeping);
     }
 }
 
 void EnTa_SleepTalkInLonLonHouse(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        EnTa_SetActionFunctions(this, EnTa_IdleAsleepInLonLonHouse, EnTa_AnimSleeping);
+        EnTa_SetupAction(this, EnTa_IdleAsleepInLonLonHouse, EnTa_AnimSleeping);
     }
 }
 
 void EnTa_SetWokenFlagsAndActionFunctions(EnTa* this) {
     if (!LINK_IS_ADULT) {
-        EnTa_SetActionFunctions(this, EnTa_IdleWokenInCastle, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleWokenInCastle, EnTa_AnimLoopCurrent);
         SET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE);
     } else {
-        EnTa_SetActionFunctions(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
         SET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO);
     }
 }
@@ -339,7 +343,7 @@ void EnTa_TalkWakingUp(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) {
         // Half-open eyes once the textbox reaches its end
         this->eyeIndex = TALON_EYE_INDEX_HALF;
-        EnTa_SetActionFunctions(this, EnTa_TalkAfterWokenUp, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkAfterWokenUp, EnTa_AnimLoopCurrent);
     }
     EnTa_DecreaseShadowSize(this);
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
@@ -349,7 +353,7 @@ void EnTa_WakeUp(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
 
     if (this->animTimer == 0) {
-        EnTa_SetActionFunctions(this, EnTa_TalkWakingUp, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWakingUp, EnTa_AnimLoopCurrent);
         this->rapidBlinks = 3;
         this->animTimer = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
@@ -360,7 +364,7 @@ void EnTa_WakeUp(EnTa* this, PlayState* play) {
 
 void EnTa_SleepTalkInCastle(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        EnTa_SetActionFunctions(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
+        EnTa_SetupAction(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
     }
 }
 
@@ -372,21 +376,18 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
 
         switch (exchangeItemId) {
             case EXCH_ITEM_CHICKEN:
-                // "What in tarnation?"
                 player->actor.textId = 0x702B;
-                EnTa_SetActionFunctions(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
                 this->animTimer = 40;
                 break;
             default:
                 if (exchangeItemId != EXCH_ITEM_NONE) {
-                    // "Z Z Z Z Z...."
                     player->actor.textId = 0x702A;
                 }
-                EnTa_SetActionFunctions(this, EnTa_SleepTalkInCastle, EnTa_AnimSleeping);
+                EnTa_SetupAction(this, EnTa_SleepTalkInCastle, EnTa_AnimSleeping);
                 break;
         }
     } else {
-        // "Z Z Z Z Z...."
         this->actor.textId = 0x702A;
         func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_CHICKEN);
     }
@@ -394,10 +395,9 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
 
 void EnTa_IdleAsleepInLonLonHouse(EnTa* this, PlayState* play) {
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        EnTa_SetActionFunctions(this, EnTa_SleepTalkInLonLonHouse, EnTa_AnimSleeping);
+        EnTa_SetupAction(this, EnTa_SleepTalkInLonLonHouse, EnTa_AnimSleeping);
     }
 
-    // "Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z"
     this->actor.textId = 0x204B;
     func_8002F2CC(&this->actor, play, 100.0f);
 }
@@ -410,21 +410,18 @@ void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
 
         switch (exchangeItemId) {
             case EXCH_ITEM_POCKET_CUCCO:
-                // "What in tarnation?"
                 player->actor.textId = 0x702B;
-                EnTa_SetActionFunctions(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
                 this->animTimer = 40;
                 break;
             default:
                 if (exchangeItemId != EXCH_ITEM_NONE) {
-                    // "Z Z Z... Malon.. doing all right..."
                     player->actor.textId = 0x5015;
                 }
-                EnTa_SetActionFunctions(this, EnTa_SleepTalkInKakariko, EnTa_AnimSleeping);
+                EnTa_SetupAction(this, EnTa_SleepTalkInKakariko, EnTa_AnimSleeping);
                 break;
         }
     } else {
-        // "Z Z Z... Malon.. doing all right..."
         this->actor.textId = 0x5015;
         func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_POCKET_CUCCO);
     }
@@ -457,7 +454,7 @@ void EnTa_RunAwayAnimTurnTowardsGate(EnTa* this, PlayState* play) {
     this->actor.shape.rot.y += 0xC00;
 
     if (this->animTimer == 0) {
-        EnTa_SetActionFunctions(this, EnTa_RunAwayAnimRunOutOfGate, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayAnimRunOutOfGate, EnTa_AnimLoopCurrent);
         this->animTimer = 60;
     }
 }
@@ -468,7 +465,7 @@ void EnTa_RunAwayAnimRunWest(EnTa* this, PlayState* play) {
     EnTa_RunWithAccelerationAndSfx(this, play);
 
     if (this->animTimer == 0) {
-        EnTa_SetActionFunctions(this, EnTa_RunAwayAnimTurnTowardsGate, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayAnimTurnTowardsGate, EnTa_AnimLoopCurrent);
         this->animTimer = 5;
     }
 }
@@ -478,7 +475,7 @@ void EnTa_RunAwayAnimTurnWest(EnTa* this, PlayState* play) {
     this->actor.shape.rot.y -= 0xD00;
 
     if (this->animTimer == 0) {
-        EnTa_SetActionFunctions(this, EnTa_RunAwayAnimRunWest, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayAnimRunWest, EnTa_AnimLoopCurrent);
         this->animTimer = 65;
     }
 }
@@ -494,7 +491,7 @@ void EnTa_RunAwayAnimRunSouth(EnTa* this, PlayState* play) {
     }
     if (this->animTimer == 0) {
         this->animTimer = 5;
-        EnTa_SetActionFunctions(this, EnTa_RunAwayAnimTurnWest, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayAnimTurnWest, EnTa_AnimLoopCurrent);
     }
 }
 
@@ -504,7 +501,7 @@ void EnTa_RunAwayAnimStart(EnTa* this, PlayState* play) {
 
     if (this->animTimer == 0) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
-        EnTa_SetActionFunctions(this, EnTa_RunAwayAnimRunSouth, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayAnimRunSouth, EnTa_AnimLoopCurrent);
         this->animTimer = 65;
         this->actor.flags |= ACTOR_FLAG_4;
     }
@@ -514,7 +511,7 @@ void EnTa_TalkWokenInCastle(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) {
         // Start the running away cutscene
         OnePointCutscene_Init(play, 4175, -99, &this->actor, CAM_ID_MAIN);
-        EnTa_SetActionFunctions(this, EnTa_RunAwayAnimStart, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayAnimStart, EnTa_AnimLoopCurrent);
         this->animTimer = 5;
         SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE);
         Animation_PlayOnce(&this->skelAnime, &gTalonRunTransitionAnim);
@@ -524,45 +521,41 @@ void EnTa_TalkWokenInCastle(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleWokenInCastle(EnTa* this, PlayState* play) {
-    // "I went to the castle to deliver some milk..."
     if (EnTa_TalkToPlayer(this, play, 0x702C)) {
-        EnTa_SetActionFunctions(this, EnTa_TalkWokenInCastle, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWokenInCastle, EnTa_AnimLoopCurrent);
     }
     EnTa_DecreaseShadowSize(this);
 }
 
 void EnTa_TalkWokenInKakariko(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        EnTa_SetActionFunctions(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
 
 void EnTa_IdleWokenInKakariko(EnTa* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-        // "Did you save Malon? Thanks!"
         if (EnTa_TalkToPlayer(this, play, 0x5017)) {
-            EnTa_SetActionFunctions(this, EnTa_TalkWokenInKakariko, EnTa_AnimLoopCurrent);
+            EnTa_SetupAction(this, EnTa_TalkWokenInKakariko, EnTa_AnimLoopCurrent);
             SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO);
         }
     } else if (EnTa_TalkToPlayer(this, play, 0x5016)) {
-        // "Ingo took over Lon Lon Ranch..."
-        EnTa_SetActionFunctions(this, EnTa_TalkWokenInKakariko, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWokenInKakariko, EnTa_AnimLoopCurrent);
     }
     EnTa_DecreaseShadowSize(this);
 }
 
 void EnTa_TalkBackAtRanch(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        EnTa_SetActionFunctions(this, EnTa_IdleBackAtRanch, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleBackAtRanch, EnTa_AnimLoopCurrent);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
 
 void EnTa_IdleBackAtRanch(EnTa* this, PlayState* play) {
-    // "I'm gonna turn over a new leaf and work real hard..."
     if (EnTa_TalkToPlayer(this, play, 0x2055)) {
-        EnTa_SetActionFunctions(this, EnTa_TalkBackAtRanch, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkBackAtRanch, EnTa_AnimLoopCurrent);
     }
 }
 
@@ -602,7 +595,7 @@ void EnTa_RemoveFloorCamera(EnTa* this, PlayState* play) {
 }
 
 void EnTa_SetActionFuncWithBackToSleepAnimation(EnTa* this, EnTaActionFunc actionFunc) {
-    EnTa_SetActionFunctions(this, actionFunc, EnTa_AnimSitSleeping);
+    EnTa_SetupAction(this, actionFunc, EnTa_AnimSitSleeping);
     this->eyeIndex = TALON_EYE_INDEX_CLOSED;
     Animation_Change(&this->skelAnime, &gTalonSitSleepingAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gTalonSitSleepingAnim), ANIMMODE_ONCE, -5.0f);
@@ -612,7 +605,7 @@ void EnTa_SetActionFuncWithBackToSleepAnimation(EnTa* this, EnTaActionFunc actio
 
 void EnTa_SetActionFuncWithWakeUpAnimation(EnTa* this, EnTaActionFunc actionFunc) {
     this->eyeIndex = TALON_EYE_INDEX_HALF;
-    EnTa_SetActionFunctions(this, actionFunc, EnTa_AnimRunToEnd);
+    EnTa_SetupAction(this, actionFunc, EnTa_AnimRunToEnd);
     this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
     Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gTalonSitWakeUpAnim),
                      ANIMMODE_ONCE, -5.0f);
@@ -627,7 +620,7 @@ void EnTa_TalkNotEnoughRupees(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
 
-bool EnTa_IsPlayerHoldingSuperCucco(EnTa* this, PlayState* play, s32 cuccoIdx) {
+s32 EnTa_IsPlayerHoldingSuperCucco(EnTa* this, PlayState* play, s32 cuccoIdx) {
     Player* player = GET_PLAYER(play);
     Actor* interactRangeActor;
 
@@ -655,8 +648,7 @@ void EnTa_TalkFoundSuperCucco(EnTa* this, PlayState* play) {
         lastFoundSuperCuccoIdx = this->lastFoundSuperCuccoIdx;
         this->actionFunc = EnTa_RunCuccoGame;
 
-        // Make the found cucco fly directly upwards
-        // and then forget about it
+        // Make the found cucco fly directly upwards and then forget about it
         this->superCuccos[lastFoundSuperCuccoIdx]->actor.gravity = 0.1f;
         this->superCuccos[lastFoundSuperCuccoIdx]->actor.velocity.y = 0.0f;
         this->superCuccos[lastFoundSuperCuccoIdx]->actor.speedXZ = 0.0f;
@@ -767,7 +759,6 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                             gSaveContext.timer1State = 0;
                             func_8002DF54(play, &this->actor, 1);
 
-                            // "That's the last one!"
                             Message_StartTextbox(play, 0x2084, &this->actor);
                             this->actionFunc = EnTa_TalkCuccoGameEnd;
                             Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE,
@@ -780,12 +771,12 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                             return;
                         case 2:
-                            // "There's another!"
+                            // One cucco remaining
                             this->actor.textId = 0x2083;
                             Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
                             break;
                         case 3:
-                            // "That's one of 'em!"
+                            // Two cuccos remaining
                             this->actor.textId = 0x2082;
                             Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
                             break;
@@ -813,7 +804,8 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
         func_80078884(NA_SE_SY_FOUND);
         gSaveContext.timer1State = 0;
         func_8002DF54(play, &this->actor, 1);
-        // "Time's up!"
+
+        // Time's up text
         Message_StartTextbox(play, 0x2081, &this->actor);
         this->actionFunc = EnTa_TalkCuccoGameEnd;
         EnTa_CreateFloorCamera(this, play);
@@ -842,7 +834,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
     } else if (this->animTimer == 35) {
         // At this point, prepare each super cucco for flight
         for (i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
-            // Set a 10-16 zero-gravity time for each super cucco
+            // Set a 10-16 frame zero-gravity time for each super cucco
             this->superCuccoTimers[i] = (s32)(Rand_CenteredFloat(6.0f) + 10.0f);
 
             if (this->superCuccos[i] != NULL) {
@@ -869,7 +861,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
     }
 
     if (this->animTimer == 0) {
-        EnTa_SetActionFunctions(this, EnTa_RunCuccoGame, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_RunCuccoGame, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
@@ -880,7 +872,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
 
 void EnTa_StartingCuccoGameAnimation3(EnTa* this, PlayState* play) {
     if (this->animTimer == 0 && this->stateFlags & TALON_STATE_FLAG_CUCCO_GAME_START_EVENT_TRIGGERED) {
-        EnTa_SetActionFunctions(this, EnTa_ThrowSuperCuccos, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_ThrowSuperCuccos, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         // Play hand raise animation again so that it looks like Talon throws the cuccos
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 1.0f,
@@ -903,7 +895,7 @@ void EnTa_StartingCuccoGameAnimation3(EnTa* this, PlayState* play) {
 
 void EnTa_StartingCuccoGameAnimation2(EnTa* this, PlayState* play) {
     if (this->stateFlags & TALON_STATE_FLAG_ANIMATION_FINISHED) {
-        EnTa_SetActionFunctions(this, EnTa_StartingCuccoGameAnimation3, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_StartingCuccoGameAnimation3, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 0.0f, 1.0f, ANIMMODE_ONCE, 0.0f);
         this->animTimer = 5;
@@ -916,7 +908,7 @@ void EnTa_StartingCuccoGameAnimation2(EnTa* this, PlayState* play) {
 
 void EnTa_StartingCuccoGameAnimation1(EnTa* this, PlayState* play) {
     if (this->stateFlags & TALON_STATE_FLAG_ANIMATION_FINISHED) {
-        EnTa_SetActionFunctions(this, EnTa_StartingCuccoGameAnimation2, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_StartingCuccoGameAnimation2, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, -1.0f, 29.0f, 0.0f, ANIMMODE_ONCE, 10.0f);
     }
@@ -927,10 +919,9 @@ void EnTa_StartingCuccoGameAnimation1(EnTa* this, PlayState* play) {
 }
 
 void EnTa_StartCuccoGame(EnTa* this, PlayState* play) {
-    EnTa_SetActionFunctions(this, EnTa_StartingCuccoGameAnimation1, EnTa_AnimRunToEnd);
+    EnTa_SetupAction(this, EnTa_StartingCuccoGameAnimation1, EnTa_AnimRunToEnd);
     this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
     Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
-    // "START LOOKIN'!!"
     Message_ContinueTextbox(play, 0x2080);
     this->stateFlags &= ~TALON_STATE_FLAG_CUCCO_GAME_START_EVENT_TRIGGERED;
 }
@@ -965,7 +956,7 @@ void EnTa_TalkAfterCuccoGameFirstWon(EnTa* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         this->stateFlags &= ~TALON_STATE_FLAG_GIVING_MILK_REFILL;
-        EnTa_SetActionFunctions(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
         func_8002F434(&this->actor, play, GI_MILK_BOTTLE, 10000.0f, 50.0f);
     }
 }
@@ -976,29 +967,25 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
             case 0: // Buy milk
                 switch (EnTa_CheckCanBuyMilk()) {
                     case TALON_CANBUYMILK_NOT_ENOUGH_RUPEES:
-                        // "You don't have enough Rupees!"
                         Message_ContinueTextbox(play, 0x85);
-                        EnTa_SetActionFunctions(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
+                        EnTa_SetupAction(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
                         break;
                     case TALON_CANBUYMILK_NO_EMPTY_BOTTLE:
-                        // "You don't have an empty bottle, do you?"
                         Message_ContinueTextbox(play, 0x208A);
-                        EnTa_SetActionFunctions(this, EnTa_TalkGeneralInLonLonHouse, EnTa_AnimRunToEnd);
+                        EnTa_SetupAction(this, EnTa_TalkGeneralInLonLonHouse, EnTa_AnimRunToEnd);
                         break;
                     case TALON_CANBUYMILK_SUCCESS:
                         this->stateFlags |= TALON_STATE_FLAG_GIVING_MILK_REFILL;
-                        EnTa_SetActionFunctions(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
+                        EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
                         Rupees_ChangeBy(-30);
-                        // Get milk
                         func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
                         break;
                 }
                 break;
             case 1: // Play cucco game
                 if (gSaveContext.rupees < 10) {
-                    // "You don't have enough Rupees!"
                     Message_ContinueTextbox(play, 0x85);
-                    EnTa_SetActionFunctions(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
+                    EnTa_SetupAction(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
                 } else {
                     Rupees_ChangeBy(-10);
                     EnTa_StartCuccoGame(this, play);
@@ -1019,7 +1006,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
 void EnTa_WaitForPlayCuccoGameResponse(EnTa* this, PlayState* play) {
     s32 price;
 
-    // "Try again?"
+    // Check if this is a retry
     if (this->actor.textId == 0x2085) {
         price = 5;
     } else {
@@ -1030,9 +1017,8 @@ void EnTa_WaitForPlayCuccoGameResponse(EnTa* this, PlayState* play) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.rupees < price) {
-                    // "You don't have enough rupees"
                     Message_ContinueTextbox(play, 0x85);
-                    EnTa_SetActionFunctions(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
+                    EnTa_SetupAction(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
                 } else {
                     Rupees_ChangeBy(-price);
                     EnTa_StartCuccoGame(this, play);
@@ -1052,9 +1038,8 @@ void EnTa_WaitForPlayCuccoGameResponse(EnTa* this, PlayState* play) {
 
 void EnTa_WaitForMarryMalonResponse(EnTa* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
-        // "Haw haw! I was just kidding!"
         Message_ContinueTextbox(play, 0x2087);
-        EnTa_SetActionFunctions(this, EnTa_TalkAfterCuccoGameFirstWon, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_TalkAfterCuccoGameFirstWon, EnTa_AnimRunToEnd);
     }
 
     if (this->stateFlags & TALON_STATE_FLAG_ANIMATION_FINISHED) {
@@ -1066,13 +1051,13 @@ void EnTa_ContinueTalkInLonLonHouse(EnTa* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         SET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE);
         if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
-            // "Play cucco game or buy milk?"
+            // Play cucco game or buy milk
             Message_ContinueTextbox(play, 0x208B);
-            EnTa_SetActionFunctions(this, EnTa_WaitBuyMilkOrPlayCuccoGameResponse, EnTa_AnimRunToEnd);
+            EnTa_SetupAction(this, EnTa_WaitBuyMilkOrPlayCuccoGameResponse, EnTa_AnimRunToEnd);
         } else {
-            // "Play cucco game?" (Initial question before chance to buy milk)
+            // Play cucco game?
             Message_ContinueTextbox(play, 0x207F);
-            EnTa_SetActionFunctions(this, EnTa_WaitForPlayCuccoGameResponse, EnTa_AnimRunToEnd);
+            EnTa_SetupAction(this, EnTa_WaitForPlayCuccoGameResponse, EnTa_AnimRunToEnd);
         }
     }
 
@@ -1086,12 +1071,11 @@ void EnTa_TalkAfterCuccoGameWon(EnTa* this, PlayState* play) {
         if (Inventory_HasEmptyBottle()) {
             Message_CloseTextbox(play);
             this->stateFlags |= TALON_STATE_FLAG_GIVING_MILK_REFILL;
-            EnTa_SetActionFunctions(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
+            EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
             func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
         } else {
-            // "You don't have an empty bottle, do you?"
             Message_ContinueTextbox(play, 0x208A);
-            EnTa_SetActionFunctions(this, EnTa_TalkGeneralInLonLonHouse, EnTa_AnimRunToEnd);
+            EnTa_SetupAction(this, EnTa_TalkGeneralInLonLonHouse, EnTa_AnimRunToEnd);
         }
     }
 }
@@ -1110,11 +1094,11 @@ void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE);
 
             switch (this->actor.textId) {
-                case 0x207E: // "If it ain't the forest kid from the other day, play cucco game?"
-                case 0x207F: // "Play cucco game?" (Initial question before chance to buy milk)
+                case 0x207E: // First time talking in Lon Lon House
+                case 0x207F: // Play cucco game
                     EnTa_SetActionFuncWithWakeUpAnimation(this, EnTa_WaitForPlayCuccoGameResponse);
                     break;
-                case 0x208B: // "Play cucco-findin' game or buy milk?"
+                case 0x208B: // Play cucco game or buy milk
                     EnTa_SetActionFuncWithWakeUpAnimation(this, EnTa_WaitBuyMilkOrPlayCuccoGameResponse);
                     break;
                 default:
@@ -1129,13 +1113,13 @@ void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
 void EnTa_IdleAfterCuccoGameFinished(EnTa* this, PlayState* play) {
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         switch (this->actor.textId) {
-            case 0x2085: // "Want to try again?" (cucco game)
+            case 0x2085: // Retry?
                 this->actionFunc = EnTa_WaitForPlayCuccoGameResponse;
                 break;
-            case 0x2086: // "Marry malon?"
+            case 0x2086: // Initial win
                 this->actionFunc = EnTa_WaitForMarryMalonResponse;
                 break;
-            case 0x2088: // "Why don't you come to work here, on this ranch"
+            case 0x2088: // Later win
                 this->actionFunc = EnTa_TalkAfterCuccoGameWon;
                 break;
         }
@@ -1168,12 +1152,10 @@ void EnTa_BlinkAdvanceState(EnTa* this) {
         // Next towards closed eyes: open -> half, half -> closed
         s16 nextEyeIndex = this->eyeIndex + 1;
 
-        // If the eyes were already closed (nextEyeIndex >= 3),
-        // set the eyes open and either set a new blink timer.
+        // If the eyes were already closed, set the eyes open and set a new blink timer.
         // If just woken up (rapidBlinks > 0), blink a few times
-        // in quick succession before starting the normal blink
-        // cycle.
-        if (nextEyeIndex >= 3) {
+        // in quick succession before starting the normal blink cycle.
+        if (nextEyeIndex >= TALON_EYE_INDEX_MAX) {
             this->eyeIndex = TALON_EYE_INDEX_OPEN;
             if (this->rapidBlinks > 0) {
                 this->rapidBlinks--;
@@ -1207,7 +1189,7 @@ void EnTa_AnimSleeping(EnTa* this) {
 void EnTa_AnimSitSleeping(EnTa* this) {
     if (this->nodOffTimer > 0) {
         // Pause the sleep animation until the nodding timer is at zero.
-        // The torso and arms will still bob around because of EnTa_OverrideLimbDraw
+        // The torso and arms will still do the rocking movement because of EnTa_OverrideLimbDraw
         this->nodOffTimer--;
     } else {
         if (SkelAnime_Update(&this->skelAnime)) {
@@ -1253,10 +1235,10 @@ void EnTa_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->stateFlags & TALON_STATE_FLAG_TRACKING_PLAYER) {
-        Actor_TrackPlayer(play, &this->actor, &this->headRotStep, &this->torsoRot, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     } else {
-        Math_SmoothStepToS(&this->headRotStep.x, 0, 6, 6200, 100);
-        Math_SmoothStepToS(&this->headRotStep.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->torsoRot.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->torsoRot.y, 0, 6, 6200, 100);
     }
@@ -1271,16 +1253,15 @@ void EnTa_Update(Actor* thisx, PlayState* play) {
 s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTa* this = (EnTa*)thisx;
 
-    // Turn head and chest towards the target (the rotation steps are
-    // calculated in EnTa_Update)
+    // Turn head and chest towards the target (the rotation steps are calculated in EnTa_Update)
     switch (limbIndex) {
         case ENTA_LIMB_CHEST:
             rot->x += this->torsoRot.y;
             rot->y -= this->torsoRot.x;
             break;
         case ENTA_LIMB_HEAD:
-            rot->x += this->headRotStep.y;
-            rot->z += this->headRotStep.x;
+            rot->x += this->headRot.y;
+            rot->z += this->headRot.x;
             break;
     }
 
