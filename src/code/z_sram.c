@@ -313,7 +313,7 @@ static s16 sDungeonEntrances[] = {
  *  - Copy any set Scarecrow's Songs from SaveContext to the proper location.
  *  - Handle a case where the player saved and quit after Zelda cutscene but didn't get the song.
  *  - Return and re-equip Master Sword if player saved without it, such as during the first phase of the Ganon fight.
- *  - Revert any trade items that spoil
+ *  - Revert any trade items that spoil.
  */
 void Sram_OpenSave(SramContext* sramCtx) {
     u16 i;
