@@ -143,7 +143,7 @@ typedef struct {
     /* 0x09 */ s8 light2Dir[3];
     /* 0x0C */ u8 light2Color[3];
     /* 0x0F */ u8 fogColor[3];
-    /* 0x12 */ s16 blendRateAndFogNear;
+    /* 0x12 */ s16 blendRateAndFogNear; // The blendRate determines how fast the current light settings fade to the new one (under LIGHT_MODE_SETTINGS, otherwise unused). The fogNear is in 0-1000 range (0: starts immediately, 1000: no fog), but is clamped to ENV_FOGNEAR_MAX. The fogFar is almost always 1000 (ends at max depth, set by zFar).
     /* 0x14 */ s16 zFar;
 } EnvLightSettings; // size = 0x16
 
