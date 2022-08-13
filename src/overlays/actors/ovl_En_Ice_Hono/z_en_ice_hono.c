@@ -151,7 +151,7 @@ void EnIceHono_InitSmallFlame(Actor* thisx, PlayState* play) {
 
 void EnIceHono_Init(Actor* thisx, PlayState* play) {
     EnIceHono* this = (EnIceHono*)thisx;
-    s16 params = this->actor.params; // Required for regalloc
+    s16 params = this->actor.params; // unused but required to match
 
     switch (this->actor.params) {
         case BLUEFIRE_TYPE_CAPTURABLE:
