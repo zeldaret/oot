@@ -310,7 +310,7 @@ static s16 sDungeonEntrances[] = {
  *  This includes:
  *  - Set proper entrance depending on where the game was saved.
  *  - If health is less than 3 hearts, give 3 hearts.
- *  - If either Scarecrow's Song is set, copy it from SaveContext to the proper location.
+ *  - Copy any set Scarecrow's Songs from SaveContext to the proper location.
  *  - Handle a case where the player saved and quit after Zelda cutscene but didn't get the song.
  *  - Return and re-equip Master Sword if player saved without it, such as during the first phase of the Ganon fight.
  *  - Revert any trade items that spoil
