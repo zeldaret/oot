@@ -835,7 +835,7 @@ void Flags_UnsetAllEnv(PlayState* play);
 void Flags_SetEnv(PlayState* play, s16 flag);
 void Flags_UnsetEnv(PlayState* play, s16 flag);
 s32 Flags_GetEnv(PlayState* play, s16 flag);
-s32 func_8006CFC0(s32 scene);
+s32 func_8006CFC0(s32 sceneId);
 void func_8006D074(PlayState* play);
 void func_8006D0AC(PlayState* play);
 void func_8006D0EC(PlayState* play, Player* player);
