@@ -13,7 +13,8 @@
 #define TALON_STATE_FLAG_TRACKING_PLAYER (1 << 0)
 #define TALON_STATE_FLAG_GIVING_MILK_REFILL (1 << 1)
 #define TALON_STATE_FLAG_SUPPRESS_BLINK (1 << 2)
-#define TALON_STATE_FLAG_3 (1 << 3)
+// This has no effect, see EnTa_OverrideLimbDraw for details
+#define TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM (1 << 3)
 #define TALON_STATE_FLAG_ANIMATION_FINISHED (1 << 4)
 #define TALON_STATE_FLAG_CUCCO_GAME_START_EVENT_TRIGGERED (1 << 5)
 #define TALON_STATE_FLAG_UNUSED (1 << 6)
@@ -1183,7 +1184,7 @@ void EnTa_AnimSleeping(EnTa* this) {
         Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
         Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SLEEP);
     }
-    this->stateFlags |= TALON_STATE_FLAG_3 | TALON_STATE_FLAG_SUPPRESS_BLINK;
+    this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM | TALON_STATE_FLAG_SUPPRESS_BLINK;
 }
 
 void EnTa_AnimSitSleeping(EnTa* this) {
@@ -1205,7 +1206,7 @@ void EnTa_AnimSitSleeping(EnTa* this) {
             // Otherwise keep the eyes closed
             this->eyeIndex = TALON_EYE_INDEX_CLOSED;
         }
-        this->stateFlags |= TALON_STATE_FLAG_3;
+        this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
     }
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
 }
@@ -1215,7 +1216,7 @@ void EnTa_AnimRunToEnd(EnTa* this) {
         if (SkelAnime_Update(&this->skelAnime)) {
             this->stateFlags |= TALON_STATE_FLAG_ANIMATION_FINISHED;
         }
-        this->stateFlags |= TALON_STATE_FLAG_3;
+        this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
     }
 }
 
@@ -1266,15 +1267,15 @@ s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
 
     // Rocking/wobbling animation for the torso and arms
-    if (this->stateFlags & TALON_STATE_FLAG_3) {
-        // TALON_STATE_FLAG_3 might have been supposed to prevent
+    if (this->stateFlags & TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM) {
+        // TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM might have been supposed to prevent
         // the rocking in some situations, (e.g. while sleeping).
 
         // But because this function is run first for the root limb (limbIndex 1),
         // and the flag is immediately unset, all subsequent calls end up
         // in the else if branch below and rocking always occurs.
         // So this flag has no effect?
-        this->stateFlags &= ~TALON_STATE_FLAG_3;
+        this->stateFlags &= ~TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
     } else if ((limbIndex == ENTA_LIMB_CHEST) || (limbIndex == ENTA_LIMB_LEFT_ARM) ||
                (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
         s32 limbIdx50 = limbIndex * 50;
