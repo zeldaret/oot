@@ -226,22 +226,22 @@ u8 gItemSlots[] = {
 };
 
 /**
- * Change currently-equipped item
- * 
- * @param type Type of equipment to change. Use `EquipmentType` enum
- * @param value Value of equipment to change. Use the appropriate `EquipValue____` enum
+ * Change currently-equipped item.
+ *
+ * @param equipmentType Type of equipment to equip. Use `EquipmentType` enum
+ * @param equipValue Single piece of equipment to equip. Use the appropriate `EquipValue____` enum
  */
-void Inventory_ChangeEquipment(s16 type, u16 value) {
-    gSaveContext.equips.equipment &= gEquipNegMasks[type];
-    gSaveContext.equips.equipment |= value << gEquipShifts[type];
+void Inventory_ChangeEquipment(s16 equipmentType, u16 equipValue) {
+    gSaveContext.equips.equipment &= gEquipNegMasks[equipmentType];
+    gSaveContext.equips.equipment |= equipValue << gEquipShifts[equipmentType];
 }
 
 /**
- * Deletes the currently-equipped equipment of type `equipmentType`
- * 
- * @param equipmentType Type of equipment (sword/shield/tunic/boots) to delete (uses `EquipmentType` enum).
- * 
- * @return u8 deleted item
+ * Deletes the currently-equipped equipment of a specified type.
+ *
+ * @param equipmentType Uses `EquipmentType` enum.
+ *
+ * @return Deleted item
  */
 u8 Inventory_DeleteEquippedItem(PlayState* play, s16 equipmentType) {
     Player* player = GET_PLAYER(play);
@@ -274,12 +274,12 @@ u8 Inventory_DeleteEquippedItem(PlayState* play, s16 equipmentType) {
 }
 
 /**
- * Changes the current upgrade
- * 
- * @param type Type of upgrade (uses `UpgradeType` enum).
+ * Changes the current upgrade.
+ *
+ * @param upgradeType uses `UpgradeType` enum.
  * @param value Level to change upgrade to (plain number, valid range depends on `upgrade`).
  */
-void Inventory_ChangeUpgrade(s16 type, s16 value) {
-    gSaveContext.inventory.upgrades &= gUpgradeNegMasks[type];
-    gSaveContext.inventory.upgrades |= value << gUpgradeShifts[type];
+void Inventory_ChangeUpgrade(s16 upgradeType, s16 value) {
+    gSaveContext.inventory.upgrades &= gUpgradeNegMasks[upgradeType];
+    gSaveContext.inventory.upgrades |= value << gUpgradeShifts[upgradeType];
 }
