@@ -683,7 +683,8 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
             if (play->sceneId != SCENE_SPOT20 ||
                 //! Same flag checked twice
                 (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) &&
-                 (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6 || Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED))) ||
+                 (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6 ||
+                  Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED))) ||
                 // always load two spawns inside lon lon
                 ((sHorseSpawns[i].pos.x == 856 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -918) ||
                  (sHorseSpawns[i].pos.x == -1003 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -755))) {

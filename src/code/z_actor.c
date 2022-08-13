@@ -4913,7 +4913,8 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 retTextId = 0x2048;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2047;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_12) && !Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_12) &&
+                       !Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2044;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_10)) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_11)) {

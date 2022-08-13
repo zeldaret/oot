@@ -429,7 +429,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
             if (play->sceneId == SCENE_KAKARIKO) {
-                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x508D
+                           : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (play->sceneId == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
@@ -537,7 +539,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             if (!LINK_IS_ADULT) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK) ? 0x5062 : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x5062
+                           : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;

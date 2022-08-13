@@ -23,14 +23,10 @@
 
 #define TALON_FACE_REACTION_SET 24
 
-#define EVENTINF_CUCCO_GAME_FINISHED    EVENTINF_HORSES_0A
-#define EVENTINF_CUCCO_GAME_WON         EVENTINF_HORSES_08
+#define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
+#define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 
-typedef enum {
-    TALON_EYE_INDEX_OPEN,
-    TALON_EYE_INDEX_HALF,
-    TALON_EYE_INDEX_CLOSED
-} TalonEyeIndex;
+typedef enum { TALON_EYE_INDEX_OPEN, TALON_EYE_INDEX_HALF, TALON_EYE_INDEX_CLOSED } TalonEyeIndex;
 
 typedef enum {
     TALON_CANBUYMILK_NOT_ENOUGH_RUPEES,
@@ -198,7 +194,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
         default:
             // "Other Talon" == child Talon
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (play->sceneId == SCENE_SPOT15) {  // Hyrule Castle
+            if (play->sceneId == SCENE_SPOT15) { // Hyrule Castle
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE)) {
@@ -213,7 +209,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (play->sceneId == SCENE_SOUKO) {  // Talon's house
+            } else if (play->sceneId == SCENE_SOUKO) { // Talon's house
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
@@ -278,8 +274,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
 
     Collider_DestroyCylinder(play, &this->collider);
 
-    if (this->actor.params != ENTA_IN_KAKARIKO &&
-        this->actor.params != ENTA_RETURNED_FROM_KAKARIKO &&
+    if (this->actor.params != ENTA_IN_KAKARIKO && this->actor.params != ENTA_RETURNED_FROM_KAKARIKO &&
         play->sceneId == SCENE_SOUKO) {
         gSaveContext.timer1State = 0;
     }
@@ -836,7 +831,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
     s32 i;
 
     if (this->animTimer > 35) {
-        // During the first part of the throw animation, 
+        // During the first part of the throw animation,
         // just turn them (on the table or the floor)
         for (i = 1; i < ARRAY_COUNT(this->superCuccos); i++) {
             if (this->superCuccos[i] != NULL) {
@@ -892,8 +887,8 @@ void EnTa_StartingCuccoGameAnimation3(EnTa* this, PlayState* play) {
                          Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE, 0.0f);
         this->animTimer = 50;
 
-        func_80088B34(30); // Set the minigame timer for 30 seconds
-        func_800F5ACC(NA_BGM_TIMED_MINI_GAME);  // Start minigame music
+        func_80088B34(30);                     // Set the minigame timer for 30 seconds
+        func_800F5ACC(NA_BGM_TIMED_MINI_GAME); // Start minigame music
         this->stateFlags |= TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Message_CloseTextbox(play);
         func_8002DF54(play, &this->actor, 1);
@@ -978,7 +973,7 @@ void EnTa_TalkAfterCuccoGameFirstWon(EnTa* this, PlayState* play) {
 void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
-            case 0:  // Buy milk
+            case 0: // Buy milk
                 switch (EnTa_CheckCanBuyMilk()) {
                     case TALON_CANBUYMILK_NOT_ENOUGH_RUPEES:
                         // "You don't have enough Rupees!"
@@ -999,7 +994,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                         break;
                 }
                 break;
-            case 1:  // Play cucco game
+            case 1: // Play cucco game
                 if (gSaveContext.rupees < 10) {
                     // "You don't have enough Rupees!"
                     Message_ContinueTextbox(play, 0x85);
@@ -1009,7 +1004,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                     EnTa_StartCuccoGame(this, play);
                 }
                 break;
-            case 2:  // Cancel
+            case 2: // Cancel
                 EnTa_SetActionFuncWithBackToSleepAnimation(this, EnTa_IdleSittingInLonLonHouse);
                 EnTa_SetTextForTalkInLonLonHouse(this, play);
                 break;
@@ -1119,7 +1114,7 @@ void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
                 case 0x207F: // "Play cucco game?" (Initial question before chance to buy milk)
                     EnTa_SetActionFuncWithWakeUpAnimation(this, EnTa_WaitForPlayCuccoGameResponse);
                     break;
-                case 0x208B:  // "Play cucco-findin' game or buy milk?"
+                case 0x208B: // "Play cucco-findin' game or buy milk?"
                     EnTa_SetActionFuncWithWakeUpAnimation(this, EnTa_WaitBuyMilkOrPlayCuccoGameResponse);
                     break;
                 default:
@@ -1134,13 +1129,13 @@ void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
 void EnTa_IdleAfterCuccoGameFinished(EnTa* this, PlayState* play) {
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         switch (this->actor.textId) {
-            case 0x2085:  // "Want to try again?" (cucco game)
+            case 0x2085: // "Want to try again?" (cucco game)
                 this->actionFunc = EnTa_WaitForPlayCuccoGameResponse;
                 break;
-            case 0x2086:  // "Marry malon?"
+            case 0x2086: // "Marry malon?"
                 this->actionFunc = EnTa_WaitForMarryMalonResponse;
                 break;
-            case 0x2088:  // "Why don't you come to work here, on this ranch"
+            case 0x2088: // "Why don't you come to work here, on this ranch"
                 this->actionFunc = EnTa_TalkAfterCuccoGameWon;
                 break;
         }
@@ -1299,9 +1294,8 @@ s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         // in the else if branch below and rocking always occurs.
         // So this flag has no effect?
         this->stateFlags &= ~TALON_STATE_FLAG_3;
-    } else if ((limbIndex == ENTA_LIMB_CHEST) 
-               || (limbIndex == ENTA_LIMB_LEFT_ARM)
-               || (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
+    } else if ((limbIndex == ENTA_LIMB_CHEST) || (limbIndex == ENTA_LIMB_LEFT_ARM) ||
+               (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
         s32 limbIdx50 = limbIndex * 50;
 
         rot->y += Math_SinS(play->state.frames * (limbIdx50 + 0x814)) * 200.0f;
