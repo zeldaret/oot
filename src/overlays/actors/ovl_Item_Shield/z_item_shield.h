@@ -8,7 +8,7 @@
 
 typedef enum {
     /* 0 */ ITEMSHIELD_TYPE_COLLECTIBLE,
-    /* 0 */ ITEMSHIELD_TYPE_BURNING
+    /* 1 */ ITEMSHIELD_TYPE_BURNING
 } ItemShieldType;
 
 struct ItemShield;

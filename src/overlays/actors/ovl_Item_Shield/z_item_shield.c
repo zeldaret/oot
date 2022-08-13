@@ -19,7 +19,7 @@ void ItemShield_Update(Actor* thisx, PlayState* play);
 void ItemShield_Draw(Actor* thisx, PlayState* play);
 
 void ItemShield_Burning_FlyFromPlayer(ItemShield* this, PlayState* play);
-void ItemShield_Collectable_Wait(ItemShield* this, PlayState* play);
+void ItemShield_Collectible_Wait(ItemShield* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -71,7 +71,7 @@ void ItemShield_Init(Actor* thisx, PlayState* play) {
         case ITEMSHIELD_TYPE_COLLECTIBLE:
             ActorShape_Init(&this->actor.shape, 1400.0f, NULL, 0.0f);
             this->actor.shape.rot.x = 0x4000;
-            ItemShield_SetupAction(this, ItemShield_Collectable_Wait);
+            ItemShield_SetupAction(this, ItemShield_Collectible_Wait);
             break;
 
         case ITEMSHIELD_TYPE_BURNING:
@@ -99,7 +99,7 @@ void ItemShield_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void ItemShield_Collectable_ReactToHit(ItemShield* this, PlayState* play) {
+void ItemShield_Collectible_ReactToHit(ItemShield* this, PlayState* play) {
     Actor_MoveForward(&this->actor);
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
@@ -126,7 +126,7 @@ void ItemShield_Collectable_ReactToHit(ItemShield* this, PlayState* play) {
     }
 }
 
-void ItemShield_Collectable_Wait(ItemShield* this, PlayState* play) {
+void ItemShield_Collectible_Wait(ItemShield* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
         return;
@@ -135,7 +135,7 @@ void ItemShield_Collectable_Wait(ItemShield* this, PlayState* play) {
     func_8002F434(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
 
     if (this->collider.base.acFlags & AC_HIT) {
-        ItemShield_SetupAction(this, ItemShield_Collectable_ReactToHit);
+        ItemShield_SetupAction(this, ItemShield_Collectible_ReactToHit);
         this->actor.velocity.y = 4.0f;
         this->actor.minVelocityY = -4.0f;
         this->actor.gravity = -0.8f;
