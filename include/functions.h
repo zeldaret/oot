@@ -1159,7 +1159,7 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
-void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
+void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
 void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3);
 void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
@@ -1415,13 +1415,13 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionFade_IsDone(void* thisx);
 void TransitionFade_SetColor(void* thisx, u32 color);
 void TransitionFade_SetType(void* thisx, s32 type);
-void ShrinkWindow_SetVal(s32 value);
-u32 ShrinkWindow_GetVal(void);
-void ShrinkWindow_SetCurrentVal(s32 currentVal);
-u32 ShrinkWindow_GetCurrentVal(void);
-void ShrinkWindow_Init(void);
-void ShrinkWindow_Destroy(void);
-void ShrinkWindow_Update(s32 updateRate);
+void Letterbox_SetSizeTarget(s32 target);
+u32 Letterbox_GetSizeTarget(void);
+void Letterbox_SetSize(s32 size);
+u32 Letterbox_GetSize(void);
+void Letterbox_Init(void);
+void Letterbox_Destroy(void);
+void Letterbox_Update(s32 updateRate);
 // ? DbCamera_AddVecSph(?);
 // ? DbCamera_CalcUpFromPitchYawRoll(?);
 // ? DbCamera_SetTextValue(?);

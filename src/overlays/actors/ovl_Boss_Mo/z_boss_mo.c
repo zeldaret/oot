@@ -790,7 +790,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
         tent_shake:
         case MO_TENT_SHAKE:
             if (this->timers[0] == 138) {
-                ShrinkWindow_SetVal(0);
+                Letterbox_SetSizeTarget(0);
                 Interface_ChangeAlpha(0xB);
             }
             if ((this->timers[0] % 8) == 0) {

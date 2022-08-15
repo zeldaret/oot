@@ -749,34 +749,34 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
     return true;
 }
 
-#define SHRINKWIN_MASK (0xF000)
-#define SHRINKWINVAL_MASK (0x7000)
-#define SHRINKWIN_CURVAL (0x8000)
+#define LETTERBOX_MASK (0xF000)
+#define LETTERBOX_SIZE_MASK (0x7000)
+#define LETTERBOX_INSTANT (0x8000)
 #define IFACE_ALPHA_MASK (0x0F00)
 
 void Camera_UpdateInterface(s16 flags) {
     s16 interfaceAlpha;
 
-    if ((flags & SHRINKWIN_MASK) != SHRINKWIN_MASK) {
-        switch (flags & SHRINKWINVAL_MASK) {
+    if ((flags & LETTERBOX_MASK) != LETTERBOX_MASK) {
+        switch (flags & LETTERBOX_SIZE_MASK) {
             case 0x1000:
-                sCameraShrinkWindowVal = 0x1A;
+                sCameraLetterboxSize = 26;
                 break;
             case 0x2000:
-                sCameraShrinkWindowVal = 0x1B;
+                sCameraLetterboxSize = 27;
                 break;
             case 0x3000:
-                sCameraShrinkWindowVal = 0x20;
+                sCameraLetterboxSize = 32;
                 break;
             default:
-                sCameraShrinkWindowVal = 0;
+                sCameraLetterboxSize = 0;
                 break;
         }
 
-        if (flags & SHRINKWIN_CURVAL) {
-            ShrinkWindow_SetCurrentVal(sCameraShrinkWindowVal);
+        if (flags & LETTERBOX_INSTANT) {
+            Letterbox_SetSize(sCameraLetterboxSize);
         } else {
-            ShrinkWindow_SetVal(sCameraShrinkWindowVal);
+            Letterbox_SetSizeTarget(sCameraLetterboxSize);
         }
     }
 
@@ -6941,7 +6941,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     camera->xzOffsetUpdateRate = CAM_DATA_SCALED(OREG(2));
     camera->yOffsetUpdateRate = CAM_DATA_SCALED(OREG(3));
     camera->fovUpdateRate = CAM_DATA_SCALED(OREG(4));
-    sCameraShrinkWindowVal = 0x20;
+    sCameraLetterboxSize = 32;
     sCameraInterfaceAlpha = 0;
     camera->unk_14C = 0;
     camera->setting = camera->prevSetting = CAM_SET_FREE0;
