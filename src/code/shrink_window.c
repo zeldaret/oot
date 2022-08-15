@@ -12,7 +12,7 @@ s32 sLetterboxSizeTarget = 0;
 s32 sLetterboxSize = 0;
 
 void Letterbox_SetSizeTarget(s32 target) {
-    if (HREG(80) == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
         osSyncPrintf("shrink_window_setval(%d)\n", target);
     }
 
@@ -24,7 +24,7 @@ u32 Letterbox_GetSizeTarget(void) {
 }
 
 void Letterbox_SetSize(s32 size) {
-    if (HREG(80) == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
         osSyncPrintf("shrink_window_setnowval(%d)\n", size);
     }
 
@@ -36,7 +36,7 @@ u32 Letterbox_GetSize(void) {
 }
 
 void Letterbox_Init(void) {
-    if (HREG(80) == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
         osSyncPrintf("shrink_window_init()\n");
     }
 

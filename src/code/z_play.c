@@ -456,7 +456,7 @@ void Play_Update(PlayState* this) {
     }
 
     if ((HREG(80) == 18) && (HREG(81) < 0)) {
-        R_PRINT_OBJECT_TABLE_TOGGLE = 0;
+        HREG(81) = 0;
         osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
         osSyncPrintf("RomStart RomEnd   Size\n");
 
