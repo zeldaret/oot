@@ -26,15 +26,15 @@ void* THA_GetTail(TwoHeadArena* tha) {
 /**
  * Allocates to the head of the Two Head Arena. The allocation will not have any alignment guarantees.
  */
-void* THA_AllocStart(TwoHeadArena* tha, size_t size) {
+void* THA_AllocHead(TwoHeadArena* tha, size_t size) {
     void* start = tha->head;
 
     tha->head = (u8*)tha->head + size;
     return start;
 }
 
-void* THA_AllocStart1(TwoHeadArena* tha) {
-    return THA_AllocStart(tha, 1);
+void* THA_AllocHead1(TwoHeadArena* tha) {
+    return THA_AllocHead(tha, 1);
 }
 
 /**
@@ -43,7 +43,7 @@ void* THA_AllocStart1(TwoHeadArena* tha) {
  * largest power of 2 for which the size is a multiple, in order to accommodate the alignment requirements of any data
  * types that can fit within the allocation.
  */
-void* THA_AllocEnd(TwoHeadArena* tha, size_t size) {
+void* THA_AllocTail(TwoHeadArena* tha, size_t size) {
     uintptr_t mask;
 
     if (size == 8) {
@@ -71,7 +71,7 @@ void* THA_AllocEnd(TwoHeadArena* tha, size_t size) {
 /**
  * Allocates to the tail end of the Two Head Arena with guaranteed 16-byte alignment.
  */
-void* THA_AllocEndAlign16(TwoHeadArena* tha, size_t size) {
+void* THA_AllocTailAlign16(TwoHeadArena* tha, size_t size) {
     uintptr_t mask = ALIGN_MASK(0x10);
 
     tha->tail = (void*)((((uintptr_t)tha->tail & mask) - size) & (uintptr_t)(u64)mask);
@@ -86,9 +86,9 @@ void* THA_AllocEndAlign16(TwoHeadArena* tha, size_t size) {
  * @param mask  Mask to use to align the allocated region. To align to n-bytes where n is a power of 2, use the
  *              ALIGN_MASK(n) macro
  *
- * @return void* Pointer to the start of the allocated block
+ * @return Pointer to the start of the allocated block
  */
-void* THA_AllocEndAlign(TwoHeadArena* tha, size_t size, uintptr_t mask) {
+void* THA_AllocTailAlign(TwoHeadArena* tha, size_t size, uintptr_t mask) {
     tha->tail = (void*)((((uintptr_t)tha->tail & mask) - size) & mask);
     return tha->tail;
 }
@@ -96,7 +96,7 @@ void* THA_AllocEndAlign(TwoHeadArena* tha, size_t size, uintptr_t mask) {
 /**
  * Gets the remaining size of the Two Head Arena
  *
- * @return s32 Remaining size. A negative number indicates an overflow.
+ * @return Remaining size. A negative number indicates an overflow.
  */
 s32 THA_GetRemaining(TwoHeadArena* tha) {
     return (s32)((u8*)tha->tail - (u8*)tha->head);

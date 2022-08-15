@@ -447,7 +447,7 @@ void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {
         osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
                      thga->p, thga->d);
     }
-    return THGA_AllocEnd(&gfxCtx->polyOpa, ALIGN16(size));
+    return THGA_AllocTail(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
@@ -457,7 +457,7 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
         osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
                      thga->p, thga->d);
     }
-    return THGA_AllocEnd(&gfxCtx->polyOpa, ALIGN16(size));
+    return THGA_AllocTail(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {

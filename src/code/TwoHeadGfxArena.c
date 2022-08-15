@@ -44,7 +44,7 @@ void* THGA_GetTail(TwoHeadGfxArena* thga) {
  * Allocates a display list of `num` Gfx commands to the head of the Two Head GFX Arena.
  */
 Gfx* THGA_AllocDisplayList(TwoHeadGfxArena* thga, u32 num) {
-    return THA_AllocStart(&thga->tha, num * sizeof(Gfx));
+    return THA_AllocHead(&thga->tha, num * sizeof(Gfx));
 }
 
 /**
@@ -60,36 +60,36 @@ Gfx* THGA_AllocGfx2(TwoHeadGfxArena* thga) {
 
 /**
  * Allocates to the end of the Two Head GFX Arena. Intended for data complementary to the display lists such as
- * matrices and vertices that are only needed once.
+ * matrices and vertices that are only needed for a single graphics task.
  */
-void* THGA_AllocEnd(TwoHeadGfxArena* thga, size_t size) {
-    return THA_AllocEnd(&thga->tha, size);
+void* THGA_AllocTail(TwoHeadGfxArena* thga, size_t size) {
+    return THA_AllocTail(&thga->tha, size);
 }
 
 /**
  * Allocates `num` matrices to the tail end of the Two Head GFX Arena.
  */
 Mtx* THGA_AllocMtxArray(TwoHeadGfxArena* thga, u32 num) {
-    return THGA_AllocEnd(thga, num * sizeof(Mtx));
+    return THGA_AllocTail(thga, num * sizeof(Mtx));
 }
 
 /**
  * Allocates a matrix to the tail end of the Two Head GFX Arena.
  */
 Mtx* THGA_AllocMtx(TwoHeadGfxArena* thga) {
-    return THGA_AllocEnd(thga, sizeof(Mtx));
+    return THGA_AllocTail(thga, sizeof(Mtx));
 }
 
 /**
  * Allocates `num` vertices to the tail end of the Two Head GFX Arena.
  */
 Vtx* THGA_AllocVtxArray(TwoHeadGfxArena* thga, u32 num) {
-    return THGA_AllocEnd(thga, num * sizeof(Vtx));
+    return THGA_AllocTail(thga, num * sizeof(Vtx));
 }
 
 /**
  * Allocates a vertex to the tail end of the Two Head GFX Arena.
  */
 Vtx* THGA_AllocVtx(TwoHeadGfxArena* thga) {
-    return THGA_AllocEnd(thga, sizeof(Vtx));
+    return THGA_AllocTail(thga, sizeof(Vtx));
 }

@@ -14,11 +14,11 @@ typedef struct {
 void* THA_GetHead(TwoHeadArena* tha);
 void THA_SetHead(TwoHeadArena* tha, void* newHead);
 void* THA_GetTail(TwoHeadArena* tha);
-void* THA_AllocStart(TwoHeadArena* tha, size_t size);
-void* THA_AllocStart1(TwoHeadArena* tha);
-void* THA_AllocEnd(TwoHeadArena* tha, size_t size);
-void* THA_AllocEndAlign16(TwoHeadArena* tha, size_t size);
-void* THA_AllocEndAlign(TwoHeadArena* tha, size_t size, uintptr_t mask);
+void* THA_AllocHead(TwoHeadArena* tha, size_t size);
+void* THA_AllocHead1(TwoHeadArena* tha);
+void* THA_AllocTail(TwoHeadArena* tha, size_t size);
+void* THA_AllocTailAlign16(TwoHeadArena* tha, size_t size);
+void* THA_AllocTailAlign(TwoHeadArena* tha, size_t size, uintptr_t mask);
 s32 THA_GetRemaining(TwoHeadArena* tha);
 u32 THA_IsCrash(TwoHeadArena* tha);
 void THA_Reset(TwoHeadArena* tha);

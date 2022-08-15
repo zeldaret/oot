@@ -24,7 +24,7 @@ void* THGA_GetTail(TwoHeadGfxArena* thga);
 Gfx* THGA_AllocDisplayList(TwoHeadGfxArena* thga, u32 num);
 Gfx* THGA_AllocGfx(TwoHeadGfxArena* thga);
 Gfx* THGA_AllocGfx2(TwoHeadGfxArena* thga);
-void* THGA_AllocEnd(TwoHeadGfxArena* thga, size_t size);
+void* THGA_AllocTail(TwoHeadGfxArena* thga, size_t size);
 Mtx* THGA_AllocMtxArray(TwoHeadGfxArena* thga, u32 num);
 Mtx* THGA_AllocMtx(TwoHeadGfxArena* thga);
 Vtx* THGA_AllocVtxArray(TwoHeadGfxArena* thga, u32 num);
