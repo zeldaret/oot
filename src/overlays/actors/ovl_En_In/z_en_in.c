@@ -470,7 +470,7 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     }
     player->actor.freezeTimer = 10;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
     Interface_ChangeAlpha(2);
 }
 
@@ -791,7 +791,7 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     this->unk_308.unk_00 = 1;
     this->unk_1FC = 0;
     play->csCtx.frames = 0;
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
     Interface_ChangeAlpha(2);
     this->actionFunc = func_80A7ABD4;
 }
