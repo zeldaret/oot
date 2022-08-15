@@ -1581,10 +1581,10 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
             colCtx->subdivAmount.z = 16;
         }
     }
-    colCtx->lookupTbl = THA_AllocTailAlign(
-        &play->state.tha,
-        colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y * colCtx->subdivAmount.z,
-        ALIGNOF_MASK(StaticLookup));
+    colCtx->lookupTbl = THA_AllocTailAlign(&play->state.tha,
+                                           colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y *
+                                               colCtx->subdivAmount.z,
+                                           ALIGNOF_MASK(StaticLookup));
     if (colCtx->lookupTbl == NULL) {
         LogUtils_HungupThread("../z_bgcheck.c", 4176);
     }
