@@ -227,6 +227,9 @@ typedef enum {
 #define R_DRAW_COVER_ELEMENTS    HREG(92) // draw transition instance and vismono
 #define R_DRAW_DEBUG_OBJECTS    HREG(93)
 
+#define R_PLAY_ENABLE_UCODE_DISAS    HREG(93) // set to 2 to switch to ucode disas mode adn trigger it
+#define R_PLAY_UCODE_DISAS_LOG_LEVEL HREG(92) // log level to use when switching to ucode disas
+
 // HREG_MODE_PERSPECTIVE
 #define R_PERSPECTIVE_INIT    HREG(94) // set to `HREG_MODE_PERSPECTIVE` when init is complete
 #define R_PERSPECTIVE_FOVY    HREG(83) // value to use for `fovy`

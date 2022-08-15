@@ -47,7 +47,8 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
         UCodeDisas_Disassemble(&disassembler, workBuf);
 
         R_UCODE_DISAS_DL_COUNT = disassembler.dlCnt;
-        R_UCODE_DISAS_TOTAL_COUNT = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
+        R_UCODE_DISAS_TOTAL_COUNT =
+            disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
         R_UCODE_DISAS_VTX_COUNT = disassembler.vtxCnt;
         R_UCODE_DISAS_SPVTX_COUNT = disassembler.spvtxCnt;
         R_UCODE_DISAS_TRI1_COUNT = disassembler.tri1Cnt;
@@ -297,10 +298,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 1028);
 
-    if (R_HREG_MODE == HREG_MODE_PLAY && R_DRAW_DEBUG_OBJECTS == 2) {
+    if (R_HREG_MODE == HREG_MODE_PLAY && R_PLAY_ENABLE_UCODE_DISAS == 2) {
         R_HREG_MODE = HREG_MODE_UCODE_DISAS;
         R_UCODE_DISAS_TOGGLE = -1;
-        R_UCODE_DISAS_LOG_LEVEL = R_DRAW_DEBUG_OBJECTS;
+        R_UCODE_DISAS_LOG_LEVEL = R_PLAY_UCODE_DISAS_LOG_LEVEL;
     }
 
     if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_TOGGLE != 0) {

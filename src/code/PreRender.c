@@ -512,14 +512,16 @@ void func_800C2FE4(PreRender* this) {
                     u8* temp_s1 = &buffG[x - 1];
                     u8* temp_s2 = &buffB[x - 1];
 
-                    if (((R_HREG_MODE == HREG_MODE_PRERENDER) ? R_PRERENDER_DIVOT_CONTROL : 0) == PRERENDER_PRINT_DIVOT_COLOR) {
+                    if (((R_HREG_MODE == HREG_MODE_PRERENDER) ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                        PRERENDER_PRINT_DIVOT_COLOR) {
                         osSyncPrintf("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", temp_s0[0],
                                      temp_s0[1], temp_s0[2], MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]), temp_s1[0],
                                      temp_s1[1], temp_s1[2], MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]), temp_s2[0],
                                      temp_s2[1], temp_s2[2], MEDIAN3(temp_s2[0], temp_s2[1], temp_s2[2]));
                     }
 
-                    if (((R_HREG_MODE == HREG_MODE_PRERENDER) ? R_PRERENDER_DIVOT_CONTROL : 0) == PRERENDER_DIVOT_ALTERNATE_COLOR) {
+                    if (((R_HREG_MODE == HREG_MODE_PRERENDER) ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                        PRERENDER_DIVOT_ALTERNATE_COLOR) {
                         pxR = MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]);
                         pxG = MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]);
                         pxB = MEDIAN3(temp_s2[0], temp_s2[1], temp_s2[2]);

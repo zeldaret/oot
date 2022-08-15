@@ -101,7 +101,7 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
             osViSetSpecialFeatures(R_SCHED_DIVOT_ON ? OS_VI_DIVOT_ON : OS_VI_DIVOT_OFF);
         }
     }
-    
+
     cfbInfo->unk_10 = 0;
 }
 

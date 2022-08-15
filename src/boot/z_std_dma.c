@@ -9,7 +9,7 @@ STACK(sDmaMgrStack, 0x500);
 const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
 
-u32 gDmaMgrLogLevel = 0;
+u32 gDmaMgrVerbose = 0;
 u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrIsRomCompressed = false;
 
@@ -68,7 +68,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size) {
         ioMsg.dramAddr = ram;
         ioMsg.size = buffSize;
 
-        if (gDmaMgrLogLevel == 10) {
+        if (gDmaMgrVerbose == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
                          ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
@@ -78,13 +78,13 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size) {
             goto end;
         }
 
-        if (gDmaMgrLogLevel == 10) {
+        if (gDmaMgrVerbose == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
                          MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-        if (gDmaMgrLogLevel == 10) {
+        if (gDmaMgrVerbose == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
                          MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
@@ -102,7 +102,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size) {
     ioMsg.dramAddr = ram;
     ioMsg.size = size;
 
-    if (gDmaMgrLogLevel == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
                      ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
@@ -113,7 +113,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size) {
     }
 
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-    if (gDmaMgrLogLevel == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
@@ -131,7 +131,7 @@ s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(direction == OS_READ, "direction == OS_READ", "../z_std_dma.c", 531);
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
-    if (gDmaMgrLogLevel == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld サウンドＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), mb->dramAddr,
                      mb->devAddr, mb->size, MQ_GET_COUNT(&gPiMgrCmdQueue));
     }

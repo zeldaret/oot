@@ -45,8 +45,13 @@ void Letterbox_Init(void) {
     sLetterboxSize = 0;
 }
 
+void Letterbox_Destroy(void) {
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+        osSyncPrintf("shrink_window_cleanup()\n");
+    }
 
     sLetterboxSize = 0;
+}
 
 void Letterbox_Update(s32 updateRate) {
     s32 step;

@@ -305,7 +305,7 @@ void GameState_Update(GameState* gameState) {
 
         if ((R_VI_CUR_ADDI_SCAN_LINES != R_VI_NEXT_ADDI_SCAN_LINES) ||
             R_VI_CUR_Y_SCALE_MODE != R_VI_NEXT_Y_SCALE_MODE) {
-            
+
             R_VI_CUR_ADDI_SCAN_LINES = R_VI_NEXT_ADDI_SCAN_LINES;
             R_VI_CUR_Y_SCALE_MODE = R_VI_NEXT_Y_SCALE_MODE;
 
