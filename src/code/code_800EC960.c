@@ -3149,7 +3149,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 func_800F6700(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 5:
-                SEQCMD_DISABLE_NEW_SEQUENCES(sAudioSndContWork[sAudioSndContSel]);
+                SEQCMD_DISABLE_PLAY_SEQUENCES(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 6:
                 SEQCMD_RESET_AUDIO_HEAP(0, sAudioSndContWork[sAudioSndContSel]);
@@ -3623,7 +3623,7 @@ void AudioDebug_ProcessInput(void) {
         case PAGE_NON:
             if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
                 sAudioSndContWork[5] ^= 1;
-                SEQCMD_DISABLE_NEW_SEQUENCES(sAudioSndContWork[5]);
+                SEQCMD_DISABLE_PLAY_SEQUENCES(sAudioSndContWork[5]);
                 if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_NATURE_AMBIENCE) {
                     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
                 }
@@ -4568,7 +4568,7 @@ void func_800F5550(u16 seqId) {
 
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
         if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == NA_BGM_LONLON) {
-            Audio_StopSequenceNow(SEQ_PLAYER_BGM_SUB, 0);
+            Audio_StopSequence(SEQ_PLAYER_BGM_SUB, 0);
             Audio_QueueCmdS32(0xF8000000, 0);
         }
 
@@ -5213,15 +5213,15 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, 0x7F, 1);
 
     channelIdx = false;
-    if (gNewSeqDisabled) {
+    if (gStartSeqDisabled) {
         channelIdx = true;
-        SEQCMD_DISABLE_NEW_SEQUENCES(false);
+        SEQCMD_DISABLE_PLAY_SEQUENCES(false);
     }
 
     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_NATURE_AMBIENCE);
 
     if (channelIdx) {
-        SEQCMD_DISABLE_NEW_SEQUENCES(true);
+        SEQCMD_DISABLE_PLAY_SEQUENCES(true);
     }
 
     for (channelIdx = 0; channelIdx < 16; channelIdx++) {

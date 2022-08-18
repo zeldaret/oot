@@ -172,19 +172,19 @@ typedef enum {
 typedef struct {
     /* 0x00 */ f32 volCur;
     /* 0x04 */ f32 volTarget;
-    /* 0x08 */ f32 volVelocity;
-    /* 0x0C */ u16 volDuration;
+    /* 0x08 */ f32 volStep;
+    /* 0x0C */ u16 volTimer;
     /* 0x10 */ f32 freqScaleCur;
     /* 0x14 */ f32 freqScaleTarget;
-    /* 0x18 */ f32 freqScaleVelocity;
-    /* 0x1C */ u16 freqScaleDuration;
+    /* 0x18 */ f32 freqScaleStep;
+    /* 0x1C */ u16 freqScaleTimer;
 } ActiveSequenceChannelData; // size = 0x20
 
 typedef struct {
     /* 0x000 */ f32 volCur;
     /* 0x004 */ f32 volTarget;
-    /* 0x008 */ f32 volVelocity;
-    /* 0x00C */ u16 volDuration;
+    /* 0x008 */ f32 volStep;
+    /* 0x00C */ u16 volTimer;
     /* 0x00E */ u8 volScales[VOL_SCALE_INDEX_MAX];
     /* 0x012 */ u8 volFadeTimer;
     /* 0x013 */ u8 fadeVolUpdate;
@@ -192,8 +192,8 @@ typedef struct {
     /* 0x018 */ u16 tempoOriginal; // stores the original tempo before modifying it (to reset back to)
     /* 0x01C */ f32 tempoCur;
     /* 0x020 */ f32 tempoTarget;
-    /* 0x024 */ f32 tempoVelocity;
-    /* 0x028 */ u16 tempoDuration;
+    /* 0x024 */ f32 tempoStep;
+    /* 0x028 */ u16 tempoTimer;
     /* 0x02C */ u32 setupCmd[8]; // a queue of cmds to execute once the player is disabled
     /* 0x04C */ u8 setupCmdTimer; // only execute setup commands when the timer is at 0.
     /* 0x04D */ u8 setupCmdNum; // number of setup commands requested once the player is disabled

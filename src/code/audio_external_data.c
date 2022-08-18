@@ -54,7 +54,7 @@ s32 D_801333FC = 0; // unused
 
 u8 gSeqCmdWritePos = 0;
 u8 gSeqCmdReadPos = 0;
-u8 gNewSeqDisabled = false;
+u8 gStartSeqDisabled = false;
 u8 gAudioDebugPrintSeqCmd = true;
 
 u8 gSoundModeList[] = {

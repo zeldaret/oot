@@ -154,7 +154,7 @@ extern u8 gAudioSfxSwapOff;
 extern u8 D_801333F8;
 extern u8 gSeqCmdWritePos;
 extern u8 gSeqCmdReadPos;
-extern u8 gNewSeqDisabled;
+extern u8 gStartSeqDisabled;
 extern u8 gAudioDebugPrintSeqCmd;
 extern u8 gSoundModeList[];
 extern u8 gAudioSpecId;

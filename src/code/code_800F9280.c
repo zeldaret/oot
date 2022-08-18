@@ -36,21 +36,21 @@ u8 sNumSeqRequests[4];
 u32 sAudioSeqCmds[0x100];
 ActiveSequence gActiveSeqs[4];
 
-void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
+void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration) {
     u8 channelIndex;
     u16 duration;
     s32 pad;
 
-    if (!gNewSeqDisabled || (seqPlayerIndex == SEQ_PLAYER_SFX)) {
+    if (!gStartSeqDisabled || (seqPlayerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
-            // `fadeTimer` is interpreted as skip ticks
-            duration = (fadeTimer >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
+            // `fadeInDuration` is interpreted as skip ticks
+            duration = (fadeInDuration >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
             Audio_QueueCmdS32(0x85000000 | _SHIFTL(seqPlayerIndex, 16, 8) | _SHIFTL(seqId, 8, 8), duration);
         } else {
-            // `fadeTimer` is interpreated as number of frames at 30 fps
+            // `fadeInDuration` is interpreted as number of frames at 30 fps
             Audio_QueueCmdS32(0x82000000 | _SHIFTL(seqPlayerIndex, 16, 8) | _SHIFTL(seqId, 8, 8),
-                              (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
+                              (fadeInDuration * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
         }
 
         gActiveSeqs[seqPlayerIndex].seqId = seqId | (seqArgs << 8);
@@ -60,15 +60,15 @@ void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer)
             Audio_QueueCmdF32(0x41000000 | _SHIFTL(seqPlayerIndex, 16, 8), gActiveSeqs[seqPlayerIndex].volCur);
         }
 
-        gActiveSeqs[seqPlayerIndex].tempoDuration = 0;
+        gActiveSeqs[seqPlayerIndex].tempoTimer = 0;
         gActiveSeqs[seqPlayerIndex].tempoOriginal = 0;
         gActiveSeqs[seqPlayerIndex].tempoCmd = 0;
 
-        for (channelIndex = 0; channelIndex < 16; channelIndex++) {
+        for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
             gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur = 1.0f;
-            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volDuration = 0;
+            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTimer = 0;
             gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleCur = 1.0f;
-            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleDuration = 0;
+            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleTimer = 0;
         }
 
         gActiveSeqs[seqPlayerIndex].freqScaleChannelFlags = 0;
@@ -76,9 +76,9 @@ void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer)
     }
 }
 
-void Audio_StopSequenceNow(u8 seqPlayerIndex, u16 fadeTimer) {
+void Audio_StopSequence(u8 seqPlayerIndex, u16 fadeOutDuration) {
     Audio_QueueCmdS32(0x83000000 | ((u8)seqPlayerIndex << 16),
-                      (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
+                      (fadeOutDuration * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
     gActiveSeqs[seqPlayerIndex].seqId = NA_BGM_DISABLED;
 }
 
@@ -116,7 +116,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // Play a new sequence
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
-            // `fadeTimer` is only shifted 13 bytes instead of 16 bytes.
+            // `fadeTimer` is only shifted 13 bits instead of 16 bits.
             // `fadeTimer` continues to be scaled in `Audio_StartSequence`
             fadeTimer = (cmd & 0xFF0000) >> 13;
             if (!gActiveSeqs[seqPlayerIndex].isWaitingForFonts && (seqArgs < 0x80)) {
@@ -127,7 +127,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
         case SEQCMD_OP_STOP_SEQUENCE:
             // Stop a sequence and disable the sequence player
             fadeTimer = (cmd & 0xFF0000) >> 13;
-            Audio_StopSequenceNow(seqPlayerIndex, fadeTimer);
+            Audio_StopSequence(seqPlayerIndex, fadeTimer);
             break;
 
         case SEQCMD_OP_QUEUE_SEQUENCE:
@@ -205,7 +205,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // If the sequence was first in queue (it is currently playing),
             // Then stop the sequence and play the next sequence in the queue.
             if (found == 0) {
-                Audio_StopSequenceNow(seqPlayerIndex, fadeTimer);
+                Audio_StopSequence(seqPlayerIndex, fadeTimer);
                 if (sNumSeqRequests[seqPlayerIndex] != 0) {
                     Audio_StartSequence(seqPlayerIndex, sSeqRequests[seqPlayerIndex][0].seqId,
                                         sSeqRequests[seqPlayerIndex][0].priority, fadeTimer);
@@ -223,9 +223,9 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // Volume is scaled relative to 127
             gActiveSeqs[seqPlayerIndex].volTarget = (f32)val / 127.0f;
             if (gActiveSeqs[seqPlayerIndex].volCur != gActiveSeqs[seqPlayerIndex].volTarget) {
-                gActiveSeqs[seqPlayerIndex].volVelocity =
+                gActiveSeqs[seqPlayerIndex].volStep =
                     (gActiveSeqs[seqPlayerIndex].volCur - gActiveSeqs[seqPlayerIndex].volTarget) / (f32)duration;
-                gActiveSeqs[seqPlayerIndex].volDuration = duration;
+                gActiveSeqs[seqPlayerIndex].volTimer = duration;
             }
             break;
 
@@ -238,10 +238,10 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             // Frequency is scaled relative to 1000
             freqScaleTarget = (f32)val / 1000.0f;
-            for (i = 0; i < 16; i++) {
+            for (i = 0; i < SEQ_NUM_CHANNELS; i++) {
                 gActiveSeqs[seqPlayerIndex].channelData[i].freqScaleTarget = freqScaleTarget;
-                gActiveSeqs[seqPlayerIndex].channelData[i].freqScaleDuration = duration;
-                gActiveSeqs[seqPlayerIndex].channelData[i].freqScaleVelocity =
+                gActiveSeqs[seqPlayerIndex].channelData[i].freqScaleTimer = duration;
+                gActiveSeqs[seqPlayerIndex].channelData[i].freqScaleStep =
                     (gActiveSeqs[seqPlayerIndex].channelData[i].freqScaleCur - freqScaleTarget) / (f32)duration;
             }
             gActiveSeqs[seqPlayerIndex].freqScaleChannelFlags = 0xFFFF;
@@ -258,9 +258,9 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // Frequency is scaled relative to 100
             freqScaleTarget = (f32)val / 1000.0f;
             gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleTarget = freqScaleTarget;
-            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleVelocity =
+            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleStep =
                 (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleCur - freqScaleTarget) / (f32)duration;
-            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleDuration = duration;
+            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleTimer = duration;
             gActiveSeqs[seqPlayerIndex].freqScaleChannelFlags |= 1 << channelIndex;
             break;
 
@@ -276,11 +276,11 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget = (f32)val / 127.0f;
             if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur !=
                 gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget) {
-                gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volVelocity =
+                gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volStep =
                     (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur -
                      gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget) /
                     (f32)duration;
-                gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volDuration = duration;
+                gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTimer = duration;
                 gActiveSeqs[seqPlayerIndex].volChannelFlags |= 1 << channelIndex;
             }
             break;
@@ -376,7 +376,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
                 case SEQCMD_SUB_OP_GLOBAL_DISABLE_NEW_SEQUENCES:
                     // Disable the starting of new sequences (except for the sfx player)
-                    gNewSeqDisabled = val & 1;
+                    gStartSeqDisabled = val & 1;
                     break;
             }
             break;
@@ -482,7 +482,7 @@ void Audio_UpdateActiveSequences(void) {
     u16 channelMask;
     u32 retMsg;
     f32 volume;
-    u8 tempoDuration;
+    u8 tempoTimer;
     u8 seqPlayerIndex;
     u8 j;
     u8 channelIndex;
@@ -518,11 +518,11 @@ void Audio_UpdateActiveSequences(void) {
             gActiveSeqs[seqPlayerIndex].fadeVolUpdate = 0;
         }
 
-        if (gActiveSeqs[seqPlayerIndex].volDuration != 0) {
-            gActiveSeqs[seqPlayerIndex].volDuration--;
+        if (gActiveSeqs[seqPlayerIndex].volTimer != 0) {
+            gActiveSeqs[seqPlayerIndex].volTimer--;
 
-            if (gActiveSeqs[seqPlayerIndex].volDuration != 0) {
-                gActiveSeqs[seqPlayerIndex].volCur -= gActiveSeqs[seqPlayerIndex].volVelocity;
+            if (gActiveSeqs[seqPlayerIndex].volTimer != 0) {
+                gActiveSeqs[seqPlayerIndex].volCur -= gActiveSeqs[seqPlayerIndex].volStep;
             } else {
                 gActiveSeqs[seqPlayerIndex].volCur = gActiveSeqs[seqPlayerIndex].volTarget;
             }
@@ -533,10 +533,10 @@ void Audio_UpdateActiveSequences(void) {
         // Process tempo
         if (gActiveSeqs[seqPlayerIndex].tempoCmd != 0) {
             tempoCmd = gActiveSeqs[seqPlayerIndex].tempoCmd;
-            tempoDuration = (tempoCmd & 0xFF0000) >> 15;
+            tempoTimer = (tempoCmd & 0xFF0000) >> 15;
             tempoTarget = tempoCmd & 0xFFF;
-            if (tempoDuration == 0) {
-                tempoDuration++;
+            if (tempoTimer == 0) {
+                tempoTimer++;
             }
 
             // Process tempo commands
@@ -583,18 +583,18 @@ void Audio_UpdateActiveSequences(void) {
 
                 gActiveSeqs[seqPlayerIndex].tempoTarget = tempoTarget;
                 gActiveSeqs[seqPlayerIndex].tempoCur = gAudioContext.seqPlayers[seqPlayerIndex].tempo / TATUMS_PER_BEAT;
-                gActiveSeqs[seqPlayerIndex].tempoVelocity =
-                    (gActiveSeqs[seqPlayerIndex].tempoCur - gActiveSeqs[seqPlayerIndex].tempoTarget) / tempoDuration;
-                gActiveSeqs[seqPlayerIndex].tempoDuration = tempoDuration;
+                gActiveSeqs[seqPlayerIndex].tempoStep =
+                    (gActiveSeqs[seqPlayerIndex].tempoCur - gActiveSeqs[seqPlayerIndex].tempoTarget) / tempoTimer;
+                gActiveSeqs[seqPlayerIndex].tempoTimer = tempoTimer;
                 gActiveSeqs[seqPlayerIndex].tempoCmd = 0;
             }
         }
 
         // Step tempo to target
-        if (gActiveSeqs[seqPlayerIndex].tempoDuration != 0) {
-            gActiveSeqs[seqPlayerIndex].tempoDuration--;
-            if (gActiveSeqs[seqPlayerIndex].tempoDuration != 0) {
-                gActiveSeqs[seqPlayerIndex].tempoCur -= gActiveSeqs[seqPlayerIndex].tempoVelocity;
+        if (gActiveSeqs[seqPlayerIndex].tempoTimer != 0) {
+            gActiveSeqs[seqPlayerIndex].tempoTimer--;
+            if (gActiveSeqs[seqPlayerIndex].tempoTimer != 0) {
+                gActiveSeqs[seqPlayerIndex].tempoCur -= gActiveSeqs[seqPlayerIndex].tempoStep;
             } else {
                 gActiveSeqs[seqPlayerIndex].tempoCur = gActiveSeqs[seqPlayerIndex].tempoTarget;
             }
@@ -604,12 +604,12 @@ void Audio_UpdateActiveSequences(void) {
 
         // Update channel volumes
         if (gActiveSeqs[seqPlayerIndex].volChannelFlags != 0) {
-            for (channelIndex = 0; channelIndex < 16; channelIndex++) {
-                if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volDuration != 0) {
-                    gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volDuration--;
-                    if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volDuration != 0) {
+            for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
+                if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTimer != 0) {
+                    gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTimer--;
+                    if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTimer != 0) {
                         gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur -=
-                            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volVelocity;
+                            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volStep;
                     } else {
                         gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volCur =
                             gActiveSeqs[seqPlayerIndex].channelData[channelIndex].volTarget;
@@ -624,12 +624,12 @@ void Audio_UpdateActiveSequences(void) {
 
         // Update frequencies
         if (gActiveSeqs[seqPlayerIndex].freqScaleChannelFlags != 0) {
-            for (channelIndex = 0; channelIndex < 16; channelIndex++) {
-                if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleDuration != 0) {
-                    gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleDuration--;
-                    if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleDuration != 0) {
+            for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
+                if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleTimer != 0) {
+                    gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleTimer--;
+                    if (gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleTimer != 0) {
                         gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleCur -=
-                            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleVelocity;
+                            gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleStep;
                     } else {
                         gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleCur =
                             gActiveSeqs[seqPlayerIndex].channelData[channelIndex].freqScaleTarget;
@@ -685,12 +685,12 @@ void Audio_UpdateActiveSequences(void) {
 
                     case SEQCMD_SUB_OP_SETUP_SEQ_UNQUEUE:
                         // Unqueue `seqPlayerIndex` from sSeqRequests
-                        // Note: this command does not work as intended as unqueueing
-                        // the seqeuence relies on `gActiveSeqs[seqPlayerIndex].seqId`
-                        // However, `gActiveSeqs[seqPlayerIndex].seqId` is reset before the sequence on `seqPlayerIndex`
-                        // is no longer playing, i.e. before this command can run.
-                        // A simple fix would have been to unqueue based on `gActiveSeqs[seqPlayerIndex].prevSeqId`
-                        // instead
+                        //! @bug this command does not work as intended as unqueueing
+                        //! the sequence relies on `gActiveSeqs[seqPlayerIndex].seqId`
+                        //! However, `gActiveSeqs[seqPlayerIndex].seqId` is reset before the sequence on
+                        //! `seqPlayerIndex` is requested to stop, i.e. the sequence is disabled and setup commands
+                        //! (including this command) can run. A simple fix would have been to unqueue based on
+                        //! `gActiveSeqs[seqPlayerIndex].prevSeqId` instead
                         SEQCMD_UNQUEUE_SEQUENCE(seqPlayerIndex, 0, gActiveSeqs[seqPlayerIndex].seqId);
                         break;
 
@@ -793,7 +793,7 @@ void Audio_ResetSequences(void) {
 
         gActiveSeqs[seqPlayerIndex].seqId = NA_BGM_DISABLED;
         gActiveSeqs[seqPlayerIndex].prevSeqId = NA_BGM_DISABLED;
-        gActiveSeqs[seqPlayerIndex].tempoDuration = 0;
+        gActiveSeqs[seqPlayerIndex].tempoTimer = 0;
         gActiveSeqs[seqPlayerIndex].tempoOriginal = 0;
         gActiveSeqs[seqPlayerIndex].tempoCmd = 0;
         gActiveSeqs[seqPlayerIndex].channelPortMask = 0;
@@ -816,7 +816,7 @@ void Audio_ResetSequencesAndVolume(void) {
 
     for (seqPlayerIndex = 0; seqPlayerIndex < 4; seqPlayerIndex++) {
         gActiveSeqs[seqPlayerIndex].volCur = 1.0f;
-        gActiveSeqs[seqPlayerIndex].volDuration = 0;
+        gActiveSeqs[seqPlayerIndex].volTimer = 0;
         gActiveSeqs[seqPlayerIndex].fadeVolUpdate = 0;
         for (scaleIndex = 0; scaleIndex < VOL_SCALE_INDEX_MAX; scaleIndex++) {
             gActiveSeqs[seqPlayerIndex].volScales[scaleIndex] = 0x7F;
