@@ -36,19 +36,6 @@ u8 sNumSeqRequests[4];
 u32 sAudioSeqCmds[0x100];
 ActiveSequence gActiveSeqs[4];
 
-u8 gSeqCmdWritePos = 0;
-u8 gSeqCmdReadPos = 0;
-u8 gNewSeqDisabled = false;
-u8 gAudioDebugPrintSeqCmd = true;
-u8 gSoundModeList[] = {
-    SOUNDMODE_STEREO,
-    SOUNDMODE_HEADSET,
-    SOUNDMODE_SURROUND,
-    SOUNDMODE_MONO,
-};
-u8 gAudioSpecId = 0;
-u8 D_80133418 = 0;
-
 void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
     u8 channelIndex;
     u16 duration;
@@ -116,9 +103,9 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     f32 freqScaleTarget;
     s32 pad;
 
-    if (gAudioDebugPrintSeqCmd && ((cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_PLAYER_IO << 28))) {
-        AudioDebug_ScrPrt((const s8*)D_80133390, (cmd >> 16) & 0xFFFF); // "SEQ H"
-        AudioDebug_ScrPrt((const s8*)D_80133398, cmd & 0xFFFF);         // "    L"
+    if (gAudioDebugPrintSeqCmd && (cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_PLAYER_IO << 28)) {
+        AudioDebug_ScrPrt("SEQ H", (cmd >> 16) & 0xFFFF);
+        AudioDebug_ScrPrt("    L", cmd & 0xFFFF);
     }
 
     op = cmd >> 28;

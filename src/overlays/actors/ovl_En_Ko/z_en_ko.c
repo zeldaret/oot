@@ -538,8 +538,8 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                 case 0x10B7:
                 case 0x10B8:
                     if (this->unk_210 == 0) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->unk_210 = 1;
                     }
             }
@@ -947,7 +947,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
         }
     }
     if (func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, this->lookDist, func_80A97610, func_80A97738) &&
-        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneNum == SCENE_SPOT10) {
+        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_SPOT10) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(play) == ENKO_TYPE_CHILD_9) {
@@ -960,7 +960,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
 
 // Checks if the Kokiri should spawn based on quest progress
 s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_SPOT04:
             if (ENKO_TYPE >= ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_FADO) {
                 return false;
@@ -1068,7 +1068,7 @@ s32 EnKo_GetForestQuestState2(EnKo* this) {
 void func_80A98DB4(EnKo* this, PlayState* play) {
     f32 dist;
 
-    if (play->sceneNum != SCENE_SPOT10 && play->sceneNum != SCENE_SPOT04) {
+    if (play->sceneId != SCENE_SPOT10 && play->sceneId != SCENE_SPOT04) {
         this->modelAlpha = 255.0f;
         return;
     }
@@ -1087,7 +1087,7 @@ void func_80A98DB4(EnKo* this, PlayState* play) {
 }
 
 s32 func_80A98ECC(EnKo* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT10 && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
+    if (play->sceneId == SCENE_SPOT10 && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         return func_80A97E18(this, play);
     }
     switch (EnKo_GetForestQuestState(this)) {

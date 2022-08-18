@@ -38,19 +38,19 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
     u32 spaceSize;
     s32 i;
 
-    if (play2->sceneNum == SCENE_SPOT00) {
+    if (play2->sceneId == SCENE_SPOT00) {
         spaceSize = 1024000;
-    } else if (play2->sceneNum == SCENE_GANON_DEMO) {
-        if (gSaveContext.sceneSetupIndex != 4) {
+    } else if (play2->sceneId == SCENE_GANON_DEMO) {
+        if (gSaveContext.sceneLayer != 4) {
             spaceSize = 1177600;
         } else {
             spaceSize = 1024000;
         }
-    } else if (play2->sceneNum == SCENE_JYASINBOSS) {
+    } else if (play2->sceneId == SCENE_JYASINBOSS) {
         spaceSize = 1075200;
-    } else if (play2->sceneNum == SCENE_KENJYANOMA) {
+    } else if (play2->sceneId == SCENE_KENJYANOMA) {
         spaceSize = 1075200;
-    } else if (play2->sceneNum == SCENE_GANON_BOSS) {
+    } else if (play2->sceneId == SCENE_GANON_BOSS) {
         spaceSize = 1075200;
     } else {
         spaceSize = 1024000;
@@ -411,10 +411,10 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
 
     osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.linkAge));
     osSyncPrintf("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.cutsceneIndex));
-    osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneSetupIndex));
+    osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
-    if (gSaveContext.sceneSetupIndex != 0) {
-        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneSetupIndex - 1];
+    if (gSaveContext.sceneLayer != 0) {
+        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
 
         if (1) {}
 
@@ -425,8 +425,11 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
             // "Coughh! There is no specified dataaaaa!"
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
-            if (gSaveContext.sceneSetupIndex == 3) {
-                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneSetupIndex - 2];
+            if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
+                // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
+                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
+                    cmd->altHeaders
+                        .data))[(gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
                 // "Using adult day data there!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
@@ -450,14 +453,14 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
     gSaveContext.worldMapArea = cmd->miscSettings.area;
 
-    if ((play->sceneNum == SCENE_SHOP1) || (play->sceneNum == SCENE_SYATEKIJYOU)) {
+    if ((play->sceneId == SCENE_SHOP1) || (play->sceneId == SCENE_SYATEKIJYOU)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
             gSaveContext.worldMapArea = 1;
         }
     }
 
-    if (((play->sceneNum >= SCENE_SPOT00) && (play->sceneNum <= SCENE_GANON_TOU)) ||
-        ((play->sceneNum >= SCENE_ENTRA) && (play->sceneNum <= SCENE_SHRINE_R))) {
+    if (((play->sceneId >= SCENE_SPOT00) && (play->sceneId <= SCENE_GANON_TOU)) ||
+        ((play->sceneId >= SCENE_ENTRA) && (play->sceneId <= SCENE_SHRINE_R))) {
         if (gSaveContext.cutsceneIndex < 0xFFF0) {
             gSaveContext.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
             osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.worldMapAreaData,

@@ -1059,7 +1059,7 @@ s32 func_80ACC5CC(EnOwl* this) {
 s32 func_80ACC624(EnOwl* this, PlayState* play) {
     s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
 
-    if (play->sceneNum != SCENE_SPOT11) {
+    if (play->sceneId != SCENE_SPOT11) {
         return true;
     } else if (switchFlag == 0xA) {
         return true;
@@ -1095,7 +1095,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
               this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
               this->skelAnime.curFrame == 58.0f)) ||
             (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
 

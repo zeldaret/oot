@@ -146,7 +146,7 @@ void EnKarebaba_SetupIdle(EnKarebaba* this) {
 void EnKarebaba_SetupAwaken(EnKarebaba* this) {
     Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f, 0.0f,
                      Animation_GetLastFrame(&gDekuBabaFastChompAnim), ANIMMODE_LOOP, -3.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnKarebaba_Awaken;
 }
 
@@ -177,7 +177,7 @@ void EnKarebaba_SetupDying(EnKarebaba* this) {
     this->actor.velocity.y = 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->actor.speedXZ = 3.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
     this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actionFunc = EnKarebaba_Dying;
 }
@@ -260,7 +260,7 @@ void EnKarebaba_Upright(EnKarebaba* this, PlayState* play) {
     }
 
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
 
     if (this->bodyCollider.base.acFlags & AC_HIT) {
@@ -286,7 +286,7 @@ void EnKarebaba_Spin(EnKarebaba* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
         if (1) {} // Here for matching purposes only.
 
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
 
     value = 20 - this->actor.params;
@@ -335,7 +335,7 @@ void EnKarebaba_Dying(EnKarebaba* this, PlayState* play) {
         }
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
             this->actor.params = 1;
         }
     } else if (this->actor.params == 1) {

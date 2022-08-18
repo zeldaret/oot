@@ -123,7 +123,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
 
-    if (play->sceneNum == SCENE_SPOT09) {
+    if (play->sceneId == SCENE_SPOT09) {
         this->actor.uncullZoneForward = 1000.0f;
     } else {
         this->actor.uncullZoneForward = 1200.0f;
@@ -565,7 +565,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
     } else {
         this->actionFunc(this, play);
 
@@ -611,7 +611,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 

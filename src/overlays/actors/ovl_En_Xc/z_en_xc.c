@@ -372,7 +372,7 @@ void EnXc_SetWalkingSFX(EnXc* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 11.0f) || Animation_OnFrame(&this->skelAnime, 23.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxId(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -386,7 +386,7 @@ void EnXc_SetNutThrowSFX(EnXc* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 7.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxId(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -397,12 +397,12 @@ void EnXc_SetNutThrowSFX(EnXc* this, PlayState* play) {
 
 void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
     u32 sfxId;
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
 
-    if ((gSaveContext.sceneSetupIndex != 4) || (sceneNum != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneId != SCENE_SPOT11)) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
             sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxId(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -410,11 +410,11 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
 
 void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
     static Vec3f sXyzDist;
-    s16 sceneNum;
+    s16 sceneId;
 
-    if (gSaveContext.sceneSetupIndex == 4) {
-        sceneNum = play->sceneNum;
-        if (sceneNum == SCENE_SPOT11) {
+    if (gSaveContext.sceneLayer == 4) {
+        sceneId = play->sceneId;
+        if (sceneId == SCENE_SPOT11) {
             CutsceneContext* csCtx = &play->csCtx;
             u16 frameCount = csCtx->frames;
             f32 wDest[2];
@@ -436,9 +436,9 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
 }
 
 void func_80B3D118(PlayState* play) {
-    s16 sceneNum;
+    s16 sceneId;
 
-    if ((gSaveContext.sceneSetupIndex != 4) || (sceneNum = play->sceneNum, sceneNum != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_SPOT11)) {
         func_800788CC(NA_SE_PL_SKIP);
     }
 }
@@ -446,15 +446,15 @@ void func_80B3D118(PlayState* play) {
 static Vec3f D_80B42DA0;
 
 void EnXc_SetColossusWindSFX(PlayState* play) {
-    if (gSaveContext.sceneSetupIndex == 4) {
+    if (gSaveContext.sceneLayer == 4) {
         static s32 D_80B41D90 = 0;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
         static f32 sMaxSpeed = 0.0f;
         static Vec3f D_80B42DB0;
         s32 pad;
-        s16 sceneNum = play->sceneNum;
+        s16 sceneId = play->sceneId;
 
-        if (sceneNum == SCENE_SPOT11) {
+        if (sceneId == SCENE_SPOT11) {
             CutsceneContext* csCtx = &play->csCtx;
             u16 frameCount = csCtx->frames;
 
@@ -520,9 +520,9 @@ void EnXc_DestroyFlame(EnXc* this) {
 void EnXc_InitFlame(EnXc* this, PlayState* play) {
     static s32 D_80B41DA8 = 1;
     s32 pad;
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
 
-    if (sceneNum == SCENE_SPOT17) {
+    if (sceneId == SCENE_SPOT17) {
         CsCmdActorAction* npcAction = EnXc_GetCsCmd(play, 0);
         if (npcAction != NULL) {
             s32 action = npcAction->action;
@@ -861,10 +861,10 @@ void EnXc_SetupDisappear(EnXc* this, PlayState* play) {
         CsCmdActorAction* npcAction = play->csCtx.npcActions[4];
 
         if (npcAction != NULL && npcAction->action == 9) {
-            s16 sceneNum = play->sceneNum;
+            s16 sceneId = play->sceneId;
 
             // Sheik fades away if end of Bolero CS, kill actor otherwise
-            if (sceneNum == SCENE_SPOT17) {
+            if (sceneId == SCENE_SPOT17) {
                 this->action = SHEIK_ACTION_FADE;
                 this->drawMode = SHEIK_DRAW_NOTHING;
                 this->actor.shape.shadowAlpha = 0;
@@ -1537,7 +1537,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, PlayState* play) {
 
         Matrix_MultVec3f(&sp1C, &src);
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &src, &pos, &wDest);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
         this->unk_2A8 = 0;
     }
 }

@@ -241,7 +241,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
                 this->actionFunc = BgHakaGate_DoNothing;
             } else {
                 func_80078884(NA_SE_SY_ERROR);
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->vTimer = 60;
                 this->actionFunc = BgHakaGate_FloorOpen;
@@ -273,7 +273,7 @@ void BgHakaGate_GateWait(BgHakaGate* this, PlayState* play) {
 
 void BgHakaGate_GateOpen(BgHakaGate* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 80.0f, 1.0f)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->actionFunc = BgHakaGate_DoNothing;
     } else {
@@ -319,8 +319,8 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, PlayState* play) {
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, (this->vScrollTimer * -20) & 0x1FF,
-                                    0x20, 0x80));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
+                                    (this->vScrollTimer * -20) & 0x1FF, 0x20, 0x80));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
