@@ -750,7 +750,7 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
 }
 
 void Camera_UpdateInterface(s16 interfaceFlags) {
-    s16 interfaceAlpha;
+    s16 hudVisibility;
 
     if ((interfaceFlags & CAM_LETTERBOX_MASK) != CAM_LETTERBOX_IGNORE) {
         switch (interfaceFlags & CAM_LETTERBOX_SIZE_MASK) {
@@ -779,13 +779,13 @@ void Camera_UpdateInterface(s16 interfaceFlags) {
     }
 
     if ((interfaceFlags & CAM_HUD_VISIBILITY_MASK) != CAM_HUD_VISIBILITY_IGNORE) {
-        interfaceAlpha = (interfaceFlags & CAM_HUD_VISIBILITY_MASK) >> CAM_HUD_VISIBILITY_SHIFT;
-        if (interfaceAlpha == (CAM_HUD_VISIBILITY_50 >> CAM_HUD_VISIBILITY_SHIFT)) {
-            interfaceAlpha = 50;
+        hudVisibility = (interfaceFlags & CAM_HUD_VISIBILITY_MASK) >> CAM_HUD_VISIBILITY_SHIFT;
+        if (hudVisibility == (CAM_HUD_VISIBILITY_50 >> CAM_HUD_VISIBILITY_SHIFT)) {
+            hudVisibility = 50;
         }
-        if (interfaceAlpha != sCameraInterfaceAlpha) {
-            sCameraInterfaceAlpha = interfaceAlpha;
-            Interface_ChangeAlpha(sCameraInterfaceAlpha);
+        if (hudVisibility != sCameraHudVisibility) {
+            sCameraHudVisibility = hudVisibility;
+            Interface_ChangeAlpha(sCameraHudVisibility);
         }
     }
 }
@@ -6972,7 +6972,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     camera->yOffsetUpdateRate = CAM_DATA_SCALED(OREG(3));
     camera->fovUpdateRate = CAM_DATA_SCALED(OREG(4));
     sCameraLetterboxSize = 32;
-    sCameraInterfaceAlpha = 0;
+    sCameraHudVisibility = 0;
     camera->stateFlags = 0;
     camera->setting = camera->prevSetting = CAM_SET_FREE0;
     camera->bgCamIndex = camera->prevBgCamIndex = -1;

@@ -2387,7 +2387,7 @@ s32 sDbgModeIdx = -1;
 s16 sNextUID = 0;
 
 s32 sCameraInterfaceFlags = 1;
-s32 sCameraInterfaceAlpha = 2;
+s32 sCameraHudVisibility = 2;
 s32 sCameraLetterboxSize = 32;
 
 s32 D_8011D3AC = -1;
