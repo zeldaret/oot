@@ -27,51 +27,51 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
-#define CAM_HUD_ALPHA_SHIFT 8
-#define CAM_HUD_ALPHA_MASK (0x0F00)
-#define CAM_HUD_ALPHA(alpha) (((alpha) & 0xF) << CAM_HUD_ALPHA_SHIFT)
+#define CAM_HUD_VISIBILITY_SHIFT 8
+#define CAM_HUD_VISIBILITY_MASK (0x0F00)
+#define CAM_HUD_VISIBILITY(hudVisibility) (((hudVisibility) & 0xF) << CAM_HUD_VISIBILITY_SHIFT)
 
-#define CAM_HUD_ALPHA_50 CAM_HUD_ALPHA(0)
-#define CAM_HUD_ALPHA_1 CAM_HUD_ALPHA(1)
-#define CAM_HUD_ALPHA_2 CAM_HUD_ALPHA(2)
-#define CAM_HUD_ALPHA_3 CAM_HUD_ALPHA(3)
-#define CAM_HUD_ALPHA_4 CAM_HUD_ALPHA(4)
-#define CAM_HUD_ALPHA_5 CAM_HUD_ALPHA(5)
-#define CAM_HUD_ALPHA_6 CAM_HUD_ALPHA(6)
-#define CAM_HUD_ALPHA_7 CAM_HUD_ALPHA(7)
-#define CAM_HUD_ALPHA_8 CAM_HUD_ALPHA(8)
-#define CAM_HUD_ALPHA_9 CAM_HUD_ALPHA(9)
-#define CAM_HUD_ALPHA_A CAM_HUD_ALPHA(10)
-#define CAM_HUD_ALPHA_B CAM_HUD_ALPHA(11)
-#define CAM_HUD_ALPHA_C CAM_HUD_ALPHA(12)
-#define CAM_HUD_ALPHA_D CAM_HUD_ALPHA(13)
-#define CAM_HUD_ALPHA_IGNORE CAM_HUD_ALPHA(0xF)
+#define CAM_HUD_VISIBILITY_50 CAM_HUD_VISIBILITY(0)
+#define CAM_HUD_VISIBILITY_1 CAM_HUD_VISIBILITY(1)
+#define CAM_HUD_VISIBILITY_2 CAM_HUD_VISIBILITY(2)
+#define CAM_HUD_VISIBILITY_3 CAM_HUD_VISIBILITY(3)
+#define CAM_HUD_VISIBILITY_4 CAM_HUD_VISIBILITY(4)
+#define CAM_HUD_VISIBILITY_5 CAM_HUD_VISIBILITY(5)
+#define CAM_HUD_VISIBILITY_6 CAM_HUD_VISIBILITY(6)
+#define CAM_HUD_VISIBILITY_7 CAM_HUD_VISIBILITY(7)
+#define CAM_HUD_VISIBILITY_8 CAM_HUD_VISIBILITY(8)
+#define CAM_HUD_VISIBILITY_9 CAM_HUD_VISIBILITY(9)
+#define CAM_HUD_VISIBILITY_A CAM_HUD_VISIBILITY(10)
+#define CAM_HUD_VISIBILITY_B CAM_HUD_VISIBILITY(11)
+#define CAM_HUD_VISIBILITY_C CAM_HUD_VISIBILITY(12)
+#define CAM_HUD_VISIBILITY_D CAM_HUD_VISIBILITY(13)
+#define CAM_HUD_VISIBILITY_IGNORE CAM_HUD_VISIBILITY(0xF)
 
 /**
- * shrinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums.
- *                  Can also add on the flag ( | CAM_SHRINKWIN_INSTANT) to make the window shrink immediately
- * interfaceAlpha: hides certain hud icons
- *    - A value of 0 in camera is translated to an interface alpha of 50, 
- *      which is the value to restore all hud icons to the screen (CAM_HUD_ALPHA_50)
- *    - A value of 0xF in camera results in no change in the alpha (CAM_HUD_ALPHA_IGNORE)
+ * letterboxFlag: determines the size of the letter-box window. See CAM_LETTERBOX_* enums.
+ *                  Can also add on the flag ( | CAM_LETTERBOX_INSTANT) to make the window shrink immediately
+ * hudVisibility: hides certain hud icons
+ *    - A value of 0 in camera is translated to an hudVisibility of 50, 
+ *      which is the value to restore all hud icons to the screen (CAM_HUD_VISIBILITY_50)
+ *    - A value of 0xF in camera results in no change in the hudVisibility (CAM_HUD_VISIBILITY_IGNORE)
  * funcFlags: Custom flags for functions
  */
-#define CAM_INTERFACE_FLAGS(shrinkWindowFlag, interfaceAlpha, funcFlags) \
-    (((shrinkWindowFlag) & CAM_SHRINKWIN_MASK) | (interfaceAlpha) | ((funcFlags) & 0xFF))
+#define CAM_INTERFACE_FLAGS(letterboxFlag, hudVisibility, funcFlags) \
+    (((letterboxFlag) & CAM_LETTERBOX_MASK) | (hudVisibility) | ((funcFlags) & 0xFF))
 
 // Shrinking the window from the top and bottom with black borders (letterboxing)
-#define CAM_SHRINKWIN_MASK 0xF000
+#define CAM_LETTERBOX_MASK 0xF000
 
-#define CAM_SHRINKWINVAL_MASK 0x7000
-#define CAM_SHRINKWINVAL_NONE 0x0000
+#define CAM_LETTERBOX_SIZE_MASK 0x7000
+#define CAM_LETTERBOX_NONE 0x0000
 // small/medium/large black borders
-#define CAM_SHRINKWINVAL_SMALL 0x1000
-#define CAM_SHRINKWINVAL_MEDIUM 0x2000
-#define CAM_SHRINKWINVAL_LARGE 0x3000
+#define CAM_LETTERBOX_SMALL 0x1000
+#define CAM_LETTERBOX_MEDIUM 0x2000
+#define CAM_LETTERBOX_LARGE 0x3000
 
-#define CAM_SHRINKWIN_INSTANT 0x8000 // Bit to determine whether to set the current value directly (on), or to set the shrink-value target (off) 
+#define CAM_LETTERBOX_INSTANT 0x8000 // Bit to determine whether to set the current value directly (on), or to set the shrink-value target (off) 
 
-#define CAM_SHRINKWINVAL_IGNORE 0xF000 // No change in shrink window, keep the previous values
+#define CAM_LETTERBOX_IGNORE 0xF000 // No change in shrink window, keep the previous values
 
 // Camera behaviorFlags. Flags specifically for settings, modes, and bgCam
 // Used to store current state, only CAM_BEHAVIOR_SETTING_1 and CAM_BEHAVIOR_BG_2 are read from and used in logic

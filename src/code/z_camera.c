@@ -752,35 +752,35 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
 void Camera_UpdateInterface(s16 interfaceFlags) {
     s16 interfaceAlpha;
 
-    if ((interfaceFlags & CAM_SHRINKWIN_MASK) != CAM_SHRINKWINVAL_IGNORE) {
-        switch (interfaceFlags & CAM_SHRINKWINVAL_MASK) {
-            case CAM_SHRINKWINVAL_SMALL:
-                sCameraShrinkWindowVal = 26;
+    if ((interfaceFlags & CAM_LETTERBOX_MASK) != CAM_LETTERBOX_IGNORE) {
+        switch (interfaceFlags & CAM_LETTERBOX_SIZE_MASK) {
+            case CAM_LETTERBOX_SMALL:
+                sCameraLetterboxSize = 26;
                 break;
 
-            case CAM_SHRINKWINVAL_MEDIUM:
-                sCameraShrinkWindowVal = 27;
+            case CAM_LETTERBOX_MEDIUM:
+                sCameraLetterboxSize = 27;
                 break;
 
-            case CAM_SHRINKWINVAL_LARGE:
-                sCameraShrinkWindowVal = 32;
+            case CAM_LETTERBOX_LARGE:
+                sCameraLetterboxSize = 32;
                 break;
 
             default:
-                sCameraShrinkWindowVal = 0;
+                sCameraLetterboxSize = 0;
                 break;
         }
 
-        if (interfaceFlags & CAM_SHRINKWIN_INSTANT) {
-            ShrinkWindow_SetCurrentVal(sCameraShrinkWindowVal);
+        if (interfaceFlags & CAM_LETTERBOX_INSTANT) {
+            ShrinkWindow_SetCurrentVal(sCameraLetterboxSize);
         } else {
-            ShrinkWindow_SetVal(sCameraShrinkWindowVal);
+            ShrinkWindow_SetVal(sCameraLetterboxSize);
         }
     }
 
-    if ((interfaceFlags & CAM_HUD_ALPHA_MASK) != CAM_HUD_ALPHA_IGNORE) {
-        interfaceAlpha = (interfaceFlags & CAM_HUD_ALPHA_MASK) >> CAM_HUD_ALPHA_SHIFT;
-        if (interfaceAlpha == (CAM_HUD_ALPHA_50 >> CAM_HUD_ALPHA_SHIFT)) {
+    if ((interfaceFlags & CAM_HUD_VISIBILITY_MASK) != CAM_HUD_VISIBILITY_IGNORE) {
+        interfaceAlpha = (interfaceFlags & CAM_HUD_VISIBILITY_MASK) >> CAM_HUD_VISIBILITY_SHIFT;
+        if (interfaceAlpha == (CAM_HUD_VISIBILITY_50 >> CAM_HUD_VISIBILITY_SHIFT)) {
             interfaceAlpha = 50;
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
@@ -3473,7 +3473,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     }
 
     if (camera->stateFlags & CAM_STATE_3) {
-        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
+        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_50, 0);
         func_80043B60(camera);
         camera->atLERPStepScale = 0.0f;
 
@@ -3587,14 +3587,16 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_04 = playerHeight * 0.5f * yNormal;
                 roData->unk_08 = -20.0f;
                 roData->unk_0C = 0.0f;
-                roData->interfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_MEDIUM, CAM_HUD_ALPHA_5, KEEPON4_FLAG_6);
+                roData->interfaceFlags =
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_5, KEEPON4_FLAG_6);
                 break;
 
             case 5:
                 roData->unk_00 = playerHeight * -0.4f * yNormal;
                 roData->unk_08 = -10.0f;
                 roData->unk_0C = 45.0f;
-                roData->interfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_MEDIUM, CAM_HUD_ALPHA_50, KEEPON4_FLAG_1);
+                roData->interfaceFlags =
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_50, KEEPON4_FLAG_1);
                 break;
 
             case 10:
@@ -3603,7 +3605,8 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_08 = -15.0f;
                 roData->unk_0C = 175.0f;
                 roData->unk_18 = 70.0f;
-                roData->interfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_MEDIUM, CAM_HUD_ALPHA_2, KEEPON4_FLAG_1);
+                roData->interfaceFlags =
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_2, KEEPON4_FLAG_1);
                 roData->unk_1E = 0x3C;
                 break;
 
@@ -3614,7 +3617,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_0C = 120.0f;
                 roData->unk_10 = player->stateFlags1 & PLAYER_STATE1_27 ? 0.0f : 20.0f;
                 roData->interfaceFlags =
-                    CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE, CAM_HUD_ALPHA_2, KEEPON4_FLAG_4 | KEEPON4_FLAG_1);
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_2, KEEPON4_FLAG_4 | KEEPON4_FLAG_1);
                 roData->unk_1E = 0x1E;
                 roData->unk_18 = 50.0f;
                 break;
@@ -3623,7 +3626,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_00 = playerHeight * -0.3f * yNormal;
                 roData->unk_18 = 45.0f;
                 roData->interfaceFlags =
-                    CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_MEDIUM, CAM_HUD_ALPHA_IGNORE, KEEPON4_FLAG_1);
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_1);
                 break;
 
             case 0x5B:
@@ -3633,7 +3636,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_0C = 10.0f;
                 roData->unk_18 = 55.0f;
                 roData->interfaceFlags =
-                    CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_MEDIUM, CAM_HUD_ALPHA_IGNORE, KEEPON4_FLAG_3);
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_3);
                 break;
 
             case 0x51:
@@ -3642,7 +3645,8 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_08 = 2.0f;
                 roData->unk_0C = 20.0f;
                 roData->unk_10 = 20.0f;
-                roData->interfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_MEDIUM, CAM_HUD_ALPHA_2, KEEPON4_FLAG_7);
+                roData->interfaceFlags =
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_2, KEEPON4_FLAG_7);
                 roData->unk_1E = 0x1E;
                 roData->unk_18 = 45.0f;
                 break;
@@ -3653,7 +3657,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_0C = 130.0f;
                 roData->unk_10 = 10.0f;
                 roData->interfaceFlags =
-                    CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_MEDIUM, CAM_HUD_ALPHA_5, KEEPON4_FLAG_5 | KEEPON4_FLAG_1);
+                    CAM_INTERFACE_FLAGS(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_5, KEEPON4_FLAG_5 | KEEPON4_FLAG_1);
                 break;
 
             default:
@@ -3782,7 +3786,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     } else {
         camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
         if ((camera->stateFlags & CAM_STATE_3) || (roData->interfaceFlags & KEEPON4_FLAG_7)) {
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_50, 0);
             camera->stateFlags |= (CAM_STATE_1 | CAM_STATE_2);
             camera->stateFlags &= ~CAM_STATE_3;
             if (camera->prevBgCamIndex < 0) {
@@ -4948,7 +4952,7 @@ s32 Camera_Unique0(Camera* camera) {
         if (rwData->animTimer > 0) {
             rwData->animTimer--;
             if (rwData->animTimer == 0) {
-                sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
+                sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_50, 0);
             }
         } else {
             rwData->initalPos = playerPosRot->pos;
@@ -5169,7 +5173,7 @@ s32 Camera_Unique9(Camera* camera) {
                     D_8011D3AC = rwData->curKeyFrame->unk_01 & 0xF;
                 } else if ((rwData->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
                     Camera_UpdateInterface(
-                        CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_IGNORE, CAM_HUD_ALPHA(rwData->curKeyFrame->unk_01), 0));
+                        CAM_INTERFACE_FLAGS(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY(rwData->curKeyFrame->unk_01), 0));
                 } else if (camera->player->stateFlags1 & PLAYER_STATE1_27 &&
                            player->currentBoots != PLAYER_BOOTS_IRON) {
                     func_8002DF38(camera->play, camera->target, 8);
@@ -5849,7 +5853,7 @@ s32 Camera_Demo3(Camera* camera) {
             eyeOffset.pitch = 0;
             eyeOffset.yaw = eyeAtOffset.yaw;
             rwData->unk_0C = 0.1f;
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE, CAM_HUD_ALPHA_4, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_4, 0);
 
             if (!((rwData->animFrame < 0 || camera->xzSpeed > 0.001f ||
                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
@@ -5873,7 +5877,7 @@ s32 Camera_Demo3(Camera* camera) {
                 Camera_ChangeBgCamIndex(camera, camera->prevBgCamIndex);
                 camera->prevBgCamIndex = -1;
             }
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_50, 0);
         skipeyeUpdate:
             skipUpdateEye = true;
             break;
@@ -5939,7 +5943,7 @@ s32 Camera_Demo5(Camera* camera) {
 
     Actor_GetFocus(&playerhead, &camera->player->actor);
     player = camera->player;
-    sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE, CAM_HUD_ALPHA_2, 0);
+    sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_2, 0);
     if ((camera->target == NULL) || (camera->target->update == NULL)) {
         if (camera->target == NULL) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: attention: target is not valid, stop!\n" VT_RST);
@@ -6454,7 +6458,7 @@ s32 Camera_Special4(Camera* camera) {
     Special4ReadWriteData* rwData = &camera->paramData.spec4.rwData;
 
     if (camera->animState == 0) {
-        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE, CAM_HUD_ALPHA_2, 0);
+        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_2, 0);
         camera->fov = 40.0f;
         camera->animState++;
         rwData->initalTimer = camera->timer;
@@ -6683,7 +6687,7 @@ s32 Camera_Special6(Camera* camera) {
         // Change "screens"
         camera->player->actor.freezeTimer = 12;
         // Overwrite interface alpha to 3
-        sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_HUD_ALPHA_MASK) | CAM_HUD_ALPHA_3;
+        sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_3;
         rwData->initalPlayerY = playerPosRot->pos.y;
         rwData->animTimer = 12;
         *eyeNext = bgCamPos;
@@ -6719,7 +6723,7 @@ s32 Camera_Special6(Camera* camera) {
     } else {
         // Camera following link on the x axis.
         // Overwrite interface alpha to 50
-        sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_HUD_ALPHA_MASK) | CAM_HUD_ALPHA_50;
+        sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_50;
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
         eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
@@ -6862,7 +6866,7 @@ s32 Camera_Special9(Camera* camera) {
             FALLTHROUGH;
         default:
             camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_50, 0);
 
             if (camera->xzSpeed > 0.001f || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
                 CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
@@ -6967,7 +6971,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     camera->xzOffsetUpdateRate = CAM_DATA_SCALED(OREG(2));
     camera->yOffsetUpdateRate = CAM_DATA_SCALED(OREG(3));
     camera->fovUpdateRate = CAM_DATA_SCALED(OREG(4));
-    sCameraShrinkWindowVal = 0x20;
+    sCameraLetterboxSize = 32;
     sCameraInterfaceAlpha = 0;
     camera->stateFlags = 0;
     camera->setting = camera->prevSetting = CAM_SET_FREE0;
@@ -6982,7 +6986,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     camera->up.z = camera->up.x = 0.0f;
     camera->skyboxOffset.x = camera->skyboxOffset.y = camera->skyboxOffset.z = 0;
     camera->atLERPStepScale = 1;
-    sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_IGNORE, CAM_HUD_ALPHA_IGNORE, 0);
+    sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY_IGNORE, 0);
     sDbgModeIdx = -1;
     D_8011D3F0 = 3;
     osSyncPrintf(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
@@ -7068,9 +7072,10 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     camera->stateFlags |= CAM_STATE_2;
 
     if (camera == &camera->play->mainCamera) {
-        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE | CAM_SHRINKWIN_INSTANT, CAM_HUD_ALPHA_2, 0);
+        sCameraInterfaceFlags =
+            CAM_INTERFACE_FLAGS(CAM_LETTERBOX_LARGE | CAM_LETTERBOX_INSTANT, CAM_HUD_VISIBILITY_2, 0);
     } else {
-        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
+        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_50, 0);
     }
 
     func_80057FC4(camera);
@@ -7556,17 +7561,17 @@ Vec3s Camera_Update(Camera* camera) {
 
     if (camera->status == CAM_STAT_ACTIVE) {
         if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_50, 0);
             Camera_UpdateInterface(sCameraInterfaceFlags);
         } else if ((D_8011D3F0 != 0) && (camera->camId == CAM_ID_MAIN)) {
             D_8011D3F0--;
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE, CAM_HUD_ALPHA_2, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_2, 0);
             Camera_UpdateInterface(sCameraInterfaceFlags);
         } else if (camera->play->transitionMode != TRANS_MODE_OFF) {
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_IGNORE, CAM_HUD_ALPHA_2, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY_2, 0);
             Camera_UpdateInterface(sCameraInterfaceFlags);
         } else if (camera->play->csCtx.state != CS_STATE_IDLE) {
-            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE, CAM_HUD_ALPHA_2, 0);
+            sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_2, 0);
             Camera_UpdateInterface(sCameraInterfaceFlags);
         } else {
             Camera_UpdateInterface(sCameraInterfaceFlags);
