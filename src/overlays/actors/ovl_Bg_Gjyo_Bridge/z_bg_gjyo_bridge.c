@@ -106,7 +106,7 @@ void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
                Gfx_TexScroll(play->state.gfxCtx, play->gameplayFrames & 127, play->gameplayFrames * -3 & 127, 32, 32));
 
     gSPSegment(POLY_XLU_DISP++, 9,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
                                 play->gameplayFrames & 127, 32, 32));
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),

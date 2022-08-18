@@ -450,7 +450,7 @@ u16 EnMd_GetTextLostWoods(PlayState* play, EnMd* this) {
 u16 EnMd_GetText(PlayState* play, Actor* thisx) {
     EnMd* this = (EnMd*)thisx;
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_SPOT04:
             return EnMd_GetTextKokiriForest(play, this);
         case SCENE_KOKIRI_HOME4:
@@ -505,13 +505,13 @@ s16 func_80AAAF04(PlayState* play, Actor* thisx) {
 }
 
 u8 EnMd_ShouldSpawn(EnMd* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT04) {
+    if (play->sceneId == SCENE_SPOT04) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_1C) && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
             return 1;
         }
     }
 
-    if (play->sceneNum == SCENE_KOKIRI_HOME4) {
+    if (play->sceneId == SCENE_KOKIRI_HOME4) {
         if (GET_EVENTCHKINF(EVENTCHKINF_1C) || GET_EVENTCHKINF(EVENTCHKINF_40)) {
             if (!LINK_IS_ADULT) {
                 return 1;
@@ -519,7 +519,7 @@ u8 EnMd_ShouldSpawn(EnMd* this, PlayState* play) {
         }
     }
 
-    if (play->sceneNum == SCENE_SPOT10) {
+    if (play->sceneId == SCENE_SPOT10) {
         return 1;
     }
 
@@ -636,9 +636,9 @@ u8 EnMd_SetMovedPos(EnMd* this, PlayState* play) {
 void func_80AAB5A4(EnMd* this, PlayState* play) {
     f32 temp;
 
-    if (play->sceneNum != SCENE_KOKIRI_HOME4) {
+    if (play->sceneId != SCENE_KOKIRI_HOME4) {
         temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-                (play->sceneNum == SCENE_SPOT04))
+                (play->sceneId == SCENE_SPOT04))
                    ? 100.0f
                    : 400.0f;
         this->alpha = func_80034DD4(&this->actor, play, this->alpha, temp);
@@ -671,16 +671,16 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
 
-    if (((play->sceneNum == SCENE_SPOT04) && !GET_EVENTCHKINF(EVENTCHKINF_04)) ||
-        ((play->sceneNum == SCENE_SPOT04) && GET_EVENTCHKINF(EVENTCHKINF_04) &&
+    if (((play->sceneId == SCENE_SPOT04) && !GET_EVENTCHKINF(EVENTCHKINF_04)) ||
+        ((play->sceneId == SCENE_SPOT04) && GET_EVENTCHKINF(EVENTCHKINF_04) &&
          CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
-        ((play->sceneNum == SCENE_SPOT10) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
+        ((play->sceneId == SCENE_SPOT10) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
         this->actor.home.pos = this->actor.world.pos;
         this->actionFunc = func_80AAB948;
         return;
     }
 
-    if (play->sceneNum != SCENE_KOKIRI_HOME4) {
+    if (play->sceneId != SCENE_KOKIRI_HOME4) {
         EnMd_SetMovedPos(this, play);
     }
 
@@ -735,14 +735,14 @@ void func_80AAB948(EnMd* this, PlayState* play) {
 
     if (this->unk_1E0.unk_00 == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-            (play->sceneNum == SCENE_SPOT04)) {
+            (play->sceneId == SCENE_SPOT04)) {
             play->msgCtx.msgMode = MSGMODE_PAUSED;
         }
 
-        if (play->sceneNum == SCENE_SPOT04) {
+        if (play->sceneId == SCENE_SPOT04) {
             SET_EVENTCHKINF(EVENTCHKINF_04);
         }
-        if (play->sceneNum == SCENE_SPOT10) {
+        if (play->sceneId == SCENE_SPOT10) {
             SET_EVENTCHKINF(EVENTCHKINF_0A);
         }
 
@@ -759,7 +759,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     }
 
-    if ((this->unk_1E0.unk_00 == 0) && (play->sceneNum == SCENE_SPOT10)) {
+    if ((this->unk_1E0.unk_00 == 0) && (play->sceneId == SCENE_SPOT10)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
             player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
@@ -781,8 +781,8 @@ void func_80AABC10(EnMd* this, PlayState* play) {
         this->actionFunc = func_80AAB948;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->actor.textId = 0x1067;
         func_8002F2CC(&this->actor, play, this->collider.dim.radius + 30.0f);
 
@@ -802,8 +802,7 @@ void func_80AABD0C(EnMd* this, PlayState* play) {
         return;
     }
 
-    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-        (play->sceneNum == SCENE_SPOT04)) {
+    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) && (play->sceneId == SCENE_SPOT04)) {
         Message_CloseTextbox(play);
         SET_EVENTCHKINF(EVENTCHKINF_1C);
         Actor_Kill(&this->actor);

@@ -12,7 +12,7 @@ void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     gSaveContext.linkAge = LINK_AGE_ADULT;
     Sram_InitDebugSave();
     gSaveContext.cutsceneIndex = 0xFFF3;
-    gSaveContext.sceneSetupIndex = 7;
+    gSaveContext.sceneLayer = 7;
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
@@ -22,7 +22,7 @@ void func_80803C5C(TitleSetupState* this) {
 void TitleSetup_Main(GameState* thisx) {
     TitleSetupState* this = (TitleSetupState*)thisx;
 
-    func_80095248(this->state.gfxCtx, 0, 0, 0);
+    Gfx_SetupFrame(this->state.gfxCtx, 0, 0, 0);
     TitleSetup_SetupTitleScreen(this);
     func_80803C5C(this);
 }

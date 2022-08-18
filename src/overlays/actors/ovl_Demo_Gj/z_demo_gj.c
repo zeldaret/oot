@@ -137,7 +137,7 @@ void DemoGj_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoGj_PlayExplosionSfx(DemoGj* this, PlayState* play) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGj_SpawnSmoke(PlayState* play, Vec3f* pos, f32 arg2) {
@@ -202,8 +202,8 @@ void DemoGj_Explode(DemoGj* this, PlayState* play, Vec3f* initialPos, Vec3f* dir
     DemoGj_PlayExplosionSfx(this, play);
 }
 
-s32 DemoGj_IsSceneInvalid(void) {
-    if (gSaveContext.sceneSetupIndex < 4) {
+s32 DemoGj_IsCutsceneLayer(void) {
+    if (!IS_CUTSCENE_LAYER) {
         return false;
     }
     return true;
@@ -252,7 +252,7 @@ void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
 
 // TODO: find a better name
 s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 drawConfig, CollisionHeader* header) {
-    if (!DemoGj_IsSceneInvalid()) {
+    if (!DemoGj_IsCutsceneLayer()) {
         this->updateMode = updateMode;
         this->drawConfig = drawConfig;
         DemoGj_InitCommon(this, play, header);

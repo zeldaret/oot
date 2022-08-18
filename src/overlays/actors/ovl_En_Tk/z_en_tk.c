@@ -277,7 +277,7 @@ f32 EnTk_Step(EnTk* this, PlayState* play) {
     s32 i;
 
     if (this->skelAnime.curFrame == 0.0f || this->skelAnime.curFrame == 25.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
     }
 
     if (this->skelAnime.animation != &gDampeWalkAnim) {
@@ -492,7 +492,7 @@ void EnTk_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= CLOCK_TIME(18, 0) || gSaveContext.dayTime >= CLOCK_TIME(21, 0) || LINK_IS_ADULT ||
-        play->sceneNum != SCENE_SPOT02) {
+        play->sceneId != SCENE_SPOT02) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -588,7 +588,7 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
 
     if (this->skelAnime.curFrame == 32.0f) {
         /* What's gonna come out? */
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIG_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_DIG_UP);
 
         this->rewardTimer = 0;
 
@@ -621,17 +621,17 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
     }
 
     if (this->skelAnime.curFrame >= 32.0f && this->rewardTimer == 10) {
-        /* Play a reward sound shortly after digging */
+        /* Play a reward sound effect shortly after digging */
         if (this->validDigHere == 0) {
             /* Bad dig spot */
-            Audio_PlayActorSound2(&this->actor, NA_SE_SY_ERROR);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_SY_ERROR);
         } else if (this->currentReward == 4) {
             /* Heart piece */
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
             /* Rupee */
-            Audio_PlayActorSound2(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
     this->rewardTimer++;

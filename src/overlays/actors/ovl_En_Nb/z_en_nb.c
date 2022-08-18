@@ -333,7 +333,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
     s32 pad[2];
     Player* player;
 
-    if ((gSaveContext.chamberCutsceneNum == 3) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gSaveContext.chamberCutsceneNum == 3) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = NB_CHAMBER_UNDERGROUND;
         play->csCtx.segment = &D_80AB431C;
@@ -451,7 +451,7 @@ void EnNb_SetupLightArrowOrSealingCs(EnNb* this, PlayState* play) {
     this->actor.shape.shadowAlpha = 0;
 }
 
-void EnNb_PlaySealingSound(void) {
+void EnNb_PlaySealingSfx(void) {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 
@@ -467,7 +467,7 @@ void EnNb_SetupHide(EnNb* this, PlayState* play) {
         this->alpha = 0;
         this->actor.shape.shadowAlpha = 0;
         this->alphaTimer = 0.0f;
-        EnNb_PlaySealingSound();
+        EnNb_PlaySealingSfx();
     }
 }
 

@@ -347,7 +347,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
 
     if (gSaveContext.retainWeatherMode) {
-        if (((void)0, gSaveContext.sceneSetupIndex) < 4) {
+        if (!IS_CUTSCENE_LAYER) {
             switch (gWeatherMode) {
                 case WEATHER_MODE_CLOUDY_CONFIG3:
                     envCtx->skyboxConfig = 1;
@@ -934,7 +934,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
-        if (((((void)0, gSaveContext.sceneSetupIndex) >= 5 || gTimeSpeed != 0) &&
+        if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
              ((void)0, gSaveContext.dayTime) > gSaveContext.skyboxTime) ||
             (((void)0, gSaveContext.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
 
@@ -1387,7 +1387,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneSetupIndex) != 5) {
+    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
@@ -2361,7 +2361,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
 
     switch (sandstormState) {
         case SANDSTORM_ACTIVE:
-            if ((play->sceneNum == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
+            if ((play->sceneId == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (play->envCtx.sandstormEnvA > 128) ? 255 : play->envCtx.sandstormEnvA >> 1;
             } else {
@@ -2477,8 +2477,8 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColor.r, primColor.g, primColor.b, play->envCtx.sandstormPrimA);
     gDPSetEnvColor(POLY_XLU_DISP++, envColor.r, envColor.g, envColor.b, play->envCtx.sandstormEnvA);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (u32)sp96 % 0x1000, 0, 0x200, 0x20, 1, (u32)sp94 % 0x1000,
-                                0xFFF - ((u32)sp92 % 0x1000), 0x100, 0x40));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (u32)sp96 % 4096, 0, 512, 32, 1, (u32)sp94 % 4096,
+                                4095 - ((u32)sp92 % 4096), 256, 64));
     gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
     gSPDisplayList(POLY_XLU_DISP++, gFieldSandstormDL);
 

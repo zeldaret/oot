@@ -126,7 +126,7 @@ s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
 }
 
 void EnGoroiwa_SetSpeed(EnGoroiwa* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT04) {
+    if (play->sceneId == SCENE_SPOT04) {
         this->isInKokiri = true;
         R_EN_GOROIWA_SPEED = 920;
     } else {
@@ -628,7 +628,7 @@ void EnGoroiwa_Roll(EnGoroiwa* this, PlayState* play) {
             EnGoroiwa_SetupRoll(this);
         }
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
 }
 
 void EnGoroiwa_SetupMoveAndFallToGround(EnGoroiwa* this) {
