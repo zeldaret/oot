@@ -49,9 +49,9 @@
 
 /**
  * letterboxFlag: determines the size of the letter-box window. See CAM_LETTERBOX_* enums.
- *                  Can also add on the flag ( | CAM_LETTERBOX_INSTANT) to make the window shrink immediately
+ *                  Can also add on the flag ( | CAM_LETTERBOX_INSTANT) to make the size change immediately
  * hudVisibility: hides certain hud icons
- *    - A value of 0 in camera is translated to an hudVisibility of 50, 
+ *    - A value of 0 in camera is translated to a hudVisibility of 50, 
  *      which is the value to restore all hud icons to the screen (CAM_HUD_VISIBILITY_50)
  *    - A value of 0xF in camera results in no change in the hudVisibility (CAM_HUD_VISIBILITY_IGNORE)
  * funcFlags: Custom flags for functions
@@ -69,9 +69,9 @@
 #define CAM_LETTERBOX_MEDIUM 0x2000
 #define CAM_LETTERBOX_LARGE 0x3000
 
-#define CAM_LETTERBOX_INSTANT 0x8000 // Bit to determine whether to set the current value directly (on), or to set the shrink-value target (off) 
+#define CAM_LETTERBOX_INSTANT 0x8000 // Bit to determine whether to set the current value directly (on), or to set the size target (off) 
 
-#define CAM_LETTERBOX_IGNORE 0xF000 // No change in shrink window, keep the previous values
+#define CAM_LETTERBOX_IGNORE 0xF000 // No change in letterbox size, keep the previous size
 
 // Camera behaviorFlags. Flags specifically for settings, modes, and bgCam
 // Used to store current state, only CAM_BEHAVIOR_SETTING_1 and CAM_BEHAVIOR_BG_2 are read from and used in logic
