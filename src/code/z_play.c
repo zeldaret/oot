@@ -1046,7 +1046,7 @@ void Play_Draw(PlayState* this) {
 
     Gfx_SetupFrame(gfxCtx, 0, 0, 0);
 
-    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_RUN_DRAW) {
+    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_DRAW) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
         POLY_XLU_DISP = Play_SetFog(this, POLY_XLU_DISP);
 
@@ -1069,7 +1069,7 @@ void Play_Draw(PlayState* this) {
 
         gSPSegment(POLY_OPA_DISP++, 0x01, this->billboardMtx);
 
-        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_COVER_ELEMENTS) {
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_COVER_ELEMENTS) {
             Gfx* gfxP;
             Gfx* sp1CC = POLY_OPA_DISP;
 
@@ -1127,7 +1127,7 @@ void Play_Draw(PlayState* this) {
             } else {
                 s32 roomDrawFlags;
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_SKYBOX) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
                     if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
                         if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
                             Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
@@ -1140,33 +1140,33 @@ void Play_Draw(PlayState* this) {
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_SUN_AND_MOON) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SUN_AND_MOON) {
                     if (!this->envCtx.sunMoonDisabled) {
                         Environment_DrawSunAndMoon(this);
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_SKYBOX_FILTERS) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX_FILTERS) {
                     Environment_DrawSkyboxFilters(this);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_LIGHTNING) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LIGHTNING) {
                     Environment_UpdateLightningStrike(this);
                     Environment_DrawLightning(this, 0);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_LIGHTs) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LIGHTS) {
                     sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
                     Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
                     Lights_Draw(sp228, gfxCtx);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_DRAW_ROOM_FLAGS != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
                     if (VREG(94) == 0) {
                         if (R_HREG_MODE != HREG_MODE_PLAY) {
                             roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
                         } else {
-                            roomDrawFlags = R_DRAW_ROOM_FLAGS;
+                            roomDrawFlags = R_PLAY_DRAW_ROOM_FLAGS;
                         }
                         Scene_Draw(this);
                         Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
@@ -1174,7 +1174,7 @@ void Play_Draw(PlayState* this) {
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_SKYBOX) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
                     if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                         Vec3f sp74;
 
@@ -1188,15 +1188,15 @@ void Play_Draw(PlayState* this) {
                     Environment_DrawRain(this, &this->view, gfxCtx);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_DRAW_ROOM_FLAGS != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
                     Environment_FillScreen(gfxCtx, 0, 0, 0, this->unk_11E18, FILL_SCREEN_OPA);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_ACTORS) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
                     func_800315AC(this, &this->actorCtx);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_LENS_FLARES) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
                     if (!this->envCtx.sunMoonDisabled) {
                         sp21C.x = this->view.eye.x + this->envCtx.sunPos.x;
                         sp21C.y = this->view.eye.y + this->envCtx.sunPos.y;
@@ -1206,7 +1206,7 @@ void Play_Draw(PlayState* this) {
                     Environment_DrawCustomLensFlare(this);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_SCREEN_FILLS) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
                     if (MREG(64) != 0) {
                         Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
                                                FILL_SCREEN_OPA | FILL_SCREEN_XLU);
@@ -1223,13 +1223,13 @@ void Play_Draw(PlayState* this) {
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_SANDSTORM) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
                     if (this->envCtx.sandstormState != SANDSTORM_OFF) {
                         Environment_DrawSandstorm(this, this->envCtx.sandstormState);
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_DEBUG_OBJECTS) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
                     DebugDisplay_DrawObjects(this);
                 }
 
@@ -1251,7 +1251,7 @@ void Play_Draw(PlayState* this) {
                     SREG(33) |= 1;
                 } else {
                 Play_Draw_DrawOverlayElements:
-                    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_DRAW_OVERLAY_ELEMENTS) {
+                    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
                         Play_DrawOverlayElements(this);
                     }
                 }
@@ -1283,23 +1283,23 @@ void Play_Main(GameState* thisx) {
     PLAY_LOG(4556);
 
     if ((R_HREG_MODE == HREG_MODE_PLAY) && (R_PLAY_INIT != HREG_MODE_PLAY)) {
-        R_RUN_UPDATE = 1;
-        R_RUN_DRAW = 1;
-        R_DRAW_SKYBOX = 1;
-        R_DRAW_ROOM_FLAGS = 3;
-        R_DRAW_ACTORS = 1;
-        R_DRAW_LENS_FLARES = 1;
-        R_DRAW_SCREEN_FILLS = 1;
-        R_DRAW_SANDSTORM = 1;
-        R_DRAW_OVERLAY_ELEMENTS = 1;
-        R_DRAW_ASSORTED_FLAGS = 15;
+        R_PLAY_RUN_UPDATE = 1;
+        R_PLAY_RUN_DRAW = 1;
+        R_PLAY_DRAW_SKYBOX = 1;
+        R_PLAY_DRAW_ROOM_FLAGS = 3;
+        R_PLAY_DRAW_ACTORS = 1;
+        R_PLAY_DRAW_LENS_FLARES = 1;
+        R_PLAY_DRAW_SCREEN_FILLS = 1;
+        R_PLAY_DRAW_SANDSTORM = 1;
+        R_PLAY_DRAW_OVERLAY_ELEMENTS = 1;
+        R_PLAY_DRAW_ASSORTED_FLAGS = 15;
         HREG(91) = 1; // reg is not used in this mode
-        R_DRAW_COVER_ELEMENTS = 1;
-        R_DRAW_DEBUG_OBJECTS = 1;
+        R_PLAY_DRAW_COVER_ELEMENTS = 1;
+        R_PLAY_DRAW_DEBUG_OBJECTS = 1;
         R_PLAY_INIT = HREG_MODE_PLAY;
     }
 
-    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_RUN_UPDATE) {
+    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_UPDATE) {
         Play_Update(this);
     }
 

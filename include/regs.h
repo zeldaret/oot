@@ -209,25 +209,25 @@ typedef enum {
 #define R_PRINT_MEMORY_SIZE     HREG(83) // value * 0x10 = length of the log
 
 // HREG_MODE_PLAY
-#define R_PLAY_INIT              HREG(94) // set to `HREG_MODE_PLAY` when init is complete
-#define R_RUN_UPDATE             HREG(81)
-#define R_RUN_DRAW               HREG(82)
-#define R_DRAW_SKYBOX            HREG(83)
-#define R_DRAW_ROOM_FLAGS        HREG(84) // also enables drawing the scene config and room bg cover
-#define R_DRAW_ACTORS            HREG(85)
-#define R_DRAW_LENS_FLARES       HREG(86)
-#define R_DRAW_SCREEN_FILLS      HREG(87)
-#define R_DRAW_SANDSTORM         HREG(88)
-#define R_DRAW_OVERLAY_ELEMENTS  HREG(89)
-#define R_DRAW_ASSORTED_FLAGS    HREG(90) // see flags below
-#define R_DRAW_SKYBOX_FILTERS    (R_DRAW_ASSORTED_FLAGS & (1 << 0))
-#define R_DRAW_SUN_AND_MOON      (R_DRAW_ASSORTED_FLAGS & (1 << 1))
-#define R_DRAW_LIGHTNING         (R_DRAW_ASSORTED_FLAGS & (1 << 2))
-#define R_DRAW_LIGHTs            (R_DRAW_ASSORTED_FLAGS & (1 << 3))
-#define R_DRAW_COVER_ELEMENTS    HREG(92) // draw transition instance and vismono
-#define R_DRAW_DEBUG_OBJECTS    HREG(93)
+#define R_PLAY_INIT                   HREG(94) // set to `HREG_MODE_PLAY` when init is complete
+#define R_PLAY_RUN_UPDATE             HREG(81)
+#define R_PLAY_RUN_DRAW               HREG(82)
+#define R_PLAY_DRAW_SKYBOX            HREG(83)
+#define R_PLAY_DRAW_ROOM_FLAGS        HREG(84) // also enables drawing the scene config and room bg cover
+#define R_PLAY_DRAW_ACTORS            HREG(85)
+#define R_PLAY_DRAW_LENS_FLARES       HREG(86)
+#define R_PLAY_DRAW_SCREEN_FILLS      HREG(87)
+#define R_PLAY_DRAW_SANDSTORM         HREG(88)
+#define R_PLAY_DRAW_OVERLAY_ELEMENTS  HREG(89)
+#define R_PLAY_DRAW_ASSORTED_FLAGS    HREG(90) // see flags below
+#define R_PLAY_DRAW_SKYBOX_FILTERS    (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 0))
+#define R_PLAY_DRAW_SUN_AND_MOON      (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 1))
+#define R_PLAY_DRAW_LIGHTNING         (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 2))
+#define R_PLAY_DRAW_LIGHTS            (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 3))
+#define R_PLAY_DRAW_COVER_ELEMENTS    HREG(92) // draw transition instance and vismono
+#define R_PLAY_DRAW_DEBUG_OBJECTS     HREG(93)
 
-#define R_PLAY_ENABLE_UCODE_DISAS    HREG(93) // set to 2 to switch to ucode disas mode adn trigger it
+#define R_PLAY_ENABLE_UCODE_DISAS    HREG(93) // set to 2 to switch to ucode disas mode and trigger it
 #define R_PLAY_UCODE_DISAS_LOG_LEVEL HREG(92) // log level to use when switching to ucode disas
 
 // HREG_MODE_PERSPECTIVE
