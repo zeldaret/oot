@@ -259,7 +259,7 @@ void func_800C1FA4(PreRender* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
     gDPSetBlendColor(gfx++, 255, 255, 255, 8);
-    gDPSetPrimDepth(gfx++, -1, -1);
+    gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,

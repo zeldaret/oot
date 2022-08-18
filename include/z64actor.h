@@ -189,7 +189,7 @@ typedef struct Actor {
     /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data"
     /* 0x01E */ s8 objBankIndex; // Object bank index of the actor's object dependency; original name: "bank"
     /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on
-    /* 0x020 */ u16 sfx; // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle
+    /* 0x020 */ u16 sfx; // SFX ID to play. Sfx plays when value is set, then is cleared the following update cycle
     /* 0x024 */ PosRot world; // Position/rotation in the world
     /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head pos and rot
     /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `focus` position
@@ -497,6 +497,29 @@ typedef enum {
     /* 0x5C */ NAVI_ENEMY_POE_WASTELAND,
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
+
+#define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
+#define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
+
+// EnDoor and DoorKiller share openAnim and playerIsOpening
+// Due to alignment, a substruct cannot be used in the structs of these actors.
+#define DOOR_ACTOR_BASE               \
+    /* 0x0000 */ Actor actor;         \
+    /* 0x014C */ SkelAnime skelAnime; \
+    /* 0x0190 */ u8 openAnim;         \
+    /* 0x0191 */ u8 playerIsOpening
+
+typedef struct DoorActorBase {
+    /* 0x0000 */ DOOR_ACTOR_BASE;
+} DoorActorBase;
+
+typedef enum {
+    /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,
+    /* 0x01 */ DOOR_OPEN_ANIM_CHILD_L,
+    /* 0x02 */ DOOR_OPEN_ANIM_ADULT_R,
+    /* 0x03 */ DOOR_OPEN_ANIM_CHILD_R,
+    /* 0x04 */ DOOR_OPEN_ANIM_MAX
+} DoorOpenAnim;
 
 #define UPDBGCHECKINFO_FLAG_0 (1 << 0) // check wall
 #define UPDBGCHECKINFO_FLAG_1 (1 << 1) // check ceiling

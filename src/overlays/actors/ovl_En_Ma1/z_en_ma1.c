@@ -181,17 +181,17 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
 }
 
 s32 func_80AA08C4(EnMa1* this, PlayState* play) {
-    if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneSetupIndex == 5)) {
+    if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneLayer == 5)) {
         return 1;
     }
     if (!LINK_IS_CHILD) {
         return 0;
     }
-    if (((play->sceneNum == SCENE_MARKET_NIGHT) || (play->sceneNum == SCENE_MARKET_DAY)) &&
+    if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
         !GET_EVENTCHKINF(EVENTCHKINF_14) && !GET_INFTABLE(INFTABLE_8B)) {
         return 1;
     }
-    if ((play->sceneNum == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
         if (GET_INFTABLE(INFTABLE_8B)) {
             return 1;
         } else {
@@ -199,10 +199,10 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
             return 0;
         }
     }
-    if ((play->sceneNum == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
-    if (play->sceneNum != SCENE_SPOT20) {
+    if (play->sceneId != SCENE_SPOT20) {
         return 0;
     }
     if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_14)) {
@@ -307,7 +307,7 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneNum == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {

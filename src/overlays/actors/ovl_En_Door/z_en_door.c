@@ -44,17 +44,32 @@ const ActorInit En_Door_InitVars = {
     (ActorFunc)EnDoor_Draw,
 };
 
+typedef struct {
+    /* 0x00 */ s16 sceneId;
+    /* 0x02 */ u8 dListIndex;
+    /* 0x04 */ s16 objectId;
+} EnDoorInfo;
+
+typedef enum {
+    /* 0 */ DOOR_DL_DEFAULT,
+    /* 1 */ DOOR_DL_FIRE_TEMPLE,
+    /* 2 */ DOOR_DL_WATER_TEMPLE,
+    /* 3 */ DOOR_DL_SHADOW,
+    /* 4 */ DOOR_DL_DEFAULT_FIELD_KEEP,
+    /* 5 */ DOOR_DL_MAX
+} EnDoorDListIndex;
+
 /**
  * Controls which object and display lists to use in a given scene
  */
 static EnDoorInfo sDoorInfo[] = {
-    { SCENE_HIDAN, 1, OBJECT_HIDAN_OBJECTS },
-    { SCENE_MIZUSIN, 2, OBJECT_MIZU_OBJECTS },
-    { SCENE_HAKADAN, 3, OBJECT_HAKA_DOOR },
-    { SCENE_HAKADANCH, 3, OBJECT_HAKA_DOOR },
+    { SCENE_HIDAN, DOOR_DL_FIRE_TEMPLE, OBJECT_HIDAN_OBJECTS },
+    { SCENE_MIZUSIN, DOOR_DL_WATER_TEMPLE, OBJECT_MIZU_OBJECTS },
+    { SCENE_HAKADAN, DOOR_DL_SHADOW, OBJECT_HAKA_DOOR },
+    { SCENE_HAKADANCH, DOOR_DL_SHADOW, OBJECT_HAKA_DOOR },
     // KEEP objects should remain last and in this order
-    { -1, 0, OBJECT_GAMEPLAY_KEEP },
-    { -1, 4, OBJECT_GAMEPLAY_FIELD_KEEP },
+    { -1, DOOR_DL_DEFAULT, OBJECT_GAMEPLAY_KEEP },
+    { -1, DOOR_DL_DEFAULT_FIELD_KEEP, OBJECT_GAMEPLAY_FIELD_KEEP },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -62,18 +77,33 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-static AnimationHeader* sDoorAnims[] = { &gDoor3Anim, &gDoor1Anim, &gDoor4Anim, &gDoor2Anim };
+static AnimationHeader* sDoorAnims[DOOR_OPEN_ANIM_MAX] = {
+    &gDoorAdultOpeningLeftAnim,  // DOOR_OPEN_ANIM_ADULT_L
+    &gDoorChildOpeningLeftAnim,  // DOOR_OPEN_ANIM_CHILD_L
+    &gDoorAdultOpeningRightAnim, // DOOR_OPEN_ANIM_ADULT_R
+    &gDoorChildOpeningRightAnim, // DOOR_OPEN_ANIM_CHILD_R
+};
 
-static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
+static u8 sDoorAnimOpenFrames[DOOR_OPEN_ANIM_MAX] = {
+    25, // DOOR_OPEN_ANIM_ADULT_L
+    25, // DOOR_OPEN_ANIM_CHILD_L
+    25, // DOOR_OPEN_ANIM_ADULT_R
+    25, // DOOR_OPEN_ANIM_CHILD_R
+};
 
-static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
+static u8 sDoorAnimCloseFrames[DOOR_OPEN_ANIM_MAX] = {
+    60, // DOOR_OPEN_ANIM_ADULT_L
+    70, // DOOR_OPEN_ANIM_CHILD_L
+    60, // DOOR_OPEN_ANIM_ADULT_R
+    70, // DOOR_OPEN_ANIM_CHILD_R
+};
 
-static Gfx* sDoorDLists[5][2] = {
-    { gDoorLeftDL, gDoorRightDL },
-    { gFireTempleDoorWithHandleFrontDL, gFireTempleDoorWithHandleBackDL },
-    { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },
-    { object_haka_door_DL_0013B8, object_haka_door_DL_001420 },
-    { gFieldDoor1DL, gFieldDoor2DL },
+static Gfx* sDoorDLists[DOOR_DL_MAX][2] = {
+    { gDoorLeftDL, gDoorRightDL },                                         // DOOR_DL_DEFAULT
+    { gFireTempleDoorWithHandleLeftDL, gFireTempleDoorWithHandleRightDL }, // DOOR_DL_FIRE_TEMPLE
+    { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },                   // DOOR_DL_WATER_TEMPLE
+    { gShadowDoorLeftDL, gShadowDoorRightDL },                             // DOOR_DL_SHADOW
+    { gFieldDoorLeftDL, gFieldDoorRightDL },                               // DOOR_DL_DEFAULT_FIELD_KEEP
 };
 
 void EnDoor_Init(Actor* thisx, PlayState* play2) {
@@ -87,9 +117,10 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
 
     objectInfo = &sDoorInfo[0];
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(play, &this->skelAnime, &gDoorSkel, &gDoor3Anim, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(play, &this->skelAnime, &gDoorSkel, &gDoorAdultOpeningLeftAnim, this->jointTable, this->morphTable,
+                   5);
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
-        if (play->sceneNum == objectInfo->sceneNum) {
+        if (play->sceneId == objectInfo->sceneId) {
             break;
         }
     }
@@ -113,7 +144,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     }
 
     // Double doors
-    if (this->actor.params & 0x40) {
+    if (ENDOOR_IS_DOUBLE_DOOR(&this->actor)) {
         EnDoor* other;
 
         xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
@@ -121,7 +152,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         other = (EnDoor*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DOOR,
                                             this->actor.world.pos.x + xOffset, this->actor.world.pos.y,
                                             this->actor.world.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,
-                                            this->actor.params & ~0x40);
+                                            this->actor.params & ~ENDOOR_PARAMS_DOUBLE_DOOR_FLAG);
         if (other != NULL) {
             other->unk_192 = 1;
         }
@@ -135,7 +166,7 @@ void EnDoor_Destroy(Actor* thisx, PlayState* play) {
     TransitionActorEntry* transitionEntry;
     EnDoor* this = (EnDoor*)thisx;
 
-    transitionEntry = &play->transiActorCtx.list[(u16)this->actor.params >> 0xA];
+    transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
     if (transitionEntry->id < 0) {
         transitionEntry->id = -transitionEntry->id;
     }
@@ -145,7 +176,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
     s32 doorType;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
-        doorType = this->actor.params >> 7 & 7;
+        doorType = ENDOOR_GET_TYPE(&this->actor);
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actionFunc = EnDoor_Idle;
@@ -156,7 +187,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
         }
         this->actor.world.rot.y = 0x0000;
         if (doorType == DOOR_LOCKED) {
-            if (!Flags_GetSwitch(play, this->actor.params & 0x3F)) {
+            if (!Flags_GetSwitch(play, ENDOOR_GET_LOCKED_SWITCH_FLAG(&this->actor))) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
@@ -165,12 +196,12 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
                 this->actor.world.rot.y = -0x1800;
             }
         } else if (doorType == DOOR_CHECKABLE) {
-            this->actor.textId = (this->actor.params & 0x3F) + 0x0200;
+            this->actor.textId = ENDOOR_GET_CHECKABLE_TEXT_ID(&this->actor) + 0x0200;
             if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 // Talon's house door. If Talon has not been woken up at Hyrule Castle
-                // this door should be openable at any time of day. Note that there is no
-                // check for time of day as the scene setup for Lon Lon merely initializes
-                // the door with a different text id between day and night setups
+                // this door should be openable at any time of day.
+                // Note that there is no check for time of day, as the night layers for Lon Lon
+                // have a door with a different text ID.
                 doorType = DOOR_SCENEEXIT;
             } else {
                 this->actionFunc = EnDoor_WaitForCheck;
@@ -178,7 +209,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
             }
         }
         // Replace the door type it was loaded with by the new type
-        this->actor.params = (this->actor.params & ~0x380) | (doorType << 7);
+        this->actor.params = (this->actor.params & ~ENDOOR_PARAMS_TYPE_MASK) | (doorType << ENDOOR_PARAMS_TYPE_SHIFT);
     }
 }
 
@@ -188,16 +219,16 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
     s16 yawDiff;
 
-    doorType = this->actor.params >> 7 & 7;
+    doorType = ENDOOR_GET_TYPE(&this->actor);
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
-    if (this->playerIsOpening != 0) {
+    if (this->playerIsOpening) {
         this->actionFunc = EnDoor_Open;
-        Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->animStyle],
+        Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->openAnim],
                                    (player->stateFlags1 & PLAYER_STATE1_27) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
-            Flags_SetSwitch(play, this->actor.params & 0x3F);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
+            Flags_SetSwitch(play, ENDOOR_GET_LOCKED_SWITCH_FLAG(&this->actor));
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
     } else if (!Player_InCsMode(play)) {
         if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
@@ -268,23 +299,23 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
     if (DECR(this->lockTimer) == 0) {
         if (SkelAnime_Update(&this->skelAnime)) {
             this->actionFunc = EnDoor_Idle;
-            this->playerIsOpening = 0;
-        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->animStyle])) {
-            Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                                 play->sceneNum == SCENE_HIDAN)
-                                                    ? NA_SE_EV_IRON_DOOR_OPEN
-                                                    : NA_SE_OC_DOOR_OPEN);
+            this->playerIsOpening = false;
+        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->openAnim])) {
+            Audio_PlayActorSfx2(&this->actor, (play->sceneId == SCENE_HAKADAN || play->sceneId == SCENE_HAKADANCH ||
+                                               play->sceneId == SCENE_HIDAN)
+                                                  ? NA_SE_EV_IRON_DOOR_OPEN
+                                                  : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {
                 numEffects = (s32)(Rand_ZeroOne() * 30.0f) + 50;
                 for (i = 0; i < numEffects; i++) {
                     EffectSsBubble_Spawn(play, &this->actor.world.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }
             }
-        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->animStyle])) {
-            Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                                 play->sceneNum == SCENE_HIDAN)
-                                                    ? NA_SE_EV_IRON_DOOR_CLOSE
-                                                    : NA_SE_EV_DOOR_CLOSE);
+        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->openAnim])) {
+            Audio_PlayActorSfx2(&this->actor, (play->sceneId == SCENE_HAKADAN || play->sceneId == SCENE_HAKADANCH ||
+                                               play->sceneId == SCENE_HIDAN)
+                                                  ? NA_SE_EV_IRON_DOOR_CLOSE
+                                                  : NA_SE_EV_DOOR_CLOSE);
         }
     }
 }
@@ -306,10 +337,11 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
 
     if (limbIndex == 4) {
         doorDLists = sDoorDLists[this->dListIndex];
-        transitionEntry = &play->transiActorCtx.list[(u16)this->actor.params >> 0xA];
+        transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
-            rotDiff = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -
+            // Draw the side of the door that is visible to the camera
+            rotDiff = this->actor.shape.rot.y + this->skelAnime.jointTable[3].z + rot->z -
                       Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
             *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
         } else {
