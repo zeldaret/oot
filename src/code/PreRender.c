@@ -43,7 +43,6 @@ void PreRender_Destroy(PreRender* this) {
 /**
  * Copies RGBA16 image `img` to `imgDst`
  *
- * @param this      PreRender instance
  * @param gfxp      Display list pointer
  * @param img       Image to copy from
  * @param imgDst    Buffer to copy to
@@ -247,7 +246,6 @@ void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave) {
  * Reads the coverage values stored in the RGBA16 format `img` with dimensions `this->width`, `this->height` and
  * converts it to an 8-bpp intensity image.
  *
- * @param this      PreRender instance
  * @param gfxp      Display list pointer
  * @param img       Image to read coverage from
  * @param cvgDst    Buffer to store coverage into
