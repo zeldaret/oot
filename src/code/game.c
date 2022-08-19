@@ -261,6 +261,7 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viFeatures = gViConfigFeatures;
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
+
         if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == OS_TV_NTSC)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
@@ -304,7 +305,8 @@ void GameState_Update(GameState* gameState) {
             HREG(83) = HREG(82);
             HREG(84) = HREG(81);
             gViConfigAdditionalScanLines = HREG(82);
-            gViConfigYScale = HREG(81) == 0 ? 240.0f / (gViConfigAdditionalScanLines + 240.0f) : 1.0f;
+            gViConfigYScale =
+                HREG(81) == 0 ? ((f32)SCREEN_HEIGHT) / (gViConfigAdditionalScanLines + (f32)SCREEN_HEIGHT) : 1.0f;
             D_80009430 = 1;
         }
     }

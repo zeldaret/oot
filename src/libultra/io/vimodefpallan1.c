@@ -1,3 +1,13 @@
+/**
+ * @file vimodefpallan1.c
+ *
+ * FPAL LAN1 Video Mode
+ *
+ * L = Low Resolution
+ * A = Anti-Aliased
+ * N = Deinterlaced
+ * 1 = 16-bit Framebuffer
+ */
 #include "global.h"
 #include "ultra64/viint.h"
 
