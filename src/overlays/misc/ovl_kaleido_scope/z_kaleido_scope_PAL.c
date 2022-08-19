@@ -2455,13 +2455,13 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
     KaleidoScope_LoadDungeonMap(play);
     Map_SetFloorPalettesData(play, pauseCtx->dungeonMapSlot - 3);
 
-    if ((play->sceneNum >= SCENE_YDAN) && (play->sceneNum <= SCENE_TAKARAYA)) {
+    if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
             KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment, 2040, interfaceCtx->mapPaletteIndex, 14);
         }
     }
 
-    if ((play->sceneNum >= SCENE_YDAN) && (play->sceneNum <= SCENE_TAKARAYA)) {
+    if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
             KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment + 0x800, 2040, interfaceCtx->mapPaletteIndex, 14);
         }
@@ -2552,7 +2552,7 @@ void KaleidoScope_Update(PlayState* play) {
 
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
 
-            switch (play->sceneNum) {
+            switch (play->sceneId) {
                 case SCENE_YDAN:
                 case SCENE_DDAN:
                 case SCENE_BDAN:
@@ -3061,7 +3061,7 @@ void KaleidoScope_Update(PlayState* play) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                             Play_SaveSceneFlags(play);
-                            gSaveContext.savedSceneNum = play->sceneNum;
+                            gSaveContext.savedSceneId = play->sceneId;
                             Sram_WriteSave(&play->sramCtx);
                             pauseCtx->unk_1EC = 4;
                             D_8082B25C = 3;
@@ -3300,7 +3300,7 @@ void KaleidoScope_Update(PlayState* play) {
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     pauseCtx->promptChoice = 0;
                     Play_SaveSceneFlags(play);
-                    gSaveContext.savedSceneNum = play->sceneNum;
+                    gSaveContext.savedSceneId = play->sceneId;
                     Sram_WriteSave(&play->sramCtx);
                     pauseCtx->state = 0xF;
                     D_8082B25C = 3;
@@ -3461,7 +3461,7 @@ void KaleidoScope_Update(PlayState* play) {
             func_800981B8(&play->objectCtx);
             func_800418D0(&play->colCtx, play);
 
-            switch (play->sceneNum) {
+            switch (play->sceneId) {
                 case SCENE_YDAN:
                 case SCENE_DDAN:
                 case SCENE_BDAN:
