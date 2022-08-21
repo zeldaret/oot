@@ -53,7 +53,7 @@ typedef struct EnTa {
     /* 0x02B8 */ EnNiw* superCuccos[3];
     /* 0x02C4 */ s16 superCuccoTimers[3]; // This is used to time animations and actions for super-cuccos
     /* 0x02CA */ u8 lastFoundSuperCuccoIdx;
-    /* 0x02CC */ s16 animTimer;
+    /* 0x02CC */ s16 timer;
     /* 0x02CE */ s16 rapidBlinks;
     /* 0x02D0 */ s16 subCamId;
     /* 0x02D2 */ s16 returnToCamId;

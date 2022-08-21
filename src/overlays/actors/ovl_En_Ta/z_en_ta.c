@@ -17,7 +17,6 @@
 #define TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM (1 << 3)
 #define TALON_STATE_FLAG_ANIMATION_FINISHED (1 << 4)
 #define TALON_STATE_FLAG_CUCCO_GAME_START_EVENT_TRIGGERED (1 << 5)
-#define TALON_STATE_FLAG_UNUSED (1 << 6)
 #define TALON_STATE_FLAG_FLOOR_CAMERA_ACTIVE (1 << 7)
 #define TALON_STATE_FLAG_RAISING_HANDS (1 << 8)
 #define TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY (1 << 9)
@@ -27,7 +26,7 @@
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
 #define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 
-typedef enum { 
+typedef enum {
     /* 0 */ TALON_EYE_INDEX_OPEN,
     /* 1 */ TALON_EYE_INDEX_HALF,
     /* 2 */ TALON_EYE_INDEX_CLOSED,
@@ -353,10 +352,10 @@ void EnTa_TalkWakingUp(EnTa* this, PlayState* play) {
 void EnTa_WakeUp(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
 
-    if (this->animTimer == 0) {
+    if (this->timer == 0) {
         EnTa_SetupAction(this, EnTa_TalkWakingUp, EnTa_AnimLoopCurrent);
         this->rapidBlinks = 3;
-        this->animTimer = 60;
+        this->timer = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
         this->currentAnimation = &gTalonStandAnim;
         Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
@@ -379,7 +378,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
             case EXCH_ITEM_CHICKEN:
                 player->actor.textId = 0x702B;
                 EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
-                this->animTimer = 40;
+                this->timer = 40;
                 break;
             default:
                 if (exchangeItemId != EXCH_ITEM_NONE) {
@@ -413,7 +412,7 @@ void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
             case EXCH_ITEM_POCKET_CUCCO:
                 player->actor.textId = 0x702B;
                 EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
-                this->animTimer = 40;
+                this->timer = 40;
                 break;
             default:
                 if (exchangeItemId != EXCH_ITEM_NONE) {
@@ -440,70 +439,70 @@ void EnTa_RunWithAccelerationAndSfx(EnTa* this, PlayState* play) {
     Actor_MoveForward(&this->actor);
 }
 
-void EnTa_RunAwayAnimRunOutOfGate(EnTa* this, PlayState* play) {
+void EnTa_RunAwayRunOutOfGate(EnTa* this, PlayState* play) {
     // Spawn dust particles
     func_80033480(play, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     EnTa_RunWithAccelerationAndSfx(this, play);
 
-    if (this->animTimer == 0) {
+    if (this->timer == 0) {
         Actor_Kill(&this->actor);
     }
 }
 
-void EnTa_RunAwayAnimTurnTowardsGate(EnTa* this, PlayState* play) {
+void EnTa_RunAwayTurnTowardsGate(EnTa* this, PlayState* play) {
     this->actor.world.rot.y += 0xC00;
     this->actor.shape.rot.y += 0xC00;
 
-    if (this->animTimer == 0) {
-        EnTa_SetupAction(this, EnTa_RunAwayAnimRunOutOfGate, EnTa_AnimLoopCurrent);
-        this->animTimer = 60;
+    if (this->timer == 0) {
+        EnTa_SetupAction(this, EnTa_RunAwayRunOutOfGate, EnTa_AnimLoopCurrent);
+        this->timer = 60;
     }
 }
 
-void EnTa_RunAwayAnimRunWest(EnTa* this, PlayState* play) {
+void EnTa_RunAwayRunWest(EnTa* this, PlayState* play) {
     // Spawn dust particles
     func_80033480(play, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     EnTa_RunWithAccelerationAndSfx(this, play);
 
-    if (this->animTimer == 0) {
-        EnTa_SetupAction(this, EnTa_RunAwayAnimTurnTowardsGate, EnTa_AnimLoopCurrent);
-        this->animTimer = 5;
+    if (this->timer == 0) {
+        EnTa_SetupAction(this, EnTa_RunAwayTurnTowardsGate, EnTa_AnimLoopCurrent);
+        this->timer = 5;
     }
 }
 
-void EnTa_RunAwayAnimTurnWest(EnTa* this, PlayState* play) {
+void EnTa_RunAwayTurnWest(EnTa* this, PlayState* play) {
     this->actor.world.rot.y -= 0xD00;
     this->actor.shape.rot.y -= 0xD00;
 
-    if (this->animTimer == 0) {
-        EnTa_SetupAction(this, EnTa_RunAwayAnimRunWest, EnTa_AnimLoopCurrent);
-        this->animTimer = 65;
+    if (this->timer == 0) {
+        EnTa_SetupAction(this, EnTa_RunAwayRunWest, EnTa_AnimLoopCurrent);
+        this->timer = 65;
     }
 }
 
-void EnTa_RunAwayAnimRunSouth(EnTa* this, PlayState* play) {
+void EnTa_RunAwayRunSouth(EnTa* this, PlayState* play) {
     // Spawn dust particles
     func_80033480(play, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
 
     EnTa_RunWithAccelerationAndSfx(this, play);
 
-    if (this->animTimer == 20) {
+    if (this->timer == 20) {
         Message_CloseTextbox(play);
     }
-    if (this->animTimer == 0) {
-        this->animTimer = 5;
-        EnTa_SetupAction(this, EnTa_RunAwayAnimTurnWest, EnTa_AnimLoopCurrent);
+    if (this->timer == 0) {
+        this->timer = 5;
+        EnTa_SetupAction(this, EnTa_RunAwayTurnWest, EnTa_AnimLoopCurrent);
     }
 }
 
-void EnTa_RunAwayAnimStart(EnTa* this, PlayState* play) {
+void EnTa_RunAwayStart(EnTa* this, PlayState* play) {
     this->actor.world.rot.y -= 0xC00;
     this->actor.shape.rot.y -= 0xC00;
 
-    if (this->animTimer == 0) {
+    if (this->timer == 0) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
-        EnTa_SetupAction(this, EnTa_RunAwayAnimRunSouth, EnTa_AnimLoopCurrent);
-        this->animTimer = 65;
+        EnTa_SetupAction(this, EnTa_RunAwayRunSouth, EnTa_AnimLoopCurrent);
+        this->timer = 65;
         this->actor.flags |= ACTOR_FLAG_4;
     }
 }
@@ -512,8 +511,8 @@ void EnTa_TalkWokenInCastle(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) {
         // Start the running away cutscene
         OnePointCutscene_Init(play, 4175, -99, &this->actor, CAM_ID_MAIN);
-        EnTa_SetupAction(this, EnTa_RunAwayAnimStart, EnTa_AnimLoopCurrent);
-        this->animTimer = 5;
+        EnTa_SetupAction(this, EnTa_RunAwayStart, EnTa_AnimLoopCurrent);
+        this->timer = 5;
         SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE);
         Animation_PlayOnce(&this->skelAnime, &gTalonRunTransitionAnim);
         this->currentAnimation = &gTalonRunAnim;
@@ -706,7 +705,7 @@ void EnTa_AnimateHandsUpDown(EnTa* this) {
 void EnTa_TransitionToPostCuccoGame(EnTa* this, PlayState* play) {
     EnTa_AnimateHandsUpDown(this);
 
-    if (this->animTimer == 0) {
+    if (this->timer == 0) {
         if (this->stateFlags & TALON_STATE_FLAG_FLOOR_CAMERA_ACTIVE) {
             this->stateFlags &= ~TALON_STATE_FLAG_FLOOR_CAMERA_ACTIVE;
             EnTa_RemoveFloorCamera(this, play);
@@ -731,7 +730,7 @@ void EnTa_TalkCuccoGameEnd(EnTa* this, PlayState* play) {
         play->transitionTrigger = TRANS_TRIGGER_START;
         SET_EVENTINF(EVENTINF_CUCCO_GAME_FINISHED);
         this->actionFunc = EnTa_TransitionToPostCuccoGame;
-        this->animTimer = 22;
+        this->timer = 22;
     }
 }
 
@@ -823,7 +822,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
 void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
     s32 i;
 
-    if (this->animTimer > 35) {
+    if (this->timer > 35) {
         // During the first part of the throw animation,
         // just turn them (on the table or the floor)
         for (i = 1; i < ARRAY_COUNT(this->superCuccos); i++) {
@@ -832,7 +831,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
                 this->superCuccos[i]->actor.shape.rot.y = this->superCuccos[i]->actor.world.rot.y;
             }
         }
-    } else if (this->animTimer == 35) {
+    } else if (this->timer == 35) {
         // At this point, prepare each super cucco for flight
         for (i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
             // Set a 10-16 frame zero-gravity time for each super cucco
@@ -851,7 +850,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
         for (i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
             // If the zero-gravity time of the cucco is over,
             // add gravity to it
-            if (this->animTimer < 35 - this->superCuccoTimers[i]) {
+            if (this->timer < 35 - this->superCuccoTimers[i]) {
                 if (this->superCuccos[i] != NULL) {
                     if (this->superCuccos[i]->actor.gravity > -2.0f) {
                         this->superCuccos[i]->actor.gravity -= 0.03f;
@@ -861,7 +860,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
         }
     }
 
-    if (this->animTimer == 0) {
+    if (this->timer == 0) {
         EnTa_SetupAction(this, EnTa_RunCuccoGame, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
@@ -871,14 +870,14 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
     }
 }
 
-void EnTa_StartingCuccoGameAnimation3(EnTa* this, PlayState* play) {
-    if (this->animTimer == 0 && this->stateFlags & TALON_STATE_FLAG_CUCCO_GAME_START_EVENT_TRIGGERED) {
+void EnTa_StartingCuccoGame3(EnTa* this, PlayState* play) {
+    if (this->timer == 0 && this->stateFlags & TALON_STATE_FLAG_CUCCO_GAME_START_EVENT_TRIGGERED) {
         EnTa_SetupAction(this, EnTa_ThrowSuperCuccos, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         // Play hand raise animation again so that it looks like Talon throws the cuccos
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 1.0f,
                          Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE, 0.0f);
-        this->animTimer = 50;
+        this->timer = 50;
 
         func_80088B34(30);                     // Set the minigame timer for 30 seconds
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME); // Start minigame music
@@ -894,12 +893,12 @@ void EnTa_StartingCuccoGameAnimation3(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
 
-void EnTa_StartingCuccoGameAnimation2(EnTa* this, PlayState* play) {
+void EnTa_StartingCuccoGame2(EnTa* this, PlayState* play) {
     if (this->stateFlags & TALON_STATE_FLAG_ANIMATION_FINISHED) {
-        EnTa_SetupAction(this, EnTa_StartingCuccoGameAnimation3, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_StartingCuccoGame3, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 0.0f, 1.0f, ANIMMODE_ONCE, 0.0f);
-        this->animTimer = 5;
+        this->timer = 5;
     }
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         this->stateFlags |= TALON_STATE_FLAG_CUCCO_GAME_START_EVENT_TRIGGERED;
@@ -907,9 +906,9 @@ void EnTa_StartingCuccoGameAnimation2(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
 
-void EnTa_StartingCuccoGameAnimation1(EnTa* this, PlayState* play) {
+void EnTa_StartingCuccoGame1(EnTa* this, PlayState* play) {
     if (this->stateFlags & TALON_STATE_FLAG_ANIMATION_FINISHED) {
-        EnTa_SetupAction(this, EnTa_StartingCuccoGameAnimation2, EnTa_AnimRunToEnd);
+        EnTa_SetupAction(this, EnTa_StartingCuccoGame2, EnTa_AnimRunToEnd);
         this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, -1.0f, 29.0f, 0.0f, ANIMMODE_ONCE, 10.0f);
     }
@@ -920,7 +919,7 @@ void EnTa_StartingCuccoGameAnimation1(EnTa* this, PlayState* play) {
 }
 
 void EnTa_StartCuccoGame(EnTa* this, PlayState* play) {
-    EnTa_SetupAction(this, EnTa_StartingCuccoGameAnimation1, EnTa_AnimRunToEnd);
+    EnTa_SetupAction(this, EnTa_StartingCuccoGame1, EnTa_AnimRunToEnd);
     this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
     Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
     Message_ContinueTextbox(play, 0x2080);
@@ -1246,8 +1245,8 @@ void EnTa_Update(Actor* thisx, PlayState* play) {
 
     this->stateFlags &= ~(TALON_STATE_FLAG_TRACKING_PLAYER | TALON_STATE_FLAG_SUPPRESS_BLINK);
 
-    if (this->animTimer > 0) {
-        this->animTimer--;
+    if (this->timer > 0) {
+        this->timer--;
     }
 }
 
@@ -1274,7 +1273,7 @@ s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         // But because this function is run first for the root limb (limbIndex 1),
         // and the flag is immediately unset, all subsequent calls end up
         // in the else if branch below and rocking always occurs.
-        // So this flag has no effect?
+        // So this flag has no effect.
         this->stateFlags &= ~TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
     } else if ((limbIndex == ENTA_LIMB_CHEST) || (limbIndex == ENTA_LIMB_LEFT_ARM) ||
                (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
