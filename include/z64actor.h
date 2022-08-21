@@ -498,6 +498,26 @@ typedef enum {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
+// EnDoor and DoorKiller share openAnim and playerIsOpening
+// Due to alignment, a substruct cannot be used in the structs of these actors.
+#define DOOR_ACTOR_BASE               \
+    /* 0x0000 */ Actor actor;         \
+    /* 0x014C */ SkelAnime skelAnime; \
+    /* 0x0190 */ u8 openAnim;         \
+    /* 0x0191 */ u8 playerIsOpening
+
+typedef struct DoorActorBase {
+    /* 0x0000 */ DOOR_ACTOR_BASE;
+} DoorActorBase;
+
+typedef enum {
+    /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,
+    /* 0x01 */ DOOR_OPEN_ANIM_CHILD_L,
+    /* 0x02 */ DOOR_OPEN_ANIM_ADULT_R,
+    /* 0x03 */ DOOR_OPEN_ANIM_CHILD_R,
+    /* 0x04 */ DOOR_OPEN_ANIM_MAX
+} DoorOpenAnim;
+
 #define UPDBGCHECKINFO_FLAG_0 (1 << 0) // check wall
 #define UPDBGCHECKINFO_FLAG_1 (1 << 1) // check ceiling
 #define UPDBGCHECKINFO_FLAG_2 (1 << 2) // check floor and water
@@ -512,32 +532,40 @@ typedef enum {
 #define NBITS_TO_MASK(n) \
     ((1 << (n)) - 1)
 
-// Extracts the `w`-bit value at position `s` in `p`, shifts then masks
+// Extracts the `n`-bit value at position `s` in `p`, shifts then masks
 // No possibility of sign extension
-#define PARAMS_GET(p, s, w) \
-    (((p) >> (s)) & NBITS_TO_MASK(w))
+#define PARAMS_GET(p, s, n) \
+    (((p) >> (s)) & NBITS_TO_MASK(n))
 
-// Extracts the `w`-bit value at position `s` in `p`, masks then shifts
+// Extracts the `n`-bit value at position `s` in `p`, masks then shifts
 // Possibility of sign extension
-#define PARAMS_GET2(p, s, w) \
-    (((p) & (NBITS_TO_MASK(w) << (s))) >> (s))
+#define PARAMS_GET2(p, s, n) \
+    (((p) & (NBITS_TO_MASK(n) << (s))) >> (s))
 
 // Extracts all bits past position `s` in `p`
 #define PARAMS_GET_NOMASK(p, s) \
     ((p) >> (s))
 
-// Extracts the `w`-bit value at position `s` in `p` without shifting it from its current position
-#define PARAMS_GET_NOSHIFT(p, s, w) \
-    ((p) & (NBITS_TO_MASK(w) << (s)))
+// Extracts the `n`-bit value at position `s` in `p` without shifting it from its current position
+#define PARAMS_GET_NOSHIFT(p, s, n) \
+    ((p) & (NBITS_TO_MASK(n) << (s)))
 
-// Extracts the `w`-bit value at position `s1` in `p` and shifts it down to position `s2`, shifts then masks
+// Extracts the `n`-bit value at position `s1` in `p` and shifts it down to position `s2`, shifts then masks
 // No possibility of sign extension
-#define PARAMS_GET_S(p, s1, s2, w) \
-    (((p) >> ((s1) - (s2))) & (NBITS_TO_MASK(w) << (s2)))
+#define PARAMS_GET_S(p, s1, s2, n) \
+    (((p) >> ((s1) - (s2))) & (NBITS_TO_MASK(n) << (s2)))
 
-// Extracts the `w`-bit value at position `s1` in `p` and shifts it down to position `s2`, masks then shifts
+// Extracts the `n`-bit value at position `s1` in `p` and shifts it down to position `s2`, masks then shifts
 // Possibility of sign extension
-#define PARAMS_GET2_S(p, s1, s2, m) \
-    (((p) & (NBITS_TO_MASK(m) << (s1))) >> ((s1) - (s2)))
+#define PARAMS_GET2_S(p, s1, s2, n) \
+    (((p) & (NBITS_TO_MASK(n) << (s1))) >> ((s1) - (s2)))
+
+// Generates a bitmask for bit position `s` of length `n`
+#define PARAMS_MAKE_MASK(s, n) PARAMS_GET_NOSHIFT(~0, s, n)
+
+
+
+#define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
+#define GET_TRANSITION_ACTOR_INDEX(actor) PARAMS_GET_NOMASK((u16)(actor)->params, 10)
 
 #endif

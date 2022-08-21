@@ -427,7 +427,7 @@ f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, s32* bgId) {
             norm->z = 0.0f;
             floorY = BGCHECK_Y_MIN;
             break;
-        } else if (func_80041D4C(colCtx, floorPoly, *bgId) == 1) {
+        } else if (SurfaceType_GetFloorType(colCtx, floorPoly, *bgId) == FLOOR_TYPE_1) {
             // floor is not solid, check below that floor.
             pos->y = floorY - 10.0f;
             continue;
@@ -749,34 +749,34 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
     return true;
 }
 
-#define SHRINKWIN_MASK (0xF000)
-#define SHRINKWINVAL_MASK (0x7000)
-#define SHRINKWIN_CURVAL (0x8000)
+#define LETTERBOX_MASK (0xF000)
+#define LETTERBOX_SIZE_MASK (0x7000)
+#define LETTERBOX_INSTANT (0x8000)
 #define IFACE_ALPHA_MASK (0x0F00)
 
 void Camera_UpdateInterface(s16 flags) {
     s16 interfaceAlpha;
 
-    if ((flags & SHRINKWIN_MASK) != SHRINKWIN_MASK) {
-        switch (flags & SHRINKWINVAL_MASK) {
+    if ((flags & LETTERBOX_MASK) != LETTERBOX_MASK) {
+        switch (flags & LETTERBOX_SIZE_MASK) {
             case 0x1000:
-                sCameraShrinkWindowVal = 0x1A;
+                sCameraLetterboxSize = 26;
                 break;
             case 0x2000:
-                sCameraShrinkWindowVal = 0x1B;
+                sCameraLetterboxSize = 27;
                 break;
             case 0x3000:
-                sCameraShrinkWindowVal = 0x20;
+                sCameraLetterboxSize = 32;
                 break;
             default:
-                sCameraShrinkWindowVal = 0;
+                sCameraLetterboxSize = 0;
                 break;
         }
 
-        if (flags & SHRINKWIN_CURVAL) {
-            ShrinkWindow_SetCurrentVal(sCameraShrinkWindowVal);
+        if (flags & LETTERBOX_INSTANT) {
+            Letterbox_SetSize(sCameraLetterboxSize);
         } else {
-            ShrinkWindow_SetVal(sCameraShrinkWindowVal);
+            Letterbox_SetSizeTarget(sCameraLetterboxSize);
         }
     }
 
@@ -6562,7 +6562,7 @@ s32 Camera_Special7(Camera* camera) {
 
     yOffset = Player_GetHeight(camera->player);
     if (camera->animState == 0) {
-        if (camera->play->sceneNum == SCENE_JYASINZOU) {
+        if (camera->play->sceneId == SCENE_JYASINZOU) {
             // Spirit Temple
             rwData->index = 3;
         } else if (playerPosRot->pos.x < 1500.0f) {
@@ -6941,7 +6941,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     camera->xzOffsetUpdateRate = CAM_DATA_SCALED(OREG(2));
     camera->yOffsetUpdateRate = CAM_DATA_SCALED(OREG(3));
     camera->fovUpdateRate = CAM_DATA_SCALED(OREG(4));
-    sCameraShrinkWindowVal = 0x20;
+    sCameraLetterboxSize = 32;
     sCameraInterfaceAlpha = 0;
     camera->unk_14C = 0;
     camera->setting = camera->prevSetting = CAM_SET_FREE0;
@@ -7264,7 +7264,7 @@ s32 Camera_UpdateWater(Camera* camera) {
         if (camera->waterDistortionTimer > 0) {
             camera->waterDistortionTimer--;
             camera->distortionFlags |= DISTORTION_UNDERWATER_STRONG;
-        } else if (camera->play->sceneNum == SCENE_TURIBORI) {
+        } else if (camera->play->sceneId == SCENE_TURIBORI) {
             camera->distortionFlags |= DISTORTION_UNDERWATER_FISHING;
         } else {
             camera->distortionFlags |= DISTORTION_UNDERWATER_WEAK;
@@ -7616,7 +7616,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     Camera_UpdateDistortion(camera);
 
-    if ((camera->play->sceneNum == SCENE_SPOT00) && (camera->fov < 59.0f)) {
+    if ((camera->play->sceneId == SCENE_SPOT00) && (camera->fov < 59.0f)) {
         View_SetScale(&camera->play->view, 0.79f);
     } else {
         View_SetScale(&camera->play->view, 1.0f);
@@ -7860,7 +7860,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
         }
     }
     if (((setting == CAM_SET_MEADOW_BIRDS_EYE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
-        (camera->play->sceneNum == SCENE_SPOT05)) {
+        (camera->play->sceneId == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
     }

@@ -359,16 +359,16 @@ void EnGo_ChangeAnim(EnGo* this, s32 index) {
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
-    } else if (play->sceneNum == SCENE_HIDAN && !Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8)) && LINK_IS_ADULT &&
+    } else if (play->sceneId == SCENE_HIDAN && !Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8)) && LINK_IS_ADULT &&
                PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10) {
         return true;
-    } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x00) {
+    } else if (play->sceneId == SCENE_SPOT18 && LINK_IS_ADULT && PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x00) {
         return true;
-    } else if (play->sceneNum == SCENE_SPOT16 && LINK_IS_CHILD &&
+    } else if (play->sceneId == SCENE_SPOT16 && LINK_IS_CHILD &&
                (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x20 || PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x30 ||
                 PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x40)) {
         return true;
-    } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD &&
+    } else if (play->sceneId == SCENE_SPOT18 && LINK_IS_CHILD &&
                (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x50 || PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x60 ||
                 PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x70)) {
         return true;

@@ -52,7 +52,7 @@ static Color_RGB8 sColors[][4] = {
     { { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 } }, // gerudo training grounds
 };
 
-static s16 sScenes[] = {
+static s16 sSceneIds[] = {
     SCENE_YDAN,      SCENE_DDAN,    SCENE_BMORI1, SCENE_HIDAN, SCENE_MIZUSIN,
     SCENE_JYASINZOU, SCENE_HAKADAN, SCENE_GANON,  SCENE_MEN,
 };
@@ -180,7 +180,7 @@ s32 ObjOshihiki_NoSwitchPress(ObjOshihiki* this, DynaPolyActor* dyna, PlayState*
         return 1;
     } else if (dyna->actor.id == ACTOR_OBJ_SWITCH) {
         dynaSwitchFlag = PARAMS_GET(dyna->actor.params, 8, 6);
-        switch (dyna->actor.params & 0x33) { // TODO params macro
+        switch (dyna->actor.params & 0x33) { // Does not fit any standard params getter macro
             case 0x20: // Normal blue switch
                 if ((dynaSwitchFlag == PARAMS_GET(this->dyna.actor.params, 8, 6)) &&
                     Flags_GetSwitch(play, dynaSwitchFlag)) {
@@ -249,8 +249,8 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
 
     paramsColorIdx = PARAMS_GET(this->dyna.actor.params, 6, 2);
 
-    for (i = 0; i < ARRAY_COUNT(sScenes); i++) {
-        if (sScenes[i] == play->sceneNum) {
+    for (i = 0; i < ARRAY_COUNT(sSceneIds); i++) {
+        if (sSceneIds[i] == play->sceneId) {
             break;
         }
     }
@@ -604,8 +604,8 @@ void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play) {
             ObjOshihiki_SetupOnActor(this, play);
         }
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSfx2(&this->dyna.actor, SurfaceType_GetSfx(&play->colCtx, this->floorPolys[this->highestFloor],
-                                                                  this->floorBgIds[this->highestFloor]) +
+        Audio_PlayActorSfx2(&this->dyna.actor, SurfaceType_GetSfxId(&play->colCtx, this->floorPolys[this->highestFloor],
+                                                                    this->floorBgIds[this->highestFloor]) +
                                                    SFX_FLAG);
     }
 }
@@ -648,7 +648,7 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_YDAN:
         case SCENE_DDAN:
         case SCENE_BMORI1:

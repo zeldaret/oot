@@ -60,8 +60,8 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
             break;
         }
 
-        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneNum >= SCENE_YDAN_BOSS) &&
-            (play->sceneNum <= SCENE_GANON_FINAL)) {
+        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneId >= SCENE_YDAN_BOSS) &&
+            (play->sceneId <= SCENE_GANON_FINAL)) {
             if (gBossMarkState == 0) {
                 Math_ApproachF(&gBossMarkScale, 1.5f, 1.0f, 0.041f);
                 if (gBossMarkScale == 1.5f) {
@@ -98,7 +98,7 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
                 if (Flags_GetTreasure(play, markPoint->chestFlag)) {
                     display = false;
                 } else {
-                    switch (play->sceneNum) {
+                    switch (play->sceneId) {
                         case SCENE_YDAN_BOSS:
                         case SCENE_DDAN_BOSS:
                         case SCENE_BDAN_BOSS:
@@ -150,7 +150,7 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
 void PauseMapMark_Draw(PlayState* play) {
     PauseMapMark_Init(play);
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_YDAN:
         case SCENE_DDAN:
         case SCENE_BDAN:

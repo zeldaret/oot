@@ -95,7 +95,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
     EnToryo* this = (EnToryo*)thisx;
     s32 pad;
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_SPOT09:
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 this->stateFlags |= 1;
