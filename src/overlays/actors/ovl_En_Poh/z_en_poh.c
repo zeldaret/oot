@@ -230,16 +230,16 @@ void EnPoh_Init(Actor* thisx, PlayState* play) {
         }
     }
     if (this->actor.params < EN_POH_SHARP) {
-        this->waitObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_POH);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_POH);
         this->infoIdx = EN_POH_INFO_NORMAL;
         this->actor.naviEnemyId = NAVI_ENEMY_POE;
     } else {
-        this->waitObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_PO_COMPOSER);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_PO_COMPOSER);
         this->infoIdx = EN_POH_INFO_COMPOSER;
         this->actor.naviEnemyId = NAVI_ENEMY_POE_COMPOSER;
     }
     this->info = &sPoeInfo[this->infoIdx];
-    if (this->waitObjectSlot < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
     }
 }
@@ -906,8 +906,8 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
 void EnPoh_Update(Actor* thisx, PlayState* play) {
     EnPoh* this = (EnPoh*)thisx;
 
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        this->actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.update = EnPoh_UpdateLiving;
         Actor_SetObjectDependency(play, &this->actor);
         if (this->infoIdx == EN_POH_INFO_NORMAL) {

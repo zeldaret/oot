@@ -481,8 +481,8 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
-    this->waitObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_IN);
-    if (this->waitObjectSlot < 0 && this->actor.params > 0) {
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_IN);
+    if (this->requiredObjectSlot < 0 && this->actor.params > 0) {
         this->actionFunc = NULL;
         Actor_Kill(&this->actor);
         return;
@@ -509,7 +509,7 @@ void EnIn_Destroy(Actor* thisx, PlayState* play) {
 void EnIn_WaitForObject(EnIn* this, PlayState* play) {
     s32 sp3C = 0;
 
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot) || this->actor.params <= 0) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
         SkelAnime_InitFlex(play, &this->skelAnime, &gIngoSkel, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(play, &this->collider);

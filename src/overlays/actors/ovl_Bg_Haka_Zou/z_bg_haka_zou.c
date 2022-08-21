@@ -102,11 +102,11 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
         }
     }
 
-    this->waitObjectSlot = (thisx->params == STA_BOMBABLE_RUBBLE)
-                               ? Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
-                               : Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
+    this->requiredObjectSlot = (thisx->params == STA_BOMBABLE_RUBBLE)
+                                   ? Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
+                                   : Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
 
-    if (this->waitObjectSlot < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(thisx);
     } else if ((thisx->params != STA_UNKNOWN) && Flags_GetSwitch(play, this->switchFlag)) {
         if (thisx->params != STA_GIANT_BIRD_STATUE) {
@@ -158,8 +158,8 @@ void func_808828F4(BgHakaZou* this, PlayState* play) {
 void BgHakaZou_Wait(BgHakaZou* this, PlayState* play) {
     CollisionHeader* colHeader;
 
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        this->dyna.actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         this->dyna.actor.draw = BgHakaZou_Draw;
 
         if (this->dyna.actor.params == STA_UNKNOWN) {

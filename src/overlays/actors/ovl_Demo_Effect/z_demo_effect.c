@@ -196,7 +196,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_effect.c", 723);
     } else {
-        this->waitObjectSlot = objectSlot;
+        this->requiredObjectSlot = objectSlot;
     }
 
     this->effectFlags = 0;
@@ -534,8 +534,8 @@ void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
  * initUpdateFunc/initDrawFunc are set during initialization and are NOT executed.
  */
 void DemoEffect_WaitForObject(DemoEffect* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        this->actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 

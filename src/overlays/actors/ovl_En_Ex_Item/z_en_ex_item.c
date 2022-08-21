@@ -103,9 +103,9 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     }
 
     if (this->getItemObjectId >= 0) {
-        this->waitObjectSlot = Object_GetSlot(&play->objectCtx, this->getItemObjectId);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->getItemObjectId);
         this->actor.draw = NULL;
-        if (this->waitObjectSlot < 0) {
+        if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             // "What?"
             osSyncPrintf("なにみの？ %d\n", this->actor.params);
@@ -120,14 +120,14 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
 void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
     s32 onCounter;
 
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         // "End of transfer"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
-        this->actor.objectSlot = this->waitObjectSlot;
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnExItem_Draw;
         this->stopRotate = false;
         onCounter = false;

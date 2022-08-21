@@ -66,12 +66,12 @@ void BgHakaMegane_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (thisx->params < 3) {
-        this->waitObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS);
     } else {
-        this->waitObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
     }
 
-    if (this->waitObjectSlot < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(thisx);
     } else {
         this->actionFunc = func_8087DB24;
@@ -88,8 +88,8 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        this->dyna.actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {

@@ -58,7 +58,7 @@ void BgMjin_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     objectSlot = Object_GetSlot(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
-    this->waitObjectSlot = objectSlot;
+    this->requiredObjectSlot = objectSlot;
     if (objectSlot < 0) {
         Actor_Kill(thisx);
     } else {
@@ -76,10 +76,10 @@ void func_808A0850(BgMjin* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         colHeader = NULL;
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objectSlot = this->waitObjectSlot;
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;

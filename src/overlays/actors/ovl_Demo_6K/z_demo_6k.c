@@ -85,7 +85,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_6k.c", 334);
     } else {
-        this->waitObjectSlot = objectSlot;
+        this->requiredObjectSlot = objectSlot;
     }
 
     Demo6K_SetupAction(this, Demo6K_WaitForObject);
@@ -198,8 +198,8 @@ void Demo6K_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void Demo6K_WaitForObject(Demo6K* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        this->actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->initActionFunc;
     }

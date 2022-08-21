@@ -23,7 +23,7 @@ typedef struct EnExItem {
     /* 0x0160 */ s16 killItem;
     /* 0x0164 */ f32 scale;
     /* 0x0168 */ f32 unkFloat; // set to the same value as scale, but unused
-    /* 0x016C */ s8 waitObjectSlot;
+    /* 0x016C */ s8 requiredObjectSlot;
     /* 0x0170 */ Vec3f initPos; // unused
     /* 0x017C */ EnExItemLightFunc unk_17C;
     /* 0x0180 */ EnExItemLightFunc unk_180;

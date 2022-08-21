@@ -137,11 +137,11 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.z = 0.25f;
             this->collider.info.bumper.dmgFlags = DMG_ARROW;
             this->objectId = OBJECT_TSUBO;
-            this->waitObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
-            if (this->waitObjectSlot < 0) {
+            this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
+            if (this->requiredObjectSlot < 0) {
                 Actor_Kill(&this->actor);
                 // "what?"
-                osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->waitObjectSlot);
+                osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
                 // "bank is funny"
                 osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
@@ -197,9 +197,9 @@ void EnGSwitch_Break(EnGSwitch* this, PlayState* play) {
 }
 
 void EnGSwitch_WaitForObject(EnGSwitch* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->waitObjectSlot].segment);
-        this->actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnGSwitch_DrawPot;
         this->actionFunc = EnGSwitch_ArcheryPot;
     }

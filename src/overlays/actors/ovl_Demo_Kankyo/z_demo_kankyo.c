@@ -187,7 +187,7 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
-        this->waitObjectSlot = objectSlot;
+        this->requiredObjectSlot = objectSlot;
     }
 
     switch (this->actor.params) {
@@ -279,7 +279,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 temp;
 
-    if (this->actor.objectSlot == this->waitObjectSlot) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_ROCK_1:
             case DEMOKANKYO_ROCK_2:
@@ -428,7 +428,7 @@ void DemoKankyo_Update(Actor* thisx, PlayState* play) {
 void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
 
-    if (this->actor.objectSlot == this->waitObjectSlot) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
@@ -476,8 +476,8 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
                 break;
         }
     }
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        this->actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
     }
 }
 

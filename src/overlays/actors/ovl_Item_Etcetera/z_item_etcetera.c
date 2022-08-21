@@ -69,7 +69,7 @@ void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_item_etcetera.c", 241);
     } else {
-        this->waitObjectSlot = objectSlot;
+        this->requiredObjectSlot = objectSlot;
     }
     this->giDrawId = sDrawItemIndices[type];
     this->getItemId = sGetItemIds[type];
@@ -109,8 +109,8 @@ void ItemEtcetera_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void ItemEtcetera_WaitForObject(ItemEtcetera* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
-        this->actor.objectSlot = this->waitObjectSlot;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->futureActionFunc;
     }

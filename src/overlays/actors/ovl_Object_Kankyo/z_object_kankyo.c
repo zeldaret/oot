@@ -781,16 +781,16 @@ void ObjectKankyo_SunGraveSparkInit(ObjectKankyo* this, PlayState* play) {
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1251);
     } else {
-        this->waitObjectSlot = objectSlot;
+        this->requiredObjectSlot = objectSlot;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForSunGraveSparkObject);
 }
 
 void ObjectKankyo_WaitForSunGraveSparkObject(ObjectKankyo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->requiredObjectLoaded = true;
         this->effects[0].alpha = 0;
-        this->actor.objectSlot = this->waitObjectSlot;
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->effects[0].size = 7.0f;
         ObjectKankyo_SetupAction(this, ObjectKankyo_SunGraveSpark);
     }
@@ -880,15 +880,15 @@ void ObjectKankyo_InitBeams(ObjectKankyo* this, PlayState* play) {
     if (objectIndex < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1449);
     } else {
-        this->waitObjectSlot = objectIndex;
+        this->requiredObjectSlot = objectIndex;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForBeamObject);
 }
 
 void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->requiredObjectLoaded = true;
-        this->actor.objectSlot = this->waitObjectSlot;
+        this->actor.objectSlot = this->requiredObjectSlot;
         ObjectKankyo_SetupAction(this, ObjectKankyo_Beams);
     }
 }

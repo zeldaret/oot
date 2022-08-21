@@ -111,7 +111,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     }
     osSyncPrintf("bank_ID = %d\n", objectSlot);
     osSyncPrintf("status = %d\n", this->textureEntryIndex);
-    this->waitObjectSlot = objectSlot;
+    this->requiredObjectSlot = objectSlot;
     this->texture = sDoorTextures[this->textureEntryIndex].texture;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -460,7 +460,7 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->waitObjectSlot].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
 }
@@ -470,7 +470,7 @@ void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
  * (door or rubble).
  */
 void DoorKiller_WaitForObject(DoorKiller* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         DoorKiller_UpdateTexture(&this->actor, play);
         switch (this->actor.params & 0xFF) {
             case DOOR_KILLER_DOOR:

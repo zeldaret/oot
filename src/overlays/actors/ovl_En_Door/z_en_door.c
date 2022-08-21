@@ -135,9 +135,9 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         return;
     }
 
-    this->waitObjectSlot = objectSlot;
+    this->requiredObjectSlot = objectSlot;
     this->dListIndex = objectInfo->dListIndex;
-    if (this->actor.objectSlot == this->waitObjectSlot) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         EnDoor_SetupType(this, play);
     } else {
         this->actionFunc = EnDoor_SetupType;
@@ -175,10 +175,10 @@ void EnDoor_Destroy(Actor* thisx, PlayState* play) {
 void EnDoor_SetupType(EnDoor* this, PlayState* play) {
     s32 doorType;
 
-    if (Object_IsLoaded(&play->objectCtx, this->waitObjectSlot)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         doorType = ENDOOR_GET_TYPE(&this->actor);
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objectSlot = this->waitObjectSlot;
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
             doorType = (gSaveContext.dayTime > CLOCK_TIME(18, 0) && gSaveContext.dayTime < CLOCK_TIME(21, 0))
@@ -358,7 +358,7 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
 void EnDoor_Draw(Actor* thisx, PlayState* play) {
     EnDoor* this = (EnDoor*)thisx;
 
-    if (this->actor.objectSlot == this->waitObjectSlot) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_door.c", 910);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
