@@ -10,6 +10,7 @@
 #define FLAGS 0
 
 #define GET_TYPE(this) ((this->dyna.actor.params >> 8) & 7)
+#define USING_SWITCH_FLAG(this) (!((this->dyna.actor.params >> 6) & 1))
 
 void BgIceShelter_Init(Actor* thisx, PlayState* play);
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play);
@@ -183,9 +184,8 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
-    // The first check here implies that a red ice actor could be made to always reappear on room reload,
-    // without using a switch flag. In the vanilla game this never happens, all red ice actors use a flag.
-    if (!((this->dyna.actor.params >> 6) & 1) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
+    // The only red ice actor in the game that doesn't use a switch flag is the one for King Zora
+    if (USING_SWITCH_FLAG(this) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -432,7 +432,7 @@ void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
     sSteamSpawnFuncs[type](this, play, particleSpawningChance, sSteamEffectScales[type]);
 
     if (this->alpha <= 0) {
-        if (!((this->dyna.actor.params >> 6) & 1)) {
+        if (USING_SWITCH_FLAG(this)) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
         }
 
