@@ -58,7 +58,7 @@ void GameState_SetFBFilter(Gfx** gfx) {
     *gfx = gfxP;
 }
 
-void func_800C4344(GameState* gameState) {
+void GameState_UpdateRegs(GameState* gameState) {
     Input* selectedInput;
     s32 hexDumpSize;
     u16 hReg82;
@@ -84,7 +84,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (gIsCtrlr2Valid) {
-        func_8006390C(&gameState->input[1]);
+        Regs_UpdateEditor(&gameState->input[1]);
     }
 
     gDmaMgrVerbose = HREG(60);
@@ -240,7 +240,7 @@ void GameState_Update(GameState* gameState) {
 
     gameState->main(gameState);
 
-    func_800C4344(gameState);
+    GameState_UpdateRegs(gameState);
 
     if (SREG(63) == 1u) {
         if (SREG(48) < 0) {

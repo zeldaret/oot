@@ -92,8 +92,7 @@ char sRegGroupChars[REG_GROUPS] = {
     'b', // bREG
 };
 
-// Initialize GameInfo
-void func_800636C0(void) {
+void Regs_InitContext(void) {
     s32 i;
 
     gRegsContext = (RegsContext*)SystemArena_MallocDebug(sizeof(RegsContext), "../z_debug.c", 260);
@@ -154,7 +153,7 @@ void func_80063828(GfxPrint* printer) {
 }
 
 // Process inputs to control the reg editor
-void func_8006390C(Input* input) {
+void Regs_UpdateEditor(Input* input) {
     s32 dPadInputCur;
     s32 pageDataStart = ((gRegsContext->regGroup * REG_PAGES) + gRegsContext->regPage - 1) * REGS_PER_PAGE;
     s32 increment;
@@ -241,7 +240,7 @@ void func_8006390C(Input* input) {
 }
 
 // Draw the reg editor
-void func_80063C04(GfxPrint* printer) {
+void Regs_DrawEditor(GfxPrint* printer) {
     s32 i;
     s32 pageStart = (gRegsContext->regPage - 1) * REGS_PER_PAGE;
     s32 pageDataStart = ((gRegsContext->regGroup * REG_PAGES) + gRegsContext->regPage - 1) * REGS_PER_PAGE;
@@ -287,7 +286,7 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     }
 
     if (gRegsContext->regPage != 0) {
-        func_80063C04(&printer);
+        Regs_DrawEditor(&printer);
     }
 
     sDebugPrintTextBufferNumUsed = 0;
