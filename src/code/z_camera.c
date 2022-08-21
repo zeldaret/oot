@@ -574,71 +574,86 @@ s16 Camera_XZAngle(Vec3f* to, Vec3f* from) {
     return CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(from->x - to->x, from->z - to->z)));
 }
 
-s16 func_80044ADC(Camera* camera, s16 yaw, s16 arg2) {
-    static f32 D_8015CE50;
-    static f32 D_8015CE54;
-    static CamColChk D_8015CE58;
+s16 Camera_GetPitchAdjFromFloorHeightDiffs_(Camera* camera, s16 viewYaw, s16 initAndReturnZero) {
+    static f32 sFloorYSmallOffsetForwards;
+    static f32 sFloorYBigOffsetForwards;
+    static CamColChk sCamColChk_;
     Vec3f playerPos;
-    Vec3f rotatedPos;
+    Vec3f playerPosSmallOffsetForwards;
     Vec3f floorNorm;
-    f32 temp_f2;
-    s16 temp_s0;
-    s16 temp_s1;
-    f32 phi_f18;
-    f32 sinYaw;
-    f32 cosYaw;
+    f32 playerPosOffsetY;
+    s16 pitchSmallOffset;
+    s16 pitchBigOffset;
+    f32 floorYDiffBigOffsetForwards;
+    f32 viewForwardsUnitX;
+    f32 viewForwardsUnitZ;
     s32 bgId;
-    f32 sp30;
-    f32 sp2C;
-    f32 phi_f16;
+    f32 smallOffsetXZ;
+    f32 bigOffsetXZ;
+    f32 floorYDiffSmallOffsetForwards;
     f32 playerHeight;
 
-    sinYaw = Math_SinS(yaw);
-    cosYaw = Math_CosS(yaw);
+    viewForwardsUnitX = Math_SinS(viewYaw);
+    viewForwardsUnitZ = Math_CosS(viewYaw);
+
     playerHeight = Player_GetHeight(camera->player);
-    temp_f2 = CAM_DATA_SCALED(OREG(19)) * playerHeight;
-    sp30 = CAM_DATA_SCALED(OREG(17)) * playerHeight;
-    sp2C = CAM_DATA_SCALED(OREG(18)) * playerHeight;
+    playerPosOffsetY = CAM_DATA_SCALED(OREG(19)) * playerHeight; // 1.2 *
+    smallOffsetXZ = CAM_DATA_SCALED(OREG(17)) * playerHeight;    // 1 *
+    bigOffsetXZ = CAM_DATA_SCALED(OREG(18)) * playerHeight;      // 2.5 *
+
     playerPos.x = camera->playerPosRot.pos.x;
-    playerPos.y = camera->playerGroundY + temp_f2;
+    playerPos.y = camera->playerGroundY + playerPosOffsetY;
     playerPos.z = camera->playerPosRot.pos.z;
-    rotatedPos.x = playerPos.x + (sp30 * sinYaw);
-    rotatedPos.y = playerPos.y;
-    rotatedPos.z = playerPos.z + (sp30 * cosYaw);
-    if (arg2 || (camera->play->state.frames % 2) == 0) {
-        D_8015CE58.pos.x = playerPos.x + (sp2C * sinYaw);
-        D_8015CE58.pos.y = playerPos.y;
-        D_8015CE58.pos.z = playerPos.z + (sp2C * cosYaw);
-        Camera_BGCheckInfo(camera, &playerPos, &D_8015CE58);
-        if (arg2) {
-            D_8015CE50 = D_8015CE54 = camera->playerGroundY;
+
+    playerPosSmallOffsetForwards.x = playerPos.x + (smallOffsetXZ * viewForwardsUnitX);
+    playerPosSmallOffsetForwards.y = playerPos.y;
+    playerPosSmallOffsetForwards.z = playerPos.z + (smallOffsetXZ * viewForwardsUnitZ);
+
+    if (initAndReturnZero || (camera->play->state.frames % 2) == 0) {
+        sCamColChk_.pos.x = playerPos.x + (bigOffsetXZ * viewForwardsUnitX);
+        sCamColChk_.pos.y = playerPos.y;
+        sCamColChk_.pos.z = playerPos.z + (bigOffsetXZ * viewForwardsUnitZ);
+
+        Camera_BGCheckInfo(camera, &playerPos, &sCamColChk_);
+
+        if (initAndReturnZero) {
+            sFloorYSmallOffsetForwards = sFloorYBigOffsetForwards = camera->playerGroundY;
         }
     } else {
-        sp2C = OLib_Vec3fDistXZ(&playerPos, &D_8015CE58.pos);
-        D_8015CE58.pos.x += D_8015CE58.norm.x * 5.0f;
-        D_8015CE58.pos.y += D_8015CE58.norm.y * 5.0f;
-        D_8015CE58.pos.z += D_8015CE58.norm.z * 5.0f;
-        if (sp2C < sp30) {
-            sp30 = sp2C;
-            D_8015CE50 = D_8015CE54 = Camera_GetFloorYLayer(camera, &floorNorm, &D_8015CE58.pos, &bgId);
+        bigOffsetXZ = OLib_Vec3fDistXZ(&playerPos, &sCamColChk_.pos);
+
+        sCamColChk_.pos.x += sCamColChk_.norm.x * 5.0f;
+        sCamColChk_.pos.y += sCamColChk_.norm.y * 5.0f;
+        sCamColChk_.pos.z += sCamColChk_.norm.z * 5.0f;
+
+        if (bigOffsetXZ < smallOffsetXZ) {
+            smallOffsetXZ = bigOffsetXZ;
+            sFloorYSmallOffsetForwards = sFloorYBigOffsetForwards =
+                Camera_GetFloorYLayer(camera, &floorNorm, &sCamColChk_.pos, &bgId);
         } else {
-            D_8015CE50 = Camera_GetFloorYLayer(camera, &floorNorm, &rotatedPos, &bgId);
-            D_8015CE54 = Camera_GetFloorYLayer(camera, &floorNorm, &D_8015CE58.pos, &bgId);
+            sFloorYSmallOffsetForwards =
+                Camera_GetFloorYLayer(camera, &floorNorm, &playerPosSmallOffsetForwards, &bgId);
+            sFloorYBigOffsetForwards = Camera_GetFloorYLayer(camera, &floorNorm, &sCamColChk_.pos, &bgId);
         }
 
-        if (D_8015CE50 == BGCHECK_Y_MIN) {
-            D_8015CE50 = camera->playerGroundY;
+        if (sFloorYSmallOffsetForwards == BGCHECK_Y_MIN) {
+            sFloorYSmallOffsetForwards = camera->playerGroundY;
         }
 
-        if (D_8015CE54 == BGCHECK_Y_MIN) {
-            D_8015CE54 = D_8015CE50;
+        if (sFloorYBigOffsetForwards == BGCHECK_Y_MIN) {
+            sFloorYBigOffsetForwards = sFloorYSmallOffsetForwards;
         }
     }
-    phi_f16 = CAM_DATA_SCALED(OREG(20)) * (D_8015CE50 - camera->playerGroundY);
-    phi_f18 = (1.0f - CAM_DATA_SCALED(OREG(20))) * (D_8015CE54 - camera->playerGroundY);
-    temp_s0 = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(phi_f16, sp30)));
-    temp_s1 = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(phi_f18, sp2C)));
-    return temp_s0 + temp_s1;
+
+    floorYDiffSmallOffsetForwards =
+        CAM_DATA_SCALED(OREG(20)) * (sFloorYSmallOffsetForwards - camera->playerGroundY); // 0.8 *
+    floorYDiffBigOffsetForwards =
+        (1.0f - CAM_DATA_SCALED(OREG(20))) * (sFloorYBigOffsetForwards - camera->playerGroundY); // 0.2 *
+
+    pitchSmallOffset = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffSmallOffsetForwards, smallOffsetXZ)));
+    pitchBigOffset = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffBigOffsetForwards, bigOffsetXZ)));
+
+    return pitchSmallOffset + pitchBigOffset;
 }
 
 Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {
@@ -1547,7 +1562,7 @@ s32 Camera_Normal1(Camera* camera) {
         Camera_LERPCeilF(CAM_DATA_SCALED(OREG(4)), camera->yOffsetUpdateRate, camera->speedRatio * 0.05f, rate);
 
     if (roData->interfaceFlags & 1) {
-        t = func_80044ADC(camera, atEyeGeo.yaw - 0x7FFF, 0);
+        t = Camera_GetPitchAdjFromFloorHeightDiffs_(camera, atEyeGeo.yaw - 0x7FFF, false);
         sp9C = ((1.0f / roData->unk_10) * 0.5f) * (1.0f - camera->speedRatio);
         rwData->slopePitchAdj =
             Camera_LERPCeilS(t, rwData->slopePitchAdj, ((1.0f / roData->unk_10) * 0.5f) + sp9C, 0xF);
@@ -1907,7 +1922,7 @@ s32 Camera_Normal3(Camera* camera) {
     camera->yOffsetUpdateRate = Camera_LERPCeilF(CAM_DATA_SCALED(OREG(3)), camera->yOffsetUpdateRate, sp94, 0.1f);
     camera->fovUpdateRate = Camera_LERPCeilF(CAM_DATA_SCALED(OREG(4)), camera->fovUpdateRate, sp94, 0.1f);
 
-    t2 = func_80044ADC(camera, sp7C.yaw - 0x7FFF, 1);
+    t2 = Camera_GetPitchAdjFromFloorHeightDiffs_(camera, sp7C.yaw - 0x7FFF, true);
     sp94 = ((1.0f / roData->unk_10) * 0.5f);
     temp_f0 = (((1.0f / roData->unk_10) * 0.5f) * (1.0f - camera->speedRatio));
     rwData->curPitch = Camera_LERPCeilS(t2, rwData->curPitch, sp94 + temp_f0, 0xF);
@@ -2076,7 +2091,7 @@ s32 Camera_Parallel1(Camera* camera) {
         Camera_LERPCeilF(CAM_DATA_SCALED(OREG(4)), camera->fovUpdateRate, camera->speedRatio * 0.05f, 0.1f);
 
     if (roData->interfaceFlags & 1) {
-        tangle = func_80044ADC(camera, atToEyeDir.yaw - 0x7FFF, 1);
+        tangle = Camera_GetPitchAdjFromFloorHeightDiffs_(camera, atToEyeDir.yaw - 0x7FFF, true);
 
         spB8 = ((1.0f / roData->unk_0C) * 0.3f);
         pad2 = (((1.0f / roData->unk_0C) * 0.7f) * (1.0f - camera->speedRatio));

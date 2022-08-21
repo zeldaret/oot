@@ -27,12 +27,62 @@ typedef struct {
 /*==================================================================*/
 // Data
 s16 sOREGInit[] = {
-    0,   1,   5,  5,  5,   14500, 20,  16, 150, 25,   150, 6,  10, 10, 0,  0,   1,     100,
-    250, 120, 80, 30, 120, 4,     1,   50, 20,  1800, 50,  50, 50, 20, 20, -10, -5460, -9100,
-    -6,  8,   15, 75, 60,  12,    110, 40, 50,  250,  -10, 30, 30, 70, 20, 20,  20,
+    0,     // OREG(0)
+    1,     // OREG(1)
+    5,     // OREG(2)
+    5,     // OREG(3)
+    5,     // OREG(4)
+    14500, // OREG(5)
+    20,    // OREG(6)
+    16,    // OREG(7)
+    150,   // OREG(8)
+    25,    // OREG(9)
+    150,   // OREG(10)
+    6,     // OREG(11)
+    10,    // OREG(12)
+    10,    // OREG(13)
+    0,     // OREG(14)
+    0,     // OREG(15)
+    1,     // OREG(16)
+    100,   // OREG(17)
+    250,   // OREG(18)
+    120,   // OREG(19)
+    80,    // OREG(20)
+    30,    // OREG(21)
+    120,   // OREG(22)
+    4,     // OREG(23)
+    1,     // OREG(24)
+    50,    // OREG(25)
+    20,    // OREG(26)
+    1800,  // OREG(27)
+    50,    // OREG(28)
+    50,    // OREG(29)
+    50,    // OREG(30)
+    20,    // OREG(31)
+    20,    // OREG(32)
+    -10,   // OREG(33)
+    -5460, // OREG(34)
+    -9100, // OREG(35)
+    -6,    // OREG(36)
+    8,     // OREG(37)
+    15,    // OREG(38)
+    75,    // OREG(39)
+    60,    // OREG(40)
+    12,    // OREG(41)
+    110,   // OREG(42)
+    40,    // OREG(43)
+    50,    // OREG(44)
+    250,   // OREG(45)
+    -10,   // OREG(46)
+    30,    // OREG(47)
+    30,    // OREG(48)
+    70,    // OREG(49)
+    20,    // OREG(50)
+    20,    // OREG(51)
+    20,    // OREG(52)
 };
 
-s16 sOREGInitCnt = 53;
+s16 sOREGInitCnt = ARRAY_COUNT(sOREGInit);
 
 s16 sCamDataRegsInit[CAM_DATA_MAX] = {
     -20, // CAM_DATA_Y_OFFSET
@@ -355,7 +405,7 @@ CameraModeValue sSetNormal3ModeTalkData[] = {
     CAM_FUNCDATA_KEEP3(-30, 70, 200, 40, 10, 10, 20, 70, 45, 10, 10, 0x3500),
 };
 
-/* These values are for when the eye
+/* These values are for when the eye is
  * >= OREG(45) units below the surface of the water.
  */
 CameraModeValue sSetNormal3ModeBoomerangData[] = {
