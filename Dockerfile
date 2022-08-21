@@ -1,4 +1,4 @@
-FROM ubuntu:21.10 as build
+FROM ubuntu:22.04 as build
 ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
