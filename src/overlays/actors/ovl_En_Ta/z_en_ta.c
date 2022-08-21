@@ -935,8 +935,6 @@ void EnTa_TalkGeneralInLonLonHouse(EnTa* this, PlayState* play) {
 }
 
 void EnTa_GiveItemInLonLonHouse(EnTa* this, PlayState* play) {
-    // Player sets itself as the parent after func_8002F434 (get item)
-    // is called. So if parent is set, the item was already given.
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = EnTa_TalkGeneralInLonLonHouse;
