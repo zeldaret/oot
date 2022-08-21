@@ -1,6 +1,10 @@
 #include "ultra64.h"
 #include "sintable.c"
 
+/**
+ * @param x binang
+ * @return sin(x)*0x8000
+ */
 s16 sins(u16 x) {
     s16 value;
 

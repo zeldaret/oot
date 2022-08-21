@@ -14,6 +14,10 @@ static const du pilo = { 0x3E6110B4, 0x611A6263 };
 
 static const fu zero = { 0x00000000 };
 
+/**
+ * @param x radians
+ * @return cos(x)
+ */
 f32 cosf(f32 x) {
     f32 absx;
     f64 dx;
