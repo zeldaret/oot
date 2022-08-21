@@ -196,7 +196,7 @@ void Play_Destroy(GameState* thisx) {
         this->transitionMode = TRANS_MODE_OFF;
     }
 
-    ShrinkWindow_Destroy();
+    Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFade);
     VisMono_Destroy(&D_80161498);
 
@@ -383,7 +383,7 @@ void Play_Init(GameState* thisx) {
         this->transitionType = TRANS_TYPE_FADE_BLACK_SLOW;
     }
 
-    ShrinkWindow_Init();
+    Letterbox_Init();
     TransitionFade_Init(&this->transitionFade);
     TransitionFade_SetType(&this->transitionFade, 3);
     TransitionFade_SetColor(&this->transitionFade, RGBA8(160, 160, 160, 255));
@@ -962,7 +962,7 @@ void Play_Update(PlayState* this) {
             SfxSource_UpdateAll(this);
 
             PLAY_LOG(3777);
-            ShrinkWindow_Update(R_UPDATE_RATE);
+            Letterbox_Update(R_UPDATE_RATE);
 
             PLAY_LOG(3783);
             TransitionFade_Update(&this->transitionFade, R_UPDATE_RATE);
@@ -1044,7 +1044,7 @@ void Play_Draw(PlayState* this) {
     gSPSegment(POLY_XLU_DISP++, 0x02, this->sceneSegment);
     gSPSegment(OVERLAY_DISP++, 0x02, this->sceneSegment);
 
-    func_80095248(gfxCtx, 0, 0, 0);
+    Gfx_SetupFrame(gfxCtx, 0, 0, 0);
 
     if ((HREG(80) != 10) || (HREG(82) != 0)) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
