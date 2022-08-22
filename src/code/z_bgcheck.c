@@ -4238,10 +4238,10 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
 /**
  * WaterBox get BgCam index
  */
-u8 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox) {
+u32 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox) {
     u32 prop = waterBox->properties >> 0;
 
-    return prop;
+    return prop & 0xFF;
 }
 
 /**

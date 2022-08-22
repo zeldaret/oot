@@ -662,7 +662,7 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
                          WaterBox** outWaterBox);
 s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                             WaterBox** outWaterBox);
-u8 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox);
+u32 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox);
 u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
