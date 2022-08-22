@@ -5,8 +5,8 @@
 #include "global.h"
 
 extern u8 gAmmoItems[];
-extern s16 D_8082AAEC[];
-extern s16 D_8082AB2C[];
+extern s16 D_8082AAEC_width_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[];
+extern s16 D_8082AB2C_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[];
 extern u8 gSlotAgeReqs[];
 extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
 extern u8 gAreaGsFlags[];

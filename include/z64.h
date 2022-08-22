@@ -733,6 +733,52 @@ typedef enum {
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
+typedef enum {
+    /*  0 */ PAUSECTX_STATE_0,
+    /*  1 */ PAUSECTX_STATE_1,
+    /*  2 */ PAUSECTX_STATE_2,
+    /*  3 */ PAUSECTX_STATE_3,
+    /*  4 */ PAUSECTX_STATE_4,
+    /*  5 */ PAUSECTX_STATE_5,
+    /*  6 */ PAUSECTX_STATE_6,
+    /*  7 */ PAUSECTX_STATE_7,  //                                     save
+    /*  8 */ PAUSECTX_STATE_8,  //                                     saveGameOver
+    /*  9 */ PAUSECTX_STATE_9,  //                                     saveGameOver
+    /* 10 */ PAUSECTX_STATE_10, // game over                           saveGameOver
+    /* 11 */ PAUSECTX_STATE_11, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 12 */ PAUSECTX_STATE_12, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 13 */ PAUSECTX_STATE_13, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 14 */ PAUSECTX_STATE_14, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 15 */ PAUSECTX_STATE_15, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 16 */ PAUSECTX_STATE_16, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 17 */ PAUSECTX_STATE_17, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 18 */ PAUSECTX_STATE_18,
+    /* 19 */ PAUSECTX_STATE_19
+} PauseCtxState;
+
+typedef enum {
+    /* 0 */ PAUSECTX_UNK_1E4_0,
+    /* 1 */ PAUSECTX_UNK_1E4_1,
+    /* 2 */ PAUSECTX_UNK_1E4_2,
+    /* 3 */ PAUSECTX_UNK_1E4_3,
+    /* 4 */ PAUSECTX_UNK_1E4_4,
+    /* 5 */ PAUSECTX_UNK_1E4_5,
+    /* 6 */ PAUSECTX_UNK_1E4_6,
+    /* 7 */ PAUSECTX_UNK_1E4_7,
+    /* 8 */ PAUSECTX_UNK_1E4_8,
+    /* 9 */ PAUSECTX_UNK_1E4_9
+} PauseCtxUnk1E4;
+
+typedef enum {
+    /* 0 */ PAUSECTX_UNK_1EC_0,
+    /* 1 */ PAUSECTX_UNK_1EC_1,
+    /* 2 */ PAUSECTX_UNK_1EC_2,
+    /* 3 */ PAUSECTX_UNK_1EC_3,
+    /* 4 */ PAUSECTX_UNK_1EC_4,
+    /* 5 */ PAUSECTX_UNK_1EC_5,
+    /* 6 */ PAUSECTX_UNK_1EC_6
+} PauseCtxUnk1EC;
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ u8*    iconItemSegment;
@@ -767,11 +813,11 @@ typedef struct {
     /* 0x01EA */ u16    unk_1EA;
     /* 0x01EC */ u16    unk_1EC;
     /* 0x01F0 */ f32    unk_1F0;
-    /* 0x01F4 */ f32    unk_1F4;
-    /* 0x01F8 */ f32    unk_1F8;
-    /* 0x01FC */ f32    unk_1FC;
-    /* 0x0200 */ f32    unk_200;
-    /* 0x0204 */ f32    unk_204; // "angle_s"
+    /* 0x01F4 */ f32    rotXpauseItem_unk_1F4;
+    /* 0x01F8 */ f32    rotPauseEquip_unk_1F8;
+    /* 0x01FC */ f32    rotPauseMap_unk_1FC;
+    /* 0x0200 */ f32    rotPauseQuest_unk_200;
+    /* 0x0204 */ f32    rotXorZ_unk_204; // "angle_s"
     /* 0x0208 */ u16    alpha;
     /* 0x020A */ s16    offsetY;
     /* 0x020C */ char   unk_20C[0x08];

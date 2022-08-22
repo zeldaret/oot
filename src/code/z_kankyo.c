@@ -886,7 +886,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         func_800AA16C();
     }
 
-    if (pauseCtx->state == 0) {
+    if (pauseCtx->state == PAUSECTX_STATE_0) {
         if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
             if (play->skyboxId == SKYBOX_NORMAL_SKY) {
                 play->skyboxCtx.rot.y -= 0.001f;
@@ -918,7 +918,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             }
         }
 
-        if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
+        if ((pauseCtx->state == PAUSECTX_STATE_0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == MSGMODE_NONE)) ||
                 (((void)0, gSaveContext.gameMode) == GAMEMODE_END_CREDITS)) {
                 if ((envCtx->changeSkyboxTimer == 0) && !FrameAdvance_IsEnabled(play) &&

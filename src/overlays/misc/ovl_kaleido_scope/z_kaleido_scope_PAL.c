@@ -127,11 +127,11 @@ static void* sSaveTexs[] = {
     sSaveFRATexs,
 };
 
-s16 D_8082AAEC[] = {
+s16 D_8082AAEC_width_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[] = {
     32, 112, 32, 48, 32, 32, 32, 48, 32, 64, 32, 48, 48, 48, 48, 64, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 80, 64,
 };
 
-s16 D_8082AB2C[] = {
+s16 D_8082AB2C_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[] = {
     24, 72, 13, 22, 19, 20, 19, 27, 14, 26, 22, 21, 49, 32, 45, 60, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 32, 8,
 };
 
@@ -144,27 +144,49 @@ static u8 D_8082AB6C[][5] = {
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
 };
 
-static s16 D_8082AB8C = 0;
-static s16 D_8082AB90 = 0;
-static s16 D_8082AB94 = 0;
-static s16 D_8082AB98 = 255;
+static s16 sColor82ABRed_D_8082AB8C = 0;
+static s16 sColor82ABGreen_D_8082AB90 = 0;
+static s16 sColor82ABBlue_D_8082AB94 = 0;
+static s16 sColor82ABGameOverPrimAlpha_D_8082AB98 = 255;
 
-static s16 D_8082AB9C = 255;
-static s16 D_8082ABA0 = 0;
-static s16 D_8082ABA4 = 0;
+static s16 sDrawGameOverEnvColorRed_D_8082AB9C = 255;
+static s16 sDrawGameOverEnvColorGreen_D_8082ABA0 = 0;
+static s16 sDrawGameOverEnvColorBlue_D_8082ABA4 = 0;
 
 static s16 sInDungeonScene = false;
 
-static f32 D_8082ABAC[] = {
-    -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f, -4.0f, -4.0f,
+// "pt" from debug string in KaleidoScope_SwitchPage
+static f32 D_8082ABAC_pageSwitch_eye_dx_[] = {
+    -4.0f, // PAUSE_ITEM  pt=0
+    4.0f,  // PAUSE_ITEM  pt=1
+    4.0f,  // PAUSE_MAP   pt=0
+    4.0f,  // PAUSE_MAP   pt=1
+    4.0f,  // PAUSE_QUEST pt=0
+    -4.0f, // PAUSE_QUEST pt=1
+    -4.0f, // PAUSE_EQUIP pt=0
+    -4.0f, // PAUSE_EQUIP pt=1
 };
 
-static f32 D_8082ABCC[] = {
-    -4.0f, -4.0f, -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f,
+static f32 D_8082ABCC_pageSwitch_eye_dz_[] = {
+    -4.0f, // PAUSE_ITEM  pt=0
+    -4.0f, // PAUSE_ITEM  pt=1
+    -4.0f, // PAUSE_MAP   pt=0
+    4.0f,  // PAUSE_MAP   pt=1
+    4.0f,  // PAUSE_QUEST pt=0
+    4.0f,  // PAUSE_QUEST pt=1
+    4.0f,  // PAUSE_EQUIP pt=0
+    -4.0f, // PAUSE_EQUIP pt=1
 };
 
-static u16 D_8082ABEC[] = {
-    PAUSE_MAP, PAUSE_EQUIP, PAUSE_QUEST, PAUSE_ITEM, PAUSE_EQUIP, PAUSE_MAP, PAUSE_ITEM, PAUSE_QUEST,
+static u16 D_8082ABEC_modeToNewPageIndex_[] = {
+    PAUSE_MAP,   // PAUSE_ITEM  pt=0
+    PAUSE_EQUIP, // PAUSE_ITEM  pt=1
+    PAUSE_QUEST, // PAUSE_MAP   pt=0
+    PAUSE_ITEM,  // PAUSE_MAP   pt=1
+    PAUSE_EQUIP, // PAUSE_QUEST pt=0
+    PAUSE_MAP,   // PAUSE_QUEST pt=1
+    PAUSE_ITEM,  // PAUSE_EQUIP pt=0
+    PAUSE_QUEST, // PAUSE_EQUIP pt=1
 };
 
 u8 gSlotAgeReqs[] = {
@@ -365,7 +387,7 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
 }
 
 void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
-    pauseCtx->unk_1E4 = 1;
+    pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_1;
     pauseCtx->unk_1EA = 0;
 
     if (!pt) {
@@ -436,8 +458,11 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
 
     temp = pauseCtx->unk_1E4;
 
-    if ((((pauseCtx->unk_1E4 == 0) || (temp == 8)) && (pauseCtx->state == 6)) ||
-        ((pauseCtx->pageIndex == PAUSE_QUEST) && ((temp < 3) || (temp == 5) || (temp == 8)))) {
+    if ((((pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0) || (temp == PAUSECTX_UNK_1E4_8)) &&
+         (pauseCtx->state == PAUSECTX_STATE_6)) ||
+        ((pauseCtx->pageIndex == PAUSE_QUEST) &&
+         ((temp < PAUSECTX_UNK_1E4_3) /* PAUSECTX_UNK_1E4_0, PAUSECTX_UNK_1E4_1, PAUSECTX_UNK_1E4_2 */ ||
+          (temp == PAUSECTX_UNK_1E4_5) || (temp == PAUSECTX_UNK_1E4_8)))) {
 
         if (pauseCtx->pageIndex == pageIndex) {
             s16 i;
@@ -449,7 +474,8 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sCursorColors[pauseCtx->cursorColorSet >> 2][0],
                             sCursorColors[pauseCtx->cursorColorSet >> 2][1],
                             sCursorColors[pauseCtx->cursorColorSet >> 2][2], 255);
-            gDPSetEnvColor(POLY_OPA_DISP++, D_8082AB8C, D_8082AB90, D_8082AB94, 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, sColor82ABRed_D_8082AB8C, sColor82ABGreen_D_8082AB90,
+                           sColor82ABBlue_D_8082AB94, 255);
             gSPVertex(POLY_OPA_DISP++, pauseCtx->cursorVtx, 16, 0);
 
             for (i = j = 0; i < 4; i++, j += 4) {
@@ -474,6 +500,7 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     gSPVertex(gfx++, vertices, 32, 0);
 
     i = 0;
+
     j = 0;
     while (j < 32) {
         gDPPipeSync(gfx++);
@@ -502,16 +529,29 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
 }
 
 void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
-    static s16 D_8082ACF4[][3] = {
-        { 0, 0, 0 }, { 0, 0, 0 },     { 0, 0, 0 },    { 0, 0, 0 }, { 255, 255, 0 }, { 0, 0, 0 },
-        { 0, 0, 0 }, { 255, 255, 0 }, { 0, 255, 50 }, { 0, 0, 0 }, { 0, 0, 0 },     { 0, 255, 50 },
+    static s16 sCursorColors_D_8082ACF4[][3] = {
+        // "white" ?
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        // yellow
+        { 255, 255, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 255, 255, 0 },
+        // green
+        { 0, 255, 50 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 0, 255, 50 },
     };
-    static s16 D_8082AD3C = 20;
-    static s16 D_8082AD40 = 0;
-    static s16 D_8082AD44 = 0;
-    static s16 D_8082AD48 = 0;
-    static s16 D_8082AD4C = 0;
-    static s16 D_8082AD50 = 0;
+    static s16 sCursorColorBlinkTimer_D_8082AD3C = 20;
+    static s16 sCursorColorBlinkOffset_D_8082AD40 = 0;
+    static s16 sStickXcooldownTimer_D_8082AD44 = 0;
+    static s16 sStickYcooldownTimer_D_8082AD48 = 0;
+    static s16 sStickXcooldownDirection_D_8082AD4C = 0;
+    static s16 sStickYcooldownDirection_D_8082AD50 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 stepR;
     s16 stepG;
@@ -519,91 +559,108 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 1100);
 
-    if ((pauseCtx->state < 8) || (pauseCtx->state > 0x11)) {
-        if (pauseCtx->state != 7) {
-            stepR = ABS(D_8082AB8C - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0]) / D_8082AD3C;
-            stepG = ABS(D_8082AB90 - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1]) / D_8082AD3C;
-            stepB = ABS(D_8082AB94 - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2]) / D_8082AD3C;
-            if (D_8082AB8C >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0]) {
-                D_8082AB8C -= stepR;
+    if ((pauseCtx->state <
+         PAUSECTX_STATE_8) /* PAUSECTX_STATE_0, PAUSECTX_STATE_1, PAUSECTX_STATE_2, PAUSECTX_STATE_3, PAUSECTX_STATE_4,
+                              PAUSECTX_STATE_5, PAUSECTX_STATE_6, PAUSECTX_STATE_7 */
+        || (pauseCtx->state > PAUSECTX_STATE_17) /* PAUSECTX_STATE_18, PAUSECTX_STATE_19 */) {
+        if (pauseCtx->state != PAUSECTX_STATE_7) {
+            stepR = ABS(sColor82ABRed_D_8082AB8C -
+                        sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][0]) /
+                    sCursorColorBlinkTimer_D_8082AD3C;
+            stepG = ABS(sColor82ABGreen_D_8082AB90 -
+                        sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][1]) /
+                    sCursorColorBlinkTimer_D_8082AD3C;
+            stepB = ABS(sColor82ABBlue_D_8082AB94 -
+                        sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][2]) /
+                    sCursorColorBlinkTimer_D_8082AD3C;
+            if (sColor82ABRed_D_8082AB8C >=
+                sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][0]) {
+                sColor82ABRed_D_8082AB8C -= stepR;
             } else {
-                D_8082AB8C += stepR;
+                sColor82ABRed_D_8082AB8C += stepR;
             }
-            if (D_8082AB90 >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1]) {
-                D_8082AB90 -= stepG;
+            if (sColor82ABGreen_D_8082AB90 >=
+                sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][1]) {
+                sColor82ABGreen_D_8082AB90 -= stepG;
             } else {
-                D_8082AB90 += stepG;
+                sColor82ABGreen_D_8082AB90 += stepG;
             }
-            if (D_8082AB94 >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2]) {
-                D_8082AB94 -= stepB;
+            if (sColor82ABBlue_D_8082AB94 >=
+                sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][2]) {
+                sColor82ABBlue_D_8082AB94 -= stepB;
             } else {
-                D_8082AB94 += stepB;
+                sColor82ABBlue_D_8082AB94 += stepB;
             }
 
-            D_8082AD3C--;
-            if (D_8082AD3C == 0) {
-                D_8082AB8C = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0];
-                D_8082AB90 = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1];
-                D_8082AB94 = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2];
-                D_8082AD3C = ZREG(28 + D_8082AD40);
-                D_8082AD40++;
-                if (D_8082AD40 >= 4) {
-                    D_8082AD40 = 0;
+            sCursorColorBlinkTimer_D_8082AD3C--;
+            if (sCursorColorBlinkTimer_D_8082AD3C == 0) {
+                sColor82ABRed_D_8082AB8C =
+                    sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][0];
+                sColor82ABGreen_D_8082AB90 =
+                    sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][1];
+                sColor82ABBlue_D_8082AB94 =
+                    sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][2];
+                sCursorColorBlinkTimer_D_8082AD3C = ZREG(28 + sCursorColorBlinkOffset_D_8082AD40);
+                sCursorColorBlinkOffset_D_8082AD40++;
+                if (sCursorColorBlinkOffset_D_8082AD40 >= 4) {
+                    sCursorColorBlinkOffset_D_8082AD40 = 0;
                 }
             }
 
             if (pauseCtx->stickRelX < -30) {
-                if (D_8082AD4C == -1) {
-                    if (--D_8082AD44 < 0) {
-                        D_8082AD44 = XREG(6);
+                if (sStickXcooldownDirection_D_8082AD4C == -1) {
+                    if (--sStickXcooldownTimer_D_8082AD44 < 0) {
+                        sStickXcooldownTimer_D_8082AD44 = XREG(6);
                     } else {
                         pauseCtx->stickRelX = 0;
                     }
                 } else {
-                    D_8082AD44 = XREG(8);
-                    D_8082AD4C = -1;
+                    sStickXcooldownTimer_D_8082AD44 = XREG(8);
+                    sStickXcooldownDirection_D_8082AD4C = -1;
                 }
             } else if (pauseCtx->stickRelX > 30) {
-                if (D_8082AD4C == 1) {
-                    if (--D_8082AD44 < 0) {
-                        D_8082AD44 = XREG(6);
+                if (sStickXcooldownDirection_D_8082AD4C == 1) {
+                    if (--sStickXcooldownTimer_D_8082AD44 < 0) {
+                        sStickXcooldownTimer_D_8082AD44 = XREG(6);
                     } else {
                         pauseCtx->stickRelX = 0;
                     }
                 } else {
-                    D_8082AD44 = XREG(8);
-                    D_8082AD4C = 1;
+                    sStickXcooldownTimer_D_8082AD44 = XREG(8);
+                    sStickXcooldownDirection_D_8082AD4C = 1;
                 }
             } else {
-                D_8082AD4C = 0;
+                sStickXcooldownDirection_D_8082AD4C = 0;
             }
 
             if (pauseCtx->stickRelY < -30) {
-                if (D_8082AD50 == -1) {
-                    if (--D_8082AD48 < 0) {
-                        D_8082AD48 = XREG(6);
+                if (sStickYcooldownDirection_D_8082AD50 == -1) {
+                    if (--sStickYcooldownTimer_D_8082AD48 < 0) {
+                        sStickYcooldownTimer_D_8082AD48 = XREG(6);
                     } else {
                         pauseCtx->stickRelY = 0;
                     }
                 } else {
-                    D_8082AD48 = XREG(8);
-                    D_8082AD50 = -1;
+                    sStickYcooldownTimer_D_8082AD48 = XREG(8);
+                    sStickYcooldownDirection_D_8082AD50 = -1;
                 }
             } else if (pauseCtx->stickRelY > 30) {
-                if (D_8082AD50 == 1) {
-                    if (--D_8082AD48 < 0) {
-                        D_8082AD48 = XREG(6);
+                if (sStickYcooldownDirection_D_8082AD50 == 1) {
+                    if (--sStickYcooldownTimer_D_8082AD48 < 0) {
+                        sStickYcooldownTimer_D_8082AD48 = XREG(6);
                     } else {
                         pauseCtx->stickRelY = 0;
                     }
                 } else {
-                    D_8082AD48 = XREG(8);
-                    D_8082AD50 = 1;
+                    sStickYcooldownTimer_D_8082AD48 = XREG(8);
+                    sStickYcooldownDirection_D_8082AD50 = 1;
                 }
             } else {
-                D_8082AD50 = 0;
+                sStickYcooldownDirection_D_8082AD50 = 0;
             }
         }
+
+        // draw non-active pages?
 
         if (pauseCtx->pageIndex) { // pageIndex != PAUSE_ITEM
             gDPPipeSync(POLY_OPA_DISP++);
@@ -611,7 +668,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, -(f32)WREG(3) / 100.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateX(-pauseCtx->unk_1F4 / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateX(-pauseCtx->rotXpauseItem_unk_1F4 / 100.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1173),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -628,7 +685,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             Matrix_Translate(-(f32)WREG(3) / 100.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateZ(pauseCtx->unk_1F8 / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(pauseCtx->rotPauseEquip_unk_1F8 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1196),
@@ -647,7 +704,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, (f32)WREG(3) / 100.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateX(pauseCtx->unk_200 / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateX(pauseCtx->rotPauseQuest_unk_200 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1220),
@@ -666,7 +723,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             Matrix_Translate((f32)WREG(3) / 100.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateZ(-pauseCtx->unk_1FC / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(-pauseCtx->rotPauseMap_unk_1FC / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1243),
@@ -696,7 +753,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             case PAUSE_ITEM:
                 Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, -(f32)WREG(3) / 100.0f, MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-                Matrix_RotateX(-pauseCtx->unk_1F4 / 100.0f, MTXMODE_APPLY);
+                Matrix_RotateX(-pauseCtx->rotXpauseItem_unk_1F4 / 100.0f, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -710,7 +767,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             case PAUSE_MAP:
                 Matrix_Translate((f32)WREG(3) / 100.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-                Matrix_RotateZ(-pauseCtx->unk_1FC / 100.0f, MTXMODE_APPLY);
+                Matrix_RotateZ(-pauseCtx->rotPauseMap_unk_1FC / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1303),
@@ -742,7 +799,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
                 Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, (f32)WREG(3) / 100.0f, MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-                Matrix_RotateX(pauseCtx->unk_200 / 100.0f, MTXMODE_APPLY);
+                Matrix_RotateX(pauseCtx->rotPauseQuest_unk_200 / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1343),
@@ -761,7 +818,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             case PAUSE_EQUIP:
                 Matrix_Translate(-(f32)WREG(3) / 100.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-                Matrix_RotateZ(pauseCtx->unk_1F8 / 100.0f, MTXMODE_APPLY);
+                Matrix_RotateZ(pauseCtx->rotPauseEquip_unk_1F8 / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1367),
@@ -781,44 +838,50 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
     Gfx_SetupDL_42Opa(gfxCtx);
 
-    if ((pauseCtx->state == 7) || ((pauseCtx->state >= 8) && (pauseCtx->state < 0x12))) {
+    if ((pauseCtx->state == PAUSECTX_STATE_7) ||
+        ((pauseCtx->state >= PAUSECTX_STATE_8) && (pauseCtx->state < PAUSECTX_STATE_18))
+        /* PAUSECTX_STATE_8, PAUSECTX_STATE_9, PAUSECTX_STATE_10, PAUSECTX_STATE_11, PAUSECTX_STATE_12,
+           PAUSECTX_STATE_13, PAUSECTX_STATE_14, PAUSECTX_STATE_15, PAUSECTX_STATE_16, PAUSECTX_STATE_17 */
+    ) {
         KaleidoScope_UpdatePrompt(play);
 
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
         if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
-            pauseCtx->unk_1F4 = pauseCtx->unk_204 + 314.0f;
+            pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotXorZ_unk_204 + 314.0f;
 
             Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, -pauseCtx->unk_1F0 / 10.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateX(-pauseCtx->unk_204 / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateX(-pauseCtx->rotXorZ_unk_204 / 100.0f, MTXMODE_APPLY);
         } else if (pauseCtx->pageIndex == PAUSE_MAP) {
-            pauseCtx->unk_1FC = pauseCtx->unk_204 + 314.0f;
+            pauseCtx->rotPauseMap_unk_1FC = pauseCtx->rotXorZ_unk_204 + 314.0f;
 
             Matrix_Translate(pauseCtx->unk_1F0 / 10.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateZ(-pauseCtx->unk_204 / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(-pauseCtx->rotXorZ_unk_204 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(-1.57f, MTXMODE_APPLY);
         } else if (pauseCtx->pageIndex == PAUSE_QUEST) {
-            pauseCtx->unk_200 = pauseCtx->unk_204 + 314.0f;
+            pauseCtx->rotPauseQuest_unk_200 = pauseCtx->rotXorZ_unk_204 + 314.0f;
 
             Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, pauseCtx->unk_1F0 / 10.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateX(pauseCtx->unk_204 / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateX(pauseCtx->rotXorZ_unk_204 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(3.14f, MTXMODE_APPLY);
         } else {
-            pauseCtx->unk_1F8 = pauseCtx->unk_204 + 314.0f;
+            pauseCtx->rotPauseEquip_unk_1F8 = pauseCtx->rotXorZ_unk_204 + 314.0f;
 
             Matrix_Translate(-pauseCtx->unk_1F0 / 10.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-            Matrix_RotateZ(pauseCtx->unk_204 / 100.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(pauseCtx->rotXorZ_unk_204 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
         }
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1424),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        if ((pauseCtx->state >= 8) && (pauseCtx->state <= 0x11)) {
+        if (((pauseCtx->state >= PAUSECTX_STATE_8) && (pauseCtx->state < PAUSECTX_STATE_18))
+        /* PAUSECTX_STATE_8, PAUSECTX_STATE_9, PAUSECTX_STATE_10, PAUSECTX_STATE_11, PAUSECTX_STATE_12,
+           PAUSECTX_STATE_13, PAUSECTX_STATE_14, PAUSECTX_STATE_15, PAUSECTX_STATE_16, PAUSECTX_STATE_17 */) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
         } else {
             POLY_OPA_DISP =
@@ -827,7 +890,9 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->saveVtx[60], 32, 0);
 
-        if (((pauseCtx->state == 7) && (pauseCtx->unk_1EC < 4)) || (pauseCtx->state == 0xE)) {
+        if (((pauseCtx->state == PAUSECTX_STATE_7) && (pauseCtx->unk_1EC < PAUSECTX_UNK_1EC_4)
+             /* PAUSECTX_UNK_1EC_0, PAUSECTX_UNK_1EC_1, PAUSECTX_UNK_1EC_2, PAUSECTX_UNK_1EC_3 */) ||
+            (pauseCtx->state == PAUSECTX_STATE_14)) {
             POLY_OPA_DISP =
                 KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptTexs[gSaveContext.language], 152, 16, 0);
 
@@ -850,8 +915,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             POLY_OPA_DISP =
                 KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
-        } else if ((pauseCtx->state != 7) || (pauseCtx->unk_1EC < 4)) {
-            if ((pauseCtx->state != 0xF) && ((pauseCtx->state == 0x10) || (pauseCtx->state == 0x11))) {
+        } else if ((pauseCtx->state != PAUSECTX_STATE_7) || (pauseCtx->unk_1EC < PAUSECTX_UNK_1EC_4)
+                   /* PAUSECTX_UNK_1EC_0, PAUSECTX_UNK_1EC_1, PAUSECTX_UNK_1EC_2, PAUSECTX_UNK_1EC_3 */) {
+            if ((pauseCtx->state != PAUSECTX_STATE_15) &&
+                ((pauseCtx->state == PAUSECTX_STATE_16) || (pauseCtx->state == PAUSECTX_STATE_17))) {
                 POLY_OPA_DISP =
                     KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sContinuePromptTexs[gSaveContext.language], 152, 16, 0);
 
@@ -881,7 +948,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-        if ((pauseCtx->state != 0x10) && (pauseCtx->state != 0x11)) {
+        if ((pauseCtx->state != PAUSECTX_STATE_16) && (pauseCtx->state != PAUSECTX_STATE_17)) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, pauseCtx->alpha);
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
         }
@@ -1002,9 +1069,9 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         pauseCtx->infoPanelVtx[j + 0].v.tc[0] = pauseCtx->infoPanelVtx[j + 0].v.tc[1] =
             pauseCtx->infoPanelVtx[j + 1].v.tc[1] = pauseCtx->infoPanelVtx[j + 2].v.tc[0] = 0;
 
-        pauseCtx->infoPanelVtx[j + 1].v.tc[0] = pauseCtx->infoPanelVtx[j + 3].v.tc[0] = 0x900;
+        pauseCtx->infoPanelVtx[j + 1].v.tc[0] = pauseCtx->infoPanelVtx[j + 3].v.tc[0] = 72 * (1 << 5);
 
-        pauseCtx->infoPanelVtx[j + 2].v.tc[1] = pauseCtx->infoPanelVtx[j + 3].v.tc[1] = 0x300;
+        pauseCtx->infoPanelVtx[j + 2].v.tc[1] = pauseCtx->infoPanelVtx[j + 3].v.tc[1] = 24 * (1 << 5);
 
         pauseCtx->infoPanelVtx[j + 0].v.cn[0] = pauseCtx->infoPanelVtx[j + 2].v.cn[0] =
             pauseCtx->infoPanelVtx[j + 0].v.cn[1] = pauseCtx->infoPanelVtx[j + 2].v.cn[1] =
@@ -1021,7 +1088,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     pauseCtx->infoPanelVtx[5].v.ob[0] = pauseCtx->infoPanelVtx[7].v.ob[0] = pauseCtx->infoPanelVtx[4].v.ob[0] + 72;
 
-    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->unk_1E4 == 0)) {
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0)) {
         pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = WREG(16);
 
         pauseCtx->infoPanelVtx[9].v.ob[0] = pauseCtx->infoPanelVtx[11].v.ob[0] = pauseCtx->infoPanelVtx[8].v.ob[0] + 24;
@@ -1041,7 +1108,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             pauseCtx->infoPanelVtx[8].v.ob[1] - 26;
     }
 
-    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->unk_1E4 == 0)) {
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0)) {
         pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = WREG(17);
 
         pauseCtx->infoPanelVtx[13].v.ob[0] = pauseCtx->infoPanelVtx[15].v.ob[0] =
@@ -1064,10 +1131,10 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     }
 
     pauseCtx->infoPanelVtx[9].v.tc[0] = pauseCtx->infoPanelVtx[11].v.tc[0] = pauseCtx->infoPanelVtx[13].v.tc[0] =
-        pauseCtx->infoPanelVtx[15].v.tc[0] = 0x300;
+        pauseCtx->infoPanelVtx[15].v.tc[0] = 24 * (1 << 5);
 
     pauseCtx->infoPanelVtx[10].v.tc[1] = pauseCtx->infoPanelVtx[11].v.tc[1] = pauseCtx->infoPanelVtx[14].v.tc[1] =
-        pauseCtx->infoPanelVtx[15].v.tc[1] = 0x400;
+        pauseCtx->infoPanelVtx[15].v.tc[1] = 32 * (1 << 5);
 
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -1082,7 +1149,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     gSPDisplayList(POLY_OPA_DISP++, gItemNamePanelDL);
 
-    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->unk_1E4 == 0)) {
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0)) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_808321A0, D_808321A2, D_808321A4, D_808321A6);
     }
 
@@ -1090,7 +1157,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 210, 255, 220);
 
-    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->unk_1E4 == 0)) {
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0)) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_808321A0, D_808321A2, D_808321A4, D_808321A6);
     }
 
@@ -1108,25 +1175,32 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     pauseCtx->infoPanelVtx[18].v.ob[1] = pauseCtx->infoPanelVtx[19].v.ob[1] = pauseCtx->infoPanelVtx[16].v.ob[1] - 16;
 
-    pauseCtx->infoPanelVtx[18].v.tc[1] = pauseCtx->infoPanelVtx[19].v.tc[1] = 0x200;
+    pauseCtx->infoPanelVtx[18].v.tc[1] = pauseCtx->infoPanelVtx[19].v.tc[1] = 16 * (1 << 5);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
     gDPSetEnvColor(POLY_OPA_DISP++, 20, 30, 40, 0);
 
-    if ((pauseCtx->state == 6) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) && (pauseCtx->nameDisplayTimer < WREG(89)) &&
-        (!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 2) || ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) ||
-         (pauseCtx->unk_1E4 == 8)) &&
+    if ((pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) &&
+        (pauseCtx->nameDisplayTimer < WREG(89)) &&
+        (!pauseCtx->unk_1E4 /* PAUSECTX_UNK_1E4_0 */ || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_2) ||
+         ((pauseCtx->unk_1E4 >= PAUSECTX_UNK_1E4_4) &&
+          (pauseCtx->unk_1E4 <=
+           PAUSECTX_UNK_1E4_7)) /* PAUSECTX_UNK_1E4_4, PAUSECTX_UNK_1E4_5, PAUSECTX_UNK_1E4_6, PAUSECTX_UNK_1E4_7 */
+         || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_8)) &&
         (pauseCtx->cursorSpecialPos == 0)) {
-        if (!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 2) || ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) ||
-            (pauseCtx->unk_1E4 == 8)) {
+        if (!pauseCtx->unk_1E4 /* PAUSECTX_UNK_1E4_0 */ || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_2) ||
+            ((pauseCtx->unk_1E4 >= PAUSECTX_UNK_1E4_4) &&
+             (pauseCtx->unk_1E4 <=
+              PAUSECTX_UNK_1E4_7)) /* PAUSECTX_UNK_1E4_4, PAUSECTX_UNK_1E4_5, PAUSECTX_UNK_1E4_6, PAUSECTX_UNK_1E4_7 */
+            || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_8)) {
             pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
             pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                 pauseCtx->infoPanelVtx[16].v.ob[0] + 128;
 
-            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x1000;
+            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 128 * (1 << 5);
 
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[16], 4, 0);
 
@@ -1167,7 +1241,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 pauseCtx->infoPanelVtx[26].v.ob[1] = pauseCtx->infoPanelVtx[27].v.ob[1] =
                     pauseCtx->infoPanelVtx[24].v.ob[1] - 19;
 
-                pauseCtx->infoPanelVtx[25].v.tc[0] = pauseCtx->infoPanelVtx[27].v.tc[0] = 0x300;
+                pauseCtx->infoPanelVtx[25].v.tc[0] = pauseCtx->infoPanelVtx[27].v.tc[0] = 24 * (1 << 5);
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[24], 4, 0);
@@ -1180,17 +1254,18 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gGoldSkulltulaIconTex, 24, 24, 0);
             }
         }
-    } else if ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 7) || (pauseCtx->unk_1E4 == 8)) {
+    } else if ((pauseCtx->unk_1E4 < PAUSECTX_UNK_1E4_3) /* PAUSECTX_UNK_1E4_0, PAUSECTX_UNK_1E4_1, PAUSECTX_UNK_1E4_2 */
+               || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_7) || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_8)) {
         pauseCtx->infoPanelVtx[20].v.ob[1] = pauseCtx->infoPanelVtx[21].v.ob[1] = temp;
 
         pauseCtx->infoPanelVtx[22].v.ob[1] = pauseCtx->infoPanelVtx[23].v.ob[1] =
             pauseCtx->infoPanelVtx[20].v.ob[1] - 16;
 
-        pauseCtx->infoPanelVtx[22].v.tc[1] = pauseCtx->infoPanelVtx[23].v.tc[1] = 0x200;
+        pauseCtx->infoPanelVtx[22].v.tc[1] = pauseCtx->infoPanelVtx[23].v.tc[1] = 16 * (1 << 5);
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[16], 8, 0);
 
-        if (pauseCtx->state == 7) {
+        if (pauseCtx->state == PAUSECTX_STATE_7) {
             pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = WREG(61 + gSaveContext.language);
 
             pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
@@ -1202,7 +1277,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                 pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE0[gSaveContext.language];
 
-            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
+            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 24 * (1 << 5);
 
             pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] = D_8082ADE0[gSaveContext.language]
                                                                                       << 5;
@@ -1215,13 +1290,13 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD60[gSaveContext.language],
                                                         D_8082ADE0[gSaveContext.language], 16, 4);
         } else if (pauseCtx->cursorSpecialPos != 0) {
-            if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
+            if ((pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0)) {
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                     pauseCtx->infoPanelVtx[16].v.ob[0] + 128;
 
-                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x1000;
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 128 * (1 << 5);
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 200, 0, 255);
@@ -1248,7 +1323,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                     pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
 
-                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x600;
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 48 * (1 << 5);
 
                 pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
                     D_8082ADD8[gSaveContext.language] << 5;
@@ -1282,7 +1357,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                     pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                         pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE8[gSaveContext.language];
 
-                    pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
+                    pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 24 * (1 << 5);
 
                     pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
                         D_8082ADE8[gSaveContext.language] << 5;
@@ -1308,7 +1383,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                     pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
 
-                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 24 * (1 << 5);
 
                 pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
                     D_8082ADD8[gSaveContext.language] << 5;
@@ -1370,7 +1445,7 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
         }
     } else if (pauseCtx->nameColorSet == 0) {
         if (((pauseCtx->pageIndex == PAUSE_QUEST) && (pauseCtx->cursorSlot[PAUSE_QUEST] >= 6) &&
-             (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11) && (pauseCtx->unk_1E4 == 8)) ||
+             (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_8)) ||
             (pauseCtx->pageIndex == PAUSE_ITEM) ||
             ((pauseCtx->pageIndex == PAUSE_EQUIP) && (pauseCtx->cursorX[PAUSE_EQUIP] != 0))) {
             if (pauseCtx->namedItem != ITEM_SOLD_OUT) {
@@ -1392,14 +1467,15 @@ void func_808237B4(PlayState* play, Input* input) {
     s32 cond = false;
     s32 mode;
 
+    // ZREG(13) is always 0 unless set through the reg editor
     if (ZREG(13) && !CHECK_BTN_ALL(input->press.button, BTN_L)) {
         cond = true;
     }
 
     if (!cond) {
         mode = pauseCtx->mode;
-        pauseCtx->eye.x += D_8082ABAC[mode];
-        pauseCtx->eye.z += D_8082ABCC[mode];
+        pauseCtx->eye.x += D_8082ABAC_pageSwitch_eye_dx_[mode];
+        pauseCtx->eye.z += D_8082ABCC_pageSwitch_eye_dz_[mode];
 
         if (pauseCtx->unk_1EA < 32) {
             WREG(16) -= WREG(25) / WREG(6);
@@ -1413,8 +1489,8 @@ void func_808237B4(PlayState* play, Input* input) {
 
         if (pauseCtx->unk_1EA == 64) {
             pauseCtx->unk_1EA = 0;
-            pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
-            pauseCtx->unk_1E4 = 0;
+            pauseCtx->pageIndex = D_8082ABEC_modeToNewPageIndex_[pauseCtx->mode];
+            pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
         }
     }
 }
@@ -1436,424 +1512,475 @@ void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
                VIEW_ALL | VIEW_FORCE_VIEWING | VIEW_FORCE_VIEWPORT | VIEW_FORCE_PROJECTION_PERSPECTIVE);
 }
 
-static u8 D_8082AE48[][4] = {
-    { 10, 70, 70, 10 },   { 10, 90, 90, 10 },   { 80, 140, 140, 80 },
-    { 80, 120, 120, 80 }, { 80, 140, 140, 80 }, { 50, 110, 110, 50 },
+static u8 D_8082AE48_red[][4] = {
+    { 10, 70, 70, 10 },   // FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX
+    { 10, 90, 90, 10 },   // FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX
+    { 80, 140, 140, 80 }, // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE
+    { 80, 120, 120, 80 }, // FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX
+    { 80, 140, 140, 80 }, // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE
+    { 50, 110, 110, 50 }, // FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
 };
-static u8 D_8082AE60[][4] = {
-    { 50, 100, 100, 50 }, { 50, 100, 100, 50 }, { 40, 60, 60, 40 },
-    { 80, 120, 120, 80 }, { 40, 60, 60, 40 },   { 50, 110, 110, 50 },
+static u8 D_8082AE60_green[][4] = {
+    { 50, 100, 100, 50 }, // FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX
+    { 50, 100, 100, 50 }, // FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX
+    { 40, 60, 60, 40 },   // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE
+    { 80, 120, 120, 80 }, // FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX
+    { 40, 60, 60, 40 },   // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE
+    { 50, 110, 110, 50 }, // FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
 };
-static u8 D_8082AE78[][4] = {
-    { 80, 130, 130, 80 }, { 40, 60, 60, 40 }, { 30, 60, 60, 30 },
-    { 50, 70, 70, 50 },   { 30, 60, 60, 30 }, { 50, 110, 110, 50 },
+static u8 D_8082AE78_blue[][4] = {
+    { 80, 130, 130, 80 }, // FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX
+    { 40, 60, 60, 40 },   // FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX
+    { 30, 60, 60, 30 },   // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE
+    { 50, 70, 70, 50 },   // FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX
+    { 30, 60, 60, 30 },   // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE
+    { 50, 110, 110, 50 }, // FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
 };
 
-static s16 D_8082AE90[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AE94[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AE98[] = {
+#define FUNC_80823A0C_ARG3_ITEM_PAGE_VTX 0
+#define FUNC_80823A0C_ARG3_EQUIP_PAGE_VTX 0
+#define FUNC_80823A0C_ARG3_MAP_PAGE_VTX_IN_DUNGEON_SCENE 17
+#define FUNC_80823A0C_ARG3_QUEST_PAGE_VTX 0
+#define FUNC_80823A0C_ARG3_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE 32
+#define FUNC_80823A0C_ARG3_SAVE_VTX 5
+
+// +1 because C doesn't allow 0-length arrays
+static s16 D_8082AE90_x_ITEM_PAGE_VTX_[FUNC_80823A0C_ARG3_ITEM_PAGE_VTX + 1] = { 0 };
+static s16 D_8082AE94_x_EQUIP_PAGE_VTX_[FUNC_80823A0C_ARG3_EQUIP_PAGE_VTX + 1] = { 0 };
+static s16 D_8082AE98_x_MAP_PAGE_VTX_IN_DUNGEON_SCENE_[FUNC_80823A0C_ARG3_MAP_PAGE_VTX_IN_DUNGEON_SCENE] = {
     0xFFDC, 0x000C, 0xFFEE, 0x0046, 0x0046, 0x0046, 0xFFA8, 0xFFA8, 0xFFA8,
-    0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFF96, 0xFFC2, 0xFFD8, 0x0000,
+    0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFF96, 0xFFC2, 0xFFD8,
 };
-static s16 D_8082AEBC[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AEC0[] = {
+static s16 D_8082AEBC_x_QUEST_PAGE_VTX_[FUNC_80823A0C_ARG3_QUEST_PAGE_VTX + 1] = { 0 };
+static s16 D_8082AEC0_x_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[FUNC_80823A0C_ARG3_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE] = {
     0x002F, 0xFFCF, 0xFFEF, 0xFFF1, 0xFFF7, 0x0018, 0x002B, 0x000E, 0x0009, 0x0026, 0x0052,
     0x0047, 0xFFB4, 0xFFA9, 0xFF94, 0xFFCA, 0xFFA3, 0xFFBD, 0xFFC8, 0xFFDF, 0xFFF6, 0x0001,
     0x000E, 0x0018, 0x0023, 0x003A, 0x004A, 0x0059, 0x0000, 0xFFC6, 0x0013, 0x001C,
 };
-static s16 D_8082AF00[] = {
-    0xFFB4, 0xFFC6, 0x000A, 0xFFC6, 0x000A, 0x0000,
+static s16 D_8082AF00_x_SAVE_VTX_[FUNC_80823A0C_ARG3_SAVE_VTX] = {
+    0xFFB4, 0xFFC6, 0x000A, 0xFFC6, 0x000A,
 };
-static s16 D_8082AF0C[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AF10[] = {
+static s16 D_8082AF0C_width_ITEM_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AF14[] = {
+static s16 D_8082AF10_width_EQUIP_PAGE_VTX_[] = {
+    0x0000,
+    0x0000,
+};
+static s16 D_8082AF14_width_MAP_PAGE_VTX_IN_DUNGEON_SCENE_[] = {
     0x0030, 0x0030, 0x0060, 0x0018, 0x0018, 0x0018, 0x0018, 0x0018, 0x0018,
     0x0018, 0x0018, 0x0018, 0x0018, 0x0018, 0x0010, 0x0010, 0x0018, 0x0000,
 };
-static s16 D_8082AF38[] = {
+static s16 D_8082AF38_width_QUEST_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AF3C[] = {
+static s16 D_8082AF3C_width_SAVE_VTX_[] = {
     0x0098, 0x0030, 0x0030, 0x0030, 0x0030, 0x0000,
 };
-static s16 D_8082AF48[] = {
+static s16 D_8082AF48_y_ITEM_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AF4C[] = {
+static s16 D_8082AF4C_y_EQUIP_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AF50[] = {
+static s16 D_8082AF50_y_MAP_PAGE_VTX_IN_DUNGEON_SCENE_[] = {
     0x001C, 0x001C, 0x002E, 0x001C, 0xFFFE, 0xFFE0, 0x0032, 0x0024, 0x0016,
     0x0008, 0xFFFA, 0xFFEC, 0xFFDE, 0xFFD0, 0x0012, 0x0012, 0x0032, 0x0000,
 };
-static s16 D_8082AF74[] = {
+static s16 D_8082AF74_y_QUEST_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AF78[] = {
+static s16 D_8082AF78_y_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[] = {
     0x000F, 0x0028, 0x000B, 0x002D, 0x0034, 0x0025, 0x0024, 0x0039, 0x0036, 0x0021, 0x001F,
     0x002D, 0x0020, 0x002A, 0x0031, 0xFFF6, 0x001F, 0x001B, 0x000F, 0xFFCF, 0x0008, 0x0026,
     0x0007, 0x002F, 0x001E, 0x0001, 0xFFF7, 0x0019, 0x0000, 0x0001, 0xFFE0, 0xFFE6,
 };
-static s16 D_8082AFB8[] = {
+static s16 D_8082AFB8_y_SAVE_VTX_[] = {
     0x0024, 0x000A, 0x000A, 0xFFFA, 0xFFFA, 0x0000,
 };
-static s16 D_8082AFC4[] = {
+static s16 D_8082AFC4_height_ITEM_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AFC8[] = {
+static s16 D_8082AFC8_height_EQUIP_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AFCC[] = {
+static s16 D_8082AFCC_height_MAP_PAGE_VTX_IN_DUNGEON_SCENE_[] = {
     0x0055, 0x0055, 0x0010, 0x0018, 0x0018, 0x0018, 0x0010, 0x0010, 0x0010,
     0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0018, 0x0000,
 };
-static s16 D_8082AFF0[] = {
+static s16 D_8082AFF0_height_QUEST_PAGE_VTX_[] = {
     0x0000,
     0x0000,
 };
-static s16 D_8082AFF4[] = {
+static s16 D_8082AFF4_height_SAVE_VTX_[] = {
     0x0010, 0x0030, 0x0030, 0x0010, 0x0010, 0x0000,
 };
 
-static s16* D_8082B000[] = {
-    D_8082AE90, D_8082AE94, D_8082AE98, D_8082AEBC, D_8082AEC0, D_8082AF00,
+static s16* D_8082B000_x_[] = {
+    D_8082AE90_x_ITEM_PAGE_VTX_,                     // FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX
+    D_8082AE94_x_EQUIP_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX
+    D_8082AE98_x_MAP_PAGE_VTX_IN_DUNGEON_SCENE_,     // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE
+    D_8082AEBC_x_QUEST_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX
+    D_8082AEC0_x_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_, // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE
+    D_8082AF00_x_SAVE_VTX_,                          // FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
 };
 
-static s16* D_8082B018[] = {
-    D_8082AF0C, D_8082AF10, D_8082AF14, D_8082AF38, D_8082AAEC, D_8082AF3C,
+static s16* D_8082B018_width_[] = {
+    D_8082AF0C_width_ITEM_PAGE_VTX_,                     // FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX
+    D_8082AF10_width_EQUIP_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX
+    D_8082AF14_width_MAP_PAGE_VTX_IN_DUNGEON_SCENE_,     // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE
+    D_8082AF38_width_QUEST_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX
+    D_8082AAEC_width_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_, // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE
+    D_8082AF3C_width_SAVE_VTX_,                          // FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
 };
 
-static s16* D_8082B030[] = {
-    D_8082AF48, D_8082AF4C, D_8082AF50, D_8082AF74, D_8082AF78, D_8082AFB8,
+static s16* D_8082B030_y_[] = {
+    D_8082AF48_y_ITEM_PAGE_VTX_,                     // FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX
+    D_8082AF4C_y_EQUIP_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX
+    D_8082AF50_y_MAP_PAGE_VTX_IN_DUNGEON_SCENE_,     // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE
+    D_8082AF74_y_QUEST_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX
+    D_8082AF78_y_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_, // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE
+    D_8082AFB8_y_SAVE_VTX_,                          // FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
 };
 
-static s16* D_8082B048[] = {
-    D_8082AFC4, D_8082AFC8, D_8082AFCC, D_8082AFF0, D_8082AB2C, D_8082AFF4,
+static s16* D_8082B048_height_[] = {
+    D_8082AFC4_height_ITEM_PAGE_VTX_,                     // FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX
+    D_8082AFC8_height_EQUIP_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX
+    D_8082AFCC_height_MAP_PAGE_VTX_IN_DUNGEON_SCENE_,     // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE
+    D_8082AFF0_height_QUEST_PAGE_VTX_,                    // FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX
+    D_8082AB2C_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_, // FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE
+    D_8082AFF4_height_SAVE_VTX_,                          // FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
 };
 
-static s16 D_8082B060[] = {
+static s16 D_8082B060_x_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[] = {
     0xFFC6, 0x000B, 0x001E, 0x001E, 0x000F, 0x0026, 0xFFC2, 0x003C, 0x003D, 0xFFB2, 0xFED4,
     0xFFAA, 0xFFBF, 0xFED4, 0xFED4, 0xFFEB, 0x000E, 0x000D, 0x0014, 0xFFDE, 0xFED4, 0x0000,
 };
 
-static s16 D_8082B08C[] = {
+static s16 D_8082B08C_width_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[] = {
     0x0059, 0x0014, 0x000E, 0x0023, 0x0020, 0x0011, 0x0032, 0x0010, 0x0015, 0x0014, 0xFFFF,
     0x0020, 0x0010, 0xFFFF, 0xFFFF, 0x0013, 0x0013, 0x0015, 0x0010, 0x0014, 0xFFFF, 0x0000,
 };
 
-static s16 D_8082B0B8[] = {
+static s16 D_8082B0B8_y_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[] = {
     0x0001, 0x000F, 0x0014, 0x0009, 0xFFE2, 0xFFEF, 0xFFDE, 0x000F, 0x001E, 0x0001, 0xFED4,
     0x002A, 0x0007, 0xFED4, 0xFED4, 0x0018, 0x0024, 0x0035, 0x0025, 0xFFF3, 0xFED4, 0x0000,
 };
 
-static s16 D_8082B0E4[] = {
+static s16 D_8082B0E4_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[] = {
     0x0024, 0x000F, 0x0010, 0x0017, 0x0017, 0x0010, 0x0018, 0x000D, 0x0011, 0x0012, 0x0001,
     0x0019, 0x000D, 0x0001, 0x0001, 0x000D, 0x0015, 0x000F, 0x000D, 0x000C, 0x0001, 0x0000,
 };
 
-s16 func_80823A0C(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) {
-    static s16 D_8082B110 = 0;
-    static s16 D_8082B114 = 1;
-    static s16 D_8082B118 = 0;
+typedef enum {
+    /* 0 */ FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX,
+    /* 1 */ FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX,
+    /* 2 */ FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE,
+    /* 3 */ FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX,
+    /* 4 */ FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE,
+    /* 5 */ FUNC_80823A0C_USAGE_ARG2_SAVE_VTX
+} func_80823A0C_usage_arg2;
+
+s16 func_80823A0C_makeVertices_(PlayState* play, Vtx* vtx, s16 usage_arg2, s16 arg3) {
+    static s16 sTradeQuestVtxOffsetY__ = 0;
+    static s16 sTradeQuestVtxOffsetTimer__ = 1;
+    static s16 sTradeQuestVtxOffsetState__ = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
-    s16* ptr1;
-    s16* ptr2;
-    s16* ptr3;
-    s16* ptr4;
-    s16 phi_s2;
-    s16 phi_t0;
-    s16 phi_a1;
-    s16 phi_a2;
-    s16 phi_t3;
-    s16 phi_t1;
+    s16* ptr1_x_;
+    s16* ptr2_width_;
+    s16* ptr3_y_;
+    s16* ptr4_height_;
+    s16 bufI_afterFirstPartDone_;
+    s16 x_firstPart_;
+    s16 y_firstPart_;
+    s16 i;
+    s16 j;
+    s16 bufI;
 
-    phi_t0 = -200;
+    // KaleidoScope_DrawPageSections
 
-    for (phi_t1 = 0, phi_t3 = 0; phi_t3 < 3; phi_t3++) {
-        phi_t0 += 80;
+    x_firstPart_ = -200;
 
-        for (phi_a1 = 80, phi_a2 = 0; phi_a2 < 5; phi_a2++, phi_t1 += 4, phi_a1 -= 32) {
-            vtx[phi_t1 + 0].v.ob[0] = vtx[phi_t1 + 2].v.ob[0] = phi_t0;
+    for (bufI = 0, j = 0; j < 3; j++) {
+        x_firstPart_ += 80;
 
-            vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + 80;
+        for (y_firstPart_ = 80, i = 0; i < 5; i++, bufI += 4, y_firstPart_ -= 32) {
+            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = x_firstPart_;
 
-            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = phi_a1 + pauseCtx->offsetY;
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + 80;
 
-            vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - 32;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = y_firstPart_ + pauseCtx->offsetY;
 
-            vtx[phi_t1 + 0].v.ob[2] = vtx[phi_t1 + 1].v.ob[2] = vtx[phi_t1 + 2].v.ob[2] = vtx[phi_t1 + 3].v.ob[2] = 0;
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - 32;
 
-            vtx[phi_t1 + 0].v.flag = 0;
-            vtx[phi_t1 + 1].v.flag = 0;
-            vtx[phi_t1 + 2].v.flag = 0;
-            vtx[phi_t1 + 3].v.flag = 0;
+            vtx[bufI + 0].v.ob[2] = vtx[bufI + 1].v.ob[2] = vtx[bufI + 2].v.ob[2] = vtx[bufI + 3].v.ob[2] = 0;
 
-            vtx[phi_t1 + 0].v.tc[0] = vtx[phi_t1 + 0].v.tc[1] = vtx[phi_t1 + 1].v.tc[1] = vtx[phi_t1 + 2].v.tc[0] = 0;
+            vtx[bufI + 0].v.flag = 0;
+            vtx[bufI + 1].v.flag = 0;
+            vtx[bufI + 2].v.flag = 0;
+            vtx[bufI + 3].v.flag = 0;
 
-            vtx[phi_t1 + 1].v.tc[0] = vtx[phi_t1 + 3].v.tc[0] = 0xA00;
+            vtx[bufI + 0].v.tc[0] = vtx[bufI + 0].v.tc[1] = vtx[bufI + 1].v.tc[1] = vtx[bufI + 2].v.tc[0] = 0;
 
-            vtx[phi_t1 + 2].v.tc[1] = vtx[phi_t1 + 3].v.tc[1] = 0x400;
+            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = 80 * (1 << 5);
 
-            vtx[phi_t1 + 0].v.cn[0] = vtx[phi_t1 + 2].v.cn[0] = D_8082AE48[arg2][phi_t3 + 0];
+            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = 32 * (1 << 5);
 
-            vtx[phi_t1 + 0].v.cn[1] = vtx[phi_t1 + 2].v.cn[1] = D_8082AE60[arg2][phi_t3 + 0];
+            vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = D_8082AE48_red[usage_arg2][j + 0];
 
-            vtx[phi_t1 + 0].v.cn[2] = vtx[phi_t1 + 2].v.cn[2] = D_8082AE78[arg2][phi_t3 + 0];
+            vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] = D_8082AE60_green[usage_arg2][j + 0];
 
-            vtx[phi_t1 + 1].v.cn[0] = vtx[phi_t1 + 3].v.cn[0] = D_8082AE48[arg2][phi_t3 + 1];
+            vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = D_8082AE78_blue[usage_arg2][j + 0];
 
-            vtx[phi_t1 + 1].v.cn[1] = vtx[phi_t1 + 3].v.cn[1] = D_8082AE60[arg2][phi_t3 + 1];
+            vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] = D_8082AE48_red[usage_arg2][j + 1];
 
-            vtx[phi_t1 + 1].v.cn[2] = vtx[phi_t1 + 3].v.cn[2] = D_8082AE78[arg2][phi_t3 + 1];
+            vtx[bufI + 1].v.cn[1] = vtx[bufI + 3].v.cn[1] = D_8082AE60_green[usage_arg2][j + 1];
 
-            vtx[phi_t1 + 0].v.cn[3] = vtx[phi_t1 + 2].v.cn[3] = vtx[phi_t1 + 1].v.cn[3] = vtx[phi_t1 + 3].v.cn[3] =
+            vtx[bufI + 1].v.cn[2] = vtx[bufI + 3].v.cn[2] = D_8082AE78_blue[usage_arg2][j + 1];
+
+            vtx[bufI + 0].v.cn[3] = vtx[bufI + 2].v.cn[3] = vtx[bufI + 1].v.cn[3] = vtx[bufI + 3].v.cn[3] =
                 pauseCtx->alpha;
         }
     }
 
-    phi_s2 = phi_t1;
+    bufI_afterFirstPartDone_ = bufI;
+
+    //
 
     if (arg3 != 0) {
-        ptr1 = D_8082B000[arg2];
-        ptr2 = D_8082B018[arg2];
-        ptr3 = D_8082B030[arg2];
-        ptr4 = D_8082B048[arg2];
+        ptr1_x_ = D_8082B000_x_[usage_arg2];
+        ptr2_width_ = D_8082B018_width_[usage_arg2];
+        ptr3_y_ = D_8082B030_y_[usage_arg2];
+        ptr4_height_ = D_8082B048_height_[usage_arg2];
 
-        for (phi_t3 = 0; phi_t3 < arg3; phi_t3++, phi_t1 += 4) {
-            vtx[phi_t1 + 2].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] = ptr1[phi_t3];
+        for (j = 0; j < arg3; j++, bufI += 4) {
+            vtx[bufI + 2].v.ob[0] = vtx[bufI + 0].v.ob[0] = ptr1_x_[j];
 
-            vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + ptr2[phi_t3];
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + ptr2_width_[j];
 
-            if (!((pauseCtx->state >= 8) && (pauseCtx->state <= 0x11))) {
-                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = ptr3[phi_t3] + pauseCtx->offsetY;
+            if (!((pauseCtx->state >= PAUSECTX_STATE_8) && (pauseCtx->state < PAUSECTX_STATE_18))
+        /* PAUSECTX_STATE_8, PAUSECTX_STATE_9, PAUSECTX_STATE_10, PAUSECTX_STATE_11, PAUSECTX_STATE_12,
+           PAUSECTX_STATE_13, PAUSECTX_STATE_14, PAUSECTX_STATE_15, PAUSECTX_STATE_16, PAUSECTX_STATE_17 */) {
+                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = ptr3_y_[j] + pauseCtx->offsetY;
             } else {
-                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = YREG(60 + phi_t3) + pauseCtx->offsetY;
+                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = YREG(60 + j) + pauseCtx->offsetY;
             }
 
-            vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - ptr4[phi_t3];
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - ptr4_height_[j];
 
-            vtx[phi_t1 + 0].v.ob[2] = vtx[phi_t1 + 1].v.ob[2] = vtx[phi_t1 + 2].v.ob[2] = vtx[phi_t1 + 3].v.ob[2] = 0;
+            vtx[bufI + 0].v.ob[2] = vtx[bufI + 1].v.ob[2] = vtx[bufI + 2].v.ob[2] = vtx[bufI + 3].v.ob[2] = 0;
 
-            vtx[phi_t1 + 0].v.flag = vtx[phi_t1 + 1].v.flag = vtx[phi_t1 + 2].v.flag = vtx[phi_t1 + 3].v.flag = 0;
+            vtx[bufI + 0].v.flag = vtx[bufI + 1].v.flag = vtx[bufI + 2].v.flag = vtx[bufI + 3].v.flag = 0;
 
-            vtx[phi_t1 + 0].v.tc[0] = vtx[phi_t1 + 0].v.tc[1] = vtx[phi_t1 + 1].v.tc[1] = vtx[phi_t1 + 2].v.tc[0] = 0;
+            vtx[bufI + 0].v.tc[0] = vtx[bufI + 0].v.tc[1] = vtx[bufI + 1].v.tc[1] = vtx[bufI + 2].v.tc[0] = 0;
 
-            vtx[phi_t1 + 1].v.tc[0] = vtx[phi_t1 + 3].v.tc[0] = ptr2[phi_t3] << 5;
+            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = ptr2_width_[j] << 5;
 
-            vtx[phi_t1 + 2].v.tc[1] = vtx[phi_t1 + 3].v.tc[1] = ptr4[phi_t3] << 5;
+            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = ptr4_height_[j] << 5;
 
-            vtx[phi_t1 + 0].v.cn[0] = vtx[phi_t1 + 2].v.cn[0] = vtx[phi_t1 + 0].v.cn[1] = vtx[phi_t1 + 2].v.cn[1] =
-                vtx[phi_t1 + 0].v.cn[2] = vtx[phi_t1 + 2].v.cn[2] = vtx[phi_t1 + 1].v.cn[0] = vtx[phi_t1 + 3].v.cn[0] =
-                    vtx[phi_t1 + 1].v.cn[1] = vtx[phi_t1 + 3].v.cn[1] = vtx[phi_t1 + 1].v.cn[2] =
-                        vtx[phi_t1 + 3].v.cn[2] = 255;
+            vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] =
+                vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] =
+                    vtx[bufI + 1].v.cn[1] = vtx[bufI + 3].v.cn[1] = vtx[bufI + 1].v.cn[2] = vtx[bufI + 3].v.cn[2] = 255;
 
-            vtx[phi_t1 + 0].v.cn[3] = vtx[phi_t1 + 2].v.cn[3] = vtx[phi_t1 + 1].v.cn[3] = vtx[phi_t1 + 3].v.cn[3] =
+            vtx[bufI + 0].v.cn[3] = vtx[bufI + 2].v.cn[3] = vtx[bufI + 1].v.cn[3] = vtx[bufI + 3].v.cn[3] =
                 pauseCtx->alpha;
         }
 
-        if (arg2 == 4) {
-            phi_t1 -= 12;
+        if (usage_arg2 == FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE) {
+            bufI -= 12;
 
-            phi_t3 = gSaveContext.worldMapArea;
+            j = gSaveContext.worldMapArea;
 
-            vtx[phi_t1 + 0].v.ob[0] = vtx[phi_t1 + 2].v.ob[0] = D_8082B060[phi_t3];
+            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = D_8082B060_x_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[j];
 
-            if (phi_t3) {}
+            if (j) {}
 
-            vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + D_8082B08C[phi_t3];
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] =
+                vtx[bufI + 0].v.ob[0] + D_8082B08C_width_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[j];
 
-            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = D_8082B0B8[phi_t3] + pauseCtx->offsetY;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] =
+                D_8082B0B8_y_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[j] + pauseCtx->offsetY;
 
-            vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - D_8082B0E4[phi_t3];
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] =
+                vtx[bufI + 0].v.ob[1] - D_8082B0E4_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_bonus_[j];
 
-            phi_t1 += 12;
+            bufI += 12;
 
             if (pauseCtx->tradeQuestLocation != 0xFF) {
-                if (D_8082B114 == 0) {
-                    D_8082B118++;
-                    switch (D_8082B118) {
+                if (sTradeQuestVtxOffsetTimer__ == 0) {
+                    sTradeQuestVtxOffsetState__++;
+                    switch (sTradeQuestVtxOffsetState__) {
                         case 1:
-                            D_8082B110 = 3;
-                            D_8082B114 = 8;
+                            sTradeQuestVtxOffsetY__ = 3;
+                            sTradeQuestVtxOffsetTimer__ = 8;
                             break;
                         case 2:
-                            D_8082B110 = 0;
-                            D_8082B114 = 6;
-                            D_8082B118 = 0;
+                            sTradeQuestVtxOffsetY__ = 0;
+                            sTradeQuestVtxOffsetTimer__ = 6;
+                            sTradeQuestVtxOffsetState__ = 0;
                             break;
                     }
                 } else {
-                    D_8082B114--;
+                    sTradeQuestVtxOffsetTimer__--;
                 }
 
-                phi_t3 = phi_s2 + (pauseCtx->tradeQuestLocation * 4) + 64;
-                phi_a2 = phi_s2 + 116;
+                j = bufI_afterFirstPartDone_ + (pauseCtx->tradeQuestLocation * 4) + 64;
+                i = bufI_afterFirstPartDone_ + 116;
 
-                vtx[phi_a2 + 0].v.ob[0] = vtx[phi_a2 + 2].v.ob[0] = vtx[phi_t3 + 0].v.ob[0];
+                vtx[i + 0].v.ob[0] = vtx[i + 2].v.ob[0] = vtx[j + 0].v.ob[0];
 
-                vtx[phi_a2 + 1].v.ob[0] = vtx[phi_a2 + 3].v.ob[0] = vtx[phi_a2 + 0].v.ob[0] + 8;
+                vtx[i + 1].v.ob[0] = vtx[i + 3].v.ob[0] = vtx[i + 0].v.ob[0] + 8;
 
-                vtx[phi_a2 + 0].v.ob[1] = vtx[phi_a2 + 1].v.ob[1] = vtx[phi_t3 + 0].v.ob[1] - D_8082B110 + 10;
+                vtx[i + 0].v.ob[1] = vtx[i + 1].v.ob[1] = vtx[j + 0].v.ob[1] - sTradeQuestVtxOffsetY__ + 10;
 
-                vtx[phi_a2 + 0].v.ob[2] = vtx[phi_a2 + 1].v.ob[2] = vtx[phi_a2 + 2].v.ob[2] = vtx[phi_a2 + 3].v.ob[2] =
-                    0;
+                vtx[i + 0].v.ob[2] = vtx[i + 1].v.ob[2] = vtx[i + 2].v.ob[2] = vtx[i + 3].v.ob[2] = 0;
 
-                vtx[phi_a2 + 2].v.ob[1] = vtx[phi_a2 + 3].v.ob[1] = vtx[phi_a2 + 0].v.ob[1] - 8;
+                vtx[i + 2].v.ob[1] = vtx[i + 3].v.ob[1] = vtx[i + 0].v.ob[1] - 8;
 
-                vtx[phi_a2 + 0].v.flag = vtx[phi_a2 + 1].v.flag = vtx[phi_a2 + 2].v.flag = vtx[phi_a2 + 3].v.flag = 0;
+                vtx[i + 0].v.flag = vtx[i + 1].v.flag = vtx[i + 2].v.flag = vtx[i + 3].v.flag = 0;
 
-                vtx[phi_t1].v.tc[0] = vtx[phi_t1].v.tc[1] = vtx[phi_a2 + 1].v.tc[1] = vtx[phi_a2 + 2].v.tc[0] = 0;
+                vtx[bufI].v.tc[0] = vtx[bufI].v.tc[1] = vtx[i + 1].v.tc[1] = vtx[i + 2].v.tc[0] = 0;
 
-                vtx[phi_a2 + 1].v.tc[0] = vtx[phi_a2 + 3].v.tc[0] = 0x100;
+                vtx[i + 1].v.tc[0] = vtx[i + 3].v.tc[0] = 8 * (1 << 5);
 
-                vtx[phi_a2 + 2].v.tc[1] = vtx[phi_a2 + 3].v.tc[1] = 0x100;
+                vtx[i + 2].v.tc[1] = vtx[i + 3].v.tc[1] = 8 * (1 << 5);
 
-                vtx[phi_a2 + 0].v.cn[0] = vtx[phi_a2 + 2].v.cn[0] = vtx[phi_a2 + 0].v.cn[1] = vtx[phi_a2 + 2].v.cn[1] =
-                    vtx[phi_a2 + 0].v.cn[2] = vtx[phi_a2 + 2].v.cn[2] = vtx[phi_a2 + 1].v.cn[0] =
-                        vtx[phi_a2 + 3].v.cn[0] = vtx[phi_a2 + 1].v.cn[1] = vtx[phi_a2 + 3].v.cn[1] =
-                            vtx[phi_a2 + 1].v.cn[2] = vtx[phi_a2 + 3].v.cn[2] = 255;
+                vtx[i + 0].v.cn[0] = vtx[i + 2].v.cn[0] = vtx[i + 0].v.cn[1] = vtx[i + 2].v.cn[1] = vtx[i + 0].v.cn[2] =
+                    vtx[i + 2].v.cn[2] = vtx[i + 1].v.cn[0] = vtx[i + 3].v.cn[0] = vtx[i + 1].v.cn[1] =
+                        vtx[i + 3].v.cn[1] = vtx[i + 1].v.cn[2] = vtx[i + 3].v.cn[2] = 255;
 
-                vtx[phi_a2 + 0].v.cn[3] = vtx[phi_a2 + 2].v.cn[3] = vtx[phi_a2 + 1].v.cn[3] = vtx[phi_a2 + 3].v.cn[3] =
-                    pauseCtx->alpha;
+                vtx[i + 0].v.cn[3] = vtx[i + 2].v.cn[3] = vtx[i + 1].v.cn[3] = vtx[i + 3].v.cn[3] = pauseCtx->alpha;
             }
         }
     }
 
-    return phi_t1;
+    return bufI;
 }
 
 static s16 D_8082B11C[] = { 0, 4, 8, 12, 24, 32, 56 };
 
-static s16 D_8082B12C[] = { -114, 12, 44, 76 };
+static s16 D_8082B12C_x_equipVtx_[] = { -114, 12, 44, 76 };
 
 static u8 D_8082B134[] = { 1, 5, 9, 13 };
 
-static s16 D_8082B138[] = {
+static s16 D_8082B138_x_questVtx[] = {
     74,  74,  46,  18,  18,  46,   -108, -90,  -72, -54, -36, -18, -108, -90, -72, -54,
     -36, -18, 20,  46,  72,  -110, -86,  -110, -54, -98, -86, -74, -62,  -50, -38, -26,
     -14, -98, -86, -74, -62, -50,  -38,  -26,  -14, -88, -81, -72, -90,  -83, -74,
 };
 
-static s16 D_8082B198[] = {
+static s16 D_8082B198_y_questVtx[] = {
     38, 6,   -12, 6,   38,  56,  -20, -20, -20, -20, -20, -20, 2,   2,   2,   2,   2,   2,  -46, -46, -46, 58, 58, 34,
     58, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, 34, 34,  34,  36,  36, 36,
 };
 
-static s16 D_8082B1F8[] = {
+static s16 D_8082B1F8_width_questVtx_[] = {
     24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
     48, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
 };
 
 void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    s16 phi_t1;
-    s16 phi_t2;
-    s16 phi_t2_2;
-    s16 phi_t3;
-    s16 phi_t4;
-    s16 phi_t5;
+    s16 vtx_x_;
+    s16 i;
+    s16 phi_t2_2_width__;
+    s16 j;
+    s16 k;
+    s16 vtx_y;
 
     pauseCtx->offsetY = 0;
 
-    if ((pauseCtx->state == 4) || (pauseCtx->state >= 0x12) ||
-        ((pauseCtx->state == 7) && ((pauseCtx->unk_1EC == 2) || (pauseCtx->unk_1EC == 5))) ||
-        ((pauseCtx->state >= 8) && (pauseCtx->state <= 0xD))) {
+    if ((pauseCtx->state == PAUSECTX_STATE_4) ||
+        (pauseCtx->state >= PAUSECTX_STATE_18) /* PAUSECTX_STATE_18, PAUSECTX_STATE_19 */ ||
+        ((pauseCtx->state == PAUSECTX_STATE_7) && ((pauseCtx->unk_1EC == PAUSECTX_UNK_1EC_2) || (pauseCtx->unk_1EC == PAUSECTX_UNK_1EC_5))) ||
+        ((pauseCtx->state >= PAUSECTX_STATE_8) && (pauseCtx->state <= PAUSECTX_STATE_13))
+        /* PAUSECTX_STATE_8, PAUSECTX_STATE_9, PAUSECTX_STATE_10, PAUSECTX_STATE_11, PAUSECTX_STATE_12, PAUSECTX_STATE_13 */) {
         pauseCtx->offsetY = 80;
     }
 
-    pauseCtx->itemPageVtx = Graph_Alloc(gfxCtx, 60 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->itemPageVtx, 0, 0);
+    pauseCtx->itemPageVtx = Graph_Alloc(gfxCtx, ((15 + FUNC_80823A0C_ARG3_ITEM_PAGE_VTX) * 4) * sizeof(Vtx));
+    func_80823A0C_makeVertices_(play, pauseCtx->itemPageVtx, FUNC_80823A0C_USAGE_ARG2_ITEM_PAGE_VTX,
+                                FUNC_80823A0C_ARG3_ITEM_PAGE_VTX);
 
-    pauseCtx->equipPageVtx = Graph_Alloc(gfxCtx, 60 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->equipPageVtx, 1, 0);
+    pauseCtx->equipPageVtx = Graph_Alloc(gfxCtx, ((15 + FUNC_80823A0C_ARG3_EQUIP_PAGE_VTX) * 4) * sizeof(Vtx));
+    func_80823A0C_makeVertices_(play, pauseCtx->equipPageVtx, FUNC_80823A0C_USAGE_ARG2_EQUIP_PAGE_VTX,
+                                FUNC_80823A0C_ARG3_EQUIP_PAGE_VTX);
 
     if (!sInDungeonScene) {
-        pauseCtx->mapPageVtx = Graph_Alloc(gfxCtx, 248 * sizeof(Vtx));
-        phi_t3 = func_80823A0C(play, pauseCtx->mapPageVtx, 4, 32);
+        pauseCtx->mapPageVtx =
+            Graph_Alloc(gfxCtx, ((15 + FUNC_80823A0C_ARG3_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE + 15) * 4) * sizeof(Vtx));
+        j = func_80823A0C_makeVertices_(play, pauseCtx->mapPageVtx,
+                                        FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE,
+                                        FUNC_80823A0C_ARG3_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE);
 
-        for (phi_t2 = 0, phi_t5 = 58; phi_t2 < 15; phi_t2++, phi_t3 += 4, phi_t5 -= 9) {
-            pauseCtx->mapPageVtx[phi_t3 + 2].v.ob[0] = -108;
-            pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[0] = pauseCtx->mapPageVtx[phi_t3 + 2].v.ob[0];
+        for (i = 0, vtx_y = 58; i < 15; i++, j += 4, vtx_y -= 9) {
+            pauseCtx->mapPageVtx[j + 0].v.ob[0] = pauseCtx->mapPageVtx[j + 2].v.ob[0] = -108;
 
-            pauseCtx->mapPageVtx[phi_t3 + 1].v.ob[0] = pauseCtx->mapPageVtx[phi_t3 + 3].v.ob[0] =
-                pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[0] + 216;
+            pauseCtx->mapPageVtx[j + 1].v.ob[0] = pauseCtx->mapPageVtx[j + 3].v.ob[0] =
+                pauseCtx->mapPageVtx[j + 0].v.ob[0] + 216;
 
-            pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[1] = pauseCtx->mapPageVtx[phi_t3 + 1].v.ob[1] =
-                phi_t5 + pauseCtx->offsetY;
+            pauseCtx->mapPageVtx[j + 0].v.ob[1] = pauseCtx->mapPageVtx[j + 1].v.ob[1] = vtx_y + pauseCtx->offsetY;
 
-            pauseCtx->mapPageVtx[phi_t3 + 2].v.ob[1] = pauseCtx->mapPageVtx[phi_t3 + 3].v.ob[1] =
-                pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[1] - 9;
+            pauseCtx->mapPageVtx[j + 2].v.ob[1] = pauseCtx->mapPageVtx[j + 3].v.ob[1] =
+                pauseCtx->mapPageVtx[j + 0].v.ob[1] - 9;
 
-            pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[2] = pauseCtx->mapPageVtx[phi_t3 + 1].v.ob[2] =
-                pauseCtx->mapPageVtx[phi_t3 + 2].v.ob[2] = pauseCtx->mapPageVtx[phi_t3 + 3].v.ob[2] = 0;
+            pauseCtx->mapPageVtx[j + 0].v.ob[2] = pauseCtx->mapPageVtx[j + 1].v.ob[2] =
+                pauseCtx->mapPageVtx[j + 2].v.ob[2] = pauseCtx->mapPageVtx[j + 3].v.ob[2] = 0;
 
-            pauseCtx->mapPageVtx[phi_t3 + 0].v.flag = pauseCtx->mapPageVtx[phi_t3 + 1].v.flag =
-                pauseCtx->mapPageVtx[phi_t3 + 2].v.flag = pauseCtx->mapPageVtx[phi_t3 + 3].v.flag = 0;
+            pauseCtx->mapPageVtx[j + 0].v.flag = pauseCtx->mapPageVtx[j + 1].v.flag =
+                pauseCtx->mapPageVtx[j + 2].v.flag = pauseCtx->mapPageVtx[j + 3].v.flag = 0;
 
-            pauseCtx->mapPageVtx[phi_t3 + 0].v.tc[0] = pauseCtx->mapPageVtx[phi_t3 + 0].v.tc[1] =
-                pauseCtx->mapPageVtx[phi_t3 + 1].v.tc[1] = pauseCtx->mapPageVtx[phi_t3 + 2].v.tc[0] = 0;
+            pauseCtx->mapPageVtx[j + 0].v.tc[0] = pauseCtx->mapPageVtx[j + 0].v.tc[1] =
+                pauseCtx->mapPageVtx[j + 1].v.tc[1] = pauseCtx->mapPageVtx[j + 2].v.tc[0] = 0;
 
-            pauseCtx->mapPageVtx[phi_t3 + 1].v.tc[0] = pauseCtx->mapPageVtx[phi_t3 + 3].v.tc[0] = 0x1B00;
+            pauseCtx->mapPageVtx[j + 1].v.tc[0] = pauseCtx->mapPageVtx[j + 3].v.tc[0] = 216 * (1 << 5);
 
-            pauseCtx->mapPageVtx[phi_t3 + 2].v.tc[1] = pauseCtx->mapPageVtx[phi_t3 + 3].v.tc[1] = 0x120;
+            pauseCtx->mapPageVtx[j + 2].v.tc[1] = pauseCtx->mapPageVtx[j + 3].v.tc[1] = 9 * (1 << 5);
 
-            pauseCtx->mapPageVtx[phi_t3 + 0].v.cn[0] = pauseCtx->mapPageVtx[phi_t3 + 2].v.cn[0] =
-                pauseCtx->mapPageVtx[phi_t3 + 0].v.cn[1] = pauseCtx->mapPageVtx[phi_t3 + 2].v.cn[1] =
-                    pauseCtx->mapPageVtx[phi_t3 + 0].v.cn[2] = pauseCtx->mapPageVtx[phi_t3 + 2].v.cn[2] =
-                        pauseCtx->mapPageVtx[phi_t3 + 1].v.cn[0] = pauseCtx->mapPageVtx[phi_t3 + 3].v.cn[0] =
-                            pauseCtx->mapPageVtx[phi_t3 + 1].v.cn[1] = pauseCtx->mapPageVtx[phi_t3 + 3].v.cn[1] =
-                                pauseCtx->mapPageVtx[phi_t3 + 1].v.cn[2] = pauseCtx->mapPageVtx[phi_t3 + 3].v.cn[2] =
-                                    pauseCtx->mapPageVtx[phi_t3 + 0].v.cn[3] =
-                                        pauseCtx->mapPageVtx[phi_t3 + 2].v.cn[3] =
-                                            pauseCtx->mapPageVtx[phi_t3 + 1].v.cn[3] =
-                                                pauseCtx->mapPageVtx[phi_t3 + 3].v.cn[3] = pauseCtx->alpha;
+            pauseCtx->mapPageVtx[j + 0].v.cn[0] = pauseCtx->mapPageVtx[j + 2].v.cn[0] =
+                pauseCtx->mapPageVtx[j + 0].v.cn[1] = pauseCtx->mapPageVtx[j + 2].v.cn[1] =
+                    pauseCtx->mapPageVtx[j + 0].v.cn[2] = pauseCtx->mapPageVtx[j + 2].v.cn[2] =
+                        pauseCtx->mapPageVtx[j + 1].v.cn[0] = pauseCtx->mapPageVtx[j + 3].v.cn[0] =
+                            pauseCtx->mapPageVtx[j + 1].v.cn[1] = pauseCtx->mapPageVtx[j + 3].v.cn[1] =
+                                pauseCtx->mapPageVtx[j + 1].v.cn[2] = pauseCtx->mapPageVtx[j + 3].v.cn[2] =
+                                    pauseCtx->mapPageVtx[j + 0].v.cn[3] = pauseCtx->mapPageVtx[j + 2].v.cn[3] =
+                                        pauseCtx->mapPageVtx[j + 1].v.cn[3] = pauseCtx->mapPageVtx[j + 3].v.cn[3] =
+                                            pauseCtx->alpha;
         }
 
-        pauseCtx->mapPageVtx[phi_t3 - 2].v.ob[1] = pauseCtx->mapPageVtx[phi_t3 - 1].v.ob[1] =
-            pauseCtx->mapPageVtx[phi_t3 - 4].v.ob[1] - 2;
+        pauseCtx->mapPageVtx[j - 2].v.ob[1] = pauseCtx->mapPageVtx[j - 1].v.ob[1] =
+            pauseCtx->mapPageVtx[j - 4].v.ob[1] - 2;
 
-        pauseCtx->mapPageVtx[phi_t3 - 2].v.tc[1] = pauseCtx->mapPageVtx[phi_t3 - 1].v.tc[1] = 0x40;
+        pauseCtx->mapPageVtx[j - 2].v.tc[1] = pauseCtx->mapPageVtx[j - 1].v.tc[1] = 2 * (1 << 5);
     } else {
-        pauseCtx->mapPageVtx = Graph_Alloc(gfxCtx, 128 * sizeof(Vtx));
-        func_80823A0C(play, pauseCtx->mapPageVtx, 2, 17);
+        pauseCtx->mapPageVtx =
+            Graph_Alloc(gfxCtx, ((15 + FUNC_80823A0C_ARG3_MAP_PAGE_VTX_IN_DUNGEON_SCENE) * 4) * sizeof(Vtx));
+        func_80823A0C_makeVertices_(play, pauseCtx->mapPageVtx, FUNC_80823A0C_USAGE_ARG2_MAP_PAGE_VTX_IN_DUNGEON_SCENE,
+                                    FUNC_80823A0C_ARG3_MAP_PAGE_VTX_IN_DUNGEON_SCENE);
     }
 
-    pauseCtx->questPageVtx = Graph_Alloc(gfxCtx, 60 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->questPageVtx, 3, 0);
+    pauseCtx->questPageVtx = Graph_Alloc(gfxCtx, ((15 + FUNC_80823A0C_ARG3_QUEST_PAGE_VTX) * 4) * sizeof(Vtx));
+    func_80823A0C_makeVertices_(play, pauseCtx->questPageVtx, FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX,
+                                FUNC_80823A0C_ARG3_QUEST_PAGE_VTX);
 
     pauseCtx->cursorVtx = Graph_Alloc(gfxCtx, 20 * sizeof(Vtx));
 
-    for (phi_t2 = 0; phi_t2 < 20; phi_t2++) {
-        pauseCtx->cursorVtx[phi_t2].v.ob[0] = pauseCtx->cursorVtx[phi_t2].v.ob[1] =
-            pauseCtx->cursorVtx[phi_t2].v.ob[2] = 0;
+    for (i = 0; i < 20; i++) {
+        pauseCtx->cursorVtx[i].v.ob[0] = pauseCtx->cursorVtx[i].v.ob[1] = pauseCtx->cursorVtx[i].v.ob[2] = 0;
 
-        pauseCtx->cursorVtx[phi_t2].v.flag = 0;
+        pauseCtx->cursorVtx[i].v.flag = 0;
 
-        pauseCtx->cursorVtx[phi_t2].v.tc[0] = pauseCtx->cursorVtx[phi_t2].v.tc[1] = 0;
+        pauseCtx->cursorVtx[i].v.tc[0] = pauseCtx->cursorVtx[i].v.tc[1] = 0;
 
-        pauseCtx->cursorVtx[phi_t2].v.cn[0] = pauseCtx->cursorVtx[phi_t2].v.cn[1] =
-            pauseCtx->cursorVtx[phi_t2].v.cn[2] = pauseCtx->cursorVtx[phi_t2].v.cn[3] = 255;
+        pauseCtx->cursorVtx[i].v.cn[0] = pauseCtx->cursorVtx[i].v.cn[1] = pauseCtx->cursorVtx[i].v.cn[2] =
+            pauseCtx->cursorVtx[i].v.cn[3] = 255;
     }
 
     pauseCtx->cursorVtx[1].v.tc[0] = pauseCtx->cursorVtx[2].v.tc[1] = pauseCtx->cursorVtx[3].v.tc[0] =
@@ -1861,353 +1988,329 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorVtx[7].v.tc[0] = pauseCtx->cursorVtx[7].v.tc[1] = pauseCtx->cursorVtx[9].v.tc[0] =
                 pauseCtx->cursorVtx[10].v.tc[1] = pauseCtx->cursorVtx[11].v.tc[0] = pauseCtx->cursorVtx[11].v.tc[1] =
                     pauseCtx->cursorVtx[13].v.tc[0] = pauseCtx->cursorVtx[14].v.tc[1] =
-                        pauseCtx->cursorVtx[15].v.tc[0] = pauseCtx->cursorVtx[15].v.tc[1] = 0x200;
+                        pauseCtx->cursorVtx[15].v.tc[0] = pauseCtx->cursorVtx[15].v.tc[1] = 16 * (1 << 5);
 
     pauseCtx->cursorVtx[17].v.tc[0] = pauseCtx->cursorVtx[18].v.tc[1] = pauseCtx->cursorVtx[19].v.tc[0] =
-        pauseCtx->cursorVtx[19].v.tc[1] = 0x400;
+        pauseCtx->cursorVtx[19].v.tc[1] = 32 * (1 << 5);
 
-    pauseCtx->itemVtx = Graph_Alloc(gfxCtx, 164 * sizeof(Vtx));
+    pauseCtx->itemVtx = Graph_Alloc(gfxCtx, ((4 * 6 + 3 + 7 * 2) * 4) * sizeof(Vtx));
 
-    for (phi_t4 = 0, phi_t2 = 0, phi_t5 = 58; phi_t4 < 4; phi_t4++, phi_t5 -= 32) {
-        for (phi_t1 = -96, phi_t3 = 0; phi_t3 < 6; phi_t3++, phi_t2 += 4, phi_t1 += 32) {
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 2].v.ob[0] = phi_t1 + 2;
+    for (k = 0, i = 0, vtx_y = 58; k < 4; k++, vtx_y -= 32) {
+        for (vtx_x_ = -96, j = 0; j < 6; j++, i += 4, vtx_x_ += 32) {
+            pauseCtx->itemVtx[i + 0].v.ob[0] = pauseCtx->itemVtx[i + 2].v.ob[0] = vtx_x_ + 2;
 
-            pauseCtx->itemVtx[phi_t2 + 1].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[0] =
-                pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] + 0x1C;
+            pauseCtx->itemVtx[i + 1].v.ob[0] = pauseCtx->itemVtx[i + 3].v.ob[0] =
+                pauseCtx->itemVtx[i + 0].v.ob[0] + 0x1C;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[1] =
-                phi_t5 + pauseCtx->offsetY - 2;
+            pauseCtx->itemVtx[i + 0].v.ob[1] = pauseCtx->itemVtx[i + 1].v.ob[1] = vtx_y + pauseCtx->offsetY - 2;
 
-            pauseCtx->itemVtx[phi_t2 + 2].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[1] =
-                pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] - 0x1C;
+            pauseCtx->itemVtx[i + 2].v.ob[1] = pauseCtx->itemVtx[i + 3].v.ob[1] =
+                pauseCtx->itemVtx[i + 0].v.ob[1] - 0x1C;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[2] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[2] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.ob[2] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[2] = 0;
+            pauseCtx->itemVtx[i + 0].v.ob[2] = pauseCtx->itemVtx[i + 1].v.ob[2] = pauseCtx->itemVtx[i + 2].v.ob[2] =
+                pauseCtx->itemVtx[i + 3].v.ob[2] = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.flag = pauseCtx->itemVtx[phi_t2 + 1].v.flag =
-                pauseCtx->itemVtx[phi_t2 + 2].v.flag = pauseCtx->itemVtx[phi_t2 + 3].v.flag = 0;
+            pauseCtx->itemVtx[i + 0].v.flag = pauseCtx->itemVtx[i + 1].v.flag = pauseCtx->itemVtx[i + 2].v.flag =
+                pauseCtx->itemVtx[i + 3].v.flag = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 0].v.tc[1] =
-                pauseCtx->itemVtx[phi_t2 + 1].v.tc[1] = pauseCtx->itemVtx[phi_t2 + 2].v.tc[0] = 0;
+            pauseCtx->itemVtx[i + 0].v.tc[0] = pauseCtx->itemVtx[i + 0].v.tc[1] = pauseCtx->itemVtx[i + 1].v.tc[1] =
+                pauseCtx->itemVtx[i + 2].v.tc[0] = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 1].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 2].v.tc[1] =
-                pauseCtx->itemVtx[phi_t2 + 3].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 3].v.tc[1] = 0x400;
+            pauseCtx->itemVtx[i + 1].v.tc[0] = pauseCtx->itemVtx[i + 2].v.tc[1] = pauseCtx->itemVtx[i + 3].v.tc[0] =
+                pauseCtx->itemVtx[i + 3].v.tc[1] = 32 * (1 << 5);
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.cn[0] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[0] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[0] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[0] =
-                    pauseCtx->itemVtx[phi_t2 + 0].v.cn[1] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[1] =
-                        pauseCtx->itemVtx[phi_t2 + 2].v.cn[1] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[1] =
-                            pauseCtx->itemVtx[phi_t2 + 0].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[2] =
-                                pauseCtx->itemVtx[phi_t2 + 2].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[2] = 255;
+            pauseCtx->itemVtx[i + 0].v.cn[0] = pauseCtx->itemVtx[i + 1].v.cn[0] = pauseCtx->itemVtx[i + 2].v.cn[0] =
+                pauseCtx->itemVtx[i + 3].v.cn[0] = pauseCtx->itemVtx[i + 0].v.cn[1] = pauseCtx->itemVtx[i + 1].v.cn[1] =
+                    pauseCtx->itemVtx[i + 2].v.cn[1] = pauseCtx->itemVtx[i + 3].v.cn[1] =
+                        pauseCtx->itemVtx[i + 0].v.cn[2] = pauseCtx->itemVtx[i + 1].v.cn[2] =
+                            pauseCtx->itemVtx[i + 2].v.cn[2] = pauseCtx->itemVtx[i + 3].v.cn[2] = 255;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[3] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[3] = 255;
+            pauseCtx->itemVtx[i + 0].v.cn[3] = pauseCtx->itemVtx[i + 1].v.cn[3] = pauseCtx->itemVtx[i + 2].v.cn[3] =
+                pauseCtx->itemVtx[i + 3].v.cn[3] = 255;
         }
     }
 
-    for (phi_t3 = 1; phi_t3 < 4; phi_t3++, phi_t2 += 4) {
-        if (gSaveContext.equips.cButtonSlots[phi_t3 - 1] != ITEM_NONE) {
-            phi_t4 = gSaveContext.equips.cButtonSlots[phi_t3 - 1] * 4;
+    for (j = 1; j < 4; j++, i += 4) {
+        if (gSaveContext.equips.cButtonSlots[j - 1] != ITEM_NONE) {
+            k = gSaveContext.equips.cButtonSlots[j - 1] * 4;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 2].v.ob[0] =
-                pauseCtx->itemVtx[phi_t4].v.ob[0] - 2;
+            pauseCtx->itemVtx[i + 0].v.ob[0] = pauseCtx->itemVtx[i + 2].v.ob[0] = pauseCtx->itemVtx[k].v.ob[0] - 2;
 
-            pauseCtx->itemVtx[phi_t2 + 1].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[0] =
-                pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] + 32;
+            pauseCtx->itemVtx[i + 1].v.ob[0] = pauseCtx->itemVtx[i + 3].v.ob[0] = pauseCtx->itemVtx[i + 0].v.ob[0] + 32;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[1] =
-                pauseCtx->itemVtx[phi_t4].v.ob[1] + 2;
+            pauseCtx->itemVtx[i + 0].v.ob[1] = pauseCtx->itemVtx[i + 1].v.ob[1] = pauseCtx->itemVtx[k].v.ob[1] + 2;
 
-            pauseCtx->itemVtx[phi_t2 + 2].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[1] =
-                pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] - 32;
+            pauseCtx->itemVtx[i + 2].v.ob[1] = pauseCtx->itemVtx[i + 3].v.ob[1] = pauseCtx->itemVtx[i + 0].v.ob[1] - 32;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[2] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[2] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.ob[2] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[2] = 0;
+            pauseCtx->itemVtx[i + 0].v.ob[2] = pauseCtx->itemVtx[i + 1].v.ob[2] = pauseCtx->itemVtx[i + 2].v.ob[2] =
+                pauseCtx->itemVtx[i + 3].v.ob[2] = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.flag = pauseCtx->itemVtx[phi_t2 + 1].v.flag =
-                pauseCtx->itemVtx[phi_t2 + 2].v.flag = pauseCtx->itemVtx[phi_t2 + 3].v.flag = 0;
+            pauseCtx->itemVtx[i + 0].v.flag = pauseCtx->itemVtx[i + 1].v.flag = pauseCtx->itemVtx[i + 2].v.flag =
+                pauseCtx->itemVtx[i + 3].v.flag = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 0].v.tc[1] =
-                pauseCtx->itemVtx[phi_t2 + 1].v.tc[1] = pauseCtx->itemVtx[phi_t2 + 2].v.tc[0] = 0;
+            pauseCtx->itemVtx[i + 0].v.tc[0] = pauseCtx->itemVtx[i + 0].v.tc[1] = pauseCtx->itemVtx[i + 1].v.tc[1] =
+                pauseCtx->itemVtx[i + 2].v.tc[0] = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 1].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 2].v.tc[1] =
-                pauseCtx->itemVtx[phi_t2 + 3].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 3].v.tc[1] = 0x400;
+            pauseCtx->itemVtx[i + 1].v.tc[0] = pauseCtx->itemVtx[i + 2].v.tc[1] = pauseCtx->itemVtx[i + 3].v.tc[0] =
+                pauseCtx->itemVtx[i + 3].v.tc[1] = 32 * (1 << 5);
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.cn[0] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[0] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[0] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[0] =
-                    pauseCtx->itemVtx[phi_t2 + 0].v.cn[1] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[1] =
-                        pauseCtx->itemVtx[phi_t2 + 2].v.cn[1] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[1] =
-                            pauseCtx->itemVtx[phi_t2 + 0].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[2] =
-                                pauseCtx->itemVtx[phi_t2 + 2].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[2] = 255;
+            pauseCtx->itemVtx[i + 0].v.cn[0] = pauseCtx->itemVtx[i + 1].v.cn[0] = pauseCtx->itemVtx[i + 2].v.cn[0] =
+                pauseCtx->itemVtx[i + 3].v.cn[0] = pauseCtx->itemVtx[i + 0].v.cn[1] = pauseCtx->itemVtx[i + 1].v.cn[1] =
+                    pauseCtx->itemVtx[i + 2].v.cn[1] = pauseCtx->itemVtx[i + 3].v.cn[1] =
+                        pauseCtx->itemVtx[i + 0].v.cn[2] = pauseCtx->itemVtx[i + 1].v.cn[2] =
+                            pauseCtx->itemVtx[i + 2].v.cn[2] = pauseCtx->itemVtx[i + 3].v.cn[2] = 255;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[3] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[3] = pauseCtx->alpha;
+            pauseCtx->itemVtx[i + 0].v.cn[3] = pauseCtx->itemVtx[i + 1].v.cn[3] = pauseCtx->itemVtx[i + 2].v.cn[3] =
+                pauseCtx->itemVtx[i + 3].v.cn[3] = pauseCtx->alpha;
         } else {
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 2].v.ob[0] = -300;
+            pauseCtx->itemVtx[i + 0].v.ob[0] = pauseCtx->itemVtx[i + 2].v.ob[0] = -300;
 
-            pauseCtx->itemVtx[phi_t2 + 1].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[0] =
-                pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] + 32;
+            pauseCtx->itemVtx[i + 1].v.ob[0] = pauseCtx->itemVtx[i + 3].v.ob[0] = pauseCtx->itemVtx[i + 0].v.ob[0] + 32;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[1] = 300;
+            pauseCtx->itemVtx[i + 0].v.ob[1] = pauseCtx->itemVtx[i + 1].v.ob[1] = 300;
 
-            pauseCtx->itemVtx[phi_t2 + 2].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[1] =
-                pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] - 32;
+            pauseCtx->itemVtx[i + 2].v.ob[1] = pauseCtx->itemVtx[i + 3].v.ob[1] = pauseCtx->itemVtx[i + 0].v.ob[1] - 32;
         }
     }
 
-    for (phi_t2 = 108, phi_t3 = 0; phi_t3 < 7; phi_t3++) {
-        phi_t4 = D_8082B11C[phi_t3];
+    for (i = (4 * 6 + 3) * 4, j = 0; j < 7; j++) {
+        k = D_8082B11C[j];
 
-        pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 2].v.ob[0] =
-            pauseCtx->itemVtx[phi_t4].v.ob[0];
+        pauseCtx->itemVtx[i + 0].v.ob[0] = pauseCtx->itemVtx[i + 2].v.ob[0] = pauseCtx->itemVtx[k].v.ob[0];
 
-        pauseCtx->itemVtx[phi_t2 + 1].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[0] =
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] + 8;
+        pauseCtx->itemVtx[i + 1].v.ob[0] = pauseCtx->itemVtx[i + 3].v.ob[0] = pauseCtx->itemVtx[i + 0].v.ob[0] + 8;
 
-        pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[1] =
-            pauseCtx->itemVtx[phi_t4].v.ob[1] - 22;
+        pauseCtx->itemVtx[i + 0].v.ob[1] = pauseCtx->itemVtx[i + 1].v.ob[1] = pauseCtx->itemVtx[k].v.ob[1] - 22;
 
-        pauseCtx->itemVtx[phi_t2 + 2].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[1] =
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] - 8;
+        pauseCtx->itemVtx[i + 2].v.ob[1] = pauseCtx->itemVtx[i + 3].v.ob[1] = pauseCtx->itemVtx[i + 0].v.ob[1] - 8;
 
-        pauseCtx->itemVtx[phi_t2 + 4].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 6].v.ob[0] =
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] + 6;
+        pauseCtx->itemVtx[i + 4].v.ob[0] = pauseCtx->itemVtx[i + 6].v.ob[0] = pauseCtx->itemVtx[i + 0].v.ob[0] + 6;
 
-        pauseCtx->itemVtx[phi_t2 + 5].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 7].v.ob[0] =
-            pauseCtx->itemVtx[phi_t2 + 4].v.ob[0] + 8;
+        pauseCtx->itemVtx[i + 5].v.ob[0] = pauseCtx->itemVtx[i + 7].v.ob[0] = pauseCtx->itemVtx[i + 4].v.ob[0] + 8;
 
-        pauseCtx->itemVtx[phi_t2 + 4].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 5].v.ob[1] =
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[1];
+        pauseCtx->itemVtx[i + 4].v.ob[1] = pauseCtx->itemVtx[i + 5].v.ob[1] = pauseCtx->itemVtx[i + 0].v.ob[1];
 
-        pauseCtx->itemVtx[phi_t2 + 6].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 7].v.ob[1] =
-            pauseCtx->itemVtx[phi_t2 + 4].v.ob[1] - 8;
+        pauseCtx->itemVtx[i + 6].v.ob[1] = pauseCtx->itemVtx[i + 7].v.ob[1] = pauseCtx->itemVtx[i + 4].v.ob[1] - 8;
 
-        for (phi_t4 = 0; phi_t4 < 2; phi_t4++, phi_t2 += 4) {
-            pauseCtx->itemVtx[phi_t2 + 0].v.ob[2] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[2] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.ob[2] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[2] = 0;
+        for (k = 0; k < 2; k++, i += 4) {
+            pauseCtx->itemVtx[i + 0].v.ob[2] = pauseCtx->itemVtx[i + 1].v.ob[2] = pauseCtx->itemVtx[i + 2].v.ob[2] =
+                pauseCtx->itemVtx[i + 3].v.ob[2] = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.flag = pauseCtx->itemVtx[phi_t2 + 1].v.flag =
-                pauseCtx->itemVtx[phi_t2 + 2].v.flag = pauseCtx->itemVtx[phi_t2 + 3].v.flag = 0;
+            pauseCtx->itemVtx[i + 0].v.flag = pauseCtx->itemVtx[i + 1].v.flag = pauseCtx->itemVtx[i + 2].v.flag =
+                pauseCtx->itemVtx[i + 3].v.flag = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 0].v.tc[1] =
-                pauseCtx->itemVtx[phi_t2 + 1].v.tc[1] = pauseCtx->itemVtx[phi_t2 + 2].v.tc[0] = 0;
+            pauseCtx->itemVtx[i + 0].v.tc[0] = pauseCtx->itemVtx[i + 0].v.tc[1] = pauseCtx->itemVtx[i + 1].v.tc[1] =
+                pauseCtx->itemVtx[i + 2].v.tc[0] = 0;
 
-            pauseCtx->itemVtx[phi_t2 + 1].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 2].v.tc[1] =
-                pauseCtx->itemVtx[phi_t2 + 3].v.tc[0] = pauseCtx->itemVtx[phi_t2 + 3].v.tc[1] = 0x100;
+            pauseCtx->itemVtx[i + 1].v.tc[0] = pauseCtx->itemVtx[i + 2].v.tc[1] = pauseCtx->itemVtx[i + 3].v.tc[0] =
+                pauseCtx->itemVtx[i + 3].v.tc[1] = 8 * (1 << 5);
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.cn[0] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[0] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[0] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[0] =
-                    pauseCtx->itemVtx[phi_t2 + 0].v.cn[1] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[1] =
-                        pauseCtx->itemVtx[phi_t2 + 2].v.cn[1] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[1] =
-                            pauseCtx->itemVtx[phi_t2 + 0].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[2] =
-                                pauseCtx->itemVtx[phi_t2 + 2].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[2] = 255;
+            pauseCtx->itemVtx[i + 0].v.cn[0] = pauseCtx->itemVtx[i + 1].v.cn[0] = pauseCtx->itemVtx[i + 2].v.cn[0] =
+                pauseCtx->itemVtx[i + 3].v.cn[0] = pauseCtx->itemVtx[i + 0].v.cn[1] = pauseCtx->itemVtx[i + 1].v.cn[1] =
+                    pauseCtx->itemVtx[i + 2].v.cn[1] = pauseCtx->itemVtx[i + 3].v.cn[1] =
+                        pauseCtx->itemVtx[i + 0].v.cn[2] = pauseCtx->itemVtx[i + 1].v.cn[2] =
+                            pauseCtx->itemVtx[i + 2].v.cn[2] = pauseCtx->itemVtx[i + 3].v.cn[2] = 255;
 
-            pauseCtx->itemVtx[phi_t2 + 0].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[3] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[3] = pauseCtx->alpha;
+            pauseCtx->itemVtx[i + 0].v.cn[3] = pauseCtx->itemVtx[i + 1].v.cn[3] = pauseCtx->itemVtx[i + 2].v.cn[3] =
+                pauseCtx->itemVtx[i + 3].v.cn[3] = pauseCtx->alpha;
         }
     }
 
     pauseCtx->equipVtx = Graph_Alloc(gfxCtx, 112 * sizeof(Vtx));
 
-    for (phi_t4 = 0, phi_t2 = 0, phi_t5 = 58; phi_t2 < 4; phi_t2++, phi_t5 -= 32) {
-        for (phi_t3 = 0; phi_t3 < 4; phi_t3++, phi_t4 += 4) {
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] = pauseCtx->equipVtx[phi_t4 + 2].v.ob[0] = D_8082B12C[phi_t3] + 2;
+    for (k = 0, i = 0, vtx_y = 58; i < 4; i++, vtx_y -= 32) {
+        for (j = 0; j < 4; j++, k += 4) {
+            pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = D_8082B12C_x_equipVtx_[j] + 2;
 
-            pauseCtx->equipVtx[phi_t4 + 1].v.ob[0] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[0] =
-                pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] + 28;
+            pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] =
+                pauseCtx->equipVtx[k + 0].v.ob[0] + 28;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[1] =
-                phi_t5 + pauseCtx->offsetY - 2;
+            pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = vtx_y + pauseCtx->offsetY - 2;
 
-            pauseCtx->equipVtx[phi_t4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[1] =
-                pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] - 28;
+            pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
+                pauseCtx->equipVtx[k + 0].v.ob[1] - 28;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[2] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[2] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.ob[2] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[2] = 0;
+            pauseCtx->equipVtx[k + 0].v.ob[2] = pauseCtx->equipVtx[k + 1].v.ob[2] = pauseCtx->equipVtx[k + 2].v.ob[2] =
+                pauseCtx->equipVtx[k + 3].v.ob[2] = 0;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.flag = pauseCtx->equipVtx[phi_t4 + 1].v.flag =
-                pauseCtx->equipVtx[phi_t4 + 2].v.flag = pauseCtx->equipVtx[phi_t4 + 3].v.flag = 0;
+            pauseCtx->equipVtx[k + 0].v.flag = pauseCtx->equipVtx[k + 1].v.flag = pauseCtx->equipVtx[k + 2].v.flag =
+                pauseCtx->equipVtx[k + 3].v.flag = 0;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 0].v.tc[1] =
-                pauseCtx->equipVtx[phi_t4 + 1].v.tc[1] = pauseCtx->equipVtx[phi_t4 + 2].v.tc[0] = 0;
+            pauseCtx->equipVtx[k + 0].v.tc[0] = pauseCtx->equipVtx[k + 0].v.tc[1] = pauseCtx->equipVtx[k + 1].v.tc[1] =
+                pauseCtx->equipVtx[k + 2].v.tc[0] = 0;
 
-            pauseCtx->equipVtx[phi_t4 + 1].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 2].v.tc[1] =
-                pauseCtx->equipVtx[phi_t4 + 3].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 3].v.tc[1] = 0x400;
+            pauseCtx->equipVtx[k + 1].v.tc[0] = pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[0] =
+                pauseCtx->equipVtx[k + 3].v.tc[1] = 32 * (1 << 5);
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.cn[0] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[0] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.cn[0] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[0] =
-                    pauseCtx->equipVtx[phi_t4 + 0].v.cn[1] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[1] =
-                        pauseCtx->equipVtx[phi_t4 + 2].v.cn[1] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[1] =
-                            pauseCtx->equipVtx[phi_t4 + 0].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[2] =
-                                pauseCtx->equipVtx[phi_t4 + 2].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[2] = 255;
+            pauseCtx->equipVtx[k + 0].v.cn[0] = pauseCtx->equipVtx[k + 1].v.cn[0] = pauseCtx->equipVtx[k + 2].v.cn[0] =
+                pauseCtx->equipVtx[k + 3].v.cn[0] = pauseCtx->equipVtx[k + 0].v.cn[1] =
+                    pauseCtx->equipVtx[k + 1].v.cn[1] = pauseCtx->equipVtx[k + 2].v.cn[1] =
+                        pauseCtx->equipVtx[k + 3].v.cn[1] = pauseCtx->equipVtx[k + 0].v.cn[2] =
+                            pauseCtx->equipVtx[k + 1].v.cn[2] = pauseCtx->equipVtx[k + 2].v.cn[2] =
+                                pauseCtx->equipVtx[k + 3].v.cn[2] = 255;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[3] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
+            pauseCtx->equipVtx[k + 0].v.cn[3] = pauseCtx->equipVtx[k + 1].v.cn[3] = pauseCtx->equipVtx[k + 2].v.cn[3] =
+                pauseCtx->equipVtx[k + 3].v.cn[3] = pauseCtx->alpha;
         }
     }
 
-    for (phi_t3 = 0; phi_t3 < 4; phi_t3++, phi_t4 += 4) {
-        if (CUR_EQUIP_VALUE(phi_t3) != 0) {
-            phi_t2 = (CUR_EQUIP_VALUE(phi_t3) + D_8082B134[phi_t3] - 1) * 4;
+    for (j = 0; j < 4; j++, k += 4) {
+        if (CUR_EQUIP_VALUE(j) != 0) {
+            i = (CUR_EQUIP_VALUE(j) + D_8082B134[j] - 1) * 4;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] = pauseCtx->equipVtx[phi_t4 + 2].v.ob[0] =
-                pauseCtx->equipVtx[phi_t2].v.ob[0] - 2;
+            pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = pauseCtx->equipVtx[i].v.ob[0] - 2;
 
-            pauseCtx->equipVtx[phi_t4 + 1].v.ob[0] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[0] =
-                pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] + 32;
+            pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] =
+                pauseCtx->equipVtx[k + 0].v.ob[0] + 32;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[1] =
-                pauseCtx->equipVtx[phi_t2].v.ob[1] + 2;
+            pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = pauseCtx->equipVtx[i].v.ob[1] + 2;
 
-            pauseCtx->equipVtx[phi_t4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[1] =
-                pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] - 32;
+            pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
+                pauseCtx->equipVtx[k + 0].v.ob[1] - 32;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[2] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[2] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.ob[2] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[2] = 0;
+            pauseCtx->equipVtx[k + 0].v.ob[2] = pauseCtx->equipVtx[k + 1].v.ob[2] = pauseCtx->equipVtx[k + 2].v.ob[2] =
+                pauseCtx->equipVtx[k + 3].v.ob[2] = 0;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.flag = pauseCtx->equipVtx[phi_t4 + 1].v.flag =
-                pauseCtx->equipVtx[phi_t4 + 2].v.flag = pauseCtx->equipVtx[phi_t4 + 3].v.flag = 0;
+            pauseCtx->equipVtx[k + 0].v.flag = pauseCtx->equipVtx[k + 1].v.flag = pauseCtx->equipVtx[k + 2].v.flag =
+                pauseCtx->equipVtx[k + 3].v.flag = 0;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 0].v.tc[1] =
-                pauseCtx->equipVtx[phi_t4 + 1].v.tc[1] = pauseCtx->equipVtx[phi_t4 + 2].v.tc[0] = 0;
+            pauseCtx->equipVtx[k + 0].v.tc[0] = pauseCtx->equipVtx[k + 0].v.tc[1] = pauseCtx->equipVtx[k + 1].v.tc[1] =
+                pauseCtx->equipVtx[k + 2].v.tc[0] = 0;
 
-            pauseCtx->equipVtx[phi_t4 + 1].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 2].v.tc[1] =
-                pauseCtx->equipVtx[phi_t4 + 3].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 3].v.tc[1] = 0x400;
+            pauseCtx->equipVtx[k + 1].v.tc[0] = pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[0] =
+                pauseCtx->equipVtx[k + 3].v.tc[1] = 32 * (1 << 5);
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.cn[0] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[0] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.cn[0] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[0] =
-                    pauseCtx->equipVtx[phi_t4 + 0].v.cn[1] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[1] =
-                        pauseCtx->equipVtx[phi_t4 + 2].v.cn[1] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[1] =
-                            pauseCtx->equipVtx[phi_t4 + 0].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[2] =
-                                pauseCtx->equipVtx[phi_t4 + 2].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[2] = 255;
+            pauseCtx->equipVtx[k + 0].v.cn[0] = pauseCtx->equipVtx[k + 1].v.cn[0] = pauseCtx->equipVtx[k + 2].v.cn[0] =
+                pauseCtx->equipVtx[k + 3].v.cn[0] = pauseCtx->equipVtx[k + 0].v.cn[1] =
+                    pauseCtx->equipVtx[k + 1].v.cn[1] = pauseCtx->equipVtx[k + 2].v.cn[1] =
+                        pauseCtx->equipVtx[k + 3].v.cn[1] = pauseCtx->equipVtx[k + 0].v.cn[2] =
+                            pauseCtx->equipVtx[k + 1].v.cn[2] = pauseCtx->equipVtx[k + 2].v.cn[2] =
+                                pauseCtx->equipVtx[k + 3].v.cn[2] = 255;
 
-            pauseCtx->equipVtx[phi_t4 + 0].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[3] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
+            pauseCtx->equipVtx[k + 0].v.cn[3] = pauseCtx->equipVtx[k + 1].v.cn[3] = pauseCtx->equipVtx[k + 2].v.cn[3] =
+                pauseCtx->equipVtx[k + 3].v.cn[3] = pauseCtx->alpha;
         }
     }
 
-    phi_t1 = 112;
-    phi_t5 = 50;
+    vtx_x_ = 112;
+    vtx_y = 50;
     while (true) {
-        pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] = pauseCtx->equipVtx[phi_t4 + 2].v.ob[0] = -64;
+        pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = -64;
 
-        pauseCtx->equipVtx[phi_t4 + 1].v.ob[0] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[0] =
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] + 64;
+        pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] = pauseCtx->equipVtx[k + 0].v.ob[0] + 64;
 
-        pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[1] = phi_t5 + pauseCtx->offsetY;
+        pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = vtx_y + pauseCtx->offsetY;
 
-        pauseCtx->equipVtx[phi_t4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[1] =
-            pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] - 32;
+        pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] = pauseCtx->equipVtx[k + 0].v.ob[1] - 32;
 
-        pauseCtx->equipVtx[phi_t4 + 0].v.ob[2] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[2] =
-            pauseCtx->equipVtx[phi_t4 + 2].v.ob[2] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[2] = 0;
+        pauseCtx->equipVtx[k + 0].v.ob[2] = pauseCtx->equipVtx[k + 1].v.ob[2] = pauseCtx->equipVtx[k + 2].v.ob[2] =
+            pauseCtx->equipVtx[k + 3].v.ob[2] = 0;
 
-        pauseCtx->equipVtx[phi_t4 + 0].v.flag = pauseCtx->equipVtx[phi_t4 + 1].v.flag =
-            pauseCtx->equipVtx[phi_t4 + 2].v.flag = pauseCtx->equipVtx[phi_t4 + 3].v.flag = 0;
+        pauseCtx->equipVtx[k + 0].v.flag = pauseCtx->equipVtx[k + 1].v.flag = pauseCtx->equipVtx[k + 2].v.flag =
+            pauseCtx->equipVtx[k + 3].v.flag = 0;
 
-        pauseCtx->equipVtx[phi_t4 + 0].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 0].v.tc[1] =
-            pauseCtx->equipVtx[phi_t4 + 1].v.tc[1] = pauseCtx->equipVtx[phi_t4 + 2].v.tc[0] = 0;
+        pauseCtx->equipVtx[k + 0].v.tc[0] = pauseCtx->equipVtx[k + 0].v.tc[1] = pauseCtx->equipVtx[k + 1].v.tc[1] =
+            pauseCtx->equipVtx[k + 2].v.tc[0] = 0;
 
-        pauseCtx->equipVtx[phi_t4 + 1].v.tc[0] = pauseCtx->equipVtx[phi_t4 + 3].v.tc[0] = 0x800;
+        pauseCtx->equipVtx[k + 1].v.tc[0] = pauseCtx->equipVtx[k + 3].v.tc[0] = 64 * (1 << 5);
 
-        pauseCtx->equipVtx[phi_t4 + 2].v.tc[1] = pauseCtx->equipVtx[phi_t4 + 3].v.tc[1] = 0x400;
+        pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[1] = 32 * (1 << 5);
 
-        pauseCtx->equipVtx[phi_t4 + 0].v.cn[0] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[0] =
-            pauseCtx->equipVtx[phi_t4 + 2].v.cn[0] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[0] =
-                pauseCtx->equipVtx[phi_t4 + 0].v.cn[1] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[1] =
-                    pauseCtx->equipVtx[phi_t4 + 2].v.cn[1] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[1] =
-                        pauseCtx->equipVtx[phi_t4 + 0].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[2] =
-                            pauseCtx->equipVtx[phi_t4 + 2].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[2] = 255;
+        pauseCtx->equipVtx[k + 0].v.cn[0] = pauseCtx->equipVtx[k + 1].v.cn[0] = pauseCtx->equipVtx[k + 2].v.cn[0] =
+            pauseCtx->equipVtx[k + 3].v.cn[0] = pauseCtx->equipVtx[k + 0].v.cn[1] = pauseCtx->equipVtx[k + 1].v.cn[1] =
+                pauseCtx->equipVtx[k + 2].v.cn[1] = pauseCtx->equipVtx[k + 3].v.cn[1] =
+                    pauseCtx->equipVtx[k + 0].v.cn[2] = pauseCtx->equipVtx[k + 1].v.cn[2] =
+                        pauseCtx->equipVtx[k + 2].v.cn[2] = pauseCtx->equipVtx[k + 3].v.cn[2] = 255;
 
-        pauseCtx->equipVtx[phi_t4 + 0].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[3] =
-            pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
+        pauseCtx->equipVtx[k + 0].v.cn[3] = pauseCtx->equipVtx[k + 1].v.cn[3] = pauseCtx->equipVtx[k + 2].v.cn[3] =
+            pauseCtx->equipVtx[k + 3].v.cn[3] = pauseCtx->alpha;
 
-        phi_t1 -= 32;
-        phi_t5 -= 32;
-        if (phi_t1 < 0) {
-            pauseCtx->equipVtx[phi_t4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[1] =
-                pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] - 0x10;
+        vtx_x_ -= 32;
+        vtx_y -= 32;
+        if (vtx_x_ < 0) {
+            pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
+                pauseCtx->equipVtx[k + 0].v.ob[1] - 16;
 
-            pauseCtx->equipVtx[phi_t4 + 2].v.tc[1] = pauseCtx->equipVtx[phi_t4 + 3].v.tc[1] = 0x200;
+            pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[1] = 16 * (1 << 5);
             break;
         }
 
-        phi_t4 += 4;
+        k += 4;
     }
 
-    pauseCtx->questVtx = Graph_Alloc(gfxCtx, 188 * sizeof(Vtx));
+    pauseCtx->questVtx = Graph_Alloc(gfxCtx, (47 * 4) * sizeof(Vtx));
 
-    for (phi_t4 = 0, phi_t3 = 0; phi_t3 < 47; phi_t3++, phi_t4 += 4) {
-        phi_t2_2 = D_8082B1F8[phi_t3];
+    for (k = 0, j = 0; j < 47; j++, k += 4) {
+        phi_t2_2_width__ = D_8082B1F8_width_questVtx_[j];
 
-        if ((phi_t3 < 6) || (phi_t3 >= 41)) {
-            pauseCtx->questVtx[phi_t4 + 0].v.ob[0] = pauseCtx->questVtx[phi_t4 + 2].v.ob[0] = D_8082B138[phi_t3];
+        if ((j < 6) || (j >= 41)) {
+            pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = D_8082B138_x_questVtx[j];
 
-            pauseCtx->questVtx[phi_t4 + 1].v.ob[0] = pauseCtx->questVtx[phi_t4 + 3].v.ob[0] =
-                pauseCtx->questVtx[phi_t4 + 0].v.ob[0] + D_8082B1F8[phi_t3];
+            pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
+                pauseCtx->questVtx[k + 0].v.ob[0] + D_8082B1F8_width_questVtx_[j];
 
-            pauseCtx->questVtx[phi_t4 + 0].v.ob[1] = pauseCtx->questVtx[phi_t4 + 1].v.ob[1] =
-                D_8082B198[phi_t3] + pauseCtx->offsetY;
+            pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
+                D_8082B198_y_questVtx[j] + pauseCtx->offsetY;
 
-            pauseCtx->questVtx[phi_t4 + 2].v.ob[1] = pauseCtx->questVtx[phi_t4 + 3].v.ob[1] =
-                pauseCtx->questVtx[phi_t4 + 0].v.ob[1] - D_8082B1F8[phi_t3];
+            pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
+                pauseCtx->questVtx[k + 0].v.ob[1] - D_8082B1F8_width_questVtx_[j];
 
-            if (phi_t3 >= 41) {
-                pauseCtx->questVtx[phi_t4 + 1].v.ob[0] = pauseCtx->questVtx[phi_t4 + 3].v.ob[0] =
-                    pauseCtx->questVtx[phi_t4 + 0].v.ob[0] + 8;
+            if (j >= 41) {
+                pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
+                    pauseCtx->questVtx[k + 0].v.ob[0] + 8;
 
-                pauseCtx->questVtx[phi_t4 + 0].v.ob[1] = pauseCtx->questVtx[phi_t4 + 1].v.ob[1] =
-                    D_8082B198[phi_t3] + pauseCtx->offsetY - 6;
+                pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
+                    D_8082B198_y_questVtx[j] + pauseCtx->offsetY - 6;
 
-                pauseCtx->questVtx[phi_t4 + 2].v.ob[1] = pauseCtx->questVtx[phi_t4 + 3].v.ob[1] =
-                    pauseCtx->questVtx[phi_t4 + 0].v.ob[1] - 16;
+                pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
+                    pauseCtx->questVtx[k + 0].v.ob[1] - 16;
 
-                phi_t2_2 = 8;
+                phi_t2_2_width__ = 8;
             }
         } else {
-            if ((phi_t3 >= 6) && (phi_t3 <= 17)) {
-                phi_t2_2 = 16;
+            if ((j >= 6) && (j <= 17)) {
+                phi_t2_2_width__ = 16;
             }
 
-            pauseCtx->questVtx[phi_t4 + 0].v.ob[0] = pauseCtx->questVtx[phi_t4 + 2].v.ob[0] = D_8082B138[phi_t3] + 2;
+            pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = D_8082B138_x_questVtx[j] + 2;
 
-            pauseCtx->questVtx[phi_t4 + 1].v.ob[0] = pauseCtx->questVtx[phi_t4 + 3].v.ob[0] =
-                pauseCtx->questVtx[phi_t4 + 0].v.ob[0] + phi_t2_2 - 4;
+            pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
+                pauseCtx->questVtx[k + 0].v.ob[0] + phi_t2_2_width__ - 4;
 
-            pauseCtx->questVtx[phi_t4 + 0].v.ob[1] = pauseCtx->questVtx[phi_t4 + 1].v.ob[1] =
-                D_8082B198[phi_t3] + pauseCtx->offsetY - 2;
+            pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
+                D_8082B198_y_questVtx[j] + pauseCtx->offsetY - 2;
 
-            pauseCtx->questVtx[phi_t4 + 2].v.ob[1] = pauseCtx->questVtx[phi_t4 + 3].v.ob[1] =
-                pauseCtx->questVtx[phi_t4 + 0].v.ob[1] - D_8082B1F8[phi_t3] + 4;
+            pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
+                pauseCtx->questVtx[k + 0].v.ob[1] - D_8082B1F8_width_questVtx_[j] + 4;
         }
 
-        pauseCtx->questVtx[phi_t4 + 0].v.ob[2] = pauseCtx->questVtx[phi_t4 + 1].v.ob[2] =
-            pauseCtx->questVtx[phi_t4 + 2].v.ob[2] = pauseCtx->questVtx[phi_t4 + 3].v.ob[2] = 0;
+        pauseCtx->questVtx[k + 0].v.ob[2] = pauseCtx->questVtx[k + 1].v.ob[2] = pauseCtx->questVtx[k + 2].v.ob[2] =
+            pauseCtx->questVtx[k + 3].v.ob[2] = 0;
 
-        pauseCtx->questVtx[phi_t4 + 0].v.flag = pauseCtx->questVtx[phi_t4 + 1].v.flag =
-            pauseCtx->questVtx[phi_t4 + 2].v.flag = pauseCtx->questVtx[phi_t4 + 3].v.flag = 0;
+        pauseCtx->questVtx[k + 0].v.flag = pauseCtx->questVtx[k + 1].v.flag = pauseCtx->questVtx[k + 2].v.flag =
+            pauseCtx->questVtx[k + 3].v.flag = 0;
 
-        pauseCtx->questVtx[phi_t4 + 0].v.tc[0] = pauseCtx->questVtx[phi_t4 + 0].v.tc[1] =
-            pauseCtx->questVtx[phi_t4 + 1].v.tc[1] = pauseCtx->questVtx[phi_t4 + 2].v.tc[0] = 0;
+        pauseCtx->questVtx[k + 0].v.tc[0] = pauseCtx->questVtx[k + 0].v.tc[1] = pauseCtx->questVtx[k + 1].v.tc[1] =
+            pauseCtx->questVtx[k + 2].v.tc[0] = 0;
 
-        pauseCtx->questVtx[phi_t4 + 1].v.tc[0] = pauseCtx->questVtx[phi_t4 + 3].v.tc[0] = phi_t2_2 << 5;
-        pauseCtx->questVtx[phi_t4 + 2].v.tc[1] = pauseCtx->questVtx[phi_t4 + 3].v.tc[1] = D_8082B1F8[phi_t3] << 5;
+        pauseCtx->questVtx[k + 1].v.tc[0] = pauseCtx->questVtx[k + 3].v.tc[0] = phi_t2_2_width__ << 5;
+        pauseCtx->questVtx[k + 2].v.tc[1] = pauseCtx->questVtx[k + 3].v.tc[1] = D_8082B1F8_width_questVtx_[j] << 5;
 
-        pauseCtx->questVtx[phi_t4 + 0].v.cn[0] = pauseCtx->questVtx[phi_t4 + 1].v.cn[0] =
-            pauseCtx->questVtx[phi_t4 + 2].v.cn[0] = pauseCtx->questVtx[phi_t4 + 3].v.cn[0] =
-                pauseCtx->questVtx[phi_t4 + 0].v.cn[1] = pauseCtx->questVtx[phi_t4 + 1].v.cn[1] =
-                    pauseCtx->questVtx[phi_t4 + 2].v.cn[1] = pauseCtx->questVtx[phi_t4 + 3].v.cn[1] =
-                        pauseCtx->questVtx[phi_t4 + 0].v.cn[2] = pauseCtx->questVtx[phi_t4 + 1].v.cn[2] =
-                            pauseCtx->questVtx[phi_t4 + 2].v.cn[2] = pauseCtx->questVtx[phi_t4 + 3].v.cn[2] = 255;
+        pauseCtx->questVtx[k + 0].v.cn[0] = pauseCtx->questVtx[k + 1].v.cn[0] = pauseCtx->questVtx[k + 2].v.cn[0] =
+            pauseCtx->questVtx[k + 3].v.cn[0] = pauseCtx->questVtx[k + 0].v.cn[1] = pauseCtx->questVtx[k + 1].v.cn[1] =
+                pauseCtx->questVtx[k + 2].v.cn[1] = pauseCtx->questVtx[k + 3].v.cn[1] =
+                    pauseCtx->questVtx[k + 0].v.cn[2] = pauseCtx->questVtx[k + 1].v.cn[2] =
+                        pauseCtx->questVtx[k + 2].v.cn[2] = pauseCtx->questVtx[k + 3].v.cn[2] = 255;
 
-        pauseCtx->questVtx[phi_t4 + 0].v.cn[3] = pauseCtx->questVtx[phi_t4 + 1].v.cn[3] =
-            pauseCtx->questVtx[phi_t4 + 2].v.cn[3] = pauseCtx->questVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
+        pauseCtx->questVtx[k + 0].v.cn[3] = pauseCtx->questVtx[k + 1].v.cn[3] = pauseCtx->questVtx[k + 2].v.cn[3] =
+            pauseCtx->questVtx[k + 3].v.cn[3] = pauseCtx->alpha;
     }
 
     pauseCtx->infoPanelVtx = Graph_Alloc(gfxCtx, 28 * sizeof(Vtx));
 
-    pauseCtx->saveVtx = Graph_Alloc(gfxCtx, 80 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->saveVtx, 5, 5);
+    pauseCtx->saveVtx = Graph_Alloc(gfxCtx, ((15 + FUNC_80823A0C_ARG3_SAVE_VTX) * 4) * sizeof(Vtx));
+    func_80823A0C_makeVertices_(play, pauseCtx->saveVtx, FUNC_80823A0C_USAGE_ARG2_SAVE_VTX,
+                                FUNC_80823A0C_ARG3_SAVE_VTX);
 }
 
 void KaleidoScope_DrawGameOver(PlayState* play) {
@@ -2222,8 +2325,10 @@ void KaleidoScope_DrawGameOver(PlayState* play) {
     gDPSetCombineLERP(POLY_OPA_DISP++, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE, ENVIRONMENT,
                       COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
 
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 80, D_8082AB8C, D_8082AB90, D_8082AB94, D_8082AB98);
-    gDPSetEnvColor(POLY_OPA_DISP++, D_8082AB9C, D_8082ABA0, D_8082ABA4, 255);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 80, sColor82ABRed_D_8082AB8C, sColor82ABGreen_D_8082AB90,
+                    sColor82ABBlue_D_8082AB94, sColor82ABGameOverPrimAlpha_D_8082AB98);
+    gDPSetEnvColor(POLY_OPA_DISP++, sDrawGameOverEnvColorRed_D_8082AB9C, sDrawGameOverEnvColorGreen_D_8082ABA0,
+                   sDrawGameOverEnvColorBlue_D_8082ABA4, 255);
 
     VREG(89) -= 2;
 
@@ -2286,12 +2391,15 @@ void KaleidoScope_Draw(PlayState* play) {
 
         KaleidoScope_SetView(pauseCtx, 0.0f, 0.0f, 64.0f);
 
-        if (!((pauseCtx->state >= 8) && (pauseCtx->state <= 0x11))) {
+        if (!((pauseCtx->state >= PAUSECTX_STATE_8) && (pauseCtx->state < PAUSECTX_STATE_18))
+        /* PAUSECTX_STATE_8, PAUSECTX_STATE_9, PAUSECTX_STATE_10, PAUSECTX_STATE_11, PAUSECTX_STATE_12,
+           PAUSECTX_STATE_13, PAUSECTX_STATE_14, PAUSECTX_STATE_15, PAUSECTX_STATE_16, PAUSECTX_STATE_17 */) {
             KaleidoScope_DrawInfoPanel(play);
         }
     }
 
-    if ((pauseCtx->state >= 0xB) && (pauseCtx->state <= 0x11)) {
+    if ((pauseCtx->state >= PAUSECTX_STATE_11) && (pauseCtx->state <= PAUSECTX_STATE_17)
+    /* PAUSECTX_STATE_11, PAUSECTX_STATE_12, PAUSECTX_STATE_13, PAUSECTX_STATE_14, PAUSECTX_STATE_15, PAUSECTX_STATE_16, PAUSECTX_STATE_17 */) {
         KaleidoScope_DrawGameOver(play);
     }
 
@@ -2326,8 +2434,8 @@ void KaleidoScope_GrayOutTextureRGBA32(u32* texture, u16 pixelCount) {
 void func_808265BC(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
-    pauseCtx->eye.x += D_8082ABAC[pauseCtx->mode] * ZREG(46);
-    pauseCtx->eye.z += D_8082ABCC[pauseCtx->mode] * ZREG(46);
+    pauseCtx->eye.x += D_8082ABAC_pageSwitch_eye_dx_[pauseCtx->mode] * ZREG(46);
+    pauseCtx->eye.z += D_8082ABCC_pageSwitch_eye_dz_[pauseCtx->mode] * ZREG(46);
     pauseCtx->unk_1EA += 4 * ZREG(46);
 
     if (pauseCtx->unk_1EA == (64 * ZREG(47))) {
@@ -2337,13 +2445,13 @@ void func_808265BC(PlayState* play) {
         gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->pageIndex][2];
         gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->pageIndex][3];
         gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex][4];
-        pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
-        pauseCtx->unk_1E4 = 0;
+        pauseCtx->pageIndex = D_8082ABEC_modeToNewPageIndex_[pauseCtx->mode];
+        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
         pauseCtx->state++;
         pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(play, DO_ACTION_SAVE);
     } else if (pauseCtx->unk_1EA == 64) {
-        pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
+        pauseCtx->pageIndex = D_8082ABEC_modeToNewPageIndex_[pauseCtx->mode];
         pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
     }
 }
@@ -2469,9 +2577,9 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
 }
 
 void KaleidoScope_Update(PlayState* play) {
-    static s16 D_8082B258 = 0;
+    static s16 D_8082B258 = PAUSECTX_UNK_1E4_0;
     static s16 D_8082B25C = 10;
-    static s16 D_8082B260 = 0;
+    static s16 sTimer_D_8082B260 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     GameOverContext* gameOverCtx = &play->gameOverCtx;
@@ -2488,25 +2596,33 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepA;
     s32 pad;
 
-    if ((R_PAUSE_MENU_MODE >= 3) && (((pauseCtx->state >= 4) && (pauseCtx->state <= 7)) ||
-                                     ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
+    if ((R_PAUSE_MENU_MODE >= 3) && (((pauseCtx->state >= PAUSECTX_STATE_4) &&
+                                      (pauseCtx->state <= PAUSECTX_STATE_7)) /* PAUSECTX_STATE_4, PAUSECTX_STATE_5,
+                                                                                PAUSECTX_STATE_6, PAUSECTX_STATE_7 */
+                            || ((pauseCtx->state >= PAUSECTX_STATE_10) && (pauseCtx
+                                                                                        ->state <= PAUSECTX_STATE_18)) 
+        /* PAUSECTX_STATE_10, PAUSECTX_STATE_11, PAUSECTX_STATE_12, PAUSECTX_STATE_13, PAUSECTX_STATE_14, PAUSECTX_STATE_15, PAUSECTX_STATE_16, PAUSECTX_STATE_17, PAUSECTX_STATE_18 */)) {
 
-        if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == 6)) {
+        if ((!pauseCtx->unk_1E4 /* PAUSECTX_UNK_1E4_0 */ || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_8)) &&
+            (pauseCtx->state == PAUSECTX_STATE_6)) {
             pauseCtx->stickRelX = input->rel.stick_x;
             pauseCtx->stickRelY = input->rel.stick_y;
             KaleidoScope_UpdateCursorSize(play);
             KaleidoScope_HandlePageToggles(pauseCtx, input);
-        } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 5))) {
+        } else if ((pauseCtx->pageIndex == PAUSE_QUEST) &&
+                   ((pauseCtx->unk_1E4 <
+                     PAUSECTX_UNK_1E4_3) /* PAUSECTX_UNK_1E4_0, PAUSECTX_UNK_1E4_1, PAUSECTX_UNK_1E4_2 */
+                    || (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_5))) {
             KaleidoScope_UpdateCursorSize(play);
         }
 
-        if (pauseCtx->state == 6) {
+        if (pauseCtx->state == PAUSECTX_STATE_6) {
             KaleidoScope_UpdateNamePanel(play);
         }
     }
 
     switch (pauseCtx->state) {
-        case 3:
+        case PAUSECTX_STATE_3:
             D_808321A8[0] = gSaveContext.buttonStatus[0];
             D_808321A8[1] = gSaveContext.buttonStatus[1];
             D_808321A8[2] = gSaveContext.buttonStatus[2];
@@ -2520,7 +2636,7 @@ void KaleidoScope_Update(PlayState* play) {
             WREG(16) = -175;
             WREG(17) = 155;
 
-            pauseCtx->unk_204 = -314.0f;
+            pauseCtx->rotXorZ_unk_204 = -314.0f;
 
             //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->playerSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
@@ -2869,16 +2985,17 @@ void KaleidoScope_Update(PlayState* play) {
                 }
             }
 
-            pauseCtx->state = 4;
+            pauseCtx->state = PAUSECTX_STATE_4;
             break;
 
-        case 4:
-            if (pauseCtx->unk_1F4 == 160.0f) {
+        case PAUSECTX_STATE_4:
+            if (pauseCtx->rotXpauseItem_unk_1F4 == 160.0f) {
                 KaleidoScope_SetDefaultCursor(play);
                 KaleidoScope_ProcessPlayerPreRender();
             }
 
-            pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 -= 160.0f / WREG(6);
+            pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 = pauseCtx->rotPauseMap_unk_1FC =
+                pauseCtx->rotPauseQuest_unk_200 -= 160.0f / WREG(6);
             pauseCtx->infoPanelOffsetY += 40 / WREG(6);
             interfaceCtx->startAlpha += 255 / WREG(6);
             WREG(16) += WREG(25) / WREG(6);
@@ -2886,29 +3003,29 @@ void KaleidoScope_Update(PlayState* play) {
             XREG(5) += 150 / WREG(6);
             pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
 
-            if (pauseCtx->unk_1F4 == 0) {
+            if (pauseCtx->rotXpauseItem_unk_1F4 == 0) {
                 interfaceCtx->startAlpha = 255;
                 WREG(2) = 0;
-                pauseCtx->state = 5;
+                pauseCtx->state = PAUSECTX_STATE_5;
             }
 
             func_808265BC(play);
             break;
 
-        case 5:
+        case PAUSECTX_STATE_5:
             pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
             func_808265BC(play);
-            if (pauseCtx->state == 6) {
+            if (pauseCtx->state == PAUSECTX_STATE_6) {
                 KaleidoScope_UpdateNamePanel(play);
             }
             break;
 
-        case 6:
+        case PAUSECTX_STATE_6:
             switch (pauseCtx->unk_1E4) {
-                case 0:
+                case PAUSECTX_UNK_1E4_0:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
-                        pauseCtx->state = 0x12;
+                        pauseCtx->state = PAUSECTX_STATE_18;
                         WREG(2) = -6240;
                         func_800F64E0(0);
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
@@ -2921,44 +3038,44 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
-                        pauseCtx->unk_1EC = 0;
-                        pauseCtx->state = 7;
+                        pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_0;
+                        pauseCtx->state = PAUSECTX_STATE_7;
                     }
                     break;
 
-                case 1:
+                case PAUSECTX_UNK_1E4_1:
                     func_808237B4(play, play->state.input);
                     break;
 
-                case 2:
+                case PAUSECTX_UNK_1E4_2:
                     pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
                     if (pauseCtx->ocarinaStaff->state == 0) {
-                        pauseCtx->unk_1E4 = 4;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_4;
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                     }
                     break;
 
-                case 3:
+                case PAUSECTX_UNK_1E4_3:
                     KaleidoScope_UpdateItemEquip(play);
                     break;
 
-                case 4:
+                case PAUSECTX_UNK_1E4_4:
                     break;
 
-                case 5:
+                case PAUSECTX_UNK_1E4_5:
                     pauseCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Interface_SetDoAction(play, DO_ACTION_NONE);
-                        pauseCtx->state = 0x12;
+                        pauseCtx->state = PAUSECTX_STATE_18;
                         WREG(2) = -6240;
                         func_800F64E0(0);
-                        pauseCtx->unk_1E4 = 0;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
                         break;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
-                        pauseCtx->unk_1E4 = 0;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -2968,47 +3085,47 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
-                        pauseCtx->unk_1EC = 0;
-                        pauseCtx->state = 7;
+                        pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_0;
+                        pauseCtx->state = PAUSECTX_STATE_7;
                     } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
                         Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        D_8082B258 = 0;
+                        D_8082B258 = PAUSECTX_UNK_1E4_0;
                         D_8082B25C = 30;
-                        pauseCtx->unk_1E4 = 6;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_6;
                     } else if (pauseCtx->ocarinaStaff->state == 0xFF) {
                         Audio_PlaySfxGeneral(NA_SE_SY_OCARINA_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        D_8082B258 = 4;
+                        D_8082B258 = PAUSECTX_UNK_1E4_4;
                         D_8082B25C = 20;
-                        pauseCtx->unk_1E4 = 6;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_6;
                     }
                     break;
 
-                case 6:
+                case PAUSECTX_UNK_1E4_6:
                     D_8082B25C--;
                     if (D_8082B25C == 0) {
                         pauseCtx->unk_1E4 = D_8082B258;
-                        if (pauseCtx->unk_1E4 == 0) {
+                        if (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0) {
                             AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         }
                     }
                     break;
 
-                case 7:
+                case PAUSECTX_UNK_1E4_7:
                     break;
 
-                case 8:
+                case PAUSECTX_UNK_1E4_8:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Interface_SetDoAction(play, DO_ACTION_NONE);
-                        pauseCtx->state = 0x12;
+                        pauseCtx->state = PAUSECTX_STATE_18;
                         WREG(2) = -6240;
                         func_800F64E0(0);
-                        pauseCtx->unk_1E4 = 0;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
-                        pauseCtx->unk_1E4 = 0;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3018,33 +3135,33 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
-                        pauseCtx->unk_1EC = 0;
-                        pauseCtx->state = 7;
+                        pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_0;
+                        pauseCtx->state = PAUSECTX_STATE_7;
                     }
                     break;
 
-                case 9:
+                case PAUSECTX_UNK_1E4_9:
                     break;
 
                 default:
-                    pauseCtx->unk_1E4 = 0;
+                    pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
                     break;
             }
             break;
 
-        case 7:
+        case PAUSECTX_STATE_7:
             switch (pauseCtx->unk_1EC) {
-                case 0:
-                    pauseCtx->unk_204 -= 314.0f / WREG(6);
+                case PAUSECTX_UNK_1EC_0:
+                    pauseCtx->rotXorZ_unk_204 -= 314.0f / WREG(6);
                     WREG(16) -= WREG(25) / WREG(6);
                     WREG(17) -= WREG(26) / WREG(6);
-                    if (pauseCtx->unk_204 <= -628.0f) {
-                        pauseCtx->unk_204 = -628.0f;
-                        pauseCtx->unk_1EC = 1;
+                    if (pauseCtx->rotXorZ_unk_204 <= -628.0f) {
+                        pauseCtx->rotXorZ_unk_204 = -628.0f;
+                        pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_1;
                     }
                     break;
 
-                case 1:
+                case PAUSECTX_UNK_1EC_1:
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         if (pauseCtx->promptChoice != 0) {
                             Interface_SetDoAction(play, DO_ACTION_NONE);
@@ -3052,9 +3169,9 @@ void KaleidoScope_Update(PlayState* play) {
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
                             gSaveContext.unk_13EA = 0;
                             Interface_ChangeAlpha(50);
-                            pauseCtx->unk_1EC = 2;
+                            pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_2;
                             WREG(2) = -6240;
-                            YREG(8) = pauseCtx->unk_204;
+                            YREG(8) = pauseCtx->rotXorZ_unk_204;
                             func_800F64E0(0);
                         } else {
                             Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4,
@@ -3063,15 +3180,15 @@ void KaleidoScope_Update(PlayState* play) {
                             Play_SaveSceneFlags(play);
                             gSaveContext.savedSceneId = play->sceneId;
                             Sram_WriteSave(&play->sramCtx);
-                            pauseCtx->unk_1EC = 4;
+                            pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_4;
                             D_8082B25C = 3;
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
-                        pauseCtx->unk_1EC = 2;
+                        pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_2;
                         WREG(2) = -6240;
-                        YREG(8) = pauseCtx->unk_204;
+                        YREG(8) = pauseCtx->rotXorZ_unk_204;
                         func_800F64E0(0);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
@@ -3080,7 +3197,7 @@ void KaleidoScope_Update(PlayState* play) {
                     }
                     break;
 
-                case 4:
+                case PAUSECTX_UNK_1EC_4:
                     if (CHECK_BTN_ALL(input->press.button, BTN_B) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                         CHECK_BTN_ALL(input->press.button, BTN_START) || (--D_8082B25C == 0)) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
@@ -3088,58 +3205,60 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
-                        pauseCtx->unk_1EC = 5;
+                        pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_5;
                         WREG(2) = -6240;
-                        YREG(8) = pauseCtx->unk_204;
+                        YREG(8) = pauseCtx->rotXorZ_unk_204;
                         func_800F64E0(0);
                     }
                     break;
 
-                case 3:
-                case 6:
-                    pauseCtx->unk_204 += 314.0f / WREG(6);
+                case PAUSECTX_UNK_1EC_3:
+                case PAUSECTX_UNK_1EC_6:
+                    pauseCtx->rotXorZ_unk_204 += 314.0f / WREG(6);
                     WREG(16) += WREG(25) / WREG(6);
                     WREG(17) += WREG(26) / WREG(6);
-                    if (pauseCtx->unk_204 >= -314.0f) {
-                        pauseCtx->state = 6;
-                        pauseCtx->unk_1EC = 0;
-                        pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = 0.0f;
-                        pauseCtx->unk_204 = -314.0f;
+                    if (pauseCtx->rotXorZ_unk_204 >= -314.0f) {
+                        pauseCtx->state = PAUSECTX_STATE_6;
+                        pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_0;
+                        pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 =
+                            pauseCtx->rotPauseMap_unk_1FC = pauseCtx->rotPauseQuest_unk_200 = 0.0f;
+                        pauseCtx->rotXorZ_unk_204 = -314.0f;
                     }
                     break;
 
-                case 2:
-                case 5:
-                    if (pauseCtx->unk_204 != (YREG(8) + 160.0f)) {
-                        pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 +=
-                            160.0f / WREG(6);
-                        pauseCtx->unk_204 += 160.0f / WREG(6);
+                case PAUSECTX_UNK_1EC_2:
+                case PAUSECTX_UNK_1EC_5:
+                    if (pauseCtx->rotXorZ_unk_204 != (YREG(8) + 160.0f)) {
+                        pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 =
+                            pauseCtx->rotPauseMap_unk_1FC = pauseCtx->rotPauseQuest_unk_200 += 160.0f / WREG(6);
+                        pauseCtx->rotXorZ_unk_204 += 160.0f / WREG(6);
                         pauseCtx->infoPanelOffsetY -= 40 / WREG(6);
                         WREG(16) -= WREG(25) / WREG(6);
                         WREG(17) -= WREG(26) / WREG(6);
                         XREG(5) -= 150 / WREG(6);
                         pauseCtx->alpha -= (u16)(255 / WREG(6));
-                        if (pauseCtx->unk_204 == (YREG(8) + 160.0f)) {
+                        if (pauseCtx->rotXorZ_unk_204 == (YREG(8) + 160.0f)) {
                             pauseCtx->alpha = 0;
                         }
                     } else {
                         pauseCtx->debugState = 0;
-                        pauseCtx->state = 0x13;
-                        pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = 160.0f;
+                        pauseCtx->state = PAUSECTX_STATE_19;
+                        pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 =
+                            pauseCtx->rotPauseMap_unk_1FC = pauseCtx->rotPauseQuest_unk_200 = 160.0f;
                         pauseCtx->namedItem = PAUSE_ITEM_NONE;
-                        pauseCtx->unk_1E4 = 0;
-                        pauseCtx->unk_204 = -434.0f;
+                        pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
+                        pauseCtx->rotXorZ_unk_204 = -434.0f;
                     }
                     break;
             }
             break;
 
-        case 0xA:
+        case PAUSECTX_STATE_10:
             pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot =
                 VREG(30) + 3;
             WREG(16) = -175;
             WREG(17) = 155;
-            pauseCtx->unk_204 = -434.0f;
+            pauseCtx->rotXorZ_unk_204 = -434.0f;
             Interface_ChangeAlpha(1);
 
             //! @bug messed up alignment, should match `ALIGN64`
@@ -3181,90 +3300,90 @@ void KaleidoScope_Update(PlayState* play) {
                                     size, "../z_kaleido_scope_PAL.c", 4393);
             }
 
-            D_8082AB8C = 255;
-            D_8082AB90 = 130;
-            D_8082AB94 = 0;
-            D_8082AB98 = 0;
-            D_8082AB9C = 30;
-            D_8082ABA0 = 0;
-            D_8082ABA4 = 0;
-            D_8082B260 = 30;
+            sColor82ABRed_D_8082AB8C = 255;
+            sColor82ABGreen_D_8082AB90 = 130;
+            sColor82ABBlue_D_8082AB94 = 0;
+            sColor82ABGameOverPrimAlpha_D_8082AB98 = 0;
+            sDrawGameOverEnvColorRed_D_8082AB9C = 30;
+            sDrawGameOverEnvColorGreen_D_8082ABA0 = 0;
+            sDrawGameOverEnvColorBlue_D_8082ABA4 = 0;
+            sTimer_D_8082B260 = 30;
             VREG(88) = 98;
             pauseCtx->promptChoice = 0;
-            pauseCtx->state++;
+            pauseCtx->state++; // PAUSECTX_STATE_11
             break;
 
-        case 0xB:
-            stepR = ABS(D_8082AB8C - 30) / D_8082B260;
-            stepG = ABS(D_8082AB90) / D_8082B260;
-            stepB = ABS(D_8082AB94) / D_8082B260;
-            stepA = ABS(D_8082AB98 - 255) / D_8082B260;
-            if (D_8082AB8C >= 30) {
-                D_8082AB8C -= stepR;
+        case PAUSECTX_STATE_11:
+            stepR = ABS(sColor82ABRed_D_8082AB8C - 30) / sTimer_D_8082B260;
+            stepG = ABS(sColor82ABGreen_D_8082AB90) / sTimer_D_8082B260;
+            stepB = ABS(sColor82ABBlue_D_8082AB94) / sTimer_D_8082B260;
+            stepA = ABS(sColor82ABGameOverPrimAlpha_D_8082AB98 - 255) / sTimer_D_8082B260;
+            if (sColor82ABRed_D_8082AB8C >= 30) {
+                sColor82ABRed_D_8082AB8C -= stepR;
             } else {
-                D_8082AB8C += stepR;
+                sColor82ABRed_D_8082AB8C += stepR;
             }
-            if (D_8082AB90 >= 0) {
-                D_8082AB90 -= stepG;
+            if (sColor82ABGreen_D_8082AB90 >= 0) {
+                sColor82ABGreen_D_8082AB90 -= stepG;
             } else {
-                D_8082AB90 += stepG;
+                sColor82ABGreen_D_8082AB90 += stepG;
             }
-            if (D_8082AB94 >= 0) {
-                D_8082AB94 -= stepB;
+            if (sColor82ABBlue_D_8082AB94 >= 0) {
+                sColor82ABBlue_D_8082AB94 -= stepB;
             } else {
-                D_8082AB94 += stepB;
+                sColor82ABBlue_D_8082AB94 += stepB;
             }
-            if (D_8082AB98 >= 255) {
-                D_8082AB98 -= stepA;
+            if (sColor82ABGameOverPrimAlpha_D_8082AB98 >= 255) {
+                sColor82ABGameOverPrimAlpha_D_8082AB98 -= stepA;
             } else {
-                D_8082AB98 += stepA;
+                sColor82ABGameOverPrimAlpha_D_8082AB98 += stepA;
             }
 
-            stepR = ABS(D_8082AB9C - 255) / D_8082B260;
-            stepG = ABS(D_8082ABA0 - 130) / D_8082B260;
-            stepB = ABS(D_8082ABA4) / D_8082B260;
-            if (D_8082AB9C >= 255) {
-                D_8082AB9C -= stepR;
+            stepR = ABS(sDrawGameOverEnvColorRed_D_8082AB9C - 255) / sTimer_D_8082B260;
+            stepG = ABS(sDrawGameOverEnvColorGreen_D_8082ABA0 - 130) / sTimer_D_8082B260;
+            stepB = ABS(sDrawGameOverEnvColorBlue_D_8082ABA4) / sTimer_D_8082B260;
+            if (sDrawGameOverEnvColorRed_D_8082AB9C >= 255) {
+                sDrawGameOverEnvColorRed_D_8082AB9C -= stepR;
             } else {
-                D_8082AB9C += stepR;
+                sDrawGameOverEnvColorRed_D_8082AB9C += stepR;
             }
-            if (D_8082ABA0 >= 130) {
-                D_8082ABA0 -= stepG;
+            if (sDrawGameOverEnvColorGreen_D_8082ABA0 >= 130) {
+                sDrawGameOverEnvColorGreen_D_8082ABA0 -= stepG;
             } else {
-                D_8082ABA0 += stepG;
+                sDrawGameOverEnvColorGreen_D_8082ABA0 += stepG;
             }
-            if (D_8082ABA4 >= 0) {
-                D_8082ABA4 -= stepB;
+            if (sDrawGameOverEnvColorBlue_D_8082ABA4 >= 0) {
+                sDrawGameOverEnvColorBlue_D_8082ABA4 -= stepB;
             } else {
-                D_8082ABA4 += stepB;
+                sDrawGameOverEnvColorBlue_D_8082ABA4 += stepB;
             }
 
-            D_8082B260--;
-            if (D_8082B260 == 0) {
-                D_8082AB8C = 30;
-                D_8082AB90 = 0;
-                D_8082AB94 = 0;
-                D_8082AB98 = 255;
+            sTimer_D_8082B260--;
+            if (sTimer_D_8082B260 == 0) {
+                sColor82ABRed_D_8082AB8C = 30;
+                sColor82ABGreen_D_8082AB90 = 0;
+                sColor82ABBlue_D_8082AB94 = 0;
+                sColor82ABGameOverPrimAlpha_D_8082AB98 = 255;
 
-                D_8082AB9C = 255;
-                D_8082ABA0 = 130;
-                D_8082ABA4 = 0;
+                sDrawGameOverEnvColorRed_D_8082AB9C = 255;
+                sDrawGameOverEnvColorGreen_D_8082ABA0 = 130;
+                sDrawGameOverEnvColorBlue_D_8082ABA4 = 0;
 
-                pauseCtx->state++;
-                D_8082B260 = 40;
-            }
-            break;
-
-        case 0xC:
-            D_8082B260--;
-            if (D_8082B260 == 0) {
-                pauseCtx->state = 0xD;
+                pauseCtx->state++; // PAUSECTX_STATE_12
+                sTimer_D_8082B260 = 40;
             }
             break;
 
-        case 0xD:
-            pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = pauseCtx->unk_204 -=
-                160.0f / WREG(6);
+        case PAUSECTX_STATE_12:
+            sTimer_D_8082B260--;
+            if (sTimer_D_8082B260 == 0) {
+                pauseCtx->state = PAUSECTX_STATE_13;
+            }
+            break;
+
+        case PAUSECTX_STATE_13:
+            pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 = pauseCtx->rotPauseMap_unk_1FC =
+                pauseCtx->rotPauseQuest_unk_200 = pauseCtx->rotXorZ_unk_204 -= 160.0f / WREG(6);
             pauseCtx->infoPanelOffsetY += 40 / WREG(6);
             interfaceCtx->startAlpha += 255 / WREG(6);
             VREG(88) -= 3;
@@ -3272,28 +3391,28 @@ void KaleidoScope_Update(PlayState* play) {
             WREG(17) += WREG(26) / WREG(6);
             XREG(5) += 150 / WREG(6);
             pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
-            if (pauseCtx->unk_204 < -628.0f) {
-                pauseCtx->unk_204 = -628.0f;
+            if (pauseCtx->rotXorZ_unk_204 < -628.0f) {
+                pauseCtx->rotXorZ_unk_204 = -628.0f;
                 interfaceCtx->startAlpha = 255;
                 VREG(88) = 66;
                 WREG(2) = 0;
                 pauseCtx->alpha = 255;
-                pauseCtx->state = 0xE;
+                pauseCtx->state = PAUSECTX_STATE_14;
                 gSaveContext.deaths++;
                 if (gSaveContext.deaths > 999) {
                     gSaveContext.deaths = 999;
                 }
             }
-            osSyncPrintf("kscope->angle_s = %f\n", pauseCtx->unk_204);
+            osSyncPrintf("kscope->angle_s = %f\n", pauseCtx->rotXorZ_unk_204);
             break;
 
-        case 0xE:
+        case PAUSECTX_STATE_14:
             if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                 if (pauseCtx->promptChoice != 0) {
                     pauseCtx->promptChoice = 0;
                     Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    pauseCtx->state = 0x10;
+                    pauseCtx->state = PAUSECTX_STATE_16;
                     gameOverCtx->state++;
                 } else {
                     Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3302,26 +3421,26 @@ void KaleidoScope_Update(PlayState* play) {
                     Play_SaveSceneFlags(play);
                     gSaveContext.savedSceneId = play->sceneId;
                     Sram_WriteSave(&play->sramCtx);
-                    pauseCtx->state = 0xF;
+                    pauseCtx->state = PAUSECTX_STATE_15;
                     D_8082B25C = 3;
                 }
             }
             break;
 
-        case 0xF:
+        case PAUSECTX_STATE_15:
             D_8082B25C--;
             if (D_8082B25C == 0) {
-                pauseCtx->state = 0x10;
+                pauseCtx->state = PAUSECTX_STATE_16;
                 gameOverCtx->state++;
             } else if ((D_8082B25C <= 80) &&
                        (CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_START))) {
-                pauseCtx->state = 0x10;
+                pauseCtx->state = PAUSECTX_STATE_16;
                 gameOverCtx->state++;
                 func_800F64E0(0);
             }
             break;
 
-        case 0x10:
+        case PAUSECTX_STATE_16:
             if (CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_START)) {
                 if (pauseCtx->promptChoice == 0) {
                     Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3387,16 +3506,16 @@ void KaleidoScope_Update(PlayState* play) {
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
 
-                pauseCtx->state = 0x11;
+                pauseCtx->state = PAUSECTX_STATE_17;
             }
             break;
 
-        case 0x11:
+        case PAUSECTX_STATE_17:
             if (interfaceCtx->unk_244 != 255) {
                 interfaceCtx->unk_244 += 10;
                 if (interfaceCtx->unk_244 >= 255) {
                     interfaceCtx->unk_244 = 255;
-                    pauseCtx->state = 0;
+                    pauseCtx->state = PAUSECTX_STATE_0;
                     R_UPDATE_RATE = 3;
                     R_PAUSE_MENU_MODE = 0;
                     func_800981B8(&play->objectCtx);
@@ -3430,32 +3549,31 @@ void KaleidoScope_Update(PlayState* play) {
             }
             break;
 
-        case 0x12:
-            if (pauseCtx->unk_1F4 != 160.0f) {
-                pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 += 160.0f / WREG(6);
+        case PAUSECTX_STATE_18:
+            if (pauseCtx->rotXpauseItem_unk_1F4 != 160.0f) {
+                pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 = pauseCtx->rotPauseMap_unk_1FC =
+                    pauseCtx->rotPauseQuest_unk_200 += 160.0f / WREG(6);
                 pauseCtx->infoPanelOffsetY -= 40 / WREG(6);
                 interfaceCtx->startAlpha -= 255 / WREG(6);
                 WREG(16) -= WREG(25) / WREG(6);
                 WREG(17) -= WREG(26) / WREG(6);
                 XREG(5) -= 150 / WREG(6);
                 pauseCtx->alpha -= (u16)(255 / WREG(6));
-                if (pauseCtx->unk_1F4 == 160.0f) {
+                if (pauseCtx->rotXpauseItem_unk_1F4 == 160.0f) {
                     pauseCtx->alpha = 0;
                 }
             } else {
                 pauseCtx->debugState = 0;
-                pauseCtx->state = 0x13;
-                pauseCtx->unk_200 = 160.0f;
-                pauseCtx->unk_1FC = 160.0f;
-                pauseCtx->unk_1F8 = 160.0f;
-                pauseCtx->unk_1F4 = 160.0f;
+                pauseCtx->state = PAUSECTX_STATE_19;
+                pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 = pauseCtx->rotPauseMap_unk_1FC =
+                    pauseCtx->rotPauseQuest_unk_200 = 160.0f;
                 pauseCtx->namedItem = PAUSE_ITEM_NONE;
                 play->interfaceCtx.startAlpha = 0;
             }
             break;
 
-        case 0x13:
-            pauseCtx->state = 0;
+        case PAUSECTX_STATE_19:
+            pauseCtx->state = PAUSECTX_STATE_0;
             R_UPDATE_RATE = 3;
             R_PAUSE_MENU_MODE = 0;
             func_800981B8(&play->objectCtx);

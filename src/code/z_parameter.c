@@ -2103,7 +2103,7 @@ void Interface_SetDoAction(PlayState* play, u16 action) {
         interfaceCtx->unk_1EC = 1;
         interfaceCtx->unk_1F4 = 0.0f;
         Interface_LoadActionLabel(interfaceCtx, action, 1);
-        if (pauseCtx->state != 0) {
+        if (pauseCtx->state != PAUSECTX_STATE_0) {
             interfaceCtx->unk_1EC = 3;
         }
     }
@@ -2763,7 +2763,9 @@ void Interface_DrawItemButtons(PlayState* play) {
                         (R_ITEM_BTN_X(3) + R_ITEM_BTN_WIDTH(3)) << 2, (R_ITEM_BTN_Y(3) + R_ITEM_BTN_WIDTH(3)) << 2,
                         G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(3) << 1, R_ITEM_BTN_DD(3) << 1);
 
-    if ((pauseCtx->state < 8) || (pauseCtx->state >= 18)) {
+    if ((pauseCtx->state < PAUSECTX_STATE_8) /* PAUSECTX_STATE_0, PAUSECTX_STATE_1, PAUSECTX_STATE_2, PAUSECTX_STATE_3,
+                                 PAUSECTX_STATE_4, PAUSECTX_STATE_5, PAUSECTX_STATE_6, PAUSECTX_STATE_7 */
+        || (pauseCtx->state >= PAUSECTX_STATE_18) /* PAUSECTX_STATE_18, PAUSECTX_STATE_19 */) {
         if ((play->pauseCtx.state != 0) || (play->pauseCtx.debugState != 0)) {
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);
@@ -3318,7 +3320,7 @@ void Interface_Draw(PlayState* play) {
 
         func_8008A994(interfaceCtx);
 
-        if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 3)) {
+        if ((pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_3)) {
             // Inventory Equip Effects
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);

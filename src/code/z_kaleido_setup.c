@@ -12,11 +12,11 @@ void KaleidoSetup_Update(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
 
-    if (pauseCtx->state == 0 && pauseCtx->debugState == 0 && play->gameOverCtx.state == GAMEOVER_INACTIVE &&
-        play->transitionTrigger == TRANS_TRIGGER_OFF && play->transitionMode == TRANS_MODE_OFF &&
-        gSaveContext.cutsceneIndex < 0xFFF0 && gSaveContext.nextCutsceneIndex < 0xFFF0 && !Play_InCsMode(play) &&
-        play->shootingGalleryStatus <= 1 && gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY &&
-        gSaveContext.magicState != MAGIC_STATE_FILL &&
+    if (pauseCtx->state == PAUSECTX_STATE_0 && pauseCtx->debugState == 0 &&
+        play->gameOverCtx.state == GAMEOVER_INACTIVE && play->transitionTrigger == TRANS_TRIGGER_OFF &&
+        play->transitionMode == TRANS_MODE_OFF && gSaveContext.cutsceneIndex < 0xFFF0 &&
+        gSaveContext.nextCutsceneIndex < 0xFFF0 && !Play_InCsMode(play) && play->shootingGalleryStatus <= 1 &&
+        gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY && gSaveContext.magicState != MAGIC_STATE_FILL &&
         (play->sceneId != SCENE_BOWLING || !Flags_GetSwitch(play, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
@@ -30,7 +30,7 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(17) = 155;
 
             pauseCtx->unk_1EA = 0;
-            pauseCtx->unk_1E4 = 1;
+            pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_1;
 
             if (ZREG(48) == 0) {
                 pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
@@ -43,13 +43,13 @@ void KaleidoSetup_Update(PlayState* play) {
             }
 
             pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
-            pauseCtx->state = 1;
+            pauseCtx->state = PAUSECTX_STATE_1;
 
             osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
                          pauseCtx->eye.z, pauseCtx->pageIndex);
         }
 
-        if (pauseCtx->state == 1) {
+        if (pauseCtx->state == PAUSECTX_STATE_1) {
             WREG(2) = -6240;
             R_UPDATE_RATE = 2;
 
@@ -66,22 +66,20 @@ void KaleidoSetup_Init(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     u64 temp = 0; // Necessary to match
 
-    pauseCtx->state = 0;
+    pauseCtx->state = PAUSECTX_STATE_0;
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
     pauseCtx->unk_1EA = 0;
-    pauseCtx->unk_1E4 = 0;
+    pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
     pauseCtx->mode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
 
-    pauseCtx->unk_1F4 = 160.0f;
-    pauseCtx->unk_1F8 = 160.0f;
-    pauseCtx->unk_1FC = 160.0f;
-    pauseCtx->unk_200 = 160.0f;
+    pauseCtx->rotXpauseItem_unk_1F4 = pauseCtx->rotPauseEquip_unk_1F8 = pauseCtx->rotPauseMap_unk_1FC =
+        pauseCtx->rotPauseQuest_unk_200 = 160.0f;
     pauseCtx->eye.z = 64.0f;
     pauseCtx->unk_1F0 = 936.0f;
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
-    pauseCtx->unk_204 = -314.0f;
+    pauseCtx->rotXorZ_unk_204 = -314.0f;
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;

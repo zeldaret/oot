@@ -56,30 +56,30 @@ void KaleidoScopeCall_Update(PlayState* play) {
     KaleidoMgrOverlay* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
     PauseContext* pauseCtx = &play->pauseCtx;
 
-    if ((pauseCtx->state != 0) || (pauseCtx->debugState != 0)) {
-        if (pauseCtx->state == 1) {
+    if ((pauseCtx->state != PAUSECTX_STATE_0) || (pauseCtx->debugState != 0)) {
+        if (pauseCtx->state == PAUSECTX_STATE_1) {
             if (Letterbox_GetSize() == 0) {
                 HREG(80) = 7;
                 HREG(82) = 3;
                 R_PAUSE_MENU_MODE = 1;
-                pauseCtx->unk_1E4 = 0;
-                pauseCtx->unk_1EC = 0;
-                pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
+                pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
+                pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_0;
+                pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSECTX_STATE_2
             }
-        } else if (pauseCtx->state == 8) {
+        } else if (pauseCtx->state == PAUSECTX_STATE_8) {
             HREG(80) = 7;
             HREG(82) = 3;
             R_PAUSE_MENU_MODE = 1;
-            pauseCtx->unk_1E4 = 0;
-            pauseCtx->unk_1EC = 0;
-            pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
-        } else if ((pauseCtx->state == 2) || (pauseCtx->state == 9)) {
+            pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
+            pauseCtx->unk_1EC = PAUSECTX_UNK_1EC_0;
+            pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSECTX_STATE_9
+        } else if ((pauseCtx->state == PAUSECTX_STATE_2) || (pauseCtx->state == PAUSECTX_STATE_9)) {
             osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_MENU_MODE);
 
             if (R_PAUSE_MENU_MODE >= 3) {
                 pauseCtx->state++;
             }
-        } else if (pauseCtx->state != 0) {
+        } else if (pauseCtx->state != PAUSECTX_STATE_0) {
             if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
                 if (gKaleidoMgrCurOvl != NULL) {
                     osSyncPrintf(VT_FGCOL(GREEN));

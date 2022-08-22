@@ -345,9 +345,9 @@ void func_80111070(void) {
     XREG(3) = -4;
     XREG(4) = 3;
     XREG(5) = 0;
-    XREG(6) = 2;
+    XREG(6) = 2; // pause menu: stick input repeat cooldown (from first repeat onwards)
     XREG(7) = 30;
-    XREG(8) = 10;
+    XREG(8) = 10; // pause menu: stick input repeat cooldown (from initial input to first repeat)
     XREG(9) = 0;
     XREG(10) = -9550;
     XREG(11) = 9950;
@@ -430,8 +430,8 @@ void func_80111070(void) {
     XREG(93) = 100;
     XREG(94) = 160;
     XREG(95) = 200;
-    WREG(2) = -6080;
-    WREG(3) = 9355;
+    WREG(2) = -6080; // y offset of pause menu
+    WREG(3) = 9355;  // somehow, depth offset of pause menu (offset on distance to "center")
     WREG(4) = 8;
     WREG(5) = 3;
     WREG(6) = 8;
