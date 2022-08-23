@@ -574,10 +574,10 @@ s16 Camera_XZAngle(Vec3f* to, Vec3f* from) {
     return CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(from->x - to->x, from->z - to->z)));
 }
 
-s16 Camera_GetPitchAdjFromFloorHeightDiffs_(Camera* camera, s16 viewYaw, s16 initAndReturnZero) {
+s16 Camera_GetPitchAdjFromFloorHeightDiffs(Camera* camera, s16 viewYaw, s16 initAndReturnZero) {
     static f32 sFloorYSmallOffsetForwards;
     static f32 sFloorYBigOffsetForwards;
-    static CamColChk sCamColChk_;
+    static CamColChk sBigOffsetColChk;
     Vec3f playerPos;
     Vec3f playerPosSmallOffsetForwards;
     Vec3f floorNorm;
@@ -597,9 +597,9 @@ s16 Camera_GetPitchAdjFromFloorHeightDiffs_(Camera* camera, s16 viewYaw, s16 ini
     viewForwardsUnitZ = Math_CosS(viewYaw);
 
     playerHeight = Player_GetHeight(camera->player);
-    playerPosOffsetY = CAM_DATA_SCALED(OREG(19)) * playerHeight; // 1.2 *
-    smallOffsetXZ = CAM_DATA_SCALED(OREG(17)) * playerHeight;    // 1 *
-    bigOffsetXZ = CAM_DATA_SCALED(OREG(18)) * playerHeight;      // 2.5 *
+    playerPosOffsetY = CAM_DATA_SCALED(OREG(19)) * playerHeight;
+    smallOffsetXZ = CAM_DATA_SCALED(OREG(17)) * playerHeight;
+    bigOffsetXZ = CAM_DATA_SCALED(OREG(18)) * playerHeight;
 
     playerPos.x = camera->playerPosRot.pos.x;
     playerPos.y = camera->playerGroundY + playerPosOffsetY;
@@ -610,30 +610,30 @@ s16 Camera_GetPitchAdjFromFloorHeightDiffs_(Camera* camera, s16 viewYaw, s16 ini
     playerPosSmallOffsetForwards.z = playerPos.z + (smallOffsetXZ * viewForwardsUnitZ);
 
     if (initAndReturnZero || (camera->play->state.frames % 2) == 0) {
-        sCamColChk_.pos.x = playerPos.x + (bigOffsetXZ * viewForwardsUnitX);
-        sCamColChk_.pos.y = playerPos.y;
-        sCamColChk_.pos.z = playerPos.z + (bigOffsetXZ * viewForwardsUnitZ);
+        sBigOffsetColChk.pos.x = playerPos.x + (bigOffsetXZ * viewForwardsUnitX);
+        sBigOffsetColChk.pos.y = playerPos.y;
+        sBigOffsetColChk.pos.z = playerPos.z + (bigOffsetXZ * viewForwardsUnitZ);
 
-        Camera_BGCheckInfo(camera, &playerPos, &sCamColChk_);
+        Camera_BGCheckInfo(camera, &playerPos, &sBigOffsetColChk);
 
         if (initAndReturnZero) {
             sFloorYSmallOffsetForwards = sFloorYBigOffsetForwards = camera->playerGroundY;
         }
     } else {
-        bigOffsetXZ = OLib_Vec3fDistXZ(&playerPos, &sCamColChk_.pos);
+        bigOffsetXZ = OLib_Vec3fDistXZ(&playerPos, &sBigOffsetColChk.pos);
 
-        sCamColChk_.pos.x += sCamColChk_.norm.x * 5.0f;
-        sCamColChk_.pos.y += sCamColChk_.norm.y * 5.0f;
-        sCamColChk_.pos.z += sCamColChk_.norm.z * 5.0f;
+        sBigOffsetColChk.pos.x += sBigOffsetColChk.norm.x * 5.0f;
+        sBigOffsetColChk.pos.y += sBigOffsetColChk.norm.y * 5.0f;
+        sBigOffsetColChk.pos.z += sBigOffsetColChk.norm.z * 5.0f;
 
         if (bigOffsetXZ < smallOffsetXZ) {
             smallOffsetXZ = bigOffsetXZ;
             sFloorYSmallOffsetForwards = sFloorYBigOffsetForwards =
-                Camera_GetFloorYLayer(camera, &floorNorm, &sCamColChk_.pos, &bgId);
+                Camera_GetFloorYLayer(camera, &floorNorm, &sBigOffsetColChk.pos, &bgId);
         } else {
             sFloorYSmallOffsetForwards =
                 Camera_GetFloorYLayer(camera, &floorNorm, &playerPosSmallOffsetForwards, &bgId);
-            sFloorYBigOffsetForwards = Camera_GetFloorYLayer(camera, &floorNorm, &sCamColChk_.pos, &bgId);
+            sFloorYBigOffsetForwards = Camera_GetFloorYLayer(camera, &floorNorm, &sBigOffsetColChk.pos, &bgId);
         }
 
         if (sFloorYSmallOffsetForwards == BGCHECK_Y_MIN) {
@@ -645,10 +645,9 @@ s16 Camera_GetPitchAdjFromFloorHeightDiffs_(Camera* camera, s16 viewYaw, s16 ini
         }
     }
 
-    floorYDiffSmallOffsetForwards =
-        CAM_DATA_SCALED(OREG(20)) * (sFloorYSmallOffsetForwards - camera->playerGroundY); // 0.8 *
+    floorYDiffSmallOffsetForwards = CAM_DATA_SCALED(OREG(20)) * (sFloorYSmallOffsetForwards - camera->playerGroundY);
     floorYDiffBigOffsetForwards =
-        (1.0f - CAM_DATA_SCALED(OREG(20))) * (sFloorYBigOffsetForwards - camera->playerGroundY); // 0.2 *
+        (1.0f - CAM_DATA_SCALED(OREG(20))) * (sFloorYBigOffsetForwards - camera->playerGroundY);
 
     pitchSmallOffset = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffSmallOffsetForwards, smallOffsetXZ)));
     pitchBigOffset = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffBigOffsetForwards, bigOffsetXZ)));
@@ -1562,7 +1561,7 @@ s32 Camera_Normal1(Camera* camera) {
         Camera_LERPCeilF(CAM_DATA_SCALED(OREG(4)), camera->yOffsetUpdateRate, camera->speedRatio * 0.05f, rate);
 
     if (roData->interfaceFlags & 1) {
-        t = Camera_GetPitchAdjFromFloorHeightDiffs_(camera, atEyeGeo.yaw - 0x7FFF, false);
+        t = Camera_GetPitchAdjFromFloorHeightDiffs(camera, atEyeGeo.yaw - 0x7FFF, false);
         sp9C = ((1.0f / roData->unk_10) * 0.5f) * (1.0f - camera->speedRatio);
         rwData->slopePitchAdj =
             Camera_LERPCeilS(t, rwData->slopePitchAdj, ((1.0f / roData->unk_10) * 0.5f) + sp9C, 0xF);
@@ -1923,7 +1922,7 @@ s32 Camera_Normal3(Camera* camera) {
     camera->yOffsetUpdateRate = Camera_LERPCeilF(CAM_DATA_SCALED(OREG(3)), camera->yOffsetUpdateRate, sp94, 0.1f);
     camera->fovUpdateRate = Camera_LERPCeilF(CAM_DATA_SCALED(OREG(4)), camera->fovUpdateRate, sp94, 0.1f);
 
-    t2 = Camera_GetPitchAdjFromFloorHeightDiffs_(camera, sp7C.yaw - 0x7FFF, true);
+    t2 = Camera_GetPitchAdjFromFloorHeightDiffs(camera, sp7C.yaw - 0x7FFF, true);
     sp94 = ((1.0f / roData->unk_10) * 0.5f);
     temp_f0 = (((1.0f / roData->unk_10) * 0.5f) * (1.0f - camera->speedRatio));
     rwData->curPitch = Camera_LERPCeilS(t2, rwData->curPitch, sp94 + temp_f0, 0xF);
@@ -2093,7 +2092,7 @@ s32 Camera_Parallel1(Camera* camera) {
         Camera_LERPCeilF(CAM_DATA_SCALED(OREG(4)), camera->fovUpdateRate, camera->speedRatio * 0.05f, 0.1f);
 
     if (roData->interfaceFlags & 1) {
-        tangle = Camera_GetPitchAdjFromFloorHeightDiffs_(camera, atToEyeDir.yaw - 0x7FFF, true);
+        tangle = Camera_GetPitchAdjFromFloorHeightDiffs(camera, atToEyeDir.yaw - 0x7FFF, true);
 
         spB8 = ((1.0f / roData->unk_0C) * 0.3f);
         pad2 = (((1.0f / roData->unk_0C) * 0.7f) * (1.0f - camera->speedRatio));
