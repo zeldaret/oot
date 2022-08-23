@@ -113,6 +113,19 @@ typedef struct {
     };
 } struct_80854B18; // size = 0x08
 
+/**
+ * Contains the rotation and angular velocity of the Bunny Hood's ears, which share the same x and y motion, but apply
+ * the z displacement in opposite directions. It is useful to keep in mind that
+ * - as usual, rot.x,rot.y,rot.z map to the Z,X,Y angles for the rotations applied, and
+ * - in its usual orientation, Player's head limb has x forwards, y downwards and z leftwards.
+ *
+ * Hence, in order, the rotations applied are:
+ * - rot.x (around the leftward axis, i.e. forward/backward)
+ * - rot.y (around the forward axis, i.e. left/right)
+ * - rot.z (around the vertical axis)
+ * 
+ * @see Player_DrawGameplay(), Player_UpdateBunnyEars()
+ */
 typedef struct {
     /* 0x0 */ Vec3s rot;
     /* 0x6 */ Vec3s angVel;
@@ -10106,9 +10119,84 @@ void func_80848EF8(Player* this) {
 }
 
 static s8 D_808547C4[] = {
-    0,  3,  3,  5,   4,   8,   9,   13, 14, 15, 16, 17, 18, -22, 23, 24, 25,  26, 27,  28,  29, 31, 32, 33, 34, -35,
-    30, 36, 38, -39, -40, -41, 42,  43, 45, 46, 0,  0,  0,  67,  48, 47, -50, 51, -52, -53, 54, 55, 56, 57, 58, 59,
-    60, 61, 62, 63,  64,  -65, -66, 68, 11, 69, 70, 71, 8,  8,   72, 73, 78,  79, 80,  89,  90, 91, 92, 77, 19, 94,
+    /* 0x00 */ 0,
+    /* 0x01 */ 3,
+    /* 0x02 */ 3,
+    /* 0x03 */ 5,
+    /* 0x04 */ 4,
+    /* 0x05 */ 8,
+    /* 0x06 */ 9,
+    /* 0x07 */ 13,
+    /* 0x08 */ 14,
+    /* 0x09 */ 15,
+    /* 0x0A */ 16,
+    /* 0x0B */ 17,
+    /* 0x0C */ 18,
+    /* 0x0D */ -22,
+    /* 0x0E */ 23,
+    /* 0x0F */ 24,
+    /* 0x10 */ 25,
+    /* 0x11 */ 26,
+    /* 0x12 */ 27,
+    /* 0x13 */ 28,
+    /* 0x14 */ 29,
+    /* 0x15 */ 31,
+    /* 0x16 */ 32,
+    /* 0x17 */ 33,
+    /* 0x18 */ 34,
+    /* 0x19 */ -35,
+    /* 0x1A */ 30,
+    /* 0x1B */ 36,
+    /* 0x1C */ 38,
+    /* 0x1D */ -39,
+    /* 0x1E */ -40,
+    /* 0x1F */ -41,
+    /* 0x20 */ 42,
+    /* 0x21 */ 43,
+    /* 0x22 */ 45,
+    /* 0x23 */ 46,
+    /* 0x24 */ 0,
+    /* 0x25 */ 0,
+    /* 0x26 */ 0,
+    /* 0x27 */ 67,
+    /* 0x28 */ 48,
+    /* 0x29 */ 47,
+    /* 0x2A */ -50,
+    /* 0x2B */ 51,
+    /* 0x2C */ -52,
+    /* 0x2D */ -53,
+    /* 0x2E */ 54,
+    /* 0x2F */ 55,
+    /* 0x30 */ 56,
+    /* 0x31 */ 57,
+    /* 0x32 */ 58,
+    /* 0x33 */ 59,
+    /* 0x34 */ 60,
+    /* 0x35 */ 61,
+    /* 0x36 */ 62,
+    /* 0x37 */ 63,
+    /* 0x38 */ 64,
+    /* 0x39 */ -65,
+    /* 0x3A */ -66,
+    /* 0x3B */ 68,
+    /* 0x3C */ 11,
+    /* 0x3D */ 69,
+    /* 0x3E */ 70,
+    /* 0x3F */ 71,
+    /* 0x40 */ 8,
+    /* 0x41 */ 8,
+    /* 0x42 */ 72,
+    /* 0x43 */ 73,
+    /* 0x44 */ 78,
+    /* 0x45 */ 79,
+    /* 0x46 */ 80,
+    /* 0x47 */ 89,
+    /* 0x48 */ 90,
+    /* 0x49 */ 91,
+    /* 0x4A */ 92,
+    /* 0x4B */ 77,
+    /* 0x4C */ 19,
+    /* 0x4D */ 94,
 };
 
 static Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
@@ -10578,7 +10666,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
     MREG(55) = this->actor.world.rot.y;
 }
 
-static BunnyEarKinematics sBunnyEarKinematics;
+static BunnyEarKinematics sBunnyEarKinematics; // 0x80858AC8
 static Vec3s D_80858AD8[25];
 
 static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
@@ -10604,10 +10692,11 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
         // Matrices for use with Bunny Hood (no other masks use segment 11, so this could have gone inside the next if)
         Mtx* matrices = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Mtx));
 
+        // Set up drawing the Bunny Hood's floppy ears
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             Vec3s earRot;
 
-            // Apply the floppiness to Bunny Hood's ears
+            // This matrix is used to apply the floppiness to the ears
             gSPSegment(POLY_OPA_DISP++, 0x0B, matrices);
 
             // Right ear
@@ -12890,6 +12979,24 @@ void func_8084FF7C(Player* this) {
     }
 }
 
+/**
+ * Updates the Bunny Hood's floppy ears' rotation and velocity.
+ *
+ * Acts as discretised versions (forward Euler method) of two uncoupled forced, damped harmonic oscillators
+ * \f[
+ *     \ddot{\theta} = - \frac{1}{8} \dot{theta} - \frac{1}{4} \theta + F(t) ,
+ * \f]
+ * with \f$ \lvert \dot{theta} \rvert \f$ clamped to \f$ [-6000, 6000] \f$. The force is determined by Player's velocity
+ * in its shape coordinate frame, although it is twice as large in the forward/backward direction as in the sideways
+ * ones:
+ * \f[
+ *     F_x(t) = -200 s (10 + r_x) \cos(\phi) \frac{1}{4} , \\
+ *     F_y(t) = 100 s (10 + r_y) \sin(\phi) \frac{1}{4} ,
+ * \f]
+ * where \f$ \phi \f$ is the horizontal angle between forwards and the velocity vector, and \f$ r_x,r_y \f$ are random
+ * numbers in \f$ [-1,1] \f$ that are picked every frame.
+ *
+ */
 void Player_UpdateBunnyEars(Player* this) {
     Vec3s force;
     s16 angle;
@@ -12902,17 +13009,18 @@ void Player_UpdateBunnyEars(Player* this) {
     sBunnyEarKinematics.angVel.x += -sBunnyEarKinematics.rot.x >> 2;
     sBunnyEarKinematics.angVel.y += -sBunnyEarKinematics.rot.y >> 2;
 
-    // Flop in direction of motion rather than facing direction
+    // Forcing from motion relative to shape frame
     angle = this->actor.world.rot.y - this->actor.shape.rot.y;
-
-    // Forcing away from direction of motion
     force.x = (s32)(this->actor.speedXZ * -200.0f * Math_CosS(angle) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
     force.y = (s32)(this->actor.speedXZ * 100.0f * Math_SinS(angle) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
 
     sBunnyEarKinematics.angVel.x += force.x >> 2;
     sBunnyEarKinematics.angVel.y += force.y >> 2;
 
-    // Clamp velocities
+    // Here the new \f$\omega\f$ is an approximation of the solution to the differential equation,
+    // \f$ \dot{\omega} = -\omega/8 - \theta/4 + F(t) \f$
+
+    // Clamp both angular velocities to [-6000, 6000]
     if (sBunnyEarKinematics.angVel.x > 6000) {
         sBunnyEarKinematics.angVel.x = 6000;
     } else if (sBunnyEarKinematics.angVel.x < -6000) {
@@ -12924,11 +13032,11 @@ void Player_UpdateBunnyEars(Player* this) {
         sBunnyEarKinematics.angVel.y = -6000;
     }
 
-    // Add velocity to rotations
+    // Add angular velocity to rotations
     sBunnyEarKinematics.rot.x += sBunnyEarKinematics.angVel.x;
     sBunnyEarKinematics.rot.y += sBunnyEarKinematics.angVel.y;
 
-    // swivel ears outwards if pitched backwards
+    // swivel ears outwards if bending backwards
     if (sBunnyEarKinematics.rot.x < 0) {
         sBunnyEarKinematics.rot.z = sBunnyEarKinematics.rot.x >> 1;
     } else {
