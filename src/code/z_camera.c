@@ -1762,7 +1762,7 @@ s32 Camera_Normal2(Camera* camera) {
 
     camera->yawUpdateRateInv = Camera_LERPCeilF(roData->unk_0C, camera->yawUpdateRateInv * camera->speedRatio,
                                                 CAM_DATA_SCALED(OREG(25)), 0.1f);
-    camera->pitchUpdateRateInv = Camera_LERPCeilF(OREG(7), camera->pitchUpdateRateInv, spA0, 0.1f);
+    camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, spA0, 0.1f);
     camera->xzOffsetUpdateRate = Camera_LERPCeilF(CAM_DATA_SCALED(OREG(2)), camera->xzOffsetUpdateRate, spA4, 0.1f);
     camera->yOffsetUpdateRate = Camera_LERPCeilF(CAM_DATA_SCALED(OREG(3)), camera->yOffsetUpdateRate, spA0, 0.1f);
     camera->fovUpdateRate =
@@ -1892,9 +1892,9 @@ s32 Camera_Normal3(Camera* camera) {
             rwData->unk_20 = camera->playerGroundY;
             rwData->swing.unk_16 = rwData->swing.unk_14 = rwData->swing.unk_18 = 0;
             rwData->swing.swingUpdateRate = roData->yawUpdateSpeed;
-            rwData->yawUpdAmt = (s16)((s16)(playerPosRot->rot.y - 0x7FFF) - sp7C.yaw) * (1.0f / OREG(23));
+            rwData->yawUpdAmt = (s16)((s16)(playerPosRot->rot.y - 0x7FFF) - sp7C.yaw) * (1.0f / R_DEFA_CAM_ANIM_TIME);
             rwData->distTimer = 10;
-            rwData->yawTimer = OREG(23);
+            rwData->yawTimer = R_DEFA_CAM_ANIM_TIME;
             camera->animState = 1;
             rwData->swing.swingUpdateRateTimer = 0;
     }
@@ -1909,13 +1909,14 @@ s32 Camera_Normal3(Camera* camera) {
     if (rwData->swing.swingUpdateRateTimer != 0) {
         camera->yawUpdateRateInv = Camera_LERPCeilF(roData->yawUpdateSpeed + (rwData->swing.swingUpdateRateTimer * 2),
                                                     camera->yawUpdateRateInv, sp98, 0.1f);
-        camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + (rwData->swing.swingUpdateRateTimer * 2),
-                                                      camera->pitchUpdateRateInv, sp94, 0.1f);
+        camera->pitchUpdateRateInv =
+            Camera_LERPCeilF((f32)R_CAM_DEFA_PHI_UPDRATE + (rwData->swing.swingUpdateRateTimer * 2),
+                             camera->pitchUpdateRateInv, sp94, 0.1f);
         if (1) {}
         rwData->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(roData->yawUpdateSpeed, camera->yawUpdateRateInv, sp98, 0.1f);
-        camera->pitchUpdateRateInv = Camera_LERPCeilF(OREG(7), camera->pitchUpdateRateInv, sp94, 0.1f);
+        camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, sp94, 0.1f);
     }
 
     camera->xzOffsetUpdateRate = Camera_LERPCeilF(CAM_DATA_SCALED(OREG(2)), camera->xzOffsetUpdateRate, sp98, 0.1f);
@@ -1937,11 +1938,11 @@ s32 Camera_Normal3(Camera* camera) {
     phi_a0 = roData->pitchTarget - rwData->curPitch;
     sp84.pitch = Camera_LERPCeilS(phi_a0, sp74.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
 
-    if (OREG(5) < sp84.pitch) {
-        sp84.pitch = OREG(5);
+    if (R_CAM_MAX_PHI < sp84.pitch) {
+        sp84.pitch = R_CAM_MAX_PHI;
     }
-    if (sp84.pitch < OREG(34)) {
-        sp84.pitch = OREG(34);
+    if (sp84.pitch < R_CAM_MIN_PHI) {
+        sp84.pitch = R_CAM_MIN_PHI;
     }
 
     phi_a0 = playerPosRot->rot.y - (s16)(sp74.yaw - 0x7FFF);
@@ -2012,7 +2013,8 @@ s32 Camera_Parallel1(Camera* camera) {
     playerHeight = Player_GetHeight(camera->player);
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
+        f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
+                      (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
 
         roData->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
         roData->distTarget = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
@@ -2044,7 +2046,7 @@ s32 Camera_Parallel1(Camera* camera) {
             if (roData->interfaceFlags & 4) {
                 rwData->animTimer = 20;
             } else {
-                rwData->animTimer = OREG(23);
+                rwData->animTimer = R_DEFA_CAM_ANIM_TIME;
             }
             rwData->unk_00.x = 0.0f;
             rwData->yTarget = playerPosRot->pos.y - camera->playerPosDelta.y;
@@ -2142,12 +2144,12 @@ s32 Camera_Parallel1(Camera* camera) {
 
         spA8.pitch = Camera_LERPCeilS(phi_a0, atToEyeNextDir.pitch, 1.0f / camera->pitchUpdateRateInv, 4);
 
-        if (spA8.pitch > OREG(5)) {
-            spA8.pitch = OREG(5);
+        if (spA8.pitch > R_CAM_MAX_PHI) {
+            spA8.pitch = R_CAM_MAX_PHI;
         }
 
-        if (spA8.pitch < OREG(34)) {
-            spA8.pitch = OREG(34);
+        if (spA8.pitch < R_CAM_MIN_PHI) {
+            spA8.pitch = R_CAM_MIN_PHI;
         }
     }
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spA8);
@@ -2378,7 +2380,8 @@ s32 Camera_Jump2(Camera* camera) {
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
+        yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
+                  (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
         roData->atYOffset =
             CAM_DATA_SCALED((camera->playerPosDelta.y > 0.0f ? -10.0f : 10.0f) + GET_NEXT_RO_DATA(values)) *
             playerHeight * yNormal;
@@ -2418,7 +2421,7 @@ s32 Camera_Jump2(Camera* camera) {
         }
 
         yawDiff = (s16)(playerPosRot->rot.y - 0x7FFF) - atToEyeNextDir.yaw;
-        rwData->initYawDiff = ((yawDiff / OREG(23)) / 4) * 3;
+        rwData->initYawDiff = ((yawDiff / R_DEFA_CAM_ANIM_TIME) / 4) * 3;
         if (roData->interfaceFlags & 2) {
             rwData->yawAdj = 0xA;
         } else {
@@ -2428,7 +2431,7 @@ s32 Camera_Jump2(Camera* camera) {
         playerPosRot->pos.x -= camera->playerPosDelta.x;
         playerPosRot->pos.y -= camera->playerPosDelta.y;
         playerPosRot->pos.z -= camera->playerPosDelta.z;
-        rwData->animTimer = OREG(23);
+        rwData->animTimer = R_DEFA_CAM_ANIM_TIME;
         camera->animState++;
         camera->atLERPStepScale = roData->atLERPStepScale;
     }
@@ -2682,12 +2685,12 @@ s32 Camera_Jump3(Camera* camera) {
         eyeDiffSph.pitch = Camera_CalcDefaultPitch(camera, eyeNextAtOffset.pitch, roData->pitchTarget, 0);
     }
 
-    if (eyeDiffSph.pitch > OREG(5)) {
-        eyeDiffSph.pitch = OREG(5);
+    if (eyeDiffSph.pitch > R_CAM_MAX_PHI) {
+        eyeDiffSph.pitch = R_CAM_MAX_PHI;
     }
 
-    if (eyeDiffSph.pitch < OREG(34)) {
-        eyeDiffSph.pitch = OREG(34);
+    if (eyeDiffSph.pitch < R_CAM_MIN_PHI) {
+        eyeDiffSph.pitch = R_CAM_MIN_PHI;
     }
 
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeDiffSph);
@@ -2773,7 +2776,8 @@ s32 Camera_Battle1(Camera* camera) {
     playerHeight = Player_GetHeight(camera->player);
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
+        f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
+                      (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
 
         roData->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
         roData->distance = GET_NEXT_RO_DATA(values);
@@ -2859,7 +2863,7 @@ s32 Camera_Battle1(Camera* camera) {
             Camera_ChangeMode(camera, CAM_MODE_TARGET);
             return true;
         }
-        rwData->animTimer = OREG(23) + OREG(24);
+        rwData->animTimer = R_DEFA_CAM_ANIM_TIME + OREG(24);
         rwData->initialEyeToAtYaw = atToEyeDir.yaw;
         rwData->initialEyeToAtPitch = atToEyeDir.pitch;
         rwData->initialEyeToAtDist = atToEyeDir.r;
@@ -2916,7 +2920,7 @@ s32 Camera_Battle1(Camera* camera) {
             OLib_Vec3fDiffToVecSphGeo(&playerToTargetDir, at, eye);
             playerToTargetDir.yaw = tmpAng2 - 0x7FFF;
 
-            var2 = 1.0f / OREG(23);
+            var2 = 1.0f / R_DEFA_CAM_ANIM_TIME;
             var3 = (rwData->initialEyeToAtDist - playerToTargetDir.r) * var2;
             tmpAng1 = (s16)(rwData->initialEyeToAtYaw - playerToTargetDir.yaw) * var2;
             tmpAng2 = (s16)(rwData->initialEyeToAtPitch - playerToTargetDir.pitch) * var2;
@@ -3125,7 +3129,8 @@ s32 Camera_KeepOn1(Camera* camera) {
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
+        f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
+                      (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
 
         roData->unk_00 = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
         roData->unk_04 = GET_NEXT_RO_DATA(values);
@@ -3154,7 +3159,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         rwData->unk_10 = 0;
         rwData->unk_04 = 0.0f;
         rwData->unk_0C = camera->target;
-        rwData->unk_16 = OREG(23) + OREG(24);
+        rwData->unk_16 = R_DEFA_CAM_ANIM_TIME + OREG(24);
         rwData->unk_12 = spC0.yaw;
         rwData->unk_14 = spC0.pitch;
         rwData->unk_00 = spC0.r;
@@ -3247,7 +3252,7 @@ s32 Camera_KeepOn1(Camera* camera) {
             OLib_Vec3fDiffToVecSphGeo(&spC8, at, eye);
             spC8.yaw = spE2 - 0x7FFF;
 
-            t2 = 1.0f / OREG(23);
+            t2 = 1.0f / R_DEFA_CAM_ANIM_TIME;
             spE8 = (rwData->unk_00 - spC8.r) * t2;
             spE2 = (s16)(rwData->unk_12 - spC8.yaw) * t2;
             spE0 = (s16)(rwData->unk_14 - spC8.pitch) * t2;
@@ -3366,7 +3371,8 @@ s32 Camera_KeepOn3(Camera* camera) {
     camera->unk_14C &= ~0x10;
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
+        f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
+                      (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
 
         roData->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
         roData->minDist = GET_NEXT_RO_DATA(values);
@@ -4126,7 +4132,8 @@ s32 Camera_Fixed4(Camera* camera) {
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        f32 yNormal = ((1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerYOffset)));
+        f32 yNormal = ((1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
+                       (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerYOffset)));
 
         roData->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerYOffset * yNormal;
         roData->speedToEyePos = GET_NEXT_SCALED_RO_DATA(values);
@@ -4252,7 +4259,7 @@ s32 Camera_Subj3(Camera* camera) {
         rwData->r = sp7C.r;
         rwData->yaw = sp7C.yaw;
         rwData->pitch = sp7C.pitch;
-        rwData->animTimer = OREG(23);
+        rwData->animTimer = R_DEFA_CAM_ANIM_TIME;
         camera->dist = roData->eyeNextDist;
         camera->animState++;
         camera->rUpdateRateInv = 1.0f;
@@ -4269,7 +4276,7 @@ s32 Camera_Subj3(Camera* camera) {
         at->y = at->y + (sp98.y - pad2->y) * temp_f0_3;
         at->z = at->z + (sp98.z - pad2->z) * temp_f0_3;
 
-        temp_f0_3 = (1.0f / OREG(23));
+        temp_f0_3 = (1.0f / R_DEFA_CAM_ANIM_TIME);
         sp58 = (tsph.r - sp84.r) * temp_f0_3;
         sp52 = (s16)(tsph.yaw - sp84.yaw) * temp_f0_3;
         sp50 = (s16)(tsph.pitch - sp84.pitch) * temp_f0_3;
@@ -4630,11 +4637,11 @@ s32 Camera_Unique1(Camera* camera) {
     phiTarget = roData->pitchTarget;
     sp8C.pitch = Camera_LERPCeilS(phiTarget, eyeNextAtOffset.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
 
-    if (sp8C.pitch > OREG(5)) {
-        sp8C.pitch = OREG(5);
+    if (sp8C.pitch > R_CAM_MAX_PHI) {
+        sp8C.pitch = R_CAM_MAX_PHI;
     }
-    if (sp8C.pitch < -OREG(5)) {
-        sp8C.pitch = -OREG(5);
+    if (sp8C.pitch < -R_CAM_MAX_PHI) {
+        sp8C.pitch = -R_CAM_MAX_PHI;
     }
 
     if (rwData->timer != 0) {

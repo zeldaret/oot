@@ -32,9 +32,9 @@ s16 sOREGInit[] = {
     5,     // OREG(2)
     5,     // OREG(3)
     5,     // OREG(4)
-    14500, // OREG(5)
+    14500, // R_CAM_MAX_PHI
     20,    // OREG(6)
-    16,    // OREG(7)
+    16,    // R_CAM_DEFA_PHI_UPDRATE
     150,   // OREG(8)
     25,    // OREG(9)
     150,   // OREG(10)
@@ -50,7 +50,7 @@ s16 sOREGInit[] = {
     80,    // OREG(20)
     30,    // OREG(21)
     120,   // OREG(22)
-    4,     // OREG(23)
+    4,     // R_DEFA_CAM_ANIM_TIME
     1,     // OREG(24)
     50,    // OREG(25)
     20,    // OREG(26)
@@ -61,19 +61,19 @@ s16 sOREGInit[] = {
     20,    // OREG(31)
     20,    // OREG(32)
     -10,   // OREG(33)
-    -5460, // OREG(34)
-    -9100, // OREG(35)
+    -5460, // R_CAM_MIN_PHI
+    -9100, // R_CAM_MIN_PHI2
     -6,    // OREG(36)
     8,     // OREG(37)
     15,    // OREG(38)
     75,    // OREG(39)
     60,    // OREG(40)
-    12,    // OREG(41)
-    110,   // OREG(42)
+    12,    // R_AT_LERP_MIN
+    110,   // R_AT_LERP_SCALE
     40,    // OREG(43)
     50,    // OREG(44)
     250,   // OREG(45)
-    -10,   // OREG(46)
+    -10,   // R_CAM_YOFFSET_NORM
     30,    // OREG(47)
     30,    // OREG(48)
     70,    // OREG(49)
