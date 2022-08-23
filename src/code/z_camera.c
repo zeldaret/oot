@@ -597,9 +597,9 @@ s16 Camera_GetPitchAdjFromFloorHeightDiffs(Camera* camera, s16 viewYaw, s16 init
     viewForwardsUnitZ = Math_CosS(viewYaw);
 
     playerHeight = Player_GetHeight(camera->player);
-    checkOffsetY = CAM_DATA_SCALED(OREG(19)) * playerHeight;
-    nearDist = CAM_DATA_SCALED(OREG(17)) * playerHeight;
-    farDist = CAM_DATA_SCALED(OREG(18)) * playerHeight;
+    checkOffsetY = CAM_DATA_SCALED(R_PITCH_FLOOR_CHECK_OFFSET_Y_FAC) * playerHeight;
+    nearDist = CAM_DATA_SCALED(R_PITCH_FLOOR_CHECK_NEAR_DIST_FAC) * playerHeight;
+    farDist = CAM_DATA_SCALED(R_PITCH_FLOOR_CHECK_FAR_DIST_FAC) * playerHeight;
 
     playerPos.x = camera->playerPosRot.pos.x;
     playerPos.y = camera->playerGroundY + checkOffsetY;
@@ -643,8 +643,8 @@ s16 Camera_GetPitchAdjFromFloorHeightDiffs(Camera* camera, s16 viewYaw, s16 init
         }
     }
 
-    floorYDiffNear = CAM_DATA_SCALED(OREG(20)) * (sFloorYNear - camera->playerGroundY);
-    floorYDiffFar = (1.0f - CAM_DATA_SCALED(OREG(20))) * (sFloorYFar - camera->playerGroundY);
+    floorYDiffNear = CAM_DATA_SCALED(R_PITCH_FLOOR_CHECK_NEAR_WEIGHT) * (sFloorYNear - camera->playerGroundY);
+    floorYDiffFar = (1.0f - CAM_DATA_SCALED(R_PITCH_FLOOR_CHECK_NEAR_WEIGHT)) * (sFloorYFar - camera->playerGroundY);
 
     pitchNear = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffNear, nearDist)));
     pitchFar = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffFar, farDist)));

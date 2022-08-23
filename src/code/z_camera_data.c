@@ -44,10 +44,10 @@ s16 sOREGInit[] = {
     0,     // OREG(14)
     0,     // OREG(15)
     1,     // OREG(16)
-    100,   // OREG(17)
-    250,   // OREG(18)
-    120,   // OREG(19)
-    80,    // OREG(20)
+    100,   // R_PITCH_FLOOR_CHECK_NEAR_DIST_FAC
+    250,   // R_PITCH_FLOOR_CHECK_FAR_DIST_FAC
+    120,   // R_PITCH_FLOOR_CHECK_OFFSET_Y_FAC
+    80,    // R_PITCH_FLOOR_CHECK_NEAR_WEIGHT
     30,    // OREG(21)
     120,   // OREG(22)
     4,     // R_DEFA_CAM_ANIM_TIME
