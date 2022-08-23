@@ -575,84 +575,81 @@ s16 Camera_XZAngle(Vec3f* to, Vec3f* from) {
 }
 
 s16 Camera_GetPitchAdjFromFloorHeightDiffs(Camera* camera, s16 viewYaw, s16 initAndReturnZero) {
-    static f32 sFloorYSmallOffsetForwards;
-    static f32 sFloorYBigOffsetForwards;
-    static CamColChk sBigOffsetColChk;
+    static f32 sFloorYNear;
+    static f32 sFloorYFar;
+    static CamColChk sFarColChk;
     Vec3f playerPos;
-    Vec3f playerPosSmallOffsetForwards;
+    Vec3f nearPos;
     Vec3f floorNorm;
-    f32 playerPosOffsetY;
-    s16 pitchSmallOffset;
-    s16 pitchBigOffset;
-    f32 floorYDiffBigOffsetForwards;
+    f32 checkOffsetY;
+    s16 pitchNear;
+    s16 pitchFar;
+    f32 floorYDiffFar;
     f32 viewForwardsUnitX;
     f32 viewForwardsUnitZ;
     s32 bgId;
-    f32 smallOffsetXZ;
-    f32 bigOffsetXZ;
-    f32 floorYDiffSmallOffsetForwards;
+    f32 nearDist;
+    f32 farDist;
+    f32 floorYDiffNear;
     f32 playerHeight;
 
     viewForwardsUnitX = Math_SinS(viewYaw);
     viewForwardsUnitZ = Math_CosS(viewYaw);
 
     playerHeight = Player_GetHeight(camera->player);
-    playerPosOffsetY = CAM_DATA_SCALED(OREG(19)) * playerHeight;
-    smallOffsetXZ = CAM_DATA_SCALED(OREG(17)) * playerHeight;
-    bigOffsetXZ = CAM_DATA_SCALED(OREG(18)) * playerHeight;
+    checkOffsetY = CAM_DATA_SCALED(OREG(19)) * playerHeight;
+    nearDist = CAM_DATA_SCALED(OREG(17)) * playerHeight;
+    farDist = CAM_DATA_SCALED(OREG(18)) * playerHeight;
 
     playerPos.x = camera->playerPosRot.pos.x;
-    playerPos.y = camera->playerGroundY + playerPosOffsetY;
+    playerPos.y = camera->playerGroundY + checkOffsetY;
     playerPos.z = camera->playerPosRot.pos.z;
 
-    playerPosSmallOffsetForwards.x = playerPos.x + (smallOffsetXZ * viewForwardsUnitX);
-    playerPosSmallOffsetForwards.y = playerPos.y;
-    playerPosSmallOffsetForwards.z = playerPos.z + (smallOffsetXZ * viewForwardsUnitZ);
+    nearPos.x = playerPos.x + (nearDist * viewForwardsUnitX);
+    nearPos.y = playerPos.y;
+    nearPos.z = playerPos.z + (nearDist * viewForwardsUnitZ);
 
     if (initAndReturnZero || (camera->play->state.frames % 2) == 0) {
-        sBigOffsetColChk.pos.x = playerPos.x + (bigOffsetXZ * viewForwardsUnitX);
-        sBigOffsetColChk.pos.y = playerPos.y;
-        sBigOffsetColChk.pos.z = playerPos.z + (bigOffsetXZ * viewForwardsUnitZ);
+        sFarColChk.pos.x = playerPos.x + (farDist * viewForwardsUnitX);
+        sFarColChk.pos.y = playerPos.y;
+        sFarColChk.pos.z = playerPos.z + (farDist * viewForwardsUnitZ);
 
-        Camera_BGCheckInfo(camera, &playerPos, &sBigOffsetColChk);
+        Camera_BGCheckInfo(camera, &playerPos, &sFarColChk);
 
         if (initAndReturnZero) {
-            sFloorYSmallOffsetForwards = sFloorYBigOffsetForwards = camera->playerGroundY;
+            sFloorYNear = sFloorYFar = camera->playerGroundY;
         }
     } else {
-        bigOffsetXZ = OLib_Vec3fDistXZ(&playerPos, &sBigOffsetColChk.pos);
+        farDist = OLib_Vec3fDistXZ(&playerPos, &sFarColChk.pos);
 
-        sBigOffsetColChk.pos.x += sBigOffsetColChk.norm.x * 5.0f;
-        sBigOffsetColChk.pos.y += sBigOffsetColChk.norm.y * 5.0f;
-        sBigOffsetColChk.pos.z += sBigOffsetColChk.norm.z * 5.0f;
+        sFarColChk.pos.x += sFarColChk.norm.x * 5.0f;
+        sFarColChk.pos.y += sFarColChk.norm.y * 5.0f;
+        sFarColChk.pos.z += sFarColChk.norm.z * 5.0f;
 
-        if (bigOffsetXZ < smallOffsetXZ) {
-            smallOffsetXZ = bigOffsetXZ;
-            sFloorYSmallOffsetForwards = sFloorYBigOffsetForwards =
-                Camera_GetFloorYLayer(camera, &floorNorm, &sBigOffsetColChk.pos, &bgId);
+        if (nearDist > farDist) {
+            nearDist = farDist;
+            sFloorYNear = sFloorYFar = Camera_GetFloorYLayer(camera, &floorNorm, &sFarColChk.pos, &bgId);
         } else {
-            sFloorYSmallOffsetForwards =
-                Camera_GetFloorYLayer(camera, &floorNorm, &playerPosSmallOffsetForwards, &bgId);
-            sFloorYBigOffsetForwards = Camera_GetFloorYLayer(camera, &floorNorm, &sBigOffsetColChk.pos, &bgId);
+            sFloorYNear = Camera_GetFloorYLayer(camera, &floorNorm, &nearPos, &bgId);
+            sFloorYFar = Camera_GetFloorYLayer(camera, &floorNorm, &sFarColChk.pos, &bgId);
         }
 
-        if (sFloorYSmallOffsetForwards == BGCHECK_Y_MIN) {
-            sFloorYSmallOffsetForwards = camera->playerGroundY;
+        if (sFloorYNear == BGCHECK_Y_MIN) {
+            sFloorYNear = camera->playerGroundY;
         }
 
-        if (sFloorYBigOffsetForwards == BGCHECK_Y_MIN) {
-            sFloorYBigOffsetForwards = sFloorYSmallOffsetForwards;
+        if (sFloorYFar == BGCHECK_Y_MIN) {
+            sFloorYFar = sFloorYNear;
         }
     }
 
-    floorYDiffSmallOffsetForwards = CAM_DATA_SCALED(OREG(20)) * (sFloorYSmallOffsetForwards - camera->playerGroundY);
-    floorYDiffBigOffsetForwards =
-        (1.0f - CAM_DATA_SCALED(OREG(20))) * (sFloorYBigOffsetForwards - camera->playerGroundY);
+    floorYDiffNear = CAM_DATA_SCALED(OREG(20)) * (sFloorYNear - camera->playerGroundY);
+    floorYDiffFar = (1.0f - CAM_DATA_SCALED(OREG(20))) * (sFloorYFar - camera->playerGroundY);
 
-    pitchSmallOffset = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffSmallOffsetForwards, smallOffsetXZ)));
-    pitchBigOffset = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffBigOffsetForwards, bigOffsetXZ)));
+    pitchNear = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffNear, nearDist)));
+    pitchFar = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(floorYDiffFar, farDist)));
 
-    return pitchSmallOffset + pitchBigOffset;
+    return pitchNear + pitchFar;
 }
 
 Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {
