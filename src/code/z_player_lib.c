@@ -1479,6 +1479,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2656);
         } else if ((this->actor.scale.y >= 0.0f) && (this->meleeWeaponState != 0)) {
+            // This check is why bottles do not draw when you have ISG: it does this instad of the next case.
             Vec3f spE4[3];
 
             if (Player_HoldsBrokenKnife(this)) {
