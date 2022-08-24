@@ -3,7 +3,7 @@
 
 /**
  * @param x binang
- * @return sin(x)*0x8000
+ * @return sin(x)*0x7FFF
  */
 s16 sins(u16 x) {
     s16 value;
