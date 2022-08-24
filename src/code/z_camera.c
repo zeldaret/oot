@@ -659,13 +659,12 @@ Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16 roll
     Vec3f rollMtxRow3;
     f32 pad;
 
-    // Axis to rotate roll
+    // Axis to roll around
     u.x = cosP * sinY;
     u.y = sinP;
     u.z = cosP * cosY;
 
-    // Matrix to adjust the Up vector based on roll.
-    // A roll of 0 will generate the identity matrix.
+    // Matrix to apply the roll to the Up vector without roll
     rollMtxRow1.x = ((1.0f - SQ(u.x)) * cosR) + SQ(u.x);
     rollMtxRow1.y = ((u.x * u.y) * (1.0f - cosR)) - (u.z * sinR);
     rollMtxRow1.z = ((u.z * u.x) * (1.0f - cosR)) + (u.y * sinR);
@@ -678,7 +677,7 @@ Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16 roll
     rollMtxRow3.y = ((u.y * u.z) * (1.0f - cosR)) + (u.x * sinR);
     rollMtxRow3.z = ((1.0f - SQ(u.z)) * cosR) + SQ(u.z);
 
-    // Default Up vector with no adjustments for roll
+    // Up without roll
     baseUp.x = -sinP * sinY;
     baseUp.y = cosP;
     baseUp.z = -sinP * cosY;
