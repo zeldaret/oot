@@ -175,7 +175,7 @@ f32 Math_FAsinF(f32 x) {
 
 /**
  * @param x
- * @return arccos(x) in radians, in [-pi/2,pi/2] range
+ * @return arccos(x) in radians, in [0,pi] range
  */
 f32 Math_FAcosF(f32 x) {
     return M_PI / 2 - Math_FAsinF(x);
