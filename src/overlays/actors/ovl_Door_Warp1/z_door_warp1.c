@@ -164,7 +164,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             if ((!(gSaveContext.entranceIndex == ENTR_SPOT05_3 || gSaveContext.entranceIndex == ENTR_SPOT17_5 ||
                    gSaveContext.entranceIndex == ENTR_SPOT06_9 || gSaveContext.entranceIndex == ENTR_SPOT11_8 ||
                    gSaveContext.entranceIndex == ENTR_SPOT02_8) &&
-                 gSaveContext.sceneSetupIndex < 4) ||
+                 !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
             }
@@ -265,7 +265,7 @@ void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, PlayState* play) {
         this->actor.scale.z = 0.09f;
         this->crystalAlpha = 255.0f;
     } else {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_SHUT_BY_CRYSTAL);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SHUT_BY_CRYSTAL);
     }
     DoorWarp1_SetupAction(this, DoorWarp1_PurpleCrystal);
 }
@@ -398,7 +398,7 @@ void func_809995D4(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_WarpAppear(DoorWarp1* this, PlayState* play) {
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     Math_SmoothStepToF(&this->lightRayAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
     Math_SmoothStepToF(&this->warpAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
 
@@ -433,7 +433,7 @@ void DoorWarp1_WarpAppear(DoorWarp1* this, PlayState* play) {
 
 void func_809998A4(DoorWarp1* this, PlayState* play) {
     if (this->lightRayAlpha != 0.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     }
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.1f, 2.0f, 0.01f);
     Math_SmoothStepToF(&this->warpAlpha, 0.0f, 0.1f, 2.0f, 0.01f);
@@ -456,13 +456,13 @@ s32 DoorWarp1_PlayerInRange(DoorWarp1* this, PlayState* play) {
 void DoorWarp1_ChildWarpIdle(DoorWarp1* this, PlayState* play) {
     Player* player;
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (DoorWarp1_PlayerInRange(this, play)) {
         player = GET_PLAYER(play);
 
-        Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         OnePointCutscene_Init(play, 0x25E7, 999, &this->actor, CAM_ID_MAIN);
         func_8002DF54(play, &this->actor, 10);
 
@@ -493,7 +493,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
         osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger,
                      TRANS_TRIGGER_START);
 
-        if (play->sceneNum == SCENE_DDAN_BOSS) {
+        if (play->sceneId == SCENE_DDAN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
                 Flags_SetEventChkInf(EVENTCHKINF_25);
                 Item_Give(play, ITEM_GORON_RUBY);
@@ -503,7 +503,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 play->nextEntranceIndex = ENTR_SPOT16_5;
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneNum == SCENE_YDAN_BOSS) {
+        } else if (play->sceneId == SCENE_YDAN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_07)) {
                 Flags_SetEventChkInf(EVENTCHKINF_07);
                 Flags_SetEventChkInf(EVENTCHKINF_09);
@@ -514,7 +514,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 play->nextEntranceIndex = ENTR_SPOT04_11;
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneNum == SCENE_BDAN_BOSS) {
+        } else if (play->sceneId == SCENE_BDAN_BOSS) {
             play->nextEntranceIndex = ENTR_SPOT08_0;
             gSaveContext.nextCutsceneIndex = 0;
         }
@@ -536,7 +536,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_RutoWarpIdle(DoorWarp1* this, PlayState* play) {
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (this->rutoWarpState != WARP_BLUE_RUTO_STATE_INITIAL && DoorWarp1_PlayerInRange(this, play)) {
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_ENTERED;
@@ -575,8 +575,8 @@ void func_80999EE0(DoorWarp1* this, PlayState* play) {
 
 void func_80999FE4(DoorWarp1* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) {
-        Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         OnePointCutscene_Init(play, 0x25E9, 999, &this->actor, CAM_ID_MAIN);
         // Using `CAM_ID_NONE` here defaults to the active camera
         Play_CopyCamera(play, CAM_ID_NONE, sRutoWarpSubCamId);
@@ -622,7 +622,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
 }
 
 void func_8099A3A4(DoorWarp1* this, PlayState* play) {
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     Math_SmoothStepToF(&this->lightRayAlpha, 255.0f, 0.2f, 2.0f, 0.1f);
     Math_SmoothStepToF(&this->warpAlpha, 255.0f, 0.2f, 2.0f, 0.1f);
 
@@ -642,7 +642,7 @@ void func_8099A3A4(DoorWarp1* this, PlayState* play) {
 void DoorWarp1_AdultWarpIdle(DoorWarp1* this, PlayState* play) {
     Player* player;
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (DoorWarp1_PlayerInRange(this, play)) {
         player = GET_PLAYER(play);
@@ -663,8 +663,8 @@ void func_8099A508(DoorWarp1* this, PlayState* play) {
         this->unk_1B2--;
         return;
     }
-    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, Animation_GetLastFrame(&gWarpCrystalAnim),
                          Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 40.0f, 1);
 
@@ -702,7 +702,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
     this->warpTimer++;
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        if (play->sceneNum == SCENE_MORIBOSSROOM) {
+        if (play->sceneId == SCENE_MORIBOSSROOM) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
                 SET_EVENTCHKINF(EVENTCHKINF_48);
                 Item_Give(play, ITEM_MEDALLION_FOREST);
@@ -717,7 +717,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneNum == SCENE_FIRE_BS) {
+        } else if (play->sceneId == SCENE_FIRE_BS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_49)) {
                 SET_EVENTCHKINF(EVENTCHKINF_49);
                 Item_Give(play, ITEM_MEDALLION_FIRE);
@@ -731,7 +731,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneNum == SCENE_MIZUSIN_BS) {
+        } else if (play->sceneId == SCENE_MIZUSIN_BS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 SET_EVENTCHKINF(EVENTCHKINF_4A);
                 Item_Give(play, ITEM_MEDALLION_WATER);
@@ -746,7 +746,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneNum == SCENE_JYASINBOSS) {
+        } else if (play->sceneId == SCENE_JYASINBOSS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                 Item_Give(play, ITEM_MEDALLION_SPIRIT);
                 play->nextEntranceIndex = ENTR_KENJYANOMA_0;
@@ -760,7 +760,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneNum == SCENE_HAKADAN_BS) {
+        } else if (play->sceneId == SCENE_HAKADAN_BS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                 Item_Give(play, ITEM_MEDALLION_SHADOW);
                 play->nextEntranceIndex = ENTR_KENJYANOMA_0;
@@ -847,7 +847,7 @@ void DoorWarp1_Destination(DoorWarp1* this, PlayState* play) {
         this->warpAlpha = 0.0f;
         DoorWarp1_SetupAction(this, DoorWarp1_DoNothing);
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 }
 
 void DoorWarp1_DoNothing(DoorWarp1* this, PlayState* play) {
@@ -861,7 +861,7 @@ void func_8099B020(DoorWarp1* this, PlayState* play) {
         Math_StepToF(&this->unk_194, 2.0f, 0.01f);
         Math_StepToF(&this->unk_198, 10.0f, 0.02f);
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 }
 
 void DoorWarp1_Update(Actor* thisx, PlayState* play) {
@@ -967,9 +967,9 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     Matrix_Push();
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511),
-                                0x100, 0x100, 1, spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100,
-                                0x100));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, spEC & 0xFF,
+                                -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100, 1, spEC & 0xFF,
+                                -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100));
 
     Matrix_Translate(0.0f, this->unk_194 * 230.0f, 0.0f, MTXMODE_APPLY);
     xzScale = (((f32)this->unk_1AE * spE8) / 100.0f) + 1.0f;
@@ -1004,8 +1004,8 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
         spEC *= 2;
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100, 1,
-                                    spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, spEC & 0xFF, -((s16)this->unk_19C & 511),
+                                    0x100, 0x100, 1, spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
 
         Matrix_Translate(0.0f, this->unk_198 * 60.0f, 0.0f, MTXMODE_APPLY);
 

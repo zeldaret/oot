@@ -376,7 +376,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
@@ -388,7 +388,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
@@ -412,7 +412,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 this->knockbackRecoveryVelocity.x = -rotatedKnockbackVelocity.x;
                 this->knockbackRecoveryVelocity.z = -rotatedKnockbackVelocity.z;
 
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
             }
         }
 

@@ -68,7 +68,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->dyna.unk_150 != 0.0f) {
-        if (play->sceneNum == SCENE_SPOT02 && !LINK_IS_ADULT && IS_DAY) {
+        if (play->sceneId == SCENE_SPOT02 && !LINK_IS_ADULT && IS_DAY) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             if (!Play_InCsMode(play)) {
@@ -77,7 +77,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
                 this->actionFunc = func_8087BAE4;
             }
         } else if (0.0f < this->dyna.unk_150 ||
-                   (play->sceneNum == SCENE_SPOT06 && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
+                   (play->sceneId == SCENE_SPOT06 && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
         } else {
@@ -104,7 +104,7 @@ void func_8087B938(BgHaka* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-        } else if (!IS_DAY && play->sceneNum == SCENE_SPOT02) {
+        } else if (!IS_DAY && play->sceneId == SCENE_SPOT02) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_POH, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
                         this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0, 1);
         }

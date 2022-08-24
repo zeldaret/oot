@@ -142,7 +142,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
             Actor_SetScale(&this->actor, 0.0f);
             this->initActionFunc = func_8096784C;
             this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_NABALL_VANISH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_NABALL_VANISH);
             break;
         case 12:
             Actor_SetScale(&this->actor, 0.0f);
@@ -299,7 +299,7 @@ void func_8096712C(Demo6K* this, PlayState* play) {
 
     this->timer2++;
 
-    if ((play->sceneNum == SCENE_GANONTIKA) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
+    if ((play->sceneId == SCENE_GANONTIKA) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
         func_8002F974(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 }
@@ -331,7 +331,7 @@ void func_80967244(Demo6K* this, PlayState* play) {
     envColor.g = sEnvColors[this->unk_293].g;
     envColor.b = sEnvColors[this->unk_293].b;
 
-    if (play->sceneNum == SCENE_TOKINOMA) {
+    if (play->sceneId == SCENE_TOKINOMA) {
         scale = 6000;
     } else if (play->csCtx.frames < 419) {
         scale = 6000;
@@ -388,7 +388,7 @@ void func_809674E0(Demo6K* this, PlayState* play) {
         this->actor.world.pos.y += (19.0f - this->actor.world.pos.y) * temp;
         this->actor.world.pos.z += (1613.0f - this->actor.world.pos.z) * temp;
 
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
     }
 
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -506,7 +506,7 @@ void func_80967BF8(Player* player, PlayState* play) {
 }
 
 void func_80967DBC(Demo6K* this, PlayState* play) {
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_ATTACK_DEMO - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_ATTACK_DEMO - SFX_FLAG);
 
     this->timer2++;
 
@@ -520,13 +520,13 @@ void func_80967DBC(Demo6K* this, PlayState* play) {
         if (this->timer2 > 104) {
             func_80967BF8(GET_PLAYER(play), play);
             Actor_Kill(&this->actor);
-            Audio_PlayActorSound2(&GET_PLAYER(play)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
+            Audio_PlayActorSfx2(&GET_PLAYER(play)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
         } else if (this->timer2 > 94) {
             Actor_SetScale(&this->actor, this->actor.scale.x + 0.03f);
 
             if (this->timer2 == 95) {
                 osSyncPrintf(VT_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" VT_RST);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
             }
         }
 
@@ -566,7 +566,7 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_RotateX(-M_PI / 2, MTXMODE_APPLY);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0x7FFF - ((timer1 * 8) & 0x7FFF), 16, 512, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0x7FFF - ((timer1 * 8) & 0x7FFF), 16, 512, 1, 0,
                                 0x7FFF - ((timer1 * 8) & 0x7FFF), 16, 32));
 
     {
@@ -633,8 +633,9 @@ void func_80968298(Actor* thisx, PlayState* play) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 210, 210, 210, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 100, 100, 100, 255);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (0xFFF - (timer1 * 6)) & 0xFFF, (timer1 * 12) & 0xFFF, 128, 64,
-                                1, (0xFFF - (timer1 * 6)) & 0xFFF, (timer1 * 12) & 0xFFF, 64, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (0xFFF - (timer1 * 6)) & 0xFFF,
+                                (timer1 * 12) & 0xFFF, 128, 64, 1, (0xFFF - (timer1 * 6)) & 0xFFF,
+                                (timer1 * 12) & 0xFFF, 64, 32));
     gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_0039D0);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1189),
@@ -734,7 +735,7 @@ void func_80968B70(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1322),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0xFF - ((timer2 * 2) & 0xFF), 0, 32, 32, 1,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0xFF - ((timer2 * 2) & 0xFF), 0, 32, 32, 1,
                                 0xFF - ((timer2 * 2) & 0xFF), (timer2 * 15) & 0x3FF, 16, 64));
 
     if (this->timer2 < 40) {

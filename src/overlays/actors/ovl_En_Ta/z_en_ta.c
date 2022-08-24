@@ -144,7 +144,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (play->sceneNum == SCENE_MALON_STABLE && !IS_DAY) {
+            } else if (play->sceneId == SCENE_MALON_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
@@ -156,7 +156,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             break;
         default:
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (play->sceneNum == SCENE_SPOT15) {
+            if (play->sceneId == SCENE_SPOT15) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_13)) {
@@ -171,7 +171,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (play->sceneNum == SCENE_SOUKO) {
+            } else if (play->sceneId == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
@@ -234,7 +234,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
 
     Collider_DestroyCylinder(play, &this->collider);
 
-    if (this->actor.params != 1 && this->actor.params != 2 && play->sceneNum == SCENE_SOUKO) {
+    if (this->actor.params != 1 && this->actor.params != 2 && play->sceneId == SCENE_SOUKO) {
         gSaveContext.timer1State = 0;
     }
 
@@ -312,7 +312,7 @@ void func_80B14570(EnTa* this, PlayState* play) {
         this->unk_2CC = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
         this->currentAnimation = &gTalonStandAnim;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
     }
 }
 
@@ -384,7 +384,7 @@ void func_80B14818(EnTa* this, PlayState* play) {
     s32 framesMod12 = (s32)play->state.frames % 12;
 
     if (framesMod12 == 0 || framesMod12 == 6) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND);
     }
     if (this->actor.speedXZ < 6.0f) {
         this->actor.speedXZ += 0.4f;
@@ -449,7 +449,7 @@ void func_80B14AF4(EnTa* this, PlayState* play) {
     this->actor.shape.rot.y -= 0xC00;
 
     if (this->unk_2CC == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
         func_80B13AA0(this, func_80B14A54, func_80B167C0);
         this->unk_2CC = 65;
         this->actor.flags |= ACTOR_FLAG_4;
@@ -714,11 +714,11 @@ void func_80B154FC(EnTa* this, PlayState* play) {
                             return;
                         case 2:
                             this->actor.textId = 0x2083;
-                            Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
                             break;
                         case 3:
                             this->actor.textId = 0x2082;
-                            Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
+                            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
                             break;
                     }
                     this->actionFunc = func_80B15260;
@@ -1007,7 +1007,7 @@ void func_80B16504(EnTa* this, PlayState* play) {
     func_80B13AAC(this, play);
 
     if (func_80B142F4(this, play, this->actor.textId)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
 
         if (faceReaction != 0) {
             func_80B14FAC(this, func_80B15E28);
@@ -1097,7 +1097,7 @@ void func_80B167C0(EnTa* this) {
 void func_80B167FC(EnTa* this) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SLEEP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SLEEP);
     }
     this->unk_2E0 |= 0xC;
 }

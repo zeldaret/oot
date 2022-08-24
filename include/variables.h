@@ -129,7 +129,7 @@ extern f32 gDefaultPanVolume[128];
 extern s16 gLowPassFilterData[16 * 8];
 extern s16 gHighPassFilterData[15 * 8];
 extern s32 gAudioContextInitalized;
-extern u8 gIsLargeSoundBank[7];
+extern u8 gIsLargeSfxBank[7];
 extern u8 gChannelsPerBank[4][7];
 extern u8 gUsedChannelsPerBank[4][7];
 extern u8 gMorphaTransposeTable[16];
@@ -137,18 +137,26 @@ extern u8* gFrogsSongPtr;
 extern OcarinaNote* gScarecrowLongSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
 extern OcarinaSongButtons gOcarinaSongButtons[];
-extern SoundParams* gSoundParams[7];
+extern SfxParams* gSfxParams[7];
 extern char D_80133390[];
 extern char D_80133398[];
-extern SoundBankEntry* gSoundBanks[7];
+extern u8 gSfxRequestWriteIndex;
+extern u8 gSfxRequestReadIndex;
+extern SfxBankEntry* gSfxBanks[7];
+extern u8 gSfxBankSizes[];
 extern u8 gSfxChannelLayout;
+extern u16 D_801333D0;
 extern Vec3f gSfxDefaultPos;
 extern f32 gSfxDefaultFreqAndVolScale;
 extern s8 gSfxDefaultReverb;
 extern u8 D_801333F0;
 extern u8 gAudioSfxSwapOff;
+extern u8 D_801333F8;
+extern u8 gSeqCmdWrPos;
+extern u8 gSeqCmdRdPos;
 extern u8 D_80133408;
 extern u8 D_8013340C;
+extern u8 gSoundModeList[];
 extern u8 gAudioSpecId;
 extern u8 D_80133418;
 extern AudioSpec gAudioSpecs[18];
@@ -200,8 +208,15 @@ extern volatile OSTime gRSPGFXTotalTime;
 extern volatile OSTime gRSPOtherTotalTime;
 extern volatile OSTime gRDPTotalTime;
 
-extern ActiveSound gActiveSounds[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
-extern u8 gSoundBankMuted[];
+extern SfxBankEntry D_8016BAD0[9];
+extern SfxBankEntry D_8016BC80[12];
+extern SfxBankEntry D_8016BEC0[22];
+extern SfxBankEntry D_8016C2E0[20];
+extern SfxBankEntry D_8016C6A0[8];
+extern SfxBankEntry D_8016C820[3];
+extern SfxBankEntry D_8016C8B0[5];
+extern ActiveSfx gActiveSfx[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
+extern u8 gSfxBankMuted[];
 extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];
@@ -211,11 +226,11 @@ extern void(*D_801755D0)(void);
 
 extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
-extern OSPifRam __osPifInternalBuff;
-extern u8 __osContLastPoll;
+extern OSPifRam __osContPifRam;
+extern u8 __osContLastCmd;
 extern u8 __osMaxControllers;
 extern __OSInode __osPfsInodeCache;
-extern OSPifRam gPifMempakBuf;
+extern OSPifRam __osPfsPifRam;
 extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 bytes

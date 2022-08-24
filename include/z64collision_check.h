@@ -332,7 +332,7 @@ typedef enum {
 #define BUMP_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
 #define BUMP_NO_AT_INFO (1 << 3) // Does not give its info to the AT collider that hit it.
 #define BUMP_NO_DAMAGE (1 << 4) // Does not take damage.
-#define BUMP_NO_SWORD_SFX (1 << 5) // Does not have a sound when hit by player-attached AT colliders.
+#define BUMP_NO_SWORD_SFX (1 << 5) // Does not have a sound effect when hit by player-attached AT colliders.
 #define BUMP_NO_HITMARK (1 << 6) // Skips hit effects.
 #define BUMP_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
 
