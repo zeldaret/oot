@@ -4767,10 +4767,10 @@ void func_800F5CF8(void) {
             if (seqIdFanfare == NA_BGM_DISABLED) {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 5);
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 5);
-                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
-                                                              VOL_SCALE_INDEX_FANFARE, 10);
-                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
-                                                              VOL_SCALE_INDEX_FANFARE, 10);
+                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
+                                                                    VOL_SCALE_INDEX_FANFARE, 10);
+                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
+                                                                    VOL_SCALE_INDEX_FANFARE, 10);
                 SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 0);
                 if (seqIdBgmSub != NA_BGM_LONLON) {
                     SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
@@ -5279,12 +5279,12 @@ void func_800F71BC(s32 arg0) {
     func_800F6C34();
     AudioOcarina_ResetStaffs();
     Audio_ResetSfxChannelState();
-    Audio_ResetSequences();
+    Audio_ResetActiveSequences();
     Audio_ResetSfx();
 }
 
 void func_800F7208(void) {
-    Audio_ResetSequences();
+    Audio_ResetActiveSequences();
     Audio_QueueCmdS32(0xF2000000, 1);
     func_800F6C34();
     Audio_ResetSfxChannelState();

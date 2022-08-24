@@ -350,9 +350,10 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                         gActiveSeqs[seqPlayerIndex].setupCmd[found] = cmd;
                         // Adds a delay of 2 frames before executing any setup commands.
                         // This allows setup commands to be requested along with a new sequence on a seqPlayerIndex.
-                        // This 2 frame delay ensures the player is enabled before attempting to execute commands.
-                        // Otherwise, the setup commands will execute before the sequence starts instead of when
-                        // the sequence ends.
+                        // This 2 frame delay ensures the player is enabled before its state is checked for
+                        // the purpose of deciding if the setup commands should be run.
+                        // Otherwise, the setup commands will be executed before the sequence starts,
+                        // when the player is still disabled, instead of when the newly played sequence ends.
                         gActiveSeqs[seqPlayerIndex].setupCmdTimer = 2;
                     }
                 }
@@ -728,7 +729,7 @@ void Audio_UpdateActiveSequences(void) {
                         gActiveSeqs[seqPlayerIndex].setupFadeTimer = setupVal2;
                         break;
 
-                    case SEQCMD_SUB_OP_SETUP_RESTORE_VOLUME_WITH_SCALE:
+                    case SEQCMD_SUB_OP_SETUP_RESTORE_VOLUME_WITH_SCALE_INDEX:
                         // Restore the volume back to default levels
                         // Allows a `scaleIndex` to be specified.
                         Audio_SetVolumeScale(targetSeqPlayerIndex, setupVal2, 0x7F, setupVal1);
@@ -784,7 +785,7 @@ u8 func_800FAD34(void) {
     return D_80133418;
 }
 
-void Audio_ResetSequences(void) {
+void Audio_ResetActiveSequences(void) {
     u8 seqPlayerIndex;
     u8 scaleIndex;
 
@@ -822,5 +823,5 @@ void Audio_ResetSequencesAndVolume(void) {
             gActiveSeqs[seqPlayerIndex].volScales[scaleIndex] = 0x7F;
         }
     }
-    Audio_ResetSequences();
+    Audio_ResetActiveSequences();
 }
