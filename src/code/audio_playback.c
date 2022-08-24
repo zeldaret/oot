@@ -37,8 +37,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
             halfPanIndex = 0x3F;
         }
 
-        sub->haasEffectRightDelaySize = gHaasEffectDelaySize[halfPanIndex];
-        sub->haasEffectLeftDelaySize = gHaasEffectDelaySize[0x3F - halfPanIndex];
+        sub->haasEffectRightDelaySize = gHaasEffectDelaySizes[halfPanIndex];
+        sub->haasEffectLeftDelaySize = gHaasEffectDelaySizes[0x3F - halfPanIndex];
         sub->bitField1.useHaasEffect = true;
 
         volLeft = gHeadsetPanVolume[pan];
