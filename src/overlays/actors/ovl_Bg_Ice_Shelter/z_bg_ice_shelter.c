@@ -9,8 +9,8 @@
 
 #define FLAGS 0
 
-#define GET_TYPE(this) ((this->dyna.actor.params >> 8) & 7)
-#define USING_SWITCH_FLAG(this) (!((this->dyna.actor.params >> 6) & 1))
+#define BGICESHELTER_GET_TYPE(thisx) (((thisx)->params >> 8) & 7)
+#define BGICESHELTER_USING_SWITCH_FLAG(thisx) (!(((thisx)->params >> 6) & 1))
 
 void BgIceShelter_Init(Actor* thisx, PlayState* play);
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play);
@@ -87,7 +87,7 @@ void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
     static s16 cylinderRadii[] = { 47, 33, 44, 41, 100 };
     static s16 cylinderHeights[] = { 80, 54, 90, 60, 200 };
     s32 pad;
-    s32 type = GET_TYPE(this);
+    s32 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
     // All types use at least one collider in order to detect blue fire
     Collider_InitCylinder(play, &this->cylinder1);
@@ -112,9 +112,6 @@ void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
     }
 }
 
-/**
- * Initializes the DynaPoly for the types that use it.
- */
 void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -131,10 +128,7 @@ void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHea
     }
 }
 
-/**
- * Used to convert the position offset for the steam line particles from relative to the ice wall to absolute.
- */
-void BgIceShelter_ConvertToAbsolutePos(Vec3f* dest, Vec3f* src, s16 angle) {
+void BgIceShelter_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
     f32 sin = Math_SinS(angle);
     f32 cos = Math_CosS(angle);
 
@@ -152,7 +146,7 @@ static InitChainEntry sInitChain[] = {
 void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
     BgIceShelter* this = (BgIceShelter*)thisx;
-    s16 type = GET_TYPE(this);
+    s16 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
@@ -185,7 +179,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     // The only red ice actor in the game that doesn't use a switch flag is the one for King Zora
-    if (USING_SWITCH_FLAG(this) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
+    if (BGICESHELTER_USING_SWITCH_FLAG(&this->dyna.actor) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -198,7 +192,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play) {
     BgIceShelter* this = (BgIceShelter*)thisx;
 
-    switch (GET_TYPE(this)) {
+    switch (BGICESHELTER_GET_TYPE(&this->dyna.actor)) {
         case RED_ICE_PLATFORM:
         case RED_ICE_WALL:
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -307,7 +301,8 @@ void BgIceShelter_SpawnSteamAlong(BgIceShelter* this, PlayState* play, f32 parti
         posOffset.y = 15.0f;
         posOffset.z = ((84.0f - posOffset.x) * 0.2f) + (Rand_ZeroOne() * 20.0f);
 
-        BgIceShelter_ConvertToAbsolutePos(&steamPos, &posOffset, this->dyna.actor.world.rot.y);
+        // Convert the position offset from relative to the ice wall to absolute.
+        BgIceShelter_RotateY(&steamPos, &posOffset, this->dyna.actor.world.rot.y);
         Math_Vec3f_Sum(&steamPos, icePos, &steamPos);
 
         steamVel.x = (Rand_ZeroOne() * 3.0f) - 1.5f;
@@ -333,7 +328,7 @@ void BgIceShelter_SetupIdle(BgIceShelter* this) {
  */
 void BgIceShelter_Idle(BgIceShelter* this, PlayState* play) {
     s32 pad;
-    s16 type = GET_TYPE(this);
+    s16 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
     // Freeze King Zora
     if (type == RED_ICE_KING_ZORA) {
@@ -400,7 +395,7 @@ static void (*sSteamSpawnFuncs[])(BgIceShelter* this, PlayState* play, f32 parti
 void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
 
     s32 pad;
-    s32 type = GET_TYPE(this);
+    s32 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
     f32 particleSpawningChance;
 
     this->alpha -= 5;
@@ -432,7 +427,7 @@ void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
     sSteamSpawnFuncs[type](this, play, particleSpawningChance, sSteamEffectScales[type]);
 
     if (this->alpha <= 0) {
-        if (USING_SWITCH_FLAG(this)) {
+        if (BGICESHELTER_USING_SWITCH_FLAG(&this->dyna.actor)) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
         }
 
@@ -461,7 +456,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    switch (GET_TYPE(this)) {
+    switch (BGICESHELTER_GET_TYPE(&this->dyna.actor)) {
         case RED_ICE_LARGE:
         case RED_ICE_SMALL:
         case RED_ICE_PLATFORM:
@@ -472,7 +467,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->alpha);
 
-    switch (GET_TYPE(this)) {
+    switch (BGICESHELTER_GET_TYPE(&this->dyna.actor)) {
         case RED_ICE_LARGE:
         case RED_ICE_SMALL:
         case RED_ICE_KING_ZORA:
