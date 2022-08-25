@@ -587,7 +587,7 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
     }
 
     // If you've given Zelda's Letter to the Kakariko Guard
-    if (this->actor.params == OSSAN_TYPE_MASK && !GET_INFTABLE(INFTABLE_76)) {
+    if (this->actor.params == OSSAN_TYPE_MASK && !GET_INFTABLE(INFTABLE_GAVE_ZELDA_LETTER_TO_KAKARIKO_GUARD_WIP)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -1345,7 +1345,8 @@ void EnOssan_HandleCanBuyItem(PlayState* play, EnOssan* this) {
 
     switch (selectedItem->canBuyFunc(play, selectedItem)) {
         case CANBUY_RESULT_SUCCESS_FANFARE:
-            if (selectedItem->actor.params == SI_HYLIAN_SHIELD && GET_INFTABLE(INFTABLE_76)) {
+            if (selectedItem->actor.params == SI_HYLIAN_SHIELD &&
+                GET_INFTABLE(INFTABLE_GAVE_ZELDA_LETTER_TO_KAKARIKO_GUARD_WIP)) {
                 EnOssan_SetStateGiveDiscountDialog(play, this);
             } else {
                 EnOssan_GiveItemWithFanfare(play, this);
@@ -1459,7 +1460,7 @@ void EnOssan_HandleCanBuyBombs(PlayState* play, EnOssan* this) {
 void EnOssan_BuyGoronCityBombs(PlayState* play, EnOssan* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_25)) {
-            if (GET_INFTABLE(INFTABLE_FC)) {
+            if (GET_INFTABLE(INFTABLE_ATTEMPTED_TO_BUY_BOMBS_BEFORE_BOMB_BAG_WIP)) {
                 EnOssan_SetStateCantGetItem(play, this, 0x302E);
             } else {
                 this->stickLeftPrompt.isEnabled = false;
@@ -1554,7 +1555,7 @@ void EnOssan_State_SelectBombs(EnOssan* this, PlayState* play, Player* player) {
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2798);
         return;
     }
-    osSyncPrintf("店主の依頼 ( %d )\n", GET_INFTABLE(INFTABLE_FC));
+    osSyncPrintf("店主の依頼 ( %d )\n", GET_INFTABLE(INFTABLE_ATTEMPTED_TO_BUY_BOMBS_BEFORE_BOMB_BAG_WIP));
     if (this->actor.params != OSSAN_TYPE_GORON) {
         EnOssan_State_ItemSelected(this, play, player);
         return;
@@ -1724,7 +1725,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
 
 void EnOssan_State_WaitForDisplayOnlyBombDialog(EnOssan* this, PlayState* play, Player* player) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(play)) {
-        SET_INFTABLE(INFTABLE_FC);
+        SET_INFTABLE(INFTABLE_ATTEMPTED_TO_BUY_BOMBS_BEFORE_BOMB_BAG_WIP);
         EnOssan_StartShopping(play, this);
     }
 }
@@ -1734,7 +1735,7 @@ void EnOssan_State_21(EnOssan* this, PlayState* play, Player* player) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE_HAS_NEXT && Message_ShouldAdvance(play)) {
         this->stateFlag = OSSAN_STATE_22;
         Message_ContinueTextbox(play, 0x3012);
-        SET_INFTABLE(INFTABLE_FC);
+        SET_INFTABLE(INFTABLE_ATTEMPTED_TO_BUY_BOMBS_BEFORE_BOMB_BAG_WIP);
     }
 }
 

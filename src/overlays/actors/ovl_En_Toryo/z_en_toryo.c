@@ -170,7 +170,7 @@ s32 func_80B203D8(EnToryo* this, PlayState* play) {
                 case 0x5028:
                     ret = 1;
                     if (Message_ShouldAdvance(play)) {
-                        SET_INFTABLE(INFTABLE_172);
+                        SET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_BOSS_REGARDING_IMPROVING_KAKARIKO_VILLAGE_WIP);
                         ret = 0;
                     }
                     break;
@@ -183,14 +183,14 @@ s32 func_80B203D8(EnToryo* this, PlayState* play) {
                 case 0x606F:
                     ret = 1;
                     if (Message_ShouldAdvance(play)) {
-                        SET_INFTABLE(INFTABLE_171);
+                        SET_INFTABLE(INFTABLE_DECLINED_GIVING_SAW_TO_CARPENTER_BOSS);
                         ret = 0;
                     }
                     break;
                 case 0x606A:
                     ret = 1;
                     if (Message_ShouldAdvance(play)) {
-                        SET_INFTABLE(INFTABLE_170);
+                        SET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_BOSS_REGARDING_BROKEN_GERUDO_BRIDGE_WIP);
                         ret = 0;
                     }
                     break;
@@ -239,7 +239,7 @@ u32 func_80B20634(EnToryo* this, PlayState* play) {
     if (this->unk_1E0 != 0) {
         if (this->unk_1E0 == 10) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            if (GET_INFTABLE(INFTABLE_171)) {
+            if (GET_INFTABLE(INFTABLE_DECLINED_GIVING_SAW_TO_CARPENTER_BOSS)) {
                 ret = 0x606E;
             } else {
                 ret = 0x606D;
@@ -260,13 +260,13 @@ s32 func_80B206A0(EnToryo* this, PlayState* play) {
         if (this->stateFlags & 1) {
             if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                 ret = 0x606C;
-            } else if (GET_INFTABLE(INFTABLE_170)) {
+            } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_BOSS_REGARDING_BROKEN_GERUDO_BRIDGE_WIP)) {
                 ret = 0x606B;
             } else {
                 ret = 0x606A;
             }
         } else if (this->stateFlags & 2) {
-            if (GET_INFTABLE(INFTABLE_172)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_BOSS_REGARDING_IMPROVING_KAKARIKO_VILLAGE_WIP)) {
                 ret = 0x5029;
             } else {
                 ret = 0x5028;

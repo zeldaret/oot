@@ -1199,7 +1199,7 @@ void func_80AB3838(EnNb* this, PlayState* play) {
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
-        if (!GET_INFTABLE(INFTABLE_16C)) {
+        if (!GET_INFTABLE(INFTABLE_SAID_DECLINED_OBTAINING_SILVER_GAUNTLETS_FOR_NABOORU)) {
             this->actor.textId = 0x601D;
         } else {
             this->actor.textId = 0x6024;
@@ -1229,7 +1229,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, PlayState* play) {
             EnNb_SetupPathMovement(this, play);
         } else {
             if (textId == 0x6027) {
-                SET_INFTABLE(INFTABLE_16C);
+                SET_INFTABLE(INFTABLE_SAID_DECLINED_OBTAINING_SILVER_GAUNTLETS_FOR_NABOORU);
             }
             this->action = NB_IDLE_CRAWLSPACE;
         }

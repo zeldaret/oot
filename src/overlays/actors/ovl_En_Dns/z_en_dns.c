@@ -303,12 +303,12 @@ void func_809EFACC(EnDns* this) {
 }
 
 void func_809EFAFC(EnDns* this) {
-    SET_INFTABLE(INFTABLE_192);
+    SET_INFTABLE(INFTABLE_BOUGHT_DEKU_STICK_UPGRADE_CAPACITY_20_WIP);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 
 void func_809EFB40(EnDns* this) {
-    SET_INFTABLE(INFTABLE_193);
+    SET_INFTABLE(INFTABLE_BOUGHT_DEKU_NUT_UPGRADE_CAPACITY_30_WIP);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 

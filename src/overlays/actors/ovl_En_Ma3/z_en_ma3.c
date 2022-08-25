@@ -75,7 +75,7 @@ u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     s16* timer1ValuePtr; // weirdness with this necessary to match
 
-    if (!GET_INFTABLE(INFTABLE_B8)) {
+    if (!GET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_DEFEATING_INGO)) {
         return 0x2000;
     }
     timer1ValuePtr = &gSaveContext.timer1Value;
@@ -101,7 +101,7 @@ u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
         (Actor_FindNearby(play, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
-    if (!GET_INFTABLE(INFTABLE_B9)) {
+    if (!GET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_TAMING_EPONA)) {
         return 0x2002;
     } else {
         return 0x2003;
@@ -124,7 +124,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
             break;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(play)) {
-                SET_INFTABLE(INFTABLE_B9);
+                SET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_TAMING_EPONA);
                 if (play->msgCtx.choiceIndex == 0) {
                     if (GET_EVENTCHKINF(EVENTCHKINF_1E)) {
                         Message_ContinueTextbox(play, 0x2091);
@@ -139,7 +139,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2000:
-                    SET_INFTABLE(INFTABLE_B8);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_DEFEATING_INGO);
                     ret = 0;
                     break;
                 case 0x208F:
@@ -158,7 +158,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     gSaveContext.timer1State = 0xA;
                     break;
                 case 0x2002:
-                    SET_INFTABLE(INFTABLE_B9);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_TAMING_EPONA);
                     FALLTHROUGH;
                 case 0x2003:
                     if (!GET_EVENTINF(EVENTINF_HORSES_0A)) {

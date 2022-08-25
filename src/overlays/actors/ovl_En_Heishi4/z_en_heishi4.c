@@ -218,7 +218,7 @@ void func_80A5673C(EnHeishi4* this, PlayState* play) {
     }
     this->unk_284 = 0;
     if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-        if (!GET_INFTABLE(INFTABLE_6C)) {
+        if (!GET_INFTABLE(INFTABLE_SPOKE_TO_DYING_CASTLE_TOWN_ALLEY_GUARD_WIP)) {
             f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
                              -10.0f);
@@ -265,7 +265,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play) {
     Actor_TrackPlayer(play, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
     if ((this->unk_282 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_6C);
+        SET_INFTABLE(INFTABLE_SPOKE_TO_DYING_CASTLE_TOWN_ALLEY_GUARD_WIP);
         func_8002DF54(play, NULL, 8);
         this->actionFunc = func_80A56A50;
     }

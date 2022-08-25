@@ -112,20 +112,21 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
             }
         case 0x00:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
-                if (GET_INFTABLE(INFTABLE_10F)) {
+                if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_AFTER_FIRE_TEMPLE_CLEAR)) {
                     return 0x3042;
                 } else {
                     return 0x3041;
                 }
-            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) || GET_INFTABLE(INFTABLE_10D)) {
-                if (GET_INFTABLE(INFTABLE_10E)) {
+            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) ||
+                       GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_REGARDING_GANONDORF_KIDNAPPING_GORONS)) {
+                if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_REGARDING_FIRE_TEMPLE_ENTRANCE)) {
                     return 0x3038;
                 } else {
                     return 0x3037;
                 }
             } else {
-                if (GET_INFTABLE(INFTABLE_109)) {
-                    if (GET_INFTABLE(INFTABLE_10A)) {
+                if (GET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC_FROM_GORON_LINK_WIP)) {
+                    if (GET_INFTABLE(INFTABLE_UNUSED_GORON_FLAG)) {
                         return 0x3033;
                     } else {
                         return 0x3032;
@@ -145,7 +146,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 return 0x3027;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3021;
-            } else if (GET_INFTABLE(INFTABLE_E0)) {
+            } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_DODONGO_CAVERN_ENTRANCE)) {
                 return 0x302A;
             } else {
                 return 0x3008;
@@ -169,7 +170,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
         case 0x50:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (GET_INFTABLE(INFTABLE_F0)) {
+            } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_ROCK_DIET)) {
                 return 0x3015;
             } else {
                 return 0x3014;
@@ -177,7 +178,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
         case 0x60:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (GET_INFTABLE(INFTABLE_F4)) {
+            } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_EATING_GORON_RUBY)) {
                 return 0x3017;
             } else {
                 return 0x3016;
@@ -185,7 +186,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
         case 0x70:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (GET_INFTABLE(INFTABLE_F8)) {
+            } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_DARUNIA_LIKING_FOREST_MUSIC)) {
                 return 0x3019;
             } else {
                 return 0x3018;
@@ -206,36 +207,37 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x3008:
-                    SET_INFTABLE(INFTABLE_E0);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_DODONGO_CAVERN_ENTRANCE);
                     unkState = 0;
                     break;
                 case 0x300B:
-                    SET_INFTABLE(INFTABLE_EB);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_BOMB_FLOWERS);
                     unkState = 0;
                     break;
                 case 0x3014:
-                    SET_INFTABLE(INFTABLE_F0);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_ROCK_DIET);
                     unkState = 0;
                     break;
                 case 0x3016:
-                    SET_INFTABLE(INFTABLE_F4);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_EATING_GORON_RUBY);
                     unkState = 0;
                     break;
                 case 0x3018:
-                    SET_INFTABLE(INFTABLE_F8);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_DARUNIA_LIKING_FOREST_MUSIC);
                     unkState = 0;
                     break;
                 case 0x3036:
                     func_8002F434(thisx, play, GI_TUNIC_GORON, xzRange, yRange);
-                    SET_INFTABLE(INFTABLE_10D); // EnGo exclusive flag
+                    SET_INFTABLE(
+                        INFTABLE_SPOKE_TO_GORON_LINK_REGARDING_GANONDORF_KIDNAPPING_GORONS); // EnGo exclusive flag
                     unkState = 2;
                     break;
                 case 0x3037:
-                    SET_INFTABLE(INFTABLE_10E);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_REGARDING_FIRE_TEMPLE_ENTRANCE);
                     unkState = 0;
                     break;
                 case 0x3041:
-                    SET_INFTABLE(INFTABLE_10F);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_AFTER_FIRE_TEMPLE_CLEAR);
                     unkState = 0;
                     break;
                 case 0x3059:
@@ -260,7 +262,8 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (play->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || GET_INFTABLE(INFTABLE_EB)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 ||
+                                GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_BOMB_FLOWERS)) {
                                 thisx->textId = 0x300B;
                             } else {
                                 thisx->textId = 0x300C;
@@ -273,12 +276,12 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                         break;
                     case 0x3034:
                         if (play->msgCtx.choiceIndex == 0) {
-                            if (GET_INFTABLE(INFTABLE_10B)) {
+                            if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_REGARDING_VOLVAGIA)) {
                                 thisx->textId = 0x3033;
                             } else {
                                 thisx->textId = 0x3035;
                             }
-                        } else if (GET_INFTABLE(INFTABLE_10B)) {
+                        } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_REGARDING_VOLVAGIA)) {
                             thisx->textId = 0x3036;
                         } else {
                             thisx->textId = 0x3033;
@@ -295,7 +298,7 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                             Message_ContinueTextbox(play, thisx->textId);
                             unkState = 1;
                         }
-                        SET_INFTABLE(INFTABLE_B4);
+                        SET_INFTABLE(INFTABLE_BIGGORON_ASKED_FOR_EYEDROPS);
                         break;
                 }
             }
@@ -304,7 +307,7 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
             if (Message_ShouldAdvance(play)) {
                 switch (thisx->textId) {
                     case 0x3035:
-                        SET_INFTABLE(INFTABLE_10B);
+                        SET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_REGARDING_VOLVAGIA);
                         FALLTHROUGH;
                     case 0x3032:
                     case 0x3033:
@@ -595,7 +598,7 @@ void func_80A3F908(EnGo* this, PlayState* play) {
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
                 if (func_8002F368(play) == EXCH_ITEM_SWORD_BROKEN) {
-                    if (GET_INFTABLE(INFTABLE_B4)) {
+                    if (GET_INFTABLE(INFTABLE_BIGGORON_ASKED_FOR_EYEDROPS)) {
                         this->actor.textId = 0x3055;
                     } else {
                         this->actor.textId = 0x3054;
@@ -663,7 +666,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
         case 0x40:
-            if (GET_INFTABLE(INFTABLE_EB)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_BOMB_FLOWERS)) {
                 EnGo_SetMovedPos(this, play);
             }
             Actor_SetScale(&this->actor, 0.015f);
@@ -751,7 +754,7 @@ void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
         (this->unk_218 == 0)) {
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
-        SET_INFTABLE(INFTABLE_109);
+        SET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC_FROM_GORON_LINK_WIP);
     }
 
     this->actor.shape.rot = this->actor.world.rot;
@@ -846,7 +849,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
         this->unk_212 = Rand_S16Offset(30, 30);
-        if (((this->actor.params & 0xF0) == 0x40) && !GET_INFTABLE(INFTABLE_EB)) {
+        if (((this->actor.params & 0xF0) == 0x40) && !GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_BOMB_FLOWERS)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
             EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -933,7 +936,7 @@ void func_80A40A54(EnGo* this, PlayState* play) {
 }
 
 void func_80A40B1C(EnGo* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_EB)) {
+    if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_REGARDING_BOMB_FLOWERS)) {
         EnGo_ChangeAnim(this, ENGO_ANIM_3);
         EnGo_SetupAction(this, func_80A40A54);
     } else {

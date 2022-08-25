@@ -1705,8 +1705,8 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         Magic_RequestChange(play, 12, MAGIC_ADD);
 
-        if (!GET_INFTABLE(INFTABLE_198)) {
-            SET_INFTABLE(INFTABLE_198);
+        if (!GET_INFTABLE(INFTABLE_RECEIVED_MAGIC)) {
+            SET_INFTABLE(INFTABLE_RECEIVED_MAGIC);
             return ITEM_NONE;
         }
 
@@ -1721,8 +1721,8 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         Magic_RequestChange(play, 24, MAGIC_ADD);
 
-        if (!GET_INFTABLE(INFTABLE_198)) {
-            SET_INFTABLE(INFTABLE_198);
+        if (!GET_INFTABLE(INFTABLE_RECEIVED_MAGIC)) {
+            SET_INFTABLE(INFTABLE_RECEIVED_MAGIC);
             return ITEM_NONE;
         }
 
@@ -1902,8 +1902,8 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_RECOVERY_HEART;
     } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
-        osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
-        if (!GET_INFTABLE(INFTABLE_198)) {
+        osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_RECEIVED_MAGIC));
+        if (!GET_INFTABLE(INFTABLE_RECEIVED_MAGIC)) {
             return ITEM_NONE;
         } else {
             return item;

@@ -338,7 +338,7 @@ u16 func_80B1C54C(PlayState* play, Actor* thisx) {
         return ret;
     }
 
-    if (GET_INFTABLE(INFTABLE_D9)) {
+    if (GET_INFTABLE(INFTABLE_GREETED_BY_DAMPE_AS_CHILD_WIP)) {
         /* "Do you want me to dig here? ..." */
         return 0x5019;
     } else {
@@ -357,7 +357,7 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
-                SET_INFTABLE(INFTABLE_D8);
+                SET_INFTABLE(INFTABLE_UNUSED_CARPENTER_TEXT_DAMPE_ACTOR);
             }
             ret = 0;
             break;
@@ -374,11 +374,11 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
                 } else {
                     play->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
-                    SET_INFTABLE(INFTABLE_D9);
+                    SET_INFTABLE(INFTABLE_GREETED_BY_DAMPE_AS_CHILD_WIP);
                     return 2;
                 }
                 Message_ContinueTextbox(play, thisx->textId);
-                SET_INFTABLE(INFTABLE_D9);
+                SET_INFTABLE(INFTABLE_GREETED_BY_DAMPE_AS_CHILD_WIP);
             }
             break;
         case TEXT_STATE_EVENT:

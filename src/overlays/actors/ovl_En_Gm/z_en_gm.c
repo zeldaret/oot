@@ -141,14 +141,14 @@ void EnGm_UpdateEye(EnGm* this) {
 void EnGm_SetTextID(EnGm* this) {
     switch (func_80A3D7C8()) {
         case 0:
-            if (GET_INFTABLE(INFTABLE_B0)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_MEDIGORON_AS_CHILD_WIP)) {
                 this->actor.textId = 0x304B;
             } else {
                 this->actor.textId = 0x304A;
             }
             break;
         case 1:
-            if (GET_INFTABLE(INFTABLE_B1)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_MEDIGORON_AS_ADULT_BEFORE_OBTAINING_BIGGORON_SWORD_WIP)) {
                 this->actor.textId = 0x304F;
             } else {
                 this->actor.textId = 0x304C;
@@ -202,13 +202,13 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         switch (func_80A3D7C8()) {
             case 0:
-                SET_INFTABLE(INFTABLE_B0);
+                SET_INFTABLE(INFTABLE_SPOKE_TO_MEDIGORON_AS_CHILD_WIP);
                 FALLTHROUGH;
             case 3:
                 this->actionFunc = func_80A3DD7C;
                 return;
             case 1:
-                SET_INFTABLE(INFTABLE_B1);
+                SET_INFTABLE(INFTABLE_SPOKE_TO_MEDIGORON_AS_ADULT_BEFORE_OBTAINING_BIGGORON_SWORD_WIP);
                 FALLTHROUGH;
             case 2:
                 this->actionFunc = EnGm_ProcessChoiceIndex;

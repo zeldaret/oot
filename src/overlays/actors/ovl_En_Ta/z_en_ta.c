@@ -83,7 +83,7 @@ void func_80B13AAC(EnTa* this, PlayState* play) {
         }
         CLEAR_EVENTINF(EVENTINF_HORSES_08);
     } else if (faceReaction == 0) {
-        if (GET_INFTABLE(INFTABLE_7E)) {
+        if (GET_INFTABLE(INFTABLE_SPOKE_TO_TALON_AT_LON_LON_RANCH_WIP)) {
             if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.textId = 0x208B;
             } else {
@@ -972,7 +972,7 @@ void func_80B162E8(EnTa* this, PlayState* play) {
 
 void func_80B16364(EnTa* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        SET_INFTABLE(INFTABLE_7E);
+        SET_INFTABLE(INFTABLE_SPOKE_TO_TALON_AT_LON_LON_RANCH_WIP);
         if (GET_ITEMGETINF(ITEMGETINF_02)) {
             Message_ContinueTextbox(play, 0x208B);
             func_80B13AA0(this, func_80B15FE8, func_80B16938);
@@ -1012,7 +1012,7 @@ void func_80B16504(EnTa* this, PlayState* play) {
         if (faceReaction != 0) {
             func_80B14FAC(this, func_80B15E28);
         } else {
-            SET_INFTABLE(INFTABLE_7E);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_TALON_AT_LON_LON_RANCH_WIP);
 
             switch (this->actor.textId) {
                 case 0x207E:

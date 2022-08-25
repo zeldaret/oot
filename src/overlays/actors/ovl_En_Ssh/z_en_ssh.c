@@ -672,10 +672,10 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
             SET_EVENTCHKINF(EVENTCHKINF_96);
         }
         if ((this->actor.textId == 0x26) || (this->actor.textId == 0x27)) {
-            SET_INFTABLE(INFTABLE_196);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_CURSED_MAN_REGARDING_GOLDEN_SKULLTULAS);
         }
         if ((this->actor.textId == 0x24) || (this->actor.textId == 0x25)) {
-            SET_INFTABLE(INFTABLE_197);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_CURSED_MAN_REGARDING_GETTING_REWARDS_FROM_HEALED_KIDS);
         }
     } else {
         if ((this->unkTimer != 0) && (DECR(this->unkTimer) == 0)) {
@@ -700,13 +700,13 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
                         if (gSaveContext.inventory.gsTokens >= 50) {
                             this->actor.textId = 0x29;
                         } else if (gSaveContext.inventory.gsTokens >= 10) {
-                            if (GET_INFTABLE(INFTABLE_197)) {
+                            if (GET_INFTABLE(INFTABLE_SPOKE_TO_CURSED_MAN_REGARDING_GETTING_REWARDS_FROM_HEALED_KIDS)) {
                                 this->actor.textId = 0x24;
                             } else {
                                 this->actor.textId = 0x25;
                             }
                         } else {
-                            if (GET_INFTABLE(INFTABLE_196)) {
+                            if (GET_INFTABLE(INFTABLE_SPOKE_TO_CURSED_MAN_REGARDING_GOLDEN_SKULLTULAS)) {
                                 this->actor.textId = 0x27;
                             } else {
                                 this->actor.textId = 0x26;

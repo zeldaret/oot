@@ -763,11 +763,13 @@ void func_80AEC2C0(EnRu1* this, PlayState* play) {
 void func_80AEC320(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (!GET_INFTABLE(INFTABLE_141)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_MET_WIP)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
-    } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
+    } else if (GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_SPAWNS_ON_FLOOR_1_WIP) &&
+               !GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_BLUE_SWITCH_WIP) &&
+               !GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_SAPPHIRE_PLATFORM_WIP)) {
         if (!func_80AEB020(this, play)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
             actorRoom = this->actor.room;
@@ -921,7 +923,7 @@ void func_80AECA18(EnRu1* this) {
 
 void func_80AECA44(EnRu1* this, PlayState* play) {
     if (func_80AEAFA0(play, 5, 3)) {
-        SET_INFTABLE(INFTABLE_141);
+        SET_INFTABLE(INFTABLE_RUTO_JABU_JABU_MET_WIP);
         this->action = 14;
     }
 }
@@ -1172,8 +1174,9 @@ void func_80AED414(EnRu1* this, PlayState* play) {
 void func_80AED44C(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
-        !GET_INFTABLE(INFTABLE_147)) {
+    if (GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_MET_WIP) && !GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_SAPPHIRE_PLATFORM_WIP) &&
+        !GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_BLUE_SWITCH_WIP) &&
+        !GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_SPAWNS_ON_FLOOR_1_WIP)) {
         if (!func_80AEB020(this, play)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
             actorRoom = this->actor.room;
@@ -1246,10 +1249,10 @@ void func_80AED6DC(EnRu1* this, PlayState* play) {
 void func_80AED6F8(PlayState* play) {
     s8 curRoomNum;
 
-    if (!GET_INFTABLE(INFTABLE_147)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_SPAWNS_ON_FLOOR_1_WIP)) {
         curRoomNum = play->roomCtx.curRoom.num;
         if (curRoomNum == 2) {
-            SET_INFTABLE(INFTABLE_147);
+            SET_INFTABLE(INFTABLE_RUTO_JABU_JABU_SPAWNS_ON_FLOOR_1_WIP);
         }
     }
 }
@@ -1497,10 +1500,10 @@ void func_80AEE050(EnRu1* this) {
 s32 func_80AEE264(EnRu1* this, PlayState* play) {
     if (!Actor_ProcessTalkRequest(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        if (GET_INFTABLE(INFTABLE_143)) {
+        if (GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_CAN_BE_ESCORTED_WIP)) {
             this->actor.textId = 0x404E;
             func_8002F2F4(&this->actor, play);
-        } else if (GET_INFTABLE(INFTABLE_142)) {
+        } else if (GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_SPOKEN_TO_WIP)) {
             this->actor.textId = 0x404D;
             func_8002F2F4(&this->actor, play);
         } else {
@@ -1521,12 +1524,12 @@ void func_80AEE2F8(EnRu1* this, PlayState* play) {
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, floorBgId);
         if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
             if (((dynaPolyActor->actor.params >> 8) & 0x3F) == 0x38) {
-                SET_INFTABLE(INFTABLE_140);
+                SET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_BLUE_SWITCH_WIP);
                 return;
             }
         }
     }
-    CLEAR_INFTABLE(INFTABLE_140);
+    CLEAR_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_BLUE_SWITCH_WIP);
 }
 
 s32 func_80AEE394(EnRu1* this, PlayState* play) {
@@ -1591,7 +1594,7 @@ void func_80AEE628(EnRu1* this, PlayState* play) {
     if (EnRu1_IsCsStateIdle(play)) {
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, -8.0f);
-        SET_INFTABLE(INFTABLE_144);
+        SET_INFTABLE(INFTABLE_RUTO_JABU_JABU_WANTS_TO_BE_THROWN_TOWARDS_SAPPHIRE_WIP);
         this->action = 31;
     }
     this->roomNum3 = curRoomNum;
@@ -1601,7 +1604,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     s32 pad;
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(play) != 0)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_WANTS_TO_BE_THROWN_TOWARDS_SAPPHIRE_WIP) && (func_80AEB124(play) != 0)) {
         if (!Player_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
@@ -1813,7 +1816,7 @@ void func_80AEF080(EnRu1* this) {
 s32 func_80AEF0BC(EnRu1* this, PlayState* play) {
     s32 frameCount;
 
-    if (GET_INFTABLE(INFTABLE_142)) {
+    if (GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_SPOKEN_TO_WIP)) {
         frameCount = Animation_GetLastFrame(&gRutoChildSitAnim);
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -1833,7 +1836,7 @@ void func_80AEF170(EnRu1* this, PlayState* play, s32 cond) {
 void func_80AEF188(EnRu1* this, PlayState* play) {
     if (func_80AEB174(play) && !func_80AEF0BC(this, play)) {
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_142);
+        SET_INFTABLE(INFTABLE_RUTO_JABU_JABU_SPOKEN_TO_WIP);
         this->action = 24;
     }
 }
@@ -1843,7 +1846,7 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, 0.0f);
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_143);
+        SET_INFTABLE(INFTABLE_RUTO_JABU_JABU_CAN_BE_ESCORTED_WIP);
         func_80AED6DC(this, play);
         func_8002F580(&this->actor, play);
         this->action = 27;
@@ -2005,7 +2008,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
 
     if (!IS_CUTSCENE_LAYER && (EnRu1_IsCsStateIdle(play))) {
         curRoomNum = play->roomCtx.curRoom.num;
-        SET_INFTABLE(INFTABLE_145);
+        SET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_SAPPHIRE_PLATFORM_WIP);
         Flags_SetSwitch(play, func_80AEADE0(this));
         func_80AEB0EC(this, 1);
         this->action = 42;
@@ -2096,7 +2099,8 @@ void func_80AEFC24(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEFC54(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_146)) {
+    if (GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_SAPPHIRE_PLATFORM_WIP) &&
+        !GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_KIDNAPPED_WIP)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 41;
         this->unk_28C = EnRu1_FindSwitch(play);
@@ -2180,8 +2184,8 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
 void func_80AEFF94(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
-        (!(func_80AEB020(this, play)))) {
+    if (GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_MET_WIP) && GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_BLUE_SWITCH_WIP) &&
+        !GET_INFTABLE(INFTABLE_RUTO_JABU_JABU_ON_SAPPHIRE_PLATFORM_WIP) && (!(func_80AEB020(this, play)))) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         actorRoom = this->actor.room;
         this->action = 22;

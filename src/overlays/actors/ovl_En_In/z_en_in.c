@@ -111,13 +111,13 @@ static Gfx* sAdultEraDLs[] = {
 
 u16 func_80A78FB0(PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
-        if (GET_INFTABLE(INFTABLE_97)) {
+        if (GET_INFTABLE(INFTABLE_SPOKE_TO_INGO_AS_CHILD_AFTER_WAKING_TALON)) {
             return 0x2046;
         } else {
             return 0x2045;
         }
     }
-    if (GET_INFTABLE(INFTABLE_94)) {
+    if (GET_INFTABLE(INFTABLE_SPOKE_TO_INGO_AS_CHILD_BEFORE_WAKING_TALON_WIP)) {
         return 0x2040;
     } else {
         return 0x203F;
@@ -146,7 +146,7 @@ u16 func_80A79010(PlayState* play) {
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
-                if (GET_INFTABLE(INFTABLE_A2)) {
+                if (GET_INFTABLE(INFTABLE_INGO_CHALLENGES_LINK_TO_WAGER_WIP)) {
                     return 0x2036;
                 } else {
                     return 0x2038;
@@ -169,7 +169,7 @@ u16 func_80A79010(PlayState* play) {
             return 0x205B;
         case EVENTINF_HORSES_STATE_2:
         default:
-            if (GET_INFTABLE(INFTABLE_9A)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_INGO_AS_ADULT)) {
                 return 0x2031;
             } else {
                 return 0x2030;
@@ -195,14 +195,14 @@ s16 func_80A791CC(PlayState* play, Actor* thisx) {
 
     switch (thisx->textId) {
         case 0x2045:
-            SET_INFTABLE(INFTABLE_97);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_INGO_AS_CHILD_AFTER_WAKING_TALON);
             break;
         case 0x203E:
             ret = 2;
             break;
         case 0x203F:
             SET_EVENTCHKINF(EVENTCHKINF_11);
-            SET_INFTABLE(INFTABLE_94);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_INGO_AS_CHILD_BEFORE_WAKING_TALON_WIP);
             break;
     }
     return ret;
@@ -223,7 +223,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
                 this->actor.textId = 0x2034;
             }
             Message_ContinueTextbox(play, this->actor.textId);
-            SET_INFTABLE(INFTABLE_9A);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_INGO_AS_ADULT);
             break;
         case 0x2034:
             if (play->msgCtx.choiceIndex == 1) {
@@ -249,7 +249,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             } else {
                 this->actor.textId = 0x2039;
                 Message_ContinueTextbox(play, this->actor.textId);
-                SET_INFTABLE(INFTABLE_A2);
+                SET_INFTABLE(INFTABLE_INGO_CHALLENGES_LINK_TO_WAGER_WIP);
             }
             break;
         case 0x205B:
@@ -641,7 +641,7 @@ void func_80A7A4C8(EnIn* this, PlayState* play) {
         func_80A79BAC(this, play, 1, TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST));
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_1);
         SET_EVENTINF_HORSES_0F(1);
-        CLEAR_INFTABLE(INFTABLE_A2);
+        CLEAR_INFTABLE(INFTABLE_INGO_CHALLENGES_LINK_TO_WAGER_WIP);
         Environment_ForcePlaySequence(NA_BGM_HORSE);
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -655,7 +655,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
     s32 transitionType;
 
     if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (player->stateFlags1 & PLAYER_STATE1_23)) {
-        SET_INFTABLE(INFTABLE_AB);
+        SET_INFTABLE(INFTABLE_DECLINED_WAGER_FROM_INGO_WIP);
     }
     if (gSaveContext.timer1State == 10) {
         Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -679,9 +679,9 @@ void func_80A7A568(EnIn* this, PlayState* play) {
             Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             if (!GET_EVENTCHKINF(EVENTCHKINF_1B)) {
-                if (GET_INFTABLE(INFTABLE_AB)) {
+                if (GET_INFTABLE(INFTABLE_DECLINED_WAGER_FROM_INGO_WIP)) {
                     SET_EVENTCHKINF(EVENTCHKINF_1B);
-                    SET_INFTABLE(INFTABLE_AB);
+                    SET_INFTABLE(INFTABLE_DECLINED_WAGER_FROM_INGO_WIP);
                 }
             }
             SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
@@ -893,9 +893,9 @@ void func_80A7B024(EnIn* this, PlayState* play) {
     player->actor.freezeTimer = 10;
     if (this->unk_308.unk_00 == 2) {
         if (1) {}
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_DECLINED_WAGER_FROM_INGO_WIP)) {
             SET_EVENTCHKINF(EVENTCHKINF_1B);
-            SET_INFTABLE(INFTABLE_AB);
+            SET_INFTABLE(INFTABLE_DECLINED_WAGER_FROM_INGO_WIP);
         }
         func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);

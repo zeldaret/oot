@@ -291,7 +291,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x10D9;
             }
-            return GET_INFTABLE(INFTABLE_B7) ? 0x10D8 : 0x10D7;
+            return GET_INFTABLE(INFTABLE_SPOKE_TO_FADO_AS_CHILD) ? 0x10D8 : 0x10D7;
         case ENKO_TYPE_CHILD_0:
             if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x1025;
@@ -307,7 +307,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
-            if (GET_INFTABLE(INFTABLE_1E)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_GIRL_BY_JUMPING_STONES)) {
                 return 0x1006;
             }
             return 0x1005;
@@ -323,7 +323,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1044;
             }
-            if (GET_INFTABLE(INFTABLE_22)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_GUARDING_FOREST_EXIT)) {
                 return 0x1009;
             }
             return 0x1008;
@@ -334,7 +334,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1042;
             }
-            if (GET_INFTABLE(INFTABLE_24)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_CUTTING_GRASS)) {
                 return 0x100B;
             }
             return 0x100A;
@@ -345,7 +345,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
-            if (GET_INFTABLE(INFTABLE_26)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_GIRL_ABOVE_SHOP)) {
                 return 0x100D;
             }
             return 0x100C;
@@ -356,7 +356,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
-            if (GET_INFTABLE(INFTABLE_28)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_GIRL_IN_SARIAS_HOUSE)) {
                 return 0x1019;
             }
             return 0x100E;
@@ -392,7 +392,7 @@ u16 func_80A97338(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1072;
             }
-            if (GET_INFTABLE(INFTABLE_41)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_IN_MIDOS_HOUSE)) {
                 return 0x1056;
             }
             return 0x1055;
@@ -405,7 +405,7 @@ u16 func_80A97338(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1074;
             }
-            if (GET_INFTABLE(INFTABLE_47)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_WANTS_TO_BE_BIG)) {
                 return 0x105E;
             }
             return 0x105D;
@@ -425,7 +425,7 @@ u16 func_80A97338(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1077;
             }
-            if (GET_INFTABLE(INFTABLE_51)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_GIRL_REGARDING_MIDO_ACCUSING_LINK)) {
                 return 0x1059;
             }
             return 0x1058;
@@ -438,7 +438,7 @@ u16 func_80A97338(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107A;
             }
-            if (GET_INFTABLE(INFTABLE_59)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_EVIL_WIND_FROM_FOREST_TEMPLE)) {
                 return 0x1050;
             }
             return 0x104F;
@@ -456,7 +456,7 @@ u16 func_80A97338(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107C;
             }
-            if (GET_INFTABLE(INFTABLE_61)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_REGARDING_SARIA_MISSING)) {
                 return 0x1054;
             }
             return 0x1053;
@@ -497,37 +497,37 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1005:
-                    SET_INFTABLE(INFTABLE_1E);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_GIRL_BY_JUMPING_STONES);
                     break;
                 case 0x1008:
-                    SET_INFTABLE(INFTABLE_22);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_GUARDING_FOREST_EXIT);
                     break;
                 case 0x100A:
-                    SET_INFTABLE(INFTABLE_24);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_CUTTING_GRASS);
                     break;
                 case 0x100C:
-                    SET_INFTABLE(INFTABLE_26);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_GIRL_ABOVE_SHOP);
                     break;
                 case 0x100E:
-                    SET_INFTABLE(INFTABLE_28);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_GIRL_IN_SARIAS_HOUSE);
                     break;
                 case 0x104F:
-                    SET_INFTABLE(INFTABLE_59);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_EVIL_WIND_FROM_FOREST_TEMPLE);
                     break;
                 case 0x1053:
-                    SET_INFTABLE(INFTABLE_61);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_REGARDING_SARIA_MISSING);
                     break;
                 case 0x1055:
-                    SET_INFTABLE(INFTABLE_41);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_IN_MIDOS_HOUSE);
                     break;
                 case 0x1058:
-                    SET_INFTABLE(INFTABLE_51);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_GIRL_REGARDING_MIDO_ACCUSING_LINK);
                     break;
                 case 0x105D:
-                    SET_INFTABLE(INFTABLE_47);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_KOKIRI_BOY_WANTS_TO_BE_BIG);
                     break;
                 case 0x10D7:
-                    SET_INFTABLE(INFTABLE_B7);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_FADO_AS_CHILD);
                     break;
                 case 0x10BA:
                     return 1;
@@ -562,7 +562,7 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                         Message_ContinueTextbox(play, this->actor.textId);
                         break;
                     case 0x10B7:
-                        SET_INFTABLE(INFTABLE_BC);
+                        SET_INFTABLE(INFTABLE_RECEIVED_POACHER_SAW_FROM_FADO);
                         FALLTHROUGH;
                     case 0x10B8:
                         this->actor.textId = (play->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
@@ -951,7 +951,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(play) == ENKO_TYPE_CHILD_9) {
-            this->actor.textId = GET_INFTABLE(INFTABLE_BC) ? 0x10B8 : 0x10B7;
+            this->actor.textId = GET_INFTABLE(INFTABLE_RECEIVED_POACHER_SAW_FROM_FADO) ? 0x10B8 : 0x10B7;
             this->unk_210 = 0;
         }
         player->actor.textId = this->actor.textId;

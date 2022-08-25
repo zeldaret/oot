@@ -102,7 +102,7 @@ void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
 void func_80AAEF70(EnMm2* this, PlayState* play) {
     if (!GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
         this->actor.textId = 0x6086;
-    } else if (GET_INFTABLE(INFTABLE_17F)) {
+    } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_RUNNING_MAN_REGARDING_RACE_TO_LOST_WOODS)) {
         if (GET_EVENTINF(EVENTINF_10)) {
             this->actor.textId = 0x6082;
         } else if (gSaveContext.timer2State != 0) {
@@ -149,7 +149,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
-        if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_10)) {
+        if (!GET_INFTABLE(INFTABLE_SPOKE_TO_RUNNING_MAN_REGARDING_RACE_TO_LOST_WOODS) || !GET_EVENTINF(EVENTINF_10)) {
             osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }
@@ -249,7 +249,7 @@ void func_80AAF57C(EnMm2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     func_80AAEF70(this, play);
     if ((func_80AAF224(this, play, func_80AAF3C0)) && (this->actor.textId == 0x607D)) {
-        SET_INFTABLE(INFTABLE_17F);
+        SET_INFTABLE(INFTABLE_SPOKE_TO_RUNNING_MAN_REGARDING_RACE_TO_LOST_WOODS);
     }
 }
 

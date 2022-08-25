@@ -228,7 +228,7 @@ s32 func_80AADAA0(EnMm* this, PlayState* play) {
                     EnMm_ChangeAnim(this, RM_ANIM_HAPPY, &this->curAnimIndex);
                 } else {
                     player->actor.textId = 0x202C;
-                    SET_INFTABLE(INFTABLE_17C);
+                    SET_INFTABLE(INFTABLE_DECLINED_SELLING_BUNNY_MASK_TO_RUNNING_MAN_WIP);
                 }
                 sp1C = 2;
             }
@@ -268,7 +268,7 @@ s32 EnMm_GetTextId(EnMm* this, PlayState* play) {
             textId = 0x204D;
         }
     } else if (player->currentMask == PLAYER_MASK_BUNNY) {
-        textId = GET_INFTABLE(INFTABLE_17C) ? 0x202B : 0x202A;
+        textId = GET_INFTABLE(INFTABLE_DECLINED_SELLING_BUNNY_MASK_TO_RUNNING_MAN_WIP) ? 0x202B : 0x202A;
     } else if (textId == 0) {
         textId = 0x2029;
     }

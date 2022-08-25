@@ -47,7 +47,7 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
 
     if (param == 0) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-            if (GET_INFTABLE(INFTABLE_109)) {
+            if (GET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC_FROM_GORON_LINK_WIP)) {
                 this->actionFunc = func_808B95AC;
                 this->dyna.actor.world.pos.y += 180.0f;
             } else {
@@ -62,7 +62,7 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
             }
         }
     } else {
-        if (GET_INFTABLE(INFTABLE_109)) {
+        if (GET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC_FROM_GORON_LINK_WIP)) {
             this->dyna.actor.world.pos.x += 125.0f * Math_CosS(this->dyna.actor.world.rot.y);
             this->dyna.actor.world.pos.z -= 125.0f * Math_SinS(this->dyna.actor.world.rot.y);
             this->actionFunc = func_808B95AC;
@@ -93,7 +93,7 @@ void func_808B95B8(BgSpot18Shutter* this, PlayState* play) {
 }
 
 void func_808B9618(BgSpot18Shutter* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_109)) {
+    if (GET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC_FROM_GORON_LINK_WIP)) {
         Actor_SetFocus(&this->dyna.actor, 70.0f);
         if (((this->dyna.actor.params >> 8) & 1) == 0) {
             this->actionFunc = func_808B9698;

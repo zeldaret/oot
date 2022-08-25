@@ -429,7 +429,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
             if (play->sceneId == SCENE_KAKARIKO) {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK)
+                           ? 0x508D
+                           : (GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_WOMAN_REGARDING_TALON) ? 0x508C : 0x508B);
             } else if (play->sceneId == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
@@ -446,9 +448,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             }
         case ENHY_TYPE_COB:
             if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-                return GET_INFTABLE(INFTABLE_C1) ? 0x7017 : 0x7045;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_WOMAN_REGARDING_ZELDA_ON_WHITE_HORSE) ? 0x7017 : 0x7045;
             } else {
-                return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_WOMAN_REGARDING_LON_LON_RANCH) ? 0x7017 : 0x7016;
             }
         case ENHY_TYPE_AHG_2:
             if (play->sceneId == SCENE_KAKARIKO) {
@@ -456,38 +458,47 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             } else if (play->sceneId == SCENE_SPOT01) {
                 return 0x5085;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-                return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_REGARDING_GANONDORF_ON_BLACK_HORSE) ? 0x701A : 0x7047;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 return 0x701A;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
                 return 0x701B;
-            } else if (GET_INFTABLE(INFTABLE_C2)) {
+            } else if (GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_REGARDING_BEARD_AND_TALON)) {
                 return 0x701C;
             } else {
                 return 0x701A;
             }
         case ENHY_TYPE_BOJ_3:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB) : 0x7001;
+            return GET_EVENTCHKINF(EVENTCHKINF_80)
+                       ? (GET_INFTABLE(INFTABLE_SPOKE_TO_SCARED_HYLIAN_MAN) ? 0x7001 : 0x70EB)
+                       : 0x7001;
         case ENHY_TYPE_AHG_4:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
+            return GET_EVENTCHKINF(EVENTCHKINF_80)
+                       ? 0x704B
+                       : (GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_REGARDING_ENJOYING_CASTLE_TOWN) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
             player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
+            return GET_EVENTCHKINF(EVENTCHKINF_80)
+                       ? 0x704A
+                       : (GET_INFTABLE(INFTABLE_SPOKE_TO_OLD_HYLIAN_WOMAN_REGARDING_MAKING_LOTS_OF_MONEY) ? 0x7022
+                                                                                                          : 0x7021);
         case ENHY_TYPE_BJI_7:
             if (play->sceneId == SCENE_KAKARIKO) {
                 return 0x5088;
             } else if (play->sceneId == SCENE_SPOT01) {
                 return 0x5087;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
+                return GET_EVENTCHKINF(EVENTCHKINF_80)
+                           ? 0x704D
+                           : (GET_INFTABLE(INFTABLE_SPOKE_TO_OLD_HYLIAN_MAN_REGARDING_SHEIKAH_TRIBE) ? 0x7028 : 0x7027);
             }
         case ENHY_TYPE_CNE_8:
             if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-                return GET_INFTABLE(INFTABLE_C9) ? 0x701E : 0x7048;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_YOUNG_HYLIAN_WOMAN_AFTER_ZELDA_ESCAPE) ? 0x701E : 0x7048;
             } else {
-                return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_YOUNG_HYLIAN_WOMAN_REGARDING_TEMPLE_OF_TIME) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
             if (play->sceneId == SCENE_KAKARIKO) {
@@ -495,7 +506,10 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             } else if (play->sceneId == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
+                return GET_EVENTCHKINF(EVENTCHKINF_80)
+                           ? 0x7049
+                           : (GET_INFTABLE(INFTABLE_SPOKE_TO_LAUGHING_MAN_REGARDING_SNEAKING_INTO_CASTLE) ? 0x7020
+                                                                                                          : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
             if (play->sceneId == SCENE_LABO) {
@@ -503,10 +517,15 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             } else if (play->sceneId == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
+                return GET_EVENTCHKINF(EVENTCHKINF_80)
+                           ? 0x7046
+                           : (GET_INFTABLE(INFTABLE_SPOKE_TO_MAN_REGARDING_BEING_CAUGHT_SNEAKING_INTO_CASTLE) ? 0x7019
+                                                                                                              : 0x7018);
             }
         case ENHY_TYPE_CNE_11:
-            return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
+            return GET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_WAKING_TALON_AT_HYRULE_CASTLE_WIP)
+                       ? (GET_INFTABLE(INFTABLE_SPOKE_TO_OLD_HYLIAN_WOMAN_REGARDING_LEAVING_TOWN) ? 0x7014 : 0x70A4)
+                       : 0x7014;
         case ENHY_TYPE_BOJ_12:
             if (play->sceneId == SCENE_SPOT01) {
                 return !IS_DAY ? 0x5084 : 0x5083;
@@ -524,20 +543,25 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_AHG_17:
             if (!LINK_IS_ADULT) {
                 if (IS_DAY) {
-                    return GET_INFTABLE(INFTABLE_160) ? 0x5058 : 0x5057;
+                    return GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_IN_IMPA_HOUSE_AS_CHILD) ? 0x5058 : 0x5057;
                 } else {
-                    return GET_INFTABLE(INFTABLE_161) ? 0x505A : 0x5059;
+                    return GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_IN_IMPA_HOUSE_NIGHT) ? 0x505A : 0x5059;
                 }
             } else if (IS_DAY) {
-                return GET_INFTABLE(INFTABLE_162) ? 0x505C : 0x505B;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_IN_IMPA_HOUSE) ? 0x505C : 0x505B;
             } else {
                 return 0x5058;
             }
         case ENHY_TYPE_BOB_18:
             if (!LINK_IS_ADULT) {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
+                return GET_EVENTCHKINF(EVENTCHKINF_80)
+                           ? 0x505F
+                           : (GET_INFTABLE(INFTABLE_GREETED_IN_KAKARIKO_BY_CARPENTER_BOSS_WIFE) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062 : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK)
+                           ? 0x5062
+                           : (GET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_BOSS_WIFE_REGARDING_HARDSHIPS) ? 0x5061
+                                                                                                      : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -595,67 +619,69 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
                     break;
                 case 0x7016:
-                    SET_INFTABLE(INFTABLE_C0);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_WOMAN_REGARDING_LON_LON_RANCH);
                     break;
                 case 0x7045:
-                    SET_INFTABLE(INFTABLE_C1);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_WOMAN_REGARDING_ZELDA_ON_WHITE_HORSE);
                     break;
                 case 0x701B:
-                    SET_INFTABLE(INFTABLE_C2);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_REGARDING_BEARD_AND_TALON);
                     break;
                 case 0x7047:
-                    SET_INFTABLE(INFTABLE_C3);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_REGARDING_GANONDORF_ON_BLACK_HORSE);
                     break;
                 case 0x70EB:
-                    SET_INFTABLE(INFTABLE_C4);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_SCARED_HYLIAN_MAN);
                     break;
                 case 0x7023:
-                    SET_INFTABLE(INFTABLE_C5);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_REGARDING_ENJOYING_CASTLE_TOWN);
                     break;
                 case 0x7021:
-                    SET_INFTABLE(INFTABLE_C6);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_OLD_HYLIAN_WOMAN_REGARDING_MAKING_LOTS_OF_MONEY);
                     break;
                 case 0x7027:
-                    SET_INFTABLE(INFTABLE_C7);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_OLD_HYLIAN_MAN_REGARDING_SHEIKAH_TRIBE);
                     break;
                 case 0x701D:
-                    SET_INFTABLE(INFTABLE_C8);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_YOUNG_HYLIAN_WOMAN_REGARDING_TEMPLE_OF_TIME);
                     break;
                 case 0x7048:
-                    SET_INFTABLE(INFTABLE_C9);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_YOUNG_HYLIAN_WOMAN_AFTER_ZELDA_ESCAPE);
                     break;
                 case 0x701F:
-                    SET_INFTABLE(INFTABLE_CA);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_LAUGHING_MAN_REGARDING_SNEAKING_INTO_CASTLE);
                     break;
                 case 0x7018:
-                    SET_INFTABLE(INFTABLE_CD);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_MAN_REGARDING_BEING_CAUGHT_SNEAKING_INTO_CASTLE);
                     break;
                 case 0x70A4:
-                    SET_INFTABLE(INFTABLE_CC);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_OLD_HYLIAN_WOMAN_REGARDING_LEAVING_TOWN);
                     break;
                 case 0x5057:
-                    SET_INFTABLE(INFTABLE_160);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_IN_IMPA_HOUSE_AS_CHILD);
                     break;
                 case 0x5059:
-                    SET_INFTABLE(INFTABLE_161);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_IN_IMPA_HOUSE_NIGHT);
                     break;
                 case 0x505B:
-                    SET_INFTABLE(INFTABLE_162);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_MAN_IN_IMPA_HOUSE);
                     break;
                 case 0x505D:
-                    SET_INFTABLE(INFTABLE_163);
+                    SET_INFTABLE(INFTABLE_GREETED_IN_KAKARIKO_BY_CARPENTER_BOSS_WIFE);
                     break;
                 case 0x5060:
-                    SET_INFTABLE(INFTABLE_164);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_BOSS_WIFE_REGARDING_HARDSHIPS);
                     break;
                 case 0x508B:
-                    SET_INFTABLE(INFTABLE_CB);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_HYLIAN_WOMAN_REGARDING_TALON);
                     break;
                 case 0x709E:
                     gSaveContext.dogParams = 0;
                     break;
                 case 0x709F:
-                    func_80A6F7CC(this, play, GET_INFTABLE(INFTABLE_191) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
+                    func_80A6F7CC(this, play,
+                                  GET_INFTABLE(INFTABLE_RECEIVED_HEART_PIECE_FOR_FINDING_RICHARD_WIP) ? GI_RUPEE_BLUE
+                                                                                                  : GI_HEART_PIECE);
                     this->actionFunc = func_80A714C4;
                     break;
             }
@@ -1057,7 +1083,7 @@ void func_80A71530(EnHy* this, PlayState* play) {
             case GI_HEART_PIECE:
                 gSaveContext.dogParams = 0;
                 gSaveContext.dogIsLost = false;
-                SET_INFTABLE(INFTABLE_191);
+                SET_INFTABLE(INFTABLE_RECEIVED_HEART_PIECE_FOR_FINDING_RICHARD_WIP);
                 break;
             case GI_RUPEE_BLUE:
                 Rupees_ChangeBy(5);

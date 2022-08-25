@@ -407,7 +407,7 @@ u16 EnMd_GetTextKokiriForest(PlayState* play, EnMd* this) {
         return 0x1033;
     }
 
-    if (GET_INFTABLE(INFTABLE_0C)) {
+    if (GET_INFTABLE(INFTABLE_SHOWED_MIDO_FAIRY)) {
         return 0x1030;
     }
 
@@ -430,7 +430,7 @@ u16 EnMd_GetTextLostWoods(PlayState* play, EnMd* this) {
     this->unk_209 = TEXT_STATE_NONE;
 
     if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
-        if (GET_INFTABLE(INFTABLE_19)) {
+        if (GET_INFTABLE(INFTABLE_MIDO_LEARNS_SARIA_AWOKE_AS_SAGE)) {
             return 0x1071;
         }
         return 0x1070;
@@ -440,7 +440,7 @@ u16 EnMd_GetTextLostWoods(PlayState* play, EnMd* this) {
         return 0x1068;
     }
 
-    if (GET_INFTABLE(INFTABLE_15)) {
+    if (GET_INFTABLE(INFTABLE_MIDO_GREETS_ADULT_LINK)) {
         return 0x1061;
     }
 
@@ -481,13 +481,13 @@ s16 func_80AAAF04(PlayState* play, Actor* thisx) {
                     break;
                 case 0x102F:
                     SET_EVENTCHKINF(EVENTCHKINF_02);
-                    SET_INFTABLE(INFTABLE_0C);
+                    SET_INFTABLE(INFTABLE_SHOWED_MIDO_FAIRY);
                     break;
                 case 0x1060:
-                    SET_INFTABLE(INFTABLE_15);
+                    SET_INFTABLE(INFTABLE_MIDO_GREETS_ADULT_LINK);
                     break;
                 case 0x1070:
-                    SET_INFTABLE(INFTABLE_19);
+                    SET_INFTABLE(INFTABLE_MIDO_LEARNS_SARIA_AWOKE_AS_SAGE);
                     break;
                 case 0x1033:
                 case 0x1067:

@@ -151,7 +151,7 @@ u16 func_80AF55E0(PlayState* play, Actor* thisx) {
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
-        if (GET_INFTABLE(INFTABLE_05)) {
+        if (GET_INFTABLE(INFTABLE_SPOKE_TO_SARIA_IN_HER_HOUSE)) {
             return 0x1048;
         } else {
             return 0x1047;
@@ -160,16 +160,16 @@ u16 func_80AF55E0(PlayState* play, Actor* thisx) {
     if (GET_EVENTCHKINF(EVENTCHKINF_02)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
-        if (GET_INFTABLE(INFTABLE_03)) {
+        if (GET_INFTABLE(INFTABLE_TOLD_SARIA_ABOUT_MIDO_WIP)) {
             return 0x1032;
         } else {
             return 0x1031;
         }
     }
-    if (GET_INFTABLE(INFTABLE_00)) {
+    if (GET_INFTABLE(INFTABLE_VISITED_KOKIRI_FOREST_WIP)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
-        if (GET_INFTABLE(INFTABLE_01)) {
+        if (GET_INFTABLE(INFTABLE_GREETED_BY_SARIA)) {
             return 0x1003;
         } else {
             return 0x1002;
@@ -186,16 +186,16 @@ s16 func_80AF56F4(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1002:
-                    SET_INFTABLE(INFTABLE_01);
+                    SET_INFTABLE(INFTABLE_GREETED_BY_SARIA);
                     ret = 0;
                     break;
                 case 0x1031:
                     SET_EVENTCHKINF(EVENTCHKINF_03);
-                    SET_INFTABLE(INFTABLE_03);
+                    SET_INFTABLE(INFTABLE_TOLD_SARIA_ABOUT_MIDO_WIP);
                     ret = 0;
                     break;
                 case 0x1047:
-                    SET_INFTABLE(INFTABLE_05);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_SARIA_IN_HER_HOUSE);
                     ret = 0;
                     break;
                 default:
@@ -396,7 +396,7 @@ s32 func_80AF5DFC(EnSa* this, PlayState* play) {
         return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? 2 : 5;
     }
     if (play->sceneId == SCENE_SPOT04 && !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        if (GET_INFTABLE(INFTABLE_00)) {
+        if (GET_INFTABLE(INFTABLE_VISITED_KOKIRI_FOREST_WIP)) {
             return 1;
         }
         return 4;
@@ -592,7 +592,7 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                     break;
             }
         } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) &&
-                   (GET_INFTABLE(INFTABLE_01) || GET_INFTABLE(INFTABLE_03))) {
+                   (GET_INFTABLE(INFTABLE_GREETED_BY_SARIA) || GET_INFTABLE(INFTABLE_TOLD_SARIA_ABOUT_MIDO_WIP))) {
             if (this->unk_20B != 3) {
                 func_80AF5CD4(this, 3);
             }
@@ -713,7 +713,7 @@ void func_80AF6B20(EnSa* this, PlayState* play) {
         this->actor.world.pos = this->actor.home.pos;
         this->actor.world.rot = this->unk_21A;
         this->mouthIndex = 0;
-        SET_INFTABLE(INFTABLE_00);
+        SET_INFTABLE(INFTABLE_VISITED_KOKIRI_FOREST_WIP);
     }
 
     this->actionFunc = func_80AF6448;

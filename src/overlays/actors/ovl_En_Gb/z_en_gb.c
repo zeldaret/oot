@@ -141,7 +141,7 @@ static Vec3f sBottlesPositions[] = {
 };
 
 void func_80A2F180(EnGb* this) {
-    if (GET_INFTABLE(INFTABLE_B6)) {
+    if (GET_INFTABLE(INFTABLE_MET_POE_COLLECTOR_WIP)) {
         this->textId = 0x70F5;
     } else {
         this->textId = 0x70F4;
@@ -303,8 +303,8 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
 
 void func_80A2F94C(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        if (!GET_INFTABLE(INFTABLE_B6)) {
-            SET_INFTABLE(INFTABLE_B6);
+        if (!GET_INFTABLE(INFTABLE_MET_POE_COLLECTOR_WIP)) {
+            SET_INFTABLE(INFTABLE_MET_POE_COLLECTOR_WIP);
         }
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
@@ -313,8 +313,8 @@ void func_80A2F94C(EnGb* this, PlayState* play) {
 
 void func_80A2F9C0(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        if (!GET_INFTABLE(INFTABLE_B6)) {
-            SET_INFTABLE(INFTABLE_B6);
+        if (!GET_INFTABLE(INFTABLE_MET_POE_COLLECTOR_WIP)) {
+            SET_INFTABLE(INFTABLE_MET_POE_COLLECTOR_WIP);
         }
         func_80A2F180(this);
         Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
@@ -325,8 +325,8 @@ void func_80A2F9C0(EnGb* this, PlayState* play) {
 
 void func_80A2FA50(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        if (!GET_INFTABLE(INFTABLE_B6)) {
-            SET_INFTABLE(INFTABLE_B6);
+        if (!GET_INFTABLE(INFTABLE_MET_POE_COLLECTOR_WIP)) {
+            SET_INFTABLE(INFTABLE_MET_POE_COLLECTOR_WIP);
         }
         func_80A2F180(this);
         Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);

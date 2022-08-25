@@ -390,7 +390,7 @@ u16 func_80B61024(PlayState* play, Actor* thisx) {
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
-                return GET_INFTABLE(INFTABLE_124) ? 0x4009 : 0x4008;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_ZORA_REGARDING_ZORA_FOUNTAIN) ? 0x4009 : 0x4008;
             }
             break;
 
@@ -399,7 +399,7 @@ u16 func_80B61024(PlayState* play, Actor* thisx) {
                 return 0x402D;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_31)) {
-                return GET_INFTABLE(INFTABLE_129) ? 0x400B : 0x402F;
+                return GET_INFTABLE(INFTABLE_SPOKE_TO_ZORA_REGARDING_KING_ZORA) ? 0x400B : 0x402F;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x400A;
@@ -457,10 +457,10 @@ s16 func_80B61298(PlayState* play, Actor* thisx) {
                 case 0x4021:
                     return 0;
                 case 0x4008:
-                    SET_INFTABLE(INFTABLE_124);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_ZORA_REGARDING_ZORA_FOUNTAIN);
                     break;
                 case 0x402F:
-                    SET_INFTABLE(INFTABLE_129);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_ZORA_REGARDING_KING_ZORA);
                     break;
             }
             SET_EVENTCHKINF(EVENTCHKINF_30);

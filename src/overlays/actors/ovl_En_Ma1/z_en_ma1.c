@@ -101,7 +101,7 @@ u16 EnMa1_GetText(PlayState* play, Actor* thisx) {
         return 0x2049;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
-        if (GET_INFTABLE(INFTABLE_85)) {
+        if (GET_INFTABLE(INFTABLE_MALON_SAYS_EPONA_IS_AFRAID_OF_LINK)) {
             return 0x2049;
         } else {
             return 0x2048;
@@ -113,8 +113,8 @@ u16 EnMa1_GetText(PlayState* play, Actor* thisx) {
     if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
         return 0x2044;
     }
-    if (GET_INFTABLE(INFTABLE_84)) {
-        if (GET_INFTABLE(INFTABLE_8B)) {
+    if (GET_INFTABLE(INFTABLE_SPOKE_TO_MALON_IN_CASTLE_TOWN)) {
+        if (GET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_WAKING_TALON_AT_HYRULE_CASTLE_WIP)) {
             return 0x2043;
         } else {
             return 0x2042;
@@ -130,7 +130,7 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2041:
-                    SET_INFTABLE(INFTABLE_84);
+                    SET_INFTABLE(INFTABLE_SPOKE_TO_MALON_IN_CASTLE_TOWN);
                     SET_EVENTCHKINF(EVENTCHKINF_10);
                     ret = 0;
                     break;
@@ -142,7 +142,7 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
                     ret = 0;
                     break;
                 case 0x2048:
-                    SET_INFTABLE(INFTABLE_85);
+                    SET_INFTABLE(INFTABLE_MALON_SAYS_EPONA_IS_AFRAID_OF_LINK);
                     ret = 0;
                     break;
                 case 0x2049:
@@ -188,14 +188,15 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
         return 0;
     }
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_14) && !GET_INFTABLE(INFTABLE_8B)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_14) &&
+        !GET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_WAKING_TALON_AT_HYRULE_CASTLE_WIP)) {
         return 1;
     }
     if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
-        if (GET_INFTABLE(INFTABLE_8B)) {
+        if (GET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_WAKING_TALON_AT_HYRULE_CASTLE_WIP)) {
             return 1;
         } else {
-            SET_INFTABLE(INFTABLE_8B);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_MALON_AFTER_WAKING_TALON_AT_HYRULE_CASTLE_WIP);
             return 0;
         }
     }

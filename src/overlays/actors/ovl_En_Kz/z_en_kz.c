@@ -85,7 +85,7 @@ u16 EnKz_GetTextNoMaskAdult(PlayState* play, EnKz* this) {
     Player* player = GET_PLAYER(play);
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
-        if (!GET_INFTABLE(INFTABLE_139)) {
+        if (!GET_INFTABLE(INFTABLE_REVIVED_KING_ZORA)) {
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_ZORA)) {
                 return 0x401F;
             } else {
@@ -124,14 +124,14 @@ s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
             ret = 0;
             switch (this->actor.textId) {
                 case 0x4012:
-                    SET_INFTABLE(INFTABLE_139);
+                    SET_INFTABLE(INFTABLE_REVIVED_KING_ZORA);
                     ret = 2;
                     break;
                 case 0x401B:
                     ret = !Message_ShouldAdvance(play) ? 1 : 2;
                     break;
                 case 0x401F:
-                    SET_INFTABLE(INFTABLE_139);
+                    SET_INFTABLE(INFTABLE_REVIVED_KING_ZORA);
                     break;
             }
             break;
@@ -258,7 +258,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
             }
 
             this->isTrading = false;
-            if (GET_INFTABLE(INFTABLE_139)) {
+            if (GET_INFTABLE(INFTABLE_REVIVED_KING_ZORA)) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
             } else {
@@ -335,7 +335,7 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     }
 
     if (LINK_IS_ADULT) {
-        if (!GET_INFTABLE(INFTABLE_138)) {
+        if (!GET_INFTABLE(INFTABLE_SEEN_FROZEN_KING_ZORA_WIP)) {
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_ICE_SHELTER, this->actor.world.pos.x,
                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x04FF);
         }
@@ -453,8 +453,8 @@ void EnKz_Update(Actor* thisx, PlayState* play) {
     EnKz* this = (EnKz*)thisx;
     s32 pad;
 
-    if (LINK_IS_ADULT && !GET_INFTABLE(INFTABLE_138)) {
-        SET_INFTABLE(INFTABLE_138);
+    if (LINK_IS_ADULT && !GET_INFTABLE(INFTABLE_SEEN_FROZEN_KING_ZORA_WIP)) {
+        SET_INFTABLE(INFTABLE_SEEN_FROZEN_KING_ZORA_WIP);
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

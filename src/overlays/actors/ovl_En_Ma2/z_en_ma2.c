@@ -78,9 +78,9 @@ u16 func_80AA19A0(PlayState* play, Actor* thisx) {
         return 0x2056;
     }
     if (IS_NIGHT) {
-        if (GET_INFTABLE(INFTABLE_8C)) {
+        if (GET_INFTABLE(INFTABLE_PLAYED_EPONA_SONG_FOR_ADULT_MALON)) {
             return 0x2052;
-        } else if (GET_INFTABLE(INFTABLE_8E)) {
+        } else if (GET_INFTABLE(INFTABLE_TOOK_OUT_OCARINA_IN_FRONT_OF_ADULT_MALON_WIP)) {
             return 0x2051;
         } else {
             return 0x2050;
@@ -96,11 +96,12 @@ s16 func_80AA1A38(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
-                    SET_INFTABLE(INFTABLE_8C);
+                    SET_INFTABLE(INFTABLE_PLAYED_EPONA_SONG_FOR_ADULT_MALON);
                     ret = 2;
                     break;
                 case 0x2053:
-                    SET_INFTABLE(INFTABLE_8D);
+                    // This is a typo, likely intended to reference what is now message 0x2052
+                    SET_INFTABLE(INFTABLE_UNUSED_MALON_ADULT_CHECK);
                     ret = 0;
                     break;
                 default:
@@ -229,7 +230,7 @@ void EnMa2_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_80AA204C;
             break;
         case 3:
-            if (GET_INFTABLE(INFTABLE_8D)) {
+            if (GET_INFTABLE(INFTABLE_UNUSED_MALON_ADULT_CHECK)) {
                 EnMa2_ChangeAnim(this, ENMA2_ANIM_0);
             } else {
                 EnMa2_ChangeAnim(this, ENMA2_ANIM_3);
@@ -284,7 +285,7 @@ void func_80AA20E4(EnMa2* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk_208 = 0x1E;
-        SET_INFTABLE(INFTABLE_8E);
+        SET_INFTABLE(INFTABLE_TOOK_OUT_OCARINA_IN_FRONT_OF_ADULT_MALON_WIP);
         this->actionFunc = func_80AA21C8;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {

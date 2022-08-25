@@ -214,10 +214,10 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         switch (this->actor.textId) {
             case 0x6061:
-                SET_INFTABLE(INFTABLE_176);
+                SET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_REGARDING_CRUEL_GANG_OF_THIEVES);
                 break;
             case 0x6064:
-                SET_INFTABLE(INFTABLE_178);
+                SET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_REGARDING_GERUDO_HORSEBACK_ARCHERY);
                 break;
         }
         talkState = 0;

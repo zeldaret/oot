@@ -111,7 +111,7 @@ u16 func_809FDC38(PlayState* play, Actor* actor) {
             return 0x301D;
         }
     }
-    if (GET_INFTABLE(INFTABLE_113)) {
+    if (GET_INFTABLE(INFTABLE_MET_DARUNIA_IN_GORON_CITY_AS_CHILD)) {
         return 0x301B;
     } else {
         return 0x301A;
@@ -126,7 +126,7 @@ s16 func_809FDCDC(PlayState* play, Actor* actor) {
         case TEXT_STATE_CLOSING:
             switch (actor->textId) {
                 case 0x301A:
-                    SET_INFTABLE(INFTABLE_113);
+                    SET_INFTABLE(INFTABLE_MET_DARUNIA_IN_GORON_CITY_AS_CHILD);
                     break;
                 case 0x301C:
                 case 0x301F:
@@ -156,7 +156,7 @@ s16 func_809FDCDC(PlayState* play, Actor* actor) {
 s32 func_809FDDB4(EnDu* this, PlayState* play) {
     if (play->sceneId == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
-    } else if (play->sceneId == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
+    } else if (play->sceneId == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_MET_DARUNIA_IN_FIRE_TEMPLE_WIP) && LINK_IS_ADULT) {
         return 1;
     }
     return 0;
@@ -411,7 +411,7 @@ void func_809FE798(EnDu* this, PlayState* play) {
         }
     } else {
         Actor_Kill(&this->actor);
-        SET_INFTABLE(INFTABLE_11A);
+        SET_INFTABLE(INFTABLE_MET_DARUNIA_IN_FIRE_TEMPLE_WIP);
     }
 }
 

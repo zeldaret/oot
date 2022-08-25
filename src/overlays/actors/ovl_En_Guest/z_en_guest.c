@@ -52,7 +52,7 @@ static InitChainEntry sInitChain[] = {
 void EnGuest_Init(Actor* thisx, PlayState* play) {
     EnGuest* this = (EnGuest*)thisx;
 
-    if (GET_INFTABLE(INFTABLE_76)) {
+    if (GET_INFTABLE(INFTABLE_GAVE_ZELDA_LETTER_TO_KAKARIKO_GUARD_WIP)) {
         Actor_Kill(&this->actor);
     } else {
         this->osAnimeBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_OS_ANIME);

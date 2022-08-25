@@ -69,8 +69,8 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if (((this->actor.params == 0x0002) && GET_ITEMGETINF(ITEMGETINF_0B)) ||
-        ((this->actor.params == 0x0009) && GET_INFTABLE(INFTABLE_192)) ||
-        ((this->actor.params == 0x000A) && GET_INFTABLE(INFTABLE_193))) {
+        ((this->actor.params == 0x0009) && GET_INFTABLE(INFTABLE_BOUGHT_DEKU_STICK_UPGRADE_CAPACITY_20_WIP)) ||
+        ((this->actor.params == 0x000A) && GET_INFTABLE(INFTABLE_BOUGHT_DEKU_NUT_UPGRADE_CAPACITY_30_WIP))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupWait(this);

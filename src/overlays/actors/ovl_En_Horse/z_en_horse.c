@@ -2533,7 +2533,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
 
     if (play->interfaceCtx.hbaAmmo != 0) {
         if (!(this->hbaFlags & 2)) {
-            if (GET_INFTABLE(INFTABLE_190)) {
+            if (GET_INFTABLE(INFTABLE_RECEIVED_GERUDO_ARCHERY_HEART_PIECE_WIP)) {
                 if ((s32)gSaveContext.minigameScore >= 1500) {
                     this->hbaFlags |= 4;
                 }

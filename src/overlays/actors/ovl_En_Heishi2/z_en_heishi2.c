@@ -351,8 +351,8 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
 
     this->unk_30B = 0;
     var = 0;
-    if (GET_INFTABLE(INFTABLE_76)) {
-        if (!GET_INFTABLE(INFTABLE_77)) {
+    if (GET_INFTABLE(INFTABLE_GAVE_ZELDA_LETTER_TO_KAKARIKO_GUARD_WIP)) {
+        if (!GET_INFTABLE(INFTABLE_SOLD_KEATON_MASK_TO_KAKARIKO_GUARD_WIP)) {
             if (Player_GetMask(play) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A;
@@ -523,7 +523,7 @@ void func_80A53F30(EnHeishi2* this, PlayState* play) {
 void func_80A54038(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        SET_INFTABLE(INFTABLE_76);
+        SET_INFTABLE(INFTABLE_GAVE_ZELDA_LETTER_TO_KAKARIKO_GUARD_WIP);
         Message_CloseTextbox(play);
         func_8002DF54(play, 0, 7);
         this->actionFunc = func_80A53908;
@@ -538,7 +538,7 @@ void func_80A540C0(EnHeishi2* this, PlayState* play) {
                 this->actor.textId = 0x2020;
                 Message_ContinueTextbox(play, this->actor.textId);
                 Player_UnsetMask(play);
-                SET_INFTABLE(INFTABLE_77);
+                SET_INFTABLE(INFTABLE_SOLD_KEATON_MASK_TO_KAKARIKO_GUARD_WIP);
                 SET_ITEMGETINF(ITEMGETINF_38);
                 Item_Give(play, ITEM_SOLD_OUT);
                 if (this->unk_30A != 0) {
@@ -846,7 +846,7 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
 
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
-    if ((this->type == 5) && GET_INFTABLE(INFTABLE_77)) {
+    if ((this->type == 5) && GET_INFTABLE(INFTABLE_SOLD_KEATON_MASK_TO_KAKARIKO_GUARD_WIP)) {
         linkObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);

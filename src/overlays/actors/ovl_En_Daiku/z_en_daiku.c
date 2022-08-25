@@ -237,10 +237,10 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, PlayState* play) {
             if (Message_ShouldAdvance(play)) {
                 switch (this->actor.textId) {
                     case 0x6061:
-                        SET_INFTABLE(INFTABLE_176);
+                        SET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_REGARDING_CRUEL_GANG_OF_THIEVES);
                         break;
                     case 0x6064:
-                        SET_INFTABLE(INFTABLE_178);
+                        SET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_REGARDING_GERUDO_HORSEBACK_ARCHERY);
                         break;
                 }
 
@@ -307,7 +307,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6063;
                         } else {
-                            if (!GET_INFTABLE(INFTABLE_176)) {
+                            if (!GET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_REGARDING_CRUEL_GANG_OF_THIEVES)) {
                                 this->actor.textId = 0x6061;
                             } else {
                                 this->actor.textId = 0x6062;
@@ -318,7 +318,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6066;
                         } else {
-                            if (!GET_INFTABLE(INFTABLE_178)) {
+                            if (!GET_INFTABLE(INFTABLE_SPOKE_TO_CARPENTER_REGARDING_GERUDO_HORSEBACK_ARCHERY)) {
                                 this->actor.textId = 0x6064;
                             } else {
                                 this->actor.textId = 0x6065;

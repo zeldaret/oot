@@ -587,12 +587,12 @@ void func_80ACB148(EnOwl* this, PlayState* play) {
 }
 
 void EnOwl_WaitHyliaShortcut(EnOwl* this, PlayState* play) {
-    u16 textId = GET_INFTABLE(INFTABLE_195) ? 0x4004 : 0x4003;
+    u16 textId = GET_INFTABLE(INFTABLE_SPOKE_TO_OWL_IN_LAKE_HYLIA_WIP) ? 0x4004 : 0x4003;
 
     // Spoke to Owl in Lake Hylia
     EnOwl_LookAtLink(this, play);
     if (func_80ACA558(this, play, textId)) {
-        SET_INFTABLE(INFTABLE_195);
+        SET_INFTABLE(INFTABLE_SPOKE_TO_OWL_IN_LAKE_HYLIA_WIP);
         Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB148;
     }
