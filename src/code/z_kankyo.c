@@ -949,7 +949,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSaveContext.nightFlag = 0;
         }
 
-        if (SREG(0) != 0 || CREG(2) != 0) {
+        if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
 

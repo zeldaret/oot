@@ -1062,7 +1062,7 @@ typedef struct GameState {
     /* 0x84 */ GameAlloc alloc;
     /* 0x98 */ u32 running;
     /* 0x9C */ u32 frames;
-    /* 0xA0 */ u32 unk_A0;
+    /* 0xA0 */ u32 isPreNMIStateRunning;
 } GameState; // size = 0xA4
 
 typedef struct {
