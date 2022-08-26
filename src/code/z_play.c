@@ -206,7 +206,7 @@ void Play_Destroy(GameState* thisx) {
     }
 
     func_80031C3C(&this->actorCtx, this);
-    func_80110990(this);
+    Interface_Destroy(this);
     KaleidoScopeCall_Destroy(this);
     KaleidoManager_Destroy();
     ZeldaArena_Cleanup();
@@ -335,7 +335,7 @@ void Play_Init(GameState* thisx) {
 
     Cutscene_HandleEntranceTriggers(this);
     KaleidoScopeCall_Init(this);
-    func_801109B0(this);
+    Interface_Init(this);
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
         if (gSaveContext.nextDayTime == NEXT_TIME_DAY) {
