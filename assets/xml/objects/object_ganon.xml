@@ -39,7 +39,7 @@
         <Texture Name="gGanondorfNoseBridgeTex" OutName="ganondorf_nose_bridge" Format="rgba16" Width="4" Height="16" Offset="0x8570"/>
         <Texture Name="gGanondorfNoseTex" OutName="ganondorf_nose" Format="ci8" Width="8" Height="8" Offset="0x85F0" TlutOffset="0x7B10"/>
         <Texture Name="gGanondorfEarTex" OutName="ganondorf_ear" Format="rgba16" Width="8" Height="16" Offset="0x8630"/>
-        <Texture Name="gGanondorfEyeFoldsTex" OutName="ganondorf_eye_folds" Format="ci8" Width="32" Height="16" Offset="0x8730" TlutOffset="0x7B10"/>
+        <Texture Name="gGanondorfEyeOrbitTex" OutName="ganondorf_eye_orbit" Format="ci8" Width="32" Height="16" Offset="0x8730" TlutOffset="0x7B10"/>
         <Texture Name="gGanondorfGerudoFabricTex" OutName="ganondorf_gerudo_fabric" Format="rgba16" Width="16" Height="16" Offset="0x8930"/>
         <Texture Name="gGanondorfRedFabricTex" OutName="ganondorf_red_fabric" Format="rgba16" Width="16" Height="16" Offset="0x8B30"/>
         <Texture Name="gGanondorfBodysuitTex" OutName="ganondorf_bodysuit" Format="rgba16" Width="8" Height="8" Offset="0x8D30"/>
