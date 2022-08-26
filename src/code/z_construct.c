@@ -1,10 +1,10 @@
 #include "global.h"
 
-void func_80110990(PlayState* play) {
+void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
-void func_801109B0(PlayState* play) {
+void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
     u16 doActionOffset;
@@ -194,7 +194,7 @@ void Message_Init(PlayState* play) {
 void func_80111070(void) {
     YREG(8) = 10;
     YREG(14) = 0;
-    YREG(15) = 0;
+    R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
     R_TEXTBOX_TEXWIDTH = 0;
     R_TEXTBOX_TEXHEIGHT = 0;
     R_TEXTBOX_WIDTH = 50;
@@ -506,7 +506,7 @@ void func_80111070(void) {
     WREG(94) = 3;
     WREG(95) = 6;
 
-    if (gSaveContext.gameMode == 0) {
+    if (gSaveContext.gameMode == GAMEMODE_NORMAL) {
         R_TEXTBOX_X = 52;
         R_TEXTBOX_Y = 36;
         VREG(2) = 214;

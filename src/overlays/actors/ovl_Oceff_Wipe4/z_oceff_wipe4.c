@@ -39,6 +39,9 @@ void OceffWipe4_Destroy(Actor* thisx, PlayState* play) {
     OceffWipe4* this = (OceffWipe4*)thisx;
 
     Magic_Reset(play);
+
+    //! @bug `PLAYER_STATE3_RESTORE_NAYRUS_LOVE` is not set, unlike other Oceff actors.
+    //! This means playing Scarecrow's Song interrupts Nayru's Love without restoring it later.
 }
 
 void OceffWipe4_Update(Actor* thisx, PlayState* play) {
@@ -102,8 +105,8 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     }
 
     gSPDisplayList(POLY_XLU_DISP++, sMaterial2DL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
-                                                     scroll * (-1), scroll, 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,
+                                                     64, 1, scroll * (-1), scroll, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, &sMaterial2DL[11]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_wipe4.c", 344);

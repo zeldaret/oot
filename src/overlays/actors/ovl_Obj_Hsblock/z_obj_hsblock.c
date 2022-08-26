@@ -155,7 +155,7 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_hsblock.c", 369),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (play->sceneNum == SCENE_HIDAN) {
+    if (play->sceneId == SCENE_HIDAN) {
         color = &sFireTempleColor;
     } else {
         defaultColor.r = mREG(13);

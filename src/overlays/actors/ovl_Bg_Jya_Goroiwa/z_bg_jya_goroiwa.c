@@ -177,7 +177,7 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
         thisx->world.rot.y = 0x4000;
     }
 
-    Audio_PlayActorSound2(thisx, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
+    Audio_PlayActorSfx2(thisx, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
 }
 
 void BgJyaGoroiwa_SetupWait(BgJyaGoroiwa* this) {

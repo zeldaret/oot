@@ -65,9 +65,9 @@ void EnOssan_State_LookToRightShelf(EnOssan* this, PlayState* play, Player* play
 void EnOssan_State_BrowseLeftShelf(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_BrowseRightShelf(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_LookFromShelfToShopkeeper(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play, Player* player);
-void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play, Player* player);
+void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play2, Player* player);
+void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play2, Player* player);
+void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play2, Player* player);
 void EnOssan_State_SelectUnimplementedItem(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_SelectBombs(EnOssan* this, PlayState* play, Player* player);
 void EnOssan_State_CantGetItem(EnOssan* this, PlayState* play, Player* player);
@@ -201,7 +201,7 @@ static ShopItem sShopkeeperStores[][8] = {
       { SI_DEKU_SEEDS_30, -50, 52, -20 },
       { SI_ARROWS_10, -50, 76, -20 },
       { SI_ARROWS_30, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_GREEN_POTION, 50, 52, -20 },
       { SI_BLUE_FIRE, 50, 76, -20 },
@@ -233,7 +233,7 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_HYLIAN_SHIELD, 50, 52, -20 },
       { SI_BOMBS_5_R35, 50, 76, -20 },
       { SI_DEKU_NUTS_5, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_ARROWS_10, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
       { SI_DEKU_STICK, -80, 52, -3 },
@@ -242,7 +242,7 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_HYLIAN_SHIELD, 50, 52, -20 },
       { SI_BOMBS_5_R25, 50, 76, -20 },
       { SI_DEKU_NUTS_5, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_ARROWS_10, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
       { SI_DEKU_STICK, -80, 52, -3 },
@@ -251,15 +251,15 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_MILK_BOTTLE, 50, 52, -20 },
       { SI_DEKU_NUTS_5, 50, 76, -20 },
       { SI_DEKU_NUTS_10, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_WEIRD_EGG, -50, 52, -20 },
       { SI_DEKU_STICK, -50, 76, -20 },
-      { SI_HEART, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 52, -3 },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_ZORA_TUNIC, 50, 52, -20 },
       { SI_ARROWS_10, 50, 76, -20 },
-      { SI_HEART, 80, 52, -3 },
+      { SI_RECOVERY_HEART, 80, 52, -3 },
       { SI_ARROWS_30, 80, 76, -3 },
       { SI_DEKU_NUTS_5, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
@@ -271,9 +271,9 @@ static ShopItem sShopkeeperStores[][8] = {
       { SI_BOMBS_20, 80, 52, -3 },
       { SI_BOMBS_30, 80, 76, -3 },
       { SI_GORON_TUNIC, -50, 52, -20 },
-      { SI_HEART, -50, 76, -20 },
+      { SI_RECOVERY_HEART, -50, 76, -20 },
       { SI_RED_POTION_R40, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_19, 50, 52, -20 },
       { SI_19, 50, 76, -20 },
@@ -653,7 +653,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
-    func_800BC490(play, 1);
+    Play_SetViewpoint(play, VIEWPOINT_LOCKED);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
     this->stickLeftPrompt.isEnabled = false;
@@ -737,7 +737,7 @@ void EnOssan_State_Idle(EnOssan* this, PlayState* play, Player* player) {
         // "Start conversation!!"
         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
         player->stateFlags2 |= PLAYER_STATE2_29;
-        func_800BC590(play);
+        Play_SetShopBrowsingViewpoint(play);
         EnOssan_SetStateStartShopping(play, this, false);
     } else if (this->actor.xzDistToPlayer < 100.0f) {
         func_8002F2CC(&this->actor, play, 100);
@@ -1322,7 +1322,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
-    func_800BC490(play, 1);
+    Play_SetViewpoint(play, VIEWPOINT_LOCKED);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);
@@ -1696,7 +1696,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
                         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 続けるよ！！ ★★★" VT_RST "\n");
                         player->actor.shape.rot.y += 0x8000;
                         player->stateFlags2 |= PLAYER_STATE2_29;
-                        func_800BC490(play, 2);
+                        Play_SetViewpoint(play, VIEWPOINT_PIVOT);
                         Message_StartTextbox(play, this->actor.textId, &this->actor);
                         EnOssan_SetStateStartShopping(play, this, true);
                         func_8002F298(&this->actor, play, 100.0f, -1);
@@ -1715,7 +1715,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
         selectedItem->updateStockedItemFunc(play, selectedItem);
         player->actor.shape.rot.y += 0x8000;
         player->stateFlags2 |= PLAYER_STATE2_29;
-        func_800BC490(play, 2);
+        Play_SetViewpoint(play, VIEWPOINT_PIVOT);
         Message_StartTextbox(play, this->actor.textId, &this->actor);
         EnOssan_SetStateStartShopping(play, this, true);
         func_8002F298(&this->actor, play, 100.0f, -1);
@@ -2264,7 +2264,7 @@ void EnOssan_DrawCursor(PlayState* play, EnOssan* this, f32 x, f32 y, f32 z, u8 
 
 void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 dx,
                          f32 dy) {
-    f32 unk;
+    f32 texCoordScale;
     s32 ulx, uly, lrx, lry;
     f32 w, h;
     s32 dsdx, dtdy;
@@ -2275,9 +2275,9 @@ void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32
 
     w = 8.0f * z;
     h = 12.0f * z;
-    unk = (1.0f / z) * 1024;
-    dsdx = unk * dx;
-    dtdy = dy * unk;
+    texCoordScale = (1.0f / z) * 1024;
+    dsdx = texCoordScale * dx;
+    dtdy = dy * texCoordScale;
 
     ulx = (x - w) * 4.0f;
     uly = (y - h) * 4.0f;

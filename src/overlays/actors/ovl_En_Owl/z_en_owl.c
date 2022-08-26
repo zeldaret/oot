@@ -55,7 +55,7 @@ typedef enum {
     /* 0x07 */ OWL_HYLIA_SHORTCUT,
     /* 0x08 */ OWL_DEATH_MOUNTAIN,
     /* 0x09 */ OWL_DEATH_MOUNTAIN2,
-    /* 0x0A */ OWL_DESSERT_COLOSSUS,
+    /* 0x0A */ OWL_DESERT_COLOSSUS,
     /* 0x0B */ OWL_LOST_WOODS_PRESARIA,
     /* 0x0C */ OWL_LOST_WOODS_POSTSARIA
 } EnOwlType;
@@ -199,7 +199,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_DEATH_MOUNTAIN2:
             this->actionFunc = EnOwl_WaitDeathMountainShortcut;
             break;
-        case OWL_DESSERT_COLOSSUS:
+        case OWL_DESERT_COLOSSUS:
             this->actionFunc = func_80ACB3E0;
             break;
         case OWL_LOST_WOODS_PRESARIA:
@@ -1059,7 +1059,7 @@ s32 func_80ACC5CC(EnOwl* this) {
 s32 func_80ACC624(EnOwl* this, PlayState* play) {
     s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
 
-    if (play->sceneNum != SCENE_SPOT11) {
+    if (play->sceneId != SCENE_SPOT11) {
         return true;
     } else if (switchFlag == 0xA) {
         return true;
@@ -1095,7 +1095,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
               this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
               this->skelAnime.curFrame == 58.0f)) ||
             (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
 

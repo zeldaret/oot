@@ -59,7 +59,7 @@ If you can't match a function even with everyone's, don't worry overlong about i
 
 ### Format
 
-Run the formatting script `format.sh`, to format the C files in the standard way we use.
+Run the formatting script `format.py`, to format the C files in the standard way we use.
 
 ### Merge master
 

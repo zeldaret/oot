@@ -15,7 +15,7 @@
 void BgBowlWall_Init(Actor* thisx, PlayState* play);
 void BgBowlWall_Destroy(Actor* thisx, PlayState* play);
 void BgBowlWall_Update(Actor* thisx, PlayState* play);
-void BgBowlWall_Draw(Actor* thisx, PlayState* play);
+void BgBowlWall_Draw(Actor* thisx, PlayState* play2);
 
 void BgBowlWall_SpawnBullseyes(BgBowlWall* this, PlayState* play);
 void BgBowlWall_WaitForHit(BgBowlWall* this, PlayState* play);
@@ -149,7 +149,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play) {
             EffectSsBomb2_SpawnLayered(play, &effectPos, &effectVelocity, &effectAccel, 100, 30);
             effectPos.y = -50.0f;
             EffectSsHahen_SpawnBurst(play, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
         quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
         Quake_SetSpeed(quakeIndex, 0x7FFF);

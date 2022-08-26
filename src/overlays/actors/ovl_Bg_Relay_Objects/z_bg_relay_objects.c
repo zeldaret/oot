@@ -116,7 +116,7 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
 void func_808A90F4(BgRelayObjects* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
         if (this->timer != 0) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
             if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
                 this->timer = 120;
             } else {
@@ -137,7 +137,7 @@ void func_808A91AC(BgRelayObjects* this, PlayState* play) {
         func_8002F994(&this->dyna.actor, this->timer);
     }
     if ((this->timer == 0) || (this->unk_169 == play->roomCtx.curRoom.num)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
         this->actionFunc = func_808A9234;
     }
 }
@@ -146,7 +146,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
     this->dyna.actor.velocity.y += this->dyna.actor.gravity;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
         func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         if (this->unk_169 != play->roomCtx.curRoom.num) {
             func_800788CC(NA_SE_EN_PO_LAUGH);
             this->timer = 5;

@@ -12,7 +12,7 @@
 #define FLAGS 0
 
 void EnButte_Init(Actor* thisx, PlayState* play);
-void EnButte_Destroy(Actor* thisx, PlayState* play);
+void EnButte_Destroy(Actor* thisx, PlayState* play2);
 void EnButte_Update(Actor* thisx, PlayState* play);
 void EnButte_Draw(Actor* thisx, PlayState* play);
 
@@ -359,7 +359,7 @@ void EnButte_TransformIntoFairy(EnButte* this, PlayState* play) {
     EnButte_UpdateTransformationEffect();
 
     if (this->timer == 5) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
     } else if (this->timer == 4) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.focus.pos.x, this->actor.focus.pos.y,
                     this->actor.focus.pos.z, 0, this->actor.shape.rot.y, 0, FAIRY_HEAL_TIMED);

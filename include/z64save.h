@@ -59,7 +59,7 @@ typedef struct {
 } SavedSceneFlags; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ s16 scene;
+    /* 0x00 */ s16 sceneId;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ s16 angle;
 } HorseData; // size = 0x0A
@@ -121,14 +121,14 @@ typedef struct {
     /* 0x003A */ u8 isMagicAcquired;
     /* 0x003B */ char unk_3B[0x01];
     /* 0x003C */ u8 isDoubleMagicAcquired;
-    /* 0x003D */ u8 doubleDefense;
+    /* 0x003D */ u8 isDoubleDefenseAcquired;
     /* 0x003E */ u8 bgsFlag;
     /* 0x003F */ u8 ocarinaGameRoundNum;
     /* 0x0040 */ ItemEquips childEquips;
     /* 0x004A */ ItemEquips adultEquips;
     /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignment
     /* 0x0058 */ char unk_58[0x0E];
-    /* 0x0066 */ s16 savedSceneNum;
+    /* 0x0066 */ s16 savedSceneId;
     /* 0x0068 */ ItemEquips equips;
     /* 0x0074 */ Inventory inventory;
     /* 0x00D4 */ SavedSceneFlags sceneFlags[124];
@@ -154,7 +154,7 @@ typedef struct {
     /* 0x1354 */ s32 fileNum; // "file_no"
     /* 0x1358 */ char unk_1358[0x0004];
     /* 0x135C */ s32 gameMode;
-    /* 0x1360 */ s32 sceneSetupIndex;
+    /* 0x1360 */ s32 sceneLayer; // "counter"
     /* 0x1364 */ s32 respawnFlag; // "restart_flag"
     /* 0x1368 */ RespawnData respawn[RESPAWN_MODE_MAX]; // "restart_data"
     /* 0x13BC */ f32 entranceSpeed;
@@ -244,6 +244,23 @@ typedef enum {
     /* 2 */ SUNSSONG_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
     /* 3 */ SUNSSONG_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
 } SunsSongState;
+
+typedef enum {
+    /* 0 */ GAMEMODE_NORMAL,
+    /* 1 */ GAMEMODE_TITLE_SCREEN,
+    /* 2 */ GAMEMODE_FILE_SELECT, // Note: only instance type transitions swap to file select
+    /* 3 */ GAMEMODE_END_CREDITS
+} GameMode;
+
+typedef enum {
+    /* 0 */ SCENE_LAYER_CHILD_DAY,
+    /* 1 */ SCENE_LAYER_CHILD_NIGHT,
+    /* 2 */ SCENE_LAYER_ADULT_DAY,
+    /* 3 */ SCENE_LAYER_ADULT_NIGHT,
+    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST 
+} SceneLayer;
+
+#define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
 
 typedef enum {
     /* 0 */ LINK_AGE_ADULT,

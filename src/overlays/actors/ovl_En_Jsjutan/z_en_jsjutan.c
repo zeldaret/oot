@@ -11,8 +11,8 @@
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play);
 void EnJsjutan_Destroy(Actor* thisx, PlayState* play);
-void EnJsjutan_Update(Actor* thisx, PlayState* play);
-void EnJsjutan_Draw(Actor* thisx, PlayState* play);
+void EnJsjutan_Update(Actor* thisx, PlayState* play2);
+void EnJsjutan_Draw(Actor* thisx, PlayState* play2);
 
 const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
@@ -147,7 +147,7 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
     i = 1;
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
-    if ((gSaveContext.entranceIndex == ENTR_SPOT20_0) && (gSaveContext.sceneSetupIndex == 8)) {
+    if ((gSaveContext.entranceIndex == ENTR_SPOT20_0) && (gSaveContext.sceneLayer == 8)) {
         isInCreditsScene = true;
 
         actorProfessor = play->actorCtx.actorLists[ACTORCAT_NPC].head;
