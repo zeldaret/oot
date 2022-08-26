@@ -147,6 +147,7 @@
 #define R_COMPASS_OFFSET_X                       VREG(16)
 #define R_COMPASS_OFFSET_Y                       VREG(17)
 #define R_MINIMAP_COLOR(i)                       VREG(18 + (i))
+#define R_PAUSE_SONG_NOTE_Y(ocarinaButtonIndex)  VREG(21 + (ocarinaButtonIndex)) // VREG(21-25)
 #define R_OCARINA_BUTTONS_XPOS                   VREG(28)
 #define R_OCARINA_BUTTONS_XPOS_OFFSET            VREG(29)
 #define R_TEXT_ADJUST_COLOR_1_R                  VREG(33)

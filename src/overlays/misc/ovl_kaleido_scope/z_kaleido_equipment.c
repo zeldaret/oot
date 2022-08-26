@@ -150,7 +150,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         }
     }
 
-    if ((pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0) &&
+    if ((pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_0) &&
         (pauseCtx->pageIndex == PAUSE_EQUIP)) {
         oldCursorPoint = pauseCtx->cursorPoint[PAUSE_EQUIP];
         pauseCtx->cursorColorSet = 0;
@@ -467,7 +467,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         KaleidoScope_SetCursorVtx(pauseCtx, cursorSlot * 4, pauseCtx->equipVtx);
 
         if ((pauseCtx->cursorSpecialPos == 0) && (cursorItem != PAUSE_ITEM_NONE) &&
-            (pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_0) &&
+            (pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_0) &&
             CHECK_BTN_ALL(input->press.button, BTN_A) && (pauseCtx->cursorX[PAUSE_EQUIP] != 0)) {
 
             if ((gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] == 9) ||
@@ -497,7 +497,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
                 Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_7;
+                pauseCtx->unk_1E4_ps6_ = PAUSE_S6_7;
                 sEquipTimer = 10;
             } else {
                 Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -509,13 +509,13 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
-    } else if ((pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_7) && (pauseCtx->pageIndex == PAUSE_EQUIP)) {
+    } else if ((pauseCtx->unk_1E4_ps6_ == PAUSE_S6_7) && (pauseCtx->pageIndex == PAUSE_EQUIP)) {
         KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_EQUIP] * 4, pauseCtx->equipVtx);
         pauseCtx->cursorColorSet = 8;
 
         sEquipTimer--;
         if (sEquipTimer == 0) {
-            pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
+            pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0;
         }
     }
 
@@ -582,11 +582,11 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
     KaleidoScope_DrawPlayerWork(play);
 
-    if ((pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_7) && (sEquipTimer == 10)) {
+    if ((pauseCtx->unk_1E4_ps6_ == PAUSE_S6_7) && (sEquipTimer == 10)) {
         KaleidoScope_SetupPlayerPreRender(play);
     }
 
-    if ((pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_7) && (sEquipTimer == 9)) {
+    if ((pauseCtx->unk_1E4_ps6_ == PAUSE_S6_7) && (sEquipTimer == 9)) {
         //! @bug: This function shouldn't take any arguments
         KaleidoScope_ProcessPlayerPreRender(play);
     }

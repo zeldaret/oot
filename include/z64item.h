@@ -107,7 +107,8 @@ typedef enum {
     /* 0x15 */ QUEST_STONE_OF_AGONY,
     /* 0x16 */ QUEST_GERUDO_CARD,
     /* 0x17 */ QUEST_SKULL_TOKEN,
-    /* 0x1C */ QUEST_HEART_PIECE_COUNT = 0x1C
+    /* 0x18 */ QUEST_HEART_PIECE, // for `pauseCtx->cursorPoint[PAUSE_QUEST]`
+    /* 0x1C */ QUEST_HEART_PIECE_COUNT = 0x1C // for accessing the `Inventory.questItems` bitfield
 } QuestItem;
 
 typedef enum {

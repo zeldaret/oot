@@ -30,7 +30,7 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(17) = 155;
 
             pauseCtx->unk_1EA = 0;
-            pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_1;
+            pauseCtx->unk_1E4_ps6_ = PAUSE_S6_1;
 
             if (ZREG(48) == 0) {
                 pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
@@ -70,7 +70,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
     pauseCtx->unk_1EA = 0;
-    pauseCtx->unk_1E4 = PAUSECTX_UNK_1E4_0;
+    pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0;
     pauseCtx->mode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
 
@@ -83,7 +83,7 @@ void KaleidoSetup_Init(PlayState* play) {
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
-    pauseCtx->cursorPoint[PAUSE_QUEST] = 0;
+    pauseCtx->cursorPoint[PAUSE_QUEST] = QUEST_MEDALLION_FOREST;
     pauseCtx->cursorPoint[PAUSE_EQUIP] = 1;
     pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 10;
 

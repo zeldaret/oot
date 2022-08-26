@@ -2765,7 +2765,7 @@ void Interface_DrawItemButtons(PlayState* play) {
 
     if ((pauseCtx->state < PAUSECTX_STATE_8) /* PAUSECTX_STATE_0, PAUSECTX_STATE_1, PAUSECTX_STATE_2, PAUSECTX_STATE_3,
                                  PAUSECTX_STATE_4, PAUSECTX_STATE_5, PAUSECTX_STATE_6, PAUSECTX_STATE_7 */
-        || (pauseCtx->state >= PAUSECTX_STATE_18) /* PAUSECTX_STATE_18, PAUSECTX_STATE_19 */) {
+        || (pauseCtx->state >= PAUSECTX_STATE_18_FLIP_PAGES_AND_UNPAUSE) /* PAUSECTX_STATE_18_FLIP_PAGES_AND_UNPAUSE, PAUSECTX_STATE_19_UNPAUSE */) {
         if ((play->pauseCtx.state != 0) || (play->pauseCtx.debugState != 0)) {
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);
@@ -3320,7 +3320,7 @@ void Interface_Draw(PlayState* play) {
 
         func_8008A994(interfaceCtx);
 
-        if ((pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4 == PAUSECTX_UNK_1E4_3)) {
+        if ((pauseCtx->state == PAUSECTX_STATE_6) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_3)) {
             // Inventory Equip Effects
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);

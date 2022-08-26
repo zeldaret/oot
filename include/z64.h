@@ -740,7 +740,7 @@ typedef enum {
     /*  3 */ PAUSECTX_STATE_3,
     /*  4 */ PAUSECTX_STATE_4,
     /*  5 */ PAUSECTX_STATE_5,
-    /*  6 */ PAUSECTX_STATE_6,
+    /*  6 */ PAUSECTX_STATE_6,  // listen to inputs
     /*  7 */ PAUSECTX_STATE_7,  //                                     save
     /*  8 */ PAUSECTX_STATE_8,  //                                     saveGameOver
     /*  9 */ PAUSECTX_STATE_9,  //                                     saveGameOver
@@ -752,21 +752,21 @@ typedef enum {
     /* 15 */ PAUSECTX_STATE_15, // game over KaleidoScope_DrawGameOver saveGameOver
     /* 16 */ PAUSECTX_STATE_16, // game over KaleidoScope_DrawGameOver saveGameOver
     /* 17 */ PAUSECTX_STATE_17, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 18 */ PAUSECTX_STATE_18,
-    /* 19 */ PAUSECTX_STATE_19
+    /* 18 */ PAUSECTX_STATE_18_FLIP_PAGES_AND_UNPAUSE,
+    /* 19 */ PAUSECTX_STATE_19_UNPAUSE
 } PauseCtxState;
 
 typedef enum {
-    /* 0 */ PAUSECTX_UNK_1E4_0,
-    /* 1 */ PAUSECTX_UNK_1E4_1,
-    /* 2 */ PAUSECTX_UNK_1E4_2,
-    /* 3 */ PAUSECTX_UNK_1E4_3,
-    /* 4 */ PAUSECTX_UNK_1E4_4,
-    /* 5 */ PAUSECTX_UNK_1E4_5,
-    /* 6 */ PAUSECTX_UNK_1E4_6,
-    /* 7 */ PAUSECTX_UNK_1E4_7,
-    /* 8 */ PAUSECTX_UNK_1E4_8,
-    /* 9 */ PAUSECTX_UNK_1E4_9
+    /* 0 */ PAUSE_S6_0,
+    /* 1 */ PAUSE_S6_1,
+    /* 2 */ PAUSE_S6_2,
+    /* 3 */ PAUSE_S6_3,
+    /* 4 */ PAUSE_S6_4,
+    /* 5 */ PAUSE_S6_5_PLAYING_SONG_,
+    /* 6 */ PAUSE_S6_6,
+    /* 7 */ PAUSE_S6_7,
+    /* 8 */ PAUSE_S6_8,
+    /* 9 */ PAUSE_S6_9
 } PauseCtxUnk1E4;
 
 typedef enum {
