@@ -424,8 +424,8 @@ void EnPoField_WaitForSpawn(EnPoField* this, PlayState* play) {
                 this->actor.world.pos.x = Math_SinS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.x;
                 this->actor.world.pos.z = Math_CosS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.z;
                 this->actor.world.pos.y = player->actor.world.pos.y + 1000.0f;
-                this->actor.world.pos.y = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId,
-                                                                      &this->actor, &this->actor.world.pos);
+                this->actor.world.pos.y = BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId,
+                                                                     &this->actor, &this->actor.world.pos);
                 if (this->actor.world.pos.y != BGCHECK_Y_MIN) {
                     this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &player->actor);
                     EnPoField_SetupAppear(this);

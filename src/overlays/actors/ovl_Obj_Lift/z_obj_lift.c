@@ -189,13 +189,13 @@ void func_80B967C0(ObjLift* this) {
 void func_80B96840(ObjLift* this, PlayState* play) {
     s32 pad;
     s32 bgId;
-    Vec3f sp2C;
+    Vec3f pos;
 
     Actor_MoveForward(&this->dyna.actor);
-    Math_Vec3f_Copy(&sp2C, &this->dyna.actor.prevPos);
-    sp2C.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
+    Math_Vec3f_Copy(&pos, &this->dyna.actor.prevPos);
+    pos.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
     this->dyna.actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &sp2C);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
 
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >=
         (sMaxFallDistances[(this->dyna.actor.params >> 1) & 1] - 0.001f)) {

@@ -162,7 +162,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
     f32 actorScale;
     PlayState* play = play2;
     EnWood02* this = (EnWood02*)thisx;
-    CollisionPoly* outPoly;
+    CollisionPoly* poly;
     s32 bgId;
     f32 floorY;
     s16 extraRot;
@@ -280,7 +280,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
 
         // Snap to floor, or remove if over void
         this->actor.world.pos.y += 200.0f;
-        floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &outPoly, &bgId, &this->actor, &this->actor.world.pos);
+        floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &poly, &bgId, &this->actor, &this->actor.world.pos);
 
         if (floorY > BGCHECK_Y_MIN) {
             this->actor.world.pos.y = floorY;

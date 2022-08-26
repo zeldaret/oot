@@ -39,11 +39,11 @@ s32 OnePointCutscene_BgCheckLineTest(CollisionContext* colCtx, Vec3f* vec1, Vec3
     return BgCheck_CameraLineTest1(colCtx, vec1, vec2, &posResult, &outPoly, true, true, true, false, &bgId);
 }
 
-f32 OnePointCutscene_RaycastFloor(CollisionContext* colCtx, Vec3f* pos) {
+f32 OnePointCutscene_RaycastDown(CollisionContext* colCtx, Vec3f* pos) {
     CollisionPoly* outPoly;
     s32 bgId;
 
-    return BgCheck_EntityRaycastFloor3(colCtx, &outPoly, &bgId, pos);
+    return BgCheck_EntityRaycastDown3(colCtx, &outPoly, &bgId, pos);
 }
 
 void OnePointCutscene_SetCsCamPoints(Camera* camera, s16 actionParameters, s16 initTimer, CutsceneCameraPoint* atPoints,
@@ -292,7 +292,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         case 4500:
             Actor_GetFocus(&spA0, actor);
             spC0 = spA0.pos;
-            spC0.y = OnePointCutscene_RaycastFloor(&play->colCtx, &spC0) + 40.0f;
+            spC0.y = OnePointCutscene_RaycastDown(&play->colCtx, &spC0) + 40.0f;
             spD0.r = 150.0f;
             spD0.yaw = spA0.rot.y;
             spD0.pitch = 0x3E8;

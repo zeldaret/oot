@@ -557,15 +557,15 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, PlayState* play) {
 
 void func_80A6C8E0(EnHorseNormal* this, PlayState* play) {
     s32 pad;
-    CollisionPoly* sp38;
+    CollisionPoly* groundPoly;
     s32 pad2;
-    Vec3f sp28;
-    s32 sp24;
+    Vec3f checkPos;
+    s32 bgId;
 
-    sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
-    sp28.y = this->actor.world.pos.y + 60.0f;
-    sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
-    this->unk_220 = BgCheck_EntityRaycastFloor3(&play->colCtx, &sp38, &sp24, &sp28);
+    checkPos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 60.0f;
+    checkPos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
+    this->unk_220 = BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &checkPos);
     this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_220, 30.0f));
 }
 
