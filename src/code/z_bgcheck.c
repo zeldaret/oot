@@ -51,9 +51,8 @@ void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 #define BGCHECK_RAYCAST_DOWN_CHECK_CEILINGS (1 << 0)
 #define BGCHECK_RAYCAST_DOWN_CHECK_WALLS (1 << 1)
 #define BGCHECK_RAYCAST_DOWN_CHECK_FLOORS (1 << 2)
-#define BGCHECK_RAYCAST_DOWN_CHECK_WALLS_SIMPLE \
-    (1 << 3) // skips checking dyna walls after a candidate result poly is found
-#define BGCHECK_RAYCAST_DOWN_CHECK_GROUND_ONLY (1 << 4) // skips walls and ceilings with normal.y < 0
+#define BGCHECK_RAYCAST_DOWN_CHECK_WALLS_SIMPLE (1 << 3) // stops checking dyna walls on finding first candidate result
+#define BGCHECK_RAYCAST_DOWN_CHECK_GROUND_ONLY (1 << 4)  // skips walls and ceilings with normal.y < 0
 
 // raycast down groundChk flag. When enabled, search range is limited to floors and walls with a normal.y >= 0
 #define BGCHECK_GROUND_CHECK_ON 1
