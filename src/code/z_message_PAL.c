@@ -3097,7 +3097,7 @@ void Message_Update(PlayState* play) {
                 if (D_8014B2F4 >= 4) {
                     var = true;
                 }
-            } else if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneNum == SCENE_HAIRAL_NIWA) {
+            } else if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneId == SCENE_HAIRAL_NIWA) {
                 var = true;
             } else if (D_8014B2F4 >= 4 || msgCtx->talkActor == NULL) {
                 var = true;
@@ -3123,14 +3123,14 @@ void Message_Update(PlayState* play) {
                 var = msgCtx->textBoxType;
 
                 if (!msgCtx->textBoxPos) { // variable position
-                    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneNum == SCENE_HAIRAL_NIWA) {
+                    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneId == SCENE_HAIRAL_NIWA) {
                         if (averageY < XREG(92)) {
                             R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {
                             R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
                         }
-                    } else if (play->sceneNum == SCENE_MARKET_DAY || play->sceneNum == SCENE_MARKET_NIGHT ||
-                               play->sceneNum == SCENE_MARKET_RUINS) {
+                    } else if (play->sceneId == SCENE_MARKET_DAY || play->sceneId == SCENE_MARKET_NIGHT ||
+                               play->sceneId == SCENE_MARKET_RUINS) {
                         if (averageY < XREG(93)) {
                             R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {

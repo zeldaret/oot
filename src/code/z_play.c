@@ -13,7 +13,7 @@ FaultClient D_801614B8;
 s16 sTransitionFillTimer;
 u64 D_801614D0[0xA00];
 
-void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
+void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
 // This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
 // For example, it can be used to trace the play state execution at a high level.
@@ -196,7 +196,7 @@ void Play_Destroy(GameState* thisx) {
         this->transitionMode = TRANS_MODE_OFF;
     }
 
-    ShrinkWindow_Destroy();
+    Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFade);
     VisMono_Destroy(&D_80161498);
 
@@ -206,7 +206,7 @@ void Play_Destroy(GameState* thisx) {
     }
 
     func_80031C3C(&this->actorCtx, this);
-    func_80110990(this);
+    Interface_Destroy(this);
     KaleidoScopeCall_Destroy(this);
     KaleidoManager_Destroy();
     ZeldaArena_Cleanup();
@@ -305,7 +305,7 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = gSaveContext.sceneLayer;
 
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && !LINK_IS_ADULT &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT &&
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -313,20 +313,21 @@ void Play_Init(GameState* thisx) {
         } else {
             gSaveContext.sceneLayer = 0;
         }
-    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
+    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT04) && LINK_IS_ADULT &&
                !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
     Play_SpawnScene(this,
-                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].scene,
+                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
                     gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
 
     osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneLayer);
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) && gSaveContext.sceneLayer == 6) {
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT09) &&
+        gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
         osSyncPrintf("出戻り？\n"); // "Return?"
@@ -334,7 +335,7 @@ void Play_Init(GameState* thisx) {
 
     Cutscene_HandleEntranceTriggers(this);
     KaleidoScopeCall_Init(this);
-    func_801109B0(this);
+    Interface_Init(this);
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
         if (gSaveContext.nextDayTime == NEXT_TIME_DAY) {
@@ -382,7 +383,7 @@ void Play_Init(GameState* thisx) {
         this->transitionType = TRANS_TYPE_FADE_BLACK_SLOW;
     }
 
-    ShrinkWindow_Init();
+    Letterbox_Init();
     TransitionFade_Init(&this->transitionFade);
     TransitionFade_SetType(&this->transitionFade, 3);
     TransitionFade_SetColor(&this->transitionFade, RGBA8(160, 160, 160, 255));
@@ -961,7 +962,7 @@ void Play_Update(PlayState* this) {
             SfxSource_UpdateAll(this);
 
             PLAY_LOG(3777);
-            ShrinkWindow_Update(R_UPDATE_RATE);
+            Letterbox_Update(R_UPDATE_RATE);
 
             PLAY_LOG(3783);
             TransitionFade_Update(&this->transitionFade, R_UPDATE_RATE);
@@ -1043,7 +1044,7 @@ void Play_Draw(PlayState* this) {
     gSPSegment(POLY_XLU_DISP++, 0x02, this->sceneSegment);
     gSPSegment(OVERLAY_DISP++, 0x02, this->sceneSegment);
 
-    func_80095248(gfxCtx, 0, 0, 0);
+    Gfx_SetupFrame(gfxCtx, 0, 0, 0);
 
     if ((HREG(80) != 10) || (HREG(82) != 0)) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
@@ -1415,12 +1416,12 @@ void Play_InitScene(PlayState* this, s32 spawn) {
     Play_InitEnvironment(this, this->skyboxId);
 }
 
-void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn) {
-    SceneTableEntry* scene = &gSceneTable[sceneNum];
+void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
+    SceneTableEntry* scene = &gSceneTable[sceneId];
 
     scene->unk_13 = 0;
     this->loadedScene = scene;
-    this->sceneNum = sceneNum;
+    this->sceneId = sceneId;
     this->sceneDrawConfig = scene->drawConfig;
 
     osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
@@ -1662,7 +1663,7 @@ s16 func_800C09D8(PlayState* this, s16 camId, s16 arg2) {
 }
 
 void Play_SaveSceneFlags(PlayState* this) {
-    SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[this->sceneNum];
+    SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[this->sceneId];
 
     savedSceneFlags->chest = this->actorCtx.flags.chest;
     savedSceneFlags->swch = this->actorCtx.flags.swch;
@@ -1688,7 +1689,7 @@ void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams) 
     s32 entranceIndex;
     s8 roomIndex;
 
-    if ((this->sceneNum != SCENE_YOUSEI_IZUMI_TATE) && (this->sceneNum != SCENE_KAKUSIANA)) {
+    if ((this->sceneId != SCENE_YOUSEI_IZUMI_TATE) && (this->sceneId != SCENE_KAKUSIANA)) {
         roomIndex = this->roomCtx.curRoom.num;
         entranceIndex = gSaveContext.entranceIndex;
         Play_SetRespawnData(this, respawnMode, entranceIndex, roomIndex, playerParams, &player->actor.world.pos,
@@ -1709,8 +1710,8 @@ void Play_LoadToLastEntrance(PlayState* this) {
     gSaveContext.respawnFlag = -1;
     this->transitionTrigger = TRANS_TRIGGER_START;
 
-    if ((this->sceneNum == SCENE_GANON_SONOGO) || (this->sceneNum == SCENE_GANON_FINAL) ||
-        (this->sceneNum == SCENE_GANONTIKA_SONOGO) || (this->sceneNum == SCENE_GANON_DEMO)) {
+    if ((this->sceneId == SCENE_GANON_SONOGO) || (this->sceneId == SCENE_GANON_FINAL) ||
+        (this->sceneId == SCENE_GANONTIKA_SONOGO) || (this->sceneId == SCENE_GANON_DEMO)) {
         this->nextEntranceIndex = ENTR_GANON_FINAL_0;
         Item_Give(this, ITEM_SWORD_MASTER);
     } else if ((gSaveContext.entranceIndex == ENTR_SPOT00_11) || (gSaveContext.entranceIndex == ENTR_SPOT00_12) ||
@@ -1733,7 +1734,7 @@ s32 Play_CamIsNotFixed(PlayState* this) {
     // but the room shape type check handles all shop cases regardless
     return (this->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_PRERENDER) &&
            (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneNum != SCENE_HAIRAL_NIWA);
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_HAIRAL_NIWA);
 }
 
 s32 FrameAdvance_IsEnabled(PlayState* this) {
