@@ -2972,7 +2972,7 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
         }
 
         OnePointCutscene_Init(play, 9806, cond ? 120 : 60, &this->actor, CAM_ID_MAIN);
-        ShrinkWindow_SetVal(0x20);
+        Letterbox_SetSizeTarget(32);
     }
 }
 

@@ -329,7 +329,7 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
     player->linearVelocity = playerx->speedXZ = 0.0f;
 
     EnZl4_SetActiveCamMove(play, 5);
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
     Interface_ChangeAlpha(2);
     this->talkTimer2 = 0;
     return true;
@@ -1151,7 +1151,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             Audio_PlayFanfare(NA_BGM_APPEAR);
             EnZl4_SetActiveCamDir(play, 0);
             Interface_ChangeAlpha(2);
-            ShrinkWindow_SetVal(0x20);
+            Letterbox_SetSizeTarget(32);
             this->talkState = 0;
             this->csState++;
             break;

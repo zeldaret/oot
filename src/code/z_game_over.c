@@ -102,7 +102,7 @@ void GameOver_Update(PlayState* play) {
             gameOverCtx->state++;
             gGameOverTimer = 0;
             Environment_InitGameOverLights(play);
-            ShrinkWindow_SetVal(0x20);
+            Letterbox_SetSizeTarget(32);
             return;
 
         case GAMEOVER_REVIVE_RUMBLE:
