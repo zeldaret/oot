@@ -2764,7 +2764,7 @@ void Interface_DrawItemButtons(PlayState* play) {
                         G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(3) << 1, R_ITEM_BTN_DD(3) << 1);
 
     if ((pauseCtx->state < PAUSECTX_STATE_8) /* PAUSECTX_STATE_0, PAUSECTX_STATE_1, PAUSECTX_STATE_2, PAUSECTX_STATE_3,
-                                 PAUSECTX_STATE_4, PAUSECTX_STATE_5, PAUSECTX_STATE_6, PAUSECTX_STATE_7 */
+                                 PAUSECTX_STATE_4, PAUSECTX_STATE_5, PAUSECTX_STATE_6, PAUSECTX_STATE_7_SAVE_PROMPT_ */
         || (pauseCtx->state >= PAUSECTX_STATE_18_FLIP_PAGES_AND_UNPAUSE) /* PAUSECTX_STATE_18_FLIP_PAGES_AND_UNPAUSE, PAUSECTX_STATE_19_UNPAUSE */) {
         if ((play->pauseCtx.state != 0) || (play->pauseCtx.debugState != 0)) {
             // Start Button Texture, Color & Label

@@ -741,7 +741,7 @@ typedef enum {
     /*  4 */ PAUSECTX_STATE_4,
     /*  5 */ PAUSECTX_STATE_5,
     /*  6 */ PAUSECTX_STATE_6,  // listen to inputs
-    /*  7 */ PAUSECTX_STATE_7,  //                                     save
+    /*  7 */ PAUSECTX_STATE_7_SAVE_PROMPT_,  //                                     save
     /*  8 */ PAUSECTX_STATE_8,  //                                     saveGameOver
     /*  9 */ PAUSECTX_STATE_9,  //                                     saveGameOver
     /* 10 */ PAUSECTX_STATE_10, // game over                           saveGameOver
@@ -757,16 +757,16 @@ typedef enum {
 } PauseCtxState;
 
 typedef enum {
-    /* 0 */ PAUSE_S6_0,
+    /* 0 */ PAUSE_S6_0_IDLE_,
     /* 1 */ PAUSE_S6_1,
-    /* 2 */ PAUSE_S6_2,
+    /* 2 */ PAUSE_S6_2_PLAYBACK_SONG_,
     /* 3 */ PAUSE_S6_3,
-    /* 4 */ PAUSE_S6_4,
-    /* 5 */ PAUSE_S6_5_PLAYING_SONG_,
+    /* 4 */ PAUSE_S6_4_PLAYER_PLAYING_SONG_INIT_,
+    /* 5 */ PAUSE_S6_5_PLAYER_PLAYING_SONG_,
     /* 6 */ PAUSE_S6_6,
     /* 7 */ PAUSE_S6_7,
-    /* 8 */ PAUSE_S6_8,
-    /* 9 */ PAUSE_S6_9
+    /* 8 */ PAUSE_S6_8_PLAYBACK_SONG_READY_,
+    /* 9 */ PAUSE_S6_9_PLAYBACK_SONG_START_
 } PauseCtxUnk1E4;
 
 typedef enum {
@@ -807,7 +807,7 @@ typedef struct {
     /* 0x01D4 */ u16    state;
     /* 0x01D6 */ u16    debugState;
     /* 0x01D8 */ Vec3f  eye;
-    /* 0x01E4 */ u16    unk_1E4;
+    /* 0x01E4 */ u16    unk_1E4_ps6_;
     /* 0x01E6 */ u16    mode;
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    unk_1EA;

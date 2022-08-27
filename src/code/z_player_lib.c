@@ -1448,7 +1448,6 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&sZeroVec, sCurBodyPartPos);
     }
 
-
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF sp14C;
         Actor* hookedActor;

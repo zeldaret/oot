@@ -70,7 +70,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
     pauseCtx->unk_1EA = 0;
-    pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0;
+    pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0_IDLE_;
     pauseCtx->mode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
 
