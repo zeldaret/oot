@@ -12,19 +12,6 @@ u8 D_8016E348[4];
 u32 sAudioSeqCmds[0x100];
 unk_D_8016E750 D_8016E750[4];
 
-u8 sSeqCmdWrPos = 0;
-u8 sSeqCmdRdPos = 0;
-u8 D_80133408 = 0;
-u8 D_8013340C = 1;
-u8 sSoundModeList[] = {
-    SOUNDMODE_STEREO,
-    SOUNDMODE_HEADSET,
-    SOUNDMODE_SURROUND,
-    SOUNDMODE_MONO,
-};
-u8 gAudioSpecId = 0;
-u8 D_80133418 = 0;
-
 // TODO: clean up these macros. They are similar to ones in code_800EC960.c but without casts.
 #define Audio_StartSeq(playerIdx, fadeTimer, seqId) \
     Audio_QueueSeqCmd(0x00000000 | ((playerIdx) << 24) | ((fadeTimer) << 16) | (seqId))
@@ -122,8 +109,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     f32 freqScale;
 
     if (D_8013340C && (cmd & 0xF0000000) != 0x70000000) {
-        AudioDebug_ScrPrt((const s8*)D_80133390, (cmd >> 16) & 0xFFFF); // "SEQ H"
-        AudioDebug_ScrPrt((const s8*)D_80133398, cmd & 0xFFFF);         // "    L"
+        AudioDebug_ScrPrt("SEQ H", (cmd >> 16) & 0xFFFF);
+        AudioDebug_ScrPrt("    L", cmd & 0xFFFF);
     }
 
     op = cmd >> 28;
@@ -347,7 +334,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             switch (subOp) {
                 case 0:
                     // set sound mode
-                    Audio_QueueCmdS32(0xF0000000, sSoundModeList[val]);
+                    Audio_QueueCmdS32(0xF0000000, gSoundModeList[val]);
                     break;
                 case 1:
                     // set sequence starting disabled?
@@ -370,12 +357,12 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 }
 
 void Audio_QueueSeqCmd(u32 cmd) {
-    sAudioSeqCmds[sSeqCmdWrPos++] = cmd;
+    sAudioSeqCmds[gSeqCmdWrPos++] = cmd;
 }
 
 void Audio_ProcessSeqCmds(void) {
-    while (sSeqCmdWrPos != sSeqCmdRdPos) {
-        Audio_ProcessSeqCmd(sAudioSeqCmds[sSeqCmdRdPos++]);
+    while (gSeqCmdWrPos != gSeqCmdRdPos) {
+        Audio_ProcessSeqCmd(sAudioSeqCmds[gSeqCmdRdPos++]);
     }
 }
 
@@ -389,7 +376,7 @@ u16 func_800FA0B4(u8 playerIdx) {
 s32 func_800FA11C(u32 arg0, u32 arg1) {
     u8 i;
 
-    for (i = sSeqCmdRdPos; i != sSeqCmdWrPos; i++) {
+    for (i = gSeqCmdRdPos; i != gSeqCmdWrPos; i++) {
         if (arg0 == (sAudioSeqCmds[i] & arg1)) {
             return false;
         }

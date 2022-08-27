@@ -89,8 +89,8 @@ void func_80A693D0(EnHorseLinkChild* this) {
 
     if ((this->skin.skelAnime.curFrame > D_80A6AF5C[this->unk_1F0]) &&
         !((this->unk_1F0 == 0) && (this->skin.skelAnime.curFrame > D_80A6AF5C[1]))) {
-        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk_1F0++;
         if (this->unk_1F0 >= ARRAY_COUNT(D_80A6AF5C)) {
             this->unk_1F0 = 0;
@@ -103,15 +103,15 @@ void func_80A6948C(EnHorseLinkChild* this) {
         func_80A693D0(this);
     } else if (this->skin.skelAnime.curFrame == 0.0f) {
         if ((this->animationIdx == 3) || (this->animationIdx == 4)) {
-            Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (this->animationIdx == 1) {
             if (Rand_ZeroOne() > 0.5f) {
-                Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_GROAN, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_GROAN, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
-                Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
     }
@@ -162,9 +162,9 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     this->unk_1F0 = 0;
     this->eyeTexIndex = 0;
 
-    if (gSaveContext.sceneSetupIndex > 3) {
+    if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
-    } else if (play->sceneNum == SCENE_SPOT20) {
+    } else if (play->sceneId == SCENE_SPOT20) {
         if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {
             Actor_Kill(&this->actor);
             return;
@@ -352,14 +352,14 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
     if (gSaveContext.entranceIndex == ENTR_SPOT20_1) {
-        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
         return;
     }
 
     if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
-        ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
+        ((play->sceneId == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
         this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
@@ -444,8 +444,8 @@ void func_80A6A5A4(EnHorseLinkChild* this, PlayState* play) {
 
     if (DREG(53) != 0) {
         DREG(53) = 0;
-        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
     } else {
         this->actor.speedXZ = 0.0f;
@@ -559,7 +559,7 @@ void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 
-    if ((play->sceneNum == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
+    if ((play->sceneId == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
         this->actor.world.pos.z = -2400.0f;
     }
 

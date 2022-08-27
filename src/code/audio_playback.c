@@ -186,7 +186,7 @@ void Audio_ProcessNotes(void) {
                 playbackState->unk_04 = 1;
                 continue;
             } else if (playbackState->parentLayer->channel->seqPlayer->muted &&
-                       (playbackState->parentLayer->channel->muteBehavior & 0x40)) {
+                       (playbackState->parentLayer->channel->muteBehavior & MUTE_BEHAVIOR_STOP_NOTES)) {
                 // do nothing
             } else {
                 goto out;
@@ -277,7 +277,7 @@ void Audio_ProcessNotes(void) {
                 subAttrs.unk_16 = channel->unk_20;
                 bookOffset = channel->bookOffset & 0x7;
 
-                if (channel->seqPlayer->muted && (channel->muteBehavior & 8)) {
+                if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_3)) {
                     subAttrs.frequency = 0.0f;
                     subAttrs.velocity = 0.0f;
                 }
@@ -481,7 +481,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
 
             attrs->unk_6 = chan->unk_20;
             attrs->unk_4 = chan->unk_0F;
-            if (chan->seqPlayer->muted && (chan->muteBehavior & 8)) {
+            if (chan->seqPlayer->muted && (chan->muteBehavior & MUTE_BEHAVIOR_3)) {
                 note->noteSubEu.bitField0.finished = true;
             }
 
@@ -759,12 +759,12 @@ Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
 void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     s32 pad[3];
     s16 instId;
-    NotePlaybackState* playback = &note->playbackState;
+    NotePlaybackState* playbackState = &note->playbackState;
     NoteSubEu* sub = &note->noteSubEu;
 
     note->playbackState.prevParentLayer = NO_LAYER;
     note->playbackState.parentLayer = layer;
-    playback->priority = layer->channel->notePriority;
+    playbackState->priority = layer->channel->notePriority;
     layer->notePropertiesNeedInit = true;
     layer->bit3 = true;
     layer->note = note;
@@ -789,8 +789,8 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
         Audio_BuildSyntheticWave(note, layer, instId);
     }
 
-    playback->fontId = layer->channel->fontId;
-    playback->stereoHeadsetEffects = layer->channel->stereoHeadsetEffects;
+    playbackState->fontId = layer->channel->fontId;
+    playbackState->stereoHeadsetEffects = layer->channel->stereoHeadsetEffects;
     sub->bitField1.reverbIndex = layer->channel->reverbIndex & 3;
 }
 

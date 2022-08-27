@@ -149,7 +149,7 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, PlayState* play) {
         if (this->timer > 10) {
             BgJyaBombchuiwa_Break(this, play);
             BgJyaBombchuiwa_CleanUpAfterExplosion(this, play);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

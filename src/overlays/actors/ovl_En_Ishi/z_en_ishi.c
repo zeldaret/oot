@@ -51,9 +51,9 @@ static f32 D_80A7FA28[] = { 0.0f, 0.005f };
 // the sizes of these arrays are very large and take up way more space than it needs to.
 // coincidentally the sizes are the same as the ID for NA_SE_EV_ROCK_BROKEN, which may explain a mistake that could
 // have been made here
-static u16 sBreakSounds[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
+static u16 sBreakSfxIds[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
 
-static u8 sBreakSoundDurations[0x2852] = { 20, 40 };
+static u8 sBreakSfxDurations[0x2852] = { 20, 40 };
 
 static EnIshiEffectSpawnFunc sFragmentSpawnFuncs[] = { EnIshi_SpawnFragmentsSmall, EnIshi_SpawnFragmentsLarge };
 
@@ -345,21 +345,20 @@ void EnIshi_SetupWait(EnIshi* this) {
 }
 
 void EnIshi_Wait(EnIshi* this, PlayState* play) {
-    static u16 liftSounds[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
+    static u16 liftSfxIds[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
     s32 pad;
     s16 type = this->actor.params & 1;
 
     if (Actor_HasParent(&this->actor, play)) {
         EnIshi_SetupLiftedUp(this);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, liftSounds[type]);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, liftSfxIds[type]);
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, play);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
                this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
         EnIshi_DropCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSoundDurations[type],
-                                           sBreakSounds[type]);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSfxDurations[type], sBreakSfxIds[type]);
         sFragmentSpawnFuncs[type](this, play);
         sDustSpawnFuncs[type](this, play);
         Actor_Kill(&this->actor);
@@ -428,8 +427,8 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
         EnIshi_DropCollectible(this, play);
         sFragmentSpawnFuncs[type](this, play);
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSoundDurations[type],
-                                               sBreakSounds[type]);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSfxDurations[type],
+                                             sBreakSfxIds[type]);
             sDustSpawnFuncs[type](this, play);
         }
         if (type == ROCK_LARGE) {
@@ -459,7 +458,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
         this->actor.minVelocityY = -6.0f;
         sRotSpeedX >>= 2;
         sRotSpeedY >>= 2;
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
     }
     Math_StepToF(&this->actor.shape.yOffset, 0.0f, 2.0f);

@@ -264,7 +264,7 @@ s32 func_80A2F760(EnGb* this) {
 void func_80A2F7C0(EnGb* this) {
     Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
 }
 
@@ -389,7 +389,7 @@ void func_80A2FC70(EnGb* this, PlayState* play) {
         this->cagedSouls[0].unk_3 = 1;
         if (this->actionFunc) {}
         this->actionTimer = (s16)Rand_ZeroFloat(600.0f) + 600;
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
     }
 }
 
@@ -524,7 +524,7 @@ void EnGb_DrawCagedSouls(EnGb* this, PlayState* play) {
         s32 idx = this->cagedSouls[i].infoIdx;
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0,
                                     (u32)(sCagedSoulInfo[idx].timerMultiplier * this->frameTimer) % 512, 32, 128));
         gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sCagedSoulInfo[idx].texture));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, sCagedSoulInfo[idx].prim.r, sCagedSoulInfo[idx].prim.g,

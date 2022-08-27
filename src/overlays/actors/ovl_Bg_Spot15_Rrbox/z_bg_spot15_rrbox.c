@@ -95,7 +95,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, PlayState* play) {
     s16 rotY;
     Actor* actor = &this->dyna.actor;
 
-    if (play->sceneNum == SCENE_SOUKO) {
+    if (play->sceneId == SCENE_SOUKO) {
         return true;
     } else if (func_808B3A40(this, play)) {
         return false;
@@ -282,7 +282,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
     } else if (approxFResult) {
         player = GET_PLAYER(play);
         if (func_808B4010(this, play)) {
-            Audio_PlayActorSound2(actor, NA_SE_EV_WOOD_BOUND);
+            Audio_PlayActorSfx2(actor, NA_SE_EV_WOOD_BOUND);
         }
         if (func_808B3A40(this, play)) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -296,7 +296,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
         this->unk_168 = 10;
         func_808B4084(this, play);
     }
-    Audio_PlayActorSound2(actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    Audio_PlayActorSfx2(actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 void func_808B4380(BgSpot15Rrbox* this, PlayState* play) {
@@ -335,7 +335,7 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
     if ((floorHeight - actor->world.pos.y) >= -0.001f) {
         actor->world.pos.y = floorHeight;
         func_808B4084(this, play);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WOOD_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WOOD_BOUND);
     }
 }
 

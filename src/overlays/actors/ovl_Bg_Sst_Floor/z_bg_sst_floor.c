@@ -68,7 +68,7 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && (player->fallDistance > 1000.0f)) {
         this->dyna.actor.params = 1;
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
     }
 
     if (this->dyna.actor.params == BONGOFLOOR_HIT) {

@@ -53,7 +53,7 @@ void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
 }
 
 void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, PlayState* play) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
 }
 
 void func_808AAD3C(PlayState* play, Vec3f* vec, u32 arg2) {
@@ -300,16 +300,16 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gKakarikoWellArchCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (gSaveContext.sceneSetupIndex < 4) {
+    if (!IS_CUTSCENE_LAYER) {
         if (GET_EVENTCHKINF(EVENTCHKINF_54) && LINK_IS_ADULT) {
             Actor_Kill(&this->dyna.actor);
         } else {
             this->action = 0;
         }
-    } else if (gSaveContext.sceneSetupIndex == 4) {
+    } else if (gSaveContext.sceneLayer == 4) {
         this->action = 1;
         this->dyna.actor.shape.yOffset = -(kREG(10) + 1100.0f);
-    } else if (gSaveContext.sceneSetupIndex == 6) {
+    } else if (gSaveContext.sceneLayer == 6) {
         this->action = 0;
     } else {
         Actor_Kill(&this->dyna.actor);
