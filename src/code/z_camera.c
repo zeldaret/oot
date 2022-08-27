@@ -4042,7 +4042,7 @@ s32 Camera_Fixed3(Camera* camera) {
         *eye = *eyeNext;
         rwData->rot = bgCamFuncData->rot;
         rwData->fov = bgCamFuncData->fov;
-        rwData->prerenderOverrideBgCamIndex = bgCamFuncData->prerenderOverrideBgCamIndex;
+        rwData->roomImageOverrideBgCamIndex = bgCamFuncData->roomImageOverrideBgCamIndex;
         if (rwData->fov == -1) {
             rwData->fov = 6000;
         }
@@ -4061,9 +4061,9 @@ s32 Camera_Fixed3(Camera* camera) {
         camera->animState++;
     }
 
-    if (bgCamFuncData->prerenderOverrideBgCamIndex != rwData->prerenderOverrideBgCamIndex) {
-        osSyncPrintf("camera: position change %d \n", rwData->prerenderOverrideBgCamIndex);
-        rwData->prerenderOverrideBgCamIndex = bgCamFuncData->prerenderOverrideBgCamIndex;
+    if (bgCamFuncData->roomImageOverrideBgCamIndex != rwData->roomImageOverrideBgCamIndex) {
+        osSyncPrintf("camera: position change %d \n", rwData->roomImageOverrideBgCamIndex);
+        rwData->roomImageOverrideBgCamIndex = bgCamFuncData->roomImageOverrideBgCamIndex;
         rwData->updDirTimer = 5;
     }
 
@@ -6966,7 +6966,7 @@ void func_80057FC4(Camera* camera) {
     if (camera != &camera->play->mainCamera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
-    } else if (camera->play->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_PRERENDER) {
+    } else if (camera->play->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) {
         switch (camera->play->roomCtx.curRoom.behaviorType1) {
             case ROOM_BEHAVIOR_TYPE1_1:
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);

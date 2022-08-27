@@ -19,13 +19,13 @@ Gfx D_801270B0[] = {
 };
 
 void Room_DrawNormal(PlayState* play, Room* room, u32 flags);
-void Room_DrawPrerender(PlayState* play, Room* room, u32 flags);
+void Room_DrawImage(PlayState* play, Room* room, u32 flags);
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags);
 
 void (*sRoomDrawHandlers[ROOM_SHAPE_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
-    Room_DrawNormal,    // ROOM_SHAPE_TYPE_NORMAL
-    Room_DrawPrerender, // ROOM_SHAPE_TYPE_PRERENDER
-    Room_DrawCullable,  // ROOM_SHAPE_TYPE_CULLABLE
+    Room_DrawNormal,   // ROOM_SHAPE_TYPE_NORMAL
+    Room_DrawImage,    // ROOM_SHAPE_TYPE_IMAGE
+    Room_DrawCullable, // ROOM_SHAPE_TYPE_CULLABLE
 };
 
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
@@ -348,14 +348,14 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     *gfxP = gfx;
 }
 
-#define ROOM_PREREND_NODRAW_BACKGROUND (1 << 0)
-#define ROOM_PREREND_NODRAW_OPA (1 << 1)
-#define ROOM_PREREND_NODRAW_XLU (1 << 2)
+#define ROOM_IMAGE_NODRAW_BACKGROUND (1 << 0)
+#define ROOM_IMAGE_NODRAW_OPA (1 << 1)
+#define ROOM_IMAGE_NODRAW_XLU (1 << 2)
 
-void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
+void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    RoomShapePrerenderSingle* header;
+    RoomShapeImageSingle* header;
     RoomShapeDListsEntry* entry;
     u32 isFixedCamera;
     u32 drawBackground;
@@ -366,14 +366,12 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    header = &room->roomShape->prerenderSingle;
+    header = &room->roomShape->image.single;
     entry = SEGMENTED_TO_VIRTUAL(header->base.entry);
     drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (header->source != NULL) &&
-                     !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
-    drawOpa =
-        (flags & ROOM_DRAW_OPA) && (entry->opa != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_OPA);
-    drawXlu =
-        (flags & ROOM_DRAW_XLU) && (entry->xlu != NULL) && !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_XLU);
+                     !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_BACKGROUND);
+    drawOpa = (flags & ROOM_DRAW_OPA) && (entry->opa != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_OPA);
+    drawXlu = (flags & ROOM_DRAW_XLU) && (entry->xlu != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_XLU);
 
     if (drawOpa || drawBackground) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -413,18 +411,18 @@ void Room_DrawPrerenderSingle(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-RoomShapePrerenderMultiBackgroundEntry*
-Room_GetPrerenderMultiBackgroundEntry(RoomShapePrerenderMulti* roomShapePrerenderMulti, PlayState* play) {
+RoomShapeImageMultiBackgroundEntry* Room_GetImageMultiBackgroundEntry(RoomShapeImageMulti* roomShapeImageMulti,
+                                                                      PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
     s32 bgCamIndex = activeCam->bgCamIndex;
     s16 overrideBgCamIndex;
     Player* player;
-    RoomShapePrerenderMultiBackgroundEntry* backgroundEntry;
+    RoomShapeImageMultiBackgroundEntry* backgroundEntry;
     s32 i;
 
     // In mq debug vanilla scenes, overrideBgCamIndex is always -1 or the same as bgCamIndex
     overrideBgCamIndex = ((BgCamFuncData*)BgCheck_GetBgCamFuncDataImpl(&play->colCtx, bgCamIndex, BGCHECK_SCENE))
-                             ->prerenderOverrideBgCamIndex;
+                             ->roomImageOverrideBgCamIndex;
     if (overrideBgCamIndex >= 0) {
         bgCamIndex = overrideBgCamIndex;
     }
@@ -432,8 +430,8 @@ Room_GetPrerenderMultiBackgroundEntry(RoomShapePrerenderMulti* roomShapePrerende
     player = GET_PLAYER(play);
     player->actor.params = (player->actor.params & 0xFF00) | bgCamIndex;
 
-    backgroundEntry = SEGMENTED_TO_VIRTUAL(roomShapePrerenderMulti->backgrounds);
-    for (i = 0; i < roomShapePrerenderMulti->numBackgrounds; i++) {
+    backgroundEntry = SEGMENTED_TO_VIRTUAL(roomShapeImageMulti->backgrounds);
+    for (i = 0; i < roomShapeImageMulti->numBackgrounds; i++) {
         if (backgroundEntry->bgCamIndex == bgCamIndex) {
             return backgroundEntry;
         }
@@ -447,11 +445,11 @@ Room_GetPrerenderMultiBackgroundEntry(RoomShapePrerenderMulti* roomShapePrerende
     return NULL;
 }
 
-void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
+void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    RoomShapePrerenderMulti* header;
-    RoomShapePrerenderMultiBackgroundEntry* backgroundEntry;
+    RoomShapeImageMulti* header;
+    RoomShapeImageMultiBackgroundEntry* backgroundEntry;
     RoomShapeDListsEntry* dListsEntry;
     u32 isFixedCamera;
     u32 drawBackground;
@@ -462,17 +460,17 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    header = &room->roomShape->prerenderMulti;
+    header = &room->roomShape->image.multi;
     dListsEntry = SEGMENTED_TO_VIRTUAL(header->base.entry);
 
-    backgroundEntry = Room_GetPrerenderMultiBackgroundEntry(header, play);
+    backgroundEntry = Room_GetImageMultiBackgroundEntry(header, play);
 
     drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (backgroundEntry->source != NULL) &&
-                     !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_BACKGROUND);
-    drawOpa = (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) &&
-              !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_OPA);
-    drawXlu = (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) &&
-              !(R_ROOM_PREREND_NODRAW_FLAGS & ROOM_PREREND_NODRAW_XLU);
+                     !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_BACKGROUND);
+    drawOpa =
+        (flags & ROOM_DRAW_OPA) && (dListsEntry->opa != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_OPA);
+    drawXlu =
+        (flags & ROOM_DRAW_XLU) && (dListsEntry->xlu != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_XLU);
 
     if (drawOpa || drawBackground) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -513,13 +511,13 @@ void Room_DrawPrerenderMulti(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 819);
 }
 
-void Room_DrawPrerender(PlayState* play, Room* room, u32 flags) {
-    RoomShapePrerenderBase* header = &room->roomShape->prerenderBase;
+void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
+    RoomShapeImageBase* header = &room->roomShape->image.base;
 
-    if (header->format == ROOM_SHAPE_PRERENDER_FORMAT_SINGLE) {
-        Room_DrawPrerenderSingle(play, room, flags);
-    } else if (header->format == ROOM_SHAPE_PRERENDER_FORMAT_MULTI) {
-        Room_DrawPrerenderMulti(play, room, flags);
+    if (header->format == ROOM_SHAPE_IMAGE_FORMAT_SINGLE) {
+        Room_DrawImageSingle(play, room, flags);
+    } else if (header->format == ROOM_SHAPE_IMAGE_FORMAT_MULTI) {
+        Room_DrawImageMulti(play, room, flags);
     } else {
         LogUtils_HungupThread("../z_room.c", 841);
     }

@@ -62,7 +62,7 @@ typedef struct {
 
 typedef enum {
     /* 0 */ ROOM_SHAPE_TYPE_NORMAL,
-    /* 1 */ ROOM_SHAPE_TYPE_PRERENDER,
+    /* 1 */ ROOM_SHAPE_TYPE_IMAGE,
     /* 2 */ ROOM_SHAPE_TYPE_CULLABLE,
     /* 3 */ ROOM_SHAPE_TYPE_MAX
 } RoomShapeType;
@@ -84,18 +84,18 @@ typedef struct {
 } RoomShapeNormal; // size = 0x0C
 
 typedef enum {
-    /* 1 */ ROOM_SHAPE_PRERENDER_FORMAT_SINGLE = 1,
-    /* 2 */ ROOM_SHAPE_PRERENDER_FORMAT_MULTI
-} RoomShapePrerenderFormat;
+    /* 1 */ ROOM_SHAPE_IMAGE_FORMAT_SINGLE = 1,
+    /* 2 */ ROOM_SHAPE_IMAGE_FORMAT_MULTI
+} RoomShapeImageFormat;
 
 typedef struct {
     /* 0x00 */ RoomShapeBase base;
-    /* 0x01 */ u8    format; // RoomShapePrerenderFormat
+    /* 0x01 */ u8    format; // RoomShapeImageFormat
     /* 0x04 */ RoomShapeDListsEntry* entry;
-} RoomShapePrerenderBase; // size = 0x08
+} RoomShapeImageBase; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ RoomShapePrerenderBase base;
+    /* 0x00 */ RoomShapeImageBase base;
     /* 0x08 */ void* source;
     /* 0x0C */ u32   unk_0C;
     /* 0x10 */ void* tlut;
@@ -105,7 +105,7 @@ typedef struct {
     /* 0x19 */ u8    siz;
     /* 0x1A */ u16   tlutMode;
     /* 0x1C */ u16   tlutCount;
-} RoomShapePrerenderSingle; // size = 0x20
+} RoomShapeImageSingle; // size = 0x20
 
 typedef struct {
     /* 0x00 */ u16   unk_00;
@@ -119,13 +119,13 @@ typedef struct {
     /* 0x15 */ u8    siz;
     /* 0x16 */ u16   tlutMode;
     /* 0x18 */ u16   tlutCount;
-} RoomShapePrerenderMultiBackgroundEntry; // size = 0x1C
+} RoomShapeImageMultiBackgroundEntry; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ RoomShapePrerenderBase base;
+    /* 0x00 */ RoomShapeImageBase base;
     /* 0x08 */ u8    numBackgrounds;
-    /* 0x0C */ RoomShapePrerenderMultiBackgroundEntry* backgrounds;
-} RoomShapePrerenderMulti; // size = 0x10
+    /* 0x0C */ RoomShapeImageMultiBackgroundEntry* backgrounds;
+} RoomShapeImageMulti; // size = 0x10
 
 typedef struct {
     /* 0x00 */ Vec3s boundsSphereCenter;
@@ -146,18 +146,20 @@ typedef struct {
 typedef union {
     RoomShapeBase base;
     RoomShapeNormal normal;
-    RoomShapePrerenderBase prerenderBase;
-    RoomShapePrerenderSingle prerenderSingle;
-    RoomShapePrerenderMulti prerenderMulti;
+    union {
+        RoomShapeImageBase base;
+        RoomShapeImageSingle single;
+        RoomShapeImageMulti multi;
+    } image;
     RoomShapeCullable cullable;
 } RoomShape; // "Ground Shape"
 
 // TODO update ZAPD
 typedef RoomShapeDListsEntry PolygonDlist;
 typedef RoomShapeNormal PolygonType0;
-typedef RoomShapePrerenderSingle MeshHeader1Single;
-typedef RoomShapePrerenderMultiBackgroundEntry BgImage;
-typedef RoomShapePrerenderMulti MeshHeader1Multi;
+typedef RoomShapeImageSingle MeshHeader1Single;
+typedef RoomShapeImageMultiBackgroundEntry BgImage;
+typedef RoomShapeImageMulti MeshHeader1Multi;
 typedef RoomShapeCullableEntry PolygonDlist2;
 typedef RoomShapeCullable PolygonType2;
 #define SCENE_CMD_MESH SCENE_CMD_ROOM_SHAPE
