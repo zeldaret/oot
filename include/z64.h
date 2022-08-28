@@ -74,6 +74,9 @@
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
 
+// Texture memory size, 4 KiB
+#define TMEM_SIZE 0x1000
+
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
