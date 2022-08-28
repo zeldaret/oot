@@ -5246,7 +5246,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         }
 
         case 2:
-            ShrinkWindow_SetVal(0x1B);
+            Letterbox_SetSizeTarget(27);
 
             spFC.x = sLurePos.x - player->actor.world.pos.x;
             spFC.z = sLurePos.z - player->actor.world.pos.z;
