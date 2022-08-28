@@ -244,8 +244,8 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     gSPDisplayList(WORK_DISP++, gfx);
 
     PreRender_SetValues(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, fbuf, NULL);
-    func_800C1F20(&sPlayerPreRender, &gfx);
-    func_800C20B4(&sPlayerPreRender, &gfx);
+    PreRender_SaveFramebuffer(&sPlayerPreRender, &gfx);
+    PreRender_DrawCoverage(&sPlayerPreRender, &gfx);
 
     gSPEndDisplayList(gfx++);
     Graph_BranchDlist(gfxRef, gfx);
@@ -258,7 +258,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
 
 void KaleidoScope_ProcessPlayerPreRender(void) {
     Sleep_Msec(50);
-    PreRender_Calc(&sPlayerPreRender);
+    PreRender_ApplyFilters(&sPlayerPreRender);
     PreRender_Destroy(&sPlayerPreRender);
 }
 
