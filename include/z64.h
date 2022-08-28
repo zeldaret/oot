@@ -758,14 +758,14 @@ typedef enum {
 
 typedef enum {
     /* 0 */ PAUSE_S6_0_IDLE_,
-    /* 1 */ PAUSE_S6_1,
+    /* 1 */ PAUSE_S6_1_SWITCH_PAGE_,
     /* 2 */ PAUSE_S6_2_PLAYBACK_SONG_,
     /* 3 */ PAUSE_S6_3,
     /* 4 */ PAUSE_S6_4_PLAYER_PLAYING_SONG_INIT_,
     /* 5 */ PAUSE_S6_5_PLAYER_PLAYING_SONG_,
-    /* 6 */ PAUSE_S6_6,
+    /* 6 */ PAUSE_S6_6_PLAYER_PLAYING_SONG_DONE_,
     /* 7 */ PAUSE_S6_7,
-    /* 8 */ PAUSE_S6_8_PLAYBACK_SONG_READY_,
+    /* 8 */ PAUSE_S6_8_IDLE_CURSOR_ON_SONG_,
     /* 9 */ PAUSE_S6_9_PLAYBACK_SONG_START_
 } PauseCtxUnk1E4;
 
@@ -818,7 +818,7 @@ typedef struct {
     /* 0x01E4 */ u16    unk_1E4_ps6_;
     /* 0x01E6 */ u16    mode;
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16    unk_1EA;
+    /* 0x01EA */ u16    unk_1EA_PageSwitchTimer__;
     /* 0x01EC */ u16    unk_1EC_ps7_;
     /* 0x01F0 */ f32    savePromptOffsetDepth_unk_1F0;
     /* 0x01F4 */ f32    rollRotPageItem;

@@ -2914,7 +2914,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
 
                     if (1) {}
                     if (sOcarinaButtonAlphaValues[i] != 255) {
-                        sOcarinaButtonAlphaValues[i] += VREG(50);
+                        sOcarinaButtonAlphaValues[i] += R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP;
                         if (sOcarinaButtonAlphaValues[i] >= 255) {
                             sOcarinaButtonAlphaValues[i] = 255;
                         }

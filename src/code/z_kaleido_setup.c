@@ -29,8 +29,9 @@ void KaleidoSetup_Update(PlayState* play) {
             R_PAUSE_CURSOR_LEFT_X = -175;
             R_PAUSE_CURSOR_RIGHT_X = 155;
 
-            pauseCtx->unk_1EA = 0;
-            pauseCtx->unk_1E4_ps6_ = PAUSE_S6_1;
+            pauseCtx->unk_1EA_PageSwitchTimer__ = 0;
+            pauseCtx->unk_1E4_ps6_ =
+                PAUSE_S6_1_SWITCH_PAGE_; // irrelevant? reset in PAUSE_STATE_1 by KaleidoScopeCall_Update
 
             if (ZREG(48) == 0) {
                 pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
@@ -69,7 +70,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->state = PAUSE_STATE_0;
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
-    pauseCtx->unk_1EA = 0;
+    pauseCtx->unk_1EA_PageSwitchTimer__ = 0;
     pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0_IDLE_;
     pauseCtx->mode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
