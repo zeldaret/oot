@@ -178,7 +178,7 @@ void Play_Destroy(GameState* thisx) {
     this->state.gfxCtx->callbackParam = 0;
 
     SREG(91) = 0;
-    R_PAUSE_MENU_MODE = 0;
+    R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
 
     PreRender_Destroy(&this->pauseBgPreRender);
     Effect_DeleteAll(this);
@@ -355,7 +355,7 @@ void Play_Init(GameState* thisx) {
     }
 
     SREG(91) = -1;
-    R_PAUSE_MENU_MODE = 0;
+    R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
     PreRender_Init(&this->pauseBgPreRender);
     PreRender_SetValuesSave(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0);
     PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
@@ -838,7 +838,7 @@ void Play_Update(PlayState* this) {
             }
 
             PLAY_LOG(3551);
-            sp80 = (this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0);
+            sp80 = (this->pauseCtx.state != PAUSE_STATE_0) || (this->pauseCtx.debugState != 0);
 
             PLAY_LOG(3555);
             AnimationContext_Reset(&this->animationCtx);
@@ -915,7 +915,7 @@ void Play_Update(PlayState* this) {
 
             if (this->viewpoint != VIEWPOINT_NONE) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
-                    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+                    if ((this->pauseCtx.state != PAUSE_STATE_0) || (this->pauseCtx.debugState != 0)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(this)) {
@@ -939,7 +939,7 @@ void Play_Update(PlayState* this) {
 
             PLAY_LOG(3716);
 
-            if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+            if ((this->pauseCtx.state != PAUSE_STATE_0) || (this->pauseCtx.debugState != 0)) {
                 PLAY_LOG(3721);
                 KaleidoScopeCall_Update(this);
             } else if (this->gameOverCtx.state != GAMEOVER_INACTIVE) {
@@ -1002,7 +1002,7 @@ skip:
 }
 
 void Play_DrawOverlayElements(PlayState* this) {
-    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+    if ((this->pauseCtx.state != PAUSE_STATE_0) || (this->pauseCtx.debugState != 0)) {
         KaleidoScopeCall_Draw(this);
     }
 
@@ -1110,15 +1110,15 @@ void Play_Draw(PlayState* this) {
         } else {
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
-            if (R_PAUSE_MENU_MODE == 2) {
+            if (R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_2) {
                 Sched_FlushTaskQueue();
                 PreRender_Calc(&this->pauseBgPreRender);
-                R_PAUSE_MENU_MODE = 3;
-            } else if (R_PAUSE_MENU_MODE >= 4) {
-                R_PAUSE_MENU_MODE = 0;
+                R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_3;
+            } else if (R_PAUSE_MENU_MODE >= PAUSE_MENU_REG_MODE_MAX) {
+                R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
             }
 
-            if (R_PAUSE_MENU_MODE == 3) {
+            if (R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_3) {
                 Gfx* sp84 = POLY_OPA_DISP;
 
                 func_800C24BC(&this->pauseBgPreRender, &sp84);
@@ -1233,16 +1233,16 @@ void Play_Draw(PlayState* this) {
                     DebugDisplay_DrawObjects(this);
                 }
 
-                if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
+                if ((R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = OVERLAY_DISP;
 
                     this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
                     func_800C1F20(&this->pauseBgPreRender, &sp70);
-                    if (R_PAUSE_MENU_MODE == 1) {
+                    if (R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_1) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
                         func_800C20B4(&this->pauseBgPreRender, &sp70);
-                        R_PAUSE_MENU_MODE = 2;
+                        R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_2;
                     } else {
                         gTrnsnUnkState = 2;
                     }

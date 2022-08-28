@@ -270,7 +270,7 @@ void func_80111070(void) {
     ZREG(10) = 200;
     ZREG(11) = 0;
     ZREG(12) = 200;
-    ZREG(13) = 0;
+    R_PAUSE_PAGE_CHANGE_FRAME_ADVANCE_ON = false;
     ZREG(14) = 110;
     ZREG(15) = 56;
     ZREG(16) = 1;
@@ -285,7 +285,7 @@ void func_80111070(void) {
     ZREG(25) = 4;
     ZREG(26) = 20;
     ZREG(27) = 10;
-    ZREG(28) = 20;
+    R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER = 20;
     ZREG(29) = 4;
     ZREG(30) = 20;
     ZREG(31) = 10;
@@ -430,8 +430,8 @@ void func_80111070(void) {
     XREG(93) = 100;
     XREG(94) = 160;
     XREG(95) = 200;
-    WREG(2) = -6080; // y offset of pause menu
-    WREG(3) = 9355;  // somehow, depth offset of pause menu (offset on distance to "center")
+    R_PAUSE_OFFSET_VERTICAL = -6080;
+    R_PAUSE_OFFSET_DEPTH = 9355;
     WREG(4) = 8;
     WREG(5) = 3;
     WREG(6) = 8;
@@ -444,9 +444,9 @@ void func_80111070(void) {
     WREG(13) = 22;
     WREG(14) = -380;
     WREG(15) = -350;
-    WREG(16) = -175;
-    WREG(17) = 155;
-    WREG(18) = 10;
+    R_PAUSE_CURSOR_LEFT_X = -175;
+    R_PAUSE_CURSOR_RIGHT_X = 155;
+    R_PAUSE_CURSOR_LEFT_RIGHT_Y = 10;
     WREG(19) = 10;
     WREG(20) = -50;
     WREG(21) = -54;

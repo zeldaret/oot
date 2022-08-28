@@ -734,26 +734,26 @@ typedef enum {
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
 typedef enum {
-    /*  0 */ PAUSECTX_STATE_0,
-    /*  1 */ PAUSECTX_STATE_1,
-    /*  2 */ PAUSECTX_STATE_2,
-    /*  3 */ PAUSECTX_STATE_3,
-    /*  4 */ PAUSECTX_STATE_4,
-    /*  5 */ PAUSECTX_STATE_5,
-    /*  6 */ PAUSECTX_STATE_6,  // listen to inputs
-    /*  7 */ PAUSECTX_STATE_7_SAVE_PROMPT_,  //                                     save
-    /*  8 */ PAUSECTX_STATE_8,  //                                     saveGameOver
-    /*  9 */ PAUSECTX_STATE_9,  //                                     saveGameOver
-    /* 10 */ PAUSECTX_STATE_10, // game over                           saveGameOver
-    /* 11 */ PAUSECTX_STATE_11, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 12 */ PAUSECTX_STATE_12, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 13 */ PAUSECTX_STATE_13, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 14 */ PAUSECTX_STATE_14, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 15 */ PAUSECTX_STATE_15, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 16 */ PAUSECTX_STATE_16, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 17 */ PAUSECTX_STATE_17, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 18 */ PAUSECTX_STATE_18_FLIP_PAGES_AND_UNPAUSE,
-    /* 19 */ PAUSECTX_STATE_19_UNPAUSE
+    /*  0 */ PAUSE_STATE_0,
+    /*  1 */ PAUSE_STATE_1,
+    /*  2 */ PAUSE_STATE_2,
+    /*  3 */ PAUSE_STATE_3,
+    /*  4 */ PAUSE_STATE_4,
+    /*  5 */ PAUSE_STATE_5,
+    /*  6 */ PAUSE_STATE_6,  // listen to inputs
+    /*  7 */ PAUSE_STATE_7_SAVE_PROMPT_,  //                                     save
+    /*  8 */ PAUSE_STATE_8,  //                                     saveGameOver
+    /*  9 */ PAUSE_STATE_9,  //                                     saveGameOver
+    /* 10 */ PAUSE_STATE_10, // game over                           saveGameOver
+    /* 11 */ PAUSE_STATE_11, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 12 */ PAUSE_STATE_12, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 13 */ PAUSE_STATE_13, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 14 */ PAUSE_STATE_14, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 15 */ PAUSE_STATE_15, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 16 */ PAUSE_STATE_16, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 17 */ PAUSE_STATE_17, // game over KaleidoScope_DrawGameOver saveGameOver
+    /* 18 */ PAUSE_STATE_18_FLIP_PAGES_AND_UNPAUSE,
+    /* 19 */ PAUSE_STATE_19_UNPAUSE
 } PauseCtxState;
 
 typedef enum {
@@ -770,14 +770,22 @@ typedef enum {
 } PauseCtxUnk1E4;
 
 typedef enum {
-    /* 0 */ PAUSECTX_UNK_1EC_0,
-    /* 1 */ PAUSECTX_UNK_1EC_1,
-    /* 2 */ PAUSECTX_UNK_1EC_2,
-    /* 3 */ PAUSECTX_UNK_1EC_3,
-    /* 4 */ PAUSECTX_UNK_1EC_4,
-    /* 5 */ PAUSECTX_UNK_1EC_5,
-    /* 6 */ PAUSECTX_UNK_1EC_6
+    /* 0 */ PAUSE_S7_0,
+    /* 1 */ PAUSE_S7_1,
+    /* 2 */ PAUSE_S7_2,
+    /* 3 */ PAUSE_S7_3,
+    /* 4 */ PAUSE_S7_4,
+    /* 5 */ PAUSE_S7_5,
+    /* 6 */ PAUSE_S7_6
 } PauseCtxUnk1EC;
+
+typedef enum {
+    /* 0 */ PAUSE_MENU_REG_MODE_0,
+    /* 1 */ PAUSE_MENU_REG_MODE_1,
+    /* 2 */ PAUSE_MENU_REG_MODE_2,
+    /* 3 */ PAUSE_MENU_REG_MODE_3,
+    /* 4 */ PAUSE_MENU_REG_MODE_MAX
+} PauseMenuRegMode;
 
 typedef struct {
     /* 0x0000 */ View   view;
@@ -811,13 +819,13 @@ typedef struct {
     /* 0x01E6 */ u16    mode;
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    unk_1EA;
-    /* 0x01EC */ u16    unk_1EC;
-    /* 0x01F0 */ f32    unk_1F0;
-    /* 0x01F4 */ f32    rotXpauseItem_unk_1F4;
-    /* 0x01F8 */ f32    rotPauseEquip_unk_1F8;
-    /* 0x01FC */ f32    rotPauseMap_unk_1FC;
-    /* 0x0200 */ f32    rotPauseQuest_unk_200;
-    /* 0x0204 */ f32    rotXorZ_unk_204; // "angle_s"
+    /* 0x01EC */ u16    unk_1EC_ps7_;
+    /* 0x01F0 */ f32    savePromptOffsetDepth_unk_1F0;
+    /* 0x01F4 */ f32    rollRotPageItem;
+    /* 0x01F8 */ f32    rollRotPageEquip;
+    /* 0x01FC */ f32    rollRotPageMap;
+    /* 0x0200 */ f32    rollRotPageQuest;
+    /* 0x0204 */ f32    rollRotSavePromptPage_unk_204; // "angle_s"
     /* 0x0208 */ u16    alpha;
     /* 0x020A */ s16    offsetY;
     /* 0x020C */ char   unk_20C[0x08];

@@ -92,7 +92,7 @@ void GameOver_Update(PlayState* play) {
             gGameOverTimer--;
 
             if (gGameOverTimer == 0) {
-                play->pauseCtx.state = 8;
+                play->pauseCtx.state = PAUSE_STATE_8;
                 gameOverCtx->state++;
                 func_800AA15C();
             }

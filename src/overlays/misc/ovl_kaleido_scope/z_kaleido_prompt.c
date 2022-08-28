@@ -8,8 +8,8 @@ void KaleidoScope_UpdatePrompt(PlayState* play) {
     s8 relStickX = input->rel.stick_x;
     s16 step;
 
-    if (((pauseCtx->state == PAUSECTX_STATE_7_SAVE_PROMPT_) && (pauseCtx->unk_1EC == PAUSECTX_UNK_1EC_1)) ||
-        (pauseCtx->state == PAUSECTX_STATE_14) || (pauseCtx->state == PAUSECTX_STATE_16)) {
+    if (((pauseCtx->state == PAUSE_STATE_7_SAVE_PROMPT_) && (pauseCtx->unk_1EC_ps7_ == PAUSE_S7_1)) ||
+        (pauseCtx->state == PAUSE_STATE_14) || (pauseCtx->state == PAUSE_STATE_16)) {
         if ((pauseCtx->promptChoice == 0) && (relStickX >= 30)) {
             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
