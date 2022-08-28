@@ -1,4 +1,5 @@
 <Root>
+    <!-- gBossGanondorfScene -->
     <File Name="ganon_boss_scene" Segment="2">
         <Scene Name="ganon_boss_scene" Offset="0x0"/>
     </File>
