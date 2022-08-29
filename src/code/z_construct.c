@@ -270,7 +270,7 @@ void func_80111070(void) {
     ZREG(10) = 200;
     ZREG(11) = 0;
     ZREG(12) = 200;
-    R_PAUSE_PAGE_CHANGE_FRAME_ADVANCE_ON = false;
+    R_PAUSE_SWITCH_PAGE_FRAME_ADVANCE_ON = false;
     ZREG(14) = 110;
     ZREG(15) = 56;
     ZREG(16) = 1;

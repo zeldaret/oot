@@ -82,7 +82,7 @@
 #define R_C_UP_ICON_X                            YREG(88)
 #define R_C_UP_ICON_Y                            YREG(89)
 #define R_MAGIC_FILL_COLOR(i)                    ZREG(0 + (i))
-#define R_PAUSE_PAGE_CHANGE_FRAME_ADVANCE_ON     ZREG(13)
+#define R_PAUSE_SWITCH_PAGE_FRAME_ADVANCE_ON     ZREG(13)
 #define R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER   ZREG(28)
 #define R_C_BTN_COLOR(i)                         ZREG(39 + (i))
 #define R_B_BTN_COLOR(i)                         ZREG(43 + (i))

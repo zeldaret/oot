@@ -103,7 +103,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     pauseCtx->cursorColorSet = 0;
     pauseCtx->nameColorSet = 0;
 
-    if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainSubState == PAUSE_MAIN_STATE_0_IDLE_) &&
+    if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE) &&
         (pauseCtx->pageIndex == PAUSE_ITEM)) {
         moveCursorResult = 0;
         oldCursorPoint = pauseCtx->cursorPoint[PAUSE_ITEM];
@@ -346,7 +346,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 KaleidoScope_SetCursorVtx(pauseCtx, index, pauseCtx->itemVtx);
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_MAIN) &&
-                    (pauseCtx->mainSubState == PAUSE_MAIN_STATE_0_IDLE_)) {
+                    (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE)) {
                     if (CHECK_BTN_ANY(input->press.button, BTN_CLEFT | BTN_CDOWN | BTN_CRIGHT)) {
                         if (((gSlotAgeReqs[cursorSlot] == 9) ||
                              (gSlotAgeReqs[cursorSlot] == ((void)0, gSaveContext.linkAge))) &&
@@ -434,7 +434,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
         if (gSaveContext.inventory.items[i] != ITEM_NONE) {
-            if ((pauseCtx->mainSubState == PAUSE_MAIN_STATE_0_IDLE_) && (pauseCtx->pageIndex == PAUSE_ITEM) &&
+            if ((pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE) && (pauseCtx->pageIndex == PAUSE_ITEM) &&
                 (pauseCtx->cursorSpecialPos == 0)) {
                 if ((gSlotAgeReqs[i] == 9) || (gSlotAgeReqs[i] == ((void)0, gSaveContext.linkAge))) {
                     if ((sEquipState == 2) && (i == 3)) {
@@ -804,7 +804,7 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                              gSaveContext.equips.cButtonSlots[2]);
             }
 
-            pauseCtx->mainSubState = PAUSE_MAIN_STATE_0_IDLE_;
+            pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
             sEquipMoveTimer = 10;
             WREG(90) = 320;
             WREG(87) = WREG(91);

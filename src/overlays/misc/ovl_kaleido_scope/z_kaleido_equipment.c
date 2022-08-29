@@ -150,7 +150,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         }
     }
 
-    if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainSubState == PAUSE_MAIN_STATE_0_IDLE_) &&
+    if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE) &&
         (pauseCtx->pageIndex == PAUSE_EQUIP)) {
         oldCursorPoint = pauseCtx->cursorPoint[PAUSE_EQUIP];
         pauseCtx->cursorColorSet = 0;
@@ -467,7 +467,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         KaleidoScope_SetCursorVtx(pauseCtx, cursorSlot * 4, pauseCtx->equipVtx);
 
         if ((pauseCtx->cursorSpecialPos == 0) && (cursorItem != PAUSE_ITEM_NONE) &&
-            (pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainSubState == PAUSE_MAIN_STATE_0_IDLE_) &&
+            (pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE) &&
             CHECK_BTN_ALL(input->press.button, BTN_A) && (pauseCtx->cursorX[PAUSE_EQUIP] != 0)) {
 
             if ((gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] == 9) ||
@@ -515,7 +515,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
         sEquipTimer--;
         if (sEquipTimer == 0) {
-            pauseCtx->mainSubState = PAUSE_MAIN_STATE_0_IDLE_;
+            pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
         }
     }
 
