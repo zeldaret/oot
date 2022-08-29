@@ -641,62 +641,55 @@ s16 func_80044ADC(Camera* camera, s16 yaw, s16 arg2) {
     return temp_s0 + temp_s1;
 }
 
-Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {
-    f32 sinPitch;
-    f32 cosPitch;
-    f32 sinYaw;
-    f32 cosYaw;
-    f32 sinNegRoll;
-    f32 cosNegRoll;
-    Vec3f spA4;
+/**
+ * Calculates a new Up vector from the pitch, yaw, roll
+ */
+Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16 roll) {
+    f32 sinP = Math_SinS(pitch);
+    f32 cosP = Math_CosS(pitch);
+    f32 sinY = Math_SinS(yaw);
+    f32 cosY = Math_CosS(yaw);
+    f32 sinR = Math_SinS(-roll);
+    f32 cosR = Math_CosS(-roll);
+    Vec3f up;
+    Vec3f baseUp;
+    Vec3f u;
+    Vec3f rollMtxRow1;
+    Vec3f rollMtxRow2;
+    Vec3f rollMtxRow3;
     f32 pad;
-    f32 sp54;
-    f32 sp4C;
-    f32 cosPitchCosYawSinRoll;
-    f32 negSinPitch;
-    f32 temp_f10_2;
-    f32 cosPitchcosYaw;
-    f32 temp_f14;
-    f32 negSinPitchSinYaw;
-    f32 negSinPitchCosYaw;
-    f32 cosPitchSinYaw;
-    f32 temp_f4_2;
-    f32 temp_f6;
-    f32 temp_f8;
-    f32 temp_f8_2;
-    f32 temp_f8_3;
 
-    sinPitch = Math_SinS(pitch);
-    cosPitch = Math_CosS(pitch);
-    sinYaw = Math_SinS(yaw);
-    cosYaw = Math_CosS(yaw);
-    negSinPitch = -sinPitch;
-    sinNegRoll = Math_SinS(-roll);
-    cosNegRoll = Math_CosS(-roll);
-    negSinPitchSinYaw = negSinPitch * sinYaw;
-    temp_f14 = 1.0f - cosNegRoll;
-    cosPitchSinYaw = cosPitch * sinYaw;
-    sp54 = SQ(cosPitchSinYaw);
-    sp4C = (cosPitchSinYaw * sinPitch) * temp_f14;
-    cosPitchcosYaw = cosPitch * cosYaw;
-    temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
-    cosPitchCosYawSinRoll = cosPitchcosYaw * sinNegRoll;
-    negSinPitchCosYaw = negSinPitch * cosYaw;
-    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * temp_f14;
-    temp_f10_2 = sinPitch * sinNegRoll;
-    spA4.x = ((negSinPitchSinYaw * temp_f4_2) + (cosPitch * (sp4C - cosPitchCosYawSinRoll))) +
-             (negSinPitchCosYaw * (temp_f6 + temp_f10_2));
-    sp54 = SQ(sinPitch);
-    temp_f4_2 = (sinPitch * cosPitchcosYaw) * temp_f14;
-    temp_f8_3 = cosPitchSinYaw * sinNegRoll;
-    temp_f8 = sp4C + cosPitchCosYawSinRoll;
-    spA4.y = ((negSinPitchSinYaw * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) +
-             (negSinPitchCosYaw * (temp_f4_2 - temp_f8_3));
-    temp_f8_2 = temp_f6 - temp_f10_2;
-    spA4.z = ((negSinPitchSinYaw * temp_f8_2) + (cosPitch * (temp_f4_2 + temp_f8_3))) +
-             (negSinPitchCosYaw * (((1.0f - SQ(cosPitchcosYaw)) * cosNegRoll) + SQ(cosPitchcosYaw)));
-    *dest = spA4;
-    return dest;
+    // Axis to roll around
+    u.x = cosP * sinY;
+    u.y = sinP;
+    u.z = cosP * cosY;
+
+    // Matrix to apply the roll to the Up vector without roll
+    rollMtxRow1.x = ((1.0f - SQ(u.x)) * cosR) + SQ(u.x);
+    rollMtxRow1.y = ((u.x * u.y) * (1.0f - cosR)) - (u.z * sinR);
+    rollMtxRow1.z = ((u.z * u.x) * (1.0f - cosR)) + (u.y * sinR);
+
+    rollMtxRow2.x = ((u.x * u.y) * (1.0f - cosR)) + (u.z * sinR);
+    rollMtxRow2.y = ((1.0f - SQ(u.y)) * cosR) + SQ(u.y);
+    rollMtxRow2.z = ((u.y * u.z) * (1.0f - cosR)) - (u.x * sinR);
+
+    rollMtxRow3.x = ((u.z * u.x) * (1.0f - cosR)) - (u.y * sinR);
+    rollMtxRow3.y = ((u.y * u.z) * (1.0f - cosR)) + (u.x * sinR);
+    rollMtxRow3.z = ((1.0f - SQ(u.z)) * cosR) + SQ(u.z);
+
+    // Up without roll
+    baseUp.x = -sinP * sinY;
+    baseUp.y = cosP;
+    baseUp.z = -sinP * cosY;
+
+    // rollMtx * baseUp
+    up.x = DOTXYZ(baseUp, rollMtxRow1);
+    up.y = DOTXYZ(baseUp, rollMtxRow2);
+    up.z = DOTXYZ(baseUp, rollMtxRow3);
+
+    *viewUp = up;
+
+    return viewUp;
 }
 
 f32 Camera_ClampLERPScale(Camera* camera, f32 maxLERPScale) {
