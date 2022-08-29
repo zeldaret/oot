@@ -432,9 +432,9 @@ void func_80111070(void) {
     XREG(95) = 200;
     R_PAUSE_OFFSET_VERTICAL = -6080;
     R_PAUSE_OFFSET_DEPTH = 9355;
-    WREG(4) = 8;
+    R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION = 8;
     WREG(5) = 3;
-    WREG(6) = 8;
+    R_PAUSE_UI_ANIMS_DURATION = 8;
     WREG(7) = 0;
     WREG(8) = 100;
     WREG(9) = 109;
@@ -453,8 +453,8 @@ void func_80111070(void) {
     WREG(22) = -32;
     WREG(23) = -38;
     WREG(24) = -36;
-    WREG(25) = 40;
-    WREG(26) = -40;
+    R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X = 40;
+    R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X = -40;
     WREG(27) = 0;
     WREG(28) = 0;
     R_OW_MINIMAP_X = 238;
@@ -497,8 +497,8 @@ void func_80111070(void) {
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;
-    WREG(88) = 70;
-    WREG(89) = 40;
+    R_PAUSE_NAME_DISPLAY_TIMER_MAX_ = 70;
+    R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_ = 40;
     WREG(90) = 320;
     WREG(91) = 40;
     WREG(92) = 3;

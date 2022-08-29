@@ -506,8 +506,8 @@ void Health_UpdateBeatingHeart(PlayState* play) {
         if (interfaceCtx->beatingHeartOscillator <= 0) {
             interfaceCtx->beatingHeartOscillator = 0;
             interfaceCtx->beatingHeartOscillatorDirection = 0;
-            if (!Player_InCsMode(play) && (play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0) &&
-                Health_IsCritical() && !Play_InCsMode(play)) {
+            if (!Player_InCsMode(play) && (play->pauseCtx.state == PAUSE_STATE_OFF) &&
+                (play->pauseCtx.debugState == 0) && Health_IsCritical() && !Play_InCsMode(play)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
         }

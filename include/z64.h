@@ -742,13 +742,13 @@ typedef enum {
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
 typedef enum {
-    /*  0 */ PAUSE_STATE_0,
-    /*  1 */ PAUSE_STATE_1,
-    /*  2 */ PAUSE_STATE_2,
-    /*  3 */ PAUSE_STATE_3,
-    /*  4 */ PAUSE_STATE_4,
-    /*  5 */ PAUSE_STATE_5,
-    /*  6 */ PAUSE_STATE_6,  // listen to inputs
+    /*  0 */ PAUSE_STATE_OFF,
+    /*  1 */ PAUSE_STATE_WAIT_LETTERBOX, // Request no letterboxing and wait for it.
+    /*  2 */ PAUSE_STATE_WAIT_BG_PRERENDER, // Wait for the pause background prerender to be done.
+    /*  3 */ PAUSE_STATE_INIT, // Load data and initialize/setup various things.
+    /*  4 */ PAUSE_STATE_OPENING_1, // Animate the pause menu coming together with rotations and other animations.
+    /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
+    /*  6 */ PAUSE_STATE_IDLE, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_7_SAVE_PROMPT_,  //                                     save
     /*  8 */ PAUSE_STATE_8,  //                                     saveGameOver
     /*  9 */ PAUSE_STATE_9,  //                                     saveGameOver
@@ -760,8 +760,8 @@ typedef enum {
     /* 15 */ PAUSE_STATE_15, // game over KaleidoScope_DrawGameOver saveGameOver
     /* 16 */ PAUSE_STATE_16, // game over KaleidoScope_DrawGameOver saveGameOver
     /* 17 */ PAUSE_STATE_17, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 18 */ PAUSE_STATE_18_FLIP_PAGES_AND_UNPAUSE,
-    /* 19 */ PAUSE_STATE_19_UNPAUSE
+    /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
+    /* 19 */ PAUSE_STATE_UNPAUSE
 } PauseCtxState;
 
 typedef enum {
@@ -826,7 +826,7 @@ typedef struct {
     /* 0x01E4 */ u16    unk_1E4_ps6_;
     /* 0x01E6 */ u16    mode;
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16    unk_1EA_PageSwitchTimer__;
+    /* 0x01EA */ u16    unk_1EA_OpenMenuAndPageSwitchTimer__;
     /* 0x01EC */ u16    unk_1EC_ps7_;
     /* 0x01F0 */ f32    savePromptOffsetDepth_unk_1F0;
     /* 0x01F4 */ f32    rollRotPageItem;

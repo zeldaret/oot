@@ -1,10 +1,20 @@
 #include "global.h"
 
-s16 sKaleidoSetupKscpPos0[] = { PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM, PAUSE_MAP };
+s16 sKaleidoSetupKscpPos0[] = {
+    PAUSE_QUEST, // PAUSE_ITEM
+    PAUSE_EQUIP, // PAUSE_MAP
+    PAUSE_ITEM,  // PAUSE_QUEST
+    PAUSE_MAP,   // PAUSE_EQUIP
+};
 f32 sKaleidoSetupEyeX0[] = { 0.0f, 64.0f, 0.0f, -64.0f };
 f32 sKaleidoSetupEyeZ0[] = { -64.0f, 0.0f, 64.0f, 0.0f };
 
-s16 sKaleidoSetupKscpPos1[] = { PAUSE_MAP, PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM };
+s16 sKaleidoSetupKscpPos1[] = {
+    PAUSE_MAP,   // PAUSE_ITEM
+    PAUSE_QUEST, // PAUSE_MAP
+    PAUSE_EQUIP, // PAUSE_QUEST
+    PAUSE_ITEM,  // PAUSE_EQUIP
+};
 f32 sKaleidoSetupEyeX1[] = { -64.0f, 0.0f, 64.0f, 0.0f };
 f32 sKaleidoSetupEyeZ1[] = { 0.0f, -64.0f, 0.0f, 64.0f };
 
@@ -12,11 +22,11 @@ void KaleidoSetup_Update(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
 
-    if (pauseCtx->state == PAUSE_STATE_0 && pauseCtx->debugState == 0 && play->gameOverCtx.state == GAMEOVER_INACTIVE &&
-        play->transitionTrigger == TRANS_TRIGGER_OFF && play->transitionMode == TRANS_MODE_OFF &&
-        gSaveContext.cutsceneIndex < 0xFFF0 && gSaveContext.nextCutsceneIndex < 0xFFF0 && !Play_InCsMode(play) &&
-        play->shootingGalleryStatus <= 1 && gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY &&
-        gSaveContext.magicState != MAGIC_STATE_FILL &&
+    if (pauseCtx->state == PAUSE_STATE_OFF && pauseCtx->debugState == 0 &&
+        play->gameOverCtx.state == GAMEOVER_INACTIVE && play->transitionTrigger == TRANS_TRIGGER_OFF &&
+        play->transitionMode == TRANS_MODE_OFF && gSaveContext.cutsceneIndex < 0xFFF0 &&
+        gSaveContext.nextCutsceneIndex < 0xFFF0 && !Play_InCsMode(play) && play->shootingGalleryStatus <= 1 &&
+        gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY && gSaveContext.magicState != MAGIC_STATE_FILL &&
         (play->sceneId != SCENE_BOWLING || !Flags_GetSwitch(play, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
@@ -24,16 +34,18 @@ void KaleidoSetup_Update(PlayState* play) {
                 pauseCtx->debugState = 3;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
+            // The start button was pressed, pause
+
             gSaveContext.unk_13EE = gSaveContext.unk_13EA;
 
             R_PAUSE_CURSOR_LEFT_X = -175;
             R_PAUSE_CURSOR_RIGHT_X = 155;
 
-            pauseCtx->unk_1EA_PageSwitchTimer__ = 0;
-            pauseCtx->unk_1E4_ps6_ =
-                PAUSE_S6_1_SWITCH_PAGE_; // irrelevant? reset in PAUSE_STATE_1 by KaleidoScopeCall_Update
+            pauseCtx->unk_1EA_OpenMenuAndPageSwitchTimer__ = 0;
+            pauseCtx->unk_1E4_ps6_ = PAUSE_S6_1_SWITCH_PAGE_; // irrelevant? reset in PAUSE_STATE_WAIT_LETTERBOX by
+                                                              // KaleidoScopeCall_Update
 
-            if (ZREG(48) == 0) {
+            if (R_START_LABEL_DD(0) == 0) {
                 pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
                 pauseCtx->eye.z = sKaleidoSetupEyeZ0[pauseCtx->pageIndex];
                 pauseCtx->pageIndex = sKaleidoSetupKscpPos0[pauseCtx->pageIndex];
@@ -44,13 +56,13 @@ void KaleidoSetup_Update(PlayState* play) {
             }
 
             pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
-            pauseCtx->state = PAUSE_STATE_1;
+            pauseCtx->state = PAUSE_STATE_WAIT_LETTERBOX;
 
             osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
                          pauseCtx->eye.z, pauseCtx->pageIndex);
         }
 
-        if (pauseCtx->state == PAUSE_STATE_1) {
+        if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
             R_PAUSE_OFFSET_VERTICAL = -6240;
             R_UPDATE_RATE = 2;
 
@@ -67,10 +79,10 @@ void KaleidoSetup_Init(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     u64 temp = 0; // Necessary to match
 
-    pauseCtx->state = PAUSE_STATE_0;
+    pauseCtx->state = PAUSE_STATE_OFF;
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
-    pauseCtx->unk_1EA_PageSwitchTimer__ = 0;
+    pauseCtx->unk_1EA_OpenMenuAndPageSwitchTimer__ = 0;
     pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0_IDLE_;
     pauseCtx->mode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;

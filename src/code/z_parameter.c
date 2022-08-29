@@ -2099,7 +2099,7 @@ void Interface_SetDoAction(PlayState* play, u16 action) {
         interfaceCtx->unk_1EC = 1;
         interfaceCtx->unk_1F4 = 0.0f;
         Interface_LoadActionLabel(interfaceCtx, action, 1);
-        if (pauseCtx->state != PAUSE_STATE_0) {
+        if (pauseCtx->state != PAUSE_STATE_OFF) {
             interfaceCtx->unk_1EC = 3;
         }
     }
@@ -2514,7 +2514,7 @@ void Magic_Update(PlayState* play) {
 
         case MAGIC_STATE_CONSUME_LENS:
             // Slowly consume magic while lens is on
-            if ((play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0) &&
+            if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0) &&
                 (msgCtx->msgMode == MSGMODE_NONE) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
                 (play->transitionTrigger == TRANS_TRIGGER_OFF) && (play->transitionMode == TRANS_MODE_OFF) &&
                 !Play_InCsMode(play)) {
@@ -2760,12 +2760,13 @@ void Interface_DrawItemButtons(PlayState* play) {
                         (R_ITEM_BTN_X(3) + R_ITEM_BTN_WIDTH(3)) << 2, (R_ITEM_BTN_Y(3) + R_ITEM_BTN_WIDTH(3)) << 2,
                         G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(3) << 1, R_ITEM_BTN_DD(3) << 1);
 
-    if ((pauseCtx->state < PAUSE_STATE_8) /* PAUSE_STATE_0, PAUSE_STATE_1, PAUSE_STATE_2, PAUSE_STATE_3,
-                                 PAUSE_STATE_4, PAUSE_STATE_5, PAUSE_STATE_6, PAUSE_STATE_7_SAVE_PROMPT_ */
-        ||
-        (pauseCtx->state >=
-         PAUSE_STATE_18_FLIP_PAGES_AND_UNPAUSE) /* PAUSE_STATE_18_FLIP_PAGES_AND_UNPAUSE, PAUSE_STATE_19_UNPAUSE */) {
-        if ((play->pauseCtx.state != PAUSE_STATE_0) || (play->pauseCtx.debugState != 0)) {
+    if ((pauseCtx->state < PAUSE_STATE_8)
+        /* PAUSE_STATE_OFF, PAUSE_STATE_WAIT_LETTERBOX, PAUSE_STATE_WAIT_BG_PRERENDER, PAUSE_STATE_INIT,
+           PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_IDLE, PAUSE_STATE_7_SAVE_PROMPT_ */
+        || (pauseCtx->state >= PAUSE_STATE_CLOSING)
+        /* PAUSE_STATE_CLOSING, PAUSE_STATE_UNPAUSE */
+    ) {
+        if ((play->pauseCtx.state != PAUSE_STATE_OFF) || (play->pauseCtx.debugState != 0)) {
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 120, 120, interfaceCtx->startAlpha);
@@ -2793,7 +2794,7 @@ void Interface_DrawItemButtons(PlayState* play) {
         }
     }
 
-    if (interfaceCtx->naviCalling && (play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0) &&
+    if (interfaceCtx->naviCalling && (play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0) &&
         (play->csCtx.state == CS_STATE_IDLE)) {
         if (!sCUpInvisible) {
             // C-Up Button Texture, Color & Label (Navi Text)
@@ -3320,7 +3321,7 @@ void Interface_Draw(PlayState* play) {
 
         func_8008A994(interfaceCtx);
 
-        if ((pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_3)) {
+        if ((pauseCtx->state == PAUSE_STATE_IDLE) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_3)) {
             // Inventory Equip Effects
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);
@@ -3371,7 +3372,7 @@ void Interface_Draw(PlayState* play) {
 
         Gfx_SetupDL_39Overlay(play->state.gfxCtx);
 
-        if ((play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0)) {
+        if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0)) {
             if (gSaveContext.minigameState != 1) {
                 // Carrots rendering if the action corresponds to riding a horse
                 if (interfaceCtx->unk_1EE == 8) {
@@ -3467,7 +3468,7 @@ void Interface_Draw(PlayState* play) {
             }
         }
 
-        if ((play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0) &&
+        if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0) &&
             (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
             !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play) && (gSaveContext.minigameState != 1) &&
@@ -3891,7 +3892,7 @@ void Interface_Update(PlayState* play) {
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }
 
-    if ((play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0)) {
+    if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0)) {
         if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||
             ((play->sceneId == SCENE_SPOT20) && (gSaveContext.sceneLayer == 4))) {
             if ((msgCtx->msgMode == MSGMODE_NONE) ||
@@ -4035,7 +4036,7 @@ void Interface_Update(PlayState* play) {
 
     Health_UpdateMeter(play);
 
-    if ((gSaveContext.timer1State >= 3) && (play->pauseCtx.state == PAUSE_STATE_0) &&
+    if ((gSaveContext.timer1State >= 3) && (play->pauseCtx.state == PAUSE_STATE_OFF) &&
         (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
         !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
         (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {}
@@ -4121,7 +4122,7 @@ void Interface_Update(PlayState* play) {
     WREG(7) = interfaceCtx->unk_1F4;
 
     // Update Magic
-    if ((play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0) &&
+    if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0) &&
         (msgCtx->msgMode == MSGMODE_NONE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
         (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionMode == TRANS_MODE_OFF) &&
         ((play->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(play))) {

@@ -125,7 +125,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         if (pauseCtx->cursorSpecialPos == 0) {
             pauseCtx->nameColorSet = 0;
 
-            if ((pauseCtx->state != PAUSE_STATE_6) || ((pauseCtx->stickRelX == 0) && (pauseCtx->stickRelY == 0))) {
+            if ((pauseCtx->state != PAUSE_STATE_IDLE) || ((pauseCtx->stickRelX == 0) && (pauseCtx->stickRelY == 0))) {
                 // No cursor movement
                 cursor = pauseCtx->cursorSlot[PAUSE_QUEST];
             } else {
@@ -232,7 +232,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
             // Handle part of the ocarina songs playback
 
-            if ((pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_0_IDLE_) &&
+            if ((pauseCtx->state == PAUSE_STATE_IDLE) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_0_IDLE_) &&
                 (pauseCtx->cursorSpecialPos == 0)) {
                 if ((cursor >= QUEST_SONG_MINUET) && (cursor < QUEST_KOKIRI_EMERALD)) {
                     if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
@@ -544,7 +544,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-        if ((pauseCtx->state == PAUSE_STATE_4) || (pauseCtx->state == PAUSE_STATE_18_FLIP_PAGES_AND_UNPAUSE)) {
+        if ((pauseCtx->state == PAUSE_STATE_OPENING_1) || (pauseCtx->state == PAUSE_STATE_CLOSING)) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sHpPrimColors[0][0], sHpPrimColors[0][1], sHpPrimColors[0][2],
                             pauseCtx->alpha);
         } else {
@@ -561,7 +561,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             48, 48, 0);
     }
 
-    if (pauseCtx->state == PAUSE_STATE_6) {
+    if (pauseCtx->state == PAUSE_STATE_IDLE) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 

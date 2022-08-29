@@ -364,8 +364,8 @@ void Minimap_Draw(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_map_exp.c", 626);
 
-    if (play->pauseCtx.state < PAUSE_STATE_4) {
-        /* PAUSE_STATE_0, PAUSE_STATE_1, PAUSE_STATE_2, PAUSE_STATE_3 */
+    if (play->pauseCtx.state < PAUSE_STATE_OPENING_1) {
+        /* PAUSE_STATE_OFF, PAUSE_STATE_WAIT_LETTERBOX, PAUSE_STATE_WAIT_BG_PRERENDER, PAUSE_STATE_INIT */
         switch (play->sceneId) {
             case SCENE_YDAN:
             case SCENE_DDAN:
@@ -521,7 +521,7 @@ void Map_Update(PlayState* play) {
     s16 floor;
     s16 i;
 
-    if ((play->pauseCtx.state == PAUSE_STATE_0) && (play->pauseCtx.debugState == 0)) {
+    if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0)) {
         switch (play->sceneId) {
             case SCENE_YDAN:
             case SCENE_DDAN:
