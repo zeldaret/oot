@@ -405,8 +405,8 @@ CameraModeValue sSetNormal3ModeTalkData[] = {
     CAM_FUNCDATA_KEEP3(-30, 70, 200, 40, 10, 10, 20, 70, 45, 10, 10, 0x3500),
 };
 
-/* These values are for when the eye is
- * >= OREG(45) units below the surface of the water.
+/*
+ * These values are for when the eye is >= OREG(45) units below the surface of the water.
  */
 CameraModeValue sSetNormal3ModeBoomerangData[] = {
     CAM_FUNCDATA_JUMP3(-40, 150, 250, -5, 18, 5, 60, 60, 40, 0x0005),
