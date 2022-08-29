@@ -556,7 +556,7 @@ NoteSubEu gDefaultNoteSub = {
     { 1, 1, 0, 0, 0, 0, 0, 0 }, { 0 }, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-u16 gHeadsetPanQuantization[64] = {
+u16 gHaasEffectDelaySizes[64] = {
     30 * SAMPLE_SIZE,
     29 * SAMPLE_SIZE,
     28 * SAMPLE_SIZE,

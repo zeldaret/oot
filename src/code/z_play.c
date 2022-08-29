@@ -206,7 +206,7 @@ void Play_Destroy(GameState* thisx) {
     }
 
     func_80031C3C(&this->actorCtx, this);
-    func_80110990(this);
+    Interface_Destroy(this);
     KaleidoScopeCall_Destroy(this);
     KaleidoManager_Destroy();
     ZeldaArena_Cleanup();
@@ -335,7 +335,7 @@ void Play_Init(GameState* thisx) {
 
     Cutscene_HandleEntranceTriggers(this);
     KaleidoScopeCall_Init(this);
-    func_801109B0(this);
+    Interface_Init(this);
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
         if (gSaveContext.nextDayTime == NEXT_TIME_DAY) {
@@ -357,8 +357,8 @@ void Play_Init(GameState* thisx) {
     SREG(91) = -1;
     R_PAUSE_MENU_MODE = 0;
     PreRender_Init(&this->pauseBgPreRender);
-    PreRender_SetValuesSave(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0);
-    PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+    PreRender_SetValuesSave(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL, NULL);
+    PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL);
     gTrnsnUnkState = 0;
     this->transitionMode = TRANS_MODE_OFF;
     FrameAdvance_Init(&this->frameAdvCtx);
@@ -1112,7 +1112,7 @@ void Play_Draw(PlayState* this) {
 
             if (R_PAUSE_MENU_MODE == 2) {
                 Sched_FlushTaskQueue();
-                PreRender_Calc(&this->pauseBgPreRender);
+                PreRender_ApplyFilters(&this->pauseBgPreRender);
                 R_PAUSE_MENU_MODE = 3;
             } else if (R_PAUSE_MENU_MODE >= 4) {
                 R_PAUSE_MENU_MODE = 0;
@@ -1121,7 +1121,7 @@ void Play_Draw(PlayState* this) {
             if (R_PAUSE_MENU_MODE == 3) {
                 Gfx* sp84 = POLY_OPA_DISP;
 
-                func_800C24BC(&this->pauseBgPreRender, &sp84);
+                PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &sp84);
                 POLY_OPA_DISP = sp84;
                 goto Play_Draw_DrawOverlayElements;
             } else {
@@ -1238,10 +1238,10 @@ void Play_Draw(PlayState* this) {
 
                     this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-                    func_800C1F20(&this->pauseBgPreRender, &sp70);
+                    PreRender_SaveFramebuffer(&this->pauseBgPreRender, &sp70);
                     if (R_PAUSE_MENU_MODE == 1) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                        func_800C20B4(&this->pauseBgPreRender, &sp70);
+                        PreRender_DrawCoverage(&this->pauseBgPreRender, &sp70);
                         R_PAUSE_MENU_MODE = 2;
                     } else {
                         gTrnsnUnkState = 2;

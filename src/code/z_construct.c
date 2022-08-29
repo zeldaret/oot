@@ -1,10 +1,10 @@
 #include "global.h"
 
-void func_80110990(PlayState* play) {
+void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
-void func_801109B0(PlayState* play) {
+void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
     u16 doActionOffset;
