@@ -2488,8 +2488,9 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepA;
     s32 pad;
 
-    if ((R_PAUSE_MENU_MODE >= 3) && (((pauseCtx->state >= 4) && (pauseCtx->state <= 7)) ||
-                                     ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
+    if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) &&
+        (((pauseCtx->state >= 4) && (pauseCtx->state <= 7)) ||
+         ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
 
         if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == 6)) {
             pauseCtx->stickRelX = input->rel.stick_x;
@@ -3398,7 +3399,7 @@ void KaleidoScope_Update(PlayState* play) {
                     interfaceCtx->unk_244 = 255;
                     pauseCtx->state = 0;
                     R_UPDATE_RATE = 3;
-                    R_PAUSE_MENU_MODE = 0;
+                    R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
                     func_800981B8(&play->objectCtx);
                     func_800418D0(&play->colCtx, play);
                     if (pauseCtx->promptChoice == 0) {
@@ -3457,7 +3458,7 @@ void KaleidoScope_Update(PlayState* play) {
         case 0x13:
             pauseCtx->state = 0;
             R_UPDATE_RATE = 3;
-            R_PAUSE_MENU_MODE = 0;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
             func_800981B8(&play->objectCtx);
             func_800418D0(&play->colCtx, play);
 
