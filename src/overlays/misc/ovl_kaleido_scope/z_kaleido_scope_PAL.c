@@ -273,7 +273,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     Graph_BranchDlist(gfxRef, gfx);
     POLY_OPA_DISP = gfx;
 
-    SREG(33) |= 1;
+    R_GRAPH_TASKSET00_FLAGS |= 1;
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 509);
 }

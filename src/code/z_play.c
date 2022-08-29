@@ -1234,21 +1234,22 @@ void Play_Draw(PlayState* this) {
                 }
 
                 if ((R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_1) || (gTrnsnUnkState == 1)) {
-                    Gfx* sp70 = OVERLAY_DISP;
+                    Gfx* gfxP = OVERLAY_DISP;
 
                     this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-                    PreRender_SaveFramebuffer(&this->pauseBgPreRender, &sp70);
+                    PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
                     if (R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_1) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                        PreRender_DrawCoverage(&this->pauseBgPreRender, &sp70);
+                        PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
+
                         R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_2;
                     } else {
                         gTrnsnUnkState = 2;
                     }
-                    OVERLAY_DISP = sp70;
+                    OVERLAY_DISP = gfxP;
                     this->unk_121C7 = 2;
-                    SREG(33) |= 1;
+                    R_GRAPH_TASKSET00_FLAGS |= 1;
                 } else {
                 Play_Draw_DrawOverlayElements:
                     if ((HREG(80) != 10) || (HREG(89) != 0)) {

@@ -49,6 +49,7 @@
 #define R_RUN_SPEED_LIMIT                        REG(45)
 #define R_ENABLE_ARENA_DBG                       SREG(0)
 #define R_UPDATE_RATE                            SREG(30)
+#define R_GRAPH_TASKSET00_FLAGS                  SREG(33)
 #define R_ENABLE_AUDIO_DBG                       SREG(36)
 #define R_FB_FILTER_TYPE                         SREG(80)
 #define R_FB_FILTER_PRIM_COLOR(c)                SREG(81 + (c))
