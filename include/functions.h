@@ -245,7 +245,7 @@ void EffectSsBomb2_SpawnFade(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f
 void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                 s16 scaleStep);
 void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 sclaeStepDecay, s16 life);
+                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
 void EffectSsBlast_SpawnWhiteCustomScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                          s16 scaleStep, s16 life);
 void EffectSsBlast_SpawnShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
@@ -1512,22 +1512,16 @@ void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf,
 void PreRender_Init(PreRender* this);
 void PreRender_SetValues(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf);
 void PreRender_Destroy(PreRender* this);
-void func_800C0F28(PreRender* this, Gfx** gfxp, void* buf, void* bufSave);
-void func_800C1258(PreRender* this, Gfx** gfxp);
-void func_800C170C(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave, u32 r, u32 g, u32 b, u32 a);
+void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a);
 void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave);
-void func_800C1B24(PreRender* this, Gfx** gfxp, void* fbuf, void* cvgSave);
-void func_800C1E9C(PreRender* this, Gfx** gfxp);
-void func_800C1F20(PreRender* this, Gfx** gfxp);
-void func_800C1FA4(PreRender* this, Gfx** gfxp);
-void func_800C20B4(PreRender* this, Gfx** gfxp);
-void func_800C2118(PreRender* this, Gfx** gfxp);
+void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxp);
+void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxp);
+void PreRender_DrawCoverage(PreRender* this, Gfx** gfxp);
+void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxp);
 void func_800C213C(PreRender* this, Gfx** gfxp);
-void func_800C24BC(PreRender* this, Gfx** gfxp);
-void func_800C24E0(PreRender* this, Gfx** gfxp);
-void func_800C2500(PreRender* this, s32 x, s32 y);
-void func_800C2FE4(PreRender* this);
-void PreRender_Calc(PreRender* this);
+void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxp);
+void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp);
+void PreRender_ApplyFilters(PreRender* this);
 void THGA_Ct(TwoHeadGfxArena* thga, Gfx* start, u32 size);
 void THGA_Dt(TwoHeadGfxArena* thga);
 u32 THGA_IsCrash(TwoHeadGfxArena* thga);
@@ -2254,8 +2248,8 @@ void Message_SetTables(void);
 void GameOver_Init(PlayState* play);
 void GameOver_FadeInLights(PlayState* play);
 void GameOver_Update(PlayState* play);
-void func_80110990(PlayState* play);
-void func_801109B0(PlayState* play);
+void Interface_Destroy(PlayState* play);
+void Interface_Init(PlayState* play);
 void Message_Init(PlayState* play);
 void func_80112098(PlayState* play);
 
