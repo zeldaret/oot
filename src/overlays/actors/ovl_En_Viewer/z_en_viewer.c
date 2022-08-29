@@ -5,6 +5,7 @@
  */
 
 #include "z_en_viewer.h"
+#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
@@ -75,8 +76,8 @@ static EnViewerInitData sInitData[] = {
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &object_gndd_Skel_0119E8,
       &object_gndd_Anim_0050A8 },
     /* ENVIEWER_TYPE_9_GANONDORF */
-    { OBJECT_GANON, OBJECT_GANON, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &gDorfSkel,
-      &object_ganon_Anim_011348 },
+    { OBJECT_GANON, OBJECT_GANON, 1, -6, ENVIEWER_SHADOW_NONE, 10, ENVIEWER_DRAW_GANONDORF, &gGanondorfSkel,
+      &gGanondorfEndingFloatAnim },
 };
 
 static EnGanonMant* sGanondorfCape;
@@ -504,12 +505,12 @@ s32 EnViewer_Ganondorf3OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dL
 }
 
 void EnViewer_Ganondorf9PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    if (limbIndex == 11) {
+    if (limbIndex == GANONDORF_LIMB_JEWEL) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1365);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_viewer.c", 1370),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_ganon_DL_00BE90));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGanondorfEyesDL));
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1372);
     }
 }
@@ -551,7 +552,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&object_gndd_Tex_00F778));
         }
     } else if (type == ENVIEWER_TYPE_9_GANONDORF) {
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&object_ganon_Tex_00A4E0));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&gGanondorfCrazedEyeTex));
     }
 
     if (type == ENVIEWER_TYPE_9_GANONDORF) {
