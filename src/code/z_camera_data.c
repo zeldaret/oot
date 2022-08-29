@@ -32,9 +32,9 @@ s16 sOREGInit[] = {
     5,     // OREG(2)
     5,     // OREG(3)
     5,     // OREG(4)
-    14500, // R_CAM_MAX_PHI
+    14500, // R_CAM_MAX_PITCH
     20,    // OREG(6)
-    16,    // R_CAM_DEFA_PHI_UPDRATE
+    16,    // R_CAM_DEFAULT_PITCH_UPDATE_RATE_INV
     150,   // OREG(8)
     25,    // OREG(9)
     150,   // OREG(10)
@@ -44,13 +44,13 @@ s16 sOREGInit[] = {
     0,     // OREG(14)
     0,     // OREG(15)
     1,     // OREG(16)
-    100,   // R_PITCH_FLOOR_CHECK_NEAR_DIST_FAC
-    250,   // R_PITCH_FLOOR_CHECK_FAR_DIST_FAC
-    120,   // R_PITCH_FLOOR_CHECK_OFFSET_Y_FAC
-    80,    // R_PITCH_FLOOR_CHECK_NEAR_WEIGHT
+    100,   // R_CAM_PITCH_FLOOR_CHECK_NEAR_DIST_FAC
+    250,   // R_CAM_PITCH_FLOOR_CHECK_FAR_DIST_FAC
+    120,   // R_CAM_PITCH_FLOOR_CHECK_OFFSET_Y_FAC
+    80,    // R_CAM_PITCH_FLOOR_CHECK_NEAR_WEIGHT
     30,    // OREG(21)
     120,   // OREG(22)
-    4,     // R_DEFA_CAM_ANIM_TIME
+    4,     // R_CAM_DEFAULT_ANIM_TIME
     1,     // OREG(24)
     50,    // OREG(25)
     20,    // OREG(26)
@@ -61,15 +61,15 @@ s16 sOREGInit[] = {
     20,    // OREG(31)
     20,    // OREG(32)
     -10,   // OREG(33)
-    -5460, // R_CAM_MIN_PHI
-    -9100, // R_CAM_MIN_PHI2
+    -5460, // R_CAM_MIN_PITCH_1
+    -9100, // R_CAM_MIN_PITCH_2
     -6,    // OREG(36)
     8,     // OREG(37)
     15,    // OREG(38)
     75,    // OREG(39)
     60,    // OREG(40)
-    12,    // R_AT_LERP_MIN
-    110,   // R_AT_LERP_SCALE
+    12,    // R_CAM_AT_LERP_STEP_SCALE_MIN
+    110,   // R_CAM_AT_LERP_STEP_SCALE_FAC
     40,    // OREG(43)
     50,    // OREG(44)
     250,   // OREG(45)
