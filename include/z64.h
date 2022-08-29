@@ -749,7 +749,7 @@ typedef enum {
     /*  4 */ PAUSE_STATE_OPENING_1, // Animate the pause menu coming together with rotations and other animations.
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
     /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
-    /*  7 */ PAUSE_STATE_7_SAVE_PROMPT_,  //                                     save
+    /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
     /*  8 */ PAUSE_STATE_8,  //                                     saveGameOver
     /*  9 */ PAUSE_STATE_9,  //                                     saveGameOver
     /* 10 */ PAUSE_STATE_10, // game over                           saveGameOver
@@ -779,14 +779,14 @@ typedef enum {
 } PauseMainSubState;
 
 typedef enum {
-    /* 0 */ PAUSE_S7_0,
-    /* 1 */ PAUSE_S7_1,
-    /* 2 */ PAUSE_S7_2,
-    /* 3 */ PAUSE_S7_3,
-    /* 4 */ PAUSE_S7_4,
-    /* 5 */ PAUSE_S7_5,
-    /* 6 */ PAUSE_S7_6
-} PauseCtxUnk1EC;
+    /* 0 */ PAUSE_SAVE_PROMPT_STATE_APPEARING,
+    /* 1 */ PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
+    /* 2 */ PAUSE_SAVE_PROMPT_STATE_CLOSING,
+    /* 3 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU,
+    /* 4 */ PAUSE_SAVE_PROMPT_STATE_SAVED,
+    /* 5 */ PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED,
+    /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
+} PauseSavePromptSubState;
 
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
@@ -827,14 +827,14 @@ typedef struct {
     /* 0x01E4 */ u16    mainSubState;
     /* 0x01E6 */ u16    mode;
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16    unk_1EA_OpenMenuAndPageSwitchTimer__;
-    /* 0x01EC */ u16    unk_1EC_ps7_;
-    /* 0x01F0 */ f32    savePromptOffsetDepth_unk_1F0;
+    /* 0x01EA */ u16    switchPageTimer;
+    /* 0x01EC */ u16    savePromptSubState;
+    /* 0x01F0 */ f32    savePromptOffsetDepth_;
     /* 0x01F4 */ f32    rollRotPageItem;
     /* 0x01F8 */ f32    rollRotPageEquip;
     /* 0x01FC */ f32    rollRotPageMap;
     /* 0x0200 */ f32    rollRotPageQuest;
-    /* 0x0204 */ f32    rollRotSavePromptPage_unk_204; // "angle_s"
+    /* 0x0204 */ f32    rollRotSavePrompt_; // "angle_s"
     /* 0x0208 */ u16    alpha;
     /* 0x020A */ s16    offsetY;
     /* 0x020C */ char   unk_20C[0x08];
@@ -845,7 +845,7 @@ typedef struct {
     /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
     /* 0x0236 */ s16    dungeonMapSlot;
     /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
-    /* 0x023A */ s16    pageSwitchTimer;
+    /* 0x023A */ s16    delaySwitchPageInputTimer; // Used to introduce a delay before switching page when arriving on the "scroll left/right" positions while holding stick left/right.
     /* 0x023C */ u16    namedItem; // "zoom_name"
     /* 0x023E */ u16    cursorItem[4]; // "select_name"
     /* 0x0246 */ u16    cursorSlot[4];

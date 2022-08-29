@@ -41,7 +41,7 @@ void KaleidoSetup_Update(PlayState* play) {
             R_PAUSE_CURSOR_LEFT_X = -175;
             R_PAUSE_CURSOR_RIGHT_X = 155;
 
-            pauseCtx->unk_1EA_OpenMenuAndPageSwitchTimer__ = 0;
+            pauseCtx->switchPageTimer = 0;
             pauseCtx->mainSubState = PAUSE_MAIN_STATE_SWITCHING_PAGE; // irrelevant
 
             if (R_START_LABEL_DD(0) == 0) {
@@ -81,7 +81,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->state = PAUSE_STATE_OFF;
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
-    pauseCtx->unk_1EA_OpenMenuAndPageSwitchTimer__ = 0;
+    pauseCtx->switchPageTimer = 0;
     pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
     pauseCtx->mode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
@@ -89,9 +89,9 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->rollRotPageItem = pauseCtx->rollRotPageEquip = pauseCtx->rollRotPageMap = pauseCtx->rollRotPageQuest =
         160.0f;
     pauseCtx->eye.z = 64.0f;
-    pauseCtx->savePromptOffsetDepth_unk_1F0 = 936.0f;
+    pauseCtx->savePromptOffsetDepth_ = 936.0f;
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
-    pauseCtx->rollRotSavePromptPage_unk_204 = -314.0f;
+    pauseCtx->rollRotSavePrompt_ = -314.0f;
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
