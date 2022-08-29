@@ -4174,9 +4174,9 @@ s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f3
 
     for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
          curWaterBox++) {
-        room = (curWaterBox->properties >> 13) & 0x3F;
-        if (room == (u32)play->roomCtx.curRoom.num || room == 0x3F) {
-            if ((curWaterBox->properties & 0x80000) == 0) {
+        room = WATERBOX_ROOM(curWaterBox->properties);
+        if (room == (u32)play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
+            if (!(curWaterBox->properties & WATERBOX_FLAG_19)) {
                 if (curWaterBox->xMin < x && x < curWaterBox->xMin + curWaterBox->xLength) {
                     if (curWaterBox->zMin < z && z < curWaterBox->zMin + curWaterBox->zLength) {
                         *outWaterBox = curWaterBox;
@@ -4191,7 +4191,7 @@ s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f3
 }
 
 /**
- * Gets the first active WaterBox at `pos` where WaterBox.properties & 0x80000 == 0
+ * Gets the first active WaterBox at `pos` with WATERBOX_FLAG_19 not set
  * `surfaceChkDist` is the absolute y distance from the water surface to check
  * returns the index of the waterbox found, or -1 if no waterbox is found
  * `outWaterBox` returns the pointer to the waterbox found, or NULL if none is found
@@ -4213,10 +4213,10 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
         waterBox = &colHeader->waterBoxes[i];
 
         room = WATERBOX_ROOM(waterBox->properties);
-        if (!(room == play->roomCtx.curRoom.num || room == 0x3F)) {
+        if (!(room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL)) {
             continue;
         }
-        if (waterBox->properties & 0x80000) {
+        if (waterBox->properties & WATERBOX_FLAG_19) {
             continue;
         }
         if (!(waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength)) {
@@ -4239,9 +4239,9 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
  * WaterBox get BgCam index
  */
 u32 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox) {
-    u32 prop = waterBox->properties >> 0;
+    u32 bgCamIndex = WATERBOX_BGCAM_INDEX(waterBox->properties);
 
-    return prop & 0xFF;
+    return bgCamIndex;
 }
 
 /**
@@ -4261,15 +4261,15 @@ u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox) {
 /**
  * WaterBox get lighting settings
  */
-u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox) {
-    u32 prop = waterBox->properties >> 8;
+u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox) {
+    u32 lightIndex = WATERBOX_LIGHT_INDEX(waterBox->properties);
 
-    return prop & 0x1F;
+    return lightIndex;
 }
 
 /**
  * Get the water surface at point (`x`, `ySurface`, `z`). `ySurface` doubles as position y input
- * same as WaterBox_GetSurfaceImpl, but tests if WaterBox properties & 0x80000 != 0
+ * same as WaterBox_GetSurfaceImpl, but tests if WATERBOX_FLAG_19 is set
  * returns true if point is within the xz boundaries of an active water box, else false
  * `ySurface` returns the water box's surface, while `outWaterBox` returns a pointer to the WaterBox
  */
@@ -4284,9 +4284,9 @@ s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* 
 
     for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
          curWaterBox++) {
-        room = (curWaterBox->properties >> 0xD) & 0x3F;
-        if ((room == (u32)play->roomCtx.curRoom.num) || (room == 0x3F)) {
-            if ((curWaterBox->properties & 0x80000) != 0) {
+        room = WATERBOX_ROOM(curWaterBox->properties);
+        if ((room == (u32)play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
+            if (curWaterBox->properties & WATERBOX_FLAG_19) {
                 if (curWaterBox->xMin < x && x < (curWaterBox->xMin + curWaterBox->xLength)) {
                     if (curWaterBox->zMin < z && z < (curWaterBox->zMin + curWaterBox->zLength)) {
                         *outWaterBox = curWaterBox;
