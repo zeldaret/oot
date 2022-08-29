@@ -838,8 +838,8 @@ typedef struct {
     /* 0x0208 */ u16    alpha;
     /* 0x020A */ s16    offsetY;
     /* 0x020C */ char   unk_20C[0x08];
-    /* 0x0214 */ s16    stickRelX;
-    /* 0x0216 */ s16    stickRelY;
+    /* 0x0214 */ s16    stickAdjX;
+    /* 0x0216 */ s16    stickAdjY;
     /* 0x0218 */ s16    cursorPoint[5]; // "cursor_point"
     /* 0x0222 */ s16    cursorX[5]; // "cur_xpt"
     /* 0x022C */ s16    cursorY[5]; // "cur_ypt"

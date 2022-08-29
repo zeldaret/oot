@@ -431,7 +431,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     }
 
     if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-        if (pauseCtx->stickRelX < -30) {
+        if (pauseCtx->stickAdjX < -30) {
             pauseCtx->delaySwitchPageInputTimer++;
             if ((pauseCtx->delaySwitchPageInputTimer >= 10) || (pauseCtx->delaySwitchPageInputTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 0);
@@ -440,7 +440,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
             pauseCtx->delaySwitchPageInputTimer = -1;
         }
     } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) {
-        if (pauseCtx->stickRelX > 30) {
+        if (pauseCtx->stickAdjX > 30) {
             pauseCtx->delaySwitchPageInputTimer++;
             if ((pauseCtx->delaySwitchPageInputTimer >= 10) || (pauseCtx->delaySwitchPageInputTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 2);
@@ -613,23 +613,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             }
 
-            if (pauseCtx->stickRelX < -30) {
+            if (pauseCtx->stickAdjX < -30) {
                 if (sStickXRepeatState == -1) {
                     if (--sStickXRepeatTimer < 0) {
                         sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
-                        pauseCtx->stickRelX = 0;
+                        pauseCtx->stickAdjX = 0;
                     }
                 } else {
                     sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     sStickXRepeatState = -1;
                 }
-            } else if (pauseCtx->stickRelX > 30) {
+            } else if (pauseCtx->stickAdjX > 30) {
                 if (sStickXRepeatState == 1) {
                     if (--sStickXRepeatTimer < 0) {
                         sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
-                        pauseCtx->stickRelX = 0;
+                        pauseCtx->stickAdjX = 0;
                     }
                 } else {
                     sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
@@ -639,23 +639,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 sStickXRepeatState = 0;
             }
 
-            if (pauseCtx->stickRelY < -30) {
+            if (pauseCtx->stickAdjY < -30) {
                 if (sStickYRepeatState == -1) {
                     if (--sStickYRepeatTimer < 0) {
                         sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
-                        pauseCtx->stickRelY = 0;
+                        pauseCtx->stickAdjY = 0;
                     }
                 } else {
                     sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     sStickYRepeatState = -1;
                 }
-            } else if (pauseCtx->stickRelY > 30) {
+            } else if (pauseCtx->stickAdjY > 30) {
                 if (sStickYRepeatState == 1) {
                     if (--sStickYRepeatTimer < 0) {
                         sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
-                        pauseCtx->stickRelY = 0;
+                        pauseCtx->stickAdjY = 0;
                     }
                 } else {
                     sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
@@ -2436,8 +2436,8 @@ void KaleidoScope_Draw(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
 
-    pauseCtx->stickRelX = input->rel.stick_x;
-    pauseCtx->stickRelY = input->rel.stick_y;
+    pauseCtx->stickAdjX = input->rel.stick_x;
+    pauseCtx->stickAdjY = input->rel.stick_y;
 
     gSPSegment(POLY_OPA_DISP++, 0x02, interfaceCtx->parameterSegment);
     gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->playerSegment);
@@ -2686,8 +2686,8 @@ void KaleidoScope_Update(PlayState* play) {
              (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
             (pauseCtx->state == PAUSE_STATE_MAIN)) {
 
-            pauseCtx->stickRelX = input->rel.stick_x;
-            pauseCtx->stickRelY = input->rel.stick_y;
+            pauseCtx->stickAdjX = input->rel.stick_x;
+            pauseCtx->stickAdjY = input->rel.stick_y;
 
             KaleidoScope_UpdateCursorSize(play);
             KaleidoScope_HandlePageToggles(pauseCtx, input);

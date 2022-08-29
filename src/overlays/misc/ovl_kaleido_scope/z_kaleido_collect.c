@@ -125,7 +125,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         if (pauseCtx->cursorSpecialPos == 0) {
             pauseCtx->nameColorSet = 0;
 
-            if ((pauseCtx->state != PAUSE_STATE_MAIN) || ((pauseCtx->stickRelX == 0) && (pauseCtx->stickRelY == 0))) {
+            if ((pauseCtx->state != PAUSE_STATE_MAIN) || ((pauseCtx->stickAdjX == 0) && (pauseCtx->stickAdjY == 0))) {
                 // No cursor movement
                 cursor = pauseCtx->cursorSlot[PAUSE_QUEST];
             } else {
@@ -133,7 +133,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                 i = pauseCtx->cursorPoint[PAUSE_QUEST];
 
-                if (pauseCtx->stickRelX < -30) {
+                if (pauseCtx->stickAdjX < -30) {
                     // Move cursor left
                     nextCursorPoint = sCursorPointLinks[i][2];
                     if (nextCursorPoint == CURSOR_TO_LEFT) {
@@ -147,7 +147,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                             nextCursorPoint = sCursorPointLinks[nextCursorPoint][2];
                         }
                     }
-                } else if (pauseCtx->stickRelX > 30) {
+                } else if (pauseCtx->stickAdjX > 30) {
                     // Move cursor right
                     nextCursorPoint = sCursorPointLinks[i][3];
                     if (nextCursorPoint == CURSOR_TO_RIGHT) {
@@ -163,7 +163,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     }
                 }
 
-                if (pauseCtx->stickRelY < -30) {
+                if (pauseCtx->stickAdjY < -30) {
                     // Move cursor down
                     nextCursorPoint = sCursorPointLinks[i][1];
                     while (nextCursorPoint >= 0) {
@@ -172,7 +172,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                         }
                         nextCursorPoint = sCursorPointLinks[nextCursorPoint][1];
                     }
-                } else if (pauseCtx->stickRelY > 30) {
+                } else if (pauseCtx->stickAdjY > 30) {
                     // Move cursor up
                     nextCursorPoint = sCursorPointLinks[i][0];
                     while (nextCursorPoint >= 0) {
@@ -273,7 +273,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             } else if (pauseCtx->mainSubState == PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING) {
                 // Abort having the player play the song if the stick is moved
-                if ((pauseCtx->stickRelX != 0) || (pauseCtx->stickRelY != 0)) {
+                if ((pauseCtx->stickAdjX != 0) || (pauseCtx->stickAdjY != 0)) {
                     pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
 
                     AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
@@ -288,7 +288,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             }
         } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-            if (pauseCtx->stickRelX > 30) {
+            if (pauseCtx->stickAdjX > 30) {
                 // Move cursor right from the "scroll to left page" position
 
                 pauseCtx->cursorPoint[PAUSE_QUEST] = QUEST_STONE_OF_AGONY;
@@ -310,7 +310,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSlot[pauseCtx->pageIndex] = cursor;
             }
         } else { // cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT
-            if (pauseCtx->stickRelX < -30) {
+            if (pauseCtx->stickAdjX < -30) {
                 // Move cursor left from the "scroll to right page" position
 
                 pauseCtx->cursorPoint[PAUSE_QUEST] = QUEST_MEDALLION_FOREST;
