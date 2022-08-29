@@ -3208,7 +3208,8 @@ void Interface_Draw(PlayState* play) {
         Magic_DrawMeter(play);
         Minimap_Draw(play);
 
-        if ((R_PAUSE_MENU_MODE != PAUSE_MENU_REG_MODE_2) && (R_PAUSE_MENU_MODE != PAUSE_MENU_REG_MODE_3)) {
+        if ((R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_FILTER) &&
+            (R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_DONE)) {
             func_8002C124(&play->actorCtx.targetCtx, play); // Draw Z-Target
         }
 

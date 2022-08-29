@@ -61,7 +61,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
             if (Letterbox_GetSize() == 0) {
                 HREG(80) = 7;
                 HREG(82) = 3;
-                R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_1;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
                 pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0_IDLE_;
                 pauseCtx->unk_1EC_ps7_ = PAUSE_S7_0;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_2
@@ -69,14 +69,14 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if (pauseCtx->state == PAUSE_STATE_8) {
             HREG(80) = 7;
             HREG(82) = 3;
-            R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_1;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
             pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0_IDLE_;
             pauseCtx->unk_1EC_ps7_ = PAUSE_S7_0;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
         } else if ((pauseCtx->state == PAUSE_STATE_2) || (pauseCtx->state == PAUSE_STATE_9)) {
-            osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_MENU_MODE);
+            osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
 
-            if (R_PAUSE_MENU_MODE >= PAUSE_MENU_REG_MODE_3) {
+            if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) {
                 pauseCtx->state++; // PAUSE_STATE_3 or PAUSE_STATE_10
             }
         } else if (pauseCtx->state != PAUSE_STATE_0) {
@@ -118,7 +118,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 void KaleidoScopeCall_Draw(PlayState* play) {
     KaleidoMgrOverlay* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
 
-    if (R_PAUSE_MENU_MODE >= PAUSE_MENU_REG_MODE_3) {
+    if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) {
         if (((play->pauseCtx.state >= PAUSE_STATE_4) && (play->pauseCtx.state <= PAUSE_STATE_7_SAVE_PROMPT_)
              /* PAUSE_STATE_4, PAUSE_STATE_5, PAUSE_STATE_6, PAUSE_STATE_7_SAVE_PROMPT_ */) ||
             ((play->pauseCtx.state >= PAUSE_STATE_11) && (play->pauseCtx.state <= PAUSE_STATE_18_FLIP_PAGES_AND_UNPAUSE)

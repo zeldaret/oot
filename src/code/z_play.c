@@ -178,7 +178,7 @@ void Play_Destroy(GameState* thisx) {
     this->state.gfxCtx->callbackParam = 0;
 
     SREG(91) = 0;
-    R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
+    R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
 
     PreRender_Destroy(&this->pauseBgPreRender);
     Effect_DeleteAll(this);
@@ -355,7 +355,7 @@ void Play_Init(GameState* thisx) {
     }
 
     SREG(91) = -1;
-    R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
+    R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
     PreRender_Init(&this->pauseBgPreRender);
     PreRender_SetValuesSave(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL, NULL);
     PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL);
@@ -1110,19 +1110,25 @@ void Play_Draw(PlayState* this) {
         } else {
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
-            if (R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_2) {
+            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_FILTER) {
+                // Wait for the previous frame's DList to be processed,
+                // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
+                // content and can be used by `PreRender_ApplyFilters` below.
                 Sched_FlushTaskQueue();
+
                 PreRender_ApplyFilters(&this->pauseBgPreRender);
-                R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_3;
-            } else if (R_PAUSE_MENU_MODE >= PAUSE_MENU_REG_MODE_MAX) {
-                R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
+
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DONE;
+            } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
             }
 
-            if (R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_3) {
-                Gfx* sp84 = POLY_OPA_DISP;
+            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_DONE) {
+                Gfx* gfxP = POLY_OPA_DISP;
 
-                PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &sp84);
-                POLY_OPA_DISP = sp84;
+                PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &gfxP);
+                POLY_OPA_DISP = gfxP;
+
                 goto Play_Draw_DrawOverlayElements;
             } else {
                 s32 roomDrawFlags;
@@ -1233,17 +1239,19 @@ void Play_Draw(PlayState* this) {
                     DebugDisplay_DrawObjects(this);
                 }
 
-                if ((R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_1) || (gTrnsnUnkState == 1)) {
+                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_DRAW) || (gTrnsnUnkState == 1)) {
                     Gfx* gfxP = OVERLAY_DISP;
 
+                    // Copy the frame buffer contents at this point in the DList to the zbuffer
+                    // The zbuffer must then stay untouched until unpausing
                     this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
                     PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
-                    if (R_PAUSE_MENU_MODE == PAUSE_MENU_REG_MODE_1) {
+                    if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_DRAW) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
                         PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
 
-                        R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_2;
+                        R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_FILTER;
                     } else {
                         gTrnsnUnkState = 2;
                     }

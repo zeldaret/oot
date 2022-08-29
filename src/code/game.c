@@ -309,7 +309,7 @@ void GameState_Update(GameState* gameState) {
         }
     }
 
-    if (R_PAUSE_MENU_MODE != (u32)PAUSE_MENU_REG_MODE_2) {
+    if (R_PAUSE_BG_PRERENDER_STATE != (u32)PAUSE_BG_PRERENDER_FILTER) {
         GameState_Draw(gameState, gfxCtx);
         func_800C49F4(gfxCtx);
     }

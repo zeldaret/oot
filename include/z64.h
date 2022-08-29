@@ -783,12 +783,12 @@ typedef enum {
 } PauseCtxUnk1EC;
 
 typedef enum {
-    /* 0 */ PAUSE_MENU_REG_MODE_0,
-    /* 1 */ PAUSE_MENU_REG_MODE_1,
-    /* 2 */ PAUSE_MENU_REG_MODE_2,
-    /* 3 */ PAUSE_MENU_REG_MODE_3,
-    /* 4 */ PAUSE_MENU_REG_MODE_MAX
-} PauseMenuRegMode;
+    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
+    /* 1 */ PAUSE_BG_PRERENDER_DRAW, // The current frame is only drawn for the purpose of serving as the pause background.
+    /* 2 */ PAUSE_BG_PRERENDER_FILTER, // The previous frame was PAUSE_BG_PRERENDER_DRAW, now apply prerender filters.
+    /* 3 */ PAUSE_BG_PRERENDER_DONE, // The pause background is ready to be used.
+    /* 4 */ PAUSE_BG_PRERENDER_MAX
+} PauseBgPreRenderState;
 
 typedef struct {
     /* 0x0000 */ View   view;

@@ -2640,7 +2640,7 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepA;
     s32 pad;
 
-    if ((R_PAUSE_MENU_MODE >= PAUSE_MENU_REG_MODE_3) &&
+    if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) &&
         (((pauseCtx->state >= PAUSE_STATE_4) && (pauseCtx->state <= PAUSE_STATE_7_SAVE_PROMPT_)
           /* PAUSE_STATE_4, PAUSE_STATE_5, PAUSE_STATE_6, PAUSE_STATE_7_SAVE_PROMPT_ */
           ) ||
@@ -3571,7 +3571,7 @@ void KaleidoScope_Update(PlayState* play) {
                     interfaceCtx->unk_244 = 255;
                     pauseCtx->state = PAUSE_STATE_0;
                     R_UPDATE_RATE = 3;
-                    R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
+                    R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
                     func_800981B8(&play->objectCtx);
                     func_800418D0(&play->colCtx, play);
                     if (pauseCtx->promptChoice == 0) {
@@ -3629,7 +3629,7 @@ void KaleidoScope_Update(PlayState* play) {
         case PAUSE_STATE_19_UNPAUSE:
             pauseCtx->state = PAUSE_STATE_0;
             R_UPDATE_RATE = 3;
-            R_PAUSE_MENU_MODE = PAUSE_MENU_REG_MODE_0;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
             func_800981B8(&play->objectCtx);
             func_800418D0(&play->colCtx, play);
 
