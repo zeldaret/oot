@@ -1257,7 +1257,7 @@ void Play_Draw(PlayState* this) {
                     }
                     OVERLAY_DISP = gfxP;
                     this->unk_121C7 = 2;
-                    SREG(33) |= 1;
+                    R_GRAPH_TASKSET00_FLAGS |= 1;
                 } else {
                 Play_Draw_DrawOverlayElements:
                     if ((HREG(80) != 10) || (HREG(89) != 0)) {
