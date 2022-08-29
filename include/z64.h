@@ -748,7 +748,7 @@ typedef enum {
     /*  3 */ PAUSE_STATE_INIT, // Load data and initialize/setup various things.
     /*  4 */ PAUSE_STATE_OPENING_1, // Animate the pause menu coming together with rotations and other animations.
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
-    /*  6 */ PAUSE_STATE_IDLE, // Pause menu ready for player inputs.
+    /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_7_SAVE_PROMPT_,  //                                     save
     /*  8 */ PAUSE_STATE_8,  //                                     saveGameOver
     /*  9 */ PAUSE_STATE_9,  //                                     saveGameOver
@@ -764,18 +764,19 @@ typedef enum {
     /* 19 */ PAUSE_STATE_UNPAUSE
 } PauseCtxState;
 
+// Sub-states of PAUSE_STATE_MAIN
 typedef enum {
-    /* 0 */ PAUSE_S6_0_IDLE_,
-    /* 1 */ PAUSE_S6_1_SWITCH_PAGE_,
-    /* 2 */ PAUSE_S6_2_PLAYBACK_SONG_,
-    /* 3 */ PAUSE_S6_3,
-    /* 4 */ PAUSE_S6_4_PLAYER_PLAYING_SONG_INIT_,
-    /* 5 */ PAUSE_S6_5_PLAYER_PLAYING_SONG_,
-    /* 6 */ PAUSE_S6_6_PLAYER_PLAYING_SONG_DONE_,
-    /* 7 */ PAUSE_S6_7,
-    /* 8 */ PAUSE_S6_8_IDLE_CURSOR_ON_SONG_,
-    /* 9 */ PAUSE_S6_9_PLAYBACK_SONG_START_
-} PauseCtxUnk1E4;
+    /* 0 */ PAUSE_MAIN_STATE_0_IDLE_,
+    /* 1 */ PAUSE_MAIN_STATE_1_SWITCH_PAGE_,
+    /* 2 */ PAUSE_MAIN_STATE_2_PLAYBACK_SONG_,
+    /* 3 */ PAUSE_MAIN_STATE_3,
+    /* 4 */ PAUSE_MAIN_STATE_4_PLAYER_PLAYING_SONG_INIT_,
+    /* 5 */ PAUSE_MAIN_STATE_5_PLAYER_PLAYING_SONG_,
+    /* 6 */ PAUSE_MAIN_STATE_6_PLAYER_PLAYING_SONG_DONE_,
+    /* 7 */ PAUSE_MAIN_STATE_7,
+    /* 8 */ PAUSE_MAIN_STATE_8_IDLE_CURSOR_ON_SONG_,
+    /* 9 */ PAUSE_MAIN_STATE_9_PLAYBACK_SONG_START_
+} PauseMainSubState;
 
 typedef enum {
     /* 0 */ PAUSE_S7_0,
@@ -823,7 +824,7 @@ typedef struct {
     /* 0x01D4 */ u16    state;
     /* 0x01D6 */ u16    debugState;
     /* 0x01D8 */ Vec3f  eye;
-    /* 0x01E4 */ u16    unk_1E4_ps6_;
+    /* 0x01E4 */ u16    mainSubState;
     /* 0x01E6 */ u16    mode;
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    unk_1EA_OpenMenuAndPageSwitchTimer__;

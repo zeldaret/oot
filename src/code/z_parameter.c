@@ -2762,7 +2762,7 @@ void Interface_DrawItemButtons(PlayState* play) {
 
     if ((pauseCtx->state < PAUSE_STATE_8)
         /* PAUSE_STATE_OFF, PAUSE_STATE_WAIT_LETTERBOX, PAUSE_STATE_WAIT_BG_PRERENDER, PAUSE_STATE_INIT,
-           PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_IDLE, PAUSE_STATE_7_SAVE_PROMPT_ */
+           PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_MAIN, PAUSE_STATE_7_SAVE_PROMPT_ */
         || (pauseCtx->state >= PAUSE_STATE_CLOSING)
         /* PAUSE_STATE_CLOSING, PAUSE_STATE_UNPAUSE */
     ) {
@@ -3321,7 +3321,7 @@ void Interface_Draw(PlayState* play) {
 
         func_8008A994(interfaceCtx);
 
-        if ((pauseCtx->state == PAUSE_STATE_IDLE) && (pauseCtx->unk_1E4_ps6_ == PAUSE_S6_3)) {
+        if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainSubState == PAUSE_MAIN_STATE_3)) {
             // Inventory Equip Effects
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);

@@ -62,7 +62,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 HREG(80) = 7;
                 HREG(82) = 3;
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
-                pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0_IDLE_;
+                pauseCtx->mainSubState = PAUSE_MAIN_STATE_0_IDLE_;
                 pauseCtx->unk_1EC_ps7_ = PAUSE_S7_0;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
@@ -70,7 +70,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
             HREG(80) = 7;
             HREG(82) = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
-            pauseCtx->unk_1E4_ps6_ = PAUSE_S6_0_IDLE_;
+            pauseCtx->mainSubState = PAUSE_MAIN_STATE_0_IDLE_;
             pauseCtx->unk_1EC_ps7_ = PAUSE_S7_0;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
         } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_9)) {
@@ -120,7 +120,7 @@ void KaleidoScopeCall_Draw(PlayState* play) {
 
     if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) {
         if (((play->pauseCtx.state >= PAUSE_STATE_OPENING_1) && (play->pauseCtx.state <= PAUSE_STATE_7_SAVE_PROMPT_)
-             /* PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_IDLE, PAUSE_STATE_7_SAVE_PROMPT_ */) ||
+             /* PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_MAIN, PAUSE_STATE_7_SAVE_PROMPT_ */) ||
             ((play->pauseCtx.state >= PAUSE_STATE_11) && (play->pauseCtx.state <= PAUSE_STATE_CLOSING)
              /* PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13, PAUSE_STATE_14, PAUSE_STATE_15,
                 PAUSE_STATE_16, PAUSE_STATE_17, PAUSE_STATE_CLOSING */
