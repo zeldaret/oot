@@ -129,7 +129,6 @@ f32 Math_FAtanContFracF(f32 x) {
 }
 
 /**
- * @param x
  * @return arctan(x) in radians, in (-pi/2,pi/2) range
  */
 f32 Math_FAtanF(f32 x) {
@@ -141,8 +140,6 @@ f32 Math_FAtanF(f32 x) {
 }
 
 /**
- * @param y
- * @param x
  * @return angle from (1,0) to (x,y) in radians, in (-pi,pi] range
  */
 f32 Math_FAtan2F(f32 y, f32 x) {
@@ -166,7 +163,6 @@ f32 Math_FAtan2F(f32 y, f32 x) {
 }
 
 /**
- * @param x
  * @return arcsin(x) in radians, in [-pi/2,pi/2] range
  */
 f32 Math_FAsinF(f32 x) {
@@ -174,7 +170,6 @@ f32 Math_FAsinF(f32 x) {
 }
 
 /**
- * @param x
  * @return arccos(x) in radians, in [0,pi] range
  */
 f32 Math_FAcosF(f32 x) {
