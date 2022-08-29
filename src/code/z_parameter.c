@@ -4,11 +4,6 @@
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
-// TODO extract this information from the texture definitions themselves
-#define DO_ACTION_TEX_WIDTH 48
-#define DO_ACTION_TEX_HEIGHT 16
-#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
-
 typedef struct {
     /* 0x00 */ u8 sceneId;
     /* 0x01 */ u8 flags1;
@@ -2080,8 +2075,9 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         action += DO_ACTION_MAX;
     }
 
-    if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE) &&
-        (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE)) {
+    if ((action != LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_NONE) &&
+        (action != LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_NONE) &&
+        (action != LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_NONE)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
         DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160,
                             interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),

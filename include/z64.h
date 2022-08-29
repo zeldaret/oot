@@ -625,6 +625,11 @@ typedef enum {
     /* 0x1D */ DO_ACTION_MAX
 } DoAction;
 
+// TODO extract this information from the texture definitions themselves
+#define DO_ACTION_TEX_WIDTH 48
+#define DO_ACTION_TEX_HEIGHT 16
+#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   actionVtx;

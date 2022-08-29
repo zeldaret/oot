@@ -40,7 +40,7 @@ void Interface_Init(PlayState* play) {
     DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
                         "../z_construct.c", 162);
 
-    interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 0x480, "../z_construct.c", 166);
+    interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
 
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480); // "DO Action Texture Initialization"
     osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
@@ -48,26 +48,26 @@ void Interface_Init(PlayState* play) {
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 0;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 0x2B80;
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 0x5700;
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     }
 
     DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
                         "../z_construct.c", 174);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 0x480;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 0x3000;
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 0x5B80;
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + doActionOffset,
-                        0x180, "../z_construct.c", 178);
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE * 2,
+                        (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x180, "../z_construct.c", 178);
 
     interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, 0x4000, "../z_construct.c", 190);
 
