@@ -540,11 +540,11 @@ s32 Camera_GetWaterBoxBgCamIndex(Camera* camera, f32* waterY) {
 }
 
 /**
- * Checks if `chkPos` is inside a waterbox. If there is no water box below `chkPos`
- * or if `chkPos` is above the water surface, return BGCHECK_Y_MIN, output
- * environment properites to `envProp` if `chkPos` is inside the waterbox.
+ * Checks if `chkPos` is inside a waterbox.
+ * If there is no water box below `chkPos` or if `chkPos` is above the water surface, return BGCHECK_Y_MIN.
+ * If `chkPos` is inside the waterbox, output light index to `lightIndex`.
  */
-f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
+f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* lightIndex) {
     PosRot playerPosRot;
     f32 waterY;
     WaterBox* waterBox;
@@ -563,7 +563,7 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
         return BGCHECK_Y_MIN;
     }
 
-    *envProp = WaterBox_GetLightSettingIndex(&camera->play->colCtx, waterBox);
+    *lightIndex = WaterBox_GetLightIndex(&camera->play->colCtx, waterBox);
     return waterY;
 }
 
