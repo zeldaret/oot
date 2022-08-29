@@ -121,7 +121,7 @@ extern u8 gDefaultShortNoteGateTimeTable[16];
 extern EnvelopePoint gDefaultEnvelope[4];
 extern NoteSubEu gZeroNoteSub;
 extern NoteSubEu gDefaultNoteSub;
-extern u16 gHeadsetPanQuantization[64];
+extern u16 gHaasEffectDelaySizes[64];
 extern s16 D_8012FBA8[];
 extern f32 gHeadsetPanVolume[128];
 extern f32 gStereoPanVolume[128];

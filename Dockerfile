@@ -1,4 +1,4 @@
-FROM ubuntu:21.10 as build
+FROM ubuntu:22.04 as build
 ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
@@ -25,6 +25,8 @@ ENV LANG C.UTF-8
 
 RUN mkdir /oot
 WORKDIR /oot
+
+RUN git config --global --add safe.directory /oot
 
 CMD ["/bin/sh", "-c", \
     "echo 'usage:\n  docker run --rm --mount type=bind,source=\"$(pwd)\",destination=/oot oot make -j$(nproc) setup\n  docker run --rm --mount type=bind,source=\"$(pwd)\",destination=/oot oot make -j$(nproc)'"]
