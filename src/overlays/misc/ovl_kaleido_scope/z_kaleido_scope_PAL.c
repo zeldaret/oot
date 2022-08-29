@@ -550,10 +550,11 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
     };
     static s16 sCursorColorBlinkTimer_D_8082AD3C = 20;
     static s16 sCursorColorBlinkOffset_D_8082AD40 = 0;
-    static s16 sStickXcooldownTimer_D_8082AD44 = 0;
-    static s16 sStickYcooldownTimer_D_8082AD48 = 0;
-    static s16 sStickXcooldownDirection_D_8082AD4C = 0;
-    static s16 sStickYcooldownDirection_D_8082AD50 = 0;
+
+    static s16 sStickXRepeatTimer = 0;
+    static s16 sStickYRepeatTimer = 0;
+    static s16 sStickXRepeatState = 0;
+    static s16 sStickYRepeatState = 0;
 
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 stepR;
@@ -613,55 +614,55 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             }
 
             if (pauseCtx->stickRelX < -30) {
-                if (sStickXcooldownDirection_D_8082AD4C == -1) {
-                    if (--sStickXcooldownTimer_D_8082AD44 < 0) {
-                        sStickXcooldownTimer_D_8082AD44 = XREG(6);
+                if (sStickXRepeatState == -1) {
+                    if (--sStickXRepeatTimer < 0) {
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelX = 0;
                     }
                 } else {
-                    sStickXcooldownTimer_D_8082AD44 = XREG(8);
-                    sStickXcooldownDirection_D_8082AD4C = -1;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickXRepeatState = -1;
                 }
             } else if (pauseCtx->stickRelX > 30) {
-                if (sStickXcooldownDirection_D_8082AD4C == 1) {
-                    if (--sStickXcooldownTimer_D_8082AD44 < 0) {
-                        sStickXcooldownTimer_D_8082AD44 = XREG(6);
+                if (sStickXRepeatState == 1) {
+                    if (--sStickXRepeatTimer < 0) {
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelX = 0;
                     }
                 } else {
-                    sStickXcooldownTimer_D_8082AD44 = XREG(8);
-                    sStickXcooldownDirection_D_8082AD4C = 1;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickXRepeatState = 1;
                 }
             } else {
-                sStickXcooldownDirection_D_8082AD4C = 0;
+                sStickXRepeatState = 0;
             }
 
             if (pauseCtx->stickRelY < -30) {
-                if (sStickYcooldownDirection_D_8082AD50 == -1) {
-                    if (--sStickYcooldownTimer_D_8082AD48 < 0) {
-                        sStickYcooldownTimer_D_8082AD48 = XREG(6);
+                if (sStickYRepeatState == -1) {
+                    if (--sStickYRepeatTimer < 0) {
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelY = 0;
                     }
                 } else {
-                    sStickYcooldownTimer_D_8082AD48 = XREG(8);
-                    sStickYcooldownDirection_D_8082AD50 = -1;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickYRepeatState = -1;
                 }
             } else if (pauseCtx->stickRelY > 30) {
-                if (sStickYcooldownDirection_D_8082AD50 == 1) {
-                    if (--sStickYcooldownTimer_D_8082AD48 < 0) {
-                        sStickYcooldownTimer_D_8082AD48 = XREG(6);
+                if (sStickYRepeatState == 1) {
+                    if (--sStickYRepeatTimer < 0) {
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelY = 0;
                     }
                 } else {
-                    sStickYcooldownTimer_D_8082AD48 = XREG(8);
-                    sStickYcooldownDirection_D_8082AD50 = 1;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickYRepeatState = 1;
                 }
             } else {
-                sStickYcooldownDirection_D_8082AD50 = 0;
+                sStickYRepeatState = 0;
             }
         }
 
@@ -852,10 +853,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
     Gfx_SetupDL_42Opa(gfxCtx);
 
     if ((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) ||
-        ((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING))
-        /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12,
-           PAUSE_STATE_13, PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */
-    ) {
+        ((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING)
+         /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13,
+            PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */
+         )) {
         KaleidoScope_UpdatePrompt(play);
 
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
@@ -896,9 +897,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1424),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        if (((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING))
-        /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12,
-           PAUSE_STATE_13, PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */) {
+        if (((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING)
+             /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13,
+                PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */
+             )) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
         } else { // PAUSE_STATE_SAVE_PROMPT
             POLY_OPA_DISP =
@@ -907,8 +909,11 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->saveVtx[60], 32, 0);
 
-        if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) && (pauseCtx->savePromptSubState < PAUSE_SAVE_PROMPT_STATE_SAVED)
-             /* PAUSE_SAVE_PROMPT_STATE_APPEARING, PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE, PAUSE_SAVE_PROMPT_STATE_CLOSING, PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU */) ||
+        if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
+             (pauseCtx->savePromptSubState < PAUSE_SAVE_PROMPT_STATE_SAVED)
+             /* PAUSE_SAVE_PROMPT_STATE_APPEARING, PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE, PAUSE_SAVE_PROMPT_STATE_CLOSING,
+                PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU */
+             ) ||
             (pauseCtx->state == PAUSE_STATE_14)) {
 
             POLY_OPA_DISP =
@@ -933,8 +938,12 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             POLY_OPA_DISP =
                 KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
-        } else if ((pauseCtx->state != PAUSE_STATE_SAVE_PROMPT) || (pauseCtx->savePromptSubState < PAUSE_SAVE_PROMPT_STATE_SAVED)
-                   /* PAUSE_SAVE_PROMPT_STATE_APPEARING, PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE, PAUSE_SAVE_PROMPT_STATE_CLOSING, PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU */) {
+        } else if ((pauseCtx->state != PAUSE_STATE_SAVE_PROMPT) ||
+                   (pauseCtx->savePromptSubState < PAUSE_SAVE_PROMPT_STATE_SAVED
+                    /* PAUSE_SAVE_PROMPT_STATE_APPEARING, PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
+                       PAUSE_SAVE_PROMPT_STATE_CLOSING, PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU */
+                    )) {
+
             if ((pauseCtx->state != PAUSE_STATE_15) &&
                 ((pauseCtx->state == PAUSE_STATE_16) || (pauseCtx->state == PAUSE_STATE_17))) {
 
@@ -1217,19 +1226,21 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         (!pauseCtx->mainSubState /* PAUSE_MAIN_STATE_IDLE */ ||
          (pauseCtx->mainSubState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
          ((pauseCtx->mainSubState >= PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT) &&
-          (pauseCtx->mainSubState <= PAUSE_MAIN_STATE_7)) /* PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT,
-                                                     PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING,
-                                                     PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_DONE, PAUSE_MAIN_STATE_7 */
-         || (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
+          (pauseCtx->mainSubState <= PAUSE_MAIN_STATE_7)
+          /* PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT, PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING,
+             PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_DONE, PAUSE_MAIN_STATE_7 */
+          ) ||
+         (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
         (pauseCtx->cursorSpecialPos == 0)) {
 
         if (!pauseCtx->mainSubState /* PAUSE_MAIN_STATE_IDLE */ ||
             (pauseCtx->mainSubState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
             ((pauseCtx->mainSubState >= PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT) &&
-             (pauseCtx->mainSubState <= PAUSE_MAIN_STATE_7)) /* PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT,
-                                                        PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING,
-                                                        PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_DONE, PAUSE_MAIN_STATE_7 */
-            || (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
+             (pauseCtx->mainSubState <= PAUSE_MAIN_STATE_7)
+             /* PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT, PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING,
+                PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_DONE, PAUSE_MAIN_STATE_7 */
+             ) ||
+            (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
 
             pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
@@ -1544,14 +1555,14 @@ void KaleidoScope_UpdateSwitchPage(PlayState* play, Input* input) {
     }
 }
 
-void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
+void KaleidoScope_SetView(PauseContext* pauseCtx, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
     Vec3f lookAt;
     Vec3f up;
 
-    eye.x = x;
-    eye.y = y;
-    eye.z = z;
+    eye.x = eyeX;
+    eye.y = eyeY;
+    eye.z = eyeZ;
     lookAt.x = lookAt.y = lookAt.z = 0.0f;
     up.x = up.z = 0.0f;
     up.y = 1.0f;
@@ -2457,7 +2468,9 @@ void KaleidoScope_Draw(PlayState* play) {
     }
 
     if ((pauseCtx->state >= PAUSE_STATE_11) && (pauseCtx->state <= PAUSE_STATE_17)
-    /* PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13, PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */) {
+        /* PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13, PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16,
+           PAUSE_STATE_17 */
+    ) {
         KaleidoScope_DrawGameOver(play);
     }
 
@@ -2554,23 +2567,23 @@ void KaleidoScope_UpdateCursorSize(PlayState* play) {
             temp2 = 4;
             temp3 = 12;
             temp4 = 12;
-            if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x18) {
+            if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == QUEST_HEART_PIECE) {
                 temp1 = -2;
                 temp2 = 2;
                 temp3 = 32;
                 temp4 = 32;
-            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x17) {
+            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == QUEST_SKULL_TOKEN) {
                 temp1 = -4;
                 temp2 = 4;
                 temp4 = 13;
                 temp3 = 34;
-            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 6) {
+            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] < QUEST_SONG_MINUET) {
                 temp1 = -1;
                 temp2 = 1;
                 temp3 = 10;
                 temp4 = 10;
-            } else if ((pauseCtx->cursorSlot[pauseCtx->pageIndex] >= 6) &&
-                       (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 0x12)) {
+            } else if ((pauseCtx->cursorSlot[pauseCtx->pageIndex] >= QUEST_SONG_MINUET) &&
+                       (pauseCtx->cursorSlot[pauseCtx->pageIndex] < QUEST_KOKIRI_EMERALD)) {
                 temp1 = -5;
                 temp2 = 3;
                 temp3 = 8;
