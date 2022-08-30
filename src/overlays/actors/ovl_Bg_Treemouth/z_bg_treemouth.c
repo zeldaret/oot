@@ -236,7 +236,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
         if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }
-    } else { // neeeded to match
+    } else { // needed to match
     }
 
     if (gSaveContext.sceneLayer == 6) {

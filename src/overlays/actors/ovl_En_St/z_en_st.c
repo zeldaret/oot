@@ -270,7 +270,7 @@ void EnSt_SetDropAnimAndVel(EnSt* this) {
 }
 
 /**
- * Initalizes the Skulltula's 6 cylinders, and sphere collider.
+ * Initializes the Skulltula's 6 cylinders, and sphere collider.
  */
 void EnSt_InitColliders(EnSt* this, PlayState* play) {
     ColliderCylinderInit* cylinders[6] = {

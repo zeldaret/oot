@@ -683,7 +683,7 @@ void __osDisplayArena(Arena* arena) {
     ArenaNode* next;
 
     if (!__osMallocIsInitalized(arena)) {
-        osSyncPrintf("アリーナは初期化されていません\n"); // "Arena is not initalized"
+        osSyncPrintf("アリーナは初期化されていません\n"); // "Arena is not initialized"
         return;
     }
 
