@@ -910,7 +910,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
     this->collider.dim.radius = (sCylinderInit.dim.radius * 100.0f) * this->actor.scale.x;
     this->collider.dim.height = (sCylinderInit.dim.height * 100.0f) * this->actor.scale.x;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.scale.x >= 0.01f) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             EnFloormas_MakeVulnerable(this);
@@ -935,7 +935,7 @@ void EnFloormas_SmWait(EnFloormas* this, PlayState* play) {
 }
 
 void EnFloormas_TakeDamage(EnFloormas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnFloormas_Die(this, play);
         } else {
@@ -954,7 +954,7 @@ void EnFloormas_TakeDamage(EnFloormas* this, PlayState* play) {
 }
 
 void EnFloormas_Recover(EnFloormas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnFloormas_SetupStand(this);
     }
 }

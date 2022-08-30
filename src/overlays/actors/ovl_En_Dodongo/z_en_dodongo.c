@@ -678,7 +678,7 @@ void EnDodongo_Death(EnDodongo* this, PlayState* play) {
     } else if (this->actor.colorFilterTimer == 0) {
         Actor_SetColorFilter(&this->actor, 0x4000, 0x78, 0, 4);
     }
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer == 0) {
             bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 6, BOMB_BODY);

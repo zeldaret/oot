@@ -263,7 +263,7 @@ void func_80A68DB0(EnHorseGanon* this, PlayState* play) {
 
     func_80A686A8(this, play);
 
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A68B20(this);
     }
 }
