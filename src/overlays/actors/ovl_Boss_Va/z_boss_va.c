@@ -3463,7 +3463,7 @@ void BossVa_UpdateEffects(PlayState* play) {
 
             if (effect->type == VA_TUMOR) {
                 s16 yaw;
-                
+
                 refActor = effect->parent;
 
                 effect->rot.z += 0x157C;
