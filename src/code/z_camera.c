@@ -6686,7 +6686,7 @@ s32 Camera_Special6(Camera* camera) {
         camera->fov += (CAM_DATA_SCALED(fov) - camera->fov) / rwData->animTimer;
         rwData->animTimer--;
     } else {
-        // Camera following link on the x axis.
+        // Camera following player on the x axis.
         sCameraInterfaceFlags &= 0xF0FF;
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
