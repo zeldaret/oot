@@ -105,5 +105,5 @@ void ZeldaArena_Cleanup(void) {
 }
 
 u8 ZeldaArena_IsInitialized(void) {
-    return __osMallocIsInitalized(&sZeldaArena);
+    return __osMallocIsInitialized(&sZeldaArena);
 }

@@ -2089,7 +2089,7 @@ void __osMallocInit(Arena* arena, void* start, u32 size);
 void __osMallocAddBlock(Arena* arena, void* start, s32 size);
 void ArenaImpl_RemoveAllBlocks(Arena* arena);
 void __osMallocCleanup(Arena* arena);
-u8 __osMallocIsInitalized(Arena* arena);
+u8 __osMallocIsInitialized(Arena* arena);
 void __osMalloc_FreeBlockTest(Arena* arena, ArenaNode* node);
 void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line);
 void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line);

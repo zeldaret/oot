@@ -106,5 +106,5 @@ void SystemArena_Cleanup(void) {
 }
 
 u8 SystemArena_IsInitialized(void) {
-    return __osMallocIsInitalized(&gSystemArena);
+    return __osMallocIsInitialized(&gSystemArena);
 }

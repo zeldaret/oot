@@ -107,5 +107,5 @@ void DebugArena_Cleanup(void) {
 }
 
 u8 DebugArena_IsInitialized(void) {
-    return __osMallocIsInitalized(&sDebugArena);
+    return __osMallocIsInitialized(&sDebugArena);
 }
