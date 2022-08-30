@@ -21,15 +21,17 @@
 
         <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" Offset="0xFEF0"/>
 
+        <Texture Name="object_oF1d_map_TLUT_00C640" OutName="tlut_0000C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
+
         <!-- Eye textures -->
-        <Texture Name="gGoronCsEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xCE80"/>
-        <Texture Name="gGoronCsEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xD280"/>
-        <Texture Name="gGoronCsEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xD680"/>
-        <Texture Name="gGoronCsEyeClosed2Tex" OutName="eye_closed2" Format="ci8" Width="32" Height="32" Offset="0xDA80"/>
+        <Texture Name="gGoronCsEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xCE80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xD280" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xD680" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeClosed2Tex" OutName="eye_closed2" Format="ci8" Width="32" Height="32" Offset="0xDA80" TlutOffset="0xC640"/>
 
         <!-- Mouth textures -->
-        <Texture Name="gGoronCsMouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="64" Height="32" Offset="0xDE80"/>
-        <Texture Name="gGoronCsMouthSmileTex" OutName="mouth_smile" Format="ci8" Width="64" Height="32" Offset="0xE680"/>
+        <Texture Name="gGoronCsMouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="64" Height="32" Offset="0xDE80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsMouthSmileTex" OutName="mouth_smile" Format="ci8" Width="64" Height="32" Offset="0xE680" TlutOffset="0xC640"/>
 
     </File>
 </Root>
