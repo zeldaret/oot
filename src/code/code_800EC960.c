@@ -4854,7 +4854,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
                 sPrevSeqMode = seqMode + 0x80;
             }
         } else {
-            // Hyrule Field will play slightly different bgm music depending on whether player is standing
+            // Hyrule Field will play slightly different background music depending on whether player is standing
             // still or moving. This is the logic to determine the transition between those two states
             if (seqMode == SEQ_MODE_DEFAULT) {
                 if (sPrevSeqMode == SEQ_MODE_STILL) {

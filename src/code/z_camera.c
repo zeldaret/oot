@@ -68,8 +68,8 @@ f32 Camera_InterpolateCurve(f32 a, f32 b) {
 }
 
 /*
- * Performs linear interpoloation between `cur` and `target`.  If `cur` is within
- * `minDiff` units, The result is rounded up to `target`
+ * Performs linear interpolation between `cur` and `target`.  If `cur` is within
+ * `minDiff` units, the result is rounded up to `target`
  */
 f32 Camera_LERPCeilF(f32 target, f32 cur, f32 stepScale, f32 minDiff) {
     f32 diff = target - cur;
@@ -87,8 +87,8 @@ f32 Camera_LERPCeilF(f32 target, f32 cur, f32 stepScale, f32 minDiff) {
 }
 
 /*
- * Performs linear interpoloation between `cur` and `target`.  If `cur` is within
- * `minDiff` units, The result is rounded down to `cur`
+ * Performs linear interpolation between `cur` and `target`.  If `cur` is within
+ * `minDiff` units, the result is rounded down to `cur`
  */
 f32 Camera_LERPFloorF(f32 target, f32 cur, f32 stepScale, f32 minDiff) {
     f32 diff = target - cur;
@@ -106,8 +106,8 @@ f32 Camera_LERPFloorF(f32 target, f32 cur, f32 stepScale, f32 minDiff) {
 }
 
 /*
- * Performs linear interpoloation between `cur` and `target`.  If `cur` is within
- * `minDiff` units, The result is rounded up to `target`
+ * Performs linear interpolation between `cur` and `target`.  If `cur` is within
+ * `minDiff` units, the result is rounded up to `target`
  */
 s16 Camera_LERPCeilS(s16 target, s16 cur, f32 stepScale, s16 minDiff) {
     s16 diff = target - cur;
@@ -125,8 +125,8 @@ s16 Camera_LERPCeilS(s16 target, s16 cur, f32 stepScale, s16 minDiff) {
 }
 
 /*
- * Performs linear interpoloation between `cur` and `target`.  If `cur` is within
- * `minDiff` units, The result is rounded down to `cur`
+ * Performs linear interpolation between `cur` and `target`.  If `cur` is within
+ * `minDiff` units, the result is rounded down to `cur`
  */
 s16 Camera_LERPFloorS(s16 target, s16 cur, f32 stepScale, s16 minDiff) {
     s16 diff = target - cur;
@@ -144,8 +144,8 @@ s16 Camera_LERPFloorS(s16 target, s16 cur, f32 stepScale, s16 minDiff) {
 }
 
 /*
- * Performs linear interpoloation between `cur` and `target`.  If `cur` is within
- * `minDiff` units, The result is rounded up to `target`
+ * Performs linear interpolation between `cur` and `target`.  If `cur` is within
+ * `minDiff` units, the result is rounded up to `target`
  */
 void Camera_LERPCeilVec3f(Vec3f* target, Vec3f* cur, f32 yStepScale, f32 xzStepScale, f32 minDiff) {
     cur->x = Camera_LERPCeilF(target->x, cur->x, xzStepScale, minDiff);
@@ -5642,7 +5642,7 @@ s32 Camera_Demo1(Camera* camera) {
 
     switch (camera->animState) {
         case 0:
-            // initalize camera state
+            // initialize camera state
             rwData->keyframe = 0;
             rwData->curFrame = 0.0f;
             camera->animState++;
@@ -6174,7 +6174,7 @@ s32 Camera_Demo6(Camera* camera) {
 
     switch (camera->animState) {
         case 0:
-            // initalizes the camera state.
+            // initializes the camera state.
             rwData->animTimer = 0;
             camera->fov = 60.0f;
             Actor_GetWorld(&focusPosRot, camFocus);
@@ -6280,7 +6280,7 @@ s32 Camera_Demo9(Camera* camera) {
 
     switch (camera->animState) {
         case 0:
-            // initalize the camera state
+            // initialize the camera state
             rwData->keyframe = 0;
             rwData->finishAction = 0;
             rwData->curFrame = 0.0f;
@@ -6301,7 +6301,7 @@ s32 Camera_Demo9(Camera* camera) {
                 // if the animation timer is still running, run the demo logic
                 // if it is not, then the case will fallthrough to the finish logic.
 
-                // Run the at and eye cs interpoloation functions, if either of them return 1 (that no more points
+                // Run the at and eye cs interpolation functions, if either of them returns 1 (that no more points
                 // exist) change the animation state to 2 (standby)
                 if (func_800BB2B4(&csEyeUpdate, &newRoll, camFOV, onePointCamData->eyePoints, &rwData->keyframe,
                                   &rwData->curFrame) != 0 ||
@@ -6711,7 +6711,7 @@ s32 Camera_Special6(Camera* camera) {
         camera->fov += (CAM_DATA_SCALED(fov) - camera->fov) / rwData->animTimer;
         rwData->animTimer--;
     } else {
-        // Camera following link on the x axis.
+        // Camera following player on the x axis.
         sCameraInterfaceFlags &= 0xF0FF;
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
