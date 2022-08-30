@@ -2939,7 +2939,7 @@ void func_800328D4(PlayState* play, ActorContext* actorCtx, Player* player, u32 
         if ((actor->update != NULL) && ((Player*)actor != player) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0)) {
 
             // This block below is for determining the closest actor to player in determining the volume
-            // used while playing enemy bgm music
+            // used while playing enemy background music
             if ((actorCategory == ACTORCAT_ENEMY) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) &&
                 (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sbgmEnemyDistSq)) {
                 actorCtx->targetCtx.bgmEnemy = actor;
