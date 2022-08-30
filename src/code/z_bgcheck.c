@@ -55,7 +55,7 @@ void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 #define BGCHECK_RAYCAST_DOWN_CHECK_GROUND_ONLY (1 << 4)  // skips walls and ceilings with normal.y < 0
 
 // raycast down groundChk flag. When enabled, search range is limited to floors and walls with a normal.y >= 0
-#define BGCHECK_GROUND_CHECK_ON 1
+#define BGCHECK_GROUND_CHECK_ON (1 << 0)
 
 s32 D_80119D90[WALL_TYPE_MAX] = {
     0,                         // WALL_TYPE_0
