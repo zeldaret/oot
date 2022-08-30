@@ -514,9 +514,9 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
 void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     RoomShapeImageBase* header = &room->roomShape->image.base;
 
-    if (header->format == ROOM_SHAPE_IMAGE_FORMAT_SINGLE) {
+    if (header->amountType == ROOM_SHAPE_IMAGE_AMOUNT_SINGLE) {
         Room_DrawImageSingle(play, room, flags);
-    } else if (header->format == ROOM_SHAPE_IMAGE_FORMAT_MULTI) {
+    } else if (header->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
         LogUtils_HungupThread("../z_room.c", 841);

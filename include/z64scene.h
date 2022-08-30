@@ -84,13 +84,13 @@ typedef struct {
 } RoomShapeNormal; // size = 0x0C
 
 typedef enum {
-    /* 1 */ ROOM_SHAPE_IMAGE_FORMAT_SINGLE = 1,
-    /* 2 */ ROOM_SHAPE_IMAGE_FORMAT_MULTI
-} RoomShapeImageFormat;
+    /* 1 */ ROOM_SHAPE_IMAGE_AMOUNT_SINGLE = 1,
+    /* 2 */ ROOM_SHAPE_IMAGE_AMOUNT_MULTI
+} RoomShapeImageAmountType;
 
 typedef struct {
     /* 0x00 */ RoomShapeBase base;
-    /* 0x01 */ u8    format; // RoomShapeImageFormat
+    /* 0x01 */ u8    amountType; // RoomShapeImageAmountType
     /* 0x04 */ RoomShapeDListsEntry* entry;
 } RoomShapeImageBase; // size = 0x08
 
