@@ -408,7 +408,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     }
 
     if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-        if (pauseCtx->stickRelX < -30) {
+        if (pauseCtx->stickAdjX < -30) {
             pauseCtx->pageSwitchTimer++;
             if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 0);
@@ -417,7 +417,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
             pauseCtx->pageSwitchTimer = -1;
         }
     } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) {
-        if (pauseCtx->stickRelX > 30) {
+        if (pauseCtx->stickAdjX > 30) {
             pauseCtx->pageSwitchTimer++;
             if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 2);
@@ -552,23 +552,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             }
 
-            if (pauseCtx->stickRelX < -30) {
+            if (pauseCtx->stickAdjX < -30) {
                 if (D_8082AD4C == -1) {
                     if (--D_8082AD44 < 0) {
                         D_8082AD44 = XREG(6);
                     } else {
-                        pauseCtx->stickRelX = 0;
+                        pauseCtx->stickAdjX = 0;
                     }
                 } else {
                     D_8082AD44 = XREG(8);
                     D_8082AD4C = -1;
                 }
-            } else if (pauseCtx->stickRelX > 30) {
+            } else if (pauseCtx->stickAdjX > 30) {
                 if (D_8082AD4C == 1) {
                     if (--D_8082AD44 < 0) {
                         D_8082AD44 = XREG(6);
                     } else {
-                        pauseCtx->stickRelX = 0;
+                        pauseCtx->stickAdjX = 0;
                     }
                 } else {
                     D_8082AD44 = XREG(8);
@@ -578,23 +578,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 D_8082AD4C = 0;
             }
 
-            if (pauseCtx->stickRelY < -30) {
+            if (pauseCtx->stickAdjY < -30) {
                 if (D_8082AD50 == -1) {
                     if (--D_8082AD48 < 0) {
                         D_8082AD48 = XREG(6);
                     } else {
-                        pauseCtx->stickRelY = 0;
+                        pauseCtx->stickAdjY = 0;
                     }
                 } else {
                     D_8082AD48 = XREG(8);
                     D_8082AD50 = -1;
                 }
-            } else if (pauseCtx->stickRelY > 30) {
+            } else if (pauseCtx->stickAdjY > 30) {
                 if (D_8082AD50 == 1) {
                     if (--D_8082AD48 < 0) {
                         D_8082AD48 = XREG(6);
                     } else {
-                        pauseCtx->stickRelY = 0;
+                        pauseCtx->stickAdjY = 0;
                     }
                 } else {
                     D_8082AD48 = XREG(8);
@@ -2262,8 +2262,8 @@ void KaleidoScope_Draw(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
 
-    pauseCtx->stickRelX = input->rel.stick_x;
-    pauseCtx->stickRelY = input->rel.stick_y;
+    pauseCtx->stickAdjX = input->rel.stick_x;
+    pauseCtx->stickAdjY = input->rel.stick_y;
 
     gSPSegment(POLY_OPA_DISP++, 0x02, interfaceCtx->parameterSegment);
     gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->playerSegment);
@@ -2492,8 +2492,8 @@ void KaleidoScope_Update(PlayState* play) {
                                      ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
 
         if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == 6)) {
-            pauseCtx->stickRelX = input->rel.stick_x;
-            pauseCtx->stickRelY = input->rel.stick_y;
+            pauseCtx->stickAdjX = input->rel.stick_x;
+            pauseCtx->stickAdjY = input->rel.stick_y;
             KaleidoScope_UpdateCursorSize(play);
             KaleidoScope_HandlePageToggles(pauseCtx, input);
         } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 5))) {
