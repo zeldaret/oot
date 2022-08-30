@@ -534,35 +534,25 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
 void ActorOverlayTable_LogPrint(void);
 void ActorOverlayTable_Init(void);
 void ActorOverlayTable_Cleanup(void);
-u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest);
 f32 CollisionPoly_GetPointDistanceFromPlane(CollisionPoly* poly, Vec3f* point);
 void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionContext* colCtx, Vec3f* dest);
-s32 BgCheck_CheckStaticCeiling(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* outY, Vec3f* pos,
-                               f32 checkHeight, CollisionPoly** outPoly);
-s32 BgCheck_CheckLineAgainstSSList(SSList* ssList, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA,
-                                   Vec3f* posB, Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist,
-                                   s32 bccFlags);
-void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
 void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader* colHeader);
-s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor2(PlayState* play, CollisionContext* colCtx, CollisionPoly** outPoly,
-                                Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor3(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor4(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor5(PlayState* play, CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId,
-                                Actor* actor, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor6(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos,
-                                f32 chkDist);
-f32 BgCheck_EntityRaycastFloor7(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
-f32 BgCheck_AnyRaycastFloor1(CollisionContext* colCtx, CollisionPoly* outPoly, Vec3f* pos);
-f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s32* bgId, Vec3f* pos);
-f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
-s32 BgCheck_CheckWallImpl(CollisionContext* colCtx, u16 xpFlags, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev,
-                          f32 radius, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight, u8 argA);
+f32 BgCheck_EntityRaycastDown1(CollisionContext* colCtx, CollisionPoly** outGroundPoly, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown2(PlayState* play, CollisionContext* colCtx, CollisionPoly** outGroundPoly, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown3(CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown4(CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId, Actor* actor,
+                               Vec3f* pos);
+f32 BgCheck_EntityRaycastDown5(PlayState* play, CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId,
+                               Actor* actor, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown6(CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId, Actor* actor,
+                               Vec3f* pos, f32 chkDist);
+f32 BgCheck_EntityRaycastDown7(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
+f32 BgCheck_AnyRaycastDown1(CollisionContext* colCtx, CollisionPoly* outGroundPoly, Vec3f* pos);
+f32 BgCheck_AnyRaycastDown2(CollisionContext* colCtx, CollisionPoly* outGroundPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_CameraRaycastDown2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_EntityRaycastDownWalls(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
 s32 BgCheck_EntitySphVsWall1(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
                              CollisionPoly** outPoly, f32 checkHeight);
 s32 BgCheck_EntitySphVsWall2(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
@@ -574,9 +564,6 @@ s32 BgCheck_EntitySphVsWall4(CollisionContext* colCtx, Vec3f* posResult, Vec3f* 
 s32 BgCheck_AnyCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight);
 s32 BgCheck_EntityCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight,
                                CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
-                          Vec3f* posResult, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 chkDist,
-                          u32 bccFlags);
 s32 BgCheck_CameraLineTest1(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
                             CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
 s32 BgCheck_CameraLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
@@ -599,12 +586,7 @@ s32 BgCheck_AnyLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec
 s32 BgCheck_AnyLineTest3(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
                          s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
 s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* center, f32 radius);
-void SSNodeList_Initialize(SSNodeList*);
-void SSNodeList_Alloc(PlayState* play, SSNodeList* this, s32 tblMax, s32 numPolys);
-u16 SSNodeList_GetNextNodeIdx(SSNodeList* this);
 s32 DynaPoly_IsBgIdBgActor(s32 bgId);
-void DynaPoly_Init(PlayState* play, DynaCollisionContext* dyna);
-void DynaPoly_Alloc(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_DisableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 void DynaPoly_EnableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 void DynaPoly_DisableCeilingCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
@@ -615,19 +597,8 @@ void DynaPoly_InvalidateLookup(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_UnsetAllInteractFlags(PlayState* play, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_UpdateContext(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(PlayState* play, DynaCollisionContext* dyna);
-f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast);
-s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
-                          CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-s32 BgCheck_CheckDynaCeiling(CollisionContext* colCtx, u16 xpFlags, f32* outY, Vec3f* pos, f32 chkDist,
-                             CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-s32 BgCheck_CheckLineAgainstDyna(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
-                                 CollisionPoly** outPoly, f32* distSq, s32* outBgId, Actor* actor, f32 chkDist,
-                                 s32 bccFlags);
-s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
-                               Vec3f* center, f32 radius, Actor* actor, u16 bciFlags);
 void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest);
 void func_800418D0(CollisionContext* colCtx, PlayState* play);
-void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 u32 SurfaceType_GetBgCamIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 BgCheck_GetBgCamSettingImpl(CollisionContext* colCtx, u32 bgCamIndex, s32 bgId);
 u16 BgCheck_GetBgCamSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
@@ -1483,7 +1454,7 @@ void Play_Destroy(GameState* thisx);
 void Play_Init(GameState* thisx);
 void Play_Main(GameState* thisx);
 s32 Play_InCsMode(PlayState* this);
-f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* vec);
+f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* pos);
 void* Play_LoadFile(PlayState* this, RomFile* file);
 void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest);
 s16 Play_CreateSubCamera(PlayState* this);
