@@ -162,7 +162,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     CfbInfo* cfb;
     s32 pad1;
 
-    gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime = osGetTime() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
+    gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime =
+        osGetTime() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
 
     osSetTimer(&timer, OS_USEC_TO_CYCLES(3000000), 0, &gfxCtx->queue, (OSMesg)666);
 
