@@ -834,7 +834,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
     } else if (this->timer == 35) {
         // At this point, prepare each super cucco for flight
         for (i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
-            // Set a 10-16 frame zero-gravity time for each super cucco
+            // Set a 7-12 frame zero-gravity time for each super cucco
             this->superCuccoTimers[i] = (s32)(Rand_CenteredFloat(6.0f) + 10.0f);
 
             if (this->superCuccos[i] != NULL) {
