@@ -1195,14 +1195,14 @@ void EnPoSisters_Update(Actor* thisx, PlayState* play) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         } else {
-            Vec3f vec;
-            s32 sp34;
+            Vec3f checkPos;
+            s32 bgId;
 
-            vec.x = this->actor.world.pos.x;
-            vec.y = this->actor.world.pos.y + 10.0f;
-            vec.z = this->actor.world.pos.z;
+            checkPos.x = this->actor.world.pos.x;
+            checkPos.y = this->actor.world.pos.y + 10.0f;
+            checkPos.z = this->actor.world.pos.z;
             this->actor.floorHeight =
-                BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
+                BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
         }
 
         Collider_UpdateCylinder(&this->actor, &this->collider);
