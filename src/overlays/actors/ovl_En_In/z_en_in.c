@@ -617,7 +617,7 @@ void func_80A7A304(EnIn* this, PlayState* play) {
     if (this->skelAnime.animation == &object_in_Anim_018C38 && this->skelAnime.curFrame == 20.0f) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_VO_IN_CRY_0);
     }
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->animationIdx %= 8;
         this->unk_1E8 = this->animationIdx;
         if (this->animationIdx == 3 || this->animationIdx == 4) {

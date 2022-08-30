@@ -158,7 +158,7 @@ void BgHakaGate_StatueInactive(BgHakaGate* this, PlayState* play) {
 
 void BgHakaGate_StatueIdle(BgHakaGate* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 linkDirection;
+    s32 playerDirection;
     f32 forceDirection;
 
     if (this->dyna.unk_150 != 0.0f) {
@@ -166,8 +166,8 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, PlayState* play) {
             this->vInitTurnAngle = this->dyna.actor.shape.rot.y - this->dyna.actor.yawTowardsPlayer;
             sStatueDistToPlayer = this->dyna.actor.xzDistToPlayer;
             forceDirection = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
-            linkDirection = ((s16)(this->dyna.actor.yawTowardsPlayer - player->actor.shape.rot.y) > 0) ? -1 : 1;
-            this->vTurnDirection = linkDirection * forceDirection;
+            playerDirection = ((s16)(this->dyna.actor.yawTowardsPlayer - player->actor.shape.rot.y) > 0) ? -1 : 1;
+            this->vTurnDirection = playerDirection * forceDirection;
             this->actionFunc = BgHakaGate_StatueTurn;
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_4;

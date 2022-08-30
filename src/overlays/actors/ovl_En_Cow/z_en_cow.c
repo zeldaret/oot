@@ -303,7 +303,7 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[1].base);
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.animation == &gCowBodyChewAnim) {
             Audio_PlayActorSfx2(thisx, NA_SE_EV_COW_CRY);
             Animation_Change(&this->skelAnime, &gCowBodyMoveHeadAnim, 1.0f, 0.0f,
@@ -343,7 +343,7 @@ void func_809DFE98(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
     s32 pad;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.animation == &gCowTailIdleAnim) {
             Animation_Change(&this->skelAnime, &gCowTailSwishAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gCowTailSwishAnim), ANIMMODE_ONCE, 1.0f);

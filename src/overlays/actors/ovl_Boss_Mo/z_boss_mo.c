@@ -660,7 +660,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             this->targetPos = this->actor.world.pos;
             Math_ApproachF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01);
             Math_ApproachF(&this->tentSpeed, 160.0f, 1.0f, 50.0f);
-            if ((this->timers[0] == 0) || (this->linkHitTimer != 0)) {
+            if ((this->timers[0] == 0) || (this->playerHitTimer != 0)) {
                 dx = this->tentPos[22].x - player->actor.world.pos.x;
                 dy = this->tentPos[22].y - player->actor.world.pos.y;
                 dz = this->tentPos[22].z - player->actor.world.pos.z;
@@ -670,9 +670,9 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     this->timers[0] = 40;
                     this->tentSpeed = 0;
                     if ((s16)(this->actor.shape.rot.y - this->actor.yawTowardsPlayer) >= 0) {
-                        this->linkToLeft = false;
+                        this->playerToLeft = false;
                     } else {
-                        this->linkToLeft = true;
+                        this->playerToLeft = true;
                     }
                 } else {
                     this->tentMaxAngle = .001f;
@@ -702,7 +702,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             }
             for (indS1 = 0; indS1 < 41; indS1++) {
                 if (this->timers[0] > 25) {
-                    if (!this->linkToLeft) {
+                    if (!this->playerToLeft) {
                         Math_ApproachS(&this->tentRot[indS1].z, sCurlRot[indS1] * 0x100, 1.0f / this->tentMaxAngle,
                                        this->tentSpeed);
                     } else {
@@ -710,7 +710,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                                        this->tentSpeed);
                     }
                 } else {
-                    if (!this->linkToLeft) {
+                    if (!this->playerToLeft) {
                         Math_ApproachS(&this->tentRot[indS1].z, sGrabRot[indS1] * 0x100, 1.0f / this->tentMaxAngle,
                                        this->tentSpeed);
                     } else {
@@ -725,7 +725,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 0xC8);
             }
             if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_CURL) {
-                if ((this->timers[0] >= 5) && (this->linkHitTimer != 0) && (player->actor.parent == NULL)) {
+                if ((this->timers[0] >= 5) && (this->playerHitTimer != 0) && (player->actor.parent == NULL)) {
                     if (play->grabPlayer(play, player)) {
                         player->actor.parent = &this->actor;
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_GRAB;
@@ -1158,7 +1158,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
                 this->cutScale = 1.0f;
             } else if (hurtbox->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_JUMP_GIANT | DMG_SPIN_MASTER |
                                                     DMG_SPIN_GIANT | DMG_SLASH_GIANT | DMG_SLASH_MASTER)) {
-                this->linkHitTimer = 5;
+                this->playerHitTimer = 5;
             }
             this->tentRippleSize = 0.2f;
             for (i2 = 0; i2 < 10; i2++) {
@@ -1177,7 +1177,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
             break;
         } else if (this->tentCollider.elements[i1].info.toucherFlags & TOUCH_HIT) {
             this->tentCollider.elements[i1].info.toucherFlags &= ~TOUCH_HIT;
-            this->linkHitTimer = 5;
+            this->playerHitTimer = 5;
             break;
         }
     }
@@ -2377,8 +2377,8 @@ void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
     if (this->work[MO_TENT_INVINC_TIMER] != 0) {
         this->work[MO_TENT_INVINC_TIMER]--;
     }
-    if (this->linkHitTimer != 0) {
-        this->linkHitTimer--;
+    if (this->playerHitTimer != 0) {
+        this->playerHitTimer--;
     }
 
     if (this->drawActor) {
@@ -2540,7 +2540,7 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
             Vec3s sp84;
 
             Matrix_Push();
-            if (this->linkToLeft) {
+            if (this->playerToLeft) {
                 sp8C.x *= -1.0f;
             }
             Matrix_MultVec3f(&sp8C, &this->grabPosRot.pos);
