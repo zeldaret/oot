@@ -508,10 +508,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
     };
     static s16 D_8082AD3C = 20;
     static s16 D_8082AD40 = 0;
-    static s16 D_8082AD44 = 0;
-    static s16 D_8082AD48 = 0;
-    static s16 D_8082AD4C = 0;
-    static s16 D_8082AD50 = 0;
+    static s16 sStickXRepeatTimer = 0;
+    static s16 sStickYRepeatTimer = 0;
+    static s16 sStickXRepeatState = 0;
+    static s16 sStickYRepeatState = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 stepR;
     s16 stepG;
@@ -553,55 +553,55 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             }
 
             if (pauseCtx->stickRelX < -30) {
-                if (D_8082AD4C == -1) {
-                    if (--D_8082AD44 < 0) {
-                        D_8082AD44 = XREG(6);
+                if (sStickXRepeatState == -1) {
+                    if (--sStickXRepeatTimer < 0) {
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelX = 0;
                     }
                 } else {
-                    D_8082AD44 = XREG(8);
-                    D_8082AD4C = -1;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickXRepeatState = -1;
                 }
             } else if (pauseCtx->stickRelX > 30) {
-                if (D_8082AD4C == 1) {
-                    if (--D_8082AD44 < 0) {
-                        D_8082AD44 = XREG(6);
+                if (sStickXRepeatState == 1) {
+                    if (--sStickXRepeatTimer < 0) {
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelX = 0;
                     }
                 } else {
-                    D_8082AD44 = XREG(8);
-                    D_8082AD4C = 1;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickXRepeatState = 1;
                 }
             } else {
-                D_8082AD4C = 0;
+                sStickXRepeatState = 0;
             }
 
             if (pauseCtx->stickRelY < -30) {
-                if (D_8082AD50 == -1) {
-                    if (--D_8082AD48 < 0) {
-                        D_8082AD48 = XREG(6);
+                if (sStickYRepeatState == -1) {
+                    if (--sStickYRepeatTimer < 0) {
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelY = 0;
                     }
                 } else {
-                    D_8082AD48 = XREG(8);
-                    D_8082AD50 = -1;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickYRepeatState = -1;
                 }
             } else if (pauseCtx->stickRelY > 30) {
-                if (D_8082AD50 == 1) {
-                    if (--D_8082AD48 < 0) {
-                        D_8082AD48 = XREG(6);
+                if (sStickYRepeatState == 1) {
+                    if (--sStickYRepeatTimer < 0) {
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     } else {
                         pauseCtx->stickRelY = 0;
                     }
                 } else {
-                    D_8082AD48 = XREG(8);
-                    D_8082AD50 = 1;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickYRepeatState = 1;
                 }
             } else {
-                D_8082AD50 = 0;
+                sStickYRepeatState = 0;
             }
         }
 
