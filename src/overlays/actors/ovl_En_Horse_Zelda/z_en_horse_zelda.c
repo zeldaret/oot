@@ -217,13 +217,13 @@ void func_80A6DE38(EnHorseZelda* this, PlayState* play) {
     s32 pad;
     CollisionPoly* poly;
     s32 pad2;
-    Vec3f pos;
+    Vec3f checkPos;
     s32 bgId;
 
-    pos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + 60.0f;
-    pos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
-    this->unk_1F4 = BgCheck_EntityRaycastFloor3(&play->colCtx, &poly, &bgId, &pos);
+    checkPos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 60.0f;
+    checkPos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
+    this->unk_1F4 = BgCheck_EntityRaycastDown3(&play->colCtx, &poly, &bgId, &checkPos);
     this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_1F4, 30.0f));
 }
 

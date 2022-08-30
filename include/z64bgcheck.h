@@ -296,11 +296,11 @@ typedef struct {
     /* 0x14 */ Vec3f* pos;
     /* 0x18 */ s32* bgId;
     /* 0x1C */ struct Actor* actor;
-    /* 0x20 */ u32 unk_20;
+    /* 0x20 */ u32 downChkFlags;
     /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
     /* 0x2C */ SSList* ssList;
-} DynaRaycast;
+} DynaRaycastDown;
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;
