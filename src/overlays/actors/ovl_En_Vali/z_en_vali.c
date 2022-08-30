@@ -156,7 +156,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
 
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
     this->actor.params = BARI_TYPE_NORMAL;
 
     if (this->actor.floorHeight == BGCHECK_Y_MIN) {

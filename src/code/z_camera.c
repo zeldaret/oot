@@ -233,7 +233,7 @@ s32 Camera_BGCheckInfo(Camera* camera, Vec3f* from, CamColChk* to) {
 
         toNewPos = to->pos;
         toNewPos.y += 5.0f;
-        floorPolyY = BgCheck_CameraRaycastFloor2(colCtx, &floorPoly, &floorBgId, &toNewPos);
+        floorPolyY = BgCheck_CameraRaycastDown2(colCtx, &floorPoly, &floorBgId, &toNewPos);
 
         if ((to->pos.y - floorPolyY) > 5.0f) {
             // if the y distance from the check point to the floor is more than 5 units
@@ -293,7 +293,7 @@ s32 func_80043F94(Camera* camera, Vec3f* from, CamColChk* to) {
         to->norm.z = -fromToNorm.z;
         toNewPos = to->pos;
         toNewPos.y += 5.0f;
-        floorY = BgCheck_CameraRaycastFloor2(colCtx, &floorPoly, &bgId, &toNewPos);
+        floorY = BgCheck_CameraRaycastDown2(colCtx, &floorPoly, &bgId, &toNewPos);
         if ((to->pos.y - floorY) > 5.0f) {
             // to is not on the ground or below it.
             to->pos.x += to->norm.x;
@@ -377,7 +377,7 @@ s32 Camera_CheckOOB(Camera* camera, Vec3f* from, Vec3f* to) {
 f32 Camera_GetFloorYNorm(Camera* camera, Vec3f* floorNorm, Vec3f* chkPos, s32* bgId) {
     s32 pad;
     CollisionPoly* floorPoly;
-    f32 floorY = BgCheck_EntityRaycastFloor3(&camera->play->colCtx, &floorPoly, bgId, chkPos);
+    f32 floorY = BgCheck_EntityRaycastDown3(&camera->play->colCtx, &floorPoly, bgId, chkPos);
 
     if (floorY == BGCHECK_Y_MIN) {
         // no floor
@@ -418,7 +418,7 @@ f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, s32* bgId) {
     s32 i;
 
     for (i = 3; i > 0; i--) {
-        floorY = BgCheck_CameraRaycastFloor2(colCtx, &floorPoly, bgId, pos);
+        floorY = BgCheck_CameraRaycastDown2(colCtx, &floorPoly, bgId, pos);
         if (floorY == BGCHECK_Y_MIN ||
             (camera->playerGroundY < floorY && !(COLPOLY_GET_NORMAL(floorPoly->normal.y) > 0.5f))) {
             // no floor, or player is below the floor and floor is not considered steep
@@ -492,7 +492,7 @@ Vec3s* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
     Actor_GetWorldPosShapeRot(&playerPosShape, &camera->player->actor);
     playerPosShape.pos.y += Player_GetHeight(camera->player);
 
-    if (BgCheck_EntityRaycastFloor3(&camera->play->colCtx, &floorPoly, &bgId, &playerPosShape.pos) == BGCHECK_Y_MIN) {
+    if (BgCheck_EntityRaycastDown3(&camera->play->colCtx, &floorPoly, &bgId, &playerPosShape.pos) == BGCHECK_Y_MIN) {
         // no floor
         return NULL;
     }
@@ -540,11 +540,11 @@ s32 Camera_GetWaterBoxBgCamIndex(Camera* camera, f32* waterY) {
 }
 
 /**
- * Checks if `chkPos` is inside a waterbox. If there is no water box below `chkPos`
- * or if `chkPos` is above the water surface, return BGCHECK_Y_MIN, output
- * environment properites to `envProp` if `chkPos` is inside the waterbox.
+ * Checks if `chkPos` is inside a waterbox.
+ * If there is no water box below `chkPos` or if `chkPos` is above the water surface, return BGCHECK_Y_MIN.
+ * If `chkPos` is inside the waterbox, output light index to `lightIndex`.
  */
-f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
+f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* lightIndex) {
     PosRot playerPosRot;
     f32 waterY;
     WaterBox* waterBox;
@@ -563,7 +563,7 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
         return BGCHECK_Y_MIN;
     }
 
-    *envProp = WaterBox_GetLightSettingIndex(&camera->play->colCtx, waterBox);
+    *lightIndex = WaterBox_GetLightIndex(&camera->play->colCtx, waterBox);
     return waterY;
 }
 
@@ -641,62 +641,55 @@ s16 func_80044ADC(Camera* camera, s16 yaw, s16 arg2) {
     return temp_s0 + temp_s1;
 }
 
-Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {
-    f32 sinPitch;
-    f32 cosPitch;
-    f32 sinYaw;
-    f32 cosYaw;
-    f32 sinNegRoll;
-    f32 cosNegRoll;
-    Vec3f spA4;
+/**
+ * Calculates a new Up vector from the pitch, yaw, roll
+ */
+Vec3f* Camera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16 roll) {
+    f32 sinP = Math_SinS(pitch);
+    f32 cosP = Math_CosS(pitch);
+    f32 sinY = Math_SinS(yaw);
+    f32 cosY = Math_CosS(yaw);
+    f32 sinR = Math_SinS(-roll);
+    f32 cosR = Math_CosS(-roll);
+    Vec3f up;
+    Vec3f baseUp;
+    Vec3f u;
+    Vec3f rollMtxRow1;
+    Vec3f rollMtxRow2;
+    Vec3f rollMtxRow3;
     f32 pad;
-    f32 sp54;
-    f32 sp4C;
-    f32 cosPitchCosYawSinRoll;
-    f32 negSinPitch;
-    f32 temp_f10_2;
-    f32 cosPitchcosYaw;
-    f32 temp_f14;
-    f32 negSinPitchSinYaw;
-    f32 negSinPitchCosYaw;
-    f32 cosPitchSinYaw;
-    f32 temp_f4_2;
-    f32 temp_f6;
-    f32 temp_f8;
-    f32 temp_f8_2;
-    f32 temp_f8_3;
 
-    sinPitch = Math_SinS(pitch);
-    cosPitch = Math_CosS(pitch);
-    sinYaw = Math_SinS(yaw);
-    cosYaw = Math_CosS(yaw);
-    negSinPitch = -sinPitch;
-    sinNegRoll = Math_SinS(-roll);
-    cosNegRoll = Math_CosS(-roll);
-    negSinPitchSinYaw = negSinPitch * sinYaw;
-    temp_f14 = 1.0f - cosNegRoll;
-    cosPitchSinYaw = cosPitch * sinYaw;
-    sp54 = SQ(cosPitchSinYaw);
-    sp4C = (cosPitchSinYaw * sinPitch) * temp_f14;
-    cosPitchcosYaw = cosPitch * cosYaw;
-    temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
-    cosPitchCosYawSinRoll = cosPitchcosYaw * sinNegRoll;
-    negSinPitchCosYaw = negSinPitch * cosYaw;
-    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * temp_f14;
-    temp_f10_2 = sinPitch * sinNegRoll;
-    spA4.x = ((negSinPitchSinYaw * temp_f4_2) + (cosPitch * (sp4C - cosPitchCosYawSinRoll))) +
-             (negSinPitchCosYaw * (temp_f6 + temp_f10_2));
-    sp54 = SQ(sinPitch);
-    temp_f4_2 = (sinPitch * cosPitchcosYaw) * temp_f14;
-    temp_f8_3 = cosPitchSinYaw * sinNegRoll;
-    temp_f8 = sp4C + cosPitchCosYawSinRoll;
-    spA4.y = ((negSinPitchSinYaw * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) +
-             (negSinPitchCosYaw * (temp_f4_2 - temp_f8_3));
-    temp_f8_2 = temp_f6 - temp_f10_2;
-    spA4.z = ((negSinPitchSinYaw * temp_f8_2) + (cosPitch * (temp_f4_2 + temp_f8_3))) +
-             (negSinPitchCosYaw * (((1.0f - SQ(cosPitchcosYaw)) * cosNegRoll) + SQ(cosPitchcosYaw)));
-    *dest = spA4;
-    return dest;
+    // Axis to roll around
+    u.x = cosP * sinY;
+    u.y = sinP;
+    u.z = cosP * cosY;
+
+    // Matrix to apply the roll to the Up vector without roll
+    rollMtxRow1.x = ((1.0f - SQ(u.x)) * cosR) + SQ(u.x);
+    rollMtxRow1.y = ((u.x * u.y) * (1.0f - cosR)) - (u.z * sinR);
+    rollMtxRow1.z = ((u.z * u.x) * (1.0f - cosR)) + (u.y * sinR);
+
+    rollMtxRow2.x = ((u.x * u.y) * (1.0f - cosR)) + (u.z * sinR);
+    rollMtxRow2.y = ((1.0f - SQ(u.y)) * cosR) + SQ(u.y);
+    rollMtxRow2.z = ((u.y * u.z) * (1.0f - cosR)) - (u.x * sinR);
+
+    rollMtxRow3.x = ((u.z * u.x) * (1.0f - cosR)) - (u.y * sinR);
+    rollMtxRow3.y = ((u.y * u.z) * (1.0f - cosR)) + (u.x * sinR);
+    rollMtxRow3.z = ((1.0f - SQ(u.z)) * cosR) + SQ(u.z);
+
+    // Up without roll
+    baseUp.x = -sinP * sinY;
+    baseUp.y = cosP;
+    baseUp.z = -sinP * cosY;
+
+    // rollMtx * baseUp
+    up.x = DOTXYZ(baseUp, rollMtxRow1);
+    up.y = DOTXYZ(baseUp, rollMtxRow2);
+    up.z = DOTXYZ(baseUp, rollMtxRow3);
+
+    *viewUp = up;
+
+    return viewUp;
 }
 
 f32 Camera_ClampLERPScale(Camera* camera, f32 maxLERPScale) {
@@ -3654,7 +3647,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&spA8, at, eyeNext);
     D_8015BD50 = playerPosRot->pos;
     D_8015BD50.y += playerHeight;
-    temp_f0_2 = BgCheck_CameraRaycastFloor2(&camera->play->colCtx, &spC0, &i, &D_8015BD50);
+    temp_f0_2 = BgCheck_CameraRaycastDown2(&camera->play->colCtx, &spC0, &i, &D_8015BD50);
     if (temp_f0_2 > (roData->unk_00 + D_8015BD50.y)) {
         D_8015BD50.y = temp_f0_2 + 10.0f;
     } else {
@@ -7414,7 +7407,7 @@ Vec3s Camera_Update(Camera* camera) {
     Vec3f viewEye;
     Vec3f viewUp;
     f32 viewFov;
-    Vec3f spAC;
+    Vec3f pos;
     s32 bgId;
     f32 playerGroundY;
     f32 playerXZSpeed;
@@ -7448,11 +7441,11 @@ Vec3s Camera_Update(Camera* camera) {
         camera->playerPosDelta.x = curPlayerPosRot.pos.x - camera->playerPosRot.pos.x;
         camera->playerPosDelta.y = curPlayerPosRot.pos.y - camera->playerPosRot.pos.y;
         camera->playerPosDelta.z = curPlayerPosRot.pos.z - camera->playerPosRot.pos.z;
-        spAC = curPlayerPosRot.pos;
-        spAC.y += Player_GetHeight(camera->player);
+        pos = curPlayerPosRot.pos;
+        pos.y += Player_GetHeight(camera->player);
 
-        playerGroundY = BgCheck_EntityRaycastFloor5(camera->play, &camera->play->colCtx, &playerFloorPoly, &bgId,
-                                                    &camera->player->actor, &spAC);
+        playerGroundY = BgCheck_EntityRaycastDown5(camera->play, &camera->play->colCtx, &playerFloorPoly, &bgId,
+                                                   &camera->player->actor, &pos);
         if (playerGroundY != BGCHECK_Y_MIN) {
             // player is above ground.
             sOOBTimer = 0;

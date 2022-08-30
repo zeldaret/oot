@@ -1246,7 +1246,7 @@ OcarinaStaff sPlayingStaff;
 OcarinaStaff sPlaybackStaff;
 OcarinaStaff sRecordingStaff;
 u32 sOcarinaUpdateTaskStart;
-OcarinaStick sOcarinaInputStickRel;
+OcarinaStick sOcarinaInputStickAdj;
 u32 sOcarinaInputButtonCur;
 u32 sOcarinaInputButtonStart;
 u32 sOcarinaInputButtonPrev;
@@ -1299,8 +1299,8 @@ void AudioOcarina_ReadControllerInput(void) {
     PadMgr_RequestPadData(&gPadMgr, inputs, 0);
     sOcarinaInputButtonCur = input->cur.button;
     sOcarinaInputButtonPrev = ocarinaInputButtonPrev;
-    sOcarinaInputStickRel.x = input->rel.stick_x;
-    sOcarinaInputStickRel.y = input->rel.stick_y;
+    sOcarinaInputStickAdj.x = input->rel.stick_x;
+    sOcarinaInputStickAdj.y = input->rel.stick_y;
 }
 
 /**
@@ -1719,11 +1719,11 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
 
         if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
             // Bend the pitch of the note based on y control stick
-            sCurOcarinaBendIndex = sOcarinaInputStickRel.y;
+            sCurOcarinaBendIndex = sOcarinaInputStickAdj.y;
             sCurOcarinaBendFreq = AudioOcarina_BendPitchTwoSemitones(sCurOcarinaBendIndex);
 
             // Add vibrato of the ocarina note based on the x control stick
-            sCurOcarinaVibrato = ABS_ALT(sOcarinaInputStickRel.x) >> 2;
+            sCurOcarinaVibrato = ABS_ALT(sOcarinaInputStickAdj.x) >> 2;
             // Sets vibrato to io port 6
             Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 6, sCurOcarinaVibrato);
         } else {

@@ -5,18 +5,18 @@ static s16 sKaleidoPromptCursorAlphaVals[] = { 100, 255 };
 void KaleidoScope_UpdatePrompt(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
-    s8 relStickX = input->rel.stick_x;
+    s8 stickAdjX = input->rel.stick_x;
     s16 step;
 
     if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
          (pauseCtx->savePromptSubState == PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE)) ||
         (pauseCtx->state == PAUSE_STATE_14) || (pauseCtx->state == PAUSE_STATE_16)) {
 
-        if ((pauseCtx->promptChoice == 0) && (relStickX >= 30)) {
+        if ((pauseCtx->promptChoice == 0) && (stickAdjX >= 30)) {
             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             pauseCtx->promptChoice = 4;
-        } else if ((pauseCtx->promptChoice != 0) && (relStickX <= -30)) {
+        } else if ((pauseCtx->promptChoice != 0) && (stickAdjX <= -30)) {
             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             pauseCtx->promptChoice = 0;
