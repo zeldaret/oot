@@ -119,12 +119,12 @@ typedef struct {
     /* 0x15 */ u8    siz;
     /* 0x16 */ u16   tlutMode;
     /* 0x18 */ u16   tlutCount;
-} RoomShapeImageMultiBackgroundEntry; // size = 0x1C
+} RoomShapeImageMultiBgEntry; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ RoomShapeImageBase base;
     /* 0x08 */ u8    numBackgrounds;
-    /* 0x0C */ RoomShapeImageMultiBackgroundEntry* backgrounds;
+    /* 0x0C */ RoomShapeImageMultiBgEntry* backgrounds;
 } RoomShapeImageMulti; // size = 0x10
 
 typedef struct {
@@ -158,7 +158,7 @@ typedef union {
 typedef RoomShapeDListsEntry PolygonDlist;
 typedef RoomShapeNormal PolygonType0;
 typedef RoomShapeImageSingle MeshHeader1Single;
-typedef RoomShapeImageMultiBackgroundEntry BgImage;
+typedef RoomShapeImageMultiBgEntry BgImage;
 typedef RoomShapeImageMulti MeshHeader1Multi;
 typedef RoomShapeCullableEntry PolygonDlist2;
 typedef RoomShapeCullable PolygonType2;

@@ -411,13 +411,13 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-RoomShapeImageMultiBackgroundEntry* Room_GetImageMultiBackgroundEntry(RoomShapeImageMulti* roomShapeImageMulti,
-                                                                      PlayState* play) {
+RoomShapeImageMultiBgEntry* Room_GetImageMultiBackgroundEntry(RoomShapeImageMulti* roomShapeImageMulti,
+                                                              PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
     s32 bgCamIndex = activeCam->bgCamIndex;
     s16 overrideBgCamIndex;
     Player* player;
-    RoomShapeImageMultiBackgroundEntry* backgroundEntry;
+    RoomShapeImageMultiBgEntry* backgroundEntry;
     s32 i;
 
     // In mq debug vanilla scenes, overrideBgCamIndex is always -1 or the same as bgCamIndex
@@ -449,7 +449,7 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
     RoomShapeImageMulti* header;
-    RoomShapeImageMultiBackgroundEntry* backgroundEntry;
+    RoomShapeImageMultiBgEntry* backgroundEntry;
     RoomShapeDListsEntry* dListsEntry;
     u32 isFixedCamera;
     u32 drawBackground;
