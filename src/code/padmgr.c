@@ -41,11 +41,11 @@
     (void)0
 
 #define LOG_SEVERITY_NOLOG 0
-#define LOG_SEVERITY_INFO 1
+#define LOG_SEVERITY_CRITICAL 1
 #define LOG_SEVERITY_ERROR 2
 #define LOG_SEVERITY_VERBOSE 3
 
-s32 gPadMgrLogSeverity = LOG_SEVERITY_INFO;
+s32 gPadMgrLogSeverity = LOG_SEVERITY_CRITICAL;
 
 /**
  * Acquires exclusive access to the serial event queue.
