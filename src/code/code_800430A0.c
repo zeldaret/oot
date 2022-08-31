@@ -4,7 +4,7 @@
 /**
  * Update the `actor`'s position based on the dynapoly actor identified by `bgId`.
  */
-void DynaPolyMove_UpdatePosition(CollisionContext* colCtx, s32 bgId, Actor* actor) {
+void DynaPolyActor_UpdatePosition(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     MtxF prevTransform;
     MtxF prevTransformInv;
     MtxF curTransform;
@@ -54,7 +54,7 @@ void DynaPolyMove_UpdatePosition(CollisionContext* colCtx, s32 bgId, Actor* acto
 /**
  * Update the `actor`'s Y rotation based on the dynapoly actor identified by `bgId`.
  */
-void DynaPolyMove_UpdateRotationY(CollisionContext* colCtx, s32 bgId, Actor* actor) {
+void DynaPolyActor_UpdateRotationY(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         s16 rotY = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
 
@@ -84,7 +84,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
  * Update the `actor`'s position and Y rotation based on the dynapoly actor identified by `bgId`, according to the
  * dynapoly actor's move flags (see `DYNA_MOVE_POS` and others).
  */
-s32 DynaPolyMove_UpdateActor(CollisionContext* colCtx, s32 bgId, Actor* actor) {
+s32 DynaPolyActor_UpdateTransform(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     s32 result = false;
     DynaPolyActor* dynaActor;
 
@@ -103,12 +103,12 @@ s32 DynaPolyMove_UpdateActor(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     }
 
     if (dynaActor->moveFlags & DYNA_MOVE_POS) {
-        DynaPolyMove_UpdatePosition(colCtx, bgId, actor);
+        DynaPolyActor_UpdatePosition(colCtx, bgId, actor);
         result = true;
     }
 
     if (dynaActor->moveFlags & DYNA_MOVE_ROT_Y) {
-        DynaPolyMove_UpdateRotationY(colCtx, bgId, actor);
+        DynaPolyActor_UpdateRotationY(colCtx, bgId, actor);
         result = true;
     }
 
