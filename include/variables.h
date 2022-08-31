@@ -128,7 +128,7 @@ extern f32 gStereoPanVolume[128];
 extern f32 gDefaultPanVolume[128];
 extern s16 gLowPassFilterData[16 * 8];
 extern s16 gHighPassFilterData[15 * 8];
-extern s32 gAudioContextInitalized;
+extern s32 gAudioContextInitialized;
 extern u8 gIsLargeSfxBank[7];
 extern u8 gChannelsPerBank[4][7];
 extern u8 gUsedChannelsPerBank[4][7];

@@ -98,17 +98,17 @@ void ObjTsubo_ApplyGravity(ObjTsubo* this) {
 }
 
 s32 ObjTsubo_SnapToFloor(ObjTsubo* this, PlayState* play) {
-    CollisionPoly* floorPoly;
+    CollisionPoly* groundPoly;
     Vec3f pos;
-    s32 bgID;
-    f32 floorY;
+    s32 bgId;
+    f32 groundY;
 
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y + 20.0f;
     pos.z = this->actor.world.pos.z;
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgID, &this->actor, &pos);
-    if (floorY > BGCHECK_Y_MIN) {
-        this->actor.world.pos.y = floorY;
+    groundY = BgCheck_EntityRaycastDown4(&play->colCtx, &groundPoly, &bgId, &this->actor, &pos);
+    if (groundY > BGCHECK_Y_MIN) {
+        this->actor.world.pos.y = groundY;
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {

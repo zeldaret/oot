@@ -4274,7 +4274,7 @@ Actor* Player_SpawnFairy(PlayState* play, Player* this, Vec3f* arg2, Vec3f* arg3
 f32 func_808396F4(PlayState* play, Player* this, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, s32* arg5) {
     func_808395DC(this, &this->actor.world.pos, arg2, arg3);
 
-    return BgCheck_EntityRaycastFloor3(&play->colCtx, arg4, arg5, arg3);
+    return BgCheck_EntityRaycastDown3(&play->colCtx, arg4, arg5, arg3);
 }
 
 f32 func_8083973C(PlayState* play, Player* this, Vec3f* arg2, Vec3f* arg3) {
@@ -4309,8 +4309,8 @@ s32 func_80839800(Player* this, PlayState* play) {
     s32 frontRoom;
     Actor* attachedActor;
     LinkAnimationHeader* sp5C;
-    CollisionPoly* sp58;
-    Vec3f sp4C;
+    CollisionPoly* groundPoly;
+    Vec3f checkPos;
 
     if ((this->doorType != PLAYER_DOORTYPE_NONE) &&
         (!(this->stateFlags1 & PLAYER_STATE1_11) ||
@@ -4428,13 +4428,14 @@ s32 func_80839800(Player* this, PlayState* play) {
                     Actor_DisableLens(play);
 
                     if (ENDOOR_GET_TYPE(doorActor) == DOOR_SCENEEXIT) {
-                        sp4C.x = doorActor->world.pos.x - (sp6C * sp74);
-                        sp4C.y = doorActor->world.pos.y + 10.0f;
-                        sp4C.z = doorActor->world.pos.z - (sp6C * sp78);
+                        checkPos.x = doorActor->world.pos.x - (sp6C * sp74);
+                        checkPos.y = doorActor->world.pos.y + 10.0f;
+                        checkPos.z = doorActor->world.pos.z - (sp6C * sp78);
 
-                        BgCheck_EntityRaycastFloor1(&play->colCtx, &sp58, &sp4C);
+                        BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
 
-                        if (func_80839034(play, this, sp58, BGCHECK_SCENE)) {
+                        //! @bug groundPoly's bgId is not guaranteed to be BGCHECK_SCENE
+                        if (func_80839034(play, this, groundPoly, BGCHECK_SCENE)) {
                             gSaveContext.entranceSpeed = 2.0f;
                             gSaveContext.entranceSound = NA_SE_OC_DOOR_OPEN;
                         }
@@ -9766,7 +9767,7 @@ void func_80847BA0(PlayState* play, Player* this) {
                 f32 wallPolyNormalY = COLPOLY_GET_NORMAL(wallPoly->normal.y);
                 f32 wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
                 f32 wallHeight;
-                CollisionPoly* sp7C;
+                CollisionPoly* groundPoly;
                 CollisionPoly* sp78;
                 s32 sp74;
                 Vec3f sp68;
@@ -9782,7 +9783,7 @@ void func_80847BA0(PlayState* play, Player* this) {
                 sp68.z = this->actor.world.pos.z - (spB0 * wallPolyNormalZ);
                 sp68.y = this->actor.world.pos.y + this->ageProperties->unk_0C;
 
-                sp64 = BgCheck_EntityRaycastFloor1(&play->colCtx, &sp7C, &sp68);
+                sp64 = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &sp68);
                 wallHeight = sp64 - this->actor.world.pos.y;
                 this->wallHeight = wallHeight;
 
@@ -9800,7 +9801,7 @@ void func_80847BA0(PlayState* play, Player* this) {
                         this->wallHeight = 399.96002f;
                     } else if (SurfaceType_CheckWallFlag0(&play->colCtx, wallPoly, this->actor.wallBgId) == 0) {
                         if (this->ageProperties->unk_1C <= this->wallHeight) {
-                            if (ABS(sp7C->normal.y) > 28000) {
+                            if (ABS(groundPoly->normal.y) > 28000) {
                                 if (this->ageProperties->unk_14 <= this->wallHeight) {
                                     spC7 = 4;
                                 } else if (this->ageProperties->unk_18 <= this->wallHeight) {
@@ -11386,7 +11387,7 @@ static struct_80832924 D_808548A8[] = {
 void func_8084C5F8(Player* this, PlayState* play) {
     s32 temp;
     f32* sp38;
-    CollisionPoly* sp34;
+    CollisionPoly* groundPoly;
     s32 sp30;
     Vec3f sp24;
 
@@ -11416,8 +11417,8 @@ void func_8084C5F8(Player* this, PlayState* play) {
         sp24.x = this->actor.world.pos.x;
         sp24.y = this->actor.world.pos.y + 20.0f;
         sp24.z = this->actor.world.pos.z;
-        if (BgCheck_EntityRaycastFloor3(&play->colCtx, &sp34, &sp30, &sp24) != 0.0f) {
-            this->unk_89E = SurfaceType_GetSfxType(&play->colCtx, sp34, sp30);
+        if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &sp30, &sp24) != 0.0f) {
+            this->unk_89E = SurfaceType_GetSfxType(&play->colCtx, groundPoly, sp30);
             func_808328A0(this);
         }
     }
