@@ -218,7 +218,7 @@ void BgJyaIronobj_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_NONE);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     BgJyaIronobj_InitCylinder(this, play);
     CollisionHeader_GetVirtual(sCollisionHeaders[thisx->params & 1], &colHeader);

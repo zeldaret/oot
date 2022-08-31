@@ -93,7 +93,7 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
         Collider_UpdateCylinder(thisx, &this->collider);
 
-        DynaPolyActor_Init(&this->dyna, 0);
+        DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_NONE);
 
         if (thisx->params == STA_GIANT_BIRD_STATUE) {
             thisx->uncullZoneForward = 2000.0f;
