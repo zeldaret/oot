@@ -1768,10 +1768,10 @@ typedef struct {
 } JpegDecoderState; // size = 0x14
 
 typedef enum {
-    VI_MODE_EDIT_STATE_INACTIVE,
-    VI_MODE_EDIT_STATE_ACTIVE,
-    VI_MODE_EDIT_STATE_2, // active, more adjustments
-    VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
+    /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
+    /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
+    /* 2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
+    /* 3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
 } ViModeEditState;
 
 typedef struct {
