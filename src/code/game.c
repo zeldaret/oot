@@ -58,7 +58,7 @@ void GameState_SetFBFilter(Gfx** gfx) {
     *gfx = gfxP;
 }
 
-void GameState_UpdateRegs(GameState* gameState) {
+void func_800C4344(GameState* gameState) {
     Input* selectedInput;
     s32 hexDumpSize;
     u16 hReg82;
@@ -240,7 +240,7 @@ void GameState_Update(GameState* gameState) {
 
     gameState->main(gameState);
 
-    GameState_UpdateRegs(gameState);
+    func_800C4344(gameState);
 
     if (SREG(63) == 1u) {
         if (SREG(48) < 0) {
