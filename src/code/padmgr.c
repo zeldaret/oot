@@ -37,7 +37,8 @@
         /* padmgr: Controller %d: %s */                                  \
         osSyncPrintf("padmgr: %dコン: %s\n", (controllerNo) + 1, (msg)); \
         osSyncPrintf(VT_RST);                                            \
-    }(void)0
+    }                                                                    \
+    (void)0
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_INFO 1
@@ -57,8 +58,8 @@ s32 gPadMgrLogSeverity = LOG_SEVERITY_INFO;
  * `PadMgr_ReleaseSerialEventQueue()`.
  *
  * If another process tries to acquire the event queue, the current thread will be blocked until the event queue is
- * released. Note the possibility for a double lock, if the thread that already holds the serial event queue attempts
- * to acquire it again it will block forever.
+ * released. Note the possibility for a deadlock, if the thread that already holds the serial event queue attempts to
+ * acquire it again it will block forever.
  *
  * @return The message queue to which SI interrupt events are posted.
  *
@@ -118,8 +119,8 @@ void PadMgr_LockPadData(PadMgr* padMgr) {
 }
 
 /**
- * Unlocks controller input data, allowing padmgr to read new inputs or another thread to access the currently
- * read inputs.
+ * Unlocks controller input data, allowing padmgr to read new inputs or another thread to access the most recently
+ * polled inputs.
  *
  * @see PadMgr_LockPadData
  */
@@ -272,7 +273,7 @@ void PadMgr_RumbleSetSingle(PadMgr* padMgr, u32 port, u32 rumble) {
  * Enables or disables rumble on all controller ports for 240 VI,
  * ~4 seconds at 60 VI/sec and ~4.8 seconds at 50 VI/sec
  *
- * @param enable    Array of 4 u8 containing either true or false to enable or disable rumble for that controller
+ * @param enable    Array of u8 containing either true or false to enable or disable rumble for that controller
  */
 void PadMgr_RumbleSet(PadMgr* padMgr, u8 enable[MAXCONTROLLERS]) {
     s32 i;
@@ -358,7 +359,7 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
     osContStartReadData(serialEventQueue);
 
     // Execute retrace callback
-    if (padMgr->retraceCallback) {
+    if (padMgr->retraceCallback != NULL) {
         padMgr->retraceCallback(padMgr, padMgr->retraceCallbackValue);
     }
 
@@ -366,8 +367,8 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
     osRecvMesg(serialEventQueue, NULL, OS_MESG_BLOCK);
     osContGetReadData(padMgr->pads);
 
-    // If in PreNMI, clear all controllers
-    if (padMgr->preNMIShutdown) {
+    // If resetting, clear all controllers
+    if (padMgr->isResetting) {
         bzero(padMgr->pads, sizeof(padMgr->pads));
     }
 
@@ -407,8 +408,8 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
     } else if (padMgr->rumbleOnTimer == 0) {
         // If the rumble on timer is inactive, no rumble
         PadMgr_RumbleStop(padMgr);
-    } else if (!padMgr->preNMIShutdown) {
-        // If not in PreNMI, update rumble
+    } else if (!padMgr->isResetting) {
+        // If not resetting, update rumble
         PadMgr_UpdateRumble(padMgr);
         --padMgr->rumbleOnTimer;
     }
@@ -416,7 +417,7 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
 
 void PadMgr_HandlePreNMI(PadMgr* padMgr) {
     osSyncPrintf("padmgr_HandlePreNMI()\n");
-    padMgr->preNMIShutdown = true;
+    padMgr->isResetting = true;
     PadMgr_RumbleReset(padMgr);
 }
 
@@ -424,7 +425,7 @@ void PadMgr_HandlePreNMI(PadMgr* padMgr) {
  * Fetches the most recently polled inputs from padmgr
  *
  * @param padMgr        PadMgr instance
- * @param[out] inputs   Array of 4 Input to copy inputs into
+ * @param[out] inputs   Array of Input to copy inputs into
  * @param gamePoll      True if polling inputs for the game state at a lower speed than once per VI
  */
 void PadMgr_RequestPadData(PadMgr* padMgr, Input inputs[MAXCONTROLLERS], s32 gameRequest) {

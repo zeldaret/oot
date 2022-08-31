@@ -39,7 +39,7 @@ typedef struct PadMgr {
     /* 0x02BC */ OSPfs rumblePfs[MAXCONTROLLERS];
     /* 0x045C */ vu8 rumbleOffTimer; // amount of VI retraces to not rumble for, takes priority over rumbleOnTimer
     /* 0x045D */ vu8 rumbleOnTimer; // amount of VI retraces to rumble for
-    /* 0x045E */ u8 preNMIShutdown;
+    /* 0x045E */ u8 isResetting;
     /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padMgr, s32 arg);
     /* 0x0464 */ s32 retraceCallbackValue;
 } PadMgr; // size = 0x468
