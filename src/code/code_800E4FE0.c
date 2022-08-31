@@ -573,7 +573,7 @@ s32 func_800E5F88(s32 resetPreloadID) {
 
 void Audio_PreNMIInternal(void) {
     gAudioContext.resetTimer = 1;
-    if (gAudioContextInitalized) {
+    if (gAudioContextInitialized) {
         func_800E5F88(0);
         gAudioContext.resetStatus = 0;
     }
