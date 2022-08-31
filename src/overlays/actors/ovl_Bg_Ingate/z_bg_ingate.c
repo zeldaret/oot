@@ -39,7 +39,7 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
     CollisionHeader_GetVirtual(&gIngoGateCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

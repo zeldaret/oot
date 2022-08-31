@@ -42,7 +42,7 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
     s32 param = (this->dyna.actor.params >> 8) & 1;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (param == 0) {

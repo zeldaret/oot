@@ -65,7 +65,7 @@ void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &colHeader);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);

@@ -64,7 +64,7 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
     CollisionHeader_GetVirtual(&gDekuTreeMouthCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);

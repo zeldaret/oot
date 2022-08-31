@@ -455,7 +455,7 @@ void func_8097EDD8(DemoGt* this, PlayState* play, CollisionHeader* collision) {
 
     if (collision != NULL) {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
         colHeader = NULL;
         CollisionHeader_GetVirtual(collision, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

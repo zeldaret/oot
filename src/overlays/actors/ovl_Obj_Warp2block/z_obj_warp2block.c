@@ -212,7 +212,7 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
             this->dyna.actor.draw = NULL;
         }
-        DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
         CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &collisionHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, collisionHeader);
     } else {

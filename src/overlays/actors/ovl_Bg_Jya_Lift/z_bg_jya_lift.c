@@ -61,7 +61,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
 
     // "Goddess lift CT"
     osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, play, &gLiftCol, DYNA_MOVE_NONE);
+    BgJyaLift_InitDynapoly(this, play, &gLiftCol, DYNA_TRANSFORM_NONE);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
         BgJyaLift_SetFinalPosY(this);

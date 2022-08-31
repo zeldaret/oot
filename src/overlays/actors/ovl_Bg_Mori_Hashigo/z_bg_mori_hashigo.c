@@ -144,7 +144,7 @@ s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, PlayState* play) {
 }
 
 s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, PlayState* play) {
-    BgMoriHashigo_InitDynapoly(this, play, &gMoriHashigoCol, DYNA_MOVE_NONE);
+    BgMoriHashigo_InitDynapoly(this, play, &gMoriHashigoCol, DYNA_TRANSFORM_NONE);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChainLadder);
     return true;
 }

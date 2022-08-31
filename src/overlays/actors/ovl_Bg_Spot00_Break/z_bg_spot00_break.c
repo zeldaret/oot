@@ -39,7 +39,7 @@ void BgSpot00Break_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
 
     if (this->dyna.actor.params == 1) {
         CollisionHeader_GetVirtual(&gBarbedWireFenceCol, &colHeader);

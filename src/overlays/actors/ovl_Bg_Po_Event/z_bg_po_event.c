@@ -209,7 +209,7 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
             BgPoEvent_InitPaintings(this, play);
         }
     } else {
-        DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
         if (Flags_GetSwitch(play, thisx->params)) {
             Actor_Kill(thisx);
         } else {

@@ -4,7 +4,7 @@
 /**
  * Update the `actor`'s position based on the dynapoly actor identified by `bgId`.
  */
-void DynaPolyActor_UpdatePosition(CollisionContext* colCtx, s32 bgId, Actor* actor) {
+void DynaPolyActor_UpdateCarriedActorPos(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
     MtxF prevTransform;
     MtxF prevTransformInv;
     MtxF curTransform;
@@ -29,12 +29,12 @@ void DynaPolyActor_UpdatePosition(CollisionContext* colCtx, s32 bgId, Actor* act
                 colCtx->dyna.bgActors[bgId].curTransform.rot.z, colCtx->dyna.bgActors[bgId].curTransform.pos.x,
                 colCtx->dyna.bgActors[bgId].curTransform.pos.y, colCtx->dyna.bgActors[bgId].curTransform.pos.z);
 
-            // Apply the movement of the dynapoly actor `bgId` over the last frame to the `actor` position
+            // Apply the movement of the dynapoly actor `bgId` over the last frame to the `carriedActor` position
             // pos = curTransform * prevTransformInv * pos
             // Note (curTransform * prevTransformInv) represents the transform relative to the previous frame
-            SkinMatrix_Vec3fMtxFMultXYZ(&prevTransformInv, &actor->world.pos, &tempPos);
+            SkinMatrix_Vec3fMtxFMultXYZ(&prevTransformInv, &carriedActor->world.pos, &tempPos);
             SkinMatrix_Vec3fMtxFMultXYZ(&curTransform, &tempPos, &pos);
-            actor->world.pos = pos;
+            carriedActor->world.pos = pos;
 
             if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
                 pos.y <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.z || pos.z <= -BGCHECK_XYZ_ABSMAX) {
@@ -52,18 +52,18 @@ void DynaPolyActor_UpdatePosition(CollisionContext* colCtx, s32 bgId, Actor* act
 }
 
 /**
- * Update the `actor`'s Y rotation based on the dynapoly actor identified by `bgId`.
+ * Update the `carriedActor`'s Y rotation based on the dynapoly actor identified by `bgId`.
  */
-void DynaPolyActor_UpdateRotationY(CollisionContext* colCtx, s32 bgId, Actor* actor) {
+void DynaPolyActor_UpdateCarriedActorRotY(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         s16 rotY = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
 
-        if (actor->id == ACTOR_PLAYER) {
-            ((Player*)actor)->currentYaw += rotY;
+        if (carriedActor->id == ACTOR_PLAYER) {
+            ((Player*)carriedActor)->currentYaw += rotY;
         }
 
-        actor->shape.rot.y += rotY;
-        actor->world.rot.y += rotY;
+        carriedActor->shape.rot.y += rotY;
+        carriedActor->world.rot.y += rotY;
     }
 }
 
@@ -81,10 +81,10 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
 }
 
 /**
- * Update the `actor`'s position and Y rotation based on the dynapoly actor identified by `bgId`, according to the
- * dynapoly actor's move flags (see `DYNA_MOVE_POS` and others).
+ * Update the `carriedActor`'s position and Y rotation based on the dynapoly actor identified by `bgId`, according to
+ * the dynapoly actor's move flags (see `DYNA_TRANSFORM_POS` and others).
  */
-s32 DynaPolyActor_UpdateTransform(CollisionContext* colCtx, s32 bgId, Actor* actor) {
+s32 DynaPolyActor_TransformCarriedActor(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
     s32 result = false;
     DynaPolyActor* dynaActor;
 
@@ -102,13 +102,13 @@ s32 DynaPolyActor_UpdateTransform(CollisionContext* colCtx, s32 bgId, Actor* act
         return false;
     }
 
-    if (dynaActor->moveFlags & DYNA_MOVE_POS) {
-        DynaPolyActor_UpdatePosition(colCtx, bgId, actor);
+    if (dynaActor->transformFlags & DYNA_TRANSFORM_POS) {
+        DynaPolyActor_UpdateCarriedActorPos(colCtx, bgId, carriedActor);
         result = true;
     }
 
-    if (dynaActor->moveFlags & DYNA_MOVE_ROT_Y) {
-        DynaPolyActor_UpdateRotationY(colCtx, bgId, actor);
+    if (dynaActor->transformFlags & DYNA_TRANSFORM_ROT_Y) {
+        DynaPolyActor_UpdateCarriedActorRotY(colCtx, bgId, carriedActor);
         result = true;
     }
 
