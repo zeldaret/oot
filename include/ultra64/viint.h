@@ -1,14 +1,14 @@
 #ifndef ULTRA64_VIINT_H
 #define ULTRA64_VIINT_H
 
-#define VI_STATE_MODE_UPDATED   (1 << 0)
-#define VI_STATE_XSCALE_UPDATED (1 << 1)
-#define VI_STATE_YSCALE_UPDATED (1 << 2)
-#define VI_STATE_CTRL_UPDATED   (1 << 3)
-#define VI_STATE_BUFFER_UPDATED (1 << 4)
-#define VI_STATE_BLACK          (1 << 5)
-#define VI_STATE_REPEATLINE     (1 << 6)
-#define VI_STATE_FADE           (1 << 7)
+#define VI_STATE_MODE_SET           (1 << 0)
+#define VI_STATE_XSCALE_SET         (1 << 1)
+#define VI_STATE_YSCALE_FACTOR_SET  (1 << 2)
+#define VI_STATE_CTRL_SET           (1 << 3)
+#define VI_STATE_BUFFER_SET         (1 << 4)
+#define VI_STATE_BLACK              (1 << 5)
+#define VI_STATE_REPEATLINE         (1 << 6)
+#define VI_STATE_FADE               (1 << 7)
 
 #define VI_SCALE_MASK       0xFFF
 #define VI_2_10_FPART_MASK  0x3FF

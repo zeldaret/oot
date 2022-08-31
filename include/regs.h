@@ -50,6 +50,13 @@
 #define R_ENABLE_ARENA_DBG                       SREG(0)
 #define R_UPDATE_RATE                            SREG(30)
 #define R_ENABLE_AUDIO_DBG                       SREG(36)
+#define R_VI_MODE_STATE                          SREG(48)
+#define R_VI_MODE_WIDTH                          SREG(49)
+#define R_VI_MODE_HEIGHT                         SREG(50)
+#define R_VI_MODE_ULY_ADJ                        SREG(51)
+#define R_VI_MODE_LRY_ADJ                        SREG(52)
+#define R_VI_MODE_ULX_ADJ                        SREG(53)
+#define R_VI_MODE_LRX_ADJ                        SREG(54)
 #define R_FB_FILTER_TYPE                         SREG(80)
 #define R_FB_FILTER_PRIM_COLOR(c)                SREG(81 + (c))
 #define R_FB_FILTER_A                            SREG(84)
@@ -165,13 +172,5 @@
 #define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_EN_GOROIWA_SPEED                       mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA                  nREG(87)
-
-#define R_VI_MODE_STATE     SREG(48)
-#define R_VI_MODE_WIDTH     SREG(49)
-#define R_VI_MODE_HEIGHT    SREG(50)
-#define R_VI_MODE_ULY_ADJ   SREG(51)
-#define R_VI_MODE_LRY_ADJ   SREG(52)
-#define R_VI_MODE_ULX_ADJ   SREG(53)
-#define R_VI_MODE_LRX_ADJ   SREG(54)
 
 #endif

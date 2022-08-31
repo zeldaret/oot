@@ -16,12 +16,12 @@ void __osViSwapContext(void) {
     field = HW_REG(VI_CURRENT_REG, u32) & 1; // even or odd field
     origin = osVirtualToPhysical(viNext->framep) + viMode->fldRegs[field].origin;
 
-    if (viNext->state & VI_STATE_XSCALE_UPDATED) {
+    if (viNext->state & VI_STATE_XSCALE_SET) {
         viNext->x.scale |= viMode->comRegs.xScale & ~VI_SCALE_MASK;
     } else {
         viNext->x.scale = viMode->comRegs.xScale;
     }
-    if (viNext->state & VI_STATE_YSCALE_UPDATED) {
+    if (viNext->state & VI_STATE_YSCALE_FACTOR_SET) {
         nomValue = (u32)(viMode->fldRegs[field].yScale & VI_SCALE_MASK);
         viNext->y.scale = viNext->y.factor * nomValue;
         viNext->y.scale |= viMode->fldRegs[field].yScale & ~VI_SCALE_MASK;
