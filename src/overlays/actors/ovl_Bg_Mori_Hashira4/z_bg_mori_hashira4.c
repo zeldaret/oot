@@ -73,7 +73,7 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {
-        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira1Col, DYNA_MOVE_POS_AND_ROT_Y);
+        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira1Col, DYNA_MOVE_POS | DYNA_MOVE_ROT_Y);
     } else {
         BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, DYNA_MOVE_NONE);
     }

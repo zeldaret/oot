@@ -299,7 +299,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     switch (this->dyna.actor.params & 0xF) {
         case 2:
         case 3:
-            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DYNA_MOVE_POS_AND_ROT_Y);
+            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DYNA_MOVE_POS | DYNA_MOVE_ROT_Y);
             break;
         default:
             BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DYNA_MOVE_NONE);

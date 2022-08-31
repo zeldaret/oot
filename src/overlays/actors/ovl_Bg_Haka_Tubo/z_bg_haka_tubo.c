@@ -82,7 +82,7 @@ void BgHakaTubo_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_POS_AND_ROT_Y);
+    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_POS | DYNA_MOVE_ROT_Y);
     CollisionHeader_GetVirtual(&object_haka_objects_Col_0108B8, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitCylinder(play, &this->potCollider);
