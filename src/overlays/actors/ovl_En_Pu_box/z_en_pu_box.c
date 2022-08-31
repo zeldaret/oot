@@ -52,7 +52,7 @@ void EnPubox_Init(Actor* thisx, PlayState* play) {
     thisx->uncullZoneScale = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
     this->dyna.interactFlags = 0;
-    this->dyna.unk_15C = DPM_UNK;
+    this->dyna.moveFlags = DYNAPOLYMOVE_UPD_NONE;
     thisx->targetMode = 1;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&gBlockMediumCol, &colHeader);

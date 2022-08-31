@@ -1,8 +1,8 @@
 #include "global.h"
 
-void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 flags) {
+void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 moveFlags) {
     dynaActor->bgId = -1;
-    dynaActor->unk_15C = flags;
+    dynaActor->moveFlags = moveFlags;
     dynaActor->interactFlags = 0;
     dynaActor->unk_150 = 0.0f;
     dynaActor->unk_154 = 0.0f;
