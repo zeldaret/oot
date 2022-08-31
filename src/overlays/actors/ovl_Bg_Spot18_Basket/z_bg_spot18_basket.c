@@ -133,7 +133,7 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_POS_AND_ROT_Y);
+    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_POS_AND_ROT_Y);
     func_808B7710(&this->dyna.actor, play);
     CollisionHeader_GetVirtual(&gGoronCityVaseCol, &colHeader);
 

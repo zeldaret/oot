@@ -77,7 +77,7 @@ void func_80B93BF0(ObjHsblock* this, PlayState* play) {
 void ObjHsblock_Init(Actor* thisx, PlayState* play) {
     ObjHsblock* this = (ObjHsblock*)thisx;
 
-    func_80B93B68(this, play, sCollisionHeaders[thisx->params & 3], DYNAPOLYMOVE_UPD_NONE);
+    func_80B93B68(this, play, sCollisionHeaders[thisx->params & 3], DYNA_MOVE_NONE);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, play);
 

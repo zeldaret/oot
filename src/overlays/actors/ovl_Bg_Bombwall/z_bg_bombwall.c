@@ -86,7 +86,7 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
     CollisionHeader_GetVirtual(&gBgBombwallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 

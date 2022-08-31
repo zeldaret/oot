@@ -81,7 +81,7 @@ void func_808A0850(BgMjin* this, PlayState* play) {
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(play, &this->dyna.actor);
-        DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_NONE);
+        DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
         CollisionHeader_GetVirtual(collision, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

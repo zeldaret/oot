@@ -38,7 +38,7 @@ void BgJyaBlock_Init(Actor* thisx, PlayState* play) {
     BgJyaBlock* this = (BgJyaBlock*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
     CollisionHeader_GetVirtual(&gPushBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

@@ -101,7 +101,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
     this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
 
     CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &colHeader);

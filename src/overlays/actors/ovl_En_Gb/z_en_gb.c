@@ -157,7 +157,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     Vec3f focusOffset;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_NONE);
+    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_NONE);
     CollisionHeader_GetVirtual(&gPoeSellerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     SkelAnime_InitFlex(play, &this->skelAnime, &gPoeSellerSkel, &gPoeSellerIdleAnim, this->jointTable, this->morphTable,

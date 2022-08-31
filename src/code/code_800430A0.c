@@ -82,7 +82,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
 
 /**
  * Update the `actor`'s position and Y rotation based on the dynapoly actor identified by `bgId`, according to the
- * dynapoly actor's move flags (see `DYNAPOLYMOVE_UPD_POS` and others).
+ * dynapoly actor's move flags (see `DYNA_MOVE_POS` and others).
  */
 s32 DynaPolyMove_UpdateActor(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     s32 result = false;
@@ -102,12 +102,12 @@ s32 DynaPolyMove_UpdateActor(CollisionContext* colCtx, s32 bgId, Actor* actor) {
         return false;
     }
 
-    if (dynaActor->moveFlags & DYNAPOLYMOVE_UPD_POS) {
+    if (dynaActor->moveFlags & DYNA_MOVE_POS) {
         DynaPolyMove_UpdatePosition(colCtx, bgId, actor);
         result = true;
     }
 
-    if (dynaActor->moveFlags & DYNAPOLYMOVE_UPD_ROT_Y) {
+    if (dynaActor->moveFlags & DYNA_MOVE_ROT_Y) {
         DynaPolyMove_UpdateRotationY(colCtx, bgId, actor);
         result = true;
     }

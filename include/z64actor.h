@@ -254,10 +254,10 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
-#define DYNAPOLYMOVE_UPD_NONE 0
-#define DYNAPOLYMOVE_UPD_POS (1 << 0)
-#define DYNAPOLYMOVE_UPD_ROT_Y (1 << 1)
-#define DYNAPOLYMOVE_UPD_POS_AND_ROT_Y (DYNAPOLYMOVE_UPD_POS | DYNAPOLYMOVE_UPD_ROT_Y)
+#define DYNA_MOVE_NONE 0
+#define DYNA_MOVE_POS (1 << 0)
+#define DYNA_MOVE_ROT_Y (1 << 1)
+#define DYNA_MOVE_POS_AND_ROT_Y (DYNA_MOVE_POS | DYNA_MOVE_ROT_Y)
 
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor

@@ -134,7 +134,7 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
     s32 i2;
     BgHidanHamstep* step;
 
-    DynaPolyActor_Init(&this->dyna, DYNAPOLYMOVE_UPD_POS);
+    DynaPolyActor_Init(&this->dyna, DYNA_MOVE_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
