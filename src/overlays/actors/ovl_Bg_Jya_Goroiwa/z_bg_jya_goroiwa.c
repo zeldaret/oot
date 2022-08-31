@@ -198,16 +198,16 @@ void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
     BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
     Player* player = GET_PLAYER(play);
     s32 bgId;
-    Vec3f pos;
+    Vec3f checkPos;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         this->actionFunc(this, play);
         BgJyaGoroiwa_UpdateRotation(this);
-        pos.x = this->actor.world.pos.x;
-        pos.y = this->actor.world.pos.y + 59.5f;
-        pos.z = this->actor.world.pos.z;
+        checkPos.x = this->actor.world.pos.x;
+        checkPos.y = this->actor.world.pos.y + 59.5f;
+        checkPos.z = this->actor.world.pos.z;
         this->actor.floorHeight =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &pos);
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
         BgJyaGoroiwa_UpdateCollider(this);
         if (this->collider.base.atFlags & AT_ON) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
