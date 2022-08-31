@@ -270,7 +270,6 @@ typedef struct DynaPolyActor {
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;
     /* 0x158 */ s16 unk_158; // y rotation?
-    /* 0x15A */ //u16 unk_15A; // padding?
     /* 0x15C */ u32 moveFlags;
     /* 0x160 */ u8 interactFlags;
     /* 0x162 */ s16 unk_162;
