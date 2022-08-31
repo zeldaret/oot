@@ -1,5 +1,8 @@
 #include "global.h"
 
+/**
+ * @param moveFlags How other actors standing on the dynapoly actor's collision move when the dynapoly actor moves.
+ */
 void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 moveFlags) {
     dynaActor->bgId = -1;
     dynaActor->moveFlags = moveFlags;

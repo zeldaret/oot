@@ -254,9 +254,9 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
-#define DYNA_MOVE_NONE 0
-#define DYNA_MOVE_POS (1 << 0)
-#define DYNA_MOVE_ROT_Y (1 << 1)
+#define DYNA_MOVE_NONE 0 // Actors on top are unaffected by movements of the dynapoly actor.
+#define DYNA_MOVE_POS (1 << 0) // Position of the actors on top follows the dynapoly actor's movement.
+#define DYNA_MOVE_ROT_Y (1 << 1) // The Y rotation of the actors on top follows the dynapoly actor's Y rotation.
 
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
