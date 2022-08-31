@@ -123,7 +123,7 @@ typedef struct {
  * - rot.x (around the leftward axis, i.e. forward/backward)
  * - rot.y (around the forward axis, i.e. left/right)
  * - rot.z (around the vertical axis)
- * 
+ *
  * @see Player_DrawGameplay(), Player_UpdateBunnyEars()
  */
 typedef struct {
@@ -9285,9 +9285,22 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
 }
 
 static void (*D_80854738[])(PlayState* play, Player* this) = {
-    func_80846648, func_808467D4, func_80846660, func_808468A8, func_808468E8, func_808469BC,
-    func_80846A68, func_80846978, func_8083CA54, func_8083CA54, func_8083CA54, func_8083CA54,
-    func_8083CA54, func_8083CA20, func_8083CA54, func_8083CA9C,
+    /* 0x0 */ func_80846648,
+    /* 0x1 */ func_808467D4, // From time travel
+    /* 0x2 */ func_80846660,
+    /* 0x3 */ func_808468A8,
+    /* 0x4 */ func_808468E8,
+    /* 0x5 */ func_808469BC,
+    /* 0x6 */ func_80846A68,
+    /* 0x7 */ func_80846978,
+    /* 0x8 */ func_8083CA54,
+    /* 0x9 */ func_8083CA54,
+    /* 0xA */ func_8083CA54,
+    /* 0xB */ func_8083CA54,
+    /* 0xC */ func_8083CA54,
+    /* 0xD */ func_8083CA20,
+    /* 0xE */ func_8083CA54,
+    /* 0xF */ func_8083CA9C,
 };
 
 static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
