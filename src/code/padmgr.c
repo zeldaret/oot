@@ -424,9 +424,8 @@ void PadMgr_HandlePreNMI(PadMgr* padMgr) {
 /**
  * Fetches the most recently polled inputs from padmgr
  *
- * @param padMgr        PadMgr instance
  * @param[out] inputs   Array of Input to copy inputs into
- * @param gamePoll      True if polling inputs for the game state at a lower speed than once per VI
+ * @param gamePoll      True if polling inputs for updating the game state
  */
 void PadMgr_RequestPadData(PadMgr* padMgr, Input inputs[MAXCONTROLLERS], s32 gameRequest) {
     s32 i;
