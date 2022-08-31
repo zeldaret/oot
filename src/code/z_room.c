@@ -33,7 +33,7 @@ void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
 
 void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
     s32 i;
-    RoomShapeNormal* header;
+    RoomShapeNormal* roomShapeNormal;
     RoomShapeDListsEntry* entry;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 193);
@@ -52,9 +52,9 @@ void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    header = &room->roomShape->normal;
-    entry = SEGMENTED_TO_VIRTUAL(header->entries);
-    for (i = 0; i < header->numEntries; i++) {
+    roomShapeNormal = &room->roomShape->normal;
+    entry = SEGMENTED_TO_VIRTUAL(roomShapeNormal->entries);
+    for (i = 0; i < roomShapeNormal->numEntries; i++) {
         if ((flags & ROOM_DRAW_OPA) && (entry->opa != NULL)) {
             gSPDisplayList(POLY_OPA_DISP++, entry->opa);
         }
@@ -85,8 +85,8 @@ typedef struct RoomShapeCullableEntryLinked {
 /**
  * Handle room drawing for the "cullable" type of room shape.
  *
- * Each entry referenced by the header is attached to display lists, and a position and radius indicating the bounding
- * sphere for the geometry drawn.
+ * Each entry referenced by the room shape struct is attached to display lists, and a position and radius indicating the
+ * bounding sphere for the geometry drawn.
  * The first step Z-sorts the entries, and excludes the entries with a bounding sphere that is entirely before or
  * beyond the rendered depth range.
  * The second step draws the entries that remain, from nearest to furthest.
@@ -355,7 +355,7 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
 void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    RoomShapeImageSingle* header;
+    RoomShapeImageSingle* roomShapeImageSingle;
     RoomShapeDListsEntry* entry;
     u32 isFixedCamera;
     u32 drawBackground;
@@ -366,9 +366,9 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    header = &room->roomShape->image.single;
-    entry = SEGMENTED_TO_VIRTUAL(header->base.entry);
-    drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (header->source != NULL) &&
+    roomShapeImageSingle = &room->roomShape->image.single;
+    entry = SEGMENTED_TO_VIRTUAL(roomShapeImageSingle->base.entry);
+    drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (roomShapeImageSingle->source != NULL) &&
                      !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_BACKGROUND);
     drawOpa = (flags & ROOM_DRAW_OPA) && (entry->opa != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_OPA);
     drawXlu = (flags & ROOM_DRAW_XLU) && (entry->xlu != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_XLU);
@@ -390,8 +390,10 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
 
                 gfx = POLY_OPA_DISP;
                 Camera_GetSkyboxOffset(&quakeOffset, activeCam);
-                Room_DrawBackground2D(&gfx, header->source, header->tlut, header->width, header->height, header->fmt,
-                                      header->siz, header->tlutMode, header->tlutCount,
+                Room_DrawBackground2D(&gfx, roomShapeImageSingle->source, roomShapeImageSingle->tlut,
+                                      roomShapeImageSingle->width, roomShapeImageSingle->height,
+                                      roomShapeImageSingle->fmt, roomShapeImageSingle->siz,
+                                      roomShapeImageSingle->tlutMode, roomShapeImageSingle->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
                                       quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
                 POLY_OPA_DISP = gfx;
@@ -448,7 +450,7 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBackgroundEntry(RoomShapeImageMult
 void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
-    RoomShapeImageMulti* header;
+    RoomShapeImageMulti* roomShapeImageMulti;
     RoomShapeImageMultiBgEntry* backgroundEntry;
     RoomShapeDListsEntry* dListsEntry;
     u32 isFixedCamera;
@@ -460,10 +462,10 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
 
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
-    header = &room->roomShape->image.multi;
-    dListsEntry = SEGMENTED_TO_VIRTUAL(header->base.entry);
+    roomShapeImageMulti = &room->roomShape->image.multi;
+    dListsEntry = SEGMENTED_TO_VIRTUAL(roomShapeImageMulti->base.entry);
 
-    backgroundEntry = Room_GetImageMultiBackgroundEntry(header, play);
+    backgroundEntry = Room_GetImageMultiBackgroundEntry(roomShapeImageMulti, play);
 
     drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (backgroundEntry->source != NULL) &&
                      !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_BACKGROUND);
@@ -512,11 +514,11 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
 }
 
 void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
-    RoomShapeImageBase* header = &room->roomShape->image.base;
+    RoomShapeImageBase* roomShapeImageBase = &room->roomShape->image.base;
 
-    if (header->amountType == ROOM_SHAPE_IMAGE_AMOUNT_SINGLE) {
+    if (roomShapeImageBase->amountType == ROOM_SHAPE_IMAGE_AMOUNT_SINGLE) {
         Room_DrawImageSingle(play, room, flags);
-    } else if (header->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
+    } else if (roomShapeImageBase->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
         LogUtils_HungupThread("../z_room.c", 841);
