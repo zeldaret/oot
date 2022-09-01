@@ -49,7 +49,7 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
 // 1000 kilobytes
 #define OBJECT_SPACE_SIZE_BASE (1000 * 1024)
 
-void Object_Init(PlayState* play, ObjectContext* objectCtx) {
+void func_80097DD8(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
     u32 spaceSize;
     s32 i;
