@@ -1788,13 +1788,23 @@ typedef struct {
     /* 0x0084 */ u32 unk_84;
 } ViMode;
 
-// Vis...
+typedef enum {
+    /* 0 */ FB_FILTER_NONE,
+    /* 1 */ FB_FILTER_CVG_RGB,
+    /* 2 */ FB_FILTER_CVG_RGB_PRIMFOG,
+    /* 3 */ FB_FILTER_CVG,
+    /* 4 */ FB_FILTER_CVG_RGB_FOG, // Not recommended, overflows blender
+    /* 5 */ FB_FILTER_ZBUF_IA,
+    /* 6 */ FB_FILTER_ZBUF_RGBA,
+    /* 7 */ FB_FILTER_MONO
+} FramebufferFilterType;
+
 typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8_u32 color;
+    /* 0x08 */ Color_RGBA8_u32 primColor;
     /* 0x0C */ Color_RGBA8_u32 envColor;
-} struct_801664F0; // size = 0x10
+} VisCvg; // size = 0x10
 
 typedef struct {
     /* 0x00 */ u32 unk_00;
@@ -1805,13 +1815,12 @@ typedef struct {
     /* 0x14 */ Gfx* dList;
 } VisMono; // size = 0x18
 
-// Vis...
 typedef struct {
     /* 0x00 */ u32 useRgba;
     /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8_u32 primColor;
     /* 0x08 */ Color_RGBA8_u32 envColor;
-} struct_80166500; // size = 0x10
+} VisZbuf; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 rumbleEnable[4];
