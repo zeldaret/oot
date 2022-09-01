@@ -50,7 +50,9 @@ Gfx sCoverageRGBDL[] = {
 };
 
 /**
- * Transparently blends primColor with original frame, creating uniform fog: formula is (fore) * (cvg) + (back) * (1 - cvg)
+ * Transparently blends primColor with original frame, creating uniform fog: formula is (fore) * (cvg) + (back) * (1 -
+ * cvg). The "cloud surface" render mode is used to preserve the coverage for the second stage.
+ *
  * Second half is the same as sCoverageRGBDL's, i.e. (coverage * RGB) of pixel
  */
 Gfx sCoverageRGBPrimFogDL[] = {
