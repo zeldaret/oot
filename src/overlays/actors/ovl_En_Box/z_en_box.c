@@ -79,11 +79,11 @@ void EnBox_ClipToGround(EnBox* this, PlayState* play) {
     f32 newY;
     CollisionPoly* poly;
     s32 bgId;
-    Vec3f pos;
+    Vec3f checkPos;
 
-    pos = this->dyna.actor.world.pos;
-    pos.y += 1.0f;
-    newY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->dyna.actor, &pos);
+    checkPos = this->dyna.actor.world.pos;
+    checkPos.y += 1.0f;
+    newY = BgCheck_EntityRaycastDown4(&play->colCtx, &poly, &bgId, &this->dyna.actor, &checkPos);
     if (newY != BGCHECK_Y_MIN) {
         this->dyna.actor.world.pos.y = newY;
     }

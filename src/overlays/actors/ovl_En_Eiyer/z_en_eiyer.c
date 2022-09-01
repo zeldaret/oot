@@ -402,8 +402,8 @@ void EnEiyer_Ambush(EnEiyer* this, PlayState* play) {
         this->collider.base.acFlags |= AC_ON;
         EnEiyer_SetupGlide(this);
     } else {
-        this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId,
-                                                              &this->actor, &this->actor.world.pos);
+        this->actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor,
+                                                             &this->actor.world.pos);
     }
 }
 
