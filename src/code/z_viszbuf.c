@@ -14,29 +14,30 @@
  * IA:
  *     bbbmmmmm mmmmmmdd
  *     iiiiiiii aaaaaaaa
- * Since positive floating-point numbers have the same ordering as their binary representation, increasing
- * the depth also increases the representation and hence the colour used to combine primColor and envColor. (The alpha
- * oscillates too rapidly to be observable under normal circumstances.)
+ * Since positive floating-point numbers have the same ordering as their binary/hex representation, increasing
+ * the depth also increases the representation and hence the colour used to combine primColor and envColor. The alpha is
+ * ignored by the RenderMode.
  *
  * RGBA:
  *     bbbmm mmmmm mmmmd d
  *     rrrrr ggggg bbbbb a
  * The red increases monotonically with the depth. The significant visible oscillation is the green component, because
  * it rolls over every time the second-most-significant bit of the mantissa increments. The blue component oscillates
- * too rapidly to be particularly visible (it rolls over when the 7th bit increments).
+ * too rapidly to be particularly visible (it rolls over when the 7th-most-significant bit increments). The alpha is
+ * again ignored by the RenderMode.
  */
+
 #include "global.h"
 
 // Height of the fragments the z-buffer is split into.
-// It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
-// tmem.
+// It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into tmem.
 #define VISZBUF_ZBUFFRAG_HEIGHT (TMEM_SIZE / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
 // z-buffer
 extern u16 D_0E000000[];
 
 /**
- * Initialise with white and black as default colours.
+ * Initialise to IA type with white and black as default colours.
  */
 void VisZbuf_Init(VisZbuf* this) {
     this->useRgba = false;
@@ -62,20 +63,22 @@ void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
     s32 height = VISZBUF_ZBUFFRAG_HEIGHT;
 
     gDPPipeSync(gfx++);
+    // Scissoring is only required if the scissor has not been set prior
     if (this->setScissor == true) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
     // No palette so can use all of TMEM.
-    // G_RM_OPA_SURF discards all information previously in the pixel, leaving only the colour from this pass.
+    // G_RM_OPA_SURF discards all information previously in the pixel, and the current alpha, leaving only the colour
+    // from this filter.
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_OPA_SURF | G_RM_OPA_SURF2);
+
     // LERP between primColor and envColor in 1-cycle mode using the z-buffer value
     gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT,
                       PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT);
-
     gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
     gDPSetColor(gfx++, G_SETENVCOLOR, this->envColor.rgba);
 
