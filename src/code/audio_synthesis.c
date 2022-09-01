@@ -1266,7 +1266,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 }
 
 /**
- * The Haas Effect gives directionality to sound by appling a small (< 35ms) delay to either the left or right channel.
+ * The Haas Effect gives directionality to sound by applying a small (< 35ms) delay to either the left or right channel.
  * The delay is small enough that the sound is still perceived as one sound, but the channel that is not delayed will
  * reach our ear first and give a sense of directionality. The sound is directed towards the opposite side of the delay.
  */
