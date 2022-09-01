@@ -1,4 +1,5 @@
 <Root>
+    <!-- gMidosHouse -->
     <File Name="kokiri_home4_scene" Segment="2">
         <Scene Name="kokiri_home4_scene" Offset="0x0"/>
     </File>

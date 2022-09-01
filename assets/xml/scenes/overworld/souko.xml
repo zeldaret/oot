@@ -1,4 +1,5 @@
 <Root>
+    <!-- gLonLonBuildings -->
     <File Name="souko_scene" Segment="2">
         <Texture Name="gLonLonHouseDayEntranceTex" OutName="day_entrance" Format="ia16" Width="64" Height="4" Offset="0x5210"/>
         <Texture Name="gLonLonHouseNightEntranceTex" OutName="night_entrance" Format="ia16" Width="64" Height="4" Offset="0x5010"/>
