@@ -8,7 +8,7 @@
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
-// the half of tmem (0x800 bytes) dedicated to color-indexed data.
+// the half of tmem dedicated to color-indexed data.
 #define VISMONO_CFBFRAG_HEIGHT ((TMEM_SIZE / 2) / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
 // Maximum size of the dlist written by `VisMono_DesaturateDList`.
