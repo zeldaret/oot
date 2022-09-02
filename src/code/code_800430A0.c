@@ -2,7 +2,7 @@
 #include "vt.h"
 
 /**
- * Update the `actor`'s position based on the dynapoly actor identified by `bgId`.
+ * Update the `carriedActor`'s position based on the dynapoly actor identified by `bgId`.
  */
 void DynaPolyActor_UpdateCarriedActorPos(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
     MtxF prevTransform;
