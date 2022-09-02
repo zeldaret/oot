@@ -64,7 +64,7 @@ typedef struct {
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
     /* 0x0E */ union {
-        s16 jfifId;
+        s16 roomImageOverrideBgCamIndex;
         s16 timer;
         s16 flags;
     };
