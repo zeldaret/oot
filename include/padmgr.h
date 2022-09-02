@@ -55,7 +55,7 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, 
 // This function cannot be prototyped here without AVOID_UB because it is called incorrectly in fault.c (see bug in
 // `Fault_PadCallback`)
 #ifdef AVOID_UB
-void PadMgr_RequestPadData(PadMgr* padmgr, Input inputs[MAXCONTROLLERS], s32 gameRequest);
+void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 gameRequest);
 #endif
 
 // For internal use by Controller Pak systems
@@ -68,6 +68,6 @@ void PadMgr_ReleaseSerialEventQueue(PadMgr* padMgr, OSMesgQueue* serialEventQueu
 void PadMgr_RumbleStop(PadMgr* padMgr);
 void PadMgr_RumbleReset(PadMgr* padMgr);
 void PadMgr_RumbleSetSingle(PadMgr* padMgr, u32 port, u32 rumble);
-void PadMgr_RumbleSet(PadMgr* padMgr, u8 enable[MAXCONTROLLERS]);
+void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable);
 
 #endif

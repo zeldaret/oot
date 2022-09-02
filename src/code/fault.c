@@ -353,10 +353,10 @@ void Fault_Sleep(u32 msec) {
 }
 
 #ifndef AVOID_UB
-void PadMgr_RequestPadData(Input inputs[MAXCONTROLLERS], s32 gameRequest);
+void PadMgr_RequestPadData(Input* inputs, s32 gameRequest);
 #endif
 
-void Fault_PadCallback(Input inputs[MAXCONTROLLERS]) {
+void Fault_PadCallback(Input* inputs) {
     //! @bug This function is not called correctly, it is missing a leading PadMgr* argument. This
     //! renders the crash screen unusable.
     //! In Majora's Mask, PadMgr functions were changed to not require this argument, and this was
@@ -370,7 +370,7 @@ void Fault_PadCallback(Input inputs[MAXCONTROLLERS]) {
 }
 
 void Fault_UpdatePadImpl(void) {
-    sFaultInstance->padCallback(sFaultInstance->padInput);
+    sFaultInstance->padCallback(sFaultInstance->inputs);
 }
 
 /**
@@ -383,7 +383,7 @@ void Fault_UpdatePadImpl(void) {
  * DPad-Left continues and returns false
  */
 u32 Fault_WaitForInputImpl(void) {
-    Input* input = &sFaultInstance->padInput[0];
+    Input* input = &sFaultInstance->inputs[0];
     s32 count = 600;
     u32 pressedBtn;
 
@@ -658,7 +658,7 @@ void Fault_Wait5Seconds(void) {
  * (L & R & Z) + DPad-Up + C-Down + C-Up + DPad-Down + DPad-Left + C-Left + C-Right + DPad-Right + (B & A & START)
  */
 void Fault_WaitForButtonCombo(void) {
-    Input* input = &sFaultInstance->padInput[0];
+    Input* input = &sFaultInstance->inputs[0];
     s32 state;
     u32 s1;
     u32 s2;
@@ -860,7 +860,7 @@ void Fault_DrawMemDumpContents(const char* title, uintptr_t addr, u32 arg2) {
  * @param cRightJump Unused parameter, pressing C-Right jumps to this address
  */
 void Fault_DrawMemDump(uintptr_t pc, uintptr_t sp, uintptr_t cLeftJump, uintptr_t cRightJump) {
-    Input* input = &sFaultInstance->padInput[0];
+    Input* input = &sFaultInstance->inputs[0];
     uintptr_t addr = pc;
     s32 scrollCountdown;
     u32 off;

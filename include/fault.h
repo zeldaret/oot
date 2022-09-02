@@ -78,11 +78,11 @@ typedef struct FaultMgr {
     /* 0x7CE */ u8 faultHandlerEnabled;
     /* 0x7CF */ u8 autoScroll;
     /* 0x7D0 */ OSThread* faultedThread;
-    /* 0x7D4 */ void (*padCallback)(Input padInput[MAXCONTROLLERS]);
+    /* 0x7D4 */ void (*padCallback)(Input* inputs);
     /* 0x7D8 */ FaultClient* clients;
     /* 0x7DC */ FaultAddrConvClient* addrConvClients;
     /* 0x7E0 */ char unk_7E0[0x4];
-    /* 0x7E4 */ Input padInput[MAXCONTROLLERS];
+    /* 0x7E4 */ Input inputs[MAXCONTROLLERS];
     /* 0x844 */ void* fb;
     /* 0x848 */ void* clientThreadSp;
 } FaultMgr; // size = 0x850

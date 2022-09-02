@@ -273,9 +273,10 @@ void PadMgr_RumbleSetSingle(PadMgr* padMgr, u32 port, u32 rumble) {
  * Enables or disables rumble on all controller ports for 240 VI,
  * ~4 seconds at 60 VI/sec and ~4.8 seconds at 50 VI/sec
  *
- * @param enable    Array of u8 containing either true or false to enable or disable rumble for that controller
+ * @param enable Array of u8 of length MAXCONTROLLERS containing either true or false to enable or disable rumble
+ *               for that controller
  */
-void PadMgr_RumbleSet(PadMgr* padMgr, u8 enable[MAXCONTROLLERS]) {
+void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable) {
     s32 i;
 
     for (i = 0; i < MAXCONTROLLERS; i++) {
@@ -424,10 +425,10 @@ void PadMgr_HandlePreNMI(PadMgr* padMgr) {
 /**
  * Fetches the most recently polled inputs from padmgr
  *
- * @param[out] inputs   Array of Input to copy inputs into
- * @param gamePoll      True if polling inputs for updating the game state
+ * @param inputs   Array of Input of length MAXCONTROLLERS to copy inputs into
+ * @param gamePoll True if polling inputs for updating the game state
  */
-void PadMgr_RequestPadData(PadMgr* padMgr, Input inputs[MAXCONTROLLERS], s32 gameRequest) {
+void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest) {
     s32 i;
     Input* inputIn;
     Input* inputOut;

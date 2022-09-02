@@ -1267,7 +1267,7 @@ OcarinaNote sScarecrowsLongSongSecondNote;
 u8 sAudioHasMalonBgm;
 f32 sAudioMalonBgmDist;
 
-void PadMgr_RequestPadData(PadMgr* padMgr, Input inputs[MAXCONTROLLERS], s32 gameRequest);
+void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
 
 void Audio_StepFreqLerp(FreqLerp* lerp);
 void func_800F56A8(void);
