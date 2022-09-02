@@ -1,14 +1,17 @@
 /**
  * @file z_viscvg.c
- * Description: Visualise Coverage (how much of the neighbourhood of a pixel is covered by a primitive) in various ways.
+ * Description: Visualise Coverage in various ways.
+ *
+ * Coverage is roughly how much of a pixel is covered by a primitive; it is used for antialiasing, see PreRender.c and
+ * §15 of the programming manual for details.
  *
  * To understand this file, it is helpful to remember that A_MEM is essentially synonymous with coverage, and that
  * `GBL_c1/2(p, a, m, b)` are usually `(p * a + m * b) / (a + b)`.
  *
- * Coverage is maximum when not on an edge, on an edge it is smaller, and since coverage is treated as an alpha edges
- * show up as darker in all of the available modes.
+ * Coverage is full when not on an edge, while on an edge it is usually lower, and since coverage is treated as an
+ * alpha value, edges with lower coverage will show up as darker than interiors in all of the available modes.
  *
- * We abbreviate coverage to "cvg"; "pixel RGB" is the original colour the pixel had before the filter is applied.
+ * Coverage is abbreviated to "cvg"; "pixel RGB" is the original colour the pixel had before the filter is applied.
  */
 
 #include "global.h"
