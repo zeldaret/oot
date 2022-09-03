@@ -3818,7 +3818,7 @@ s8 Audio_ComputeSfxReverb(u8 bankId, u8 entryIdx, u8 channelIdx) {
 
     if (IS_SEQUENCE_CHANNEL_VALID(gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx])) {
         scriptAdd = gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx]->soundScriptIO[1];
-        if (gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx]->soundScriptIO[1] < 0) {
+        if (gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx]->soundScriptIO[1] <= SEQ_IO_VAL_NONE) {
             scriptAdd = 0;
         }
     }
@@ -4356,7 +4356,8 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol) {
             if (gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIdx] !=
                 &gAudioContext.sequenceChannelNone) {
                 // soundScriptIO[5] is set to 0x40 in channels 0, 1, and 4
-                if ((u8)gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIdx]->soundScriptIO[5] != 0xFF) {
+                if ((u8)gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIdx]->soundScriptIO[5] !=
+                    (u8)SEQ_IO_VAL_NONE) {
                     // Higher volume leads to lower reverb
                     reverb =
                         ((u16)gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIdx]->soundScriptIO[5] -
@@ -4633,8 +4634,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
             // Start the sequence from the beginning
 
             // Writes to ioPort 7. See `SEQ_FLAG_SKIP_HARP_INTRO` for writing a value of 1 to ioPort 7.
-            // Note: writing 0xFF (-1) to an ioPort will do nothing for all sequences.
-            skipHarpIntro = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : 0xFF;
+            skipHarpIntro = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : (u8)SEQ_IO_VAL_NONE;
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, skipHarpIntro);
 
             if (!(sSeqFlags[seqId] & SEQ_FLAG_RESUME_PREV)) {
