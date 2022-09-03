@@ -348,7 +348,7 @@ u16 func_80B1C54C(PlayState* play, Actor* thisx) {
 }
 
 s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
-    s32 ret = 1;
+    s32 ret = NPC_TALKING_STATE_1;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
@@ -359,7 +359,7 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
             if (thisx->textId == 0x5028) {
                 SET_INFTABLE(INFTABLE_D8);
             }
-            ret = 0;
+            ret = NPC_TALKING_STATE_0;
             break;
         case TEXT_STATE_DONE_FADING:
             break;
@@ -375,7 +375,7 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
                     play->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
                     SET_INFTABLE(INFTABLE_D9);
-                    return 2;
+                    return NPC_TALKING_STATE_2;
                 }
                 Message_ContinueTextbox(play, thisx->textId);
                 SET_INFTABLE(INFTABLE_D9);
@@ -384,7 +384,7 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
                 Message_CloseTextbox(play);
-                ret = 0;
+                ret = NPC_TALKING_STATE_0;
             }
             break;
         case TEXT_STATE_DONE:
@@ -516,14 +516,14 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
     s16 v1;
     s16 a1_;
 
-    if (this->npcInfo.talkState != 0) {
+    if (this->npcInfo.talkState != NPC_TALKING_STATE_0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
-        if (this->npcInfo.talkState == 2) {
+        if (this->npcInfo.talkState == NPC_TALKING_STATE_2) {
             EnTk_DigAnim(this, play);
-            this->npcInfo.talkState = 0;
+            this->npcInfo.talkState = NPC_TALKING_STATE_0;
             this->actionFunc = EnTk_Dig;
             return;
         }
@@ -544,7 +544,7 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        this->npcInfo.talkState = 1;
+        this->npcInfo.talkState = NPC_TALKING_STATE_1;
     } else if (DECR(this->actionCountdown) == 0) {
         EnTk_WalkAnim(this, play);
         this->actionFunc = EnTk_Walk;
@@ -559,9 +559,9 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
 }
 
 void EnTk_Walk(EnTk* this, PlayState* play) {
-    if (this->npcInfo.talkState == 2) {
+    if (this->npcInfo.talkState == NPC_TALKING_STATE_2) {
         EnTk_DigAnim(this, play);
-        this->npcInfo.talkState = 0;
+        this->npcInfo.talkState = NPC_TALKING_STATE_0;
         this->actionFunc = EnTk_Dig;
     } else {
         this->actor.speedXZ = EnTk_Step(this, play);

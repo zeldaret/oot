@@ -121,12 +121,12 @@ s16 EnMu_CheckDialogState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return 1;
+            return NPC_TALKING_STATE_1;
         case TEXT_STATE_CLOSING:
             EnMu_Interact(this, play);
-            return 0;
+            return NPC_TALKING_STATE_0;
         default:
-            return 1;
+            return NPC_TALKING_STATE_1;
     }
 }
 
