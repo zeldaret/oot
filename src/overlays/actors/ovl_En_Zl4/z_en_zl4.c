@@ -1208,7 +1208,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
 }
 
 void EnZl4_Idle(EnZl4* this, PlayState* play) {
-    func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 60.0f, EnZl4_GetText,
+    func_800343CC(play, &this->actor, &this->unk_1E0.talkState, this->collider.dim.radius + 60.0f, EnZl4_GetText,
                   func_80B5B9B0);
     func_80B5BB78(this, play);
 }

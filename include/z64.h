@@ -1333,7 +1333,7 @@ typedef struct {
 } AnimationMinimalInfo; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ s16 unk_00;
+    /* 0x00 */ s16 talkState;
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ s16 unk_04;
     /* 0x06 */ s16 unk_06;

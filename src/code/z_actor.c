@@ -3643,18 +3643,18 @@ Hilite* func_8003435C(Vec3f* object, PlayState* play) {
     return func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
-s32 func_800343CC(PlayState* play, Actor* actor, s16* arg2, f32 interactRange, callback1_800343CC unkFunc1,
-                  callback2_800343CC unkFunc2) {
+s32 func_800343CC(PlayState* play, Actor* actor, s16* talkState, f32 interactRange, callback1_800343CC getTextID,
+                  callback2_800343CC getTalkState) {
     s16 x;
     s16 y;
 
     if (Actor_ProcessTalkRequest(actor, play)) {
-        *arg2 = 1;
+        *talkState = 1;
         return true;
     }
 
-    if (*arg2 != 0) {
-        *arg2 = unkFunc2(play, actor);
+    if (*talkState != 0) {
+        *talkState = getTalkState(play, actor);
         return false;
     }
 
@@ -3668,7 +3668,7 @@ s32 func_800343CC(PlayState* play, Actor* actor, s16* arg2, f32 interactRange, c
         return false;
     }
 
-    actor->textId = unkFunc1(play, actor);
+    actor->textId = getTextID(play, actor);
 
     return false;
 }
@@ -3762,7 +3762,7 @@ s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, 
         return arg4;
     }
 
-    if (arg1->unk_00 != 0) {
+    if (arg1->talkState != 0) {
         return 4;
     }
 

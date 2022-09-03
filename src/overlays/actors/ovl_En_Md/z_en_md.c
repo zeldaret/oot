@@ -319,7 +319,7 @@ void func_80AAA93C(EnMd* this) {
 }
 
 void func_80AAAA24(EnMd* this) {
-    if (this->unk_1E0.unk_00 != 0) {
+    if (this->unk_1E0.talkState != 0) {
         switch (this->actor.textId) {
             case 0x102F:
                 if ((this->unk_208 == 0) && (this->unk_20B != 1)) {
@@ -554,7 +554,7 @@ void func_80AAB158(EnMd* this, PlayState* play) {
         temp2 = 0;
     }
 
-    if (this->unk_1E0.unk_00 != 0) {
+    if (this->unk_1E0.talkState != 0) {
         temp = 4;
     }
 
@@ -579,7 +579,7 @@ void func_80AAB158(EnMd* this, PlayState* play) {
     func_80034A14(&this->actor, &this->unk_1E0, 2, temp);
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
-            func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f, EnMd_GetText,
+            func_800343CC(play, &this->actor, &this->unk_1E0.talkState, this->collider.dim.radius + 30.0f, EnMd_GetText,
                           func_80AAAF04);
         }
     }
@@ -695,7 +695,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 void func_80AAB874(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
-    } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
+    } else if ((this->unk_1E0.talkState == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
     }
 
@@ -717,7 +717,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
 
     func_80AAAA24(this);
 
-    if (this->unk_1E0.unk_00 == 0) {
+    if (this->unk_1E0.talkState == 0) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
 
@@ -733,7 +733,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         this->skelAnime.playSpeed = CLAMP(temp, 1.0f, 3.0f);
     }
 
-    if (this->unk_1E0.unk_00 == 2) {
+    if (this->unk_1E0.talkState == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
             (play->sceneId == SCENE_SPOT04)) {
             play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -749,7 +749,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         func_80AAA92C(this, 3);
         func_80AAA93C(this);
         this->waypoint = 1;
-        this->unk_1E0.unk_00 = 0;
+        this->unk_1E0.talkState = 0;
         this->actionFunc = func_80AABD0C;
         this->actor.speedXZ = 1.5f;
         return;
@@ -759,7 +759,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     }
 
-    if ((this->unk_1E0.unk_00 == 0) && (play->sceneId == SCENE_SPOT10)) {
+    if ((this->unk_1E0.talkState == 0) && (play->sceneId == SCENE_SPOT10)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
             player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
