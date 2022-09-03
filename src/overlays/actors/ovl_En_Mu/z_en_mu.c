@@ -172,7 +172,8 @@ void EnMu_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
     talkDist = this->collider.dim.radius + 30.0f;
-    func_800343CC(play, &this->actor, &this->npcInfo.talkState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+    Actor_NpcUpdateTalking(play, &this->actor, &this->npcInfo.talkState, talkDist, EnMu_GetFaceReaction,
+                           EnMu_CheckDialogState);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;

@@ -219,8 +219,8 @@ s16 func_80AF56F4(PlayState* play, Actor* thisx) {
 void func_80AF57D8(EnSa* this, PlayState* play) {
     if (play->sceneId != SCENE_SPOT05 || ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 ||
         this->unk_1E0.talkState != 0) {
-        func_800343CC(play, &this->actor, &this->unk_1E0.talkState, this->collider.dim.radius + 30.0f, func_80AF55E0,
-                      func_80AF56F4);
+        Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E0.talkState, this->collider.dim.radius + 30.0f,
+                               func_80AF55E0, func_80AF56F4);
     }
 }
 

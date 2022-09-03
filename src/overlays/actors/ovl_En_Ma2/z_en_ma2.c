@@ -322,8 +322,8 @@ void EnMa2_Update(Actor* thisx, PlayState* play) {
     func_80AA1DB4(this, play);
     func_80AA1AE4(this, play);
     if (this->actionFunc != func_80AA20E4) {
-        func_800343CC(play, &this->actor, &this->unk_1E0.talkState, (f32)this->collider.dim.radius + 30.0f, func_80AA19A0,
-                      func_80AA1A38);
+        Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E0.talkState, (f32)this->collider.dim.radius + 30.0f,
+                               func_80AA19A0, func_80AA1A38);
     }
 }
 

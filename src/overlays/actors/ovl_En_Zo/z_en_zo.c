@@ -436,7 +436,7 @@ u16 func_80B61024(PlayState* play, Actor* thisx) {
                 return 0x4011;
             }
             break;
-    }
+
     return 0x4006;
 }
 
@@ -513,7 +513,8 @@ void EnZo_Dialog(EnZo* this, PlayState* play) {
     }
     func_80034A14(&this->actor, &this->unk_194, 11, this->unk_64C);
     if (this->canSpeak == true) {
-        func_800343CC(play, &this->actor, &this->unk_194.talkState, this->dialogRadius, func_80B61024, func_80B61298);
+        Actor_NpcUpdateTalking(play, &this->actor, &this->unk_194.talkState, this->dialogRadius, func_80B61024,
+                               func_80B61298);
     }
 }
 
@@ -555,7 +556,8 @@ void EnZo_SetAnimation(EnZo* this) {
         animId = ENZO_ANIM_6;
     }
 
-    if (this->unk_194.talkState != 0 && this->actor.textId == 0x4007 && this->skelAnime.animation != &gZoraOpenArmsAnim) {
+    if (this->unk_194.talkState != 0 && this->actor.textId == 0x4007 &&
+        this->skelAnime.animation != &gZoraOpenArmsAnim) {
         animId = ENZO_ANIM_7;
     }
 

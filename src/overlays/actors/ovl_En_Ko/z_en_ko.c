@@ -946,7 +946,8 @@ void func_80A9877C(EnKo* this, PlayState* play) {
             return;
         }
     }
-    if (func_800343CC(play, &this->actor, &this->unk_1E8.talkState, this->lookDist, func_80A97610, func_80A97738) &&
+    if (Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E8.talkState, this->lookDist, func_80A97610,
+                               func_80A97738) &&
         ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_SPOT10) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 

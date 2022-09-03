@@ -408,8 +408,8 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
     EnMa1_UpdateEyes(this);
     this->actionFunc(this, play);
     if (this->actionFunc != EnMa1_DoNothing) {
-        func_800343CC(play, &this->actor, &this->unk_1E8.talkState, (f32)this->collider.dim.radius + 30.0f, EnMa1_GetText,
-                      func_80AA0778);
+        Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E8.talkState, (f32)this->collider.dim.radius + 30.0f,
+                               EnMa1_GetText, func_80AA0778);
     }
     func_80AA0B74(this);
     func_80AA0AF4(this, play);

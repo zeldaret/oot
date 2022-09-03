@@ -295,8 +295,8 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
-    func_800343CC(play, &this->actor, &this->unk_1E0.talkState, (f32)this->collider.dim.radius + 150.0f, func_80AA2AA0,
-                  func_80AA2BD4);
+    Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E0.talkState, (f32)this->collider.dim.radius + 150.0f,
+                           func_80AA2AA0, func_80AA2BD4);
     if (this->unk_1E0.talkState == 0) {
         if (this->isNotSinging) {
             // Turn on singing
