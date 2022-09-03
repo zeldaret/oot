@@ -188,7 +188,7 @@ u32 func_8006472C(PlayState* play, CutsceneContext* csCtx, f32 target) {
 
 void func_80064760(PlayState* play, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
@@ -199,7 +199,7 @@ void func_80064760(PlayState* play, CutsceneContext* csCtx) {
 void func_800647C0(PlayState* play, CutsceneContext* csCtx) {
     func_80068C3C(play, csCtx);
     Interface_ChangeAlpha(1);
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
@@ -2018,8 +2018,8 @@ void func_80068ECC(PlayState* play, CutsceneContext* csCtx) {
 
             if (gSaveContext.cutsceneTrigger == 0) {
                 Interface_ChangeAlpha(1);
-                ShrinkWindow_SetVal(0x20);
-                ShrinkWindow_SetCurrentVal(0x20);
+                Letterbox_SetSizeTarget(32);
+                Letterbox_SetSize(32);
                 csCtx->state++;
             }
 

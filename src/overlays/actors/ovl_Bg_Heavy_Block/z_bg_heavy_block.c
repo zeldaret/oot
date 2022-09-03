@@ -378,18 +378,18 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, PlayState* play) {
 void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
     s32 bgId;
     s32 quakeIndex;
-    Vec3f pos;
-    f32 raycastResult;
+    Vec3f checkPos;
+    f32 yIntersect;
 
     Actor_MoveForward(&this->dyna.actor);
-    pos.x = this->dyna.actor.home.pos.x;
-    pos.y = this->dyna.actor.home.pos.y + 1000.0f;
-    pos.z = this->dyna.actor.home.pos.z;
-    raycastResult =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
-    this->dyna.actor.floorHeight = raycastResult;
+    checkPos.x = this->dyna.actor.home.pos.x;
+    checkPos.y = this->dyna.actor.home.pos.y + 1000.0f;
+    checkPos.z = this->dyna.actor.home.pos.z;
+    yIntersect =
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &checkPos);
+    this->dyna.actor.floorHeight = yIntersect;
 
-    if (this->dyna.actor.home.pos.y <= raycastResult) {
+    if (this->dyna.actor.home.pos.y <= yIntersect) {
         func_800AA000(0.0f, 0xFF, 0x3C, 4);
 
         switch (this->dyna.actor.params & 0xFF) {

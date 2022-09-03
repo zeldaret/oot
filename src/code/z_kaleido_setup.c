@@ -53,8 +53,8 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(2) = -6240;
             R_UPDATE_RATE = 2;
 
-            if (ShrinkWindow_GetVal()) {
-                ShrinkWindow_SetVal(0);
+            if (Letterbox_GetSizeTarget() != 0) {
+                Letterbox_SetSizeTarget(0);
             }
 
             func_800F64E0(1);

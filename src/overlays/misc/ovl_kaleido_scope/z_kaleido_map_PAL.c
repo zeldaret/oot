@@ -51,7 +51,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
         oldCursorPoint = pauseCtx->cursorPoint[PAUSE_MAP];
 
         if (pauseCtx->cursorSpecialPos == 0) {
-            if (pauseCtx->stickRelX > 30) {
+            if (pauseCtx->stickAdjX > 30) {
                 if (pauseCtx->cursorX[PAUSE_MAP] != 0) {
                     KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
                 } else {
@@ -67,7 +67,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                         }
                     }
                 }
-            } else if (pauseCtx->stickRelX < -30) {
+            } else if (pauseCtx->stickAdjX < -30) {
                 if (pauseCtx->cursorX[PAUSE_MAP] == 0) {
                     KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_LEFT);
                 } else {
@@ -82,7 +82,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
             }
 
             if (pauseCtx->cursorPoint[PAUSE_MAP] < 3) {
-                if (pauseCtx->stickRelY > 30) {
+                if (pauseCtx->stickAdjY > 30) {
                     if (pauseCtx->cursorPoint[PAUSE_MAP] != 0) {
                         for (i = pauseCtx->cursorPoint[PAUSE_MAP] - 1; i >= 0; i--) {
                             if (CHECK_DUNGEON_ITEM(i, gSaveContext.mapIndex)) {
@@ -92,7 +92,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                         }
                     }
                 } else {
-                    if (pauseCtx->stickRelY < -30) {
+                    if (pauseCtx->stickAdjY < -30) {
                         if (pauseCtx->cursorPoint[PAUSE_MAP] != 2) {
                             for (i = pauseCtx->cursorPoint[PAUSE_MAP] + 1; i < 3; i++) {
                                 if (CHECK_DUNGEON_ITEM(i, gSaveContext.mapIndex)) {
@@ -104,7 +104,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                     }
                 }
             } else {
-                if (pauseCtx->stickRelY > 30) {
+                if (pauseCtx->stickAdjY > 30) {
                     if (pauseCtx->cursorPoint[PAUSE_MAP] >= 4) {
                         for (i = pauseCtx->cursorPoint[PAUSE_MAP] - 3 - 1; i >= 0; i--) {
                             if ((gSaveContext.sceneFlags[gSaveContext.mapIndex].floors & gBitFlags[i]) ||
@@ -115,7 +115,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                             }
                         }
                     }
-                } else if (pauseCtx->stickRelY < -30) {
+                } else if (pauseCtx->stickAdjY < -30) {
                     if (pauseCtx->cursorPoint[PAUSE_MAP] != 10) {
                         for (i = pauseCtx->cursorPoint[PAUSE_MAP] - 3 + 1; i < 11; i++) {
                             if ((gSaveContext.sceneFlags[gSaveContext.mapIndex].floors & gBitFlags[i]) ||
@@ -138,7 +138,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             }
         } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-            if (pauseCtx->stickRelX > 30) {
+            if (pauseCtx->stickAdjX > 30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
                 pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot;
@@ -149,7 +149,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else {
-            if (pauseCtx->stickRelX < -30) {
+            if (pauseCtx->stickAdjX < -30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
                 pauseCtx->cursorX[PAUSE_MAP] = 1;
@@ -415,7 +415,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         oldCursorPoint = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
 
         if (pauseCtx->cursorSpecialPos == 0) {
-            if (pauseCtx->stickRelX > 30) {
+            if (pauseCtx->stickAdjX > 30) {
                 D_8082A6D4 = 0;
 
                 do {
@@ -426,7 +426,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                         break;
                     }
                 } while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] == 0);
-            } else if (pauseCtx->stickRelX < -30) {
+            } else if (pauseCtx->stickAdjX < -30) {
                 D_8082A6D4 = 0;
 
                 do {
@@ -447,7 +447,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         } else {
             pauseCtx->cursorItem[PAUSE_MAP] = gSaveContext.worldMapArea + 0x18;
             if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-                if (pauseCtx->stickRelX > 30) {
+                if (pauseCtx->stickAdjX > 30) {
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
                     pauseCtx->cursorSpecialPos = 0;
 
@@ -463,7 +463,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                     D_8082A6D4 = 0;
                 }
             } else {
-                if (pauseCtx->stickRelX < -30) {
+                if (pauseCtx->stickAdjX < -30) {
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 11;
                     pauseCtx->cursorSpecialPos = 0;
 
@@ -526,17 +526,16 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
     } else if (HREG(15) == 1) {
-        Gfx* sp1CC = POLY_OPA_DISP;
-        void* mapImage = gWorldMapImageTex;
+        Gfx* gfx = POLY_OPA_DISP;
 
-        gSPLoadUcodeL(sp1CC++, gspS2DEX2d_fifo);
+        gSPLoadUcodeL(gfx++, gspS2DEX2d_fifo);
 
-        func_8009638C(&sp1CC, mapImage, gWorldMapImageTLUT, 216, 128, G_IM_FMT_CI, G_IM_SIZ_8b, 0x8000, 256,
-                      HREG(13) / 100.0f, HREG(14) / 100.0f);
+        Room_DrawBackground2D(&gfx, gWorldMapImageTex, gWorldMapImageTLUT, 216, 128, G_IM_FMT_CI, G_IM_SIZ_8b,
+                              G_TT_RGBA16, 256, HREG(13) / 100.0f, HREG(14) / 100.0f);
 
-        gSPLoadUcode(sp1CC++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
+        gSPLoadUcode(gfx++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
 
-        POLY_OPA_DISP = sp1CC;
+        POLY_OPA_DISP = gfx;
     }
 
     if (HREG(15) == 2) {
