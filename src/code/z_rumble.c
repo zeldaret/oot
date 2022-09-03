@@ -20,7 +20,7 @@ RumbleMgr sRumbleMgr;
  *
  * Unlike every other function in this file, this runs on the padmgr thread.
  */
-void Rumble_Update(PadMgr* padMgr, s32 arg) {
+void Rumble_Update(PadMgr* padMgr, void* arg) {
     RumbleMgr_Update(&sRumbleMgr);
     PadMgr_RumbleSet(padMgr, sRumbleMgr.rumbleEnable);
 }
@@ -107,21 +107,13 @@ void Rumble_Request(f32 distSq, u8 sourceStrength, u8 duration, u8 decreaseRate)
 
 void Rumble_Init(void) {
     RumbleMgr_Init(&sRumbleMgr);
-
-    gPadMgr.retraceCallback = Rumble_Update;
-    gPadMgr.retraceCallbackValue = 0;
-
-    if (1) {}
+    PadMgr_SetRetraceCallback(&gPadMgr, Rumble_Update, NULL);
 }
 
 void Rumble_Destroy(void) {
     PadMgr* padmgr = &gPadMgr;
 
-    if (padmgr->retraceCallback == Rumble_Update && padmgr->retraceCallbackValue == 0) {
-        padmgr->retraceCallback = NULL;
-        padmgr->retraceCallbackValue = 0;
-    }
-
+    PadMgr_UnsetRetraceCallback(padmgr, Rumble_Update, NULL);
     RumbleMgr_Destroy(&sRumbleMgr);
 }
 
