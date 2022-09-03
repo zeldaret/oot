@@ -3291,19 +3291,11 @@ void BossVa_UpdateEffects(PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 spB6;
     s16 i;
-    f32 floorY;
-    s32 padAC;
+    f32 spB0;
+    f32 spAC;
     s16 pitch;
-    s16 yaw;
     BossVa* refActor2;
     BossVa* refActor;
-    Vec3f sp94;
-    CollisionPoly* sp90;
-    f32 pad8C;
-    Vec3f sp80;
-    CollisionPoly* sp7C;
-    f32 pad78;
-    f32 pad74;
 
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type != VA_NONE) {
@@ -3325,12 +3317,12 @@ void BossVa_UpdateEffects(PlayState* play) {
 
                 if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
                     pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
-                    pad8C = Math_SinS(refActor->actor.world.rot.y);
-                    effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * pad8C);
-                    pad74 = Math_CosS(refActor->actor.world.rot.y);
-                    effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * pad74);
-                    pad78 = Math_CosS(-pitch);
-                    effect->pos.y = (effect->offset.y * pad78) + refActor->actor.world.pos.y;
+                    spAC = Math_SinS(refActor->actor.world.rot.y);
+                    effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * spAC);
+                    spB0 = Math_CosS(refActor->actor.world.rot.y);
+                    effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * spB0);
+                    spB0 = Math_CosS(-pitch);
+                    effect->pos.y = (effect->offset.y * spB0) + refActor->actor.world.pos.y;
                 } else if ((effect->mode == SPARK_BARI) || (effect->mode == SPARK_BODY)) {
                     effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
                     effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
@@ -3396,10 +3388,14 @@ void BossVa_UpdateEffects(PlayState* play) {
 
             if (effect->type == VA_BLOOD) {
                 if (effect->mode < BLOOD_SPOT) {
-                    sp94 = effect->pos;
-                    sp94.y -= effect->velocity.y + 4.0f;
-                    floorY = BgCheck_EntityRaycastFloor1(&play->colCtx, &sp90, &sp94);
-                    if ((sp90 != NULL) && (effect->pos.y <= floorY)) {
+                    Vec3f checkPos;
+                    CollisionPoly* groundPoly;
+                    f32 floorY;
+
+                    checkPos = effect->pos;
+                    checkPos.y -= effect->velocity.y + 4.0f;
+                    floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
+                    if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
                         effect->mode = BLOOD_SPOT;
                         effect->pos.y = floorY + 1.0f;
                         if (sCsState <= DEATH_SHELL_BURST) {
@@ -3429,11 +3425,15 @@ void BossVa_UpdateEffects(PlayState* play) {
 
             if (effect->type == VA_GORE) {
                 if (effect->mode == GORE_PERMANENT) {
-                    sp80 = effect->pos;
-                    sp80.y -= effect->velocity.y + 4.0f;
+                    Vec3f checkPos;
+                    CollisionPoly* groundPoly;
+                    f32 floorY;
+
+                    checkPos = effect->pos;
+                    checkPos.y -= effect->velocity.y + 4.0f;
                     effect->rot.x += 0x1770;
-                    floorY = BgCheck_EntityRaycastFloor1(&play->colCtx, &sp7C, &sp80);
-                    if ((sp7C != NULL) && (effect->pos.y <= floorY)) {
+                    floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
+                    if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
                         effect->mode = GORE_FLOOR;
                         effect->timer = 30;
                         effect->pos.y = floorY + 1.0f;
@@ -3462,6 +3462,8 @@ void BossVa_UpdateEffects(PlayState* play) {
             }
 
             if (effect->type == VA_TUMOR) {
+                s16 yaw;
+
                 refActor = effect->parent;
 
                 effect->rot.z += 0x157C;

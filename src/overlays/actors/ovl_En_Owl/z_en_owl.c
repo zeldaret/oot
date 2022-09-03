@@ -249,9 +249,9 @@ void EnOwl_LookAtLink(EnOwl* this, PlayState* play) {
 }
 
 /**
- * Checks if link is within `targetDist` units, initalize the camera for the owl.
+ * Checks if link is within `targetDist` units, initialize the camera for the owl.
  * returns 0 if the link is not within `targetDistance`, returns 1 once link is within
- * the distance, and the camera has been initalized.
+ * the distance, and the camera has been initialized.
  */
 s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist, u16 flags) {
     s32 timer;

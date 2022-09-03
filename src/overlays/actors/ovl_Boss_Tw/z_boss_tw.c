@@ -198,7 +198,7 @@ static Vec3f sTwinrovaPillarPos[] = {
     { 0.0f, 380.0f, -580.0f },
 };
 
-static u8 sTwInitalized = false;
+static u8 sTwInitialized = false;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
@@ -488,8 +488,8 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
     this->actor.colChkInfo.health = 0;
     Collider_InitCylinder(play, &this->collider);
 
-    if (!sTwInitalized) {
-        sTwInitalized = true;
+    if (!sTwInitialized) {
+        sTwInitialized = true;
         play->envCtx.lightSettingOverride = 1;
         play->envCtx.prevLightSetting = 1;
         play->envCtx.lightSetting = 1;
@@ -600,7 +600,7 @@ void BossTw_Destroy(Actor* thisx, PlayState* play) {
     }
 
     if (thisx->params == TW_TWINROVA) {
-        sTwInitalized = false;
+        sTwInitialized = false;
     }
 }
 
