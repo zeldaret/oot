@@ -4690,7 +4690,7 @@ void func_800F595C(u16 arg0) {
         Audio_StartSeq(SEQ_PLAYER_FANFARE, 0, arg0);
 
     } else {
-        Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, arg0, 0, 7, -1);
+        Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, arg0, 0, 7, SEQ_IO_VAL_NONE);
         Audio_SeqCmd1(SEQ_PLAYER_FANFARE, 0);
     }
 }
