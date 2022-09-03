@@ -133,8 +133,8 @@ f32 sAudioEnemyDist = 0.0f;
 s8 sAudioEnemyVol = 127;
 u16 sPrevMainBgmSeqId = NA_BGM_DISABLED;
 
-#define SEQ_SPOT_NONE 0xC0
-u8 sSeqSpot = 0;
+#define SEQ_RESUME_POINT_NONE 0xC0
+u8 sSeqResumePoint = 0;
 u8 sPrevSceneSeqId = NA_BGM_GENERAL_SFX;
 
 u32 sNumFramesStill = 0;
@@ -153,18 +153,18 @@ u8 sSeqModeInput = 0;
 #define SEQ_FLAG_RESTORE (1 << 3) // required for func_800F5B58 to restore a sequence after func_800F5ACC
 
 /**
- * These two sequence flags work together to implement a “continue playing from where you left off” system for scene
- * sequences when leaving and returning to a scene. For a scene to continue playing from the spot where it left off, it
- * must have `SEQ_FLAG_STORE_SPOT` attached to it. Then, if the scene changes and the new scene sequence contain
- * `SEQ_FLAG_STORE_PREV_SPOT`, the spot from the previous scene sequence will be stored. Then, when returning to the
- * scene with the sequence `SEQ_FLAG_STORE_SPOT`, then the sequence will continue playing from where it left off.
+ * These two sequence flags work together to implement a “resume playing from where you left off” system for scene
+ * sequences when leaving and returning to a scene. For a scene to resume playing from the point where it left off, it
+ * must have `SEQ_FLAG_RESUME` attached to it. Then, if the scene changes and the new scene sequence contain
+ * `SEQ_FLAG_RESUME_PREV`, the point from the previous scene sequence will be stored. Then, when returning to the
+ * scene with the sequence `SEQ_FLAG_RESUME`, then the sequence will resume playing from where it left off.
  *
- * There are only 5 sequences with `SEQ_FLAG_STORE_SPOT`, and all 5 of those sequences have special sequence
+ * There are only 5 sequences with `SEQ_FLAG_RESUME`, and all 5 of those sequences have special sequence
  * instructions in their .seq files to read io port 7 and branch to different starting points along the sequence
  * i.e. this system will only work for: kokiri forest, kakariko child, kakariko adult, zoras domain, gerudo valley
  */
-#define SEQ_FLAG_STORE_SPOT (1 << 4)
-#define SEQ_FLAG_STORE_PREV_SPOT (1 << 5)
+#define SEQ_FLAG_RESUME (1 << 4)
+#define SEQ_FLAG_RESUME_PREV (1 << 5)
 
 /**
  * Will write a value of 1 to ioPort 7 when called through the scene. How it's used depends on the sequence:
@@ -175,117 +175,117 @@ u8 sSeqModeInput = 0;
 #define SEQ_FLAG_SKIP_HARP_INTRO (1 << 6)
 #define SEQ_FLAG_NO_AMBIENCE (1 << 7)
 
-u8 sSeqFlags[0x6E] = {
-    SEQ_FLAG_FANFARE,                          // NA_BGM_GENERAL_SFX
-    SEQ_FLAG_ENEMY,                            // NA_BGM_NATURE_BACKGROUND
-    0,                                         // NA_BGM_FIELD_LOGIC
-    0,                                         // NA_BGM_FIELD_INIT
-    0,                                         // NA_BGM_FIELD_DEFAULT_1
-    0,                                         // NA_BGM_FIELD_DEFAULT_2
-    0,                                         // NA_BGM_FIELD_DEFAULT_3
-    0,                                         // NA_BGM_FIELD_DEFAULT_4
-    0,                                         // NA_BGM_FIELD_DEFAULT_5
-    0,                                         // NA_BGM_FIELD_DEFAULT_6
-    0,                                         // NA_BGM_FIELD_DEFAULT_7
-    0,                                         // NA_BGM_FIELD_DEFAULT_8
-    0,                                         // NA_BGM_FIELD_DEFAULT_9
-    0,                                         // NA_BGM_FIELD_DEFAULT_A
-    0,                                         // NA_BGM_FIELD_DEFAULT_B
-    0,                                         // NA_BGM_FIELD_ENEMY_INIT
-    0,                                         // NA_BGM_FIELD_ENEMY_1
-    0,                                         // NA_BGM_FIELD_ENEMY_2
-    0,                                         // NA_BGM_FIELD_ENEMY_3
-    0,                                         // NA_BGM_FIELD_ENEMY_4
-    0,                                         // NA_BGM_FIELD_STILL_1
-    0,                                         // NA_BGM_FIELD_STILL_2
-    0,                                         // NA_BGM_FIELD_STILL_3
-    0,                                         // NA_BGM_FIELD_STILL_4
-    SEQ_FLAG_STORE_PREV_SPOT | SEQ_FLAG_ENEMY, // NA_BGM_DUNGEON
-    SEQ_FLAG_STORE_SPOT,                       // NA_BGM_KAKARIKO_ADULT
-    0,                                         // NA_BGM_ENEMY
-    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE,   // NA_BGM_BOSS
-    SEQ_FLAG_ENEMY,                            // NA_BGM_INSIDE_DEKU_TREE
-    0,                                         // NA_BGM_MARKET
-    0,                                         // NA_BGM_TITLE
-    SEQ_FLAG_STORE_PREV_SPOT,                  // NA_BGM_LINK_HOUSE
-    0,                                         // NA_BGM_GAME_OVER
-    0,                                         // NA_BGM_BOSS_CLEAR
-    SEQ_FLAG_FANFARE,                          // NA_BGM_ITEM_GET
-    SEQ_FLAG_FANFARE_GANON,                    // NA_BGM_OPENING_GANON
-    SEQ_FLAG_FANFARE,                          // NA_BGM_HEART_GET
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_LIGHT
-    SEQ_FLAG_ENEMY,                            // NA_BGM_JABU_JABU
-    SEQ_FLAG_STORE_SPOT,                       // NA_BGM_KAKARIKO_KID
-    0,                                         // NA_BGM_GREAT_FAIRY
-    0,                                         // NA_BGM_ZELDA_THEME
-    SEQ_FLAG_ENEMY,                            // NA_BGM_FIRE_TEMPLE
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OPEN_TRE_BOX
-    SEQ_FLAG_ENEMY,                            // NA_BGM_FOREST_TEMPLE
-    0,                                         // NA_BGM_COURTYARD
-    SEQ_FLAG_NO_AMBIENCE,                      // NA_BGM_GANON_TOWER
-    0,                                         // NA_BGM_LONLON
-    SEQ_FLAG_NO_AMBIENCE,                      // NA_BGM_GORON_CITY
-    0,                                         // NA_BGM_FIELD_MORNING
-    SEQ_FLAG_FANFARE,                          // NA_BGM_SPIRITUAL_STONE
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_BOLERO
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_MINUET
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_SERENADE
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_REQUIEM
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_NOCTURNE
-    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE,   // NA_BGM_MINI_BOSS
-    SEQ_FLAG_FANFARE,                          // NA_BGM_SMALL_ITEM_GET
-    0,                                         // NA_BGM_TEMPLE_OF_TIME
-    SEQ_FLAG_FANFARE,                          // NA_BGM_EVENT_CLEAR
-    SEQ_FLAG_STORE_SPOT | SEQ_FLAG_ENEMY,      // NA_BGM_KOKIRI
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_FAIRY_GET
-    SEQ_FLAG_ENEMY,                            // NA_BGM_SARIA_THEME
-    SEQ_FLAG_ENEMY,                            // NA_BGM_SPIRIT_TEMPLE
-    0,                                         // NA_BGM_HORSE
-    0,                                         // NA_BGM_HORSE_GOAL
-    0,                                         // NA_BGM_INGO
-    SEQ_FLAG_FANFARE,                          // NA_BGM_MEDALLION_GET
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_SARIA
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_EPONA
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_ZELDA
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_SUNS
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_TIME
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OCA_STORM
-    0,                                         // NA_BGM_NAVI_OPENING
-    0,                                         // NA_BGM_DEKU_TREE_CS
-    0,                                         // NA_BGM_WINDMILL
-    0,                                         // NA_BGM_HYRULE_CS
-    SEQ_FLAG_STORE_PREV_SPOT,                  // NA_BGM_MINI_GAME
-    0,                                         // NA_BGM_SHEIK
-    SEQ_FLAG_STORE_SPOT,                       // NA_BGM_ZORA_DOMAIN
-    SEQ_FLAG_FANFARE,                          // NA_BGM_APPEAR
-    0,                                         // NA_BGM_ADULT_LINK
-    0,                                         // NA_BGM_MASTER_SWORD
-    SEQ_FLAG_FANFARE_GANON,                    // NA_BGM_INTRO_GANON
-    SEQ_FLAG_STORE_PREV_SPOT,                  // NA_BGM_SHOP
-    SEQ_FLAG_SKIP_HARP_INTRO,                  // NA_BGM_CHAMBER_OF_SAGES
-    SEQ_FLAG_SKIP_HARP_INTRO,                  // NA_BGM_FILE_SELECT
-    SEQ_FLAG_ENEMY,                            // NA_BGM_ICE_CAVERN
-    SEQ_FLAG_FANFARE,                          // NA_BGM_DOOR_OF_TIME
-    SEQ_FLAG_FANFARE,                          // NA_BGM_OWL
-    SEQ_FLAG_ENEMY,                            // NA_BGM_SHADOW_TEMPLE
-    SEQ_FLAG_ENEMY,                            // NA_BGM_WATER_TEMPLE
-    SEQ_FLAG_FANFARE,                          // NA_BGM_BRIDGE_TO_GANONS
-    0,                                         // NA_BGM_OCARINA_OF_TIME
-    SEQ_FLAG_STORE_SPOT | SEQ_FLAG_ENEMY,      // NA_BGM_GERUDO_VALLEY
-    0,                                         // NA_BGM_POTION_SHOP
-    0,                                         // NA_BGM_KOTAKE_KOUME
-    SEQ_FLAG_NO_AMBIENCE,                      // NA_BGM_ESCAPE
-    0,                                         // NA_BGM_UNDERGROUND
-    SEQ_FLAG_NO_AMBIENCE,                      // NA_BGM_GANON_BATTLE_1
-    SEQ_FLAG_NO_AMBIENCE,                      // NA_BGM_GANON_BATTLE_2
-    0,                                         // NA_BGM_END_DEMO
-    0,                                         // NA_BGM_STAFF_1
-    0,                                         // NA_BGM_STAFF_2
-    0,                                         // NA_BGM_STAFF_3
-    0,                                         // NA_BGM_STAFF_4
-    0,                                         // NA_BGM_FIRE_BOSS
-    SEQ_FLAG_RESTORE,                          // NA_BGM_TIMED_MINI_GAME
-    0,                                         // NA_BGM_CUTSCENE_EFFECTS
+u8 sSeqFlags[] = {
+    SEQ_FLAG_FANFARE,                        // NA_BGM_GENERAL_SFX
+    SEQ_FLAG_ENEMY,                          // NA_BGM_NATURE_BACKGROUND
+    0,                                       // NA_BGM_FIELD_LOGIC
+    0,                                       // NA_BGM_FIELD_INIT
+    0,                                       // NA_BGM_FIELD_DEFAULT_1
+    0,                                       // NA_BGM_FIELD_DEFAULT_2
+    0,                                       // NA_BGM_FIELD_DEFAULT_3
+    0,                                       // NA_BGM_FIELD_DEFAULT_4
+    0,                                       // NA_BGM_FIELD_DEFAULT_5
+    0,                                       // NA_BGM_FIELD_DEFAULT_6
+    0,                                       // NA_BGM_FIELD_DEFAULT_7
+    0,                                       // NA_BGM_FIELD_DEFAULT_8
+    0,                                       // NA_BGM_FIELD_DEFAULT_9
+    0,                                       // NA_BGM_FIELD_DEFAULT_A
+    0,                                       // NA_BGM_FIELD_DEFAULT_B
+    0,                                       // NA_BGM_FIELD_ENEMY_INIT
+    0,                                       // NA_BGM_FIELD_ENEMY_1
+    0,                                       // NA_BGM_FIELD_ENEMY_2
+    0,                                       // NA_BGM_FIELD_ENEMY_3
+    0,                                       // NA_BGM_FIELD_ENEMY_4
+    0,                                       // NA_BGM_FIELD_STILL_1
+    0,                                       // NA_BGM_FIELD_STILL_2
+    0,                                       // NA_BGM_FIELD_STILL_3
+    0,                                       // NA_BGM_FIELD_STILL_4
+    SEQ_FLAG_RESUME_PREV | SEQ_FLAG_ENEMY,   // NA_BGM_DUNGEON
+    SEQ_FLAG_RESUME,                         // NA_BGM_KAKARIKO_ADULT
+    0,                                       // NA_BGM_ENEMY
+    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_BOSS
+    SEQ_FLAG_ENEMY,                          // NA_BGM_INSIDE_DEKU_TREE
+    0,                                       // NA_BGM_MARKET
+    0,                                       // NA_BGM_TITLE
+    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_LINK_HOUSE
+    0,                                       // NA_BGM_GAME_OVER
+    0,                                       // NA_BGM_BOSS_CLEAR
+    SEQ_FLAG_FANFARE,                        // NA_BGM_ITEM_GET
+    SEQ_FLAG_FANFARE_GANON,                  // NA_BGM_OPENING_GANON
+    SEQ_FLAG_FANFARE,                        // NA_BGM_HEART_GET
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_LIGHT
+    SEQ_FLAG_ENEMY,                          // NA_BGM_JABU_JABU
+    SEQ_FLAG_RESUME,                         // NA_BGM_KAKARIKO_KID
+    0,                                       // NA_BGM_GREAT_FAIRY
+    0,                                       // NA_BGM_ZELDA_THEME
+    SEQ_FLAG_ENEMY,                          // NA_BGM_FIRE_TEMPLE
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OPEN_TRE_BOX
+    SEQ_FLAG_ENEMY,                          // NA_BGM_FOREST_TEMPLE
+    0,                                       // NA_BGM_COURTYARD
+    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_TOWER
+    0,                                       // NA_BGM_LONLON
+    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GORON_CITY
+    0,                                       // NA_BGM_FIELD_MORNING
+    SEQ_FLAG_FANFARE,                        // NA_BGM_SPIRITUAL_STONE
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_BOLERO
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_MINUET
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SERENADE
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_REQUIEM
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_NOCTURNE
+    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_MINI_BOSS
+    SEQ_FLAG_FANFARE,                        // NA_BGM_SMALL_ITEM_GET
+    0,                                       // NA_BGM_TEMPLE_OF_TIME
+    SEQ_FLAG_FANFARE,                        // NA_BGM_EVENT_CLEAR
+    SEQ_FLAG_RESUME | SEQ_FLAG_ENEMY,        // NA_BGM_KOKIRI
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_FAIRY_GET
+    SEQ_FLAG_ENEMY,                          // NA_BGM_SARIA_THEME
+    SEQ_FLAG_ENEMY,                          // NA_BGM_SPIRIT_TEMPLE
+    0,                                       // NA_BGM_HORSE
+    0,                                       // NA_BGM_HORSE_GOAL
+    0,                                       // NA_BGM_INGO
+    SEQ_FLAG_FANFARE,                        // NA_BGM_MEDALLION_GET
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SARIA
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_EPONA
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_ZELDA
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SUNS
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_TIME
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_STORM
+    0,                                       // NA_BGM_NAVI_OPENING
+    0,                                       // NA_BGM_DEKU_TREE_CS
+    0,                                       // NA_BGM_WINDMILL
+    0,                                       // NA_BGM_HYRULE_CS
+    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_MINI_GAME
+    0,                                       // NA_BGM_SHEIK
+    SEQ_FLAG_RESUME,                         // NA_BGM_ZORA_DOMAIN
+    SEQ_FLAG_FANFARE,                        // NA_BGM_APPEAR
+    0,                                       // NA_BGM_ADULT_LINK
+    0,                                       // NA_BGM_MASTER_SWORD
+    SEQ_FLAG_FANFARE_GANON,                  // NA_BGM_INTRO_GANON
+    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_SHOP
+    SEQ_FLAG_SKIP_HARP_INTRO,                // NA_BGM_CHAMBER_OF_SAGES
+    SEQ_FLAG_SKIP_HARP_INTRO,                // NA_BGM_FILE_SELECT
+    SEQ_FLAG_ENEMY,                          // NA_BGM_ICE_CAVERN
+    SEQ_FLAG_FANFARE,                        // NA_BGM_DOOR_OF_TIME
+    SEQ_FLAG_FANFARE,                        // NA_BGM_OWL
+    SEQ_FLAG_ENEMY,                          // NA_BGM_SHADOW_TEMPLE
+    SEQ_FLAG_ENEMY,                          // NA_BGM_WATER_TEMPLE
+    SEQ_FLAG_FANFARE,                        // NA_BGM_BRIDGE_TO_GANONS
+    0,                                       // NA_BGM_OCARINA_OF_TIME
+    SEQ_FLAG_RESUME | SEQ_FLAG_ENEMY,        // NA_BGM_GERUDO_VALLEY
+    0,                                       // NA_BGM_POTION_SHOP
+    0,                                       // NA_BGM_KOTAKE_KOUME
+    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_ESCAPE
+    0,                                       // NA_BGM_UNDERGROUND
+    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_BATTLE_1
+    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_BATTLE_2
+    0,                                       // NA_BGM_END_DEMO
+    0,                                       // NA_BGM_STAFF_1
+    0,                                       // NA_BGM_STAFF_2
+    0,                                       // NA_BGM_STAFF_3
+    0,                                       // NA_BGM_STAFF_4
+    0,                                       // NA_BGM_FIRE_BOSS
+    SEQ_FLAG_RESTORE,                        // NA_BGM_TIMED_MINI_GAME
+    0,                                       // NA_BGM_CUTSCENE_EFFECTS
 };
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -1292,7 +1292,7 @@ f32 sAudioMalonBgmDist;
 void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
 
 void Audio_StepFreqLerp(FreqLerp* lerp);
-void Audio_UpdateSceneSequenceSpot(void);
+void Audio_UpdateSceneSequenceResumePoint(void);
 void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol);
 
@@ -3730,7 +3730,7 @@ void func_800F3054(void) {
         Audio_StepFreqLerp(&sRiverFreqScaleLerp);
         Audio_StepFreqLerp(&sWaterfallFreqScaleLerp);
         Audio_UpdateRiverSoundVolumes();
-        Audio_UpdateSceneSequenceSpot();
+        Audio_UpdateSceneSequenceResumePoint();
         func_800F5CF8();
         if (gAudioSpecId == 7) {
             Audio_ClearSariaBgm();
@@ -4619,17 +4619,16 @@ void Audio_PlaySceneSequence(u16 seqId) {
             Audio_QueueCmdS32(0xF8000000, 0);
         }
 
-        if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_STORE_PREV_SPOT) &&
-            sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_STORE_SPOT) {
-            // Start the sequence from the spot where it last left off last time it was played in the scene
-            if ((sSeqSpot & 0x3F) != 0) {
+        if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME) {
+            // Resume the sequence from the point where it left off last time it was played in the scene
+            if ((sSeqResumePoint & 0x3F) != 0) {
                 fadeInDuration = 30;
             }
 
-            // Write the sequence spot to start from into ioPort 7
-            Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, fadeInDuration, 7, sSeqSpot);
+            // Write the sequence resumePoint to start from into ioPort 7
+            Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, fadeInDuration, 7, sSeqResumePoint);
 
-            sSeqSpot = 0;
+            sSeqResumePoint = 0;
         } else {
             // Start the sequence from the beginning
 
@@ -4638,25 +4637,25 @@ void Audio_PlaySceneSequence(u16 seqId) {
             skipHarpIntro = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : 0xFF;
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, skipHarpIntro);
 
-            if (!(sSeqFlags[seqId] & SEQ_FLAG_STORE_PREV_SPOT)) {
-                // Overwrite the sequence current sequence spot
-                sSeqSpot = SEQ_SPOT_NONE;
+            if (!(sSeqFlags[seqId] & SEQ_FLAG_RESUME_PREV)) {
+                // Reset the sequence resumePoint
+                sSeqResumePoint = SEQ_RESUME_POINT_NONE;
             }
         }
         sPrevSceneSeqId = seqId & 0xFF;
     }
 }
 
-void Audio_UpdateSceneSequenceSpot(void) {
+void Audio_UpdateSceneSequenceResumePoint(void) {
     u16 seqId = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
-    if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[(u8)seqId & 0xFF] & SEQ_FLAG_STORE_SPOT)) {
-        if (sSeqSpot != SEQ_SPOT_NONE) {
-            // Get the current spot the sequence is playing in
-            sSeqSpot = gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
+    if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[(u8)seqId & 0xFF] & SEQ_FLAG_RESUME)) {
+        if (sSeqResumePoint != SEQ_RESUME_POINT_NONE) {
+            // Get the current point to resume from
+            sSeqResumePoint = gAudioContext.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
         } else {
-            // Initialize the current sequence spot to the beginning
-            sSeqSpot = 0;
+            // Initialize the point to resume from to the start of the sequence.
+            sSeqResumePoint = 0;
         }
     }
 }
