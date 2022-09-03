@@ -811,7 +811,7 @@ void Audio_ResetActiveSequences(void) {
     }
 }
 
-void Audio_ResetSequencesAndVolume(void) {
+void Audio_ResetActiveSequencesAndVolume(void) {
     u8 seqPlayerIndex;
     u8 scaleIndex;
 

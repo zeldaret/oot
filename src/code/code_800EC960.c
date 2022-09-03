@@ -5263,7 +5263,7 @@ void Audio_InitSound(void) {
     func_800F6C34();
     AudioOcarina_ResetStaffs();
     Audio_ResetSfxChannelState();
-    Audio_ResetSequencesAndVolume();
+    Audio_ResetActiveSequencesAndVolume();
     Audio_ResetSfx();
     Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 10);
 }
