@@ -129,7 +129,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        switch (play->sceneNum) {
+        switch (play->sceneId) {
             case SCENE_SPOT01:
                 if (IS_DAY) {
                     this->flags |= 1;
@@ -458,7 +458,7 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 3) {
         if (((s32)this->skelAnime.curFrame == 6) || ((s32)this->skelAnime.curFrame == 15)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 

@@ -1,8 +1,9 @@
 #include "global.h"
 
 void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
-    f32 volRight, volLeft;
-    s32 smallPanIndex;
+    f32 volLeft;
+    f32 volRight;
+    s32 halfPanIndex;
     u64 pad;
     u8 strongLeft;
     u8 strongRight;
@@ -31,22 +32,22 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     sub->bitField0.stereoHeadsetEffects = stereoData.stereoHeadsetEffects;
     sub->bitField0.usesHeadsetPanEffects = stereoData.usesHeadsetPanEffects;
     if (stereoHeadsetEffects && (gAudioContext.soundMode == SOUNDMODE_HEADSET)) {
-        smallPanIndex = pan >> 1;
-        if (smallPanIndex > 0x3F) {
-            smallPanIndex = 0x3F;
+        halfPanIndex = pan >> 1;
+        if (halfPanIndex > 0x3F) {
+            halfPanIndex = 0x3F;
         }
 
-        sub->headsetPanLeft = gHeadsetPanQuantization[smallPanIndex];
-        sub->headsetPanRight = gHeadsetPanQuantization[0x3F - smallPanIndex];
-        sub->bitField1.usesHeadsetPanEffects2 = true;
+        sub->haasEffectRightDelaySize = gHaasEffectDelaySizes[halfPanIndex];
+        sub->haasEffectLeftDelaySize = gHaasEffectDelaySizes[0x3F - halfPanIndex];
+        sub->bitField1.useHaasEffect = true;
 
         volLeft = gHeadsetPanVolume[pan];
         volRight = gHeadsetPanVolume[0x7F - pan];
     } else if (stereoHeadsetEffects && (gAudioContext.soundMode == SOUNDMODE_STEREO)) {
         strongLeft = strongRight = 0;
-        sub->headsetPanRight = 0;
-        sub->headsetPanLeft = 0;
-        sub->bitField1.usesHeadsetPanEffects2 = false;
+        sub->haasEffectLeftDelaySize = 0;
+        sub->haasEffectRightDelaySize = 0;
+        sub->bitField1.useHaasEffect = false;
 
         volLeft = gStereoPanVolume[pan];
         volRight = gStereoPanVolume[0x7F - pan];
@@ -945,6 +946,7 @@ void Audio_NoteInitAll(void) {
         note->playbackState.portamento.speed = 0;
         note->playbackState.stereoHeadsetEffects = false;
         note->startSamplePos = 0;
-        note->synthesisState.synthesisBuffers = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, 0x1E0);
+        note->synthesisState.synthesisBuffers =
+            AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, sizeof(NoteSynthesisBuffers));
     }
 }

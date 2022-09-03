@@ -70,7 +70,7 @@ s32 sAudioLoadPad2[4]; // double file padding?
 DmaHandler sDmaHandler = osEPiStartDma;
 void* sUnusedHandler = NULL;
 
-s32 gAudioContextInitalized = false;
+s32 gAudioContextInitialized = false;
 
 void AudioLoad_DecreaseSampleDmaTtls(void) {
     u32 i;
@@ -1200,8 +1200,8 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     AudioHeap_InitMainPools(gAudioHeapInitSizes.initPoolSize);
 
     // Initialize the audio interface buffers
-    for (i = 0; i < 3; i++) {
-        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_LEN * sizeof(s16));
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.aiBuffers); i++) {
+        gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.initPool, AIBUF_SIZE);
     }
 
     // Set audio tables pointers
@@ -1235,7 +1235,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     }
 
     AudioHeap_InitPool(&gAudioContext.permanentPool, ramAddr, gAudioHeapInitSizes.permanentPoolSize);
-    gAudioContextInitalized = true;
+    gAudioContextInitialized = true;
     osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
 }
 

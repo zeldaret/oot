@@ -22,23 +22,23 @@ void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
 s32 DmaMgr_CompareName(const char* name1, const char* name2);
-s32 DmaMgr_DmaRomToRam(u32 rom, void* ram, u32 size);
+s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size);
 s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
 void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc);
-const char* DmaMgr_GetFileNameImpl(u32 vrom);
-const char* DmaMgr_GetFileName(u32 vrom);
+const char* DmaMgr_GetFileNameImpl(uintptr_t vrom);
+const char* DmaMgr_GetFileName(uintptr_t vrom);
 void DmaMgr_ProcessMsg(DmaRequest* req);
 void DmaMgr_ThreadEntry(void* arg);
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, u32 vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
-s32 DmaMgr_SendRequest0(void* ram, u32 vrom, u32 size);
+s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
+s32 DmaMgr_SendRequest0(void* ram, uintptr_t vrom, u32 size);
 void DmaMgr_Init(void);
-s32 DmaMgr_SendRequest2(DmaRequest* req, void* ram, u32 vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
+s32 DmaMgr_SendRequest2(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
                         const char* file, s32 line);
-s32 DmaMgr_SendRequest1(void* ram, u32 vrom, u32 size, const char* file, s32 line);
+s32 DmaMgr_SendRequest1(void* ram, uintptr_t vrom, u32 size, const char* file, s32 line);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
 void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
-void Yaz0_Decompress(u32 romStart, u8* dst, u32 size);
+void Yaz0_Decompress(uintptr_t romStart, u8* dst, u32 size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);
@@ -56,7 +56,7 @@ void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
-s32 StackCheck_GetState(StackEntry* entry);
+u32 StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
 f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
@@ -245,7 +245,7 @@ void EffectSsBomb2_SpawnFade(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f
 void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                 s16 scaleStep);
 void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 sclaeStepDecay, s16 life);
+                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
 void EffectSsBlast_SpawnWhiteCustomScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                          s16 scaleStep, s16 life);
 void EffectSsBlast_SpawnShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
@@ -320,7 +320,7 @@ void EffectSsExtra_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* ac
 void EffectSsFCircle_Spawn(PlayState* play, Actor* actor, Vec3f* pos, s16 radius, s16 height);
 void EffectSsDeadDb_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                           s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused,
-                          s32 arg14, s16 playSound);
+                          s32 arg14, s16 playSfx);
 void EffectSsDeadDd_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                           s16 primR, s16 primG, s16 primB, s16 alpha, s16 envR, s16 envG, s16 envB, s16 alphaStep,
                           s32 life);
@@ -443,7 +443,7 @@ void func_8002F71C(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
 void func_8002F758(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5);
 void func_8002F7A0(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
 void func_8002F7DC(Actor* actor, u16 sfxId);
-void Audio_PlayActorSound2(Actor* actor, u16 sfxId);
+void Audio_PlayActorSfx2(Actor* actor, u16 sfxId);
 void func_8002F850(PlayState* play, Actor* actor);
 void func_8002F8F0(Actor* actor, u16 sfxId);
 void func_8002F91C(Actor* actor, u16 sfxId);
@@ -534,35 +534,25 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
 void ActorOverlayTable_LogPrint(void);
 void ActorOverlayTable_Init(void);
 void ActorOverlayTable_Cleanup(void);
-u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest);
 f32 CollisionPoly_GetPointDistanceFromPlane(CollisionPoly* poly, Vec3f* point);
 void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionContext* colCtx, Vec3f* dest);
-s32 BgCheck_CheckStaticCeiling(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* outY, Vec3f* pos,
-                               f32 checkHeight, CollisionPoly** outPoly);
-s32 BgCheck_CheckLineAgainstSSList(SSList* ssList, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA,
-                                   Vec3f* posB, Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist,
-                                   s32 bccFlags);
-void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
 void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader* colHeader);
-s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor2(PlayState* play, CollisionContext* colCtx, CollisionPoly** outPoly,
-                                Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor3(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor4(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor5(PlayState* play, CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId,
-                                Actor* actor, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor6(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos,
-                                f32 chkDist);
-f32 BgCheck_EntityRaycastFloor7(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
-f32 BgCheck_AnyRaycastFloor1(CollisionContext* colCtx, CollisionPoly* outPoly, Vec3f* pos);
-f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s32* bgId, Vec3f* pos);
-f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
-f32 BgCheck_EntityRaycastFloor9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
-s32 BgCheck_CheckWallImpl(CollisionContext* colCtx, u16 xpFlags, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev,
-                          f32 radius, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight, u8 argA);
+f32 BgCheck_EntityRaycastDown1(CollisionContext* colCtx, CollisionPoly** outGroundPoly, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown2(PlayState* play, CollisionContext* colCtx, CollisionPoly** outGroundPoly, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown3(CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown4(CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId, Actor* actor,
+                               Vec3f* pos);
+f32 BgCheck_EntityRaycastDown5(PlayState* play, CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId,
+                               Actor* actor, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown6(CollisionContext* colCtx, CollisionPoly** outGroundPoly, s32* bgId, Actor* actor,
+                               Vec3f* pos, f32 chkDist);
+f32 BgCheck_EntityRaycastDown7(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
+f32 BgCheck_AnyRaycastDown1(CollisionContext* colCtx, CollisionPoly* outGroundPoly, Vec3f* pos);
+f32 BgCheck_AnyRaycastDown2(CollisionContext* colCtx, CollisionPoly* outGroundPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_CameraRaycastDown2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_EntityRaycastDownWalls(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
+f32 BgCheck_EntityRaycastDown9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
 s32 BgCheck_EntitySphVsWall1(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
                              CollisionPoly** outPoly, f32 checkHeight);
 s32 BgCheck_EntitySphVsWall2(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
@@ -574,9 +564,6 @@ s32 BgCheck_EntitySphVsWall4(CollisionContext* colCtx, Vec3f* posResult, Vec3f* 
 s32 BgCheck_AnyCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight);
 s32 BgCheck_EntityCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight,
                                CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
-                          Vec3f* posResult, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 chkDist,
-                          u32 bccFlags);
 s32 BgCheck_CameraLineTest1(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
                             CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
 s32 BgCheck_CameraLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
@@ -599,12 +586,7 @@ s32 BgCheck_AnyLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec
 s32 BgCheck_AnyLineTest3(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
                          s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
 s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* center, f32 radius);
-void SSNodeList_Initialize(SSNodeList*);
-void SSNodeList_Alloc(PlayState* play, SSNodeList* this, s32 tblMax, s32 numPolys);
-u16 SSNodeList_GetNextNodeIdx(SSNodeList* this);
 s32 DynaPoly_IsBgIdBgActor(s32 bgId);
-void DynaPoly_Init(PlayState* play, DynaCollisionContext* dyna);
-void DynaPoly_Alloc(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_DisableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 void DynaPoly_EnableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 void DynaPoly_DisableCeilingCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
@@ -615,47 +597,36 @@ void DynaPoly_InvalidateLookup(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_UnsetAllInteractFlags(PlayState* play, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_UpdateContext(PlayState* play, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(PlayState* play, DynaCollisionContext* dyna);
-f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast);
-s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
-                          CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-s32 BgCheck_CheckDynaCeiling(CollisionContext* colCtx, u16 xpFlags, f32* outY, Vec3f* pos, f32 chkDist,
-                             CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-s32 BgCheck_CheckLineAgainstDyna(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
-                                 CollisionPoly** outPoly, f32* distSq, s32* outBgId, Actor* actor, f32 chkDist,
-                                 s32 bccFlags);
-s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
-                               Vec3f* center, f32 radius, Actor* actor, u16 bciFlags);
 void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest);
 void func_800418D0(CollisionContext* colCtx, PlayState* play);
-void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 u32 SurfaceType_GetBgCamIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 BgCheck_GetBgCamSettingImpl(CollisionContext* colCtx, u32 bgCamIndex, s32 bgId);
 u16 BgCheck_GetBgCamSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 BgCheck_GetBgCamCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 Vec3s* BgCheck_GetBgCamFuncDataImpl(CollisionContext* colCtx, s32 bgCamIndex, s32 bgId);
 Vec3s* BgCheck_GetBgCamFuncData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetFloorType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 func_80041EC8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_CheckWallFlag0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_CheckWallFlag1(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetFloorProperty(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 func_80041F10(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 SurfaceType_GetSfx(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 SurfaceType_GetSlope(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 SurfaceType_GetLightSettingIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetLightSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetEcho(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 SurfaceType_IsHookshotSurface(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_CanHookshot(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 SurfaceType_IsIgnoredByEntities(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 SurfaceType_IsIgnoredByProjectiles(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 SurfaceType_IsFloorConveyor(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetConveyorSpeed(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetConveyorDirection(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 SurfaceType_IsWallDamage(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 WaterBox_GetSurface1(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                          WaterBox** outWaterBox);
 s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, f32 surfaceChkDist,
@@ -664,7 +635,7 @@ s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f3
                             WaterBox** outWaterBox);
 u32 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox);
 u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox);
-u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox);
+u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
 void BgCheck_DrawDynaCollision(PlayState*, CollisionContext*);
@@ -795,7 +766,7 @@ void CollisionCheck_SpawnRedBlood(PlayState* play, Vec3f* v);
 void CollisionCheck_SpawnWaterDroplets(PlayState* play, Vec3f* v);
 void CollisionCheck_SpawnShieldParticles(PlayState* play, Vec3f* v);
 void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v);
-void CollisionCheck_SpawnShieldParticlesMetalSound(PlayState* play, Vec3f* v, Vec3f* pos);
+void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3f* pos);
 void CollisionCheck_SpawnShieldParticlesMetal2(PlayState* play, Vec3f* v);
 void CollisionCheck_SpawnShieldParticlesWood(PlayState* play, Vec3f* v, Vec3f* actorPos);
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
@@ -805,7 +776,7 @@ void SaveContext_Init(void);
 s32 func_800635D0(s32);
 void func_800636C0(void);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);
-void func_8006376C(u8 x, u8 y, u8 colorId, const char* text);
+void func_8006376C(u8 x, u8 y, u8 colorIndex, const char* text);
 // ? func_80063828(?);
 void func_8006390C(Input* input);
 // ? func_80063C04(?);
@@ -825,9 +796,9 @@ void Cutscene_HandleConditionalTriggers(PlayState* play);
 void Cutscene_SetSegment(PlayState* play, void* segment);
 void* MemCpy(void* dest, const void* src, s32 len);
 void GetItem_Draw(PlayState* play, s16 drawId);
-void SoundSource_InitAll(PlayState* play);
-void SoundSource_UpdateAll(PlayState* play);
-void SoundSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 duration, u16 sfxId);
+void SfxSource_InitAll(PlayState* play);
+void SfxSource_UpdateAll(PlayState* play);
+void SfxSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 duration, u16 sfxId);
 u16 ElfMessage_GetSariaText(PlayState* play);
 u16 ElfMessage_GetCUpText(PlayState* play);
 u16 Text_GetFaceReaction(PlayState* play, u32 reactionSet);
@@ -835,7 +806,7 @@ void Flags_UnsetAllEnv(PlayState* play);
 void Flags_SetEnv(PlayState* play, s16 flag);
 void Flags_UnsetEnv(PlayState* play, s16 flag);
 s32 Flags_GetEnv(PlayState* play, s16 flag);
-s32 func_8006CFC0(s32 scene);
+s32 func_8006CFC0(s32 sceneId);
 void func_8006D074(PlayState* play);
 void func_8006D0AC(PlayState* play);
 void func_8006D0EC(PlayState* play, Player* player);
@@ -968,7 +939,7 @@ void ZeldaArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void ZeldaArena_Check(void);
 void ZeldaArena_Init(void* start, u32 size);
 void ZeldaArena_Cleanup(void);
-u8 ZeldaArena_IsInitalized(void);
+u8 ZeldaArena_IsInitialized(void);
 void MapMark_Init(PlayState* play);
 void MapMark_ClearPointers(PlayState* play);
 void MapMark_Draw(PlayState* play);
@@ -1159,11 +1130,11 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
-void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
+void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
 void func_80095974(GraphicsContext* gfxCtx);
-void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3);
-void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
-                   u16 tlutCount, f32 frameX, f32 frameY);
+void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3);
+void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
+                           u16 tlutCount, f32 offsetX, f32 offsetY);
 void func_80096FD4(PlayState* play, Room* room);
 u32 func_80096FE8(PlayState* play, RoomContext* roomCtx);
 s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum);
@@ -1415,13 +1386,13 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionFade_IsDone(void* thisx);
 void TransitionFade_SetColor(void* thisx, u32 color);
 void TransitionFade_SetType(void* thisx, s32 type);
-void ShrinkWindow_SetVal(s32 value);
-u32 ShrinkWindow_GetVal(void);
-void ShrinkWindow_SetCurrentVal(s32 currentVal);
-u32 ShrinkWindow_GetCurrentVal(void);
-void ShrinkWindow_Init(void);
-void ShrinkWindow_Destroy(void);
-void ShrinkWindow_Update(s32 updateRate);
+void Letterbox_SetSizeTarget(s32 target);
+u32 Letterbox_GetSizeTarget(void);
+void Letterbox_SetSize(s32 size);
+u32 Letterbox_GetSize(void);
+void Letterbox_Init(void);
+void Letterbox_Destroy(void);
+void Letterbox_Update(s32 updateRate);
 // ? DbCamera_AddVecSph(?);
 // ? DbCamera_CalcUpFromPitchYawRoll(?);
 // ? DbCamera_SetTextValue(?);
@@ -1483,7 +1454,7 @@ void Play_Destroy(GameState* thisx);
 void Play_Init(GameState* thisx);
 void Play_Main(GameState* thisx);
 s32 Play_InCsMode(PlayState* this);
-f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* vec);
+f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* pos);
 void* Play_LoadFile(PlayState* this, RomFile* file);
 void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest);
 s16 Play_CreateSubCamera(PlayState* this);
@@ -1512,22 +1483,16 @@ void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf,
 void PreRender_Init(PreRender* this);
 void PreRender_SetValues(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf);
 void PreRender_Destroy(PreRender* this);
-void func_800C0F28(PreRender* this, Gfx** gfxp, void* buf, void* bufSave);
-void func_800C1258(PreRender* this, Gfx** gfxp);
-void func_800C170C(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave, u32 r, u32 g, u32 b, u32 a);
+void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a);
 void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave);
-void func_800C1B24(PreRender* this, Gfx** gfxp, void* fbuf, void* cvgSave);
-void func_800C1E9C(PreRender* this, Gfx** gfxp);
-void func_800C1F20(PreRender* this, Gfx** gfxp);
-void func_800C1FA4(PreRender* this, Gfx** gfxp);
-void func_800C20B4(PreRender* this, Gfx** gfxp);
-void func_800C2118(PreRender* this, Gfx** gfxp);
+void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxp);
+void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxp);
+void PreRender_DrawCoverage(PreRender* this, Gfx** gfxp);
+void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxp);
 void func_800C213C(PreRender* this, Gfx** gfxp);
-void func_800C24BC(PreRender* this, Gfx** gfxp);
-void func_800C24E0(PreRender* this, Gfx** gfxp);
-void func_800C2500(PreRender* this, s32 x, s32 y);
-void func_800C2FE4(PreRender* this);
-void PreRender_Calc(PreRender* this);
+void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxp);
+void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp);
+void PreRender_ApplyFilters(PreRender* this);
 void THGA_Ct(TwoHeadGfxArena* thga, Gfx* start, u32 size);
 void THGA_Dt(TwoHeadGfxArena* thga);
 u32 THGA_IsCrash(TwoHeadGfxArena* thga);
@@ -1609,21 +1574,6 @@ void ListAlloc_Free(ListAlloc* this, void* data);
 void ListAlloc_FreeAll(ListAlloc* this);
 void Main_LogSystemHeap(void);
 void Main(void* arg);
-OSMesgQueue* PadMgr_LockSerialMesgQueue(PadMgr* padMgr);
-void PadMgr_UnlockSerialMesgQueue(PadMgr* padMgr, OSMesgQueue* serialEventQueue);
-void PadMgr_LockPadData(PadMgr* padMgr);
-void PadMgr_UnlockPadData(PadMgr* padMgr);
-void PadMgr_RumbleControl(PadMgr* padMgr);
-void PadMgr_RumbleStop(PadMgr* padMgr);
-void PadMgr_RumbleReset(PadMgr* padMgr);
-void PadMgr_RumbleSet(PadMgr* padMgr, u8* ctrlrRumbles);
-void PadMgr_ProcessInputs(PadMgr* padMgr);
-void PadMgr_HandleRetraceMsg(PadMgr* padMgr);
-void PadMgr_HandlePreNMI(PadMgr* padMgr);
-// This function must remain commented out, because it is called incorrectly in
-// fault.c (actual bug in game), and the compiler notices and won't compile it
-// void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
-void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);
 void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y);
 void SpeedMeter_Init(SpeedMeter* this);
 void SpeedMeter_Destroy(SpeedMeter* this);
@@ -1764,7 +1714,7 @@ void DebugArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void DebugArena_Check(void);
 void DebugArena_Init(void* start, u32 size);
 void DebugArena_Cleanup(void);
-u8 DebugArena_IsInitalized(void);
+u8 DebugArena_IsInitialized(void);
 void UCodeDisas_Init(UCodeDisas*);
 void UCodeDisas_Destroy(UCodeDisas*);
 // void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
@@ -1899,12 +1849,12 @@ void AudioOcarina_MemoryGameInit(u8 minigameRound);
 s32 AudioOcarina_MemoryGameNextNote(void);
 void AudioOcarina_PlayLongScarecrowAfterCredits(void);
 void AudioDebug_Draw(GfxPrint* printer);
-void AudioDebug_ScrPrt(const s8* str, u16 num);
+void AudioDebug_ScrPrt(const char* str, u16 num);
 void func_800F3054(void);
-void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx);
+void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx);
 void Audio_PlayCutsceneEffectsSequence(u8 csEffectType);
 void func_800F4010(Vec3f* pos, u16 sfxId, f32);
-void Audio_PlaySoundRandom(Vec3f* pos, u16 baseSfxId, u8 randLim);
+void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim);
 void func_800F4138(Vec3f* pos, u16 sfxId, f32);
 void func_800F4190(Vec3f* pos, u16 sfxId);
 void func_800F436C(Vec3f* pos, u16 sfxId, f32 arg2);
@@ -1912,16 +1862,16 @@ void func_800F4414(Vec3f* pos, u16 sfxId, f32);
 void func_800F44EC(s8 arg0, s8 arg1);
 void func_800F4524(Vec3f* pos, u16 sfxId, s8 arg2);
 void func_800F4254(Vec3f* pos, u8 level);
-void Audio_PlaySoundRiver(Vec3f* pos, f32 freqScale);
-void Audio_PlaySoundWaterfall(Vec3f* pos, f32 freqScale);
+void Audio_PlaySfxRiver(Vec3f* pos, f32 freqScale);
+void Audio_PlaySfxWaterfall(Vec3f* pos, f32 freqScale);
 void func_800F47BC(void);
 void func_800F47FC(void);
 void func_800F483C(u8 targetVol, u8 volFadeTimer);
 void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel);
 void Audio_LowerMainBgmVolume(u8 volume);
-void Audio_PlaySoundIncreasinglyTransposed(Vec3f* pos, s16 sfxId, u8* semitones);
+void Audio_PlaySfxIncreasinglyTransposed(Vec3f* pos, s16 sfxId, u8* semitones);
 void Audio_ResetIncreasingTranspose(void);
-void Audio_PlaySoundTransposed(Vec3f* pos, u16 sfxId, s8 semitone);
+void Audio_PlaySfxTransposed(Vec3f* pos, u16 sfxId, s8 semitone);
 void func_800F4C58(Vec3f* pos, u16 sfxId, u8);
 void func_800F4E30(Vec3f* pos, f32);
 void Audio_ClearSariaBgm(void);
@@ -1953,7 +1903,7 @@ void func_800F6700(s8 audioSetting);
 void Audio_SetBaseFilter(u8);
 void Audio_SetExtraFilter(u8);
 void Audio_SetCutsceneFlag(s8 flag);
-void Audio_PlaySoundIfNotInCutscene(u16 sfxId);
+void Audio_PlaySfxIfNotInCutscene(u16 sfxId);
 void func_800F6964(u16);
 void func_800F6AB0(u16);
 // ? Audio_DisableAllSeq(?);
@@ -1966,13 +1916,13 @@ void Audio_Init(void);
 void Audio_InitSound(void);
 void func_800F7170(void);
 void func_800F71BC(s32 arg0);
-void Audio_SetSoundBanksMute(u16 muteMask);
+void Audio_SetSfxBanksMute(u16 muteMask);
 void Audio_QueueSeqCmdMute(u8 channelIdx);
 void Audio_ClearBGMMute(u8 channelIdx);
-void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd);
-void Audio_ProcessSoundRequest(void);
-void Audio_ChooseActiveSounds(u8 bankId);
-void Audio_PlayActiveSounds(u8 bankId);
+void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd);
+void Audio_ProcessSfxRequest(void);
+void Audio_ChooseActiveSfx(u8 bankId);
+void Audio_PlayActiveSfx(u8 bankId);
 void Audio_StopSfxByBank(u8 bankId);
 void func_800F8884(u8 bankId, Vec3f* pos);
 void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos);
@@ -1982,10 +1932,10 @@ void Audio_QueueSeqCmd(u32 cmd);
 void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId);
 void Audio_StopSfxByTokenAndId(u8 token, u16 sfxId);
 void Audio_StopSfxById(u32 sfxId);
-void Audio_ProcessSoundRequests(void);
+void Audio_ProcessSfxRequests(void);
 void func_800F8F88(void);
 u8 Audio_IsSfxPlaying(u32 sfxId);
-void Audio_ResetSounds(void);
+void Audio_ResetSfx(void);
 void func_800F9474(u8, u16);
 void func_800F94FC(u32);
 void Audio_ProcessSeqCmd(u32);
@@ -2066,7 +2016,7 @@ void SystemArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void SystemArena_Check(void);
 void SystemArena_Init(void* start, u32 size);
 void SystemArena_Cleanup(void);
-u8 SystemArena_IsInitalized(void);
+u8 SystemArena_IsInitialized(void);
 u32 Rand_Next(void);
 void Rand_Seed(u32 seed);
 f32 Rand_ZeroOne(void);
@@ -2095,7 +2045,7 @@ void __osMallocInit(Arena* arena, void* start, u32 size);
 void __osMallocAddBlock(Arena* arena, void* start, s32 size);
 void ArenaImpl_RemoveAllBlocks(Arena* arena);
 void __osMallocCleanup(Arena* arena);
-u8 __osMallocIsInitalized(Arena* arena);
+u8 __osMallocIsInitialized(Arena* arena);
 void __osMalloc_FreeBlockTest(Arena* arena, ArenaNode* node);
 void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line);
 void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line);
@@ -2144,7 +2094,7 @@ void __osSiCreateAccessQueue(void);
 void __osSiGetAccess(void);
 void __osSiRelAccess(void);
 s32 osContInit(OSMesgQueue* mq, u8* ctlBitfield, OSContStatus* status);
-void __osContGetInitData(u8* ctlBitfield, OSContStatus* status);
+void __osContGetInitData(u8* ctlBitfield, OSContStatus* data);
 void __osPackRequestData(u8 poll);
 s32 osContStartReadData(OSMesgQueue* mq);
 void osContGetReadData(OSContPad* contData);
@@ -2157,7 +2107,7 @@ void osSpTaskYield(void);
 s32 __osPfsGetNextPage(OSPfs* pfs, u8* bank, __OSInode* inode, __OSInodeUnit* page);
 s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8* data);
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel);
-void __osPfsRequestOneChannel(s32 channel, u8 poll);
+void __osPfsRequestOneChannel(s32 channel, u8 cmd);
 void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData);
 void guMtxIdentF(f32 mf[4][4]);
 void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
@@ -2204,7 +2154,7 @@ f32 cosf(f32);
 s16 coss(u16);
 void osViSetEvent(OSMesgQueue* mq, OSMesg msg, u32 retraceCount);
 s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern);
-void __osPfsRequestData(u8 poll);
+void __osPfsRequestData(u8 cmd);
 void __osPfsGetInitData(u8* pattern, OSContStatus* contData);
 void guS2DInitBg(uObjBg* bg);
 s32 __osPfsSelectBank(OSPfs* pfs, u8 bank);
@@ -2254,8 +2204,8 @@ void Message_SetTables(void);
 void GameOver_Init(PlayState* play);
 void GameOver_FadeInLights(PlayState* play);
 void GameOver_Update(PlayState* play);
-void func_80110990(PlayState* play);
-void func_801109B0(PlayState* play);
+void Interface_Destroy(PlayState* play);
+void Interface_Init(PlayState* play);
 void Message_Init(PlayState* play);
 void func_80112098(PlayState* play);
 

@@ -154,9 +154,9 @@ s16 func_809FDCDC(PlayState* play, Actor* actor) {
 }
 
 s32 func_809FDDB4(EnDu* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
+    if (play->sceneId == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
-    } else if (play->sceneNum == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
+    } else if (play->sceneId == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
         return 1;
     }
     return 0;
@@ -298,7 +298,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);
-    } else if (play->sceneNum == SCENE_HIDAN) {
+    } else if (play->sceneId == SCENE_HIDAN) {
         EnDu_SetupAction(this, func_809FE638);
     } else if (!LINK_IS_ADULT) {
         EnDu_SetupAction(this, func_809FE3C0);
@@ -349,8 +349,8 @@ void func_809FE4A4(EnDu* this, PlayState* play) {
         EnDu_SetupAction(this, func_809FE890);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
@@ -394,16 +394,16 @@ void func_809FE798(EnDu* this, PlayState* play) {
     if (DECR(this->unk_1E2) != 0) {
         switch (this->unk_1E2) {
             case 0x50:
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
                 break;
             case 0x3C:
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_SLIDE_DOOR_OPEN);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SLIDE_DOOR_OPEN);
                 break;
             case 0xF:
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
                 break;
             case 5:
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONE_BOUND);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONE_BOUND);
                 break;
         }
         if (this->unk_1E2 >= 0x3D) {

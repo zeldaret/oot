@@ -181,8 +181,8 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                          GET_NEWF(sramCtx, this->buttonIndex, 4), GET_NEWF(sramCtx, this->buttonIndex, 5));
 
             if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
-                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->configMode = CM_ROTATE_TO_NAME_ENTRY;
                 this->kbdButton = FS_KBD_BTN_NONE;
                 this->charPage = FS_CHAR_PAGE_ENG;
@@ -195,21 +195,21 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                 this->nameEntryBoxAlpha = 0;
                 MemCpy(&this->fileNames[this->buttonIndex][0], &emptyName, sizeof(emptyName));
             } else if (this->n64ddFlags[this->buttonIndex] == this->n64ddFlag) {
-                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->actionTimer = 8;
                 this->selectMode = SM_FADE_MAIN_TO_SELECT;
                 this->selectedFileIndex = this->buttonIndex;
                 this->menuMode = FS_MENU_MODE_SELECT;
                 this->nextTitleLabel = FS_TITLE_OPEN_FILE;
             } else if (!this->n64ddFlags[this->buttonIndex]) {
-                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else {
             if (this->warningLabel == FS_WARNING_NONE) {
-                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->prevConfigMode = this->configMode;
 
                 if (this->buttonIndex == FS_BTN_MAIN_COPY) {
@@ -230,16 +230,16 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
 
                 this->actionTimer = 8;
             } else {
-                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
     } else {
-        if (ABS(this->stickRelY) > 30) {
-            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        if (ABS(this->stickAdjY) > 30) {
+            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-            if (this->stickRelY > 30) {
+            if (this->stickAdjY > 30) {
                 this->buttonIndex--;
                 if (this->buttonIndex < FS_BTN_MAIN_FILE_1) {
                     this->buttonIndex = FS_BTN_MAIN_OPTIONS;
@@ -1321,22 +1321,22 @@ void FileSelect_ConfirmFile(GameState* thisx) {
     if (CHECK_BTN_ALL(input->press.button, BTN_START) || (CHECK_BTN_ALL(input->press.button, BTN_A))) {
         if (this->confirmButtonIndex == FS_BTN_CONFIRM_YES) {
             func_800AA000(300.0f, 180, 20, 100);
-            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->selectMode = SM_FADE_OUT;
             func_800F6964(0xF);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->selectMode++;
         }
     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->selectMode++;
-    } else if (ABS(this->stickRelY) >= 30) {
-        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    } else if (ABS(this->stickAdjY) >= 30) {
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->confirmButtonIndex ^= 1;
     }
 }
@@ -1441,16 +1441,16 @@ void FileSelect_LoadGame(GameState* thisx) {
     s32 pad;
 
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
-        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         gSaveContext.fileNum = this->buttonIndex;
         Sram_OpenSave(&this->sramCtx);
         gSaveContext.gameMode = GAMEMODE_NORMAL;
         SET_NEXT_GAMESTATE(&this->state, MapSelect_Init, MapSelectState);
         this->state.running = false;
     } else {
-        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         gSaveContext.fileNum = this->buttonIndex;
         Sram_OpenSave(&this->sramCtx);
         gSaveContext.gameMode = GAMEMODE_NORMAL;
@@ -1606,30 +1606,30 @@ void FileSelect_Main(GameState* thisx) {
     gSPSegment(POLY_OPA_DISP++, 0x01, this->staticSegment);
     gSPSegment(POLY_OPA_DISP++, 0x02, this->parameterSegment);
 
-    func_80095248(this->state.gfxCtx, 0, 0, 0);
+    Gfx_SetupFrame(this->state.gfxCtx, 0, 0, 0);
 
-    this->stickRelX = input->rel.stick_x;
-    this->stickRelY = input->rel.stick_y;
+    this->stickAdjX = input->rel.stick_x;
+    this->stickAdjY = input->rel.stick_y;
 
-    if (this->stickRelX < -30) {
+    if (this->stickAdjX < -30) {
         if (this->stickXDir == -1) {
             this->inputTimerX--;
             if (this->inputTimerX < 0) {
                 this->inputTimerX = 2;
             } else {
-                this->stickRelX = 0;
+                this->stickAdjX = 0;
             }
         } else {
             this->inputTimerX = 10;
             this->stickXDir = -1;
         }
-    } else if (this->stickRelX > 30) {
+    } else if (this->stickAdjX > 30) {
         if (this->stickXDir == 1) {
             this->inputTimerX--;
             if (this->inputTimerX < 0) {
                 this->inputTimerX = 2;
             } else {
-                this->stickRelX = 0;
+                this->stickAdjX = 0;
             }
         } else {
             this->inputTimerX = 10;
@@ -1639,25 +1639,25 @@ void FileSelect_Main(GameState* thisx) {
         this->stickXDir = 0;
     }
 
-    if (this->stickRelY < -30) {
+    if (this->stickAdjY < -30) {
         if (this->stickYDir == -1) {
             this->inputTimerY -= 1;
             if (this->inputTimerY < 0) {
                 this->inputTimerY = 2;
             } else {
-                this->stickRelY = 0;
+                this->stickAdjY = 0;
             }
         } else {
             this->inputTimerY = 10;
             this->stickYDir = -1;
         }
-    } else if (this->stickRelY > 30) {
+    } else if (this->stickAdjY > 30) {
         if (this->stickYDir == 1) {
             this->inputTimerY -= 1;
             if (this->inputTimerY < 0) {
                 this->inputTimerY = 2;
             } else {
-                this->stickRelY = 0;
+                this->stickAdjY = 0;
             }
         } else {
             this->inputTimerY = 10;
@@ -1684,7 +1684,8 @@ void FileSelect_Main(GameState* thisx) {
         gDPLoadTextureBlock(POLY_OPA_DISP++, controlsTextures[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 144, 16,
                             0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(POLY_OPA_DISP++, 0x0168, 0x0330, 0x03A8, 0x0370, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+        gSPTextureRectangle(POLY_OPA_DISP++, 90 << 2, 204 << 2, 234 << 2, 220 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                            1 << 10);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1824,7 +1825,7 @@ void FileSelect_InitContext(GameState* thisx) {
     this->unk_1CAD6[3] = 8;
     this->unk_1CAD6[4] = 10;
 
-    ShrinkWindow_SetVal(0);
+    Letterbox_SetSizeTarget(0);
 
     gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
     gSaveContext.dayTime = CLOCK_TIME(0, 0);
@@ -1871,7 +1872,7 @@ void FileSelect_Destroy(GameState* thisx) {
 
 void FileSelect_Init(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
-    u32 size = (u32)_title_staticSegmentRomEnd - (u32)_title_staticSegmentRomStart;
+    u32 size = (uintptr_t)_title_staticSegmentRomEnd - (uintptr_t)_title_staticSegmentRomStart;
     s32 pad;
 
     SREG(30) = 1;
@@ -1879,12 +1880,12 @@ void FileSelect_Init(GameState* thisx) {
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3392);
     ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_file_choose.c", 3393);
-    DmaMgr_SendRequest1(this->staticSegment, (u32)_title_staticSegmentRomStart, size, "../z_file_choose.c", 3394);
+    DmaMgr_SendRequest1(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c", 3394);
 
-    size = (u32)_parameter_staticSegmentRomEnd - (u32)_parameter_staticSegmentRomStart;
+    size = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
     this->parameterSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3398);
     ASSERT(this->parameterSegment != NULL, "this->parameterSegment != NULL", "../z_file_choose.c", 3399);
-    DmaMgr_SendRequest1(this->parameterSegment, (u32)_parameter_staticSegmentRomStart, size, "../z_file_choose.c",
+    DmaMgr_SendRequest1(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size, "../z_file_choose.c",
                         3400);
 
     Matrix_Init(&this->state);

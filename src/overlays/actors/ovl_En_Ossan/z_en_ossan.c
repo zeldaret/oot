@@ -201,7 +201,7 @@ static ShopItem sShopkeeperStores[][8] = {
       { SI_DEKU_SEEDS_30, -50, 52, -20 },
       { SI_ARROWS_10, -50, 76, -20 },
       { SI_ARROWS_30, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_GREEN_POTION, 50, 52, -20 },
       { SI_BLUE_FIRE, 50, 76, -20 },
@@ -233,7 +233,7 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_HYLIAN_SHIELD, 50, 52, -20 },
       { SI_BOMBS_5_R35, 50, 76, -20 },
       { SI_DEKU_NUTS_5, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_ARROWS_10, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
       { SI_DEKU_STICK, -80, 52, -3 },
@@ -242,7 +242,7 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_HYLIAN_SHIELD, 50, 52, -20 },
       { SI_BOMBS_5_R25, 50, 76, -20 },
       { SI_DEKU_NUTS_5, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_ARROWS_10, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
       { SI_DEKU_STICK, -80, 52, -3 },
@@ -251,15 +251,15 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_MILK_BOTTLE, 50, 52, -20 },
       { SI_DEKU_NUTS_5, 50, 76, -20 },
       { SI_DEKU_NUTS_10, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_WEIRD_EGG, -50, 52, -20 },
       { SI_DEKU_STICK, -50, 76, -20 },
-      { SI_HEART, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 52, -3 },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_ZORA_TUNIC, 50, 52, -20 },
       { SI_ARROWS_10, 50, 76, -20 },
-      { SI_HEART, 80, 52, -3 },
+      { SI_RECOVERY_HEART, 80, 52, -3 },
       { SI_ARROWS_30, 80, 76, -3 },
       { SI_DEKU_NUTS_5, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
@@ -271,9 +271,9 @@ static ShopItem sShopkeeperStores[][8] = {
       { SI_BOMBS_20, 80, 52, -3 },
       { SI_BOMBS_30, 80, 76, -3 },
       { SI_GORON_TUNIC, -50, 52, -20 },
-      { SI_HEART, -50, 76, -20 },
+      { SI_RECOVERY_HEART, -50, 76, -20 },
       { SI_RED_POTION_R40, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_19, 50, 52, -20 },
       { SI_19, 50, 76, -20 },
@@ -2264,7 +2264,7 @@ void EnOssan_DrawCursor(PlayState* play, EnOssan* this, f32 x, f32 y, f32 z, u8 
 
 void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 dx,
                          f32 dy) {
-    f32 unk;
+    f32 texCoordScale;
     s32 ulx, uly, lrx, lry;
     f32 w, h;
     s32 dsdx, dtdy;
@@ -2275,9 +2275,9 @@ void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32
 
     w = 8.0f * z;
     h = 12.0f * z;
-    unk = (1.0f / z) * 1024;
-    dsdx = unk * dx;
-    dtdy = dy * unk;
+    texCoordScale = (1.0f / z) * 1024;
+    dsdx = texCoordScale * dx;
+    dtdy = dy * texCoordScale;
 
     ulx = (x - w) * 4.0f;
     uly = (y - h) * 4.0f;

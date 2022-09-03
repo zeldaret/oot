@@ -23,7 +23,24 @@
 #define ADSR_GOTO -2
 #define ADSR_RESTART -3
 
-#define AIBUF_LEN 0x580
+// size of a single sample point
+#define SAMPLE_SIZE sizeof(s16)
+
+// Samples are processed in groups of 16 called a "frame"
+#define SAMPLES_PER_FRAME ADPCMFSIZE
+
+// The length of one left/right channel is 13 frames
+#define DMEM_1CH_SIZE (13 * SAMPLES_PER_FRAME * SAMPLE_SIZE)
+// Both left and right channels
+#define DMEM_2CH_SIZE (2 * DMEM_1CH_SIZE)
+
+#define AIBUF_LEN (88 * SAMPLES_PER_FRAME) // number of samples
+#define AIBUF_SIZE (AIBUF_LEN * SAMPLE_SIZE) // number of bytes
+
+// Filter sizes
+#define FILTER_SIZE (8 * SAMPLE_SIZE)
+#define FILTER_BUF_PART1 (8 * SAMPLE_SIZE)
+#define FILTER_BUF_PART2 (8 * SAMPLE_SIZE)
 
 // Must be the same amount of samples as copied by aDuplicate() (audio microcode)
 #define WAVE_SAMPLE_COUNT 64
@@ -57,10 +74,10 @@ typedef enum {
 } SampleMedium;
 
 typedef enum {
-    /* 0 */ CODEC_ADPCM,
-    /* 1 */ CODEC_S8,
+    /* 0 */ CODEC_ADPCM,  // 16 2-byte samples (32 bytes) compressed into 4-bit samples (8 bytes) + 1 header byte
+    /* 1 */ CODEC_S8, // 16 2-byte samples (32 bytes) compressed into 8-bit samples (16 bytes)
     /* 2 */ CODEC_S16_INMEMORY,
-    /* 3 */ CODEC_SMALL_ADPCM,
+    /* 3 */ CODEC_SMALL_ADPCM,  // 16 2-byte samples (32 bytes) compressed into 2-bit samples (4 bytes) + 1 header byte
     /* 4 */ CODEC_REVERB,
     /* 5 */ CODEC_S16
 } SampleCodec;
@@ -467,19 +484,19 @@ typedef struct SequenceLayer {
 } SequenceLayer; // size = 0x80
 
 typedef struct {
-    /* 0x0000 */ s16 adpcmdecState[0x10];
-    /* 0x0020 */ s16 finalResampleState[0x10];
-    /* 0x0040 */ s16 mixEnvelopeState[0x28];
-    /* 0x0090 */ s16 panResampleState[0x10];
-    /* 0x00B0 */ s16 panSamplesBuffer[0x20];
-    /* 0x00F0 */ s16 dummyResampleState[0x10];
-} NoteSynthesisBuffers; // size = 0x110
+    /* 0x000 */ s16 adpcmdecState[16];
+    /* 0x020 */ s16 finalResampleState[16];
+    /* 0x040 */ s16 mixEnvelopeState[32];
+    /* 0x080 */ s16 unusedState[16];
+    /* 0x0A0 */ s16 haasEffectDelayState[32];
+    /* 0x0E0 */ s16 unkState[128];
+} NoteSynthesisBuffers; // size = 0x1E0
 
 typedef struct {
     /* 0x00 */ u8 restart;
     /* 0x01 */ u8 sampleDmaIndex;
-    /* 0x02 */ u8 prevHeadsetPanRight;
-    /* 0x03 */ u8 prevHeadsetPanLeft;
+    /* 0x02 */ u8 prevHaasEffectLeftDelaySize;
+    /* 0x03 */ u8 prevHaasEffectRightDelaySize;
     /* 0x04 */ u8 reverbVol;
     /* 0x05 */ u8 numParts;
     /* 0x06 */ u16 samplePosFrac;
@@ -542,11 +559,11 @@ typedef struct {
         /* 0x01 */ u8 bookOffset : 2;
         /* 0x01 */ u8 isSyntheticWave : 1;
         /* 0x01 */ u8 hasTwoParts : 1;
-        /* 0x01 */ u8 usesHeadsetPanEffects2 : 1;
+        /* 0x01 */ u8 useHaasEffect : 1;
     } bitField1;
     /* 0x02 */ u8 gain; // Increases volume by a multiplicative scaling factor. Represented as a UQ4.4 number
-    /* 0x03 */ u8 headsetPanRight;
-    /* 0x04 */ u8 headsetPanLeft;
+    /* 0x03 */ u8 haasEffectLeftDelaySize;
+    /* 0x04 */ u8 haasEffectRightDelaySize;
     /* 0x05 */ u8 reverbVol;
     /* 0x06 */ u8 harmonicIndexCurAndPrev; // bits 3..2 store curHarmonicIndex, bits 1..0 store prevHarmonicIndex
     /* 0x07 */ u8 unk_07;

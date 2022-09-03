@@ -150,15 +150,14 @@ void func_80064558(PlayState* play, CutsceneContext* csCtx) {
 void func_800645A0(PlayState* play, CutsceneContext* csCtx) {
     Input* input = &play->state.input[0];
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
-        (gSaveContext.sceneSetupIndex >= 4)) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER) {
         D_8015FCC8 = 0;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
-        (gSaveContext.sceneSetupIndex >= 4) && !gDbgCamEnabled) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
+        !gDbgCamEnabled) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
@@ -189,7 +188,7 @@ u32 func_8006472C(PlayState* play, CutsceneContext* csCtx, f32 target) {
 
 void func_80064760(PlayState* play, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
@@ -200,7 +199,7 @@ void func_80064760(PlayState* play, CutsceneContext* csCtx) {
 void func_800647C0(PlayState* play, CutsceneContext* csCtx) {
     func_80068C3C(play, csCtx);
     Interface_ChangeAlpha(1);
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
@@ -490,13 +489,13 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
     s32 temp = 0;
 
     if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS) &&
-        (play->sceneNum != SCENE_SPOT00) && (csCtx->frames > 20) &&
+        (play->sceneId != SCENE_SPOT00) && (csCtx->frames > 20) &&
         (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)) &&
         (gSaveContext.fileNum != 0xFEDC) && (play->transitionTrigger == TRANS_TRIGGER_OFF)) {
-        Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         temp = 1;
     }
 
@@ -568,7 +567,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
                     gSaveContext.cutsceneIndex = 0xFFF3;
                     play->transitionType = TRANS_TYPE_INSTANT;
                 } else {
-                    if (gSaveContext.sceneSetupIndex < 4) {
+                    if (!IS_CUTSCENE_LAYER) {
                         if (!LINK_IS_ADULT) {
                             play->linkAgeOnLoad = LINK_AGE_ADULT;
                         } else {
@@ -827,7 +826,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
                 break;
             case 54:
                 gSaveContext.gameMode = GAMEMODE_END_CREDITS;
-                Audio_SetSoundBanksMute(0x6F);
+                Audio_SetSfxBanksMute(0x6F);
                 play->linkAgeOnLoad = LINK_AGE_CHILD;
                 play->nextEntranceIndex = ENTR_SPOT09_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
@@ -1021,7 +1020,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
                     gSaveContext.cutsceneIndex = 0xFFF3;
                     play->transitionType = TRANS_TYPE_FADE_BLACK;
                 } else {
-                    switch (gSaveContext.sceneSetupIndex) {
+                    switch (gSaveContext.sceneLayer) {
                         case 8:
                             play->nextEntranceIndex = ENTR_SPOT05_0;
                             play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1208,7 +1207,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
                 break;
             case 117:
                 gSaveContext.gameMode = GAMEMODE_END_CREDITS;
-                Audio_SetSoundBanksMute(0x6F);
+                Audio_SetSfxBanksMute(0x6F);
                 play->linkAgeOnLoad = LINK_AGE_ADULT;
                 play->nextEntranceIndex = ENTR_SPOT00_0;
                 gSaveContext.cutsceneIndex = 0xFFF7;
@@ -1249,14 +1248,14 @@ void Cutscene_Command_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCm
                 if (cmd->base == 1) {
                     play->envCtx.screenFillColor[3] = 255.0f * temp;
                     if ((temp == 0.0f) && (gSaveContext.entranceIndex == ENTR_KENJYANOMA_0)) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((temp == 0.0f) && ((gSaveContext.entranceIndex == ENTR_TOKINOMA_0) ||
                                                   (gSaveContext.entranceIndex == ENTR_SPOT15_0) ||
                                                   (gSaveContext.entranceIndex == ENTR_YOUSEI_IZUMI_YOKO_0))) {
-                        Audio_PlaySoundGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    } else if ((temp == 0.0f) && (play->sceneNum == SCENE_GANONTIKA)) {
+                        Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    } else if ((temp == 0.0f) && (play->sceneId == SCENE_GANONTIKA)) {
                         func_800788CC(NA_SE_EV_WHITE_OUT);
                     }
                 } else {
@@ -2019,8 +2018,8 @@ void func_80068ECC(PlayState* play, CutsceneContext* csCtx) {
 
             if (gSaveContext.cutsceneTrigger == 0) {
                 Interface_ChangeAlpha(1);
-                ShrinkWindow_SetVal(0x20);
-                ShrinkWindow_SetCurrentVal(0x20);
+                Letterbox_SetSizeTarget(32);
+                Letterbox_SetSize(32);
                 csCtx->state++;
             }
 
@@ -2094,12 +2093,12 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_C4) &&
-                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_TOKINOMA)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(EVENTCHKINF_C4);
             gSaveContext.entranceIndex = ENTR_TOKINOMA_0;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
-                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_GANON_DEMO)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(EVENTCHKINF_C7);
             gSaveContext.entranceIndex = ENTR_GANON_DEMO_0;
             gSaveContext.cutsceneIndex = 0xFFF0;

@@ -255,7 +255,7 @@ void ObjLightswitch_SetupTurnOn(ObjLightswitch* this) {
 void ObjLightswitch_TurnOn(ObjLightswitch* this, PlayState* play) {
     if (func_8005B198() == this->actor.category || this->toggleDelay <= 0) {
         if (this->timer == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRIFORCE_FLASH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TRIFORCE_FLASH);
         }
 
         this->timer++;
@@ -270,7 +270,7 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, PlayState* play) {
             ObjLightswitch_SetupOn(this);
         } else if (this->timer == 15) {
             this->faceTextureIndex = FACE_EYES_OPEN;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FOOT_SWITCH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
@@ -339,7 +339,7 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, PlayState* play) {
             ObjLightswitch_SetupOff(this);
         } else if (this->timer == 15) {
             this->faceTextureIndex = FACE_EYES_CLOSED;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FOOT_SWITCH);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
