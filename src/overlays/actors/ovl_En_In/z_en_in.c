@@ -932,9 +932,9 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
         if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.talkState == 0) {
             if (Actor_ProcessTalkRequest(&this->actor, play)) {}
         } else {
-            func_800343CC(play, &this->actor, &this->unk_308.talkState,
-                          ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
-                          func_80A79500);
+            Actor_NpcUpdateTalking(play, &this->actor, &this->unk_308.talkState,
+                                   ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
+                                   func_80A79168, func_80A79500);
             if (this->unk_308.talkState != 0) {
                 this->unk_1FA = this->unk_1F8;
                 this->unk_1F8 = Message_GetState(&play->msgCtx);

@@ -560,8 +560,8 @@ void EnDu_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->actionFunc != func_809FE4A4) {
-        func_800343CC(play, &this->actor, &this->unk_1F4.talkState, this->collider.dim.radius + 116.0f, func_809FDC38,
-                      func_809FDCDC);
+        Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1F4.talkState, this->collider.dim.radius + 116.0f,
+                               func_809FDC38, func_809FDCDC);
     }
     this->actionFunc(this, play);
 }

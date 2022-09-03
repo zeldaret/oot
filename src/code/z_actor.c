@@ -3646,8 +3646,20 @@ Hilite* func_8003435C(Vec3f* object, PlayState* play) {
     return func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
-s32 func_800343CC(PlayState* play, Actor* actor, s16* talkState, f32 interactRange, callback1_800343CC getTextID,
-                  callback2_800343CC getTalkState) {
+/**
+ * Updates NPC talking state. Updates the talkState parameter
+ * when a dialog is ongoing. Otherwise checks if the actor is onscreen,
+ * advertises the interaction in a range and sets the current text id if
+ * necessary.
+ *
+ * @param talkState Pointer to dialog state
+ * @param interactRange The interact (talking) range for the actor
+ * @param getTextId Callback for getting the next text id
+ * @param getTalkState Callback for getting the next talkState value
+ * @return s32 True if a new dialog was started (player talked to the actor). False otherwise.
+ */
+s32 Actor_NpcUpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
+                           ActorNpcGetTextIdFunc getTextId, ActorNpcGetTalkStateFunc getTalkState) {
     s16 x;
     s16 y;
 
@@ -3662,16 +3674,17 @@ s32 func_800343CC(PlayState* play, Actor* actor, s16* talkState, f32 interactRan
     }
 
     Actor_GetScreenPos(play, actor, &x, &y);
-
     if ((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT)) {
+        // Actor is offscreen
         return false;
     }
 
     if (!func_8002F2CC(actor, play, interactRange)) {
+        // Player not in interact range or can't talk now
         return false;
     }
 
-    actor->textId = getTextID(play, actor);
+    actor->textId = getTextId(play, actor);
 
     return false;
 }

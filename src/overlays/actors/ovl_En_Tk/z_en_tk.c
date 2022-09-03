@@ -528,16 +528,16 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
             return;
         }
 
-        func_800343CC(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f, func_80B1C54C,
-                      func_80B1C5A0);
+        Actor_NpcUpdateTalking(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f,
+                               func_80B1C54C, func_80B1C5A0);
     } else if (EnTk_CheckFacingPlayer(this)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        func_800343CC(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f, func_80B1C54C,
-                      func_80B1C5A0);
+        Actor_NpcUpdateTalking(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f,
+                               func_80B1C54C, func_80B1C5A0);
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;

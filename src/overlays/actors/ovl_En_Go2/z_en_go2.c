@@ -819,7 +819,8 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return func_800343CC(play, &this->actor, &this->unk_194.talkState, this->unk_218, EnGo2_GetTextId, EnGo2_GetState);
+        return Actor_NpcUpdateTalking(play, &this->actor, &this->unk_194.talkState, this->unk_218, EnGo2_GetTextId,
+                                      EnGo2_GetState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) &&
                !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;

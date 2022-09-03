@@ -19,8 +19,8 @@ struct Lights;
 
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
-typedef u16 (*callback1_800343CC)(struct PlayState*, struct Actor*);
-typedef s16 (*callback2_800343CC)(struct PlayState*, struct Actor*);
+typedef u16 (*ActorNpcGetTextIdFunc)(struct PlayState*, struct Actor*);
+typedef s16 (*ActorNpcGetTalkStateFunc)(struct PlayState*, struct Actor*);
 
 typedef struct {
     Vec3f pos;

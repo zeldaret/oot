@@ -188,8 +188,8 @@ void EnKz_UpdateEyes(EnKz* this) {
     }
 }
 
-s32 func_80A9C95C(PlayState* play, EnKz* this, s16* arg2, f32 unkf, ActorNpcGetTextIdFunc callback1,
-                  ActorNpcGettalkStateFunc callback2) {
+s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, ActorNpcGetTextIdFunc getTextId,
+                  ActorNpcGetTalkStateFunc getTalkState) {
     Player* player = GET_PLAYER(play);
     s16 sp32;
     s16 sp30;
@@ -197,12 +197,12 @@ s32 func_80A9C95C(PlayState* play, EnKz* this, s16* arg2, f32 unkf, ActorNpcGetT
     f32 yaw;
 
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        *arg2 = 1;
+        *talkState = 1;
         return 1;
     }
 
-    if (*arg2 != 0) {
-        *arg2 = callback2(play, &this->actor);
+    if (*talkState != 0) {
+        *talkState = getTalkState(play, &this->actor);
         return 0;
     }
 
@@ -227,7 +227,7 @@ s32 func_80A9C95C(PlayState* play, EnKz* this, s16* arg2, f32 unkf, ActorNpcGetT
         return 0;
     }
     this->actor.xzDistToPlayer = xzDistToPlayer;
-    this->actor.textId = callback1(play, &this->actor);
+    this->actor.textId = getTextId(play, &this->actor);
 
     return 0;
 }

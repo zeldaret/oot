@@ -498,8 +498,8 @@ void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
-s32 func_800343CC(PlayState* play, Actor* actor, s16* arg2, f32 interactRange,
-                  u16 (*unkFunc1)(PlayState*, Actor*), s16 (*unkFunc2)(PlayState*, Actor*));
+s32 Actor_NpcUpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
+                           ActorNpcGetTextIdFunc getTextId, ActorNpcGetTalkStateFunc getTalkState);
 s16 func_800347E8(s16 arg0);
 void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
 void func_80034BA0(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,

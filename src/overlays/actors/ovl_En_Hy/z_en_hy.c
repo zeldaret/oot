@@ -797,7 +797,8 @@ void func_80A70978(EnHy* this, PlayState* play) {
 
     func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
 
-    if (func_800343CC(play, &this->actor, &this->unk_1E8.talkState, this->unkRange, func_80A6F810, func_80A70058)) {
+    if (Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E8.talkState, this->unkRange, func_80A6F810,
+                               func_80A70058)) {
         func_80A70834(this, play);
     }
 }
