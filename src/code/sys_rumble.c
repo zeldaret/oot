@@ -120,7 +120,7 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
         } else {
             // Rumble
             rumbleMgr->offTimer = 0;
-            if ((++rumbleMgr->onTimer) > 7200) { // 2 minutes at 60 VI/s, 2 minsutes 24 sec at 50 VI/s
+            if ((++rumbleMgr->onTimer) > 7200) { // 2 minutes at 60 VI/s, 2 minutes 24 seconds at 50 VI/s
                 // Clear all requests if rumble as been on for too long
                 rumbleMgr->state = RUMBLE_STATE_CLEAR;
             }

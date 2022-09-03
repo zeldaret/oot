@@ -1380,7 +1380,7 @@ void EnHorse_MountedGallop(EnHorse* this, PlayState* play) {
     this->skin.skelAnime.playSpeed = this->actor.speedXZ * 0.3f;
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         EnHorse_PlayGallopingSfx(this);
-        Rumble_Request(0, 120, 8, 255);
+        Rumble_Request(0, 120, 8, 255); // 0 instead of 0.0f is required to match
         if (EnHorse_PlayerCanMove(this, play) == true) {
             if (stickMag >= 10.0f && Math_CosS(stickAngle) <= -0.5f) {
                 EnHorse_StartBraking(this, play);
@@ -1413,13 +1413,13 @@ void EnHorse_MountedRearing(EnHorse* this, PlayState* play) {
     f32 stickMag;
     s16 stickAngle;
 
-    this->actor.speedXZ = 0;
+    this->actor.speedXZ = 0.0f;
     if (this->curFrame > 25.0f) {
         if (!(this->stateFlags & ENHORSE_LAND2_SOUND)) {
             this->stateFlags |= ENHORSE_LAND2_SOUND;
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_LAND2, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            Rumble_Request(0, 180, 20, 100);
+            Rumble_Request(0.0f, 180, 20, 100);
         }
     }
 

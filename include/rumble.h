@@ -44,7 +44,7 @@ void Rumble_Request(f32 distSq, u8 sourceStrength, u8 duration, u8 decreaseRate)
 void Rumble_Init(void);
 void Rumble_Destroy(void);
 
-u32 Rumble_Controller1HasRumblePak(void);
+s32 Rumble_Controller1HasRumblePak(void);
 
 void Rumble_Reset(void);
 void Rumble_ClearRequests(void);

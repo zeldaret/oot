@@ -603,7 +603,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
     if (ABS(yaw) < 0x2008) {
         if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
-            Rumble_Request(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+            Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
             func_8008EEAC(play, &this->actor);
         }
 

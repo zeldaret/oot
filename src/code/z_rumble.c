@@ -125,7 +125,7 @@ void Rumble_Destroy(void) {
     RumbleMgr_Destroy(&sRumbleMgr);
 }
 
-u32 Rumble_Controller1HasRumblePak(void) {
+s32 Rumble_Controller1HasRumblePak(void) {
     return gPadMgr.pakType[0] == CONT_PAK_RUMBLE;
 }
 
