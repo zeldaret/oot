@@ -516,19 +516,19 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
     s16 v1;
     s16 a1_;
 
-    if (this->h_1E0 != 0) {
+    if (this->npcInfo.talkState != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
-        if (this->h_1E0 == 2) {
+        if (this->npcInfo.talkState == 2) {
             EnTk_DigAnim(this, play);
-            this->h_1E0 = 0;
+            this->npcInfo.talkState = 0;
             this->actionFunc = EnTk_Dig;
             return;
         }
 
-        func_800343CC(play, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
+        func_800343CC(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f, func_80B1C54C,
                       func_80B1C5A0);
     } else if (EnTk_CheckFacingPlayer(this)) {
         v1 = this->actor.shape.rot.y;
@@ -536,7 +536,7 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        func_800343CC(play, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
+        func_800343CC(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f, func_80B1C54C,
                       func_80B1C5A0);
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
         v1 = this->actor.shape.rot.y;
@@ -544,7 +544,7 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        this->h_1E0 = 1;
+        this->npcInfo.talkState = 1;
     } else if (DECR(this->actionCountdown) == 0) {
         EnTk_WalkAnim(this, play);
         this->actionFunc = EnTk_Walk;
@@ -559,9 +559,9 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
 }
 
 void EnTk_Walk(EnTk* this, PlayState* play) {
-    if (this->h_1E0 == 2) {
+    if (this->npcInfo.talkState == 2) {
         EnTk_DigAnim(this, play);
-        this->h_1E0 = 0;
+        this->npcInfo.talkState = 0;
         this->actionFunc = EnTk_Dig;
     } else {
         this->actor.speedXZ = EnTk_Step(this, play);

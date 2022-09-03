@@ -513,7 +513,7 @@ void EnZo_Dialog(EnZo* this, PlayState* play) {
     }
     func_80034A14(&this->actor, &this->unk_194, 11, this->unk_64C);
     if (this->canSpeak == true) {
-        func_800343CC(play, &this->actor, &this->unk_194.unk_00, this->dialogRadius, func_80B61024, func_80B61298);
+        func_800343CC(play, &this->actor, &this->unk_194.talkState, this->dialogRadius, func_80B61024, func_80B61298);
     }
 }
 
@@ -541,7 +541,7 @@ void EnZo_SetAnimation(EnZo* this) {
 
     if (this->skelAnime.animation == &gZoraHandsOnHipsTappingFootAnim ||
         this->skelAnime.animation == &gZoraOpenArmsAnim) {
-        if (this->unk_194.unk_00 == 0) {
+        if (this->unk_194.talkState == 0) {
             if (this->actionFunc == EnZo_Standing) {
                 animId = ENZO_ANIM_0;
             } else {
@@ -550,12 +550,12 @@ void EnZo_SetAnimation(EnZo* this) {
         }
     }
 
-    if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4006 &&
+    if (this->unk_194.talkState != 0 && this->actor.textId == 0x4006 &&
         this->skelAnime.animation != &gZoraHandsOnHipsTappingFootAnim) {
         animId = ENZO_ANIM_6;
     }
 
-    if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4007 && this->skelAnime.animation != &gZoraOpenArmsAnim) {
+    if (this->unk_194.talkState != 0 && this->actor.textId == 0x4007 && this->skelAnime.animation != &gZoraOpenArmsAnim) {
         animId = ENZO_ANIM_7;
     }
 
@@ -588,7 +588,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     this->dialogRadius = this->collider.dim.radius + 30.0f;
     this->unk_64C = 1;
     this->canSpeak = false;
-    this->unk_194.unk_00 = 0;
+    this->unk_194.talkState = 0;
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
@@ -613,7 +613,7 @@ void EnZo_Standing(EnZo* this, PlayState* play) {
 
     func_80034F54(play, this->unk_656, this->unk_67E, 20);
     EnZo_SetAnimation(this);
-    if (this->unk_194.unk_00 != 0) {
+    if (this->unk_194.talkState != 0) {
         this->unk_64C = 4;
         return;
     }

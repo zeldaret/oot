@@ -769,7 +769,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
         case ENHY_TYPE_BOJ_10:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 1 : 2;
+            phi_a3 = (this->unk_1E8.talkState == 0) ? 1 : 2;
             break;
         case ENHY_TYPE_BOJ_12:
             phi_a3 = 1;
@@ -780,7 +780,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
             break;
         case ENHY_TYPE_AOB:
         case ENHY_TYPE_BOB_18:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 2 : 4;
+            phi_a3 = (this->unk_1E8.talkState == 0) ? 2 : 4;
             break;
         default:
             phi_a3 = 2;
@@ -797,7 +797,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
 
     func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
 
-    if (func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
+    if (func_800343CC(play, &this->actor, &this->unk_1E8.talkState, this->unkRange, func_80A6F810, func_80A70058)) {
         func_80A70834(this, play);
     }
 }
@@ -966,7 +966,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
 }
 
 void func_80A710F8(EnHy* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->unk_1E8.talkState != 0) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
         }
@@ -1016,11 +1016,11 @@ void func_80A7134C(EnHy* this, PlayState* play) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.talkState != 0)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
     }
 
-    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.talkState == 0)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
     }
 
@@ -1082,7 +1082,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
-        if (this->unk_1E8.unk_00 == 0) {
+        if (this->unk_1E8.talkState == 0) {
             Actor_MoveForward(&this->actor);
         }
 

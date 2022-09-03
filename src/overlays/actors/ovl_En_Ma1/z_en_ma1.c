@@ -232,7 +232,7 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_a3;
 
-    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
+    if ((this->unk_1E8.talkState == 0) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -246,7 +246,7 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
 
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
-        if (this->unk_1E8.unk_00 == 0) {
+        if (this->unk_1E8.talkState == 0) {
             if (this->isNotSinging) {
                 // Turn on singing
                 this->isNotSinging = false;
@@ -280,7 +280,7 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
-    this->unk_1E8.unk_00 = 0;
+    this->unk_1E8.talkState = 0;
 
     if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
@@ -299,7 +299,7 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AA0D88(EnMa1* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->unk_1E8.talkState != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
             EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
@@ -312,7 +312,7 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
     if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
-        if (this->unk_1E8.unk_00 == 2) {
+        if (this->unk_1E8.talkState == 2) {
             this->actionFunc = func_80AA0EA0;
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -330,8 +330,8 @@ void func_80AA0EA0(EnMa1* this, PlayState* play) {
 }
 
 void func_80AA0EFC(EnMa1* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 == 3) {
-        this->unk_1E8.unk_00 = 0;
+    if (this->unk_1E8.talkState == 3) {
+        this->unk_1E8.talkState = 0;
         this->actionFunc = func_80AA0D88;
         SET_EVENTCHKINF(EVENTCHKINF_12);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -341,7 +341,7 @@ void func_80AA0EFC(EnMa1* this, PlayState* play) {
 void func_80AA0F44(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->unk_1E8.talkState != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
             EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
@@ -357,7 +357,7 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
             Message_StartTextbox(play, this->actor.textId, NULL);
-            this->unk_1E8.unk_00 = 1;
+            this->unk_1E8.talkState = 1;
             this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
@@ -368,7 +368,7 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
 
 void func_80AA106C(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
-    if (this->unk_1E8.unk_00 == 2) {
+    if (this->unk_1E8.talkState == 2) {
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_MALON);
         func_8010BD58(play, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~ACTOR_FLAG_16;
@@ -408,7 +408,7 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
     EnMa1_UpdateEyes(this);
     this->actionFunc(this, play);
     if (this->actionFunc != EnMa1_DoNothing) {
-        func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f, EnMa1_GetText,
+        func_800343CC(play, &this->actor, &this->unk_1E8.talkState, (f32)this->collider.dim.radius + 30.0f, EnMa1_GetText,
                       func_80AA0778);
     }
     func_80AA0B74(this);

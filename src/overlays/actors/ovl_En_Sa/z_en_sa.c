@@ -218,8 +218,8 @@ s16 func_80AF56F4(PlayState* play, Actor* thisx) {
 
 void func_80AF57D8(EnSa* this, PlayState* play) {
     if (play->sceneId != SCENE_SPOT05 || ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 ||
-        this->unk_1E0.unk_00 != 0) {
-        func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f, func_80AF55E0,
+        this->unk_1E0.talkState != 0) {
+        func_800343CC(play, &this->actor, &this->unk_1E0.talkState, this->collider.dim.radius + 30.0f, func_80AF55E0,
                       func_80AF56F4);
     }
 }
@@ -432,7 +432,7 @@ s32 func_80AF603C(EnSa* this) {
         this->skelAnime.animation != &gSariaOcarinaToMouthAnim) {
         return 0;
     }
-    if (this->unk_1E0.unk_00 != 0) {
+    if (this->unk_1E0.talkState != 0) {
         return 0;
     }
     this->unk_20E = 0;
@@ -523,7 +523,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actor.targetMode = 6;
-    this->unk_1E0.unk_00 = 0;
+    this->unk_1E0.talkState = 0;
     this->alpha = 255;
     this->unk_21A = this->actor.shape.rot;
 
@@ -539,7 +539,7 @@ void EnSa_Destroy(Actor* thisx, PlayState* play) {
 
 void func_80AF6448(EnSa* this, PlayState* play) {
     if (play->sceneId == SCENE_SPOT04) {
-        if (this->unk_1E0.unk_00 != 0) {
+        if (this->unk_1E0.talkState != 0) {
             switch (this->actor.textId) {
                 case 0x1002:
                     if (this->unk_208 == 0 && this->unk_20B != 1) {
@@ -607,14 +607,14 @@ void func_80AF6448(EnSa* this, PlayState* play) {
             EnSa_ChangeAnim(this, ENSA_ANIM1_6);
         }
     }
-    if (this->unk_1E0.unk_00 != 0 && play->sceneId == SCENE_SPOT05) {
+    if (this->unk_1E0.talkState != 0 && play->sceneId == SCENE_SPOT05) {
         Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 1.0f, 0.0f, 10.0f, ANIMMODE_ONCE, -10.0f);
         this->actionFunc = func_80AF67D0;
     }
 }
 
 void func_80AF67D0(EnSa* this, PlayState* play) {
-    if (this->unk_1E0.unk_00 == 0) {
+    if (this->unk_1E0.talkState == 0) {
         Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
         this->actionFunc = func_80AF6448;
     }
