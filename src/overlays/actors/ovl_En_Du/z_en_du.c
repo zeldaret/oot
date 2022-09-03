@@ -130,19 +130,19 @@ s16 func_809FDCDC(PlayState* play, Actor* actor) {
                     break;
                 case 0x301C:
                 case 0x301F:
-                    return 2;
+                    return NPC_TALKING_STATE_2;
                 case 0x3020:
                     SET_EVENTCHKINF(EVENTCHKINF_22);
                     break;
             }
-            return 0;
+            return NPC_TALKING_STATE_0;
         case TEXT_STATE_DONE_FADING:
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
             break;
         case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(play)) {
-                return 3;
+                return NPC_TALKING_STATE_3;
             }
             break;
         case TEXT_STATE_SONG_DEMO_DONE:
@@ -150,7 +150,7 @@ s16 func_809FDCDC(PlayState* play, Actor* actor) {
         case TEXT_STATE_9:
             break;
     }
-    return 1;
+    return NPC_TALKING_STATE_1;
 }
 
 s32 func_809FDDB4(EnDu* this, PlayState* play) {
@@ -166,7 +166,7 @@ void func_809FDE24(EnDu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_a3 = 0;
 
-    if (this->unk_1F4.talkState == 0) {
+    if (this->unk_1F4.talkState == NPC_TALKING_STATE_0) {
         phi_a3 = 1;
     }
     if (this->actionFunc == func_809FE890) {
@@ -292,7 +292,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_0);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 1;
-    this->unk_1F4.talkState = 0;
+    this->unk_1F4.talkState = NPC_TALKING_STATE_0;
 
     if (gSaveContext.cutsceneIndex >= 0xFFF0) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
@@ -327,9 +327,9 @@ void func_809FE3C0(EnDu* this, PlayState* play) {
         EnDu_SetupAction(this, func_809FE4A4);
         return;
     }
-    if (this->unk_1F4.talkState == 2) {
+    if (this->unk_1F4.talkState == NPC_TALKING_STATE_2) {
         func_8002DF54(play, &this->actor, 7);
-        this->unk_1F4.talkState = 0;
+        this->unk_1F4.talkState = NPC_TALKING_STATE_0;
     }
     if (this->actor.xzDistToPlayer < 116.0f + this->collider.dim.radius) {
         player->stateFlags2 |= PLAYER_STATE2_23;
@@ -377,13 +377,13 @@ void func_809FE6CC(EnDu* this, PlayState* play) {
     if (DECR(this->unk_1E2) == 0) {
         this->actor.textId = 0x3039;
         Message_StartTextbox(play, this->actor.textId, NULL);
-        this->unk_1F4.talkState = 1;
+        this->unk_1F4.talkState = NPC_TALKING_STATE_1;
         EnDu_SetupAction(this, func_809FE740);
     }
 }
 
 void func_809FE740(EnDu* this, PlayState* play) {
-    if (this->unk_1F4.talkState == 0) {
+    if (this->unk_1F4.talkState == NPC_TALKING_STATE_0) {
         func_8005B1A4(GET_ACTIVE_CAM(play));
         this->unk_1E2 = 0x5A;
         EnDu_SetupAction(this, func_809FE798);
@@ -504,11 +504,11 @@ void func_809FEB08(EnDu* this, PlayState* play) {
     }
     Message_StartTextbox(play, this->actor.textId, NULL);
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_14);
-    this->unk_1F4.talkState = 1;
+    this->unk_1F4.talkState = NPC_TALKING_STATE_1;
 }
 
 void func_809FEC14(EnDu* this, PlayState* play) {
-    if (this->unk_1F4.talkState == 2) {
+    if (this->unk_1F4.talkState == NPC_TALKING_STATE_2) {
         func_8002DF54(play, &this->actor, 7);
         EnDu_SetupAction(this, func_809FEC70);
         func_809FEC70(this, play);
@@ -527,8 +527,8 @@ void func_809FEC70(EnDu* this, PlayState* play) {
 }
 
 void func_809FECE4(EnDu* this, PlayState* play) {
-    if (this->unk_1F4.talkState == 3) {
-        this->unk_1F4.talkState = 0;
+    if (this->unk_1F4.talkState == NPC_TALKING_STATE_3) {
+        this->unk_1F4.talkState = NPC_TALKING_STATE_0;
         EnDu_SetupAction(this, func_809FE3C0);
     }
 }

@@ -1344,6 +1344,13 @@ typedef struct {
     /* 0x24 */ s16 unk_24;
 } struct_80034A14_arg1; // size = 0x28
 
+typedef enum {
+    /* 0x0 */ NPC_TALKING_STATE_0,
+    /* 0x1 */ NPC_TALKING_STATE_1,
+    /* 0x2 */ NPC_TALKING_STATE_2,
+    /* 0x3 */ NPC_TALKING_STATE_3,
+} NpcTalkState;
+
 // Macros for `EntranceInfo.field`
 #define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
 #define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)

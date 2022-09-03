@@ -90,21 +90,21 @@ u16 func_80AA19A0(PlayState* play, Actor* thisx) {
 }
 
 s16 func_80AA1A38(PlayState* play, Actor* thisx) {
-    s16 ret = 1;
+    s16 ret = NPC_TALKING_STATE_1;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
                     SET_INFTABLE(INFTABLE_8C);
-                    ret = 2;
+                    ret = NPC_TALKING_STATE_2;
                     break;
                 case 0x2053:
                     SET_INFTABLE(INFTABLE_8D);
-                    ret = 0;
+                    ret = NPC_TALKING_STATE_0;
                     break;
                 default:
-                    ret = 0;
+                    ret = NPC_TALKING_STATE_0;
                     break;
             }
             break;
@@ -125,7 +125,7 @@ void func_80AA1AE4(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_a3;
 
-    if ((this->unk_1E0.talkState == 0) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
+    if ((this->unk_1E0.talkState == NPC_TALKING_STATE_0) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -165,7 +165,7 @@ s32 func_80AA1C68(EnMa2* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
-    if (this->unk_1E0.talkState != 0) {
+    if (this->unk_1E0.talkState != NPC_TALKING_STATE_0) {
         return 0;
     }
     this->blinkTimer = 0;
@@ -195,7 +195,7 @@ void EnMa2_ChangeAnim(EnMa2* this, s32 index) {
 
 void func_80AA1DB4(EnMa2* this, PlayState* play) {
     if (this->skelAnime.animation == &gMalonAdultSingAnim) {
-        if (this->unk_1E0.talkState == 0) {
+        if (this->unk_1E0.talkState == NPC_TALKING_STATE_0) {
             if (this->isNotSinging) {
                 // Turn on singing
                 Audio_ToggleMalonSinging(false);
@@ -246,7 +246,7 @@ void EnMa2_Init(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
-    this->unk_1E0.talkState = 0;
+    this->unk_1E0.talkState = NPC_TALKING_STATE_0;
 }
 
 void EnMa2_Destroy(Actor* thisx, PlayState* play) {
@@ -257,9 +257,9 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AA2018(EnMa2* this, PlayState* play) {
-    if (this->unk_1E0.talkState == 2) {
+    if (this->unk_1E0.talkState == NPC_TALKING_STATE_2) {
         this->actor.flags &= ~ACTOR_FLAG_16;
-        this->unk_1E0.talkState = 0;
+        this->unk_1E0.talkState = NPC_TALKING_STATE_0;
     }
 }
 
@@ -300,7 +300,7 @@ void func_80AA21C8(EnMa2* this, PlayState* play) {
     if (DECR(this->unk_208)) {
         player->stateFlags2 |= PLAYER_STATE2_23;
     } else {
-        if (this->unk_1E0.talkState == 0) {
+        if (this->unk_1E0.talkState == NPC_TALKING_STATE_0) {
             this->actor.flags |= ACTOR_FLAG_16;
             Message_CloseTextbox(play);
         } else {
