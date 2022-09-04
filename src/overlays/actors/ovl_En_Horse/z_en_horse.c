@@ -2841,7 +2841,7 @@ s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, Collisio
     WaterBox* waterBox;
 
     *floorPoly = NULL;
-    *floorHeight = BgCheck_EntityRaycastFloor3(&play->colCtx, floorPoly, &bgId, pos);
+    *floorHeight = BgCheck_EntityRaycastDown3(&play->colCtx, floorPoly, &bgId, pos);
 
     if (*floorHeight == BGCHECK_Y_MIN) {
         return 1; // No floor
@@ -2852,7 +2852,7 @@ s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, Collisio
         return 2; // Water
     }
 
-    if ((*floorPoly)->normal.y * COLPOLY_NORMAL_FRAC < 0.81915206f || // cos(35 degrees)
+    if (COLPOLY_GET_NORMAL((*floorPoly)->normal.y) < 0.81915206f || // cos(35 degrees)
         SurfaceType_IsHorseBlocked(&play->colCtx, *floorPoly, bgId) ||
         SurfaceType_GetFloorType(&play->colCtx, *floorPoly, bgId) == FLOOR_TYPE_7) {
         return 3; // Horse blocked surface
@@ -2957,9 +2957,9 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
 
     floorSlope = RAD_TO_BINANG(Math_FAtan2F(this->yBack - this->yFront, 60.0f));
     if (this->actor.floorPoly != 0) {
-        nx = this->actor.floorPoly->normal.x * COLPOLY_NORMAL_FRAC;
-        ny = this->actor.floorPoly->normal.y * COLPOLY_NORMAL_FRAC;
-        nz = this->actor.floorPoly->normal.z * COLPOLY_NORMAL_FRAC;
+        nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
+        ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
+        nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
         pos = frontPos;
         pos.y = this->yFront;
         dist = Math3D_DistPlaneToPos(nx, ny, nz, this->actor.floorPoly->dist, &pos);
@@ -3225,7 +3225,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     obstaclePos.y = this->actor.world.pos.y + 120.0f;
     obstaclePos.z += intersectDist * Math_CosS(this->actor.world.rot.y);
     obstacleTop = obstaclePos;
-    obstacleTop.y = BgCheck_EntityRaycastFloor3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
+    obstacleTop.y = BgCheck_EntityRaycastDown3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
     if (obstacleTop.y == BGCHECK_Y_MIN) {
         return;
     }
@@ -3234,13 +3234,12 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         return;
     }
 
-    if (Math3D_DistPlaneToPos(this->actor.floorPoly->normal.x * COLPOLY_NORMAL_FRAC,
-                              this->actor.floorPoly->normal.y * COLPOLY_NORMAL_FRAC,
-                              this->actor.floorPoly->normal.z * COLPOLY_NORMAL_FRAC, this->actor.floorPoly->dist,
-                              &obstacleTop) < -40.0f &&
-        Math3D_DistPlaneToPos(
-            obstacleFloor->normal.x * COLPOLY_NORMAL_FRAC, obstacleFloor->normal.y * COLPOLY_NORMAL_FRAC,
-            obstacleFloor->normal.z * COLPOLY_NORMAL_FRAC, obstacleFloor->dist, &this->actor.world.pos) > 40.0f) {
+    if (Math3D_DistPlaneToPos(
+            COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x), COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y),
+            COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z), this->actor.floorPoly->dist, &obstacleTop) < -40.0f &&
+        Math3D_DistPlaneToPos(COLPOLY_GET_NORMAL(obstacleFloor->normal.x), COLPOLY_GET_NORMAL(obstacleFloor->normal.y),
+                              COLPOLY_GET_NORMAL(obstacleFloor->normal.z), obstacleFloor->dist,
+                              &this->actor.world.pos) > 40.0f) {
         if (movingFast == true && this->action != ENHORSE_ACT_STOPPING) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
@@ -3249,7 +3248,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         return;
     }
 
-    ny = obstacleFloor->normal.y * COLPOLY_NORMAL_FRAC;
+    ny = COLPOLY_GET_NORMAL(obstacleFloor->normal.y);
     if (ny < 0.81915206f || // cos(35 degrees)
         (SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) != 0) ||
         (SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == FLOOR_TYPE_7)) {
@@ -3275,7 +3274,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     }
 
     obstacleTop = obstaclePos;
-    obstacleTop.y = BgCheck_EntityRaycastFloor3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
+    obstacleTop.y = BgCheck_EntityRaycastDown3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
     if (obstacleTop.y == BGCHECK_Y_MIN) {
         return;
     }
@@ -3286,7 +3285,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         return;
     }
 
-    ny = obstacleFloor->normal.y * COLPOLY_NORMAL_FRAC;
+    ny = COLPOLY_GET_NORMAL(obstacleFloor->normal.y);
     if (ny < 0.81915206f || // cos(35 degrees)
         SurfaceType_IsHorseBlocked(&play->colCtx, obstacleFloor, bgId) ||
         SurfaceType_GetFloorType(&play->colCtx, obstacleFloor, bgId) == FLOOR_TYPE_7) {
