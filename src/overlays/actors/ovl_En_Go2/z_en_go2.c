@@ -1135,7 +1135,8 @@ void func_80A454CC(EnGo2* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_9);
             break;
         case GORON_DMT_BIGGORON:
-            if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD &&
+                INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
                 break;
             }

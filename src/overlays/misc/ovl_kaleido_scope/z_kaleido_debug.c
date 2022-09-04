@@ -29,9 +29,9 @@ static u8 sMaxUpgradeValues[] = {
 
 // Item ID corresponding to each slot, aside from bottles and trade items
 static s16 sSlotItems[] = {
-    ITEM_DEKU_STICK,     ITEM_DEKU_NUT,           ITEM_BOMB,    ITEM_BOW,      ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
-    ITEM_SLINGSHOT, ITEM_OCARINA_FAIRY, ITEM_BOMBCHU, ITEM_HOOKSHOT, ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
-    ITEM_BOOMERANG, ITEM_LENS_OF_TRUTH,          ITEM_MAGIC_BEANS,    ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
+    ITEM_DEKU_STICK, ITEM_DEKU_NUT,      ITEM_BOMB,        ITEM_BOW,      ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
+    ITEM_SLINGSHOT,  ITEM_OCARINA_FAIRY, ITEM_BOMBCHU,     ITEM_HOOKSHOT, ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
+    ITEM_BOOMERANG,  ITEM_LENS_OF_TRUTH, ITEM_MAGIC_BEANS, ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
 };
 
 void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
@@ -502,7 +502,8 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                     }
                 } else if ((i >= SLOT_BOTTLE_1) && (i <= SLOT_BOTTLE_4)) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-                        Inventory_DeleteItem(ITEM_BOTTLE_EMPTY + i - SLOT_BOTTLE_1, SLOT(ITEM_BOTTLE_EMPTY) + i - SLOT_BOTTLE_1);
+                        Inventory_DeleteItem(ITEM_BOTTLE_EMPTY + i - SLOT_BOTTLE_1,
+                                             SLOT(ITEM_BOTTLE_EMPTY) + i - SLOT_BOTTLE_1);
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                         if (gSaveContext.inventory.items[i] == ITEM_NONE) {
                             gSaveContext.inventory.items[i] = ITEM_BOTTLE_EMPTY;

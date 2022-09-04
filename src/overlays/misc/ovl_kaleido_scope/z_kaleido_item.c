@@ -2,8 +2,8 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 
 u8 gAmmoItems[] = {
-    ITEM_DEKU_STICK,   ITEM_DEKU_NUT,  ITEM_BOMB, ITEM_BOW,  ITEM_NONE, ITEM_NONE, ITEM_SLINGSHOT, ITEM_NONE,
-    ITEM_BOMBCHU, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_MAGIC_BEANS,      ITEM_NONE,
+    ITEM_DEKU_STICK, ITEM_DEKU_NUT, ITEM_BOMB, ITEM_BOW,  ITEM_NONE, ITEM_NONE, ITEM_SLINGSHOT,   ITEM_NONE,
+    ITEM_BOMBCHU,    ITEM_NONE,     ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_MAGIC_BEANS, ITEM_NONE,
 };
 
 static s16 sEquipState = 0;
@@ -35,8 +35,8 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
                    (item == ITEM_BOW && AMMO(item) == CUR_CAPACITY(UPG_QUIVER)) ||
                    (item == ITEM_SLINGSHOT && AMMO(item) == CUR_CAPACITY(UPG_BULLET_BAG)) ||
                    (item == ITEM_DEKU_STICK && AMMO(item) == CUR_CAPACITY(UPG_STICKS)) ||
-                   (item == ITEM_DEKU_NUT && AMMO(item) == CUR_CAPACITY(UPG_NUTS)) || (item == ITEM_BOMBCHU && ammo == 50) ||
-                   (item == ITEM_MAGIC_BEANS && ammo == 15)) {
+                   (item == ITEM_DEKU_NUT && AMMO(item) == CUR_CAPACITY(UPG_NUTS)) ||
+                   (item == ITEM_BOMBCHU && ammo == 50) || (item == ITEM_MAGIC_BEANS && ammo == 15)) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 120, 255, 0, pauseCtx->alpha);
         }
     }

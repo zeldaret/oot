@@ -134,24 +134,24 @@ static s16 sMagicBorderG = 255;
 static s16 sMagicBorderB = 255;
 
 static s16 sExtraItemBases[] = {
-    ITEM_DEKU_STICK,   // ITEM_DEKU_STICKS_5
-    ITEM_DEKU_STICK,   // ITEM_DEKU_STICKS_10
-    ITEM_DEKU_NUT,     // ITEM_DEKU_NUTS_5
-    ITEM_DEKU_NUT,     // ITEM_DEKU_NUTS_10
-    ITEM_BOMB,    // ITEM_BOMBS_5
-    ITEM_BOMB,    // ITEM_BOMBS_10
-    ITEM_BOMB,    // ITEM_BOMBS_20
-    ITEM_BOMB,    // ITEM_BOMBS_30
-    ITEM_BOW,     // ITEM_ARROWS_5
-    ITEM_BOW,     // ITEM_ARROWS_10
-    ITEM_BOW,     // ITEM_ARROWS_30
-    ITEM_DEKU_SEEDS,   // ITEM_DEKU_SEEDS_30
-    ITEM_BOMBCHU, // ITEM_BOMBCHUS_5
-    ITEM_BOMBCHU, // ITEM_BOMBCHUS_20
-    ITEM_DEKU_STICK,   // ITEM_DEKU_STICK_UPGRADE_20
-    ITEM_DEKU_STICK,   // ITEM_DEKU_STICK_UPGRADE_30
-    ITEM_DEKU_NUT,     // ITEM_DEKU_NUT_UPGRADE_30
-    ITEM_DEKU_NUT,     // ITEM_DEKU_NUT_UPGRADE_40
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICKS_5
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICKS_10
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUTS_5
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUTS_10
+    ITEM_BOMB,       // ITEM_BOMBS_5
+    ITEM_BOMB,       // ITEM_BOMBS_10
+    ITEM_BOMB,       // ITEM_BOMBS_20
+    ITEM_BOMB,       // ITEM_BOMBS_30
+    ITEM_BOW,        // ITEM_ARROWS_5
+    ITEM_BOW,        // ITEM_ARROWS_10
+    ITEM_BOW,        // ITEM_ARROWS_30
+    ITEM_DEKU_SEEDS, // ITEM_DEKU_SEEDS_30
+    ITEM_BOMBCHU,    // ITEM_BOMBCHUS_5
+    ITEM_BOMBCHU,    // ITEM_BOMBCHUS_20
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICK_UPGRADE_20
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICK_UPGRADE_30
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUT_UPGRADE_30
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUT_UPGRADE_40
 };
 
 static s16 D_80125A58 = 0;
@@ -2904,8 +2904,8 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
                    ((i == ITEM_BOMB) && (AMMO(i) == CUR_CAPACITY(UPG_BOMB_BAG))) ||
                    ((i == ITEM_SLINGSHOT) && (AMMO(i) == CUR_CAPACITY(UPG_BULLET_BAG))) ||
                    ((i == ITEM_DEKU_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_STICKS))) ||
-                   ((i == ITEM_DEKU_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_NUTS))) || ((i == ITEM_BOMBCHU) && (ammo == 50)) ||
-                   ((i == ITEM_MAGIC_BEANS) && (ammo == 15))) {
+                   ((i == ITEM_DEKU_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_NUTS))) ||
+                   ((i == ITEM_BOMBCHU) && (ammo == 50)) || ((i == ITEM_MAGIC_BEANS) && (ammo == 15))) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, alpha);
         }
 
