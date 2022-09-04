@@ -1183,17 +1183,17 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play) {
 }
 
 void EnGeldB_SetupSidestep(EnGeldB* this, PlayState* play) {
-    s16 linkAngle;
+    s16 playerRotY;
     Player* player;
     f32 lastFrame = Animation_GetLastFrame(&gGerudoRedSidestepAnim);
 
     Animation_Change(&this->skelAnime, &gGerudoRedSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
     player = GET_PLAYER(play);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
-    linkAngle = player->actor.shape.rot.y;
-    if (Math_SinS(linkAngle - this->actor.shape.rot.y) > 0.0f) {
+    playerRotY = player->actor.shape.rot.y;
+    if (Math_SinS(playerRotY - this->actor.shape.rot.y) > 0.0f) {
         this->actor.speedXZ = -6.0f;
-    } else if (Math_SinS(linkAngle - this->actor.shape.rot.y) < 0.0f) {
+    } else if (Math_SinS(playerRotY - this->actor.shape.rot.y) < 0.0f) {
         this->actor.speedXZ = 6.0f;
     } else {
         this->actor.speedXZ = Rand_CenteredFloat(12.0f);
