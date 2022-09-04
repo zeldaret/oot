@@ -124,7 +124,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
                 osSyncPrintf("now=%d  ccc=%d\n", cursorPoint, cursorItem);
 
-                // Seem necessary to match
+                // Seems necessary to match
                 if (pauseCtx->cursorX[PAUSE_ITEM]) {}
                 if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]) {}
 
