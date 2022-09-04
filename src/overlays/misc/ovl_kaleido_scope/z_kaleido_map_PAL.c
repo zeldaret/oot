@@ -526,17 +526,16 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
     } else if (HREG(15) == 1) {
-        Gfx* sp1CC = POLY_OPA_DISP;
-        void* mapImage = gWorldMapImageTex;
+        Gfx* gfx = POLY_OPA_DISP;
 
-        gSPLoadUcodeL(sp1CC++, gspS2DEX2d_fifo);
+        gSPLoadUcodeL(gfx++, gspS2DEX2d_fifo);
 
-        func_8009638C(&sp1CC, mapImage, gWorldMapImageTLUT, 216, 128, G_IM_FMT_CI, G_IM_SIZ_8b, 0x8000, 256,
-                      HREG(13) / 100.0f, HREG(14) / 100.0f);
+        Room_DrawBackground2D(&gfx, gWorldMapImageTex, gWorldMapImageTLUT, 216, 128, G_IM_FMT_CI, G_IM_SIZ_8b,
+                              G_TT_RGBA16, 256, HREG(13) / 100.0f, HREG(14) / 100.0f);
 
-        gSPLoadUcode(sp1CC++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
+        gSPLoadUcode(gfx++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
 
-        POLY_OPA_DISP = sp1CC;
+        POLY_OPA_DISP = gfx;
     }
 
     if (HREG(15) == 2) {

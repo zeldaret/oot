@@ -872,7 +872,7 @@ typedef struct {
     /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
     /* 0x05 */ u8   lensMode;
-    /* 0x08 */ MeshHeader* meshHeader; // original name: "ground_shape"
+    /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
     /* 0x0C */ void* segment;
     /* 0x10 */ char unk_10[0x4];
 } Room; // size = 0x14
@@ -1060,7 +1060,7 @@ typedef struct GameState {
     /* 0x08 */ GameStateFunc destroy; // "cleanup"
     /* 0x0C */ GameStateFunc init;
     /* 0x10 */ u32 size;
-    /* 0x14 */ Input input[4];
+    /* 0x14 */ Input input[MAXCONTROLLERS];
     /* 0x74 */ TwoHeadArena tha;
     /* 0x84 */ GameAlloc alloc;
     /* 0x98 */ u32 running;
