@@ -1,6 +1,7 @@
 #ifndef FAULT_H
 #define FAULT_H
 
+#include "ultra64.h"
 #include "padmgr.h"
 
 // These are the same as the 3-bit ansi color codes
@@ -69,7 +70,7 @@ void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...);
 
 typedef struct FaultMgr {
     /* 0x000 */ OSThread thread;
-    /* 0x1B0 */ u8 unk_1B0[0x600];
+    /* 0x1B0 */ char unk_1B0[0x600]; // probably an unused internal thread stack for `Fault_ClientRunTask`/`clientThreadSp`
     /* 0x7B0 */ OSMesgQueue queue;
     /* 0x7C8 */ OSMesg msg;
     /* 0x7CC */ u8 exit;
@@ -77,12 +78,11 @@ typedef struct FaultMgr {
     /* 0x7CE */ u8 faultHandlerEnabled;
     /* 0x7CF */ u8 autoScroll;
     /* 0x7D0 */ OSThread* faultedThread;
-    /* 0x7D4 */ void (*padCallback)(Input*);
+    /* 0x7D4 */ void (*padCallback)(Input* inputs);
     /* 0x7D8 */ FaultClient* clients;
     /* 0x7DC */ FaultAddrConvClient* addrConvClients;
-    /* 0x7E0 */ u8 unk_7E0[4];
-    /* 0x7E4 */ Input padInput;
-    /* 0x7FC */ u16 colors[36];
+    /* 0x7E0 */ char unk_7E0[0x4];
+    /* 0x7E4 */ Input inputs[MAXCONTROLLERS];
     /* 0x844 */ void* fb;
     /* 0x848 */ void* clientThreadSp;
 } FaultMgr; // size = 0x850
