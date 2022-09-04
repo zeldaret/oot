@@ -11,19 +11,20 @@
  * Coverage is full when not on an edge, while on an edge it is usually lower, and since coverage is treated as an
  * alpha value, edges with lower coverage will show up as darker than interiors in all of the available modes.
  *
- * Coverage is abbreviated to "cvg"; "pixel RGB" is the original colour the pixel had before the filter is applied.
+ * Coverage is abbreviated to "cvg"; "FB RGB" ("framebuffer red/green/blue") is the color the pixel had before the
+ * filter is applied.
  */
 
 #include "global.h"
 
 /**
- * Draws only coverage: does not retain any of the original pixel RGB, primColor is used as background colour.
+ * Draws only coverage: does not retain any of the original pixel RGB, primColor is used as background color.
  */
 Gfx sCoverageOnlyDL[] = {
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PRIM | G_RM_VISCVG | G_RM_VISCVG2),
-    // (blendColor) * (cvg)
+    // (blendColor RGB) * (cvg)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsDPPipeSync(),
     gsDPSetBlendColor(0, 0, 0, 8),
@@ -41,7 +42,7 @@ Gfx sCoverageRGBFogDL[] = {
                      G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
                          GBL_c1(G_BL_CLR_FOG, G_BL_A_FOG, G_BL_CLR_MEM, G_BL_A_MEM) |
                          GBL_c2(G_BL_CLR_FOG, G_BL_A_FOG, G_BL_CLR_MEM, G_BL_A_MEM)),
-    // (fog RGB) * (fog alpha) + (pixel RGB) * (cvg)
+    // (fog RGB) * (fog alpha) + (FB RGB) * (cvg)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsSPEndDisplayList(),
 };
@@ -55,7 +56,7 @@ Gfx sCoverageRGBDL[] = {
                      G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM) |
                          GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM)),
-    // (pixel RGB) * (cvg)
+    // (FB RGB) * (cvg)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsSPEndDisplayList(),
 };
@@ -63,16 +64,16 @@ Gfx sCoverageRGBDL[] = {
 /**
  * Two stage filtering:
  *
- * - Transparently blends primColor with original frame, creating uniform fog. The "cloud surface" RenderMode is used to
- * preserve the coverage for the second stage.
- * - Second half is the same as sCoverageRGBDL's, i.e. coverage and RGB of pixels
+ * 1. Apply a uniform color filter by transparently blending primColor with original frame. The "cloud surface"
+ * RenderMode is used to preserve the coverage for the second stage.
+ * 2. Second half is the same as sCoverageRGBDL's, i.e. (RGB from stage 1) * cvg
  */
 Gfx sCoverageRGBPrimFogDL[] = {
     gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_DISABLE | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PRIM | G_RM_CLD_SURF | G_RM_CLD_SURF2),
-    // (fog RGB) * (cvg) + (pixel RGB) * (1 - cvg).
+    // stage 1 color = (primColor RGB) * (primColor Alpha) + (FB RGB) * (1 - primColor Alpha)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
 
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
@@ -80,7 +81,7 @@ Gfx sCoverageRGBPrimFogDL[] = {
                      G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM) |
                          GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM)),
-    // (pixel RGB) * (cvg)
+    // final color = (FB RGB) * (cvg)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsSPEndDisplayList(),
 };
@@ -119,13 +120,13 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
             break;
 
         case FB_FILTER_CVG:
-            // Set background colour for G_RM_VISCVG
+            // Set background color for G_RM_VISCVG
             gDPSetColor(gfx++, G_SETBLENDCOLOR, this->primColor.rgba);
             gSPDisplayList(gfx++, sCoverageOnlyDL);
             break;
 
         case FB_FILTER_CVG_RGB_FOG:
-            // Set fogging colour for custom RenderMode, needs to be close to 0 to not overflow
+            // Set fogging color for custom RenderMode, needs to be close to 0 to not overflow
             gDPSetColor(gfx++, G_SETFOGCOLOR, this->primColor.rgba);
             gSPDisplayList(gfx++, sCoverageRGBFogDL);
             break;
