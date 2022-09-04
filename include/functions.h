@@ -1574,21 +1574,6 @@ void ListAlloc_Free(ListAlloc* this, void* data);
 void ListAlloc_FreeAll(ListAlloc* this);
 void Main_LogSystemHeap(void);
 void Main(void* arg);
-OSMesgQueue* PadMgr_LockSerialMesgQueue(PadMgr* padMgr);
-void PadMgr_UnlockSerialMesgQueue(PadMgr* padMgr, OSMesgQueue* serialEventQueue);
-void PadMgr_LockPadData(PadMgr* padMgr);
-void PadMgr_UnlockPadData(PadMgr* padMgr);
-void PadMgr_RumbleControl(PadMgr* padMgr);
-void PadMgr_RumbleStop(PadMgr* padMgr);
-void PadMgr_RumbleReset(PadMgr* padMgr);
-void PadMgr_RumbleSet(PadMgr* padMgr, u8* ctrlrRumbles);
-void PadMgr_ProcessInputs(PadMgr* padMgr);
-void PadMgr_HandleRetraceMsg(PadMgr* padMgr);
-void PadMgr_HandlePreNMI(PadMgr* padMgr);
-// This function must remain commented out, because it is called incorrectly in
-// fault.c (actual bug in game), and the compiler notices and won't compile it
-// void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
-void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);
 void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y);
 void SpeedMeter_Init(SpeedMeter* this);
 void SpeedMeter_Destroy(SpeedMeter* this);
