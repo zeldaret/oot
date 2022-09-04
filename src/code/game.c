@@ -227,10 +227,10 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
 
-void PadMgr_RequestPadData(PadMgr*, Input*, s32);
+void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
 
 void GameState_ReqPadData(GameState* gameState) {
-    PadMgr_RequestPadData(&gPadMgr, &gameState->input[0], 1);
+    PadMgr_RequestPadData(&gPadMgr, gameState->input, true);
 }
 
 void GameState_Update(GameState* gameState) {

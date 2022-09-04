@@ -819,7 +819,7 @@ typedef enum {
     /* 01 */ GAMEOVER_DEATH_START,
     /* 02 */ GAMEOVER_DEATH_WAIT_GROUND, // wait for link to fall and hit the ground
     /* 03 */ GAMEOVER_DEATH_DELAY_MENU, // wait for 1 second before showing the game over menu
-    /* 04 */ GAMEOVER_DEATH_MENU, // do nothing while kaliedoscope handles the game over menu
+    /* 04 */ GAMEOVER_DEATH_MENU, // do nothing while kaleidoscope handles the game over menu
     /* 20 */ GAMEOVER_REVIVE_START = 20,
     /* 21 */ GAMEOVER_REVIVE_RUMBLE,
     /* 22 */ GAMEOVER_REVIVE_WAIT_GROUND, // wait for link to fall and hit the ground
@@ -880,7 +880,7 @@ typedef struct {
     /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
     /* 0x05 */ u8   lensMode;
-    /* 0x08 */ MeshHeader* meshHeader; // original name: "ground_shape"
+    /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
     /* 0x0C */ void* segment;
     /* 0x10 */ char unk_10[0x4];
 } Room; // size = 0x14
@@ -1068,7 +1068,7 @@ typedef struct GameState {
     /* 0x08 */ GameStateFunc destroy; // "cleanup"
     /* 0x0C */ GameStateFunc init;
     /* 0x10 */ u32 size;
-    /* 0x14 */ Input input[4];
+    /* 0x14 */ Input input[MAXCONTROLLERS];
     /* 0x74 */ TwoHeadArena tha;
     /* 0x84 */ GameAlloc alloc;
     /* 0x98 */ u32 running;
