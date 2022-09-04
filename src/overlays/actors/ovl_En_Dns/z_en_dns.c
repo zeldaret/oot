@@ -185,26 +185,26 @@ void EnDns_ChangeAnim(EnDns* this, u8 index) {
 /* Item give checking functions */
 
 u32 func_809EF5A4(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_NUT) >= CUR_CAPACITY(UPG_NUTS))) {
+    if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_NUTS))) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
-    if (Item_CheckObtainability(ITEM_NUT) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
         return 2;
     }
     return 4;
 }
 
 u32 func_809EF658(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_STICK) >= CUR_CAPACITY(UPG_STICKS))) {
+    if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_STICKS))) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
-    if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
         return 2;
     }
     return 4;
@@ -227,7 +227,7 @@ u32 func_809EF73C(EnDns* this) {
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
-    if (Item_CheckObtainability(ITEM_SEEDS) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
         return 2;
     }
     return 4;

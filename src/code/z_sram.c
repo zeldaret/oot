@@ -224,10 +224,10 @@ static ItemEquips sDebugSaveEquips = {
 
 static Inventory sDebugSaveInventory = {
     {
-        ITEM_STICK,     ITEM_NUT,           ITEM_BOMB,         ITEM_BOW,         ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
+        ITEM_DEKU_STICK,     ITEM_DEKU_NUT,           ITEM_BOMB,         ITEM_BOW,         ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
         ITEM_SLINGSHOT, ITEM_OCARINA_FAIRY, ITEM_BOMBCHU,      ITEM_HOOKSHOT,    ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
-        ITEM_BOOMERANG, ITEM_LENS,          ITEM_BEAN,         ITEM_HAMMER,      ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
-        ITEM_BOTTLE,    ITEM_POTION_RED,    ITEM_POTION_GREEN, ITEM_POTION_BLUE, ITEM_POCKET_EGG,  ITEM_WEIRD_EGG,
+        ITEM_BOOMERANG, ITEM_LENS_OF_TRUTH,          ITEM_MAGIC_BEANS,         ITEM_HAMMER,      ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
+        ITEM_BOTTLE_EMPTY,    ITEM_BOTTLE_POTION_RED,    ITEM_BOTTLE_POTION_GREEN, ITEM_BOTTLE_POTION_BLUE, ITEM_POCKET_EGG,  ITEM_WEIRD_EGG,
     },                                                        // items
     { 50, 50, 10, 30, 1, 1, 30, 1, 50, 1, 1, 1, 1, 1, 1, 1 }, // ammo
     // equipment
@@ -439,11 +439,11 @@ void Sram_OpenSave(SramContext* sramCtx) {
         i = gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
         gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] = i;
 
-        INV_CONTENT(ITEM_LETTER_ZELDA) = ITEM_CHICKEN;
+        INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CUCCO;
 
         for (j = 1; j < 4; j++) {
-            if (gSaveContext.equips.buttonItems[j] == ITEM_LETTER_ZELDA) {
-                gSaveContext.equips.buttonItems[j] = ITEM_CHICKEN;
+            if (gSaveContext.equips.buttonItems[j] == ITEM_ZELDAS_LETTER) {
+                gSaveContext.equips.buttonItems[j] = ITEM_CUCCO;
             }
         }
     }

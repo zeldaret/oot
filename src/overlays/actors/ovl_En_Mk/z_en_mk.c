@@ -222,7 +222,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
             player->actor.textId = this->actor.textId;
             this->actionFunc = func_80AACA40;
         } else {
-            if (INV_CONTENT(ITEM_ODD_MUSHROOM) == ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_ODD_MUSHROOM) == ITEM_EYE_DROPS) {
                 player->actor.textId = 0x4032;
                 this->actionFunc = func_80AACA40;
             } else {

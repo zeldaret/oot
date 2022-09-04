@@ -314,13 +314,13 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_BOW);
             break;
         case ITEM00_ARROWS_SMALL:
-            Item_Give(play, ITEM_ARROWS_SMALL);
+            Item_Give(play, ITEM_ARROWS_5);
             break;
         case ITEM00_ARROWS_MEDIUM:
-            Item_Give(play, ITEM_ARROWS_MEDIUM);
+            Item_Give(play, ITEM_ARROWS_10);
             break;
         case ITEM00_ARROWS_LARGE:
-            Item_Give(play, ITEM_ARROWS_LARGE);
+            Item_Give(play, ITEM_ARROWS_30);
             break;
         case ITEM00_MAGIC_LARGE:
             getItemId = GI_MAGIC_SMALL;
@@ -329,7 +329,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             getItemId = GI_MAGIC_LARGE;
             break;
         case ITEM00_SMALL_KEY:
-            Item_Give(play, ITEM_KEY_SMALL);
+            Item_Give(play, ITEM_SMALL_KEY);
             break;
         case ITEM00_SEEDS:
             getItemId = GI_SEEDS_5;
@@ -651,13 +651,13 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_BOW);
             break;
         case ITEM00_ARROWS_SMALL:
-            Item_Give(play, ITEM_ARROWS_SMALL);
+            Item_Give(play, ITEM_ARROWS_5);
             break;
         case ITEM00_ARROWS_MEDIUM:
-            Item_Give(play, ITEM_ARROWS_MEDIUM);
+            Item_Give(play, ITEM_ARROWS_10);
             break;
         case ITEM00_ARROWS_LARGE:
-            Item_Give(play, ITEM_ARROWS_LARGE);
+            Item_Give(play, ITEM_ARROWS_30);
             break;
         case ITEM00_SEEDS:
             getItemId = GI_SEEDS_5;

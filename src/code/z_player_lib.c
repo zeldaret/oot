@@ -591,7 +591,7 @@ void Player_SetEquipmentData(PlayState* play, Player* this) {
 void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 actionParam) {
     Inventory_UpdateBottleItem(play, item, this->heldItemButton);
 
-    if (item != ITEM_BOTTLE) {
+    if (item != ITEM_BOTTLE_EMPTY) {
         this->heldItemId = item;
         this->heldItemActionParam = actionParam;
     }

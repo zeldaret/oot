@@ -84,7 +84,7 @@ u16 EnKz_GetTextNoMaskChild(PlayState* play, EnKz* this) {
 u16 EnKz_GetTextNoMaskAdult(PlayState* play, EnKz* this) {
     Player* player = GET_PLAYER(play);
 
-    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
+    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_EYEBALL_FROG) {
         if (!GET_INFTABLE(INFTABLE_139)) {
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_ZORA)) {
                 return 0x401F;
@@ -394,7 +394,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
     Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     if ((EnKz_FollowPath(this, play) == 1) && (this->waypoint == 0)) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
-        Inventory_ReplaceItem(play, ITEM_LETTER_RUTO, ITEM_BOTTLE);
+        Inventory_ReplaceItem(play, ITEM_BOTTLE_RUTOS_LETTER, ITEM_BOTTLE_EMPTY);
         EnKz_SetMovedPos(this, play);
         SET_EVENTCHKINF(EVENTCHKINF_33);
         this->actor.speedXZ = 0.0;
@@ -440,7 +440,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
 
 void EnKz_StartTimer(EnKz* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
+        if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEBALL_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
             CLEAR_EVENTINF(EVENTINF_10);
         }

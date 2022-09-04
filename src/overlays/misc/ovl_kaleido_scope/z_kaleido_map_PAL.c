@@ -189,7 +189,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     if (pauseCtx->cursorSpecialPos == 0) {
         if (pauseCtx->cursorPoint[PAUSE_MAP] < 3) {
-            pauseCtx->cursorItem[PAUSE_MAP] = ITEM_KEY_BOSS + pauseCtx->cursorPoint[PAUSE_MAP];
+            pauseCtx->cursorItem[PAUSE_MAP] = ITEM_DUNGEON_BOSS_KEY + pauseCtx->cursorPoint[PAUSE_MAP];
         } else {
             pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
         }
