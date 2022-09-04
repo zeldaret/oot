@@ -67,7 +67,7 @@ typedef struct BossMo {
     /* 0x0170 */ s16 zSwing;
     /* 0x0172 */ s16 cutIndex;
     /* 0x0174 */ s16 meltIndex;
-    /* 0x0176 */ s16 linkToLeft;
+    /* 0x0176 */ s16 playerToLeft;
     /* 0x0178 */ s16 mashCounter;
     /* 0x017A */ s16 noBubbles;
     /* 0x017C */ s16 sfxTimer;
@@ -87,7 +87,7 @@ typedef struct BossMo {
     /* 0x01CE */ s16 attackAngleMod;
     /* 0x01D0 */ u8 unk_1D0; // unused?
     /* 0x01D1 */ u8 drawActor;
-    /* 0x01D2 */ u8 linkHitTimer;
+    /* 0x01D2 */ u8 playerHitTimer;
     /* 0x01D4 */ Vec3f targetPos;
     /* 0x01E0 */ f32 tentRippleSize;
     /* 0x01E4 */ PosRot grabPosRot;

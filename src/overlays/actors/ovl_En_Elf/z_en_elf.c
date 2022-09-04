@@ -1209,9 +1209,9 @@ void func_80A04D90(EnElf* this, PlayState* play) {
     s32 pad;
     s32 bgId;
 
-    this->actor.floorHeight = BgCheck_EntityRaycastFloor5(play, &play->colCtx, &this->actor.floorPoly, &bgId,
-                                                          &this->actor, &this->actor.world.pos);
-    this->actor.shape.shadowAlpha = 0x32;
+    this->actor.floorHeight = BgCheck_EntityRaycastDown5(play, &play->colCtx, &this->actor.floorPoly, &bgId,
+                                                         &this->actor, &this->actor.world.pos);
+    this->actor.shape.shadowAlpha = 50;
 }
 
 // move to talk to player

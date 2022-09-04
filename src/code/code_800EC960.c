@@ -1246,7 +1246,7 @@ OcarinaStaff sPlayingStaff;
 OcarinaStaff sPlaybackStaff;
 OcarinaStaff sRecordingStaff;
 u32 sOcarinaUpdateTaskStart;
-OcarinaStick sOcarinaInputStickRel;
+OcarinaStick sOcarinaInputStickAdj;
 u32 sOcarinaInputButtonCur;
 u32 sOcarinaInputButtonStart;
 u32 sOcarinaInputButtonPrev;
@@ -1267,7 +1267,8 @@ OcarinaNote sScarecrowsLongSongSecondNote;
 u8 sAudioHasMalonBgm;
 f32 sAudioMalonBgmDist;
 
-void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
+void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
+
 void Audio_StepFreqLerp(FreqLerp* lerp);
 void func_800F56A8(void);
 void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
@@ -1292,15 +1293,15 @@ void AudioOcarina_SetCustomButtonMapping(u8 useCustom) {
 }
 
 void AudioOcarina_ReadControllerInput(void) {
-    Input inputs[4];
+    Input inputs[MAXCONTROLLERS];
     Input* input = &inputs[0];
     u32 ocarinaInputButtonPrev = sOcarinaInputButtonCur;
 
-    PadMgr_RequestPadData(&gPadMgr, inputs, 0);
+    PadMgr_RequestPadData(&gPadMgr, inputs, false);
     sOcarinaInputButtonCur = input->cur.button;
     sOcarinaInputButtonPrev = ocarinaInputButtonPrev;
-    sOcarinaInputStickRel.x = input->rel.stick_x;
-    sOcarinaInputStickRel.y = input->rel.stick_y;
+    sOcarinaInputStickAdj.x = input->rel.stick_x;
+    sOcarinaInputStickAdj.y = input->rel.stick_y;
 }
 
 /**
@@ -1719,11 +1720,11 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
 
         if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
             // Bend the pitch of the note based on y control stick
-            sCurOcarinaBendIndex = sOcarinaInputStickRel.y;
+            sCurOcarinaBendIndex = sOcarinaInputStickAdj.y;
             sCurOcarinaBendFreq = AudioOcarina_BendPitchTwoSemitones(sCurOcarinaBendIndex);
 
             // Add vibrato of the ocarina note based on the x control stick
-            sCurOcarinaVibrato = ABS_ALT(sOcarinaInputStickRel.x) >> 2;
+            sCurOcarinaVibrato = ABS_ALT(sOcarinaInputStickAdj.x) >> 2;
             // Sets vibrato to io port 6
             Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 6, sCurOcarinaVibrato);
         } else {
@@ -2371,10 +2372,10 @@ u8 sAudioNatureFailed = false;
 u8 sPeakNumNotes = 0;
 
 void AudioDebug_SetInput(void) {
-    Input inputs[4];
+    Input inputs[MAXCONTROLLERS];
     u32 btn;
 
-    PadMgr_RequestPadData(&gPadMgr, inputs, 0);
+    PadMgr_RequestPadData(&gPadMgr, inputs, false);
     btn = inputs[3].cur.button;
     sDebugPadHold = btn & 0xFFFF;
     sDebugPadPress = (btn ^ sDebugPadBtnLast) & btn;
@@ -4854,7 +4855,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
                 sPrevSeqMode = seqMode + 0x80;
             }
         } else {
-            // Hyrule Field will play slightly different bgm music depending on whether player is standing
+            // Hyrule Field will play slightly different background music depending on whether player is standing
             // still or moving. This is the logic to determine the transition between those two states
             if (seqMode == SEQ_MODE_DEFAULT) {
                 if (sPrevSeqMode == SEQ_MODE_STILL) {

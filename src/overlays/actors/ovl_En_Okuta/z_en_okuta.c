@@ -133,7 +133,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
             this->numShots = 1;
         }
         thisx->floorHeight =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &thisx->floorPoly, &floorBgId, thisx, &thisx->world.pos);
+            BgCheck_EntityRaycastDown4(&play->colCtx, &thisx->floorPoly, &floorBgId, thisx, &thisx->world.pos);
         //! @bug calls WaterBox_GetSurfaceImpl directly
         if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
                                      &outWaterBox) ||
