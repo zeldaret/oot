@@ -76,7 +76,7 @@ u16 EnKz_GetTextNoMaskChild(PlayState* play, EnKz* this) {
     } else if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
         return 0x401C;
     } else {
-        player->exchangeItemId = EXCH_ITEM_LETTER_RUTO;
+        player->exchangeItemId = EXCH_ITEM_BOTTLE_RUTOS_LETTER;
         return 0x401A;
     }
 }
@@ -237,7 +237,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 
     if (func_80A9C95C(play, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
         if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
-            if (func_8002F368(play) == EXCH_ITEM_LETTER_RUTO) {
+            if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {

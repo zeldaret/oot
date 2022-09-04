@@ -285,11 +285,11 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
                 func_80A2F180(this);
                 this->actionFunc = func_80A2F94C;
                 break;
-            case EXCH_ITEM_POE:
+            case EXCH_ITEM_BOTTLE_POE:
                 player->actor.textId = 0x70F6;
                 this->actionFunc = func_80A2F9C0;
                 break;
-            case EXCH_ITEM_BIG_POE:
+            case EXCH_ITEM_BOTTLE_BIG_POE:
                 player->actor.textId = 0x70F7;
                 this->actionFunc = func_80A2FA50;
                 break;
@@ -297,7 +297,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
         return;
     }
     if (this->dyna.actor.xzDistToPlayer < 100.0f) {
-        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_POE);
+        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_BOTTLE_POE);
     }
 }
 

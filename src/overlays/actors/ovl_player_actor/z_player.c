@@ -4932,8 +4932,8 @@ s32 func_8083B040(Player* this, PlayState* play) {
                      ((sp28 >= 0) && (sp28 < 6) &&
                       ((this->itemActionParam > PLAYER_AP_BOTTLE_POE) ||
                        ((this->targetActor != NULL) &&
-                        (((this->itemActionParam == PLAYER_AP_BOTTLE_POE) && (this->exchangeItemId == EXCH_ITEM_POE)) ||
-                         (this->exchangeItemId == EXCH_ITEM_BLUE_FIRE))))))) {
+                        (((this->itemActionParam == PLAYER_AP_BOTTLE_POE) && (this->exchangeItemId == EXCH_ITEM_BOTTLE_POE)) ||
+                         (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE))))))) {
 
                     if ((play->actorCtx.titleCtx.delayTimer == 0) && (play->actorCtx.titleCtx.alpha == 0)) {
                         func_80835DE4(play, this, func_8084F104, 0);
@@ -4954,13 +4954,13 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         targetActor = this->targetActor;
 
                         if ((targetActor != NULL) &&
-                            ((this->exchangeItemId == sp2C) || (this->exchangeItemId == EXCH_ITEM_BLUE_FIRE) ||
-                             ((this->exchangeItemId == EXCH_ITEM_POE) &&
+                            ((this->exchangeItemId == sp2C) || (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE) ||
+                             ((this->exchangeItemId == EXCH_ITEM_BOTTLE_POE) &&
                               (this->itemActionParam == PLAYER_AP_BOTTLE_BIG_POE)) ||
-                             ((this->exchangeItemId == EXCH_ITEM_BEAN) &&
+                             ((this->exchangeItemId == EXCH_ITEM_MAGIC_BEANS) &&
                               (this->itemActionParam == PLAYER_AP_BOTTLE_BUG))) &&
-                            ((this->exchangeItemId != EXCH_ITEM_BEAN) || (this->itemActionParam == PLAYER_AP_BEAN))) {
-                            if (this->exchangeItemId == EXCH_ITEM_BEAN) {
+                            ((this->exchangeItemId != EXCH_ITEM_MAGIC_BEANS) || (this->itemActionParam == PLAYER_AP_BEAN))) {
+                            if (this->exchangeItemId == EXCH_ITEM_MAGIC_BEANS) {
                                 Inventory_ChangeAmmo(ITEM_MAGIC_BEANS, -1);
                                 func_80835DE4(play, this, func_8084279C, 0);
                                 this->stateFlags1 |= PLAYER_STATE1_29;
@@ -4969,7 +4969,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                             }
                             targetActor->flags |= ACTOR_FLAG_8;
                             this->unk_664 = this->targetActor;
-                        } else if (sp2C == EXCH_ITEM_LETTER_RUTO) {
+                        } else if (sp2C == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                             this->unk_84F = 1;
                             this->actor.textId = 0x4005;
                             func_80835EA4(play, 1);

@@ -421,7 +421,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
 
     if (textId != 0) {
         if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
         }
         return textId;
     }
@@ -471,7 +471,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_AHG_4:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
@@ -722,9 +722,9 @@ void func_80A70834(EnHy* this, PlayState* play) {
         if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_POE:
-                case EXCH_ITEM_BIG_POE:
-                case EXCH_ITEM_LETTER_RUTO:
+                case EXCH_ITEM_BOTTLE_POE:
+                case EXCH_ITEM_BOTTLE_BIG_POE:
+                case EXCH_ITEM_BOTTLE_RUTOS_LETTER:
                     this->actor.textId = 0x70EF;
                     break;
                 default:
@@ -735,13 +735,13 @@ void func_80A70834(EnHy* this, PlayState* play) {
             }
         } else {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_BLUE_FIRE:
+                case EXCH_ITEM_BOTTLE_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
-                case EXCH_ITEM_FISH:
+                case EXCH_ITEM_BOTTLE_FISH:
                     this->actor.textId = 0x70F1;
                     break;
-                case EXCH_ITEM_BUG:
+                case EXCH_ITEM_BOTTLE_BUG:
                     this->actor.textId = 0x70F2;
                     break;
                 default:

@@ -572,10 +572,10 @@ u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
         player->exchangeItemId = EXCH_ITEM_CLAIM_CHECK;
         return 0x305E;
     } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) {
-        player->exchangeItemId = EXCH_ITEM_EYEDROPS;
+        player->exchangeItemId = EXCH_ITEM_EYE_DROPS;
         return 0x3058;
     } else {
-        player->exchangeItemId = EXCH_ITEM_SWORD_BROKEN;
+        player->exchangeItemId = EXCH_ITEM_BROKEN_GORONS_SWORD;
         return 0x3053;
     }
 }
@@ -1059,7 +1059,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
 
         } else if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) &&
                    (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_CLAIM_CHECK)) {
-            if (func_8002F368(play) == EXCH_ITEM_EYEDROPS) {
+            if (func_8002F368(play) == EXCH_ITEM_EYE_DROPS) {
                 this->actor.textId = 0x3059;
             } else {
                 this->actor.textId = 0x3058;
@@ -1070,7 +1070,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
             player->actor.textId = this->actor.textId;
 
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_BROKEN_GORONS_SWORD) {
-            if (func_8002F368(play) == EXCH_ITEM_SWORD_BROKEN) {
+            if (func_8002F368(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                 if (GET_INFTABLE(INFTABLE_B4)) {
                     textId = 0x3055;
                 } else {

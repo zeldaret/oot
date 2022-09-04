@@ -247,7 +247,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
                             }
                         }
                         break;
-                    case EXCH_ITEM_FROG:
+                    case EXCH_ITEM_EYEBALL_FROG:
                         player->actor.textId = 0x4019;
                         this->actionFunc = func_80AACEE8;
                         Animation_Change(&this->skelAnime, &object_mk_Anim_000368, 1.0f, 0.0f,
@@ -273,7 +273,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
         angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
         if ((ABS(angle) < 0x2151) && (this->actor.xzDistToPlayer < 100.0f)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_FROG);
+            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_EYEBALL_FROG);
             this->flags |= 1;
         }
     }
