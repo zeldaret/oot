@@ -10,7 +10,7 @@
  * @see RumbleMgr
  * @see z_rumble.c
  *
- * @note Original filename is ikely sys_vibrate.c or similar as it is ordered after sys_ucode.c
+ * @note Original filename is likely sys_vibrate.c or similar as it is ordered after sys_ucode.c
  */
 #include "global.h"
 
@@ -21,7 +21,7 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
     static u8 wasEnabled = true;
     s32 i;
     s32 strength;
-    s32 index = -1;
+    s32 strongestIndex = -1;
 
     // Clear enable status for all controllers
     for (i = 0; i < MAXCONTROLLERS; i++) {
@@ -77,13 +77,13 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
                 strength = rumbleMgr->reqAccumulator[i] + rumbleMgr->reqStrengths[i];
                 rumbleMgr->reqAccumulator[i] = strength;
 
-                if (index == -1) {
-                    index = i;
+                if (strongestIndex == -1) {
+                    strongestIndex = i;
                     // Rumble is enabled on the controller only when there is overflow of the accumulator, overflow
                     // will happen more often for larger request strengths making it feel stronger to the player
                     rumbleMgr->rumbleEnable[0] = strength > 255;
-                } else if (rumbleMgr->reqStrengths[i] > rumbleMgr->reqStrengths[index]) {
-                    index = i;
+                } else if (rumbleMgr->reqStrengths[i] > rumbleMgr->reqStrengths[strongestIndex]) {
+                    strongestIndex = i;
                     rumbleMgr->rumbleEnable[0] = strength > 255;
                 }
             }
@@ -107,7 +107,7 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
         if (rumbleMgr->overrideStrength != 0) {
             strength = rumbleMgr->overrideStrength;
         } else {
-            strength = (index == -1) ? 0 : rumbleMgr->reqStrengths[index];
+            strength = (strongestIndex == -1) ? 0 : rumbleMgr->reqStrengths[strongestIndex];
         }
 
         if (strength == 0) {
@@ -121,7 +121,7 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
             // Rumble
             rumbleMgr->offTimer = 0;
             if ((++rumbleMgr->onTimer) > 7200) { // 2 minutes at 60 VI/s, 2 minutes 24 seconds at 50 VI/s
-                // Clear all requests if rumble as been on for too long
+                // Clear all requests if rumble has been on for too long
                 rumbleMgr->state = RUMBLE_STATE_CLEAR;
             }
         }
