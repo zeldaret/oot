@@ -826,7 +826,7 @@ typedef struct {
     /* 0x00 */ u32 useRgba;
     /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8_u32 primColor;
-    /* 0x08 */ Color_RGBA8_u32 envColor;
+    /* 0x0C */ Color_RGBA8_u32 envColor;
 } VisZbuf; // size = 0x10
 
 #endif

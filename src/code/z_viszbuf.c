@@ -1,6 +1,6 @@
 /**
  * @file z_viszbuf.c
- * Description: Visualise the z-buffer (AKA depth buffer), using cycling RGBA or a single fading colour.
+ * Description: Visualise the z-buffer (AKA depth buffer), using cycling RGBA or a single fading color.
  *
  * useRgba:
  * - false will produce a monotonic fade from primColor to envColor as depth increases
@@ -15,7 +15,7 @@
  *     bbbmmmmm mmmmmmdd
  *     iiiiiiii aaaaaaaa
  * Since positive floating-point numbers have the same ordering as their binary/hex representation, increasing
- * the depth also increases the representation and hence the colour used to combine primColor and envColor. The alpha is
+ * the depth also increases the representation and hence the color used to combine primColor and envColor. The alpha is
  * ignored by the RenderMode.
  *
  * RGBA:
@@ -30,7 +30,7 @@
 #include "global.h"
 
 // Height of the fragments the z-buffer is split into.
-// It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into tmem.
+// It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into TMEM.
 #define VISZBUF_ZBUFFRAG_HEIGHT (TMEM_SIZE / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
 // z-buffer
@@ -69,7 +69,7 @@ void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
     }
 
     // No palette so can use all of TMEM.
-    // G_RM_OPA_SURF discards all information previously in the pixel, and the current alpha, leaving only the colour
+    // G_RM_OPA_SURF discards all information previously in the pixel, and the current alpha, leaving only the color
     // from this filter.
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
