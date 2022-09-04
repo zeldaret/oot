@@ -81,7 +81,7 @@ Gfx sCoverageRGBPrimFogDL[] = {
                      G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM) |
                          GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM)),
-    // final color = (FB RGB) * (cvg)
+    // final color = (stage 1 RGB) * (cvg)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsSPEndDisplayList(),
 };
