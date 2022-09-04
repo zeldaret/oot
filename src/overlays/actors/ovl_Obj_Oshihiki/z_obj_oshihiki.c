@@ -333,7 +333,7 @@ void ObjOshihiki_SetFloors(ObjOshihiki* this, PlayState* play) {
         floorPoly = &this->floorPolys[i];
         floorBgId = &this->floorBgIds[i];
         this->floorHeights[i] =
-            BgCheck_EntityRaycastFloor6(&play->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
+            BgCheck_EntityRaycastDown6(&play->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
     }
 }
 

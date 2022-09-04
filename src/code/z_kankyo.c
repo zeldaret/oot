@@ -783,7 +783,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 }
 
 void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
-    if (waterLightsIndex == 0x1F) {
+    if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
         // "Underwater color is not set in the water poly data!"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);

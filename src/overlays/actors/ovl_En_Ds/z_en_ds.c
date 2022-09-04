@@ -236,7 +236,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
 void EnDs_Update(Actor* thisx, PlayState* play) {
     EnDs* this = (EnDs*)thisx;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
 
