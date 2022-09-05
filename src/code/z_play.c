@@ -1624,7 +1624,8 @@ void func_800C08AC(PlayState* this, s16 camId, s16 arg2) {
     for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
         if (this->cameraPtrs[i] != NULL) {
             osSyncPrintf(
-                TE_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" TE_RST, i);
+                TE_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" TE_RST,
+                i);
             Play_ClearCamera(this, i);
         }
     }

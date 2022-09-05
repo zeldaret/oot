@@ -180,8 +180,9 @@ void __osMalloc_FreeBlockTest(Arena* arena, ArenaNode* node) {
 
         while (iter < end) {
             if (*iter != BLOCK_UNINIT_MAGIC_32 && *iter != BLOCK_FREE_MAGIC_32) {
-                osSyncPrintf(TE_COL(RED, WHITE) "緊急事態！メモリリーク検出！ (block=%08x s=%08x e=%08x p=%08x)\n" TE_RST,
-                             node, start, end, iter);
+                osSyncPrintf(
+                    TE_COL(RED, WHITE) "緊急事態！メモリリーク検出！ (block=%08x s=%08x e=%08x p=%08x)\n" TE_RST, node,
+                    start, end, iter);
                 __osDisplayArena(arena);
                 return;
             }

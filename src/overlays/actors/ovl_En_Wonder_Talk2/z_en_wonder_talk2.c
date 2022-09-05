@@ -186,7 +186,8 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
             if ((this->switchFlag >= 0) && (this->talkMode != 4)) {
                 Flags_SetSwitch(play, this->switchFlag);
                 // "(Forced) I saved it! All of it!"
-                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" TE_RST, this->switchFlag);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" TE_RST,
+                             this->switchFlag);
             }
 
             if (this->talkMode == 4) {
