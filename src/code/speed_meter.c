@@ -167,7 +167,7 @@ void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, Gam
 
     y = 212;
     if (SREG(0) > 2) {
-        if (ZeldaArena_IsInitalized()) {
+        if (ZeldaArena_IsInitialized()) {
             ZeldaArena_GetSizes(&zeldaFreeMax, &zeldaFree, &zeldaAlloc);
             SpeedMeter_InitAllocEntry(&entry, zeldaFree + zeldaAlloc, zeldaAlloc, GPACK_RGBA5551(0, 0, 255, 1),
                                       GPACK_RGBA5551(255, 255, 255, 1), ulx, lrx, y, y + 1);

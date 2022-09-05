@@ -112,14 +112,14 @@ void EnIshi_InitCollider(Actor* thisx, PlayState* play) {
 
 s32 EnIshi_SnapToFloor(EnIshi* this, PlayState* play, f32 arg2) {
     CollisionPoly* poly;
-    Vec3f pos;
+    Vec3f checkPos;
     s32 bgId;
     f32 floorY;
 
-    pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + 30.0f;
-    pos.z = this->actor.world.pos.z;
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->actor, &pos);
+    checkPos.x = this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 30.0f;
+    checkPos.z = this->actor.world.pos.z;
+    floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &poly, &bgId, &this->actor, &checkPos);
     if (floorY > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = floorY + arg2;
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);

@@ -267,7 +267,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
     s32 attackState;
     Vec3f ripplePos;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         attackState = this->vAttackState; // for deciding whether to change animation
         switch (this->vAttackState) {
             case TEKTITE_BEGIN_LUNGE:

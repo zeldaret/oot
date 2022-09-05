@@ -243,8 +243,8 @@ void Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
 
-void Scene_CommandMeshHeader(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.meshHeader = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
+void Scene_CommandRoomShape(PlayState* play, SceneCmd* cmd) {
+    play->roomCtx.curRoom.roomShape = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
 }
 
 void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
@@ -480,7 +480,7 @@ void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
     Scene_CommandSpecialFiles,        // SCENE_CMD_ID_SPECIAL_FILES
     Scene_CommandRoomBehavior,        // SCENE_CMD_ID_ROOM_BEHAVIOR
     Scene_CommandUndefined9,          // SCENE_CMD_ID_UNDEFINED_9
-    Scene_CommandMeshHeader,          // SCENE_CMD_ID_MESH_HEADER
+    Scene_CommandRoomShape,           // SCENE_CMD_ID_ROOM_SHAPE
     Scene_CommandObjectList,          // SCENE_CMD_ID_OBJECT_LIST
     Scene_CommandLightList,           // SCENE_CMD_ID_LIGHT_LIST
     Scene_CommandPathList,            // SCENE_CMD_ID_PATH_LIST

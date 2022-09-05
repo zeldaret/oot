@@ -33,7 +33,7 @@ void PreNMI_Draw(PreNMIState* this) {
     OPEN_DISPS(gfxCtx, "../z_prenmi.c", 96);
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
-    func_80095248(gfxCtx, 0, 0, 0);
+    Gfx_SetupFrame(gfxCtx, 0, 0, 0);
     Gfx_SetupDL_36Opa(gfxCtx);
     gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(255, 255, 255, 1) << 16) | GPACK_RGBA5551(255, 255, 255, 1));
     gDPFillRectangle(POLY_OPA_DISP++, 0, this->timer + 100, SCREEN_WIDTH - 1, this->timer + 100);

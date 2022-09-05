@@ -669,7 +669,7 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     this->actor.world.pos.z = (endPos.z - startPos.z) * progress + startPos.z;
 
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
 }
 
 // Update functions and Draw

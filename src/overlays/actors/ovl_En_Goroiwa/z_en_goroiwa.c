@@ -360,7 +360,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     f32 yDistToFloor;
     s32 quakeIdx;
     CollisionPoly* floorPoly;
-    Vec3f raycastFrom;
+    Vec3f checkPos;
     f32 floorY;
     s32 pad2;
     s32 floorBgId;
@@ -386,11 +386,11 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
             }
             this->rollRotSpeed = 0.0f;
             if (!(this->stateFlags & ENGOROIWA_IN_WATER)) {
-                raycastFrom.x = this->actor.world.pos.x;
-                raycastFrom.y = this->actor.world.pos.y + 50.0f;
-                raycastFrom.z = this->actor.world.pos.z;
-                floorY = BgCheck_EntityRaycastFloor5(play, &play->colCtx, &floorPoly, &floorBgId, &this->actor,
-                                                     &raycastFrom);
+                checkPos.x = this->actor.world.pos.x;
+                checkPos.y = this->actor.world.pos.y + 50.0f;
+                checkPos.z = this->actor.world.pos.z;
+                floorY =
+                    BgCheck_EntityRaycastDown5(play, &play->colCtx, &floorPoly, &floorBgId, &this->actor, &checkPos);
                 yDistToFloor = floorY - (this->actor.world.pos.y - 59.5f);
                 if (fabsf(yDistToFloor) < 15.0f) {
                     dustPos.x = this->actor.world.pos.x;
@@ -723,7 +723,7 @@ void EnGoroiwa_Update(Actor* thisx, PlayState* play) {
     EnGoroiwa* this = (EnGoroiwa*)thisx;
     Player* player = GET_PLAYER(play);
     s32 pad;
-    s32 sp30;
+    s32 bgId;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->collisionDisabledTimer > 0) {
@@ -736,8 +736,8 @@ void EnGoroiwa_Update(Actor* thisx, PlayState* play) {
                                         UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
                 break;
             case 0:
-                this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp30,
-                                                                      &this->actor, &this->actor.world.pos);
+                this->actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId,
+                                                                     &this->actor, &this->actor.world.pos);
                 break;
         }
         EnGoroiwa_UpdateRotation(this, play);

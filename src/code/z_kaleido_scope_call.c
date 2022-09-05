@@ -58,7 +58,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
     if ((pauseCtx->state != 0) || (pauseCtx->debugState != 0)) {
         if (pauseCtx->state == 1) {
-            if (ShrinkWindow_GetCurrentVal() == 0) {
+            if (Letterbox_GetSize() == 0) {
                 HREG(80) = 7;
                 HREG(82) = 3;
                 R_PAUSE_MENU_MODE = 1;

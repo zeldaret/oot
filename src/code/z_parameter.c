@@ -14,7 +14,7 @@ typedef struct {
     /* 0x01 */ u8 flags1;
     /* 0x02 */ u8 flags2;
     /* 0x03 */ u8 flags3;
-} RestrictionFlags;
+} RestrictionFlags; // size = 0x4
 
 static RestrictionFlags sRestrictionFlags[] = {
     { SCENE_SPOT00, 0x00, 0x00, 0x10 },
@@ -2169,7 +2169,7 @@ s32 Health_ChangeBy(PlayState* play, s16 amount) {
     // clang-format off
     if (amount > 0) { Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    } else if (gSaveContext.doubleDefense && (amount < 0)) {
+    } else if (gSaveContext.isDoubleDefenseAcquired && (amount < 0)) {
         amount >>= 1;
         osSyncPrintf("ハート減少半分！！＝%d\n", amount); // "Heart decrease halved!!＝%d"
     }

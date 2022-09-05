@@ -20,7 +20,7 @@ typedef struct {
     /* 0x1E */ u8 isMagicAcquired;
     /* 0x1F */ u8 unk_1F;
     /* 0x20 */ u8 isDoubleMagicAcquired;
-    /* 0x21 */ u8 doubleDefense;
+    /* 0x21 */ u8 isDoubleDefenseAcquired;
     /* 0x22 */ u8 bgsFlag;
     /* 0x23 */ u8 ocarinaGameRoundNum;
     /* 0x24 */ ItemEquips childEquips;
@@ -111,7 +111,7 @@ static SavePlayerData sNewSavePlayerData = {
     false,                                              // isMagicAcquired
     0,                                                  // unk_1F
     false,                                              // isDoubleMagicAcquired
-    0,                                                  // doubleDefense
+    false,                                              // isDoubleDefenseAcquired
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
     {
@@ -196,7 +196,7 @@ static SavePlayerData sDebugSavePlayerData = {
     true,                                               // isMagicAcquired
     0,                                                  // unk_1F
     false,                                              // isDoubleMagicAcquired
-    0,                                                  // doubleDefense
+    false,                                              // isDoubleDefenseAcquired
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
     {
