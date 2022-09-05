@@ -15,9 +15,9 @@ void MapSelect_LoadTitle(MapSelectState* this) {
 }
 
 void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
-    osSyncPrintf(T_FGCOL(BLUE));
+    osSyncPrintf(TE_FGCOL(BLUE));
     osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitDebugSave();
         // Set the fill target to be the saved magic amount

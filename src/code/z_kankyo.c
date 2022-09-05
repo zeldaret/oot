@@ -433,7 +433,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     if (Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
         // "Sun setting other than field keep! So forced release!"
-        osSyncPrintf(T_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" T_RST);
+        osSyncPrintf(TE_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" TE_RST);
     }
 
     gCustomLensFlareOn = false;
@@ -552,8 +552,8 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
 
     if ((startFrameF >= endFrameF) || (accelDurationF + decelDurationF > totalFrames)) {
         // "The frame relation between end_frame and start_frame is wrong!!!"
-        osSyncPrintf(T_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" T_RST);
-        osSyncPrintf(T_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" T_RST);
+        osSyncPrintf(TE_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" TE_RST);
+        osSyncPrintf(TE_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" TE_RST);
 
         return 0.0f;
     }
@@ -700,7 +700,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         if (newSkybox1Index == 0xFF) {
             // "Environment VR data acquisition failed! Report to Sasaki!"
-            osSyncPrintf(T_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" T_RST);
+            osSyncPrintf(TE_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" TE_RST);
         }
 
         if ((envCtx->skybox1Index != newSkybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
@@ -786,7 +786,7 @@ void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
     if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
         // "Underwater color is not set in the water poly data!"
-        osSyncPrintf(T_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" T_RST);
+        osSyncPrintf(TE_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" TE_RST);
     }
 
     if (play->envCtx.lightMode == LIGHT_MODE_TIME) {
@@ -1121,10 +1121,10 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
-                            osSyncPrintf(T_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" T_RST);
+                            osSyncPrintf(TE_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" TE_RST);
 
                             // "Palette setting = [] Last palette number = []"
-                            osSyncPrintf(T_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" T_RST,
+                            osSyncPrintf(TE_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" TE_RST,
                                          sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
                                          envCtx->numLightSettings - 1);
                         }
@@ -1194,10 +1194,10 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
                     // "The color palette seems to be wrong!"
-                    osSyncPrintf("\n" T_FGCOL(RED) "カラーパレットがおかしいようです！");
+                    osSyncPrintf("\n" TE_FGCOL(RED) "カラーパレットがおかしいようです！");
 
                     // "Palette setting = [] Last palette number = []"
-                    osSyncPrintf("\n" T_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" T_RST,
+                    osSyncPrintf("\n" TE_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" TE_RST,
                                  envCtx->lightSetting, envCtx->numLightSettings);
                 }
             }

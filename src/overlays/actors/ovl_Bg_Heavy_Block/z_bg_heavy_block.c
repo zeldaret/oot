@@ -145,7 +145,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             break;
     }
     // "Largest Block Save Bit %x"
-    osSyncPrintf(T_FGCOL(CYAN) " 最大 ブロック セーブビット %x\n" T_RST, thisx->params);
+    osSyncPrintf(TE_FGCOL(CYAN) " 最大 ブロック セーブビット %x\n" TE_RST, thisx->params);
 }
 
 void BgHeavyBlock_Destroy(Actor* thisx, PlayState* play) {

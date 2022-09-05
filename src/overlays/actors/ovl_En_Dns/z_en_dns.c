@@ -137,7 +137,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
 
     if (this->actor.params < 0) {
         // "Function Error (Deku Salesman)"
-        osSyncPrintf(T_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" T_RST "\n", this->actor.params);
+        osSyncPrintf(TE_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" TE_RST "\n", this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -146,7 +146,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
         this->actor.params = 0x0003;
     }
     // "Deku Salesman"
-    osSyncPrintf(T_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" T_RST "\n", D_809F0424[this->actor.params],
+    osSyncPrintf(TE_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" TE_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,

@@ -1099,7 +1099,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_800C0808(play, subCamId, (Player*)actor, CAM_SET_CS_C);
             break;
         default:
-            osSyncPrintf(T_COL(RED, WHITE) "onepointdemo camera: demo number not found !! (%d)\n" T_RST, csId);
+            osSyncPrintf(TE_COL(RED, WHITE) "onepointdemo camera: demo number not found !! (%d)\n" TE_RST, csId);
             break;
     }
     return 0;
@@ -1157,7 +1157,7 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
     }
     subCamId = Play_CreateSubCamera(play);
     if (subCamId == CAM_ID_NONE) {
-        osSyncPrintf(T_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" T_RST, csId);
+        osSyncPrintf(TE_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" TE_RST, csId);
         return CAM_ID_NONE;
     }
 
@@ -1201,7 +1201,7 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
         s16 thisCsId = play->cameraPtrs[subCamId]->csId;
 
         if ((nextCsId / 100) < (thisCsId / 100)) {
-            osSyncPrintf(T_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" T_RST,
+            osSyncPrintf(TE_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" TE_RST,
                          vNextCamId, nextCsId, thisCsId);
             if (play->cameraPtrs[vNextCamId]->csId != 5010) {
                 if ((vNextCamId = OnePointCutscene_RemoveCamera(play, vNextCamId)) != CAM_ID_NONE) {
@@ -1253,14 +1253,14 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     s32 timer;
 
     if (sDisableAttention) {
-        osSyncPrintf(T_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" T_RST);
+        osSyncPrintf(TE_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" TE_RST);
         return CAM_ID_NONE;
     }
     sUnused = -1;
 
     parentCam = play->cameraPtrs[CAM_ID_MAIN];
     if (parentCam->mode == CAM_MODE_FOLLOWBOOMERANG) {
-        osSyncPrintf(T_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" T_RST);
+        osSyncPrintf(TE_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" TE_RST);
         Camera_ChangeMode(parentCam, CAM_MODE_NORMAL);
     }
 
@@ -1308,23 +1308,23 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
         case ACTORCAT_MISC:
         case ACTORCAT_BOSS:
         default:
-            osSyncPrintf(T_COL(YELLOW, BLACK) "actor attention demo camera: %d: unkown part of actor %d\n" T_RST,
+            osSyncPrintf(TE_COL(YELLOW, BLACK) "actor attention demo camera: %d: unkown part of actor %d\n" TE_RST,
                          play->state.frames, actor->category);
             timer = 30;
             break;
     }
-    osSyncPrintf(T_FGCOL(CYAN) "%06u:" T_RST " actor attention demo camera: request %d ", play->state.frames,
+    osSyncPrintf(TE_FGCOL(CYAN) "%06u:" TE_RST " actor attention demo camera: request %d ", play->state.frames,
                  actor->category);
 
     // If the previous attention cutscene has an actor in the same category, skip this actor.
     if (actor->category == vLastHigherCat) {
-        osSyncPrintf("→ " T_FGCOL(MAGENTA) "×" T_RST " (%d)\n", actor->id);
+        osSyncPrintf("→ " TE_FGCOL(MAGENTA) "×" TE_RST " (%d)\n", actor->id);
         return CAM_ID_NONE;
     }
-    osSyncPrintf("→ " T_FGCOL(BLUE) "○" T_RST " (%d)\n", actor->id);
+    osSyncPrintf("→ " TE_FGCOL(BLUE) "○" TE_RST " (%d)\n", actor->id);
     vSubCamId = OnePointCutscene_Init(play, 5010, timer, actor, vParentCamId);
     if (vSubCamId == CAM_ID_NONE) {
-        osSyncPrintf(T_COL(RED, WHITE) "actor attention demo: give up! \n" T_RST, actor->id);
+        osSyncPrintf(TE_COL(RED, WHITE) "actor attention demo: give up! \n" TE_RST, actor->id);
         return CAM_ID_NONE;
     } else {
         s32* data = (s32*)&play->cameraPtrs[vSubCamId]->data1;

@@ -4,7 +4,7 @@
 u32 gIsCtrlr2Valid = false;
 
 void func_800D31A0(void) {
-    osSyncPrintf(T_FGCOL(RED) "\n**** Freeze!! ****\n" T_RST);
+    osSyncPrintf(TE_FGCOL(RED) "\n**** Freeze!! ****\n" TE_RST);
     while (true) {
         Sleep_Msec(1000);
     }

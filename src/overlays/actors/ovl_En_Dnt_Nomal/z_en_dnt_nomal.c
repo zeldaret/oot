@@ -128,7 +128,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     if (this->type == ENDNTNOMAL_TARGET) {
         osSyncPrintf("\n\n");
         // "Deku Scrub target"
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" TE_RST);
         Collider_InitQuad(play, &this->targetQuad);
         Collider_SetQuad(play, &this->targetQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
@@ -136,7 +136,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     } else {
         osSyncPrintf("\n\n");
         // "Deku Scrub mask show audience"
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" TE_RST);
         Collider_InitCylinder(play, &this->bodyCyl);
         Collider_SetCylinder(play, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
         this->objId = OBJECT_DNK;
@@ -146,9 +146,9 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         if (this->objIndex < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf(T_FGCOL(MAGENTA) " なにみの？ %d\n" T_RST "\n", this->objIndex);
+            osSyncPrintf(TE_FGCOL(MAGENTA) " なにみの？ %d\n" TE_RST "\n", this->objIndex);
             // "Bank is funny"
-            osSyncPrintf(T_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" T_RST "\n", this->actor.params);
+            osSyncPrintf(TE_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" TE_RST "\n", this->actor.params);
             return;
         }
     } else {
@@ -245,7 +245,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
             Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             // "Big hit"
-            osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" T_RST, this->hitCounter);
+            osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" TE_RST, this->hitCounter);
             if (!LINK_IS_ADULT && !GET_ITEMGETINF(ITEMGETINF_1D)) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {

@@ -59,9 +59,9 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gChuGirlSkel, &gChuGirlNoddingOffAnim, this->jointTable,
                        this->morphTable, 11);
     // "☆ Man, my shoulders hurt~ ☆"
-    osSyncPrintf(T_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" T_RST);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" TE_RST);
     // "☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d"
-    osSyncPrintf(T_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" T_RST, play->bombchuBowlingStatus);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" TE_RST, play->bombchuBowlingStatus);
     this->posCopy = this->actor.world.pos;
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
@@ -218,13 +218,13 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (BREG(3)) {
-        osSyncPrintf(T_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" T_RST, play->bombchuBowlingStatus);
+        osSyncPrintf(TE_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" TE_RST, play->bombchuBowlingStatus);
         // "HOW'S THE FIRST WALL DOING?"
-        osSyncPrintf(T_FGCOL(RED) "☆ 壁１の状態どう？ ☆ %d\n" T_RST, this->wallStatus[0]);
+        osSyncPrintf(TE_FGCOL(RED) "☆ 壁１の状態どう？ ☆ %d\n" TE_RST, this->wallStatus[0]);
         // "HOW'S THE SECOND WALL DOING?"
-        osSyncPrintf(T_FGCOL(RED) "☆ 壁２の状態どう？ ☆ %d\n" T_RST, this->wallStatus[1]);
+        osSyncPrintf(TE_FGCOL(RED) "☆ 壁２の状態どう？ ☆ %d\n" TE_RST, this->wallStatus[1]);
         // "HOLE INFORMATION"
-        osSyncPrintf(T_FGCOL(RED) "☆ 穴情報\t     ☆ %d\n" T_RST, this->bowlPit->status);
+        osSyncPrintf(TE_FGCOL(RED) "☆ 穴情報\t     ☆ %d\n" TE_RST, this->bowlPit->status);
         osSyncPrintf("\n\n");
     }
 
@@ -235,14 +235,14 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, PlayState* play) {
             this->gameResult = 1; // Won
             this->bowlPit->status = 0;
             // "Center HIT!"
-            osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" TE_RST);
         }
 
         if ((play->bombchuBowlingStatus == -1) && (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) &&
             (this->bowlPit->status == 0) && (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             // "Bombchu lost"
-            osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" TE_RST);
         }
     }
 
@@ -457,7 +457,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play) {
         }
 
         // "Wow"
-        osSyncPrintf(T_FGCOL(YELLOW) "☆ わー ☆ %d\n" T_RST, play->bombchuBowlingStatus);
+        osSyncPrintf(TE_FGCOL(YELLOW) "☆ わー ☆ %d\n" TE_RST, play->bombchuBowlingStatus);
         func_8002DF54(play, NULL, 7);
         this->actionFunc = EnBomBowMan_SetupRunGame;
     }

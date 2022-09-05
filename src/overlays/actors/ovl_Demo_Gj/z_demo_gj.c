@@ -384,7 +384,7 @@ void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
 
         default:
             // "Demo_Gj_common_Reflect : This arg_data is not supported = %d"
-            osSyncPrintf(T_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" T_RST,
+            osSyncPrintf(TE_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" TE_RST,
                          this->dyna.actor.params);
             return;
     }
@@ -538,7 +538,7 @@ void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
 
             default:
                 // "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d"
-                osSyncPrintf(T_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" T_RST,
+                osSyncPrintf(TE_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" TE_RST,
                              actor->params);
                 break;
         }
@@ -1345,7 +1345,7 @@ void DemoGj_Update(Actor* thisx, PlayState* play) {
     if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
         sUpdateFuncs[this->updateMode] == NULL) {
         // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
         return;
     }
 
@@ -1402,7 +1402,7 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
 
         default:
             // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            osSyncPrintf(T_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" T_RST, play, this);
+            osSyncPrintf(TE_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST, play, this);
             Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1437,7 +1437,7 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
         // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
         return;
     }
 

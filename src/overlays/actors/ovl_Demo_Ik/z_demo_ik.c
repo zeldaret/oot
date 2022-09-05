@@ -473,7 +473,7 @@ void DemoIk_Update(Actor* thisx, PlayState* play) {
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
         // "The main mode is strange"
-        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
         return;
     }
     sActionFuncs[this->actionMode](this, play);
@@ -494,7 +494,7 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
         // "The draw mode is strange"
-        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
         return;
     }
     sDrawFuncs[this->drawMode](this, play);

@@ -34,11 +34,11 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params <= 0) {
         osSyncPrintf("\n\n");
         // "Input error death!"
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" T_RST);
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" T_RST);
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" T_RST);
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" T_RST);
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" TE_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" TE_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" TE_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" TE_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" TE_RST);
         osSyncPrintf("\n\n");
         Actor_Kill(&this->actor);
         return;
@@ -53,15 +53,15 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "It's an enemy spawner!"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" T_RST, this->actor.params);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" TE_RST, this->actor.params);
     // "Type"
-    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n" T_RST, this->spawnType);
+    osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n" TE_RST, this->spawnType);
     // "Maximum number of simultaneous spawns"
-    osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" T_RST, this->maxCurSpawns);
+    osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" TE_RST, this->maxCurSpawns);
     // "Maximum number of spawns"
-    osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n" T_RST, this->maxTotalSpawns);
+    osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n" TE_RST, this->maxTotalSpawns);
     // "Spawn check range"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" T_RST, this->spawnRange);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" TE_RST, this->spawnRange);
     osSyncPrintf("\n\n");
 
     this->actor.flags &= ~ACTOR_FLAG_0;
@@ -164,9 +164,9 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                     }
                 } else {
                     // "Cannot spawn!"
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
                     break;
                 }
             }
@@ -203,9 +203,9 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                     this->totalNumSpawn++;
                 } else {
                     // "Cannot spawn!"
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
                 }
             }
         }
@@ -303,9 +303,9 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 }
             } else {
                 // "Cannot spawn!"
-                osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
-                osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
-                osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" T_RST);
+                osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
+                osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
+                osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" TE_RST);
                 break;
             }
         }

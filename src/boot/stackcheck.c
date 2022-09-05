@@ -20,7 +20,7 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
         iter = sStackInfoListStart;
         while (iter) {
             if (iter == entry) {
-                osSyncPrintf(T_COL(RED, WHITE) "stackcheck_init: %08x は既にリスト中にある\n" T_RST, entry);
+                osSyncPrintf(TE_COL(RED, WHITE) "stackcheck_init: %08x は既にリスト中にある\n" TE_RST, entry);
                 return;
             }
             iter = iter->next;
@@ -68,7 +68,7 @@ void StackCheck_Cleanup(StackEntry* entry) {
         }
     }
     if (inconsistency) {
-        osSyncPrintf(T_COL(RED, WHITE) "stackcheck_cleanup: %08x リスト不整合です\n" T_RST, entry);
+        osSyncPrintf(TE_COL(RED, WHITE) "stackcheck_cleanup: %08x リスト不整合です\n" TE_RST, entry);
     }
 }
 
@@ -89,18 +89,18 @@ u32 StackCheck_GetState(StackEntry* entry) {
 
     if (free == 0) {
         ret = STACK_STATUS_OVERFLOW;
-        osSyncPrintf(T_FGCOL(RED));
+        osSyncPrintf(TE_FGCOL(RED));
     } else if (free < (u32)entry->minSpace && entry->minSpace != -1) {
         ret = STACK_STATUS_WARNING;
-        osSyncPrintf(T_FGCOL(YELLOW));
+        osSyncPrintf(TE_FGCOL(YELLOW));
     } else {
-        osSyncPrintf(T_FGCOL(GREEN));
+        osSyncPrintf(TE_FGCOL(GREEN));
         ret = STACK_STATUS_OK;
     }
 
     osSyncPrintf("head=%08x tail=%08x last=%08x used=%08x free=%08x [%s]\n", entry->head, entry->tail, last, used, free,
                  entry->name != NULL ? entry->name : "(null)");
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
 
     if (ret != STACK_STATUS_OK) {
         LogUtils_LogHexDump(entry->head, (uintptr_t)entry->tail - (uintptr_t)entry->head);

@@ -254,9 +254,9 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
             // Reaching row = 4 means the column is either all 0 or a duplicate column.
             // Therefore src is a singular matrix (0 determinant).
 
-            osSyncPrintf(T_COL(YELLOW, BLACK));
+            osSyncPrintf(TE_COL(YELLOW, BLACK));
             osSyncPrintf("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
-            osSyncPrintf(T_RST);
+            osSyncPrintf(TE_RST);
             return 2;
         }
 

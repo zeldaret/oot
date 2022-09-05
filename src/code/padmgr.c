@@ -33,10 +33,10 @@
 
 #define PADMGR_LOG(controllerNo, msg)                                    \
     if (1) {                                                             \
-        osSyncPrintf(T_FGCOL(YELLOW));                                  \
+        osSyncPrintf(TE_FGCOL(YELLOW));                                  \
         /* padmgr: Controller %d: %s */                                  \
         osSyncPrintf("padmgr: %dコン: %s\n", (controllerNo) + 1, (msg)); \
-        osSyncPrintf(T_RST);                                            \
+        osSyncPrintf(TE_RST);                                            \
     }                                                                    \
     (void)0
 

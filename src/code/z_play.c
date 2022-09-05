@@ -414,7 +414,7 @@ void Play_Init(GameState* thisx) {
 
     playerStartBgCamIndex = player->actor.params & 0xFF;
     if (playerStartBgCamIndex != 0xFF) {
-        osSyncPrintf("player has start camera ID (" T_FGCOL(BLUE) "%d" T_RST ")\n", playerStartBgCamIndex);
+        osSyncPrintf("player has start camera ID (" TE_FGCOL(BLUE) "%d" TE_RST ")\n", playerStartBgCamIndex);
         Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
     }
 
@@ -917,10 +917,10 @@ void Play_Update(PlayState* this) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
-                        osSyncPrintf(T_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" T_RST);
+                        osSyncPrintf(TE_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" TE_RST);
                     } else if (Player_InCsMode(this)) {
                         // "Changing viewpoint is prohibited during the cutscene"
-                        osSyncPrintf(T_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" T_RST);
+                        osSyncPrintf(TE_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" TE_RST);
                     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1460,12 +1460,12 @@ s16 Play_CreateSubCamera(PlayState* this) {
     }
 
     if (i == NUM_CAMS) {
-        osSyncPrintf(T_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" T_RST);
+        osSyncPrintf(TE_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" TE_RST);
         return CAM_ID_NONE;
     }
 
-    osSyncPrintf("camera control: " T_BGCOL(CYAN) " " T_COL(WHITE, BLUE) " create new sub camera [%d] " T_BGCOL(
-                     CYAN) " " T_RST "\n",
+    osSyncPrintf("camera control: " TE_BGCOL(CYAN) " " TE_COL(WHITE, BLUE) " create new sub camera [%d] " TE_BGCOL(
+                     CYAN) " " TE_RST "\n",
                  i);
 
     this->cameraPtrs[i] = &this->subCameras[i - CAM_ID_SUB_FIRST];
@@ -1493,17 +1493,17 @@ void Play_ClearCamera(PlayState* this, s16 camId) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     if (camIdx == CAM_ID_MAIN) {
-        osSyncPrintf(T_COL(RED, WHITE) "camera control: error: never clear camera !!\n" T_RST);
+        osSyncPrintf(TE_COL(RED, WHITE) "camera control: error: never clear camera !!\n" TE_RST);
     }
 
     if (this->cameraPtrs[camIdx] != NULL) {
         Camera_ChangeStatus(this->cameraPtrs[camIdx], CAM_STAT_UNK100);
         this->cameraPtrs[camIdx] = NULL;
-        osSyncPrintf("camera control: " T_BGCOL(CYAN) " " T_COL(WHITE, BLUE) " clear sub camera [%d] " T_BGCOL(
-                         CYAN) " " T_RST "\n",
+        osSyncPrintf("camera control: " TE_BGCOL(CYAN) " " TE_COL(WHITE, BLUE) " clear sub camera [%d] " TE_BGCOL(
+                         CYAN) " " TE_RST "\n",
                      camIdx);
     } else {
-        osSyncPrintf(T_COL(RED, WHITE) "camera control: error: camera No.%d already cleared\n" T_RST, camIdx);
+        osSyncPrintf(TE_COL(RED, WHITE) "camera control: error: camera No.%d already cleared\n" TE_RST, camIdx);
     }
 }
 
@@ -1624,7 +1624,7 @@ void func_800C08AC(PlayState* this, s16 camId, s16 arg2) {
     for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
         if (this->cameraPtrs[i] != NULL) {
             osSyncPrintf(
-                T_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" T_RST, i);
+                TE_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" TE_RST, i);
             Play_ClearCamera(this, i);
         }
     }

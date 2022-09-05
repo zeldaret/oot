@@ -119,7 +119,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Mysterious mystery, very mysterious"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" T_RST, this->actor.params);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" TE_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
 
     this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
@@ -130,7 +130,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     }
     this->actor.targetMode = 1;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" T_RST, this->switchFlag);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" TE_RST, this->switchFlag);
         Actor_Kill(&this->actor);
         return;
     }
@@ -314,7 +314,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, PlayState* play) {
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HEISHI2, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 9) != NULL) {
             // "Careless soldier spawned"
-            osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" TE_RST);
         }
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(play, this->switchFlag);

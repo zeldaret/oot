@@ -334,9 +334,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     x = y = 0;
     for (i = 0; i < 300; i += 4) {
         if (JpegDecoder_Decode(&decoder, (u16*)workBuff->data, 4, i != 0, &state)) {
-            osSyncPrintf(T_FGCOL(RED));
+            osSyncPrintf(TE_FGCOL(RED));
             osSyncPrintf("Error : Can't decode jpeg\n");
-            osSyncPrintf(T_RST);
+            osSyncPrintf(TE_RST);
         } else {
             Jpeg_ScheduleDecoderTask(&ctx);
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));

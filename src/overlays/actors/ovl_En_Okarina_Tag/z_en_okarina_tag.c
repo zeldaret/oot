@@ -45,7 +45,7 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Ocarina tag outbreak"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n" T_RST, this->actor.params);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n" TE_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->type = (this->actor.params >> 0xA) & 0x3F;
     this->ocarinaSong = (this->actor.params >> 6) & 0xF;
@@ -63,17 +63,17 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
     }
 
     // "Save information"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ セーブ情報\t ☆☆☆☆☆ %d\n" T_RST, this->switchFlag);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ セーブ情報\t ☆☆☆☆☆ %d\n" TE_RST, this->switchFlag);
     // "Type index"
-    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n" T_RST, this->type);
+    osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n" TE_RST, this->type);
     // "Correct answer information"
-    osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" T_RST, this->ocarinaSong);
+    osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" TE_RST, this->ocarinaSong);
     // "Range information"
-    osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" T_RST, this->actor.world.rot.z);
+    osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" TE_RST, this->actor.world.rot.z);
     // "Processing range information"
-    osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 処理範囲情報\t ☆☆☆☆☆ %f\n" T_RST, this->interactRange);
+    osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 処理範囲情報\t ☆☆☆☆☆ %f\n" TE_RST, this->interactRange);
     // "Hit?"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 当り？\t\t ☆☆☆☆☆ %d\n" T_RST, this->unk_158);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 当り？\t\t ☆☆☆☆☆ %d\n" TE_RST, this->unk_158);
     osSyncPrintf("\n\n");
 
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(play, this->switchFlag))) {
@@ -117,7 +117,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
         if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
                 // "North! ! ! ! !"
-                osSyncPrintf(T_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" T_RST, this->actor.xzDistToPlayer);
+                osSyncPrintf(TE_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" TE_RST, this->actor.xzDistToPlayer);
             }
             if ((this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                 (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
@@ -209,7 +209,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
                         break;
                     default:
                         // "Ocarina Invisible-kun demo start check error source"
-                        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ オカリナ透明君デモ開始チェックエラー原 ☆☆☆☆☆ %d\n" T_RST,
+                        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ オカリナ透明君デモ開始チェックエラー原 ☆☆☆☆☆ %d\n" TE_RST,
                                      this->type);
                         Actor_Kill(&this->actor);
                         break;
@@ -299,7 +299,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
 
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play) {
     // "Open sesame sesame!"
-    osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n" T_RST, Message_GetState(&play->msgCtx));
+    osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n" TE_RST, Message_GetState(&play->msgCtx));
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);

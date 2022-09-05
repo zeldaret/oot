@@ -89,13 +89,13 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
 
     osSyncPrintf("\n\n");
     // "Treasure generation (which room is it?)"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 宝発生(部屋はどれ？) %d\n" T_RST, play->roomCtx.curRoom.num);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 宝発生(部屋はどれ？) %d\n" TE_RST, play->roomCtx.curRoom.num);
     // "How is the Bit?"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ ビットは？ \t     %x\n" T_RST, play->actorCtx.flags.chest);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ ビットは？ \t     %x\n" TE_RST, play->actorCtx.flags.chest);
     // "How is the Save BIT?"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ セーブＢＩＴは？     %x\n" T_RST, sTreasureFlags[minigameRoomNum]);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ セーブＢＩＴは？     %x\n" TE_RST, sTreasureFlags[minigameRoomNum]);
     // "Is it already a zombie?"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ もう、ゾンビ？\t     %d\n" T_RST, this->roomChestsOpened);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ もう、ゾンビ？\t     %d\n" TE_RST, this->roomChestsOpened);
     osSyncPrintf("\n\n");
 
     minigameRoomNum *= 2;
@@ -117,7 +117,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, 20.0f, 20.0f, -2500.0f, 0, 0, 0,
                             ((sTreasureFlags[5] & 0x1F) << 8) + rewardParams);
                 // "Central treasure instance/occurrence (GREAT)"
-                osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n" T_RST, rewardChestParams);
+                osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n" TE_RST, rewardChestParams);
                 this->actionFunc = EnChanger_SetHeartPieceFlag;
                 return;
             }
@@ -156,13 +156,13 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
 
     if (this->leftChest != NULL) {
         // "Left treasure generation (what does it contain?)"
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" T_RST, leftChestParams);
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" TE_RST, leftChestParams);
         // "What is the room number?"
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 部屋番号は？  %x\n" T_RST, play->roomCtx.curRoom.num);
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 部屋番号は？  %x\n" TE_RST, play->roomCtx.curRoom.num);
         // "What is the bit?"
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ ビットはなぁに？  %x\n" T_RST, this->rightChestNum);
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ ビットはなぁに？  %x\n" TE_RST, this->rightChestNum);
         // "Sukesuke-kun" (something to do with being invisible)
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ すけすけ君？ %x\n" T_RST, rightChestItem);
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ すけすけ君？ %x\n" TE_RST, rightChestItem);
         osSyncPrintf("\n\n");
         if (this->roomChestsOpened) {
             Flags_SetTreasure(play, this->leftChestNum & 0x1F);
@@ -180,13 +180,13 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
 
     if (this->rightChest != NULL) {
         // "Right treasure generation (what does it contain?)"
-        osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" T_RST, rightChestParams);
+        osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" TE_RST, rightChestParams);
         // "What is the room number?"
-        osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 部屋番号は？  %d\n" T_RST, play->roomCtx.curRoom.num);
+        osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 部屋番号は？  %d\n" TE_RST, play->roomCtx.curRoom.num);
         // "What is the bit?"
-        osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ ビットはなぁに？  %x\n" T_RST, this->leftChestNum);
+        osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ ビットはなぁに？  %x\n" TE_RST, this->leftChestNum);
         // "Sukesuke-kun" (something to do with being invisible)
-        osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ すけすけ君？ %x\n" T_RST, leftChestItem);
+        osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ すけすけ君？ %x\n" TE_RST, leftChestItem);
         osSyncPrintf("\n\n");
 
         if (this->roomChestsOpened) {
@@ -245,7 +245,7 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play) {
                 } else {
                     temp_s0_2 = (s16)(this->rightChestGetItemId - GI_RUPEE_GREEN_LOSE) + EXITEM_CHEST;
                     // "Open right treasure (chest)"
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n" T_RST, temp_s0_2);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n" TE_RST, temp_s0_2);
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0, temp_s0_2);
                 }
                 break;
@@ -260,7 +260,7 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play) {
                 } else {
                     temp_s0_2 = (s16)(this->leftChestGetItemId - 0x72) + 0xA;
                     // "Open left treasure (chest)"
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 左宝開く ☆☆☆☆☆ %d\n" T_RST, temp_s0_2);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 左宝開く ☆☆☆☆☆ %d\n" TE_RST, temp_s0_2);
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0, temp_s0_2);
                 }
                 break;

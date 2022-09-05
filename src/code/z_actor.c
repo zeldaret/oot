@@ -836,7 +836,7 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
         name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
         // "No Actor class destruct [%s]"
-        osSyncPrintf("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" T_RST, name);
+        osSyncPrintf("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" TE_RST, name);
     }
 }
 
@@ -2620,7 +2620,7 @@ Actor* Actor_RemoveFromCategory(PlayState* play, ActorContext* actorCtx, Actor* 
 }
 
 void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
-    osSyncPrintf(T_FGCOL(CYAN));
+    osSyncPrintf(TE_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
         if (HREG(20) != 0) {
@@ -2651,7 +2651,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
         osSyncPrintf("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
     }
 
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
 }
 
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ, s16 rotX,
@@ -2678,7 +2678,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
         // "Ａｃｔｏｒ set number exceeded"
-        osSyncPrintf(T_COL(YELLOW, BLACK) "Ａｃｔｏｒセット数オーバー\n" T_RST);
+        osSyncPrintf(TE_COL(YELLOW, BLACK) "Ａｃｔｏｒセット数オーバー\n" TE_RST);
         return NULL;
     }
 
@@ -2717,19 +2717,19 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
             if (overlayEntry->loadedRamAddr == NULL) {
                 // "Cannot reserve actor program memory"
-                osSyncPrintf(T_COL(RED, WHITE) "Ａｃｔｏｒプログラムメモリが確保できません\n" T_RST);
+                osSyncPrintf(TE_COL(RED, WHITE) "Ａｃｔｏｒプログラムメモリが確保できません\n" TE_RST);
                 return NULL;
             }
 
             Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
                          overlayEntry->loadedRamAddr);
 
-            osSyncPrintf(T_FGCOL(GREEN));
+            osSyncPrintf(TE_FGCOL(GREEN));
             osSyncPrintf("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart,
                          overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
                          (u32)overlayEntry->loadedRamAddr + (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart,
                          (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, name);
-            osSyncPrintf(T_RST);
+            osSyncPrintf(TE_RST);
 
             overlayEntry->numLoaded = 0;
         }
@@ -2745,7 +2745,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     if ((objBankIndex < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
-        osSyncPrintf(T_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" T_RST,
+        osSyncPrintf(TE_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" TE_RST,
                      objBankIndex, actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
@@ -2755,7 +2755,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     if (actor == NULL) {
         // "Actor class cannot be reserved! %s <size＝%d bytes>"
-        osSyncPrintf(T_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", T_RST, name,
+        osSyncPrintf(TE_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", TE_RST, name,
                      actorInit->instanceSize);
         Actor_FreeOverlay(overlayEntry);
         return NULL;

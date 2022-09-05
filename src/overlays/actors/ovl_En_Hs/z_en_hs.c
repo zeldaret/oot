@@ -75,16 +75,16 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
 
     if (this->actor.params == 1) {
         // "chicken shop (adult era)"
-        osSyncPrintf(T_FGCOL(CYAN) " ヒヨコの店(大人の時) \n" T_RST);
+        osSyncPrintf(TE_FGCOL(CYAN) " ヒヨコの店(大人の時) \n" TE_RST);
         func_80A6E3A0(this, func_80A6E9AC);
         if (GET_ITEMGETINF(ITEMGETINF_30)) {
             // "chicken shop closed"
-            osSyncPrintf(T_FGCOL(CYAN) " ヒヨコ屋閉店 \n" T_RST);
+            osSyncPrintf(TE_FGCOL(CYAN) " ヒヨコ屋閉店 \n" TE_RST);
             Actor_Kill(&this->actor);
         }
     } else {
         // "chicken shop (child era)"
-        osSyncPrintf(T_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" T_RST);
+        osSyncPrintf(TE_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" TE_RST);
         func_80A6E3A0(this, func_80A6E9AC);
     }
 

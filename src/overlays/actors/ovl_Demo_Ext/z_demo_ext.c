@@ -172,7 +172,7 @@ void DemoExt_Update(Actor* thisx, PlayState* play) {
 
     if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
         // "Main mode is abnormal!"
-        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
     } else {
         sActionFuncs[this->action](this, play);
     }
@@ -227,7 +227,7 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
     if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
         sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is abnormal!"
-        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, play);
     }

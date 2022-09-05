@@ -66,9 +66,9 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
     if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y, spawnPos->z, 0,
                            block->rotY, 0, ((block->color << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
         // "Push-pull block failure"
-        osSyncPrintf(T_COL(RED, WHITE));
+        osSyncPrintf(TE_COL(RED, WHITE));
         osSyncPrintf("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
         Actor_Kill(thisx);
         return;
     }

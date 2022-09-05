@@ -202,11 +202,11 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, PlayState* play) {
 void EnBomBowlPit_Reset(EnBomBowlPit* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         // "Normal termination"/"completion"
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" TE_RST);
         if (this->getItemId == GI_HEART_PIECE) {
             gSaveContext.healthAccumulator = 0x140;
             // "Ah recovery!" (?)
-            osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" TE_RST);
         }
         this->exItemDone = 0;
         this->status = 2;

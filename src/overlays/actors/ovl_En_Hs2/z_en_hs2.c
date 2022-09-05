@@ -60,7 +60,7 @@ void EnHs2_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
-    osSyncPrintf(T_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" T_RST);
+    osSyncPrintf(TE_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" TE_RST);
     this->actionFunc = func_80A6F1A4;
     this->unk_2A8 = 0;
     this->actor.targetMode = 6;

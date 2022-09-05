@@ -61,7 +61,7 @@ void DemoGeff_Init(Actor* thisx, PlayState* play) {
     DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->actor.params < 0 || this->actor.params >= 9) {
-        osSyncPrintf(T_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" TE_RST);
         Actor_Kill(&this->actor);
         return;
     }
@@ -177,7 +177,7 @@ void func_80978370(DemoGeff* this, PlayState* play) {
     s16 params = this->actor.params;
     DemoGeffInitFunc initFunc = sInitFuncs[params];
     if (initFunc == NULL) {
-        osSyncPrintf(T_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" T_RST, params);
+        osSyncPrintf(TE_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" TE_RST, params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -193,7 +193,7 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     s32 pad;
 
     if (objBankIndex < 0) {
-        osSyncPrintf(T_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" T_RST, params);
+        osSyncPrintf(TE_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" TE_RST, params);
         Actor_Kill(thisx);
         return;
     }
@@ -207,7 +207,7 @@ void DemoGeff_Update(Actor* thisx, PlayState* play) {
     DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->action < 0 || this->action >= 2 || sActionFuncs[this->action] == NULL) {
-        osSyncPrintf(T_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -221,7 +221,7 @@ void DemoGeff_Draw(Actor* thisx, PlayState* play) {
     s32 drawConfig = this->drawConfig;
 
     if (drawConfig < 0 || drawConfig >= 2 || sDrawFuncs[drawConfig] == NULL) {
-        osSyncPrintf(T_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" T_RST);
+        osSyncPrintf(TE_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
         return;
     }
     if (drawConfig != 0) {

@@ -63,10 +63,10 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
         objectCtx->status[i].id = OBJECT_INVALID;
     }
 
-    osSyncPrintf(T_FGCOL(GREEN));
+    osSyncPrintf(TE_FGCOL(GREEN));
     // "Object exchange bank data %8.3fKB"
     osSyncPrintf("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
 
     objectCtx->spaceStart = objectCtx->status[0].segment =
         GameState_Alloc(&play->state, spaceSize, "../z_scene.c", 219);
@@ -173,9 +173,9 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
         if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
             gSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
-            osSyncPrintf(T_FGCOL(RED));
+            osSyncPrintf(TE_FGCOL(RED));
             osSyncPrintf("code の値が異常です\n"); // "code variable is abnormal"
-            osSyncPrintf(T_RST);
+            osSyncPrintf(TE_RST);
         }
         sceneCmd++;
     }

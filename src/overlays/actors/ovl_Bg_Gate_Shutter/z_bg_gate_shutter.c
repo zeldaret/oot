@@ -51,7 +51,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     thisx->scale.y = 1.0f;
     thisx->scale.z = 1.0f;
     osSyncPrintf("\n\n");
-    osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 柵でたなぁ ☆☆☆☆☆ \n" T_RST);
+    osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 柵でたなぁ ☆☆☆☆☆ \n" TE_RST);
     this->actionFunc = func_8087828C;
 }
 

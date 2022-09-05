@@ -326,7 +326,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     MemCpy(&gSaveContext, sramCtx->readBuff + i, sizeof(Save));
 
-    osSyncPrintf(T_FGCOL(YELLOW));
+    osSyncPrintf(TE_FGCOL(YELLOW));
     osSyncPrintf("SCENE_DATA_ID = %d   SceneNo = %d\n", gSaveContext.savedSceneId,
                  ((void)0, gSaveContext.entranceIndex));
 
@@ -398,14 +398,14 @@ void Sram_OpenSave(SramContext* sramCtx) {
     }
 
     osSyncPrintf("scene_no = %d\n", gSaveContext.entranceIndex);
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
 
     if (gSaveContext.health < 0x30) {
         gSaveContext.health = 0x30;
     }
 
     if (gSaveContext.scarecrowLongSongSet) {
-        osSyncPrintf(T_FGCOL(BLUE));
+        osSyncPrintf(TE_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
         MemCpy(gScarecrowLongSongPtr, gSaveContext.scarecrowLongSong, sizeof(gSaveContext.scarecrowLongSong));
@@ -416,11 +416,11 @@ void Sram_OpenSave(SramContext* sramCtx) {
         }
 
         osSyncPrintf("\n====================================================================\n");
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
     }
 
     if (gSaveContext.scarecrowSpawnSongSet) {
-        osSyncPrintf(T_FGCOL(GREEN));
+        osSyncPrintf(TE_FGCOL(GREEN));
         osSyncPrintf("\n====================================================================\n");
 
         MemCpy(gScarecrowSpawnSongPtr, gSaveContext.scarecrowSpawnSong, sizeof(gSaveContext.scarecrowSpawnSong));
@@ -431,7 +431,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         }
 
         osSyncPrintf("\n====================================================================\n");
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
     }
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
@@ -872,11 +872,11 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
 
     // "GOOD! GOOD! Size = %d + %d = %d"
     osSyncPrintf("ＧＯＯＤ！ＧＯＯＤ！ サイズ＝%d + %d ＝ %d\n", sizeof(SaveInfo), 4, sizeof(SaveInfo) + 4);
-    osSyncPrintf(T_FGCOL(BLUE));
+    osSyncPrintf(TE_FGCOL(BLUE));
     osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
     osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
     osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
     func_800F6700(gSaveContext.audioSetting);
 }
 

@@ -380,9 +380,9 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
 
     if ((params >= SI_MAX) && (params < 0)) {
         Actor_Kill(&this->actor);
-        osSyncPrintf(T_COL(RED, WHITE));
+        osSyncPrintf(TE_COL(RED, WHITE));
         osSyncPrintf("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
         ASSERT(0, "0", "../z_en_girlA.c", 1421);
         return;
     }
@@ -391,9 +391,9 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
 
     if (this->objBankIndex < 0) {
         Actor_Kill(&this->actor);
-        osSyncPrintf(T_COL(RED, WHITE));
+        osSyncPrintf(TE_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
         ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;
     }

@@ -100,7 +100,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
         } else {
             osSyncPrintf("\n\n");
             // "No, I'm completely disappointed" (message for when shooting guard window in courtyard)
-            osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" TE_RST);
 
             Actor_SetScale(&this->actor, 0.02f);
 
@@ -141,7 +141,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             case 6:
                 osSyncPrintf("\n\n");
                 // "Peep hole soldier!"
-                osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" T_RST);
+                osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" TE_RST);
                 Collider_DestroyCylinder(play, collider);
                 this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
                 this->actionFunc = EnHeishi_DoNothing2;
@@ -151,11 +151,11 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
         this->unk_2F0 = (this->actor.params >> 8) & 0xFF;
         osSyncPrintf("\n\n");
         // "Soldier Set 2 Completed!"
-        osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" T_RST, this->actor.params);
+        osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" TE_RST, this->actor.params);
         // "Identification Completed!"
-        osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" T_RST, this->type);
+        osSyncPrintf(TE_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" TE_RST, this->type);
         // "Message completed!"
-        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" T_RST, (this->actor.params >> 8) & 0xF);
+        osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" TE_RST, (this->actor.params >> 8) & 0xF);
     }
 }
 
@@ -190,32 +190,32 @@ void func_80A53278(EnHeishi2* this, PlayState* play) {
         this->actionFunc = func_80A5475C;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_09) && GET_EVENTCHKINF(EVENTCHKINF_25) && GET_EVENTCHKINF(EVENTCHKINF_37)) {
         // "Get all spiritual stones!"
-        osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" TE_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7006;
         this->actionFunc = func_80A5475C;
     } else if (!IS_DAY) {
         // "Sleep early for children!"
-        osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" TE_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7002;
         this->actionFunc = func_80A5475C;
 
     } else if (this->unk_30C != 0) {
         // "Anything passes"
-        osSyncPrintf(T_FGCOL(BLUE) " ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(BLUE) " ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n" TE_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7099;
         this->actionFunc = func_80A5475C;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
-            osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" TE_RST);
             this->actor.textId = 0x7071;
             this->unk_30E = 1;
         } else {
             // "Start under the second sleeve!"
-            osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" TE_RST);
             this->actor.textId = 0x7072;
         }
         this->unk_300 = TEXT_STATE_CHOICE;
@@ -223,7 +223,7 @@ void func_80A53278(EnHeishi2* this, PlayState* play) {
 
     } else {
         // "That's okay"
-        osSyncPrintf(T_FGCOL(CYAN) " ☆☆☆☆☆ それはとおらんよぉ ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(CYAN) " ☆☆☆☆☆ それはとおらんよぉ ☆☆☆☆☆ \n" TE_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7029;
         this->actionFunc = func_80A5475C;
@@ -297,7 +297,7 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
             }
         }
         // "I've come!"
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" T_RST, actor->dyna.actor.next);
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" TE_RST, actor->dyna.actor.next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -382,7 +382,7 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
         this->actionFunc = func_80A5475C;
     } else {
         // "I don't know"
-        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" TE_RST);
         this->actionFunc = func_80A53AD4;
     }
 }
@@ -461,7 +461,7 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
             }
         }
         // "I've come!"
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" T_RST, gate->dyna.actor.next);
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" TE_RST, gate->dyna.actor.next);
         this->actionFunc = func_80A53DF8;
     }
 }
@@ -663,7 +663,7 @@ void func_80A5455C(EnHeishi2* this, PlayState* play) {
         }
 
         // "This is down!"
-        osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" TE_RST);
         this->actionFunc = func_80A546DC;
     }
 }

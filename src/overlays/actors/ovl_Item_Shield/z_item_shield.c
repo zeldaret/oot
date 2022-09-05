@@ -87,7 +87,7 @@ void ItemShield_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    osSyncPrintf(T_FGCOL(GREEN) "Item_Shild %d \n" T_RST, this->actor.params);
+    osSyncPrintf(TE_FGCOL(GREEN) "Item_Shild %d \n" TE_RST, this->actor.params);
 }
 
 void ItemShield_Destroy(Actor* thisx, PlayState* play) {

@@ -37,7 +37,7 @@ void EnWonderTalk_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Special conversation"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 特殊会話くん ☆☆☆☆☆ %x\n" T_RST, this->actor.params);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 特殊会話くん ☆☆☆☆☆ %x\n" TE_RST, this->actor.params);
 
     this->unk_150 = (this->actor.params >> 0xB) & 0x1F;
     this->unk_152 = (this->actor.params >> 6) & 0x1F;
@@ -48,7 +48,7 @@ void EnWonderTalk_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 1;
     if (this->switchFlag >= 0) {
         if (Flags_GetSwitch(play, this->switchFlag)) {
-            osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" T_RST, this->switchFlag);
+            osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" TE_RST, this->switchFlag);
             Actor_Kill(&this->actor);
             return;
         }
@@ -62,33 +62,33 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
         switch (this->unk_150) {
             case 1:
                 // "Slate GO!"
-                osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n" T_RST);
+                osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n" TE_RST);
                 this->height = 0.0f;
                 this->unk_15C = 80.0f;
                 // "Attention coordinates"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" T_RST, 0.0f);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" TE_RST, 0.0f);
                 if (!LINK_IS_ADULT) {
                     this->actor.textId = 0x7040;
                     // "Children"
-                    osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ こども ☆☆☆☆☆ \n" T_RST);
+                    osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ こども ☆☆☆☆☆ \n" TE_RST);
                 } else {
                     // "Adult"
-                    osSyncPrintf(T_FGCOL(CYAN) " ☆☆☆☆☆ おとな ☆☆☆☆☆ \n" T_RST);
+                    osSyncPrintf(TE_FGCOL(CYAN) " ☆☆☆☆☆ おとな ☆☆☆☆☆ \n" TE_RST);
                     this->actor.textId = 0x7088;
                 }
 
                 this->unk_156 = TEXT_STATE_EVENT;
-                osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n" T_RST, this->actor.textId);
+                osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n" TE_RST, this->actor.textId);
                 break;
             case 2:
                 // "Diary start!"
-                osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n" T_RST);
+                osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n" TE_RST);
                 this->actor.textId = 0x5002;
                 this->unk_156 = TEXT_STATE_CHOICE;
                 this->height = 30.0f;
                 this->unk_15C = 40.0f;
                 // "Attention coordinates"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" T_RST, 30.0f);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" TE_RST, 30.0f);
                 break;
             case 3:
                 this->actor.textId = 0x501E;
@@ -96,14 +96,14 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // "Attention coordinates"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" T_RST, 0.0f);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" TE_RST, 0.0f);
                 break;
             case 4:
                 this->actor.textId = 0x5020;
                 this->unk_156 = TEXT_STATE_DONE;
                 this->height = 0.0f;
                 // "Attention coordinates"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" T_RST, 0.0f);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" TE_RST, 0.0f);
                 this->unk_15C = 120.0f;
                 if (GET_EVENTCHKINF(EVENTCHKINF_1D)) {
                     Actor_Kill(&this->actor);
@@ -115,7 +115,7 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // "Attention coordinates"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" T_RST, 0.0f);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" TE_RST, 0.0f);
                 break;
             default:
                 this->actor.textId = 0x7072;
@@ -123,7 +123,7 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
                 break;
         }
 
-        osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n" T_RST, this->actor.textId);
+        osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n" TE_RST, this->actor.textId);
         this->actionFunc = func_80B3943C;
     }
 }
@@ -156,13 +156,13 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
                 if (this->unk_15A >= 2) {
                     osSyncPrintf("\n\n");
                     // "Save information"
-                    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報\t\t☆☆☆☆☆ %d\n" T_RST, this->switchFlag);
+                    osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報\t\t☆☆☆☆☆ %d\n" TE_RST, this->switchFlag);
                     // "Type index"
-                    osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 種類インデックス\t☆☆☆☆☆ %d\n" T_RST, this->unk_150);
+                    osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 種類インデックス\t☆☆☆☆☆ %d\n" TE_RST, this->unk_150);
                     // "Actual message type"
-                    osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" T_RST, this->actor.textId);
+                    osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" TE_RST, this->actor.textId);
                     // "Specified range"
-                    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" T_RST, this->actor.world.rot.z);
+                    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" TE_RST, this->actor.world.rot.z);
                     osSyncPrintf("\n\n");
                 }
                 this->unk_15A = 0;
@@ -188,17 +188,17 @@ void func_80B395F0(EnWonderTalk* this, PlayState* play) {
                     case 0:
                         if (!LINK_IS_ADULT) {
                             // "I'm still a child!"
-                            osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n" T_RST);
+                            osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n" TE_RST);
                             this->actor.textId = 0x5001;
                         } else {
                             // "I'm an adult. .. .."
-                            osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n" T_RST);
+                            osSyncPrintf(TE_FGCOL(YELLOW) " ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n" TE_RST);
                             this->actor.textId = 0x5003;
                         }
                         break;
                     case 1:
                         // "Out!"
-                        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" T_RST);
+                        osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" TE_RST);
                         this->actor.textId = 0x5004;
                         break;
                 }

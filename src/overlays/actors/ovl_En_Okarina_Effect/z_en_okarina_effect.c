@@ -49,7 +49,7 @@ void EnOkarinaEffect_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Ocarina Storm Effect"
-    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" T_RST);
+    osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" TE_RST);
     osSyncPrintf("\n\n");
     if (play->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
         Actor_Kill(&this->actor);

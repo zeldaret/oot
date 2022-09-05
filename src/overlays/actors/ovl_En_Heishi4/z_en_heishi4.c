@@ -95,9 +95,9 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
     }
     this->unk_27C = ((thisx->params >> 8) & 0xFF);
     osSyncPrintf("\n\n");
-    osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" T_RST, thisx->params);
-    osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" T_RST, this->type);
-    osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" T_RST, (thisx->params >> 8) & 0xF);
+    osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" TE_RST, thisx->params);
+    osSyncPrintf(TE_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" TE_RST, this->type);
+    osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" TE_RST, (thisx->params >> 8) & 0xF);
     osSyncPrintf("\n\n");
 }
 
@@ -167,7 +167,7 @@ void func_80A56544(EnHeishi4* this, PlayState* play) {
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
-        osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" TE_RST);
         Actor_Kill(&this->actor);
     } else {
         this->actionFunc = func_80A56614;
@@ -212,7 +212,7 @@ void func_80A56614(EnHeishi4* this, PlayState* play) {
 
 void func_80A5673C(EnHeishi4* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
-        osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" TE_RST);
         Actor_Kill(&this->actor);
         return;
     }
@@ -225,11 +225,11 @@ void func_80A5673C(EnHeishi4* this, PlayState* play) {
             this->actor.textId = 0x7007;
             this->unk_282 = TEXT_STATE_EVENT;
             this->unk_284 = 1;
-            osSyncPrintf(T_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" TE_RST);
         } else {
             this->actor.textId = 0x7008;
             this->unk_282 = TEXT_STATE_DONE;
-            osSyncPrintf(T_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" TE_RST);
         }
         this->actionFunc = func_80A56874;
     } else {

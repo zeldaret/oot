@@ -99,7 +99,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
     s32 params = this->actor.params;
     s32 objectBankIdx;
 
-    osSyncPrintf(T_FGCOL(BLUE) "金スタル屋 no = %d\n" T_RST, params); // "Gold Skulltula Shop"
+    osSyncPrintf(TE_FGCOL(BLUE) "金スタル屋 no = %d\n" TE_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
         if (gSaveContext.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
@@ -110,7 +110,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
     } else if (gSaveContext.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         // "Gold Skulltula Shop I still can't be a human"
-        osSyncPrintf(T_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" T_RST);
+        osSyncPrintf(TE_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" TE_RST);
         return;
     }
 

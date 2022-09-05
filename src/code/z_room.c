@@ -438,7 +438,7 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     }
 
     // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    osSyncPrintf(T_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" T_RST, bgCamIndex);
+    osSyncPrintf(TE_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" TE_RST, bgCamIndex);
     LogUtils_HungupThread("../z_room.c", 726);
 
     return NULL;
@@ -568,7 +568,7 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
         }
     }
 
-    osSyncPrintf(T_FGCOL(YELLOW));
+    osSyncPrintf(TE_FGCOL(YELLOW));
     // "Room buffer size=%08x(%5.1fK)"
     osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
     roomCtx->bufPtrs[0] = GameState_Alloc(&play->state, maxRoomSize, "../z_room.c", 946);
@@ -577,7 +577,7 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     roomCtx->bufPtrs[1] = (void*)((s32)roomCtx->bufPtrs[0] + maxRoomSize);
     // "Room buffer end pointer=%08x"
     osSyncPrintf("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 

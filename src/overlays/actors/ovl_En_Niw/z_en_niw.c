@@ -132,7 +132,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == 0xB) {
         if (sLowerRiverSpawned) {
             Actor_Kill(&this->actor);
-            osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n" TE_RST);
             return;
         }
         sLowerRiverSpawned = true;
@@ -143,7 +143,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == 0xC) {
         if (sUpperRiverSpawned) {
             Actor_Kill(&this->actor);
-            osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n" TE_RST);
             return;
         }
         sUpperRiverSpawned = true;
@@ -160,7 +160,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             if (fabsf(this->actor.world.pos.x - sKakarikoPosList[i].x) < 40.0f &&
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
-                osSyncPrintf(T_FGCOL(YELLOW) " 通常鶏index %d\n" T_RST, this->unk_2AA);
+                osSyncPrintf(TE_FGCOL(YELLOW) " 通常鶏index %d\n" TE_RST, this->unk_2AA);
                 if (gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] & sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
@@ -237,7 +237,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n" T_RST, this->actor.params);
+    osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n" TE_RST, this->actor.params);
     osSyncPrintf("\n\n");
     this->actionFunc = EnNiw_ResetAction;
 }
@@ -364,7 +364,7 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, PlayState* play) {
             this->timer5 = 10;
         } else {
             osSyncPrintf("\n\n");
-            osSyncPrintf(T_FGCOL(GREEN) " ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n" T_RST);
+            osSyncPrintf(TE_FGCOL(GREEN) " ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n" TE_RST);
         }
     }
 }
@@ -985,17 +985,17 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
                                     UPDBGCHECKINFO_FLAG_4);
     }
     if (thisx->floorHeight <= BGCHECK_Y_MIN || thisx->floorHeight >= 32000.0f) {
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" T_RST, thisx->floorHeight);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" TE_RST, thisx->floorHeight);
         cam.x = play->view.at.x - play->view.eye.x;
         cam.y = play->view.at.y - play->view.eye.y;
         cam.z = play->view.at.z - play->view.eye.z;
         camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
-        osSyncPrintf(T_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" T_RST, thisx->world.pos.x);
-        osSyncPrintf(T_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" T_RST, thisx->world.pos.y);
-        osSyncPrintf(T_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n" T_RST, thisx->world.pos.z);
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n" T_RST, thisx->home.pos.x);
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n" T_RST, thisx->home.pos.y);
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n" T_RST, thisx->home.pos.z);
+        osSyncPrintf(TE_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->world.pos.x);
+        osSyncPrintf(TE_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->world.pos.y);
+        osSyncPrintf(TE_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->world.pos.z);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->home.pos.x);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->home.pos.y);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->home.pos.z);
         thisx->world.pos.x = thisx->home.pos.x;
         thisx->world.pos.z = thisx->home.pos.z;
         thisx->world.pos.y = ((thisx->home.pos.y + play->view.eye.y) + (camResult * 160.0f));
@@ -1004,9 +1004,9 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             thisx->world.pos.y = thisx->home.pos.y + 300.0f;
         }
 
-        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n" T_RST, thisx->world.pos.x);
-        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n" T_RST, thisx->world.pos.y);
-        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n" T_RST, thisx->world.pos.z);
+        osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->world.pos.x);
+        osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->world.pos.y);
+        osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n" TE_RST, thisx->world.pos.z);
         osSyncPrintf("\n\n");
         thisx->speedXZ = 0.0f;
         thisx->gravity = -2.0f;
@@ -1047,7 +1047,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         EffectSsGSplash_Spawn(play, &pos, 0, 0, 0, 400);
         this->timer5 = 0;
         osSyncPrintf("\n\n");
-        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n" T_RST);
+        osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n" TE_RST);
         osSyncPrintf("\n\n");
         this->actionFunc = func_80AB6F04;
         return;

@@ -15,16 +15,16 @@ void KaleidoScopeCall_LoadPlayer(void) {
 
     if (gKaleidoMgrCurOvl != playerActorOvl) {
         if (gKaleidoMgrCurOvl != NULL) {
-            osSyncPrintf(T_FGCOL(GREEN));
+            osSyncPrintf(TE_FGCOL(GREEN));
             osSyncPrintf("カレイド領域 強制排除\n"); // "Kaleido area forced exclusion"
-            osSyncPrintf(T_RST);
+            osSyncPrintf(TE_RST);
 
             KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
         }
 
-        osSyncPrintf(T_FGCOL(GREEN));
+        osSyncPrintf(TE_FGCOL(GREEN));
         osSyncPrintf("プレイヤーアクター搬入\n"); // "Player actor import"
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
 
         KaleidoManager_LoadOvl(playerActorOvl);
     }
@@ -82,18 +82,18 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if (pauseCtx->state != 0) {
             if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
                 if (gKaleidoMgrCurOvl != NULL) {
-                    osSyncPrintf(T_FGCOL(GREEN));
+                    osSyncPrintf(TE_FGCOL(GREEN));
                     // "Kaleido area Player Forced Elimination"
                     osSyncPrintf("カレイド領域 プレイヤー 強制排除\n");
-                    osSyncPrintf(T_RST);
+                    osSyncPrintf(TE_RST);
 
                     KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
                 }
 
-                osSyncPrintf(T_FGCOL(GREEN));
+                osSyncPrintf(TE_FGCOL(GREEN));
                 // "Kaleido area Kaleidoscope loading"
                 osSyncPrintf("カレイド領域 カレイドスコープ搬入\n");
-                osSyncPrintf(T_RST);
+                osSyncPrintf(TE_RST);
 
                 KaleidoManager_LoadOvl(kaleidoScopeOvl);
             }
@@ -102,10 +102,10 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 sKaleidoScopeUpdateFunc(play);
 
                 if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
-                    osSyncPrintf(T_FGCOL(GREEN));
+                    osSyncPrintf(TE_FGCOL(GREEN));
                     // "Kaleido area Kaleidoscope Emission"
                     osSyncPrintf("カレイド領域 カレイドスコープ排出\n");
-                    osSyncPrintf(T_RST);
+                    osSyncPrintf(TE_RST);
 
                     KaleidoManager_ClearOvl(kaleidoScopeOvl);
                     KaleidoScopeCall_LoadPlayer();

@@ -26,11 +26,11 @@ OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
 void Main_LogSystemHeap(void) {
-    osSyncPrintf(T_FGCOL(GREEN));
+    osSyncPrintf(TE_FGCOL(GREEN));
     // "System heap size% 08x (% dKB) Start address% 08x"
     osSyncPrintf("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", gSystemHeapSize, gSystemHeapSize / 1024,
                  gSystemHeap);
-    osSyncPrintf(T_RST);
+    osSyncPrintf(TE_RST);
 }
 
 void Main(void* arg) {

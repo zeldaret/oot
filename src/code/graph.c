@@ -163,9 +163,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     osStopTimer(&timer);
 
     if (msg == (OSMesg)666) {
-        osSyncPrintf(T_FGCOL(RED));
+        osSyncPrintf(TE_FGCOL(RED));
         osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
         LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
         LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
@@ -326,14 +326,14 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             //! @bug (?) : "problem = true;" may be missing
             osSyncPrintf("%c", BEL);
             // "Dynamic area head is destroyed"
-            osSyncPrintf(T_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" T_RST);
+            osSyncPrintf(TE_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" TE_RST);
             Fault_AddHungupAndCrash("../graph.c", 1070);
         }
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             osSyncPrintf("%c", BEL);
             // "Dynamic region tail is destroyed"
-            osSyncPrintf(T_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" T_RST);
+            osSyncPrintf(TE_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" TE_RST);
             Fault_AddHungupAndCrash("../graph.c", 1076);
         }
     }
@@ -342,19 +342,19 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         problem = true;
         osSyncPrintf("%c", BEL);
         // "Zelda 0 is dead"
-        osSyncPrintf(T_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty)\n" T_RST);
+        osSyncPrintf(TE_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty)\n" TE_RST);
     }
     if (THGA_IsCrash(&gfxCtx->polyXlu)) {
         problem = true;
         osSyncPrintf("%c", BEL);
         // "Zelda 1 is dead"
-        osSyncPrintf(T_COL(RED, WHITE) "ゼルダ1は死んでしまった(graph_alloc is empty)\n" T_RST);
+        osSyncPrintf(TE_COL(RED, WHITE) "ゼルダ1は死んでしまった(graph_alloc is empty)\n" TE_RST);
     }
     if (THGA_IsCrash(&gfxCtx->overlay)) {
         problem = true;
         osSyncPrintf("%c", BEL);
         // "Zelda 4 is dead"
-        osSyncPrintf(T_COL(RED, WHITE) "ゼルダ4は死んでしまった(graph_alloc is empty)\n" T_RST);
+        osSyncPrintf(TE_COL(RED, WHITE) "ゼルダ4は死んでしまった(graph_alloc is empty)\n" TE_RST);
     }
 
     if (!problem) {
@@ -391,7 +391,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
         // "To reset mode"
-        osSyncPrintf(T_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" T_RST);
+        osSyncPrintf(TE_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" TE_RST);
         SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
         gameState->running = false;
     }

@@ -42,7 +42,7 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Transparent message"
-    osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n" T_RST, this->actor.params);
+    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n" TE_RST, this->actor.params);
     this->baseMsgId = (this->actor.params >> 6) & 0xFF;
     if (this->actor.world.rot.z > 0) {
         s32 rangeIndex = 0;
@@ -62,11 +62,11 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
 
         osSyncPrintf("\n\n");
         // "originally?"
-        osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 元は？       ☆☆☆☆☆ %d\n" T_RST, this->actor.world.rot.z);
+        osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 元は？       ☆☆☆☆☆ %d\n" TE_RST, this->actor.world.rot.z);
         // "The range is?"
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？   ☆☆☆☆☆ %d\n" T_RST, this->actor.targetMode);
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？   ☆☆☆☆☆ %d\n" TE_RST, this->actor.targetMode);
         // "Is the range?"
-        osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ は、範囲わ？ ☆☆☆☆☆ %f\n" T_RST, this->triggerRange);
+        osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ は、範囲わ？ ☆☆☆☆☆ %f\n" TE_RST, this->triggerRange);
         osSyncPrintf("\n\n");
         osSyncPrintf("\n\n");
         osSyncPrintf("\n\n");
@@ -80,7 +80,7 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
         this->switchFlag = -1;
     }
     if (this->switchFlag >= 0 && Flags_GetSwitch(play, this->switchFlag)) {
-        osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" T_RST, this->switchFlag);
+        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" TE_RST, this->switchFlag);
         Actor_Kill(&this->actor);
         return;
     }
@@ -121,7 +121,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
         if ((this->switchFlag >= 0) && (this->talkMode != 2)) {
             Flags_SetSwitch(play, this->switchFlag);
             // "I saved it! All of it!"
-            osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ セーブしたよ！おもいっきり！ %x\n" T_RST, this->switchFlag);
+            osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ セーブしたよ！おもいっきり！ %x\n" TE_RST, this->switchFlag);
         }
 
         this->actionFunc = func_80B3A10C;
@@ -133,29 +133,29 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
             if (this->unk_158 >= 2) {
                 osSyncPrintf("\n\n");
                 // "Transparent Message Kimi Set"
-                osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" T_RST, this->actor.params);
+                osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" TE_RST, this->actor.params);
                 // "Save Information"
-                osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" T_RST, this->switchFlag);
+                osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" TE_RST, this->switchFlag);
                 // "Specified message type"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 指定メッセージ種類     %x\n" T_RST, this->baseMsgId);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 指定メッセージ種類     %x\n" TE_RST, this->baseMsgId);
                 // "Actual message type"
-                osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" T_RST, this->actor.textId);
+                osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" TE_RST, this->actor.textId);
                 // "Specified range"
-                osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" T_RST, this->actor.world.rot.z);
+                osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" TE_RST, this->actor.world.rot.z);
                 // "Processing range"
-                osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" T_RST, this->triggerRange);
+                osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" TE_RST, this->triggerRange);
                 switch (this->talkMode) {
                     case 0:
                         // "Normal"
-                        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆ 通常 ☆☆ \n" T_RST);
+                        osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆ 通常 ☆☆ \n" TE_RST);
                         break;
                     case 2:
                         // "Check only"
-                        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆ チェックのみ ☆☆ \n" T_RST);
+                        osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆ チェックのみ ☆☆ \n" TE_RST);
                         break;
                     case 3:
                         // "Lock only"
-                        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆ ロックのみ ☆☆ \n" T_RST);
+                        osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆ ロックのみ ☆☆ \n" TE_RST);
                         break;
                 }
             }
@@ -169,7 +169,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
 void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
     if (BREG(2) != 0) {
         // "Oh"
-        osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ わー %d\n" T_RST, Message_GetState(&play->msgCtx));
+        osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ わー %d\n" TE_RST, Message_GetState(&play->msgCtx));
     }
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -186,7 +186,7 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
             if ((this->switchFlag >= 0) && (this->talkMode != 4)) {
                 Flags_SetSwitch(play, this->switchFlag);
                 // "(Forced) I saved it! All of it!"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" T_RST, this->switchFlag);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" TE_RST, this->switchFlag);
             }
 
             if (this->talkMode == 4) {
@@ -213,7 +213,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
     } else if ((this->talkMode != 4) || !this->unk_15A) {
         if (BREG(2) != 0) {
             // "distance"
-            osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ きょり %f\n" T_RST, this->actor.xzDistToPlayer);
+            osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ きょり %f\n" TE_RST, this->actor.xzDistToPlayer);
         }
         if (((this->actor.xzDistToPlayer < (40.0f + this->triggerRange)) &&
              (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f)) &&
@@ -221,29 +221,29 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
             if (this->unk_158 >= 2) {
                 osSyncPrintf("\n\n");
                 // "Transparent Message Kimi Seto"
-                osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" T_RST, this->actor.params);
+                osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" TE_RST, this->actor.params);
                 // "Save Information"
-                osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" T_RST, this->switchFlag);
+                osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" TE_RST, this->switchFlag);
                 // "Specified message type"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ 指定メッセージ種類     %x\n" T_RST, this->baseMsgId);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ 指定メッセージ種類     %x\n" TE_RST, this->baseMsgId);
                 // "Real message type"
-                osSyncPrintf(T_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" T_RST, this->actor.textId);
+                osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" TE_RST, this->actor.textId);
                 // "Specified range"
-                osSyncPrintf(T_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" T_RST, this->actor.world.rot.z);
+                osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" TE_RST, this->actor.world.rot.z);
                 // "Processing range"
-                osSyncPrintf(T_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" T_RST, this->triggerRange);
+                osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" TE_RST, this->triggerRange);
                 // "What is your range?"
-                osSyncPrintf(T_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？ \t\t   %d\n" T_RST, this->actor.targetMode);
+                osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？ \t\t   %d\n" TE_RST, this->actor.targetMode);
                 osSyncPrintf("\n\n");
                 osSyncPrintf("\n\n");
                 switch (this->talkMode) {
                     case 1:
                         // "Compulsion"
-                        osSyncPrintf(T_FGCOL(MAGENTA) " ☆☆ 強制 ☆☆ \n" T_RST);
+                        osSyncPrintf(TE_FGCOL(MAGENTA) " ☆☆ 強制 ☆☆ \n" TE_RST);
                         break;
                     case 4:
                         // "Gerudo Training Grounds Forced Check Only"
-                        osSyncPrintf(T_FGCOL(RED) " ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n" T_RST);
+                        osSyncPrintf(TE_FGCOL(RED) " ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n" TE_RST);
                         break;
                 }
 

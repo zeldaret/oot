@@ -8,7 +8,7 @@ void ViConfig_UpdateVi(u32 black) {
     if (black) {
         // Black the screen on next call to ViConfig_UpdateBlack, skip most VI configuration
 
-        osSyncPrintf(T_COL(YELLOW, BLACK) "osViSetYScale1(%f);\n" T_RST, 1.0f);
+        osSyncPrintf(TE_COL(YELLOW, BLACK) "osViSetYScale1(%f);\n" TE_RST, 1.0f);
 
         if (osTvType == OS_TV_PAL) {
             osViSetMode(&osViModePalLan1);
@@ -34,7 +34,7 @@ void ViConfig_UpdateVi(u32 black) {
         }
 
         if (gViConfigYScale != 1.0f) {
-            osSyncPrintf(T_COL(YELLOW, BLACK) "osViSetYScale3(%f);\n" T_RST, gViConfigYScale);
+            osSyncPrintf(TE_COL(YELLOW, BLACK) "osViSetYScale3(%f);\n" TE_RST, gViConfigYScale);
             osViSetYScale(gViConfigYScale);
         }
     }

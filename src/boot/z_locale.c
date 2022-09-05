@@ -19,10 +19,10 @@ void Locale_Init(void) {
             gCurrentRegion = REGION_EU;
             break;
         default:
-            osSyncPrintf(T_COL(RED, WHITE));
+            osSyncPrintf(TE_COL(RED, WHITE));
             osSyncPrintf("z_locale_init: 日本用かアメリカ用か判別できません\n");
             LogUtils_HungupThread("../z_locale.c", 118);
-            osSyncPrintf(T_RST);
+            osSyncPrintf(TE_RST);
             break;
     }
 

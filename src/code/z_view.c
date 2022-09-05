@@ -631,10 +631,10 @@ s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
     }
 
     if (error != 0) {
-        osSyncPrintf(T_FGCOL(RED));
+        osSyncPrintf(TE_FGCOL(RED));
         // "Is too large"
         osSyncPrintf("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, error);
-        osSyncPrintf(T_RST);
+        osSyncPrintf(TE_RST);
     }
 
     return error;

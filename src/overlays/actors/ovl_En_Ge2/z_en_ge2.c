@@ -571,13 +571,13 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
 
         if (Ge2_DetectPlayerInUpdate(play, this, &this->actor.focus.pos, this->actor.shape.rot.y, this->yDetectRange)) {
             // "Discovered!"
-            osSyncPrintf(T_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" T_RST);
+            osSyncPrintf(TE_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" TE_RST);
             EnGe2_SetupCapturePlayer(this, play);
         }
 
         if (((this->actor.params & 0xFF) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToPlayer < 100.0f)) {
             // "Discovered!"
-            osSyncPrintf(T_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" T_RST);
+            osSyncPrintf(TE_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" TE_RST);
             EnGe2_SetupCapturePlayer(this, play);
         }
     }
