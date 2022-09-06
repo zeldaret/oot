@@ -1125,7 +1125,7 @@ void Collider_Draw(PlayState* play, Collider* collider) {
 
 /**
  * Draws collision if AREG(15) and other AREGs are set. AREG(21) draws AT colliders, AREG(22) draws AC colliders,
- * AREG(23) draws OC colliders, AREG(24) draws dynapolys, and AREG(25) draws bg polys
+ * AREG(23) draws OC colliders, AREG(24) draws BgActor collision, and AREG(25) draws scene collision
  */
 void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider* collider;

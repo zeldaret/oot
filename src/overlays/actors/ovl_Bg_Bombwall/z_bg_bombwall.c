@@ -81,7 +81,7 @@ const ActorInit Bg_Bombwall_InitVars = {
     (ActorFunc)BgBombwall_Draw,
 };
 
-void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
+void BgBombwall_InitBgActor(BgBombwall* this, PlayState* play) {
     s32 pad;
     s32 pad2;
     CollisionHeader* colHeader = NULL;
@@ -91,7 +91,7 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (this->bg.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
                      this->bg.actor.params);
     }
@@ -125,7 +125,7 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
     if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
         func_8086EE94(this, play);
     } else {
-        BgBombwall_InitDynapoly(this, play);
+        BgBombwall_InitBgActor(this, play);
         this->unk_2A2 |= 2;
         Collider_InitTris(play, &this->collider);
         Collider_SetTris(play, &this->collider, &this->bg.actor, &sTrisInit, this->colliderItems);

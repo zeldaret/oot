@@ -182,17 +182,17 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
     dest->z = src->z * c - src->x * s;
 }
 
-void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
+void ObjSwitch_InitBgActor(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, moveFlag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (this->bg.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG registration failure"
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -286,7 +286,7 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     type = (this->bg.actor.params & 7);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DPM_PLAYER);
+        ObjSwitch_InitBgActor(this, play, &gFloorSwitchCol, DPM_PLAYER);
     }
 
     Actor_ProcessInitChain(&this->bg.actor, sInitChain);

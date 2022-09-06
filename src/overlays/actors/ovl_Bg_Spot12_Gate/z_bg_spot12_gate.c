@@ -42,15 +42,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHeader* collision, s32 flags) {
+void BgSpot12Gate_InitBgActor(BgSpot12Gate* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, flags);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -59,7 +61,7 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHea
 void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
+    BgSpot12Gate_InitBgActor(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 
     if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {

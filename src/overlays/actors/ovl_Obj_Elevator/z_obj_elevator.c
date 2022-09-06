@@ -43,18 +43,19 @@ void ObjElevator_SetupAction(ObjElevator* this, ObjElevatorActionFunc actionFunc
     this->actionFunc = actionFunc;
 }
 
-void func_80B92B08(ObjElevator* this, PlayState* play, CollisionHeader* collision, s32 flag) {
+void ObjElevator_InitBgActor(ObjElevator* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
-    Actor* thisx = &this->bg.actor;
 
-    BgActor_Init(&this->bg, flag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
-                     thisx->id, thisx->params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -62,7 +63,7 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     ObjElevator* this = (ObjElevator*)thisx;
     f32 temp_f0;
 
-    func_80B92B08(this, play, &object_d_elevator_Col_000360, DPM_PLAYER);
+    ObjElevator_InitBgActor(this, play, &object_d_elevator_Col_000360, DPM_PLAYER);
     Actor_SetScale(thisx, sScales[thisx->params & 1]);
     Actor_ProcessInitChain(thisx, sInitChain);
     temp_f0 = (thisx->params >> 8) & 0xF;

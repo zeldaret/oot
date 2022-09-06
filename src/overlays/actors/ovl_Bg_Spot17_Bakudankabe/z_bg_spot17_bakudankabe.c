@@ -108,11 +108,13 @@ void BgSpot17Bakudankabe_Init(Actor* thisx, PlayState* play) {
 
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, PlayState* play) {
     BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
+
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, PlayState* play) {
     BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
+
     if (this->bg.actor.xzDistToPlayer < 650.0f && func_80033684(play, &this->bg.actor) != NULL) {
         func_808B6BC0(this, play);
         Flags_SetSwitch(play, (this->bg.actor.params & 0x3F));

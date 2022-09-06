@@ -98,12 +98,12 @@ void func_80890740(BgIceShelter* this, PlayState* play) {
     }
 }
 
-void func_80890874(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
+void BgIceShelter_InitBgActor(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, moveFlag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
@@ -151,10 +151,10 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 
     switch (type) {
         case 2:
-            func_80890874(this, play, &object_ice_objects_Col_001C1C, 0);
+            BgIceShelter_InitBgActor(this, play, &object_ice_objects_Col_001C1C, 0);
             break;
         case 3:
-            func_80890874(this, play, &object_ice_objects_Col_002920, 0);
+            BgIceShelter_InitBgActor(this, play, &object_ice_objects_Col_002920, 0);
             break;
     }
 

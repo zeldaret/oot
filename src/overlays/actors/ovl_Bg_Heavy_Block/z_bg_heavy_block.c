@@ -72,9 +72,10 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
     Actor_SetScale(&this->bg.actor, Rand_CenteredFloat(0.2f) + 1.0f);
 }
 
-void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, PlayState* play) {
+void BgHeavyBlock_InitBgActor(BgHeavyBlock* this, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
+
     this->bg.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_17;
     BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gHeavyBlockCol, &colHeader);
@@ -111,7 +112,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             this->unk_164.y = -20.0f;
             break;
         case HEAVYBLOCK_BREAKABLE:
-            BgHeavyBlock_SetupDynapoly(this, play);
+            BgHeavyBlock_InitBgActor(this, play);
 
             if (Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
                 Actor_Kill(thisx);
@@ -121,7 +122,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgHeavyBlock_Wait;
             break;
         case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
-            BgHeavyBlock_SetupDynapoly(this, play);
+            BgHeavyBlock_InitBgActor(this, play);
 
             if (Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
                 this->actionFunc = BgHeavyBlock_DoNothing;
@@ -136,11 +137,11 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgHeavyBlock_Wait;
             break;
         case HEAVYBLOCK_UNBREAKABLE:
-            BgHeavyBlock_SetupDynapoly(this, play);
+            BgHeavyBlock_InitBgActor(this, play);
             this->actionFunc = BgHeavyBlock_Wait;
             break;
         default:
-            BgHeavyBlock_SetupDynapoly(this, play);
+            BgHeavyBlock_InitBgActor(this, play);
             this->actionFunc = BgHeavyBlock_Wait;
             break;
     }

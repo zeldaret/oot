@@ -89,15 +89,17 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
-void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHeader* collision, s32 flag) {
+void BgBdanSwitch_InitBgActor(BgBdanSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
 
-    BgActor_Init(&this->bg, flag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -155,7 +157,7 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            BgBdanSwitch_InitDynaPoly(this, play, &gJabuFloorSwitchCol, DPM_PLAYER);
+            BgBdanSwitch_InitBgActor(this, play, &gJabuFloorSwitchCol, DPM_PLAYER);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:

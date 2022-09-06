@@ -42,15 +42,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, CollisionHeader* collision, s32 flag) {
+void BgJyaAmishutter_InitBgActor(BgJyaAmishutter* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad1;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, flag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -59,7 +61,7 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
 void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
-    BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, DPM_UNK);
+    BgJyaAmishutter_InitBgActor(this, play, &gAmishutterCol, DPM_UNK);
     Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     BgJyaAmishutter_SetupWaitForPlayer(this);
 }

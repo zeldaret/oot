@@ -67,7 +67,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play) {
+void BgHidanKowarerukabe_InitBgActor(BgHidanKowarerukabe* this, PlayState* play) {
     static CollisionHeader* collisionHeaders[] = {
         &gFireTempleCrackedStoneFloorCol,
         &gFireTempleBombableWallCol,
@@ -113,7 +113,7 @@ static InitChainEntry sInitChain[] = {
 void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
 
-    BgHidanKowarerukabe_InitDynaPoly(this, play);
+    BgHidanKowarerukabe_InitBgActor(this, play);
 
     if (((this->bg.actor.params & 0xFF) < CRACKED_STONE_FLOOR) ||
         ((this->bg.actor.params & 0xFF) > LARGE_BOMBABLE_WALL)) {

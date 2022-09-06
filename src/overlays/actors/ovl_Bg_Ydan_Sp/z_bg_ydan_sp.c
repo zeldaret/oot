@@ -143,6 +143,7 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
 
 void BgYdanSp_Destroy(Actor* thisx, PlayState* play) {
     BgYdanSp* this = (BgYdanSp*)thisx;
+
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyTris(play, &this->trisCollider);
 }

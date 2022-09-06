@@ -60,16 +60,17 @@ void ObjLift_SetupAction(ObjLift* this, ObjLiftActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void ObjLift_InitDynaPoly(ObjLift* this, PlayState* play, CollisionHeader* collision, s32 flags) {
+void ObjLift_InitBgActor(ObjLift* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, flags);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_lift.c", 188,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -106,7 +107,7 @@ void func_80B96160(ObjLift* this, PlayState* play) {
 void ObjLift_Init(Actor* thisx, PlayState* play) {
     ObjLift* this = (ObjLift*)thisx;
 
-    ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DPM_PLAYER);
+    ObjLift_InitBgActor(this, play, &gCollapsingPlatformCol, DPM_PLAYER);
 
     if (Flags_GetSwitch(play, (this->bg.actor.params >> 2) & 0x3F)) {
         Actor_Kill(&this->bg.actor);

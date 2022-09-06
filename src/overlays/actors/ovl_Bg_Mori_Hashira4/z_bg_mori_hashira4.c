@@ -48,18 +48,17 @@ void BgMoriHashira4_SetupAction(BgMoriHashira4* this, BgMoriHashira4ActionFunc a
     this->actionFunc = actionFunc;
 }
 
-void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
+void BgMoriHashira4_InitBgActor(BgMoriHashira4* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    colHeader = NULL;
-    BgActor_Init(&this->bg, moveFlag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (this->bg.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -73,9 +72,9 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     this->bg.actor.params &= 0xFF;
 
     if (this->bg.actor.params == 0) {
-        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira1Col, DPM_UNK3);
+        BgMoriHashira4_InitBgActor(this, play, &gMoriHashira1Col, DPM_UNK3);
     } else {
-        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, DPM_UNK);
+        BgMoriHashira4_InitBgActor(this, play, &gMoriHashira2Col, DPM_UNK);
     }
     Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);

@@ -38,16 +38,17 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
     this->actionFunc = actionFunc;
 }
 
-void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* collision, s32 flags) {
+void BgSpot08Iceblock_InitBgActor(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, flags);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
-        // "Warning: move BG registration failed"
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xD9,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -298,10 +299,10 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     switch (this->bg.actor.params & 0xF) {
         case 2:
         case 3:
-            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DPM_UNK3);
+            BgSpot08Iceblock_InitBgActor(this, play, colHeader, DPM_UNK3);
             break;
         default:
-            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DPM_UNK);
+            BgSpot08Iceblock_InitBgActor(this, play, colHeader, DPM_UNK);
             break;
     }
 

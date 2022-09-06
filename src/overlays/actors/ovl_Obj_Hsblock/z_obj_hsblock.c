@@ -52,15 +52,17 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
+void ObjHsblock_InitBgActor(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2[2];
+    s32 pad2;
 
     BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -77,7 +79,7 @@ void func_80B93BF0(ObjHsblock* this, PlayState* play) {
 void ObjHsblock_Init(Actor* thisx, PlayState* play) {
     ObjHsblock* this = (ObjHsblock*)thisx;
 
-    func_80B93B68(this, play, sCollisionHeaders[thisx->params & 3], DPM_UNK);
+    ObjHsblock_InitBgActor(this, play, sCollisionHeaders[thisx->params & 3], DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, play);
 

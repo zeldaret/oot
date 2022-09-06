@@ -55,17 +55,17 @@ static Vec3f sBoxGroundCheckPoints[] = {
     { 29.99f, 0.01f, 29.99f },  { 0.0f, 0.01f, 0.0f },
 };
 
-void func_808B3960(BgSpot15Rrbox* this, PlayState* play, CollisionHeader* collision, s32 flags) {
+void BgSpot15Rrbox_InitBgActor(BgSpot15Rrbox* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     u32 pad2;
 
-    BgActor_Init(&this->bg, flags);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -120,7 +120,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, PlayState* play) {
 void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
-    func_808B3960(this, play, &gLonLonMilkCrateCol, DPM_UNK);
+    BgSpot15Rrbox_InitBgActor(this, play, &gLonLonMilkCrateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(play, (this->bg.actor.params & 0x3F))) {

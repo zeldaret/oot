@@ -62,17 +62,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHeader* collision, s32 flag) {
+void BgJyaBombiwa_InitBgActor(BgJyaBombiwa* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
 
-    BgActor_Init(&this->bg, flag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
-    if (this->bg.bgId == BG_ACTOR_MAX) {
 
-        // "Warning: move BG registration failed"
+    if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -96,7 +96,7 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
                      this->bg.actor.params & 0x3F);
         osSyncPrintf(VT_RST);
     }
-    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, DPM_UNK);
+    BgJyaBombiwa_InitBgActor(this, play, &gBombiwaCol, DPM_UNK);
     BgJyaBombiwa_InitCollider(this, play);
     if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
         Actor_Kill(&this->bg.actor);

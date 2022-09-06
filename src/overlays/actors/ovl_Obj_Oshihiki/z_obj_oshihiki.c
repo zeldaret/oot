@@ -83,17 +83,17 @@ static Vec2f sFaceDirection[] = {
     { -1.0f, -1.0f },
 };
 
-void ObjOshihiki_InitDynapoly(ObjOshihiki* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
+void ObjOshihiki_InitBgActor(ObjOshihiki* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, moveFlag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (this->bg.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG registration failure"
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 280,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -206,7 +206,7 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, PlayState* play) {
         case PUSHBLOCK_MEDIUM_START_OFF:
         case PUSHBLOCK_LARGE_START_OFF:
         case PUSHBLOCK_HUGE_START_OFF:
-            ObjOshihiki_InitDynapoly(this, play, &gPushBlockCol, 1);
+            ObjOshihiki_InitBgActor(this, play, &gPushBlockCol, 1);
             break;
         default:
             // "Error : type cannot be determined"

@@ -66,7 +66,7 @@ void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play);
 #define BEAN_STATE_DRAW_PLANT (1 << 2)
 #define BEAN_STATE_DRAW_STALK (1 << 3)
 #define BEAN_STATE_COLLIDER_SET (1 << 4)
-#define BEAN_STATE_DYNAPOLY_SET (1 << 5)
+#define BEAN_STATE_BGACTOR_SET (1 << 5)
 #define BEAN_STATE_BEEN_WATERED (1 << 6)
 #define BEAN_STATE_PLAYER_ON_TOP (1 << 7)
 
@@ -133,18 +133,17 @@ void ObjBean_InitCollider(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->bg.actor, &this->collider);
 }
 
-void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
+void ObjBean_InitBgActor(ObjBean* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    colHeader = NULL;
-
-    BgActor_Init(&this->bg, moveFlag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 374,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -494,8 +493,8 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
             ObjBean_Move(this);
             ObjBean_SetupWaitForPlayer(this);
 
-            ObjBean_InitDynaPoly(this, play, &gMagicBeanPlatformCol, DPM_UNK3);
-            this->stateFlags |= BEAN_STATE_DYNAPOLY_SET;
+            ObjBean_InitBgActor(this, play, &gMagicBeanPlatformCol, DPM_UNK3);
+            this->stateFlags |= BEAN_STATE_BGACTOR_SET;
             ObjBean_InitCollider(&this->bg.actor, play);
             this->stateFlags |= BEAN_STATE_COLLIDER_SET;
 
@@ -519,7 +518,7 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
 void ObjBean_Destroy(Actor* thisx, PlayState* play) {
     ObjBean* this = (ObjBean*)thisx;
 
-    if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
+    if (this->stateFlags & BEAN_STATE_BGACTOR_SET) {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
     if (this->stateFlags & BEAN_STATE_COLLIDER_SET) {
@@ -901,7 +900,7 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
         this->bg.actor.shape.shadowDraw = NULL;
     }
     Actor_SetFocus(&this->bg.actor, 6.0f);
-    if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
+    if (this->stateFlags & BEAN_STATE_BGACTOR_SET) {
         if (BgActor_IsPlayerOnTop(&this->bg)) {
             this->stateFlags |= BEAN_STATE_PLAYER_ON_TOP;
         } else {

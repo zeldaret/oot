@@ -59,15 +59,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, PlayState* play, CollisionHeader* collision, s32 flag) {
+void BgJyaZurerukabe_InitBgActor(BgJyaZurerukabe* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, flag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -110,7 +112,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     BgJyaZurerukabe* this = (BgJyaZurerukabe*)thisx;
     s32 i;
 
-    BgJyaZurerukabe_InitDynaPoly(this, play, &gZurerukabeCol, DPM_UNK);
+    BgJyaZurerukabe_InitBgActor(this, play, &gZurerukabeCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
 
     for (i = 0; i < ARRAY_COUNT(D_8089B9F0); i++) {

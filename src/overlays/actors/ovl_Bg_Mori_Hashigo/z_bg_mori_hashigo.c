@@ -76,18 +76,17 @@ static InitChainEntry sInitChainLadder[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
+void BgMoriHashigo_InitBgActor(BgMoriHashigo* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    colHeader = NULL;
-    BgActor_Init(&this->bg, moveFlag);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (this->bg.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashigo.c", 164,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -143,7 +142,7 @@ s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, PlayState* play) {
 }
 
 s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, PlayState* play) {
-    BgMoriHashigo_InitDynapoly(this, play, &gMoriHashigoCol, DPM_UNK);
+    BgMoriHashigo_InitBgActor(this, play, &gMoriHashigoCol, DPM_UNK);
     Actor_ProcessInitChain(&this->bg.actor, sInitChainLadder);
     return true;
 }

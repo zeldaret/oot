@@ -110,7 +110,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, PlayState* play, CollisionHeader* collision, s32 flag) {
+void BgJyaMegami_InitBgActor(BgJyaMegami* this, PlayState* play, CollisionHeader* collision, s32 flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -159,7 +159,7 @@ void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, PlayState* play, f32 arg2) 
 void BgJyaMegami_Init(Actor* thisx, PlayState* play) {
     BgJyaMegami* this = (BgJyaMegami*)thisx;
 
-    BgJyaMegami_InitDynaPoly(this, play, &GMegamiCol, DPM_UNK);
+    BgJyaMegami_InitBgActor(this, play, &GMegamiCol, DPM_UNK);
     BgJyaMegami_InitCollider(this, play);
     if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
         Actor_Kill(&this->bg.actor);

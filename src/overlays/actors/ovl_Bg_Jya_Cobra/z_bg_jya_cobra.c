@@ -115,16 +115,17 @@ void func_808958F0(Vec3f* dest, Vec3f* src, f32 arg2, f32 arg3) {
     dest->z = (src->z * arg3) - (src->x * arg2);
 }
 
-void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader* collision, s32 flags) {
+void BgJyaCobra_InitBgActor(BgJyaCobra* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    BgActor_Init(&this->bg, flags);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+
     if (this->bg.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG Registration Failure"
+        // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
                      this->bg.actor.id, this->bg.actor.params);
     }
@@ -396,7 +397,7 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
 void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
     BgJyaCobra* this = (BgJyaCobra*)thisx;
 
-    BgJyaCobra_InitDynapoly(this, play, &gCobraCol, DPM_UNK);
+    BgJyaCobra_InitBgActor(this, play, &gCobraCol, DPM_UNK);
     Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     if (!(this->bg.actor.params & 3) && Flags_GetSwitch(play, ((s32)this->bg.actor.params >> 8) & 0x3F)) {
         this->bg.actor.world.rot.y = this->bg.actor.home.rot.y = this->bg.actor.shape.rot.y = 0;

@@ -288,7 +288,7 @@ void DoorShutter_SetupType(DoorShutter* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
         this->bg.actor.objBankIndex = this->requiredObjBankIndex;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
-            // Init dynapoly for shutters of the type that uses it
+            // Init BgActor for shutters of the type that uses it
             CollisionHeader* colHeader = NULL;
 
             Actor_SetObjectDependency(play, &this->bg.actor);
