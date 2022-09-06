@@ -64,12 +64,12 @@ void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, PlayState* play, Collis
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, flag);
+    BgActor_Init(&this->bg, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -93,13 +93,13 @@ void func_8089B4C8(BgJyaZurerukabe* this, PlayState* play) {
             case 3:
             case 5:
                 if (fabsf(D_8089B9C0[D_8089BA30[i]]) > 1.0f) {
-                    func_8002F6D4(play, &this->dyna.actor, 1.5f, this->dyna.actor.shape.rot.y, 0.0f, 0);
+                    func_8002F6D4(play, &this->bg.actor, 1.5f, this->bg.actor.shape.rot.y, 0.0f, 0);
                 }
                 break;
             case 1:
             case 4:
                 if (fabsf(D_8089B9C0[D_8089BA30[i]] - D_8089B9C0[D_8089BA30[i + 1]]) > 1.0f) {
-                    func_8002F6D4(play, &this->dyna.actor, 1.5f, this->dyna.actor.shape.rot.y, 0.0f, 0);
+                    func_8002F6D4(play, &this->bg.actor, 1.5f, this->bg.actor.shape.rot.y, 0.0f, 0);
                 }
                 break;
         }
@@ -114,7 +114,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
 
     for (i = 0; i < ARRAY_COUNT(D_8089B9F0); i++) {
-        if (fabsf(D_8089B9F0[i] - this->dyna.actor.home.pos.y) < 1.0f) {
+        if (fabsf(D_8089B9F0[i] - this->bg.actor.home.pos.y) < 1.0f) {
             this->unk_168 = i;
             break;
         }
@@ -123,19 +123,19 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     if (i == ARRAY_COUNT(D_8089B9F0)) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
-                     this->dyna.actor.params);
+                     this->bg.actor.params);
         osSyncPrintf(VT_RST);
     }
 
     this->unk_16E = D_8089B9F8[this->unk_168];
     func_8089B7B4(this);
-    osSyncPrintf("(jya ずれる壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    osSyncPrintf("(jya ずれる壁)(arg_data 0x%04x)\n", this->bg.actor.params);
 }
 
 void BgJyaZurerukabe_Destroy(Actor* thisx, PlayState* play) {
     BgJyaZurerukabe* this = (BgJyaZurerukabe*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     D_8089B9C0[this->unk_168] = 0.0f;
 }
 
@@ -160,13 +160,13 @@ void func_8089B80C(BgJyaZurerukabe* this) {
 }
 
 void func_8089B870(BgJyaZurerukabe* this, PlayState* play) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (this->unk_16C * 75),
+    if (Math_StepToF(&this->bg.actor.world.pos.x, this->bg.actor.home.pos.x + (this->unk_16C * 75),
                      D_8089BA08[this->unk_168])) {
         func_8089B7B4(this);
     }
 
     D_8089B9C0[this->unk_168] = D_8089BA08[this->unk_168] * this->unk_16E;
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
 void BgJyaZurerukabe_Update(Actor* thisx, PlayState* play) {

@@ -71,9 +71,9 @@ void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&sCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     if (thisx->params != 0x23) {
         thisx->draw = NULL;
@@ -87,7 +87,7 @@ void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2) {
     BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     PlayState* play = play2;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("WHY !!!!!!!!!!!!!!!!\n");
@@ -95,7 +95,7 @@ void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2) {
 }
 
 void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
     Actor* prop;
     BgGanonOtyuka* platform;
     f32 dx;
@@ -104,7 +104,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
     Vec3f center;
     s16 i;
 
-    if (this->isFalling || ((play->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
+    if (this->isFalling || ((play->actorCtx.unk_02 != 0) && (this->bg.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
         osSyncPrintf("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
@@ -117,9 +117,9 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
 
                 platform = (BgGanonOtyuka*)prop;
 
-                dx = platform->dyna.actor.world.pos.x - this->dyna.actor.world.pos.x + D_80876A68[i].x;
-                dy = platform->dyna.actor.world.pos.y - this->dyna.actor.world.pos.y;
-                dz = platform->dyna.actor.world.pos.z - this->dyna.actor.world.pos.z + D_80876A68[i].z;
+                dx = platform->bg.actor.world.pos.x - this->bg.actor.world.pos.x + D_80876A68[i].x;
+                dy = platform->bg.actor.world.pos.y - this->bg.actor.world.pos.y;
+                dz = platform->bg.actor.world.pos.z - this->bg.actor.world.pos.z + D_80876A68[i].z;
 
                 if ((fabsf(dx) < 10.0f) && (fabsf(dy) < 10.0f) && (fabsf(dz) < 10.0f)) {
                     platform->visibleSides |= sSides[i];
@@ -133,9 +133,9 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
         osSyncPrintf("OTC O 2\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
-            center.x = this->dyna.actor.world.pos.x + D_80876A68[i].x;
-            center.y = this->dyna.actor.world.pos.y;
-            center.z = this->dyna.actor.world.pos.z + D_80876A68[i].z;
+            center.x = this->bg.actor.world.pos.x + D_80876A68[i].x;
+            center.y = this->bg.actor.world.pos.y;
+            center.z = this->bg.actor.world.pos.z + D_80876A68[i].z;
             if (BgCheck_SphVsFirstPoly(&play->colCtx, &center, 50.0f)) {
                 this->unwalledSides |= sSides[i];
             }
@@ -183,49 +183,49 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
     }
     if (this->dropTimer == 0) {
         this->flashYScale = 0.0f;
-        Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
+        Math_ApproachF(&this->bg.actor.world.pos.y, -1000.0f, 1.0f, this->bg.actor.speedXZ);
+        Math_ApproachF(&this->bg.actor.speedXZ, 100.0f, 1.0f, 2.0f);
         if (!(this->unwalledSides & OTYUKA_SIDE_EAST)) {
-            this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->bg.actor.shape.rot.z -= (s16)(this->bg.actor.speedXZ * 30.0f);
         }
         if (!(this->unwalledSides & OTYUKA_SIDE_WEST)) {
-            this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->bg.actor.shape.rot.z += (s16)(this->bg.actor.speedXZ * 30.0f);
         }
         if (!(this->unwalledSides & OTYUKA_SIDE_SOUTH)) {
-            this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->bg.actor.shape.rot.x += (s16)(this->bg.actor.speedXZ * 30.0f);
         }
         if (!(this->unwalledSides & OTYUKA_SIDE_NORTH)) {
-            this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->bg.actor.shape.rot.x -= (s16)(this->bg.actor.speedXZ * 30.0f);
         }
-        if (this->dyna.actor.world.pos.y < -750.0f) {
+        if (this->bg.actor.world.pos.y < -750.0f) {
             if (player->actor.world.pos.y < -400.0f) {
                 accel.x = accel.z = 0.0f;
                 accel.y = 0.1f;
                 velocity.x = velocity.y = velocity.z = 0.0f;
 
                 for (i = 0; i < 30; i++) {
-                    pos.x = Rand_CenteredFloat(150.0f) + this->dyna.actor.world.pos.x;
+                    pos.x = Rand_CenteredFloat(150.0f) + this->bg.actor.world.pos.x;
                     pos.y = Rand_ZeroFloat(60.0f) + -750.0f;
-                    pos.z = Rand_CenteredFloat(150.0f) + this->dyna.actor.world.pos.z;
+                    pos.z = Rand_CenteredFloat(150.0f) + this->bg.actor.world.pos.z;
                     func_8002836C(play, &pos, &velocity, &accel, &sDustPrimColor, &sDustEnvColor,
                                   (s16)Rand_ZeroFloat(100.0f) + 250, 5, (s16)Rand_ZeroFloat(5.0f) + 15);
                 }
 
                 func_80033DB8(play, 10, 15);
-                SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
+                SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
             }
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
         }
     } else {
         if (this->dropTimer == 1) {
-            Audio_PlaySfxGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_EV_STONEDOOR_STOP, &this->bg.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->bg.actor.projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
-        Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
+        Math_ApproachF(&this->bg.actor.world.pos.y, -1000.0f, 1.0f, this->bg.actor.speedXZ);
+        Math_ApproachF(&this->bg.actor.speedXZ, 100.0f, 1.0f, 0.1f);
     }
     osSyncPrintf("MODE DOWN END\n");
 }
@@ -281,19 +281,19 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {
             platform = (BgGanonOtyuka*)actor;
 
-            if (platform->dyna.actor.projectedPos.z > spBC) {
-                if (mainCam->eye.y > platform->dyna.actor.world.pos.y) {
+            if (platform->bg.actor.projectedPos.z > spBC) {
+                if (mainCam->eye.y > platform->bg.actor.world.pos.y) {
                     phi_s2 = sPlatformTopDL;
                 } else {
                     phi_s2 = sPlatformBottomDL;
                 }
-                Matrix_Translate(platform->dyna.actor.world.pos.x, platform->dyna.actor.world.pos.y,
-                                 platform->dyna.actor.world.pos.z, MTXMODE_NEW);
+                Matrix_Translate(platform->bg.actor.world.pos.x, platform->bg.actor.world.pos.y,
+                                 platform->bg.actor.world.pos.z, MTXMODE_NEW);
                 phi_s1 = NULL;
                 if (platform->isFalling) {
-                    Matrix_RotateX(BINANG_TO_RAD_ALT(platform->dyna.actor.shape.rot.x), MTXMODE_APPLY);
-                    Matrix_RotateZ(BINANG_TO_RAD_ALT(platform->dyna.actor.shape.rot.z), MTXMODE_APPLY);
-                    if (mainCam->eye.y > platform->dyna.actor.world.pos.y) {
+                    Matrix_RotateX(BINANG_TO_RAD_ALT(platform->bg.actor.shape.rot.x), MTXMODE_APPLY);
+                    Matrix_RotateZ(BINANG_TO_RAD_ALT(platform->bg.actor.shape.rot.z), MTXMODE_APPLY);
+                    if (mainCam->eye.y > platform->bg.actor.world.pos.y) {
                         phi_s1 = sPlatformBottomDL;
                     } else {
                         phi_s1 = sPlatformTopDL;
@@ -330,7 +330,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {
             platform = (BgGanonOtyuka*)actor;
 
-            if ((platform->dyna.actor.projectedPos.z > -30.0f) && (platform->flashState != FLASH_NONE)) {
+            if ((platform->bg.actor.projectedPos.z > -30.0f) && (platform->flashState != FLASH_NONE)) {
                 gSPSegment(POLY_XLU_DISP++, 0x08,
                            Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, platform->flashTimer * 4, 0, 32, 64, 1,
                                             platform->flashTimer * 4, 0, 32, 64));
@@ -339,7 +339,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                                 platform->flashPrimColorB, 0);
                 gDPSetEnvColor(POLY_XLU_DISP++, platform->flashEnvColorR, platform->flashEnvColorG,
                                platform->flashEnvColorB, 128);
-                Matrix_Translate(platform->dyna.actor.world.pos.x, 0.0f, platform->dyna.actor.world.pos.z, MTXMODE_NEW);
+                Matrix_Translate(platform->bg.actor.world.pos.x, 0.0f, platform->bg.actor.world.pos.z, MTXMODE_NEW);
 
                 for (i = 0; i < ARRAY_COUNT(sSides); i++) {
                     if (platform->unwalledSides & sSides[i]) {

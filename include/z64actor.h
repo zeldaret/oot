@@ -259,7 +259,7 @@ if neither of the above are set : blue
 #define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
 #define DYNA_INTERACT_3 (1 << 3) // Like the ACTOR_ON_TOP flag but only actors with ACTOR_FLAG_26
 
-typedef struct DynaPolyActor {
+typedef struct BgActor {
     /* 0x000 */ struct Actor actor;
     /* 0x14C */ s32 bgId;
     /* 0x150 */ f32 unk_150;
@@ -269,7 +269,7 @@ typedef struct DynaPolyActor {
     /* 0x15C */ u32 unk_15C;
     /* 0x160 */ u8 interactFlags;
     /* 0x162 */ s16 unk_162;
-} DynaPolyActor; // size = 0x164
+} BgActor; // size = 0x164
 
 typedef struct {
     /* 0x00 */ MtxF* matrices;
@@ -354,7 +354,7 @@ struct EnAObj;
 typedef void (*EnAObjActionFunc)(struct EnAObj*, struct PlayState*);
 
 typedef struct EnAObj {
-    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x000 */ BgActor bg;
     /* 0x164 */ EnAObjActionFunc actionFunc;
     /* 0x168 */ s32 rotateWaitTimer;
     /* 0x16C */ s16 textId;

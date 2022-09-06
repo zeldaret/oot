@@ -10,7 +10,7 @@ typedef void (*ObjWarp2blockActionFunc)(struct ObjWarp2block*, PlayState*);
 typedef s32 (*ObjWarp2blockFunc168)(struct ObjWarp2block*, PlayState*);
 
 typedef struct ObjWarp2block {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ObjWarp2blockActionFunc actionFunc;
     /* 0x0168 */ ObjWarp2blockFunc168 func_168;
     /* 0x016C */ s16 unk_16C;

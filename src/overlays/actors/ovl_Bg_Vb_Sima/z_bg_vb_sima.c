@@ -36,17 +36,17 @@ void BgVbSima_Init(Actor* thisx, PlayState* play) {
     BgVbSima* this = (BgVbSima*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gVolvagiaPlatformCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 }
 
 void BgVbSima_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgVbSima* this = (BgVbSima*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgVbSima_SpawnEmber(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
@@ -71,7 +71,7 @@ void BgVbSima_Update(Actor* thisx, PlayState* play) {
     static Color_RGBA8 colorRed = { 255, 10, 0, 255 };
     s32 pad;
     BgVbSima* this = (BgVbSima*)thisx;
-    BossFd* bossFd = (BossFd*)this->dyna.actor.parent;
+    BossFd* bossFd = (BossFd*)this->bg.actor.parent;
     f32 minus1 = -1.0f;
 
     this->shakeTimer++;
@@ -79,14 +79,14 @@ void BgVbSima_Update(Actor* thisx, PlayState* play) {
         s32 signal = bossFd->platformSignal;
 
         if (signal == VBSIMA_COLLAPSE) {
-            Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
-            this->dyna.actor.world.pos.z += 2.0f * Math_CosS(this->shakeTimer * 0x8000);
-            this->dyna.actor.shape.rot.x = (s16)Math_SinS(this->shakeTimer * 0x7000) * 0x37;
-            this->dyna.actor.shape.rot.z = (s16)Math_SinS(this->shakeTimer * 0x5000) * 0x37;
-            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+            Math_SmoothStepToF(&this->bg.actor.world.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
+            this->bg.actor.world.pos.z += 2.0f * Math_CosS(this->shakeTimer * 0x8000);
+            this->bg.actor.shape.rot.x = (s16)Math_SinS(this->shakeTimer * 0x7000) * 0x37;
+            this->bg.actor.shape.rot.z = (s16)Math_SinS(this->shakeTimer * 0x5000) * 0x37;
+            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->bg.actor.projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (signal == VBSIMA_KILL) {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
         }
         if (bossFd->platformSignal != VBSIMA_STAND) {
             s16 i2;
@@ -120,9 +120,9 @@ void BgVbSima_Update(Actor* thisx, PlayState* play) {
                 splashAcc.x = splashVel.x;
                 splashAcc.z = splashVel.z;
 
-                splashPos.x = this->dyna.actor.world.pos.x + edgeX;
+                splashPos.x = this->bg.actor.world.pos.x + edgeX;
                 splashPos.y = -80.0f;
-                splashPos.z = this->dyna.actor.world.pos.z + edgeZ;
+                splashPos.z = this->bg.actor.world.pos.z + edgeZ;
 
                 func_8002836C(play, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
                               (s16)Rand_ZeroFloat(100.0f) + 500, 10, 20);

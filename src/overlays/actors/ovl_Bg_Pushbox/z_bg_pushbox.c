@@ -43,29 +43,28 @@ void BgPushbox_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gBlockSmallCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    ActorShape_Init(&this->bg.actor.shape, 0.0f, NULL, 0.0f);
     BgPushbox_SetupAction(this, BgPushbox_UpdateImpl);
 }
 
 void BgPushbox_Destroy(Actor* thisx, PlayState* play) {
     BgPushbox* this = (BgPushbox*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play) {
-    this->dyna.actor.speedXZ += this->dyna.unk_150 * 0.2f;
-    this->dyna.actor.speedXZ = (this->dyna.actor.speedXZ < -1.0f)
-                                   ? -1.0f
-                                   : ((this->dyna.actor.speedXZ > 1.0f) ? 1.0f : this->dyna.actor.speedXZ);
-    Math_StepToF(&this->dyna.actor.speedXZ, 0.0f, 0.2f);
-    this->dyna.actor.world.rot.y = this->dyna.unk_158;
-    Actor_MoveForward(&this->dyna.actor);
-    Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 20.0f, 40.0f, 40.0f,
+    this->bg.actor.speedXZ += this->bg.unk_150 * 0.2f;
+    this->bg.actor.speedXZ =
+        (this->bg.actor.speedXZ < -1.0f) ? -1.0f : ((this->bg.actor.speedXZ > 1.0f) ? 1.0f : this->bg.actor.speedXZ);
+    Math_StepToF(&this->bg.actor.speedXZ, 0.0f, 0.2f);
+    this->bg.actor.world.rot.y = this->bg.unk_158;
+    Actor_MoveForward(&this->bg.actor);
+    Actor_UpdateBgCheckInfo(play, &this->bg.actor, 20.0f, 40.0f, 40.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 }
@@ -74,7 +73,7 @@ void BgPushbox_Update(Actor* thisx, PlayState* play) {
     BgPushbox* this = (BgPushbox*)thisx;
 
     this->actionFunc(this, play);
-    func_8002DF90(&this->dyna);
+    func_8002DF90(&this->bg);
 }
 
 void BgPushbox_Draw(Actor* thisx, PlayState* play) {

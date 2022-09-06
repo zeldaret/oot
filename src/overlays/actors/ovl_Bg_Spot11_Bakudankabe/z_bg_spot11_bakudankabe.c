@@ -55,14 +55,14 @@ void func_808B2180(BgSpot11Bakudankabe* this, PlayState* play) {
     s32 pad;
 
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
-    this->collider.dim.pos.x += (s16)this->dyna.actor.world.pos.x;
-    this->collider.dim.pos.y += (s16)this->dyna.actor.world.pos.y;
-    this->collider.dim.pos.z += (s16)this->dyna.actor.world.pos.z;
+    Collider_SetCylinder(play, &this->collider, &this->bg.actor, &sCylinderInit);
+    this->collider.dim.pos.x += (s16)this->bg.actor.world.pos.x;
+    this->collider.dim.pos.y += (s16)this->bg.actor.world.pos.y;
+    this->collider.dim.pos.z += (s16)this->bg.actor.world.pos.z;
 }
 
 void func_808B2218(BgSpot11Bakudankabe* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
     Vec3f burstDepthY;
     Vec3f burstDepthX;
     s32 i;
@@ -112,22 +112,22 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
-        Actor_Kill(&this->dyna.actor);
+    BgActor_Init(&this->bg, DPM_UNK);
+    if (Flags_GetSwitch(play, (this->bg.actor.params & 0x3F))) {
+        Actor_Kill(&this->bg.actor);
         return;
     }
     func_808B2180(this, play);
     CollisionHeader_GetVirtual(&gDesertColossusBombableWallCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    Actor_SetScale(&this->dyna.actor, 1.0f);
-    osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    Actor_SetScale(&this->bg.actor, 1.0f);
+    osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->bg.actor.params);
 }
 
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, PlayState* play) {
     BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyCylinder(play, &this->collider);
 }
 
@@ -136,10 +136,10 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B2218(this, play);
-        Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
+        Flags_SetSwitch(play, (this->bg.actor.params & 0x3F));
         SfxSource_PlaySfxAtFixedWorldPos(play, &D_808B2738, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
         return;
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

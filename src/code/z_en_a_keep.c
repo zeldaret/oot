@@ -112,35 +112,35 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, shadowScale);
 
     thisx->focus.pos = thisx->world.pos;
-    this->dyna.bgId = BGACTOR_NEG_ONE;
-    this->dyna.interactFlags = 0;
-    this->dyna.unk_15C = DPM_UNK;
+    this->bg.bgId = BGACTOR_NEG_ONE;
+    this->bg.interactFlags = 0;
+    this->bg.unk_15C = DPM_UNK;
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 200.0f;
 
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
         case A_OBJ_BLOCK_HUGE:
-            this->dyna.bgId = 1;
+            this->bg.bgId = 1;
             Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_BG);
             EnAObj_SetupBlock(this, thisx->params);
             break;
         case A_OBJ_BLOCK_SMALL_ROT:
         case A_OBJ_BLOCK_LARGE_ROT:
-            this->dyna.bgId = 3;
+            this->bg.bgId = 3;
             Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_BG);
             EnAObj_SetupBlockRot(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:
             this->focusYoffset = 10.0f;
             thisx->flags |= ACTOR_FLAG_0;
-            this->dyna.bgId = 5;
+            this->bg.bgId = 5;
             thisx->gravity = -2.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
             break;
         case A_OBJ_GRASS_CLUMP:
         case A_OBJ_TREE_STUMP:
-            this->dyna.bgId = 0;
+            this->bg.bgId = 0;
             EnAObj_SetupWaitTalk(this, thisx->params);
             break;
         case A_OBJ_SIGNPOST_OBLONG:
@@ -169,18 +169,18 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
     }
 
-    if (this->dyna.bgId != BGACTOR_NEG_ONE) {
-        CollisionHeader_GetVirtual(sColHeaders[this->dyna.bgId], &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    if (this->bg.bgId != BGACTOR_NEG_ONE) {
+        CollisionHeader_GetVirtual(sColHeaders[this->bg.bgId], &colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     }
 }
 
 void EnAObj_Destroy(Actor* thisx, PlayState* play) {
     EnAObj* this = (EnAObj*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             Collider_DestroyCylinder(play, &this->collider);
@@ -189,8 +189,8 @@ void EnAObj_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnAObj_WaitFinishedTalking(EnAObj* this, PlayState* play) {
-    if (Actor_TextboxIsClosing(&this->dyna.actor, play)) {
-        EnAObj_SetupWaitTalk(this, this->dyna.actor.params);
+    if (Actor_TextboxIsClosing(&this->bg.actor, play)) {
+        EnAObj_SetupWaitTalk(this, this->bg.actor.params);
     }
 }
 
@@ -201,14 +201,14 @@ void EnAObj_SetupWaitTalk(EnAObj* this, s16 type) {
 void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
     s16 relYawTowardsPlayer;
 
-    if (this->dyna.actor.textId != 0) {
-        relYawTowardsPlayer = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
+    if (this->bg.actor.textId != 0) {
+        relYawTowardsPlayer = this->bg.actor.yawTowardsPlayer - this->bg.actor.shape.rot.y;
         if (ABS(relYawTowardsPlayer) < 0x2800 ||
-            (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
-            if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+            (this->bg.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
+            if (Actor_ProcessTalkRequest(&this->bg.actor, play)) {
                 EnAObj_SetupAction(this, EnAObj_WaitFinishedTalking);
             } else {
-                func_8002F2F4(&this->dyna.actor, play);
+                func_8002F2F4(&this->bg.actor, play);
             }
         }
     }
@@ -217,24 +217,24 @@ void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
 void EnAObj_SetupBlockRot(EnAObj* this, s16 type) {
     this->rotateState = 0;
     this->rotateWaitTimer = 10;
-    this->dyna.actor.world.rot.y = 0;
-    this->dyna.actor.shape.rot = this->dyna.actor.world.rot;
+    this->bg.actor.world.rot.y = 0;
+    this->bg.actor.shape.rot = this->bg.actor.world.rot;
     EnAObj_SetupAction(this, EnAObj_BlockRot);
 }
 
 void EnAObj_BlockRot(EnAObj* this, PlayState* play) {
     if (this->rotateState == 0) {
-        if (this->dyna.interactFlags != 0) {
+        if (this->bg.interactFlags != 0) {
             this->rotateState++;
             this->rotateForTimer = 20;
 
-            if ((s16)(this->dyna.actor.yawTowardsPlayer + 0x4000) < 0) {
+            if ((s16)(this->bg.actor.yawTowardsPlayer + 0x4000) < 0) {
                 this->rotSpeedX = -0x3E8;
             } else {
                 this->rotSpeedX = 0x3E8;
             }
 
-            if (this->dyna.actor.yawTowardsPlayer < 0) {
+            if (this->bg.actor.yawTowardsPlayer < 0) {
                 this->rotSpeedY = -this->rotSpeedX;
             } else {
                 this->rotSpeedY = this->rotSpeedX;
@@ -244,18 +244,18 @@ void EnAObj_BlockRot(EnAObj* this, PlayState* play) {
         if (this->rotateWaitTimer != 0) {
             this->rotateWaitTimer--;
         } else {
-            this->dyna.actor.shape.rot.y += this->rotSpeedY;
-            this->dyna.actor.shape.rot.x += this->rotSpeedX;
+            this->bg.actor.shape.rot.y += this->rotSpeedY;
+            this->bg.actor.shape.rot.x += this->rotSpeedX;
             this->rotateForTimer--;
-            this->dyna.actor.gravity = -1.0f;
+            this->bg.actor.gravity = -1.0f;
 
             if (this->rotateForTimer == 0) {
-                this->dyna.actor.world.pos = this->dyna.actor.home.pos;
+                this->bg.actor.world.pos = this->bg.actor.home.pos;
                 this->rotateState = 0;
                 this->rotateWaitTimer = 10;
-                this->dyna.actor.velocity.y = 0.0f;
-                this->dyna.actor.gravity = 0.0f;
-                this->dyna.actor.shape.rot = this->dyna.actor.world.rot;
+                this->bg.actor.velocity.y = 0.0f;
+                this->bg.actor.gravity = 0.0f;
+                this->bg.actor.shape.rot = this->bg.actor.world.rot;
             }
         }
     }
@@ -266,74 +266,74 @@ void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type) {
 }
 
 void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
-    this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
-    this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
+    Math_SmoothStepToF(&this->bg.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
+    this->bg.actor.shape.rot.x += this->bg.actor.world.rot.x >> 1;
+    this->bg.actor.shape.rot.z += this->bg.actor.world.rot.z >> 1;
 
-    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-        this->dyna.actor.world.rot.y =
-            this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y + this->dyna.actor.wallYaw - 0x8000;
+    if (this->bg.actor.speedXZ != 0.0f && this->bg.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
+        this->bg.actor.world.rot.y =
+            this->bg.actor.wallYaw - this->bg.actor.world.rot.y + this->bg.actor.wallYaw - 0x8000;
         if (1) {}
-        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
+        this->bg.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
     }
 
-    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        if (this->dyna.actor.velocity.y < -8.0f) {
-            this->dyna.actor.velocity.y *= -0.6f;
-            this->dyna.actor.speedXZ *= 0.6f;
-            this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
+    if (this->bg.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
+        if (this->bg.actor.velocity.y < -8.0f) {
+            this->bg.actor.velocity.y *= -0.6f;
+            this->bg.actor.speedXZ *= 0.6f;
+            this->bg.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
         } else {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
         }
     }
 }
 
 void EnAObj_SetupBlock(EnAObj* this, s16 type) {
-    this->dyna.actor.uncullZoneDownward = 1200.0f;
-    this->dyna.actor.uncullZoneScale = 720.0f;
+    this->bg.actor.uncullZoneDownward = 1200.0f;
+    this->bg.actor.uncullZoneScale = 720.0f;
     EnAObj_SetupAction(this, EnAObj_Block);
 }
 
 void EnAObj_Block(EnAObj* this, PlayState* play) {
-    this->dyna.actor.speedXZ += this->dyna.unk_150;
-    this->dyna.actor.world.rot.y = this->dyna.unk_158;
-    this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
+    this->bg.actor.speedXZ += this->bg.unk_150;
+    this->bg.actor.world.rot.y = this->bg.unk_158;
+    this->bg.actor.speedXZ = CLAMP(this->bg.actor.speedXZ, -2.5f, 2.5f);
 
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->bg.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
-    if (this->dyna.actor.speedXZ != 0.0f) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    if (this->bg.actor.speedXZ != 0.0f) {
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 
-    this->dyna.unk_154 = 0.0f;
-    this->dyna.unk_150 = 0.0f;
+    this->bg.unk_154 = 0.0f;
+    this->bg.unk_150 = 0.0f;
 }
 
 void EnAObj_Update(Actor* thisx, PlayState* play) {
     EnAObj* this = (EnAObj*)thisx;
 
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
-    if (this->dyna.actor.gravity != 0.0f) {
-        if (this->dyna.actor.params != A_OBJ_BOULDER_FRAGMENT) {
-            Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 5.0f, 40.0f, 0.0f,
+    if (this->bg.actor.gravity != 0.0f) {
+        if (this->bg.actor.params != A_OBJ_BOULDER_FRAGMENT) {
+            Actor_UpdateBgCheckInfo(play, &this->bg.actor, 5.0f, 40.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                         UPDBGCHECKINFO_FLAG_4);
         } else {
-            Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 5.0f, 20.0f, 0.0f,
+            Actor_UpdateBgCheckInfo(play, &this->bg.actor, 5.0f, 20.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                         UPDBGCHECKINFO_FLAG_4);
         }
     }
 
-    this->dyna.actor.focus.pos = this->dyna.actor.world.pos;
-    this->dyna.actor.focus.pos.y += this->focusYoffset;
+    this->bg.actor.focus.pos = this->bg.actor.world.pos;
+    this->bg.actor.focus.pos.y += this->focusYoffset;
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+            Collider_UpdateCylinder(&this->bg.actor, &this->collider);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             break;
     }

@@ -14,7 +14,7 @@ typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, PlayState*);
 #define COBRA_SHADOW_TEX_PTR(this) (u8*)ALIGN16((uintptr_t)&(this)->shadowTextureBuffer)
 
 typedef struct BgJyaCobra {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgJyaCobraActionFunc actionFunc;
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 unk_16A;

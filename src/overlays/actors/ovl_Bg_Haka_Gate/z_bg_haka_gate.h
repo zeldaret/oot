@@ -9,7 +9,7 @@ struct BgHakaGate;
 typedef void (*BgHakaGateActionFunc)(struct BgHakaGate*, PlayState*);
 
 typedef struct BgHakaGate {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgHakaGateActionFunc actionFunc;
     /* 0x0168 */ u8 switchFlag;
     /* 0x016A */ s16 actionVar1;

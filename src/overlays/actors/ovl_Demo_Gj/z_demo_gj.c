@@ -77,21 +77,21 @@ typedef void (*DemoGjDrawFunc)(DemoGj*, PlayState*);
 
 // bits 11-15
 s32 DemoGj_GetCollectibleType(DemoGj* this) {
-    s32 params = this->dyna.actor.params >> 0xB;
+    s32 params = this->bg.actor.params >> 0xB;
 
     return params & 0x1F;
 }
 
 // bits 8-10
 s32 DemoGj_GetCollectibleAmount(DemoGj* this) {
-    s32 params = this->dyna.actor.params >> 0x8;
+    s32 params = this->bg.actor.params >> 0x8;
 
     return params & 7;
 }
 
 // bits 0-7
 s32 DemoGj_GetType(DemoGj* this) {
-    s32 params = this->dyna.actor.params;
+    s32 params = this->bg.actor.params;
 
     return params & 0xFF;
 }
@@ -99,7 +99,7 @@ s32 DemoGj_GetType(DemoGj* this) {
 void DemoGj_InitCylinder(DemoGj* this, PlayState* play, ColliderCylinder* cylinder,
                          ColliderCylinderInitType1* cylinderInit) {
     Collider_InitCylinder(play, cylinder);
-    Collider_SetCylinderType1(play, cylinder, &this->dyna.actor, cylinderInit);
+    Collider_SetCylinderType1(play, cylinder, &this->bg.actor, cylinderInit);
 }
 
 s32 DemoGj_HitByExplosion(DemoGj* this, PlayState* play, ColliderCylinder* cylinder) {
@@ -133,11 +133,11 @@ void DemoGj_Destroy(Actor* thisx, PlayState* play) {
     DemoGj* this = (DemoGj*)thisx;
 
     DemoGj_DestroyCylinder(this, play);
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void DemoGj_PlayExplosionSfx(DemoGj* this, PlayState* play) {
-    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGj_SpawnSmoke(PlayState* play, Vec3f* pos, f32 arg2) {
@@ -152,7 +152,7 @@ void DemoGj_SpawnSmoke(PlayState* play, Vec3f* pos, f32 arg2) {
 }
 
 void DemoGj_DropCollectible(DemoGj* this, PlayState* play) {
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     s16 collectible = DemoGj_GetCollectibleType(this);
     s32 amount = DemoGj_GetCollectibleAmount(this);
     s32 i;
@@ -220,14 +220,14 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
                 this->ganon = (BossGanon2*)actor;
 
                 // "Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!"
-                osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
+                osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->bg.actor.params);
                 return true;
             }
             actor = actor->next;
         }
 
         // "Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon"
-        osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
+        osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->bg.actor.params);
         return false;
     }
     //! @bug: Missing return value when `this->ganon` is already set.
@@ -242,11 +242,11 @@ void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
     CollisionHeader* newHeader;
 
     if (header != NULL) {
-        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+        BgActor_Init(&this->bg, DPM_UNK);
         newHeader = NULL;
         CollisionHeader_GetVirtual(header, &newHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, newHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, newHeader);
     }
 }
 
@@ -258,7 +258,7 @@ s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 dra
         DemoGj_InitCommon(this, play, header);
         return true;
     }
-    Actor_Kill(&this->dyna.actor);
+    Actor_Kill(&this->bg.actor);
     return false;
 }
 
@@ -309,9 +309,9 @@ void DemoGj_DrawRotated(DemoGj* this, PlayState* play, Gfx* displayList) {
 }
 
 void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
-    f32 yPosition = this->dyna.actor.world.pos.y;
-    f32* yVelocity = &this->dyna.actor.velocity.y;
-    f32* speedXZ = &this->dyna.actor.speedXZ;
+    f32 yPosition = this->bg.actor.world.pos.y;
+    f32* yVelocity = &this->bg.actor.velocity.y;
+    f32* speedXZ = &this->bg.actor.speedXZ;
     Vec3s* unk_172 = &this->unk_172;
     f32 verticalTranslation;
     Vec3f vec;
@@ -385,7 +385,7 @@ void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
         default:
             // "Demo_Gj_common_Reflect : This arg_data is not supported = %d"
             osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
-                         this->dyna.actor.params);
+                         this->bg.actor.params);
             return;
     }
 
@@ -399,7 +399,7 @@ void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
             unk_172->y *= vec.y;
             unk_172->z *= vec.z;
 
-            if (*yVelocity <= -this->dyna.actor.gravity) {
+            if (*yVelocity <= -this->bg.actor.gravity) {
                 *yVelocity = 0.0f;
                 *speedXZ = 0.0f;
 
@@ -453,7 +453,7 @@ s32 DemoGj_IsGanondorfFloatingInAir(DemoGj* this, PlayState* play) {
 }
 
 void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
-    Actor* actor = &this->dyna.actor;
+    Actor* actor = &this->bg.actor;
     Player* player;
     Vec3f* pos = &actor->world.pos;
     Vec3s* unk_172;
@@ -568,7 +568,7 @@ void DemoGj_InitRubblePile1(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A000(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
     this->rotationVec.x += (s16)(kREG(18));
     this->rotationVec.y += (s16)(kREG(19) + 1000);
@@ -604,7 +604,7 @@ void func_8097A0E4(DemoGj* this, PlayState* play) {
 
 void func_8097A130(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -633,7 +633,7 @@ void DemoGj_InitRubblePile2(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A238(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
     this->rotationVec.x += (s16)(kREG(31));
     this->rotationVec.y += (s16)(kREG(32) + 1000);
@@ -669,7 +669,7 @@ void func_8097A320(DemoGj* this, PlayState* play) {
 
 void func_8097A36C(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -698,7 +698,7 @@ void DemoGj_InitRubblePile3(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A474(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
     this->rotationVec.x += (s16)(kREG(44));
     this->rotationVec.y += (s16)(kREG(45) + 1000);
@@ -717,7 +717,7 @@ void func_8097A4F0(DemoGj* this, PlayState* play) {
 
 void func_8097A53C(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -746,7 +746,7 @@ void DemoGj_InitRubblePile4(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A644(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
     this->rotationVec.x += (s16)(kREG(57));
     this->rotationVec.y += (s16)(kREG(58) + 1000);
@@ -765,7 +765,7 @@ void func_8097A6C0(DemoGj* this, PlayState* play) {
 
 void func_8097A70C(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -794,7 +794,7 @@ void DemoGj_InitRubblePile5(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A814(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
     this->rotationVec.x += (s16)(kREG(70));
     this->rotationVec.y += (s16)(kREG(71) + 1000);
@@ -813,7 +813,7 @@ void func_8097A890(DemoGj* this, PlayState* play) {
 
 void func_8097A8DC(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -842,7 +842,7 @@ void DemoGj_InitRubblePile6(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A9E4(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
     this->rotationVec.x += (s16)(kREG(83));
     this->rotationVec.y += (s16)(kREG(84) + 1000);
@@ -861,7 +861,7 @@ void func_8097AA60(DemoGj* this, PlayState* play) {
 
 void func_8097AAAC(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -890,7 +890,7 @@ void DemoGj_InitRubblePile7(DemoGj* this, PlayState* play) {
 }
 
 void func_8097ABB4(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForward(&this->bg.actor);
 
     this->rotationVec.x += (s16)(kREG(15));
     this->rotationVec.y += (s16)(kREG(14) + 1000);
@@ -926,7 +926,7 @@ void func_8097AC9C(DemoGj* this, PlayState* play) {
 
 void func_8097ACE8(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -985,9 +985,9 @@ void func_8097AEE8(DemoGj* this, PlayState* play) {
     ColliderCylinder* cylinder0 = &this->cylinders[0];
     ColliderCylinder* cylinder1 = &this->cylinders[1];
     ColliderCylinder* cylinder2 = &this->cylinders[2];
-    Vec3f* actorPos = &this->dyna.actor.world.pos;
+    Vec3f* actorPos = &this->bg.actor.world.pos;
     s32 pad;
-    s16 theta = this->dyna.actor.world.rot.y;
+    s16 theta = this->bg.actor.world.rot.y;
     f32 cos_theta = Math_CosS(theta);
     f32 sin_theta = Math_SinS(theta);
 
@@ -1019,16 +1019,16 @@ void DemoGj_SetCylindersAsAC(DemoGj* this, PlayState* play) {
 void DemoGj_DirectedExplosion(DemoGj* this, PlayState* play, Vec3f* direction) {
     Vec3f pos;
 
-    pos.x = this->dyna.actor.world.pos.x;
-    pos.y = this->dyna.actor.world.pos.y;
-    pos.z = this->dyna.actor.world.pos.z;
+    pos.x = this->bg.actor.world.pos.x;
+    pos.y = this->bg.actor.world.pos.y;
+    pos.z = this->bg.actor.world.pos.z;
 
     DemoGj_Explode(this, play, &pos, direction);
 }
 
 void func_8097B128(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Vec3f* scale = &this->dyna.actor.scale;
+        Vec3f* scale = &this->bg.actor.scale;
 
         DemoGj_InitCommon(this, play, &gGanonsCastleRubble2Col);
         this->updateMode = 18;
@@ -1058,7 +1058,7 @@ s32 DemoGj_HasCylinderAnyExploded(DemoGj* this, PlayState* play) {
  * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1
  */
 void func_8097B22C(DemoGj* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(thisx);
@@ -1115,9 +1115,9 @@ void func_8097B450(DemoGj* this, PlayState* play) {
     ColliderCylinder* cylinder0 = &this->cylinders[0];
     ColliderCylinder* cylinder1 = &this->cylinders[1];
     ColliderCylinder* cylinder2 = &this->cylinders[2];
-    Vec3f* actorPos = &this->dyna.actor.world.pos;
+    Vec3f* actorPos = &this->bg.actor.world.pos;
     s32 pad;
-    s16 theta = this->dyna.actor.world.rot.y;
+    s16 theta = this->bg.actor.world.rot.y;
     f32 cos_theta = Math_CosS(theta);
     f32 sin_theta = Math_SinS(theta);
 
@@ -1163,16 +1163,16 @@ s32 DemoGj_HasCylinderAnyExploded2(DemoGj* this, PlayState* play) {
 void DemoGj_DirectedExplosion2(DemoGj* this, PlayState* play, Vec3f* direction) {
     Vec3f pos;
 
-    pos.x = this->dyna.actor.world.pos.x;
-    pos.y = this->dyna.actor.world.pos.y;
-    pos.z = this->dyna.actor.world.pos.z;
+    pos.x = this->bg.actor.world.pos.x;
+    pos.y = this->bg.actor.world.pos.y;
+    pos.z = this->bg.actor.world.pos.z;
 
     DemoGj_Explode(this, play, &pos, direction);
 }
 
 void func_8097B6C4(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Vec3f* scale = &this->dyna.actor.scale;
+        Vec3f* scale = &this->bg.actor.scale;
 
         DemoGj_InitCommon(this, play, &gGanonsCastleRubble3Col);
         this->updateMode = 19;
@@ -1189,7 +1189,7 @@ void func_8097B6C4(DemoGj* this, PlayState* play) {
  * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2
  */
 void func_8097B750(DemoGj* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(thisx);
@@ -1242,20 +1242,20 @@ void DemoGj_DoNothing3(DemoGj* this, PlayState* play) {
 void DemoGj_DirectedDoubleExplosion(DemoGj* this, PlayState* play, Vec3f* direction) {
     Vec3f pos;
 
-    pos.x = this->dyna.actor.world.pos.x;
-    pos.y = this->dyna.actor.world.pos.y;
-    pos.z = this->dyna.actor.world.pos.z;
+    pos.x = this->bg.actor.world.pos.x;
+    pos.y = this->bg.actor.world.pos.y;
+    pos.z = this->bg.actor.world.pos.z;
     DemoGj_Explode(this, play, &pos, direction);
 
-    pos.x = this->dyna.actor.world.pos.x;
-    pos.y = this->dyna.actor.world.pos.y + 100.0f;
-    pos.z = this->dyna.actor.world.pos.z;
+    pos.x = this->bg.actor.world.pos.x;
+    pos.y = this->bg.actor.world.pos.y + 100.0f;
+    pos.z = this->bg.actor.world.pos.z;
     DemoGj_Explode(this, play, &pos, direction);
 }
 
 void func_8097B9BC(DemoGj* this, PlayState* play) {
     if (DemoGj_IsGanondorfFloatingInAir(this, play)) {
-        Vec3f* scale = &this->dyna.actor.scale;
+        Vec3f* scale = &this->bg.actor.scale;
 
         DemoGj_InitCommon(this, play, &gGanonsCastleRubbleTallCol);
         this->updateMode = 20;
@@ -1272,7 +1272,7 @@ void func_8097B9BC(DemoGj* this, PlayState* play) {
  * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL
  */
 void func_8097BA48(DemoGj* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
     ColliderCylinder* cylinder = &this->cylinders[0];
     s32 pad[2];
 
@@ -1403,7 +1403,7 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
         default:
             // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
             osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
     }
 }
 

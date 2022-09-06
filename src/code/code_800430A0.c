@@ -58,12 +58,12 @@ void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
 
 void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
-        DynaPolyActor* dynaActor = DynaPoly_GetActor(colCtx, bgId);
-        if (dynaActor != NULL) {
-            DynaPolyActor_SetActorOnTop(dynaActor);
+        BgActor* bgActor = DynaPoly_GetActor(colCtx, bgId);
+        if (bgActor != NULL) {
+            BgActor_SetActorOnTop(bgActor);
 
             if (CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_26)) {
-                func_80043538(dynaActor);
+                func_80043538(bgActor);
             }
         }
     }
@@ -75,7 +75,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
  */
 s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     s32 result = false;
-    DynaPolyActor* dynaActor;
+    BgActor* bgActor;
 
     if (DynaPoly_IsBgIdBgActor(bgId) == false) {
         return false;
@@ -85,18 +85,18 @@ s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor) {
         return false;
     }
 
-    dynaActor = DynaPoly_GetActor(colCtx, bgId);
+    bgActor = DynaPoly_GetActor(colCtx, bgId);
 
-    if (dynaActor == NULL) {
+    if (bgActor == NULL) {
         return false;
     }
 
-    if (dynaActor->unk_15C & 1) {
+    if (bgActor->unk_15C & 1) {
         func_800430A0(colCtx, bgId, actor);
         result = true;
     }
 
-    if (dynaActor->unk_15C & 2) {
+    if (bgActor->unk_15C & 2) {
         func_800432A0(colCtx, bgId, actor);
         result = true;
     }

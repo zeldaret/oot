@@ -43,8 +43,8 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, PlayState* play) {
     f32 sinY;
     f32 cosY;
 
-    sinY = Math_SinS(this->dyna.actor.shape.rot.y);
-    cosY = Math_CosS(this->dyna.actor.shape.rot.y);
+    sinY = Math_SinS(this->bg.actor.shape.rot.y);
+    cosY = Math_CosS(this->bg.actor.shape.rot.y);
 
     burstDepthX.z = 0.0f;
     burstDepthX.x = 0.0f;
@@ -59,9 +59,9 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, PlayState* play) {
         temp1 = (Rand_ZeroOne() - 0.5f) * 140.0f;
         temp2 = (Rand_ZeroOne() - 0.5f) * 20.0f;
 
-        burstDepthY.x = this->dyna.actor.world.pos.x + temp2 * sinY + (temp1 * cosY);
-        burstDepthY.y = this->dyna.actor.world.pos.y + 30.0f + (i * 6.5f);
-        burstDepthY.z = this->dyna.actor.world.pos.z + temp2 * cosY - (temp1 * sinY);
+        burstDepthY.x = this->bg.actor.world.pos.x + temp2 * sinY + (temp1 * cosY);
+        burstDepthY.y = this->bg.actor.world.pos.y + 30.0f + (i * 6.5f);
+        burstDepthY.z = this->bg.actor.world.pos.z + temp2 * cosY - (temp1 * sinY);
 
         burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
         scale = Rand_ZeroOne() * 55.0f + 8.0f;
@@ -82,7 +82,7 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, PlayState* play) {
         EffectSsKakera_Spawn(play, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4,
                              0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
-    Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.world.pos);
+    Math_Vec3f_Copy(&burstDepthY, &this->bg.actor.world.pos);
     func_80033480(play, &burstDepthY, 60.0f, 4, 110, 160, 1);
     burstDepthY.y += 40.0f;
     func_80033480(play, &burstDepthY, 60.0f, 4, 120, 160, 1);
@@ -95,30 +95,30 @@ void BgSpot17Bakudankabe_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
-        Actor_Kill(&this->dyna.actor);
+    BgActor_Init(&this->bg, DPM_UNK);
+    if (Flags_GetSwitch(play, (this->bg.actor.params & 0x3F))) {
+        Actor_Kill(&this->bg.actor);
         return;
     }
 
     CollisionHeader_GetVirtual(&gCraterBombableWallCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 }
 
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, PlayState* play) {
     BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, PlayState* play) {
     BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
-    if (this->dyna.actor.xzDistToPlayer < 650.0f && func_80033684(play, &this->dyna.actor) != NULL) {
+    if (this->bg.actor.xzDistToPlayer < 650.0f && func_80033684(play, &this->bg.actor) != NULL) {
         func_808B6BC0(this, play);
-        Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        Flags_SetSwitch(play, (this->bg.actor.params & 0x3F));
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 

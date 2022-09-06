@@ -3,7 +3,7 @@
 
 struct PlayState;
 struct Actor;
-struct DynaPolyActor;
+struct BgActor;
 
 #define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
 #define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
@@ -255,7 +255,7 @@ typedef struct {
     /* 0x54 */ Sphere16 boundingSphere;
     /* 0x5C */ f32 minY;
     /* 0x60 */ f32 maxY;
-} BgActor; // size = 0x64
+} DynaPolyActor; // size = 0x64
 
 #define BGACTOR_IN_USE (1 << 0) // The bgActor entry is in use
 #define BGACTOR_1 (1 << 1)
@@ -264,7 +264,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u8 bitFlag;
-    /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
+    /* 0x0004 */ DynaPolyActor bgActors[BG_ACTOR_MAX];
     /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX];
     /* 0x13F0 */ CollisionPoly* polyList;
     /* 0x13F4 */ Vec3s* vtxList;

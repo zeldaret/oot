@@ -37,17 +37,17 @@ void BgSstFloor_Init(Actor* thisx, PlayState* play) {
     BgSstFloor* this = (BgSstFloor*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gBongoDrumCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 }
 
 void BgSstFloor_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgSstFloor* this = (BgSstFloor*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgSstFloor_Update(Actor* thisx, PlayState* play) {
@@ -60,29 +60,28 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    if (DynaPolyActor_IsPlayerAbove(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
+    if (BgActor_IsPlayerAbove(&this->bg) && (this->bg.actor.yDistToPlayer < 1000.0f)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BOSS_BONGO);
     } else {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
 
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && (player->fallDistance > 1000.0f)) {
-        this->dyna.actor.params = 1;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
+    if (BgActor_IsPlayerOnTop(&this->bg) && (player->fallDistance > 1000.0f)) {
+        this->bg.actor.params = 1;
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
     }
 
-    if (this->dyna.actor.params == BONGOFLOOR_HIT) {
+    if (this->bg.actor.params == BONGOFLOOR_HIT) {
         Actor* item00 = play->actorCtx.actorLists[ACTORCAT_MISC].head;
         f32 distFromRim;
         f32 xzDist;
 
         this->drumAmp = 80;
-        this->dyna.actor.params = BONGOFLOOR_REST;
+        this->bg.actor.params = BONGOFLOOR_REST;
         this->drumPhase = 28;
 
-        if (DynaPolyActor_IsPlayerOnTop(&this->dyna) &&
-            !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
-            distFromRim = 600.0f - this->dyna.actor.xzDistToPlayer;
+        if (BgActor_IsPlayerOnTop(&this->bg) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+            distFromRim = 600.0f - this->bg.actor.xzDistToPlayer;
             if (distFromRim > 0.0f) {
                 if (distFromRim > 350.0f) {
                     distFromRim = 350.0f;
@@ -94,7 +93,7 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
 
         while (item00 != NULL) {
             if ((item00->id == ACTOR_EN_ITEM00) && (item00->world.pos.y == 0.0f)) {
-                xzDist = Actor_WorldDistXZToActor(&this->dyna.actor, item00);
+                xzDist = Actor_WorldDistXZToActor(&this->bg.actor, item00);
                 distFromRim = 600.0f - xzDist;
                 if (xzDist < 600.0f) {
                     if (distFromRim > 350.0f) {
@@ -112,7 +111,7 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
 
     colHeader->vtxList[1].y = colHeader->vtxList[0].y = colHeader->vtxList[2].y = colHeader->vtxList[3].y =
         colHeader->vtxList[4].y = colHeader->vtxList[7].y = colHeader->vtxList[9].y = colHeader->vtxList[11].y =
-            colHeader->vtxList[13].y = this->dyna.actor.home.pos.y + this->drumHeight;
+            colHeader->vtxList[13].y = this->bg.actor.home.pos.y + this->drumHeight;
 
     if (this->drumPhase != 0) {
         this->drumPhase--;

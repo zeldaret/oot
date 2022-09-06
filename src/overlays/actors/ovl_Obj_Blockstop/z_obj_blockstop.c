@@ -40,18 +40,18 @@ void ObjBlockstop_Destroy(Actor* thisx, PlayState* play) {
 
 void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
     ObjBlockstop* this = (ObjBlockstop*)thisx;
-    DynaPolyActor* dynaPolyActor;
+    BgActor* bgActor;
     Vec3f sp4C;
     s32 bgId;
     s32 pad;
 
     if (BgCheck_EntityLineTest2(&play->colCtx, &this->actor.home.pos, &this->actor.world.pos, &sp4C,
                                 &this->actor.floorPoly, false, false, true, true, &bgId, &this->actor)) {
-        dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
+        bgActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
-        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
-            if ((dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
-                (dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
+        if (bgActor != NULL && bgActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
+            if ((bgActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
+                (bgActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
             } else {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);

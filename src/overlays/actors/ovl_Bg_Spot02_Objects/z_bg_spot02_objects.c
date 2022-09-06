@@ -52,7 +52,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, 0);
+    BgActor_Init(&this->bg, 0);
     this->unk_16B = (u16)(thisx->params >> 8);
     thisx->params = (u16)(thisx->params & 0xFF);
 
@@ -85,7 +85,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0133EC, &colHeader);
             }
 
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
             if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneId == SCENE_SPOT02) && (thisx->params == 2)) ||
                 (LINK_IS_ADULT && (thisx->params == 1))) {
@@ -117,7 +117,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
 void BgSpot02Objects_Destroy(Actor* thisx, PlayState* play) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808AC8FC(BgSpot02Objects* this, PlayState* play) {
@@ -129,12 +129,12 @@ void func_808AC908(BgSpot02Objects* this, PlayState* play) {
 
     if (play->csCtx.state != 0) {
         if (play->csCtx.npcActions[3] != NULL && play->csCtx.npcActions[3]->action == 2) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_GRAVE_EXPLOSION);
             SET_EVENTCHKINF(EVENTCHKINF_1D);
             this->timer = 25;
-            pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * 50.0f) + this->dyna.actor.world.pos.x;
-            pos.y = this->dyna.actor.world.pos.y + 30.0f;
-            pos.z = (Math_CosS(this->dyna.actor.shape.rot.y) * 50.0f) + this->dyna.actor.world.pos.z;
+            pos.x = (Math_SinS(this->bg.actor.shape.rot.y) * 50.0f) + this->bg.actor.world.pos.x;
+            pos.y = this->bg.actor.world.pos.y + 30.0f;
+            pos.z = (Math_CosS(this->bg.actor.shape.rot.y) * 50.0f) + this->bg.actor.world.pos.z;
             EffectSsBomb2_SpawnLayered(play, &pos, &zeroVec, &zeroVec, 70, 30);
             this->actionFunc = func_808ACA08;
         }
@@ -149,11 +149,11 @@ void func_808ACA08(BgSpot02Objects* this, PlayState* play) {
     }
 
     if (this->timer == 20) {
-        this->dyna.actor.draw = NULL;
-        EffectSsHahen_SpawnBurst(play, &this->dyna.actor.world.pos, 30.0f, 0, 25, 5, 40, OBJECT_SPOT02_OBJECTS, 20,
+        this->bg.actor.draw = NULL;
+        EffectSsHahen_SpawnBurst(play, &this->bg.actor.world.pos, 30.0f, 0, 25, 5, 40, OBJECT_SPOT02_OBJECTS, 20,
                                  object_spot02_objects_DL_012D30);
     } else if (this->timer == 0) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 
     if (play->csCtx.frames == 402) {
@@ -167,18 +167,18 @@ void func_808ACA08(BgSpot02Objects* this, PlayState* play) {
 
 void func_808ACAFC(BgSpot02Objects* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->unk_16B)) {
-        Actor_SetFocus(&this->dyna.actor, 60.0f);
-        OnePointCutscene_Attention(play, &this->dyna.actor);
+        Actor_SetFocus(&this->bg.actor, 60.0f);
+        OnePointCutscene_Attention(play, &this->bg.actor);
         this->actionFunc = func_808ACB58;
     }
 }
 
 void func_808ACB58(BgSpot02Objects* this, PlayState* play) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 255.0f, 1.0f)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 255.0f, 1.0f)) {
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808AC8FC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
     }
 }
 
@@ -203,7 +203,7 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
         this->unk_16A++;
 
         if (this->unk_16A >= 12) {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
         }
     }
 
@@ -267,13 +267,13 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
     if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL && play->csCtx.npcActions[2]->action == 2) {
         if (this->timer == 2) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_IT_EXPLOSION_ICE);
         }
 
         if (this->timer < 32) {
             this->timer++;
         } else {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
         }
     }
 }

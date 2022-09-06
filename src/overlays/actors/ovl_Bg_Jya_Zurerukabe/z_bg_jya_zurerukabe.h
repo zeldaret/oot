@@ -9,7 +9,7 @@ struct BgJyaZurerukabe;
 typedef void (*BgJyaZurerukabeActionFunc)(struct BgJyaZurerukabe*, PlayState*);
 
 typedef struct BgJyaZurerukabe {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgJyaZurerukabeActionFunc actionFunc;
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 unk_16A;

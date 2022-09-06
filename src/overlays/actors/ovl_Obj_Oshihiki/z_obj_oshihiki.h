@@ -30,7 +30,7 @@ typedef enum {
 typedef void (*ObjOshihikiActionFunc)(struct ObjOshihiki*, PlayState*);
 
 typedef struct ObjOshihiki {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ObjOshihikiActionFunc actionFunc;
     /* 0x0168 */ u16 stateFlags;
     /* 0x016A */ s16 timer;

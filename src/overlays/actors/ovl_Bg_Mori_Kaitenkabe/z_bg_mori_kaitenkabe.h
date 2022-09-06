@@ -9,7 +9,7 @@ struct BgMoriKaitenkabe;
 typedef void (*BgMoriKaitenkabeActionFunc)(struct BgMoriKaitenkabe*, PlayState*);
 
 typedef struct BgMoriKaitenkabe {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgMoriKaitenkabeActionFunc actionFunc;
     /* 0x0168 */ s32 timer;
     /* 0x016C */ f32 rotDirection;

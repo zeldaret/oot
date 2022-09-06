@@ -9,7 +9,7 @@ struct EnAm;
 typedef void (*EnAmActionFunc)(struct EnAm*, PlayState*);
 
 typedef struct EnAm {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ s32 behavior;
     /* 0x01AC */ Vec3s jointTable[14];

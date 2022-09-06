@@ -58,14 +58,14 @@ void EnBlkobj_Init(Actor* thisx, PlayState* play) {
     EnBlkobj* this = (EnBlkobj*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    if (Flags_GetClear(play, this->dyna.actor.room)) {
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
+    if (Flags_GetClear(play, this->bg.actor.room)) {
         this->alpha = 255;
         EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
         CollisionHeader_GetVirtual(&gIllusionRoomCol, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
         EnBlkobj_SetupAction(this, EnBlkobj_Wait);
     }
 }
@@ -74,22 +74,22 @@ void EnBlkobj_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     EnBlkobj* this = (EnBlkobj*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void EnBlkobj_Wait(EnBlkobj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->dyna.actor.xzDistToPlayer < 120.0f) {
+    if (this->bg.actor.xzDistToPlayer < 120.0f) {
         EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);
     }
     player->stateFlags2 |= PLAYER_STATE2_26;
 }
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, PlayState* play) {
-    if (!(this->dyna.actor.flags & ACTOR_FLAG_6)) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TORCH2, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
-                    this->dyna.actor.world.pos.z, 0, this->dyna.actor.yawTowardsPlayer, 0, 0);
+    if (!(this->bg.actor.flags & ACTOR_FLAG_6)) {
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TORCH2, this->bg.actor.world.pos.x, this->bg.actor.world.pos.y,
+                    this->bg.actor.world.pos.z, 0, this->bg.actor.yawTowardsPlayer, 0, 0);
         EnBlkobj_SetupAction(this, EnBlkobj_DarkLinkFight);
     }
 }
@@ -99,7 +99,7 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, PlayState* play) {
 
     if (this->timer == 0) {
         if (Actor_Find(&play->actorCtx, ACTOR_EN_TORCH2, ACTORCAT_BOSS) == NULL) {
-            Flags_SetClear(play, this->dyna.actor.room);
+            Flags_SetClear(play, this->bg.actor.room);
             this->timer++;
         }
     } else if (this->timer++ > 100) {
@@ -111,7 +111,7 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, PlayState* play) {
         if (this->alpha > 255) {
             this->alpha = 255;
             EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
         }
     }
 }

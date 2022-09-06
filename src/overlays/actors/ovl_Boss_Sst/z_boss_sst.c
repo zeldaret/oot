@@ -431,10 +431,10 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         Math_Vec3f_Copy(&sSubCamAt, &player->actor.world.pos);
         if (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             if (!this->ready) {
-                sFloor->dyna.actor.params = BONGOFLOOR_HIT;
+                sFloor->bg.actor.params = BONGOFLOOR_HIT;
                 this->ready = true;
                 func_800AA000(this->actor.xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
-                Audio_PlayActorSfx2(&sFloor->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
+                Audio_PlayActorSfx2(&sFloor->bg.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
             } else if (GET_EVENTCHKINF(EVENTCHKINF_77)) {
                 sHands[RIGHT]->actor.draw = BossSst_DrawHand;
                 sHands[LEFT]->actor.draw = BossSst_DrawHand;
@@ -1272,7 +1272,7 @@ void BossSst_HandDownbeat(BossSst* this, PlayState* play) {
         }
 
         if (this->timer == 0) {
-            sFloor->dyna.actor.params = BONGOFLOOR_HIT;
+            sFloor->bg.actor.params = BONGOFLOOR_HIT;
             if (sHead->actionFunc == BossSst_HeadWait) {
                 if (this->ready) {
                     BossSst_HandSelectAttack(this);
@@ -1289,7 +1289,7 @@ void BossSst_HandDownbeat(BossSst* this, PlayState* play) {
 }
 
 void BossSst_HandSetupDownbeatEnd(BossSst* this) {
-    sFloor->dyna.actor.params = BONGOFLOOR_HIT;
+    sFloor->bg.actor.params = BONGOFLOOR_HIT;
     Animation_PlayOnce(&this->skelAnime, sHandFlatPoses[this->actor.params]);
     this->actionFunc = BossSst_HandDownbeatEnd;
 }

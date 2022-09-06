@@ -67,14 +67,14 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHe
     CollisionHeader* colHeader = NULL;
     s16 pad2;
 
-    DynaPolyActor_Init(&this->dyna, flag);
+    BgActor_Init(&this->bg, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
 
         // "Warning: move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -82,36 +82,36 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->bg.actor, &sJntSphInit, this->colliderItems);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
     BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
-    if ((this->dyna.actor.params & 0x3F) != 0x29) {
+    if ((this->bg.actor.params & 0x3F) != 0x29) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
 
         // "Warning: Switch Number changed (%s %d)(SW %d)"
         osSyncPrintf("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
-                     this->dyna.actor.params & 0x3F);
+                     this->bg.actor.params & 0x3F);
         osSyncPrintf(VT_RST);
     }
     BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, DPM_UNK);
     BgJyaBombiwa_InitCollider(this, play);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
-        Actor_Kill(&this->dyna.actor);
+    if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
+        Actor_Kill(&this->bg.actor);
     } else {
-        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+        Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 
         // "Rock destroyed by jya bomb"
-        osSyncPrintf("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", this->dyna.actor.params);
+        osSyncPrintf("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", this->bg.actor.params);
     }
 }
 
 void BgJyaBombiwa_Destroy(Actor* thisx, PlayState* play) {
     BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyJntSph(play, &this->collider);
 }
 
@@ -125,9 +125,9 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, PlayState* play) {
     s16 scale;
 
     for (i = 0; i < 16; i++) {
-        pos.x = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.world.pos.x) - 40.0f;
-        pos.y = (Rand_ZeroOne() * 140.0f) + this->dyna.actor.world.pos.y;
-        pos.z = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.world.pos.z) - 40.0f;
+        pos.x = ((Rand_ZeroOne() * 80.0f) + this->bg.actor.world.pos.x) - 40.0f;
+        pos.y = (Rand_ZeroOne() * 140.0f) + this->bg.actor.world.pos.y;
+        pos.z = ((Rand_ZeroOne() * 80.0f) + this->bg.actor.world.pos.z) - 40.0f;
         velocity.x = (Rand_ZeroOne() - 0.5f) * 10.0f;
         velocity.y = Rand_ZeroOne() * 12.0f;
         velocity.z = (Rand_ZeroOne() - 0.5f) * 10.0f;
@@ -153,9 +153,9 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, PlayState* play) {
         EffectSsKakera_Spawn(play, &pos, &velocity, &pos, -400, arg5, arg6, arg7, 0, scale, 1, 20, 80,
                              KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDL);
     }
-    pos.x = this->dyna.actor.world.pos.x;
-    pos.y = this->dyna.actor.world.pos.y + 70.0f;
-    pos.z = this->dyna.actor.world.pos.z;
+    pos.x = this->bg.actor.world.pos.x;
+    pos.y = this->bg.actor.world.pos.y + 70.0f;
+    pos.z = this->bg.actor.world.pos.z;
     func_80033480(play, &pos, 100.0f, 0xA, 0x64, 0xA0, 1);
 }
 
@@ -164,9 +164,9 @@ void BgJyaBombiwa_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, play);
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
-        Actor_Kill(&this->dyna.actor);
+        Flags_SetSwitch(play, this->bg.actor.params & 0x3F);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        Actor_Kill(&this->bg.actor);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }

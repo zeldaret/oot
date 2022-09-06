@@ -10,7 +10,7 @@ typedef void (*BgSpot01IdohashiraActionFunc)(struct BgSpot01Idohashira*, PlaySta
 typedef void (*BgSpot01IdohashiraDrawFunc)(struct BgSpot01Idohashira*, PlayState*);
 
 typedef struct BgSpot01Idohashira {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ s32 action;
     /* 0x0168 */ s32 drawConfig;
     /* 0x016C */ u32 npcAction;

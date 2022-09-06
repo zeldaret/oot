@@ -44,16 +44,16 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
     colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gRainbowBridgeCol, &colHeader);
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     if (GET_EVENTCHKINF(EVENTCHKINF_4D)) {
         this->actionFunc = func_808787A4;
     } else {
-        this->dyna.actor.draw = NULL;
-        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+        this->bg.actor.draw = NULL;
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
         this->actionFunc = BgGjyoBridge_TriggerCutscene;
     }
 }
@@ -61,7 +61,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
 void BgGjyoBridge_Destroy(Actor* thisx, PlayState* play) {
     BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808787A4(BgGjyoBridge* this, PlayState* play) {
@@ -83,8 +83,8 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play) {
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL) &&
         (play->csCtx.npcActions[2]->action == 2)) {
-        this->dyna.actor.draw = BgGjyoBridge_Draw;
-        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+        this->bg.actor.draw = BgGjyoBridge_Draw;
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
         SET_EVENTCHKINF(EVENTCHKINF_4D);
     }
 }

@@ -37,9 +37,9 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
@@ -58,7 +58,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
 void BgGateShutter_Destroy(Actor* thisx, PlayState* play) {
     BgGateShutter* this = (BgGateShutter*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_8087828C(BgGateShutter* this, PlayState* play) {
@@ -75,7 +75,7 @@ void func_8087828C(BgGateShutter* this, PlayState* play) {
 }
 
 void func_80878300(BgGateShutter* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     if (this->unk_178 == 0) {
         Audio_PlayActorSfx2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
@@ -97,7 +97,7 @@ void func_808783AC(BgGateShutter* this, PlayState* play) {
 }
 
 void func_808783D4(BgGateShutter* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     if (this->unk_178 == 0) {
         Audio_PlayActorSfx2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);

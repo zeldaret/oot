@@ -60,13 +60,13 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     s32 carpentersRescued;
 
     if (IS_CUTSCENE_LAYER) {
-        return this->dyna.actor.params == 0;
+        return this->bg.actor.params == 0;
     }
 
     carpentersRescued = GET_EVENTCHKINF_CARPENTERS_FREE_ALL();
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        switch (this->dyna.actor.params) {
+        switch (this->bg.actor.params) {
             case 0:
                 return 0;
             case 1:
@@ -77,17 +77,17 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
                 return 1;
         }
     } else {
-        return this->dyna.actor.params == 2;
+        return this->bg.actor.params == 2;
     }
 
     return 0;
 }
 
 s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
-    if (this->dyna.actor.params == 3) {
-        Actor_SetScale(&this->dyna.actor, 0.1f);
+    if (this->bg.actor.params == 3) {
+        Actor_SetScale(&this->bg.actor, 0.1f);
     } else {
-        Actor_SetScale(&this->dyna.actor, 1.0f);
+        Actor_SetScale(&this->bg.actor, 1.0f);
     }
     return 1;
 }
@@ -97,10 +97,10 @@ s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 pad2[2];
 
-    if (D_808B1F90[this->dyna.actor.params] != NULL) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
-        CollisionHeader_GetVirtual(D_808B1F90[this->dyna.actor.params], &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (D_808B1F90[this->bg.actor.params] != NULL) {
+        BgActor_Init(&this->bg, DPM_UNK);
+        CollisionHeader_GetVirtual(D_808B1F90[this->bg.actor.params], &colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     }
     return true;
 }
@@ -117,17 +117,17 @@ s32 func_808B1C70(BgSpot09Obj* this, PlayState* play) {
 }
 
 s32 func_808B1CEC(BgSpot09Obj* this, PlayState* play) {
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain1);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain1);
     return true;
 }
 
 s32 func_808B1D18(BgSpot09Obj* this, PlayState* play) {
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain2);
     return true;
 }
 
 s32 func_808B1D44(BgSpot09Obj* this, PlayState* play) {
-    if (this->dyna.actor.params == 3) {
+    if (this->bg.actor.params == 3) {
         return func_808B1D18(this, play);
     } else {
         return func_808B1CEC(this, play);
@@ -137,18 +137,18 @@ s32 func_808B1D44(BgSpot09Obj* this, PlayState* play) {
 void BgSpot09Obj_Init(Actor* thisx, PlayState* play) {
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
-    osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", this->dyna.actor.params,
+    osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", this->bg.actor.params,
                  gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] & EVENTCHKINF_CARPENTERS_FREE_MASK_ALL);
-    this->dyna.actor.params &= 0xFF;
-    if ((this->dyna.actor.params < 0) || (this->dyna.actor.params >= 5)) {
+    this->bg.actor.params &= 0xFF;
+    if ((this->bg.actor.params < 0) || (this->bg.actor.params >= 5)) {
         osSyncPrintf("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-                     "../z_bg_spot09_obj.c", 322, this->dyna.actor.params);
+                     "../z_bg_spot09_obj.c", 322, this->bg.actor.params);
     }
 
     if (!func_808B1C70(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     } else if (!func_808B1D44(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -156,8 +156,8 @@ void BgSpot09Obj_Destroy(Actor* thisx, PlayState* play) {
     DynaCollisionContext* dynaColCtx = &play->colCtx.dyna;
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
-    if (this->dyna.actor.params != 0) {
-        DynaPoly_DeleteBgActor(play, dynaColCtx, this->dyna.bgId);
+    if (this->bg.actor.params != 0) {
+        DynaPoly_DeleteBgActor(play, dynaColCtx, this->bg.bgId);
     }
 }
 

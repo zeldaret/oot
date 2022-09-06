@@ -49,11 +49,11 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
 };
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
-    func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_BOX_BREAK);
+    func_80078914(&this->bg.actor.projectedPos, NA_SE_EV_BOX_BREAK);
 }
 
 void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, PlayState* play) {
-    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
 }
 
 void func_808AAD3C(PlayState* play, Vec3f* vec, u32 arg2) {
@@ -107,7 +107,7 @@ void func_808AAD3C(PlayState* play, Vec3f* vec, u32 arg2) {
 
 void func_808AAE6C(BgSpot01Idohashira* this, PlayState* play) {
     s32 pad;
-    Vec3f sp30 = this->dyna.actor.world.pos;
+    Vec3f sp30 = this->bg.actor.world.pos;
 
     sp30.y += kREG(15);
     func_80033480(play, &sp30, kREG(11) + 350.0f, kREG(12) + 5, kREG(13) + 0x7D0, kREG(14) + 0x320, 0);
@@ -141,7 +141,7 @@ void func_808AAF34(BgSpot01Idohashira* this, PlayState* play) {
 void BgSpot01Idohashira_Destroy(Actor* thisx, PlayState* play) {
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 s32 BgSpot01Idohashira_NotInCsMode(PlayState* play) {
@@ -162,9 +162,9 @@ CsCmdActorAction* BgSpot01Idohashira_GetNpcAction(PlayState* play, s32 actionIdx
 }
 
 void func_808AB18C(BgSpot01Idohashira* this) {
-    this->dyna.actor.shape.rot.x += kREG(6);
-    this->dyna.actor.shape.rot.y += (s16)(kREG(7) + 0x3E8);
-    this->dyna.actor.shape.rot.z += (s16)(kREG(8) + 0x7D0);
+    this->bg.actor.shape.rot.x += kREG(6);
+    this->bg.actor.shape.rot.y += (s16)(kREG(7) + 0x3E8);
+    this->bg.actor.shape.rot.z += (s16)(kREG(8) + 0x7D0);
 }
 
 f32 func_808AB1DC(f32 arg0, f32 arg1, u16 arg2, u16 arg3, u16 arg4) {
@@ -198,11 +198,11 @@ s32 func_808AB29C(BgSpot01Idohashira* this, PlayState* play) {
     npcAction = BgSpot01Idohashira_GetNpcAction(play, 2);
     if (npcAction != NULL) {
         temp_f0 = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames);
-        initPos = this->dyna.actor.home.pos;
+        initPos = this->bg.actor.home.pos;
         endX = npcAction->endPos.x;
         tempY = ((kREG(10) + 1100.0f) / 10.0f) + npcAction->endPos.y;
         endZ = npcAction->endPos.z;
-        thisPos = &this->dyna.actor.world.pos;
+        thisPos = &this->bg.actor.world.pos;
         thisPos->x = ((endX - initPos.x) * temp_f0) + initPos.x;
         thisPos->y =
             func_808AB1DC(initPos.y, tempY, npcAction->endFrame, npcAction->startFrame, play->csCtx.frames) + initPos.y;
@@ -251,7 +251,7 @@ void func_808AB444(BgSpot01Idohashira* this, PlayState* play) {
                     func_808AB3F8(this, play);
                     break;
                 case 3:
-                    Actor_Kill(&this->dyna.actor);
+                    Actor_Kill(&this->bg.actor);
                     break;
                 default:
                     osSyncPrintf("Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
@@ -294,25 +294,25 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
     CollisionHeader* colHeader;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gKakarikoWellArchCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if (!IS_CUTSCENE_LAYER) {
         if (GET_EVENTCHKINF(EVENTCHKINF_54) && LINK_IS_ADULT) {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
         } else {
             this->action = 0;
         }
     } else if (gSaveContext.sceneLayer == 4) {
         this->action = 1;
-        this->dyna.actor.shape.yOffset = -(kREG(10) + 1100.0f);
+        this->bg.actor.shape.yOffset = -(kREG(10) + 1100.0f);
     } else if (gSaveContext.sceneLayer == 6) {
         this->action = 0;
     } else {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 

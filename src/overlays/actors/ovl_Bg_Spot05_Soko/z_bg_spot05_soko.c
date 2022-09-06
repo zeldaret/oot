@@ -47,7 +47,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     if (thisx->params == 0) {
         CollisionHeader_GetVirtual(&object_spot05_objects_Col_000918, &colHeader);
         if (LINK_IS_ADULT) {
@@ -64,13 +64,13 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
             thisx->flags |= ACTOR_FLAG_4;
         }
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 }
 
 void BgSpot05Soko_Destroy(Actor* thisx, PlayState* play) {
     BgSpot05Soko* this = (BgSpot05Soko*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808AE5A8(BgSpot05Soko* this, PlayState* play) {
@@ -78,19 +78,18 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play) {
 
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
-        Actor_SetFocus(&this->dyna.actor, 50.0f);
-        OnePointCutscene_Attention(play, &this->dyna.actor);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
+        Actor_SetFocus(&this->bg.actor, 50.0f);
+        OnePointCutscene_Attention(play, &this->bg.actor);
         this->actionFunc = func_808AE630;
-        this->dyna.actor.speedXZ = 0.5f;
+        this->bg.actor.speedXZ = 0.5f;
     }
 }
 
 void func_808AE630(BgSpot05Soko* this, PlayState* play) {
-    this->dyna.actor.speedXZ *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) !=
-        0) {
-        Actor_Kill(&this->dyna.actor);
+    this->bg.actor.speedXZ *= 1.5f;
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y - 120.0f, this->bg.actor.speedXZ) != 0) {
+        Actor_Kill(&this->bg.actor);
     }
 }
 

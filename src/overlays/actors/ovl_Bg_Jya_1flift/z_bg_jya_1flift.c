@@ -71,14 +71,14 @@ void BgJya1flift_InitDynapoly(BgJya1flift* this, PlayState* play, CollisionHeade
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, moveFlag);
+    BgActor_Init(&this->bg, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG login failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -86,8 +86,8 @@ void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
     BgJya1flift* this = (BgJya1flift*)thisx;
 
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
-    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
+    Collider_SetCylinder(play, &this->collider, &this->bg.actor, &sCylinderInit);
+    this->bg.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void BgJya1flift_Init(Actor* thisx, PlayState* play) {
@@ -118,24 +118,24 @@ void BgJya1flift_Destroy(Actor* thisx, PlayState* play) {
     if (this->hasInitialized) {
         sIsSpawned = false;
         Collider_DestroyCylinder(play, &this->collider);
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 
 void BgJya1flift_SetupWaitForSwitch(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_WaitForSwitch;
-    this->dyna.actor.world.pos.y = sFinalPositions[0];
+    this->bg.actor.world.pos.y = sFinalPositions[0];
 }
 
 void BgJya1flift_WaitForSwitch(BgJya1flift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
+    if (Flags_GetSwitch(play, (this->bg.actor.params & 0x3F))) {
         BgJya1flift_ChangeDirection(this);
     }
 }
 
 void BgJya1flift_SetupDoNothing(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_DoNothing;
-    this->dyna.actor.world.pos.y = sFinalPositions[0];
+    this->bg.actor.world.pos.y = sFinalPositions[0];
 }
 
 void BgJya1flift_DoNothing(BgJya1flift* this, PlayState* play) {
@@ -144,25 +144,25 @@ void BgJya1flift_DoNothing(BgJya1flift* this, PlayState* play) {
 void BgJya1flift_ChangeDirection(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_Move;
     this->isMovingDown ^= true;
-    this->dyna.actor.velocity.y = 0.0f;
+    this->bg.actor.velocity.y = 0.0f;
 }
 
 void BgJya1flift_Move(BgJya1flift* this, PlayState* play) {
     f32 tempVelocity;
 
-    Math_StepToF(&this->dyna.actor.velocity.y, 6.0f, 0.4f);
-    if (this->dyna.actor.velocity.y < 1.0f) {
+    Math_StepToF(&this->bg.actor.velocity.y, 6.0f, 0.4f);
+    if (this->bg.actor.velocity.y < 1.0f) {
         tempVelocity = 1.0f;
     } else {
-        tempVelocity = this->dyna.actor.velocity.y;
+        tempVelocity = this->bg.actor.velocity.y;
     }
-    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.world.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
-                                 tempVelocity, 1.0f)) < 0.001f) {
-        this->dyna.actor.world.pos.y = sFinalPositions[this->isMovingDown];
+    if (fabsf(Math_SmoothStepToF(&this->bg.actor.world.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f, tempVelocity,
+                                 1.0f)) < 0.001f) {
+        this->bg.actor.world.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -186,7 +186,7 @@ void BgJya1flift_Update(Actor* thisx, PlayState* play2) {
     // Room 0 is the first room and 6 is the room that the lift starts on
     if (play->roomCtx.curRoom.num == 6 || play->roomCtx.curRoom.num == 0) {
         this->actionFunc(this, play);
-        tempIsRiding = DynaPolyActor_IsPlayerOnTop(&this->dyna) ? true : false;
+        tempIsRiding = BgActor_IsPlayerOnTop(&this->bg) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);

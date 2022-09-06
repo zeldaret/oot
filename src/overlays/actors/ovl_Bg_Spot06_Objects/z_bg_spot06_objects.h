@@ -9,7 +9,7 @@ struct BgSpot06Objects;
 typedef void (*BgSpot06ObjectsActionFunc)(struct BgSpot06Objects*, PlayState*);
 
 typedef struct BgSpot06Objects {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgSpot06ObjectsActionFunc actionFunc;
     /* 0x0168 */ s16 switchFlag;
     /* 0x016A */ s16 timer;

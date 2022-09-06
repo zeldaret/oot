@@ -7,7 +7,7 @@
 struct EnLightbox;
 
 typedef struct EnLightbox {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
 } EnLightbox; // size = 0x0164
 
 #endif

@@ -36,17 +36,17 @@ void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gLonLonCorralFenceCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->dyna.actor.scale.x = 0.1f;
-    this->dyna.actor.scale.y = 0.1f;
-    this->dyna.actor.scale.z = 0.1f;
-    this->unk_170.x = this->dyna.actor.world.pos.x;
-    this->unk_170.y = this->dyna.actor.world.pos.y;
-    this->unk_170.z = this->dyna.actor.world.pos.z;
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    this->bg.actor.scale.x = 0.1f;
+    this->bg.actor.scale.y = 0.1f;
+    this->bg.actor.scale.z = 0.1f;
+    this->unk_170.x = this->bg.actor.world.pos.x;
+    this->unk_170.y = this->bg.actor.world.pos.y;
+    this->unk_170.z = this->bg.actor.world.pos.z;
     if (GET_INFTABLE(INFTABLE_71)) {
-        this->dyna.actor.world.pos.z = 2659.0f;
+        this->bg.actor.world.pos.z = 2659.0f;
     }
     this->actionFunc = func_808B4930;
 }
@@ -54,7 +54,7 @@ void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
 void BgSpot15Saku_Destroy(Actor* thisx, PlayState* play) {
     BgSpot15Saku* this = (BgSpot15Saku*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808B4930(BgSpot15Saku* this, PlayState* play) {
@@ -66,10 +66,10 @@ void func_808B4930(BgSpot15Saku* this, PlayState* play) {
 
 void func_808B4978(BgSpot15Saku* this, PlayState* play) {
     if (this->timer == 0) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
-        this->dyna.actor.world.pos.z -= 2.0f;
-        if (this->dyna.actor.world.pos.z < 2660.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        this->bg.actor.world.pos.z -= 2.0f;
+        if (this->bg.actor.world.pos.z < 2660.0f) {
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->timer = 30;
             this->actionFunc = func_808B4A04;
         }

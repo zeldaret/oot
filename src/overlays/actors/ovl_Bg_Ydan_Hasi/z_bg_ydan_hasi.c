@@ -47,7 +47,7 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
     this->type = ((thisx->params >> 8) & 0x3F);
     thisx->params = thisx->params & 0xFF;
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    BgActor_Init(&this->bg, DPM_PLAYER);
     if (thisx->params == HASI_WATER) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
         waterBox->ySurface = thisx->world.pos.y = thisx->home.pos.y += -5.0f;
@@ -65,9 +65,9 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
             CollisionHeader_GetVirtual(&gDTRisingPlatformsCol, &colHeader);
             thisx->draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
-            Actor_SetFocus(&this->dyna.actor, 40.0f);
+            Actor_SetFocus(&this->bg.actor, 40.0f);
         }
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     }
     this->timer = 0;
 }
@@ -75,7 +75,7 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
 void BgYdanHasi_Destroy(Actor* thisx, PlayState* play) {
     BgYdanHasi* this = (BgYdanHasi*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, PlayState* play) {
@@ -83,19 +83,19 @@ void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, PlayState* play) {
     f32 framesAfterMath;
 
     framesAfterMath = sinf((play->gameplayFrames & 0xFF) * (M_PI / 128)) * 165.0f;
-    this->dyna.actor.world.pos.x =
-        ((Math_SinS(this->dyna.actor.world.rot.y) * framesAfterMath) + this->dyna.actor.home.pos.x);
-    this->dyna.actor.world.pos.z =
-        ((Math_CosS(this->dyna.actor.world.rot.y) * framesAfterMath) + this->dyna.actor.home.pos.z);
+    this->bg.actor.world.pos.x =
+        ((Math_SinS(this->bg.actor.world.rot.y) * framesAfterMath) + this->bg.actor.home.pos.x);
+    this->bg.actor.world.pos.z =
+        ((Math_CosS(this->bg.actor.world.rot.y) * framesAfterMath) + this->bg.actor.home.pos.z);
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
-    this->dyna.actor.world.pos.y = waterBox->ySurface + 20.0f;
+    this->bg.actor.world.pos.y = waterBox->ySurface + 20.0f;
     if (this->timer != 0) {
         this->timer--;
     }
     if (this->timer == 0) {
         this->timer = 50;
     }
-    this->dyna.actor.world.pos.y += 2.0f * sinf(this->timer * (M_PI / 25));
+    this->bg.actor.world.pos.y += 2.0f * sinf(this->timer * (M_PI / 25));
 }
 
 void BgYdanHasi_InitWater(BgYdanHasi* this, PlayState* play) {
@@ -109,26 +109,26 @@ void BgYdanHasi_MoveWater(BgYdanHasi* this, PlayState* play) {
     WaterBox* waterBox;
 
     if (this->timer == 0) {
-        if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f) != 0) {
+        if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 1.0f) != 0) {
             Flags_UnsetSwitch(play, this->type);
             this->actionFunc = BgYdanHasi_InitWater;
         }
-        func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        func_8002F948(&this->bg.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
-        if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 47.0f, 0.5f)) {
+        if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y - 47.0f, 0.5f)) {
             this->actionFunc = BgYdanHasi_DecWaterTimer;
         }
-        func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        func_8002F948(&this->bg.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
-    waterBox->ySurface = this->dyna.actor.world.pos.y;
+    waterBox->ySurface = this->bg.actor.world.pos.y;
 }
 
 void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    func_8002F994(&this->dyna.actor, this->timer);
+    func_8002F994(&this->bg.actor, this->timer);
     if (this->timer == 0) {
         this->actionFunc = BgYdanHasi_MoveWater;
     }
@@ -137,9 +137,9 @@ void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play) {
 void BgYdanHasi_SetupThreeBlocks(BgYdanHasi* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->type)) {
         this->timer = 260;
-        this->dyna.actor.draw = BgYdanHasi_Draw;
+        this->bg.actor.draw = BgYdanHasi_Draw;
         this->actionFunc = BgYdanHasi_UpdateThreeBlocks;
-        OnePointCutscene_Init(play, 3040, 30, &this->dyna.actor, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 3040, 30, &this->bg.actor, CAM_ID_MAIN);
     }
 }
 
@@ -148,18 +148,18 @@ void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f) != 0) {
+        if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 3.0f) != 0) {
             Flags_UnsetSwitch(play, this->type);
-            this->dyna.actor.draw = NULL;
+            this->bg.actor.draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
         } else {
-            func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+            func_8002F948(&this->bg.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
         }
-    } else if (!Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 3.0f)) {
-        func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    } else if (!Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 120.0f, 3.0f)) {
+        func_8002F948(&this->bg.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 
     } else {
-        func_8002F994(&this->dyna.actor, this->timer);
+        func_8002F994(&this->bg.actor, this->timer);
     }
 }
 
@@ -173,8 +173,8 @@ void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = { gDTSlidingPlatformDL, gDTWaterPlaneDL, gDTRisingPlatformsDL };
     BgYdanHasi* this = (BgYdanHasi*)thisx;
 
-    if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
-        Gfx_DrawDListOpa(play, dLists[this->dyna.actor.params]);
+    if (this->bg.actor.params == HASI_WATER_BLOCK || this->bg.actor.params == HASI_THREE_BLOCKS) {
+        Gfx_DrawDListOpa(play, dLists[this->bg.actor.params]);
     } else {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
 

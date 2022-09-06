@@ -9,13 +9,13 @@ struct EnJj;
 typedef void (*EnJjActionFunc)(struct EnJj*, PlayState*);
 
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ Vec3s jointTable[22];
     /* 0x022C */ Vec3s morphTable[22];
     /* 0x02B0 */ ColliderCylinder collider;
     /* 0x02FC */ EnJjActionFunc actionFunc;
-    /* 0x0300 */ DynaPolyActor* bodyCollisionActor;
+    /* 0x0300 */ BgActor* bodyCollisionActor;
     /* 0x0304 */ Actor* dust;
     /* 0x0308 */ s16 mouthOpenAngle;
     /* 0x030A */ u16 unk_30A;

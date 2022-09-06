@@ -60,8 +60,8 @@ void ObjKibako2_InitCollider(Actor* thisx, PlayState* play) {
     ObjKibako2* this = (ObjKibako2*)thisx;
 
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
-    Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->bg.actor, &sCylinderInit);
+    Collider_UpdateCylinder(&this->bg.actor, &this->collider);
 }
 
 void ObjKibako2_Break(ObjKibako2* this, PlayState* play) {
@@ -72,7 +72,7 @@ void ObjKibako2_Break(ObjKibako2* this, PlayState* play) {
     s16 angle;
     s32 i;
 
-    thisPos = &this->dyna.actor.world.pos;
+    thisPos = &this->bg.actor.world.pos;
     for (i = 0, angle = 0; i < 0x10; i++, angle += 0x4E20) {
         f32 sn = Math_SinS(angle);
         f32 cs = Math_CosS(angle);
@@ -108,9 +108,9 @@ void ObjKibako2_SpawnCollectible(ObjKibako2* this, PlayState* play) {
     s16 collectibleFlagTemp;
 
     collectibleFlagTemp = this->collectibleFlag;
-    itemDropped = this->dyna.actor.home.rot.x;
+    itemDropped = this->bg.actor.home.rot.x;
     if (itemDropped >= 0 && itemDropped < ITEM00_MAX) {
-        Item_DropCollectible(play, &this->dyna.actor.world.pos, itemDropped | (collectibleFlagTemp << 8));
+        Item_DropCollectible(play, &this->bg.actor.world.pos, itemDropped | (collectibleFlagTemp << 8));
     }
 }
 
@@ -120,51 +120,51 @@ void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     u32 bgId;
 
-    DynaPolyActor_Init(&this->dyna, 0);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    BgActor_Init(&this->bg, 0);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     ObjKibako2_InitCollider(thisx, play);
     CollisionHeader_GetVirtual(&gLargeCrateCol, &colHeader);
-    bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->collectibleFlag = this->dyna.actor.home.rot.z & 0x3F;
-    this->dyna.bgId = bgId;
+    bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    this->collectibleFlag = this->bg.actor.home.rot.z & 0x3F;
+    this->bg.bgId = bgId;
     this->actionFunc = ObjKibako2_Idle;
-    this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z =
-        this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
+    this->bg.actor.home.rot.z = this->bg.actor.world.rot.z = this->bg.actor.shape.rot.z = this->bg.actor.world.rot.x =
+        this->bg.actor.shape.rot.x = 0;
     // "Wooden box (stationary)"
-    osSyncPrintf("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag,
-                 this->dyna.actor.home.rot.x);
+    osSyncPrintf("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->bg.actor.params, this->collectibleFlag,
+                 this->bg.actor.home.rot.x);
 }
 
 void ObjKibako2_Destroy(Actor* thisx, PlayState* play) {
     ObjKibako2* this = (ObjKibako2*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void ObjKibako2_Idle(ObjKibako2* this, PlayState* play) {
-    if ((this->collider.base.acFlags & AC_HIT) || (this->dyna.actor.home.rot.z != 0) ||
-        func_80033684(play, &this->dyna.actor) != NULL) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->bg.actor.home.rot.z != 0) ||
+        func_80033684(play, &this->bg.actor) != NULL) {
         ObjKibako2_Break(this, play);
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
-        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
-        this->dyna.actor.draw = NULL;
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        this->bg.actor.flags |= ACTOR_FLAG_4;
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
+        this->bg.actor.draw = NULL;
         this->actionFunc = ObjKibako2_Kill;
-    } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
+    } else if (this->bg.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play) {
-    s16 params = this->dyna.actor.params;
+    s16 params = this->bg.actor.params;
 
     if ((params & 0x8000) == 0) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
-                    this->dyna.actor.world.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, this->bg.actor.world.pos.x, this->bg.actor.world.pos.y,
+                    this->bg.actor.world.pos.z, 0, this->bg.actor.shape.rot.y, 0, params | 0x8000);
     }
     ObjKibako2_SpawnCollectible(this, play);
-    Actor_Kill(&this->dyna.actor);
+    Actor_Kill(&this->bg.actor);
 }
 
 void ObjKibako2_Update(Actor* thisx, PlayState* play) {

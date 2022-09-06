@@ -7,7 +7,7 @@
 struct BgMenkuriKaiten;
 
 typedef struct BgMenkuriKaiten {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
 } BgMenkuriKaiten; // size = 0x0164
 
 #endif

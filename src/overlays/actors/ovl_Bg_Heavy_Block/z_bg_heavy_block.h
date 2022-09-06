@@ -9,7 +9,7 @@ struct BgHeavyBlock;
 typedef void (*BgHeavyBlockActionFunc)(struct BgHeavyBlock*, PlayState*);
 
 typedef struct BgHeavyBlock {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ Vec3f unk_164;
     /* 0x0170 */ s16 timer;
     /* 0x0172 */ u16 pieceFlags;

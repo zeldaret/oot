@@ -9,7 +9,7 @@ struct BgSpot01Objects2;
 typedef void (*BgSpot01Objects2ActionFunc)(struct BgSpot01Objects2*, PlayState*);
 
 typedef struct BgSpot01Objects2 {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgSpot01Objects2ActionFunc actionFunc;
     /* 0x0168 */ char unk_168[0x10];
     /* 0x0178 */ s32 objectId;

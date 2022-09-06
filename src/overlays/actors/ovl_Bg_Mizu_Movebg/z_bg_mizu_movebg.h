@@ -9,7 +9,7 @@ struct BgMizuMovebg;
 typedef void (*BgMizuMovebgActionFunc)(struct BgMizuMovebg*, PlayState*);
 
 typedef struct BgMizuMovebg {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgMizuMovebgActionFunc actionFunc;
     /* 0x0168 */ f32 homeY;
     /* 0x016C */ s32 scrollAlpha1;

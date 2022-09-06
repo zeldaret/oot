@@ -60,14 +60,14 @@ void func_808B3960(BgSpot15Rrbox* this, PlayState* play, CollisionHeader* collis
     CollisionHeader* colHeader = NULL;
     u32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, flags);
+    BgActor_Init(&this->bg, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -82,11 +82,10 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 }
 
 s32 func_808B3A40(BgSpot15Rrbox* this, PlayState* play) {
-    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->bgId);
+    BgActor* bgActor = DynaPoly_GetActor(&play->colCtx, this->bgId);
 
-    if ((dynaPolyActor != NULL) &&
-        Math3D_Dist2DSq(dynaPolyActor->actor.world.pos.x, dynaPolyActor->actor.world.pos.z,
-                        this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z) < 0.01f) {
+    if ((bgActor != NULL) && Math3D_Dist2DSq(bgActor->actor.world.pos.x, bgActor->actor.world.pos.z,
+                                             this->bg.actor.world.pos.x, this->bg.actor.world.pos.z) < 0.01f) {
         return true;
     }
     return false;
@@ -94,7 +93,7 @@ s32 func_808B3A40(BgSpot15Rrbox* this, PlayState* play) {
 
 s32 func_808B3AAC(BgSpot15Rrbox* this, PlayState* play) {
     s16 rotY;
-    Actor* actor = &this->dyna.actor;
+    Actor* actor = &this->bg.actor;
 
     if (play->sceneId == SCENE_SOUKO) {
         return true;
@@ -103,7 +102,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, PlayState* play) {
     }
 
     if (actor->world.pos.x <= 930.0f && actor->world.pos.z >= -360.0f) {
-        if (this->dyna.unk_150 >= 0.0f) {
+        if (this->bg.unk_150 >= 0.0f) {
             rotY = actor->world.rot.y;
         } else {
             rotY = actor->world.rot.y + 0x8000;
@@ -122,22 +121,22 @@ void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
     func_808B3960(this, play, &gLonLonMilkCrateCol, DPM_UNK);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     func_808B3A34(this);
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
+    if (Flags_GetSwitch(play, (this->bg.actor.params & 0x3F))) {
         func_808B44B8(this, play);
-        this->dyna.actor.world.pos = D_808B45C4[D_808B4590];
+        this->bg.actor.world.pos = D_808B45C4[D_808B4590];
         D_808B4590++;
     } else {
         func_808B4084(this, play);
     }
-    osSyncPrintf("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    osSyncPrintf("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->bg.actor.params);
 }
 
 void BgSpot15Rrbox_Destroy(Actor* thisx, PlayState* play) {
     BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     D_808B4590 = 0;
 }
 
@@ -148,21 +147,21 @@ s32 BgSpot15Rrbox_TrySnapToCheckedPoint(BgSpot15Rrbox* this, PlayState* play, s3
 
     func_808B3A34(this);
 
-    relCheckPos.x = sBoxGroundCheckPoints[checkIndex].x * (this->dyna.actor.scale.x * 10.0f);
-    relCheckPos.y = sBoxGroundCheckPoints[checkIndex].y * (this->dyna.actor.scale.y * 10.0f);
-    relCheckPos.z = sBoxGroundCheckPoints[checkIndex].z * (this->dyna.actor.scale.z * 10.0f);
+    relCheckPos.x = sBoxGroundCheckPoints[checkIndex].x * (this->bg.actor.scale.x * 10.0f);
+    relCheckPos.y = sBoxGroundCheckPoints[checkIndex].y * (this->bg.actor.scale.y * 10.0f);
+    relCheckPos.z = sBoxGroundCheckPoints[checkIndex].z * (this->bg.actor.scale.z * 10.0f);
 
     BgSpot15Rrbox_RotatePoint(&checkPos, &relCheckPos, this->unk_16C, this->unk_170);
 
-    checkPos.x += this->dyna.actor.world.pos.x;
-    checkPos.y += this->dyna.actor.prevPos.y;
-    checkPos.z += this->dyna.actor.world.pos.z;
+    checkPos.x += this->bg.actor.world.pos.x;
+    checkPos.y += this->bg.actor.prevPos.y;
+    checkPos.z += this->bg.actor.world.pos.z;
 
-    this->dyna.actor.floorHeight = BgCheck_EntityRaycastDown6(&play->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
-                                                              &this->dyna.actor, &checkPos, chkDist);
+    this->bg.actor.floorHeight = BgCheck_EntityRaycastDown6(&play->colCtx, &this->bg.actor.floorPoly, &this->bgId,
+                                                            &this->bg.actor, &checkPos, chkDist);
 
-    if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
-        this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
+    if ((this->bg.actor.floorHeight - this->bg.actor.world.pos.y) >= -0.001f) {
+        this->bg.actor.world.pos.y = this->bg.actor.floorHeight;
         return true;
     }
     return false;
@@ -172,7 +171,7 @@ f32 BgSpot15Rrbox_GetFloorHeight(BgSpot15Rrbox* this, PlayState* play) {
     s32 i;
     Vec3f checkPos;
     Vec3f relCheckPos;
-    Actor* actor = &this->dyna.actor;
+    Actor* actor = &this->bg.actor;
     f32 yIntersect;
     f32 floorY = BGCHECK_Y_MIN;
     s32 bgId;
@@ -219,38 +218,38 @@ s32 BgSpot15Rrbox_TrySnapToFloor(BgSpot15Rrbox* this, PlayState* play) {
 }
 
 s32 func_808B4010(BgSpot15Rrbox* this, PlayState* play) {
-    return !func_800435D8(play, &this->dyna, this->dyna.actor.scale.x * 290.0f,
-                          this->dyna.actor.scale.x * 290.0f + 20.0f, 1.0f);
+    return !func_800435D8(play, &this->bg, this->bg.actor.scale.x * 290.0f, this->bg.actor.scale.x * 290.0f + 20.0f,
+                          1.0f);
 }
 
 void func_808B4084(BgSpot15Rrbox* this, PlayState* play) {
     this->actionFunc = func_808B40AC;
-    this->dyna.actor.gravity = 0.0f;
-    this->dyna.actor.velocity.x = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.z = 0.0f;
+    this->bg.actor.gravity = 0.0f;
+    this->bg.actor.velocity.x = 0.0f;
+    this->bg.actor.velocity.y = 0.0f;
+    this->bg.actor.velocity.z = 0.0f;
 }
 
 void func_808B40AC(BgSpot15Rrbox* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->unk_168 <= 0 && fabsf(this->dyna.unk_150) > 0.001f) {
+    if (this->unk_168 <= 0 && fabsf(this->bg.unk_150) > 0.001f) {
         if (func_808B3AAC(this, play) && !func_808B4010(this, play)) {
-            this->unk_17C = this->dyna.unk_150;
+            this->unk_17C = this->bg.unk_150;
             func_808B4178(this, play);
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
-            this->dyna.unk_150 = 0.0f;
+            this->bg.unk_150 = 0.0f;
         }
     } else {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
     }
 }
 
 void func_808B4178(BgSpot15Rrbox* this, PlayState* play) {
     this->actionFunc = func_808B4194;
-    this->dyna.actor.gravity = 0.0f;
+    this->bg.actor.gravity = 0.0f;
 }
 
 void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
@@ -258,7 +257,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 tempUnk178;
     s32 approxFResult;
-    Actor* actor = &this->dyna.actor;
+    Actor* actor = &this->bg.actor;
 
     this->unk_174 += 0.5f;
 
@@ -276,7 +275,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
         actor->home.pos.x = actor->world.pos.x;
         actor->home.pos.z = actor->world.pos.z;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
         this->unk_178 = 0.0f;
         this->unk_174 = 0.0f;
         func_808B4380(this, play);
@@ -291,7 +290,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
         actor->home.pos.x = actor->world.pos.x;
         actor->home.pos.z = actor->world.pos.z;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
         this->unk_178 = 0.0f;
         this->unk_174 = 0.0f;
         this->unk_168 = 10;
@@ -301,21 +300,21 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
 }
 
 void func_808B4380(BgSpot15Rrbox* this, PlayState* play) {
-    this->dyna.actor.velocity.x = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.z = 0.0f;
-    this->dyna.actor.gravity = -1.0f;
-    this->dyna.actor.floorHeight = BgSpot15Rrbox_GetFloorHeight(this, play);
+    this->bg.actor.velocity.x = 0.0f;
+    this->bg.actor.velocity.y = 0.0f;
+    this->bg.actor.velocity.z = 0.0f;
+    this->bg.actor.gravity = -1.0f;
+    this->bg.actor.floorHeight = BgSpot15Rrbox_GetFloorHeight(this, play);
     this->actionFunc = func_808B43D0;
 }
 
 void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
     f32 floorHeight;
     Player* player = GET_PLAYER(play);
-    Actor* actor = &this->dyna.actor;
+    Actor* actor = &this->bg.actor;
 
-    if (fabsf(this->dyna.unk_150) > 0.001f) {
-        this->dyna.unk_150 = 0.0f;
+    if (fabsf(this->bg.unk_150) > 0.001f) {
+        this->bg.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 
@@ -336,7 +335,7 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
     if ((floorHeight - actor->world.pos.y) >= -0.001f) {
         actor->world.pos.y = floorHeight;
         func_808B4084(this, play);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WOOD_BOUND);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_WOOD_BOUND);
     }
 }
 
@@ -348,7 +347,7 @@ void func_808B44CC(BgSpot15Rrbox* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     player->stateFlags2 &= ~PLAYER_STATE2_4;
-    this->dyna.unk_150 = 0.0f;
+    this->bg.unk_150 = 0.0f;
 }
 
 void BgSpot15Rrbox_Update(Actor* thisx, PlayState* play) {
@@ -357,9 +356,9 @@ void BgSpot15Rrbox_Update(Actor* thisx, PlayState* play) {
     if (this->unk_168 > 0) {
         this->unk_168--;
     }
-    this->dyna.actor.world.rot.y = this->dyna.unk_158;
-    this->unk_16C = Math_SinS(this->dyna.actor.world.rot.y);
-    this->unk_170 = Math_CosS(this->dyna.actor.world.rot.y);
+    this->bg.actor.world.rot.y = this->bg.unk_158;
+    this->unk_16C = Math_SinS(this->bg.actor.world.rot.y);
+    this->unk_170 = Math_CosS(this->bg.actor.world.rot.y);
     this->actionFunc(this, play);
 }
 

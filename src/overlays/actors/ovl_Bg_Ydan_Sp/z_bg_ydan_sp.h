@@ -9,7 +9,7 @@ struct BgYdanSp;
 typedef void (*BgYdanSpActionFunc)(struct BgYdanSp*, PlayState*);
 
 typedef struct BgYdanSp {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgYdanSpActionFunc actionFunc;
     /* 0x0168 */ u8 isDestroyedSwitchFlag;
     /* 0x0169 */ u8 burnSwitchFlag;

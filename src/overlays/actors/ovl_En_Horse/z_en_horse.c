@@ -3124,7 +3124,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     f32 ny;
     s32 movingFast;
     s32 pad5;
-    DynaPolyActor* dynaPoly;
+    BgActor* bgActor;
     Vec3f intersect;
     Vec3f obstacleTop;
 
@@ -3206,8 +3206,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
             return;
         }
 
-        dynaPoly = DynaPoly_GetActor(&play->colCtx, bgId);
-        if ((this->stateFlags & ENHORSE_FLAG_26) && ((dynaPoly && dynaPoly->actor.id != 0x108) || dynaPoly == 0)) {
+        bgActor = DynaPoly_GetActor(&play->colCtx, bgId);
+        if ((this->stateFlags & ENHORSE_FLAG_26) && ((bgActor && bgActor->actor.id != 0x108) || bgActor == NULL)) {
             if (movingFast == false) {
                 this->stateFlags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == true) {

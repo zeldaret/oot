@@ -30,7 +30,7 @@ typedef enum {
 } EnBoxType;
 
 typedef struct EnBox {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelanime;
     /* 0x01A8 */ s32 unk_1A8; // related to animation delays for types 3 and 8
     /* 0x01AC */ s32 subCamId;

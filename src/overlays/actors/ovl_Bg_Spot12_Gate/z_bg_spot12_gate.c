@@ -47,12 +47,12 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHea
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, flags);
+    BgActor_Init(&this->bg, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -60,9 +60,9 @@ void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
         func_808B3274(this);
     } else {
         func_808B30C0(this);
@@ -72,18 +72,18 @@ void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
 void BgSpot12Gate_Destroy(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808B30C0(BgSpot12Gate* this) {
     this->actionFunc = func_808B30D8;
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
+    this->bg.actor.world.pos.y = this->bg.actor.home.pos.y;
 }
 
 void func_808B30D8(BgSpot12Gate* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
         func_808B3134(this);
-        OnePointCutscene_Init(play, 4160, -99, &this->dyna.actor, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 4160, -99, &this->bg.actor, CAM_ID_MAIN);
     }
 }
 
@@ -106,23 +106,22 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     s32 pad;
     s32 var;
 
-    Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
-                     this->dyna.actor.velocity.y)) {
+    Math_StepToF(&this->bg.actor.velocity.y, 1.6f, 0.03f);
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 200.0f, this->bg.actor.velocity.y)) {
         func_808B3274(this);
         var = Quake_Add(GET_ACTIVE_CAM(play), 3);
         Quake_SetSpeed(var, -0x3CB0);
         Quake_SetQuakeValues(var, 3, 0, 0, 0);
         Quake_SetCountdown(var, 0xC);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 
 void func_808B3274(BgSpot12Gate* this) {
     this->actionFunc = func_808B3298;
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 200.0f;
+    this->bg.actor.world.pos.y = this->bg.actor.home.pos.y + 200.0f;
 }
 
 void func_808B3298(BgSpot12Gate* this, PlayState* play) {

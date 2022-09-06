@@ -40,9 +40,9 @@ void DoorGerudo_Init(Actor* thisx, PlayState* play) {
     DoorGerudo* this = (DoorGerudo*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     CollisionHeader_GetVirtual(&gGerudoCellDoorCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
         this->actionFunc = func_8099485C;
@@ -56,7 +56,7 @@ void DoorGerudo_Init(Actor* thisx, PlayState* play) {
 void DoorGerudo_Destroy(Actor* thisx, PlayState* play) {
     DoorGerudo* this = (DoorGerudo*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 f32 func_809946BC(PlayState* play, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg4) {
@@ -67,7 +67,7 @@ f32 func_809946BC(PlayState* play, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg
     playerPos.x = player->actor.world.pos.x;
     playerPos.y = player->actor.world.pos.y + arg2;
     playerPos.z = player->actor.world.pos.z;
-    func_8002DBD0(&this->dyna.actor, &sp1C, &playerPos);
+    func_8002DBD0(&this->bg.actor, &sp1C, &playerPos);
 
     if ((arg3 < fabsf(sp1C.x)) || (arg4 < fabsf(sp1C.y))) {
         return FLT_MAX;
@@ -84,7 +84,7 @@ s32 func_80994750(DoorGerudo* this, PlayState* play) {
     if (!Player_InCsMode(play)) {
         temp_f0 = func_809946BC(play, this, 0.0f, 20.0f, 15.0f);
         if (fabsf(temp_f0) < 40.0f) {
-            rotYDiff = player->actor.shape.rot.y - this->dyna.actor.shape.rot.y;
+            rotYDiff = player->actor.shape.rot.y - this->bg.actor.shape.rot.y;
             if (temp_f0 > 0.0f) {
                 rotYDiff = 0x8000 - rotYDiff;
             }
@@ -100,8 +100,8 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
     if (this->unk_164 != 0) {
         this->actionFunc = func_8099496C;
         gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
+        Flags_SetSwitch(play, this->bg.actor.params & 0x3F);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {
         s32 direction = func_80994750(this, play);
 
@@ -110,12 +110,12 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
 
             if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviTextId = -0x203;
-            } else if (!Flags_GetCollectible(play, (this->dyna.actor.params >> 8) & 0x1F)) {
+            } else if (!Flags_GetCollectible(play, (this->bg.actor.params >> 8) & 0x1F)) {
                 player->naviTextId = -0x225;
             } else {
                 player->doorType = PLAYER_DOORTYPE_SLIDING;
                 player->doorDirection = direction;
-                player->doorActor = &this->dyna.actor;
+                player->doorActor = &this->bg.actor;
                 player->doorTimer = 10;
             }
         }
@@ -124,14 +124,14 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
 
 void func_8099496C(DoorGerudo* this, PlayState* play) {
     if (DECR(this->unk_166) == 0) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_809949C8;
     }
 }
 
 void func_809949C8(DoorGerudo* this, PlayState* play) {
-    Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f, this->dyna.actor.velocity.y);
+    Math_StepToF(&this->bg.actor.velocity.y, 15.0f, 3.0f);
+    Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 200.0f, this->bg.actor.velocity.y);
 }
 
 void DoorGerudo_Update(Actor* thisx, PlayState* play) {

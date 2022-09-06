@@ -16,7 +16,7 @@ typedef struct {
 } BgJyaMegamiPiece; // size = 0x1C
 
 typedef struct BgJyaMegami {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgJyaMegamiActionFunc actionFunc;
     /* 0x0168 */ ColliderJntSph collider;
     /* 0x0188 */ ColliderJntSphElement colliderItem;

@@ -30,7 +30,7 @@ typedef struct {
 } EnGbCagedSoul; // size = 0x2C
 
 typedef struct EnGb {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ Vec3s jointTable[12];
     /* 0x01F0 */ Vec3s morphTable[12];

@@ -289,16 +289,16 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
     }
     if (this->unk_2EC <= frameCount) {
         while (actor != NULL) {
-            if (actor->dyna.actor.id != ACTOR_BG_SPOT15_SAKU) {
-                actor = (BgSpot15Saku*)(actor->dyna.actor.next);
+            if (actor->bg.actor.id != ACTOR_BG_SPOT15_SAKU) {
+                actor = (BgSpot15Saku*)(actor->bg.actor.next);
             } else {
-                this->gate = &actor->dyna.actor;
+                this->gate = &actor->bg.actor;
                 actor->unk_168 = 1;
                 break;
             }
         }
         // "I've come!"
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->bg.actor.next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -453,16 +453,16 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
     }
     if (this->unk_2EC <= frameCount) {
         while (gate != NULL) {
-            if (gate->dyna.actor.id != ACTOR_BG_GATE_SHUTTER) {
-                gate = (BgGateShutter*)gate->dyna.actor.next;
+            if (gate->bg.actor.id != ACTOR_BG_GATE_SHUTTER) {
+                gate = (BgGateShutter*)gate->bg.actor.next;
             } else {
-                this->gate = &gate->dyna.actor;
+                this->gate = &gate->bg.actor;
                 gate->openingState = 1;
                 break;
             }
         }
         // "I've come!"
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->bg.actor.next);
         this->actionFunc = func_80A53DF8;
     }
 }
@@ -611,10 +611,10 @@ void func_80A543A0(EnHeishi2* this, PlayState* play) {
 
     if (this->unk_2EC <= frameCount) {
         while (gate != NULL) {
-            if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
-                gate = (BgGateShutter*)(gate->dyna.actor.next);
+            if (ACTOR_BG_GATE_SHUTTER != gate->bg.actor.id) {
+                gate = (BgGateShutter*)(gate->bg.actor.next);
             } else {
-                this->gate = &gate->dyna.actor;
+                this->gate = &gate->bg.actor;
                 if (this->unk_30A != 2) {
                     gate->openingState = -1;
                     break;

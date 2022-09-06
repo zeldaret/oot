@@ -42,7 +42,7 @@ Here are the usual names and the sizes of some of the most common structs used i
 | Type                    | Usual name            | Size            |
 | ----------------------- | --------------------- | --------------- |
 | `Actor`                 | `actor`               | 0x14C           |
-| `DynaPolyActor`         | `dyna`                | 0x164           |
+| `BgActor`               | `bg`                  | 0x164           |
 | `Vec3f`                 |                       | 0xC             |
 | `Vec3s`                 |                       | 0x6             |
 | `SkelAnime`             | `skelAnime`           | 0x44            |
@@ -71,7 +71,7 @@ In actor structs, this manifests as some of the char arrays not being completely
 
 ```C
 typedef struct BgIceTurara {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgIceTuraraActionFunc actionFunc;
     /* 0x0168 */ s16 shiverTimer;
     /* 0x016C */ ColliderCylinder collider;

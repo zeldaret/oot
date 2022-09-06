@@ -7,6 +7,6 @@
 struct BgSpot18Futa;
 
 typedef struct BgSpot18Futa {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
 } BgSpot18Futa; // size = 0x0164
 #endif

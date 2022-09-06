@@ -15,7 +15,7 @@ struct BgGanonOtyuka;
 typedef void (*BgGanonOtyukaActionFunc)(struct BgGanonOtyuka*, PlayState*);
 
 typedef struct BgGanonOtyuka {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgGanonOtyukaActionFunc actionFunc;
     /* 0x0168 */ s16 dropTimer;
     /* 0x016A */ u8 isFalling;

@@ -38,9 +38,9 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gBowlingDefaultCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n" VT_RST);
@@ -55,12 +55,12 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
 void BgBomGuard_Destroy(Actor* thisx, PlayState* play) {
     BgBomGuard* this = (BgBomGuard*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_8086E638(BgBomGuard* this, PlayState* play) {
     Actor* it = play->actorCtx.actorLists[ACTORCAT_NPC].head;
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     this->unk_168 = 0;
 

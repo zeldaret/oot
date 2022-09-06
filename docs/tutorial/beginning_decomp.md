@@ -177,7 +177,7 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
             func_80A87800(this, &func_80A87C30);
         }
         this->unk300 = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, (u16)0x5A, this->actor.world.pos.x - 10.0f, this->actor.world.pos.y, this->actor.world.pos.z, 0, (?32) this->actor.world.rot.y, 0, 0);
-        DynaPolyActor_Init((DynaPolyActor *) this, 0);
+        BgActor_Init((BgActor *) this, 0);
         CollisionHeader_GetVirtual((void *) &D_06000A1C, &sp4C);
         this->unk_14C = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, sp4C);
         temp_a1_3 = this + 0x2B0;
@@ -188,7 +188,7 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
         return;
     }
     if (temp_v0 == 0) {
-        DynaPolyActor_Init((DynaPolyActor *) this, 0);
+        BgActor_Init((BgActor *) this, 0);
         CollisionHeader_GetVirtual((void *) &D_06001830, &sp4C);
         temp_a1_2 = &play->colCtx.dyna;
         sp44 = temp_a1_2;
@@ -203,7 +203,7 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
     if (temp_v0 != 1) {
         return;
     }
-    DynaPolyActor_Init((DynaPolyActor *) this, 0);
+    BgActor_Init((BgActor *) this, 0);
     CollisionHeader_GetVirtual((void *) &D_0600BA8C, &sp4C);
     this->unk_14C = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, sp4C);
     this->actor.update = &func_80A87F44;
@@ -279,14 +279,14 @@ in `EnJj_Init`.
 
 Glancing through the rest of `EnJj_Init`, we notice some references to DynaPoly, for example
 ```C
-DynaPolyActor_Init((DynaPolyActor *) this, 0);
+BgActor_Init((BgActor *) this, 0);
 CollisionHeader_GetVirtual((void *) &D_06000A1C, &sp4C);
 this->unk_14C = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->actor, sp4C);
 ```
 
-This means that EnJj is not an ordinary actor: it is instead a DynaPoly actor. In-game this is to do with how the actor interacts with Link and the environment (a good rule of thumb is that Link can often stand on DynaPoly actors as if they were ground). For decompilation purposes, it means that the actor struct is wrong: the first element of a DynaPoly actor's struct is not an `Actor` struct, but a `DynaPolyActor`, usually called `dyna`. We should fix this immediately to avoid confusion later. (Some actors have this correctly identified already; we were unlucky with this one.)
+This means that EnJj is not an ordinary actor: it is instead a DynaPoly actor. In-game this is to do with how the actor interacts with Link and the environment (a good rule of thumb is that Link can often stand on DynaPoly actors as if they were ground). For decompilation purposes, it means that the actor struct is wrong: the first element of a DynaPoly actor's struct is not an `Actor` struct, but a `BgActor`, usually called `bg`. We should fix this immediately to avoid confusion later. (Some actors have this correctly identified already; we were unlucky with this one.)
 
-Since there's basically nothing in the struct at present, the change is easy to make: replace `Actor actor` with `DynaPolyActor dyna`. Now, `DynaPolyActor` is a different size to `Actor`, so we need to account for that. To find out what size it is, you need to find the definition. In VSCode you can usually Ctrl+Left Click on things to go to where they are defined. Doing so takes us to `z64actor.h`, where most actor-related structs are defined: we find
+Since there's basically nothing in the struct at present, the change is easy to make: replace `Actor actor` with `BgActor bg`. Now, `BgActor` is a different size to `Actor`, so we need to account for that. To find out what size it is, you need to find the definition. In VSCode you can usually Ctrl+Left Click on things to go to where they are defined. Doing so takes us to `z64actor.h`, where most actor-related structs are defined: we find
 ```C
 typedef struct {
     /* 0x000 */ Actor actor;
@@ -298,10 +298,10 @@ typedef struct {
     /* 0x15C */ u32 unk_15C;
     /* 0x160 */ u8 unk_160;
     /* 0x162 */ s16 unk_162;
-} DynaPolyActor; // size = 0x164
+} BgActor; // size = 0x164
 ```
 
-so a `DynaPolyActor` struct is an `Actor` with various other things after it. For now all we care about is the size, i.e. `0x164`. This tells us that the next thing after the `DynaPolyActor` struct in the `EnJj` struct begins at `0x164`, not `0x14C` as it does for `Actor`s.
+so a `BgActor` struct is an `Actor` with various other things after it. For now all we care about is the size, i.e. `0x164`. This tells us that the next thing after the `BgActor` struct in the `EnJj` struct begins at `0x164`, not `0x14C` as it does for `Actor`s.
 
 So rename the variable to `unk_164` and change the comment to say `0x0164` (the comments don't do anything, they just make it easier to keep track of where everything is when it's named).
 
@@ -309,19 +309,19 @@ Next we need to adjust the size of the array so that the struct is still the rig
 ```0x314 - 0x164 = 1B0```. Hence the struct is now
 ```C
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ char unk_164[0x1B0];
 } EnJj; // size = 0x0314
 ```
 
-Now that we know this, it is worth remaking the context file and running mips2c again, since we have changed the struct significantly. Doing so, and replacing `(Actor*) this` with `&this->dyna.actor` this time, we find that the block we quoted above has become
+Now that we know this, it is worth remaking the context file and running mips2c again, since we have changed the struct significantly. Doing so, and replacing `(Actor*) this` with `&this->bg.actor` this time, we find that the block we quoted above has become
 ```C
-DynaPolyActor_Init((DynaPolyActor *) this, 0);
+BgActor_Init((BgActor *) this, 0);
 CollisionHeader_GetVirtual((void *) &D_06000A1C, &sp4C);
-this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
 ```
 
-Next, replace `(DynaPolyActor *) this` by `&this->dyna`. There's not a lot more we can do to the DynaPoly stuff right now, so just remove the casts to void and move on.
+Next, replace `(BgActor *) this` by `&this->bg`. There's not a lot more we can do to the DynaPoly stuff right now, so just remove the casts to void and move on.
 
 ### Colliders
 
@@ -332,7 +332,7 @@ The relevant functions in this actor are
 temp_a1_3 = this + 0x2B0;
 sp44 = temp_a1_3;
 Collider_InitCylinder(play, (ColliderCylinder *) temp_a1_3);
-Collider_SetCylinder(play, (ColliderCylinder *) temp_a1_3, &this->dyna.actor, &D_80A88CB4);
+Collider_SetCylinder(play, (ColliderCylinder *) temp_a1_3, &this->bg.actor, &D_80A88CB4);
 ```
 
 Notice that `sp44` is set, but actually not used anywhere in the actor. This is a good indication that it is fake. We'll get back to that. Similarly, `temp_a1_3` is only used in these functions, so is likely to be fake as well: it's simply trying to get the pointer into the `a1` register.
@@ -340,7 +340,7 @@ Notice that `sp44` is set, but actually not used anywhere in the actor. This is 
 Since mips2c doesn't know about the collider, it has just told us where it is, namely `this + 0x2B0`. So insert a `ColliderCylinder collider` variable in the actor struct, look up its size, and redo the padding. This should give
 ```C
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ char unk_164[0x14C];
     /* 0x02B0 */ ColliderCylinder collider;
     /* 0x02FC */ char unk_2FC[0x18];
@@ -350,7 +350,7 @@ typedef struct EnJj {
 Now replace the temps, so we have
 ```C
 Collider_InitCylinder(play, &this->collider);
-Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
+Collider_SetCylinder(play, &this->collider, &this->bg.actor, &D_80A88CB4);
 ```
 
 (You may prefer to just comment out temps initially, to keep track of where they were.)
@@ -417,7 +417,7 @@ There are two different sorts of SkelAnime, although for decompilation purposes 
 Looking in `z64animation.h`, we find that `SkelAnime` has size `0x44`, and looking in `z64math.h`, that `Vec3s` has size `0x6`. Since ` 0x164 + 0x44 = 0x1A8 `, `jointTable` is immediately after the `SkelAnime`, and since `0x1A8 + 0x6 * 0x16 = 0x22C`, `overrideDrawTable` is immediately after the `jointTable`. Finally, `0x22C + 0x6 * 0x16 = 2B0`, and we have filled all the space between the `dyna` and `collider`. Therefore the struct now looks like
 ```C
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ Vec3s jointTable[22];
     /* 0x022C */ Vec3s overrideDrawTable[22];
@@ -446,13 +446,13 @@ Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
 
 This function also gives us information about other things in the struct. One obvious thing that sticks out is
 ```C
-this->unk300 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, (u16)0x5A, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, (?32) this->dyna.actor.world.rot.y, 0, 0);
+this->unk300 = Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, (u16)0x5A, this->bg.actor.world.pos.x - 10.0f, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, 0, (?32) this->bg.actor.world.rot.y, 0, 0);
 ```
 Hovering over this function tells us it outputs a pointer to the spawned actor, so `this->unk_300` is an `Actor*`. We may or may not care what this actor actually is, depending on how it is used later on, so let's just add `/* 0x0300 */ Actor* childActor` to the struct for now.
 
 We can look up what the actor with ID 0x5A is in `z64actor.h`: we find it is `ACTOR_EN_JJ`. So some Jabus spawn another Jabu. Filling this in and removing the spurious cast, we have
 ```C
-this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
+this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_EN_JJ, this->bg.actor.world.pos.x - 10.0f, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, 0, this->bg.actor.world.rot.y, 0, 0);
 ```
 
 Finally, we have this block:
@@ -471,7 +471,7 @@ This is not quite as helpful as you might think: it tells us the size of these v
 
 ```C
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ Vec3s jointTable[22];
     /* 0x022C */ Vec3s morphTable[22];
@@ -503,9 +503,9 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
     // u32 temp_v0_2;
 
     sp4C = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, D_80A88CE0);
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
-    temp_v0 = this->dyna.actor.params;
+    Actor_ProcessInitChain(&this->bg.actor, D_80A88CE0);
+    ActorShape_Init(&this->bg.actor.shape, 0.0f, NULL, 0.0f);
+    temp_v0 = this->bg.actor.params;
     // temp_a1 = this->unk_164;
     if (temp_v0 == -1) {
         // sp44 = (DynaCollisionContext *) temp_a1;
@@ -521,38 +521,38 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
         } else {
             func_80A87800(this, &func_80A87C30);
         }
-        this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
-        DynaPolyActor_Init(&this->dyna, 0);
+        this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_EN_JJ, this->bg.actor.world.pos.x - 10.0f, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, 0, this->bg.actor.world.rot.y, 0, 0);
+        BgActor_Init(&this->bg, 0);
         CollisionHeader_GetVirtual(&D_06000A1C, &sp4C);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
         // temp_a1_3 = this + 0x2B0;
         // sp44 = temp_a1_3;
         Collider_InitCylinder(play, &this->collider);
-        Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
-        this->dyna.actor.colChkInfo.mass = 0xFF;
+        Collider_SetCylinder(play, &this->collider, &this->bg.actor, &D_80A88CB4);
+        this->bg.actor.colChkInfo.mass = 0xFF;
         return;
     }
     if (temp_v0 == 0) {
-        DynaPolyActor_Init(&this->dyna, 0);
+        BgActor_Init(&this->bg, 0);
         CollisionHeader_GetVirtual(&D_06001830, &sp4C);
         // temp_a1_2 = &play->colCtx.dyna;
         // sp44 = temp_a1_2;
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-        func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
-        this->dyna.actor.update = &func_80A87F44;
-        this->dyna.actor.draw = NULL;
-        Actor_SetScale(&this->dyna.actor, 0.087f);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
+        func_8003ECA8(play, &play->colCtx.dyna, this->bg.bgId);
+        this->bg.actor.update = &func_80A87F44;
+        this->bg.actor.draw = NULL;
+        Actor_SetScale(&this->bg.actor, 0.087f);
         return;
     }
     if (temp_v0 != 1) {
         return;
     }
-    DynaPolyActor_Init(&this->dyna, 0);
+    BgActor_Init(&this->bg, 0);
     CollisionHeader_GetVirtual(&D_0600BA8C, &sp4C);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-    this->dyna.actor.update = &func_80A87F44;
-    this->dyna.actor.draw = NULL;
-    Actor_SetScale(&this->dyna.actor, 0.087f);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
+    this->bg.actor.update = &func_80A87F44;
+    this->bg.actor.draw = NULL;
+    Actor_SetScale(&this->bg.actor, 0.087f);
 }
 ```
 </details>
@@ -561,7 +561,7 @@ This will still not compile without errors: we need to know what the functions i
 
 ### Functions called
 
-Function pointers do not need `&`, so remove all those. There are three functions that are called in this actor. Firstly, `this->dyna.actor.update = func_80A87F44;` tells us that `func_80A87F44` is an alternative update function for this actor. We therefore give it a prototype similar to the original Update:
+Function pointers do not need `&`, so remove all those. There are three functions that are called in this actor. Firstly, `this->bg.actor.update = func_80A87F44;` tells us that `func_80A87F44` is an alternative update function for this actor. We therefore give it a prototype similar to the original Update:
 ```C
 void EnJj_Init(Actor* thisx, PlayState* play);
 void EnJj_Destroy(Actor* thisx, PlayState* play);
@@ -711,9 +711,9 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
     // u32 temp_v0_2;
 
     sp4C = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, D_80A88CE0);
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
-    temp_v0 = this->dyna.actor.params;
+    Actor_ProcessInitChain(&this->bg.actor, D_80A88CE0);
+    ActorShape_Init(&this->bg.actor.shape, 0.0f, NULL, 0.0f);
+    temp_v0 = this->bg.actor.params;
     // temp_a1 = this->unk_164;
     if (temp_v0 == -1) {
         // sp44 = (DynaCollisionContext *) temp_a1;
@@ -729,38 +729,38 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
         } else {
             func_80A87800(this, func_80A87C30);
         }
-        this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
-        DynaPolyActor_Init(&this->dyna, 0);
+        this->childActor = Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_EN_JJ, this->bg.actor.world.pos.x - 10.0f, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, 0, this->bg.actor.world.rot.y, 0, 0);
+        BgActor_Init(&this->bg, 0);
         CollisionHeader_GetVirtual(&D_06000A1C, &sp4C);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
         // temp_a1_3 = this + 0x2B0;
         // sp44 = temp_a1_3;
         Collider_InitCylinder(play, &this->collider);
-        Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
-        this->dyna.actor.colChkInfo.mass = 0xFF;
+        Collider_SetCylinder(play, &this->collider, &this->bg.actor, &D_80A88CB4);
+        this->bg.actor.colChkInfo.mass = 0xFF;
         return;
     }
     if (temp_v0 == 0) {
-        DynaPolyActor_Init(&this->dyna, 0);
+        BgActor_Init(&this->bg, 0);
         CollisionHeader_GetVirtual(&D_06001830, &sp4C);
         // temp_a1_2 = &play->colCtx.dyna;
         // sp44 = temp_a1_2;
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-        func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
-        this->dyna.actor.update = func_80A87F44;
-        this->dyna.actor.draw = NULL;
-        Actor_SetScale(&this->dyna.actor, 0.087f);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
+        func_8003ECA8(play, &play->colCtx.dyna, this->bg.bgId);
+        this->bg.actor.update = func_80A87F44;
+        this->bg.actor.draw = NULL;
+        Actor_SetScale(&this->bg.actor, 0.087f);
         return;
     }
     if (temp_v0 != 1) {
         return;
     }
-    DynaPolyActor_Init(&this->dyna, 0);
+    BgActor_Init(&this->bg, 0);
     CollisionHeader_GetVirtual(&D_0600BA8C, &sp4C);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-    this->dyna.actor.update = func_80A87F44;
-    this->dyna.actor.draw = NULL;
-    Actor_SetScale(&this->dyna.actor, 0.087f);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
+    this->bg.actor.update = func_80A87F44;
+    this->bg.actor.draw = NULL;
+    Actor_SetScale(&this->bg.actor, 0.087f);
 }
 ```
 </details>
@@ -834,9 +834,9 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
     s16 temp_v0;
 
     sp4C = 0;
-    Actor_ProcessInitChain(&this->dyna.actor, D_80A88CE0);
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
-    temp_v0 = this->dyna.actor.params;
+    Actor_ProcessInitChain(&this->bg.actor, D_80A88CE0);
+    ActorShape_Init(&this->bg.actor.shape, 0.0f, NULL, 0.0f);
+    temp_v0 = this->bg.actor.params;
 
     switch (temp_v0) {
         case -1:
@@ -854,36 +854,36 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
                 func_80A87800(this, func_80A87C30);
             }
             this->childActor = Actor_SpawnAsChild(
-                &play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
-            DynaPolyActor_Init(&this->dyna, 0);
+                &play->actorCtx, &this->bg.actor, play, ACTOR_EN_JJ, this->bg.actor.world.pos.x - 10.0f,
+                this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, 0, this->bg.actor.world.rot.y, 0, 0);
+            BgActor_Init(&this->bg, 0);
             CollisionHeader_GetVirtual(&D_06000A1C, &sp4C);
-            this->dyna.bgId =
-                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+            this->bg.bgId =
+                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
             Collider_InitCylinder(play, &this->collider);
-            Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &D_80A88CB4);
-            this->dyna.actor.colChkInfo.mass = 0xFF;
+            Collider_SetCylinder(play, &this->collider, &this->bg.actor, &D_80A88CB4);
+            this->bg.actor.colChkInfo.mass = 0xFF;
             break;
         case 0:
-            DynaPolyActor_Init(&this->dyna, 0);
+            BgActor_Init(&this->bg, 0);
             CollisionHeader_GetVirtual(&D_06001830, &sp4C);
             // temp_a1_2 = &play->colCtx.dyna;
             // sp44 = temp_a1_2;
-            this->dyna.bgId =
-                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-            func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
-            this->dyna.actor.update = func_80A87F44;
-            this->dyna.actor.draw = NULL;
-            Actor_SetScale(&this->dyna.actor, 0.087f);
+            this->bg.bgId =
+                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
+            func_8003ECA8(play, &play->colCtx.dyna, this->bg.bgId);
+            this->bg.actor.update = func_80A87F44;
+            this->bg.actor.draw = NULL;
+            Actor_SetScale(&this->bg.actor, 0.087f);
             break;
         case 1:
-            DynaPolyActor_Init(&this->dyna, 0);
+            BgActor_Init(&this->bg, 0);
             CollisionHeader_GetVirtual(&D_0600BA8C, &sp4C);
-            this->dyna.bgId =
-                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-            this->dyna.actor.update = func_80A87F44;
-            this->dyna.actor.draw = NULL;
-            Actor_SetScale(&this->dyna.actor, 0.087f);
+            this->bg.bgId =
+                DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, sp4C);
+            this->bg.actor.update = func_80A87F44;
+            this->bg.actor.draw = NULL;
+            Actor_SetScale(&this->bg.actor, 0.087f);
             break;
     }
 }

@@ -126,12 +126,12 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader;
 
     colHeader = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->bg.actor, &sJntSphInit, this->colliderItems);
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
@@ -142,7 +142,7 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
 void BgHidanRsekizou_Destroy(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyJntSph(play, &this->collider);
 }
 
@@ -164,21 +164,21 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
         this->bendFrame = 3;
     }
 
-    this->dyna.actor.shape.rot.y += 0x180; // Approximately 2 Degrees per Frame
-    yawSine = Math_SinS(this->dyna.actor.shape.rot.y);
-    yawCosine = Math_CosS(this->dyna.actor.shape.rot.y);
+    this->bg.actor.shape.rot.y += 0x180; // Approximately 2 Degrees per Frame
+    yawSine = Math_SinS(this->bg.actor.shape.rot.y);
+    yawCosine = Math_CosS(this->bg.actor.shape.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
         sphere = &this->collider.elements[i];
-        sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
+        sphere->dim.worldSphere.center.x = this->bg.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
                                            yawSine * sphere->dim.modelSphere.center.z;
-        sphere->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + sphere->dim.modelSphere.center.y;
-        sphere->dim.worldSphere.center.z = (this->dyna.actor.home.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
+        sphere->dim.worldSphere.center.y = (s16)this->bg.actor.home.pos.y + sphere->dim.modelSphere.center.y;
+        sphere->dim.worldSphere.center.z = (this->bg.actor.home.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
                                            yawCosine * sphere->dim.modelSphere.center.z;
     }
 
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
 Gfx* BgHidanRsekizou_DrawFireball(PlayState* play, BgHidanRsekizou* this, s16 frame, MtxF* mf, s32 a,
@@ -199,19 +199,19 @@ Gfx* BgHidanRsekizou_DrawFireball(PlayState* play, BgHidanRsekizou* this, s16 fr
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);
 
     if (a == 0) {
-        sins = -Math_SinS(this->dyna.actor.shape.rot.y - (frame * 1500));
-        coss = -Math_CosS(this->dyna.actor.shape.rot.y - (frame * 1500));
+        sins = -Math_SinS(this->bg.actor.shape.rot.y - (frame * 1500));
+        coss = -Math_CosS(this->bg.actor.shape.rot.y - (frame * 1500));
     } else {
-        sins = Math_SinS(this->dyna.actor.shape.rot.y - (frame * 1500));
-        coss = Math_CosS(this->dyna.actor.shape.rot.y - (frame * 1500));
+        sins = Math_SinS(this->bg.actor.shape.rot.y - (frame * 1500));
+        coss = Math_CosS(this->bg.actor.shape.rot.y - (frame * 1500));
     }
 
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f;
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
-    mf->xw = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
-    mf->yw = (this->dyna.actor.world.pos.y + 30.0f) + ((7.0f / 10.0f) * fVar6);
-    mf->zw = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
+    mf->xw = (tmpf7 * sins) + this->bg.actor.world.pos.x;
+    mf->yw = (this->bg.actor.world.pos.y + 30.0f) + ((7.0f / 10.0f) * fVar6);
+    mf->zw = (tmpf7 * coss) + this->bg.actor.world.pos.z;
 
     gSPMatrix(displayList++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
@@ -239,7 +239,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
 
     POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
 
-    if ((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->dyna.actor.shape.rot.y) - 0x2E6C) >= 0) {
+    if ((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->bg.actor.shape.rot.y) - 0x2E6C) >= 0) {
         for (i = 3; i >= 0; i--) {
             POLY_XLU_DISP = BgHidanRsekizou_DrawFireball(play, this, i, &mf, 0, POLY_XLU_DISP);
         }

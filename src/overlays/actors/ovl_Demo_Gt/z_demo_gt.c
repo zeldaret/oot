@@ -14,8 +14,8 @@ void DemoGt_Draw(Actor* thisx, PlayState* play);
 void DemoGt_Destroy(Actor* thisx, PlayState* play) {
     DemoGt* this = (DemoGt*)thisx;
 
-    if ((this->dyna.actor.params == 1) || (this->dyna.actor.params == 2)) {
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if ((this->bg.actor.params == 1) || (this->bg.actor.params == 2)) {
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 
@@ -320,7 +320,7 @@ u8 func_8097E704(PlayState* play, u16 arg1, s32 arg2) {
 
 void func_8097E744(DemoGt* this, PlayState* play, u32 actionIdx) {
     CsCmdActorAction* npcAction = DemoGt_GetNpcAction(play, actionIdx);
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     f32 startX;
     f32 startY;
     f32 startZ;
@@ -349,7 +349,7 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     s16 phi_a1;
     s16 phi_a2;
     s16 phi_a3;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3s* unk16C = &this->unk_16C;
     s32 pad;
     f32 tempf3;
@@ -454,11 +454,11 @@ void func_8097EDD8(DemoGt* this, PlayState* play, CollisionHeader* collision) {
     CollisionHeader* colHeader;
 
     if (collision != NULL) {
-        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+        BgActor_Init(&this->bg, DPM_UNK);
         colHeader = NULL;
         CollisionHeader_GetVirtual(collision, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     }
 }
 
@@ -469,15 +469,15 @@ u8 func_8097EE44(DemoGt* this, PlayState* play, s32 updateMode, s32 drawConfig, 
         func_8097EDD8(this, play, colHeader);
         return true;
     } else {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
         return false;
     }
 }
 
 void func_8097EEA8_Init0(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
 
     func_8097EE44(this, play, 0, 1, NULL);
 }
@@ -499,7 +499,7 @@ void func_8097EF40(DemoGt* this, PlayState* play) {
     Vec3f dustPos;
     Vec3f velocity = { 0.0f, -16.0f, 0.0f };
     Vec3f accel = { 0.0f, 1.2f, 0.0f };
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     s32 pad;
 
     if ((kREG(1) == 20) || (frames == 220)) {
@@ -526,16 +526,16 @@ void func_8097F0AC(DemoGt* this, PlayState* play) {
     s32 pad2;
 
     if ((frames == 140) || (kREG(1) == 19)) {
-        sp38.x = this->dyna.actor.world.pos.x + 260.0f;
-        sp38.y = this->dyna.actor.world.pos.y + 340.0f;
-        sp38.z = this->dyna.actor.world.pos.z + 45.0f;
+        sp38.x = this->bg.actor.world.pos.x + 260.0f;
+        sp38.y = this->bg.actor.world.pos.y + 340.0f;
+        sp38.z = this->bg.actor.world.pos.z + 45.0f;
         DemoGt_SpawnExplosionWithSound(play, &sp38, 2.0f);
     }
 
     if (frames == 176) {
-        sp24.x = this->dyna.actor.world.pos.x + 260.0f;
-        sp24.y = this->dyna.actor.world.pos.y + 840.0f;
-        sp24.z = this->dyna.actor.world.pos.z + 45.0f;
+        sp24.x = this->bg.actor.world.pos.x + 260.0f;
+        sp24.y = this->bg.actor.world.pos.y + 840.0f;
+        sp24.z = this->bg.actor.world.pos.z + 45.0f;
         DemoGt_SpawnExplosionWithSound(play, &sp24, 2.0f);
     }
 }
@@ -689,9 +689,9 @@ void DemoGt_Draw1(DemoGt* this, PlayState* play) {
 }
 
 void func_8097F904_Init1(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
     func_8097EE44(this, play, 1, 2, &gTowerCollapseCsCollapsedStructureInnerCol);
 }
 
@@ -706,9 +706,9 @@ void func_8097F96C(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (((frames > 1059) && (frames < 1062)) || kREG(1) == 17) {
-        pos.x = this->dyna.actor.world.pos.x;
-        pos.y = this->dyna.actor.world.pos.y + 612.0f;
-        pos.z = this->dyna.actor.world.pos.z;
+        pos.x = this->bg.actor.world.pos.x;
+        pos.y = this->bg.actor.world.pos.y + 612.0f;
+        pos.z = this->bg.actor.world.pos.z;
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(play, &pos, 2);
@@ -725,7 +725,7 @@ void func_8097FA1C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3f velOffset = { -12.0f, -17.0, 5.0 };
     s32 pad1[3];
 
@@ -751,7 +751,7 @@ void func_8097FAFC(DemoGt* this, PlayState* play) {
     f32 new_var = -200.0;
 
     if (((frames > 582) && (frames < 683)) || (kREG(1) == 6)) {
-        pos = this->dyna.actor.world.pos;
+        pos = this->bg.actor.world.pos;
         pos.y += 680.0f;
 
         if (frames == 682) {
@@ -768,7 +768,7 @@ void func_8097FC1C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -786,9 +786,9 @@ void func_8097FCE4(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (frames == 0x1F7 || kREG(1) == 4) {
-        vec.x = this->dyna.actor.world.pos.x + 300.0f;
-        vec.y = this->dyna.actor.world.pos.y + 560.0f;
-        vec.z = this->dyna.actor.world.pos.z - 377.0f;
+        vec.x = this->bg.actor.world.pos.x + 300.0f;
+        vec.y = this->bg.actor.world.pos.y + 560.0f;
+        vec.z = this->bg.actor.world.pos.z - 377.0f;
         DemoGt_SpawnExplosionWithSound(play, &vec, 2.0f);
     }
 }
@@ -867,9 +867,9 @@ void DemoGt_Draw2(DemoGt* this, PlayState* play) {
 }
 
 void func_80980110_Init2(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
     func_8097EE44(this, play, 2, 3, &gTowerCollapseCsCollapsedStructureOuterCol);
 }
 
@@ -886,9 +886,9 @@ void func_80980184(DemoGt* this, PlayState* play) {
     Actor* actor;
 
     if ((play->csCtx.frames > 1027) && (play->csCtx.frames < 1031)) {
-        pos.x = this->dyna.actor.world.pos.x;
-        pos.y = this->dyna.actor.world.pos.y + 247.0f;
-        pos.z = this->dyna.actor.world.pos.z;
+        pos.x = this->bg.actor.world.pos.x;
+        pos.y = this->bg.actor.world.pos.y + 247.0f;
+        pos.z = this->bg.actor.world.pos.z;
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(play, &pos, 3);
@@ -908,9 +908,9 @@ void func_80980218(DemoGt* this, PlayState* play) {
     Actor* actor;
 
     if ((play->csCtx.frames > 997) && (play->csCtx.frames < 1001)) {
-        pos.x = this->dyna.actor.home.pos.x;
-        pos.y = this->dyna.actor.home.pos.y + 38.0f;
-        pos.z = this->dyna.actor.home.pos.z;
+        pos.x = this->bg.actor.home.pos.x;
+        pos.y = this->bg.actor.home.pos.y + 38.0f;
+        pos.z = this->bg.actor.home.pos.z;
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(play, &pos, 4);
@@ -927,7 +927,7 @@ void func_809802AC(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3f velOffset = { 0.0f, 0.0f, -10.0f };
     s32 pad1[3];
 
@@ -943,7 +943,7 @@ void func_8098036C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* world = &this->dyna.actor.world.pos;
+    Vec3f* world = &this->bg.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
 
@@ -959,7 +959,7 @@ void func_80980430(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     s32 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
 
@@ -975,7 +975,7 @@ void func_80980504(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -991,7 +991,7 @@ void func_809805D8(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* homePos = &this->dyna.actor.home.pos;
+    Vec3f* homePos = &this->bg.actor.home.pos;
     Vec3f velOffset = { 15.0f, -26.0, 0.0f };
     s32 pad1[3];
 
@@ -1007,7 +1007,7 @@ void func_809806B8(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -1023,7 +1023,7 @@ void func_8098078C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -1039,7 +1039,7 @@ void func_8098085C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f sp28;
     u16 frames = play->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    Vec3f* pos = &this->bg.actor.world.pos;
 
     if ((frames == 58) || (kREG(1) == 1)) {
         sp28.x = pos->x + 900.0f;
@@ -1072,9 +1072,9 @@ void func_809809C0(DemoGt* this, PlayState* play2) {
         Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
         s16 pad2[3];
 
-        sp54.x = this2->dyna.actor.world.pos.x + 790.0f;
-        sp54.y = this2->dyna.actor.world.pos.y + 60.0f;
-        sp54.z = this2->dyna.actor.world.pos.z + 23.0f;
+        sp54.x = this2->bg.actor.world.pos.x + 790.0f;
+        sp54.y = this2->bg.actor.world.pos.y + 60.0f;
+        sp54.z = this2->bg.actor.world.pos.z + 23.0f;
 
         if (ABS(gameplayFrames % 12) == 0) {
             DemoGt_SpawnExplosionNoSound(play, &sp54, &sp40, &sp34, 2.0f);
@@ -1088,9 +1088,9 @@ void func_80980AD4(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if ((frames == 477) || (kREG(2) == 1)) {
-        pos.x = this->dyna.actor.world.pos.x + 790.0f;
-        pos.y = this->dyna.actor.world.pos.y + 60.0f;
-        pos.z = this->dyna.actor.world.pos.z + 23.0f;
+        pos.x = this->bg.actor.world.pos.x + 790.0f;
+        pos.y = this->bg.actor.world.pos.y + 60.0f;
+        pos.z = this->bg.actor.world.pos.z + 23.0f;
 
         func_8097DAC8(this, play, &pos);
         DemoGt_PlayExplosion2Sfx(play, &pos);
@@ -1103,9 +1103,9 @@ void func_80980B68(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if ((frames == 317) || (kREG(3) == 1)) {
-        pos.x = this->dyna.actor.world.pos.x + 980.0f;
-        pos.y = this->dyna.actor.world.pos.y + 410.0f;
-        pos.z = this->dyna.actor.world.pos.z - 177.0f;
+        pos.x = this->bg.actor.world.pos.x + 980.0f;
+        pos.y = this->bg.actor.world.pos.y + 410.0f;
+        pos.z = this->bg.actor.world.pos.z - 177.0f;
         func_8097DD28(this, play, &pos);
         DemoGt_PlayExplosion2Sfx(play, &pos);
     }
@@ -1117,9 +1117,9 @@ void func_80980BFC(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if ((frames == 740) || (kREG(4) == 1)) {
-        pos.x = this->dyna.actor.world.pos.x + 790.0f;
-        pos.y = this->dyna.actor.world.pos.y + 60.0f;
-        pos.z = this->dyna.actor.world.pos.z + 23.0f;
+        pos.x = this->bg.actor.world.pos.x + 790.0f;
+        pos.y = this->bg.actor.world.pos.y + 60.0f;
+        pos.z = this->bg.actor.world.pos.z + 23.0f;
 
         func_8097DF70(this, play, &pos);
         DemoGt_PlayExplosion2Sfx(play, &pos);
@@ -1177,9 +1177,9 @@ void DemoGt_Draw3(DemoGt* this, PlayState* play) {
 }
 
 void func_80980F00_Init5(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
 
     func_8097EE44(this, play, 3, 4, NULL);
 }
@@ -1188,7 +1188,7 @@ void func_80980F58(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (frames == 244) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        func_80078914(&this->bg.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1300,9 +1300,9 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
 }
 
 void func_809813CC_Init6(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
 
     func_8097EE44(this, play, 4, 5, NULL);
 }
@@ -1311,7 +1311,7 @@ void func_80981424(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (frames == 789) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        func_80078914(&this->bg.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1418,9 +1418,9 @@ void DemoGt_Draw5(DemoGt* this, PlayState* play) {
 }
 
 void func_809818A4_Init7(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
 
     func_8097EE44(this, play, 5, 6, NULL);
 }
@@ -1429,7 +1429,7 @@ void func_809818FC(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (frames == 845) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        func_80078914(&this->bg.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 void func_80981930(DemoGt* this, PlayState* play) {
@@ -1510,9 +1510,9 @@ void DemoGt_Draw6(DemoGt* this, PlayState* play) {
 }
 
 void func_80981C94_Init23(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
     func_8097EE44(this, play, 6, 7, NULL);
 }
 
@@ -1520,7 +1520,7 @@ void func_80981CEC(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (frames == 183) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        func_80078914(&this->bg.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1601,9 +1601,9 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
 }
 
 void func_80982054_Init24(DemoGt* this, PlayState* play) {
-    this->dyna.actor.scale.x *= 10.0f;
-    this->dyna.actor.scale.y *= 10.0f;
-    this->dyna.actor.scale.z *= 10.0f;
+    this->bg.actor.scale.x *= 10.0f;
+    this->bg.actor.scale.y *= 10.0f;
+    this->bg.actor.scale.z *= 10.0f;
     func_8097EE44(this, play, 7, 8, NULL);
 }
 
@@ -1611,7 +1611,7 @@ void func_809820AC(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (frames == 154) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        func_80078914(&this->bg.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1714,7 +1714,7 @@ void DemoGt_Update(Actor* thisx, PlayState* play) {
 void DemoGt_Init(Actor* thisx, PlayState* play) {
     DemoGt* this = (DemoGt*)thisx;
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case 0:
             func_8097EEA8_Init0(this, play);
             break;
@@ -1742,7 +1742,7 @@ void DemoGt_Init(Actor* thisx, PlayState* play) {
         default:
             // "Demo_Gt_Actor_ct There is no such argument !"
             osSyncPrintf("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
     }
 }
 

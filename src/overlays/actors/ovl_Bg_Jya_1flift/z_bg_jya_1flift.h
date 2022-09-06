@@ -9,7 +9,7 @@ struct BgJya1flift;
 typedef void (*BgJya1fliftActionFunc)(struct BgJya1flift*, PlayState*);
 
 typedef struct BgJya1flift {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ColliderCylinder collider;
     /* 0x01B0 */ BgJya1fliftActionFunc actionFunc;
     /* 0x01B4 */ s16 moveDelay;

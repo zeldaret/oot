@@ -52,64 +52,62 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     Vec3f chainPos;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, 1);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, 1);
 
-    if (this->dyna.actor.params == DT_DRAWBRIDGE) {
+    if (this->bg.actor.params == DT_DRAWBRIDGE) {
         CollisionHeader_GetVirtual(&gHyruleFieldCastleDrawbridgeCol, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&gHyruleFieldCastleDrawbridgeChainsCol, &colHeader);
     }
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if (this->dyna.actor.params == DT_DRAWBRIDGE) {
+    if (this->bg.actor.params == DT_DRAWBRIDGE) {
         if (LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
             return;
         }
 
         if ((gSaveContext.sceneLayer != 6) &&
             ((gSaveContext.sceneLayer == 4) || (gSaveContext.sceneLayer == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
-            this->dyna.actor.shape.rot.x = -0x4000;
+            this->bg.actor.shape.rot.x = -0x4000;
         } else {
-            this->dyna.actor.shape.rot.x = 0;
+            this->bg.actor.shape.rot.x = 0;
         }
 
         if (gSaveContext.sceneLayer != 6) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
                 CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
-                this->dyna.actor.shape.rot.x = -0x4000;
+                this->bg.actor.shape.rot.x = -0x4000;
             }
         }
 
-        chainPos.y =
-            (10.0f * Math_CosS(this->dyna.actor.shape.rot.x)) - (Math_SinS(this->dyna.actor.shape.rot.x) * 400.0f);
-        chainPos.z =
-            (10.0f * Math_SinS(this->dyna.actor.shape.rot.x)) - (Math_CosS(this->dyna.actor.shape.rot.x) * 400.0f);
+        chainPos.y = (10.0f * Math_CosS(this->bg.actor.shape.rot.x)) - (Math_SinS(this->bg.actor.shape.rot.x) * 400.0f);
+        chainPos.z = (10.0f * Math_SinS(this->bg.actor.shape.rot.x)) - (Math_CosS(this->bg.actor.shape.rot.x) * 400.0f);
         chainPos.x =
-            (158.0f * Math_CosS(this->dyna.actor.shape.rot.y)) + (Math_SinS(this->dyna.actor.shape.rot.y) * chainPos.z);
-        chainPos.z = (-158.0f * Math_SinS(this->dyna.actor.shape.rot.y)) +
-                     (Math_CosS(this->dyna.actor.shape.rot.y) * chainPos.z);
+            (158.0f * Math_CosS(this->bg.actor.shape.rot.y)) + (Math_SinS(this->bg.actor.shape.rot.y) * chainPos.z);
+        chainPos.z =
+            (-158.0f * Math_SinS(this->bg.actor.shape.rot.y)) + (Math_CosS(this->bg.actor.shape.rot.y) * chainPos.z);
 
-        if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT00_HANEBASI,
-                               this->dyna.actor.world.pos.x + chainPos.x, this->dyna.actor.world.pos.y + chainPos.y,
-                               this->dyna.actor.world.pos.z + chainPos.z,
-                               ((this->dyna.actor.shape.rot.x == 0) ? 0 : 0xF020), this->dyna.actor.shape.rot.y, 0,
+        if (Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_BG_SPOT00_HANEBASI,
+                               this->bg.actor.world.pos.x + chainPos.x, this->bg.actor.world.pos.y + chainPos.y,
+                               this->bg.actor.world.pos.z + chainPos.z,
+                               ((this->bg.actor.shape.rot.x == 0) ? 0 : 0xF020), this->bg.actor.shape.rot.y, 0,
                                DT_CHAIN_1) == NULL) {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
         }
 
         this->actionFunc = BgSpot00Hanebasi_DrawbridgeWait;
         this->destAngle = 40;
-    } else if (this->dyna.actor.params == DT_CHAIN_1) {
-        if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT00_HANEBASI,
-                               this->dyna.actor.world.pos.x - (Math_CosS(this->dyna.actor.shape.rot.y) * 316.0f),
-                               this->dyna.actor.world.pos.y,
-                               this->dyna.actor.world.pos.z + (Math_SinS(this->dyna.actor.shape.rot.y) * 316.0f),
-                               this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, DT_CHAIN_2) == NULL) {
-            Actor_Kill(&this->dyna.actor);
-            Actor_Kill(this->dyna.actor.parent);
+    } else if (this->bg.actor.params == DT_CHAIN_1) {
+        if (Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_BG_SPOT00_HANEBASI,
+                               this->bg.actor.world.pos.x - (Math_CosS(this->bg.actor.shape.rot.y) * 316.0f),
+                               this->bg.actor.world.pos.y,
+                               this->bg.actor.world.pos.z + (Math_SinS(this->bg.actor.shape.rot.y) * 316.0f),
+                               this->bg.actor.shape.rot.x, this->bg.actor.shape.rot.y, 0, DT_CHAIN_2) == NULL) {
+            Actor_Kill(&this->bg.actor);
+            Actor_Kill(this->bg.actor.parent);
         }
 
         this->actionFunc = BgSpot00Hanebasi_SetTorchLightInfo;
@@ -117,29 +115,29 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = BgSpot00Hanebasi_SetTorchLightInfo;
     }
 
-    if (this->dyna.actor.params >= DT_CHAIN_1) {
+    if (this->bg.actor.params >= DT_CHAIN_1) {
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
-        Lights_PointGlowSetInfo(&this->lightInfo, ((this->dyna.actor.params == DT_CHAIN_1) ? 260.0f : -260.0f), 168,
-                                690, 255, 255, 0, 0);
+        Lights_PointGlowSetInfo(&this->lightInfo, ((this->bg.actor.params == DT_CHAIN_1) ? 260.0f : -260.0f), 168, 690,
+                                255, 255, 0, 0);
     }
 }
 
 void BgSpot00Hanebasi_Destroy(Actor* thisx, PlayState* play) {
     BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 
-    if (this->dyna.actor.params >= DT_CHAIN_1) {
+    if (this->bg.actor.params >= DT_CHAIN_1) {
         LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
     }
 }
 
 void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
-    BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
+    BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->bg.actor.child;
 
     if (IS_CUTSCENE_LAYER || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ||
         !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) || GET_EVENTCHKINF(EVENTCHKINF_80)) {
-        if (this->dyna.actor.shape.rot.x != 0) {
+        if (this->bg.actor.shape.rot.x != 0) {
             if (Flags_GetEnv(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY)) {
                 this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
                 this->destAngle = 0;
@@ -149,7 +147,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
 
             if (this) {} // required to match
         }
-        if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
+        if ((this->bg.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
             this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
             this->destAngle = -0x4000;
             child->destAngle = -0xFE0;
@@ -165,29 +163,29 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
     Actor* childsChild;
     s16 angle = 80;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, this->destAngle, 80)) {
+    if (Math_ScaledStepToS(&this->bg.actor.shape.rot.x, this->destAngle, 80)) {
         this->actionFunc = BgSpot00Hanebasi_DrawbridgeWait;
     }
 
-    if (this->dyna.actor.shape.rot.x >= -0x27D8) {
-        child = (BgSpot00Hanebasi*)this->dyna.actor.child;
+    if (this->bg.actor.shape.rot.x >= -0x27D8) {
+        child = (BgSpot00Hanebasi*)this->bg.actor.child;
         angle *= 0.4f;
-        Math_ScaledStepToS(&child->dyna.actor.shape.rot.x, child->destAngle, angle);
-        childsChild = child->dyna.actor.child;
+        Math_ScaledStepToS(&child->bg.actor.shape.rot.x, child->destAngle, angle);
+        childsChild = child->bg.actor.child;
         Math_ScaledStepToS(&childsChild->shape.rot.x, child->destAngle, angle);
     }
 
     if (this->destAngle < 0) {
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+            func_8002F974(&this->bg.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
         }
     } else {
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
+            func_8002F974(&this->bg.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
         }
     }
 }
@@ -195,7 +193,7 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play) {
     u8 lightColor = (u8)(Rand_ZeroOne() * 127.0f) + 128; // intensity of the red and green channels
 
-    Lights_PointGlowSetInfo(&this->lightInfo, (this->dyna.actor.params == DT_CHAIN_1) ? 260.0f : -260.0f,
+    Lights_PointGlowSetInfo(&this->lightInfo, (this->bg.actor.params == DT_CHAIN_1) ? 260.0f : -260.0f,
                             (5000.0f * sTorchFlameScale) + 128.0f, 690, lightColor, lightColor, 0,
                             sTorchFlameScale * 37500.0f);
 }
@@ -206,7 +204,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (this->dyna.actor.params == DT_DRAWBRIDGE) {
+    if (this->bg.actor.params == DT_DRAWBRIDGE) {
         if (play->sceneId == SCENE_SPOT00) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
                 CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
@@ -223,7 +221,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
-                } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
+                } else if (Actor_IsFacingAndNearPlayer(&this->bg.actor, 3000.0f, 0x7530)) {
                     play->envCtx.stormRequest = STORM_REQUEST_START;
                 }
             }

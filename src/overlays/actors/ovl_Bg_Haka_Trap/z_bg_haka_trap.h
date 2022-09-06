@@ -18,7 +18,7 @@ struct BgHakaTrap;
 typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, PlayState*);
 
 typedef struct BgHakaTrap {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgHakaTrapActionFunc actionFunc;
     /* 0x0168 */ u8 timer;
     /* 0x0169 */ u8 unk_169;

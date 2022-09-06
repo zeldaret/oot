@@ -10,7 +10,7 @@ typedef s32 (*ObjTimeblockSongObserverFunc)(struct ObjTimeblock*, PlayState*);
 typedef void (*ObjTimeblockActionFunc)(struct ObjTimeblock*, PlayState*);
 
 typedef struct ObjTimeblock {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ObjTimeblockActionFunc actionFunc;
     /* 0x0168 */ ObjTimeblockSongObserverFunc songObserverFunc;
     /* 0x016C */ s16 demoEffectTimer;

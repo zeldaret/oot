@@ -90,21 +90,21 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     f32 cossX;
     f32 nSinsX;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     this->isDestroyedSwitchFlag = thisx->params & 0x3F;
     this->burnSwitchFlag = (thisx->params >> 6) & 0x3F;
-    this->dyna.actor.params = (thisx->params >> 0xC) & 0xF;
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    this->bg.actor.params = (thisx->params >> 0xC) & 0xF;
+    BgActor_Init(&this->bg, DPM_PLAYER);
     Collider_InitTris(play, &this->trisCollider);
-    Collider_SetTris(play, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);
-    if (this->dyna.actor.params == WEB_FLOOR) {
+    Collider_SetTris(play, &this->trisCollider, &this->bg.actor, &sTrisInit, this->trisColliderItems);
+    if (this->bg.actor.params == WEB_FLOOR) {
         CollisionHeader_GetVirtual(&gDTWebFloorCol, &colHeader);
         this->actionFunc = BgYdanSp_FloorWebIdle;
 
         for (i = 0; i < 3; i++) {
-            tri[i].x = ti0->dim.vtx[i].x + this->dyna.actor.world.pos.x;
-            tri[i].y = ti0->dim.vtx[i].y + this->dyna.actor.world.pos.y;
-            tri[i].z = ti0->dim.vtx[i].z + this->dyna.actor.world.pos.z;
+            tri[i].x = ti0->dim.vtx[i].x + this->bg.actor.world.pos.x;
+            tri[i].y = ti0->dim.vtx[i].y + this->bg.actor.world.pos.y;
+            tri[i].z = ti0->dim.vtx[i].z + this->bg.actor.world.pos.z;
         }
 
         Collider_SetTrisVertices(&this->trisCollider, 0, &tri[0], &tri[1], &tri[2]);
@@ -115,37 +115,35 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     } else {
         CollisionHeader_GetVirtual(&gDTWebWallCol, &colHeader);
         this->actionFunc = BgYdanSp_WallWebIdle;
-        Actor_SetFocus(&this->dyna.actor, 30.0f);
-        sinsY = Math_SinS(this->dyna.actor.shape.rot.y);
-        cossY = Math_CosS(this->dyna.actor.shape.rot.y);
-        nSinsX = -Math_SinS(this->dyna.actor.shape.rot.x);
-        cossX = Math_CosS(this->dyna.actor.shape.rot.x);
+        Actor_SetFocus(&this->bg.actor, 30.0f);
+        sinsY = Math_SinS(this->bg.actor.shape.rot.y);
+        cossY = Math_CosS(this->bg.actor.shape.rot.y);
+        nSinsX = -Math_SinS(this->bg.actor.shape.rot.x);
+        cossX = Math_CosS(this->bg.actor.shape.rot.x);
 
         for (i = 0; i < 3; i++) {
-            tri[i].x =
-                this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[i].x) - (sinsY * ti1->dim.vtx[i].y * nSinsX);
-            tri[i].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[i].y * cossX);
-            tri[i].z =
-                this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[i].x) + (ti1->dim.vtx[i].y * cossY * nSinsX);
+            tri[i].x = this->bg.actor.world.pos.x + (cossY * ti1->dim.vtx[i].x) - (sinsY * ti1->dim.vtx[i].y * nSinsX);
+            tri[i].y = this->bg.actor.world.pos.y + (ti1->dim.vtx[i].y * cossX);
+            tri[i].z = this->bg.actor.world.pos.z - (sinsY * ti1->dim.vtx[i].x) + (ti1->dim.vtx[i].y * cossY * nSinsX);
         }
 
         Collider_SetTrisVertices(&this->trisCollider, 0, &tri[0], &tri[1], &tri[2]);
 
-        tri[1].x = this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[0].x) - (ti1->dim.vtx[2].y * sinsY * nSinsX);
-        tri[1].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[2].y * cossX);
-        tri[1].z = this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[0].x) + (ti1->dim.vtx[2].y * cossY * nSinsX);
+        tri[1].x = this->bg.actor.world.pos.x + (cossY * ti1->dim.vtx[0].x) - (ti1->dim.vtx[2].y * sinsY * nSinsX);
+        tri[1].y = this->bg.actor.world.pos.y + (ti1->dim.vtx[2].y * cossX);
+        tri[1].z = this->bg.actor.world.pos.z - (sinsY * ti1->dim.vtx[0].x) + (ti1->dim.vtx[2].y * cossY * nSinsX);
         Collider_SetTrisVertices(&this->trisCollider, 1, &tri[0], &tri[2], &tri[1]);
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     this->timer = 0;
     if (Flags_GetSwitch(play, this->isDestroyedSwitchFlag)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
 void BgYdanSp_Destroy(Actor* thisx, PlayState* play) {
     BgYdanSp* this = (BgYdanSp*)thisx;
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyTris(play, &this->trisCollider);
 }
 
@@ -155,7 +153,7 @@ void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
 
     colHeader = SEGMENTED_TO_VIRTUAL(&gDTWebFloorCol);
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
-    newY = (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y) * 10;
+    newY = (this->bg.actor.home.pos.y - this->bg.actor.world.pos.y) * 10;
     colHeader->vtxList[14].y = newY;
     colHeader->vtxList[12].y = newY;
     colHeader->vtxList[10].y = newY;
@@ -171,7 +169,7 @@ void BgYdanSp_BurnWeb(BgYdanSp* this, PlayState* play) {
     this = this;
     func_80078884(NA_SE_SY_CORRECT_CHIME);
     Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
-    if (this->dyna.actor.params == WEB_FLOOR) {
+    if (this->bg.actor.params == WEB_FLOOR) {
         this->actionFunc = BgYdanSp_BurnFloorWeb;
     } else {
         this->actionFunc = BgYdanSp_BurnWallWeb;
@@ -194,32 +192,32 @@ void BgYdanSp_BurnFloorWeb(BgYdanSp* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
         return;
     }
     if ((this->timer % 3) == 0) {
         rot2 = Rand_ZeroOne() * 0x2AAA;
         velocity.y = 0.0f;
-        pos2.y = this->dyna.actor.world.pos.y;
+        pos2.y = this->bg.actor.world.pos.y;
 
         for (i = 0; i < 6; i++) {
             rot = Rand_CenteredFloat(0x2800) + rot2;
             sins = Math_SinS(rot);
             coss = Math_CosS(rot);
-            pos2.x = this->dyna.actor.world.pos.x + (120.0f * sins);
-            pos2.z = this->dyna.actor.world.pos.z + (120.0f * coss);
-            distXZ = Math_Vec3f_DistXZ(&this->dyna.actor.home.pos, &pos2) * (1.0f / 120.0f);
+            pos2.x = this->bg.actor.world.pos.x + (120.0f * sins);
+            pos2.z = this->bg.actor.world.pos.z + (120.0f * coss);
+            distXZ = Math_Vec3f_DistXZ(&this->bg.actor.home.pos, &pos2) * (1.0f / 120.0f);
             if (distXZ < 0.7f) {
                 sins = Math_SinS(rot + 0x8000);
                 coss = Math_CosS(rot + 0x8000);
-                pos2.x = this->dyna.actor.world.pos.x + (120.0f * sins);
-                pos2.z = this->dyna.actor.world.pos.z + (120.0f * coss);
-                distXZ = Math_Vec3f_DistXZ(&this->dyna.actor.home.pos, &pos2) * (1.0f / 120.0f);
+                pos2.x = this->bg.actor.world.pos.x + (120.0f * sins);
+                pos2.z = this->bg.actor.world.pos.z + (120.0f * coss);
+                distXZ = Math_Vec3f_DistXZ(&this->bg.actor.home.pos, &pos2) * (1.0f / 120.0f);
             }
             velocity.x = (7.0f * sins) * distXZ;
             velocity.y = 0.0f;
             velocity.z = (7.0f * coss) * distXZ;
-            EffectSsDeadDb_Spawn(play, &this->dyna.actor.home.pos, &velocity, &accel, 60, 6, 255, 255, 150, 170, 255, 0,
+            EffectSsDeadDb_Spawn(play, &this->bg.actor.home.pos, &velocity, &accel, 60, 6, 255, 255, 150, 170, 255, 0,
                                  0, 1, 0xE, 1);
             rot2 += 0x2AAA;
         }
@@ -232,7 +230,7 @@ void BgYdanSp_FloorWebBroken(BgYdanSp* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -248,18 +246,18 @@ void BgYdanSp_FloorWebBreaking(BgYdanSp* this, PlayState* play) {
         this->timer--;
     }
 
-    this->dyna.actor.world.pos.y = (sinf((f32)this->timer * (M_PI / 20)) * this->unk_16C) + this->dyna.actor.home.pos.y;
-    if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 190.0f) {
-        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+    this->bg.actor.world.pos.y = (sinf((f32)this->timer * (M_PI / 20)) * this->unk_16C) + this->bg.actor.home.pos.y;
+    if (this->bg.actor.home.pos.y - this->bg.actor.world.pos.y > 190.0f) {
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
         this->timer = 40;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
         this->actionFunc = BgYdanSp_FloorWebBroken;
-        pos.y = this->dyna.actor.world.pos.y - 60.0f;
+        pos.y = this->bg.actor.world.pos.y - 60.0f;
         rot = 0;
         for (i = 0; i < 6; i++) {
-            pos.x = Math_SinS(rot) * 60.0f + this->dyna.actor.world.pos.x;
-            pos.z = Math_CosS(rot) * 60.0f + this->dyna.actor.world.pos.z;
+            pos.x = Math_SinS(rot) * 60.0f + this->bg.actor.world.pos.x;
+            pos.z = Math_CosS(rot) * 60.0f + this->bg.actor.world.pos.z;
             func_8002829C(play, &pos, &zeroVec, &zeroVec, &primColor, &envColor, 1000, 10);
 
             rot += 0x2AAA;
@@ -275,12 +273,12 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
     f32 unk;
 
     player = GET_PLAYER(play);
-    webPos.x = this->dyna.actor.world.pos.x;
-    webPos.y = this->dyna.actor.world.pos.y - 50.0f;
-    webPos.z = this->dyna.actor.world.pos.z;
+    webPos.x = this->bg.actor.world.pos.x;
+    webPos.y = this->bg.actor.world.pos.y - 50.0f;
+    webPos.z = this->bg.actor.world.pos.z;
     if (Player_IsBurningStickInRange(play, &webPos, 70.0f, 50.0f) != 0) {
-        this->dyna.actor.home.pos.x = player->meleeWeaponInfo[0].tip.x;
-        this->dyna.actor.home.pos.z = player->meleeWeaponInfo[0].tip.z;
+        this->bg.actor.home.pos.x = player->meleeWeaponInfo[0].tip.x;
+        this->bg.actor.home.pos.z = player->meleeWeaponInfo[0].tip.z;
         BgYdanSp_BurnWeb(this, play);
         return;
     }
@@ -288,15 +286,15 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
         BgYdanSp_BurnWeb(this, play);
         return;
     }
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
         sqrtFallDistance = sqrtf(CLAMP_MIN(player->fallDistance, 0.0f));
         if (player->fallDistance > 750.0f) {
-            if (this->dyna.actor.xzDistToPlayer < 80.0f) {
+            if (this->bg.actor.xzDistToPlayer < 80.0f) {
                 this->unk_16C = 200.0f;
-                this->dyna.actor.room = -1;
-                this->dyna.actor.flags |= ACTOR_FLAG_4;
+                this->bg.actor.room = -1;
+                this->bg.actor.flags |= ACTOR_FLAG_4;
                 this->timer = 40;
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WEB_BROKEN);
+                Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_WEB_BROKEN);
                 this->actionFunc = BgYdanSp_FloorWebBreaking;
                 return;
             }
@@ -325,11 +323,11 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
     if (this->timer == 0) {
         this->timer = 14;
     }
-    this->dyna.actor.world.pos.y = sinf((f32)this->timer * (M_PI / 7)) * this->unk_16C + this->dyna.actor.home.pos.y;
+    this->bg.actor.world.pos.y = sinf((f32)this->timer * (M_PI / 7)) * this->unk_16C + this->bg.actor.home.pos.y;
     Math_ApproachZeroF(&this->unk_16C, 1.0f, 0.8f);
     if (this->timer == 13) {
         if (this->unk_16C > 3.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_WEB_VIBRATION);
         } else {
             Audio_StopSfxById(NA_SE_EV_WEB_VIBRATION);
         }
@@ -354,7 +352,7 @@ void BgYdanSp_BurnWallWeb(BgYdanSp* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
         return;
     }
     if ((this->timer % 3) == 0) {
@@ -364,27 +362,27 @@ void BgYdanSp_BurnWallWeb(BgYdanSp* this, PlayState* play) {
             rot = Rand_CenteredFloat(0x2800) + rot2;
             sins = Math_SinS(rot);
             coss = Math_CosS(rot);
-            coss2 = Math_CosS(this->dyna.actor.shape.rot.y) * sins;
-            sins *= Math_SinS(this->dyna.actor.shape.rot.y);
+            coss2 = Math_CosS(this->bg.actor.shape.rot.y) * sins;
+            sins *= Math_SinS(this->bg.actor.shape.rot.y);
 
-            spC8.x = this->dyna.actor.world.pos.x + (140.0f * coss2);
-            spC8.y = this->dyna.actor.world.pos.y + (140.0f * (1.0f + coss));
-            spC8.z = this->dyna.actor.world.pos.z - (140.0f * sins);
-            distXYZ = Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &spC8) * (1.0f / 140.0f);
+            spC8.x = this->bg.actor.world.pos.x + (140.0f * coss2);
+            spC8.y = this->bg.actor.world.pos.y + (140.0f * (1.0f + coss));
+            spC8.z = this->bg.actor.world.pos.z - (140.0f * sins);
+            distXYZ = Math_Vec3f_DistXYZ(&this->bg.actor.home.pos, &spC8) * (1.0f / 140.0f);
             if (distXYZ < 0.65f) {
                 sins = Math_SinS(rot + 0x8000);
                 coss = Math_CosS(rot + 0x8000);
-                coss2 = Math_CosS(this->dyna.actor.shape.rot.y) * sins;
-                sins *= Math_SinS(this->dyna.actor.shape.rot.y);
-                spC8.x = this->dyna.actor.world.pos.x + (140.0f * coss2);
-                spC8.y = this->dyna.actor.world.pos.y + (140.0f * (1.0f + coss));
-                spC8.z = this->dyna.actor.world.pos.z - (140.0f * sins);
-                distXYZ = Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &spC8) * (1.0f / 140.0f);
+                coss2 = Math_CosS(this->bg.actor.shape.rot.y) * sins;
+                sins *= Math_SinS(this->bg.actor.shape.rot.y);
+                spC8.x = this->bg.actor.world.pos.x + (140.0f * coss2);
+                spC8.y = this->bg.actor.world.pos.y + (140.0f * (1.0f + coss));
+                spC8.z = this->bg.actor.world.pos.z - (140.0f * sins);
+                distXYZ = Math_Vec3f_DistXYZ(&this->bg.actor.home.pos, &spC8) * (1.0f / 140.0f);
             }
             velocity.x = 6.5f * coss2 * distXYZ;
             velocity.y = 6.5f * coss * distXYZ;
             velocity.z = -6.5f * sins * distXYZ;
-            EffectSsDeadDb_Spawn(play, &this->dyna.actor.home.pos, &velocity, &accel, 80, 6, 255, 255, 150, 170, 255, 0,
+            EffectSsDeadDb_Spawn(play, &this->bg.actor.home.pos, &velocity, &accel, 80, 6, 255, 255, 150, 170, 255, 0,
                                  0, 1, 0xE, 1);
             rot2 += 0x2AAA;
         }
@@ -397,13 +395,13 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play) {
 
     player = GET_PLAYER(play);
     if (Flags_GetSwitch(play, this->burnSwitchFlag) || (this->trisCollider.base.acFlags & AC_HIT)) {
-        this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
+        this->bg.actor.home.pos.y = this->bg.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, play);
     } else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
-        func_8002DBD0(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
+        func_8002DBD0(&this->bg.actor, &sp30, &player->meleeWeaponInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
-            OnePointCutscene_Init(play, 3020, 40, &this->dyna.actor, CAM_ID_MAIN);
-            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->meleeWeaponInfo[0].tip);
+            OnePointCutscene_Init(play, 3020, 40, &this->bg.actor, CAM_ID_MAIN);
+            Math_Vec3f_Copy(&this->bg.actor.home.pos, &player->meleeWeaponInfo[0].tip);
             BgYdanSp_BurnWeb(this, play);
         }
     }

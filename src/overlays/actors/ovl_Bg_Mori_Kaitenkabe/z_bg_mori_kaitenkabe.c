@@ -51,14 +51,14 @@ void BgMoriKaitenkabe_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     // "Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears"
-    osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->bg.actor.params);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gMoriKaitenkabeCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
         // "【Rotating wall】 Bank danger!"
         osSyncPrintf("【回転壁】 バンク危険！(%s %d)\n", "../z_bg_mori_kaitenkabe.c", 176);
     } else {
@@ -70,13 +70,13 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
         BgMoriKaitenkabe_SetupWait(this);
-        this->dyna.actor.draw = BgMoriKaitenkabe_Draw;
+        this->bg.actor.draw = BgMoriKaitenkabe_Draw;
     }
 }
 
@@ -91,26 +91,26 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, PlayState* play) {
     Vec3f torque;
     Player* player = GET_PLAYER(play);
 
-    if (this->dyna.unk_150 > 0.001f) {
+    if (this->bg.unk_150 > 0.001f) {
         this->timer++;
         if ((this->timer > 28) && !Player_InCsMode(play)) {
             BgMoriKaitenkabe_SetupRotate(this);
-            func_8002DF54(play, &this->dyna.actor, 8);
+            func_8002DF54(play, &this->bg.actor, 8);
             Math_Vec3f_Copy(&this->lockedPlayerPos, &player->actor.world.pos);
-            push.x = Math_SinS(this->dyna.unk_158);
+            push.x = Math_SinS(this->bg.unk_158);
             push.y = 0.0f;
-            push.z = Math_CosS(this->dyna.unk_158);
-            leverArm.x = this->dyna.actor.world.pos.x - player->actor.world.pos.x;
+            push.z = Math_CosS(this->bg.unk_158);
+            leverArm.x = this->bg.actor.world.pos.x - player->actor.world.pos.x;
             leverArm.y = 0.0f;
-            leverArm.z = this->dyna.actor.world.pos.z - player->actor.world.pos.z;
+            leverArm.z = this->bg.actor.world.pos.z - player->actor.world.pos.z;
             BgMoriKaitenkabe_CrossProduct(&torque, &push, &leverArm);
             this->rotDirection = (torque.y > 0.0f) ? 1.0f : -1.0f;
         }
     } else {
         this->timer = 0;
     }
-    if (fabsf(this->dyna.unk_150) > 0.001f) {
-        this->dyna.unk_150 = 0.0f;
+    if (fabsf(this->bg.unk_150) > 0.001f) {
+        this->bg.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
@@ -123,7 +123,7 @@ void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this) {
 
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
     s16 rotY;
 
     Math_StepToF(&this->rotSpeed, 0.6f, 0.02f);
@@ -142,8 +142,8 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play) {
         thisx->world.rot.y = thisx->shape.rot.y = thisx->home.rot.y + rotY;
         func_800788CC(NA_SE_EV_WALL_SLIDE - SFX_FLAG);
     }
-    if (fabsf(this->dyna.unk_150) > 0.001f) {
-        this->dyna.unk_150 = 0.0f;
+    if (fabsf(this->bg.unk_150) > 0.001f) {
+        this->bg.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
     Math_Vec3f_Copy(&player->actor.world.pos, &this->lockedPlayerPos);

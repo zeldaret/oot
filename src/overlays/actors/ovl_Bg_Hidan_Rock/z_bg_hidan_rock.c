@@ -72,7 +72,7 @@ void BgHidanRock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    BgActor_Init(&this->bg, DPM_PLAYER);
 
     this->type = thisx->params & 0xFF;
     this->unk_169 = 0;
@@ -101,20 +101,20 @@ void BgHidanRock_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = func_8088B634;
     }
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->timer = 0;
 }
 
 void BgHidanRock_Destroy(Actor* thisx, PlayState* play) {
     BgHidanRock* this = (BgHidanRock*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyCylinder(play, &this->collider);
     Audio_StopSfxByPos(&this->unk_170);
 }
 
 void func_8088B24C(BgHidanRock* this) {
-    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->bg.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actionFunc = func_8088B990;
 }
 
@@ -125,42 +125,42 @@ void func_8088B268(BgHidanRock* this, PlayState* play) {
     s32 frame;
     Player* player = GET_PLAYER(play);
 
-    if (this->dyna.unk_150 != 0.0f) {
+    if (this->bg.unk_150 != 0.0f) {
         if (this->timer == 0) {
             if (D_8088BFC0 == 0.0f) {
-                if (this->dyna.unk_150 > 0.0f) {
+                if (this->bg.unk_150 > 0.0f) {
                     D_8088BFC0 += 0.01f;
                 } else {
                     D_8088BFC0 -= 0.01f;
                 }
             }
 
-            this->dyna.actor.speedXZ += 0.05f;
-            this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 2.0f);
+            this->bg.actor.speedXZ += 0.05f;
+            this->bg.actor.speedXZ = CLAMP_MAX(this->bg.actor.speedXZ, 2.0f);
 
             if (D_8088BFC0 > 0.0f) {
-                temp_v1 = Math_StepToF(&D_8088BFC0, 20.0f, this->dyna.actor.speedXZ);
+                temp_v1 = Math_StepToF(&D_8088BFC0, 20.0f, this->bg.actor.speedXZ);
             } else {
-                temp_v1 = Math_StepToF(&D_8088BFC0, -20.0f, this->dyna.actor.speedXZ);
+                temp_v1 = Math_StepToF(&D_8088BFC0, -20.0f, this->bg.actor.speedXZ);
             }
 
-            this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.unk_158) * D_8088BFC0) + this->dyna.actor.home.pos.x;
-            this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.unk_158) * D_8088BFC0) + this->dyna.actor.home.pos.z;
+            this->bg.actor.world.pos.x = (Math_SinS(this->bg.unk_158) * D_8088BFC0) + this->bg.actor.home.pos.x;
+            this->bg.actor.world.pos.z = (Math_CosS(this->bg.unk_158) * D_8088BFC0) + this->bg.actor.home.pos.z;
 
             if (temp_v1) {
                 player->stateFlags2 &= ~PLAYER_STATE2_4;
-                this->dyna.unk_150 = 0.0f;
-                this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
-                this->dyna.actor.home.pos.z = this->dyna.actor.world.pos.z;
+                this->bg.unk_150 = 0.0f;
+                this->bg.actor.home.pos.x = this->bg.actor.world.pos.x;
+                this->bg.actor.home.pos.z = this->bg.actor.world.pos.z;
                 D_8088BFC0 = 0.0f;
-                this->dyna.actor.speedXZ = 0.0f;
+                this->bg.actor.speedXZ = 0.0f;
                 this->timer = 5;
             }
 
-            func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+            func_8002F974(&this->bg.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
-            this->dyna.unk_150 = 0.0f;
+            this->bg.unk_150 = 0.0f;
             if (this->timer != 0) {
                 this->timer--;
             }
@@ -169,13 +169,13 @@ void func_8088B268(BgHidanRock* this, PlayState* play) {
         this->timer = 0;
     }
 
-    sp2C = this->dyna.actor.world.pos.z - D_8088BF60.z;
+    sp2C = this->bg.actor.world.pos.z - D_8088BF60.z;
     if (sp2C < 0.5f) {
-        Flags_SetSwitch(play, this->dyna.actor.params);
-        Math_Vec3f_Copy(&this->dyna.actor.home.pos, &D_8088BF60);
-        this->dyna.actor.world.pos.x = D_8088BF60.x;
-        this->dyna.actor.world.pos.z = D_8088BF60.z;
-        this->dyna.actor.speedXZ = 0.0f;
+        Flags_SetSwitch(play, this->bg.actor.params);
+        Math_Vec3f_Copy(&this->bg.actor.home.pos, &D_8088BF60);
+        this->bg.actor.world.pos.x = D_8088BF60.x;
+        this->bg.actor.world.pos.z = D_8088BF60.z;
+        this->bg.actor.speedXZ = 0.0f;
         D_8088BFC0 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->actionFunc = func_8088B79C;
@@ -209,9 +209,9 @@ void func_8088B5F4(BgHidanRock* this, PlayState* play) {
 }
 
 void func_8088B634(BgHidanRock* this, PlayState* play) {
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
         this->timer = 20;
-        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
+        this->bg.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
         this->actionFunc = func_8088B69C;
     }
 }
@@ -222,50 +222,50 @@ void func_8088B69C(BgHidanRock* this, PlayState* play) {
     }
 
     if (this->timer != 0) {
-        this->dyna.actor.world.pos.x =
-            this->dyna.actor.home.pos.x + 5.0f * Math_SinS(this->dyna.actor.world.rot.y + this->timer * 0x4000);
-        this->dyna.actor.world.pos.z =
-            this->dyna.actor.home.pos.z + 5.0f * Math_CosS(this->dyna.actor.world.rot.y + this->timer * 0x4000);
+        this->bg.actor.world.pos.x =
+            this->bg.actor.home.pos.x + 5.0f * Math_SinS(this->bg.actor.world.rot.y + this->timer * 0x4000);
+        this->bg.actor.world.pos.z =
+            this->bg.actor.home.pos.z + 5.0f * Math_CosS(this->bg.actor.world.rot.y + this->timer * 0x4000);
     } else {
-        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
+        this->bg.actor.world.pos.x = this->bg.actor.home.pos.x;
+        this->bg.actor.world.pos.z = this->bg.actor.home.pos.z;
         func_8088B24C(this);
     }
 
     if (!(this->timer % 4)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0xB4, 0x0A, 0x64);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        func_800AA000(this->bg.actor.xyzDistToPlayerSq, 0xB4, 0x0A, 0x64);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
 void func_8088B79C(BgHidanRock* this, PlayState* play) {
     this->timer--;
-    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
+    if (this->bg.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->type == 0) {
             this->timer = 60;
             this->actionFunc = func_8088B5F4;
         } else {
-            this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 15.0f;
+            this->bg.actor.world.pos.y = this->bg.actor.home.pos.y - 15.0f;
             this->actionFunc = func_8088B90C;
-            this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
+            this->bg.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
         }
 
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSfx2(
-            &this->dyna.actor,
-            SurfaceType_GetSfxId(&play->colCtx, this->dyna.actor.floorPoly, this->dyna.actor.floorBgId) + SFX_FLAG);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->bg.actor,
+                            SurfaceType_GetSfxId(&play->colCtx, this->bg.actor.floorPoly, this->bg.actor.floorBgId) +
+                                SFX_FLAG);
     }
 
     this->unk_16C -= 0.5f;
     this->unk_16C = CLAMP_MIN(this->unk_16C, 0.0f);
 
     if (this->type == 0) {
-        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+        if (BgActor_IsPlayerOnTop(&this->bg)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
-        } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+        } else if (!BgActor_IsPlayerOnTop(&this->bg)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
@@ -275,7 +275,7 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
 }
 
 void func_8088B90C(BgHidanRock* this, PlayState* play) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f)) {
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 1.0f)) {
         this->actionFunc = func_8088B634;
     }
 }
@@ -287,7 +287,7 @@ void func_8088B954(BgHidanRock* this, PlayState* play) {
 
     if (this->timer == 0) {
         this->actionFunc = func_8088B79C;
-        this->dyna.actor.velocity.y = 0.0f;
+        this->bg.actor.velocity.y = 0.0f;
     }
 }
 
@@ -295,30 +295,30 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->timer++;
-    if (this->dyna.unk_150 != 0.0f) {
-        this->dyna.actor.speedXZ = 0.0f;
+    if (this->bg.unk_150 != 0.0f) {
+        this->bg.actor.speedXZ = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 
-    if ((this->type == 0 && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 1820.0f,
-                                                0.25f, 20.0f, 0.5f) < 0.1f)) ||
-        ((this->type != 0) && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 480.0,
-                                                  0.25f, 20.0f, 0.5f) < 0.1f))) {
+    if ((this->type == 0 && (Math_SmoothStepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 1820.0f, 0.25f,
+                                                20.0f, 0.5f) < 0.1f)) ||
+        ((this->type != 0) && (Math_SmoothStepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 480.0, 0.25f,
+                                                  20.0f, 0.5f) < 0.1f))) {
         if (this->type == 0) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_BOUND);
         }
         this->timer = 20;
         this->actionFunc = func_8088B954;
     }
 
-    this->unk_16C = (this->dyna.actor.world.pos.y + 50.0f - this->dyna.actor.home.pos.y + 40.0f) / 80.0f;
+    this->unk_16C = (this->bg.actor.world.pos.y + 50.0f - this->bg.actor.home.pos.y + 40.0f) / 80.0f;
     if (this->type == 0) {
-        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+        if (BgActor_IsPlayerOnTop(&this->bg)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
-        } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+        } else if (!BgActor_IsPlayerOnTop(&this->bg)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
@@ -332,8 +332,8 @@ void BgHidanRock_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
     if (this->actionFunc == func_8088B79C) {
-        Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+        Actor_MoveForward(&this->bg.actor);
+        Actor_UpdateBgCheckInfo(play, &this->bg.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
     if (this->unk_16C > 0.0f) {
@@ -360,7 +360,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this) {
     if (this->type == 0) {
         Matrix_Translate(D_8088BF60.x, D_8088BF60.y - 40.0f, D_8088BF60.z, MTXMODE_NEW);
     } else {
-        Matrix_Translate(this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y - 40.0f, this->dyna.actor.home.pos.z,
+        Matrix_Translate(this->bg.actor.home.pos.x, this->bg.actor.home.pos.y - 40.0f, this->bg.actor.home.pos.z,
                          MTXMODE_NEW);
     }
 
@@ -390,7 +390,7 @@ void BgHidanRock_Draw(Actor* thisx, PlayState* play) {
         if (this->type == 0) {
             SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &D_8088BF60, &this->unk_170);
         } else {
-            SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &this->dyna.actor.home.pos, &this->unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &this->bg.actor.home.pos, &this->unk_170);
         }
 
         func_80078914(&this->unk_170, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);

@@ -52,7 +52,7 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = thisx->params & 0x3F;
     thisx->params = (thisx->params >> 8) & 0xFF;
-    DynaPolyActor_Init(&this->dyna, 3);
+    BgActor_Init(&this->bg, 3);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
         if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
@@ -101,14 +101,14 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
             D_808A9508 |= 1;
         }
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 }
 
 void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
     BgRelayObjects* this = (BgRelayObjects*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
+    if ((this->bg.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }
@@ -116,14 +116,14 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
 void func_808A90F4(BgRelayObjects* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
         if (this->timer != 0) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
             if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
                 this->timer = 120;
             } else {
                 this->timer = 160;
             }
         }
-        if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 12.0f)) {
+        if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 120.0f, 12.0f)) {
             this->actionFunc = func_808A91AC;
         }
     }
@@ -134,19 +134,19 @@ void func_808A91AC(BgRelayObjects* this, PlayState* play) {
         if (this->timer != 0) {
             this->timer--;
         }
-        func_8002F994(&this->dyna.actor, this->timer);
+        func_8002F994(&this->bg.actor, this->timer);
     }
     if ((this->timer == 0) || (this->unk_169 == play->roomCtx.curRoom.num)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
         this->actionFunc = func_808A9234;
     }
 }
 
 void func_808A9234(BgRelayObjects* this, PlayState* play) {
-    this->dyna.actor.velocity.y += this->dyna.actor.gravity;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+    this->bg.actor.velocity.y += this->bg.actor.gravity;
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, this->bg.actor.velocity.y)) {
+        func_800AA000(this->bg.actor.xyzDistToPlayerSq, 180, 20, 100);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_STONE_BOUND);
         if (this->unk_169 != play->roomCtx.curRoom.num) {
             func_800788CC(NA_SE_EN_PO_LAUGH);
             this->timer = 5;
@@ -154,7 +154,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
             return;
         }
         Flags_UnsetSwitch(play, this->switchFlag);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->bg.actor.flags &= ~ACTOR_FLAG_4;
         if (play->roomCtx.curRoom.num == 4) {
             gSaveContext.timer1State = 0xF;
         }
@@ -183,13 +183,13 @@ void func_808A939C(BgRelayObjects* this, PlayState* play) {
         SET_EVENTCHKINF(EVENTCHKINF_65);
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
-        Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x400, 8);
+        Math_ScaledStepToS(&this->bg.actor.world.rot.y, 0x400, 8);
     } else {
-        Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x80, 8);
+        Math_ScaledStepToS(&this->bg.actor.world.rot.y, 0x80, 8);
     }
-    this->dyna.actor.shape.rot.y += this->dyna.actor.world.rot.y;
-    func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WOOD_GEAR - SFX_FLAG,
-                  ((this->dyna.actor.world.rot.y - 0x80) * (1.0f / 0x380)) + 1.0f);
+    this->bg.actor.shape.rot.y += this->bg.actor.world.rot.y;
+    func_800F436C(&this->bg.actor.projectedPos, NA_SE_EV_WOOD_GEAR - SFX_FLAG,
+                  ((this->bg.actor.world.rot.y - 0x80) * (1.0f / 0x380)) + 1.0f);
 }
 
 void BgRelayObjects_Update(Actor* thisx, PlayState* play) {
@@ -201,7 +201,7 @@ void BgRelayObjects_Update(Actor* thisx, PlayState* play) {
 void BgRelayObjects_Draw(Actor* thisx, PlayState* play) {
     BgRelayObjects* this = (BgRelayObjects*)thisx;
 
-    if (this->dyna.actor.params == WINDMILL_ROTATING_GEAR) {
+    if (this->bg.actor.params == WINDMILL_ROTATING_GEAR) {
         Gfx_DrawDListOpa(play, gWindmillRotatingPlatformDL);
     } else {
         Gfx_DrawDListOpa(play, gDampeRaceDoorDL);

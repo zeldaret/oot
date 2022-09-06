@@ -45,9 +45,9 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, PlayState* play, CollisionHeader* c
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, moveFlag);
+    BgActor_Init(&this->bg, moveFlag);
     CollisionHeader_GetVirtual(collisionHeader, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 }
 
 void BgJyaLift_Init(Actor* thisx, PlayState* play) {
@@ -81,21 +81,21 @@ void BgJyaLift_Destroy(Actor* thisx, PlayState* play) {
         // "Goddess Lift DT"
         osSyncPrintf("女神リフト DT\n");
         sIsSpawned = false;
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 
 void BgJyaLift_SetInitPosY(BgJyaLift* this) {
     this->actionFunc = BgJyaLift_DelayMove;
-    this->dyna.actor.world.pos.y = 1613.0f;
+    this->bg.actor.world.pos.y = 1613.0f;
     this->moveDelay = 0;
 }
 
 void BgJyaLift_DelayMove(BgJyaLift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
+    if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
-            OnePointCutscene_Init(play, 3430, -99, &this->dyna.actor, CAM_ID_MAIN);
+            OnePointCutscene_Init(play, 3430, -99, &this->bg.actor, CAM_ID_MAIN);
             BgJyaLift_SetupMove(this);
         }
     }
@@ -109,23 +109,23 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
     f32 distFromBottom;
     f32 tempVelocity;
 
-    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
-    tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
-    distFromBottom = Math_SmoothStepToF(&this->dyna.actor.world.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
-    if ((this->dyna.actor.world.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.prevPos.y)) {
+    Math_SmoothStepToF(&this->bg.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
+    tempVelocity = (this->bg.actor.velocity.y < 0.2f) ? 0.2f : this->bg.actor.velocity.y;
+    distFromBottom = Math_SmoothStepToF(&this->bg.actor.world.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
+    if ((this->bg.actor.world.pos.y < 1440.0f) && (1440.0f <= this->bg.actor.prevPos.y)) {
         func_8005B1A4(GET_ACTIVE_CAM(play));
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }
 }
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this) {
     this->actionFunc = NULL;
-    this->dyna.actor.world.pos.y = 973.0f;
+    this->bg.actor.world.pos.y = 973.0f;
 }
 
 void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
@@ -135,14 +135,13 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, play);
     }
-    if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
+    if ((this->bg.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (!(this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) &&
-               (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE) &&
+    } else if (!(this->bg.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE) &&
                (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
-    this->unk_16B = this->dyna.interactFlags;
+    this->unk_16B = this->bg.interactFlags;
 
     // Spirit Temple room 5 is the main room with the statue room 25 is directly above room 5
     if ((play->roomCtx.curRoom.num != 5) && (play->roomCtx.curRoom.num != 25)) {

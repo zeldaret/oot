@@ -8,7 +8,7 @@ struct BgJyaLift;
 typedef void (*BgJyaLiftActionFunc)(struct BgJyaLift*, PlayState*);
 
 typedef struct BgJyaLift {
-    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x000 */ BgActor bg;
     /* 0x164 */ BgJyaLiftActionFunc actionFunc;
     /* 0x168 */ s16 moveDelay;
     /* 0x16A */ u8 isSpawned;

@@ -45,7 +45,7 @@ static Gfx* D_808AC510[] = {
 void BgSpot01Objects2_Init(Actor* thisx, PlayState* play) {
     BgSpot01Objects2* this = (BgSpot01Objects2*)thisx;
 
-    switch (this->dyna.actor.params & 7) {
+    switch (this->bg.actor.params & 7) {
         case 0:
         case 1:
         case 2:
@@ -63,14 +63,14 @@ void BgSpot01Objects2_Init(Actor* thisx, PlayState* play) {
         if (this->objBankIndex < 0) {
             // "There was no bank setting."
             osSyncPrintf("-----------------------------バンク設定ありませんでした.");
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
             return;
         }
     } else {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
     this->actionFunc = func_808AC2BC;
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 }
 
 void BgSpot01Objects2_Destroy(Actor* thisx, PlayState* play) {
@@ -87,7 +87,7 @@ s32 func_808AC22C(Path* pathList, Vec3f* pos, s32 path, s32 waypoint) {
 
 void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
     CollisionHeader* colHeader = NULL;
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
     s32 pad;
     Vec3f position;
 
@@ -96,17 +96,17 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
         osSyncPrintf("-----バンク切り換え成功！！\n");
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndex].segment);
 
-        this->dyna.actor.objBankIndex = this->objBankIndex;
-        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+        this->bg.actor.objBankIndex = this->objBankIndex;
+        BgActor_Init(&this->bg, DPM_PLAYER);
 
-        switch (this->dyna.actor.params & 7) {
+        switch (this->bg.actor.params & 7) {
             case 4: // Shooting gallery
                 CollisionHeader_GetVirtual(&gKakarikoShootingGalleryCol, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+                this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
                 break;
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
                 CollisionHeader_GetVirtual(&object_spot01_matoyab_col, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+                this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
                 if (IS_DAY) {
                     func_808AC22C(play->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_EN_DAIKU_KAKARIKO, position.x, position.y,
@@ -120,7 +120,7 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
                 break;
         }
 
-        this->dyna.actor.draw = func_808AC4A4;
+        this->bg.actor.draw = func_808AC4A4;
         this->actionFunc = func_808AC474;
     }
 }

@@ -9,7 +9,7 @@ struct BgHakaZou;
 typedef void (*BgHakaZouActionFunc)(struct BgHakaZou*, PlayState*);
 
 typedef struct BgHakaZou {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgHakaZouActionFunc actionFunc;
     /* 0x0168 */ s8 requiredObjBankIndex;
     /* 0x0169 */ u8 switchFlag;

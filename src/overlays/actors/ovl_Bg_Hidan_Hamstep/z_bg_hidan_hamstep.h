@@ -9,7 +9,7 @@ struct BgHidanHamstep;
 typedef void (*BgHidanHamstepActionFunc)(struct BgHidanHamstep*, PlayState*);
 
 typedef struct BgHidanHamstep {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ColliderTris collider;
     /* 0x0184 */ ColliderTrisElement colliderItems[2];
     /* 0x023C */ BgHidanHamstepActionFunc actionFunc;

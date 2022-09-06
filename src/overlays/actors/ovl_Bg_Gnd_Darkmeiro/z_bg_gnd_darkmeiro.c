@@ -36,11 +36,11 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, PlayState* play) {
     if (this->actionFlags & 2) {
         if (this->timer1 == 0) {
-            DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
             this->actionFlags &= ~2;
         }
     } else if (this->timer1 != 0) {
-        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
         this->actionFlags |= 2;
     }
 }
@@ -51,24 +51,24 @@ void BgGndDarkmeiro_Init(Actor* thisx, PlayState* play2) {
     BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
 
     this->updateFunc = BgGndDarkmeiro_Noop;
-    Actor_SetScale(&this->dyna.actor, 0.1f);
-    switch (this->dyna.actor.params & 0xFF) {
+    Actor_SetScale(&this->bg.actor, 0.1f);
+    switch (this->bg.actor.params & 0xFF) {
         case DARKMEIRO_INVISIBLE_PATH:
-            this->dyna.actor.draw = BgGndDarkmeiro_DrawInvisiblePath;
-            this->dyna.actor.flags |= ACTOR_FLAG_7;
+            this->bg.actor.draw = BgGndDarkmeiro_DrawInvisiblePath;
+            this->bg.actor.flags |= ACTOR_FLAG_7;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
             CollisionHeader_GetVirtual(&gClearBlockCol, &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-            if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) {
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+            if (((this->bg.actor.params >> 8) & 0x3F) == 0x3F) {
                 this->updateFunc = BgGndDarkmeiro_UpdateStaticBlock;
-                this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
+                this->bg.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
             } else {
                 this->actionFlags = this->timer1 = this->timer2 = 0;
                 thisx->draw = BgGndDarkmeiro_DrawSwitchBlock;
                 this->updateFunc = BgGndDarkmeiro_UpdateSwitchBlock;
-                if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
-                    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+                if (!Flags_GetSwitch(play, (this->bg.actor.params >> 8) & 0x3F)) {
+                    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
                 } else {
                     this->timer1 = 64;
                     this->actionFlags |= 2;
@@ -79,18 +79,18 @@ void BgGndDarkmeiro_Init(Actor* thisx, PlayState* play2) {
             this->actionFlags = this->timer1 = this->timer2 = 0;
             this->updateFunc = BgGndDarkmeiro_UpdateBlockTimer;
             thisx->draw = NULL;
-            if (Flags_GetSwitch(play, ((this->dyna.actor.params >> 8) & 0x3F) + 1)) {
+            if (Flags_GetSwitch(play, ((this->bg.actor.params >> 8) & 0x3F) + 1)) {
                 this->timer1 = 64;
                 this->actionFlags |= 4;
             }
-            if (Flags_GetSwitch(play, ((this->dyna.actor.params >> 8) & 0x3F) + 2)) {
+            if (Flags_GetSwitch(play, ((this->bg.actor.params >> 8) & 0x3F) + 2)) {
                 this->timer2 = 64;
                 this->actionFlags |= 8;
             }
             if ((this->timer1 != 0) || (this->timer2 != 0)) {
-                Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+                Flags_SetSwitch(play, (this->bg.actor.params >> 8) & 0x3F);
             } else {
-                Flags_UnsetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+                Flags_UnsetSwitch(play, (this->bg.actor.params >> 8) & 0x3F);
             }
             break;
     }
@@ -100,9 +100,9 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
 
-    if ((this->dyna.actor.params & 0xFF) == 1) {
+    if ((this->bg.actor.params & 0xFF) == 1) {
         if (1) {}
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 
@@ -112,12 +112,12 @@ void BgGndDarkmeiro_Noop(BgGndDarkmeiro* this, PlayState* play) {
 void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, PlayState* play) {
     s16 timeLeft;
 
-    if (Flags_GetSwitch(play, ((this->dyna.actor.params >> 8) & 0x3F) + 1)) {
+    if (Flags_GetSwitch(play, ((this->bg.actor.params >> 8) & 0x3F) + 1)) {
         if (this->actionFlags & 4) {
             if (this->timer1 > 0) {
                 this->timer1--;
             } else {
-                Flags_UnsetSwitch(play, ((this->dyna.actor.params >> 8) & 0x3F) + 1);
+                Flags_UnsetSwitch(play, ((this->bg.actor.params >> 8) & 0x3F) + 1);
                 this->actionFlags &= ~4;
             }
         } else {
@@ -128,12 +128,12 @@ void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, PlayState* play) {
         }
     }
 
-    if (Flags_GetSwitch(play, ((this->dyna.actor.params >> 8) & 0x3F) + 2)) {
+    if (Flags_GetSwitch(play, ((this->bg.actor.params >> 8) & 0x3F) + 2)) {
         if (this->actionFlags & 8) {
             if (this->timer2 > 0) {
                 this->timer2--;
             } else {
-                Flags_UnsetSwitch(play, ((this->dyna.actor.params >> 8) & 0x3F) + 2);
+                Flags_UnsetSwitch(play, ((this->bg.actor.params >> 8) & 0x3F) + 2);
                 this->actionFlags &= ~8;
             }
         } else {
@@ -146,12 +146,12 @@ void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, PlayState* play) {
 
     timeLeft = CLAMP_MIN(this->timer1, this->timer2);
     if (timeLeft > 0) {
-        func_8002F994(&this->dyna.actor, timeLeft);
+        func_8002F994(&this->bg.actor, timeLeft);
     }
     if ((this->timer1 >= 64) || (this->timer2 >= 64)) {
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, (this->bg.actor.params >> 8) & 0x3F);
     } else {
-        Flags_UnsetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+        Flags_UnsetSwitch(play, (this->bg.actor.params >> 8) & 0x3F);
     }
 }
 
@@ -163,7 +163,7 @@ void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, PlayState* play) {
         this->timer1--;
     }
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, (this->bg.actor.params >> 8) & 0x3F)) {
         this->timer1 = 64;
     }
 

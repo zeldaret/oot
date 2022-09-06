@@ -912,8 +912,8 @@ void func_808FF898(BossGanon2* this, PlayState* play) {
 
                 if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
                     ((actor->params & 0xFF) == 0x16)) {
-                    if (SQ(this->unk_218.x - gj->dyna.actor.world.pos.x) +
-                            SQ(this->unk_218.z - gj->dyna.actor.world.pos.z) <
+                    if (SQ(this->unk_218.x - gj->bg.actor.world.pos.x) +
+                            SQ(this->unk_218.z - gj->bg.actor.world.pos.z) <
                         SQ(100.0f)) {
                         s32 pad;
                         Vec3f sp28;
@@ -953,8 +953,8 @@ s32 func_808FFA24(BossGanon2* this, PlayState* play) {
 
             if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
                 ((actor->params & 0xFF) == 0x16)) {
-                if (SQ(this->actor.world.pos.x - gj->dyna.actor.world.pos.x) +
-                        SQ(this->actor.world.pos.z - gj->dyna.actor.world.pos.z) <
+                if (SQ(this->actor.world.pos.x - gj->bg.actor.world.pos.x) +
+                        SQ(this->actor.world.pos.z - gj->bg.actor.world.pos.z) <
                     SQ(200.0f)) {
                     return true;
                 }

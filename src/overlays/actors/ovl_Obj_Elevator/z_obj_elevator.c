@@ -47,12 +47,12 @@ void func_80B92B08(ObjElevator* this, PlayState* play, CollisionHeader* collisio
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
-    DynaPolyActor_Init(&this->dyna, flag);
+    BgActor_Init(&this->bg, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
                      thisx->id, thisx->params);
     }
@@ -74,7 +74,7 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
 void ObjElevator_Destroy(Actor* thisx, PlayState* play) {
     ObjElevator* this = (ObjElevator*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_80B92C5C(ObjElevator* this) {
@@ -83,9 +83,9 @@ void func_80B92C5C(ObjElevator* this) {
 
 void func_80B92C80(ObjElevator* this, PlayState* play) {
     f32 sub;
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
-    if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) && !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP)) {
+    if ((this->bg.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) && !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP)) {
         sub = thisx->world.pos.y - thisx->home.pos.y;
         if (fabsf(sub) < 0.1f) {
             this->unk_168 = thisx->home.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
@@ -101,7 +101,7 @@ void func_80B92D20(ObjElevator* this) {
 }
 
 void func_80B92D44(ObjElevator* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     if (fabsf(Math_SmoothStepToF(&thisx->world.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
         Audio_PlayActorSfx2(thisx, NA_SE_EV_FOOT_SWITCH);
@@ -117,7 +117,7 @@ void ObjElevator_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc) {
         this->actionFunc(this, play);
     }
-    this->unk_170 = this->dyna.interactFlags;
+    this->unk_170 = this->bg.interactFlags;
 }
 
 void ObjElevator_Draw(Actor* thisx, PlayState* play) {

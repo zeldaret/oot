@@ -10,7 +10,7 @@ typedef void (*ObjBeanActionFunc)(struct ObjBean*, PlayState*);
 typedef void (*ObjBeanTransformFunc)(struct ObjBean*);
 
 typedef struct ObjBean {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ObjBeanActionFunc actionFunc;
     /* 0x0168 */ ColliderCylinder collider;
     /* 0x01B4 */ s16 timer;

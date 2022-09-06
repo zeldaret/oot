@@ -531,7 +531,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     static u32 D_80157D90;
     static s16 D_80157D94[1];
     s16* params;
-    Actor* dynaActor;
+    Actor* actor;
     s32 getItemId = GI_NONE;
     s16 sp3A = 0;
     s16 i;
@@ -561,11 +561,10 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
                 D_80157D94[0] = 0;
                 for (i = 0; i < 50; i++) {
                     if (play->colCtx.dyna.bgActorFlags[i] & BGACTOR_IN_USE) {
-                        dynaActor = play->colCtx.dyna.bgActors[i].actor;
-                        if ((dynaActor != NULL) && (dynaActor->update != NULL)) {
-                            if ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
-                                (dynaActor->world.pos.y != dynaActor->prevPos.y) ||
-                                (dynaActor->world.pos.z != dynaActor->prevPos.z)) {
+                        actor = play->colCtx.dyna.bgActors[i].actor;
+                        if ((actor != NULL) && (actor->update != NULL)) {
+                            if ((actor->world.pos.x != actor->prevPos.x) || (actor->world.pos.y != actor->prevPos.y) ||
+                                (actor->world.pos.z != actor->prevPos.z)) {
                                 D_80157D94[0]++;
                                 break;
                             }

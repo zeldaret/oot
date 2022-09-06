@@ -47,11 +47,11 @@ void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     s16 pad;
     CollisionHeader* colHeader = NULL;
 
-    this->switchFlag = (this->dyna.actor.params & 0x3F);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    this->switchFlag = (this->bg.actor.params & 0x3F);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&object_spot03_object_Col_000C98, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     this->bufferIndex = 0;
     this->openingAlpha = 255.0f;
     BgSpot03Taki_ApplyOpeningAlpha(this, 0);
@@ -62,7 +62,7 @@ void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
 void BgSpot03Taki_Destroy(Actor* thisx, PlayState* play) {
     BgSpot03Taki* this = (BgSpot03Taki*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808ADEF0(BgSpot03Taki* this, PlayState* play) {
@@ -81,7 +81,7 @@ void func_808ADEF0(BgSpot03Taki* this, PlayState* play) {
         if (this->openingAlpha > 0) {
             this->openingAlpha -= 5;
             if (this->openingAlpha <= 0.0f) {
-                DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+                DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
                 this->timer = 400;
                 this->state = WATERFALL_OPENED;
                 this->openingAlpha = 0;
@@ -96,7 +96,7 @@ void func_808ADEF0(BgSpot03Taki* this, PlayState* play) {
         if (this->openingAlpha < 255.0f) {
             this->openingAlpha += 5.0f;
             if (this->openingAlpha >= 255.0f) {
-                DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+                DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
                 this->state = WATERFALL_CLOSED;
                 this->openingAlpha = 255.0f;
                 Flags_UnsetSwitch(play, this->switchFlag);
@@ -152,8 +152,8 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
     this->bufferIndex = this->bufferIndex == 0;
 
     if (this->state >= WATERFALL_OPENING_IDLE && this->state <= WATERFALL_OPENED) {
-        Audio_PlaySfxWaterfall(&this->dyna.actor.projectedPos, 0.5f);
+        Audio_PlaySfxWaterfall(&this->bg.actor.projectedPos, 0.5f);
     } else {
-        Audio_PlaySfxWaterfall(&this->dyna.actor.projectedPos, 1.0f);
+        Audio_PlaySfxWaterfall(&this->bg.actor.projectedPos, 1.0f);
     }
 }

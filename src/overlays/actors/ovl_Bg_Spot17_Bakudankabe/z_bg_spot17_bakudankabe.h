@@ -7,7 +7,7 @@
 struct BgSpot17Bakudankabe;
 
 typedef struct BgSpot17Bakudankabe {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
 } BgSpot17Bakudankabe; // size = 0x0164
 
 #endif

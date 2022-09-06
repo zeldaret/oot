@@ -156,40 +156,40 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     f32 rand;
     Vec3f focusOffset;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gPoeSellerCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     SkelAnime_InitFlex(play, &this->skelAnime, &gPoeSellerSkel, &gPoeSellerIdleAnim, this->jointTable, this->morphTable,
                        12);
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinderType1(play, &this->collider, &this->dyna.actor, &sCylinderInit);
+    Collider_SetCylinderType1(play, &this->collider, &this->bg.actor, &sCylinderInit);
 
     for (i = 0; i < ARRAY_COUNT(sBottlesCylindersInit); i++) {
         Collider_InitCylinder(play, &this->bottlesColliders[i]);
-        Collider_SetCylinderType1(play, &this->bottlesColliders[i], &this->dyna.actor, &sBottlesCylindersInit[i]);
+        Collider_SetCylinderType1(play, &this->bottlesColliders[i], &this->bg.actor, &sBottlesCylindersInit[i]);
     }
 
     this->light = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
-                              this->dyna.actor.home.pos.z, 255, 255, 255, 200);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->bg.actor.home.pos.x, this->bg.actor.home.pos.y,
+                              this->bg.actor.home.pos.z, 255, 255, 255, 200);
 
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-    Actor_SetScale(&this->dyna.actor, 0.01f);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
-    this->dyna.actor.speedXZ = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.gravity = -1.0f;
+    ActorShape_Init(&this->bg.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
+    Actor_SetScale(&this->bg.actor, 0.01f);
+    this->bg.actor.colChkInfo.mass = 0xFF;
+    this->bg.actor.speedXZ = 0.0f;
+    this->bg.actor.velocity.y = 0.0f;
+    this->bg.actor.gravity = -1.0f;
     this->actionTimer = (s16)Rand_ZeroFloat(100.0f) + 100;
 
     for (i = 0; i < ARRAY_COUNT(sCagedSoulPositions); i++) {
         this->cagedSouls[i].infoIdx = (s32)Rand_ZeroFloat(30.0f) % 3;
         this->cagedSouls[i].unk_14.x = this->cagedSouls[i].translation.x =
-            sCagedSoulPositions[i].x + this->dyna.actor.world.pos.x;
+            sCagedSoulPositions[i].x + this->bg.actor.world.pos.x;
         this->cagedSouls[i].unk_14.y = this->cagedSouls[i].translation.y =
-            sCagedSoulPositions[i].y + this->dyna.actor.world.pos.y;
+            sCagedSoulPositions[i].y + this->bg.actor.world.pos.y;
         this->cagedSouls[i].unk_14.z = this->cagedSouls[i].translation.z =
-            sCagedSoulPositions[i].z + this->dyna.actor.world.pos.z;
+            sCagedSoulPositions[i].z + this->bg.actor.world.pos.z;
         this->cagedSouls[i].unk_1 = 1;
         this->cagedSouls[i].unk_3 = this->cagedSouls[i].unk_2 = 0;
         this->cagedSouls[i].unk_20 = this->cagedSouls[i].unk_24 = 0.0f;
@@ -203,14 +203,12 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     this->lightColor.g = (s8)(rand * 100.0f) + 155;
     this->lightColor.b = (s8)(rand * 160.0f) + 95;
     this->lightColor.a = 200;
-    Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
-                     MTXMODE_NEW);
-    Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
-                     MTXMODE_APPLY);
+    Matrix_Translate(this->bg.actor.world.pos.x, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, MTXMODE_NEW);
+    Matrix_RotateZYX(this->bg.actor.world.rot.x, this->bg.actor.world.rot.y, this->bg.actor.world.rot.z, MTXMODE_APPLY);
     focusOffset.x = focusOffset.y = 0.0f;
     focusOffset.z = 44.0f;
-    Matrix_MultVec3f(&focusOffset, &this->dyna.actor.focus.pos);
-    this->dyna.actor.focus.pos.y += 62.5f;
+    Matrix_MultVec3f(&focusOffset, &this->bg.actor.focus.pos);
+    this->bg.actor.focus.pos.y += 62.5f;
     func_80A2F180(this);
     this->actionFunc = func_80A2F83C;
 }
@@ -220,7 +218,7 @@ void EnGb_Destroy(Actor* thisx, PlayState* play) {
 
     Collider_DestroyCylinder(play, &this->collider);
     LightContext_RemoveLight(play, &play->lightCtx, this->light);
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_80A2F608(EnGb* this) {
@@ -228,10 +226,8 @@ void func_80A2F608(EnGb* this) {
     Vec3f sp48;
     Vec3f sp3C;
 
-    Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
-                     MTXMODE_NEW);
-    Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
-                     MTXMODE_APPLY);
+    Matrix_Translate(this->bg.actor.world.pos.x, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, MTXMODE_NEW);
+    Matrix_RotateZYX(this->bg.actor.world.rot.x, this->bg.actor.world.rot.y, this->bg.actor.world.rot.z, MTXMODE_APPLY);
     sp48.x = sp48.y = 0.0f;
     sp48.z = 25.0f;
     Matrix_MultVec3f(&sp48, &sp3C);
@@ -240,9 +236,9 @@ void func_80A2F608(EnGb* this) {
     this->collider.dim.pos.z = sp3C.z;
 
     for (i = 0; i < ARRAY_COUNT(sBottlesPositions); i++) {
-        Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
+        Matrix_Translate(this->bg.actor.world.pos.x, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z,
                          MTXMODE_NEW);
-        Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+        Matrix_RotateZYX(this->bg.actor.world.rot.x, this->bg.actor.world.rot.y, this->bg.actor.world.rot.z,
                          MTXMODE_APPLY);
         Matrix_MultVec3f(&sBottlesPositions[i], &sp3C);
         this->bottlesColliders[i].dim.pos.x = sp3C.x;
@@ -264,7 +260,7 @@ s32 func_80A2F760(EnGb* this) {
 void func_80A2F7C0(EnGb* this) {
     Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
+    Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
 }
 
@@ -279,7 +275,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
             return;
         }
     }
-    if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+    if (Actor_ProcessTalkRequest(&this->bg.actor, play)) {
         switch (func_8002F368(play)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
@@ -296,8 +292,8 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
         }
         return;
     }
-    if (this->dyna.actor.xzDistToPlayer < 100.0f) {
-        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_POE);
+    if (this->bg.actor.xzDistToPlayer < 100.0f) {
+        func_8002F298(&this->bg.actor, play, 100.0f, EXCH_ITEM_POE);
     }
 }
 
@@ -350,23 +346,23 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
 
 void func_80A2FB40(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        func_8002F434(&this->bg.actor, play, GI_BOTTLE, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
 }
 
 void func_80A2FBB0(EnGb* this, PlayState* play) {
-    if (Actor_HasParent(&this->dyna.actor, play)) {
-        this->dyna.actor.parent = NULL;
+    if (Actor_HasParent(&this->bg.actor, play)) {
+        this->bg.actor.parent = NULL;
         this->actionFunc = func_80A2FC0C;
     } else {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        func_8002F434(&this->bg.actor, play, GI_BOTTLE, 100.0f, 10.0f);
     }
 }
 
 void func_80A2FC0C(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        Actor_ProcessTalkRequest(&this->dyna.actor, play);
+        Actor_ProcessTalkRequest(&this->bg.actor, play);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
     }
@@ -389,7 +385,7 @@ void func_80A2FC70(EnGb* this, PlayState* play) {
         this->cagedSouls[0].unk_3 = 1;
         if (this->actionFunc) {}
         this->actionTimer = (s16)Rand_ZeroFloat(600.0f) + 600;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_WOOD_HIT);
     }
 }
 
@@ -402,7 +398,7 @@ void EnGb_Update(Actor* thisx, PlayState* play2) {
     this->frameTimer++;
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);
-    this->dyna.actor.textId = this->textId;
+    this->bg.actor.textId = this->textId;
     func_80A2F608(this);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 
@@ -429,11 +425,11 @@ void EnGb_Draw(Actor* thisx, PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
 
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
-                              this->dyna.actor.world.pos.z, this->lightColor.r, this->lightColor.g, this->lightColor.b,
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->bg.actor.world.pos.x, this->bg.actor.world.pos.y,
+                              this->bg.actor.world.pos.z, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                               this->lightColor.a);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
-                          NULL, &this->dyna.actor);
+                          NULL, &this->bg.actor);
     EnGb_DrawCagedSouls(this, play);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_gb.c", 796);
 }
@@ -499,12 +495,12 @@ void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play) {
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y + temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z;
         } else if (i == 1) {
-            rot = this->dyna.actor.world.rot.y - 0x4000;
+            rot = this->bg.actor.world.rot.y - 0x4000;
             this->cagedSouls[i].translation.x = this->cagedSouls[i].unk_14.x + Math_SinS(rot) * temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z + Math_CosS(rot) * temp_f20;
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y;
         } else {
-            rot = this->dyna.actor.world.rot.y + 0x4000;
+            rot = this->bg.actor.world.rot.y + 0x4000;
             this->cagedSouls[i].translation.x = this->cagedSouls[i].unk_14.x + Math_SinS(rot) * temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z + Math_CosS(rot) * temp_f20;
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y;

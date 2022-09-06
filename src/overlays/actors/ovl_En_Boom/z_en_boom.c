@@ -115,7 +115,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     s32 pad1;
     f32 distXYZScale;
     f32 distFromLink;
-    DynaPolyActor* hitActor;
+    BgActor* hitActor;
     s32 hitDynaID;
     Vec3f hitPoint;
     s32 pad2;

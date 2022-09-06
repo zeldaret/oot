@@ -83,10 +83,10 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
     EnJj* this = (EnJj*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    ActorShape_Init(&this->bg.actor.shape, 0.0f, NULL, 0.0f);
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case JABUJABU_MAIN:
             SkelAnime_InitFlex(play, &this->skelAnime, &gJabuJabuSkel, &gJabuJabuAnim, this->jointTable,
                                this->morphTable, 22);
@@ -103,35 +103,35 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
                 EnJj_SetupAction(this, EnJj_WaitForFish);
             }
 
-            this->bodyCollisionActor = (DynaPolyActor*)Actor_SpawnAsChild(
-                &play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0,
+            this->bodyCollisionActor = (BgActor*)Actor_SpawnAsChild(
+                &play->actorCtx, &this->bg.actor, play, ACTOR_EN_JJ, this->bg.actor.world.pos.x - 10.0f,
+                this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, 0, this->bg.actor.world.rot.y, 0,
                 JABUJABU_COLLISION);
-            DynaPolyActor_Init(&this->dyna, 0);
+            BgActor_Init(&this->bg, 0);
             CollisionHeader_GetVirtual(&gJabuJabuHeadCol, &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
             Collider_InitCylinder(play, &this->collider);
-            Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
-            this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
+            Collider_SetCylinder(play, &this->collider, &this->bg.actor, &sCylinderInit);
+            this->bg.actor.colChkInfo.mass = MASS_IMMOVABLE;
             break;
 
         case JABUJABU_COLLISION:
-            DynaPolyActor_Init(&this->dyna, 0);
+            BgActor_Init(&this->bg, 0);
             CollisionHeader_GetVirtual(&gJabuJabuBodyCol, &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-            DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
-            this->dyna.actor.update = EnJj_UpdateStaticCollision;
-            this->dyna.actor.draw = NULL;
-            Actor_SetScale(&this->dyna.actor, 0.087f);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+            DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->bg.bgId);
+            this->bg.actor.update = EnJj_UpdateStaticCollision;
+            this->bg.actor.draw = NULL;
+            Actor_SetScale(&this->bg.actor, 0.087f);
             break;
 
         case JABUJABU_UNUSED_COLLISION:
-            DynaPolyActor_Init(&this->dyna, 0);
+            BgActor_Init(&this->bg, 0);
             CollisionHeader_GetVirtual(&gJabuJabuUnusedCol, &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-            this->dyna.actor.update = EnJj_UpdateStaticCollision;
-            this->dyna.actor.draw = NULL;
-            Actor_SetScale(&this->dyna.actor, 0.087f);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+            this->bg.actor.update = EnJj_UpdateStaticCollision;
+            this->bg.actor.draw = NULL;
+            Actor_SetScale(&this->bg.actor, 0.087f);
             break;
     }
 }
@@ -139,15 +139,15 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
 void EnJj_Destroy(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case JABUJABU_MAIN:
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
             Collider_DestroyCylinder(play, &this->collider);
             break;
 
         case JABUJABU_COLLISION:
         case JABUJABU_UNUSED_COLLISION:
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
             break;
     }
 }
@@ -176,7 +176,7 @@ void EnJj_Blink(EnJj* this) {
 }
 
 void EnJj_OpenMouth(EnJj* this, PlayState* play) {
-    DynaPolyActor* bodyCollisionActor = this->bodyCollisionActor;
+    BgActor* bodyCollisionActor = this->bodyCollisionActor;
 
     if (this->mouthOpenAngle >= -5200) {
         this->mouthOpenAngle -= 102;
@@ -188,7 +188,7 @@ void EnJj_OpenMouth(EnJj* this, PlayState* play) {
 }
 
 void EnJj_WaitToOpenMouth(EnJj* this, PlayState* play) {
-    if (this->dyna.actor.xzDistToPlayer < 300.0f) {
+    if (this->bg.actor.xzDistToPlayer < 300.0f) {
         EnJj_SetupAction(this, EnJj_OpenMouth);
     }
 }
@@ -209,7 +209,7 @@ void EnJj_WaitForFish(EnJj* this, PlayState* play) {
 }
 
 void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
-    DynaPolyActor* bodyCollisionActor = this->bodyCollisionActor;
+    BgActor* bodyCollisionActor = this->bodyCollisionActor;
 
     if (this->cutsceneCountdownTimer > 0) {
         this->cutsceneCountdownTimer--;
@@ -240,7 +240,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
             this->unk_30A |= 1;
 
             if (!(this->unk_30A & 8)) {
-                this->dust = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST, -1100.0f,
+                this->dust = Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_EFF_DUST, -1100.0f,
                                                 105.0f, -27.0f, 0, 0, 0, EFF_DUST_TYPE_0);
                 this->unk_30A |= 8;
             }
@@ -258,7 +258,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
     }
 
     if (this->unk_30A & 1) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
 
         if (this->mouthOpenAngle >= -5200) {
             this->mouthOpenAngle -= 102;
@@ -275,7 +275,7 @@ void EnJj_RemoveDust(EnJj* this, PlayState* play) {
 
         if (dust != NULL) {
             Actor_Kill(dust);
-            this->dyna.actor.child = NULL;
+            this->bg.actor.child = NULL;
         }
     }
 }
@@ -292,13 +292,13 @@ void EnJj_Update(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
 
         if (this->skelAnime.curFrame == 41.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
 
     EnJj_Blink(this);
     SkelAnime_Update(&this->skelAnime);
-    Actor_SetScale(&this->dyna.actor, 0.087f);
+    Actor_SetScale(&this->bg.actor, 0.087f);
 
     // Head
     this->skelAnime.jointTable[10].z = this->mouthOpenAngle;

@@ -9,7 +9,7 @@ struct BgMizuBwall;
 typedef void (*BgMizuBwallActionFunc)(struct BgMizuBwall*, PlayState*);
 
 typedef struct BgMizuBwall {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ColliderTris collider;
     /* 0x0184 */ ColliderTrisElement elements[3]; // only ever uses 2
     /* 0x0298 */ BgMizuBwallActionFunc actionFunc;

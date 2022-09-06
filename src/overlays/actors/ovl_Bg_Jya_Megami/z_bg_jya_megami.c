@@ -114,16 +114,16 @@ void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, PlayState* play, CollisionHeade
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, flag);
+    BgActor_Init(&this->bg, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 }
 
 void BgJyaMegami_InitCollider(BgJyaMegami* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->bg.actor, &sJntSphInit, &this->colliderItem);
 }
 
 void BgJyaMegami_SpawnEffect(PlayState* play, Vec3f* pos, Vec3f* velocity, s32 num, s32 arg4) {
@@ -149,7 +149,7 @@ void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, PlayState* play, f32 arg2) 
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
         if (Rand_ZeroOne() < arg2) {
-            Math_Vec3f_Sum(&this->dyna.actor.world.pos, &sPiecesInit[i].unk_00, &pos);
+            Math_Vec3f_Sum(&this->bg.actor.world.pos, &sPiecesInit[i].unk_00, &pos);
             pos.z += 15.0f;
             BgJyaMegami_SpawnEffect(play, &pos, &sVelocity, 1, 0);
         }
@@ -161,11 +161,11 @@ void BgJyaMegami_Init(Actor* thisx, PlayState* play) {
 
     BgJyaMegami_InitDynaPoly(this, play, &GMegamiCol, DPM_UNK);
     BgJyaMegami_InitCollider(this, play);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
-        Actor_Kill(&this->dyna.actor);
+    if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
+        Actor_Kill(&this->bg.actor);
     } else {
-        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        Actor_SetFocus(&this->dyna.actor, -50.0f);
+        Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+        Actor_SetFocus(&this->bg.actor, -50.0f);
         BgJyaMegami_SetupDetectLight(this);
     }
 }
@@ -173,7 +173,7 @@ void BgJyaMegami_Init(Actor* thisx, PlayState* play) {
 void BgJyaMegami_Destroy(Actor* thisx, PlayState* play) {
     BgJyaMegami* this = (BgJyaMegami*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyJntSph(play, &this->collider);
 }
 
@@ -190,15 +190,15 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play) {
         if (play->gameplayFrames % 4 == 0) {
             BgJyaMegami_SetupSpawnEffect(this, play, (this->crumbleIndex * 0.04f) + 0.05f);
         }
-        func_8002F974(&this->dyna.actor, NA_SE_EV_FACE_CRUMBLE_SLOW - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_FACE_CRUMBLE_SLOW - SFX_FLAG);
     } else if (this->lightTimer > 0) {
         this->lightTimer--;
     }
     if (this->lightTimer > 40) {
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_SetSwitch(play, this->bg.actor.params & 0x3F);
         BgJyaMegami_SetupExplode(this);
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
-        OnePointCutscene_Init(play, 3440, -99, &this->dyna.actor, CAM_ID_MAIN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
+        OnePointCutscene_Init(play, 3440, -99, &this->bg.actor, CAM_ID_MAIN);
     } else {
         if (this->lightTimer < 8) {
             this->crumbleIndex = 0;
@@ -220,7 +220,7 @@ void BgJyaMegami_SetupExplode(BgJyaMegami* this) {
 
     this->actionFunc = BgJyaMegami_Explode;
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
-        Math_Vec3f_Copy(&this->pieces[i].pos, &this->dyna.actor.world.pos);
+        Math_Vec3f_Copy(&this->pieces[i].pos, &this->bg.actor.world.pos);
         this->pieces[i].vel.x = sPiecesInit[i].velX;
     }
     this->explosionTimer = 0;
@@ -236,7 +236,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play) {
 
     this->explosionTimer++;
     if (this->explosionTimer == 30) {
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
     }
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
@@ -266,22 +266,22 @@ void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play) {
 
     if ((this->explosionTimer % 4 == 0) && (this->explosionTimer > 30) && (this->explosionTimer < 80) &&
         (this->explosionTimer > 40)) {
-        sp8C.x = ((Rand_ZeroOne() - 0.5f) * 90.0f) + this->dyna.actor.world.pos.x;
-        sp8C.y = (this->dyna.actor.world.pos.y - (Rand_ZeroOne() * 80.0f)) - 20.0f;
-        sp8C.z = this->dyna.actor.world.pos.z - (Rand_ZeroOne() - 0.5f) * 50.0f;
+        sp8C.x = ((Rand_ZeroOne() - 0.5f) * 90.0f) + this->bg.actor.world.pos.x;
+        sp8C.y = (this->bg.actor.world.pos.y - (Rand_ZeroOne() * 80.0f)) - 20.0f;
+        sp8C.z = this->bg.actor.world.pos.z - (Rand_ZeroOne() - 0.5f) * 50.0f;
         BgJyaMegami_SpawnEffect(play, &sp8C, &sVec, 1, 0);
     }
     if (this->explosionTimer < ARRAY_COUNT(this->pieces)) {
-        sp8C.x = this->dyna.actor.world.pos.x;
-        sp8C.y = this->dyna.actor.world.pos.y - 60.0f;
-        sp8C.z = this->dyna.actor.world.pos.z;
+        sp8C.x = this->bg.actor.world.pos.x;
+        sp8C.y = this->bg.actor.world.pos.y - 60.0f;
+        sp8C.z = this->bg.actor.world.pos.z;
         func_80033480(play, &sp8C, 100.0f, 1, 150, 100, 1);
     }
     if (this->explosionTimer == 60) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
     if (this->explosionTimer >= 100) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 

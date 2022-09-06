@@ -9,7 +9,7 @@ struct EnBrob;
 typedef void (*EnBrobActionFunc)(struct EnBrob* this, PlayState* play);
 
 typedef struct EnBrob {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ EnBrobActionFunc actionFunc;
     /* 0x01AC */ s16 timer;

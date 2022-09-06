@@ -83,12 +83,12 @@ void BgJyaIronobj_InitCylinder(BgJyaIronobj* this, PlayState* play) {
     ColliderCylinder* colCylinder = &this->colCylinder;
 
     Collider_InitCylinder(play, colCylinder);
-    Collider_SetCylinder(play, colCylinder, &this->dyna.actor, &sCylinderInit);
-    if ((this->dyna.actor.params & 1) == 1) {
+    Collider_SetCylinder(play, colCylinder, &this->bg.actor, &sCylinderInit);
+    if ((this->bg.actor.params & 1) == 1) {
         this->colCylinder.dim.radius = 40;
         this->colCylinder.dim.height = 100;
     }
-    Collider_UpdateCylinder(&this->dyna.actor, colCylinder);
+    Collider_UpdateCylinder(&this->bg.actor, colCylinder);
 }
 
 /*
@@ -111,22 +111,21 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
         return;
     }
     osSyncPrintf("¢ attack_type(%d)\n", enIk->unk_2FF);
-    rotY = Actor_WorldYawTowardActor(&this->dyna.actor, &enIk->actor) + D_808994D8[enIk->unk_2FF - 1];
+    rotY = Actor_WorldYawTowardActor(&this->bg.actor, &enIk->actor) + D_808994D8[enIk->unk_2FF - 1];
 
     for (i = 0; i < 8; i++) {
-        Actor* actor =
-            Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->dyna.actor.world.pos.x,
-                        Rand_ZeroOne() * 80.0f + this->dyna.actor.world.pos.y + 20.0f, this->dyna.actor.world.pos.z, 0,
-                        (s16)(Rand_ZeroOne() * 0x4000) + rotY - 0x2000, 0, 0);
+        Actor* actor = Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->bg.actor.world.pos.x,
+                                   Rand_ZeroOne() * 80.0f + this->bg.actor.world.pos.y + 20.0f,
+                                   this->bg.actor.world.pos.z, 0, (s16)(Rand_ZeroOne() * 0x4000) + rotY - 0x2000, 0, 0);
         if (actor != NULL) {
             actor->speedXZ = Rand_ZeroOne() * 8.0f + 9.0f;
             actor->velocity.y = Rand_ZeroOne() * 10.0f + 6.0f;
         }
     }
-    Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->dyna.actor.world.pos.x,
-                this->dyna.actor.world.pos.y + 150.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 1);
-    Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->dyna.actor.world.pos.x,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0, 2);
+    Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->bg.actor.world.pos.x,
+                this->bg.actor.world.pos.y + 150.0f, this->bg.actor.world.pos.z, 0, 0, 0, 1);
+    Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->bg.actor.world.pos.x, this->bg.actor.world.pos.y,
+                this->bg.actor.world.pos.z, 0, 0, 0, 2);
     sins = Math_SinS(rotY);
     coss = Math_CosS(rotY);
     for (j = 0; j < 32; j++) {
@@ -139,9 +138,9 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
         } else {
             unkArg5 = 0x20;
         }
-        pos.x = this->dyna.actor.world.pos.x;
-        pos.y = this->dyna.actor.world.pos.y + ((4.375f * j) + 10.0f);
-        pos.z = this->dyna.actor.world.pos.z;
+        pos.x = this->bg.actor.world.pos.x;
+        pos.y = this->bg.actor.world.pos.y + ((4.375f * j) + 10.0f);
+        pos.z = this->bg.actor.world.pos.z;
         temp_f22 = fabsf(j - 15.5f) * (1.0f / 31) + 0.5f;
         vel.x = 2.0f * ((Rand_ZeroOne() * 6.0f) - 3.0f) + (Rand_ZeroOne() * sins * 8.0f * temp_f22);
         vel.y = (Rand_ZeroOne() * 8.0f) - 3.0f;
@@ -174,12 +173,12 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
         return;
     }
     osSyncPrintf("¢ attack_type(%d)\n", enIk->unk_2FF);
-    rotY = Actor_WorldYawTowardActor(&this->dyna.actor, &enIk->actor) + D_808994D8[enIk->unk_2FF - 1];
+    rotY = Actor_WorldYawTowardActor(&this->bg.actor, &enIk->actor) + D_808994D8[enIk->unk_2FF - 1];
     for (i = 0; i < 8; i++) {
         Actor* actor =
-            Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->dyna.actor.world.pos.x,
-                        (Rand_ZeroOne() * 80.0f) + this->dyna.actor.world.pos.y + 10.0f, this->dyna.actor.world.pos.z,
-                        0, ((s16)(s32)(Rand_ZeroOne() * 0x4000) + rotY) - 0x2000, 0, 0);
+            Actor_Spawn(&play->actorCtx, play, ACTOR_BG_JYA_HAHENIRON, this->bg.actor.world.pos.x,
+                        (Rand_ZeroOne() * 80.0f) + this->bg.actor.world.pos.y + 10.0f, this->bg.actor.world.pos.z, 0,
+                        ((s16)(s32)(Rand_ZeroOne() * 0x4000) + rotY) - 0x2000, 0, 0);
         if (actor != NULL) {
             actor->speedXZ = Rand_ZeroOne() * 8.0f + 9.0f;
             actor->velocity.y = Rand_ZeroOne() * 10.0f + 6.0f;
@@ -198,9 +197,9 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
         } else {
             unkArg5 = 0x20;
         }
-        pos.x = this->dyna.actor.world.pos.x + (Rand_ZeroOne() * 40 - 20);
-        pos.y = this->dyna.actor.world.pos.y + (3.75f * j);
-        pos.z = this->dyna.actor.world.pos.z + (Rand_ZeroOne() * 40 - 20);
+        pos.x = this->bg.actor.world.pos.x + (Rand_ZeroOne() * 40 - 20);
+        pos.y = this->bg.actor.world.pos.y + (3.75f * j);
+        pos.z = this->bg.actor.world.pos.z + (Rand_ZeroOne() * 40 - 20);
         temp_f22 = fabsf(j - 15.5f) * (1.0f / 31) + 0.5f;
         vel.x = 2.0f * (Rand_ZeroOne() * 6.0f - 3.0f) + (Rand_ZeroOne() * sins * 8.0f * temp_f22);
         vel.y = Rand_ZeroOne() * 8.0f - 3.0f;
@@ -218,11 +217,11 @@ void BgJyaIronobj_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, 0);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    BgActor_Init(&this->bg, 0);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     BgJyaIronobj_InitCylinder(this, play);
     CollisionHeader_GetVirtual(sCollisionHeaders[thisx->params & 1], &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     func_808992D8(this);
 }
 
@@ -230,7 +229,7 @@ void BgJyaIronobj_Destroy(Actor* thisx, PlayState* play) {
     BgJyaIronobj* this = (BgJyaIronobj*)thisx;
 
     Collider_DestroyCylinder(play, &this->colCylinder);
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808992D8(BgJyaIronobj* this) {
@@ -247,16 +246,16 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
         actor = this->colCylinder.base.ac;
         this->colCylinder.base.acFlags &= ~AC_HIT;
         if (actor != NULL && actor->id == ACTOR_EN_IK) {
-            particleFunc[this->dyna.actor.params & 1](this, play, (EnIk*)actor);
-            SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
-            dropPos.x = this->dyna.actor.world.pos.x;
-            dropPos.y = this->dyna.actor.world.pos.y + 20.0f;
-            dropPos.z = this->dyna.actor.world.pos.z;
+            particleFunc[this->bg.actor.params & 1](this, play, (EnIk*)actor);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
+            dropPos.x = this->bg.actor.world.pos.x;
+            dropPos.y = this->bg.actor.world.pos.y + 20.0f;
+            dropPos.z = this->bg.actor.world.pos.z;
             for (i = 0; i < 3; i++) {
                 Item_DropCollectible(play, &dropPos, ITEM00_RECOVERY_HEART);
                 dropPos.y += 18.0f;
             }
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
             return;
         }
     } else {

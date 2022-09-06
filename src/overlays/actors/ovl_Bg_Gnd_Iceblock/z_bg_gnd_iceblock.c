@@ -49,20 +49,20 @@ void BgGndIceblock_Init(Actor* thisx, PlayState* play) {
     BgGndIceblock* this = (BgGndIceblock*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gWaterTrialIceBlockCol, &colHeader);
-    this->targetPos = this->dyna.actor.home.pos;
+    this->targetPos = this->bg.actor.home.pos;
     this->actionFunc = BgGndIceblock_Idle;
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.actor.world.pos.x == 2792.0f) {
-        this->dyna.actor.params = 0;
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.actor.world.pos.x == 2792.0f) {
+        this->bg.actor.params = 0;
         sBlockPositions[0] = 7;
-    } else if (this->dyna.actor.world.pos.x == 3032.0f) {
-        this->dyna.actor.params = 1;
+    } else if (this->bg.actor.world.pos.x == 3032.0f) {
+        this->bg.actor.params = 1;
         sBlockPositions[1] = 14;
     } else {
-        LOG_FLOAT("thisx->world.position.x", this->dyna.actor.world.pos.x, "../z_bg_gnd_iceblock.c", 138);
+        LOG_FLOAT("thisx->world.position.x", this->bg.actor.world.pos.x, "../z_bg_gnd_iceblock.c", 138);
         ASSERT(0, "0", "../z_bg_gnd_iceblock.c", 139);
     }
 }
@@ -71,7 +71,7 @@ void BgGndIceblock_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgGndIceblock* this = (BgGndIceblock*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 /*
@@ -92,7 +92,7 @@ void BgGndIceblock_Destroy(Actor* thisx, PlayState* play) {
  */
 
 void BgGndIceblock_SetPosition(BgGndIceblock* this, s32 blockPosition) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
     u8 xPosIdx[22] = {
         0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6, 6, 6, 6,
     };
@@ -117,7 +117,7 @@ s32 BgGndIceblock_CheckForBlock(s32 blockPosition) {
 }
 
 s32 BgGndIceblock_NextAction(BgGndIceblock* this) {
-    switch (sBlockPositions[this->dyna.actor.params]) {
+    switch (sBlockPositions[this->bg.actor.params]) {
         case 0:
         case 1:
         case 5:
@@ -134,8 +134,8 @@ s32 BgGndIceblock_NextAction(BgGndIceblock* this) {
 }
 
 void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
-    if (this->dyna.unk_158 == 0) {
-        switch (sBlockPositions[this->dyna.actor.params]) {
+    if (this->bg.unk_158 == 0) {
+        switch (sBlockPositions[this->bg.actor.params]) {
             case 3:
             case 4:
                 BgGndIceblock_SetPosition(this, 5);
@@ -158,8 +158,8 @@ void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
                 BgGndIceblock_SetPosition(this, 20);
                 break;
         }
-    } else if (this->dyna.unk_158 == -0x8000) {
-        switch (sBlockPositions[this->dyna.actor.params]) {
+    } else if (this->bg.unk_158 == -0x8000) {
+        switch (sBlockPositions[this->bg.actor.params]) {
             case 2:
             case 3:
                 BgGndIceblock_SetPosition(this, 1);
@@ -184,8 +184,8 @@ void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
                 }
                 break;
         }
-    } else if (this->dyna.unk_158 == 0x4000) {
-        switch (sBlockPositions[this->dyna.actor.params]) {
+    } else if (this->bg.unk_158 == 0x4000) {
+        switch (sBlockPositions[this->bg.actor.params]) {
             case 6:
                 BgGndIceblock_SetPosition(this, 13);
                 break;
@@ -205,8 +205,8 @@ void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
                 BgGndIceblock_SetPosition(this, 19);
                 break;
         }
-    } else if (this->dyna.unk_158 == -0x4000) {
-        switch (sBlockPositions[this->dyna.actor.params]) {
+    } else if (this->bg.unk_158 == -0x4000) {
+        switch (sBlockPositions[this->bg.actor.params]) {
             case 6:
                 BgGndIceblock_SetPosition(this, 0);
                 break;
@@ -234,26 +234,26 @@ void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
 void BgGndIceblock_Idle(BgGndIceblock* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->dyna.unk_150 != 0.0f) {
+    if (this->bg.unk_150 != 0.0f) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        if (this->dyna.unk_150 > 0.0f) {
+        if (this->bg.unk_150 > 0.0f) {
             BgGndIceblock_SetNextPosition(this);
-            if (Actor_WorldDistXZToPoint(&this->dyna.actor, &this->targetPos) > 1.0f) {
-                func_8002DF54(play, &this->dyna.actor, 8);
+            if (Actor_WorldDistXZToPoint(&this->bg.actor, &this->targetPos) > 1.0f) {
+                func_8002DF54(play, &this->bg.actor, 8);
                 this->actionFunc = BgGndIceblock_Slide;
             }
         }
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
     }
 }
 
 void BgGndIceblock_Reset(BgGndIceblock* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
-    if (this->dyna.unk_150 != 0.0f) {
+    if (this->bg.unk_150 != 0.0f) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
     }
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 1.0f)) {
         this->targetPos = thisx->home.pos;
@@ -271,7 +271,7 @@ void BgGndIceblock_Reset(BgGndIceblock* this, PlayState* play) {
 }
 
 void BgGndIceblock_Fall(BgGndIceblock* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     thisx->velocity.y += 1.0f;
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y - 300.0f, thisx->velocity.y)) {
@@ -287,7 +287,7 @@ void BgGndIceblock_Fall(BgGndIceblock* this, PlayState* play) {
 }
 
 void BgGndIceblock_Hole(BgGndIceblock* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     thisx->velocity.y += 1.0f;
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y - 100.0f, thisx->velocity.y)) {
@@ -304,7 +304,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
     Vec3f pos;
     Vec3f velocity;
     f32 spread;
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     Math_StepToF(&thisx->speedXZ, 10.0f, 0.5f);
     atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speedXZ);
@@ -328,16 +328,16 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
         }
     } else if (thisx->speedXZ > 6.0f) {
         spread = Rand_CenteredFloat(120.0f);
-        velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->dyna.unk_158);
+        velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->bg.unk_158);
         velocity.y = Rand_ZeroOne() + 1.0f;
-        velocity.z = -(1.5f + Rand_ZeroOne()) * Math_CosS(this->dyna.unk_158);
-        pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) - (Math_CosS(this->dyna.unk_158) * spread);
-        pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) + (Math_SinS(this->dyna.unk_158) * spread);
+        velocity.z = -(1.5f + Rand_ZeroOne()) * Math_CosS(this->bg.unk_158);
+        pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->bg.unk_158)) - (Math_CosS(this->bg.unk_158) * spread);
+        pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->bg.unk_158)) + (Math_SinS(this->bg.unk_158) * spread);
         pos.y = thisx->world.pos.y;
         func_8002829C(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
         spread = Rand_CenteredFloat(120.0f);
-        pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) + (Math_CosS(this->dyna.unk_158) * spread);
-        pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) - (Math_SinS(this->dyna.unk_158) * spread);
+        pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->bg.unk_158)) + (Math_CosS(this->bg.unk_158) * spread);
+        pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->bg.unk_158)) - (Math_SinS(this->bg.unk_158) * spread);
         func_8002829C(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
         func_8002F974(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
     }

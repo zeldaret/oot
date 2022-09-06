@@ -9,7 +9,7 @@ struct BgHidanDalm;
 typedef void (*BgHidanDalmActionFunc)(struct BgHidanDalm*, PlayState*);
 
 typedef struct BgHidanDalm {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgHidanDalmActionFunc actionFunc;
     /* 0x0168 */ u8 switchFlag;
     /* 0x016C */ ColliderTris collider;

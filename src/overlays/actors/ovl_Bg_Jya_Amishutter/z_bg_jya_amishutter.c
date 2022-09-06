@@ -47,12 +47,12 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, flag);
+    BgActor_Init(&this->bg, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -60,14 +60,14 @@ void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
     BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, DPM_UNK);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     BgJyaAmishutter_SetupWaitForPlayer(this);
 }
 
 void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
@@ -75,7 +75,7 @@ void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
 }
 
 void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this) {
-    if ((this->dyna.actor.xzDistToPlayer < 60.0f) && (fabsf(this->dyna.actor.yDistToPlayer) < 30.0f)) {
+    if ((this->bg.actor.xzDistToPlayer < 60.0f) && (fabsf(this->bg.actor.yDistToPlayer) < 30.0f)) {
         func_80893428(this);
     }
 }
@@ -85,11 +85,11 @@ void func_80893428(BgJyaAmishutter* this) {
 }
 
 void func_80893438(BgJyaAmishutter* this) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 100.0f, 3.0f)) {
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 100.0f, 3.0f)) {
         func_808934B0(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -98,7 +98,7 @@ void func_808934B0(BgJyaAmishutter* this) {
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
-    if (this->dyna.actor.xzDistToPlayer > 300.0f) {
+    if (this->bg.actor.xzDistToPlayer > 300.0f) {
         func_808934FC(this);
     }
 }
@@ -108,11 +108,11 @@ void func_808934FC(BgJyaAmishutter* this) {
 }
 
 void func_8089350C(BgJyaAmishutter* this) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 3.0f)) {
         BgJyaAmishutter_SetupWaitForPlayer(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 

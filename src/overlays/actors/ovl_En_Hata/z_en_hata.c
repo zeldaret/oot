@@ -55,15 +55,15 @@ void EnHata_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     f32 frameCount = Animation_GetLastFrame(&gFlagpoleFlapAnim);
 
-    Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
+    Actor_SetScale(&this->bg.actor, 1.0f / 75.0f);
     SkelAnime_Init(play, &this->skelAnime, &gFlagpoleSkel, &gFlagpoleFlapAnim, NULL, NULL, 0);
     Animation_Change(&this->skelAnime, &gFlagpoleFlapAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gFlagpoleCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->dyna.actor.uncullZoneScale = 500.0f;
-    this->dyna.actor.uncullZoneDownward = 550.0f;
-    this->dyna.actor.uncullZoneForward = 2200.0f;
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    this->bg.actor.uncullZoneScale = 500.0f;
+    this->bg.actor.uncullZoneDownward = 550.0f;
+    this->bg.actor.uncullZoneForward = 2200.0f;
     this->invScale = 6;
     this->maxStep = 1000;
     this->minStep = 1;
@@ -74,7 +74,7 @@ void EnHata_Destroy(Actor* thisx, PlayState* play) {
     EnHata* this = (EnHata*)thisx;
 
     SkelAnime_Free(&this->skelAnime, play);
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void EnHata_Update(Actor* thisx, PlayState* play2) {

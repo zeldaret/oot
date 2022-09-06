@@ -34,18 +34,18 @@ void EnJj_Destroy(EnJj *this, PlayState *play) {
     PlayState *temp_a3;
     s16 temp_v0;
 
-    temp_v0 = this->dyna.actor.params;
+    temp_v0 = this->bg.actor.params;
     temp_a3 = play;
     if (temp_v0 == -1) {
         play = temp_a3;
-        DynaPoly_DeleteBgActor(temp_a3, &temp_a3->colCtx.dyna, (s32) this->dyna.bgId);
+        DynaPoly_DeleteBgActor(temp_a3, &temp_a3->colCtx.dyna, (s32) this->bg.bgId);
         Collider_DestroyCylinder(play, &this->collider);
         return;
     }
     if ((temp_v0 != 0) && (temp_v0 != 1)) {
         return;
     }
-    DynaPoly_DeleteBgActor(temp_a3, &temp_a3->colCtx.dyna, (s32) this->dyna.bgId);
+    DynaPoly_DeleteBgActor(temp_a3, &temp_a3->colCtx.dyna, (s32) this->bg.bgId);
 }
 ```
 
@@ -56,14 +56,14 @@ void EnJj_Destroy(Actor* thisx, PlayState* play) {
     PlayState* temp_a3;
     temp_a3 = play;
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case -1:
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
             Collider_DestroyCylinder(play, &this->collider);
             break;
         case 0:
         case 1:
-            DynaPoly_DeleteBgActor(temp_a3, &temp_a3->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(temp_a3, &temp_a3->colCtx.dyna, this->bg.bgId);
             break;
     }
 }
@@ -73,14 +73,14 @@ Using `./diff.py -mwo3 EnJj_Destroy` shows that this matches already, but it see
 void EnJj_Destroy(Actor* thisx, PlayState* play) {
     EnJj* this = THIS;
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case -1:
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
             Collider_DestroyCylinder(play, &this->collider);
             break;
         case 0:
         case 1:
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
             break;
     }
 }
@@ -95,7 +95,7 @@ also matches, with no need for the `PlayState*` temp.
 Of the two functions we have available, `func_80A87BEC` is shorter, so we do that next. Since we haven't changed any types or header file information, there is no need to remake the context. mips2c gives
 ```C
 void func_80A87BEC(EnJj *this, PlayState *play) {
-    if (this->dyna.actor.xzDistToPlayer < 300.0f) {
+    if (this->bg.actor.xzDistToPlayer < 300.0f) {
         func_80A87800(this, &func_80A87B9C);
     }
 }
@@ -108,7 +108,7 @@ void func_80A87B9C(EnJj *this, PlayState *play);
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func_80A87BEC.s")
 void func_80A87BEC(EnJj *this, PlayState *play) {
-    if (this->dyna.actor.xzDistToPlayer < 300.0f) {
+    if (this->bg.actor.xzDistToPlayer < 300.0f) {
         func_80A87800(this, func_80A87B9C);
     }
 }
@@ -135,7 +135,7 @@ void func_80A87B9C(EnJj *this, PlayState *play) {
 Here's a new variable for our actor struct! Don't be deceived by the `s32` cast in the comparison: mips2c always does that if it's not sure. The reliable one is the `s16` cast lower down. (An `s32` doesn't fit in the space we have anyway). So the actor struct is now
 ```C
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ Vec3s jointTable[22];
     /* 0x022C */ Vec3s morphTable[22];
@@ -156,9 +156,9 @@ typedef struct EnJj {
 
 We can eliminate the temp since it's used in a simple way one after the other. `this->unk308 = (s16) (this->unk308 - 0x66);` can be written as `this->unk308 -= 0x66;`.
 
-In the `func_8003EBF8` we see that we should have at least made `this->childActor` a `DynaPolyActor*`, so that the last argument is its `bgId`. To avoid compiler warnings, we also need to cast the `Actor_SpawnAsChild` as such in Init,
+In the `func_8003EBF8` we see that we should have at least made `this->childActor` a `BgActor*`, so that the last argument is its `bgId`. To avoid compiler warnings, we also need to cast the `Actor_SpawnAsChild` as such in Init,
 ```C
-this->childActor = (DynaPolyActor*)Actor_SpawnAsChild(...)
+this->childActor = (BgActor*)Actor_SpawnAsChild(...)
 ```
 
 Doing so, we are left with
@@ -207,7 +207,7 @@ The first suggestion looks plausible:
  void func_80A87B9C(EnJj *this, PlayState *play)
  {
 -  if (this->unk_308 >= (-0x1450))
-+  DynaPolyActor *new_var;
++  BgActor *new_var;
 +  new_var = this->childActor;
 +  if (this->unk_308 > ((-0x1450) - 1))
    {
@@ -224,7 +224,7 @@ The first suggestion looks plausible:
 In particular, adding a temp for the actor. Some of the rest is rather puzzling, but let's just try the actor temp,
 ```C
 void func_80A87B9C(EnJj *this, PlayState *play) {
-    DynaPolyActor* child = this->childActor;
+    BgActor* child = this->childActor;
 
     if (this->unk_308 >= -0x1450) {
         this->unk_308 -= 0x66;
@@ -242,7 +242,7 @@ Hooray, that worked. The function now matches (as you can check by running `make
 However, the hex values look a bit strange, and it turns out the decimal equivalents look less strange, so it's a good idea to translate them:
 ```C
 void func_80A87B9C(EnJj *this, PlayState *play) {
-    DynaPolyActor* child = this->childActor;
+    BgActor* child = this->childActor;
 
     if (this->unk_308 >= -5200) {
         this->unk_308 -= 102;
@@ -322,13 +322,13 @@ One issue we have swept under the carpet thus far is what `unk_30C` is: we still
 which tells us that `unk_30C` is an `s16`, filling another gap in the struct:
 ```C
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ Vec3s jointTable[22];
     /* 0x022C */ Vec3s morphTable[22];
     /* 0x02B0 */ ColliderCylinder collider;
     /* 0x02FC */ EnJjActionFunc actionFunc;
-    /* 0x0300 */ DynaPolyActor* childActor;
+    /* 0x0300 */ BgActor* childActor;
     /* 0x0304 */ char unk_304[0x4];
     /* 0x0308 */ s16 unk_308;
     /* 0x030A */ s16 unk_30A;
@@ -364,8 +364,8 @@ Again we have only one choice for our next function, namely `func_80A87CEC`.
 Remaking the context and running mips2c on the assembly gives
 ```C
 void func_80A87CEC(EnJj *this, PlayState *play) {
-    DynaPolyActor *sp1C;
-    DynaPolyActor *temp_v1;
+    BgActor *sp1C;
+    BgActor *temp_v1;
     s16 temp_v0;
 
     temp_v0 = this->unk_30C;
@@ -409,7 +409,7 @@ gSaveContext.unkEDA |= 0x400
 It remains to work out which, if any, of the temps are real. Based on our previous experience, we expect `temp_v1` to be real. `sp1C` is unused and hence unlikely to be real. `temp_v0` is only used in the short if and so probably not real. Checking the diff shows that our suspicions were correct:
 ```C
 void func_80A87CEC(EnJj *this, PlayState *play) {
-    DynaPolyActor *child = this->childActor;
+    BgActor *child = this->childActor;
     if (this->unk_30C > 0) {
         this->unk_30C--;
         return;
@@ -429,7 +429,7 @@ matches, but generates a complier warning for `func_8005B1A4`, which it can't fi
 Lastly, we prefer to limit use of early `return`s, and use `else`s instead if possible. That applies here: the function can be rewritten as
 ```C
 void func_80A87CEC(EnJj* this, PlayState* play) {
-    DynaPolyActor* child = this->childActor;
+    BgActor* child = this->childActor;
     if (this->unk_30C > 0) {
         this->unk_30C--;
     } else {
@@ -461,7 +461,7 @@ void func_80A87EF0(EnJj *this, PlayState *play) {
         if (temp_a0 != 0) {
             this = this;
             Actor_Kill((Actor *) temp_a0);
-            this->dyna.actor.child = NULL;
+            this->bg.actor.child = NULL;
         }
     }
 }
@@ -483,7 +483,7 @@ void func_80A87EF0(EnJj *this, PlayState *play) {
         temp_a0 = this->unk_304;
         if (temp_a0 != 0) {
             Actor_Kill(temp_a0);
-            this->dyna.actor.child = NULL;
+            this->bg.actor.child = NULL;
         }
     }
 }
@@ -526,12 +526,12 @@ void EnJj_Update(Actor *thisx, PlayState *play) {
     } else {
         this->actionFunc(this, play);
         if (this->skelAnime.curFrame == 41.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
     func_80A87B1C(this);
     SkelAnime_Update(&this->skelAnime);
-    Actor_SetScale(&this->dyna.actor, 0.087f);
+    Actor_SetScale(&this->bg.actor, 0.087f);
     this->skelAnime.jointTable[10].z = this->unk_308;
 }
 ```
@@ -773,7 +773,7 @@ void func_80A87D94(EnJj *this, PlayState *play) {
 ```
 (notice that this time we need a `default` to deal with the innermost if contents). If you try to replace `0x206D` in the `Audio_PlayActorSfx2`, you will find there is no such sfxId in the list: this is because some sound effects have an extra offset of `0x800` to do with setting flags. Adding `0x800` to the sfxId shows that this sound effect is `NA_SE_EV_JABJAB_BREATHE`. To correct this to the id in the function, we have a macro `SFX_FLAG`, and it should therefore be
 ```C
-Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
+Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
 ```
 
 As usual, most of the remaining temps look fake. The only one that does not is possibly `phi_v1`. However, the way in which they are used here makes it hard to tell if they are fake, and if so, how to replace them. I encourage you to try this yourself, with the aid of the diff script; the final, matching result, with other cleanup, is hidden below
@@ -798,7 +798,7 @@ void func_80A87D94(EnJj* this, PlayState* play) {
         case 2:
             this->unk_30A |= 1;
             if ((this->unk_30A & 8) == 0) {
-                this->unk_304 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST,
+                this->unk_304 = Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_EFF_DUST,
                                                    -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
                 this->unk_30A |= 8;
             }
@@ -814,7 +814,7 @@ void func_80A87D94(EnJj* this, PlayState* play) {
             break;
     }
     if ((this->unk_30A & 1) != 0) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
         if (this->unk_308 >= -5200) {
             this->unk_308 -= 102;
         }

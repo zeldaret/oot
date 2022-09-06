@@ -100,9 +100,9 @@ void BgHidanDalm_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gFireTempleHammerableTotemCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
 
@@ -118,7 +118,7 @@ void BgHidanDalm_Init(Actor* thisx, PlayState* play) {
 void BgHidanDalm_Destroy(Actor* thisx, PlayState* play) {
     BgHidanDalm* this = (BgHidanDalm*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyTris(play, &this->collider);
 }
 
@@ -131,22 +131,22 @@ void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
             (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
-            this->dyna.actor.world.rot.y -= 0x4000;
+            this->bg.actor.world.rot.y -= 0x4000;
         } else {
-            this->dyna.actor.world.rot.y += 0x4000;
+            this->bg.actor.world.rot.y += 0x4000;
         }
-        this->dyna.actor.world.pos.x += 32.5f * Math_SinS(this->dyna.actor.world.rot.y);
-        this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
+        this->bg.actor.world.pos.x += 32.5f * Math_SinS(this->bg.actor.world.rot.y);
+        this->bg.actor.world.pos.z += 32.5f * Math_CosS(this->bg.actor.world.rot.y);
 
-        func_8002DF54(play, &this->dyna.actor, 8);
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        func_8002DF54(play, &this->bg.actor, 8);
+        this->bg.actor.flags |= ACTOR_FLAG_4;
         this->actionFunc = BgHidanDalm_Shrink;
-        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
-        this->dyna.actor.speedXZ = 10.0f;
+        this->bg.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
+        this->bg.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
+        this->bg.actor.speedXZ = 10.0f;
         Flags_SetSwitch(play, this->switchFlag);
         func_8002F7DC(&GET_PLAYER(play)->actor, NA_SE_IT_HAMMER_HIT);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_DARUMA_VANISH);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_DARUMA_VANISH);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
@@ -158,20 +158,20 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play) {
     Vec3f velocity;
     Vec3f pos;
 
-    if (Math_StepToF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
-        func_8002DF54(play, &this->dyna.actor, 7);
-        Actor_Kill(&this->dyna.actor);
+    if (Math_StepToF(&this->bg.actor.scale.x, 0.0f, 0.004f)) {
+        func_8002DF54(play, &this->bg.actor, 7);
+        Actor_Kill(&this->bg.actor);
     }
 
-    this->dyna.actor.scale.y = this->dyna.actor.scale.z = this->dyna.actor.scale.x;
+    this->bg.actor.scale.y = this->bg.actor.scale.z = this->bg.actor.scale.x;
 
-    pos.x = this->dyna.actor.world.pos.x;
-    pos.y = this->dyna.actor.world.pos.y + this->dyna.actor.scale.x * 160.0f;
-    pos.z = this->dyna.actor.world.pos.z;
+    pos.x = this->bg.actor.world.pos.x;
+    pos.y = this->bg.actor.world.pos.y + this->bg.actor.scale.x * 160.0f;
+    pos.z = this->bg.actor.world.pos.z;
 
     for (i = 0; i < 4; i++) {
-        velocity.x = 5.0f * Math_SinS(this->dyna.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
-        velocity.z = 5.0f * Math_CosS(this->dyna.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.x = 5.0f * Math_SinS(this->bg.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.z = 5.0f * Math_CosS(this->bg.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
         velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
         EffectSsKiraKira_SpawnSmallYellow(play, &pos, &velocity, &accel);
     }
@@ -181,9 +181,8 @@ void BgHidanDalm_Update(Actor* thisx, PlayState* play) {
     BgHidanDalm* this = (BgHidanDalm*)thisx;
 
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->dyna.actor);
-    Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 10.0f, 15.0f, 32.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_MoveForward(&this->bg.actor);
+    Actor_UpdateBgCheckInfo(play, &this->bg.actor, 10.0f, 15.0f, 32.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 /**
@@ -212,7 +211,7 @@ void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
 void BgHidanDalm_Draw(Actor* thisx, PlayState* play) {
     BgHidanDalm* this = (BgHidanDalm*)thisx;
 
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         Gfx_DrawDListOpa(play, gFireTempleHammerableTotemBodyDL);
     } else {
         Gfx_DrawDListOpa(play, gFireTempleHammerableTotemHeadDL);

@@ -97,30 +97,30 @@ s32 func_808B8910(BgSpot18Obj* this, PlayState* play) {
         age = 0;
     } else {
         osSyncPrintf("Error : リンク年齢不詳 (%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 182,
-                     this->dyna.actor.params);
+                     this->bg.actor.params);
         return 0;
     }
 
-    switch (D_808B90F0[this->dyna.actor.params & 0xF][age]) {
+    switch (D_808B90F0[this->bg.actor.params & 0xF][age]) {
         case 0:
         case 1:
-            if (D_808B90F0[this->dyna.actor.params & 0xF][age] == 0) {
-                osSyncPrintf("出現しない Object (0x%04x)\n", this->dyna.actor.params);
+            if (D_808B90F0[this->bg.actor.params & 0xF][age] == 0) {
+                osSyncPrintf("出現しない Object (0x%04x)\n", this->bg.actor.params);
             }
-            return D_808B90F0[this->dyna.actor.params & 0xF][age];
+            return D_808B90F0[this->bg.actor.params & 0xF][age];
         case 2:
             osSyncPrintf("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 202,
-                         this->dyna.actor.params);
+                         this->bg.actor.params);
             break;
         default:
             osSyncPrintf("Error : Obj出現判定失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 210,
-                         this->dyna.actor.params);
+                         this->bg.actor.params);
     }
     return 0;
 }
 
 s32 func_808B8A5C(BgSpot18Obj* this, PlayState* play) {
-    Actor_SetScale(&this->dyna.actor, D_808B90F4[this->dyna.actor.params & 0xF]);
+    Actor_SetScale(&this->bg.actor, D_808B90F4[this->bg.actor.params & 0xF]);
     return 1;
 }
 
@@ -128,14 +128,14 @@ s32 func_808B8A98(BgSpot18Obj* this, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    BgActor_Init(&this->bg, DPM_UNK);
+    CollisionHeader_GetVirtual(D_808B90FC[this->bg.actor.params & 0xF], &colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     return 1;
 }
 
 s32 func_808B8B08(BgSpot18Obj* this, PlayState* play) {
-    this->dyna.actor.flags |= D_808B9104[this->dyna.actor.params & 0xF];
+    this->bg.actor.flags |= D_808B9104[this->bg.actor.params & 0xF];
     return 1;
 }
 
@@ -151,14 +151,14 @@ s32 func_808B8B38(BgSpot18Obj* this, PlayState* play) {
 }
 
 s32 func_808B8BB4(BgSpot18Obj* this, PlayState* play) {
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain1);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain1);
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         func_808B9030(this);
-    } else if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    } else if (Flags_GetSwitch(play, (this->bg.actor.params >> 8) & 0x3F)) {
         func_808B9030(this);
-        this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
+        this->bg.actor.world.pos.x = (Math_SinS(this->bg.actor.world.rot.y) * 80.0f) + this->bg.actor.home.pos.x;
+        this->bg.actor.world.pos.z = (Math_CosS(this->bg.actor.world.rot.y) * 80.0f) + this->bg.actor.home.pos.z;
     } else {
         func_808B8E64(this);
     }
@@ -166,14 +166,13 @@ s32 func_808B8BB4(BgSpot18Obj* this, PlayState* play) {
 }
 
 s32 func_808B8C90(BgSpot18Obj* this, PlayState* play) {
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain2);
     func_808B8DC0(this);
     return 1;
 }
 
 s32 func_808B8CC8(BgSpot18Obj* this, PlayState* play) {
-    if ((D_808B913C[this->dyna.actor.params & 0xF] != NULL) &&
-        (!D_808B913C[this->dyna.actor.params & 0xF](this, play))) {
+    if ((D_808B913C[this->bg.actor.params & 0xF] != NULL) && (!D_808B913C[this->bg.actor.params & 0xF](this, play))) {
         return 0;
     }
     return 1;
@@ -182,18 +181,18 @@ s32 func_808B8CC8(BgSpot18Obj* this, PlayState* play) {
 void BgSpot18Obj_Init(Actor* thisx, PlayState* play) {
     BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
-    osSyncPrintf("Spot18 Object [arg_data : 0x%04x]\n", this->dyna.actor.params);
+    osSyncPrintf("Spot18 Object [arg_data : 0x%04x]\n", this->bg.actor.params);
     if (!func_808B8B38(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     } else if (!func_808B8CC8(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
 void BgSpot18Obj_Destroy(Actor* thisx, PlayState* play) {
     BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808B8DC0(BgSpot18Obj* this) {
@@ -204,15 +203,15 @@ void func_808B8DD0(BgSpot18Obj* this, PlayState* play) {
 }
 
 void func_808B8DDC(BgSpot18Obj* this, PlayState* play) {
-    Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 20.0f, 46.0f, 0.0f,
+    Actor_UpdateBgCheckInfo(play, &this->bg.actor, 20.0f, 46.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 }
 
 void func_808B8E20(BgSpot18Obj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (fabsf(this->dyna.unk_150) > 0.001f) {
-        this->dyna.unk_150 = 0.0f;
+    if (fabsf(this->bg.unk_150) > 0.001f) {
+        this->bg.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
@@ -223,7 +222,7 @@ void func_808B8E64(BgSpot18Obj* this) {
 }
 
 void func_808B8E7C(BgSpot18Obj* this, PlayState* play) {
-    if (this->dyna.unk_150 < -0.001f) {
+    if (this->bg.unk_150 < -0.001f) {
         if (this->unk_168 <= 0) {
             func_808B8EE0(this);
         }
@@ -235,33 +234,33 @@ void func_808B8E7C(BgSpot18Obj* this, PlayState* play) {
 
 void func_808B8EE0(BgSpot18Obj* this) {
     this->actionFunc = func_808B8F08;
-    this->dyna.actor.world.rot.y = 0;
-    this->dyna.actor.speedXZ = 0.0f;
-    this->dyna.actor.velocity.z = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.x = 0.0f;
+    this->bg.actor.world.rot.y = 0;
+    this->bg.actor.speedXZ = 0.0f;
+    this->bg.actor.velocity.z = 0.0f;
+    this->bg.actor.velocity.y = 0.0f;
+    this->bg.actor.velocity.x = 0.0f;
 }
 
 void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    Math_StepToF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
-    Actor_MoveForward(&this->dyna.actor);
+    Math_StepToF(&this->bg.actor.speedXZ, 1.2f, 0.1f);
+    Actor_MoveForward(&this->bg.actor);
     func_808B8DDC(this, play);
 
-    if (Math3D_Dist2DSq(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.x,
-                        this->dyna.actor.home.pos.z) >= SQ(80.0f)) {
+    if (Math3D_Dist2DSq(this->bg.actor.world.pos.x, this->bg.actor.world.pos.z, this->bg.actor.home.pos.x,
+                        this->bg.actor.home.pos.z) >= SQ(80.0f)) {
         func_808B9030(this);
-        this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.actor.world.pos.x = (Math_SinS(this->bg.actor.world.rot.y) * 80.0f) + this->bg.actor.home.pos.x;
+        this->bg.actor.world.pos.z = (Math_CosS(this->bg.actor.world.rot.y) * 80.0f) + this->bg.actor.home.pos.z;
+        this->bg.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, (this->bg.actor.params >> 8) & 0x3F);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 }
 

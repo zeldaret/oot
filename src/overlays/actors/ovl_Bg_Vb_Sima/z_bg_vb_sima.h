@@ -13,7 +13,7 @@ typedef enum {
 } BgVbSimaSignal;
 
 typedef struct BgVbSima {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ char unk_164[0x10];
     /* 0x0174 */ s16 shakeTimer;
     /* 0x0176 */ char unk_176[6];

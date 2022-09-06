@@ -67,7 +67,7 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     Actor_SetFocus(thisx, 50.0f);
     osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
                  ((s32)thisx->params >> 8) & 0xFF);
@@ -78,8 +78,8 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
     }
 
     CollisionHeader_GetVirtual(sMetalFencesCollisions[thisx->params & 0xFF], &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-    thisx->world.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    thisx->world.rot.y = D_80889E7C[this->bg.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(play, (thisx->params >> 8) & 0xFF)) {
         func_80889ACC(this);
         BgHidanKousi_SetupAction(this, func_80889D28);
@@ -90,53 +90,53 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
 
 void BgHidanKousi_Destroy(Actor* thisx, PlayState* play) {
     BgHidanKousi* this = (BgHidanKousi*)thisx;
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_80889ACC(BgHidanKousi* this) {
     s32 pad[2];
-    Vec3s* rot = &this->dyna.actor.world.rot;
-    f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_SinS(rot->y);
-    f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_CosS(rot->y);
+    Vec3s* rot = &this->bg.actor.world.rot;
+    f32 temp1 = D_80889E40[this->bg.actor.params & 0xFF] * Math_SinS(rot->y);
+    f32 temp2 = D_80889E40[this->bg.actor.params & 0xFF] * Math_CosS(rot->y);
 
-    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + temp1;
-    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + temp2;
+    this->bg.actor.world.pos.x = this->bg.actor.home.pos.x + temp1;
+    this->bg.actor.world.pos.z = this->bg.actor.home.pos.z + temp2;
 }
 
 void func_80889B5C(BgHidanKousi* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0xFF)) {
+    if (Flags_GetSwitch(play, (this->bg.actor.params >> 8) & 0xFF)) {
         BgHidanKousi_SetupAction(this, func_80889BC0);
-        OnePointCutscene_Attention(play, &this->dyna.actor);
+        OnePointCutscene_Attention(play, &this->bg.actor);
         this->unk_168 = 0xC8;
     }
 }
 
 void func_80889BC0(BgHidanKousi* this, PlayState* play) {
     this->unk_168 -= 1;
-    if (this->dyna.actor.category == func_8005B198() || (this->unk_168 <= 0)) {
+    if (this->bg.actor.category == func_8005B198() || (this->unk_168 <= 0)) {
         BgHidanKousi_SetupAction(this, func_80889C18);
     }
 }
 
 void func_80889C18(BgHidanKousi* this, PlayState* play) {
-    this->dyna.actor.speedXZ += 0.2f;
-    if (this->dyna.actor.speedXZ > 2.0f) {
-        this->dyna.actor.speedXZ = 2.0f;
+    this->bg.actor.speedXZ += 0.2f;
+    if (this->bg.actor.speedXZ > 2.0f) {
+        this->bg.actor.speedXZ = 2.0f;
         BgHidanKousi_SetupAction(this, func_80889C90);
     }
-    Actor_MoveForward(&this->dyna.actor);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+    Actor_MoveForward(&this->bg.actor);
+    func_8002F974(&this->bg.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
 }
 
 void func_80889C90(BgHidanKousi* this, PlayState* play) {
-    func_8002D7EC(&this->dyna.actor);
-    if (D_80889E40[this->dyna.actor.params & 0xFF] <
-        Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
+    func_8002D7EC(&this->bg.actor);
+    if (D_80889E40[this->bg.actor.params & 0xFF] <
+        Math_Vec3f_DistXYZ(&this->bg.actor.home.pos, &this->bg.actor.world.pos)) {
         func_80889ACC(this);
         BgHidanKousi_SetupAction(this, func_80889D28);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 

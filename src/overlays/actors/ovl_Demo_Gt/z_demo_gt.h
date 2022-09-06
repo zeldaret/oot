@@ -10,7 +10,7 @@ typedef void (*DemoGtUpdateFunc)(struct DemoGt*, PlayState*);
 typedef void (*DemoGtDrawFunc)(struct DemoGt*, PlayState*);
 
 typedef struct DemoGt {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ s32 updateMode;
     /* 0x0168 */ s32 drawConfig;
     /* 0x016C */ Vec3s unk_16C;

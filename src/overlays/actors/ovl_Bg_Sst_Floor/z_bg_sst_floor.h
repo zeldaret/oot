@@ -7,7 +7,7 @@
 struct BgSstFloor;
 
 typedef struct BgSstFloor {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x014C */ s16 drumPhase;
     /* 0x0166 */ s16 drumAmp;
     /* 0x0168 */ s16 drumHeight;

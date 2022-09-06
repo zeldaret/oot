@@ -9,7 +9,7 @@ struct BgBombwall;
 typedef void (*BgBombwallActionFunc)(struct BgBombwall*, PlayState*);
 
 typedef struct BgBombwall {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ColliderTris collider;
     /* 0x0184 */ ColliderTrisElement colliderItems[3];
     /* 0x0298 */ BgBombwallActionFunc actionFunc;

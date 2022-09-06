@@ -120,20 +120,20 @@ void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader*
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, flags);
+    BgActor_Init(&this->bg, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG Registration Failure"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
 void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
-    Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_MIR_RAY, this->dyna.actor.world.pos.x,
-                       this->dyna.actor.world.pos.y + 57.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 6);
-    if (this->dyna.actor.child == NULL) {
+    Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_MIR_RAY, this->bg.actor.world.pos.x,
+                       this->bg.actor.world.pos.y + 57.0f, this->bg.actor.world.pos.z, 0, 0, 0, 6);
+    if (this->bg.actor.child == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
         // "Ｅｒｒｏｒ : Mir Ray occurrence failure"
         osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
@@ -143,17 +143,17 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
 
 void func_80895A70(BgJyaCobra* this) {
     s32 pad;
-    BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
+    BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->bg.actor.parent;
     MirRay* mirRay;
 
-    switch (this->dyna.actor.params & 3) {
+    switch (this->bg.actor.params & 3) {
         case 0:
-            mirRay = (MirRay*)this->dyna.actor.child;
+            mirRay = (MirRay*)this->bg.actor.child;
             if (mirRay == NULL) {
                 return;
             }
-            if (this->dyna.actor.child->update == NULL) {
-                this->dyna.actor.child = NULL;
+            if (this->bg.actor.child->update == NULL) {
+                this->bg.actor.child = NULL;
                 return;
             }
             break;
@@ -178,8 +178,8 @@ void func_80895A70(BgJyaCobra* this) {
 
         mirRay->unLit = 0;
         Math_Vec3f_Copy(&mirRay->sourcePt, &this->unk_180);
-        Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_NEW);
-        Matrix_RotateX(BINANG_TO_RAD(D_80897308[this->dyna.actor.params & 3]), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->bg.actor.shape.rot.y), MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD(D_80897308[this->bg.actor.params & 3]), MTXMODE_APPLY);
         sp28.x = 0.0f;
         sp28.y = 0.0;
         sp28.z = this->unk_190 * 2800.0f;
@@ -194,15 +194,15 @@ void func_80895BEC(BgJyaCobra* this, PlayState* play) {
     Vec3f sp2C;
 
     func_808958F0(&sp2C, &this->unk_174, Math_SinS(this->unk_170), Math_CosS(this->unk_170));
-    player->actor.world.pos.x = this->dyna.actor.world.pos.x + sp2C.x;
-    player->actor.world.pos.y = this->dyna.actor.world.pos.y + sp2C.y;
-    player->actor.world.pos.z = this->dyna.actor.world.pos.z + sp2C.z;
+    player->actor.world.pos.x = this->bg.actor.world.pos.x + sp2C.x;
+    player->actor.world.pos.y = this->bg.actor.world.pos.y + sp2C.y;
+    player->actor.world.pos.z = this->bg.actor.world.pos.z + sp2C.z;
 }
 
 void func_80895C74(BgJyaCobra* this, PlayState* play) {
     s16 phi_v0;
-    s16 params = this->dyna.actor.params;
-    BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
+    s16 params = this->bg.actor.params;
+    BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->bg.actor.parent;
     f32 phi_f0;
 
     if ((params & 3) == 2 && mirror != NULL &&
@@ -212,7 +212,7 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
     } else {
         this->unk_18C = 1.0f;
         if (D_80897310[params & 3]) {
-            phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[params & 3];
+            phi_v0 = this->bg.actor.shape.rot.y - D_80897314[params & 3];
             phi_v0 = ABS(phi_v0);
             if (phi_v0 < 0x2000 && phi_v0 != -0x8000) {
                 this->unk_18C += (phi_v0 - 0x2000) * (3.0f / 0x4000);
@@ -223,19 +223,19 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
         }
     }
 
-    this->unk_180.x = this->dyna.actor.world.pos.x;
-    this->unk_180.y = this->dyna.actor.world.pos.y + 57.0f;
-    this->unk_180.z = this->dyna.actor.world.pos.z;
+    this->unk_180.x = this->bg.actor.world.pos.x;
+    this->unk_180.y = this->bg.actor.world.pos.y + 57.0f;
+    this->unk_180.z = this->bg.actor.world.pos.z;
 
     if ((params & 3) == 0) {
         this->unk_190 = 0.1f;
     } else if ((params & 3) == 1) {
         phi_f0 = 0.1f;
-        phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
+        phi_v0 = this->bg.actor.shape.rot.y - 0x8000;
         if (phi_v0 < 0x500 && phi_v0 > -0x500) {
             phi_f0 = 0.34f;
         } else {
-            phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
+            phi_v0 = this->bg.actor.shape.rot.y - 0x4000;
             if (phi_v0 < 0x500 && phi_v0 > -0x500 && mirror != NULL &&
                 (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)) {
                 phi_f0 = 0.34f;
@@ -244,11 +244,11 @@ void func_80895C74(BgJyaCobra* this, PlayState* play) {
         Math_StepToF(&this->unk_190, phi_f0, 0.04f);
     } else if ((params & 3) == 2) {
         phi_f0 = 0.1f;
-        phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
+        phi_v0 = this->bg.actor.shape.rot.y - 0x8000;
         if (phi_v0 < 0x500 && phi_v0 > -0x500) {
             phi_f0 = 0.34f;
         } else {
-            phi_v0 = this->dyna.actor.shape.rot.y + 0xFFFF4000;
+            phi_v0 = this->bg.actor.shape.rot.y + 0xFFFF4000;
             if (phi_v0 < 0x500 && phi_v0 > -0x500) {
                 phi_f0 = 0.34f;
             }
@@ -279,8 +279,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     Lib_MemSet(shadowTex, COBRA_SHADOW_TEX_SIZE, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
-    rotY = !(this->dyna.actor.params & 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
-                                          : (this->dyna.actor.shape.rot.y - 0x4000);
+    rotY = !(this->bg.actor.params & 3) ? (this->bg.actor.shape.rot.y + 0x4000) : (this->bg.actor.shape.rot.y - 0x4000);
     Matrix_RotateY(BINANG_TO_RAD(rotY), MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
 
@@ -398,47 +397,46 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
     BgJyaCobra* this = (BgJyaCobra*)thisx;
 
     BgJyaCobra_InitDynapoly(this, play, &gCobraCol, DPM_UNK);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (!(this->dyna.actor.params & 3) && Flags_GetSwitch(play, ((s32)this->dyna.actor.params >> 8) & 0x3F)) {
-        this->dyna.actor.world.rot.y = this->dyna.actor.home.rot.y = this->dyna.actor.shape.rot.y = 0;
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    if (!(this->bg.actor.params & 3) && Flags_GetSwitch(play, ((s32)this->bg.actor.params >> 8) & 0x3F)) {
+        this->bg.actor.world.rot.y = this->bg.actor.home.rot.y = this->bg.actor.shape.rot.y = 0;
     }
 
-    if (!(this->dyna.actor.params & 3)) {
+    if (!(this->bg.actor.params & 3)) {
         BgJyaCobra_SpawnRay(this, play);
     }
 
     func_80896918(this, play);
 
-    if ((this->dyna.actor.params & 3) == 1 || (this->dyna.actor.params & 3) == 2) {
-        this->dyna.actor.room = -1;
+    if ((this->bg.actor.params & 3) == 1 || (this->bg.actor.params & 3) == 2) {
+        this->bg.actor.room = -1;
     }
 
-    if ((this->dyna.actor.params & 3) == 1) {
+    if ((this->bg.actor.params & 3) == 1) {
         BgJyaCobra_UpdateShadowFromTop(this);
     }
 
     // "(jya cobra)"
-    osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
+    osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->bg.actor.params, this,
                  &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play) {
     BgJyaCobra* this = (BgJyaCobra*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_80896918(BgJyaCobra* this, PlayState* play) {
     this->actionFunc = func_80896950;
     this->unk_168 = 0;
-    this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y =
-        (this->unk_16C * 0x2000) + this->dyna.actor.home.rot.y;
+    this->bg.actor.shape.rot.y = this->bg.actor.world.rot.y = (this->unk_16C * 0x2000) + this->bg.actor.home.rot.y;
 }
 
 void func_80896950(BgJyaCobra* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->dyna.unk_150 > 0.001f) {
+    if (this->bg.unk_150 > 0.001f) {
         this->unk_168++;
         if (this->unk_168 >= 15) {
             func_808969F8(this, play);
@@ -447,8 +445,8 @@ void func_80896950(BgJyaCobra* this, PlayState* play) {
         this->unk_168 = 0;
     }
 
-    if (fabsf(this->dyna.unk_150) > 0.001f) {
-        this->dyna.unk_150 = 0.0f;
+    if (fabsf(this->bg.unk_150) > 0.001f) {
+        this->bg.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
@@ -460,8 +458,8 @@ void func_808969F8(BgJyaCobra* this, PlayState* play) {
 
     this->actionFunc = func_80896ABC;
 
-    temp2 = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
-    phi_a3 = (s16)(this->dyna.actor.shape.rot.y - this->dyna.unk_158);
+    temp2 = this->bg.actor.yawTowardsPlayer - this->bg.actor.shape.rot.y;
+    phi_a3 = (s16)(this->bg.actor.shape.rot.y - this->bg.unk_158);
     phi_a3 = ABS(phi_a3);
 
     if (temp2 > 0) {
@@ -470,9 +468,9 @@ void func_808969F8(BgJyaCobra* this, PlayState* play) {
         this->unk_16A = (phi_a3 > 0x4000) ? -1 : 1;
     }
 
-    this->unk_174.x = player->actor.world.pos.x - this->dyna.actor.world.pos.x;
-    this->unk_174.y = player->actor.world.pos.y - this->dyna.actor.world.pos.y;
-    this->unk_174.z = player->actor.world.pos.z - this->dyna.actor.world.pos.z;
+    this->unk_174.x = player->actor.world.pos.x - this->bg.actor.world.pos.x;
+    this->unk_174.y = player->actor.world.pos.y - this->bg.actor.world.pos.y;
+    this->unk_174.z = player->actor.world.pos.z - this->bg.actor.world.pos.z;
     this->unk_170 = this->unk_16E = 0;
     this->unk_172 = true;
 }
@@ -481,7 +479,7 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play) {
     s16 temp_v0;
     Player* player = GET_PLAYER(play);
 
-    temp_v0 = (s16)((this->unk_16C * 0x2000) + this->dyna.actor.home.rot.y) - this->dyna.actor.world.rot.y;
+    temp_v0 = (s16)((this->unk_16C * 0x2000) + this->bg.actor.home.rot.y) - this->bg.actor.world.rot.y;
     if (ABS(temp_v0) < 7424) {
         Math_StepToS(&this->unk_16E, 106, 4);
     } else {
@@ -491,23 +489,23 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play) {
     if (Math_ScaledStepToS(&this->unk_170, this->unk_16A * 0x2000, this->unk_16E)) {
         this->unk_16C = (this->unk_16C + this->unk_16A) & 7;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
         func_80896918(this, play);
     } else {
-        this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y =
-            (this->unk_16C * 0x2000) + this->dyna.actor.home.rot.y + this->unk_170;
+        this->bg.actor.shape.rot.y = this->bg.actor.world.rot.y =
+            (this->unk_16C * 0x2000) + this->bg.actor.home.rot.y + this->unk_170;
     }
 
     if (player->stateFlags2 & PLAYER_STATE2_4) {
         if (this->unk_172) {
             func_80895BEC(this, play);
         }
-    } else if (fabsf(this->dyna.unk_150) < 0.001f) {
+    } else if (fabsf(this->bg.unk_150) < 0.001f) {
         this->unk_172 = false;
     }
 
-    this->dyna.unk_150 = 0.0f;
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    this->bg.unk_150 = 0.0f;
+    func_8002F974(&this->bg.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 void BgJyaCobra_Update(Actor* thisx, PlayState* play2) {
@@ -519,7 +517,7 @@ void BgJyaCobra_Update(Actor* thisx, PlayState* play2) {
     func_80895C74(this, play);
     func_80895A70(this);
 
-    if ((this->dyna.actor.params & 3) == 0 || (this->dyna.actor.params & 3) == 2) {
+    if ((this->bg.actor.params & 3) == 0 || (this->bg.actor.params & 3) == 2) {
         BgJyaCobra_UpdateShadowFromSide(this);
     }
 }
@@ -542,9 +540,9 @@ void func_80896D78(BgJyaCobra* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_cobra.c", 924);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    sp44.x = D_80897308[this->dyna.actor.params & 3] + this->dyna.actor.shape.rot.x;
-    sp44.y = this->dyna.actor.shape.rot.y;
-    sp44.z = this->dyna.actor.shape.rot.z;
+    sp44.x = D_80897308[this->bg.actor.params & 3] + this->bg.actor.shape.rot.x;
+    sp44.y = this->bg.actor.shape.rot.y;
+    sp44.z = this->bg.actor.shape.rot.z;
     Matrix_SetTranslateRotateYXZ(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
 
     Matrix_Scale(0.1f, 0.1f, this->unk_190, MTXMODE_APPLY);
@@ -558,7 +556,7 @@ void func_80896D78(BgJyaCobra* this, PlayState* play) {
 
 void BgJyaCobra_DrawShadow(BgJyaCobra* this, PlayState* play) {
     s32 pad;
-    s16 params = this->dyna.actor.params & 3;
+    s16 params = this->bg.actor.params & 3;
     Vec3f sp64;
     Vec3s* phi_a3;
 
@@ -567,18 +565,18 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, PlayState* play) {
     Gfx_SetupDL_44Xlu(play->state.gfxCtx);
 
     if (params == 0) {
-        sp64.x = this->dyna.actor.world.pos.x - 50.0f;
-        sp64.y = this->dyna.actor.world.pos.y;
-        sp64.z = this->dyna.actor.world.pos.z;
+        sp64.x = this->bg.actor.world.pos.x - 50.0f;
+        sp64.y = this->bg.actor.world.pos.y;
+        sp64.z = this->bg.actor.world.pos.z;
         phi_a3 = &D_80897538;
     } else if (params == 2) {
-        sp64.x = this->dyna.actor.world.pos.x + 70.0f;
-        sp64.y = this->dyna.actor.world.pos.y;
-        sp64.z = this->dyna.actor.world.pos.z;
+        sp64.x = this->bg.actor.world.pos.x + 70.0f;
+        sp64.y = this->bg.actor.world.pos.y;
+        sp64.z = this->bg.actor.world.pos.z;
         phi_a3 = &D_80897540;
     } else { // params == 1
-        phi_a3 = &this->dyna.actor.shape.rot;
-        Math_Vec3f_Copy(&sp64, &this->dyna.actor.world.pos);
+        phi_a3 = &this->bg.actor.shape.rot;
+        Math_Vec3f_Copy(&sp64, &this->bg.actor.world.pos);
     }
 
     Matrix_SetTranslateRotateYXZ(sp64.x, sp64.y, sp64.z, phi_a3);
@@ -609,8 +607,8 @@ void BgJyaCobra_Draw(Actor* thisx, PlayState* play) {
         func_80896D78(this, play);
     }
 
-    if ((this->dyna.actor.params & 3) == 2) {
-        BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
+    if ((this->bg.actor.params & 3) == 2) {
+        BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->bg.actor.parent;
 
         if (mirror != NULL && (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) &&
             (mirror->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {

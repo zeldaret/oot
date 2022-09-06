@@ -3835,9 +3835,9 @@ s32 BossGanon_CheckFallingPlatforms(BossGanon* this, PlayState* play, Vec3f* che
             prop = prop->next;
         } else {
             BgGanonOtyuka* platform = (BgGanonOtyuka*)prop;
-            f32 xDiff = platform->dyna.actor.world.pos.x - checkPos->x;
-            f32 yDiff = platform->dyna.actor.world.pos.y - checkPos->y;
-            f32 zDiff = platform->dyna.actor.world.pos.z - checkPos->z;
+            f32 xDiff = platform->bg.actor.world.pos.x - checkPos->x;
+            f32 yDiff = platform->bg.actor.world.pos.y - checkPos->y;
+            f32 zDiff = platform->bg.actor.world.pos.z - checkPos->z;
 
             if ((fabsf(xDiff) < 60.0f) && (yDiff < 20.0f) && (yDiff > -20.0f) && (fabsf(zDiff) < 60.0f)) {
                 platform->isFalling = true;

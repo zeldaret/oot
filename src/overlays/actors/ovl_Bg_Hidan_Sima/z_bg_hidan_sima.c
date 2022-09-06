@@ -86,20 +86,20 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 i;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    if (this->dyna.actor.params == 0) {
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_PLAYER);
+    if (this->bg.actor.params == 0) {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform2Col, &colHeader);
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->bg.actor, &sJntSphInit, this->elements);
     for (i = 0; i < ARRAY_COUNT(sJntSphElementsInit); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         this->actionFunc = func_8088E518;
     } else {
         this->actionFunc = func_8088E760;
@@ -109,18 +109,18 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
 void BgHidanSima_Destroy(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyJntSph(play, &this->collider);
 }
 
 void func_8088E518(BgHidanSima* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+    Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 3.4f);
+    if (BgActor_IsPlayerOnTop(&this->bg) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
         this->timer = 20;
-        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
-        if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
+        this->bg.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
+        if (this->bg.actor.home.pos.y <= this->bg.actor.world.pos.y) {
             this->actionFunc = func_8088E5D0;
         } else {
             this->actionFunc = func_8088E6D0;
@@ -133,28 +133,28 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer != 0) {
-        this->dyna.actor.world.pos.x =
-            Math_SinS(this->dyna.actor.world.rot.y + (this->timer * 0x4000)) * 5.0f + this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z =
-            Math_CosS(this->dyna.actor.world.rot.y + (this->timer * 0x4000)) * 5.0f + this->dyna.actor.home.pos.z;
+        this->bg.actor.world.pos.x =
+            Math_SinS(this->bg.actor.world.rot.y + (this->timer * 0x4000)) * 5.0f + this->bg.actor.home.pos.x;
+        this->bg.actor.world.pos.z =
+            Math_CosS(this->bg.actor.world.rot.y + (this->timer * 0x4000)) * 5.0f + this->bg.actor.home.pos.z;
     } else {
         this->actionFunc = func_8088E6D0;
-        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
+        this->bg.actor.world.pos.x = this->bg.actor.home.pos.x;
+        this->bg.actor.world.pos.z = this->bg.actor.home.pos.z;
     }
     if (!(this->timer % 4)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        func_800AA000(this->bg.actor.xyzDistToPlayerSq, 180, 10, 100);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
 void func_8088E6D0(BgHidanSima* this, PlayState* play) {
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
         this->timer = 20;
     } else if (this->timer != 0) {
         this->timer--;
     }
-    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 100.0f, 1.7f);
+    Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y - 100.0f, 1.7f);
     if (this->timer == 0) {
         this->actionFunc = func_8088E518;
     }
@@ -165,7 +165,7 @@ void func_8088E760(BgHidanSima* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        this->dyna.actor.world.rot.y += 0x8000;
+        this->bg.actor.world.rot.y += 0x8000;
         this->timer = 60;
         this->actionFunc = func_8088E7A8;
     }
@@ -177,31 +177,31 @@ void func_8088E7A8(BgHidanSima* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if (this->dyna.actor.world.rot.y != this->dyna.actor.home.rot.y) {
+    if (this->bg.actor.world.rot.y != this->bg.actor.home.rot.y) {
         temp = (sinf(((60 - this->timer) * 0.01667 - 0.5) * M_PI) + 1) * 200;
     } else {
         temp = (sinf((this->timer * 0.01667 - 0.5) * M_PI) + 1) * -200;
     }
-    this->dyna.actor.world.pos.x = Math_SinS(this->dyna.actor.world.rot.y) * temp + this->dyna.actor.home.pos.x;
-    this->dyna.actor.world.pos.z = Math_CosS(this->dyna.actor.world.rot.y) * temp + this->dyna.actor.home.pos.z;
+    this->bg.actor.world.pos.x = Math_SinS(this->bg.actor.world.rot.y) * temp + this->bg.actor.home.pos.x;
+    this->bg.actor.world.pos.z = Math_CosS(this->bg.actor.world.rot.y) * temp + this->bg.actor.home.pos.z;
     if (this->timer == 0) {
         this->timer = 20;
         this->actionFunc = func_8088E760;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
 void func_8088E90C(BgHidanSima* this) {
     ColliderJntSphElement* elem;
     s32 i;
-    f32 cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
-    f32 sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
+    f32 cos = Math_CosS(this->bg.actor.world.rot.y + 0x8000);
+    f32 sin = Math_SinS(this->bg.actor.world.rot.y + 0x8000);
 
     for (i = 0; i < 2; i++) {
         elem = &this->collider.elements[i];
-        elem->dim.worldSphere.center.x = this->dyna.actor.world.pos.x + sin * elem->dim.modelSphere.center.z;
-        elem->dim.worldSphere.center.y = (s16)this->dyna.actor.world.pos.y + elem->dim.modelSphere.center.y;
-        elem->dim.worldSphere.center.z = this->dyna.actor.world.pos.z + cos * elem->dim.modelSphere.center.z;
+        elem->dim.worldSphere.center.x = this->bg.actor.world.pos.x + sin * elem->dim.modelSphere.center.z;
+        elem->dim.worldSphere.center.y = (s16)this->bg.actor.world.pos.y + elem->dim.modelSphere.center.y;
+        elem->dim.worldSphere.center.z = this->bg.actor.world.pos.z + cos * elem->dim.modelSphere.center.z;
     }
 }
 
@@ -210,13 +210,13 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     this->actionFunc(this, play);
-    if (this->dyna.actor.params != 0) {
-        s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
+    if (this->bg.actor.params != 0) {
+        s32 temp = (this->bg.actor.world.rot.y == this->bg.actor.shape.rot.y) ? this->timer : (this->timer + 80);
 
         if (this->actionFunc == func_8088E7A8) {
             temp += 20;
         }
-        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - ((1.0f - cosf(temp * (M_PI / 20))) * 5.0f);
+        this->bg.actor.world.pos.y = this->bg.actor.home.pos.y - ((1.0f - cosf(temp * (M_PI / 20))) * 5.0f);
         if (this->actionFunc == func_8088E7A8) {
             func_8088E90C(this);
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
@@ -234,8 +234,8 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     s32 pad[2];
 
     Matrix_MtxFCopy(&mtxF, &gMtxFClear);
-    cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
-    sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
+    cos = Math_CosS(this->bg.actor.world.rot.y + 0x8000);
+    sin = Math_SinS(this->bg.actor.world.rot.y + 0x8000);
 
     phi_s5 = (60 - this->timer) >> 1;
     phi_s5 = CLAMP_MAX(phi_s5, 3);
@@ -243,9 +243,9 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     v0 = 3 - (this->timer >> 1);
     v0 = CLAMP_MIN(v0, 0);
 
-    mtxF.xw = this->dyna.actor.world.pos.x + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin;
-    mtxF.zw = this->dyna.actor.world.pos.z + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos;
-    mtxF.yw = this->dyna.actor.world.pos.y + 40.0f;
+    mtxF.xw = this->bg.actor.world.pos.x + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin;
+    mtxF.zw = this->bg.actor.world.pos.z + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos;
+    mtxF.yw = this->bg.actor.world.pos.y + 40.0f;
     mtxF.zz = v0 * 0.4f + 1.0f;
     mtxF.yy = v0 * 0.4f + 1.0f;
     mtxF.xx = v0 * 0.4f + 1.0f;
@@ -264,8 +264,8 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfx++, gFireTempleFireballDL);
     }
-    mtxF.xw = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
-    mtxF.zw = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
+    mtxF.xw = this->bg.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
+    mtxF.zw = this->bg.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
     gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
     gSPMatrix(gfx++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
@@ -282,7 +282,7 @@ void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
     } else {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform2DL);

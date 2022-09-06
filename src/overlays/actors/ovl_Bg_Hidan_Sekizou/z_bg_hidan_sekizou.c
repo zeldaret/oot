@@ -134,10 +134,10 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
     for (i = start; i < end; i++) {
         ColliderJntSphElement* element = &this->collider.elements[i];
 
-        element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
+        element->dim.worldSphere.center.x = this->bg.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
                                             (sp30 * element->dim.modelSphere.center.z);
-        element->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
-        element->dim.worldSphere.center.z = this->dyna.actor.home.pos.z - (sp30 * element->dim.modelSphere.center.x) +
+        element->dim.worldSphere.center.y = (s16)this->bg.actor.home.pos.y + element->dim.modelSphere.center.y;
+        element->dim.worldSphere.center.z = this->bg.actor.home.pos.z - (sp30 * element->dim.modelSphere.center.x) +
                                             (sp2C * element->dim.modelSphere.center.z);
         element->info.toucherFlags |= TOUCH_ON;
         element->info.ocElemFlags |= OCELEM_ON;
@@ -150,17 +150,17 @@ void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
     s32 i;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->bg.actor, &sJntSphInit, this->elements);
     for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         this->unk_168[0] = 36;
         for (i = 0; i < 2; i++) {
-            func_8088CEC0(this, i, this->dyna.actor.shape.rot.y + ((i == 0) ? 0x2000 : -0x2000));
+            func_8088CEC0(this, i, this->bg.actor.shape.rot.y + ((i == 0) ? 0x2000 : -0x2000));
         }
         CollisionHeader_GetVirtual(&gFireTempleStationaryFlamethrowerShortCol, &colHeader);
         this->updateFunc = func_8088D720;
@@ -170,15 +170,15 @@ void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
         this->updateFunc = func_8088D434;
     }
     this->unk_170 = 0;
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &sColChkInfoInit);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    CollisionCheck_SetInfo(&this->bg.actor.colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgHidanSekizou_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgHidanSekizou* this = (BgHidanSekizou*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyJntSph(play, &this->collider);
 }
 
@@ -189,22 +189,22 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play) {
     s32 isClose;
     s32 phi_s4;
 
-    isClose = this->dyna.actor.xzDistToPlayer < 300.0f;
-    isAligned[0] = fabsf(this->dyna.actor.world.pos.x - player->actor.world.pos.x) < 80.0f;
-    isAligned[1] = fabsf(this->dyna.actor.world.pos.z - player->actor.world.pos.z) < 80.0f;
+    isClose = this->bg.actor.xzDistToPlayer < 300.0f;
+    isAligned[0] = fabsf(this->bg.actor.world.pos.x - player->actor.world.pos.x) < 80.0f;
+    isAligned[1] = fabsf(this->bg.actor.world.pos.z - player->actor.world.pos.z) < 80.0f;
     phi_s4 = 0;
     for (i = 0; i < 4; i++) {
         s16 diff;
         s16* temp = &this->unk_168[i];
 
         DECR(*temp);
-        diff = this->dyna.actor.yawTowardsPlayer - i * 0x4000;
+        diff = this->bg.actor.yawTowardsPlayer - i * 0x4000;
         if (isAligned[i % 2] && isClose) {
             if (ABS(diff) <= 0x4000) {
                 if (*temp < 4) {
                     *temp = 35 - *temp;
                 }
-                func_8088CEC0(this, (phi_s4 > 1) ? 1 : phi_s4, this->dyna.actor.shape.rot.y + i * 0x4000);
+                func_8088CEC0(this, (phi_s4 > 1) ? 1 : phi_s4, this->bg.actor.shape.rot.y + i * 0x4000);
                 phi_s4++;
             }
         }
@@ -225,21 +225,21 @@ void func_8088D720(BgHidanSekizou* this, PlayState* play) {
 void func_8088D750(BgHidanSekizou* this, PlayState* play) {
     s16 phi_a3;
 
-    if (this->dyna.actor.xzDistToPlayer > 200.0f) {
-        phi_a3 = this->dyna.actor.yawTowardsPlayer;
-    } else if (this->dyna.actor.params == 0) {
-        phi_a3 = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
+    if (this->bg.actor.xzDistToPlayer > 200.0f) {
+        phi_a3 = this->bg.actor.yawTowardsPlayer;
+    } else if (this->bg.actor.params == 0) {
+        phi_a3 = this->bg.actor.yawTowardsPlayer - this->bg.actor.shape.rot.y;
         if (phi_a3 > 0x2000) {
-            phi_a3 = this->dyna.actor.shape.rot.y + 0x6000;
+            phi_a3 = this->bg.actor.shape.rot.y + 0x6000;
         } else if (phi_a3 < -0x2000) {
-            phi_a3 = this->dyna.actor.shape.rot.y - 0x6000;
+            phi_a3 = this->bg.actor.shape.rot.y - 0x6000;
         } else if (phi_a3 > 0) {
-            phi_a3 = this->dyna.actor.shape.rot.y - 0x2000;
+            phi_a3 = this->bg.actor.shape.rot.y - 0x2000;
         } else {
-            phi_a3 = this->dyna.actor.shape.rot.y + 0x2000;
+            phi_a3 = this->bg.actor.shape.rot.y + 0x2000;
         }
     } else {
-        phi_a3 = this->dyna.actor.yawTowardsPlayer;
+        phi_a3 = this->bg.actor.yawTowardsPlayer;
         if (phi_a3 > 0x6000) {
             phi_a3 = 0x4000;
         } else if (phi_a3 > 0x4000) {
@@ -258,7 +258,7 @@ void func_8088D750(BgHidanSekizou* this, PlayState* play) {
             phi_a3 = -0x4000;
         }
     }
-    func_8002F71C(play, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
+    func_8002F71C(play, &this->bg.actor, 5.0f, phi_a3, 1.0f);
 }
 
 void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {
@@ -279,17 +279,17 @@ void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {
 
     this->updateFunc(this, play);
 
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         if (this->unk_168[0] > 0) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-            func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+            func_8002F974(&this->bg.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         }
     } else {
         if ((this->unk_168[0] > 0) || (this->unk_168[1] > 0) || (this->unk_168[2] > 0) || (this->unk_168[3] > 0)) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-            func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+            func_8002F974(&this->bg.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         }
     }
 }
@@ -314,9 +314,9 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, 
     arg3->xx = arg3->yy = arg3->zz = (0.7f * phi_f12) + 0.5f;
 
     temp_f2 = (arg3->xx * 10.0f * phi_f12) + 20.0f;
-    arg3->xw = (temp_f2 * arg4) + this->dyna.actor.world.pos.x;
-    arg3->yw = this->dyna.actor.world.pos.y + 30.0f + (.7f * phi_f12);
-    arg3->zw = (temp_f2 * arg5) + this->dyna.actor.world.pos.z;
+    arg3->xw = (temp_f2 * arg4) + this->bg.actor.world.pos.x;
+    arg3->yw = this->bg.actor.world.pos.y + 30.0f + (.7f * phi_f12);
+    arg3->zw = (temp_f2 * arg5) + this->bg.actor.world.pos.z;
     gSPMatrix(arg7++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_sekizou.c", 711),
                                Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
@@ -398,33 +398,33 @@ void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStationaryFlamethrowerShortDL);
     } else {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStationaryFlamethrowerTallDL);
     }
     POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         if (this->unk_168[0] > 0) {
-            if ((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->dyna.actor.shape.rot.y) >= 0) {
+            if ((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->bg.actor.shape.rot.y) >= 0) {
                 POLY_XLU_DISP =
-                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y + 0x2000, this->unk_168[0], POLY_XLU_DISP);
+                    func_8088DC50(play, this, this->bg.actor.shape.rot.y + 0x2000, this->unk_168[0], POLY_XLU_DISP);
                 POLY_XLU_DISP =
-                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y - 0x2000, this->unk_168[0], POLY_XLU_DISP);
+                    func_8088DC50(play, this, this->bg.actor.shape.rot.y - 0x2000, this->unk_168[0], POLY_XLU_DISP);
             } else {
                 POLY_XLU_DISP =
-                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y - 0x2000, this->unk_168[0], POLY_XLU_DISP);
+                    func_8088DC50(play, this, this->bg.actor.shape.rot.y - 0x2000, this->unk_168[0], POLY_XLU_DISP);
                 POLY_XLU_DISP =
-                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y + 0x2000, this->unk_168[0], POLY_XLU_DISP);
+                    func_8088DC50(play, this, this->bg.actor.shape.rot.y + 0x2000, this->unk_168[0], POLY_XLU_DISP);
             }
         }
     } else {
-        func_8088DE08(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)), this->dyna.actor.shape.rot.y, sp6C);
+        func_8088DE08(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)), this->bg.actor.shape.rot.y, sp6C);
         for (i = 0; i < 4; i++) {
             s32 index = sp6C[i];
 
             if (this->unk_168[index] > 0) {
-                POLY_XLU_DISP = func_8088DC50(play, this, this->dyna.actor.shape.rot.y + index * 0x4000,
+                POLY_XLU_DISP = func_8088DC50(play, this, this->bg.actor.shape.rot.y + index * 0x4000,
                                               this->unk_168[index], POLY_XLU_DISP);
             }
         }

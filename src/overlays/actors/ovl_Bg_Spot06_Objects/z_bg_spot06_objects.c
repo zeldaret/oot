@@ -104,9 +104,9 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     switch (thisx->params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyActor_Init(&this->dyna, DPM_UNK);
+            BgActor_Init(&this->bg, DPM_UNK);
             CollisionHeader_GetVirtual(&gLakeHyliaWaterTempleGateCol, &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
             if (LINK_IS_ADULT && Flags_GetSwitch(play, this->switchFlag)) {
                 thisx->world.pos.y = thisx->home.pos.y + 120.0f;
@@ -170,9 +170,9 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             break;
         case LHO_ICE_BLOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyActor_Init(&this->dyna, DPM_UNK);
+            BgActor_Init(&this->bg, DPM_UNK);
             CollisionHeader_GetVirtual(&gLakeHyliaZoraShortcutIceblockCol, &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
             this->actionFunc = BgSpot06Objects_DoNothing;
 
             if (!LINK_IS_ADULT) {
@@ -185,10 +185,10 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
 void BgSpot06Objects_Destroy(Actor* thisx, PlayState* play) {
     BgSpot06Objects* this = (BgSpot06Objects*)thisx;
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
         case LHO_ICE_BLOCK:
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
             break;
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Collider_DestroyJntSph(play, &this->collider);
@@ -207,9 +207,9 @@ void BgSpot06Objects_GateSpawnBubbles(BgSpot06Objects* this, PlayState* play) {
 
     if ((play->gameplayFrames % 3) == 0) {
         tmp = Rand_CenteredFloat(160.0f);
-        sp34.x = (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.world.pos.x;
-        sp34.y = this->dyna.actor.world.pos.y;
-        sp34.z = (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.world.pos.z;
+        sp34.x = (Math_SinS(this->bg.actor.shape.rot.y + 0x4000) * tmp) + this->bg.actor.world.pos.x;
+        sp34.y = this->bg.actor.world.pos.y;
+        sp34.z = (Math_CosS(this->bg.actor.shape.rot.y + 0x4000) * tmp) + this->bg.actor.world.pos.z;
         EffectSsBubble_Spawn(play, &sp34, 50.0f, 70.0f, 10.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
@@ -222,7 +222,7 @@ void BgSpot06Objects_GateWaitForSwitch(BgSpot06Objects* this, PlayState* play) {
 
     if (Flags_GetSwitch(play, this->switchFlag)) {
         this->timer = 100;
-        this->dyna.actor.world.pos.y += 3.0f;
+        this->bg.actor.world.pos.y += 3.0f;
         this->actionFunc = BgSpot06Objects_GateWaitToOpen;
 
         for (i = 0; i < 15; i++) {
@@ -250,12 +250,12 @@ void BgSpot06Objects_GateWaitToOpen(BgSpot06Objects* this, PlayState* play) {
 void BgSpot06Objects_GateOpen(BgSpot06Objects* this, PlayState* play) {
     BgSpot06Objects_GateSpawnBubbles(this, play);
 
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 0.6f)) {
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 120.0f, 0.6f)) {
         this->actionFunc = BgSpot06Objects_DoNothing;
         this->timer = 0;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -267,13 +267,13 @@ void BgSpot06Objects_DoNothing(BgSpot06Objects* this, PlayState* play) {
  */
 void BgSpot06Objects_LockSpawnWaterRipples(BgSpot06Objects* this, PlayState* play, s32 flag) {
     if (flag || !(play->gameplayFrames % 7)) {
-        EffectSsGRipple_Spawn(play, &this->dyna.actor.home.pos, 300, 700, 0);
+        EffectSsGRipple_Spawn(play, &this->bg.actor.home.pos, 300, 700, 0);
     }
 }
 
 void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, PlayState* play, s32 flag) {
     if (!(play->gameplayFrames % 7) || flag) {
-        EffectSsBubble_Spawn(play, &this->dyna.actor.world.pos, 0.0f, 40.0f, 30.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
+        EffectSsBubble_Spawn(play, &this->bg.actor.world.pos, 0.0f, 40.0f, 30.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
 
@@ -290,31 +290,31 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->timer = 130;
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
-        sin = Math_SinS(this->dyna.actor.world.rot.y);
-        cos = Math_CosS(this->dyna.actor.world.rot.y);
-        this->dyna.actor.world.pos.x += (3.0f * sin);
-        this->dyna.actor.world.pos.z += (3.0f * cos);
+        this->bg.actor.flags |= ACTOR_FLAG_4;
+        sin = Math_SinS(this->bg.actor.world.rot.y);
+        cos = Math_CosS(this->bg.actor.world.rot.y);
+        this->bg.actor.world.pos.x += (3.0f * sin);
+        this->bg.actor.world.pos.z += (3.0f * cos);
 
         for (i = 0; i < 20; i++) {
             BgSpot06Objects_LockSpawnBubbles(this, play, 1);
         }
 
-        effectPos.x = this->dyna.actor.world.pos.x + (5.0f * sin);
-        effectPos.y = this->dyna.actor.world.pos.y;
-        effectPos.z = this->dyna.actor.world.pos.z + (5.0f * cos);
+        effectPos.x = this->bg.actor.world.pos.x + (5.0f * sin);
+        effectPos.y = this->bg.actor.world.pos.y;
+        effectPos.z = this->bg.actor.world.pos.z + (5.0f * cos);
 
         for (i = 0; i < 3; i++) {
             EffectSsBubble_Spawn(play, &effectPos, 0.0f, 20.0f, 20.0f, (Rand_ZeroOne() * 0.1f) + 0.7f);
         }
 
-        EffectSsGSplash_Spawn(play, &this->dyna.actor.world.pos, NULL, NULL, 1, 700);
+        EffectSsGSplash_Spawn(play, &this->bg.actor.world.pos, NULL, NULL, 1, 700);
         this->collider.elements->dim.worldSphere.radius = 45;
         this->actionFunc = BgSpot06Objects_LockPullOutward;
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Flags_SetSwitch(play, this->switchFlag);
-        OnePointCutscene_Init(play, 4120, 170, &this->dyna.actor, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 4120, 170, &this->bg.actor, CAM_ID_MAIN);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
@@ -328,13 +328,13 @@ void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, PlayState* play) {
         this->timer--;
     }
 
-    this->dyna.actor.world.pos.x += (0.3f * Math_SinS(this->dyna.actor.world.rot.y));
-    this->dyna.actor.world.pos.z += (0.3f * Math_CosS(this->dyna.actor.world.rot.y));
+    this->bg.actor.world.pos.x += (0.3f * Math_SinS(this->bg.actor.world.rot.y));
+    this->bg.actor.world.pos.z += (0.3f * Math_CosS(this->bg.actor.world.rot.y));
     BgSpot06Objects_LockSpawnBubbles(this, play, 0);
 
     if (this->timer == 0) {
-        this->dyna.actor.velocity.y = 0.5f;
-        this->dyna.actor.flags &= ~ACTOR_FLAG_13;
+        this->bg.actor.velocity.y = 0.5f;
+        this->bg.actor.flags &= ~ACTOR_FLAG_13;
 
         this->actionFunc = BgSpot06Objects_LockSwimToSurface;
     }
@@ -348,45 +348,42 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, PlayState* play) {
     f32 cos;
     f32 pad;
 
-    this->dyna.actor.world.pos.y += this->dyna.actor.velocity.y;
+    this->bg.actor.world.pos.y += this->bg.actor.velocity.y;
 
-    if (this->dyna.actor.velocity.y <= 0.0f) {
-        cos = Math_CosS(this->dyna.actor.shape.rot.x) * 4.3f;
-        this->dyna.actor.world.pos.x += (cos * Math_SinS(this->dyna.actor.shape.rot.y));
-        this->dyna.actor.world.pos.z += (cos * Math_CosS(this->dyna.actor.shape.rot.y));
-        this->dyna.actor.world.pos.y = this->dyna.actor.world.pos.y - 1.3f;
+    if (this->bg.actor.velocity.y <= 0.0f) {
+        cos = Math_CosS(this->bg.actor.shape.rot.x) * 4.3f;
+        this->bg.actor.world.pos.x += (cos * Math_SinS(this->bg.actor.shape.rot.y));
+        this->bg.actor.world.pos.z += (cos * Math_CosS(this->bg.actor.shape.rot.y));
+        this->bg.actor.world.pos.y = this->bg.actor.world.pos.y - 1.3f;
         BgSpot06Objects_LockSpawnWaterRipples(this, play, 0);
 
-        if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, 0, 0x260) != 0) {
-            this->dyna.actor.home.pos.x =
-                this->dyna.actor.world.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y) * 16.0f);
-            this->dyna.actor.home.pos.z =
-                this->dyna.actor.world.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y) * 16.0f);
-            this->dyna.actor.world.pos.y = -1993.0f;
+        if (Math_ScaledStepToS(&this->bg.actor.shape.rot.x, 0, 0x260) != 0) {
+            this->bg.actor.home.pos.x = this->bg.actor.world.pos.x - (Math_SinS(this->bg.actor.shape.rot.y) * 16.0f);
+            this->bg.actor.home.pos.z = this->bg.actor.world.pos.z - (Math_CosS(this->bg.actor.shape.rot.y) * 16.0f);
+            this->bg.actor.world.pos.y = -1993.0f;
             this->timer = 32;
-            this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+            this->bg.actor.flags &= ~ACTOR_FLAG_4;
             this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius * 2;
             this->actionFunc = BgSpot06Objects_LockFloat;
         }
     } else {
-        if (this->dyna.actor.world.pos.y >= -1973.0f) {
-            this->dyna.actor.velocity.y = 0.0f;
+        if (this->bg.actor.world.pos.y >= -1973.0f) {
+            this->bg.actor.velocity.y = 0.0f;
             BgSpot06Objects_LockSpawnWaterRipples(this, play, 1);
-            EffectSsGSplash_Spawn(play, &this->dyna.actor.home.pos, NULL, NULL, 1, 700);
-        } else if (this->dyna.actor.shape.rot.x == -0x4000) {
-            this->dyna.actor.velocity.y += 0.02f;
-            this->dyna.actor.world.pos.x = Rand_CenteredFloat(1.0f) + this->dyna.actor.home.pos.x;
-            this->dyna.actor.world.pos.z = Rand_CenteredFloat(1.0f) + this->dyna.actor.home.pos.z;
-            this->dyna.actor.velocity.y =
-                (this->dyna.actor.velocity.y > 10.0f) ? (10.0f) : (this->dyna.actor.velocity.y);
+            EffectSsGSplash_Spawn(play, &this->bg.actor.home.pos, NULL, NULL, 1, 700);
+        } else if (this->bg.actor.shape.rot.x == -0x4000) {
+            this->bg.actor.velocity.y += 0.02f;
+            this->bg.actor.world.pos.x = Rand_CenteredFloat(1.0f) + this->bg.actor.home.pos.x;
+            this->bg.actor.world.pos.z = Rand_CenteredFloat(1.0f) + this->bg.actor.home.pos.z;
+            this->bg.actor.velocity.y = (this->bg.actor.velocity.y > 10.0f) ? (10.0f) : (this->bg.actor.velocity.y);
             BgSpot06Objects_LockSpawnBubbles(this, play, 0);
         } else {
             BgSpot06Objects_LockSpawnBubbles(this, play, 0);
 
-            if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, 0x30)) {
-                this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
-                this->dyna.actor.home.pos.y = -1993.0f;
-                this->dyna.actor.home.pos.z = this->dyna.actor.world.pos.z;
+            if (Math_ScaledStepToS(&this->bg.actor.shape.rot.x, -0x4000, 0x30)) {
+                this->bg.actor.home.pos.x = this->bg.actor.world.pos.x;
+                this->bg.actor.home.pos.y = -1993.0f;
+                this->bg.actor.home.pos.z = this->bg.actor.world.pos.z;
             }
         }
     }
@@ -403,7 +400,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, PlayState* play) {
         this->timer--;
     }
 
-    this->dyna.actor.world.pos.y = (2.0f * sinf(this->timer * (M_PI / 16.0f))) + this->dyna.actor.home.pos.y;
+    this->bg.actor.world.pos.y = (2.0f * sinf(this->timer * (M_PI / 16.0f))) + this->bg.actor.home.pos.y;
 
     if (this->timer == 0) {
         this->timer = 32;
@@ -457,7 +454,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 void BgSpot06Objects_Draw(Actor* thisx, PlayState* play) {
     BgSpot06Objects* this = (BgSpot06Objects*)thisx;
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
             Gfx_DrawDListOpa(play, gLakeHyliaWaterTempleGateDL);
             break;
@@ -493,17 +490,17 @@ void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* pl
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play) {
     s32 pad;
 
-    this->dyna.actor.world.pos.y = this->lakeHyliaWaterLevel + WATER_LEVEL_RAISED;
+    this->bg.actor.world.pos.y = this->lakeHyliaWaterLevel + WATER_LEVEL_RAISED;
 
     if (this->lakeHyliaWaterLevel >= 0.0001f) {
-        this->dyna.actor.world.pos.y = WATER_LEVEL_RAISED;
+        this->bg.actor.world.pos.y = WATER_LEVEL_RAISED;
         this->actionFunc = BgSpot06Objects_DoNothing;
     } else {
         Math_SmoothStepToF(&this->lakeHyliaWaterLevel, 1.0f, 0.1f, 1.0f, 0.001f);
         play->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface = WATER_LEVEL_RIVER_LOWERED;
-        play->colCtx.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = this->dyna.actor.world.pos.y;
-        play->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.world.pos.y;
+        play->colCtx.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = this->bg.actor.world.pos.y;
+        play->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->bg.actor.world.pos.y;
     }
 
-    func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+    func_8002F948(&this->bg.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
 }

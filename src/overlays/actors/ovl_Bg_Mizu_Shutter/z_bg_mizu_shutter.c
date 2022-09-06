@@ -51,32 +51,32 @@ void BgMizuShutter_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 pad3;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->displayList = sDisplayLists[BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor)];
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(sCollisionHeaders[BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor)], &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    this->displayList = sDisplayLists[BGMIZUSHUTTER_SIZE_PARAM(&this->bg.actor)];
+    BgActor_Init(&this->bg, DPM_PLAYER);
+    CollisionHeader_GetVirtual(sCollisionHeaders[BGMIZUSHUTTER_SIZE_PARAM(&this->bg.actor)], &colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if ((BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor) == BGMIZUSHUTTER_SMALL) ||
-        (BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor) == BGMIZUSHUTTER_LARGE)) {
-        this->closedPos = this->dyna.actor.world.pos;
+    if ((BGMIZUSHUTTER_SIZE_PARAM(&this->bg.actor) == BGMIZUSHUTTER_SMALL) ||
+        (BGMIZUSHUTTER_SIZE_PARAM(&this->bg.actor) == BGMIZUSHUTTER_LARGE)) {
+        this->closedPos = this->bg.actor.world.pos;
         this->timer = 0;
-        this->timerMax = BGMIZUSHUTTER_TIMER_PARAM(&this->dyna.actor) * 20;
+        this->timerMax = BGMIZUSHUTTER_TIMER_PARAM(&this->bg.actor) * 20;
 
-        Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
-        Matrix_RotateX(BINANG_TO_RAD(this->dyna.actor.world.rot.x), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(this->dyna.actor.world.rot.z), MTXMODE_APPLY);
-        Matrix_MultVec3f(&sDisplacements[BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor)], &this->openPos);
-        this->openPos.x += this->dyna.actor.world.pos.x;
-        this->openPos.y += this->dyna.actor.world.pos.y;
-        this->openPos.z += this->dyna.actor.world.pos.z;
+        Matrix_RotateY(BINANG_TO_RAD(this->bg.actor.world.rot.y), MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD(this->bg.actor.world.rot.x), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(this->bg.actor.world.rot.z), MTXMODE_APPLY);
+        Matrix_MultVec3f(&sDisplacements[BGMIZUSHUTTER_SIZE_PARAM(&this->bg.actor)], &this->openPos);
+        this->openPos.x += this->bg.actor.world.pos.x;
+        this->openPos.y += this->bg.actor.world.pos.y;
+        this->openPos.z += this->bg.actor.world.pos.z;
 
         if (this->timerMax != 0x3F * 20) {
-            Flags_UnsetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->dyna.actor));
-            this->dyna.actor.world.pos = this->closedPos;
+            Flags_UnsetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->bg.actor));
+            this->bg.actor.world.pos = this->closedPos;
         }
-        if (Flags_GetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->dyna.actor))) {
-            this->dyna.actor.world.pos = this->openPos;
+        if (Flags_GetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->bg.actor))) {
+            this->bg.actor.world.pos = this->openPos;
             this->actionFunc = BgMizuShutter_WaitForTimer;
         } else {
             this->actionFunc = BgMizuShutter_WaitForSwitch;
@@ -88,15 +88,15 @@ void BgMizuShutter_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMizuShutter* this = (BgMizuShutter*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play) {
-    if (Flags_GetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->dyna.actor))) {
-        if (ABS(this->dyna.actor.world.rot.x) > 0x2C60) {
-            OnePointCutscene_Init(play, 4510, -99, &this->dyna.actor, CAM_ID_MAIN);
+    if (Flags_GetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->bg.actor))) {
+        if (ABS(this->bg.actor.world.rot.x) > 0x2C60) {
+            OnePointCutscene_Init(play, 4510, -99, &this->bg.actor, CAM_ID_MAIN);
         } else {
-            OnePointCutscene_Attention(play, &this->dyna.actor);
+            OnePointCutscene_Attention(play, &this->bg.actor);
         }
         this->actionFunc = BgMizuShutter_WaitForCutscene;
         this->timer = 30;
@@ -105,31 +105,30 @@ void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play) {
 
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play) {
     if (this->timer-- == 0) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALDOOR_OPEN);
         this->actionFunc = BgMizuShutter_Move;
     }
 }
 
 void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
-    if (Flags_GetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->dyna.actor))) {
-        Math_SmoothStepToF(&this->dyna.actor.world.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.world.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
-        if ((this->dyna.actor.world.pos.x == this->openPos.x) && (this->dyna.actor.world.pos.y == this->openPos.y) &&
-            (this->dyna.actor.world.pos.z == this->openPos.z)) {
+    if (Flags_GetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->bg.actor))) {
+        Math_SmoothStepToF(&this->bg.actor.world.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
+        Math_SmoothStepToF(&this->bg.actor.world.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
+        Math_SmoothStepToF(&this->bg.actor.world.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
+        if ((this->bg.actor.world.pos.x == this->openPos.x) && (this->bg.actor.world.pos.y == this->openPos.y) &&
+            (this->bg.actor.world.pos.z == this->openPos.z)) {
             this->timer = this->timerMax;
             this->actionFunc = BgMizuShutter_WaitForTimer;
         }
     } else {
         Math_SmoothStepToF(&this->maxSpeed, 20.0f, 1.0f, 3.0f, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.world.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.world.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
-        if ((this->dyna.actor.world.pos.x == this->closedPos.x) &&
-            (this->dyna.actor.world.pos.y == this->closedPos.y) &&
-            (this->dyna.actor.world.pos.z == this->closedPos.z)) {
-            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0x78, 0x14, 0xA);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+        Math_SmoothStepToF(&this->bg.actor.world.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothStepToF(&this->bg.actor.world.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothStepToF(&this->bg.actor.world.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
+        if ((this->bg.actor.world.pos.x == this->closedPos.x) && (this->bg.actor.world.pos.y == this->closedPos.y) &&
+            (this->bg.actor.world.pos.z == this->closedPos.z)) {
+            func_800AA000(this->bg.actor.xyzDistToPlayerSq, 0x78, 0x14, 0xA);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;
         }
     }
@@ -138,10 +137,10 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
 void BgMizuShutter_WaitForTimer(BgMizuShutter* this, PlayState* play) {
     if (this->timerMax != 0x3F * 20) {
         this->timer--;
-        func_8002F994(&this->dyna.actor, this->timer);
+        func_8002F994(&this->bg.actor, this->timer);
         if (this->timer == 0) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
-            Flags_UnsetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->dyna.actor));
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALDOOR_CLOSE);
+            Flags_UnsetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->bg.actor));
             this->actionFunc = BgMizuShutter_Move;
         }
     }

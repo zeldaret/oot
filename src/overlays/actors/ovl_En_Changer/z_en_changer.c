@@ -235,9 +235,9 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play) {
 
         switch (temp_s0_2) {
             case CHEST_LEFT:
-                xPos = right->dyna.actor.world.pos.x;
-                yPos = right->dyna.actor.world.pos.y;
-                zPos = right->dyna.actor.world.pos.z;
+                xPos = right->bg.actor.world.pos.x;
+                yPos = right->bg.actor.world.pos.y;
+                zPos = right->bg.actor.world.pos.z;
 
                 if (this->rightChestGetItemId == GI_DOOR_KEY) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0, 0xF);
@@ -250,9 +250,9 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play) {
                 }
                 break;
             case CHEST_RIGHT:
-                xPos = left->dyna.actor.world.pos.x;
-                yPos = left->dyna.actor.world.pos.y;
-                zPos = left->dyna.actor.world.pos.z;
+                xPos = left->bg.actor.world.pos.x;
+                yPos = left->bg.actor.world.pos.y;
+                zPos = left->bg.actor.world.pos.z;
 
                 if (this->leftChestGetItemId == GI_DOOR_KEY) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0, 0xF);

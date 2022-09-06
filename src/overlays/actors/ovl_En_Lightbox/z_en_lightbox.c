@@ -51,30 +51,30 @@ void EnLightbox_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylRadius = 30;
     thisx->colChkInfo.cylHeight = 50;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
-    this->dyna.interactFlags = 0;
-    this->dyna.unk_15C = 0;
+    this->bg.interactFlags = 0;
+    this->bg.unk_15C = 0;
     thisx->targetMode = 0;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&object_lightbox_Col_001F10, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 }
 
 void EnLightbox_Destroy(Actor* thisx, PlayState* play) {
     EnLightbox* this = (EnLightbox*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void EnLightbox_Update(Actor* thisx, PlayState* play) {
     EnLightbox* this = (EnLightbox*)thisx;
 
-    if (this->dyna.unk_162 != 0) {
+    if (this->bg.unk_162 != 0) {
         if (Actor_HasNoParent(thisx, play)) {
-            this->dyna.unk_162 = 0;
+            this->bg.unk_162 = 0;
         }
     } else {
         if (Actor_HasParent(thisx, play)) {
-            this->dyna.unk_162++;
+            this->bg.unk_162++;
         } else {
             if (thisx->speedXZ) {
                 if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {

@@ -9,7 +9,7 @@ struct BgMoriHashigo;
 typedef void (*BgMoriHashigoActionFunc)(struct BgMoriHashigo*, PlayState*);
 
 typedef struct BgMoriHashigo {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ ColliderJntSph collider;
     /* 0x0184 */ ColliderJntSphElement colliderItems[1];
     /* 0x01C4 */ BgMoriHashigoActionFunc actionFunc;

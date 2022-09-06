@@ -39,32 +39,32 @@ static InitChainEntry sInitChain[] = {
 void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
-    s32 param = (this->dyna.actor.params >> 8) & 1;
+    s32 param = (this->bg.actor.params >> 8) & 1;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 
     if (param == 0) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
             if (GET_INFTABLE(INFTABLE_109)) {
                 this->actionFunc = func_808B95AC;
-                this->dyna.actor.world.pos.y += 180.0f;
+                this->bg.actor.world.pos.y += 180.0f;
             } else {
                 this->actionFunc = func_808B9618;
             }
         } else {
-            if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+            if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
                 this->actionFunc = func_808B95AC;
-                this->dyna.actor.world.pos.y += 180.0f;
+                this->bg.actor.world.pos.y += 180.0f;
             } else {
                 this->actionFunc = func_808B95B8;
             }
         }
     } else {
         if (GET_INFTABLE(INFTABLE_109)) {
-            this->dyna.actor.world.pos.x += 125.0f * Math_CosS(this->dyna.actor.world.rot.y);
-            this->dyna.actor.world.pos.z -= 125.0f * Math_SinS(this->dyna.actor.world.rot.y);
+            this->bg.actor.world.pos.x += 125.0f * Math_CosS(this->bg.actor.world.rot.y);
+            this->bg.actor.world.pos.z -= 125.0f * Math_SinS(this->bg.actor.world.rot.y);
             this->actionFunc = func_808B95AC;
         } else {
             this->actionFunc = func_808B9618;
@@ -72,60 +72,60 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
     }
 
     CollisionHeader_GetVirtual(&gGoronCityDoorCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 }
 
 void BgSpot18Shutter_Destroy(Actor* thisx, PlayState* play) {
     BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808B95AC(BgSpot18Shutter* this, PlayState* play) {
 }
 
 void func_808B95B8(BgSpot18Shutter* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
-        Actor_SetFocus(&this->dyna.actor, 70.0f);
-        OnePointCutscene_Attention(play, &this->dyna.actor);
+    if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
+        Actor_SetFocus(&this->bg.actor, 70.0f);
+        OnePointCutscene_Attention(play, &this->bg.actor);
         this->actionFunc = func_808B9698;
     }
 }
 
 void func_808B9618(BgSpot18Shutter* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_109)) {
-        Actor_SetFocus(&this->dyna.actor, 70.0f);
-        if (((this->dyna.actor.params >> 8) & 1) == 0) {
+        Actor_SetFocus(&this->bg.actor, 70.0f);
+        if (((this->bg.actor.params >> 8) & 1) == 0) {
             this->actionFunc = func_808B9698;
         } else {
             this->actionFunc = func_808B971C;
-            OnePointCutscene_Init(play, 4221, 140, &this->dyna.actor, CAM_ID_MAIN);
+            OnePointCutscene_Init(play, 4221, 140, &this->bg.actor, CAM_ID_MAIN);
         }
     }
 }
 
 void func_808B9698(BgSpot18Shutter* this, PlayState* play) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 180.0f, 1.44f)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 180.0f, 1.44f)) {
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 
 void func_808B971C(BgSpot18Shutter* this, PlayState* play) {
-    f32 sin = Math_SinS(this->dyna.actor.world.rot.y);
-    f32 cos = Math_CosS(this->dyna.actor.world.rot.y);
+    f32 sin = Math_SinS(this->bg.actor.world.rot.y);
+    f32 cos = Math_CosS(this->bg.actor.world.rot.y);
     s32 flag = true;
 
-    flag &= Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (125.0f * cos), fabsf(cos));
-    flag &= Math_StepToF(&this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.z - (125.0f * sin), fabsf(sin));
+    flag &= Math_StepToF(&this->bg.actor.world.pos.x, this->bg.actor.home.pos.x + (125.0f * cos), fabsf(cos));
+    flag &= Math_StepToF(&this->bg.actor.world.pos.z, this->bg.actor.home.pos.z - (125.0f * sin), fabsf(sin));
 
     if (flag) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 

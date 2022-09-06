@@ -75,19 +75,19 @@ void func_80890740(BgIceShelter* this, PlayState* play) {
     static s16 cylinderRadii[] = { 47, 33, 44, 41, 100 };
     static s16 cylinderHeights[] = { 80, 54, 90, 60, 200 };
     s32 pad;
-    s32 type = (this->dyna.actor.params >> 8) & 7;
+    s32 type = (this->bg.actor.params >> 8) & 7;
 
     Collider_InitCylinder(play, &this->cylinder1);
-    Collider_SetCylinder(play, &this->cylinder1, &this->dyna.actor, &D_8089170C);
-    Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder1);
+    Collider_SetCylinder(play, &this->cylinder1, &this->bg.actor, &D_8089170C);
+    Collider_UpdateCylinder(&this->bg.actor, &this->cylinder1);
 
     this->cylinder1.dim.radius = cylinderRadii[type];
     this->cylinder1.dim.height = cylinderHeights[type];
 
     if (type == 0 || type == 1 || type == 4) {
         Collider_InitCylinder(play, &this->cylinder2);
-        Collider_SetCylinder(play, &this->cylinder2, &this->dyna.actor, &D_80891738);
-        Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder2);
+        Collider_SetCylinder(play, &this->cylinder2, &this->bg.actor, &D_80891738);
+        Collider_UpdateCylinder(&this->bg.actor, &this->cylinder2);
         this->cylinder2.dim.radius = cylinderRadii[type];
         this->cylinder2.dim.height = cylinderHeights[type];
     }
@@ -103,14 +103,14 @@ void func_80890874(BgIceShelter* this, PlayState* play, CollisionHeader* collisi
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, moveFlag);
+    BgActor_Init(&this->bg, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -132,21 +132,21 @@ static InitChainEntry sInitChain[] = {
 void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
     BgIceShelter* this = (BgIceShelter*)thisx;
-    s16 type = (this->dyna.actor.params >> 8) & 7;
+    s16 type = (this->bg.actor.params >> 8) & 7;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 
     if (type == 4) {
-        this->dyna.actor.world.rot.x += 0xBB8;
-        this->dyna.actor.world.pos.y -= 45.0f;
-        this->dyna.actor.shape.rot.x = this->dyna.actor.world.rot.x;
-        this->dyna.actor.world.pos.z -= 38.0f;
+        this->bg.actor.world.rot.x += 0xBB8;
+        this->bg.actor.world.pos.y -= 45.0f;
+        this->bg.actor.shape.rot.x = this->bg.actor.world.rot.x;
+        this->bg.actor.world.pos.z -= 38.0f;
     }
 
     if (type == 4) {
-        Math_Vec3f_Copy(&this->dyna.actor.scale, &kzIceScale);
+        Math_Vec3f_Copy(&this->bg.actor.scale, &kzIceScale);
     } else {
-        Actor_SetScale(&this->dyna.actor, sScales[type]);
+        Actor_SetScale(&this->bg.actor, sScales[type]);
     }
 
     switch (type) {
@@ -160,25 +160,25 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 
     func_80890740(this, play);
 
-    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
+    this->bg.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
-    if (!((this->dyna.actor.params >> 6) & 1) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
-        Actor_Kill(&this->dyna.actor);
+    if (!((this->bg.actor.params >> 6) & 1) && (Flags_GetSwitch(play, this->bg.actor.params & 0x3F))) {
+        Actor_Kill(&this->bg.actor);
         return;
     }
 
     func_80891064(this);
 
-    osSyncPrintf("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    osSyncPrintf("(ice shelter)(arg_data 0x%04x)\n", this->bg.actor.params);
 }
 
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play) {
     BgIceShelter* this = (BgIceShelter*)thisx;
 
-    switch ((this->dyna.actor.params >> 8) & 7) {
+    switch ((this->bg.actor.params >> 8) & 7) {
         case 2:
         case 3:
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
             break;
 
         case 0:
@@ -215,7 +215,7 @@ void func_80890B8C(BgIceShelter* this, PlayState* play, f32 chance, f32 scale) {
         }
 
         xzOffset = 42.0f * scale;
-        icePos = &this->dyna.actor.world.pos;
+        icePos = &this->bg.actor.world.pos;
         angle = D_80891794[frames] + (i * 0x8000);
         sin = Math_SinS(angle);
         cos = Math_CosS(angle);
@@ -251,7 +251,7 @@ void func_80890E00(BgIceShelter* this, PlayState* play, f32 chance, f32 arg3) {
     frames = (s16)play->state.frames & 7;
 
     for (i = 0; i < 2; i++) {
-        icePos = &this->dyna.actor.world.pos;
+        icePos = &this->bg.actor.world.pos;
 
         if (chance < Rand_ZeroOne()) {
             continue;
@@ -261,7 +261,7 @@ void func_80890E00(BgIceShelter* this, PlayState* play, f32 chance, f32 arg3) {
         posOffset.y = 15.0f;
         posOffset.z = ((84.0f - posOffset.x) * 0.2f) + (Rand_ZeroOne() * 20.0f);
 
-        func_808908FC(&dustPos, &posOffset, this->dyna.actor.world.rot.y);
+        func_808908FC(&dustPos, &posOffset, this->bg.actor.world.rot.y);
         Math_Vec3f_Sum(&dustPos, icePos, &dustPos);
 
         dustVel.x = (Rand_ZeroOne() * 3.0f) - 1.5f;
@@ -284,11 +284,11 @@ void func_80891064(BgIceShelter* this) {
 
 void func_8089107C(BgIceShelter* this, PlayState* play) {
     s32 pad;
-    s16 type = (this->dyna.actor.params >> 8) & 7;
+    s16 type = (this->bg.actor.params >> 8) & 7;
 
     if (type == 4) {
-        if (this->dyna.actor.parent != NULL) {
-            this->dyna.actor.parent->freezeTimer = 10000;
+        if (this->bg.actor.parent != NULL) {
+            this->bg.actor.parent->freezeTimer = 10000;
         }
     }
 
@@ -297,13 +297,13 @@ void func_8089107C(BgIceShelter* this, PlayState* play) {
 
         if ((this->cylinder1.base.ac != NULL) && (this->cylinder1.base.ac->id == ACTOR_EN_ICE_HONO)) {
             if (type == 4) {
-                if (this->dyna.actor.parent != NULL) {
-                    this->dyna.actor.parent->freezeTimer = 50;
+                if (this->bg.actor.parent != NULL) {
+                    this->bg.actor.parent->freezeTimer = 50;
                 }
             }
 
             func_808911BC(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_ICE_MELT);
         }
     }
 
@@ -334,14 +334,14 @@ static void (*sEffSpawnFuncs[])(BgIceShelter* this, PlayState* play, f32 chance,
 void func_808911D4(BgIceShelter* this, PlayState* play) {
 
     s32 pad;
-    s32 type = (this->dyna.actor.params >> 8) & 7;
+    s32 type = (this->bg.actor.params >> 8) & 7;
     f32 phi_f0;
 
     this->alpha -= 5;
     this->alpha = CLAMP(this->alpha, 0, 255);
 
-    this->dyna.actor.scale.y += D_808917BC[type];
-    this->dyna.actor.scale.y = CLAMP_MIN(this->dyna.actor.scale.y, 0.0001f);
+    this->bg.actor.scale.y += D_808917BC[type];
+    this->bg.actor.scale.y = CLAMP_MIN(this->bg.actor.scale.y, 0.0001f);
 
     if (this->alpha > 80) {
         switch (type) {
@@ -365,15 +365,15 @@ void func_808911D4(BgIceShelter* this, PlayState* play) {
     sEffSpawnFuncs[type](this, play, phi_f0, D_808917D0[type]);
 
     if (this->alpha <= 0) {
-        if (!((this->dyna.actor.params >> 6) & 1)) {
-            Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        if (!((this->bg.actor.params >> 6) & 1)) {
+            Flags_SetSwitch(play, this->bg.actor.params & 0x3F);
         }
 
         if (type == 4) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
 
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -394,18 +394,18 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    switch ((this->dyna.actor.params >> 8) & 7) {
+    switch ((this->bg.actor.params >> 8) & 7) {
         case 0:
         case 1:
         case 2:
         case 4:
-            func_8002ED80(&this->dyna.actor, play, 0);
+            func_8002ED80(&this->bg.actor, play, 0);
             break;
     }
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->alpha);
 
-    switch ((this->dyna.actor.params >> 8) & 7) {
+    switch ((this->bg.actor.params >> 8) & 7) {
         case 0:
         case 1:
         case 4:

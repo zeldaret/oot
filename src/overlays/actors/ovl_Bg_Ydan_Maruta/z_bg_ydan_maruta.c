@@ -84,21 +84,21 @@ void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     ColliderTrisElementInit* triInit;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     Collider_InitTris(play, &this->collider);
-    Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->elements);
+    Collider_SetTris(play, &this->collider, &this->bg.actor, &sTrisInit, this->elements);
 
-    this->switchFlag = this->dyna.actor.params & 0xFFFF;
+    this->switchFlag = this->bg.actor.params & 0xFFFF;
     thisx->params = (thisx->params >> 8) & 0xFF; // thisx is required to match here
 
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         triInit = &sTrisElementsInit[0];
         this->actionFunc = func_808BEFF4;
     } else {
         triInit = &sTrisElementsInit[1];
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        BgActor_Init(&this->bg, DPM_UNK);
         CollisionHeader_GetVirtual(&gDTFallingLadderCol, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
         thisx->home.pos.y += -280.0f;
         if (Flags_GetSwitch(play, this->switchFlag)) {
             thisx->world.pos.y = thisx->home.pos.y;
@@ -108,20 +108,20 @@ void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
         }
     }
 
-    sinRotY = Math_SinS(this->dyna.actor.shape.rot.y);
-    cosRotY = Math_CosS(this->dyna.actor.shape.rot.y);
+    sinRotY = Math_SinS(this->bg.actor.shape.rot.y);
+    cosRotY = Math_CosS(this->bg.actor.shape.rot.y);
 
     for (i = 0; i < 3; i++) {
-        sp4C[i].x = (triInit->dim.vtx[i].x * cosRotY) + this->dyna.actor.world.pos.x;
-        sp4C[i].y = triInit->dim.vtx[i].y + this->dyna.actor.world.pos.y;
-        sp4C[i].z = this->dyna.actor.world.pos.z - (triInit->dim.vtx[i].x * sinRotY);
+        sp4C[i].x = (triInit->dim.vtx[i].x * cosRotY) + this->bg.actor.world.pos.x;
+        sp4C[i].y = triInit->dim.vtx[i].y + this->bg.actor.world.pos.y;
+        sp4C[i].z = this->bg.actor.world.pos.z - (triInit->dim.vtx[i].x * sinRotY);
     }
 
     Collider_SetTrisVertices(&this->collider, 0, &sp4C[0], &sp4C[1], &sp4C[2]);
 
-    sp4C[1].x = (triInit->dim.vtx[2].x * cosRotY) + this->dyna.actor.world.pos.x;
-    sp4C[1].y = triInit->dim.vtx[0].y + this->dyna.actor.world.pos.y;
-    sp4C[1].z = this->dyna.actor.world.pos.z - (triInit->dim.vtx[2].x * sinRotY);
+    sp4C[1].x = (triInit->dim.vtx[2].x * cosRotY) + this->bg.actor.world.pos.x;
+    sp4C[1].y = triInit->dim.vtx[0].y + this->bg.actor.world.pos.y;
+    sp4C[1].z = this->bg.actor.world.pos.z - (triInit->dim.vtx[2].x * sinRotY);
 
     Collider_SetTrisVertices(&this->collider, 1, &sp4C[0], &sp4C[2], &sp4C[1]);
 }
@@ -130,18 +130,18 @@ void BgYdanMaruta_Destroy(Actor* thisx, PlayState* play) {
     BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     Collider_DestroyTris(play, &this->collider);
-    if (this->dyna.actor.params == 1) {
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if (this->bg.actor.params == 1) {
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 
 void func_808BEFF4(BgYdanMaruta* this, PlayState* play) {
     if (this->collider.base.atFlags & AT_HIT) {
-        func_8002F71C(play, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
+        func_8002F71C(play, &this->bg.actor, 7.0f, this->bg.actor.shape.rot.y, 6.0f);
     }
-    this->dyna.actor.shape.rot.x += 0x360;
+    this->bg.actor.shape.rot.x += 0x360;
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_TOGE_STICK_ROLLING - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_TOGE_STICK_ROLLING - SFX_FLAG);
 }
 
 void func_808BF078(BgYdanMaruta* this, PlayState* play) {
@@ -150,7 +150,7 @@ void func_808BF078(BgYdanMaruta* this, PlayState* play) {
         Flags_SetSwitch(play, this->switchFlag);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_808BF108;
-        OnePointCutscene_Init(play, 3010, 50, &this->dyna.actor, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 3010, 50, &this->bg.actor, CAM_ID_MAIN);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
@@ -175,16 +175,16 @@ void func_808BF108(BgYdanMaruta* this, PlayState* play) {
         temp *= 2;
     }
 
-    this->dyna.actor.world.pos.x = (Math_CosS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.x;
-    this->dyna.actor.world.pos.z = (Math_SinS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.z;
+    this->bg.actor.world.pos.x = (Math_CosS(this->bg.actor.shape.rot.y) * temp) + this->bg.actor.home.pos.x;
+    this->bg.actor.world.pos.z = (Math_SinS(this->bg.actor.shape.rot.y) * temp) + this->bg.actor.home.pos.z;
 
-    func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
 }
 
 void func_808BF1EC(BgYdanMaruta* this, PlayState* play) {
-    this->dyna.actor.velocity.y += 1.0f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_LADDER_DOUND);
+    this->bg.actor.velocity.y += 1.0f;
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, this->bg.actor.velocity.y)) {
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_LADDER_DOUND);
         this->actionFunc = BgYdanMaruta_DoNothing;
     }
 }
@@ -201,7 +201,7 @@ void BgYdanMaruta_Update(Actor* thisx, PlayState* play) {
 void BgYdanMaruta_Draw(Actor* thisx, PlayState* play) {
     BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         Gfx_DrawDListOpa(play, gDTRollingSpikeTrapDL);
     } else {
         Gfx_DrawDListOpa(play, gDTFallingLadderDL);

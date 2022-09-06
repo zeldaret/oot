@@ -57,20 +57,20 @@ void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision
     CollisionHeader* colHeader = NULL;
     s32 pad2[2];
 
-    DynaPolyActor_Init(&this->dyna, moveFlags);
+    BgActor_Init(&this->bg, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
 void func_80B93BF0(ObjHsblock* this, PlayState* play) {
-    if ((this->dyna.actor.params >> 5) & 1) {
-        Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_OBJ_ICE_POLY, this->dyna.actor.world.pos.x,
-                           this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.world.rot.x,
-                           this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 1);
+    if ((this->bg.actor.params >> 5) & 1) {
+        Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_OBJ_ICE_POLY, this->bg.actor.world.pos.x,
+                           this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, this->bg.actor.world.rot.x,
+                           this->bg.actor.world.rot.y, this->bg.actor.world.rot.z, 1);
     }
 }
 
@@ -102,7 +102,7 @@ void ObjHsblock_Init(Actor* thisx, PlayState* play) {
 void ObjHsblock_Destroy(Actor* thisx, PlayState* play) {
     ObjHsblock* this = (ObjHsblock*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_80B93D90(ObjHsblock* this) {
@@ -110,13 +110,13 @@ void func_80B93D90(ObjHsblock* this) {
 }
 
 void func_80B93DB0(ObjHsblock* this) {
-    this->dyna.actor.flags |= ACTOR_FLAG_4;
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 105.0f;
+    this->bg.actor.flags |= ACTOR_FLAG_4;
+    this->bg.actor.world.pos.y = this->bg.actor.home.pos.y - 105.0f;
     ObjHsblock_SetupAction(this, func_80B93DF4);
 }
 
 void func_80B93DF4(ObjHsblock* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, (this->bg.actor.params >> 8) & 0x3F)) {
         func_80B93E38(this);
     }
 }
@@ -126,12 +126,12 @@ void func_80B93E38(ObjHsblock* this) {
 }
 
 void func_80B93E5C(ObjHsblock* this, PlayState* play) {
-    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 16.0f, 0.1f, 0.8f, 0.0f);
-    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.3f,
-                                 this->dyna.actor.velocity.y, 0.3f)) < 0.001f) {
-        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
+    Math_SmoothStepToF(&this->bg.actor.velocity.y, 16.0f, 0.1f, 0.8f, 0.0f);
+    if (fabsf(Math_SmoothStepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 0.3f,
+                                 this->bg.actor.velocity.y, 0.3f)) < 0.001f) {
+        this->bg.actor.world.pos.y = this->bg.actor.home.pos.y;
         func_80B93D90(this);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->bg.actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 

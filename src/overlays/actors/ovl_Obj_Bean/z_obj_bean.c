@@ -129,8 +129,8 @@ void ObjBean_InitCollider(Actor* thisx, PlayState* play) {
     ObjBean* this = (ObjBean*)thisx;
 
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
-    Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->bg.actor, &sCylinderInit);
+    Collider_UpdateCylinder(&this->bg.actor, &this->collider);
 }
 
 void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
@@ -140,13 +140,13 @@ void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* colli
 
     colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, moveFlag);
+    BgActor_Init(&this->bg, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 374,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -154,11 +154,11 @@ void ObjBean_FindFloor(ObjBean* this, PlayState* play) {
     Vec3f checkPos;
     s32 bgId;
 
-    checkPos.x = this->dyna.actor.world.pos.x;
-    checkPos.y = this->dyna.actor.world.pos.y + 29.999998f;
-    checkPos.z = this->dyna.actor.world.pos.z;
-    this->dyna.actor.floorHeight =
-        BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &checkPos);
+    checkPos.x = this->bg.actor.world.pos.x;
+    checkPos.y = this->bg.actor.world.pos.y + 29.999998f;
+    checkPos.z = this->bg.actor.world.pos.z;
+    this->bg.actor.floorHeight =
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->bg.actor.floorPoly, &bgId, &this->bg.actor, &checkPos);
 }
 
 void func_80B8EBC8(ObjBean* this) {
@@ -180,19 +180,19 @@ void ObjBean_UpdatePosition(ObjBean* this) {
     this->posOffsetZ = (Math_CosS(this->unk_1B6.y * 4) + temp_f20) * this->unk_1E4;
     temp_f20 = Math_SinS(this->unk_1B6.z * 5);
 
-    this->dyna.actor.scale.x = this->dyna.actor.scale.z =
+    this->bg.actor.scale.x = this->bg.actor.scale.z =
         ((Math_SinS(this->unk_1B6.y * 8) * 0.01f) + (temp_f20 * 0.06f) + 1.07f) * 0.1f;
 
-    this->dyna.actor.scale.y = ((Math_CosS(this->unk_1B6.z * 10) * 0.2f) + 1.0f) * 0.1f;
+    this->bg.actor.scale.y = ((Math_CosS(this->unk_1B6.z * 10) * 0.2f) + 1.0f) * 0.1f;
     temp_f20 = Math_SinS(this->unk_1B6.x * 3);
-    this->dyna.actor.shape.rot.y =
-        (Math_SinS((s16)(this->unk_1B6.z * 2)) * 2100.0f) + ((f32)this->dyna.actor.home.rot.y + (temp_f20 * 1000.0f));
+    this->bg.actor.shape.rot.y =
+        (Math_SinS((s16)(this->unk_1B6.z * 2)) * 2100.0f) + ((f32)this->bg.actor.home.rot.y + (temp_f20 * 1000.0f));
 }
 
 void func_80B8EDF4(ObjBean* this) {
     this->unk_1B6.x = this->unk_1B6.y = this->unk_1B6.z = 0;
 
-    Actor_SetScale(&this->dyna.actor, 0.0f);
+    Actor_SetScale(&this->bg.actor, 0.0f);
 }
 
 void func_80B8EE24(ObjBean* this) {
@@ -204,19 +204,19 @@ void func_80B8EE24(ObjBean* this) {
     if (this->unk_1B6.y > 0x4000) {
         this->unk_1B6.y = 0x4000;
     }
-    this->dyna.actor.scale.y = Math_SinS(this->unk_1B6.x) * 0.16970563f;
+    this->bg.actor.scale.y = Math_SinS(this->unk_1B6.x) * 0.16970563f;
 
-    this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_SinS(this->unk_1B6.y) * 0.10700001f;
+    this->bg.actor.scale.x = this->bg.actor.scale.z = Math_SinS(this->unk_1B6.y) * 0.10700001f;
 
     Math_StepToF(&this->posOffsetX, 0.0f, 0.1f);
     Math_StepToF(&this->posOffsetZ, 0.0f, 0.1f);
-    Math_ScaledStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.home.rot.y, 0x64);
+    Math_ScaledStepToS(&this->bg.actor.shape.rot.y, this->bg.actor.home.rot.y, 0x64);
 }
 
 void ObjBean_Move(ObjBean* this) {
-    this->dyna.actor.world.pos.x = this->pathPoints.x + this->posOffsetX;
-    this->dyna.actor.world.pos.y = this->pathPoints.y;
-    this->dyna.actor.world.pos.z = this->pathPoints.z + this->posOffsetZ;
+    this->bg.actor.world.pos.x = this->pathPoints.x + this->posOffsetX;
+    this->bg.actor.world.pos.y = this->pathPoints.y;
+    this->bg.actor.world.pos.z = this->pathPoints.z + this->posOffsetZ;
 }
 
 void ObjBean_SetDrawMode(ObjBean* this, u8 drawFlag) {
@@ -226,13 +226,13 @@ void ObjBean_SetDrawMode(ObjBean* this, u8 drawFlag) {
 }
 
 void ObjBean_SetupPathCount(ObjBean* this, PlayState* play) {
-    this->pathCount = play->setupPathList[(this->dyna.actor.params >> 8) & 0x1F].count - 1;
+    this->pathCount = play->setupPathList[(this->bg.actor.params >> 8) & 0x1F].count - 1;
     this->currentPointIndex = 0;
     this->nextPointIndex = 1;
 }
 
 void ObjBean_SetupPath(ObjBean* this, PlayState* play) {
-    Path* path = &play->setupPathList[(this->dyna.actor.params >> 8) & 0x1F];
+    Path* path = &play->setupPathList[(this->bg.actor.params >> 8) & 0x1F];
     Math_Vec3s_ToVec3f(&this->pathPoints, SEGMENTED_TO_VIRTUAL(path->points));
 }
 
@@ -249,15 +249,15 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
     f32 sp30;
     f32 mag;
 
-    Math_StepToF(&this->dyna.actor.speedXZ, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
-    path = &play->setupPathList[(this->dyna.actor.params >> 8) & 0x1F];
+    Math_StepToF(&this->bg.actor.speedXZ, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
+    path = &play->setupPathList[(this->bg.actor.params >> 8) & 0x1F];
     nextPathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->nextPointIndex];
 
     Math_Vec3s_ToVec3f(&pathPointsFloat, nextPathPoint);
 
     Math_Vec3f_Diff(&pathPointsFloat, &this->pathPoints, &acell);
     mag = Math3D_Vec3fMagnitude(&acell);
-    speed = CLAMP_MIN(this->dyna.actor.speedXZ, 0.5f);
+    speed = CLAMP_MIN(this->bg.actor.speedXZ, 0.5f);
     if (speed > mag) {
         currentPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPointIndex];
 
@@ -273,12 +273,12 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
         Math_Vec3s_DiffToVec3f(&sp40, nextPathPoint, currentPoint);
         Math_Vec3s_DiffToVec3f(&sp34, sp4C, nextPathPoint);
         if (Math3D_CosOut(&sp40, &sp34, &sp30)) {
-            this->dyna.actor.speedXZ = 0.0f;
+            this->bg.actor.speedXZ = 0.0f;
         } else {
-            this->dyna.actor.speedXZ *= (sp30 + 1.0f) * 0.5f;
+            this->bg.actor.speedXZ *= (sp30 + 1.0f) * 0.5f;
         }
     } else {
-        Math_Vec3f_Scale(&acell, this->dyna.actor.speedXZ / mag);
+        Math_Vec3f_Scale(&acell, this->bg.actor.speedXZ / mag);
         this->pathPoints.x += acell.x;
         this->pathPoints.y += acell.y;
         this->pathPoints.z += acell.z;
@@ -290,7 +290,7 @@ s32 ObjBean_CheckForHorseTrample(ObjBean* this, PlayState* play) {
 
     while (currentActor != NULL) {
         if ((currentActor->id == ACTOR_EN_HORSE) &&
-            (Math3D_Vec3fDistSq(&currentActor->world.pos, &this->dyna.actor.world.pos) < SQ(100.0f))) {
+            (Math3D_Vec3fDistSq(&currentActor->world.pos, &this->bg.actor.world.pos) < SQ(100.0f))) {
             return true;
         }
         currentActor = currentActor->next;
@@ -314,17 +314,17 @@ void ObjBean_Break(ObjBean* this, PlayState* play) {
         angle += 0x4E20;
         temp_f20 = Rand_ZeroOne() * 60.0f;
 
-        pos.x = (Math_SinS(angle) * temp_f20) + this->dyna.actor.world.pos.x;
-        pos.y = this->dyna.actor.world.pos.y;
-        pos.z = (Math_CosS(angle) * temp_f20) + this->dyna.actor.world.pos.z;
+        pos.x = (Math_SinS(angle) * temp_f20) + this->bg.actor.world.pos.x;
+        pos.y = this->bg.actor.world.pos.y;
+        pos.z = (Math_CosS(angle) * temp_f20) + this->bg.actor.world.pos.z;
 
         velocity.x = Math_SinS(angle) * 3.5f;
         velocity.y = Rand_ZeroOne() * 13.0f;
         velocity.z = Math_CosS(angle) * 3.5f;
 
-        velocity.x += this->dyna.actor.world.pos.x - this->dyna.actor.prevPos.x;
-        velocity.y += this->dyna.actor.world.pos.y - this->dyna.actor.prevPos.y;
-        velocity.z += this->dyna.actor.world.pos.z - this->dyna.actor.prevPos.z;
+        velocity.x += this->bg.actor.world.pos.x - this->bg.actor.prevPos.x;
+        velocity.y += this->bg.actor.world.pos.y - this->bg.actor.prevPos.y;
+        velocity.z += this->bg.actor.world.pos.z - this->bg.actor.prevPos.z;
 
         scale = (s32)(Rand_ZeroOne() * 180.0f) + 30;
         if (scale < 90) {
@@ -349,8 +349,8 @@ void ObjBean_UpdateLeaves(ObjBean* this) {
     Math_StepToS(&this->unk_1C8, this->unk_1CA, this->unk_1CC);
     this->unk_1CE += this->unk_1C8;
     this->leafRotFactor = 6372.0f - Math_SinS(this->unk_1CE) * (f32)this->unk_1C2;
-    this->dyna.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
-    this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
+    this->bg.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
+    this->bg.actor.scale.x = this->bg.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
 }
 
 void ObjBean_SetupLeavesStill(ObjBean* this) {
@@ -421,8 +421,8 @@ void ObjBean_SetupGrow(ObjBean* this) {
 
 void ObjBean_Grow(ObjBean* this) {
     Math_StepToS(&this->leafRotFactor, 0x33E9, 0x168);
-    this->dyna.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
-    this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
+    this->bg.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
+    this->bg.actor.scale.x = this->bg.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
     ;
 }
 
@@ -433,8 +433,8 @@ void ObjBean_SetupFlattenLeaves(ObjBean* this) {
 
 void ObjBean_FlattenLeaves(ObjBean* this) {
     this->leafRotFactor -= 0x960;
-    this->dyna.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
-    this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
+    this->bg.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
+    this->bg.actor.scale.x = this->bg.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
 
     if (this->leafRotFactor < 0x18E4) {
         ObjBean_SetupGrown(this);
@@ -467,26 +467,26 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
     s32 path;
     ObjBean* this = (ObjBean*)thisx;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (mREG(1) == 1)) {
-            path = (this->dyna.actor.params >> 8) & 0x1F;
+        if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F) || (mREG(1) == 1)) {
+            path = (this->bg.actor.params >> 8) & 0x1F;
             if (path == 0x1F) {
                 osSyncPrintf(VT_COL(RED, WHITE));
                 // "No path data?"
                 osSyncPrintf("パスデータが無い？(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 909,
-                             this->dyna.actor.params);
+                             this->bg.actor.params);
                 osSyncPrintf(VT_RST);
-                Actor_Kill(&this->dyna.actor);
+                Actor_Kill(&this->bg.actor);
                 return;
             }
             if (play->setupPathList[path].count < 3) {
                 osSyncPrintf(VT_COL(RED, WHITE));
                 // "Incorrect number of path data"
                 osSyncPrintf("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921,
-                             this->dyna.actor.params);
+                             this->bg.actor.params);
                 osSyncPrintf(VT_RST);
-                Actor_Kill(&this->dyna.actor);
+                Actor_Kill(&this->bg.actor);
                 return;
             }
             ObjBean_SetupPathCount(this, play);
@@ -496,31 +496,31 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
 
             ObjBean_InitDynaPoly(this, play, &gMagicBeanPlatformCol, DPM_UNK3);
             this->stateFlags |= BEAN_STATE_DYNAPOLY_SET;
-            ObjBean_InitCollider(&this->dyna.actor, play);
+            ObjBean_InitCollider(&this->bg.actor, play);
             this->stateFlags |= BEAN_STATE_COLLIDER_SET;
 
-            ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 8.8f);
+            ActorShape_Init(&this->bg.actor.shape, 0.0f, ActorShadow_DrawCircle, 8.8f);
             ObjBean_FindFloor(this, play);
-            this->unk_1F6 = this->dyna.actor.home.rot.z & 3;
+            this->unk_1F6 = this->bg.actor.home.rot.z & 3;
         } else {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
             return;
         }
-    } else if ((Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) != 0) || (mREG(1) == 1)) {
+    } else if ((Flags_GetSwitch(play, this->bg.actor.params & 0x3F) != 0) || (mREG(1) == 1)) {
         ObjBean_SetupWaitForWater(this);
     } else {
         ObjBean_SetupWaitForBean(this);
     }
-    this->dyna.actor.world.rot.z = this->dyna.actor.home.rot.z = this->dyna.actor.shape.rot.z = 0;
+    this->bg.actor.world.rot.z = this->bg.actor.home.rot.z = this->bg.actor.shape.rot.z = 0;
     // "Magic bean tree lift"
-    osSyncPrintf("(魔法の豆の木リフト)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    osSyncPrintf("(魔法の豆の木リフト)(arg_data 0x%04x)\n", this->bg.actor.params);
 }
 
 void ObjBean_Destroy(Actor* thisx, PlayState* play) {
     ObjBean* this = (ObjBean*)thisx;
 
     if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
     if (this->stateFlags & BEAN_STATE_COLLIDER_SET) {
         Collider_DestroyCylinder(play, &this->collider);
@@ -533,17 +533,17 @@ void ObjBean_Destroy(Actor* thisx, PlayState* play) {
 void ObjBean_SetupWaitForBean(ObjBean* this) {
     this->actionFunc = ObjBean_WaitForBean;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES);
-    this->dyna.actor.textId = 0x2F;
+    this->bg.actor.textId = 0x2F;
 }
 
 void ObjBean_WaitForBean(ObjBean* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+    if (Actor_ProcessTalkRequest(&this->bg.actor, play)) {
         if (func_8002F368(play) == EXCH_ITEM_BEAN) {
             func_80B8FE00(this);
-            Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+            Flags_SetSwitch(play, this->bg.actor.params & 0x3F);
         }
     } else {
-        func_8002F298(&this->dyna.actor, play, 40.0f, EXCH_ITEM_BEAN);
+        func_8002F298(&this->bg.actor, play, 40.0f, EXCH_ITEM_BEAN);
     }
 }
 
@@ -563,17 +563,17 @@ void func_80B8FE3C(ObjBean* this, PlayState* play) {
 void func_80B8FE6C(ObjBean* this) {
     this->actionFunc = func_80B8FEAC;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
-    Actor_SetScale(&this->dyna.actor, 0.01f);
+    Actor_SetScale(&this->bg.actor, 0.01f);
 }
 
 // The leaves are visable and growing
 void func_80B8FEAC(ObjBean* this, PlayState* play) {
     s32 temp_v1 = true;
 
-    temp_v1 &= Math_StepToF(&this->dyna.actor.scale.y, 0.16672663f, 0.01f);
-    temp_v1 &= Math_StepToF(&this->dyna.actor.scale.x, 0.03569199f, 0.00113f);
+    temp_v1 &= Math_StepToF(&this->bg.actor.scale.y, 0.16672663f, 0.01f);
+    temp_v1 &= Math_StepToF(&this->bg.actor.scale.x, 0.03569199f, 0.00113f);
 
-    this->dyna.actor.scale.z = this->dyna.actor.scale.x;
+    this->bg.actor.scale.z = this->bg.actor.scale.x;
     if (temp_v1) {
         if (this->timer <= 0) {
             func_80B8FF50(this);
@@ -581,7 +581,7 @@ void func_80B8FEAC(ObjBean* this, PlayState* play) {
     } else {
         this->timer = 1;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_GROW_UP - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_PL_PLANT_GROW_UP - SFX_FLAG);
 }
 
 void func_80B8FF50(ObjBean* this) {
@@ -592,8 +592,8 @@ void func_80B8FF50(ObjBean* this) {
 
 void func_80B8FF8C(ObjBean* this, PlayState* play) {
     this->unk_1B6.x -= 0x960;
-    this->dyna.actor.scale.y = Math_SinS(this->unk_1B6.x) * 0.17434467f;
-    this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->unk_1B6.x) * 0.12207746f;
+    this->bg.actor.scale.y = Math_SinS(this->unk_1B6.x) * 0.17434467f;
+    this->bg.actor.scale.x = this->bg.actor.scale.z = Math_CosS(this->unk_1B6.x) * 0.12207746f;
     if (this->unk_1B6.x < 0x18E4) {
         func_80B90010(this);
     }
@@ -615,8 +615,8 @@ void func_80B90050(ObjBean* this, PlayState* play) {
     this->unk_1B6.y += -0xC8;
     temp_a0 = 6372.0f - Math_SinS(this->unk_1B6.x) * this->unk_1B6.y;
 
-    this->dyna.actor.scale.y = Math_SinS(temp_a0) * 0.17434467f;
-    this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(temp_a0) * 0.12207746f;
+    this->bg.actor.scale.y = Math_SinS(temp_a0) * 0.17434467f;
+    this->bg.actor.scale.x = this->bg.actor.scale.z = Math_CosS(temp_a0) * 0.12207746f;
     if (this->unk_1B6.y < 0) {
         ObjBean_SetupWaitForWater(this);
     }
@@ -625,7 +625,7 @@ void func_80B90050(ObjBean* this, PlayState* play) {
 void ObjBean_SetupWaitForWater(ObjBean* this) {
     this->actionFunc = ObjBean_WaitForWater;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
-    Actor_SetScale(&this->dyna.actor, 0.1f);
+    Actor_SetScale(&this->bg.actor, 0.1f);
     ObjBean_SetupLeavesStill(this);
 }
 
@@ -633,11 +633,11 @@ void ObjBean_WaitForWater(ObjBean* this, PlayState* play) {
     this->transformFunc(this);
 
     if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && Flags_GetEnv(play, 5) && (D_80B90E30 == NULL) &&
-        (this->dyna.actor.xzDistToPlayer < 50.0f)) {
+        (this->bg.actor.xzDistToPlayer < 50.0f)) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
-        OnePointCutscene_Init(play, 2210, -99, &this->dyna.actor, CAM_ID_MAIN);
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        OnePointCutscene_Init(play, 2210, -99, &this->bg.actor, CAM_ID_MAIN);
+        this->bg.actor.flags |= ACTOR_FLAG_4;
         return;
     }
 
@@ -672,12 +672,12 @@ void ObjBean_SetupGrowWaterPhase2(ObjBean* this) {
 void ObjBean_GrowWaterPhase2(ObjBean* this, PlayState* play) {
     this->transformFunc(this);
     this->stalkSizeMultiplier += 0.001f;
-    this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y + (s16)(this->stalkSizeMultiplier * 700000.0f);
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + this->stalkSizeMultiplier * 800.0f;
+    this->bg.actor.shape.rot.y = this->bg.actor.home.rot.y + (s16)(this->stalkSizeMultiplier * 700000.0f);
+    this->bg.actor.world.pos.y = this->bg.actor.home.pos.y + this->stalkSizeMultiplier * 800.0f;
     if (this->stalkSizeMultiplier >= 0.1f) { // 100 Frames
         ObjBean_SetupGrowWaterPhase3(this);
     }
-    func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_TALLER - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_PL_PLANT_TALLER - SFX_FLAG);
 }
 
 void ObjBean_SetupGrowWaterPhase3(ObjBean* this) {
@@ -696,14 +696,14 @@ void ObjBean_GrowWaterPhase3(ObjBean* this, PlayState* play) {
         ObjBean_SetupFlattenLeaves(this);
     } else if (this->timer == 30) {
         if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED)) {
-            itemDropPos.x = this->dyna.actor.world.pos.x;
-            itemDropPos.y = this->dyna.actor.world.pos.y - 25.0f;
-            itemDropPos.z = this->dyna.actor.world.pos.z;
+            itemDropPos.x = this->bg.actor.world.pos.x;
+            itemDropPos.y = this->bg.actor.world.pos.y - 25.0f;
+            itemDropPos.z = this->bg.actor.world.pos.z;
             for (i = 0; i < 3; i++) {
                 Item_DropCollectible(play, &itemDropPos, ITEM00_FLEXIBLE);
             }
             this->stateFlags |= BEAN_STATE_BEEN_WATERED;
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         }
     } else if (this->timer <= 0) {
@@ -721,11 +721,11 @@ void ObjBean_SetupGrowWaterPhase4(ObjBean* this) {
 void ObjBean_GrowWaterPhase4(ObjBean* this, PlayState* play) {
     this->transformFunc(this);
     this->stalkSizeMultiplier -= 0.001f;
-    this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y + (s16)(this->stalkSizeMultiplier * 700000.0f);
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + (this->stalkSizeMultiplier * 800.0f);
+    this->bg.actor.shape.rot.y = this->bg.actor.home.rot.y + (s16)(this->stalkSizeMultiplier * 700000.0f);
+    this->bg.actor.world.pos.y = this->bg.actor.home.pos.y + (this->stalkSizeMultiplier * 800.0f);
     if (this->stalkSizeMultiplier <= 0.0f) {
         this->stalkSizeMultiplier = 0.0f;
-        this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y;
+        this->bg.actor.shape.rot.y = this->bg.actor.home.rot.y;
         ObjBean_SetupGrowWaterPhase5(this);
     }
 }
@@ -740,7 +740,7 @@ void ObjBean_GrowWaterPhase5(ObjBean* this, PlayState* play) {
     this->transformFunc(this);
     if (this->timer <= 0) {
         func_80B8FF50(this);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->bg.actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
@@ -750,7 +750,7 @@ void ObjBean_SetupWaitForPlayer(ObjBean* this) {
 }
 
 void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
         ObjBean_SetupFly(this);
         if (play->sceneId == SCENE_SPOT10) { // Lost woods
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
@@ -764,8 +764,8 @@ void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
 void ObjBean_SetupFly(ObjBean* this) {
     this->actionFunc = ObjBean_Fly;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
-    this->dyna.actor.speedXZ = 0.0f;
-    this->dyna.actor.flags |= ACTOR_FLAG_4; // Never stop updating
+    this->bg.actor.speedXZ = 0.0f;
+    this->bg.actor.flags |= ACTOR_FLAG_4; // Never stop updating
 }
 
 void ObjBean_Fly(ObjBean* this, PlayState* play) {
@@ -777,16 +777,16 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
         ObjBean_SetupPath(this, play);
         ObjBean_SetupWaitForStepOff(this);
 
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
+        this->bg.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
         mainCam = play->cameraPtrs[CAM_ID_MAIN];
 
         if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {
             Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
 
-    } else if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    } else if (BgActor_IsPlayerOnTop(&this->bg)) {
 
-        func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
         if (play->sceneId == SCENE_SPOT10) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
@@ -810,7 +810,7 @@ void ObjBean_SetupWaitForStepOff(ObjBean* this) {
 }
 
 void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play) {
-    if (!DynaPolyActor_IsPlayerAbove(&this->dyna)) {
+    if (!BgActor_IsPlayerAbove(&this->bg)) {
         ObjBean_SetupWaitForPlayer(this);
     }
     ObjBean_UpdatePosition(this);
@@ -822,7 +822,7 @@ void func_80B908EC(ObjBean* this) {
 }
 
 void func_80B90918(ObjBean* this, PlayState* play) {
-    if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (!BgActor_IsPlayerOnTop(&this->bg)) {
         ObjBean_SetupPathCount(this, play);
         ObjBean_SetupPath(this, play);
         ObjBean_Move(this);
@@ -856,9 +856,9 @@ void func_80B90A34(ObjBean* this, PlayState* play) {
 
     func_80B8EE24(this);
     if (trampled) {
-        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
     } else {
-        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
     }
     if ((this->timer <= 0) && (!trampled)) {
         func_80B8EBC8(this);
@@ -877,16 +877,16 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
 
     if (this->stateFlags & BEAN_STATE_DRAW_PLANT) {
         ObjBean_Move(this);
-        if (this->dyna.actor.xzDistToPlayer < 150.0f) {
-            this->collider.dim.radius = this->dyna.actor.scale.x * 640.0f + 0.5f;
-            Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+        if (this->bg.actor.xzDistToPlayer < 150.0f) {
+            this->collider.dim.radius = this->bg.actor.scale.x * 640.0f + 0.5f;
+            Collider_UpdateCylinder(&this->bg.actor, &this->collider);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
 
         ObjBean_FindFloor(this, play);
 
-        this->dyna.actor.shape.shadowDraw = ActorShadow_DrawCircle;
-        this->dyna.actor.shape.shadowScale = this->dyna.actor.scale.x * 88.0f;
+        this->bg.actor.shape.shadowDraw = ActorShadow_DrawCircle;
+        this->bg.actor.shape.shadowScale = this->bg.actor.scale.x * 88.0f;
 
         if (ObjBean_CheckForHorseTrample(this, play)) {
             osSyncPrintf(VT_FGCOL(CYAN));
@@ -894,15 +894,15 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
             osSyncPrintf("馬と豆の木リフト衝突！！！\n");
             osSyncPrintf(VT_RST);
             ObjBean_Break(this, play);
-            DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
             func_80B908EC(this);
         }
     } else {
-        this->dyna.actor.shape.shadowDraw = NULL;
+        this->bg.actor.shape.shadowDraw = NULL;
     }
-    Actor_SetFocus(&this->dyna.actor, 6.0f);
+    Actor_SetFocus(&this->bg.actor, 6.0f);
     if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
-        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+        if (BgActor_IsPlayerOnTop(&this->bg)) {
             this->stateFlags |= BEAN_STATE_PLAYER_ON_TOP;
         } else {
             this->stateFlags &= ~BEAN_STATE_PLAYER_ON_TOP;
@@ -911,17 +911,15 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
 }
 
 void ObjBean_DrawSoftSoilSpot(ObjBean* this, PlayState* play) {
-    Matrix_Translate(this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
-                     MTXMODE_NEW);
-    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.home.rot.y), MTXMODE_APPLY);
+    Matrix_Translate(this->bg.actor.home.pos.x, this->bg.actor.home.pos.y, this->bg.actor.home.pos.z, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(this->bg.actor.home.rot.y), MTXMODE_APPLY);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Gfx_DrawDListOpa(play, gMagicBeanSoftSoilDL);
 }
 
 void ObjBean_DrawBeanstalk(ObjBean* this, PlayState* play) {
-    Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
-                     MTXMODE_NEW);
-    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
+    Matrix_Translate(this->bg.actor.world.pos.x, this->bg.actor.world.pos.y, this->bg.actor.world.pos.z, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(this->bg.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Scale(0.1f, this->stalkSizeMultiplier, 0.1f, MTXMODE_APPLY);
     Gfx_DrawDListOpa(play, gMagicBeanStemDL);
 }

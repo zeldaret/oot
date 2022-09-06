@@ -1046,14 +1046,14 @@ s32 func_8002DF54(PlayState* play, Actor* actor, u8 csMode) {
     return true;
 }
 
-void func_8002DF90(DynaPolyActor* dynaActor) {
-    dynaActor->unk_154 = 0.0f;
-    dynaActor->unk_150 = 0.0f;
+void func_8002DF90(BgActor* bgActor) {
+    bgActor->unk_154 = 0.0f;
+    bgActor->unk_150 = 0.0f;
 }
 
-void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
-    dynaActor->unk_150 += arg1;
-    dynaActor->unk_158 = arg2;
+void func_8002DFA4(BgActor* bgActor, f32 arg1, s16 arg2) {
+    bgActor->unk_150 += arg1;
+    bgActor->unk_158 = arg2;
 }
 
 /**

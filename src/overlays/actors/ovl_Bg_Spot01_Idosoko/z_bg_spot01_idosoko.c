@@ -42,12 +42,12 @@ void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
     CollisionHeader_GetVirtual(&gKakarikoBOTWStoneCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     if (!LINK_IS_ADULT) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     } else {
         BgSpot01Idosoko_SetupAction(this, func_808ABF54);
     }
@@ -56,7 +56,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
 void BgSpot01Idosoko_Destroy(Actor* thisx, PlayState* play) {
     BgSpot01Idosoko* this = (BgSpot01Idosoko*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808ABF54(BgSpot01Idosoko* this, PlayState* play) {

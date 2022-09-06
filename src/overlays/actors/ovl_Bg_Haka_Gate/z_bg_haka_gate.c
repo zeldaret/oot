@@ -76,7 +76,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     if (thisx->params == BGHAKAGATE_SKULL) {
         if (sSkullOfTruthRotY != 0x100) {
             this->actionFunc = BgHakaGate_FalseSkull;
@@ -129,7 +129,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = BgHakaGate_GateWait;
             }
         }
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     }
 }
 
@@ -137,8 +137,8 @@ void BgHakaGate_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgHakaGate* this = (BgHakaGate*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if (this->dyna.actor.params == BGHAKAGATE_STATUE) {
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
+    if (this->bg.actor.params == BGHAKAGATE_STATUE) {
         sSkullOfTruthRotY = 0x100;
         sPuzzleState = 1;
     }
@@ -150,9 +150,9 @@ void BgHakaGate_DoNothing(BgHakaGate* this, PlayState* play) {
 void BgHakaGate_StatueInactive(BgHakaGate* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->dyna.unk_150 != 0.0f) {
+    if (this->bg.unk_150 != 0.0f) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
     }
 }
 
@@ -161,17 +161,17 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, PlayState* play) {
     s32 playerDirection;
     f32 forceDirection;
 
-    if (this->dyna.unk_150 != 0.0f) {
+    if (this->bg.unk_150 != 0.0f) {
         if (this->vTimer == 0) {
-            this->vInitTurnAngle = this->dyna.actor.shape.rot.y - this->dyna.actor.yawTowardsPlayer;
-            sStatueDistToPlayer = this->dyna.actor.xzDistToPlayer;
-            forceDirection = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
-            playerDirection = ((s16)(this->dyna.actor.yawTowardsPlayer - player->actor.shape.rot.y) > 0) ? -1 : 1;
+            this->vInitTurnAngle = this->bg.actor.shape.rot.y - this->bg.actor.yawTowardsPlayer;
+            sStatueDistToPlayer = this->bg.actor.xzDistToPlayer;
+            forceDirection = (this->bg.unk_150 >= 0.0f) ? 1.0f : -1.0f;
+            playerDirection = ((s16)(this->bg.actor.yawTowardsPlayer - player->actor.shape.rot.y) > 0) ? -1 : 1;
             this->vTurnDirection = playerDirection * forceDirection;
             this->actionFunc = BgHakaGate_StatueTurn;
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
-            this->dyna.unk_150 = 0.0f;
+            this->bg.unk_150 = 0.0f;
             if (this->vTimer != 0) {
                 this->vTimer--;
             }
@@ -194,18 +194,18 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, PlayState* play) {
     this->vTurnRateDeg10 = CLAMP_MAX(this->vTurnRateDeg10, 5);
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
-    this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
+    this->bg.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
     if ((player->stateFlags2 & PLAYER_STATE2_4) && (sStatueDistToPlayer > 0.0f)) {
         player->actor.world.pos.x =
-            this->dyna.actor.home.pos.x +
-            (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
+            this->bg.actor.home.pos.x +
+            (Math_SinS(this->bg.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
         player->actor.world.pos.z =
-            this->dyna.actor.home.pos.z +
-            (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
+            this->bg.actor.home.pos.z +
+            (Math_CosS(this->bg.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
     } else {
         sStatueDistToPlayer = 0.0f;
     }
-    sStatueRotY = this->dyna.actor.shape.rot.y;
+    sStatueRotY = this->bg.actor.shape.rot.y;
     if (turnFinished) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->vRotYDeg10 = (this->vRotYDeg10 + turnAngle) % 3600;
@@ -213,9 +213,9 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, PlayState* play) {
         this->vTurnAngleDeg10 = 0;
         this->vTimer = 5;
         this->actionFunc = BgHakaGate_StatueIdle;
-        this->dyna.unk_150 = 0.0f;
+        this->bg.unk_150 = 0.0f;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
@@ -225,8 +225,8 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
         f32 angDist;
         f32 cos = Math_CosS(sStatueRotY);
         f32 sin = Math_SinS(sStatueRotY);
-        f32 dx = player->actor.world.pos.x - this->dyna.actor.world.pos.x;
-        f32 dz = player->actor.world.pos.z - this->dyna.actor.world.pos.z;
+        f32 dx = player->actor.world.pos.x - this->bg.actor.world.pos.x;
+        f32 dz = player->actor.world.pos.z - this->bg.actor.world.pos.z;
 
         radialDist = dx * cos - dz * sin;
         angDist = dx * sin + dz * cos;
@@ -241,8 +241,8 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
                 this->actionFunc = BgHakaGate_DoNothing;
             } else {
                 func_80078884(NA_SE_SY_ERROR);
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
-                DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+                Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_GROUND_GATE_OPEN);
+                DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
                 this->vTimer = 60;
                 this->actionFunc = BgHakaGate_FloorOpen;
             }
@@ -256,7 +256,7 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, PlayState* play) {
     }
     if (this->vTimer == 0) {
         if (Math_ScaledStepToS(&this->vOpenAngle, 0, 0x800)) {
-            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
             this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {
@@ -266,18 +266,18 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, PlayState* play) {
 
 void BgHakaGate_GateWait(BgHakaGate* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        OnePointCutscene_Attention(play, &this->dyna.actor);
+        OnePointCutscene_Attention(play, &this->bg.actor);
         this->actionFunc = BgHakaGate_GateOpen;
     }
 }
 
 void BgHakaGate_GateOpen(BgHakaGate* this, PlayState* play) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 80.0f, 1.0f)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y + 80.0f, 1.0f)) {
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_METALDOOR_STOP);
+        this->bg.actor.flags &= ~ACTOR_FLAG_4;
         this->actionFunc = BgHakaGate_DoNothing;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -292,9 +292,9 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, PlayState* play) {
         Math_StepToS(&this->vFlameScale, 350, 20);
     }
     if (play->actorCtx.lensActive) {
-        this->dyna.actor.flags |= ACTOR_FLAG_7;
+        this->bg.actor.flags |= ACTOR_FLAG_7;
     } else {
-        this->dyna.actor.flags &= ~ACTOR_FLAG_7;
+        this->bg.actor.flags &= ~ACTOR_FLAG_7;
     }
 }
 
@@ -303,13 +303,13 @@ void BgHakaGate_Update(Actor* thisx, PlayState* play) {
     BgHakaGate* this = (BgHakaGate*)thisx;
 
     this->actionFunc(this, play);
-    if (this->dyna.actor.params == BGHAKAGATE_SKULL) {
+    if (this->bg.actor.params == BGHAKAGATE_SKULL) {
         this->vScrollTimer++;
     }
 }
 
 void BgHakaGate_DrawFlame(BgHakaGate* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
     f32 scale;
 
     if (this->vFlameScale > 0) {

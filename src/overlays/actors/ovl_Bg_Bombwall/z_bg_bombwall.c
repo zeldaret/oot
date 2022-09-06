@@ -86,14 +86,14 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gBgBombwallCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG login failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
-                     this->dyna.actor.params);
+                     this->bg.actor.params);
     }
 }
 
@@ -116,19 +116,19 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
     Vec3f sp80;
     s32 pad;
     BgBombwall* this = (BgBombwall*)thisx;
-    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
-    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
+    f32 sin = Math_SinS(this->bg.actor.shape.rot.y);
+    f32 cos = Math_CosS(this->bg.actor.shape.rot.y);
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    Actor_SetScale(&this->dyna.actor, 0.1f);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    Actor_SetScale(&this->bg.actor, 0.1f);
 
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
         func_8086EE94(this, play);
     } else {
         BgBombwall_InitDynapoly(this, play);
         this->unk_2A2 |= 2;
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->bg.actor, &sTrisInit, this->colliderItems);
 
         for (i = 0; i <= 2; i++) {
             for (j = 0; j <= 2; j++) {
@@ -138,9 +138,9 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
 
                 BgBombwall_RotateVec(&vecs[j], &sp80, sin, cos);
 
-                vecs[j].x += this->dyna.actor.world.pos.x;
-                vecs[j].y += this->dyna.actor.world.pos.y;
-                vecs[j].z += this->dyna.actor.world.pos.z;
+                vecs[j].x += this->bg.actor.world.pos.x;
+                vecs[j].y += this->bg.actor.world.pos.y;
+                vecs[j].z += this->bg.actor.world.pos.z;
             }
             Collider_SetTrisVertices(&this->collider, i, &vecs[0], &vecs[1], &vecs[2]);
         }
@@ -149,13 +149,13 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    osSyncPrintf("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->dyna.actor.params,
-                 this->dyna.actor.shape.rot.y);
+    osSyncPrintf("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->bg.actor.params,
+                 this->bg.actor.shape.rot.y);
 }
 
 void BgBombwall_DestroyCollision(BgBombwall* this, PlayState* play) {
     if (this->unk_2A2 & 2) {
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
         this->unk_2A2 &= ~2;
     }
 
@@ -180,9 +180,9 @@ void func_8086EB5C(BgBombwall* this, PlayState* play) {
     s16 rand2;
     Vec3f sp88;
     s32 i;
-    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
-    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-    Vec3f* pos = &this->dyna.actor.world.pos;
+    f32 sin = Math_SinS(this->bg.actor.shape.rot.y);
+    f32 cos = Math_CosS(this->bg.actor.shape.rot.y);
+    Vec3f* pos = &this->bg.actor.world.pos;
     f32 temp;
     f32 new_var;
 
@@ -213,8 +213,8 @@ void func_8086ED70(BgBombwall* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_8086EDFC(this, play);
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-    } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
+        Flags_SetSwitch(play, this->bg.actor.params & 0x3F);
+    } else if (this->bg.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
@@ -232,7 +232,7 @@ void func_8086EE40(BgBombwall* this, PlayState* play) {
     } else {
         func_8086EE94(this, play);
 
-        if (((this->dyna.actor.params >> 0xF) & 1) != 0) {
+        if (((this->bg.actor.params >> 0xF) & 1) != 0) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
     }

@@ -9,7 +9,7 @@ struct BgSpot08Iceblock;
 typedef void (*BgSpot08IceblockActionFunc)(struct BgSpot08Iceblock*, PlayState*);
 
 typedef struct BgSpot08Iceblock {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgSpot08IceblockActionFunc actionFunc;
     /* 0x0168 */ Vec3f surfaceNormal;
     /* 0x0170 */ Vec3f normalDelta; // y always 0

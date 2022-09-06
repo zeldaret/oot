@@ -97,7 +97,7 @@ void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->bg.actor, &sJntSphInit, this->colliderItems);
 }
 
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
@@ -108,8 +108,8 @@ void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
     f32 sinY;
     f32 cosY;
 
-    sinY = Math_SinS(this->dyna.actor.shape.rot.y);
-    cosY = Math_CosS(this->dyna.actor.shape.rot.y);
+    sinY = Math_SinS(this->bg.actor.shape.rot.y);
+    cosY = Math_CosS(this->bg.actor.shape.rot.y);
 
     burstDepthX.z = 0.0f;
     burstDepthX.x = 0.0f;
@@ -123,9 +123,9 @@ void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
 
         temp1 = (Rand_ZeroOne() - 0.5f) * 440.0f;
         temp2 = (Rand_ZeroOne() - 0.5f) * 20.0f;
-        burstDepthY.x = this->dyna.actor.world.pos.x + temp2 * sinY + (temp1 * cosY);
-        burstDepthY.y = (this->dyna.actor.world.pos.y + 20.0f) + (i * (65.0f / 12.0f));
-        burstDepthY.z = this->dyna.actor.world.pos.z + temp2 * cosY - (temp1 * sinY);
+        burstDepthY.x = this->bg.actor.world.pos.x + temp2 * sinY + (temp1 * cosY);
+        burstDepthY.y = (this->bg.actor.world.pos.y + 20.0f) + (i * (65.0f / 12.0f));
+        burstDepthY.z = this->bg.actor.world.pos.z + temp2 * cosY - (temp1 * sinY);
 
         burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
         scale = Rand_ZeroOne() * 75.0f + 10.0f;
@@ -149,9 +149,9 @@ void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
     }
 
     for (i = 0; i < ARRAY_COUNT(D_808B08AC); i++) {
-        burstDepthY.x = this->dyna.actor.world.pos.x + D_808B08AC[i].z * sinY + D_808B08AC[i].x * cosY;
-        burstDepthY.y = this->dyna.actor.world.pos.y + D_808B08AC[i].y;
-        burstDepthY.z = this->dyna.actor.world.pos.z + D_808B08AC[i].z * cosY - (D_808B08AC[i].x * sinY);
+        burstDepthY.x = this->bg.actor.world.pos.x + D_808B08AC[i].z * sinY + D_808B08AC[i].x * cosY;
+        burstDepthY.y = this->bg.actor.world.pos.y + D_808B08AC[i].y;
+        burstDepthY.z = this->bg.actor.world.pos.z + D_808B08AC[i].z * cosY - (D_808B08AC[i].x * sinY);
         func_80033480(play, &burstDepthY, 120.0f, 4, 0x78, 0xA0, 1);
     }
 }
@@ -161,21 +161,21 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
-        Actor_Kill(&this->dyna.actor);
+    BgActor_Init(&this->bg, DPM_UNK);
+    if (Flags_GetSwitch(play, (this->bg.actor.params & 0x3F))) {
+        Actor_Kill(&this->bg.actor);
         return;
     }
     func_808B02D0(this, play);
     CollisionHeader_GetVirtual(&gZorasFountainBombableWallCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 }
 
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, PlayState* play) {
     BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyJntSph(play, &this->collider);
 }
 
@@ -184,11 +184,11 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B0324(this, play);
-        Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        Flags_SetSwitch(play, (this->bg.actor.params & 0x3F));
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Actor_Kill(&this->dyna.actor);
-    } else if (this->dyna.actor.xzDistToPlayer < 800.0f) {
+        Actor_Kill(&this->bg.actor);
+    } else if (this->bg.actor.xzDistToPlayer < 800.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }

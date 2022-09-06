@@ -66,7 +66,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
             curSpawnData = &sCobraSpawnData[i];
             curCobraInfo = &this->cobraInfo[i];
             if (curCobraInfo->cobra != NULL) {
-                curCobraInfo->rotY = curCobraInfo->cobra->dyna.actor.shape.rot.y;
+                curCobraInfo->rotY = curCobraInfo->cobra->bg.actor.shape.rot.y;
 
                 if (curCobraInfo->rotY == curSpawnData->solvedRotY) {
                     this->puzzleFlags |= cobraPuzzleFlags[i];
@@ -74,7 +74,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                     this->puzzleFlags &= ~cobraPuzzleFlags[i];
                 }
 
-                if (curCobraInfo->cobra->dyna.actor.update == NULL) {
+                if (curCobraInfo->cobra->bg.actor.update == NULL) {
                     // "Cobra deleted"
                     osSyncPrintf("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
@@ -84,7 +84,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                     curSpawnData->pos.z, 0, curCobraInfo->rotY, 0, curSpawnData->params);
                 this->actor.child = NULL;
 
-                if (&curCobraInfo->cobra->dyna.actor == NULL) {
+                if (&curCobraInfo->cobra->bg.actor == NULL) {
                     // "Cobra generation failed"
                     osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
                 }
@@ -95,11 +95,11 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
         for (i = 0; i < 2; i++) {
             curCobraInfo = &this->cobraInfo[i];
             if (curCobraInfo->cobra != NULL) {
-                if (curCobraInfo->cobra->dyna.actor.child != NULL) {
-                    Actor_Kill(curCobraInfo->cobra->dyna.actor.child);
-                    curCobraInfo->cobra->dyna.actor.child = NULL;
+                if (curCobraInfo->cobra->bg.actor.child != NULL) {
+                    Actor_Kill(curCobraInfo->cobra->bg.actor.child);
+                    curCobraInfo->cobra->bg.actor.child = NULL;
                 }
-                Actor_Kill(&curCobraInfo->cobra->dyna.actor);
+                Actor_Kill(&curCobraInfo->cobra->bg.actor);
                 curCobraInfo->cobra = NULL;
             }
         }

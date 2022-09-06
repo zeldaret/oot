@@ -38,20 +38,20 @@ void BgJyaBlock_Init(Actor* thisx, PlayState* play) {
     BgJyaBlock* this = (BgJyaBlock*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, 0);
+    BgActor_Init(&this->bg, 0);
     CollisionHeader_GetVirtual(&gPushBlockCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 
     if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(play, thisx->params & 0x3F)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
 void BgJyaBlock_Destroy(Actor* thisx, PlayState* play) {
     BgJyaBlock* this = (BgJyaBlock*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void BgJyaBlock_Update(Actor* thisx, PlayState* play) {
@@ -59,7 +59,7 @@ void BgJyaBlock_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     player->stateFlags2 &= ~PLAYER_STATE2_4;
-    this->dyna.unk_150 = 0.0f;
+    this->bg.unk_150 = 0.0f;
 }
 
 void BgJyaBlock_Draw(Actor* thisx, PlayState* play) {

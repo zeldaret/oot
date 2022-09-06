@@ -69,7 +69,7 @@ void BgMjin_Init(Actor* thisx, PlayState* play) {
 void BgMjin_Destroy(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808A0850(BgMjin* this, PlayState* play) {
@@ -78,15 +78,15 @@ void func_808A0850(BgMjin* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
         colHeader = NULL;
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objBankIndex = this->objBankIndex;
-        Actor_SetObjectDependency(play, &this->dyna.actor);
-        DynaPolyActor_Init(&this->dyna, 0);
-        collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
+        this->bg.actor.flags &= ~ACTOR_FLAG_4;
+        this->bg.actor.objBankIndex = this->objBankIndex;
+        Actor_SetObjectDependency(play, &this->bg.actor);
+        BgActor_Init(&this->bg, 0);
+        collision = this->bg.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
         CollisionHeader_GetVirtual(collision, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
         BgMjin_SetupAction(this, BgMjin_DoNothing);
-        this->dyna.actor.draw = BgMjin_Draw;
+        this->bg.actor.draw = BgMjin_Draw;
     }
 }
 

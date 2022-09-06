@@ -35,14 +35,14 @@ void BgGndFiremeiro_Init(Actor* thisx, PlayState* play) {
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
-    Actor_SetScale(&this->dyna.actor, 0.1f);
-    this->initPos = this->dyna.actor.world.pos;
+    ActorShape_Init(&this->bg.actor.shape, 0.0f, NULL, 0.0f);
+    Actor_SetScale(&this->bg.actor, 0.1f);
+    this->initPos = this->bg.actor.world.pos;
 
-    if (this->dyna.actor.params == 0) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    if (this->bg.actor.params == 0) {
+        BgActor_Init(&this->bg, DPM_UNK);
         CollisionHeader_GetVirtual(&gFireTrialPlatformCol, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
         this->actionFunc = BgGndFiremeiro_Rise;
     }
 }
@@ -51,27 +51,27 @@ void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         if (1) {}
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 
 void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
     f32 sunkHeight = this->initPos.y - 150.0f;
 
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
         this->timer = 10;
     }
 
-    if (sunkHeight < this->dyna.actor.world.pos.y) {
-        this->dyna.actor.world.pos.y -= 0.5f;
+    if (sunkHeight < this->bg.actor.world.pos.y) {
+        this->bg.actor.world.pos.y -= 0.5f;
 
-        if (this->dyna.actor.world.pos.y < sunkHeight) {
-            this->dyna.actor.world.pos.y = sunkHeight;
+        if (this->bg.actor.world.pos.y < sunkHeight) {
+            this->bg.actor.world.pos.y = sunkHeight;
         }
 
-        func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+        func_8002F948(&this->bg.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
     }
 
     if (this->timer > 0) {
@@ -85,36 +85,36 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
     s32 pad;
     f32 randSign;
 
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
         if (this->timer > 0) {
             this->timer--;
 
             randSign = ((this->timer & 1) ? 2.0f : -2.0f);
 
-            this->dyna.actor.world.pos = this->initPos;
-            this->dyna.actor.world.pos.x += randSign * Math_SinS(this->timer * 0x2FFF);
-            this->dyna.actor.world.pos.z += randSign * Math_CosS(this->timer * 0x2FFF);
-            this->dyna.actor.world.pos.y += Math_CosS(this->timer * 0x7FFF);
+            this->bg.actor.world.pos = this->initPos;
+            this->bg.actor.world.pos.x += randSign * Math_SinS(this->timer * 0x2FFF);
+            this->bg.actor.world.pos.z += randSign * Math_CosS(this->timer * 0x2FFF);
+            this->bg.actor.world.pos.y += Math_CosS(this->timer * 0x7FFF);
 
             if (!(this->timer % 4)) {
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+                Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_SHAKE);
             }
         } else {
             this->timer = 10;
-            this->dyna.actor.world.pos = this->initPos;
+            this->bg.actor.world.pos = this->initPos;
             this->actionFunc = BgGndFiremeiro_Sink;
         }
     } else {
-        this->dyna.actor.world.pos = this->initPos;
+        this->bg.actor.world.pos = this->initPos;
         this->actionFunc = BgGndFiremeiro_Rise;
     }
 }
 
 void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
-    if ((player->currentBoots != PLAYER_BOOTS_HOVER) && DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if ((player->currentBoots != PLAYER_BOOTS_HOVER) && BgActor_IsPlayerOnTop(&this->bg)) {
         if (thisx->world.pos.y < this->initPos.y) {
             this->actionFunc = BgGndFiremeiro_Sink;
             this->timer = 20;

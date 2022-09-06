@@ -9,7 +9,7 @@ struct BgGndDarkmeiro;
 typedef void (*BgGndDarkmeiroUpdateFunc)(struct BgGndDarkmeiro*, PlayState*);
 
 typedef struct BgGndDarkmeiro {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ u16 actionFlags;       // 0x8 for timer 2, 0x4 for timer 1, 0x2 for blocks.
     /* 0x0166 */ s16 timer1;            // Vanish countdown for clear blocks
     /* 0x0168 */ s16 timer2;            // Transparency flicker for clear blocks. Does not work.

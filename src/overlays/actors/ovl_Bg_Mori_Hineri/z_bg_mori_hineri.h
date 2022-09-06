@@ -9,7 +9,7 @@ struct BgMoriHineri;
 typedef void (*BgMoriHineriActionFunc)(struct BgMoriHineri*, PlayState*);
 
 typedef struct BgMoriHineri {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgMoriHineriActionFunc actionFunc;
     /* 0x0168 */ s8 moriHineriObjIdx;
     /* 0x0169 */ s8 moriTexObjIdx;

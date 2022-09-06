@@ -51,33 +51,33 @@ void EnPubox_Init(Actor* thisx, PlayState* play) {
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
-    this->dyna.interactFlags = 0;
-    this->dyna.unk_15C = DPM_UNK;
+    this->bg.interactFlags = 0;
+    this->bg.unk_15C = DPM_UNK;
     thisx->targetMode = 1;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&gBlockMediumCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 }
 
 void EnPubox_Destroy(Actor* thisx, PlayState* play) {
     EnPubox* this = (EnPubox*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void EnPubox_Update(Actor* thisx, PlayState* play) {
     EnPubox* this = (EnPubox*)thisx;
 
-    thisx->speedXZ += this->dyna.unk_150;
-    thisx->world.rot.y = this->dyna.unk_158;
+    thisx->speedXZ += this->bg.unk_150;
+    thisx->world.rot.y = this->bg.unk_158;
     thisx->speedXZ = (thisx->speedXZ < -2.5f) ? -2.5f : ((thisx->speedXZ > 2.5f) ? 2.5f : thisx->speedXZ);
     Math_SmoothStepToF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speedXZ != 0.0f) {
         Audio_PlaySfxGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
-    this->dyna.unk_154 = 0.0f;
-    this->dyna.unk_150 = 0.0f;
+    this->bg.unk_154 = 0.0f;
+    this->bg.unk_150 = 0.0f;
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(
         play, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius, thisx->colChkInfo.cylRadius,

@@ -64,9 +64,9 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gDekuTreeMouthCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Actor_SetFocus(thisx, 50.0f);
 
@@ -86,7 +86,7 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
 void BgTreemouth_Destroy(Actor* thisx, PlayState* play) {
     BgTreemouth* this = (BgTreemouth*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808BC65C(BgTreemouth* this, PlayState* play) {
@@ -141,16 +141,16 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
     if (!Flags_GetEventChkInf(EVENTCHKINF_05) || LINK_IS_ADULT) {
         if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(EVENTCHKINF_0C)) {
-                if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
-                    this->dyna.actor.flags |= ACTOR_FLAG_0;
-                    if (this->dyna.actor.isTargeted) {
-                        this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+                if (Actor_IsFacingAndNearPlayer(&this->bg.actor, 1658.0f, 0x7530)) {
+                    this->bg.actor.flags |= ACTOR_FLAG_0;
+                    if (this->bg.actor.isTargeted) {
+                        this->bg.actor.flags &= ~ACTOR_FLAG_0;
                         play->csCtx.segment = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
                     }
                 }
-            } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
+            } else if (Actor_IsFacingAndNearPlayer(&this->bg.actor, 1658.0f, 0x4E20)) {
                 Flags_SetEventChkInf(EVENTCHKINF_0C);
                 play->csCtx.segment = D_808BCE20;
                 gSaveContext.cutsceneTrigger = 1;
@@ -166,7 +166,7 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (play->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
-        if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 350.0f, 0x7530)) {
+        if (Actor_IsFacingAndNearPlayer(&this->bg.actor, 350.0f, 0x7530)) {
             player->actor.world.pos.x = 3827.0f;
             player->actor.world.pos.y = -161.0f;
             player->actor.world.pos.z = -1142.0f;

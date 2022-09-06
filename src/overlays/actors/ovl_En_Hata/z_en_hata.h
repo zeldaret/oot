@@ -31,7 +31,7 @@ typedef enum {
 } EnHataLimb;
 
 typedef struct {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ ColliderCylinder collider; // Unused, but indicated by the form of the unused data
     /* 0x01F4 */ Vec3s limbs[FLAGPOLE_LIMB_MAX];

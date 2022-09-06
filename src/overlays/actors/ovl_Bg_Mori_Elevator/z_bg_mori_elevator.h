@@ -9,7 +9,7 @@ struct BgMoriElevator;
 typedef void (*BgMoriElevatorActionFunc)(struct BgMoriElevator*, PlayState*);
 
 typedef struct BgMoriElevator {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgMoriElevatorActionFunc actionFunc;
     /* 0x0168 */ f32 targetY;
     /* 0x016C */ s32 unk_16C;

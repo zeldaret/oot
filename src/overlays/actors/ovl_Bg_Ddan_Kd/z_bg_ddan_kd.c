@@ -68,18 +68,18 @@ void BgDdanKd_Init(Actor* thisx, PlayState* play) {
 
     this->prevExplosive = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_PLAYER);
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
+    Collider_SetCylinder(play, &this->collider, &this->bg.actor, &sCylinderInit);
     CollisionHeader_GetVirtual(&gDodongoFallingStairsCol, &colHeader);
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if (!Flags_GetSwitch(play, this->dyna.actor.params)) {
+    if (!Flags_GetSwitch(play, this->bg.actor.params)) {
         BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
     } else {
-        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 200.0f - 20.0f;
+        this->bg.actor.world.pos.y = this->bg.actor.home.pos.y - 200.0f - 20.0f;
         BgDdanKd_SetupAction(this, BgDdanKd_DoNothing);
     }
 }
@@ -87,7 +87,7 @@ void BgDdanKd_Init(Actor* thisx, PlayState* play) {
 void BgDdanKd_Destroy(Actor* thisx, PlayState* play) {
     BgDdanKd* this = (BgDdanKd*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyCylinder(play, &this->collider);
 }
 
@@ -96,14 +96,14 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
 
     explosive = Actor_GetCollidedExplosive(play, &this->collider.base);
     if (explosive != NULL) {
-        osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
+        osSyncPrintf("dam    %d\n", this->bg.actor.colChkInfo.damage);
         explosive->params = 2;
     }
 
     if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
         (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->world.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
-        OnePointCutscene_Init(play, 3050, 999, &this->dyna.actor, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 3050, 999, &this->bg.actor, CAM_ID_MAIN);
     } else {
         if (this->timer != 0) {
             this->timer--;
@@ -114,7 +114,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
                 this->prevExplosivePos = explosive->world.pos;
             }
         }
-        Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+        Collider_UpdateCylinder(&this->bg.actor, &this->collider);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
@@ -126,19 +126,18 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
     Vec3f pos2;
     f32 effectStrength;
 
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 4.0f, 0.5f, 0.025f, 0.0f);
+    Math_SmoothStepToF(&this->bg.actor.speedXZ, 4.0f, 0.5f, 0.025f, 0.0f);
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 
-    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 200.0f - 20.0f, 0.075f,
-                           this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
-        Flags_SetSwitch(play, this->dyna.actor.params);
+    if (Math_SmoothStepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y - 200.0f - 20.0f, 0.075f,
+                           this->bg.actor.speedXZ, 0.0075f) == 0.0f) {
+        Flags_SetSwitch(play, this->bg.actor.params);
         BgDdanKd_SetupAction(this, BgDdanKd_DoNothing);
     } else {
-        effectStrength =
-            (this->dyna.actor.prevPos.y - this->dyna.actor.world.pos.y) + (this->dyna.actor.speedXZ * 0.25f);
+        effectStrength = (this->bg.actor.prevPos.y - this->bg.actor.world.pos.y) + (this->bg.actor.speedXZ * 0.25f);
 
         if (play->state.frames & 1) {
-            pos1 = pos2 = this->dyna.actor.world.pos;
+            pos1 = pos2 = this->bg.actor.world.pos;
 
             if (play->state.frames & 2) {
                 pos1.z += 210.0f + Rand_ZeroOne() * 230.0f;
@@ -149,8 +148,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
             }
             pos1.x += 80.0f + Rand_ZeroOne() * 10.0f;
             pos2.x -= 80.0f + Rand_ZeroOne() * 10.0f;
-            pos1.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
-            pos2.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
+            pos1.y = this->bg.actor.floorHeight + 20.0f + Rand_ZeroOne();
+            pos2.y = this->bg.actor.floorHeight + 20.0f + Rand_ZeroOne();
 
             func_80033480(play, &pos1, 20.0f, 1, effectStrength * 135.0f, 60, 1);
             func_80033480(play, &pos2, 20.0f, 1, effectStrength * 135.0f, 60, 1);
@@ -161,16 +160,16 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
             func_8003555C(play, &pos1, &velocity, &accel);
             func_8003555C(play, &pos2, &velocity, &accel);
 
-            pos1 = this->dyna.actor.world.pos;
+            pos1 = this->bg.actor.world.pos;
             pos1.z += 560.0f + Rand_ZeroOne() * 5.0f;
             pos1.x += (Rand_ZeroOne() - 0.5f) * 160.0f;
-            pos1.y = Rand_ZeroOne() * 3.0f + (this->dyna.actor.floorHeight + 20.0f);
+            pos1.y = Rand_ZeroOne() * 3.0f + (this->bg.actor.floorHeight + 20.0f);
 
             func_80033480(play, &pos1, 20.0f, 1, effectStrength * 135.0f, 60, 1);
             func_8003555C(play, &pos1, &velocity, &accel);
         }
         Camera_AddQuake(&play->mainCamera, 0, effectStrength * 0.6f, 3);
-        Audio_PlaySfxGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+        Audio_PlaySfxGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->bg.actor.projectedPos, 4,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }

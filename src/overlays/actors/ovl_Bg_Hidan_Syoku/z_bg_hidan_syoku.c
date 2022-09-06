@@ -39,28 +39,28 @@ void BgHidanSyoku_Init(Actor* thisx, PlayState* play) {
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gFireTempleFlareDancerPlatformCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     this->actionFunc = func_8088F4B8;
-    this->dyna.actor.home.pos.y += 540.0f;
+    this->bg.actor.home.pos.y += 540.0f;
 }
 
 void BgHidanSyoku_Destroy(Actor* thisx, PlayState* play) {
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_8088F47C(BgHidanSyoku* this) {
     this->timer = 60;
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+    Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_BOUND);
     this->actionFunc = func_8088F62C;
 }
 
 void func_8088F4B8(BgHidanSyoku* this, PlayState* play) {
-    if (Flags_GetClear(play, this->dyna.actor.room) && DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (Flags_GetClear(play, this->bg.actor.room) && BgActor_IsPlayerOnTop(&this->bg)) {
         this->timer = 140;
         this->actionFunc = func_8088F514;
     }
@@ -70,11 +70,11 @@ void func_8088F514(BgHidanSyoku* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    this->dyna.actor.world.pos.y = (cosf(this->timer * (M_PI / 140)) * 540.0f) + this->dyna.actor.home.pos.y;
+    this->bg.actor.world.pos.y = (cosf(this->timer * (M_PI / 140)) * 540.0f) + this->bg.actor.home.pos.y;
     if (this->timer == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -82,11 +82,11 @@ void func_8088F5A0(BgHidanSyoku* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->timer * (M_PI / 140)) * 540.0f);
+    this->bg.actor.world.pos.y = this->bg.actor.home.pos.y - (cosf(this->timer * (M_PI / 140)) * 540.0f);
     if (this->timer == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        func_8002F974(&this->bg.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -96,7 +96,7 @@ void func_8088F62C(BgHidanSyoku* this, PlayState* play) {
     }
     if (this->timer == 0) {
         this->timer = 140;
-        if (this->dyna.actor.world.pos.y < this->dyna.actor.home.pos.y) {
+        if (this->bg.actor.world.pos.y < this->bg.actor.home.pos.y) {
             this->actionFunc = func_8088F514;
         } else {
             this->actionFunc = func_8088F5A0;
@@ -108,12 +108,12 @@ void BgHidanSyoku_Update(Actor* thisx, PlayState* play) {
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
 
     this->actionFunc(this, play);
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
-    } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    } else if (!BgActor_IsPlayerOnTop(&this->bg)) {
         if (this->unk_168 != 0) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }

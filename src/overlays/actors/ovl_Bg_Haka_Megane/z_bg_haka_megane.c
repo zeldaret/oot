@@ -63,7 +63,7 @@ void BgHakaMegane_Init(Actor* thisx, PlayState* play) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
 
     if (thisx->params < 3) {
         this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_HAKACH_OBJECTS);
@@ -81,7 +81,7 @@ void BgHakaMegane_Init(Actor* thisx, PlayState* play) {
 void BgHakaMegane_Destroy(Actor* thisx, PlayState* play) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_8087DB24(BgHakaMegane* this, PlayState* play) {
@@ -89,15 +89,15 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play) {
     CollisionHeader* collision;
 
     if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
-        this->dyna.actor.objBankIndex = this->objBankIndex;
-        this->dyna.actor.draw = BgHakaMegane_Draw;
-        Actor_SetObjectDependency(play, &this->dyna.actor);
+        this->bg.actor.objBankIndex = this->objBankIndex;
+        this->bg.actor.draw = BgHakaMegane_Draw;
+        Actor_SetObjectDependency(play, &this->bg.actor);
         if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
             this->actionFunc = func_8087DBF0;
-            collision = sCollisionHeaders[this->dyna.actor.params];
+            collision = sCollisionHeaders[this->bg.actor.params];
             if (collision != NULL) {
                 CollisionHeader_GetVirtual(collision, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+                this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
             }
         } else {
             this->actionFunc = BgHakaMegane_DoNothing;
@@ -106,14 +106,14 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play) {
 }
 
 void func_8087DBF0(BgHakaMegane* this, PlayState* play) {
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     if (play->actorCtx.lensActive) {
         thisx->flags |= ACTOR_FLAG_7;
-        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
     } else {
         thisx->flags &= ~ACTOR_FLAG_7;
-        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 

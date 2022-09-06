@@ -63,22 +63,22 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
 
     SkelAnime_InitFlex(play, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750, this->jointTable,
                        this->morphTable, 10);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&object_brob_Col_001A70, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     Collider_InitCylinder(play, &this->colliders[0]);
-    Collider_SetCylinder(play, &this->colliders[0], &this->dyna.actor, &sCylinderInit);
+    Collider_SetCylinder(play, &this->colliders[0], &this->bg.actor, &sCylinderInit);
     Collider_InitCylinder(play, &this->colliders[1]);
-    Collider_SetCylinder(play, &this->colliders[1], &this->dyna.actor, &sCylinderInit);
+    Collider_SetCylinder(play, &this->colliders[1], &this->bg.actor, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
     if (((thisx->params >> 8) & 0xFF) == 0) {
-        Actor_SetScale(&this->dyna.actor, 0.01f);
+        Actor_SetScale(&this->bg.actor, 0.01f);
         thisx->params &= 0xFF;
         if (thisx->params != 0xFF) {
             thisx->scale.y *= (thisx->params & 0xFF) * (1.0f / 30.0f);
         }
     } else {
-        Actor_SetScale(&this->dyna.actor, 0.005f);
+        Actor_SetScale(&this->bg.actor, 0.005f);
         thisx->params &= 0xFF;
         if (thisx->params != 0xFF) {
             thisx->scale.y *= (thisx->params & 0xFF) * (2.0f / 30.0f);
@@ -98,13 +98,13 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
 void EnBrob_Destroy(Actor* thisx, PlayState* play) {
     EnBrob* this = (EnBrob*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyCylinder(play, &this->colliders[0]);
     Collider_DestroyCylinder(play, &this->colliders[1]);
 }
 
 void func_809CADDC(EnBrob* this, PlayState* play) {
-    DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->bg.bgId);
     this->timer = this->actionFunc == func_809CB2B8 ? 200 : 0;
     this->unk_1AE = 0;
     this->actionFunc = func_809CB054;
@@ -112,7 +112,7 @@ void func_809CADDC(EnBrob* this, PlayState* play) {
 
 void func_809CAE44(EnBrob* this, PlayState* play) {
     Animation_PlayOnce(&this->skelAnime, &object_brob_Anim_001750);
-    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->bg.bgId);
     this->unk_1AE = 1000;
     this->actionFunc = func_809CB114;
 }
@@ -127,8 +127,8 @@ void func_809CAEA0(EnBrob* this) {
 void func_809CAEF4(EnBrob* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_brob_Anim_000290, -5.0f);
     this->unk_1AE -= 125.0f;
-    Actor_SetColorFilter(&this->dyna.actor, 0, 0xFF, 0, 0x50);
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_SetColorFilter(&this->bg.actor, 0, 0xFF, 0, 0x50);
+    Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_809CB2B8;
 }
 
@@ -150,14 +150,14 @@ void func_809CB054(EnBrob* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
-            func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
+        if (BgActor_IsPlayerOnTop(&this->bg)) {
+            func_8002F71C(play, &this->bg.actor, 5.0f, this->bg.actor.yawTowardsPlayer, 1.0f);
             func_809CAE44(this, play);
-        } else if (this->dyna.actor.xzDistToPlayer < 300.0f) {
+        } else if (this->bg.actor.xzDistToPlayer < 300.0f) {
             func_809CAE44(this, play);
         }
     } else if (this->timer >= 81) {
-        this->dyna.actor.colorFilterTimer = 80;
+        this->bg.actor.colorFilterTimer = 80;
     }
 }
 
@@ -181,12 +181,12 @@ void func_809CB114(EnBrob* this, PlayState* play) {
 void func_809CB218(EnBrob* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 6.0f) || Animation_OnFrame(&this->skelAnime, 15.0f)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EN_BROB_WAVE);
     }
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->dyna.actor.xzDistToPlayer > 500.0f)) {
+    if ((this->timer == 0) && (this->bg.actor.xzDistToPlayer > 500.0f)) {
         func_809CAF88(this);
     }
 }
@@ -197,7 +197,7 @@ void func_809CB2B8(EnBrob* this, PlayState* play) {
     } else if (this->skelAnime.curFrame < 8.0f) {
         this->unk_1AE -= 1250.0f;
     }
-    this->dyna.actor.colorFilterTimer = 0x50;
+    this->bg.actor.colorFilterTimer = 0x50;
 }
 
 void func_809CB354(EnBrob* this, PlayState* play) {
@@ -228,24 +228,24 @@ void func_809CB458(EnBrob* this, PlayState* play) {
         this->timer--;
     }
 
-    dist1 = play->gameplayFrames % 2 ? 0.0f : this->dyna.actor.scale.x * 5500.0f;
-    dist2 = this->dyna.actor.scale.x * 5500.0f;
+    dist1 = play->gameplayFrames % 2 ? 0.0f : this->bg.actor.scale.x * 5500.0f;
+    dist2 = this->bg.actor.scale.x * 5500.0f;
 
     for (i = 0; i < 4; i++) {
         static Color_RGBA8 primColor = { 255, 255, 255, 255 };
         static Color_RGBA8 envColor = { 200, 255, 255, 255 };
 
         if (i % 2) {
-            pos.x = this->dyna.actor.world.pos.x + dist1;
-            pos.z = this->dyna.actor.world.pos.z + dist2;
+            pos.x = this->bg.actor.world.pos.x + dist1;
+            pos.z = this->bg.actor.world.pos.z + dist2;
         } else {
-            pos.x = this->dyna.actor.world.pos.x + dist2;
-            pos.z = this->dyna.actor.world.pos.z + dist1;
+            pos.x = this->bg.actor.world.pos.x + dist2;
+            pos.z = this->bg.actor.world.pos.z + dist1;
             dist1 = -dist1;
             dist2 = -dist2;
         }
-        pos.y = (((Rand_ZeroOne() * 15000.0f) + 1000.0f) * this->dyna.actor.scale.y) + this->dyna.actor.world.pos.y;
-        EffectSsLightning_Spawn(play, &pos, &primColor, &envColor, this->dyna.actor.scale.y * 8000.0f,
+        pos.y = (((Rand_ZeroOne() * 15000.0f) + 1000.0f) * this->bg.actor.scale.y) + this->bg.actor.world.pos.y;
+        EffectSsLightning_Spawn(play, &pos, &primColor, &envColor, this->bg.actor.scale.y * 8000.0f,
                                 Rand_ZeroOne() * 65536.0f, 4, 1);
     }
 
@@ -277,7 +277,7 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
 
         if (this->actionFunc == func_809CB114 && !(this->colliders[0].base.atFlags & AT_BOUNCED) &&
             !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
-            func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
+            func_8002F71C(play, &this->bg.actor, 5.0f, this->bg.actor.yawTowardsPlayer, 1.0f);
         } else if (this->actionFunc != func_809CB114) {
             func_809CB008(this);
         }

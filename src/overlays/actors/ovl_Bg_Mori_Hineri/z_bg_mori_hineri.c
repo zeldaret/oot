@@ -58,47 +58,47 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
     u32 switchFlagParam;
     s32 t6;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_PLAYER);
 
-    switchFlagParam = this->dyna.actor.params & 0x3F;
-    t6 = this->dyna.actor.params & 0x4000;
+    switchFlagParam = this->bg.actor.params & 0x3F;
+    t6 = this->bg.actor.params & 0x4000;
 
     if (t6 != 0) {
         this->switchFlag = switchFlagParam;
     } else {
-        this->switchFlag = ((this->dyna.actor.params >> 8) & 0x3F);
+        this->switchFlag = ((this->bg.actor.params >> 8) & 0x3F);
         this->switchFlag = (Flags_GetSwitch(play, this->switchFlag)) ? 1 : 0;
     }
-    this->dyna.actor.params = ((this->dyna.actor.params & 0x8000) >> 0xE);
+    this->bg.actor.params = ((this->bg.actor.params & 0x8000) >> 0xE);
     if (Flags_GetSwitch(play, switchFlagParam)) {
-        if (this->dyna.actor.params == 0) {
-            this->dyna.actor.params = 1;
-        } else if (this->dyna.actor.params == 2) {
-            this->dyna.actor.params = 3;
+        if (this->bg.actor.params == 0) {
+            this->bg.actor.params = 1;
+        } else if (this->bg.actor.params == 2) {
+            this->bg.actor.params = 3;
         }
     }
     this->boxObjIdx = -1;
-    if (this->dyna.actor.params == 0) {
+    if (this->bg.actor.params == 0) {
         this->moriHineriObjIdx = Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI1);
         if (t6 == 0) {
             this->boxObjIdx = Object_GetIndex(&play->objectCtx, OBJECT_BOX);
         }
     } else {
-        if (this->dyna.actor.params == 1) {
+        if (this->bg.actor.params == 1) {
             moriHineriObjIdx = Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI1A);
         } else {
-            moriHineriObjIdx = (this->dyna.actor.params == 2) ? Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI2)
-                                                              : Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI2A);
+            moriHineriObjIdx = (this->bg.actor.params == 2) ? Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI2)
+                                                            : Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI2A);
         }
         this->moriHineriObjIdx = moriHineriObjIdx;
     }
     this->moriTexObjIdx = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
     if (t6 != 0) {
-        this->dyna.actor.params += 4;
+        this->bg.actor.params += 4;
     }
     if ((this->moriHineriObjIdx < 0) || (this->moriTexObjIdx < 0)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     } else {
         this->actionFunc = func_808A39FC;
     }
@@ -106,7 +106,7 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
 
 void BgMoriHineri_Destroy(Actor* thisx, PlayState* play) {
     BgMoriHineri* this = (BgMoriHineri*)thisx;
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_808A39FC(BgMoriHineri* this, PlayState* play) {
@@ -115,41 +115,41 @@ void func_808A39FC(BgMoriHineri* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->moriHineriObjIdx) &&
         Object_IsLoaded(&play->objectCtx, this->moriTexObjIdx) &&
         ((this->boxObjIdx < 0) || Object_IsLoaded(&play->objectCtx, this->boxObjIdx))) {
-        this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
-        if (this->dyna.actor.params >= 4) {
-            this->dyna.actor.params -= 4;
-            if (this->dyna.actor.params == 0) {
+        this->bg.actor.objBankIndex = this->moriHineriObjIdx;
+        if (this->bg.actor.params >= 4) {
+            this->bg.actor.params -= 4;
+            if (this->bg.actor.params == 0) {
                 this->moriHineriObjIdx = Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI1A);
-            } else if (this->dyna.actor.params == 1) {
+            } else if (this->bg.actor.params == 1) {
                 this->moriHineriObjIdx = Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI1);
             } else {
-                this->moriHineriObjIdx = (this->dyna.actor.params == 2)
+                this->moriHineriObjIdx = (this->bg.actor.params == 2)
                                              ? Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI2A)
                                              : Object_GetIndex(&play->objectCtx, OBJECT_MORI_HINERI2);
             }
             if (this->moriHineriObjIdx < 0) {
-                Actor_Kill(&this->dyna.actor);
+                Actor_Kill(&this->bg.actor);
             } else {
                 this->actionFunc = func_808A3D58;
             }
         } else {
-            Actor_SetObjectDependency(play, &this->dyna.actor);
+            Actor_SetObjectDependency(play, &this->bg.actor);
             colHeader = NULL;
-            this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
-            if (this->dyna.actor.params == 0) {
+            this->bg.actor.draw = BgMoriHineri_DrawHallAndRoom;
+            if (this->bg.actor.params == 0) {
                 this->actionFunc = func_808A3C8C;
                 CollisionHeader_GetVirtual(&object_mori_hineri1_Col_0054B8, &colHeader);
-            } else if (this->dyna.actor.params == 1) {
+            } else if (this->bg.actor.params == 1) {
                 this->actionFunc = BgMoriHineri_SpawnBossKeyChest;
                 CollisionHeader_GetVirtual(&object_mori_hineri1a_Col_003490, &colHeader);
-            } else if (this->dyna.actor.params == 2) {
+            } else if (this->bg.actor.params == 2) {
                 this->actionFunc = BgMoriHineri_DoNothing;
                 CollisionHeader_GetVirtual(&object_mori_hineri2_Col_0043D0, &colHeader);
             } else {
                 this->actionFunc = func_808A3C8C;
                 CollisionHeader_GetVirtual(&object_mori_hineri2a_Col_006078, &colHeader);
             }
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
         }
     }
 }
@@ -158,8 +158,8 @@ void BgMoriHineri_DoNothing(BgMoriHineri* this, PlayState* play) {
 }
 
 void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, PlayState* play) {
-    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOX, this->dyna.actor.world.pos.x + 147.0f,
-                this->dyna.actor.world.pos.y + -245.0f, this->dyna.actor.world.pos.z + -453.0f, 0, 0x4000, 0, 0x27EE);
+    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOX, this->bg.actor.world.pos.x + 147.0f,
+                this->bg.actor.world.pos.y + -245.0f, this->bg.actor.world.pos.z + -453.0f, 0, 0x4000, 0, 0x27EE);
     this->actionFunc = BgMoriHineri_DoNothing;
 }
 
@@ -167,20 +167,20 @@ void func_808A3C8C(BgMoriHineri* this, PlayState* play) {
     f32 f0;
     Player* player = GET_PLAYER(play);
 
-    f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
-    this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
+    f0 = 1100.0f - (player->actor.world.pos.z - this->bg.actor.world.pos.z);
+    this->bg.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
     Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
-    if (this->dyna.actor.params != 0) {
-        this->dyna.actor.shape.rot.z = -this->dyna.actor.shape.rot.z;
+    if (this->bg.actor.params != 0) {
+        this->bg.actor.shape.rot.z = -this->bg.actor.shape.rot.z;
     }
 }
 
 void func_808A3D58(BgMoriHineri* this, PlayState* play) {
     s16 mainCamChildId;
 
-    if ((Flags_GetSwitch(play, this->switchFlag) && (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
-        (!Flags_GetSwitch(play, this->switchFlag) && (this->dyna.actor.params == 1 || this->dyna.actor.params == 3))) {
-        this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
+    if ((Flags_GetSwitch(play, this->switchFlag) && (this->bg.actor.params == 0 || this->bg.actor.params == 2)) ||
+        (!Flags_GetSwitch(play, this->switchFlag) && (this->bg.actor.params == 1 || this->bg.actor.params == 3))) {
+        this->bg.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
         mainCamChildId = play->cameraPtrs[CAM_ID_MAIN]->childCamId;
@@ -188,8 +188,8 @@ void func_808A3D58(BgMoriHineri* this, PlayState* play) {
             (play->cameraPtrs[mainCamChildId]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(play, mainCamChildId);
         }
-        OnePointCutscene_Init(play, 3260, 40, &this->dyna.actor, CAM_ID_MAIN);
-        sSubCamId = OnePointCutscene_Init(play, 3261, 40, &this->dyna.actor, CAM_ID_MAIN);
+        OnePointCutscene_Init(play, 3260, 40, &this->bg.actor, CAM_ID_MAIN);
+        sSubCamId = OnePointCutscene_Init(play, 3261, 40, &this->bg.actor, CAM_ID_MAIN);
     }
 }
 
@@ -198,20 +198,20 @@ void func_808A3E54(BgMoriHineri* this, PlayState* play) {
 
     if (play->activeCamId == sSubCamId) {
         if (sSubCamId != SUB_CAM_ID_DONE) {
-            objBankIndex = this->dyna.actor.objBankIndex;
-            this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
+            objBankIndex = this->bg.actor.objBankIndex;
+            this->bg.actor.objBankIndex = this->moriHineriObjIdx;
             this->moriHineriObjIdx = objBankIndex;
-            this->dyna.actor.params ^= 1;
+            this->bg.actor.params ^= 1;
             sSubCamId = SUB_CAM_ID_DONE;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
-            this->dyna.actor.draw = NULL;
+            this->bg.actor.draw = NULL;
             this->actionFunc = func_808A3D58;
             sSubCamId = CAM_ID_NONE;
         }
     }
-    if ((sSubCamId >= CAM_ID_SUB_FIRST) && ((GET_ACTIVE_CAM(play)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
-        func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
+    if ((sSubCamId >= CAM_ID_SUB_FIRST) && ((GET_ACTIVE_CAM(play)->eye.z - this->bg.actor.world.pos.z) < 1100.0f)) {
+        func_8002F948(&this->bg.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }
 
@@ -232,18 +232,18 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.status[this->moriTexObjIdx].segment);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, sDLists[this->dyna.actor.params]);
+    gSPDisplayList(POLY_OPA_DISP++, sDLists[this->bg.actor.params]);
     if (this->boxObjIdx > 0) {
         Matrix_Get(&mtx);
     }
-    if ((this->actionFunc == func_808A3C8C) && (this->dyna.actor.shape.rot.z != 0)) {
+    if ((this->actionFunc == func_808A3C8C) && (this->bg.actor.shape.rot.z != 0)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        if (this->dyna.actor.params == 0) {
+        if (this->bg.actor.params == 0) {
             Matrix_Translate(-1761.0f, 1278.0f, -1821.0f, MTXMODE_NEW);
         } else {
             Matrix_Translate(1999.0f, 1278.0f, -1821.0f, MTXMODE_NEW);
         }
-        Matrix_RotateZYX(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, -0x8000, this->bg.actor.shape.rot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

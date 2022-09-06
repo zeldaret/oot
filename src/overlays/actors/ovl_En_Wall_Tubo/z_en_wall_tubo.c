@@ -123,7 +123,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
     if (this->timer == 0) {
         wall = (BgBowlWall*)this->actor.parent;
 
-        if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
+        if ((wall != NULL) && (wall->bg.actor.update != NULL)) {
             wall->isHit = true;
             // "You did it field!" (repeated 5 times)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);

@@ -82,14 +82,14 @@ void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionH
     s32 pad2;
 
     colHeader = NULL;
-    DynaPolyActor_Init(&this->dyna, moveFlag);
+    BgActor_Init(&this->bg, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
+    if (this->bg.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG login failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashigo.c", 164,
-                     this->dyna.actor.id, this->dyna.actor.params);
+                     this->bg.actor.id, this->bg.actor.params);
     }
 }
 
@@ -97,11 +97,11 @@ void BgMoriHashigo_InitCollider(BgMoriHashigo* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->bg.actor, &sJntSphInit, this->colliderItems);
 
-    this->collider.elements[0].dim.worldSphere.center.x = (s16)this->dyna.actor.world.pos.x;
-    this->collider.elements[0].dim.worldSphere.center.y = (s16)this->dyna.actor.world.pos.y + 21;
-    this->collider.elements[0].dim.worldSphere.center.z = (s16)this->dyna.actor.world.pos.z;
+    this->collider.elements[0].dim.worldSphere.center.x = (s16)this->bg.actor.world.pos.x;
+    this->collider.elements[0].dim.worldSphere.center.y = (s16)this->bg.actor.world.pos.y + 21;
+    this->collider.elements[0].dim.worldSphere.center.z = (s16)this->bg.actor.world.pos.z;
     this->collider.elements[0].dim.worldSphere.radius = 19;
 }
 
@@ -111,32 +111,31 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, PlayState* play) {
     Vec3f pos;
     Actor* ladder;
 
-    cs = Math_CosS(this->dyna.actor.shape.rot.y);
-    sn = Math_SinS(this->dyna.actor.shape.rot.y);
+    cs = Math_CosS(this->bg.actor.shape.rot.y);
+    sn = Math_SinS(this->bg.actor.shape.rot.y);
 
-    pos.x = 6.0f * sn + this->dyna.actor.world.pos.x;
-    pos.y = -210.0f + this->dyna.actor.world.pos.y;
-    pos.z = 6.0f * cs + this->dyna.actor.world.pos.z;
+    pos.x = 6.0f * sn + this->bg.actor.world.pos.x;
+    pos.y = -210.0f + this->bg.actor.world.pos.y;
+    pos.z = 6.0f * cs + this->bg.actor.world.pos.z;
 
-    ladder =
-        Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_MORI_HASHIGO, pos.x, pos.y, pos.z,
-                           this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 0);
+    ladder = Actor_SpawnAsChild(&play->actorCtx, &this->bg.actor, play, ACTOR_BG_MORI_HASHIGO, pos.x, pos.y, pos.z,
+                                this->bg.actor.world.rot.x, this->bg.actor.world.rot.y, this->bg.actor.world.rot.z, 0);
     if (ladder != NULL) {
         return true;
     } else {
         // "Ladder failure"
         osSyncPrintf("Error : 梯子の発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashigo.c", 220,
-                     this->dyna.actor.params);
+                     this->bg.actor.params);
         return false;
     }
 }
 
 s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, PlayState* play) {
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChainClasp);
-    this->dyna.actor.flags |= ACTOR_FLAG_0;
-    Actor_SetFocus(&this->dyna.actor, 55.0f);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChainClasp);
+    this->bg.actor.flags |= ACTOR_FLAG_0;
+    Actor_SetFocus(&this->bg.actor, 55.0f);
     BgMoriHashigo_InitCollider(this, play);
-    if ((this->dyna.actor.params == HASHIGO_CLASP) && !BgMoriHashigo_SpawnLadder(this, play)) {
+    if ((this->bg.actor.params == HASHIGO_CLASP) && !BgMoriHashigo_SpawnLadder(this, play)) {
         return false;
     } else {
         return true;
@@ -145,7 +144,7 @@ s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, PlayState* play) {
 
 s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, PlayState* play) {
     BgMoriHashigo_InitDynapoly(this, play, &gMoriHashigoCol, DPM_UNK);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChainLadder);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChainLadder);
     return true;
 }
 
@@ -153,27 +152,27 @@ void BgMoriHashigo_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
-    if (this->dyna.actor.params == HASHIGO_CLASP) {
+    if (this->bg.actor.params == HASHIGO_CLASP) {
         if (!BgMoriHashigo_InitClasp(this, play)) {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
             return;
         }
-    } else if (this->dyna.actor.params == HASHIGO_LADDER) {
+    } else if (this->bg.actor.params == HASHIGO_LADDER) {
         if (!BgMoriHashigo_InitLadder(this, play)) {
-            Actor_Kill(&this->dyna.actor);
+            Actor_Kill(&this->bg.actor);
             return;
         }
     }
     this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
         // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-                     "../z_bg_mori_hashigo.c", 312);
-        Actor_Kill(&this->dyna.actor);
+        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->bg.actor.params, "../z_bg_mori_hashigo.c",
+                     312);
+        Actor_Kill(&this->bg.actor);
     } else {
         BgMoriHashigo_SetupWaitForMoriTex(this);
         // "(Forest Temple Ladder and its clasp)"
-        osSyncPrintf("(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n", this->dyna.actor.params);
+        osSyncPrintf("(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n", this->bg.actor.params);
     }
 }
 
@@ -181,10 +180,10 @@ void BgMoriHashigo_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
-    if (this->dyna.actor.params == HASHIGO_LADDER) {
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if (this->bg.actor.params == HASHIGO_LADDER) {
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
-    if (this->dyna.actor.params == HASHIGO_CLASP) {
+    if (this->bg.actor.params == HASHIGO_CLASP) {
         Collider_DestroyJntSph(play, &this->collider);
     }
 }
@@ -195,12 +194,12 @@ void BgMoriHashigo_SetupWaitForMoriTex(BgMoriHashigo* this) {
 
 void BgMoriHashigo_WaitForMoriTex(BgMoriHashigo* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
-        if (this->dyna.actor.params == HASHIGO_CLASP) {
+        if (this->bg.actor.params == HASHIGO_CLASP) {
             BgMoriHashigo_SetupClasp(this);
-        } else if (this->dyna.actor.params == HASHIGO_LADDER) {
+        } else if (this->bg.actor.params == HASHIGO_LADDER) {
             BgMoriHashigo_SetupLadderWait(this);
         }
-        this->dyna.actor.draw = BgMoriHashigo_Draw;
+        this->bg.actor.draw = BgMoriHashigo_Draw;
     }
 }
 
@@ -224,7 +223,7 @@ void BgMoriHashigo_SetupLadderWait(BgMoriHashigo* this) {
 }
 
 void BgMoriHashigo_LadderWait(BgMoriHashigo* this, PlayState* play) {
-    BgMoriHashigo* clasp = (BgMoriHashigo*)this->dyna.actor.parent;
+    BgMoriHashigo* clasp = (BgMoriHashigo*)this->bg.actor.parent;
 
     if (clasp->hitTimer > 0) {
         BgMoriHashigo_SetupLadderFall(this);
@@ -234,14 +233,14 @@ void BgMoriHashigo_LadderWait(BgMoriHashigo* this, PlayState* play) {
 void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this) {
     this->bounceCounter = 0;
     this->actionFunc = BgMoriHashigo_LadderFall;
-    this->dyna.actor.gravity = -1.0f;
-    this->dyna.actor.minVelocityY = -10.0f;
-    this->dyna.actor.velocity.y = 2.0f;
+    this->bg.actor.gravity = -1.0f;
+    this->bg.actor.minVelocityY = -10.0f;
+    this->bg.actor.velocity.y = 2.0f;
 }
 
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play) {
     static f32 bounceSpeed[3] = { 4.0f, 2.7f, 1.7f };
-    Actor* thisx = &this->dyna.actor;
+    Actor* thisx = &this->bg.actor;
 
     Actor_MoveForward(thisx);
     if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND) && (thisx->velocity.y < 0.0f)) {
@@ -261,9 +260,9 @@ void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play) {
 
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this) {
     this->actionFunc = NULL;
-    this->dyna.actor.gravity = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
+    this->bg.actor.gravity = 0.0f;
+    this->bg.actor.velocity.y = 0.0f;
+    this->bg.actor.world.pos.y = this->bg.actor.floorHeight;
 }
 
 void BgMoriHashigo_Update(Actor* thisx, PlayState* play) {
@@ -290,7 +289,7 @@ void BgMoriHashigo_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hashigo.c", 521),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    switch (this->dyna.actor.params) {
+    switch (this->bg.actor.params) {
         case HASHIGO_CLASP:
             gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoClaspDL);
             break;

@@ -39,19 +39,19 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
     CollisionHeader_GetVirtual(&gIngoGateCol, &colHeader);
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
 
     if ((play->sceneId != SCENE_SPOT20 || !LINK_IS_ADULT) ||
         (GET_EVENTCHKINF(EVENTCHKINF_18) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
         return;
     }
 
-    Actor_SetScale(&this->dyna.actor, 0.1f);
-    if (((this->dyna.actor.params & 1) != 0) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
+    Actor_SetScale(&this->bg.actor, 0.1f);
+    if (((this->bg.actor.params & 1) != 0) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
         play->csCtx.frames = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {
@@ -62,7 +62,7 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
 void BgInGate_Destroy(Actor* thisx, PlayState* play) {
     BgInGate* this = (BgInGate*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
 }
 
 void func_80892890(BgInGate* this, PlayState* play) {
@@ -72,10 +72,10 @@ void func_80892890(BgInGate* this, PlayState* play) {
 
     if (play->csCtx.frames >= 50) {
         phi0 = 0x4000;
-        if ((this->dyna.actor.params & 2) == 0) {
+        if ((this->bg.actor.params & 2) == 0) {
             phi0 = -0x4000;
         }
-        this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
+        this->bg.actor.shape.rot.y = this->bg.actor.world.rot.y + phi0;
         BgInGate_SetupAction(this, BgInGate_DoNothing);
     } else if (play->csCtx.frames >= 10) {
         csFrames = play->csCtx.frames - 10;
@@ -86,10 +86,10 @@ void func_80892890(BgInGate* this, PlayState* play) {
         }
         csFrames = (Math_SinS(csFrames) * 16384.0f);
         phi1 = csFrames;
-        if ((this->dyna.actor.params & 2) == 0) {
+        if ((this->bg.actor.params & 2) == 0) {
             phi1 = -phi1;
         }
-        this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi1;
+        this->bg.actor.shape.rot.y = this->bg.actor.world.rot.y + phi1;
     }
 }
 

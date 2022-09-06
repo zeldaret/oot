@@ -81,14 +81,14 @@ void BgHakaTubo_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK3);
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
+    BgActor_Init(&this->bg, DPM_UNK3);
     CollisionHeader_GetVirtual(&object_haka_objects_Col_0108B8, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, colHeader);
     Collider_InitCylinder(play, &this->potCollider);
-    Collider_SetCylinder(play, &this->potCollider, &this->dyna.actor, &sPotColliderInit);
+    Collider_SetCylinder(play, &this->potCollider, &this->bg.actor, &sPotColliderInit);
     Collider_InitCylinder(play, &this->flamesCollider);
-    Collider_SetCylinder(play, &this->flamesCollider, &this->dyna.actor, &sFlamesColliderInit);
+    Collider_SetCylinder(play, &this->flamesCollider, &this->bg.actor, &sFlamesColliderInit);
     this->fireScroll = Rand_ZeroOne() * 15.0f;
     sPotsDestroyed = 0;
     this->actionFunc = BgHakaTubo_Idle;
@@ -97,7 +97,7 @@ void BgHakaTubo_Init(Actor* thisx, PlayState* play) {
 void BgHakaTubo_Destroy(Actor* thisx, PlayState* play) {
     BgHakaTubo* this = (BgHakaTubo*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyCylinder(play, &this->potCollider);
     Collider_DestroyCylinder(play, &this->flamesCollider);
 }
@@ -106,37 +106,37 @@ void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play) {
     static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
-    if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
-        this->dyna.actor.shape.rot.y += 0x180;
-        this->dyna.actor.world.pos.x = Math_SinS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
-        this->dyna.actor.world.pos.z = Math_CosS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
+    if (this->bg.actor.room == 12) { // 3 spinning pots room in Shadow Temple
+        this->bg.actor.shape.rot.y += 0x180;
+        this->bg.actor.world.pos.x = Math_SinS(this->bg.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
+        this->bg.actor.world.pos.z = Math_CosS(this->bg.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
     }
     // Colliding with flame circle
     if (this->flamesCollider.base.atFlags & AT_HIT) {
         this->flamesCollider.base.atFlags &= ~AT_HIT;
-        func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 5.0f);
+        func_8002F71C(play, &this->bg.actor, 5.0f, this->bg.actor.yawTowardsPlayer, 5.0f);
     }
     // Colliding with hitbox inside the pot
     if (this->potCollider.base.acFlags & AC_HIT) {
         this->potCollider.base.acFlags &= ~AC_HIT;
         // If the colliding actor is within a 50 unit radius and 50 unit height cylinder centered
         // on the actor's position, break the pot
-        if (Actor_WorldDistXZToPoint(&this->dyna.actor, &this->potCollider.base.ac->world.pos) < 50.0f &&
-            (this->potCollider.base.ac->world.pos.y - this->dyna.actor.world.pos.y) < 50.0f) {
-            pos.x = this->dyna.actor.world.pos.x;
-            pos.z = this->dyna.actor.world.pos.z;
-            pos.y = this->dyna.actor.world.pos.y + 80.0f;
+        if (Actor_WorldDistXZToPoint(&this->bg.actor, &this->potCollider.base.ac->world.pos) < 50.0f &&
+            (this->potCollider.base.ac->world.pos.y - this->bg.actor.world.pos.y) < 50.0f) {
+            pos.x = this->bg.actor.world.pos.x;
+            pos.z = this->bg.actor.world.pos.z;
+            pos.y = this->bg.actor.world.pos.y + 80.0f;
             EffectSsBomb2_SpawnLayered(play, &pos, &sZeroVector, &sZeroVector, 100, 45);
-            SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_BOX_BREAK);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->bg.actor.world.pos, 50, NA_SE_EV_BOX_BREAK);
             EffectSsHahen_SpawnBurst(play, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40, gEffFragments2DL);
             this->dropTimer = 5;
-            this->dyna.actor.draw = NULL;
-            Actor_SetScale(&this->dyna.actor, 0.0f);
+            this->bg.actor.draw = NULL;
+            Actor_SetScale(&this->bg.actor, 0.0f);
             this->actionFunc = BgHakaTubo_DropCollectible;
         }
     } else {
-        Collider_UpdateCylinder(&this->dyna.actor, &this->flamesCollider);
-        Collider_UpdateCylinder(&this->dyna.actor, &this->potCollider);
+        Collider_UpdateCylinder(&this->bg.actor, &this->flamesCollider);
+        Collider_UpdateCylinder(&this->bg.actor, &this->potCollider);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->potCollider.base);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->flamesCollider.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->flamesCollider.base);
@@ -152,10 +152,10 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
 
     this->dropTimer--;
     if (this->dropTimer == 0) { // Creates a delay between destroying the pot and dropping the collectible
-        spawnPos.x = this->dyna.actor.world.pos.x;
-        spawnPos.y = this->dyna.actor.world.pos.y + 200.0f;
-        spawnPos.z = this->dyna.actor.world.pos.z;
-        if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
+        spawnPos.x = this->bg.actor.world.pos.x;
+        spawnPos.y = this->bg.actor.world.pos.y + 200.0f;
+        spawnPos.z = this->bg.actor.world.pos.z;
+        if (this->bg.actor.room == 12) { // 3 spinning pots room in Shadow Temple
             rnd = Rand_ZeroOne();
             sPotsDestroyed++;
             if (sPotsDestroyed == 3) {
@@ -168,15 +168,15 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
                         play, &spawnPos, (i % (ITEM00_RUPEE_RED - ITEM00_RUPEE_GREEN + 1)) + ITEM00_RUPEE_GREEN);
                     if (collectible != NULL) {
                         collectible->actor.velocity.y = 15.0f;
-                        collectible->actor.world.rot.y = this->dyna.actor.shape.rot.y + (i * 0x1C71);
+                        collectible->actor.world.rot.y = this->bg.actor.shape.rot.y + (i * 0x1C71);
                     }
                 }
             } else if (rnd < 0.2f) {
                 // Unlucky, no reward and spawn keese
                 collectibleParams = -1;
-                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->dyna.actor.world.pos.x,
-                            this->dyna.actor.world.pos.y + 80.0f, this->dyna.actor.world.pos.z, 0,
-                            this->dyna.actor.shape.rot.y, 0, 2);
+                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->bg.actor.world.pos.x,
+                            this->bg.actor.world.pos.y + 80.0f, this->bg.actor.world.pos.z, 0,
+                            this->bg.actor.shape.rot.y, 0, 2);
                 func_80078884(NA_SE_SY_ERROR);
             } else {
                 // Random rewards
@@ -191,23 +191,23 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
                 }
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             }
-        } else if (Flags_GetCollectible(play, this->dyna.actor.params) != 0) {
+        } else if (Flags_GetCollectible(play, this->bg.actor.params) != 0) {
             // If small key already collected, drop recovery heart instead
             collectibleParams = ITEM00_RECOVERY_HEART;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             // Drops a small key and sets a collect flag
-            collectibleParams = ((this->dyna.actor.params & 0x3F) << 8) | ITEM00_SMALL_KEY;
+            collectibleParams = ((this->bg.actor.params & 0x3F) << 8) | ITEM00_SMALL_KEY;
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
         if (collectibleParams != -1) {
             collectible = Item_DropCollectible(play, &spawnPos, collectibleParams);
             if (collectible != NULL) {
                 collectible->actor.velocity.y = 15.0f;
-                collectible->actor.world.rot.y = this->dyna.actor.shape.rot.y;
+                collectible->actor.world.rot.y = this->bg.actor.shape.rot.y;
             }
         }
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -224,9 +224,9 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_haka_tubo.c", 476);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y + 235.0f, this->dyna.actor.world.pos.z,
+    Matrix_Translate(this->bg.actor.world.pos.x, this->bg.actor.world.pos.y + 235.0f, this->bg.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->bg.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Scale(0.07f, 0.04f, 0.07f, MTXMODE_APPLY);
     if (1) {}
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 170, 255, 255);

@@ -88,7 +88,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     thisx->params = (thisx->params >> 8) & 0xFF;
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    BgActor_Init(&this->bg, DPM_UNK);
 
     sinRotY = Math_SinS(thisx->shape.rot.y);
     cosRotY = Math_CosS(thisx->shape.rot.y);
@@ -137,13 +137,13 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
         CollisionHeader_GetVirtual(&gFireTemplePillarInsertedInGroundCol, &collisionHeader);
     }
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, collisionHeader);
+    this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, collisionHeader);
 }
 
 void BgHidanHrock_Destroy(Actor* thisx, PlayState* play) {
     BgHidanHrock* this = (BgHidanHrock*)thisx;
 
-    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     Collider_DestroyTris(play, &this->collider);
 }
 
@@ -155,43 +155,43 @@ void func_808894B0(BgHidanHrock* this, PlayState* play) {
         this->unk_168--;
     }
 
-    this->dyna.actor.world.pos.x =
-        (Math_SinS(this->dyna.actor.world.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.home.pos.x;
-    this->dyna.actor.world.pos.z =
-        (Math_CosS(this->dyna.actor.world.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.home.pos.z;
+    this->bg.actor.world.pos.x =
+        (Math_SinS(this->bg.actor.world.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->bg.actor.home.pos.x;
+    this->bg.actor.world.pos.z =
+        (Math_CosS(this->bg.actor.world.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->bg.actor.home.pos.z;
 
     if (!(this->unk_168 % 4)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        func_800AA000(this->bg.actor.xyzDistToPlayerSq, 180, 10, 100);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 
     if (this->unk_168 == 0) {
-        if (this->dyna.actor.params == 0) {
-            this->dyna.actor.home.pos.y -= 2800.0f;
-        } else if (this->dyna.actor.params == 1) {
-            this->dyna.actor.home.pos.y -= 800.0f;
+        if (this->bg.actor.params == 0) {
+            this->bg.actor.home.pos.y -= 2800.0f;
+        } else if (this->bg.actor.params == 1) {
+            this->bg.actor.home.pos.y -= 800.0f;
         } else {
-            this->dyna.actor.home.pos.y -= 240.0f;
+            this->bg.actor.home.pos.y -= 240.0f;
         }
 
         this->actionFunc = func_8088960C;
-        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
+        this->bg.actor.world.pos.x = this->bg.actor.home.pos.x;
+        this->bg.actor.world.pos.z = this->bg.actor.home.pos.z;
     }
 }
 
 void func_8088960C(BgHidanHrock* this, PlayState* play) {
-    this->dyna.actor.velocity.y++;
+    this->bg.actor.velocity.y++;
 
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
-        this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+    if (Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, this->bg.actor.velocity.y)) {
+        this->bg.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_BLOCK_BOUND);
 
-        if (this->dyna.actor.params == 0) {
+        if (this->bg.actor.params == 0) {
             if (play->roomCtx.curRoom.num == 10) {
-                this->dyna.actor.room = 10;
+                this->bg.actor.room = 10;
             } else {
-                Actor_Kill(&this->dyna.actor);
+                Actor_Kill(&this->bg.actor);
             }
         }
 
@@ -203,10 +203,10 @@ void func_808896B8(BgHidanHrock* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->actionFunc = func_808894B0;
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        this->bg.actor.flags |= ACTOR_FLAG_4;
 
-        if (this->dyna.actor.params == 0) {
-            this->dyna.actor.room = -1;
+        if (this->bg.actor.params == 0) {
+            this->bg.actor.room = -1;
         }
 
         this->unk_168 = 20;
@@ -215,10 +215,10 @@ void func_808896B8(BgHidanHrock* this, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 
-    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
-        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 5.0f, 1.0f);
+    if (BgActor_IsPlayerOnTop(&this->bg)) {
+        Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y - 5.0f, 1.0f);
     } else {
-        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f);
+        Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 1.0f);
     }
 }
 

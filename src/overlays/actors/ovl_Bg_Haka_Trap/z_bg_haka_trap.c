@@ -130,7 +130,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 
             this->actionFunc = func_80880484;
         } else {
-            DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+            BgActor_Init(&this->bg, DPM_PLAYER);
             thisx->flags |= ACTOR_FLAG_4;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
@@ -172,7 +172,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = func_808801B8;
             }
 
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+            this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
         }
     } else {
         this->timer = 40;
@@ -186,11 +186,11 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
     BgHakaTrap* this = (BgHakaTrap*)thisx;
 
-    if (this->dyna.actor.params != HAKA_TRAP_PROPELLER) {
-        if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
-            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ||
-                (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
+    if (this->bg.actor.params != HAKA_TRAP_PROPELLER) {
+        if (this->bg.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
+            DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
+            if ((this->bg.actor.params == HAKA_TRAP_SPIKED_WALL) ||
+                (this->bg.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
                 Collider_DestroyTris(play, &this->colliderSpikes);
             }
         }
@@ -208,11 +208,11 @@ void func_8087FFC0(BgHakaTrap* this, PlayState* play) {
     f32 zNonNegative;
     Player* player = GET_PLAYER(play);
 
-    func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.world.pos);
+    func_8002DBD0(&this->bg.actor, &sp28, &player->actor.world.pos);
 
-    sine = Math_SinS(this->dyna.actor.shape.rot.y);
-    cosine = Math_CosS(this->dyna.actor.shape.rot.y);
-    if (this->dyna.actor.params == HAKA_TRAP_GUILLOTINE_SLOW) {
+    sine = Math_SinS(this->bg.actor.shape.rot.y);
+    cosine = Math_CosS(this->bg.actor.shape.rot.y);
+    if (this->bg.actor.params == HAKA_TRAP_GUILLOTINE_SLOW) {
         sp28.x = CLAMP(sp28.x, -50.0f, 50.0f);
         zNonNegative = (sp28.z >= 0.0f) ? 1.0f : -1.0f;
         sp28.z = zNonNegative * -15.0f;
@@ -222,8 +222,8 @@ void func_8087FFC0(BgHakaTrap* this, PlayState* play) {
         sp28.z = zNonNegative * 15.0f;
     }
 
-    this->colliderCylinder.dim.pos.x = this->dyna.actor.world.pos.x + sp28.x * cosine + sp28.z * sine;
-    this->colliderCylinder.dim.pos.z = this->dyna.actor.world.pos.z + sp28.x * sine + sp28.z * cosine;
+    this->colliderCylinder.dim.pos.x = this->bg.actor.world.pos.x + sp28.x * cosine + sp28.z * sine;
+    this->colliderCylinder.dim.pos.z = this->bg.actor.world.pos.z + sp28.x * sine + sp28.z * cosine;
 }
 
 void func_808801B8(BgHakaTrap* this, PlayState* play) {
@@ -231,11 +231,11 @@ void func_808801B8(BgHakaTrap* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((D_80880F30 == 0) && (!Player_InCsMode(play))) {
-        if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f)) {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
-        } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) {
+        if (!Math_StepToF(&this->bg.actor.world.pos.x, this->bg.actor.home.pos.x, 0.5f)) {
+            func_8002F974(&this->bg.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
+        } else if (this->bg.actor.params == HAKA_TRAP_SPIKED_WALL) {
             D_80881018 |= 1;
-        } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2) {
+        } else if (this->bg.actor.params == HAKA_TRAP_SPIKED_WALL_2) {
             D_80881018 |= 2;
         }
     }
@@ -262,23 +262,23 @@ void func_808802D8(BgHakaTrap* this, PlayState* play) {
         this->timer--;
     }
 
-    func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
 
     for (i = 0; i < 2; i++) {
         f32 rand = Rand_ZeroOne();
 
-        xScale = (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ? -30.0f : 30.0f;
+        xScale = (this->bg.actor.params == HAKA_TRAP_SPIKED_WALL) ? -30.0f : 30.0f;
 
-        vector.x = xScale * rand + this->dyna.actor.world.pos.x;
-        vector.y = Rand_ZeroOne() * 10.0f + this->dyna.actor.world.pos.y + 30.0f;
-        vector.z = Rand_CenteredFloat(320.0f) + this->dyna.actor.world.pos.z;
+        vector.x = xScale * rand + this->bg.actor.world.pos.x;
+        vector.y = Rand_ZeroOne() * 10.0f + this->bg.actor.world.pos.y + 30.0f;
+        vector.z = Rand_CenteredFloat(320.0f) + this->bg.actor.world.pos.z;
 
         EffectSsDeadDb_Spawn(play, &vector, &zeroVec, &zeroVec, 130, 20, 255, 255, 150, 170, 255, 0, 0, 1, 9, false);
     }
 
     if (this->timer == 0) {
         D_80880F30 = 0;
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -287,27 +287,26 @@ void func_80880484(BgHakaTrap* this, PlayState* play) {
     s32 timer;
 
     if (this->unk_16A) {
-        this->dyna.actor.velocity.y *= 3.0f;
+        this->bg.actor.velocity.y *= 3.0f;
     } else {
-        this->dyna.actor.velocity.y *= 2.0f;
+        this->bg.actor.velocity.y *= 2.0f;
     }
 
     if (this->timer != 0) {
         this->timer -= 1;
     }
 
-    sp24 =
-        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 185.0f, this->dyna.actor.velocity.y);
+    sp24 = Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y - 185.0f, this->bg.actor.velocity.y);
     timer = this->timer;
 
     if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_GUILLOTINE_BOUND);
     }
 
     if (this->timer == 0) {
-        this->dyna.actor.velocity.y = 0.0f;
+        this->bg.actor.velocity.y = 0.0f;
         this->timer = (this->unk_16A) ? 10 : 40;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+        Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_GUILLOTINE_UP);
         this->actionFunc = func_808805C0;
     }
 
@@ -324,23 +323,23 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
     }
 
     if (this->unk_16A) {
-        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 27.0f);
+        Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 27.0f);
     } else {
         if (this->timer > 20) {
-            Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 90.0f, 9.0f);
+            Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y - 90.0f, 9.0f);
         } else {
-            Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 4.5f);
+            Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 4.5f);
         }
 
         if (this->timer == 20) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_GUILLOTINE_UP);
         }
     }
 
     if (this->timer == 0) {
         this->timer = 20;
-        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
-        this->dyna.actor.velocity.y = 0.1f;
+        this->bg.actor.world.pos.y = this->bg.actor.home.pos.y;
+        this->bg.actor.velocity.y = 0.1f;
         this->actionFunc = func_80880484;
     }
 
@@ -353,23 +352,23 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     f32 yIntersect;
     s32 i;
 
-    this->dyna.actor.velocity.y *= 1.6f;
+    this->bg.actor.velocity.y *= 1.6f;
 
     if (this->timer != 0) {
         this->timer--;
     }
 
-    vector.x = this->dyna.actor.world.pos.x + 90.0f;
-    vector.y = (this->dyna.actor.world.pos.y + 1.0f) + 25.0f;
-    vector.z = this->dyna.actor.world.pos.z;
+    vector.x = this->bg.actor.world.pos.x + 90.0f;
+    vector.y = (this->bg.actor.world.pos.y + 1.0f) + 25.0f;
+    vector.z = this->bg.actor.world.pos.z;
 
-    floorHeight = this->dyna.actor.floorHeight;
+    floorHeight = this->bg.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
         s32 bgId;
 
         yIntersect =
-            BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &vector) -
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->bg.actor.floorPoly, &bgId, &this->bg.actor, &vector) -
             25.0f;
         if (floorHeight < yIntersect) {
             floorHeight = yIntersect;
@@ -378,22 +377,22 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
         vector.x -= 90.0f;
     }
 
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, floorHeight, this->dyna.actor.velocity.y)) {
-        if (this->dyna.actor.velocity.y > 0.01f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
+    if (Math_StepToF(&this->bg.actor.world.pos.y, floorHeight, this->bg.actor.velocity.y)) {
+        if (this->bg.actor.velocity.y > 0.01f) {
+            Audio_PlayActorSfx2(&this->bg.actor, NA_SE_EV_TRAP_BOUND);
         }
-        this->dyna.actor.velocity.y = 0.0f;
+        this->bg.actor.velocity.y = 0.0f;
     }
 
-    if (this->dyna.actor.velocity.y >= 0.01f) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
+    if (this->bg.actor.velocity.y >= 0.01f) {
+        func_8002F974(&this->bg.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
 
     if (this->timer == 0) {
-        this->dyna.actor.velocity.y = 0.0f;
+        this->bg.actor.velocity.y = 0.0f;
         this->timer = 30;
-        this->unk_16A = (s16)this->dyna.actor.world.pos.y + 50.0f;
-        this->unk_16A = CLAMP_MAX(this->unk_16A, this->dyna.actor.home.pos.y);
+        this->unk_16A = (s16)this->bg.actor.world.pos.y + 50.0f;
+        this->unk_16A = CLAMP_MAX(this->unk_16A, this->bg.actor.home.pos.y);
 
         this->actionFunc = func_808808F4;
     }
@@ -405,15 +404,15 @@ void func_808808F4(BgHakaTrap* this, PlayState* play) {
     }
 
     if (this->timer > 20) {
-        this->unk_169 = Math_StepToF(&this->dyna.actor.world.pos.y, this->unk_16A, 15.0f);
+        this->unk_169 = Math_StepToF(&this->bg.actor.world.pos.y, this->unk_16A, 15.0f);
     } else {
-        this->unk_169 = Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 20.0f);
+        this->unk_169 = Math_StepToF(&this->bg.actor.world.pos.y, this->bg.actor.home.pos.y, 20.0f);
     }
 
     if (this->timer == 0) {
         this->timer = 30;
-        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
-        this->dyna.actor.velocity.y = 0.5f;
+        this->bg.actor.world.pos.y = this->bg.actor.home.pos.y;
+        this->bg.actor.velocity.y = 0.5f;
         this->actionFunc = func_808806BC;
     }
 }
@@ -432,34 +431,34 @@ void func_808809E4(BgHakaTrap* this, PlayState* play, s16 arg2) {
     Player* player = GET_PLAYER(play);
     Vec3f sp18;
 
-    func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
+    func_8002DBD0(&this->bg.actor, &sp18, &player->actor.world.pos);
 
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
         (GET_PLAYER(play)->currentBoots != PLAYER_BOOTS_IRON)) {
         player->pushedSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 0x3A00) * (2.0f / 3.0f);
-        player->pushedYaw = this->dyna.actor.shape.rot.y;
+        player->pushedYaw = this->bg.actor.shape.rot.y;
     }
 }
 
 void func_80880AE8(BgHakaTrap* this, PlayState* play) {
     if (this->timer != 0) {
-        if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
+        if (Math_ScaledStepToS(&this->bg.actor.world.rot.z, 0, this->bg.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 40;
             this->actionFunc = func_808809B0;
         }
     } else {
-        if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0x3A00, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
+        if (Math_ScaledStepToS(&this->bg.actor.world.rot.z, 0x3A00, this->bg.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 100;
             this->actionFunc = func_80880C0C;
         }
     }
 
-    this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
-    if (this->dyna.actor.world.rot.z >= 0x1801) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
+    this->bg.actor.shape.rot.z += this->bg.actor.world.rot.z;
+    if (this->bg.actor.world.rot.z >= 0x1801) {
+        func_8002F974(&this->bg.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     }
 
-    func_808809E4(this, play, this->dyna.actor.world.rot.z);
+    func_808809E4(this, play, this->bg.actor.world.rot.z);
 }
 
 void func_80880C0C(BgHakaTrap* this, PlayState* play) {
@@ -467,24 +466,24 @@ void func_80880C0C(BgHakaTrap* this, PlayState* play) {
         this->timer--;
     }
 
-    func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
+    func_8002F974(&this->bg.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
 
     if (this->timer == 0) {
         this->timer = 1;
         this->actionFunc = func_80880AE8;
     }
 
-    this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
-    func_808809E4(this, play, this->dyna.actor.world.rot.z);
+    this->bg.actor.shape.rot.z += this->bg.actor.world.rot.z;
+    func_808809E4(this, play, this->bg.actor.world.rot.z);
 }
 
 void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    Vec3f* actorPos = &this->dyna.actor.world.pos;
+    Vec3f* actorPos = &this->bg.actor.world.pos;
 
     this->actionFunc(this, play);
 
-    if ((this->dyna.actor.params != HAKA_TRAP_PROPELLER) && (thisx->params != HAKA_TRAP_SPIKED_BOX)) {
+    if ((this->bg.actor.params != HAKA_TRAP_PROPELLER) && (thisx->params != HAKA_TRAP_SPIKED_BOX)) {
         this->colliderCylinder.dim.pos.y = actorPos->y;
 
         if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
@@ -528,7 +527,7 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
         func_80026230(play, &D_8088103C, this->timer + 20, 0x28);
     }
 
-    Gfx_DrawDListOpa(play, sDLists[this->dyna.actor.params]);
+    Gfx_DrawDListOpa(play, sDLists[this->bg.actor.params]);
 
     if (this->actionFunc == func_808801B8) {
         func_80880D68(this);
@@ -539,9 +538,9 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     }
 
     if ((this->actionFunc == func_808808F4) && !this->unk_169) {
-        sp2C.x = this->dyna.actor.world.pos.x;
-        sp2C.z = this->dyna.actor.world.pos.z;
-        sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
+        sp2C.x = this->bg.actor.world.pos.x;
+        sp2C.z = this->bg.actor.world.pos.z;
+        sp2C.y = this->bg.actor.world.pos.y + 110.0f;
 
         SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->unk_16C);
         func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);

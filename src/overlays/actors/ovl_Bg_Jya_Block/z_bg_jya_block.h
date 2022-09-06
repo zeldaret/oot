@@ -7,7 +7,7 @@
 struct BgJyaBlock;
 
 typedef struct BgJyaBlock {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
 } BgJyaBlock; // size = 0x0164
 
 #endif

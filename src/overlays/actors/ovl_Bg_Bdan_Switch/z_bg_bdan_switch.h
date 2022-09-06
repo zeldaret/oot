@@ -18,7 +18,7 @@ struct BgBdanSwitch;
 typedef void (*BgBdanSwitchActionFunc)(struct BgBdanSwitch*, PlayState*);
 
 typedef struct BgBdanSwitch {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgBdanSwitchActionFunc actionFunc;
     /* 0x0168 */ ColliderJntSph collider;
     /* 0x0188 */ ColliderJntSphElement colliderItems[1];

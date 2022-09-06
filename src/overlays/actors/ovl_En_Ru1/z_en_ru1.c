@@ -1315,15 +1315,15 @@ void func_80AED8DC(EnRu1* this) {
 }
 
 void func_80AEDAE0(EnRu1* this, PlayState* play) {
-    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
+    BgActor* bgActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
-    if (dynaPolyActor == NULL || dynaPolyActor->actor.id == ACTOR_EN_BOX) {
+    if (bgActor == NULL || bgActor->actor.id == ACTOR_EN_BOX) {
         this->actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING);
     }
 }
 
 void func_80AEDB30(EnRu1* this, PlayState* play) {
-    DynaPolyActor* dynaPolyActor;
+    BgActor* bgActor;
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
@@ -1335,11 +1335,11 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         velocityY = &this->actor.velocity.y;
-        dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
+        bgActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speedXZ;
-            if (dynaPolyActor != NULL) {
-                if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
+            if (bgActor != NULL) {
+                if (bgActor->actor.id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
                 }
             } else {
@@ -1350,8 +1350,8 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
                 }
             }
             gravity = &this->actor.gravity;
-            if (dynaPolyActor != NULL) {
-                if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
+            if (bgActor != NULL) {
+                if (bgActor->actor.id != ACTOR_EN_BOX) {
                     *velocityY = 0.0f;
                     this->actor.minVelocityY = 0.0f;
                     *gravity = 0.0f;
@@ -1410,9 +1410,9 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
 
 void func_80AEDEF4(EnRu1* this, PlayState* play) {
     f32* speedXZ = &this->actor.speedXZ;
-    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
+    BgActor* bgActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
-    if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_EN_BOX) {
+    if (bgActor != NULL && bgActor->actor.id == ACTOR_EN_BOX) {
         if (*speedXZ != 0.0f) {
             *speedXZ *= 1.1f;
         } else {
@@ -1513,14 +1513,14 @@ s32 func_80AEE264(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEE2F8(EnRu1* this, PlayState* play) {
-    DynaPolyActor* dynaPolyActor;
+    BgActor* bgActor;
     s32 floorBgId;
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.floorBgId != BGCHECK_SCENE)) {
         floorBgId = this->actor.floorBgId;
-        dynaPolyActor = DynaPoly_GetActor(&play->colCtx, floorBgId);
-        if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
-            if (((dynaPolyActor->actor.params >> 8) & 0x3F) == 0x38) {
+        bgActor = DynaPoly_GetActor(&play->colCtx, floorBgId);
+        if ((bgActor != NULL) && (bgActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
+            if (((bgActor->actor.params >> 8) & 0x3F) == 0x38) {
                 SET_INFTABLE(INFTABLE_140);
                 return;
             }
@@ -1532,21 +1532,21 @@ void func_80AEE2F8(EnRu1* this, PlayState* play) {
 s32 func_80AEE394(EnRu1* this, PlayState* play) {
     s32 pad[2];
     CollisionContext* colCtx;
-    DynaPolyActor* dynaPolyActor;
+    BgActor* bgActor;
     s32 floorBgId;
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.floorBgId != BGCHECK_SCENE) {
         colCtx = &play->colCtx;
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
-        dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
-        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
-            dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
+        bgActor = DynaPoly_GetActor(colCtx, floorBgId);
+        if (bgActor != NULL && bgActor->actor.id == ACTOR_BG_BDAN_OBJECTS && bgActor->actor.params == 0 &&
+            !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
             func_80AEE02C(this);
             play->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = (BgBdanObjects*)dynaPolyActor;
+            this->unk_28C = (BgBdanObjects*)bgActor;
             this->actor.shape.shadowAlpha = 0;
             return true;
         }

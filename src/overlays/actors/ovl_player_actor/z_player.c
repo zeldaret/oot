@@ -4331,7 +4331,7 @@ s32 func_80839800(Player* this, PlayState* play) {
             if (this->doorType == PLAYER_DOORTYPE_SLIDING) {
                 doorShutter = (DoorShutter*)doorActor;
 
-                this->currentYaw = doorShutter->dyna.actor.home.rot.y;
+                this->currentYaw = doorShutter->bg.actor.home.rot.y;
                 if (doorDirection > 0) {
                     this->currentYaw -= 0x8000;
                 }
@@ -4363,11 +4363,10 @@ s32 func_80839800(Player* this, PlayState* play) {
                     this->linearVelocity = 0.1f;
                 }
 
-                if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->doorBgCamIndex =
-                        play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&doorShutter->dyna.actor)]
-                            .sides[(doorDirection > 0) ? 0 : 1]
-                            .bgCamIndex;
+                if (doorShutter->bg.actor.category == ACTORCAT_DOOR) {
+                    this->doorBgCamIndex = play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&doorShutter->bg.actor)]
+                                               .sides[(doorDirection > 0) ? 0 : 1]
+                                               .bgCamIndex;
 
                     Actor_DisableLens(play);
                 }
@@ -6154,10 +6153,10 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
                 this->stateFlags1 |= PLAYER_STATE1_10 | PLAYER_STATE1_11 | PLAYER_STATE1_29;
                 func_8083AE40(this, giEntry->objectId);
                 this->actor.world.pos.x =
-                    chest->dyna.actor.world.pos.x - (Math_SinS(chest->dyna.actor.shape.rot.y) * 29.4343f);
+                    chest->bg.actor.world.pos.x - (Math_SinS(chest->bg.actor.shape.rot.y) * 29.4343f);
                 this->actor.world.pos.z =
-                    chest->dyna.actor.world.pos.z - (Math_CosS(chest->dyna.actor.shape.rot.y) * 29.4343f);
-                this->currentYaw = this->actor.shape.rot.y = chest->dyna.actor.shape.rot.y;
+                    chest->bg.actor.world.pos.z - (Math_CosS(chest->bg.actor.shape.rot.y) * 29.4343f);
+                this->currentYaw = this->actor.shape.rot.y = chest->bg.actor.shape.rot.y;
                 func_80832224(this);
 
                 if ((giEntry->itemId != ITEM_NONE) && (giEntry->gi >= 0) &&
@@ -6516,7 +6515,7 @@ void func_8083F72C(Player* this, LinkAnimationHeader* anim, PlayState* play) {
 }
 
 s32 func_8083F7BC(Player* this, PlayState* play) {
-    DynaPolyActor* wallPolyActor;
+    BgActor* wallPolyActor;
 
     if (!(this->stateFlags1 & PLAYER_STATE1_11) && (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         (D_80853608 < 0x3000)) {
@@ -6570,7 +6569,7 @@ s32 func_8083F7BC(Player* this, PlayState* play) {
 s32 func_8083F9D0(PlayState* play, Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         ((this->stateFlags2 & PLAYER_STATE2_4) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
-        DynaPolyActor* wallPolyActor = NULL;
+        BgActor* wallPolyActor = NULL;
 
         if (this->actor.wallBgId != BGCHECK_SCENE) {
             wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
@@ -8325,7 +8324,7 @@ void func_80844708(Player* this, PlayState* play) {
     Actor* cylinderOc;
     s32 temp;
     s32 sp44;
-    DynaPolyActor* wallPolyActor;
+    BgActor* wallPolyActor;
     s32 pad;
     f32 sp38;
     s16 sp36;
@@ -8960,10 +8959,10 @@ void func_80846120(Player* this, PlayState* play) {
     if (LinkAnimation_OnFrame(&this->skelAnime, 41.0f)) {
         BgHeavyBlock* heavyBlock = (BgHeavyBlock*)this->interactRangeActor;
 
-        this->heldActor = &heavyBlock->dyna.actor;
-        this->actor.child = &heavyBlock->dyna.actor;
-        heavyBlock->dyna.actor.parent = &this->actor;
-        func_8002DBD0(&heavyBlock->dyna.actor, &heavyBlock->unk_164, &this->leftHandPos);
+        this->heldActor = &heavyBlock->bg.actor;
+        this->actor.child = &heavyBlock->bg.actor;
+        heavyBlock->bg.actor.parent = &this->actor;
+        func_8002DBD0(&heavyBlock->bg.actor, &heavyBlock->unk_164, &this->leftHandPos);
         return;
     }
 
@@ -11042,10 +11041,10 @@ void func_8084B78C(Player* this, PlayState* play) {
 
 void func_8084B840(PlayState* play, Player* this, f32 arg2) {
     if (this->actor.wallBgId != BGCHECK_SCENE) {
-        DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
+        BgActor* bgActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
 
-        if (dynaPolyActor != NULL) {
-            func_8002DFA4(dynaPolyActor, arg2, this->actor.world.rot.y);
+        if (bgActor != NULL) {
+            func_8002DFA4(bgActor, arg2, this->actor.world.rot.y);
         }
     }
 }
@@ -11275,7 +11274,7 @@ void func_8084BF1C(Player* this, PlayState* play) {
 
     if (this->unk_850 >= 0) {
         if ((this->actor.wallPoly != NULL) && (this->actor.wallBgId != BGCHECK_SCENE)) {
-            DynaPolyActor* wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
+            BgActor* wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
             if (wallPolyActor != NULL) {
                 Math_Vec3f_Diff(&wallPolyActor->actor.world.pos, &wallPolyActor->actor.prevPos, &sp6C);
                 Math_Vec3f_Sum(&this->actor.world.pos, &sp6C, &this->actor.world.pos);

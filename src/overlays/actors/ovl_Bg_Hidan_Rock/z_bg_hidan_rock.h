@@ -9,7 +9,7 @@ struct BgHidanRock;
 typedef void (*BgHidanRockActionFunc)(struct BgHidanRock*, PlayState*);
 
 typedef struct BgHidanRock {
-    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0000 */ BgActor bg;
     /* 0x0164 */ BgHidanRockActionFunc actionFunc;
     /* 0x0168 */ u8 type;
     /* 0x0169 */ u8 unk_169;

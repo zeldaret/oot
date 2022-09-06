@@ -65,12 +65,12 @@ static Color_RGB8 sColors[] = {
 };
 
 void ObjWarp2block_Spawn(ObjWarp2block* this, PlayState* play) {
-    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
-                this->dyna.actor.world.pos.z, 0, 0, 0, sSpawnData[(this->dyna.actor.params >> 8) & 1].params);
+    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->bg.actor.world.pos.x, this->bg.actor.world.pos.y,
+                this->bg.actor.world.pos.z, 0, 0, 0, sSpawnData[(this->bg.actor.params >> 8) & 1].params);
 
-    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.child->world.pos.x,
-                this->dyna.actor.child->world.pos.y, this->dyna.actor.child->world.pos.z, 0, 0, 0,
-                sSpawnData[(this->dyna.actor.child->params >> 8) & 1].params);
+    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->bg.actor.child->world.pos.x,
+                this->bg.actor.child->world.pos.y, this->bg.actor.child->world.pos.z, 0, 0, 0,
+                sSpawnData[(this->bg.actor.child->params >> 8) & 1].params);
 }
 
 s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
@@ -80,17 +80,17 @@ s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
     Vec3f sp20;
     f32 temp_f2;
 
-    if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
+    if (BgActor_IsPlayerAbove(&this->bg)) {
         return 0;
     }
 
-    temp_a3 = this->dyna.actor.child;
+    temp_a3 = this->bg.actor.child;
     player = GET_PLAYER(play);
-    if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
+    if ((this->bg.actor.xzDistToPlayer <= sDistances[(((this->bg.actor.params >> 0xB) & 7))]) ||
         (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
 
-        func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
-        temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
+        func_8002DBD0(&this->bg.actor, &sp20, &player->actor.world.pos);
+        temp_f2 = (this->bg.actor.scale.x * 50.0f) + 6.0f;
 
         if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
             return 0;
@@ -114,42 +114,42 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play) {
     Vec3s tempRot;
     s32 temp;
 
-    Math_Vec3f_Copy(&tempVec, &this->dyna.actor.world.pos);
-    Math_Vec3f_Copy(&this->dyna.actor.world.pos, &this->dyna.actor.child->world.pos);
-    Math_Vec3f_Copy(&this->dyna.actor.child->world.pos, &tempVec);
+    Math_Vec3f_Copy(&tempVec, &this->bg.actor.world.pos);
+    Math_Vec3f_Copy(&this->bg.actor.world.pos, &this->bg.actor.child->world.pos);
+    Math_Vec3f_Copy(&this->bg.actor.child->world.pos, &tempVec);
 
-    temp = this->dyna.actor.world.rot.y;
-    this->dyna.actor.world.rot.y = this->dyna.actor.child->world.rot.y;
-    this->dyna.actor.child->world.rot.y = temp;
+    temp = this->bg.actor.world.rot.y;
+    this->bg.actor.world.rot.y = this->bg.actor.child->world.rot.y;
+    this->bg.actor.child->world.rot.y = temp;
 
-    temp = this->dyna.actor.shape.rot.y;
-    this->dyna.actor.shape.rot.y = this->dyna.actor.child->shape.rot.y;
-    this->dyna.actor.child->shape.rot.y = temp;
+    temp = this->bg.actor.shape.rot.y;
+    this->bg.actor.shape.rot.y = this->bg.actor.child->shape.rot.y;
+    this->bg.actor.child->shape.rot.y = temp;
 
-    temp = this->dyna.actor.home.rot.z;
-    this->dyna.actor.home.rot.z = this->dyna.actor.child->home.rot.z;
-    this->dyna.actor.child->home.rot.z = temp;
+    temp = this->bg.actor.home.rot.z;
+    this->bg.actor.home.rot.z = this->bg.actor.child->home.rot.z;
+    this->bg.actor.child->home.rot.z = temp;
 
-    Math_Vec3f_Copy(&tempVec, &this->dyna.actor.scale);
-    Math_Vec3f_Copy(&this->dyna.actor.scale, &this->dyna.actor.child->scale);
-    Math_Vec3f_Copy(&this->dyna.actor.child->scale, &tempVec);
+    Math_Vec3f_Copy(&tempVec, &this->bg.actor.scale);
+    Math_Vec3f_Copy(&this->bg.actor.scale, &this->bg.actor.child->scale);
+    Math_Vec3f_Copy(&this->bg.actor.child->scale, &tempVec);
 
-    Math_Vec3f_Copy(&tempVec, &this->dyna.actor.focus.pos);
-    Math_Vec3f_Copy(&this->dyna.actor.focus.pos, &this->dyna.actor.child->focus.pos);
-    Math_Vec3f_Copy(&this->dyna.actor.child->focus.pos, &tempVec);
+    Math_Vec3f_Copy(&tempVec, &this->bg.actor.focus.pos);
+    Math_Vec3f_Copy(&this->bg.actor.focus.pos, &this->bg.actor.child->focus.pos);
+    Math_Vec3f_Copy(&this->bg.actor.child->focus.pos, &tempVec);
 
-    tempRot = this->dyna.actor.focus.rot;
-    this->dyna.actor.focus.rot = this->dyna.actor.child->focus.rot;
-    this->dyna.actor.child->focus.rot = tempRot;
+    tempRot = this->bg.actor.focus.rot;
+    this->bg.actor.focus.rot = this->bg.actor.child->focus.rot;
+    this->bg.actor.child->focus.rot = tempRot;
 
-    temp = this->dyna.actor.params & 0x7FFF;
-    this->dyna.actor.params = (this->dyna.actor.params & 0x8000) | (this->dyna.actor.child->params & 0x7FFF);
-    this->dyna.actor.child->params = (this->dyna.actor.child->params & 0x8000) | (temp & 0x7FFF);
+    temp = this->bg.actor.params & 0x7FFF;
+    this->bg.actor.params = (this->bg.actor.params & 0x8000) | (this->bg.actor.child->params & 0x7FFF);
+    this->bg.actor.child->params = (this->bg.actor.child->params & 0x8000) | (temp & 0x7FFF);
 
-    if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &this->dyna.actor.home.pos) < 0.01f) {
-        Flags_UnsetSwitch(play, this->dyna.actor.params & 0x3F);
+    if (Math3D_Vec3fDistSq(&this->bg.actor.world.pos, &this->bg.actor.home.pos) < 0.01f) {
+        Flags_UnsetSwitch(play, this->bg.actor.params & 0x3F);
     } else {
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_SetSwitch(play, this->bg.actor.params & 0x3F);
     }
 }
 
@@ -200,39 +200,39 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
     CollisionHeader* collisionHeader;
 
     collisionHeader = NULL;
-    this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->bg.actor.world.rot.z = this->bg.actor.shape.rot.z = 0;
+    Actor_ProcessInitChain(&this->bg.actor, sInitChain);
 
-    Actor_SetScale(&this->dyna.actor, sSpawnData[(this->dyna.actor.params >> 8) & 1].scale);
+    Actor_SetScale(&this->bg.actor, sSpawnData[(this->bg.actor.params >> 8) & 1].scale);
     this->func_168 = func_80BA2218;
-    Actor_SetFocus(&this->dyna.actor, sSpawnData[(this->dyna.actor.params >> 8) & 1].focus);
+    Actor_SetFocus(&this->bg.actor, sSpawnData[(this->bg.actor.params >> 8) & 1].focus);
 
-    if ((this->dyna.actor.params >> 0xF) & 1) {
+    if ((this->bg.actor.params >> 0xF) & 1) {
         func_80BA24E8(this);
-        if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
-            this->dyna.actor.draw = NULL;
+        if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
+            this->bg.actor.draw = NULL;
         }
-        DynaPolyActor_Init(&this->dyna, 0);
+        BgActor_Init(&this->bg, 0);
         CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &collisionHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, collisionHeader);
+        this->bg.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->bg.actor, collisionHeader);
     } else {
         ObjWarp2block_SetInactive(this);
     }
 
-    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
-                 this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7);
+    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->bg.actor.params & 0xFFFF,
+                 this->bg.actor.home.rot.z & 7, (this->bg.actor.params >> 0xB) & 7);
 }
 
 void ObjWarp2block_Destroy(Actor* thisx, PlayState* play) {
     ObjWarp2block* this = (ObjWarp2block*)thisx;
-    if ((this->dyna.actor.params >> 0xF) & 1) {
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if ((this->bg.actor.params >> 0xF) & 1) {
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->bg.bgId);
     }
 }
 
 void ObjWarp2block_SetInactive(ObjWarp2block* this) {
     this->actionFunc = ObjWarp2block_DoNothing;
-    this->dyna.actor.draw = NULL;
+    this->bg.actor.draw = NULL;
 }
 
 void ObjWarp2block_DoNothing(ObjWarp2block* this, PlayState* play) {
@@ -247,11 +247,11 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play) {
 
     while (current != NULL) {
         if (current->id == ACTOR_OBJ_WARP2BLOCK && !((current->params >> 0xF) & 1) &&
-            ((this->dyna.actor.params & 0x3F) == (current->params & 0x3F))) {
-            this->dyna.actor.child = current;
-            if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+            ((this->bg.actor.params & 0x3F) == (current->params & 0x3F))) {
+            this->bg.actor.child = current;
+            if (Flags_GetSwitch(play, this->bg.actor.params & 0x3F)) {
                 ObjWarp2block_SwapWithChild(this, play);
-                this->dyna.actor.draw = ObjWarp2block_Draw;
+                this->bg.actor.draw = ObjWarp2block_Draw;
             }
             func_80BA2600(this);
             return;
@@ -265,7 +265,7 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n", "../z_obj_warp2block.c", 505);
         osSyncPrintf(VT_RST);
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(&this->bg.actor);
     }
 }
 
@@ -277,7 +277,7 @@ void func_80BA2610(ObjWarp2block* this, PlayState* play) {
     if ((func_80BA2304(this, play) != 0) && (this->unk_16C <= 0)) {
         ObjWarp2block_Spawn(this, play);
         this->unk_16C = 0xA0;
-        OnePointCutscene_Attention(play, &this->dyna.actor);
+        OnePointCutscene_Attention(play, &this->bg.actor);
         this->unk_170 = 0xC;
     }
 
