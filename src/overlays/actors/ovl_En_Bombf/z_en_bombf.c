@@ -90,7 +90,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
     EnBombf* this = (EnBombf*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
-    this->isActive = true;
+    this->isEnabled = true;
     Collider_InitCylinder(play, &this->bombCollider);
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
@@ -172,7 +172,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 bombFlower = (EnBombf*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOMBF, this->actor.world.pos.x,
                                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 if (bombFlower != NULL) {
-                    bombFlower->isActive = true;
+                    bombFlower->isEnabled = true;
                     bombFlower->timer = 0;
                     this->timer = 180;
                     this->actor.flags &= ~ACTOR_FLAG_0;
@@ -320,7 +320,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
     s32 pad[2];
     EnBombf* this = (EnBombf*)thisx;
 
-    if ((this->isActive) && (this->timer != 0)) {
+    if ((this->isEnabled) && (this->timer != 0)) {
         this->timer--;
     }
 
@@ -369,7 +369,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
 
         if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
                                                            (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
-            this->isActive = true;
+            this->isEnabled = true;
             this->timer = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
@@ -378,7 +378,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
             }
         }
 
-        if (this->isActive) {
+        if (this->isEnabled) {
             dustAccel.y = 0.2f;
             effPos = thisx->world.pos;
             effPos.y += 25.0f;
