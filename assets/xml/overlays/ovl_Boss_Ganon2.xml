@@ -19,7 +19,7 @@
         <Texture Name="gGanonFireRingTex" OutName="ganon_fire_ring" Format="i8" Width="32" Height="64" Offset="0x00D820"/>
         <DList Name="gGanonFireRingDL" Offset="0x00E1C0"/> <!-- Original name is "ganon_fire_modelT" -->
         <Texture Name="gGanonZeldaMagicTex" OutName="ganon_zelda_magic" Format="i8" Width="32" Height="64" Offset="0x00E2E0"/>
-        <DList Name="gGanonZeldaMagicDL" Offset="0x00EC40"/> <!-- Original name is "efc_ganon2_hadou_modelT" -->
+        <DList Name="gGanonZeldaMagicDL" Offset="0x00EC40"/> <!-- Original name is "efc_ganon2_hadou_modelT" ("wave motion; undulation; surge​") -->
         <Texture Name="gGanonMasterSwordShadowTex" OutName="ganon_master_sword_shadow" Format="i8" Width="32" Height="32" Offset="0x00ED48"/>
         <DList Name="gGanonMasterSwordShadowDL" Offset="0x00F188"/> <!-- Original name is "master_sword_shadow_model" -->
         <Texture Name="gGanonMasterSwordPommelTex" OutName="ganon_master_sword_pommel" Format="rgba16" Width="16" Height="16" Offset="0x00F208"/>
