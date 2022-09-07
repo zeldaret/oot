@@ -11,8 +11,8 @@
  * Coverage is full when not on an edge, while on an edge it is usually lower, and since coverage is treated as an
  * alpha value, edges with lower coverage will show up as darker than interiors in all of the available modes.
  *
- * Coverage is abbreviated to "cvg"; "FB RGB" ("framebuffer red/green/blue") is the color the pixel had before the
- * filter is applied.
+ * Coverage is abbreviated to "cvg"; "FB RGB" ("framebuffer red/green/blue") is the color the pixel originally had
+ * before the filter is applied.
  */
 
 #include "global.h"
@@ -66,9 +66,9 @@ Gfx sCoverageRGBDL[] = {
  *
  * 1. Apply a uniform color filter by transparently blending primColor with original frame. The "cloud surface"
  * RenderMode is used to preserve the coverage for the second stage.
- * 2. Second half is the same as sCoverageRGBDL's, i.e. (RGB from stage 1) * cvg
+ * 2. Second half is the same as `sCoverageRGBDL`'s, i.e. (RGB from stage 1) * cvg
  */
-Gfx sCoverageRGBPrimFogDL[] = {
+Gfx sCoverageRGBUniformDL[] = {
     gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_DISABLE | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -113,10 +113,10 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
             gSPDisplayList(gfx++, sCoverageRGBDL);
             break;
 
-        case FB_FILTER_CVG_RGB_PRIMFOG:
-            // Set primitive color for uniform fogging in custom RenderMode
+        case FB_FILTER_CVG_RGB_UNIFORM:
+            // Set primitive color for uniform color filter in custom RenderMode
             gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
-            gSPDisplayList(gfx++, sCoverageRGBPrimFogDL);
+            gSPDisplayList(gfx++, sCoverageRGBUniformDL);
             break;
 
         case FB_FILTER_CVG:
@@ -126,7 +126,7 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
             break;
 
         case FB_FILTER_CVG_RGB_FOG:
-            // Set fogging color for custom RenderMode, needs to be close to 0 to not overflow
+            // Set fog color for custom RenderMode, needs to be close to 0 to not overflow
             gDPSetColor(gfx++, G_SETFOGCOLOR, this->primColor.rgba);
             gSPDisplayList(gfx++, sCoverageRGBFogDL);
             break;
