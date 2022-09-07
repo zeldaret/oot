@@ -44,32 +44,32 @@ extern u16 D_0E000000[];
 /**
  * Initialise to IA type with white and black as default colors.
  */
-void VisZbuf_Init(VisZbuf* this) {
-    this->useRgba = false;
-    this->setScissor = false;
-    this->primColor.r = 255;
-    this->primColor.g = 255;
-    this->primColor.b = 255;
-    this->primColor.a = 255;
-    this->envColor.a = 255;
-    this->envColor.r = 0;
-    this->envColor.g = 0;
-    this->envColor.b = 0;
+void VisZBuf_Init(VisZBuf* this) {
+    this->base.type = VIS_ZBUF_TYPE_IA;
+    this->base.setScissor = VIS_NO_SETSCISSOR;
+    this->base.primColor.r = 255;
+    this->base.primColor.g = 255;
+    this->base.primColor.b = 255;
+    this->base.primColor.a = 255;
+    this->base.envColor.a = 255;
+    this->base.envColor.r = 0;
+    this->base.envColor.g = 0;
+    this->base.envColor.b = 0;
 }
 
-void VisZbuf_Destroy(VisZbuf* this) {
+void VisZBuf_Destroy(VisZBuf* this) {
 }
 
-void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
+void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     u16* zbufFrag = D_0E000000;
-    s32 fmt; // RGBA or IA only, depending on useRgba
+    s32 fmt;
     s32 y;
     s32 height;
 
-    if (this->useRgba == 0) {
+    if (this->base.type == VIS_ZBUF_TYPE_IA) {
         fmt = G_IM_FMT_IA;
-    } else {
+    } else { // VIS_ZBUF_TYPE_RGBA
         fmt = G_IM_FMT_RGBA;
     }
 
@@ -77,7 +77,7 @@ void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
     // Scissoring is only required if the scissor has not been set prior.
-    if (this->setScissor == true) {
+    if (this->base.setScissor == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -92,8 +92,8 @@ void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
     // LERP between primColor and envColor in 1-cycle mode using the z-buffer value.
     gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT,
                       PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT);
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->base.primColor.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->base.envColor.rgba);
 
     for (y = 0; y <= SCREEN_HEIGHT - height; y += height) {
         // Load a few lines of the z-buffer, as many as can fit in TMEM at once.

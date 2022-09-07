@@ -3,7 +3,7 @@
 
 SpeedMeter D_801664D0;
 VisCvg sVisCvg;
-VisZbuf sVisZbuf;
+VisZBuf sVisZBuf;
 VisMono sVisMono;
 ViMode sViMode;
 FaultClient sGameFaultClient;
@@ -27,35 +27,35 @@ void GameState_SetFBFilter(Gfx** gfx) {
 
     if ((R_FB_FILTER_TYPE >= FB_FILTER_CVG_RGB) && (R_FB_FILTER_TYPE <= FB_FILTER_CVG_RGB_FOG)) {
         // Visualise coverage
-        sVisCvg.type = R_FB_FILTER_TYPE;
-        sVisCvg.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sVisCvg.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sVisCvg.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sVisCvg.primColor.a = R_FB_FILTER_A;
+        sVisCvg.base.type = FB_FILTER_TO_CVG_TYPE(R_FB_FILTER_TYPE);
+        sVisCvg.base.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisCvg.base.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisCvg.base.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisCvg.base.primColor.a = R_FB_FILTER_A;
         VisCvg_Draw(&sVisCvg, &gfxP);
     } else if ((R_FB_FILTER_TYPE == FB_FILTER_ZBUF_IA) || (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA)) {
         // Visualise z-buffer
-        sVisZbuf.useRgba = (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA);
-        sVisZbuf.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sVisZbuf.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sVisZbuf.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sVisZbuf.primColor.a = R_FB_FILTER_A;
-        sVisZbuf.envColor.r = R_FB_FILTER_ENV_COLOR(0);
-        sVisZbuf.envColor.g = R_FB_FILTER_ENV_COLOR(1);
-        sVisZbuf.envColor.b = R_FB_FILTER_ENV_COLOR(2);
-        sVisZbuf.envColor.a = R_FB_FILTER_A;
-        VisZbuf_Draw(&sVisZbuf, &gfxP);
+        sVisZBuf.base.type = (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA);
+        sVisZBuf.base.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisZBuf.base.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisZBuf.base.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisZBuf.base.primColor.a = R_FB_FILTER_A;
+        sVisZBuf.base.envColor.r = R_FB_FILTER_ENV_COLOR(0);
+        sVisZBuf.base.envColor.g = R_FB_FILTER_ENV_COLOR(1);
+        sVisZBuf.base.envColor.b = R_FB_FILTER_ENV_COLOR(2);
+        sVisZBuf.base.envColor.a = R_FB_FILTER_A;
+        VisZBuf_Draw(&sVisZBuf, &gfxP);
     } else if (R_FB_FILTER_TYPE == FB_FILTER_MONO) {
         // Monochrome filter
-        sVisMono.unk_00 = 0;
-        sVisMono.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sVisMono.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sVisMono.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sVisMono.primColor.a = R_FB_FILTER_A;
-        sVisMono.envColor.r = R_FB_FILTER_ENV_COLOR(0);
-        sVisMono.envColor.g = R_FB_FILTER_ENV_COLOR(1);
-        sVisMono.envColor.b = R_FB_FILTER_ENV_COLOR(2);
-        sVisMono.envColor.a = R_FB_FILTER_A;
+        sVisMono.base.type = 0;
+        sVisMono.base.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisMono.base.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisMono.base.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisMono.base.primColor.a = R_FB_FILTER_A;
+        sVisMono.base.envColor.r = R_FB_FILTER_ENV_COLOR(0);
+        sVisMono.base.envColor.g = R_FB_FILTER_ENV_COLOR(1);
+        sVisMono.base.envColor.b = R_FB_FILTER_ENV_COLOR(2);
+        sVisMono.base.envColor.a = R_FB_FILTER_A;
         VisMono_Draw(&sVisMono, &gfxP);
     }
     *gfx = gfxP;
@@ -417,7 +417,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     startTime = endTime;
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1088);
     VisCvg_Init(&sVisCvg);
-    VisZbuf_Init(&sVisZbuf);
+    VisZBuf_Init(&sVisZBuf);
     VisMono_Init(&sVisMono);
     if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Init(&sViMode);
@@ -447,7 +447,7 @@ void GameState_Destroy(GameState* gameState) {
     Rumble_Destroy();
     SpeedMeter_Destroy(&D_801664D0);
     VisCvg_Destroy(&sVisCvg);
-    VisZbuf_Destroy(&sVisZbuf);
+    VisZBuf_Destroy(&sVisZBuf);
     VisMono_Destroy(&sVisMono);
     if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Destroy(&sViMode);

@@ -28,16 +28,16 @@ extern u16 D_0F000000[];
 
 void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
-    this->unk_00 = 0;
-    this->setScissor = false;
-    this->primColor.r = 255;
-    this->primColor.g = 255;
-    this->primColor.b = 255;
-    this->primColor.a = 255;
-    this->envColor.r = 0;
-    this->envColor.g = 0;
-    this->envColor.b = 0;
-    this->envColor.a = 0;
+    this->base.type = 0;
+    this->base.setScissor = VIS_NO_SETSCISSOR;
+    this->base.primColor.r = 255;
+    this->base.primColor.g = 255;
+    this->base.primColor.b = 255;
+    this->base.primColor.a = 255;
+    this->base.envColor.r = 0;
+    this->base.envColor.g = 0;
+    this->base.envColor.b = 0;
+    this->base.envColor.a = 0;
 }
 
 void VisMono_Destroy(VisMono* this) {
@@ -161,12 +161,12 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    if (this->setScissor == true) {
+    if (this->base.setScissor == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->base.primColor.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->base.envColor.rgba);
 
     gDPLoadTLUT_pal256(gfx++, tlut);
 

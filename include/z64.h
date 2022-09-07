@@ -35,6 +35,7 @@
 #include "z64skybox.h"
 #include "z64sram.h"
 #include "z64view.h"
+#include "z64vis.h"
 #include "alignment.h"
 #include "seqcmd.h"
 #include "sequence.h"
@@ -794,39 +795,5 @@ typedef struct {
     /* 0x80 */ u32 viFeatures;
     /* 0x84 */ u32 unk_84;
 } ViMode; // size = 0x88
-
-typedef enum {
-    /* 0 */ FB_FILTER_NONE,
-    /* 1 */ FB_FILTER_CVG_RGB,
-    /* 2 */ FB_FILTER_CVG_RGB_PRIMFOG,
-    /* 3 */ FB_FILTER_CVG,
-    /* 4 */ FB_FILTER_CVG_RGB_FOG, // Not recommended, overflows blender
-    /* 5 */ FB_FILTER_ZBUF_IA,
-    /* 6 */ FB_FILTER_ZBUF_RGBA,
-    /* 7 */ FB_FILTER_MONO
-} FramebufferFilterType;
-
-typedef struct {
-    /* 0x00 */ u32 type;
-    /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8_u32 primColor;
-    /* 0x0C */ Color_RGBA8_u32 envColor;
-} VisCvg; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ u32 unk_00;
-    /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8_u32 primColor;
-    /* 0x0C */ Color_RGBA8_u32 envColor;
-    /* 0x10 */ u16* tlut;
-    /* 0x14 */ Gfx* dList;
-} VisMono; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ u32 useRgba;
-    /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8_u32 primColor;
-    /* 0x0C */ Color_RGBA8_u32 envColor;
-} VisZbuf; // size = 0x10
 
 #endif

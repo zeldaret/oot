@@ -1198,15 +1198,7 @@ void ViMode_Init(ViMode* viMode);
 void ViMode_Destroy(ViMode* viMode);
 void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures);
 void ViMode_Update(ViMode* viMode, Input* input);
-void VisCvg_Init(VisCvg* this);
-void VisCvg_Destroy(VisCvg* this);
-void VisCvg_Draw(VisCvg* this, Gfx** gfxp);
-void VisMono_Init(VisMono* this);
-void VisMono_Destroy(VisMono* this);
-void VisMono_Draw(VisMono* this, Gfx** gfxp);
-void VisZbuf_Init(VisZbuf* this);
-void VisZbuf_Destroy(VisZbuf* this);
-void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp);
+
 void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
 Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
 void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z);
