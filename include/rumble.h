@@ -13,17 +13,14 @@ typedef enum {
 
 typedef struct {
     /* 0x000 */ u8 rumbleEnable[MAXCONTROLLERS];
-
     /* 0x004 */ u8 reqStrengths[RUMBLE_MAX_REQUESTS];       // Source strength modulated by distance to the source
     /* 0x044 */ u8 reqDurations[RUMBLE_MAX_REQUESTS];       // Duration until decreaseRate kicks in
     /* 0x084 */ u8 reqDecreaseRates[RUMBLE_MAX_REQUESTS];   // Decreases the strength by this much every Vertical Retrace, once the strength hits 0 the request slot is freed
     /* 0x0C4 */ u8 reqAccumulator[RUMBLE_MAX_REQUESTS];     // Starts at 0, incremented by the strength every Vertical Retrace
-
     /* 0x104 */ u8 state;
     /* 0x105 */ u8 updateEnabled;
     /* 0x106 */ u16 onTimer;    // Duration for which there has been an active rumble request running
     /* 0x108 */ u16 offTimer;   // Duration for which there has not been an active rumble request running, capped at 5
-
     /* 0x10A */ u8 overrideStrength;    // overrides requests with these parameters
     /* 0x10B */ u8 overrideDuration;
     /* 0x10C */ u8 overrideDecreaseRate;

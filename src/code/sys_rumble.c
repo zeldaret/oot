@@ -18,7 +18,7 @@
  * Rumble manager update, runs on Vertical Retrace on the padmgr thread.
  */
 void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
-    static u8 wasEnabled = true;
+    static u8 sWasEnabled = true;
     s32 i;
     s32 strength;
     s32 strongestIndex = -1;
@@ -29,17 +29,17 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
     }
 
     if (!rumbleMgr->updateEnabled) {
-        if (wasEnabled) {
+        if (sWasEnabled) {
             // If it was previously enabled, reset pak type
             for (i = 0; i < MAXCONTROLLERS; i++) {
                 gPadMgr.pakType[i] = CONT_PAK_NONE;
             }
         }
-        wasEnabled = rumbleMgr->updateEnabled;
+        sWasEnabled = rumbleMgr->updateEnabled;
         return;
     }
 
-    wasEnabled = rumbleMgr->updateEnabled;
+    sWasEnabled = rumbleMgr->updateEnabled;
 
     if (rumbleMgr->state == RUMBLE_STATE_RESET) {
         // Reset

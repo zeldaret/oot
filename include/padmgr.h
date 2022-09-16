@@ -78,29 +78,28 @@ void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable);
  *
  * @param callback callback to run before rumble state is updated for the current VI
  * @param arg the argument to pass to the calback
- * 
- * @see PadMgr_UnsetRetraceCallback
+ *
+ * @see PADMGR_UNSET_RETRACE_CALLACK
  */
-#define PadMgr_SetRetraceCallback(padmgr, callback, arg) \
-    do {                                                 \
-        (padmgr)->retraceCallback = (callback);          \
-        (padmgr)->retraceCallbackArg = (arg);            \
+#define PADMGR_SET_RETRACE_CALLACK(padmgr, callback, arg) \
+    do {                                                  \
+        (padmgr)->retraceCallback = (callback);           \
+        (padmgr)->retraceCallbackArg = (arg);             \
     } while (0)
 
 /**
  * Unsets the current padmgr retrace callback if it and the argument are the same as the ones already registered.
- * 
+ *
  * @param callback the callback to unset, if it is set
  * @param arg the argument to unset, if it is set
- * 
- * @see PadMgr_SetRetraceCallback
+ *
+ * @see PADMGR_SET_RETRACE_CALLACK
  */
-#define PadMgr_UnsetRetraceCallback(padmgr, callback, arg) \
-    if ((padmgr)->retraceCallback == (callback) &&         \
-        (padmgr)->retraceCallbackArg == (arg)) {           \
-        (padmgr)->retraceCallback = NULL;                  \
-        (padmgr)->retraceCallbackArg = NULL;               \
-    }                                                      \
+#define PADMGR_UNSET_RETRACE_CALLACK(padmgr, callback, arg)                                 \
+    if ((padmgr)->retraceCallback == (callback) && (padmgr)->retraceCallbackArg == (arg)) { \
+        (padmgr)->retraceCallback = NULL;                                                   \
+        (padmgr)->retraceCallbackArg = NULL;                                                \
+    }                                                                                       \
     (void)0
 
 #endif
