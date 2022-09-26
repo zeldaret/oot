@@ -48,7 +48,7 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
         }
 
         for (i = 0; i < RUMBLE_MAX_REQUESTS; i++) {
-            rumbleMgr->reqAccumulator[i] = 0;
+            rumbleMgr->reqAccumulators[i] = 0;
             rumbleMgr->reqDecreaseRates[i] = 0;
             rumbleMgr->reqDurations[i] = 0;
             rumbleMgr->reqStrengths[i] = 0;
@@ -74,8 +74,8 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
                 }
 
                 // Increment accumulator by the strength
-                strength = rumbleMgr->reqAccumulator[i] + rumbleMgr->reqStrengths[i];
-                rumbleMgr->reqAccumulator[i] = strength;
+                strength = rumbleMgr->reqAccumulators[i] + rumbleMgr->reqStrengths[i];
+                rumbleMgr->reqAccumulators[i] = strength;
 
                 if (strongestIndex == -1) {
                     strongestIndex = i;
@@ -128,7 +128,7 @@ void RumbleMgr_Update(RumbleMgr* rumbleMgr) {
     } else {
         // Clear all requests
         for (i = 0; i < RUMBLE_MAX_REQUESTS; i++) {
-            rumbleMgr->reqAccumulator[i] = 0;
+            rumbleMgr->reqAccumulators[i] = 0;
             rumbleMgr->reqDecreaseRates[i] = 0;
             rumbleMgr->reqDurations[i] = 0;
             rumbleMgr->reqStrengths[i] = 0;

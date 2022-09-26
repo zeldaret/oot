@@ -60,20 +60,20 @@ void Rumble_Override(f32 distSq, u8 sourceStrength, u8 duration, u8 decreaseRate
  * the request is silently dropped.
  *
  * @param distSq
- *  Squared distance, usually taken to be from an apparent source to the player in world coordinates.
+ *     Squared distance, usually taken to be from an apparent source to the player in world coordinates.
  * @param sourceStrength
- *  The strength of the rumble at 0 distance from the source.
- *  The rumble source strength decreases linearly with distance, a distance of 0 results in the full source strength
- *  while a distance of 1000 or greater is discarded. A source strength of 0 is discarded. A minimum source strength of
- *  1 drops to 0 at 3 units of distance from the source. A maximum source strength of 255 drops to 0 at 1000 units of
- *  distance from the source.
- *  Note that, once the request has been submitted, if the distance to the source changes in subsequent frames while the
- *  rumble request is still running, the request will not be updated with the new distance.
+ *     The strength of the rumble at 0 distance from the source.
+ *     The rumble source strength decreases linearly with distance, a distance of 0 results in the full source strength
+ *     while a distance of 1000 or greater is discarded. A source strength of 0 is discarded. A minimum source strength
+ *     of 1 drops to 0 at 3 units of distance from the source. A maximum source strength of 255 drops to 0 at 1000
+ *     units of distance from the source.
+ *     Note that, once the request has been submitted, if the distance to the source changes in subsequent frames while
+ *     the rumble request is still running, the request will not be updated with the new distance.
  * @param duration
- *  The duration for which the rumble will sustain full strength. It is measured in Vertical Retraces rather than game
- *  frames. There are ~60 Retraces/s on NTSC and 50 Retraces/s on PAL.
+ *     The duration for which the rumble will sustain full strength. It is measured in Vertical Retraces rather than
+ *     game frames. There are ~60 Retraces/s on NTSC and 50 Retraces/s on PAL.
  * @param decreaseRate
- *  The amount by which to lower the strength every Vertical Retrace once duration has hit 0.
+ *     The amount by which to lower the strength every Vertical Retrace once duration has hit 0.
  */
 void Rumble_Request(f32 distSq, u8 sourceStrength, u8 duration, u8 decreaseRate) {
     s32 dist;
