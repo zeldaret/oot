@@ -1976,7 +1976,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_CALLBACK);
                         DbCamera_CalcMempakAllocSize();
                         if ((1 << sCurFileIdx) & sMempakFiles) {
-                            sMempakFilesize = Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
+                            sMempakFilesize =
+                                Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
                             dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                         } else {
                             sMempakFilesize = 0;
@@ -2003,7 +2004,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             }
 
                             if ((1 << sCurFileIdx) & sMempakFiles) {
-                                sMempakFilesize = Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
+                                sMempakFilesize =
+                                    Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
                                 sMempakFilesize = 0;
@@ -2020,7 +2022,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             }
 
                             if ((1 << sCurFileIdx) & sMempakFiles) {
-                                sMempakFilesize = Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
+                                sMempakFilesize =
+                                    Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
                                 sMempakFilesize = 0;

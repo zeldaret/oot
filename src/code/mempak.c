@@ -19,7 +19,7 @@ u16 sMempakCompanyCode = 1;
 u32 sMempakGameCode = 1;
 
 // Conversion from A-Z to N64 Font Code
-#define NCH(c) ((c) - 0x27)
+#define NCH(c) ((c)-0x27)
 // Conversion from spaces to N64 Font Code
 #define NCH_SPC (0x0F)
 
@@ -111,11 +111,13 @@ s32 Mempak_Write(s32 controllerNo, char letter, void* buffer, s32 offset, s32 si
     serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
     if (size < sMempakFreeBytes) {
-        error = osPfsReadWriteFile(&sMempakPfsHandle, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)], PFS_WRITE, offset, size, buffer);
+        error = osPfsReadWriteFile(&sMempakPfsHandle, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)], PFS_WRITE, offset,
+                                   size, buffer);
         if (error == 0) {
             ret = true;
         }
-        osSyncPrintf("mempak: write %d byte '%c' (%d)->%d\n", size, letter, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)], error);
+        osSyncPrintf("mempak: write %d byte '%c' (%d)->%d\n", size, letter, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)],
+                     error);
     }
     PadMgr_ReleaseSerialEventQueue(&gPadMgr, serialEventQueue);
     return ret;
@@ -140,11 +142,13 @@ s32 Mempak_Read(s32 controllerNo, char letter, void* buffer, s32 offset, s32 siz
     serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
     if (size < sMempakFreeBytes) {
-        error = osPfsReadWriteFile(&sMempakPfsHandle, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)], PFS_READ, offset, size, buffer);
+        error = osPfsReadWriteFile(&sMempakPfsHandle, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)], PFS_READ, offset,
+                                   size, buffer);
         if (error == 0) {
             ret = true;
         }
-        osSyncPrintf("mempak: read %d byte '%c' (%d)<-%d\n", size, letter, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)], error);
+        osSyncPrintf("mempak: read %d byte '%c' (%d)<-%d\n", size, letter, sMempakFiles[MEMPAK_LETTER_TO_IDX(letter)],
+                     error);
     }
     PadMgr_ReleaseSerialEventQueue(&gPadMgr, serialEventQueue);
     return ret;
