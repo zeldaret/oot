@@ -10,10 +10,10 @@ void Locale_Init(void) {
 
     switch (sCartInfo.countryCode) {
         case 'J': // "NTSC-U (North America)"
-            gCurrentRegion = REGION_US;
+            gCurrentRegion = REGION_JP;
             break;
         case 'E': // "NTSC-J (Japan)"
-            gCurrentRegion = REGION_JP;
+            gCurrentRegion = REGION_US;
             break;
         case 'P': // "PAL (Europe)"
             gCurrentRegion = REGION_EU;
