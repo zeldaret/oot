@@ -268,7 +268,7 @@ void func_80AF2AB4(EnRu2* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == 2) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = 1;
-        play->csCtx.segment = &D_80AF411C;
+        play->csCtx.segment = D_80AF411C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
         temp = this->actor.world.rot.y + 0x8000;
