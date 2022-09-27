@@ -58,9 +58,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s8 damage;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
+    /* 0x01 */ u8 rumbleStrength;
+    /* 0x02 */ u8 rumbleDuration;
+    /* 0x03 */ u8 rumbleDecreaseRate;
     /* 0x04 */ u16 sfxId;
 } FallImpactInfo; // size = 0x06
 
@@ -1467,9 +1467,9 @@ void func_80832630(PlayState* play) {
     }
 }
 
-void func_8083264C(Player* this, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void Player_RequestRumble(Player* this, s32 sourceStrength, s32 duration, s32 decreaseRate, s32 distSq) {
     if (this->actor.category == ACTORCAT_PLAYER) {
-        func_800AA000(arg4, arg1, arg2, arg3);
+        Rumble_Request(distSq, sourceStrength, duration, decreaseRate);
     }
 }
 
@@ -2485,7 +2485,7 @@ s32 func_80834FBC(Player* this) {
     if (this->actor.child != NULL) {
         if (this->heldActor == NULL) {
             this->heldActor = this->actor.child;
-            func_8083264C(this, 255, 10, 250, 0);
+            Player_RequestRumble(this, 255, 10, 250, 0);
             func_8002F7DC(&this->actor, NA_SE_IT_HOOKSHOT_RECEIVE);
         }
 
@@ -2528,9 +2528,9 @@ s32 func_808350A4(PlayState* play, Player* this) {
                 play->shootingGalleryStatus = -10;
             }
 
-            func_8083264C(this, 150, 10, 150, 0);
+            Player_RequestRumble(this, 150, 10, 150, 0);
         } else {
-            func_8083264C(this, 255, 20, 150, 0);
+            Player_RequestRumble(this, 255, 20, 150, 0);
         }
 
         this->unk_A73 = 4;
@@ -3640,14 +3640,14 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
         sp2C = &gPlayerAnim_link_normal_ice_down;
 
         func_80832224(this);
-        func_8083264C(this, 255, 10, 40, 0);
+        Player_RequestRumble(this, 255, 10, 40, 0);
 
         func_8002F7DC(&this->actor, NA_SE_PL_FREEZE_S);
         func_80832698(this, NA_SE_VO_LI_FREEZE);
     } else if (arg2 == 4) {
         func_80835C58(play, this, func_8084FBF4, 0);
 
-        func_8083264C(this, 255, 80, 150, 0);
+        Player_RequestRumble(this, 255, 80, 150, 0);
 
         func_808322A4(play, this, &gPlayerAnim_link_normal_electric_shock);
         func_80832224(this);
@@ -3657,7 +3657,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
         arg5 -= this->actor.shape.rot.y;
         if (this->stateFlags1 & PLAYER_STATE1_27) {
             func_80835C58(play, this, func_8084E30C, 0);
-            func_8083264C(this, 180, 20, 50, 0);
+            Player_RequestRumble(this, 180, 20, 50, 0);
 
             this->linearVelocity = 4.0f;
             this->actor.velocity.y = 0.0f;
@@ -3671,7 +3671,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
 
             this->stateFlags3 |= PLAYER_STATE3_1;
 
-            func_8083264C(this, 255, 20, 150, 0);
+            Player_RequestRumble(this, 255, 20, 150, 0);
             func_80832224(this);
 
             if (arg2 == 2) {
@@ -3706,7 +3706,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
         } else {
             if ((this->linearVelocity > 4.0f) && !func_8008E9C4(this)) {
                 this->unk_890 = 20;
-                func_8083264C(this, 120, 20, 10, 0);
+                Player_RequestRumble(this, 120, 20, 10, 0);
                 func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
                 return;
             }
@@ -3717,9 +3717,9 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
             func_80833C3C(this);
 
             if (this->actor.colChkInfo.damage < 5) {
-                func_8083264C(this, 120, 20, 10, 0);
+                Player_RequestRumble(this, 120, 20, 10, 0);
             } else {
-                func_8083264C(this, 180, 20, 100, 0);
+                Player_RequestRumble(this, 180, 20, 100, 0);
                 this->linearVelocity = 23.0f;
                 sp28 += 4;
             }
@@ -3867,7 +3867,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
                          (this->cylinder.info.atHit != NULL) && (this->cylinder.info.atHit->atFlags & 0x20000000))) {
 
-                func_8083264C(this, 180, 20, 100, 0);
+                Player_RequestRumble(this, 180, 20, 100, 0);
 
                 if (!Player_IsChildWithHylianShield(this)) {
                     if (this->invincibilityTimer >= 0) {
@@ -7704,7 +7704,7 @@ void func_808429B4(PlayState* play, s32 speed, s32 y, s32 countdown) {
 void func_80842A28(PlayState* play, Player* this) {
     func_808429B4(play, 27767, 7, 20);
     play->actorCtx.unk_02 = 4;
-    func_8083264C(this, 255, 20, 150, 0);
+    Player_RequestRumble(this, 255, 20, 150, 0);
     func_8002F7DC(&this->actor, NA_SE_IT_HAMMER_HIT);
 }
 
@@ -7774,7 +7774,7 @@ void func_80842D20(PlayState* play, Player* this) {
         func_808322D0(play, this, D_808545CC[Player_HoldsTwoHandedWeapon(this) + sp28]);
     }
 
-    func_8083264C(this, 180, 20, 100, 0);
+    Player_RequestRumble(this, 180, 20, 100, 0);
     this->linearVelocity = -18.0f;
     func_80842CF0(play, this);
 }
@@ -7834,7 +7834,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 
                             func_80842CF0(play, this);
                             this->linearVelocity = -14.0f;
-                            func_8083264C(this, 180, 20, 100, 0);
+                            Player_RequestRumble(this, 180, 20, 100, 0);
                         }
                     }
                 }
@@ -8213,7 +8213,7 @@ s32 func_80843E64(PlayState* play, Player* this) {
 
         func_80837AE0(this, 40);
         func_808429B4(play, 32967, 2, 30);
-        func_8083264C(this, impactInfo->unk_01, impactInfo->unk_02, impactInfo->unk_03, 0);
+        Player_RequestRumble(this, impactInfo->rumbleStrength, impactInfo->rumbleDuration, impactInfo->rumbleDecreaseRate, 0);
         func_8002F7DC(&this->actor, NA_SE_PL_BODY_HIT);
         func_80832698(this, impactInfo->sfxId);
 
@@ -8227,7 +8227,7 @@ s32 func_80843E64(PlayState* play, Player* this) {
             sp34 = 255;
         }
 
-        func_8083264C(this, (u8)sp34, (u8)(sp34 * 0.1f), (u8)sp34, 0);
+        Player_RequestRumble(this, (u8)sp34, (u8)(sp34 * 0.1f), (u8)sp34, 0);
 
         if (D_808535E4 == FLOOR_TYPE_6) {
             func_80832698(this, NA_SE_VO_LI_CLIMB_END);
@@ -8418,7 +8418,7 @@ void func_80844708(Player* this, PlayState* play) {
                     func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_17, this->modelAnimType));
                     this->linearVelocity = -this->linearVelocity;
                     func_808429B4(play, 33267, 3, 12);
-                    func_8083264C(this, 255, 20, 150, 0);
+                    Player_RequestRumble(this, 255, 20, 150, 0);
                     func_8002F7DC(&this->actor, NA_SE_PL_BODY_HIT);
                     func_80832698(this, NA_SE_VO_LI_CLIMB_END);
                     this->unk_850 = 1;
@@ -10155,7 +10155,7 @@ void func_80848EF8(Player* this) {
         this->unk_6A0 += temp;
         if (this->unk_6A0 > 4000000.0f) {
             this->unk_6A0 = 0.0f;
-            func_8083264C(this, 120, 20, 10, 0);
+            Player_RequestRumble(this, 120, 20, 10, 0);
         }
     }
 }
@@ -13277,7 +13277,7 @@ void func_80850AEC(Player* this, PlayState* play) {
     if ((this->skelAnime.animation != &gPlayerAnim_link_hook_fly_start) || (4.0f <= this->skelAnime.curFrame)) {
         this->actor.gravity = 0.0f;
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x, 0x800);
-        func_8083264C(this, 100, 2, 100, 0);
+        Player_RequestRumble(this, 100, 2, 100, 0);
     }
 }
 
