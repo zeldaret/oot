@@ -37,6 +37,7 @@
 #include "fault.h"
 #include "sched.h"
 #include "rumble.h"
+#include "mempak.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
