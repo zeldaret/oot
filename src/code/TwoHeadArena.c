@@ -3,7 +3,7 @@
  *
  * This file implements a simple double-ended stack allocator for general purpose.
  *
- * A double-ended stack allocator accepts allocations at either the "head" or "tail" of it's allotted memory region.
+ * A double-ended stack allocator accepts allocations at either the "head" or "tail" of its allotted memory region.
  * While in general this type of allocator could accept deallocations on the most recently allocated block at either
  * end, this implementation does not support any individual deallocations; the only provided way to deallocate anything
  * is to reset the entire arena, deallocating everything. This scheme is most applicable to allocating similar data
@@ -33,15 +33,15 @@ void* THA_AllocHead(TwoHeadArena* tha, size_t size) {
     return start;
 }
 
-void* THA_AllocHead1(TwoHeadArena* tha) {
+void* THA_AllocHeadByte(TwoHeadArena* tha) {
     return THA_AllocHead(tha, 1);
 }
 
 /**
  * Allocates to the tail end of the Two Head Arena. The allocation will be aligned based on the size of the allocation.
- * For all allocations greater than 16-bytes, they will be aligned to 16-bytes. Otherwise, the alignment will be the
- * largest power of 2 for which the size is a multiple, in order to accommodate the alignment requirements of any data
- * types that can fit within the allocation.
+ * All allocations of 16 bytes or more will be aligned to 16-bytes. Otherwise, the alignment will be the largest power
+ * of 2 for which the size is a multiple, in order to accommodate the alignment requirements of any data types that can
+ * fit within the allocation.
  */
 void* THA_AllocTail(TwoHeadArena* tha, size_t size) {
     uintptr_t mask;
@@ -59,7 +59,7 @@ void* THA_AllocTail(TwoHeadArena* tha, size_t size) {
         // Align 0x10 for allocations greater than 0x10
         mask = ALIGN_MASK(0x10);
     } else {
-        //! @bug if size is 1 the computation below will give NULL. The mask for this case would be
+        //! @bug if size is less than 16 and odd the computation below will give NULL. The mask for this case would be
         //! more sensible as ~0, for no extra alignment
         mask = 0;
     }
@@ -103,7 +103,7 @@ s32 THA_GetRemaining(TwoHeadArena* tha) {
 }
 
 /**
- * Returns true if the Two Head Arena has overflown, false otherwise
+ * @return true if the Two Head Arena has overflowed, false otherwise
  */
 u32 THA_IsCrash(TwoHeadArena* tha) {
     return THA_GetRemaining(tha) < 0;

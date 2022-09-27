@@ -13,7 +13,7 @@
 #define ALIGNED8
 #endif
 
-#ifdef __sgi
+#ifdef __sgi /* IDO compiler */
 #define ALIGNOF(x) __builtin_alignof(x)
 #elif (__STDC_VERSION__ >= 201112L) /* C11 */
 #define ALIGNOF(x) _Alignof(x)
