@@ -263,7 +263,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {
-        if (SkelAnime_Update(&this->skelAnime) != 0) {
+        if (SkelAnime_Update(&this->skelAnime)) {
             this->skelAnime.curFrame = 0.0f;
         }
         this->actionFunc(this, play);

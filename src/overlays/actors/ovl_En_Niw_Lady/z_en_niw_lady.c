@@ -77,7 +77,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
         return;
     }
     this->unk_278 = 0;
-    if (play->sceneNum == SCENE_LABO) {
+    if (play->sceneId == SCENE_LABO) {
         this->unk_278 = 1;
     }
     if ((this->unk_278 != 0) && IS_DAY) {
@@ -365,13 +365,13 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
     }
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         playerExchangeItemId = func_8002F368(play);
-        if ((playerExchangeItemId == 6) && GET_EVENTCHKINF(EVENTCHKINF_6A)) {
+        if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_6A)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;
             this->unk_262 = TEXT_STATE_CHOICE;
             this->actionFunc = func_80ABAB08;
-        } else if (playerExchangeItemId != 0) {
+        } else if (playerExchangeItemId != EXCH_ITEM_NONE) {
             player->actor.textId = sTradeItemTextIds[7];
             this->unk_26E = this->unk_27A + 21;
         } else {

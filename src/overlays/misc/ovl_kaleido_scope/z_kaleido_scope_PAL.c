@@ -244,8 +244,8 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     gSPDisplayList(WORK_DISP++, gfx);
 
     PreRender_SetValues(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, fbuf, NULL);
-    func_800C1F20(&sPlayerPreRender, &gfx);
-    func_800C20B4(&sPlayerPreRender, &gfx);
+    PreRender_SaveFramebuffer(&sPlayerPreRender, &gfx);
+    PreRender_DrawCoverage(&sPlayerPreRender, &gfx);
 
     gSPEndDisplayList(gfx++);
     Graph_BranchDlist(gfxRef, gfx);
@@ -258,7 +258,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
 
 void KaleidoScope_ProcessPlayerPreRender(void) {
     Sleep_Msec(50);
-    PreRender_Calc(&sPlayerPreRender);
+    PreRender_ApplyFilters(&sPlayerPreRender);
     PreRender_Destroy(&sPlayerPreRender);
 }
 
@@ -408,7 +408,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     }
 
     if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-        if (pauseCtx->stickRelX < -30) {
+        if (pauseCtx->stickAdjX < -30) {
             pauseCtx->pageSwitchTimer++;
             if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 0);
@@ -417,7 +417,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
             pauseCtx->pageSwitchTimer = -1;
         }
     } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) {
-        if (pauseCtx->stickRelX > 30) {
+        if (pauseCtx->stickAdjX > 30) {
             pauseCtx->pageSwitchTimer++;
             if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 2);
@@ -552,23 +552,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             }
 
-            if (pauseCtx->stickRelX < -30) {
+            if (pauseCtx->stickAdjX < -30) {
                 if (D_8082AD4C == -1) {
                     if (--D_8082AD44 < 0) {
                         D_8082AD44 = XREG(6);
                     } else {
-                        pauseCtx->stickRelX = 0;
+                        pauseCtx->stickAdjX = 0;
                     }
                 } else {
                     D_8082AD44 = XREG(8);
                     D_8082AD4C = -1;
                 }
-            } else if (pauseCtx->stickRelX > 30) {
+            } else if (pauseCtx->stickAdjX > 30) {
                 if (D_8082AD4C == 1) {
                     if (--D_8082AD44 < 0) {
                         D_8082AD44 = XREG(6);
                     } else {
-                        pauseCtx->stickRelX = 0;
+                        pauseCtx->stickAdjX = 0;
                     }
                 } else {
                     D_8082AD44 = XREG(8);
@@ -578,23 +578,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 D_8082AD4C = 0;
             }
 
-            if (pauseCtx->stickRelY < -30) {
+            if (pauseCtx->stickAdjY < -30) {
                 if (D_8082AD50 == -1) {
                     if (--D_8082AD48 < 0) {
                         D_8082AD48 = XREG(6);
                     } else {
-                        pauseCtx->stickRelY = 0;
+                        pauseCtx->stickAdjY = 0;
                     }
                 } else {
                     D_8082AD48 = XREG(8);
                     D_8082AD50 = -1;
                 }
-            } else if (pauseCtx->stickRelY > 30) {
+            } else if (pauseCtx->stickAdjY > 30) {
                 if (D_8082AD50 == 1) {
                     if (--D_8082AD48 < 0) {
                         D_8082AD48 = XREG(6);
                     } else {
-                        pauseCtx->stickRelY = 0;
+                        pauseCtx->stickAdjY = 0;
                     }
                 } else {
                     D_8082AD48 = XREG(8);
@@ -2262,8 +2262,8 @@ void KaleidoScope_Draw(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
 
-    pauseCtx->stickRelX = input->rel.stick_x;
-    pauseCtx->stickRelY = input->rel.stick_y;
+    pauseCtx->stickAdjX = input->rel.stick_x;
+    pauseCtx->stickAdjY = input->rel.stick_y;
 
     gSPSegment(POLY_OPA_DISP++, 0x02, interfaceCtx->parameterSegment);
     gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->playerSegment);
@@ -2455,13 +2455,13 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
     KaleidoScope_LoadDungeonMap(play);
     Map_SetFloorPalettesData(play, pauseCtx->dungeonMapSlot - 3);
 
-    if ((play->sceneNum >= SCENE_YDAN) && (play->sceneNum <= SCENE_TAKARAYA)) {
+    if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
             KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment, 2040, interfaceCtx->mapPaletteIndex, 14);
         }
     }
 
-    if ((play->sceneNum >= SCENE_YDAN) && (play->sceneNum <= SCENE_TAKARAYA)) {
+    if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
             KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment + 0x800, 2040, interfaceCtx->mapPaletteIndex, 14);
         }
@@ -2492,8 +2492,8 @@ void KaleidoScope_Update(PlayState* play) {
                                      ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
 
         if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == 6)) {
-            pauseCtx->stickRelX = input->rel.stick_x;
-            pauseCtx->stickRelY = input->rel.stick_y;
+            pauseCtx->stickAdjX = input->rel.stick_x;
+            pauseCtx->stickAdjY = input->rel.stick_y;
             KaleidoScope_UpdateCursorSize(play);
             KaleidoScope_HandlePageToggles(pauseCtx, input);
         } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 5))) {
@@ -2552,7 +2552,7 @@ void KaleidoScope_Update(PlayState* play) {
 
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
 
-            switch (play->sceneNum) {
+            switch (play->sceneId) {
                 case SCENE_YDAN:
                 case SCENE_DDAN:
                 case SCENE_BDAN:
@@ -3061,7 +3061,7 @@ void KaleidoScope_Update(PlayState* play) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                             Play_SaveSceneFlags(play);
-                            gSaveContext.savedSceneNum = play->sceneNum;
+                            gSaveContext.savedSceneId = play->sceneId;
                             Sram_WriteSave(&play->sramCtx);
                             pauseCtx->unk_1EC = 4;
                             D_8082B25C = 3;
@@ -3300,7 +3300,7 @@ void KaleidoScope_Update(PlayState* play) {
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     pauseCtx->promptChoice = 0;
                     Play_SaveSceneFlags(play);
-                    gSaveContext.savedSceneNum = play->sceneNum;
+                    gSaveContext.savedSceneId = play->sceneId;
                     Sram_WriteSave(&play->sramCtx);
                     pauseCtx->state = 0xF;
                     D_8082B25C = 3;
@@ -3461,7 +3461,7 @@ void KaleidoScope_Update(PlayState* play) {
             func_800981B8(&play->objectCtx);
             func_800418D0(&play->colCtx, play);
 
-            switch (play->sceneNum) {
+            switch (play->sceneId) {
                 case SCENE_YDAN:
                 case SCENE_DDAN:
                 case SCENE_BDAN:

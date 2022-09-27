@@ -129,7 +129,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 typedef struct {
-    s16 sceneNum;
+    s16 sceneId;
     u8 index;
 } ShutterSceneInfo;
 
@@ -143,8 +143,8 @@ static ShutterSceneInfo sSceneInfo[] = {
 };
 
 typedef struct {
-    s16 dungeonScene;
-    s16 bossScene;
+    s16 dungeonSceneId;
+    s16 bossSceneId;
     u8 index;
 } BossDoorInfo;
 
@@ -234,7 +234,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
         ShutterSceneInfo* phi_v1;
 
         for (phi_v1 = &sSceneInfo[0], i = 0; i < ARRAY_COUNT(sSceneInfo) - 1; i++, phi_v1++) {
-            if (play->sceneNum == phi_v1->sceneNum) {
+            if (play->sceneId == phi_v1->sceneId) {
                 break;
             }
         }
@@ -243,7 +243,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
         BossDoorInfo* phi_v1_2;
 
         for (phi_v1_2 = &D_80998288[0], i = 0; i < ARRAY_COUNT(D_80998288) - 1; i++, phi_v1_2++) {
-            if (play->sceneNum == phi_v1_2->dungeonScene || play->sceneNum == phi_v1_2->bossScene) {
+            if (play->sceneId == phi_v1_2->dungeonSceneId || play->sceneId == phi_v1_2->bossSceneId) {
                 break;
             }
         }
@@ -475,7 +475,7 @@ void func_80996EE8(DoorShutter* this, PlayState* play) {
         } else if (func_809968D4(this, play)) {
             Player* player = GET_PLAYER(play);
             // Jabu navi text for switch doors is different
-            player->naviTextId = (play->sceneNum == SCENE_BDAN) ? -0x20B : -0x202;
+            player->naviTextId = (play->sceneId == SCENE_BDAN) ? -0x20B : -0x202;
         }
     }
 }
@@ -576,7 +576,7 @@ void func_809973E8(DoorShutter* this, PlayState* play) {
         Quake_SetSpeed(quakeId, -32536);
         Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
         Quake_SetCountdown(quakeId, 10);
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
+        Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
         func_80997220(this, play);
     }
 }
@@ -769,7 +769,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
 void func_8099803C(PlayState* play, s16 y, s16 countdown, s16 camId) {
     s16 quakeId = Quake_Add(Play_GetCamera(play, camId), 3);
 
-    func_800A9F6C(0.0f, 180, 20, 100);
+    Rumble_Override(0.0f, 180, 20, 100);
     Quake_SetSpeed(quakeId, 20000);
     Quake_SetQuakeValues(quakeId, y, 0, 0, 0);
     Quake_SetCountdown(quakeId, countdown);

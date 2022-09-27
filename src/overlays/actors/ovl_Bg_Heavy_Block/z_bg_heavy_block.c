@@ -88,7 +88,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->pieceFlags = 0;
 
-    if (play->sceneNum == SCENE_GANON_TOU) {
+    if (play->sceneId == SCENE_GANON_TOU) {
         thisx->params &= 0xFF00;
         thisx->params |= 4;
     }
@@ -189,7 +189,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, PlayState* play) {
             thisx->velocity.z = Rand_CenteredFloat(8.0f);
             BgHeavyBlock_SetPieceRandRot(this, 1.0f);
             Audio_PlayActorSfx2(thisx, NA_SE_EV_ROCK_BROKEN);
-            func_800AA000(thisx->xzDistToPlayer, 0x96, 0xA, 8);
+            Rumble_Request(thisx->xzDistToPlayer, 150, 10, 8);
         }
     }
 
@@ -348,7 +348,7 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, PlayState* play) {
     f32 xOffset;
 
     if (this->timer == 11) {
-        func_800AA000(0.0f, 0xFF, 0x14, 0x14);
+        Rumble_Request(0.0f, 255, 20, 20);
         func_8002F7DC(&player->actor, NA_SE_PL_PULL_UP_BIGROCK);
         LOG_STRING("NA_SE_PL_PULL_UP_BIGROCK", "../z_bg_heavy_block.c", 691);
     }
@@ -378,19 +378,19 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, PlayState* play) {
 void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
     s32 bgId;
     s32 quakeIndex;
-    Vec3f pos;
-    f32 raycastResult;
+    Vec3f checkPos;
+    f32 yIntersect;
 
     Actor_MoveForward(&this->dyna.actor);
-    pos.x = this->dyna.actor.home.pos.x;
-    pos.y = this->dyna.actor.home.pos.y + 1000.0f;
-    pos.z = this->dyna.actor.home.pos.z;
-    raycastResult =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
-    this->dyna.actor.floorHeight = raycastResult;
+    checkPos.x = this->dyna.actor.home.pos.x;
+    checkPos.y = this->dyna.actor.home.pos.y + 1000.0f;
+    checkPos.z = this->dyna.actor.home.pos.z;
+    yIntersect =
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &checkPos);
+    this->dyna.actor.floorHeight = yIntersect;
 
-    if (this->dyna.actor.home.pos.y <= raycastResult) {
-        func_800AA000(0.0f, 0xFF, 0x3C, 4);
+    if (this->dyna.actor.home.pos.y <= yIntersect) {
+        Rumble_Request(0.0f, 255, 60, 4);
 
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_BREAKABLE:

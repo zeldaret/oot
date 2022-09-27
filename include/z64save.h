@@ -59,7 +59,7 @@ typedef struct {
 } SavedSceneFlags; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ s16 scene;
+    /* 0x00 */ s16 sceneId;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ s16 angle;
 } HorseData; // size = 0x0A
@@ -121,14 +121,14 @@ typedef struct {
     /* 0x003A */ u8 isMagicAcquired;
     /* 0x003B */ char unk_3B[0x01];
     /* 0x003C */ u8 isDoubleMagicAcquired;
-    /* 0x003D */ u8 doubleDefense;
+    /* 0x003D */ u8 isDoubleDefenseAcquired;
     /* 0x003E */ u8 bgsFlag;
     /* 0x003F */ u8 ocarinaGameRoundNum;
     /* 0x0040 */ ItemEquips childEquips;
     /* 0x004A */ ItemEquips adultEquips;
     /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignment
     /* 0x0058 */ char unk_58[0x0E];
-    /* 0x0066 */ s16 savedSceneNum;
+    /* 0x0066 */ s16 savedSceneId;
     /* 0x0068 */ ItemEquips equips;
     /* 0x0074 */ Inventory inventory;
     /* 0x00D4 */ SavedSceneFlags sceneFlags[124];

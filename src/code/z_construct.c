@@ -1,10 +1,10 @@
 #include "global.h"
 
-void func_80110990(PlayState* play) {
+void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
-void func_801109B0(PlayState* play) {
+void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
     u16 doActionOffset;
@@ -595,9 +595,11 @@ void func_80111070(void) {
     VREG(87) = 64;
     VREG(88) = 66;
     VREG(89) = 0;
-    VREG(90) = 126;
-    VREG(91) = 124;
-    VREG(92) = -63;
+    R_GAME_OVER_RUMBLE_STRENGTH = 126;
+    R_GAME_OVER_RUMBLE_DURATION = 124;
+    //! @bug This is eventually cast to a u8 after some scaling in `GameOver_Update`, negative numbers typically
+    //! become large (fast) decrease rates
+    R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
 void func_80112098(PlayState* play) {

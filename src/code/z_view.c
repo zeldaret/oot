@@ -135,7 +135,7 @@ void View_GetViewport(View* view, Viewport* viewport) {
     *viewport = view->viewport;
 }
 
-void View_ApplyShrinkWindow(View* view) {
+void View_ApplyLetterbox(View* view) {
     s32 varY;
     s32 varX;
     s32 pad;
@@ -145,7 +145,7 @@ void View_ApplyShrinkWindow(View* view) {
     s32 lry;
     GraphicsContext* gfxCtx = view->gfxCtx;
 
-    varY = ShrinkWindow_GetCurrentVal();
+    varY = Letterbox_GetSize();
 
     varX = -1; // The following is optimized to varX = 0 but affects codegen
 
@@ -296,7 +296,7 @@ s32 View_ApplyPerspective(View* view) {
     View_ViewportToVp(vp, &view->viewport);
     view->vp = *vp;
 
-    View_ApplyShrinkWindow(view);
+    View_ApplyLetterbox(view);
 
     gSPViewport(POLY_OPA_DISP++, vp);
     gSPViewport(POLY_XLU_DISP++, vp);
@@ -334,7 +334,7 @@ s32 View_ApplyPerspective(View* view) {
         Matrix_MtxToMtxF(projection, &mf);
         osSyncPrintf("projection\n");
         for (i = 0; i < 4; i++) {
-            osSyncPrintf("	%f	%f	%f	%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
+            osSyncPrintf("\t%f\t%f\t%f\t%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
         }
         osSyncPrintf("\n");
     }
@@ -373,7 +373,7 @@ s32 View_ApplyPerspective(View* view) {
         Matrix_MtxToMtxF(view->viewingPtr, &mf);
         osSyncPrintf("viewing\n");
         for (i = 0; i < 4; i++) {
-            osSyncPrintf("	%f	%f	%f	%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
+            osSyncPrintf("\t%f\t%f\t%f\t%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
         }
         osSyncPrintf("\n");
     }
@@ -398,7 +398,7 @@ s32 View_ApplyOrtho(View* view) {
     View_ViewportToVp(vp, &view->viewport);
     view->vp = *vp;
 
-    View_ApplyShrinkWindow(view);
+    View_ApplyLetterbox(view);
 
     gSPViewport(POLY_OPA_DISP++, vp);
     gSPViewport(POLY_XLU_DISP++, vp);

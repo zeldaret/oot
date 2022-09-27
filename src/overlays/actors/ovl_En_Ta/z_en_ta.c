@@ -144,7 +144,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (play->sceneNum == SCENE_MALON_STABLE && !IS_DAY) {
+            } else if (play->sceneId == SCENE_MALON_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
@@ -156,7 +156,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             break;
         default:
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (play->sceneNum == SCENE_SPOT15) {
+            if (play->sceneId == SCENE_SPOT15) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_13)) {
@@ -171,7 +171,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (play->sceneNum == SCENE_SOUKO) {
+            } else if (play->sceneId == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
@@ -234,7 +234,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
 
     Collider_DestroyCylinder(play, &this->collider);
 
-    if (this->actor.params != 1 && this->actor.params != 2 && play->sceneNum == SCENE_SOUKO) {
+    if (this->actor.params != 1 && this->actor.params != 2 && play->sceneId == SCENE_SOUKO) {
         gSaveContext.timer1State = 0;
     }
 
