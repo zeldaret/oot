@@ -9,7 +9,7 @@ PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
 PadMgr gPadMgr;
 IrqMgr gIrqMgr;
-u32 gSegments[NUM_SEGMENTS];
+uintptr_t gSegments[NUM_SEGMENTS];
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
 STACK(sSchedStack, 0x600);
@@ -37,9 +37,9 @@ void Main(void* arg) {
     IrqMgrClient irqClient;
     OSMesgQueue irqMgrMsgQueue;
     OSMesg irqMgrMsgBuf[60];
-    u32 systemHeapStart;
-    u32 fb;
-    u32 debugHeapStart;
+    uintptr_t systemHeapStart;
+    uintptr_t fb;
+    uintptr_t debugHeapStart;
     u32 debugHeapSize;
     s16* msg;
 
@@ -50,7 +50,7 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    systemHeapStart = (u32)gSystemHeap;
+    systemHeapStart = (uintptr_t)gSystemHeap;
     fb = SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
     // "System heap initalization"
@@ -61,7 +61,7 @@ void Main(void* arg) {
         debugHeapSize = PHYS_TO_K0(0x600000) - debugHeapStart;
     } else {
         debugHeapSize = 0x400;
-        debugHeapStart = (u32)SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
+        debugHeapStart = (uintptr_t)SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
     DebugArena_Init((void*)debugHeapStart, debugHeapSize);
