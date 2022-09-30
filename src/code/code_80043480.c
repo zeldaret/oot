@@ -2,6 +2,7 @@
 
 /**
  * @param transformFlags How other actors standing on the dynapoly actor's collision move when the dynapoly actor moves.
+ *   See `DYNA_TRANSFORM_POS`, `DYNA_TRANSFORM_ROT_Y`.
  */
 void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 transformFlags) {
     dynaActor->bgId = -1;

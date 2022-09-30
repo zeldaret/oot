@@ -82,7 +82,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
 
 /**
  * Update the `carriedActor`'s position and Y rotation based on the dynapoly actor identified by `bgId`, according to
- * the dynapoly actor's move flags (see `DYNA_TRANSFORM_POS` and others).
+ * the dynapoly actor's move flags (see `DYNA_TRANSFORM_POS` and `DYNA_TRANSFORM_ROT_Y`).
  */
 s32 DynaPolyActor_TransformCarriedActor(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
     s32 result = false;
