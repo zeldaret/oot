@@ -313,7 +313,7 @@ void KaleidoScope_MoveCursorToSpecialPos(PlayState* play, u16 specialPos) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
     pauseCtx->cursorSpecialPos = specialPos;
-    pauseCtx->delaySwitchPageInputTimer = 0;
+    pauseCtx->pageSwitchInputTimer = 0;
 
     Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
@@ -409,21 +409,21 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
 
     if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
         if (pauseCtx->stickAdjX < -30) {
-            pauseCtx->delaySwitchPageInputTimer++;
-            if ((pauseCtx->delaySwitchPageInputTimer >= 10) || (pauseCtx->delaySwitchPageInputTimer == 0)) {
+            pauseCtx->pageSwitchInputTimer++;
+            if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 0);
             }
         } else {
-            pauseCtx->delaySwitchPageInputTimer = -1;
+            pauseCtx->pageSwitchInputTimer = -1;
         }
     } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) {
         if (pauseCtx->stickAdjX > 30) {
-            pauseCtx->delaySwitchPageInputTimer++;
-            if ((pauseCtx->delaySwitchPageInputTimer >= 10) || (pauseCtx->delaySwitchPageInputTimer == 0)) {
+            pauseCtx->pageSwitchInputTimer++;
+            if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 2);
             }
         } else {
-            pauseCtx->delaySwitchPageInputTimer = -1;
+            pauseCtx->pageSwitchInputTimer = -1;
         }
     }
 }
