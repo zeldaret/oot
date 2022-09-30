@@ -363,7 +363,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
                     player->actor.freezeTimer = 40;
                     func_8008EEAC(play, &this->actor);
                     GET_PLAYER(play)->unk_684 = &this->actor;
-                    func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+                    Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
                 }
 
                 this->playerStunWaitTimer = 60;
@@ -525,7 +525,7 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             Animation_PlayLoop(&this->skelAnime, &gGibdoRedeadGrabAttackAnim);
             this->grabState++;
             play->damagePlayer(play, -8);
-            func_800AA000(this->actor.xzDistToPlayer, 0xFF, 1, 0xC);
+            Rumble_Request(this->actor.xzDistToPlayer, 255, 1, 12);
             this->grabDamageTimer = 20;
             FALLTHROUGH;
         case REDEAD_GRAB_START:
@@ -561,7 +561,7 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             this->grabDamageTimer--;
             if (this->grabDamageTimer == 0) {
                 play->damagePlayer(play, -8);
-                func_800AA000(this->actor.xzDistToPlayer, 0xF0, 1, 0xC);
+                Rumble_Request(this->actor.xzDistToPlayer, 240, 1, 12);
                 this->grabDamageTimer = 20;
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S + player->ageProperties->unk_92);
             }
@@ -603,7 +603,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
     if (ABS(yaw) < 0x2008) {
         if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
-            func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+            Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
             func_8008EEAC(play, &this->actor);
         }
 

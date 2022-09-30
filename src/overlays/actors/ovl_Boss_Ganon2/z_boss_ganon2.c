@@ -431,7 +431,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
             if (this->unk_398 == 30) {
                 D_80906D78 = 1;
                 this->unk_314 = 1;
-                func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
+                Rumble_Override(0.0f, 200, 20, 20);
             }
             if (this->unk_398 == 30) {
                 func_80078884(NA_SE_EV_GRAVE_EXPLOSION);
@@ -643,7 +643,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 this->actor.velocity.y = 0.0f;
                 Animation_MorphToPlayOnce(&this->skelAnime, &gGanonUncurlAndFlailAnim, 0.0f);
                 func_808FD4D4(this, play, 0, 3);
-                func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
+                Rumble_Override(0.0f, 200, 20, 20);
             }
             break;
         case 21:
@@ -720,7 +720,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
             if (this->unk_398 == 228) {
                 func_80078884(NA_SE_IT_SHIELD_REFLECT_SW);
                 func_8002DF54(play, &this->actor, 0x56);
-                func_800A9F6C(0.0f, 0xFF, 0xA, 0x32);
+                Rumble_Override(0.0f, 255, 10, 50);
             }
             if (this->unk_398 >= 229) {
                 play->envCtx.fillScreen = true;
@@ -924,7 +924,7 @@ void func_808FF898(BossGanon2* this, PlayState* play) {
                         sp28.z = 1.0f;
                         Matrix_MultVec3f(&sp28, &gj->unk_26C);
                         gj->killFlag = true;
-                        func_800A9F6C(0.0f, 0x96, 0x14, 0x32);
+                        Rumble_Override(0.0f, 150, 20, 50);
                         this->unk_392 = 6;
                         return;
                     }
