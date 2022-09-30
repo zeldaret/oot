@@ -102,6 +102,8 @@ u16 Math_GetAtan2Tbl(f32 y, f32 x) {
 
 /**
  * @return angle from (1,0) to (x,y) as binang, in [-0x8000,0x7FFF] range
+ *
+ * @note The arguments are (x,y), which is different from atan2's (y,x)
  */
 s16 Math_Atan2S(f32 x, f32 y) {
     s32 ret;
@@ -141,6 +143,8 @@ s16 Math_Atan2S(f32 x, f32 y) {
 
 /**
  * @return angle from (1,0) to (x,y) in radians, in [-pi,pi) range
+ *
+ * @note The arguments are (x,y), which is different from atan2's (y,x)
  */
 f32 Math_Atan2F(f32 x, f32 y) {
     return BINANG_TO_RAD(Math_Atan2S(x, y));
