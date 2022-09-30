@@ -199,7 +199,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     timeNow = osGetTime();
     if (gAudioThreadUpdateTimeStart != 0) {
-        // The audio thread audio update is running on the audio thread
+        // The audio thread update is running
         // Add the time already spent to the accumulator and leave the rest for the next cycle
 
         gAudioThreadUpdateTimeAcc = gAudioThreadUpdateTimeAcc + timeNow - gAudioThreadUpdateTimeStart;
