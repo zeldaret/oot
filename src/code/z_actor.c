@@ -3523,9 +3523,9 @@ void func_80033E1C(PlayState* play, s16 arg1, s16 arg2, s16 arg3) {
 
 void func_80033E88(Actor* actor, PlayState* play, s16 arg2, s16 arg3) {
     if (arg2 >= 5) {
-        func_800AA000(actor->xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
+        Rumble_Request(actor->xyzDistToPlayerSq, 255, 20, 150);
     } else {
-        func_800AA000(actor->xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
+        Rumble_Request(actor->xyzDistToPlayerSq, 180, 20, 100);
     }
 
     func_80033DB8(play, arg2, arg3);

@@ -921,7 +921,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                     play->csCtx.state = CS_STATE_UNSKIPPABLE_INIT;
                 }
             } else {
-                func_800AA000(0.0f, 0xA0, 0xA, 0x28);
+                Rumble_Request(0.0f, 160, 10, 40);
                 func_8002DF54(play, &this->actor, 1);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_30);
                 EnZl4_SetActiveCamDir(play, 11);
