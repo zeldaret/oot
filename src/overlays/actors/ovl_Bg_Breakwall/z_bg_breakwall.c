@@ -82,7 +82,7 @@ void BgBreakwall_Init(Actor* thisx, PlayState* play) {
     s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->bombableWallDList = sBombableWallInfo[wallType].dList;
     this->colType = sBombableWallInfo[wallType].colType;
 

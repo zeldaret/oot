@@ -59,7 +59,7 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
 void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
-    BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, DYNA_TRANSFORM_NONE);
+    BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     BgJyaAmishutter_SetupWaitForPlayer(this);
 }

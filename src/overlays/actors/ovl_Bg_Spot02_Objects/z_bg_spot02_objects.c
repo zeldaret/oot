@@ -52,7 +52,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->unk_16B = (u16)(thisx->params >> 8);
     thisx->params = (u16)(thisx->params & 0xFF);
 

@@ -50,7 +50,7 @@ void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
+    DynaPolyActor_Init(&this->dyna, 0);
 
     if (this->dyna.actor.params == 0) {
         CollisionHeader_GetVirtual(&gBowlingFirstAndFinalRoundCol, &colHeader);

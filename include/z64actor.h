@@ -254,7 +254,6 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
-#define DYNA_TRANSFORM_NONE 0 // Actors on top are unaffected by movements of the dynapoly actor.
 #define DYNA_TRANSFORM_POS (1 << 0) // Position of the actors on top follows the dynapoly actor's movement.
 #define DYNA_TRANSFORM_ROT_Y (1 << 1) // The Y rotation of the actors on top follows the dynapoly actor's Y rotation.
 

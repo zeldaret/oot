@@ -120,7 +120,7 @@ void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     u32 bgId;
 
-    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_NONE);
+    DynaPolyActor_Init(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ObjKibako2_InitCollider(thisx, play);
     CollisionHeader_GetVirtual(&gLargeCrateCol, &colHeader);
