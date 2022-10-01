@@ -42,13 +42,13 @@ void SysCfb_Reset(void) {
     sSysCfbEnd = 0;
 }
 
-uintptr_t SysCfb_GetFbPtr(s32 idx) {
+void* SysCfb_GetFbPtr(s32 idx) {
     if (idx < 2) {
-        return sSysCfbFbPtr[idx];
+        return (void*)sSysCfbFbPtr[idx];
     }
-    return 0;
+    return NULL;
 }
 
-uintptr_t SysCfb_GetFbEnd(void) {
-    return sSysCfbEnd;
+void* SysCfb_GetFbEnd(void) {
+    return (void*)sSysCfbEnd;
 }
