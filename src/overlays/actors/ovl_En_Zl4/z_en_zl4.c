@@ -176,7 +176,7 @@ static AnimationInfo sAnimationInfo[] = {
     /* 33 */ /* transition to standing */ { &gChildZeldaAnim_000654, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
-#include "z_en_zl4_cutscene_data.c"
+#include "z_en_zl4_cutscene_data.inc.c"
 
 void EnZl4_SetActiveCamDir(PlayState* play, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(play);

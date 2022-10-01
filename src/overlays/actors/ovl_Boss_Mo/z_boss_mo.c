@@ -140,7 +140,7 @@ static f32 sFlatWidth[41] = {
     8.6f,  8.3f,  8.2f, 8.1f, 7.2f, 6.7f, 5.9f, 4.9f, 2.7f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
-#include "z_boss_mo_colchk.c"
+#include "z_boss_mo_colchk.inc.c"
 
 static BossMoEffect sEffects[BOSS_MO_EFFECT_COUNT];
 static s32 sSeed1;

@@ -43,7 +43,7 @@ const ActorInit En_Jj_InitVars = {
 static s32 sUnused = 0;
 
 #pragma asmproc recurse
-#include "z_en_jj_cutscene_data.c"
+#include "z_en_jj_cutscene_data.inc.c"
 
 static s32 sUnused2[] = { 0, 0 };
 
