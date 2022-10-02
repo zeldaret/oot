@@ -436,7 +436,7 @@ u16 func_80B61024(PlayState* play, Actor* thisx) {
                 return 0x4011;
             }
             break;
-
+    }
     return 0x4006;
 }
 
@@ -449,13 +449,13 @@ s16 func_80B61298(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return NPC_TALKING_STATE_1;
+            return NPC_TALK_STATE_TALKING;
 
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x4020:
                 case 0x4021:
-                    return NPC_TALKING_STATE_0;
+                    return NPC_TALK_STATE_IDLE;
                 case 0x4008:
                     SET_INFTABLE(INFTABLE_124);
                     break;
@@ -464,12 +464,12 @@ s16 func_80B61298(PlayState* play, Actor* thisx) {
                     break;
             }
             SET_EVENTCHKINF(EVENTCHKINF_30);
-            return NPC_TALKING_STATE_0;
+            return NPC_TALK_STATE_IDLE;
 
         case TEXT_STATE_CHOICE:
             switch (Message_ShouldAdvance(play)) {
                 case 0:
-                    return NPC_TALKING_STATE_1;
+                    return NPC_TALK_STATE_TALKING;
                 default:
                     if (thisx->textId == 0x400C) {
                         thisx->textId = (play->msgCtx.choiceIndex == 0) ? 0x400D : 0x400E;
@@ -477,18 +477,19 @@ s16 func_80B61298(PlayState* play, Actor* thisx) {
                     }
                     break;
             }
-            return 1;
+            return NPC_TALK_STATE_TALKING;
 
         case TEXT_STATE_EVENT:
             switch (Message_ShouldAdvance(play)) {
                 case 0:
-                    return NPC_TALKING_STATE_1;
+                    return NPC_TALK_STATE_TALKING;
                 default:
-                    return NPC_TALKING_STATE_2;
+                    return NPC_TALK_STATE_ACTION;
             }
+            return NPC_TALK_STATE_TALKING;
     }
 
-    return NPC_TALKING_STATE_1;
+    return NPC_TALK_STATE_TALKING;
 }
 
 void EnZo_Blink(EnZo* this) {
@@ -542,7 +543,7 @@ void EnZo_SetAnimation(EnZo* this) {
 
     if (this->skelAnime.animation == &gZoraHandsOnHipsTappingFootAnim ||
         this->skelAnime.animation == &gZoraOpenArmsAnim) {
-        if (this->unk_194.talkState == NPC_TALKING_STATE_0) {
+        if (this->unk_194.talkState == NPC_TALK_STATE_IDLE) {
             if (this->actionFunc == EnZo_Standing) {
                 animId = ENZO_ANIM_0;
             } else {
@@ -551,12 +552,12 @@ void EnZo_SetAnimation(EnZo* this) {
         }
     }
 
-    if (this->unk_194.talkState != NPC_TALKING_STATE_0 && this->actor.textId == 0x4006 &&
+    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4006 &&
         this->skelAnime.animation != &gZoraHandsOnHipsTappingFootAnim) {
         animId = ENZO_ANIM_6;
     }
 
-    if (this->unk_194.talkState != NPC_TALKING_STATE_0 && this->actor.textId == 0x4007 &&
+    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4007 &&
         this->skelAnime.animation != &gZoraOpenArmsAnim) {
         animId = ENZO_ANIM_7;
     }
@@ -590,7 +591,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     this->dialogRadius = this->collider.dim.radius + 30.0f;
     this->unk_64C = 1;
     this->canSpeak = false;
-    this->unk_194.talkState = NPC_TALKING_STATE_0;
+    this->unk_194.talkState = NPC_TALK_STATE_IDLE;
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
@@ -615,7 +616,7 @@ void EnZo_Standing(EnZo* this, PlayState* play) {
 
     func_80034F54(play, this->unk_656, this->unk_67E, 20);
     EnZo_SetAnimation(this);
-    if (this->unk_194.talkState != NPC_TALKING_STATE_0) {
+    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
         this->unk_64C = 4;
         return;
     }

@@ -228,9 +228,9 @@ u16 EnZl4_GetText(PlayState* play, Actor* thisx) {
 
 s16 func_80B5B9B0(PlayState* play, Actor* thisx) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        return NPC_TALKING_STATE_0;
+        return NPC_TALK_STATE_IDLE;
     }
-    return NPC_TALKING_STATE_1;
+    return NPC_TALK_STATE_TALKING;
 }
 
 void EnZl4_UpdateFace(EnZl4* this) {

@@ -565,7 +565,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return NPC_TALKING_STATE_1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x709E:
@@ -587,7 +587,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     }
                     break;
             }
-            return NPC_TALKING_STATE_1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x70F0:
@@ -663,16 +663,16 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     this->actionFunc = func_80A714C4;
                     break;
             }
-            return NPC_TALKING_STATE_0;
+            return NPC_TALK_STATE_IDLE;
         case TEXT_STATE_EVENT:
             if (!Message_ShouldAdvance(play)) {
-                return NPC_TALKING_STATE_1;
+                return NPC_TALK_STATE_TALKING;
             } else {
-                return NPC_TALKING_STATE_2;
+                return NPC_TALK_STATE_ACTION;
             }
     }
 
-    return NPC_TALKING_STATE_1;
+    return NPC_TALK_STATE_TALKING;
 }
 
 void EnHy_UpdateEyes(EnHy* this) {
@@ -769,7 +769,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
         case ENHY_TYPE_BOJ_10:
-            phi_a3 = (this->unk_1E8.talkState == NPC_TALKING_STATE_0) ? 1 : 2;
+            phi_a3 = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? 1 : 2;
             break;
         case ENHY_TYPE_BOJ_12:
             phi_a3 = 1;
@@ -780,7 +780,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
             break;
         case ENHY_TYPE_AOB:
         case ENHY_TYPE_BOB_18:
-            phi_a3 = (this->unk_1E8.talkState == NPC_TALKING_STATE_0) ? 2 : 4;
+            phi_a3 = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? 2 : 4;
             break;
         default:
             phi_a3 = 2;
@@ -967,7 +967,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
 }
 
 void func_80A710F8(EnHy* this, PlayState* play) {
-    if (this->unk_1E8.talkState != NPC_TALKING_STATE_0) {
+    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
         }
@@ -1017,11 +1017,11 @@ void func_80A7134C(EnHy* this, PlayState* play) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.talkState != NPC_TALKING_STATE_0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
     }
 
-    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.talkState == NPC_TALKING_STATE_0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
     }
 
@@ -1083,7 +1083,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
-        if (this->unk_1E8.talkState == NPC_TALKING_STATE_0) {
+        if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) {
             Actor_MoveForward(&this->actor);
         }
 

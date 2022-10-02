@@ -3664,11 +3664,11 @@ s32 Actor_NpcUpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 in
     s16 y;
 
     if (Actor_ProcessTalkRequest(actor, play)) {
-        *talkState = 1;
+        *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }
 
-    if (*talkState != 0) {
+    if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = getTalkState(play, actor);
         return false;
     }
@@ -3680,7 +3680,7 @@ s32 Actor_NpcUpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 in
     }
 
     if (!func_8002F2CC(actor, play, interactRange)) {
-        // Player not in interact range or can't talk now
+        // Player cannot talk to actor now
         return false;
     }
 
@@ -3778,7 +3778,7 @@ s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, 
         return arg4;
     }
 
-    if (arg1->talkState != 0) {
+    if (arg1->talkState != NPC_TALK_STATE_IDLE) {
         return 4;
     }
 
