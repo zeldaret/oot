@@ -10,7 +10,7 @@
 #define FLAGS 0
 
 #define BGICESHELTER_GET_TYPE(thisx) (((thisx)->params >> 8) & 7)
-#define BGICESHELTER_USING_SWITCH_FLAG(thisx) (!(((thisx)->params >> 6) & 1))
+#define BGICESHELTER_NO_SWITCH_FLAG(thisx) (((thisx)->params >> 6) & 1)
 
 void BgIceShelter_Init(Actor* thisx, PlayState* play);
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play);
@@ -179,7 +179,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     // The only red ice actor in the game that doesn't use a switch flag is the one for King Zora
-    if (BGICESHELTER_USING_SWITCH_FLAG(&this->dyna.actor) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
+    if (!BGICESHELTER_NO_SWITCH_FLAG(&this->dyna.actor) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -427,7 +427,7 @@ void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
     sSteamSpawnFuncs[type](this, play, particleSpawningChance, sSteamEffectScales[type]);
 
     if (this->alpha <= 0) {
-        if (BGICESHELTER_USING_SWITCH_FLAG(&this->dyna.actor)) {
+        if (!BGICESHELTER_NO_SWITCH_FLAG(&this->dyna.actor)) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
         }
 
