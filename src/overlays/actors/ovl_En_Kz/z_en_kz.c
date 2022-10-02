@@ -117,18 +117,18 @@ u16 EnKz_GetText(PlayState* play, Actor* thisx) {
 
 s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
     EnKz* this = (EnKz*)thisx;
-    s16 ret = NPC_TALKING_STATE_1;
+    s16 ret = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_DONE:
-            ret = NPC_TALKING_STATE_0;
+            ret = NPC_TALK_STATE_IDLE;
             switch (this->actor.textId) {
                 case 0x4012:
                     SET_INFTABLE(INFTABLE_139);
-                    ret = NPC_TALKING_STATE_2;
+                    ret = NPC_TALK_STATE_ACTION;
                     break;
                 case 0x401B:
-                    ret = !Message_ShouldAdvance(play) ? 1 : 2;
+                    ret = !Message_ShouldAdvance(play) ? NPC_TALK_STATE_TALKING : NPC_TALK_STATE_ACTION;
                     break;
                 case 0x401F:
                     SET_INFTABLE(INFTABLE_139);
@@ -155,7 +155,7 @@ s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
             if (this->actor.textId == 0x4014) {
                 if (play->msgCtx.choiceIndex == 0) {
                     EnKz_SetupGetItem(this, play);
-                    ret = NPC_TALKING_STATE_2;
+                    ret = NPC_TALK_STATE_ACTION;
                 } else {
                     this->actor.textId = 0x4016;
                     Message_ContinueTextbox(play, this->actor.textId);
@@ -164,7 +164,7 @@ s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
             break;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                ret = NPC_TALKING_STATE_2;
+                ret = NPC_TALK_STATE_ACTION;
             }
             break;
         case TEXT_STATE_NONE:
@@ -197,11 +197,11 @@ s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, ActorNp
     f32 yaw;
 
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        *talkState = 1;
+        *talkState = NPC_TALK_STATE_TALKING;
         return 1;
     }
 
-    if (*talkState != 0) {
+    if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = getTalkState(play, &this->actor);
         return 0;
     }
@@ -327,7 +327,7 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01);
     this->actor.targetMode = 3;
-    this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+    this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
     if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
@@ -352,9 +352,9 @@ void EnKz_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALKING_STATE_2) {
+    if (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_2);
-        this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+        this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
         func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
@@ -413,7 +413,7 @@ void EnKz_StopMweep(EnKz* this, PlayState* play) {
 }
 
 void EnKz_Wait(EnKz* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALKING_STATE_2) {
+    if (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
@@ -428,7 +428,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
-        this->unk_1E0.talkState = NPC_TALKING_STATE_1;
+        this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
         this->actionFunc = EnKz_StartTimer;
     } else {
         getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
@@ -444,7 +444,7 @@ void EnKz_StartTimer(EnKz* this, PlayState* play) {
             func_80088AA0(180); // start timer2 with 3 minutes
             CLEAR_EVENTINF(EVENTINF_10);
         }
-        this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+        this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_Wait;
     }
 }

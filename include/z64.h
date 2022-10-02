@@ -1345,10 +1345,10 @@ typedef struct {
 } struct_80034A14_arg1; // size = 0x28
 
 typedef enum {
-    /* 0x0 */ NPC_TALKING_STATE_0,
-    /* 0x1 */ NPC_TALKING_STATE_1,
-    /* 0x2 */ NPC_TALKING_STATE_2,
-    /* 0x3 */ NPC_TALKING_STATE_3,
+    /* 0x0 */ NPC_TALK_STATE_IDLE, // NPC not currently talking to player
+    /* 0x1 */ NPC_TALK_STATE_TALKING, // NPC is currently talking to player
+    /* 0x2 */ NPC_TALK_STATE_ACTION, // An NPC-defined action triggered in the conversation
+    /* 0x3 */ NPC_TALK_STATE_ITEM_GIVEN // NPC finished giving an item and text box is done
 } NpcTalkState;
 
 // Macros for `EntranceInfo.field`

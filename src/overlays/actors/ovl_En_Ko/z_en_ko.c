@@ -530,9 +530,9 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_B7);
                     break;
                 case 0x10BA:
-                    return NPC_TALKING_STATE_1;
+                    return NPC_TALK_STATE_TALKING;
             }
-            return NPC_TALKING_STATE_0;
+            return NPC_TALK_STATE_IDLE;
         case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x10B7:
@@ -543,7 +543,7 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                         this->unk_210 = 1;
                     }
             }
-            return NPC_TALKING_STATE_1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(play)) {
                 switch (this->actor.textId) {
@@ -566,17 +566,17 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                         FALLTHROUGH;
                     case 0x10B8:
                         this->actor.textId = (play->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
-                        return (play->msgCtx.choiceIndex == 0) ? NPC_TALKING_STATE_2 : NPC_TALKING_STATE_1;
+                        return (play->msgCtx.choiceIndex == 0) ? NPC_TALK_STATE_ACTION : NPC_TALK_STATE_TALKING;
                 }
-                return NPC_TALKING_STATE_1;
+                return NPC_TALK_STATE_TALKING;
             }
             break;
         case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(play)) {
-                return NPC_TALKING_STATE_3;
+                return NPC_TALK_STATE_ITEM_GIVEN;
             }
     }
-    return NPC_TALKING_STATE_1;
+    return NPC_TALK_STATE_TALKING;
 }
 
 s32 EnKo_GetForestQuestState(EnKo* this) {
@@ -663,7 +663,7 @@ s32 EnKo_IsWithinTalkAngle(EnKo* this) {
 s32 func_80A97D68(EnKo* this, PlayState* play) {
     s16 arg3;
 
-    if (this->unk_1E8.talkState != NPC_TALKING_STATE_0) {
+    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
         }
@@ -687,7 +687,7 @@ s32 func_80A97E18(EnKo* this, PlayState* play) {
     } else {
         arg3 = 1;
     }
-    if (this->unk_1E8.talkState != NPC_TALKING_STATE_0) {
+    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
         arg3 = 4;
     } else if (this->lookDist < this->actor.xzDistToPlayer) {
         arg3 = 1;
@@ -716,7 +716,7 @@ s32 func_80A97F20(EnKo* this, PlayState* play) {
 s32 func_80A97F70(EnKo* this, PlayState* play) {
     s16 arg3;
 
-    if (this->unk_1E8.talkState != NPC_TALKING_STATE_0) {
+    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
@@ -736,7 +736,7 @@ s32 func_80A98034(EnKo* this, PlayState* play) {
     s16 arg3;
     s32 result;
 
-    if (this->unk_1E8.talkState != NPC_TALKING_STATE_0) {
+    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
@@ -762,7 +762,7 @@ s32 func_80A98124(EnKo* this, PlayState* play) {
 }
 
 s32 func_80A98174(EnKo* this, PlayState* play) {
-    if (this->unk_1E8.talkState != NPC_TALKING_STATE_0) {
+    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
         if (Animation_OnFrame(&this->skelAnime, 18.0f)) {
             this->skelAnime.playSpeed = 0.0f;
         }
@@ -942,7 +942,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
     } else {
         this->unk_1E8.unk_18 = player->actor.world.pos;
         this->unk_1E8.unk_14 = func_80A97BC0(this);
-        if ((func_80A98ECC(this, play) == 0) && (this->unk_1E8.talkState == NPC_TALKING_STATE_0)) {
+        if ((func_80A98ECC(this, play) == 0) && (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE)) {
             return;
         }
     }
@@ -1172,11 +1172,11 @@ void func_80A99048(EnKo* this, PlayState* play) {
 }
 
 void func_80A99384(EnKo* this, PlayState* play) {
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState != NPC_TALKING_STATE_0 &&
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState != NPC_TALK_STATE_IDLE &&
         this->actor.textId == 0x10B9) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_7);
         this->actionFunc = func_80A99438;
-    } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState == NPC_TALKING_STATE_2) {
+    } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState == NPC_TALK_STATE_ACTION) {
         this->actionFunc = func_80A99504;
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -1184,12 +1184,12 @@ void func_80A99384(EnKo* this, PlayState* play) {
 }
 
 void func_80A99438(EnKo* this, PlayState* play) {
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState == NPC_TALKING_STATE_2) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState == NPC_TALK_STATE_ACTION) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99504;
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-    } else if (this->unk_1E8.talkState == NPC_TALKING_STATE_0 || this->actor.textId != 0x10B9) {
+    } else if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE || this->actor.textId != 0x10B9) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99384;
     }
@@ -1205,10 +1205,10 @@ void func_80A99504(EnKo* this, PlayState* play) {
 }
 
 void func_80A99560(EnKo* this, PlayState* play) {
-    if (this->unk_1E8.talkState == NPC_TALKING_STATE_3) {
+    if (this->unk_1E8.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         this->actor.textId = 0x10B9;
         Message_ContinueTextbox(play, this->actor.textId);
-        this->unk_1E8.talkState = NPC_TALKING_STATE_1;
+        this->unk_1E8.talkState = NPC_TALK_STATE_TALKING;
         SET_ITEMGETINF(ITEMGETINF_31);
         this->actionFunc = func_80A99384;
     }
@@ -1226,7 +1226,7 @@ void func_80A995CC(EnKo* this, PlayState* play) {
     this->actor.world.pos.z += 80.0f * Math_CosS(homeYawToPlayer);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if (this->unk_1E8.talkState == NPC_TALKING_STATE_0 || !this->actor.isTargeted) {
+    if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE || !this->actor.isTargeted) {
         temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - homeYawToPlayer) * 0.001f * 3.0f;
         if (temp_f2 < 1.0f) {
             this->skelAnime.playSpeed = 1.0f;
@@ -1254,7 +1254,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
             func_80A98DB4(this, play);
         }
     }
-    if (this->unk_1E8.talkState == NPC_TALKING_STATE_0) {
+    if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) {
         Actor_MoveForward(&this->actor);
     }
     if (func_80A97C7C(this)) {

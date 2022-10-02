@@ -196,7 +196,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
 }
 
 s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
-    s16 unkState = NPC_TALKING_STATE_1;
+    s16 unkState = NPC_TALK_STATE_TALKING;
     f32 xzRange;
     f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
 
@@ -207,51 +207,51 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
             switch (thisx->textId) {
                 case 0x3008:
                     SET_INFTABLE(INFTABLE_E0);
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x300B:
                     SET_INFTABLE(INFTABLE_EB);
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x3014:
                     SET_INFTABLE(INFTABLE_F0);
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x3016:
                     SET_INFTABLE(INFTABLE_F4);
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x3018:
                     SET_INFTABLE(INFTABLE_F8);
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x3036:
                     func_8002F434(thisx, play, GI_TUNIC_GORON, xzRange, yRange);
                     SET_INFTABLE(INFTABLE_10D); // EnGo exclusive flag
-                    unkState = NPC_TALKING_STATE_2;
+                    unkState = NPC_TALK_STATE_ACTION;
                     break;
                 case 0x3037:
                     SET_INFTABLE(INFTABLE_10E);
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x3041:
                     SET_INFTABLE(INFTABLE_10F);
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x3059:
-                    unkState = NPC_TALKING_STATE_2;
+                    unkState = NPC_TALK_STATE_ACTION;
                     break;
                 case 0x3052:
                 case 0x3054:
                 case 0x3055:
                 case 0x305A:
-                    unkState = NPC_TALKING_STATE_2;
+                    unkState = NPC_TALK_STATE_ACTION;
                     break;
                 case 0x305E:
-                    unkState = NPC_TALKING_STATE_2;
+                    unkState = NPC_TALK_STATE_ACTION;
                     break;
                 default:
-                    unkState = NPC_TALKING_STATE_0;
+                    unkState = NPC_TALK_STATE_IDLE;
                     break;
             }
             break;
@@ -269,7 +269,7 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                             thisx->textId = 0x300D;
                         }
                         Message_ContinueTextbox(play, thisx->textId);
-                        unkState = NPC_TALKING_STATE_1;
+                        unkState = NPC_TALK_STATE_TALKING;
                         break;
                     case 0x3034:
                         if (play->msgCtx.choiceIndex == 0) {
@@ -284,16 +284,16 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                             thisx->textId = 0x3033;
                         }
                         Message_ContinueTextbox(play, thisx->textId);
-                        unkState = NPC_TALKING_STATE_1;
+                        unkState = NPC_TALK_STATE_TALKING;
                         break;
                     case 0x3054:
                     case 0x3055:
                         if (play->msgCtx.choiceIndex == 0) {
-                            unkState = NPC_TALKING_STATE_2;
+                            unkState = NPC_TALK_STATE_ACTION;
                         } else {
                             thisx->textId = 0x3056;
                             Message_ContinueTextbox(play, thisx->textId);
-                            unkState = NPC_TALKING_STATE_1;
+                            unkState = NPC_TALK_STATE_TALKING;
                         }
                         SET_INFTABLE(INFTABLE_B4);
                         break;
@@ -310,17 +310,17 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                     case 0x3033:
                         thisx->textId = 0x3034;
                         Message_ContinueTextbox(play, thisx->textId);
-                        unkState = NPC_TALKING_STATE_1;
+                        unkState = NPC_TALK_STATE_TALKING;
                         break;
                     default:
-                        unkState = NPC_TALKING_STATE_2;
+                        unkState = NPC_TALK_STATE_ACTION;
                         break;
                 }
             }
             break;
         case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(play)) {
-                unkState = NPC_TALKING_STATE_3;
+                unkState = NPC_TALK_STATE_ITEM_GIVEN;
             }
             break;
         case TEXT_STATE_NONE:
@@ -335,11 +335,11 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
 
 s32 func_80A3ED24(PlayState* play, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3, ActorNpcGetTextIdFunc getTextId,
                   ActorNpcGetTalkStateFunc getTalkState) {
-    if (arg2->talkState != NPC_TALKING_STATE_0) {
+    if (arg2->talkState != NPC_TALK_STATE_IDLE) {
         arg2->talkState = getTalkState(play, &this->actor);
         return false;
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        arg2->talkState = NPC_TALKING_STATE_1;
+        arg2->talkState = NPC_TALK_STATE_TALKING;
         return true;
     } else if (!func_8002F2CC(&this->actor, play, arg3)) {
         return false;
@@ -544,7 +544,7 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
 s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
-    } else if (this->unk_1E0.talkState != NPC_TALKING_STATE_0) {
+    } else if (this->unk_1E0.talkState != NPC_TALK_STATE_IDLE) {
         return true;
     } else if (DECR(this->unk_21C)) {
         if (this->unk_21C & 1) {
@@ -642,7 +642,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
 
     EnGo_ChangeAnim(this, ENGO_ANIM_0);
     this->actor.targetMode = 6;
-    this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+    this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
     this->actor.gravity = -1.0f;
 
     switch (this->actor.params & 0xF0) {
@@ -855,26 +855,26 @@ void func_80A405CC(EnGo* this, PlayState* play) {
 }
 
 void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
-    if (((this->actor.params & 0xF0) == 0x90) && (this->unk_1E0.talkState == NPC_TALKING_STATE_2)) {
+    if (((this->actor.params & 0xF0) == 0x90) && (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION)) {
         if (gSaveContext.bgsFlag) {
-            this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+            this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
                 EnGo_ChangeAnim(this, ENGO_ANIM_2);
                 this->unk_21E = 100;
-                this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+                this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.timer2State = 0;
                 OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
-                this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+                this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
                 EnGo_SetupAction(this, EnGo_GetItem);
                 Message_CloseTextbox(play);
                 EnGo_GetItem(this, play);
             }
         }
-    } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.talkState == NPC_TALKING_STATE_2)) {
+    } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -947,7 +947,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
     s32 getItemId;
 
     if (Actor_HasParent(&this->actor, play)) {
-        this->unk_1E0.talkState = NPC_TALKING_STATE_2;
+        this->unk_1E0.talkState = NPC_TALK_STATE_ACTION;
         this->actor.parent = NULL;
         EnGo_SetupAction(this, func_80A40C78);
     } else {
@@ -976,21 +976,21 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
 }
 
 void func_80A40C78(EnGo* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALKING_STATE_3) {
+    if (this->unk_1E0.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
         if ((this->actor.params & 0xF0) != 0x90) {
-            this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+            this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
         } else if (this->unk_20C) {
-            this->unk_1E0.talkState = NPC_TALKING_STATE_0;
+            this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
             gSaveContext.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
             Message_ContinueTextbox(play, this->actor.textId);
-            this->unk_1E0.talkState = NPC_TALKING_STATE_1;
+            this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
             Message_ContinueTextbox(play, this->actor.textId);
-            this->unk_1E0.talkState = NPC_TALKING_STATE_1;
+            this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
             Environment_ClearBgsDayCount();
         }
     }
@@ -1000,13 +1000,13 @@ void EnGo_Eyedrops(EnGo* this, PlayState* play) {
     if (DECR(this->unk_21E) == 0) {
         this->actor.textId = 0x305A;
         Message_ContinueTextbox(play, this->actor.textId);
-        this->unk_1E0.talkState = NPC_TALKING_STATE_1;
+        this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
         EnGo_SetupAction(this, func_80A40DCC);
     }
 }
 
 void func_80A40DCC(EnGo* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALKING_STATE_2) {
+    if (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION) {
         EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         Message_CloseTextbox(play);
@@ -1030,7 +1030,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
 
     EnGo_UpdateShadow(this);
 
-    if (this->unk_1E0.talkState == NPC_TALKING_STATE_0) {
+    if (this->unk_1E0.talkState == NPC_TALK_STATE_IDLE) {
         Actor_MoveForward(&this->actor);
     }
 
