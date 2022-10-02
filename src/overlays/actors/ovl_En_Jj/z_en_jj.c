@@ -215,7 +215,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         this->cutsceneCountdownTimer--;
     } else {
         EnJj_SetupAction(this, EnJj_RemoveDust);
-        play->csCtx.segment = &D_80A88164;
+        play->csCtx.segment = D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));

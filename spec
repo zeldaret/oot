@@ -38,7 +38,7 @@ beginseg
     include "build/src/libultra/os/exceptasm.o"
     include "build/src/libultra/os/dequeuethread.o"
     include "build/src/libultra/os/destroythread.o"
-    include "build/src/libultra/libc//bzero.o"
+    include "build/src/libultra/libc/bzero.o"
     include "build/src/libultra/os/parameters.o"
     include "build/src/libultra/os/createthread.o"
     include "build/src/libultra/os/setsr.o"
