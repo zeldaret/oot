@@ -2661,7 +2661,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     ActorInit* actorInit;
     s32 objBankIndex;
     ActorOverlay* overlayEntry;
-    u32 temp;
+    uintptr_t temp;
     char* name;
     u32 overlaySize;
 
