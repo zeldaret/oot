@@ -1514,7 +1514,7 @@ s32 DbCamera_GetFirstAvailableLetter(void) {
             case 'O':
                 break;
             default:
-                return MEMPAK_IDX_TO_LETTER(i);
+                return MEMPAK_INDEX_TO_LETTER(i);
         }
     }
     return '?';
@@ -1868,7 +1868,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             dbCamera->sub.demoCtrlToggleSwitch ^= 1;
                         }
-                        D_8012CEE0[41][9] = MEMPAK_IDX_TO_LETTER(sCurFileIdx);
+                        D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
                         func_8006376C(0xA, 7, 5, D_8012CEE0[41]);
                         func_8006376C(0x10, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
                         func_8006376C(0x14, 7, 5, D_8012CF88[0]);
@@ -1892,7 +1892,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             dbCamera->sub.demoCtrlMenu++;
                         } else {
                             dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                            D_8012CF84[9] = MEMPAK_IDX_TO_LETTER(sCurFileIdx);
+                            D_8012CF84[9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
                             func_8006376C(0xD, 7, 5, D_8012CF88[-1]); // todo: find something better
                             func_8006376C(0x12, 7, 5, D_8012CF80);
                             func_8006376C(0xD, 9, dbCamera->sub.demoCtrlToggleSwitch ? 1 : 6, "PRESS B BUTTON");
@@ -1910,7 +1910,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_SAVE, MENU_CALLBACK):
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_CALLBACK):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_CALLBACK): {
-                    D_8012CEE0[41][9] = MEMPAK_IDX_TO_LETTER(sCurFileIdx);
+                    D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
                     func_8006376C(0xC, 7, 5, D_8012CEE0[41]);
                     func_8006376C(0x12, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
                     func_8006376C(0x16, 7, 5, D_8012CF9C[0]);
@@ -1928,7 +1928,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_SUCCESS): {
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                    D_8012CEE0[41][9] = MEMPAK_IDX_TO_LETTER(sCurFileIdx);
+                    D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
                     func_8006376C(0xD, 7, 5, D_8012CEE0[41]);
                     func_8006376C(0x13, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlMenu / 100]);
                     func_8006376C(0x17, 7, 5, D_8012CFA4);
@@ -1951,7 +1951,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_ERROR):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_ERROR): {
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                    D_8012CEE0[41][9] = MEMPAK_IDX_TO_LETTER(sCurFileIdx);
+                    D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
                     func_8006376C(0xD, 7, 5, D_8012CEE0[(dbCamera->sub.demoCtrlMenu / 100) + 32]);
                     func_8006376C(0x11, 7, 5, D_8012CFAC);
                     func_8006376C(0x17, 7, 5, D_8012CFA4);
@@ -1977,7 +1977,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         DbCamera_CalcMempakAllocSize();
                         if ((1 << sCurFileIdx) & sMempakFiles) {
                             sMempakFilesize =
-                                Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
+                                Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_INDEX_TO_LETTER(sCurFileIdx));
                             dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                         } else {
                             sMempakFilesize = 0;
@@ -1986,7 +1986,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     block_1:
                         idx2 = 1;
                         for (i = 0; i < 5; i++) {
-                            sp74[i * 2 + 1] = (sMempakFiles & idx2) ? MEMPAK_IDX_TO_LETTER(i) : '?';
+                            sp74[i * 2 + 1] = (sMempakFiles & idx2) ? MEMPAK_INDEX_TO_LETTER(i) : '?';
                             sp74[i * 2 + 0] = '-';
 
                             idx2 <<= 1;
@@ -2005,7 +2005,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
 
                             if ((1 << sCurFileIdx) & sMempakFiles) {
                                 sMempakFilesize =
-                                    Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
+                                    Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_INDEX_TO_LETTER(sCurFileIdx));
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
                                 sMempakFilesize = 0;
@@ -2023,7 +2023,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
 
                             if ((1 << sCurFileIdx) & sMempakFiles) {
                                 sMempakFilesize =
-                                    Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_IDX_TO_LETTER(sCurFileIdx));
+                                    Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, MEMPAK_INDEX_TO_LETTER(sCurFileIdx));
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
                                 sMempakFilesize = 0;
