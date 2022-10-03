@@ -64,7 +64,7 @@ void KaleidoManager_Init(PlayState* play) {
     osSyncPrintf("KaleidoArea %08x - %08x\n", sKaleidoAreaPtr, (u32)sKaleidoAreaPtr + largestSize);
     osSyncPrintf(VT_RST);
 
-    gKaleidoMgrCurOvl = 0;
+    gKaleidoMgrCurOvl = NULL;
 }
 
 void KaleidoManager_Destroy(void) {

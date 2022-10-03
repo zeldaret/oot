@@ -2876,7 +2876,7 @@ void func_80835E44(PlayState* play, s16 camSetting) {
 
 void func_80835EA4(PlayState* play, s32 arg1) {
     func_80835E44(play, CAM_SET_TURN_AROUND);
-    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), 4, 0, 0, arg1, 0, 0);
+    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), 4, NULL, NULL, arg1, 0, 0);
 }
 
 void func_80835EFC(Player* this) {
@@ -2959,7 +2959,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                     this->itemActionParam = actionParam;
                 }
             } else if ((actionParam != this->heldItemActionParam) ||
-                       ((this->heldActor == 0) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
+                       ((this->heldActor == NULL) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
                 this->nextModelGroup = Player_ActionToModelGroup(this, actionParam);
                 nextAnimType = gPlayerModelTypes[this->nextModelGroup][PLAYER_MODELGROUPENTRY_ANIM];
 
@@ -5764,7 +5764,7 @@ void func_8083D36C(PlayState* play, Player* this) {
 
         if ((this->currentBoots != PLAYER_BOOTS_IRON) && (this->stateFlags2 & PLAYER_STATE2_10)) {
             this->stateFlags2 &= ~PLAYER_STATE2_10;
-            func_8083D12C(play, this, 0);
+            func_8083D12C(play, this, NULL);
             this->unk_84F = 1;
         } else if (func_80844A44 == this->func_674) {
             func_80835C58(play, this, func_8084DC48, 0);
@@ -13708,7 +13708,7 @@ void func_808514C0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     func_80851314(this);
 
     if (func_808332B8(this)) {
-        func_808513BC(play, this, 0);
+        func_808513BC(play, this, NULL);
         return;
     }
 
@@ -13732,7 +13732,7 @@ void func_808515A4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     LinkAnimationHeader* anim;
 
     if (func_808332B8(this)) {
-        func_80851368(play, this, 0);
+        func_80851368(play, this, NULL);
         return;
     }
 
@@ -13757,7 +13757,7 @@ void func_80851688(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         }
 
         if (func_808332B8(this) != 0) {
-            func_808513BC(play, this, 0);
+            func_808513BC(play, this, NULL);
             return;
         }
 
