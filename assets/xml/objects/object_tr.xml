@@ -12,13 +12,13 @@
 
         <Blob Name="object_tr_Blob_0062E0" Size="0x60" Offset="0x62E0"/>
 
-        <DList Name="gKotakePelivsDL" Offset="0x6520"/>
+        <DList Name="gKotakePelvisDL" Offset="0x6520"/>
         <DList Name="gKotakeTorsoDL" Offset="0x66A0"/>
         <DList Name="gKotakeNeckDL" Offset="0x6800"/>
-        <DList Name="gKotakeLeftHairPieceStartDL" Offset="0x6940"/>
-        <DList Name="gKotakeLeftHairPieceEndDL" Offset="0x6A50"/>
-        <DList Name="gKotakeRightHairPieceStartDL" Offset="0x6B48"/>
-        <DList Name="gKotakeRightHairPieceEndDL" Offset="0x6C58"/>
+        <DList Name="gKotakeLeftBraidStartDL" Offset="0x6940"/>
+        <DList Name="gKotakeLeftBraidEndDL" Offset="0x6A50"/>
+        <DList Name="gKotakeRightBraidStartDL" Offset="0x6B48"/>
+        <DList Name="gKotakeRightBraidEndDL" Offset="0x6C58"/>
         <DList Name="gKotakeRightSleeveStartDL" Offset="0x6D50"/>
         <DList Name="gKotakeRightSleeveFrontDL" Offset="0x6E70"/>
         <DList Name="gKotakeRightSleeveMidDL" Offset="0x6FF0"/>
@@ -60,7 +60,7 @@
         <DList Name="gKotakeRightHandDL" Offset="0xBA00"/>
         <DList Name="gKotakeLeftHandDL" Offset="0xBB68"/>
 
-        <Texture Name="gKotakeKoumeHairPieceEndTex" OutName="tex_0000BCD0" Format="rgba16" Width="8" Height="8" Offset="0xBCD0"/>
+        <Texture Name="gKotakeKoumeBraidEndTex" OutName="kotake_koume_braid_end" Format="rgba16" Width="8" Height="8" Offset="0xBCD0"/>
 
         <Blob Name="object_tr_Blob_00BD50" Size="0x580" Offset="0xBD50"/>
 
@@ -68,7 +68,7 @@
 
         <Blob Name="object_tr_Blob_00C310" Size="0x80" Offset="0xC310"/>
 
-        <Limb Name="gKotakePelivsLimb" LimbType="Standard" Offset="0xC390"/>
+        <Limb Name="gKotakePelvisLimb" LimbType="Standard" Offset="0xC390"/>
         <Limb Name="gKotakeLeftThighLimb" LimbType="Standard" Offset="0xC39C"/>
         <Limb Name="gKotakeLeftShinLimb" LimbType="Standard" Offset="0xC3A8"/>
         <Limb Name="gKotakeLeftFootLimb" LimbType="Standard" Offset="0xC3B4"/>
@@ -89,24 +89,24 @@
         <Limb Name="gKotakeRightHandLimb" LimbType="Standard" Offset="0xC468"/>
         <Limb Name="gKotakeNeckLimb" LimbType="Standard" Offset="0xC474"/>
         <Limb Name="gKotakeHeadLimb" LimbType="Standard" Offset="0xC480"/>
-        <Limb Name="gKotakeRightHairPieceStartLimb" LimbType="Standard" Offset="0xC48C"/>
-        <Limb Name="gKotakeRightHairPieceEndLimb" LimbType="Standard" Offset="0xC498"/>
+        <Limb Name="gKotakeRightBraidStartLimb" LimbType="Standard" Offset="0xC48C"/>
+        <Limb Name="gKotakeRightBraidEndLimb" LimbType="Standard" Offset="0xC498"/>
         <Limb Name="gKotakeTeethLimb" LimbType="Standard" Offset="0xC4A4"/>
-        <Limb Name="gKotakeLeftHairPieceStartLimb" LimbType="Standard" Offset="0xC4B0"/>
-        <Limb Name="gKotakeLeftHairPieceEndLimb" LimbType="Standard" Offset="0xC4BC"/>
+        <Limb Name="gKotakeLeftBraidStartLimb" LimbType="Standard" Offset="0xC4B0"/>
+        <Limb Name="gKotakeLeftBraidEndLimb" LimbType="Standard" Offset="0xC4BC"/>
         <Skeleton Name="gKotakeSkel" Type="Flex" LimbType="Standard" Offset="0xC530"/>
 
         <Animation Name="gKotakeKoumeTPoseAnim" Offset="0xC60C"/>
 
         <Blob Name="object_tr_Blob_00D5E0" Size="0x60" Offset="0xD5E0"/>
 
-        <DList Name="gKoumePelivsDL" Offset="0xD820"/>
+        <DList Name="gKoumePelvisDL" Offset="0xD820"/>
         <DList Name="gKoumeTorsoDL" Offset="0xD9A0"/>
         <DList Name="gKoumeNeckDL" Offset="0xDB00"/>
-        <DList Name="gKoumeLeftHairPieceStartDL" Offset="0xDC40"/>
-        <DList Name="gKoumeLeftHairPieceEndDL" Offset="0xDD50"/>
-        <DList Name="gKoumeRightHairPieceStartDL" Offset="0xDE48"/>
-        <DList Name="gKoumeRightHairPieceEndDL" Offset="0xDF58"/>
+        <DList Name="gKoumeLeftBraidStartDL" Offset="0xDC40"/>
+        <DList Name="gKoumeLeftBraidEndDL" Offset="0xDD50"/>
+        <DList Name="gKoumeRightBraidStartDL" Offset="0xDE48"/>
+        <DList Name="gKoumeRightBraidEndDL" Offset="0xDF58"/>
         <DList Name="gKoumeRightSleeveStartDL" Offset="0xE050"/>
         <DList Name="gKoumeRightSleeveFrontDL" Offset="0xE170"/>
         <DList Name="gKoumeRightSleeveMidDL" Offset="0xE2F0"/>
@@ -134,7 +134,7 @@
 
         <Texture Name="gKoumeCollarNeckTex" OutName="koume_collar_neck" Format="rgba16" Width="4" Height="8" Offset="0x114A8"/>
 
-        <Limb Name="gKoumePelivsLimb" LimbType="Standard" Offset="0x114E8"/>
+        <Limb Name="gKoumePelvisLimb" LimbType="Standard" Offset="0x114E8"/>
         <Limb Name="gKoumeLeftThighLimb" LimbType="Standard" Offset="0x114F4"/>
         <Limb Name="gKoumeLeftShinLimb" LimbType="Standard" Offset="0x11500"/>
         <Limb Name="gKoumeLeftFootLimb" LimbType="Standard" Offset="0x1150C"/>
@@ -155,11 +155,11 @@
         <Limb Name="gKoumeRightHandLimb" LimbType="Standard" Offset="0x115C0"/>
         <Limb Name="gKoumeNeckLimb" LimbType="Standard" Offset="0x115CC"/>
         <Limb Name="gKoumeHeadLimb" LimbType="Standard" Offset="0x115D8"/>
-        <Limb Name="gKoumeRightHairPieceStartLimb" LimbType="Standard" Offset="0x115E4"/>
-        <Limb Name="gKoumeRightHairPieceEndLimb" LimbType="Standard" Offset="0x115F0"/>
+        <Limb Name="gKoumeRightBraidStartLimb" LimbType="Standard" Offset="0x115E4"/>
+        <Limb Name="gKoumeRightBraidEndLimb" LimbType="Standard" Offset="0x115F0"/>
         <Limb Name="gKoumeTeethLimb" LimbType="Standard" Offset="0x115FC"/>
-        <Limb Name="gKoumeLeftHairPieceStartLimb" LimbType="Standard" Offset="0x11608"/>
-        <Limb Name="gKoumeLeftHairPieceEndLimb" LimbType="Standard" Offset="0x11614"/>
+        <Limb Name="gKoumeLeftBraidStartLimb" LimbType="Standard" Offset="0x11608"/>
+        <Limb Name="gKoumeLeftBraidEndLimb" LimbType="Standard" Offset="0x11614"/>
         <Skeleton Name="gKoumeSkel" Type="Flex" LimbType="Standard" Offset="0x11688"/>
 
         <Animation Name="gKotakeKoumeCastMagicAnim" Offset="0x12E1C"/>
