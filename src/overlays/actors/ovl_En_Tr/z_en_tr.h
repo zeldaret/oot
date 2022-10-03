@@ -42,8 +42,8 @@ typedef enum KotakeKoumeLimb {
 typedef struct EnTr {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[27];
-    /* 0x0232 */ Vec3s morphTable[27];
+    /* 0x0190 */ Vec3s jointTable[KOTAKE_KOUME_LIMB_MAX];
+    /* 0x0232 */ Vec3s morphTable[KOTAKE_KOUME_LIMB_MAX];
     /* 0x02D4 */ s16 unk_2D4;
     /* 0x02D6 */ u16 timer; // Also used as an angle
     /* 0x02D8 */ s16 actionIndex;
