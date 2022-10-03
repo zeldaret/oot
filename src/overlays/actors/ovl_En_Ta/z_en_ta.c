@@ -343,7 +343,7 @@ void func_80B14634(EnTa* this, PlayState* play) {
         }
     } else {
         this->actor.textId = 0x702A;
-        func_8002F298(&this->actor, play, 100.0f, 3);
+        func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_CHICKEN);
     }
 }
 
@@ -376,7 +376,7 @@ void func_80B14754(EnTa* this, PlayState* play) {
         }
     } else {
         this->actor.textId = 0x5015;
-        func_8002F298(&this->actor, play, 100.0f, 6);
+        func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_POCKET_CUCCO);
     }
 }
 

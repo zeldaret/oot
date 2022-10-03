@@ -858,7 +858,7 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
             effSpawnPos = this->effSpawnPos;
             effSpawnPos.y = this->actor.floorHeight;
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
-            func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+            Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
             EffectSsBlast_SpawnWhiteShockwave(play, &effSpawnPos, &effWhiteShockwaveDynamics,
                                               &effWhiteShockwaveDynamics);
             func_80033480(play, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
@@ -1043,7 +1043,7 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play) {
         if (this->timer3 != 0) {
             Animation_PlayOnce(&this->skelAnime, &gEnMbClubStandUpAnim);
             this->timer3 = 0;
-            func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+            Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
             Camera_AddQuake(&play->mainCamera, 2, 25, 5);
         } else {
             EnMb_SetupClubWaitPlayerNear(this);
@@ -1102,7 +1102,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
     } else if ((s32)this->skelAnime.curFrame == 15 || (s32)this->skelAnime.curFrame == 22) {
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         Actor_SpawnFloorDustRing(play, &this->actor, &effPos, 50.0f, 10, 3.0f, 400, 60, false);
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
         Camera_AddQuake(&play->mainCamera, 2, 25, 5);

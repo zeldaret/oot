@@ -53,7 +53,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count);
 void func_80002384(const char* exp, const char* file, u32 line);
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
-void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 initValue, s32 minSpace,
+void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
 u32 StackCheck_GetState(StackEntry* entry);
@@ -1288,15 +1288,6 @@ void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 
                  u8 handlePulse, u32 handleSpeed);
 void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
 void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction);
-void func_800A9F30(PadMgr*, s32);
-void func_800A9F6C(f32, u8, u8, u8);
-void func_800AA000(f32, u8, u8, u8);
-void func_800AA0B4(void);
-void func_800AA0F0(void);
-u32 func_800AA148(void);
-void func_800AA15C(void);
-void func_800AA16C(void);
-void func_800AA178(u32);
 View* View_New(GraphicsContext* gfxCtx);
 void View_Free(View* view);
 void View_Init(View*, GraphicsContext*);
@@ -1583,8 +1574,8 @@ void SpeedMeter_InitAllocEntry(SpeedMeterAllocEntry* this, u32 maxval, u32 val, 
 void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxCtx);
 void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state);
 void SysCfb_Init(s32 n64dd);
-u32 SysCfb_GetFbPtr(s32 idx);
-u32 SysCfb_GetFbEnd(void);
+void* SysCfb_GetFbPtr(s32 idx);
+void* SysCfb_GetFbEnd(void);
 f32 Math_FactorialF(f32 n);
 f32 Math_Factorial(s32 n);
 f32 Math_PowF(f32 base, s32 exp);
@@ -1693,9 +1684,6 @@ u64* SysUcode_GetUCodeBoot(void);
 size_t SysUcode_GetUCodeBootSize(void);
 u64* SysUcode_GetUCode(void);
 u64* SysUcode_GetUCodeData(void);
-void func_800D2E30(UnkRumbleStruct* arg0);
-void func_800D3140(UnkRumbleStruct* arg0);
-void func_800D3178(UnkRumbleStruct* arg0);
 void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
