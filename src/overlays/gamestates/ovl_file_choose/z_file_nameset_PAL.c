@@ -446,7 +446,7 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                             this->configMode = CM_NAME_ENTRY_TO_MAIN;
                             this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
                             this->connectorAlpha[this->buttonIndex] = 255;
-                            func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+                            Rumble_Request(300.0f, 180, 20, 100);
                         } else {
                             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

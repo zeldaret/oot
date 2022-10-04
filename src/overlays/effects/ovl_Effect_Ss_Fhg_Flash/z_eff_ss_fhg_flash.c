@@ -34,7 +34,7 @@ u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* init
     s32 objectSlot;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
-    u32 prevSeg6;
+    uintptr_t prevSeg6;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
         objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FHG);

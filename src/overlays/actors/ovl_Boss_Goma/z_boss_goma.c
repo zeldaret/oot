@@ -890,7 +890,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaInitialLandingAnim);
                 BossGoma_PlayEffectsAndSfx(this, play, 0, 5);
                 this->framesUntilNextAction = 15;
-                func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
+                Rumble_Override(0.0f, 200, 20, 20);
             }
             break;
 
@@ -1000,7 +1000,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelanime, 107.0f)) {
         BossGoma_PlayEffectsAndSfx(this, play, 0, 8);
-        func_800A9F6C(0.0f, 0x96, 0x14, 0x14);
+        Rumble_Override(0.0f, 150, 20, 20);
     }
 
     this->visualState = VISUALSTATE_DEFEATED;

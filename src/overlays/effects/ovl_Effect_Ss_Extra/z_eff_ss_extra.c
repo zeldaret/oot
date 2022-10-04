@@ -27,7 +27,7 @@ u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
     s32 pad;
     s32 objectSlot;
-    u32 oldSeg6;
+    uintptr_t oldSeg6;
 
     objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_YABUSAME_POINT);
 

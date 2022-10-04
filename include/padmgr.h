@@ -40,8 +40,8 @@ typedef struct PadMgr {
     /* 0x045C */ vu8 rumbleOffTimer; // amount of VI retraces to not rumble for, takes priority over rumbleOnTimer
     /* 0x045D */ vu8 rumbleOnTimer; // amount of VI retraces to rumble for
     /* 0x045E */ u8 isResetting;
-    /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padMgr, s32 arg);
-    /* 0x0464 */ s32 retraceCallbackValue;
+    /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padMgr, void* arg);
+    /* 0x0464 */ void* retraceCallbackArg;
 } PadMgr; // size = 0x468
 
 extern PadMgr gPadMgr;
@@ -69,5 +69,37 @@ void PadMgr_RumbleStop(PadMgr* padMgr);
 void PadMgr_RumbleReset(PadMgr* padMgr);
 void PadMgr_RumbleSetSingle(PadMgr* padMgr, u32 port, u32 rumble);
 void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable);
+
+// Retrace callback
+
+/**
+ * Sets the padmgr retrace callback that runs while waiting for controller input. The callback may be passed a single
+ * user-provided argument. The callback function should be `void (*)(PadMgr*, void*)`.
+ *
+ * @param callback callback to run before rumble state is updated for the current VI
+ * @param arg the argument to pass to the calback
+ *
+ * @see PADMGR_UNSET_RETRACE_CALLACK
+ */
+#define PADMGR_SET_RETRACE_CALLACK(padmgr, callback, arg) \
+    do {                                                  \
+        (padmgr)->retraceCallback = (callback);           \
+        (padmgr)->retraceCallbackArg = (arg);             \
+    } while (0)
+
+/**
+ * Unsets the current padmgr retrace callback if it and the argument are the same as the ones already registered.
+ *
+ * @param callback the callback to unset, if it is set
+ * @param arg the argument to unset, if it is set
+ *
+ * @see PADMGR_SET_RETRACE_CALLACK
+ */
+#define PADMGR_UNSET_RETRACE_CALLACK(padmgr, callback, arg)                                 \
+    if ((padmgr)->retraceCallback == (callback) && (padmgr)->retraceCallbackArg == (arg)) { \
+        (padmgr)->retraceCallback = NULL;                                                   \
+        (padmgr)->retraceCallbackArg = NULL;                                                \
+    }                                                                                       \
+    (void)0
 
 #endif

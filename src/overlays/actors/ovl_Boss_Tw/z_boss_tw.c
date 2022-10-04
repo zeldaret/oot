@@ -1118,7 +1118,7 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
                         this->groundBlastPos.y = 0.0f;
                         this->groundBlastPos.z = 0.0f;
                         play->envCtx.lightBlend = 1.0f;
-                        func_800AA000(0.0f, 0x64, 5, 4);
+                        Rumble_Request(0.0f, 100, 5, 4);
                     } else if (beamReflection == 0) {
                         BossTw_BeamHitPlayerCheck(this, play);
 
@@ -4328,7 +4328,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
             if (info->toucher.dmgFlags & DMG_SHIELD) {
                 this->work[INVINC_TIMER] = 7;
                 play->envCtx.lightBlend = 1.0f;
-                func_800AA000(0.0f, 100, 5, 4);
+                Rumble_Request(0.0f, 100, 5, 4);
 
                 if (Player_HasMirrorShieldEquipped(play)) {
                     if (this->blastType == 1) {

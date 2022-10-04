@@ -132,7 +132,7 @@ void EffectSsGSplash_Update(PlayState* play, u32 index, EffectSs* this) {
     if ((this->rType == 1) && (this->life == 5)) {
         newSplashPos = this->pos;
         newSplashPos.y += ((this->rgScale * 20) * 0.002f);
-        EffectSsGSplash_Spawn(play, &newSplashPos, 0, 0, 2, this->rgScale / 2);
+        EffectSsGSplash_Spawn(play, &newSplashPos, NULL, NULL, 2, this->rgScale / 2);
     }
 
     this->rgTexIdx += this->rgTexIdxStep;
