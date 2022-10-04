@@ -704,7 +704,7 @@ typedef struct {
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
     /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
-    /* 2 */ PAUSE_BG_PRERENDER_FILTER, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
+    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
     /* 3 */ PAUSE_BG_PRERENDER_DONE, // The pause background is ready to be used.
     /* 4 */ PAUSE_BG_PRERENDER_MAX
 } PauseBgPreRenderState;

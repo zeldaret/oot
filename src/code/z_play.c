@@ -1110,7 +1110,7 @@ void Play_Draw(PlayState* this) {
         } else {
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
-            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_FILTER) {
+            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
                 // Wait for the previous frame's DList to be processed,
                 // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
                 // content and can be used by `PreRender_ApplyFilters` below.
@@ -1251,7 +1251,7 @@ void Play_Draw(PlayState* this) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
                         PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
 
-                        R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_FILTER;
+                        R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
                     } else {
                         gTrnsnUnkState = 2;
                     }
