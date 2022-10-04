@@ -166,9 +166,9 @@ u16 ElfMessage_GetSariaText(PlayState* play) {
 }
 
 u16 ElfMessage_GetCUpText(PlayState* play) {
-    if (play->cUpElfMsgs == NULL) {
+    if (play->cUpMsgs == NULL) {
         return 0;
     } else {
-        return ElfMessage_GetTextFromMsgs(play->cUpElfMsgs);
+        return ElfMessage_GetTextFromMsgs(play->cUpMsgs);
     }
 }
