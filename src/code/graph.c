@@ -267,7 +267,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     u32 problem;
 
-    gameState->isPreNMIStateRunning = false;
+    gameState->inPreNMIState = false;
     Graph_InitTHGA(gfxCtx);
 
     OPEN_DISPS(gfxCtx, "../graph.c", 966);
@@ -401,7 +401,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gameState->running = false;
     }
 
-    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->isPreNMIStateRunning) {
+    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->inPreNMIState) {
         // "To reset mode"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
         SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
