@@ -554,7 +554,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             if (pauseCtx->stickAdjX < -30) {
                 if (sStickXRepeatState == -1) {
-                    if (--sStickXRepeatTimer < 0) {
+                    sStickXRepeatTimer--;
+                    if (sStickXRepeatTimer < 0) {
                         sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjX = 0;
@@ -565,7 +566,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             } else if (pauseCtx->stickAdjX > 30) {
                 if (sStickXRepeatState == 1) {
-                    if (--sStickXRepeatTimer < 0) {
+                    sStickXRepeatTimer--;
+                    if (sStickXRepeatTimer < 0) {
                         sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjX = 0;
@@ -580,7 +582,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             if (pauseCtx->stickAdjY < -30) {
                 if (sStickYRepeatState == -1) {
-                    if (--sStickYRepeatTimer < 0) {
+                    sStickYRepeatTimer--;
+                    if (sStickYRepeatTimer < 0) {
                         sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjY = 0;
@@ -591,7 +594,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             } else if (pauseCtx->stickAdjY > 30) {
                 if (sStickYRepeatState == 1) {
-                    if (--sStickYRepeatTimer < 0) {
+                    sStickYRepeatTimer--;
+                    if (sStickYRepeatTimer < 0) {
                         sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjY = 0;
