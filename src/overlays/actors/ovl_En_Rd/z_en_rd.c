@@ -828,7 +828,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 if (this->actor.colChkInfo.health == 0) {
                     EnRd_UpdateMourningTarget(play, &this->actor, true);
                     EnRd_SetupDead(this);
-                    Item_DropCollectibleRandom(play, 0, &this->actor.world.pos, 0x90);
+                    Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x90);
                 } else {
                     EnRd_SetupDamaged(this);
                 }

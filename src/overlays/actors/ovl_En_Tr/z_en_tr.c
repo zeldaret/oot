@@ -431,7 +431,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == 0)) {
+    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == NULL)) {
         this->actor.shape.shadowDraw = NULL;
     } else {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;

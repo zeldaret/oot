@@ -2385,7 +2385,7 @@ void EnHorse_CutsceneUpdate(EnHorse* this, PlayState* play) {
         EnHorse_Freeze(this);
         return;
     }
-    if (linkCsAction != 0) {
+    if (linkCsAction != NULL) {
         csFunctionIdx = EnHorse_GetCutsceneFunctionIndex(linkCsAction->action);
         if (csFunctionIdx != 0) {
             if (this->cutsceneAction != csFunctionIdx) {
@@ -2956,7 +2956,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
     }
 
     floorSlope = RAD_TO_BINANG(Math_FAtan2F(this->yBack - this->yFront, 60.0f));
-    if (this->actor.floorPoly != 0) {
+    if (this->actor.floorPoly != NULL) {
         nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
         ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
         nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
@@ -3207,7 +3207,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         }
 
         dynaPoly = DynaPoly_GetActor(&play->colCtx, bgId);
-        if ((this->stateFlags & ENHORSE_FLAG_26) && ((dynaPoly && dynaPoly->actor.id != 0x108) || dynaPoly == 0)) {
+        if ((this->stateFlags & ENHORSE_FLAG_26) &&
+            ((dynaPoly && dynaPoly->actor.id != ACTOR_BG_UMAJUMP) || dynaPoly == NULL)) {
             if (movingFast == false) {
                 this->stateFlags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == true) {
