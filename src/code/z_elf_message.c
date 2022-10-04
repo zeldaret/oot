@@ -165,10 +165,10 @@ u16 ElfMessage_GetSariaText(PlayState* play) {
     return ElfMessage_GetTextFromMsgs(msgs);
 }
 
-u16 ElfMessage_GetCUpText(PlayState* play) {
-    if (play->cUpMsgs == NULL) {
+u16 ElfMessage_GetNaviText(PlayState* play) {
+    if (play->naviMsgs == NULL) {
         return 0;
     } else {
-        return ElfMessage_GetTextFromMsgs(play->cUpMsgs);
+        return ElfMessage_GetTextFromMsgs(play->naviMsgs);
     }
 }

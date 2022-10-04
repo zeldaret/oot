@@ -1192,7 +1192,7 @@ typedef struct PlayState {
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
-    /* 0x11E0C */ ElfMessage* cUpMsgs;
+    /* 0x11E0C */ ElfMessage* naviMsgs;
     /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 transitionTrigger; // "fade_direction"

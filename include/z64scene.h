@@ -223,7 +223,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  code;
-    /* 0x01 */ u8  cUpMsgsNum;
+    /* 0x01 */ u8  naviMsgsNum;
     /* 0x04 */ u32 keepObjectId;
 } SCmdSpecialFiles;
 
@@ -522,8 +522,8 @@ typedef enum {
 #define SCENE_CMD_ENTRANCE_LIST(entranceList) \
     { SCENE_CMD_ID_ENTRANCE_LIST, 0, CMD_PTR(entranceList) }
 
-#define SCENE_CMD_SPECIAL_FILES(cUpMsgsNum, keepObjectId) \
-    { SCENE_CMD_ID_SPECIAL_FILES, cUpMsgsNum, CMD_W(keepObjectId) }
+#define SCENE_CMD_SPECIAL_FILES(naviMsgsNum, keepObjectId) \
+    { SCENE_CMD_ID_SPECIAL_FILES, naviMsgsNum, CMD_W(keepObjectId) }
 
 #define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
     { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \

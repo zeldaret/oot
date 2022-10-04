@@ -1,7 +1,7 @@
 #include "global.h"
 #include "z64elf_message.h"
 
-ElfMessage sOverworldCUpMsgs[] = {
+ElfMessage sOverworldNaviMsgs[] = {
     ELF_MSG_FLAG(CHECK, 0x40, false, EVENTCHKINF_05),
     ELF_MSG_FLAG(CHECK, 0x41, false, EVENTCHKINF_09),
     ELF_MSG_FLAG(CHECK, 0x42, false, EVENTCHKINF_12),
