@@ -555,23 +555,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             if (pauseCtx->stickAdjX < -30) {
                 if (sStickXRepeatState == -1) {
                     if (--sStickXRepeatTimer < 0) {
-                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjX = 0;
                     }
                 } else {
-                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     sStickXRepeatState = -1;
                 }
             } else if (pauseCtx->stickAdjX > 30) {
                 if (sStickXRepeatState == 1) {
                     if (--sStickXRepeatTimer < 0) {
-                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjX = 0;
                     }
                 } else {
-                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     sStickXRepeatState = 1;
                 }
             } else {
@@ -581,23 +581,23 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             if (pauseCtx->stickAdjY < -30) {
                 if (sStickYRepeatState == -1) {
                     if (--sStickYRepeatTimer < 0) {
-                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjY = 0;
                     }
                 } else {
-                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     sStickYRepeatState = -1;
                 }
             } else if (pauseCtx->stickAdjY > 30) {
                 if (sStickYRepeatState == 1) {
                     if (--sStickYRepeatTimer < 0) {
-                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjY = 0;
                     }
                 } else {
-                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
                     sStickYRepeatState = 1;
                 }
             } else {
