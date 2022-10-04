@@ -44,7 +44,7 @@ const ActorInit Boss_Ganon2_InitVars = {
     (ActorFunc)BossGanon2_Draw,
 };
 
-#include "z_boss_ganon2_data.c"
+#include "z_boss_ganon2_data.inc.c"
 
 void BossGanon2_InitRand(s32 seedInit0, s32 seedInit1, s32 seedInit2) {
     sSeed1 = seedInit0;

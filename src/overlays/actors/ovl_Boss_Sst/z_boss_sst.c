@@ -246,7 +246,7 @@ const ActorInit Boss_Sst_InitVars = {
     (ActorFunc)BossSst_DrawHand,
 };
 
-#include "z_boss_sst_colchk.c"
+#include "z_boss_sst_colchk.inc.c"
 
 static AnimationHeader* sHandIdleAnims[] = { &gBongoLeftHandIdleAnim, &gBongoRightHandIdleAnim };
 static AnimationHeader* sHandFlatPoses[] = { &gBongoLeftHandFlatPoseAnim, &gBongoRightHandFlatPoseAnim };

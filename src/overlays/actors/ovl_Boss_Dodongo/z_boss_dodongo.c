@@ -45,7 +45,7 @@ const ActorInit Boss_Dodongo_InitVars = {
     (ActorFunc)BossDodongo_Draw,
 };
 
-#include "z_boss_dodongo_data.c"
+#include "z_boss_dodongo_data.inc.c"
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),

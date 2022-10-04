@@ -56,7 +56,7 @@ const ActorInit Boss_Fd_InitVars = {
     (ActorFunc)BossFd_Draw,
 };
 
-#include "z_boss_fd_colchk.c"
+#include "z_boss_fd_colchk.inc.c"
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
