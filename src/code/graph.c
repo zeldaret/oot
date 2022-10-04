@@ -160,7 +160,6 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     OSTask_t* task = &gfxCtx->task.list.t;
     OSScTask* scTask = &gfxCtx->task;
     CfbInfo* cfb;
-    s32 pad1;
 
     gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime =
         osGetTime() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
@@ -202,7 +201,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         // The audio thread update is running
         // Add the time already spent to the accumulator and leave the rest for the next cycle
 
-        gAudioThreadUpdateTimeAcc = gAudioThreadUpdateTimeAcc + timeNow - gAudioThreadUpdateTimeStart;
+        gAudioThreadUpdateTimeAcc += timeNow - gAudioThreadUpdateTimeStart;
         gAudioThreadUpdateTimeStart = timeNow;
     }
     gAudioThreadUpdateTimeTotalPerGfxTask = gAudioThreadUpdateTimeAcc;
