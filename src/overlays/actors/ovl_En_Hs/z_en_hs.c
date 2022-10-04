@@ -206,7 +206,7 @@ void func_80A6E9AC(EnHs* this, PlayState* play) {
     s16 yawDiff;
 
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        if (func_8002F368(play) == 7) {
+        if (func_8002F368(play) == EXCH_ITEM_COJIRO) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
             Animation_Change(&this->skelAnime, &object_hs_Anim_000304, 1.0f, 0.0f,
@@ -221,7 +221,7 @@ void func_80A6E9AC(EnHs* this, PlayState* play) {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         this->actor.textId = 0x10B1;
         if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
-            func_8002F298(&this->actor, play, 100.0f, 7);
+            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_COJIRO);
         }
     }
 }

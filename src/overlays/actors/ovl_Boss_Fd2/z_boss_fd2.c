@@ -58,7 +58,7 @@ const ActorInit Boss_Fd2_InitVars = {
     (ActorFunc)BossFd2_Draw,
 };
 
-#include "z_boss_fd2_colchk.c"
+#include "z_boss_fd2_colchk.inc.c"
 
 static Vec3f sHoleLocations[] = {
     { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },

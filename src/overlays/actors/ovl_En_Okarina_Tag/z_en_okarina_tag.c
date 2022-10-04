@@ -250,8 +250,8 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_003C80)
-                                                    : SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_005020);
+                play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
+                                                    : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -304,7 +304,7 @@ void func_80ABF7CC(EnOkarinaTag* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (!CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gSunSongGraveSunSongTeachCs);
+            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSunSongGraveSunSongTeachCs);
             gSaveContext.cutsceneTrigger = 1;
         }
         this->actionFunc = func_80ABF708;
