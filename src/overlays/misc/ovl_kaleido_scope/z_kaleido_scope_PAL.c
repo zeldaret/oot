@@ -313,7 +313,7 @@ void KaleidoScope_MoveCursorToSpecialPos(PlayState* play, u16 specialPos) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
     pauseCtx->cursorSpecialPos = specialPos;
-    pauseCtx->pageSwitchTimer = 0;
+    pauseCtx->pageSwitchInputTimer = 0;
 
     Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
@@ -409,21 +409,21 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
 
     if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
         if (pauseCtx->stickAdjX < -30) {
-            pauseCtx->pageSwitchTimer++;
-            if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
+            pauseCtx->pageSwitchInputTimer++;
+            if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 0);
             }
         } else {
-            pauseCtx->pageSwitchTimer = -1;
+            pauseCtx->pageSwitchInputTimer = -1;
         }
     } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) {
         if (pauseCtx->stickAdjX > 30) {
-            pauseCtx->pageSwitchTimer++;
-            if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
+            pauseCtx->pageSwitchInputTimer++;
+            if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
                 KaleidoScope_SwitchPage(pauseCtx, 2);
             }
         } else {
-            pauseCtx->pageSwitchTimer = -1;
+            pauseCtx->pageSwitchInputTimer = -1;
         }
     }
 }
@@ -508,10 +508,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
     };
     static s16 D_8082AD3C = 20;
     static s16 D_8082AD40 = 0;
-    static s16 D_8082AD44 = 0;
-    static s16 D_8082AD48 = 0;
-    static s16 D_8082AD4C = 0;
-    static s16 D_8082AD50 = 0;
+    static s16 sStickXRepeatTimer = 0;
+    static s16 sStickYRepeatTimer = 0;
+    static s16 sStickXRepeatState = 0;
+    static s16 sStickYRepeatState = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 stepR;
     s16 stepG;
@@ -553,55 +553,59 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             }
 
             if (pauseCtx->stickAdjX < -30) {
-                if (D_8082AD4C == -1) {
-                    if (--D_8082AD44 < 0) {
-                        D_8082AD44 = XREG(6);
+                if (sStickXRepeatState == -1) {
+                    sStickXRepeatTimer--;
+                    if (sStickXRepeatTimer < 0) {
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjX = 0;
                     }
                 } else {
-                    D_8082AD44 = XREG(8);
-                    D_8082AD4C = -1;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                    sStickXRepeatState = -1;
                 }
             } else if (pauseCtx->stickAdjX > 30) {
-                if (D_8082AD4C == 1) {
-                    if (--D_8082AD44 < 0) {
-                        D_8082AD44 = XREG(6);
+                if (sStickXRepeatState == 1) {
+                    sStickXRepeatTimer--;
+                    if (sStickXRepeatTimer < 0) {
+                        sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjX = 0;
                     }
                 } else {
-                    D_8082AD44 = XREG(8);
-                    D_8082AD4C = 1;
+                    sStickXRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                    sStickXRepeatState = 1;
                 }
             } else {
-                D_8082AD4C = 0;
+                sStickXRepeatState = 0;
             }
 
             if (pauseCtx->stickAdjY < -30) {
-                if (D_8082AD50 == -1) {
-                    if (--D_8082AD48 < 0) {
-                        D_8082AD48 = XREG(6);
+                if (sStickYRepeatState == -1) {
+                    sStickYRepeatTimer--;
+                    if (sStickYRepeatTimer < 0) {
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjY = 0;
                     }
                 } else {
-                    D_8082AD48 = XREG(8);
-                    D_8082AD50 = -1;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                    sStickYRepeatState = -1;
                 }
             } else if (pauseCtx->stickAdjY > 30) {
-                if (D_8082AD50 == 1) {
-                    if (--D_8082AD48 < 0) {
-                        D_8082AD48 = XREG(6);
+                if (sStickYRepeatState == 1) {
+                    sStickYRepeatTimer--;
+                    if (sStickYRepeatTimer < 0) {
+                        sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY;
                     } else {
                         pauseCtx->stickAdjY = 0;
                     }
                 } else {
-                    D_8082AD48 = XREG(8);
-                    D_8082AD50 = 1;
+                    sStickYRepeatTimer = R_PAUSE_STICK_REPEAT_DELAY_FIRST;
+                    sStickYRepeatState = 1;
                 }
             } else {
-                D_8082AD50 = 0;
+                sStickYRepeatState = 0;
             }
         }
 

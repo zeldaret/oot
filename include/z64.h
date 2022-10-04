@@ -786,7 +786,7 @@ typedef struct {
     /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
     /* 0x0236 */ s16    dungeonMapSlot;
     /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
-    /* 0x023A */ s16    pageSwitchTimer;
+    /* 0x023A */ s16    pageSwitchInputTimer; // Used to introduce a delay before switching page when arriving on the "scroll left/right" positions while holding stick left/right.
     /* 0x023C */ u16    namedItem; // "zoom_name"
     /* 0x023E */ u16    cursorItem[4]; // "select_name"
     /* 0x0246 */ u16    cursorSlot[4];
