@@ -96,7 +96,7 @@ char sRegGroupChars[REG_GROUPS] = {
 void func_800636C0(void) {
     s32 i;
 
-    gGameInfo = (GameInfo*)SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);
+    gGameInfo = SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);
     gGameInfo->regPage = 0;
     gGameInfo->regGroup = 0;
     gGameInfo->regCur = 0;

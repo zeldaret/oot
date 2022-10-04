@@ -1,5 +1,6 @@
 #include "ultra64.h"
-#include "sintable.c"
+
+#include "sintable.inc.c"
 
 /**
  * @param x binang
