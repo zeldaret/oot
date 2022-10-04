@@ -19,13 +19,13 @@
 
         <!-- Torch Slug Limbs -->
         <Limb Name="gTorchSlugBodyLimb" LimbType="Standard" Offset="0x2040"/>
-        <Limb Name="gTorchSlugLeftEyestalkRootLimb" LimbType="Standard" Offset="0x204C"/>
-        <Limb Name="gTorchSlugLeftEyestalkWrapperLimb" LimbType="Standard" Offset="0x2058"/>
+        <Limb Name="gTorchSlugLeftEyestalkRootRootLimb" LimbType="Standard" Offset="0x204C"/>
+        <Limb Name="gTorchSlugLeftEyestalkRootLimb" LimbType="Standard" Offset="0x2058"/>
         <Limb Name="gTorchSlugLeftUpperEyestalkRootLimb" LimbType="Standard" Offset="0x2064"/>
         <Limb Name="gTorchSlugLeftUpperEyestalkLimb" LimbType="Standard" Offset="0x2070"/>
         <Limb Name="gTorchSlugLeftLowerEyestalkLimb" LimbType="Standard" Offset="0x207C"/>
-        <Limb Name="gTorchSlugRightEyestalkRootLimb" LimbType="Standard" Offset="0x2088"/>
-        <Limb Name="gTorchSlugRightEyestalkWrapperLimb" LimbType="Standard" Offset="0x2094"/>
+        <Limb Name="gTorchSlugRightEyestalkRootRootLimb" LimbType="Standard" Offset="0x2088"/>
+        <Limb Name="gTorchSlugRightEyestalkRootLimb" LimbType="Standard" Offset="0x2094"/>
         <Limb Name="gTorchSlugRightUpperEyestalkRootLimb" LimbType="Standard" Offset="0x20A0"/>
         <Limb Name="gTorchSlugRightUpperEyestalkLimb" LimbType="Standard" Offset="0x20AC"/>
         <Limb Name="gTorchSlugRightLowerEyestalkLimb" LimbType="Standard" Offset="0x20B8"/>
