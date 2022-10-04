@@ -16,8 +16,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
+    /* 0x04 */ uintptr_t vromStart;
+    /* 0x08 */ uintptr_t vromEnd;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ void* vramTable;
@@ -44,8 +44,8 @@ static MapMarkInfo sMapMarkInfoTable[] = {
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
     NULL,
-    (u32)_ovl_map_mark_dataSegmentRomStart,
-    (u32)_ovl_map_mark_dataSegmentRomEnd,
+    (uintptr_t)_ovl_map_mark_dataSegmentRomStart,
+    (uintptr_t)_ovl_map_mark_dataSegmentRomEnd,
     _ovl_map_mark_dataSegmentStart,
     _ovl_map_mark_dataSegmentEnd,
     gMapMarkDataTable,

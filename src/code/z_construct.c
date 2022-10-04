@@ -27,7 +27,7 @@ void Interface_Init(PlayState* play) {
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
 
-    parameterSize = (u32)_parameter_staticSegmentRomEnd - (u32)_parameter_staticSegmentRomStart;
+    parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
 
     // "Permanent PARAMETER Segment = %x"
     osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
@@ -37,7 +37,7 @@ void Interface_Init(PlayState* play) {
     osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
+    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
                         "../z_construct.c", 162);
 
     interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 0x480, "../z_construct.c", 166);
@@ -55,8 +55,8 @@ void Interface_Init(PlayState* play) {
         doActionOffset = 0x5700;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
-                        "../z_construct.c", 174);
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
+                        0x300, "../z_construct.c", 174);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 0x480;
@@ -66,8 +66,8 @@ void Interface_Init(PlayState* play) {
         doActionOffset = 0x5B80;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + doActionOffset,
-                        0x180, "../z_construct.c", 178);
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300,
+                        (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, 0x180, "../z_construct.c", 178);
 
     interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, 0x4000, "../z_construct.c", 190);
 
@@ -83,30 +83,30 @@ void Interface_Init(PlayState* play) {
 
     if (gSaveContext.equips.buttonItems[0] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 198);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000,
+                            0x1000, "../z_construct.c", 198);
     } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 203);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000,
+                            0x1000, "../z_construct.c", 203);
     }
 
     if (gSaveContext.equips.buttonItems[1] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000, 0x1000,
-                            "../z_construct.c", 209);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000,
+                            0x1000, "../z_construct.c", 209);
     }
 
     if (gSaveContext.equips.buttonItems[2] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000, 0x1000,
-                            "../z_construct.c", 214);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000,
+                            0x1000, "../z_construct.c", 214);
     }
 
     if (gSaveContext.equips.buttonItems[3] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000, 0x1000,
-                            "../z_construct.c", 219);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000,
+                            0x1000, "../z_construct.c", 219);
     }
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
