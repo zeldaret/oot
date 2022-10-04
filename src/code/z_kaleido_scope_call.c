@@ -61,7 +61,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
             if (Letterbox_GetSize() == 0) {
                 HREG(80) = 7;
                 HREG(82) = 3;
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
                 pauseCtx->unk_1E4 = 0;
                 pauseCtx->unk_1EC = 0;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
@@ -69,7 +69,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if (pauseCtx->state == 8) {
             HREG(80) = 7;
             HREG(82) = 3;
-            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
             pauseCtx->unk_1E4 = 0;
             pauseCtx->unk_1EC = 0;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;

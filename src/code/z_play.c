@@ -1239,7 +1239,7 @@ void Play_Draw(PlayState* this) {
                     DebugDisplay_DrawObjects(this);
                 }
 
-                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_DRAW) || (gTrnsnUnkState == 1)) {
+                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) || (gTrnsnUnkState == 1)) {
                     Gfx* gfxP = OVERLAY_DISP;
 
                     // Copy the frame buffer contents at this point in the DList to the zbuffer
@@ -1247,7 +1247,7 @@ void Play_Draw(PlayState* this) {
                     this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
                     PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
-                    if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_DRAW) {
+                    if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
                         PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
 
