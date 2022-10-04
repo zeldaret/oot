@@ -3071,7 +3071,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             }
 
             GfxPrint_SetPos(printer, 3, 24);
-            if (sSariaBgmPtr != 0) {
+            if (sSariaBgmPtr != NULL) {
                 GfxPrint_Printf(printer, "SARIA BGM PTR %08x", sSariaBgmPtr);
             }
 

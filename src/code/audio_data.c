@@ -553,7 +553,7 @@ EnvelopePoint gDefaultEnvelope[] = {
 NoteSubEu gZeroNoteSub = { 0 };
 
 NoteSubEu gDefaultNoteSub = {
-    { 1, 1, 0, 0, 0, 0, 0, 0 }, { 0 }, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    { 1, 1, 0, 0, 0, 0, 0, 0 }, { 0 }, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0,
 };
 
 u16 gHaasEffectDelaySizes[64] = {

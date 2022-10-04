@@ -1044,7 +1044,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         Math_Vec3f_Copy(&pos, &thisx->world.pos);
         pos.y += thisx->yDistToWater;
         this->timer4 = 30;
-        EffectSsGSplash_Spawn(play, &pos, 0, 0, 0, 400);
+        EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
         this->timer5 = 0;
         osSyncPrintf("\n\n");
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n" VT_RST);

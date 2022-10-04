@@ -95,7 +95,7 @@ char sRegGroupChars[REG_GROUPS] = {
 void Regs_InitContext(void) {
     s32 i;
 
-    gRegsContext = (RegsContext*)SystemArena_MallocDebug(sizeof(RegsContext), "../z_debug.c", 260);
+    gRegsContext = SystemArena_MallocDebug(sizeof(RegsContext), "../z_debug.c", 260);
     gRegsContext->regPage = 0;
     gRegsContext->regGroup = 0;
     gRegsContext->regCur = 0;
@@ -228,7 +228,7 @@ void Regs_UpdateEditor(Input* input) {
 
                 if (iREG(0)) {
                     iREG(0) = 0;
-                    func_800AA000(0, iREG(1), iREG(2), iREG(3));
+                    Rumble_Request(0.0f, iREG(1), iREG(2), iREG(3));
                 }
 
                 break;
