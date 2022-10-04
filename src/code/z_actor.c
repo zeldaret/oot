@@ -2661,7 +2661,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     ActorInit* actorInit;
     s32 objBankIndex;
     ActorOverlay* overlayEntry;
-    u32 temp;
+    uintptr_t temp;
     char* name;
     u32 overlaySize;
 
@@ -2682,7 +2682,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
         return NULL;
     }
 
-    if (overlayEntry->vramStart == 0) {
+    if (overlayEntry->vramStart == NULL) {
         if (HREG(20) != 0) {
             osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
         }
@@ -2894,7 +2894,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     ZeldaArena_FreeDebug(actor, "../z_actor.c", 7242);
 
-    if (overlayEntry->vramStart == 0) {
+    if (overlayEntry->vramStart == NULL) {
         if (HREG(20) != 0) {
             osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
         }
@@ -3001,7 +3001,7 @@ Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, 
         }
     }
 
-    if (D_8015BBE8 == 0) {
+    if (D_8015BBE8 == NULL) {
         *actorPtr = D_8015BBEC;
     } else {
         *actorPtr = D_8015BBE8;
@@ -3523,9 +3523,9 @@ void func_80033E1C(PlayState* play, s16 arg1, s16 arg2, s16 arg3) {
 
 void func_80033E88(Actor* actor, PlayState* play, s16 arg2, s16 arg3) {
     if (arg2 >= 5) {
-        func_800AA000(actor->xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
+        Rumble_Request(actor->xyzDistToPlayerSq, 255, 20, 150);
     } else {
-        func_800AA000(actor->xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
+        Rumble_Request(actor->xyzDistToPlayerSq, 180, 20, 100);
     }
 
     func_80033DB8(play, arg2, arg3);
@@ -3963,7 +3963,7 @@ s32 func_80035124(Actor* actor, PlayState* play) {
     return ret;
 }
 
-#include "z_cheap_proc.c"
+#include "z_cheap_proc.inc.c"
 
 u8 func_800353E8(PlayState* play) {
     Player* player = GET_PLAYER(play);

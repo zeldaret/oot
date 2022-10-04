@@ -361,7 +361,7 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
 
     // Execute retrace callback
     if (padMgr->retraceCallback != NULL) {
-        padMgr->retraceCallback(padMgr, padMgr->retraceCallbackValue);
+        padMgr->retraceCallback(padMgr, padMgr->retraceCallbackArg);
     }
 
     // Wait for controller data
