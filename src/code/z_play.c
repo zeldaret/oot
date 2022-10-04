@@ -175,7 +175,7 @@ void Play_Destroy(GameState* thisx) {
     Player* player = GET_PLAYER(this);
 
     this->state.gfxCtx->callback = NULL;
-    this->state.gfxCtx->callbackParam = 0;
+    this->state.gfxCtx->callbackParam = NULL;
 
     SREG(91) = 0;
     R_PAUSE_MENU_MODE = 0;

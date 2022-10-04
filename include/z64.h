@@ -42,8 +42,8 @@
 #define SCREEN_HEIGHT 240
 
 #define REGION_NULL 0
-#define REGION_US 1
-#define REGION_JP 2
+#define REGION_JP 1
+#define REGION_US 2
 #define REGION_EU 3
 
 #define THREAD_PRI_IDLE_INIT    10
@@ -704,8 +704,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
+    /* 0x04 */ uintptr_t vromStart;
+    /* 0x08 */ uintptr_t vromEnd;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
@@ -1372,8 +1372,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ u32       vromStart; // if applicable
-    /* 0x08 */ u32       vromEnd;   // if applicable
+    /* 0x04 */ uintptr_t vromStart; // if applicable
+    /* 0x08 */ uintptr_t vromEnd;   // if applicable
     /* 0x0C */ void*     vramStart; // if applicable
     /* 0x10 */ void*     vramEnd;   // if applicable
     /* 0x14 */ void*     unk_14;
@@ -1878,9 +1878,9 @@ typedef struct {
 } SkyboxFile; // size = 0x10
 
 #define ROM_FILE(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomEnd }
 #define ROM_FILE_EMPTY(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomStart }
 #define ROM_FILE_UNSET \
     { 0 }
 
