@@ -437,7 +437,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     }
 
     gCustomLensFlareOn = false;
-    func_800AA15C();
+    Rumble_Reset();
 }
 
 u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
@@ -883,7 +883,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
     if ((((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL) &&
         (((void)0, gSaveContext.gameMode) != GAMEMODE_END_CREDITS)) {
-        func_800AA16C();
+        Rumble_ClearRequests();
     }
 
     if (pauseCtx->state == 0) {

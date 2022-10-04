@@ -36,13 +36,14 @@
 #include "padmgr.h"
 #include "fault.h"
 #include "sched.h"
+#include "rumble.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 
 #define REGION_NULL 0
-#define REGION_US 1
-#define REGION_JP 2
+#define REGION_JP 1
+#define REGION_US 2
 #define REGION_EU 3
 
 #define THREAD_PRI_IDLE_INIT    10
@@ -711,8 +712,8 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
+    /* 0x04 */ uintptr_t vromStart;
+    /* 0x08 */ uintptr_t vromEnd;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
@@ -1379,8 +1380,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ u32       vromStart; // if applicable
-    /* 0x08 */ u32       vromEnd;   // if applicable
+    /* 0x04 */ uintptr_t vromStart; // if applicable
+    /* 0x08 */ uintptr_t vromEnd;   // if applicable
     /* 0x0C */ void*     vramStart; // if applicable
     /* 0x10 */ void*     vramEnd;   // if applicable
     /* 0x14 */ void*     unk_14;
@@ -1822,22 +1823,6 @@ typedef struct {
 } struct_80166500; // size = 0x10
 
 typedef struct {
-    /* 0x000 */ u8 rumbleEnable[4];
-    /* 0x004 */ u8 unk_04[0x40];
-    /* 0x044 */ u8 unk_44[0x40];
-    /* 0x084 */ u8 unk_84[0x40];
-    /* 0x0C4 */ u8 unk_C4[0x40];
-    /* 0x104 */ u8 unk_104;
-    /* 0x105 */ u8 unk_105;
-    /* 0x106 */ u16 unk_106;
-    /* 0x108 */ u16 unk_108;
-    /* 0x10A */ u8 unk_10A;
-    /* 0x10B */ u8 unk_10B;
-    /* 0x10C */ u8 unk_10C;
-    /* 0x10D */ u8 unk_10D;
-} UnkRumbleStruct; // size = 0x10E
-
-typedef struct {
     /* 0x00 */ char unk_00[0x18];
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 y;
@@ -1901,9 +1886,9 @@ typedef struct {
 } SkyboxFile; // size = 0x10
 
 #define ROM_FILE(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomEnd }
 #define ROM_FILE_EMPTY(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomStart }
 #define ROM_FILE_UNSET \
     { 0 }
 

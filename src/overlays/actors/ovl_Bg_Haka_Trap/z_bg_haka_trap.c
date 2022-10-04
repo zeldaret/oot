@@ -180,7 +180,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
         thisx->uncullZoneScale = 500.0f;
     }
 
-    CollisionCheck_SetInfo(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {

@@ -170,7 +170,7 @@ void EnBom_Explode(EnBom* this, PlayState* play) {
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
         this->actor.flags |= ACTOR_FLAG_5;
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
     }
 
     this->explosionCollider.elements[0].dim.worldSphere.radius += this->actor.shape.rot.z + 8;
