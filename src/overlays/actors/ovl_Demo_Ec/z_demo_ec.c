@@ -285,11 +285,11 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 
     Gfx_SetupDL_25Opa(gfxCtx);
 
-    if (arg2 != 0) {
+    if (arg2 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(arg2));
     }
 
-    if (arg3 != 0) {
+    if (arg3 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x0B, SEGMENTED_TO_VIRTUAL(arg3));
     }
 
@@ -370,7 +370,7 @@ void DemoEc_UpdateIngo(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawIngo(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, gIngoEyeClosed2Tex, gIngoRedTex, 0, 0);
+    DemoEc_DrawSkeleton(this, play, gIngoEyeClosed2Tex, gIngoRedTex, NULL, NULL);
 }
 
 void DemoEc_InitTalon(DemoEc* this, PlayState* play) {
@@ -705,7 +705,7 @@ void DemoEc_CarpenterPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 }
 
 void DemoEc_DrawCarpenter(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, NULL, 0, DemoEc_CarpenterOverrideLimbDraw, DemoEc_CarpenterPostLimbDraw);
+    DemoEc_DrawSkeleton(this, play, NULL, NULL, DemoEc_CarpenterOverrideLimbDraw, DemoEc_CarpenterPostLimbDraw);
 }
 
 void DemoEc_InitGerudo(DemoEc* this, PlayState* play) {

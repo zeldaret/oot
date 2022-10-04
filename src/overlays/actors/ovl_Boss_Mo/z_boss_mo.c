@@ -140,7 +140,7 @@ static f32 sFlatWidth[41] = {
     8.6f,  8.3f,  8.2f, 8.1f, 7.2f, 6.7f, 5.9f, 4.9f, 2.7f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
-#include "z_boss_mo_colchk.c"
+#include "z_boss_mo_colchk.inc.c"
 
 static BossMoEffect sEffects[BOSS_MO_EFFECT_COUNT];
 static s32 sSeed1;
@@ -504,7 +504,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 swingSizeAccel = 60.0f;
                 if ((this->sfxTimer % 32) == 0) {
                     Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
-                    func_800AA000(0, 100, 5, 2);
+                    Rumble_Request(0, 100, 5, 2);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
             } else {
@@ -518,7 +518,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 swingSizeAccel = 70.0f;
                 if ((this->sfxTimer % 16) == 0) {
                     Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
-                    func_800AA000(0, 160, 5, 4);
+                    Rumble_Request(0, 160, 5, 4);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
             }

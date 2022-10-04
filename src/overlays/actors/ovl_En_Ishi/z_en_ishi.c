@@ -436,7 +436,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
             Quake_SetSpeed(quakeIdx, -0x3CB0);
             Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
             Quake_SetCountdown(quakeIdx, 7);
-            func_800AA000(this->actor.xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
+            Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
         }
         Actor_Kill(&this->actor);
         return;
@@ -445,7 +445,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
         contactPos.x = this->actor.world.pos.x;
         contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.world.pos.z;
-        EffectSsGSplash_Spawn(play, &contactPos, 0, 0, 0, 350);
+        EffectSsGSplash_Spawn(play, &contactPos, NULL, NULL, 0, 350);
         if (type == ROCK_SMALL) {
             EffectSsGRipple_Spawn(play, &contactPos, 150, 650, 0);
             EffectSsGRipple_Spawn(play, &contactPos, 400, 800, 4);

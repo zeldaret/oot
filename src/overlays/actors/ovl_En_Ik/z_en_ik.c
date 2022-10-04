@@ -428,7 +428,7 @@ void func_80A74EBC(EnIk* this, PlayState* play) {
         sp2C.y = this->actor.world.pos.y;
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
         Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         CollisionCheck_SpawnShieldParticles(play, &sp2C);
     }
 

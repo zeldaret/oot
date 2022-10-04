@@ -380,7 +380,7 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
             this->actionFunc = !this->unk_273 ? func_80ABA778 : func_80ABA9B8;
         }
     } else {
-        func_8002F298(&this->actor, play, 50.0f, 6);
+        func_8002F298(&this->actor, play, 50.0f, EXCH_ITEM_POCKET_CUCCO);
     }
 }
 

@@ -254,7 +254,7 @@ void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
         pos.y += this->actor.yDistToWater;
         this->actor.velocity.y = -1.0f;
         this->actor.gravity = -0.2f;
-        EffectSsGSplash_Spawn(play, &pos, 0, 0, 0, 800);
+        EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 800);
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = EnExRuppy_WaitInGame;
     }

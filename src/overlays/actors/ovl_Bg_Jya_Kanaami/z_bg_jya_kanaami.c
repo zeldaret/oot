@@ -110,7 +110,7 @@ void func_80899950(BgJyaKanaami* this, PlayState* play) {
 }
 
 void func_80899A08(BgJyaKanaami* this) {
-    this->actionFunc = 0;
+    this->actionFunc = NULL;
     this->dyna.actor.world.rot.x = 0x4000;
 }
 

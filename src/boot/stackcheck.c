@@ -4,7 +4,7 @@
 StackEntry* sStackInfoListStart = NULL;
 StackEntry* sStackInfoListEnd = NULL;
 
-void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 initValue, s32 minSpace,
+void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name) {
     StackEntry* iter;
     u32* addr;
@@ -12,8 +12,8 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
     if (entry == NULL) {
         sStackInfoListStart = NULL;
     } else {
-        entry->head = stackTop;
-        entry->tail = stackBottom;
+        entry->head = stackBottom;
+        entry->tail = stackTop;
         entry->initValue = initValue;
         entry->minSpace = minSpace;
         entry->name = name;

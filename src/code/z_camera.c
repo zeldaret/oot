@@ -33,7 +33,7 @@ s32 Camera_UpdateWater(Camera* camera);
 #define DISTORTION_UNDERWATER_STRONG (1 << 3)
 #define DISTORTION_UNDERWATER_FISHING (1 << 4)
 
-#include "z_camera_data.c"
+#include "z_camera_data.inc.c"
 
 /*===============================================================*/
 

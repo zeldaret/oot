@@ -680,7 +680,7 @@ s32 Collider_ResetTrisElementOC(PlayState* play, ColliderTrisElement* element) {
 s32 Collider_InitTris(PlayState* play, ColliderTris* tris) {
     Collider_InitBase(play, &tris->base);
     tris->count = 0;
-    tris->elements = 0;
+    tris->elements = NULL;
     return true;
 }
 

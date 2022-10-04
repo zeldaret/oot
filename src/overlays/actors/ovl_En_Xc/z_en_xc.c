@@ -287,7 +287,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 
         if (z < -2225.0f) {
             if (!Play_InCsMode(play)) {
-                play->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gMinuetCs);
+                play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_50);
                 Item_Give(play, ITEM_SONG_MINUET);
@@ -318,7 +318,7 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Play_InCsMode(play)) {
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gDeathMountainCraterBoleroCs);
+            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_51);
             Item_Give(play, ITEM_SONG_BOLERO);
@@ -348,7 +348,7 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
 
         if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
             !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
-            Cutscene_SetSegment(play, &gIceCavernSerenadeCs);
+            Cutscene_SetSegment(play, gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
             Item_Give(play, ITEM_SONG_SERENADE);

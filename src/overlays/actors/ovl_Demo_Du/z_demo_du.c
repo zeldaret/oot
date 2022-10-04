@@ -17,7 +17,7 @@ void DemoDu_Draw(Actor* thisx, PlayState* play);
 static s32 sUnused = 0;
 
 #pragma asmproc recurse
-#include "z_demo_du_cutscene_data.c"
+#include "z_demo_du_cutscene_data.inc.c"
 
 static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
 static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,

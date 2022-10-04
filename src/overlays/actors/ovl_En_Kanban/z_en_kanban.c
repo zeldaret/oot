@@ -784,7 +784,7 @@ static Gfx* sDisplayLists[] = {
     object_kanban_DL_0013D0, object_kanban_DL_001488, object_kanban_DL_001540,
 };
 
-#include "z_en_kanban_gfx.c"
+#include "z_en_kanban_gfx.inc.c"
 
 static f32 sCutAngles[] = {
     /* CUT_POST   */ 0.50f * M_PI,

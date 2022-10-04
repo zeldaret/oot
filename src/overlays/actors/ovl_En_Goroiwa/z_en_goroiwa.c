@@ -284,7 +284,7 @@ void EnGoroiwa_SpawnWaterEffects(PlayState* play, Vec3f* contactPos) {
         splashPos.x = contactPos->x + (Math_SinS(angle) * 55.0f);
         splashPos.y = contactPos->y;
         splashPos.z = contactPos->z + (Math_CosS(angle) * 55.0f);
-        EffectSsGSplash_Spawn(play, &splashPos, 0, 0, 0, 350);
+        EffectSsGSplash_Spawn(play, &splashPos, NULL, NULL, 0, 350);
     }
 
     EffectSsGRipple_Spawn(play, contactPos, 300, 700, 0);

@@ -135,7 +135,7 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, PlayState* play) {
     pos = *actorPos;
     pos.y += this->actor.yDistToWater;
 
-    EffectSsGSplash_Spawn(play, &pos, 0, 0, 0, 400);
+    EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
         sin = Math_SinS(var);

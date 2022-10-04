@@ -465,7 +465,7 @@ void Cutscene_Command_FadeBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusi
 // Command 9: ?
 void Cutscene_Command_09(PlayState* play, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        func_800AA000(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
+        Rumble_Request(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
     }
 }
 
