@@ -2820,8 +2820,7 @@ s32 func_80835C58(PlayState* play, Player* this, PlayerFunc674 func, s32 flags) 
 
     this->func_674 = func;
 
-    if ((this->itemAction != this->heldItemAction) &&
-        (!(flags & 1) || !(this->stateFlags1 & PLAYER_STATE1_22))) {
+    if ((this->itemAction != this->heldItemAction) && (!(flags & 1) || !(this->stateFlags1 & PLAYER_STATE1_22))) {
         func_8008EC70(this);
     }
 
@@ -2901,8 +2900,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
     if (((this->heldItemAction == this->itemAction) &&
          (!(this->stateFlags1 & PLAYER_STATE1_22) || (Player_ActionToMeleeWeapon(itemAction) != 0) ||
           (itemAction == PLAYER_IA_NONE))) ||
-        ((this->itemAction < 0) &&
-         ((Player_ActionToMeleeWeapon(itemAction) != 0) || (itemAction == PLAYER_IA_NONE)))) {
+        ((this->itemAction < 0) && ((Player_ActionToMeleeWeapon(itemAction) != 0) || (itemAction == PLAYER_IA_NONE)))) {
 
         if ((itemAction == PLAYER_IA_NONE) || !(this->stateFlags1 & PLAYER_STATE1_27) ||
             ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
@@ -3021,8 +3019,7 @@ s32 func_808365C8(Player* this) {
     return (!(func_808458D0 == this->func_674) ||
             ((this->stateFlags1 & PLAYER_STATE1_8) &&
              ((this->heldItemId == ITEM_LAST_USED) || (this->heldItemId == ITEM_NONE)))) &&
-           (!(func_80834A2C == this->func_82C) ||
-            (Player_ItemToItemAction(this->heldItemId) == this->heldItemAction));
+           (!(func_80834A2C == this->func_82C) || (Player_ItemToItemAction(this->heldItemId) == this->heldItemAction));
 }
 
 s32 func_80836670(Player* this, PlayState* play) {
@@ -11056,8 +11053,7 @@ void func_8084B530(Player* this, PlayState* play) {
     } else if (!func_8008E9C4(this) && LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->skelAnime.moveFlags != 0) {
             func_80832DBC(this);
-            if ((this->targetActor->category == ACTORCAT_NPC) &&
-                (this->heldItemAction != PLAYER_IA_FISHING_POLE)) {
+            if ((this->targetActor->category == ACTORCAT_NPC) && (this->heldItemAction != PLAYER_IA_FISHING_POLE)) {
                 func_808322D0(play, this, &gPlayerAnim_link_normal_talk_free);
             } else {
                 func_80832284(play, this, func_80833338(this));

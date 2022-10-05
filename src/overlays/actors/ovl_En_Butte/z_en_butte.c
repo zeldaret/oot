@@ -268,8 +268,7 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
         EnButte_SelectFlightParams(this, &sFlyAroundParams[this->flightParamsIdx]);
     }
 
-    if (((this->actor.params & 1) == 1) && (player->heldItemAction == PLAYER_IA_STICK) &&
-        (this->swordDownTimer <= 0) &&
+    if (((this->actor.params & 1) == 1) && (player->heldItemAction == PLAYER_IA_STICK) && (this->swordDownTimer <= 0) &&
         ((Math3D_Dist2DSq(player->actor.world.pos.x, player->actor.world.pos.z, this->actor.home.pos.x,
                           this->actor.home.pos.z) < SQ(120.0f)) ||
          (this->actor.xzDistToPlayer < 60.0f))) {
