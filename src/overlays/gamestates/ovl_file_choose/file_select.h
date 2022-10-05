@@ -7,7 +7,7 @@
 #include "vt.h"
 
 
-#define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, newf[index])])
+#define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, save.info.playerData.newf[index])])
 
 #define SLOT_OCCUPIED(sramCtx, slotNum) \
     ((GET_NEWF(sramCtx, slotNum, 0) == 'Z') || \

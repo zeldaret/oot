@@ -34,7 +34,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 
     this->viewpoint = viewpoint;
 
-    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
         // Play a sfx when the player toggles the camera
         Audio_PlaySfxGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                              &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -200,7 +200,7 @@ void Play_Destroy(GameState* thisx) {
     TransitionFade_Destroy(&this->transitionFade);
     VisMono_Destroy(&D_80161498);
 
-    if (gSaveContext.linkAge != this->linkAgeOnLoad) {
+    if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
         Player_SetEquipmentData(this, player);
     }
@@ -225,8 +225,8 @@ void Play_Init(GameState* thisx) {
     u8 baseSceneLayer;
     s32 pad[2];
 
-    if (gSaveContext.entranceIndex == ENTR_LOAD_OPENING) {
-        gSaveContext.entranceIndex = 0;
+    if (gSaveContext.save.entranceIndex == ENTR_LOAD_OPENING) {
+        gSaveContext.save.entranceIndex = 0;
         this->state.running = false;
         SET_NEXT_GAMESTATE(&this->state, TitleSetup_Init, TitleSetupState);
         return;
@@ -267,31 +267,31 @@ void Play_Init(GameState* thisx) {
     func_8006450C(this, &this->csCtx);
 
     if (gSaveContext.nextCutsceneIndex != 0xFFEF) {
-        gSaveContext.cutsceneIndex = gSaveContext.nextCutsceneIndex;
+        gSaveContext.save.cutsceneIndex = gSaveContext.nextCutsceneIndex;
         gSaveContext.nextCutsceneIndex = 0xFFEF;
     }
 
-    if (gSaveContext.cutsceneIndex == 0xFFFD) {
-        gSaveContext.cutsceneIndex = 0;
+    if (gSaveContext.save.cutsceneIndex == 0xFFFD) {
+        gSaveContext.save.cutsceneIndex = 0;
     }
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
-        gSaveContext.dayTime = gSaveContext.nextDayTime;
+        gSaveContext.save.dayTime = gSaveContext.nextDayTime;
         gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
 
-    if (gSaveContext.dayTime > CLOCK_TIME(18, 0) || gSaveContext.dayTime < CLOCK_TIME(6, 30)) {
-        gSaveContext.nightFlag = 1;
+    if (gSaveContext.save.dayTime > CLOCK_TIME(18, 0) || gSaveContext.save.dayTime < CLOCK_TIME(6, 30)) {
+        gSaveContext.save.nightFlag = 1;
     } else {
-        gSaveContext.nightFlag = 0;
+        gSaveContext.save.nightFlag = 0;
     }
 
     Cutscene_HandleConditionalTriggers(this);
 
-    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.cutsceneIndex >= 0xFFF0) {
+    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.save.cutsceneIndex >= 0xFFF0) {
         gSaveContext.nayrusLoveTimer = 0;
         Magic_Reset(this);
-        gSaveContext.sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
+        gSaveContext.sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
     } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneLayer = SCENE_LAYER_CHILD_DAY;
     } else if (!LINK_IS_ADULT && !IS_DAY) {
@@ -305,7 +305,7 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = gSaveContext.sceneLayer;
 
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT &&
+    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT &&
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -313,20 +313,20 @@ void Play_Init(GameState* thisx) {
         } else {
             gSaveContext.sceneLayer = 0;
         }
-    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT04) && LINK_IS_ADULT &&
+    } else if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_SPOT04) && LINK_IS_ADULT &&
                !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
     Play_SpawnScene(this,
-                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
-                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
+                    gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
+                    gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
 
-    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneLayer);
+    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT09) &&
+    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_SPOT09) &&
         gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
@@ -339,8 +339,8 @@ void Play_Init(GameState* thisx) {
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
         if (gSaveContext.nextDayTime == NEXT_TIME_DAY) {
-            gSaveContext.totalDays++;
-            gSaveContext.bgsDayCount++;
+            gSaveContext.save.totalDays++;
+            gSaveContext.save.bgsDayCount++;
             gSaveContext.dogIsLost = true;
 
             if (Inventory_ReplaceItem(this, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
@@ -374,7 +374,7 @@ void Play_Init(GameState* thisx) {
     if (gSaveContext.gameMode != GAMEMODE_TITLE_SCREEN) {
         if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
             this->transitionType = ENTRANCE_INFO_END_TRANS_TYPE(
-                gEntranceTable[((void)0, gSaveContext.entranceIndex) + baseSceneLayer].field);
+                gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + baseSceneLayer].field);
         } else {
             this->transitionType = gSaveContext.nextTransitionType;
             gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
@@ -510,8 +510,8 @@ void Play_Update(PlayState* this) {
 
                         Interface_ChangeAlpha(1);
 
-                        if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-                            sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
+                        if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+                            sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
                         }
 
                         // fade out bgm if "continue bgm" flag is not set
@@ -631,7 +631,7 @@ void Play_Update(PlayState* this) {
 
                             if (gSaveContext.gameMode != GAMEMODE_FILE_SELECT) {
                                 SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                                gSaveContext.entranceIndex = this->nextEntranceIndex;
+                                gSaveContext.save.entranceIndex = this->nextEntranceIndex;
 
                                 if (gSaveContext.minigameState == 1) {
                                     gSaveContext.minigameState = 3;
@@ -682,7 +682,7 @@ void Play_Update(PlayState* this) {
                     if (sTransitionFillTimer >= 20) {
                         this->state.running = false;
                         SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                        gSaveContext.entranceIndex = this->nextEntranceIndex;
+                        gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
                     } else {
@@ -724,7 +724,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         this->state.running = false;
                         SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                        gSaveContext.entranceIndex = this->nextEntranceIndex;
+                        gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
                     } else {
@@ -768,7 +768,7 @@ void Play_Update(PlayState* this) {
                         if (this->envCtx.sandstormEnvA == 255) {
                             this->state.running = false;
                             SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                            gSaveContext.entranceIndex = this->nextEntranceIndex;
+                            gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                             this->transitionTrigger = TRANS_TRIGGER_OFF;
                             this->transitionMode = TRANS_MODE_OFF;
                         }
@@ -1663,7 +1663,7 @@ s16 func_800C09D8(PlayState* this, s16 camId, s16 arg2) {
 }
 
 void Play_SaveSceneFlags(PlayState* this) {
-    SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[this->sceneId];
+    SavedSceneFlags* savedSceneFlags = &gSaveContext.save.info.sceneFlags[this->sceneId];
 
     savedSceneFlags->chest = this->actorCtx.flags.chest;
     savedSceneFlags->swch = this->actorCtx.flags.swch;
@@ -1691,7 +1691,7 @@ void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams) 
 
     if ((this->sceneId != SCENE_YOUSEI_IZUMI_TATE) && (this->sceneId != SCENE_KAKUSIANA)) {
         roomIndex = this->roomCtx.curRoom.num;
-        entranceIndex = gSaveContext.entranceIndex;
+        entranceIndex = gSaveContext.save.entranceIndex;
         Play_SetRespawnData(this, respawnMode, entranceIndex, roomIndex, playerParams, &player->actor.world.pos,
                             player->actor.shape.rot.y);
     }
@@ -1714,11 +1714,11 @@ void Play_LoadToLastEntrance(PlayState* this) {
         (this->sceneId == SCENE_GANONTIKA_SONOGO) || (this->sceneId == SCENE_GANON_DEMO)) {
         this->nextEntranceIndex = ENTR_GANON_FINAL_0;
         Item_Give(this, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.entranceIndex == ENTR_SPOT00_11) || (gSaveContext.entranceIndex == ENTR_SPOT00_12) ||
-               (gSaveContext.entranceIndex == ENTR_SPOT00_13) || (gSaveContext.entranceIndex == ENTR_SPOT00_15)) {
+    } else if ((gSaveContext.save.entranceIndex == ENTR_SPOT00_11) || (gSaveContext.save.entranceIndex == ENTR_SPOT00_12) ||
+               (gSaveContext.save.entranceIndex == ENTR_SPOT00_13) || (gSaveContext.save.entranceIndex == ENTR_SPOT00_15)) {
         this->nextEntranceIndex = ENTR_SPOT00_6;
     } else {
-        this->nextEntranceIndex = gSaveContext.entranceIndex;
+        this->nextEntranceIndex = gSaveContext.save.entranceIndex;
     }
 
     this->transitionType = TRANS_TYPE_FADE_BLACK;

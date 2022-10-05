@@ -161,9 +161,9 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(gSaveContext.entranceIndex == ENTR_SPOT05_3 || gSaveContext.entranceIndex == ENTR_SPOT17_5 ||
-                   gSaveContext.entranceIndex == ENTR_SPOT06_9 || gSaveContext.entranceIndex == ENTR_SPOT11_8 ||
-                   gSaveContext.entranceIndex == ENTR_SPOT02_8) &&
+            if ((!(gSaveContext.save.entranceIndex == ENTR_SPOT05_3 || gSaveContext.save.entranceIndex == ENTR_SPOT17_5 ||
+                   gSaveContext.save.entranceIndex == ENTR_SPOT06_9 || gSaveContext.save.entranceIndex == ENTR_SPOT11_8 ||
+                   gSaveContext.save.entranceIndex == ENTR_SPOT02_8) &&
                  !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
@@ -259,7 +259,7 @@ void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, PlayState* play) {
     this->unk_1BC = 1.f;
     this->actor.shape.yOffset = 800.0f;
 
-    if (gSaveContext.entranceIndex != ENTR_TOKINOMA_0) {
+    if (gSaveContext.save.entranceIndex != ENTR_TOKINOMA_0) {
         this->actor.scale.x = 0.0499f;
         this->actor.scale.y = 0.077f;
         this->actor.scale.z = 0.09f;

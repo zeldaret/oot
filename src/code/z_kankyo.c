@@ -251,10 +251,10 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
-    if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(18, 0) || ((void)0, gSaveContext.dayTime) < CLOCK_TIME(6, 30)) {
-        ((void)0, gSaveContext.nightFlag = 1);
+    if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(18, 0) || ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
+        ((void)0, gSaveContext.save.nightFlag = 1);
     } else {
-        ((void)0, gSaveContext.nightFlag = 0);
+        ((void)0, gSaveContext.save.nightFlag = 0);
     }
 
     play->state.gfxCtx->callback = Environment_GraphCallback;
@@ -321,9 +321,9 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
             envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjFogFar = 0;
 
-    envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    envCtx->sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+    envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.z = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
     envCtx->windDirection.x = 80;
     envCtx->windDirection.y = 80;
@@ -822,23 +822,23 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
 
     GfxPrint_SetPos(&printer, 22, 7);
     GfxPrint_SetColor(&printer, 155, 155, 255, 64);
-    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.totalDays));
-    GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.bgsDayCount));
+    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.save.totalDays));
+    GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.save.bgsDayCount));
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 8);
     GfxPrint_Printf(&printer, "%s", "ZELDATIME ");
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
-    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.dayTime) / 60.0f));
+    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.save.dayTime) / 60.0f));
 
-    if ((gSaveContext.dayTime & 0x1F) >= 0x10 || gTimeSpeed >= 6) {
+    if ((gSaveContext.save.dayTime & 0x1F) >= 0x10 || gTimeSpeed >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
     } else {
         GfxPrint_Printf(&printer, "%s", " ");
     }
 
-    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.dayTime)) % 60);
+    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.save.dayTime)) % 60);
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 9);
@@ -925,9 +925,9 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                     (play->transitionMode == TRANS_MODE_OFF || ((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL)) {
 
                     if (IS_DAY || gTimeSpeed >= 400) {
-                        gSaveContext.dayTime += gTimeSpeed;
+                        gSaveContext.save.dayTime += gTimeSpeed;
                     } else {
-                        gSaveContext.dayTime += gTimeSpeed * 2; // time moves twice as fast at night
+                        gSaveContext.save.dayTime += gTimeSpeed * 2; // time moves twice as fast at night
                     }
                 }
             }
@@ -935,18 +935,18 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
         if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
-             ((void)0, gSaveContext.dayTime) > gSaveContext.skyboxTime) ||
-            (((void)0, gSaveContext.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
+             ((void)0, gSaveContext.save.dayTime) > gSaveContext.skyboxTime) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
 
-            gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
+            gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
         }
 
-        time = gSaveContext.dayTime;
+        time = gSaveContext.save.dayTime;
 
         if (time > CLOCK_TIME(18, 0) || time < CLOCK_TIME(6, 30)) {
-            gSaveContext.nightFlag = 1;
+            gSaveContext.save.nightFlag = 1;
         } else {
-            gSaveContext.nightFlag = 0;
+            gSaveContext.save.nightFlag = 0;
         }
 
         if (SREG(0) != 0 || CREG(2) != 0) {
@@ -1024,11 +1024,11 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                         // set light1 direction for the sun
                         envCtx->lightSettings.light1Dir[0] =
-                            -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f);
+                            -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f);
                         envCtx->lightSettings.light1Dir[1] =
-                            Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f;
+                            Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f;
                         envCtx->lightSettings.light1Dir[2] =
-                            Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f;
+                            Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f;
 
                         // set light2 direction for the moon
                         envCtx->lightSettings.light2Dir[0] = -envCtx->lightSettings.light1Dir[0];
@@ -1372,22 +1372,22 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
     if (play->csCtx.state != 0) {
         Math_SmoothStepToF(&play->envCtx.sunPos.x,
-                           -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
+                           -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
                            0.8f, 0.8f);
         Math_SmoothStepToF(&play->envCtx.sunPos.y,
-                           (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
+                           (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
                            0.8f, 0.8f);
         //! @bug This should be z.
         Math_SmoothStepToF(&play->envCtx.sunPos.y,
-                           (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f, 1.0f, 0.8f,
+                           (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f, 1.0f, 0.8f,
                            0.8f);
     } else {
-        play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-        play->envCtx.sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-        play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+        play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+        play->envCtx.sunPos.y = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+        play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
+    if (gSaveContext.save.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
@@ -1453,7 +1453,7 @@ void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, V
                                   Vec3f pos, s32 unused) {
     if ((play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (play->envCtx.skyboxConfig == 0)) {
         Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000, 370,
-                                  Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400, true);
+                                  Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400, true);
     }
 }
 
@@ -2030,8 +2030,8 @@ void Environment_PlaySceneSequence(PlayState* play) {
     play->envCtx.timeSeqState = TIMESEQ_DISABLED;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
-    if (((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_8 ||
-        ((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_9) {
+    if (((void)0, gSaveContext.save.entranceIndex) == ENTR_SPOT10_8 ||
+        ((void)0, gSaveContext.save.entranceIndex) == ENTR_SPOT10_9) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
@@ -2052,8 +2052,8 @@ void Environment_PlaySceneSequence(PlayState* play) {
         if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
             func_800F5550(play->sequenceCtx.seqId);
         }
-    } else if (((void)0, gSaveContext.dayTime) >= CLOCK_TIME(7, 0) &&
-               ((void)0, gSaveContext.dayTime) <= CLOCK_TIME(17, 10)) {
+    } else if (((void)0, gSaveContext.save.dayTime) >= CLOCK_TIME(7, 0) &&
+               ((void)0, gSaveContext.save.dayTime) <= CLOCK_TIME(17, 10)) {
         if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
             func_800F5550(play->sequenceCtx.seqId);
         }
@@ -2064,11 +2064,11 @@ void Environment_PlaySceneSequence(PlayState* play) {
             Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
         }
 
-        if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(17, 10) &&
-            ((void)0, gSaveContext.dayTime) <= CLOCK_TIME(19, 0)) {
+        if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(17, 10) &&
+            ((void)0, gSaveContext.save.dayTime) <= CLOCK_TIME(19, 0)) {
             play->envCtx.timeSeqState = TIMESEQ_EARLY_NIGHT_CRITTERS;
-        } else if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(19, 0) + 1 ||
-                   ((void)0, gSaveContext.dayTime) < CLOCK_TIME(6, 30)) {
+        } else if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(19, 0) + 1 ||
+                   ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
             play->envCtx.timeSeqState = TIMESEQ_NIGHT_CRITTERS;
         } else {
             play->envCtx.timeSeqState = TIMESEQ_MORNING_CRITTERS;
@@ -2099,7 +2099,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_FADE_DAY_BGM:
-            if (gSaveContext.dayTime > CLOCK_TIME(17, 10)) {
+            if (gSaveContext.save.dayTime > CLOCK_TIME(17, 10)) {
                 if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
                     play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                     Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xF000FF);
@@ -2110,7 +2110,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_NIGHT_BEGIN_SFX:
-            if (gSaveContext.dayTime > CLOCK_TIME(18, 0)) {
+            if (gSaveContext.save.dayTime > CLOCK_TIME(18, 0)) {
                 func_800788CC(NA_SE_EV_DOG_CRY_EVENING);
                 play->envCtx.timeSeqState++;
             }
@@ -2126,7 +2126,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_NIGHT_DELAY:
-            if (gSaveContext.dayTime > CLOCK_TIME(19, 0)) {
+            if (gSaveContext.save.dayTime > CLOCK_TIME(19, 0)) {
                 play->envCtx.timeSeqState++;
             }
             break;
@@ -2143,9 +2143,9 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_DAY_BEGIN_SFX:
-            if ((gSaveContext.dayTime <= CLOCK_TIME(19, 0)) && (gSaveContext.dayTime > CLOCK_TIME(6, 30))) {
-                gSaveContext.totalDays++;
-                gSaveContext.bgsDayCount++;
+            if ((gSaveContext.save.dayTime <= CLOCK_TIME(19, 0)) && (gSaveContext.save.dayTime > CLOCK_TIME(6, 30))) {
+                gSaveContext.save.totalDays++;
+                gSaveContext.save.bgsDayCount++;
                 gSaveContext.dogIsLost = true;
                 func_80078884(NA_SE_EV_CHICKEN_CRY_M);
 
@@ -2172,7 +2172,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_DAY_DELAY:
-            if (gSaveContext.dayTime > CLOCK_TIME(7, 0)) {
+            if (gSaveContext.save.dayTime > CLOCK_TIME(7, 0)) {
                 play->envCtx.timeSeqState = 0;
             }
             break;
@@ -2530,15 +2530,15 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
 }
 
 s32 Environment_GetBgsDayCount(void) {
-    return gSaveContext.bgsDayCount;
+    return gSaveContext.save.bgsDayCount;
 }
 
 void Environment_ClearBgsDayCount(void) {
-    gSaveContext.bgsDayCount = 0;
+    gSaveContext.save.bgsDayCount = 0;
 }
 
 s32 Environment_GetTotalDays(void) {
-    return gSaveContext.totalDays;
+    return gSaveContext.save.totalDays;
 }
 
 void Environment_ForcePlaySequence(u16 seqId) {
@@ -2578,7 +2578,7 @@ void Environment_StopStormNatureAmbience(PlayState* play) {
 
 void Environment_WarpSongLeave(PlayState* play) {
     gWeatherMode = WEATHER_MODE_CLEAR;
-    gSaveContext.cutsceneIndex = 0;
+    gSaveContext.save.cutsceneIndex = 0;
     gSaveContext.respawnFlag = -3;
     play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
     play->transitionTrigger = TRANS_TRIGGER_START;

@@ -132,22 +132,22 @@ void ObjectKankyo_Init(Actor* thisx, PlayState* play) {
             }
 
             if (gSaveContext.cutsceneTrigger != 0) {
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_2) {
+                if (gSaveContext.save.entranceIndex == ENTR_GANONTIKA_2) {
                     this->effects[0].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_3) {
+                if (gSaveContext.save.entranceIndex == ENTR_GANONTIKA_3) {
                     this->effects[1].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_4) {
+                if (gSaveContext.save.entranceIndex == ENTR_GANONTIKA_4) {
                     this->effects[2].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_5) {
+                if (gSaveContext.save.entranceIndex == ENTR_GANONTIKA_5) {
                     this->effects[3].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_6) {
+                if (gSaveContext.save.entranceIndex == ENTR_GANONTIKA_6) {
                     this->effects[4].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_7) {
+                if (gSaveContext.save.entranceIndex == ENTR_GANONTIKA_7) {
                     this->effects[5].size = 0.1f;
                 }
             }
@@ -227,7 +227,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
     }
 
     if (play->envCtx.precipitation[PRECIP_SNOW_MAX] < 64 &&
-        (gSaveContext.entranceIndex != ENTR_SPOT04_0 || gSaveContext.sceneLayer != 4 ||
+        (gSaveContext.save.entranceIndex != ENTR_SPOT04_0 || gSaveContext.sceneLayer != 4 ||
          play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
         play->envCtx.precipitation[PRECIP_SNOW_MAX] += 16;
     }

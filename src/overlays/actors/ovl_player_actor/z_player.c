@@ -1972,7 +1972,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
     u16 voiceSfx;
 
     if (this->meleeWeaponState == 0) {
-        if ((this->heldItemActionParam == PLAYER_AP_SWORD_BGS) && (gSaveContext.swordHealth > 0.0f)) {
+        if ((this->heldItemActionParam == PLAYER_AP_SWORD_BGS) && (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
         } else {
             itemSfx = NA_SE_IT_SWORD_SWING;
@@ -2169,7 +2169,7 @@ void func_808340DC(Player* this, PlayState* play) {
 void func_80834298(Player* this, PlayState* play) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_8) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
-        (gSaveContext.health != 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
+        (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
         (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
         (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, play);
@@ -2702,7 +2702,7 @@ s32 func_808356E8(Player* this, PlayState* play) {
 }
 
 void func_808357E8(Player* this, Gfx** dLists) {
-    this->leftHandDLists = dLists + gSaveContext.linkAge;
+    this->leftHandDLists = dLists + gSaveContext.save.linkAge;
 }
 
 s32 func_80835800(Player* this, PlayState* play) {
@@ -2936,7 +2936,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
             } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
                     ((gSaveContext.magicCapacity != 0) && (gSaveContext.magicState == MAGIC_STATE_IDLE) &&
-                     (gSaveContext.magic >= sMagicSpellCosts[temp]))) {
+                     (gSaveContext.save.info.playerData.magic >= sMagicSpellCosts[temp]))) {
                     this->itemActionParam = actionParam;
                     this->unk_6AD = 4;
                 } else {
@@ -5441,7 +5441,7 @@ s32 func_8083C544(Player* this, PlayState* play) {
     if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
         if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
             (this->heldItemActionParam != PLAYER_AP_STICK)) {
-            if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) || (gSaveContext.swordHealth > 0.0f)) {
+            if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) || (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
                 func_808377DC(play, this);
                 return 1;
             }
@@ -7730,8 +7730,8 @@ s32 func_80842AC4(PlayState* play, Player* this) {
 
 s32 func_80842B7C(PlayState* play, Player* this) {
     if (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) {
-        if (!gSaveContext.bgsFlag && (gSaveContext.swordHealth > 0.0f)) {
-            if ((gSaveContext.swordHealth -= 1.0f) <= 0.0f) {
+        if (!gSaveContext.save.info.playerData.bgsFlag && (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
+            if ((gSaveContext.save.info.playerData.swordHealth -= 1.0f) <= 0.0f) {
                 EffectSsStick_Spawn(play, &this->bodyPartsPos[PLAYER_BODYPART_R_HAND],
                                     this->actor.shape.rot.y + 0x8000);
                 func_800849EC(play);
@@ -9219,7 +9219,7 @@ void func_80846660(PlayState* play, Player* this) {
 static u8 D_808546F0[] = { ITEM_SWORD_MASTER, ITEM_SWORD_KOKIRI };
 
 void func_80846720(PlayState* play, Player* this, s32 arg2) {
-    s32 item = D_808546F0[(void)0, gSaveContext.linkAge];
+    s32 item = D_808546F0[(void)0, gSaveContext.save.linkAge];
     s32 actionParam = sItemActionParams[item];
 
     func_80835EFC(this);
@@ -9300,7 +9300,7 @@ static EffectBlureInit2 D_8085470C = {
 static Vec3s D_80854730 = { -57, 3377, 0 };
 
 void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHeader) {
-    this->ageProperties = &sAgeProperties[gSaveContext.linkAge];
+    this->ageProperties = &sAgeProperties[gSaveContext.save.linkAge];
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->meleeWeaponEffectIndex = TOTAL_EFFECT_COUNT;
     this->currentYaw = this->actor.world.rot.y;
@@ -9357,14 +9357,14 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     play->talkWithPlayer = func_80853148;
 
     thisx->room = -1;
-    this->ageProperties = &sAgeProperties[gSaveContext.linkAge];
+    this->ageProperties = &sAgeProperties[gSaveContext.save.linkAge];
     this->itemActionParam = this->heldItemActionParam = -1;
     this->heldItemId = ITEM_NONE;
 
     func_80835F44(play, this, ITEM_NONE);
     Player_SetEquipmentData(play, this);
     this->prevBoots = this->currentBoots;
-    Player_InitCommon(this, play, gPlayerSkelHeaders[((void)0, gSaveContext.linkAge)]);
+    Player_InitCommon(this, play, gPlayerSkelHeaders[((void)0, gSaveContext.save.linkAge)]);
     this->giObjectSegment = (void*)(((uintptr_t)ZeldaArena_MallocDebug(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
 
     respawnFlag = gSaveContext.respawnFlag;
@@ -9398,7 +9398,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
             if (!IS_CUTSCENE_LAYER &&
-                (gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
+                (gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
                  ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
                 ((play->sceneId != SCENE_DDAN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
                 ((play->sceneId != SCENE_NIGHT_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))) {
@@ -9415,12 +9415,12 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
 
     if (play->sceneId <= SCENE_GANONTIKA_SONOGO) {
-        gSaveContext.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[play->sceneId];
+        gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[play->sceneId];
     }
 
     initMode = (thisx->params & 0xF00) >> 8;
     if ((initMode == 5) || (initMode == 6)) {
-        if (gSaveContext.cutsceneIndex >= 0xFFF0) {
+        if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
             initMode = 13;
         }
     }
@@ -10407,7 +10407,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         if (!Player_InBlockingCsMode(play, this) && !(this->stateFlags2 & PLAYER_STATE2_18)) {
             func_8083D53C(play, this);
 
-            if ((this->actor.category == ACTORCAT_PLAYER) && (gSaveContext.health == 0)) {
+            if ((this->actor.category == ACTORCAT_PLAYER) && (gSaveContext.save.info.playerData.health == 0)) {
                 if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)) {
                     func_80832440(play, this);
                     func_80837B9C(this, play);
@@ -10826,7 +10826,7 @@ void Player_Destroy(Actor* thisx, PlayState* play) {
 
     Magic_Reset(play);
 
-    gSaveContext.linkAge = play->linkAgeOnLoad;
+    gSaveContext.save.linkAge = play->linkAgeOnLoad;
 }
 
 s16 func_8084ABD8(PlayState* play, Player* this, s32 arg2, s16 arg3) {
@@ -11844,10 +11844,10 @@ void func_8084D3E4(Player* this, PlayState* play) {
         AREG(6) = 0;
 
         if (Flags_GetEventChkInf(EVENTCHKINF_18) || (DREG(1) != 0)) {
-            gSaveContext.horseData.pos.x = rideActor->actor.world.pos.x;
-            gSaveContext.horseData.pos.y = rideActor->actor.world.pos.y;
-            gSaveContext.horseData.pos.z = rideActor->actor.world.pos.z;
-            gSaveContext.horseData.angle = rideActor->actor.shape.rot.y;
+            gSaveContext.save.info.horseData.pos.x = rideActor->actor.world.pos.x;
+            gSaveContext.save.info.horseData.pos.y = rideActor->actor.world.pos.y;
+            gSaveContext.save.info.horseData.pos.z = rideActor->actor.world.pos.z;
+            gSaveContext.save.info.horseData.angle = rideActor->actor.shape.rot.y;
         }
     } else {
         Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_NORMAL0);
@@ -12134,7 +12134,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
         } else {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
                 ((this->getItemId == GI_HEART_PIECE) &&
-                 ((gSaveContext.inventory.questItems & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)))) {
+                 ((gSaveContext.save.info.inventory.questItems & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)))) {
                 temp1 = NA_BGM_HEART_GET | 0x900;
             } else {
                 temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? NA_BGM_SMALL_ITEM_GET : NA_BGM_ITEM_GET | 0x900;
@@ -12402,7 +12402,7 @@ void func_8084EAC0(Player* this, PlayState* play) {
                     rand = 3;
                 }
 
-                if ((rand < 0) && (gSaveContext.health <= 0x10)) {
+                if ((rand < 0) && (gSaveContext.save.info.playerData.health <= 0x10)) {
                     rand = 3;
                 }
 
@@ -13111,7 +13111,7 @@ void func_8085063C(Player* this, PlayState* play) {
 
         if (play->msgCtx.choiceIndex == 1) {
             gSaveContext.respawn[RESPAWN_MODE_TOP].data = -respawnData;
-            gSaveContext.fw.set = 0;
+            gSaveContext.save.info.fw.set = 0;
             func_80078914(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_VANISH);
         }
 
@@ -13213,16 +13213,16 @@ void func_808507F4(Player* this, PlayState* play) {
             if (this->unk_850 == 0) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 1;
                 Play_SetupRespawnPoint(play, RESPAWN_MODE_TOP, 0x6FF);
-                gSaveContext.fw.set = 1;
-                gSaveContext.fw.pos.x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x;
-                gSaveContext.fw.pos.y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y;
-                gSaveContext.fw.pos.z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z;
-                gSaveContext.fw.yaw = gSaveContext.respawn[RESPAWN_MODE_DOWN].yaw;
-                gSaveContext.fw.playerParams = 0x6FF;
-                gSaveContext.fw.entranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
-                gSaveContext.fw.roomIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].roomIndex;
-                gSaveContext.fw.tempSwchFlags = gSaveContext.respawn[RESPAWN_MODE_DOWN].tempSwchFlags;
-                gSaveContext.fw.tempCollectFlags = gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags;
+                gSaveContext.save.info.fw.set = 1;
+                gSaveContext.save.info.fw.pos.x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x;
+                gSaveContext.save.info.fw.pos.y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y;
+                gSaveContext.save.info.fw.pos.z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z;
+                gSaveContext.save.info.fw.yaw = gSaveContext.respawn[RESPAWN_MODE_DOWN].yaw;
+                gSaveContext.save.info.fw.playerParams = 0x6FF;
+                gSaveContext.save.info.fw.entranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
+                gSaveContext.save.info.fw.roomIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].roomIndex;
+                gSaveContext.save.info.fw.tempSwchFlags = gSaveContext.respawn[RESPAWN_MODE_DOWN].tempSwchFlags;
+                gSaveContext.save.info.fw.tempCollectFlags = gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags;
                 this->unk_850 = 2;
             }
         } else if (this->unk_84F >= 0) {
@@ -13875,7 +13875,7 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 
     if ((LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 70.0f)) ||
         (!LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 87.0f))) {
-        sp2C = &D_808551A4[gSaveContext.linkAge];
+        sp2C = &D_808551A4[gSaveContext.save.linkAge];
         this->interactRangeActor->parent = &this->actor;
 
         if (!LINK_IS_ADULT) {
@@ -13883,7 +13883,7 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         } else {
             dLists = gPlayerLeftHandClosedDLs;
         }
-        this->leftHandDLists = dLists + gSaveContext.linkAge;
+        this->leftHandDLists = dLists + gSaveContext.save.linkAge;
 
         func_8002F7DC(&this->actor, sp2C->unk_00);
         if (!LINK_IS_ADULT) {
@@ -14195,7 +14195,7 @@ void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
         this->leftHandDLists = gPlayerLeftHandOpenDLs;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
+        gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(play, EQUIP_TYPE_SWORD);
     }
 }
@@ -14214,7 +14214,7 @@ void func_808526EC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 primColor = { 255, 255, 255, 0 };
     static Color_RGBA8 envColor = { 0, 128, 128, 0 };
-    s32 linkAge = gSaveContext.linkAge;
+    s32 linkAge = gSaveContext.save.linkAge;
     Vec3f sparklePos;
     Vec3f sp34;
     Vec3s* ptr;
@@ -14226,7 +14226,7 @@ void func_808526EC(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         return;
     }
 
-    ptr = D_80855210[gSaveContext.linkAge];
+    ptr = D_80855210[gSaveContext.save.linkAge];
 
     sp34.x = ptr[0].x + Rand_CenteredFloat(ptr[1].x);
     sp34.y = ptr[0].y + Rand_CenteredFloat(ptr[1].y);

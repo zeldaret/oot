@@ -909,7 +909,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         }
 
         if (play->sceneId == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_6B_INDEX];
+            this->unk_330 = gSaveContext.save.info.eventChkInf[EVENTCHKINF_6B_INDEX];
         }
 
         EnHy_InitSetProperties(this);

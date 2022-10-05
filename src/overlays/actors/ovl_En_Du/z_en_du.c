@@ -294,7 +294,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 1;
     this->unk_1F4.unk_00 = 0;
 
-    if (gSaveContext.cutsceneIndex >= 0xFFF0) {
+    if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);

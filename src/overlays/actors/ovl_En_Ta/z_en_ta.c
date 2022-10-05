@@ -508,7 +508,7 @@ void func_80B14D98(EnTa* this, PlayState* play) {
 }
 
 s32 func_80B14DD8(void) {
-    if (gSaveContext.rupees < 30) {
+    if (gSaveContext.save.info.playerData.rupees < 30) {
         return 0;
     } else if (!Inventory_HasEmptyBottle()) {
         return 1;
@@ -907,7 +907,7 @@ void func_80B15FE8(EnTa* this, PlayState* play) {
                 }
                 break;
             case 1:
-                if (gSaveContext.rupees < 10) {
+                if (gSaveContext.save.info.playerData.rupees < 10) {
                     Message_ContinueTextbox(play, 0x85);
                     func_80B13AA0(this, func_80B15034, func_80B16938);
                 } else {
@@ -939,7 +939,7 @@ void func_80B161C0(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.rupees < price) {
+                if (gSaveContext.save.info.playerData.rupees < price) {
                     Message_ContinueTextbox(play, 0x85);
                     func_80B13AA0(this, func_80B15034, func_80B16938);
                 } else {

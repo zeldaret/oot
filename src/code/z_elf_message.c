@@ -33,7 +33,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
     switch (type) {
         case (ELF_MSG_CONDITION_FLAG << 1):
             flag = 1 << (msg->byte1 & 0x0F);
-            return ((msg->byte0 & 1) == 1) == ((flag & gSaveContext.eventChkInf[(msg->byte1 & 0xF0) >> 4]) != 0);
+            return ((msg->byte0 & 1) == 1) == ((flag & gSaveContext.save.info.eventChkInf[(msg->byte1 & 0xF0) >> 4]) != 0);
         case (ELF_MSG_CONDITION_DUNGEON_ITEM << 1):
             return ((msg->byte0 & 1) == 1) ==
                    (CHECK_DUNGEON_ITEM(msg->byte1 - ITEM_KEY_BOSS, gSaveContext.mapIndex) != 0);
@@ -54,7 +54,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                     return ((msg->byte0 & 1) == 1) ==
                            (CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
                 case (ELF_MSG_CONDITION_MAGIC << 4):
-                    return ((msg->byte0 & 1) == 1) == (((void)0, gSaveContext.isMagicAcquired) != 0);
+                    return ((msg->byte0 & 1) == 1) == (((void)0, gSaveContext.save.info.playerData.isMagicAcquired) != 0);
             }
     }
 

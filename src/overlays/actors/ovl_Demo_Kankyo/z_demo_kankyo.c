@@ -540,7 +540,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         switch (this->unk_150[i].unk_22) {
             case 0:
                 func_80989B54(thisx, play, i);
-                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * 500.0f;
                 } else {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * -500.0f;
@@ -549,16 +549,16 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
                 break;
             case 1:
                 temp_f12_2 = play->view.eye.y + (dy / norm) * 150.0f;
-                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     this->unk_150[i].unk_0.y -= this->unk_150[i].unk_18;
                 } else {
                     this->unk_150[i].unk_0.y += this->unk_150[i].unk_18;
                 }
-                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     if (this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y < temp_f12_2 - 300.0f) {
                         this->unk_150[i].unk_22++;
                     }
-                } else if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
+                } else if (gSaveContext.save.entranceIndex == ENTR_SPOT00_0) {
                     if (temp_f12_2 + 300.0f < this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y) {
                         this->unk_150[i].unk_22++;
                     }
@@ -578,13 +578,13 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
                          this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y,
                          this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z, MTXMODE_NEW);
 
-        if (gSaveContext.entranceIndex != ENTR_HIRAL_DEMO_0) {
+        if (gSaveContext.save.entranceIndex != ENTR_HIRAL_DEMO_0) {
             Matrix_RotateX(M_PI, MTXMODE_APPLY);
         }
 
         gDPPipeSync(POLY_XLU_DISP++);
 
-        if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_SPOT00_0) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 255);
         } else {
@@ -770,7 +770,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
     f32 translateY;
     f32 translateZ;
     PosRot posRot;
-    u8 linkAge = gSaveContext.linkAge;
+    u8 linkAge = gSaveContext.save.linkAge;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1824);
 

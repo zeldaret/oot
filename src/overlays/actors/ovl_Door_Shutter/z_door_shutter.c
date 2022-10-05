@@ -373,7 +373,7 @@ void func_80996B0C(DoorShutter* this, PlayState* play) {
         if (this->unk_16E != 0) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
             if (this->doorType != SHUTTER_BOSS) {
-                gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
+                gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex]--;
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
             } else {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
@@ -391,7 +391,7 @@ void func_80996B0C(DoorShutter* this, PlayState* play) {
                         player->naviTextId = -0x204;
                         return;
                     }
-                } else if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+                } else if (gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                     player->naviTextId = -0x203;
                     return;
                 }

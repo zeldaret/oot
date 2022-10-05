@@ -123,7 +123,7 @@ void Scene_DrawConfigYdan(PlayState* play) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A2F8[((void)0, gSaveContext.nightFlag)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A2F8[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4783);
 }
@@ -161,7 +161,7 @@ void Scene_DrawConfigDdan(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4905);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDCEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDCEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDCLavaFloorTextures[(s32)(gameplayFrames & 14) >> 1]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
@@ -411,7 +411,7 @@ void Scene_DrawConfigGerudoway(PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 32, 32));
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sThievesHideoutEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sThievesHideoutEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5507);
 }
@@ -434,7 +434,7 @@ void Scene_DrawConfigMizusin(PlayState* play) {
     spAC = play->roomCtx.unk_74[1] & 0xFF;
     gameplayFrames = play->gameplayFrames;
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.nightFlag)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.save.nightFlag)]));
 
     if (spB0 == 1) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -657,7 +657,7 @@ void Scene_DrawConfigIceDoukuto(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sIceCavernEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sIceCavernEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
@@ -759,7 +759,7 @@ void Scene_DrawConfigMen(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6290);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGTGEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGTGEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
@@ -848,7 +848,7 @@ void Scene_DrawConfigSouko(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6515);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sLonLonHouseEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sLonLonHouseEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -876,7 +876,7 @@ void Scene_DrawConfigMiharigoya(PlayState* play) {
     if (LINK_IS_ADULT) {
         var = 1;
     } else {
-        var = gSaveContext.nightFlag;
+        var = gSaveContext.save.nightFlag;
     }
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGuardHouseView1Textures[var]));
@@ -925,7 +925,7 @@ void Scene_DrawConfigBmori1(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sForestTempleEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sForestTempleEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
@@ -953,7 +953,7 @@ void Scene_DrawConfigJyasinzou(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6752);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sSpiritTempleEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sSpiritTempleEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6762);
 }
@@ -984,14 +984,14 @@ void Scene_DrawConfigSpot00(PlayState* play) {
 
     gSPSegment(POLY_XLU_DISP++, 0x0A, displayListHead);
 
-    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
+    if ((gSaveContext.save.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(18, 30))) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.dayTime > CLOCK_TIME(18, 30)) {
+        if (gSaveContext.save.dayTime > CLOCK_TIME(18, 30)) {
             if (play->roomCtx.unk_74[0] != 255) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 255, 5);
             }
-        } else if (gSaveContext.dayTime >= CLOCK_TIME(6, 0)) {
+        } else if (gSaveContext.save.dayTime >= CLOCK_TIME(6, 0)) {
             if (play->roomCtx.unk_74[0] != 0) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 0, 10);
             }
@@ -1013,7 +1013,7 @@ void* sKakarikoWindowTextures[] = {
 void Scene_DrawConfigSpot01(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6890);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sKakarikoWindowTextures[((void)0, gSaveContext.nightFlag)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sKakarikoWindowTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1155,7 +1155,7 @@ void Scene_DrawConfigSpot07(PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sZorasDomainEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sZorasDomainEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7147);
 }
@@ -1278,7 +1278,7 @@ void* D_8012A380[] = {
 void Scene_DrawConfigSpot12(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7363);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A380[((void)0, gSaveContext.nightFlag)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A380[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7371);
 }
@@ -1336,14 +1336,14 @@ void Scene_DrawConfigSpot16(PlayState* play) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, displayListHead);
 
-    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0))) {
+    if ((gSaveContext.save.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(18, 0))) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.dayTime > CLOCK_TIME(18, 0)) {
+        if (gSaveContext.save.dayTime > CLOCK_TIME(18, 0)) {
             if (play->roomCtx.unk_74[0] != 255) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 255, 5);
             }
-        } else if (gSaveContext.dayTime >= CLOCK_TIME(6, 0)) {
+        } else if (gSaveContext.save.dayTime >= CLOCK_TIME(6, 0)) {
             if (play->roomCtx.unk_74[0] != 0) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 0, 10);
             }
@@ -1409,7 +1409,7 @@ void Scene_DrawConfigSpot18(PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sGoronCityEntranceTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sGoronCityEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7578);
 }
@@ -1423,7 +1423,7 @@ void Scene_DrawConfigSpot20(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7602);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               SEGMENTED_TO_VIRTUAL(sLonLonRanchWindowTextures[((void)0, gSaveContext.nightFlag)]));
+               SEGMENTED_TO_VIRTUAL(sLonLonRanchWindowTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);

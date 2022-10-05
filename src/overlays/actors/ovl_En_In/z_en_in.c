@@ -217,7 +217,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
         case 0x2031:
             if (play->msgCtx.choiceIndex == 1) {
                 this->actor.textId = 0x2032;
-            } else if (gSaveContext.rupees < 10) {
+            } else if (gSaveContext.save.info.playerData.rupees < 10) {
                 this->actor.textId = 0x2033;
             } else {
                 this->actor.textId = 0x2034;
@@ -244,7 +244,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             }
             break;
         case 0x2038:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
+            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
                 sp18 = 2;
             } else {
                 this->actor.textId = 0x2039;
@@ -253,7 +253,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             }
             break;
         case 0x205B:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
+            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
                 sp18 = 2;
             } else {
                 Message_ContinueTextbox(play, this->actor.textId = 0x2039);
@@ -264,7 +264,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             }
             break;
     }
-    if (!gSaveContext.rupees) {}
+    if (!gSaveContext.save.info.playerData.rupees) {}
 
     return sp18;
 }
@@ -665,7 +665,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
         gSaveContext.timer1State = 0;
     } else if (this->unk_308.unk_00 == 2) {
         if (play->msgCtx.choiceIndex == 0) {
-            if (gSaveContext.rupees < 50) {
+            if (gSaveContext.save.info.playerData.rupees < 50) {
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
@@ -717,7 +717,7 @@ void func_80A7A770(EnIn* this, PlayState* play) {
 
 void func_80A7A848(EnIn* this, PlayState* play) {
     if (this->unk_308.unk_00 == 2) {
-        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.rupees < 50) || play->msgCtx.choiceIndex == 1) {
+        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees < 50) || play->msgCtx.choiceIndex == 1) {
             SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             this->actionFunc = func_80A7A4C8;
         } else {
