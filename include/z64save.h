@@ -126,7 +126,7 @@ typedef struct {
 } SavePlayerData;
 
 // offsets in SaveInfo and SaveContext/Save
-typedef struct SaveInfo {
+typedef struct {
     /* 0x0000  0x001C */ SavePlayerData playerData; // "S_Private"
     /* 0x004C  0x0068 */ ItemEquips equips;
     /* 0x0058  0x0074 */ Inventory inventory;
@@ -151,8 +151,6 @@ typedef struct SaveInfo {
     /* 0x132C  0x1348 */ HorseData horseData;
     /* 0x1336  0x1352 */ u16 checksum; // "check_sum"
 } SaveInfo;
-
-//struct SaveInfo;
 
 typedef struct {
     /* 0x00 */ s32 entranceIndex;
