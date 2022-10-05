@@ -25,74 +25,74 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
 };
 
 // Used to map action params to model groups
-u8 sActionModelGroups[PLAYER_AP_MAX] = {
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_NONE
-    PLAYER_MODELGROUP_15,            // PLAYER_AP_LAST_USED
-    PLAYER_MODELGROUP_10,            // PLAYER_AP_FISHING_POLE
-    PLAYER_MODELGROUP_SWORD,         // PLAYER_AP_SWORD_MASTER
-    PLAYER_MODELGROUP_SWORD,         // PLAYER_AP_SWORD_KOKIRI
-    PLAYER_MODELGROUP_BGS,           // PLAYER_AP_SWORD_BGS
-    PLAYER_MODELGROUP_10,            // PLAYER_AP_STICK
-    PLAYER_MODELGROUP_HAMMER,        // PLAYER_AP_HAMMER
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_BOW
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_BOW_FIRE
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_BOW_ICE
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_BOW_LIGHT
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_BOW_0C
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_BOW_0D
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_BOW_0E
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_SLINGSHOT
-    PLAYER_MODELGROUP_HOOKSHOT,      // PLAYER_AP_HOOKSHOT
-    PLAYER_MODELGROUP_HOOKSHOT,      // PLAYER_AP_LONGSHOT
-    PLAYER_MODELGROUP_EXPLOSIVES,    // PLAYER_AP_BOMB
-    PLAYER_MODELGROUP_EXPLOSIVES,    // PLAYER_AP_BOMBCHU
-    PLAYER_MODELGROUP_BOOMERANG,     // PLAYER_AP_BOOMERANG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MAGIC_SPELL_15
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MAGIC_SPELL_16
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_AP_MAGIC_SPELL_17
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_FARORES_WIND
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_NAYRUS_LOVE
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_DINS_FIRE
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_NUT
-    PLAYER_MODELGROUP_OCARINA,       // PLAYER_AP_OCARINA_FAIRY
-    PLAYER_MODELGROUP_OOT,           // PLAYER_AP_OCARINA_TIME
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_FISH
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_FIRE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_BUG
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_POE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_BIG_POE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_LETTER
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_POTION_RED
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_POTION_BLUE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_POTION_GREEN
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_MILK
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_MILK_HALF
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_AP_BOTTLE_FAIRY
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_LETTER_ZELDA
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_WEIRD_EGG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_CHICKEN
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_BEAN
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_POCKET_EGG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_POCKET_CUCCO
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_COJIRO
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_ODD_MUSHROOM
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_ODD_POTION
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_SAW
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_SWORD_BROKEN
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_PRESCRIPTION
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_FROG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_EYEDROPS
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_CLAIM_CHECK
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_KEATON
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_SKULL
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_SPOOKY
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_BUNNY
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_GORON
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_ZORA
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_GERUDO
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_MASK_TRUTH
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_AP_LENS
+u8 sActionModelGroups[PLAYER_IA_MAX] = {
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_NONE
+    PLAYER_MODELGROUP_15,            // PLAYER_IA_LAST_USED
+    PLAYER_MODELGROUP_10,            // PLAYER_IA_FISHING_POLE
+    PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_MASTER
+    PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_KOKIRI
+    PLAYER_MODELGROUP_BGS,           // PLAYER_IA_SWORD_BGS
+    PLAYER_MODELGROUP_10,            // PLAYER_IA_STICK
+    PLAYER_MODELGROUP_HAMMER,        // PLAYER_IA_HAMMER
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_FIRE
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_ICE
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_LIGHT
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_0C
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_0D
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_0E
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_SLINGSHOT
+    PLAYER_MODELGROUP_HOOKSHOT,      // PLAYER_IA_HOOKSHOT
+    PLAYER_MODELGROUP_HOOKSHOT,      // PLAYER_IA_LONGSHOT
+    PLAYER_MODELGROUP_EXPLOSIVES,    // PLAYER_IA_BOMB
+    PLAYER_MODELGROUP_EXPLOSIVES,    // PLAYER_IA_BOMBCHU
+    PLAYER_MODELGROUP_BOOMERANG,     // PLAYER_IA_BOOMERANG
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MAGIC_SPELL_15
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MAGIC_SPELL_16
+    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_MAGIC_SPELL_17
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_FARORES_WIND
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_NAYRUS_LOVE
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_DINS_FIRE
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_NUT
+    PLAYER_MODELGROUP_OCARINA,       // PLAYER_IA_OCARINA_FAIRY
+    PLAYER_MODELGROUP_OOT,           // PLAYER_IA_OCARINA_TIME
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FISH
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FIRE
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_BUG
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POE
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_BIG_POE
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_LETTER
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_RED
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_BLUE
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_GREEN
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_MILK
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_MILK_HALF
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FAIRY
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_LETTER_ZELDA
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_WEIRD_EGG
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_CHICKEN
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_BEAN
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POCKET_EGG
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POCKET_CUCCO
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_COJIRO
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ODD_MUSHROOM
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ODD_POTION
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_SAW
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_SWORD_BROKEN
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_PRESCRIPTION
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_FROG
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_EYEDROPS
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_CLAIM_CHECK
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_KEATON
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_SKULL
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_SPOOKY
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_BUNNY
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_GORON
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_ZORA
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_GERUDO
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_TRUTH
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_LENS
 };
 
 TextTriggerEntry sTextTriggers[] = {
@@ -645,7 +645,7 @@ s32 Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 y
     Vec3f diff;
     s32 pad;
 
-    if ((this->heldItemActionParam == PLAYER_AP_STICK) && (this->unk_860 != 0)) {
+    if ((this->heldItemActionParam == PLAYER_IA_STICK) && (this->unk_860 != 0)) {
         Math_Vec3f_Diff(&this->meleeWeaponInfo[0].tip, pos, &diff);
         return ((SQ(diff.x) + SQ(diff.z)) <= SQ(xzRange)) && (0.0f <= diff.y) && (diff.y <= yRange);
     } else {
@@ -692,7 +692,7 @@ s32 Player_HasMirrorShieldSetToDraw(PlayState* play) {
 }
 
 s32 Player_ActionToMagicSpell(Player* this, s32 actionParam) {
-    s32 magicSpell = actionParam - PLAYER_AP_MAGIC_SPELL_15;
+    s32 magicSpell = actionParam - PLAYER_IA_MAGIC_SPELL_15;
 
     if ((magicSpell >= 0) && (magicSpell < 6)) {
         return magicSpell;
@@ -702,7 +702,7 @@ s32 Player_ActionToMagicSpell(Player* this, s32 actionParam) {
 }
 
 s32 Player_HoldsHookshot(Player* this) {
-    return (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) || (this->heldItemActionParam == PLAYER_AP_LONGSHOT);
+    return (this->heldItemActionParam == PLAYER_IA_HOOKSHOT) || (this->heldItemActionParam == PLAYER_IA_LONGSHOT);
 }
 
 s32 func_8008F128(Player* this) {
@@ -710,7 +710,7 @@ s32 func_8008F128(Player* this) {
 }
 
 s32 Player_ActionToMeleeWeapon(s32 actionParam) {
-    s32 meleeWeapon = actionParam - PLAYER_AP_FISHING_POLE;
+    s32 meleeWeapon = actionParam - PLAYER_IA_FISHING_POLE;
 
     if ((meleeWeapon > 0) && (meleeWeapon < 6)) {
         return meleeWeapon;
@@ -724,7 +724,7 @@ s32 Player_GetMeleeWeaponHeld(Player* this) {
 }
 
 s32 Player_HoldsTwoHandedWeapon(Player* this) {
-    if ((this->heldItemActionParam >= PLAYER_AP_SWORD_BGS) && (this->heldItemActionParam <= PLAYER_AP_HAMMER)) {
+    if ((this->heldItemActionParam >= PLAYER_IA_SWORD_BGS) && (this->heldItemActionParam <= PLAYER_IA_HAMMER)) {
         return 1;
     } else {
         return 0;
@@ -732,11 +732,11 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 }
 
 s32 Player_HoldsBrokenKnife(Player* this) {
-    return (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) && (gSaveContext.swordHealth <= 0.0f);
+    return (this->heldItemActionParam == PLAYER_IA_SWORD_BGS) && (gSaveContext.swordHealth <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 actionParam) {
-    s32 bottle = actionParam - PLAYER_AP_BOTTLE;
+    s32 bottle = actionParam - PLAYER_IA_BOTTLE;
 
     if ((bottle >= 0) && (bottle < 13)) {
         return bottle;
@@ -750,7 +750,7 @@ s32 Player_GetBottleHeld(Player* this) {
 }
 
 s32 Player_ActionToExplosive(Player* this, s32 actionParam) {
-    s32 explosive = actionParam - PLAYER_AP_BOMB;
+    s32 explosive = actionParam - PLAYER_IA_BOMB;
 
     if ((explosive >= 0) && (explosive < 2)) {
         return explosive;
@@ -766,8 +766,8 @@ s32 Player_GetExplosiveHeld(Player* this) {
 s32 func_8008F2BC(Player* this, s32 actionParam) {
     s32 sword = 0;
 
-    if (actionParam != PLAYER_AP_LAST_USED) {
-        sword = actionParam - PLAYER_AP_SWORD_MASTER;
+    if (actionParam != PLAYER_IA_LAST_USED) {
+        sword = actionParam - PLAYER_IA_SWORD_MASTER;
         if ((sword < 0) || (sword >= 3)) {
             goto return_neg;
         }
@@ -1454,7 +1454,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
         Math_Vec3f_Copy(&this->leftHandPos, sCurBodyPartPos);
 
-        if (this->itemActionParam == PLAYER_AP_STICK) {
+        if (this->itemActionParam == PLAYER_IA_STICK) {
             Vec3f sp124[3];
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2633);
@@ -1580,8 +1580,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         }
 
         if (this->actor.scale.y >= 0.0f) {
-            if ((this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ||
-                (this->heldItemActionParam == PLAYER_AP_LONGSHOT)) {
+            if ((this->heldItemActionParam == PLAYER_IA_HOOKSHOT) ||
+                (this->heldItemActionParam == PLAYER_IA_LONGSHOT)) {
                 Matrix_MultVec3f(&D_80126184, &this->unk_3C8);
 
                 if (heldActor != NULL) {
@@ -1597,7 +1597,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
                         Player_DrawHookshotReticle(
-                            play, this, (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 38600.0f : 77600.0f);
+                            play, this, (this->heldItemActionParam == PLAYER_IA_HOOKSHOT) ? 38600.0f : 77600.0f);
                     }
                 }
             }
