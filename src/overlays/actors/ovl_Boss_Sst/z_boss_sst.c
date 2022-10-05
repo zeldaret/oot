@@ -438,7 +438,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
             } else if (GET_EVENTCHKINF(EVENTCHKINF_77)) {
                 //! @bug This condition assumes that the second bounce on the ground will occur before frame 545 on the timer.
                 //! However, it is possible to delay Player's descent to the ground by, for example, jumpslashing on the last possible
-                //! frame before the cutscene takes control. This delays Player's fall to the ground by enough time such that 
+                //! frame before the cutscene takes control. This delays Player's fall to the ground by enough time such that
                 //! the second bounce will occur after the timer has decremented past 546.
                 //! The end result is that the cutscene will not be shortened like it should even though the flag is set.
                 sHands[RIGHT]->actor.draw = BossSst_DrawHand;
