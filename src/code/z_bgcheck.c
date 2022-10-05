@@ -4249,7 +4249,7 @@ s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f3
     for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
          curWaterBox++) {
         room = WATERBOX_ROOM(curWaterBox->properties);
-        if (room == (u32)play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
+        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
             if (!(curWaterBox->properties & WATERBOX_FLAG_19)) {
                 if (curWaterBox->xMin < x && x < curWaterBox->xMin + curWaterBox->xLength) {
                     if (curWaterBox->zMin < z && z < curWaterBox->zMin + curWaterBox->zLength) {
@@ -4287,21 +4287,18 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
         waterBox = &colHeader->waterBoxes[i];
 
         room = WATERBOX_ROOM(waterBox->properties);
-        if (!(room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL)) {
-            continue;
-        }
-        if (waterBox->properties & WATERBOX_FLAG_19) {
-            continue;
-        }
-        if (!(waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength)) {
-            continue;
-        }
-        if (!(waterBox->zMin < pos->z && pos->z < waterBox->zMin + waterBox->zLength)) {
-            continue;
-        }
-        if (pos->y - surfaceChkDist < waterBox->ySurface && waterBox->ySurface < pos->y + surfaceChkDist) {
-            *outWaterBox = waterBox;
-            return i;
+        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
+            if (!(waterBox->properties & WATERBOX_FLAG_19)) {
+                if (waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength) {
+                    if (waterBox->zMin < pos->z && pos->z < waterBox->zMin + waterBox->zLength) {
+                        if (pos->y - surfaceChkDist < waterBox->ySurface &&
+                            waterBox->ySurface < pos->y + surfaceChkDist) {
+                            *outWaterBox = waterBox;
+                            return i;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -4359,7 +4356,7 @@ s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* 
     for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
          curWaterBox++) {
         room = WATERBOX_ROOM(curWaterBox->properties);
-        if ((room == (u32)play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
+        if ((room == play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
             if (curWaterBox->properties & WATERBOX_FLAG_19) {
                 if (curWaterBox->xMin < x && x < (curWaterBox->xMin + curWaterBox->xLength)) {
                     if (curWaterBox->zMin < z && z < (curWaterBox->zMin + curWaterBox->zLength)) {
