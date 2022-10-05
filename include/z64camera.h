@@ -102,7 +102,7 @@ typedef enum {
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
     /* 0x3C */ CAM_SET_CS_C, // Various cutscenes "DEMOC"
-    /* 0x3D */ CAM_SET_JABU_TENTACLE, // Jabu-Jabu Parasitic Tenticle Rooms "UO_FIBER"
+    /* 0x3D */ CAM_SET_JABU_TENTACLE, // Jabu-Jabu Parasitic Tentacle Rooms "UO_FIBER"
     /* 0x3E */ CAM_SET_DUNGEON2,
     /* 0x3F */ CAM_SET_DIRECTED_YAW, // Does not auto-update yaw, tends to keep the camera pointed at a certain yaw (used by biggoron and final spirit lowering platform) "TEPPEN"
     /* 0x40 */ CAM_SET_PIVOT_FROM_SIDE, // Fixed side view, allows rotation of camera (eg. Potion Shop, Meadow at fairy grotto) "CIRCLE7"
