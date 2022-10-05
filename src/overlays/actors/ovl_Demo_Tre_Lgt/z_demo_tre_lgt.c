@@ -86,7 +86,8 @@ void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame) {
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
     SkelCurve_SetAnim(skelCurve, sAnimations[gSaveContext.save.linkAge], 1.0f,
-                      sDemoTreLgtInfo[gSaveContext.save.linkAge].endFrame + sDemoTreLgtInfo[gSaveContext.save.linkAge].unk_08,
+                      sDemoTreLgtInfo[gSaveContext.save.linkAge].endFrame +
+                          sDemoTreLgtInfo[gSaveContext.save.linkAge].unk_08,
                       currentFrame, 1.0f);
     SkelCurve_Update(play, skelCurve);
 }
@@ -111,7 +112,8 @@ void func_80993848(DemoTreLgt* this, PlayState* play) {
         this->unk_174 = 255;
     } else if (currentFrame < (sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C + 10.0f)) {
         this->unk_174 =
-            ((((sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) + 255.0f);
+            ((((sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) +
+             255.0f);
     } else {
         this->unk_174 = 0;
     }

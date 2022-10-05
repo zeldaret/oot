@@ -1497,7 +1497,8 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic = 0;
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicFillTarget), gSaveContext.save.info.playerData.magic);
+    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicFillTarget),
+                 gSaveContext.save.info.playerData.magic);
     osSyncPrintf(VT_RST);
 
     gSaveContext.save.info.playerData.naviTimer = 0;
@@ -1508,7 +1509,8 @@ void FileSelect_LoadGame(GameState* thisx) {
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
 
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
-        swordEquipValue = (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.save.info.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
+        swordEquipValue =
+            (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.save.info.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
         gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
         gSaveContext.save.info.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
     }

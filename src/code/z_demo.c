@@ -365,7 +365,8 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 26:
             if ((gSaveContext.save.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.save.dayTime >= CLOCK_TIME(6, 30))) {
-                if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.save.dayTime < CLOCK_TIME(16, 0))) {
+                if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 30)) &&
+                    (gSaveContext.save.dayTime < CLOCK_TIME(16, 0))) {
                     play->envCtx.lightSettingOverride = 1;
                 } else if ((gSaveContext.save.dayTime >= CLOCK_TIME(16, 0)) &&
                            (gSaveContext.save.dayTime <= CLOCK_TIME(18, 30))) {
@@ -2081,9 +2082,9 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
             Flags_SetEventChkInf(EVENTCHKINF_AC);
             gSaveContext.save.entranceIndex = ENTR_SPOT11_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.save.entranceIndex == ENTR_SPOT01_0) && LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_48) &&
-                   GET_EVENTCHKINF(EVENTCHKINF_49) && GET_EVENTCHKINF(EVENTCHKINF_4A) &&
-                   !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
+        } else if ((gSaveContext.save.entranceIndex == ENTR_SPOT01_0) && LINK_IS_ADULT &&
+                   GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
+                   GET_EVENTCHKINF(EVENTCHKINF_4A) && !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
             Flags_SetEventChkInf(EVENTCHKINF_AA);
             gSaveContext.save.cutsceneIndex = 0xFFF0;
         } else if ((gSaveContext.save.entranceIndex == ENTR_SPOT10_9) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {

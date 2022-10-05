@@ -78,9 +78,10 @@ void func_8006D0EC(PlayState* play, Player* player) {
                      Flags_GetEventChkInf(EVENTCHKINF_18), DREG(1));
 
         if (func_8006CFC0(gSaveContext.save.info.horseData.sceneId)) {
-            Actor* horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, gSaveContext.save.info.horseData.pos.x,
-                                            gSaveContext.save.info.horseData.pos.y, gSaveContext.save.info.horseData.pos.z, 0,
-                                            gSaveContext.save.info.horseData.angle, 0, 1);
+            Actor* horseActor =
+                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, gSaveContext.save.info.horseData.pos.x,
+                            gSaveContext.save.info.horseData.pos.y, gSaveContext.save.info.horseData.pos.z, 0,
+                            gSaveContext.save.info.horseData.angle, 0, 1);
             ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 414);
             if (play->sceneId == SCENE_SPOT12) {
                 horseActor->room = -1;
@@ -248,8 +249,10 @@ void func_8006DC68(PlayState* play, Player* player) {
 
         if (func_8006CFC0(play->sceneId)) {
             if (IS_CUTSCENE_LAYER ||
-                ((gSaveContext.save.entranceIndex == ENTR_SPOT00_11 || gSaveContext.save.entranceIndex == ENTR_SPOT00_12 ||
-                  gSaveContext.save.entranceIndex == ENTR_SPOT00_13 || gSaveContext.save.entranceIndex == ENTR_SPOT00_15) &&
+                ((gSaveContext.save.entranceIndex == ENTR_SPOT00_11 ||
+                  gSaveContext.save.entranceIndex == ENTR_SPOT00_12 ||
+                  gSaveContext.save.entranceIndex == ENTR_SPOT00_13 ||
+                  gSaveContext.save.entranceIndex == ENTR_SPOT00_15) &&
                  (gSaveContext.respawnFlag == 0)) ||
                 ((play->sceneId == SCENE_SPOT20) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
                  !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0))) {

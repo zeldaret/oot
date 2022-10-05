@@ -251,7 +251,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
-    if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(18, 0) || ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
+    if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(18, 0) ||
+        ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
         ((void)0, gSaveContext.save.nightFlag = 1);
     } else {
         ((void)0, gSaveContext.save.nightFlag = 0);
@@ -1372,15 +1373,15 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
     if (play->csCtx.state != 0) {
         Math_SmoothStepToF(&play->envCtx.sunPos.x,
-                           -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
-                           0.8f, 0.8f);
+                           -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f,
+                           1.0f, 0.8f, 0.8f);
         Math_SmoothStepToF(&play->envCtx.sunPos.y,
                            (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
                            0.8f, 0.8f);
         //! @bug This should be z.
         Math_SmoothStepToF(&play->envCtx.sunPos.y,
-                           (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f, 1.0f, 0.8f,
-                           0.8f);
+                           (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f, 1.0f,
+                           0.8f, 0.8f);
     } else {
         play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
         play->envCtx.sunPos.y = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
@@ -1453,7 +1454,8 @@ void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, V
                                   Vec3f pos, s32 unused) {
     if ((play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (play->envCtx.skyboxConfig == 0)) {
         Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000, 370,
-                                  Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400, true);
+                                  Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400,
+                                  true);
     }
 }
 

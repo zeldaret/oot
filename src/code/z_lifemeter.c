@@ -533,7 +533,8 @@ u32 Health_IsCritical(void) {
         criticalHealth = 0x2C;
     }
 
-    if ((criticalHealth >= gSaveContext.save.info.playerData.health) && (gSaveContext.save.info.playerData.health > 0)) {
+    if ((criticalHealth >= gSaveContext.save.info.playerData.health) &&
+        (gSaveContext.save.info.playerData.health > 0)) {
         return true;
     } else {
         return false;

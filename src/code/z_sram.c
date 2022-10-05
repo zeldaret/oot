@@ -29,7 +29,7 @@
 //     /* 0x3C */ char unk_3C[0x0E];
 //     /* 0x4A */ s16 savedSceneId;
 // } SavePlayerData; // size = 0x4C
-// 
+//
 // typedef struct {
 //     /* 0x0000 */ SavePlayerData playerData; // "S_Private" substruct name
 //     /* 0x004C */ ItemEquips equips;
@@ -56,7 +56,7 @@
 //     /* 0x132C */ HorseData horseData;
 //     /* 0x1336 */ u16 checksum; // "check_sum"
 // } SaveInfo;                    // size = 0x1338
-// 
+//
 // typedef struct {
 //     /* 0x00 */ s32 entranceIndex;
 //     /* 0x04 */ s32 linkAge;
@@ -390,7 +390,8 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
         default:
             if (gSaveContext.save.info.playerData.savedSceneId != SCENE_LINK_HOME) {
-                gSaveContext.save.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINK_HOME_0 : ENTR_TOKINOMA_7;
+                gSaveContext.save.entranceIndex =
+                    (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINK_HOME_0 : ENTR_TOKINOMA_7;
             } else {
                 gSaveContext.save.entranceIndex = ENTR_LINK_HOME_0;
             }
@@ -408,7 +409,8 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCpy(gScarecrowLongSongPtr, gSaveContext.save.info.scarecrowLongSong, sizeof(gSaveContext.save.info.scarecrowLongSong));
+        MemCpy(gScarecrowLongSongPtr, gSaveContext.save.info.scarecrowLongSong,
+               sizeof(gSaveContext.save.info.scarecrowLongSong));
 
         ptr = (u8*)gScarecrowLongSongPtr;
         for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowLongSong); i++, ptr++) {
@@ -423,7 +425,8 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCpy(gScarecrowSpawnSongPtr, gSaveContext.save.info.scarecrowSpawnSong, sizeof(gSaveContext.save.info.scarecrowSpawnSong));
+        MemCpy(gScarecrowSpawnSongPtr, gSaveContext.save.info.scarecrowSpawnSong,
+               sizeof(gSaveContext.save.info.scarecrowSpawnSong));
 
         ptr = gScarecrowSpawnSongPtr;
         for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowSpawnSong); i++, ptr++) {
@@ -598,8 +601,9 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                     gSaveContext.save.info.playerData.newf[3] = 'D';
                     gSaveContext.save.info.playerData.newf[4] = 'A';
                     gSaveContext.save.info.playerData.newf[5] = 'Z';
-                    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0], gSaveContext.save.info.playerData.newf[1],
-                                 gSaveContext.save.info.playerData.newf[2], gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
+                    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
+                                 gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
+                                 gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
                                  gSaveContext.save.info.playerData.newf[5]);
                 } else {
                     Sram_InitNewSave();
@@ -623,8 +627,10 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 i = gSramSlotOffsets[slotNum + 3];
                 SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-                osSyncPrintf("????#%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0], gSaveContext.save.info.playerData.newf[1],
-                             gSaveContext.save.info.playerData.newf[2], gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4], gSaveContext.save.info.playerData.newf[5]);
+                osSyncPrintf("????#%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
+                             gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
+                             gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
+                             gSaveContext.save.info.playerData.newf[5]);
                 osSyncPrintf("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", i, slotNum, gSaveContext.save.info.checksum,
                              newChecksum);
             }
@@ -632,7 +638,8 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
             i = gSramSlotOffsets[slotNum];
             SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", i, slotNum, gSaveContext.save.info.checksum, newChecksum);
+            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", i, slotNum, gSaveContext.save.info.checksum,
+                         newChecksum);
         } else {
             osSyncPrintf("\nＳＡＶＥデータ ＯＫ！！！！\n"); // "SAVE data OK! ! ! !"
         }
@@ -716,8 +723,10 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 
     gSaveContext.save.info.playerData.n64ddFlag = fileSelect->n64ddFlag;
     osSyncPrintf("６４ＤＤフラグ=%d\n", fileSelect->n64ddFlag);
-    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0], gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
-                 gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4], gSaveContext.save.info.playerData.newf[5]);
+    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
+                 gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
+                 gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
+                 gSaveContext.save.info.playerData.newf[5]);
     osSyncPrintf("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 
     ptr = (u16*)&gSaveContext;

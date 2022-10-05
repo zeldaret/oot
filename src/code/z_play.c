@@ -318,9 +318,9 @@ void Play_Init(GameState* thisx) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
-    Play_SpawnScene(this,
-                    gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
-                    gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
+    Play_SpawnScene(
+        this, gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
+        gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
 
     osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
 
@@ -1714,8 +1714,10 @@ void Play_LoadToLastEntrance(PlayState* this) {
         (this->sceneId == SCENE_GANONTIKA_SONOGO) || (this->sceneId == SCENE_GANON_DEMO)) {
         this->nextEntranceIndex = ENTR_GANON_FINAL_0;
         Item_Give(this, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.save.entranceIndex == ENTR_SPOT00_11) || (gSaveContext.save.entranceIndex == ENTR_SPOT00_12) ||
-               (gSaveContext.save.entranceIndex == ENTR_SPOT00_13) || (gSaveContext.save.entranceIndex == ENTR_SPOT00_15)) {
+    } else if ((gSaveContext.save.entranceIndex == ENTR_SPOT00_11) ||
+               (gSaveContext.save.entranceIndex == ENTR_SPOT00_12) ||
+               (gSaveContext.save.entranceIndex == ENTR_SPOT00_13) ||
+               (gSaveContext.save.entranceIndex == ENTR_SPOT00_15)) {
         this->nextEntranceIndex = ENTR_SPOT00_6;
     } else {
         this->nextEntranceIndex = gSaveContext.save.entranceIndex;

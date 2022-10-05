@@ -303,7 +303,8 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
 
     // Heart Pieces (X / 4)
     KaleidoScope_DrawDigit(
-        play, ((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT, 210, 185);
+        play, ((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT, 210,
+        185);
 
     // Handles navigating the menu to different sections with the D-Pad
     // When the same direction is held, registers the input periodically based on a timer
@@ -394,7 +395,8 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
 
         case 0x5C:
             if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                if ((((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT) != 0) {
+                if ((((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >>
+                     QUEST_HEART_PIECE_COUNT) != 0) {
                     gSaveContext.save.info.inventory.questItems -= (1 << QUEST_HEART_PIECE_COUNT);
                 }
             } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN) ||

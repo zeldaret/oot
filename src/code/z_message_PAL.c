@@ -1242,7 +1242,8 @@ void Message_Decode(PlayState* play) {
             break;
         } else if (curChar == MESSAGE_NAME) {
             // Substitute the player name control character for the file's player name.
-            for (playerNameLen = ARRAY_COUNT(gSaveContext.save.info.playerData.playerName); playerNameLen > 0; playerNameLen--) {
+            for (playerNameLen = ARRAY_COUNT(gSaveContext.save.info.playerData.playerName); playerNameLen > 0;
+                 playerNameLen--) {
                 if (gSaveContext.save.info.playerData.playerName[playerNameLen - 1] != 0x3E) {
                     break;
                 }

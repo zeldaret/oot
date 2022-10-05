@@ -161,8 +161,10 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(gSaveContext.save.entranceIndex == ENTR_SPOT05_3 || gSaveContext.save.entranceIndex == ENTR_SPOT17_5 ||
-                   gSaveContext.save.entranceIndex == ENTR_SPOT06_9 || gSaveContext.save.entranceIndex == ENTR_SPOT11_8 ||
+            if ((!(gSaveContext.save.entranceIndex == ENTR_SPOT05_3 ||
+                   gSaveContext.save.entranceIndex == ENTR_SPOT17_5 ||
+                   gSaveContext.save.entranceIndex == ENTR_SPOT06_9 ||
+                   gSaveContext.save.entranceIndex == ENTR_SPOT11_8 ||
                    gSaveContext.save.entranceIndex == ENTR_SPOT02_8) &&
                  !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {

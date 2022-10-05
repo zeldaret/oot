@@ -184,7 +184,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 }
                             }
                         } else {
-                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & gSaveContext.save.info.inventory.equipment) {
+                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
+                                gSaveContext.save.info.inventory.equipment) {
                                 cursorMoveResult = 2;
                             }
                         }
@@ -220,7 +221,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 cursorMoveResult = 1;
                             }
                         } else {
-                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & gSaveContext.save.info.inventory.equipment) {
+                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
+                                gSaveContext.save.info.inventory.equipment) {
                                 cursorMoveResult = 2;
                             }
                         }
@@ -485,7 +487,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                         if (gSaveContext.save.info.equips.buttonItems[0] == ITEM_HEART_PIECE_2) {
                             gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_BGS;
                         }
-                        if ((gSaveContext.save.info.equips.buttonItems[0] == ITEM_SWORD_BGS) && (gSaveContext.save.info.playerData.bgsFlag == 0) &&
+                        if ((gSaveContext.save.info.equips.buttonItems[0] == ITEM_SWORD_BGS) &&
+                            (gSaveContext.save.info.playerData.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                             gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
                         }
@@ -523,7 +526,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         for (k = 0, temp = rowStart + 1, bit = rowStart, j = point; k < 3; k++, bit++, j += 4, temp++) {
 
             if ((gBitFlags[bit] & gSaveContext.save.info.inventory.equipment) && (pauseCtx->cursorSpecialPos == 0)) {
-                if ((gEquipAgeReqs[i][k + 1] == 9) || (gEquipAgeReqs[i][k + 1] == ((void)0, gSaveContext.save.linkAge))) {
+                if ((gEquipAgeReqs[i][k + 1] == 9) ||
+                    (gEquipAgeReqs[i][k + 1] == ((void)0, gSaveContext.save.linkAge))) {
                     if (temp == cursorSlot) {
                         pauseCtx->equipVtx[j].v.ob[0] = pauseCtx->equipVtx[j + 2].v.ob[0] =
                             pauseCtx->equipVtx[j].v.ob[0] - 2;

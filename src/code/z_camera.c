@@ -2979,9 +2979,9 @@ s32 Camera_Battle1(Camera* camera) {
     }
     rwData->roll += (((OREG(36) * camera->speedRatio) * (1.0f - distRatio)) - rwData->roll) * CAM_DATA_SCALED(OREG(37));
     camera->roll = CAM_DEG_TO_BINANG(rwData->roll);
-    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0 ? 0.8f
+    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0                      ? 0.8f
                                     : gSaveContext.save.info.playerData.health <= 0x10 ? 0.8f
-                                                                  : 1.0f) *
+                                                                                       : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
 }

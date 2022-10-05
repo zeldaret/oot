@@ -218,7 +218,8 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 }
                 this->cuccosInPen++;
             } else if (this->unk_26C == 0) {
-                gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &= ~D_80ABB3B4[currentCucco->unk_2AA];
+                gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
+                    ~D_80ABB3B4[currentCucco->unk_2AA];
             }
         }
         currentCucco = (EnNiw*)currentCucco->actor.next;
