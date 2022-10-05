@@ -346,7 +346,7 @@ void FileSelect_RotateToMain(GameState* thisx) {
     }
 }
 
-static void (*gConfigModeUpdateFuncs[])(GameState*) = {
+static void (*sConfigModeUpdateFuncs[])(GameState*) = {
     FileSelect_StartFadeIn,        FileSelect_FinishFadeIn,
     FileSelect_UpdateMainMenu,     FileSelect_SetupCopySource,
     FileSelect_SelectCopySource,   FileSelect_SetupCopyDest1,
@@ -441,7 +441,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
 void FileSelect_ConfigModeUpdate(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
 
-    gConfigModeUpdateFuncs[this->configMode](&this->state);
+    sConfigModeUpdateFuncs[this->configMode](&this->state);
 }
 
 void FileSelect_SetWindowVtx(GameState* thisx) {
@@ -1514,7 +1514,7 @@ void FileSelect_LoadGame(GameState* thisx) {
     }
 }
 
-static void (*gSelectModeUpdateFuncs[])(GameState*) = {
+static void (*sSelectModeUpdateFuncs[])(GameState*) = {
     FileSelect_FadeMainToSelect, FileSelect_MoveSelectedFileToTop,  FileSelect_FadeInFileInfo, FileSelect_ConfirmFile,
     FileSelect_FadeOutFileInfo,  FileSelect_MoveSelectedFileToSlot, FileSelect_FadeOut,        FileSelect_LoadGame,
 };
@@ -1522,7 +1522,7 @@ static void (*gSelectModeUpdateFuncs[])(GameState*) = {
 void FileSelect_SelectModeUpdate(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
 
-    gSelectModeUpdateFuncs[this->selectMode](&this->state);
+    sSelectModeUpdateFuncs[this->selectMode](&this->state);
 }
 
 void FileSelect_SelectModeDraw(GameState* thisx) {
@@ -1577,13 +1577,13 @@ void FileSelect_SelectModeDraw(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2834);
 }
 
-static void (*gFileSelectDrawFuncs[])(GameState*) = {
+static void (*sFileSelectDrawFuncs[])(GameState*) = {
     FileSelect_InitModeDraw,
     FileSelect_ConfigModeDraw,
     FileSelect_SelectModeDraw,
 };
 
-static void (*gFileSelectUpdateFuncs[])(GameState*) = {
+static void (*sFileSelectUpdateFuncs[])(GameState*) = {
     FileSelect_InitModeUpdate,
     FileSelect_ConfigModeUpdate,
     FileSelect_SelectModeUpdate,
@@ -1670,8 +1670,8 @@ void FileSelect_Main(GameState* thisx) {
     this->emptyFileTextAlpha = 0;
 
     FileSelect_PulsateCursor(&this->state);
-    gFileSelectUpdateFuncs[this->menuMode](&this->state);
-    gFileSelectDrawFuncs[this->menuMode](&this->state);
+    sFileSelectUpdateFuncs[this->menuMode](&this->state);
+    sFileSelectDrawFuncs[this->menuMode](&this->state);
 
     // do not draw controls text in the options menu
     if ((this->configMode <= CM_NAME_ENTRY_TO_MAIN) || (this->configMode >= CM_UNUSED_DELAY)) {
