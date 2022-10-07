@@ -178,6 +178,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 this->actor.shape.shadowScale = 54.0f;
             }
             break;
+
         case ENTA_RETURNED_FROM_KAKARIKO:
             // "Return Talon"
             osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
@@ -195,6 +196,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 this->currentAnimation = &gTalonStandAnim;
             }
             break;
+
         default: // Child era Talon
             // "Other Talon"
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
@@ -380,6 +382,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
                 EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
                 this->timer = 40;
                 break;
+
             default:
                 if (exchangeItemId != EXCH_ITEM_NONE) {
                     player->actor.textId = 0x702A;
@@ -414,6 +417,7 @@ void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
                 EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
                 this->timer = 40;
                 break;
+
             default:
                 if (exchangeItemId != EXCH_ITEM_NONE) {
                     player->actor.textId = 0x5015;
@@ -770,11 +774,13 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                             this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
                             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                             return;
+
                         case 2:
                             // One cucco remaining
                             this->actor.textId = 0x2083;
                             Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
                             break;
+
                         case 3:
                             // Two cuccos remaining
                             this->actor.textId = 0x2082;
@@ -980,6 +986,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                         break;
                 }
                 break;
+
             case 1: // Play cucco game
                 if (gSaveContext.rupees < 10) {
                     Message_ContinueTextbox(play, 0x85);
@@ -989,6 +996,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                     EnTa_StartCuccoGame(this, play);
                 }
                 break;
+
             case 2: // Cancel
                 EnTa_SetActionFuncWithBackToSleepAnimation(this, EnTa_IdleSittingInLonLonHouse);
                 EnTa_SetTextForTalkInLonLonHouse(this, play);
@@ -1022,6 +1030,7 @@ void EnTa_WaitForPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                     EnTa_StartCuccoGame(this, play);
                 }
                 break;
+
             case 1:
                 EnTa_SetActionFuncWithBackToSleepAnimation(this, EnTa_IdleSittingInLonLonHouse);
                 EnTa_SetTextForTalkInLonLonHouse(this, play);
