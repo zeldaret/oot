@@ -4973,13 +4973,13 @@ void func_800F64E0(u8 arg0) {
 /**
  * Enable or disable Malon's singing
  *
- * @param malonsSingingDisabled true to disable, false to enable
+ * @param malonSingingDisabled true to disable, false to enable
  */
-void Audio_ToggleMalonSinging(u8 malonsSingingDisabled) {
+void Audio_ToggleMalonSinging(u8 malonSingingDisabled) {
     u8 seqPlayerIndex;
     u16 channelMaskDisable;
 
-    sMalonSingingDisabled = malonsSingingDisabled;
+    sMalonSingingDisabled = malonSingingDisabled;
 
     if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF) == NA_BGM_LONLON) {
         // Malon singing in Lon Lon Ranch
@@ -4997,7 +4997,7 @@ void Audio_ToggleMalonSinging(u8 malonsSingingDisabled) {
         return;
     }
 
-    if (malonsSingingDisabled) {
+    if (malonSingingDisabled) {
         // Turn volume off for channels 0 & 1, which contains Malon's singing
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0);
