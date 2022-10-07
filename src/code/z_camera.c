@@ -6973,7 +6973,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
 
     camera->up.y = 1.0f;
     camera->up.z = camera->up.x = 0.0f;
-    camera->skyboxOffset.x = camera->skyboxOffset.y = camera->skyboxOffset.z = 0;
+    camera->quakeOffset.x = camera->quakeOffset.y = camera->quakeOffset.z = 0;
     camera->atLERPStepScale = 1;
     sCameraInterfaceFlags = 0xFF00;
     sDbgModeIdx = -1;
@@ -7636,7 +7636,7 @@ Vec3s Camera_Update(Camera* camera) {
         camera->up = viewUp;
     }
 
-    camera->skyboxOffset = quakeCamData.eyeOffset;
+    camera->quakeOffset = quakeCamData.eyeOffset;
 
     Camera_UpdateDistortion(camera);
 
@@ -8193,9 +8193,9 @@ s32 Camera_GetDbgCamEnabled(void) {
     return gDbgCamEnabled;
 }
 
-Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera) {
-    *dst = camera->skyboxOffset;
-    return dst;
+Vec3f* Camera_GetQuakeOffset(Vec3f* quakeOffset, Camera* camera) {
+    *quakeOffset = camera->quakeOffset;
+    return quakeOffset;
 }
 
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,

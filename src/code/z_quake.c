@@ -169,7 +169,7 @@ s16 Quake_GetFreeIndex(void) {
     return ret;
 }
 
-QuakeRequest* Quake_AddImpl(Camera* camera, u32 type) {
+QuakeRequest* Quake_RequestImpl(Camera* camera, u32 type) {
     s16 index = Quake_GetFreeIndex();
     QuakeRequest* req = &sQuakeRequest[index];
 
@@ -303,12 +303,12 @@ u32 Quake_SetQuakeValues(s16 index, s16 y, s16 x, s16 zoom, s16 rotZ) {
     return false;
 }
 
-u32 Quake_SetUnkValues(s16 index, s16 arg1, Vec3s arg2) {
+u32 Quake_SetUnkValues(s16 index, s16 isShakePerpendicular, Vec3s shakePlaneOffset) {
     QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
-        req->isShakePerpendicular = arg1;
-        req->shakePlaneOffset = arg2;
+        req->isShakePerpendicular = isShakePerpendicular;
+        req->shakePlaneOffset = shakePlaneOffset;
         return true;
     }
     return false;
@@ -326,7 +326,7 @@ void Quake_Init(void) {
 }
 
 s16 Quake_Request(Camera* camera, u32 type) {
-    return Quake_AddImpl(camera, type)->index;
+    return Quake_RequestImpl(camera, type)->index;
 }
 
 u32 Quake_RemoveRequest(s16 index) {

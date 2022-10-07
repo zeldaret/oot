@@ -2180,11 +2180,11 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Lights_BindAll(lights, play->lightCtx.listHead, (actor->flags & ACTOR_FLAG_22) ? NULL : &actor->world.pos);
     Lights_Draw(lights, play->state.gfxCtx);
 
-    if (actor->flags & ACTOR_FLAG_12) {
-        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.skyboxOffset.x,
+    if (actor->flags & ACTOR_FLAG_IGNORE_QUAKE) {
+        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.quakeOffset.x,
                                      actor->world.pos.y +
-                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.skyboxOffset.y),
-                                     actor->world.pos.z + play->mainCamera.skyboxOffset.z, &actor->shape.rot);
+                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.quakeOffset.y),
+                                     actor->world.pos.z + play->mainCamera.quakeOffset.z, &actor->shape.rot);
     } else {
         Matrix_SetTranslateRotateYXZ(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
                                      actor->world.pos.z, &actor->shape.rot);

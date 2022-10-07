@@ -1354,7 +1354,7 @@ typedef struct Camera {
     /* 0x05C */ Vec3f eye;
     /* 0x068 */ Vec3f up;
     /* 0x074 */ Vec3f eyeNext;
-    /* 0x080 */ Vec3f skyboxOffset;
+    /* 0x080 */ Vec3f quakeOffset;
     /* 0x08C */ struct PlayState* play;
     /* 0x090 */ struct Player* player;
     /* 0x094 */ PosRot playerPosRot;
