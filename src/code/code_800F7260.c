@@ -52,15 +52,15 @@ void Audio_SetSfxBanksMute(u16 muteMask) {
 
 void Audio_QueueSeqCmdMute(u8 channelIdx) {
     D_801333D0 |= (1 << channelIdx);
-    Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 2, 0x40, 0xF);
-    Audio_SetVolScale(SEQ_PLAYER_BGM_SUB, 2, 0x40, 0xF);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_SFX, 0x40, 0xF);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_SFX, 0x40, 0xF);
 }
 
 void Audio_ClearBGMMute(u8 channelIdx) {
     D_801333D0 &= ((1 << channelIdx) ^ 0xFFFF);
     if (D_801333D0 == 0) {
-        Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 2, 0x7F, 0xF);
-        Audio_SetVolScale(SEQ_PLAYER_BGM_SUB, 2, 0x7F, 0xF);
+        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_SFX, 0x7F, 0xF);
+        Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_SFX, 0x7F, 0xF);
     }
 }
 

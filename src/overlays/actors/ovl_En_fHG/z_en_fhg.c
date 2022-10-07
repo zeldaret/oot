@@ -142,7 +142,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 }
                 if (this->timers[0] == 51) {
                     Audio_PlayActorSfx2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
-                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
                 }
                 if (this->timers[0] == 0) {
                     EnfHG_SetupApproach(this, play, Rand_ZeroOne() * 5.99f);
@@ -158,7 +158,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
-            Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
             SET_EVENTCHKINF(EVENTCHKINF_72);
             Flags_SetSwitch(play, 0x23);
             FALLTHROUGH;
@@ -195,7 +195,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 func_8002DF54(play, &this->actor, 9);
             }
             if (this->timers[0] == 1) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_OPENING_GANON);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_OPENING_GANON);
             }
             Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTER_X + 40.0f, 0.05f, this->subCamVelFactor * 20.0f);
             Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTER_Y + 37.0f, 0.05f, this->subCamVelFactor * 20.0f);
@@ -284,7 +284,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 this->bossGndSignal = FHG_RIDE;
             }
             if (this->timers[0] == 130) {
-                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x5000FF);
+                SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 80);
             }
             if (this->timers[0] == 30) {
                 bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_BRIGHTEN;
@@ -297,7 +297,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
             if (this->timers[0] == 2) {
                 this->subCamVelFactor = 0.0f;

@@ -975,43 +975,4 @@ typedef struct {
     /* 0x08 */ u32 permanentPoolSize;
 } AudioHeapInitSizes; // size = 0xC
 
-typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ u16 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ u16 unk_1C;
-} unk_50_s; // size = 0x20
-
-typedef struct {
-    /* 0x000 */ f32 volCur;
-    /* 0x004 */ f32 volTarget;
-    /* 0x008 */ f32 unk_08;
-    /* 0x00C */ u16 unk_0C;
-    /* 0x00E */ u8 volScales[0x4];
-    /* 0x012 */ u8 volFadeTimer;
-    /* 0x013 */ u8 fadeVolUpdate;
-    /* 0x014 */ u32 unk_14;
-    /* 0x018 */ u16 unk_18;
-    /* 0x01C */ f32 unk_1C;
-    /* 0x020 */ f32 unk_20;
-    /* 0x024 */ f32 unk_24;
-    /* 0x028 */ u16 unk_28;
-    /* 0x02C */ u32 unk_2C[8];
-    /* 0x04C */ u8 unk_4C;
-    /* 0x04D */ u8 unk_4D;
-    /* 0x04E */ u8 unk_4E;
-    /* 0x050 */ unk_50_s unk_50[0x10];
-    /* 0x250 */ u16 unk_250;
-    /* 0x252 */ u16 unk_252;
-    /* 0x254 */ u16 unk_254;
-    /* 0x256 */ u16 unk_256;
-    /* 0x258 */ u16 unk_258;
-    /* 0x25C */ u32 unk_25C;
-    /* 0x260 */ u8 unk_260;
-} unk_D_8016E750; // size = 0x264
-
 #endif

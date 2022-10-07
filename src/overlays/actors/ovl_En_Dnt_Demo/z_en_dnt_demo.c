@@ -159,7 +159,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                     if (!GET_ITEMGETINF(ITEMGETINF_1E)) {
                         reaction = DNT_SIGNAL_CELEBRATE;
                         this->prize = DNT_PRIZE_STICK;
-                        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SARIA_THEME);
+                        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_SARIA_THEME);
                         break;
                     }
                     FALLTHROUGH;
@@ -208,17 +208,17 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                         this->action = sResultValues[resultIdx][1];
                         switch (this->action) {
                             case DNT_ACTION_LOW_RUPEES:
-                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_COURTYARD);
+                                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_COURTYARD);
                                 break;
                             case DNT_ACTION_ATTACK:
                                 if (this->subCamId != SUB_CAM_ID_DONE) {
                                     this->subCamId = SUB_CAM_ID_DONE;
                                     OnePointCutscene_Init(play, 2350, -99, &this->scrubs[3]->actor, CAM_ID_MAIN);
                                 }
-                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
+                                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
                                 break;
                             case DNT_ACTION_DANCE:
-                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SHOP);
+                                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_SHOP);
                                 break;
                         }
                         osSyncPrintf("\n\n");

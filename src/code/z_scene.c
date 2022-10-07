@@ -397,7 +397,7 @@ void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
     play->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
     if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
-        Audio_QueueSeqCmd(cmd->soundSettings.specId | 0xF0000000);
+        SEQCMD_RESET_AUDIO_HEAP(0, cmd->soundSettings.specId);
     }
 }
 
