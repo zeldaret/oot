@@ -298,13 +298,13 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f, func_80AA2AA0,
                   func_80AA2BD4);
     if (this->unk_1E0.unk_00 == 0) {
-        if (this->unk_20A != 0) {
+        if (this->isNotSinging) {
             Audio_ToggleMalonSinging(false);
-            this->unk_20A = 0;
+            this->isNotSinging = false;
         }
-    } else if (this->unk_20A == 0) {
+    } else if (!this->isNotSinging) {
         Audio_ToggleMalonSinging(true);
-        this->unk_20A = 1;
+        this->isNotSinging = true;
     }
 }
 

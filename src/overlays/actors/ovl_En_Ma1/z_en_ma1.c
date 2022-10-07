@@ -247,13 +247,13 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->unk_1E8.unk_00 == 0) {
-            if (this->unk_1E0 != 0) {
-                this->unk_1E0 = 0;
+            if (this->isNotSinging) {
+                this->isNotSinging = false;
                 Audio_ToggleMalonSinging(false);
             }
         } else {
-            if (this->unk_1E0 == 0) {
-                this->unk_1E0 = 1;
+            if (!this->isNotSinging) {
+                this->isNotSinging = true;
                 Audio_ToggleMalonSinging(true);
             }
         }

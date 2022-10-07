@@ -196,14 +196,14 @@ void EnMa2_ChangeAnim(EnMa2* this, s32 index) {
 void func_80AA1DB4(EnMa2* this, PlayState* play) {
     if (this->skelAnime.animation == &gMalonAdultSingAnim) {
         if (this->unk_1E0.unk_00 == 0) {
-            if (this->unk_20A != 0) {
+            if (this->isNotSinging) {
                 Audio_ToggleMalonSinging(false);
-                this->unk_20A = 0;
+                this->isNotSinging = false;
             }
         } else {
-            if (this->unk_20A == 0) {
+            if (!this->isNotSinging) {
                 Audio_ToggleMalonSinging(true);
-                this->unk_20A = 1;
+                this->isNotSinging = true;
             }
         }
     }
