@@ -29,7 +29,7 @@ void Interface_Init(PlayState* play) {
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
 
-    parameterSize = (u32)_parameter_staticSegmentRomEnd - (u32)_parameter_staticSegmentRomStart;
+    parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
 
     // "Permanent PARAMETER Segment = %x"
     osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
@@ -39,7 +39,7 @@ void Interface_Init(PlayState* play) {
     osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
+    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
                         "../z_construct.c", 162);
 
     interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 0x480, "../z_construct.c", 166);
@@ -57,8 +57,8 @@ void Interface_Init(PlayState* play) {
         doActionOffset = 0x5700;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
-                        "../z_construct.c", 174);
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
+                        0x300, "../z_construct.c", 174);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 0x480;
@@ -68,8 +68,8 @@ void Interface_Init(PlayState* play) {
         doActionOffset = 0x5B80;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + doActionOffset,
-                        0x180, "../z_construct.c", 178);
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300,
+                        (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, 0x180, "../z_construct.c", 178);
 
     interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
@@ -349,9 +349,9 @@ void func_80111070(void) {
     XREG(3) = -4;
     XREG(4) = 3;
     XREG(5) = 0;
-    XREG(6) = 2;
+    R_PAUSE_STICK_REPEAT_DELAY = 2;
     XREG(7) = 30;
-    XREG(8) = 10;
+    R_PAUSE_STICK_REPEAT_DELAY_FIRST = 10;
     XREG(9) = 0;
     XREG(10) = -9550;
     XREG(11) = 9950;
@@ -599,9 +599,11 @@ void func_80111070(void) {
     VREG(87) = 64;
     VREG(88) = 66;
     VREG(89) = 0;
-    VREG(90) = 126;
-    VREG(91) = 124;
-    VREG(92) = -63;
+    R_GAME_OVER_RUMBLE_STRENGTH = 126;
+    R_GAME_OVER_RUMBLE_DURATION = 124;
+    //! @bug This is eventually cast to a u8 after some scaling in `GameOver_Update`, negative numbers typically
+    //! become large (fast) decrease rates
+    R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
 void func_80112098(PlayState* play) {

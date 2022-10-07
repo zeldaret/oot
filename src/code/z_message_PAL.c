@@ -1534,10 +1534,11 @@ void Message_Decode(PlayState* play) {
             msgCtx->textboxBackgroundYOffsetIdx = (font->msgBuf[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
             msgCtx->textboxBackgroundUnkArg = font->msgBuf[msgCtx->msgBufPos + 3] & 0xF;
             DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                (u32)_message_texture_staticSegmentRomStart + msgCtx->textboxBackgroundIdx * 0x900,
+                                (uintptr_t)_message_texture_staticSegmentRomStart +
+                                    msgCtx->textboxBackgroundIdx * 0x900,
                                 0x900, "../z_message_PAL.c", 1830);
             DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900,
-                                (u32)_message_texture_staticSegmentRomStart +
+                                (uintptr_t)_message_texture_staticSegmentRomStart +
                                     (msgCtx->textboxBackgroundIdx + 1) * 0x900,
                                 0x900, "../z_message_PAL.c", 1834);
             msgCtx->msgBufPos += 3;
@@ -1634,23 +1635,23 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (sTextIsCredits) {
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
-        DmaMgr_SendRequest1(font->msgBuf, (u32)(_staff_message_data_staticSegmentRomStart + font->msgOffset),
+        DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
                             font->msgLength, "../z_message_PAL.c", 1954);
     } else {
         if (gSaveContext.language == LANGUAGE_ENG) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_nes_message_data_staticSegmentRomStart + font->msgOffset),
+            DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                                 font->msgLength, "../z_message_PAL.c", 1966);
         } else if (gSaveContext.language == LANGUAGE_GER) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_ger_message_data_staticSegmentRomStart + font->msgOffset),
+            DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
                                 font->msgLength, "../z_message_PAL.c", 1978);
         } else {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_fra_message_data_staticSegmentRomStart + font->msgOffset),
+            DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
                                 font->msgLength, "../z_message_PAL.c", 1990);
         }
     }
@@ -1661,10 +1662,10 @@ void Message_OpenText(PlayState* play, u16 textId) {
     // "Text Box Type"
     osSyncPrintf("吹き出し種類＝%d\n", msgCtx->textBoxType);
     if (textBoxType < TEXTBOX_TYPE_NONE_BOTTOM) {
-        DmaMgr_SendRequest1(
-            msgCtx->textboxSegment,
-            (u32)(_message_staticSegmentRomStart + (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE)),
-            MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
+        DmaMgr_SendRequest1(msgCtx->textboxSegment,
+                            (uintptr_t)_message_staticSegmentRomStart +
+                                (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE),
+                            MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
         if (textBoxType == TEXTBOX_TYPE_BLACK) {
             msgCtx->textboxColorRed = 0;
             msgCtx->textboxColorGreen = 0;

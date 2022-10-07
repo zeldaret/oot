@@ -13,7 +13,7 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
  *
  * @param itemId An ItemId value in the range `ITEM_DEKU_STICK`-`ITEM_FISHING_POLE`
  */
-#define GET_ITEM_ICON_VROM(itemId) ((u32)_icon_item_staticSegmentRomStart + ((itemId)*ITEM_ICON_SIZE))
+#define GET_ITEM_ICON_VROM(itemId) ((uintptr_t)_icon_item_staticSegmentRomStart + ((itemId)*ITEM_ICON_SIZE))
 
 // A "quest icon" (gQuestIcon*Tex) is 24x24 rgba32
 #define QUEST_ICON_WIDTH 24
@@ -25,7 +25,7 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
  * @param itemId An ItemId value in the range `ITEM_MEDALLION_FOREST`-`ITEM_MAGIC_JAR_BIG`
  */
 #define GET_QUEST_ICON_VROM(itemId) \
-    ((u32)_icon_item_24_staticSegmentRomStart + (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE))
+    ((uintptr_t)_icon_item_24_staticSegmentRomStart + (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE))
 
 /**
  * Button HUD Positions (Upper Left)

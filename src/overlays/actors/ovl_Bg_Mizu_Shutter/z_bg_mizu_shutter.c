@@ -128,7 +128,7 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
         if ((this->dyna.actor.world.pos.x == this->closedPos.x) &&
             (this->dyna.actor.world.pos.y == this->closedPos.y) &&
             (this->dyna.actor.world.pos.z == this->closedPos.z)) {
-            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0x78, 0x14, 0xA);
+            Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;
         }
