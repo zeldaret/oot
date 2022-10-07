@@ -4970,7 +4970,12 @@ void func_800F64E0(u8 arg0) {
     }
 }
 
-void Audio_SetMalonsSinging(u8 malonsSingingDisabled) {
+/**
+ * Enable or disable Malon's singing
+ *
+ * @param malonsSingingDisabled true to disable, false to enable
+ */
+void Audio_ToggleMalonSinging(u8 malonsSingingDisabled) {
     u8 seqPlayerIndex;
     u16 channelMaskDisable;
 
