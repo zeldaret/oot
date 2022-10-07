@@ -1129,7 +1129,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     void* ramAddr;
     s32 i;
 
-    D_801755D0 = NULL;
+    gCustomAudioUpdateFunction = NULL;
     gAudioContext.resetTimer = 0;
 
     {

@@ -37,7 +37,7 @@ typedef struct {
     /* 0x2B */ u8       freshness;
     /* 0x2C */ u8       prev;
     /* 0x2D */ u8       next;
-    /* 0x2E */ u8       channelIdx;
+    /* 0x2E */ u8       channelIndex;
     /* 0x2F */ u8       unk_2F;
 } SfxBankEntry; // size = 0x30
 

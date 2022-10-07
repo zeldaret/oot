@@ -259,7 +259,7 @@ void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
     channel->enabled = false;
     channel->finished = false;
     channel->stopScript = false;
-    channel->stopSomething2 = false;
+    channel->muted = false;
     channel->hasInstrument = false;
     channel->stereoHeadsetEffects = false;
     channel->transposition = 0;
@@ -290,8 +290,8 @@ void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
     channel->vibratoExtentChangeDelay = 0;
     channel->vibratoDelay = 0;
     channel->filter = NULL;
-    channel->unk_20 = 0;
-    channel->unk_0F = 0;
+    channel->combFilterGain = 0;
+    channel->combFilterSize = 0;
     channel->volume = 1.0f;
     channel->volumeScale = 1.0f;
     channel->freqScale = 1.0f;
@@ -1078,7 +1078,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
     }
 
     if ((seqPlayer->muted && (channel->muteBehavior & (MUTE_BEHAVIOR_STOP_NOTES | MUTE_BEHAVIOR_4))) ||
-        channel->stopSomething2) {
+        channel->muted) {
         layer->stopSomething = true;
         return PROCESS_SCRIPT_END;
     }
@@ -1515,8 +1515,8 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->adsr.sustain = 0;
                     channel->velocityRandomVariance = 0;
                     channel->gateTimeRandomVariance = 0;
-                    channel->unk_0F = 0;
-                    channel->unk_20 = 0;
+                    channel->combFilterSize = 0;
+                    channel->combFilterGain = 0;
                     channel->bookOffset = 0;
                     channel->freqScale = 1.0f;
                     break;
@@ -1595,8 +1595,8 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     break;
 
                 case 0xBB:
-                    channel->unk_0F = cmdArgs[0];
-                    channel->unk_20 = cmdArgs[1];
+                    channel->combFilterSize = cmdArgs[0];
+                    channel->combFilterGain = cmdArgs[1];
                     break;
 
                 case 0xBC:

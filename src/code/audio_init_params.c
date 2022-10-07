@@ -2,7 +2,7 @@
 
 u8 D_8016F0E0[0xA0]; // unused
 AudioContext gAudioContext;
-void (*D_801755D0)(void);
+void (*gCustomAudioUpdateFunction)(void);
 s32 D_801755D8[3]; // unused
 
 const s16 D_8014A6C0[] = {

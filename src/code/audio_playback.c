@@ -100,8 +100,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
     sub->gain = attrs->gain;
     sub->filter = attrs->filter;
-    sub->unk_07 = attrs->unk_14;
-    sub->unk_0E = attrs->unk_16;
+    sub->combFilterSize = attrs->combFilterSize;
+    sub->combFilterGain = attrs->combFilterGain;
     sub->reverbVol = reverbVol;
 }
 
@@ -256,8 +256,8 @@ void Audio_ProcessNotes(void) {
                 subAttrs.stereo = attrs->stereo;
                 subAttrs.gain = attrs->gain;
                 subAttrs.filter = attrs->filter;
-                subAttrs.unk_14 = attrs->unk_4;
-                subAttrs.unk_16 = attrs->unk_6;
+                subAttrs.combFilterSize = attrs->combFilterSize;
+                subAttrs.combFilterGain = attrs->combFilterGain;
                 bookOffset = noteSubEu->bitField1.bookOffset;
             } else {
                 SequenceLayer* layer = playbackState->parentLayer;
@@ -274,8 +274,8 @@ void Audio_ProcessNotes(void) {
                 subAttrs.reverbVol = channel->reverb;
                 subAttrs.gain = channel->gain;
                 subAttrs.filter = channel->filter;
-                subAttrs.unk_14 = channel->unk_0F;
-                subAttrs.unk_16 = channel->unk_20;
+                subAttrs.combFilterSize = channel->combFilterSize;
+                subAttrs.combFilterGain = channel->combFilterGain;
                 bookOffset = channel->bookOffset & 0x7;
 
                 if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_3)) {
@@ -480,8 +480,8 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
                 attrs->filter = attrs->filterBuf;
             }
 
-            attrs->unk_6 = chan->unk_20;
-            attrs->unk_4 = chan->unk_0F;
+            attrs->combFilterGain = chan->combFilterGain;
+            attrs->combFilterSize = chan->combFilterSize;
             if (chan->seqPlayer->muted && (chan->muteBehavior & MUTE_BEHAVIOR_3)) {
                 note->noteSubEu.bitField0.finished = true;
             }
