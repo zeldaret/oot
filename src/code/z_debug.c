@@ -96,7 +96,7 @@ char sRegGroupChars[REG_GROUPS] = {
 void func_800636C0(void) {
     s32 i;
 
-    gGameInfo = (GameInfo*)SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);
+    gGameInfo = SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);
     gGameInfo->regPage = 0;
     gGameInfo->regGroup = 0;
     gGameInfo->regCur = 0;
@@ -229,7 +229,7 @@ void func_8006390C(Input* input) {
 
                 if (iREG(0)) {
                     iREG(0) = 0;
-                    func_800AA000(0, iREG(1), iREG(2), iREG(3));
+                    Rumble_Request(0.0f, iREG(1), iREG(2), iREG(3));
                 }
 
                 break;
