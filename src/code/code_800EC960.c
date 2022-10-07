@@ -4933,8 +4933,11 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
     } else if ((curSeqId == NA_BGM_NATURE_AMBIENCE) && ((seqId & 0xFF) == NA_BGM_LONLON)) {
         // Malon singing at night market
         curSeqId = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF);
+
         if ((curSeqId != (seqId & 0xFF)) && (sMalonSingingTimer < 10)) {
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
+            // Disable all channels between 2-15.
+            // Only allow the two channels with Malon's singing to play, and surpress the full lon lon sequence.
             SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_SUB, 0xFFFC);
             sMalonSingingTimer = 10;
         }
@@ -5012,7 +5015,7 @@ void Audio_ToggleMalonSinging(u8 malonSingingDisabled) {
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
         }
 
-        // Turn volume on for channels 0 & 1, which contains Malon's singing,
+        // Turn volume on for channels 0 & 1, which contains Malon's singing
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0x7F);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0x7F);
 
