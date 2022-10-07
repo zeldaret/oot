@@ -4970,7 +4970,7 @@ void func_800F64E0(u8 arg0) {
     }
 }
 
-void Audio_SetMalonsSigning(u8 malonsSingingDisabled) {
+void Audio_SetMalonsSinging(u8 malonsSingingDisabled) {
     u8 seqPlayerIndex;
     u16 channelMaskDisable;
 

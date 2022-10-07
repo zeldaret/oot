@@ -299,11 +299,11 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
                   func_80AA2BD4);
     if (this->unk_1E0.unk_00 == 0) {
         if (this->unk_20A != 0) {
-            Audio_SetMalonsSigning(false);
+            Audio_SetMalonsSinging(false);
             this->unk_20A = 0;
         }
     } else if (this->unk_20A == 0) {
-        Audio_SetMalonsSigning(true);
+        Audio_SetMalonsSinging(true);
         this->unk_20A = 1;
     }
 }

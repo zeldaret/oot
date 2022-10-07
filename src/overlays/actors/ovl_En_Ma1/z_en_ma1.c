@@ -249,12 +249,12 @@ void func_80AA0B74(EnMa1* this) {
         if (this->unk_1E8.unk_00 == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
-                Audio_SetMalonsSigning(false);
+                Audio_SetMalonsSinging(false);
             }
         } else {
             if (this->unk_1E0 == 0) {
                 this->unk_1E0 = 1;
-                Audio_SetMalonsSigning(true);
+                Audio_SetMalonsSinging(true);
             }
         }
     }

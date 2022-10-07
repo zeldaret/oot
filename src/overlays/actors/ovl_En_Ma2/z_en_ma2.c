@@ -197,12 +197,12 @@ void func_80AA1DB4(EnMa2* this, PlayState* play) {
     if (this->skelAnime.animation == &gMalonAdultSingAnim) {
         if (this->unk_1E0.unk_00 == 0) {
             if (this->unk_20A != 0) {
-                Audio_SetMalonsSigning(false);
+                Audio_SetMalonsSinging(false);
                 this->unk_20A = 0;
             }
         } else {
             if (this->unk_20A == 0) {
-                Audio_SetMalonsSigning(true);
+                Audio_SetMalonsSinging(true);
                 this->unk_20A = 1;
             }
         }
