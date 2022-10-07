@@ -56,7 +56,11 @@
 #define OWNED_EQUIP_FLAG(equip, value) (gBitFlags[value] << gEquipShifts[equip])
 #define OWNED_EQUIP_FLAG_ALT(equip, value) ((1 << (value)) << gEquipShifts[equip])
 #define CHECK_OWNED_EQUIP(equip, value) (OWNED_EQUIP_FLAG(equip, value) & gSaveContext.inventory.equipment)
-#define CHECK_OWNED_EQUIP_ALT(equip, value) (gBitFlags[(value) + (equip) * 4] & gSaveContext.inventory.equipment)
+#define CHECK_OWNED_EQUIP_PACKED(i) (gBitFlags[i] & gSaveContext.inventory.equipment)
+#define CHECK_OWNED_EQUIP_ALT(equip, value) CHECK_OWNED_EQUIP_PACKED((value) + (equip) * 4)
+#define SET_OWNED_EQUIP(equip, value) (gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(equip, value))
+#define TOGGLE_OWNED_EQUIP(equip, value) (gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG(equip, value))
+#define TOGGLE_OWNED_EQUIP_ALT(equip, value) (gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(equip, value))
 
 #define SWORD_EQUIP_TO_PLAYER(swordEquip) (swordEquip)
 #define SHIELD_EQUIP_TO_PLAYER(shieldEquip) (shieldEquip)
