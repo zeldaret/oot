@@ -299,10 +299,12 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
                   func_80AA2BD4);
     if (this->unk_1E0.unk_00 == 0) {
         if (this->isNotSinging) {
+            // Turn on singing
             Audio_ToggleMalonSinging(false);
             this->isNotSinging = false;
         }
     } else if (!this->isNotSinging) {
+        // Turn off singing
         Audio_ToggleMalonSinging(true);
         this->isNotSinging = true;
     }

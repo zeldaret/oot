@@ -197,11 +197,13 @@ void func_80AA1DB4(EnMa2* this, PlayState* play) {
     if (this->skelAnime.animation == &gMalonAdultSingAnim) {
         if (this->unk_1E0.unk_00 == 0) {
             if (this->isNotSinging) {
+                // Turn on singing
                 Audio_ToggleMalonSinging(false);
                 this->isNotSinging = false;
             }
         } else {
             if (!this->isNotSinging) {
+                // Turn off singing
                 Audio_ToggleMalonSinging(true);
                 this->isNotSinging = true;
             }
