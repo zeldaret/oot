@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "quake.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
@@ -7185,11 +7186,11 @@ void Camera_PrintSettings(Camera* camera) {
 
 s32 Camera_UpdateWater(Camera* camera) {
     f32 waterY;
-    s16 newQuakeId;
+    s16 quakeIndex;
     s32 waterLightsIndex;
     s32* waterCamSetting = &camera->waterCamSetting;
     s16 waterBgCamIndex;
-    s16* quakeId = (s16*)&camera->waterQuakeId;
+    s16* waterQuakeIndex = (s16*)&camera->waterQuakeIndex;
     Player* player = camera->player;
     s16 prevBgId;
 
@@ -7213,7 +7214,7 @@ s32 Camera_UpdateWater(Camera* camera) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
                 camera->bgCamIndexBeforeUnderwater = camera->bgCamIndex;
-                *quakeId = -1;
+                *waterQuakeIndex = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
                 prevBgId = camera->bgId;
@@ -7229,7 +7230,7 @@ s32 Camera_UpdateWater(Camera* camera) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
                 camera->bgCamIndexBeforeUnderwater = camera->bgCamIndex;
-                *quakeId = -1;
+                *waterQuakeIndex = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
                 prevBgId = camera->bgId;
@@ -7266,16 +7267,19 @@ s32 Camera_UpdateWater(Camera* camera) {
         Audio_SetExtraFilter(0x20);
 
         if (PREG(81)) {
-            Quake_RemoveFromIdx(*quakeId);
-            *quakeId = -1;
+            Quake_RemoveRequest(*waterQuakeIndex);
+            *waterQuakeIndex = -1;
             PREG(81) = 0;
         }
 
-        if ((*quakeId == -1) || (Quake_GetCountdown(*quakeId) == 0xA)) {
-            if (*quakeId = newQuakeId = Quake_Add(camera, 5U), newQuakeId != 0) {
-                Quake_SetSpeed(*quakeId, 550);
-                Quake_SetQuakeValues(*quakeId, 1, 1, 180, 0);
-                Quake_SetCountdown(*quakeId, 1000);
+        if ((*waterQuakeIndex == -1) || (Quake_GetCountdown(*waterQuakeIndex) == 10)) {
+            quakeIndex = Quake_Request(camera, QUAKE_TYPE_5);
+
+            *waterQuakeIndex = quakeIndex;
+            if (quakeIndex != QUAKE_TYPE_NONE) {
+                Quake_SetSpeed(*waterQuakeIndex, 550);
+                Quake_SetQuakeValues(*waterQuakeIndex, 1, 1, 180, 0);
+                Quake_SetCountdown(*waterQuakeIndex, 1000);
             }
         }
 
@@ -7292,8 +7296,8 @@ s32 Camera_UpdateWater(Camera* camera) {
             camera->unk_14C &= ~0x100;
             osSyncPrintf("kankyo changed water off, sound off\n");
             Environment_DisableUnderwaterLights(camera->play);
-            if (*quakeId != 0) {
-                Quake_RemoveFromIdx(*quakeId);
+            if (*waterQuakeIndex != 0) {
+                Quake_RemoveRequest(*waterQuakeIndex);
             }
             camera->waterDistortionTimer = 0;
             camera->distortionFlags = 0;
@@ -7438,6 +7442,7 @@ Vec3s Camera_Update(Camera* camera) {
     f32 playerXZSpeed;
     VecSph eyeAtAngle;
     s16 bgCamIndex;
+    s16 quakeIndex;
     PosRot curPlayerPosRot;
     QuakeCamCalc quake;
     Player* player;
@@ -7604,7 +7609,8 @@ Vec3s Camera_Update(Camera* camera) {
 
     // setting bgId to the ret of Quake_Calc, and checking that
     // is required, it doesn't make too much sense though.
-    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
+    bgId = quakeIndex = Quake_Calc(camera, &quake);
+    if ((quakeIndex != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
         viewAt.x = camera->at.x + quake.atOffset.x;
         viewAt.y = camera->at.y + quake.atOffset.y;
         viewAt.z = camera->at.z + quake.atOffset.z;
@@ -8011,15 +8017,15 @@ s16 Camera_GetCamDirYaw(Camera* camera) {
 }
 
 s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
-    s16 quakeIdx;
+    s16 quakeIndex;
 
-    quakeIdx = Quake_Add(camera, 3);
-    if (quakeIdx == 0) {
+    quakeIndex = Quake_Request(camera, QUAKE_TYPE_3);
+    if (quakeIndex == 0) {
         return 0;
     }
-    Quake_SetSpeed(quakeIdx, 0x61A8);
-    Quake_SetQuakeValues(quakeIdx, y, 0, 0, 0);
-    Quake_SetCountdown(quakeIdx, countdown);
+    Quake_SetSpeed(quakeIndex, 0x61A8);
+    Quake_SetQuakeValues(quakeIndex, y, 0, 0, 0);
+    Quake_SetCountdown(quakeIndex, countdown);
     return 1;
 }
 

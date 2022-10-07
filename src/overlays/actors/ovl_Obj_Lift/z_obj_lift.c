@@ -7,6 +7,7 @@
 #include "z_obj_lift.h"
 #include "assets/objects/object_d_lift/object_d_lift.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "quake.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -142,7 +143,7 @@ void func_80B96560(ObjLift* this, PlayState* play) {
             if (((this->dyna.actor.params >> 8) & 7) == 7) {
                 func_80B967C0(this);
             } else {
-                quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
                 Quake_SetSpeed(quakeIndex, 10000);
                 Quake_SetQuakeValues(quakeIndex, 2, 0, 0, 0);
                 Quake_SetCountdown(quakeIndex, 20);

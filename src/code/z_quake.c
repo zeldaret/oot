@@ -1,13 +1,34 @@
 #include "global.h"
+#include "quake.h"
 #include "vt.h"
+
+typedef struct {
+    /* 0x00 */ s16 index;
+    /* 0x02 */ s16 countdownMax;
+    /* 0x04 */ Camera* cam;
+    /* 0x08 */ u32 type;
+    /* 0x0C */ s16 y;
+    /* 0x0E */ s16 x;
+    /* 0x10 */ s16 zoom;
+    /* 0x12 */ s16 rotZ;
+    /* 0x14 */ Vec3s shakePlaneOffset; // angle deviations from shaking in the perpendicular plane
+    /* 0x1A */ s16 speed;
+    /* 0x1C */ s16 isShakePerpendicular;
+    /* 0x1E */ s16 countdown;
+    /* 0x20 */ s16 camId;
+} QuakeRequest; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ Vec3f vec1;
+    /* 0x0C */ Vec3f vec2;
+    /* 0x18 */ s16 rotZ;
+    /* 0x1A */ s16 unk_1A;
+    /* 0x1C */ s16 zoom;
+} ShakeInfo; // size = 0x1E
 
 QuakeRequest sQuakeRequest[4];
 s16 D_80126250 = 1;
 s16 sQuakeRequestCount = 0;
-
-s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
-    NULL, Quake_Callback1, Quake_Callback2, Quake_Callback3, Quake_Callback4, Quake_Callback5, Quake_Callback6,
-};
 
 Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2) {
     Vec3f vec1;
@@ -22,34 +43,34 @@ Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2) {
 }
 
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
-    Vec3f* unk50 = &req->cam->at;
-    Vec3f* unk5C = &req->cam->eye;
+    Vec3f* at = &req->cam->at;
+    Vec3f* eye = &req->cam->eye;
 
     Vec3f vec;
     VecSph struc2;
     VecSph struc1;
     Vec3f vec2;
 
-    if (req->unk_1C) {
+    if (req->isShakePerpendicular) {
         vec.x = 0;
         vec.y = 0;
         vec.z = 0;
-        OLib_Vec3fDiffToVecSphGeo(&struc1, unk5C, unk50);
+        OLib_Vec3fDiffToVecSphGeo(&struc1, eye, at);
         struc2.r = req->y * y;
-        struc2.pitch = struc1.pitch + req->unk_14.unk_00 + 0x4000;
-        struc2.yaw = struc1.yaw + req->unk_14.unk_02;
+        struc2.pitch = struc1.pitch + req->shakePlaneOffset.x + 0x4000;
+        struc2.yaw = struc1.yaw + req->shakePlaneOffset.y;
         Quake_AddVec(&vec, &vec, &struc2);
         struc2.r = req->x * x;
-        struc2.pitch = struc1.pitch + req->unk_14.unk_00;
-        struc2.yaw = struc1.yaw + req->unk_14.unk_02 + 0x4000;
+        struc2.pitch = struc1.pitch + req->shakePlaneOffset.x;
+        struc2.yaw = struc1.yaw + req->shakePlaneOffset.y + 0x4000;
         Quake_AddVec(&vec, &vec, &struc2);
     } else {
         vec.x = 0;
         vec.y = req->y * y;
         vec.z = 0;
         struc2.r = req->x * x;
-        struc2.pitch = req->unk_14.unk_00;
-        struc2.yaw = req->unk_14.unk_02;
+        struc2.pitch = req->shakePlaneOffset.x;
+        struc2.yaw = req->shakePlaneOffset.y;
         Quake_AddVec(&vec, &vec, &struc2);
     }
 
@@ -61,7 +82,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
     shake->zoom = req->zoom * y;
 }
 
-s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
+s16 Quake_CallbackType1(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
 
     if (req->countdown > 0) {
@@ -73,7 +94,7 @@ s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
     return req->countdown;
 }
 
-s16 Quake_Callback5(QuakeRequest* req, ShakeInfo* shake) {
+s16 Quake_CallbackType5(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
         f32 a = Math_SinS(req->speed * req->countdown);
 
@@ -83,7 +104,7 @@ s16 Quake_Callback5(QuakeRequest* req, ShakeInfo* shake) {
     return req->countdown;
 }
 
-s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
+s16 Quake_CallbackType6(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
     f32 a;
 
@@ -93,7 +114,7 @@ s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
     return 1;
 }
 
-s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
+s16 Quake_CallbackType3(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
         f32 a = Math_SinS(req->speed * req->countdown) * ((f32)req->countdown / (f32)req->countdownMax);
 
@@ -103,7 +124,7 @@ s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
     return req->countdown;
 }
 
-s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
+s16 Quake_CallbackType2(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
         f32 a = Rand_ZeroOne();
 
@@ -113,7 +134,7 @@ s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
     return req->countdown;
 }
 
-s16 Quake_Callback4(QuakeRequest* req, ShakeInfo* shake) {
+s16 Quake_CallbackType4(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
         f32 a = Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
 
@@ -129,7 +150,7 @@ s16 Quake_GetFreeIndex(void) {
     s32 min = 0x10000;
 
     for (i = 0; i < ARRAY_COUNT(sQuakeRequest); i++) {
-        if (sQuakeRequest[i].callbackIdx == 0) {
+        if (sQuakeRequest[i].type == QUAKE_TYPE_NONE) {
             ret = i;
             min = 0x20000;
             break;
@@ -148,85 +169,99 @@ s16 Quake_GetFreeIndex(void) {
     return ret;
 }
 
-QuakeRequest* Quake_AddImpl(Camera* camera, u32 callbackIdx) {
-    s16 idx = Quake_GetFreeIndex();
-    QuakeRequest* req = &sQuakeRequest[idx];
+QuakeRequest* Quake_AddImpl(Camera* camera, u32 type) {
+    s16 index = Quake_GetFreeIndex();
+    QuakeRequest* req = &sQuakeRequest[index];
 
     __osMemset(req, 0, sizeof(QuakeRequest));
+
     req->cam = camera;
-    req->camPtrIdx = camera->camId;
-    req->callbackIdx = callbackIdx;
-    req->unk_1C = 1;
-    req->randIdx = ((s16)(Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
+    req->camId = camera->camId;
+    req->type = type;
+    req->isShakePerpendicular = true;
+    req->index = ((s16)(Rand_ZeroOne() * (f32)0x10000) & ~3) + index;
+
     sQuakeRequestCount++;
 
     return req;
 }
 
 void Quake_Remove(QuakeRequest* req) {
-    req->callbackIdx = 0;
+    req->type = 0;
     req->countdown = -1;
     sQuakeRequestCount--;
 }
 
-QuakeRequest* Quake_GetRequest(s16 idx) {
-    QuakeRequest* req = &sQuakeRequest[idx & 3];
+QuakeRequest* Quake_GetRequest(s16 index) {
+    QuakeRequest* req = &sQuakeRequest[index & 3];
 
-    if (req->callbackIdx == 0) {
+    if (req->type == 0) {
         return NULL;
     }
 
-    if (idx != req->randIdx) {
+    if (index != req->index) {
         return NULL;
     }
 
     return req;
 }
 
-QuakeRequest* Quake_SetValue(s16 idx, s16 valueType, s16 value) {
-    QuakeRequest* req = Quake_GetRequest(idx);
+u32 Quake_SetValue(s16 index, s16 valueType, s16 value) {
+    QuakeRequest* req = Quake_GetRequest(index);
 
     if (req == NULL) {
-        return NULL;
+        return 0;
     } else {
         switch (valueType) {
-            case 1:
+            case QUAKE_SPEED:
                 req->speed = value;
                 break;
-            case 2:
+
+            case QUAKE_VERTICAL_MAG:
                 req->y = value;
                 break;
-            case 4:
+
+            case QUAKE_HORIZONTAL_MAG:
                 req->x = value;
                 break;
-            case 8:
+
+            case QUAKE_ZOOM:
                 req->zoom = value;
                 break;
-            case 0x10:
+
+            case QUAKE_ROLL_OFFSET:
                 req->rotZ = value;
                 break;
-            case 0x20:
-                req->unk_14.unk_00 = value;
+
+            case QUAKE_SHAKE_PLANE_PITCH:
+                req->shakePlaneOffset.x = value;
                 break;
-            case 0x40:
-                req->unk_14.unk_02 = value;
+
+            case QUAKE_SHAKE_PLANE_YAW:
+                req->shakePlaneOffset.y = value;
                 break;
-            case 0x80:
-                req->unk_14.unk_04 = value;
+
+            case QUAKE_SHAKE_PLANE_ROLL:
+                req->shakePlaneOffset.z = value;
                 break;
-            case 0x100:
+
+            case QUAKE_COUNTDOWN:
                 req->countdown = value;
                 req->countdownMax = req->countdown;
                 break;
-            case 0x200:
-                req->unk_1C = value;
+
+            case QUAKE_IS_SHAKE_PERPENDICULAR:
+                req->isShakePerpendicular = value;
+                break;
+
+            default:
                 break;
         }
     }
 }
 
-u32 Quake_SetSpeed(s16 idx, s16 value) {
-    QuakeRequest* req = Quake_GetRequest(idx);
+u32 Quake_SetSpeed(s16 index, s16 value) {
+    QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
         req->speed = value;
@@ -235,8 +270,8 @@ u32 Quake_SetSpeed(s16 idx, s16 value) {
     return false;
 }
 
-u32 Quake_SetCountdown(s16 idx, s16 value) {
-    QuakeRequest* req = Quake_GetRequest(idx);
+u32 Quake_SetCountdown(s16 index, s16 value) {
+    QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
         req->countdown = value;
@@ -246,8 +281,8 @@ u32 Quake_SetCountdown(s16 idx, s16 value) {
     return false;
 }
 
-s16 Quake_GetCountdown(s16 idx) {
-    QuakeRequest* req = Quake_GetRequest(idx);
+s16 Quake_GetCountdown(s16 index) {
+    QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
         return req->countdown;
@@ -255,8 +290,8 @@ s16 Quake_GetCountdown(s16 idx) {
     return 0;
 }
 
-u32 Quake_SetQuakeValues(s16 idx, s16 y, s16 x, s16 zoom, s16 rotZ) {
-    QuakeRequest* req = Quake_GetRequest(idx);
+u32 Quake_SetQuakeValues(s16 index, s16 y, s16 x, s16 zoom, s16 rotZ) {
+    QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
         req->y = y;
@@ -268,13 +303,12 @@ u32 Quake_SetQuakeValues(s16 idx, s16 y, s16 x, s16 zoom, s16 rotZ) {
     return false;
 }
 
-u32 Quake_SetUnkValues(s16 idx, s16 arg1, SubQuakeRequest14 arg2) {
-    QuakeRequest* req = Quake_GetRequest(idx);
+u32 Quake_SetUnkValues(s16 index, s16 arg1, Vec3s arg2) {
+    QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
-        req->unk_1C = arg1;
-
-        req->unk_14 = arg2;
+        req->isShakePerpendicular = arg1;
+        req->shakePlaneOffset = arg2;
         return true;
     }
     return false;
@@ -284,19 +318,19 @@ void Quake_Init(void) {
     s16 i;
 
     for (i = 0; i < ARRAY_COUNT(sQuakeRequest); i++) {
-        sQuakeRequest[i].callbackIdx = 0;
+        sQuakeRequest[i].type = 0;
         sQuakeRequest[i].countdown = 0;
     }
     D_80126250 = 1;
     sQuakeRequestCount = 0;
 }
 
-s16 Quake_Add(Camera* camera, u32 callbackIdx) {
-    return Quake_AddImpl(camera, callbackIdx)->randIdx;
+s16 Quake_Request(Camera* camera, u32 type) {
+    return Quake_AddImpl(camera, type)->index;
 }
 
-u32 Quake_RemoveFromIdx(s16 idx) {
-    QuakeRequest* req = Quake_GetRequest(idx);
+u32 Quake_RemoveRequest(s16 index) {
+    QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
         Quake_Remove(req);
@@ -304,6 +338,16 @@ u32 Quake_RemoveFromIdx(s16 idx) {
     }
     return false;
 }
+
+s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
+    NULL,
+    Quake_CallbackType1,
+    Quake_CallbackType2,
+    Quake_CallbackType3,
+    Quake_CallbackType4,
+    Quake_CallbackType5,
+    Quake_CallbackType6,
+};
 
 s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     f32 max;
@@ -313,7 +357,7 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     f32 absSpeedDiv;
     s16* temp;
     u32 pad2;
-    s32 idx;
+    s32 index;
     s32 ret;
     u32 eq;
     Vec3f vec;
@@ -339,18 +383,17 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     }
 
     ret = 0;
-    for (idx = 0; idx < ARRAY_COUNT(sQuakeRequest); idx++) {
-        req = &sQuakeRequest[idx];
-        if (req->callbackIdx != 0) {
-            if (play->cameraPtrs[req->camPtrIdx] == NULL) {
-                osSyncPrintf(VT_COL(YELLOW, BLACK) "quake: stopped! 'coz camera [%d] killed!!\n" VT_RST,
-                             req->camPtrIdx);
+    for (index = 0; index < ARRAY_COUNT(sQuakeRequest); index++) {
+        req = &sQuakeRequest[index];
+        if (req->type != 0) {
+            if (play->cameraPtrs[req->camId] == NULL) {
+                osSyncPrintf(VT_COL(YELLOW, BLACK) "quake: stopped! 'coz camera [%d] killed!!\n" VT_RST, req->camId);
                 Quake_Remove(req);
             } else {
                 temp = &camera->camId;
                 eq = req->cam->camId != *temp;
                 absSpeedDiv = ABS(req->speed) / (f32)0x8000;
-                if (sQuakeCallbacks[req->callbackIdx](req, &shake) == 0) {
+                if (sQuakeCallbacks[req->type](req, &shake) == 0) {
                     Quake_Remove(req);
                 } else if (eq == 0) {
                     if (fabsf(camData->atOffset.x) < fabsf(shake.vec1.x)) {

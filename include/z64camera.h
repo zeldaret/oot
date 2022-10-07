@@ -1348,7 +1348,7 @@ typedef struct {
     /* 0x24 */ s32 bgId;
 } CamColChk; // size = 0x28
 
-typedef struct {
+typedef struct Camera {
     /* 0x000 */ CamParamData paramData;
     /* 0x050 */ Vec3f at;
     /* 0x05C */ Vec3f eye;
@@ -1378,7 +1378,7 @@ typedef struct {
     /* 0x114 */ f32 waterYPos;
     /* 0x118 */ s32 bgCamIndexBeforeUnderwater;
     /* 0x11C */ s32 waterCamSetting;
-    /* 0x120 */ s32 waterQuakeId;
+    /* 0x120 */ s32 waterQuakeIndex;
     /* 0x124 */ void* data0;
     /* 0x128 */ void* data1;
     /* 0x12C */ s16 data2;
