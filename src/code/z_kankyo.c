@@ -2035,7 +2035,7 @@ void Environment_PlaySceneSequence(PlayState* play) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
-            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.forcedSeqId));
+            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, ((void)0, gSaveContext.forcedSeqId));
         }
         gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     } else if (play->sequenceCtx.seqId == NA_BGM_NO_MUSIC) {
@@ -2102,7 +2102,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             if (gSaveContext.dayTime > CLOCK_TIME(17, 10)) {
                 if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
                     play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
-                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xF000FF);
+                    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 240);
                 }
 
                 play->envCtx.timeSeqState++;
@@ -2570,7 +2570,7 @@ void Environment_StopStormNatureAmbience(PlayState* play) {
     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_1, 0);
 
-    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
         gSaveContext.seqId = NA_BGM_NATURE_SFX_RAIN;
         Environment_PlaySceneSequence(play);
     }
