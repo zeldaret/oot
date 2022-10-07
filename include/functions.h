@@ -666,7 +666,7 @@ s16 Camera_GetInputDirYaw(Camera* camera);
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera);
 s16 Camera_GetCamDirPitch(Camera* camera);
 s16 Camera_GetCamDirYaw(Camera* camera);
-s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown);
+s32 Camera_RequestQuake(Camera* camera, s32 arg1, s16 y, s32 countdown);
 s32 Camera_SetParam(Camera* camera, s32 param, void* value);
 s32 func_8005AC48(Camera* camera, s16 arg1);
 s16 func_8005ACFC(Camera* camera, s16 arg1);

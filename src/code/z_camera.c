@@ -7276,7 +7276,7 @@ s32 Camera_UpdateWater(Camera* camera) {
             quakeIndex = Quake_Request(camera, QUAKE_TYPE_5);
 
             *waterQuakeIndex = quakeIndex;
-            if (quakeIndex != QUAKE_TYPE_NONE) {
+            if (quakeIndex != 0) {
                 Quake_SetSpeed(*waterQuakeIndex, 550);
                 Quake_SetQuakeValues(*waterQuakeIndex, 1, 1, 180, 0);
                 Quake_SetCountdown(*waterQuakeIndex, 1000);
@@ -7442,9 +7442,9 @@ Vec3s Camera_Update(Camera* camera) {
     f32 playerXZSpeed;
     VecSph eyeAtAngle;
     s16 bgCamIndex;
-    s16 quakeIndex;
+    s16 numQuakesApplied;
     PosRot curPlayerPosRot;
-    QuakeCamCalc quake;
+    QuakeCamData quakeCamData;
     Player* player;
 
     player = camera->play->cameraPtrs[CAM_ID_MAIN]->player;
@@ -7607,20 +7607,20 @@ Vec3s Camera_Update(Camera* camera) {
         return camera->inputDir;
     }
 
-    // setting bgId to the ret of Quake_Calc, and checking that
+    // setting bgId to the ret of Quake_ApplyToCamera, and checking that
     // is required, it doesn't make too much sense though.
-    bgId = quakeIndex = Quake_Calc(camera, &quake);
-    if ((quakeIndex != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
-        viewAt.x = camera->at.x + quake.atOffset.x;
-        viewAt.y = camera->at.y + quake.atOffset.y;
-        viewAt.z = camera->at.z + quake.atOffset.z;
-        viewEye.x = camera->eye.x + quake.eyeOffset.x;
-        viewEye.y = camera->eye.y + quake.eyeOffset.y;
-        viewEye.z = camera->eye.z + quake.eyeOffset.z;
+    bgId = numQuakesApplied = Quake_ApplyToCamera(camera, &quakeCamData);
+    if ((numQuakesApplied != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
+        viewAt.x = camera->at.x + quakeCamData.atOffset.x;
+        viewAt.y = camera->at.y + quakeCamData.atOffset.y;
+        viewAt.z = camera->at.z + quakeCamData.atOffset.z;
+        viewEye.x = camera->eye.x + quakeCamData.eyeOffset.x;
+        viewEye.y = camera->eye.y + quakeCamData.eyeOffset.y;
+        viewEye.z = camera->eye.z + quakeCamData.eyeOffset.z;
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
-        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quake.rotZ, eyeAtAngle.yaw + quake.unk_1A,
-                                      camera->roll);
-        viewFov = camera->fov + CAM_BINANG_TO_DEG(quake.zoom);
+        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.rotZ,
+                                      eyeAtAngle.yaw + quakeCamData.unk_1A, camera->roll);
+        viewFov = camera->fov + CAM_BINANG_TO_DEG(quakeCamData.zoom);
     } else {
         viewAt = camera->at;
         viewEye = camera->eye;
@@ -7636,7 +7636,7 @@ Vec3s Camera_Update(Camera* camera) {
         camera->up = viewUp;
     }
 
-    camera->skyboxOffset = quake.eyeOffset;
+    camera->skyboxOffset = quakeCamData.eyeOffset;
 
     Camera_UpdateDistortion(camera);
 
@@ -8016,7 +8016,7 @@ s16 Camera_GetCamDirYaw(Camera* camera) {
     return camDir.y;
 }
 
-s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
+s32 Camera_RequestQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
     s16 quakeIndex;
 
     quakeIndex = Quake_Request(camera, QUAKE_TYPE_3);

@@ -758,7 +758,7 @@ void BossDodongo_Roll(BossDodongo* this, PlayState* play) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
 
             if ((this->unk_19E & 7) == 0) {
-                Camera_AddQuake(&play->mainCamera, 2, 1, 8);
+                Camera_RequestQuake(&play->mainCamera, 2, 1, 8);
             }
 
             if (!(this->unk_19E & 1)) {
@@ -787,7 +787,7 @@ void BossDodongo_Roll(BossDodongo* this, PlayState* play) {
             this->unk_228 = 9200.0f;
             this->actor.velocity.y = 20.0f;
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_K_COLI);
-            Camera_AddQuake(&play->mainCamera, 2, 6, 8);
+            Camera_RequestQuake(&play->mainCamera, 2, 6, 8);
             sp50.x = this->actor.world.pos.x;
             sp50.y = this->actor.world.pos.y + 60.0f;
             sp50.z = this->actor.world.pos.z;
@@ -1395,7 +1395,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                 Math_SmoothStepToF(&this->actor.world.pos.z, cornerPos->z + sp184.z, 1.0f, this->unk_1E4, 0.0f);
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
                 if ((this->unk_19E & 7) == 0) {
-                    Camera_AddQuake(&play->mainCamera, 2, 1, 8);
+                    Camera_RequestQuake(&play->mainCamera, 2, 1, 8);
                 }
                 if (!(this->unk_19E & 1)) {
                     Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 500, 10,

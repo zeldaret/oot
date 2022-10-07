@@ -12,7 +12,7 @@ typedef struct {
     /* 0x1A */ s16 unk_1A;
     /* 0x1C */ s16 zoom;
     /* 0x20 */ f32 unk_20;
-} QuakeCamCalc; // size = 0x24
+} QuakeCamData; // size = 0x24
 
 #define QUAKE_SPEED (1 << 0)
 #define QUAKE_VERTICAL_MAG (1 << 1)
@@ -35,6 +35,9 @@ typedef enum {
     /* 6 */ QUAKE_TYPE_6 // Periodic, sustaining, small jittering y perturbations
 } QuakeType;
 
+s16 Quake_Request(Camera* camera, u32 type);
+u32 Quake_RemoveRequest(s16 index);
+
 u32 Quake_SetSpeed(s16 index, s16 value);
 u32 Quake_SetCountdown(s16 index, s16 value);
 s16 Quake_GetCountdown(s16 index);
@@ -43,8 +46,6 @@ u32 Quake_SetValue(s16 index, s16 valueType, s16 value);
 u32 Quake_SetUnkValues(s16 index, s16 arg1, Vec3s arg2);
 
 void Quake_Init(void);
-s16 Quake_Request(Camera* camera, u32 type);
-u32 Quake_RemoveRequest(s16 index);
-s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData);
+s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData);
 
 #endif

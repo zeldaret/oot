@@ -187,7 +187,7 @@ QuakeRequest* Quake_AddImpl(Camera* camera, u32 type) {
 }
 
 void Quake_Remove(QuakeRequest* req) {
-    req->type = 0;
+    req->type = QUAKE_TYPE_NONE;
     req->countdown = -1;
     sQuakeRequestCount--;
 }
@@ -195,7 +195,7 @@ void Quake_Remove(QuakeRequest* req) {
 QuakeRequest* Quake_GetRequest(s16 index) {
     QuakeRequest* req = &sQuakeRequest[index & 3];
 
-    if (req->type == 0) {
+    if (req->type == QUAKE_TYPE_NONE) {
         return NULL;
     }
 
@@ -318,7 +318,7 @@ void Quake_Init(void) {
     s16 i;
 
     for (i = 0; i < ARRAY_COUNT(sQuakeRequest); i++) {
-        sQuakeRequest[i].type = 0;
+        sQuakeRequest[i].type = QUAKE_TYPE_NONE;
         sQuakeRequest[i].countdown = 0;
     }
     D_80126250 = 1;
@@ -349,17 +349,17 @@ s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
     Quake_CallbackType6,
 };
 
-s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
+s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData) {
     f32 max;
     f32 max2;
     QuakeRequest* req;
     ShakeInfo shake;
     f32 absSpeedDiv;
-    s16* temp;
+    s16* camId;
     u32 pad2;
     s32 index;
     s32 ret;
-    u32 eq;
+    u32 cond;
     Vec3f vec;
     PlayState* play;
 
@@ -385,17 +385,17 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     ret = 0;
     for (index = 0; index < ARRAY_COUNT(sQuakeRequest); index++) {
         req = &sQuakeRequest[index];
-        if (req->type != 0) {
+        if (req->type != QUAKE_TYPE_NONE) {
             if (play->cameraPtrs[req->camId] == NULL) {
                 osSyncPrintf(VT_COL(YELLOW, BLACK) "quake: stopped! 'coz camera [%d] killed!!\n" VT_RST, req->camId);
                 Quake_Remove(req);
             } else {
-                temp = &camera->camId;
-                eq = req->cam->camId != *temp;
-                absSpeedDiv = ABS(req->speed) / (f32)0x8000;
+                camId = &camera->camId;
+                cond = req->cam->camId != *camId;
+                absSpeedDiv = (f32)ABS(req->speed) / 0x8000;
                 if (sQuakeCallbacks[req->type](req, &shake) == 0) {
                     Quake_Remove(req);
-                } else if (eq == 0) {
+                } else if (!cond) {
                     if (fabsf(camData->atOffset.x) < fabsf(shake.vec1.x)) {
                         camData->atOffset.x = shake.vec1.x;
                     }
