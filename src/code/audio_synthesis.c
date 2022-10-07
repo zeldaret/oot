@@ -770,7 +770,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         synthState->prevHaasEffectRightDelaySize = 0;
         synthState->reverbVol = noteSubEu->reverbVol;
         synthState->numParts = 0;
-        synthState->combFilterNeedsInit = 1;
+        synthState->combFilterNeedsInit = true;
         note->noteSubEu.bitField0.finished = false;
         finished = false;
     }

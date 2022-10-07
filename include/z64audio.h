@@ -384,7 +384,7 @@ typedef struct SequenceChannel {
     /* 0x00 */ u8 enabled : 1;
     /* 0x00 */ u8 finished : 1;
     /* 0x00 */ u8 stopScript : 1;
-    /* 0x00 */ u8 muted : 1; // sets SequenceLayer.stopSomething
+    /* 0x00 */ u8 muted : 1; // sets SequenceLayer.muted
     /* 0x00 */ u8 hasInstrument : 1;
     /* 0x00 */ u8 stereoHeadsetEffects : 1;
     /* 0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
@@ -447,7 +447,7 @@ typedef struct SequenceChannel {
 typedef struct SequenceLayer {
     /* 0x00 */ u8 enabled : 1;
     /* 0x00 */ u8 finished : 1;
-    /* 0x00 */ u8 stopSomething : 1;
+    /* 0x00 */ u8 muted : 1;
     /* 0x00 */ u8 continuousNotes : 1; // keep the same note for consecutive notes with the same sound
     /* 0x00 */ u8 bit3 : 1; // "loaded"?
     /* 0x00 */ u8 ignoreDrumPan : 1;

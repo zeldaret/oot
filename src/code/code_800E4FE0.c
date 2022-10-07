@@ -200,7 +200,7 @@ void Audio_ProcessGlobalThreadCmd(AudioCmd* cmd) {
     s32 pad;
     s32 pad2;
     u32 temp_a1_5;
-    u32 temp_t7;
+    u32 flags;
 
     switch (cmd->op) {
         case AUDIOCMD_OP_GLOBAL_SYNC_LOAD_SEQ_PARTS:
@@ -301,8 +301,8 @@ void Audio_ProcessGlobalThreadCmd(AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_GLOBAL_DISABLE_ALL_SEQPLAYERS:
-            temp_t7 = cmd->asUInt;
-            if (temp_t7 == 1) {
+            flags = cmd->asUInt;
+            if (flags == 1) {
                 for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
 
@@ -311,7 +311,7 @@ void Audio_ProcessGlobalThreadCmd(AudioCmd* cmd) {
                     }
                 }
             }
-            func_800E66C0(temp_t7);
+            func_800E66C0(flags);
             break;
 
         case AUDIOCMD_OP_GLOBAL_POP_PERSISTENT_CACHE:

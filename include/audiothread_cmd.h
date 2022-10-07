@@ -54,7 +54,7 @@ typedef enum {
     /* 0xFC */ AUDIOCMD_OP_GLOBAL_ASYNC_LOAD_SEQ,
     /* 0xFD */ AUDIOCMD_OP_GLOBAL_NOOP_2, // used but no code exists for it
     /* 0xFE */ AUDIOCMD_OP_GLOBAL_DISABLE_ALL_SEQPLAYERS
-} AudioThreadCmdId;
+} AudioThreadCmdOp;
 
 
 // ==== Audio Thread Channel Commands ====
@@ -71,10 +71,6 @@ typedef enum {
 
 /**
  * Set the volume on a given channel
- */
-
-/**
- * Set channel volume.
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
