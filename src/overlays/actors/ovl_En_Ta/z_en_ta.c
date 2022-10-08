@@ -770,7 +770,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                             this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
                             this->stateFlags &= ~TALON_STATE_FLAG_RAISING_HANDS;
                             SET_EVENTINF(EVENTINF_CUCCO_GAME_WON);
-                            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
+                            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
                             this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
                             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
                             return;
@@ -805,7 +805,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
     }
 
     if (gSaveContext.timer1Value == 0 && !Play_InCsMode(play)) {
-        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         func_80078884(NA_SE_SY_FOUND);
         gSaveContext.timer1State = 0;
