@@ -10,7 +10,7 @@ void SysCfb_Init(s32 n64dd) {
     if (osMemSize >= 0x800000) {
         // "8MB or more memory is installed"
         osSyncPrintf("８Ｍバイト以上のメモリが搭載されています\n");
-        tmpFbEnd = 0x8044BE80;
+        tmpFbEnd = 0x8074BE80;
         if (n64dd == 1) {
             osSyncPrintf("RAM 8M mode (N64DD対応)\n"); // "RAM 8M mode (N64DD compatible)"
             sSysCfbEnd = 0x805FB000;

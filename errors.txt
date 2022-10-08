@@ -1,0 +1,15 @@
+In file included from src/code/z_demo.c:32:
+./assets/scenes/test_levels/firelinkshrine/firelinkshrine_scene.h:35:8: error: unknown type name ‘RoomShapeNormal’
+   35 | extern RoomShapeNormal firelinkshrine_room_0_shapeHeader;
+      |        ^~~~~~~~~~~~~~~
+./assets/scenes/test_levels/firelinkshrine/firelinkshrine_scene.h:36:8: error: unknown type name ‘RoomShapeDListsEntry’
+   36 | extern RoomShapeDListsEntry firelinkshrine_room_0_shapeDListEntry[1];
+      |        ^~~~~~~~~~~~~~~~~~~~
+./assets/scenes/test_levels/firelinkshrine/firelinkshrine_scene.h:37:8: error: unknown type name ‘RoomShapeNormal’
+   37 | extern RoomShapeNormal firelinkshrine_room_1_shapeHeader;
+      |        ^~~~~~~~~~~~~~~
+./assets/scenes/test_levels/firelinkshrine/firelinkshrine_scene.h:38:8: error: unknown type name ‘RoomShapeDListsEntry’
+   38 | extern RoomShapeDListsEntry firelinkshrine_room_1_shapeDListEntry[1];
+      |        ^~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:336: build/src/code/z_demo.o] Error 1
+make: *** Waiting for unfinished jobs....

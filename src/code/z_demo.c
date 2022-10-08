@@ -86,6 +86,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_SPOT12_17, 0, EVENTCHKINF_C7, gGerudoFortressFirstCaptureCs },
     { ENTR_SPOT17_1, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
     { ENTR_SPOT04_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
+    /*{ ENTR_FIRELINKSHRINE_0_1, 2, 0x0F, FlyToFirelink }*/
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
