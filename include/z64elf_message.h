@@ -4,15 +4,22 @@
 #include "ultra64.h"
 
 // Checks the condition and exits the script if the check passes
-#define ELF_MSG_TYPE_CHECK  0
-// ? (unused)
-#define ELF_MSG_TYPE_UNK_1  1
-// ? (unused)
-#define ELF_MSG_TYPE_UNK_2  2
-// Checks the condition and skips forward by some number of commands if the check passes
-#define ELF_MSG_TYPE_SKIP   3
+#define HINT_CMD_TYPE_CHECK  0
+
+// Checks a chain of conditions and only evaluates the last entry
+// if all conditions leading up to it were also true
+#define HINT_CMD_TYPE_CHAIN  1
+
+// Checks a chain of conditionals and will return a randomly chosen entry among
+// the conditions that evaluated to true
+#define HINT_CMD_TYPE_RANDOM  2
+
+// Checks the condition and skips forward by specified number of commands if the check passes
+#define HINT_CMD_TYPE_SKIP   3
+
 // Always ends the script, returning the text id for this command
-#define ELF_MSG_TYPE_END    7
+#define HINT_CMD_TYPE_END    7
+
 
 // Check an eventChkInf flag
 #define ELF_MSG_CONDITION_FLAG          0
@@ -38,7 +45,7 @@
  * Bitpack byte 0
  */
 #define ELF_MSG_B0(type, cond_type, tf)            \
-    _SHIFTL(ELF_MSG_TYPE_##type, 5, 3) |           \
+    _SHIFTL(HINT_CMD_TYPE_##type, 5, 3) |           \
     _SHIFTL(ELF_MSG_CONDITION_##cond_type, 1, 4) | \
     _SHIFTL(tf, 0, 1)
 

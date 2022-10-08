@@ -232,7 +232,7 @@ void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     }
 
     if (cmd->specialFiles.naviMsgsNum != 0) {
-        play->naviMsgs = Play_LoadFile(play, &sNaviMsgsFiles[cmd->specialFiles.naviMsgsNum - 1]);
+        play->naviHints = Play_LoadFile(play, &sNaviMsgsFiles[cmd->specialFiles.naviMsgsNum - 1]);
     }
 }
 
