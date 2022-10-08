@@ -57,7 +57,7 @@ void EnTa_IdleAfterCuccoGameFinished(EnTa* this, PlayState* play);
 void EnTa_BlinkWaitUntilNext(EnTa* this);
 void EnTa_BlinkAdvanceState(EnTa* this);
 
-void EnTa_AnimLoopCurrent(EnTa* this);
+void EnTa_AnimRepeatCurrent(EnTa* this);
 void EnTa_AnimSleeping(EnTa* this);
 void EnTa_AnimSitSleeping(EnTa* this);
 void EnTa_AnimRunToEnd(EnTa* this);
@@ -166,7 +166,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
-                EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimRepeatCurrent);
                 this->eyeIndex = TALON_EYE_INDEX_OPEN;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
@@ -190,7 +190,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
-                EnTa_SetupAction(this, EnTa_IdleBackAtRanch, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_IdleBackAtRanch, EnTa_AnimRepeatCurrent);
                 this->eyeIndex = TALON_EYE_INDEX_OPEN;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
@@ -204,7 +204,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE)) {
-                    EnTa_SetupAction(this, EnTa_IdleWokenInCastle, EnTa_AnimLoopCurrent);
+                    EnTa_SetupAction(this, EnTa_IdleWokenInCastle, EnTa_AnimRepeatCurrent);
                     this->eyeIndex = TALON_EYE_INDEX_OPEN;
                     Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                     this->currentAnimation = &gTalonStandAnim;
@@ -319,10 +319,10 @@ void EnTa_SleepTalkInLonLonHouse(EnTa* this, PlayState* play) {
 
 void EnTa_SetWokenFlagsAndActionFunctions(EnTa* this) {
     if (!LINK_IS_ADULT) {
-        EnTa_SetupAction(this, EnTa_IdleWokenInCastle, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleWokenInCastle, EnTa_AnimRepeatCurrent);
         SET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE);
     } else {
-        EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimRepeatCurrent);
         SET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO);
     }
 }
@@ -345,7 +345,7 @@ void EnTa_TalkWakingUp(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) {
         // Half-open eyes once the textbox reaches its end
         this->eyeIndex = TALON_EYE_INDEX_HALF;
-        EnTa_SetupAction(this, EnTa_TalkAfterWokenUp, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkAfterWokenUp, EnTa_AnimRepeatCurrent);
     }
     EnTa_DecreaseShadowSize(this);
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
@@ -355,7 +355,7 @@ void EnTa_WakeUp(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
 
     if (this->timer == 0) {
-        EnTa_SetupAction(this, EnTa_TalkWakingUp, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWakingUp, EnTa_AnimRepeatCurrent);
         this->rapidBlinks = 3;
         this->timer = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
@@ -379,7 +379,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
         switch (exchangeItemId) {
             case EXCH_ITEM_CHICKEN:
                 player->actor.textId = 0x702B;
-                EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimRepeatCurrent);
                 this->timer = 40;
                 break;
 
@@ -414,7 +414,7 @@ void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
         switch (exchangeItemId) {
             case EXCH_ITEM_POCKET_CUCCO:
                 player->actor.textId = 0x702B;
-                EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimLoopCurrent);
+                EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimRepeatCurrent);
                 this->timer = 40;
                 break;
 
@@ -458,7 +458,7 @@ void EnTa_RunAwayTurnTowardsGate(EnTa* this, PlayState* play) {
     this->actor.shape.rot.y += 0xC00;
 
     if (this->timer == 0) {
-        EnTa_SetupAction(this, EnTa_RunAwayRunOutOfGate, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayRunOutOfGate, EnTa_AnimRepeatCurrent);
         this->timer = 60;
     }
 }
@@ -469,7 +469,7 @@ void EnTa_RunAwayRunWest(EnTa* this, PlayState* play) {
     EnTa_RunWithAccelerationAndSfx(this, play);
 
     if (this->timer == 0) {
-        EnTa_SetupAction(this, EnTa_RunAwayTurnTowardsGate, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayTurnTowardsGate, EnTa_AnimRepeatCurrent);
         this->timer = 5;
     }
 }
@@ -479,7 +479,7 @@ void EnTa_RunAwayTurnWest(EnTa* this, PlayState* play) {
     this->actor.shape.rot.y -= 0xD00;
 
     if (this->timer == 0) {
-        EnTa_SetupAction(this, EnTa_RunAwayRunWest, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayRunWest, EnTa_AnimRepeatCurrent);
         this->timer = 65;
     }
 }
@@ -495,7 +495,7 @@ void EnTa_RunAwayRunSouth(EnTa* this, PlayState* play) {
     }
     if (this->timer == 0) {
         this->timer = 5;
-        EnTa_SetupAction(this, EnTa_RunAwayTurnWest, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayTurnWest, EnTa_AnimRepeatCurrent);
     }
 }
 
@@ -505,7 +505,7 @@ void EnTa_RunAwayStart(EnTa* this, PlayState* play) {
 
     if (this->timer == 0) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
-        EnTa_SetupAction(this, EnTa_RunAwayRunSouth, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayRunSouth, EnTa_AnimRepeatCurrent);
         this->timer = 65;
         this->actor.flags |= ACTOR_FLAG_4;
     }
@@ -515,7 +515,7 @@ void EnTa_TalkWokenInCastle(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) {
         // Start the running away cutscene
         OnePointCutscene_Init(play, 4175, -99, &this->actor, CAM_ID_MAIN);
-        EnTa_SetupAction(this, EnTa_RunAwayStart, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_RunAwayStart, EnTa_AnimRepeatCurrent);
         this->timer = 5;
         SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE);
         Animation_PlayOnce(&this->skelAnime, &gTalonRunTransitionAnim);
@@ -526,14 +526,14 @@ void EnTa_TalkWokenInCastle(EnTa* this, PlayState* play) {
 
 void EnTa_IdleWokenInCastle(EnTa* this, PlayState* play) {
     if (EnTa_TalkToPlayer(this, play, 0x702C)) {
-        EnTa_SetupAction(this, EnTa_TalkWokenInCastle, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWokenInCastle, EnTa_AnimRepeatCurrent);
     }
     EnTa_DecreaseShadowSize(this);
 }
 
 void EnTa_TalkWokenInKakariko(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleWokenInKakariko, EnTa_AnimRepeatCurrent);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
@@ -541,25 +541,25 @@ void EnTa_TalkWokenInKakariko(EnTa* this, PlayState* play) {
 void EnTa_IdleWokenInKakariko(EnTa* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (EnTa_TalkToPlayer(this, play, 0x5017)) {
-            EnTa_SetupAction(this, EnTa_TalkWokenInKakariko, EnTa_AnimLoopCurrent);
+            EnTa_SetupAction(this, EnTa_TalkWokenInKakariko, EnTa_AnimRepeatCurrent);
             SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO);
         }
     } else if (EnTa_TalkToPlayer(this, play, 0x5016)) {
-        EnTa_SetupAction(this, EnTa_TalkWokenInKakariko, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWokenInKakariko, EnTa_AnimRepeatCurrent);
     }
     EnTa_DecreaseShadowSize(this);
 }
 
 void EnTa_TalkBackAtRanch(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        EnTa_SetupAction(this, EnTa_IdleBackAtRanch, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_IdleBackAtRanch, EnTa_AnimRepeatCurrent);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
 
 void EnTa_IdleBackAtRanch(EnTa* this, PlayState* play) {
     if (EnTa_TalkToPlayer(this, play, 0x2055)) {
-        EnTa_SetupAction(this, EnTa_TalkBackAtRanch, EnTa_AnimLoopCurrent);
+        EnTa_SetupAction(this, EnTa_TalkBackAtRanch, EnTa_AnimRepeatCurrent);
     }
 }
 
@@ -1179,7 +1179,7 @@ void EnTa_BlinkAdvanceState(EnTa* this) {
     }
 }
 
-void EnTa_AnimLoopCurrent(EnTa* this) {
+void EnTa_AnimRepeatCurrent(EnTa* this) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
     }

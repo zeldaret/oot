@@ -13,9 +13,9 @@ typedef void (*EnTaBlinkFunc)(struct EnTa*);
 typedef void (*EnTaAnimFunc)(struct EnTa*);
 
 typedef enum {
-    /* 0 */ ENTA_OTHER, // Child era
-    /* 1 */ ENTA_IN_KAKARIKO,
-    /* 2 */ ENTA_RETURNED_FROM_KAKARIKO
+    /* 0xFFFF */ ENTA_CHILD_ERA = -1,
+    /* 0x0001 */ ENTA_IN_KAKARIKO = 1,
+    /* 0x0002 */ ENTA_RETURNED_FROM_KAKARIKO
  } EnTaType;
 
 typedef enum {
