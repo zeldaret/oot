@@ -1,6 +1,6 @@
 #include "global.h"
 #include "z64hint_commands.h"
 
-static HintCmd sDungeonNaviMsgs[] = {
+static HintCmd sDungeonNaviHints[] = {
     HINT_CMD_END(0x5F),
 };

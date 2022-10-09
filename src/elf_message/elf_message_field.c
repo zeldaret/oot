@@ -1,7 +1,7 @@
 #include "global.h"
 #include "z64hint_commands.h"
 
-static HintCmd sOverworldNaviMsgs[] = {
+static HintCmd sOverworldNaviHints[] = {
     HINT_CMD_FLAG(CHECK, EVENTCHKINF_05, false, 0x40),
     HINT_CMD_FLAG(CHECK, EVENTCHKINF_09, false, 0x41),
     HINT_CMD_FLAG(CHECK, EVENTCHKINF_12, false, 0x42),
