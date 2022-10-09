@@ -1,30 +1,30 @@
 #include "global.h"
-#include "z64elf_message.h"
+#include "z64hint_commands.h"
 
 HintCmd sChildSariaHints[] = {
-    ELF_MSG_STRENGTH_UPG(SKIP, 3, false, 0),
-    ELF_MSG_FLAG(CHECK, 0x61, false, EVENTCHKINF_37),
-    ELF_MSG_END(0x64),
+    HINT_CMD_STRENGTH_UPG(SKIP, 0, false, 3),
+    HINT_CMD_FLAG(CHECK, EVENTCHKINF_37, false, 0x61),
+    HINT_CMD_END(0x64),
 
-    ELF_MSG_FLAG(CHECK, 0x62, false, EVENTCHKINF_25),
-    ELF_MSG_FLAG(CHECK, 0x63, false, EVENTCHKINF_37),
-    ELF_MSG_FLAG(CHECK, 0x65, false, EVENTCHKINF_43),
-    ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_FOREST),
-    ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_FIRE),
-    ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_WATER),
-    ELF_MSG_SONG(CHECK, 0x67, false, ITEM_SONG_STORMS),
-    ELF_MSG_MEDALLION(CHECK, 0x68, false, ITEM_MEDALLION_SPIRIT),
-    ELF_MSG_MEDALLION(CHECK, 0x68, false, ITEM_MEDALLION_SHADOW),
-    ELF_MSG_END(0x69),
+    HINT_CMD_FLAG(CHECK, EVENTCHKINF_25, false, 0x62),
+    HINT_CMD_FLAG(CHECK, EVENTCHKINF_37, false, 0x63),
+    HINT_CMD_FLAG(CHECK, EVENTCHKINF_43, false, 0x65),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_FOREST, false, 0x66),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_FIRE, false, 0x66),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_WATER, false, 0x66),
+    HINT_CMD_SONG(CHECK, ITEM_SONG_STORMS, false, 0x67),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_SPIRIT, false, 0x68),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_SHADOW, false, 0x68),
+    HINT_CMD_END(0x69),
 };
 
 HintCmd sAdultSariaHints[] = {
-    ELF_MSG_MEDALLION(CHECK, 0x6A, false, ITEM_MEDALLION_FOREST),
-    ELF_MSG_MEDALLION(CHECK, 0x6B, false, ITEM_MEDALLION_FIRE),
-    ELF_MSG_MEDALLION(CHECK, 0x6B, false, ITEM_MEDALLION_WATER),
-    ELF_MSG_MEDALLION(CHECK, 0x6C, false, ITEM_MEDALLION_SPIRIT),
-    ELF_MSG_MEDALLION(CHECK, 0x6C, false, ITEM_MEDALLION_SHADOW),
-    ELF_MSG_END(0x6D),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_FOREST, false, 0x6A),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_FIRE, false, 0x6B),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_WATER, false, 0x6B),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_SPIRIT, false, 0x6C),
+    HINT_CMD_MEDALLION(CHECK, ITEM_MEDALLION_SHADOW, false, 0x6C),
+    HINT_CMD_END(0x6D),
 };
 
 u32 Hints_CheckCondition(HintCmd* hints) {
@@ -32,36 +32,36 @@ u32 Hints_CheckCondition(HintCmd* hints) {
     u16 flag;
 
     switch (type) {
-        case (ELF_MSG_CONDITION_FLAG << 1):
+        case (HINT_CONDITION_FLAG << 1):
             flag = 1 << (hints->byte1 & 0x0F);
             return ((hints->byte0 & 1) == 1) == ((flag & gSaveContext.eventChkInf[(hints->byte1 & 0xF0) >> 4]) != 0);
 
-        case (ELF_MSG_CONDITION_DUNGEON_ITEM << 1):
+        case (HINT_CONDITION_DUNGEON_ITEM << 1):
             return ((hints->byte0 & 1) == 1) ==
                    (CHECK_DUNGEON_ITEM(hints->byte1 - ITEM_KEY_BOSS, gSaveContext.mapIndex) != 0);
 
-        case (ELF_MSG_CONDITION_ITEM << 1):
+        case (HINT_CONDITION_ITEM << 1):
             return ((hints->byte0 & 1) == 1) == (hints->byte3 == INV_CONTENT(hints->byte1));
 
-        case (ELF_MSG_CONDITION_OTHER << 1):
+        case (HINT_CONDITION_OTHER << 1):
             switch (hints->byte1 & 0xF0) {
-                case (ELF_MSG_CONDITION_STRENGTH_UPG << 4):
+                case (HINT_CONDITION_STRENGTH_UPG << 4):
                     return ((hints->byte0 & 1) == 1) == ((hints->byte1 & 0x0F) == CUR_UPG_VALUE(UPG_STRENGTH));
 
-                case (ELF_MSG_CONDITION_BOOTS << 4):
+                case (HINT_CONDITION_BOOTS << 4):
                     return ((hints->byte0 & 1) == 1) ==
                            (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS,
                                               hints->byte3 - ITEM_BOOTS_KOKIRI + EQUIP_INV_BOOTS_KOKIRI) != 0);
 
-                case (ELF_MSG_CONDITION_SONG << 4):
+                case (HINT_CONDITION_SONG << 4):
                     return ((hints->byte0 & 1) == 1) ==
                            (CHECK_QUEST_ITEM(hints->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET) != 0);
 
-                case (ELF_MSG_CONDITION_MEDALLION << 4):
+                case (HINT_CONDITION_MEDALLION << 4):
                     return ((hints->byte0 & 1) == 1) ==
                            (CHECK_QUEST_ITEM(hints->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
 
-                case (ELF_MSG_CONDITION_MAGIC << 4):
+                case (HINT_CONDITION_MAGIC << 4):
                     return ((hints->byte0 & 1) == 1) == (((void)0, gSaveContext.isMagicAcquired) != 0);
             }
     }
@@ -107,7 +107,7 @@ u32 Hints_CheckRandomCondition(HintCmd** hintsPtr) {
         hints++;
     } while ((hints->byte0 & 0xE0) == (HINT_CMD_TYPE_RANDOM << 5));
 
-    // if none of the conditions checked were met, return false early
+    // if none of the conditions checked were satisfied, there are none to use
     if (i == 0) {
         return false;
     }
@@ -116,8 +116,7 @@ u32 Hints_CheckRandomCondition(HintCmd** hintsPtr) {
     rand = Rand_ZeroFloat(i);
 
     for (i = 0; i < totalChecked; i++) {
-        // keep decrementing from the randomly chosen number until when finding
-        // a condition that was met, and choose the last entry as the message to use
+        // keep decrementing the random number until it reaches 0 then use that hint
         if (conditions[i]) {
             if (rand > 0) {
                 rand--;
@@ -174,19 +173,19 @@ u16 Hints_GetTextIdFromScript(HintCmd* hints) {
 
 u16 Hints_GetSariaTextId(PlayState* play) {
     Player* player = GET_PLAYER(play);
-    HintCmd* hints;
+    HintCmd* sariaHints;
 
     if (!LINK_IS_ADULT) {
         if (Actor_FindNearby(play, &player->actor, ACTOR_EN_SA, 4, 800.0f) == NULL) {
-            hints = sChildSariaHints;
+            sariaHints = sChildSariaHints;
         } else {
             return 0x0160; // Special text about Saria preferring to talk to you face-to-face
         }
     } else {
-        hints = sAdultSariaHints;
+        sariaHints = sAdultSariaHints;
     }
 
-    return Hints_GetTextIdFromScript(hints);
+    return Hints_GetTextIdFromScript(sariaHints);
 }
 
 u16 Hints_GetNaviTextId(PlayState* play) {

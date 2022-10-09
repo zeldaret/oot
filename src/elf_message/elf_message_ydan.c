@@ -1,6 +1,6 @@
 #include "global.h"
-#include "z64elf_message.h"
+#include "z64hint_commands.h"
 
 static HintCmd sDungeonNaviMsgs[] = {
-    ELF_MSG_END(0x5F),
+    HINT_CMD_END(0x5F),
 };
