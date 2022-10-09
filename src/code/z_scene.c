@@ -231,7 +231,7 @@ void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
         gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[play->objectCtx.subKeepIndex].segment);
     }
 
-    if (cmd->specialFiles.naviHintFileId != 0) {
+    if (cmd->specialFiles.naviHintFileId != NAVI_HINTS_NONE) {
         play->naviHints = Play_LoadFile(play, &sNaviHintFiles[cmd->specialFiles.naviHintFileId - 1]);
     }
 }
