@@ -63,13 +63,13 @@
  * Byte pack macros
  */
 
-#define HINT_B0(type, condType, tf)            \
-    _SHIFTL(HINT_CMD_TYPE_##type, 5, 3) |      \
-    _SHIFTL(HINT_CONDITION_##condType, 1, 4) | \
+#define HINT_B0(type, condType, tf)       \
+    _SHIFTL(type, 5, 3) | \
+    _SHIFTL(condType, 1, 4) |             \
     _SHIFTL(tf, 0, 1)
 
-#define HINT_B1(condType, data)                \
-    _SHIFTL(HINT_CONDITION_##condType, 4, 4) | \
+#define HINT_B1(condType, data) \
+    _SHIFTL(condType, 4, 4) |   \
     _SHIFTL(data, 0, 4)
 
 #define HINT_B(data) \
@@ -78,20 +78,20 @@
 /*
  * Command macros
  */
-#define HINT_CMD_FLAG(type, flag, tf, textId) \
-    {                                         \
-        HINT_B0(type, FLAG, tf),              \
-        HINT_B(flag),                         \
-        HINT_B(textId),                       \
-        HINT_B(0),                            \
+#define HINT_CMD_FLAG(type, flag, tf, textId)   \
+    {                                           \
+        HINT_B0(type, HINT_CONDITION_FLAG, tf), \
+        HINT_B(flag),                           \
+        HINT_B(textId),                         \
+        HINT_B(0),                              \
     }
 
 #define HINT_CMD_END(textId)            \
-    HINT_CMD_FLAG(END, 0, false, textId)
+    HINT_CMD_FLAG(HINT_CMD_TYPE_END, 0, false, textId)
 
 #define HINT_CMD_DUNGEON_ITEM(type, itemId, tf, textId) \
     {                                                   \
-        HINT_B0(type, DUNGEON_ITEM, tf),                \
+        HINT_B0(type, HINT_CONDITION_DUNGEON_ITEM, tf), \
         HINT_B(itemId),                                 \
         HINT_B(textId),                                 \
         HINT_B(0),                                      \
@@ -99,7 +99,7 @@
 
 #define HINT_CMD_ITEM(type, slotItemId, itemId, tf, textId) \
     {                                                       \
-        HINT_B0(type, ITEM, tf),                            \
+        HINT_B0(type, HINT_CONDITION_ITEM, tf),             \
         HINT_B(slotItemId),                                 \
         HINT_B(textId),                                     \
         HINT_B(itemId),                                     \
@@ -107,42 +107,42 @@
 
 #define HINT_CMD_STRENGTH_UPG(type, strUpg, tf, textId) \
     {                                                   \
-        HINT_B0(type, OTHER, tf),                       \
-        HINT_B1(STRENGTH_UPG, strUpg),                  \
+        HINT_B0(type, HINT_CONDITION_OTHER, tf),        \
+        HINT_B1(HINT_CONDITION_STRENGTH_UPG, strUpg),   \
         HINT_B(textId),                                 \
         HINT_B(0),                                      \
     }
 
 #define HINT_CMD_BOOTS(type, itemId, tf, textId) \
     {                                            \
-        HINT_B0(type, OTHER, tf),                \
-        HINT_B1(BOOTS, 0),                       \
+        HINT_B0(type, HINT_CONDITION_OTHER, tf), \
+        HINT_B1(HINT_CONDITION_BOOTS, 0),        \
         HINT_B(textId),                          \
         HINT_B(itemId),                          \
     }
 
-#define HINT_CMD_SONG(type, itemId, tf, textId) \
-    {                                           \
-        HINT_B0(type, OTHER, tf),               \
-        HINT_B1(SONG, 0),                       \
-        HINT_B(textId),                         \
-        HINT_B(itemId),                         \
+#define HINT_CMD_SONG(type, itemId, tf, textId)  \
+    {                                            \
+        HINT_B0(type, HINT_CONDITION_OTHER, tf), \
+        HINT_B1(HINT_CONDITION_SONG, 0),         \
+        HINT_B(textId),                          \
+        HINT_B(itemId),                          \
     }
 
 #define HINT_CMD_MEDALLION(type, itemId, tf, textId) \
     {                                                \
-        HINT_B0(type, OTHER, tf),                    \
-        HINT_B1(MEDALLION, 0),                       \
+        HINT_B0(type, HINT_CONDITION_OTHER, tf),     \
+        HINT_B1(HINT_CONDITION_MEDALLION, 0),        \
         HINT_B(textId),                              \
         HINT_B(itemId),                              \
     }
 
-#define HINT_CMD_MAGIC(type, tf, textId) \
-    {                                    \
-        HINT_B0(type, OTHER, tf),        \
-        HINT_B1(MAGIC, 0),               \
-        HINT_B(textId),                  \
-        HINT_B(0),                       \
+#define HINT_CMD_MAGIC(type, tf, textId)         \
+    {                                            \
+        HINT_B0(type, HINT_CONDITION_OTHER, tf), \
+        HINT_B1(HINT_CONDITION_MAGIC, 0),        \
+        HINT_B(textId),                          \
+        HINT_B(0),                               \
     }
 
 #endif
