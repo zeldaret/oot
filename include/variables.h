@@ -218,7 +218,7 @@ extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];
 extern ActiveSequence gActiveSeqs[4];
-extern AudioContext gAudioContext;
+extern AudioContext gAudioCtx;
 extern void(*D_801755D0)(void);
 
 extern u32 __osMalloc_FreeBlockTest_Enable;
