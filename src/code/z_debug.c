@@ -92,7 +92,7 @@ char sRegGroupChars[REG_GROUPS] = {
     'b', // bREG
 };
 
-void Regs_InitContext(void) {
+void Regs_Init(void) {
     s32 i;
 
     gRegEditor = SystemArena_MallocDebug(sizeof(RegEditor), "../z_debug.c", 260);

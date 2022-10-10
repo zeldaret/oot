@@ -774,7 +774,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
 u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
 void SaveContext_Init(void);
 s32 func_800635D0(s32);
-void Regs_InitContext(void);
+void Regs_Init(void);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);
 void func_8006376C(u8 x, u8 y, u8 colorIndex, const char* text);
 void Regs_UpdateEditor(Input* input);

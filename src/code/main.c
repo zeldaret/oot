@@ -65,7 +65,7 @@ void Main(void* arg) {
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
     DebugArena_Init(debugHeapStart, debugHeapSize);
-    Regs_InitContext();
+    Regs_Init();
 
     R_ENABLE_ARENA_DBG = 0;
 
