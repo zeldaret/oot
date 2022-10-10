@@ -1,4 +1,5 @@
 <Root>
+    <!-- gKakarikoCenterHouse -->
     <File Name="kakariko_scene" Segment="2">
         <Scene Name="kakariko_scene" Offset="0x0"/>
     </File>
