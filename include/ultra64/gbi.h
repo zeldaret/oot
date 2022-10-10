@@ -595,7 +595,7 @@
 #define ZMODE_OPA       0x0000
 #define ZMODE_INTER     0x0400
 #define ZMODE_XLU       0x0800
-#define ZMODE_DEC       0x0c00
+#define ZMODE_DEC       0x0C00
 #define CVG_X_ALPHA     0x1000
 #define ALPHA_CVG_SEL   0x2000
 #define FORCE_BL        0x4000
@@ -1758,7 +1758,7 @@ typedef struct {
 #endif
 } Gpopmtx;
 
-/* 
+/*
  * typedef struct {
  *      int     cmd:8;
  *      int     pad0:24;
