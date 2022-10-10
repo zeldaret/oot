@@ -4260,17 +4260,17 @@ void Audio_StepFreqLerp(FreqLerp* lerp) {
     }
 }
 
-void func_800F47BC(void) {
+void Audio_SetBgmVolumeOff(void) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 10);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 10);
 }
 
-void func_800F47FC(void) {
+void Audio_SetBgmVolumeOn(void) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0x7F, 3);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0x7F, 3);
 }
 
-void func_800F483C(u8 targetVol, u8 volFadeTimer) {
+void Audio_SetMainBgmVolume(u8 targetVol, u8 volFadeTimer) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, targetVol, volFadeTimer);
 }
 
@@ -4633,7 +4633,7 @@ void Audio_UpdateSceneSequenceResumePoint(void) {
     }
 }
 
-void Audio_PlayBgmForWindmill(void) {
+void Audio_PlayWindmillBgm(void) {
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_WINDMILL);
     }
@@ -5159,10 +5159,10 @@ void func_800F6964(u16 arg0) {
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_SUB, (arg0 * 3) / 2);
 }
 
-void func_800F6AB0(u16 arg0) {
-    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, arg0);
-    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, arg0);
-    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_SUB, arg0);
+void Audio_StopBgmAndFanfare(u16 fadeOutDuration) {
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, fadeOutDuration);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, fadeOutDuration);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_SUB, fadeOutDuration);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, 0x7F, 0);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0x7F, 0);
 }
