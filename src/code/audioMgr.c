@@ -31,7 +31,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     if (SREG(20) >= 2) {
         rspTask = NULL;
     } else {
-        rspTask = func_800E4FE0();
+        rspTask = AudioThread_Update();
     }
     D_8016A558 += osGetTime() - D_8016A550;
     D_8016A550 = 0;

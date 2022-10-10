@@ -5,9 +5,9 @@ AudioContext gAudioCtx;
 void (*gCustomAudioUpdateFunction)(void);
 s32 D_801755D8[3]; // unused
 
-const s16 D_8014A6C0[] = {
-    0x1C00, // unused
-    0x0030, // gTatumsPerBeat
+const TempoData gTempoData = {
+    0x1C00,         // unk_00
+    TICKS_PER_BEAT, // ticksPerBeat
 };
 
 // TODO: Extract from table?

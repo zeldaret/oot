@@ -853,7 +853,7 @@ void AudioHeap_Init(void) {
     s32 i;
     s32 j;
     s32 pad2;
-    AudioSpec* spec = &gAudioSpecs[gAudioCtx.audioResetSpecIdToLoad]; // Audio Specifications
+    AudioSpec* spec = &gAudioSpecs[gAudioCtx.specId]; // Audio Specifications
 
     gAudioCtx.sampleDmaCount = 0;
 
@@ -887,13 +887,17 @@ void AudioHeap_Init(void) {
         gAudioCtx.audioBufferParameters.numSequencePlayers = 4;
     }
     gAudioCtx.unk_2 = spec->unk_14;
-    gAudioCtx.tempoInternalToExternal =
-        (u32)(gAudioCtx.audioBufferParameters.updatesPerFrame * 2880000.0f / gTatumsPerBeat / gAudioCtx.unk_2960);
+
+    // (ticks / min)
+    // 60 is a conversion from seconds to minutes
+    // 1000 is a factor cancelled out in `maxTempoTvTypeFactors`
+    gAudioCtx.maxTempo = (u32)(gAudioCtx.audioBufferParameters.updatesPerFrame * (f32)(60 * 1000 * TICKS_PER_BEAT) /
+                               gTempoData.ticksPerBeat / gAudioCtx.maxTempoTvTypeFactors);
 
     gAudioCtx.unk_2870 = gAudioCtx.refreshRate;
     gAudioCtx.unk_2870 *= gAudioCtx.audioBufferParameters.updatesPerFrame;
     gAudioCtx.unk_2870 /= gAudioCtx.audioBufferParameters.aiSamplingFrequency;
-    gAudioCtx.unk_2870 /= gAudioCtx.tempoInternalToExternal;
+    gAudioCtx.unk_2870 /= gAudioCtx.maxTempo;
 
     gAudioCtx.audioBufferParameters.specUnk4 = spec->unk_04;
     gAudioCtx.audioBufferParameters.samplesPerFrameTarget *= gAudioCtx.audioBufferParameters.specUnk4;

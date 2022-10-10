@@ -64,13 +64,15 @@ typedef enum {
  * Play a sequence on a given seqPlayer
  *
  * @param seqPlayerIndex the index of the seqPlayer to play the sequence
- * @param fadeInDuration duration the sequence will fade in over
+ * @param fadeInDuration effect will depend on seqArg. See below
  * @param seqArg no effect: < 0x7F, skip ticks: = 0x7F, will not play: >= 0x80 (see note)
  * @param seqId the id of the sequence to play, see `SeqId`
  *
  * @note seqArg will also be stored in gActiveSeqs.seqId, any check against that seqId must also include seqArg.
- * seqArg = 0x7F  will interpret the duration as the number of ticks to skip.
- * seqArg >= 0x80 was intented to load a soundFont asynchronously but the code is unfinished (based on MM).
+ * seqArg < 0x7F: fade the sequence in over `fadeInDuration` in units of (1/30th) seconds
+ * seqArg = 0x7F: start the sequence immediately, but begins `fadeInDuration` number of second into the sequence.
+ * seqArg >= 0x80: no sequence will play. Intended to load a soundFont asynchronously but was only half implemented
+ *                 (inferred from MM).
  */
 #define SEQCMD_PLAY_SEQUENCE(seqPlayerIndex, fadeInDuration, seqArg, seqId)                                           \
     Audio_QueueSeqCmd((SEQCMD_OP_PLAY_SEQUENCE << 28) | ((u8)(seqPlayerIndex) << 24) | ((u8)(fadeInDuration) << 16) | \
@@ -209,7 +211,7 @@ typedef enum {
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelMask a 16 bit mask where each bit maps to a channel. Bitflag on to disable
  *
- * @note using Audio_QueueCmdS8 0x06 will bypass this channelMask
+ * @note using AudioThread_QueueCmdS8 0x06 will bypass this channelMask
  */
 #define SEQCMD_SET_CHANNEL_IO_DISABLE_MASK(seqPlayerIndex, channelMask) \
     Audio_QueueSeqCmd((SEQCMD_OP_SET_CHANNEL_IO_DISABLE_MASK << 28) | ((u8)(seqPlayerIndex) << 24) | (u16)(channelMask))

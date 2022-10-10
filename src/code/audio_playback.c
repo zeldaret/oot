@@ -271,7 +271,7 @@ void Audio_ProcessNotes(void) {
                 } else {
                     subAttrs.stereo = layer->stereo;
                 }
-                subAttrs.reverbVol = channel->reverb;
+                subAttrs.reverbVol = channel->targetReverbVol;
                 subAttrs.gain = channel->gain;
                 subAttrs.filter = channel->filter;
                 subAttrs.combFilterSize = channel->combFilterSize;
@@ -433,7 +433,7 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
 void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
     Note* note;
     NoteAttributes* attrs;
-    SequenceChannel* chan;
+    SequenceChannel* channel;
     s32 i;
 
     if (layer == NO_LAYER) {
@@ -468,10 +468,10 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
         attrs->pan = layer->notePan;
 
         if (layer->channel != NULL) {
-            chan = layer->channel;
-            attrs->reverb = chan->reverb;
-            attrs->gain = chan->gain;
-            attrs->filter = chan->filter;
+            channel = layer->channel;
+            attrs->reverb = channel->targetReverbVol;
+            attrs->gain = channel->gain;
+            attrs->filter = channel->filter;
 
             if (attrs->filter != NULL) {
                 for (i = 0; i < 8; i++) {
@@ -480,18 +480,18 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
                 attrs->filter = attrs->filterBuf;
             }
 
-            attrs->combFilterGain = chan->combFilterGain;
-            attrs->combFilterSize = chan->combFilterSize;
-            if (chan->seqPlayer->muted && (chan->muteBehavior & MUTE_BEHAVIOR_3)) {
+            attrs->combFilterGain = channel->combFilterGain;
+            attrs->combFilterSize = channel->combFilterSize;
+            if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_3)) {
                 note->noteSubEu.bitField0.finished = true;
             }
 
             if (layer->stereo.asByte == 0) {
-                attrs->stereo = chan->stereo;
+                attrs->stereo = channel->stereo;
             } else {
                 attrs->stereo = layer->stereo;
             }
-            note->playbackState.priority = chan->someOtherPriority;
+            note->playbackState.priority = channel->someOtherPriority;
         } else {
             attrs->stereo = layer->stereo;
             note->playbackState.priority = 1;
