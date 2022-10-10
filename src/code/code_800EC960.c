@@ -4802,7 +4802,7 @@ void func_800F5CF8(void) {
 }
 
 void Audio_PlaySequenceWithSeqPlayerIO(u8 seqPlayerIndex, u16 seqId, u8 fadeInDuration, s8 ioPort, s8 ioData) {
-    SEQCMD_SET_PLAYER_IO(seqPlayerIndex, ioPort, ioData);
+    SEQCMD_SET_SEQPLAYER_IO(seqPlayerIndex, ioPort, ioData);
     SEQCMD_PLAY_SEQUENCE(seqPlayerIndex, fadeInDuration, 0, seqId);
 }
 
@@ -4878,7 +4878,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
             }
 
             sPrevSeqMode = seqMode;
-            SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 2, seqMode);
+            SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 2, seqMode);
         }
     }
 }
@@ -5220,9 +5220,9 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
         return;
     }
 
-    SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 0, 1);
-    SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 4, playerIO >> 8);
-    SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
+    SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 0, 1);
+    SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 4, playerIO >> 8);
+    SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, 0x7F, 1);
 
     channelIdx = false;

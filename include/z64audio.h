@@ -1,6 +1,14 @@
 #ifndef Z64_AUDIO_H
 #define Z64_AUDIO_H
 
+#define REFRESH_RATE_DEVIATION_PAL 1.001521f
+#define REFRESH_RATE_DEVIATION_MPAL 0.99276f
+#define REFRESH_RATE_DEVIATION_NTSC 1.00278f
+
+#define REFRESH_RATE_PAL 50
+#define REFRESH_RATE_MPAL 60
+#define REFRESH_RATE_NTSC 60
+
 #define AUDIO_MK_CMD(b0,b1,b2,b3) ((((b0) & 0xFF) << 0x18) | (((b1) & 0xFF) << 0x10) | (((b2) & 0xFF) << 0x8) | (((b3) & 0xFF) << 0))
 
 #define NO_LAYER ((SequenceLayer*)(-1))
@@ -516,11 +524,11 @@ typedef struct {
     /* 0x00 */ struct SequenceChannel* channel;
     /* 0x04 */ u32 time;
     /* 0x08 */ s16* curve; // sineWave
-    /* 0x0C */ f32 extent;
+    /* 0x0C */ f32 depth;
     /* 0x10 */ f32 rate;
     /* 0x14 */ u8 active;
     /* 0x16 */ u16 rateChangeTimer;
-    /* 0x18 */ u16 extentChangeTimer;
+    /* 0x18 */ u16 depthChangeTimer;
     /* 0x1A */ u16 delay;
 } VibratoState; // size = 0x1C
 

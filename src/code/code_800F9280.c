@@ -27,9 +27,9 @@
                         ((u8)((volume)*127.0f)));
 
 typedef struct {
-    u8 seqId;
-    u8 priority; // higher values have higher priority
-} SeqRequest;
+    /* 0x0 */ u8 seqId;
+    /* 0x1 */ u8 priority; // higher values have higher priority
+} SeqRequest;              // size = 0x2
 
 SeqRequest sSeqRequests[4][5];
 u8 sNumSeqRequests[4];
@@ -44,11 +44,11 @@ void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDura
     if (!gStartSeqDisabled || (seqPlayerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
-            // `fadeInDuration` is interpreted as seconds
+            // `fadeInDuration` interpreted as seconds, 60 is refresh rate and does not account for PAL
             skipTicks = (fadeInDuration >> 3) * 60 * gAudioCtx.audioBufferParameters.updatesPerFrame;
             AUDIOCMD_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS((u32)seqPlayerIndex, (u32)seqId, skipTicks);
         } else {
-            // `fadeInDuration` is interpreted as (1/30th) of a second
+            // `fadeInDuration` interpreted as 1/30th of a second, does not account for change in refresh rate for PAL
             AUDIOCMD_GLOBAL_INIT_SEQPLAYER((u32)seqPlayerIndex, (u32)seqId,
                                            (fadeInDuration * (u16)gAudioCtx.audioBufferParameters.updatesPerFrame) / 4);
         }
@@ -103,7 +103,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     f32 freqScaleTarget;
     s32 pad;
 
-    if (gAudioDebugPrintSeqCmd && (cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_PLAYER_IO << 28)) {
+    if (gAudioDebugPrintSeqCmd && (cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_SEQPLAYER_IO << 28)) {
         AudioDebug_ScrPrt("SEQ H", (cmd >> 16) & 0xFFFF);
         AudioDebug_ScrPrt("    L", cmd & 0xFFFF);
     }
@@ -285,7 +285,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case SEQCMD_OP_SET_PLAYER_IO:
+        case SEQCMD_OP_SET_SEQPLAYER_IO:
             // Set global io port
             ioPort = (cmd & 0xFF0000) >> 16;
             val = cmd & 0xFF;

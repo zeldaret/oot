@@ -127,17 +127,17 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
     //! @bug this probably meant to compare with gAudioCtx.sequenceChannelNone.
     //! -1 isn't used as a channel pointer anywhere else.
     if (channel != ((SequenceChannel*)(-1))) {
-        if (vib->extentChangeTimer) {
-            if (vib->extentChangeTimer == 1) {
-                vib->extent = (s32)channel->vibratoDepthTarget;
+        if (vib->depthChangeTimer) {
+            if (vib->depthChangeTimer == 1) {
+                vib->depth = (s32)channel->vibratoDepthTarget;
             } else {
-                vib->extent += ((s32)channel->vibratoDepthTarget - vib->extent) / (s32)vib->extentChangeTimer;
+                vib->depth += ((s32)channel->vibratoDepthTarget - vib->depth) / (s32)vib->depthChangeTimer;
             }
 
-            vib->extentChangeTimer--;
-        } else if (channel->vibratoDepthTarget != (s32)vib->extent) {
-            if ((vib->extentChangeTimer = channel->vibratoDepthChangeDelay) == 0) {
-                vib->extent = (s32)channel->vibratoDepthTarget;
+            vib->depthChangeTimer--;
+        } else if (channel->vibratoDepthTarget != (s32)vib->depth) {
+            if ((vib->depthChangeTimer = channel->vibratoDepthChangeDelay) == 0) {
+                vib->depth = (s32)channel->vibratoDepthTarget;
             }
         }
 
@@ -156,12 +156,12 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
         }
     }
 
-    if (vib->extent == 0.0f) {
+    if (vib->depth == 0.0f) {
         return 1.0f;
     }
 
     pitchChange = Audio_GetVibratoPitchChange(vib) + 32768.0f;
-    temp = vib->extent / 4096.0f;
+    temp = vib->depth / 4096.0f;
     extent = temp + 1.0f;
     invExtent = 1.0f / extent;
 
@@ -196,10 +196,10 @@ void Audio_NoteVibratoInit(Note* note) {
     vib->curve = gWaveSamples[2];
     vib->channel = note->playbackState.parentLayer->channel;
     channel = vib->channel;
-    if ((vib->extentChangeTimer = channel->vibratoDepthChangeDelay) == 0) {
-        vib->extent = (s32)channel->vibratoDepthTarget;
+    if ((vib->depthChangeTimer = channel->vibratoDepthChangeDelay) == 0) {
+        vib->depth = (s32)channel->vibratoDepthTarget;
     } else {
-        vib->extent = (s32)channel->vibratoDepthStart;
+        vib->depth = (s32)channel->vibratoDepthStart;
     }
 
     if ((vib->rateChangeTimer = channel->vibratoRateChangeDelay) == 0) {

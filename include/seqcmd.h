@@ -13,7 +13,7 @@ typedef enum {
     /* 0x4 */ SEQCMD_OP_SET_PLAYER_VOLUME,
     /* 0x5 */ SEQCMD_OP_SET_PLAYER_FREQ,
     /* 0x6 */ SEQCMD_OP_SET_CHANNEL_VOLUME,
-    /* 0x7 */ SEQCMD_OP_SET_PLAYER_IO,
+    /* 0x7 */ SEQCMD_OP_SET_SEQPLAYER_IO,
     /* 0x8 */ SEQCMD_OP_SET_CHANNEL_IO,
     /* 0x9 */ SEQCMD_OP_SET_CHANNEL_IO_DISABLE_MASK,
     /* 0xA */ SEQCMD_OP_SET_CHANNEL_DISABLE_MASK,
@@ -177,15 +177,15 @@ typedef enum {
  * ioPort, which can affect the entire sequence.
  *
  * @param seqPlayerIndex the index of the seqPlayer to write the input to
- * @param ioPort the index of the array to store the input-output value,
+ * @param ioPort the index of the array to store the input-output value
  * @param ioData the value s8 that's written to the input-output array
  *
  * @note Each seqPlayer has 8 global ioPorts indexed 0-7.
  * ioPort 0 and 1 are read-only-once, and will reset after being read by the sequence.
  * ioPort 2-7 can be read multiple times.
  */
-#define SEQCMD_SET_PLAYER_IO(seqPlayerIndex, ioPort, ioData)                                                  \
-    Audio_QueueSeqCmd((SEQCMD_OP_SET_PLAYER_IO << 28) | ((u8)(seqPlayerIndex) << 24) | ((u8)(ioPort) << 16) | \
+#define SEQCMD_SET_SEQPLAYER_IO(seqPlayerIndex, ioPort, ioData)                                                  \
+    Audio_QueueSeqCmd((SEQCMD_OP_SET_SEQPLAYER_IO << 28) | ((u8)(seqPlayerIndex) << 24) | ((u8)(ioPort) << 16) | \
                       (u8)(ioData))
 
 /**
