@@ -1,4 +1,5 @@
 <Root>
+    <!-- gMarketGuardHouse -->
     <File Name="miharigoya_scene" Segment="2">
         <Texture Name="gGuardHouseOutSideView2NightTex" OutName="view_2_night" Format="rgba16" Width="64" Height="32" Offset="0x1350"/>
         <Texture Name="gGuardHouseOutSideView2DayTex" OutName="view_2_day" Format="rgba16" Width="64" Height="32" Offset="0x2350"/>
