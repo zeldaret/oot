@@ -4945,7 +4945,7 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
                 melodyVolume = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
             }
 
-            // Update volume for channels 0 & 1, which contains Malon's singing
+            // Update volume for channels 0 & 1, which contain Malon's singing
             SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 0, 3, 127 - melodyVolume);
             SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 1, 3, 127 - melodyVolume);
 
@@ -4962,7 +4962,7 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
         if ((curSeqId != (seqId & 0xFF)) && (sMalonSingingTimer < 10)) {
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
             // Disable all channels between 2-15.
-            // Only allow the two channels with Malon's singing to play, and surpress the full lon lon sequence.
+            // Only allow the two channels with Malon's singing to play, and suppress the full lon lon sequence.
             SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_SUB, 0xFFFC);
             sMalonSingingTimer = 10;
         }
@@ -4975,7 +4975,7 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
             melodyVolume = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
         }
 
-        // Update volume for channels 0 & 1, which contains Malon's singing
+        // Update volume for channels 0 & 1, which contain Malon's singing
         SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 0, 3, 127 - melodyVolume);
         SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 1, 3, 127 - melodyVolume);
     }
@@ -5019,14 +5019,14 @@ void Audio_ToggleMalonSinging(u8 malonSingingDisabled) {
         // Malon is singing along with ambience
         seqPlayerIndex = SEQ_PLAYER_BGM_SUB;
         // Disable all channels between 2-15.
-        // Only allow the two channels with Malon's singing to play, and surpress the full lon lon sequence.
+        // Only allow the two channels with Malon's singing to play, and suppress the full lon lon sequence.
         channelMaskDisable = 0xFFFC;
     } else {
         return;
     }
 
     if (malonSingingDisabled) {
-        // Turn volume off for channels 0 & 1, which contains Malon's singing
+        // Turn volume off for channels 0 & 1, which contain Malon's singing
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0);
 
@@ -5040,7 +5040,7 @@ void Audio_ToggleMalonSinging(u8 malonSingingDisabled) {
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
         }
 
-        // Turn volume on for only channels 0 & 1, which contains Malon's singing
+        // Turn volume on for only channels 0 & 1, which contain Malon's singing
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0x7F);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0x7F);
 
