@@ -1661,6 +1661,8 @@ typedef struct {
     unsigned int type : 8;
     unsigned int len  : 16;
     union {
+        // The exact form of this callback is untentionally left unspecified, a display list
+        // parser may choose the return value and parameters so long as it is consistent.
         void       (*callback)();
         const char*  str;
         unsigned int u32;

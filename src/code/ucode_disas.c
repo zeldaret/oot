@@ -1,5 +1,7 @@
 #include "global.h"
 
+typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
+
 #define F3DZEX_CONST(name) \
     { name, #name }
 #define F3DZEX_FLAG(set, unset) \
@@ -729,7 +731,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                     case 6: {
                         //! @bug arguments are not printed
                         DISAS_LOG("count_gsDPNoOpCallBack(%08x,%d),");
-                        ((void (*)(UCodeDisas*, u32))curGfx->noop.value.callback)(this, curGfx->noop.len);
+                        ((UcodeDisasCallback)curGfx->noop.value.callback)(this, curGfx->noop.len);
                     } break;
 
                     default: {
