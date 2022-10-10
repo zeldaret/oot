@@ -441,7 +441,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
         entryIndex = gActiveSfx[bankId][i].entryIndex;
         if (entryIndex != 0xFF) {
             entry = &gSfxBanks[bankId][entryIndex];
-            channel = gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
+            channel = gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
             if (entry->state == SFX_STATE_READY) {
                 entry->channelIdx = sCurSfxPlayerChannelIdx;
                 if (entry->sfxParams & SFX_FLAG_3) {
@@ -661,7 +661,7 @@ void Audio_StepUnusedBankLerp(u8 bankId) {
 void func_800F8F88(void) {
     u8 bankId;
 
-    if (IS_SEQUENCE_CHANNEL_VALID(gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[0])) {
+    if (IS_SEQUENCE_CHANNEL_VALID(gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[0])) {
         sCurSfxPlayerChannelIdx = 0;
         for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
             Audio_ChooseActiveSfx(bankId);
