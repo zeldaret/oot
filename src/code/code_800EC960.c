@@ -4277,10 +4277,11 @@ void func_800F483C(u8 targetVol, u8 volFadeTimer) {
  */
 void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel) {
     u8 channelIndex;
-    s8 panChannelWeight = 0;
+    s8 panChannelWeight = 0; // Pan comes entirely from the SequenceLayer
 
     // Ganondorf's Lair
     if (ganonsTowerLevel == 0) {
+        // Pan is split evenly between the SequenceChannel and SequenceLayer
         panChannelWeight = 0x7F;
     }
 
