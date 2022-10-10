@@ -7,7 +7,7 @@ typedef struct {
     /* 0x0 */ f32 vol;
     /* 0x4 */ f32 freqScale;
     /* 0x8 */ s8 reverb;
-    /* 0x9 */ s8 panSigned;
+    /* 0x9 */ s8 pan;
     /* 0xA */ s8 stereoBits;
     /* 0xB */ u8 filter;
     /* 0xC */ u8 combFilterGain;
@@ -3949,17 +3949,17 @@ u8 func_800F37B8(f32 behindScreenZ, SfxBankEntry* arg1, s8 arg2) {
     return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / (10000.0f / 5.2f));
 }
 
-s8 func_800F3990(f32 arg0, u16 sfxParams) {
-    s8 ret = 0;
+s8 func_800F3990(f32 posY, u16 sfxParams) {
+    s8 combFilterGain = 0;
 
-    if (arg0 >= 0.0f) {
-        if (arg0 > 625.0f) {
-            ret = 127;
+    if (posY >= 0.0f) {
+        if (posY > 625.0f) {
+            combFilterGain = 127;
         } else {
-            ret = (arg0 / 625.0f) * 126.0f;
+            combFilterGain = (posY / 625.0f) * 126.0f;
         }
     }
-    return ret | 1;
+    return combFilterGain | 1;
 }
 
 void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
@@ -3967,7 +3967,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
     s8 volS8;
     s8 reverb = 0;
     f32 freqScale = 1.0f;
-    s8 panSigned = 0x40;
+    s8 pan = 0x40;
     u8 stereoBits = 0;
     u8 filter = 0;
     s8 combFilterGain = 0;
@@ -3989,7 +3989,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
             entry->dist = sqrtf(entry->dist);
             vol = Audio_ComputeSfxVolume(bankId, entryIdx) * *entry->vol;
             reverb = Audio_ComputeSfxReverb(bankId, entryIdx, channelIndex);
-            panSigned = Audio_ComputeSfxPanSigned(*entry->posX, *entry->posZ, entry->token);
+            pan = Audio_ComputeSfxPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSfxFreqScale(bankId, entryIdx) * *entry->freqScale;
 
             if (sSoundMode == SOUNDMODE_SURROUND) {
@@ -4000,7 +4000,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
                     }
 
                     if ((sSfxChannelState[channelIndex].stereoBits ^ stereoBits) & 0x10) {
-                        if (panSigned < 0x40) {
+                        if (pan < 0x40) {
                             stereoBits = sSfxChannelState[channelIndex].stereoBits ^ 0x14;
                         } else {
                             stereoBits = sSfxChannelState[channelIndex].stereoBits ^ 0x18;
@@ -4019,7 +4019,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
             } else if ((sSoundMode == SOUNDMODE_SURROUND) && !(entry->sfxParams & SFX_FLAG_13)) {
-                filter = func_800F37B8(behindScreenZ, entry, panSigned);
+                filter = func_800F37B8(behindScreenZ, entry, pan);
             }
             break;
         case BANK_SYSTEM:
@@ -4062,9 +4062,9 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
         sSfxChannelState[channelIndex].combFilterGain = combFilterGain;
     }
 
-    if (panSigned != sSfxChannelState[channelIndex].panSigned) {
-        AUDIOCMD_CHANNEL_SET_PAN(SEQ_PLAYER_SFX, channelIndex, panSigned);
-        sSfxChannelState[channelIndex].panSigned = panSigned;
+    if (pan != sSfxChannelState[channelIndex].pan) {
+        AUDIOCMD_CHANNEL_SET_PAN(SEQ_PLAYER_SFX, channelIndex, pan);
+        sSfxChannelState[channelIndex].pan = pan;
     }
 }
 
@@ -4077,7 +4077,7 @@ void Audio_ResetSfxChannelState(void) {
         state->vol = 1.0f;
         state->freqScale = 1.0f;
         state->reverb = 0;
-        state->panSigned = 0x40;
+        state->pan = 0x40;
         state->stereoBits = 0;
         state->filter = 0xFF;
         state->combFilterGain = 0xFF;
@@ -4277,15 +4277,15 @@ void func_800F483C(u8 targetVol, u8 volFadeTimer) {
  */
 void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel) {
     u8 channelIndex;
-    s8 pan = 0;
+    s8 panChannelWeight = 0;
 
     // Ganondorf's Lair
     if (ganonsTowerLevel == 0) {
-        pan = 0x7F;
+        panChannelWeight = 0x7F;
     }
 
     for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
-        AUDIOCMD_CHANNEL_SET_PAN_WEIGHT(SEQ_PLAYER_BGM_MAIN, (u32)channelIndex, pan);
+        AUDIOCMD_CHANNEL_SET_PAN_WEIGHT(SEQ_PLAYER_BGM_MAIN, (u32)channelIndex, panChannelWeight);
     }
 
     // Lowest room in Ganon's Tower (Entrance Room)

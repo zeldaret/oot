@@ -303,9 +303,9 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             break;
 
         case SEQCMD_OP_SET_CHANNEL_IO_DISABLE_MASK:
-            // Disable channel io specifically for
-            // `SEQCMD_OP_SET_CHANNEL_IO` This can be bypassed by setting channel io through `AudioThread_QueueCmdS8`
-            // 0x6 directly. This is accomplished by setting a channel mask.
+            // Disable channel io specifically for `SEQCMD_OP_SET_CHANNEL_IO`.
+            // This can be bypassed by setting channel io through using `AUDIOCMD_CHANNEL_SET_IO` directly.
+            // This is accomplished by setting a channel mask.
             gActiveSeqs[seqPlayerIndex].channelPortMask = cmd & 0xFFFF;
             break;
 

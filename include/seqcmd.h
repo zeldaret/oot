@@ -211,7 +211,7 @@ typedef enum {
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelMask a 16 bit mask where each bit maps to a channel. Bitflag on to disable
  *
- * @note using AudioThread_QueueCmdS8 0x06 will bypass this channelMask
+ * @note using AUDIOCMD_CHANNEL_SET_IO will bypass this channelMask
  */
 #define SEQCMD_SET_CHANNEL_IO_DISABLE_MASK(seqPlayerIndex, channelMask) \
     Audio_QueueSeqCmd((SEQCMD_OP_SET_CHANNEL_IO_DISABLE_MASK << 28) | ((u8)(seqPlayerIndex) << 24) | (u16)(channelMask))

@@ -1,8 +1,8 @@
-#ifndef AUDIOCMD_H
-#define AUDIOCMD_H
+#ifndef AUDIOTHREAD_CMD_H
+#define AUDIOTHREAD_CMD_H
 
 /**
- * Audio Thread Commands to safely transfer information/requests/data
+ * Audio thread commands to safely transfer information/requests/data
  * from the graph thread to the audio thread
  */
 
@@ -60,7 +60,7 @@ typedef enum {
 // ==== Audio Thread Channel Commands ====
 
 /**
- * Set the channel volumeScale on a given channel
+ * Set the volumeScale on a given channel
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -71,11 +71,7 @@ typedef enum {
                             volumeScale)
 
 /**
- * Set the volume on a given channel
- */
-
-/**
- * Set the channel volume.
+ *  Set the volume on a given channel
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -85,7 +81,7 @@ typedef enum {
     AudioThread_QueueCmdF32(AUDIO_MK_CMD(AUDIOCMD_OP_CHANNEL_SET_VOL, seqPlayerIndex, channelIndex, 0), volume)
 
 /**
- * Set pan signed.
+ * Set the pan
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -413,21 +409,19 @@ typedef enum {
  * Asynchronously load a sample bank.
  *
  * @param sampleBankId the id of the samplebank to load
- * @param unused an unused argument
  * @param retData return data from `externalLoadQueue`
  */
-#define AUDIOCMD_GLOBAL_ASYNC_LOAD_SAMPLE_BANK(sampleBankId, unused, retData) \
-    AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_ASYNC_LOAD_SAMPLE_BANK, sampleBankId, unused, retData), 0)
+#define AUDIOCMD_GLOBAL_ASYNC_LOAD_SAMPLE_BANK(sampleBankId, retData) \
+    AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_ASYNC_LOAD_SAMPLE_BANK, sampleBankId, 0, retData), 0)
 
 /**
  * Asynchronously load a font.
  *
  * @param fontId the id of the soundfont to load
- * @param unused an unused argument
  * @param retData return data from `externalLoadQueue`
  */
-#define AUDIOCMD_GLOBAL_ASYNC_LOAD_FONT(fontId, unused, retData) \
-    AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_ASYNC_LOAD_FONT, fontId, unused, retData), 0)
+#define AUDIOCMD_GLOBAL_ASYNC_LOAD_FONT(fontId, retData) \
+    AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_ASYNC_LOAD_FONT, fontId, 0, retData), 0)
 
 /**
  * Discard sequence fonts.
@@ -474,11 +468,10 @@ typedef enum {
  * Asynchronously load a sequence.
  *
  * @param seqId the id of the sequence to load, see `SeqId`
- * @param unused an unused argument
  * @param retData return data from `externalLoadQueue`
  */
-#define AUDIOCMD_GLOBAL_ASYNC_LOAD_SEQ(seqId, unused, retData) \
-    AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_ASYNC_LOAD_SEQ, seqId, unused, retData), 0)
+#define AUDIOCMD_GLOBAL_ASYNC_LOAD_SEQ(seqId, retData) \
+    AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_ASYNC_LOAD_SEQ, seqId, 0, retData), 0)
 
 /**
  * No Operation. No code exists for this OP.

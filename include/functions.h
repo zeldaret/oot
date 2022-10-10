@@ -1758,6 +1758,7 @@ void AudioLoad_LoadPermanentSamples(void);
 void AudioLoad_ScriptLoad(s32 tableType, s32 id, s8* status);
 void AudioLoad_ProcessScriptLoads(void);
 void AudioLoad_InitScriptLoads(void);
+
 AudioTask* AudioThread_Update(void);
 void AudioThread_QueueCmdF32(u32 opArgs, f32 data);
 void AudioThread_QueueCmdS32(u32 opArgs, s32 data);
@@ -1772,6 +1773,7 @@ void AudioThread_PreNMIInternal(void);
 s32 func_800E6680(void);
 u32 AudioThread_NextRandom(void);
 void AudioThread_InitMesgQueues(void);
+
 void Audio_InvalDCache(void* buf, s32 size);
 void Audio_WritebackDCache(void* buf, s32 size);
 s32 osAiSetNextBuffer(void*, u32);

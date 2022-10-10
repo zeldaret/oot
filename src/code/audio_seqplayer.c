@@ -530,7 +530,7 @@ void AudioSeq_SeqLayerProcessScript(SequenceLayer* layer) {
 
     if (layer->delay > 1) {
         layer->delay--;
-        if (!layer->muted && layer->delay <= layer->gateDelay) {
+        if (!layer->muted && (layer->delay <= layer->gateDelay)) {
             Audio_SeqLayerNoteDecay(layer);
             layer->muted = true;
         }
@@ -579,8 +579,8 @@ void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer) {
 s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameTunedSample) {
     Note* note;
 
-    if (!layer->muted && layer->tunedSample != NULL && layer->tunedSample->sample->codec == CODEC_S16_INMEMORY &&
-        layer->tunedSample->sample->medium != MEDIUM_RAM) {
+    if (!layer->muted && (layer->tunedSample != NULL) && (layer->tunedSample->sample->codec == CODEC_S16_INMEMORY) &&
+        (layer->tunedSample->sample->medium != MEDIUM_RAM)) {
         layer->muted = true;
         return PROCESS_SCRIPT_END;
     }
@@ -1743,13 +1743,17 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     }
 
     seqPlayer->scriptCounter++;
+
+    // Apply the tempo by controlling the number of updates run on the .seq script.
+    // Processing the .seq script every possible update will result in a tempo = maxTempo
+    // Processing the .seq script a fraction of the updates will result in a `tempo = fraction * maxTempo`
+    // where `fraction = (tempo + tempoChange) / maxTempo)`
+    // This algorithm using `tempoAcc` discretizes `(tempo + tempoChange) / maxTempo) * updates`
     seqPlayer->tempoAcc += seqPlayer->tempo;
     seqPlayer->tempoAcc += (s16)seqPlayer->tempoChange;
-
     if (seqPlayer->tempoAcc < gAudioCtx.maxTempo) {
         return;
     }
-
     seqPlayer->tempoAcc -= (u16)gAudioCtx.maxTempo;
 
     if (seqPlayer->stopScript == true) {

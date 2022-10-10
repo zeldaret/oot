@@ -764,7 +764,7 @@ void AudioThread_WaitForAudioTask(void) {
     osRecvMesg(gAudioCtx.taskStartQueueP, NULL, OS_MESG_BLOCK);
 }
 
-s32 func_800E6590(s32 seqPlayerIndex, s32 arg1, s32 arg2) {
+s32 func_800E6590(s32 seqPlayerIndex, s32 channelIndex, s32 layerIndex) {
     SequencePlayer* seqPlayer;
     SequenceLayer* layer;
     Note* note;
@@ -773,8 +773,8 @@ s32 func_800E6590(s32 seqPlayerIndex, s32 arg1, s32 arg2) {
     s32 samplePos;
 
     seqPlayer = &gAudioCtx.seqPlayers[seqPlayerIndex];
-    if (seqPlayer->enabled && seqPlayer->channels[arg1]->enabled) {
-        layer = seqPlayer->channels[arg1]->layers[arg2];
+    if (seqPlayer->enabled && seqPlayer->channels[channelIndex]->enabled) {
+        layer = seqPlayer->channels[channelIndex]->layers[layerIndex];
         if (layer == NULL) {
             return 0;
         }
