@@ -396,9 +396,9 @@ typedef enum {
  * @param duration duration to transition to the volume
  * @param numSeqRequests the number of sequence requests queued that must match the actual number of sequence requests
  */
-#define SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_IF_QUEUED(setupSeqPlayerIndex, targetSeqPlayerIndex, duration,              \
-                                                     numSeqRequests)                                                   \
-    Audio_QueueSeqCmd((SEQCMD_OP_SETUP_CMD << 28) | (SEQCMD_SUB_OP_SETUP_RESTORE_SEQPLAYER_VOLUME_IF_QUEUED << 20) |             \
+#define SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_IF_QUEUED(setupSeqPlayerIndex, targetSeqPlayerIndex, duration,           \
+                                                        numSeqRequests)                                                \
+    Audio_QueueSeqCmd((SEQCMD_OP_SETUP_CMD << 28) | (SEQCMD_SUB_OP_SETUP_RESTORE_SEQPLAYER_VOLUME_IF_QUEUED << 20) |   \
                       ((u8)(setupSeqPlayerIndex) << 24) | ((u8)(targetSeqPlayerIndex) << 16) | ((u8)(duration) << 8) | \
                       (u8)(numSeqRequests))
 
@@ -411,9 +411,11 @@ typedef enum {
  * @param scaleIndex the scale index of a seqPlayer
  * @param duration duration to transition to the volume
  */
-#define SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX(setupSeqPlayerIndex, targetSeqPlayerIndex, scaleIndex, duration) \
-    Audio_QueueSeqCmd((SEQCMD_OP_SETUP_CMD << 28) | (SEQCMD_SUB_OP_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX << 20) |            \
-                      ((u8)(setupSeqPlayerIndex) << 24) | ((u8)(targetSeqPlayerIndex) << 16) |                               \
+#define SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX(setupSeqPlayerIndex, targetSeqPlayerIndex, scaleIndex, \
+                                                               duration)                                              \
+    Audio_QueueSeqCmd((SEQCMD_OP_SETUP_CMD << 28) |                                                                   \
+                      (SEQCMD_SUB_OP_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX << 20) |                         \
+                      ((u8)(setupSeqPlayerIndex) << 24) | ((u8)(targetSeqPlayerIndex) << 16) |                        \
                       ((u8)(scaleIndex) << 8) | (u8)(duration))
 
 /**
