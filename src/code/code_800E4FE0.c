@@ -3,14 +3,13 @@
 #define SAMPLES_TO_OVERPRODUCE 0x10
 #define EXTRA_BUFFERED_AI_SAMPLES_TARGET 0x80
 
-void AudioThread_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* cmd);
-void AudioThread_SetFadeInTimer(s32 seqPlayerIndex, s32 fadeTimer);
-void AudioThread_InitMesgQueues(void);
 AudioTask* AudioThread_UpdateImpl(void);
+void AudioThread_SetFadeInTimer(s32 seqPlayerIndex, s32 fadeTimer);
+void AudioThread_SetFadeOutTimer(s32 seqPlayerIndex, s32 fadeTimer);
 void AudioThread_ProcessCmds(u32);
 void AudioThread_ProcessSeqPlayerCmd(SequencePlayer* seqPlayer, AudioCmd* cmd);
-void AudioThread_SetFadeOutTimer(s32 seqPlayerIndex, s32 fadeTimer);
-s32 func_800E66C0(s32 arg0);
+void AudioThread_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* cmd);
+s32 func_800E66C0(s32 flags);
 
 // AudioMgr_Retrace
 AudioTask* AudioThread_Update(void) {
@@ -812,7 +811,7 @@ void func_800E66A0(void) {
     func_800E66C0(2);
 }
 
-s32 func_800E66C0(s32 arg0) {
+s32 func_800E66C0(s32 flags) {
     s32 phi_v1;
     NotePlaybackState* playbackState;
     NoteSubEu* noteSubEu;
@@ -827,7 +826,7 @@ s32 func_800E66C0(s32 arg0) {
         if (note->noteSubEu.bitField0.enabled) {
             noteSubEu = &note->noteSubEu;
             if (playbackState->adsr.action.s.state != 0) {
-                if (arg0 >= 2) {
+                if (flags >= 2) {
                     tunedSample = noteSubEu->tunedSample;
                     if (tunedSample == NULL || noteSubEu->bitField1.isSyntheticWave) {
                         continue;
@@ -838,7 +837,7 @@ s32 func_800E66C0(s32 arg0) {
                 }
 
                 phi_v1++;
-                if ((arg0 & 1) == 1) {
+                if ((flags & 1) == 1) {
                     playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
                     playbackState->adsr.action.s.release = 1;
                 }
