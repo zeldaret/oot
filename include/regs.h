@@ -106,6 +106,8 @@
 #define R_TRANS_DBG_TYPE                         CREG(12)
 #define R_ENV_WIND_DIR(i)                        CREG(16 + (i))
 #define R_ENV_WIND_SPEED                         CREG(19)
+#define R_PAUSE_STICK_REPEAT_DELAY               XREG(6)
+#define R_PAUSE_STICK_REPEAT_DELAY_FIRST         XREG(8)
 #define R_A_BTN_Y                                XREG(16)
 #define R_A_BTN_X                                XREG(17)
 #define R_A_ICON_Y                               XREG(19)

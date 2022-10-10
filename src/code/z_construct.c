@@ -345,9 +345,9 @@ void func_80111070(void) {
     XREG(3) = -4;
     XREG(4) = 3;
     XREG(5) = 0;
-    XREG(6) = 2;
+    R_PAUSE_STICK_REPEAT_DELAY = 2;
     XREG(7) = 30;
-    XREG(8) = 10;
+    R_PAUSE_STICK_REPEAT_DELAY_FIRST = 10;
     XREG(9) = 0;
     XREG(10) = -9550;
     XREG(11) = 9950;
