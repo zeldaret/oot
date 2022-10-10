@@ -642,15 +642,15 @@ void func_80A5BB90(PlayState* play, Vec3f* vec, Vec3f* arg2, f32* arg3) {
 
 s32 func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
     Vec3f sp24;
-    f32 sp20;
+    f32 isSequencePlaying;
     f32 eyeDist;
 
-    func_80A5BB90(play, pos, &sp24, &sp20);
-    if (fabsf(sp20) < 0.008f) {
+    func_80A5BB90(play, pos, &sp24, &isSequencePlaying);
+    if (fabsf(isSequencePlaying) < 0.008f) {
         return false;
     }
     eyeDist = Math3D_Vec3f_DistXYZ(pos, &play->view.eye);
-    return func_800314D4(play, &this->actor, &sp24, sp20) || eyeDist < 100.0f;
+    return func_800314D4(play, &this->actor, &sp24, isSequencePlaying) || eyeDist < 100.0f;
 }
 
 void EnHorse_IdleAnimSounds(EnHorse* this, PlayState* play) {
@@ -2511,7 +2511,7 @@ void EnHorse_UpdateHbaAnim(EnHorse* this) {
 
 void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     f32 playSpeed;
-    s32 sp20;
+    s32 isSequencePlaying;
 
     if (this->animationIdx == ENHORSE_ANIM_WALK) {
         EnHorse_PlayWalkingSfx(this);
@@ -2520,10 +2520,10 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
         this->hbaTimer++;
     }
 
-    sp20 = func_800F5A58(NA_BGM_HORSE_GOAL);
+    isSequencePlaying = Audio_IsSequencePlaying(NA_BGM_HORSE_GOAL);
     EnHorse_UpdateHbaRaceInfo(this, play, &sHbaInfo);
-    if (this->hbaFlags & 1 || this->hbaTimer >= 46) {
-        if (sp20 != 1 && gSaveContext.minigameState != 3) {
+    if ((this->hbaFlags & 1) || (this->hbaTimer >= 46)) {
+        if ((isSequencePlaying != true) && (gSaveContext.minigameState != 3)) {
             gSaveContext.cutsceneIndex = 0;
             play->nextEntranceIndex = ENTR_SPOT12_16;
             play->transitionTrigger = TRANS_TRIGGER_START;

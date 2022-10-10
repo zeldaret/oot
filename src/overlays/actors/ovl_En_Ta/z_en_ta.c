@@ -733,7 +733,7 @@ void func_80B154FC(EnTa* this, PlayState* play) {
     }
 
     if (gSaveContext.timer1Value == 10) {
-        func_800F5918();
+        Audio_IncreaseTempoForTimedMinigame();
     }
 
     if (gSaveContext.timer1Value == 0 && !Play_InCsMode(play)) {
