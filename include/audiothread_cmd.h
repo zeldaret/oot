@@ -91,7 +91,7 @@ typedef enum {
     AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_CHANNEL_SET_PAN, seqPlayerIndex, channelIndex, 0), pan)
 
 /**
- * Set frequency scale.
+ * Set frequency scale
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -102,7 +102,7 @@ typedef enum {
                             freqScale)
 
 /**
- * Set reverb volume.
+ * Set reverb volume
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -114,7 +114,7 @@ typedef enum {
 
 /**
  * Write a value that can be read as input directly by the sequence itself. This will be set to the channel
- * ioPort, which will only affect a single channel.
+ * ioPort, which will only affect a single channel
  *
  * @param seqPlayerIndex the index of the seqPlayer to write the input to
  * @param channelIndex the index of the channel to write the input to
@@ -147,7 +147,7 @@ typedef enum {
     AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_CHANNEL_SET_MUTE, seqPlayerIndex, channelIndex, 0), muted)
 
 /**
- * Set the muteBehavior for a specified channel.
+ * Set the muteBehavior for a specified channel
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -180,7 +180,7 @@ typedef enum {
                            vibratoRateTarget)
 
 /**
- * Set the comb filter size.
+ * Set the comb filter size
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -191,7 +191,7 @@ typedef enum {
                            combFilterSize)
 
 /**
- * Set the comb filter gain.
+ * Set the comb filter gain
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -202,7 +202,7 @@ typedef enum {
                             combFilterGain)
 
 /**
- * Set the stereo bits.
+ * Set the stereo bits
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -214,7 +214,7 @@ typedef enum {
 // ==== Audio Thread SeqPlayer Commands ====
 
 /**
- * Set the fade volume scale.
+ * Set the fade volume scale
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param fadeVolumeScale (f32) multiplicative scaling factor to apply to volume
@@ -302,7 +302,7 @@ typedef enum {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_SEQPLAYER_RESET_VOLUME, seqPlayerIndex, 0, 0), fadeTimer)
 
 /**
- * Set the bend.
+ * Set the bend
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param bend (f32) ratio relative to 1.0f to scale channel frequencies by
@@ -372,7 +372,7 @@ typedef enum {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_POP_PERSISTENT_CACHE, 0, 0, 0), tableType)
 
 /**
- * Set sound mode.
+ * Change the sound mode of audio
  *
  * @param soundMode (s32) see the `SoundMode` enum
  */
@@ -380,7 +380,7 @@ typedef enum {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_SOUND_MODE, 0, 0, 0), soundMode)
 
 /**
- * Mute a sequence player.
+ * Mute a sequence player
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  */
@@ -388,7 +388,7 @@ typedef enum {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_MUTE, seqPlayerIndex, 0, 0), 0)
 
 /**
- * Unmute a sequence player.
+ * Unmute a sequence player
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param restart (s32) if set to 1, then notes with the `MUTE_BEHAVIOR_STOP_SAMPLES` flag set are marked as finished
@@ -397,7 +397,7 @@ typedef enum {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_UNMUTE, seqPlayerIndex, 0, 0), restart)
 
 /**
- * Synchronously load an instrument.
+ * Synchronously load an instrument
  *
  * @param fontId the id of the soundfont to load
  * @param instId If below 0x7F, the id of the instrument to use. If equal to 0x7F, load the drum using the drumId
