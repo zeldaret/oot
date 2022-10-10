@@ -9,6 +9,7 @@
 
 #define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioCtx.sequenceChannelNone)
 #define SEQ_NUM_CHANNELS 16
+#define SEQ_IO_VAL_NONE -1
 
 #define MAX_CHANNELS_PER_BANK 3
 

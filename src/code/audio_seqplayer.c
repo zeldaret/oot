@@ -297,7 +297,7 @@ void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
     channel->freqScale = 1.0f;
 
     for (i = 0; i < ARRAY_COUNT(channel->soundScriptIO); i++) {
-        channel->soundScriptIO[i] = -1;
+        channel->soundScriptIO[i] = SEQ_IO_VAL_NONE;
     }
 
     channel->unused = false;
@@ -1664,12 +1664,12 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
 
             case 0x10:
                 if (lowBits < 8) {
-                    channel->soundScriptIO[lowBits] = -1;
+                    channel->soundScriptIO[lowBits] = SEQ_IO_VAL_NONE;
                     if (AudioLoad_SlowLoadSample(channel->fontId, scriptState->value,
                                                  &channel->soundScriptIO[lowBits]) == -1) {}
                 } else {
                     lowBits -= 8;
-                    channel->soundScriptIO[lowBits] = -1;
+                    channel->soundScriptIO[lowBits] = SEQ_IO_VAL_NONE;
                     if (AudioLoad_SlowLoadSample(channel->fontId, channel->unk_22 + 0x100,
                                                  &channel->soundScriptIO[lowBits]) == -1) {}
                 }
@@ -1678,7 +1678,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
             case 0x60:
                 scriptState->value = channel->soundScriptIO[lowBits];
                 if (lowBits < 2) {
-                    channel->soundScriptIO[lowBits] = -1;
+                    channel->soundScriptIO[lowBits] = SEQ_IO_VAL_NONE;
                 }
                 break;
 
@@ -1992,7 +1992,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                 case 0x80:
                     seqScript->value = seqPlayer->soundScriptIO[cmdLowBits];
                     if (cmdLowBits < 2) {
-                        seqPlayer->soundScriptIO[cmdLowBits] = -1;
+                        seqPlayer->soundScriptIO[cmdLowBits] = SEQ_IO_VAL_NONE;
                     }
                     break;
 
@@ -2123,7 +2123,7 @@ void AudioSeq_InitSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->applyBend = false;
 
     for (j = 0; j < ARRAY_COUNT(seqPlayer->soundScriptIO); j++) {
-        seqPlayer->soundScriptIO[j] = -1;
+        seqPlayer->soundScriptIO[j] = SEQ_IO_VAL_NONE;
     }
 
     seqPlayer->muteBehavior = MUTE_BEHAVIOR_SOFTEN | MUTE_BEHAVIOR_STOP_NOTES;
