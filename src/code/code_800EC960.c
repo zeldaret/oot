@@ -4637,7 +4637,7 @@ void func_800F574C(f32 scaleTempoAndFreq, u8 duration) {
         SEQCMD_SETUP_SCALE_TEMPO(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
     }
 
-    SEQCMD_SETUP_SET_PLAYER_FREQ(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
+    SEQCMD_SETUP_SET_SEQPLAYER_FREQ(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
 }
 
 void func_800F5918(void) {
@@ -4784,10 +4784,10 @@ void func_800F5CF8(void) {
             if (seqIdFanfare == NA_BGM_DISABLED) {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 5);
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 5);
-                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
-                                                                    VOL_SCALE_INDEX_FANFARE, 10);
-                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
-                                                                    VOL_SCALE_INDEX_FANFARE, 10);
+                SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
+                                                                       VOL_SCALE_INDEX_FANFARE, 10);
+                SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
+                                                                       VOL_SCALE_INDEX_FANFARE, 10);
                 SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 0);
                 if (seqIdBgmSub != NA_BGM_LONLON) {
                     SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
