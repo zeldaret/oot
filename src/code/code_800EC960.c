@@ -4766,7 +4766,7 @@ void Audio_PlayFanfare(u16 seqId) {
         sFanfareStartTimer = 1;
     } else {
         // Give extra time to start the fanfare if both another fanfare needs to be stopped
-        // and a new fontId needs to tbe loaded in
+        // and a new fontId needs to be loaded in
         sFanfareStartTimer = 5;
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
     }
