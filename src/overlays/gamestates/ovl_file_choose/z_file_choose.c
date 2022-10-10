@@ -1895,5 +1895,6 @@ void FileSelect_Init(GameState* thisx) {
     FileSelect_InitContext(&this->state);
     Font_LoadOrderedFont(&this->font);
     SEQCMD_RESET_AUDIO_HEAP(0, 10);
-    func_800F5E18(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
+    // Setting ioData to 1 and writing it to ioPort 7 will skip the harp intro
+    Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
 }

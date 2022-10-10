@@ -175,7 +175,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
             if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
-        } else if (player->heldItemActionParam == PLAYER_AP_STICK) {
+        } else if (player->heldItemAction == PLAYER_IA_STICK) {
             Math_Vec3f_Diff(&player->meleeWeaponInfo[0].tip, &this->actor.world.pos, &tipToFlame);
             tipToFlame.y -= 67.0f;
             if ((SQ(tipToFlame.x) + SQ(tipToFlame.y) + SQ(tipToFlame.z)) < SQ(20.0f)) {
