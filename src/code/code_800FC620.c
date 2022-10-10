@@ -73,10 +73,10 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
     u32 pos;
     u32 end;
 
-    if (blk == 0) {
+    if (blk == NULL) {
         return;
     }
-    if (arg3 != 0) {
+    if (arg3 != NULL) {
         end = (u32)blk;
         pos = (u32)end + (nBlk * blkSize);
 
