@@ -507,7 +507,7 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     if (1) {}
 
     if (gSaveContext.timer1Value == 10) {
-        Audio_IncreaseTempoForTimedMinigame();
+        Audio_SetFastTempoForTimedMinigame();
     }
     if (this->eyeTimer == 0) {
         this->eyeTimer = 2;

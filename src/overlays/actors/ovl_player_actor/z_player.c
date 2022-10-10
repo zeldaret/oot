@@ -2997,7 +2997,7 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     func_80832698(this, NA_SE_VO_LI_DOWN);
 
     if (this->actor.category == ACTORCAT_PLAYER) {
-        Audio_SetBgmVolumeOff();
+        Audio_SetBgmVolumeOffDuringFanfare();
 
         if (Inventory_ConsumeFairy(play)) {
             play->gameOverCtx.state = GAMEOVER_REVIVE_START;
@@ -8120,7 +8120,7 @@ void func_80843AE8(PlayState* play, Player* this) {
             }
             this->unk_A87 = 20;
             func_80837AFC(this, -20);
-            Audio_SetBgmVolumeOn();
+            Audio_SetBgmVolumeOnDuringFanfare();
         }
     } else if (this->unk_84F != 0) {
         this->unk_850 = 60;
