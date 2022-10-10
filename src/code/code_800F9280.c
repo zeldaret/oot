@@ -88,8 +88,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     u16 channelMaskDisable;
     u16 fadeTimer;
     u16 val;
-    u8 oldSpec;
-    u8 spec;
+    u8 oldSpecId;
+    u8 specId;
     u8 op;
     u8 subOp;
     u8 seqPlayerIndex;
@@ -381,12 +381,12 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
         case SEQCMD_OP_RESET_AUDIO_HEAP:
             // Resets the audio heap based on the audio specifications and sfx channel layout
-            spec = cmd & 0xFF;
+            specId = cmd & 0xFF;
             gSfxChannelLayout = (cmd & 0xFF00) >> 8;
-            oldSpec = gAudioSpecId;
-            gAudioSpecId = spec;
-            AudioThread_ResetAudioHeap(spec);
-            func_800F71BC(oldSpec);
+            oldSpecId = gAudioSpecId;
+            gAudioSpecId = specId;
+            AudioThread_ResetAudioHeap(specId);
+            func_800F71BC(oldSpecId);
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
             break;
     }
