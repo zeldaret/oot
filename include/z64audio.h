@@ -960,7 +960,7 @@ typedef struct {
     /* 0x5C20 */ OSMesgQueue audioResetQueue;
     /* 0x5C38 */ OSMesg taskStartMsgBuf[1];
     /* 0x5C3C */ OSMesg audioResetMsgBuf[1];
-    /* 0x5C40 */ OSMesg cmdProcMsgBuf[4];
+    /* 0x5C40 */ OSMesg threadCmdProcMsgBuf[4];
     /* 0x5C50 */ AudioCmd threadCmdBuf[0x100]; // Audio thread commands used to transfer audio requests from the graph thread to the audio thread
 } AudioContext; // size = 0x6450
 

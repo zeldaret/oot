@@ -349,7 +349,8 @@ void AudioThread_InitMesgQueuesImpl(void) {
     gAudioCtx.audioResetQueueP = &gAudioCtx.audioResetQueue;
 
     osCreateMesgQueue(gAudioCtx.taskStartQueueP, gAudioCtx.taskStartMsgBuf, ARRAY_COUNT(gAudioCtx.taskStartMsgBuf));
-    osCreateMesgQueue(gAudioCtx.threadCmdProcQueueP, gAudioCtx.cmdProcMsgBuf, ARRAY_COUNT(gAudioCtx.cmdProcMsgBuf));
+    osCreateMesgQueue(gAudioCtx.threadCmdProcQueueP, gAudioCtx.threadCmdProcMsgBuf,
+                      ARRAY_COUNT(gAudioCtx.threadCmdProcMsgBuf));
     osCreateMesgQueue(gAudioCtx.audioResetQueueP, gAudioCtx.audioResetMsgBuf, ARRAY_COUNT(gAudioCtx.audioResetMsgBuf));
 }
 
