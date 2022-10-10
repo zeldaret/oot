@@ -69,7 +69,7 @@ typedef enum {
  * @param seqId the id of the sequence to play, see `SeqId`
  *
  * @note seqArg will also be stored in gActiveSeqs.seqId, any check against that seqId must also include seqArg.
- * seqArg < 0x7F: fade the sequence in over `fadeInDuration` in units of (1/30th) seconds
+ * seqArg < 0x7F: fade in the sequence over `fadeInDuration` in units of (1/30th) seconds
  * seqArg = 0x7F: start the sequence immediately, but begins `fadeInDuration` number of second into the sequence.
  * seqArg >= 0x80: no sequence will play. Intended to load a soundFont asynchronously but was only half implemented
  *                 (inferred from MM).

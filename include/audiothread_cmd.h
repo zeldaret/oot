@@ -3,7 +3,7 @@
 
 /**
  * Audio thread commands to safely transfer information/requests/data
- * from the graph thread to the audio thread
+ * from the external graph thread to the internal audio thread
  */
 
 typedef enum {
