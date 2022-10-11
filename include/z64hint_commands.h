@@ -65,7 +65,7 @@
  */
 
 #define HINT_B0(type, condType, tf)       \
-    _SHIFTL(type, 5, 3) | \
+    _SHIFTL(HINT_CMD_TYPE_##type, 5, 3) | \
     _SHIFTL(condType, 1, 4) |             \
     _SHIFTL(tf, 0, 1)
 
@@ -88,7 +88,7 @@
     }
 
 #define HINT_CMD_END(textId)            \
-    HINT_CMD_FLAG(HINT_CMD_TYPE_END, 0, false, textId)
+    HINT_CMD_FLAG(END, 0, false, textId)
 
 #define HINT_CMD_DUNGEON_ITEM(type, itemId, tf, textId) \
     {                                                   \
