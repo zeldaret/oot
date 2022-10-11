@@ -11,8 +11,7 @@ typedef struct {
     /* 0x0E */ s16 x;
     /* 0x10 */ s16 fov;
     /* 0x12 */ s16 roll;
-    /* 0x14 */ Vec3s xOrientation; // alters the orientation of the x perturbation. Only .x (pitch, xy plane) and .y
-                                   // (yaw, xz plane) are used
+    /* 0x14 */ Vec3s xOrientation; // alters the orientation of the x perturbation. Only x (pitch) and y (yaw) are used
     /* 0x1A */ s16 speed;
     /* 0x1C */ s16 isRelativeToScreen; // is the quake relative to the screen or on world coordinates
     /* 0x1E */ s16 timer;
