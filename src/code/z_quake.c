@@ -177,7 +177,9 @@ QuakeRequest* Quake_RequestImpl(Camera* camera, u32 type) {
     req->camId = camera->camId;
     req->type = type;
     req->isRelativeToScreen = true;
-    req->index = ((s16)(Rand_ZeroOne() * 0x10000) & ~3) + index;
+
+    // Add a unique random identifier to the upper bits of the index
+    req->index = index + ((s16)(Rand_ZeroOne() * 0x10000) & ~3);
 
     sQuakeRequestCount++;
 
