@@ -245,7 +245,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 gSaveContext.cutsceneTrigger = 1;
                 // Increase pitch by 3 semitones i.e. 2^(3/12), scale tempo by same ratio
                 // Applies to the windmill bgm once the song of storms fanfare is complete
-                SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
+                Audio_SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
                 break;
             case 4:
                 play->csCtx.segment = D_80ABFB40;

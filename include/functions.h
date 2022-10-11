@@ -1868,7 +1868,7 @@ void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax);
 void Audio_ClearSariaBgm2(void);
 void Audio_PlayMorningSceneSequence(u16 seqId);
 void Audio_PlaySceneSequence(u16 seqId);
-void SetMainBgmTempoFreqAfterFanfare(f32 scaleTempoAndFreq, u8 duration);
+void Audio_SetMainBgmTempoFreqAfterFanfare(f32 scaleTempoAndFreq, u8 duration);
 void Audio_PlayWindmillBgm(void);
 void Audio_SetFastTempoForTimedMinigame(void);
 void Audio_PlaySequenceInCutscene(u16 seqId);

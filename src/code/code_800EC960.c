@@ -4639,7 +4639,7 @@ void Audio_PlayWindmillBgm(void) {
     }
 }
 
-void SetMainBgmTempoFreqAfterFanfare(f32 scaleTempoAndFreq, u8 duration) {
+void Audio_SetMainBgmTempoFreqAfterFanfare(f32 scaleTempoAndFreq, u8 duration) {
     if (scaleTempoAndFreq == 1.0f) {
         // Should instead use `SEQCMD_SETUP_RESET_TEMPO` to wait until the fanfare is finished
         SEQCMD_RESET_TEMPO(SEQ_PLAYER_BGM_MAIN, duration);
