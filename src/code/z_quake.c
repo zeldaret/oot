@@ -346,7 +346,8 @@ u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 fov, s16 rol
 /**
  * @param index quake request index to apply
  * @param isRelativeToScreen Is the quake applied relative to the screen or in absolute world coordinates
- * @param xOrientation orient the left/right shake to a different direction
+ * @param xOrientation orient the left/right shake to a different direction.
+ *                     For many types, the left/right shake contains the random perturbations
  * @return true if successfully applied, false if the request does not exist
  */
 u32 Quake_SetOrientation(s16 index, s16 isRelativeToScreen, Vec3s xOrientation) {
