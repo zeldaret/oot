@@ -475,7 +475,7 @@ typedef enum {
     NAVI_QUEST_HINTS_NONE,
     NAVI_QUEST_HINTS_OVERWORLD,
     NAVI_QUEST_HINTS_DUNGEON
-} NaviHintFileId;
+} NaviQuestHintFileId;
 
 // Scene commands
 
