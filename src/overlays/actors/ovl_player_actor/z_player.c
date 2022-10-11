@@ -7691,12 +7691,12 @@ s32 func_80842964(Player* this, PlayState* play) {
     return func_8083B040(this, play) || func_8083B644(this, play) || func_8083E5A8(this, play);
 }
 
-void Player_RequestQuake(PlayState* play, s32 speed, s32 y, s32 countdown) {
+void Player_RequestQuake(PlayState* play, s32 speed, s32 yOffset, s32 duration) {
     s32 quakeIndex = Quake_Request(Play_GetCamera(play, CAM_ID_MAIN), QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, speed);
-    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
-    Quake_SetDuration(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
 void func_80842A28(PlayState* play, Player* this) {

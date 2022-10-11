@@ -288,12 +288,12 @@ s16 Quake_GetTimeLeft(s16 index) {
     return 0;
 }
 
-u32 Quake_SetPerturbations(s16 index, s16 y, s16 x, s16 zoom, s16 roll) {
+u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 zoom, s16 roll) {
     QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
-        req->y = y;
-        req->x = x;
+        req->y = yOffset;
+        req->x = xOffset;
         req->zoom = zoom;
         req->roll = roll;
         return true;

@@ -767,11 +767,11 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-void DoorShutter_RequestQuakeAndRumble(PlayState* play, s16 y, s16 countdown, s16 camId) {
+void DoorShutter_RequestQuakeAndRumble(PlayState* play, s16 yOffset, s16 quakeDuration, s16 camId) {
     s16 quakeIndex = Quake_Request(Play_GetCamera(play, camId), QUAKE_TYPE_3);
 
     Rumble_Override(0.0f, 180, 20, 100);
     Quake_SetSpeed(quakeIndex, 20000);
-    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
-    Quake_SetDuration(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, quakeDuration);
 }

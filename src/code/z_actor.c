@@ -3506,29 +3506,29 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8155);
 }
 
-void Actor_RequestQuake(PlayState* play, s16 verticalMag, s16 countdown) {
+void Actor_RequestQuake(PlayState* play, s16 yOffset, s16 duration) {
     s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, 20000);
-    Quake_SetPerturbations(quakeIndex, verticalMag, 0, 0, 0);
-    Quake_SetDuration(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
-void Actor_RequestQuakeWithSpeed(PlayState* play, s16 verticalMag, s16 countdown, s16 speed) {
+void Actor_RequestQuakeWithSpeed(PlayState* play, s16 yOffset, s16 duration, s16 speed) {
     s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, speed);
-    Quake_SetPerturbations(quakeIndex, verticalMag, 0, 0, 0);
-    Quake_SetDuration(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
-void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 verticalMag, s16 countdown) {
-    if (verticalMag >= 5) {
+void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeYOffset, s16 quakeDuration) {
+    if (quakeYOffset >= 5) {
         Rumble_Request(actor->xyzDistToPlayerSq, 255, 20, 150);
     } else {
         Rumble_Request(actor->xyzDistToPlayerSq, 180, 20, 100);
     }
-    Actor_RequestQuake(play, verticalMag, countdown);
+    Actor_RequestQuake(play, quakeYOffset, quakeDuration);
 }
 
 f32 Rand_ZeroFloat(f32 f) {

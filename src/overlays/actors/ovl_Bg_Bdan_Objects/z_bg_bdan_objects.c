@@ -229,7 +229,7 @@ void func_8086C29C(BgBdanObjects* this, PlayState* play) {
         if (this->timer == 0) {
             quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
             Quake_SetSpeed(quakeIndex, 0x3A98);
-            Quake_SetPerturbations(quakeIndex, 0, 1, 0xFA, 1);
+            Quake_SetPerturbations(quakeIndex, 0, 1, 250, 1);
             Quake_SetDuration(quakeIndex, 10);
         }
     }

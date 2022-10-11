@@ -8016,7 +8016,7 @@ s16 Camera_GetCamDirYaw(Camera* camera) {
     return camDir.y;
 }
 
-s32 Camera_RequestQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
+s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 yOffset, s32 duration) {
     s16 quakeIndex;
 
     quakeIndex = Quake_Request(camera, QUAKE_TYPE_3);
@@ -8024,8 +8024,8 @@ s32 Camera_RequestQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
         return 0;
     }
     Quake_SetSpeed(quakeIndex, 0x61A8);
-    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
-    Quake_SetDuration(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
     return 1;
 }
 
