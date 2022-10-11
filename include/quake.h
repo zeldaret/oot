@@ -14,18 +14,6 @@ typedef struct {
     /* 0x20 */ f32 max;
 } QuakeCamData; // size = 0x24
 
-// See `Quake_SetValue`
-#define QUAKE_SPEED (1 << 0)
-#define QUAKE_VERTICAL_MAG (1 << 1)
-#define QUAKE_HORIZONTAL_MAG (1 << 2)
-#define QUAKE_ZOOM (1 << 3)
-#define QUAKE_ROLL_OFFSET (1 << 4)
-#define QUAKE_SHAKE_PLANE_PITCH (1 << 5)
-#define QUAKE_SHAKE_PLANE_YAW (1 << 6)
-#define QUAKE_SHAKE_PLANE_ROLL (1 << 7) // Not used
-#define QUAKE_COUNTDOWN (1 << 8)
-#define QUAKE_IS_SHAKE_PERPENDICULAR (1 << 9)
-
 typedef enum {
     /* 0 */ QUAKE_TYPE_NONE,
     /* 1 */ QUAKE_TYPE_1, // Periodic, sustaining, random X perturbations
@@ -41,7 +29,6 @@ s16 Quake_Request(Camera* camera, u32 type);
 u32 Quake_SetSpeed(s16 index, s16 speed);
 u32 Quake_SetDuration(s16 index, s16 duration);
 u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 zoom, s16 roll);
-u32 Quake_SetValue(s16 index, s16 valueType, s16 value);
 u32 Quake_SetOrientation(s16 index, s16 isRelativeToScreen, Vec3s xOrientation);
 
 s16 Quake_GetTimeLeft(s16 index);

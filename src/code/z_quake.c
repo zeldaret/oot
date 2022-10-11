@@ -205,22 +205,33 @@ QuakeRequest* Quake_GetRequest(s16 index) {
     return req;
 }
 
-u32 Quake_SetValue(s16 index, s16 valueType, s16 value) {
+#define QUAKE_SPEED (1 << 0)
+#define QUAKE_Y_OFFSET (1 << 1)
+#define QUAKE_X_OFFSET (1 << 2)
+#define QUAKE_ZOOM (1 << 3)
+#define QUAKE_ROLL (1 << 4)
+#define QUAKE_ORIENTATION_PITCH (1 << 5)
+#define QUAKE_ORIENTATION_YAW (1 << 6)
+#define QUAKE_ORIENTATION_ROLL (1 << 7)
+#define QUAKE_COUNTDOWN (1 << 8)
+#define QUAKE_IS_SHAKE_PERPENDICULAR (1 << 9)
+
+QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
     QuakeRequest* req = Quake_GetRequest(index);
 
     if (req == NULL) {
-        return 0;
+        return NULL;
     } else {
         switch (valueType) {
             case QUAKE_SPEED:
                 req->speed = value;
                 break;
 
-            case QUAKE_VERTICAL_MAG:
+            case QUAKE_Y_OFFSET:
                 req->y = value;
                 break;
 
-            case QUAKE_HORIZONTAL_MAG:
+            case QUAKE_X_OFFSET:
                 req->x = value;
                 break;
 
@@ -228,19 +239,19 @@ u32 Quake_SetValue(s16 index, s16 valueType, s16 value) {
                 req->zoom = value;
                 break;
 
-            case QUAKE_ROLL_OFFSET:
+            case QUAKE_ROLL:
                 req->roll = value;
                 break;
 
-            case QUAKE_SHAKE_PLANE_PITCH:
+            case QUAKE_ORIENTATION_PITCH:
                 req->xOrientation.x = value;
                 break;
 
-            case QUAKE_SHAKE_PLANE_YAW:
+            case QUAKE_ORIENTATION_YAW:
                 req->xOrientation.y = value;
                 break;
 
-            case QUAKE_SHAKE_PLANE_ROLL:
+            case QUAKE_ORIENTATION_ROLL:
                 req->xOrientation.z = value;
                 break;
 
@@ -257,6 +268,12 @@ u32 Quake_SetValue(s16 index, s16 valueType, s16 value) {
                 break;
         }
     }
+
+    //! @bug UB: missing return. "req" is in v0 at this point, but doing an
+    //! explicit return uses an additional register.
+#ifdef AVOID_UB
+    return req;
+#endif
 }
 
 u32 Quake_SetSpeed(s16 index, s16 speed) {
@@ -356,7 +373,7 @@ s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData) {
     s16* camId;
     s32 pad;
     s32 index;
-    s32 count;
+    s32 quakeCount;
     u32 cond;
     Vec3f vec;
     PlayState* play = camera->play;
@@ -383,7 +400,7 @@ s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData) {
         return 0;
     }
 
-    count = 0;
+    quakeCount = 0;
     for (index = 0; index < ARRAY_COUNT(sQuakeRequest); index++) {
         req = &sQuakeRequest[index];
         if (req->type == QUAKE_TYPE_NONE) {
@@ -450,7 +467,7 @@ s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData) {
             camData->max = maxCurr;
         }
 
-        count++;
+        quakeCount++;
     }
-    return count;
+    return quakeCount;
 }
