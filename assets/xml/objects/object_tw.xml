@@ -67,8 +67,8 @@
         <Texture Name="object_tw_Tex_00B1F8" OutName="tex_00B1F8" Format="ci8" Width="8" Height="8" Offset="0xB1F8" TlutOffset="0x9490"/>
         <Texture Name="object_tw_Tex_00B238" OutName="tex_00B238" Format="ci8" Width="32" Height="32" Offset="0xB238" TlutOffset="0x9490"/>
         <Texture Name="object_tw_Tex_00B638" OutName="tex_00B638" Format="ci8" Width="32" Height="32" Offset="0xB638" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaEffectMaskTex" OutName="twinrova_effect_mask" Format="i8" Width="32" Height="32" Offset="0xBA38"/>
-        <Texture Name="gTwinrovaEffectTex" OutName="twinrova_effect" Format="i4" Width="32" Height="64" Offset="0xBE38"/>
+        <Texture Name="gTwinrovaEffectTex" OutName="twinrova_effect" Format="i8" Width="32" Height="32" Offset="0xBA38"/>
+        <Texture Name="gTwinrovaEffectMaskTex" OutName="twinrova_effect_mask" Format="i4" Width="32" Height="64" Offset="0xBE38"/>
         <Texture Name="gTwinrovaKoumeGerudoFabricTex" OutName="twinrova_koume_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0xC238"/>
         <Texture Name="gTwinrovaKoumeJewelTex" OutName="twinrova_koume_jewel" Format="rgba16" Width="8" Height="8" Offset="0xCA38"/>
         <Texture Name="gTwinrovaKoumeRobeTex" OutName="twinrova_koume_robe" Format="rgba16" Width="16" Height="16" Offset="0xCAB8"/>
