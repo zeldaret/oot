@@ -241,7 +241,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
             }
         }
         if (play->csCtx.frames == 1020) {
-            Audio_QueueSeqCmd(SEQ_PLAYER_FANFARE << 24 | NA_BGM_OPENING_GANON);
+            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 0, 0, NA_BGM_OPENING_GANON);
         }
         if (play->csCtx.frames == 960) {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,

@@ -227,7 +227,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->dyna.actor.home.pos.z = this->dyna.actor.shape.yOffset;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->doorType = (this->dyna.actor.params >> 6) & 0xF;
     phi_a3 = D_80998224[this->doorType];
     if (phi_a3 < 0) {

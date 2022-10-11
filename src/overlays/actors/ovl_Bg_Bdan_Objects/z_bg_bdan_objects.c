@@ -110,7 +110,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     this->switchFlag = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
     if (thisx->params == 2) {

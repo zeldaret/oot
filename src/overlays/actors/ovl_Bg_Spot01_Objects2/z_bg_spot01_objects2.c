@@ -97,7 +97,7 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
 
         this->dyna.actor.objectSlot = this->requiredObjectSlot;
-        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
         switch (this->dyna.actor.params & 7) {
             case 4: // Shooting gallery

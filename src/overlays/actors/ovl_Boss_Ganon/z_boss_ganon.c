@@ -575,7 +575,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 this->unk_198 = 2;
                 this->timers[2] = 110;
                 gSaveContext.healthAccumulator = 0x140;
-                Audio_QueueSeqCmd(NA_BGM_STOP);
+                SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
             } else {
                 this->useOpenHand = true;
                 BossGanon_SetIntroCsCamera(this, 0);
@@ -807,7 +807,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             BossGanon_SetIntroCsCamera(this, 9);
 
             if (this->csTimer == 30) {
-                Audio_QueueSeqCmd(0x100100FF);
+                SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
                 this->fwork[GDF_FWORK_1] = Animation_GetLastFrame(&gGanondorfStopPlayingOrganAnim);
                 Animation_MorphToPlayOnce(&this->skelAnime, &gGanondorfStopPlayingOrganAnim, -5.0f);
             }
@@ -1074,7 +1074,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 sCape->attachShouldersTimer = 18.0f;
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_GANON_MANTLE);
                 this->unk_198 = 0;
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_GANONDORF_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_GANONDORF_BOSS);
             }
 
             if (this->csTimer == 50) {
@@ -2738,7 +2738,7 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_DEAD);
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_DD_THUNDER);
                     func_80078914(&sZeroVec, NA_SE_EN_LAST_DAMAGE);
-                    Audio_QueueSeqCmd(0x100100FF);
+                    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
                     this->screenFlashTimer = 4;
                 } else {
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_DAMAGE2);
