@@ -37,14 +37,15 @@ typedef enum {
 } QuakeType;
 
 s16 Quake_Request(Camera* camera, u32 type);
-u32 Quake_RemoveRequest(s16 index);
 
 u32 Quake_SetSpeed(s16 index, s16 speed);
 u32 Quake_SetDuration(s16 index, s16 duration);
-s16 Quake_GetTimeLeft(s16 index);
 u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 zoom, s16 roll);
 u32 Quake_SetValue(s16 index, s16 valueType, s16 value);
 u32 Quake_SetOrientation(s16 index, s16 isRelativeToScreen, Vec3s xOrientation);
+
+s16 Quake_GetTimeLeft(s16 index);
+u32 Quake_RemoveRequest(s16 index);
 
 void Quake_Init(void);
 s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData);

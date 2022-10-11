@@ -1624,7 +1624,6 @@ typedef struct {
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
-
 #define UCODE_NULL      0
 #define UCODE_F3DZEX    1
 #define UCODE_UNK       2
