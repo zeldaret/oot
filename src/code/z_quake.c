@@ -276,6 +276,11 @@ QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
 #endif
 }
 
+/**
+ * @param index
+ * @param speed For periodic types only, the angular frequency of the sine wave (binang / frame)
+ * @return true if successfully applied, false if the request does not exist
+ */
 u32 Quake_SetSpeed(s16 index, s16 speed) {
     QuakeRequest* req = Quake_GetRequest(index);
 
@@ -286,6 +291,11 @@ u32 Quake_SetSpeed(s16 index, s16 speed) {
     return false;
 }
 
+/**
+ * @param index quake request index to apply
+ * @param duration Number of frames to apply the quake
+ * @return true if successfully applied, false if the request does not exist
+ */
 u32 Quake_SetDuration(s16 index, s16 duration) {
     QuakeRequest* req = Quake_GetRequest(index);
 
@@ -296,6 +306,10 @@ u32 Quake_SetDuration(s16 index, s16 duration) {
     return false;
 }
 
+/**
+ * @param index quake request index to get
+ * @return Number of frames until the quake is finished
+ */
 s16 Quake_GetTimeLeft(s16 index) {
     QuakeRequest* req = Quake_GetRequest(index);
 
@@ -311,7 +325,7 @@ s16 Quake_GetTimeLeft(s16 index) {
  * @param xOffset Apply left/right shaking
  * @param fov Apply zooming shaking (binang)
  * @param roll Apply rolling shaking (binang)
- * @return true if successful, false if the request does not exist
+ * @return true if successfully applied, false if the request does not exist
  */
 u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 fov, s16 roll) {
     QuakeRequest* req = Quake_GetRequest(index);
@@ -326,6 +340,12 @@ u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 fov, s16 rol
     return false;
 }
 
+/**
+ * @param index quake request index to apply
+ * @param isRelativeToScreen Is the quake applied to relative to the screen or in absolute world coordinates
+ * @param xOrientation orient the left/right shake to a different direction
+ * @return true if successfully applied, false if the request does not exist
+ */
 u32 Quake_SetOrientation(s16 index, s16 isRelativeToScreen, Vec3s xOrientation) {
     QuakeRequest* req = Quake_GetRequest(index);
 
