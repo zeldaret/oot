@@ -322,10 +322,10 @@ s16 Quake_GetTimeLeft(s16 index) {
 
 /**
  * @param index quake request index to apply
- * @param yOffset Apply up/down shaking
- * @param xOffset Apply left/right shaking
- * @param fov Apply zooming shaking (binang)
- * @param roll Apply rolling shaking (binang)
+ * @param yOffset Apply up/down shake
+ * @param xOffset Apply left/right shake
+ * @param fov Apply zooming in/out shake (binang)
+ * @param roll Apply rolling shake (binang)
  * @return true if successfully applied, false if the request does not exist
  */
 u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 fov, s16 roll) {
@@ -343,7 +343,7 @@ u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 fov, s16 rol
 
 /**
  * @param index quake request index to apply
- * @param isRelativeToScreen Is the quake applied to relative to the screen or in absolute world coordinates
+ * @param isRelativeToScreen Is the quake applied relative to the screen or in absolute world coordinates
  * @param xOrientation orient the left/right shake to a different direction
  * @return true if successfully applied, false if the request does not exist
  */
@@ -403,7 +403,7 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
     s32 pad;
     s32 index;
     s32 numQuakesApplied;
-    u32 cond;
+    u32 isDifferentCamId;
     Vec3f vec;
     PlayState* play = camera->play;
 
@@ -443,7 +443,7 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
         }
 
         camId = &camera->camId;
-        cond = req->cam->camId != *camId;
+        isDifferentCamId = req->cam->camId != *camId;
         absSpeedDiv = (f32)ABS(req->speed) / 0x8000;
 
         if (sQuakeCallbacks[req->type](req, &shake) == 0) {
@@ -452,7 +452,8 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
             continue;
         }
 
-        if (cond) {
+        if (isDifferentCamId) {
+            // Quake is attached to a different camId
             continue;
         }
 

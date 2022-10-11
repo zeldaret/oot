@@ -10,7 +10,7 @@ typedef struct {
     /* 0x0C */ Vec3f eyeOffset;
     /* 0x18 */ s16 rollFromPitch; // gives a "roll" effect by offsetting the Up vector
     /* 0x1A */ s16 rollFromYaw; // gives a "roll" effect by offsetting the Up vector
-    /* 0x1C */ s16 fov; // in (binang)
+    /* 0x1C */ s16 fov; // in binang
     /* 0x20 */ f32 max;
 } QuakeCamData; // size = 0x24
 
@@ -21,7 +21,7 @@ typedef enum {
     /* 3 */ QUAKE_TYPE_3, // Periodic, decaying
     /* 4 */ QUAKE_TYPE_4, // Aperiodic, decaying, random X perturbations
     /* 5 */ QUAKE_TYPE_5, // Periodic, sustaining
-    /* 6 */ QUAKE_TYPE_6 // Jump-Periodic, sustaining, reset period every 16 frames (jumps), random X perturbations
+    /* 6 */ QUAKE_TYPE_6 // Jump-Periodic, sustaining, random X perturbations, reset period every 16 frames (jumps, similar to sawtooth)
 } QuakeType;
 
 s16 Quake_Request(Camera* camera, u32 type);
