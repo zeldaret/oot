@@ -110,9 +110,7 @@ s16 Quake_CallbackType6(QuakeRequest* req, ShakeInfo* shake) {
     xyOffset = Math_SinS(req->speed * ((req->timer & 0xF) + 500));
     Quake_UpdateShakeInfo(req, shake, xyOffset, Rand_ZeroOne() * xyOffset);
 
-    // Not returning the timer ensures quake type 6 continues indefinitely until manually removed.
-    // Choosing a value of 1 puts the lowest priority on this type, and will be ejected first
-    // if the maximum requests are reached.
+    // Not returning the timer ensures quake type 6 continues indefinitely until manually removed
     return 1;
 }
 
