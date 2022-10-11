@@ -19,6 +19,7 @@
 #define HINT_CMD_TYPE_RANDOM  2
 
 // Checks the condition and skips forward by specified number of commands if the check passes
+// Note that the amount of entries to skip is specified in the field where the textId would usually go
 #define HINT_CMD_TYPE_SKIP   3
 
 // Always ends the script, returning the text id for this command
