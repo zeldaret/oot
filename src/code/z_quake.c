@@ -109,6 +109,8 @@ s16 Quake_CallbackType6(QuakeRequest* req, ShakeInfo* shake) {
     req->timer--;
     xyOffset = Math_SinS(req->speed * ((req->timer & 0xF) + 500));
     Quake_UpdateShakeInfo(req, shake, xyOffset, Rand_ZeroOne() * xyOffset);
+
+    // Not returning the timer ensures quake type 6 continues indefinitely until manually removed
     return 1;
 }
 
@@ -222,56 +224,56 @@ QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
 
     if (req == NULL) {
         return NULL;
-    } else {
-        switch (valueType) {
-            case QUAKE_SPEED:
-                req->speed = value;
-                break;
-
-            case QUAKE_Y_OFFSET:
-                req->y = value;
-                break;
-
-            case QUAKE_X_OFFSET:
-                req->x = value;
-                break;
-
-            case QUAKE_FOV:
-                req->fov = value;
-                break;
-
-            case QUAKE_ROLL:
-                req->roll = value;
-                break;
-
-            case QUAKE_ORIENTATION_PITCH:
-                req->xOrientation.x = value;
-                break;
-
-            case QUAKE_ORIENTATION_YAW:
-                req->xOrientation.y = value;
-                break;
-
-            case QUAKE_ORIENTATION_ROLL:
-                req->xOrientation.z = value;
-                break;
-
-            case QUAKE_COUNTDOWN:
-                req->timer = value;
-                req->duration = req->timer;
-                break;
-
-            case QUAKE_IS_SHAKE_PERPENDICULAR:
-                req->isRelativeToScreen = value;
-                break;
-
-            default:
-                break;
-        }
     }
 
-    //! @bug UB: missing return. "req" is in v0 at this point, but doing an
-    //! explicit return uses an additional register.
+    switch (valueType) {
+        case QUAKE_SPEED:
+            req->speed = value;
+            break;
+
+        case QUAKE_Y_OFFSET:
+            req->y = value;
+            break;
+
+        case QUAKE_X_OFFSET:
+            req->x = value;
+            break;
+
+        case QUAKE_FOV:
+            req->fov = value;
+            break;
+
+        case QUAKE_ROLL:
+            req->roll = value;
+            break;
+
+        case QUAKE_ORIENTATION_PITCH:
+            req->xOrientation.x = value;
+            break;
+
+        case QUAKE_ORIENTATION_YAW:
+            req->xOrientation.y = value;
+            break;
+
+        case QUAKE_ORIENTATION_ROLL:
+            req->xOrientation.z = value;
+            break;
+
+        case QUAKE_COUNTDOWN:
+            req->timer = value;
+            req->duration = req->timer;
+            break;
+
+        case QUAKE_IS_SHAKE_PERPENDICULAR:
+            req->isRelativeToScreen = value;
+            break;
+
+        default:
+            break;
+    }
+
+        //! @bug UB: missing return. "req" is in v0 at this point, but doing an
+        //! explicit return uses an additional register.
 #ifdef AVOID_UB
     return req;
 #endif

@@ -21,8 +21,13 @@ typedef enum {
     /* 3 */ QUAKE_TYPE_3, // Periodic, decaying
     /* 4 */ QUAKE_TYPE_4, // Aperiodic, decaying, random X perturbations
     /* 5 */ QUAKE_TYPE_5, // Periodic, sustaining
-    /* 6 */ QUAKE_TYPE_6 // Jump-Periodic, sustaining, random X perturbations, reset period every 16 frames (jumps, similar to sawtooth)
+    /* 6 */ QUAKE_TYPE_6 // See below
 } QuakeType;
+
+// Quake type 6 is Jump-Periodic, sustaining, random X perturbations,
+// resets period every 16 frames (jumps, similar to sawtooth),
+// continues indefinitely i.e. does not terminate when the timer reaches 0
+// must be manually removed
 
 s16 Quake_Request(Camera* camera, u32 type);
 
