@@ -7622,7 +7622,7 @@ Vec3s Camera_Update(Camera* camera) {
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
         Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.roll, eyeAtAngle.yaw + quakeCamData.yaw,
                                       camera->roll);
-        viewFov = camera->fov + CAM_BINANG_TO_DEG(quakeCamData.zoom);
+        viewFov = camera->fov + CAM_BINANG_TO_DEG(quakeCamData.fov);
     } else {
         viewAt = camera->at;
         viewEye = camera->eye;

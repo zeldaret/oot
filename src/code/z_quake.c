@@ -9,7 +9,7 @@ typedef struct {
     /* 0x08 */ u32 type;
     /* 0x0C */ s16 y;
     /* 0x0E */ s16 x;
-    /* 0x10 */ s16 zoom;
+    /* 0x10 */ s16 fov;
     /* 0x12 */ s16 roll;
     /* 0x14 */ Vec3s xOrientation; // alters the orientation of the x perturbation. Only .x (pitch, xy plane) and .y
                                    // (yaw, xz plane) are used
@@ -24,7 +24,7 @@ typedef struct {
     /* 0x0C */ Vec3f eyeOffset;
     /* 0x18 */ s16 roll;
     /* 0x1A */ s16 yaw;
-    /* 0x1C */ s16 zoom;
+    /* 0x1C */ s16 fov;
 } ShakeInfo; // size = 0x20
 
 QuakeRequest sQuakeRequest[4];
@@ -78,7 +78,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
     shake->atOffset = shake->eyeOffset = offset;
     shake->yaw = 0x8000 * y;
     shake->roll = req->roll * y;
-    shake->zoom = req->zoom * y;
+    shake->fov = req->fov * y;
 }
 
 s16 Quake_CallbackType1(QuakeRequest* req, ShakeInfo* shake) {
@@ -208,7 +208,7 @@ QuakeRequest* Quake_GetRequest(s16 index) {
 #define QUAKE_SPEED (1 << 0)
 #define QUAKE_Y_OFFSET (1 << 1)
 #define QUAKE_X_OFFSET (1 << 2)
-#define QUAKE_ZOOM (1 << 3)
+#define QUAKE_FOV (1 << 3)
 #define QUAKE_ROLL (1 << 4)
 #define QUAKE_ORIENTATION_PITCH (1 << 5)
 #define QUAKE_ORIENTATION_YAW (1 << 6)
@@ -235,8 +235,8 @@ QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
                 req->x = value;
                 break;
 
-            case QUAKE_ZOOM:
-                req->zoom = value;
+            case QUAKE_FOV:
+                req->fov = value;
                 break;
 
             case QUAKE_ROLL:
@@ -305,13 +305,21 @@ s16 Quake_GetTimeLeft(s16 index) {
     return 0;
 }
 
-u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 zoom, s16 roll) {
+/**
+ * @param index quake request index to apply
+ * @param yOffset Apply up/down shaking
+ * @param xOffset Apply left/right shaking
+ * @param fov Apply zooming shaking (binang)
+ * @param roll Apply rolling shaking (binang)
+ * @return true if successful, false if the request does not exist
+ */
+u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 fov, s16 roll) {
     QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
         req->y = yOffset;
         req->x = xOffset;
-        req->zoom = zoom;
+        req->fov = fov;
         req->roll = roll;
         return true;
     }
@@ -373,7 +381,7 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
     s16* camId;
     s32 pad;
     s32 index;
-    s32 quakeCount;
+    s32 numQuakesApplied;
     u32 cond;
     Vec3f vec;
     PlayState* play = camera->play;
@@ -384,7 +392,7 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
 
     camData->roll = 0;
     camData->yaw = 0;
-    camData->zoom = 0;
+    camData->fov = 0;
 
     camData->atOffset.x = 0.0f;
     camData->atOffset.y = 0.0f;
@@ -400,7 +408,7 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
         return 0;
     }
 
-    quakeCount = 0;
+    numQuakesApplied = 0;
     for (index = 0; index < ARRAY_COUNT(sQuakeRequest); index++) {
         req = &sQuakeRequest[index];
         if (req->type == QUAKE_TYPE_NONE) {
@@ -449,8 +457,8 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
             camData->roll = shake.roll;
             camData->yaw = shake.yaw;
         }
-        if (camData->zoom < shake.zoom) {
-            camData->zoom = shake.zoom;
+        if (camData->fov < shake.fov) {
+            camData->fov = shake.fov;
         }
 
         maxCurr = OLib_Vec3fDist(&shake.atOffset, &vec) * absSpeedDiv;
@@ -460,14 +468,14 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
         maxNext = (camData->roll * (1.0f / 200.0f)) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
-        maxNext = (camData->zoom * (1.0f / 200.0f)) * absSpeedDiv;
+        maxNext = (camData->fov * (1.0f / 200.0f)) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
         if (camData->max < maxCurr) {
             camData->max = maxCurr;
         }
 
-        quakeCount++;
+        numQuakesApplied++;
     }
-    return quakeCount;
+    return numQuakesApplied;
 }

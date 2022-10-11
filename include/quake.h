@@ -10,7 +10,7 @@ typedef struct {
     /* 0x0C */ Vec3f eyeOffset;
     /* 0x18 */ s16 roll;
     /* 0x1A */ s16 yaw;
-    /* 0x1C */ s16 zoom;
+    /* 0x1C */ s16 fov; // in (binang)
     /* 0x20 */ f32 max;
 } QuakeCamData; // size = 0x24
 
@@ -28,7 +28,7 @@ s16 Quake_Request(Camera* camera, u32 type);
 
 u32 Quake_SetSpeed(s16 index, s16 speed);
 u32 Quake_SetDuration(s16 index, s16 duration);
-u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 zoom, s16 roll);
+u32 Quake_SetPerturbations(s16 index, s16 yOffset, s16 xOffset, s16 fov, s16 roll);
 u32 Quake_SetOrientation(s16 index, s16 isRelativeToScreen, Vec3s xOrientation);
 
 s16 Quake_GetTimeLeft(s16 index);
