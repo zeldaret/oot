@@ -7607,8 +7607,9 @@ Vec3s Camera_Update(Camera* camera) {
         return camera->inputDir;
     }
 
-    // setting bgId to the ret of Quake_Update is required.
-    bgId = numQuakesApplied = Quake_Update(camera, &quakeCamData);
+    numQuakesApplied = Quake_Update(camera, &quakeCamData);
+
+    bgId = numQuakesApplied; // required to match
 
     if ((numQuakesApplied != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
         viewAt.x = camera->at.x + quakeCamData.atOffset.x;

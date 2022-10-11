@@ -388,13 +388,13 @@ u32 Quake_RemoveRequest(s16 index) {
 }
 
 s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
-    NULL,
-    Quake_CallbackType1,
-    Quake_CallbackType2,
-    Quake_CallbackType3,
-    Quake_CallbackType4,
-    Quake_CallbackType5,
-    Quake_CallbackType6,
+    NULL,                // QUAKE_TYPE_NONE
+    Quake_CallbackType1, // QUAKE_TYPE_1
+    Quake_CallbackType2, // QUAKE_TYPE_2
+    Quake_CallbackType3, // QUAKE_TYPE_3
+    Quake_CallbackType4, // QUAKE_TYPE_4
+    Quake_CallbackType5, // QUAKE_TYPE_5
+    Quake_CallbackType6, // QUAKE_TYPE_6
 };
 
 s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
