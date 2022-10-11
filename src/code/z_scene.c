@@ -1,7 +1,7 @@
 #include "global.h"
 #include "vt.h"
 
-RomFile sNaviHintFiles[];
+RomFile sNaviQuestHintFiles[];
 
 s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
@@ -231,8 +231,8 @@ void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
         gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[play->objectCtx.subKeepIndex].segment);
     }
 
-    if (cmd->specialFiles.naviHintFileId != NAVI_HINTS_NONE) {
-        play->naviHints = Play_LoadFile(play, &sNaviHintFiles[cmd->specialFiles.naviHintFileId - 1]);
+    if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
+        play->naviQuestHints = Play_LoadFile(play, &sNaviQuestHintFiles[cmd->specialFiles.naviQuestHintFileId - 1]);
     }
 }
 
@@ -498,7 +498,7 @@ void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
     Scene_CommandMiscSettings,        // SCENE_CMD_ID_MISC_SETTINGS
 };
 
-RomFile sNaviHintFiles[] = {
+RomFile sNaviQuestHintFiles[] = {
     ROM_FILE(elf_message_field),
     ROM_FILE(elf_message_ydan),
     ROM_FILE_UNSET,

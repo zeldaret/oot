@@ -223,7 +223,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  code;
-    /* 0x01 */ u8  naviHintFileId;
+    /* 0x01 */ u8  naviQuestHintFileId;
     /* 0x04 */ u32 keepObjectId;
 } SCmdSpecialFiles;
 
@@ -472,9 +472,9 @@ typedef enum {
 // navi hints
 // TODO: make ZAPD use this enum for `SCENE_CMD_SPECIAL_FILES`
 typedef enum {
-    NAVI_HINTS_NONE,
-    NAVI_HINTS_OVERWORLD,
-    NAVI_HINTS_DUNGEON
+    NAVI_QUEST_HINTS_NONE,
+    NAVI_QUEST_HINTS_OVERWORLD,
+    NAVI_QUEST_HINTS_DUNGEON
 } NaviHintFileId;
 
 // Scene commands
@@ -530,8 +530,8 @@ typedef enum {
 #define SCENE_CMD_ENTRANCE_LIST(entranceList) \
     { SCENE_CMD_ID_ENTRANCE_LIST, 0, CMD_PTR(entranceList) }
 
-#define SCENE_CMD_SPECIAL_FILES(naviHintFileId, keepObjectId) \
-    { SCENE_CMD_ID_SPECIAL_FILES, naviHintFileId, CMD_W(keepObjectId) }
+#define SCENE_CMD_SPECIAL_FILES(naviQuestHintFileId, keepObjectId) \
+    { SCENE_CMD_ID_SPECIAL_FILES, naviQuestHintFileId, CMD_W(keepObjectId) }
 
 #define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
     { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \
