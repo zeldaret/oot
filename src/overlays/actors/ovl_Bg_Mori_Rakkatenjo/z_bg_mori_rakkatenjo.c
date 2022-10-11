@@ -166,8 +166,8 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
 
             quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
             Quake_SetSpeed(quakeIndex, 50000);
-            Quake_SetQuakeValues(quakeIndex, 5, 0, 0, 0);
-            Quake_SetCountdown(quakeIndex, 5);
+            Quake_SetPerturbations(quakeIndex, 5, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 5);
         }
     }
 }

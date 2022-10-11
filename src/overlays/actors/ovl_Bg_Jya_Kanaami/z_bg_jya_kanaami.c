@@ -106,8 +106,8 @@ void func_80899950(BgJyaKanaami* this, PlayState* play) {
 
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
         Quake_SetSpeed(quakeIndex, 25000);
-        Quake_SetQuakeValues(quakeIndex, 2, 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 16);
+        Quake_SetPerturbations(quakeIndex, 2, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 16);
     }
 }
 

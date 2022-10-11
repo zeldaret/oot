@@ -382,8 +382,8 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
             if (this->actor.xzDistToPlayer < 600.0f) {
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
                 Quake_SetSpeed(quakeIndex, -0x3CB0);
-                Quake_SetQuakeValues(quakeIndex, 3, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 7);
+                Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 7);
             }
             this->rollRotSpeed = 0.0f;
             if (!(this->stateFlags & ENGOROIWA_IN_WATER)) {

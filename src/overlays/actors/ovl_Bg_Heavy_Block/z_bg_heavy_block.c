@@ -334,8 +334,8 @@ void BgHeavyBlock_Wait(BgHeavyBlock* this, PlayState* play) {
 
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
         Quake_SetSpeed(quakeIndex, 25000);
-        Quake_SetQuakeValues(quakeIndex, 1, 1, 5, 0);
-        Quake_SetCountdown(quakeIndex, 10);
+        Quake_SetPerturbations(quakeIndex, 1, 1, 5, 0);
+        Quake_SetDuration(quakeIndex, 10);
         this->actionFunc = BgHeavyBlock_LiftedUp;
     }
 }
@@ -401,13 +401,13 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
 
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
                 Quake_SetSpeed(quakeIndex, 28000);
-                Quake_SetQuakeValues(quakeIndex, 14, 2, 100, 0);
-                Quake_SetCountdown(quakeIndex, 30);
+                Quake_SetPerturbations(quakeIndex, 14, 2, 100, 0);
+                Quake_SetDuration(quakeIndex, 30);
 
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_2);
                 Quake_SetSpeed(quakeIndex, 12000);
-                Quake_SetQuakeValues(quakeIndex, 5, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 999);
+                Quake_SetPerturbations(quakeIndex, 5, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 999);
 
                 SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ELECTRIC_EXPLOSION);
                 return;
@@ -416,8 +416,8 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
 
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
                 Quake_SetSpeed(quakeIndex, 28000);
-                Quake_SetQuakeValues(quakeIndex, 16, 2, 120, 0);
-                Quake_SetCountdown(quakeIndex, 40);
+                Quake_SetPerturbations(quakeIndex, 16, 2, 120, 0);
+                Quake_SetDuration(quakeIndex, 40);
 
                 this->actionFunc = BgHeavyBlock_Land;
                 Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
@@ -427,16 +427,16 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
 
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
                 Quake_SetSpeed(quakeIndex, 28000);
-                Quake_SetQuakeValues(quakeIndex, 14, 2, 100, 0);
-                Quake_SetCountdown(quakeIndex, 40);
+                Quake_SetPerturbations(quakeIndex, 14, 2, 100, 0);
+                Quake_SetDuration(quakeIndex, 40);
 
                 this->actionFunc = BgHeavyBlock_Land;
                 break;
             default:
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
                 Quake_SetSpeed(quakeIndex, 28000);
-                Quake_SetQuakeValues(quakeIndex, 14, 2, 100, 0);
-                Quake_SetCountdown(quakeIndex, 40);
+                Quake_SetPerturbations(quakeIndex, 14, 2, 100, 0);
+                Quake_SetDuration(quakeIndex, 40);
 
                 this->actionFunc = BgHeavyBlock_Land;
         }

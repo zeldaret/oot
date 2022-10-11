@@ -3510,16 +3510,16 @@ void Actor_RequestQuake(PlayState* play, s16 verticalMag, s16 countdown) {
     s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, 20000);
-    Quake_SetQuakeValues(quakeIndex, verticalMag, 0, 0, 0);
-    Quake_SetCountdown(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, verticalMag, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, countdown);
 }
 
 void Actor_RequestQuakeWithSpeed(PlayState* play, s16 verticalMag, s16 countdown, s16 speed) {
     s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, speed);
-    Quake_SetQuakeValues(quakeIndex, verticalMag, 0, 0, 0);
-    Quake_SetCountdown(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, verticalMag, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, countdown);
 }
 
 void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 verticalMag, s16 countdown) {

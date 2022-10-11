@@ -7695,8 +7695,8 @@ void Player_RequestQuake(PlayState* play, s32 speed, s32 y, s32 countdown) {
     s32 quakeIndex = Quake_Request(Play_GetCamera(play, CAM_ID_MAIN), QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, speed);
-    Quake_SetQuakeValues(quakeIndex, y, 0, 0, 0);
-    Quake_SetCountdown(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, countdown);
 }
 
 void func_80842A28(PlayState* play, Player* this) {

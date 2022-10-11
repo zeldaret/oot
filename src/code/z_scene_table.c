@@ -591,15 +591,15 @@ void func_8009BEEC(PlayState* play) {
     if (play->gameplayFrames % 128 == 13) {
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_2);
         Quake_SetSpeed(quakeIndex, 10000);
-        Quake_SetQuakeValues(quakeIndex, 4, 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 127);
+        Quake_SetPerturbations(quakeIndex, 4, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 127);
     }
 
     if ((play->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
         Quake_SetSpeed(quakeIndex, 32000.0f + (Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(quakeIndex, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 48.0f - (Rand_ZeroOne() * 15.0f));
+        Quake_SetPerturbations(quakeIndex, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 

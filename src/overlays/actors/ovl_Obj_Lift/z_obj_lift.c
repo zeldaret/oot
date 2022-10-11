@@ -145,8 +145,8 @@ void func_80B96560(ObjLift* this, PlayState* play) {
             } else {
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
                 Quake_SetSpeed(quakeIndex, 10000);
-                Quake_SetQuakeValues(quakeIndex, 2, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 20);
+                Quake_SetPerturbations(quakeIndex, 2, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 20);
                 func_80B9664C(this);
             }
         }

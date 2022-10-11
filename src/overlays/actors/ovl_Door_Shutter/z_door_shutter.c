@@ -575,8 +575,8 @@ void func_809973E8(DoorShutter* this, PlayState* play) {
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         quakeIndex = Quake_Request(Play_GetCamera(play, CAM_ID_MAIN), 3);
         Quake_SetSpeed(quakeIndex, -32536);
-        Quake_SetQuakeValues(quakeIndex, 2, 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 10);
+        Quake_SetPerturbations(quakeIndex, 2, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 10);
         Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
         func_80997220(this, play);
     }
@@ -772,6 +772,6 @@ void DoorShutter_RequestQuakeAndRumble(PlayState* play, s16 y, s16 countdown, s1
 
     Rumble_Override(0.0f, 180, 20, 100);
     Quake_SetSpeed(quakeIndex, 20000);
-    Quake_SetQuakeValues(quakeIndex, y, 0, 0, 0);
-    Quake_SetCountdown(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, countdown);
 }

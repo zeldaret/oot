@@ -7272,14 +7272,14 @@ s32 Camera_UpdateWater(Camera* camera) {
             PREG(81) = 0;
         }
 
-        if ((*waterQuakeIndex == -1) || (Quake_GetCountdown(*waterQuakeIndex) == 10)) {
+        if ((*waterQuakeIndex == -1) || (Quake_GetTimeLeft(*waterQuakeIndex) == 10)) {
             quakeIndex = Quake_Request(camera, QUAKE_TYPE_5);
 
             *waterQuakeIndex = quakeIndex;
             if (quakeIndex != 0) {
                 Quake_SetSpeed(*waterQuakeIndex, 550);
-                Quake_SetQuakeValues(*waterQuakeIndex, 1, 1, 180, 0);
-                Quake_SetCountdown(*waterQuakeIndex, 1000);
+                Quake_SetPerturbations(*waterQuakeIndex, 1, 1, 180, 0);
+                Quake_SetDuration(*waterQuakeIndex, 1000);
             }
         }
 
@@ -7618,8 +7618,8 @@ Vec3s Camera_Update(Camera* camera) {
         viewEye.y = camera->eye.y + quakeCamData.eyeOffset.y;
         viewEye.z = camera->eye.z + quakeCamData.eyeOffset.z;
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
-        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.rotZ,
-                                      eyeAtAngle.yaw + quakeCamData.unk_1A, camera->roll);
+        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.roll, eyeAtAngle.yaw + quakeCamData.yaw,
+                                      camera->roll);
         viewFov = camera->fov + CAM_BINANG_TO_DEG(quakeCamData.zoom);
     } else {
         viewAt = camera->at;
@@ -8024,8 +8024,8 @@ s32 Camera_RequestQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
         return 0;
     }
     Quake_SetSpeed(quakeIndex, 0x61A8);
-    Quake_SetQuakeValues(quakeIndex, y, 0, 0, 0);
-    Quake_SetCountdown(quakeIndex, countdown);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, countdown);
     return 1;
 }
 

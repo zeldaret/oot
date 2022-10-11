@@ -95,8 +95,8 @@ void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
             if ((this->deathMountainSpawnerTimer == 1) || !this->isQuaking) {
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
                 Quake_SetSpeed(quakeIndex, 0x7FFF);
-                Quake_SetQuakeValues(quakeIndex, 50, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 300);
+                Quake_SetPerturbations(quakeIndex, 50, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 300);
                 this->isQuaking = true;
             }
             FALLTHROUGH;

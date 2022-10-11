@@ -154,8 +154,8 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play) {
         }
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
         Quake_SetSpeed(quakeIndex, 0x7FFF);
-        Quake_SetQuakeValues(quakeIndex, 300, 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 30);
+        Quake_SetPerturbations(quakeIndex, 300, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 30);
         this->timer = 20;
         this->actionFunc = BgBowlWall_FinishFall;
     }

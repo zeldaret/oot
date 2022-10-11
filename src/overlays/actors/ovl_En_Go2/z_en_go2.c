@@ -1635,8 +1635,8 @@ void EnGo2_CurledUp(EnGo2* this, PlayState* play) {
         if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
             quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
             Quake_SetSpeed(quakeIndex, -0x3CB0);
-            Quake_SetQuakeValues(quakeIndex, 8, 0, 0, 0);
-            Quake_SetCountdown(quakeIndex, 16);
+            Quake_SetPerturbations(quakeIndex, 8, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 16);
         } else {
             EnGo2_GetDustData(this, 1);
         }

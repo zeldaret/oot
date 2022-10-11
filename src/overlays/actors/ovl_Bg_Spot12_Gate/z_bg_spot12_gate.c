@@ -114,8 +114,8 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play) {
 
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
         Quake_SetSpeed(quakeIndex, -0x3CB0);
-        Quake_SetQuakeValues(quakeIndex, 3, 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 12);
+        Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 12);
 
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
