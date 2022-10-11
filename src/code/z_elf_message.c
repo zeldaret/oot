@@ -1,5 +1,5 @@
 #include "global.h"
-#include "z64hint_commands.h"
+#include "z64quest_hint_commands.h"
 
 QuestHintCmd sChildSariaQuestHints[] = {
     QUEST_HINT_STRENGTH_UPG(SKIP, 0, false, 3),
