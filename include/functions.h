@@ -488,9 +488,9 @@ s32 Actor_IsTargeted(PlayState* play, Actor* actor);
 s32 Actor_OtherIsTargeted(PlayState* play, Actor* actor);
 f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play);
-void Actor_RequestQuake(PlayState* play, s16 verticalMag, s16 countdown);
-void Actor_RequestQuakeWithSpeed(PlayState* play, s16 verticalMag, s16 countdown, s16 speed);
-void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 verticalMag, s16 countdown);
+void Actor_RequestQuake(PlayState* play, s16 yOffset, s16 duration);
+void Actor_RequestQuakeWithSpeed(PlayState* play, s16 yOffset, s16 duration, s16 speed);
+void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeYOffset, s16 quakeDuration);
 f32 Rand_ZeroFloat(f32 f);
 f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
@@ -666,7 +666,7 @@ s16 Camera_GetInputDirYaw(Camera* camera);
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera);
 s16 Camera_GetCamDirPitch(Camera* camera);
 s16 Camera_GetCamDirYaw(Camera* camera);
-s32 Camera_RequestQuake(Camera* camera, s32 arg1, s16 y, s32 countdown);
+s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 yOffset, s32 duration);
 s32 Camera_SetParam(Camera* camera, s32 param, void* value);
 s32 func_8005AC48(Camera* camera, s16 arg1);
 s16 func_8005ACFC(Camera* camera, s16 arg1);
@@ -677,7 +677,7 @@ s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCa
 s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamIndex, f32 arg3, s16 timer1, s16 timer2,
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
-Vec3f* Camera_GetQuakeOffset(Vec3f* dst, Camera* camera);
+Vec3f* Camera_GetQuakeOffset(Vec3f* quakeOffset, Camera* camera);
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
                           UNK_TYPE arg6);
 s32 func_8005B198(void);
