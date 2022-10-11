@@ -114,7 +114,7 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     thisx->focus.pos = thisx->world.pos;
     this->dyna.bgId = BGACTOR_NEG_ONE;
     this->dyna.interactFlags = 0;
-    this->dyna.unk_15C = DPM_UNK;
+    this->dyna.transformFlags = 0;
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 200.0f;
 
