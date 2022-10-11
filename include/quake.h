@@ -35,6 +35,6 @@ s16 Quake_GetTimeLeft(s16 index);
 u32 Quake_RemoveRequest(s16 index);
 
 void Quake_Init(void);
-s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData);
+s16 Quake_Update(Camera* camera, QuakeCamData* camData);
 
 #endif

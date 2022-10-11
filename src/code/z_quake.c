@@ -364,7 +364,7 @@ s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
     Quake_CallbackType6,
 };
 
-s16 Quake_ApplyToCamera(Camera* camera, QuakeCamData* camData) {
+s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
     f32 maxCurr;
     f32 maxNext;
     QuakeRequest* req;

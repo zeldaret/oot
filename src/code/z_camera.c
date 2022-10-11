@@ -7607,16 +7607,18 @@ Vec3s Camera_Update(Camera* camera) {
         return camera->inputDir;
     }
 
-    // setting bgId to the ret of Quake_ApplyToCamera, and checking that
-    // is required, it doesn't make too much sense though.
-    bgId = numQuakesApplied = Quake_ApplyToCamera(camera, &quakeCamData);
+    // setting bgId to the ret of Quake_Update is required.
+    bgId = numQuakesApplied = Quake_Update(camera, &quakeCamData);
+
     if ((numQuakesApplied != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
         viewAt.x = camera->at.x + quakeCamData.atOffset.x;
         viewAt.y = camera->at.y + quakeCamData.atOffset.y;
         viewAt.z = camera->at.z + quakeCamData.atOffset.z;
+
         viewEye.x = camera->eye.x + quakeCamData.eyeOffset.x;
         viewEye.y = camera->eye.y + quakeCamData.eyeOffset.y;
         viewEye.z = camera->eye.z + quakeCamData.eyeOffset.z;
+
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
         Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.roll, eyeAtAngle.yaw + quakeCamData.yaw,
                                       camera->roll);
@@ -8021,12 +8023,12 @@ s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 yOffset, s32 duration) {
 
     quakeIndex = Quake_Request(camera, QUAKE_TYPE_3);
     if (quakeIndex == 0) {
-        return 0;
+        return false;
     }
     Quake_SetSpeed(quakeIndex, 0x61A8);
     Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
     Quake_SetDuration(quakeIndex, duration);
-    return 1;
+    return true;
 }
 
 s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
