@@ -22,8 +22,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f atOffset;
     /* 0x0C */ Vec3f eyeOffset;
-    /* 0x18 */ s16 roll;
-    /* 0x1A */ s16 yaw;
+    /* 0x18 */ s16 rollFromPitch;
+    /* 0x1A */ s16 rollFromYaw;
     /* 0x1C */ s16 fov;
 } ShakeInfo; // size = 0x20
 
@@ -76,8 +76,8 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
     }
 
     shake->atOffset = shake->eyeOffset = offset;
-    shake->yaw = 0x8000 * y;
-    shake->roll = req->roll * y;
+    shake->rollFromYaw = 0x8000 * y;
+    shake->rollFromPitch = req->roll * y;
     shake->fov = req->fov * y;
 }
 
@@ -390,8 +390,8 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
     vec.y = 0.0f;
     vec.z = 0.0f;
 
-    camData->roll = 0;
-    camData->yaw = 0;
+    camData->rollFromPitch = 0;
+    camData->rollFromYaw = 0;
     camData->fov = 0;
 
     camData->atOffset.x = 0.0f;
@@ -453,9 +453,9 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
         if (fabsf(camData->eyeOffset.z) < fabsf(shake.eyeOffset.z)) {
             camData->eyeOffset.z = shake.eyeOffset.z;
         }
-        if (camData->roll < shake.roll) {
-            camData->roll = shake.roll;
-            camData->yaw = shake.yaw;
+        if (camData->rollFromPitch < shake.rollFromPitch) {
+            camData->rollFromPitch = shake.rollFromPitch;
+            camData->rollFromYaw = shake.rollFromYaw;
         }
         if (camData->fov < shake.fov) {
             camData->fov = shake.fov;
@@ -465,7 +465,7 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
         maxNext = OLib_Vec3fDist(&shake.eyeOffset, &vec) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
-        maxNext = (camData->roll * (1.0f / 200.0f)) * absSpeedDiv;
+        maxNext = (camData->rollFromPitch * (1.0f / 200.0f)) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
         maxNext = (camData->fov * (1.0f / 200.0f)) * absSpeedDiv;

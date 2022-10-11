@@ -8,8 +8,8 @@ struct Camera;
 typedef struct {
     /* 0x00 */ Vec3f atOffset;
     /* 0x0C */ Vec3f eyeOffset;
-    /* 0x18 */ s16 roll;
-    /* 0x1A */ s16 yaw;
+    /* 0x18 */ s16 rollFromPitch; // gives a "roll" effect by offsetting the Up vector
+    /* 0x1A */ s16 rollFromYaw; // gives a "roll" effect by offsetting the Up vector
     /* 0x1C */ s16 fov; // in (binang)
     /* 0x20 */ f32 max;
 } QuakeCamData; // size = 0x24
