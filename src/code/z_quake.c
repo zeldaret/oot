@@ -110,7 +110,9 @@ s16 Quake_CallbackType6(QuakeRequest* req, ShakeInfo* shake) {
     xyOffset = Math_SinS(req->speed * ((req->timer & 0xF) + 500));
     Quake_UpdateShakeInfo(req, shake, xyOffset, Rand_ZeroOne() * xyOffset);
 
-    // Not returning the timer ensures quake type 6 continues indefinitely until manually removed
+    // Not returning the timer ensures quake type 6 continues indefinitely until manually removed.
+    // Choosing a value of 1 puts the lowest priority on this type, and will be ejected first
+    // if the maximum requests are reached.
     return 1;
 }
 
@@ -181,6 +183,7 @@ QuakeRequest* Quake_RequestImpl(Camera* camera, u32 type) {
     req->isRelativeToScreen = true;
 
     // Add a unique random identifier to the upper bits of the index
+    // The `~3` assumes there are only 4 requests
     req->index = index + ((s16)(Rand_ZeroOne() * 0x10000) & ~3);
 
     sQuakeRequestCount++;
@@ -216,8 +219,8 @@ QuakeRequest* Quake_GetRequest(s16 index) {
 #define QUAKE_ORIENTATION_PITCH (1 << 5)
 #define QUAKE_ORIENTATION_YAW (1 << 6)
 #define QUAKE_ORIENTATION_ROLL (1 << 7)
-#define QUAKE_COUNTDOWN (1 << 8)
-#define QUAKE_IS_SHAKE_PERPENDICULAR (1 << 9)
+#define QUAKE_DURATION (1 << 8)
+#define QUAKE_IS_RELATIVE_TO_SCREEN (1 << 9)
 
 QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
     QuakeRequest* req = Quake_GetRequest(index);
@@ -259,12 +262,12 @@ QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
             req->xOrientation.z = value;
             break;
 
-        case QUAKE_COUNTDOWN:
+        case QUAKE_DURATION:
             req->timer = value;
             req->duration = req->timer;
             break;
 
-        case QUAKE_IS_SHAKE_PERPENDICULAR:
+        case QUAKE_IS_RELATIVE_TO_SCREEN:
             req->isRelativeToScreen = value;
             break;
 
