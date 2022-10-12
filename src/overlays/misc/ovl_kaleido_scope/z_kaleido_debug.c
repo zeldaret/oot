@@ -192,7 +192,8 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         for (j = 0, x = 78; j < 6; j++, slot++, x += 26) {
             spD8[2] = 0;
 
-            if ((slot <= SLOT_BOW) || (slot == SLOT_SLINGSHOT) || (slot == SLOT_BOMBCHU) || (slot == SLOT_BEAN)) {
+            if ((slot <= SLOT_BOW) || (slot == SLOT_SLINGSHOT) || (slot == SLOT_BOMBCHU) ||
+                (slot == SLOT_MAGIC_BEANS)) {
                 spD8[3] = AMMO(gAmmoItems[slot]);
             } else if (slot == SLOT_OCARINA) {
                 spD8[3] = gSaveContext.inventory.items[slot];
@@ -408,7 +409,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         default:
             if (curSection < 0x1B) {
                 i = curSection - 3;
-                if ((i <= SLOT_BOW) || (i == SLOT_SLINGSHOT) || (i == SLOT_BOMBCHU) || (i == SLOT_BEAN)) {
+                if ((i <= SLOT_BOW) || (i == SLOT_SLINGSHOT) || (i == SLOT_BOMBCHU) || (i == SLOT_MAGIC_BEANS)) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
                         Inventory_DeleteItem(gAmmoItems[i], SLOT(gAmmoItems[i]));
                         AMMO(gAmmoItems[i]) = 0;

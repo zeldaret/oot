@@ -117,8 +117,8 @@ typedef enum {
 } DungeonItem;
 
 typedef enum {
-    /* 0x00 */ SLOT_STICK,
-    /* 0x01 */ SLOT_NUT,
+    /* 0x00 */ SLOT_DEKU_STICK,
+    /* 0x01 */ SLOT_DEKU_NUT,
     /* 0x02 */ SLOT_BOMB,
     /* 0x03 */ SLOT_BOW,
     /* 0x04 */ SLOT_ARROW_FIRE,
@@ -130,8 +130,8 @@ typedef enum {
     /* 0x0A */ SLOT_ARROW_ICE,
     /* 0x0B */ SLOT_FARORES_WIND,
     /* 0x0C */ SLOT_BOOMERANG,
-    /* 0x0D */ SLOT_LENS,
-    /* 0x0E */ SLOT_BEAN,
+    /* 0x0D */ SLOT_LENS_OF_TRUTH,
+    /* 0x0E */ SLOT_MAGIC_BEANS,
     /* 0x0F */ SLOT_HAMMER,
     /* 0x10 */ SLOT_ARROW_LIGHT,
     /* 0x11 */ SLOT_NAYRUS_LOVE,

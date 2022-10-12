@@ -1171,9 +1171,9 @@ void Inventory_SwapAgeEquipment(void) {
         if (gSaveContext.adultEquips.buttonItems[0] == ITEM_NONE) {
             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
 
-            if (gSaveContext.inventory.items[SLOT_NUT] != ITEM_NONE) {
+            if (gSaveContext.inventory.items[SLOT_DEKU_NUT] != ITEM_NONE) {
                 gSaveContext.equips.buttonItems[1] = ITEM_DEKU_NUT;
-                gSaveContext.equips.cButtonSlots[0] = SLOT_NUT;
+                gSaveContext.equips.cButtonSlots[0] = SLOT_DEKU_NUT;
             } else {
                 gSaveContext.equips.buttonItems[1] = gSaveContext.equips.cButtonSlots[0] = ITEM_NONE;
             }
