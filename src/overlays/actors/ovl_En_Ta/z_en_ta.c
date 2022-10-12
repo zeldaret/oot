@@ -871,7 +871,7 @@ void func_80B15E80(EnTa* this, PlayState* play) {
     } else if (this->unk_2E0 & 2) {
         func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
     } else {
-        func_8002F434(&this->actor, play, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
     this->unk_2E0 |= 1;
 }
@@ -881,7 +881,7 @@ void func_80B15F54(EnTa* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->unk_2E0 &= ~0x2;
         func_80B13AA0(this, func_80B15E80, func_80B16938);
-        func_8002F434(&this->actor, play, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
 }
 

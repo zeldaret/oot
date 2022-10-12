@@ -185,9 +185,9 @@ void EnDntJiji_Walk(EnDntJiji* this, PlayState* play) {
     }
     if (this->actor.xzDistToPlayer < 100.0f) {
         if (CUR_UPG_VALUE(UPG_STICKS) == 1) {
-            this->getItemId = GI_STICK_UPGRADE_20;
+            this->getItemId = GI_DEKU_STICK_UPGRADE_20;
         } else {
-            this->getItemId = GI_STICK_UPGRADE_30;
+            this->getItemId = GI_DEKU_STICK_UPGRADE_30;
         }
         this->actor.textId = 0x104D;
         Message_StartTextbox(play, this->actor.textId, NULL);
@@ -217,9 +217,9 @@ void EnDntJiji_SetupCower(EnDntJiji* this, PlayState* play) {
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
 
     if ((CUR_UPG_VALUE(UPG_NUTS) == 1) || (CUR_UPG_VALUE(UPG_NUTS) == 0)) {
-        this->getItemId = GI_NUT_UPGRADE_30;
+        this->getItemId = GI_DEKU_NUT_UPGRADE_30;
     } else {
-        this->getItemId = GI_NUT_UPGRADE_40;
+        this->getItemId = GI_DEKU_NUT_UPGRADE_40;
     }
     this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x10DB;
@@ -272,7 +272,7 @@ void EnDntJiji_SetupGivePrize(EnDntJiji* this, PlayState* play) {
 void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        if ((this->getItemId == GI_NUT_UPGRADE_30) || (this->getItemId == GI_NUT_UPGRADE_40)) {
+        if ((this->getItemId == GI_DEKU_NUT_UPGRADE_30) || (this->getItemId == GI_DEKU_NUT_UPGRADE_40)) {
             // "nut"
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
