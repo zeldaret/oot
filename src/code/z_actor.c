@@ -3506,19 +3506,19 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8155);
 }
 
-void Actor_RequestQuake(PlayState* play, s16 yOffset, s16 duration) {
+void Actor_RequestQuake(PlayState* play, s16 y, s16 duration) {
     s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, 20000);
-    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
     Quake_SetDuration(quakeIndex, duration);
 }
 
-void Actor_RequestQuakeWithSpeed(PlayState* play, s16 yOffset, s16 duration, s16 speed) {
+void Actor_RequestQuakeWithSpeed(PlayState* play, s16 y, s16 duration, s16 speed) {
     s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
     Quake_SetSpeed(quakeIndex, speed);
-    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
     Quake_SetDuration(quakeIndex, duration);
 }
 

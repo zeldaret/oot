@@ -7621,8 +7621,8 @@ Vec3s Camera_Update(Camera* camera) {
         viewEye.z = camera->eye.z + quakeCamData.eyeOffset.z;
 
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
-        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.rollFromPitch,
-                                      eyeAtAngle.yaw + quakeCamData.rollFromYaw, camera->roll);
+        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.upPitchOffset,
+                                      eyeAtAngle.yaw + quakeCamData.upYawOffset, camera->roll);
         viewFov = camera->fov + CAM_BINANG_TO_DEG(quakeCamData.fov);
     } else {
         viewAt = camera->at;
@@ -8019,7 +8019,7 @@ s16 Camera_GetCamDirYaw(Camera* camera) {
     return camDir.y;
 }
 
-s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 yOffset, s32 duration) {
+s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 y, s32 duration) {
     s16 quakeIndex;
 
     quakeIndex = Quake_Request(camera, QUAKE_TYPE_3);
@@ -8027,7 +8027,7 @@ s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 yOffset, s32 duration) {
         return false;
     }
     Quake_SetSpeed(quakeIndex, 0x61A8);
-    Quake_SetPerturbations(quakeIndex, yOffset, 0, 0, 0);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
     Quake_SetDuration(quakeIndex, duration);
     return true;
 }
