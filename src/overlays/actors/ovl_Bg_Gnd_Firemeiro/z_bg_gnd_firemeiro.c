@@ -40,7 +40,7 @@ void BgGndFiremeiro_Init(Actor* thisx, PlayState* play) {
     this->initPos = this->dyna.actor.world.pos;
 
     if (this->dyna.actor.params == 0) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&gFireTrialPlatformCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
         this->actionFunc = BgGndFiremeiro_Rise;

@@ -53,7 +53,7 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     sp28 = this->dyna.actor.params & 0xFF;
     this->dyna.actor.params = (this->dyna.actor.params >> 8) & 0xFF;
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002854, &colHeader);

@@ -73,9 +73,9 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {
-        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira1Col, DPM_UNK3);
+        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira1Col, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     } else {
-        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, DPM_UNK);
+        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, 0);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);

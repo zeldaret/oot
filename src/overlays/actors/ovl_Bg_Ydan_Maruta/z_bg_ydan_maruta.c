@@ -96,7 +96,7 @@ void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = func_808BEFF4;
     } else {
         triInit = &sTrisElementsInit[1];
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&gDTFallingLadderCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
         thisx->home.pos.y += -280.0f;

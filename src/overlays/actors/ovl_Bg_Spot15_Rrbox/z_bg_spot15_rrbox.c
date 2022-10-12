@@ -121,7 +121,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, PlayState* play) {
 void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
-    func_808B3960(this, play, &gLonLonMilkCrateCol, DPM_UNK);
+    func_808B3960(this, play, &gLonLonMilkCrateCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {

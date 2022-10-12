@@ -247,14 +247,16 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->unk_1E8.unk_00 == 0) {
-            if (this->unk_1E0 != 0) {
-                this->unk_1E0 = 0;
-                func_800F6584(0);
+            if (this->isNotSinging) {
+                // Turn on singing
+                this->isNotSinging = false;
+                Audio_ToggleMalonSinging(false);
             }
         } else {
-            if (this->unk_1E0 == 0) {
-                this->unk_1E0 = 1;
-                func_800F6584(1);
+            if (!this->isNotSinging) {
+                // Turn off singing
+                this->isNotSinging = true;
+                Audio_ToggleMalonSinging(true);
             }
         }
     }
@@ -447,14 +449,14 @@ void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 void EnMa1_Draw(Actor* thisx, PlayState* play) {
     EnMa1* this = (EnMa1*)thisx;
     Camera* activeCam;
-    f32 distFromCamera;
+    f32 distFromCamEye;
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma1.c", 1226);
 
     activeCam = GET_ACTIVE_CAM(play);
-    distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
-    func_800F6268(distFromCamera, NA_BGM_LONLON);
+    distFromCamEye = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
+    Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));

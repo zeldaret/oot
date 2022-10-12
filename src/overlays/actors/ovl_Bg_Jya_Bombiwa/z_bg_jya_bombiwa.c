@@ -96,7 +96,7 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
                      this->dyna.actor.params & 0x3F);
         osSyncPrintf(VT_RST);
     }
-    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, DPM_UNK);
+    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);
     BgJyaBombiwa_InitCollider(this, play);
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
         Actor_Kill(&this->dyna.actor);
