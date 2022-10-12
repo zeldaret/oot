@@ -1025,23 +1025,23 @@ static u8 D_80853E7C[] = {
 
 // Used to map item IDs to item actions
 static s8 sItemActions[] = {
-    PLAYER_IA_STICK,               // ITEM_DEKU_STICK
-    PLAYER_IA_NUT,                 // ITEM_DEKU_NUT
+    PLAYER_IA_DEKU_STICK,          // ITEM_DEKU_STICK
+    PLAYER_IA_DEKU_NUT,            // ITEM_DEKU_NUT
     PLAYER_IA_BOMB,                // ITEM_BOMB
     PLAYER_IA_BOW,                 // ITEM_BOW
     PLAYER_IA_BOW_FIRE,            // ITEM_ARROW_FIRE
     PLAYER_IA_DINS_FIRE,           // ITEM_DINS_FIRE
     PLAYER_IA_SLINGSHOT,           // ITEM_SLINGSHOT
     PLAYER_IA_OCARINA_FAIRY,       // ITEM_OCARINA_FAIRY
-    PLAYER_IA_OCARINA_TIME,        // ITEM_OCARINA_OF_TIME
+    PLAYER_IA_OCARINA_OF_TIME,     // ITEM_OCARINA_OF_TIME
     PLAYER_IA_BOMBCHU,             // ITEM_BOMBCHU
     PLAYER_IA_HOOKSHOT,            // ITEM_HOOKSHOT
     PLAYER_IA_LONGSHOT,            // ITEM_LONGSHOT
     PLAYER_IA_BOW_ICE,             // ITEM_ARROW_ICE
     PLAYER_IA_FARORES_WIND,        // ITEM_FARORES_WIND
     PLAYER_IA_BOOMERANG,           // ITEM_BOOMERANG
-    PLAYER_IA_LENS,                // ITEM_LENS_OF_TRUTH
-    PLAYER_IA_BEAN,                // ITEM_MAGIC_BEANS
+    PLAYER_IA_LENS_OF_TRUTH,       // ITEM_LENS_OF_TRUTH
+    PLAYER_IA_MAGIC_BEANS,         // ITEM_MAGIC_BEANS
     PLAYER_IA_HAMMER,              // ITEM_HAMMER
     PLAYER_IA_BOW_LIGHT,           // ITEM_ARROW_LIGHT
     PLAYER_IA_NAYRUS_LOVE,         // ITEM_NAYRUS_LOVE
@@ -1051,20 +1051,20 @@ static s8 sItemActions[] = {
     PLAYER_IA_BOTTLE_POTION_BLUE,  // ITEM_BOTTLE_POTION_BLUE
     PLAYER_IA_BOTTLE_FAIRY,        // ITEM_BOTTLE_FAIRY
     PLAYER_IA_BOTTLE_FISH,         // ITEM_BOTTLE_FISH
-    PLAYER_IA_BOTTLE_MILK,         // ITEM_BOTTLE_MILK_FULL
-    PLAYER_IA_BOTTLE_LETTER,       // ITEM_BOTTLE_RUTOS_LETTER
+    PLAYER_IA_BOTTLE_MILK_FULL,    // ITEM_BOTTLE_MILK_FULL
+    PLAYER_IA_BOTTLE_RUTOS_LETTER, // ITEM_BOTTLE_RUTOS_LETTER
     PLAYER_IA_BOTTLE_FIRE,         // ITEM_BOTTLE_BLUE_FIRE
     PLAYER_IA_BOTTLE_BUG,          // ITEM_BOTTLE_BUG
     PLAYER_IA_BOTTLE_BIG_POE,      // ITEM_BOTTLE_BIG_POE
     PLAYER_IA_BOTTLE_MILK_HALF,    // ITEM_BOTTLE_MILK_HALF
     PLAYER_IA_BOTTLE_POE,          // ITEM_BOTTLE_POE
     PLAYER_IA_WEIRD_EGG,           // ITEM_WEIRD_EGG
-    PLAYER_IA_CHICKEN,             // ITEM_CUCCO
-    PLAYER_IA_LETTER_ZELDA,        // ITEM_ZELDAS_LETTER
+    PLAYER_IA_CUCCO,               // ITEM_CUCCO
+    PLAYER_IA_ZELDAS_LETTER,       // ITEM_ZELDAS_LETTER
     PLAYER_IA_MASK_KEATON,         // ITEM_MASK_KEATON
     PLAYER_IA_MASK_SKULL,          // ITEM_MASK_SKULL
     PLAYER_IA_MASK_SPOOKY,         // ITEM_MASK_SPOOKY
-    PLAYER_IA_MASK_BUNNY,          // ITEM_MASK_BUNNY_HOOD
+    PLAYER_IA_MASK_BUNNY_HOOD,     // ITEM_MASK_BUNNY_HOOD
     PLAYER_IA_MASK_GORON,          // ITEM_MASK_GORON
     PLAYER_IA_MASK_ZORA,           // ITEM_MASK_ZORA
     PLAYER_IA_MASK_GERUDO,         // ITEM_MASK_GERUDO
@@ -1075,8 +1075,8 @@ static s8 sItemActions[] = {
     PLAYER_IA_COJIRO,              // ITEM_COJIRO
     PLAYER_IA_ODD_MUSHROOM,        // ITEM_ODD_MUSHROOM
     PLAYER_IA_ODD_POTION,          // ITEM_ODD_POTION
-    PLAYER_IA_SAW,                 // ITEM_POACHERS_SAW
-    PLAYER_IA_SWORD_BROKEN,        // ITEM_BROKEN_GORONS_SWORD
+    PLAYER_IA_POACHERS_SAW,        // ITEM_POACHERS_SAW
+    PLAYER_IA_BROKEN_GORONS_SWORD, // ITEM_BROKEN_GORONS_SWORD
     PLAYER_IA_PRESCRIPTION,        // ITEM_PRESCRIPTION
     PLAYER_IA_FROG,                // ITEM_EYEBALL_FROG
     PLAYER_IA_EYEDROPS,            // ITEM_EYE_DROPS
@@ -2907,13 +2907,13 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
              ((itemAction == PLAYER_IA_HOOKSHOT) || (itemAction == PLAYER_IA_LONGSHOT)))) {
 
             if ((play->bombchuBowlingStatus == 0) &&
-                (((itemAction == PLAYER_IA_STICK) && (AMMO(ITEM_DEKU_STICK) == 0)) ||
-                 ((itemAction == PLAYER_IA_BEAN) && (AMMO(ITEM_MAGIC_BEANS) == 0)) ||
+                (((itemAction == PLAYER_IA_DEKU_STICK) && (AMMO(ITEM_DEKU_STICK) == 0)) ||
+                 ((itemAction == PLAYER_IA_MAGIC_BEANS) && (AMMO(ITEM_MAGIC_BEANS) == 0)) ||
                  (temp = Player_ActionToExplosive(this, itemAction),
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
-            } else if (itemAction == PLAYER_IA_LENS) {
+            } else if (itemAction == PLAYER_IA_LENS_OF_TRUTH) {
                 if (Magic_RequestChange(play, 0, MAGIC_CONSUME_LENS)) {
                     if (play->actorCtx.lensActive) {
                         Actor_DisableLens(play);
@@ -2925,7 +2925,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-            } else if (itemAction == PLAYER_IA_NUT) {
+            } else if (itemAction == PLAYER_IA_DEKU_NUT) {
                 if (AMMO(ITEM_DEKU_NUT) != 0) {
                     func_8083C61C(play, this);
                 } else {
@@ -2948,7 +2948,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                 }
 
                 func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
-            } else if (((itemAction >= PLAYER_IA_OCARINA_FAIRY) && (itemAction <= PLAYER_IA_OCARINA_TIME)) ||
+            } else if (((itemAction >= PLAYER_IA_OCARINA_FAIRY) && (itemAction <= PLAYER_IA_OCARINA_OF_TIME)) ||
                        (itemAction >= PLAYER_IA_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((itemAction >= PLAYER_IA_BOTTLE_POTION_RED) && (itemAction <= PLAYER_IA_BOTTLE_FAIRY))) {
@@ -3404,7 +3404,7 @@ s32 func_808375D8(Player* this) {
     s8 temp2;
     s32 i;
 
-    if ((this->heldItemAction == PLAYER_IA_STICK) || Player_HoldsBrokenKnife(this)) {
+    if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) || Player_HoldsBrokenKnife(this)) {
         return 0;
     }
 
@@ -3495,7 +3495,7 @@ s32 func_80837818(Player* this) {
                     }
                 }
             }
-            if (this->heldItemAction == PLAYER_IA_STICK) {
+            if (this->heldItemAction == PLAYER_IA_DEKU_STICK) {
                 sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
             }
         }
@@ -4966,7 +4966,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                     return 1;
                 }
 
-                sp2C = this->itemAction - PLAYER_IA_LETTER_ZELDA;
+                sp2C = this->itemAction - PLAYER_IA_ZELDAS_LETTER;
                 if ((sp2C >= 0) ||
                     (sp28 = Player_ActionToBottle(this, this->itemAction) - 1,
                      ((sp28 >= 0) && (sp28 < 6) &&
@@ -5000,7 +5000,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                              ((this->exchangeItemId == EXCH_ITEM_MAGIC_BEANS) &&
                               (this->itemAction == PLAYER_IA_BOTTLE_BUG))) &&
                             ((this->exchangeItemId != EXCH_ITEM_MAGIC_BEANS) ||
-                             (this->itemAction == PLAYER_IA_BEAN))) {
+                             (this->itemAction == PLAYER_IA_MAGIC_BEANS))) {
                             if (this->exchangeItemId == EXCH_ITEM_MAGIC_BEANS) {
                                 Inventory_ChangeAmmo(ITEM_MAGIC_BEANS, -1);
                                 func_80835DE4(play, this, func_8084279C, 0);
@@ -5438,7 +5438,7 @@ void func_8083C50C(Player* this) {
 s32 func_8083C544(Player* this, PlayState* play) {
     if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
         if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
-            (this->heldItemAction != PLAYER_IA_STICK)) {
+            (this->heldItemAction != PLAYER_IA_DEKU_STICK)) {
             if ((this->heldItemAction != PLAYER_IA_SWORD_BGS) || (gSaveContext.swordHealth > 0.0f)) {
                 func_808377DC(play, this);
                 return 1;
@@ -7712,7 +7712,7 @@ void func_80842A88(PlayState* play, Player* this) {
 }
 
 s32 func_80842AC4(PlayState* play, Player* this) {
-    if ((this->heldItemAction == PLAYER_IA_STICK) && (this->unk_85C > 0.5f)) {
+    if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_85C > 0.5f)) {
         if (AMMO(ITEM_DEKU_STICK) != 0) {
             EffectSsStick_Spawn(play, &this->bodyPartsPos[PLAYER_BODYPART_R_HAND], this->actor.shape.rot.y + 0x8000);
             this->unk_85C = 0.5f;
@@ -10218,7 +10218,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     func_808473D4(play, this);
     func_80836BEC(this, play);
 
-    if ((this->heldItemAction == PLAYER_IA_STICK) && (this->unk_860 != 0)) {
+    if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
         func_80848A04(play, this);
     } else if ((this->heldItemAction == PLAYER_IA_FISHING_POLE) && (this->unk_860 < 0)) {
         this->unk_860++;
@@ -11001,7 +11001,7 @@ s32 func_8084B3CC(PlayState* play, Player* this) {
 
 void func_8084B498(Player* this) {
     this->itemAction =
-        (INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY) ? PLAYER_IA_OCARINA_FAIRY : PLAYER_IA_OCARINA_TIME;
+        (INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY) ? PLAYER_IA_OCARINA_FAIRY : PLAYER_IA_OCARINA_OF_TIME;
 }
 
 s32 func_8084B4D4(PlayState* play, Player* this) {
@@ -12591,7 +12591,7 @@ void func_8084F104(Player* this, PlayState* play) {
         } else {
             GetItemEntry* giEntry = &sGetItemTable[D_80854528[this->exchangeItemId - 1] - 1];
 
-            if (this->itemAction >= PLAYER_IA_LETTER_ZELDA) {
+            if (this->itemAction >= PLAYER_IA_ZELDAS_LETTER) {
                 if (giEntry->gi >= 0) {
                     this->unk_862 = giEntry->gi;
                 } else {
@@ -12602,7 +12602,7 @@ void func_8084F104(Player* this, PlayState* play) {
             if (this->unk_850 == 0) {
                 Message_StartTextbox(play, this->actor.textId, &this->actor);
 
-                if ((this->itemAction == PLAYER_IA_CHICKEN) || (this->itemAction == PLAYER_IA_POCKET_CUCCO)) {
+                if ((this->itemAction == PLAYER_IA_CUCCO) || (this->itemAction == PLAYER_IA_POCKET_CUCCO)) {
                     func_8002F7DC(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
                 }
 
