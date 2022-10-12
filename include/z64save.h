@@ -712,8 +712,10 @@ typedef enum {
 // Used in z_en_ta (Talon) to store Cucco game winning status
 // and in z_en_ge1 (Gerudo) to store archery in-progress status
 #define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
+#define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 // Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
 #define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
+#define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
 
 typedef enum {
     /* 0 */ EVENTINF_HORSES_STATE_0,
