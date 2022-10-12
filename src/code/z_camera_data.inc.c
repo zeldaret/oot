@@ -36,14 +36,14 @@ s16 sOREGInit[] = {
     20,    // R_CAM_R_UPDATE_RATE_INV
     16,    // R_CAM_DEFAULT_PITCH_UPDATE_RATE_INV
     150,   // OREG(8)
-    25,    // OREG(9)
+    25,    // R_CAM_SLOPE_Y_ADJ_ADJ_AMOUNT
     150,   // OREG(10)
     6,     // OREG(11)
     10,    // OREG(12)
     10,    // OREG(13)
-    0,     // OREG(14)
-    0,     // OREG(15)
-    1,     // OREG(16)
+    0,     // OREG(14) (unused)
+    0,     // OREG(15) (unused)
+    1,     // OREG(16) (unused)
     100,   // R_CAM_PITCH_FLOOR_CHECK_NEAR_DIST_FAC
     250,   // R_CAM_PITCH_FLOOR_CHECK_FAR_DIST_FAC
     120,   // R_CAM_PITCH_FLOOR_CHECK_OFFSET_Y_FAC
@@ -52,8 +52,8 @@ s16 sOREGInit[] = {
     120,   // OREG(22)
     4,     // R_CAM_DEFAULT_ANIM_TIME
     1,     // OREG(24)
-    50,    // OREG(25)
-    20,    // OREG(26)
+    50,    // R_UPDATE_RATE_STEP_SCALE_XZ
+    20,    // R_UPDATE_RATE_STEP_SCALE_Y
     1800,  // OREG(27)
     50,    // OREG(28)
     50,    // OREG(29)

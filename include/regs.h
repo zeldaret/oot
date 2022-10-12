@@ -70,6 +70,8 @@
 #define R_CAM_PITCH_FLOOR_CHECK_OFFSET_Y_FAC     OREG(19)
 #define R_CAM_PITCH_FLOOR_CHECK_NEAR_WEIGHT      OREG(20)
 #define R_CAM_DEFAULT_ANIM_TIME                  OREG(23)
+#define R_UPDATE_RATE_STEP_SCALE_XZ              OREG(25) // wip
+#define R_UPDATE_RATE_STEP_SCALE_Y               OREG(26) // wip
 #define R_CAM_MIN_PITCH_1                        OREG(34)
 #define R_CAM_MIN_PITCH_2                        OREG(35)
 #define R_CAM_AT_LERP_STEP_SCALE_MIN             OREG(41)
