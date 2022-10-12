@@ -588,6 +588,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
         if (pauseCtx->mainSubState == PAUSE_MAIN_STATE_SONG_PLAYBACK) {
             // Draw ocarina buttons as the song playback progresses
+            // QUAD_QUEST_SONG_NOTE_A1 up to QUAD_QUEST_SONG_NOTE_A8
 
             pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
 
@@ -640,11 +641,14 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     ) ||
                    (pauseCtx->mainSubState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
             // Draw the buttons for playing a song
+            // QUAD_QUEST_SONG_NOTE_A1 up to QUAD_QUEST_SONG_NOTE_A8
 
             stepGreen = pauseCtx->ocarinaSongIdx;
             stepRed = gOcarinaSongButtons[stepGreen].numButtons;
 
-            for (j = bufI, i = 0; i < stepRed; i++, bufI += 4) {
+            j = bufI;
+
+            for (i = 0; i < stepRed; i++, bufI += 4) {
                 pauseCtx->questVtx[bufI + 0].v.ob[1] = pauseCtx->questVtx[bufI + 1].v.ob[1] =
                     R_PAUSE_SONG_OCA_BTN_Y(gOcarinaSongButtons[stepGreen].buttonsIndex[i]);
 
@@ -678,6 +682,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
             if (pauseCtx->mainSubState != PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG) {
                 // Draw the buttons colored as the player plays the song
+                // QUAD_QUEST_SONG_NOTE_B1 up to QUAD_QUEST_SONG_NOTE_B8
 
                 pauseCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();
 
@@ -692,7 +697,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     }
                 }
 
-                bufI = j + 32;
+                bufI = j + ((QUAD_QUEST_SONG_NOTE_B1 - QUAD_QUEST_SONG_NOTE_A1) * 4);
 
                 for (i = 0; i < SONG_MAX_LENGTH; i++, bufI += 4) {
                     if (sPlayedSongBtns[i] == OCARINA_BTN_INVALID) {
@@ -752,6 +757,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
     if (CHECK_QUEST_ITEM(QUEST_SKULL_TOKEN)) {
         // Draw amount of gold skulltula tokens
+        // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW to QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -771,7 +777,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             gsTokensDigits[2] -= 10;
         }
 
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[164], 24, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW * 4], 6 * 4, 0);
 
         for (i = 0, j = 0; i < 2; i++) {
             if (i == 0) {

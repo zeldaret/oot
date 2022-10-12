@@ -22,6 +22,36 @@ extern u8 gAreaGsFlags[];
     ((gEquipAgeReqs[y][x] == 9) || (gEquipAgeReqs[y][x] == ((void)0, gSaveContext.linkAge)))
 #define CHECK_AGE_REQ_ITEM(item) ((gItemAgeReqs[item] == 9) || (gItemAgeReqs[item] == ((void)0, gSaveContext.linkAge)))
 
+typedef enum {
+    // Notes showing the correct song
+    /* 25 */ QUAD_QUEST_SONG_NOTE_A1 = QUEST_HEART_PIECE + 1,
+    /* 26 */ QUAD_QUEST_SONG_NOTE_A2,
+    /* 27 */ QUAD_QUEST_SONG_NOTE_A3,
+    /* 28 */ QUAD_QUEST_SONG_NOTE_A4,
+    /* 29 */ QUAD_QUEST_SONG_NOTE_A5,
+    /* 30 */ QUAD_QUEST_SONG_NOTE_A6,
+    /* 31 */ QUAD_QUEST_SONG_NOTE_A7,
+    /* 32 */ QUAD_QUEST_SONG_NOTE_A8,
+    // Notes appearing when playing
+    /* 33 */ QUAD_QUEST_SONG_NOTE_B1,
+    /* 34 */ QUAD_QUEST_SONG_NOTE_B2,
+    /* 35 */ QUAD_QUEST_SONG_NOTE_B3,
+    /* 36 */ QUAD_QUEST_SONG_NOTE_B4,
+    /* 37 */ QUAD_QUEST_SONG_NOTE_B5,
+    /* 38 */ QUAD_QUEST_SONG_NOTE_B6,
+    /* 39 */ QUAD_QUEST_SONG_NOTE_B7,
+    /* 40 */ QUAD_QUEST_SONG_NOTE_B8,
+    // Shadow for the amount of skulltula tokens
+    /* 41 */ QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW,
+    /* 42 */ QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2_SHADOW,
+    /* 43 */ QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3_SHADOW,
+    // Amount of skulltula tokens
+    /* 44 */ QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1,
+    /* 45 */ QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2,
+    /* 46 */ QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3,
+    /* 47 */ QUAD_QUEST_MAX
+} QuestQuad;
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawDebugEditor(PlayState* play);
