@@ -449,15 +449,15 @@ void Cutscene_Command_StopBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusi
 
 // Command 0x7C: Fade Background Music over duration
 void Cutscene_Command_FadeBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
-    u8 var1;
+    u8 fadeTimer;
 
     if ((csCtx->frames == cmd->startFrame) && (csCtx->frames < cmd->endFrame)) {
-        var1 = cmd->endFrame - cmd->startFrame;
+        fadeTimer = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF));
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, fadeTimer);
         } else {
-            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xFF));
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, fadeTimer);
         }
     }
 }

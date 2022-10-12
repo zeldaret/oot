@@ -27,6 +27,7 @@
 #include "z64transition.h"
 #include "z64interface.h"
 #include "alignment.h"
+#include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
@@ -786,7 +787,7 @@ typedef struct {
     /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
     /* 0x0236 */ s16    dungeonMapSlot;
     /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
-    /* 0x023A */ s16    pageSwitchTimer;
+    /* 0x023A */ s16    pageSwitchInputTimer; // Used to introduce a delay before switching page when arriving on the "scroll left/right" positions while holding stick left/right.
     /* 0x023C */ u16    namedItem; // "zoom_name"
     /* 0x023E */ u16    cursorItem[4]; // "select_name"
     /* 0x0246 */ u16    cursorSlot[4];
@@ -1301,13 +1302,6 @@ typedef struct {
     /* 0x1CAD4 */ s16 newFileNameCharCount;
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileSelectState; // size = 0x1CAE0
-
-typedef enum {
-    DPM_UNK = 0,
-    DPM_PLAYER = 1,
-    DPM_ENEMY = 2,
-    DPM_UNK3 = 3
-} DynaPolyMoveFlag;
 
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;

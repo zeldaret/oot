@@ -155,7 +155,7 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            BgBdanSwitch_InitDynaPoly(this, play, &gJabuFloorSwitchCol, DPM_PLAYER);
+            BgBdanSwitch_InitDynaPoly(this, play, &gJabuFloorSwitchCol, DYNA_TRANSFORM_POS);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:

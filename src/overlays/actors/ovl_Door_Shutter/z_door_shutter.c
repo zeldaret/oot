@@ -230,7 +230,7 @@ static DoorShutterGfxInfo sGfxInfo[] = {
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },                                // DOORSHUTTER_GFX_PHANTOM_GANON_BARS
     { gGohmaDoorDL, NULL, 130, 12, 50, 15 },                                       // DOORSHUTTER_GFX_GOHMA_BLOCK
     { gSpiritDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 },                       // DOORSHUTTER_GFX_SPIRIT_TEMPLE
-    { object_bdoor_DL_0010C0, NULL, 130, 12, 50, 15 },                             // DOORSHUTTER_GFX_BOSS_DOOR
+    { gBossDoorDL, NULL, 130, 12, 50, 15 },                                        // DOORSHUTTER_GFX_BOSS_DOOR
     { gDungeonDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },                         // DOORSHUTTER_GFX_8
     { gFireTempleDoorFrontDL, gDoorMetalBarsDL, 130, 12, 20, 15 },                 // DOORSHUTTER_GFX_FIRE_TEMPLE_9
     { gFireTempleDoorBackDL, gDoorMetalBarsDL, 130, 12, 20, 15 },                  // DOORSHUTTER_GFX_FIRE_TEMPLE_10
@@ -326,13 +326,13 @@ static Gfx* sJabuDoorDLists[] = {
 };
 
 static void* sBossDoorTextures[] = {
-    object_bdoor_Tex_0065C0, // DOORSHUTTER_BOSSDOORTEX_0
-    object_bdoor_Tex_0035C0, // DOORSHUTTER_BOSSDOORTEX_FIRE
-    object_bdoor_Tex_0055C0, // DOORSHUTTER_BOSSDOORTEX_WATER
-    object_bdoor_Tex_0045C0, // DOORSHUTTER_BOSSDOORTEX_SHADOW
-    object_bdoor_Tex_000000, // DOORSHUTTER_BOSSDOORTEX_GANON
-    object_bdoor_Tex_0025C0, // DOORSHUTTER_BOSSDOORTEX_FOREST
-    object_bdoor_Tex_0015C0, // DOORSHUTTER_BOSSDOORTEX_SPIRIT
+    gBossDoorDefaultTex,      // DOORSHUTTER_BOSSDOORTEX_0
+    gBossDoorFireTex,         // DOORSHUTTER_BOSSDOORTEX_FIRE
+    gBossDoorWaterTex,        // DOORSHUTTER_BOSSDOORTEX_WATER
+    gBossDoorShadowTex,       // DOORSHUTTER_BOSSDOORTEX_SHADOW
+    gBossDoorGanonsCastleTex, // DOORSHUTTER_BOSSDOORTEX_GANON
+    gBossDoorForestTex,       // DOORSHUTTER_BOSSDOORTEX_FOREST
+    gBossDoorSpiritTex,       // DOORSHUTTER_BOSSDOORTEX_SPIRIT
 };
 
 void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc) {
@@ -394,7 +394,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->dyna.actor.home.pos.z = this->dyna.actor.shape.yOffset;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->doorType = (this->dyna.actor.params >> 6) & 0xF;
 
     styleType = sTypeStyles[this->doorType];

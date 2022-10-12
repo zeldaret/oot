@@ -87,7 +87,7 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (this->dyna.actor.params == 0) {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {

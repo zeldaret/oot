@@ -59,7 +59,7 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHea
 void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
+    BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
