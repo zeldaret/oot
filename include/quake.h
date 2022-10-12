@@ -1,9 +1,8 @@
 #ifndef QUAKE_H
 #define QUAKE_H
 
+#include "z64camera.h"
 #include "z64math.h"
-
-struct Camera;
 
 typedef struct {
     /* 0x00 */ Vec3f atOffset;
