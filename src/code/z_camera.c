@@ -7444,7 +7444,7 @@ Vec3s Camera_Update(Camera* camera) {
     s16 bgCamIndex;
     s16 numQuakesApplied;
     PosRot curPlayerPosRot;
-    QuakeCamData quakeCamData;
+    ShakeInfo camShake;
     Player* player;
 
     player = camera->play->cameraPtrs[CAM_ID_MAIN]->player;
@@ -7607,23 +7607,23 @@ Vec3s Camera_Update(Camera* camera) {
         return camera->inputDir;
     }
 
-    numQuakesApplied = Quake_Update(camera, &quakeCamData);
+    numQuakesApplied = Quake_Update(camera, &camShake);
 
     bgId = numQuakesApplied; // required to match
 
     if ((numQuakesApplied != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
-        viewAt.x = camera->at.x + quakeCamData.atOffset.x;
-        viewAt.y = camera->at.y + quakeCamData.atOffset.y;
-        viewAt.z = camera->at.z + quakeCamData.atOffset.z;
+        viewAt.x = camera->at.x + camShake.atOffset.x;
+        viewAt.y = camera->at.y + camShake.atOffset.y;
+        viewAt.z = camera->at.z + camShake.atOffset.z;
 
-        viewEye.x = camera->eye.x + quakeCamData.eyeOffset.x;
-        viewEye.y = camera->eye.y + quakeCamData.eyeOffset.y;
-        viewEye.z = camera->eye.z + quakeCamData.eyeOffset.z;
+        viewEye.x = camera->eye.x + camShake.eyeOffset.x;
+        viewEye.y = camera->eye.y + camShake.eyeOffset.y;
+        viewEye.z = camera->eye.z + camShake.eyeOffset.z;
 
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
-        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quakeCamData.upPitchOffset,
-                                      eyeAtAngle.yaw + quakeCamData.upYawOffset, camera->roll);
-        viewFov = camera->fov + CAM_BINANG_TO_DEG(quakeCamData.fov);
+        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + camShake.upPitchOffset,
+                                      eyeAtAngle.yaw + camShake.upYawOffset, camera->roll);
+        viewFov = camera->fov + CAM_BINANG_TO_DEG(camShake.fovOffset);
     } else {
         viewAt = camera->at;
         viewEye = camera->eye;
@@ -7639,7 +7639,7 @@ Vec3s Camera_Update(Camera* camera) {
         camera->up = viewUp;
     }
 
-    camera->quakeOffset = quakeCamData.eyeOffset;
+    camera->quakeOffset = camShake.eyeOffset;
 
     Camera_UpdateDistortion(camera);
 

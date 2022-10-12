@@ -18,14 +18,6 @@ typedef struct {
     /* 0x20 */ s16 camId;
 } QuakeRequest; // size = 0x24
 
-typedef struct {
-    /* 0x00 */ Vec3f atOffset;
-    /* 0x0C */ Vec3f eyeOffset;
-    /* 0x18 */ s16 upPitchOffset;
-    /* 0x1A */ s16 upYawOffset;
-    /* 0x1C */ s16 fov;
-} ShakeInfo; // size = 0x20
-
 QuakeRequest sQuakeRequest[4];
 s16 sQuakeUnused = 1;
 s16 sQuakeRequestCount = 0;
@@ -77,7 +69,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
     shake->atOffset = shake->eyeOffset = offset;
     shake->upYawOffset = 0x8000 * y;
     shake->upPitchOffset = req->upPitchOffset * y;
-    shake->fov = req->fov * y;
+    shake->fovOffset = req->fov * y;
 }
 
 s16 Quake_CallbackType1(QuakeRequest* req, ShakeInfo* shake) {
@@ -398,14 +390,13 @@ s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
     Quake_CallbackType6, // QUAKE_TYPE_6
 };
 
-s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
+s16 Quake_Update(Camera* camera, ShakeInfo* camShake) {
     f32 maxCurr;
     f32 maxNext;
-    QuakeRequest* req;
     ShakeInfo shake;
+    QuakeRequest* req;
     f32 absSpeedDiv;
     s16* camId;
-    s32 pad;
     s32 index;
     s32 numQuakesApplied;
     u32 isDifferentCamId;
@@ -416,19 +407,19 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
     vec.y = 0.0f;
     vec.z = 0.0f;
 
-    camData->upPitchOffset = 0;
-    camData->upYawOffset = 0;
-    camData->fov = 0;
+    camShake->upPitchOffset = 0;
+    camShake->upYawOffset = 0;
+    camShake->fovOffset = 0;
 
-    camData->atOffset.x = 0.0f;
-    camData->atOffset.y = 0.0f;
-    camData->atOffset.z = 0.0f;
+    camShake->atOffset.x = 0.0f;
+    camShake->atOffset.y = 0.0f;
+    camShake->atOffset.z = 0.0f;
 
-    camData->eyeOffset.x = 0.0f;
-    camData->eyeOffset.y = 0.0f;
-    camData->eyeOffset.z = 0.0f;
+    camShake->eyeOffset.x = 0.0f;
+    camShake->eyeOffset.y = 0.0f;
+    camShake->eyeOffset.z = 0.0f;
 
-    camData->max = 0.0f;
+    camShake->maxOffset = 0.0f;
 
     if (sQuakeRequestCount == 0) {
         return 0;
@@ -462,44 +453,44 @@ s16 Quake_Update(Camera* camera, QuakeCamData* camData) {
             continue;
         }
 
-        if (fabsf(camData->atOffset.x) < fabsf(shake.atOffset.x)) {
-            camData->atOffset.x = shake.atOffset.x;
+        if (fabsf(camShake->atOffset.x) < fabsf(shake.atOffset.x)) {
+            camShake->atOffset.x = shake.atOffset.x;
         }
-        if (fabsf(camData->atOffset.y) < fabsf(shake.atOffset.y)) {
-            camData->atOffset.y = shake.atOffset.y;
+        if (fabsf(camShake->atOffset.y) < fabsf(shake.atOffset.y)) {
+            camShake->atOffset.y = shake.atOffset.y;
         }
-        if (fabsf(camData->atOffset.z) < fabsf(shake.atOffset.z)) {
-            camData->atOffset.z = shake.atOffset.z;
+        if (fabsf(camShake->atOffset.z) < fabsf(shake.atOffset.z)) {
+            camShake->atOffset.z = shake.atOffset.z;
         }
-        if (fabsf(camData->eyeOffset.x) < fabsf(shake.eyeOffset.x)) {
-            camData->eyeOffset.x = shake.eyeOffset.x;
+        if (fabsf(camShake->eyeOffset.x) < fabsf(shake.eyeOffset.x)) {
+            camShake->eyeOffset.x = shake.eyeOffset.x;
         }
-        if (fabsf(camData->eyeOffset.y) < fabsf(shake.eyeOffset.y)) {
-            camData->eyeOffset.y = shake.eyeOffset.y;
+        if (fabsf(camShake->eyeOffset.y) < fabsf(shake.eyeOffset.y)) {
+            camShake->eyeOffset.y = shake.eyeOffset.y;
         }
-        if (fabsf(camData->eyeOffset.z) < fabsf(shake.eyeOffset.z)) {
-            camData->eyeOffset.z = shake.eyeOffset.z;
+        if (fabsf(camShake->eyeOffset.z) < fabsf(shake.eyeOffset.z)) {
+            camShake->eyeOffset.z = shake.eyeOffset.z;
         }
-        if (camData->upPitchOffset < shake.upPitchOffset) {
-            camData->upPitchOffset = shake.upPitchOffset;
-            camData->upYawOffset = shake.upYawOffset;
+        if (camShake->upPitchOffset < shake.upPitchOffset) {
+            camShake->upPitchOffset = shake.upPitchOffset;
+            camShake->upYawOffset = shake.upYawOffset;
         }
-        if (camData->fov < shake.fov) {
-            camData->fov = shake.fov;
+        if (camShake->fovOffset < shake.fovOffset) {
+            camShake->fovOffset = shake.fovOffset;
         }
 
         maxCurr = OLib_Vec3fDist(&shake.atOffset, &vec) * absSpeedDiv;
         maxNext = OLib_Vec3fDist(&shake.eyeOffset, &vec) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
-        maxNext = camData->upPitchOffset * (1.0f / 200.0f) * absSpeedDiv;
+        maxNext = camShake->upPitchOffset * (1.0f / 200.0f) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
-        maxNext = camData->fov * (1.0f / 200.0f) * absSpeedDiv;
+        maxNext = camShake->fovOffset * (1.0f / 200.0f) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
-        if (camData->max < maxCurr) {
-            camData->max = maxCurr;
+        if (camShake->maxOffset < maxCurr) {
+            camShake->maxOffset = maxCurr;
         }
 
         numQuakesApplied++;

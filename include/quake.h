@@ -10,9 +10,9 @@ typedef struct {
     /* 0x0C */ Vec3f eyeOffset;
     /* 0x18 */ s16 upPitchOffset; // gives a "roll" effect by offsetting the Up vector
     /* 0x1A */ s16 upYawOffset; // gives a "roll" effect by offsetting the Up vector
-    /* 0x1C */ s16 fov; // binary angle
-    /* 0x20 */ f32 max;
-} QuakeCamData; // size = 0x24
+    /* 0x1C */ s16 fovOffset; // binary angle
+    /* 0x20 */ f32 maxOffset;
+} ShakeInfo; // size = 0x24
 
 typedef enum {
     /* 0 */ QUAKE_TYPE_NONE,
@@ -40,6 +40,6 @@ s16 Quake_GetTimeLeft(s16 index);
 u32 Quake_RemoveRequest(s16 index);
 
 void Quake_Init(void);
-s16 Quake_Update(Camera* camera, QuakeCamData* camData);
+s16 Quake_Update(Camera* camera, ShakeInfo* camShake);
 
 #endif
