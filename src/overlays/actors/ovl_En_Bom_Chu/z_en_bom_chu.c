@@ -275,7 +275,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
 
     if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posUpDown, &polyUpDown, true, true, true, true,
                                 &bgIdUpDown) &&
-        !(SurfaceType_GetWallFlags(&play->colCtx, polyUpDown, bgIdUpDown) & BGCHECK_WALL_CRAWLSPACE) &&
+        !(SurfaceType_GetWallFlags(&play->colCtx, polyUpDown, bgIdUpDown) & WALL_FLAG_CRAWLSPACE) &&
         !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polyUpDown, bgIdUpDown)) {
         // forwards
         posB.x = (this->axisForwards.x * lineLength) + posA.x;
@@ -284,7 +284,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
 
         if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
                                     &bgIdSide) &&
-            !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & BGCHECK_WALL_CRAWLSPACE) &&
+            !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE) &&
             !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
             EnBomChu_UpdateFloorPoly(this, polySide, play);
             this->actor.world.pos = posSide;
@@ -323,7 +323,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
 
             if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
                                         &bgIdSide) &&
-                !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & BGCHECK_WALL_CRAWLSPACE) &&
+                !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE) &&
                 !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
                 EnBomChu_UpdateFloorPoly(this, polySide, play);
                 this->actor.world.pos = posSide;

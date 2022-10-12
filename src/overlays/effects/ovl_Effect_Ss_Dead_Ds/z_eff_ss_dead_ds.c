@@ -51,9 +51,9 @@ void EffectSsDeadDs_Draw(PlayState* play, u32 index, EffectSs* this) {
     s32 pad1;
     s32 pad2;
     MtxF mf;
-    f32 temp;
+    f32 yIntersect;
     Vec3f pos;
-    CollisionPoly* floorPoly;
+    CollisionPoly* groundPoly;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_dead_ds.c", 157);
 
@@ -65,21 +65,21 @@ void EffectSsDeadDs_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     if (this->rTimer == 0) {
         Vec3s rpy;
-        Vec3f sp44;
+        Vec3f prevPos;
 
-        sp44.x = pos.x - this->velocity.x;
-        sp44.y = pos.y - this->velocity.y;
-        sp44.z = pos.z - this->velocity.z;
+        prevPos.x = pos.x - this->velocity.x;
+        prevPos.y = pos.y - this->velocity.y;
+        prevPos.z = pos.z - this->velocity.z;
 
-        if (BgCheck_EntitySphVsWall1(&play->colCtx, &this->pos, &pos, &sp44, 1.5f, &floorPoly, 1.0f)) {
-            func_80038A28(floorPoly, this->pos.x, this->pos.y, this->pos.z, &mf);
+        if (BgCheck_EntitySphVsWall1(&play->colCtx, &this->pos, &pos, &prevPos, 1.5f, &groundPoly, 1.0f)) {
+            func_80038A28(groundPoly, this->pos.x, this->pos.y, this->pos.z, &mf);
             Matrix_Put(&mf);
         } else {
             pos.y++;
-            temp = BgCheck_EntityRaycastFloor1(&play->colCtx, &floorPoly, &pos);
+            yIntersect = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &pos);
 
-            if (floorPoly != NULL) {
-                func_80038A28(floorPoly, this->pos.x, temp + 1.5f, this->pos.z, &mf);
+            if (groundPoly != NULL) {
+                func_80038A28(groundPoly, this->pos.x, yIntersect + 1.5f, this->pos.z, &mf);
                 Matrix_Put(&mf);
             } else {
                 Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);

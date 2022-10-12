@@ -82,12 +82,12 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         if (pauseCtx->cursorSpecialPos == 0) {
             pauseCtx->nameColorSet = 0;
 
-            if ((pauseCtx->state != 6) || ((pauseCtx->stickRelX == 0) && (pauseCtx->stickRelY == 0))) {
+            if ((pauseCtx->state != 6) || ((pauseCtx->stickAdjX == 0) && (pauseCtx->stickAdjY == 0))) {
                 sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
             } else {
                 phi_s3 = pauseCtx->cursorPoint[PAUSE_QUEST];
 
-                if (pauseCtx->stickRelX < -30) {
+                if (pauseCtx->stickAdjX < -30) {
                     phi_s0 = D_8082A1AC[phi_s3][2];
                     if (phi_s0 == -3) {
                         KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_LEFT);
@@ -100,7 +100,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                             phi_s0 = D_8082A1AC[phi_s0][2];
                         }
                     }
-                } else if (pauseCtx->stickRelX > 30) {
+                } else if (pauseCtx->stickAdjX > 30) {
                     phi_s0 = D_8082A1AC[phi_s3][3];
                     if (phi_s0 == -2) {
                         KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
@@ -115,7 +115,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     }
                 }
 
-                if (pauseCtx->stickRelY < -30) {
+                if (pauseCtx->stickAdjY < -30) {
                     phi_s0 = D_8082A1AC[phi_s3][1];
                     while (phi_s0 >= 0) {
                         if ((s16)KaleidoScope_UpdateQuestStatusPoint(pauseCtx, phi_s0) != 0) {
@@ -123,7 +123,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                         }
                         phi_s0 = D_8082A1AC[phi_s0][1];
                     }
-                } else if (pauseCtx->stickRelY > 30) {
+                } else if (pauseCtx->stickAdjY > 30) {
                     phi_s0 = D_8082A1AC[phi_s3][0];
                     while (phi_s0 >= 0) {
                         if ((s16)KaleidoScope_UpdateQuestStatusPoint(pauseCtx, phi_s0) != 0) {
@@ -135,8 +135,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                 if (phi_s3 != pauseCtx->cursorPoint[PAUSE_QUEST]) {
                     pauseCtx->unk_1E4 = 0;
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
 
                 if (pauseCtx->cursorPoint[PAUSE_QUEST] != 0x18) {
@@ -202,7 +202,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     }
                 }
             } else if (pauseCtx->unk_1E4 == 5) {
-                if ((pauseCtx->stickRelX != 0) || (pauseCtx->stickRelY != 0)) {
+                if ((pauseCtx->stickAdjX != 0) || (pauseCtx->stickAdjY != 0)) {
                     pauseCtx->unk_1E4 = 0;
                     AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                 }
@@ -214,14 +214,14 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             }
         } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-            if (pauseCtx->stickRelX > 30) {
+            if (pauseCtx->stickAdjX > 30) {
                 pauseCtx->cursorPoint[PAUSE_QUEST] = 0x15;
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
                 sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
                 KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                     cursorItem = ITEM_SONG_MINUET + pauseCtx->cursorPoint[PAUSE_QUEST];
                 } else {
@@ -232,14 +232,14 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSlot[pauseCtx->pageIndex] = sp216;
             }
         } else {
-            if (pauseCtx->stickRelX < -30) {
+            if (pauseCtx->stickAdjX < -30) {
                 pauseCtx->cursorPoint[PAUSE_QUEST] = 0;
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
                 sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
                 KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                     if (pauseCtx->cursorPoint[PAUSE_QUEST] < 6) {
                         cursorItem = ITEM_MEDALLION_FOREST + pauseCtx->cursorPoint[PAUSE_QUEST];

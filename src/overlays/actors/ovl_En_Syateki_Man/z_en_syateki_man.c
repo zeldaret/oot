@@ -505,6 +505,6 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
-        Audio_QueueSeqCmd(sBgmList[BREG(81)]);
+        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, sBgmList[BREG(81)]);
     }
 }

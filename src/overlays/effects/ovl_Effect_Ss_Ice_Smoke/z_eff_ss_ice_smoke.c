@@ -24,7 +24,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
     s32 pad;
     s32 objBankIdx;
-    u32 oldSeg6;
+    uintptr_t oldSeg6;
 
     objBankIdx = Object_GetIndex(&play->objectCtx, OBJECT_FZ);
 
@@ -72,7 +72,8 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 235, 235, this->rAlpha);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->life * 3, this->life * 15, 32, 64, 1, 0, 0, 32, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->life * 3, this->life * 15, 32, 64, 1, 0,
+                                    0, 32, 32));
         Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         scale = this->rScale * 0.0001f;

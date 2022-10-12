@@ -74,15 +74,15 @@ void TransitionCircle_Start(void* thisx) {
         this->color.rgba = this->appearanceType == TCA_WAVE ? RGBA8(0, 0, 0, 255) : RGBA8(160, 160, 160, 255);
     }
     if (this->direction != 0) {
-        this->texY = 0;
+        this->texY = (s32)(0.0 * (1 << 2));
         if (this->colorType == TCC_SPECIAL) {
-            this->texY = 0xFA;
+            this->texY = (s32)(62.5 * (1 << 2));
         }
     } else {
-        this->texY = 0x1F4;
+        this->texY = (s32)(125.0 * (1 << 2));
         if (this->appearanceType == TCA_RIPPLE) {
-            Audio_PlaySoundGeneral(NA_SE_OC_SECRET_WARP_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_OC_SECRET_WARP_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
     guPerspective(&this->projection, &this->normal, 60.0f, (4.0f / 3.0f), 10.0f, 12800.0f, 1.0f);
@@ -107,25 +107,25 @@ void TransitionCircle_Update(void* thisx, s32 updateRate) {
     if (this->direction != 0) {
         if (this->texY == 0) {
             if (this->appearanceType == TCA_RIPPLE) {
-                Audio_PlaySoundGeneral(NA_SE_OC_SECRET_WARP_IN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_OC_SECRET_WARP_IN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
         this->texY += this->speed * 3 / updateRate;
-        if (this->texY >= 0x1F4) {
-            this->texY = 0x1F4;
+        if (this->texY >= (s32)(125.0 * (1 << 2))) {
+            this->texY = (s32)(125.0 * (1 << 2));
             this->isDone = true;
         }
     } else {
         this->texY -= this->speed * 3 / updateRate;
         if (this->colorType != TCC_SPECIAL) {
-            if (this->texY <= 0) {
-                this->texY = 0;
+            if (this->texY <= (s32)(0.0 * (1 << 2))) {
+                this->texY = (s32)(0.0 * (1 << 2));
                 this->isDone = true;
             }
         } else {
-            if (this->texY < 0xFB) {
-                this->texY = 0xFA;
+            if (this->texY <= (s32)(62.5 * (1 << 2))) {
+                this->texY = (s32)(62.5 * (1 << 2));
                 this->isDone = true;
             }
         }
@@ -146,7 +146,7 @@ void TransitionCircle_Draw(void* thisx, Gfx** gfxP) {
 
     this->frame ^= 1;
     gDPPipeSync(gfx++);
-    texScroll = Gfx_BranchTexScroll(&gfx, this->texX, this->texY, 0x10, 0x40);
+    texScroll = Gfx_BranchTexScroll(&gfx, this->texX, this->texY, 16, 64);
     gSPSegment(gfx++, 9, texScroll);
     gSPSegment(gfx++, 8, this->texture);
     gDPSetColor(gfx++, G_SETPRIMCOLOR, this->color.rgba);

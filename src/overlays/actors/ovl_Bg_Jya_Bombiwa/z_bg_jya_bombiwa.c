@@ -165,7 +165,7 @@ void BgJyaBombiwa_Update(Actor* thisx, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, play);
         Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

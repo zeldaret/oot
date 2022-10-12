@@ -181,17 +181,17 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
 }
 
 s32 func_80AA08C4(EnMa1* this, PlayState* play) {
-    if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneSetupIndex == 5)) {
+    if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneLayer == 5)) {
         return 1;
     }
     if (!LINK_IS_CHILD) {
         return 0;
     }
-    if (((play->sceneNum == SCENE_MARKET_NIGHT) || (play->sceneNum == SCENE_MARKET_DAY)) &&
+    if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
         !GET_EVENTCHKINF(EVENTCHKINF_14) && !GET_INFTABLE(INFTABLE_8B)) {
         return 1;
     }
-    if ((play->sceneNum == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
         if (GET_INFTABLE(INFTABLE_8B)) {
             return 1;
         } else {
@@ -199,10 +199,10 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
             return 0;
         }
     }
-    if ((play->sceneNum == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
-    if (play->sceneNum != SCENE_SPOT20) {
+    if (play->sceneId != SCENE_SPOT20) {
         return 0;
     }
     if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_14)) {
@@ -247,14 +247,16 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->unk_1E8.unk_00 == 0) {
-            if (this->unk_1E0 != 0) {
-                this->unk_1E0 = 0;
-                func_800F6584(0);
+            if (this->isNotSinging) {
+                // Turn on singing
+                this->isNotSinging = false;
+                Audio_ToggleMalonSinging(false);
             }
         } else {
-            if (this->unk_1E0 == 0) {
-                this->unk_1E0 = 1;
-                func_800F6584(1);
+            if (!this->isNotSinging) {
+                // Turn off singing
+                this->isNotSinging = true;
+                Audio_ToggleMalonSinging(true);
             }
         }
     }
@@ -307,7 +309,7 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneNum == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
@@ -447,14 +449,14 @@ void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 void EnMa1_Draw(Actor* thisx, PlayState* play) {
     EnMa1* this = (EnMa1*)thisx;
     Camera* activeCam;
-    f32 distFromCamera;
+    f32 distFromCamEye;
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma1.c", 1226);
 
     activeCam = GET_ACTIVE_CAM(play);
-    distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
-    func_800F6268(distFromCamera, NA_BGM_LONLON);
+    distFromCamEye = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
+    Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));

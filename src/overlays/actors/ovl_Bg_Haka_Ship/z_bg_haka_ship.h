@@ -14,7 +14,7 @@ typedef struct BgHakaShip {
     /* 0x0168 */ u8 counter;
     /* 0x0169 */ u8 switchFlag;
     /* 0x016A */ s16 yOffset;
-    /* 0x016C */ Vec3f bellSoundPos;
+    /* 0x016C */ Vec3f bellSfxPos;
 } BgHakaShip; // size = 0x0178
 
 #endif

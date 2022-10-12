@@ -114,22 +114,22 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             pauseCtx->cursorColorSet = 4;
 
             if (cursorItem == PAUSE_ITEM_NONE) {
-                pauseCtx->stickRelX = 40;
+                pauseCtx->stickAdjX = 40;
             }
 
-            if (ABS(pauseCtx->stickRelX) > 30) {
+            if (ABS(pauseCtx->stickAdjX) > 30) {
                 cursorPoint = pauseCtx->cursorPoint[PAUSE_ITEM];
                 cursorX = pauseCtx->cursorX[PAUSE_ITEM];
                 cursorY = pauseCtx->cursorY[PAUSE_ITEM];
 
                 osSyncPrintf("now=%d  ccc=%d\n", cursorPoint, cursorItem);
 
-                // Seem necessary to match
+                // Seems necessary to match
                 if (pauseCtx->cursorX[PAUSE_ITEM]) {}
                 if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]) {}
 
                 while (moveCursorResult == 0) {
-                    if (pauseCtx->stickRelX < -30) {
+                    if (pauseCtx->stickAdjX < -30) {
                         if (pauseCtx->cursorX[PAUSE_ITEM] != 0) {
                             pauseCtx->cursorX[PAUSE_ITEM] -= 1;
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
@@ -161,7 +161,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 moveCursorResult = 2;
                             }
                         }
-                    } else if (pauseCtx->stickRelX > 30) {
+                    } else if (pauseCtx->stickAdjX > 30) {
                         if (pauseCtx->cursorX[PAUSE_ITEM] < 5) {
                             pauseCtx->cursorX[PAUSE_ITEM] += 1;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
@@ -205,12 +205,12 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                              cursorItem, pauseCtx->cursorSpecialPos);
             }
         } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
-            if (pauseCtx->stickRelX > 30) {
+            if (pauseCtx->stickAdjX > 30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
 
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 cursorPoint = cursorX = cursorY = 0;
                 while (true) {
@@ -240,12 +240,12 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 }
             }
         } else {
-            if (pauseCtx->stickRelX < -30) {
+            if (pauseCtx->stickAdjX < -30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
 
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 cursorPoint = cursorX = 5;
                 cursorY = 0;
@@ -279,13 +279,13 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
         if (pauseCtx->cursorSpecialPos == 0) {
             if (cursorItem != PAUSE_ITEM_NONE) {
-                if (ABS(pauseCtx->stickRelY) > 30) {
+                if (ABS(pauseCtx->stickAdjY) > 30) {
                     moveCursorResult = 0;
 
                     cursorPoint = pauseCtx->cursorPoint[PAUSE_ITEM];
                     cursorY = pauseCtx->cursorY[PAUSE_ITEM];
                     while (moveCursorResult == 0) {
-                        if (pauseCtx->stickRelY > 30) {
+                        if (pauseCtx->stickAdjY > 30) {
                             if (pauseCtx->cursorY[PAUSE_ITEM] != 0) {
                                 pauseCtx->cursorY[PAUSE_ITEM] -= 1;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] -= 6;
@@ -299,7 +299,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
                                 moveCursorResult = 2;
                             }
-                        } else if (pauseCtx->stickRelY < -30) {
+                        } else if (pauseCtx->stickAdjY < -30) {
                             if (pauseCtx->cursorY[PAUSE_ITEM] < 3) {
                                 pauseCtx->cursorY[PAUSE_ITEM] += 1;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] += 6;
@@ -376,20 +376,20 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 if (pauseCtx->equipTargetItem == ITEM_ARROW_LIGHT) {
                                     index = 2;
                                 }
-                                Audio_PlaySoundGeneral(NA_SE_SY_SET_FIRE_ARROW + index, &gSfxDefaultPos, 4,
-                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                       &gSfxDefaultReverb);
+                                Audio_PlaySfxGeneral(NA_SE_SY_SET_FIRE_ARROW + index, &gSfxDefaultPos, 4,
+                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                     &gSfxDefaultReverb);
                                 pauseCtx->equipTargetItem = 0xBF + index;
                                 sEquipState = 0;
                                 pauseCtx->equipAnimAlpha = 0;
                                 sEquipMoveTimer = 6;
                             } else {
-                                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             }
                         } else {
-                            Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                            Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         }
                     }
                 }
@@ -405,8 +405,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_ITEM]) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if ((pauseCtx->unk_1E4 == 3) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
         KaleidoScope_SetCursorVtx(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
@@ -519,8 +519,8 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
             WREG(90) = 320;
             WREG(87) = WREG(91);
             sEquipState++;
-            Audio_PlaySoundGeneral(NA_SE_SY_SYNTH_MAGIC_ARROW, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_SYNTH_MAGIC_ARROW, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         return;
     }
