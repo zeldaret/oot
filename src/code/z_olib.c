@@ -141,7 +141,7 @@ VecGeo* OLib_Vec3fToVecGeo(VecGeo* dest, Vec3f* vec) {
     OLib_Vec3fToVecSph(&sph, vec);
     sph.pitch = 0x3FFF - sph.pitch;
 
-    *(VecSph*)dest = sph;
+    *dest = sph;
 
     return dest;
 }
