@@ -70,10 +70,14 @@
 #define R_CAM_PITCH_FLOOR_CHECK_OFFSET_Y_FAC     OREG(19)
 #define R_CAM_PITCH_FLOOR_CHECK_NEAR_WEIGHT      OREG(20)
 #define R_CAM_DEFAULT_ANIM_TIME                  OREG(23)
-#define R_UPDATE_RATE_STEP_SCALE_XZ              OREG(25) // wip
-#define R_UPDATE_RATE_STEP_SCALE_Y               OREG(26) // wip
+#define R_CAM_UPDATE_RATE_STEP_SCALE_XZ          OREG(25) // name not ideal
+#define R_CAM_UPDATE_RATE_STEP_SCALE_Y           OREG(26) // name not ideal
+#define R_CAM_JUMP1_EYE_Y_STEP_SCALE             OREG(31)
 #define R_CAM_MIN_PITCH_1                        OREG(34)
 #define R_CAM_MIN_PITCH_2                        OREG(35)
+#define R_CAM_BATTLE1_ROLL_TARGET_BASE           OREG(36)
+#define R_CAM_BATTLE1_ROLL_STEP_SCALE            OREG(37)
+#define R_CAM_BATTLE1_XYZ_OFFSET_UPDATE_RATE_TARGET OREG(40)
 #define R_CAM_AT_LERP_STEP_SCALE_MIN             OREG(41)
 #define R_CAM_AT_LERP_STEP_SCALE_FAC             OREG(42)
 #define R_CAM_YOFFSET_NORM                       OREG(46)
