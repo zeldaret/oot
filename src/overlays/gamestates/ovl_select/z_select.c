@@ -27,8 +27,9 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
         gSaveContext.magicCapacity = 0;
         gSaveContext.magicLevel = gSaveContext.magic = 0;
     }
-    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-        gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
+    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+        gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+            gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
     gSaveContext.entranceIndex = entranceIndex;

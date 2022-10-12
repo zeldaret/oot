@@ -1484,8 +1484,9 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.nextDayTime = NEXT_TIME_NONE;
     gSaveContext.retainWeatherMode = false;
 
-    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-        gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
+    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+        gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+            gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
 
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
         gSaveContext.magicCapacity = 0;
@@ -1852,8 +1853,9 @@ void FileSelect_InitContext(GameState* thisx) {
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 
-    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-        gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
+    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+        gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+            gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
 
     this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
         this->defense[2] = 0;

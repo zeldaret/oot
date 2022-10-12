@@ -2920,8 +2920,9 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                            gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_DISABLED;
+                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                            gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                                BTN_DISABLED;
                         gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
@@ -2967,8 +2968,9 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                            gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_DISABLED;
+                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                            gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                                BTN_DISABLED;
                         gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
@@ -3017,8 +3019,9 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                            gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_DISABLED;
+                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                            gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                                BTN_DISABLED;
                         gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
@@ -3052,8 +3055,9 @@ void KaleidoScope_Update(PlayState* play) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         if (pauseCtx->promptChoice != 0) {
                             Interface_SetDoAction(play, DO_ACTION_NONE);
-                            gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                                gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
+                            gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                                gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
+                                    gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
                             gSaveContext.unk_13EA = 0;
                             Interface_ChangeAlpha(50);
                             pauseCtx->unk_1EC = 2;
@@ -3077,8 +3081,9 @@ void KaleidoScope_Update(PlayState* play) {
                         WREG(2) = -6240;
                         YREG(8) = pauseCtx->unk_204;
                         func_800F64E0(0);
-                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                            gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
+                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                            gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                                BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
                     }
@@ -3088,8 +3093,9 @@ void KaleidoScope_Update(PlayState* play) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_B) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                         CHECK_BTN_ALL(input->press.button, BTN_START) || (--D_8082B25C == 0)) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
-                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                            gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
+                        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                            gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                                BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
                         pauseCtx->unk_1EC = 5;

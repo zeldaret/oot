@@ -634,8 +634,9 @@ void func_80083108(PlayState* play) {
                 gSaveContext.unk_13E7 = 1;
 
                 if (gSaveContext.buttonStatus[IBTN_BCA_B] == BTN_DISABLED) {
-                    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                        gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
+                    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                        gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                            BTN_ENABLED;
                 }
 
                 if ((gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SLINGSHOT) &&
@@ -664,8 +665,8 @@ void func_80083108(PlayState* play) {
                         }
                     }
 
-                    gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
-                        BTN_DISABLED;
+                    gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
+                        gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_DISABLED;
                     Interface_ChangeAlpha(6);
                 }
 
@@ -709,16 +710,18 @@ void func_80083108(PlayState* play) {
                     Interface_LoadItemIcon1(play, IBTN_BC_B);
                 }
 
-                gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                    gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_DISABLED;
+                gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                    gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                        BTN_DISABLED;
                 Interface_ChangeAlpha(50);
             } else {
                 if (gSaveContext.buttonStatus[IBTN_BCA_B] == BTN_ENABLED) {
                     gSaveContext.unk_13EA = 0;
                 }
 
-                gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-                    gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_DISABLED;
+                gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+                    gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
+                        BTN_DISABLED;
                 Interface_ChangeAlpha(50);
             }
         } else if (msgCtx->msgMode == MSGMODE_NONE) {
@@ -1162,7 +1165,8 @@ void Inventory_SwapAgeEquipment(void) {
             }
 
             if (i != IBTN_BC_B) {
-                gSaveContext.childEquips.cButtonSlots[IBTN_BC_TO_C(i)] = gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)];
+                gSaveContext.childEquips.cButtonSlots[IBTN_BC_TO_C(i)] =
+                    gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)];
             }
         }
 
@@ -1175,7 +1179,8 @@ void Inventory_SwapAgeEquipment(void) {
                 gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] = ITEM_NUT;
                 gSaveContext.equips.cButtonSlots[IBTN_C_C_LEFT] = SLOT_NUT;
             } else {
-                gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] = gSaveContext.equips.cButtonSlots[IBTN_C_C_LEFT] = ITEM_NONE;
+                gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] = gSaveContext.equips.cButtonSlots[IBTN_C_C_LEFT] =
+                    ITEM_NONE;
             }
 
             gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] = ITEM_BOMB;
@@ -1191,7 +1196,8 @@ void Inventory_SwapAgeEquipment(void) {
                 gSaveContext.equips.buttonItems[i] = gSaveContext.adultEquips.buttonItems[i];
 
                 if (i != IBTN_BC_B) {
-                    gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)] = gSaveContext.adultEquips.cButtonSlots[IBTN_BC_TO_C(i)];
+                    gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)] =
+                        gSaveContext.adultEquips.cButtonSlots[IBTN_BC_TO_C(i)];
                 }
 
                 if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
@@ -1211,7 +1217,8 @@ void Inventory_SwapAgeEquipment(void) {
             gSaveContext.adultEquips.buttonItems[i] = gSaveContext.equips.buttonItems[i];
 
             if (i != IBTN_BC_B) {
-                gSaveContext.adultEquips.cButtonSlots[IBTN_BC_TO_C(i)] = gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)];
+                gSaveContext.adultEquips.cButtonSlots[IBTN_BC_TO_C(i)] =
+                    gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)];
             }
         }
 
@@ -1222,7 +1229,8 @@ void Inventory_SwapAgeEquipment(void) {
                 gSaveContext.equips.buttonItems[i] = gSaveContext.childEquips.buttonItems[i];
 
                 if (i != IBTN_BC_B) {
-                    gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)] = gSaveContext.childEquips.cButtonSlots[IBTN_BC_TO_C(i)];
+                    gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(i)] =
+                        gSaveContext.childEquips.cButtonSlots[IBTN_BC_TO_C(i)];
                 }
 
                 if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
@@ -1297,7 +1305,8 @@ void Interface_LoadItemIcon2(PlayState* play, u16 button) {
 void func_80084BF4(PlayState* play, u16 flag) {
     if (flag) {
         if ((gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_SLINGSHOT) ||
-            (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_BOW) || (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_BOMBCHU) ||
+            (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_BOW) ||
+            (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_BOMBCHU) ||
             (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_FISHING_POLE) ||
             (gSaveContext.buttonStatus[IBTN_BCA_B] == BTN_DISABLED)) {
             if ((gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_SLINGSHOT) ||
@@ -1308,18 +1317,19 @@ void func_80084BF4(PlayState* play, u16 flag) {
                 Interface_LoadItemIcon1(play, IBTN_BC_B);
             }
         } else if (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_NONE) {
-            if ((gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_NONE) || (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
+            if ((gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_NONE) ||
+                (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
                 gSaveContext.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
                 Interface_LoadItemIcon1(play, IBTN_BC_B);
             }
         }
 
-        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-            gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
+        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+            gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
         Interface_ChangeAlpha(7);
     } else {
-        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
-            gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
+        gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
+            gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = BTN_ENABLED;
         func_80083108(play);
     }
 }
@@ -1754,7 +1764,8 @@ u8 Item_Give(PlayState* play, u8 item) {
                 if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
                     // "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
-                                 gSaveContext.equips.cButtonSlots[IBTN_C_C_LEFT], gSaveContext.equips.cButtonSlots[IBTN_C_C_DOWN],
+                                 gSaveContext.equips.cButtonSlots[IBTN_C_C_LEFT],
+                                 gSaveContext.equips.cButtonSlots[IBTN_C_C_DOWN],
                                  gSaveContext.equips.cButtonSlots[IBTN_C_C_RIGHT], temp + i, item);
 
                     if ((temp + i) == gSaveContext.equips.cButtonSlots[IBTN_C_C_LEFT]) {
@@ -2739,31 +2750,34 @@ void Interface_DrawItemButtons(PlayState* play) {
     gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_B_BTN_COLOR(0), R_B_BTN_COLOR(1), R_B_BTN_COLOR(2), interfaceCtx->bAlpha);
     gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
-    OVERLAY_DISP =
-        Gfx_TextureIA8(OVERLAY_DISP, gButtonBackgroundTex, 32, 32, R_ITEM_BTN_X(IBTN_BC_B), R_ITEM_BTN_Y(IBTN_BC_B),
-                       R_ITEM_BTN_WIDTH(IBTN_BC_B), R_ITEM_BTN_WIDTH(IBTN_BC_B), R_ITEM_BTN_DD(IBTN_BC_B) << 1, R_ITEM_BTN_DD(IBTN_BC_B) << 1);
+    OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gButtonBackgroundTex, 32, 32, R_ITEM_BTN_X(IBTN_BC_B),
+                                  R_ITEM_BTN_Y(IBTN_BC_B), R_ITEM_BTN_WIDTH(IBTN_BC_B), R_ITEM_BTN_WIDTH(IBTN_BC_B),
+                                  R_ITEM_BTN_DD(IBTN_BC_B) << 1, R_ITEM_BTN_DD(IBTN_BC_B) << 1);
 
     // C-Left Button Color & Texture
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cLeftAlpha);
     gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(IBTN_BC_C_LEFT) << 2, R_ITEM_BTN_Y(IBTN_BC_C_LEFT) << 2,
-                        (R_ITEM_BTN_X(IBTN_BC_C_LEFT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_LEFT)) << 2, (R_ITEM_BTN_Y(IBTN_BC_C_LEFT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_LEFT)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(IBTN_BC_C_LEFT) << 1, R_ITEM_BTN_DD(IBTN_BC_C_LEFT) << 1);
+                        (R_ITEM_BTN_X(IBTN_BC_C_LEFT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_LEFT)) << 2,
+                        (R_ITEM_BTN_Y(IBTN_BC_C_LEFT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_LEFT)) << 2, G_TX_RENDERTILE, 0, 0,
+                        R_ITEM_BTN_DD(IBTN_BC_C_LEFT) << 1, R_ITEM_BTN_DD(IBTN_BC_C_LEFT) << 1);
 
     // C-Down Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cDownAlpha);
     gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(IBTN_BC_C_DOWN) << 2, R_ITEM_BTN_Y(IBTN_BC_C_DOWN) << 2,
-                        (R_ITEM_BTN_X(IBTN_BC_C_DOWN) + R_ITEM_BTN_WIDTH(IBTN_BC_C_DOWN)) << 2, (R_ITEM_BTN_Y(IBTN_BC_C_DOWN) + R_ITEM_BTN_WIDTH(IBTN_BC_C_DOWN)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(IBTN_BC_C_DOWN) << 1, R_ITEM_BTN_DD(IBTN_BC_C_DOWN) << 1);
+                        (R_ITEM_BTN_X(IBTN_BC_C_DOWN) + R_ITEM_BTN_WIDTH(IBTN_BC_C_DOWN)) << 2,
+                        (R_ITEM_BTN_Y(IBTN_BC_C_DOWN) + R_ITEM_BTN_WIDTH(IBTN_BC_C_DOWN)) << 2, G_TX_RENDERTILE, 0, 0,
+                        R_ITEM_BTN_DD(IBTN_BC_C_DOWN) << 1, R_ITEM_BTN_DD(IBTN_BC_C_DOWN) << 1);
 
     // C-Right Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cRightAlpha);
     gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(IBTN_BC_C_RIGHT) << 2, R_ITEM_BTN_Y(IBTN_BC_C_RIGHT) << 2,
-                        (R_ITEM_BTN_X(IBTN_BC_C_RIGHT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_RIGHT)) << 2, (R_ITEM_BTN_Y(IBTN_BC_C_RIGHT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_RIGHT)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(IBTN_BC_C_RIGHT) << 1, R_ITEM_BTN_DD(IBTN_BC_C_RIGHT) << 1);
+                        (R_ITEM_BTN_X(IBTN_BC_C_RIGHT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_RIGHT)) << 2,
+                        (R_ITEM_BTN_Y(IBTN_BC_C_RIGHT) + R_ITEM_BTN_WIDTH(IBTN_BC_C_RIGHT)) << 2, G_TX_RENDERTILE, 0, 0,
+                        R_ITEM_BTN_DD(IBTN_BC_C_RIGHT) << 1, R_ITEM_BTN_DD(IBTN_BC_C_RIGHT) << 1);
 
     if ((pauseCtx->state < 8) || (pauseCtx->state >= 18)) {
         if ((play->pauseCtx.state != 0) || (play->pauseCtx.debugState != 0)) {

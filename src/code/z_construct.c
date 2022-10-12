@@ -83,29 +83,34 @@ void Interface_Init(PlayState* play) {
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_B] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_B] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart +
+                                gSaveContext.equips.buttonItems[IBTN_BC_B] * 0x1000,
                             0x1000, "../z_construct.c", 198);
     } else if (gSaveContext.equips.buttonItems[IBTN_BC_B] != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_B] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart +
+                                gSaveContext.equips.buttonItems[IBTN_BC_B] * 0x1000,
                             0x1000, "../z_construct.c", 203);
     }
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart +
+                                gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] * 0x1000,
                             0x1000, "../z_construct.c", 209);
     }
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart +
+                                gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] * 0x1000,
                             0x1000, "../z_construct.c", 214);
     }
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart +
+                                gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] * 0x1000,
                             0x1000, "../z_construct.c", 219);
     }
 

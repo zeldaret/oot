@@ -485,7 +485,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                         if (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_HEART_PIECE_2) {
                             gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_BGS;
                         }
-                        if ((gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_SWORD_BGS) && (gSaveContext.bgsFlag == 0) &&
+                        if ((gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_SWORD_BGS) &&
+                            (gSaveContext.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                             gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_KNIFE;
                         }
