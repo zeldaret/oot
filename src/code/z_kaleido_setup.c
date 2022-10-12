@@ -1,22 +1,42 @@
 #include "global.h"
 
-s16 sKaleidoSetupKscpPos0[] = {
+s16 sKaleidoSetupUnusedPageIndex[] = {
     PAUSE_QUEST, // PAUSE_ITEM
     PAUSE_EQUIP, // PAUSE_MAP
     PAUSE_ITEM,  // PAUSE_QUEST
     PAUSE_MAP,   // PAUSE_EQUIP
 };
-f32 sKaleidoSetupEyeX0[] = { 0.0f, 64.0f, 0.0f, -64.0f };
-f32 sKaleidoSetupEyeZ0[] = { -64.0f, 0.0f, 64.0f, 0.0f };
+f32 sKaleidoSetupUnusedEyeX[] = {
+    PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_EQUIP
+};
+f32 sKaleidoSetupUnusedEyeZ[] = {
+    PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_Z, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_ITEM_Z,  // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_EQUIP
+};
 
-s16 sKaleidoSetupKscpPos1[] = {
+s16 sKaleidoSetupRightPageIndex[] = {
     PAUSE_MAP,   // PAUSE_ITEM
     PAUSE_QUEST, // PAUSE_MAP
     PAUSE_EQUIP, // PAUSE_QUEST
     PAUSE_ITEM,  // PAUSE_EQUIP
 };
-f32 sKaleidoSetupEyeX1[] = { -64.0f, 0.0f, 64.0f, 0.0f };
-f32 sKaleidoSetupEyeZ1[] = { 0.0f, -64.0f, 0.0f, 64.0f };
+f32 sKaleidoSetupRightPageEyeX[] = {
+    PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_EQUIP
+};
+f32 sKaleidoSetupRightPageEyeZ[] = {
+    PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_Z, // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_ITEM_Z,  // PAUSE_EQUIP
+};
 
 void KaleidoSetup_Update(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
@@ -45,19 +65,22 @@ void KaleidoSetup_Update(PlayState* play) {
             pauseCtx->mainSubState = PAUSE_MAIN_STATE_SWITCHING_PAGE; // irrelevant
 
             if (R_START_LABEL_DD(0) == 0) {
-                pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ0[pauseCtx->pageIndex];
-                pauseCtx->pageIndex = sKaleidoSetupKscpPos0[pauseCtx->pageIndex];
+                // Never reached, unused, and the data would be wrong anyway
+                pauseCtx->eye.x = sKaleidoSetupUnusedEyeX[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupUnusedEyeZ[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupUnusedPageIndex[pauseCtx->pageIndex];
             } else {
-                pauseCtx->eye.x = sKaleidoSetupEyeX1[pauseCtx->pageIndex];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ1[pauseCtx->pageIndex];
-                pauseCtx->pageIndex = sKaleidoSetupKscpPos1[pauseCtx->pageIndex];
+                // Set eye position and pageIndex such that scrolling left brings to the desired page
+                pauseCtx->eye.x = sKaleidoSetupRightPageEyeX[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupRightPageEyeZ[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupRightPageIndex[pauseCtx->pageIndex];
             }
 
-            pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
+            // Set next page mode to scroll left
+            pauseCtx->nextPageMode = (u16)(pauseCtx->pageIndex * 2) + 1;
             pauseCtx->state = PAUSE_STATE_WAIT_LETTERBOX;
 
-            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
+            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->nextPageMode, pauseCtx->eye.x,
                          pauseCtx->eye.z, pauseCtx->pageIndex);
         }
 
@@ -83,7 +106,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->alpha = 0;
     pauseCtx->switchPageTimer = 0;
     pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
-    pauseCtx->mode = 0;
+    pauseCtx->nextPageMode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
 
     pauseCtx->rollRotPageItem = pauseCtx->rollRotPageEquip = pauseCtx->rollRotPageMap = pauseCtx->rollRotPageQuest =

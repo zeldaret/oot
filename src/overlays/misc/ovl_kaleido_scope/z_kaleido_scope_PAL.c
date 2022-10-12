@@ -136,13 +136,32 @@ s16 D_8082AB2C_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[] = {
 };
 
 // TODO may not be indexed by `PAUSE_`
-static u8 D_8082AB6C[][5] = {
-    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },  // PAUSE_ITEM
-    { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },    // PAUSE_MAP
-    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED }, // PAUSE_QUEST
-    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },  // PAUSE_EQUIP
-    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },  // PAUSE_WORLD_MAP
+static u8 D_8082AB6C_buttonStatusNext_[][5] = {
+    // PAUSE_ITEM  + SWITCH_PAGE_LEFT_PT
+    //
+    //  -> PAUSE_EQUIP
+    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
+    // PAUSE_MAP   + SWITCH_PAGE_LEFT_PT
+    //
+    //  -> PAUSE_ITEM
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
+    // PAUSE_QUEST + SWITCH_PAGE_LEFT_PT
+    // PAUSE_ITEM  + SWITCH_PAGE_RIGHT_PT
+    //  -> PAUSE_MAP
+    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED },
+    // PAUSE_EQUIP + SWITCH_PAGE_LEFT_PT
+    // PAUSE_MAP   + SWITCH_PAGE_RIGHT_PT
+    //  -> PAUSE_QUEST
+    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
+    //
+    // PAUSE_QUEST + SWITCH_PAGE_RIGHT_PT
+    //  -> PAUSE_EQUIP
+    { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
+    //
+    // PAUSE_EQUIP + SWITCH_PAGE_RIGHT_PT
+    //  -> PAUSE_ITEM
+    { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
+
 };
 
 static s16 sColor82ABRed_D_8082AB8C = 0;
@@ -156,55 +175,181 @@ static s16 sDrawGameOverEnvColorBlue_D_8082ABA4 = 0;
 
 static s16 sInDungeonScene = false;
 
-// "pt" from debug string in KaleidoScope_SwitchPage
-static f32 D_8082ABAC_pageSwitch_eye_dx_[] = {
-    -4.0f, // PAUSE_ITEM  pt=0
-    4.0f,  // PAUSE_ITEM  pt=1
-    4.0f,  // PAUSE_MAP   pt=0
-    4.0f,  // PAUSE_MAP   pt=1
-    4.0f,  // PAUSE_QUEST pt=0
-    -4.0f, // PAUSE_QUEST pt=1
-    -4.0f, // PAUSE_EQUIP pt=0
-    -4.0f, // PAUSE_EQUIP pt=1
+static f32 sPageSwitchEyeDx[] = {
+    -PAUSE_EYE_DIST * (PAUSE_MAP_X - PAUSE_ITEM_X) / 16,  // PAUSE_ITEM  right
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_ITEM_X) / 16,  // PAUSE_ITEM  left
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_MAP_X) / 16,   // PAUSE_MAP   right
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_MAP_X) / 16,    // PAUSE_MAP   left
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_QUEST_X) / 16, // PAUSE_QUEST right
+    -PAUSE_EYE_DIST*(PAUSE_MAP_X - PAUSE_QUEST_X) / 16,   // PAUSE_QUEST left
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_EQUIP_X) / 16,  // PAUSE_EQUIP right
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_EQUIP_X) / 16, // PAUSE_EQUIP left
 };
 
-static f32 D_8082ABCC_pageSwitch_eye_dz_[] = {
-    -4.0f, // PAUSE_ITEM  pt=0
-    -4.0f, // PAUSE_ITEM  pt=1
-    -4.0f, // PAUSE_MAP   pt=0
-    4.0f,  // PAUSE_MAP   pt=1
-    4.0f,  // PAUSE_QUEST pt=0
-    4.0f,  // PAUSE_QUEST pt=1
-    4.0f,  // PAUSE_EQUIP pt=0
-    -4.0f, // PAUSE_EQUIP pt=1
+static f32 sPageSwitchEyeDz[] = {
+    -PAUSE_EYE_DIST * (PAUSE_MAP_Z - PAUSE_ITEM_Z) / 16,  // PAUSE_ITEM  right
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_ITEM_Z) / 16,  // PAUSE_ITEM  left
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_MAP_Z) / 16,   // PAUSE_MAP   right
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_MAP_Z) / 16,    // PAUSE_MAP   left
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_QUEST_Z) / 16, // PAUSE_QUEST right
+    -PAUSE_EYE_DIST*(PAUSE_MAP_Z - PAUSE_QUEST_Z) / 16,   // PAUSE_QUEST left
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_EQUIP_Z) / 16,  // PAUSE_EQUIP right
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_EQUIP_Z) / 16, // PAUSE_EQUIP left
 };
 
-static u16 D_8082ABEC_modeToNewPageIndex_[] = {
-    PAUSE_MAP,   // PAUSE_ITEM  pt=0
-    PAUSE_EQUIP, // PAUSE_ITEM  pt=1
-    PAUSE_QUEST, // PAUSE_MAP   pt=0
-    PAUSE_ITEM,  // PAUSE_MAP   pt=1
-    PAUSE_EQUIP, // PAUSE_QUEST pt=0
-    PAUSE_MAP,   // PAUSE_QUEST pt=1
-    PAUSE_ITEM,  // PAUSE_EQUIP pt=0
-    PAUSE_QUEST, // PAUSE_EQUIP pt=1
+static u16 sPageSwitchNextPageIndex[] = {
+    PAUSE_MAP,   // PAUSE_ITEM  right
+    PAUSE_EQUIP, // PAUSE_ITEM  left
+    PAUSE_QUEST, // PAUSE_MAP   right
+    PAUSE_ITEM,  // PAUSE_MAP   left
+    PAUSE_EQUIP, // PAUSE_QUEST right
+    PAUSE_MAP,   // PAUSE_QUEST left
+    PAUSE_ITEM,  // PAUSE_EQUIP right
+    PAUSE_QUEST, // PAUSE_EQUIP left
 };
 
 u8 gSlotAgeReqs[] = {
-    1, 9, 9, 0, 0, 9, 1, 9, 9, 0, 0, 9, 1, 9, 1, 0, 0, 9, 9, 9, 9, 9, 0, 1,
+    AGE_REQ_CHILD, // SLOT_STICK
+    AGE_REQ_NONE,  // SLOT_NUT
+    AGE_REQ_NONE,  // SLOT_BOMB
+    AGE_REQ_ADULT, // SLOT_BOW
+    AGE_REQ_ADULT, // SLOT_ARROW_FIRE
+    AGE_REQ_NONE,  // SLOT_DINS_FIRE
+    AGE_REQ_CHILD, // SLOT_SLINGSHOT
+    AGE_REQ_NONE,  // SLOT_OCARINA
+    AGE_REQ_NONE,  // SLOT_BOMBCHU
+    AGE_REQ_ADULT, // SLOT_HOOKSHOT
+    AGE_REQ_ADULT, // SLOT_ARROW_ICE
+    AGE_REQ_NONE,  // SLOT_FARORES_WIND
+    AGE_REQ_CHILD, // SLOT_BOOMERANG
+    AGE_REQ_NONE,  // SLOT_LENS
+    AGE_REQ_CHILD, // SLOT_BEAN
+    AGE_REQ_ADULT, // SLOT_HAMMER
+    AGE_REQ_ADULT, // SLOT_ARROW_LIGHT
+    AGE_REQ_NONE,  // SLOT_NAYRUS_LOVE
+    AGE_REQ_NONE,  // SLOT_BOTTLE_1
+    AGE_REQ_NONE,  // SLOT_BOTTLE_2
+    AGE_REQ_NONE,  // SLOT_BOTTLE_3
+    AGE_REQ_NONE,  // SLOT_BOTTLE_4
+    AGE_REQ_ADULT, // SLOT_TRADE_ADULT
+    AGE_REQ_CHILD, // SLOT_TRADE_CHILD
 };
 
+// Not sure EQUIP_TYPE_MAX is really EQUIP_TYPE_MAX
 u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4] = {
-    { 0, 1, 0, 0 },
-    { 9, 1, 9, 0 },
-    { 0, 9, 0, 0 },
-    { 9, 9, 0, 0 },
+    {
+        AGE_REQ_ADULT,
+        AGE_REQ_CHILD,
+        AGE_REQ_ADULT,
+        AGE_REQ_ADULT,
+    }, // EQUIP_TYPE_SWORD
+    {
+        AGE_REQ_NONE,
+        AGE_REQ_CHILD,
+        AGE_REQ_NONE,
+        AGE_REQ_ADULT,
+    }, // EQUIP_TYPE_SHIELD
+    {
+        AGE_REQ_ADULT,
+        AGE_REQ_NONE,
+        AGE_REQ_ADULT,
+        AGE_REQ_ADULT,
+    }, // EQUIP_TYPE_TUNIC
+    {
+        AGE_REQ_NONE,
+        AGE_REQ_NONE,
+        AGE_REQ_ADULT,
+        AGE_REQ_ADULT,
+    }, // EQUIP_TYPE_BOOTS
 };
 
 u8 gItemAgeReqs[] = {
-    1, 9, 9, 0, 0, 9, 1, 9, 9, 9, 0, 0, 0, 9, 1, 9, 1, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-    9, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 9, 0, 9, 0, 0, 9, 0, 0, 1, 1, 1, 0, 0, 0, 9, 9, 9, 1, 0, 0, 9, 9, 0,
+    AGE_REQ_CHILD, // ITEM_STICK
+    AGE_REQ_NONE,  // ITEM_NUT
+    AGE_REQ_NONE,  // ITEM_BOMB
+    AGE_REQ_ADULT, // ITEM_BOW
+    AGE_REQ_ADULT, // ITEM_ARROW_FIRE
+    AGE_REQ_NONE,  // ITEM_DINS_FIRE
+    AGE_REQ_CHILD, // ITEM_SLINGSHOT
+    AGE_REQ_NONE,  // ITEM_OCARINA_FAIRY
+    AGE_REQ_NONE,  // ITEM_OCARINA_TIME
+    AGE_REQ_NONE,  // ITEM_BOMBCHU
+    AGE_REQ_ADULT, // ITEM_HOOKSHOT
+    AGE_REQ_ADULT, // ITEM_LONGSHOT
+    AGE_REQ_ADULT, // ITEM_ARROW_ICE
+    AGE_REQ_NONE,  // ITEM_FARORES_WIND
+    AGE_REQ_CHILD, // ITEM_BOOMERANG
+    AGE_REQ_NONE,  // ITEM_LENS
+    AGE_REQ_CHILD, // ITEM_BEAN
+    AGE_REQ_ADULT, // ITEM_HAMMER
+    AGE_REQ_ADULT, // ITEM_ARROW_LIGHT
+    AGE_REQ_NONE,  // ITEM_NAYRUS_LOVE
+    AGE_REQ_NONE,  // ITEM_BOTTLE
+    AGE_REQ_NONE,  // ITEM_POTION_RED
+    AGE_REQ_NONE,  // ITEM_POTION_GREEN
+    AGE_REQ_NONE,  // ITEM_POTION_BLUE
+    AGE_REQ_NONE,  // ITEM_FAIRY
+    AGE_REQ_NONE,  // ITEM_FISH
+    AGE_REQ_NONE,  // ITEM_MILK_BOTTLE
+    AGE_REQ_NONE,  // ITEM_LETTER_RUTO
+    AGE_REQ_NONE,  // ITEM_BLUE_FIRE
+    AGE_REQ_NONE,  // ITEM_BUG
+    AGE_REQ_NONE,  // ITEM_BIG_POE
+    AGE_REQ_NONE,  // ITEM_MILK_HALF
+    AGE_REQ_NONE,  // ITEM_POE
+    AGE_REQ_CHILD, // ITEM_WEIRD_EGG
+    AGE_REQ_CHILD, // ITEM_CHICKEN
+    AGE_REQ_CHILD, // ITEM_LETTER_ZELDA
+    AGE_REQ_CHILD, // ITEM_MASK_KEATON
+    AGE_REQ_CHILD, // ITEM_MASK_SKULL
+    AGE_REQ_CHILD, // ITEM_MASK_SPOOKY
+    AGE_REQ_CHILD, // ITEM_MASK_BUNNY
+    AGE_REQ_CHILD, // ITEM_MASK_GORON
+    AGE_REQ_CHILD, // ITEM_MASK_ZORA
+    AGE_REQ_CHILD, // ITEM_MASK_GERUDO
+    AGE_REQ_CHILD, // ITEM_MASK_TRUTH
+    AGE_REQ_CHILD, // ITEM_SOLD_OUT
+    AGE_REQ_ADULT, // ITEM_POCKET_EGG
+    AGE_REQ_ADULT, // ITEM_POCKET_CUCCO
+    AGE_REQ_ADULT, // ITEM_COJIRO
+    AGE_REQ_ADULT, // ITEM_ODD_MUSHROOM
+    AGE_REQ_ADULT, // ITEM_ODD_POTION
+    AGE_REQ_ADULT, // ITEM_SAW
+    AGE_REQ_ADULT, // ITEM_SWORD_BROKEN
+    AGE_REQ_ADULT, // ITEM_PRESCRIPTION
+    AGE_REQ_ADULT, // ITEM_FROG
+    AGE_REQ_ADULT, // ITEM_EYEDROPS
+    AGE_REQ_ADULT, // ITEM_CLAIM_CHECK
+    AGE_REQ_ADULT, // ITEM_BOW_ARROW_FIRE
+    AGE_REQ_ADULT, // ITEM_BOW_ARROW_ICE
+    AGE_REQ_ADULT, // ITEM_BOW_ARROW_LIGHT
+    AGE_REQ_CHILD, // ITEM_SWORD_KOKIRI
+    AGE_REQ_ADULT, // ITEM_SWORD_MASTER
+    AGE_REQ_ADULT, // ITEM_SWORD_BGS
+    AGE_REQ_CHILD, // ITEM_SHIELD_DEKU
+    AGE_REQ_NONE,  // ITEM_SHIELD_HYLIAN
+    AGE_REQ_ADULT, // ITEM_SHIELD_MIRROR
+    AGE_REQ_NONE,  // ITEM_TUNIC_KOKIRI
+    AGE_REQ_ADULT, // ITEM_TUNIC_GORON
+    AGE_REQ_ADULT, // ITEM_TUNIC_ZORA
+    AGE_REQ_NONE,  // ITEM_BOOTS_KOKIRI
+    AGE_REQ_ADULT, // ITEM_BOOTS_IRON
+    AGE_REQ_ADULT, // ITEM_BOOTS_HOVER
+    AGE_REQ_CHILD, // ITEM_BULLET_BAG_30
+    AGE_REQ_CHILD, // ITEM_BULLET_BAG_40
+    AGE_REQ_CHILD, // ITEM_BULLET_BAG_50
+    AGE_REQ_ADULT, // ITEM_QUIVER_30
+    AGE_REQ_ADULT, // ITEM_QUIVER_40
+    AGE_REQ_ADULT, // ITEM_QUIVER_50
+    AGE_REQ_NONE,  // ITEM_BOMB_BAG_20
+    AGE_REQ_NONE,  // ITEM_BOMB_BAG_30
+    AGE_REQ_NONE,  // ITEM_BOMB_BAG_40
+    AGE_REQ_CHILD, // ITEM_BRACELET
+    AGE_REQ_ADULT, // ITEM_GAUNTLETS_SILVER
+    AGE_REQ_ADULT, // ITEM_GAUNTLETS_GOLD
+    AGE_REQ_NONE,  // ITEM_SCALE_SILVER
+    AGE_REQ_NONE,  // ITEM_SCALE_GOLDEN
+    AGE_REQ_ADULT, // ITEM_SWORD_KNIFE
 };
 
 u8 gAreaGsFlags[] = {
@@ -387,26 +532,29 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
     }
 }
 
+#define SWITCH_PAGE_LEFT_PT 0
+#define SWITCH_PAGE_RIGHT_PT 2
+
 void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
     pauseCtx->mainSubState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
     pauseCtx->switchPageTimer = 0;
 
-    if (!pt) { // pt == 0, scroll left
-        pauseCtx->mode = pauseCtx->pageIndex * 2 + 1;
+    if (!pt) { // SWITCH_PAGE_LEFT_PT
+        pauseCtx->nextPageMode = (pauseCtx->pageIndex * 2) + 1;
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_SCROLL_LEFT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_RIGHT;
-    } else { // pt == 2, scroll right
-        pauseCtx->mode = pauseCtx->pageIndex * 2;
+    } else { // SWITCH_PAGE_RIGHT_PT
+        pauseCtx->nextPageMode = pauseCtx->pageIndex * 2;
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_SCROLL_RIGHT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
-    gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->pageIndex + pt][1];
-    gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->pageIndex + pt][2];
-    gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->pageIndex + pt][3];
-    gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex + pt][4];
+    gSaveContext.buttonStatus[1] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][1];
+    gSaveContext.buttonStatus[2] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][2];
+    gSaveContext.buttonStatus[3] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][3];
+    gSaveContext.buttonStatus[4] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][4];
 
     osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
@@ -421,12 +569,12 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-        KaleidoScope_SwitchPage(pauseCtx, 2);
+        KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_RIGHT_PT);
         return;
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-        KaleidoScope_SwitchPage(pauseCtx, 0);
+        KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_LEFT_PT);
         return;
     }
 
@@ -434,7 +582,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX < -30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SwitchPage(pauseCtx, 0);
+                KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_LEFT_PT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
@@ -443,7 +591,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX > 30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SwitchPage(pauseCtx, 2);
+                KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_RIGHT_PT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
@@ -1530,16 +1678,16 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
 void KaleidoScope_UpdateSwitchPage(PlayState* play, Input* input) {
     PauseContext* pauseCtx = &play->pauseCtx;
     s32 frameAdvanceFreeze = false;
-    s32 mode;
+    s32 nextPageMode;
 
     if (R_PAUSE_SWITCH_PAGE_FRAME_ADVANCE_ON && !CHECK_BTN_ALL(input->press.button, BTN_L)) {
         frameAdvanceFreeze = true;
     }
 
     if (!frameAdvanceFreeze) {
-        mode = pauseCtx->mode;
-        pauseCtx->eye.x += D_8082ABAC_pageSwitch_eye_dx_[mode];
-        pauseCtx->eye.z += D_8082ABCC_pageSwitch_eye_dz_[mode];
+        nextPageMode = pauseCtx->nextPageMode;
+        pauseCtx->eye.x += sPageSwitchEyeDx[nextPageMode];
+        pauseCtx->eye.z += sPageSwitchEyeDz[nextPageMode];
 
         if (pauseCtx->switchPageTimer < 32) {
             R_PAUSE_CURSOR_LEFT_X -= R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
@@ -1551,9 +1699,9 @@ void KaleidoScope_UpdateSwitchPage(PlayState* play, Input* input) {
 
         pauseCtx->switchPageTimer += 4;
 
-        if (pauseCtx->switchPageTimer == 64) {
+        if (pauseCtx->switchPageTimer == (4 * 16)) {
             pauseCtx->switchPageTimer = 0;
-            pauseCtx->pageIndex = D_8082ABEC_modeToNewPageIndex_[pauseCtx->mode];
+            pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
             pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
         }
     }
@@ -2509,8 +2657,8 @@ void KaleidoScope_GrayOutTextureRGBA32(u32* texture, u16 pixelCount) {
 void KaleidoScope_UpdateOpening(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
-    pauseCtx->eye.x += D_8082ABAC_pageSwitch_eye_dx_[pauseCtx->mode] * ZREG(46);
-    pauseCtx->eye.z += D_8082ABCC_pageSwitch_eye_dz_[pauseCtx->mode] * ZREG(46);
+    pauseCtx->eye.x += sPageSwitchEyeDx[pauseCtx->nextPageMode] * ZREG(46);
+    pauseCtx->eye.z += sPageSwitchEyeDz[pauseCtx->nextPageMode] * ZREG(46);
     pauseCtx->switchPageTimer += 4 * ZREG(46);
 
     if (pauseCtx->switchPageTimer == (4 * 16 * ZREG(47))) {
@@ -2518,22 +2666,23 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
 
         func_80084BF4(play, 1);
 
-        gSaveContext.buttonStatus[0] = D_8082AB6C[pauseCtx->pageIndex][0];
-        gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->pageIndex][1];
-        gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->pageIndex][2];
-        gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->pageIndex][3];
-        gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex][4];
+        gSaveContext.buttonStatus[0] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][0];
+        gSaveContext.buttonStatus[1] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][1];
+        gSaveContext.buttonStatus[2] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][2];
+        gSaveContext.buttonStatus[3] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][3];
+        gSaveContext.buttonStatus[4] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][4];
 
-        pauseCtx->pageIndex = D_8082ABEC_modeToNewPageIndex_[pauseCtx->mode];
+        pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
 
         pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
         pauseCtx->state++; // PAUSE_STATE_MAIN
 
         pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(play, DO_ACTION_SAVE);
-    } else if (pauseCtx->switchPageTimer == 64) {
-        pauseCtx->pageIndex = D_8082ABEC_modeToNewPageIndex_[pauseCtx->mode];
-        pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
+    } else if (pauseCtx->switchPageTimer == (4 * 16 * 1)) {
+        // `ZREG(47)` is always 1 so this normally never happens
+        pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
+        pauseCtx->nextPageMode = (u16)(pauseCtx->pageIndex * 2) + 1;
     }
 }
 
@@ -2744,7 +2893,7 @@ void KaleidoScope_Update(PlayState* play) {
             gSegments[8] = VIRTUAL_TO_PHYSICAL(pauseCtx->iconItemSegment);
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
-                if ((gItemAgeReqs[i] != 9) && (gItemAgeReqs[i] != ((void)0, gSaveContext.linkAge))) {
+                if (!CHECK_AGE_REQ_ITEM(i)) {
                     KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]), 0x400);
                 }
             }
@@ -3126,7 +3275,7 @@ void KaleidoScope_Update(PlayState* play) {
                         R_PAUSE_OFFSET_VERTICAL = -6240;
                         func_800F64E0(0);
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        pauseCtx->mode = 0;
+                        pauseCtx->nextPageMode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -3174,7 +3323,7 @@ void KaleidoScope_Update(PlayState* play) {
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
-                        pauseCtx->mode = 0;
+                        pauseCtx->nextPageMode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -3230,7 +3379,7 @@ void KaleidoScope_Update(PlayState* play) {
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         pauseCtx->mainSubState = PAUSE_MAIN_STATE_IDLE;
-                        pauseCtx->mode = 0;
+                        pauseCtx->nextPageMode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

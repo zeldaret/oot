@@ -9,7 +9,18 @@ extern s16 D_8082AAEC_width_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[];
 extern s16 D_8082AB2C_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[];
 extern u8 gSlotAgeReqs[];
 extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
+extern u8 gItemAgeReqs[];
 extern u8 gAreaGsFlags[];
+
+#define AGE_REQ_ADULT LINK_AGE_ADULT
+#define AGE_REQ_CHILD LINK_AGE_CHILD
+#define AGE_REQ_NONE 9
+
+#define CHECK_AGE_REQ_SLOT(slot) \
+    ((gSlotAgeReqs[slot] == AGE_REQ_NONE) || gSlotAgeReqs[slot] == ((void)0, gSaveContext.linkAge))
+#define CHECK_AGE_REQ_EQUIP(y, x) \
+    ((gEquipAgeReqs[y][x] == 9) || (gEquipAgeReqs[y][x] == ((void)0, gSaveContext.linkAge)))
+#define CHECK_AGE_REQ_ITEM(item) ((gItemAgeReqs[item] == 9) || (gItemAgeReqs[item] == ((void)0, gSaveContext.linkAge)))
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);

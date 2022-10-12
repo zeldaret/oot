@@ -730,12 +730,23 @@ typedef enum {
 #define PAUSE_CURSOR_PAGE_RIGHT 11
 
 typedef enum {
-    /* 0x00 */ PAUSE_ITEM,
-    /* 0x01 */ PAUSE_MAP,
-    /* 0x02 */ PAUSE_QUEST,
-    /* 0x03 */ PAUSE_EQUIP,
+    /* 0x00 */ PAUSE_ITEM,  // -z
+    /* 0x01 */ PAUSE_MAP,   // +x
+    /* 0x02 */ PAUSE_QUEST, // +z
+    /* 0x03 */ PAUSE_EQUIP, // -x
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
+
+#define PAUSE_ITEM_X (0)
+#define PAUSE_ITEM_Z (-1)
+#define PAUSE_MAP_X (1)
+#define PAUSE_MAP_Z (0)
+#define PAUSE_QUEST_X (0)
+#define PAUSE_QUEST_Z (1)
+#define PAUSE_EQUIP_X (-1)
+#define PAUSE_EQUIP_Z (0)
+
+#define PAUSE_EYE_DIST (64.0f)
 
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
@@ -827,7 +838,7 @@ typedef struct {
     /* 0x01D6 */ u16    debugState;
     /* 0x01D8 */ Vec3f  eye;
     /* 0x01E4 */ u16    mainSubState;
-    /* 0x01E6 */ u16    mode;
+    /* 0x01E6 */ u16    nextPageMode; // (2 * prev pageIndex) + (scroll left ? 1 : 0)
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    switchPageTimer;
     /* 0x01EC */ u16    savePromptSubState;
