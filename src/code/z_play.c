@@ -175,7 +175,7 @@ void Play_Destroy(GameState* thisx) {
     Player* player = GET_PLAYER(this);
 
     this->state.gfxCtx->callback = NULL;
-    this->state.gfxCtx->callbackParam = 0;
+    this->state.gfxCtx->callbackParam = NULL;
 
     SREG(91) = 0;
     R_PAUSE_MENU_MODE = 0;
@@ -852,7 +852,7 @@ void Play_Update(PlayState* this) {
                 PLAY_LOG(3580);
 
                 this->gameplayFrames++;
-                func_800AA178(1);
+                Rumble_SetUpdateEnabled(true);
 
                 if (this->actorCtx.freezeFlashTimer && (this->actorCtx.freezeFlashTimer-- < 5)) {
                     osSyncPrintf("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
@@ -902,7 +902,7 @@ void Play_Update(PlayState* this) {
                     PLAY_LOG(3662);
                 }
             } else {
-                func_800AA178(0);
+                Rumble_SetUpdateEnabled(false);
             }
 
             PLAY_LOG(3672);

@@ -186,7 +186,7 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->colliderHead);
     Collider_SetJntSph(play, &this->colliderHead, &this->actor, &sJntSphInit, this->headElements);
 
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     func_80A68AC4(this);
 }
 
