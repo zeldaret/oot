@@ -31,8 +31,8 @@ u32 gUpgradeMasks[UPG_MAX] = {
     0x00000E00, // UPG_SCALE
     0x00003000, // UPG_WALLET
     0x0001C000, // UPG_BULLET_BAG
-    0x000E0000, // UPG_STICKS
-    0x00700000, // UPG_NUTS
+    0x000E0000, // UPG_DEKU_STICKS
+    0x00700000, // UPG_DEKU_NUTS
 };
 u32 gUpgradeNegMasks[UPG_MAX] = {
     ~0x00000007, // UPG_QUIVER
@@ -41,8 +41,8 @@ u32 gUpgradeNegMasks[UPG_MAX] = {
     ~0x00000E00, // UPG_SCALE
     ~0x00003000, // UPG_WALLET
     ~0x0001C000, // UPG_BULLET_BAG
-    ~0x000E0000, // UPG_STICKS
-    ~0x00700000, // UPG_NUTS
+    ~0x000E0000, // UPG_DEKU_STICKS
+    ~0x00700000, // UPG_DEKU_NUTS
 };
 
 u8 gEquipShifts[EQUIP_TYPE_MAX] = {
@@ -59,8 +59,8 @@ u8 gUpgradeShifts[UPG_MAX] = {
     9,  // UPG_SCALE
     12, // UPG_WALLET
     14, // UPG_BULLET_BAG
-    17, // UPG_STICKS
-    20, // UPG_NUTS
+    17, // UPG_DEKU_STICKS
+    20, // UPG_DEKU_NUTS
 };
 
 u16 gUpgradeCapacities[UPG_MAX][4] = {
@@ -70,8 +70,8 @@ u16 gUpgradeCapacities[UPG_MAX][4] = {
     { 0, 0, 0, 0 },        // UPG_SCALE (unused)
     { 99, 200, 500, 500 }, // UPG_WALLET
     { 0, 30, 40, 50 },     // UPG_BULLET_BAG
-    { 0, 10, 20, 30 },     // UPG_STICKS
-    { 0, 20, 30, 40 },     // UPG_NUTS
+    { 0, 10, 20, 30 },     // UPG_DEKU_STICKS
+    { 0, 20, 30, 40 },     // UPG_DEKU_NUTS
 };
 
 u32 gGsFlagsMasks[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };

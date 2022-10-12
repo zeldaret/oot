@@ -184,7 +184,7 @@ void EnDntJiji_Walk(EnDntJiji* this, PlayState* play) {
         this->actor.speedXZ = 3.0f;
     }
     if (this->actor.xzDistToPlayer < 100.0f) {
-        if (CUR_UPG_VALUE(UPG_STICKS) == 1) {
+        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) == 1) {
             this->getItemId = GI_DEKU_STICK_UPGRADE_20;
         } else {
             this->getItemId = GI_DEKU_STICK_UPGRADE_30;
@@ -216,7 +216,7 @@ void EnDntJiji_SetupCower(EnDntJiji* this, PlayState* play) {
     EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 3.0f, 0, 9, 3, 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
 
-    if ((CUR_UPG_VALUE(UPG_NUTS) == 1) || (CUR_UPG_VALUE(UPG_NUTS) == 0)) {
+    if ((CUR_UPG_VALUE(UPG_DEKU_NUTS) == 1) || (CUR_UPG_VALUE(UPG_DEKU_NUTS) == 0)) {
         this->getItemId = GI_DEKU_NUT_UPGRADE_30;
     } else {
         this->getItemId = GI_DEKU_NUT_UPGRADE_40;

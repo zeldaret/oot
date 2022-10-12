@@ -185,7 +185,7 @@ void EnDns_ChangeAnim(EnDns* this, u8 index) {
 /* Item give checking functions */
 
 u32 func_809EF5A4(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_NUTS))) {
+    if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
@@ -198,7 +198,7 @@ u32 func_809EF5A4(EnDns* this) {
 }
 
 u32 func_809EF658(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_STICKS))) {
+    if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS))) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
@@ -369,13 +369,13 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
 
 void func_809EFDD0(EnDns* this, PlayState* play) {
     if (this->actor.params == 0x9) {
-        if (CUR_UPG_VALUE(UPG_STICKS) < 2) {
+        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
             func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
             func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (this->actor.params == 0xA) {
-        if (CUR_UPG_VALUE(UPG_NUTS) < 2) {
+        if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
             func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
             func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);
