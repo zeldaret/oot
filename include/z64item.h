@@ -105,7 +105,7 @@ typedef enum {
     /* 0x13 */ QUEST_GORON_RUBY,
     /* 0x14 */ QUEST_ZORA_SAPPHIRE,
     /* 0x15 */ QUEST_STONE_OF_AGONY,
-    /* 0x16 */ QUEST_GERUDO_CARD,
+    /* 0x16 */ QUEST_GERUDOS_CARD,
     /* 0x17 */ QUEST_SKULL_TOKEN,
     /* 0x1C */ QUEST_HEART_PIECE_COUNT = 0x1C
 } QuestItem;
