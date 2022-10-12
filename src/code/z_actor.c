@@ -3522,13 +3522,13 @@ void Actor_RequestQuakeWithSpeed(PlayState* play, s16 y, s16 duration, s16 speed
     Quake_SetDuration(quakeIndex, duration);
 }
 
-void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeYOffset, s16 quakeDuration) {
-    if (quakeYOffset >= 5) {
+void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeY, s16 quakeDuration) {
+    if (quakeY >= 5) {
         Rumble_Request(actor->xyzDistToPlayerSq, 255, 20, 150);
     } else {
         Rumble_Request(actor->xyzDistToPlayerSq, 180, 20, 100);
     }
-    Actor_RequestQuake(play, quakeYOffset, quakeDuration);
+    Actor_RequestQuake(play, quakeY, quakeDuration);
 }
 
 f32 Rand_ZeroFloat(f32 f) {

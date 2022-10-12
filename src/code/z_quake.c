@@ -11,7 +11,7 @@ typedef struct {
     /* 0x0E */ s16 x;
     /* 0x10 */ s16 fov;
     /* 0x12 */ s16 upPitchOffset;
-    /* 0x14 */ Vec3s xOrientation; // alters the orientation of the x perturbation. Only x (pitch) and y (yaw) are used
+    /* 0x14 */ Vec3s orientation; // alters the orientation of the xy perturbation. Only x (pitch) and y (yaw) are used
     /* 0x1A */ s16 speed;
     /* 0x1C */ s16 isRelativeToScreen; // is the quake relative to the screen or on world coordinates
     /* 0x1E */ s16 timer;
@@ -22,7 +22,7 @@ QuakeRequest sQuakeRequest[4];
 s16 sQuakeUnused = 1;
 s16 sQuakeRequestCount = 0;
 
-Vec3f* Quake_VecSphAddToVec3f(Vec3f* dst, Vec3f* a, VecSph* sph) {
+Vec3f* Quake_VecSphGeoAddToVec3f(Vec3f* dst, Vec3f* a, VecSph* sph) {
     Vec3f vec;
     Vec3f b;
 
@@ -48,22 +48,30 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
         offset.y = 0;
         offset.z = 0;
         OLib_Vec3fDiffToVecSphGeo(&eyeToAtSph, eye, at);
+
+        // y shake
         sph.r = req->y * y;
-        sph.pitch = eyeToAtSph.pitch + req->xOrientation.x + 0x4000;
-        sph.yaw = eyeToAtSph.yaw + req->xOrientation.y;
-        Quake_VecSphAddToVec3f(&offset, &offset, &sph);
+        // point unit vector up, then add on `req->orientation`
+        sph.pitch = eyeToAtSph.pitch + req->orientation.x + 0x4000;
+        sph.yaw = eyeToAtSph.yaw + req->orientation.y;
+        // apply y shake
+        Quake_VecSphGeoAddToVec3f(&offset, &offset, &sph);
+
+        // x shake
         sph.r = req->x * x;
-        sph.pitch = eyeToAtSph.pitch + req->xOrientation.x;
-        sph.yaw = eyeToAtSph.yaw + req->xOrientation.y + 0x4000;
-        Quake_VecSphAddToVec3f(&offset, &offset, &sph);
+        // point unit vector left, then add on `req->orientation`
+        sph.pitch = eyeToAtSph.pitch + req->orientation.x;
+        sph.yaw = eyeToAtSph.yaw + req->orientation.y + 0x4000;
+        // apply x shake
+        Quake_VecSphGeoAddToVec3f(&offset, &offset, &sph);
     } else {
         offset.x = 0;
         offset.y = req->y * y;
         offset.z = 0;
         sph.r = req->x * x;
-        sph.pitch = req->xOrientation.x;
-        sph.yaw = req->xOrientation.y;
-        Quake_VecSphAddToVec3f(&offset, &offset, &sph);
+        sph.pitch = req->orientation.x;
+        sph.yaw = req->orientation.y;
+        Quake_VecSphGeoAddToVec3f(&offset, &offset, &sph);
     }
 
     shake->atOffset = shake->eyeOffset = offset;
@@ -241,15 +249,15 @@ QuakeRequest* Quake_SetValue(s16 index, s16 valueType, s16 value) {
             break;
 
         case QUAKE_ORIENTATION_PITCH:
-            req->xOrientation.x = value;
+            req->orientation.x = value;
             break;
 
         case QUAKE_ORIENTATION_YAW:
-            req->xOrientation.y = value;
+            req->orientation.y = value;
             break;
 
         case QUAKE_ORIENTATION_ROLL:
-            req->xOrientation.z = value;
+            req->orientation.z = value;
             break;
 
         case QUAKE_DURATION:
@@ -340,16 +348,16 @@ u32 Quake_SetPerturbations(s16 index, s16 y, s16 x, s16 fov, s16 roll) {
 /**
  * @param index quake request index to apply
  * @param isRelativeToScreen Is the quake applied relative to the screen or in absolute world coordinates
- * @param xOrientation orient the left/right shake to a different direction.
+ * @param orientation orient the left/right shake to a different direction.
  *                     For many types, the left/right shake contains the random perturbations
  * @return true if successfully applied, false if the request does not exist
  */
-u32 Quake_SetOrientation(s16 index, s16 isRelativeToScreen, Vec3s xOrientation) {
+u32 Quake_SetOrientation(s16 index, s16 isRelativeToScreen, Vec3s orientation) {
     QuakeRequest* req = Quake_GetRequest(index);
 
     if (req != NULL) {
         req->isRelativeToScreen = isRelativeToScreen;
-        req->xOrientation = xOrientation;
+        req->orientation = orientation;
         return true;
     }
     return false;
