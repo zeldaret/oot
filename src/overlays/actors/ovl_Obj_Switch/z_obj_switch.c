@@ -503,7 +503,7 @@ void ObjSwitch_FloorRelease(ObjSwitch* this, PlayState* play) {
     }
 }
 
-s32 ObjSwitch_IsEyeHit(ObjSwitch* this) {
+s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     Actor* collidingActor;
     s16 yawDiff;
 
@@ -537,7 +537,7 @@ void ObjSwitch_EyeOpenInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeOpen(ObjSwitch* this, PlayState* play) {
-    if (ObjSwitch_IsEyeHit(this) || (this->dyna.actor.params >> 7 & 1)) {
+    if (ObjSwitch_EyeIsHit(this) || (this->dyna.actor.params >> 7 & 1)) {
         ObjSwitch_EyeClosingInit(this);
         ObjSwitch_SetOn(this, play);
         this->dyna.actor.params &= ~0x80;
@@ -574,7 +574,7 @@ void ObjSwitch_EyeClosed(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if (ObjSwitch_IsEyeHit(this) || (this->dyna.actor.params >> 7 & 1)) {
+            if (ObjSwitch_EyeIsHit(this) || (this->dyna.actor.params >> 7 & 1)) {
                 ObjSwitch_EyeOpeningInit(this);
                 ObjSwitch_SetOff(this, play);
                 this->dyna.actor.params &= ~0x80;
