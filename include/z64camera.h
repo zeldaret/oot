@@ -439,7 +439,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ VecSph unk_20;
+    /* 0x20 */ VecGeo unk_20;
 } Jump1ReadWriteData; // size = 0x28
 
 typedef struct {
@@ -670,7 +670,7 @@ typedef struct {
 } KeepOn3ReadOnlyData; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ Vec3f eyeToAtTarget; // esentially a VecSph, but all floats.
+    /* 0x00 */ Vec3f eyeToAtTarget; // essentially a VecGeo, but all floats.
     /* 0x0C */ Actor* target;
     /* 0x10 */ Vec3f atTarget;
     /* 0x1C */ s16 animTimer;
@@ -1098,7 +1098,7 @@ typedef struct {
     /* 0x10 */ Vec3f eyeTarget;
     /* 0x1C */ Vec3f playerPos;
     /* 0x28 */ f32 fovTarget;
-    /* 0x2C */ VecSph atEyeOffsetTarget;
+    /* 0x2C */ VecGeo atEyeOffsetTarget;
     /* 0x34 */ s16 rollTarget;
     /* 0x36 */ s16 curKeyFrameIdx;
     /* 0x38 */ s16 unk_38;
@@ -1344,7 +1344,7 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f norm;
     /* 0x18 */ CollisionPoly* poly;
-    /* 0x1C */ VecSph sphNorm;
+    /* 0x1C */ VecGeo geoNorm;
     /* 0x24 */ s32 bgId;
 } CamColChk; // size = 0x28
 

@@ -76,6 +76,24 @@ typedef struct {
     /* 0x06 */ s16 yaw;    // azimuthal angle
 } VecSph; // size = 0x08
 
+// Defines a point in the geographic coordinate system
+typedef struct {
+    /* 0x00 */ f32 r;      // radius
+    /* 0x04 */ s16 pitch;  // polar (zenith) angle
+    /* 0x06 */ s16 yaw;    // azimuthal angle
+} VecGeo;
+
+// typedef struct {
+//     /* 0x00 */ f32 r; // radius
+//     /* 0x04 */ s16 pitch; // polar (zenith) angle
+//     /* 0x06 */ s16 yaw; // azimuthal angle
+// } VecSphGeo; // size = 0x08
+
+// // Defines a point in the spherical coordinate system
+// typedef VecSphGeo VecSph;
+// // Defines a point in the geographic coordinate system
+// typedef VecSphGeo VecGeo;
+
 #define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
 #define LERP32(x, y, scale) ((s32)(((y) - (x)) * (scale)) + (x))
 #define LERP16(x, y, scale) ((s16)(((y) - (x)) * (scale)) + (x))
