@@ -92,14 +92,14 @@
 #define SET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
 #define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
 
-#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
+#define B_BTN_ITEM ((gSaveContext.buttonStatus[IBTN_BCA_B] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
-                        : (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
+                        : (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_SWORD_KNIFE) \
                             ? ITEM_SWORD_BGS                                       \
-                            : gSaveContext.equips.buttonItems[0])
+                            : gSaveContext.equips.buttonItems[IBTN_BC_B])
 
-#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[(button) + 1] != BTN_DISABLED) \
-                                ? gSaveContext.equips.buttonItems[(button) + 1]       \
+#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[IBTN_C_TO_BCA(button)] != BTN_DISABLED) \
+                                ? gSaveContext.equips.buttonItems[IBTN_C_TO_BC(button)]       \
                                 : ITEM_NONE)
 
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)

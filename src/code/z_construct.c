@@ -77,35 +77,35 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.buttonItems[0],
-                 gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
-                 gSaveContext.equips.buttonItems[3]);
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.buttonItems[IBTN_BC_B],
+                 gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT], gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN],
+                 gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT]);
 
-    if (gSaveContext.equips.buttonItems[0] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[IBTN_BC_B] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_B] * 0x1000,
                             0x1000, "../z_construct.c", 198);
-    } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
+    } else if (gSaveContext.equips.buttonItems[IBTN_BC_B] != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_B] * 0x1000,
                             0x1000, "../z_construct.c", 203);
     }
 
-    if (gSaveContext.equips.buttonItems[1] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] * 0x1000,
                             0x1000, "../z_construct.c", 209);
     }
 
-    if (gSaveContext.equips.buttonItems[2] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] * 0x1000,
                             0x1000, "../z_construct.c", 214);
     }
 
-    if (gSaveContext.equips.buttonItems[3] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000,
+                            (uintptr_t)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] * 0x1000,
                             0x1000, "../z_construct.c", 219);
     }
 
@@ -151,12 +151,12 @@ void Interface_Init(PlayState* play) {
 
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
 
-    R_ITEM_BTN_X(0) = B_BUTTON_X;
+    R_ITEM_BTN_X(IBTN_BC_B) = B_BUTTON_X;
     R_B_BTN_COLOR(0) = 255;
     R_B_BTN_COLOR(1) = 30;
     R_B_BTN_COLOR(2) = 30;
-    R_ITEM_ICON_X(0) = B_BUTTON_X;
-    R_ITEM_AMMO_X(0) = B_BUTTON_X + 2;
+    R_ITEM_ICON_X(IBTN_BC_B) = B_BUTTON_X;
+    R_ITEM_AMMO_X(IBTN_BC_B) = B_BUTTON_X + 2;
     R_A_BTN_X = A_BUTTON_X;
     R_A_ICON_X = A_BUTTON_X;
     R_A_BTN_COLOR(0) = 0;
@@ -315,28 +315,28 @@ void func_80111070(void) {
     ZREG(64) = 20;
     ZREG(65) = 21;
     ZREG(66) = 122;
-    R_ITEM_BTN_X(1) = C_LEFT_BUTTON_X;
-    R_ITEM_BTN_X(2) = C_DOWN_BUTTON_X;
-    R_ITEM_BTN_X(3) = C_RIGHT_BUTTON_X;
-    R_ITEM_BTN_Y(0) = B_BUTTON_Y;
-    R_ITEM_BTN_Y(1) = C_LEFT_BUTTON_Y;
-    R_ITEM_BTN_Y(2) = C_DOWN_BUTTON_Y;
-    R_ITEM_BTN_Y(3) = C_RIGHT_BUTTON_Y;
-    R_ITEM_BTN_DD(0) = 575;
-    R_ITEM_BTN_DD(1) = 620;
-    R_ITEM_BTN_DD(2) = 620;
-    R_ITEM_BTN_DD(3) = 620;
-    R_ITEM_ICON_X(1) = C_LEFT_BUTTON_X;
-    R_ITEM_ICON_X(2) = C_DOWN_BUTTON_X;
-    R_ITEM_ICON_X(3) = C_RIGHT_BUTTON_X;
-    R_ITEM_ICON_Y(0) = B_BUTTON_Y;
-    R_ITEM_ICON_Y(1) = C_LEFT_BUTTON_Y;
-    R_ITEM_ICON_Y(2) = C_DOWN_BUTTON_Y;
-    R_ITEM_ICON_Y(3) = C_RIGHT_BUTTON_Y;
-    R_ITEM_ICON_DD(0) = 550;
-    R_ITEM_ICON_DD(1) = 680;
-    R_ITEM_ICON_DD(2) = 680;
-    R_ITEM_ICON_DD(3) = 680;
+    R_ITEM_BTN_X(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_X;
+    R_ITEM_BTN_X(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_X;
+    R_ITEM_BTN_X(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_X;
+    R_ITEM_BTN_Y(IBTN_BC_B) = B_BUTTON_Y;
+    R_ITEM_BTN_Y(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_Y;
+    R_ITEM_BTN_Y(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_Y;
+    R_ITEM_BTN_Y(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_Y;
+    R_ITEM_BTN_DD(IBTN_BC_B) = 575;
+    R_ITEM_BTN_DD(IBTN_BC_C_LEFT) = 620;
+    R_ITEM_BTN_DD(IBTN_BC_C_DOWN) = 620;
+    R_ITEM_BTN_DD(IBTN_BC_C_RIGHT) = 620;
+    R_ITEM_ICON_X(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_X;
+    R_ITEM_ICON_X(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_X;
+    R_ITEM_ICON_X(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_X;
+    R_ITEM_ICON_Y(IBTN_BC_B) = B_BUTTON_Y;
+    R_ITEM_ICON_Y(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_Y;
+    R_ITEM_ICON_Y(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_Y;
+    R_ITEM_ICON_Y(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_Y;
+    R_ITEM_ICON_DD(IBTN_BC_B) = 550;
+    R_ITEM_ICON_DD(IBTN_BC_C_LEFT) = 680;
+    R_ITEM_ICON_DD(IBTN_BC_C_DOWN) = 680;
+    R_ITEM_ICON_DD(IBTN_BC_C_RIGHT) = 680;
     ZREG(94) = 1;
     ZREG(95) = 0;
     XREG(0) = 26;
@@ -585,7 +585,7 @@ void func_80111070(void) {
     R_ITEM_ICON_WIDTH(1) = 24;
     R_ITEM_ICON_WIDTH(2) = 24;
     R_ITEM_ICON_WIDTH(3) = 24;
-    R_ITEM_BTN_WIDTH(0) = 29;
+    R_ITEM_BTN_WIDTH(IBTN_BC_B) = 29;
     R_ITEM_BTN_WIDTH(1) = 27;
     R_ITEM_BTN_WIDTH(2) = 27;
     R_ITEM_BTN_WIDTH(3) = 27;

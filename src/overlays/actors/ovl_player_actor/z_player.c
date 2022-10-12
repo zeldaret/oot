@@ -1289,7 +1289,12 @@ static LinkAnimationHeader* D_80854378[] = {
 static u8 D_80854380[2] = { PLAYER_MWA_SPIN_ATTACK_1H, PLAYER_MWA_SPIN_ATTACK_2H };
 static u8 D_80854384[2] = { PLAYER_MWA_BIG_SPIN_1H, PLAYER_MWA_BIG_SPIN_2H };
 
-static u16 D_80854388[] = { BTN_B, BTN_CLEFT, BTN_CDOWN, BTN_CRIGHT };
+static u16 D_80854388[] = {
+    BTN_B,      // IBTN_BC_B
+    BTN_CLEFT,  // IBTN_BC_C_LEFT
+    BTN_CDOWN,  // IBTN_BC_C_DOWN
+    BTN_CRIGHT, // IBTN_BC_C_RIGHT
+};
 
 static u8 sMagicSpellCosts[] = { 12, 24, 24, 12, 24, 12 };
 
@@ -2055,18 +2060,18 @@ s32 func_80833C98(s32 item1, s32 itemAction) {
 }
 
 s32 func_80833CDC(PlayState* play, s32 index) {
-    if (index >= 4) {
+    if (index >= IBTN_BC_MAX) {
         return ITEM_NONE;
     } else if (play->bombchuBowlingStatus != 0) {
         return (play->bombchuBowlingStatus > 0) ? ITEM_BOMBCHU : ITEM_NONE;
-    } else if (index == 0) {
+    } else if (index == IBTN_BC_B) {
         return B_BTN_ITEM;
-    } else if (index == 1) {
-        return C_BTN_ITEM(0);
-    } else if (index == 2) {
-        return C_BTN_ITEM(1);
+    } else if (index == IBTN_BC_C_LEFT) {
+        return C_BTN_ITEM(IBTN_C_C_LEFT);
+    } else if (index == IBTN_BC_C_DOWN) {
+        return C_BTN_ITEM(IBTN_C_C_DOWN);
     } else {
-        return C_BTN_ITEM(2);
+        return C_BTN_ITEM(IBTN_C_C_RIGHT);
     }
 }
 
@@ -2077,16 +2082,17 @@ void func_80833DF8(Player* this, PlayState* play) {
 
     if (this->currentMask != PLAYER_MASK_NONE) {
         maskItemAction = this->currentMask - 1 + PLAYER_IA_MASK_KEATON;
-        if (!func_80833C98(C_BTN_ITEM(0), maskItemAction) && !func_80833C98(C_BTN_ITEM(1), maskItemAction) &&
-            !func_80833C98(C_BTN_ITEM(2), maskItemAction)) {
+        if (!func_80833C98(C_BTN_ITEM(IBTN_C_C_LEFT), maskItemAction) &&
+            !func_80833C98(C_BTN_ITEM(IBTN_C_C_DOWN), maskItemAction) &&
+            !func_80833C98(C_BTN_ITEM(IBTN_C_C_RIGHT), maskItemAction)) {
             this->currentMask = PLAYER_MASK_NONE;
         }
     }
 
     if (!(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_29)) && !func_8008F128(this)) {
         if (this->itemAction >= PLAYER_IA_FISHING_POLE) {
-            if (!func_80833C50(this, B_BTN_ITEM) && !func_80833C50(this, C_BTN_ITEM(0)) &&
-                !func_80833C50(this, C_BTN_ITEM(1)) && !func_80833C50(this, C_BTN_ITEM(2))) {
+            if (!func_80833C50(this, B_BTN_ITEM) && !func_80833C50(this, C_BTN_ITEM(IBTN_C_C_LEFT)) &&
+                !func_80833C50(this, C_BTN_ITEM(IBTN_C_C_DOWN)) && !func_80833C50(this, C_BTN_ITEM(IBTN_C_C_RIGHT))) {
                 func_80835F44(play, this, ITEM_NONE);
                 return;
             }
@@ -2100,7 +2106,7 @@ void func_80833DF8(Player* this, PlayState* play) {
 
         item = func_80833CDC(play, i);
         if (item >= ITEM_NONE_FE) {
-            for (i = 0; i < ARRAY_COUNT(D_80854388); i++) {
+            for (i = 0; i < IBTN_BC_MAX; i++) {
                 if (CHECK_BTN_ALL(sControlInput->cur.button, D_80854388[i])) {
                     break;
                 }
@@ -14191,7 +14197,7 @@ void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_IA_NONE);
         this->leftHandDLists = gPlayerLeftHandOpenDLs;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
+        gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(play, EQUIP_TYPE_SWORD);
     }
 }

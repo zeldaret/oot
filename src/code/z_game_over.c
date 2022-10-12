@@ -38,7 +38,7 @@ void GameOver_Update(PlayState* play) {
                     INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
 
                     // search c buttons for the found spoiling item and revert if necessary
-                    for (j = 1; j < ARRAY_COUNT(gSaveContext.equips.buttonItems); j++) {
+                    for (j = IBTN_BC_C_FIRST; j <= IBTN_BC_C_LAST; j++) {
                         if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
                             gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i];
                             Interface_LoadItemIcon1(play, j);
@@ -48,15 +48,15 @@ void GameOver_Update(PlayState* play) {
             }
 
             // restore "temporary B" to the B Button if not a sword item
-            if (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE) {
+            if (gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI &&
+                gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_MASTER &&
+                gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_BGS &&
+                gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KNIFE) {
 
-                if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
-                    gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
+                if (gSaveContext.buttonStatus[IBTN_BCA_B] != BTN_ENABLED) {
+                    gSaveContext.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
                 } else {
-                    gSaveContext.equips.buttonItems[0] = ITEM_NONE;
+                    gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_NONE;
                 }
             }
 
@@ -68,8 +68,8 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.eventInf[1] = 0;
             gSaveContext.eventInf[2] = 0;
             gSaveContext.eventInf[3] = 0;
-            gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
-                gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
+            gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
+                gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
             gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
 
             Environment_InitGameOverLights(play);

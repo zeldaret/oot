@@ -1484,8 +1484,8 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.nextDayTime = NEXT_TIME_NONE;
     gSaveContext.retainWeatherMode = false;
 
-    gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
-        gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
+    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
+        gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
 
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
         gSaveContext.magicCapacity = 0;
@@ -1502,12 +1502,12 @@ void FileSelect_LoadGame(GameState* thisx) {
 
     gSaveContext.naviTimer = 0;
 
-    if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+    if ((gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI) &&
+        (gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_MASTER) &&
+        (gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_BGS) &&
+        (gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KNIFE)) {
 
-        gSaveContext.equips.buttonItems[0] = ITEM_NONE;
+        gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_NONE;
         swordEquipValue = (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
         gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
         gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
@@ -1852,8 +1852,8 @@ void FileSelect_InitContext(GameState* thisx) {
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 
-    gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
-        gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
+    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] = gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] =
+        gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] = gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
 
     this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
         this->defense[2] = 0;

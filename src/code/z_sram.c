@@ -285,11 +285,11 @@ void Sram_InitDebugSave(void) {
     SET_EVENTCHKINF(EVENTCHKINF_C4);
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
+        gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_KOKIRI;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_KOKIRI);
         if (gSaveContext.fileNum == 0xFF) {
-            gSaveContext.equips.buttonItems[1] = ITEM_SLINGSHOT;
-            gSaveContext.equips.cButtonSlots[0] = SLOT_SLINGSHOT;
+            gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] = ITEM_SLINGSHOT;
+            gSaveContext.equips.cButtonSlots[IBTN_C_C_LEFT] = SLOT_SLINGSHOT;
             Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_DEKU);
         }
     }
@@ -441,7 +441,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
         INV_CONTENT(ITEM_LETTER_ZELDA) = ITEM_CHICKEN;
 
-        for (j = 1; j < 4; j++) {
+        for (j = IBTN_BC_C_FIRST; j <= IBTN_BC_C_LAST; j++) {
             if (gSaveContext.equips.buttonItems[j] == ITEM_LETTER_ZELDA) {
                 gSaveContext.equips.buttonItems[j] = ITEM_CHICKEN;
             }
@@ -450,7 +450,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
         gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
+        gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_MASTER;
         gSaveContext.equips.equipment &= ~(0xF << (EQUIP_TYPE_SWORD * 4));
         gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4);
     }
@@ -459,7 +459,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[i]) {
             INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
 
-            for (j = 1; j < 4; j++) {
+            for (j = IBTN_BC_C_FIRST; j <= IBTN_BC_C_LAST; j++) {
                 if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
                     gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i];
                 }

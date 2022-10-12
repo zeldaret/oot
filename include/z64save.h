@@ -30,9 +30,42 @@ typedef enum {
 #define MAGIC_NORMAL_METER 0x30
 #define MAGIC_DOUBLE_METER (2 * MAGIC_NORMAL_METER)
 
+typedef enum {
+    /* 0 */ IBTN_BC_B,
+    /* 1 */ IBTN_BC_C_LEFT,
+    /* 2 */ IBTN_BC_C_DOWN,
+    /* 3 */ IBTN_BC_C_RIGHT,
+    /* 4 */ IBTN_BC_MAX
+} InteractButtonBC;
+
+#define IBTN_BC_C_FIRST IBTN_BC_C_LEFT
+#define IBTN_BC_C_LAST IBTN_BC_C_RIGHT
+
+typedef enum {
+    /* 0 */ IBTN_C_C_LEFT,
+    /* 1 */ IBTN_C_C_DOWN,
+    /* 2 */ IBTN_C_C_RIGHT,
+    /* 3 */ IBTN_C_MAX
+} InteractButtonC;
+
+#define IBTN_C_TO_BC(btnsC) ((btnsC) + 1)
+#define IBTN_BC_TO_C(btnsBC) ((btnsBC) - 1)
+
+typedef enum {
+    /* 0 */ IBTN_BCA_B,
+    /* 1 */ IBTN_BCA_C_LEFT,
+    /* 2 */ IBTN_BCA_C_DOWN,
+    /* 3 */ IBTN_BCA_C_RIGHT,
+    /* 4 */ IBTN_BCA_A,
+    /* 5 */ IBTN_BCA_MAX
+} InteractButtonBCA;
+
+#define IBTN_C_TO_BCA(btnsC) ((btnsC) + 1)
+#define IBTN_BC_TO_BCA(btnsBC) (btnsBC)
+
 typedef struct {
-    /* 0x00 */ u8 buttonItems[4];
-    /* 0x04 */ u8 cButtonSlots[3];
+    /* 0x00 */ u8 buttonItems[IBTN_BC_MAX];
+    /* 0x04 */ u8 cButtonSlots[IBTN_C_MAX];
     /* 0x08 */ u16 equipment; // a mask where each nibble corresponds to a type of equipment `EquipmentType`, and each nibble is a piece `EquipValue*`
 } ItemEquips; // size = 0x0A
 
@@ -176,7 +209,7 @@ typedef struct {
     /* 0x13DE */ char unk_13DE[0x0002];
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
-    /* 0x13E2 */ u8 buttonStatus[5];
+    /* 0x13E2 */ u8 buttonStatus[IBTN_BCA_MAX];
     /* 0x13E7 */ u8 unk_13E7; // alpha related
     /* 0x13E8 */ u16 unk_13E8; // alpha type?
     /* 0x13EA */ u16 unk_13EA; // also alpha type?

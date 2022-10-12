@@ -476,22 +476,22 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
                 if (pauseCtx->cursorY[PAUSE_EQUIP] == 0) {
                     gSaveContext.infTable[INFTABLE_1DX_INDEX] = 0;
-                    gSaveContext.equips.buttonItems[0] = cursorItem;
+                    gSaveContext.equips.buttonItems[IBTN_BC_B] = cursorItem;
 
                     if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.bgsFlag != 0)) {
-                        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                        gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_BGS;
                         gSaveContext.swordHealth = 8;
                     } else {
-                        if (gSaveContext.equips.buttonItems[0] == ITEM_HEART_PIECE_2) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                        if (gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_HEART_PIECE_2) {
+                            gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_BGS;
                         }
-                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS) && (gSaveContext.bgsFlag == 0) &&
+                        if ((gSaveContext.equips.buttonItems[IBTN_BC_B] == ITEM_SWORD_BGS) && (gSaveContext.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
+                            gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_KNIFE;
                         }
                     }
 
-                    Interface_LoadItemIcon1(play, 0);
+                    Interface_LoadItemIcon1(play, IBTN_BC_B);
                 }
 
                 Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
