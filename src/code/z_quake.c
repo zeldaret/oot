@@ -84,9 +84,9 @@ s16 Quake_CallbackType1(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
 
     if (req->timer > 0) {
-        f32 xy = Math_SinS(req->speed * req->timer);
+        f32 xyOffset = Math_SinS(req->speed * req->timer);
 
-        Quake_UpdateShakeInfo(req, shake, xy, Rand_ZeroOne() * xy);
+        Quake_UpdateShakeInfo(req, shake, xyOffset, Rand_ZeroOne() * xyOffset);
         req->timer--;
     }
     return req->timer;
@@ -94,9 +94,9 @@ s16 Quake_CallbackType1(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_CallbackType5(QuakeRequest* req, ShakeInfo* shake) {
     if (req->timer > 0) {
-        f32 xy = Math_SinS(req->speed * req->timer);
+        f32 xyOffset = Math_SinS(req->speed * req->timer);
 
-        Quake_UpdateShakeInfo(req, shake, xy, xy);
+        Quake_UpdateShakeInfo(req, shake, xyOffset, xyOffset);
         req->timer--;
     }
     return req->timer;
@@ -104,11 +104,11 @@ s16 Quake_CallbackType5(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_CallbackType6(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
-    f32 xy;
+    f32 xyOffset;
 
     req->timer--;
-    xy = Math_SinS(req->speed * ((req->timer & 0xF) + 500));
-    Quake_UpdateShakeInfo(req, shake, xy, Rand_ZeroOne() * xy);
+    xyOffset = Math_SinS(req->speed * ((req->timer & 0xF) + 500));
+    Quake_UpdateShakeInfo(req, shake, xyOffset, Rand_ZeroOne() * xyOffset);
 
     // Not returning the timer ensures quake type 6 continues indefinitely until manually removed
     return 1;
@@ -116,9 +116,9 @@ s16 Quake_CallbackType6(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_CallbackType3(QuakeRequest* req, ShakeInfo* shake) {
     if (req->timer > 0) {
-        f32 xy = Math_SinS(req->speed * req->timer) * ((f32)req->timer / req->duration);
+        f32 xyOffset = Math_SinS(req->speed * req->timer) * ((f32)req->timer / req->duration);
 
-        Quake_UpdateShakeInfo(req, shake, xy, xy);
+        Quake_UpdateShakeInfo(req, shake, xyOffset, xyOffset);
         req->timer--;
     }
     return req->timer;
@@ -126,9 +126,9 @@ s16 Quake_CallbackType3(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_CallbackType2(QuakeRequest* req, ShakeInfo* shake) {
     if (req->timer > 0) {
-        f32 xy = Rand_ZeroOne();
+        f32 xyOffset = Rand_ZeroOne();
 
-        Quake_UpdateShakeInfo(req, shake, xy, Rand_ZeroOne() * xy);
+        Quake_UpdateShakeInfo(req, shake, xyOffset, Rand_ZeroOne() * xyOffset);
         req->timer--;
     }
     return req->timer;
@@ -136,9 +136,9 @@ s16 Quake_CallbackType2(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_CallbackType4(QuakeRequest* req, ShakeInfo* shake) {
     if (req->timer > 0) {
-        f32 xy = Rand_ZeroOne() * ((f32)req->timer / req->duration);
+        f32 xyOffset = Rand_ZeroOne() * ((f32)req->timer / req->duration);
 
-        Quake_UpdateShakeInfo(req, shake, xy, Rand_ZeroOne() * xy);
+        Quake_UpdateShakeInfo(req, shake, xyOffset, Rand_ZeroOne() * xyOffset);
         req->timer--;
     }
     return req->timer;
