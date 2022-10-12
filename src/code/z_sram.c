@@ -223,12 +223,33 @@ static ItemEquips sDebugSaveEquips = {
 };
 
 static Inventory sDebugSaveInventory = {
+    // items
     {
-        ITEM_STICK,     ITEM_NUT,           ITEM_BOMB,         ITEM_BOW,         ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
-        ITEM_SLINGSHOT, ITEM_OCARINA_FAIRY, ITEM_BOMBCHU,      ITEM_HOOKSHOT,    ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
-        ITEM_BOOMERANG, ITEM_LENS,          ITEM_BEAN,         ITEM_HAMMER,      ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
-        ITEM_BOTTLE,    ITEM_POTION_RED,    ITEM_POTION_GREEN, ITEM_POTION_BLUE, ITEM_POCKET_EGG,  ITEM_WEIRD_EGG,
-    },                                                        // items
+        ITEM_STICK,         // SLOT_STICK
+        ITEM_NUT,           // SLOT_NUT
+        ITEM_BOMB,          // SLOT_BOMB
+        ITEM_BOW,           // SLOT_BOW
+        ITEM_ARROW_FIRE,    // SLOT_ARROW_FIRE
+        ITEM_DINS_FIRE,     // SLOT_DINS_FIRE
+        ITEM_SLINGSHOT,     // SLOT_SLINGSHOT
+        ITEM_OCARINA_FAIRY, // SLOT_OCARINA
+        ITEM_BOMBCHU,       // SLOT_BOMBCHU
+        ITEM_HOOKSHOT,      // SLOT_HOOKSHOT
+        ITEM_ARROW_ICE,     // SLOT_ARROW_ICE
+        ITEM_FARORES_WIND,  // SLOT_FARORES_WIND
+        ITEM_BOOMERANG,     // SLOT_BOOMERANG
+        ITEM_LENS,          // SLOT_LENS
+        ITEM_BEAN,          // SLOT_BEAN
+        ITEM_HAMMER,        // SLOT_HAMMER
+        ITEM_ARROW_LIGHT,   // SLOT_ARROW_LIGHT
+        ITEM_NAYRUS_LOVE,   // SLOT_NAYRUS_LOVE
+        ITEM_BOTTLE,        // SLOT_BOTTLE_1
+        ITEM_POTION_RED,    // SLOT_BOTTLE_2
+        ITEM_POTION_GREEN,  // SLOT_BOTTLE_3
+        ITEM_POTION_BLUE,   // SLOT_BOTTLE_4
+        ITEM_POCKET_EGG,    // SLOT_TRADE_ADULT
+        ITEM_WEIRD_EGG,     // SLOT_TRADE_CHILD
+    },
     { 50, 50, 10, 30, 1, 1, 30, 1, 50, 1, 1, 1, 1, 1, 1, 1 }, // ammo
     // equipment
     ((((1 << EQUIP_INV_SWORD_KOKIRI) << (EQUIP_TYPE_SWORD * 4)) |
