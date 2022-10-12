@@ -2648,8 +2648,8 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     f32 zDelta;
     Actor* leftActor = left->actor;
     Actor* rightActor = right->actor;
-    s32 leftMassType;
     s32 rightMassType;
+    s32 leftMassType;
 
     left->ocFlags1 |= OC1_HIT;
     left->oc = rightActor;
@@ -2666,8 +2666,8 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     if (leftActor == NULL || rightActor == NULL || left->ocFlags1 & OC1_NO_PUSH || right->ocFlags1 & OC1_NO_PUSH) {
         return;
     }
-    rightMassType = CollisionCheck_GetMassType(leftActor->colChkInfo.mass);
-    leftMassType = CollisionCheck_GetMassType(rightActor->colChkInfo.mass);
+    leftMassType = CollisionCheck_GetMassType(leftActor->colChkInfo.mass);
+    rightMassType = CollisionCheck_GetMassType(rightActor->colChkInfo.mass);
     leftMass = leftActor->colChkInfo.mass;
     rightMass = rightActor->colChkInfo.mass;
     totalMass = leftMass + rightMass;
@@ -2679,30 +2679,30 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     zDelta = rightPos->z - leftPos->z;
     xzDist = sqrtf(SQ(xDelta) + SQ(zDelta));
 
-    if (rightMassType == MASSTYPE_IMMOVABLE) {
-        if (leftMassType == MASSTYPE_IMMOVABLE) {
+    if (leftMassType == MASSTYPE_IMMOVABLE) {
+        if (rightMassType == MASSTYPE_IMMOVABLE) {
             return;
-        } else { // leftMassType == MASS_HEAVY | MASS_NORMAL
+        } else { // rightMassType == MASSTYPE_HEAVY or MASSTYPE_NORMAL
             leftDispRatio = 0;
             rightDispRatio = 1;
         }
-    } else if (rightMassType == MASSTYPE_HEAVY) {
-        if (leftMassType == MASSTYPE_IMMOVABLE) {
+    } else if (leftMassType == MASSTYPE_HEAVY) {
+        if (rightMassType == MASSTYPE_IMMOVABLE) {
             leftDispRatio = 1;
             rightDispRatio = 0;
-        } else if (leftMassType == MASSTYPE_HEAVY) {
+        } else if (rightMassType == MASSTYPE_HEAVY) {
             leftDispRatio = 0.5f;
             rightDispRatio = 0.5f;
-        } else { // leftMassType == MASS_NORMAL
+        } else { // rightMassType == MASSTYPE_NORMAL
             leftDispRatio = 0;
             rightDispRatio = 1;
         }
-    } else { // rightMassType == MASS_NORMAL
-        if (leftMassType == MASSTYPE_NORMAL) {
+    } else { // leftMassType == MASSTYPE_NORMAL
+        if (rightMassType == MASSTYPE_NORMAL) {
             inverseTotalMass = 1 / totalMass;
             leftDispRatio = rightMass * inverseTotalMass;
             rightDispRatio = leftMass * inverseTotalMass;
-        } else { // leftMassType == MASS_HEAVY | MASS_IMMOVABLE
+        } else { // rightMassType == MASSTYPE_HEAVY or MASSTYPE_IMMOVABLE
             leftDispRatio = 1;
             rightDispRatio = 0;
         }
