@@ -1873,7 +1873,7 @@ void Audio_PlayWindmillBgm(void);
 void Audio_SetFastTempoForTimedMinigame(void);
 void Audio_PlaySequenceInCutscene(u16 seqId);
 void Audio_StopSequenceInCutscene(u16 seqId);
-s32 Audio_IsSequencePlaying(u8 seqId);
+s32 Audio_IsSequencePlaying(u16 seqId);
 void func_800F5ACC(u16 seqId);
 void func_800F5B58(void);
 void func_800F5BF0(u8 natureAmbienceId);
