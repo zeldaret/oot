@@ -8,19 +8,19 @@ static s32 sPrevFrameCs1100 = -4096;
 
 #include "z_onepointdemo_data.inc.c"
 
-Vec3f* OnePointCutscene_AddVecGeoToVec3f(Vec3f* dst, Vec3f* src, VecGeo* geo) {
-    Vec3f out;
-    Vec3f vec;
+Vec3f* OnePointCutscene_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    OLib_VecGeoToVec3f(&vec, geo);
+    OLib_VecGeoToVec3f(&b, geo);
 
-    out.x = src->x + vec.x;
-    out.y = src->y + vec.y;
-    out.z = src->z + vec.z;
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
 
-    *dst = out;
+    *dest = sum;
 
-    return dst;
+    return dest;
 }
 
 s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {

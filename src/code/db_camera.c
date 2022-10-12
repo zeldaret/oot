@@ -96,17 +96,19 @@ static DbCamera* sDbCamPtr;
 static s16 D_8016110C;
 static DbCameraAnim sDbCamAnim;
 
-Vec3f* DbCamera_AddVecGeoToVec3f(Vec3f* out, Vec3f* in, VecGeo* geo) {
-    Vec3f ret;
-    Vec3f vec;
+Vec3f* DbCamera_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    OLib_VecGeoToVec3f(&vec, geo);
+    OLib_VecGeoToVec3f(&b, geo);
 
-    ret.x = in->x + vec.x;
-    ret.y = in->y + vec.y;
-    ret.z = in->z + vec.z;
-    *out = ret;
-    return out;
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
+    return dest;
 }
 
 Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {

@@ -731,14 +731,17 @@ void DemoKankyo_Vec3fCopy(Vec3f* src, Vec3f* dst) {
 }
 
 Vec3f* DemoKankyo_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
-    Vec3f vec;
+    Vec3f sum;
     Vec3f b;
 
     OLib_VecGeoToVec3f(&b, geo);
-    vec.x = a->x + b.x;
-    vec.y = a->y + b.y;
-    vec.z = a->z + b.z;
-    *dest = vec;
+
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
     return dest;
 }
 

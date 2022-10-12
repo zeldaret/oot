@@ -9,16 +9,19 @@ s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
     NULL, Quake_Callback1, Quake_Callback2, Quake_Callback3, Quake_Callback4, Quake_Callback5, Quake_Callback6,
 };
 
-Vec3f* Quake_AddVecGeoToVec3f(Vec3f* dst, Vec3f* arg1, VecGeo* geo) {
-    Vec3f vec1;
-    Vec3f vec2;
+Vec3f* Quake_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    OLib_VecGeoToVec3f(&vec2, geo);
-    vec1.x = arg1->x + vec2.x;
-    vec1.y = arg1->y + vec2.y;
-    vec1.z = arg1->z + vec2.z;
-    *dst = vec1;
-    return dst;
+    OLib_VecGeoToVec3f(&b, geo);
+
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
+    return dest;
 }
 
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {

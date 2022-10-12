@@ -182,16 +182,18 @@ Vec3f* Camera_Vec3sToVec3f(Vec3f* dest, Vec3s* src) {
     return dest;
 }
 
-Vec3f* Camera_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* b) {
-    Vec3f copy;
-    Vec3f vecB;
-    OLib_VecGeoToVec3f(&vecB, b);
+Vec3f* Camera_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    copy.x = a->x + vecB.x;
-    copy.y = a->y + vecB.y;
-    copy.z = a->z + vecB.z;
+    OLib_VecGeoToVec3f(&b, geo);
 
-    *dest = copy;
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
     return dest;
 }
 
