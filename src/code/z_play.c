@@ -175,7 +175,7 @@ void Play_Destroy(GameState* thisx) {
     Player* player = GET_PLAYER(this);
 
     this->state.gfxCtx->callback = NULL;
-    this->state.gfxCtx->callbackParam = 0;
+    this->state.gfxCtx->callbackParam = NULL;
 
     SREG(91) = 0;
     R_PAUSE_MENU_MODE = 0;
@@ -852,7 +852,7 @@ void Play_Update(PlayState* this) {
                 PLAY_LOG(3580);
 
                 this->gameplayFrames++;
-                func_800AA178(1);
+                Rumble_SetUpdateEnabled(true);
 
                 if (this->actorCtx.freezeFlashTimer && (this->actorCtx.freezeFlashTimer-- < 5)) {
                     osSyncPrintf("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
@@ -902,7 +902,7 @@ void Play_Update(PlayState* this) {
                     PLAY_LOG(3662);
                 }
             } else {
-                func_800AA178(0);
+                Rumble_SetUpdateEnabled(false);
             }
 
             PLAY_LOG(3672);
@@ -1731,8 +1731,8 @@ void Play_TriggerRespawn(PlayState* this) {
 
 s32 Play_CamIsNotFixed(PlayState* this) {
     // SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT was probably intended to be in this condition,
-    // but the scene mesh header handles all shop cases regardless
-    return (this->roomCtx.curRoom.meshHeader->base.type != MESH_HEADER_TYPE_1) &&
+    // but the room shape type check handles all shop cases regardless
+    return (this->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) &&
            (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
            (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_HAIRAL_NIWA);
 }

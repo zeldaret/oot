@@ -52,7 +52,7 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = thisx->params & 0x3F;
     thisx->params = (thisx->params >> 8) & 0xFF;
-    DynaPolyActor_Init(&this->dyna, 3);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
         if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
@@ -145,7 +145,7 @@ void func_808A91AC(BgRelayObjects* this, PlayState* play) {
 void func_808A9234(BgRelayObjects* this, PlayState* play) {
     this->dyna.actor.velocity.y += this->dyna.actor.gravity;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
+        Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         if (this->unk_169 != play->roomCtx.curRoom.num) {
             func_800788CC(NA_SE_EN_PO_LAUGH);

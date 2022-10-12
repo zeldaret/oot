@@ -56,7 +56,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, PlayState* play, CollisionHea
 void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
     BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
-    BgJyaKanaami_InitDynaPoly(this, play, &gKanaamiCol, DPM_UNK);
+    BgJyaKanaami_InitDynaPoly(this, play, &gKanaamiCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
         func_80899A08(this);
@@ -110,7 +110,7 @@ void func_80899950(BgJyaKanaami* this, PlayState* play) {
 }
 
 void func_80899A08(BgJyaKanaami* this) {
-    this->actionFunc = 0;
+    this->actionFunc = NULL;
     this->dyna.actor.world.rot.x = 0x4000;
 }
 
