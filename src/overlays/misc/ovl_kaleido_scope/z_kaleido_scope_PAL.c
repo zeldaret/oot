@@ -7,124 +7,364 @@
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "vt.h"
 
-static void* sEquipmentFRATexs[] = {
-    gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
-    gPauseEquipment10FRATex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
-    gPauseEquipment20FRATex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
+// French
+
+static void* sEquipPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseEquipment00FRATex,
+    gPauseEquipment01Tex,
+    gPauseEquipment02Tex,
+    gPauseEquipment03Tex,
+    gPauseEquipment04Tex,
+    // column 2
+    gPauseEquipment10FRATex,
+    gPauseEquipment11Tex,
+    gPauseEquipment12Tex,
+    gPauseEquipment13Tex,
+    gPauseEquipment14Tex,
+    // column 3
+    gPauseEquipment20FRATex,
+    gPauseEquipment21Tex,
+    gPauseEquipment22Tex,
+    gPauseEquipment23Tex,
+    gPauseEquipment24Tex,
 };
-static void* sSelectItemFRATexs[] = {
-    gPauseSelectItem00FRATex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
-    gPauseSelectItem04Tex,    gPauseSelectItem10FRATex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
-    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20FRATex, gPauseSelectItem21Tex,
-    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
+static void* sItemPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseSelectItem00FRATex,
+    gPauseSelectItem01Tex,
+    gPauseSelectItem02Tex,
+    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,
+    // column 2
+    gPauseSelectItem10FRATex,
+    gPauseSelectItem11Tex,
+    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,
+    gPauseSelectItem14Tex,
+    // column 3
+    gPauseSelectItem20FRATex,
+    gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,
+    gPauseSelectItem23Tex,
+    gPauseSelectItem24Tex,
 };
-static void* sMapFRATexs[] = {
-    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
-    gPauseMap10FRATex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
-    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
+static void* sMapPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseMap00Tex,
+    gPauseMap01Tex,
+    gPauseMap02Tex,
+    gPauseMap03Tex,
+    gPauseMap04Tex,
+    // column 2
+    gPauseMap10FRATex,
+    gPauseMap11Tex,
+    gPauseMap12Tex,
+    gPauseMap13Tex,
+    gPauseMap14Tex,
+    // column 3
+    gPauseMap20Tex,
+    gPauseMap21Tex,
+    gPauseMap22Tex,
+    gPauseMap23Tex,
+    gPauseMap24Tex,
 };
-static void* sQuestStatusFRATexs[] = {
-    gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
-    gPauseQuestStatus04Tex, gPauseQuestStatus10FRATex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
-    gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
-    gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
+static void* sQuestPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseQuestStatus00Tex,
+    gPauseQuestStatus01Tex,
+    gPauseQuestStatus02Tex,
+    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,
+    // column 2
+    gPauseQuestStatus10FRATex,
+    gPauseQuestStatus11Tex,
+    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,
+    gPauseQuestStatus14Tex,
+    // column 3
+    gPauseQuestStatus20Tex,
+    gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,
+    gPauseQuestStatus23Tex,
+    gPauseQuestStatus24Tex,
 };
-static void* sSaveFRATexs[] = {
-    gPauseSave00FRATex, gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseSave10FRATex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20FRATex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+static void* sSavePromptBgQuadsFRATexs[] = {
+    // column 1
+    gPauseSave00FRATex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseSave10FRATex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20FRATex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
 };
 
-static void* sEquipmentGERTexs[] = {
-    gPauseEquipment00GERTex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
-    gPauseEquipment10GERTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
-    gPauseEquipment20GERTex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
+// German
+
+static void* sEquipPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseEquipment00GERTex,
+    gPauseEquipment01Tex,
+    gPauseEquipment02Tex,
+    gPauseEquipment03Tex,
+    gPauseEquipment04Tex,
+    // column 2
+    gPauseEquipment10GERTex,
+    gPauseEquipment11Tex,
+    gPauseEquipment12Tex,
+    gPauseEquipment13Tex,
+    gPauseEquipment14Tex,
+    // column 3
+    gPauseEquipment20GERTex,
+    gPauseEquipment21Tex,
+    gPauseEquipment22Tex,
+    gPauseEquipment23Tex,
+    gPauseEquipment24Tex,
 };
-static void* sSelectItemGERTexs[] = {
-    gPauseSelectItem00GERTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
-    gPauseSelectItem04Tex,    gPauseSelectItem10GERTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
-    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20GERTex, gPauseSelectItem21Tex,
-    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
+static void* sItemPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseSelectItem00GERTex,
+    gPauseSelectItem01Tex,
+    gPauseSelectItem02Tex,
+    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,
+    // column 2
+    gPauseSelectItem10GERTex,
+    gPauseSelectItem11Tex,
+    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,
+    gPauseSelectItem14Tex,
+    // column 3
+    gPauseSelectItem20GERTex,
+    gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,
+    gPauseSelectItem23Tex,
+    gPauseSelectItem24Tex,
 };
-static void* sMapGERTexs[] = {
-    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
-    gPauseMap10GERTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
-    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
+static void* sMapPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseMap00Tex,
+    gPauseMap01Tex,
+    gPauseMap02Tex,
+    gPauseMap03Tex,
+    gPauseMap04Tex,
+    // column 2
+    gPauseMap10GERTex,
+    gPauseMap11Tex,
+    gPauseMap12Tex,
+    gPauseMap13Tex,
+    gPauseMap14Tex,
+    // column 3
+    gPauseMap20Tex,
+    gPauseMap21Tex,
+    gPauseMap22Tex,
+    gPauseMap23Tex,
+    gPauseMap24Tex,
 };
-static void* sQuestStatusGERTexs[] = {
-    gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
-    gPauseQuestStatus04Tex, gPauseQuestStatus10GERTex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
-    gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
-    gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
+static void* sQuestPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseQuestStatus00Tex,
+    gPauseQuestStatus01Tex,
+    gPauseQuestStatus02Tex,
+    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,
+    // column 2
+    gPauseQuestStatus10GERTex,
+    gPauseQuestStatus11Tex,
+    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,
+    gPauseQuestStatus14Tex,
+    // column 3
+    gPauseQuestStatus20Tex,
+    gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,
+    gPauseQuestStatus23Tex,
+    gPauseQuestStatus24Tex,
 };
-static void* sSaveGERTexs[] = {
-    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseSave10GERTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20GERTex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+static void* sSavePromptBgQuadsGERTexs[] = {
+    // column 1
+    gPauseSave00Tex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseSave10GERTex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20GERTex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
 };
 
-static void* sEquipmentENGTexs[] = {
-    gPauseEquipment00Tex,    gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
-    gPauseEquipment10ENGTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
-    gPauseEquipment20Tex,    gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
+// English
+
+static void* sEquipPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseEquipment00Tex,
+    gPauseEquipment01Tex,
+    gPauseEquipment02Tex,
+    gPauseEquipment03Tex,
+    gPauseEquipment04Tex,
+    // column 2
+    gPauseEquipment10ENGTex,
+    gPauseEquipment11Tex,
+    gPauseEquipment12Tex,
+    gPauseEquipment13Tex,
+    gPauseEquipment14Tex,
+    // column 3
+    gPauseEquipment20Tex,
+    gPauseEquipment21Tex,
+    gPauseEquipment22Tex,
+    gPauseEquipment23Tex,
+    gPauseEquipment24Tex,
 };
-static void* sSelectItemENGTexs[] = {
-    gPauseSelectItem00ENGTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
-    gPauseSelectItem04Tex,    gPauseSelectItem10ENGTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
-    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20ENGTex, gPauseSelectItem21Tex,
-    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
+static void* sItemPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseSelectItem00ENGTex,
+    gPauseSelectItem01Tex,
+    gPauseSelectItem02Tex,
+    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,
+    // column 2
+    gPauseSelectItem10ENGTex,
+    gPauseSelectItem11Tex,
+    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,
+    gPauseSelectItem14Tex,
+    // column 3
+    gPauseSelectItem20ENGTex,
+    gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,
+    gPauseSelectItem23Tex,
+    gPauseSelectItem24Tex,
 };
-static void* sMapENGTexs[] = {
-    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
-    gPauseMap10ENGTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
-    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
+static void* sMapPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseMap00Tex,
+    gPauseMap01Tex,
+    gPauseMap02Tex,
+    gPauseMap03Tex,
+    gPauseMap04Tex,
+    // column 2
+    gPauseMap10ENGTex,
+    gPauseMap11Tex,
+    gPauseMap12Tex,
+    gPauseMap13Tex,
+    gPauseMap14Tex,
+    // column 3
+    gPauseMap20Tex,
+    gPauseMap21Tex,
+    gPauseMap22Tex,
+    gPauseMap23Tex,
+    gPauseMap24Tex,
 };
-static void* sQuestStatusENGTexs[] = {
-    gPauseQuestStatus00ENGTex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex,    gPauseQuestStatus03Tex,
-    gPauseQuestStatus04Tex,    gPauseQuestStatus10ENGTex, gPauseQuestStatus11Tex,    gPauseQuestStatus12Tex,
-    gPauseQuestStatus13Tex,    gPauseQuestStatus14Tex,    gPauseQuestStatus20ENGTex, gPauseQuestStatus21Tex,
-    gPauseQuestStatus22Tex,    gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
+static void* sQuestPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseQuestStatus00ENGTex,
+    gPauseQuestStatus01Tex,
+    gPauseQuestStatus02Tex,
+    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,
+    // column 2
+    gPauseQuestStatus10ENGTex,
+    gPauseQuestStatus11Tex,
+    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,
+    gPauseQuestStatus14Tex,
+    // column 3
+    gPauseQuestStatus20ENGTex,
+    gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,
+    gPauseQuestStatus23Tex,
+    gPauseQuestStatus24Tex,
 };
-static void* sSaveENGTexs[] = {
-    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseSave10ENGTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20Tex,    gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+static void* sSavePromptBgQuadsENGTexs[] = {
+    // column 1
+    gPauseSave00Tex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseSave10ENGTex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20Tex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
 };
 
 static void* sGameOverTexs[] = {
-    gPauseSave00Tex,     gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseGameOver10Tex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20Tex,     gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+    // column 1
+    gPauseSave00Tex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseGameOver10Tex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20Tex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
 };
 
-static void* sEquipmentTexs[] = {
-    sEquipmentENGTexs,
-    sEquipmentGERTexs,
-    sEquipmentFRATexs,
+static void* sEquipPageBgQuadsTexs[] = {
+    sEquipPageBgQuadsENGTexs,
+    sEquipPageBgQuadsGERTexs,
+    sEquipPageBgQuadsFRATexs,
 };
 
-static void* sSelectItemTexs[] = {
-    sSelectItemENGTexs,
-    sSelectItemGERTexs,
-    sSelectItemFRATexs,
+static void* sItemPageBgQuadsTexs[] = {
+    sItemPageBgQuadsENGTexs,
+    sItemPageBgQuadsGERTexs,
+    sItemPageBgQuadsFRATexs,
 };
 
-static void* sMapTexs[] = {
-    sMapENGTexs,
-    sMapGERTexs,
-    sMapFRATexs,
+static void* sMapPageBgQuadsTexs[] = {
+    sMapPageBgQuadsENGTexs,
+    sMapPageBgQuadsGERTexs,
+    sMapPageBgQuadsFRATexs,
 };
 
-static void* sQuestStatusTexs[] = {
-    sQuestStatusENGTexs,
-    sQuestStatusGERTexs,
-    sQuestStatusFRATexs,
+static void* sQuestPageBgQuadsTexs[] = {
+    sQuestPageBgQuadsENGTexs,
+    sQuestPageBgQuadsGERTexs,
+    sQuestPageBgQuadsFRATexs,
 };
 
-static void* sSaveTexs[] = {
-    sSaveENGTexs,
-    sSaveGERTexs,
-    sSaveFRATexs,
+static void* sSavePromptBgQuadsTexs[] = {
+    sSavePromptBgQuadsENGTexs,
+    sSavePromptBgQuadsGERTexs,
+    sSavePromptBgQuadsFRATexs,
 };
 
 s16 D_8082AAEC_width_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[] = {
@@ -135,8 +375,7 @@ s16 D_8082AB2C_height_MAP_PAGE_VTX_NOT_IN_DUNGEON_SCENE_[] = {
     24, 72, 13, 22, 19, 20, 19, 27, 14, 26, 22, 21, 49, 32, 45, 60, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 32, 8,
 };
 
-// TODO may not be indexed by `PAUSE_`
-static u8 D_8082AB6C_buttonStatusNext_[][5] = {
+static u8 gPageSwitchNextButtonStatus[][5] = {
     // PAUSE_ITEM  + SWITCH_PAGE_LEFT_PT
     //
     //  -> PAUSE_EQUIP
@@ -370,7 +609,7 @@ static s16 sCursorColors[][3] = {
     { 0, 255, 50 },
 };
 
-static void* sSavePromptTexs[] = {
+static void* sSavePromptMessageTexs[] = {
     gPauseSavePromptENGTex,
     gPauseSavePromptGERTex,
     gPauseSavePromptFRATex,
@@ -551,10 +790,10 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
         pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
-    gSaveContext.buttonStatus[1] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][1];
-    gSaveContext.buttonStatus[2] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][2];
-    gSaveContext.buttonStatus[3] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][3];
-    gSaveContext.buttonStatus[4] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + pt][4];
+    gSaveContext.buttonStatus[1] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][1];
+    gSaveContext.buttonStatus[2] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][2];
+    gSaveContext.buttonStatus[3] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][3];
+    gSaveContext.buttonStatus[4] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][4];
 
     osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
@@ -643,6 +882,14 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 985);
 }
 
+#define PAGE_BG_COLS 3
+#define PAGE_BG_ROWS 5
+#define PAGE_BG_QUAD_WIDTH 80
+#define PAGE_BG_QUAD_HEIGHT 32
+#define PAGE_BG_QUAD_TEX_WIDTH 80
+#define PAGE_BG_QUAD_TEX_HEIGHT 32
+
+// Draw 15 quads with IA8 80x32 textures
 Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     s32 i;
     s32 j;
@@ -654,8 +901,9 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     j = 0;
     while (j < 32) {
         gDPPipeSync(gfx++);
-        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, 80, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, PAGE_BG_QUAD_TEX_WIDTH,
+                            PAGE_BG_QUAD_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(gfx++, j, j + 2, j + 3, j + 1, 0);
 
         j += 4;
@@ -667,8 +915,9 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     j = 0;
     while (j < 28) {
         gDPPipeSync(gfx++);
-        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, 80, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, PAGE_BG_QUAD_TEX_WIDTH,
+                            PAGE_BG_QUAD_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(gfx++, j, j + 2, j + 3, j + 1, 0);
 
         j += 4;
@@ -833,7 +1082,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
-                                                          sSelectItemTexs[gSaveContext.language]);
+                                                          sItemPageBgQuadsTexs[gSaveContext.language]);
 
             KaleidoScope_DrawItemSelect(play);
         }
@@ -852,7 +1101,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
-                                                          sEquipmentTexs[gSaveContext.language]);
+                                                          sEquipPageBgQuadsTexs[gSaveContext.language]);
 
             KaleidoScope_DrawEquipment(play);
         }
@@ -872,7 +1121,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
-                                                          sQuestStatusTexs[gSaveContext.language]);
+                                                          sQuestPageBgQuadsTexs[gSaveContext.language]);
 
             KaleidoScope_DrawQuestStatus(play, gfxCtx);
         }
@@ -891,8 +1140,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1243),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP =
-                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[gSaveContext.language]);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx,
+                                                          sMapPageBgQuadsTexs[gSaveContext.language]);
 
             if (sInDungeonScene) {
                 KaleidoScope_DrawDungeonMap(play, gfxCtx);
@@ -922,7 +1171,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
-                                                              sSelectItemTexs[gSaveContext.language]);
+                                                              sItemPageBgQuadsTexs[gSaveContext.language]);
 
                 KaleidoScope_DrawItemSelect(play);
                 break;
@@ -937,8 +1186,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1303),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-                POLY_OPA_DISP =
-                    KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[gSaveContext.language]);
+                POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx,
+                                                              sMapPageBgQuadsTexs[gSaveContext.language]);
 
                 if (sInDungeonScene) {
                     KaleidoScope_DrawDungeonMap(play, gfxCtx);
@@ -971,7 +1220,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
-                                                              sQuestStatusTexs[gSaveContext.language]);
+                                                              sQuestPageBgQuadsTexs[gSaveContext.language]);
 
                 KaleidoScope_DrawQuestStatus(play, gfxCtx);
 
@@ -991,7 +1240,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
-                                                              sEquipmentTexs[gSaveContext.language]);
+                                                              sEquipPageBgQuadsTexs[gSaveContext.language]);
 
                 KaleidoScope_DrawEquipment(play);
 
@@ -1055,8 +1304,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
              )) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
         } else { // PAUSE_STATE_SAVE_PROMPT
-            POLY_OPA_DISP =
-                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sSaveTexs[gSaveContext.language]);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx,
+                                                          sSavePromptBgQuadsTexs[gSaveContext.language]);
         }
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->saveVtx[60], 32, 0);
@@ -1069,7 +1318,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             (pauseCtx->state == PAUSE_STATE_14)) {
 
             POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptTexs[gSaveContext.language], 152, 16, 0);
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptMessageTexs[gSaveContext.language], 152, 16, 0);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
@@ -1910,27 +2159,30 @@ s16 func_80823A0C_makeVertices_(PlayState* play, Vtx* vtx, s16 usage_arg2, s16 a
     s16* ptr3_y_;
     s16* ptr4_height_;
     s16 bufI_afterFirstPartDone_;
-    s16 x_firstPart_;
-    s16 y_firstPart_;
+    s16 pageBgQuadX;
+    s16 pageBgQuadY;
     s16 i;
     s16 j;
     s16 bufI;
 
-    // KaleidoScope_DrawPageSections
+    // Vertices for KaleidoScope_DrawPageSections
 
-    x_firstPart_ = -200;
+    pageBgQuadX = 0 - (PAGE_BG_COLS * PAGE_BG_QUAD_WIDTH) / 2 - PAGE_BG_QUAD_WIDTH;
 
-    for (bufI = 0, j = 0; j < 3; j++) {
-        x_firstPart_ += 80;
+    // For each column
+    for (bufI = 0, j = 0; j < PAGE_BG_COLS; j++) {
+        pageBgQuadX += PAGE_BG_QUAD_WIDTH;
 
-        for (y_firstPart_ = 80, i = 0; i < 5; i++, bufI += 4, y_firstPart_ -= 32) {
-            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = x_firstPart_;
+        // For each row
+        for (pageBgQuadY = (PAGE_BG_ROWS * PAGE_BG_QUAD_HEIGHT) / 2, i = 0; i < PAGE_BG_ROWS;
+             i++, bufI += 4, pageBgQuadY -= PAGE_BG_QUAD_HEIGHT) {
+            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = pageBgQuadX;
 
-            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + 80;
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + PAGE_BG_QUAD_WIDTH;
 
-            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = y_firstPart_ + pauseCtx->offsetY;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = pageBgQuadY + pauseCtx->offsetY;
 
-            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - 32;
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - PAGE_BG_QUAD_HEIGHT;
 
             vtx[bufI + 0].v.ob[2] = vtx[bufI + 1].v.ob[2] = vtx[bufI + 2].v.ob[2] = vtx[bufI + 3].v.ob[2] = 0;
 
@@ -1941,9 +2193,9 @@ s16 func_80823A0C_makeVertices_(PlayState* play, Vtx* vtx, s16 usage_arg2, s16 a
 
             vtx[bufI + 0].v.tc[0] = vtx[bufI + 0].v.tc[1] = vtx[bufI + 1].v.tc[1] = vtx[bufI + 2].v.tc[0] = 0;
 
-            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = 80 * (1 << 5);
+            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = PAGE_BG_QUAD_TEX_WIDTH * (1 << 5);
 
-            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = 32 * (1 << 5);
+            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = PAGE_BG_QUAD_TEX_HEIGHT * (1 << 5);
 
             vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = D_8082AE48_red[usage_arg2][j + 0];
 
@@ -2793,11 +3045,11 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
 
         func_80084BF4(play, 1);
 
-        gSaveContext.buttonStatus[0] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][0];
-        gSaveContext.buttonStatus[1] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][1];
-        gSaveContext.buttonStatus[2] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][2];
-        gSaveContext.buttonStatus[3] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][3];
-        gSaveContext.buttonStatus[4] = D_8082AB6C_buttonStatusNext_[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][4];
+        gSaveContext.buttonStatus[0] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][0];
+        gSaveContext.buttonStatus[1] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][1];
+        gSaveContext.buttonStatus[2] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][2];
+        gSaveContext.buttonStatus[3] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][3];
+        gSaveContext.buttonStatus[4] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + SWITCH_PAGE_LEFT_PT][4];
 
         pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
 
