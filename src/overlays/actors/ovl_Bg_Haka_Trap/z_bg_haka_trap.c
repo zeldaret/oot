@@ -130,7 +130,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 
             this->actionFunc = func_80880484;
         } else {
-            DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+            DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
             thisx->flags |= ACTOR_FLAG_4;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {

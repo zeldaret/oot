@@ -243,7 +243,7 @@ void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
 
     if (header != NULL) {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         newHeader = NULL;
         CollisionHeader_GetVirtual(header, &newHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, newHeader);

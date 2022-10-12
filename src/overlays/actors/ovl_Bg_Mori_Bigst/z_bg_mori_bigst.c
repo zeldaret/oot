@@ -74,7 +74,7 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
                  Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F),
                  Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
                  GET_PLAYER(play)->actor.world.pos.y);
-    BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, DPM_UNK);
+    BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {

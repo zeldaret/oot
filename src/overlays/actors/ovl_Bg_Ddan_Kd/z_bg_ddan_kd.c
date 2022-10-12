@@ -69,7 +69,7 @@ void BgDdanKd_Init(Actor* thisx, PlayState* play) {
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
     CollisionHeader_GetVirtual(&gDodongoFallingStairsCol, &colHeader);

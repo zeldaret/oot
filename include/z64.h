@@ -1303,13 +1303,6 @@ typedef struct {
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileSelectState; // size = 0x1CAE0
 
-typedef enum {
-    DPM_UNK = 0,
-    DPM_PLAYER = 1,
-    DPM_ENEMY = 2,
-    DPM_UNK3 = 3
-} DynaPolyMoveFlag;
-
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              playSpeed;

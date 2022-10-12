@@ -94,7 +94,7 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     this->isDestroyedSwitchFlag = thisx->params & 0x3F;
     this->burnSwitchFlag = (thisx->params >> 6) & 0x3F;
     this->dyna.actor.params = (thisx->params >> 0xC) & 0xF;
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Collider_InitTris(play, &this->trisCollider);
     Collider_SetTris(play, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);
     if (this->dyna.actor.params == WEB_FLOOR) {

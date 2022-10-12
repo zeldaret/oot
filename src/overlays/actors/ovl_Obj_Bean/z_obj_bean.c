@@ -494,7 +494,7 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
             ObjBean_Move(this);
             ObjBean_SetupWaitForPlayer(this);
 
-            ObjBean_InitDynaPoly(this, play, &gMagicBeanPlatformCol, DPM_UNK3);
+            ObjBean_InitDynaPoly(this, play, &gMagicBeanPlatformCol, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
             this->stateFlags |= BEAN_STATE_DYNAPOLY_SET;
             ObjBean_InitCollider(&this->dyna.actor, play);
             this->stateFlags |= BEAN_STATE_COLLIDER_SET;
