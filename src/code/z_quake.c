@@ -407,12 +407,12 @@ s16 Quake_Update(Camera* camera, ShakeInfo* camShake) {
     s32 index;
     s32 numQuakesApplied;
     u32 isDifferentCamId;
-    Vec3f vec;
+    Vec3f zeroVec;
     PlayState* play = camera->play;
 
-    vec.x = 0.0f;
-    vec.y = 0.0f;
-    vec.z = 0.0f;
+    zeroVec.x = 0.0f;
+    zeroVec.y = 0.0f;
+    zeroVec.z = 0.0f;
 
     camShake->upPitchOffset = 0;
     camShake->upYawOffset = 0;
@@ -486,8 +486,8 @@ s16 Quake_Update(Camera* camera, ShakeInfo* camShake) {
             camShake->fovOffset = shake.fovOffset;
         }
 
-        maxCurr = OLib_Vec3fDist(&shake.atOffset, &vec) * absSpeedDiv;
-        maxNext = OLib_Vec3fDist(&shake.eyeOffset, &vec) * absSpeedDiv;
+        maxCurr = OLib_Vec3fDist(&shake.atOffset, &zeroVec) * absSpeedDiv;
+        maxNext = OLib_Vec3fDist(&shake.eyeOffset, &zeroVec) * absSpeedDiv;
         maxCurr = CLAMP_MIN(maxCurr, maxNext);
 
         maxNext = camShake->upPitchOffset * (1.0f / 200.0f) * absSpeedDiv;
