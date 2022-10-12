@@ -887,8 +887,8 @@ typedef struct {
     /* 0x00 */ InfiniteLine crawlspaceLine;
     /* 0x18 */ Vec3f unk_18; // unused
     /* 0x24 */ f32 xzSpeed;
-    /* 0x28 */ f32 lineOffsetPrev;
-    /* 0x2C */ s16 lineOffsetAngle;
+    /* 0x28 */ f32 eyeLerp;
+    /* 0x2C */ s16 eyeLerpPhase;
     /* 0x2E */ s16 isSfxOff;
     /* 0x30 */ s16 yaw;
     /* 0x32 */ s16 zoomTimer;

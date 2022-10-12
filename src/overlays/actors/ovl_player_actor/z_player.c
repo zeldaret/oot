@@ -221,8 +221,8 @@ void func_8084BDFC(Player* this, PlayState* play);
 void func_8084BF1C(Player* this, PlayState* play);
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input);
 void func_8084C5F8(Player* this, PlayState* play);
-void Player_UpdateInsideCrawlspace(Player* this, PlayState* play);
-void Player_UpdateLeavingCrawlspace(Player* this, PlayState* play);
+void func_8084C760(Player* this, PlayState* play);
+void func_8084C81C(Player* this, PlayState* play);
 void func_8084CC98(Player* this, PlayState* play);
 void func_8084D3E4(Player* this, PlayState* play);
 void func_8084D610(Player* this, PlayState* play);
@@ -472,7 +472,7 @@ static s32 D_808535E0 = 0;
 static s32 D_808535E4 = FLOOR_TYPE_0;
 static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
-static u32 sWallFlags = 0;
+static u32 sInteractWallFlags = 0;
 static u32 sConveyorSpeedIndex = CONVEYOR_SPEED_DISABLED;
 static s16 sIsFloorConveyor = false;
 static s16 sConveyorYaw = 0;
@@ -4002,7 +4002,7 @@ s32 func_80838A14(Player* this, PlayState* play) {
             return 0;
         }
 
-        if ((this->actor.wallBgId != BGCHECK_SCENE) && (sWallFlags & WALL_FLAG_6)) {
+        if ((this->actor.wallBgId != BGCHECK_SCENE) && (sInteractWallFlags & WALL_FLAG_6)) {
             if (this->unk_88D >= 6) {
                 this->stateFlags2 |= PLAYER_STATE2_2;
                 if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
@@ -4647,7 +4647,7 @@ void func_8083A3B0(PlayState* play, Player* this) {
 }
 
 void func_8083A40C(PlayState* play, Player* this) {
-    func_80835DAC(play, this, Player_UpdateInsideCrawlspace, 0);
+    func_80835DAC(play, this, func_8084C760, 0);
 }
 
 void func_8083A434(PlayState* play, Player* this) {
@@ -6283,13 +6283,13 @@ s32 func_8083EB44(Player* this, PlayState* play) {
     return 0;
 }
 
-s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
+s32 func_8083EC18(Player* this, PlayState* play, u32 interactWallFlags) {
     if (this->wallHeight >= 79.0f) {
         if (!(this->stateFlags1 & PLAYER_STATE1_27) || (this->currentBoots == PLAYER_BOOTS_IRON) ||
             (this->actor.yDistToWater < this->ageProperties->unk_2C)) {
-            s32 sp8C = (wallFlags & WALL_FLAG_3) ? 2 : 0;
+            s32 sp8C = (interactWallFlags & WALL_FLAG_3) ? 2 : 0;
 
-            if ((sp8C != 0) || (wallFlags & WALL_FLAG_1) ||
+            if ((sp8C != 0) || (interactWallFlags & WALL_FLAG_1) ||
                 SurfaceType_CheckWallFlag2(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 f32 phi_f20;
                 CollisionPoly* wallPoly = this->actor.wallPoly;
@@ -6355,7 +6355,7 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
                     this->stateFlags1 |= PLAYER_STATE1_21;
                     this->stateFlags1 &= ~PLAYER_STATE1_27;
 
-                    if ((sp8C != 0) || (wallFlags & WALL_FLAG_1)) {
+                    if ((sp8C != 0) || (interactWallFlags & WALL_FLAG_1)) {
                         if ((this->unk_84F = sp8C) != 0) {
                             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                                 sp30 = &gPlayerAnim_link_normal_Fclimb_startA;
@@ -6400,7 +6400,7 @@ void func_8083F070(Player* this, LinkAnimationHeader* anim, PlayState* play) {
 /**
  * @return true if Player chooses to enter crawlspace
  */
-s32 Player_IsEnteringCrawlspace(Player* this, PlayState* play, u32 wallFlags) {
+s32 Player_TryEnteringCrawlspace(Player* this, PlayState* play, u32 interactWallFlags) {
     CollisionPoly* wallPoly;
     Vec3f wallVertices[3];
     f32 xVertex1;
@@ -6409,7 +6409,7 @@ s32 Player_IsEnteringCrawlspace(Player* this, PlayState* play, u32 wallFlags) {
     f32 zVertex2;
     s32 i;
 
-    if (!LINK_IS_ADULT && !(this->stateFlags1 & PLAYER_STATE1_27) && (wallFlags & WALL_FLAG_CRAWLSPACE)) {
+    if (!LINK_IS_ADULT && !(this->stateFlags1 & PLAYER_STATE1_27) && (interactWallFlags & WALL_FLAG_CRAWLSPACE)) {
         wallPoly = this->actor.wallPoly;
         CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &play->colCtx, wallVertices);
 
@@ -6437,14 +6437,14 @@ s32 Player_IsEnteringCrawlspace(Player* this, PlayState* play, u32 wallFlags) {
         xVertex1 = (xVertex1 + xVertex2) * 0.5f;
         zVertex1 = (zVertex1 + zVertex2) * 0.5f;
 
-        // Perpindicular XZ-Distance from player pos to crawlspace line
+        // Perpendicular (sideways) XZ-Distance from player pos to crawlspace line
         // Uses y-component of crossproduct formula for the distance from a point to a line
         xVertex2 = ((this->actor.world.pos.x - xVertex1) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
                    ((this->actor.world.pos.z - zVertex1) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
 
         if (fabsf(xVertex2) < 8.0f) {
             // Give do-action prompt to "Enter on A" for the crawlspace
-            this->stateFlags2 |= PLAYER_STATE2_CAN_ENTER_CRAWLSPACE;
+            this->stateFlags2 |= PLAYER_STATE2_ENTER_ON_A;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
                 // Enter Crawlspace
@@ -6498,7 +6498,7 @@ s32 func_8083F360(PlayState* play, Player* this, f32 arg1, f32 arg2, f32 arg3, f
         this->actor.bgCheckFlags |= BGCHECKFLAG_PLAYER_WALL_INTERACT;
         this->actor.wallBgId = wallBgId;
 
-        sWallFlags = SurfaceType_GetWallFlags(&play->colCtx, wallPoly, wallBgId);
+        sInteractWallFlags = SurfaceType_GetWallFlags(&play->colCtx, wallPoly, wallBgId);
 
         wallPolyNormalX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
         wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
@@ -6523,7 +6523,7 @@ s32 func_8083F524(PlayState* play, Player* this) {
 
 /**
  * Two exit walls are placed at each end of the crawlspace, separate to the two entrance walls used to enter the
- * crawlspace. These front and back exit walls are slightly more interior in the crawlspace relative to the front and
+ * crawlspace. These front and back exit walls are futher into the crawlspace relative to the front and
  * back entrance walls. When player interacts with either of these two interior exit walls, start the leaving-crawlspace
  * cutscene and return true. Else, return false
  */
@@ -6531,7 +6531,7 @@ s32 Player_IsLeavingCrawlspace(Player* this, PlayState* play) {
     s16 yawToWall;
 
     if ((this->linearVelocity != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
-        (sWallFlags & WALL_FLAG_CRAWLSPACE)) {
+        (sInteractWallFlags & WALL_FLAG_CRAWLSPACE)) {
 
         // The exit wallYaws will always point inward on the crawlline
         // Interacting with the exit wall in front will have a yaw diff of 0x8000
@@ -6542,10 +6542,10 @@ s32 Player_IsLeavingCrawlspace(Player* this, PlayState* play) {
         }
 
         if (ABS(yawToWall) > 0x4000) {
-            func_80835C58(play, this, Player_UpdateLeavingCrawlspace, 0);
+            func_80835C58(play, this, func_8084C81C, 0);
 
             if (this->linearVelocity > 0.0f) {
-                // Leaving a crawlspace forward
+                // Leaving a crawlspace forwards
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(play, this, &gPlayerAnim_link_child_tunnel_end);
                 func_80832F54(play, this, 0x9D);
@@ -6587,13 +6587,13 @@ s32 func_8083F7BC(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_11) && (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         (D_80853608 < 0x3000)) {
 
-        if (((this->linearVelocity > 0.0f) && func_8083EC18(this, play, sWallFlags)) ||
-            Player_IsEnteringCrawlspace(this, play, sWallFlags)) {
+        if (((this->linearVelocity > 0.0f) && func_8083EC18(this, play, sInteractWallFlags)) ||
+            Player_TryEnteringCrawlspace(this, play, sInteractWallFlags)) {
             return 1;
         }
 
         if (!func_808332B8(this) && ((this->linearVelocity == 0.0f) || !(this->stateFlags2 & PLAYER_STATE2_2)) &&
-            (sWallFlags & WALL_FLAG_6) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+            (sInteractWallFlags & WALL_FLAG_6) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
             (this->wallHeight >= 39.0f)) {
 
             this->stateFlags2 |= PLAYER_STATE2_0;
@@ -6678,7 +6678,7 @@ void func_8083FB7C(Player* this, PlayState* play) {
 s32 func_8083FBC0(Player* this, PlayState* play) {
     if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
-        ((sWallFlags & WALL_FLAG_3) || (sWallFlags & WALL_FLAG_1) ||
+        ((sInteractWallFlags & WALL_FLAG_3) || (sInteractWallFlags & WALL_FLAG_1) ||
          SurfaceType_CheckWallFlag2(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId))) {
         return false;
     }
@@ -8327,7 +8327,7 @@ void func_8084411C(Player* this, PlayState* play) {
                         !(this->stateFlags2 & PLAYER_STATE2_19) &&
                         !(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_27)) && (this->linearVelocity > 0.0f)) {
                         if ((this->wallHeight >= 150.0f) && (this->unk_84B[this->unk_846] == 0)) {
-                            func_8083EC18(this, play, sWallFlags);
+                            func_8083EC18(this, play, sInteractWallFlags);
                         } else if ((this->unk_88C >= 2) && (this->wallHeight < 150.0f) &&
                                    (((this->actor.world.pos.y - this->actor.floorHeight) + this->wallHeight) >
                                     (70.0f * this->ageProperties->unk_08))) {
@@ -9590,7 +9590,7 @@ void func_808473D4(PlayState* play, Player* this) {
                 } else if ((this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_21)) ||
                            ((this->stateFlags1 & PLAYER_STATE1_23) && (this->stateFlags2 & PLAYER_STATE2_22))) {
                     doAction = DO_ACTION_DOWN;
-                } else if (this->stateFlags2 & PLAYER_STATE2_CAN_ENTER_CRAWLSPACE) {
+                } else if (this->stateFlags2 & PLAYER_STATE2_ENTER_ON_A) {
                     doAction = DO_ACTION_ENTER;
                 } else if ((this->stateFlags1 & PLAYER_STATE1_11) && (this->getItemId == GI_NONE) &&
                            (heldActor != NULL)) {
@@ -9813,7 +9813,7 @@ void func_80847BA0(PlayState* play, Player* this) {
 
         sp9A = this->actor.shape.rot.y - (s16)(this->actor.wallYaw + 0x8000);
 
-        sWallFlags = SurfaceType_GetWallFlags(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId);
+        sInteractWallFlags = SurfaceType_GetWallFlags(&play->colCtx, this->actor.wallPoly, this->actor.wallBgId);
 
         D_80853608 = ABS(sp9A);
 
@@ -10482,7 +10482,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->stateFlags1 &= ~(PLAYER_STATE1_SWINGING_BOTTLE | PLAYER_STATE1_9 | PLAYER_STATE1_12 | PLAYER_STATE1_22);
         this->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_2 | PLAYER_STATE2_3 | PLAYER_STATE2_5 | PLAYER_STATE2_6 |
                                PLAYER_STATE2_8 | PLAYER_STATE2_9 | PLAYER_STATE2_12 | PLAYER_STATE2_14 |
-                               PLAYER_STATE2_CAN_ENTER_CRAWLSPACE | PLAYER_STATE2_22 | PLAYER_STATE2_26);
+                               PLAYER_STATE2_ENTER_ON_A | PLAYER_STATE2_22 | PLAYER_STATE2_26);
         this->stateFlags3 &= ~PLAYER_STATE3_4;
 
         func_80847298(this);
@@ -11505,7 +11505,7 @@ static struct_80832924 D_808548B4[] = {
  * Update player's animation while entering the crawlspace.
  * Once inside, stop all player animations and update player's movement.
  */
-void Player_UpdateInsideCrawlspace(Player* this, PlayState* play) {
+void func_8084C760(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_6;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
@@ -11536,7 +11536,7 @@ static struct_80832924 D_808548D8[] = {
 /**
  * Update player's animation while leaving the crawlspace.
  */
-void Player_UpdateLeavingCrawlspace(Player* this, PlayState* play) {
+void func_8084C81C(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_6;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
