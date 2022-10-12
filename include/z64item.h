@@ -111,7 +111,7 @@ typedef enum {
 } QuestItem;
 
 typedef enum {
-    /* 0x00 */ DUNGEON_KEY_BOSS,
+    /* 0x00 */ DUNGEON_BOSS_KEY,
     /* 0x01 */ DUNGEON_COMPASS,
     /* 0x02 */ DUNGEON_MAP
 } DungeonItem;
