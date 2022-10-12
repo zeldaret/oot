@@ -106,7 +106,7 @@ void func_80B96160(ObjLift* this, PlayState* play) {
 void ObjLift_Init(Actor* thisx, PlayState* play) {
     ObjLift* this = (ObjLift*)thisx;
 
-    ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DPM_PLAYER);
+    ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DYNA_TRANSFORM_POS);
 
     if (Flags_GetSwitch(play, (this->dyna.actor.params >> 2) & 0x3F)) {
         Actor_Kill(&this->dyna.actor);
