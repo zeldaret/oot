@@ -966,7 +966,7 @@ typedef enum {
     /*  6 */ TRANS_TYPE_FADE_BLACK_SLOW,
     /*  7 */ TRANS_TYPE_FADE_WHITE_SLOW,
     /*  8 */ TRANS_TYPE_WIPE_FAST,
-    /*  9 */ TRANS_TYPE_FILL_WHITE2, 
+    /*  9 */ TRANS_TYPE_FILL_WHITE2,
     /* 10 */ TRANS_TYPE_FILL_WHITE,
     /* 11 */ TRANS_TYPE_INSTANT,
     /* 12 */ TRANS_TYPE_FILL_BROWN,
@@ -1302,13 +1302,6 @@ typedef struct {
     /* 0x1CAD4 */ s16 newFileNameCharCount;
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileSelectState; // size = 0x1CAE0
-
-typedef enum {
-    DPM_UNK = 0,
-    DPM_PLAYER = 1,
-    DPM_ENEMY = 2,
-    DPM_UNK3 = 3
-} DynaPolyMoveFlag;
 
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
