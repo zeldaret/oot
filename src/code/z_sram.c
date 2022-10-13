@@ -136,9 +136,52 @@ static ItemEquips sNewSaveEquips = {
 };
 
 static Inventory sNewSaveInventory = {
-    { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }, // items
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                         // ammo
+    // items
+    {
+        0xFF, // SLOT_STICK
+        0xFF, // SLOT_NUT
+        0xFF, // SLOT_BOMB
+        0xFF, // SLOT_BOW
+        0xFF, // SLOT_ARROW_FIRE
+        0xFF, // SLOT_DINS_FIRE
+        0xFF, // SLOT_SLINGSHOT
+        0xFF, // SLOT_OCARINA
+        0xFF, // SLOT_BOMBCHU
+        0xFF, // SLOT_HOOKSHOT
+        0xFF, // SLOT_ARROW_ICE
+        0xFF, // SLOT_FARORES_WIND
+        0xFF, // SLOT_BOOMERANG
+        0xFF, // SLOT_LENS
+        0xFF, // SLOT_BEAN
+        0xFF, // SLOT_HAMMER
+        0xFF, // SLOT_ARROW_LIGHT
+        0xFF, // SLOT_NAYRUS_LOVE
+        0xFF, // SLOT_BOTTLE_1
+        0xFF, // SLOT_BOTTLE_2
+        0xFF, // SLOT_BOTTLE_3
+        0xFF, // SLOT_BOTTLE_4
+        0xFF, // SLOT_TRADE_ADULT
+        0xFF, // SLOT_TRADE_CHILD
+    },
+    // ammo
+    {
+        0, // SLOT_STICK
+        0, // SLOT_NUT
+        0, // SLOT_BOMB
+        0, // SLOT_BOW
+        0, // SLOT_ARROW_FIRE
+        0, // SLOT_DINS_FIRE
+        0, // SLOT_SLINGSHOT
+        0, // SLOT_OCARINA
+        0, // SLOT_BOMBCHU
+        0, // SLOT_HOOKSHOT
+        0, // SLOT_ARROW_ICE
+        0, // SLOT_FARORES_WIND
+        0, // SLOT_BOOMERANG
+        0, // SLOT_LENS
+        0, // SLOT_BEAN
+        0, // SLOT_HAMMER
+    },
     // equipment
     (((1 << EQUIP_INV_TUNIC_KOKIRI) << (EQUIP_TYPE_TUNIC * 4)) |
      ((1 << EQUIP_INV_BOOTS_KOKIRI) << (EQUIP_TYPE_BOOTS * 4))),
@@ -339,9 +382,22 @@ void Sram_InitDebugSave(void) {
 }
 
 static s16 sDungeonEntrances[] = {
-    ENTR_YDAN_0,      ENTR_DDAN_0,      ENTR_BDAN_0,         ENTR_BMORI1_0,           ENTR_HIDAN_0, ENTR_MIZUSIN_0,
-    ENTR_JYASINZOU_0, ENTR_HAKADAN_0,   ENTR_HAKADANCH_0,    ENTR_ICE_DOUKUTO_0,      ENTR_GANON_0, ENTR_MEN_0,
-    ENTR_GERUDOWAY_0, ENTR_GANONTIKA_0, ENTR_GANON_SONOGO_0, ENTR_GANONTIKA_SONOGO_0,
+    ENTR_YDAN_0,             // SCENE_YDAN
+    ENTR_DDAN_0,             // SCENE_DDAN
+    ENTR_BDAN_0,             // SCENE_BDAN
+    ENTR_BMORI1_0,           // SCENE_BMORI1
+    ENTR_HIDAN_0,            // SCENE_HIDAN
+    ENTR_MIZUSIN_0,          // SCENE_MIZUSIN
+    ENTR_JYASINZOU_0,        // SCENE_JYASINZOU
+    ENTR_HAKADAN_0,          // SCENE_HAKADAN
+    ENTR_HAKADANCH_0,        // SCENE_HAKADANCH
+    ENTR_ICE_DOUKUTO_0,      // SCENE_ICE_DOUKUTO
+    ENTR_GANON_0,            // SCENE_GANON
+    ENTR_MEN_0,              // SCENE_MEN
+    ENTR_GERUDOWAY_0,        // SCENE_GERUDOWAY
+    ENTR_GANONTIKA_0,        // SCENE_GANONTIKA
+    ENTR_GANON_SONOGO_0,     // SCENE_GANON_SONOGO
+    ENTR_GANONTIKA_SONOGO_0, // SCENE_GANONTIKA_SONOGO
 };
 
 /**
