@@ -4351,7 +4351,7 @@ s32 Camera_Subj4(Camera* camera) {
     Player* player;
     f32 eyeLerp;
     PosRot playerPosRot;
-    VecSph atEyeTargetOffset;
+    VecSph targetOffset;
     VecSph atEyeOffset;
     s16 xzOffsetTimer;
     s32 pad[2];
@@ -4388,9 +4388,9 @@ s32 Camera_Subj4(Camera* camera) {
         // Second last entry of crawlspacePoints contains the back position
         Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &crawlspacePoints[crawlspaceNumPoints - 2]);
 
-        atEyeTargetOffset.r = 10.0f;
-        atEyeTargetOffset.pitch = 0x238C; // ~50 degrees
-        atEyeTargetOffset.yaw = Camera_XZAngle(&vCrawlSpaceBackPos, &rwData->crawlspaceLine.point);
+        targetOffset.r = 10.0f;
+        targetOffset.pitch = 0x238C; // ~50 degrees
+        targetOffset.yaw = Camera_XZAngle(&vCrawlSpaceBackPos, &rwData->crawlspaceLine.point);
 
         vPlayerDistToFront = OLib_Vec3fDist(&camera->playerPosRot.pos, &rwData->crawlspaceLine.point);
         if (OLib_Vec3fDist(&camera->playerPosRot.pos, &vCrawlSpaceBackPos) < vPlayerDistToFront) {
@@ -4404,10 +4404,10 @@ s32 Camera_Subj4(Camera* camera) {
             rwData->crawlspaceLine.dir.x = vCrawlSpaceBackPos.x - rwData->crawlspaceLine.point.x;
             rwData->crawlspaceLine.dir.y = vCrawlSpaceBackPos.y - rwData->crawlspaceLine.point.y;
             rwData->crawlspaceLine.dir.z = vCrawlSpaceBackPos.z - rwData->crawlspaceLine.point.z;
-            atEyeTargetOffset.yaw -= 0x7FFF;
+            targetOffset.yaw -= 0x7FFF;
         }
 
-        rwData->yaw = atEyeTargetOffset.yaw;
+        rwData->yaw = targetOffset.yaw;
         rwData->zoomTimer = 10;
         rwData->eyeLerpPhase = 0;
         rwData->isSfxOff = false;
@@ -4422,10 +4422,10 @@ s32 Camera_Subj4(Camera* camera) {
 
     // Camera zooms in from third person to first person over 10 frames
     if (rwData->zoomTimer != 0) {
-        atEyeTargetOffset.r = 10.0f;
-        atEyeTargetOffset.pitch = 0x238C; // ~50 degrees
-        atEyeTargetOffset.yaw = rwData->yaw;
-        Camera_VecSphGeoAddToVec3f(&zoomAtTarget, &playerPosRot.pos, &atEyeTargetOffset);
+        targetOffset.r = 10.0f;
+        targetOffset.pitch = 0x238C; // ~50 degrees
+        targetOffset.yaw = rwData->yaw;
+        Camera_VecSphGeoAddToVec3f(&zoomAtTarget, &playerPosRot.pos, &targetOffset);
 
         vZoomTimer = rwData->zoomTimer + 1.0f;
         at->x = F32_LERPIMPINV(at->x, zoomAtTarget.x, vZoomTimer);
@@ -4455,11 +4455,11 @@ s32 Camera_Subj4(Camera* camera) {
 
     *eye = *eyeNext;
 
-    atEyeTargetOffset.yaw = rwData->yaw;
-    atEyeTargetOffset.r = 5.0f;
-    atEyeTargetOffset.pitch = 0x238C; // ~50 degrees
+    targetOffset.yaw = rwData->yaw;
+    targetOffset.r = 5.0f;
+    targetOffset.pitch = 0x238C; // ~50 degrees
 
-    Camera_VecSphGeoAddToVec3f(&vEyeTarget, eyeNext, &atEyeTargetOffset);
+    Camera_VecSphGeoAddToVec3f(&vEyeTarget, eyeNext, &targetOffset);
 
     rwData->eyeLerpPhase += 0xBB8;
     eyeLerp = Math_CosS(rwData->eyeLerpPhase);
@@ -4483,7 +4483,7 @@ s32 Camera_Subj4(Camera* camera) {
 
     camera->player->actor.world.pos = *eyeNext;
     camera->player->actor.world.pos.y = camera->playerGroundY;
-    camera->player->actor.shape.rot.y = atEyeTargetOffset.yaw;
+    camera->player->actor.shape.rot.y = targetOffset.yaw;
 
     eyeLerp = ((240.0f * eyeLerp) * (rwData->xzSpeed * 0.416667f));
     xzOffsetTimer = eyeLerp + rwData->yaw;
