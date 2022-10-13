@@ -966,7 +966,7 @@ typedef enum {
     /*  6 */ TRANS_TYPE_FADE_BLACK_SLOW,
     /*  7 */ TRANS_TYPE_FADE_WHITE_SLOW,
     /*  8 */ TRANS_TYPE_WIPE_FAST,
-    /*  9 */ TRANS_TYPE_FILL_WHITE2, 
+    /*  9 */ TRANS_TYPE_FILL_WHITE2,
     /* 10 */ TRANS_TYPE_FILL_WHITE,
     /* 11 */ TRANS_TYPE_INSTANT,
     /* 12 */ TRANS_TYPE_FILL_BROWN,

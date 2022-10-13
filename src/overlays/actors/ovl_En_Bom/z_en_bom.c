@@ -272,7 +272,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
             thisx->shape.rot.z = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
-            // these bombs never have a timer over 70, so this isnt used
+            // these bombs never have a timer over 70, so this isn't used
             if ((this->timer > 100) && Player_IsBurningStickInRange(play, &thisx->world.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }

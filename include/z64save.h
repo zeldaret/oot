@@ -12,7 +12,7 @@ typedef enum {
     /* 0x4 */ MAGIC_STATE_METER_FLASH_2, // Flashes border and draws yellow magic to preview target consumption
     /* 0x5 */ MAGIC_STATE_RESET, // Reset colors and return to idle
     /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
-    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
+    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens.
     /* 0x8 */ MAGIC_STATE_STEP_CAPACITY, // Step `magicCapacity` to full capacity
     /* 0x9 */ MAGIC_STATE_FILL, // Add magic until magicFillTarget is reached.
     /* 0xA */ MAGIC_STATE_ADD // Add requested magic
@@ -257,7 +257,7 @@ typedef enum {
     /* 1 */ SCENE_LAYER_CHILD_NIGHT,
     /* 2 */ SCENE_LAYER_ADULT_DAY,
     /* 3 */ SCENE_LAYER_ADULT_NIGHT,
-    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST 
+    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST
 } SceneLayer;
 
 #define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
