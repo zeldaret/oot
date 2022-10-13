@@ -70,10 +70,10 @@ typedef struct {
 } Linef; // size = 0x18
 
 typedef struct {
-    /* 0x00 */ f32 r; // radius
-    /* 0x04 */ s16 pitch; // depends on coordinate system. See below.
-    /* 0x06 */ s16 yaw; // azimuthal angle
-} VecSphGeo; // size = 0x08
+    /* 0x0 */ f32 r; // radius
+    /* 0x4 */ s16 pitch; // depends on coordinate system. See below.
+    /* 0x6 */ s16 yaw; // azimuthal angle
+} VecSphGeo; // size = 0x8
 
 // Defines a point in the spherical coordinate system.
 // Pitch is 0 along the positive y-axis (up)
