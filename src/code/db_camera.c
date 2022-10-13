@@ -138,15 +138,15 @@ Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16 ro
 
     // Matrix to apply the roll to the Up vector without roll
     rollMtxRow1.x = ((1.0f - SQ(u.x)) * cosR) + SQ(u.x);
-    rollMtxRow1.y = ((u.x * u.y) * ((void)0, 1.0f - cosR)) - (u.z * sinR);
-    rollMtxRow1.z = ((u.z * u.x) * ((void)0, 1.0f - cosR)) + (u.y * sinR);
+    rollMtxRow1.y = ((1.0f - cosR) * (u.x * u.y)) - (u.z * sinR);
+    rollMtxRow1.z = ((1.0f - cosR) * (u.z * u.x)) + (u.y * sinR);
 
-    rollMtxRow2.x = ((u.x * u.y) * ((void)0, 1.0f - cosR)) + (u.z * sinR);
+    rollMtxRow2.x = ((1.0f - cosR) * (u.x * u.y)) + (u.z * sinR);
     rollMtxRow2.y = ((1.0f - SQ(u.y)) * cosR) + SQ(u.y);
-    rollMtxRow2.z = ((u.y * u.z) * ((void)0, 1.0f - cosR)) - (u.x * sinR);
+    rollMtxRow2.z = ((1.0f - cosR) * (u.y * u.z)) - (u.x * sinR);
 
-    rollMtxRow3.x = ((u.z * u.x) * ((void)0, 1.0f - cosR)) - (u.y * sinR);
-    rollMtxRow3.y = ((u.y * u.z) * ((void)0, 1.0f - cosR)) + (u.x * sinR);
+    rollMtxRow3.x = ((1.0f - cosR) * (u.z * u.x)) - (u.y * sinR);
+    rollMtxRow3.y = ((1.0f - cosR) * (u.y * u.z)) + (u.x * sinR);
     rollMtxRow3.z = ((1.0f - SQ(u.z)) * cosR) + SQ(u.z);
 
     // rollMtx * baseUp
