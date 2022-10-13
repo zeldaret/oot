@@ -4370,7 +4370,7 @@ s32 Camera_Subj4(Camera* camera) {
     }
 
     if (camera->play->view.unk_124 == 0) {
-        camera->play->view.unk_124 = (camera->camId | 0x50);
+        camera->play->view.unk_124 = camera->camId | 0x50;
         rwData->xzSpeed = camera->xzSpeed;
         return true;
     }
@@ -4404,7 +4404,7 @@ s32 Camera_Subj4(Camera* camera) {
             rwData->crawlspaceLine.dir.x = vCrawlSpaceBackPos.x - rwData->crawlspaceLine.point.x;
             rwData->crawlspaceLine.dir.y = vCrawlSpaceBackPos.y - rwData->crawlspaceLine.point.y;
             rwData->crawlspaceLine.dir.z = vCrawlSpaceBackPos.z - rwData->crawlspaceLine.point.z;
-            atEyeTargetOffset.yaw = atEyeTargetOffset.yaw - 0x7FFF;
+            atEyeTargetOffset.yaw -= 0x7FFF;
         }
 
         rwData->yaw = atEyeTargetOffset.yaw;
