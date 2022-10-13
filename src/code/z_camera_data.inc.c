@@ -29,14 +29,14 @@ typedef struct {
 s16 sOREGInit[] = {
     0,     // OREG(0)
     1,     // OREG(1)
-    5,     // R_CAM_XZ_UPDATE_RATE
+    5,     // R_CAM_XZ_OFFSET_UPDATE_RATE
     5,     // R_CAM_Y_OFFSET_UPDATE_RATE
     5,     // R_CAM_FOV_UPDATE_RATE
     14500, // R_CAM_MAX_PITCH
     20,    // R_CAM_R_UPDATE_RATE_INV
-    16,    // R_CAM_DEFAULT_PITCH_UPDATE_RATE_INV
+    16,    // R_CAM_PITCH_UPDATE_RATE_INV
     150,   // OREG(8)
-    25,    // R_CAM_SLOPE_Y_ADJ_ADJ_AMOUNT
+    25,    // R_CAM_SLOPE_Y_ADJ_AMOUNT
     150,   // OREG(10)
     6,     // OREG(11)
     10,    // OREG(12)
