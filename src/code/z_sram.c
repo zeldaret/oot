@@ -250,7 +250,25 @@ static Inventory sDebugSaveInventory = {
         ITEM_POCKET_EGG,    // SLOT_TRADE_ADULT
         ITEM_WEIRD_EGG,     // SLOT_TRADE_CHILD
     },
-    { 50, 50, 10, 30, 1, 1, 30, 1, 50, 1, 1, 1, 1, 1, 1, 1 }, // ammo
+    // ammo
+    {
+        50, // SLOT_STICK
+        50, // SLOT_NUT
+        10, // SLOT_BOMB
+        30, // SLOT_BOW
+        1,  // SLOT_ARROW_FIRE
+        1,  // SLOT_DINS_FIRE
+        30, // SLOT_SLINGSHOT
+        1,  // SLOT_OCARINA
+        50, // SLOT_BOMBCHU
+        1,  // SLOT_HOOKSHOT
+        1,  // SLOT_ARROW_ICE
+        1,  // SLOT_FARORES_WIND
+        1,  // SLOT_BOOMERANG
+        1,  // SLOT_LENS
+        1,  // SLOT_BEAN
+        1   // SLOT_HAMMER
+    },
     // equipment
     ((((1 << EQUIP_INV_SWORD_KOKIRI) << (EQUIP_TYPE_SWORD * 4)) |
       ((1 << EQUIP_INV_SWORD_MASTER) << (EQUIP_TYPE_SWORD * 4)) |
