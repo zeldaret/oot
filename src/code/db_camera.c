@@ -228,6 +228,7 @@ void DbCamera_Vec3SToF2(Vec3s* in, Vec3f* out) {
 void func_800B3F94(PosRot* posRot, Vec3f* vec, Vec3s* out) {
     VecGeo geo;
     Vec3f tempVec;
+
     OLib_Vec3fDiffToVecGeo(&geo, &posRot->pos, vec);
     geo.yaw -= posRot->rot.y;
     OLib_VecGeoToVec3f(&tempVec, &geo);
@@ -237,6 +238,7 @@ void func_800B3F94(PosRot* posRot, Vec3f* vec, Vec3s* out) {
 void func_800B3FF4(PosRot* posRot, Vec3f* vec, Vec3f* out) {
     VecGeo geo;
     Vec3f tempVec;
+
     DbCamera_CopyVec3f(vec, &tempVec);
     OLib_Vec3fToVecGeo(&geo, &tempVec);
     geo.yaw += posRot->rot.y;
@@ -245,6 +247,7 @@ void func_800B3FF4(PosRot* posRot, Vec3f* vec, Vec3f* out) {
 
 void func_800B404C(PosRot* posRot, Vec3s* vec, Vec3f* out) {
     Vec3f tempVec;
+
     DbCamera_Vec3SToF(vec, &tempVec);
     func_800B3FF4(posRot, &tempVec, out);
 }
