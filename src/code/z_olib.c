@@ -110,17 +110,16 @@ Vec3f* OLib_VecGeoToVec3f(Vec3f* dest, VecGeo* geo) {
  */
 VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     VecSph sph;
+    f32 distXZSq = SQ(vec->x) + SQ(vec->z);
+    f32 distXZ = sqrtf(distXZSq);
 
-    f32 distSq = SQ(vec->x) + SQ(vec->z);
-    f32 dist = sqrtf(distSq);
-
-    if ((dist == 0.0f) && (vec->y == 0.0f)) {
+    if ((distXZ == 0.0f) && (vec->y == 0.0f)) {
         sph.pitch = 0;
     } else {
-        sph.pitch = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(dist, vec->y)));
+        sph.pitch = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(distXZ, vec->y)));
     }
 
-    sph.r = sqrtf(SQ(vec->y) + distSq);
+    sph.r = sqrtf(SQ(vec->y) + distXZSq);
     if ((vec->x == 0.0f) && (vec->z == 0.0f)) {
         sph.yaw = 0;
     } else {

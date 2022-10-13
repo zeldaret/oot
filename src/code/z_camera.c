@@ -2250,12 +2250,12 @@ s32 Camera_Jump1(Camera* camera) {
     if (RELOAD_PARAMS(camera)) {
         rwData->swing.unk_16 = rwData->swing.unk_18 = 0;
         rwData->swing.atEyePoly = NULL;
-        rwData->unk_20.pitch = 0;
-        rwData->unk_20.yaw = 0xC8;
+        rwData->unk_24 = 0;
+        rwData->unk_26 = 200;
         rwData->swing.swingUpdateRateTimer = 0;
         rwData->swing.swingUpdateRate = roData->yawUpateRateTarget;
         rwData->unk_1C = playerPosRot->pos.y - camera->playerPosDelta.y;
-        rwData->unk_20.r = eyeAtOffset.r;
+        rwData->unk_20 = eyeAtOffset.r;
         camera->posOffset.y -= camera->playerPosDelta.y;
         camera->xzOffsetUpdateRate = (1.0f / 10000.0f);
         camera->animState++;
@@ -3464,9 +3464,9 @@ s32 Camera_KeepOn3(Camera* camera) {
         osSyncPrintf("camera: talk: BG&collision check %d time(s)\n", i);
         camera->unk_14C &= ~0xC;
         pad = ((rwData->animTimer + 1) * rwData->animTimer) >> 1;
-        rwData->eyeToAtTarget.y = (f32)(s16)(atToEyeAdj.yaw - atToEyeNextDir.yaw) / pad;
-        rwData->eyeToAtTarget.z = (f32)(s16)(atToEyeAdj.pitch - atToEyeNextDir.pitch) / pad;
-        rwData->eyeToAtTarget.x = (atToEyeAdj.r - atToEyeNextDir.r) / pad;
+        rwData->eyeToAtTargetYaw = (f32)(s16)(atToEyeAdj.yaw - atToEyeNextDir.yaw) / pad;
+        rwData->eyeToAtTargetPitch = (f32)(s16)(atToEyeAdj.pitch - atToEyeNextDir.pitch) / pad;
+        rwData->eyeToAtTargetR = (atToEyeAdj.r - atToEyeNextDir.r) / pad;
         return 1;
     }
 
@@ -3476,9 +3476,9 @@ s32 Camera_KeepOn3(Camera* camera) {
         at->z += (rwData->atTarget.z - at->z) / rwData->animTimer;
         // needed to match
         if (!prevTargetPlayerDist) {}
-        atToEyeAdj.r = ((rwData->eyeToAtTarget.x * rwData->animTimer) + atToEyeNextDir.r) + 1.0f;
-        atToEyeAdj.yaw = atToEyeNextDir.yaw + (s16)(rwData->eyeToAtTarget.y * rwData->animTimer);
-        atToEyeAdj.pitch = atToEyeNextDir.pitch + (s16)(rwData->eyeToAtTarget.z * rwData->animTimer);
+        atToEyeAdj.r = ((rwData->eyeToAtTargetR * rwData->animTimer) + atToEyeNextDir.r) + 1.0f;
+        atToEyeAdj.yaw = atToEyeNextDir.yaw + (s16)(rwData->eyeToAtTargetYaw * rwData->animTimer);
+        atToEyeAdj.pitch = atToEyeNextDir.pitch + (s16)(rwData->eyeToAtTargetPitch * rwData->animTimer);
         Camera_AddVecGeoToVec3f(eyeNext, at, &atToEyeAdj);
         *eye = *eyeNext;
         camera->fov = Camera_LERPCeilF(roData->fovTarget, camera->fov, 0.5, 1.0f);

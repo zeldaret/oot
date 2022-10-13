@@ -439,7 +439,9 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ VecGeo unk_20;
+    /* 0x20 */ f32 unk_20;
+    /* 0x24 */ s16 unk_24;
+    /* 0x26 */ s16 unk_26;
 } Jump1ReadWriteData; // size = 0x28
 
 typedef struct {
@@ -670,7 +672,9 @@ typedef struct {
 } KeepOn3ReadOnlyData; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ Vec3f eyeToAtTarget; // essentially a VecGeo, but all floats.
+    /* 0x00 */ f32 eyeToAtTargetR;
+    /* 0x08 */ f32 eyeToAtTargetYaw;
+    /* 0x04 */ f32 eyeToAtTargetPitch;
     /* 0x0C */ Actor* target;
     /* 0x10 */ Vec3f atTarget;
     /* 0x1C */ s16 animTimer;
