@@ -94,19 +94,19 @@ u32 QuestHint_CheckConditionChain(QuestHintCmd** hintCmdPtr) {
 }
 
 u32 QuestHint_CheckRandomCondition(QuestHintCmd** hintCmdPtr) {
-    QuestHintCmd* hints = *hintCmdPtr;
+    QuestHintCmd* hintCmd = *hintCmdPtr;
     u32 conditions[10];
     s32 i = 0;
     s32 totalChecked = 0;
     s32 rand;
 
     do {
-        conditions[totalChecked] = QuestHint_CheckCondition(hints);
+        conditions[totalChecked] = QuestHint_CheckCondition(hintCmd);
         // i is incremented if the condition was met
         i += conditions[totalChecked];
         totalChecked++;
-        hints++;
-    } while ((hints->byte0 & 0xE0) == (QUEST_HINT_TYPE_RANDOM << 5));
+        hintCmd++;
+    } while ((hintCmd->byte0 & 0xE0) == (QUEST_HINT_TYPE_RANDOM << 5));
 
     // if none of the conditions checked were satisfied, there are none to use
     if (i == 0) {
