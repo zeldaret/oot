@@ -72,9 +72,9 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
             if (this->unk_177 == 1) {
                 return this->unk_174 ^ temp;
             } else {
-                u8 linkIsYoung = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
+                u8 linkIsChild = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
 
-                return this->unk_174 ^ temp ^ linkIsYoung;
+                return this->unk_174 ^ temp ^ linkIsChild;
             }
         }
     } else {

@@ -72,10 +72,10 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
     s32 i;
     Vec3f eye;
     Vtx* vtxPtr;
-    Vec3f vec;
+    Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(play));
+    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_oceff_wipe.c", 346);
 
@@ -103,7 +103,7 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
+    Matrix_Translate(eye.x + quakeOffset.x, eye.y + quakeOffset.y, eye.z + quakeOffset.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);

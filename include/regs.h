@@ -6,7 +6,7 @@
 #define REGS_PER_PAGE 16
 #define REGS_PER_GROUP (REG_PAGES * REGS_PER_PAGE)
 
-#define BASE_REG(n, r) gGameInfo->data[(n) * REGS_PER_GROUP + (r)]
+#define BASE_REG(n, r) gRegEditor->data[(n) * REGS_PER_GROUP + (r)]
 
 #define  REG(r) BASE_REG(0, (r))
 #define SREG(r) BASE_REG(1, (r))
