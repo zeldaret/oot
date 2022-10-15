@@ -342,7 +342,7 @@ void func_80ABA778(EnNiwLady* this, PlayState* play) {
         this->unk_27A = 2;
         if (!GET_ITEMGETINF(ITEMGETINF_2E)) {
             this->unk_27A = 3;
-            if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
                 this->unk_27A = 9;
                 if (this->unk_277 != 0) {
                     this->unk_27A = 10;
@@ -365,7 +365,7 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
     }
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         playerExchangeItemId = func_8002F368(play);
-        if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_6A)) {
+        if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;

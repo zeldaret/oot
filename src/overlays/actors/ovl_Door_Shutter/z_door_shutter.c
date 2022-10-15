@@ -6,6 +6,7 @@
 
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
+#include "quake.h"
 
 #include "assets/objects/object_gnd/object_gnd.h"
 #include "assets/objects/object_goma/object_goma.h"
@@ -31,7 +32,7 @@ void DoorShutter_Destroy(Actor* thisx, PlayState* play);
 void DoorShutter_Update(Actor* thisx, PlayState* play);
 void DoorShutter_Draw(Actor* thisx, PlayState* play);
 
-void func_8099803C(PlayState* play, s16 y, s16 countdown, s16 camId);
+void DoorShutter_RequestQuakeAndRumble(PlayState* play, s16 quakeY, s16 quakeDuration, s16 camId);
 void DoorShutter_SetupType(DoorShutter* this, PlayState* play);
 void func_80996A54(DoorShutter* this, PlayState* play);
 void func_80996B00(DoorShutter* this, PlayState* play);
@@ -560,7 +561,7 @@ void func_80997220(DoorShutter* this, PlayState* play) {
 }
 
 void func_809973E8(DoorShutter* this, PlayState* play) {
-    s32 quakeId;
+    s32 quakeIndex;
 
     if (this->dyna.actor.velocity.y < 20.0f) {
         Math_StepToF(&this->dyna.actor.velocity.y, 20.0f, 8.0f);
@@ -572,10 +573,10 @@ void func_809973E8(DoorShutter* this, PlayState* play) {
                                      false);
         }
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-        quakeId = Quake_Add(Play_GetCamera(play, CAM_ID_MAIN), 3);
-        Quake_SetSpeed(quakeId, -32536);
-        Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
-        Quake_SetCountdown(quakeId, 10);
+        quakeIndex = Quake_Request(Play_GetCamera(play, CAM_ID_MAIN), 3);
+        Quake_SetSpeed(quakeIndex, -32536);
+        Quake_SetPerturbations(quakeIndex, 2, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 10);
         Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
         func_80997220(this, play);
     }
@@ -604,7 +605,7 @@ void func_809975C0(DoorShutter* this, PlayState* play) {
 
             this->unk_164 = 10;
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-            func_8099803C(play, 2, 10, parent->subCamId);
+            DoorShutter_RequestQuakeAndRumble(play, 2, 10, parent->subCamId);
             Actor_SpawnFloorDustRing(play, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500, 10,
                                      true);
         }
@@ -766,11 +767,11 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-void func_8099803C(PlayState* play, s16 y, s16 countdown, s16 camId) {
-    s16 quakeId = Quake_Add(Play_GetCamera(play, camId), 3);
+void DoorShutter_RequestQuakeAndRumble(PlayState* play, s16 quakeY, s16 quakeDuration, s16 camId) {
+    s16 quakeIndex = Quake_Request(Play_GetCamera(play, camId), QUAKE_TYPE_3);
 
     Rumble_Override(0.0f, 180, 20, 100);
-    Quake_SetSpeed(quakeId, 20000);
-    Quake_SetQuakeValues(quakeId, y, 0, 0, 0);
-    Quake_SetCountdown(quakeId, countdown);
+    Quake_SetSpeed(quakeIndex, 20000);
+    Quake_SetPerturbations(quakeIndex, quakeY, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, quakeDuration);
 }
