@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bdan_objects.h"
+#include "quake.h"
 #include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -221,15 +222,15 @@ void func_8086C1A0(BgBdanObjects* this, PlayState* play) {
 }
 
 void func_8086C29C(BgBdanObjects* this, PlayState* play) {
-    s32 temp;
+    s32 quakeIndex;
 
     if (this->timer != 0) {
         this->timer--;
         if (this->timer == 0) {
-            temp = Quake_Add(GET_ACTIVE_CAM(play), 1);
-            Quake_SetSpeed(temp, 0x3A98);
-            Quake_SetQuakeValues(temp, 0, 1, 0xFA, 1);
-            Quake_SetCountdown(temp, 0xA);
+            quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
+            Quake_SetSpeed(quakeIndex, 0x3A98);
+            Quake_SetPerturbations(quakeIndex, 0, 1, 250, 1);
+            Quake_SetDuration(quakeIndex, 10);
         }
     }
 

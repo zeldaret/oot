@@ -147,7 +147,7 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
  * a light to it. Then apply color and positional/directional info for each light
  * based on the parameters supplied by the node.
  *
- * Note: Lights in a given list can only be binded to however many free slots are
+ * Note: Lights in a given list can only be bound to however many free slots are
  * available in the Lights group. This is at most 7 slots for a new group, but could be less.
  */
 void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec) {
@@ -217,7 +217,7 @@ void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, 
 }
 
 /**
- * Allocate a new Lights group and initilize the ambient color with that provided by LightContext
+ * Allocate a new Lights group and initialize the ambient color with that provided by LightContext
  */
 Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx) {
     return Lights_New(gfxCtx, lightCtx->ambientColor[0], lightCtx->ambientColor[1], lightCtx->ambientColor[2]);

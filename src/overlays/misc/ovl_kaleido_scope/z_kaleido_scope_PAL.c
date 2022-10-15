@@ -2708,11 +2708,11 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[4] = 1;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
                 pauseCtx->worldMapPoints[4] = 2;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                 pauseCtx->worldMapPoints[4] = 1;
             }
 

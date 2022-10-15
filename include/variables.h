@@ -173,7 +173,7 @@ extern u8 gSequenceTable[];
 extern u8 gSampleBankTable[];
 
 extern SaveContext gSaveContext;
-extern GameInfo* gGameInfo;
+extern RegEditor* gRegEditor;
 extern u16 D_8015FCC0;
 extern u16 D_8015FCC2;
 extern u16 D_8015FCC4;
