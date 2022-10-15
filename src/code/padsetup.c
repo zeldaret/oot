@@ -9,16 +9,16 @@ s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status) {
     if (ret != 0) {
         return ret;
     }
+
     if (*outMask == 0xFF) {
         if (osContStartQuery(mq) != 0) {
             return 1;
         }
-
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
         osContGetQuery(status);
 
         *outMask = 0;
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < MAXCONTROLLERS; i++) {
             switch (status[i].errno) {
                 case 0:
                     if (status[i].type == CONT_TYPE_NORMAL) {

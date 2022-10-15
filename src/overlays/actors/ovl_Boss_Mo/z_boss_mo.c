@@ -140,7 +140,7 @@ static f32 sFlatWidth[41] = {
     8.6f,  8.3f,  8.2f, 8.1f, 7.2f, 6.7f, 5.9f, 4.9f, 2.7f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
-#include "z_boss_mo_colchk.c"
+#include "z_boss_mo_colchk.inc.c"
 
 static BossMoEffect sEffects[BOSS_MO_EFFECT_COUNT];
 static s32 sSeed1;
@@ -360,7 +360,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
             return;
         }
         if (GET_EVENTCHKINF(EVENTCHKINF_74)) {
-            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
         } else {
@@ -504,7 +504,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 swingSizeAccel = 60.0f;
                 if ((this->sfxTimer % 32) == 0) {
                     Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
-                    func_800AA000(0, 100, 5, 2);
+                    Rumble_Request(0, 100, 5, 2);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
             } else {
@@ -518,7 +518,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 swingSizeAccel = 70.0f;
                 if ((this->sfxTimer % 16) == 0) {
                     Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
-                    func_800AA000(0, 160, 5, 4);
+                    Rumble_Request(0, 160, 5, 4);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
             }
@@ -660,7 +660,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             this->targetPos = this->actor.world.pos;
             Math_ApproachF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01);
             Math_ApproachF(&this->tentSpeed, 160.0f, 1.0f, 50.0f);
-            if ((this->timers[0] == 0) || (this->linkHitTimer != 0)) {
+            if ((this->timers[0] == 0) || (this->playerHitTimer != 0)) {
                 dx = this->tentPos[22].x - player->actor.world.pos.x;
                 dy = this->tentPos[22].y - player->actor.world.pos.y;
                 dz = this->tentPos[22].z - player->actor.world.pos.z;
@@ -670,9 +670,9 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     this->timers[0] = 40;
                     this->tentSpeed = 0;
                     if ((s16)(this->actor.shape.rot.y - this->actor.yawTowardsPlayer) >= 0) {
-                        this->linkToLeft = false;
+                        this->playerToLeft = false;
                     } else {
-                        this->linkToLeft = true;
+                        this->playerToLeft = true;
                     }
                 } else {
                     this->tentMaxAngle = .001f;
@@ -702,7 +702,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             }
             for (indS1 = 0; indS1 < 41; indS1++) {
                 if (this->timers[0] > 25) {
-                    if (!this->linkToLeft) {
+                    if (!this->playerToLeft) {
                         Math_ApproachS(&this->tentRot[indS1].z, sCurlRot[indS1] * 0x100, 1.0f / this->tentMaxAngle,
                                        this->tentSpeed);
                     } else {
@@ -710,7 +710,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                                        this->tentSpeed);
                     }
                 } else {
-                    if (!this->linkToLeft) {
+                    if (!this->playerToLeft) {
                         Math_ApproachS(&this->tentRot[indS1].z, sGrabRot[indS1] * 0x100, 1.0f / this->tentMaxAngle,
                                        this->tentSpeed);
                     } else {
@@ -725,7 +725,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 0xC8);
             }
             if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_CURL) {
-                if ((this->timers[0] >= 5) && (this->linkHitTimer != 0) && (player->actor.parent == NULL)) {
+                if ((this->timers[0] >= 5) && (this->playerHitTimer != 0) && (player->actor.parent == NULL)) {
                     if (play->grabPlayer(play, player)) {
                         player->actor.parent = &this->actor;
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_GRAB;
@@ -790,7 +790,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
         tent_shake:
         case MO_TENT_SHAKE:
             if (this->timers[0] == 138) {
-                ShrinkWindow_SetVal(0);
+                Letterbox_SetSizeTarget(0);
                 Interface_ChangeAlpha(0xB);
             }
             if ((this->timers[0] % 8) == 0) {
@@ -1101,7 +1101,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                                        -280.0f, this->actor.world.pos.z, 0, 0, 0, WARP_DUNGEON_ADULT);
                     Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f, -280.0f,
                                 this->actor.world.pos.z, 0, 0, 0, 0);
-                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
                     Flags_SetClear(play, play->roomCtx.curRoom.num);
                 }
             }
@@ -1158,7 +1158,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
                 this->cutScale = 1.0f;
             } else if (hurtbox->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_JUMP_GIANT | DMG_SPIN_MASTER |
                                                     DMG_SPIN_GIANT | DMG_SLASH_GIANT | DMG_SLASH_MASTER)) {
-                this->linkHitTimer = 5;
+                this->playerHitTimer = 5;
             }
             this->tentRippleSize = 0.2f;
             for (i2 = 0; i2 < 10; i2++) {
@@ -1177,7 +1177,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
             break;
         } else if (this->tentCollider.elements[i1].info.toucherFlags & TOUCH_HIT) {
             this->tentCollider.elements[i1].info.toucherFlags &= ~TOUCH_HIT;
-            this->linkHitTimer = 5;
+            this->playerHitTimer = 5;
             break;
         }
     }
@@ -1236,7 +1236,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 this->actor.world.rot.y = 0x721A;
                 sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
-                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x3200FF);
+                SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 50);
                 Message_CloseTextbox(play);
             } else {
                 break;
@@ -1417,7 +1417,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 this->subCamAccel = 0.01f;
             }
             if (this->timers[2] == 150) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 0xA0,
@@ -1775,7 +1775,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                         ((sMorphaTent1->subCamId == SUB_CAM_ID_DONE) && (sMorphaTent2 != NULL) &&
                          (sMorphaTent2->subCamId == SUB_CAM_ID_DONE))) {
                         Enemy_StartFinishingBlow(play, &this->actor);
-                        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+                        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
                         this->csState = MO_DEATH_START;
                         sMorphaTent1->drawActor = false;
                         sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_DEATH_START;
@@ -2377,8 +2377,8 @@ void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
     if (this->work[MO_TENT_INVINC_TIMER] != 0) {
         this->work[MO_TENT_INVINC_TIMER]--;
     }
-    if (this->linkHitTimer != 0) {
-        this->linkHitTimer--;
+    if (this->playerHitTimer != 0) {
+        this->playerHitTimer--;
     }
 
     if (this->drawActor) {
@@ -2540,7 +2540,7 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
             Vec3s sp84;
 
             Matrix_Push();
-            if (this->linkToLeft) {
+            if (this->playerToLeft) {
                 sp8C.x *= -1.0f;
             }
             Matrix_MultVec3f(&sp8C, &this->grabPosRot.pos);
@@ -3576,11 +3576,11 @@ void BossMo_Unknown(void) {
 
     if (BREG(32) != 0) {
         BREG(32)--;
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
         func_80078914(&zeroVec, unkSfx[BREG(33)]);
     }
     if (BREG(34) != 0) {
         BREG(34) = 0;
-        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (u16)BREG(35));
+        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, BREG(35));
     }
 }

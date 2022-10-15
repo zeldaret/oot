@@ -154,9 +154,9 @@ s16 func_809FDCDC(PlayState* play, Actor* actor) {
 }
 
 s32 func_809FDDB4(EnDu* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
+    if (play->sceneId == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
-    } else if (play->sceneNum == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
+    } else if (play->sceneId == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
         return 1;
     }
     return 0;
@@ -281,7 +281,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gDaruniaSkel, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gDaruniaSkel, NULL, NULL, NULL, 0);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -298,7 +298,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);
-    } else if (play->sceneNum == SCENE_HIDAN) {
+    } else if (play->sceneId == SCENE_HIDAN) {
         EnDu_SetupAction(this, func_809FE638);
     } else if (!LINK_IS_ADULT) {
         EnDu_SetupAction(this, func_809FE3C0);

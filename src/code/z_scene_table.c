@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_room_0.h"
@@ -24,11 +25,11 @@
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 // Entrance Table definition
-#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
-    { scene, spawn,                                                                                    \
-      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                         \
-       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                              \
-       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |  \
+#define DEFINE_ENTRANCE(_0, sceneId, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
+    { sceneId, spawn,                                                                                    \
+      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                           \
+       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                                \
+       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |    \
        (((startTransType) << ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_START_TRANS_TYPE_MASK)) },
 
 EntranceInfo gEntranceTable[] = {
@@ -378,7 +379,7 @@ void Scene_DrawConfigHakadan(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneNum == SCENE_HAKADAN_BS) {
+    if (play->sceneId == SCENE_HAKADAN_BS) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 2) % 128, 0, 32, 32, 1,
                                     (gameplayFrames * 2) % 128, 0, 32, 32));
@@ -533,7 +534,7 @@ void Scene_DrawConfigHairalNiwa(PlayState* play) {
                                 (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
                                 32, 32));
 
-    if (play->sceneNum == SCENE_HAIRAL_NIWA) {
+    if (play->sceneId == SCENE_HAIRAL_NIWA) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 10) % 256, 32, 64));
     }
 
@@ -558,7 +559,7 @@ void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneNum == SCENE_GANON_TOU) {
+    if (play->sceneId == SCENE_GANON_TOU) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 64, 64));
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 255 - (gameplayFrames * 1) % 256, 64, 64, 1,
@@ -585,20 +586,20 @@ void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
 
 // Screen Shake for Ganon's Tower Collapse
 void func_8009BEEC(PlayState* play) {
-    s32 var;
+    s32 quakeIndex;
 
     if (play->gameplayFrames % 128 == 13) {
-        var = Quake_Add(GET_ACTIVE_CAM(play), 2);
-        Quake_SetSpeed(var, 10000);
-        Quake_SetQuakeValues(var, 4, 0, 0, 0);
-        Quake_SetCountdown(var, 127);
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_2);
+        Quake_SetSpeed(quakeIndex, 10000);
+        Quake_SetPerturbations(quakeIndex, 4, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 127);
     }
 
     if ((play->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
-        var = Quake_Add(GET_ACTIVE_CAM(play), 3);
-        Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+        Quake_SetSpeed(quakeIndex, 32000.0f + (Rand_ZeroOne() * 3000.0f));
+        Quake_SetPerturbations(quakeIndex, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 
@@ -636,8 +637,8 @@ void Scene_DrawConfigGanonFinal(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6004);
 
     if (Flags_GetSwitch(play, 0x37)) {
-        if ((play->sceneNum == SCENE_GANON_DEMO) || (play->sceneNum == SCENE_GANON_FINAL) ||
-            (play->sceneNum == SCENE_GANON_SONOGO) || (play->sceneNum == SCENE_GANONTIKA_SONOGO)) {
+        if ((play->sceneId == SCENE_GANON_DEMO) || (play->sceneId == SCENE_GANON_FINAL) ||
+            (play->sceneId == SCENE_GANON_SONOGO) || (play->sceneId == SCENE_GANONTIKA_SONOGO)) {
             func_8009BEEC(play);
         }
     }
@@ -1468,7 +1469,7 @@ void Scene_DrawConfigBdan(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7712);
 
     gameplayFrames = play->gameplayFrames;
-    if (play->sceneNum == SCENE_BDAN) {
+    if (play->sceneId == SCENE_BDAN) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames % 128,
                                     (gameplayFrames * 2) % 128, 32, 32, 1, 127 - gameplayFrames % 128,

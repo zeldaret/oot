@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
 
 void EnPoSisters_Init(Actor* thisx, PlayState* play);
 void EnPoSisters_Destroy(Actor* thisx, PlayState* play);
@@ -1195,14 +1195,14 @@ void EnPoSisters_Update(Actor* thisx, PlayState* play) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         } else {
-            Vec3f vec;
-            s32 sp34;
+            Vec3f checkPos;
+            s32 bgId;
 
-            vec.x = this->actor.world.pos.x;
-            vec.y = this->actor.world.pos.y + 10.0f;
-            vec.z = this->actor.world.pos.z;
+            checkPos.x = this->actor.world.pos.x;
+            checkPos.y = this->actor.world.pos.y + 10.0f;
+            checkPos.z = this->actor.world.pos.z;
             this->actor.floorHeight =
-                BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
+                BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
         }
 
         Collider_UpdateCylinder(&this->actor, &this->collider);

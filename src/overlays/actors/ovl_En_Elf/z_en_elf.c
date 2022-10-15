@@ -862,7 +862,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
             func_80A02C98(this, &nextPos, 0.2f);
         }
 
-        if ((play->sceneNum == SCENE_LINK_HOME) && (gSaveContext.sceneLayer == 4)) {
+        if ((play->sceneId == SCENE_LINK_HOME) && (gSaveContext.sceneLayer == 4)) {
             // play dash sound effect as Navi enters Links house in the intro
             if (1) {}
             if (play->csCtx.frames == 55) {
@@ -1209,9 +1209,9 @@ void func_80A04D90(EnElf* this, PlayState* play) {
     s32 pad;
     s32 bgId;
 
-    this->actor.floorHeight = BgCheck_EntityRaycastFloor5(play, &play->colCtx, &this->actor.floorPoly, &bgId,
-                                                          &this->actor, &this->actor.world.pos);
-    this->actor.shape.shadowAlpha = 0x32;
+    this->actor.floorHeight = BgCheck_EntityRaycastDown5(play, &play->colCtx, &this->actor.floorPoly, &bgId,
+                                                         &this->actor, &this->actor.world.pos);
+    this->actor.shape.shadowAlpha = 50;
 }
 
 // move to talk to player

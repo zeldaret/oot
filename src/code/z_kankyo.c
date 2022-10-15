@@ -437,7 +437,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     }
 
     gCustomLensFlareOn = false;
-    func_800AA15C();
+    Rumble_Reset();
 }
 
 u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
@@ -783,7 +783,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 }
 
 void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
-    if (waterLightsIndex == 0x1F) {
+    if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
         // "Underwater color is not set in the water poly data!"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
@@ -883,7 +883,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
     if ((((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL) &&
         (((void)0, gSaveContext.gameMode) != GAMEMODE_END_CREDITS)) {
-        func_800AA16C();
+        Rumble_ClearRequests();
     }
 
     if (pauseCtx->state == 0) {
@@ -2035,7 +2035,7 @@ void Environment_PlaySceneSequence(PlayState* play) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
-            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.forcedSeqId));
+            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, ((void)0, gSaveContext.forcedSeqId));
         }
         gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     } else if (play->sequenceCtx.seqId == NA_BGM_NO_MUSIC) {
@@ -2050,12 +2050,12 @@ void Environment_PlaySceneSequence(PlayState* play) {
         osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sequenceCtx.seqId,
                      ((void)0, gSaveContext.seqId));
         if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
-            func_800F5550(play->sequenceCtx.seqId);
+            Audio_PlaySceneSequence(play->sequenceCtx.seqId);
         }
     } else if (((void)0, gSaveContext.dayTime) >= CLOCK_TIME(7, 0) &&
                ((void)0, gSaveContext.dayTime) <= CLOCK_TIME(17, 10)) {
         if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
-            func_800F5550(play->sequenceCtx.seqId);
+            Audio_PlaySceneSequence(play->sequenceCtx.seqId);
         }
 
         play->envCtx.timeSeqState = TIMESEQ_FADE_DAY_BGM;
@@ -2092,7 +2092,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
 
             if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                 osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
-                func_800F5510(play->sequenceCtx.seqId);
+                Audio_PlayMorningSceneSequence(play->sequenceCtx.seqId);
             }
 
             play->envCtx.timeSeqState++;
@@ -2102,7 +2102,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             if (gSaveContext.dayTime > CLOCK_TIME(17, 10)) {
                 if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
                     play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
-                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xF000FF);
+                    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 240);
                 }
 
                 play->envCtx.timeSeqState++;
@@ -2361,7 +2361,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
 
     switch (sandstormState) {
         case SANDSTORM_ACTIVE:
-            if ((play->sceneNum == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
+            if ((play->sceneId == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (play->envCtx.sandstormEnvA > 128) ? 255 : play->envCtx.sandstormEnvA >> 1;
             } else {
@@ -2570,7 +2570,7 @@ void Environment_StopStormNatureAmbience(PlayState* play) {
     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_1, 0);
 
-    if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
         gSaveContext.seqId = NA_BGM_NATURE_SFX_RAIN;
         Environment_PlaySceneSequence(play);
     }

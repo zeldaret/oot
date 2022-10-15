@@ -1167,8 +1167,8 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_YPOS = y + 6;
         R_TEXTBOX_ICON_SIZE = 32;
         DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                            (u32)_icon_item_staticSegmentRomStart + (itemId * 0x1000), 0x1000, "../z_message_PAL.c",
-                            1473);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + (itemId * 0x1000), 0x1000,
+                            "../z_message_PAL.c", 1473);
         // "Item 32-0"
         osSyncPrintf("アイテム32-0\n");
     } else {
@@ -1176,8 +1176,8 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_YPOS = y + 10;
         R_TEXTBOX_ICON_SIZE = 24;
         DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                            (u32)_icon_item_24_staticSegmentRomStart + (itemId - ITEM_MEDALLION_FOREST) * 0x900, 0x900,
-                            "../z_message_PAL.c", 1482);
+                            (uintptr_t)_icon_item_24_staticSegmentRomStart + (itemId - ITEM_MEDALLION_FOREST) * 0x900,
+                            0x900, "../z_message_PAL.c", 1482);
         // "Item 24"
         osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
@@ -1535,10 +1535,11 @@ void Message_Decode(PlayState* play) {
             msgCtx->textboxBackgroundYOffsetIdx = (font->msgBuf[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
             msgCtx->textboxBackgroundUnkArg = font->msgBuf[msgCtx->msgBufPos + 3] & 0xF;
             DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                (u32)_message_texture_staticSegmentRomStart + msgCtx->textboxBackgroundIdx * 0x900,
+                                (uintptr_t)_message_texture_staticSegmentRomStart +
+                                    msgCtx->textboxBackgroundIdx * 0x900,
                                 0x900, "../z_message_PAL.c", 1830);
             DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900,
-                                (u32)_message_texture_staticSegmentRomStart +
+                                (uintptr_t)_message_texture_staticSegmentRomStart +
                                     (msgCtx->textboxBackgroundIdx + 1) * 0x900,
                                 0x900, "../z_message_PAL.c", 1834);
             msgCtx->msgBufPos += 3;
@@ -1635,23 +1636,23 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (sTextIsCredits) {
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
-        DmaMgr_SendRequest1(font->msgBuf, (u32)(_staff_message_data_staticSegmentRomStart + font->msgOffset),
+        DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
                             font->msgLength, "../z_message_PAL.c", 1954);
     } else {
         if (gSaveContext.language == LANGUAGE_ENG) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_nes_message_data_staticSegmentRomStart + font->msgOffset),
+            DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                                 font->msgLength, "../z_message_PAL.c", 1966);
         } else if (gSaveContext.language == LANGUAGE_GER) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_ger_message_data_staticSegmentRomStart + font->msgOffset),
+            DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
                                 font->msgLength, "../z_message_PAL.c", 1978);
         } else {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_fra_message_data_staticSegmentRomStart + font->msgOffset),
+            DmaMgr_SendRequest1(font->msgBuf, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
                                 font->msgLength, "../z_message_PAL.c", 1990);
         }
     }
@@ -1662,10 +1663,10 @@ void Message_OpenText(PlayState* play, u16 textId) {
     // "Text Box Type"
     osSyncPrintf("吹き出し種類＝%d\n", msgCtx->textBoxType);
     if (textBoxType < TEXTBOX_TYPE_NONE_BOTTOM) {
-        DmaMgr_SendRequest1(
-            msgCtx->textboxSegment,
-            (u32)(_message_staticSegmentRomStart + (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE)),
-            MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
+        DmaMgr_SendRequest1(msgCtx->textboxSegment,
+                            (uintptr_t)_message_staticSegmentRomStart +
+                                (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE),
+                            MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
         if (textBoxType == TEXTBOX_TYPE_BLACK) {
             msgCtx->textboxColorRed = 0;
             msgCtx->textboxColorGreen = 0;
@@ -3097,7 +3098,7 @@ void Message_Update(PlayState* play) {
                 if (D_8014B2F4 >= 4) {
                     var = true;
                 }
-            } else if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneNum == SCENE_HAIRAL_NIWA) {
+            } else if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneId == SCENE_HAIRAL_NIWA) {
                 var = true;
             } else if (D_8014B2F4 >= 4 || msgCtx->talkActor == NULL) {
                 var = true;
@@ -3123,14 +3124,14 @@ void Message_Update(PlayState* play) {
                 var = msgCtx->textBoxType;
 
                 if (!msgCtx->textBoxPos) { // variable position
-                    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneNum == SCENE_HAIRAL_NIWA) {
+                    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneId == SCENE_HAIRAL_NIWA) {
                         if (averageY < XREG(92)) {
                             R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {
                             R_TEXTBOX_Y_TARGET = sTextboxUpperYPositions[var];
                         }
-                    } else if (play->sceneNum == SCENE_MARKET_DAY || play->sceneNum == SCENE_MARKET_NIGHT ||
-                               play->sceneNum == SCENE_MARKET_RUINS) {
+                    } else if (play->sceneId == SCENE_MARKET_DAY || play->sceneId == SCENE_MARKET_NIGHT ||
+                               play->sceneId == SCENE_MARKET_RUINS) {
                         if (averageY < XREG(93)) {
                             R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {

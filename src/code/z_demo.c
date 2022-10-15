@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
@@ -60,10 +61,10 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_SPOT18_0, 2, EVENTCHKINF_A6, gGoronCityIntroCs },
     { ENTR_TOKINOMA_0, 2, EVENTCHKINF_A7, gTempleOfTimeIntroCs },
     { ENTR_YDAN_0, 2, EVENTCHKINF_A8, gDekuTreeIntroCs },
-    { ENTR_SPOT00_11, 0, EVENTCHKINF_18, gHyruleFieldSouthEponaJumpCs },
-    { ENTR_SPOT00_13, 0, EVENTCHKINF_18, gHyruleFieldEastEponaJumpCs },
-    { ENTR_SPOT00_12, 0, EVENTCHKINF_18, gHyruleFieldWestEponaJumpCs },
-    { ENTR_SPOT00_15, 0, EVENTCHKINF_18, gHyruleFieldGateEponaJumpCs },
+    { ENTR_SPOT00_11, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldSouthEponaJumpCs },
+    { ENTR_SPOT00_13, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldEastEponaJumpCs },
+    { ENTR_SPOT00_12, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldWestEponaJumpCs },
+    { ENTR_SPOT00_15, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldGateEponaJumpCs },
     { ENTR_SPOT00_16, 1, EVENTCHKINF_A9, gHyruleFieldGetOoTCs },
     { ENTR_SPOT06_0, 2, EVENTCHKINF_B1, gLakeHyliaIntroCs },
     { ENTR_SPOT09_0, 2, EVENTCHKINF_B2, gGerudoValleyIntroCs },
@@ -188,7 +189,7 @@ u32 func_8006472C(PlayState* play, CutsceneContext* csCtx, f32 target) {
 
 void func_80064760(PlayState* play, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
@@ -199,7 +200,7 @@ void func_80064760(PlayState* play, CutsceneContext* csCtx) {
 void func_800647C0(PlayState* play, CutsceneContext* csCtx) {
     func_80068C3C(play, csCtx);
     Interface_ChangeAlpha(1);
-    ShrinkWindow_SetVal(0x20);
+    Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
@@ -311,15 +312,15 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 16:
             if (sp3F != 0) {
-                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 6);
+                sQuakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_6);
                 Quake_SetSpeed(sQuakeIndex, 0x7FFF);
-                Quake_SetQuakeValues(sQuakeIndex, 4, 0, 1000, 0);
-                Quake_SetCountdown(sQuakeIndex, 800);
+                Quake_SetPerturbations(sQuakeIndex, 4, 0, 1000, 0);
+                Quake_SetDuration(sQuakeIndex, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                Quake_RemoveFromIdx(sQuakeIndex);
+                Quake_RemoveRequest(sQuakeIndex);
             }
             break;
         case 18:
@@ -449,15 +450,15 @@ void Cutscene_Command_StopBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusi
 
 // Command 0x7C: Fade Background Music over duration
 void Cutscene_Command_FadeBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
-    u8 var1;
+    u8 fadeTimer;
 
     if ((csCtx->frames == cmd->startFrame) && (csCtx->frames < cmd->endFrame)) {
-        var1 = cmd->endFrame - cmd->startFrame;
+        fadeTimer = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF));
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, fadeTimer);
         } else {
-            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xFF));
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, fadeTimer);
         }
     }
 }
@@ -465,7 +466,7 @@ void Cutscene_Command_FadeBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusi
 // Command 9: ?
 void Cutscene_Command_09(PlayState* play, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        func_800AA000(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
+        Rumble_Request(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
     }
 }
 
@@ -489,7 +490,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
     s32 temp = 0;
 
     if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS) &&
-        (play->sceneNum != SCENE_SPOT00) && (csCtx->frames > 20) &&
+        (play->sceneId != SCENE_SPOT00) && (csCtx->frames > 20) &&
         (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)) &&
@@ -1255,7 +1256,7 @@ void Cutscene_Command_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCm
                                                   (gSaveContext.entranceIndex == ENTR_YOUSEI_IZUMI_YOKO_0))) {
                         Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    } else if ((temp == 0.0f) && (play->sceneNum == SCENE_GANONTIKA)) {
+                    } else if ((temp == 0.0f) && (play->sceneId == SCENE_GANONTIKA)) {
                         func_800788CC(NA_SE_EV_WHITE_OUT);
                     }
                 } else {
@@ -2018,8 +2019,8 @@ void func_80068ECC(PlayState* play, CutsceneContext* csCtx) {
 
             if (gSaveContext.cutsceneTrigger == 0) {
                 Interface_ChangeAlpha(1);
-                ShrinkWindow_SetVal(0x20);
-                ShrinkWindow_SetCurrentVal(0x20);
+                Letterbox_SetSizeTarget(32);
+                Letterbox_SetSize(32);
                 csCtx->state++;
             }
 
@@ -2060,7 +2061,7 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
         }
 
         if ((gSaveContext.entranceIndex == entranceCutscene->entrance) &&
-            (!Flags_GetEventChkInf(entranceCutscene->flag) || (entranceCutscene->flag == EVENTCHKINF_18)) &&
+            (!Flags_GetEventChkInf(entranceCutscene->flag) || (entranceCutscene->flag == EVENTCHKINF_EPONA_OBTAINED)) &&
             (gSaveContext.cutsceneIndex < 0xFFF0) && ((u8)gSaveContext.linkAge == requiredAge) &&
             (gSaveContext.respawnFlag <= 0)) {
             Flags_SetEventChkInf(entranceCutscene->flag);
@@ -2093,12 +2094,12 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_C4) &&
-                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_TOKINOMA)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(EVENTCHKINF_C4);
             gSaveContext.entranceIndex = ENTR_TOKINOMA_0;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
-                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_GANON_DEMO)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(EVENTCHKINF_C7);
             gSaveContext.entranceIndex = ENTR_GANON_DEMO_0;
             gSaveContext.cutsceneIndex = 0xFFF0;

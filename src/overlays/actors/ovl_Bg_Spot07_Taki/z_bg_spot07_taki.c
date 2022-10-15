@@ -37,7 +37,7 @@ void BgSpot07Taki_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_IS_ADULT) {
         if (this->dyna.actor.params == 0) {

@@ -69,7 +69,7 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
         case SPAWNER_LEEVER:
             this->timer = 30;
             this->maxCurSpawns = 5;
-            if (play->sceneNum == SCENE_SPOT13) { // Haunted Wasteland
+            if (play->sceneId == SCENE_SPOT13) { // Haunted Wasteland
                 this->reduceLeevers = true;
                 this->maxCurSpawns = 3;
             }
@@ -81,7 +81,7 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
             break;
         case SPAWNER_STALCHILDREN:
         case SPAWNER_WOLFOS:
-            if (play->sceneNum == SCENE_SPOT00) { // Hyrule Field
+            if (play->sceneId == SCENE_SPOT00) { // Hyrule Field
                 this->maxTotalSpawns = 10000;
             }
             this->updateFunc = EnEncount1_SpawnStalchildOrWolfos;
@@ -131,7 +131,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                 spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z = player->actor.world.pos.z + Math_CosS(spawnAngle) * spawnDist;
 
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
@@ -192,7 +192,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                 spawnPos.x = this->actor.world.pos.x + Rand_CenteredFloat(50.0f);
                 spawnPos.y = this->actor.world.pos.y + 120.0f;
                 spawnPos.z = this->actor.world.pos.z + Rand_CenteredFloat(50.0f);
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     return;
                 }
@@ -225,7 +225,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     s32 bgId;
     f32 floorY;
 
-    if (play->sceneNum != SCENE_SPOT00) {
+    if (play->sceneId != SCENE_SPOT00) {
         if ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) ||
             (this->actor.xzDistToPlayer > this->spawnRange)) {
             this->outOfRangeTimer++;
@@ -240,7 +240,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     spawnPos = this->actor.world.pos;
     if ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
         while ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
-            if (play->sceneNum == SCENE_SPOT00) {
+            if (play->sceneId == SCENE_SPOT00) {
                 if ((player->unk_89E == SURFACE_SFX_TYPE_0) || (player->actor.floorBgId != BGCHECK_SCENE) ||
                     !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (player->stateFlags1 & PLAYER_STATE1_27)) {
 
@@ -266,7 +266,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z =
                     player->actor.world.pos.z + (Math_CosS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
@@ -298,7 +298,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 if (this->curNumSpawn >= this->maxCurSpawns) {
                     this->fieldSpawnTimer = 100;
                 }
-                if (play->sceneNum != SCENE_SPOT00) {
+                if (play->sceneId != SCENE_SPOT00) {
                     this->totalNumSpawn++;
                 }
             } else {

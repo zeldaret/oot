@@ -151,14 +151,14 @@ void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* colli
 }
 
 void ObjBean_FindFloor(ObjBean* this, PlayState* play) {
-    Vec3f vec;
-    s32 sp20;
+    Vec3f checkPos;
+    s32 bgId;
 
-    vec.x = this->dyna.actor.world.pos.x;
-    vec.y = this->dyna.actor.world.pos.y + 29.999998f;
-    vec.z = this->dyna.actor.world.pos.z;
+    checkPos.x = this->dyna.actor.world.pos.x;
+    checkPos.y = this->dyna.actor.world.pos.y + 29.999998f;
+    checkPos.z = this->dyna.actor.world.pos.z;
     this->dyna.actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &sp20, &this->dyna.actor, &vec);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &checkPos);
 }
 
 void func_80B8EBC8(ObjBean* this) {
@@ -494,7 +494,7 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
             ObjBean_Move(this);
             ObjBean_SetupWaitForPlayer(this);
 
-            ObjBean_InitDynaPoly(this, play, &gMagicBeanPlatformCol, DPM_UNK3);
+            ObjBean_InitDynaPoly(this, play, &gMagicBeanPlatformCol, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
             this->stateFlags |= BEAN_STATE_DYNAPOLY_SET;
             ObjBean_InitCollider(&this->dyna.actor, play);
             this->stateFlags |= BEAN_STATE_COLLIDER_SET;
@@ -752,7 +752,7 @@ void ObjBean_SetupWaitForPlayer(ObjBean* this) {
 void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         ObjBean_SetupFly(this);
-        if (play->sceneNum == SCENE_SPOT10) { // Lost woods
+        if (play->sceneId == SCENE_SPOT10) { // Lost woods
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
@@ -788,7 +788,7 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
 
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
-        if (play->sceneNum == SCENE_SPOT10) {
+        if (play->sceneId == SCENE_SPOT10) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);

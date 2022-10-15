@@ -99,7 +99,7 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     s32 pad;
-    CollisionPoly* poly;
+    CollisionPoly* groundPoly;
     Vec3f pos;
     s32 bgId;
     f32 floorY;
@@ -108,7 +108,7 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     pos.y = this->actor.world.pos.y + 30.0f;
     pos.z = this->actor.world.pos.z;
 
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->actor, &pos);
+    floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &groundPoly, &bgId, &this->actor, &pos);
 
     if (floorY > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = floorY + yOffset;

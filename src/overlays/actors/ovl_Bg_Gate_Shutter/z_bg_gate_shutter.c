@@ -37,13 +37,13 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneNum == SCENE_SPOT01)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneId == SCENE_SPOT01)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }

@@ -53,7 +53,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, 1);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         CollisionHeader_GetVirtual(&gHyruleFieldCastleDrawbridgeCol, &colHeader);
@@ -207,7 +207,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
-        if (play->sceneNum == SCENE_SPOT00) {
+        if (play->sceneId == SCENE_SPOT00) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
                 CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
                 Player* player = GET_PLAYER(play);

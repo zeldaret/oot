@@ -45,7 +45,7 @@ const ActorInit En_Door_InitVars = {
 };
 
 typedef struct {
-    /* 0x00 */ s16 sceneNum;
+    /* 0x00 */ s16 sceneId;
     /* 0x02 */ u8 dListIndex;
     /* 0x04 */ s16 objectId;
 } EnDoorInfo;
@@ -120,7 +120,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     SkelAnime_Init(play, &this->skelAnime, &gDoorSkel, &gDoorAdultOpeningLeftAnim, this->jointTable, this->morphTable,
                    5);
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
-        if (play->sceneNum == objectInfo->sceneNum) {
+        if (play->sceneId == objectInfo->sceneId) {
             break;
         }
     }
@@ -197,7 +197,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
             }
         } else if (doorType == DOOR_CHECKABLE) {
             this->actor.textId = ENDOOR_GET_CHECKABLE_TEXT_ID(&this->actor) + 0x0200;
-            if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 // Talon's house door. If Talon has not been woken up at Hyrule Castle
                 // this door should be openable at any time of day.
                 // Note that there is no check for time of day, as the night layers for Lon Lon
@@ -301,8 +301,8 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
             this->actionFunc = EnDoor_Idle;
             this->playerIsOpening = false;
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->openAnim])) {
-            Audio_PlayActorSfx2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                               play->sceneNum == SCENE_HIDAN)
+            Audio_PlayActorSfx2(&this->actor, (play->sceneId == SCENE_HAKADAN || play->sceneId == SCENE_HAKADANCH ||
+                                               play->sceneId == SCENE_HIDAN)
                                                   ? NA_SE_EV_IRON_DOOR_OPEN
                                                   : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {
@@ -312,8 +312,8 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
                 }
             }
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->openAnim])) {
-            Audio_PlayActorSfx2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                               play->sceneNum == SCENE_HIDAN)
+            Audio_PlayActorSfx2(&this->actor, (play->sceneId == SCENE_HAKADAN || play->sceneId == SCENE_HAKADANCH ||
+                                               play->sceneId == SCENE_HIDAN)
                                                   ? NA_SE_EV_IRON_DOOR_CLOSE
                                                   : NA_SE_EV_DOOR_CLOSE);
         }

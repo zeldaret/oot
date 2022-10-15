@@ -328,13 +328,13 @@ void EnWallmas_Drop(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_Land(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupStand(this);
     }
 }
 
 void EnWallmas_Stand(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupWalk(this);
     }
 
@@ -342,7 +342,7 @@ void EnWallmas_Stand(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
@@ -355,7 +355,7 @@ void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_JumpToCeiling(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -388,7 +388,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_TakeDamage(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnWallmas_SetupDie(this, play);
         } else {
@@ -403,7 +403,7 @@ void EnWallmas_TakeDamage(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_Cooldown(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -430,7 +430,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
 
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_CATCH);
     }
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         player->actor.world.pos.x = this->actor.world.pos.x;
         player->actor.world.pos.z = this->actor.world.pos.z;
 

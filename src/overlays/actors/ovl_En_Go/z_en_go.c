@@ -359,16 +359,16 @@ void EnGo_ChangeAnim(EnGo* this, s32 index) {
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
-    } else if (play->sceneNum == SCENE_HIDAN && !Flags_GetSwitch(play, (this->actor.params) >> 8) && LINK_IS_ADULT &&
+    } else if (play->sceneId == SCENE_HIDAN && !Flags_GetSwitch(play, (this->actor.params) >> 8) && LINK_IS_ADULT &&
                (this->actor.params & 0xF0) == 0x10) {
         return true;
-    } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
+    } else if (play->sceneId == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
         return true;
-    } else if (play->sceneNum == SCENE_SPOT16 && LINK_IS_CHILD &&
+    } else if (play->sceneId == SCENE_SPOT16 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30 ||
                 (this->actor.params & 0xF0) == 0x40)) {
         return true;
-    } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD &&
+    } else if (play->sceneId == SCENE_SPOT18 && LINK_IS_CHILD &&
                ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60 ||
                 (this->actor.params & 0xF0) == 0x70)) {
         return true;
@@ -625,7 +625,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
