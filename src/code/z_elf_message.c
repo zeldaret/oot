@@ -27,42 +27,43 @@ QuestHintCmd sAdultSariaQuestHints[] = {
     QUEST_HINT_END(0x6D),
 };
 
-u32 QuestHint_CheckCondition(QuestHintCmd* hint) {
-    s32 type = hint->byte0 & 0x1E;
+u32 QuestHint_CheckCondition(QuestHintCmd* hintCmd) {
+    s32 type = hintCmd->byte0 & 0x1E;
     u16 flag;
 
     switch (type) {
         case (QUEST_HINT_CONDITION_FLAG << 1):
-            flag = 1 << (hint->byte1 & 0x0F);
-            return ((hint->byte0 & 1) == 1) == ((flag & gSaveContext.eventChkInf[(hint->byte1 & 0xF0) >> 4]) != 0);
+            flag = 1 << (hintCmd->byte1 & 0x0F);
+            return ((hintCmd->byte0 & 1) == 1) ==
+                   ((flag & gSaveContext.eventChkInf[(hintCmd->byte1 & 0xF0) >> 4]) != 0);
 
         case (QUEST_HINT_CONDITION_DUNGEON_ITEM << 1):
-            return ((hint->byte0 & 1) == 1) ==
-                   (CHECK_DUNGEON_ITEM(hint->byte1 - ITEM_KEY_BOSS, gSaveContext.mapIndex) != 0);
+            return ((hintCmd->byte0 & 1) == 1) ==
+                   (CHECK_DUNGEON_ITEM(hintCmd->byte1 - ITEM_KEY_BOSS, gSaveContext.mapIndex) != 0);
 
         case (QUEST_HINT_CONDITION_ITEM << 1):
-            return ((hint->byte0 & 1) == 1) == (hint->byte3 == INV_CONTENT(hint->byte1));
+            return ((hintCmd->byte0 & 1) == 1) == (hintCmd->byte3 == INV_CONTENT(hintCmd->byte1));
 
         case (QUEST_HINT_CONDITION_OTHER << 1):
-            switch (hint->byte1 & 0xF0) {
+            switch (hintCmd->byte1 & 0xF0) {
                 case (QUEST_HINT_CONDITION_STRENGTH_UPG << 4):
-                    return ((hint->byte0 & 1) == 1) == ((hint->byte1 & 0x0F) == CUR_UPG_VALUE(UPG_STRENGTH));
+                    return ((hintCmd->byte0 & 1) == 1) == ((hintCmd->byte1 & 0x0F) == CUR_UPG_VALUE(UPG_STRENGTH));
 
                 case (QUEST_HINT_CONDITION_BOOTS << 4):
-                    return ((hint->byte0 & 1) == 1) ==
+                    return ((hintCmd->byte0 & 1) == 1) ==
                            (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS,
-                                              hint->byte3 - ITEM_BOOTS_KOKIRI + EQUIP_INV_BOOTS_KOKIRI) != 0);
+                                              hintCmd->byte3 - ITEM_BOOTS_KOKIRI + EQUIP_INV_BOOTS_KOKIRI) != 0);
 
                 case (QUEST_HINT_CONDITION_SONG << 4):
-                    return ((hint->byte0 & 1) == 1) ==
-                           (CHECK_QUEST_ITEM(hint->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET) != 0);
+                    return ((hintCmd->byte0 & 1) == 1) ==
+                           (CHECK_QUEST_ITEM(hintCmd->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET) != 0);
 
                 case (QUEST_HINT_CONDITION_MEDALLION << 4):
-                    return ((hint->byte0 & 1) == 1) ==
-                           (CHECK_QUEST_ITEM(hint->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
+                    return ((hintCmd->byte0 & 1) == 1) ==
+                           (CHECK_QUEST_ITEM(hintCmd->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
 
                 case (QUEST_HINT_CONDITION_MAGIC << 4):
-                    return ((hint->byte0 & 1) == 1) == (((void)0, gSaveContext.isMagicAcquired) != 0);
+                    return ((hintCmd->byte0 & 1) == 1) == (((void)0, gSaveContext.isMagicAcquired) != 0);
             }
     }
 
@@ -72,28 +73,28 @@ u32 QuestHint_CheckCondition(QuestHintCmd* hint) {
     return false;
 }
 
-u32 QuestHint_CheckConditionChain(QuestHintCmd** hintsPtr) {
+u32 QuestHint_CheckConditionChain(QuestHintCmd** hintCmdPtr) {
     u32 allConditionsMet = true;
 
-    while (((*hintsPtr)->byte0 & 0xE0) == (QUEST_HINT_TYPE_CHAIN << 5)) {
+    while (((*hintCmdPtr)->byte0 & 0xE0) == (QUEST_HINT_TYPE_CHAIN << 5)) {
         // if any of the conditions checked in the chain are not met,
         // the whole chain is considered false
-        if (!QuestHint_CheckCondition(*hintsPtr)) {
+        if (!QuestHint_CheckCondition(*hintCmdPtr)) {
             allConditionsMet = false;
         }
 
-        *hintsPtr += 1;
+        *hintCmdPtr += 1;
     }
 
     if (allConditionsMet) {
-        return QuestHint_CheckCondition(*hintsPtr);
+        return QuestHint_CheckCondition(*hintCmdPtr);
     } else {
         return false;
     }
 }
 
-u32 QuestHint_CheckRandomCondition(QuestHintCmd** hintsPtr) {
-    QuestHintCmd* hints = *hintsPtr;
+u32 QuestHint_CheckRandomCondition(QuestHintCmd** hintCmdPtr) {
+    QuestHintCmd* hints = *hintCmdPtr;
     u32 conditions[10];
     s32 i = 0;
     s32 totalChecked = 0;
@@ -125,49 +126,49 @@ u32 QuestHint_CheckRandomCondition(QuestHintCmd** hintsPtr) {
             }
         }
 
-        *hintsPtr += 1;
+        *hintCmdPtr += 1;
     }
 
     return false;
 }
 
-u16 QuestHint_GetTextIdFromScript(QuestHintCmd* hints) {
+u16 QuestHint_GetTextIdFromScript(QuestHintCmd* hintCmd) {
     while (true) {
-        switch (hints->byte0 & 0xE0) {
+        switch (hintCmd->byte0 & 0xE0) {
             case (QUEST_HINT_TYPE_CHECK << 5):
-                if (QuestHint_CheckCondition(hints)) {
-                    return hints->byte2 | 0x100;
+                if (QuestHint_CheckCondition(hintCmd)) {
+                    return hintCmd->byte2 | 0x100;
                 }
                 break;
 
             case (QUEST_HINT_TYPE_CHAIN << 5):
-                if (QuestHint_CheckConditionChain(&hints)) {
-                    return hints->byte2 | 0x100;
+                if (QuestHint_CheckConditionChain(&hintCmd)) {
+                    return hintCmd->byte2 | 0x100;
                 }
                 break;
 
             case (QUEST_HINT_TYPE_RANDOM << 5):
-                if (QuestHint_CheckRandomCondition(&hints)) {
-                    return hints->byte2 | 0x100;
+                if (QuestHint_CheckRandomCondition(&hintCmd)) {
+                    return hintCmd->byte2 | 0x100;
                 }
                 break;
 
             case (QUEST_HINT_TYPE_SKIP << 5):
-                if (QuestHint_CheckCondition(hints)) {
-                    hints += hints->byte2; // skip the specified amount
-                    hints--;               // decrement by 1 because it will be incremented again below
+                if (QuestHint_CheckCondition(hintCmd)) {
+                    hintCmd += hintCmd->byte2; // skip the specified amount
+                    hintCmd--;                 // decrement by 1 because it will be incremented again below
                 }
                 break;
 
             case (QUEST_HINT_TYPE_END << 5):
-                return hints->byte2 | 0x100;
+                return hintCmd->byte2 | 0x100;
 
             default:
                 LOG_STRING("企画外 条件", "../z_elf_message.c", 281); // "Unplanned conditions"
                 ASSERT(0, "0", "../z_elf_message.c", 282);
         }
 
-        hints++;
+        hintCmd++;
     }
 }
 
