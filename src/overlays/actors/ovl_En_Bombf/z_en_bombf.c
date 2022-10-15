@@ -428,7 +428,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = 250;
                 play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] = play->envCtx.adjAmbientColor[2] =
                     250;
-                Camera_AddQuake(&play->mainCamera, 2, 0xB, 8);
+                Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
                 thisx->flags |= ACTOR_FLAG_5;

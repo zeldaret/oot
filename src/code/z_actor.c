@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 #include "vt.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
@@ -2179,11 +2180,11 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Lights_BindAll(lights, play->lightCtx.listHead, (actor->flags & ACTOR_FLAG_22) ? NULL : &actor->world.pos);
     Lights_Draw(lights, play->state.gfxCtx);
 
-    if (actor->flags & ACTOR_FLAG_12) {
-        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.skyboxOffset.x,
+    if (actor->flags & ACTOR_FLAG_IGNORE_QUAKE) {
+        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.quakeOffset.x,
                                      actor->world.pos.y +
-                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.skyboxOffset.y),
-                                     actor->world.pos.z + play->mainCamera.skyboxOffset.z, &actor->shape.rot);
+                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.quakeOffset.y),
+                                     actor->world.pos.z + play->mainCamera.quakeOffset.z, &actor->shape.rot);
     } else {
         Matrix_SetTranslateRotateYXZ(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
                                      actor->world.pos.z, &actor->shape.rot);
@@ -3505,30 +3506,29 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8155);
 }
 
-void func_80033DB8(PlayState* play, s16 arg1, s16 arg2) {
-    s16 var = Quake_Add(&play->mainCamera, 3);
+void Actor_RequestQuake(PlayState* play, s16 y, s16 duration) {
+    s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
-    Quake_SetSpeed(var, 20000);
-    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
-    Quake_SetCountdown(var, arg2);
+    Quake_SetSpeed(quakeIndex, 20000);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
-void func_80033E1C(PlayState* play, s16 arg1, s16 arg2, s16 arg3) {
-    s16 var = Quake_Add(&play->mainCamera, 3);
+void Actor_RequestQuakeWithSpeed(PlayState* play, s16 y, s16 duration, s16 speed) {
+    s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
-    Quake_SetSpeed(var, arg3);
-    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
-    Quake_SetCountdown(var, arg2);
+    Quake_SetSpeed(quakeIndex, speed);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
-void func_80033E88(Actor* actor, PlayState* play, s16 arg2, s16 arg3) {
-    if (arg2 >= 5) {
+void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeY, s16 quakeDuration) {
+    if (quakeY >= 5) {
         Rumble_Request(actor->xyzDistToPlayerSq, 255, 20, 150);
     } else {
         Rumble_Request(actor->xyzDistToPlayerSq, 180, 20, 100);
     }
-
-    func_80033DB8(play, arg2, arg3);
+    Actor_RequestQuake(play, quakeY, quakeDuration);
 }
 
 f32 Rand_ZeroFloat(f32 f) {

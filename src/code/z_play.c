@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 #include "vt.h"
 
 void* D_8012D1F0 = NULL;
@@ -1176,11 +1177,11 @@ void Play_Draw(PlayState* this) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
-                        Vec3f sp74;
+                        Vec3f quakeOffset;
 
-                        Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(this));
-                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + sp74.x,
-                                        this->view.eye.y + sp74.y, this->view.eye.z + sp74.z);
+                        Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
+                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
+                                        this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
                     }
                 }
 

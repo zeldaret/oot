@@ -629,7 +629,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 this->holePosition.x = this->targetPosition.x;
                 this->holePosition.z = this->targetPosition.z;
 
-                func_80033E1C(play, 1, 0x50, 0x5000);
+                Actor_RequestQuakeWithSpeed(play, 1, 80, 0x5000);
                 if (this->introState != BFD_CS_NONE) {
                     this->timers[0] = 50;
                 } else {
@@ -673,7 +673,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->timers[1] = 10;
                     Audio_PlaySfxGeneral(NA_SE_EV_EXPLOSION, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    func_80033E1C(play, 3, 0xA, 0x7530);
+                    Actor_RequestQuakeWithSpeed(play, 3, 10, 0x7530);
                     this->work[BFD_ROCK_TIMER] = 300;
                 }
             } else {
@@ -979,14 +979,14 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
         if (this->work[BFD_ACTION_STATE] < BOSSFD_SKULL_FALL) {
             if ((this->actor.prevPos.y < 90.0f) && (90.0f <= this->actor.world.pos.y)) {
                 this->timers[4] = 80;
-                func_80033E1C(play, 1, 80, 0x5000);
+                Actor_RequestQuakeWithSpeed(play, 1, 80, 0x5000);
                 this->work[BFD_ROAR_TIMER] = 40;
                 this->work[BFD_MANE_EMBERS_TIMER] = 30;
                 this->work[BFD_SPLASH_TIMER] = 10;
             }
             if ((this->actor.prevPos.y > 90.0f) && (90.0f >= this->actor.world.pos.y)) {
                 this->timers[4] = 80;
-                func_80033E1C(play, 1, 80, 0x5000);
+                Actor_RequestQuakeWithSpeed(play, 1, 80, 0x5000);
                 this->work[BFD_MANE_EMBERS_TIMER] = 30;
                 this->work[BFD_SPLASH_TIMER] = 10;
             }

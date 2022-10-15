@@ -1617,46 +1617,6 @@ typedef struct {
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-} SubQuakeRequest14;
-
-typedef struct {
-    /* 0x00 */ s16 randIdx;
-    /* 0x02 */ s16 countdownMax;
-    /* 0x04 */ Camera* cam;
-    /* 0x08 */ u32 callbackIdx;
-    /* 0x0C */ s16 y;
-    /* 0x0E */ s16 x;
-    /* 0x10 */ s16 zoom;
-    /* 0x12 */ s16 rotZ;
-    /* 0x14 */ SubQuakeRequest14 unk_14;
-    /* 0x1A */ s16 speed;
-    /* 0x1C */ s16 unk_1C;
-    /* 0x1E */ s16 countdown;
-    /* 0x20 */ s16 camPtrIdx;
-} QuakeRequest; // size = 0x24
-
-typedef struct {
-    /* 0x00 */ Vec3f vec1;
-    /* 0x0C */ Vec3f vec2;
-    /* 0x18 */ s16 rotZ;
-    /* 0x1A */ s16 unk_1A;
-    /* 0x1C */ s16 zoom;
-} ShakeInfo; // size = 0x1E
-
-typedef struct {
-    /* 0x00 */ Vec3f atOffset;
-    /* 0x0C */ Vec3f eyeOffset;
-    /* 0x18 */ s16 rotZ;
-    /* 0x1A */ s16 unk_1A;
-    /* 0x1C */ s16 zoom;
-    /* 0x20 */ f32 unk_20;
-} QuakeCamCalc; // size = 0x24
-
-
 #define UCODE_NULL      0
 #define UCODE_F3DZEX    1
 #define UCODE_UNK       2

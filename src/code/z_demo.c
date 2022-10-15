@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
@@ -311,15 +312,15 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 16:
             if (sp3F != 0) {
-                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 6);
+                sQuakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_6);
                 Quake_SetSpeed(sQuakeIndex, 0x7FFF);
-                Quake_SetQuakeValues(sQuakeIndex, 4, 0, 1000, 0);
-                Quake_SetCountdown(sQuakeIndex, 800);
+                Quake_SetPerturbations(sQuakeIndex, 4, 0, 1000, 0);
+                Quake_SetDuration(sQuakeIndex, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                Quake_RemoveFromIdx(sQuakeIndex);
+                Quake_RemoveRequest(sQuakeIndex);
             }
             break;
         case 18:

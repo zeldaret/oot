@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "quake.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
@@ -6972,7 +6973,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
 
     camera->up.y = 1.0f;
     camera->up.z = camera->up.x = 0.0f;
-    camera->skyboxOffset.x = camera->skyboxOffset.y = camera->skyboxOffset.z = 0;
+    camera->quakeOffset.x = camera->quakeOffset.y = camera->quakeOffset.z = 0;
     camera->atLERPStepScale = 1;
     sCameraInterfaceFlags = 0xFF00;
     sDbgModeIdx = -1;
@@ -7185,11 +7186,11 @@ void Camera_PrintSettings(Camera* camera) {
 
 s32 Camera_UpdateWater(Camera* camera) {
     f32 waterY;
-    s16 newQuakeId;
+    s16 quakeIndex;
     s32 waterLightsIndex;
     s32* waterCamSetting = &camera->waterCamSetting;
     s16 waterBgCamIndex;
-    s16* quakeId = (s16*)&camera->waterQuakeId;
+    s16* waterQuakeIndex = (s16*)&camera->waterQuakeIndex;
     Player* player = camera->player;
     s16 prevBgId;
 
@@ -7213,7 +7214,7 @@ s32 Camera_UpdateWater(Camera* camera) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
                 camera->bgCamIndexBeforeUnderwater = camera->bgCamIndex;
-                *quakeId = -1;
+                *waterQuakeIndex = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
                 prevBgId = camera->bgId;
@@ -7229,7 +7230,7 @@ s32 Camera_UpdateWater(Camera* camera) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
                 camera->bgCamIndexBeforeUnderwater = camera->bgCamIndex;
-                *quakeId = -1;
+                *waterQuakeIndex = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
                 prevBgId = camera->bgId;
@@ -7266,16 +7267,19 @@ s32 Camera_UpdateWater(Camera* camera) {
         Audio_SetExtraFilter(0x20);
 
         if (PREG(81)) {
-            Quake_RemoveFromIdx(*quakeId);
-            *quakeId = -1;
+            Quake_RemoveRequest(*waterQuakeIndex);
+            *waterQuakeIndex = -1;
             PREG(81) = 0;
         }
 
-        if ((*quakeId == -1) || (Quake_GetCountdown(*quakeId) == 0xA)) {
-            if (*quakeId = newQuakeId = Quake_Add(camera, 5U), newQuakeId != 0) {
-                Quake_SetSpeed(*quakeId, 550);
-                Quake_SetQuakeValues(*quakeId, 1, 1, 180, 0);
-                Quake_SetCountdown(*quakeId, 1000);
+        if ((*waterQuakeIndex == -1) || (Quake_GetTimeLeft(*waterQuakeIndex) == 10)) {
+            quakeIndex = Quake_Request(camera, QUAKE_TYPE_5);
+
+            *waterQuakeIndex = quakeIndex;
+            if (quakeIndex != 0) {
+                Quake_SetSpeed(*waterQuakeIndex, 550);
+                Quake_SetPerturbations(*waterQuakeIndex, 1, 1, 180, 0);
+                Quake_SetDuration(*waterQuakeIndex, 1000);
             }
         }
 
@@ -7292,8 +7296,8 @@ s32 Camera_UpdateWater(Camera* camera) {
             camera->unk_14C &= ~0x100;
             osSyncPrintf("kankyo changed water off, sound off\n");
             Environment_DisableUnderwaterLights(camera->play);
-            if (*quakeId != 0) {
-                Quake_RemoveFromIdx(*quakeId);
+            if (*waterQuakeIndex != 0) {
+                Quake_RemoveRequest(*waterQuakeIndex);
             }
             camera->waterDistortionTimer = 0;
             camera->distortionFlags = 0;
@@ -7438,8 +7442,9 @@ Vec3s Camera_Update(Camera* camera) {
     f32 playerXZSpeed;
     VecSph eyeAtAngle;
     s16 bgCamIndex;
+    s16 numQuakesApplied;
     PosRot curPlayerPosRot;
-    QuakeCamCalc quake;
+    ShakeInfo camShake;
     Player* player;
 
     player = camera->play->cameraPtrs[CAM_ID_MAIN]->player;
@@ -7602,19 +7607,23 @@ Vec3s Camera_Update(Camera* camera) {
         return camera->inputDir;
     }
 
-    // setting bgId to the ret of Quake_Calc, and checking that
-    // is required, it doesn't make too much sense though.
-    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
-        viewAt.x = camera->at.x + quake.atOffset.x;
-        viewAt.y = camera->at.y + quake.atOffset.y;
-        viewAt.z = camera->at.z + quake.atOffset.z;
-        viewEye.x = camera->eye.x + quake.eyeOffset.x;
-        viewEye.y = camera->eye.y + quake.eyeOffset.y;
-        viewEye.z = camera->eye.z + quake.eyeOffset.z;
+    numQuakesApplied = Quake_Update(camera, &camShake);
+
+    bgId = numQuakesApplied; // required to match
+
+    if ((numQuakesApplied != 0) && (camera->setting != CAM_SET_TURN_AROUND)) {
+        viewAt.x = camera->at.x + camShake.atOffset.x;
+        viewAt.y = camera->at.y + camShake.atOffset.y;
+        viewAt.z = camera->at.z + camShake.atOffset.z;
+
+        viewEye.x = camera->eye.x + camShake.eyeOffset.x;
+        viewEye.y = camera->eye.y + camShake.eyeOffset.y;
+        viewEye.z = camera->eye.z + camShake.eyeOffset.z;
+
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
-        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quake.rotZ, eyeAtAngle.yaw + quake.unk_1A,
-                                      camera->roll);
-        viewFov = camera->fov + CAM_BINANG_TO_DEG(quake.zoom);
+        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + camShake.upPitchOffset,
+                                      eyeAtAngle.yaw + camShake.upYawOffset, camera->roll);
+        viewFov = camera->fov + CAM_BINANG_TO_DEG(camShake.fovOffset);
     } else {
         viewAt = camera->at;
         viewEye = camera->eye;
@@ -7630,7 +7639,7 @@ Vec3s Camera_Update(Camera* camera) {
         camera->up = viewUp;
     }
 
-    camera->skyboxOffset = quake.eyeOffset;
+    camera->quakeOffset = camShake.eyeOffset;
 
     Camera_UpdateDistortion(camera);
 
@@ -8010,17 +8019,17 @@ s16 Camera_GetCamDirYaw(Camera* camera) {
     return camDir.y;
 }
 
-s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
-    s16 quakeIdx;
+s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 y, s32 duration) {
+    s16 quakeIndex;
 
-    quakeIdx = Quake_Add(camera, 3);
-    if (quakeIdx == 0) {
-        return 0;
+    quakeIndex = Quake_Request(camera, QUAKE_TYPE_3);
+    if (quakeIndex == 0) {
+        return false;
     }
-    Quake_SetSpeed(quakeIdx, 0x61A8);
-    Quake_SetQuakeValues(quakeIdx, y, 0, 0, 0);
-    Quake_SetCountdown(quakeIdx, countdown);
-    return 1;
+    Quake_SetSpeed(quakeIndex, 0x61A8);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
+    return true;
 }
 
 s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
@@ -8187,9 +8196,9 @@ s32 Camera_GetDbgCamEnabled(void) {
     return gDbgCamEnabled;
 }
 
-Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera) {
-    *dst = camera->skyboxOffset;
-    return dst;
+Vec3f* Camera_GetQuakeOffset(Vec3f* quakeOffset, Camera* camera) {
+    *quakeOffset = camera->quakeOffset;
+    return quakeOffset;
 }
 
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
