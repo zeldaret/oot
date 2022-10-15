@@ -140,7 +140,7 @@ f32 Math_FAtanF(f32 x) {
 }
 
 /**
- * @return angle from vector (1,0) to (x,y) in radians, in (-pi,pi] range
+ * @return angle to (x,y) from vector (1,0) around (0,0) in radians, in (-pi,pi] range
  */
 f32 Math_FAtan2F(f32 y, f32 x) {
     if (x == 0.0f) {
