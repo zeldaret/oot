@@ -223,7 +223,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  code;
-    /* 0x01 */ u8  cUpElfMsgNum;
+    /* 0x01 */ u8  naviQuestHintFileId;
     /* 0x04 */ u32 keepObjectId;
 } SCmdSpecialFiles;
 
@@ -469,6 +469,14 @@ typedef enum {
 #define SCENE_CAM_TYPE_FIXED_MARKET 0x40 // Camera exhibits fixed behaviors and delays textboxes by a small amount before they start to appear
 #define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code, and used only by the main layer of the shooting gallery scene
 
+// navi hints
+// TODO: make ZAPD use this enum for `SCENE_CMD_SPECIAL_FILES`
+typedef enum {
+    NAVI_QUEST_HINTS_NONE,
+    NAVI_QUEST_HINTS_OVERWORLD,
+    NAVI_QUEST_HINTS_DUNGEON
+} NaviQuestHintFileId;
+
 // Scene commands
 
 typedef enum {
@@ -522,8 +530,8 @@ typedef enum {
 #define SCENE_CMD_ENTRANCE_LIST(entranceList) \
     { SCENE_CMD_ID_ENTRANCE_LIST, 0, CMD_PTR(entranceList) }
 
-#define SCENE_CMD_SPECIAL_FILES(elfMessageFile, keepObjectId) \
-    { SCENE_CMD_ID_SPECIAL_FILES, elfMessageFile, CMD_W(keepObjectId) }
+#define SCENE_CMD_SPECIAL_FILES(naviQuestHintFileId, keepObjectId) \
+    { SCENE_CMD_ID_SPECIAL_FILES, naviQuestHintFileId, CMD_W(keepObjectId) }
 
 #define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
     { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \

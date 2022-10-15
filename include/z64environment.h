@@ -26,12 +26,12 @@
 #define LIGHT_BLEND_OVERRIDE_NONE 0
 #define LIGHT_BLEND_OVERRIDE_ON 1
 
-// This mode disables the light system's automatic blending between 
+// This mode disables the light system's automatic blending between
 // light settings for `LIGHT_MODE_SETTINGS` (or using a light setting override).
 // This is a bit of a hack used only by bosses in the original game.
 #define LIGHT_BLEND_OVERRIDE_FULL_CONTROL 2
 
-typedef enum { 
+typedef enum {
     /* 0 */ LIGHT_MODE_TIME, // environment lights use `lightConfig` and change based on time of day
     /* 1 */ LIGHT_MODE_SETTINGS // environment lights use `lightSetting`
 } LightMode;
@@ -76,7 +76,7 @@ typedef enum {
 
 typedef enum {
     /* 0 */ PRECIP_RAIN_MAX, // max number of raindrops that can draw; uses this or SOS_MAX, whichever is larger
-    /* 1 */ PRECIP_RAIN_CUR, // current number of rain drops being drawn on screen 
+    /* 1 */ PRECIP_RAIN_CUR, // current number of rain drops being drawn on screen
     /* 2 */ PRECIP_SNOW_CUR, // current number of snowflakes being drawn on screen
     /* 3 */ PRECIP_SNOW_MAX, // max number of snowflakes that can draw
     /* 4 */ PRECIP_SOS_MAX, // max number of rain drops requested from song of storms specifically
