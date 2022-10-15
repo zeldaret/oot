@@ -63,12 +63,12 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
     thisx->params &= 0xFF;
 
     if (thisx->params == 2) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK3);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
         thisx->flags |= ACTOR_FLAG_4;
         CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
-        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
         if (thisx->params == 0) {
             CollisionHeader_GetVirtual(&object_haka_objects_Col_009168, &colHeader);

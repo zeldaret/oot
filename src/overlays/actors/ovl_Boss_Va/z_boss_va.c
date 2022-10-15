@@ -957,7 +957,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 play->envCtx.lightSettingOverride = 1;
                 func_8002DF54(play, &this->actor, 8);
             } else if (this->timer >= 35000) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
 
             this->timer += this->unk_1F2;
@@ -1512,7 +1512,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
 void BossVa_SetupBodyDeath(BossVa* this, PlayState* play) {
     func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG, 1.0f);
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     this->vaCamRotMod = 0xC31;
     sCsState = DEATH_START;
     this->actor.speedXZ = 0.0f;
@@ -1597,7 +1597,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
             break;
         case DEATH_CORE_BURST:
             if (this->timer == 13) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
             }
 
             this->timer--;
@@ -1758,7 +1758,7 @@ void BossVa_SetupSupportCut(BossVa* this, PlayState* play) {
     sFightPhase++;
     Actor_Spawn(&play->actorCtx, play, ACTOR_BOSS_VA, this->armTip.x, this->armTip.y + 20.0f, this->armTip.z, 0,
                 this->actor.shape.rot.y, 0, stumpParams);
-    Camera_AddQuake(&play->mainCamera, 2, 11, 8);
+    Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
     this->burst = false;
     this->timer2 = 0;
     BossVa_SetupAction(this, BossVa_SupportCut);

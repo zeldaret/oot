@@ -6,7 +6,7 @@
 #define REGS_PER_PAGE 16
 #define REGS_PER_GROUP (REG_PAGES * REGS_PER_PAGE)
 
-#define BASE_REG(n, r) gGameInfo->data[(n) * REGS_PER_GROUP + (r)]
+#define BASE_REG(n, r) gRegEditor->data[(n) * REGS_PER_GROUP + (r)]
 
 #define  REG(r) BASE_REG(0, (r))
 #define SREG(r) BASE_REG(1, (r))
@@ -106,6 +106,8 @@
 #define R_TRANS_DBG_TYPE                         CREG(12)
 #define R_ENV_WIND_DIR(i)                        CREG(16 + (i))
 #define R_ENV_WIND_SPEED                         CREG(19)
+#define R_PAUSE_STICK_REPEAT_DELAY               XREG(6)
+#define R_PAUSE_STICK_REPEAT_DELAY_FIRST         XREG(8)
 #define R_A_BTN_Y                                XREG(16)
 #define R_A_BTN_X                                XREG(17)
 #define R_A_ICON_Y                               XREG(19)
@@ -171,6 +173,9 @@
 #define R_ITEM_AMMO_Y(i)                         VREG(68 + (i))
 #define R_ITEM_ICON_WIDTH(i)                     VREG(76 + (i))
 #define R_ITEM_BTN_WIDTH(i)                      VREG(80 + (i))
+#define R_GAME_OVER_RUMBLE_STRENGTH              VREG(90)
+#define R_GAME_OVER_RUMBLE_DURATION              VREG(91)
+#define R_GAME_OVER_RUMBLE_DECREASE_RATE         VREG(92)
 #define R_DISABLE_INPUT_DISPLAY                  HREG(47)
 #define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_EN_GOROIWA_SPEED                       mREG(12)

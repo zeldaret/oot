@@ -165,7 +165,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
     } else if (play->sceneId == SCENE_SPOT20) {
-        if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {
+        if (!Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             Actor_Kill(&this->actor);
             return;
         }

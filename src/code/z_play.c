@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 #include "vt.h"
 
 void* D_8012D1F0 = NULL;
@@ -175,7 +176,7 @@ void Play_Destroy(GameState* thisx) {
     Player* player = GET_PLAYER(this);
 
     this->state.gfxCtx->callback = NULL;
-    this->state.gfxCtx->callbackParam = 0;
+    this->state.gfxCtx->callbackParam = NULL;
 
     SREG(91) = 0;
     R_PAUSE_MENU_MODE = 0;
@@ -256,7 +257,7 @@ void Play_Init(GameState* thisx) {
     this->activeCamId = CAM_ID_MAIN;
     func_8005AC48(&this->mainCamera, 0xFF);
     Sram_Init(this, &this->sramCtx);
-    func_80112098(this);
+    Regs_InitData(this);
     Message_Init(this);
     GameOver_Init(this);
     SfxSource_InitAll(this);
@@ -852,7 +853,7 @@ void Play_Update(PlayState* this) {
                 PLAY_LOG(3580);
 
                 this->gameplayFrames++;
-                func_800AA178(1);
+                Rumble_SetUpdateEnabled(true);
 
                 if (this->actorCtx.freezeFlashTimer && (this->actorCtx.freezeFlashTimer-- < 5)) {
                     osSyncPrintf("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
@@ -902,7 +903,7 @@ void Play_Update(PlayState* this) {
                     PLAY_LOG(3662);
                 }
             } else {
-                func_800AA178(0);
+                Rumble_SetUpdateEnabled(false);
             }
 
             PLAY_LOG(3672);
@@ -1176,11 +1177,11 @@ void Play_Draw(PlayState* this) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
-                        Vec3f sp74;
+                        Vec3f quakeOffset;
 
-                        Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(this));
-                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + sp74.x,
-                                        this->view.eye.y + sp74.y, this->view.eye.z + sp74.z);
+                        Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
+                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
+                                        this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
                     }
                 }
 

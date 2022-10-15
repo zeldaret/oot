@@ -6,8 +6,8 @@
 #include "command_macros_base.h"
 
 typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
+    /* 0x00 */ uintptr_t vromStart;
+    /* 0x04 */ uintptr_t vromEnd;
 } RomFile; // size = 0x8
 
 typedef struct {

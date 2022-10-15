@@ -20,9 +20,9 @@ void GameOver_Update(PlayState* play) {
     GameOverContext* gameOverCtx = &play->gameOverCtx;
     s16 i;
     s16 j;
-    s32 v90;
-    s32 v91;
-    s32 v92;
+    s32 rumbleStrength;
+    s32 rumbleDuration;
+    s32 rumbleDecreaseRate;
 
     switch (gameOverCtx->state) {
         case GAMEOVER_DEATH_START:
@@ -74,13 +74,15 @@ void GameOver_Update(PlayState* play) {
 
             Environment_InitGameOverLights(play);
             gGameOverTimer = 20;
-            if (1) {}
-            v90 = VREG(90);
-            v91 = VREG(91);
-            v92 = VREG(92);
 
-            func_800AA000(0.0f, ((v90 > 0x64) ? 0xFF : (v90 * 0xFF) / 0x64), (CLAMP_MAX(v91 * 3, 0xFF)),
-                          ((v92 > 0x64) ? 0xFF : (v92 * 0xFF) / 0x64));
+            if (1) {}
+            rumbleStrength = R_GAME_OVER_RUMBLE_STRENGTH;
+            rumbleDuration = R_GAME_OVER_RUMBLE_DURATION;
+            rumbleDecreaseRate = R_GAME_OVER_RUMBLE_DECREASE_RATE;
+
+            Rumble_Request(0.0f, ((rumbleStrength > 100) ? 255 : (rumbleStrength * 255) / 100),
+                           (CLAMP_MAX(rumbleDuration * 3, 255)),
+                           ((rumbleDecreaseRate > 100) ? 255 : (rumbleDecreaseRate * 255) / 100));
 
             gameOverCtx->state = GAMEOVER_DEATH_WAIT_GROUND;
             break;
@@ -94,7 +96,7 @@ void GameOver_Update(PlayState* play) {
             if (gGameOverTimer == 0) {
                 play->pauseCtx.state = 8;
                 gameOverCtx->state++;
-                func_800AA15C();
+                Rumble_Reset();
             }
             break;
 
@@ -108,14 +110,15 @@ void GameOver_Update(PlayState* play) {
         case GAMEOVER_REVIVE_RUMBLE:
             gGameOverTimer = 50;
             gameOverCtx->state++;
+
             if (1) {}
+            rumbleStrength = R_GAME_OVER_RUMBLE_STRENGTH;
+            rumbleDuration = R_GAME_OVER_RUMBLE_DURATION;
+            rumbleDecreaseRate = R_GAME_OVER_RUMBLE_DECREASE_RATE;
 
-            v90 = VREG(90);
-            v91 = VREG(91);
-            v92 = VREG(92);
-
-            func_800AA000(0.0f, ((v90 > 0x64) ? 0xFF : (v90 * 0xFF) / 0x64), (CLAMP_MAX(v91 * 3, 0xFF)),
-                          ((v92 > 0x64) ? 0xFF : (v92 * 0xFF) / 0x64));
+            Rumble_Request(0.0f, ((rumbleStrength > 100) ? 255 : (rumbleStrength * 255) / 100),
+                           (CLAMP_MAX(rumbleDuration * 3, 255)),
+                           ((rumbleDecreaseRate > 100) ? 255 : (rumbleDecreaseRate * 255) / 100));
             break;
 
         case GAMEOVER_REVIVE_WAIT_GROUND:
