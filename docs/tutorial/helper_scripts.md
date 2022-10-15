@@ -160,15 +160,15 @@ on the address from the `D_address` containing the cutscene data.
 
 ## regconvert
 
-This converts the direct memory references, of the form `gGameInfo->data[index]` or `gGameInfo + 0x<offset>`, into the corresponding REG macros defined in [regs.h](../include/regs.h). Run
+This converts the direct memory references, of the form `gRegEditor->data[index]` or `gRegEditor + 0x<offset>`, into the corresponding REG macros defined in [regs.h](../include/regs.h). Run
 ```sh
 ./tools/regconvert.py <index>
 ```
-if you have it in the form `gGameInfo->data[index]`, or
+if you have it in the form `gRegEditor->data[index]`, or
 ```sh
 ./tools/regconvert.py --offset <offset>
 ```
-if you have it in the form `gGameInfo + 0x<offset>`. You can also run it on a whole file using `--file <path/to/file>`.
+if you have it in the form `gRegEditor + 0x<offset>`. You can also run it on a whole file using `--file <path/to/file>`.
 
 ## assist
 

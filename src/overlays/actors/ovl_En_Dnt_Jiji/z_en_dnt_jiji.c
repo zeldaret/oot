@@ -358,7 +358,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
             if ((this->stage->actor.update != NULL) && (this->stage->leaderSignal == DNT_SIGNAL_NONE)) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
                 this->stage->action = DNT_ACTION_ATTACK;
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
             }
         }
         this->actor.speedXZ = 0.0f;

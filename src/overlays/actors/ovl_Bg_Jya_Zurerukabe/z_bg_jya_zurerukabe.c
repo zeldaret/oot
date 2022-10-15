@@ -110,7 +110,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     BgJyaZurerukabe* this = (BgJyaZurerukabe*)thisx;
     s32 i;
 
-    BgJyaZurerukabe_InitDynaPoly(this, play, &gZurerukabeCol, DPM_UNK);
+    BgJyaZurerukabe_InitDynaPoly(this, play, &gZurerukabeCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
 
     for (i = 0; i < ARRAY_COUNT(D_8089B9F0); i++) {

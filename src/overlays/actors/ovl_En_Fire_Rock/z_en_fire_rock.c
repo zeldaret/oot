@@ -198,7 +198,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
         switch (this->type) {
             case FIRE_ROCK_SPAWNED_FALLING1:
             case FIRE_ROCK_SPAWNED_FALLING2:
-                func_80033E88(&this->actor, play, 5, 2);
+                Actor_RequestQuakeAndRumble(&this->actor, play, 5, 2);
                 FALLTHROUGH;
             case FIRE_ROCK_BROKEN_PIECE1:
                 Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,

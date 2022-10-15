@@ -312,7 +312,7 @@ static s16 sDungeonEntrances[] = {
  *  - If health is less than 3 hearts, give 3 hearts
  *  - If either scarecrow song is set, copy them from save context to the proper location
  *  - Handle a case where the player saved and quit after zelda cutscene but didnt get the song
- *  - Give and equip master sword if player is adult and doesnt have kokiri sword (bug?)
+ *  - Give and equip master sword if player is adult and doesn't have master sword
  *  - Revert any trade items that spoil
  */
 void Sram_OpenSave(SramContext* sramCtx) {

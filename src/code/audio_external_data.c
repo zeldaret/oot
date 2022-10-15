@@ -52,10 +52,10 @@ u8 D_801333F8 = 0;
 
 s32 D_801333FC = 0; // unused
 
-u8 gSeqCmdWrPos = 0;
-u8 gSeqCmdRdPos = 0;
-u8 D_80133408 = 0;
-u8 D_8013340C = 1;
+u8 gSeqCmdWritePos = 0;
+u8 gSeqCmdReadPos = 0;
+u8 gStartSeqDisabled = false;
+u8 gAudioDebugPrintSeqCmd = true;
 
 u8 gSoundModeList[] = {
     SOUNDMODE_STEREO,

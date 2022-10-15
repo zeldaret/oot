@@ -102,7 +102,7 @@ void BgZg_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

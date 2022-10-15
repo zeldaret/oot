@@ -316,7 +316,7 @@ void EnGirlA_SetupAction(EnGirlA* this, EnGirlAActionFunc func) {
 s32 EnGirlA_TryChangeShopItem(EnGirlA* this) {
     switch (this->actor.params) {
         case SI_MILK_BOTTLE:
-            if (GET_ITEMGETINF(ITEMGETINF_02)) {
+            if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
                 this->actor.params = SI_RECOVERY_HEART;
                 return true;
             }

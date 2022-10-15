@@ -4239,22 +4239,21 @@ s32 WaterBox_GetSurface1(PlayState* play, CollisionContext* colCtx, f32 x, f32 z
 s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                             WaterBox** outWaterBox) {
     CollisionHeader* colHeader = colCtx->colHeader;
-    u32 room;
-    WaterBox* curWaterBox;
+    s32 room;
+    WaterBox* waterBox;
 
     if (colHeader->numWaterBoxes == 0 || colHeader->waterBoxes == SEGMENTED_TO_VIRTUAL(NULL)) {
         return false;
     }
 
-    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
-         curWaterBox++) {
-        room = WATERBOX_ROOM(curWaterBox->properties);
-        if (room == (u32)play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
-            if (!(curWaterBox->properties & WATERBOX_FLAG_19)) {
-                if (curWaterBox->xMin < x && x < curWaterBox->xMin + curWaterBox->xLength) {
-                    if (curWaterBox->zMin < z && z < curWaterBox->zMin + curWaterBox->zLength) {
-                        *outWaterBox = curWaterBox;
-                        *ySurface = curWaterBox->ySurface;
+    for (waterBox = colHeader->waterBoxes; waterBox < colHeader->waterBoxes + colHeader->numWaterBoxes; waterBox++) {
+        room = WATERBOX_ROOM(waterBox->properties);
+        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
+            if (!(waterBox->properties & WATERBOX_FLAG_19)) {
+                if (waterBox->xMin < x && x < waterBox->xMin + waterBox->xLength) {
+                    if (waterBox->zMin < z && z < waterBox->zMin + waterBox->zLength) {
+                        *outWaterBox = waterBox;
+                        *ySurface = waterBox->ySurface;
                         return true;
                     }
                 }
@@ -4287,21 +4286,18 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
         waterBox = &colHeader->waterBoxes[i];
 
         room = WATERBOX_ROOM(waterBox->properties);
-        if (!(room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL)) {
-            continue;
-        }
-        if (waterBox->properties & WATERBOX_FLAG_19) {
-            continue;
-        }
-        if (!(waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength)) {
-            continue;
-        }
-        if (!(waterBox->zMin < pos->z && pos->z < waterBox->zMin + waterBox->zLength)) {
-            continue;
-        }
-        if (pos->y - surfaceChkDist < waterBox->ySurface && waterBox->ySurface < pos->y + surfaceChkDist) {
-            *outWaterBox = waterBox;
-            return i;
+        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
+            if (!(waterBox->properties & WATERBOX_FLAG_19)) {
+                if (waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength) {
+                    if (waterBox->zMin < pos->z && pos->z < waterBox->zMin + waterBox->zLength) {
+                        if (pos->y - surfaceChkDist < waterBox->ySurface &&
+                            waterBox->ySurface < pos->y + surfaceChkDist) {
+                            *outWaterBox = waterBox;
+                            return i;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -4349,22 +4345,21 @@ u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox) {
  */
 s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox) {
     CollisionHeader* colHeader = colCtx->colHeader;
-    u32 room;
-    WaterBox* curWaterBox;
+    s32 room;
+    WaterBox* waterBox;
 
     if (colHeader->numWaterBoxes == 0 || colHeader->waterBoxes == SEGMENTED_TO_VIRTUAL(NULL)) {
         return false;
     }
 
-    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
-         curWaterBox++) {
-        room = WATERBOX_ROOM(curWaterBox->properties);
-        if ((room == (u32)play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
-            if (curWaterBox->properties & WATERBOX_FLAG_19) {
-                if (curWaterBox->xMin < x && x < (curWaterBox->xMin + curWaterBox->xLength)) {
-                    if (curWaterBox->zMin < z && z < (curWaterBox->zMin + curWaterBox->zLength)) {
-                        *outWaterBox = curWaterBox;
-                        *ySurface = curWaterBox->ySurface;
+    for (waterBox = colHeader->waterBoxes; waterBox < colHeader->waterBoxes + colHeader->numWaterBoxes; waterBox++) {
+        room = WATERBOX_ROOM(waterBox->properties);
+        if ((room == play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
+            if (waterBox->properties & WATERBOX_FLAG_19) {
+                if (waterBox->xMin < x && x < (waterBox->xMin + waterBox->xLength)) {
+                    if (waterBox->zMin < z && z < (waterBox->zMin + waterBox->zLength)) {
+                        *outWaterBox = waterBox;
+                        *ySurface = waterBox->ySurface;
                         return true;
                     }
                 }

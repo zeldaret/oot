@@ -340,7 +340,7 @@ void func_80ACA76C(EnOwl* this, PlayState* play) {
     func_8002DF54(play, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, play);
         this->actor.flags &= ~ACTOR_FLAG_16;
     }
@@ -350,7 +350,7 @@ void func_80ACA7E0(EnOwl* this, PlayState* play) {
     func_8002DF54(play, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, play);
         } else {
@@ -550,7 +550,7 @@ void func_80ACB03C(EnOwl* this, PlayState* play) {
     func_8002DF54(play, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, play);
         this->actor.flags &= ~ACTOR_FLAG_16;
     }
@@ -579,7 +579,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, PlayState* play) {
 
 void func_80ACB148(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(play, 0x23);
@@ -600,7 +600,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, PlayState* play) {
 
 void func_80ACB22C(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
@@ -608,7 +608,7 @@ void func_80ACB22C(EnOwl* this, PlayState* play) {
 
 void func_80ACB274(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }

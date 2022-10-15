@@ -7,8 +7,9 @@
 
 #define TATUMS_PER_BEAT 48
 
-#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.sequenceChannelNone)
+#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioCtx.sequenceChannelNone)
 #define SEQ_NUM_CHANNELS 16
+#define SEQ_IO_VAL_NONE -1
 
 #define MAX_CHANNELS_PER_BANK 3
 
@@ -606,7 +607,7 @@ typedef struct {
 /**
  * The high-level audio specifications requested when initializing or resetting the audio heap.
  * The audio heap can be reset on various occasions, including on most scene transitions.
- */ 
+ */
 typedef struct {
     /* 0x00 */ u32 samplingFrequency; // Target sampling rate in Hz
     /* 0x04 */ u8 unk_04;
@@ -908,7 +909,7 @@ typedef struct {
     /* 0x2990 */ AudioAllocPool sessionPool; // A sub-pool to main pool, contains all sub-pools and data that changes every audio reset
     /* 0x29A0 */ AudioAllocPool externalPool; // pool allocated externally to the audio heap. Never used in game
     /* 0x29B0 */ AudioAllocPool initPool;// A sub-pool to the main pool, contains all sub-pools and data that persists every audio reset
-    /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool. 
+    /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool.
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
     /* 0x29F0 */ AudioAllocPool cachePool; // The common pool for cache entries
     /* 0x2A00 */ AudioAllocPool persistentCommonPool; // A sub-pool to the cache pool, contains caches for data stored persistently
@@ -974,44 +975,5 @@ typedef struct {
     /* 0x04 */ u32 initPoolSize; // The entire audio heap is split into two pools.
     /* 0x08 */ u32 permanentPoolSize;
 } AudioHeapInitSizes; // size = 0xC
-
-typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ u16 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ u16 unk_1C;
-} unk_50_s; // size = 0x20
-
-typedef struct {
-    /* 0x000 */ f32 volCur;
-    /* 0x004 */ f32 volTarget;
-    /* 0x008 */ f32 unk_08;
-    /* 0x00C */ u16 unk_0C;
-    /* 0x00E */ u8 volScales[0x4];
-    /* 0x012 */ u8 volFadeTimer;
-    /* 0x013 */ u8 fadeVolUpdate;
-    /* 0x014 */ u32 unk_14;
-    /* 0x018 */ u16 unk_18;
-    /* 0x01C */ f32 unk_1C;
-    /* 0x020 */ f32 unk_20;
-    /* 0x024 */ f32 unk_24;
-    /* 0x028 */ u16 unk_28;
-    /* 0x02C */ u32 unk_2C[8];
-    /* 0x04C */ u8 unk_4C;
-    /* 0x04D */ u8 unk_4D;
-    /* 0x04E */ u8 unk_4E;
-    /* 0x050 */ unk_50_s unk_50[0x10];
-    /* 0x250 */ u16 unk_250;
-    /* 0x252 */ u16 unk_252;
-    /* 0x254 */ u16 unk_254;
-    /* 0x256 */ u16 unk_256;
-    /* 0x258 */ u16 unk_258;
-    /* 0x25C */ u32 unk_25C;
-    /* 0x260 */ u8 unk_260;
-} unk_D_8016E750; // size = 0x264
 
 #endif

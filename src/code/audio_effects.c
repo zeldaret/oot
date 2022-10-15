@@ -124,7 +124,7 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
         return 1.0f;
     }
 
-    //! @bug this probably meant to compare with gAudioContext.sequenceChannelNone.
+    //! @bug this probably meant to compare with gAudioCtx.sequenceChannelNone.
     //! -1 isn't used as a channel pointer anywhere else.
     if (channel != ((SequenceChannel*)(-1))) {
         if (vib->extentChangeTimer) {
@@ -264,7 +264,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                     break;
 
                 default:
-                    adsr->delay *= gAudioContext.audioBufferParameters.updatesPerFrameScaled;
+                    adsr->delay *= gAudioCtx.audioBufferParameters.updatesPerFrameScaled;
                     if (adsr->delay == 0) {
                         adsr->delay = 1;
                     }
