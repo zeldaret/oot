@@ -200,7 +200,7 @@ void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
 
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_12);
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_IGNORE_QUAKE);
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     this->actionFunc = EnEiyer_AppearFromGround;
@@ -231,7 +231,7 @@ void EnEiyer_SetupAmbush(EnEiyer* this, PlayState* play) {
     this->collider.info.bumper.dmgFlags = DMG_DEFAULT;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags |= ACTOR_FLAG_12;
+    this->actor.flags |= ACTOR_FLAG_IGNORE_QUAKE;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.shape.shadowScale = 65.0f;
     this->actor.shape.yOffset = 600.0f;

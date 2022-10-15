@@ -7,7 +7,7 @@
  *    - Argument 3: Spawn number for this entrance
  *    - Argument 4: Toggle if bgm should continue during the transition using this entrance (true or false)
  *                  NOTE: For non-cutscene layers, this field is only read from the `SCENE_LAYER_CHILD_DAY` layer.
- *                  Meaning, the setting only matters for the first entry within a group of layers and that 
+ *                  Meaning, the setting only matters for the first entry within a group of layers and that
  *                  setting will apply to the other 3 non-cutscene layers.
  *    - Argument 5: Toggle if a title card should display when using this entrance (true or false)
  *    - Argument 6: Transition type when entering using this entrance (second half of a scene transition)

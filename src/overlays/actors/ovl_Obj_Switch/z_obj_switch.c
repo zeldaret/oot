@@ -287,7 +287,7 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     type = (this->dyna.actor.params & 7);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DPM_PLAYER);
+        ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DYNA_TRANSFORM_POS);
     }
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

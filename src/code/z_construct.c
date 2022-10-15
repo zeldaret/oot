@@ -191,7 +191,7 @@ void Message_Init(PlayState* play) {
     YREG(31) = 0;
 }
 
-void func_80111070(void) {
+void Regs_InitDataImpl(void) {
     YREG(8) = 10;
     YREG(14) = 0;
     R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
@@ -345,9 +345,9 @@ void func_80111070(void) {
     XREG(3) = -4;
     XREG(4) = 3;
     XREG(5) = 0;
-    XREG(6) = 2;
+    R_PAUSE_STICK_REPEAT_DELAY = 2;
     XREG(7) = 30;
-    XREG(8) = 10;
+    R_PAUSE_STICK_REPEAT_DELAY_FIRST = 10;
     XREG(9) = 0;
     XREG(10) = -9550;
     XREG(11) = 9950;
@@ -602,6 +602,6 @@ void func_80111070(void) {
     R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
-void func_80112098(PlayState* play) {
-    func_80111070();
+void Regs_InitData(PlayState* play) {
+    Regs_InitDataImpl();
 }
