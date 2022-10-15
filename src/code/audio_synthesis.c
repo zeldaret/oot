@@ -61,7 +61,7 @@ u8 sNumSamplesPerWavePeriod[] = {
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
     s32 pad[3];
-    SynthesisReverb* reverb = &gAudioContext.synthesisReverbs[reverbIndex];
+    SynthesisReverb* reverb = &gAudioCtx.synthesisReverbs[reverbIndex];
     s32 temp_a0_2;
     s32 temp_a0_4;
     s32 numSamples;
@@ -135,10 +135,10 @@ void func_800DB03C(s32 updateIndex) {
     s32 baseIndex;
     s32 i;
 
-    baseIndex = gAudioContext.numNotes * updateIndex;
-    for (i = 0; i < gAudioContext.numNotes; i++) {
-        subEu = &gAudioContext.notes[i].noteSubEu;
-        subEu2 = &gAudioContext.noteSubsEu[baseIndex + i];
+    baseIndex = gAudioCtx.numNotes * updateIndex;
+    for (i = 0; i < gAudioCtx.numNotes; i++) {
+        subEu = &gAudioCtx.notes[i].noteSubEu;
+        subEu2 = &gAudioCtx.noteSubsEu[baseIndex + i];
         if (subEu->bitField0.enabled) {
             subEu->bitField0.needsInit = false;
         } else {
@@ -158,42 +158,41 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     SynthesisReverb* reverb;
 
     cmdP = cmdStart;
-    for (i = gAudioContext.audioBufferParameters.updatesPerFrame; i > 0; i--) {
+    for (i = gAudioCtx.audioBufferParameters.updatesPerFrame; i > 0; i--) {
         AudioSeq_ProcessSequences(i - 1);
-        func_800DB03C(gAudioContext.audioBufferParameters.updatesPerFrame - i);
+        func_800DB03C(gAudioCtx.audioBufferParameters.updatesPerFrame - i);
     }
 
     aiBufP = aiStart;
-    gAudioContext.curLoadedBook = NULL;
+    gAudioCtx.curLoadedBook = NULL;
 
-    for (i = gAudioContext.audioBufferParameters.updatesPerFrame; i > 0; i--) {
+    for (i = gAudioCtx.audioBufferParameters.updatesPerFrame; i > 0; i--) {
         if (i == 1) {
             chunkLen = aiBufLen;
-        } else if ((aiBufLen / i) >= gAudioContext.audioBufferParameters.samplesPerUpdateMax) {
-            chunkLen = gAudioContext.audioBufferParameters.samplesPerUpdateMax;
-        } else if (gAudioContext.audioBufferParameters.samplesPerUpdateMin >= (aiBufLen / i)) {
-            chunkLen = gAudioContext.audioBufferParameters.samplesPerUpdateMin;
+        } else if ((aiBufLen / i) >= gAudioCtx.audioBufferParameters.samplesPerUpdateMax) {
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdateMax;
+        } else if (gAudioCtx.audioBufferParameters.samplesPerUpdateMin >= (aiBufLen / i)) {
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdateMin;
         } else {
-            chunkLen = gAudioContext.audioBufferParameters.samplesPerUpdate;
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdate;
         }
 
-        for (j = 0; j < gAudioContext.numSynthesisReverbs; j++) {
-            if (gAudioContext.synthesisReverbs[j].useReverb) {
-                AudioSynth_InitNextRingBuf(chunkLen, gAudioContext.audioBufferParameters.updatesPerFrame - i, j);
+        for (j = 0; j < gAudioCtx.numSynthesisReverbs; j++) {
+            if (gAudioCtx.synthesisReverbs[j].useReverb) {
+                AudioSynth_InitNextRingBuf(chunkLen, gAudioCtx.audioBufferParameters.updatesPerFrame - i, j);
             }
         }
 
-        cmdP = AudioSynth_DoOneAudioUpdate(aiBufP, chunkLen, cmdP,
-                                           gAudioContext.audioBufferParameters.updatesPerFrame - i);
+        cmdP = AudioSynth_DoOneAudioUpdate(aiBufP, chunkLen, cmdP, gAudioCtx.audioBufferParameters.updatesPerFrame - i);
         aiBufLen -= chunkLen;
         aiBufP += 2 * chunkLen;
     }
 
-    for (j = 0; j < gAudioContext.numSynthesisReverbs; j++) {
-        if (gAudioContext.synthesisReverbs[j].framesToIgnore != 0) {
-            gAudioContext.synthesisReverbs[j].framesToIgnore--;
+    for (j = 0; j < gAudioCtx.numSynthesisReverbs; j++) {
+        if (gAudioCtx.synthesisReverbs[j].framesToIgnore != 0) {
+            gAudioCtx.synthesisReverbs[j].framesToIgnore--;
         }
-        gAudioContext.synthesisReverbs[j].curFrame ^= 1;
+        gAudioCtx.synthesisReverbs[j].curFrame ^= 1;
     }
 
     *cmdCnt = cmdP - cmdStart;
@@ -204,8 +203,8 @@ void func_800DB2C0(s32 updateIndex, s32 noteIndex) {
     NoteSubEu* noteSubEu;
     s32 i;
 
-    for (i = updateIndex + 1; i < gAudioContext.audioBufferParameters.updatesPerFrame; i++) {
-        noteSubEu = &gAudioContext.noteSubsEu[(gAudioContext.numNotes * i) + noteIndex];
+    for (i = updateIndex + 1; i < gAudioCtx.audioBufferParameters.updatesPerFrame; i++) {
+        noteSubEu = &gAudioCtx.noteSubsEu[(gAudioCtx.numNotes * i) + noteIndex];
         if (!noteSubEu->bitField0.needsInit) {
             noteSubEu->bitField0.enabled = false;
         } else {
@@ -332,7 +331,7 @@ Acmd* AudioSynth_FilterReverb(Acmd* cmd, s32 size, SynthesisReverb* reverb) {
 Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 updateIndex) {
     SynthesisReverb* temp_a3;
 
-    temp_a3 = &gAudioContext.synthesisReverbs[reverb->unk_05];
+    temp_a3 = &gAudioCtx.synthesisReverbs[reverb->unk_05];
     if (temp_a3->downsampleRate == 1) {
         cmd = AudioSynth_LoadRingBuffer1AtTemp(cmd, temp_a3, updateIndex);
         aMix(cmd++, DMEM_2CH_SIZE >> 4, reverb->unk_08, DMEM_WET_LEFT_CH, DMEM_WET_TEMP);
@@ -593,27 +592,27 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     NoteSubEu* noteSubEu2;
     s32 unk14;
 
-    t = gAudioContext.numNotes * updateIndex;
+    t = gAudioCtx.numNotes * updateIndex;
     count = 0;
-    if (gAudioContext.numSynthesisReverbs == 0) {
-        for (i = 0; i < gAudioContext.numNotes; i++) {
-            if (gAudioContext.noteSubsEu[t + i].bitField0.enabled) {
+    if (gAudioCtx.numSynthesisReverbs == 0) {
+        for (i = 0; i < gAudioCtx.numNotes; i++) {
+            if (gAudioCtx.noteSubsEu[t + i].bitField0.enabled) {
                 noteIndices[count++] = i;
             }
         }
     } else {
-        for (reverbIndex = 0; reverbIndex < gAudioContext.numSynthesisReverbs; reverbIndex++) {
-            for (i = 0; i < gAudioContext.numNotes; i++) {
-                noteSubEu = &gAudioContext.noteSubsEu[t + i];
+        for (reverbIndex = 0; reverbIndex < gAudioCtx.numSynthesisReverbs; reverbIndex++) {
+            for (i = 0; i < gAudioCtx.numNotes; i++) {
+                noteSubEu = &gAudioCtx.noteSubsEu[t + i];
                 if (noteSubEu->bitField0.enabled && noteSubEu->bitField1.reverbIndex == reverbIndex) {
                     noteIndices[count++] = i;
                 }
             }
         }
 
-        for (i = 0; i < gAudioContext.numNotes; i++) {
-            noteSubEu = &gAudioContext.noteSubsEu[t + i];
-            if (noteSubEu->bitField0.enabled && noteSubEu->bitField1.reverbIndex >= gAudioContext.numSynthesisReverbs) {
+        for (i = 0; i < gAudioCtx.numNotes; i++) {
+            noteSubEu = &gAudioCtx.noteSubsEu[t + i];
+            if (noteSubEu->bitField0.enabled && noteSubEu->bitField1.reverbIndex >= gAudioCtx.numSynthesisReverbs) {
                 noteIndices[count++] = i;
             }
         }
@@ -622,8 +621,8 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     aClearBuffer(cmd++, DMEM_LEFT_CH, DMEM_2CH_SIZE);
 
     i = 0;
-    for (reverbIndex = 0; reverbIndex < gAudioContext.numSynthesisReverbs; reverbIndex++) {
-        reverb = &gAudioContext.synthesisReverbs[reverbIndex];
+    for (reverbIndex = 0; reverbIndex < gAudioCtx.numSynthesisReverbs; reverbIndex++) {
+        reverb = &gAudioCtx.synthesisReverbs[reverbIndex];
         useReverb = reverb->useReverb;
         if (useReverb) {
 
@@ -660,11 +659,11 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
         }
 
         while (i < count) {
-            noteSubEu2 = &gAudioContext.noteSubsEu[noteIndices[i] + t];
+            noteSubEu2 = &gAudioCtx.noteSubsEu[noteIndices[i] + t];
             if (noteSubEu2->bitField1.reverbIndex == reverbIndex) {
-                cmd = AudioSynth_ProcessNote(noteIndices[i], noteSubEu2,
-                                             &gAudioContext.notes[noteIndices[i]].synthesisState, aiBuf, aiBufLen, cmd,
-                                             updateIndex);
+                cmd =
+                    AudioSynth_ProcessNote(noteIndices[i], noteSubEu2, &gAudioCtx.notes[noteIndices[i]].synthesisState,
+                                           aiBuf, aiBufLen, cmd, updateIndex);
             } else {
                 break;
             }
@@ -689,9 +688,9 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     }
 
     while (i < count) {
-        cmd = AudioSynth_ProcessNote(noteIndices[i], &gAudioContext.noteSubsEu[t + noteIndices[i]],
-                                     &gAudioContext.notes[noteIndices[i]].synthesisState, aiBuf, aiBufLen, cmd,
-                                     updateIndex);
+        cmd =
+            AudioSynth_ProcessNote(noteIndices[i], &gAudioCtx.noteSubsEu[t + noteIndices[i]],
+                                   &gAudioCtx.notes[noteIndices[i]].synthesisState, aiBuf, aiBufLen, cmd, updateIndex);
         i++;
     }
 
@@ -756,7 +755,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
     bookOffset = noteSubEu->bitField1.bookOffset;
     finished = noteSubEu->bitField0.finished;
-    note = &gAudioContext.notes[noteIndex];
+    note = &gAudioCtx.notes[noteIndex];
     flags = A_CONTINUE;
 
     if (noteSubEu->bitField0.needsInit == true) {
@@ -814,24 +813,24 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
             }
 
             if (sample->codec == CODEC_ADPCM || sample->codec == CODEC_SMALL_ADPCM) {
-                if (gAudioContext.curLoadedBook != sample->book->book) {
+                if (gAudioCtx.curLoadedBook != sample->book->book) {
                     u32 nEntries;
 
                     switch (bookOffset) {
                         case 1:
-                            gAudioContext.curLoadedBook = &D_8012FBA8[1];
+                            gAudioCtx.curLoadedBook = &D_8012FBA8[1];
                             break;
                         case 2:
                         case 3:
                         default:
-                            gAudioContext.curLoadedBook = sample->book->book;
+                            gAudioCtx.curLoadedBook = sample->book->book;
                             break;
                     }
                     if (1) {}
                     if (1) {}
                     if (1) {}
                     nEntries = SAMPLES_PER_FRAME * sample->book->order * sample->book->numPredictors;
-                    aLoadADPCM(cmd++, nEntries, gAudioContext.curLoadedBook);
+                    aLoadADPCM(cmd++, nEntries, gAudioCtx.curLoadedBook);
                 }
             }
 

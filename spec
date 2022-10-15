@@ -4124,7 +4124,7 @@ beginseg
     name "object_mori_tex"
     romalign 0x1000
     include "build/assets/objects/object_mori_tex/object_mori_tex.o"
-    number 6
+    number 8
 endseg
 
 beginseg

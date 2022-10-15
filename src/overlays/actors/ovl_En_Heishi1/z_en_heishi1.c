@@ -451,7 +451,7 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
                             // sidehops onto the next screen and prevent getting caught.
                             if (!(player->actor.velocity.y > -3.9f)) {
                                 this->linkDetected = false;
-                                // this 60 unit height check is so the player doesnt get caught when on the upper path
+                                // this 60 unit height check is so the player doesn't get caught when on the upper path
                                 if (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 60.0f) {
                                     func_80078884(NA_SE_SY_FOUND);
                                     // "Discovered!"
