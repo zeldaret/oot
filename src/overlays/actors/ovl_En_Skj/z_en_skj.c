@@ -579,8 +579,8 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
 
     if (!((this->unk_2D3 == 0) || (D_80B01EA0 != 0) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0) {
-            if (this->actor.colChkInfo.damageEffect == 0xF) {
+        switch (this->actor.colChkInfo.damageEffect) {
+            case 0xF:
                 effectPos.x = this->collider.info.bumper.hitPos.x;
                 effectPos.y = this->collider.info.bumper.hitPos.y;
                 effectPos.z = this->collider.info.bumper.hitPos.z;
@@ -612,11 +612,14 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
                 }
                 EnSkj_SetupDie(this);
                 return 1;
-            }
-        } else {
-            this->backflipFlag = 1;
-            EnSkj_Backflip(this);
-            return 1;
+
+            case 0:
+                this->backflipFlag = 1;
+                EnSkj_Backflip(this);
+                return 1;
+
+            default:
+                break;
         }
     }
     return 0;

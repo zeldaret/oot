@@ -1758,7 +1758,7 @@ void BossVa_SetupSupportCut(BossVa* this, PlayState* play) {
     sFightPhase++;
     Actor_Spawn(&play->actorCtx, play, ACTOR_BOSS_VA, this->armTip.x, this->armTip.y + 20.0f, this->armTip.z, 0,
                 this->actor.shape.rot.y, 0, stumpParams);
-    Camera_AddQuake(&play->mainCamera, 2, 11, 8);
+    Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
     this->burst = false;
     this->timer2 = 0;
     BossVa_SetupAction(this, BossVa_SupportCut);

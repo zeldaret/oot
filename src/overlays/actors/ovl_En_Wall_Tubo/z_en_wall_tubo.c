@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wall_tubo.h"
+#include "quake.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
@@ -91,10 +92,10 @@ void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                     this->timer = 60;
                     EffectSsBomb2_SpawnLayered(play, &this->explosionCenter, &effVelocity, &effAccel, 200, 40);
-                    quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
+                    quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
                     Quake_SetSpeed(quakeIndex, 0x7FFF);
-                    Quake_SetQuakeValues(quakeIndex, 100, 0, 0, 0);
-                    Quake_SetCountdown(quakeIndex, 100);
+                    Quake_SetPerturbations(quakeIndex, 100, 0, 0, 0);
+                    Quake_SetDuration(quakeIndex, 100);
                     this->actionFunc = EnWallTubo_SetWallFall;
                     break;
                 }
