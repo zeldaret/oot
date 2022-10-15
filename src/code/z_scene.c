@@ -476,11 +476,11 @@ void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
     Scene_CommandCollisionHeader,          // SCENE_CMD_ID_COLLISION_HEADER
     Scene_CommandRoomList,                 // SCENE_CMD_ID_ROOM_LIST
     Scene_CommandWindSettings,             // SCENE_CMD_ID_WIND_SETTINGS
-    Scene_CommandSpawnList,                // SCENE_CMD_ID_SPAWN_LIST
+    Scene_CommandSpawnList,                // SCENE_CMD_ID_ENTRANCE_LIST
     Scene_CommandSpecialFiles,             // SCENE_CMD_ID_SPECIAL_FILES
     Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOR
     Scene_CommandUndefined9,               // SCENE_CMD_ID_UNDEFINED_9
-    Scene_CommandRoomShape,                // SCENE_CMD_ID_MESH_HEADER
+    Scene_CommandRoomShape,                // SCENE_CMD_ID_ROOM_SHAPE
     Scene_CommandObjectList,               // SCENE_CMD_ID_OBJECT_LIST
     Scene_CommandLightList,                // SCENE_CMD_ID_LIGHT_LIST
     Scene_CommandPathList,                 // SCENE_CMD_ID_PATH_LIST

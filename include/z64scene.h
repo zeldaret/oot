@@ -43,7 +43,7 @@ typedef struct {
 } Spawn;
 
 // TODO: ZAPD Compatibility
-#define EntranceEntry Spawn 
+typedef Spawn EntranceEntry; 
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
@@ -188,7 +188,7 @@ typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  length;
     /* 0x04 */ ActorEntry* data;
-} SCmdActorList;
+} SCmdActorEntryList;
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -346,7 +346,7 @@ typedef struct {
 typedef union {
     SCmdBase              base;
     SCmdPlayerEntryList   playerEntryList;
-    SCmdActorList         actorEntryList;
+    SCmdActorEntryList    actorEntryList;
     SCmdUnused02          unused02;
     SCmdRoomList          roomList;
     SCmdSpawnList         spawnList;
