@@ -1131,7 +1131,7 @@ typedef struct {
     /* 0x01 */ u8 byte1;
     /* 0x02 */ u8 byte2;
     /* 0x03 */ u8 byte3;
-} ElfMessage; // size = 0x4
+} QuestHintCmd; // size = 0x4
 
 typedef struct {
     /* 0x00 */ u8 numActors;
@@ -1193,7 +1193,7 @@ typedef struct PlayState {
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
-    /* 0x11E0C */ ElfMessage* cUpElfMsgs;
+    /* 0x11E0C */ QuestHintCmd* naviQuestHints;
     /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 transitionTrigger; // "fade_direction"
