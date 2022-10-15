@@ -114,10 +114,10 @@ static ColliderQuadInit sQuadInit = {
 typedef enum {
     /* 00 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
     /* 01 */ AM_DMGEFF_NUT,
-    /* 06 */ AM_DMGEFF_STUN = 6, // doesnt include deku nuts
+    /* 06 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
     /* 13 */ AM_DMGEFF_ICE = 13,
     /* 14 */ AM_DMGEFF_MAGIC_FIRE_LIGHT,
-    /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isnt a special case)
+    /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isn't a special case)
 } ArmosDamageEffect;
 
 static DamageTable sDamageTable = {
@@ -246,7 +246,7 @@ void EnAm_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(play, &this->hurtCollider);
     Collider_DestroyCylinder(play, &this->blockCollider);
-    //! @bug Quad collider is not destroyed (though destroy doesnt really do anything anyway)
+    //! @bug Quad collider is not destroyed (though destroy doesn't really do anything anyway)
 }
 
 void EnAm_SpawnEffects(EnAm* this, PlayState* play) {

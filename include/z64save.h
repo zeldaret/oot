@@ -12,7 +12,7 @@ typedef enum {
     /* 0x4 */ MAGIC_STATE_METER_FLASH_2, // Flashes border and draws yellow magic to preview target consumption
     /* 0x5 */ MAGIC_STATE_RESET, // Reset colors and return to idle
     /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
-    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
+    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens.
     /* 0x8 */ MAGIC_STATE_STEP_CAPACITY, // Step `magicCapacity` to full capacity
     /* 0x9 */ MAGIC_STATE_FILL, // Add magic until magicFillTarget is reached.
     /* 0xA */ MAGIC_STATE_ADD // Add requested magic
@@ -257,7 +257,7 @@ typedef enum {
     /* 1 */ SCENE_LAYER_CHILD_NIGHT,
     /* 2 */ SCENE_LAYER_ADULT_DAY,
     /* 3 */ SCENE_LAYER_ADULT_NIGHT,
-    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST 
+    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST
 } SceneLayer;
 
 #define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
@@ -293,11 +293,11 @@ typedef enum {
 #define EVENTCHKINF_10 0x10
 #define EVENTCHKINF_11 0x11
 #define EVENTCHKINF_12 0x12
-#define EVENTCHKINF_13 0x13
-#define EVENTCHKINF_14 0x14
+#define EVENTCHKINF_TALON_WOKEN_IN_CASTLE 0x13
+#define EVENTCHKINF_TALON_RETURNED_FROM_CASTLE 0x14
 #define EVENTCHKINF_15 0x15
 #define EVENTCHKINF_16 0x16
-#define EVENTCHKINF_18 0x18
+#define EVENTCHKINF_EPONA_OBTAINED 0x18
 #define EVENTCHKINF_1B 0x1B
 #define EVENTCHKINF_1C 0x1C
 #define EVENTCHKINF_1D 0x1D
@@ -354,13 +354,13 @@ typedef enum {
 #define EVENTCHKINF_67 0x67
 #define EVENTCHKINF_68 0x68
 #define EVENTCHKINF_69 0x69
-#define EVENTCHKINF_6A 0x6A
+#define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO 0x6A
 
 // 0x6B
-#define EVENTCHKINF_6B_INDEX 6
-#define EVENTCHKINF_6B_SHIFT 11
-#define EVENTCHKINF_6B_MASK (1 << EVENTCHKINF_6B_SHIFT)
-#define EVENTCHKINF_6B ((EVENTCHKINF_6B_INDEX << 4) | EVENTCHKINF_6B_SHIFT)
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX 6
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT 11
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK (1 << EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO ((EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX << 4) | EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
 
 #define EVENTCHKINF_6E 0x6E
 #define EVENTCHKINF_6F 0x6F
@@ -473,7 +473,7 @@ typedef enum {
  * SaveContext.itemGetInf
  */
 
-#define ITEMGETINF_02 0x02
+#define ITEMGETINF_TALON_BOTTLE 0x02
 #define ITEMGETINF_03 0x03
 #define ITEMGETINF_04 0x04
 #define ITEMGETINF_05 0x05
@@ -563,7 +563,7 @@ typedef enum {
 #define INFTABLE_71 0x71
 #define INFTABLE_76 0x76
 #define INFTABLE_77 0x77
-#define INFTABLE_7E 0x7E
+#define INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE 0x7E
 #define INFTABLE_84 0x84
 #define INFTABLE_85 0x85
 #define INFTABLE_8B 0x8B
@@ -709,8 +709,13 @@ typedef enum {
 #define EVENTINF_HORSES_0F_MASK (1 << EVENTINF_HORSES_0F_SHIFT)
 #define EVENTINF_HORSES_05 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_05_SHIFT)
 #define EVENTINF_HORSES_06 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
+// Used in z_en_ta (Talon) to store Cucco game winning status
+// and in z_en_ge1 (Gerudo) to store archery in-progress status
 #define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
+#define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
+// Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
 #define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
+#define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
 
 typedef enum {
     /* 0 */ EVENTINF_HORSES_STATE_0,
