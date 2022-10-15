@@ -323,7 +323,7 @@ void EnTa_SetupAwake(EnTa* this) {
     }
 }
 
-void EnTa_TalkAfterAwakeUp(EnTa* this, PlayState* play) {
+void EnTa_TalkWakingUp2(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         EnTa_SetupAwake(this);
     }
@@ -331,7 +331,7 @@ void EnTa_TalkAfterAwakeUp(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
 }
 
-void EnTa_TalkWakingUp(EnTa* this, PlayState* play) {
+void EnTa_TalkWakingUp1(EnTa* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         EnTa_SetupAwake(this);
         this->blinkTimer = 1;
@@ -341,7 +341,7 @@ void EnTa_TalkWakingUp(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) {
         // Half-open eyes once the textbox reaches its end
         this->eyeIndex = TALON_EYE_INDEX_HALF;
-        EnTa_SetupAction(this, EnTa_TalkAfterAwakeUp, EnTa_AnimRepeatCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWakingUp2, EnTa_AnimRepeatCurrent);
     }
     EnTa_DecreaseShadowSize(this);
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
@@ -351,7 +351,7 @@ void EnTa_WakeUp(EnTa* this, PlayState* play) {
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_BLINK;
 
     if (this->timer == 0) {
-        EnTa_SetupAction(this, EnTa_TalkWakingUp, EnTa_AnimRepeatCurrent);
+        EnTa_SetupAction(this, EnTa_TalkWakingUp1, EnTa_AnimRepeatCurrent);
         this->rapidBlinks = 3;
         this->timer = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
