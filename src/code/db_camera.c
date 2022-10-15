@@ -96,17 +96,19 @@ static DbCamera* sDbCamPtr;
 static s16 D_8016110C;
 static DbCameraAnim sDbCamAnim;
 
-Vec3f* DbCamera_AddVecSph(Vec3f* out, Vec3f* in, VecSph* sph) {
-    Vec3f ret;
-    Vec3f vec;
+Vec3f* DbCamera_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    OLib_VecSphGeoToVec3f(&vec, sph);
+    OLib_VecGeoToVec3f(&b, geo);
 
-    ret.x = in->x + vec.x;
-    ret.y = in->y + vec.y;
-    ret.z = in->z + vec.z;
-    *out = ret;
-    return out;
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
+    return dest;
 }
 
 Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {
@@ -224,25 +226,28 @@ void DbCamera_Vec3SToF2(Vec3s* in, Vec3f* out) {
 }
 
 void func_800B3F94(PosRot* posRot, Vec3f* vec, Vec3s* out) {
-    VecSph sph;
+    VecGeo geo;
     Vec3f tempVec;
-    OLib_Vec3fDiffToVecSphGeo(&sph, &posRot->pos, vec);
-    sph.yaw -= posRot->rot.y;
-    OLib_VecSphGeoToVec3f(&tempVec, &sph);
+
+    OLib_Vec3fDiffToVecGeo(&geo, &posRot->pos, vec);
+    geo.yaw -= posRot->rot.y;
+    OLib_VecGeoToVec3f(&tempVec, &geo);
     DbCamera_Vec3FToS(&tempVec, out);
 }
 
 void func_800B3FF4(PosRot* posRot, Vec3f* vec, Vec3f* out) {
-    VecSph sph;
+    VecGeo geo;
     Vec3f tempVec;
+
     DbCamera_CopyVec3f(vec, &tempVec);
-    OLib_Vec3fToVecSphGeo(&sph, &tempVec);
-    sph.yaw += posRot->rot.y;
-    DbCamera_AddVecSph(out, &posRot->pos, &sph);
+    OLib_Vec3fToVecGeo(&geo, &tempVec);
+    geo.yaw += posRot->rot.y;
+    DbCamera_AddVecGeoToVec3f(out, &posRot->pos, &geo);
 }
 
 void func_800B404C(PosRot* posRot, Vec3s* vec, Vec3f* out) {
     Vec3f tempVec;
+
     DbCamera_Vec3SToF(vec, &tempVec);
     func_800B3FF4(posRot, &tempVec, out);
 }
@@ -318,7 +323,7 @@ s32 func_800B42C0(DbCamera* dbCamera, Camera* cameraPtr) {
 s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
     CutsceneCameraPoint* lookAt = &dbCamera->sub.lookAt[idx];
     CutsceneCameraPoint* position = &dbCamera->sub.position[idx];
-    VecSph sph;
+    VecGeo geo;
     Vec3f at;
 
     if (dbCamera->sub.mode != 1) {
@@ -335,10 +340,10 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
         }
         dbCamera->at = at;
     }
-    sph.pitch = 0x2000;
-    sph.yaw -= 0x7FFF;
-    sph.r = 250.0f;
-    DbCamera_AddVecSph(&dbCamera->eye, &dbCamera->at, &sph);
+    geo.pitch = 0x2000;
+    geo.yaw -= 0x7FFF;
+    geo.r = 250.0f;
+    DbCamera_AddVecGeoToVec3f(&dbCamera->eye, &dbCamera->at, &geo);
     dbCamera->roll = lookAt->cameraRoll;
     dbCamera->rollDegrees = dbCamera->roll * (360.0f / 256.0f);
     dbCamera->fov = lookAt->viewAngle;
@@ -572,9 +577,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     char sp111;
     char sp110;
     f32 temp_f2_2;
-    VecSph sp104;
-    VecSph spFC;
-    VecSph spF4;
+    VecGeo sp104;
+    VecGeo spFC;
+    VecGeo spF4;
     PosRot* temp_s6;
     UNUSED Vec3f* eye;
     UNUSED Vec3f* at;
@@ -588,7 +593,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     Vec3f spB8;
     Vec3f spAC;
     s16 spAA;
-    VecSph spA0;
+    VecGeo spA0;
 
     sp90 = &dbCamera->unk_54;
     temp_s6 = &cam->playerPosRot;
@@ -671,9 +676,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     phi_s0 = sp124;
 
     if (!D_80161144) {
-        OLib_Vec3fDiffToVecSphGeo(&sp104, sp7C, sp80);
+        OLib_Vec3fDiffToVecGeo(&sp104, sp7C, sp80);
     } else {
-        OLib_Vec3fDiffToVecSphGeo(&sp104, sp80, sp7C);
+        OLib_Vec3fDiffToVecGeo(&sp104, sp80, sp7C);
     }
 
     if (dbCamera->unk_44 > 100) {
@@ -709,11 +714,11 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             spFC.r = temp_f2;
             if (!D_80161144) {
                 spFC.yaw = sp104.yaw;
-                DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
                 spFC.yaw = sp104.yaw - 0x7FFF;
-                DbCamera_AddVecSph(sp80, sp80, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xB) {
                 dbCamera->unk_44++;
@@ -737,11 +742,11 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             spFC.r = -temp_f2;
             if (!D_80161144) {
                 spFC.yaw = sp104.yaw;
-                DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
                 spFC.yaw = sp104.yaw - 0x7FFF;
-                DbCamera_AddVecSph(sp80, sp80, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xC) {
                 dbCamera->unk_44++;
@@ -760,10 +765,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
 
         if (dbCamera->unk_40 == 1) {
@@ -778,10 +783,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 2) {
             dbCamera->unk_44++;
@@ -795,9 +800,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.pitch = 0x3FFF;
         spFC.yaw = sp104.yaw;
         if (!D_80161144) {
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 3) {
             dbCamera->unk_44++;
@@ -811,9 +816,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.pitch = -0x3FFF;
         spFC.yaw = sp104.yaw;
         if (!D_80161144) {
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 4) {
             dbCamera->unk_44++;
@@ -828,10 +833,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw + 0x3FFF;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x3FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 5) {
             dbCamera->unk_44++;
@@ -846,10 +851,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw - 0x3FFF;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw + 0x3FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 6) {
             dbCamera->unk_44++;
@@ -873,11 +878,11 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.r = temp_f2;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xB) {
             dbCamera->unk_44++;
@@ -902,11 +907,11 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         spFC.r = -temp_f2;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xC) {
             dbCamera->unk_44++;
@@ -964,18 +969,18 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         if (!D_80161144) {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? pitch : -pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? yaw : -yaw);
-            DbCamera_AddVecSph(sp80, sp7C, &sp104);
+            DbCamera_AddVecGeoToVec3f(sp80, sp7C, &sp104);
             dbCamera->sub.unk_104A.x = -sp104.pitch;
             dbCamera->sub.unk_104A.y = sp104.yaw - 0x7FFF;
         } else {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? -pitch : pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? -yaw : yaw);
-            DbCamera_AddVecSph(sp7C, sp80, &sp104);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp80, &sp104);
             dbCamera->sub.unk_104A.x = sp104.pitch;
             dbCamera->sub.unk_104A.y = sp104.yaw;
         }
 
-        OLib_Vec3fDiffToVecSphGeo(&spF4, sp80, sp7C);
+        OLib_Vec3fDiffToVecGeo(&spF4, sp80, sp7C);
         DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw,
                                         CAM_DEG_TO_BINANG(dbCamera->rollDegrees));
         if (dbCamera->unk_00 == 1) {
@@ -985,7 +990,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 cam->at = *sp7C;
                 spFC = sp104;
                 spFC.r = new_var2;
-                DbCamera_AddVecSph(&cam->eye, &cam->at, &spFC);
+                DbCamera_AddVecGeoToVec3f(&cam->eye, &cam->at, &spFC);
             }
         }
     }
@@ -1370,7 +1375,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(0x1E, 0x19, 2, &sp110);
             } else {
                 if (D_8012CEE0[0]) {}
-                OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp7C);
+                OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp7C);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 func_8006376C(3, 0x16,
                               ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144) ? 7
@@ -1383,7 +1388,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(3, 0x18, 3, D_8012D0F8);
                 DbCamera_SetTextValue(spFC.r, &D_8012D0D4[7], 6);
                 func_8006376C(3, 0x19, 3, D_8012D0D4);
-                OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp80);
+                OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp80);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 func_8006376C(0x1E, 0x16,
                               ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7
@@ -1413,7 +1418,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                         func_800B404C(temp_s6, &(dbCamera->sub.lookAt + i)->pos, &spB8);
                         func_800B404C(temp_s6, &(dbCamera->sub.position + i)->pos, &spAC);
                     }
-                    OLib_Vec3fDiffToVecSphGeo(&spFC, &spAC, &spB8);
+                    OLib_Vec3fDiffToVecGeo(&spFC, &spAC, &spB8);
                     spAA = dbCamera->sub.lookAt[i].cameraRoll * 0xB6;
                     if (i == dbCamera->sub.unkIdx) {
                         DebugDisplay_AddObject(spAC.x, spAC.y, spAC.z, spFC.pitch * -1, spFC.yaw, spAA, .5f, .5f, .5f,
@@ -1481,7 +1486,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         D_8012D110++;
         D_8012D110 %= 50;
 
-        OLib_Vec3fDiffToVecSphGeo(&spA0, &cam->eye, &cam->at);
+        OLib_Vec3fDiffToVecGeo(&spA0, &cam->eye, &cam->at);
         DebugDisplay_AddObject(dbCamera->at.x, dbCamera->at.y + 1.0f, dbCamera->at.z, 0, 0, 0, 0.02f, 2.0f, 0.02f, 0xFF,
                                0xFF, 0x7F, 0x2D, 0, cam->play->view.gfxCtx);
         DebugDisplay_AddObject(dbCamera->at.x, dbCamera->at.y + 1.0f, dbCamera->at.z, 0, 0, 0, 2.0f, 0.02f, 0.02f, 0x7F,
@@ -1492,7 +1497,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                0x7F, 0x7F, 0x80, 5, cam->play->view.gfxCtx);
         DebugDisplay_AddObject(cam->at.x, cam->at.y, cam->at.z, spA0.pitch * -1, spA0.yaw, 0, 1.5f, 2.0f, 1.0f, 0xFF,
                                0x7F, 0x7F, 0x80, 4, cam->play->view.gfxCtx);
-        OLib_Vec3fDiffToVecSphGeo(&spA0, &cam->eyeNext, &cam->at);
+        OLib_Vec3fDiffToVecGeo(&spA0, &cam->eyeNext, &cam->at);
         DebugDisplay_AddObject(cam->eyeNext.x, cam->eyeNext.y, cam->eyeNext.z, spA0.pitch * -1, spA0.yaw, 0, .5f, .5f,
                                .5f, 0xFF, 0xC0, 0x7F, 0x50, 5, cam->play->view.gfxCtx);
     }
@@ -1845,7 +1850,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     s16 idx3;
     char sp74[(ARRAY_COUNT(sDbCameraCuts) - 1 + 4) * 2];
     DbCameraCut sp64;
-    VecSph sp5C;
+    VecGeo sp5C;
     s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback };
 
     func_8006376C(0xE, 5, 0, D_8012CF44); // DEMO CONTROL
@@ -2148,7 +2153,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
-                OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
+                OLib_Vec3fDiffToVecGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
                 DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw,
                                                 CAM_DEG_TO_BINANG(dbCamera->rollDegrees));
                 return 2;

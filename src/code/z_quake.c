@@ -22,11 +22,11 @@ QuakeRequest sQuakeRequests[4];
 s16 sQuakeUnused = 1;
 s16 sQuakeRequestCount = 0;
 
-Vec3f* Quake_VecSphGeoAddToVec3f(Vec3f* dst, Vec3f* a, VecSph* sph) {
+Vec3f* Quake_AddVecGeoToVec3f(Vec3f* dst, Vec3f* a, VecGeo* geo) {
     Vec3f vec;
     Vec3f b;
 
-    OLib_VecSphGeoToVec3f(&b, sph);
+    OLib_VecGeoToVec3f(&b, geo);
     vec.x = a->x + b.x;
     vec.y = a->y + b.y;
     vec.z = a->z + b.z;
@@ -40,38 +40,38 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
     Vec3f* at = &req->cam->at;
     Vec3f* eye = &req->cam->eye;
     Vec3f offset;
-    VecSph sph;
-    VecSph eyeToAtSph;
+    VecGeo geo;
+    VecGeo eyeToAtGeo;
 
     if (req->isRelativeToScreen) {
         offset.x = 0;
         offset.y = 0;
         offset.z = 0;
-        OLib_Vec3fDiffToVecSphGeo(&eyeToAtSph, eye, at);
+        OLib_Vec3fDiffToVecGeo(&eyeToAtGeo, eye, at);
 
         // y shake
-        sph.r = req->y * y;
+        geo.r = req->y * y;
         // point unit vector up, then add on `req->orientation`
-        sph.pitch = eyeToAtSph.pitch + req->orientation.x + 0x4000;
-        sph.yaw = eyeToAtSph.yaw + req->orientation.y;
+        geo.pitch = eyeToAtGeo.pitch + req->orientation.x + 0x4000;
+        geo.yaw = eyeToAtGeo.yaw + req->orientation.y;
         // apply y shake
-        Quake_VecSphGeoAddToVec3f(&offset, &offset, &sph);
+        Quake_AddVecGeoToVec3f(&offset, &offset, &geo);
 
         // x shake
-        sph.r = req->x * x;
+        geo.r = req->x * x;
         // point unit vector left, then add on `req->orientation`
-        sph.pitch = eyeToAtSph.pitch + req->orientation.x;
-        sph.yaw = eyeToAtSph.yaw + req->orientation.y + 0x4000;
+        geo.pitch = eyeToAtGeo.pitch + req->orientation.x;
+        geo.yaw = eyeToAtGeo.yaw + req->orientation.y + 0x4000;
         // apply x shake
-        Quake_VecSphGeoAddToVec3f(&offset, &offset, &sph);
+        Quake_AddVecGeoToVec3f(&offset, &offset, &geo);
     } else {
         offset.x = 0;
         offset.y = req->y * y;
         offset.z = 0;
-        sph.r = req->x * x;
-        sph.pitch = req->orientation.x;
-        sph.yaw = req->orientation.y;
-        Quake_VecSphGeoAddToVec3f(&offset, &offset, &sph);
+        geo.r = req->x * x;
+        geo.pitch = req->orientation.x;
+        geo.yaw = req->orientation.y;
+        Quake_AddVecGeoToVec3f(&offset, &offset, &geo);
     }
 
     shake->atOffset = shake->eyeOffset = offset;
