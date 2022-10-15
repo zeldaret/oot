@@ -1679,7 +1679,7 @@ void DebugArena_Cleanup(void);
 u8 DebugArena_IsInitialized(void);
 void UCodeDisas_Init(UCodeDisas*);
 void UCodeDisas_Destroy(UCodeDisas*);
-// void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
+void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
 void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
 void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
