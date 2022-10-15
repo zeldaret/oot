@@ -1,6 +1,8 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define DBCAM_CONTROLLER_PORT 2
+
 static PlayState* sPlay;
 
 // TODO: cleanup these arrays and UB access
@@ -94,74 +96,69 @@ static DbCamera* sDbCamPtr;
 static s16 D_8016110C;
 static DbCameraAnim sDbCamAnim;
 
-Vec3f* DbCamera_AddVecSph(Vec3f* out, Vec3f* in, VecSph* sph) {
-    Vec3f ret;
-    Vec3f vec;
+Vec3f* DbCamera_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    OLib_VecSphGeoToVec3f(&vec, sph);
+    OLib_VecGeoToVec3f(&b, geo);
 
-    ret.x = in->x + vec.x;
-    ret.y = in->y + vec.y;
-    ret.z = in->z + vec.z;
-    *out = ret;
-    return out;
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
+    return dest;
 }
 
-Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {
-    f32 sinPitch;
-    f32 cosPitch;
-    f32 sinYaw;
-    f32 cosYaw;
-    f32 sinNegRoll;
-    f32 cosNegRoll;
-    Vec3f spA4;
-    f32 sp54;
-    f32 sp4C;
-    f32 cosPitchCosYawSinRoll;
-    f32 negSinPitch;
-    f32 temp_f10_2;
-    f32 cosPitchcosYaw;
-    f32 temp_f14;
-    f32 negSinPitchSinYaw;
-    f32 negSinPitchCosYaw;
-    f32 cosPitchSinYaw;
-    f32 temp_f4_2;
-    f32 temp_f6;
-    f32 temp_f8;
-    f32 temp_f8_2;
-    f32 temp_f8_3;
+/**
+ * Calculates a new Up vector from the pitch, yaw, roll
+ */
+Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16 roll) {
+    f32 sinP = Math_SinS(pitch);
+    f32 cosP = Math_CosS(pitch);
+    f32 sinY = Math_SinS(yaw);
+    f32 cosY = Math_CosS(yaw);
+    f32 sinR = Math_SinS(-roll);
+    f32 cosR = Math_CosS(-roll);
+    Vec3f up;
+    Vec3f baseUp;
+    Vec3f u;
+    Vec3f rollMtxRow1;
+    Vec3f rollMtxRow2;
+    Vec3f rollMtxRow3;
 
-    sinPitch = Math_SinS(pitch);
-    cosPitch = Math_CosS(pitch);
-    sinYaw = Math_SinS(yaw);
-    cosYaw = Math_CosS(yaw);
-    sinNegRoll = Math_SinS(-roll);
-    cosNegRoll = Math_CosS(-roll);
-    negSinPitch = -sinPitch;
-    negSinPitchSinYaw = negSinPitch * sinYaw;
-    negSinPitchCosYaw = negSinPitch * cosYaw;
-    temp_f14 = 1.0f - cosNegRoll;
-    cosPitchSinYaw = cosPitch * sinYaw;
-    sp54 = SQ(cosPitchSinYaw);
-    sp4C = (cosPitchSinYaw * sinPitch) * ((void)0, temp_f14);
-    cosPitchcosYaw = cosPitch * cosYaw;
-    temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
-    cosPitchCosYawSinRoll = cosPitchcosYaw * sinNegRoll;
-    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * ((void)0, temp_f14);
-    temp_f10_2 = sinPitch * sinNegRoll;
-    spA4.x = ((negSinPitchSinYaw * temp_f4_2) + (cosPitch * (sp4C - cosPitchCosYawSinRoll))) +
-             (negSinPitchCosYaw * (temp_f6 + temp_f10_2));
-    sp54 = SQ(sinPitch);
-    temp_f4_2 = (sinPitch * cosPitchcosYaw) * ((void)0, temp_f14);
-    temp_f8_3 = cosPitchSinYaw * sinNegRoll;
-    temp_f8 = sp4C + cosPitchCosYawSinRoll;
-    spA4.y = ((negSinPitchSinYaw * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) +
-             (negSinPitchCosYaw * (temp_f4_2 - temp_f8_3));
-    temp_f8_2 = temp_f6 - temp_f10_2;
-    spA4.z = ((negSinPitchSinYaw * temp_f8_2) + (cosPitch * (temp_f4_2 + temp_f8_3))) +
-             (negSinPitchCosYaw * (((1.0f - SQ(cosPitchcosYaw)) * cosNegRoll) + SQ(cosPitchcosYaw)));
-    *dest = spA4;
-    return dest;
+    // Axis to roll around
+    u.x = cosP * sinY;
+    u.y = sinP;
+    u.z = cosP * cosY;
+
+    // Up without roll
+    baseUp.x = -sinP * sinY;
+    baseUp.y = cosP;
+    baseUp.z = -sinP * cosY;
+
+    // Matrix to apply the roll to the Up vector without roll
+    rollMtxRow1.x = ((1.0f - SQ(u.x)) * cosR) + SQ(u.x);
+    rollMtxRow1.y = ((1.0f - cosR) * (u.x * u.y)) - (u.z * sinR);
+    rollMtxRow1.z = ((1.0f - cosR) * (u.z * u.x)) + (u.y * sinR);
+
+    rollMtxRow2.x = ((1.0f - cosR) * (u.x * u.y)) + (u.z * sinR);
+    rollMtxRow2.y = ((1.0f - SQ(u.y)) * cosR) + SQ(u.y);
+    rollMtxRow2.z = ((1.0f - cosR) * (u.y * u.z)) - (u.x * sinR);
+
+    rollMtxRow3.x = ((1.0f - cosR) * (u.z * u.x)) - (u.y * sinR);
+    rollMtxRow3.y = ((1.0f - cosR) * (u.y * u.z)) + (u.x * sinR);
+    rollMtxRow3.z = ((1.0f - SQ(u.z)) * cosR) + SQ(u.z);
+
+    // rollMtx * baseUp
+    up.x = DOTXYZ(baseUp, rollMtxRow1);
+    up.y = DOTXYZ(baseUp, rollMtxRow2);
+    up.z = DOTXYZ(baseUp, rollMtxRow3);
+
+    *viewUp = up;
+
+    return viewUp;
 }
 
 char* DbCamera_SetTextValue(s16 value, char* str, u8 endIdx) {
@@ -222,25 +219,28 @@ void DbCamera_Vec3SToF2(Vec3s* in, Vec3f* out) {
 }
 
 void func_800B3F94(PosRot* posRot, Vec3f* vec, Vec3s* out) {
-    VecSph sph;
+    VecGeo geo;
     Vec3f tempVec;
-    OLib_Vec3fDiffToVecSphGeo(&sph, &posRot->pos, vec);
-    sph.yaw -= posRot->rot.y;
-    OLib_VecSphGeoToVec3f(&tempVec, &sph);
+
+    OLib_Vec3fDiffToVecGeo(&geo, &posRot->pos, vec);
+    geo.yaw -= posRot->rot.y;
+    OLib_VecGeoToVec3f(&tempVec, &geo);
     DbCamera_Vec3FToS(&tempVec, out);
 }
 
 void func_800B3FF4(PosRot* posRot, Vec3f* vec, Vec3f* out) {
-    VecSph sph;
+    VecGeo geo;
     Vec3f tempVec;
+
     DbCamera_CopyVec3f(vec, &tempVec);
-    OLib_Vec3fToVecSphGeo(&sph, &tempVec);
-    sph.yaw += posRot->rot.y;
-    DbCamera_AddVecSph(out, &posRot->pos, &sph);
+    OLib_Vec3fToVecGeo(&geo, &tempVec);
+    geo.yaw += posRot->rot.y;
+    DbCamera_AddVecGeoToVec3f(out, &posRot->pos, &geo);
 }
 
 void func_800B404C(PosRot* posRot, Vec3s* vec, Vec3f* out) {
     Vec3f tempVec;
+
     DbCamera_Vec3SToF(vec, &tempVec);
     func_800B3FF4(posRot, &tempVec, out);
 }
@@ -316,7 +316,7 @@ s32 func_800B42C0(DbCamera* dbCamera, Camera* cameraPtr) {
 s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
     CutsceneCameraPoint* lookAt = &dbCamera->sub.lookAt[idx];
     CutsceneCameraPoint* position = &dbCamera->sub.position[idx];
-    VecSph sph;
+    VecGeo geo;
     Vec3f at;
 
     if (dbCamera->sub.mode != 1) {
@@ -333,10 +333,10 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
         }
         dbCamera->at = at;
     }
-    sph.pitch = 0x2000;
-    sph.yaw -= 0x7FFF;
-    sph.r = 250.0f;
-    DbCamera_AddVecSph(&dbCamera->eye, &dbCamera->at, &sph);
+    geo.pitch = 0x2000;
+    geo.yaw -= 0x7FFF;
+    geo.r = 250.0f;
+    DbCamera_AddVecGeoToVec3f(&dbCamera->eye, &dbCamera->at, &geo);
     dbCamera->roll = lookAt->cameraRoll;
     dbCamera->rollDegrees = dbCamera->roll * (360.0f / 256.0f);
     dbCamera->fov = lookAt->viewAngle;
@@ -346,7 +346,7 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
 void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
     s32 i;
 
-    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CRIGHT)) {
+    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CRIGHT)) {
         sDbCamAnim.keyframe = 0;
         sDbCamAnim.unk_0A = 1;
         sDbCamAnim.curFrame = 0.0f;
@@ -570,9 +570,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     char sp111;
     char sp110;
     f32 temp_f2_2;
-    VecSph sp104;
-    VecSph spFC;
-    VecSph spF4;
+    VecGeo sp104;
+    VecGeo spFC;
+    VecGeo spF4;
     PosRot* temp_s6;
     UNUSED Vec3f* eye;
     UNUSED Vec3f* at;
@@ -586,7 +586,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     Vec3f spB8;
     Vec3f spAC;
     s16 spAA;
-    VecSph spA0;
+    VecGeo spA0;
 
     sp90 = &dbCamera->unk_54;
     temp_s6 = &cam->playerPosRot;
@@ -597,7 +597,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     sp80 = &dbCamera->eye;
     sp7C = &dbCamera->at;
 
-    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_Z)) {
+    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_Z)) {
         dbCamera->unk_00++;
         dbCamera->unk_00 %= 3;
         dbCamera->unk_38 = 1;
@@ -669,9 +669,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     phi_s0 = sp124;
 
     if (!D_80161144) {
-        OLib_Vec3fDiffToVecSphGeo(&sp104, sp7C, sp80);
+        OLib_Vec3fDiffToVecGeo(&sp104, sp7C, sp80);
     } else {
-        OLib_Vec3fDiffToVecSphGeo(&sp104, sp80, sp7C);
+        OLib_Vec3fDiffToVecGeo(&sp104, sp80, sp7C);
     }
 
     if (dbCamera->unk_44 > 100) {
@@ -688,7 +688,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         }
 
         dbCamera->unk_3C = D_80161140;
-        if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_B | BTN_L)) {
+        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_B | BTN_L)) {
             sp104.r += temp_f2;
 
             if (sp104.r > 30000.0f) {
@@ -702,16 +702,16 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             }
 
             dbCamera->unk_40 = 7;
-        } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_B)) {
+        } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_B)) {
             spFC = sp104;
             spFC.r = temp_f2;
             if (!D_80161144) {
                 spFC.yaw = sp104.yaw;
-                DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
                 spFC.yaw = sp104.yaw - 0x7FFF;
-                DbCamera_AddVecSph(sp80, sp80, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xB) {
                 dbCamera->unk_44++;
@@ -719,7 +719,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 dbCamera->unk_44 = 0;
             }
             dbCamera->unk_40 = 0xB;
-        } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_A | BTN_L)) {
+        } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_A | BTN_L)) {
             sp104.r -= temp_f2;
             if (sp104.r < 10.0f) {
                 sp104.r = 10.0f;
@@ -730,16 +730,16 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 dbCamera->unk_44 = 0;
             }
             dbCamera->unk_40 = 8;
-        } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_A)) {
+        } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_A)) {
             spFC = sp104;
             spFC.r = -temp_f2;
             if (!D_80161144) {
                 spFC.yaw = sp104.yaw;
-                DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
                 spFC.yaw = sp104.yaw - 0x7FFF;
-                DbCamera_AddVecSph(sp80, sp80, &spFC);
+                DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xC) {
                 dbCamera->unk_44++;
@@ -752,16 +752,16 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_40 = -1;
         }
 
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DDOWN | BTN_L)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DDOWN | BTN_L)) {
         spFC = sp104;
         spFC.r = temp_f2;
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
 
         if (dbCamera->unk_40 == 1) {
@@ -770,16 +770,16 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 1;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DUP | BTN_L)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DUP | BTN_L)) {
         spFC = sp104;
         spFC.r = -temp_f2;
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 2) {
             dbCamera->unk_44++;
@@ -787,15 +787,15 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 2;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DUP)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DUP)) {
         spFC = sp104;
         spFC.r = temp_f2;
         spFC.pitch = 0x3FFF;
         spFC.yaw = sp104.yaw;
         if (!D_80161144) {
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 3) {
             dbCamera->unk_44++;
@@ -803,15 +803,15 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 3;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DDOWN)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DDOWN)) {
         spFC = sp104;
         spFC.r = temp_f2;
         spFC.pitch = -0x3FFF;
         spFC.yaw = sp104.yaw;
         if (!D_80161144) {
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 4) {
             dbCamera->unk_44++;
@@ -819,17 +819,17 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 4;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, (BTN_DRIGHT | BTN_L)) ||
-               CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DRIGHT)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, (BTN_DRIGHT | BTN_L)) ||
+               CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DRIGHT)) {
         spFC = sp104;
         spFC.r = temp_f2;
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw + 0x3FFF;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x3FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 5) {
             dbCamera->unk_44++;
@@ -837,17 +837,17 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 5;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, (BTN_DLEFT | BTN_L)) ||
-               CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DLEFT)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, (BTN_DLEFT | BTN_L)) ||
+               CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DLEFT)) {
         spFC = sp104;
         spFC.r = temp_f2;
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw - 0x3FFF;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw + 0x3FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 6) {
             dbCamera->unk_44++;
@@ -855,7 +855,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 6;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_B | BTN_L)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_B | BTN_L)) {
         sp104.r = sp104.r + temp_f2;
         if (sp104.r > 30000.0f) {
             sp104.r = 30000.0f;
@@ -866,16 +866,16 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 7;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_B)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_B)) {
         spFC = sp104;
         spFC.r = temp_f2;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xB) {
             dbCamera->unk_44++;
@@ -883,7 +883,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 0xB;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_A | BTN_L)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_A | BTN_L)) {
 
         sp104.r -= temp_f2;
         if (sp104.r < 10.0f) {
@@ -895,16 +895,16 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_44 = 0;
         }
         dbCamera->unk_40 = 8;
-    } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_A)) {
+    } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_A)) {
         spFC = sp104;
         spFC.r = -temp_f2;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DbCamera_AddVecSph(sp7C, sp7C, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DbCamera_AddVecSph(sp80, sp80, &spFC);
+            DbCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xC) {
             dbCamera->unk_44++;
@@ -917,7 +917,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         dbCamera->unk_40 = -1;
     }
 
-    if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_R)) {
+    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_R)) {
         if (dbCamera->unk_00 == 0) {
             dbCamera->sub.unk_104A = cam->inputDir;
             *sp7C = cam->at;
@@ -932,13 +932,13 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             func_800B41DC(dbCamera, dbCamera->sub.unkIdx, cam);
         } else {
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_R) &&
-                CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_R) &&
+                CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 dbCamera->sub.nPoints = dbCamera->sub.unkIdx + 1;
                 func_800B4088(dbCamera, cam);
-            } else if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_R)) {
+            } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_R)) {
                 if (dbCamera->sub.unkIdx == 0x80) {
                     Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -955,35 +955,35 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             }
         }
     } else {
-        temp_f0_5 = sPlay->state.input[2].rel.stick_y;
-        temp_f2_2 = sPlay->state.input[2].rel.stick_x;
+        temp_f0_5 = sPlay->state.input[DBCAM_CONTROLLER_PORT].rel.stick_y;
+        temp_f2_2 = sPlay->state.input[DBCAM_CONTROLLER_PORT].rel.stick_x;
         pitch = CAM_DEG_TO_BINANG((SQ(temp_f0_5) / 600.0f) * 0.8f);
         yaw = CAM_DEG_TO_BINANG((SQ(temp_f2_2) / 600.0f) * 0.8f);
         if (!D_80161144) {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? pitch : -pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? yaw : -yaw);
-            DbCamera_AddVecSph(sp80, sp7C, &sp104);
+            DbCamera_AddVecGeoToVec3f(sp80, sp7C, &sp104);
             dbCamera->sub.unk_104A.x = -sp104.pitch;
             dbCamera->sub.unk_104A.y = sp104.yaw - 0x7FFF;
         } else {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? -pitch : pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? -yaw : yaw);
-            DbCamera_AddVecSph(sp7C, sp80, &sp104);
+            DbCamera_AddVecGeoToVec3f(sp7C, sp80, &sp104);
             dbCamera->sub.unk_104A.x = sp104.pitch;
             dbCamera->sub.unk_104A.y = sp104.yaw;
         }
 
-        OLib_Vec3fDiffToVecSphGeo(&spF4, sp80, sp7C);
+        OLib_Vec3fDiffToVecGeo(&spF4, sp80, sp7C);
         DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw,
                                         CAM_DEG_TO_BINANG(dbCamera->rollDegrees));
         if (dbCamera->unk_00 == 1) {
-            if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_CRIGHT)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_CRIGHT)) {
                 cam->inputDir = dbCamera->sub.unk_104A;
                 new_var2 = OLib_Vec3fDist(&cam->at, &cam->eye);
                 cam->at = *sp7C;
                 spFC = sp104;
                 spFC.r = new_var2;
-                DbCamera_AddVecSph(&cam->eye, &cam->at, &spFC);
+                DbCamera_AddVecGeoToVec3f(&cam->eye, &cam->at, &spFC);
             }
         }
     }
@@ -991,12 +991,12 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     if (dbCamera->unk_00 == 1) {
         OREG(0) = 8;
         func_8006376C(0xC, 5, 0, D_8012CEF4);
-        if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_CRIGHT) &&
-            !CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_CRIGHT) &&
+            !CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
             func_800B44E0(dbCamera, cam);
         } else {
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CRIGHT) &&
-                CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CRIGHT) &&
+                CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 osSyncPrintf("@@@\n@@@\n@@@/* *** spline point data ** start here *** */\n@@@\n");
@@ -1006,14 +1006,14 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 osSyncPrintf("@@@static short  nFrames = %d;\n@@@\n", dbCamera->sub.nFrames);
                 osSyncPrintf("@@@static short  Mode = %d;\n@@@\n", dbCamera->sub.mode);
                 osSyncPrintf("@@@\n@@@\n@@@/* *** spline point data ** finish! *** */\n@@@\n");
-            } else if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CLEFT)) {
+            } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 dbCamera->sub.unk_08 = (dbCamera->sub.unk_08 + 1) % 3;
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CUP) &&
-                CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CUP) &&
+                CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 Audio_PlaySfxGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (dbCamera->sub.unkIdx > 0) {
@@ -1022,7 +1022,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     dbCamera->sub.unkIdx = dbCamera->sub.nPoints - 1;
                 }
             } else {
-                if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CUP)) {
+                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CUP)) {
                     Audio_PlaySfxGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (dbCamera->sub.unkIdx > 0) {
@@ -1043,8 +1043,8 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     }
                 }
             }
-            if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L) &&
-                CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CDOWN)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L) &&
+                CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CDOWN)) {
                 Audio_PlaySfxGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (dbCamera->sub.unkIdx < (dbCamera->sub.nPoints - 1)) {
@@ -1053,7 +1053,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     dbCamera->sub.unkIdx = 0;
                 }
             } else {
-                if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CDOWN)) {
+                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CDOWN)) {
                     Audio_PlaySfxGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (dbCamera->sub.unkIdx < (dbCamera->sub.nPoints - 1)) {
@@ -1123,7 +1123,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     break;
                 case 1:
                     dbCamera->unk_3C = true;
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DUP)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DUP)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ATTENTION_ON, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         if (dbCamera->sub.unk_0A == 0) {
@@ -1132,7 +1132,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                             dbCamera->sub.unk_0A--;
                         }
                     }
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DDOWN)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DDOWN)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ATTENTION_ON, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         if (dbCamera->sub.unk_0A == 5) {
@@ -1141,12 +1141,12 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                             dbCamera->sub.unk_0A++;
                         }
                     }
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DLEFT)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DLEFT)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ATTENTION_ON, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         switch (dbCamera->sub.unk_0A) {
                             case 1:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].nextPointFrame -= 5;
                                 } else {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].nextPointFrame--;
@@ -1178,7 +1178,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                 dbCamera->sub.unk_0C = false;
                                 break;
                             case 2:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].cameraRoll -= 5;
                                     dbCamera->roll = dbCamera->sub.lookAt[dbCamera->sub.unkIdx].cameraRoll;
                                 } else {
@@ -1190,7 +1190,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                         }
                     }
 
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DLEFT)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DLEFT)) {
                         if ((D_8012D10C++ % 5) == 0) {
                             Audio_PlaySfxGeneral(NA_SE_SY_ATTENTION_ON, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1198,7 +1198,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
 
                         switch (dbCamera->sub.unk_0A) {
                             case 0:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].viewAngle -= 1.0f;
                                     dbCamera->fov = dbCamera->sub.lookAt[dbCamera->sub.unkIdx].viewAngle;
                                 } else {
@@ -1207,7 +1207,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                 }
                                 break;
                             case 5:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.nFrames -= 10;
                                 } else {
                                     dbCamera->sub.nFrames--;
@@ -1229,13 +1229,13 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                         }
                     }
 
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DRIGHT)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DRIGHT)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ATTENTION_ON, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                         switch (dbCamera->sub.unk_0A) {
                             case 1:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].nextPointFrame += 5;
                                 } else {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].nextPointFrame++;
@@ -1267,7 +1267,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                 dbCamera->sub.unk_0C = true;
                                 break;
                             case 2:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].cameraRoll += 5;
                                     dbCamera->roll = dbCamera->sub.lookAt[dbCamera->sub.unkIdx].cameraRoll;
                                 } else {
@@ -1278,7 +1278,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                 break;
                         }
                     }
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_DRIGHT)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_DRIGHT)) {
                         if ((D_8012D10C++ % 5) == 0) {
                             Audio_PlaySfxGeneral(NA_SE_SY_ATTENTION_ON, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1286,7 +1286,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
 
                         switch (dbCamera->sub.unk_0A) {
                             case 0:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.lookAt[dbCamera->sub.unkIdx].viewAngle += 1.0f;
                                     dbCamera->fov = dbCamera->sub.lookAt[dbCamera->sub.unkIdx].viewAngle;
                                 } else {
@@ -1295,7 +1295,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                 }
                                 break;
                             case 5:
-                                if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+                                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                                     dbCamera->sub.nFrames += 10;
                                 } else {
                                     dbCamera->sub.nFrames++;
@@ -1368,7 +1368,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(0x1E, 0x19, 2, &sp110);
             } else {
                 if (D_8012CEE0[0]) {}
-                OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp7C);
+                OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp7C);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 func_8006376C(3, 0x16,
                               ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144) ? 7
@@ -1381,7 +1381,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(3, 0x18, 3, D_8012D0F8);
                 DbCamera_SetTextValue(spFC.r, &D_8012D0D4[7], 6);
                 func_8006376C(3, 0x19, 3, D_8012D0D4);
-                OLib_Vec3fDiffToVecSphGeo(&spFC, sp90, sp80);
+                OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp80);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 func_8006376C(0x1E, 0x16,
                               ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144) ? 7
@@ -1411,7 +1411,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                         func_800B404C(temp_s6, &(dbCamera->sub.lookAt + i)->pos, &spB8);
                         func_800B404C(temp_s6, &(dbCamera->sub.position + i)->pos, &spAC);
                     }
-                    OLib_Vec3fDiffToVecSphGeo(&spFC, &spAC, &spB8);
+                    OLib_Vec3fDiffToVecGeo(&spFC, &spAC, &spB8);
                     spAA = dbCamera->sub.lookAt[i].cameraRoll * 0xB6;
                     if (i == dbCamera->sub.unkIdx) {
                         DebugDisplay_AddObject(spAC.x, spAC.y, spAC.z, spFC.pitch * -1, spFC.yaw, spAA, .5f, .5f, .5f,
@@ -1432,7 +1432,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         dbCamera->roll = 0;
         dbCamera->fov = 60.0f;
         dbCamera->rollDegrees = dbCamera->roll * 1.40625f;
-        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CLEFT)) {
+        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             dbCamera->unk_78 = (dbCamera->unk_78 + 1) % 3;
@@ -1479,7 +1479,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         D_8012D110++;
         D_8012D110 %= 50;
 
-        OLib_Vec3fDiffToVecSphGeo(&spA0, &cam->eye, &cam->at);
+        OLib_Vec3fDiffToVecGeo(&spA0, &cam->eye, &cam->at);
         DebugDisplay_AddObject(dbCamera->at.x, dbCamera->at.y + 1.0f, dbCamera->at.z, 0, 0, 0, 0.02f, 2.0f, 0.02f, 0xFF,
                                0xFF, 0x7F, 0x2D, 0, cam->play->view.gfxCtx);
         DebugDisplay_AddObject(dbCamera->at.x, dbCamera->at.y + 1.0f, dbCamera->at.z, 0, 0, 0, 2.0f, 0.02f, 0.02f, 0x7F,
@@ -1490,7 +1490,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                                0x7F, 0x7F, 0x80, 5, cam->play->view.gfxCtx);
         DebugDisplay_AddObject(cam->at.x, cam->at.y, cam->at.z, spA0.pitch * -1, spA0.yaw, 0, 1.5f, 2.0f, 1.0f, 0xFF,
                                0x7F, 0x7F, 0x80, 4, cam->play->view.gfxCtx);
-        OLib_Vec3fDiffToVecSphGeo(&spA0, &cam->eyeNext, &cam->at);
+        OLib_Vec3fDiffToVecGeo(&spA0, &cam->eyeNext, &cam->at);
         DebugDisplay_AddObject(cam->eyeNext.x, cam->eyeNext.y, cam->eyeNext.z, spA0.pitch * -1, spA0.yaw, 0, .5f, .5f,
                                .5f, 0xFF, 0xC0, 0x7F, 0x50, 5, cam->play->view.gfxCtx);
     }
@@ -1603,7 +1603,7 @@ s32 DbCamera_LoadCallback(char* c) {
         }
     }
 
-    if (!Mempak_Read(2, *c, sDbCameraCuts, 0, sizeof(sDbCameraCuts))) {
+    if (!Mempak_Read(DBCAM_CONTROLLER_PORT, *c, sDbCameraCuts, 0, sizeof(sDbCameraCuts))) {
         return false;
     }
 
@@ -1618,7 +1618,7 @@ s32 DbCamera_LoadCallback(char* c) {
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2847);
                 return false;
             }
-            if (!Mempak_Read(2, *c, sDbCameraCuts[i].lookAt, off, ALIGN32(size))) {
+            if (!Mempak_Read(DBCAM_CONTROLLER_PORT, *c, sDbCameraCuts[i].lookAt, off, ALIGN32(size))) {
                 return false;
             }
             off += ALIGN32(size);
@@ -1629,7 +1629,7 @@ s32 DbCamera_LoadCallback(char* c) {
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2858);
                 return false;
             }
-            if (!Mempak_Read(2, *c, sDbCameraCuts[i].position, off, ALIGN32(size))) {
+            if (!Mempak_Read(DBCAM_CONTROLLER_PORT, *c, sDbCameraCuts[i].position, off, ALIGN32(size))) {
                 return false;
             }
             off += ALIGN32(size);
@@ -1649,16 +1649,16 @@ s32 DbCamera_SaveCallback(char* c) {
     s32 size;
     s32 i;
 
-    ret = Mempak_GetFileSize(2, *c);
-    freeSize = Mempak_GetFreeBytes(2);
+    ret = Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, *c);
+    freeSize = Mempak_GetFreeBytes(DBCAM_CONTROLLER_PORT);
 
     if ((u32)sAllocSize < (freeSize + ret)) {
-        if (!Mempak_Alloc(2, c, sAllocSize)) {
+        if (!Mempak_Alloc(DBCAM_CONTROLLER_PORT, c, sAllocSize)) {
             return false;
         }
 
-        if (!Mempak_Write(2, *c, sDbCameraCuts, 0, sizeof(sDbCameraCuts))) {
-            Mempak_DeleteFile(2, *c);
+        if (!Mempak_Write(DBCAM_CONTROLLER_PORT, *c, sDbCameraCuts, 0, sizeof(sDbCameraCuts))) {
+            Mempak_DeleteFile(DBCAM_CONTROLLER_PORT, *c);
             return false;
         }
 
@@ -1667,13 +1667,13 @@ s32 DbCamera_SaveCallback(char* c) {
             if (sDbCameraCuts[i].letter != '?') {
                 size = sDbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint);
 
-                ret = Mempak_Write(2, *c, sDbCameraCuts[i].lookAt, off, ALIGN32(size));
+                ret = Mempak_Write(DBCAM_CONTROLLER_PORT, *c, sDbCameraCuts[i].lookAt, off, ALIGN32(size));
                 if (!ret) {
                     break;
                 }
                 off += ALIGN32(size);
 
-                ret = Mempak_Write(2, *c, sDbCameraCuts[i].position, off, ALIGN32(size));
+                ret = Mempak_Write(DBCAM_CONTROLLER_PORT, *c, sDbCameraCuts[i].position, off, ALIGN32(size));
                 if (!ret) {
                     break;
                 }
@@ -1686,7 +1686,7 @@ s32 DbCamera_SaveCallback(char* c) {
         if (ret) {
             return *c;
         } else {
-            Mempak_DeleteFile(2, *c);
+            Mempak_DeleteFile(DBCAM_CONTROLLER_PORT, *c);
             return false;
         }
     }
@@ -1695,7 +1695,7 @@ s32 DbCamera_SaveCallback(char* c) {
 }
 
 s32 DbCamera_ClearCallback(char* c) {
-    return Mempak_DeleteFile(2, *c);
+    return Mempak_DeleteFile(DBCAM_CONTROLLER_PORT, *c);
 }
 
 void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorIndex) {
@@ -1843,7 +1843,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     s16 idx3;
     char sp74[(ARRAY_COUNT(sDbCameraCuts) - 1 + 4) * 2];
     DbCameraCut sp64;
-    VecSph sp5C;
+    VecGeo sp5C;
     s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback };
 
     func_8006376C(0xE, 5, 0, D_8012CF44); // DEMO CONTROL
@@ -1861,8 +1861,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_INFO):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_INFO): {
                     if ((1 << sCurFileIdx) & sMempakFiles) {
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DLEFT) ||
-                            CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DRIGHT)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DLEFT) ||
+                            CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DRIGHT)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             dbCamera->sub.demoCtrlToggleSwitch ^= 1;
@@ -1875,7 +1875,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         func_8006376C(0x11, 8, dbCamera->sub.demoCtrlToggleSwitch ? 4 : 7, D_8012CF94);
                         func_8006376C(0x15, 8, dbCamera->sub.demoCtrlToggleSwitch ? 7 : 4, D_8012CF98);
 
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_A)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A)) {
                             if (dbCamera->sub.demoCtrlToggleSwitch == 0) {
                                 Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1897,7 +1897,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             func_8006376C(0xD, 9, dbCamera->sub.demoCtrlToggleSwitch ? 1 : 6, "PRESS B BUTTON");
                         }
                     }
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_B)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         dbCamera->sub.demoCtrlMenu = 0;
@@ -1933,8 +1933,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     func_8006376C(0x17, 7, 5, D_8012CFA4);
                     func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
 
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_A) ||
-                        CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A) ||
+                        CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_B)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         if (dbCamera->sub.demoCtrlMenu == DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS)) {
@@ -1956,8 +1956,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     func_8006376C(0x17, 7, 5, D_8012CFA4);
                     func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
 
-                    if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_A) ||
-                        CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A) ||
+                        CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_B)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         dbCamera->sub.demoCtrlMenu -= 9;
@@ -1970,12 +1970,12 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     goto block_1;
 
                 default: {
-                    if (Mempak_Init(2)) {
-                        sMempakFiles = Mempak_FindFile(2, 'A', 'E');
+                    if (Mempak_Init(DBCAM_CONTROLLER_PORT)) {
+                        sMempakFiles = Mempak_FindFile(DBCAM_CONTROLLER_PORT, 'A', 'E');
                         dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_CALLBACK);
                         DbCamera_CalcMempakAllocSize();
                         if ((1 << sCurFileIdx) & sMempakFiles) {
-                            sMempakFilesize = Mempak_GetFileSize(2, sCurFileIdx + 'A');
+                            sMempakFilesize = Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, sCurFileIdx + 'A');
                             dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                         } else {
                             sMempakFilesize = 0;
@@ -1992,7 +1992,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         sp74[i * 2 + 0] = '-';
                         sp74[i * 2 + 1] = '\0';
 
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DRIGHT)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DRIGHT)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             if (sCurFileIdx >= 4) {
@@ -2002,14 +2002,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             }
 
                             if ((1 << sCurFileIdx) & sMempakFiles) {
-                                sMempakFilesize = Mempak_GetFileSize(2, sCurFileIdx + 'A');
+                                sMempakFilesize = Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, sCurFileIdx + 'A');
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
                                 sMempakFilesize = 0;
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
                             }
                         }
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DLEFT)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DLEFT)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             if (sCurFileIdx <= 0) {
@@ -2019,7 +2019,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             }
 
                             if ((1 << sCurFileIdx) & sMempakFiles) {
-                                sMempakFilesize = Mempak_GetFileSize(2, sCurFileIdx + 'A');
+                                sMempakFilesize = Mempak_GetFileSize(DBCAM_CONTROLLER_PORT, sCurFileIdx + 'A');
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
                                 sMempakFilesize = 0;
@@ -2034,7 +2034,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         DbCamera_SetTextValue(DbCamera_GetMempakAllocSize(), sp74, 6);
                         func_8006376C(0xD, 9, 6, D_8012CF78); // NEED      BYTE
                         func_8006376C(0x11, 9, 4, sp74);
-                        DbCamera_SetTextValue(Mempak_GetFreeBytes(2), sp74, 6);
+                        DbCamera_SetTextValue(Mempak_GetFreeBytes(DBCAM_CONTROLLER_PORT), sp74, 6);
                         func_8006376C(0xD, 0xA, 6, D_8012CF74); // FREE      BYTE
                         func_8006376C(0x11, 0xA, 4, sp74);
                         if (sMempakFilesize != 0) {
@@ -2052,24 +2052,24 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         func_8006376C(0xD, 0x1A, 5, D_8012CF60[0]);
                         func_8006376C(0x14, 0x1A, 5, D_8012CF70);
 
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DUP)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DUP)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
                         }
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DDOWN)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DDOWN)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
                         }
 
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_A)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             dbCamera->sub.demoCtrlToggleSwitch = 0;
                             dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(dbCamera->sub.demoCtrlActionIdx, MENU_INFO);
                         }
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_B)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_B)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             dbCamera->sub.demoCtrlActionIdx = ACTION_E;
@@ -2079,9 +2079,9 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     } else {
                         func_8006376C(0xC, 0x1A, 4, D_8012CF60[0]);
                         func_8006376C(0x13, 0x1A, 4, D_8012CF80);
-                        if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_B) ||
-                            CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DUP) ||
-                            CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DDOWN)) {
+                        if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_B) ||
+                            CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DUP) ||
+                            CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DDOWN)) {
 
                             Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2095,14 +2095,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             break;
 
         default: {
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DUP)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DUP)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
                 dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
                 sCurFileIdx = 0;
             }
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DDOWN)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DDOWN)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
@@ -2116,7 +2116,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(4, 7, 5, D_8012CF4C);
                 func_8006376C(D_8016110C * 2 + 6, 7, 7, ">");
 
-                if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CUP)) {
+                if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CUP)) {
                     if (D_8016110C > 0) {
                         D_8016110C--;
                     }
@@ -2124,7 +2124,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     sDbCamAnim.curFrame = 0.0f;
                     sDbCamAnim.keyframe = 0;
                     sDbCamAnim.unk_04 = 0;
-                } else if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CDOWN)) {
+                } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CDOWN)) {
                     if (D_8016110C < 14) {
                         D_8016110C++;
                     }
@@ -2132,21 +2132,21 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     sDbCamAnim.curFrame = 0.0f;
                     sDbCamAnim.keyframe = 0;
                     sDbCamAnim.unk_04 = 0;
-                } else if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CLEFT)) {
+                } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
                     sDbCamAnim.unk_0A = 0;
                     Interface_ChangeAlpha(2);
-                    ShrinkWindow_SetVal(0);
+                    Letterbox_SetSizeTarget(0);
                     D_8016110C = 0;
                     return 2;
                 }
 
                 if (func_800B91B0(cam, dbCamera) == 0) {
                     Interface_ChangeAlpha(2);
-                    ShrinkWindow_SetVal(0);
+                    Letterbox_SetSizeTarget(0);
                     Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
-                OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
+                OLib_Vec3fDiffToVecGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
                 DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw,
                                                 CAM_DEG_TO_BINANG(dbCamera->rollDegrees));
                 return 2;
@@ -2166,7 +2166,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_L)) {
                 if (sp74[sCurFileIdx] == '?') {
                     sLastFileIdx = -1;
                     D_801612EA = '*';
@@ -2175,7 +2175,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     D_801612EA = sDbCameraCuts[idx1].letter;
                 }
                 if (1) {}
-            } else if (!CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L)) {
+            } else if (!CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 if (sLastFileIdx != -1) {
                     switch (sp74[sCurFileIdx]) {
                         case '?':
@@ -2217,7 +2217,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 sLastFileIdx = -1;
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_A)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A)) {
                 if (sp74[sCurFileIdx] == '?') {
                     Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2228,7 +2228,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 }
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_B)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_B)) {
                 if (sp74[sCurFileIdx] != '?' && sp74[sCurFileIdx] != '-') {
                     Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2237,7 +2237,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 }
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_R)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_R)) {
                 if (sp74[sCurFileIdx] != '?' && sp74[sCurFileIdx] != '-') {
                     Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2261,7 +2261,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 }
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DRIGHT)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DRIGHT)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (sCurFileIdx == 0x1E) {
@@ -2270,22 +2270,22 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     sCurFileIdx++;
                 }
             }
-            if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_DLEFT)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DLEFT)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 sCurFileIdx = (sCurFileIdx == 0) ? 0x1E : sCurFileIdx - 1;
             }
 
-            if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L) &&
-                CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CRIGHT)) {
+            if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L) &&
+                CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CRIGHT)) {
                 for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
                     osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, sDbCameraCuts[i].letter,
                                  sDbCameraCuts[i].position, sDbCameraCuts[i].lookAt, sDbCameraCuts[i].nFrames,
                                  sDbCameraCuts[i].nPoints, sDbCameraCuts[i].mode);
                 }
                 DbCamera_PrintAllCuts(cam);
-            } else if (CHECK_BTN_ALL(sPlay->state.input[2].cur.button, BTN_L) &&
-                       CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CLEFT)) {
+            } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L) &&
+                       CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
@@ -2294,14 +2294,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         DbCamera_PrintCutBytes(&sDbCameraCuts[i]);
                     }
                 }
-            } else if (CHECK_BTN_ALL(sPlay->state.input[2].press.button, BTN_CRIGHT)) {
+            } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CRIGHT)) {
                 sDbCamAnim.curFrame = 0.0f;
                 sDbCamAnim.keyframe = 0;
                 sDbCamAnim.unk_04 = 0.0f;
                 sDbCamAnim.unk_0A = 1;
                 sDbCamAnim.unk_0C = 0;
                 Interface_ChangeAlpha(50);
-                ShrinkWindow_SetVal(0x20);
+                Letterbox_SetSizeTarget(32);
                 D_8016110C = 0;
                 Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

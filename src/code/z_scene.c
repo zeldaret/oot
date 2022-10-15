@@ -1,7 +1,7 @@
 #include "global.h"
 #include "vt.h"
 
-RomFile sNaviMsgFiles[];
+RomFile sNaviQuestHintFiles[];
 
 s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
@@ -231,8 +231,8 @@ void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
         gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[play->objectCtx.subKeepIndex].segment);
     }
 
-    if (cmd->specialFiles.cUpElfMsgNum != 0) {
-        play->elfMessageList = Play_LoadFile(play, &sNaviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
+    if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
+        play->naviQuestHints = Play_LoadFile(play, &sNaviQuestHintFiles[cmd->specialFiles.naviQuestHintFileId - 1]);
     }
 }
 
@@ -243,8 +243,8 @@ void Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
 
-void Scene_CommandMeshHeader(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.meshHeader = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
+void Scene_CommandRoomShape(PlayState* play, SceneCmd* cmd) {
+    play->roomCtx.curRoom.roomShape = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
 }
 
 void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
@@ -397,7 +397,7 @@ void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
     play->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
     if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
-        Audio_QueueSeqCmd(cmd->soundSettings.specId | 0xF0000000);
+        SEQCMD_RESET_AUDIO_HEAP(0, cmd->soundSettings.specId);
     }
 }
 
@@ -476,11 +476,11 @@ void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
     Scene_CommandCollisionHeader,          // SCENE_CMD_ID_COLLISION_HEADER
     Scene_CommandRoomList,                 // SCENE_CMD_ID_ROOM_LIST
     Scene_CommandWindSettings,             // SCENE_CMD_ID_WIND_SETTINGS
-    Scene_CommandSpawnList,                // SCENE_CMD_ID_ENTRANCE_LIST
+    Scene_CommandSpawnList,                // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandSpecialFiles,             // SCENE_CMD_ID_SPECIAL_FILES
     Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOR
     Scene_CommandUndefined9,               // SCENE_CMD_ID_UNDEFINED_9
-    Scene_CommandMeshHeader,               // SCENE_CMD_ID_MESH_HEADER
+    Scene_CommandRoomShape,                // SCENE_CMD_ID_MESH_HEADER
     Scene_CommandObjectList,               // SCENE_CMD_ID_OBJECT_LIST
     Scene_CommandLightList,                // SCENE_CMD_ID_LIGHT_LIST
     Scene_CommandPathList,                 // SCENE_CMD_ID_PATH_LIST
@@ -498,7 +498,7 @@ void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
     Scene_CommandMiscSettings,             // SCENE_CMD_ID_MISC_SETTINGS
 };
 
-RomFile sNaviMsgFiles[] = {
+RomFile sNaviQuestHintFiles[] = {
     ROM_FILE(elf_message_field),
     ROM_FILE(elf_message_ydan),
     ROM_FILE_UNSET,

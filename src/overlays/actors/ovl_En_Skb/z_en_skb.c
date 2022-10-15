@@ -144,7 +144,7 @@ void EnSkb_SpawnDebris(PlayState* play, EnSkb* this, Vec3f* spawnPos) {
     accel.z = Rand_CenteredFloat(1.0f);
     vel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
     scale = (Rand_ZeroOne() * 5.0f) + 12.0f;
-    EffectSsHahen_Spawn(play, &pos, &vel, &accel, 2, scale * 0.8f, -1, 10, 0);
+    EffectSsHahen_Spawn(play, &pos, &vel, &accel, 2, scale * 0.8f, -1, 10, NULL);
     func_80033480(play, &pos, 10.0f, 1, 150, 0, 1);
 }
 
@@ -231,7 +231,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
     if ((play->gameplayFrames & 1) != 0) {
         EnSkb_SpawnDebris(play, this, &this->actor.world.pos);
     }
-    if ((SkelAnime_Update(&this->skelAnime) != 0) && (0.0f == this->actor.shape.yOffset)) {
+    if (SkelAnime_Update(&this->skelAnime) && (0.0f == this->actor.shape.yOffset)) {
         EnSkb_DecideNextAction(this);
     }
 }
@@ -253,7 +253,7 @@ void EnSkb_Despawn(EnSkb* this, PlayState* play) {
         EnSkb_SpawnDebris(play, this, &this->actor.world.pos);
     }
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 0.0f, 1.0f, 2.5f, 0.0f);
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -328,7 +328,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
     if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         EnSkb_SetupRecoil(this);
-    } else if (SkelAnime_Update(&this->skelAnime) != 0) {
+    } else if (SkelAnime_Update(&this->skelAnime)) {
         EnSkb_DecideNextAction(this);
     }
 }
@@ -343,7 +343,7 @@ void EnSkb_SetupRecoil(EnSkb* this) {
 }
 
 void EnSkb_Recoil(EnSkb* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnSkb_DecideNextAction(this);
     }
 }

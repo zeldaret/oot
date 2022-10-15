@@ -16,7 +16,7 @@
 typedef enum {
     /* 0 */ FAIRY_UPGRADE_MAGIC,
     /* 1 */ FAIRY_UPGRADE_DOUBLE_MAGIC,
-    /* 2 */ FAIRY_UPGRADE_HALF_DAMAGE
+    /* 2 */ FAIRY_UPGRADE_DOUBLE_DEFENSE
 } BgDyYoseizoRewardType;
 
 typedef enum {
@@ -240,8 +240,8 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
                     givingReward = true;
                 }
                 break;
-            case FAIRY_UPGRADE_HALF_DAMAGE:
-                if (!gSaveContext.doubleDefense) {
+            case FAIRY_UPGRADE_DOUBLE_DEFENSE:
+                if (!gSaveContext.isDoubleDefenseAcquired) {
                     // "Damage halved"
                     osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
@@ -278,8 +278,8 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
                         play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
-                    case FAIRY_UPGRADE_HALF_DAMAGE:
-                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
+                    case FAIRY_UPGRADE_DOUBLE_DEFENSE:
+                        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenseCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
@@ -724,8 +724,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 gSaveContext.magicLevel = 0;
                 Interface_ChangeAlpha(9);
                 break;
-            case FAIRY_UPGRADE_HALF_DAMAGE:
-                gSaveContext.doubleDefense = true;
+            case FAIRY_UPGRADE_DOUBLE_DEFENSE:
+                gSaveContext.isDoubleDefenseAcquired = true;
                 Interface_ChangeAlpha(9);
                 break;
         }

@@ -400,7 +400,7 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
 
     if (this->actor.floorBgId != BGCHECK_SCENE) {
         yaw = this->actor.shape.rot.y;
-        func_800433A4(&play->colCtx, this->actor.floorBgId, &this->actor);
+        DynaPolyActor_TransformCarriedActor(&play->colCtx, this->actor.floorBgId, &this->actor);
 
         if (yaw != this->actor.shape.rot.y) {
             yaw = this->actor.shape.rot.y - yaw;
