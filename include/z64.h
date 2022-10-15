@@ -1628,7 +1628,7 @@ typedef struct {
 } UCodeInfo; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ u32 segments[NUM_SEGMENTS];
+    /* 0x00 */ uintptr_t segments[NUM_SEGMENTS];
     /* 0x40 */ Gfx* dlStack[18];
     /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
