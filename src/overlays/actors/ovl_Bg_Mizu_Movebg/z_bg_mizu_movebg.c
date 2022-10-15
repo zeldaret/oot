@@ -89,7 +89,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ((BgMizuMovebg*)thisx)->homeY = thisx->world.pos.y;
     ((BgMizuMovebg*)thisx)->dlist = D_8089EB50[MOVEBG_TYPE(thisx->params)];
-    DynaPolyActor_Init(&((BgMizuMovebg*)thisx)->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&((BgMizuMovebg*)thisx)->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(D_8089EB70[MOVEBG_TYPE(thisx->params)], &colHeader);
     ((BgMizuMovebg*)thisx)->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 

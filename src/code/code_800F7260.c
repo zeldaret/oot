@@ -476,7 +476,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
                 } else {
                     entry->state = SFX_STATE_PLAYING_2;
                 }
-            } else if ((u8)channel->soundScriptIO[1] == 0xFF) {
+            } else if ((u8)channel->soundScriptIO[1] == (u8)SEQ_IO_VAL_NONE) {
                 Audio_RemoveSfxBankEntry(bankId, entryIndex);
             } else if (entry->state == SFX_STATE_PLAYING_REFRESH) {
                 Audio_SetSfxProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);

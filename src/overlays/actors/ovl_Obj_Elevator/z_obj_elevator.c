@@ -62,7 +62,7 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     ObjElevator* this = (ObjElevator*)thisx;
     f32 temp_f0;
 
-    func_80B92B08(this, play, &object_d_elevator_Col_000360, DPM_PLAYER);
+    func_80B92B08(this, play, &object_d_elevator_Col_000360, DYNA_TRANSFORM_POS);
     Actor_SetScale(thisx, sScales[thisx->params & 1]);
     Actor_ProcessInitChain(thisx, sInitChain);
     temp_f0 = (thisx->params >> 8) & 0xF;
