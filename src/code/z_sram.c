@@ -138,30 +138,30 @@ static ItemEquips sNewSaveEquips = {
 static Inventory sNewSaveInventory = {
     // items
     {
-        0xFF, // SLOT_STICK
-        0xFF, // SLOT_NUT
-        0xFF, // SLOT_BOMB
-        0xFF, // SLOT_BOW
-        0xFF, // SLOT_ARROW_FIRE
-        0xFF, // SLOT_DINS_FIRE
-        0xFF, // SLOT_SLINGSHOT
-        0xFF, // SLOT_OCARINA
-        0xFF, // SLOT_BOMBCHU
-        0xFF, // SLOT_HOOKSHOT
-        0xFF, // SLOT_ARROW_ICE
-        0xFF, // SLOT_FARORES_WIND
-        0xFF, // SLOT_BOOMERANG
-        0xFF, // SLOT_LENS
-        0xFF, // SLOT_BEAN
-        0xFF, // SLOT_HAMMER
-        0xFF, // SLOT_ARROW_LIGHT
-        0xFF, // SLOT_NAYRUS_LOVE
-        0xFF, // SLOT_BOTTLE_1
-        0xFF, // SLOT_BOTTLE_2
-        0xFF, // SLOT_BOTTLE_3
-        0xFF, // SLOT_BOTTLE_4
-        0xFF, // SLOT_TRADE_ADULT
-        0xFF, // SLOT_TRADE_CHILD
+        ITEM_NONE, // SLOT_STICK
+        ITEM_NONE, // SLOT_NUT
+        ITEM_NONE, // SLOT_BOMB
+        ITEM_NONE, // SLOT_BOW
+        ITEM_NONE, // SLOT_ARROW_FIRE
+        ITEM_NONE, // SLOT_DINS_FIRE
+        ITEM_NONE, // SLOT_SLINGSHOT
+        ITEM_NONE, // SLOT_OCARINA
+        ITEM_NONE, // SLOT_BOMBCHU
+        ITEM_NONE, // SLOT_HOOKSHOT
+        ITEM_NONE, // SLOT_ARROW_ICE
+        ITEM_NONE, // SLOT_FARORES_WIND
+        ITEM_NONE, // SLOT_BOOMERANG
+        ITEM_NONE, // SLOT_LENS
+        ITEM_NONE, // SLOT_BEAN
+        ITEM_NONE, // SLOT_HAMMER
+        ITEM_NONE, // SLOT_ARROW_LIGHT
+        ITEM_NONE, // SLOT_NAYRUS_LOVE
+        ITEM_NONE, // SLOT_BOTTLE_1
+        ITEM_NONE, // SLOT_BOTTLE_2
+        ITEM_NONE, // SLOT_BOTTLE_3
+        ITEM_NONE, // SLOT_BOTTLE_4
+        ITEM_NONE, // SLOT_TRADE_ADULT
+        ITEM_NONE, // SLOT_TRADE_CHILD
     },
     // ammo
     {
