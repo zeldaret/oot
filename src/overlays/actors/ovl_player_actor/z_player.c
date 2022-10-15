@@ -6,6 +6,7 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "quake.h"
 
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
@@ -7953,16 +7954,16 @@ s32 func_80842964(Player* this, PlayState* play) {
     return func_8083B040(this, play) || func_8083B644(this, play) || func_8083E5A8(this, play);
 }
 
-void func_808429B4(PlayState* play, s32 speed, s32 y, s32 countdown) {
-    s32 quakeIdx = Quake_Add(Play_GetCamera(play, CAM_ID_MAIN), 3);
+void Player_RequestQuake(PlayState* play, s32 speed, s32 y, s32 duration) {
+    s32 quakeIndex = Quake_Request(Play_GetCamera(play, CAM_ID_MAIN), QUAKE_TYPE_3);
 
-    Quake_SetSpeed(quakeIdx, speed);
-    Quake_SetQuakeValues(quakeIdx, y, 0, 0, 0);
-    Quake_SetCountdown(quakeIdx, countdown);
+    Quake_SetSpeed(quakeIndex, speed);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
 void func_80842A28(PlayState* play, Player* this) {
-    func_808429B4(play, 27767, 7, 20);
+    Player_RequestQuake(play, 27767, 7, 20);
     play->actorCtx.unk_02 = 4;
     Player_RequestRumble(this, 255, 20, 150, 0);
     func_8002F7DC(&this->actor, NA_SE_IT_HAMMER_HIT);
@@ -8472,7 +8473,7 @@ s32 func_80843E64(PlayState* play, Player* this) {
         }
 
         func_80837AE0(this, 40);
-        func_808429B4(play, 32967, 2, 30);
+        Player_RequestQuake(play, 32967, 2, 30);
         Player_RequestRumble(this, impactInfo->rumbleStrength, impactInfo->rumbleDuration,
                              impactInfo->rumbleDecreaseRate, 0);
         func_8002F7DC(&this->actor, NA_SE_PL_BODY_HIT);
@@ -8678,7 +8679,7 @@ void func_80844708(Player* this, PlayState* play) {
 
                     func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_17, this->modelAnimType));
                     this->linearVelocity = -this->linearVelocity;
-                    func_808429B4(play, 33267, 3, 12);
+                    Player_RequestQuake(play, 33267, 3, 12);
                     Player_RequestRumble(this, 255, 20, 150, 0);
                     func_8002F7DC(&this->actor, NA_SE_PL_BODY_HIT);
                     func_80832698(this, NA_SE_VO_LI_CLIMB_END);
@@ -12102,7 +12103,7 @@ void func_8084D3E4(Player* this, PlayState* play) {
         this->actor.parent = NULL;
         AREG(6) = 0;
 
-        if (Flags_GetEventChkInf(EVENTCHKINF_18) || (DREG(1) != 0)) {
+        if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
             gSaveContext.horseData.pos.x = rideActor->actor.world.pos.x;
             gSaveContext.horseData.pos.y = rideActor->actor.world.pos.y;
             gSaveContext.horseData.pos.z = rideActor->actor.world.pos.z;

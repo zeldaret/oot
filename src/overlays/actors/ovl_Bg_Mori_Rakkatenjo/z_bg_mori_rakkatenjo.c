@@ -6,6 +6,7 @@
 
 #include "z_bg_mori_rakkatenjo.h"
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
+#include "quake.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -146,7 +147,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
     static f32 bounceVel[] = { 4.0f, 1.5f, 0.4f, 0.1f };
     s32 pad;
     Actor* thisx = &this->dyna.actor;
-    s32 quake;
+    s32 quakeIndex;
 
     Actor_MoveForward(thisx);
     if ((thisx->velocity.y < 0.0f) && (thisx->world.pos.y <= 403.0f)) {
@@ -162,10 +163,11 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
                 403.0f - (thisx->world.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
             thisx->velocity.y = bounceVel[this->bounceCount];
             this->bounceCount++;
-            quake = Quake_Add(GET_ACTIVE_CAM(play), 3);
-            Quake_SetSpeed(quake, 50000);
-            Quake_SetQuakeValues(quake, 5, 0, 0, 0);
-            Quake_SetCountdown(quake, 5);
+
+            quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+            Quake_SetSpeed(quakeIndex, 50000);
+            Quake_SetPerturbations(quakeIndex, 5, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 5);
         }
     }
 }
