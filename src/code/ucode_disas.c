@@ -19,8 +19,8 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
     if (this->enableLog) \
     osSyncPrintf
 
-void* UCodeDisas_TranslateAddr(UCodeDisas* this, u32 addr) {
-    u32 physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
+void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
+    uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
 
     return PHYSICAL_TO_VIRTUAL(physical);
 }
@@ -49,57 +49,73 @@ const char* UCodeDisas_GetCombineColorName(u32 value, u32 arg) {
         case G_CCMUX_COMBINED:
             ret = "COMBINED";
             break;
+
         case G_CCMUX_TEXEL0:
             ret = "TEXEL0";
             break;
+
         case G_CCMUX_TEXEL1:
             ret = "TEXEL1";
             break;
+
         case G_CCMUX_PRIMITIVE:
             ret = "PRIMITIVE";
             break;
+
         case G_CCMUX_SHADE:
             ret = "SHADE";
             break;
+
         case G_CCMUX_ENVIRONMENT:
             ret = "ENVIRONMENT";
             break;
+
         case 6: // G_CCMUX_CENTER, G_CCMUX_SCALE, G_CCMUX_1
             ret = (arg == COMBINER_B) ? "CENTER" : (arg == COMBINER_C) ? "SCALE" : "1";
             break;
+
         case 7: // G_CCMUX_NOISE, G_CCMUX_K4, G_CCMUX_COMBINED_ALPHA, G_CCMUX_0
             ret = (arg == COMBINER_A)   ? "NOISE"
                   : (arg == COMBINER_B) ? "K4"
                   : (arg == COMBINER_C) ? "COMBINED_ALPHA"
                                         : "0";
             break;
+
         default:
             if (arg == COMBINER_C) {
                 switch (value) {
                     case G_CCMUX_TEXEL0_ALPHA:
                         ret = "TEXEL0_ALPHA";
                         break;
+
                     case G_CCMUX_TEXEL1_ALPHA:
                         ret = "TEXEL1_ALPHA";
                         break;
+
                     case G_CCMUX_PRIMITIVE_ALPHA:
                         ret = "PRIMITIVE_ALPHA";
                         break;
+
                     case G_CCMUX_SHADE_ALPHA:
                         ret = "SHADE_ALPHA";
                         break;
+
                     case G_CCMUX_ENV_ALPHA:
                         ret = "ENV_ALPHA";
                         break;
+
                     case G_CCMUX_LOD_FRACTION:
                         ret = "LOD_FRACTION";
                         break;
+
                     case G_CCMUX_PRIM_LOD_FRAC:
                         ret = "PRIM_LOD_FRAC";
                         break;
+
                     case G_CCMUX_K5:
                         ret = "K5";
                         break;
+
                     default:
                         ret = "0";
                         break;
@@ -118,24 +134,31 @@ const char* UCodeDisas_GetCombineAlphaName(u32 value, u32 arg) {
         case 0: // G_ACMUX_LOD_FRACTION, G_ACMUX_COMBINED
             ret = (arg == COMBINER_C) ? "LOD_FRACTION" : "COMBINED";
             break;
+
         case G_ACMUX_TEXEL0:
             ret = "TEXEL0";
             break;
+
         case G_ACMUX_TEXEL1:
             ret = "TEXEL1";
             break;
+
         case G_ACMUX_PRIMITIVE:
             ret = "PRIMITIVE";
             break;
+
         case G_ACMUX_SHADE:
             ret = "SHADE";
             break;
+
         case G_ACMUX_ENVIRONMENT:
             ret = "ENVIRONMENT";
             break;
+
         case 6: // G_ACMUX_PRIM_LOD_FRAC, G_ACMUX_1
             ret = (arg == COMBINER_C) ? "PRIM_LOD_FRAC" : "1";
             break;
+
         case G_ACMUX_0:
             ret = "0";
             break;
@@ -208,7 +231,7 @@ void UCodeDisas_PrintRenderMode(UCodeDisas* this, u32 mode) {
         F3DZEX_RENDERMODE(ALPHA_CVG_SEL, 0x2000),
         F3DZEX_RENDERMODE(FORCE_BL, 0x4000),
     };
-    static const char* D_8012DDDC[4][4] = {
+    static const char* sBlenderInputNames[4][4] = {
         { "G_BL_CLR_IN", "G_BL_CLR_MEM", "G_BL_CLR_BL", "G_BL_CLR_FOG" },
         { "G_BL_A_IN", "G_BL_A_FOG", "G_BL_A_SHADE", "G_BL_0" },
         { "G_BL_CLR_IN", "G_BL_CLR_MEM", "G_BL_CLR_BL", "G_BL_CLR_FOG" },
@@ -232,13 +255,13 @@ void UCodeDisas_PrintRenderMode(UCodeDisas* this, u32 mode) {
 
     // clang-format off
     if (this->enableLog == 0) {} else { osSyncPrintf("\nGBL_c1(%s, %s, %s, %s)|",
-        D_8012DDDC[0][a >> 12 & 3], D_8012DDDC[1][a >> 8 & 3], D_8012DDDC[2][a >> 4 & 3], D_8012DDDC[3][a >> 0 & 3]);
+        sBlenderInputNames[0][a >> 12 & 3], sBlenderInputNames[1][a >> 8 & 3], sBlenderInputNames[2][a >> 4 & 3], sBlenderInputNames[3][a >> 0 & 3]);
     }
     // clang-format on
 
     if (this->enableLog) {
-        osSyncPrintf("\nGBL_c2(%s, %s, %s, %s)", D_8012DDDC[0][b >> 12 & 3], D_8012DDDC[1][b >> 8 & 3],
-                     D_8012DDDC[2][b >> 4 & 3], D_8012DDDC[3][b >> 0 & 3]);
+        osSyncPrintf("\nGBL_c2(%s, %s, %s, %s)", sBlenderInputNames[0][b >> 12 & 3], sBlenderInputNames[1][b >> 8 & 3],
+                     sBlenderInputNames[2][b >> 4 & 3], sBlenderInputNames[3][b >> 0 & 3]);
     }
 }
 
@@ -263,7 +286,7 @@ void UCodeDisas_PrintVertices(UCodeDisas* this, Vtx* vtx, s32 count, s32 start) 
 
 void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
     u32 pad;
-    u32 addr;
+    uintptr_t addr;
     u32 rdpHalf;
     u16 linkDlLow;
     u8 sid;
@@ -277,12 +300,12 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
     while (!exit) {
         this->dlCnt++;
 
-        ptr = UCodeDisas_TranslateAddr(this, (u32)ptr);
+        ptr = UCodeDisas_TranslateAddr(this, (uintptr_t)ptr);
         DISAS_LOG("%08x:", ptr);
 
         *curGfx = *ptr;
         cmd = curGfx->noop.cmd;
-        addr = (u32)UCodeDisas_TranslateAddr(this, (u32)curGfx->noop.value.addr);
+        addr = (uintptr_t)UCodeDisas_TranslateAddr(this, (uintptr_t)curGfx->noop.value.addr);
 
         DISAS_LOG("%08x-%08x:", curGfx->words.w0, curGfx->words.w1);
 
@@ -890,7 +913,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                             } break;
 
                             case G_BRANCH_Z: {
-                                addr = (u32)UCodeDisas_TranslateAddr(this, rdpHalf);
+                                addr = (uintptr_t)UCodeDisas_TranslateAddr(this, rdpHalf);
                                 DISAS_LOG("gsSPBranchLessZraw(0x%08x(0x%08x), %d, 0x%08x),", rdpHalf, addr,
                                           (curGfx->words.w0 & 0xFFF) / 2, curGfx->words.w1);
                                 ptr = (Gfx*)addr - 1;
@@ -1122,8 +1145,9 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
                             case G_SELECT_DL: {
                                 Gdma dma = ptr->dma;
-                                u32 dlAddr = (u32)UCodeDisas_TranslateAddr(this, (dma.len << 16) | (linkDlLow));
-                                u32 dmaAddr = dma.addr;
+                                uintptr_t dlAddr =
+                                    (uintptr_t)UCodeDisas_TranslateAddr(this, (dma.len << 16) | (linkDlLow));
+                                uintptr_t dmaAddr = dma.addr;
 
                                 if (dma.par == 0) {
                                     DISAS_LOG("gsSPSelectDL(0x%08x, %d, 0x%08x, 0x%08x),", dlAddr, sid, rdpHalf,
