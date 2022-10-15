@@ -8,6 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_goroiwa/object_goroiwa.h"
+#include "quake.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -358,7 +359,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     f32 nextPointY;
     f32 thisY;
     f32 yDistToFloor;
-    s32 quakeIdx;
+    s32 quakeIndex;
     CollisionPoly* floorPoly;
     Vec3f checkPos;
     f32 floorY;
@@ -379,10 +380,10 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     if (this->actor.velocity.y < 0.0f && this->actor.world.pos.y <= nextPointY) {
         if (this->bounceCount == 0) {
             if (this->actor.xzDistToPlayer < 600.0f) {
-                quakeIdx = Quake_Add(GET_ACTIVE_CAM(play), 3);
-                Quake_SetSpeed(quakeIdx, -0x3CB0);
-                Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
-                Quake_SetCountdown(quakeIdx, 7);
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+                Quake_SetSpeed(quakeIndex, -0x3CB0);
+                Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 7);
             }
             this->rollRotSpeed = 0.0f;
             if (!(this->stateFlags & ENGOROIWA_IN_WATER)) {
