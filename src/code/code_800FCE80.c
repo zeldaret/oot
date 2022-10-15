@@ -4,12 +4,12 @@
 s32 gUseAtanContFrac;
 
 /**
- * @param x radians
- * @return tan(x)
+ * @param angle radians
+ * @return tan(angle)
  */
-f32 Math_FTanF(f32 x) {
-    f32 sin = sinf(x);
-    f32 cos = cosf(x);
+f32 Math_FTanF(f32 angle) {
+    f32 sin = sinf(angle);
+    f32 cos = cosf(angle);
 
     return sin / cos;
 }
