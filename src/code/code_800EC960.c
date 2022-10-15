@@ -155,9 +155,6 @@ u8 sSeqModeInput = 0;
 #define SEQ_FLAG_SKIP_HARP_INTRO (1 << 6)
 #define SEQ_FLAG_NO_AMBIENCE (1 << 7)
 
-#define SEQ_ID(packedSeqId) ((packedSeqId)&0xFF)
-#define SEQ_FLAGS(packedSeqId) sSeqFlags[SEQ_ID(packedSeqId)]
-
 u8 sSeqFlags[] = {
     SEQ_FLAG_FANFARE,                        // NA_BGM_GENERAL_SFX
     SEQ_FLAG_ENEMY,                          // NA_BGM_NATURE_BACKGROUND
@@ -4596,7 +4593,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
             Audio_QueueCmdS32(0xF8000000, 0);
         }
 
-        if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_RESUME)) {
+        if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
             // Resume the sequence from the point where it left off last time it was played in the scene
             if ((sSeqResumePoint & 0x3F) != 0) {
                 fadeInDuration = 30;
@@ -4610,7 +4607,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
             // Start the sequence from the beginning
 
             // Writes to ioPort 7. See `SEQ_FLAG_SKIP_HARP_INTRO` for writing a value of 1 to ioPort 7.
-            skipHarpIntro = (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : (u8)SEQ_IO_VAL_NONE;
+            skipHarpIntro = (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_SKIP_HARP_INTRO) ? 1 : (u8)SEQ_IO_VAL_NONE;
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, skipHarpIntro);
 
             if (!(sSeqFlags[seqId] & SEQ_FLAG_RESUME_PREV)) {
@@ -4618,14 +4615,14 @@ void Audio_PlaySceneSequence(u16 seqId) {
                 sSeqResumePoint = SEQ_RESUME_POINT_NONE;
             }
         }
-        sPrevSceneSeqId = SEQ_ID(seqId);
+        sPrevSceneSeqId = seqId & 0xFF;
     }
 }
 
 void Audio_UpdateSceneSequenceResumePoint(void) {
     u16 seqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
-    if ((seqId != NA_BGM_DISABLED) && (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_RESUME)) {
+    if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
         if (sSeqResumePoint != SEQ_RESUME_POINT_NONE) {
             // Get the current point to resume from
             sSeqResumePoint = gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
@@ -4665,9 +4662,9 @@ void Audio_SetFastTempoForTimedMinigame(void) {
 }
 
 void Audio_PlaySequenceInCutscene(u16 seqId) {
-    if (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_FANFARE) {
+    if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE) {
         Audio_PlayFanfare(seqId);
-    } else if (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_FANFARE_GANON) {
+    } else if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 0, 0, seqId);
     } else {
         Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, SEQ_IO_VAL_NONE);
@@ -4676,9 +4673,9 @@ void Audio_PlaySequenceInCutscene(u16 seqId) {
 }
 
 void Audio_StopSequenceInCutscene(u16 seqId) {
-    if (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_FANFARE) {
+    if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
-    } else if (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_FANFARE_GANON) {
+    } else if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
     } else {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
@@ -4688,13 +4685,13 @@ void Audio_StopSequenceInCutscene(u16 seqId) {
 s32 Audio_IsSequencePlaying(u16 seqId) {
     u8 seqPlayerIndex = SEQ_PLAYER_BGM_MAIN;
 
-    if (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_FANFARE) {
+    if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE) {
         seqPlayerIndex = SEQ_PLAYER_FANFARE;
-    } else if (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_FANFARE_GANON) {
+    } else if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
         seqPlayerIndex = SEQ_PLAYER_FANFARE;
     }
 
-    if (SEQ_ID(seqId) == SEQ_ID(Audio_GetActiveSeqId(seqPlayerIndex))) {
+    if ((seqId & 0xFF) == (Audio_GetActiveSeqId(seqPlayerIndex) & 0xFF)) {
         return true;
     } else {
         return false;
@@ -4708,7 +4705,7 @@ s32 Audio_IsSequencePlaying(u16 seqId) {
 void func_800F5ACC(u16 seqId) {
     u16 curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
-    if (SEQ_ID(curSeqId) != NA_BGM_GANON_TOWER && SEQ_ID(curSeqId) != NA_BGM_ESCAPE && curSeqId != seqId) {
+    if ((curSeqId & 0xFF) != NA_BGM_GANON_TOWER && (curSeqId & 0xFF) != NA_BGM_ESCAPE && curSeqId != seqId) {
         Audio_SetSequenceMode(SEQ_MODE_IGNORE);
         if (curSeqId != NA_BGM_DISABLED) {
             sPrevMainBgmSeqId = curSeqId;
@@ -4725,7 +4722,7 @@ void func_800F5ACC(u16 seqId) {
  */
 void func_800F5B58(void) {
     if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
-        (SEQ_FLAGS(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN)) & SEQ_FLAG_RESTORE)) {
+        (sSeqFlags[Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF] & SEQ_FLAG_RESTORE)) {
         if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
@@ -4767,8 +4764,8 @@ void Audio_PlayFanfare(u16 seqId) {
 
     curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
 
-    curFontId = func_800E5E84(SEQ_ID(curSeqId), &outNumFonts);
-    requestedFontId = func_800E5E84(SEQ_ID(seqId), &outNumFonts);
+    curFontId = func_800E5E84(curSeqId & 0xFF, &outNumFonts);
+    requestedFontId = func_800E5E84(seqId & 0xFF, &outNumFonts);
 
     if ((curSeqId == NA_BGM_DISABLED) || (*curFontId == *requestedFontId)) {
         sFanfareStartTimer = 1;
@@ -4840,7 +4837,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
             seqMode = SEQ_MODE_IGNORE;
         }
 
-        if ((seqId == NA_BGM_DISABLED) || (SEQ_FLAGS(SEQ_ID(seqId)) & SEQ_FLAG_ENEMY) ||
+        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_ENEMY) ||
             ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY)) {
             if (seqMode != (sPrevSeqMode & 0x7F)) {
                 if (seqMode == SEQ_MODE_ENEMY) {
@@ -4938,10 +4935,10 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
         return;
     }
 
-    curSeqId = (s8)SEQ_ID(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN));
+    curSeqId = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF);
 
-    if (curSeqId == SEQ_ID(seqId)) {
-        if (SEQ_ID(seqId) == NA_BGM_LONLON) {
+    if (curSeqId == (seqId & 0xFF)) {
+        if ((seqId & 0xFF) == NA_BGM_LONLON) {
             // Malon is singing along with the Lon Lon Sequence
 
             if (dist > 2000.0f) {
@@ -4962,11 +4959,11 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
                 sMalonSingingTimer++;
             }
         }
-    } else if ((curSeqId == NA_BGM_NATURE_AMBIENCE) && (SEQ_ID(seqId) == NA_BGM_LONLON)) {
+    } else if ((curSeqId == NA_BGM_NATURE_AMBIENCE) && ((seqId & 0xFF) == NA_BGM_LONLON)) {
         // Malon is singing along with ambience
-        curSeqId = (s8)SEQ_ID(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB));
+        curSeqId = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF);
 
-        if ((curSeqId != SEQ_ID(seqId)) && (sMalonSingingTimer < 10)) {
+        if ((curSeqId != (seqId & 0xFF)) && (sMalonSingingTimer < 10)) {
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
             // Disable all channels between 2-15.
             // Only allow the two channels with Malon's singing to play, and suppress the full lon lon sequence.
@@ -5016,7 +5013,7 @@ void Audio_ToggleMalonSinging(u8 malonSingingDisabled) {
 
     sMalonSingingDisabled = malonSingingDisabled;
 
-    if (SEQ_ID(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN)) == NA_BGM_LONLON) {
+    if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF) == NA_BGM_LONLON) {
         // Malon is singing along with the Lon Lon Sequence
         seqPlayerIndex = SEQ_PLAYER_BGM_MAIN;
         // Do not disable any channel.
@@ -5304,7 +5301,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     u8 ioData;
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId == NA_BGM_DISABLED) ||
-        !(SEQ_FLAGS(SEQ_ID(gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId)) & SEQ_FLAG_NO_AMBIENCE)) {
+        !(sSeqFlags[gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId & 0xFF & 0xFF] & SEQ_FLAG_NO_AMBIENCE)) {
 
         Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
                                           sNatureAmbienceDataIO[natureAmbienceId].channelMask);
