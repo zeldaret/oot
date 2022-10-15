@@ -6,6 +6,7 @@
 
 #include "z_bg_jya_kanaami.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
+#include "quake.h"
 
 #define FLAGS 0
 
@@ -96,16 +97,17 @@ void func_8089993C(BgJyaKanaami* this) {
 
 void func_80899950(BgJyaKanaami* this, PlayState* play) {
     s32 pad[2];
-    s32 quakeId;
+    s32 quakeIndex;
 
     this->unk_168 += 0x20;
     if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
-        quakeId = Quake_Add(GET_ACTIVE_CAM(play), 3);
-        Quake_SetSpeed(quakeId, 25000);
-        Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
-        Quake_SetCountdown(quakeId, 16);
+
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+        Quake_SetSpeed(quakeIndex, 25000);
+        Quake_SetPerturbations(quakeIndex, 2, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 16);
     }
 }
 

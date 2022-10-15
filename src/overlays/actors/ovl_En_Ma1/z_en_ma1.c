@@ -107,7 +107,7 @@ u16 EnMa1_GetText(PlayState* play, Actor* thisx) {
             return 0x2048;
         }
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 0x2047;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
@@ -188,10 +188,10 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
         return 0;
     }
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_14) && !GET_INFTABLE(INFTABLE_8B)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) && !GET_INFTABLE(INFTABLE_8B)) {
         return 1;
     }
-    if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_8B)) {
             return 1;
         } else {
@@ -199,13 +199,13 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
             return 0;
         }
     }
-    if ((play->sceneId == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId != SCENE_SPOT20) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     return 0;
@@ -282,7 +282,7 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 6;
     this->unk_1E8.unk_00 = 0;
 
-    if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
         EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     } else {
@@ -309,9 +309,9 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         Actor_Kill(&this->actor);
-    } else if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    } else if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
             play->msgCtx.stateTimer = 4;
