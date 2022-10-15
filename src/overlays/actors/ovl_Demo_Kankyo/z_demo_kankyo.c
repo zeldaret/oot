@@ -730,26 +730,29 @@ void DemoKankyo_Vec3fCopy(Vec3f* src, Vec3f* dst) {
     dst->z = src->z;
 }
 
-Vec3f* DemoKankyo_Vec3fAddVecSph(Vec3f* dst, Vec3f* vec, VecSph* sph) {
-    Vec3f result;
-    Vec3f sphVec;
+Vec3f* DemoKankyo_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    OLib_VecSphGeoToVec3f(&sphVec, sph);
-    result.x = vec->x + sphVec.x;
-    result.y = vec->y + sphVec.y;
-    result.z = vec->z + sphVec.z;
-    *dst = result;
-    return dst;
+    OLib_VecGeoToVec3f(&b, geo);
+
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
+    return dest;
 }
 
 void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
-    VecSph sph;
+    VecGeo geo;
     Vec3f vecCopy;
 
     DemoKankyo_Vec3fCopy(vec, &vecCopy);
-    OLib_Vec3fToVecSphGeo(&sph, &vecCopy);
-    sph.yaw += posRot->rot.y;
-    DemoKankyo_Vec3fAddVecSph(dst, &posRot->pos, &sph);
+    OLib_Vec3fToVecGeo(&geo, &vecCopy);
+    geo.yaw += posRot->rot.y;
+    DemoKankyo_AddVecGeoToVec3f(dst, &posRot->pos, &geo);
 }
 
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {

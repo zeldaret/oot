@@ -1897,7 +1897,7 @@ void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
                 this->actor.world.pos.y = 60.0f;
                 this->unk_1C2 = 2;
                 this->timers[0] = 10;
-                func_80033E88(&this->actor, play, 0xA, 0x14); // rumble
+                Actor_RequestQuakeAndRumble(&this->actor, play, 10, 20);
                 this->unk_19C = 35;
                 this->unk_19E = 0;
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_HIT_GND_IMP);

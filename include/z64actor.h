@@ -151,7 +151,7 @@ typedef struct {
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_12 (1 << 12)
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12) // actor will not shake when a quake occurs
 #define ACTOR_FLAG_13 (1 << 13)
 #define ACTOR_FLAG_14 (1 << 14)
 #define ACTOR_FLAG_15 (1 << 15)
