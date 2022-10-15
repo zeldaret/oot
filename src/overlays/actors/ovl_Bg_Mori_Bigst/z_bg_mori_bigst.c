@@ -6,6 +6,7 @@
 
 #include "z_bg_mori_bigst.h"
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
+#include "quake.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -169,14 +170,15 @@ void BgMoriBigst_Fall(BgMoriBigst* this, PlayState* play) {
 
 void BgMoriBigst_SetupLanding(BgMoriBigst* this, PlayState* play) {
     s32 pad;
-    s32 quake;
+    s32 quakeIndex;
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_Landing);
     this->waitTimer = 18;
-    quake = Quake_Add(GET_ACTIVE_CAM(play), 3);
-    Quake_SetSpeed(quake, 25000);
-    Quake_SetQuakeValues(quake, 5, 0, 0, 0);
-    Quake_SetCountdown(quake, 16);
+
+    quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+    Quake_SetSpeed(quakeIndex, 25000);
+    Quake_SetPerturbations(quakeIndex, 5, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, 16);
 }
 
 void BgMoriBigst_Landing(BgMoriBigst* this, PlayState* play) {

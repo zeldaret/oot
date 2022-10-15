@@ -84,7 +84,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (gIsCtrlr2Valid) {
-        func_8006390C(&gameState->input[1]);
+        Regs_UpdateEditor(&gameState->input[1]);
     }
 
     gDmaMgrVerbose = HREG(60);

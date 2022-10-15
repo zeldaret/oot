@@ -862,7 +862,7 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
             EffectSsBlast_SpawnWhiteShockwave(play, &effSpawnPos, &effWhiteShockwaveDynamics,
                                               &effWhiteShockwaveDynamics);
             func_80033480(play, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
-            Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
+            Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
             func_800358DC(&this->actor, &effSpawnPos, &this->actor.world.rot, flamesParams, 20, flamesUnused, play, -1,
                           NULL);
             EnMb_SetupClubWaitAfterAttack(this);
@@ -1044,7 +1044,7 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play) {
             Animation_PlayOnce(&this->skelAnime, &gEnMbClubStandUpAnim);
             this->timer3 = 0;
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
-            Camera_AddQuake(&play->mainCamera, 2, 25, 5);
+            Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
         } else {
             EnMb_SetupClubWaitPlayerNear(this);
         }
@@ -1105,7 +1105,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
         Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         Actor_SpawnFloorDustRing(play, &this->actor, &effPos, 50.0f, 10, 3.0f, 400, 60, false);
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
-        Camera_AddQuake(&play->mainCamera, 2, 25, 5);
+        Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
     }
 }
 
