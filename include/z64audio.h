@@ -7,8 +7,9 @@
 
 #define TATUMS_PER_BEAT 48
 
-#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.sequenceChannelNone)
+#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioCtx.sequenceChannelNone)
 #define SEQ_NUM_CHANNELS 16
+#define SEQ_IO_VAL_NONE -1
 
 #define MAX_CHANNELS_PER_BANK 3
 
@@ -606,7 +607,7 @@ typedef struct {
 /**
  * The high-level audio specifications requested when initializing or resetting the audio heap.
  * The audio heap can be reset on various occasions, including on most scene transitions.
- */ 
+ */
 typedef struct {
     /* 0x00 */ u32 samplingFrequency; // Target sampling rate in Hz
     /* 0x04 */ u8 unk_04;
@@ -908,7 +909,7 @@ typedef struct {
     /* 0x2990 */ AudioAllocPool sessionPool; // A sub-pool to main pool, contains all sub-pools and data that changes every audio reset
     /* 0x29A0 */ AudioAllocPool externalPool; // pool allocated externally to the audio heap. Never used in game
     /* 0x29B0 */ AudioAllocPool initPool;// A sub-pool to the main pool, contains all sub-pools and data that persists every audio reset
-    /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool. 
+    /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool.
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
     /* 0x29F0 */ AudioAllocPool cachePool; // The common pool for cache entries
     /* 0x2A00 */ AudioAllocPool persistentCommonPool; // A sub-pool to the cache pool, contains caches for data stored persistently

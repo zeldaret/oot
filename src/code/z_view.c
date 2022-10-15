@@ -12,11 +12,11 @@ void View_ViewportToVp(Vp* dest, Viewport* src) {
 
     dest->vp.vscale[0] = width * 2;
     dest->vp.vscale[1] = height * 2;
-    dest->vp.vscale[2] = 0x01FF;
+    dest->vp.vscale[2] = G_MAXZ / 2;
     dest->vp.vscale[3] = 0;
     dest->vp.vtrans[0] = ((src->leftX * 2) + width) * 2;
     dest->vp.vtrans[1] = ((src->topY * 2) + height) * 2;
-    dest->vp.vtrans[2] = 0x01FF;
+    dest->vp.vtrans[2] = G_MAXZ / 2;
     dest->vp.vtrans[3] = 0;
 }
 

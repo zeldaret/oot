@@ -197,7 +197,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
             }
         } else if (doorType == DOOR_CHECKABLE) {
             this->actor.textId = ENDOOR_GET_CHECKABLE_TEXT_ID(&this->actor) + 0x0200;
-            if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 // Talon's house door. If Talon has not been woken up at Hyrule Castle
                 // this door should be openable at any time of day.
                 // Note that there is no check for time of day, as the night layers for Lon Lon

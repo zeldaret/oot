@@ -170,7 +170,7 @@ void func_808FD4D4(BossGanon2* this, PlayState* play, s16 arg2, s16 arg3) {
     }
 
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MGANON_WALK);
-    func_80033E88(&this->actor, play, 2, 0xA);
+    Actor_RequestQuakeAndRumble(&this->actor, play, 2, 10);
 }
 
 void func_808FD5C4(BossGanon2* this, PlayState* play) {
@@ -1636,7 +1636,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             temp_f12 = this->unk_1B8.z - player->actor.world.pos.z;
             temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
             if ((ABS(temp_a0_2) < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) &&
-                (player->meleeWeaponState != 0) && (player->heldItemActionParam == PLAYER_AP_SWORD_MASTER)) {
+                (player->meleeWeaponState != 0) && (player->heldItemAction == PLAYER_IA_SWORD_MASTER)) {
                 func_80064520(play, &play->csCtx);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -2004,7 +2004,7 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             if (this->actor.velocity.y < -5.0f) {
-                func_80033E88(&this->actor, play, 5, 20);
+                Actor_RequestQuakeAndRumble(&this->actor, play, 5, 20);
                 func_80078884(NA_SE_IT_BOMB_EXPLOSION);
             }
             this->actor.velocity.y = 0.0f;

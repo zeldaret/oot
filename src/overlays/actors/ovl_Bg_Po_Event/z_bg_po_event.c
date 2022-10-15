@@ -209,7 +209,7 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
             BgPoEvent_InitPaintings(this, play);
         }
     } else {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         if (Flags_GetSwitch(play, thisx->params)) {
             Actor_Kill(thisx);
         } else {
@@ -315,7 +315,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, PlayState* play) {
             BgPoEvent_CheckBlock(this);
         } else {
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-            func_80033E88(&this->dyna.actor, play, 5, 5);
+            Actor_RequestQuakeAndRumble(&this->dyna.actor, play, 5, 5);
             func_80088B34(this->timer);
             if (firstFall == 0) {
                 firstFall = 1;

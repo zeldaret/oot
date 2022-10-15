@@ -110,7 +110,7 @@ static Gfx* sAdultEraDLs[] = {
 };
 
 u16 func_80A78FB0(PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_97)) {
             return 0x2046;
         } else {
@@ -131,7 +131,7 @@ u16 func_80A79010(PlayState* play) {
     if (temp_v0 != 0) {
         return temp_v0;
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (IS_DAY) {
             return 0x205F;
         } else {
@@ -364,34 +364,34 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
 
 s32 func_80A79830(EnIn* this, PlayState* play) {
     if (play->sceneId == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
-        !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
-        GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
-        if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             return 1;
         }
-        if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             return 1;
         }
     }
     if (play->sceneId == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
-        if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 2;
         }
-        if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 4;
         }
     }
     if (play->sceneId == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
-        if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 3;
         }
-        if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 3;
         }
     }
@@ -530,7 +530,7 @@ void func_80A79FB0(EnIn* this, PlayState* play) {
             case 3:
                 EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
-                if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                     this->actor.params = 5;
                 }
                 break;

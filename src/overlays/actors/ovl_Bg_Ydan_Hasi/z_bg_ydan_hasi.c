@@ -47,7 +47,7 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
     this->type = ((thisx->params >> 8) & 0x3F);
     thisx->params = thisx->params & 0xFF;
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (thisx->params == HASI_WATER) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
         waterBox->ySurface = thisx->world.pos.y = thisx->home.pos.y += -5.0f;
