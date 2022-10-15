@@ -94,7 +94,7 @@ typedef struct {
     /* 0x0C */ s32  dPadInputPrev;
     /* 0x10 */ s32  inputRepeatTimer;
     /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
-} GameInfo; // size = 0x15D4
+} RegEditor; // size = 0x15D4
 
 typedef struct {
     /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC

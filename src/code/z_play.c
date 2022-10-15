@@ -256,7 +256,7 @@ void Play_Init(GameState* thisx) {
     this->activeCamId = CAM_ID_MAIN;
     func_8005AC48(&this->mainCamera, 0xFF);
     Sram_Init(this, &this->sramCtx);
-    func_80112098(this);
+    Regs_InitData(this);
     Message_Init(this);
     GameOver_Init(this);
     SfxSource_InitAll(this);
