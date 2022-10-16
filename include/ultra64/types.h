@@ -23,20 +23,12 @@ typedef float  f32;
 typedef double f64;
 
 
-typedef long int Mtx_t[4][4];
-typedef union {
-    Mtx_t m;
-    struct {
-        u16 intPart[4][4];
-        u16 fracPart[4][4];
-    };
-    long long int force_structure_alignment;
-} Mtx;
-
 typedef float MtxF_t[4][4];
 typedef union {
     MtxF_t mf;
     struct {
+        // Note: The order displayed here is the transpose of the order in which matrices are typically written.
+        // For example, [xw, yw, zw] is the translation part of the matrix, not [wx, wy, wz].
         float xx, yx, zx, wx,
               xy, yy, zy, wy,
               xz, yz, zz, wz,
