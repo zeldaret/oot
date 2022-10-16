@@ -88,7 +88,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     thisx->params = (thisx->params >> 8) & 0xFF;
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
 
     sinRotY = Math_SinS(thisx->shape.rot.y);
     cosRotY = Math_CosS(thisx->shape.rot.y);

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
@@ -60,10 +61,10 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_SPOT18_0, 2, EVENTCHKINF_A6, gGoronCityIntroCs },
     { ENTR_TOKINOMA_0, 2, EVENTCHKINF_A7, gTempleOfTimeIntroCs },
     { ENTR_YDAN_0, 2, EVENTCHKINF_A8, gDekuTreeIntroCs },
-    { ENTR_SPOT00_11, 0, EVENTCHKINF_18, gHyruleFieldSouthEponaJumpCs },
-    { ENTR_SPOT00_13, 0, EVENTCHKINF_18, gHyruleFieldEastEponaJumpCs },
-    { ENTR_SPOT00_12, 0, EVENTCHKINF_18, gHyruleFieldWestEponaJumpCs },
-    { ENTR_SPOT00_15, 0, EVENTCHKINF_18, gHyruleFieldGateEponaJumpCs },
+    { ENTR_SPOT00_11, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldSouthEponaJumpCs },
+    { ENTR_SPOT00_13, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldEastEponaJumpCs },
+    { ENTR_SPOT00_12, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldWestEponaJumpCs },
+    { ENTR_SPOT00_15, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldGateEponaJumpCs },
     { ENTR_SPOT00_16, 1, EVENTCHKINF_A9, gHyruleFieldGetOoTCs },
     { ENTR_SPOT06_0, 2, EVENTCHKINF_B1, gLakeHyliaIntroCs },
     { ENTR_SPOT09_0, 2, EVENTCHKINF_B2, gGerudoValleyIntroCs },
@@ -311,15 +312,15 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 16:
             if (sp3F != 0) {
-                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 6);
+                sQuakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_6);
                 Quake_SetSpeed(sQuakeIndex, 0x7FFF);
-                Quake_SetQuakeValues(sQuakeIndex, 4, 0, 1000, 0);
-                Quake_SetCountdown(sQuakeIndex, 800);
+                Quake_SetPerturbations(sQuakeIndex, 4, 0, 1000, 0);
+                Quake_SetDuration(sQuakeIndex, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                Quake_RemoveFromIdx(sQuakeIndex);
+                Quake_RemoveRequest(sQuakeIndex);
             }
             break;
         case 18:
@@ -436,14 +437,14 @@ void Cutscene_Command_SetLighting(PlayState* play, CutsceneContext* csCtx, CsCmd
 // Command 0x56: Play Background Music
 void Cutscene_Command_PlayBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        func_800F595C(cmd->sequence - 1);
+        Audio_PlaySequenceInCutscene(cmd->sequence - 1);
     }
 }
 
 // Command 0x57: Stop Background Music
 void Cutscene_Command_StopBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        func_800F59E8(cmd->sequence - 1);
+        Audio_StopSequenceInCutscene(cmd->sequence - 1);
     }
 }
 
@@ -2060,7 +2061,7 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
         }
 
         if ((gSaveContext.entranceIndex == entranceCutscene->entrance) &&
-            (!Flags_GetEventChkInf(entranceCutscene->flag) || (entranceCutscene->flag == EVENTCHKINF_18)) &&
+            (!Flags_GetEventChkInf(entranceCutscene->flag) || (entranceCutscene->flag == EVENTCHKINF_EPONA_OBTAINED)) &&
             (gSaveContext.cutsceneIndex < 0xFFF0) && ((u8)gSaveContext.linkAge == requiredAge) &&
             (gSaveContext.respawnFlag <= 0)) {
             Flags_SetEventChkInf(entranceCutscene->flag);

@@ -682,8 +682,9 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
             player = GET_PLAYER(play);
             if (play->sceneId != SCENE_SPOT20 ||
                 //! Same flag checked twice
-                (Flags_GetEventChkInf(EVENTCHKINF_18) &&
-                 (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6 || Flags_GetEventChkInf(EVENTCHKINF_18))) ||
+                (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) &&
+                 (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6 ||
+                  Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED))) ||
                 // always load two spawns inside lon lon
                 ((sHorseSpawns[i].pos.x == 856 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -918) ||
                  (sHorseSpawns[i].pos.x == -1003 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -755))) {
@@ -794,7 +795,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
             this->stateFlags = ENHORSE_FLAG_19 | ENHORSE_CANT_JUMP | ENHORSE_UNRIDEABLE;
         } else if (this->actor.params == 6) {
             this->stateFlags = ENHORSE_FLAG_19 | ENHORSE_CANT_JUMP;
-            if (Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1) != 0) {
                 this->stateFlags &= ~ENHORSE_CANT_JUMP;
                 this->stateFlags |= ENHORSE_FLAG_26;
             } else if (GET_EVENTINF(EVENTINF_HORSES_06) && this->type == HORSE_HNI) {
@@ -808,7 +809,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (play->sceneId == SCENE_SPOT20 && GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6 &&
-        !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
+        !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && !DREG(1)) {
         this->stateFlags |= ENHORSE_FLAG_25;
     }
 
@@ -834,7 +835,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
                 return;
             }
-            if (Flags_GetEventChkInf(EVENTCHKINF_18)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -842,12 +843,12 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (!Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1) && !IS_DAY) {
+        } else if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && !DREG(1) && !IS_DAY) {
             Actor_Kill(&this->actor);
             return;
         }
     } else if (play->sceneId == SCENE_MALON_STABLE) {
-        if (IS_DAY || Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0 || !LINK_IS_ADULT) {
+        if (IS_DAY || Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1) != 0 || !LINK_IS_ADULT) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -882,7 +883,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     } else if (this->actor.params == 8) {
         EnHorse_InitHorsebackArchery(this);
         Interface_InitHorsebackArchery(play);
-    } else if (play->sceneId == SCENE_SPOT20 && !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
+    } else if (play->sceneId == SCENE_SPOT20 && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && !DREG(1)) {
         EnHorse_InitFleePlayer(this);
     } else {
         if (play->sceneId == SCENE_SOUKO) {
@@ -2511,7 +2512,7 @@ void EnHorse_UpdateHbaAnim(EnHorse* this) {
 
 void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     f32 playSpeed;
-    s32 sp20;
+    s32 isFanfarePlaying;
 
     if (this->animationIdx == ENHORSE_ANIM_WALK) {
         EnHorse_PlayWalkingSfx(this);
@@ -2520,10 +2521,10 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
         this->hbaTimer++;
     }
 
-    sp20 = func_800F5A58(NA_BGM_HORSE_GOAL);
+    isFanfarePlaying = Audio_IsSequencePlaying(NA_BGM_HORSE_GOAL);
     EnHorse_UpdateHbaRaceInfo(this, play, &sHbaInfo);
-    if (this->hbaFlags & 1 || this->hbaTimer >= 46) {
-        if (sp20 != 1 && gSaveContext.minigameState != 3) {
+    if ((this->hbaFlags & 1) || (this->hbaTimer >= 46)) {
+        if ((isFanfarePlaying != true) && (gSaveContext.minigameState != 3)) {
             gSaveContext.cutsceneIndex = 0;
             play->nextEntranceIndex = ENTR_SPOT12_16;
             play->transitionTrigger = TRANS_TRIGGER_START;
@@ -3598,7 +3599,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
             this->cyl1.base.atFlags &= ~AT_ON;
         }
 
-        if (gSaveContext.entranceIndex != 343 || gSaveContext.sceneLayer != 9) {
+        if (gSaveContext.entranceIndex != ENTR_SPOT20_0 || gSaveContext.sceneLayer != 9) {
             if (this->dustFlags & 1) {
                 this->dustFlags &= ~1;
                 func_800287AC(play, &this->frontRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,

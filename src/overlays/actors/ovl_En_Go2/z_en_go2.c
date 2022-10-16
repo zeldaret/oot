@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+#include "quake.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -1628,14 +1629,14 @@ void EnGo2_Destroy(Actor* thisx, PlayState* play) {
 void EnGo2_CurledUp(EnGo2* this, PlayState* play) {
     u8 index = this->actor.params & 0x1F;
     s16 height;
-    s32 quake;
+    s32 quakeIndex;
 
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-            quake = Quake_Add(GET_ACTIVE_CAM(play), 3);
-            Quake_SetSpeed(quake, -0x3CB0);
-            Quake_SetQuakeValues(quake, 8, 0, 0, 0);
-            Quake_SetCountdown(quake, 16);
+            quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+            Quake_SetSpeed(quakeIndex, -0x3CB0);
+            Quake_SetPerturbations(quakeIndex, 8, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 16);
         } else {
             EnGo2_GetDustData(this, 1);
         }
@@ -1832,7 +1833,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             this->eyeMouthTexState = 2;
             this->unk_20C = 0;
             this->goronState++;
-            func_800F483C(0x28, 5);
+            Audio_SetMainBgmVolume(0x28, 5);
             OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             break;
         case 1:
@@ -1847,7 +1848,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
                 Message_ContinueTextbox(play, 0x305A);
                 this->eyeMouthTexState = 3;
                 this->goronState++;
-                func_800F483C(0x7F, 5);
+                Audio_SetMainBgmVolume(0x7F, 5);
             }
             break;
         case 2:

@@ -188,22 +188,22 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case 1:
-            if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 3:
-            if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 5:
-            if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 7:
-            if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -603,7 +603,7 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
             this->unk_2FC = this->unk_300 = 0.0f;
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        path = &play->setupPathList[pathIndex];
+        path = &play->pathList[pathIndex];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;

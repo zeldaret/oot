@@ -243,7 +243,7 @@ void BossFd2_Emerge(BossFd2* this, PlayState* play) {
                 bossFd->faceExposed = 0;
                 bossFd->holePosition.x = this->actor.world.pos.x;
                 bossFd->holePosition.z = this->actor.world.pos.z;
-                func_80033E1C(play, 1, 0x32, 0x5000);
+                Actor_RequestQuakeWithSpeed(play, 1, 50, 0x5000);
                 this->work[FD2_ACTION_STATE] = 1;
                 this->work[FD2_HOLE_COUNTER]++;
                 this->actor.world.pos.y = -200.0f;

@@ -1573,7 +1573,7 @@ s32 func_80B56EE4(EnZl3* this, PlayState* play) {
 
 void func_80B56F10(EnZl3* this, PlayState* play) {
     s32 waypoint;
-    Path* pathHead = play->setupPathList;
+    Path* pathHead = play->pathList;
 
     if (pathHead != NULL) {
         waypoint = func_80B54DC4(this);
@@ -1838,49 +1838,49 @@ void func_80B57858(PlayState* play) {
 
 s32 func_80B57890(EnZl3* this, PlayState* play) {
     s8 pad[2];
-    u8 curSpawn = play->curSpawn;
+    u8 spawn = play->spawn;
     s16 sceneId = play->sceneId;
     s32 result = func_80B54DB4(this);
 
     if (play) {} // Needed to match, this if can be almost anywhere and it still matches
 
     if (sceneId == SCENE_GANON_SONOGO) {
-        if ((result == 0x24) && (curSpawn == 0)) {
+        if ((result == 0x24) && (spawn == 0)) {
             return 1;
         }
-        if ((result == 0x25) && (curSpawn == 2)) {
+        if ((result == 0x25) && (spawn == 2)) {
             return 1;
         }
-        if ((result == 0x26) && (curSpawn == 4)) {
+        if ((result == 0x26) && (spawn == 4)) {
             return 1;
         }
-        if ((result == 0x27) && (curSpawn == 6)) {
+        if ((result == 0x27) && (spawn == 6)) {
             return 1;
         }
-        if ((result == 0x28) && (curSpawn == 6)) {
+        if ((result == 0x28) && (spawn == 6)) {
             return 1;
         }
     } else if (sceneId == SCENE_GANON_FINAL) {
-        if ((result == 0x20) && (curSpawn == 0) && Flags_GetSwitch(play, 0x37)) {
+        if ((result == 0x20) && (spawn == 0) && Flags_GetSwitch(play, 0x37)) {
             if ((play->sceneId == SCENE_GANON_DEMO) || (play->sceneId == SCENE_GANON_FINAL) ||
                 (play->sceneId == SCENE_GANON_SONOGO) || (play->sceneId == SCENE_GANONTIKA_SONOGO)) {
                 return 1;
             }
         }
-        if ((result == 0x21) && (curSpawn == 2)) {
+        if ((result == 0x21) && (spawn == 2)) {
             return 1;
         }
-        if ((result == 0x22) && (curSpawn == 4)) {
+        if ((result == 0x22) && (spawn == 4)) {
             return 1;
         }
-        if ((result == 0x23) && (curSpawn == 6)) {
+        if ((result == 0x23) && (spawn == 6)) {
             return 1;
         }
     } else if (sceneId == SCENE_GANONTIKA_SONOGO) {
-        if ((result == 0x29) && (curSpawn == 0)) {
+        if ((result == 0x29) && (spawn == 0)) {
             return 1;
         }
-        if ((result == 0x2A) && (curSpawn == 0)) {
+        if ((result == 0x2A) && (spawn == 0)) {
             return 1;
         }
     }
@@ -2489,9 +2489,9 @@ s32 func_80B59698(EnZl3* this, PlayState* play) {
                 (play->sceneId == SCENE_GANON_SONOGO) || (play->sceneId == SCENE_GANONTIKA_SONOGO));
 
     if (cond) {
-        u8 curSpawn = play->curSpawn;
+        u8 spawn = play->spawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
+        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) &&
             ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
             return 1;
         }
@@ -2505,9 +2505,9 @@ s32 func_80B59768(EnZl3* this, PlayState* play) {
                 (play->sceneId == SCENE_GANON_SONOGO) || (play->sceneId == SCENE_GANONTIKA_SONOGO));
 
     if (cond) {
-        u8 curSpawn = play->curSpawn;
+        u8 spawn = play->spawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) && (gSaveContext.timer2Value <= 0)) {
+        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) && (gSaveContext.timer2Value <= 0)) {
             return 1;
         }
     }

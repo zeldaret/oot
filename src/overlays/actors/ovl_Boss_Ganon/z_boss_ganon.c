@@ -618,7 +618,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             this->csCamEye.z = 300.0f;
 
             this->csCamAt.x = 0.0f;
-            this->unk_704 = 1.2566371f;
+            this->unk_704 = 2 * M_PI / 5;
             FALLTHROUGH;
         case 3:
             this->envLightMode = 0;
@@ -1897,7 +1897,7 @@ void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
                 this->actor.world.pos.y = 60.0f;
                 this->unk_1C2 = 2;
                 this->timers[0] = 10;
-                func_80033E88(&this->actor, play, 0xA, 0x14); // rumble
+                Actor_RequestQuakeAndRumble(&this->actor, play, 10, 20);
                 this->unk_19C = 35;
                 this->unk_19E = 0;
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_HIT_GND_IMP);
@@ -3178,8 +3178,8 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
         this->unk_278.y = this->unk_2EC[0].y + 50.0f + 30.0f;
         this->unk_278.z = this->unk_2EC[0].z;
 
-        xOffset = (sinf(i * 1.2566371f) * 600.0f);
-        zOffset = (cosf(i * 1.2566371f) * 600.0f);
+        xOffset = (sinf(i * (2 * M_PI / 5)) * 600.0f);
+        zOffset = (cosf(i * (2 * M_PI / 5)) * 600.0f);
 
         // 5 or 6 light balls that go into the charge. not the same as the ones that he throws
         Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_GANON, this->unk_1FC.x + xOffset,
