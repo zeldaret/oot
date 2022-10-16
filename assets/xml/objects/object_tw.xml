@@ -1,17 +1,17 @@
 ﻿<Root>
     <File Name="object_tw" Segment="6">
-        <Animation Name="object_tw_Anim_0004A4" Offset="0x4A4"/> <!-- Original name is "btT_DEMOwait" -->
-        <Animation Name="object_tw_Anim_000AAC" Offset="0xAAC"/> <!-- Original name is "btT_DEMOwait_to_fly" -->
-        <Animation Name="object_tw_Anim_0012A4" Offset="0x12A4"/> <!-- Original name is "btT_EDikari" ("anger; rage; fury") -->
-        <Animation Name="object_tw_Anim_0017E0" Offset="0x17E0"/> <!-- Original name is "btT_EDmiage" ("to look up at; to raise one's eyes​") -->
-        <Animation Name="object_tw_Anim_001D10" Offset="0x1D10"/> <!-- Original name is "btT_EDwait" -->
-        <Animation Name="object_tw_Anim_00230C" Offset="0x230C"/> <!-- Original name is "btT_EDyaruki" ("drive; motivation; enthusiasm") -->
-        <Animation Name="object_tw_Anim_003614" Offset="0x3614"/> <!-- Original name is "btT_atack" -->
-        <Animation Name="object_tw_Anim_003E34" Offset="0x3E34"/> <!-- Original name is "btT_beeem" -->
-        <Animation Name="object_tw_Anim_004548" Offset="0x4548"/> <!-- Original name is "btT_beeem_to_fly" -->
-        <Animation Name="object_tw_Anim_00578C" Offset="0x578C"/> <!-- Original name is "btT_damage01" -->
-        <Animation Name="object_tw_Anim_006530" Offset="0x6530"/> <!-- Original name is "btT_damage02" -->
-        <Animation Name="object_tw_Anim_006F28" Offset="0x6F28"/> <!-- Original name is "btT_fly" -->
+        <Animation Name="gTwinrovaKotakeKoumeIdleLoopAnim" Offset="0x4A4"/> <!-- Original name is "btT_DEMOwait" -->
+        <Animation Name="gTwinrovaKotakeKoumeIdleEndAnim" Offset="0xAAC"/> <!-- Original name is "btT_DEMOwait_to_fly" -->
+        <Animation Name="gTwinrovaKotakeKoumeBickerAnim" Offset="0x12A4"/> <!-- Original name is "btT_EDikari" ("anger; rage; fury") -->
+        <Animation Name="gTwinrovaKotakeKoumeFloatLookUpAnim" Offset="0x17E0"/> <!-- Original name is "btT_EDmiage" ("to look up at; to raise one's eyes​") -->
+        <Animation Name="gTwinrovaKotakeKoumeFloatLookForwardAnim" Offset="0x1D10"/> <!-- Original name is "btT_EDwait" -->
+        <Animation Name="gTwinrovaKotakeKoumeShakeHandAnim" Offset="0x230C"/> <!-- Original name is "btT_EDyaruki" ("drive; motivation; enthusiasm") -->
+        <Animation Name="gTwinrovaKotakeKoumeAttackStartAnim" Offset="0x3614"/> <!-- Original name is "btT_atack" -->
+        <Animation Name="gTwinrovaKotakeKoumeAttackLoopAnim" Offset="0x3E34"/> <!-- Original name is "btT_beeem" -->
+        <Animation Name="gTwinrovaKotakeKoumeAttackEndAnim" Offset="0x4548"/> <!-- Original name is "btT_beeem_to_fly" -->
+        <Animation Name="gTwinrovaKotakeKoumeDamageStartAnim" Offset="0x578C"/> <!-- Original name is "btT_damage01" -->
+        <Animation Name="gTwinrovaKotakeKoumeDamageEndAnim" Offset="0x6530"/> <!-- Original name is "btT_damage02" -->
+        <Animation Name="gTwinrovaKotakeKoumeFlyAnim" Offset="0x6F28"/> <!-- Original name is "btT_fly" -->
 
         <Limb Name="gTwinrovaKotakePelvisLimb" LimbType="Standard" Offset="0x6F40"/>
         <Limb Name="gTwinrovaKotakeLeftThighLimb" LimbType="Standard" Offset="0x6F4C"/>
@@ -41,11 +41,11 @@
         <Limb Name="gTwinrovaKotakeLeftBraidEndLimb" LimbType="Standard" Offset="0x706C"/>
         <Skeleton Name="gTwinrovaKotakeSkel" Type="Flex" LimbType="Standard" Offset="0x70E0"/>
 
-        <Animation Name="object_tw_Anim_007688" Offset="0x7688"/> <!-- Original name is "btT_fly_to_tame" -->
-        <Animation Name="object_tw_Anim_007CA8" Offset="0x7CA8"/> <!-- Original name is "btT_guard" -->
-        <Animation Name="object_tw_Anim_0088C8" Offset="0x88C8"/> <!-- Original name is "btT_hihihi" -->
-        <Animation Name="object_tw_Anim_009398" Offset="0x9398"/> <!-- Original name is "btT_tame" ("to amass; to accumulate") -->
-        <Animation Name="object_tw_Anim_00947C" Offset="0x947C"/>
+        <Animation Name="gTwinrovaKotakeKoumeChargeUpAttackStartAnim" Offset="0x7688"/> <!-- Original name is "btT_fly_to_tame" -->
+        <Animation Name="gTwinrovaKotakeKoumeSpinAnim" Offset="0x7CA8"/> <!-- Original name is "btT_guard" -->
+        <Animation Name="gTwinrovaKotakeKoumeLaughAnim" Offset="0x88C8"/> <!-- Original name is "btT_hihihi" -->
+        <Animation Name="gTwinrovaKotakeKoumeChargeUpAttackLoopAnim" Offset="0x9398"/> <!-- Original name is "btT_tame" ("to amass; to accumulate") -->
+        <Animation Name="gTwinrovaKotakeKoumeTPoseAnim" Offset="0x947C"/>
 
         <Texture Name="object_tw_TLUT_009490" OutName="tlut_009490" Format="rgba16" Width="53" Height="4" Offset="0x9490"/>
         <Texture Name="gTwinrovaKotakeGerudoFabricTex" OutName="twinrova_kotake_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0x9638"/>

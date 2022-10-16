@@ -10,7 +10,7 @@
         <Animation Name="gKotakeKoumeFlyAnim" Offset="0x49C8"/>
         <Animation Name="gKotakeKoumeStandingBroomOverRightShoulderUnusedAnim" Offset="0x5308"/> <!-- Very similar to gKotakeKoumeStandingBroomOverRightShoulderAnim but not quite a duplicate -->
 
-        <Blob Name="object_tr_Blob_0062E0" Size="0x60" Offset="0x62E0"/>
+        <!-- <Blob Name="object_tr_Blob_0062E0" Size="0x60" Offset="0x62E0"/> -->
 
         <DList Name="gKotakePelvisDL" Offset="0x6520"/>
         <DList Name="gKotakeTorsoDL" Offset="0x66A0"/>
@@ -62,7 +62,7 @@
 
         <Texture Name="gKotakeKoumeBraidEndTex" OutName="kotake_koume_braid_end" Format="rgba16" Width="8" Height="8" Offset="0xBCD0"/>
 
-        <Blob Name="object_tr_Blob_00BD50" Size="0x580" Offset="0xBD50"/>
+        <!-- <Blob Name="object_tr_Blob_00BD50" Size="0x580" Offset="0xBD50"/> -->
 
         <Texture Name="gKotakeCollarNeckTex" OutName="kotake_collar_neck" Format="rgba16" Width="4" Height="8" Offset="0xC2D0"/>
 
@@ -98,7 +98,7 @@
 
         <Animation Name="gKotakeKoumeTPoseAnim" Offset="0xC60C"/>
 
-        <Blob Name="object_tr_Blob_00D5E0" Size="0x60" Offset="0xD5E0"/>
+        <!-- <Blob Name="object_tr_Blob_00D5E0" Size="0x60" Offset="0xD5E0"/> -->
 
         <DList Name="gKoumePelvisDL" Offset="0xD820"/>
         <DList Name="gKoumeTorsoDL" Offset="0xD9A0"/>
