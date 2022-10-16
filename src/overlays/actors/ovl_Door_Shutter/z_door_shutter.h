@@ -52,7 +52,7 @@ typedef struct DoorShutter {
     /* 0x016B */ u8 styleType;
     /* 0x016C */ u8 gfxType;
     /* 0x016D */ s8 requiredObjBankIndex;
-    /* 0x016E */ s8 lockTimer; // non-0 if the door is locked, ticks down while the door is unlocking
+    /* 0x016E */ s8 unlockTimer; // non-0 if the door is locked, ticks down while the door is unlocking
     /* 0x016F */ s8 unk_16F;
     /* 0x0170 */ f32 barsClosed; // Ranges from 0.0f (open) to 1.0f (locked)
     /* 0x0174 */ DoorShutterActionFunc actionFunc;

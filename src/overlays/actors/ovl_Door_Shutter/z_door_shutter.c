@@ -431,7 +431,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     this->styleType = styleType;
     if (this->doorType == SHUTTER_KEY_LOCKED || this->doorType == SHUTTER_BOSS) {
         if (!Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
-            this->lockTimer = 10;
+            this->unlockTimer = 10;
         }
         Actor_SetFocus(&this->dyna.actor, 60.0f);
     } else if (styleType == DOORSHUTTER_STYLE_JABU_JABU) {
@@ -558,7 +558,7 @@ void func_80996B0C(DoorShutter* this, PlayState* play) {
     if (this->unk_164 != 0) {
         DoorShutter_SetupAction(this, DoorShutter_Opening);
         this->dyna.actor.velocity.y = 0.0f;
-        if (this->lockTimer != 0) {
+        if (this->unlockTimer != 0) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
             if (this->doorType != SHUTTER_BOSS) {
                 gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
@@ -573,7 +573,7 @@ void func_80996B0C(DoorShutter* this, PlayState* play) {
         if (doorDirection != 0) {
             Player* player = GET_PLAYER(play);
 
-            if (this->lockTimer != 0) {
+            if (this->unlockTimer != 0) {
                 if (this->doorType == SHUTTER_BOSS) {
                     if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, gSaveContext.mapIndex)) {
                         player->naviTextId = -0x204;
@@ -682,7 +682,7 @@ void func_80996F98(DoorShutter* this, PlayState* play) {
 }
 
 void DoorShutter_Opening(DoorShutter* this, PlayState* play) {
-    if (DECR(this->lockTimer) == 0 && play->roomCtx.status == 0 && DoorShutter_UpdateOpening(this, play)) {
+    if (DECR(this->unlockTimer) == 0 && play->roomCtx.status == 0 && DoorShutter_UpdateOpening(this, play)) {
         if (((this->doorType == SHUTTER_BOSS) ? 20.0f : 50.0f) < this->dyna.actor.xzDistToPlayer) {
             if (DoorShutter_SetupDoor(this, play)) {
                 this->dyna.actor.velocity.y = 30.0f;
@@ -963,10 +963,10 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
             }
         }
 
-        if (this->lockTimer != 0) {
+        if (this->unlockTimer != 0) {
             Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
             Actor_DrawDoorLock(
-                play, this->lockTimer,
+                play, this->unlockTimer,
                 (this->doorType == SHUTTER_BOSS)
                     ? DOORLOCK_BOSS
                     : ((this->gfxType == DOORSHUTTER_GFX_SPIRIT_TEMPLE) ? DOORLOCK_NORMAL_SPIRIT : DOORLOCK_NORMAL));
