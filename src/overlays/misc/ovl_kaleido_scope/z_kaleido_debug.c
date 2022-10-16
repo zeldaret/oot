@@ -110,8 +110,8 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_debug.c", 402);
 
-    pauseCtx->stickRelX = input->rel.stick_x;
-    pauseCtx->stickRelY = input->rel.stick_y;
+    pauseCtx->stickAdjX = input->rel.stick_x;
+    pauseCtx->stickAdjY = input->rel.stick_y;
 
     Gfx_SetupDL_39Opa(play->state.gfxCtx);
 

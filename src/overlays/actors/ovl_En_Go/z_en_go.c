@@ -473,7 +473,7 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
         return false;
     }
 
-    path = &play->setupPathList[this->actor.params & 0xF];
+    path = &play->pathList[this->actor.params & 0xF];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
@@ -507,7 +507,7 @@ s32 EnGo_SetMovedPos(EnGo* this, PlayState* play) {
     if ((this->actor.params & 0xF) == 0xF) {
         return false;
     } else {
-        path = &play->setupPathList[this->actor.params & 0xF];
+        path = &play->pathList[this->actor.params & 0xF];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
         this->actor.world.pos.x = pointPos->x;
@@ -625,7 +625,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);

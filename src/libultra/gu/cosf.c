@@ -14,7 +14,11 @@ static const du pilo = { 0x3E6110B4, 0x611A6263 };
 
 static const fu zero = { 0x00000000 };
 
-f32 cosf(f32 x) {
+/**
+ * @param angle radians
+ * @return cos(angle)
+ */
+f32 cosf(f32 angle) {
     f32 absx;
     f64 dx;
     f64 xSq;
@@ -22,13 +26,13 @@ f32 cosf(f32 x) {
     f64 dn;
     s32 n;
     f64 result;
-    s32 ix = *(s32*)&x;
+    s32 ix = *(s32*)&angle;
     s32 xpt = (ix >> 22);
 
     xpt &= 0x1FF;
 
     if (xpt < 0x136) {
-        absx = (x > 0) ? x : -x;
+        absx = (angle > 0) ? angle : -angle;
         dx = absx;
 
         dn = dx * rpi.d + 0.5;
@@ -51,7 +55,7 @@ f32 cosf(f32 x) {
         }
         return -(f32)result;
     }
-    if (x != x) {
+    if (angle != angle) {
         return __libm_qnan_f;
     }
 

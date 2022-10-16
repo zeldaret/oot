@@ -471,7 +471,7 @@ void EnOssan_TalkDefaultShopkeeper(PlayState* play) {
 }
 
 void EnOssan_TalkKakarikoPotionShopkeeper(PlayState* play) {
-    if (play->curSpawn == 0) {
+    if (play->spawn == 0) {
         Message_ContinueTextbox(play, 0x5046);
     } else {
         Message_ContinueTextbox(play, 0x504E);
@@ -487,7 +487,7 @@ void EnOssan_TalkKokiriShopkeeper(PlayState* play) {
 }
 
 void EnOssan_TalkBazaarShopkeeper(PlayState* play) {
-    if (play->curSpawn == 0) {
+    if (play->spawn == 0) {
         Message_ContinueTextbox(play, 0x9D);
     } else {
         Message_ContinueTextbox(play, 0x9C);
@@ -2017,7 +2017,7 @@ void EnOssan_InitZoraShopkeeper(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_InitPotionShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_ds2_Skel_004258, &object_ds2_Anim_0002E4, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_ds2_Skel_004258, &object_ds2_Anim_0002E4, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawPotionShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }
@@ -2029,7 +2029,7 @@ void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_InitBombchuShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_rs_Skel_004868, &object_rs_Anim_00065C, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_rs_Skel_004868, &object_rs_Anim_00065C, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawBombchuShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }

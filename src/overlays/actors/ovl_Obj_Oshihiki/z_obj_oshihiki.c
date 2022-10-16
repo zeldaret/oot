@@ -333,7 +333,7 @@ void ObjOshihiki_SetFloors(ObjOshihiki* this, PlayState* play) {
         floorPoly = &this->floorPolys[i];
         floorBgId = &this->floorBgIds[i];
         this->floorHeights[i] =
-            BgCheck_EntityRaycastFloor6(&play->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
+            BgCheck_EntityRaycastDown6(&play->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
     }
 }
 
@@ -519,7 +519,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
         } else {
             dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
-            if ((dynaPolyActor != NULL) && (dynaPolyActor->unk_15C & 1)) {
+            if ((dynaPolyActor != NULL) && (dynaPolyActor->transformFlags & DYNA_TRANSFORM_POS)) {
                 DynaPolyActor_SetActorOnTop(dynaPolyActor);
                 func_80043538(dynaPolyActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;

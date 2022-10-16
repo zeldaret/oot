@@ -151,7 +151,7 @@ typedef enum {
     /* 0x18 */ CAM_SET_PIVOT_IN_FRONT, // The camera used on Link's balcony in Kokiri forest. Data present in scene data for Deku Tree, GTG, Inside Ganon's Castle (TODO: may or may not be used) "CIRCLE3"
     /* 0x19 */ CAM_SET_PREREND_FIXED, // Camera is fixed in position and rotation "PREREND0"
     /* 0x1A */ CAM_SET_PREREND_PIVOT, // Camera is fixed in position with fixed pitch, but is free to rotate in the yaw direction 360 degrees "PREREND1"
-    /* 0x1B */ CAM_SET_PREREND_SIDE_SCROLL, // Camera side-scrolls position to follow link. Only used in castle courtyard with the guards "PREREND3"
+    /* 0x1B */ CAM_SET_PREREND_SIDE_SCROLL, // Camera side-scrolls position to follow the player. Only used in castle courtyard with the guards "PREREND3"
     /* 0x1C */ CAM_SET_DOOR0, // Custom room door transitions, used in fire and royal family tomb
     /* 0x1D */ CAM_SET_DOORC, // Generic room door transitions, camera moves and follows player as the door is open and closed
     /* 0x1E */ CAM_SET_CRAWLSPACE, // Used in all crawlspaces "RAIL3"
@@ -185,7 +185,7 @@ typedef enum {
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
     /* 0x3C */ CAM_SET_CS_C, // Various cutscenes "DEMOC"
-    /* 0x3D */ CAM_SET_JABU_TENTACLE, // Jabu-Jabu Parasitic Tenticle Rooms "UO_FIBER"
+    /* 0x3D */ CAM_SET_JABU_TENTACLE, // Jabu-Jabu Parasitic Tentacle Rooms "UO_FIBER"
     /* 0x3E */ CAM_SET_DUNGEON2,
     /* 0x3F */ CAM_SET_DIRECTED_YAW, // Does not auto-update yaw, tends to keep the camera pointed at a certain yaw (used by biggoron and final spirit lowering platform) "TEPPEN"
     /* 0x40 */ CAM_SET_PIVOT_FROM_SIDE, // Fixed side view, allows rotation of camera (eg. Potion Shop, Meadow at fairy grotto) "CIRCLE7"
@@ -546,7 +546,9 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ VecSph unk_20;
+    /* 0x20 */ f32 unk_20;
+    /* 0x24 */ s16 unk_24;
+    /* 0x26 */ s16 unk_26;
 } Jump1ReadWriteData; // size = 0x28
 
 typedef struct {
@@ -794,7 +796,9 @@ typedef struct {
 } KeepOn3ReadOnlyData; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ Vec3f eyeToAtTarget; // esentially a VecSph, but all floats.
+    /* 0x00 */ f32 eyeToAtTargetR;
+    /* 0x08 */ f32 eyeToAtTargetYaw;
+    /* 0x04 */ f32 eyeToAtTargetPitch;
     /* 0x0C */ Actor* target;
     /* 0x10 */ Vec3f atTarget;
     /* 0x1C */ s16 animTimer;
@@ -953,7 +957,7 @@ typedef struct {
     /* 0x0 */ Vec3s rot;
     /* 0x6 */ s16 fov;
     /* 0x8 */ s16 updDirTimer;
-    /* 0xA */ s16 jfifId;
+    /* 0xA */ s16 roomImageOverrideBgCamIndex;
 } Fixed3ReadWriteData; // size = 0xC
 
 typedef struct {
@@ -1251,7 +1255,7 @@ typedef struct {
     /* 0x10 */ Vec3f eyeTarget;
     /* 0x1C */ Vec3f playerPos;
     /* 0x28 */ f32 fovTarget;
-    /* 0x2C */ VecSph atEyeOffsetTarget;
+    /* 0x2C */ VecGeo atEyeOffsetTarget;
     /* 0x34 */ s16 rollTarget;
     /* 0x36 */ s16 curKeyFrameIdx;
     /* 0x38 */ s16 unk_38;
@@ -1504,17 +1508,17 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f norm;
     /* 0x18 */ CollisionPoly* poly;
-    /* 0x1C */ VecSph sphNorm;
+    /* 0x1C */ VecGeo geoNorm;
     /* 0x24 */ s32 bgId;
 } CamColChk; // size = 0x28
 
-typedef struct {
+typedef struct Camera {
     /* 0x000 */ CamParamData paramData;
     /* 0x050 */ Vec3f at;
     /* 0x05C */ Vec3f eye;
     /* 0x068 */ Vec3f up;
     /* 0x074 */ Vec3f eyeNext;
-    /* 0x080 */ Vec3f skyboxOffset;
+    /* 0x080 */ Vec3f quakeOffset;
     /* 0x08C */ struct PlayState* play;
     /* 0x090 */ struct Player* player;
     /* 0x094 */ PosRot playerPosRot;
@@ -1538,7 +1542,7 @@ typedef struct {
     /* 0x114 */ f32 waterYPos;
     /* 0x118 */ s32 bgCamIndexBeforeUnderwater;
     /* 0x11C */ s32 waterCamSetting;
-    /* 0x120 */ s32 waterQuakeId;
+    /* 0x120 */ s32 waterQuakeIndex;
     /* 0x124 */ void* data0;
     /* 0x128 */ void* data1;
     /* 0x12C */ s16 data2;

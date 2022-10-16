@@ -63,7 +63,7 @@ void BgHakaMegane_Init(Actor* thisx, PlayState* play) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
 
     if (thisx->params < 3) {
         this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_HAKACH_OBJECTS);

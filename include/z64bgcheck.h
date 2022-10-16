@@ -26,8 +26,6 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_STOP 8
 #define FUNC_80041EA4_VOID_OUT 12
 
-#define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
-
 typedef struct {
     Vec3f scale;
     Vec3s rot;
@@ -66,12 +64,38 @@ typedef struct {
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
     /* 0x0E */ union {
-        s16 jfifId;
+        s16 roomImageOverrideBgCamIndex;
         s16 timer;
         s16 flags;
     };
     /* 0x10 */ s16 unk_10; // unused
 } BgCamFuncData; // size = 0x12
+
+// Macros for `WaterBox.properties`
+
+#define WATERBOX_BGCAM_INDEX_SHIFT 0
+#define WATERBOX_BGCAM_INDEX_MASK 0x000000FF
+#define WATERBOX_BGCAM_INDEX(properties) \
+    (((properties) >> WATERBOX_BGCAM_INDEX_SHIFT) & (WATERBOX_BGCAM_INDEX_MASK >> WATERBOX_BGCAM_INDEX_SHIFT))
+
+#define WATERBOX_LIGHT_INDEX_SHIFT 8
+#define WATERBOX_LIGHT_INDEX_MASK 0x00001F00
+#define WATERBOX_LIGHT_INDEX(properties) \
+    (((properties) >> WATERBOX_LIGHT_INDEX_SHIFT) & (WATERBOX_LIGHT_INDEX_MASK >> WATERBOX_LIGHT_INDEX_SHIFT))
+#define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
+
+#define WATERBOX_ROOM_SHIFT 13
+#define WATERBOX_ROOM_MASK 0x0007E000
+#define WATERBOX_ROOM(properties) (((properties) >> WATERBOX_ROOM_SHIFT) & (WATERBOX_ROOM_MASK >> WATERBOX_ROOM_SHIFT))
+#define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
+
+#define WATERBOX_FLAG_19_SHIFT 19
+#define WATERBOX_FLAG_19 (1 << WATERBOX_FLAG_19_SHIFT)
+
+#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19)              \
+    ((((bgCamIndex) << WATERBOX_BGCAM_INDEX_SHIFT) & WATERBOX_BGCAM_INDEX_MASK) | \
+     (((lightIndex) << WATERBOX_LIGHT_INDEX_SHIFT) & WATERBOX_LIGHT_INDEX_MASK) | \
+     (((room) << WATERBOX_ROOM_SHIFT) & WATERBOX_ROOM_MASK) | (((setFlag19) & 1) << WATERBOX_FLAG_19_SHIFT))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -80,11 +104,6 @@ typedef struct {
     /* 0x06 */ s16 xLength;
     /* 0x08 */ s16 zLength;
     /* 0x0C */ u32 properties;
-
-    // 0x0008_0000 = ?
-    // 0x0007_E000 = Room Index, 0x3F = all rooms
-    // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
 
 typedef enum {
@@ -277,11 +296,11 @@ typedef struct {
     /* 0x14 */ Vec3f* pos;
     /* 0x18 */ s32* bgId;
     /* 0x1C */ struct Actor* actor;
-    /* 0x20 */ u32 unk_20;
+    /* 0x20 */ u32 downChkFlags;
     /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
     /* 0x2C */ SSList* ssList;
-} DynaRaycast;
+} DynaRaycastDown;
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;
