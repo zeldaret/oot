@@ -872,7 +872,7 @@ Gfx* DoorShutter_DrawJabuJabuDoor(PlayState* play, DoorShutter* this, Gfx* gfx) 
     return gfx;
 }
 
-s32 DoorShutter_CheckShouldDraw(DoorShutter* this, PlayState* play) {
+s32 DoorShutter_ShouldDraw(DoorShutter* this, PlayState* play) {
     s32 relYawTowardsPlayer;
     s32 relYawTowardsViewEye;
 
@@ -912,7 +912,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     //! the init vars for the actor, and only set draw after initialization is complete.
 
     if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
-        (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_CheckShouldDraw(this, play))) {
+        (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {
         s32 pad[2];
         DoorShutterGfxInfo* gfxInfo = &sGfxInfo[this->gfxType];
 
