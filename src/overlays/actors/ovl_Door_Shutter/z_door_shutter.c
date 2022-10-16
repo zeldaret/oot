@@ -84,16 +84,17 @@ typedef enum {
 } DoorShutterGfxType;
 
 typedef enum {
-    /* 0  */ DOORSHUTTER_STYLE_PHANTOM_GANON,
-    /* 1  */ DOORSHUTTER_STYLE_GOHMA_BLOCK,
-    /* 2  */ DOORSHUTTER_STYLE_DEKU_TREE,
-    /* 3  */ DOORSHUTTER_STYLE_DODONGOS_CAVERN,
-    /* 4  */ DOORSHUTTER_STYLE_JABU_JABU,
-    /* 5  */ DOORSHUTTER_STYLE_5, // Forest temple?
-    /* 6  */ DOORSHUTTER_STYLE_BOSS_DOOR,
-    /* 7  */ DOORSHUTTER_STYLE_7, // Default for some `DoorShutterType`s
-    /* 8  */ DOORSHUTTER_STYLE_FIRE_TEMPLE,
-    /* 9  */ DOORSHUTTER_STYLE_9,
+    /* -1 */ DOORSHUTTER_STYLE_FROM_SCENE = -1, // Style is taken from `sSceneInfo`
+    /*  0 */ DOORSHUTTER_STYLE_PHANTOM_GANON,
+    /*  1 */ DOORSHUTTER_STYLE_GOHMA_BLOCK,
+    /*  2 */ DOORSHUTTER_STYLE_DEKU_TREE,
+    /*  3 */ DOORSHUTTER_STYLE_DODONGOS_CAVERN,
+    /*  4 */ DOORSHUTTER_STYLE_JABU_JABU,
+    /*  5 */ DOORSHUTTER_STYLE_5, // Forest temple?
+    /*  6 */ DOORSHUTTER_STYLE_BOSS_DOOR,
+    /*  7 */ DOORSHUTTER_STYLE_7, // Default for some `DoorShutterType`s
+    /*  8 */ DOORSHUTTER_STYLE_FIRE_TEMPLE,
+    /*  9 */ DOORSHUTTER_STYLE_9,
     /* 10 */ DOORSHUTTER_STYLE_SPIRIT_TEMPLE,
     /* 11 */ DOORSHUTTER_STYLE_WATER_TEMPLE,
     /* 12 */ DOORSHUTTER_STYLE_SHADOW_TEMPLE,
@@ -246,20 +247,19 @@ static DoorShutterGfxInfo sGfxInfo[] = {
     { object_ouke_haka_DL_0000C0, gDoorMetalBarsDL, 130, 12, 20, 15 }, // DOORSHUTTER_GFX_19
 };
 
-// With -1, the style is taken from `sSceneInfo`
 static s8 sTypeStyles[] = {
-    -1,                              // SHUTTER
-    -1,                              // SHUTTER_FRONT_CLEAR
-    -1,                              // SHUTTER_FRONT_SWITCH
-    -1,                              // SHUTTER_BACK_LOCKED
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER_FRONT_CLEAR
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER_FRONT_SWITCH
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER_BACK_LOCKED
     DOORSHUTTER_STYLE_PHANTOM_GANON, // SHUTTER_PG_BARS
     DOORSHUTTER_STYLE_BOSS_DOOR,     // SHUTTER_BOSS
     DOORSHUTTER_STYLE_GOHMA_BLOCK,   // SHUTTER_GOHMA_BLOCK
-    -1,                              // SHUTTER_FRONT_SWITCH_BACK_CLEAR
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER_FRONT_SWITCH_BACK_CLEAR
     DOORSHUTTER_STYLE_PHANTOM_GANON, // SHUTTER_8
-    -1,                              // SHUTTER_9
-    -1,                              // SHUTTER_A
-    -1,                              // SHUTTER_KEY_LOCKED
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER_9
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER_A
+    DOORSHUTTER_STYLE_FROM_SCENE,    // SHUTTER_KEY_LOCKED
 };
 
 static InitChainEntry sInitChain[] = {
