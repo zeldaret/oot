@@ -3178,7 +3178,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
 s32 BossTw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossTw* this = (BossTw*)thisx;
 
-    if (limbIndex == 21) {
+    if (limbIndex == TWINROVA_KOTAKE_KOUME_LIMB_HEAD) {
         if (this->unk_5F8 == 0) {
             if (this->actor.params == TW_KOTAKE) {
                 *dList = gTwinrovaKotakeHeadDL;
@@ -3188,7 +3188,7 @@ s32 BossTw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         }
     }
 
-    if (limbIndex == 14) {
+    if (limbIndex == TWINROVA_KOTAKE_KOUME_LIMB_BROOM) {
         if (this->actionFunc == BossTw_DeathCS) {
             *dList = NULL;
         } else if (this->scepterAlpha == 0.0f) {
@@ -3215,7 +3215,7 @@ void BossTw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 6168);
 
     switch (limbIndex) {
-        case 21:
+        case TWINROVA_KOTAKE_KOUME_LIMB_HEAD:
             Matrix_MultVec3f(&D_8094A944, &this->actor.focus.pos);
             Matrix_MultVec3f(&D_8094A950, &this->crownPos);
 
@@ -3229,7 +3229,8 @@ void BossTw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
                 }
             }
             break;
-        case 14:
+
+        case TWINROVA_KOTAKE_KOUME_LIMB_BROOM:
             Matrix_MultVec3f(&D_8094A95C[0], &this->scepterFlamePos[0]);
             Matrix_MultVec3f(&D_8094A95C[1], &this->scepterFlamePos[1]);
             Matrix_MultVec3f(&D_8094A95C[2], &this->scepterFlamePos[2]);
