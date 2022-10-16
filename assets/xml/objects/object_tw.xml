@@ -1,5 +1,6 @@
 ﻿<Root>
     <File Name="object_tw" Segment="6">
+        <!-- Kotake and Koume animations -->
         <Animation Name="gTwinrovaKotakeKoumeIdleLoopAnim" Offset="0x4A4"/> <!-- Original name is "btT_DEMOwait" -->
         <Animation Name="gTwinrovaKotakeKoumeIdleEndAnim" Offset="0xAAC"/> <!-- Original name is "btT_DEMOwait_to_fly" -->
         <Animation Name="gTwinrovaKotakeKoumeBickerAnim" Offset="0x12A4"/> <!-- Original name is "btT_EDikari" ("anger; rage; fury") -->
@@ -13,6 +14,7 @@
         <Animation Name="gTwinrovaKotakeKoumeDamageEndAnim" Offset="0x6530"/> <!-- Original name is "btT_damage02" -->
         <Animation Name="gTwinrovaKotakeKoumeFlyAnim" Offset="0x6F28"/> <!-- Original name is "btT_fly" -->
 
+        <!-- Kotake skeleton -->
         <Limb Name="gTwinrovaKotakePelvisLimb" LimbType="Standard" Offset="0x6F40"/>
         <Limb Name="gTwinrovaKotakeLeftThighLimb" LimbType="Standard" Offset="0x6F4C"/>
         <Limb Name="gTwinrovaKotakeLeftShinLimb" LimbType="Standard" Offset="0x6F58"/>
@@ -41,12 +43,14 @@
         <Limb Name="gTwinrovaKotakeLeftBraidEndLimb" LimbType="Standard" Offset="0x706C"/>
         <Skeleton Name="gTwinrovaKotakeSkel" Type="Flex" LimbType="Standard" Offset="0x70E0"/>
 
+        <!-- Kotake and Koume animations -->
         <Animation Name="gTwinrovaKotakeKoumeChargeUpAttackStartAnim" Offset="0x7688"/> <!-- Original name is "btT_fly_to_tame" -->
         <Animation Name="gTwinrovaKotakeKoumeSpinAnim" Offset="0x7CA8"/> <!-- Original name is "btT_guard" -->
         <Animation Name="gTwinrovaKotakeKoumeLaughAnim" Offset="0x88C8"/> <!-- Original name is "btT_hihihi" -->
         <Animation Name="gTwinrovaKotakeKoumeChargeUpAttackLoopAnim" Offset="0x9398"/> <!-- Original name is "btT_tame" ("to amass; to accumulate") -->
         <Animation Name="gTwinrovaKotakeKoumeTPoseAnim" Offset="0x947C"/>
 
+        <!-- Kotake and Koume textures -->
         <Texture Name="gTwinrovaKoumeKotakeTLUT" OutName="twinrova_koume_kotake_tlut" Format="rgba16" Width="53" Height="4" Offset="0x9490"/>
         <Texture Name="gTwinrovaKotakeGerudoFabricTex" OutName="twinrova_kotake_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0x9638"/>
         <Texture Name="gTwinrovaKotakeRobeTex" OutName="twinrova_kotake_robe" Format="rgba16" Width="16" Height="16" Offset="0x9E38"/>
@@ -72,35 +76,37 @@
         <Texture Name="gTwinrovaKoumeJewelTex" OutName="twinrova_koume_jewel" Format="rgba16" Width="8" Height="8" Offset="0xCA38"/>
         <Texture Name="gTwinrovaKoumeRobeTex" OutName="twinrova_koume_robe" Format="rgba16" Width="16" Height="16" Offset="0xCAB8"/>
 
-        <DList Name="object_tw_DL_0110A8" Offset="0x110A8"/>
-        <DList Name="object_tw_DL_0116A0" Offset="0x116A0"/>
-        <DList Name="object_tw_DL_011C98" Offset="0x11C98"/>
-        <DList Name="object_tw_DL_011E28" Offset="0x11E28"/>
-        <DList Name="object_tw_DL_011FB8" Offset="0x11FB8"/>
-        <DList Name="object_tw_DL_012018" Offset="0x12018"/>
-        <DList Name="object_tw_DL_0120C8" Offset="0x120C8"/>
-        <DList Name="object_tw_DL_012178" Offset="0x12178"/>
-        <DList Name="object_tw_DL_012210" Offset="0x12210"/>
-        <DList Name="object_tw_DL_0122A8" Offset="0x122A8"/>
-        <DList Name="object_tw_DL_012410" Offset="0x12410"/>
-        <DList Name="object_tw_DL_012578" Offset="0x12578"/>
-        <DList Name="object_tw_DL_0126E0" Offset="0x126E0"/>
-        <DList Name="object_tw_DL_012848" Offset="0x12848"/>
-        <DList Name="object_tw_DL_0128E0" Offset="0x128E0"/>
-        <DList Name="object_tw_DL_012978" Offset="0x12978"/>
-        <DList Name="object_tw_DL_012A28" Offset="0x12A28"/>
-        <DList Name="object_tw_DL_012AD8" Offset="0x12AD8"/>
-        <DList Name="object_tw_DL_012B38" Offset="0x12B38"/>
-        <DList Name="object_tw_DL_012CE0" Offset="0x12CE0"/>
-        <DList Name="object_tw_DL_013310" Offset="0x13310"/>
-        <DList Name="object_tw_DL_0134B8" Offset="0x134B8"/>
-        <DList Name="object_tw_DL_013AE8" Offset="0x13AE8"/>
-        <DList Name="object_tw_DL_013D68" Offset="0x13D68"/>
-        <DList Name="object_tw_DL_013E98" Offset="0x13E98"/>
-        <DList Name="object_tw_DL_013F98" Offset="0x13F98"/>
-        <DList Name="object_tw_DL_014070" Offset="0x14070"/>
-        <DList Name="object_tw_DL_014158" Offset="0x14158"/>
+        <!-- Kotake and Koume DLs -->
+        <DList Name="gTwinrovaKotakeHeadInvisibleHairDL" Offset="0x110A8"/>
+        <DList Name="gTwinrovaKoumeHeadInvisibleHairDL" Offset="0x116A0"/>
+        <DList Name="gTwinrovaKotakeBroomInvisibleHeadDL" Offset="0x11C98"/>
+        <DList Name="gTwinrovaKoumeBroomInvisibleHeadDL" Offset="0x11E28"/>
+        <DList Name="gTwinrovaKotakeTeethDL" Offset="0x11FB8"/>
+        <DList Name="gTwinrovaKotakeRightShinDL" Offset="0x12018"/>
+        <DList Name="gTwinrovaKotakeLeftShinDL" Offset="0x120C8"/>
+        <DList Name="gTwinrovaKotakeRightFootDL" Offset="0x12178"/>
+        <DList Name="gTwinrovaKotakeLeftFootDL" Offset="0x12210"/>
+        <DList Name="gTwinrovaKotakeRightHandDL" Offset="0x122A8"/>
+        <DList Name="gTwinrovaKotakeLeftHandDL" Offset="0x12410"/>
+        <DList Name="gTwinrovaKoumeRightHandDL" Offset="0x12578"/>
+        <DList Name="gTwinrovaKoumeLeftHandDL" Offset="0x126E0"/>
+        <DList Name="gTwinrovaKoumeLeftFootDL" Offset="0x12848"/>
+        <DList Name="gTwinrovaKoumeRightFootDL" Offset="0x128E0"/>
+        <DList Name="gTwinrovaKoumeLeftShinDL" Offset="0x12978"/>
+        <DList Name="gTwinrovaKoumeRightShinDL" Offset="0x12A28"/>
+        <DList Name="gTwinrovaKoumeTeethDL" Offset="0x12AD8"/>
+        <DList Name="gTwinrovaKotakeBroomDL" Offset="0x12B38"/>
+        <DList Name="gTwinrovaKotakeHeadDL" Offset="0x12CE0"/>
+        <DList Name="gTwinrovaKoumeBroomDL" Offset="0x13310"/>
+        <DList Name="gTwinrovaKoumeHeadDL" Offset="0x134B8"/>
+        <DList Name="gTwinrovaKotakeIceHairDL" Offset="0x13AE8"/>
+        <DList Name="gTwinrovaKoumeFireHairDL" Offset="0x13D68"/>
+        <DList Name="gTwinrovaKotakeIceBroomHeadDL" Offset="0x13E98"/>
+        <DList Name="gTwinrovaKotakeIceBroomHeadOuterDL" Offset="0x13F98"/>
+        <DList Name="gTwinrovaKotakeFireBroomHeadDL" Offset="0x14070"/>
+        <DList Name="gTwinrovaKotakeFireBroomHeadOuterDL" Offset="0x14158"/>
 
+        <!-- Kotake DLs -->
         <!--Blob Name="object_tw_Blob_015200" Size="0x60" Offset="0x15200" /-->
         <DList Name="gTwinrovaKotakeLeftBraidEndDL" Offset="0x15440"/>
         <DList Name="gTwinrovaKotakeLeftBraidStartDL" Offset="0x15538"/>
@@ -123,6 +129,7 @@
         <Texture Name="gTwinrovaBraidEndTex" OutName="twinrova_braid_end" Format="rgba16" Width="8" Height="8" Offset="0x16650"/>
         <Texture Name="gTwinrovaLeftFootTex" OutName="twinrova_left_foot" Format="rgba16" Width="4" Height="8" Offset="0x166D0"/>
 
+        <!-- Koume DLs -->
         <!--Blob Name="object_tw_Blob_0176D0" Size="0x60" Offset="0x176D0" /-->
         <DList Name="gTwinrovaKoumeLeftBraidEndDL" Offset="0x17910"/>
         <DList Name="gTwinrovaKoumeLeftBraidStartDL" Offset="0x17A08"/>
@@ -232,6 +239,8 @@
         <DList Name="gTwinrovaLightCircleDL" Offset="0x1F390"/> <!-- Original name is "bt_heavensgate_modelT" -->
         <DList Name="gTwinrovaHaloDL" Offset="0x1F608"/> <!-- Original name is "bt_angelring_model" -->
 
+
+        <!-- Koume skeleton -->
         <Limb Name="gTwinrovaKoumePelvisLimb" LimbType="Standard" Offset="0x1F6E8"/>
         <Limb Name="gTwinrovaKoumeLeftThighLimb" LimbType="Standard" Offset="0x1F6F4"/>
         <Limb Name="gTwinrovaKoumeLeftShinLimb" LimbType="Standard" Offset="0x1F700"/>

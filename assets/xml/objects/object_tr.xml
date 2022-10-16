@@ -1,5 +1,4 @@
 <Root>
-    <!-- Assets for Koume and Kotake (non-boss) -->
     <File Name="object_tr" Segment="6">
         <Animation Name="gKotakeKoumeLookOverRightShoulderAnim" Offset="0xBFC"/>
         <Animation Name="gKotakeKoumeLookingOverRightShoulderAnim" Offset="0x13CC"/>
