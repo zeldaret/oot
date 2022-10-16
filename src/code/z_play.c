@@ -1404,7 +1404,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
     this->unk_11DFC = NULL;
     this->setupEntranceList = NULL;
     this->setupExitList = NULL;
-    this->cUpElfMsgs = NULL;
+    this->naviQuestHints = NULL;
     this->setupPathList = NULL;
     this->numSetupActors = 0;
     Object_InitBank(this, &this->objectCtx);

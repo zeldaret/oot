@@ -23,10 +23,18 @@ void Lib_MemSet(u8* dest, size_t len, u8 val) {
     // clang-format on
 }
 
+/**
+ * @param angle binang
+ * @return cos(angle)
+ */
 f32 Math_CosS(s16 angle) {
     return coss(angle) * SHT_MINV;
 }
 
+/**
+ * @param angle binang
+ * @return sin(angle)
+ */
 f32 Math_SinS(s16 angle) {
     return sins(angle) * SHT_MINV;
 }
