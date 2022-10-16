@@ -1,6 +1,6 @@
 #include "global.h"
-#include "z64elf_message.h"
+#include "z64quest_hint_commands.h"
 
-ElfMessage gDungeonNaviMsgs[] = {
-    ELF_MSG_END(0x5F),
+QuestHintCmd gDungeonNaviQuestHints[] = {
+    QUEST_HINT_END(0x5F),
 };
