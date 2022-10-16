@@ -191,7 +191,7 @@ void Message_Init(PlayState* play) {
     YREG(31) = 0;
 }
 
-void func_80111070(void) {
+void Regs_InitDataImpl(void) {
     YREG(8) = 10;
     YREG(14) = 0;
     R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
@@ -602,6 +602,6 @@ void func_80111070(void) {
     R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
-void func_80112098(PlayState* play) {
-    func_80111070();
+void Regs_InitData(PlayState* play) {
+    Regs_InitDataImpl();
 }

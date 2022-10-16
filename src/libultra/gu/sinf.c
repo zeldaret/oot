@@ -14,20 +14,24 @@ static const du pilo = { 0x3E6110B4, 0x611A6263 };
 
 static const fu zero = { 0x00000000 };
 
-f32 sinf(f32 x) {
+/**
+ * @param angle radians
+ * @return sin(angle)
+ */
+f32 sinf(f32 angle) {
     f64 dx;
     f64 xSq;
     f64 polyApprox;
     f64 dn;
     s32 n;
     f64 result;
-    s32 ix = *(s32*)&x;
+    s32 ix = *(s32*)&angle;
     s32 xpt = (ix >> 22);
 
     xpt &= 0x1FF;
 
     if (xpt < 0xFF) {
-        dx = x;
+        dx = angle;
 
         if (xpt >= 0xE6) {
             xSq = SQ(dx);
@@ -35,11 +39,11 @@ f32 sinf(f32 x) {
             result = dx + (dx * xSq) * polyApprox;
             return (f32)result;
         }
-        return x;
+        return angle;
     }
 
     if (xpt < 0x136) {
-        dx = x;
+        dx = angle;
         dn = dx * rpi.d;
         n = ROUND(dn);
         dn = n;
@@ -57,7 +61,7 @@ f32 sinf(f32 x) {
         return -(f32)result;
     }
 
-    if (x != x) {
+    if (angle != angle) {
         return __libm_qnan_f;
     }
     return zero.f;
