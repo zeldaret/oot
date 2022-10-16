@@ -33,7 +33,7 @@ void DoorShutter_Update(Actor* thisx, PlayState* play);
 void DoorShutter_Draw(Actor* thisx, PlayState* play);
 
 void DoorShutter_RequestQuakeAndRumble(PlayState* play, s16 quakeY, s16 quakeDuration, s16 camId);
-void DoorShutter_SetupType(DoorShutter* this, PlayState* play);
+void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play);
 void func_80996A54(DoorShutter* this, PlayState* play);
 void func_80996B00(DoorShutter* this, PlayState* play);
 void func_80996B0C(DoorShutter* this, PlayState* play);
@@ -426,8 +426,8 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
+    DoorShutter_SetupAction(this, DoorShutter_WaitForObject);
 
-    DoorShutter_SetupAction(this, DoorShutter_SetupType);
     this->styleType = styleType;
     if (this->doorType == SHUTTER_KEY_LOCKED || this->doorType == SHUTTER_BOSS) {
         if (!Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
@@ -455,7 +455,7 @@ void DoorShutter_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-void DoorShutter_SetupType(DoorShutter* this, PlayState* play) {
+void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
         this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
@@ -833,7 +833,7 @@ void DoorShutter_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28)) ||
-        (this->actionFunc == DoorShutter_SetupType)) {
+        (this->actionFunc == DoorShutter_WaitForObject)) {
         this->actionFunc(this, play);
     }
 }
