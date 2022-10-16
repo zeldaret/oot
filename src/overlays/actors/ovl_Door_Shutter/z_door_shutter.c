@@ -484,7 +484,7 @@ void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play) {
 
 /**
  * Compute the distance forwards to the player
- * (perpendicularly to the door's left-right, and negative if the player is behind),
+ * (perpendicular to the door's left-right, and negative if the player is behind),
  * or returns the max float value if the player is too far left/right (`maxDistSides`) or above/below (`maxDistY`).
  */
 f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offsetY, f32 maxDistSides, f32 maxDistY) {
