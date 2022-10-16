@@ -894,7 +894,7 @@ typedef struct {
     /* 0x28 */ f32 eyeLerp;
     /* 0x2C */ s16 eyeLerpPhase;
     /* 0x2E */ s16 isSfxOff;
-    /* 0x30 */ s16 forwardsYaw; // yaw to the forwards crawling direction
+    /* 0x30 */ s16 forwardYaw; // yaw to the forwards crawling direction
     /* 0x32 */ s16 zoomTimer;
 } Subj4ReadWriteData; // size = 0x34
 
