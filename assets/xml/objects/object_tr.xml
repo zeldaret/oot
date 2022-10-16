@@ -40,7 +40,7 @@
         <Texture Name="gKotakeKoumeMouthTex" OutName="kotake_koume_mouth" Format="ci8" Width="8" Height="8" Offset="0x8B58" TlutOffset="0x7730"/>
         <Texture Name="gKotakeKoumeHairTex" OutName="kotake_koume_hair" Format="rgba16" Width="8" Height="32" Offset="0x8B98"/>
         <Texture Name="gKotakeKoumeEarTex" OutName="kotake_koume_ear" Format="ci8" Width="8" Height="8" Offset="0x8D98" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeFingersTex" OutName="kotake_koume_fingers" Format="ci8" Width="8" Height="16" Offset="0x8DD8" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeFingerTex" OutName="kotake_koume_finger" Format="ci8" Width="8" Height="16" Offset="0x8DD8" TlutOffset="0x7730"/>
         <Texture Name="gKotakeKoumeBroomHandleTex" OutName="kotake_koume_broom_handle" Format="rgba16" Width="8" Height="8" Offset="0x8E58"/>
         <Texture Name="gKotakeKoumeBroomHeadTex" OutName="kotake_koume_broom_head" Format="rgba16" Width="16" Height="32" Offset="0x8ED8"/>
         <Texture Name="gKotakeKoumeJewelHolderTex" OutName="kotake_koume_jewel_holder" Format="rgba16" Width="16" Height="8" Offset="0x92D8"/>

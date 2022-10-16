@@ -3478,9 +3478,9 @@ void func_80943028(Actor* thisx, PlayState* play) {
 }
 
 static void* sEyeTextures[] = {
-    object_tw_Tex_00A438,
-    object_tw_Tex_00B238,
-    object_tw_Tex_00B638,
+    gTwinrovaKotakeKoumeEyeOpenTex,
+    gTwinrovaKotakeKoumeEyeHalfTex,
+    gTwinrovaKotakeKoumeEyeClosedTex,
 };
 
 void BossTw_Draw(Actor* thisx, PlayState* play2) {

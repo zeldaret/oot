@@ -47,25 +47,25 @@
         <Animation Name="gTwinrovaKotakeKoumeChargeUpAttackLoopAnim" Offset="0x9398"/> <!-- Original name is "btT_tame" ("to amass; to accumulate") -->
         <Animation Name="gTwinrovaKotakeKoumeTPoseAnim" Offset="0x947C"/>
 
-        <Texture Name="object_tw_TLUT_009490" OutName="tlut_009490" Format="rgba16" Width="53" Height="4" Offset="0x9490"/>
+        <Texture Name="gTwinrovaKoumeKotakeTLUT" OutName="twinrova_koume_kotake_tlut" Format="rgba16" Width="53" Height="4" Offset="0x9490"/>
         <Texture Name="gTwinrovaKotakeGerudoFabricTex" OutName="twinrova_kotake_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0x9638"/>
         <Texture Name="gTwinrovaKotakeRobeTex" OutName="twinrova_kotake_robe" Format="rgba16" Width="16" Height="16" Offset="0x9E38"/>
         <Texture Name="gTwinrovaRobePatternTex" OutName="twinrova_robe_pattern" Format="rgba16" Width="16" Height="16" Offset="0xA038"/>
         <Texture Name="gTwinrovaRobeTrimTex" OutName="twinrova_robe_trim" Format="rgba16" Width="16" Height="16" Offset="0xA238"/>
-        <Texture Name="object_tw_Tex_00A438" OutName="tex_00A438" Format="ci8" Width="32" Height="32" Offset="0xA438" TlutOffset="0x9490"/>
-        <Texture Name="object_tw_Tex_00A838" OutName="tex_00A838" Format="ci8" Width="16" Height="8" Offset="0xA838" TlutOffset="0x9490"/>
-        <Texture Name="object_tw_Tex_00A8B8" OutName="tex_00A8B8" Format="ci8" Width="8" Height="8" Offset="0xA8B8" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeEyeOpenTex" OutName="twinrova_kotake_koume_eye_open" Format="ci8" Width="32" Height="32" Offset="0xA438" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeSkinTex" OutName="twinrova_kotake_koume_skin" Format="ci8" Width="16" Height="8" Offset="0xA838" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeMouthTex" OutName="twinrova_kotake_koume_mouth" Format="ci8" Width="8" Height="8" Offset="0xA8B8" TlutOffset="0x9490"/>
         <Texture Name="gTwinrovaHairTex" OutName="twinrova_hair" Format="rgba16" Width="8" Height="32" Offset="0xA8F8"/>
-        <Texture Name="object_tw_Tex_00AAF8" OutName="tex_00AAF8" Format="ci8" Width="8" Height="8" Offset="0xAAF8"  TlutOffset="0x9490"/>
-        <Texture Name="object_tw_Tex_00AB38" OutName="tex_00AB38" Format="ci8" Width="8" Height="16" Offset="0xAB38"  TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeEarTex" OutName="twinrova_kotake_koume_ear" Format="ci8" Width="8" Height="8" Offset="0xAAF8"  TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeFingerTex" OutName="twinrova_kotake_koume_finger" Format="ci8" Width="8" Height="16" Offset="0xAB38"  TlutOffset="0x9490"/>
         <Texture Name="gTwinrovaBroomHandleTex" OutName="twinrova_broom_handle" Format="rgba16" Width="8" Height="8" Offset="0xABB8"/>
         <Texture Name="gTwinrovaBroomHeadTex" OutName="twinrova_broom_head" Format="rgba16" Width="16" Height="32" Offset="0xAC38"/>
-        <Texture Name="object_tw_Tex_00B038" OutName="tex_00B038" Format="rgba16" Width="16" Height="8" Offset="0xB038"/>
+        <Texture Name="gTwinrovaKotakeKoumeJewelHolderTex" OutName="twinrova_koume_kotake_jewel_holder" Format="rgba16" Width="16" Height="8" Offset="0xB038"/>
         <Texture Name="gTwinrovaKotakeJewelTex" OutName="twinrova_kotake_jewel" Format="rgba16" Width="8" Height="8" Offset="0xB138"/>
-        <Texture Name="object_tw_Tex_00B1B8" OutName="tex_00B1B8" Format="ci8" Width="8" Height="8" Offset="0xB1B8" TlutOffset="0x9490"/>
-        <Texture Name="object_tw_Tex_00B1F8" OutName="tex_00B1F8" Format="ci8" Width="8" Height="8" Offset="0xB1F8" TlutOffset="0x9490"/>
-        <Texture Name="object_tw_Tex_00B238" OutName="tex_00B238" Format="ci8" Width="32" Height="32" Offset="0xB238" TlutOffset="0x9490"/>
-        <Texture Name="object_tw_Tex_00B638" OutName="tex_00B638" Format="ci8" Width="32" Height="32" Offset="0xB638" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeNeckTex" OutName="twinrova_koume_kotake_neck" Format="ci8" Width="8" Height="8" Offset="0xB1B8" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeNostrilsTex" OutName="twinrova_koume_kotake_nostrils" Format="ci8" Width="8" Height="8" Offset="0xB1F8" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeEyeHalfTex" OutName="twinrova_koume_kotake_eye_half" Format="ci8" Width="32" Height="32" Offset="0xB238" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeEyeClosedTex" OutName="twinrova_koume_kotake_eye_closed" Format="ci8" Width="32" Height="32" Offset="0xB638" TlutOffset="0x9490"/>
         <Texture Name="gTwinrovaEffectTex" OutName="twinrova_effect" Format="i8" Width="32" Height="32" Offset="0xBA38"/>
         <Texture Name="gTwinrovaEffectMaskTex" OutName="twinrova_effect_mask" Format="i4" Width="32" Height="64" Offset="0xBE38"/>
         <Texture Name="gTwinrovaKoumeGerudoFabricTex" OutName="twinrova_koume_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0xC238"/>
