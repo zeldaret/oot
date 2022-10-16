@@ -366,13 +366,13 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, PlayState* play) {
     if (doorType == SHUTTER_FRONT_CLEAR) {
         if (!Flags_GetClear(play, this->dyna.actor.room)) {
             DoorShutter_SetupAction(this, func_80996A54);
-            this->barsClosed = 1.0f;
+            this->barsClosedAmount = 1.0f;
             return true;
         }
     } else if (doorType == SHUTTER_FRONT_SWITCH || doorType == SHUTTER_FRONT_SWITCH_BACK_CLEAR) {
         if (!Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
             DoorShutter_SetupAction(this, func_80996EE8);
-            this->barsClosed = 1.0f;
+            this->barsClosedAmount = 1.0f;
             return true;
         }
         DoorShutter_SetupAction(this, func_80996F98);
@@ -436,7 +436,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
         Actor_SetFocus(&this->dyna.actor, 60.0f);
     } else if (styleType == DOORSHUTTER_STYLE_JABU_JABU) {
         Actor_SetScale(&this->dyna.actor, 0.1f);
-        this->jabuDoorClosed = 100;
+        this->jabuDoorClosedAmount = 100;
         this->dyna.actor.uncullZoneScale = 200.0f;
         Actor_SetFocus(&this->dyna.actor, 0.0f);
     } else {
@@ -603,7 +603,7 @@ void func_80996C60(DoorShutter* this, PlayState* play) {
         }
         DoorShutter_SetupAction(this, DoorShutter_Opening);
         this->gfxType = savedGfxType;
-        this->barsClosed = 0.0f;
+        this->barsClosedAmount = 0.0f;
         Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->doorBgCamIndex, 0.0f, 12,
                              doorCamTimer2, 10);
     }
@@ -621,27 +621,27 @@ s32 DoorShutter_UpdateOpening(DoorShutter* this, PlayState* play) {
             return true;
         }
     } else {
-        if (this->jabuDoorClosed == 100) {
+        if (this->jabuDoorClosedAmount == 100) {
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BUYODOOR_OPEN);
             func_80996C60(this, play);
         }
-        if (Math_StepToS(&this->jabuDoorClosed, 0, 10)) {
+        if (Math_StepToS(&this->jabuDoorClosedAmount, 0, 10)) {
             return true;
         }
     }
     return false;
 }
 
-s32 DoorShutter_UpdateBarsClosed(DoorShutter* this, PlayState* play, f32 barsClosedTarget) {
-    if (this->barsClosed == (1.0f - barsClosedTarget)) {
+s32 DoorShutter_UpdateBarsClosed(DoorShutter* this, PlayState* play, f32 barsClosedAmountTarget) {
+    if (this->barsClosedAmount == (1.0f - barsClosedAmountTarget)) {
         if (this->gfxType != DOORSHUTTER_GFX_JABU_JABU) {
-            if (barsClosedTarget == 1.0f) {
+            if (barsClosedAmountTarget == 1.0f) {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
             } else {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
             }
         } else {
-            if (barsClosedTarget == 1.0f) {
+            if (barsClosedAmountTarget == 1.0f) {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BUYOSHUTTER_CLOSE);
             } else {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BUYOSHUTTER_OPEN);
@@ -649,7 +649,7 @@ s32 DoorShutter_UpdateBarsClosed(DoorShutter* this, PlayState* play, f32 barsClo
         }
     }
 
-    if (Math_StepToF(&this->barsClosed, barsClosedTarget, 0.2f)) {
+    if (Math_StepToF(&this->barsClosedAmount, barsClosedAmountTarget, 0.2f)) {
         return true;
     } else {
         return false;
@@ -776,7 +776,7 @@ void DoorShutter_Closing(DoorShutter* this, PlayState* play) {
 }
 
 void DoorShutter_JabuDoorClosing(DoorShutter* this, PlayState* play) {
-    if (Math_StepToS(&this->jabuDoorClosed, 100, 10)) {
+    if (Math_StepToS(&this->jabuDoorClosedAmount, 100, 10)) {
         func_80997220(this, play);
     }
 }
@@ -841,7 +841,7 @@ void DoorShutter_Update(Actor* thisx, PlayState* play) {
 Gfx* DoorShutter_DrawJabuJabuDoor(PlayState* play, DoorShutter* this, Gfx* gfx) {
     MtxF mtx;
     f32 angle = 0.0f;
-    f32 yScale = this->jabuDoorClosed * 0.01f;
+    f32 yScale = this->jabuDoorClosedAmount * 0.01f;
     s32 i;
 
     Matrix_Get(&mtx);
@@ -857,7 +857,7 @@ Gfx* DoorShutter_DrawJabuJabuDoor(PlayState* play, DoorShutter* this, Gfx* gfx) 
             Matrix_Translate(0.0f, 989.94f, 0.0f, MTXMODE_APPLY);
         }
 
-        if (this->jabuDoorClosed != 100) {
+        if (this->jabuDoorClosedAmount != 100) {
             Matrix_Scale(1.0f, yScale, 1.0f, MTXMODE_APPLY);
         }
 
@@ -922,8 +922,8 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
 
         if (this->gfxType == DOORSHUTTER_GFX_JABU_JABU) {
             POLY_OPA_DISP = DoorShutter_DrawJabuJabuDoor(play, this, POLY_OPA_DISP);
-            if (this->barsClosed != 0.0f) {
-                f32 scale = (this->jabuDoorClosed * 0.01f) * this->barsClosed;
+            if (this->barsClosedAmount != 0.0f) {
+                f32 scale = (this->jabuDoorClosedAmount * 0.01f) * this->barsClosedAmount;
 
                 Gfx_SetupDL_25Opa(play->state.gfxCtx);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255.0f * scale); // no purpose?
@@ -954,8 +954,8 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_shutter.c", 2109),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gfxInfo->doorDL);
-            if (this->barsClosed != 0.0f && gfxInfo->barsDL != NULL) {
-                Matrix_Translate(0, gfxInfo->barsOpenOffsetY * (1.0f - this->barsClosed), gfxInfo->barsOffsetZ,
+            if (this->barsClosedAmount != 0.0f && gfxInfo->barsDL != NULL) {
+                Matrix_Translate(0, gfxInfo->barsOpenOffsetY * (1.0f - this->barsClosedAmount), gfxInfo->barsOffsetZ,
                                  MTXMODE_APPLY);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_shutter.c", 2119),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

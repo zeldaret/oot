@@ -46,7 +46,7 @@ typedef void (*DoorShutterActionFunc)(struct DoorShutter*, PlayState*);
 typedef struct DoorShutter {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ s16 unk_164;
-    /* 0x0166 */ s16 jabuDoorClosed; // Ranges from 0 (open) to 100 (closed)
+    /* 0x0166 */ s16 jabuDoorClosedAmount; // Ranges from 0 (open) to 100 (closed)
     /* 0x0168 */ s16 bossDoorTexIndex;
     /* 0x016A */ u8 doorType;
     /* 0x016B */ u8 styleType;
@@ -54,7 +54,7 @@ typedef struct DoorShutter {
     /* 0x016D */ s8 requiredObjBankIndex;
     /* 0x016E */ s8 unlockTimer; // non-0 if the door is locked, ticks down while the door is unlocking
     /* 0x016F */ s8 unk_16F;
-    /* 0x0170 */ f32 barsClosed; // Ranges from 0.0f (open) to 1.0f (locked)
+    /* 0x0170 */ f32 barsClosedAmount; // Ranges from 0.0f (open) to 1.0f (locked)
     /* 0x0174 */ DoorShutterActionFunc actionFunc;
 } DoorShutter; // size = 0x0178
 
