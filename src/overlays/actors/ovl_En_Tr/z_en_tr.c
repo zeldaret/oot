@@ -378,7 +378,7 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->animation != NULL) {
             if ((this->animation == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
                 (this->animation == &gKotakeKoumeLookingOverRightShoulderAnim)) {
@@ -432,7 +432,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == 0)) {
+    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == NULL)) {
         this->actor.shape.shadowDraw = NULL;
     } else {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;

@@ -85,11 +85,11 @@ void FileSelect_SelectCopySource(GameState* thisx) {
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else {
-        if (ABS(this->stickRelY) >= 30) {
+        if (ABS(this->stickAdjY) >= 30) {
             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-            if (this->stickRelY >= 30) {
+            if (this->stickAdjY >= 30) {
                 this->buttonIndex--;
 
                 if (this->buttonIndex < FS_BTN_COPY_FILE_1) {
@@ -201,11 +201,11 @@ void FileSelect_SelectCopyDest(GameState* thisx) {
         }
     } else {
 
-        if (ABS(this->stickRelY) >= 30) {
+        if (ABS(this->stickAdjY) >= 30) {
             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-            if (this->stickRelY >= 30) {
+            if (this->stickAdjY >= 30) {
                 this->buttonIndex--;
 
                 if (this->buttonIndex == this->selectedFileIndex) {
@@ -384,10 +384,10 @@ void FileSelect_CopyConfirm(GameState* thisx) {
         this->nextTitleLabel = FS_TITLE_COPY_COMPLETE;
         this->actionTimer = 8;
         this->configMode = CM_COPY_ANIM_1;
-        func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+        Rumble_Request(300.0f, 180, 20, 100);
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    } else if (ABS(this->stickRelY) >= 30) {
+    } else if (ABS(this->stickAdjY) >= 30) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->buttonIndex ^= 1;
@@ -716,11 +716,11 @@ void FileSelect_EraseSelect(GameState* thisx) {
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else {
-        if (ABS(this->stickRelY) >= 30) {
+        if (ABS(this->stickAdjY) >= 30) {
             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-            if (this->stickRelY >= 30) {
+            if (this->stickAdjY >= 30) {
                 this->buttonIndex--;
                 if (this->buttonIndex < FS_BTN_ERASE_FILE_1) {
                     this->buttonIndex = FS_BTN_ERASE_QUIT;
@@ -850,9 +850,9 @@ void FileSelect_EraseConfirm(GameState* thisx) {
         this->actionTimer = 8;
         this->configMode = CM_ERASE_ANIM_1;
         this->nextTitleLabel = FS_TITLE_ERASE_COMPLETE;
-        func_800AA000(200.0f, 0xFF, 0x14, 0x96);
+        Rumble_Request(200.0f, 255, 20, 150);
         sEraseDelayTimer = 15;
-    } else if (ABS(this->stickRelY) >= 30) {
+    } else if (ABS(this->stickAdjY) >= 30) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->buttonIndex ^= 1;

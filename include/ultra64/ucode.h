@@ -9,7 +9,7 @@
 #define SP_UCODE_SIZE           0x1000
 
 #define SP_UCODE_DATA_SIZE      0x800
-   
+
 extern u64 rspbootTextStart[], rspbootTextEnd[];
 
 extern u64 aspMainTextStart[], aspMainTextEnd[];

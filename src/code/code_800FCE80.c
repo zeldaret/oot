@@ -3,9 +3,13 @@
 
 s32 gUseAtanContFrac;
 
-f32 Math_FTanF(f32 x) {
-    f32 sin = sinf(x);
-    f32 cos = cosf(x);
+/**
+ * @param angle radians
+ * @return tan(angle)
+ */
+f32 Math_FTanF(f32 angle) {
+    f32 sin = sinf(angle);
+    f32 cos = cosf(angle);
 
     return sin / cos;
 }
@@ -42,7 +46,7 @@ f32 Math_FAtanTaylorQF(f32 x) {
     const f32* c = coeffs;
     f32 term;
 
-    while (1) {
+    while (true) {
         term = *c++ * exp;
         if (poly + term == poly) {
             break;
@@ -124,6 +128,9 @@ f32 Math_FAtanContFracF(f32 x) {
     }
 }
 
+/**
+ * @return arctan(x) in radians, in (-pi/2,pi/2) range
+ */
 f32 Math_FAtanF(f32 x) {
     if (!gUseAtanContFrac) {
         return Math_FAtanTaylorF(x);
@@ -132,6 +139,9 @@ f32 Math_FAtanF(f32 x) {
     }
 }
 
+/**
+ * @return angle to (x,y) from vector (1,0) around (0,0) in radians, in (-pi,pi] range
+ */
 f32 Math_FAtan2F(f32 y, f32 x) {
     if (x == 0.0f) {
         if (y == 0.0f) {
@@ -152,10 +162,16 @@ f32 Math_FAtan2F(f32 y, f32 x) {
     }
 }
 
+/**
+ * @return arcsin(x) in radians, in [-pi/2,pi/2] range
+ */
 f32 Math_FAsinF(f32 x) {
     return Math_FAtan2F(x, sqrtf(1.0f - SQ(x)));
 }
 
+/**
+ * @return arccos(x) in radians, in [0,pi] range
+ */
 f32 Math_FAcosF(f32 x) {
     return M_PI / 2 - Math_FAsinF(x);
 }

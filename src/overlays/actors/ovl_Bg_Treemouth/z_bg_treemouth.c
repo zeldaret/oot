@@ -64,7 +64,7 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gDekuTreeMouthCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
@@ -236,7 +236,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
         if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }
-    } else { // neeeded to match
+    } else { // needed to match
     }
 
     if (gSaveContext.sceneLayer == 6) {
