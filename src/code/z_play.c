@@ -403,7 +403,7 @@ void Play_Init(GameState* thisx) {
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
-    func_800304DC(this, &this->actorCtx, this->playerEntry);
+    Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     while (!func_800973FC(this, &this->roomCtx)) {
         ; // Empty Loop

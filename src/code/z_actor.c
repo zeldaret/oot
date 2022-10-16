@@ -1953,8 +1953,7 @@ void Actor_DisableLens(PlayState* play) {
     }
 }
 
-// Actor_InitContext
-void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEntry) {
+void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* playerEntry) {
     ActorOverlay* overlayEntry;
     SavedSceneFlags* savedSceneFlags;
     s32 i;
@@ -1983,7 +1982,7 @@ void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEnt
 
     actorCtx->absoluteSpace = NULL;
 
-    Actor_SpawnEntry(actorCtx, actorEntry, play);
+    Actor_SpawnEntry(actorCtx, playerEntry, play);
     func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, play);
     func_8002FA60(play);
 }
