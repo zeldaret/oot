@@ -1960,7 +1960,7 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
 
     savedSceneFlags = &gSaveContext.sceneFlags[play->sceneId];
 
-    bzero(actorCtx, sizeof(*actorCtx));
+    bzero(actorCtx, sizeof(ActorContext));
 
     ActorOverlayTable_Init();
     Matrix_MtxFCopy(&play->billboardMtxF, &gMtxFClear);
