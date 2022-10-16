@@ -4383,7 +4383,7 @@ s32 Camera_Subj4(Camera* camera) {
     PosRot playerPosRot;
     VecGeo targetOffset;
     VecGeo atEyeOffset;
-    s16 xzOffsetTimer;
+    s16 eyeToAtYaw;
     s32 pad[2];
     f32 temp;
     Subj4ReadOnlyData* roData = &camera->paramData.subj4.roData;
@@ -4437,7 +4437,7 @@ s32 Camera_Subj4(Camera* camera) {
             targetOffset.yaw -= 0x7FFF;
         }
 
-        rwData->yaw = targetOffset.yaw;
+        rwData->forwardsYaw = targetOffset.yaw;
         rwData->zoomTimer = 10;
         rwData->eyeLerpPhase = 0;
         rwData->isSfxOff = false;
@@ -4454,7 +4454,7 @@ s32 Camera_Subj4(Camera* camera) {
     if (rwData->zoomTimer != 0) {
         targetOffset.r = 10.0f;
         targetOffset.pitch = 0x238C; // ~50 degrees
-        targetOffset.yaw = rwData->yaw;
+        targetOffset.yaw = rwData->forwardsYaw;
         Camera_AddVecGeoToVec3f(&zoomAtTarget, &playerPosRot.pos, &targetOffset);
 
         vZoomTimer = rwData->zoomTimer + 1.0f;
@@ -4485,7 +4485,7 @@ s32 Camera_Subj4(Camera* camera) {
 
     *eye = *eyeNext;
 
-    targetOffset.yaw = rwData->yaw;
+    targetOffset.yaw = rwData->forwardsYaw;
     targetOffset.r = 5.0f;
     targetOffset.pitch = 0x238C; // ~50 degrees
 
@@ -4516,11 +4516,11 @@ s32 Camera_Subj4(Camera* camera) {
     camera->player->actor.shape.rot.y = targetOffset.yaw;
 
     eyeLerp = ((240.0f * eyeLerp) * (rwData->xzSpeed * 0.416667f));
-    xzOffsetTimer = eyeLerp + rwData->yaw;
+    eyeToAtYaw = rwData->forwardsYaw + eyeLerp;
 
-    at->x = eye->x + (Math_SinS(xzOffsetTimer) * 10.0f);
+    at->x = eye->x + (Math_SinS(eyeToAtYaw) * 10.0f);
     at->y = eye->y;
-    at->z = eye->z + (Math_CosS(xzOffsetTimer) * 10.0f);
+    at->z = eye->z + (Math_CosS(eyeToAtYaw) * 10.0f);
 
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
 
