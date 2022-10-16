@@ -3237,14 +3237,14 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     func_80832698(this, NA_SE_VO_LI_DOWN);
 
     if (this->actor.category == ACTORCAT_PLAYER) {
-        func_800F47BC();
+        Audio_SetBgmVolumeOffDuringFanfare();
 
         if (Inventory_ConsumeFairy(play)) {
             play->gameOverCtx.state = GAMEOVER_REVIVE_START;
             this->unk_84F = 1;
         } else {
             play->gameOverCtx.state = GAMEOVER_DEATH_START;
-            func_800F6AB0(0);
+            Audio_StopBgmAndFanfare(0);
             Audio_PlayFanfare(NA_BGM_GAME_OVER);
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
@@ -8384,7 +8384,7 @@ void func_80843AE8(PlayState* play, Player* this) {
             }
             this->unk_A87 = 20;
             func_80837AFC(this, -20);
-            func_800F47FC();
+            Audio_SetBgmVolumeOnDuringFanfare();
         }
     } else if (this->unk_84F != 0) {
         this->unk_850 = 60;
