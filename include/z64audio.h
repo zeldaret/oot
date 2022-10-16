@@ -1,6 +1,8 @@
 #ifndef Z64_AUDIO_H
 #define Z64_AUDIO_H
 
+typedef void (*AudioCustomUpdateFunction)(void);
+
 #define REFRESH_RATE_DEVIATION_PAL 1.001521f
 #define REFRESH_RATE_DEVIATION_MPAL 0.99276f
 #define REFRESH_RATE_DEVIATION_NTSC 1.00278f

@@ -36,8 +36,8 @@ AudioTask* AudioThread_UpdateImpl(void) {
 
     gAudioCtx.totalTaskCount++;
     if (gAudioCtx.totalTaskCount % (gAudioCtx.audioBufferParameters.specUnk4) != 0) {
-        if (gCustomAudioUpdateFunction != NULL) {
-            gCustomAudioUpdateFunction();
+        if (gAudioCustomUpdateFunction != NULL) {
+            gAudioCustomUpdateFunction();
         }
 
         if ((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) + 1 ==
@@ -63,8 +63,8 @@ AudioTask* AudioThread_UpdateImpl(void) {
         }
     }
 
-    if (gCustomAudioUpdateFunction != NULL) {
-        gCustomAudioUpdateFunction();
+    if (gAudioCustomUpdateFunction != NULL) {
+        gAudioCustomUpdateFunction();
     }
 
     sp5C = gAudioCtx.curAudioFrameDmaCount;
@@ -150,9 +150,9 @@ AudioTask* AudioThread_UpdateImpl(void) {
     gAudioCtx.audioRandom = gAudioCtx.audioRandom + gAudioCtx.aiBuffers[index][gAudioCtx.totalTaskCount & 0xFF];
 
     // gWaveSamples[8] interprets compiled assembly code as s16 samples as a way to generate sound with noise.
-    // Start with the address of AudioThread_Update, and offset it by a random number between 0 - 0xFFF0
+    // Start with the address of AudioThread_Update(), and offset it by a random number between 0 - 0xFFF0
     // Use the resulting address as the starting address to interpret an array of samples i.e. `s16 samples[]`
-    gWaveSamples[8] = (s16*)(((u8*)AudioThread_Update) + (gAudioCtx.audioRandom & 0xFFF0));
+    gWaveSamples[8] = (s16*)((u8*)AudioThread_Update + (gAudioCtx.audioRandom & 0xFFF0));
 
     index = gAudioCtx.rspTaskIndex;
     gAudioCtx.curTask->msgQueue = NULL;
@@ -282,7 +282,7 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_GLOBAL_SET_CUSTOM_UPDATE_FUNCTION:
-            gCustomAudioUpdateFunction = (void (*)(void))cmd->asUInt;
+            gAudioCustomUpdateFunction = (AudioCustomUpdateFunction)cmd->asUInt;
             break;
 
         case AUDIOCMD_OP_GLOBAL_SET_DRUM_FONT:

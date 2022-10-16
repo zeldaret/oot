@@ -130,7 +130,7 @@ typedef enum {
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
- * @param panChannelWeight (s8) proportion of pan that comes from the channel (0..128).
+ * @param panChannelWeight (s8) proportion of pan that comes from the channel
  */
 #define AUDIOCMD_CHANNEL_SET_PAN_WEIGHT(seqPlayerIndex, channelIndex, panChannelWeight)                       \
     AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_CHANNEL_SET_PAN_WEIGHT, seqPlayerIndex, channelIndex, 0), \
@@ -458,7 +458,7 @@ typedef enum {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_NOOP_1, arg0, arg1, arg2), data)
 
 /**
- * Set a custom function that runs every audio thread update
+ * Set a custom function that runs every audio thread update, see `AudioCustomUpdateFunction`
  *
  * @param functionPtr (s32) address of the function to run once every audio frame
  */
