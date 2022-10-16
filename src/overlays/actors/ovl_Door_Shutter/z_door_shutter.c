@@ -507,9 +507,9 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
 }
 
 /**
- * Returns 0 if the player is not near and facing the door.
- * Returns 1 if the player is near and faces the front of the door.
- * Returns -1 if the player is near and faces the back of the door.
+ * Returns 0 if the player is not near or is not facing the door.
+ * Returns 1 if the player is near and is facing the front of the door.
+ * Returns -1 if the player is near and is facing the back of the door.
  */
 s32 DoorShutter_GetPlayerSide(DoorShutter* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
