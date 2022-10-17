@@ -95,16 +95,16 @@ typedef enum {
 } StormState;
 
 typedef enum {
-    /*  0x00 */ TIMESEQ_DAY_BGM,
-    /*  0x01 */ TIMESEQ_FADE_DAY_BGM,
-    /*  0x02 */ TIMESEQ_NIGHT_BEGIN_SFX,
-    /*  0x03 */ TIMESEQ_EARLY_NIGHT_CRITTERS,
-    /*  0x04 */ TIMESEQ_NIGHT_DELAY,
-    /*  0x05 */ TIMESEQ_NIGHT_CRITTERS,
-    /*  0x06 */ TIMESEQ_DAY_BEGIN_SFX,
-    /*  0x07 */ TIMESEQ_MORNING_CRITTERS,
-    /*  0x08 */ TIMESEQ_DAY_DELAY,
-    /*  0xFF */ TIMESEQ_DISABLED = 0xFF
+    /* 0x00 */ TIMESEQ_DAY_BGM,
+    /* 0x01 */ TIMESEQ_FADE_DAY_BGM,
+    /* 0x02 */ TIMESEQ_NIGHT_BEGIN_SFX,
+    /* 0x03 */ TIMESEQ_EARLY_NIGHT_CRITTERS,
+    /* 0x04 */ TIMESEQ_NIGHT_DELAY,
+    /* 0x05 */ TIMESEQ_NIGHT_CRITTERS,
+    /* 0x06 */ TIMESEQ_DAY_BEGIN_SFX,
+    /* 0x07 */ TIMESEQ_MORNING_CRITTERS,
+    /* 0x08 */ TIMESEQ_DAY_DELAY,
+    /* 0xFF */ TIMESEQ_DISABLED = 0xFF
 } TimeBasedSeqState;
 
 typedef enum {
