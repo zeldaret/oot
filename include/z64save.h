@@ -8,20 +8,23 @@ typedef enum {
     /*  0 */ HUD_VISIBILITY_IDLE,
     /*  1 */ HUD_VISIBILITY_NONE,
     /*  2 */ HUD_VISIBILITY_NONE_ALT, // Identical to HUD_VISIBILITY_NONE
-    /*  3 */ HUD_VISIBILITY_HEARTS_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
+    /*  3 */ HUD_VISIBILITY_HEARTS_WITH_OVERWRITE, // See below
     /*  4 */ HUD_VISIBILITY_A,
-    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
-    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
-    /*  7 */ HUD_VISIBILITY_ALL_NO_MINIMAP_W_DISABLED, // Only raises button alphas if not disabled
+    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE, // See below
+    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE, // See below
+    /*  7 */ HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS, // Only raises button alphas if not disabled
     /*  8 */ HUD_VISIBILITY_B,
     /*  9 */ HUD_VISIBILITY_HEARTS_MAGIC,
     /* 10 */ HUD_VISIBILITY_B_ALT, // Identical to HUD_VISIBILITY_B
     /* 11 */ HUD_VISIBILITY_HEARTS,
     /* 12 */ HUD_VISIBILITY_A_B_MINIMAP,
-    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
-    /* 50 */ HUD_VISIBILITY_ALL = 50,
+    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_WITH_OVERWRITE, // See below
+    /* 50 */ HUD_VISIBILITY_ALL = 50, // Only raises button alphas if not disabled
     /* 52 */ HUD_VISIBILITY_NONE_INSTANT = 52
 } HudVisibility;
+
+// `_WITH_OVERWRITE` means that this request will respond to `hudVisibilityForceRisingButtonAlphas`.
+// If set, the buttons will also raise alphas but will also account for disabled buttons
 
 typedef enum {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay

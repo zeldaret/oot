@@ -456,7 +456,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
             }
             break;
 
-        case HUD_VISIBILITY_ALL_NO_MINIMAP_W_DISABLED:
+        case HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS:
             if ((interfaceCtx->minimapAlpha != 0) && (interfaceCtx->minimapAlpha > dimmingAlpha)) {
                 interfaceCtx->minimapAlpha = dimmingAlpha;
             }
@@ -1341,7 +1341,7 @@ void func_80084BF4(PlayState* play, u16 flag) {
 
         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-        Interface_ChangeHudVisibility(HUD_VISIBILITY_ALL_NO_MINIMAP_W_DISABLED);
+        Interface_ChangeHudVisibility(HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS);
     } else {
         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
             gSaveContext.buttonStatus[3] = BTN_ENABLED;
@@ -3938,7 +3938,7 @@ void Interface_Update(PlayState* play) {
         case HUD_VISIBILITY_A:
         case HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE:
         case HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE:
-        case HUD_VISIBILITY_ALL_NO_MINIMAP_W_DISABLED:
+        case HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS:
         case HUD_VISIBILITY_B:
         case HUD_VISIBILITY_HEARTS_MAGIC:
         case HUD_VISIBILITY_B_ALT:
