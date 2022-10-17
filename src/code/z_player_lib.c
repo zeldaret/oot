@@ -91,11 +91,11 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
 };
 
 typedef struct {
-    /* 0x00 */ u8 flag;
-    /* 0x02 */ u16 textId;
-} EnvTextTriggerEntry; // size = 0x04
+    /* 0x0 */ u8 flag;
+    /* 0x2 */ u16 textId;
+} EnvTimerTextTriggerEntry; // size = 0x4
 
-EnvTextTriggerEntry sEnvTextTriggers[] = {
+EnvTimerTextTriggerEntry sEnvTimerTextTriggers[] = {
     { ENV_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_TIMER_HOTROOM - 1
     { ENV_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_TIMER_UNDERWATER_FLOOR - 1
     { 0, 0x0000 },                           // PLAYER_ENV_TIMER_SWIMMING - 1
@@ -780,7 +780,7 @@ return_neg:
 
 s32 Player_GetEnvTimerType(PlayState* play) {
     Player* this = GET_PLAYER(play);
-    EnvTextTriggerEntry* triggerEntry;
+    EnvTimerTextTriggerEntry* triggerEntry;
     s32 envTimerType;
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
@@ -797,15 +797,15 @@ s32 Player_GetEnvTimerType(PlayState* play) {
     }
 
     // Trigger general textboxes under certain conditions, like "It's so hot in here!"
-    triggerEntry = &sEnvTextTriggers[envTimerType];
+    triggerEntry = &sEnvTimerTextTriggers[envTimerType];
     if (!Player_InCsMode(play)) {
-        if ((triggerEntry->flag != 0) && !(gSaveContext.envTextTriggerFlags & triggerEntry->flag) &&
+        if ((triggerEntry->flag != 0) && !(gSaveContext.envTimerTextTriggerFlags & triggerEntry->flag) &&
             (((envTimerType == (PLAYER_ENV_TIMER_TYPE_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
              (((envTimerType == (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR - 1)) ||
                (envTimerType == (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE - 1))) &&
               (this->currentBoots == PLAYER_BOOTS_IRON) && (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             Message_StartTextbox(play, triggerEntry->textId, NULL);
-            gSaveContext.envTextTriggerFlags |= triggerEntry->flag;
+            gSaveContext.envTimerTextTriggerFlags |= triggerEntry->flag;
         }
     }
 

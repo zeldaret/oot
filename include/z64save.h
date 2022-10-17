@@ -205,7 +205,7 @@ typedef struct {
     /* 0x13C2 */ char unk_13C2[0x0001];
     /* 0x13C3 */ u8 retainWeatherMode;
     /* 0x13C4 */ s16 dogParams;
-    /* 0x13C6 */ u8 envTextTriggerFlags;
+    /* 0x13C6 */ u8 envTimerTextTriggerFlags;
     /* 0x13C7 */ u8 showTitleCard;
     /* 0x13C8 */ s16 nayrusLoveTimer;
     /* 0x13CA */ char unk_13CA[0x0002];
