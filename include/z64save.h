@@ -133,10 +133,14 @@ typedef enum {
 
 typedef enum {
     /* 0 */ TIMER_ID_MAIN,
-    /* 1 */ TIMER_ID_SUB
+    /* 1 */ TIMER_ID_SUB,
+    /* 2 */ TIMER_ID_MAX
 } TimerId;
 
 #define MARATHON_TIME_LIMIT 240 // 4 minutes
+
+#define ENV_TEXT_TRIGGER_HOTROOM (1 << 0)
+#define ENV_TEXT_TRIGGER_UNDERWATER (1 << 1)
 
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
@@ -201,7 +205,7 @@ typedef struct {
     /* 0x13C2 */ char unk_13C2[0x0001];
     /* 0x13C3 */ u8 retainWeatherMode;
     /* 0x13C4 */ s16 dogParams;
-    /* 0x13C6 */ u8 textTriggerFlags;
+    /* 0x13C6 */ u8 envTextTriggerFlags;
     /* 0x13C7 */ u8 showTitleCard;
     /* 0x13C8 */ s16 nayrusLoveTimer;
     /* 0x13CA */ char unk_13CA[0x0002];
@@ -210,8 +214,8 @@ typedef struct {
     /* 0x13D0 */ s16 timerTime;
     /* 0x13D2 */ s16 subTimerState; // See `SubTimerState`
     /* 0x13D4 */ s16 subTimerTime;
-    /* 0x13D6 */ s16 timerX[2];
-    /* 0x13DA */ s16 timerY[2];
+    /* 0x13D6 */ s16 timerX[TIMER_ID_MAX];
+    /* 0x13DA */ s16 timerY[TIMER_ID_MAX];
     /* 0x13DE */ char unk_13DE[0x0002];
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
