@@ -50,7 +50,7 @@ void BgGndIceblock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gWaterTrialIceBlockCol, &colHeader);
     this->targetPos = this->dyna.actor.home.pos;
     this->actionFunc = BgGndIceblock_Idle;
@@ -313,7 +313,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
         thisx->speedXZ = 0.0f;
         this->targetPos.x = thisx->world.pos.x;
         this->targetPos.z = thisx->world.pos.z;
-        Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_BLOCK_BOUND);
         switch (BgGndIceblock_NextAction(this)) {
             case GNDICE_IDLE:
                 this->actionFunc = BgGndIceblock_Idle;

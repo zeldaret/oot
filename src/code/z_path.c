@@ -4,7 +4,7 @@ Path* Path_GetByIndex(PlayState* play, s16 index, s16 max) {
     Path* path;
 
     if (index != max) {
-        path = &play->setupPathList[index];
+        path = &play->pathList[index];
     } else {
         path = NULL;
     }

@@ -128,7 +128,7 @@ s32 func_808B8A98(BgSpot18Obj* this, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;
@@ -259,7 +259,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }

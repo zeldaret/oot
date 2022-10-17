@@ -97,10 +97,10 @@ typedef struct {
     /* 0x188 */ u16 flags;
     /* 0x18A */ s16 addAngleChange;
     /* 0x18C */ s16 addAngle;
-    /* 0x18E */ Color_RGBA8 p1StartColor;
-    /* 0x192 */ Color_RGBA8 p2StartColor;
-    /* 0x196 */ Color_RGBA8 p1EndColor;
-    /* 0x19A */ Color_RGBA8 p2EndColor;
+    /* 0x18E */ u8 p1StartColor[4];
+    /* 0x192 */ u8 p2StartColor[4];
+    /* 0x196 */ u8 p1EndColor[4];
+    /* 0x19A */ u8 p2EndColor[4];
     /* 0x19E */ u8 numElements; // "now_edge_num"
     /* 0x19F */ u8 elemDuration;
     /* 0x1A0 */ u8 unkFlag;
@@ -202,8 +202,8 @@ typedef struct {
 } EffectSsInit; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
+    /* 0x00 */ uintptr_t vromStart;
+    /* 0x04 */ uintptr_t vromEnd;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr;

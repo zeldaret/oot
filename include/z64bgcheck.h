@@ -26,8 +26,6 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_STOP 8
 #define FUNC_80041EA4_VOID_OUT 12
 
-#define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
-
 typedef struct {
     Vec3f scale;
     Vec3s rot;
@@ -66,12 +64,38 @@ typedef struct {
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
     /* 0x0E */ union {
-        s16 jfifId;
+        s16 roomImageOverrideBgCamIndex;
         s16 timer;
         s16 flags;
     };
     /* 0x10 */ s16 unk_10; // unused
 } BgCamFuncData; // size = 0x12
+
+// Macros for `WaterBox.properties`
+
+#define WATERBOX_BGCAM_INDEX_SHIFT 0
+#define WATERBOX_BGCAM_INDEX_MASK 0x000000FF
+#define WATERBOX_BGCAM_INDEX(properties) \
+    (((properties) >> WATERBOX_BGCAM_INDEX_SHIFT) & (WATERBOX_BGCAM_INDEX_MASK >> WATERBOX_BGCAM_INDEX_SHIFT))
+
+#define WATERBOX_LIGHT_INDEX_SHIFT 8
+#define WATERBOX_LIGHT_INDEX_MASK 0x00001F00
+#define WATERBOX_LIGHT_INDEX(properties) \
+    (((properties) >> WATERBOX_LIGHT_INDEX_SHIFT) & (WATERBOX_LIGHT_INDEX_MASK >> WATERBOX_LIGHT_INDEX_SHIFT))
+#define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
+
+#define WATERBOX_ROOM_SHIFT 13
+#define WATERBOX_ROOM_MASK 0x0007E000
+#define WATERBOX_ROOM(properties) (((properties) >> WATERBOX_ROOM_SHIFT) & (WATERBOX_ROOM_MASK >> WATERBOX_ROOM_SHIFT))
+#define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
+
+#define WATERBOX_FLAG_19_SHIFT 19
+#define WATERBOX_FLAG_19 (1 << WATERBOX_FLAG_19_SHIFT)
+
+#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19)              \
+    ((((bgCamIndex) << WATERBOX_BGCAM_INDEX_SHIFT) & WATERBOX_BGCAM_INDEX_MASK) | \
+     (((lightIndex) << WATERBOX_LIGHT_INDEX_SHIFT) & WATERBOX_LIGHT_INDEX_MASK) | \
+     (((room) << WATERBOX_ROOM_SHIFT) & WATERBOX_ROOM_MASK) | (((setFlag19) & 1) << WATERBOX_FLAG_19_SHIFT))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -80,18 +104,96 @@ typedef struct {
     /* 0x06 */ s16 xLength;
     /* 0x08 */ s16 zLength;
     /* 0x0C */ u32 properties;
-
-    // 0x0008_0000 = ?
-    // 0x0007_E000 = Room Index, 0x3F = all rooms
-    // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
+
+typedef enum {
+    /*  0 */ FLOOR_TYPE_0,
+    /*  1 */ FLOOR_TYPE_1,
+    /*  2 */ FLOOR_TYPE_2,
+    /*  3 */ FLOOR_TYPE_3,
+    /*  4 */ FLOOR_TYPE_4,
+    /*  5 */ FLOOR_TYPE_5,
+    /*  6 */ FLOOR_TYPE_6,
+    /*  7 */ FLOOR_TYPE_7,
+    /*  8 */ FLOOR_TYPE_8,
+    /*  9 */ FLOOR_TYPE_9,
+    /* 10 */ FLOOR_TYPE_10,
+    /* 11 */ FLOOR_TYPE_11,
+    /* 12 */ FLOOR_TYPE_12
+} FloorType;
+
+typedef enum {
+    /*  0 */ WALL_TYPE_0,
+    /*  1 */ WALL_TYPE_1,
+    /*  2 */ WALL_TYPE_2,
+    /*  3 */ WALL_TYPE_3,
+    /*  4 */ WALL_TYPE_4,
+    /*  5 */ WALL_TYPE_5,
+    /*  6 */ WALL_TYPE_6,
+    /*  7 */ WALL_TYPE_7,
+    /*  8 */ WALL_TYPE_8,
+    /*  9 */ WALL_TYPE_9,
+    /* 10 */ WALL_TYPE_10,
+    /* 11 */ WALL_TYPE_11,
+    /* 12 */ WALL_TYPE_12,
+    /* 32 */ WALL_TYPE_MAX = 32
+} WallType;
+
+#define WALL_FLAG_0 (1 << 0)
+#define WALL_FLAG_1 (1 << 1)
+#define WALL_FLAG_2 (1 << 2)
+#define WALL_FLAG_3 (1 << 3)
+#define WALL_FLAG_4 (1 << 4)
+#define WALL_FLAG_5 (1 << 5)
+#define WALL_FLAG_6 (1 << 6)
+
+typedef enum {
+    /*  0 */ FLOOR_PROPERTY_0,
+    /*  5 */ FLOOR_PROPERTY_5 = 5,
+    /*  6 */ FLOOR_PROPERTY_6,
+    /*  7 */ FLOOR_PROPERTY_7,
+    /*  8 */ FLOOR_PROPERTY_8,
+    /*  9 */ FLOOR_PROPERTY_9,
+    /* 11 */ FLOOR_PROPERTY_11 = 11,
+    /* 12 */ FLOOR_PROPERTY_12
+} FloorProperty;
+
+typedef enum {
+    /*  0 */ SURFACE_SFX_TYPE_0,
+    /*  1 */ SURFACE_SFX_TYPE_1,
+    /*  2 */ SURFACE_SFX_TYPE_2,
+    /*  3 */ SURFACE_SFX_TYPE_3,
+    /*  4 */ SURFACE_SFX_TYPE_4,
+    /*  5 */ SURFACE_SFX_TYPE_5,
+    /*  6 */ SURFACE_SFX_TYPE_6,
+    /*  7 */ SURFACE_SFX_TYPE_7,
+    /*  8 */ SURFACE_SFX_TYPE_8,
+    /*  9 */ SURFACE_SFX_TYPE_9,
+    /* 10 */ SURFACE_SFX_TYPE_10,
+    /* 11 */ SURFACE_SFX_TYPE_11,
+    /* 12 */ SURFACE_SFX_TYPE_12,
+    /* 13 */ SURFACE_SFX_TYPE_13,
+    /* 14 */ SURFACE_SFX_TYPE_MAX
+} SurfaceSfxType;
+
+typedef enum {
+    /*  0 */ FLOOR_EFFECT_0,
+    /*  1 */ FLOOR_EFFECT_1,
+    /*  2 */ FLOOR_EFFECT_2
+} FloorEffect;
+
+typedef enum {
+    /*  0 */ CONVEYOR_SPEED_DISABLED,
+    /*  1 */ CONVEYOR_SPEED_SLOW,
+    /*  2 */ CONVEYOR_SPEED_MEDIUM,
+    /*  3 */ CONVEYOR_SPEED_FAST,
+    /*  4 */ CONVEYOR_SPEED_MAX
+} ConveyorSpeed;
+
+#define CONVEYOR_DIRECTION_TO_BINANG(conveyorDirection) ((conveyorDirection) * (0x10000 / 64))
 
 typedef struct {
     u32 data[2];
-
-    // Type 1
-    // 0x0800_0000 = wall damage
 } SurfaceType;
 
 typedef struct {
@@ -194,11 +296,11 @@ typedef struct {
     /* 0x14 */ Vec3f* pos;
     /* 0x18 */ s32* bgId;
     /* 0x1C */ struct Actor* actor;
-    /* 0x20 */ u32 unk_20;
+    /* 0x20 */ u32 downChkFlags;
     /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
     /* 0x2C */ SSList* ssList;
-} DynaRaycast;
+} DynaRaycastDown;
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;

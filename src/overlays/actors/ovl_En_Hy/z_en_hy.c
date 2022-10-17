@@ -428,9 +428,11 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
 
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
-            if (play->sceneNum == SCENE_KAKARIKO) {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
-            } else if (play->sceneNum == SCENE_MARKET_DAY) {
+            if (play->sceneId == SCENE_KAKARIKO) {
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x508D
+                           : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
+            } else if (play->sceneId == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
                 s16 followingDog = (gSaveContext.dogParams & 0xF00) >> 8;
@@ -451,13 +453,13 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
             }
         case ENHY_TYPE_AHG_2:
-            if (play->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO) {
                 return 0x5086;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_SPOT01) {
                 return 0x5085;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 return 0x701A;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
                 return 0x701B;
@@ -476,9 +478,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_BBA:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
         case ENHY_TYPE_BJI_7:
-            if (play->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO) {
                 return 0x5088;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_SPOT01) {
                 return 0x5087;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
@@ -490,17 +492,17 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
-            if (play->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x5082 : 0x5081;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
-            if (play->sceneNum == SCENE_LABO) {
+            if (play->sceneId == SCENE_LABO) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x507E : 0x507D;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
@@ -508,7 +510,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_CNE_11:
             return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
         case ENHY_TYPE_BOJ_12:
-            if (play->sceneNum == SCENE_SPOT01) {
+            if (play->sceneId == SCENE_SPOT01) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7044 : 0x7015;
@@ -537,7 +539,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             if (!LINK_IS_ADULT) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062 : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x5062
+                           : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -567,9 +571,9 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                 case 0x709E:
                 case 0x709F:
                     if (!this->unk_215) {
-                        Audio_PlaySoundGeneral(this->actor.textId == 0x709F ? NA_SE_SY_CORRECT_CHIME : NA_SE_SY_ERROR,
-                                               &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(this->actor.textId == 0x709F ? NA_SE_SY_CORRECT_CHIME : NA_SE_SY_ERROR,
+                                             &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->unk_215 = true;
                     }
                     break;
@@ -592,7 +596,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
-                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
                     break;
                 case 0x7016:
                     SET_INFTABLE(INFTABLE_C0);
@@ -799,7 +803,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
 }
 
 s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_SPOT01:
             if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 ||
                   (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
@@ -903,13 +907,13 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
-        if ((play->sceneNum == SCENE_MARKET_ALLEY) || (play->sceneNum == SCENE_MARKET_DAY)) {
+        if ((play->sceneId == SCENE_MARKET_ALLEY) || (play->sceneId == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.uncullZoneScale = 0.0f;
         }
 
-        if (play->sceneNum == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_6B_INDEX];
+        if (play->sceneId == SCENE_KAKARIKO) {
+            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX];
         }
 
         EnHy_InitSetProperties(this);
@@ -927,7 +931,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
                 this->actionFunc = func_80A712C0;
                 break;
             case ENHY_TYPE_AOB:
-                if (play->sceneNum == SCENE_MARKET_DAY) {
+                if (play->sceneId == SCENE_MARKET_DAY) {
                     this->actionFunc = func_80A710F8;
                     break;
                 }
