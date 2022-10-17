@@ -131,6 +131,8 @@ typedef enum {
     /* 0xA */ TIMER2_STATE_UP_3
 } Timer2State;
 
+#define MARATHON_TIME_LIMIT 240 // 4 minutes
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child (see enum `LinkAge`)
@@ -780,7 +782,8 @@ typedef enum {
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT)
 
 
-#define EVENTINF_10 0x10
+// Is the running man race active
+#define EVENTINF_MARATHON_ACTIVE 0x10
 
 // 0x20-0x24
 #define EVENTINF_20_21_22_23_24_INDEX 2

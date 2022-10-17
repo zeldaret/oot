@@ -103,7 +103,7 @@ void func_80AAEF70(EnMm2* this, PlayState* play) {
     if (!GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
         this->actor.textId = 0x6086;
     } else if (GET_INFTABLE(INFTABLE_17F)) {
-        if (GET_EVENTINF(EVENTINF_10)) {
+        if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
             this->actor.textId = 0x6082;
         } else if (gSaveContext.timer2State != TIMER2_STATE_OFF) {
             this->actor.textId = 0x6076;
@@ -116,7 +116,7 @@ void func_80AAEF70(EnMm2* this, PlayState* play) {
         this->actor.textId = 0x6076;
     } else {
         this->actor.textId = 0x607D;
-        CLEAR_EVENTINF(EVENTINF_10);
+        CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
         HIGH_SCORE(HS_MARATHON) = 158;
     }
 }
@@ -149,7 +149,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
-        if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_10)) {
+        if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
             osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }
@@ -194,7 +194,7 @@ void func_80AAF330(EnMm2* this, PlayState* play) {
             Message_CloseTextbox(play);
         }
         gSaveContext.timer2State = TIMER2_STATE_OFF;
-        CLEAR_EVENTINF(EVENTINF_10);
+        CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     }
 }
 
@@ -209,7 +209,7 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
                     case 0:
                         Message_ContinueTextbox(play, 0x607F);
                         this->actor.textId = 0x607F;
-                        SET_EVENTINF(EVENTINF_10);
+                        SET_EVENTINF(EVENTINF_MARATHON_ACTIVE);
                         break;
                     case 1:
                         Message_ContinueTextbox(play, 0x6080);
@@ -219,14 +219,14 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
                 if (this->unk_1F4 & 4) {
                     if (1) {}
                     this->unk_1F4 &= ~4;
-                    HIGH_SCORE(HS_MARATHON) += 1;
+                    HIGH_SCORE(HS_MARATHON)++;
                 }
             }
             return;
         case 0x6081:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 this->unk_1F4 |= 4;
-                HIGH_SCORE(HS_MARATHON) -= 1;
+                HIGH_SCORE(HS_MARATHON)--;
                 Message_ContinueTextbox(play, 0x607E);
                 this->actor.textId = 0x607E;
             }
@@ -277,8 +277,9 @@ void func_80AAF668(EnMm2* this, PlayState* play) {
             HIGH_SCORE(HS_MARATHON) = gSaveContext.timer2Value;
         }
     } else {
-        LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", GET_EVENTINF(EVENTINF_10), "../z_en_mm2.c", 541);
-        if (!GET_EVENTINF(EVENTINF_10)) {
+        LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", GET_EVENTINF(EVENTINF_MARATHON_ACTIVE), "../z_en_mm2.c",
+                541);
+        if (!GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
             this->unk_1F4 |= 2;
             this->unk_1F4 &= ~1;
             EnMm2_ChangeAnim(this, RM2_ANIM_STAND, &this->previousAnimation);

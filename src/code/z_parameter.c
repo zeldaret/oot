@@ -2692,8 +2692,8 @@ void Interface_SetTimer2(s16 seconds) {
 
 void Interface_ResetTimer2(PlayState* play) {
     if (gSaveContext.timer2State != TIMER2_STATE_OFF) {
-        if (GET_EVENTINF(EVENTINF_10)) {
-            gSaveContext.timer2Value = 239;
+        if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
+            gSaveContext.timer2Value = MARATHON_TIME_LIMIT - 1;
         } else {
             gSaveContext.timer2Value = 1;
         }
@@ -3786,10 +3786,11 @@ void Interface_Draw(PlayState* play) {
                                         }
                                     } else {
                                         gSaveContext.timer2Value++;
-                                        if (GET_EVENTINF(EVENTINF_10)) {
-                                            if (gSaveContext.timer2Value == 240) {
+                                        if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
+                                            if (gSaveContext.timer2Value == MARATHON_TIME_LIMIT) {
+                                                // After 4 minutes, cancel the running-man race
                                                 Message_StartTextbox(play, 0x6083, NULL);
-                                                CLEAR_EVENTINF(EVENTINF_10);
+                                                CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
                                                 gSaveContext.timer2State = TIMER2_STATE_OFF;
                                             }
                                         }

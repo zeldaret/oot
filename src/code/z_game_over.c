@@ -30,7 +30,7 @@ void GameOver_Update(PlayState* play) {
 
             gSaveContext.timer1State = TIMER1_STATE_OFF;
             gSaveContext.timer2State = TIMER2_STATE_OFF;
-            CLEAR_EVENTINF(EVENTINF_10);
+            CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
 
             // search inventory for spoiling items and revert if necessary
             for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {

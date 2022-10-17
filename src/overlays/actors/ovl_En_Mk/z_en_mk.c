@@ -93,7 +93,7 @@ void func_80AACA94(EnMk* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
         Interface_SetTimer2(240);
-        CLEAR_EVENTINF(EVENTINF_10);
+        CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     } else {
         func_8002F434(&this->actor, play, GI_EYEDROPS, 10000.0f, 50.0f);
     }
