@@ -168,7 +168,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
 # source files
-C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
+C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
@@ -198,6 +198,13 @@ build/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 build/src/code/fmodf.o: OPTFLAGS := -g
 build/src/code/__osMemset.o: OPTFLAGS := -g
 build/src/code/__osMemmove.o: OPTFLAGS := -g
+
+# Use signed chars instead of unsigned for code_800EC960.c (needed to match AudioDebug_ScrPrt)
+build/src/code/code_800EC960.o: CFLAGS += -signed
+
+# Put string literals in .data for some audio files (needed to match these files with literals)
+build/src/code/code_800F7260.o: CFLAGS += -use_readwrite_const
+build/src/code/code_800F9280.o: CFLAGS += -use_readwrite_const
 
 build/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 build/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3

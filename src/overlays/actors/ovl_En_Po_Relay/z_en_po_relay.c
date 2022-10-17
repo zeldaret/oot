@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 #include "assets/objects/object_tk/object_tk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_12 | ACTOR_FLAG_16)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_16)
 
 void EnPoRelay_Init(Actor* thisx, PlayState* play);
 void EnPoRelay_Destroy(Actor* thisx, PlayState* play);
@@ -141,7 +141,7 @@ void EnPoRelay_SetupRace(EnPoRelay* this) {
     this->hookshotSlotFull = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
     this->actor.flags |= ACTOR_FLAG_27;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoRelay_Race;
 }
 
@@ -318,7 +318,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
         EffectSsDeadDb_Spawn(play, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
                              0, 0, 255, 1, 9, true);
         if (this->actionTimer == 1) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EXTINCT);
         }
     }
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {

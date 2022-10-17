@@ -44,7 +44,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
     colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gRainbowBridgeCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
@@ -106,7 +106,7 @@ void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
                Gfx_TexScroll(play->state.gfxCtx, play->gameplayFrames & 127, play->gameplayFrames * -3 & 127, 32, 32));
 
     gSPSegment(POLY_XLU_DISP++, 9,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
                                 play->gameplayFrames & 127, 32, 32));
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),

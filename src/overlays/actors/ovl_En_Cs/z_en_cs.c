@@ -287,7 +287,7 @@ s32 EnCs_HandleWalking(EnCs* this, PlayState* play) {
     s16 walkAngle1;
     s16 walkAngle2;
 
-    EnCs_GetPathPoint(play->setupPathList, &pathPos, this->path, this->waypoint);
+    EnCs_GetPathPoint(play->pathList, &pathPos, this->path, this->waypoint);
     xDiff = pathPos.x - this->actor.world.pos.x;
     zDiff = pathPos.z - this->actor.world.pos.z;
     walkAngle1 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
@@ -296,13 +296,13 @@ s32 EnCs_HandleWalking(EnCs* this, PlayState* play) {
 
     while (this->walkDist <= 10.44f) {
         this->waypoint++;
-        waypointCount = EnCs_GetwaypointCount(play->setupPathList, this->path);
+        waypointCount = EnCs_GetwaypointCount(play->pathList, this->path);
 
         if ((this->waypoint < 0) || (!(this->waypoint < waypointCount))) {
             this->waypoint = 0;
         }
 
-        EnCs_GetPathPoint(play->setupPathList, &pathPos, this->path, this->waypoint);
+        EnCs_GetPathPoint(play->pathList, &pathPos, this->path, this->waypoint);
         xDiff = pathPos.x - this->actor.world.pos.x;
         zDiff = pathPos.z - this->actor.world.pos.z;
         walkAngle2 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
@@ -398,7 +398,7 @@ void EnCs_Wait(EnCs* this, PlayState* play) {
 void EnCs_Talk(EnCs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnCs_ChangeAnim(this, this->currentAnimIndex, &this->currentAnimIndex);
     }
 
@@ -422,14 +422,14 @@ void EnCs_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 0) {
         if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     } else if (this->currentAnimIndex == 1) {
         if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     } else if ((this->currentAnimIndex == 2) && ((s32)this->skelAnime.curFrame == 20)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->collider);

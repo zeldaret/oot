@@ -87,7 +87,7 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (this->dyna.actor.params == 0) {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {
@@ -143,8 +143,8 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
     }
     if (!(this->timer % 4)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 

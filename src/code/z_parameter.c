@@ -10,11 +10,11 @@
 #define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
 
 typedef struct {
-    /* 0x00 */ u8 scene;
+    /* 0x00 */ u8 sceneId;
     /* 0x01 */ u8 flags1;
     /* 0x02 */ u8 flags2;
     /* 0x03 */ u8 flags3;
-} RestrictionFlags;
+} RestrictionFlags; // size = 0x4
 
 static RestrictionFlags sRestrictionFlags[] = {
     { SCENE_SPOT00, 0x00, 0x00, 0x10 },
@@ -420,7 +420,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
                 interfaceCtx->magicAlpha = risingAlpha;
             }
 
-            switch (play->sceneNum) {
+            switch (play->sceneId) {
                 case SCENE_SPOT00:
                 case SCENE_SPOT01:
                 case SCENE_SPOT02:
@@ -649,11 +649,11 @@ void func_80083108(PlayState* play) {
     s16 sp28 = false;
 
     if ((gSaveContext.cutsceneIndex < 0xFFF0) ||
-        ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
+        ((play->sceneId == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
         gSaveContext.hudVisibilityForceButtonAlphasByStatus = false;
 
         if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
-            ((play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
+            ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 gSaveContext.hudVisibilityForceButtonAlphasByStatus = true;
 
@@ -668,7 +668,7 @@ void func_80083108(PlayState* play) {
                     (gSaveContext.equips.buttonItems[0] != ITEM_NONE)) {
                     gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
 
-                    if ((play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
+                    if ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
                         gSaveContext.equips.buttonItems[0] = ITEM_BOMBCHU;
                         Interface_LoadItemIcon1(play, 0);
                     } else {
@@ -699,7 +699,7 @@ void func_80083108(PlayState* play) {
                     Interface_SetHudVisibility(HUD_VISIBILITY_B);
                 } else if (play->shootingGalleryStatus > 1) {
                     Interface_SetHudVisibility(HUD_VISIBILITY_B);
-                } else if ((play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
+                } else if ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
                     Interface_SetHudVisibility(HUD_VISIBILITY_B);
                 } else if (player->stateFlags1 & PLAYER_STATE1_23) {
                     Interface_SetHudVisibility(HUD_VISIBILITY_A_B_MINIMAP);
@@ -709,9 +709,9 @@ void func_80083108(PlayState* play) {
                     Interface_SetHudVisibility(HUD_VISIBILITY_A_B_MINIMAP);
                 }
             }
-        } else if (play->sceneNum == SCENE_KENJYANOMA) {
+        } else if (play->sceneId == SCENE_KENJYANOMA) {
             Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
-        } else if (play->sceneNum == SCENE_TURIBORI) {
+        } else if (play->sceneId == SCENE_TURIBORI) {
             // should likely be set to true
             gSaveContext.hudVisibilityForceButtonAlphasByStatus = 2;
             if (play->interfaceCtx.unk_260 != 0) {
@@ -1046,7 +1046,7 @@ void func_80083108(PlayState* play) {
                               (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) &&
                             !((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
-                            if ((play->sceneNum != SCENE_TAKARAYA) ||
+                            if ((play->sceneId != SCENE_TAKARAYA) ||
                                 (gSaveContext.equips.buttonItems[i] != ITEM_LENS)) {
                                 if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                     sp28 = true;
@@ -1101,7 +1101,7 @@ void func_80083108(PlayState* play) {
 void Interface_SetSceneRestrictions(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 i;
-    u8 currentScene;
+    u8 sceneId;
 
     interfaceCtx->restrictions.hGauge = interfaceCtx->restrictions.bButton = interfaceCtx->restrictions.aButton =
         interfaceCtx->restrictions.bottles = interfaceCtx->restrictions.tradeItems =
@@ -1113,11 +1113,11 @@ void Interface_SetSceneRestrictions(PlayState* play) {
     i = 0;
 
     // "Data settings related to button display scene_data_ID=%d\n"
-    osSyncPrintf("ボタン表示関係データ設定 scene_data_ID=%d\n", play->sceneNum);
+    osSyncPrintf("ボタン表示関係データ設定 scene_data_ID=%d\n", play->sceneId);
 
     do {
-        currentScene = (u8)play->sceneNum;
-        if (sRestrictionFlags[i].scene == currentScene) {
+        sceneId = (u8)play->sceneId;
+        if (sRestrictionFlags[i].sceneId == sceneId) {
             interfaceCtx->restrictions.hGauge = (sRestrictionFlags[i].flags1 & 0xC0) >> 6;
             interfaceCtx->restrictions.bButton = (sRestrictionFlags[i].flags1 & 0x30) >> 4;
             interfaceCtx->restrictions.aButton = (sRestrictionFlags[i].flags1 & 0x0C) >> 2;
@@ -1147,7 +1147,7 @@ void Interface_SetSceneRestrictions(PlayState* play) {
             return;
         }
         i++;
-    } while (sRestrictionFlags[i].scene != 0xFF);
+    } while (sRestrictionFlags[i].sceneId != 0xFF);
 }
 
 Gfx* Gfx_TextureIA8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 textureHeight, s16 rectLeft, s16 rectTop,
@@ -1156,8 +1156,8 @@ Gfx* Gfx_TextureIA8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 t
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
 
-    gSPTextureRectangle(displayListHead++, rectLeft * 4, rectTop * 4, (rectLeft + rectWidth) * 4,
-                        (rectTop + rectHeight) * 4, G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
+    gSPTextureRectangle(displayListHead++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2,
+                        (rectTop + rectHeight) << 2, G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
     return displayListHead;
 }
@@ -1168,8 +1168,8 @@ Gfx* Gfx_TextureI8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 te
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
 
-    gSPTextureRectangle(displayListHead++, rectLeft * 4, rectTop * 4, (rectLeft + rectWidth) * 4,
-                        (rectTop + rectHeight) * 4, G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
+    gSPTextureRectangle(displayListHead++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2,
+                        (rectTop + rectHeight) << 2, G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
     return displayListHead;
 }
@@ -1302,7 +1302,8 @@ void Interface_LoadItemIcon1(PlayState* play, u16 button) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * 0x1000,
-                        (u32)_icon_item_staticSegmentRomStart + (gSaveContext.equips.buttonItems[button] * 0x1000),
+                        (uintptr_t)_icon_item_staticSegmentRomStart +
+                            (gSaveContext.equips.buttonItems[button] * 0x1000),
                         0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
@@ -1312,7 +1313,8 @@ void Interface_LoadItemIcon2(PlayState* play, u16 button) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * 0x1000,
-                        (u32)_icon_item_staticSegmentRomStart + (gSaveContext.equips.buttonItems[button] * 0x1000),
+                        (uintptr_t)_icon_item_staticSegmentRomStart +
+                            (gSaveContext.equips.buttonItems[button] * 0x1000),
                         0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
@@ -1716,7 +1718,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.healthCapacity += 0x10;
         gSaveContext.health += 0x10;
         return ITEM_NONE;
-    } else if (item == ITEM_HEART) {
+    } else if (item == ITEM_RECOVERY_HEART) {
         osSyncPrintf("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
         Health_ChangeBy(play, 0x10);
         return item;
@@ -1923,8 +1925,8 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_HEART_CONTAINER) {
         return ITEM_NONE;
-    } else if (item == ITEM_HEART) {
-        return ITEM_HEART;
+    } else if (item == ITEM_RECOVERY_HEART) {
+        return ITEM_RECOVERY_HEART;
     } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
         osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
@@ -2110,8 +2112,8 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
         DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160,
                             interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
-                            (u32)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE,
-                            0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
+                            (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE),
+                            DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
         gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
@@ -2140,7 +2142,7 @@ void Interface_SetNaviCall(PlayState* play, u16 naviCallState) {
     if (((naviCallState == 0x1D) || (naviCallState == 0x1E)) && !interfaceCtx->naviCalling &&
         (play->csCtx.state == CS_STATE_IDLE)) {
         // clang-format off
-        if (naviCallState == 0x1E) { Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &gSfxDefaultPos, 4,
+        if (naviCallState == 0x1E) { Audio_PlaySfxGeneral(NA_SE_VO_NAVY_CALL, &gSfxDefaultPos, 4,
                                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                             &gSfxDefaultReverb);
         }
@@ -2173,8 +2175,8 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE,
-                        (u32)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE, 0,
-                        &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
+                        (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE,
+                        0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 
     interfaceCtx->unk_1FA = true;
@@ -2192,9 +2194,9 @@ s32 Health_ChangeBy(PlayState* play, s16 amount) {
                  gSaveContext.healthCapacity);
 
     // clang-format off
-    if (amount > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+    if (amount > 0) { Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    } else if (gSaveContext.doubleDefense && (amount < 0)) {
+    } else if (gSaveContext.isDoubleDefenseAcquired && (amount < 0)) {
         amount >>= 1;
         osSyncPrintf("ハート減少半分！！＝%d\n", amount); // "Heart decrease halved!!＝%d"
     }
@@ -2327,8 +2329,8 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
 
     if ((type != MAGIC_ADD) && (gSaveContext.magic - amount) < 0) {
         if (gSaveContext.magicCapacity != 0) {
-            Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         return false;
     }
@@ -2346,8 +2348,8 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
                 return true;
             } else {
-                Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 return false;
             }
 
@@ -2364,8 +2366,8 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 gSaveContext.magicState = MAGIC_STATE_METER_FLASH_3;
                 return true;
             } else {
-                Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 return false;
             }
 
@@ -2396,8 +2398,8 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 gSaveContext.magicState = MAGIC_STATE_METER_FLASH_2;
                 return true;
             } else {
-                Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 return false;
             }
 
@@ -2464,9 +2466,9 @@ void Magic_Update(PlayState* play) {
             // Add magic until magicFillTarget is reached
             gSaveContext.magic += 4;
 
-            if (gSaveContext.gameMode == GAMEMODE_NORMAL && gSaveContext.sceneSetupIndex < 4) {
-                Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            if (gSaveContext.gameMode == GAMEMODE_NORMAL && !IS_CUTSCENE_LAYER) {
+                Audio_PlaySfxGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
 
             // "Storage  MAGIC_NOW=%d (%d)"
@@ -2553,8 +2555,8 @@ void Magic_Update(PlayState* play) {
                     !play->actorCtx.lensActive) {
                     // Force lens off and set magic meter state to idle
                     play->actorCtx.lensActive = false;
-                    Audio_PlaySoundGeneral(NA_SE_SY_GLASSMODE_OFF, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_SY_GLASSMODE_OFF, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     gSaveContext.magicState = MAGIC_STATE_IDLE;
                     sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
                     break;
@@ -2606,8 +2608,8 @@ void Magic_Update(PlayState* play) {
         case MAGIC_STATE_ADD:
             // Add magic until target is reached
             gSaveContext.magic += 4;
-            Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             if (gSaveContext.magic >= gSaveContext.magicTarget) {
                 gSaveContext.magic = gSaveContext.magicTarget;
                 gSaveContext.magicState = gSaveContext.prevMagicState;
@@ -2648,8 +2650,8 @@ void Magic_DrawMeter(PlayState* play) {
         gDPLoadTextureBlock(OVERLAY_DISP++, gMagicMeterEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 16, 0,
                             G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, ((R_MAGIC_METER_X + gSaveContext.magicCapacity) + 8) << 2, magicMeterY << 2,
-                            ((R_MAGIC_METER_X + gSaveContext.magicCapacity) + 16) << 2, (magicMeterY + 16) << 2,
+        gSPTextureRectangle(OVERLAY_DISP++, (R_MAGIC_METER_X + gSaveContext.magicCapacity + 8) << 2, magicMeterY << 2,
+                            (R_MAGIC_METER_X + gSaveContext.magicCapacity + 16) << 2, (magicMeterY + 16) << 2,
                             G_TX_RENDERTILE, 256, 0, 1 << 10, 1 << 10);
 
         gDPPipeSync(OVERLAY_DISP++);
@@ -2661,7 +2663,7 @@ void Magic_DrawMeter(PlayState* play) {
             // Yellow part of the meter indicating the amount of magic to be subtracted
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
 
-            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
+            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, 0x0000, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                  G_TX_NOLOD, G_TX_NOLOD);
 
@@ -2682,7 +2684,7 @@ void Magic_DrawMeter(PlayState* play) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
                             interfaceCtx->magicAlpha);
 
-            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
+            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, 0x0000, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                  G_TX_NOLOD, G_TX_NOLOD);
 
@@ -2750,7 +2752,7 @@ void Interface_DrawItemButtons(PlayState* play) {
     Player* player = GET_PLAYER(play);
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 temp; // Used as both an alpha value and a button index
-    s16 dxdy;
+    s16 texCoordScale;
     s16 width;
     s16 height;
 
@@ -2793,9 +2795,9 @@ void Interface_DrawItemButtons(PlayState* play) {
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 120, 120, interfaceCtx->startAlpha);
-            gSPTextureRectangle(OVERLAY_DISP++, startButtonLeftPos[gSaveContext.language] << 2, 68,
-                                (startButtonLeftPos[gSaveContext.language] + 22) << 2, 156, G_TX_RENDERTILE, 0, 0, 1462,
-                                1462);
+            gSPTextureRectangle(OVERLAY_DISP++, startButtonLeftPos[gSaveContext.language] << 2, 17 << 2,
+                                (startButtonLeftPos[gSaveContext.language] + 22) << 2, 39 << 2, G_TX_RENDERTILE, 0, 0,
+                                (s32)(1.4277344 * (1 << 10)), (s32)(1.4277344 * (1 << 10)));
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->startAlpha);
             gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
@@ -2806,13 +2808,14 @@ void Interface_DrawItemButtons(PlayState* play) {
                                    DO_ACTION_TEX_WIDTH, DO_ACTION_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            dxdy = (1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            texCoordScale = (1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             width = DO_ACTION_TEX_WIDTH / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             height = DO_ACTION_TEX_HEIGHT / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
-            gSPTextureRectangle(
-                OVERLAY_DISP++, R_START_LABEL_X(gSaveContext.language) << 2,
-                R_START_LABEL_Y(gSaveContext.language) << 2, (R_START_LABEL_X(gSaveContext.language) + width) << 2,
-                (R_START_LABEL_Y(gSaveContext.language) + height) << 2, G_TX_RENDERTILE, 0, 0, dxdy, dxdy);
+            gSPTextureRectangle(OVERLAY_DISP++, R_START_LABEL_X(gSaveContext.language) << 2,
+                                R_START_LABEL_Y(gSaveContext.language) << 2,
+                                (R_START_LABEL_X(gSaveContext.language) + width) << 2,
+                                (R_START_LABEL_Y(gSaveContext.language) + height) << 2, G_TX_RENDERTILE, 0, 0,
+                                texCoordScale, texCoordScale);
         }
     }
 
@@ -2921,7 +2924,7 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
             ammo = play->interfaceCtx.hbaAmmo;
         } else if ((button == 0) && (play->shootingGalleryStatus > 1)) {
             ammo = play->shootingGalleryStatus - 1;
-        } else if ((button == 0) && (play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
+        } else if ((button == 0) && (play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
             ammo = play->bombchuBowlingStatus;
             if (ammo < 0) {
                 ammo = 0;
@@ -3131,7 +3134,7 @@ void Interface_Draw(PlayState* play) {
         gDPSetEnvColor(OVERLAY_DISP++, 0, 80, 0, 255);
         OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gRupeeCounterIconTex, 16, 16, 26, 206, 16, 16, 1 << 10, 1 << 10);
 
-        switch (play->sceneNum) {
+        switch (play->sceneId) {
             case SCENE_BMORI1:
             case SCENE_HIDAN:
             case SCENE_MIZUSIN:
@@ -3247,7 +3250,7 @@ void Interface_Draw(PlayState* play) {
                 Interface_DrawItemIconTexture(play, interfaceCtx->iconItemSegment, 0);
 
                 if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
-                    ((play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
+                    ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                                       0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -3495,7 +3498,7 @@ void Interface_Draw(PlayState* play) {
             (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
             !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play) && (gSaveContext.minigameState != 1) &&
-            (play->shootingGalleryStatus <= 1) && !((play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
+            (play->shootingGalleryStatus <= 1) && !((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
             svar6 = 0;
             switch (gSaveContext.timer1State) {
                 case 1:
@@ -3591,20 +3594,20 @@ void Interface_Draw(PlayState* play) {
                                 D_80125A5C = false;
                             } else if (gSaveContext.timer1Value > 60) {
                                 if (timerDigits[4] == 1) {
-                                    Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
-                                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                           &gSfxDefaultReverb);
+                                    Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
+                                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                         &gSfxDefaultReverb);
                                 }
                             } else if (gSaveContext.timer1Value >= 11) {
                                 if (timerDigits[4] & 1) {
-                                    Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                           &gSfxDefaultReverb);
+                                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
+                                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                         &gSfxDefaultReverb);
                                 }
                             } else {
-                                Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
-                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                       &gSfxDefaultReverb);
+                                Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
+                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                     &gSfxDefaultReverb);
                             }
                         }
                     }
@@ -3652,9 +3655,9 @@ void Interface_Draw(PlayState* play) {
                                 D_8015FFE2 = 40;
                                 gSaveContext.timer1State = 15;
                             } else {
-                                Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                       &gSfxDefaultReverb);
+                                Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
+                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                     &gSfxDefaultReverb);
                             }
                         }
                     }
@@ -3757,10 +3760,10 @@ void Interface_Draw(PlayState* play) {
 
                                         if (gSaveContext.timer2Value <= 0) {
                                             if (!Flags_GetSwitch(play, 0x37) ||
-                                                ((play->sceneNum != SCENE_GANON_DEMO) &&
-                                                 (play->sceneNum != SCENE_GANON_FINAL) &&
-                                                 (play->sceneNum != SCENE_GANON_SONOGO) &&
-                                                 (play->sceneNum != SCENE_GANONTIKA_SONOGO))) {
+                                                ((play->sceneId != SCENE_GANON_DEMO) &&
+                                                 (play->sceneId != SCENE_GANON_FINAL) &&
+                                                 (play->sceneId != SCENE_GANON_SONOGO) &&
+                                                 (play->sceneId != SCENE_GANONTIKA_SONOGO))) {
                                                 D_8015FFE6 = 40;
                                                 gSaveContext.timer2State = 5;
                                                 gSaveContext.cutsceneIndex = 0;
@@ -3772,20 +3775,20 @@ void Interface_Draw(PlayState* play) {
                                             }
                                         } else if (gSaveContext.timer2Value > 60) {
                                             if (timerDigits[4] == 1) {
-                                                Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
-                                                                       &gSfxDefaultFreqAndVolScale,
-                                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                                Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
+                                                                     &gSfxDefaultFreqAndVolScale,
+                                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
                                         } else if (gSaveContext.timer2Value > 10) {
                                             if (timerDigits[4] & 1) {
-                                                Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                                       &gSfxDefaultFreqAndVolScale,
-                                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                                Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
+                                                                     &gSfxDefaultFreqAndVolScale,
+                                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
                                         } else {
-                                            Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
-                                                                   &gSfxDefaultFreqAndVolScale,
-                                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                            Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
+                                                                 &gSfxDefaultFreqAndVolScale,
+                                                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                         }
                                     } else {
                                         gSaveContext.timer2Value++;
@@ -3799,9 +3802,9 @@ void Interface_Draw(PlayState* play) {
                                     }
 
                                     if ((gSaveContext.timer2Value % 60) == 0) {
-                                        Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                               &gSfxDefaultReverb);
+                                        Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
+                                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                             &gSfxDefaultReverb);
                                     }
                                 }
                             }
@@ -3916,10 +3919,10 @@ void Interface_Update(PlayState* play) {
     }
 
     if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
-        if ((gSaveContext.minigameState == 1) || (gSaveContext.sceneSetupIndex < 4) ||
-            ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneSetupIndex == 4))) {
+        if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||
+            ((play->sceneId == SCENE_SPOT20) && (gSaveContext.sceneLayer == 4))) {
             if ((msgCtx->msgMode == MSGMODE_NONE) ||
-                ((msgCtx->msgMode != MSGMODE_NONE) && (play->sceneNum == SCENE_BOWLING))) {
+                ((msgCtx->msgMode != MSGMODE_NONE) && (play->sceneId == SCENE_BOWLING))) {
                 if (play->gameOverCtx.state == GAMEOVER_INACTIVE) {
                     func_80083108(play);
                 }
@@ -3978,7 +3981,7 @@ void Interface_Update(PlayState* play) {
                 interfaceCtx->magicAlpha = risingAlpha;
             }
 
-            switch (play->sceneNum) {
+            switch (play->sceneId) {
                 case SCENE_SPOT00:
                 case SCENE_SPOT01:
                 case SCENE_SPOT02:
@@ -4037,8 +4040,8 @@ void Interface_Update(PlayState* play) {
         gSaveContext.health += 4;
 
         if ((gSaveContext.health & 0xF) < 4) {
-            Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
 
         osSyncPrintf("now_life=%d  max_life=%d\n", gSaveContext.health, gSaveContext.healthCapacity);
@@ -4076,8 +4079,8 @@ void Interface_Update(PlayState* play) {
             if (gSaveContext.rupees < CUR_CAPACITY(UPG_WALLET)) {
                 gSaveContext.rupeeAccumulator--;
                 gSaveContext.rupees++;
-                Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
                 // "Rupee Amount MAX = %d"
                 osSyncPrintf("ルピー数ＭＡＸ = %d\n", CUR_CAPACITY(UPG_WALLET));
@@ -4093,13 +4096,13 @@ void Interface_Update(PlayState* play) {
                     gSaveContext.rupees = 0;
                 }
 
-                Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
                 gSaveContext.rupeeAccumulator++;
                 gSaveContext.rupees--;
-                Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else {
             gSaveContext.rupeeAccumulator = 0;
@@ -4261,7 +4264,7 @@ void Interface_Update(PlayState* play) {
                 play->unk_11DE9 = true;
             }
 
-            if (play->sceneNum == SCENE_SPOT13) {
+            if (play->sceneId == SCENE_SPOT13) {
                 play->transitionType = TRANS_TYPE_SANDSTORM_PERSIST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_SANDSTORM_PERSIST;
             }

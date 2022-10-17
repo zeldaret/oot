@@ -5,9 +5,9 @@ u8 sSfxBankIds[] = {
 };
 
 void AudioMgr_StopAllSfx(void) {
-    u32 i;
+    u8* bankIdPtr;
 
-    for (i = 0; (u32)(i < ARRAY_COUNT(sSfxBankIds)); i++) {
-        Audio_StopSfxByBank(sSfxBankIds[i]);
+    for (bankIdPtr = &sSfxBankIds[0]; bankIdPtr < (sSfxBankIds + ARRAY_COUNT(sSfxBankIds)); bankIdPtr++) {
+        Audio_StopSfxByBank(*bankIdPtr);
     }
 }

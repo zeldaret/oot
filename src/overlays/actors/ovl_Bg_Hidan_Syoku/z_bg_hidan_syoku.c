@@ -40,7 +40,7 @@ void BgHidanSyoku_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gFireTempleFlareDancerPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
@@ -55,7 +55,7 @@ void BgHidanSyoku_Destroy(Actor* thisx, PlayState* play) {
 
 void func_8088F47C(BgHidanSyoku* this) {
     this->timer = 60;
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     this->actionFunc = func_8088F62C;
 }
 

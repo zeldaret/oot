@@ -95,7 +95,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
     EnToryo* this = (EnToryo*)thisx;
     s32 pad;
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_SPOT09:
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 this->stateFlags |= 1;
@@ -330,7 +330,7 @@ void func_80B20768(EnToryo* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp32, &sp30);
         if ((sp32 >= 0) && (sp32 < 0x141) && (sp30 >= 0) && (sp30 < 0xF1)) {
             this->actor.textId = func_80B206A0(this, play);
-            func_8002F298(&this->actor, play, 100.0f, 10);
+            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_SAW);
         }
     }
 }
