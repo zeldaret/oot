@@ -119,21 +119,21 @@ typedef enum {
 
 typedef enum {
     /* 0x0 */ SUBTIMER_STATE_OFF,
-    /* 0x1 */ SUBTIMER_STATE_DOWN_0,
-    /* 0x2 */ SUBTIMER_STATE_DOWN_1,
-    /* 0x3 */ SUBTIMER_STATE_DOWN_2,
-    /* 0x4 */ SUBTIMER_STATE_DOWN_3,
-    /* 0x5 */ SUBTIMER_STATE_RESPAWN,
-    /* 0x6 */ SUBTIMER_STATE_STOP,
-    /* 0x7 */ SUBTIMER_STATE_UP_0,
-    /* 0x8 */ SUBTIMER_STATE_UP_1,
-    /* 0x9 */ SUBTIMER_STATE_UP_2,
-    /* 0xA */ SUBTIMER_STATE_UP_3
+    /* 0x1 */ SUBTIMER_STATE_DOWN_0, // Init timer that counts down
+    /* 0x2 */ SUBTIMER_STATE_DOWN_1, // Frozen at the screen center
+    /* 0x3 */ SUBTIMER_STATE_DOWN_2, // Move to top-left corner
+    /* 0x4 */ SUBTIMER_STATE_DOWN_3, // Begin counting down
+    /* 0x5 */ SUBTIMER_STATE_RESPAWN, // Time is up, trigger a transition, reset button items, spoil trade quest items
+    /* 0x6 */ SUBTIMER_STATE_STOP, // Time is up, stop counting
+    /* 0x7 */ SUBTIMER_STATE_UP_0, // Init timer that counts up
+    /* 0x8 */ SUBTIMER_STATE_UP_1, // Frozen at the screen center
+    /* 0x9 */ SUBTIMER_STATE_UP_2, // Move to top-left corner
+    /* 0xA */ SUBTIMER_STATE_UP_3 // Begin counting up
 } SubTimerState;
 
 typedef enum {
-    /* 0 */ TIMER_ID_MAIN,
-    /* 1 */ TIMER_ID_SUB,
+    /* 0 */ TIMER_ID_MAIN, // See `timerState` and `timerTime`
+    /* 1 */ TIMER_ID_SUB, // See `subTimerState` and `subTimerTime`
     /* 2 */ TIMER_ID_MAX
 } TimerId;
 
