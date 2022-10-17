@@ -73,39 +73,44 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
 
 u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
-    s16* timerTimePtr; // weirdness with this necessary to match
 
     if (!GET_INFTABLE(INFTABLE_B8)) {
         return 0x2000;
     }
-    timerTimePtr = &gSaveContext.timerTime;
+
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
         gSaveContext.timerTime = gSaveContext.timerTime;
         thisx->flags |= ACTOR_FLAG_16;
-        if (gSaveContext.timerTime >= 0xD3) {
+
+        if (((void)0, gSaveContext.timerTime) > 210) {
             return 0x208E;
         }
-        if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 0xB4)) {
-            HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
-            gSaveContext.timerTime = *timerTimePtr;
+
+        if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 180)) {
+            HIGH_SCORE(HS_HORSE_RACE) = 180;
         }
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (gSaveContext.timerTime < 0x32)) {
+
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (((void)0, gSaveContext.timerTime) < 50)) {
             return 0x208F;
-        } else if (gSaveContext.timerTime < HIGH_SCORE(HS_HORSE_RACE)) {
-            return 0x2012;
-        } else {
-            return 0x2004;
         }
+
+        if (HIGH_SCORE(HS_HORSE_RACE) > ((void)0, gSaveContext.timerTime)) {
+            return 0x2012;
+        }
+
+        return 0x2004;
     }
+
     if (!(player->stateFlags1 & PLAYER_STATE1_23) &&
         (Actor_FindNearby(play, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
+
     if (!GET_INFTABLE(INFTABLE_B9)) {
         return 0x2002;
-    } else {
-        return 0x2003;
     }
+
+    return 0x2003;
 }
 
 s16 func_80AA2BD4(PlayState* play, Actor* thisx) {

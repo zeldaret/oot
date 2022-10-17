@@ -329,7 +329,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
             if (gSaveContext.timerTime < HIGH_SCORE(HS_DAMPE_RACE)) {
                 HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timerTime;
             }
-            if (Flags_GetCollectible(play, this->actor.params) == 0 && gSaveContext.timerTime <= 60) {
+            if (!Flags_GetCollectible(play, this->actor.params) && (gSaveContext.timerTime <= 60)) {
                 Item_DropCollectible2(play, &sp60, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
             } else {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, sp60.x, sp60.y, sp60.z, 0, 0, 0, 2);

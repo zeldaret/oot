@@ -72,13 +72,14 @@ void func_80B9D0B0(ObjRoomtimer* this, PlayState* play) {
         Flags_SetSwitch(play, this->switchFlag);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->actor);
-    } else {
-        if ((this->actor.params != 0x3FF) && (gSaveContext.timerTime == 0)) {
-            Audio_PlaySfxGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            Play_TriggerVoidOut(play);
-            Actor_Kill(&this->actor);
-        }
+        return;
+    }
+
+    if ((this->actor.params != 0x3FF) && (gSaveContext.timerTime == 0)) {
+        Audio_PlaySfxGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Play_TriggerVoidOut(play);
+        Actor_Kill(&this->actor);
     }
 }
 
