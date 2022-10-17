@@ -791,7 +791,7 @@ s32 Player_GetEnvTimerType(PlayState* play) {
                            ? (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR - 1)
                            : (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE - 1);
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
-        envTimerType = (PLAYER_ENV_TIMER_TYPE_SWIMMING - 1);
+        envTimerType = PLAYER_ENV_TIMER_TYPE_SWIMMING - 1;
     } else {
         return PLAYER_ENV_TIMER_TYPE_NONE;
     }
