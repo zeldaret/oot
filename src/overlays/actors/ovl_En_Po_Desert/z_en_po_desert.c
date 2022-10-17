@@ -7,7 +7,7 @@
 #include "z_en_po_desert.h"
 #include "assets/objects/object_po_field/object_po_field.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoDesert_Init(Actor* thisx, PlayState* play);
 void EnPoDesert_Destroy(Actor* thisx, PlayState* play);
@@ -87,7 +87,7 @@ void EnPoDesert_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnPoDesert_SetNextPathPoint(EnPoDesert* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->actor.params];
+    Path* path = &play->pathList[this->actor.params];
     Vec3s* pathPoint;
 
     Animation_MorphToLoop(&this->skelAnime, &gPoeFieldDisappearAnim, -6.0f);

@@ -140,22 +140,22 @@ typedef enum {
 } OcarinaInstrumentId;
 
 typedef enum {
-    /* 0  */ OCARINA_RECORD_OFF,
-    /* 1  */ OCARINA_RECORD_SCARECROW_LONG,
-    /* 2  */ OCARINA_RECORD_SCARECROW_SPAWN,
+    /*    0 */ OCARINA_RECORD_OFF,
+    /*    1 */ OCARINA_RECORD_SCARECROW_LONG,
+    /*    2 */ OCARINA_RECORD_SCARECROW_SPAWN,
     /* 0xFF */ OCARINA_RECORD_REJECTED = 0xFF
 } OcarinaRecordingState;
 
 /**
  * bFlat4Flag Note:
- * Flag for resolving whether (pitch = OCARINA_PITCH_BFLAT4) 
+ * Flag for resolving whether (pitch = OCARINA_PITCH_BFLAT4)
  * gets mapped to either C_RIGHT and C_LEFT
- * 
+ *
  * This is required as C_RIGHT and C_LEFT are the only notes
  * that map to two semitones apart (OCARINA_PITCH_A4 and OCARINA_PITCH_B4)
  *      0x40 - BTN_Z is pressed to lower note by a semitone
  *      0x80 - BTN_R is pressed to raise note by a semitone
- */ 
+ */
 
 typedef struct {
     /* 0x0 */ u8 pitch; // number of semitones above middle C

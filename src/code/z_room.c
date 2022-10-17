@@ -389,7 +389,7 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
                 Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&quakeOffset, activeCam);
+                Camera_GetQuakeOffset(&quakeOffset, activeCam);
                 Room_DrawBackground2D(&gfx, roomShape->source, roomShape->tlut, roomShape->width, roomShape->height,
                                       roomShape->fmt, roomShape->siz, roomShape->tlutMode, roomShape->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
@@ -487,7 +487,7 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
                 Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&quakeOffset, activeCam);
+                Camera_GetQuakeOffset(&quakeOffset, activeCam);
                 Room_DrawBackground2D(&gfx, bgEntry->source, bgEntry->tlut, bgEntry->width, bgEntry->height,
                                       bgEntry->fmt, bgEntry->siz, bgEntry->tlutMode, bgEntry->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
@@ -582,7 +582,7 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     roomCtx->status = 0;
 
     frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex)
-                                             : play->setupEntranceList[play->curSpawn].room;
+                                             : play->spawnList[play->spawn].room;
     func_8009728C(play, roomCtx, frontRoom);
 
     return maxRoomSize;

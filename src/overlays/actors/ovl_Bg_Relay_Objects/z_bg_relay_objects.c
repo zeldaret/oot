@@ -60,7 +60,7 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
         } else {
             thisx->world.rot.y = 0x80;
         }
-        func_800F5718();
+        Audio_PlayWindmillBgm();
         thisx->room = -1;
         thisx->flags |= ACTOR_FLAG_5;
         if (D_808A9508 & 2) {
