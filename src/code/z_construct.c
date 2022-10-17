@@ -8,7 +8,7 @@ void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
     u16 doActionOffset;
-    u8 temp;
+    u8 timerId;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
@@ -109,39 +109,39 @@ void Interface_Init(PlayState* play) {
                             0x1000, "../z_construct.c", 219);
     }
 
-    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
+    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
 
-    if ((gSaveContext.timer1State == TIMER1_STATE_ENV_3) || (gSaveContext.timer1State == TIMER1_STATE_DOWN_3) ||
-        (gSaveContext.timer2State == TIMER2_STATE_DOWN_3) || (gSaveContext.timer2State == TIMER2_STATE_UP_3)) {
+    if ((gSaveContext.timerState == TIMER_STATE_ENV_3) || (gSaveContext.timerState == TIMER_STATE_DOWN_3) ||
+        (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_3) || (gSaveContext.subTimerState == SUBTIMER_STATE_UP_3)) {
         osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
-            if (gSaveContext.timer1State == TIMER1_STATE_ENV_3) {
-                gSaveContext.timer1State = TIMER1_STATE_ENV_0;
-                gSaveContext.timerX[0] = 140;
-                gSaveContext.timerY[0] = 80;
+            if (gSaveContext.timerState == TIMER_STATE_ENV_3) {
+                gSaveContext.timerState = TIMER_STATE_ENV_0;
+                gSaveContext.timerX[TIMER_ID_MAIN] = 140;
+                gSaveContext.timerY[TIMER_ID_MAIN] = 80;
             }
         }
 
-        if ((gSaveContext.timer1State == TIMER1_STATE_ENV_3) || (gSaveContext.timer1State == TIMER1_STATE_DOWN_3)) {
-            temp = 0;
+        if ((gSaveContext.timerState == TIMER_STATE_ENV_3) || (gSaveContext.timerState == TIMER_STATE_DOWN_3)) {
+            timerId = TIMER_ID_MAIN;
         } else {
-            temp = 1;
+            timerId = TIMER_ID_SUB;
         }
 
-        gSaveContext.timerX[temp] = 26;
+        gSaveContext.timerX[timerId] = 26;
 
         if (gSaveContext.healthCapacity > 0xA0) {
-            gSaveContext.timerY[temp] = 54;
+            gSaveContext.timerY[timerId] = 54;
         } else {
-            gSaveContext.timerY[temp] = 46;
+            gSaveContext.timerY[timerId] = 46;
         }
     }
 
-    if ((gSaveContext.timer1State >= TIMER1_STATE_UP_0) && (gSaveContext.timer1State <= TIMER1_STATE_UP_4)) {
-        gSaveContext.timer1State = TIMER1_STATE_OFF;
+    if ((gSaveContext.timerState >= TIMER_STATE_UP_0) && (gSaveContext.timerState <= TIMER_STATE_UP_4)) {
+        gSaveContext.timerState = TIMER_STATE_OFF;
         // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer1State);
+        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timerState);
     }
 
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"

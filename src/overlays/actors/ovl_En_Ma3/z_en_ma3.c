@@ -73,25 +73,25 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
 
 u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
-    s16* timer1ValuePtr; // weirdness with this necessary to match
+    s16* timerTimePtr; // weirdness with this necessary to match
 
     if (!GET_INFTABLE(INFTABLE_B8)) {
         return 0x2000;
     }
-    timer1ValuePtr = &gSaveContext.timer1Value;
+    timerTimePtr = &gSaveContext.timerTime;
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
-        gSaveContext.timer1Value = gSaveContext.timer1Value;
+        gSaveContext.timerTime = gSaveContext.timerTime;
         thisx->flags |= ACTOR_FLAG_16;
-        if (gSaveContext.timer1Value >= 0xD3) {
+        if (gSaveContext.timerTime >= 0xD3) {
             return 0x208E;
         }
         if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 0xB4)) {
             HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
-            gSaveContext.timer1Value = *timer1ValuePtr;
+            gSaveContext.timerTime = *timerTimePtr;
         }
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (gSaveContext.timer1Value < 0x32)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (gSaveContext.timerTime < 0x32)) {
             return 0x208F;
-        } else if (gSaveContext.timer1Value < HIGH_SCORE(HS_HORSE_RACE)) {
+        } else if (gSaveContext.timerTime < HIGH_SCORE(HS_HORSE_RACE)) {
             return 0x2012;
         } else {
             return 0x2004;
@@ -119,7 +119,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                 play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 SET_EVENTINF(EVENTINF_HORSES_0A);
-                gSaveContext.timer1State = TIMER1_STATE_UP_4;
+                gSaveContext.timerState = TIMER_STATE_UP_4;
             }
             break;
         case TEXT_STATE_CHOICE:
@@ -147,15 +147,15 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     FALLTHROUGH;
                 case 0x2004:
                 case 0x2012:
-                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
-                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
+                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timerTime) {
+                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timerTime;
                     }
                     FALLTHROUGH;
                 case 0x208E:
                     CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
                     ret = 0;
-                    gSaveContext.timer1State = TIMER1_STATE_STOP;
+                    gSaveContext.timerState = TIMER_STATE_STOP;
                     break;
                 case 0x2002:
                     SET_INFTABLE(INFTABLE_B9);

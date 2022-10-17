@@ -100,36 +100,41 @@ typedef struct {
 } FaroresWindData; // size = 0x28
 
 typedef enum {
-    /* 0x0 */ TIMER1_STATE_OFF,
-    /* 0x1 */ TIMER1_STATE_ENV_0, // init env timer that counts down, total time based on health, resets on void-out, kills at 0
-    /* 0x2 */ TIMER1_STATE_ENV_1, // Frozen at the screen center
-    /* 0x3 */ TIMER1_STATE_ENV_2, // Move to top-left corner
-    /* 0x4 */ TIMER1_STATE_ENV_3, // Begin counting down
-    /* 0x5 */ TIMER1_STATE_DOWN_0, // Init timer that counts down
-    /* 0x6 */ TIMER1_STATE_DOWN_1, // Frozen at the screen center
-    /* 0x7 */ TIMER1_STATE_DOWN_2, // Move to top-left corner
-    /* 0x8 */ TIMER1_STATE_DOWN_3, // Begin counting down
-    /* 0xA */ TIMER1_STATE_STOP = 10,
-    /* 0xB */ TIMER1_STATE_UP_0, // Init timer that counts up
-    /* 0xC */ TIMER1_STATE_UP_1, // Frozen at the screen center
-    /* 0xD */ TIMER1_STATE_UP_2, // Move to top-left corner
-    /* 0xE */ TIMER1_STATE_UP_3, // Begin counting up
-    /* 0xF */ TIMER1_STATE_UP_4  // Stuck at 59 min, 59 seconds
-} Timer1State;
+    /* 0x0 */ TIMER_STATE_OFF,
+    /* 0x1 */ TIMER_STATE_ENV_0, // init env timer that counts down, total time based on health, resets on void-out, kills at 0
+    /* 0x2 */ TIMER_STATE_ENV_1, // Frozen at the screen center
+    /* 0x3 */ TIMER_STATE_ENV_2, // Move to top-left corner
+    /* 0x4 */ TIMER_STATE_ENV_3, // Begin counting down
+    /* 0x5 */ TIMER_STATE_DOWN_0, // Init timer that counts down
+    /* 0x6 */ TIMER_STATE_DOWN_1, // Frozen at the screen center
+    /* 0x7 */ TIMER_STATE_DOWN_2, // Move to top-left corner
+    /* 0x8 */ TIMER_STATE_DOWN_3, // Begin counting down
+    /* 0xA */ TIMER_STATE_STOP = 10,
+    /* 0xB */ TIMER_STATE_UP_0, // Init timer that counts up
+    /* 0xC */ TIMER_STATE_UP_1, // Frozen at the screen center
+    /* 0xD */ TIMER_STATE_UP_2, // Move to top-left corner
+    /* 0xE */ TIMER_STATE_UP_3, // Begin counting up
+    /* 0xF */ TIMER_STATE_UP_4  // Stuck at 59 min, 59 seconds
+} TimerState;
 
 typedef enum {
-    /* 0x0 */ TIMER2_STATE_OFF,
-    /* 0x1 */ TIMER2_STATE_DOWN_0,
-    /* 0x2 */ TIMER2_STATE_DOWN_1,
-    /* 0x3 */ TIMER2_STATE_DOWN_2,
-    /* 0x4 */ TIMER2_STATE_DOWN_3,
-    /* 0x5 */ TIMER2_STATE_RESPAWN,
-    /* 0x6 */ TIMER2_STATE_STOP,
-    /* 0x7 */ TIMER2_STATE_UP_0,
-    /* 0x8 */ TIMER2_STATE_UP_1,
-    /* 0x9 */ TIMER2_STATE_UP_2,
-    /* 0xA */ TIMER2_STATE_UP_3
-} Timer2State;
+    /* 0x0 */ SUBTIMER_STATE_OFF,
+    /* 0x1 */ SUBTIMER_STATE_DOWN_0,
+    /* 0x2 */ SUBTIMER_STATE_DOWN_1,
+    /* 0x3 */ SUBTIMER_STATE_DOWN_2,
+    /* 0x4 */ SUBTIMER_STATE_DOWN_3,
+    /* 0x5 */ SUBTIMER_STATE_RESPAWN,
+    /* 0x6 */ SUBTIMER_STATE_STOP,
+    /* 0x7 */ SUBTIMER_STATE_UP_0,
+    /* 0x8 */ SUBTIMER_STATE_UP_1,
+    /* 0x9 */ SUBTIMER_STATE_UP_2,
+    /* 0xA */ SUBTIMER_STATE_UP_3
+} SubTimerState;
+
+typedef enum {
+    /* 0 */ TIMER_ID_MAIN,
+    /* 1 */ TIMER_ID_SUB
+} TimerId;
 
 #define MARATHON_TIME_LIMIT 240 // 4 minutes
 
@@ -201,10 +206,10 @@ typedef struct {
     /* 0x13C8 */ s16 nayrusLoveTimer;
     /* 0x13CA */ char unk_13CA[0x0002];
     /* 0x13CC */ s16 rupeeAccumulator;
-    /* 0x13CE */ s16 timer1State;
-    /* 0x13D0 */ s16 timer1Value;
-    /* 0x13D2 */ s16 timer2State;
-    /* 0x13D4 */ s16 timer2Value;
+    /* 0x13CE */ s16 timerState; // See `TimerState`
+    /* 0x13D0 */ s16 timerTime;
+    /* 0x13D2 */ s16 subTimerState; // See `SubTimerState`
+    /* 0x13D4 */ s16 subTimerTime;
     /* 0x13D6 */ s16 timerX[2];
     /* 0x13DA */ s16 timerY[2];
     /* 0x13DE */ char unk_13DE[0x0002];

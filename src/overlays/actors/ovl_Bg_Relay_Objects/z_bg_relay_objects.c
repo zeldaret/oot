@@ -156,7 +156,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
         Flags_UnsetSwitch(play, this->switchFlag);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         if (play->roomCtx.curRoom.num == 4) {
-            gSaveContext.timer1State = TIMER1_STATE_UP_4;
+            gSaveContext.timerState = TIMER_STATE_UP_4;
         }
         this->actionFunc = BgRelayObjects_DoNothing;
     }

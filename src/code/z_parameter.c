@@ -2675,43 +2675,47 @@ void Magic_DrawMeter(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_parameter.c", 2731);
 }
 
-void Interface_SetTimer2(s16 seconds) {
-    gSaveContext.timerX[1] = 140;
-    gSaveContext.timerY[1] = 80;
+void Interface_SetSubTimer(s16 seconds) {
+    gSaveContext.timerX[TIMER_ID_SUB] = 140;
+    gSaveContext.timerY[TIMER_ID_SUB] = 80;
     sEnvTimerActive = false;
-    gSaveContext.timer2Value = seconds;
+    gSaveContext.subTimerTime = seconds;
 
     if (seconds != 0) {
         // count down
-        gSaveContext.timer2State = TIMER2_STATE_DOWN_0;
+        gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_0;
     } else {
         // count up
-        gSaveContext.timer2State = TIMER2_STATE_UP_0;
+        gSaveContext.subTimerState = SUBTIMER_STATE_UP_0;
     }
 }
 
-void Interface_ResetTimer2(PlayState* play) {
-    if (gSaveContext.timer2State != TIMER2_STATE_OFF) {
+/**
+ * Set the subTimer to 1 second left
+ */
+void Interface_SetSubTimerToFinalSecond(PlayState* play) {
+    if (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) {
         if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
-            gSaveContext.timer2Value = MARATHON_TIME_LIMIT - 1;
+            // The running-man race counts up and finished at MARATHON_TIME_LIMIT
+            gSaveContext.subTimerTime = MARATHON_TIME_LIMIT - 1;
         } else {
-            gSaveContext.timer2Value = 1;
+            gSaveContext.subTimerTime = 1;
         }
     }
 }
 
-void Interface_SetTimer1(s16 seconds) {
-    gSaveContext.timerX[0] = 140;
-    gSaveContext.timerY[0] = 80;
+void Interface_SetTimer(s16 seconds) {
+    gSaveContext.timerX[TIMER_ID_MAIN] = 140;
+    gSaveContext.timerY[TIMER_ID_MAIN] = 80;
     sEnvTimerActive = false;
-    gSaveContext.timer1Value = seconds;
+    gSaveContext.timerTime = seconds;
 
     if (seconds != 0) {
         // count down
-        gSaveContext.timer1State = TIMER1_STATE_DOWN_0;
+        gSaveContext.timerState = TIMER_STATE_DOWN_0;
     } else {
         // count up
-        gSaveContext.timer1State = TIMER1_STATE_UP_0;
+        gSaveContext.timerState = TIMER_STATE_UP_0;
     }
 }
 
@@ -3080,10 +3084,10 @@ void Interface_Draw(PlayState* play) {
     static s16 spoilingItemEntrances[] = { ENTR_SPOT10_2, ENTR_SPOT07_3, ENTR_SPOT07_3 };
     static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
     static s16 D_80125B5C[] = { 91, 91 };         // unused
-    static s16 sTimer1FPSTimer;
-    static s16 sTimer1StateTimer;
-    static s16 D_8015FFE4;
-    static s16 D_8015FFE6;
+    static s16 sTimerFPSTimer;
+    static s16 sTimerStateTimer;
+    static s16 sSubTimerFPSTimer;
+    static s16 sSubTimerStateTimer;
     static s16 timerDigits[5];
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     PauseContext* pauseCtx = &play->pauseCtx;
@@ -3094,7 +3098,7 @@ void Interface_Draw(PlayState* play) {
     s16 svar3;
     s16 svar4;
     s16 svar5;
-    s16 timerIndex;
+    s16 timerId;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_parameter.c", 3405);
 
@@ -3436,14 +3440,14 @@ void Interface_Draw(PlayState* play) {
             }
         }
 
-        if ((gSaveContext.timer2State == TIMER2_STATE_RESPAWN) &&
+        if ((gSaveContext.subTimerState == SUBTIMER_STATE_RESPAWN) &&
             (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)) {
             // Trade quest timer reached 0
-            D_8015FFE6 = 40;
+            sSubTimerStateTimer = 40;
             gSaveContext.cutsceneIndex = 0;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;
-            gSaveContext.timer2State = TIMER2_STATE_OFF;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
 
             if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
                 (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
@@ -3482,112 +3486,112 @@ void Interface_Draw(PlayState* play) {
             (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play) && (gSaveContext.minigameState != 1) &&
             (play->shootingGalleryStatus <= 1) && !((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
 
-            timerIndex = 0;
+            timerId = TIMER_ID_MAIN;
 
-            switch (gSaveContext.timer1State) {
-                case TIMER1_STATE_ENV_0:
-                    sTimer1StateTimer = 20;
-                    sTimer1FPSTimer = 20;
-                    gSaveContext.timer1Value = gSaveContext.health >> 1;
-                    gSaveContext.timer1State = TIMER1_STATE_ENV_1;
+            switch (gSaveContext.timerState) {
+                case TIMER_STATE_ENV_0:
+                    sTimerStateTimer = 20;
+                    sTimerFPSTimer = 20;
+                    gSaveContext.timerTime = gSaveContext.health >> 1;
+                    gSaveContext.timerState = TIMER_STATE_ENV_1;
                     break;
 
-                case TIMER1_STATE_ENV_1:
-                    sTimer1StateTimer--;
-                    if (sTimer1StateTimer == 0) {
-                        sTimer1StateTimer = 20;
-                        gSaveContext.timer1State = TIMER1_STATE_ENV_2;
+                case TIMER_STATE_ENV_1:
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        gSaveContext.timerState = TIMER_STATE_ENV_2;
                     }
                     break;
 
-                case TIMER1_STATE_DOWN_0:
-                case TIMER1_STATE_UP_0:
-                    sTimer1StateTimer = 20;
-                    sTimer1FPSTimer = 20;
-                    if (gSaveContext.timer1State == TIMER1_STATE_DOWN_0) {
-                        gSaveContext.timer1State = TIMER1_STATE_DOWN_1;
+                case TIMER_STATE_DOWN_0:
+                case TIMER_STATE_UP_0:
+                    sTimerStateTimer = 20;
+                    sTimerFPSTimer = 20;
+                    if (gSaveContext.timerState == TIMER_STATE_DOWN_0) {
+                        gSaveContext.timerState = TIMER_STATE_DOWN_1;
                     } else {
-                        gSaveContext.timer1State = TIMER1_STATE_UP_1;
+                        gSaveContext.timerState = TIMER_STATE_UP_1;
                     }
                     break;
 
-                case TIMER1_STATE_DOWN_1:
-                case TIMER1_STATE_UP_1:
-                    sTimer1StateTimer--;
-                    if (sTimer1StateTimer == 0) {
-                        sTimer1StateTimer = 20;
-                        if (gSaveContext.timer1State == TIMER1_STATE_DOWN_1) {
-                            gSaveContext.timer1State = TIMER1_STATE_DOWN_2;
+                case TIMER_STATE_DOWN_1:
+                case TIMER_STATE_UP_1:
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        if (gSaveContext.timerState == TIMER_STATE_DOWN_1) {
+                            gSaveContext.timerState = TIMER_STATE_DOWN_2;
                         } else {
-                            gSaveContext.timer1State = TIMER1_STATE_UP_2;
+                            gSaveContext.timerState = TIMER_STATE_UP_2;
                         }
                     }
                     break;
 
-                case TIMER1_STATE_ENV_2:
-                case TIMER1_STATE_DOWN_2:
-                    svar1 = (gSaveContext.timerX[0] - 26) / sTimer1StateTimer;
-                    gSaveContext.timerX[0] -= svar1;
+                case TIMER_STATE_ENV_2:
+                case TIMER_STATE_DOWN_2:
+                    svar1 = (gSaveContext.timerX[TIMER_ID_MAIN] - 26) / sTimerStateTimer;
+                    gSaveContext.timerX[TIMER_ID_MAIN] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar1 = (gSaveContext.timerY[0] - 54) / sTimer1StateTimer;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 54) / sTimerStateTimer;
                     } else {
-                        svar1 = (gSaveContext.timerY[0] - 46) / sTimer1StateTimer;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 46) / sTimerStateTimer;
                     }
-                    gSaveContext.timerY[0] -= svar1;
+                    gSaveContext.timerY[TIMER_ID_MAIN] -= svar1;
 
-                    sTimer1StateTimer--;
-                    if (sTimer1StateTimer == 0) {
-                        sTimer1StateTimer = 20;
-                        gSaveContext.timerX[0] = 26;
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        gSaveContext.timerX[TIMER_ID_MAIN] = 26;
 
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54;
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46;
                         }
 
-                        if (gSaveContext.timer1State == TIMER1_STATE_ENV_2) {
-                            gSaveContext.timer1State = TIMER1_STATE_ENV_3;
+                        if (gSaveContext.timerState == TIMER_STATE_ENV_2) {
+                            gSaveContext.timerState = TIMER_STATE_ENV_3;
                         } else {
-                            gSaveContext.timer1State = TIMER1_STATE_DOWN_3;
+                            gSaveContext.timerState = TIMER_STATE_DOWN_3;
                         }
                     }
                     FALLTHROUGH;
-                case TIMER1_STATE_ENV_3:
-                case TIMER1_STATE_DOWN_3:
-                    if ((gSaveContext.timer1State == TIMER1_STATE_ENV_3) ||
-                        (gSaveContext.timer1State == TIMER1_STATE_DOWN_3)) {
+                case TIMER_STATE_ENV_3:
+                case TIMER_STATE_DOWN_3:
+                    if ((gSaveContext.timerState == TIMER_STATE_ENV_3) ||
+                        (gSaveContext.timerState == TIMER_STATE_DOWN_3)) {
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54;
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46;
                         }
                     }
 
-                    if ((gSaveContext.timer1State >= TIMER1_STATE_ENV_2) && (msgCtx->msgLength == 0)) {
-                        sTimer1FPSTimer--;
-                        if (sTimer1FPSTimer == 0) {
-                            if (gSaveContext.timer1Value != 0) {
-                                gSaveContext.timer1Value--;
+                    if ((gSaveContext.timerState >= TIMER_STATE_ENV_2) && (msgCtx->msgLength == 0)) {
+                        sTimerFPSTimer--;
+                        if (sTimerFPSTimer == 0) {
+                            if (gSaveContext.timerTime != 0) {
+                                gSaveContext.timerTime--;
                             }
 
-                            sTimer1FPSTimer = 20;
+                            sTimerFPSTimer = 20;
 
-                            if (gSaveContext.timer1Value == 0) {
-                                gSaveContext.timer1State = TIMER1_STATE_STOP;
+                            if (gSaveContext.timerTime == 0) {
+                                gSaveContext.timerState = TIMER_STATE_STOP;
                                 if (sEnvTimerActive) {
                                     gSaveContext.health = 0;
                                     play->damagePlayer(play, -(gSaveContext.health + 2));
                                 }
                                 sEnvTimerActive = false;
-                            } else if (gSaveContext.timer1Value > 60) {
+                            } else if (gSaveContext.timerTime > 60) {
                                 if (timerDigits[4] == 1) {
                                     Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
                                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                          &gSfxDefaultReverb);
                                 }
-                            } else if (gSaveContext.timer1Value >= 11) {
+                            } else if (gSaveContext.timerTime >= 11) {
                                 if (timerDigits[4] & 1) {
                                     Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -3602,48 +3606,48 @@ void Interface_Draw(PlayState* play) {
                     }
                     break;
 
-                case TIMER1_STATE_UP_2:
-                    svar1 = (gSaveContext.timerX[0] - 26) / sTimer1StateTimer;
-                    gSaveContext.timerX[0] -= svar1;
+                case TIMER_STATE_UP_2:
+                    svar1 = (gSaveContext.timerX[TIMER_ID_MAIN] - 26) / sTimerStateTimer;
+                    gSaveContext.timerX[TIMER_ID_MAIN] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar1 = (gSaveContext.timerY[0] - 54) / sTimer1StateTimer;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 54) / sTimerStateTimer;
                     } else {
-                        svar1 = (gSaveContext.timerY[0] - 46) / sTimer1StateTimer;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 46) / sTimerStateTimer;
                     }
-                    gSaveContext.timerY[0] -= svar1;
+                    gSaveContext.timerY[TIMER_ID_MAIN] -= svar1;
 
-                    sTimer1StateTimer--;
-                    if (sTimer1StateTimer == 0) {
-                        sTimer1StateTimer = 20;
-                        gSaveContext.timerX[0] = 26;
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        gSaveContext.timerX[TIMER_ID_MAIN] = 26;
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54;
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46;
                         }
 
-                        gSaveContext.timer1State = TIMER1_STATE_UP_3;
+                        gSaveContext.timerState = TIMER_STATE_UP_3;
                     }
                     FALLTHROUGH;
-                case TIMER1_STATE_UP_3:
-                    if (gSaveContext.timer1State == TIMER1_STATE_UP_3) {
+                case TIMER_STATE_UP_3:
+                    if (gSaveContext.timerState == TIMER_STATE_UP_3) {
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54;
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46;
                         }
                     }
 
-                    if (gSaveContext.timer1State >= TIMER1_STATE_ENV_2) {
-                        sTimer1FPSTimer--;
-                        if (sTimer1FPSTimer == 0) {
-                            gSaveContext.timer1Value++;
-                            sTimer1FPSTimer = 20;
+                    if (gSaveContext.timerState >= TIMER_STATE_ENV_2) {
+                        sTimerFPSTimer--;
+                        if (sTimerFPSTimer == 0) {
+                            gSaveContext.timerTime++;
+                            sTimerFPSTimer = 20;
 
-                            if (gSaveContext.timer1Value == 3599) { // 59 minutes, 59 seconds
-                                sTimer1StateTimer = 40;
-                                gSaveContext.timer1State = TIMER1_STATE_UP_4;
+                            if (gSaveContext.timerTime == 3599) { // 59 minutes, 59 seconds
+                                sTimerStateTimer = 40;
+                                gSaveContext.timerState = TIMER_STATE_UP_4;
                             } else {
                                 Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -3653,127 +3657,131 @@ void Interface_Draw(PlayState* play) {
                     }
                     break;
 
-                case TIMER1_STATE_STOP:
-                    if (gSaveContext.timer2State != TIMER2_STATE_OFF) {
-                        D_8015FFE6 = 20;
-                        D_8015FFE4 = 20;
-                        gSaveContext.timerX[1] = 140;
-                        gSaveContext.timerY[1] = 80;
+                case TIMER_STATE_STOP:
+                    if (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) {
+                        sSubTimerStateTimer = 20;
+                        sSubTimerFPSTimer = 20;
+                        gSaveContext.timerX[TIMER_ID_SUB] = 140;
+                        gSaveContext.timerY[TIMER_ID_SUB] = 80;
 
-                        if (gSaveContext.timer2State <= TIMER2_STATE_STOP) {
-                            gSaveContext.timer2State = TIMER2_STATE_DOWN_1;
+                        if (gSaveContext.subTimerState <= SUBTIMER_STATE_STOP) {
+                            gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_1;
                         } else {
-                            gSaveContext.timer2State = TIMER2_STATE_UP_1;
+                            gSaveContext.subTimerState = SUBTIMER_STATE_UP_1;
                         }
 
-                        gSaveContext.timer1State = TIMER1_STATE_OFF;
+                        gSaveContext.timerState = TIMER_STATE_OFF;
                     } else {
-                        gSaveContext.timer1State = TIMER1_STATE_OFF;
+                        gSaveContext.timerState = TIMER_STATE_OFF;
                     }
                     FALLTHROUGH;
-                case TIMER1_STATE_UP_4:
+                case TIMER_STATE_UP_4:
                     break;
 
-                default: // TIMER1_STATE_OFF
-                    timerIndex = 1;
-                    switch (gSaveContext.timer2State) {
-                        case TIMER2_STATE_DOWN_0:
-                        case TIMER2_STATE_UP_0:
-                            D_8015FFE6 = 20;
-                            D_8015FFE4 = 20;
-                            gSaveContext.timerX[1] = 140;
-                            gSaveContext.timerY[1] = 80;
-                            if (gSaveContext.timer2State == TIMER2_STATE_DOWN_0) {
-                                gSaveContext.timer2State = TIMER2_STATE_DOWN_1;
+                default: // TIMER_STATE_OFF
+                    // Process the subTimer only if the main timer is off
+                    timerId = TIMER_ID_SUB;
+
+                    switch (gSaveContext.subTimerState) {
+                        case SUBTIMER_STATE_DOWN_0:
+                        case SUBTIMER_STATE_UP_0:
+                            sSubTimerStateTimer = 20;
+                            sSubTimerFPSTimer = 20;
+                            gSaveContext.timerX[TIMER_ID_SUB] = 140;
+                            gSaveContext.timerY[TIMER_ID_SUB] = 80;
+                            if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_0) {
+                                gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_1;
                             } else {
-                                gSaveContext.timer2State = TIMER2_STATE_UP_1;
+                                gSaveContext.subTimerState = SUBTIMER_STATE_UP_1;
                             }
                             break;
-                        case TIMER2_STATE_DOWN_1:
-                        case TIMER2_STATE_UP_1:
-                            D_8015FFE6--;
-                            if (D_8015FFE6 == 0) {
-                                D_8015FFE6 = 20;
-                                if (gSaveContext.timer2State == TIMER2_STATE_DOWN_1) {
-                                    gSaveContext.timer2State = TIMER2_STATE_DOWN_2;
+
+                        case SUBTIMER_STATE_DOWN_1:
+                        case SUBTIMER_STATE_UP_1:
+                            sSubTimerStateTimer--;
+                            if (sSubTimerStateTimer == 0) {
+                                sSubTimerStateTimer = 20;
+                                if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_1) {
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_2;
                                 } else {
-                                    gSaveContext.timer2State = TIMER2_STATE_UP_2;
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_UP_2;
                                 }
                             }
                             break;
-                        case TIMER2_STATE_DOWN_2:
-                        case TIMER2_STATE_UP_2:
-                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
-                                         ((void)0, gSaveContext.timerX[1]), ((void)0, gSaveContext.timerY[1]),
-                                         gSaveContext.timer2Value);
-                            svar1 = (gSaveContext.timerX[1] - 26) / D_8015FFE6;
-                            gSaveContext.timerX[1] -= svar1;
-                            if (gSaveContext.healthCapacity > 0xA0) {
-                                svar1 = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
-                            } else {
-                                svar1 = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
-                            }
-                            gSaveContext.timerY[1] -= svar1;
 
-                            D_8015FFE6--;
-                            if (D_8015FFE6 == 0) {
-                                D_8015FFE6 = 20;
-                                gSaveContext.timerX[1] = 26;
+                        case SUBTIMER_STATE_DOWN_2:
+                        case SUBTIMER_STATE_UP_2:
+                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
+                                         ((void)0, gSaveContext.timerX[TIMER_ID_SUB]),
+                                         ((void)0, gSaveContext.timerY[1]), gSaveContext.subTimerTime);
+                            svar1 = (gSaveContext.timerX[TIMER_ID_SUB] - 26) / sSubTimerStateTimer;
+                            gSaveContext.timerX[TIMER_ID_SUB] -= svar1;
+                            if (gSaveContext.healthCapacity > 0xA0) {
+                                svar1 = (gSaveContext.timerY[TIMER_ID_SUB] - 54) / sSubTimerStateTimer;
+                            } else {
+                                svar1 = (gSaveContext.timerY[TIMER_ID_SUB] - 46) / sSubTimerStateTimer;
+                            }
+                            gSaveContext.timerY[TIMER_ID_SUB] -= svar1;
+
+                            sSubTimerStateTimer--;
+                            if (sSubTimerStateTimer == 0) {
+                                sSubTimerStateTimer = 20;
+                                gSaveContext.timerX[TIMER_ID_SUB] = 26;
 
                                 if (gSaveContext.healthCapacity > 0xA0) {
-                                    gSaveContext.timerY[1] = 54;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 54;
                                 } else {
-                                    gSaveContext.timerY[1] = 46;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 46;
                                 }
 
-                                if (gSaveContext.timer2State == TIMER2_STATE_DOWN_2) {
-                                    gSaveContext.timer2State = TIMER2_STATE_DOWN_3;
+                                if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_2) {
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_3;
                                 } else {
-                                    gSaveContext.timer2State = TIMER2_STATE_UP_3;
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_UP_3;
                                 }
                             }
                             FALLTHROUGH;
-                        case TIMER2_STATE_DOWN_3:
-                        case TIMER2_STATE_UP_3:
-                            if ((gSaveContext.timer2State == TIMER2_STATE_DOWN_3) ||
-                                (gSaveContext.timer2State == TIMER2_STATE_UP_3)) {
+                        case SUBTIMER_STATE_DOWN_3:
+                        case SUBTIMER_STATE_UP_3:
+                            if ((gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_3) ||
+                                (gSaveContext.subTimerState == SUBTIMER_STATE_UP_3)) {
                                 if (gSaveContext.healthCapacity > 0xA0) {
-                                    gSaveContext.timerY[1] = 54;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 54;
                                 } else {
-                                    gSaveContext.timerY[1] = 46;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 46;
                                 }
                             }
 
-                            if (gSaveContext.timer2State >= TIMER2_STATE_DOWN_2) {
-                                D_8015FFE4--;
-                                if (D_8015FFE4 == 0) {
-                                    D_8015FFE4 = 20;
-                                    if (gSaveContext.timer2State == TIMER2_STATE_DOWN_3) {
-                                        gSaveContext.timer2Value--;
-                                        osSyncPrintf("TOTAL_EVENT_TM=%d\n", gSaveContext.timer2Value);
+                            if (gSaveContext.subTimerState >= SUBTIMER_STATE_DOWN_2) {
+                                sSubTimerFPSTimer--;
+                                if (sSubTimerFPSTimer == 0) {
+                                    sSubTimerFPSTimer = 20;
+                                    if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_3) {
+                                        gSaveContext.subTimerTime--;
+                                        osSyncPrintf("TOTAL_EVENT_TM=%d\n", gSaveContext.subTimerTime);
 
-                                        if (gSaveContext.timer2Value <= 0) {
+                                        if (gSaveContext.subTimerTime <= 0) {
                                             if (!Flags_GetSwitch(play, 0x37) ||
                                                 ((play->sceneId != SCENE_GANON_DEMO) &&
                                                  (play->sceneId != SCENE_GANON_FINAL) &&
                                                  (play->sceneId != SCENE_GANON_SONOGO) &&
                                                  (play->sceneId != SCENE_GANONTIKA_SONOGO))) {
-                                                D_8015FFE6 = 40;
-                                                gSaveContext.timer2State = TIMER2_STATE_RESPAWN;
+                                                sSubTimerStateTimer = 40;
+                                                gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
                                                 gSaveContext.cutsceneIndex = 0;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
                                                 func_8002DF54(play, NULL, 8);
                                             } else {
-                                                D_8015FFE6 = 40;
-                                                gSaveContext.timer2State = TIMER2_STATE_STOP;
+                                                sSubTimerStateTimer = 40;
+                                                gSaveContext.subTimerState = SUBTIMER_STATE_STOP;
                                             }
-                                        } else if (gSaveContext.timer2Value > 60) {
+                                        } else if (gSaveContext.subTimerTime > 60) {
                                             if (timerDigits[4] == 1) {
                                                 Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
                                                                      &gSfxDefaultFreqAndVolScale,
                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
-                                        } else if (gSaveContext.timer2Value > 10) {
+                                        } else if (gSaveContext.subTimerTime > 10) {
                                             if (timerDigits[4] & 1) {
                                                 Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                                      &gSfxDefaultFreqAndVolScale,
@@ -3784,19 +3792,21 @@ void Interface_Draw(PlayState* play) {
                                                                  &gSfxDefaultFreqAndVolScale,
                                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                         }
-                                    } else {
-                                        gSaveContext.timer2Value++;
-                                        if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
-                                            if (gSaveContext.timer2Value == MARATHON_TIME_LIMIT) {
-                                                // After 4 minutes, cancel the running-man race
-                                                Message_StartTextbox(play, 0x6083, NULL);
-                                                CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
-                                                gSaveContext.timer2State = TIMER2_STATE_OFF;
-                                            }
+                                    } else { // SUBTIMER_STATE_UP_3
+                                        gSaveContext.subTimerTime++;
+
+                                        // Special case for the running-man race
+                                        if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE) &&
+                                            (gSaveContext.subTimerTime == MARATHON_TIME_LIMIT)) {
+                                            // After 4 minutes, cancel the timer
+                                            Message_StartTextbox(play, 0x6083, NULL);
+                                            CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
+                                            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                                         }
                                     }
 
-                                    if ((gSaveContext.timer2Value % 60) == 0) {
+                                    // Beep at the minute mark
+                                    if ((gSaveContext.subTimerTime % 60) == 0) {
                                         Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                              &gSfxDefaultReverb);
@@ -3805,25 +3815,25 @@ void Interface_Draw(PlayState* play) {
                             }
                             break;
 
-                        case TIMER2_STATE_STOP:
-                            D_8015FFE6--;
-                            if (D_8015FFE6 == 0) {
-                                gSaveContext.timer2State = TIMER2_STATE_OFF;
+                        case SUBTIMER_STATE_STOP:
+                            sSubTimerStateTimer--;
+                            if (sSubTimerStateTimer == 0) {
+                                gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                             }
                             break;
                     }
                     break;
             }
 
-            if (((gSaveContext.timer1State != TIMER1_STATE_OFF) && (gSaveContext.timer1State != TIMER1_STATE_STOP)) ||
-                (gSaveContext.timer2State != TIMER2_STATE_OFF)) {
+            if (((gSaveContext.timerState != TIMER_STATE_OFF) && (gSaveContext.timerState != TIMER_STATE_STOP)) ||
+                (gSaveContext.subTimerState != SUBTIMER_STATE_OFF)) {
                 timerDigits[0] = timerDigits[1] = timerDigits[3] = 0;
                 timerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
-                if (gSaveContext.timer1State != TIMER1_STATE_OFF) {
-                    timerDigits[4] = gSaveContext.timer1Value;
+                if (gSaveContext.timerState != TIMER_STATE_OFF) {
+                    timerDigits[4] = gSaveContext.timerTime;
                 } else {
-                    timerDigits[4] = gSaveContext.timer2Value;
+                    timerDigits[4] = gSaveContext.subTimerTime;
                 }
 
                 while (timerDigits[4] >= 60) {
@@ -3845,33 +3855,33 @@ void Interface_Draw(PlayState* play) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
                 OVERLAY_DISP =
-                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, ((void)0, gSaveContext.timerX[timerIndex]),
-                                   ((void)0, gSaveContext.timerY[timerIndex]) + 2, 16, 16, 1 << 10, 1 << 10);
+                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, ((void)0, gSaveContext.timerX[timerId]),
+                                   ((void)0, gSaveContext.timerY[timerId]) + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
                                   TEXEL0, 0, PRIMITIVE, 0);
 
-                if (gSaveContext.timer1State != TIMER1_STATE_OFF) {
-                    if ((gSaveContext.timer1Value < 10) && (gSaveContext.timer1State <= TIMER1_STATE_STOP)) {
+                if (gSaveContext.timerState != TIMER_STATE_OFF) {
+                    if ((gSaveContext.timerTime < 10) && (gSaveContext.timerState <= TIMER_STATE_STOP)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 50, 0, 255);
                     } else {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                     }
                 } else {
-                    if ((gSaveContext.timer2Value < 10) && (gSaveContext.timer2State <= TIMER2_STATE_RESPAWN)) {
+                    if ((gSaveContext.subTimerTime < 10) && (gSaveContext.subTimerState <= SUBTIMER_STATE_RESPAWN)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 50, 0, 255);
                     } else {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 0, 255);
                     }
                 }
 
-                for (svar1 = 0; svar1 < 5; svar1++) {
+                for (svar1 = 0; svar1 < ARRAY_COUNT(timerDigits); svar1++) {
                     OVERLAY_DISP =
                         Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                                      ((void)0, gSaveContext.timerX[timerIndex]) + timerDigitLeftPos[svar1],
-                                      ((void)0, gSaveContext.timerY[timerIndex]), digitWidth[svar1], VREG(42),
+                                      ((void)0, gSaveContext.timerX[timerId]) + timerDigitLeftPos[svar1],
+                                      ((void)0, gSaveContext.timerY[timerId]), digitWidth[svar1], VREG(42),
                                       VREG(43) << 1, VREG(43) << 1);
                 }
             }
@@ -4059,7 +4069,7 @@ void Interface_Update(PlayState* play) {
 
     Health_UpdateMeter(play);
 
-    if ((gSaveContext.timer1State >= TIMER1_STATE_ENV_2) && (play->pauseCtx.state == 0) &&
+    if ((gSaveContext.timerState >= TIMER_STATE_ENV_2) && (play->pauseCtx.state == 0) &&
         (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
         !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
         (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {}
@@ -4164,20 +4174,20 @@ void Interface_Update(PlayState* play) {
         Magic_Update(play);
     }
 
-    if (gSaveContext.timer1State == TIMER1_STATE_OFF) {
+    if (gSaveContext.timerState == TIMER_STATE_OFF) {
         if (((sEnvTimerType == PLAYER_ENV_TIMER_TYPE_HOTROOM) ||
              (sEnvTimerType == PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR) ||
              (sEnvTimerType == PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE)) &&
             ((gSaveContext.health >> 1) != 0)) {
-            gSaveContext.timer1State = TIMER1_STATE_ENV_0;
-            gSaveContext.timerX[0] = 140;
-            gSaveContext.timerY[0] = 80;
+            gSaveContext.timerState = TIMER_STATE_ENV_0;
+            gSaveContext.timerX[TIMER_ID_MAIN] = 140;
+            gSaveContext.timerY[TIMER_ID_MAIN] = 80;
             sEnvTimerActive = true;
         }
     } else {
         if (((sEnvTimerType == PLAYER_ENV_TIMER_TYPE_NONE) || (sEnvTimerType == PLAYER_ENV_TIMER_TYPE_SWIMMING)) &&
-            (gSaveContext.timer1State <= TIMER1_STATE_ENV_3)) {
-            gSaveContext.timer1State = TIMER1_STATE_OFF;
+            (gSaveContext.timerState <= TIMER_STATE_ENV_3)) {
+            gSaveContext.timerState = TIMER_STATE_OFF;
         }
     }
 

@@ -1464,8 +1464,8 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
     gSaveContext.dogParams = 0;
-    gSaveContext.timer1State = TIMER1_STATE_OFF;
-    gSaveContext.timer2State = TIMER2_STATE_OFF;
+    gSaveContext.timerState = TIMER_STATE_OFF;
+    gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     gSaveContext.eventInf[0] = 0;
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;

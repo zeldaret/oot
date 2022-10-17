@@ -785,8 +785,8 @@ s32 Player_GetEnvTimerType(PlayState* play) {
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
         envTimerType = PLAYER_ENV_TIMER_TYPE_HOTROOM - 1;
-    } else if ((this->underwaterCounter > 80) &&
-               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterCounter >= 300))) { // Deep underwater
+    } else if ((this->underwaterTimer > 80) &&
+               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) { // Deep underwater
         envTimerType = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
                            ? (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR - 1)
                            : (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE - 1);

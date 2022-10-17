@@ -1607,7 +1607,7 @@ void EnZl2_Init(Actor* thisx, PlayState* play) {
             Audio_SetSfxBanksMute(0x6F);
             break;
         case 4:
-            gSaveContext.timer2State = TIMER2_STATE_OFF;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
             break;
     }
 }
