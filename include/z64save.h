@@ -132,7 +132,7 @@ typedef enum {
 } SubTimerState;
 
 typedef enum {
-    /* 0 */ TIMER_ID_MAIN, // See `timerState` and `timerTime`
+    /* 0 */ TIMER_ID_MAIN, // Takes priority in both counting and drawing. See `timerState` and `timerTime`
     /* 1 */ TIMER_ID_SUB, // See `subTimerState` and `subTimerTime`
     /* 2 */ TIMER_ID_MAX
 } TimerId;
