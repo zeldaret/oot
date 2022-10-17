@@ -795,7 +795,7 @@ void Camera_UpdateInterface(s16 flags) {
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
             sCameraInterfaceAlpha = interfaceAlpha;
-            Interface_SetHudVisibility(sCameraInterfaceAlpha);
+            Interface_ChangeHudVisibility(sCameraInterfaceAlpha);
         }
     }
 }

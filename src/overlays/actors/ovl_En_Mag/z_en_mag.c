@@ -68,7 +68,7 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
     this->effectFadeInState = this->effectPrimLodFrac = this->globalState = this->effectAlpha = this->mainAlpha =
         this->subAlpha = this->copyrightAlpha = 0.0f;
 
-    if (gSaveContext.hudVisibilityForceButtonAlphasByStatus) {
+    if (gSaveContext.hudVisibilityForceRisingButtonAlphas) {
         this->mainAlpha = 210;
         this->subAlpha = 255;
         this->copyrightAlpha = 255;
@@ -83,7 +83,7 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
         this->effectEnvColor[1] = 255.0f;
         this->effectEnvColor[2] = 0;
 
-        gSaveContext.hudVisibilityForceButtonAlphasByStatus = false;
+        gSaveContext.hudVisibilityForceRisingButtonAlphas = false;
         this->globalState = MAG_STATE_DISPLAY;
         sDelayTimer = 20;
         gSaveContext.transFadeDuration = 1;

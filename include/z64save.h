@@ -8,17 +8,17 @@ typedef enum {
     /*  0 */ HUD_VISIBILITY_IDLE,
     /*  1 */ HUD_VISIBILITY_NONE,
     /*  2 */ HUD_VISIBILITY_NONE_ALT, // Identical to HUD_VISIBILITY_NONE
-    /*  3 */ HUD_VISIBILITY_HEARTS_WITH_OVERWRITE, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
+    /*  3 */ HUD_VISIBILITY_HEARTS_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
     /*  4 */ HUD_VISIBILITY_A,
-    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
-    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
+    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
+    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
     /*  7 */ HUD_VISIBILITY_ALL_NO_MINIMAP_W_DISABLED, // Only raises button alphas if not disabled
     /*  8 */ HUD_VISIBILITY_B,
     /*  9 */ HUD_VISIBILITY_HEARTS_MAGIC,
     /* 10 */ HUD_VISIBILITY_B_ALT, // Identical to HUD_VISIBILITY_B
     /* 11 */ HUD_VISIBILITY_HEARTS,
     /* 12 */ HUD_VISIBILITY_A_B_MINIMAP,
-    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_WITH_OVERWRITE, // Uses Interface_UpdateButtonAlphas so gives the opportunity to dim only disabled buttons
+    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_WITH_OVERWRITE, // Uses Interface_DimButtonAlphas so gives the opportunity to dim only disabled buttons
     /* 50 */ HUD_VISIBILITY_ALL = 50,
     /* 52 */ HUD_VISIBILITY_NONE_INSTANT = 52
 } HudVisibility;
@@ -196,7 +196,7 @@ typedef struct {
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 hudVisibilityForceButtonAlphasByStatus; // if btn alphas are updated through Interface_UpdateButtonAlphas, instead update them through Interface_UpdateButtonAlphasByStatus
+    /* 0x13E7 */ u8 hudVisibilityForceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
     /* 0x13E8 */ u16 nextHudVisibility; // triggers the hud to change visibility to the requested value. Reset to HUD_VISIBILITY_IDLE when target is reached
     /* 0x13EA */ u16 hudVisibility; // current hud visibility
     /* 0x13EC */ u16 hudVisibilityTimer; // number of frames in the transition to a new hud visibility. Used to step alpha

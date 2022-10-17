@@ -1591,7 +1591,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         gSaveContext.prevHudVisibility = gSaveContext.hudVisibility;
     }
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
-        Interface_SetHudVisibility(HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE);
+        Interface_ChangeHudVisibility(HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE);
     }
 
     sMessageHasSetSfx = D_8014B2F4 = sTextboxSkipped = sTextIsCredits = 0;
@@ -1622,7 +1622,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         textId == 0x2061 || // Learning Epona's Song
         textId == 0x5035 || // Guru-Guru in Windmill
         textId == 0x40AC) { // Ocarina Frog Minigame
-        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
+        Interface_ChangeHudVisibility(HUD_VISIBILITY_NONE);
     }
     msgCtx->textId = textId;
 
@@ -1840,7 +1840,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
     if (noStop == false) {
         Interface_LoadActionLabelB(play, DO_ACTION_STOP);
         noStop = gSaveContext.hudVisibility;
-        Interface_SetHudVisibility(HUD_VISIBILITY_B_ALT);
+        Interface_ChangeHudVisibility(HUD_VISIBILITY_B_ALT);
         gSaveContext.hudVisibility = noStop;
     }
     // "Music Performance Start"
@@ -1852,7 +1852,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->msgMode = MSGMODE_FROGS_START;
         msgCtx->textBoxType = TEXTBOX_TYPE_BLUE;
     } else if (ocarinaActionId == OCARINA_ACTION_MEMORY_GAME) {
-        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
+        Interface_ChangeHudVisibility(HUD_VISIBILITY_NONE);
         Message_Decode(play);
         msgCtx->msgMode = MSGMODE_MEMORY_GAME_START;
     } else if (ocarinaActionId == OCARINA_ACTION_SCARECROW_LONG_PLAYBACK) {
@@ -1868,7 +1868,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->msgMode = MSGMODE_SCARECROW_LONG_PLAYBACK;
         AudioOcarina_SetPlaybackSong(OCARINA_SONG_SCARECROW_LONG + 1, 1);
         gSaveContext.hudVisibility = HUD_VISIBILITY_IDLE;
-        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
+        Interface_ChangeHudVisibility(HUD_VISIBILITY_NONE);
     }
     for (k = 0, j = 0; j < 48; j++, k += 0x80) {
         func_8006EE50(&play->msgCtx.font, 0x8140, k);
@@ -2138,7 +2138,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                 Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                      &gSfxDefaultReverb);
-                                Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
+                                Interface_ChangeHudVisibility(HUD_VISIBILITY_NONE);
                             }
                         } else if (msgCtx->ocarinaAction == OCARINA_ACTION_CHECK_SCARECROW_SPAWN) {
                             if (msgCtx->ocarinaStaff->state < OCARINA_SONG_SCARECROW_SPAWN) {
@@ -2158,7 +2158,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                 Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                      &gSfxDefaultReverb);
-                                Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
+                                Interface_ChangeHudVisibility(HUD_VISIBILITY_NONE);
                             }
                         } else if (msgCtx->ocarinaAction == OCARINA_ACTION_FREE_PLAY) {
                             // "Ocarina_Free Correct Example Performance"
@@ -2175,7 +2175,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                         }
-                        Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
+                        Interface_ChangeHudVisibility(HUD_VISIBILITY_NONE);
                     } else {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Audio_PlaySfxGeneral(NA_SE_SY_OCARINA_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3188,7 +3188,7 @@ void Message_Update(PlayState* play) {
         case MSGMODE_TEXT_NEXT_MSG:
             Message_Decode(play);
             if (sTextFade) {
-                Interface_SetHudVisibility(HUD_VISIBILITY_NONE);
+                Interface_ChangeHudVisibility(HUD_VISIBILITY_NONE);
             }
             if (D_80153D74 != 0) {
                 msgCtx->textDrawPos = msgCtx->decodedTextLen;
@@ -3287,7 +3287,7 @@ void Message_Update(PlayState* play) {
                             gSaveContext.prevHudVisibility = HUD_VISIBILITY_ALL;
                         }
                         gSaveContext.hudVisibility = HUD_VISIBILITY_IDLE;
-                        Interface_SetHudVisibility(gSaveContext.prevHudVisibility);
+                        Interface_ChangeHudVisibility(gSaveContext.prevHudVisibility);
                     }
                 }
             }
