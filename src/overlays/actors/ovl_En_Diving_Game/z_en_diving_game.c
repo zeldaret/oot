@@ -418,9 +418,9 @@ void func_809EE800(EnDivingGame* this, PlayState* play) {
     if (this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
-            Interface_SetTimer(BREG(2) + 50);
+            Interface_SetTimer(50 + BREG(2));
         } else {
-            Interface_SetTimer(BREG(2) + 50);
+            Interface_SetTimer(50 + BREG(2));
         }
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         func_8002DF54(play, NULL, 7);
