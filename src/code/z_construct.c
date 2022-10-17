@@ -132,9 +132,9 @@ void Interface_Init(PlayState* play) {
         gSaveContext.timerX[timerId] = 26;
 
         if (gSaveContext.healthCapacity > 0xA0) {
-            gSaveContext.timerY[timerId] = 54;
+            gSaveContext.timerY[timerId] = 54; // two rows of hearts
         } else {
-            gSaveContext.timerY[timerId] = 46;
+            gSaveContext.timerY[timerId] = 46; // one row of hearts
         }
     }
 
