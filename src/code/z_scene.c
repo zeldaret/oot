@@ -148,7 +148,6 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
 
     nextPtr = (void*)ALIGN16((s32)status->segment + size);
-    if (1) {} // Necessary to match
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
