@@ -434,7 +434,7 @@ typedef struct {
 #define PLAYER_STATE2_15 (1 << 15)
 #define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Turns on the "Enter On A" DoAction
 #define PLAYER_STATE2_17 (1 << 17)
-#define PLAYER_STATE2_18 (1 << 18)
+#define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling though a crawlspace
 #define PLAYER_STATE2_19 (1 << 19)
 #define PLAYER_STATE2_20 (1 << 20)
 #define PLAYER_STATE2_21 (1 << 21)
