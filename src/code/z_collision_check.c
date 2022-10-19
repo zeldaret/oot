@@ -3494,7 +3494,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     }
     radSqDiff = SQXZ(actorToItem) - SQ(radius);
     if (!IS_ZERO(SQXZ(itemStep))) {
-        actorDotItemXZ = DOTXZ(2.0f * itemStep, actorToItem);
+        actorDotItemXZ = (2.0f * itemStep.x * actorToItem.x) + (2.0f * itemStep.z * actorToItem.z);
         if (SQ(actorDotItemXZ) < (4.0f * SQXZ(itemStep) * radSqDiff)) {
             return 0;
         }
@@ -3511,10 +3511,10 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         if (intersect2 == true) {
             frac2 = (-actorDotItemXZ - closeDist) / (2.0f * SQXZ(itemStep));
         }
-    } else if (!IS_ZERO(DOTXZ(2.0f * itemStep, actorToItem))) {
+    } else if (!IS_ZERO((2.0f * itemStep.x * actorToItem.x) + (2.0f * itemStep.z * actorToItem.z))) {
         intersect1 = true;
         intersect2 = false;
-        frac1 = -radSqDiff / DOTXZ(2.0f * itemStep, actorToItem);
+        frac1 = -radSqDiff / ((2.0f * itemStep.x * actorToItem.x) + (2.0f * itemStep.z * actorToItem.z));
     } else {
         if (radSqDiff <= 0.0f) {
             test1 = (0.0f < actorToItem.y) && (actorToItem.y < height);
