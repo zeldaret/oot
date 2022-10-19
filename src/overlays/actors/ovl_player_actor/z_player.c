@@ -11041,6 +11041,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
             }
         } else if (this->stateFlags2 & PLAYER_STATE2_CRAWLING) {
             if (this->actor.projectedPos.z < 0.0f) {
+                // Player is behind the camera
                 overrideLimbDraw = Player_OverrideLimbDrawGameplayCrawling;
             }
         }
