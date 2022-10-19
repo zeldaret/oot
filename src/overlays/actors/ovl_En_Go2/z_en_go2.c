@@ -1833,7 +1833,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             this->eyeMouthTexState = 2;
             this->unk_20C = 0;
             this->goronState++;
-            func_800F483C(0x28, 5);
+            Audio_SetMainBgmVolume(0x28, 5);
             OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             break;
         case 1:
@@ -1848,7 +1848,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
                 Message_ContinueTextbox(play, 0x305A);
                 this->eyeMouthTexState = 3;
                 this->goronState++;
-                func_800F483C(0x7F, 5);
+                Audio_SetMainBgmVolume(0x7F, 5);
             }
             break;
         case 2:

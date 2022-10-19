@@ -2512,7 +2512,7 @@ void EnHorse_UpdateHbaAnim(EnHorse* this) {
 
 void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     f32 playSpeed;
-    s32 sp20;
+    s32 isFanfarePlaying;
 
     if (this->animationIdx == ENHORSE_ANIM_WALK) {
         EnHorse_PlayWalkingSfx(this);
@@ -2521,10 +2521,10 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
         this->hbaTimer++;
     }
 
-    sp20 = func_800F5A58(NA_BGM_HORSE_GOAL);
+    isFanfarePlaying = Audio_IsSequencePlaying(NA_BGM_HORSE_GOAL);
     EnHorse_UpdateHbaRaceInfo(this, play, &sHbaInfo);
-    if (this->hbaFlags & 1 || this->hbaTimer >= 46) {
-        if (sp20 != 1 && gSaveContext.minigameState != 3) {
+    if ((this->hbaFlags & 1) || (this->hbaTimer >= 46)) {
+        if ((isFanfarePlaying != true) && (gSaveContext.minigameState != 3)) {
             gSaveContext.cutsceneIndex = 0;
             play->nextEntranceIndex = ENTR_SPOT12_16;
             play->transitionTrigger = TRANS_TRIGGER_START;

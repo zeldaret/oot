@@ -308,7 +308,7 @@ s32 EnTk_Orient(EnTk* this, PlayState* play) {
         return 1;
     }
 
-    path = &play->setupPathList[0];
+    path = &play->pathList[0];
     point = SEGMENTED_TO_VIRTUAL(path->points);
     point += this->currentWaypoint;
 

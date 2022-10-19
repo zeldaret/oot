@@ -101,7 +101,7 @@ void EnNiwGirl_Jump(EnNiwGirl* this, PlayState* play) {
 }
 
 void func_80AB9210(EnNiwGirl* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->path];
+    Path* path = &play->pathList[this->path];
     f32 xDistBetween;
     f32 zDistBetween;
 

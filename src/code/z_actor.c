@@ -1953,15 +1953,14 @@ void Actor_DisableLens(PlayState* play) {
     }
 }
 
-// Actor_InitContext
-void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEntry) {
+void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* playerEntry) {
     ActorOverlay* overlayEntry;
     SavedSceneFlags* savedSceneFlags;
     s32 i;
 
     savedSceneFlags = &gSaveContext.sceneFlags[play->sceneId];
 
-    bzero(actorCtx, sizeof(*actorCtx));
+    bzero(actorCtx, sizeof(ActorContext));
 
     ActorOverlayTable_Init();
     Matrix_MtxFCopy(&play->billboardMtxF, &gMtxFClear);
@@ -1983,7 +1982,7 @@ void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEnt
 
     actorCtx->absoluteSpace = NULL;
 
-    Actor_SpawnEntry(actorCtx, actorEntry, play);
+    Actor_SpawnEntry(actorCtx, playerEntry, play);
     func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, play);
     func_8002FA60(play);
 }
@@ -2024,12 +2023,12 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     sp74 = NULL;
     unkFlag = 0;
 
-    if (play->numSetupActors != 0) {
-        actorEntry = &play->setupActorList[0];
-        for (i = 0; i < play->numSetupActors; i++) {
+    if (play->numActorEntries != 0) {
+        actorEntry = &play->actorEntryList[0];
+        for (i = 0; i < play->numActorEntries; i++) {
             Actor_SpawnEntry(&play->actorCtx, actorEntry++, play);
         }
-        play->numSetupActors = 0;
+        play->numActorEntries = 0;
     }
 
     if (actorCtx->unk_02 != 0) {
