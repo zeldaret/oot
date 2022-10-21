@@ -29,21 +29,21 @@ typedef struct {
 s16 sOREGInit[] = {
     0,     // OREG(0)
     1,     // OREG(1)
-    5,     // OREG(2)
-    5,     // OREG(3)
-    5,     // OREG(4)
+    5,     // R_CAM_XZ_OFFSET_UPDATE_RATE
+    5,     // R_CAM_Y_OFFSET_UPDATE_RATE
+    5,     // R_CAM_FOV_UPDATE_RATE
     14500, // R_CAM_MAX_PITCH
-    20,    // OREG(6)
-    16,    // R_CAM_DEFAULT_PITCH_UPDATE_RATE_INV
+    20,    // R_CAM_R_UPDATE_RATE_INV
+    16,    // R_CAM_PITCH_UPDATE_RATE_INV
     150,   // OREG(8)
-    25,    // OREG(9)
+    25,    // R_CAM_SLOPE_Y_ADJ_AMOUNT
     150,   // OREG(10)
     6,     // OREG(11)
     10,    // OREG(12)
     10,    // OREG(13)
-    0,     // OREG(14)
-    0,     // OREG(15)
-    1,     // OREG(16)
+    0,     // OREG(14) (unused)
+    0,     // OREG(15) (unused)
+    1,     // OREG(16) (unused)
     100,   // R_CAM_PITCH_FLOOR_CHECK_NEAR_DIST_FAC
     250,   // R_CAM_PITCH_FLOOR_CHECK_FAR_DIST_FAC
     120,   // R_CAM_PITCH_FLOOR_CHECK_OFFSET_Y_FAC
@@ -52,29 +52,29 @@ s16 sOREGInit[] = {
     120,   // OREG(22)
     4,     // R_CAM_DEFAULT_ANIM_TIME
     1,     // OREG(24)
-    50,    // OREG(25)
-    20,    // OREG(26)
+    50,    // R_CAM_UPDATE_RATE_STEP_SCALE_XZ
+    20,    // R_CAM_UPDATE_RATE_STEP_SCALE_Y
     1800,  // OREG(27)
     50,    // OREG(28)
     50,    // OREG(29)
     50,    // OREG(30)
-    20,    // OREG(31)
+    20,    // R_CAM_JUMP1_EYE_Y_STEP_SCALE
     20,    // OREG(32)
     -10,   // OREG(33)
     -5460, // R_CAM_MIN_PITCH_1
     -9100, // R_CAM_MIN_PITCH_2
-    -6,    // OREG(36)
-    8,     // OREG(37)
+    -6,    // R_CAM_BATTLE1_ROLL_TARGET_BASE
+    8,     // R_CAM_BATTLE1_ROLL_STEP_SCALE
     15,    // OREG(38)
     75,    // OREG(39)
-    60,    // OREG(40)
+    60,    // R_CAM_BATTLE1_XYZ_OFFSET_UPDATE_RATE_TARGET
     12,    // R_CAM_AT_LERP_STEP_SCALE_MIN
     110,   // R_CAM_AT_LERP_STEP_SCALE_FAC
     40,    // OREG(43)
     50,    // OREG(44)
     250,   // OREG(45)
     -10,   // R_CAM_YOFFSET_NORM
-    30,    // OREG(47)
+    30,    // OREG(47) (unused)
     30,    // OREG(48)
     70,    // OREG(49)
     20,    // OREG(50)
