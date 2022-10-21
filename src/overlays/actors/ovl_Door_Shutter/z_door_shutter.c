@@ -523,9 +523,11 @@ s32 DoorShutter_GetPlayerSide(DoorShutter* this, PlayState* play) {
         if (fabsf(playerDistForwards) < 50.0f) {
             s16 yawDiff = player->actor.shape.rot.y - this->dyna.actor.shape.rot.y;
 
-            // If the player is in front of the door (positive forwards distance),
-            // it is expected that the player faces the opposite way compared to the door.
+            // If the player is in front of the door (positive forwards distance)
             if (playerDistForwards > 0.0f) {
+                // It is expected that, when facing the door, the player faces the opposite way compared to the door.
+                // That means the corresponding yawDiff is around 0x8000 (half a turn),
+                // so the yawDiff is centered on 0 here.
                 yawDiff = 0x8000 - yawDiff;
             }
 
