@@ -5478,8 +5478,6 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
 
     Actor_GetScreenPos(play, actor, &sp2C, &sp2A);
 
-    if (0) {} // Necessary to match
-
     if ((sp2C < 0) || (sp2C > SCREEN_WIDTH) || (sp2A < 0) || (sp2A > SCREEN_HEIGHT)) {
         return false;
     }
