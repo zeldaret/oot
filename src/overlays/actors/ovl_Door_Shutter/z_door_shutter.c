@@ -42,11 +42,11 @@ void func_80996F98(DoorShutter* this, PlayState* play);
 void func_80997004(DoorShutter* this, PlayState* play);
 void func_80997150(DoorShutter* this, PlayState* play);
 void func_809973E8(DoorShutter* this, PlayState* play);
-void DoorShutter_JabuDoorClosing(DoorShutter* this, PlayState* play);
+void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play);
 void func_80997568(DoorShutter* this, PlayState* play);
-void DoorShutter_GohmaBlockFalling(DoorShutter* this, PlayState* play);
-void DoorShutter_GohmaBlock(DoorShutter* this, PlayState* play);
-void DoorShutter_PhantomGanonBars(DoorShutter* this, PlayState* play);
+void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play);
+void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
+void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
 
 const ActorInit Door_Shutter_InitVars = {
     ACTOR_DOOR_SHUTTER,
@@ -471,9 +471,9 @@ void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play) {
                 this->dyna.actor.velocity.y = 0.0f;
                 this->dyna.actor.gravity = -2.0f;
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
-                DoorShutter_SetupAction(this, DoorShutter_GohmaBlockFalling);
+                DoorShutter_SetupAction(this, DoorShutter_GohmaBlockFall);
             } else {
-                DoorShutter_SetupAction(this, DoorShutter_PhantomGanonBars);
+                DoorShutter_SetupAction(this, DoorShutter_PhantomGanonBarsRaise);
                 this->unk_164 = 7;
             }
         } else {
@@ -698,7 +698,7 @@ void func_80997004(DoorShutter* this, PlayState* play) {
                     !Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
                     Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BUYOSHUTTER_CLOSE);
                 }
-                DoorShutter_SetupAction(this, DoorShutter_JabuDoorClosing);
+                DoorShutter_SetupAction(this, DoorShutter_JabuDoorClose);
             }
         }
     }
@@ -777,7 +777,7 @@ void func_809973E8(DoorShutter* this, PlayState* play) {
     }
 }
 
-void DoorShutter_JabuDoorClosing(DoorShutter* this, PlayState* play) {
+void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play) {
     if (Math_StepToS(&this->jabuDoorClosedAmount, 100, 10)) {
         func_80997220(this, play);
     }
@@ -790,11 +790,11 @@ void func_80997568(DoorShutter* this, PlayState* play) {
     }
 }
 
-void DoorShutter_GohmaBlockFalling(DoorShutter* this, PlayState* play) {
+void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play) {
     Actor_MoveForward(&this->dyna.actor);
     Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        DoorShutter_SetupAction(this, DoorShutter_GohmaBlock);
+        DoorShutter_SetupAction(this, DoorShutter_GohmaBlockBounce);
         if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
             BossGoma* parent = (BossGoma*)this->dyna.actor.parent;
 
@@ -807,7 +807,7 @@ void DoorShutter_GohmaBlockFalling(DoorShutter* this, PlayState* play) {
     }
 }
 
-void DoorShutter_GohmaBlock(DoorShutter* this, PlayState* play) {
+void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play) {
     f32 bounceFactor;
 
     // Bounce a bit (unnoticeable in-game)
@@ -818,7 +818,7 @@ void DoorShutter_GohmaBlock(DoorShutter* this, PlayState* play) {
     }
 }
 
-void DoorShutter_PhantomGanonBars(DoorShutter* this, PlayState* play) {
+void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play) {
     f32 targetOffsetY;
 
     osSyncPrintf("FHG SAKU START !!\n");
