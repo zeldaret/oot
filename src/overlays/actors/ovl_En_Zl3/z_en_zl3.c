@@ -50,20 +50,6 @@ static Vec3f D_80B5A46C = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f D_80B5A478 = { 0.0f, 10.0f, 0.0f };
 
-static f32 D_80B5A484 = 0.0f;
-
-static Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
-
-static s32 D_80B5A494 = -1;
-
-static Vec3f D_80B5A498 = { 148.0f, 260.0f, -87.0f };
-
-static Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
-
-static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
-
-static u32 D_80B5A4BC = 0;
-
 void func_80B533B0(Actor* thisx, PlayState* play) {
     EnZl3* this = (EnZl3*)thisx;
 
@@ -254,7 +240,7 @@ void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
                 curFrame = skelAnime->curFrame;
                 unk_3DC = this->unk_3DC;
                 yTemp = (s32)((curFrame / unk_3DC) * -11000) + y;
-                if (0) {};
+
                 if (temp28C >= yTemp) {
                     temp28C = yTemp;
                     if (temp25C > 0) {
@@ -831,15 +817,13 @@ void func_80B550F0(EnZl3* this) {
 }
 
 void func_80B55144(EnZl3* this) {
-    f32* fl = &D_80B5A484;
+    static f32 D_80B5A484 = 0.0f;
 
-    if (1) {} // necessary to match
-
-    if (*fl < 2.0f) {
-        *fl += 1.0f;
+    if (D_80B5A484 < 2.0f) {
+        D_80B5A484 += 1.0f;
         EnZl3_setEyeIndex(this, 2);
-    } else if (*fl < 4.0f) {
-        *fl += 1.0f;
+    } else if (D_80B5A484 < 4.0f) {
+        D_80B5A484 += 1.0f;
         EnZl3_setEyeIndex(this, 1);
     } else {
         EnZl3_UpdateEyes(this);
@@ -1015,6 +999,8 @@ void func_80B55780(EnZl3* this, PlayState* play) {
 void func_80B55808(EnZl3* this) {
     func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
+
+static Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
 
 void func_80B5582C(EnZl3* this) {
     Audio_PlaySfxRandom(&D_80B5A488, NA_SE_VO_Z1_CRY_0, NA_SE_VO_Z1_CRY_1 - NA_SE_VO_Z1_CRY_0 + 1);
@@ -1295,15 +1281,13 @@ void func_80B56474(EnZl3* this, s32 arg1) {
 }
 
 void func_80B564A8(EnZl3* this, PlayState* play) {
-    s32 temp_v0;
-    s32* val = &D_80B5A494;
+    static s32 D_80B5A494 = -1;
+    s32 temp_v0 = func_80B5396C(this);
 
-    temp_v0 = func_80B5396C(this);
-
-    if (*val > 0) {
-        *val -= 1;
-    } else if (*val == 0) {
-        *val -= 1;
+    if (D_80B5A494 > 0) {
+        D_80B5A494--;
+    } else if (D_80B5A494 == 0) {
+        D_80B5A494--;
         if (temp_v0 == 8) {
             func_80B5604C(this);
         }
@@ -1339,7 +1323,7 @@ void func_80B564A8(EnZl3* this, PlayState* play) {
                     func_80B55EF0(this);
                     break;
                 case 8:
-                    *val = 10;
+                    D_80B5A494 = 10;
                     break;
                 case 9:
                     func_80B56160(this);
@@ -1831,6 +1815,10 @@ void func_80B577BC(PlayState* play, Vec3f* vec) {
                 RAD_TO_BINANG(Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ)), 0, 5);
 }
 
+static Vec3f D_80B5A498 = { 148.0f, 260.0f, -87.0f };
+static Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
+static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
+
 void func_80B57858(PlayState* play) {
     func_80B577BC(play, &D_80B5A498);
     func_80B577BC(play, &D_80B5A4A4);
@@ -2108,6 +2096,8 @@ void func_80B582C8(EnZl3* this, PlayState* play) {
         *unk_3CC += 1.0f;
     }
 }
+
+static u32 D_80B5A4BC = 0;
 
 void func_80B584B4(EnZl3* this, PlayState* play) {
     s32 pad;
