@@ -4353,9 +4353,6 @@ s32 Camera_Subj3(Camera* camera) {
     return 1;
 }
 
-#define vCrawlSpaceBackPos temp1
-#define vPlayerDistToFront temp2
-
 /**
  * Crawlspaces
  * Moves the camera from third person to first person when entering a crawlspace
@@ -4388,6 +4385,11 @@ s32 Camera_Subj4(Camera* camera) {
     f32 temp;
     Subj4ReadOnlyData* roData = &camera->paramData.subj4.roData;
     Subj4ReadWriteData* rwData = &camera->paramData.subj4.rwData;
+
+#define vCrawlSpaceBackPos temp1
+#define vEyeTarget temp1
+#define vPlayerDistToFront temp2
+#define vZoomTimer temp2
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -4444,11 +4446,6 @@ s32 Camera_Subj4(Camera* camera) {
         rwData->eyeLerp = 0.0f;
         camera->animState++;
     }
-
-#undef vCrawlSpaceBackPos // temp1
-#undef vPlayerDistToFront // temp2
-#define vEyeTarget temp1
-#define vZoomTimer temp2
 
     // Camera zooms in from third person to first person over 10 frames
     if (rwData->zoomTimer != 0) {
@@ -4515,7 +4512,7 @@ s32 Camera_Subj4(Camera* camera) {
     camera->player->actor.world.pos.y = camera->playerGroundY;
     camera->player->actor.shape.rot.y = targetOffset.yaw;
 
-    eyeLerp = ((240.0f * eyeLerp) * (rwData->xzSpeed * 0.416667f));
+    eyeLerp = (240.0f * eyeLerp) * (rwData->xzSpeed * 0.416667f);
     eyeToAtYaw = rwData->forwardYaw + eyeLerp;
 
     at->x = eye->x + (Math_SinS(eyeToAtYaw) * 10.0f);
@@ -4526,9 +4523,6 @@ s32 Camera_Subj4(Camera* camera) {
 
     return true;
 }
-
-#undef vEyeTarget
-#undef vZoomTimer
 
 s32 Camera_Subj0(Camera* camera) {
     return Camera_Noop(camera);
