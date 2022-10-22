@@ -1878,13 +1878,14 @@ void FileSelect_Init(GameState* thisx) {
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3392);
     ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_file_choose.c", 3393);
-    DmaMgr_SyncDmaRequestDebug(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c", 3394);
+    DmaMgr_SyncDmaRequestDebug(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c",
+                               3394);
 
     size = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
     this->parameterSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3398);
     ASSERT(this->parameterSegment != NULL, "this->parameterSegment != NULL", "../z_file_choose.c", 3399);
-    DmaMgr_SyncDmaRequestDebug(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size, "../z_file_choose.c",
-                        3400);
+    DmaMgr_SyncDmaRequestDebug(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size,
+                               "../z_file_choose.c", 3400);
 
     Matrix_Init(&this->state);
     View_Init(&this->view, this->state.gfxCtx);

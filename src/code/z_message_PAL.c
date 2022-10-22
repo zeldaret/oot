@@ -1176,7 +1176,7 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_YPOS = y + 10;
         R_TEXTBOX_ICON_SIZE = 24;
         DmaMgr_SyncDmaRequestDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                   (uintptr_t)_icon_item_24_staticSegmentRomStart + 
+                                   (uintptr_t)_icon_item_24_staticSegmentRomStart +
                                        (itemId - ITEM_MEDALLION_FOREST) * 0x900,
                                    0x900, "../z_message_PAL.c", 1482);
         // "Item 24"
@@ -1637,8 +1637,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (sTextIsCredits) {
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
-        DmaMgr_SyncDmaRequestDebug(font->msgBuf,
-                                   (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+        DmaMgr_SyncDmaRequestDebug(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
                                    font->msgLength, "../z_message_PAL.c", 1954);
     } else {
         if (gSaveContext.language == LANGUAGE_ENG) {
