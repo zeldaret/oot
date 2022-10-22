@@ -174,21 +174,17 @@ void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* acce
                            f32 scaleStep) {
     EnGoEffect* dustEffect = this->effects;
     s16 i;
-    s16 timer;
 
     for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
-            if (1) {}
-            timer = initialTimer;
-            dustEffect->timer = timer;
+            dustEffect->initialTimer = dustEffect->timer = initialTimer;
             dustEffect->type = 1;
-            dustEffect->initialTimer = initialTimer;
             dustEffect->pos = *pos;
             dustEffect->accel = *accel;
             dustEffect->velocity = *velocity;
-            return;
+            break;
         }
     }
 }
