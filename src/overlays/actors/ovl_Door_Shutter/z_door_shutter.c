@@ -39,9 +39,9 @@ void func_80996B00(DoorShutter* this, PlayState* play);
 void func_80996B0C(DoorShutter* this, PlayState* play);
 void func_80996EE8(DoorShutter* this, PlayState* play);
 void func_80996F98(DoorShutter* this, PlayState* play);
-void DoorShutter_Opening(DoorShutter* this, PlayState* play);
+void func_80997004(DoorShutter* this, PlayState* play);
 void func_80997150(DoorShutter* this, PlayState* play);
-void DoorShutter_Closing(DoorShutter* this, PlayState* play);
+void func_809973E8(DoorShutter* this, PlayState* play);
 void DoorShutter_JabuDoorClosing(DoorShutter* this, PlayState* play);
 void func_80997568(DoorShutter* this, PlayState* play);
 void DoorShutter_GohmaBlockFalling(DoorShutter* this, PlayState* play);
@@ -558,7 +558,7 @@ void func_80996B00(DoorShutter* this, PlayState* play) {
 
 void func_80996B0C(DoorShutter* this, PlayState* play) {
     if (this->unk_164 != 0) {
-        DoorShutter_SetupAction(this, DoorShutter_Opening);
+        DoorShutter_SetupAction(this, func_80997004);
         this->dyna.actor.velocity.y = 0.0f;
         if (this->unlockTimer != 0) {
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
@@ -603,7 +603,7 @@ void func_80996C60(DoorShutter* this, PlayState* play) {
         if (DoorShutter_SetupDoor(this, play)) {
             doorCamTimer2 = 32;
         }
-        DoorShutter_SetupAction(this, DoorShutter_Opening);
+        DoorShutter_SetupAction(this, func_80997004);
         this->gfxType = savedGfxType;
         this->barsClosedAmount = 0.0f;
         Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->doorBgCamIndex, 0.0f, 12,
@@ -683,7 +683,7 @@ void func_80996F98(DoorShutter* this, PlayState* play) {
     }
 }
 
-void DoorShutter_Opening(DoorShutter* this, PlayState* play) {
+void func_80997004(DoorShutter* this, PlayState* play) {
     if (DECR(this->unlockTimer) == 0 && play->roomCtx.status == 0 && DoorShutter_UpdateOpening(this, play)) {
         if (((this->doorType == SHUTTER_BOSS) ? 20.0f : 50.0f) < this->dyna.actor.xzDistToPlayer) {
             if (DoorShutter_SetupDoor(this, play)) {
@@ -691,7 +691,7 @@ void DoorShutter_Opening(DoorShutter* this, PlayState* play) {
             }
             if (this->gfxType != DOORSHUTTER_GFX_JABU_JABU) {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
-                DoorShutter_SetupAction(this, DoorShutter_Closing);
+                DoorShutter_SetupAction(this, func_809973E8);
             } else {
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BUYODOOR_CLOSE);
                 if ((this->doorType == SHUTTER_FRONT_SWITCH || this->doorType == SHUTTER_FRONT_SWITCH_BACK_CLEAR) &&
@@ -755,7 +755,7 @@ void func_80997220(DoorShutter* this, PlayState* play) {
     }
 }
 
-void DoorShutter_Closing(DoorShutter* this, PlayState* play) {
+void func_809973E8(DoorShutter* this, PlayState* play) {
     s32 quakeIndex;
 
     if (this->dyna.actor.velocity.y < 20.0f) {
