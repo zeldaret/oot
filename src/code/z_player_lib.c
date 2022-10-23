@@ -795,11 +795,8 @@ s32 func_8008F2F8(PlayState* play) {
     }
 
     // Trigger general textboxes under certain conditions, like "It's so hot in here!"
+    triggerEntry = &sTextTriggers[var];
     if (!Player_InCsMode(play)) {
-        triggerEntry = &sTextTriggers[var];
-
-        if (0) {}
-
         if ((triggerEntry->flag != 0) && !(gSaveContext.textTriggerFlags & triggerEntry->flag) &&
             (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
              (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
