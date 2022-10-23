@@ -104,8 +104,6 @@ void func_80026860(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
 
     POLY_XLU_DISP = displayListHead;
 
-    if (1) {} // Necessary to match
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 212);
 }
 
