@@ -789,7 +789,7 @@ typedef enum {
     /* 7 */ PAUSE_MAIN_STATE_7,
     /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG,
     /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START
-} PauseMainSubState;
+} PauseMainState;
 
 typedef enum {
     /* 0 */ PAUSE_SAVE_PROMPT_STATE_APPEARING,
@@ -837,7 +837,7 @@ typedef struct {
     /* 0x01D4 */ u16    state;
     /* 0x01D6 */ u16    debugState;
     /* 0x01D8 */ Vec3f  eye;
-    /* 0x01E4 */ u16    mainSubState;
+    /* 0x01E4 */ u16    mainState;
     /* 0x01E6 */ u16    nextPageMode; // (2 * prev pageIndex) + (scroll left ? 1 : 0)
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    switchPageTimer;
