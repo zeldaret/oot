@@ -335,7 +335,7 @@ uintptr_t Fault_ConvertAddress(uintptr_t addr) {
 
     while (client != NULL) {
         if (client->callback != NULL) {
-            ret = Fault_ProcessClient(client->callback, addr, client->arg);
+            ret = Fault_ProcessClient(client->callback, (void*)addr, client->arg);
             if (ret == -1) {
                 Fault_RemoveAddrConvClient(client);
             } else if (ret != 0) {
@@ -352,18 +352,25 @@ void Fault_Sleep(u32 msec) {
     Fault_SleepImpl(msec);
 }
 
-void PadMgr_RequestPadData(Input* input, s32 mode);
+#ifndef AVOID_UB
+void PadMgr_RequestPadData(Input* inputs, s32 gameRequest);
+#endif
 
-void Fault_PadCallback(Input* input) {
+void Fault_PadCallback(Input* inputs) {
     //! @bug This function is not called correctly, it is missing a leading PadMgr* argument. This
     //! renders the crash screen unusable.
     //! In Majora's Mask, PadMgr functions were changed to not require this argument, and this was
     //! likely just not addressed when backporting.
-    PadMgr_RequestPadData(input, 0);
+#ifndef AVOID_UB
+    PadMgr_RequestPadData(inputs, false);
+#else
+    // Guarantee crashing behavior: false -> NULL, previous value in a2 is more often non-zero than zero
+    PadMgr_RequestPadData((PadMgr*)inputs, NULL, true);
+#endif
 }
 
 void Fault_UpdatePadImpl(void) {
-    sFaultInstance->padCallback(&sFaultInstance->padInput);
+    sFaultInstance->padCallback(sFaultInstance->inputs);
 }
 
 /**
@@ -376,7 +383,7 @@ void Fault_UpdatePadImpl(void) {
  * DPad-Left continues and returns false
  */
 u32 Fault_WaitForInputImpl(void) {
-    Input* input = &sFaultInstance->padInput;
+    Input* input = &sFaultInstance->inputs[0];
     s32 count = 600;
     u32 pressedBtn;
 
@@ -651,7 +658,7 @@ void Fault_Wait5Seconds(void) {
  * (L & R & Z) + DPad-Up + C-Down + C-Up + DPad-Down + DPad-Left + C-Left + C-Right + DPad-Right + (B & A & START)
  */
 void Fault_WaitForButtonCombo(void) {
-    Input* input = &sFaultInstance->padInput;
+    Input* input = &sFaultInstance->inputs[0];
     s32 state;
     u32 s1;
     u32 s2;
@@ -853,7 +860,7 @@ void Fault_DrawMemDumpContents(const char* title, uintptr_t addr, u32 arg2) {
  * @param cRightJump Unused parameter, pressing C-Right jumps to this address
  */
 void Fault_DrawMemDump(uintptr_t pc, uintptr_t sp, uintptr_t cLeftJump, uintptr_t cRightJump) {
-    Input* input = &sFaultInstance->padInput;
+    Input* input = &sFaultInstance->inputs[0];
     uintptr_t addr = pc;
     s32 scrollCountdown;
     u32 off;
@@ -1093,9 +1100,9 @@ void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
     thread->context.pc += sizeof(u32);
-    *(u32*)thread->context.pc = 0x0000000D; // write in a break instruction
-    osWritebackDCache(thread->context.pc, 4);
-    osInvalICache(thread->context.pc, 4);
+    *((u32*)thread->context.pc) = 0x0000000D; // write in a break instruction
+    osWritebackDCache((void*)thread->context.pc, 4);
+    osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
 }
 
@@ -1112,7 +1119,7 @@ void Fault_DisplayFrameBuffer(void) {
     } else {
         fb = osViGetNextFramebuffer();
         if ((uintptr_t)fb == K0BASE) {
-            fb = (PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
+            fb = (void*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         }
     }
 
@@ -1264,8 +1271,8 @@ void Fault_Init(void) {
     sFaultInstance->autoScroll = false;
     gFaultMgr.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultInstance->queue, &sFaultInstance->msg, 1);
-    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, STACK_TOP(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultInstance->thread, THREAD_ID_FAULT, Fault_ThreadEntry, 0, STACK_TOP(sFaultStack),
+    StackCheck_Init(&sFaultThreadInfo, sFaultStack, STACK_TOP(sFaultStack), 0, 0x100, "fault");
+    osCreateThread(&sFaultInstance->thread, THREAD_ID_FAULT, Fault_ThreadEntry, NULL, STACK_TOP(sFaultStack),
                    THREAD_PRI_FAULT);
     osStartThread(&sFaultInstance->thread);
 }

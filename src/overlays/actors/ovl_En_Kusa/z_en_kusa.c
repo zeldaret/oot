@@ -15,7 +15,7 @@
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void EnKusa_Init(Actor* thisx, PlayState* play);
-void EnKusa_Destroy(Actor* thisx, PlayState* play);
+void EnKusa_Destroy(Actor* thisx, PlayState* play2);
 void EnKusa_Update(Actor* thisx, PlayState* play);
 void EnKusa_Draw(Actor* thisx, PlayState* play);
 
@@ -99,7 +99,7 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     s32 pad;
-    CollisionPoly* poly;
+    CollisionPoly* groundPoly;
     Vec3f pos;
     s32 bgId;
     f32 floorY;
@@ -108,7 +108,7 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     pos.y = this->actor.world.pos.y + 30.0f;
     pos.z = this->actor.world.pos.z;
 
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->actor, &pos);
+    floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &groundPoly, &bgId, &this->actor, &pos);
 
     if (floorY > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = floorY + yOffset;
@@ -140,7 +140,7 @@ void EnKusa_DropCollectible(EnKusa* this, PlayState* play) {
             if (Rand_ZeroOne() < 0.5f) {
                 Item_DropCollectible(play, &this->actor.world.pos, ITEM00_SEEDS);
             } else {
-                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_HEART);
+                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RECOVERY_HEART);
             }
             break;
     }
@@ -300,12 +300,12 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         EnKusa_SetupLiftedUp(this);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
     } else if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         EnKusa_SpawnFragments(this, play);
         EnKusa_DropCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
         if ((this->actor.params >> 4) & 1) {
             EnKusa_SpawnBugs(this, play);
@@ -375,7 +375,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         EnKusa_SpawnFragments(this, play);
         EnKusa_DropCollectible(this, play);
@@ -406,7 +406,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
         rotSpeedY >>= 1;
         rotSpeedYtarget >>= 1;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
     }
 
     EnKusa_UpdateVelY(this);

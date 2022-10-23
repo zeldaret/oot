@@ -163,7 +163,7 @@ void __osMallocCleanup(Arena* arena) {
     bzero(arena, sizeof(*arena));
 }
 
-u8 __osMallocIsInitalized(Arena* arena) {
+u8 __osMallocIsInitialized(Arena* arena) {
     return arena->isInit;
 }
 
@@ -442,7 +442,7 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
     ArenaImpl_SetDebugInfo(node, NULL, 0, arena);
 
     if (arena->flag & FILL_FREEBLOCK) {
-        __osMemset((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
+        __osMemset((void*)((u32)node + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, node->size);
     }
 
     newNext = next;
@@ -512,7 +512,7 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
     ArenaImpl_SetDebugInfo(node, file, line, arena);
 
     if (arena->flag & FILL_FREEBLOCK) {
-        __osMemset((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
+        __osMemset((void*)((u32)node + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, node->size);
     }
 
     newNext = node->next;
@@ -682,8 +682,8 @@ void __osDisplayArena(Arena* arena) {
     ArenaNode* iter;
     ArenaNode* next;
 
-    if (!__osMallocIsInitalized(arena)) {
-        osSyncPrintf("アリーナは初期化されていません\n"); // "Arena is not initalized"
+    if (!__osMallocIsInitialized(arena)) {
+        osSyncPrintf("アリーナは初期化されていません\n"); // "Arena is not initialized"
         return;
     }
 
@@ -746,7 +746,7 @@ void ArenaImpl_FaultClient(Arena* arena) {
     ArenaNode* next;
 
     FaultDrawer_Printf("ARENA INFO (0x%08x)\n", arena);
-    if (!__osMallocIsInitalized(arena)) {
+    if (!__osMallocIsInitialized(arena)) {
         FaultDrawer_Printf("Arena is uninitalized\n", arena);
         return;
     }

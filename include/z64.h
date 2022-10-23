@@ -27,6 +27,7 @@
 #include "z64transition.h"
 #include "z64interface.h"
 #include "alignment.h"
+#include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
@@ -36,13 +37,14 @@
 #include "padmgr.h"
 #include "fault.h"
 #include "sched.h"
+#include "rumble.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 
 #define REGION_NULL 0
-#define REGION_US 1
-#define REGION_JP 2
+#define REGION_JP 1
+#define REGION_US 2
 #define REGION_EU 3
 
 #define THREAD_PRI_IDLE_INIT    10
@@ -74,6 +76,9 @@
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
 
+// Texture memory size, 4 KiB
+#define TMEM_SIZE 0x1000
+
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
@@ -82,16 +87,14 @@ typedef struct{
     /* 0x04 */ MtxF mf;
 } HorseStruct;
 
-// Game Info aka. Static Context (dbg ram start: 80210A10)
-// Data normally accessed through REG macros (see regs.h)
 typedef struct {
-    /* 0x00 */ s32  regPage;   // 1 is first page
-    /* 0x04 */ s32  regGroup;  // "register" group (R, RS, RO, RP etc.)
-    /* 0x08 */ s32  regCur;    // selected register within page
-    /* 0x0C */ s32  dpadLast;
-    /* 0x10 */ s32  repeat;
-    /* 0x14 */ s16  data[REG_GROUPS * REG_PER_GROUP]; // 0xAE0 entries
-} GameInfo; // size = 0x15D4
+    /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
+    /* 0x04 */ s32  regGroup; // Indexed from 0 to `REG_GROUPS`-1. Each group has its own character to identify it.
+    /* 0x08 */ s32  regCur; // Selected reg, indexed from 0 as the page start
+    /* 0x0C */ s32  dPadInputPrev;
+    /* 0x10 */ s32  inputRepeatTimer;
+    /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
+} RegEditor; // size = 0x15D4
 
 typedef struct {
     /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
@@ -343,7 +346,7 @@ typedef struct {
     }                   flags;
     /* 0x0128 */ TitleCardContext titleCtx;
     /* 0x0138 */ char   unk_138[0x04];
-    /* 0x013C */ void*  absoluteSpace; // Space used to allocate actor overlays with alloc type ALLOCTYPE_ABSOLUTE
+    /* 0x013C */ void*  absoluteSpace; // Space used to allocate actor overlays with alloc type ACTOROVL_ALLOC_ABSOLUTE
 } ActorContext; // size = 0x140
 
 typedef struct {
@@ -367,7 +370,7 @@ typedef struct {
     /* 0x00 */ u16 countdown;
     /* 0x04 */ Vec3f worldPos;
     /* 0x10 */ Vec3f projectedPos;
-} SoundSource; // size = 0x1C
+} SfxSource; // size = 0x1C
 
 typedef enum {
     /* 0x00 */ SKYBOX_NONE,
@@ -702,8 +705,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
+    /* 0x04 */ uintptr_t vromStart;
+    /* 0x08 */ uintptr_t vromEnd;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
@@ -777,14 +780,14 @@ typedef struct {
     /* 0x0208 */ u16    alpha;
     /* 0x020A */ s16    offsetY;
     /* 0x020C */ char   unk_20C[0x08];
-    /* 0x0214 */ s16    stickRelX;
-    /* 0x0216 */ s16    stickRelY;
+    /* 0x0214 */ s16    stickAdjX;
+    /* 0x0216 */ s16    stickAdjY;
     /* 0x0218 */ s16    cursorPoint[5]; // "cursor_point"
     /* 0x0222 */ s16    cursorX[5]; // "cur_xpt"
     /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
     /* 0x0236 */ s16    dungeonMapSlot;
     /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
-    /* 0x023A */ s16    pageSwitchTimer;
+    /* 0x023A */ s16    pageSwitchInputTimer; // Used to introduce a delay before switching page when arriving on the "scroll left/right" positions while holding stick left/right.
     /* 0x023C */ u16    namedItem; // "zoom_name"
     /* 0x023E */ u16    cursorItem[4]; // "select_name"
     /* 0x0246 */ u16    cursorSlot[4];
@@ -810,7 +813,7 @@ typedef enum {
     /* 01 */ GAMEOVER_DEATH_START,
     /* 02 */ GAMEOVER_DEATH_WAIT_GROUND, // wait for link to fall and hit the ground
     /* 03 */ GAMEOVER_DEATH_DELAY_MENU, // wait for 1 second before showing the game over menu
-    /* 04 */ GAMEOVER_DEATH_MENU, // do nothing while kaliedoscope handles the game over menu
+    /* 04 */ GAMEOVER_DEATH_MENU, // do nothing while kaleidoscope handles the game over menu
     /* 20 */ GAMEOVER_REVIVE_START = 20,
     /* 21 */ GAMEOVER_REVIVE_RUMBLE,
     /* 22 */ GAMEOVER_REVIVE_WAIT_GROUND, // wait for link to fall and hit the ground
@@ -871,7 +874,7 @@ typedef struct {
     /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
     /* 0x05 */ u8   lensMode;
-    /* 0x08 */ MeshHeader* meshHeader; // original name: "ground_shape"
+    /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
     /* 0x0C */ void* segment;
     /* 0x10 */ char unk_10[0x4];
 } Room; // size = 0x14
@@ -963,7 +966,7 @@ typedef enum {
     /*  6 */ TRANS_TYPE_FADE_BLACK_SLOW,
     /*  7 */ TRANS_TYPE_FADE_WHITE_SLOW,
     /*  8 */ TRANS_TYPE_WIPE_FAST,
-    /*  9 */ TRANS_TYPE_FILL_WHITE2, 
+    /*  9 */ TRANS_TYPE_FILL_WHITE2,
     /* 10 */ TRANS_TYPE_FILL_WHITE,
     /* 11 */ TRANS_TYPE_INSTANT,
     /* 12 */ TRANS_TYPE_FILL_BROWN,
@@ -1059,13 +1062,17 @@ typedef struct GameState {
     /* 0x08 */ GameStateFunc destroy; // "cleanup"
     /* 0x0C */ GameStateFunc init;
     /* 0x10 */ u32 size;
-    /* 0x14 */ Input input[4];
+    /* 0x14 */ Input input[MAXCONTROLLERS];
     /* 0x74 */ TwoHeadArena tha;
     /* 0x84 */ GameAlloc alloc;
     /* 0x98 */ u32 running;
     /* 0x9C */ u32 frames;
     /* 0xA0 */ u32 unk_A0;
 } GameState; // size = 0xA4
+
+typedef struct {
+    /* 0x00 */ GameState state;
+} SetupState; // size = 0xA4
 
 typedef struct {
     /* 0x0000 */ GameState state;
@@ -1081,17 +1088,17 @@ typedef struct {
     /* 0x01E0 */ char unk_1E0[0x01];
     /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[0x06];
-} TitleContext; // size = 0x1E8
+} ConsoleLogoState; // size = 0x1E8
 
-struct SelectContext;
+struct MapSelectState;
 
 typedef struct {
     /* 0x00 */ char* name;
-    /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
+    /* 0x04 */ void (*loadFunc)(struct MapSelectState*, s32);
     /* 0x08 */ s32 entranceIndex;
 } SceneSelectEntry; // size = 0xC
 
-typedef struct SelectContext {
+typedef struct MapSelectState {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ s32 count;
@@ -1111,20 +1118,20 @@ typedef struct SelectContext {
     /* 0x0230 */ s32 lockDown;
     /* 0x0234 */ s32 unk_234; // unused
     /* 0x0238 */ u8* staticSegment;
-} SelectContext; // size = 0x240
+} MapSelectState; // size = 0x240
 
 typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
-} SampleContext; // size = 0x1D0
+} SampleState; // size = 0x1D0
 
 typedef struct {
     /* 0x00 */ u8 byte0;
     /* 0x01 */ u8 byte1;
     /* 0x02 */ u8 byte2;
     /* 0x03 */ u8 byte3;
-} ElfMessage; // size = 0x4
+} QuestHintCmd; // size = 0x4
 
 typedef struct {
     /* 0x00 */ u8 numActors;
@@ -1133,7 +1140,7 @@ typedef struct {
 
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
-    /* 0x000A4 */ s16 sceneNum;
+    /* 0x000A4 */ s16 sceneId;
     /* 0x000A6 */ u8 sceneDrawConfig;
     /* 0x000A7 */ char unk_A7[0x9];
     /* 0x000B0 */ void* sceneSegment;
@@ -1149,7 +1156,7 @@ typedef struct PlayState {
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
-    /* 0x01DB4 */ SoundSource soundSources[16];
+    /* 0x01DB4 */ SfxSource sfxSources[16];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020D8 */ MessageContext msgCtx; // "message"
@@ -1176,17 +1183,17 @@ typedef struct PlayState {
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
-    /* 0x11DEA */ u8 curSpawn;
-    /* 0x11DEB */ u8 numSetupActors;
+    /* 0x11DEA */ u8 spawn;
+    /* 0x11DEB */ u8 numActorEntries;
     /* 0x11DEC */ u8 numRooms;
     /* 0x11DF0 */ RomFile* roomList;
-    /* 0x11DF4 */ ActorEntry* linkActorEntry;
-    /* 0x11DF8 */ ActorEntry* setupActorList;
+    /* 0x11DF4 */ ActorEntry* playerEntry;
+    /* 0x11DF8 */ ActorEntry* actorEntryList;
     /* 0x11DFC */ void* unk_11DFC;
-    /* 0x11E00 */ EntranceEntry* setupEntranceList;
-    /* 0x11E04 */ s16* setupExitList;
-    /* 0x11E08 */ Path* setupPathList;
-    /* 0x11E0C */ ElfMessage* cUpElfMsgs;
+    /* 0x11E00 */ Spawn* spawnList;
+    /* 0x11E04 */ s16* exitList;
+    /* 0x11E08 */ Path* pathList;
+    /* 0x11E0C */ QuestHintCmd* naviQuestHints;
     /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 transitionTrigger; // "fade_direction"
@@ -1207,7 +1214,7 @@ typedef struct PlayState {
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
     /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
-    /* 0x1242B */ u8 unk_1242B;
+    /* 0x1242B */ u8 viewpoint; // toggleable camera setting by shops or player. Is also equal to the bgCamIndex + 1
     /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
 } PlayState; // size = 0x12518
@@ -1215,7 +1222,7 @@ typedef struct PlayState {
 typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
-} OpeningContext; // size = 0x1D0
+} TitleSetupState; // size = 0x1D0
 
 typedef struct {
     /* 0x00000 */ GameState state;
@@ -1281,8 +1288,8 @@ typedef struct {
     /* 0x1CAB4 */ s16 inputTimerY;
     /* 0x1CAB6 */ s16 stickXDir;
     /* 0x1CAB8 */ s16 stickYDir;
-    /* 0x1CABA */ s16 stickRelX;
-    /* 0x1CABC */ s16 stickRelY;
+    /* 0x1CABA */ s16 stickAdjX;
+    /* 0x1CABC */ s16 stickAdjY;
     /* 0x1CABE */ s16 nameEntryBoxPosX;
     /* 0x1CAC0 */ s16 windowPosX;
     /* 0x1CAC4 */ f32 windowRot;
@@ -1294,14 +1301,7 @@ typedef struct {
     /* 0x1CAD2 */ s16 kbdY;
     /* 0x1CAD4 */ s16 newFileNameCharCount;
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
-} FileChooseContext; // size = 0x1CAE0
-
-typedef enum {
-    DPM_UNK = 0,
-    DPM_PLAYER = 1,
-    DPM_ENEMY = 2,
-    DPM_UNK3 = 3
-} DynaPolyMoveFlag;
+} FileSelectState; // size = 0x1CAE0
 
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
@@ -1344,16 +1344,30 @@ typedef struct {
     /* 0x24 */ s16 unk_24;
 } struct_80034A14_arg1; // size = 0x28
 
+// Macros for `EntranceInfo.field`
+#define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
+#define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
+#define ENTRANCE_INFO_END_TRANS_TYPE_MASK 0x3F80
+#define ENTRANCE_INFO_END_TRANS_TYPE_SHIFT 7
+#define ENTRANCE_INFO_END_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_END_TRANS_TYPE_MASK >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT))
+#define ENTRANCE_INFO_START_TRANS_TYPE_MASK 0x7F
+#define ENTRANCE_INFO_START_TRANS_TYPE_SHIFT 0
+#define ENTRANCE_INFO_START_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
+
 typedef struct {
-    /* 0x00 */ s8  scene;
+    /* 0x00 */ s8  sceneId;
     /* 0x01 */ s8  spawn;
     /* 0x02 */ u16 field;
 } EntranceInfo; // size = 0x4
 
 typedef struct {
     /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ u32       vromStart; // if applicable
-    /* 0x08 */ u32       vromEnd;   // if applicable
+    /* 0x04 */ uintptr_t vromStart; // if applicable
+    /* 0x08 */ uintptr_t vromEnd;   // if applicable
     /* 0x0C */ void*     vramStart; // if applicable
     /* 0x10 */ void*     vramEnd;   // if applicable
     /* 0x14 */ void*     unk_14;
@@ -1365,11 +1379,11 @@ typedef struct {
     /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
-typedef struct PreNMIContext {
+typedef struct {
     /* 0x00 */ GameState state;
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
-} PreNMIContext; // size = 0xAC
+} PreNMIState; // size = 0xAC
 
 typedef enum {
     /*  1 */ F_8F = 1,
@@ -1470,6 +1484,9 @@ typedef struct {
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
+#define GFX_CHAR_X_SPACING    8
+#define GFX_CHAR_Y_SPACING    8
+
 #define GFXP_UNUSED "\x8E"
 #define GFXP_UNUSED_CHAR 0x8E
 #define GFXP_HIRAGANA "\x8D"
@@ -1491,8 +1508,8 @@ typedef struct {
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
     /* 0x04 */ struct StackEntry* prev;
-    /* 0x08 */ u32 head;
-    /* 0x0C */ u32 tail;
+    /* 0x08 */ u32* head;
+    /* 0x0C */ u32* tail;
     /* 0x10 */ u32 initValue;
     /* 0x14 */ s32 minSpace;
     /* 0x18 */ const char* name;
@@ -1600,46 +1617,6 @@ typedef struct {
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-} SubQuakeRequest14;
-
-typedef struct {
-    /* 0x00 */ s16 randIdx;
-    /* 0x02 */ s16 countdownMax;
-    /* 0x04 */ Camera* cam;
-    /* 0x08 */ u32 callbackIdx;
-    /* 0x0C */ s16 y;
-    /* 0x0E */ s16 x;
-    /* 0x10 */ s16 zoom;
-    /* 0x12 */ s16 rotZ;
-    /* 0x14 */ SubQuakeRequest14 unk_14;
-    /* 0x1A */ s16 speed;
-    /* 0x1C */ s16 unk_1C;
-    /* 0x1E */ s16 countdown;
-    /* 0x20 */ s16 camPtrIdx;
-} QuakeRequest; // size = 0x24
-
-typedef struct {
-    /* 0x00 */ Vec3f vec1;
-    /* 0x0C */ Vec3f vec2;
-    /* 0x18 */ s16 rotZ;
-    /* 0x1A */ s16 unk_1A;
-    /* 0x1C */ s16 zoom;
-} ShakeInfo; // size = 0x1E
-
-typedef struct {
-    /* 0x00 */ Vec3f atOffset;
-    /* 0x0C */ Vec3f eyeOffset;
-    /* 0x18 */ s16 rotZ;
-    /* 0x1A */ s16 unk_1A;
-    /* 0x1C */ s16 zoom;
-    /* 0x20 */ f32 unk_20;
-} QuakeCamCalc; // size = 0x24
-
-
 #define UCODE_NULL      0
 #define UCODE_F3DZEX    1
 #define UCODE_UNK       2
@@ -1651,7 +1628,7 @@ typedef struct {
 } UCodeInfo; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ u32 segments[NUM_SEGMENTS];
+    /* 0x00 */ uintptr_t segments[NUM_SEGMENTS];
     /* 0x40 */ Gfx* dlStack[18];
     /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
@@ -1792,22 +1769,6 @@ typedef struct {
 } struct_80166500; // size = 0x10
 
 typedef struct {
-    /* 0x000 */ u8 rumbleEnable[4];
-    /* 0x004 */ u8 unk_04[0x40];
-    /* 0x044 */ u8 unk_44[0x40];
-    /* 0x084 */ u8 unk_84[0x40];
-    /* 0x0C4 */ u8 unk_C4[0x40];
-    /* 0x104 */ u8 unk_104;
-    /* 0x105 */ u8 unk_105;
-    /* 0x106 */ u16 unk_106;
-    /* 0x108 */ u16 unk_108;
-    /* 0x10A */ u8 unk_10A;
-    /* 0x10B */ u8 unk_10B;
-    /* 0x10C */ u8 unk_10C;
-    /* 0x10D */ u8 unk_10D;
-} UnkRumbleStruct; // size = 0x10E
-
-typedef struct {
     /* 0x00 */ char unk_00[0x18];
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 y;
@@ -1871,9 +1832,9 @@ typedef struct {
 } SkyboxFile; // size = 0x10
 
 #define ROM_FILE(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomEnd }
 #define ROM_FILE_EMPTY(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomStart }
 #define ROM_FILE_UNSET \
     { 0 }
 

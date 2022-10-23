@@ -276,7 +276,7 @@ typedef enum {
     /* 0x80 */ ITEM_INVALID_6,
     /* 0x81 */ ITEM_INVALID_7,
     /* 0x82 */ ITEM_MILK,
-    /* 0x83 */ ITEM_HEART,
+    /* 0x83 */ ITEM_RECOVERY_HEART,
     /* 0x84 */ ITEM_RUPEE_GREEN,
     /* 0x85 */ ITEM_RUPEE_BLUE,
     /* 0x86 */ ITEM_RUPEE_RED,
@@ -383,7 +383,7 @@ typedef enum {
     /* 0x45 */ GI_WALLET_ADULT,
     /* 0x46 */ GI_WALLET_GIANT,
     /* 0x47 */ GI_WEIRD_EGG,
-    /* 0x48 */ GI_HEART,
+    /* 0x48 */ GI_RECOVERY_HEART,
     /* 0x49 */ GI_ARROWS_SMALL,  // amount changes depending on context
     /* 0x4A */ GI_ARROWS_MEDIUM, // amount changes depending on context
     /* 0x4B */ GI_ARROWS_LARGE,  // amount changes depending on context
@@ -449,7 +449,7 @@ typedef enum {
     /* 0x05 */ GID_SONG_REQUIEM,
     /* 0x06 */ GID_SONG_NOCTURNE,
     /* 0x07 */ GID_SONG_PRELUDE,
-    /* 0x08 */ GID_HEART,
+    /* 0x08 */ GID_RECOVERY_HEART,
     /* 0x09 */ GID_KEY_BOSS,
     /* 0x0A */ GID_COMPASS,
     /* 0x0B */ GID_MEDALLION_FOREST,

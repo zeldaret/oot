@@ -212,7 +212,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, PlayState* play) {
         if (sCollectedCount < 5) {
             // "sound?"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->noteIndex);
-            Audio_PlaySoundTransposed(&gSfxDefaultPos, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
+            Audio_PlaySfxTransposed(&gSfxDefaultPos, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
             this->noteIndex = sCollectedCount;
         }
     }
@@ -222,7 +222,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, PlayState* play) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         // "Last!"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
-        if ((play->sceneNum == SCENE_MEN) && (this->actor.room == 2)) {
+        if ((play->sceneId == SCENE_MEN) && (this->actor.room == 2)) {
             Flags_SetTempClear(play, this->actor.room);
         } else {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -400,7 +400,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, PlayState* play) {
                                  KAKERA_COLOR_NONE, OBJECT_TSUBO, object_tsubo_DL_001960);
         }
         func_80033480(play, thisPos, 30.0f, 4, 20, 50, 0);
-        SoundSource_PlaySfxAtFixedWorldPos(play, thisPos, 40, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, thisPos, 40, NA_SE_EV_POT_BROKEN);
         EnGSwitch_Break(this, play);
         this->killTimer = 50;
         this->broken = true;

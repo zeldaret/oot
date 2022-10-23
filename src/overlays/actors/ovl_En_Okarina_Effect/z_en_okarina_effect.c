@@ -73,7 +73,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
     Flags_UnsetEnv(play, 5); // clear storms env flag
     if (((play->pauseCtx.state == 0) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
          (play->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(play)) &&
-         ((play->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != 0))) ||
+         ((play->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != GAMEMODE_NORMAL))) ||
         (this->timer >= 250)) {
         if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || play->envCtx.lightConfig != 1) {
             this->timer--;
@@ -93,7 +93,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
         play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
         if (play->csCtx.state == CS_STATE_IDLE) {
             Environment_StopStormNatureAmbience(play);
-        } else if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
+        } else if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_1, 0);
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
         }

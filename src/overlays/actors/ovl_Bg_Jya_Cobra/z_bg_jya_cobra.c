@@ -8,7 +8,7 @@
 
 void BgJyaCobra_Init(Actor* thisx, PlayState* play);
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play);
-void BgJyaCobra_Update(Actor* thisx, PlayState* play);
+void BgJyaCobra_Update(Actor* thisx, PlayState* play2);
 void BgJyaCobra_Draw(Actor* thisx, PlayState* play);
 
 void func_80896918(BgJyaCobra* this, PlayState* play);
@@ -397,7 +397,7 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
 void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
     BgJyaCobra* this = (BgJyaCobra*)thisx;
 
-    BgJyaCobra_InitDynapoly(this, play, &gCobraCol, DPM_UNK);
+    BgJyaCobra_InitDynapoly(this, play, &gCobraCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (!(this->dyna.actor.params & 3) && Flags_GetSwitch(play, ((s32)this->dyna.actor.params >> 8) & 0x3F)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.home.rot.y = this->dyna.actor.shape.rot.y = 0;

@@ -25,7 +25,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play);
 
 extern CutsceneData D_80B4C5D0[];
 
-#include "z_en_zl1_camera_data.c"
+#include "z_en_zl1_camera_data.inc.c"
 
 const ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
@@ -87,7 +87,7 @@ void EnZl1_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     this->actor.targetMode = 0;
 
-    if (gSaveContext.sceneSetupIndex >= 4) {
+    if (IS_CUTSCENE_LAYER) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->unk_1E6 = 0;
@@ -180,7 +180,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         play->envCtx.fillScreen = true;
         Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
         Play_CameraSetFov(play, this->subCamId, 30.0f);
-        ShrinkWindow_SetVal(0x20);
+        Letterbox_SetSizeTarget(32);
         Interface_ChangeAlpha(2);
         player->actor.world.pos = playerPos;
         player->actor.speedXZ = 0.0f;

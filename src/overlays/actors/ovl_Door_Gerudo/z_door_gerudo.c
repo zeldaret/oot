@@ -101,7 +101,7 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
         this->actionFunc = func_8099496C;
         gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
         Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {
         s32 direction = func_80994750(this, play);
 
@@ -124,7 +124,7 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
 
 void func_8099496C(DoorGerudo* this, PlayState* play) {
     if (DECR(this->unk_166) == 0) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_809949C8;
     }
 }

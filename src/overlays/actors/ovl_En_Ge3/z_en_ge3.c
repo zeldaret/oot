@@ -9,10 +9,10 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-void EnGe3_Init(Actor* thisx, PlayState* play);
+void EnGe3_Init(Actor* thisx, PlayState* play2);
 void EnGe3_Destroy(Actor* thisx, PlayState* play);
 void EnGe3_Update(Actor* thisx, PlayState* play);
-void EnGe3_Draw(Actor* thisx, PlayState* play);
+void EnGe3_Draw(Actor* thisx, PlayState* play2);
 
 void EnGe3_WaitLookAtPlayer(EnGe3* this, PlayState* play);
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play);
@@ -164,7 +164,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
         }
         this->actor.textId = 0x6004;
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, 0);
+        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe3_LookAtPlayer(this, play);
 }

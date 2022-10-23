@@ -59,7 +59,7 @@ static Gfx* sDLists[] = {
 s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     s32 carpentersRescued;
 
-    if (gSaveContext.sceneSetupIndex >= 4) {
+    if (IS_CUTSCENE_LAYER) {
         return this->dyna.actor.params == 0;
     }
 
@@ -98,7 +98,7 @@ s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
     s32 pad2[2];
 
     if (D_808B1F90[this->dyna.actor.params] != NULL) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(D_808B1F90[this->dyna.actor.params], &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     }

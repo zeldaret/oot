@@ -6,6 +6,7 @@
 
 #include "z_bg_mori_bigst.h"
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
+#include "quake.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -74,7 +75,7 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
                  Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F),
                  Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
                  GET_PLAYER(play)->actor.world.pos.y);
-    BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, DPM_UNK);
+    BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
@@ -161,7 +162,7 @@ void BgMoriBigst_Fall(BgMoriBigst* this, PlayState* play) {
     if (this->dyna.actor.world.pos.y <= this->dyna.actor.home.pos.y) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         BgMoriBigst_SetupLanding(this, play);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         OnePointCutscene_Init(play, 1020, 8, &this->dyna.actor, CAM_ID_MAIN);
         func_8002DF38(play, NULL, 0x3C);
     }
@@ -169,14 +170,15 @@ void BgMoriBigst_Fall(BgMoriBigst* this, PlayState* play) {
 
 void BgMoriBigst_SetupLanding(BgMoriBigst* this, PlayState* play) {
     s32 pad;
-    s32 quake;
+    s32 quakeIndex;
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_Landing);
     this->waitTimer = 18;
-    quake = Quake_Add(GET_ACTIVE_CAM(play), 3);
-    Quake_SetSpeed(quake, 25000);
-    Quake_SetQuakeValues(quake, 5, 0, 0, 0);
-    Quake_SetCountdown(quake, 16);
+
+    quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+    Quake_SetSpeed(quakeIndex, 25000);
+    Quake_SetPerturbations(quakeIndex, 5, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, 16);
 }
 
 void BgMoriBigst_Landing(BgMoriBigst* this, PlayState* play) {
@@ -231,7 +233,7 @@ void BgMoriBigst_Update(Actor* thisx, PlayState* play) {
     if (this->waitTimer > 0) {
         this->waitTimer--;
     }
-    if (func_80043590(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         Environment_ChangeLightSetting(play, 6);
     }
     if (this->actionFunc != NULL) {

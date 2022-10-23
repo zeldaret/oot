@@ -93,7 +93,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, 6);
+        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
 
@@ -111,7 +111,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actor.world.pos.z += 90.0f;
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(play, &this->collider);
-            func_8002DF54(play, 0, 8);
+            func_8002DF54(play, NULL, 8);
             this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
@@ -284,7 +284,7 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
     if (this->unk_2EC <= frameCount) {
@@ -423,7 +423,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
 void func_80A53C0C(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk_300 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, 0, 8);
+        func_8002DF54(play, NULL, 8);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_80A53C90;
     }
@@ -447,7 +447,7 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (12.0f <= frameCount) {
         if (this->audioFlag == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SPEAR_HIT);
             this->audioFlag = 1;
         }
     }
@@ -525,7 +525,7 @@ void func_80A54038(EnHeishi2* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         SET_INFTABLE(INFTABLE_76);
         Message_CloseTextbox(play);
-        func_8002DF54(play, 0, 7);
+        func_8002DF54(play, NULL, 7);
         this->actionFunc = func_80A53908;
     }
 }
@@ -605,7 +605,7 @@ void func_80A543A0(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
 

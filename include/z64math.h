@@ -69,15 +69,19 @@ typedef struct {
     /* 0x000C */ Vec3f b;
 } Linef; // size = 0x18
 
-// Defines a point in the spherical coordinate system
 typedef struct {
-    /* 0x00 */ f32 r;      // radius
-    /* 0x04 */ s16 pitch;  // polar (zenith) angle
-    /* 0x06 */ s16 yaw;    // azimuthal angle
-} VecSph; // size = 0x08
+    /* 0x0 */ f32 r; // radius
+    /* 0x4 */ s16 pitch; // depends on coordinate system. See below.
+    /* 0x6 */ s16 yaw; // azimuthal angle
+} VecSphGeo; // size = 0x8
 
-#define BINANG_ROT180(angle) ((s16)((angle) - 0x7FFF))
-#define BINANG_SUB(a, b) ((s16)((a) - (b)))
+// Defines a point in the spherical coordinate system.
+// Pitch is 0 along the positive y-axis (up)
+typedef VecSphGeo VecSph;
+
+// Defines a point in the geographic coordinate system.
+// Pitch is 0 along the xz-plane (horizon)
+typedef VecSphGeo VecGeo;
 
 #define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
 #define LERP32(x, y, scale) ((s32)(((y) - (x)) * (scale)) + (x))
@@ -85,8 +89,8 @@ typedef struct {
 #define F32_LERP(v0,v1,t) ((v0) * (1.0f - (t)) + (v1) * (t))
 #define F32_LERPIMP(v0, v1, t) (v0 + ((v1 - v0) * t))
 #define F32_LERPIMPINV(v0, v1, t) ((v0) + (((v1) - (v0)) / (t)))
-#define BINANG_LERPIMP(v0, v1, t) ((v0) + (s16)(BINANG_SUB((v1), (v0)) * (t)))
-#define BINANG_LERPIMPINV(v0, v1, t) ((v0) + BINANG_SUB((v1), (v0)) / (t))
+#define BINANG_LERPIMP(v0, v1, t) ((v0) + (s16)((s16)((v1) - (v0)) * (t)))
+#define BINANG_LERPIMPINV(v0, v1, t) ((v0) + (s16)((v1) - (v0)) / (t))
 
 #define VEC3F_LERPIMPDST(dst, v0, v1, t){ \
     (dst)->x = (v0)->x + (((v1)->x - (v0)->x) * t); \

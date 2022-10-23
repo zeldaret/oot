@@ -12,7 +12,7 @@
 void ArrowFire_Init(Actor* thisx, PlayState* play);
 void ArrowFire_Destroy(Actor* thisx, PlayState* play);
 void ArrowFire_Update(Actor* thisx, PlayState* play);
-void ArrowFire_Draw(Actor* thisx, PlayState* play);
+void ArrowFire_Draw(Actor* thisx, PlayState* play2);
 
 void ArrowFire_Charge(ArrowFire* this, PlayState* play);
 void ArrowFire_Fly(ArrowFire* this, PlayState* play);
@@ -164,7 +164,7 @@ void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
     func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
         this->alpha = 255;
@@ -180,11 +180,15 @@ void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
 void ArrowFire_Update(Actor* thisx, PlayState* play) {
     ArrowFire* this = (ArrowFire*)thisx;
 
-    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
-    } else {
-        this->actionFunc(this, play);
+        return;
     }
+
+    this->actionFunc(this, play);
 }
 
 void ArrowFire_Draw(Actor* thisx, PlayState* play2) {
@@ -236,8 +240,8 @@ void ArrowFire_Draw(Actor* thisx, PlayState* play2) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
         gSPDisplayList(POLY_XLU_DISP++,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
-                                        255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 255 - (stateFrames * 2) % 256, 0, 64, 32,
+                                        1, 255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
         gSPDisplayList(POLY_XLU_DISP++, sModelDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_arrow_fire.c", 682);

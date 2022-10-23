@@ -322,14 +322,14 @@ void EnIk_StandUp(EnIk* this, PlayState* play) {
 
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         sp24 = this->actor.world.pos;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
         sp24.y += 30.0f;
         func_8003424C(play, &sp24);
         this->skelAnime.playSpeed = 1.0f;
         func_800F5ACC(NA_BGM_MINI_BOSS);
     }
     if (this->skelAnime.curFrame == 5.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
@@ -376,7 +376,7 @@ void EnIk_SetupWalkOrRun(EnIk* this) {
     } else {
         Animation_Change(&this->skelAnime, &gIronKnuckleRunAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleRunAnim), ANIMMODE_LOOP, -4.0f);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -437,7 +437,7 @@ void EnIk_WalkOrRun(EnIk* this, PlayState* play) {
     EnIk_ChangeAction(this, play);
     SkelAnime_Update(&this->skelAnime);
     if ((sp30 == (s16)this->skelAnime.curFrame) || (sp2E == (s16)this->skelAnime.curFrame)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
 
@@ -455,14 +455,14 @@ void EnIk_VerticalAttack(EnIk* this, PlayState* play) {
     Vec3f sp2C;
 
     if (this->skelAnime.curFrame == 15.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
     } else if (this->skelAnime.curFrame == 21.0f) {
         sp2C.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.y = this->actor.world.pos.y;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
-        Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
+        Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         CollisionCheck_SpawnShieldParticles(play, &sp2C);
     }
 
@@ -489,7 +489,7 @@ void EnIk_SetupPullOutAxe(EnIk* this) {
     this->unk_2F8 = 7;
     this->unk_2FF = this->unk_2FE;
     Animation_Change(&this->skelAnime, &gIronKnuckleAxeStuckAnim, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -4.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_PULLOUT);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_PULLOUT);
     EnIk_SetupAction(this, EnIk_PullOutAxe);
 }
 
@@ -539,7 +539,7 @@ void EnIk_DoubleHorizontalAttack(EnIk* this, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
         if (this->unk_2FE < 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
         }
         this->unk_2FE = 1;
     } else {
@@ -584,7 +584,7 @@ void EnIk_SingleHorizontalAttack(EnIk* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if ((this->skelAnime.curFrame > 13.0f) && (this->skelAnime.curFrame < 18.0f)) {
         if (this->unk_2FE < 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
         }
         this->unk_2FE = 1;
     } else {
@@ -665,8 +665,8 @@ void EnIk_SetupDie(EnIk* this) {
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleDeathAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
     this->animationTimer = 24;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
     EnIk_SetupAction(this, EnIk_Die);
 }
 
@@ -694,7 +694,7 @@ void EnIk_Die(EnIk* this, PlayState* play) {
             }
         }
     } else if (this->skelAnime.curFrame == 23.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
 
@@ -723,11 +723,8 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
     Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
-    damageEffect = this->actor.colChkInfo.damageEffect;
-    this->damageEffect = damageEffect & 0xFF;
+    this->damageEffect = this->actor.colChkInfo.damageEffect;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
-
-    if (1) {}
 
     if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_PARTICLES_METAL) ||
         ((this->armorStatusFlag == 0) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
@@ -746,7 +743,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         }
     } else if (this->actor.colChkInfo.health <= 10) {
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
         if (this->switchFlags != 0xFF) {
             Flags_SetSwitch(play, this->switchFlags);
         }
@@ -768,16 +765,16 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
     }
     if ((this->actor.params != 0) && (this->armorStatusFlag != 0)) {
         if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
         }
         EnIk_SetupReactToAttack(this);
         return;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
     CollisionCheck_SpawnShieldParticles(play, &sp38);
 }
 
@@ -1008,30 +1005,30 @@ void EnIk_StartMusic(void) {
 // Various SFX played, indicated by the framecount.
 void EnIk_CsPlaySfx_NabooruKnuckleWakeUp(EnIk* this) {
     if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 33.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 68.0f) || Animation_OnFrame(&this->skelAnime, 80.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 107.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 156.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 188.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
 // Cutscene: Summons Axe for Nabooru Knuckle
 // Sfx is played after the Iron Knuckle snaps fingers
 void EnIk_CsPlaySfx_SummonAxe(EnIk* this, PlayState* play, Vec3f* pos) {
-    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
@@ -1145,7 +1142,7 @@ void EnIk_WaitForAxeSummon(EnIk* this, PlayState* play, s32 skelAnimStatus) {
 // Cutscene: After defeating Nabooru, she staggers forward
 // Sfx is played when you defeat Iron Knuckle Nabooru
 void EnIk_CsPlaySfx_ArmorFallingOff(EnIk* this) {
-    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+    Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
@@ -1157,8 +1154,8 @@ void EnIk_CsPlaySfx_NabooruKnucleDefeat(EnIk* this, PlayState* play) {
     f32 wDest;
 
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos, &D_80A78FA0, &wDest);
-    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 // Cutscene: starts after final hit to Nabooru

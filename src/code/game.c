@@ -23,8 +23,7 @@ void GameState_FaultPrint(void) {
 }
 
 void GameState_SetFBFilter(Gfx** gfx) {
-    Gfx* gfxP;
-    gfxP = *gfx;
+    Gfx* gfxP = *gfx;
 
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
         D_801664F0.type = R_FB_FILTER_TYPE;
@@ -85,7 +84,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (gIsCtrlr2Valid) {
-        func_8006390C(&gameState->input[1]);
+        Regs_UpdateEditor(&gameState->input[1]);
     }
 
     gDmaMgrVerbose = HREG(60);
@@ -228,10 +227,10 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
 
-void PadMgr_RequestPadData(PadMgr*, Input*, s32);
+void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
 
 void GameState_ReqPadData(GameState* gameState) {
-    PadMgr_RequestPadData(&gPadMgr, &gameState->input[0], 1);
+    PadMgr_RequestPadData(&gPadMgr, gameState->input, true);
 }
 
 void GameState_Update(GameState* gameState) {
@@ -411,7 +410,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
-    func_800AA0B4();
+    Rumble_Init();
     osSendMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
 
     endTime = osGetTime();
@@ -425,14 +424,14 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
 void GameState_Destroy(GameState* gameState) {
     osSyncPrintf("game デストラクタ開始\n"); // "game destructor start"
-    func_800C3C20();
+    AudioMgr_StopAllSfx();
     func_800F3054();
     osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {
         gameState->destroy(gameState);
     }
-    func_800AA0F0();
+    Rumble_Destroy();
     SpeedMeter_Destroy(&D_801664D0);
     func_800ACE90(&D_801664F0);
     func_800AD950(&D_80166500);

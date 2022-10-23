@@ -26,7 +26,7 @@ s32 osPfsFindFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* e
 
         if ((dir.company_code == companyCode) && (dir.game_code == gameCode)) {
             err = 0;
-            if (gameName != 0) {
+            if (gameName != NULL) {
                 for (i = 0; i < PFS_FILE_NAME_LEN; i++) {
                     if (dir.game_name[i] != gameName[i]) {
                         err = 1;
@@ -34,7 +34,7 @@ s32 osPfsFindFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* e
                     }
                 }
             }
-            if ((extName != 0) && (err == 0)) {
+            if ((extName != NULL) && (err == 0)) {
                 for (i = 0; i < PFS_FILE_EXT_LEN; i++) {
                     if (dir.ext_name[i] != extName[i]) {
                         err = 1;

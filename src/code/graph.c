@@ -24,7 +24,7 @@ UCodeInfo D_8012D248[3] = {
 
 void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();
-    void* newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
+    void* newFb = (SysCfb_GetFbPtr(0) != nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
     osViSwapBuffer(newFb);
     Fault_WaitForInput();
@@ -95,29 +95,29 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->overlayBuffer = pool->overlayBuffer;
     gfxCtx->workBuffer = pool->workBuffer;
 
-    gfxCtx->curFrameBuffer = (u16*)SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
+    gfxCtx->curFrameBuffer = SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
     gfxCtx->unk_014 = 0;
 }
 
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     void* gameStateInitFunc = GameState_GetInit(gameState);
 
-    if (gameStateInitFunc == TitleSetup_Init) {
+    if (gameStateInitFunc == Setup_Init) {
         return &gGameStateOverlayTable[0];
     }
-    if (gameStateInitFunc == Select_Init) {
+    if (gameStateInitFunc == MapSelect_Init) {
         return &gGameStateOverlayTable[1];
     }
-    if (gameStateInitFunc == Title_Init) {
+    if (gameStateInitFunc == ConsoleLogo_Init) {
         return &gGameStateOverlayTable[2];
     }
     if (gameStateInitFunc == Play_Init) {
         return &gGameStateOverlayTable[3];
     }
-    if (gameStateInitFunc == Opening_Init) {
+    if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[4];
     }
-    if (gameStateInitFunc == FileChoose_Init) {
+    if (gameStateInitFunc == FileSelect_Init) {
         return &gGameStateOverlayTable[5];
     }
 
@@ -384,15 +384,15 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     if (gIsCtrlr2Valid && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
         CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
-        gSaveContext.gameMode = 0;
-        SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
+        gSaveContext.gameMode = GAMEMODE_NORMAL;
+        SET_NEXT_GAMESTATE(gameState, MapSelect_Init, MapSelectState);
         gameState->running = false;
     }
 
     if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
         // "To reset mode"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
-        SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIContext);
+        SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
         gameState->running = false;
     }
 }

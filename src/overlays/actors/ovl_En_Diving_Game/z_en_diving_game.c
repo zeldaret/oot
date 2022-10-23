@@ -13,7 +13,7 @@
 
 void EnDivingGame_Init(Actor* thisx, PlayState* play);
 void EnDivingGame_Destroy(Actor* thisx, PlayState* play);
-void EnDivingGame_Update(Actor* thisx, PlayState* play);
+void EnDivingGame_Update(Actor* thisx, PlayState* play2);
 void EnDivingGame_Draw(Actor* thisx, PlayState* play);
 
 void func_809EDCB0(EnDivingGame* this, PlayState* play);
@@ -507,7 +507,7 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     if (1) {}
 
     if (gSaveContext.timer1Value == 10) {
-        func_800F5918();
+        Audio_SetFastTempoForTimedMinigame();
     }
     if (this->eyeTimer == 0) {
         this->eyeTimer = 2;

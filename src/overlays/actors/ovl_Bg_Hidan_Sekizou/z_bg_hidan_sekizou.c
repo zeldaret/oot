@@ -10,9 +10,9 @@
 #define FLAGS 0
 
 void BgHidanSekizou_Init(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Destroy(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Update(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Draw(Actor* thisx, PlayState* play);
+void BgHidanSekizou_Destroy(Actor* thisx, PlayState* play2);
+void BgHidanSekizou_Update(Actor* thisx, PlayState* play2);
+void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2);
 
 void func_8088D434(BgHidanSekizou* this, PlayState* play);
 void func_8088D720(BgHidanSekizou* this, PlayState* play);
@@ -151,7 +151,7 @@ void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
     for (i = 0; i < ARRAY_COUNT(this->elements); i++) {

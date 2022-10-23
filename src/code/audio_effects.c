@@ -8,7 +8,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculate
 
     if (channel->changes.s.volume || recalculateVolume) {
         channelVolume = channel->volume * channel->volumeScale * channel->seqPlayer->appliedFadeVolume;
-        if (channel->seqPlayer->muted && (channel->muteBehavior & 0x20)) {
+        if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_SOFTEN)) {
             channelVolume = channel->seqPlayer->muteVolumeScale * channelVolume;
         }
         channel->appliedVolume = channelVolume * channelVolume;
@@ -124,7 +124,7 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
         return 1.0f;
     }
 
-    //! @bug this probably meant to compare with gAudioContext.sequenceChannelNone.
+    //! @bug this probably meant to compare with gAudioCtx.sequenceChannelNone.
     //! -1 isn't used as a channel pointer anywhere else.
     if (channel != ((SequenceChannel*)(-1))) {
         if (vib->extentChangeTimer) {
@@ -215,7 +215,7 @@ void Audio_NotePortamentoInit(Note* note) {
     note->playbackState.portamento = note->playbackState.parentLayer->portamento;
 }
 
-void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut) {
+void Audio_AdsrInit(AdsrState* adsr, EnvelopePoint* envelope, s16* volOut) {
     adsr->action.asByte = 0;
     adsr->delay = 0;
     adsr->envelope = envelope;
@@ -264,7 +264,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                     break;
 
                 default:
-                    adsr->delay *= gAudioContext.audioBufferParameters.updatesPerFrameScaled;
+                    adsr->delay *= gAudioCtx.audioBufferParameters.updatesPerFrameScaled;
                     if (adsr->delay == 0) {
                         adsr->delay = 1;
                     }
