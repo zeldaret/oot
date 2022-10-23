@@ -63,7 +63,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 HREG(82) = 3;
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
                 pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-                pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
+                pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
         } else if (pauseCtx->state == PAUSE_STATE_8) {
@@ -71,7 +71,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
             HREG(82) = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-            pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
+            pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
         } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_9)) {
             osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);

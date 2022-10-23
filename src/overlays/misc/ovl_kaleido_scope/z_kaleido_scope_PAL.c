@@ -1310,8 +1310,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->saveVtx[60], 32, 0);
 
-        if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
-             (pauseCtx->savePromptSubState < PAUSE_SAVE_PROMPT_STATE_SAVED)
+        if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) && (pauseCtx->savePromptState < PAUSE_SAVE_PROMPT_STATE_SAVED)
              /* PAUSE_SAVE_PROMPT_STATE_APPEARING, PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE, PAUSE_SAVE_PROMPT_STATE_CLOSING,
                 PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU */
              ) ||
@@ -1340,7 +1339,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             POLY_OPA_DISP =
                 KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
         } else if ((pauseCtx->state != PAUSE_STATE_SAVE_PROMPT) ||
-                   (pauseCtx->savePromptSubState < PAUSE_SAVE_PROMPT_STATE_SAVED
+                   (pauseCtx->savePromptState < PAUSE_SAVE_PROMPT_STATE_SAVED
                     /* PAUSE_SAVE_PROMPT_STATE_APPEARING, PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
                        PAUSE_SAVE_PROMPT_STATE_CLOSING, PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU */
                     )) {
@@ -2498,8 +2497,8 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
         (pauseCtx->state >= PAUSE_STATE_CLOSING
          /* PAUSE_STATE_CLOSING, PAUSE_STATE_UNPAUSE */) ||
         ((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
-         ((pauseCtx->savePromptSubState == PAUSE_SAVE_PROMPT_STATE_CLOSING) ||
-          (pauseCtx->savePromptSubState == PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED))) ||
+         ((pauseCtx->savePromptState == PAUSE_SAVE_PROMPT_STATE_CLOSING) ||
+          (pauseCtx->savePromptState == PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED))) ||
         ((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state <= PAUSE_STATE_13)
          /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13 */)) {
         pauseCtx->offsetY = 80;
@@ -3662,7 +3661,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
-                        pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
+                        pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                         pauseCtx->state = PAUSE_STATE_SAVE_PROMPT;
                     }
                     break;
@@ -3710,7 +3709,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
-                        pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
+                        pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                         pauseCtx->state = PAUSE_STATE_SAVE_PROMPT;
                     } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
                         // The player successfully played the song
@@ -3766,7 +3765,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
-                        pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
+                        pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                         pauseCtx->state = PAUSE_STATE_SAVE_PROMPT;
                     }
                     break;
@@ -3781,7 +3780,7 @@ void KaleidoScope_Update(PlayState* play) {
             break;
 
         case PAUSE_STATE_SAVE_PROMPT:
-            switch (pauseCtx->savePromptSubState) {
+            switch (pauseCtx->savePromptState) {
                 case PAUSE_SAVE_PROMPT_STATE_APPEARING:
                     pauseCtx->rollRotSavePrompt_ -= 314.0f / R_PAUSE_UI_ANIMS_DURATION;
                     R_PAUSE_CURSOR_LEFT_X -= R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
@@ -3789,7 +3788,7 @@ void KaleidoScope_Update(PlayState* play) {
 
                     if (pauseCtx->rollRotSavePrompt_ <= -628.0f) {
                         pauseCtx->rollRotSavePrompt_ = -628.0f;
-                        pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE;
+                        pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE;
                     }
                     break;
 
@@ -3803,7 +3802,7 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.unk_13EA = 0;
                             Interface_ChangeAlpha(50);
 
-                            pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
+                            pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
                             R_PAUSE_OFFSET_VERTICAL = -6240;
                             YREG(8) = pauseCtx->rollRotSavePrompt_;
                             func_800F64E0(0);
@@ -3816,7 +3815,7 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.savedSceneId = play->sceneId;
                             Sram_WriteSave(&play->sramCtx);
 
-                            pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_SAVED;
+                            pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_SAVED;
                             sDelayTimer = 3;
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
@@ -3824,7 +3823,7 @@ void KaleidoScope_Update(PlayState* play) {
 
                         Interface_SetDoAction(play, DO_ACTION_NONE);
 
-                        pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
+                        pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
                         R_PAUSE_OFFSET_VERTICAL = -6240;
                         YREG(8) = pauseCtx->rollRotSavePrompt_;
                         func_800F64E0(0);
@@ -3847,7 +3846,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.unk_13EA = 0;
                         Interface_ChangeAlpha(50);
 
-                        pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED;
+                        pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED;
                         R_PAUSE_OFFSET_VERTICAL = -6240;
                         YREG(8) = pauseCtx->rollRotSavePrompt_;
                         func_800F64E0(0);
@@ -3862,7 +3861,7 @@ void KaleidoScope_Update(PlayState* play) {
 
                     if (pauseCtx->rollRotSavePrompt_ >= -314.0f) {
                         pauseCtx->state = PAUSE_STATE_MAIN;
-                        pauseCtx->savePromptSubState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
+                        pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                         pauseCtx->rollRotPageItem = pauseCtx->rollRotPageEquip = pauseCtx->rollRotPageMap =
                             pauseCtx->rollRotPageQuest = 0.0f;
                         pauseCtx->rollRotSavePrompt_ = -314.0f;

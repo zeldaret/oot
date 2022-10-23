@@ -799,7 +799,7 @@ typedef enum {
     /* 4 */ PAUSE_SAVE_PROMPT_STATE_SAVED,
     /* 5 */ PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED,
     /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
-} PauseSavePromptSubState;
+} PauseSavePromptState;
 
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
@@ -841,7 +841,7 @@ typedef struct {
     /* 0x01E6 */ u16    nextPageMode; // (2 * prev pageIndex) + (scroll left ? 1 : 0)
     /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    switchPageTimer;
-    /* 0x01EC */ u16    savePromptSubState;
+    /* 0x01EC */ u16    savePromptState;
     /* 0x01F0 */ f32    savePromptOffsetDepth_;
     /* 0x01F4 */ f32    rollRotPageItem;
     /* 0x01F8 */ f32    rollRotPageEquip;

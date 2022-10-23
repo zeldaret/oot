@@ -9,7 +9,7 @@ void KaleidoScope_UpdatePrompt(PlayState* play) {
     s16 step;
 
     if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
-         (pauseCtx->savePromptSubState == PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE)) ||
+         (pauseCtx->savePromptState == PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE)) ||
         (pauseCtx->state == PAUSE_STATE_14) || (pauseCtx->state == PAUSE_STATE_16)) {
 
         if ((pauseCtx->promptChoice == 0) && (stickAdjX >= 30)) {
