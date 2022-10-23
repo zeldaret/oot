@@ -109,8 +109,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->nextPageMode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
 
-    pauseCtx->rollRotPageItem = pauseCtx->rollRotPageEquip = pauseCtx->rollRotPageMap = pauseCtx->rollRotPageQuest =
-        160.0f;
+    pauseCtx->itemPageRoll = pauseCtx->equipPageRoll = pauseCtx->mapPageRoll = pauseCtx->questPageRoll = 160.0f;
     pauseCtx->eye.z = 64.0f;
     pauseCtx->savePromptOffsetDepth_ = 936.0f;
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;

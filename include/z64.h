@@ -843,10 +843,10 @@ typedef struct {
     /* 0x01EA */ u16    switchPageTimer;
     /* 0x01EC */ u16    savePromptState;
     /* 0x01F0 */ f32    savePromptOffsetDepth_;
-    /* 0x01F4 */ f32    rollRotPageItem;
-    /* 0x01F8 */ f32    rollRotPageEquip;
-    /* 0x01FC */ f32    rollRotPageMap;
-    /* 0x0200 */ f32    rollRotPageQuest;
+    /* 0x01F4 */ f32    itemPageRoll;
+    /* 0x01F8 */ f32    equipPageRoll;
+    /* 0x01FC */ f32    mapPageRoll;
+    /* 0x0200 */ f32    questPageRoll;
     /* 0x0204 */ f32    rollRotSavePrompt_; // "angle_s"
     /* 0x0208 */ u16    alpha;
     /* 0x020A */ s16    offsetY;
