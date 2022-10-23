@@ -331,7 +331,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
     s32 phi_a2;
     s32 phi_v1;
 
-    func_80AADE60(play->setupPathList, &waypointPos, this->path, this->waypoint);
+    func_80AADE60(play->pathList, &waypointPos, this->path, this->waypoint);
 
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
@@ -349,7 +349,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
                 phi_a2 = 0;
                 break;
             case 1:
-                phi_a2 = EnMm_GetPointCount(play->setupPathList, this->path) - 1;
+                phi_a2 = EnMm_GetPointCount(play->pathList, this->path) - 1;
                 break;
             case 2:
                 phi_a2 = this->unk_1F0;
@@ -363,7 +363,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
                 phi_v1 = 0;
                 break;
             case 1:
-                phi_v1 = EnMm_GetPointCount(play->setupPathList, this->path) - 1;
+                phi_v1 = EnMm_GetPointCount(play->pathList, this->path) - 1;
                 break;
             case 2:
                 phi_v1 = this->unk_1F0;
@@ -376,7 +376,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
             this->waypoint = sPathInfo[this->unk_1E8].unk_08;
         }
 
-        func_80AADE60(play->setupPathList, &waypointPos, this->path, this->waypoint);
+        func_80AADE60(play->pathList, &waypointPos, this->path, this->waypoint);
 
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;

@@ -595,7 +595,7 @@ u8 EnMd_FollowPath(EnMd* this, PlayState* play) {
         return 0;
     }
 
-    path = &play->setupPathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->waypoint;
 
@@ -622,7 +622,7 @@ u8 EnMd_SetMovedPos(EnMd* this, PlayState* play) {
         return 0;
     }
 
-    path = &play->setupPathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
     lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
     lastPointPos += path->count - 1;
 

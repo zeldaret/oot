@@ -108,7 +108,7 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
                 CollisionHeader_GetVirtual(&object_spot01_matoyab_col, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
                 if (IS_DAY) {
-                    func_808AC22C(play->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
+                    func_808AC22C(play->pathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_EN_DAIKU_KAKARIKO, position.x, position.y,
                                        position.z, thisx->world.rot.x, thisx->world.rot.y, thisx->world.rot.z,
                                        ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);

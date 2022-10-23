@@ -174,21 +174,17 @@ void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* acce
                            f32 scaleStep) {
     EnGoEffect* dustEffect = this->effects;
     s16 i;
-    s16 timer;
 
     for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
-            if (1) {}
-            timer = initialTimer;
-            dustEffect->timer = timer;
+            dustEffect->initialTimer = dustEffect->timer = initialTimer;
             dustEffect->type = 1;
-            dustEffect->initialTimer = initialTimer;
             dustEffect->pos = *pos;
             dustEffect->accel = *accel;
             dustEffect->velocity = *velocity;
-            return;
+            break;
         }
     }
 }
@@ -1833,7 +1829,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             this->eyeMouthTexState = 2;
             this->unk_20C = 0;
             this->goronState++;
-            func_800F483C(0x28, 5);
+            Audio_SetMainBgmVolume(0x28, 5);
             OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             break;
         case 1:
@@ -1848,7 +1844,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
                 Message_ContinueTextbox(play, 0x305A);
                 this->eyeMouthTexState = 3;
                 this->goronState++;
-                func_800F483C(0x7F, 5);
+                Audio_SetMainBgmVolume(0x7F, 5);
             }
             break;
         case 2:

@@ -1038,7 +1038,7 @@ void DemoEc_DrawPotionShopOwner(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitMaskShopOwner(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_os_Skel_004658);
+    DemoEc_InitSkelAnime(this, play, &gHappyMaskSalesmanSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -1054,7 +1054,7 @@ void DemoEc_UpdateMaskShopOwner(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawMaskShopOwner(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, gOsEyeClosedTex, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, play, gHappyMaskSalesmanEyeClosedTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitFishingOwner(DemoEc* this, PlayState* play) {

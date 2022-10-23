@@ -155,8 +155,6 @@ static InitChainEntry sInitChain[] = {
 
 void EnSkb_Init(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
-    s16 armOffset;
-    s16 bodyOffset;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -173,13 +171,11 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
     Actor_SetScale(&this->actor, ((this->actor.params * 0.1f) + 1.0f) * 0.01f);
 
-    armOffset = this->actor.params + 0xA;
-    this->collider.elements[0].dim.worldSphere.radius = armOffset;
-    this->collider.elements[0].dim.modelSphere.radius = armOffset;
-    if (1) {};
-    bodyOffset = (this->actor.params * 2) + 0x14;
-    this->collider.elements[1].dim.worldSphere.radius = bodyOffset;
-    this->collider.elements[1].dim.modelSphere.radius = bodyOffset;
+    this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius =
+        10 + this->actor.params;
+    this->collider.elements[1].dim.modelSphere.radius = this->collider.elements[1].dim.worldSphere.radius =
+        20 + (this->actor.params * 2);
+
     this->actor.home.pos = this->actor.world.pos;
     this->actor.floorHeight = this->actor.world.pos.y;
     EnSkb_SetupRiseFromGround(this);

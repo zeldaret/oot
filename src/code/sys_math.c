@@ -38,10 +38,18 @@ f32 Math_PowF(f32 base, s32 exp) {
     return ret;
 }
 
+/**
+ * @param angle radians
+ * @return sin(angle)
+ */
 f32 Math_SinF(f32 angle) {
     return sins((s16)(angle * (0x7FFF / M_PI))) * SHT_MINV;
 }
 
+/**
+ * @param angle radians
+ * @return cos(angle)
+ */
 f32 Math_CosF(f32 angle) {
     return coss((s16)(angle * (0x7FFF / M_PI))) * SHT_MINV;
 }
