@@ -115,8 +115,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_collect.c", 248);
 
-    if ((!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ ||
-         (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING) ||
+    if ((!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT) ||
          (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
         (pauseCtx->pageIndex == PAUSE_QUEST)) {
 
@@ -271,7 +270,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                     }
                 }
-            } else if (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING) {
+            } else if (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT) {
                 // Abort having the player play the song if the stick is moved
                 if ((pauseCtx->stickAdjX != 0) || (pauseCtx->stickAdjY != 0)) {
                     pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
@@ -571,13 +570,13 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         if ((pauseCtx->cursorSpecialPos == 0) && (cursor >= QUEST_SONG_MINUET) && (cursor < QUEST_KOKIRI_EMERALD)) {
             if ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) /* PAUSE_MAIN_STATE_IDLE, PAUSE_MAIN_STATE_SWITCHING_PAGE,
                                                                  PAUSE_MAIN_STATE_SONG_PLAYBACK */
-                || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING) ||
+                || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT) ||
                 (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
                 if (pauseCtx->cursorItem[pauseCtx->pageIndex] != PAUSE_ITEM_NONE) {
                     pauseCtx->cursorColorSet = 8;
                     // PAUSE_MAIN_STATE_SONG_PLAYBACK, PAUSE_MAIN_STATE_3,
-                    // PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT, PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING,
-                    // PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_DONE
+                    // PAUSE_MAIN_STATE_SONG_PROMPT_INIT, PAUSE_MAIN_STATE_SONG_PROMPT,
+                    // PAUSE_MAIN_STATE_SONG_PROMPT_DONE
                     if ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PLAYBACK) &&
                         (pauseCtx->mainState < PAUSE_MAIN_STATE_7)) {
                         pauseCtx->cursorColorSet = 0;
@@ -634,10 +633,10 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
                 }
             }
-        } else if (((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT) &&
-                    (pauseCtx->mainState <= PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_DONE)
-                    /* PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT, PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING,
-                       PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_DONE */
+        } else if (((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) &&
+                    (pauseCtx->mainState <= PAUSE_MAIN_STATE_SONG_PROMPT_DONE)
+                    /* PAUSE_MAIN_STATE_SONG_PROMPT_INIT, PAUSE_MAIN_STATE_SONG_PROMPT,
+                       PAUSE_MAIN_STATE_SONG_PROMPT_DONE */
                     ) ||
                    (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
             // Draw the buttons for playing a song
@@ -736,7 +735,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
                 }
 
-                if (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING_INIT) {
+                if (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT_INIT) {
                     for (i = 0; i < SONG_MAX_LENGTH; i++) {
                         sPlayedSongBtns[i] = OCARINA_BTN_INVALID;
                         sPlayedSongBtnsAlpha[i] = 0;
@@ -749,7 +748,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     pauseCtx->ocarinaStaff->pos = 0;
                     pauseCtx->ocarinaStaff->state = 0xFE;
 
-                    pauseCtx->mainState = PAUSE_MAIN_STATE_SONG_PLAYER_PLAYING;
+                    pauseCtx->mainState = PAUSE_MAIN_STATE_SONG_PROMPT;
                 }
             }
         }
