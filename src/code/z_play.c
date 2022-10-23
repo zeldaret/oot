@@ -403,7 +403,7 @@ void Play_Init(GameState* thisx) {
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
-    func_800304DC(this, &this->actorCtx, this->linkActorEntry);
+    Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     while (!func_800973FC(this, &this->roomCtx)) {
         ; // Empty Loop
@@ -1399,14 +1399,17 @@ void Play_InitEnvironment(PlayState* this, s16 skyboxId) {
 }
 
 void Play_InitScene(PlayState* this, s32 spawn) {
-    this->curSpawn = spawn;
-    this->linkActorEntry = NULL;
+    this->spawn = spawn;
+
+    this->playerEntry = NULL;
     this->unk_11DFC = NULL;
-    this->setupEntranceList = NULL;
-    this->setupExitList = NULL;
+    this->spawnList = NULL;
+    this->exitList = NULL;
     this->naviQuestHints = NULL;
-    this->setupPathList = NULL;
-    this->numSetupActors = 0;
+    this->pathList = NULL;
+
+    this->numActorEntries = 0;
+
     Object_InitBank(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);

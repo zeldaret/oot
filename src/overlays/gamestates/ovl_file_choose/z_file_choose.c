@@ -806,8 +806,6 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
     s16 j;
     s16 deathCountSplit[3];
 
-    if (1) {}
-
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
 
     gDPPipeSync(POLY_OPA_DISP++);

@@ -663,7 +663,7 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     u8 pad;
     u8 pad2;
     u8 prevHealth;
-    s32 temp_v0_3;
+    s32 pad3;
     Vec3f sp38;
 
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
@@ -684,11 +684,8 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
     Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
-    temp_v0_3 = this->actor.colChkInfo.damageEffect;
-    this->unk_2FD = temp_v0_3 & 0xFF;
+    this->unk_2FD = this->actor.colChkInfo.damageEffect;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
-
-    if (1) {}
 
     if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
         if (this->unk_2FD != 0) {

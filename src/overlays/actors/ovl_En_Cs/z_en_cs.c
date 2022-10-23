@@ -287,7 +287,7 @@ s32 EnCs_HandleWalking(EnCs* this, PlayState* play) {
     s16 walkAngle1;
     s16 walkAngle2;
 
-    EnCs_GetPathPoint(play->setupPathList, &pathPos, this->path, this->waypoint);
+    EnCs_GetPathPoint(play->pathList, &pathPos, this->path, this->waypoint);
     xDiff = pathPos.x - this->actor.world.pos.x;
     zDiff = pathPos.z - this->actor.world.pos.z;
     walkAngle1 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
@@ -296,13 +296,13 @@ s32 EnCs_HandleWalking(EnCs* this, PlayState* play) {
 
     while (this->walkDist <= 10.44f) {
         this->waypoint++;
-        waypointCount = EnCs_GetwaypointCount(play->setupPathList, this->path);
+        waypointCount = EnCs_GetwaypointCount(play->pathList, this->path);
 
         if ((this->waypoint < 0) || (!(this->waypoint < waypointCount))) {
             this->waypoint = 0;
         }
 
-        EnCs_GetPathPoint(play->setupPathList, &pathPos, this->path, this->waypoint);
+        EnCs_GetPathPoint(play->pathList, &pathPos, this->path, this->waypoint);
         xDiff = pathPos.x - this->actor.world.pos.x;
         zDiff = pathPos.z - this->actor.world.pos.z;
         walkAngle2 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));

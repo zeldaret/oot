@@ -3237,14 +3237,14 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     func_80832698(this, NA_SE_VO_LI_DOWN);
 
     if (this->actor.category == ACTORCAT_PLAYER) {
-        func_800F47BC();
+        Audio_SetBgmVolumeOffDuringFanfare();
 
         if (Inventory_ConsumeFairy(play)) {
             play->gameOverCtx.state = GAMEOVER_REVIVE_START;
             this->unk_84F = 1;
         } else {
             play->gameOverCtx.state = GAMEOVER_DEATH_START;
-            func_800F6AB0(0);
+            Audio_StopBgmAndFanfare(0);
             Audio_PlayFanfare(NA_BGM_GAME_OVER);
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
@@ -4357,7 +4357,7 @@ s32 func_80838FB8(PlayState* play, Player* this) {
  * The start of each group is indexed by `sReturnEntranceGroupIndices` values.
  * The resulting groups are then indexed by the spawn value.
  *
- * The spawn value (`PlayState.curSpawn`) is set to a different value depending on the entrance used to enter the
+ * The spawn value (`PlayState.spawn`) is set to a different value depending on the entrance used to enter the
  * scene, which allows these dynamic "return entrances" to link back to the previous scene.
  *
  * Note: grottos and normal fairy fountains use `ENTR_RETURN_GROTTO`
@@ -4428,7 +4428,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                 Play_TriggerVoidOut(play);
                 Scene_SetTransitionForNextEntrance(play);
             } else {
-                play->nextEntranceIndex = play->setupExitList[exitIndex - 1];
+                play->nextEntranceIndex = play->exitList[exitIndex - 1];
 
                 if (play->nextEntranceIndex == ENTR_RETURN_GROTTO) {
                     gSaveContext.respawnFlag = 2;
@@ -4439,7 +4439,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                     play->nextEntranceIndex =
                         sReturnEntranceGroupData[sReturnEntranceGroupIndices[play->nextEntranceIndex -
                                                                              ENTR_RETURN_YOUSEI_IZUMI_YOKO] +
-                                                 play->curSpawn];
+                                                 play->spawn];
                     Scene_SetTransitionForNextEntrance(play);
                 } else {
                     if (SurfaceType_GetFloorEffect(&play->colCtx, poly, bgId) == FLOOR_EFFECT_2) {
@@ -8385,7 +8385,7 @@ void func_80843AE8(PlayState* play, Player* this) {
             }
             this->unk_A87 = 20;
             func_80837AFC(this, -20);
-            func_800F47FC();
+            Audio_SetBgmVolumeOnDuringFanfare();
         }
     } else if (this->unk_84F != 0) {
         this->unk_850 = 60;
