@@ -775,7 +775,10 @@ typedef enum {
     /* 17 */ PAUSE_STATE_17, // game over KaleidoScope_DrawGameOver saveGameOver
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
     /* 19 */ PAUSE_STATE_UNPAUSE
-} PauseCtxState;
+} PauseState;
+
+#define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
+    (((pauseCtx)->state >= PAUSE_STATE_8) && ((pauseCtx)->state <= PAUSE_STATE_17))
 
 // Sub-states of PAUSE_STATE_MAIN
 typedef enum {
@@ -800,9 +803,6 @@ typedef enum {
     /* 5 */ PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED,
     /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
 } PauseSavePromptState;
-
-#define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
-    (((pauseCtx)->state >= PAUSE_STATE_8) && ((pauseCtx)->state <= PAUSE_STATE_17))
 
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
