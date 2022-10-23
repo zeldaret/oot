@@ -122,7 +122,7 @@ CollisionPoly* func_80B0C020(PlayState* play, Vec3f* arg1, Vec3f* arg2, Vec3f* a
         return NULL;
     }
 
-    if (SurfaceType_GetWallFlags(&play->colCtx, sp3C, *arg4) & (WALL_FLAG_4 | WALL_FLAG_5)) {
+    if (SurfaceType_GetWallFlags(&play->colCtx, sp3C, *arg4) & WALL_FLAG_CRAWLSPACE) {
         return NULL;
     }
 
