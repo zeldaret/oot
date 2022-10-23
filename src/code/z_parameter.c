@@ -2762,12 +2762,7 @@ void Interface_DrawItemButtons(PlayState* play) {
                         (R_ITEM_BTN_X(3) + R_ITEM_BTN_WIDTH(3)) << 2, (R_ITEM_BTN_Y(3) + R_ITEM_BTN_WIDTH(3)) << 2,
                         G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(3) << 1, R_ITEM_BTN_DD(3) << 1);
 
-    if ((pauseCtx->state < PAUSE_STATE_8)
-        /* PAUSE_STATE_OFF, PAUSE_STATE_WAIT_LETTERBOX, PAUSE_STATE_WAIT_BG_PRERENDER, PAUSE_STATE_INIT,
-           PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_MAIN, PAUSE_STATE_SAVE_PROMPT */
-        || (pauseCtx->state >= PAUSE_STATE_CLOSING)
-        /* PAUSE_STATE_CLOSING, PAUSE_STATE_UNPAUSE */
-    ) {
+    if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
         if ((play->pauseCtx.state != PAUSE_STATE_OFF) || (play->pauseCtx.debugState != 0)) {
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);

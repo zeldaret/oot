@@ -801,6 +801,9 @@ typedef enum {
     /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
 } PauseSavePromptState;
 
+#define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
+    (((pauseCtx)->state >= PAUSE_STATE_8) && ((pauseCtx)->state <= PAUSE_STATE_17))
+
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
     /* 1 */ PAUSE_BG_PRERENDER_DRAW, // The current frame is only drawn for the purpose of serving as the pause background.

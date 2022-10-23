@@ -1253,11 +1253,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
     Gfx_SetupDL_42Opa(gfxCtx);
 
-    if ((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) ||
-        ((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING)
-         /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13,
-            PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */
-         )) {
+    if ((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) || IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
         KaleidoScope_UpdatePrompt(play);
 
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
@@ -1298,10 +1294,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1424),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        if (((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING)
-             /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12, PAUSE_STATE_13,
-                PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */
-             )) {
+        if (IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
         } else { // PAUSE_STATE_SAVE_PROMPT
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx,
@@ -2225,9 +2218,7 @@ s16 func_80823A0C_makeVertices_(PlayState* play, Vtx* vtx, s16 usage_arg2, s16 a
 
             vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + ptr2_width_[j];
 
-            if (!((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING))
-        /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12,
-           PAUSE_STATE_13, PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */) {
+            if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
                 vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = ptr3_y_[j] + pauseCtx->offsetY;
             } else {
                 vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = YREG(60 + j) + pauseCtx->offsetY;
@@ -2987,9 +2978,7 @@ void KaleidoScope_Draw(PlayState* play) {
 
         KaleidoScope_SetView(pauseCtx, 0.0f, 0.0f, 64.0f);
 
-        if (!((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state < PAUSE_STATE_CLOSING))
-        /* PAUSE_STATE_8, PAUSE_STATE_9, PAUSE_STATE_10, PAUSE_STATE_11, PAUSE_STATE_12,
-           PAUSE_STATE_13, PAUSE_STATE_14, PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17 */) {
+        if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
             KaleidoScope_DrawInfoPanel(play);
         }
     }
