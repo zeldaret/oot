@@ -763,16 +763,16 @@ typedef enum {
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
     /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
-    /*  8 */ PAUSE_STATE_8,  //                                     saveGameOver
-    /*  9 */ PAUSE_STATE_9,  //                                     saveGameOver
-    /* 10 */ PAUSE_STATE_10, // game over                           saveGameOver
-    /* 11 */ PAUSE_STATE_11, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 12 */ PAUSE_STATE_12, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 13 */ PAUSE_STATE_13, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 14 */ PAUSE_STATE_14, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 15 */ PAUSE_STATE_15, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 16 */ PAUSE_STATE_16, // game over KaleidoScope_DrawGameOver saveGameOver
-    /* 17 */ PAUSE_STATE_17, // game over KaleidoScope_DrawGameOver saveGameOver
+    /*  8 */ PAUSE_STATE_8,
+    /*  9 */ PAUSE_STATE_9,
+    /* 10 */ PAUSE_STATE_10,
+    /* 11 */ PAUSE_STATE_11,
+    /* 12 */ PAUSE_STATE_12,
+    /* 13 */ PAUSE_STATE_13,
+    /* 14 */ PAUSE_STATE_14,
+    /* 15 */ PAUSE_STATE_15,
+    /* 16 */ PAUSE_STATE_16,
+    /* 17 */ PAUSE_STATE_17,
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
     /* 19 */ PAUSE_STATE_UNPAUSE
 } PauseState;

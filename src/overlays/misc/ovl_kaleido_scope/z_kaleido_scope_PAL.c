@@ -960,12 +960,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 1100);
 
-    if ((pauseCtx->state < PAUSE_STATE_8)
-        /* PAUSE_STATE_OFF, PAUSE_STATE_WAIT_LETTERBOX, PAUSE_STATE_WAIT_BG_PRERENDER, PAUSE_STATE_INIT,
-           PAUSE_STATE_OPENING_1, PAUSE_STATE_OPENING_2, PAUSE_STATE_MAIN, PAUSE_STATE_SAVE_PROMPT */
-        || (pauseCtx->state >= PAUSE_STATE_CLOSING)
-        /* PAUSE_STATE_CLOSING, PAUSE_STATE_UNPAUSE */
-    ) {
+    if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
         if (pauseCtx->state != PAUSE_STATE_SAVE_PROMPT) {
             stepR = ABS(sColor82ABRed_D_8082AB8C -
                         sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][0]) /
