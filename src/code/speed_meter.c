@@ -6,30 +6,36 @@
  * graphics tasks.
  */
 volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
+
 /**
  * How much time elapsed between scheduling the previous graphics task and the current one being ready (the previous
  * task not necessarily being finished yet), without the amount of time spent on the audio update in the audio thread.
  */
 volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
+
 /**
  * How much time the RSP ran audio tasks for over the course of `gGraphUpdatePeriod`.
  */
 volatile OSTime gRSPAudioTimeTotal;
+
 /**
  * How much time the RSP ran graphics tasks for over the course of `gGraphUpdatePeriod`.
  * Typically the RSP runs 1 graphics task per `Graph_Update` cycle, but may run 0 (see `Graph_Update`).
  */
 volatile OSTime gRSPGfxTimeTotal;
+
 /**
  * How much time the RDP ran for over the course of `gGraphUpdatePeriod`.
  */
 volatile OSTime gRDPTimeTotal;
+
 /**
  * How much time elapsed between the last two `Graph_Update` ending.
  * This is expected to be at least the duration of a single frame, since it includes the time spent waiting on the
  * graphics task to be done.
  */
 volatile OSTime gGraphUpdatePeriod;
+
 /**
  * The time at which the audio thread audio update started.
  */
@@ -37,12 +43,16 @@ volatile OSTime gAudioThreadUpdateTimeStart;
 
 // Accumulator for `gAudioThreadUpdateTimeStart`
 volatile OSTime gAudioThreadUpdateTimeAcc;
+
 // Accumulator for `gRSPAudioTimeTotal`
 volatile OSTime gRSPAudioTimeAcc;
+
 // Accumulator for `gRSPGfxTimeTotal`.
 volatile OSTime gRSPGfxTimeAcc;
+
 volatile OSTime gRSPOtherTimeAcc;
 volatile OSTime D_8016A578;
+
 // Accumulator for `gRDPTimeTotal`
 volatile OSTime gRDPTimeAcc;
 
