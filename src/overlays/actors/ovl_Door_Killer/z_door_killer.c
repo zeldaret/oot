@@ -29,7 +29,7 @@ void DoorKiller_SetProperties(DoorKiller* this, PlayState* play);
 void DoorKiller_DrawDoor(Actor* thisx, PlayState* play);
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play);
 
-const ActorInit Door_Killer_InitVars = {
+ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
     ACTORCAT_BG,
     FLAGS,

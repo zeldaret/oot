@@ -32,7 +32,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, PlayState* play);
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
-const ActorInit En_Ishi_InitVars = {
+ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORCAT_PROP,
     FLAGS,

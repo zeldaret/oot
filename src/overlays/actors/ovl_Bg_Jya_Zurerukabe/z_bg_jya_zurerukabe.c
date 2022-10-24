@@ -23,7 +23,7 @@ void func_8089B870(BgJyaZurerukabe* this, PlayState* play);
 
 static f32 D_8089B9C0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-const ActorInit Bg_Jya_Zurerukabe_InitVars = {
+ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
     ACTORCAT_BG,
     FLAGS,

@@ -48,7 +48,7 @@ void func_809975C0(DoorShutter* this, PlayState* play);
 void func_809976B8(DoorShutter* this, PlayState* play);
 void func_80997744(DoorShutter* this, PlayState* play);
 
-const ActorInit Door_Shutter_InitVars = {
+ActorInit Door_Shutter_InitVars = {
     ACTOR_DOOR_SHUTTER,
     ACTORCAT_DOOR,
     FLAGS,

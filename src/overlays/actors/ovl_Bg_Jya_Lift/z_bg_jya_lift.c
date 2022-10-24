@@ -22,7 +22,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-const ActorInit Bg_Jya_Lift_InitVars = {
+ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
     ACTORCAT_BG,
     FLAGS,

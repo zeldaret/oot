@@ -24,7 +24,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play);
 void BgBowlWall_FinishFall(BgBowlWall* this, PlayState* play);
 void BgBowlWall_Reset(BgBowlWall* this, PlayState* play);
 
-const ActorInit Bg_Bowl_Wall_InitVars = {
+ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORCAT_PROP,
     FLAGS,

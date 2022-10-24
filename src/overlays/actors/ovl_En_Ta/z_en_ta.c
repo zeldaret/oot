@@ -59,7 +59,7 @@ void EnTa_AnimSleeping(EnTa* this);
 void EnTa_AnimSitSleeping(EnTa* this);
 void EnTa_AnimRunToEnd(EnTa* this);
 
-const ActorInit En_Ta_InitVars = {
+ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
     ACTORCAT_NPC,
     FLAGS,

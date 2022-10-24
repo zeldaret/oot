@@ -35,7 +35,7 @@ void ObjLightswitch_DisappearDelay(ObjLightswitch* this, PlayState* play);
 void ObjLightswitch_SetupDisappear(ObjLightswitch* this);
 void ObjLightswitch_Disappear(ObjLightswitch* this, PlayState* play);
 
-const ActorInit Obj_Lightswitch_InitVars = {
+ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
     ACTORCAT_SWITCH,
     FLAGS,

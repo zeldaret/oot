@@ -25,7 +25,7 @@ void EnAnubice_SetupShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_ShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_Die(EnAnubice* this, PlayState* play);
 
-const ActorInit En_Anubice_InitVars = {
+ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,
     ACTORCAT_ENEMY,
     FLAGS,

@@ -1361,7 +1361,7 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit Demo_Ec_InitVars = {
+ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
     ACTORCAT_NPC,
     FLAGS,

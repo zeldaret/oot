@@ -69,7 +69,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
-const ActorInit Bg_Bombwall_InitVars = {
+ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
     ACTORCAT_BG,
     FLAGS,
