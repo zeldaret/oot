@@ -52,7 +52,7 @@ static f32 sStatueDistToPlayer = 0;
 
 static s16 sStatueRotY;
 
-const ActorInit Bg_Haka_Gate_InitVars = {
+ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,
     ACTORCAT_PROP,
     FLAGS,

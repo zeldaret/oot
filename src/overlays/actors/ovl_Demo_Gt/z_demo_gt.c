@@ -1767,7 +1767,7 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
     drawFunc(this, play);
 }
 
-const ActorInit Demo_Gt_InitVars = {
+ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
     ACTORCAT_PROP,
     FLAGS,

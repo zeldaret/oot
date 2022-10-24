@@ -30,7 +30,7 @@ void func_80A99560(EnKo* this, PlayState* play);
 
 s32 func_80A98ECC(EnKo* this, PlayState* play);
 
-const ActorInit En_Ko_InitVars = {
+ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORCAT_NPC,
     FLAGS,

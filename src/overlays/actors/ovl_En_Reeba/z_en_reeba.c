@@ -65,7 +65,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-const ActorInit En_Reeba_InitVars = {
+ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORCAT_MISC,
     FLAGS,

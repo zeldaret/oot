@@ -19,7 +19,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, PlayState* play);
 void func_80AB94D0(EnNiwGirl* this, PlayState* play);
 void func_80AB9210(EnNiwGirl* this, PlayState* play);
 
-const ActorInit En_Niw_Girl_InitVars = {
+ActorInit En_Niw_Girl_InitVars = {
     ACTOR_EN_NIW_GIRL,
     ACTORCAT_NPC,
     FLAGS,

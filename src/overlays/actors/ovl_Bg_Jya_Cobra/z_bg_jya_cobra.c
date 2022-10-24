@@ -18,7 +18,7 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play);
 
 #include "assets/overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
-const ActorInit Bg_Jya_Cobra_InitVars = {
+ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORCAT_PROP,
     FLAGS,
