@@ -386,7 +386,7 @@ s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB);
 s16 Actor_WorldPitchTowardPoint(Actor* actor, Vec3f* refPoint);
 f32 Actor_WorldDistXZToActor(Actor* actorA, Actor* actorB);
 f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint);
-void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2);
+void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos);
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB);
 f32 Player_GetHeight(Player* player);
 f32 func_8002DCE4(Player* player);
