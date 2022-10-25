@@ -32,10 +32,7 @@ typedef enum {
     /* 0x05 */ SHUTTER_BOSS,
     /* 0x06 */ SHUTTER_GOHMA_BLOCK,
     /* 0x07 */ SHUTTER_FRONT_SWITCH_BACK_CLEAR,
-    /* 0x08 */ SHUTTER_8,
-    /* 0x09 */ SHUTTER_9,
-    /* 0x0A */ SHUTTER_A,
-    /* 0x0B */ SHUTTER_KEY_LOCKED
+    /* 0x0B */ SHUTTER_KEY_LOCKED = 11
 } DoorShutterType;
 
 struct DoorShutter;
