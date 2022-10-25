@@ -607,10 +607,10 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
                             &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
         roomCtx->unk_30 ^= 1;
 
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_800973FC(PlayState* play, RoomContext* roomCtx) {
