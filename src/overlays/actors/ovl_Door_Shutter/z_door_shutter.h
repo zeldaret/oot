@@ -23,6 +23,8 @@
 #define DOORSHUTTER_GET_TYPE(actor) (((actor)->params >> 6) & 0xF)
 #define DOORSHUTTER_GET_SWITCH_FLAG(actor) ((actor)->params & 0x3F)
 
+#define DOORSHUTTER_PARAMS(type, switchFlag) ((((type) & 0xF) << 6) | ((switchFlag) & 0x3F))
+
 typedef enum {
     /* 0x00 */ SHUTTER,
     /* 0x01 */ SHUTTER_FRONT_CLEAR,
