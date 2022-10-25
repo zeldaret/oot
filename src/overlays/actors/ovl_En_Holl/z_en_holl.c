@@ -125,17 +125,17 @@ void EnHoll_SwapRooms(PlayState* play) {
 void func_80A58DD4(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 phi_t0 = (u32)((play->sceneId == SCENE_JYASINZOU) ? 1 : 0);
-    Vec3f vec;
-    f32 absZ;
+    Vec3f relPlayerPos;
+    f32 orthogonalDistToPlayer;
     s32 transitionActorIndex;
 
-    func_8002DBD0(&this->actor, &vec, &player->actor.world.pos);
-    this->side = (vec.z < 0.0f) ? 0 : 1;
-    absZ = fabsf(vec.z);
-    if (vec.y > PLANE_Y_MIN && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH &&
-        absZ < sHorizTriggerDists[phi_t0][0]) {
+    func_8002DBD0(&this->actor, &relPlayerPos, &player->actor.world.pos);
+    this->side = (relPlayerPos.z < 0.0f) ? 0 : 1;
+    orthogonalDistToPlayer = fabsf(relPlayerPos.z);
+    if (relPlayerPos.y > PLANE_Y_MIN && relPlayerPos.y < PLANE_Y_MAX && fabsf(relPlayerPos.x) < PLANE_HALFWIDTH &&
+        orthogonalDistToPlayer < sHorizTriggerDists[phi_t0][0]) {
         transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
-        if (absZ > sHorizTriggerDists[phi_t0][1]) {
+        if (orthogonalDistToPlayer > sHorizTriggerDists[phi_t0][1]) {
             if (play->roomCtx.prevRoom.num >= 0 && play->roomCtx.status == 0) {
                 this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[this->side].room;
                 EnHoll_SwapRooms(play);
@@ -147,7 +147,7 @@ void func_80A58DD4(EnHoll* this, PlayState* play) {
                 func_8009728C(play, &play->roomCtx, this->actor.room);
             } else {
                 this->planeAlpha = (255.0f / (sHorizTriggerDists[phi_t0][2] - sHorizTriggerDists[phi_t0][3])) *
-                                   (absZ - sHorizTriggerDists[phi_t0][3]);
+                                   (orthogonalDistToPlayer - sHorizTriggerDists[phi_t0][3]);
                 this->planeAlpha = CLAMP(this->planeAlpha, 0, 255);
                 if (play->roomCtx.curRoom.num != this->actor.room) {
                     EnHoll_SwapRooms(play);
@@ -161,24 +161,26 @@ void func_80A58DD4(EnHoll* this, PlayState* play) {
 void func_80A59014(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 useViewEye = gDbgCamEnabled || play->csCtx.state != CS_STATE_IDLE;
-    Vec3f vec;
-    s32 temp;
+    Vec3f relSubjectPos;
+    s32 isKokiriLayer8;
     f32 planeHalfWidth;
-    f32 absZ;
+    f32 orthogonalDistToSubject;
 
-    func_8002DBD0(&this->actor, &vec, useViewEye ? &play->view.eye : &player->actor.world.pos);
+    func_8002DBD0(&this->actor, &relSubjectPos, useViewEye ? &play->view.eye : &player->actor.world.pos);
     planeHalfWidth = (ENHOLL_GET_TYPE(&this->actor) == ENHOLL_6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
 
-    temp = EnHoll_IsKokiriLayer8();
-    if (temp || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
-                 (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
+    isKokiriLayer8 = EnHoll_IsKokiriLayer8();
+    if (isKokiriLayer8 ||
+        (PLANE_Y_MIN < relSubjectPos.y && relSubjectPos.y < PLANE_Y_MAX && fabsf(relSubjectPos.x) < planeHalfWidth &&
+         (orthogonalDistToSubject = fabsf(relSubjectPos.z),
+          100.0f > orthogonalDistToSubject && orthogonalDistToSubject > 50.0f))) {
         s32 transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
-        s32 side = (vec.z < 0.0f) ? 0 : 1;
+        s32 side = (relSubjectPos.z < 0.0f) ? 0 : 1;
         TransitionActorEntry* transitionEntry = &play->transiActorCtx.list[transitionActorIndex];
         s32 room = transitionEntry->sides[side].room;
 
         this->actor.room = room;
-        if (temp) {}
+        if (isKokiriLayer8) {}
         if (this->actor.room != play->roomCtx.curRoom.num) {
             if (room) {}
             if (func_8009728C(play, &play->roomCtx, this->actor.room)) {
@@ -191,19 +193,19 @@ void func_80A59014(EnHoll* this, PlayState* play) {
 // Vertical Planes
 void func_80A591C0(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 absY = fabsf(this->actor.yDistToPlayer);
+    f32 absYDistToPlayer = fabsf(this->actor.yDistToPlayer);
     s32 transitionActorIndex;
 
-    if (this->actor.xzDistToPlayer < 500.0f && absY < 700.0f) {
+    if (this->actor.xzDistToPlayer < 500.0f && absYDistToPlayer < 700.0f) {
         transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
-        if (absY < 95.0f) {
+        if (absYDistToPlayer < 95.0f) {
             play->unk_11E18 = 255;
-        } else if (absY > 605.0f) {
+        } else if (absYDistToPlayer > 605.0f) {
             play->unk_11E18 = 0;
         } else {
-            play->unk_11E18 = (s16)(605.0f - absY) * 0.5f;
+            play->unk_11E18 = (s16)(605.0f - absYDistToPlayer) * 0.5f;
         }
-        if (absY < 95.0f) {
+        if (absYDistToPlayer < 95.0f) {
             this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[1].room;
             Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x, 1.0f, 50.0f, 10.0f);
             Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z, 1.0f, 50.0f, 10.0f);
@@ -222,17 +224,18 @@ void func_80A591C0(EnHoll* this, PlayState* play) {
 
 // Vertical Planes
 void func_80A593A4(EnHoll* this, PlayState* play) {
-    f32 absY;
+    f32 absYDistToPlayer;
     s32 side;
     s32 transitionActorIndex;
 
-    if ((this->actor.xzDistToPlayer < 120.0f) && (absY = fabsf(this->actor.yDistToPlayer), absY < 200.0f)) {
-        if (absY < 50.0f) {
+    if ((this->actor.xzDistToPlayer < 120.0f) &&
+        (absYDistToPlayer = fabsf(this->actor.yDistToPlayer), absYDistToPlayer < 200.0f)) {
+        if (absYDistToPlayer < 50.0f) {
             play->unk_11E18 = 255;
         } else {
-            play->unk_11E18 = (200.0f - absY) * 1.7f;
+            play->unk_11E18 = (200.0f - absYDistToPlayer) * 1.7f;
         }
-        if (absY > 50.0f) {
+        if (absYDistToPlayer > 50.0f) {
             transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
             this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[side].room;
@@ -250,13 +253,13 @@ void func_80A593A4(EnHoll* this, PlayState* play) {
 
 // Vertical Planes
 void func_80A59520(EnHoll* this, PlayState* play) {
-    f32 absY;
+    f32 absYDistToPlayer;
     s8 side;
     s32 transitionActorIndex;
 
     if (this->actor.xzDistToPlayer < 120.0f) {
-        absY = fabsf(this->actor.yDistToPlayer);
-        if (absY < 200.0f && absY > 50.0f) {
+        absYDistToPlayer = fabsf(this->actor.yDistToPlayer);
+        if (absYDistToPlayer < 200.0f && absYDistToPlayer > 50.0f) {
             transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
             this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[side].room;
@@ -271,8 +274,8 @@ void func_80A59520(EnHoll* this, PlayState* play) {
 // Horizontal Planes
 void func_80A59618(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3f vec;
-    f32 absZ;
+    Vec3f relPlayerPos;
+    f32 orthogonalDistToPlayer;
     s32 side;
     s32 transitionActorIndex;
 
@@ -282,19 +285,20 @@ void func_80A59618(EnHoll* this, PlayState* play) {
             this->unk_14F = false;
         }
     } else {
-        func_8002DBD0(&this->actor, &vec, &player->actor.world.pos);
-        absZ = fabsf(vec.z);
-        if (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH_2 && absZ < 100.0f) {
+        func_8002DBD0(&this->actor, &relPlayerPos, &player->actor.world.pos);
+        orthogonalDistToPlayer = fabsf(relPlayerPos.z);
+        if (PLANE_Y_MIN < relPlayerPos.y && relPlayerPos.y < PLANE_Y_MAX && fabsf(relPlayerPos.x) < PLANE_HALFWIDTH_2 &&
+            orthogonalDistToPlayer < 100.0f) {
             this->unk_14F = true;
             transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
-            play->unk_11E18 = 255 - (s32)((absZ - 50.0f) * 5.9f);
+            play->unk_11E18 = 255 - (s32)((orthogonalDistToPlayer - 50.0f) * 5.9f);
             if (play->unk_11E18 > 255) {
                 play->unk_11E18 = 255;
             } else if (play->unk_11E18 < 0) {
                 play->unk_11E18 = 0;
             }
-            if (absZ < 50.0f) {
-                side = (vec.z < 0.0f) ? 0 : 1;
+            if (orthogonalDistToPlayer < 50.0f) {
+                side = (relPlayerPos.z < 0.0f) ? 0 : 1;
                 this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[side].room;
                 if (this->actor.room != play->roomCtx.curRoom.num &&
                     func_8009728C(play, &play->roomCtx, this->actor.room)) {
