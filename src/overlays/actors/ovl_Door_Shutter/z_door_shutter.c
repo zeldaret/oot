@@ -727,8 +727,8 @@ void DoorShutter_BarAndWaitSwitchFlag(DoorShutter* this, PlayState* play) {
 /**
  * The door has been unbarred.
  *
- * Effectively, this action is only used for switch-flag-barred and clear-barred types.
- * Its purpose for switch-flag-barred is to check the switch flag is still set after the door has been unbarred.
+ * Effectively, this action is only used for switch-flag-barred door types.
+ * Its purpose is to check the switch flag is still set after the door has been unbarred.
  */
 void DoorShutter_UnbarredCheckSwitchFlag(DoorShutter* this, PlayState* play) {
     if (!this->moveState && !Flags_GetSwitch(play, DOORSHUTTER_GET_SWITCH_FLAG(&this->dyna.actor))) {
