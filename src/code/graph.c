@@ -8,6 +8,7 @@
  * The time at which the previous `Graph_Update` ended.
  */
 OSTime sGraphPrevUpdateEndTime;
+
 /**
  * The time at which the previous graphics task was scheduled to run.
  */
