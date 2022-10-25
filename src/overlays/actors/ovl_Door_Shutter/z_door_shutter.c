@@ -341,6 +341,14 @@ void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc
     this->actionTimer = 0;
 }
 
+/**
+ * Setup the correct action depending on the door type.
+ *
+ * This function is called repeatedly and not just on actor init, to check the door being barred,
+ * and to handle door types that make the door behave different on the front/back sides.
+ *
+ * @return true if the door is barred
+ */
 s32 DoorShutter_SetupDoor(DoorShutter* this, PlayState* play) {
     TransitionActorEntry* transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)];
     s8 frontRoom = transitionEntry->sides[0].room;
@@ -543,6 +551,12 @@ s32 DoorShutter_GetPlayerSide(DoorShutter* this, PlayState* play) {
     return 0.0f;
 }
 
+/**
+ * The door is barred and waiting for the room to be cleared.
+ *
+ * Either the permanent room clear flag or temporary room clear flag may be set to unbar the door.
+ * When that happens, the permanent room clear flag is set.
+ */
 void DoorShutter_WaitClear(DoorShutter* this, PlayState* play) {
     if (Flags_GetClear(play, this->dyna.actor.room) || Flags_GetTempClear(play, this->dyna.actor.room)) {
         Flags_SetClear(play, this->dyna.actor.room);
