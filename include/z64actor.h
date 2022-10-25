@@ -515,6 +515,16 @@ typedef struct DoorActorBase {
     /* 0x0000 */ DOOR_ACTOR_BASE;
 } DoorActorBase;
 
+// DoorShutter and DoorGerudo share moveState
+// Due to alignment, a substruct cannot be used in the structs of these actors.
+#define SLIDING_DOOR_ACTOR_BASE      \
+    /* 0x0000 */ DynaPolyActor dyna; \
+    /* 0x0164 */ s16 moveState // Set to true by player when using the door
+
+typedef struct SlidingDoorActorBase {
+    /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;
+} SlidingDoorActorBase;
+
 typedef enum {
     /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,
     /* 0x01 */ DOOR_OPEN_ANIM_CHILD_L,
