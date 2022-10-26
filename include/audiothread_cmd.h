@@ -7,6 +7,7 @@
  */
 
 typedef enum {
+    // Channel Commands
     /* 0x00 */ AUDIOCMD_OP_NOOP,
     /* 0x01 */ AUDIOCMD_OP_CHANNEL_SET_VOL_SCALE,
     /* 0x02 */ AUDIOCMD_OP_CHANNEL_SET_VOL,
@@ -22,6 +23,7 @@ typedef enum {
     /* 0x0C */ AUDIOCMD_OP_CHANNEL_SET_COMB_FILTER_SIZE,
     /* 0x0D */ AUDIOCMD_OP_CHANNEL_SET_COMB_FILTER_GAIN,
     /* 0x0E */ AUDIOCMD_OP_CHANNEL_SET_STEREO,
+    // SeqPlayer Commands
     /* 0x41 */ AUDIOCMD_OP_SEQPLAYER_FADE_VOLUME_SCALE = 0x41,
     /* 0x46 */ AUDIOCMD_OP_SEQPLAYER_SET_IO = 0x46,
     /* 0x47 */ AUDIOCMD_OP_SEQPLAYER_SET_TEMPO,
@@ -32,6 +34,7 @@ typedef enum {
     /* 0x4C */ AUDIOCMD_OP_SEQPLAYER_RESET_VOLUME,
     /* 0x4D */ AUDIOCMD_OP_SEQPLAYER_SET_BEND,
     /* 0x4E */ AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_TICKS,
+    // Global Commands
     /* 0x81 */ AUDIOCMD_OP_GLOBAL_SYNC_LOAD_SEQ_PARTS = 0x81,
     /* 0x82 */ AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER,
     /* 0x83 */ AUDIOCMD_OP_GLOBAL_DISABLE_SEQPLAYER,
@@ -57,6 +60,9 @@ typedef enum {
     /* 0xFE */ AUDIOCMD_OP_GLOBAL_DISABLE_ALL_SEQPLAYERS
 } AudioThreadCmdOp;
 
+// Pass to a AUDIOCMD_CHANNEL_ command in place of a channelIndex to affect all channels
+#define AUDIOCMD_ALL_CHANNELS 0xFF
+
 // ==== Audio Thread Channel Commands ====
 
 /**
@@ -71,7 +77,7 @@ typedef enum {
                             volumeScale)
 
 /**
- *  Set the volume on a given channel
+ * Set the volume on a given channel
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
@@ -357,11 +363,41 @@ typedef enum {
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param threadCmdChannelMask (u16) bitfield for 16 channels. Turn bit on to allow audio thread commands of type
- * "Channel" to process that channel with "SEQ_CHANNEL_ALL" set.
+ * "Channel" to process that channel with `AUDIOCMD_ALL_CHANNELS` set.
  */
 #define AUDIOCMD_GLOBAL_SET_CHANNEL_MASK(seqPlayerIndex, threadCmdChannelMask)                       \
     AudioThread_QueueCmdU16(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_CHANNEL_MASK, seqPlayerIndex, 0, 0), \
                             threadCmdChannelMask)
+
+/**
+ * Set a drum ptr within a soundfont
+ *
+ * @param fontId the id of the soundfont to set the drum in
+ * @param drumId the id of the drum to set
+ * @param drumPtr (s32) the ptr to the `Drum` struct
+ */
+#define AUDIOCMD_GLOBAL_SET_DRUM_FONT(fontId, drumId, drumPtr) \
+    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_DRUM_FONT, fontId, drumId, 0), drumPtr)
+
+/**
+ * Set a soundeffect ptr within a soundfont
+ *
+ * @param fontId the id of the soundfont to set the sound effect in
+ * @param soundEffectId the id of the sound effect to set
+ * @param soundEffectPtr (s32) the ptr to the `SoundEffect` struct
+ */
+#define AUDIOCMD_GLOBAL_SET_SFX_FONT(fontId, soundEffectId, soundEffectPtr) \
+    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_SFX_FONT, fontId, soundEffectId, 0), soundEffectPtr)
+
+/**
+ * Set an instrument ptr within a soundfont
+ *
+ * @param fontId the id of the soundfont to set the instrument in
+ * @param instId the id of the instrument to set
+ * @param instPtr (s32) the ptr to the `Instrument` struct
+ */
+#define AUDIOCMD_GLOBAL_SET_INSTRUMENT_FONT(fontId, instId, instPtr) \
+    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_INSTRUMENT_FONT, fontId, instId, 0), instPtr)
 
 /**
  * Pop the persistent cache of the specified table

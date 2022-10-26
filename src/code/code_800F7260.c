@@ -465,16 +465,16 @@ void Audio_PlayActiveSfx(u8 bankId) {
                 }
                 Audio_SetSfxProperties(bankId, entryIndex, sCurSfxPlayerChannelIndex);
 
-                // ioPort 0, enable the sfx to play in seq 0
+                // ioPort 0, enable the sfx to play in `NA_BGM_GENERAL_SFX`
                 AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, sCurSfxPlayerChannelIndex, 0, 1);
 
-                // ioPort 4, write the lower bits sfx index to seq 0 so it can find the right code to execute
+                // ioPort 4, write the lower bits sfx index for `NA_BGM_GENERAL_SFX` to find the right code to execute
                 AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, sCurSfxPlayerChannelIndex, 4, entry->sfxId & 0xFF);
 
                 // If the sfx bank has more than 255 entries (greater than a u8 can store),
                 // then store the Id in upper and lower bits
                 if (gIsLargeSfxBank[bankId]) {
-                    // ioPort 5, write the upper bits sfx index to seq 0, for banks with > 0xFF entries
+                    // ioPort 5, write the upper bits sfx index for `NA_BGM_GENERAL_SFX`, for banks with > 0xFF entries
                     AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, sCurSfxPlayerChannelIndex, 5, (entry->sfxId & 0x100) >> 8);
                 }
                 if (entry->sfxId & 0xC00) {

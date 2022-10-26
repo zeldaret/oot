@@ -113,8 +113,8 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
     static f32 D_80130510 = 0.0f;
     static s32 D_80130514 = 0;
     f32 pitchChange;
-    f32 extent;
-    f32 invExtent;
+    f32 depth;
+    f32 invDepth;
     f32 result;
     f32 temp;
     SequenceChannel* channel = vib->channel;
@@ -162,10 +162,10 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
 
     pitchChange = Audio_GetVibratoPitchChange(vib) + 32768.0f;
     temp = vib->depth / 4096.0f;
-    extent = temp + 1.0f;
-    invExtent = 1.0f / extent;
+    depth = temp + 1.0f;
+    invDepth = 1.0f / depth;
 
-    result = 1.0f / ((extent - invExtent) * pitchChange / 65536.0f + invExtent);
+    result = 1.0f / ((depth - invDepth) * pitchChange / 65536.0f + invDepth);
 
     D_80130510 += result;
     D_80130514++;

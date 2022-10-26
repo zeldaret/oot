@@ -22,7 +22,7 @@
 #include "ultra64/abi.h"
 
 // Direct audio command (skips the queueing system)
-#define SEQCMD_SET_PLAYER_VOLUME_NOW(seqPlayerIndex, duration, volume)                          \
+#define SEQCMD_SET_SEQPLAYER_VOLUME_NOW(seqPlayerIndex, duration, volume)                       \
     Audio_ProcessSeqCmd((SEQCMD_OP_SET_SEQPLAYER_VOLUME << 28) | ((u8)(seqPlayerIndex) << 24) | \
                         ((u8)(duration) << 16) | ((u8)((volume)*127.0f)));
 
@@ -318,7 +318,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                 // Apply channel mask `channelMaskDisable`
                 AUDIOCMD_GLOBAL_SET_CHANNEL_MASK(seqPlayerIndex, channelMaskDisable);
                 // Disable channels
-                AUDIOCMD_CHANNEL_SET_MUTE(seqPlayerIndex, SEQ_ALL_CHANNELS, true);
+                AUDIOCMD_CHANNEL_SET_MUTE(seqPlayerIndex, AUDIOCMD_ALL_CHANNELS, true);
             }
 
             // Reenable channels
@@ -327,7 +327,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                 // Apply channel mask `channelMaskEnable`
                 AUDIOCMD_GLOBAL_SET_CHANNEL_MASK(seqPlayerIndex, channelMaskEnable);
                 // Enable channels
-                AUDIOCMD_CHANNEL_SET_MUTE(seqPlayerIndex, SEQ_ALL_CHANNELS, false);
+                AUDIOCMD_CHANNEL_SET_MUTE(seqPlayerIndex, AUDIOCMD_ALL_CHANNELS, false);
             }
             break;
 
@@ -460,7 +460,7 @@ void Audio_SetVolumeScale(u8 seqPlayerIndex, u8 scaleIndex, u8 targetVol, u8 vol
             volScale *= gActiveSeqs[seqPlayerIndex].volScales[i] / 127.0f;
         }
 
-        SEQCMD_SET_PLAYER_VOLUME_NOW(seqPlayerIndex, volFadeTimer, volScale);
+        SEQCMD_SET_SEQPLAYER_VOLUME_NOW(seqPlayerIndex, volFadeTimer, volScale);
     }
 }
 

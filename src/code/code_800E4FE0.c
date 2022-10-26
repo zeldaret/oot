@@ -438,7 +438,7 @@ void AudioThread_ProcessCmd(AudioCmd* cmd) {
             AudioThread_ProcessChannelCmd(seqPlayer->channels[cmd->arg1], cmd);
             return;
         }
-        if (cmd->arg1 == SEQ_ALL_CHANNELS) {
+        if (cmd->arg1 == AUDIOCMD_ALL_CHANNELS) {
             threadCmdChannelMask = gAudioCtx.threadCmdChannelMask[cmd->arg0];
             for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
                 if (threadCmdChannelMask & 1) {
