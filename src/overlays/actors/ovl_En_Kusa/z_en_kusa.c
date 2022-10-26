@@ -41,7 +41,7 @@ static s16 rotSpeedX = 0;
 static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 
-const ActorInit En_Kusa_InitVars = {
+ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORCAT_PROP,
     FLAGS,

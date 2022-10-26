@@ -16,7 +16,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play);
 
 void EnBoom_Fly(EnBoom* this, PlayState* play);
 
-const ActorInit En_Boom_InitVars = {
+ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
     ACTORCAT_MISC,
     FLAGS,

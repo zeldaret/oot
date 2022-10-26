@@ -68,16 +68,13 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
     light = &lights->l.l[0];
 
     while (i < lights->numLights) {
-        i++;
-        gSPLight(POLY_OPA_DISP++, light, i);
+        gSPLight(POLY_OPA_DISP++, light, ++i);
         gSPLight(POLY_XLU_DISP++, light, i);
         light++;
     }
 
-    if (0) {}
-
-    i++; // ambient light is total number of lights + 1
-    gSPLight(POLY_OPA_DISP++, &lights->l.a, i);
+    // ambient light is total number of lights + 1
+    gSPLight(POLY_OPA_DISP++, &lights->l.a, ++i);
     gSPLight(POLY_XLU_DISP++, &lights->l.a, i);
 
     CLOSE_DISPS(gfxCtx, "../z_lights.c", 352);

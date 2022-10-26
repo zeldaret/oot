@@ -21,7 +21,7 @@ void func_80A4F700(EnGs* this, PlayState* play);
 
 void func_80A4F77C(EnGs* this);
 
-const ActorInit En_Gs_InitVars = {
+ActorInit En_Gs_InitVars = {
     ACTOR_EN_GS,
     ACTORCAT_PROP,
     FLAGS,

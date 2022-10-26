@@ -34,7 +34,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-const ActorInit En_Yabusame_Mark_InitVars = {
+ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
     ACTORCAT_PROP,
     FLAGS,

@@ -34,7 +34,7 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play);
 void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play);
 
-const ActorInit En_Bom_Bowl_Man_InitVars = {
+ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORCAT_NPC,
     FLAGS,

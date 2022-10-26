@@ -133,7 +133,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
-const ActorInit En_Fr_InitVars = {
+ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORCAT_NPC,
     FLAGS,
@@ -838,7 +838,6 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, PlayState* play) {
     if (this->ocarinaNote == (*msgCtx).lastOcarinaButtonIndex) { // required to match, possibly an array?
         this->ocarinaNoteIndex++;
         ocarinaNoteIndex = this->ocarinaNoteIndex;
-        if (1) {}
         if (ocarinaNoteIndex >= 14) { // Frog Song is completed
             this->ocarinaNoteIndex = 13;
             return true;

@@ -39,7 +39,7 @@ void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
-const ActorInit En_Horse_Normal_InitVars = {
+ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORCAT_BG,
     FLAGS,
