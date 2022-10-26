@@ -369,7 +369,7 @@ void Play_Init(GameState* thisx) {
     this->state.destroy = Play_Destroy;
     this->transitionTrigger = TRANS_TRIGGER_END;
     this->unk_11E16 = 0xFF;
-    this->unk_11E18 = 0;
+    this->enHollFillAlpha = 0;
     this->unk_11DE9 = false;
 
     if (gSaveContext.gameMode != GAMEMODE_TITLE_SCREEN) {
@@ -1190,7 +1190,7 @@ void Play_Draw(PlayState* this) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
-                    Environment_FillScreen(gfxCtx, 0, 0, 0, this->unk_11E18, FILL_SCREEN_OPA);
+                    Environment_FillScreen(gfxCtx, 0, 0, 0, this->enHollFillAlpha, FILL_SCREEN_OPA);
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {
