@@ -351,7 +351,7 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
         if (!LINK_IS_ADULT) {
             this->unk_28C.playerPosition.y = (player->actor.world.pos.y - 10.0f);
         }
-        Actor_NpcTrackPlayer(thisx, &this->unk_28C, 2, NPC_PLAYER_TRACK_FULL_BODY);
+        Actor_NpcTrackPlayer(thisx, &this->unk_28C, 2, NPC_PLAYER_TRACKING_FULL_BODY);
         this->unk_260 = this->unk_28C.rotHead;
         this->unk_266 = this->unk_28C.rotTorso;
     }

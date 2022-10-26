@@ -481,11 +481,11 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+        Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
     } else if (this->flags & 0x200) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACK_FULL_BODY);
+        Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
     }
 
     Math_SmoothStepToS(&this->neckAngle.x, this->neckAngleTarget.x, 1, 1820, 0);

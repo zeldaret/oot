@@ -578,9 +578,9 @@ void EnDaiku_Update(Actor* thisx, PlayState* play) {
         this->unk_244.playerPosition.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & ENDAIKU_STATEFLAG_2) {
-            Actor_NpcTrackPlayer(&this->actor, &this->unk_244, 0, NPC_PLAYER_TRACK_FULL_BODY);
+            Actor_NpcTrackPlayer(&this->actor, &this->unk_244, 0, NPC_PLAYER_TRACKING_FULL_BODY);
         } else {
-            Actor_NpcTrackPlayer(&this->actor, &this->unk_244, 0, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+            Actor_NpcTrackPlayer(&this->actor, &this->unk_244, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
         }
     }
 }

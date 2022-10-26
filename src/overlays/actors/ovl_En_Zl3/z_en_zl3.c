@@ -150,7 +150,7 @@ void func_80B53764(EnZl3* this, PlayState* play) {
 
     this->unk_3F8.playerPosition = player->actor.world.pos;
     this->unk_3F8.yPosOffset = kREG(16) - 16.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_3F8, kREG(17) + 0xC, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_3F8, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 s32 func_80B537E8(EnZl3* this) {
@@ -1971,7 +1971,7 @@ s32 func_80B57D80(EnZl3* this, PlayState* play) {
     unk_3F8->playerPosition.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
     unk_3F8->playerPosition.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
     unk_3F8->yPosOffset = kREG(16) - 16.0f;
-    Actor_NpcTrackPlayer(&this->actor, unk_3F8, kREG(17) + 0xC, NPC_PLAYER_TRACK_FULL_BODY);
+    Actor_NpcTrackPlayer(&this->actor, unk_3F8, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
 
     phi_v1 = ABS(temp_v0 - *sp32);
     if (phi_v1 <= 0x320) {

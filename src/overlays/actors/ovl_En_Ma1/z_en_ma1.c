@@ -233,9 +233,9 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
     s16 playerTrackOpt;
 
     if ((this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
-        playerTrackOpt = NPC_PLAYER_TRACK_NONE;
+        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     } else {
-        playerTrackOpt = NPC_PLAYER_TRACK_AUTO_TURN;
+        playerTrackOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
     }
 
     this->unk_1E8.playerPosition = player->actor.world.pos;

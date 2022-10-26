@@ -406,7 +406,7 @@ void EnCs_Talk(EnCs* this, PlayState* play) {
     this->npcInfo.playerPosition.x = player->actor.focus.pos.x;
     this->npcInfo.playerPosition.y = player->actor.focus.pos.y;
     this->npcInfo.playerPosition.z = player->actor.focus.pos.z;
-    Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACK_FULL_BODY);
+    Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
 
     if (this->talkState == 0) {
         EnCs_ChangeAnim(this, ENCS_ANIM_0, &this->currentAnimIndex);

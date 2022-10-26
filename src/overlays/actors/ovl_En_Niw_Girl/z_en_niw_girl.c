@@ -206,7 +206,7 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
         if (!LINK_IS_ADULT) {
             this->unk_2D4.playerPosition.y = player->actor.world.pos.y - 10.0f;
         }
-        Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, 2, NPC_PLAYER_TRACK_FULL_BODY);
+        Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, 2, NPC_PLAYER_TRACKING_FULL_BODY);
         this->unk_260 = this->unk_2D4.rotHead;
         this->unk_266 = this->unk_2D4.rotTorso;
     } else {

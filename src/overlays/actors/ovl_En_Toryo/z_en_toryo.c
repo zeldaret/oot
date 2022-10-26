@@ -362,15 +362,15 @@ void EnToryo_Update(Actor* thisx, PlayState* play) {
         this->unk_1EC.playerPosition.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & 0x10) {
-            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACK_FULL_BODY);
+            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACKING_FULL_BODY);
             return;
         }
 
         rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
         if ((rot < 14563.0f) && (rot > -14563.0f)) {
-            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
         } else {
-            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACK_NONE);
+            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACKING_NONE);
         }
     }
 }

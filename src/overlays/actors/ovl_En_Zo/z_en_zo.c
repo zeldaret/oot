@@ -589,7 +589,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
-    this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
+    this->playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
     this->canSpeak = false;
     this->unk_194.talkState = NPC_TALK_STATE_IDLE;
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
@@ -617,19 +617,19 @@ void EnZo_Standing(EnZo* this, PlayState* play) {
     func_80034F54(play, this->unk_656, this->unk_67E, 20);
     EnZo_SetAnimation(this);
     if (this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
-        this->playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
+        this->playerTrackingOpt = NPC_PLAYER_TRACKING_FULL_BODY;
         return;
     }
 
     angle = ABS((s16)((f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y));
     if (angle < 0x4718) {
         if (EnZo_PlayerInProximity(this, play)) {
-            this->playerTrackingOpt = NPC_PLAYER_TRACK_HEAD_AND_TORSO;
+            this->playerTrackingOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
         } else {
-            this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
+            this->playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
         }
     } else {
-        this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
+        this->playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
     }
 }
 
@@ -659,7 +659,7 @@ void EnZo_TreadWater(EnZo* this, PlayState* play) {
     func_80034F54(play, this->unk_656, this->unk_67E, 20);
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->canSpeak = true;
-        this->playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
+        this->playerTrackingOpt = NPC_PLAYER_TRACKING_FULL_BODY;
         this->skelAnime.playSpeed = 0.0f;
     }
     EnZo_SetAnimation(this);
@@ -681,7 +681,7 @@ void EnZo_TreadWater(EnZo* this, PlayState* play) {
         f32 startFrame;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_4);
         this->canSpeak = false;
-        this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
+        this->playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
         this->actionFunc = EnZo_Dive;
         startFrame = this->skelAnime.startFrame;
         this->skelAnime.startFrame = this->skelAnime.endFrame;

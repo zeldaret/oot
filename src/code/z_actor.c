@@ -3796,7 +3796,7 @@ s16 Actor_GetNpcPlayerTrackingPresetMaxYaw(s16 presetIndex) {
 
 /**
  * Handles player tracking options and auto-turning towards the player when
- * NPC_PLAYER_TRACK_AUTO_TURN tracking option is used.
+ * NPC_PLAYER_TRACKING_AUTO_TURN tracking option is used.
  *
  * Returns a tracking option that will determine which actor limbs
  * will be turned towards the player.
@@ -3814,7 +3814,7 @@ s16 Actor_GetNpcPlayerTrackingPresetMaxYaw(s16 presetIndex) {
  * @param distanceRange Max distance to player that tracking and auto-turning will be active for
  * @param maxYawForPlayerTracking Maximum angle for tracking the player.
  * @param trackingOption The tracking option selected by the actor. If this is not
- *        NPC_PLAYER_TRACK_AUTO_TURN this function does nothing
+ *        NPC_PLAYER_TRACKING_AUTO_TURN this function does nothing
  * @return The tracking option (NpcPlayerTrackingOption) to use for the current frame.
  */
 s16 Actor_NpcUpdateAutoTurn(Actor* actor, NpcPlayerInteractionState* playerInteractionState, f32 distanceRange,
@@ -3824,20 +3824,20 @@ s16 Actor_NpcUpdateAutoTurn(Actor* actor, NpcPlayerInteractionState* playerInter
     s16 yaw;
     s16 yawDiff;
 
-    if (trackingOption != NPC_PLAYER_TRACK_AUTO_TURN) {
+    if (trackingOption != NPC_PLAYER_TRACKING_AUTO_TURN) {
         return trackingOption;
     }
 
     if (playerInteractionState->talkState != NPC_TALK_STATE_IDLE) {
         // When talking, always fully turn to face the player
-        return NPC_PLAYER_TRACK_FULL_BODY;
+        return NPC_PLAYER_TRACKING_FULL_BODY;
     }
 
     if (distanceRange < Math_Vec3f_DistXYZ(&actor->world.pos, &playerInteractionState->playerPosition)) {
         // Player is too far away, do not track
         playerInteractionState->autoTurnTimer = 0;
         playerInteractionState->autoTurnState = 0;
-        return NPC_PLAYER_TRACK_NONE;
+        return NPC_PLAYER_TRACKING_NONE;
     }
 
     yaw = Math_Vec3f_Yaw(&actor->world.pos, &playerInteractionState->playerPosition);
@@ -3847,7 +3847,7 @@ s16 Actor_NpcUpdateAutoTurn(Actor* actor, NpcPlayerInteractionState* playerInter
         // but allow tracking with the head and the torso
         playerInteractionState->autoTurnTimer = 0;
         playerInteractionState->autoTurnState = 0;
-        return NPC_PLAYER_TRACK_HEAD_AND_TORSO;
+        return NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
     }
 
     // Player is behind the actor, run the auto-turn sequence.
@@ -3863,16 +3863,16 @@ s16 Actor_NpcUpdateAutoTurn(Actor* actor, NpcPlayerInteractionState* playerInter
             // Just stand still, not tracking the player
             playerInteractionState->autoTurnTimer = Rand_S16Offset(30, 30);
             playerInteractionState->autoTurnState++;
-            return NPC_PLAYER_TRACK_NONE;
+            return NPC_PLAYER_TRACKING_NONE;
         case 1:
             // Briefly glance at the player by only turning the head
             playerInteractionState->autoTurnTimer = Rand_S16Offset(10, 10);
             playerInteractionState->autoTurnState++;
-            return NPC_PLAYER_TRACK_HEAD;
+            return NPC_PLAYER_TRACKING_HEAD;
     }
 
     // Auto-turn sequence complete, turn towards the player
-    return NPC_PLAYER_TRACK_FULL_BODY;
+    return NPC_PLAYER_TRACKING_FULL_BODY;
 }
 
 /**
@@ -3880,7 +3880,7 @@ s16 Actor_NpcUpdateAutoTurn(Actor* actor, NpcPlayerInteractionState* playerInter
  * from sPlayerTrackingPresets.
  *
  * The playerTrackingOpt parameter controls which limbs will be turned (actor shape, torso or head).
- * If NPC_PLAYER_TRACK_AUTO_TURN is used, the actor will turn to face a player behind the actor.
+ * If NPC_PLAYER_TRACKING_AUTO_TURN is used, the actor will turn to face a player behind the actor.
  *
  * @param actor
  * @param playerInteractionState
@@ -3898,17 +3898,17 @@ void Actor_NpcTrackPlayer(Actor* actor, NpcPlayerInteractionState* playerInterac
     rotLimits = sPlayerTrackingPresets[presetIndex].rotLimits;
 
     switch (playerInteractionState->playerTrackingOpt) {
-        case NPC_PLAYER_TRACK_NONE:
+        case NPC_PLAYER_TRACKING_NONE:
             rotLimits.maxHeadYaw = 0;
             rotLimits.maxHeadPitch = 0;
             rotLimits.minHeadPitch = 0;
             FALLTHROUGH;
-        case NPC_PLAYER_TRACK_HEAD:
+        case NPC_PLAYER_TRACKING_HEAD:
             rotLimits.maxTorsoYaw = 0;
             rotLimits.maxTorsoPitch = 0;
             rotLimits.minTorsoPitch = 0;
             FALLTHROUGH;
-        case NPC_PLAYER_TRACK_HEAD_AND_TORSO:
+        case NPC_PLAYER_TRACKING_HEAD_AND_TORSO:
             rotLimits.rotateActorShape = 0;
             break;
     }

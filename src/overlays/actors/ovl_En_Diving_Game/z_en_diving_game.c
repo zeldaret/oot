@@ -521,7 +521,7 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     Actor_SetFocus(&this->actor, 80.0f);
     this->unk_324.playerPosition = player->actor.world.pos;
     this->unk_324.playerPosition.y = player->actor.world.pos.y;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_324, 2, NPC_PLAYER_TRACK_FULL_BODY);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_324, 2, NPC_PLAYER_TRACKING_FULL_BODY);
     this->vec_284 = this->unk_324.rotHead;
     this->vec_28A = this->unk_324.rotTorso;
     if ((play->gameplayFrames % 16) == 0) {

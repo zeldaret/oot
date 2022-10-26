@@ -769,23 +769,23 @@ void func_80A70978(EnHy* this, PlayState* play) {
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
         case ENHY_TYPE_BOJ_10:
-            playerTrackOpt = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACK_NONE
-                                                                              : NPC_PLAYER_TRACK_HEAD_AND_TORSO;
+            playerTrackOpt = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_NONE
+                                                                              : NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
             break;
         case ENHY_TYPE_BOJ_12:
-            playerTrackOpt = NPC_PLAYER_TRACK_NONE;
+            playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
             break;
         case ENHY_TYPE_AHG_2:
         case ENHY_TYPE_AHG_17:
-            playerTrackOpt = NPC_PLAYER_TRACK_FULL_BODY;
+            playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
             break;
         case ENHY_TYPE_AOB:
         case ENHY_TYPE_BOB_18:
-            playerTrackOpt = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACK_HEAD_AND_TORSO
-                                                                              : NPC_PLAYER_TRACK_FULL_BODY;
+            playerTrackOpt = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
+                                                                              : NPC_PLAYER_TRACKING_FULL_BODY;
             break;
         default:
-            playerTrackOpt = NPC_PLAYER_TRACK_HEAD_AND_TORSO;
+            playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
             break;
     }
 

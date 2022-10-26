@@ -1790,7 +1790,7 @@ void func_80AEEF68(EnRu1* this, PlayState* play) {
     this->unk_374.playerPosition = player->actor.world.pos;
     this->unk_374.yPosOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_374, something, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_374, something, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80AEEFEC(EnRu1* this, PlayState* play) {
@@ -1800,7 +1800,7 @@ void func_80AEEFEC(EnRu1* this, PlayState* play) {
     this->unk_374.playerPosition = player->actor.world.pos;
     this->unk_374.yPosOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_374, something, NPC_PLAYER_TRACK_FULL_BODY);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_374, something, NPC_PLAYER_TRACKING_FULL_BODY);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 

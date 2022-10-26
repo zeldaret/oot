@@ -400,7 +400,7 @@ void func_80A3F060(EnGo* this, PlayState* play) {
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
         this->actionFunc != func_80A40B1C) {
-        playerTrackOpt = NPC_PLAYER_TRACK_NONE;
+        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     }
 
     this->unk_1E0.playerPosition = player->actor.world.pos;

@@ -185,7 +185,7 @@ void func_80984E58(DemoIm* this, PlayState* play) {
     this->unk_2D4.yPosOffset = kREG(16) + 4.0f;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    playerTrackOpt = (ABS(yawDiff) < 0x18E3) ? NPC_PLAYER_TRACK_HEAD_AND_TORSO : NPC_PLAYER_TRACK_NONE;
+    playerTrackOpt = (ABS(yawDiff) < 0x18E3) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO : NPC_PLAYER_TRACKING_NONE;
     Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, playerTrackOpt);
 }
 
@@ -195,7 +195,7 @@ void func_80984F10(DemoIm* this, PlayState* play) {
     this->unk_2D4.playerPosition = player->actor.world.pos;
     this->unk_2D4.yPosOffset = kREG(16) + 12.0f;
 
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80984F94(DemoIm* this, PlayState* play) {
@@ -203,7 +203,7 @@ void func_80984F94(DemoIm* this, PlayState* play) {
 
     this->unk_2D4.playerPosition = player->actor.world.pos;
     this->unk_2D4.yPosOffset = kREG(16) + 4.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, NPC_PLAYER_TRACK_FULL_BODY);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
 }
 
 void DemoIm_UpdateBgCheckInfo(DemoIm* this, PlayState* play) {

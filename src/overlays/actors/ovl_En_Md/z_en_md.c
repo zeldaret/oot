@@ -547,31 +547,31 @@ void func_80AAB158(EnMd* this, PlayState* play) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
-        playerTrackingOpt = absYawDiff <= Actor_GetNpcPlayerTrackingPresetMaxYaw(2) ? NPC_PLAYER_TRACK_HEAD_AND_TORSO
-                                                                                    : NPC_PLAYER_TRACK_NONE;
+        playerTrackingOpt = absYawDiff <= Actor_GetNpcPlayerTrackingPresetMaxYaw(2) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
+                                                                                    : NPC_PLAYER_TRACKING_NONE;
         temp2 = 1;
     } else {
-        playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
+        playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
         temp2 = 0;
     }
 
     if (this->unk_1E0.talkState != NPC_TALK_STATE_IDLE) {
-        playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
+        playerTrackingOpt = NPC_PLAYER_TRACKING_FULL_BODY;
     }
 
     if (this->actionFunc == func_80AABD0C) {
-        playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
+        playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
         temp2 = 0;
     }
     if (this->actionFunc == func_80AAB8F8) {
-        playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
+        playerTrackingOpt = NPC_PLAYER_TRACKING_FULL_BODY;
         temp2 = 1;
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
         this->unk_1E0.playerPosition = play->view.eye;
         this->unk_1E0.yPosOffset = 40.0f;
-        playerTrackingOpt = NPC_PLAYER_TRACK_HEAD_AND_TORSO;
+        playerTrackingOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
     } else {
         this->unk_1E0.playerPosition = player->actor.world.pos;
         this->unk_1E0.yPosOffset = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;

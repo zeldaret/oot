@@ -156,7 +156,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
     } else {
         this->unk_2A0.yPosOffset = 20.0f;
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_2A0, 6, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_2A0, 6, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 
     func_80034F54(play, this->unk_2CC, this->unk_2EC, 16);
 

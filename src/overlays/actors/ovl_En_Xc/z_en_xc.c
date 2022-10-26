@@ -80,7 +80,7 @@ void EnXc_CalculateHeadTurn(EnXc* this, PlayState* play) {
 
     this->npcInfo.playerPosition = player->actor.world.pos;
     this->npcInfo.yPosOffset = kREG(16) - 3.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, kREG(17) + 0xC, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+    Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 void EnXc_SetEyePattern(EnXc* this) {

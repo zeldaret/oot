@@ -320,12 +320,12 @@ void func_80A795C8(EnIn* this, PlayState* play) {
 
     if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
         this->skelAnime.animation == &object_in_Anim_013D60) {
-        playerTrackOpt = NPC_PLAYER_TRACK_NONE;
+        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     } else {
-        playerTrackOpt = NPC_PLAYER_TRACK_AUTO_TURN;
+        playerTrackOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
     }
     if (this->actionFunc == func_80A7A568) {
-        playerTrackOpt = NPC_PLAYER_TRACK_FULL_BODY;
+        playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
     }
     if (this->actionFunc == func_80A7B024) {
         this->unk_308.playerPosition = play->view.eye;

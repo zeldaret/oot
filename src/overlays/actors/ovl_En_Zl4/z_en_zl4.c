@@ -306,7 +306,7 @@ void func_80B5BB78(EnZl4* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->unk_1E0.playerPosition = player->actor.world.pos;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 2, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 2, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 void EnZl4_GetActionStartPos(CsCmdActorAction* action, Vec3f* vec) {
@@ -1202,7 +1202,8 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
     }
     this->unk_1E0.playerPosition = player->actor.world.pos;
     Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 2,
-                         (this->csState == ZL4_CS_WINDOW) ? NPC_PLAYER_TRACK_HEAD_AND_TORSO : NPC_PLAYER_TRACK_NONE);
+                         (this->csState == ZL4_CS_WINDOW) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
+                                                          : NPC_PLAYER_TRACKING_NONE);
     if (EnZl4_InMovingAnim(this)) {
         EnZl4_SetMove(this, play);
     }
