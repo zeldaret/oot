@@ -230,18 +230,18 @@ void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
 
 void func_80AA0AF4(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 phi_a3;
+    s16 playerTrackOpt;
 
     if ((this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
-        phi_a3 = 1;
+        playerTrackOpt = NPC_PLAYER_TRACK_NONE;
     } else {
-        phi_a3 = 0;
+        playerTrackOpt = NPC_PLAYER_TRACK_AUTO_TURN;
     }
 
-    this->unk_1E8.unk_18 = player->actor.world.pos;
-    this->unk_1E8.unk_18.y -= -10.0f;
+    this->unk_1E8.playerPosition = player->actor.world.pos;
+    this->unk_1E8.playerPosition.y -= -10.0f;
 
-    func_80034A14(&this->actor, &this->unk_1E8, 0, phi_a3);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 0, playerTrackOpt);
 }
 
 void func_80AA0B74(EnMa1* this) {
@@ -424,13 +424,13 @@ s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E8.unk_08;
+        vec = this->unk_1E8.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        vec = this->unk_1E8.unk_0E;
+        vec = this->unk_1E8.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
     }

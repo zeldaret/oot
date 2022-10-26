@@ -29,7 +29,7 @@ typedef struct EnTk {
     /* 0x014C */ SkelAnime  skelAnime;
     /* 0x0190 */ EnTkActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ struct_80034A14_arg1 npcInfo;
+    /* 0x01E0 */ NpcPlayerInteractionState npcInfo;
     /* 0x0208 */ u8         validDigHere;
     /* 0x0209 */ u8         rewardCount[4];
     /* 0x0210 */ Actor*     currentSpot;

@@ -316,25 +316,25 @@ s16 func_80A79500(PlayState* play, Actor* thisx) {
 
 void func_80A795C8(EnIn* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 arg3;
+    s16 playerTrackOpt;
 
     if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
         this->skelAnime.animation == &object_in_Anim_013D60) {
-        arg3 = 1;
+        playerTrackOpt = NPC_PLAYER_TRACK_NONE;
     } else {
-        arg3 = 0;
+        playerTrackOpt = NPC_PLAYER_TRACK_AUTO_TURN;
     }
     if (this->actionFunc == func_80A7A568) {
-        arg3 = 4;
+        playerTrackOpt = NPC_PLAYER_TRACK_FULL_BODY;
     }
     if (this->actionFunc == func_80A7B024) {
-        this->unk_308.unk_18 = play->view.eye;
-        this->unk_308.unk_14 = 60.0f;
+        this->unk_308.playerPosition = play->view.eye;
+        this->unk_308.yPosOffset = 60.0f;
     } else {
-        this->unk_308.unk_18 = player->actor.world.pos;
-        this->unk_308.unk_14 = 16.0f;
+        this->unk_308.playerPosition = player->actor.world.pos;
+        this->unk_308.yPosOffset = 16.0f;
     }
-    func_80034A14(&this->actor, &this->unk_308, 1, arg3);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_308, 1, playerTrackOpt);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {
@@ -457,8 +457,8 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     subCamEye.z = subCamAt.z + 40.0f;
     Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &subCamEye);
-    this->unk_308.unk_08 = zeroVec;
-    this->unk_308.unk_0E = zeroVec;
+    this->unk_308.rotHead = zeroVec;
+    this->unk_308.rotTorso = zeroVec;
     Message_StartTextbox(play, 0x2025, NULL);
     this->unk_308.talkState = NPC_TALK_STATE_TALKING;
     player->actor.world.pos = this->actor.world.pos;
@@ -956,13 +956,13 @@ s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
     if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp2C = this->unk_308.unk_08;
+        sp2C = this->unk_308.rotHead;
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB) {
-        sp2C = this->unk_308.unk_0E;
+        sp2C = this->unk_308.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
     }

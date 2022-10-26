@@ -500,8 +500,9 @@ Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
 s32 Actor_NpcUpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
                            ActorNpcGetTextIdFunc getTextId, ActorNpcGetTalkStateFunc getTalkState);
-s16 func_800347E8(s16 arg0);
-void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
+s16 Actor_GetNpcPlayerTrackingPresetMaxYaw(s16 presetIndex);
+void Actor_NpcTrackPlayer(Actor* actor, NpcPlayerInteractionState* playerInteractionState, s16 presetIndex,
+                          s16 playerTrackingOpt);
 void func_80034BA0(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,

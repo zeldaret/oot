@@ -1274,10 +1274,10 @@ void func_80AED83C(EnRu1* this) {
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
-    tempPtr = &this->unk_374.unk_08;
+    tempPtr = &this->unk_374.rotHead;
     Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
-    tempPtr2 = &this->unk_374.unk_0E;
+    tempPtr2 = &this->unk_374.rotTorso;
     Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
 }
@@ -1285,7 +1285,7 @@ void func_80AED83C(EnRu1* this) {
 void func_80AED8DC(EnRu1* this) {
     s32 temp_hi;
     s16* unk_2AC = &this->unk_2AC;
-    s16* someY = &this->unk_374.unk_08.y;
+    s16* someY = &this->unk_374.rotHead.y;
     s16* unk_29E = &this->unk_29E;
     s32 pad[2];
 
@@ -1787,20 +1787,20 @@ void func_80AEEF68(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 something;
 
-    this->unk_374.unk_18 = player->actor.world.pos;
-    this->unk_374.unk_14 = kREG(16) - 3.0f;
+    this->unk_374.playerPosition = player->actor.world.pos;
+    this->unk_374.yPosOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->unk_374, something, 2);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_374, something, NPC_PLAYER_TRACK_HEAD_AND_TORSO);
 }
 
 void func_80AEEFEC(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 something;
 
-    this->unk_374.unk_18 = player->actor.world.pos;
-    this->unk_374.unk_14 = kREG(16) - 3.0f;
+    this->unk_374.playerPosition = player->actor.world.pos;
+    this->unk_374.yPosOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->unk_374, something, 4);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_374, something, NPC_PLAYER_TRACK_FULL_BODY);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 
@@ -2260,8 +2260,8 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 }
 
 void func_80AF0278(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot) {
-    Vec3s* vec1 = &this->unk_374.unk_0E;
-    Vec3s* vec2 = &this->unk_374.unk_08;
+    Vec3s* vec1 = &this->unk_374.rotTorso;
+    Vec3s* vec2 = &this->unk_374.rotHead;
 
     switch (limbIndex) {
         case RUTO_CHILD_LEFT_UPPER_ARM:

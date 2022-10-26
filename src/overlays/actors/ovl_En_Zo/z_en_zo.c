@@ -505,14 +505,14 @@ void EnZo_Blink(EnZo* this) {
 void EnZo_Dialog(EnZo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_194.unk_18 = player->actor.world.pos;
+    this->unk_194.playerPosition = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if child, look up if adult
-        this->unk_194.unk_14 = !LINK_IS_ADULT ? 10.0f : -10.0f;
+        this->unk_194.yPosOffset = !LINK_IS_ADULT ? 10.0f : -10.0f;
     } else {
-        this->unk_194.unk_18.y = this->actor.world.pos.y;
+        this->unk_194.playerPosition.y = this->actor.world.pos.y;
     }
-    func_80034A14(&this->actor, &this->unk_194, 11, this->unk_64C);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_194, 11, this->playerTrackingOpt);
     if (this->canSpeak == true) {
         Actor_NpcUpdateTalking(play, &this->actor, &this->unk_194.talkState, this->dialogRadius, func_80B61024,
                                func_80B61298);
@@ -589,7 +589,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
-    this->unk_64C = 1;
+    this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
     this->canSpeak = false;
     this->unk_194.talkState = NPC_TALK_STATE_IDLE;
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
@@ -617,19 +617,19 @@ void EnZo_Standing(EnZo* this, PlayState* play) {
     func_80034F54(play, this->unk_656, this->unk_67E, 20);
     EnZo_SetAnimation(this);
     if (this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
-        this->unk_64C = 4;
+        this->playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
         return;
     }
 
     angle = ABS((s16)((f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y));
     if (angle < 0x4718) {
         if (EnZo_PlayerInProximity(this, play)) {
-            this->unk_64C = 2;
+            this->playerTrackingOpt = NPC_PLAYER_TRACK_HEAD_AND_TORSO;
         } else {
-            this->unk_64C = 1;
+            this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
         }
     } else {
-        this->unk_64C = 1;
+        this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
     }
 }
 
@@ -659,7 +659,7 @@ void EnZo_TreadWater(EnZo* this, PlayState* play) {
     func_80034F54(play, this->unk_656, this->unk_67E, 20);
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->canSpeak = true;
-        this->unk_64C = 4;
+        this->playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
         this->skelAnime.playSpeed = 0.0f;
     }
     EnZo_SetAnimation(this);
@@ -681,7 +681,7 @@ void EnZo_TreadWater(EnZo* this, PlayState* play) {
         f32 startFrame;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_4);
         this->canSpeak = false;
-        this->unk_64C = 1;
+        this->playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
         this->actionFunc = EnZo_Dive;
         startFrame = this->skelAnime.startFrame;
         this->skelAnime.startFrame = this->skelAnime.endFrame;
@@ -759,14 +759,14 @@ s32 EnZo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         Matrix_Translate(1800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_194.unk_08;
+        vec = this->unk_194.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        vec = this->unk_194.unk_0E;
+        vec = this->unk_194.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
     }

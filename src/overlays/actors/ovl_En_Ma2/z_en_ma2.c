@@ -123,18 +123,18 @@ s16 func_80AA1A38(PlayState* play, Actor* thisx) {
 
 void func_80AA1AE4(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 phi_a3;
+    s16 playerTrackingOpt;
 
     if ((this->unk_1E0.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
-        phi_a3 = 1;
+        playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
     } else {
-        phi_a3 = 0;
+        playerTrackingOpt = NPC_PLAYER_TRACK_AUTO_TURN;
     }
 
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    this->unk_1E0.unk_14 = 0.0f;
+    this->unk_1E0.playerPosition = player->actor.world.pos;
+    this->unk_1E0.yPosOffset = 0.0f;
 
-    func_80034A14(&this->actor, &this->unk_1E0, 0, phi_a3);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 0, playerTrackingOpt);
 }
 
 u16 func_80AA1B58(EnMa2* this, PlayState* play) {
@@ -336,13 +336,13 @@ s32 EnMa2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == MALON_ADULT_HEAD_LIMB) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E0.unk_08;
+        vec = this->unk_1E0.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) {
-        vec = this->unk_1E0.unk_0E;
+        vec = this->unk_1E0.rotTorso;
         Matrix_RotateY(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
     }

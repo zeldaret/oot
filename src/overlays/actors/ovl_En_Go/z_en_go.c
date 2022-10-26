@@ -333,8 +333,8 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
     return unkState;
 }
 
-s32 func_80A3ED24(PlayState* play, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3, ActorNpcGetTextIdFunc getTextId,
-                  ActorNpcGetTalkStateFunc getTalkState) {
+s32 func_80A3ED24(PlayState* play, EnGo* this, NpcPlayerInteractionState* arg2, f32 arg3,
+                  ActorNpcGetTextIdFunc getTextId, ActorNpcGetTalkStateFunc getTalkState) {
     if (arg2->talkState != NPC_TALK_STATE_IDLE) {
         arg2->talkState = getTalkState(play, &this->actor);
         return false;
@@ -396,16 +396,16 @@ f32 EnGo_GetGoronSize(EnGo* this) {
 
 void func_80A3F060(EnGo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 unkVal;
+    s16 playerTrackOpt;
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
         this->actionFunc != func_80A40B1C) {
-        unkVal = 1;
+        playerTrackOpt = NPC_PLAYER_TRACK_NONE;
     }
 
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    this->unk_1E0.unk_14 = EnGo_GetGoronSize(this);
-    func_80034A14(&this->actor, &this->unk_1E0, 4, unkVal);
+    this->unk_1E0.playerPosition = player->actor.world.pos;
+    this->unk_1E0.yPosOffset = EnGo_GetGoronSize(this);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 4, playerTrackOpt);
 }
 
 void func_80A3F0E4(EnGo* this) {
@@ -1085,7 +1085,7 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->unk_1E0.unk_08;
+        vec1 = this->unk_1E0.rotHead;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);
@@ -1094,7 +1094,7 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
     }
 
     if (limb == 10) {
-        vec1 = this->unk_1E0.unk_0E;
+        vec1 = this->unk_1E0.rotTorso;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);

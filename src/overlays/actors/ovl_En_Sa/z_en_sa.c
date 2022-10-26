@@ -406,25 +406,26 @@ s32 func_80AF5DFC(EnSa* this, PlayState* play) {
 
 void func_80AF5F34(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 phi_a3 = 0;
+    s16 playerTrackingOpt = NPC_PLAYER_TRACK_AUTO_TURN;
 
     if (play->sceneId == SCENE_SPOT04) {
-        phi_a3 = (this->actionFunc == func_80AF68E4) ? 1 : 4;
+        playerTrackingOpt = (this->actionFunc == func_80AF68E4) ? NPC_PLAYER_TRACK_NONE : NPC_PLAYER_TRACK_FULL_BODY;
     }
     if (play->sceneId == SCENE_SPOT05) {
-        phi_a3 = (this->skelAnime.animation == &gSariaPlayingOcarinaAnim) ? 1 : 3;
+        playerTrackingOpt =
+            (this->skelAnime.animation == &gSariaPlayingOcarinaAnim) ? NPC_PLAYER_TRACK_NONE : NPC_PLAYER_TRACK_HEAD;
     }
     if (play->sceneId == SCENE_SPOT05 && this->actionFunc == func_80AF6448 &&
         this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
-        phi_a3 = 1;
+        playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
     }
     if (play->sceneId == SCENE_SPOT05 && this->actionFunc == func_80AF68E4 &&
         this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
-        phi_a3 = 1;
+        playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
     }
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    this->unk_1E0.unk_14 = 4.0f;
-    func_80034A14(&this->actor, &this->unk_1E0, 2, phi_a3);
+    this->unk_1E0.playerPosition = player->actor.world.pos;
+    this->unk_1E0.yPosOffset = 4.0f;
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 2, playerTrackingOpt);
 }
 
 s32 func_80AF603C(EnSa* this) {
@@ -765,14 +766,14 @@ s32 EnSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 16) {
         Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp18 = this->unk_1E0.unk_08;
+        sp18 = this->unk_1E0.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp18.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp18.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 9) {
-        sp18 = this->unk_1E0.unk_0E;
+        sp18 = this->unk_1E0.rotTorso;
         Matrix_RotateY(BINANG_TO_RAD_ALT(sp18.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp18.x), MTXMODE_APPLY);
     }

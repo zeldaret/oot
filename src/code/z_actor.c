@@ -3690,156 +3690,232 @@ s32 Actor_NpcUpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 in
 }
 
 typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
-    /* 0x0C */ u8 unk_0C;
-} struct_80116130_0; // size = 0x10
+    /* 0x00 */ s16 maxHeadYaw;
+    /* 0x02 */ s16 minHeadPitch;
+    /* 0x04 */ s16 maxHeadPitch;
+    /* 0x06 */ s16 maxTorsoYaw;
+    /* 0x08 */ s16 minTorsoPitch;
+    /* 0x0A */ s16 maxTorsoPitch;
+    /* 0x0C */ u8 rotateActorShape;
+} NpcPlayerTrackingRotLimits; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ struct_80116130_0 sub_00;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ s16 unk_14;
-} struct_80116130; // size = 0x18
+    /* 0x00 */ NpcPlayerTrackingRotLimits rotLimits;
+    /* 0x10 */ f32 autoTurnDistanceRange;   // Max distance to player to enable tracking and auto-turn
+    /* 0x14 */ s16 maxYawForPlayerTracking; // Max yaw toward player that tracking is active in
+} NpcPlayerTrackingParams;                  // size = 0x18
 
-static struct_80116130 D_80116130[] = {
-    { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, 1 }, 170.0f, 0x3FFC },
-    { { 0x2AA8, 0xEAAC, 0x1554, 0x1554, 0xF8E4, 0x0E38, 1 }, 170.0f, 0x3FFC },
-    { { 0x31C4, 0xE390, 0x0E38, 0x0E38, 0xF1C8, 0x071C, 1 }, 170.0f, 0x3FFC },
-    { { 0x1554, 0xF1C8, 0x0000, 0x071C, 0xF8E4, 0x0000, 1 }, 170.0f, 0x3FFC },
-    { { 0x2AA8, 0xF8E4, 0x071C, 0x0E38, 0xD558, 0x2AA8, 1 }, 170.0f, 0x3FFC },
-    { { 0x0000, 0xE390, 0x2AA8, 0x3FFC, 0xF1C8, 0x0E38, 1 }, 170.0f, 0x3FFC },
-    { { 0x2AA8, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
-    { { 0x2AA8, 0xF1C8, 0x0000, 0x0E38, 0x0000, 0x1C70, 1 }, 0.0f, 0x0000 },
-    { { 0x2AA8, 0xF1C8, 0xF1C8, 0x0000, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
-    { { 0x071C, 0xF1C8, 0x0E38, 0x1C70, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
-    { { 0x0E38, 0xF1C8, 0x0000, 0x1C70, 0x0000, 0x0E38, 1 }, 0.0f, 0x0000 },
-    { { 0x2AA8, 0xE390, 0x1C70, 0x0E38, 0xF1C8, 0x0E38, 1 }, 0.0f, 0x0000 },
-    { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
+/**
+ * Player tracking angle limit presets to use with Actor_NpcTrackPlayer.
+ */
+static NpcPlayerTrackingParams sPlayerTrackingPresets[] = {
+    { { 0x2AA8, -0x0E38, 0x18E2, 0x1554, 0x0000, 0x0000, true }, 170.0f, 0x3FFC },
+    { { 0x2AA8, -0x1554, 0x1554, 0x1554, -0x071C, 0x0E38, true }, 170.0f, 0x3FFC },
+    { { 0x31C4, -0x1C70, 0x0E38, 0x0E38, -0x0E38, 0x071C, true }, 170.0f, 0x3FFC },
+    { { 0x1554, -0x0E38, 0x0000, 0x071C, -0x071C, 0x0000, true }, 170.0f, 0x3FFC },
+    { { 0x2AA8, -0x071C, 0x071C, 0x0E38, -0x2AA8, 0x2AA8, true }, 170.0f, 0x3FFC },
+    { { 0x0000, -0x1C70, 0x2AA8, 0x3FFC, -0x0E38, 0x0E38, true }, 170.0f, 0x3FFC },
+    { { 0x2AA8, -0x0E38, 0x0E38, 0x0E38, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
+    { { 0x2AA8, -0x0E38, 0x0000, 0x0E38, 0x0000, 0x1C70, true }, 0.0f, 0x0000 },
+    { { 0x2AA8, -0x0E38, -0x0E38, 0x0000, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
+    { { 0x071C, -0x0E38, 0x0E38, 0x1C70, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
+    { { 0x0E38, -0x0E38, 0x0000, 0x1C70, 0x0000, 0x0E38, true }, 0.0f, 0x0000 },
+    { { 0x2AA8, -0x1C70, 0x1C70, 0x0E38, -0x0E38, 0x0E38, true }, 0.0f, 0x0000 },
+    { { 0x18E2, -0x0E38, 0x0E38, 0x0E38, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
 };
 
-void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
-                   u8 arg8) {
-    s16 sp46;
-    s16 sp44;
-    s16 temp2;
-    s16 sp40;
+/**
+ * Smoothly turns actor shape (whole body) and updates torso and head rotations in
+ * NpcPlayerInteractionState so that the actor tracks the player. Rotations are limited
+ * by the given params.
+ *
+ * Head and torso rotation angles are determined by calculating the pitch and yaw
+ * from the actor position to the given player position.
+ * The player position is read from NpcPlayerInteractionState.playerPosition.
+ * The y position of the actor is offset by NpcPlayerInteractionState.yPosOffset
+ * before calculating the angles.
+ *
+ * @param actor
+ * @param playerInteractionState
+ * @param maxHeadYaw maximum yaw angle for the head ([-maxHeadYaw, maxHeadYaw])
+ * @param maxHeadPitch maximum pitch angle that can be used for the head
+ * @param minHeadPitch minimum pitch angle that can be used for the head
+ * @param maxTorsoYaw maximum yaw angle for the torso ([-maxTorsoYaw, maxTorsoYaw])
+ * @param maxTorsoPitch maximum pitch angle that can be used for the torso
+ * @param minTorsoPitch minimum pitch angle that can be used for the torso
+ * @param rotateActorShape if true, the actor shape is rotated towards the player
+ */
+void Actor_NpcTrackPlayerWithLimits(Actor* actor, NpcPlayerInteractionState* playerInteractionState, s16 maxHeadYaw,
+                                    s16 maxHeadPitch, s16 minHeadPitch, s16 maxTorsoYaw, s16 maxTorsoPitch,
+                                    s16 minTorsoPitch, u8 rotateActorShape) {
+    s16 headPitchTowardsPlayer;
+    s16 yawTowardsPlayer;
+    s16 torsoPitch;
+    s16 bodyYawDiff;
     s16 temp1;
-    Vec3f sp30;
+    Vec3f headPos;
 
-    sp30.x = actor->world.pos.x;
-    sp30.y = actor->world.pos.y + arg1->unk_14;
-    sp30.z = actor->world.pos.z;
+    headPos.x = actor->world.pos.x;
+    headPos.y = actor->world.pos.y + playerInteractionState->yPosOffset;
+    headPos.z = actor->world.pos.z;
 
-    sp46 = Math_Vec3f_Pitch(&sp30, &arg1->unk_18);
-    sp44 = Math_Vec3f_Yaw(&sp30, &arg1->unk_18);
-    sp40 = Math_Vec3f_Yaw(&actor->world.pos, &arg1->unk_18) - actor->shape.rot.y;
+    headPitchTowardsPlayer = Math_Vec3f_Pitch(&headPos, &playerInteractionState->playerPosition);
+    yawTowardsPlayer = Math_Vec3f_Yaw(&headPos, &playerInteractionState->playerPosition);
+    bodyYawDiff = Math_Vec3f_Yaw(&actor->world.pos, &playerInteractionState->playerPosition) - actor->shape.rot.y;
 
-    temp1 = CLAMP(sp40, -arg2, arg2);
-    Math_SmoothStepToS(&arg1->unk_08.y, temp1, 6, 2000, 1);
+    temp1 = CLAMP(bodyYawDiff, -maxHeadYaw, maxHeadYaw);
+    Math_SmoothStepToS(&playerInteractionState->rotHead.y, temp1, 6, 2000, 1);
 
-    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -temp1, temp1);
+    temp1 = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
+    playerInteractionState->rotHead.y = CLAMP(playerInteractionState->rotHead.y, -temp1, temp1);
 
-    sp40 -= arg1->unk_08.y;
+    bodyYawDiff -= playerInteractionState->rotHead.y;
 
-    temp1 = CLAMP(sp40, -arg5, arg5);
-    Math_SmoothStepToS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
+    temp1 = CLAMP(bodyYawDiff, -maxTorsoYaw, maxTorsoYaw);
+    Math_SmoothStepToS(&playerInteractionState->rotTorso.y, temp1, 6, 2000, 1);
 
-    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -temp1, temp1);
+    temp1 = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
+    playerInteractionState->rotTorso.y = CLAMP(playerInteractionState->rotTorso.y, -temp1, temp1);
 
-    if (arg8) {
-        Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
+    if (rotateActorShape) {
+        Math_SmoothStepToS(&actor->shape.rot.y, yawTowardsPlayer, 6, 2000, 1);
     }
 
-    temp1 = CLAMP(sp46, arg4, (s16)(u16)arg3);
-    Math_SmoothStepToS(&arg1->unk_08.x, temp1, 6, 2000, 1);
+    temp1 = CLAMP(headPitchTowardsPlayer, minHeadPitch, (s16)(u16)maxHeadPitch);
+    Math_SmoothStepToS(&playerInteractionState->rotHead.x, temp1, 6, 2000, 1);
 
-    temp2 = sp46 - arg1->unk_08.x;
+    torsoPitch = headPitchTowardsPlayer - playerInteractionState->rotHead.x;
 
-    temp1 = CLAMP(temp2, arg7, arg6);
-    Math_SmoothStepToS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
+    temp1 = CLAMP(torsoPitch, minTorsoPitch, maxTorsoPitch);
+    Math_SmoothStepToS(&playerInteractionState->rotTorso.x, temp1, 6, 2000, 1);
 }
 
-s16 func_800347E8(s16 arg0) {
-    return D_80116130[arg0].unk_14;
+s16 Actor_GetNpcPlayerTrackingPresetMaxYaw(s16 presetIndex) {
+    return sPlayerTrackingPresets[presetIndex].maxYawForPlayerTracking;
 }
 
-s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, s16 arg4) {
+/**
+ * Handles player tracking options and auto-turning towards the player when
+ * NPC_PLAYER_TRACK_AUTO_TURN tracking option is used.
+ *
+ * Returns a tracking option that will determine which actor limbs
+ * will be turned towards the player.
+ *
+ * When the player is behind the actor (yaw difference from actor's shape rotation
+ * to the yaw towards player is larger than maxYawForPlayerTracking), the actor
+ * will start an auto-turn sequence:
+ *   - look forward for 30-60 frames
+ *   - turn head to look at the player for 10-20 frames
+ *   - look forward for 30-60 frames
+ *   - turn the entire body to face the player
+ *
+ * @param actor
+ * @param playerInteractionState
+ * @param distanceRange Max distance to player that tracking and auto-turning will be active for
+ * @param maxYawForPlayerTracking Maximum angle for tracking the player.
+ * @param trackingOption The tracking option selected by the actor. If this is not
+ *        NPC_PLAYER_TRACK_AUTO_TURN this function does nothing
+ * @return The tracking option (NpcPlayerTrackingOption) to use for the current frame.
+ */
+s16 Actor_NpcUpdateAutoTurn(Actor* actor, NpcPlayerInteractionState* playerInteractionState, f32 distanceRange,
+                            s16 maxYawForPlayerTracking, s16 trackingOption) {
+
     s32 pad;
-    s16 var;
-    s16 abs_var;
+    s16 yaw;
+    s16 yawDiff;
 
-    if (arg4 != 0) {
-        return arg4;
+    if (trackingOption != NPC_PLAYER_TRACK_AUTO_TURN) {
+        return trackingOption;
     }
 
-    if (arg1->talkState != NPC_TALK_STATE_IDLE) {
-        return 4;
+    if (playerInteractionState->talkState != NPC_TALK_STATE_IDLE) {
+        // When talking, always fully turn to face the player
+        return NPC_PLAYER_TRACK_FULL_BODY;
     }
 
-    if (arg2 < Math_Vec3f_DistXYZ(&actor->world.pos, &arg1->unk_18)) {
-        arg1->unk_04 = 0;
-        arg1->unk_06 = 0;
-        return 1;
+    if (distanceRange < Math_Vec3f_DistXYZ(&actor->world.pos, &playerInteractionState->playerPosition)) {
+        // Player is too far away, do not track
+        playerInteractionState->autoTurnTimer = 0;
+        playerInteractionState->autoTurnState = 0;
+        return NPC_PLAYER_TRACK_NONE;
     }
 
-    var = Math_Vec3f_Yaw(&actor->world.pos, &arg1->unk_18);
-    abs_var = ABS((s16)((f32)var - actor->shape.rot.y));
-    if (arg3 >= abs_var) {
-        arg1->unk_04 = 0;
-        arg1->unk_06 = 0;
-        return 2;
+    yaw = Math_Vec3f_Yaw(&actor->world.pos, &playerInteractionState->playerPosition);
+    yawDiff = ABS((s16)((f32)yaw - actor->shape.rot.y));
+    if (maxYawForPlayerTracking >= yawDiff) {
+        // Player is in front of the actor, lock the shape
+        // but allow tracking with the head and the torso
+        playerInteractionState->autoTurnTimer = 0;
+        playerInteractionState->autoTurnState = 0;
+        return NPC_PLAYER_TRACK_HEAD_AND_TORSO;
     }
 
-    if (DECR(arg1->unk_04) != 0) {
-        return arg1->unk_02;
+    // Player is behind the actor, run the auto-turn sequence.
+
+    if (DECR(playerInteractionState->autoTurnTimer) != 0) {
+        // While the timer is still running, return the previous lock value
+        return playerInteractionState->playerTrackingOpt;
     }
 
-    switch (arg1->unk_06) {
+    switch (playerInteractionState->autoTurnState) {
         case 0:
         case 2:
-            arg1->unk_04 = Rand_S16Offset(30, 30);
-            arg1->unk_06++;
-            return 1;
+            // Just stand still, not tracking the player
+            playerInteractionState->autoTurnTimer = Rand_S16Offset(30, 30);
+            playerInteractionState->autoTurnState++;
+            return NPC_PLAYER_TRACK_NONE;
         case 1:
-            arg1->unk_04 = Rand_S16Offset(10, 10);
-            arg1->unk_06++;
-            return 3;
+            // Briefly glance at the player by only turning the head
+            playerInteractionState->autoTurnTimer = Rand_S16Offset(10, 10);
+            playerInteractionState->autoTurnState++;
+            return NPC_PLAYER_TRACK_HEAD;
     }
 
-    return 4;
+    // Auto-turn sequence complete, turn towards the player
+    return NPC_PLAYER_TRACK_FULL_BODY;
 }
 
-void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3) {
-    struct_80116130_0 sp38;
+/**
+ * Rotates actor shape, torso and head tracking the player. Uses angle limits from a preset selected from
+ * from sPlayerTrackingPresets.
+ *
+ * The playerTrackingOpt parameter controls which limbs will be turned (actor shape, torso or head).
+ * If NPC_PLAYER_TRACK_AUTO_TURN is used, the actor will turn to face a player behind the actor.
+ *
+ * @param actor
+ * @param playerInteractionState
+ * @param presetIndex The index to a preset in sPlayerTrackingPresets
+ * @param playerTrackingOpt A value from NpcPlayerTrackOption enum
+ */
+void Actor_NpcTrackPlayer(Actor* actor, NpcPlayerInteractionState* playerInteractionState, s16 presetIndex,
+                          s16 playerTrackingOpt) {
+    NpcPlayerTrackingRotLimits rotLimits;
 
-    arg1->unk_02 = func_80034810(actor, arg1, D_80116130[arg2].unk_10, D_80116130[arg2].unk_14, arg3);
+    playerInteractionState->playerTrackingOpt = Actor_NpcUpdateAutoTurn(
+        actor, playerInteractionState, sPlayerTrackingPresets[presetIndex].autoTurnDistanceRange,
+        sPlayerTrackingPresets[presetIndex].maxYawForPlayerTracking, playerTrackingOpt);
 
-    sp38 = D_80116130[arg2].sub_00;
+    rotLimits = sPlayerTrackingPresets[presetIndex].rotLimits;
 
-    switch (arg1->unk_02) {
-        case 1:
-            sp38.unk_00 = 0;
-            sp38.unk_04 = 0;
-            sp38.unk_02 = 0;
+    switch (playerInteractionState->playerTrackingOpt) {
+        case NPC_PLAYER_TRACK_NONE:
+            rotLimits.maxHeadYaw = 0;
+            rotLimits.maxHeadPitch = 0;
+            rotLimits.minHeadPitch = 0;
             FALLTHROUGH;
-        case 3:
-            sp38.unk_06 = 0;
-            sp38.unk_0A = 0;
-            sp38.unk_08 = 0;
+        case NPC_PLAYER_TRACK_HEAD:
+            rotLimits.maxTorsoYaw = 0;
+            rotLimits.maxTorsoPitch = 0;
+            rotLimits.minTorsoPitch = 0;
             FALLTHROUGH;
-        case 2:
-            sp38.unk_0C = 0;
+        case NPC_PLAYER_TRACK_HEAD_AND_TORSO:
+            rotLimits.rotateActorShape = 0;
             break;
     }
 
-    func_800344BC(actor, arg1, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
-                  sp38.unk_0C);
+    Actor_NpcTrackPlayerWithLimits(actor, playerInteractionState, rotLimits.maxHeadYaw, rotLimits.maxHeadPitch,
+                                   rotLimits.minHeadPitch, rotLimits.maxTorsoYaw, rotLimits.maxTorsoPitch,
+                                   rotLimits.minTorsoPitch, rotLimits.rotateActorShape);
 }
 
 Gfx* func_80034B28(GraphicsContext* gfxCtx) {

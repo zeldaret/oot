@@ -1332,24 +1332,33 @@ typedef struct {
     /* 0x08 */ f32 morphFrames;
 } AnimationMinimalInfo; // size = 0xC
 
-typedef struct {
-    /* 0x00 */ s16 talkState;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ Vec3s unk_08;
-    /* 0x0E */ Vec3s unk_0E;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ s16 unk_24;
-} struct_80034A14_arg1; // size = 0x28
-
 typedef enum {
     /* 0x0 */ NPC_TALK_STATE_IDLE, // NPC not currently talking to player
     /* 0x1 */ NPC_TALK_STATE_TALKING, // NPC is currently talking to player
     /* 0x2 */ NPC_TALK_STATE_ACTION, // An NPC-defined action triggered in the conversation
     /* 0x3 */ NPC_TALK_STATE_ITEM_GIVEN // NPC finished giving an item and text box is done
 } NpcTalkState;
+
+typedef enum {
+    /* 0x0 */ NPC_PLAYER_TRACK_AUTO_TURN,  // The actor will periodically turn to face the player
+    /* 0x1 */ NPC_PLAYER_TRACK_NONE, // Don't track the player
+    /* 0x2 */ NPC_PLAYER_TRACK_HEAD_AND_TORSO, // Track player by turning the head and the torso
+    /* 0x3 */ NPC_PLAYER_TRACK_HEAD, // Track player by turning the head
+    /* 0x4 */ NPC_PLAYER_TRACK_FULL_BODY // Track player by turning the body, torso and head
+} NpcPlayerTrackOption;
+
+typedef struct {
+    /* 0x00 */ s16 talkState;
+    /* 0x02 */ s16 playerTrackingOpt;
+    /* 0x04 */ s16 autoTurnTimer;
+    /* 0x06 */ s16 autoTurnState;
+    /* 0x08 */ Vec3s rotHead;
+    /* 0x0E */ Vec3s rotTorso;
+    /* 0x14 */ f32 yPosOffset;
+    /* 0x18 */ Vec3f playerPosition;
+    /* 0x24 */ s16 pad;
+} NpcPlayerInteractionState; // size = 0x28
+
 
 // Macros for `EntranceInfo.field`
 #define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)

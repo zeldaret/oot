@@ -539,7 +539,7 @@ void EnMd_UpdateEyes(EnMd* this) {
 void func_80AAB158(EnMd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 absYawDiff;
-    s16 temp;
+    s16 playerTrackingOpt;
     s16 temp2;
     s16 yawDiff;
 
@@ -547,36 +547,37 @@ void func_80AAB158(EnMd* this, PlayState* play) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
-        temp = (absYawDiff <= func_800347E8(2)) ? 2 : 1;
+        playerTrackingOpt = absYawDiff <= Actor_GetNpcPlayerTrackingPresetMaxYaw(2) ? NPC_PLAYER_TRACK_HEAD_AND_TORSO
+                                                                                    : NPC_PLAYER_TRACK_NONE;
         temp2 = 1;
     } else {
-        temp = 1;
+        playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
         temp2 = 0;
     }
 
     if (this->unk_1E0.talkState != NPC_TALK_STATE_IDLE) {
-        temp = 4;
+        playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
     }
 
     if (this->actionFunc == func_80AABD0C) {
-        temp = 1;
+        playerTrackingOpt = NPC_PLAYER_TRACK_NONE;
         temp2 = 0;
     }
     if (this->actionFunc == func_80AAB8F8) {
-        temp = 4;
+        playerTrackingOpt = NPC_PLAYER_TRACK_FULL_BODY;
         temp2 = 1;
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
-        this->unk_1E0.unk_18 = play->view.eye;
-        this->unk_1E0.unk_14 = 40.0f;
-        temp = 2;
+        this->unk_1E0.playerPosition = play->view.eye;
+        this->unk_1E0.yPosOffset = 40.0f;
+        playerTrackingOpt = NPC_PLAYER_TRACK_HEAD_AND_TORSO;
     } else {
-        this->unk_1E0.unk_18 = player->actor.world.pos;
-        this->unk_1E0.unk_14 = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
+        this->unk_1E0.playerPosition = player->actor.world.pos;
+        this->unk_1E0.yPosOffset = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E0, 2, temp);
+    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 2, playerTrackingOpt);
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
             Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E0.talkState, this->collider.dim.radius + 30.0f,
@@ -838,13 +839,13 @@ s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == ENMD_LIMB_HEAD) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E0.unk_08;
+        vec = this->unk_1E0.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == ENMD_LIMB_TORSO) {
-        vec = this->unk_1E0.unk_0E;
+        vec = this->unk_1E0.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
     }

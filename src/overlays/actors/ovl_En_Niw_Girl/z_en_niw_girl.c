@@ -202,13 +202,13 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
     this->unk_280 = 30.0f;
     Actor_SetFocus(&this->actor, 30.0f);
     if (tempActionFunc == this->actionFunc) {
-        this->unk_2D4.unk_18 = player->actor.world.pos;
+        this->unk_2D4.playerPosition = player->actor.world.pos;
         if (!LINK_IS_ADULT) {
-            this->unk_2D4.unk_18.y = player->actor.world.pos.y - 10.0f;
+            this->unk_2D4.playerPosition.y = player->actor.world.pos.y - 10.0f;
         }
-        func_80034A14(&this->actor, &this->unk_2D4, 2, 4);
-        this->unk_260 = this->unk_2D4.unk_08;
-        this->unk_266 = this->unk_2D4.unk_0E;
+        Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, 2, NPC_PLAYER_TRACK_FULL_BODY);
+        this->unk_260 = this->unk_2D4.rotHead;
+        this->unk_266 = this->unk_2D4.rotTorso;
     } else {
         Math_SmoothStepToS(&this->unk_266.y, 0, 5, 3000, 0);
         Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);
