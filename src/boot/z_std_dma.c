@@ -75,8 +75,8 @@ s32 DmaMgr_StrCmp(const char* str1, const char* str2) {
  * case it behaves as a synchronous transfer, data is available as soon as this function returns.
  *
  * Transfers are divided into chunks based on the current value of `gDmaMgrDmaBuffSize` to avoid congestion of the PI
- * interface so that higher priority transfers can still be carried out in a timely manner. The transfers are sent in a
- * queue to the OS PI Manager which performs the transfer.
+ * so that higher priority transfers can still be carried out in a timely manner. The transfers are sent in a queue to
+ * the OS PI Manager which performs the transfer.
  *
  * @return 0 if successful, -1 if the DMA could not be queued with the PI Manager.
  */
