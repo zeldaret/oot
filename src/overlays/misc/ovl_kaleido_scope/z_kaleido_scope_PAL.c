@@ -1140,7 +1140,8 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
             }
 
-            POLY_OPA_DISP = KaleidoScope_QuadTextureIA4(POLY_OPA_DISP, pauseCtx->nameSegment, 128, 16, 0);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA4(POLY_OPA_DISP, pauseCtx->nameSegment, MAP_NAME_TEX1_WIDTH,
+                                                        MAP_NAME_TEX1_HEIGHT, 0);
         }
 
         if (pauseCtx->pageIndex == PAUSE_MAP) {
@@ -1353,12 +1354,12 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
                 }
 
                 DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment,
-                                           (uintptr_t)_map_name_staticSegmentRomStart + (sp2A * 0x400), 0x400,
-                                           "../z_kaleido_scope_PAL.c", 2093);
+                                           (uintptr_t)_map_name_staticSegmentRomStart + (sp2A * MAP_NAME_TEX1_SIZE),
+                                           MAP_NAME_TEX1_SIZE, "../z_kaleido_scope_PAL.c", 2093);
             } else {
                 osSyncPrintf("zoom_name=%d\n", pauseCtx->namedItem);
 
-                if (gSaveContext.language) {
+                if (gSaveContext.language) { // != LANGUAGE_ENG
                     sp2A += 123;
                 }
                 if (gSaveContext.language == LANGUAGE_FRA) {
@@ -1368,8 +1369,8 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
                 osSyncPrintf("J_N=%d  point=%d\n", gSaveContext.language, sp2A);
 
                 DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment,
-                                           (uintptr_t)_item_name_staticSegmentRomStart + (sp2A * 0x400), 0x400,
-                                           "../z_kaleido_scope_PAL.c", 2120);
+                                           (uintptr_t)_item_name_staticSegmentRomStart + (sp2A * ITEM_NAME_TEX_SIZE),
+                                           ITEM_NAME_TEX_SIZE, "../z_kaleido_scope_PAL.c", 2120);
             }
 
             pauseCtx->nameDisplayTimer = 0;
@@ -2444,12 +2445,14 @@ void KaleidoScope_LoadDungeonMap(PlayState* play) {
     s32 pad;
 
     DmaMgr_SyncDmaRequestDebug(interfaceCtx->mapSegment,
-                               (uintptr_t)_map_48x85_staticSegmentRomStart + (R_MAP_TEX_INDEX * 2040), 2040,
-                               "../z_kaleido_scope_PAL.c", 3467);
+                               (uintptr_t)_map_48x85_staticSegmentRomStart +
+                                   ((R_MAP_TEX_INDEX + 0) * MAP_48x85_TEX_SIZE),
+                               MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3467);
 
-    DmaMgr_SyncDmaRequestDebug(interfaceCtx->mapSegment + 0x800,
-                               (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 1) * 2040), 2040,
-                               "../z_kaleido_scope_PAL.c", 3471);
+    DmaMgr_SyncDmaRequestDebug(interfaceCtx->mapSegment + ALIGN16(MAP_48x85_TEX_SIZE),
+                               (uintptr_t)_map_48x85_staticSegmentRomStart +
+                                   ((R_MAP_TEX_INDEX + 1) * MAP_48x85_TEX_SIZE),
+                               MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3471);
 }
 
 void KaleidoScope_UpdateDungeonMap(PlayState* play) {
@@ -2463,13 +2466,15 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
 
     if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
-            KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment, 2040, interfaceCtx->mapPaletteIndex, 14);
+            KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment, MAP_48x85_TEX_SIZE,
+                                             interfaceCtx->mapPaletteIndex, 14);
         }
     }
 
     if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
-            KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment + 0x800, 2040, interfaceCtx->mapPaletteIndex, 14);
+            KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment + ALIGN16(MAP_48x85_TEX_SIZE), MAP_48x85_TEX_SIZE,
+                                             interfaceCtx->mapPaletteIndex, 14);
         }
     }
 }
@@ -2632,24 +2637,27 @@ void KaleidoScope_Update(PlayState* play) {
 
             if (((void)0, gSaveContext.worldMapArea) < 22) {
                 if (gSaveContext.language == LANGUAGE_ENG) {
-                    DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment + 0x400,
+                    DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment + MAP_NAME_TEX1_SIZE,
                                                (uintptr_t)_map_name_staticSegmentRomStart +
-                                                   (((void)0, gSaveContext.worldMapArea) * 0xA00) + 0x9000,
-                                               0xA00, "../z_kaleido_scope_PAL.c", 3776);
+                                                   (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                                   36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_ENG * MAP_NAME_TEX2_SIZE,
+                                               MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3776);
                 } else if (gSaveContext.language == LANGUAGE_GER) {
-                    DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment + 0x400,
+                    DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment + MAP_NAME_TEX1_SIZE,
                                                (uintptr_t)_map_name_staticSegmentRomStart +
-                                                   (((void)0, gSaveContext.worldMapArea) * 0xA00) + 0x16C00,
-                                               0xA00, "../z_kaleido_scope_PAL.c", 3780);
+                                                   (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                                   36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_GER * MAP_NAME_TEX2_SIZE,
+                                               MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3780);
                 } else {
-                    DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment + 0x400,
+                    DmaMgr_SyncDmaRequestDebug(pauseCtx->nameSegment + MAP_NAME_TEX1_SIZE,
                                                (uintptr_t)_map_name_staticSegmentRomStart +
-                                                   (((void)0, gSaveContext.worldMapArea) * 0xA00) + 0x24800,
-                                               0xA00, "../z_kaleido_scope_PAL.c", 3784);
+                                                   (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                                   36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_FRA * MAP_NAME_TEX2_SIZE,
+                                               MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3784);
                 }
             }
 
-            sPreRenderCvg = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment + 0x400 + 0xA00);
+            sPreRenderCvg = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment + MAP_NAME_TEX1_SIZE + MAP_NAME_TEX2_SIZE);
 
             PreRender_Init(&sPlayerPreRender);
             PreRender_SetValuesSave(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT,

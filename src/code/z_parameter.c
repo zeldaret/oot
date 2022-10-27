@@ -4,11 +4,6 @@
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
-// TODO extract this information from the texture definitions themselves
-#define DO_ACTION_TEX_WIDTH 48
-#define DO_ACTION_TEX_HEIGHT 16
-#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
-
 typedef struct {
     /* 0x00 */ u8 sceneId;
     /* 0x01 */ u8 flags1;
@@ -1276,10 +1271,10 @@ void Interface_LoadItemIcon1(PlayState* play, u16 button) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DmaMgr_AsyncDmaRequest(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * 0x1000,
+    DmaMgr_AsyncDmaRequest(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
                            (uintptr_t)_icon_item_staticSegmentRomStart +
-                               (gSaveContext.equips.buttonItems[button] * 0x1000),
-                           0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
+                               (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
+                           ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
@@ -1287,10 +1282,10 @@ void Interface_LoadItemIcon2(PlayState* play, u16 button) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DmaMgr_AsyncDmaRequest(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * 0x1000,
+    DmaMgr_AsyncDmaRequest(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
                            (uintptr_t)_icon_item_staticSegmentRomStart +
-                               (gSaveContext.equips.buttonItems[button] * 0x1000),
-                           0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
+                               (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
+                           ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 

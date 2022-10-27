@@ -1167,8 +1167,8 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_YPOS = y + 6;
         R_TEXTBOX_ICON_SIZE = 32;
         DmaMgr_SyncDmaRequestDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                   (uintptr_t)_icon_item_staticSegmentRomStart + (itemId * 0x1000), 0x1000,
-                                   "../z_message_PAL.c", 1473);
+                                   (uintptr_t)_icon_item_staticSegmentRomStart + (itemId * ICON_ITEM_TEX_SIZE),
+                                   ICON_ITEM_TEX_SIZE, "../z_message_PAL.c", 1473);
         // "Item 32-0"
         osSyncPrintf("アイテム32-0\n");
     } else {
@@ -1177,8 +1177,8 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_SIZE = 24;
         DmaMgr_SyncDmaRequestDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
                                    (uintptr_t)_icon_item_24_staticSegmentRomStart +
-                                       (itemId - ITEM_MEDALLION_FOREST) * 0x900,
-                                   0x900, "../z_message_PAL.c", 1482);
+                                       (itemId - ITEM_MEDALLION_FOREST) * ICON_ITEM_24_TEX_SIZE,
+                                   ICON_ITEM_24_TEX_SIZE, "../z_message_PAL.c", 1482);
         // "Item 24"
         osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
@@ -1537,12 +1537,13 @@ void Message_Decode(PlayState* play) {
             msgCtx->textboxBackgroundUnkArg = font->msgBuf[msgCtx->msgBufPos + 3] & 0xF;
             DmaMgr_SyncDmaRequestDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
                                        (uintptr_t)_message_texture_staticSegmentRomStart +
-                                           msgCtx->textboxBackgroundIdx * 0x900,
-                                       0x900, "../z_message_PAL.c", 1830);
-            DmaMgr_SyncDmaRequestDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900,
+                                           msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                       MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 1830);
+            DmaMgr_SyncDmaRequestDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE +
+                                           MESSAGE_TEXTURE_STATIC_TEX_SIZE,
                                        (uintptr_t)_message_texture_staticSegmentRomStart +
-                                           (msgCtx->textboxBackgroundIdx + 1) * 0x900,
-                                       0x900, "../z_message_PAL.c", 1834);
+                                           (msgCtx->textboxBackgroundIdx + 1) * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                       MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 1834);
             msgCtx->msgBufPos += 3;
             R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
             numLines = 2;

@@ -48,7 +48,7 @@ const char* sDmaMgrFileNames[] = {
  * @return
  *  0 if str1 and str2 are the same,
  *  -1 if the first character that does not match has a smaller value in str1 than str2,
- *  +1 if the first character that does not match has a greater value in str1 than str2,
+ *  +1 if the first character that does not match has a greater value in str1 than str2
  */
 s32 DmaMgr_StrCmp(const char* str1, const char* str2) {
     while (*str1 != '\0') {
@@ -71,13 +71,14 @@ s32 DmaMgr_StrCmp(const char* str1, const char* str2) {
 /**
  * Transfer `size` bytes from physical ROM address `rom` to `ram`.
  *
- * This function is intended for internal use only, however it is possible to use this function externally.
+ * This function is intended for internal use only, however it is possible to use this function externally in which
+ * case it behaves as a synchronous transfer, data is available as soon as this function returns.
  *
  * Transfers are divided into chunks based on the current value of `gDmaMgrDmaBuffSize` to avoid congestion of the PI
  * interface so that higher priority transfers can still be carried out in a timely manner. The transfers are sent in a
  * queue to the OS PI Manager which performs the transfer.
  *
- * @return 0 if successful, -1 if the DMA could not be queued with the PI Manager
+ * @return 0 if successful, -1 if the DMA could not be queued with the PI Manager.
  */
 s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
     OSIoMesg ioMsg;
@@ -97,8 +98,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
 
     while (size > buffSize) {
         // The system avoids large DMAs as these would stall the PI for too long, potentially causing issues with
-        // audio. To allow audio to continue to DMA whenever it needs to, other DMAs are restricted to a manageable
-        // size.
+        // audio. To allow audio to continue to DMA whenever it needs to, other DMAs are split into manageable chunks.
 
         if (1) {} // Necessary to match
 
@@ -171,7 +171,7 @@ end:
  *
  * @param pihandle Cartridge ROM PI Handle.
  * @param mb IO Message describing the transfer.
- * @param direction Read or write (only read is allowed)
+ * @param direction Read or write. (Only read is allowed)
  * @return 0 if the IO Message was successfully put on the OS PI command queue, < 0 otherwise
  */
 s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
@@ -196,9 +196,9 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
 /**
  * DMA read from disk drive. Blocks the current thread until DMA completes.
  *
- * @param ram RAM address to write data to
- * @param rom ROM address to read from
- * @param size Size of transfer
+ * @param ram RAM address to write data to.
+ * @param rom ROM address to read from.
+ * @param size Size of transfer.
  */
 void DmaMgr_DmaFromDriveRom(void* ram, uintptr_t rom, size_t size) {
     OSPiHandle* handle = osDriveRomInit();
@@ -224,10 +224,10 @@ void DmaMgr_DmaFromDriveRom(void* ram, uintptr_t rom, size_t size) {
 /**
  * DMA error encountered, print error messages and bring up the crash screen.
  *
- * @param req DMA Request causing the error
- * @param file DMA data filename associated with the operation that errored
- * @param errorName Error name string
- * @param errorDesc Error description string
+ * @param req DMA Request causing the error.
+ * @param file DMA data filename associated with the operation that errored.
+ * @param errorName Error name string.
+ * @param errorDesc Error description string.
  *
  * This function does not return.
  */
@@ -266,9 +266,10 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
 }
 
 /**
- * Searches the filesystem for the entry containing the address `vrom`.
+ * Searches the filesystem for the entry containing the address `vrom`. Retrieves the name of this entry from
+ * the array of file names.
  *
- * @param vrom vrom address
+ * @param vrom Virtual ROM location
  * @return Pointer to associated filename
  */
 const char* DmaMgr_FindFileName(uintptr_t vrom) {
@@ -298,8 +299,8 @@ const char* DmaMgr_GetFileName(uintptr_t vrom) {
     }
 
     if (DmaMgr_StrCmp(ret, "kanji") == 0 || DmaMgr_StrCmp(ret, "link_animetion") == 0) {
-        // Refuse kanji and link_animetion files. This may be related to these files being too large to be loaded all
-        // at once, however a NULL filename does not prevent them from being loaded.
+        // This check may be related to these files being too large to be loaded all at once, however a NULL filename
+        // does not prevent them from being loaded.
         return NULL;
     }
     return ret;
@@ -316,15 +317,16 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     const char* filename;
 
     if (0) {
-        // The string is defined in .rodata but not used, suggesting a debug print is here but wa optimized out in some
-        // way. The last arg of this print looks like it may be filename, but filename above this block does not match.
+        // The string is defined in .rodata but not used, suggesting a debug print is here but was optimized out in
+        // some way. The last arg of this print looks like it may be filename, but filename above this block does not
+        // match.
         osSyncPrintf("DMA ROM:%08X RAM:%08X SIZE:%08X %s\n");
     }
 
     // Get the filename (for debugging)
     filename = DmaMgr_GetFileName(vrom);
 
-    // Iterate through the DMA data table until the region containing the request vrom address is found
+    // Iterate through the DMA data table until the region containing the vrom address for this request is found
     iter = gDmaDataTable;
     while (iter->vromEnd != 0) {
         if (vrom >= iter->vromStart && vrom < iter->vromEnd) {
@@ -488,7 +490,7 @@ s32 DmaMgr_SendRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, 
 
 /**
  * Submit a synchronous DMA request. This will block the current thread until the requested transfer is complete. Data
- * is immediately available once the current thread resumes execution.
+ * is immediately available as soon as this function returns.
  *
  * @param ram Location in DRAM for data to be written.
  * @param vrom Virtual ROM location for data to be read.
@@ -503,7 +505,7 @@ s32 DmaMgr_SyncDmaRequest(void* ram, uintptr_t vrom, size_t size) {
 
     osCreateMesgQueue(&queue, &msg, 1);
     ret = DmaMgr_SendRequest(&req, ram, vrom, size, 0, &queue, NULL);
-    if (ret == -1) {
+    if (ret == -1) { // DmaMgr_SendRequest only returns 0
         return ret;
     }
 
@@ -572,8 +574,8 @@ void DmaMgr_Init(void) {
  * @param size Transfer size.
  * @param queue Message queue to notify with `msg` once the transfer is complete.
  * @param msg Message to send to `queue` once the transfer is complete.
- * @param file Debug filename of caller
- * @param line Debug line number of caller
+ * @param file Debug filename of caller.
+ * @param line Debug line number of caller.
  * @return 0
  */
 s32 DmaMgr_AsyncDmaRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
@@ -599,7 +601,7 @@ s32 DmaMgr_SyncDmaRequestDebug(void* ram, uintptr_t vrom, size_t size, const cha
     req.line = line;
     osCreateMesgQueue(&queue, &msg, 1);
     ret = DmaMgr_SendRequest(&req, ram, vrom, size, 0, &queue, NULL);
-    if (ret == -1) {
+    if (ret == -1) { // DmaMgr_SendRequest only returns 0
         return ret;
     }
 
