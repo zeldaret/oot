@@ -19,7 +19,7 @@ void func_809B26EC(EnAnubiceFire* this, PlayState* play);
 void func_809B27D8(EnAnubiceFire* this, PlayState* play);
 void func_809B2B48(EnAnubiceFire* this, PlayState* play);
 
-const ActorInit En_Anubice_Fire_InitVars = {
+ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
     ACTORCAT_ENEMY,
     FLAGS,

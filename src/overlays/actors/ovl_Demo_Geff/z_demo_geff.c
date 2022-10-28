@@ -42,7 +42,7 @@ static DemoGeffDrawFunc sDrawFuncs[] = {
     func_80978344,
 };
 
-const ActorInit Demo_Geff_InitVars = {
+ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORCAT_BOSS,
     FLAGS,

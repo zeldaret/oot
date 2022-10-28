@@ -20,7 +20,7 @@ void EnItem00_DrawCollectible(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartPiece(EnItem00* this, PlayState* play);
 
-const ActorInit En_Item00_InitVars = {
+ActorInit En_Item00_InitVars = {
     ACTOR_EN_ITEM00,
     ACTORCAT_MISC,
     FLAGS,

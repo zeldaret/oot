@@ -50,7 +50,7 @@ void func_80A546DC(EnHeishi2* this, PlayState* play);
 void func_80A541FC(EnHeishi2* this, PlayState* play);
 void func_80A53DF8(EnHeishi2* this, PlayState* play);
 
-const ActorInit En_Heishi2_InitVars = {
+ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
     ACTORCAT_NPC,
     FLAGS,

@@ -386,7 +386,7 @@ s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB);
 s16 Actor_WorldPitchTowardPoint(Actor* actor, Vec3f* refPoint);
 f32 Actor_WorldDistXZToActor(Actor* actorA, Actor* actorB);
 f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint);
-void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2);
+void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos);
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB);
 f32 Player_GetHeight(Player* player);
 f32 func_8002DCE4(Player* player);
@@ -1050,8 +1050,8 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
                                            void* thisx);
 s32 Player_OverrideLimbDrawGameplayFirstPerson(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                                void* thisx);
-s32 Player_OverrideLimbDrawGameplay_80090440(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                             void* thisx);
+s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                            void* thisx);
 u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
 void Player_DrawGetItem(PlayState* play, Player* this);
 void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);

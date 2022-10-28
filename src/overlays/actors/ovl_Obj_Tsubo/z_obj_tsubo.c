@@ -36,7 +36,7 @@ static s16 D_80BA1B54 = 0;
 static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
-const ActorInit Obj_Tsubo_InitVars = {
+ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
     ACTORCAT_PROP,
     FLAGS,

@@ -50,7 +50,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play);
 
-const ActorInit Obj_Switch_InitVars = {
+ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
     ACTORCAT_SWITCH,
     FLAGS,

@@ -56,7 +56,7 @@ void EnDntNomal_StageAttackHide(EnDntNomal* this, PlayState* play);
 void EnDntNomal_StageAttack(EnDntNomal* this, PlayState* play);
 void EnDntNomal_StageReturn(EnDntNomal* this, PlayState* play);
 
-const ActorInit En_Dnt_Nomal_InitVars = {
+ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
     ACTORCAT_PROP,
     FLAGS,

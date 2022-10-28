@@ -29,7 +29,7 @@ static WaterLevel sWaterLevels[] = {
     { WATER_TEMPLE_WATER_F1_FLAG, WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_F3_Y },
 };
 
-const ActorInit Bg_Mizu_Water_InitVars = {
+ActorInit Bg_Mizu_Water_InitVars = {
     ACTOR_BG_MIZU_WATER,
     ACTORCAT_BG,
     FLAGS,

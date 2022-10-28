@@ -20,7 +20,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, PlayState* play);
 void ObjComb_SetupWait(ObjComb* this);
 void ObjComb_Wait(ObjComb* this, PlayState* play);
 
-const ActorInit Obj_Comb_InitVars = {
+ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
     ACTORCAT_PROP,
     FLAGS,

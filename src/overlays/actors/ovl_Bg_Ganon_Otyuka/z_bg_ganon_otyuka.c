@@ -25,7 +25,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Ganon_Otyuka_InitVars = {
+ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
     ACTORCAT_PROP,
     FLAGS,

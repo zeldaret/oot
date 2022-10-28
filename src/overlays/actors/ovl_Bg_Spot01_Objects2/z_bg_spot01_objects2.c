@@ -18,7 +18,7 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play);
 void func_808AC474(BgSpot01Objects2* this, PlayState* play);
 void func_808AC4A4(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot01_Objects2_InitVars = {
+ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
     ACTORCAT_BG,
     FLAGS,

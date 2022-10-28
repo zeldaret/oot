@@ -23,7 +23,7 @@ void EnEncount2_SpawnEffect(EnEncount2* this, Vec3f* position, f32 scale);
 void EnEncount2_DrawEffects(Actor* thisx, PlayState* play);
 void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play);
 
-const ActorInit En_Encount2_InitVars = {
+ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORCAT_ENEMY,
     FLAGS,

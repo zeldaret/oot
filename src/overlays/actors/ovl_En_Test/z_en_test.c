@@ -125,7 +125,7 @@ static u8 sJointCopyFlags[] = {
     false, // STALFOS_LIMB_WAIST
 };
 
-const ActorInit En_Test_InitVars = {
+ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORCAT_ENEMY,
     FLAGS,

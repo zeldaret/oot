@@ -16,7 +16,7 @@ void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play);
 
 static u8 sIsSpawned = false;
 
-const ActorInit Bg_Jya_Bigmirror_InitVars = {
+ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
     ACTORCAT_BG,
     FLAGS,
