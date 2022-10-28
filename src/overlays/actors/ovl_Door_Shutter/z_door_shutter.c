@@ -390,7 +390,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     s32 styleType;
     s32 pad;
-    s32 objectIndex;
+    s32 objectSlot;
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -420,8 +420,8 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->requiredObjectSlot = objectIndex = Object_GetSlot(&play->objectCtx, sStyleInfo[styleType].objectId),
-        (s8)objectIndex < 0) {
+    if (this->requiredObjectSlot = objectSlot = Object_GetSlot(&play->objectCtx, sStyleInfo[styleType].objectId),
+        (s8)objectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
