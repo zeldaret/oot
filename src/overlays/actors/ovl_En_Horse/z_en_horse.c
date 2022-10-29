@@ -1371,7 +1371,7 @@ void EnHorse_MountedGallop(EnHorse* this, PlayState* play) {
     if (this->noInputTimer <= 0.0f) {
         EnHorse_UpdateSpeed(this, play, 0.3f, -0.5f, 10.0f, 0.06f, 8.0f, 0x190);
     } else if (this->noInputTimer > 0.0f) {
-        this->noInputTimer -= 1;
+        this->noInputTimer--;
         this->actor.speedXZ = 8.0f;
     }
     if (this->actor.speedXZ < 6.0f) {
@@ -3025,7 +3025,7 @@ void EnHorse_MountDismount(EnHorse* this, PlayState* play) {
         Actor_SetRideActor(play, &this->actor, mountSide);
     }
 
-    if (this->playerControlled == false && Actor_IsMounted(play, &this->actor) == true) {
+    if (!this->playerControlled && Actor_IsMounted(play, &this->actor) == true) {
         this->noInputTimer = 55;
         this->noInputTimerMax = 55;
         this->playerControlled = 1;
@@ -3197,8 +3197,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         }
 
         // too close to jump
-        if ((movingFast == false && intersectDist < 80.0f) || (movingFast == true && intersectDist < 150.0f)) {
-            if (movingFast == false) {
+        if ((!movingFast && intersectDist < 80.0f) || (movingFast == true && intersectDist < 150.0f)) {
+            if (!movingFast) {
                 this->stateFlags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == true) {
                 this->stateFlags |= ENHORSE_FORCE_REVERSING;
@@ -3210,7 +3210,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
         dynaPoly = DynaPoly_GetActor(&play->colCtx, bgId);
         if ((this->stateFlags & ENHORSE_FLAG_26) &&
             ((dynaPoly && dynaPoly->actor.id != ACTOR_BG_UMAJUMP) || dynaPoly == NULL)) {
-            if (movingFast == false) {
+            if (!movingFast) {
                 this->stateFlags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == true) {
                 this->stateFlags |= ENHORSE_FORCE_REVERSING;
@@ -3267,7 +3267,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 
     obstaclePos = startPos;
     obstaclePos.y = this->actor.world.pos.y + 120.0f;
-    if (movingFast == false) {
+    if (!movingFast) {
         obstaclePos.x += (276.0f * Math_SinS(this->actor.world.rot.y));
         obstaclePos.z += (276.0f * Math_CosS(this->actor.world.rot.y));
     } else {
@@ -3300,7 +3300,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
             this->stateFlags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, play);
         }
-    } else if (movingFast == false && obstacleHeight > 19.0f && obstacleHeight <= 40.0f) {
+    } else if (!movingFast && obstacleHeight > 19.0f && obstacleHeight <= 40.0f) {
         EnHorse_Stub1(this);
         this->postDrawFunc = EnHorse_LowJumpInit;
     } else if ((movingFast == true && this->actor.speedXZ < 13.8f && obstacleHeight > 19.0f &&

@@ -68,7 +68,7 @@ void ArrowFire_Charge(ArrowFire* this, PlayState* play) {
     }
 
     if (this->radius < 10) {
-        this->radius += 1;
+        this->radius++;
     }
     // copy position and rotation from arrow
     this->actor.world.pos = arrow->actor.world.pos;
@@ -109,7 +109,7 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play) {
 
     timer = this->timer;
     if (timer != 0) {
-        this->timer -= 1;
+        this->timer--;
 
         if (this->timer >= 8) {
             offset = ((this->timer - 8) * (1.0f / 24.0f));

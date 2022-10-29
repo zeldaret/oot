@@ -277,7 +277,7 @@ void BgSpot18Obj_Update(Actor* thisx, PlayState* play) {
     BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     if (this->unk_168 > 0) {
-        this->unk_168 -= 1;
+        this->unk_168--;
     }
     this->actionFunc(this, play);
 }

@@ -84,7 +84,7 @@ void func_809C1D60(EnBird* this, PlayState* play) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    this->unk_198 -= 1;
+    this->unk_198--;
 
     if (this->unk_198 <= 0) {
         func_809C1E00(this, this->actor.params);
@@ -112,7 +112,7 @@ void func_809C1E40(EnBird* this, PlayState* play) {
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
     SkelAnime_Update(&this->skelAnime);
-    this->unk_198 -= 1;
+    this->unk_198--;
     if (this->unk_198 < 0) {
         func_809C1CAC(this, this->actor.params);
     }

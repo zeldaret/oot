@@ -116,7 +116,7 @@ void BgGateShutter_Update(Actor* thisx, PlayState* play) {
     BgGateShutter* this = (BgGateShutter*)thisx;
 
     if (this->unk_178 != 0) {
-        this->unk_178 -= 1;
+        this->unk_178--;
     }
     this->actionFunc(this, play);
 }

@@ -355,7 +355,7 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
         this->unk_260 = this->unk_28C.unk_08;
         this->unk_266 = this->unk_28C.unk_0E;
     }
-    this->unk_27E += 1;
+    this->unk_27E++;
     this->actionFunc(this, play);
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 10.0f, 10.0f, 30.0f,

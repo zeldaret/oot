@@ -164,7 +164,7 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
 
     if (isFree == true && play->sceneId == SCENE_GERUDOWAY) {
         noKill = false;
-    } else if (isFree == false && play->sceneId == SCENE_TENT) {
+    } else if (!isFree && play->sceneId == SCENE_TENT) {
         noKill = false;
     }
 

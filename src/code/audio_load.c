@@ -1824,7 +1824,7 @@ s32 AudioLoad_ProcessSamplePreloads(s32 resetStatus) {
         preloadIndex >>= 24;
         preload = &gAudioCtx.preloadSampleStack[preloadIndex];
 
-        if (preload->isFree == false) {
+        if (!preload->isFree) {
             sample = preload->sample;
             key = (u32)sample->sampleAddr + sample->size + sample->medium;
             if (key == preload->endAndMediumKey) {

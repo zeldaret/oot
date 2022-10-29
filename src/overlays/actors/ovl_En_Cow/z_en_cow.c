@@ -160,7 +160,7 @@ void EnCow_Destroy(Actor* thisx, PlayState* play) {
 
 void func_809DF494(EnCow* this, PlayState* play) {
     if (this->unk_278 > 0) {
-        this->unk_278 -= 1;
+        this->unk_278--;
     } else {
         this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
         Animation_Change(&this->skelAnime, &gCowBodyChewAnim, 1.0f, this->skelAnime.curFrame,
@@ -174,8 +174,8 @@ void func_809DF494(EnCow* this, PlayState* play) {
         }
     }
 
-    this->unk_27A += 1;
-    if (this->unk_27A >= 0x31) {
+    this->unk_27A++;
+    if (this->unk_27A > 48) {
         this->unk_27A = 0;
     }
 

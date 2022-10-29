@@ -111,7 +111,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
             this->unk_264 = -10000.0f;
         }
 
-        this->unk_28E += 1;
+        this->unk_28E++;
         this->unk_254 = 3;
         if (!(this->unk_28E & 1)) {
             this->unk_264 = 0.0f;

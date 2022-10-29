@@ -15,18 +15,18 @@ void yaz0_decode(uint8_t* src, uint8_t* dst, int uncompressedSize)
     int srcPlace = 0, dstPlace = 0;  // current read/write positions
 
     unsigned int validBitCount = 0;  // number of valid bits left in "code" byte
-    uint8_t curCodeByte;
+    uint8_t currCodeByte;
     while (dstPlace < uncompressedSize)
     {
         // read new "code" byte if the current one is used up
         if (validBitCount == 0)
         {
-            curCodeByte = src[srcPlace];
+            currCodeByte = src[srcPlace];
             ++srcPlace;
             validBitCount = 8;
         }
 
-        if ((curCodeByte & 0x80) != 0)
+        if ((currCodeByte & 0x80) != 0)
         {
             // straight copy
             dst[dstPlace] = src[srcPlace];
@@ -64,7 +64,7 @@ void yaz0_decode(uint8_t* src, uint8_t* dst, int uncompressedSize)
         }
 
         // use next bit from "code" byte
-        curCodeByte <<= 1;
+        currCodeByte <<= 1;
         validBitCount -= 1;
     }
 }
@@ -163,7 +163,7 @@ int yaz0_encode(uint8_t *src, uint8_t *dst, int srcSize)
     uint8_t buf[24]; // 8 codes * 3 bytes maximum
 
     uint32_t validBitCount = 0; // number of valid bits left in "code" byte
-    uint8_t curCodeByte = 0; // a bitfield, set bits meaning copy, unset meaning RLE
+    uint8_t currCodeByte = 0; // a bitfield, set bits meaning copy, unset meaning RLE
 
     while (srcPos < srcSize)
     {
@@ -178,7 +178,7 @@ int yaz0_encode(uint8_t *src, uint8_t *dst, int srcSize)
             bufPos++;
             srcPos++;
             //set flag for straight copy
-            curCodeByte |= (0x80 >> validBitCount);
+            currCodeByte |= (0x80 >> validBitCount);
         }
         else
         {
@@ -213,11 +213,11 @@ int yaz0_encode(uint8_t *src, uint8_t *dst, int srcSize)
         // write eight codes
         if (validBitCount == 8)
         {
-            dst[dstPos++] = curCodeByte;
+            dst[dstPos++] = currCodeByte;
             for (int j = 0; j < bufPos; j++)
                 dst[dstPos++] = buf[j];
 
-            curCodeByte = 0;
+            currCodeByte = 0;
             validBitCount = 0;
             bufPos = 0;
         }
@@ -225,11 +225,11 @@ int yaz0_encode(uint8_t *src, uint8_t *dst, int srcSize)
 
     if (validBitCount > 0)
     {
-        dst[dstPos++] = curCodeByte;
+        dst[dstPos++] = currCodeByte;
         for (int j = 0; j < bufPos; j++)
             dst[dstPos++] = buf[j];
 
-        curCodeByte = 0;
+        currCodeByte = 0;
         validBitCount = 0;
         bufPos = 0;
     }

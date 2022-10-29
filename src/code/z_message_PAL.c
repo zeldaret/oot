@@ -1836,7 +1836,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->msgMode = MSGMODE_TEXT_CONTINUING;
     }
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
-    if (noStop == false) {
+    if (!noStop) {
         Interface_LoadActionLabelB(play, DO_ACTION_STOP);
         noStop = gSaveContext.unk_13EA;
         Interface_ChangeAlpha(0xA);
