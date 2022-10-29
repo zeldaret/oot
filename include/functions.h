@@ -198,9 +198,9 @@ void EffectSs_Insert(PlayState* play, EffectSs* effectSs);
 void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams);
 void EffectSs_UpdateAll(PlayState* play);
 void EffectSs_DrawAll(PlayState* play);
-s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2);
-s16 func_80027E34(s16 arg0, s16 arg1, f32 arg2);
-u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
+s16 EffectSs_LerpInv(s16 a, s16 b, s32 weightInv);
+s16 EffectSs_LerpS16(s16 a, s16 b, f32 weight);
+u8 EffectSs_LerpU8(u8 a, u8 b, f32 weight);
 void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture);
 void EffectSsDust_Spawn(PlayState* play, u16 drawFlags, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                         Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life,
