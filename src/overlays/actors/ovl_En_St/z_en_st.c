@@ -161,7 +161,7 @@ void EnSt_SpawnBlastEffect(EnSt* this, PlayState* play) {
     blastPos.y = this->actor.floorHeight;
     blastPos.z = this->actor.world.pos.z;
 
-    EffectSsBlast_SpawnWhiteCustomScale(play, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteShockwaveSetScale(play, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 void EnSt_SpawnDeadEffect(EnSt* this, PlayState* play) {

@@ -316,15 +316,26 @@ void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Ve
 
 // EffectSsBlast Spawn Functions
 
-void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life) {
+/**
+ * Spawn a ring-shaped shockwave effect.
+ *
+ * @param pos Position from which to find collision to draw the shockwave along.
+ * @param innerColor Color on the inside of the ring. Alpha is effect's alpha.
+ * @param outerColor Color on the outside of the ring.
+ * @param scale How large the shockwave is initially. The shockwave will be `64*scale/400` units wide.
+ * @param scaleStep How much to increase `scale` by each frame.
+ * @param scaleStepDecay How much to decrease `scaleStep` by each frame
+ *   (should be a divisor of `scaleStep`, or small enough that `scaleStep` won't go negative).
+ */
+void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* innerColor,
+                         Color_RGBA8* outerColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
-    Color_RGBA8_Copy(&initParams.primColor, primColor);
-    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    Color_RGBA8_Copy(&initParams.innerColor, innerColor);
+    Color_RGBA8_Copy(&initParams.outerColor, outerColor);
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
     initParams.scaleStepDecay = scaleStepDecay;
@@ -333,24 +344,39 @@ void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* ac
     EffectSs_Spawn(play, EFFECT_SS_BLAST, 128, &initParams);
 }
 
-void EffectSsBlast_SpawnWhiteCustomScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
-                                         s16 scaleStep, s16 life) {
-    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
-    static Color_RGBA8 envColor = { 200, 200, 200, 0 };
+/**
+ * Spawn a white shockwave effect.
+ *
+ * @see EffectSsBlast_Spawn
+ */
+void EffectSsBlast_SpawnWhiteShockwaveSetScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                               s16 scaleStep, s16 life) {
+    static Color_RGBA8 innerColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 outerColor = { 200, 200, 200, 0 };
 
-    EffectSsBlast_Spawn(play, pos, velocity, accel, &primColor, &envColor, scale, scaleStep, 35, life);
+    EffectSsBlast_Spawn(play, pos, velocity, accel, &innerColor, &outerColor, scale, scaleStep, 35, life);
 }
 
-void EffectSsBlast_SpawnShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                                  Color_RGBA8* envColor, s16 life) {
-    EffectSsBlast_Spawn(play, pos, velocity, accel, primColor, envColor, 100, 375, 35, life);
+/**
+ * Spawn a shockwave effect, quickly expanding.
+ *
+ * @see EffectSsBlast_Spawn
+ */
+void EffectSsBlast_SpawnShockwaveSetColor(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                          Color_RGBA8* innerColor, Color_RGBA8* outerColor, s16 life) {
+    EffectSsBlast_Spawn(play, pos, velocity, accel, innerColor, outerColor, 100, 375, 35, life);
 }
 
+/**
+ * Spawn a white shockwave effect, quickly expanding, for 10 frames.
+ *
+ * @see EffectSsBlast_Spawn
+ */
 void EffectSsBlast_SpawnWhiteShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
-    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
-    static Color_RGBA8 envColor = { 200, 200, 200, 0 };
+    static Color_RGBA8 innerColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 outerColor = { 200, 200, 200, 0 };
 
-    EffectSsBlast_SpawnShockwave(play, pos, velocity, accel, &primColor, &envColor, 10);
+    EffectSsBlast_SpawnShockwaveSetColor(play, pos, velocity, accel, &innerColor, &outerColor, 10);
 }
 
 // EffectSsGSpk Spawn Functions
