@@ -2,6 +2,11 @@
 #include "ultra64/internal.h"
 #include "ultra64/leodrive.h"
 
+// os.h
+#define LEO_BLOCK_MODE	1
+#define LEO_TRACK_MODE	2
+#define LEO_SECTOR_MODE	3
+
 void __osDevMgrMain(void* arg) {
     OSIoMesg* ioMesg = NULL;
     OSMesg em;
@@ -12,6 +17,7 @@ void __osDevMgrMain(void* arg) {
 
     while (true) {
         osRecvMesg(dm->cmdQueue, (OSMesg*)&ioMesg, OS_MESG_BLOCK);
+
         if ((ioMesg->piHandle != NULL) && (ioMesg->piHandle->type == DEVICE_TYPE_64DD) &&
             ((ioMesg->piHandle->transferInfo.cmdType == 0) || (ioMesg->piHandle->transferInfo.cmdType == 1))) {
             __OSBlockInfo* blockInfo;
@@ -19,45 +25,49 @@ void __osDevMgrMain(void* arg) {
 
             info = &ioMesg->piHandle->transferInfo;
             blockInfo = &info->block[info->blockNum];
-
             info->sectorNum = -1;
-            if (info->transferMode != 3) {
+
+            if (info->transferMode != LEO_SECTOR_MODE) {
                 blockInfo->dramAddr = (void*)((u32)blockInfo->dramAddr - blockInfo->sectorSize);
             }
 
-            messageSend = ((info->transferMode == 2) && (ioMesg->piHandle->transferInfo.cmdType == 0)) ? true : false;
+            if (info->transferMode == LEO_TRACK_MODE && ioMesg->piHandle->transferInfo.cmdType == 0) {
+                messageSend = 1;
+            } else {
+                messageSend = 0;
+            }
 
             osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
             __osResetGlobalIntMask(OS_IM_PI);
             __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_START);
 
-            while (true) {
-                osRecvMesg(dm->evtQueue, &em, OS_MESG_BLOCK);
+readblock1:
+            osRecvMesg(dm->evtQueue, &em, OS_MESG_BLOCK);
 
-                info = &ioMesg->piHandle->transferInfo;
-                blockInfo = &info->block[info->blockNum];
+            info = &ioMesg->piHandle->transferInfo;
+            blockInfo = &info->block[info->blockNum];
 
-                if (blockInfo->errStatus == 29) {
-                    u32 stat;
+            if (blockInfo->errStatus == 29) {
+                u32 stat;
 
-                    __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_RESET);
-                    __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow);
-                    __osEPiRawReadIo(ioMesg->piHandle, ASIC_STATUS, &stat);
+                __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_RESET);
+                __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow);
+                __osEPiRawReadIo(ioMesg->piHandle, ASIC_STATUS, &stat);
 
-                    if (stat & 0x02000000) {
-                        __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_CLR_MECHANIC_INTR);
-                    }
-                    blockInfo->errStatus = 4;
-
-                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLR_INTR;
-                    __osSetGlobalIntMask(OS_IM_CART | OS_IM_PI);
+                if (stat & LEO_STATUS_MEHANIC_INTR) {
+                    __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_CLR_MECHANIC_INTR);
                 }
-                osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
+                blockInfo->errStatus = 4;
 
-                if ((messageSend != true) || (ioMesg->piHandle->transferInfo.block[0].errStatus != 0)) {
-                    break;
-                }
-                messageSend = false;
+                HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLR_INTR;
+                __osSetGlobalIntMask(OS_IM_CART | OS_IM_PI);
+            }
+            osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
+
+            if (messageSend == 1 && ioMesg->piHandle->transferInfo.block[0].errStatus == 0) {
+                // Run the above once more
+                messageSend = 0;
+                goto readblock1;
             }
 
             osSendMesg(dm->acsQueue, NULL, OS_MESG_NOBLOCK);

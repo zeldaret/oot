@@ -14,6 +14,8 @@
 #define VI_2_10_FPART_MASK  0x3FF
 #define VI_SUBPIXEL_SH      0x10
 
+// For use in initializing OSViMode structures
+
 #define BURST(hsync_width, color_width, vsync_width, color_start) \
     (hsync_width | (color_width << 8) | (vsync_width << 16) | (color_start << 20))
 #define WIDTH(v) v

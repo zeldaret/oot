@@ -85,7 +85,7 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
     yScaleHiOddField = modeF ? (loResInterlaced ? (F210(0.75) << 16) : (F210(0.5) << 16)) : 0;
 
     viMode->customViMode.type = type;
-    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV_3 | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
+    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV(3) | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
                                         (!loResDeinterlaced ? VI_CTRL_SERRATE_ON : 0) |
                                         (antialiasOn ? VI_CTRL_DIVOT_ON : 0) |
                                         (fb32Bit ? VI_CTRL_TYPE_32 : VI_CTRL_TYPE_16);
@@ -174,13 +174,13 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
 }
 
 void ViMode_Save(ViMode* viMode) {
-    R_VI_MODE_STATE = viMode->editState;
-    R_VI_MODE_WIDTH = viMode->viWidth;
-    R_VI_MODE_HEIGHT = viMode->viHeight;
-    R_VI_MODE_ULY_ADJ = viMode->upperAdjust;
-    R_VI_MODE_LRY_ADJ = viMode->lowerAdjust;
-    R_VI_MODE_ULX_ADJ = viMode->leftAdjust;
-    R_VI_MODE_LRX_ADJ = viMode->rightAdjust;
+    R_VI_MODE_EDIT_STATE = viMode->editState;
+    R_VI_MODE_EDIT_WIDTH = viMode->viWidth;
+    R_VI_MODE_EDIT_HEIGHT = viMode->viHeight;
+    R_VI_MODE_EDIT_ULY_ADJ = viMode->upperAdjust;
+    R_VI_MODE_EDIT_LRY_ADJ = viMode->lowerAdjust;
+    R_VI_MODE_EDIT_ULX_ADJ = viMode->leftAdjust;
+    R_VI_MODE_EDIT_LRX_ADJ = viMode->rightAdjust;
 
     if (SREG(58) == 1) {
         SREG(58) = 0;
@@ -204,17 +204,17 @@ void ViMode_Save(ViMode* viMode) {
 
 void ViMode_Load(ViMode* viMode) {
     //! @bug This condition never passes as the lowest bit is always masked out to 0
-    if ((R_VI_MODE_WIDTH & ~3) == 1) {
-        R_VI_MODE_WIDTH += 4;
+    if ((R_VI_MODE_EDIT_WIDTH & ~3) == 1) {
+        R_VI_MODE_EDIT_WIDTH += 4;
     }
 
-    viMode->editState = R_VI_MODE_STATE;
-    viMode->viWidth = R_VI_MODE_WIDTH & ~3;
-    viMode->viHeight = R_VI_MODE_HEIGHT;
-    viMode->upperAdjust = R_VI_MODE_ULY_ADJ;
-    viMode->lowerAdjust = R_VI_MODE_LRY_ADJ;
-    viMode->leftAdjust = R_VI_MODE_ULX_ADJ;
-    viMode->rightAdjust = R_VI_MODE_LRX_ADJ;
+    viMode->editState = R_VI_MODE_EDIT_STATE;
+    viMode->viWidth = R_VI_MODE_EDIT_WIDTH & ~3;
+    viMode->viHeight = R_VI_MODE_EDIT_HEIGHT;
+    viMode->upperAdjust = R_VI_MODE_EDIT_ULY_ADJ;
+    viMode->lowerAdjust = R_VI_MODE_EDIT_LRY_ADJ;
+    viMode->leftAdjust = R_VI_MODE_EDIT_ULX_ADJ;
+    viMode->rightAdjust = R_VI_MODE_EDIT_LRX_ADJ;
 }
 
 void ViMode_Init(ViMode* viMode) {
@@ -264,7 +264,7 @@ void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures) {
 
 /**
  * Updates the custom VI mode with controller input and any edits made with the REG editor
- * (through R_VI_MODE_* entries)
+ * (through R_VI_MODE_EDIT_* entries)
  */
 void ViMode_Update(ViMode* viMode, Input* input) {
     // Load state from REGs

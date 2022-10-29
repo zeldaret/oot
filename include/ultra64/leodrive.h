@@ -41,4 +41,7 @@
 #define LEO_BM_XFER_BLOCK           0x02000000  // Block Transfer
 #define LEO_BM_CLR_MECHANIC_INTR    0x01000000  // Mechanic Interrupt Reset
 
+// ASIC_STATUS read bits
+#define LEO_STATUS_MEHANIC_INTR     0x02000000  // Mechanic Interrupt Raised
+
 #endif

@@ -243,13 +243,13 @@ void GameState_Update(GameState* gameState) {
     func_800C4344(gameState);
 
     if (SREG(63) == 1u) {
-        if (R_VI_MODE_STATE < VI_MODE_EDIT_STATE_INACTIVE) {
-            R_VI_MODE_STATE = VI_MODE_EDIT_STATE_INACTIVE;
+        if (R_VI_MODE_EDIT_STATE < VI_MODE_EDIT_STATE_INACTIVE) {
+            R_VI_MODE_EDIT_STATE = VI_MODE_EDIT_STATE_INACTIVE;
             gfxCtx->viMode = &gViConfigMode;
             gfxCtx->viFeatures = gViConfigFeatures;
             gfxCtx->xScale = gViConfigXScale;
             gfxCtx->yScale = gViConfigYScale;
-        } else if (R_VI_MODE_STATE > VI_MODE_EDIT_STATE_INACTIVE) {
+        } else if (R_VI_MODE_EDIT_STATE > VI_MODE_EDIT_STATE_INACTIVE) {
             ViMode_Update(&sViMode, &gameState->input[0]);
             gfxCtx->viMode = &sViMode.customViMode;
             gfxCtx->viFeatures = sViMode.viFeatures;
@@ -408,7 +408,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     func_800ACE70(&D_801664F0);
     func_800AD920(&D_80166500);
     VisMono_Init(&sMonoColors);
-    if (R_VI_MODE_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
+    if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
@@ -438,7 +438,7 @@ void GameState_Destroy(GameState* gameState) {
     func_800ACE90(&D_801664F0);
     func_800AD950(&D_80166500);
     VisMono_Destroy(&sMonoColors);
-    if (R_VI_MODE_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
+    if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Destroy(&sViMode);
     }
     THA_Dt(&gameState->tha);
