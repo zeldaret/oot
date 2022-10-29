@@ -63,7 +63,7 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     s32 pad;
     void* object;
     Mtx* mtx;
@@ -79,8 +79,8 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
         scale = this->rScale / 100.0f;
         SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
         SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-        SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-        SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+        SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+        SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
