@@ -3,9 +3,9 @@
 #include "ultra64/leodrive.h"
 
 // os.h
-#define LEO_BLOCK_MODE	1
-#define LEO_TRACK_MODE	2
-#define LEO_SECTOR_MODE	3
+#define LEO_BLOCK_MODE 1
+#define LEO_TRACK_MODE 2
+#define LEO_SECTOR_MODE 3
 
 void __osDevMgrMain(void* arg) {
     OSIoMesg* ioMesg = NULL;
@@ -41,7 +41,7 @@ void __osDevMgrMain(void* arg) {
             __osResetGlobalIntMask(OS_IM_PI);
             __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_START);
 
-readblock1:
+        readblock1:
             osRecvMesg(dm->evtQueue, &em, OS_MESG_BLOCK);
 
             info = &ioMesg->piHandle->transferInfo;
@@ -54,7 +54,7 @@ readblock1:
                 __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow);
                 __osEPiRawReadIo(ioMesg->piHandle, ASIC_STATUS, &stat);
 
-                if (stat & LEO_STATUS_MEHANIC_INTR) {
+                if (stat & LEO_STATUS_MECHANIC_INTR) {
                     __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_CLR_MECHANIC_INTR);
                 }
                 blockInfo->errStatus = 4;
