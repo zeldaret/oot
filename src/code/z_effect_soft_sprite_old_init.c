@@ -745,12 +745,12 @@ void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocit
 }
 
 /**
- * Spawn a shock effect
+ * Spawn a purple shock/lighting effect.
  *
- * param determines where the ligntning should go
- * 0: dont attach to any actor. spawns at the position specified by pos
- * 1: spawn at one of Player's body parts, chosen at random
- * 2: spawn at one of Phantom Ganon's body parts, chosen at random
+ * @param actor If param is `FHGFLASH_SHOCK_PG`, the Phantom Ganon actor. Unused otherwise.
+ * @param pos If param is `FHGFLASH_SHOCK_NO_ACTOR`, the position of the effect. Unused otherwise.
+ * @param scale The effect will be `20*rand(1..2)*scale/100` units wide.
+ * @param param Determines what the effect attaches to. See `FhgFlashLightningParam`.
  */
 void EffectSsFhgFlash_SpawnShock(PlayState* play, Actor* actor, Vec3f* pos, s16 scale, u8 param) {
     EffectSsFhgFlashInitParams initParams;
