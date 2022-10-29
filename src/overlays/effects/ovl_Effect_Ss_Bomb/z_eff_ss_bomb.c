@@ -10,7 +10,7 @@
 #define LIFE_INIT 20
 
 #define rScale regs[0]
-#define rTexIdx regs[1]
+#define rTexIndex regs[1]
 
 u32 EffectSsBomb_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this);
@@ -32,7 +32,7 @@ u32 EffectSsBomb_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
     this->draw = EffectSsBomb_Draw;
     this->update = EffectSsBomb_Update;
     this->rScale = 100;
-    this->rTexIdx = 0;
+    this->rTexIndex = 0;
 
     return 1;
 }
@@ -72,7 +72,7 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sExplosionTextures[this->rTexIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sExplosionTextures[this->rTexIndex]));
         gDPPipeSync(POLY_XLU_DISP++);
         Gfx_SetupDL_61Xlu(gfxCtx);
         intensity = this->life * ((f32)255 / LIFE_INIT);
@@ -88,10 +88,10 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsBomb_Update(PlayState* play, u32 index, EffectSs* this) {
     if ((this->life <= LIFE_INIT) && (this->life > (LIFE_INIT - ARRAY_COUNT(sExplosionTextures)))) {
-        this->rTexIdx = (LIFE_INIT - this->life);
+        this->rTexIndex = (LIFE_INIT - this->life);
     } else {
         this->rScale += 0;
-        this->rTexIdx = ARRAY_COUNT(sExplosionTextures) - 1;
+        this->rTexIndex = ARRAY_COUNT(sExplosionTextures) - 1;
     }
 
     this->accel.x = ((Rand_ZeroOne() * 0.4f) - 0.2f);
