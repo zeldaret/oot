@@ -7,7 +7,7 @@
 #include "z_eff_ss_bomb.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define LIFE_INIT 20
+#define LIFESPAN 20
 
 #define rScale regs[0]
 #define rTexIndex regs[1]
@@ -28,7 +28,7 @@ u32 EffectSsBomb_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
     this->gfx = SEGMENTED_TO_VIRTUAL(gEffBombExplosion1DL);
-    this->life = LIFE_INIT;
+    this->life = LIFESPAN;
     this->draw = EffectSsBomb_Draw;
     this->update = EffectSsBomb_Update;
     this->rScale = 100;
@@ -75,7 +75,7 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sExplosionTextures[this->rTexIndex]));
         gDPPipeSync(POLY_XLU_DISP++);
         Gfx_SetupDL_61Xlu(gfxCtx);
-        intensity = this->life * ((f32)255 / LIFE_INIT);
+        intensity = this->life * ((f32)255 / LIFESPAN);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, intensity, intensity, intensity, intensity);
         gDPPipeSync(POLY_XLU_DISP++);
         //! @bug env color is not set but used in gEffBombExplosion1DL
@@ -87,8 +87,8 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsBomb_Update(PlayState* play, u32 index, EffectSs* this) {
-    if ((this->life <= LIFE_INIT) && (this->life > (LIFE_INIT - ARRAY_COUNT(sExplosionTextures)))) {
-        this->rTexIndex = (LIFE_INIT - this->life);
+    if ((this->life <= LIFESPAN) && (this->life > (LIFESPAN - ARRAY_COUNT(sExplosionTextures)))) {
+        this->rTexIndex = (LIFESPAN - this->life);
     } else {
         this->rScale += 0;
         this->rTexIndex = ARRAY_COUNT(sExplosionTextures) - 1;
