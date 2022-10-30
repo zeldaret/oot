@@ -22,7 +22,7 @@ void func_80B17934(EnTakaraMan* this, PlayState* play);
 void func_80B17A6C(EnTakaraMan* this, PlayState* play);
 void func_80B17AC4(EnTakaraMan* this, PlayState* play);
 
-const ActorInit En_Takara_Man_InitVars = {
+ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
     ACTORCAT_NPC,
     FLAGS,

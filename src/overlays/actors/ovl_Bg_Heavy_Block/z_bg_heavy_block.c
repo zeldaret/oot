@@ -27,7 +27,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_DoNothing(BgHeavyBlock* this, PlayState* play);
 
-const ActorInit Bg_Heavy_Block_InitVars = {
+ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORCAT_BG,
     FLAGS,

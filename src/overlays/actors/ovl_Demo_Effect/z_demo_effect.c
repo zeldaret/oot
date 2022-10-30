@@ -62,7 +62,7 @@ void DemoEffect_InitPositionFromCsAction(DemoEffect* this, PlayState* play, s32 
 void DemoEffect_MoveToCsEndpoint(DemoEffect* this, PlayState* play, s32 csActionId, s32 shouldUpdateFacing);
 void DemoEffect_MoveGetItem(DemoEffect* this, PlayState* play, s32 csActionId, f32 speed);
 
-const ActorInit Demo_Effect_InitVars = {
+ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
     ACTORCAT_BG,
     FLAGS,

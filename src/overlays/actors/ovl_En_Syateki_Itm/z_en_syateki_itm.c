@@ -27,7 +27,7 @@ void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, PlayState* play);
 void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, PlayState* play);
 void EnSyatekiItm_EndGame(EnSyatekiItm* this, PlayState* play);
 
-const ActorInit En_Syateki_Itm_InitVars = {
+ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
     ACTORCAT_PROP,
     FLAGS,

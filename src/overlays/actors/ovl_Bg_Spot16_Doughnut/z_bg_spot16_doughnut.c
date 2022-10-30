@@ -18,7 +18,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot16_Doughnut_InitVars = {
+ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORCAT_PROP,
     FLAGS,

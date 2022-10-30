@@ -25,7 +25,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play);
 void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
-const ActorInit En_Sb_InitVars = {
+ActorInit En_Sb_InitVars = {
     ACTOR_EN_SB,
     ACTORCAT_ENEMY,
     FLAGS,

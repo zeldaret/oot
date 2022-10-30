@@ -24,7 +24,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 static int sUnused = 0;
 
-const ActorInit Bg_Jya_Ironobj_InitVars = {
+ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
     ACTORCAT_PROP,
     FLAGS,

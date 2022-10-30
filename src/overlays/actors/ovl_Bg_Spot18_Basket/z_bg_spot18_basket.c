@@ -22,7 +22,7 @@ void func_808B7D50(BgSpot18Basket* this, PlayState* play);
 void func_808B7FC0(BgSpot18Basket* this, PlayState* play);
 void func_808B81A0(BgSpot18Basket* this, PlayState* play);
 
-const ActorInit Bg_Spot18_Basket_InitVars = {
+ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
     ACTORCAT_PROP,
     FLAGS,

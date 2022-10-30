@@ -33,7 +33,7 @@ void func_809EEA00(EnDivingGame* this, PlayState* play);
 void func_809EEA90(EnDivingGame* this, PlayState* play);
 void func_809EEAF8(EnDivingGame* this, PlayState* play);
 
-const ActorInit En_Diving_Game_InitVars = {
+ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
     ACTORCAT_NPC,
     FLAGS,

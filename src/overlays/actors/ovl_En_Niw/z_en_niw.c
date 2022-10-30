@@ -36,7 +36,7 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play);
 
 static s16 D_80AB85E0 = 0;
 
-const ActorInit En_Niw_InitVars = {
+ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
     ACTORCAT_PROP,
     FLAGS,

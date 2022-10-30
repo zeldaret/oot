@@ -18,7 +18,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play);
 
-const ActorInit Bg_Spot09_Obj_InitVars = {
+ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
     ACTORCAT_BG,
     FLAGS,

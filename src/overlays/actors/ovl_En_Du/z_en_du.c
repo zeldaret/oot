@@ -22,7 +22,7 @@ void func_809FEC70(EnDu* this, PlayState* play);
 void func_809FECE4(EnDu* this, PlayState* play);
 void func_809FEB08(EnDu* this, PlayState* play);
 
-const ActorInit En_Du_InitVars = {
+ActorInit En_Du_InitVars = {
     ACTOR_EN_DU,
     ACTORCAT_NPC,
     FLAGS,

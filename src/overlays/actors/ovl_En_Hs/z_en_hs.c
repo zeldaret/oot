@@ -18,7 +18,7 @@ void EnHs_Draw(Actor* thisx, PlayState* play);
 void func_80A6E9AC(EnHs* this, PlayState* play);
 void func_80A6E6B0(EnHs* this, PlayState* play);
 
-const ActorInit En_Hs_InitVars = {
+ActorInit En_Hs_InitVars = {
     ACTOR_EN_HS,
     ACTORCAT_NPC,
     FLAGS,

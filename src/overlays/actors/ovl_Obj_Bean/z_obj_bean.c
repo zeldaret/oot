@@ -72,7 +72,7 @@ void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play);
 
 static ObjBean* D_80B90E30 = NULL;
 
-const ActorInit Obj_Bean_InitVars = {
+ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
     ACTORCAT_BG,
     FLAGS,

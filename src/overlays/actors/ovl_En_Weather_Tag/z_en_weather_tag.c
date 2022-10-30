@@ -31,7 +31,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, PlayState* play);
 
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
-const ActorInit En_Weather_Tag_InitVars = {
+ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
     ACTORCAT_PROP,
     FLAGS,

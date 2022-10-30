@@ -74,7 +74,7 @@ void EnTite_FallApart(EnTite* this, PlayState* play);
 void EnTite_FlipOnBack(EnTite* this, PlayState* play);
 void EnTite_FlipUpright(EnTite* this, PlayState* play);
 
-const ActorInit En_Tite_InitVars = {
+ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORCAT_ENEMY,
     FLAGS,

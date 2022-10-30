@@ -22,7 +22,7 @@ static EnEgActionFunc sActionFuncs[] = {
     func_809FFDC8,
 };
 
-const ActorInit En_Eg_InitVars = {
+ActorInit En_Eg_InitVars = {
     ACTOR_EN_EG,
     ACTORCAT_ITEMACTION,
     FLAGS,

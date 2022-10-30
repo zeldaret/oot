@@ -20,7 +20,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, PlayState* play);
 
 static s32 sGetItemIds[] = { GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_BOMBS_1, GI_RUPEE_PURPLE };
 
-const ActorInit En_Bom_Bowl_Pit_InitVars = {
+ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
     ACTORCAT_PROP,
     FLAGS,

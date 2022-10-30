@@ -42,7 +42,7 @@ static s16 sCaughtCount = 0;
  */
 static s16 sDroppedCount = 0;
 
-const ActorInit En_Insect_InitVars = {
+ActorInit En_Insect_InitVars = {
     ACTOR_EN_INSECT,
     ACTORCAT_ITEMACTION,
     FLAGS,

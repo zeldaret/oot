@@ -133,7 +133,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
-const ActorInit En_Fr_InitVars = {
+ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORCAT_NPC,
     FLAGS,

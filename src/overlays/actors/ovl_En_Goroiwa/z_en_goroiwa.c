@@ -43,7 +43,7 @@ void EnGoroiwa_MoveUp(EnGoroiwa* this, PlayState* play);
 void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
 void EnGoroiwa_MoveDown(EnGoroiwa* this, PlayState* play);
 
-const ActorInit En_Goroiwa_InitVars = {
+ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORCAT_PROP,
     FLAGS,

@@ -888,16 +888,14 @@ typedef struct {
 } Subj4ReadOnlyData; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ InfiniteLine unk_00;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ s16 unk_2C;
-    /* 0x2E */ s16 unk_2E;
-    /* 0x30 */ s16 unk_30;
-    /* 0x32 */ s16 unk_32;
+    /* 0x00 */ InfiniteLine crawlspaceLine;
+    /* 0x18 */ Vec3f unk_18; // unused
+    /* 0x24 */ f32 xzSpeed;
+    /* 0x28 */ f32 eyeLerp;
+    /* 0x2C */ s16 eyeLerpPhase;
+    /* 0x2E */ s16 isSfxOff;
+    /* 0x30 */ s16 forwardYaw; // yaw to the forwards crawling direction
+    /* 0x32 */ s16 zoomTimer;
 } Subj4ReadWriteData; // size = 0x34
 
 typedef struct {

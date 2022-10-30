@@ -63,8 +63,8 @@ s32 D_80119D90[WALL_TYPE_MAX] = {
     WALL_FLAG_0 | WALL_FLAG_1, // WALL_TYPE_2
     WALL_FLAG_0 | WALL_FLAG_2, // WALL_TYPE_3
     WALL_FLAG_3,               // WALL_TYPE_4
-    WALL_FLAG_4,               // WALL_TYPE_5
-    WALL_FLAG_5,               // WALL_TYPE_6
+    WALL_FLAG_CRAWLSPACE_1,    // WALL_TYPE_5
+    WALL_FLAG_CRAWLSPACE_2,    // WALL_TYPE_6
     WALL_FLAG_6,               // WALL_TYPE_7
 };
 

@@ -500,7 +500,7 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-const ActorInit Demo_Ik_InitVars = {
+ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
     ACTORCAT_NPC,
     FLAGS,

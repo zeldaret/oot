@@ -331,14 +331,18 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_SetCameraRoll(play, subCamId, childCam->roll);
             break;
         case 9601:
+            // Leaving a crawlspace forwards
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);
             Play_CameraChangeSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
+            OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceForwardsEyePoints);
             break;
         case 9602:
+            // Leaving a crawlspace backwards
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);
             Play_CameraChangeSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
+            OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceBackwardsEyePoints);
             break;
         case 4175:
             csInfo->keyFrames = D_8012147C;

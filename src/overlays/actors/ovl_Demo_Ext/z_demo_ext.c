@@ -233,7 +233,7 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit Demo_Ext_InitVars = {
+ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORCAT_NPC,
     FLAGS,

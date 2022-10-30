@@ -47,7 +47,7 @@ void PreNMI_Main(GameState* thisx) {
     PreNMI_Update(this);
     PreNMI_Draw(this);
 
-    this->state.unk_A0 = 1;
+    this->state.inPreNMIState = true;
 }
 
 void PreNMI_Destroy(GameState* thisx) {

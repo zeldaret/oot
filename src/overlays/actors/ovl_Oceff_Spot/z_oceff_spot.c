@@ -16,7 +16,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play);
 
 void OceffSpot_GrowCylinder(OceffSpot* this, PlayState* play);
 
-const ActorInit Oceff_Spot_InitVars = {
+ActorInit Oceff_Spot_InitVars = {
     ACTOR_OCEFF_SPOT,
     ACTORCAT_ITEMACTION,
     FLAGS,

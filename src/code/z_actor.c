@@ -931,20 +931,24 @@ f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint) {
     return Math_Vec3f_DistXZ(&actor->world.pos, refPoint);
 }
 
-void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2) {
-    f32 cosRot2Y;
-    f32 sinRot2Y;
+/**
+ * Convert `pos` to be relative to the actor's position and yaw, store into `dest`.
+ * Actor_WorldToActorCoords
+ */
+void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos) {
+    f32 cosY;
+    f32 sinY;
     f32 deltaX;
     f32 deltaZ;
 
-    cosRot2Y = Math_CosS(actor->shape.rot.y);
-    sinRot2Y = Math_SinS(actor->shape.rot.y);
-    deltaX = arg2->x - actor->world.pos.x;
-    deltaZ = arg2->z - actor->world.pos.z;
+    cosY = Math_CosS(actor->shape.rot.y);
+    sinY = Math_SinS(actor->shape.rot.y);
+    deltaX = pos->x - actor->world.pos.x;
+    deltaZ = pos->z - actor->world.pos.z;
 
-    result->x = (deltaX * cosRot2Y) - (deltaZ * sinRot2Y);
-    result->z = (deltaX * sinRot2Y) + (deltaZ * cosRot2Y);
-    result->y = arg2->y - actor->world.pos.y;
+    dest->x = (deltaX * cosY) - (deltaZ * sinY);
+    dest->z = (deltaX * sinY) + (deltaZ * cosY);
+    dest->y = pos->y - actor->world.pos.y;
 }
 
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB) {
