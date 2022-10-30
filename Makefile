@@ -102,7 +102,10 @@ INC        := -Iinclude -Isrc -Ibuild -I.
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-missing-braces
-build/src/overlays/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+# Actors and effets are mostly callback functions and often don't use all arguments,
+# ignore those warnings entirely instead of bloating their source with UNUSED.
+build/src/overlays/actors/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+build/src/overlays/effects/%.o: CHECK_WARNINGS += -Wno-unused-parameter
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript

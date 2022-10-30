@@ -566,7 +566,7 @@ static const char* sLoadingMessages[] = {
     GFXP_HIRAGANA "ｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡",
 };
 
-void MapSelect_PrintLoadingMessage(MapSelectState* this, GfxPrint* printer) {
+void MapSelect_PrintLoadingMessage(UNUSED MapSelectState* this, GfxPrint* printer) {
     s32 randomMsg;
 
     GfxPrint_SetPos(printer, 10, 15);
@@ -580,13 +580,13 @@ static const char* sAgeLabels[] = {
     GFXP_HIRAGANA "5(ﾜｶｽｷﾞ)", // "5(very young)"
 };
 
-void MapSelect_PrintAgeSetting(MapSelectState* this, GfxPrint* printer, s32 age) {
+void MapSelect_PrintAgeSetting(UNUSED MapSelectState* this, GfxPrint* printer, s32 age) {
     GfxPrint_SetPos(printer, 4, 26);
     GfxPrint_SetColor(printer, 255, 255, 55, 255);
     GfxPrint_Printf(printer, "Age:%s", sAgeLabels[age]);
 }
 
-void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16 csIndex) {
+void MapSelect_PrintCutsceneSetting(UNUSED MapSelectState* this, GfxPrint* printer, u16 csIndex) {
     char* label;
 
     GfxPrint_SetPos(printer, 4, 25);
@@ -715,7 +715,7 @@ void MapSelect_Main(GameState* thisx) {
     MapSelect_Draw(this);
 }
 
-void MapSelect_Destroy(GameState* thisx) {
+void MapSelect_Destroy(UNUSED GameState* thisx) {
     osSyncPrintf("%c", BEL);
     // "view_cleanup will hang, so it won't be called"
     osSyncPrintf("*** view_cleanupはハングアップするので、呼ばない ***\n");

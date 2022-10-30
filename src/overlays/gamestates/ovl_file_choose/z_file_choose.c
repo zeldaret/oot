@@ -64,7 +64,7 @@ void FileSelect_InitModeUpdate(GameState* thisx) {
     }
 }
 
-void FileSelect_InitModeDraw(GameState* thisx) {
+void FileSelect_InitModeDraw(UNUSED GameState* thisx) {
 }
 
 /**
@@ -281,7 +281,7 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
 /**
  * Update function for `CM_UNUSED_31`
  */
-void FileSelect_UnusedCM31(GameState* thisx) {
+void FileSelect_UnusedCM31(UNUSED GameState* thisx) {
 }
 
 /**
@@ -1865,7 +1865,7 @@ void FileSelect_InitContext(GameState* thisx) {
     }
 }
 
-void FileSelect_Destroy(GameState* thisx) {
+void FileSelect_Destroy(UNUSED GameState* thisx) {
 }
 
 void FileSelect_Init(GameState* thisx) {
