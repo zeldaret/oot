@@ -2012,7 +2012,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
     s16 b;
     u16 i;
     u16 notePosX;
-    UNUSED u16 pad2;
+    UNUSED s16 pad2;
     u16 j;
 
     gSPSegment(gfx++, 0x02, play->interfaceCtx.parameterSegment);

@@ -4,7 +4,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     f32 volLeft;
     f32 volRight;
     s32 halfPanIndex;
-    UNUSED u64 pad;
+    UNUSED s32 pad[3];
     u8 strongLeft;
     u8 strongRight;
     f32 vel;

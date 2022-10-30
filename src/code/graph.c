@@ -228,7 +228,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
-    { UNUSED s32 pad2; } // Necessary to match stack usage
+    { UNUSED s32 pad; } // Necessary to match stack usage
 
     task->yield_data_ptr = gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);

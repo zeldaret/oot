@@ -916,7 +916,7 @@ s32 Camera_CalcAtDefault(Camera* camera, VecGeo* eyeAtDir, f32 extraYOffset, s16
     Vec3f* at = &camera->at;
     Vec3f posOffsetTarget;
     Vec3f atTarget;
-    UNUSED s32 pad2;
+    UNUSED s32 pad;
     PosRot* playerPosRot = &camera->playerPosRot;
     f32 yOffset;
 
@@ -2010,7 +2010,7 @@ s32 Camera_Parallel1(Camera* camera) {
     s16 phi_a0;
     Parallel1ReadOnlyData* roData = &camera->paramData.para1.roData;
     Parallel1ReadWriteData* rwData = &camera->paramData.para1.rwData;
-    UNUSED s32 pad1;
+    UNUSED s32 pad;
     f32 playerHeight;
     f32 value;
 

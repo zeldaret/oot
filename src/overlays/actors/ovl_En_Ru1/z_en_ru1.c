@@ -2308,13 +2308,13 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    UNUSED s32 pad1[2];
     s16 eyeIndex = this->eyeIndex;
     void* eyeTex = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouthIndex];
-    UNUSED s32 pad1;
+    UNUSED s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1282);
 

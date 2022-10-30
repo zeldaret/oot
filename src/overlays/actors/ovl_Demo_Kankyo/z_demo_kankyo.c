@@ -595,7 +595,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         Matrix_Scale(sRainScale * 0.001f, sRainScale * 0.001f, sRainScale * 0.001f, MTXMODE_APPLY);
 
         for (j = 0; j < 5; j++) {
-            UNUSED s32 pad1;
+            UNUSED s32 pad;
 
             if (play->sceneId != SCENE_TOKINOMA) {
                 if (this->unk_150[i].unk_0.x >= 0.0f) {

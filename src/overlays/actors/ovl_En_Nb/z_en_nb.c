@@ -166,7 +166,7 @@ void func_80AB1040(EnNb* this, PlayState* play) {
 }
 
 void func_80AB10C4(EnNb* this) {
-    UNUSED s32 pad2[2];
+    UNUSED s32 pad[2];
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
