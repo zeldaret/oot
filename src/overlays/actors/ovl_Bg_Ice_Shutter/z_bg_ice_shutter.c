@@ -46,7 +46,7 @@ void func_80891AC0(BgIceShutter* this) {
 
 void BgIceShutter_Init(Actor* thisx, PlayState* play) {
     BgIceShutter* this = (BgIceShutter*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
     s32 sp28;
     f32 temp_f6;

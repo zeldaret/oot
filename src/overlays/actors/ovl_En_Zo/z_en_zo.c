@@ -716,7 +716,7 @@ void EnZo_Dive(EnZo* this, PlayState* play) {
 
 void EnZo_Update(Actor* thisx, PlayState* play) {
     EnZo* this = (EnZo*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
 
     if ((s32)this->alpha != 0) {

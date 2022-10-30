@@ -169,7 +169,7 @@ void BossFd2_SpawnDust(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, V
 }
 
 void BossFd2_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BossFd2* this = (BossFd2*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -187,7 +187,7 @@ void BossFd2_Init(Actor* thisx, PlayState* play) {
 }
 
 void BossFd2_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BossFd2* this = (BossFd2*)thisx;
 
     SkelAnime_Free(&this->skelAnime, play);
@@ -642,7 +642,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
     Vec3f sp64;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 cameraShake;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -1152,7 +1152,7 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
 }
 
 void BossFd2_DrawMane(BossFd2* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BossFd* bossFd = (BossFd*)this->actor.parent;
     s16 i;
 
@@ -1185,7 +1185,7 @@ void BossFd2_DrawMane(BossFd2* this, PlayState* play) {
 
 void BossFd2_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BossFd2* this = (BossFd2*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_fd2.c", 2617);

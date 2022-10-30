@@ -134,9 +134,9 @@ void ObjBean_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     colHeader = NULL;
 
@@ -865,7 +865,7 @@ void func_80B90A34(ObjBean* this, PlayState* play) {
     }
 }
 void ObjBean_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     ObjBean* this = (ObjBean*)thisx;
 
     if (this->timer > 0) {

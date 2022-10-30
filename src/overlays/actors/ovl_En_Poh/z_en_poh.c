@@ -182,7 +182,7 @@ static Vec3f D_80AE1B60 = { 0.0f, 3.0f, 0.0f };
 static Vec3f D_80AE1B6C = { 0.0f, 0.0f, 0.0f };
 
 void EnPoh_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnItem00* collectible;
     EnPoh* this = (EnPoh*)thisx;
 
@@ -604,7 +604,7 @@ void func_80ADF15C(EnPoh* this, PlayState* play) {
     Vec3f vec;
     f32 multiplier;
     f32 newScale;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     this->unk_198++;
     if (this->unk_198 < 8) {
@@ -982,7 +982,7 @@ void func_80AE089C(EnPoh* this) {
 
 void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
     EnPoh* this = (EnPoh*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f checkPos;
     s32 bgId;
 
@@ -1173,7 +1173,7 @@ void EnPoh_DrawSoul(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, this->info->lanternDisplayList);
         if (this->infoIdx == EN_POH_INFO_COMPOSER) {
             Color_RGBA8* envColor = (this->actor.params == EN_POH_SHARP) ? &D_80AE1B4C : &D_80AE1B50;
-            UNUSED s32 pad;
+            STACK_PAD(s32);
 
             gSPDisplayList(POLY_OPA_DISP++, gPoeComposerLanternBottomDL);
             gDPPipeSync(POLY_OPA_DISP++);

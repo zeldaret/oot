@@ -150,7 +150,7 @@ void EnLight_UpdateSwitch(Actor* thisx, PlayState* play) {
 
 void EnLight_Draw(Actor* thisx, PlayState* play) {
     EnLight* this = (EnLight*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     FlameParams* flameParams;
     Gfx* dList;
 

@@ -125,7 +125,7 @@ s32 func_808B8A5C(BgSpot18Obj* this, PlayState* play) {
 }
 
 s32 func_808B8A98(BgSpot18Obj* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -243,7 +243,7 @@ void func_808B8EE0(BgSpot18Obj* this) {
 }
 
 void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     Math_StepToF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);

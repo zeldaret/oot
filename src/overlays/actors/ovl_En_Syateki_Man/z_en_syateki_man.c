@@ -150,7 +150,7 @@ static s16 sTextIds[] = { 0x2B, 0x2E, 0xC8, 0x2D };
 static s16 sTextBoxCount[] = { TEXT_STATE_CHOICE, TEXT_STATE_EVENT, TEXT_STATE_EVENT, TEXT_STATE_EVENT };
 
 void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     osSyncPrintf("\n\n");
@@ -460,7 +460,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this) {
 }
 
 void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     if (this->timer != 0) {
@@ -494,7 +494,7 @@ s32 EnSyatekiMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 }
 
 void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

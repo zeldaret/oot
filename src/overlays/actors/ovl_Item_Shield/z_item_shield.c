@@ -182,7 +182,7 @@ void func_80B86CA8(ItemShield* this, PlayState* play) {
 }
 
 void func_80B86F68(ItemShield* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     MtxF* shield = &player->shieldMf;
 

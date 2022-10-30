@@ -59,11 +59,11 @@ void ConsoleLogo_Draw(ConsoleLogoState* this) {
     static Lights1 sTitleLights = gdSPDefLights1(100, 100, 100, 255, 255, 255, 69, 69, 69);
     u16 y;
     u16 idx;
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     Vec3f v3;
     Vec3f v1;
     Vec3f v2;
-    UNUSED s32 pad2[2];
+    STACK_PADS(s32, 2);
 
     OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 395);
 
@@ -129,7 +129,7 @@ void ConsoleLogo_Main(GameState* thisx) {
 
     if (gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
-        UNUSED s32 pad;
+        STACK_PAD(s32);
 
         ConsoleLogo_PrintBuildInfo(&gfx);
         POLY_OPA_DISP = gfx;

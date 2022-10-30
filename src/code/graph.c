@@ -228,7 +228,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
-    { UNUSED s32 pad; } // Necessary to match stack usage
+    { STACK_PAD(s32); } // Necessary to match stack usage
 
     task->yield_data_ptr = gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
@@ -380,7 +380,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     {
         OSTime timeNow = osGetTime();
-        UNUSED s32 pad[4];
+        STACK_PADS(s32, 4);
 
         gRSPGfxTimeTotal = gRSPGfxTimeAcc;
         gRSPAudioTimeTotal = gRSPAudioTimeAcc;

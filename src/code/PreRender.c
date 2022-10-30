@@ -540,7 +540,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     s32 buffB[5 * 3];
     s32 xi;
     s32 yi;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 pmaxR;
     s32 pmaxG;
     s32 pmaxB;
@@ -684,11 +684,11 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
 void PreRender_DivotFilter(PreRender* this) {
     s32 x;
     s32 y;
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     u8* buffR = alloca(this->width);
     u8* buffG = alloca(this->width);
     u8* buffB = alloca(this->width);
-    UNUSED s32 pad2[3];
+    STACK_PADS(s32, 3);
     s32 pxR;
     s32 pxG;
     s32 pxB;

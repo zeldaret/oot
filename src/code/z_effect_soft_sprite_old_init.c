@@ -47,7 +47,7 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     MtxF mfScale;
     MtxF mfResult;
     MtxF mfTrans11DA0;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Mtx* mtx;
     void* object = play->objectCtx.status[this->rgObjBankIdx].segment;
 

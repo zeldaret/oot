@@ -51,9 +51,9 @@ void BgMoriBigst_SetupAction(BgMoriBigst* this, BgMoriBigstActionFunc actionFunc
 }
 
 void BgMoriBigst_InitDynapoly(BgMoriBigst* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -67,7 +67,7 @@ void BgMoriBigst_InitDynapoly(BgMoriBigst* this, PlayState* play, CollisionHeade
 }
 
 void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     // "mori (bigST.keyceiling)"
@@ -95,7 +95,7 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriBigst_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -144,7 +144,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, PlayState* play) {
 }
 
 void BgMoriBigst_StalfosFight(BgMoriBigst* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if ((this->dyna.actor.home.rot.z == 0) &&
         ((this->dyna.actor.home.pos.y - 5.0f) <= GET_PLAYER(play)->actor.world.pos.y)) {
@@ -169,7 +169,7 @@ void BgMoriBigst_Fall(BgMoriBigst* this, PlayState* play) {
 }
 
 void BgMoriBigst_SetupLanding(BgMoriBigst* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 quakeIndex;
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_Landing);
@@ -226,7 +226,7 @@ void BgMoriBigst_SetupDone(BgMoriBigst* this, PlayState* play) {
 }
 
 void BgMoriBigst_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     Actor_SetFocus(&this->dyna.actor, 50.0f);
@@ -242,7 +242,7 @@ void BgMoriBigst_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriBigst_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_bigst.c", 541);

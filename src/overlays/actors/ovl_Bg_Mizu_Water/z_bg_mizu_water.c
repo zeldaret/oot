@@ -164,7 +164,7 @@ void BgMizuWater_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 waterLevelActionIndex;
     s16 prevSwitchFlag;
 
@@ -213,7 +213,7 @@ void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play) {
 }
 
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 prevSwitchFlag;
     s32 waterLevelActionIndex;
     WaterBox* waterBoxes;
@@ -295,7 +295,7 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
     s32 posY;
     s32 unk0;
     s32 unk1;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (bREG(15) == 0) {
         osSyncPrintf("%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),

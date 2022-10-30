@@ -39,7 +39,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnAttackNiw_Init(Actor* thisx, PlayState* play) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
@@ -297,7 +297,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
     EnNiw* cucco;
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f sp30;
     PlayState* play2 = play;
 

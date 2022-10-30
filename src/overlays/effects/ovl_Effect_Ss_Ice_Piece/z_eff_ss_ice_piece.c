@@ -44,7 +44,7 @@ u32 EffectSsIcePiece_Init(PlayState* play, u32 index, EffectSs* this, void* init
 
 void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     u32 frames;
     f32 alpha;

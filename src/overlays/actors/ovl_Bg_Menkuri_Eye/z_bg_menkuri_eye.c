@@ -119,7 +119,7 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
 
 void BgMenkuriEye_Draw(Actor* thisx, PlayState* play) {
     BgMenkuriEye* this = (BgMenkuriEye*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_menkuri_eye.c", 292);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);

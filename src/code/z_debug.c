@@ -244,7 +244,7 @@ void Regs_DrawEditor(GfxPrint* printer) {
     s32 i;
     s32 pageStart = (gRegEditor->regPage - 1) * REGS_PER_PAGE;
     s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     char regGroupName[3];
 
     regGroupName[0] = 'R';
@@ -271,7 +271,7 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     Gfx* gfx;
     Gfx* opaStart;
     GfxPrint printer;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_debug.c", 628);
 

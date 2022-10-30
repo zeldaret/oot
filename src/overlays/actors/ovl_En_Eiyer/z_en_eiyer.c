@@ -117,7 +117,7 @@ static InitChainEntry sInitChain[] = {
  */
 void EnEiyer_Init(Actor* thisx, PlayState* play) {
     EnEiyer* this = (EnEiyer*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 600.0f, ActorShadow_DrawCircle, 65.0f);
@@ -409,7 +409,7 @@ void EnEiyer_Ambush(EnEiyer* this, PlayState* play) {
 
 void EnEiyer_Glide(EnEiyer* this, PlayState* play) {
     f32 curFrame;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 yawChange;
 
     SkelAnime_Update(&this->skelanime);
@@ -635,7 +635,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
 
 void EnEiyer_Update(Actor* thisx, PlayState* play) {
     EnEiyer* this = (EnEiyer*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     EnEiyer_UpdateDamage(this, play);
     this->actionFunc(this, play);

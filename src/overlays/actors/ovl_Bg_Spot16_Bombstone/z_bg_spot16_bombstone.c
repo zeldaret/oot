@@ -149,7 +149,7 @@ void func_808B4C30(BgSpot16Bombstone* this) {
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->colliderJntSph);
     Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderElements);
@@ -160,7 +160,7 @@ void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
 }
 
 void func_808B4D04(BgSpot16Bombstone* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitCylinder(play, &this->colliderCylinder);
     Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInit);
@@ -428,7 +428,7 @@ void func_808B5934(BgSpot16Bombstone* this) {
 }
 
 void func_808B5950(BgSpot16Bombstone* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     func_808B56BC(this, play);
     func_808B57E0(this, play);
@@ -532,7 +532,7 @@ void BgSpot16Bombstone_Update(Actor* thisx, PlayState* play) {
 
 void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
     BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1253);
 

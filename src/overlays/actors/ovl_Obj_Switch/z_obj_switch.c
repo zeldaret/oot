@@ -190,9 +190,9 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 rotY) {
 }
 
 void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -246,7 +246,7 @@ Actor* ObjSwitch_SpawnIce(ObjSwitch* this, PlayState* play) {
 }
 
 void ObjSwitch_SetOn(ObjSwitch* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 subType;
 
     if (Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
@@ -765,7 +765,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
         gEyeSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
         gEyeSwitch2DL, // OBJSWITCH_SUBTYPE_TOGGLE
     };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
@@ -794,7 +794,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
         NULL,                       // OBJSWITCH_SUBTYPE_HOLD_INVERTED
         gCrystalSwitchCoreOpaDL     // OBJSWITCH_SUBTYPE_SYNC
     };
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     func_8002ED80(&this->dyna.actor, play, 0);

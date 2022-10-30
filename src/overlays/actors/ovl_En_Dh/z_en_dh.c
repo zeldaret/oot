@@ -157,7 +157,7 @@ void EnDh_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnDh_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnDh* this = (EnDh*)thisx;
 
     func_800F5B58();
@@ -296,7 +296,7 @@ void EnDh_SetupAttack(EnDh* this) {
 }
 
 void EnDh_Attack(EnDh* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionState++;
@@ -470,7 +470,7 @@ void EnDh_Death(EnDh* this, PlayState* play) {
 }
 
 void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s32 lastHealth;
 
@@ -501,10 +501,10 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
 }
 
 void EnDh_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     EnDh* this = (EnDh*)thisx;
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     EnDh_CollisionCheck(this, play);
     this->actionFunc(this, play);
@@ -547,7 +547,7 @@ void EnDh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 void EnDh_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnDh* this = (EnDh*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dh.c", 1099);

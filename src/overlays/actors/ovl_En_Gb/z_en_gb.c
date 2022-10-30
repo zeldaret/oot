@@ -150,7 +150,7 @@ void func_80A2F180(EnGb* this) {
 
 void EnGb_Init(Actor* thisx, PlayState* play) {
     EnGb* this = (EnGb*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
     s32 i;
     f32 rand;
@@ -420,7 +420,7 @@ void EnGb_Update(Actor* thisx, PlayState* play2) {
 
 void EnGb_Draw(Actor* thisx, PlayState* play) {
     EnGb* this = (EnGb*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_gb.c", 763);
 
@@ -513,7 +513,7 @@ void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play) {
 }
 
 void EnGb_DrawCagedSouls(EnGb* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_gb.c", 914);

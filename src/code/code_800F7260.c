@@ -289,7 +289,7 @@ void Audio_ChooseActiveSfx(u8 bankId) {
     SfxBankEntry* entry;
     ActiveSfx chosenSfx[MAX_CHANNELS_PER_BANK];
     ActiveSfx* activeSfx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     numChosenSfx = 0;
     for (i = 0; i < MAX_CHANNELS_PER_BANK; i++) {
@@ -493,7 +493,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
 
 void Audio_StopSfxByBank(u8 bankId) {
     SfxBankEntry* entry;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     SfxBankEntry cmp;
     u8 entryIndex = gSfxBanks[bankId][0].next;
 

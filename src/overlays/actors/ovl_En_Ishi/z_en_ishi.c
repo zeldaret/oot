@@ -135,7 +135,7 @@ s32 EnIshi_SnapToFloor(EnIshi* this, PlayState* play, f32 arg2) {
 
 void EnIshi_SpawnFragmentsSmall(EnIshi* this, PlayState* play) {
     static s16 scales[] = { 16, 13, 11, 9, 7, 5 };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f velocity;
     Vec3f pos;
     s16 phi_v0;
@@ -346,7 +346,7 @@ void EnIshi_SetupWait(EnIshi* this) {
 
 void EnIshi_Wait(EnIshi* this, PlayState* play) {
     static u16 liftSfxIds[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 type = this->actor.params & 1;
 
     if (Actor_HasParent(&this->actor, play)) {
@@ -417,9 +417,9 @@ void EnIshi_SetupFly(EnIshi* this) {
 }
 
 void EnIshi_Fly(EnIshi* this, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     s16 type = this->actor.params & 1;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     s32 quakeIndex;
     Vec3f contactPos;
 

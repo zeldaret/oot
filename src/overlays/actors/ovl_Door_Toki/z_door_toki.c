@@ -30,7 +30,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DoorToki_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     DoorToki* this = (DoorToki*)thisx;
     CollisionHeader* colHeader = NULL;
 

@@ -77,7 +77,7 @@ u32 EffectSsKiraKira_Init(PlayState* play, u32 index, EffectSs* this, void* init
 void EffectSsKiraKira_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx;
     f32 scale;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     MtxF mfTrans;
     MtxF mfRotY;
     MtxF mfScale;

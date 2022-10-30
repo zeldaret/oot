@@ -308,7 +308,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
     f32 wobbleAmplitude;
     u8 new_var;
     u8 phi_v0;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f dropsSpawnPt;
     s32 i;
     s32 leavesParams;

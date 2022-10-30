@@ -139,7 +139,7 @@ void EnTg_SpinIfNotTalking(EnTg* this, PlayState* play) {
 
 void EnTg_Update(Actor* thisx, PlayState* play) {
     EnTg* this = (EnTg*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 temp;
     Vec3s sp2C;
 

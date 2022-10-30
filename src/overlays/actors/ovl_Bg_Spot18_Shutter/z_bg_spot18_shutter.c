@@ -37,7 +37,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
     s32 param = (this->dyna.actor.params >> 8) & 1;
     CollisionHeader* colHeader = NULL;

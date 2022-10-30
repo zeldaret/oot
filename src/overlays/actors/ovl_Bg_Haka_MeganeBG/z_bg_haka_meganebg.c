@@ -54,7 +54,7 @@ static Gfx* D_8087E410[] = {
 };
 
 void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
     CollisionHeader* colHeader = NULL;
 

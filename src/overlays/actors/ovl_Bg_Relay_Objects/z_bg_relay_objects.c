@@ -46,7 +46,7 @@ static InitChainEntry sInitChain[] = {
 void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
     static u32 D_808A9508 = 0;
     BgRelayObjects* this = (BgRelayObjects*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);

@@ -36,7 +36,7 @@ void EnRl_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AE72D0(EnRl* this) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* timer = &this->timer;
     s16* eyeTextureIndex = &this->eyeTextureIndex;
 
@@ -113,7 +113,7 @@ void func_80AE7544(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7590(EnRl* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player;
     Vec3f pos;
     s16 sceneId = play->sceneId;
@@ -295,7 +295,7 @@ void func_80AE7D40(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7D94(EnRl* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 temp = this->eyeTextureIndex;
     void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -344,7 +344,7 @@ void func_80AE7FD0(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7FDC(EnRl* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 temp = this->eyeTextureIndex;
     void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;

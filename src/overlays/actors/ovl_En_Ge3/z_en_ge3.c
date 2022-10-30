@@ -92,7 +92,7 @@ void EnGe3_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnGe3_TurnToFacePlayer(EnGe3* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(angleDiff) <= 0x4000) {
@@ -170,7 +170,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_UpdateCollision(EnGe3* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

@@ -1096,7 +1096,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
 
 s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3s sp48;
     u8 i;
     void* ptr;
@@ -1145,7 +1145,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f sp3C = { 400.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2255);

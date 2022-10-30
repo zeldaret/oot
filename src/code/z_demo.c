@@ -108,7 +108,7 @@ void func_80068ECC(PlayState* play, CutsceneContext* csCtx);
 
 void Cutscene_DrawDebugInfo(UNUSED PlayState* play, Gfx** dlist, CutsceneContext* csCtx) {
     GfxPrint printer;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *dlist);
@@ -1454,7 +1454,7 @@ s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, UNUSED
     Vec3f sp3C;
     Vec3f sp30;
     Camera* subCam;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     cmd += 8;
     size = 8;

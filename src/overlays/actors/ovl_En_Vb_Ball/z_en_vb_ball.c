@@ -49,9 +49,9 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnVbBall_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     EnVbBall* this = (EnVbBall*)thisx;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     f32 angle;
 
     if (this->actor.params >= 200) { // Volvagia's bones
@@ -76,7 +76,7 @@ void EnVbBall_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnVbBall_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnVbBall* this = (EnVbBall*)thisx;
 
     if (this->actor.params < 200) {
@@ -121,7 +121,7 @@ void EnVbBall_SpawnDust(PlayState* play, BossFdEffect* effect, Vec3f* position, 
 
 void EnVbBall_UpdateBones(EnVbBall* this, PlayState* play) {
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 angle;
     s16 i;
 
@@ -165,7 +165,7 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
     EnVbBall* this = (EnVbBall*)thisx;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     f32 radius;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 spawnNum;
     s16 i;
 
@@ -296,7 +296,7 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
 }
 
 void EnVbBall_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnVbBall* this = (EnVbBall*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vb_ball.c", 604);

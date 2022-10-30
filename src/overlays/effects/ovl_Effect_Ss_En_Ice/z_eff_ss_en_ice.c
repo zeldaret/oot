@@ -87,7 +87,7 @@ u32 EffectSsEnIce_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 
 void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     Vec3f hiliteLightDir;
     u32 gameplayFrames;

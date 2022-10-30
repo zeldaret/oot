@@ -88,7 +88,7 @@ void DemoGo_Destroy(Actor* thisx, PlayState* play) {
 void func_8097C930(DemoGo* this) {
     s16* something = &this->unk_192;
     s16* other = &this->unk_190;
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
 
     if (DECR(*something) == 0) {
         *something = Rand_S16Offset(60, 60);
@@ -104,7 +104,7 @@ void func_8097C9B8(DemoGo* this) {
 }
 
 void func_8097C9DC(DemoGo* this) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (Animation_OnFrame(&this->skelAnime, 12.0f) || Animation_OnFrame(&this->skelAnime, 25.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_EN_MORIBLIN_WALK);
@@ -116,7 +116,7 @@ void func_8097CA30(DemoGo* this, PlayState* play) {
 }
 
 void func_8097CA78(DemoGo* this, PlayState* play) {
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     Vec3f vec = this->actor.world.pos;
     func_80033480(play, &vec, kREG(11) + 100.0f, kREG(12) + 0xA, kREG(13) + 0x12C, kREG(14), 0);
     func_8097C9B8(this);
@@ -128,7 +128,7 @@ void func_8097CB0C(DemoGo* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
     CsCmdActorAction* npcAction;
     f32 temp_ret;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f startPos;
     Vec3f endPos;
 
@@ -324,7 +324,7 @@ void func_8097D290(DemoGo* this, PlayState* play) {
 }
 
 void func_8097D29C(DemoGo* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 eyeTexIdx = this->unk_190;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeTexIdx];

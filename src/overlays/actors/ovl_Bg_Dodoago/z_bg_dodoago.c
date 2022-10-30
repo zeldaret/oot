@@ -109,7 +109,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgDodoago_Init(Actor* thisx, PlayState* play) {
     BgDodoago* this = (BgDodoago*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

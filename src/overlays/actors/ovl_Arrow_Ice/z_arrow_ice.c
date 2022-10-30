@@ -147,7 +147,7 @@ void ArrowIce_Hit(ArrowIce* this, PlayState* play) {
 void ArrowIce_Fly(ArrowIce* this, PlayState* play) {
     EnArrow* arrow;
     f32 distanceScaled;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
@@ -194,7 +194,7 @@ void ArrowIce_Update(Actor* thisx, PlayState* play) {
 
 void ArrowIce_Draw(Actor* thisx, PlayState* play) {
     ArrowIce* this = (ArrowIce*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Actor* transform;
     u32 stateFrames = play->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;

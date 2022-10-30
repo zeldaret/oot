@@ -275,7 +275,7 @@ s16 EnZf_SecondaryFloorCheck(EnZf* this, PlayState* play, f32 dist) {
 }
 
 void EnZf_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnZf* this = (EnZf*)thisx;
     Player* player = GET_PLAYER(play);
     EffectBlureInit1 blureInit;
@@ -705,7 +705,7 @@ void func_80B45384(EnZf* this) {
 
 void func_80B4543C(EnZf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 angleToPlayer = (this->actor.yawTowardsPlayer - this->headRot) - this->actor.shape.rot.y;
 
     angleToPlayer = ABS(angleToPlayer);
@@ -974,7 +974,7 @@ void func_80B4604C(EnZf* this) {
 }
 
 void func_80B46098(EnZf* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 phi_f2;
     Player* player = GET_PLAYER(play);
     s16 temp_v0;
@@ -1051,7 +1051,7 @@ void func_80B462E4(EnZf* this, PlayState* play) {
 void func_80B463E4(EnZf* this, PlayState* play) {
     s16 angleBehindPlayer;
     s16 phi_v0_3;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 absPlaySpeed;
@@ -1474,10 +1474,10 @@ void EnZf_HopAway(EnZf* this, PlayState* play) {
     f32 sp74;
     f32 sp70 = 1.0f;
     f32 phi_f20 = 550.0f;
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     f32 phi_f20_2;
     f32 phi_f0;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     s16 sp5A;
     s32 sp54;
     s32 temp_v1_2;
@@ -1990,7 +1990,7 @@ void EnZf_UpdateHeadRotation(EnZf* this, PlayState* play) {
 }
 
 void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 dropParams;
 
     if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action <= ENZF_ACTION_STUNNED)) {
@@ -2037,9 +2037,9 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
 }
 
 void EnZf_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     EnZf* this = (EnZf*)thisx;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     EnZf_UpdateDamage(this, play);
     if (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE) {
@@ -2247,7 +2247,7 @@ static Gfx D_80B4A2F8[] = {
 };
 
 void EnZf_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnZf* this = (EnZf*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zf.c", 3533);

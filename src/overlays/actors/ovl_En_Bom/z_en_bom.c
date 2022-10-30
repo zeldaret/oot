@@ -224,7 +224,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     PlayState* play = play2;
     EnBom* this = (EnBom*)thisx;
 
@@ -355,7 +355,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
 }
 
 void EnBom_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnBom* this = (EnBom*)thisx;
 
     if (1) {}

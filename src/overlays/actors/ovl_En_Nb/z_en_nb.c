@@ -103,7 +103,7 @@ s32 EnNb_GetType(EnNb* this) {
 void EnNb_UpdatePath(EnNb* this, PlayState* play) {
     Vec3s* pointPos;
     Path* pathList;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 path;
 
     pathList = play->pathList;
@@ -136,7 +136,7 @@ void EnNb_SetupCollider(Actor* thisx, PlayState* play) {
 }
 
 void EnNb_UpdateCollider(EnNb* this, PlayState* play) {
-    UNUSED s32 pad[4];
+    STACK_PADS(s32, 4);
     ColliderCylinder* collider = &this->collider;
 
     Collider_UpdateCylinder(&this->actor, collider);
@@ -166,7 +166,7 @@ void func_80AB1040(EnNb* this, PlayState* play) {
 }
 
 void func_80AB10C4(EnNb* this) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
@@ -179,7 +179,7 @@ void func_80AB10C4(EnNb* this) {
 }
 
 void EnNb_UpdateEyes(EnNb* this) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeIdx = &this->eyeIdx;
 
@@ -329,7 +329,7 @@ void EnNb_ComeUpImpl(EnNb* this, PlayState* play) {
 }
 
 void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == 3) && !IS_CUTSCENE_LAYER) {
@@ -539,7 +539,7 @@ void EnNb_CreateLightOrb(EnNb* this, PlayState* play) {
 }
 
 void EnNb_DrawTransparency(EnNb* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeSegIdx = this->eyeIdx;
     void* eyeTex = sEyeTextures[eyeSegIdx];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -580,7 +580,7 @@ void EnNb_SetPosInPortal(EnNb* this, PlayState* play) {
     CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(play, 1);
     Vec3f* pos = &this->actor.world.pos;
     f32 f0;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f startPos;
     Vec3f endPos;
 
@@ -695,7 +695,7 @@ void EnNb_SetupConfrontation(EnNb* this, PlayState* play) {
 }
 
 void EnNb_PlayKnuckleDefeatSFX(EnNb* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (play->csCtx.frames == 548) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
@@ -704,7 +704,7 @@ void EnNb_PlayKnuckleDefeatSFX(EnNb* this, PlayState* play) {
 }
 
 void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if ((this->skelAnime.mode == 2) &&
         (Animation_OnFrame(&this->skelAnime, 18.0f) || Animation_OnFrame(&this->skelAnime, 25.0f))) {
@@ -713,7 +713,7 @@ void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
 }
 
 void EnNb_PlayLookRightSFX(EnNb* this) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if ((this->skelAnime.mode == 2) && Animation_OnFrame(&this->skelAnime, 9.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
@@ -721,7 +721,7 @@ void EnNb_PlayLookRightSFX(EnNb* this) {
 }
 
 void EnNb_PlayLookLeftSFX(EnNb* this) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (Animation_OnFrame(&this->skelAnime, 9.0f) || Animation_OnFrame(&this->skelAnime, 13.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
@@ -745,7 +745,7 @@ void func_80AB26C8(EnNb* this) {
 }
 
 void func_80AB26DC(EnNb* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     AnimationHeader* animation = &gNabooruCollapseFromStandingToKneelingTransitionAnim;
     f32 lastFrame = Animation_GetLastFrame(animation);
 
@@ -949,7 +949,7 @@ void EnNb_ConfrontationDestroy(EnNb* this, PlayState* play) {
 }
 
 void func_80AB2E70(EnNb* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb_inConfrontion.c", 572);
@@ -976,11 +976,11 @@ s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 }
 
 void func_80AB2FE4(EnNb* this, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     s16 eyeIdx = this->eyeIdx;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeIdx];
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb_inConfrontion.c", 623);
 
@@ -1216,9 +1216,9 @@ void EnNb_SetupPathMovement(EnNb* this, PlayState* play) {
 }
 
 void EnNb_SetTextIdAsChild(EnNb* this, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     u8 choiceIndex;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     u16 textId;
 
     textId = this->actor.textId;
@@ -1420,7 +1420,7 @@ void EnNb_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnNb_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnNb* this = (EnNb*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -1490,11 +1490,11 @@ void EnNb_DrawNothing(EnNb* this, PlayState* play) {
 }
 
 void EnNb_DrawDefault(EnNb* this, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     s16 eyeIdx = this->eyeIdx;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeIdx];
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb.c", 992);
 

@@ -327,10 +327,10 @@ void EnDoor_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     TransitionActorEntry* transitionEntry;
     Gfx** doorDLists;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     s16 rotDiff;
     s32 doorDListIndex;
     EnDoor* this = (EnDoor*)thisx;

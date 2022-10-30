@@ -59,7 +59,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgGndSoulmeiro_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -157,7 +157,7 @@ void func_8087AF38(BgGndSoulmeiro* this, PlayState* play) {
 }
 
 void func_8087B284(BgGndSoulmeiro* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (!Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
         this->actor.draw = BgGndSoulmeiro_Draw;

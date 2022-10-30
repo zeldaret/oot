@@ -134,7 +134,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnVali_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnVali* this = (EnVali*)thisx;
     s32 bgId;
 
@@ -536,7 +536,7 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
 }
 
 void EnVali_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnVali* this = (EnVali*)thisx;
 
     if ((this->bodyCollider.base.atFlags & AT_HIT) || (this->leftArmCollider.base.atFlags & AT_HIT) ||
@@ -784,7 +784,7 @@ static Gfx D_80B289A8[] = {
 };
 
 void EnVali_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnVali* this = (EnVali*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1505);

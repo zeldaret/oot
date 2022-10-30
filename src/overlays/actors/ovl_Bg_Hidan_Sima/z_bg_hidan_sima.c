@@ -82,7 +82,7 @@ static void* sFireballsTexs[] = {
 
 void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
     s32 i;
 
@@ -207,7 +207,7 @@ void func_8088E90C(BgHidanSima* this) {
 
 void BgHidanSima_Update(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->actionFunc(this, play);
     if (this->dyna.actor.params != 0) {
@@ -231,7 +231,7 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     s32 v0;
     f32 cos;
     f32 sin;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     Matrix_MtxFCopy(&mtxF, &gMtxFClear);
     cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);

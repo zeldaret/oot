@@ -45,7 +45,7 @@ void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* mod
 void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3) {
     s32 modifCount;
     SkinLimb** skeleton;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     SkinAnimatedLimbData* data;
     SkinLimbModif* modif;
     SkinLimbVtx* vtxEntry;
@@ -161,7 +161,7 @@ void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s
 void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, UNUSED s32 drawFlags) {
     Gfx* gfx = dlistOverride;
     SkinLimb** skeleton;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 395);
 
@@ -191,7 +191,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
     s32 segmentType;
     SkinLimb** skeleton;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 471);
 

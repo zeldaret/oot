@@ -122,7 +122,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play) {
 
 void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     ObjBombiwa* this = (ObjBombiwa*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if ((func_80033684(play, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER))) {

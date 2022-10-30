@@ -74,7 +74,7 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     Vec3f sp38;
     f32 sp34;
     f32 temp_f0;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->actor.floorPoly = poly;
     polyNormal.x = COLPOLY_GET_NORMAL(poly->normal.x);
@@ -116,7 +116,7 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
 
 CollisionPoly* func_80B0C020(PlayState* play, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, s32* arg4) {
     CollisionPoly* sp3C;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (!BgCheck_EntityLineTest1(&play->colCtx, arg1, arg2, arg3, &sp3C, true, true, true, false, arg4)) {
         return NULL;
@@ -140,7 +140,7 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
     Vec3f sp90;
     Vec3f sp84;
     Vec3f sp78;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 sp70;
     s32 sp6C;
     s32 phi_s1;
@@ -217,7 +217,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     EnSw* this = (EnSw*)thisx;
     s32 phi_v0;
     UNUSED Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (thisx->params & 0x8000) {
         phi_v0 = (((thisx->params - 0x8000) & 0xE000) >> 0xD) + 1;
@@ -711,7 +711,7 @@ s32 func_80B0DEA8(EnSw* this, PlayState* play, s32 arg2) {
 }
 
 s32 func_80B0DFFC(EnSw* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionPoly* sp60;
     s32 sp5C;
     Vec3f sp50;
@@ -816,7 +816,7 @@ s32 func_80B0E430(EnSw* this, f32 arg1, s16 arg2, s32 arg3, PlayState* play) {
 }
 
 void func_80B0E5E0(EnSw* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 rand;
 
     if (func_80B0E430(this, 6.0f, 0x3E8, 1, play)) {
@@ -835,7 +835,7 @@ void func_80B0E5E0(EnSw* this, PlayState* play) {
 
 void func_80B0E728(EnSw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (DECR(this->unk_442) != 0) {
         if (func_80B0DEA8(this, play, 1)) {
@@ -868,7 +868,7 @@ void func_80B0E728(EnSw* this, PlayState* play) {
 }
 
 void func_80B0E90C(EnSw* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     func_80B0E314(this, this->unk_448, 0.0f);
     if (this->actor.speedXZ == 0.0f) {
@@ -879,7 +879,7 @@ void func_80B0E90C(EnSw* this, PlayState* play) {
 }
 
 void func_80B0E9BC(EnSw* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (func_80B0E430(this, 6.0f, 0x3E8, 0, play)) {
         func_80B0E314(this, this->unk_448, 2.0f);
@@ -987,7 +987,7 @@ void func_80B0EDB8(PlayState* play, Color_RGBA8* arg1, s16 arg2, s16 arg3) {
 }
 
 void func_80B0EEA4(PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2205);
 

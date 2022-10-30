@@ -2636,7 +2636,7 @@ s32 CollisionCheck_GetMassType(u8 mass) {
  */
 void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* leftPos, Collider* right,
                               ColliderInfo* rightInfo, Vec3f* rightPos, f32 overlap) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 leftDispRatio;
     f32 rightDispRatio;
     f32 xzDist;
@@ -3470,7 +3470,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     f32 actorDotItemXZ;
     f32 zero = 0.0f;
     f32 closeDist;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     actorToItem.x = itemPos->x - actorPos->x;
     actorToItem.y = itemPos->y - actorPos->y - offset;

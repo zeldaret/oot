@@ -63,7 +63,7 @@ void EnIt_Destroy(Actor* thisx, PlayState* play) {
 
 void EnIt_Update(Actor* thisx, PlayState* play) {
     EnIt* this = (EnIt*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

@@ -79,7 +79,7 @@ void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 xzVelScale;
     s16 yaw;
     Player* player = GET_PLAYER(play);

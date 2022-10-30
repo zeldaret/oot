@@ -30,7 +30,7 @@ static Gfx D_809A5100[15];
 
 u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 objBankIdx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
@@ -86,7 +86,7 @@ static Color_RGB8 sColors[] = {
 
 void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     void* object;
 
@@ -114,7 +114,7 @@ void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) 
 
 void EffectSsFhgFlash_DrawShock(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 scale;
 
     scale = this->rScale / 100.0f;

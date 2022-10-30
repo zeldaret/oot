@@ -27,7 +27,7 @@ Gfx D_8012B000[] = {
 
 void TransitionUnk_InitGraphics(TransitionUnk* this) {
     s32 row2;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Vtx_t* vtx2;
     s32 frame;
     s32 rowTex;

@@ -4,7 +4,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     f32 volLeft;
     f32 volRight;
     s32 halfPanIndex;
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     u8 strongLeft;
     u8 strongRight;
     f32 vel;
@@ -152,7 +152,7 @@ void Audio_NoteDisable(Note* note) {
 }
 
 void Audio_ProcessNotes(void) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     NoteAttributes* attrs;
     NoteSubEu* noteSubEu2;
     NoteSubEu* noteSubEu;
@@ -758,7 +758,7 @@ Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
 }
 
 void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     s16 instId;
     NotePlaybackState* playbackState = &note->playbackState;
     NoteSubEu* sub = &note->noteSubEu;

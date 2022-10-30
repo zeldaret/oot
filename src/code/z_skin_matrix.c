@@ -237,7 +237,7 @@ void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
 s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     MtxF mfCopy;
     s32 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 temp2;
     f32 temp1;
     s32 thisCol;
@@ -616,7 +616,7 @@ void SkinMatrix_SetRotateAxis(MtxF* mf, s16 angle, f32 axisX, f32 axisY, f32 axi
     f32 xy;
     f32 yz;
     f32 xz;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     sinA = Math_SinS(angle);
     cosA = Math_CosS(angle);

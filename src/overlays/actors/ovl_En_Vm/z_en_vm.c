@@ -177,7 +177,7 @@ void EnVm_Wait(EnVm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 dist;
     s16 headRot;
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     s16 pitch;
 
     switch (this->unk_25E) {
@@ -468,7 +468,7 @@ void EnVm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     Vec3f sp80 = D_80B2EAF8;
     Vec3f sp74 = D_80B2EB04;
     Vec3f sp68 = D_80B2EB10;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f posResult;
     CollisionPoly* poly;
     s32 bgId;

@@ -620,7 +620,7 @@ void func_80A3F908(EnGo* this, PlayState* play) {
 
 void EnGo_Init(Actor* thisx, PlayState* play) {
     EnGo* this = (EnGo*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     UNUSED Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f };
     UNUSED Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f };
 
@@ -1016,7 +1016,7 @@ void func_80A40DCC(EnGo* this, PlayState* play) {
 }
 
 void EnGo_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnGo* this = (EnGo*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);

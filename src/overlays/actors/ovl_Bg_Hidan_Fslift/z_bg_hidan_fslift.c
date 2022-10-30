@@ -38,10 +38,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     BgHidanFslift* this = (BgHidanFslift*)thisx;
     CollisionHeader* colHeader = NULL;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);

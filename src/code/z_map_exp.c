@@ -310,7 +310,7 @@ void Map_Init(PlayState* play) {
 }
 
 void Minimap_DrawCompassIcons(PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s16 tempX, tempZ;
 
@@ -359,7 +359,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
 }
 
 void Minimap_Draw(PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s32 mapIndex = gSaveContext.mapIndex;
 

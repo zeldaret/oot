@@ -3083,7 +3083,7 @@ void Interface_Draw(PlayState* play) {
     s16 svar1;
     s16 svar2;
     s16 svar3;
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     s16 svar5;
     s16 svar6;
 

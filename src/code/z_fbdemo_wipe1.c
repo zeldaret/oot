@@ -83,7 +83,7 @@ void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
     TransitionWipe* this = (TransitionWipe*)thisx;
-    UNUSED s32 pad[4];
+    STACK_PADS(s32, 4);
     Gfx* tex;
 
     modelView = this->modelView[this->frame];

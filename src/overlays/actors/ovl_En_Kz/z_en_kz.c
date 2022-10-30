@@ -318,7 +318,7 @@ s32 EnKz_SetMovedPos(EnKz* this, PlayState* play) {
 
 void EnKz_Init(Actor* thisx, PlayState* play) {
     EnKz* this = (EnKz*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_InitFlex(play, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
@@ -451,7 +451,7 @@ void EnKz_StartTimer(EnKz* this, PlayState* play) {
 
 void EnKz_Update(Actor* thisx, PlayState* play) {
     EnKz* this = (EnKz*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (LINK_IS_ADULT && !GET_INFTABLE(INFTABLE_138)) {
         SET_INFTABLE(INFTABLE_138);

@@ -33,7 +33,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSstFloor_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgSstFloor* this = (BgSstFloor*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -44,14 +44,14 @@ void BgSstFloor_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgSstFloor_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgSstFloor* this = (BgSstFloor*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSstFloor_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgSstFloor* this = (BgSstFloor*)thisx;
     Player* player = GET_PLAYER(play);
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&gBongoDrumCol);

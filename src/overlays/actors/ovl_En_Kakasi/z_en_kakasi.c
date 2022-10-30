@@ -314,7 +314,7 @@ void func_80A8FBB8(EnKakasi* this, PlayState* play) {
 
 void EnKakasi_Update(Actor* thisx, PlayState* play) {
     EnKakasi* this = (EnKakasi*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     this->unk_198++;

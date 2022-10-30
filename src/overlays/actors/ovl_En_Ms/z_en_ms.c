@@ -70,7 +70,7 @@ void EnMs_SetOfferText(EnMs* this, PlayState* play) {
 
 void EnMs_Init(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         Actor_Kill(&this->actor);
@@ -159,7 +159,7 @@ void EnMs_TalkAfterPurchase(EnMs* this, PlayState* play) {
 
 void EnMs_Update(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->activeTimer += 1;
     Actor_SetFocus(&this->actor, 20.0f);

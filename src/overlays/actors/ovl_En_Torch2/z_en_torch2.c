@@ -127,7 +127,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
 }
 
 void EnTorch2_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* this = (Player*)thisx;
 
     Effect_Delete(play, this->meleeWeaponEffectIndex);
@@ -204,10 +204,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     s16 sp66;
     u8 staggerThreshold;
     s8 stickY;
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     Actor* attackItem;
     s16 sp5A;
-    UNUSED s16 pad2;
+    STACK_PAD(s16);
     s32 sp54;
     f32 sp50;
     s16 sp4E;
@@ -744,7 +744,7 @@ void EnTorch2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
 void EnTorch2_Draw(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     Player* this = (Player*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_torch2.c", 1050);
     func_80093C80(play);

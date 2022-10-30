@@ -436,7 +436,7 @@ void DbCamera_PrintF32Bytes(f32 value) {
 }
 
 void DbCamera_PrintU16Bytes(u16 value) {
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     u16 b = value;
     char* a = (char*)&b;
 
@@ -444,7 +444,7 @@ void DbCamera_PrintU16Bytes(u16 value) {
 }
 
 void DbCamera_PrintS16Bytes(s16 value) {
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     s16 b = value;
     char* a = (char*)&b;
 
@@ -578,7 +578,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     UNUSED Vec3f* at;
     Vec3f* phi_s0;
     Vec3f spD8;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f* sp90;
     Vec3f* sp80;
     Vec3f* sp7C;
@@ -1642,7 +1642,7 @@ s32 DbCamera_LoadCallback(char* c) {
 }
 
 s32 DbCamera_SaveCallback(char* c) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 ret;
     u32 freeSize;
     s32 off;
@@ -1742,7 +1742,7 @@ char D_8012D128[] = GFXP_KATAKANA "ﾄ-ﾀﾙ         ";
 char D_8012D13C[] = GFXP_KATAKANA "ｷ-     /   ";
 
 s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     while (sDbCameraCuts[D_8016110C].letter == '?') {
         D_8016110C++;

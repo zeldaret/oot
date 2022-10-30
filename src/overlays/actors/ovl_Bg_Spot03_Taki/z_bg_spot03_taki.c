@@ -44,7 +44,7 @@ void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
 
 void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     BgSpot03Taki* this = (BgSpot03Taki*)thisx;
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     CollisionHeader* colHeader = NULL;
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
@@ -115,7 +115,7 @@ void BgSpot03Taki_Update(Actor* thisx, PlayState* play) {
 
 void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
     BgSpot03Taki* this = (BgSpot03Taki*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot03_taki.c", 321);

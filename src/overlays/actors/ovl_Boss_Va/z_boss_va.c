@@ -1224,7 +1224,7 @@ void BossVa_SetupBodyPhase3(BossVa* this) {
 }
 
 void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s32 i;
     s16 sp62;
@@ -1917,7 +1917,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     s16 sp8E;
     u32 sp88;
     Vec3f sp7C;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 sp74;
     s32 i;
     s16 sp6E;
@@ -2149,7 +2149,7 @@ void BossVa_SetupZapperDeath(BossVa* this, PlayState* play) {
 
 void BossVa_ZapperDeath(BossVa* this, PlayState* play) {
     f32 sp3C = 55.0f;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     BossVa_AttachToBody(this);
     if (((play->gameplayFrames % 32) == 0) && (sCsState <= DEATH_BODY_TUMORS)) {
@@ -2236,7 +2236,7 @@ void BossVa_SetupZapperEnraged(BossVa* this, PlayState* play) {
 
 void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 tmp16;
     s16 sp6C;
     s16 sp6A;
@@ -2528,7 +2528,7 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
     EnBoom* boomerang;
     Vec3f sp54 = GET_BODY(this)->unk_1D8;
     s16 sp52;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->unk_1A4 += Rand_ZeroOne() * 0.5f;
     sp52 = this->timer2 & 0x1FF;
@@ -2617,7 +2617,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
     s16 sp52;
     s16 sp50;
     f32 sp4C;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->unk_1A4 += Rand_ZeroOne() * 0.5f;
     sp52 = this->timer2 & 0x1FF;
@@ -2726,7 +2726,7 @@ void BossVa_SetupBariPhase3Stunned(BossVa* this, PlayState* play) {
 }
 
 void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f sp40 = GET_BODY(this)->unk_1D8;
 
     this->actor.world.rot.x = Math_Vec3f_Pitch(&GET_BODY(this)->actor.world.pos, &this->actor.world.pos);
@@ -2863,7 +2863,7 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
 
 s32 BossVa_BodyOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossVa* this = (BossVa*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4156);
 
@@ -2892,7 +2892,7 @@ s32 BossVa_BodyOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 void BossVa_BodyPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = (BossVa*)thisx;
     Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4192);
 
@@ -2972,7 +2972,7 @@ s32 BossVa_SupportOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, 
 void BossVa_SupportPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = (BossVa*)thisx;
     Vec3f sp20 = { 0.0f, 0.0f, 0.0f };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (this->onCeiling) {
         switch (limbIndex) {

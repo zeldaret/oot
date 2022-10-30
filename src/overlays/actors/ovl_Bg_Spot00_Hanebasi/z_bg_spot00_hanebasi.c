@@ -48,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f chainPos;
     CollisionHeader* colHeader = NULL;
 
@@ -202,7 +202,7 @@ void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play)
 
 void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
     BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->actionFunc(this, play);
 

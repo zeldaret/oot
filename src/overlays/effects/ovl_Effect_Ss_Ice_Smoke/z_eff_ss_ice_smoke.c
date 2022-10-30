@@ -22,7 +22,7 @@ EffectSsInit Effect_Ss_Ice_Smoke_InitVars = {
 
 u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 objBankIdx;
     uintptr_t oldSeg6;
 
@@ -51,7 +51,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
 }
 
 void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     void* object;
     Mtx* mtx;
     f32 scale;

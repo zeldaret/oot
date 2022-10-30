@@ -269,9 +269,9 @@ void func_80A68DB0(EnHorseGanon* this, PlayState* play) {
 }
 
 void func_80A68E14(EnHorseGanon* this, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionPoly* poly;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     Vec3f checkPos;
     s32 bgId;
 
@@ -284,7 +284,7 @@ void func_80A68E14(EnHorseGanon* this, PlayState* play) {
 
 void EnHorseGanon_Update(Actor* thisx, PlayState* play) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     sActionFuncs[this->action](this, play);
     Actor_MoveForward(&this->actor);

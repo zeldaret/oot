@@ -93,7 +93,7 @@ static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
 
 void EnToryo_Init(Actor* thisx, PlayState* play) {
     EnToryo* this = (EnToryo*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     switch (play->sceneId) {
         case SCENE_SPOT09:
@@ -138,7 +138,7 @@ void EnToryo_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 func_80B203D8(EnToryo* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s32 ret = 1;
 
@@ -211,7 +211,7 @@ s32 func_80B203D8(EnToryo* this, PlayState* play) {
 }
 
 s32 func_80B205CC(EnToryo* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 ret = 5;
 
     switch (Message_GetState(&play->msgCtx)) {

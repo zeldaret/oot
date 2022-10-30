@@ -68,7 +68,7 @@ static ColliderCylinderInit D_80A12CCC = {
 };
 
 void EnFireRock_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     EnFireRock* this = (EnFireRock*)thisx;
 
@@ -382,7 +382,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
 
 void EnFireRock_Draw(Actor* thisx, PlayState* play) {
     EnFireRock* this = (EnFireRock*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fire_rock.c", 747);
     Matrix_Translate(thisx->world.pos.x + this->relativePos.x, thisx->world.pos.y + this->relativePos.y,

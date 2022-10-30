@@ -1480,9 +1480,9 @@ void AudioOcarina_CheckIfStartedSong(void) {
  */
 void AudioOcarina_CheckSongsWithMusicStaff(void) {
     u16 curOcarinaSongFlag;
-    UNUSED s16 pad1;
+    STACK_PAD(s16);
     u8 noNewValidInput = false;
-    UNUSED s16 pad2;
+    STACK_PAD(s16);
     s8 staffOcarinaPlayingPosOffset = 0;
     u8 songIndex;
     OcarinaNote* curNote;
@@ -1927,12 +1927,12 @@ void AudioOcarina_PlaybackSong(void) {
 
 void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
     u16 i;
-    UNUSED s16 pad1[2];
+    STACK_PADS(s16, 2);
     u8 pitch;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     u8 j;
     u8 k;
-    UNUSED s32 pad3;
+    STACK_PAD(s32);
     OcarinaNote* recordedSong;
 
     if (sRecordingState == OCARINA_RECORD_SCARECROW_LONG) {
@@ -2400,7 +2400,7 @@ char* AudioDebug_ToStringBinary(u32 num, u8 bits) {
 }
 
 void AudioDebug_Draw(GfxPrint* printer) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     u8 i;
     u8 j;
     u8 ctr;
@@ -4923,7 +4923,7 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
 }
 
 void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
-    UNUSED u8 pad;
+    STACK_PAD(u8);
     s8 melodyVolume;
     s16 curSeqId;
 

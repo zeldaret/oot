@@ -48,7 +48,7 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfResult;
     MtxF mfTrans11DA0;
     Mtx* mtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     s16 color;
 

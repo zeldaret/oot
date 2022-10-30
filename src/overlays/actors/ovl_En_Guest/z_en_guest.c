@@ -74,7 +74,7 @@ void EnGuest_Destroy(Actor* thisx, PlayState* play) {
 
 void EnGuest_Update(Actor* thisx, PlayState* play) {
     EnGuest* this = (EnGuest*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (Object_IsLoaded(&play->objectCtx, this->osAnimeBankIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
@@ -141,7 +141,7 @@ void func_80A5057C(EnGuest* this, PlayState* play) {
 
 void func_80A505CC(Actor* thisx, PlayState* play) {
     EnGuest* this = (EnGuest*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player;
 
     player = GET_PLAYER(play);
@@ -217,7 +217,7 @@ void EnGuest_Draw(Actor* thisx, PlayState* play) {
         object_boj_Tex_0007FC,
     };
     EnGuest* this = (EnGuest*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_guest.c", 404);
 

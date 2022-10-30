@@ -70,7 +70,7 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfResult;
     MtxF mfTrans11DA0;
     Mtx* mtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 scale;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 298);
@@ -112,7 +112,7 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
     MtxF mtx2F;
     Mtx* mtx2;
     Mtx* mtx;
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 scale;
     f32 depth;
     f32 layer2Scale = 0.925f;

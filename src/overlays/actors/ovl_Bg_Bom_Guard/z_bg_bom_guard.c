@@ -35,7 +35,7 @@ void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
 
 void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     BgBomGuard* this = (BgBomGuard*)thisx;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

@@ -405,7 +405,7 @@ void func_80A91A90(EnKakasi3* this, PlayState* play) {
 
 void EnKakasi3_Update(Actor* thisx, PlayState* play) {
     EnKakasi3* this = (EnKakasi3*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     if (BREG(2) != 0) {

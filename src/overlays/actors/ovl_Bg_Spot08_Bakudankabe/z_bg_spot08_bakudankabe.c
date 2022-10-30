@@ -94,14 +94,14 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
 }
 
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 i;
     Vec3f burstDepthY;
     Vec3f burstDepthX;
@@ -158,7 +158,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play) {
     BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

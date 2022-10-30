@@ -523,7 +523,7 @@ static Vec3f sFireOffsets[] = {
 };
 
 void EnNy_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnNy* this = (EnNy*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ny.c", 837);

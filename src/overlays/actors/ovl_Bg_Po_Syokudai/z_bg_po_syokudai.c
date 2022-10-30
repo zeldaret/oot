@@ -76,7 +76,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
@@ -130,7 +130,7 @@ void BgPoSyokudai_Destroy(Actor* thisx, PlayState* play) {
 
 void BgPoSyokudai_Update(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

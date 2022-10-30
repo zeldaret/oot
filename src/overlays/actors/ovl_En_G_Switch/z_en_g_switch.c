@@ -77,7 +77,7 @@ ActorInit En_G_Switch_InitVars = {
 };
 
 void EnGSwitch_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     this->type = (this->actor.params >> 0xC) & 0xF;
@@ -165,7 +165,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnGSwitch_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -371,7 +371,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, PlayState* play) {
             f32 rand;
             s32 phi_s0;
             s32 scale;
-            UNUSED s32 pad;
+            STACK_PAD(s32);
 
             pos.x = sn * 8.0f;
             pos.y = 10.0f + Rand_CenteredFloat(5.0f);
@@ -415,7 +415,7 @@ void EnGSwitch_Kill(EnGSwitch* this, PlayState* play) {
 }
 
 void EnGSwitch_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     this->actionFunc(this, play);
@@ -451,7 +451,7 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (!this->broken) {
@@ -469,7 +469,7 @@ static void* sRupeeTextures[] = {
 };
 
 void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (1) {}
@@ -549,7 +549,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, PlayState* play) {
     EnGSwitchEffect* effect = this->effects;
     s16 i;
     f32 scale;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_en_g_switch.c", 1073);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

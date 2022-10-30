@@ -815,7 +815,7 @@ void Environment_DisableUnderwaterLights(PlayState* play) {
 
 void Environment_PrintDebugInfo(UNUSED PlayState* play, Gfx** gfx) {
     GfxPrint printer;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *gfx);
@@ -1486,7 +1486,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
     f32 halfPosY;
     f32 halfPosZ;
     f32 cosAngle;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 lensFlareAlphaScaleTarget;
     u32 isOffScreen = false;
     f32 alpha;
@@ -1676,7 +1676,7 @@ f32 Environment_RandCentered(void) {
 
 void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) {
     s16 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f vec;
     f32 temp1;
     f32 temp2;
@@ -1960,7 +1960,7 @@ void Environment_DrawLightning(PlayState* play, UNUSED s32 arg1) {
     f32 dz;
     f32 x;
     f32 z;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     UNUSED Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
     UNUSED Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
 
@@ -2193,7 +2193,7 @@ void Environment_DrawCustomLensFlare(PlayState* play) {
 }
 
 void Environment_InitGameOverLights(PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     sGameOverLightsIntensity = 0;
@@ -2353,7 +2353,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     s32 envA = play->envCtx.sandstormEnvA;
     Color_RGBA8 primColor;
     Color_RGBA8 envColor;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 sp98;
     u16 sp96;
     u16 sp94;

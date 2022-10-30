@@ -354,7 +354,7 @@ void Lights_GlowCheck(PlayState* play) {
 }
 
 void Lights_DrawGlow(PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     LightNode* node;
 
     node = play->lightCtx.listHead;
@@ -370,7 +370,7 @@ void Lights_DrawGlow(PlayState* play) {
         LightInfo* info;
         LightPoint* params;
         f32 scale;
-        UNUSED s32 pad2[4];
+        STACK_PADS(s32, 4);
 
         info = node->info;
         params = &info->params.point;

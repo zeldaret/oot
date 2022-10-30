@@ -405,7 +405,7 @@ void Scene_CommandEchoSettings(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     SceneCmd* altHeader;
 
     osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.linkAge));

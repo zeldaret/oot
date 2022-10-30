@@ -331,7 +331,7 @@ void func_809CC774(EnBubble* this) {
 
 void EnBubble_Init(Actor* thisx, PlayState* play) {
     EnBubble* this = (EnBubble*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 16.0f, ActorShadow_DrawCircle, 0.2f);
     Collider_InitJntSph(play, &this->colliderSphere);
@@ -407,7 +407,7 @@ void EnBubble_Update(Actor* thisx, PlayState* play) {
 
 void EnBubble_Draw(Actor* thisx, PlayState* play) {
     EnBubble* this = (EnBubble*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1175);
 

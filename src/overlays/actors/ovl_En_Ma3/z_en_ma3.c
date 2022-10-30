@@ -244,7 +244,7 @@ void EnMa3_ChangeAnim(EnMa3* this, s32 index) {
 
 void EnMa3_Init(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gMalonAdultSkel, NULL, NULL, NULL, 0);
@@ -287,7 +287,7 @@ void func_80AA3200(EnMa3* this, PlayState* play) {
 
 void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -360,7 +360,7 @@ void EnMa3_Draw(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
     Camera* activeCam;
     f32 distFromCamEye;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma3.c", 978);
 

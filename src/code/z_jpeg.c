@@ -38,7 +38,7 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     };
 
     JpegWork* workBuf = ctx->workBuf;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     workBuf->taskData.address = VIRTUAL_TO_PHYSICAL(&workBuf->data);
     workBuf->taskData.mode = ctx->mode;

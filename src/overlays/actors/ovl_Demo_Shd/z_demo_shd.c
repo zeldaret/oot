@@ -98,7 +98,7 @@ void DemoShd_Update(Actor* thisx, PlayState* play) {
 
 void DemoShd_Draw(Actor* thisx, PlayState* play) {
     DemoShd* this = (DemoShd*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     u32 unk_14E = this->unk_14E;
 
     if (1) {} // Necessary to match, can be anywhere in the function

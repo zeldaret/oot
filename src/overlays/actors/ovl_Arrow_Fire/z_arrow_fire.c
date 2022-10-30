@@ -146,7 +146,7 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play) {
 void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
     EnArrow* arrow;
     f32 distanceScaled;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {

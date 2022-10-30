@@ -738,7 +738,7 @@ f32 sFontWidths[144] = {
 };
 
 u16 Message_DrawItemIcon(PlayState* play, u16 itemId, Gfx** p, u16 i) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Gfx* gfx = *p;
     MessageContext* msgCtx = &play->msgCtx;
 
@@ -2005,14 +2005,14 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
     MessageContext* msgCtx = &play->msgCtx;
     u16 buttonIndexPos;
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     Gfx* gfx = *p;
     s16 r;
     s16 g;
     s16 b;
     u16 i;
     u16 notePosX;
-    UNUSED s16 pad2;
+    STACK_PAD(s16);
     u16 j;
 
     gSPSegment(gfx++, 0x02, play->interfaceCtx.parameterSegment);
@@ -2955,7 +2955,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
 void Message_DrawDebugVariableChanged(s16* var, GraphicsContext* gfxCtx) {
     static s16 sVarLastValue = 0;
     static s16 sFillTimer = 0;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_message_PAL.c", 3485);
 
@@ -2982,9 +2982,9 @@ void Message_DrawDebugVariableChanged(s16* var, GraphicsContext* gfxCtx) {
 }
 
 void Message_DrawDebugText(PlayState* play, Gfx** p) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     GfxPrint printer;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *p);

@@ -85,7 +85,7 @@ void func_80977EA8(PlayState* play, Gfx* dlist) {
 }
 
 void func_80977F80(DemoGeff* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
@@ -190,7 +190,7 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     s32 params = thisx->params;
     s16 objectId = sObjectIDs[params];
     s32 objBankIndex = Object_GetIndex(objCtx, objectId);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (objBankIndex < 0) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);

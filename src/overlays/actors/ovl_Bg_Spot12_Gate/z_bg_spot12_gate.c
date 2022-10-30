@@ -44,9 +44,9 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -104,7 +104,7 @@ void func_808B317C(BgSpot12Gate* this) {
 }
 
 void func_808B318C(BgSpot12Gate* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 quakeIndex;
 
     Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);

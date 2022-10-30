@@ -82,7 +82,7 @@ ActorInit Bg_Bombwall_InitVars = {
 };
 
 void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -113,7 +113,7 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
     s32 j;
     Vec3f vecs[3];
     Vec3f sp80;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgBombwall* this = (BgBombwall*)thisx;
     f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);

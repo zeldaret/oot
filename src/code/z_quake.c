@@ -81,7 +81,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
 }
 
 s16 Quake_CallbackType1(QuakeRequest* req, ShakeInfo* shake) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (req->timer > 0) {
         f32 xyOffset = Math_SinS(req->speed * req->timer);
@@ -103,7 +103,7 @@ s16 Quake_CallbackType5(QuakeRequest* req, ShakeInfo* shake) {
 }
 
 s16 Quake_CallbackType6(QuakeRequest* req, ShakeInfo* shake) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 xyOffset;
 
     req->timer--;

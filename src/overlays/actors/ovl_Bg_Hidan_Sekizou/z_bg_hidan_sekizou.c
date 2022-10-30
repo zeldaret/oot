@@ -145,7 +145,7 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
 }
 
 void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgHidanSekizou* this = (BgHidanSekizou*)thisx;
     s32 i;
     CollisionHeader* colHeader = NULL;
@@ -296,7 +296,7 @@ void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {
 
 Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, f32 arg4, f32 arg5, s16 arg6,
                    Gfx* arg7) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 temp_f2;
     f32 phi_f12;
 
@@ -328,7 +328,7 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, 
 }
 
 Gfx* func_8088DC50(PlayState* play, BgHidanSekizou* this, s16 arg2, s16 arg3, Gfx* arg4) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 temp_v1;
     s32 phi_s1;
     s32 phi_s2;

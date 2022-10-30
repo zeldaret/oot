@@ -427,7 +427,7 @@ void EnCrow_UpdateDamage(EnCrow* this, PlayState* play) {
 
 void EnCrow_Update(Actor* thisx, PlayState* play) {
     EnCrow* this = (EnCrow*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 height;
     f32 scale;
 

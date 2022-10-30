@@ -175,7 +175,7 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, PlayState* play
 
 void BgHidanFirewall_Update(Actor* thisx, PlayState* play) {
     BgHidanFirewall* this = (BgHidanFirewall*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->unk_150 = (this->unk_150 + 1) % 8;
 

@@ -95,7 +95,7 @@ void EnSda_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnSda_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnSda* this = (EnSda*)thisx;
     Player* player;
 
@@ -333,7 +333,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
 }
 
 void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 tempx;
     f32 tempz;
     s16 phi_s1;

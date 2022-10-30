@@ -24,7 +24,7 @@ void KaleidoScope_DrawEquipmentImage(PlayState* play, void* source, u32 width, u
     s32 textureHeight;
     s32 remainingSize;
     s32 textureSize;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_equipment.c", 68);
@@ -126,7 +126,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     u16 temp;
     u16 point;
     u16 rowStart;
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     s16 cursorMoveResult;
     u16 cursorItem;
     u16 cursorSlot;

@@ -14,7 +14,7 @@ u8 sMempakExtName[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 s32 Mempak_Init(s32 controllerNb) {
     OSMesgQueue* mq;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 ret = false;
 
     mq = PadMgr_AcquireSerialEventQueue(&gPadMgr);
@@ -67,7 +67,7 @@ s32 Mempak_Write(UNUSED s32 controllerNb, char idx, void* buffer, s32 offset, s3
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     mq = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
@@ -87,7 +87,7 @@ s32 Mempak_Read(UNUSED s32 controllerNb, char idx, void* buffer, s32 offset, s32
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     mq = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
@@ -107,7 +107,7 @@ s32 Mempak_Alloc(UNUSED s32 controllerNb, char* idx, s32 size) {
     s32 error;
     s32 ret = 0;
     s32 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     mq = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
@@ -176,7 +176,7 @@ s32 Mempak_GetFileSize(UNUSED s32 controllerNb, char idx) {
     OSMesgQueue* mq = PadMgr_AcquireSerialEventQueue(&gPadMgr);
     OSPfsState state;
     s32 error = osPfsFileState(&sMempakPfsHandle, sMempakFiles[idx - 'A'], &state);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     PadMgr_ReleaseSerialEventQueue(&gPadMgr, mq);
 

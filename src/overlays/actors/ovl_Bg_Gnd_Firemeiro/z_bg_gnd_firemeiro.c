@@ -31,7 +31,7 @@ ActorInit Bg_Gnd_Firemeiro_InitVars = {
 };
 
 void BgGndFiremeiro_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -82,7 +82,7 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
 }
 
 void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 randSign;
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {

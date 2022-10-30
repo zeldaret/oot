@@ -77,7 +77,7 @@ void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
 
 void EnAObj_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 

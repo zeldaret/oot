@@ -78,9 +78,9 @@ void ActorShadow_DrawHorse(Actor* actor, Lights* lights, PlayState* play) {
 }
 
 void ActorShadow_DrawFoot(PlayState* play, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     f32 sp58;
-    UNUSED s32 pad2[2];
+    STACK_PADS(s32, 2);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 1661);
 
@@ -304,7 +304,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
         TargetContextEntry* entry;
         Player* player;
         s16 spCE;
-        UNUSED s32 pad;
+        STACK_PAD(s32);
         Vec3f projTargetCenter;
         s32 spB8;
         f32 projTargetCappedInvW;
@@ -413,7 +413,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
 }
 
 void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Actor* unkActor;
     s32 actorCategory;
     Vec3f projectedFocusPos;
@@ -706,7 +706,7 @@ void TitleCard_Update(UNUSED PlayState* play, TitleCardContext* titleCtx) {
 void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
     s32 width;
     s32 height;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 titleX;
     s32 doubleWidth;
     s32 titleY;
@@ -1231,7 +1231,7 @@ s32 func_8002E2AC(PlayState* play, Actor* actor, Vec3f* pos, s32 arg3) {
 void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight, f32 wallCheckRadius,
                              f32 ceilingCheckHeight, s32 flags) {
     f32 sp74;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f sp64;
     s32 bgId;
     CollisionPoly* wallPoly;
@@ -2660,7 +2660,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
 
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ, s16 rotX,
                    s16 rotY, s16 rotZ, s16 params) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Actor* actor;
     ActorInit* actorInit;
     s32 objBankIndex;
@@ -3757,7 +3757,7 @@ s16 func_800347E8(s16 arg0) {
 }
 
 s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, s16 arg4) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 var;
     s16 abs_var;
 
@@ -4175,7 +4175,7 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
     f32 sp28;
     f32 sp24;
     CollisionPoly* floorPoly;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (actor->floorPoly != NULL) {
         floorPoly = actor->floorPoly;

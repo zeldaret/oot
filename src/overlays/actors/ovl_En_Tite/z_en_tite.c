@@ -893,7 +893,7 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
 
 void EnTite_Update(Actor* thisx, PlayState* play) {
     EnTite* this = (EnTite*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionPoly* floorPoly;
     WaterBox* waterBox;
     f32 waterSurfaceY;

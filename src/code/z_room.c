@@ -98,14 +98,14 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     RoomShapeCullableEntryLinked* head = NULL;
     RoomShapeCullableEntryLinked* tail = NULL;
     RoomShapeCullableEntryLinked* iter;
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     RoomShapeCullableEntryLinked* insert;
     s32 j;
     s32 i;
     Vec3f pos;
     Vec3f projectedPos;
     f32 projectedW;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     RoomShapeCullableEntry* roomShapeCullableEntries;
     RoomShapeCullableEntry* roomShapeCullableEntryIter;
     f32 entryBoundsNearZ;

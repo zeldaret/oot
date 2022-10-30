@@ -39,7 +39,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaShip_Init(Actor* thisx, PlayState* play) {
     BgHakaShip* this = (BgHakaShip*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -222,7 +222,7 @@ void BgHakaShip_Draw(Actor* thisx, PlayState* play) {
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_haka_ship.c", 568);
     if (this->actionFunc == BgHakaShip_CutsceneStationary || this->actionFunc == BgHakaShip_Move) {
-        UNUSED s32 pad;
+        STACK_PAD(s32);
         Vec3f sp2C;
 
         sp2C.x = this->dyna.actor.world.pos.x + -367.0f;

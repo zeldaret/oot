@@ -808,7 +808,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     s16 cursorGreen;
     s16 cursorBlue;
     s16 i;
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     s16 vtx;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 848);

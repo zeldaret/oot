@@ -56,7 +56,7 @@ void func_80A6E3A0(EnHs* this, EnHsActionFunc actionFunc) {
 
 void EnHs_Init(Actor* thisx, PlayState* play) {
     EnHs* this = (EnHs*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &object_hs_Skel_006260, &object_hs_Anim_0005C0, this->jointTable,
@@ -228,7 +228,7 @@ void func_80A6E9AC(EnHs* this, PlayState* play) {
 
 void EnHs_Update(Actor* thisx, PlayState* play) {
     EnHs* this = (EnHs*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

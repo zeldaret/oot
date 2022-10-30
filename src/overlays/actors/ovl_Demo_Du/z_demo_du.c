@@ -48,7 +48,7 @@ void DemoDu_Destroy(Actor* thisx, PlayState* play) {
 void DemoDu_UpdateEyes(DemoDu* this) {
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeTexIndex = &this->eyeTexIndex;
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
@@ -129,7 +129,7 @@ s32 DemoDu_IsNpcNotDoingThisAction(DemoDu* this, PlayState* play, u16 action, s3
 
 void DemoDu_MoveToNpcPos(DemoDu* this, PlayState* play, s32 idx) {
     CsCmdActorAction* npcAction = DemoDu_GetNpcAction(play, idx);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (npcAction != NULL) {
         this->actor.world.pos.x = npcAction->startPos.x;
@@ -192,7 +192,7 @@ void func_80969FB4(DemoDu* this, PlayState* play) {
 
 // Gives the Fire Medallion to Link too.
 void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if ((gSaveContext.chamberCutsceneNum == 1) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
@@ -317,7 +317,7 @@ void DemoDu_CsPlaySfx_DaruniaFalling(PlayState* play) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 void DemoDu_CsPlaySfx_DaruniaHitsLink(PlayState* play) {
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
     Audio_PlaySfxGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -376,7 +376,7 @@ void DemoDu_CsGoronsRuby_UpdateFaceTextures(DemoDu* this, PlayState* play) {
 }
 
 void func_8096A630(DemoDu* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f pos = this->actor.world.pos;
 
     pos.y += kREG(5);
@@ -392,13 +392,13 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
     };
 
     if (Animation_OnFrame(&this->skelAnime, 31.0f) || Animation_OnFrame(&this->skelAnime, 41.0f)) {
-        UNUSED s32 pad1[2];
+        STACK_PADS(s32, 2);
         s32 i;
         Player* player = GET_PLAYER(play);
         Vec3f* pos = &player->bodyPartsPos[PLAYER_BODYPART_L_FOREARM];
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 0.3f, 0.0f };
-        UNUSED s32 pad2;
+        STACK_PAD(s32);
 
         for (i = 4; i >= 0; --i) {
             Color_RGBA8 primColor = { 190, 150, 110, 255 };
@@ -434,7 +434,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
 }
 
 void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->state != CS_STATE_IDLE) {
@@ -699,7 +699,7 @@ void DemoDu_UpdateCs_GR_13(DemoDu* this, PlayState* play) {
 }
 
 void DemoDu_InitCs_AfterGanon(DemoDu* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 lastFrame = Animation_GetLastFrame(&gDaruniaSageFormationAnim);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gDaruniaSkel, NULL, NULL, NULL, 0);
@@ -799,7 +799,7 @@ void DemoDu_Draw_02(Actor* thisx, PlayState* play2) {
     DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 mouthTexIndex = this->mouthTexIndex;
     void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -994,7 +994,7 @@ void DemoDu_Draw_01(Actor* thisx, PlayState* play2) {
     DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 mouthTexIndex = this->mouthTexIndex;
     void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;

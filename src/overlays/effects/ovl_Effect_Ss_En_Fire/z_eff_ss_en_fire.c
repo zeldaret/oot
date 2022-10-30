@@ -67,7 +67,7 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     f32 scale;
     s16 camYaw;
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     s16 redGreen;
 
     OPEN_DISPS(gfxCtx, "../z_eff_en_fire.c", 169);

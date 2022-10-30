@@ -60,7 +60,7 @@ u8 sNumSamplesPerWavePeriod[] = {
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     SynthesisReverb* reverb = &gAudioCtx.synthesisReverbs[reverbIndex];
     s32 temp_a0_2;
     s32 temp_a0_4;
@@ -702,7 +702,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, UNUSED s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
-    UNUSED s32 pad1[3];
+    STACK_PADS(s32, 3);
     Sample* sample;
     AdpcmLoop* loopInfo;
     s32 nSamplesUntilLoopEnd;
@@ -716,7 +716,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 gain;
     s32 frameIndex;
     s32 skipBytes;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     void* buf;
     s32 nSamplesToDecode;
     u32 sampleAddr;
@@ -727,7 +727,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 nSamplesToProcess;
     s32 phi_s4;
     s32 nFirstFrameSamplesToIgnore;
-    UNUSED s32 pad3[7];
+    STACK_PADS(s32, 7);
     s32 frameSize;
     s32 nFramesToDecode;
     s32 skipInitialSamples;
@@ -1152,7 +1152,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     s16 rampReverb;
     s16 sourceReverbVol;
     u16 targetVolRight;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     curVolLeft = synthState->curVolLeft;
     targetVolLeft = noteSubEu->targetVolLeft;

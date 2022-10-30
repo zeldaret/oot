@@ -55,7 +55,7 @@ ActorInit En_Kakasi2_InitVars = {
 
 void EnKakasi2_Init(Actor* thisx, PlayState* play) {
     EnKakasi2* this = (EnKakasi2*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 spawnRangeY;
     f32 spawnRangeXZ;
 

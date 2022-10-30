@@ -283,7 +283,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play) {
 }
 
 void EnSb_Bounce(EnSb* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 currentFrame;
     f32 frameCount;
 
@@ -442,7 +442,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
 
 void EnSb_Update(Actor* thisx, PlayState* play) {
     EnSb* this = (EnSb*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (this->isDead) {
         if (this->actor.yDistToWater > 0.0f) {

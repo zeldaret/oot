@@ -114,7 +114,7 @@ void EnYukabyun_Break(EnYukabyun* this, PlayState* play) {
 
 void EnYukabyun_Update(Actor* thisx, PlayState* play) {
     EnYukabyun* this = (EnYukabyun*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (((this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
          ((this->collider.base.ocFlags1 & OC1_HIT) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||

@@ -74,7 +74,7 @@ void ObjWarp2block_Spawn(ObjWarp2block* this, PlayState* play) {
 }
 
 s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Actor* temp_a3;
     Player* player;
     Vec3f sp20;

@@ -48,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -215,7 +215,7 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
 void func_808ACCB8(Actor* thisx, PlayState* play) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     f32 rate;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     u8 redPrim;
     u8 greenPrim;
     u8 bluePrim;
@@ -280,7 +280,7 @@ void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
 
 void func_808AD450(Actor* thisx, PlayState* play) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 lerp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 736);

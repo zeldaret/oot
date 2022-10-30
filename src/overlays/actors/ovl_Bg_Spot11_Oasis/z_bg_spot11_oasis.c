@@ -123,7 +123,7 @@ void func_808B2AB8(BgSpot11Oasis* this, PlayState* play) {
 
 void BgSpot11Oasis_Update(Actor* thisx, PlayState* play) {
     BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     u32 gameplayFrames;
     Vec3f sp30;
 

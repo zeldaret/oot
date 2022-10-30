@@ -666,7 +666,7 @@ static EnFzSpawnIceSmokeFunc iceSmokeSpawnFuncs[] = {
 
 void EnFz_Update(Actor* thisx, PlayState* play) {
     EnFz* this = (EnFz*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->counter++;
 
@@ -715,7 +715,7 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
         gFreezardHeadChippedDL,         // Entire head chipped off     (1 or 2 health)
     };
     EnFz* this = (EnFz*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 index;
 
     index = (6 - this->actor.colChkInfo.health) >> 1;

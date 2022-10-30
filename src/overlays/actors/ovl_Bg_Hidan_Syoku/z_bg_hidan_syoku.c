@@ -35,7 +35,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanSyoku_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
     CollisionHeader* colHeader = NULL;
 

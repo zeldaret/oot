@@ -441,7 +441,7 @@ static EnHorseGameCheckFunc sUpdateFuncs[] = {
 };
 
 void EnHorseGameCheck_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if ((play->sceneId == SCENE_SPOT20) && (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1))) {
@@ -453,7 +453,7 @@ void EnHorseGameCheck_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnHorseGameCheck_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if (sDestroyFuncs[this->actor.params] != NULL) {
@@ -462,7 +462,7 @@ void EnHorseGameCheck_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnHorseGameCheck_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if (sUpdateFuncs[this->type] != NULL) {

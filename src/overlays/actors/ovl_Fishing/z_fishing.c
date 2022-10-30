@@ -1170,7 +1170,7 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
     u8 materialFlag = 0;
     f32 rotY;
     s16 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     FishingEffect* firstEffect = effect;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 2271);
@@ -1374,7 +1374,7 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
 }
 
 void Fishing_DrawStreamSplash(PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 2572);
 
@@ -1416,7 +1416,7 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
     f32 dist;
     f32 spD8;
     s16 temp_s2;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 temp_f20;
     Vec3f posSrc = { 0.0f, 0.0f, 0.0f };
     Vec3f posStep;
@@ -1784,7 +1784,7 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
     Vec3f hookPos[2];
     s16 i;
     s16 spB4 = D_80B7E144;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 3287);
@@ -1952,7 +1952,7 @@ void Fishing_DrawRod(PlayState* play) {
     f32 spC0;
     Input* input = &play->state.input[0];
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 3600);
 
@@ -2111,7 +2111,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
     f32 sp70;
     Vec3f sp64;
     Vec3f sp58;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     D_80B7E0AE++;
 
@@ -2899,7 +2899,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     u8 phi_v0_2;
     f32 temp_f0;
     f32 temp;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 spA4;
     u16 spA2;
     u8 phi_a1;
@@ -4382,7 +4382,7 @@ void Fishing_DrawPondProps(PlayState* play) {
     u8 materialFlag = 0;
     FishingProp* prop = &sPondProps[0];
     s16 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 7704);
 
@@ -4677,7 +4677,7 @@ void Fishing_DrawGroupFishes(PlayState* play) {
     FishingGroupFish* fish = &sGroupFishes[0];
     f32 scale;
     s16 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (sLinkAge == LINK_AGE_CHILD) {
         scale = 0.003325f;
@@ -5083,7 +5083,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     f32 target;
     f32 subCamAtMaxVelFrac;
     f32 lureDistXZ;
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Input* input = &play->state.input[0];
 
@@ -5635,14 +5635,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = D_80B7A658;
 
     if ((u8)D_80B7A650 > 0) {
-        UNUSED s32 pad2;
+        STACK_PAD(s32);
         Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
         s16 i;
-        UNUSED s32 pad3;
+        STACK_PAD(s32);
         Vec3f pos;
         Vec3f rot;
         Vec3f projectedPos;
-        UNUSED s32 pad4;
+        STACK_PAD(s32);
 
         rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;
@@ -5711,7 +5711,7 @@ static void* sFishingOwnerEyeTexs[] = {
 };
 
 void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Fishing* this = (Fishing*)thisx;
     Input* input = &play->state.input[0];
 

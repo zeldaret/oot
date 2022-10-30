@@ -1,6 +1,11 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+#ifndef GLUE
+#define GLUE(a,b) a##b
+#endif
+#define GLUE2(a,b) GLUE(a,b)
+
 #ifndef __GNUC__
 #define __attribute__(x)
 #endif
@@ -13,6 +18,14 @@
 
 #define UNUSED __attribute__((unused))
 #define FALLTHROUGH __attribute__((fallthrough))
+
+#ifndef NON_MATCHING
+#define STACK_PAD(type) UNUSED type GLUE2(__stack_pad_, __LINE__)
+#define STACK_PADS(type, n) STACK_PAD(type) [(n)]
+#else
+#define STACK_PAD(type)
+#define STACK_PADS(type, n)
+#endif
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))

@@ -95,7 +95,7 @@ void EffectSsDeadDb_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsDeadDb_Update(PlayState* play, u32 index, EffectSs* this) {
     f32 w;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     this->rTextIdx = (f32)((this->rReg11 - this->life) * 9) / this->rReg11;
     this->rScale += this->rScaleStep;

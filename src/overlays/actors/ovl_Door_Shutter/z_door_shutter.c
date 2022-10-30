@@ -389,7 +389,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     DoorShutter* this = (DoorShutter*)thisx;
     PlayState* play = play2;
     s32 styleType;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 objectIndex;
     s32 i;
 
@@ -488,7 +488,7 @@ void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play) {
  * or returns the max float value if the player is too far left/right (`maxDistSides`) or above/below (`maxDistY`).
  */
 f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offsetY, f32 maxDistSides, f32 maxDistY) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f playerPos;
     Vec3f relPlayerPos;
     Player* player = GET_PLAYER(play);
@@ -915,7 +915,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
 
     if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
         (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {
-        UNUSED s32 pad[2];
+        STACK_PADS(s32, 2);
         DoorShutterGfxInfo* gfxInfo = &sGfxInfo[this->gfxType];
 
         OPEN_DISPS(play->state.gfxCtx, "../z_door_shutter.c", 2048);

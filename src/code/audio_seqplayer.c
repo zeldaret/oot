@@ -306,7 +306,7 @@ void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
 
 s32 AudioSeq_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIndex) {
     SequenceLayer* layer;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (channel->layers[layerIndex] == NULL) {
         layer = AudioSeq_AudioListPopBack(&gAudioCtx.layerFreeList);
@@ -1722,7 +1722,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     u8* data;
     u8* data2;
     u8* data3;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 dummy;
     s32 delay;
 

@@ -67,7 +67,7 @@ void Demo6K_SetupAction(Demo6K* this, Demo6KActionFunc actionFunc) {
 
 void Demo6K_Init(Actor* thisx, PlayState* play) {
     Demo6K* this = (Demo6K*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 params = this->actor.params;
     s32 objBankIndex;
     s32 i;
@@ -558,7 +558,7 @@ void Demo6K_Update(Actor* thisx, PlayState* play) {
 
 void func_80967FFC(Actor* thisx, PlayState* play) {
     Demo6K* this = (Demo6K*)thisx;
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     u16 timer1 = this->timer1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1070);
@@ -571,7 +571,7 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
 
     {
         s32 i;
-        UNUSED s32 pad2;
+        STACK_PAD(s32);
         Color_RGB8 colors[6][2] = {
             { { 255, 170, 255 }, { 255, 0, 100 } }, { { 255, 255, 170 }, { 0, 255, 0 } },
             { { 255, 255, 170 }, { 255, 255, 0 } }, { { 255, 170, 255 }, { 50, 0, 255 } },
@@ -600,7 +600,7 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
 void func_80968298(Actor* thisx, PlayState* play) {
     static u8 skipIndices[] = { 6, 7, 11, 16, 20, 24, 28, 33, 35, 41, 45, 50, 57, 58, 62, 255 };
     Demo6K* this = (Demo6K*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     u32 timer1 = this->timer1;
     f32 scale = this->unk_164 * this->unk_168;
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(object_demo_6kVtx_0035E0);
@@ -650,7 +650,7 @@ void func_80968298(Actor* thisx, PlayState* play) {
 
 void func_8096865C(Actor* thisx, PlayState* play) {
     Demo6K* this = (Demo6K*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Gfx* displayList;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1208);
@@ -719,7 +719,7 @@ void func_809688C4(Actor* thisx, PlayState* play2) {
 }
 
 void func_80968B70(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Demo6K* this = (Demo6K*)thisx;
     u32 timer2 = this->timer2;
     u8 primColor[4];
@@ -773,7 +773,7 @@ void func_80968FB0(Actor* thisx, PlayState* play) {
     Gfx* displayList = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Gfx));
     u16 frames = play->gameplayFrames;
     f32 scaleFactor;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (1) {}
 

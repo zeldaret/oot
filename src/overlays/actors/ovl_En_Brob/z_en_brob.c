@@ -57,7 +57,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 60, 120, MASS_IMMOVABLE };
 
 void EnBrob_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnBrob* this = (EnBrob*)thisx;
     CollisionHeader* colHeader = NULL;
 

@@ -524,7 +524,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1186);
 
     for (i = 0; i < 30; i++) {
-        UNUSED s32 pad[2];
+        STACK_PADS(s32, 2);
 
         dx = play->view.at.x - play->view.eye.x;
         dy = play->view.at.y - play->view.eye.y;
@@ -595,7 +595,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         Matrix_Scale(sRainScale * 0.001f, sRainScale * 0.001f, sRainScale * 0.001f, MTXMODE_APPLY);
 
         for (j = 0; j < 5; j++) {
-            UNUSED s32 pad;
+            STACK_PAD(s32);
 
             if (play->sceneId != SCENE_TOKINOMA) {
                 if (this->unk_150[i].unk_0.x >= 0.0f) {
@@ -631,7 +631,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
 
 void DemoKankyo_DrawRock(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1376);
 
@@ -653,7 +653,7 @@ void DemoKankyo_DrawRock(Actor* thisx, PlayState* play) {
 void DemoKankyo_DrawClouds(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 dx;
     f32 dy;
     f32 dz;
@@ -689,7 +689,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, PlayState* play) {
 
 void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1487);
 
@@ -708,7 +708,7 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play) {
 
 void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play) {
     UNUSED DemoKankyo* this = (DemoKankyo*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1514);
 

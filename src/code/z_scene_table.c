@@ -156,7 +156,7 @@ void* sDCLavaFloorTextures[] = {
 
 void Scene_DrawConfigDdan(PlayState* play) {
     u32 gameplayFrames;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4905);

@@ -118,7 +118,7 @@ void EffectSsLightning_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsLightning_Update(PlayState* play, u32 index, EffectSs* this) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
     s16 yaw;
     f32 scale;

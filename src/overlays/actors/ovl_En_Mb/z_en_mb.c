@@ -257,7 +257,7 @@ void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) {
 
 void EnMb_Init(Actor* thisx, PlayState* play) {
     EnMb* this = (EnMb*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s16 relYawFromPlayer;
 
@@ -674,7 +674,7 @@ void EnMb_SpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
  * Slow down and resume walking.
  */
 void EnMb_SpearEndChargeQuick(EnMb* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
     if (this->actor.speedXZ > 1.0f) {
@@ -816,7 +816,7 @@ void EnMb_SpearGuardPrepareAndCharge(EnMb* this, PlayState* play) {
 
 void EnMb_ClubAttack(EnMb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f effSpawnPos;
     Vec3f effWhiteShockwaveDynamics = { 0.0f, 0.0f, 0.0f };
     f32 flamesParams[] = { 18.0f, 18.0f, 0.0f };
@@ -1052,7 +1052,7 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play) {
 }
 
 void EnMb_ClubDamagedWhileKneeling(EnMb* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer3 != 0) {
@@ -1115,7 +1115,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
 void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player = GET_PLAYER(play);
     s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s16 yawTowardsHome;
@@ -1230,7 +1230,7 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
 
 void EnMb_ClubWaitPlayerNear(EnMb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 relYawFromPlayer = this->actor.world.rot.y - this->actor.yawTowardsPlayer;
 
     SkelAnime_Update(&this->skelAnime);
@@ -1415,7 +1415,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
 
 void EnMb_Update(Actor* thisx, PlayState* play) {
     EnMb* this = (EnMb*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     EnMb_CheckColliding(this, play);
     if (thisx->colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {

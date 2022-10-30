@@ -75,7 +75,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgYdanMaruta* this = (BgYdanMaruta*)thisx;
     Vec3f sp4C[3];
     s32 i;

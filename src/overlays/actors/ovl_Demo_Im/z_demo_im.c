@@ -104,7 +104,7 @@ ActorInit Demo_Im_InitVars = {
 };
 
 void func_80984BE0(DemoIm* this) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeIndex = &this->eyeIndex;
 
@@ -158,14 +158,14 @@ void DemoIm_DestroyCollider(Actor* thisx, PlayState* play) {
 }
 
 void DemoIm_UpdateCollider(DemoIm* this, PlayState* play) {
-    UNUSED s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
 void func_80984DB8(DemoIm* this) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3s* vec1 = &this->unk_2D4.unk_08;
     Vec3s* vec2 = &this->unk_2D4.unk_0E;
 
@@ -223,7 +223,7 @@ s32 DemoIm_IsCsStateIdle(PlayState* play) {
 }
 
 CsCmdActorAction* DemoIm_GetNpcAction(PlayState* play, s32 actionIdx) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     CsCmdActorAction* ret = NULL;
 
     if (!DemoIm_IsCsStateIdle(play)) {
@@ -323,7 +323,7 @@ void func_80985430(DemoIm* this, PlayState* play) {
 }
 
 void func_8098544C(DemoIm* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if ((gSaveContext.chamberCutsceneNum == 4) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
@@ -516,7 +516,7 @@ void func_80985C94(DemoIm* this, PlayState* play) {
 }
 
 void DemoIm_DrawTranslucent(DemoIm* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* eyeTex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -726,7 +726,7 @@ void func_80986570(DemoIm* this, PlayState* play) {
 }
 
 void func_809865F8(DemoIm* this, PlayState* play, s32 arg2) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (arg2 != 0) {
         f32* unk_278 = &this->unk_278;
@@ -1180,7 +1180,7 @@ void DemoIm_DrawNothing(DemoIm* this, PlayState* play) {
 }
 
 void DemoIm_DrawSolid(DemoIm* this, PlayState* play) {
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* eyeTexture = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;

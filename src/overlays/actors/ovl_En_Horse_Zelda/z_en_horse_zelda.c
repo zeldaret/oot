@@ -111,7 +111,7 @@ void func_80A6D8D0(unknownStruct* data, s32 index, Vec3f* vec) {
 }
 
 void func_80A6D918(EnHorseZelda* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f sp28;
     s16 yawDiff;
 
@@ -214,9 +214,9 @@ void func_80A6DDFC(EnHorseZelda* this, PlayState* play) {
 }
 
 void func_80A6DE38(EnHorseZelda* this, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionPoly* poly;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     Vec3f checkPos;
     s32 bgId;
 
@@ -229,7 +229,7 @@ void func_80A6DE38(EnHorseZelda* this, PlayState* play) {
 
 void EnHorseZelda_Update(Actor* thisx, PlayState* play) {
     EnHorseZelda* this = (EnHorseZelda*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     sActionFuncs[this->action](this, play);
     this->actor.speedXZ = 0.0f;

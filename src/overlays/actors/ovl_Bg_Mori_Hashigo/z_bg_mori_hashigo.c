@@ -77,9 +77,9 @@ static InitChainEntry sInitChainLadder[] = {
 };
 
 void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     colHeader = NULL;
     DynaPolyActor_Init(&this->dyna, moveFlag);
@@ -94,7 +94,7 @@ void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionH
 }
 
 void BgMoriHashigo_InitCollider(BgMoriHashigo* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
@@ -150,7 +150,7 @@ s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, PlayState* play) {
 }
 
 void BgMoriHashigo_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     if (this->dyna.actor.params == HASHIGO_CLASP) {
@@ -178,7 +178,7 @@ void BgMoriHashigo_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriHashigo_Destroy(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     if (this->dyna.actor.params == HASHIGO_LADDER) {
@@ -267,7 +267,7 @@ void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this) {
 }
 
 void BgMoriHashigo_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     if (this->hitTimer > 0) {
@@ -279,7 +279,7 @@ void BgMoriHashigo_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriHashigo_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hashigo.c", 516);

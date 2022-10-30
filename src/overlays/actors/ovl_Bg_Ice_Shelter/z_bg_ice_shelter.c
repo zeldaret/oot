@@ -86,7 +86,7 @@ static ColliderCylinderInit sCylinderInit2 = {
 void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
     static s16 cylinderRadii[] = { 47, 33, 44, 41, 100 };
     static s16 cylinderHeights[] = { 80, 54, 90, 60, 200 };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
     // All types use at least one collider in order to detect blue fire
@@ -113,9 +113,9 @@ void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
 }
 
 void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -233,7 +233,7 @@ void BgIceShelter_SpawnSteamAround(BgIceShelter* this, PlayState* play, f32 part
     s16 angle;
     s16 frameCounter;
     s32 i;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f steamPos;
     Vec3f steamVel;
     Vec3f steamAccel;
@@ -281,7 +281,7 @@ void BgIceShelter_SpawnSteamAlong(BgIceShelter* this, PlayState* play, f32 parti
     static f32 signs[] = { -1.0f, 1.0f };
     Vec3f* icePos;
     s16 frameCounter;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f steamPos;
     Vec3f steamVel;
     Vec3f steamAccel;
@@ -327,7 +327,7 @@ void BgIceShelter_SetupIdle(BgIceShelter* this) {
  * Checks for collision with blue fire. Also used to freeze King Zora's actor.
  */
 void BgIceShelter_Idle(BgIceShelter* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
     // Freeze King Zora
@@ -393,7 +393,7 @@ static void (*sSteamSpawnFuncs[])(BgIceShelter* this, PlayState* play, f32 parti
  * Progressively reduces the height and opacity of the red ice, while spawning steam effects at its base.
  */
 void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
     f32 particleSpawningChance;
 

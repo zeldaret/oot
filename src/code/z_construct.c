@@ -166,7 +166,7 @@ void Interface_Init(PlayState* play) {
 
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Message_SetTables();
 

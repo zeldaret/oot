@@ -87,14 +87,14 @@ void SpeedMeter_Destroy(UNUSED SpeedMeter* this) {
 }
 
 void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
-    UNUSED s32 pad1[2];
+    STACK_PADS(s32, 2);
     u32 baseX = 32;
     s32 width;
     s32 i;
     s32 uly;
     s32 lry;
     View view;
-    UNUSED s32 pad2[3];
+    STACK_PADS(s32, 3);
     Gfx* gfx;
 
     uly = this->y;
@@ -196,11 +196,11 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
 }
 
 void SpeedMeter_DrawAllocEntries(UNUSED SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state) {
-    UNUSED s32 pad1[2];
+    STACK_PADS(s32, 2);
     u32 ulx = 30;
     u32 lrx = 290;
     SpeedMeterAllocEntry entry;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     s32 y;
     TwoHeadGfxArena* thga;
     u32 zeldaFreeMax;

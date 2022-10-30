@@ -17,7 +17,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
     uintptr_t allocu32 = (uintptr_t)allocatedVRamAddress;
     u32* regValP;
     u32 isLoNeg;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     relocOffset = 0;
     relocatedValue = 0;

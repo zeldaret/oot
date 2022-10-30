@@ -39,10 +39,10 @@ static Gfx* sDLists[] = {
 };
 
 void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     BgSpot05Soko* this = (BgSpot05Soko*)thisx;
     CollisionHeader* colHeader = NULL;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;

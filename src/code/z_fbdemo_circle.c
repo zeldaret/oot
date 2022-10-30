@@ -101,7 +101,7 @@ void TransitionCircle_Destroy(UNUSED void* thisx) {
 
 void TransitionCircle_Update(void* thisx, s32 updateRate) {
     TransitionCircle* this = (TransitionCircle*)thisx;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (this->direction != 0) {
         if (this->texY == 0) {

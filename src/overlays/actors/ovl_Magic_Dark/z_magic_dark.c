@@ -72,7 +72,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
     u8 phi_a0;
     Player* player = GET_PLAYER(play);
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
     s32 msgMode = play->msgCtx.msgMode;
 
@@ -175,7 +175,7 @@ void MagicDark_DimLighting(PlayState* play, f32 intensity) {
 
 void MagicDark_OrbUpdate(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
@@ -203,7 +203,7 @@ void MagicDark_OrbUpdate(Actor* thisx, PlayState* play) {
 
 void MagicDark_DiamondDraw(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     u16 gameplayFrames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_dark.c", 525);
@@ -243,7 +243,7 @@ void MagicDark_OrbDraw(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
     Vec3f pos;
     Player* player = GET_PLAYER(play);
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 sp6C = play->state.frames & 0x1F;
 
     if (this->timer < 32) {

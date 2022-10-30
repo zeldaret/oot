@@ -46,7 +46,7 @@ void SkelCurve_Clear(SkelCurve* skelCurve) {
  */
 s32 SkelCurve_Init(UNUSED PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* skeletonHeaderSeg,
                    UNUSED CurveAnimationHeader* animation) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CurveSkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelCurve->limbCount = skeletonHeader->limbCount;
@@ -188,7 +188,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
         if (lod == 0) {
-            UNUSED s32 pad;
+            STACK_PAD(s32);
 
             dList = limb->dList[0];
             if (dList != NULL) {
@@ -197,7 +197,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
         } else if (lod == 1) {
-            UNUSED s32 pad;
+            STACK_PAD(s32);
 
             dList = limb->dList[0];
             if (dList != NULL) {

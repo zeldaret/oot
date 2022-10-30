@@ -511,7 +511,7 @@ void func_80B128F8(EnSyatekiNiw* this, PlayState* play) {
 }
 
 void func_80B129EC(EnSyatekiNiw* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 phi_f2;
     s16 sp2E;
     s16 sp2C;
@@ -571,7 +571,7 @@ void func_80B12BA4(EnSyatekiNiw* this, PlayState* play) {
 
 void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s16 i;
     UNUSED Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
     UNUSED Vec3f sp84 = { 0.0f, 0.0f, 0.0f };

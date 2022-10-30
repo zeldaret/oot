@@ -51,7 +51,7 @@ void func_80026400(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
 }
 
 void func_80026608(PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 159);
 
@@ -108,7 +108,7 @@ void func_80026860(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
 }
 
 void func_80026A6C(PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 217);
 

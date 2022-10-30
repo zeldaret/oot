@@ -144,7 +144,7 @@ void MagicWind_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 MagicWind_OverrideLimbDraw(PlayState* play, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_wind.c", 615);
 

@@ -61,7 +61,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     BgIceTurara* this = (BgIceTurara*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

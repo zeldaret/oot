@@ -441,7 +441,7 @@ void EnSkb_Death(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
-    UNUSED s16 pad;
+    STACK_PAD(s16);
     s32 i;
     Vec3f flamePos;
     s16 scale;
@@ -506,7 +506,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
 
 void EnSkb_Update(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     EnSkb_CheckDamage(this, play);
     Actor_MoveForward(&this->actor);
@@ -532,7 +532,7 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
 s32 EnSkb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSkb* this = (EnSkb*)thisx;
     s16 color;
-    UNUSED s16 pad[2];
+    STACK_PADS(s16, 2);
 
     if (limbIndex == 11) {
         if ((this->breakFlags & 2) == 0) { // head limb, head is still attached

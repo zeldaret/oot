@@ -25,7 +25,7 @@ EffectSsInit Effect_Ss_Extra_InitVars = {
 
 u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 objBankIndex;
     uintptr_t oldSeg6;
 
@@ -59,7 +59,7 @@ static void* sTextures[] = {
 };
 
 void EffectSsExtra_Draw(PlayState* play, u32 index, EffectSs* this) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 scale = this->rScale / 100.0f;
     void* object = play->objectCtx.status[this->rObjBankIdx].segment;
 

@@ -39,7 +39,7 @@ ActiveSequence gActiveSeqs[4];
 void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration) {
     u8 channelIndex;
     u16 duration;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (!gStartSeqDisabled || (seqPlayerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
@@ -101,7 +101,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     u8 channelIndex;
     u8 i;
     f32 freqScaleTarget;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (gAudioDebugPrintSeqCmd && (cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_PLAYER_IO << 28)) {
         AudioDebug_ScrPrt("SEQ H", (cmd >> 16) & 0xFFFF);
@@ -479,7 +479,7 @@ void Audio_UpdateActiveSequences(void) {
     u8 setupVal2;
     u8 setupVal1;
     u16 seqId;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     u16 channelMask;
     u32 retMsg;
     f32 volume;

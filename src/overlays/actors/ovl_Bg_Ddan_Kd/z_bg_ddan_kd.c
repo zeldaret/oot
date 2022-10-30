@@ -63,7 +63,7 @@ void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
 
 void BgDdanKd_Init(Actor* thisx, PlayState* play) {
     BgDdanKd* this = (BgDdanKd*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     this->prevExplosive = NULL;

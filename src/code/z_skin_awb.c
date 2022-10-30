@@ -108,7 +108,7 @@ void Skin_Free(PlayState* play, Skin* skin) {
 }
 
 s32 func_800A698C(Skin* skin, SkinLimb** skeleton, MtxF* limbMatrices, u8 parentIndex, u8 limbIndex) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]);
     MtxF* mtx;
     s32 ret;
@@ -145,7 +145,7 @@ s32 func_800A698C(Skin* skin, SkinLimb** skeleton, MtxF* limbMatrices, u8 parent
  */
 s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, s32 setTranslation) {
     s32 i;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 yRot;
     f32 xRot;
     f32 zRot;

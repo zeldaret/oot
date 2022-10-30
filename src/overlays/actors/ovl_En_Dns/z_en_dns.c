@@ -473,7 +473,7 @@ void EnDns_Burrow(EnDns* this, PlayState* play) {
 
 void EnDns_Update(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
-    UNUSED s16 pad;
+    STACK_PAD(s16);
 
     this->dustTimer++;
     this->actor.textId = D_809F040C[this->actor.params];

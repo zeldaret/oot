@@ -224,7 +224,7 @@ void Play_Init(GameState* thisx) {
     s32 playerStartBgCamIndex;
     s32 i;
     u8 baseSceneLayer;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (gSaveContext.entranceIndex == ENTR_LOAD_OPENING) {
         gSaveContext.entranceIndex = 0;
@@ -443,11 +443,11 @@ void Play_Init(GameState* thisx) {
 }
 
 void Play_Update(PlayState* this) {
-    UNUSED s32 pad1;
+    STACK_PAD(s32);
     s32 sp80;
     Input* input;
     u32 i;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
 
     input = this->state.input;
 
@@ -978,7 +978,7 @@ skip:
     PLAY_LOG(3801);
 
     if ((sp80 == 0) || gDbgCamEnabled) {
-        UNUSED s32 pad3[5];
+        STACK_PADS(s32, 5);
         s32 i;
 
         this->nextCamId = this->activeCamId;
@@ -1325,7 +1325,7 @@ f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* pos) {
     f32 nx;
     f32 ny;
     f32 nz;
-    UNUSED s32 pad[5];
+    STACK_PADS(s32, 5);
 
     floorY = BgCheck_AnyRaycastDown1(&this->colCtx, &poly, pos);
 

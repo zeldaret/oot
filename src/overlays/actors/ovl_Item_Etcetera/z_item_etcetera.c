@@ -92,7 +92,7 @@ void ItemEtcetera_SetupAction(ItemEtcetera* this, ItemEtceteraActionFunc actionF
 
 void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
     ItemEtcetera* this = (ItemEtcetera*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 type;
     s32 objBankIndex;
 

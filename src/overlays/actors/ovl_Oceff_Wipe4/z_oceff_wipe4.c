@@ -62,7 +62,7 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     OceffWipe4* this = (OceffWipe4*)thisx;
     f32 z;
     u8 alpha;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f eye;
     Vtx* vtxPtr;
     Vec3f quakeOffset;

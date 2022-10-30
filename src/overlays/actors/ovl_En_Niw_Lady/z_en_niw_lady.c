@@ -67,7 +67,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnNiwLady_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnNiwLady* this = (EnNiwLady*)thisx;
 
     this->objectAneIndex = Object_GetIndex(&play->objectCtx, OBJECT_ANE);
@@ -151,7 +151,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, PlayState* play, s32 arg2) {
 
 void func_80AB9F24(EnNiwLady* this, PlayState* play) {
     f32 frames;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (Object_IsLoaded(&play->objectCtx, this->objectAneIndex) &&
         Object_IsLoaded(&play->objectCtx, this->objectOsAnimeIndex)) {
@@ -491,7 +491,7 @@ void func_80ABAD7C(EnNiwLady* this, PlayState* play) {
 }
 
 void EnNiwLady_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnNiwLady* this = (EnNiwLady*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -553,7 +553,7 @@ Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
 
 s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNiwLady* this = (EnNiwLady*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (limbIndex == 15) {
         rot->x += this->unk_254.y;
@@ -574,7 +574,7 @@ s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 void EnNiwLady_Draw(Actor* thisx, PlayState* play) {
     static void* sEyeTextures[] = { gCuccoLadyEyeOpenTex, gCuccoLadyEyeHalfTex, gCuccoLadyEyeClosedTex };
     EnNiwLady* this = (EnNiwLady*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_niw_lady.c", 1347);
     if (this->unk_27E != 0) {

@@ -183,7 +183,7 @@ void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
 
 void func_80A74398(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EffectBlureInit1 blureInit;
 
     thisx->update = func_80A75FA0;
@@ -660,10 +660,10 @@ void func_80A75A38(EnIk* this, PlayState* play) {
 
 void func_80A75C38(EnIk* this, PlayState* play) {
     f32 temp_f0;
-    UNUSED u8 pad1;
-    UNUSED u8 pad2;
+    STACK_PAD(u8);
+    STACK_PAD(u8);
     u8 prevHealth;
-    UNUSED s32 pad3;
+    STACK_PAD(s32);
     Vec3f sp38;
 
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
@@ -740,7 +740,7 @@ void func_80A75C38(EnIk* this, PlayState* play) {
 
 void func_80A75FA0(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     u8 prevInvincibilityTimer;
 
@@ -999,7 +999,7 @@ void func_80A76E2C(EnIk* this, PlayState* play, Vec3f* pos) {
     };
 
     if (this->unk_4D4 == 0) {
-        UNUSED s32 pad;
+        STACK_PAD(s32);
         Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
         Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
         s32 i;
@@ -1097,7 +1097,7 @@ void func_80A772A4(EnIk* this) {
 
 void func_80A772EC(EnIk* this, PlayState* play) {
     static Vec3f D_80A78FA0;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 wDest;
 
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos, &D_80A78FA0, &wDest);
@@ -1106,7 +1106,7 @@ void func_80A772EC(EnIk* this, PlayState* play) {
 }
 
 void func_80A7735C(EnIk* this, PlayState* play) {
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 frames = Animation_GetLastFrame(&object_ik_Anim_0203D8);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable, 30);
@@ -1210,7 +1210,7 @@ void EnIk_PostLimbDraw2(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 void func_80A77844(EnIk* this, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 322);
 
@@ -1364,7 +1364,7 @@ void func_80A77ED0(EnIk* this, PlayState* play) {
 void func_80A77EDC(EnIk* this, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 630);
 

@@ -43,7 +43,7 @@ AudioTask* func_800E5000(void) {
     static AudioTask* sWaitingAudioTask = NULL;
     u32 samplesRemainingInAi;
     s32 abiCmdCnt;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 j;
     s32 sp5C;
     s16* currAiBuffer;
@@ -213,7 +213,7 @@ AudioTask* func_800E5000(void) {
 
 void func_800E5584(AudioCmd* cmd) {
     s32 i;
-    UNUSED s32 pad[3];
+    STACK_PADS(s32, 3);
     u32 temp_t7;
 
     switch (cmd->op) {
@@ -519,7 +519,7 @@ void Audio_GetSampleBankIdsOfFont(s32 fontId, u32* sampleBankId1, u32* sampleBan
 }
 
 s32 func_800E5EDC(void) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 sp18;
 
     if (osRecvMesg(gAudioCtx.audioResetQueueP, (OSMesg*)&sp18, OS_MESG_NOBLOCK) == -1) {
@@ -541,7 +541,7 @@ void func_800E5F34(void) {
 s32 func_800E5F88(s32 resetPreloadID) {
     s32 resetStatus;
     OSMesg msg;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     func_800E5F34();
     resetStatus = gAudioCtx.resetStatus;

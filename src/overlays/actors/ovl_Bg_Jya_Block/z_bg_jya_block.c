@@ -34,7 +34,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJyaBlock_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     BgJyaBlock* this = (BgJyaBlock*)thisx;
     CollisionHeader* colHeader = NULL;
 

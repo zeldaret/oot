@@ -642,7 +642,7 @@ s32 func_8008EF44(PlayState* play, s32 ammo) {
 s32 Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange) {
     Player* this = GET_PLAYER(play);
     Vec3f diff;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if ((this->heldItemAction == PLAYER_IA_STICK) && (this->unk_860 != 0)) {
         Math_Vec3f_Diff(&this->meleeWeaponInfo[0].tip, pos, &diff);
@@ -976,7 +976,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
 
     if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_7) &&
         (Player_ActionToMagicSpell(this, this->itemAction) < 0)) {
-        UNUSED s32 pad;
+        STACK_PAD(s32);
 
         sp7C = D_80126058[(void)0, gSaveContext.linkAge];
         sp78 = D_80126060[(void)0, gSaveContext.linkAge];
@@ -1581,7 +1581,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, UN
 
                 if (heldActor != NULL) {
                     MtxF sp44;
-                    UNUSED s32 pad;
+                    STACK_PAD(s32);
 
                     Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
                     Matrix_RotateZYX(0, -0x4000, -0x4000, MTXMODE_APPLY);
@@ -1727,7 +1727,7 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
 
     OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 3129);
 
-    { UNUSED s32 pad[2]; }
+    { STACK_PADS(s32, 2); }
 
     opaRef = POLY_OPA_DISP;
     POLY_OPA_DISP++;

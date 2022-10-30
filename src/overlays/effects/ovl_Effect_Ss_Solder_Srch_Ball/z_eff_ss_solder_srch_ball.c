@@ -30,7 +30,7 @@ u32 EffectSsSolderSrchBall_Init(PlayState* play, u32 index, EffectSs* this, void
 }
 
 void EffectSsSolderSrchBall_Update(PlayState* play, u32 index, EffectSs* this) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 playerPosDiffX;
     f32 playerPosDiffY;
     f32 playerPosDiffZ;

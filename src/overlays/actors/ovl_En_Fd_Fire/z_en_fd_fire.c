@@ -121,7 +121,7 @@ s32 EnFdFire_CheckCollider(EnFdFire* this, PlayState* play) {
 
 void EnFdFire_Init(Actor* thisx, PlayState* play) {
     EnFdFire* this = (EnFdFire*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
@@ -209,7 +209,7 @@ void EnFdFire_Disappear(EnFdFire* this, PlayState* play) {
 
 void EnFdFire_Update(Actor* thisx, PlayState* play) {
     EnFdFire* this = (EnFdFire*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc != EnFdFire_Disappear) {
         if ((this->actor.parent->update == NULL) || EnFdFire_CheckCollider(this, play)) {
@@ -237,7 +237,7 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
         { 255, 10, 0, 255 },
         { 0, 10, 255, 255 },
     };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnFdFire* this = (EnFdFire*)thisx;
     Vec3f scale = { 0.0f, 0.0f, 0.0f };
     UNUSED Vec3f sp90 = { 0.0f, 0.0f, 0.0f };

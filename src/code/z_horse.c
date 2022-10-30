@@ -126,7 +126,7 @@ typedef struct {
 } struct_8011F9B8;
 
 void func_8006D684(PlayState* play, Player* player) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 i;
     Vec3s spawnPos;
 

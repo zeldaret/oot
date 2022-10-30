@@ -276,7 +276,7 @@ s32 EnDodojr_TryEatBomb(EnDodojr* this) {
 
 void EnDodojr_UpdateCrawl(EnDodojr* this, PlayState* play) {
     f32 angles[] = { 0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f };
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f crawlTargetPos;
     s16 angleIndex;

@@ -141,7 +141,7 @@ void func_80B9ADCC(ObjMure3* this, PlayState* play) {
 }
 
 void ObjMure3_Init(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     ObjMure3* this = (ObjMure3*)thisx;
 
     if (Flags_GetSwitch(play, this->actor.params & 0x3F)) {

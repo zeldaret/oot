@@ -44,9 +44,9 @@ void ObjElevator_SetupAction(ObjElevator* this, ObjElevatorActionFunc actionFunc
 }
 
 void func_80B92B08(ObjElevator* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    UNUSED s16 pad1;
+    STACK_PAD(s16);
     CollisionHeader* colHeader = NULL;
-    UNUSED s16 pad2;
+    STACK_PAD(s16);
     Actor* thisx = &this->dyna.actor;
 
     DynaPolyActor_Init(&this->dyna, flag);

@@ -36,7 +36,7 @@ static s16 sSlotItems[] = {
 
 void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
     GfxPrint printer;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *gfxp);

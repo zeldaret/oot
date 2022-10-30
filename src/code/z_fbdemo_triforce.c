@@ -31,7 +31,7 @@ void TransitionTriforce_Destroy(UNUSED void* thisx) {
 
 void TransitionTriforce_Update(void* thisx, s32 updateRate) {
     TransitionTriforce* this = (TransitionTriforce*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     for (i = updateRate; i > 0; i--) {
@@ -71,7 +71,7 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     Mtx* modelView;
     f32 scale;
     TransitionTriforce* this = (TransitionTriforce*)thisx;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 rotation = this->transPos * 360.0f;
 
     modelView = this->modelView[this->frame];

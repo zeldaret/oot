@@ -843,7 +843,7 @@ s32 AudioHeap_ResetStep(void) {
 }
 
 void AudioHeap_Init(void) {
-    UNUSED s32 pad1[4];
+    STACK_PADS(s32, 4);
     s16* ramAddr;
     s32 persistentSize;
     s32 temporarySize;
@@ -852,7 +852,7 @@ void AudioHeap_Init(void) {
     OSIntMask intMask;
     s32 i;
     s32 j;
-    UNUSED s32 pad2;
+    STACK_PAD(s32);
     AudioSpec* spec = &gAudioSpecs[gAudioCtx.audioResetSpecIdToLoad]; // Audio Specifications
 
     gAudioCtx.sampleDmaCount = 0;
@@ -1388,7 +1388,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     Instrument* inst;
     SoundEffect* soundEffect;
     u32* fakematch;
-    UNUSED s32 pad[4];
+    STACK_PADS(s32, 4);
 
     sampleBankTable = gAudioCtx.sampleBankTable;
     numFonts = gAudioCtx.soundFontTable->numEntries;

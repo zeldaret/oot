@@ -277,7 +277,7 @@ void func_80A535BC(EnHeishi2* this, PlayState* play) {
 }
 
 void func_80A53638(EnHeishi2* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 frameCount = this->skelAnime.curFrame;
 
     BgSpot15Saku* actor = (BgSpot15Saku*)play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
@@ -438,7 +438,7 @@ void func_80A53C90(EnHeishi2* this, PlayState* play) {
 }
 
 void func_80A53D0C(EnHeishi2* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 frameCount;
     BgGateShutter* gate;
 
@@ -599,7 +599,7 @@ void func_80A54320(EnHeishi2* this, PlayState* play) {
 }
 
 void func_80A543A0(EnHeishi2* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     f32 frameCount = this->skelAnime.curFrame;
     BgGateShutter* gate = (BgGateShutter*)(play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head);
     SkelAnime_Update(&this->skelAnime);
@@ -644,7 +644,7 @@ void func_80A544AC(EnHeishi2* this, PlayState* play) {
 }
 
 void func_80A5455C(EnHeishi2* this, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
     f32 rotY;
     EnBom* bomb;
@@ -761,7 +761,7 @@ void func_80A549E8(EnHeishi2* this, PlayState* play) {
 }
 
 void EnHeishi2_Update(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     EnHeishi2* this = (EnHeishi2*)thisx;
     s32 i;
 

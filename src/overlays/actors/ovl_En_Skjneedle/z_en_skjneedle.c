@@ -99,7 +99,7 @@ void EnSkjneedle_Update(Actor* thisx, PlayState* play2) {
 }
 
 void EnSkjneedle_Draw(Actor* thisx, PlayState* play) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj_needle.c", 200);
 

@@ -49,7 +49,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size) {
     OSMesg msg;
     s32 ret;
     u32 buffSize = gDmaMgrDmaBuffSize;
-    UNUSED s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (buffSize == 0) {
         buffSize = 0x2000;
@@ -440,7 +440,7 @@ s32 DmaMgr_SendRequest1(void* ram, uintptr_t vrom, u32 size, const char* file, s
     s32 ret;
     OSMesgQueue queue;
     OSMesg msg;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     req.filename = file;
     req.line = line;

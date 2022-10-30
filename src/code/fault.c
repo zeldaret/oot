@@ -642,7 +642,7 @@ OSThread* Fault_FindFaultedThread(void) {
 }
 
 void Fault_Wait5Seconds(void) {
-    UNUSED s32 pad;
+    STACK_PAD(s32);
     OSTime start = osGetTime();
 
     do {
@@ -1082,7 +1082,7 @@ void Fault_LogStackTrace(OSThread* thread, s32 height) {
     uintptr_t ra = thread->context.ra;
     uintptr_t pc = thread->context.pc;
     uintptr_t addr;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     osSyncPrintf("STACK TRACE\nSP       PC       (VPC)\n");
     for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (uintptr_t)__osCleanupThread; line++) {
@@ -1161,7 +1161,7 @@ void Fault_UpdatePad(void) {
 void Fault_ThreadEntry(UNUSED void* arg) {
     OSMesg msg;
     OSThread* faultedThread;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     // Direct OS event messages to the fault event queue
     osSetEventMesg(OS_EVENT_CPU_BREAK, &sFaultInstance->queue, FAULT_MSG_CPU_BREAK);
@@ -1297,7 +1297,7 @@ void Fault_HungupFaultClient(const char* exp1, const char* exp2) {
  */
 void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     FaultClient client;
-    UNUSED s32 pad;
+    STACK_PAD(s32);
 
     Fault_AddClient(&client, Fault_HungupFaultClient, (void*)exp1, (void*)exp2);
     *(u32*)0x11111111 = 0; // trigger an exception via unaligned memory access
