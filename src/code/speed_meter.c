@@ -1,25 +1,70 @@
 #include "global.h"
 #include "vt.h"
 
-volatile OSTime D_8016A520;
-volatile OSTime D_8016A528;
-volatile OSTime D_8016A530;
-volatile OSTime D_8016A538;
-volatile OSTime D_8016A540;
-volatile OSTime D_8016A548;
-volatile OSTime D_8016A550;
-volatile OSTime D_8016A558;
-volatile OSTime gRSPAudioTotalTime;
-volatile OSTime gRSPGFXTotalTime;
-volatile OSTime gRSPOtherTotalTime;
+/**
+ * How much time the audio update on the audio thread (`func_800E4FE0`) took in total, between scheduling the last two
+ * graphics tasks.
+ */
+volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
+
+/**
+ * How much time elapsed between scheduling the previous graphics task and the current one being ready (the previous
+ * task not necessarily being finished yet), without the amount of time spent on the audio update in the audio thread.
+ */
+volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
+
+/**
+ * How much time the RSP ran audio tasks for over the course of `gGraphUpdatePeriod`.
+ */
+volatile OSTime gRSPAudioTimeTotal;
+
+/**
+ * How much time the RSP ran graphics tasks for over the course of `gGraphUpdatePeriod`.
+ * Typically the RSP runs 1 graphics task per `Graph_Update` cycle, but may run 0 (see `Graph_Update`).
+ */
+volatile OSTime gRSPGfxTimeTotal;
+
+/**
+ * How much time the RDP ran for over the course of `gGraphUpdatePeriod`.
+ */
+volatile OSTime gRDPTimeTotal;
+
+/**
+ * How much time elapsed between the last two `Graph_Update` ending.
+ * This is expected to be at least the duration of a single frame, since it includes the time spent waiting on the
+ * graphics task to be done.
+ */
+volatile OSTime gGraphUpdatePeriod;
+
+/**
+ * The time at which the audio thread audio update started.
+ */
+volatile OSTime gAudioThreadUpdateTimeStart;
+
+// Accumulator for `gAudioThreadUpdateTimeStart`
+volatile OSTime gAudioThreadUpdateTimeAcc;
+
+// Accumulator for `gRSPAudioTimeTotal`
+volatile OSTime gRSPAudioTimeAcc;
+
+// Accumulator for `gRSPGfxTimeTotal`.
+volatile OSTime gRSPGfxTimeAcc;
+
+volatile OSTime gRSPOtherTimeAcc;
 volatile OSTime D_8016A578;
-volatile OSTime gRDPTotalTime;
+
+// Accumulator for `gRDPTimeTotal`
+volatile OSTime gRDPTimeAcc;
+
 SpeedMeterTimeEntry* sSpeedMeterTimeEntryPtr;
 
 SpeedMeterTimeEntry sSpeedMeterTimeEntryArray[] = {
-    { &D_8016A520, 0, 0, GPACK_RGBA5551(255, 0, 0, 1) }, { &D_8016A528, 0, 2, GPACK_RGBA5551(255, 255, 0, 1) },
-    { &D_8016A530, 0, 4, GPACK_RGBA5551(0, 0, 255, 1) }, { &D_8016A538, 0, 6, GPACK_RGBA5551(255, 128, 128, 1) },
-    { &D_8016A540, 0, 8, GPACK_RGBA5551(0, 255, 0, 1) }, { &D_8016A548, 0, 10, GPACK_RGBA5551(255, 0, 255, 1) },
+    { &gAudioThreadUpdateTimeTotalPerGfxTask, 0, 0, GPACK_RGBA5551(255, 0, 0, 1) },
+    { &gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime, 0, 2, GPACK_RGBA5551(255, 255, 0, 1) },
+    { &gRSPAudioTimeTotal, 0, 4, GPACK_RGBA5551(0, 0, 255, 1) },
+    { &gRSPGfxTimeTotal, 0, 6, GPACK_RGBA5551(255, 128, 128, 1) },
+    { &gRDPTimeTotal, 0, 8, GPACK_RGBA5551(0, 255, 0, 1) },
+    { &gGraphUpdatePeriod, 0, 10, GPACK_RGBA5551(255, 0, 255, 1) },
 };
 
 #define gDrawRect(gfx, color, ulx, uly, lrx, lry)      \
@@ -44,7 +89,7 @@ void SpeedMeter_Destroy(SpeedMeter* this) {
 void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     s32 pad[2];
     u32 baseX = 32;
-    s32 temp;
+    s32 width;
     s32 i;
     s32 uly;
     s32 lry;
@@ -64,8 +109,8 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
 
     sSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        temp = ((f64)*sSpeedMeterTimeEntryPtr->time / gIrqMgrRetraceTime) * 64.0;
-        sSpeedMeterTimeEntryPtr->x = temp + baseX;
+        width = ((f64)*sSpeedMeterTimeEntryPtr->time / gIrqMgrRetraceTime) * 64.0;
+        sSpeedMeterTimeEntryPtr->x = baseX + width;
         sSpeedMeterTimeEntryPtr++;
     }
 
@@ -151,11 +196,11 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
 }
 
 void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state) {
-    s32 pad[2];
+    s32 pad1[2];
     u32 ulx = 30;
     u32 lrx = 290;
     SpeedMeterAllocEntry entry;
-    u32 temp;
+    u32 pad2;
     s32 y;
     TwoHeadGfxArena* thga;
     u32 zeldaFreeMax;
@@ -166,7 +211,7 @@ void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, Gam
     s32 sysAlloc;
 
     y = 212;
-    if (SREG(0) > 2) {
+    if (R_ENABLE_ARENA_DBG > 2) {
         if (ZeldaArena_IsInitialized()) {
             ZeldaArena_GetSizes(&zeldaFreeMax, &zeldaFree, &zeldaAlloc);
             SpeedMeter_InitAllocEntry(&entry, zeldaFree + zeldaAlloc, zeldaAlloc, GPACK_RGBA5551(0, 0, 255, 1),
@@ -177,7 +222,7 @@ void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, Gam
         }
     }
 
-    if (SREG(0) > 1) {
+    if (R_ENABLE_ARENA_DBG > 1) {
         SystemArena_GetSizes((u32*)&sysFreeMax, (u32*)&sysFree, (u32*)&sysAlloc);
         SpeedMeter_InitAllocEntry(&entry, sysFree + sysAlloc - state->tha.size, sysAlloc - state->tha.size,
                                   GPACK_RGBA5551(0, 0, 255, 1), GPACK_RGBA5551(255, 128, 128, 1), ulx, lrx, y, y);
