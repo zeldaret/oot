@@ -1,6 +1,9 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
+// VT_: Helper macros for printing colored text to terminals, using ANSI escape codes
+// VT stands for Virtual Terminal
+
 // 3-bit color codes
 #define VT_COLOR_BLACK      0
 #define VT_COLOR_RED        1
