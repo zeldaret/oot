@@ -6703,7 +6703,7 @@ s32 Camera_Special6(Camera* camera) {
     BgCamFuncData* bgCamFuncData;
     Vec3s bgCamRot;
     s16 fov;
-    UNUSED s32 sp54;
+    STACK_PAD(s32);
     f32 timerF;
     f32 timerDivisor;
     Special6ReadOnlyData* roData = &camera->paramData.spec6.roData;
