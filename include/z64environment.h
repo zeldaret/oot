@@ -132,10 +132,6 @@ typedef struct {
     /* 0x06 */ u8 skybox2Index;
 } TimeBasedSkyboxEntry; // size = 0x8
 
-// Get blend rate from `EnvLightSettings.blendRateAndFogNear` in 0-255 range
-#define ENV_LIGHT_SETTINGS_BLEND_RATE_U8(blendRateAndFogNear) (((blendRateAndFogNear) >> 10) * 4)
-#define ENV_LIGHT_SETTINGS_FOG_NEAR(blendRateAndFogNear) ((blendRateAndFogNear) & 0x3FF)
-
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
     /* 0x03 */ s8 light1Dir[3];
@@ -151,6 +147,10 @@ typedef struct {
 // The light settings data in the scene packs blend rate information with the fog near value.
 // The blendRate determines how fast the current light settings fade to the next one 
 // (under LIGHT_MODE_SETTINGS, otherwise unused). 
+
+// Get blend rate from `EnvLightSettings.blendRateAndFogNear` in 0-255 range
+#define ENV_LIGHT_SETTINGS_BLEND_RATE_U8(blendRateAndFogNear) (((blendRateAndFogNear) >> 10) * 4)
+#define ENV_LIGHT_SETTINGS_FOG_NEAR(blendRateAndFogNear) ((blendRateAndFogNear) & 0x3FF)
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
