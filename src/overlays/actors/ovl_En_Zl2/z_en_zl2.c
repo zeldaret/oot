@@ -85,7 +85,7 @@ static EnZl2DrawFunc sDrawFuncs[] = {
     func_80B525D4,
 };
 
-const ActorInit En_Zl2_InitVars = {
+ActorInit En_Zl2_InitVars = {
     ACTOR_EN_ZL2,
     ACTORCAT_NPC,
     FLAGS,
@@ -1437,7 +1437,7 @@ void func_80B51D24(EnZl2* this, PlayState* play) {
     if (Animation_OnFrame(skelAnime, 6.0f) || Animation_OnFrame(skelAnime, 0.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxId(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -1604,7 +1604,7 @@ void EnZl2_Init(Actor* thisx, PlayState* play) {
 
     switch (thisx->params) {
         case 1:
-            Audio_SetSoundBanksMute(0x6F);
+            Audio_SetSfxBanksMute(0x6F);
             break;
         case 4:
             gSaveContext.timer2State = 0;

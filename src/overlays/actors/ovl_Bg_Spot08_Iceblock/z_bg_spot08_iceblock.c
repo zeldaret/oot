@@ -22,7 +22,7 @@ void BgSpot08Iceblock_SetupFloatOrbitingTwins(BgSpot08Iceblock* this);
 void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play);
 void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this);
 
-const ActorInit Bg_Spot08_Iceblock_InitVars = {
+ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
     ACTORCAT_BG,
     FLAGS,
@@ -299,10 +299,10 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     switch (this->dyna.actor.params & 0xF) {
         case 2:
         case 3:
-            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DPM_UNK3);
+            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
             break;
         default:
-            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DPM_UNK);
+            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, 0);
             break;
     }
 

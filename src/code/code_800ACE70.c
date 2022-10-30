@@ -68,7 +68,7 @@ void func_800ACE98(struct_801664F0* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
-    gDPSetPrimDepth(gfx++, -1, -1);
+    gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
     if (this->setScissor == true) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);

@@ -42,7 +42,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
 void EnSyatekiMan_SetBgm(void);
 
-const ActorInit En_Syateki_Man_InitVars = {
+ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORCAT_NPC,
     FLAGS,
@@ -505,6 +505,6 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
-        Audio_QueueSeqCmd(sBgmList[BREG(81)]);
+        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, sBgmList[BREG(81)]);
     }
 }

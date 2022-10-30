@@ -7,7 +7,7 @@
 #include "z_en_vali.h"
 #include "assets/objects/object_vali/object_vali.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, PlayState* play);
 void EnVali_Destroy(Actor* thisx, PlayState* play);
@@ -29,7 +29,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play);
 void EnVali_Frozen(EnVali* this, PlayState* play);
 void EnVali_ReturnToLurk(EnVali* this, PlayState* play);
 
-const ActorInit En_Vali_InitVars = {
+ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -156,7 +156,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
 
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
     this->actor.params = BARI_TYPE_NORMAL;
 
     if (this->actor.floorHeight == BGCHECK_Y_MIN) {
@@ -247,7 +247,7 @@ void EnVali_SetupDivideAndDie(EnVali* this, PlayState* play) {
     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
     this->timer = Rand_S16Offset(10, 10);
     this->bodyCollider.base.acFlags &= ~AC_ON;
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.draw = NULL;
     this->actionFunc = EnVali_DivideAndDie;
@@ -259,7 +259,7 @@ void EnVali_SetupStunned(EnVali* this) {
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
     this->bodyCollider.info.bumper.effect = 0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_Stunned;
 }
@@ -316,7 +316,7 @@ void EnVali_DropAppear(EnVali* this, PlayState* play) {
     this->actor.velocity.y = CLAMP_MAX(this->actor.velocity.y, 40.0f);
 
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         EnVali_SetupFloatIdle(this);
     }
 }
@@ -339,10 +339,10 @@ void EnVali_FloatIdle(EnVali* this, PlayState* play) {
         this->actor.shape.rot.y += 0x800;
 
         if (((this->slingshotReactionTimer % 6) == 0) && (curFrame > 15) && (curFrame <= 55)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_ROLL);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_ROLL);
         }
     } else if ((curFrame == 16) || (curFrame == 30) || (curFrame == 42) || (curFrame == 55)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_ROLL);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_ROLL);
     }
 
     curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
@@ -441,7 +441,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play) {
     if (this->actor.velocity.y != 0.0f) {
         if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
             this->actor.velocity.y = 0.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.velocity.y += 1.0f;
         }
@@ -500,12 +500,12 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
 
         if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
                        (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DAMAGE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
             if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_STUN) {

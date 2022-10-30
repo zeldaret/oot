@@ -17,7 +17,7 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play);
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
-const ActorInit Bg_Spot05_Soko_InitVars = {
+ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
     ACTORCAT_PROP,
     FLAGS,
@@ -47,7 +47,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     if (thisx->params == 0) {
         CollisionHeader_GetVirtual(&object_spot05_objects_Col_000918, &colHeader);
         if (LINK_IS_ADULT) {
@@ -78,7 +78,7 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play) {
 
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808AE630;

@@ -14,7 +14,7 @@ void BgJyaBlock_Destroy(Actor* thisx, PlayState* play);
 void BgJyaBlock_Update(Actor* thisx, PlayState* play);
 void BgJyaBlock_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Jya_Block_InitVars = {
+ActorInit Bg_Jya_Block_InitVars = {
     ACTOR_BG_JYA_BLOCK,
     ACTORCAT_PROP,
     FLAGS,

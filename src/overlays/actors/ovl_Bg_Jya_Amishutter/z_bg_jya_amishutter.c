@@ -23,7 +23,7 @@ void func_808934C0(BgJyaAmishutter* this);
 void func_808934FC(BgJyaAmishutter* this);
 void func_8089350C(BgJyaAmishutter* this);
 
-const ActorInit Bg_Jya_Amishutter_InitVars = {
+ActorInit Bg_Jya_Amishutter_InitVars = {
     ACTOR_BG_JYA_AMISHUTTER,
     ACTORCAT_BG,
     FLAGS,
@@ -59,7 +59,7 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
 void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
-    BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, DPM_UNK);
+    BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     BgJyaAmishutter_SetupWaitForPlayer(this);
 }
@@ -87,7 +87,7 @@ void func_80893428(BgJyaAmishutter* this) {
 void func_80893438(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 100.0f, 3.0f)) {
         func_808934B0(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
@@ -110,7 +110,7 @@ void func_808934FC(BgJyaAmishutter* this) {
 void func_8089350C(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
         BgJyaAmishutter_SetupWaitForPlayer(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }

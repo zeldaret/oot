@@ -27,7 +27,7 @@ void EnHintnuts_Talk(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Leave(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play);
 
-const ActorInit En_Hintnuts_InitVars = {
+ActorInit En_Hintnuts_InitVars = {
     ACTOR_EN_HINTNUTS,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -148,14 +148,14 @@ void EnHintnuts_SetupStand(EnHintnuts* this) {
 
 void EnHintnuts_SetupBurrow(EnHintnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsBurrowAnim, -5.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnHintnuts_Burrow;
 }
 
 void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsUnburrowAnim, -3.0f);
     this->collider.dim.height = 37;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
 
     if (this->actor.params > 0 && this->actor.params < 4 && this->actor.category == ACTORCAT_ENEMY) {
@@ -196,7 +196,7 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->collider.base.ocFlags1 &= ~OC1_ON;
     this->actor.flags |= ACTOR_FLAG_4;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, this->actor.world.pos.x, this->actor.world.pos.y,
                 this->actor.world.pos.z, 0x0, 0x0, 0x0, 0x3); // recovery heart
     this->actionFunc = EnHintnuts_Leave;
@@ -208,7 +208,7 @@ void EnHintnuts_SetupFreeze(EnHintnuts* this) {
     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 100);
     this->actor.colorFilterTimer = 1;
     this->animFlagAndTimer = 0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_FAINT);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_FAINT);
     if (sPuzzleCounter == -3) {
         func_80078884(NA_SE_SY_ERROR);
         sPuzzleCounter = -4;
@@ -228,7 +228,7 @@ void EnHintnuts_Wait(EnHintnuts* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= AC_ON;
     } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
     }
 
     this->collider.dim.height = 5.0f + ((CLAMP(this->skelAnime.curFrame, 9.0f, 12.0f) - 9.0f) * 9.0f);
@@ -288,7 +288,7 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, PlayState* play) {
         nutPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z, this->actor.shape.rot.x,
                         this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     }
 }
@@ -347,7 +347,7 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
         this->animFlagAndTimer--;
     }
     if ((temp_ret != 0) || (Animation_OnFrame(&this->skelAnime, 6.0f))) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
 
     Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
@@ -403,7 +403,7 @@ void EnHintnuts_Leave(EnHintnuts* this, PlayState* play) {
         this->animFlagAndTimer--;
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         temp_a1 = this->actor.wallYaw;
@@ -434,7 +434,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
     this->actor.colorFilterTimer = 1;
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_FAINT);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_FAINT);
     }
     if (this->animFlagAndTimer == 0) {
         if (sPuzzleCounter == 3) {

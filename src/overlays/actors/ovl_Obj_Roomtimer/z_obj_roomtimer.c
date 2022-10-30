@@ -15,7 +15,7 @@ void ObjRoomtimer_Update(Actor* thisx, PlayState* play);
 void func_80B9D054(ObjRoomtimer* this, PlayState* play);
 void func_80B9D0B0(ObjRoomtimer* this, PlayState* play);
 
-const ActorInit Obj_Roomtimer_InitVars = {
+ActorInit Obj_Roomtimer_InitVars = {
     ACTOR_OBJ_ROOMTIMER,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -74,8 +74,8 @@ void func_80B9D0B0(ObjRoomtimer* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         if ((this->actor.params != 0x3FF) && (gSaveContext.timer1Value == 0)) {
-            Audio_PlaySoundGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Play_TriggerVoidOut(play);
             Actor_Kill(&this->actor);
         }

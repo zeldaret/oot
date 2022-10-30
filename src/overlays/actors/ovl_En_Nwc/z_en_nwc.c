@@ -30,7 +30,7 @@ typedef enum {
     /* 1 */ CHICK_NORMAL
 } ChickTypes;
 
-const ActorInit En_Nwc_InitVars = {
+ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
     ACTORCAT_PROP,
     FLAGS,
@@ -74,7 +74,7 @@ void EnNwc_ChickNoop(EnNwcChick* chick, EnNwc* this, PlayState* play) {
 }
 
 void EnNwc_ChickBgCheck(EnNwcChick* chick, PlayState* play) {
-    CollisionPoly* outPoly;
+    CollisionPoly* groundPoly;
     s32 bgId;
     Vec3f outPos;
     f32 dy;
@@ -90,7 +90,7 @@ void EnNwc_ChickBgCheck(EnNwcChick* chick, PlayState* play) {
     //! @bug The use of outPos here is totally wrong. Even if it didn't get overwritten
     //       by the wall check, it should add an offset to the y-value so the raycast
     //       doesn't go through the floor and cause the chicks to ignore all floors.
-    chick->floorY = BgCheck_EntityRaycastFloor3(&play->colCtx, &outPoly, &bgId, &outPos);
+    chick->floorY = BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &outPos);
     dy = chick->floorY - chick->pos.y;
     if ((0.0f <= dy) && (dy < 40.0f)) {
         chick->pos.y = chick->floorY;

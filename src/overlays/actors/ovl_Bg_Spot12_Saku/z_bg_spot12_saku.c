@@ -21,7 +21,7 @@ void func_808B3604(BgSpot12Saku* this, PlayState* play);
 void func_808B3714(BgSpot12Saku* this);
 void func_808B37AC(BgSpot12Saku* this, PlayState* play);
 
-const ActorInit Bg_Spot12_Saku_InitVars = {
+ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
     ACTORCAT_BG,
     FLAGS,
@@ -57,7 +57,7 @@ void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collisi
 void BgSpot12Saku_Init(Actor* thisx, PlayState* play) {
     BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
-    func_808B3420(this, play, &gGerudoFortressGTGShutterCol, DPM_UNK);
+    func_808B3420(this, play, &gGerudoFortressGTGShutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
         func_808B3714(this);
@@ -103,7 +103,7 @@ void func_808B3604(BgSpot12Saku* this, PlayState* play) {
         this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
     if (fabsf(temp_ret) < 0.0001f) {
         func_808B3714(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }

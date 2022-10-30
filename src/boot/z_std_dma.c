@@ -445,7 +445,7 @@ s32 DmaMgr_SendRequest1(void* ram, uintptr_t vrom, u32 size, const char* file, s
     req.filename = file;
     req.line = line;
     osCreateMesgQueue(&queue, &msg, 1);
-    ret = DmaMgr_SendRequestImpl(&req, ram, vrom, size, 0, &queue, 0);
+    ret = DmaMgr_SendRequestImpl(&req, ram, vrom, size, 0, &queue, NULL);
     if (ret == -1) {
         return ret;
     }

@@ -34,7 +34,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-const ActorInit En_It_InitVars = {
+ActorInit En_It_InitVars = {
     ACTOR_EN_IT,
     ACTORCAT_PROP,
     FLAGS,
@@ -52,7 +52,7 @@ void EnIt_Init(Actor* thisx, PlayState* play) {
     this->actor.params = 0x0D05;
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void EnIt_Destroy(Actor* thisx, PlayState* play) {

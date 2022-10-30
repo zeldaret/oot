@@ -42,12 +42,12 @@ void TransitionWipe_Start(void* thisx) {
     this->isDone = false;
 
     if (this->direction) {
-        this->texY = 0x14D;
+        this->texY = (s32)(83.25 * (1 << 2));
     } else {
-        this->texY = 0x264;
+        this->texY = (s32)(153.0 * (1 << 2));
     }
 
-    guPerspective(&this->projection, &this->normal, 60.0f, (4.0 / 3.0f), 10.0f, 12800.0f, 1.0f);
+    guPerspective(&this->projection, &this->normal, 60.0f, 4.0 / 3.0f, 10.0f, 12800.0f, 1.0f);
     guLookAt(&this->lookAt, 0.0f, 0.0f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 }
 
@@ -66,14 +66,14 @@ void TransitionWipe_Update(void* thisx, s32 updateRate) {
 
     if (this->direction != 0) {
         this->texY += (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
-        if (this->texY >= 0x264) {
-            this->texY = 0x264;
+        if (this->texY >= (s32)(153.0 * (1 << 2))) {
+            this->texY = (s32)(153.0 * (1 << 2));
             this->isDone = true;
         }
     } else {
         this->texY -= (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
-        if (this->texY <= 0x14D) {
-            this->texY = 0x14D;
+        if (this->texY <= (s32)(83.25 * (1 << 2))) {
+            this->texY = (s32)(83.25 * (1 << 2));
             this->isDone = true;
         }
     }
@@ -123,9 +123,9 @@ void TransitionWipe_SetType(void* thisx, s32 type) {
     }
 
     if (this->direction != 0) {
-        this->texY = 0x14D;
+        this->texY = (s32)(83.25 * (1 << 2));
     } else {
-        this->texY = 0x264;
+        this->texY = (s32)(153.0 * (1 << 2));
     }
 }
 

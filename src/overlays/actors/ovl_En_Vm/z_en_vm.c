@@ -23,7 +23,7 @@ void EnVm_Attack(EnVm* this, PlayState* play);
 void EnVm_Stun(EnVm* this, PlayState* play);
 void EnVm_Die(EnVm* this, PlayState* play);
 
-const ActorInit En_Vm_InitVars = {
+ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -203,7 +203,7 @@ void EnVm_Wait(EnVm* this, PlayState* play) {
                         this->skelAnime.curFrame = 0.0f;
                         this->skelAnime.startFrame = 0.0f;
                         this->skelAnime.playSpeed = 2.0f;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_AIM);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIMOS_AIM);
                     }
                 }
             } else {
@@ -301,7 +301,7 @@ void EnVm_Attack(EnVm* this, PlayState* play) {
         dist = Math_Vec3f_DistXYZ(&this->beamPos1, &playerPos);
         Math_SmoothStepToF(&this->beamScale.z, dist, 1.0f, this->beamSpeed, 0.0f);
         Math_SmoothStepToF(&this->beamScale.x, 0.1f, 1.0f, 0.12f, 0.0f);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIMOS_LAZER - SFX_FLAG);
 
         if (this->unk_260 > 2) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderQuad1.base);
@@ -324,7 +324,7 @@ void EnVm_SetupStun(EnVm* this) {
     this->unk_21C = 2;
     this->beamScale.z = 0.0f;
     this->beamScale.y = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnVm_SetupAction(this, EnVm_Stun);
 }
 
@@ -426,14 +426,14 @@ void EnVm_Update(Actor* thisx, PlayState* play) {
     if (this->unk_260 == 4) {
         EffectSsDeadDs_SpawnStationary(play, &this->beamPos3, 20, -1, 255, 20);
         func_80033480(play, &this->beamPos3, 6.0f, 1, 120, 20, 1);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER_GND - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIMOS_LAZER_GND - SFX_FLAG);
     }
 
     this->actionFunc(this, play);
-    this->beamTexScroll += 0xC;
+    this->beamTexScroll += 3 << 2;
 
     if (this->actor.colChkInfo.health != 0 && this->unk_21C != 2) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_ROLL_HEAD - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIMOS_ROLL_HEAD - SFX_FLAG);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);

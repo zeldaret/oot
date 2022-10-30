@@ -18,7 +18,7 @@ void func_80891CF4(BgIceShutter* this, PlayState* play);
 void func_80891D6C(BgIceShutter* this, PlayState* play);
 void func_80891DD4(BgIceShutter* this, PlayState* play);
 
-const ActorInit Bg_Ice_Shutter_InitVars = {
+ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORCAT_PROP,
     FLAGS,
@@ -53,7 +53,7 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     sp28 = this->dyna.actor.params & 0xFF;
     this->dyna.actor.params = (this->dyna.actor.params >> 8) & 0xFF;
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002854, &colHeader);
@@ -97,7 +97,7 @@ void BgIceShutter_Destroy(Actor* thisx, PlayState* play) {
 void func_80891CF4(BgIceShutter* this, PlayState* play) {
     if (Flags_GetTempClear(play, this->dyna.actor.room)) {
         Flags_SetClear(play, this->dyna.actor.room);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         if (this->dyna.actor.shape.rot.x == 0) {
             OnePointCutscene_Attention(play, &this->dyna.actor);
@@ -107,7 +107,7 @@ void func_80891CF4(BgIceShutter* this, PlayState* play) {
 
 void func_80891D6C(BgIceShutter* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->dyna.actor.params)) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         OnePointCutscene_Attention(play, &this->dyna.actor);
     }

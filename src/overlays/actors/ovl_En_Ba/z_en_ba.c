@@ -23,7 +23,7 @@ void EnBa_RecoilFromDamage(EnBa* this, PlayState* play);
 void EnBa_Die(EnBa* this, PlayState* play);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
-const ActorInit En_Ba_InitVars = {
+ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -237,7 +237,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 60.0f, 1.0f, 10.0f, 0.0f);
     if ((this->actor.xzDistToPlayer <= 175.0f) || (this->unk_31A != 0)) {
         if (this->unk_318 == 20) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HAND_UP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HAND_UP);
             this->unk_31C = 1500;
         }
         if (this->unk_318 != 0) {
@@ -267,7 +267,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
             }
         } else {
             if (this->unk_31A == 10) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HAND_DOWN);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HAND_DOWN);
             }
             if (this->unk_31A != 0) {
                 this->unk_31C = 8000;
@@ -324,7 +324,7 @@ void func_809B7174(EnBa* this) {
     this->unk_318 = 20;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.speedXZ = 10.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
     EnBa_SetupAction(this, EnBa_RecoilFromDamage);
 }
@@ -484,9 +484,9 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
         Matrix_Push();
         gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B8118[this->actor.params]));
-        gSPSegment(
-            POLY_OPA_DISP++, 0x09,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0, (play->gameplayFrames * -10) % 128, 32, 32));
+        gSPSegment(POLY_OPA_DISP++, 0x09,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 16, 1, 0,
+                                    (play->gameplayFrames * -10) % 128, 32, 32));
         for (i = 0; i < 14; i++, mtx++) {
             Matrix_Translate(this->unk_158[i].x, this->unk_158[i].y, this->unk_158[i].z, MTXMODE_NEW);
             Matrix_RotateZYX(this->unk_2A8[i].x, this->unk_2A8[i].y, this->unk_2A8[i].z, MTXMODE_APPLY);
@@ -510,7 +510,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_000890);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->gameplayFrames * 2) % 128,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames * 2) % 128,
                                     (play->gameplayFrames * 2) % 128, 32, 32, 1, (play->gameplayFrames * -5) % 128,
                                     (play->gameplayFrames * -5) % 128, 32, 32));
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 125, 100, 255);

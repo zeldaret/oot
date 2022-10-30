@@ -34,7 +34,7 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play);
 void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play);
 
-const ActorInit En_Bom_Bowl_Man_InitVars = {
+ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORCAT_NPC,
     FLAGS,
@@ -366,7 +366,7 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
         pos.y = 40.0f;
         pos.z = 300.0f;
         EffectSsBomb2_SpawnLayered(play, &pos, &velocity, &accel, 50, 15);
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_GOODS_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_GOODS_APPEAR);
         this->prizeRevealTimer = 10;
         this->actionFunc = EnBomBowMan_ChooseShowPrize;
     }

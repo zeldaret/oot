@@ -51,7 +51,7 @@ u32 EffectSsBlast_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     this->rAlphaTarget = initParams->primColor.a / initParams->life;
     this->rScale = initParams->scale;
     this->rScaleStep = initParams->scaleStep;
-    this->rScaleStepDecay = initParams->sclaeStepDecay;
+    this->rScaleStepDecay = initParams->scaleStepDecay;
     return 1;
 }
 

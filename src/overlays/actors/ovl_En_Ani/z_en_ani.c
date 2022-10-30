@@ -26,7 +26,7 @@ void func_809B0994(EnAni* this, PlayState* play);
 void func_809B0A28(EnAni* this, PlayState* play);
 void func_809B0A6C(EnAni* this, PlayState* play);
 
-const ActorInit En_Ani_InitVars = {
+ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
     ACTORCAT_NPC,
     FLAGS,
@@ -263,7 +263,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {
-        if (SkelAnime_Update(&this->skelAnime) != 0) {
+        if (SkelAnime_Update(&this->skelAnime)) {
             this->skelAnime.curFrame = 0.0f;
         }
         this->actionFunc(this, play);

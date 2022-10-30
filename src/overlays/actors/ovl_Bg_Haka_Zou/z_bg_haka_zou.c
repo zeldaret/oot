@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit Bg_Haka_Zou_InitVars = {
+ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
     ACTORCAT_PROP,
     FLAGS,
@@ -278,12 +278,12 @@ void func_80883000(BgHakaZou* this, PlayState* play) {
             func_80882E54(this, play);
             this->dyna.actor.draw = NULL;
             this->timer = 1;
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
             this->actionFunc = func_80883104;
         } else {
             func_80882CC4(this, play);
             this->timer = 1;
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
             this->actionFunc = func_80883104;
         }
     } else {
@@ -314,7 +314,7 @@ void func_80883144(BgHakaZou* this, PlayState* play) {
         explosionPos.z = Rand_CenteredFloat(200.0f) + (this->dyna.actor.world.pos.z + 56.0f);
 
         EffectSsBomb2_SpawnLayered(play, &explosionPos, &sZeroVec, &sZeroVec, 150, 70);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
     }
 
     if (this->timer == 0) {
@@ -365,7 +365,7 @@ void func_80883328(BgHakaZou* this, PlayState* play) {
             effectPos.x -= 112.0f;
         }
 
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         this->timer = 25;
         this->actionFunc = func_808834D8;
     }

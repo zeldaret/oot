@@ -44,7 +44,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play);
 
-const ActorInit Bg_Spot06_Objects_InitVars = {
+ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
     ACTORCAT_PROP,
     FLAGS,
@@ -104,7 +104,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     switch (thisx->params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyActor_Init(&this->dyna, DPM_UNK);
+            DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gLakeHyliaWaterTempleGateCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
@@ -150,7 +150,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             thisx->flags = ACTOR_FLAG_4 | ACTOR_FLAG_5;
 
             if (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69)) {
-                if (gSaveContext.sceneSetupIndex < 4) {
+                if (!IS_CUTSCENE_LAYER) {
                     this->lakeHyliaWaterLevel = -681.0f;
                     play->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
                         WATER_LEVEL_RIVER_LOWERED;
@@ -170,7 +170,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             break;
         case LHO_ICE_BLOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyActor_Init(&this->dyna, DPM_UNK);
+            DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gLakeHyliaZoraShortcutIceblockCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
             this->actionFunc = BgSpot06Objects_DoNothing;
@@ -253,7 +253,7 @@ void BgSpot06Objects_GateOpen(BgSpot06Objects* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 0.6f)) {
         this->actionFunc = BgSpot06Objects_DoNothing;
         this->timer = 0;
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
@@ -311,8 +311,8 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, PlayState* play) {
         EffectSsGSplash_Spawn(play, &this->dyna.actor.world.pos, NULL, NULL, 1, 700);
         this->collider.elements->dim.worldSphere.radius = 45;
         this->actionFunc = BgSpot06Objects_LockPullOutward;
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Flags_SetSwitch(play, this->switchFlag);
         OnePointCutscene_Init(play, 4120, 170, &this->dyna.actor, CAM_ID_MAIN);
     } else {
@@ -437,15 +437,15 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
     gameplayFrames = play->state.frames;
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -gameplayFrames, gameplayFrames, 32, 32, 1, gameplayFrames,
-                                gameplayFrames, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames, gameplayFrames, 32, 32, 1,
+                                gameplayFrames, gameplayFrames, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -gameplayFrames, gameplayFrames * 6, 32, 32, 1, gameplayFrames,
-                                gameplayFrames * 6, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames, gameplayFrames * 6, 32, 32, 1,
+                                gameplayFrames, gameplayFrames * 6, 32, 32));
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 
-    if ((this->lakeHyliaWaterLevel < -680.0f) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((this->lakeHyliaWaterLevel < -680.0f) && !IS_CUTSCENE_LAYER) {
         gSPDisplayList(POLY_XLU_DISP++, gLakeHyliaLowWaterDL);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, gLakeHyliaHighWaterDL);

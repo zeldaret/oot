@@ -15,7 +15,7 @@ void EnTana_Update(Actor* thisx, PlayState* play);
 void EnTana_DrawWoodenShelves(Actor* thisx, PlayState* play);
 void EnTana_DrawStoneShelves(Actor* thisx, PlayState* play);
 
-const ActorInit En_Tana_InitVars = {
+ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
     ACTORCAT_PROP,
     FLAGS,

@@ -25,7 +25,7 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play);
 
 static s16 sPlayerCaught = 0;
 
-const ActorInit En_Heishi3_InitVars = {
+ActorInit En_Heishi3_InitVars = {
     ACTOR_EN_HEISHI3,
     ACTORCAT_NPC,
     FLAGS,
@@ -179,7 +179,7 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 1.0f) || Animation_OnFrame(&this->skelAnime, 17.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
     if (this->caughtTimer == 0) {
         this->actionFunc = EnHeishi3_ResetAnimationToIdle;

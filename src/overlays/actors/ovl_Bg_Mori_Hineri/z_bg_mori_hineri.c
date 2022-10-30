@@ -29,7 +29,7 @@ void func_808A3D58(BgMoriHineri* this, PlayState* play);
 
 static s16 sSubCamId = CAM_ID_NONE;
 
-const ActorInit Bg_Mori_Hineri_InitVars = {
+ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
     ACTORCAT_BG,
     FLAGS,
@@ -59,7 +59,7 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
     s32 t6;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
     switchFlagParam = this->dyna.actor.params & 0x3F;
     t6 = this->dyna.actor.params & 0x4000;

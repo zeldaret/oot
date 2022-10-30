@@ -21,7 +21,7 @@ void func_808BA22C(BgTokiHikari* this, PlayState* play);
 void func_808BA274(BgTokiHikari* this, PlayState* play);
 void func_808BA2CC(BgTokiHikari* this, PlayState* play);
 
-const ActorInit Bg_Toki_Hikari_InitVars = {
+ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
     ACTORCAT_BG,
     FLAGS,
@@ -149,8 +149,8 @@ void func_808BA2CC(BgTokiHikari* this, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -2 * (play->gameplayFrames & 0x7F), 0, 0x20, 0x40, 1,
-                                (play->gameplayFrames & 0x7F) * 4, 0, 0x20, 0x40));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -2 * (play->gameplayFrames & 0x7F), 0, 0x20, 0x40,
+                                1, (play->gameplayFrames & 0x7F) * 4, 0, 0x20, 0x40));
 
     gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_000880);
     Matrix_Pop();

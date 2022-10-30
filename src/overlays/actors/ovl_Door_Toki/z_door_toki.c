@@ -13,7 +13,7 @@ void DoorToki_Init(Actor* thisx, PlayState* play);
 void DoorToki_Destroy(Actor* thisx, PlayState* play);
 void DoorToki_Update(Actor* thisx, PlayState* play);
 
-const ActorInit Door_Toki_InitVars = {
+ActorInit Door_Toki_InitVars = {
     ACTOR_DOOR_TOKI,
     ACTORCAT_BG,
     FLAGS,
@@ -35,7 +35,7 @@ void DoorToki_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gDoorTokiCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }

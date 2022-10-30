@@ -21,7 +21,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play);
 void func_80A56A50(EnHeishi4* this, PlayState* play);
 void func_80A56ACC(EnHeishi4* this, PlayState* play);
 
-const ActorInit En_Heishi4_InitVars = {
+ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
     ACTORCAT_NPC,
     FLAGS,
@@ -191,13 +191,13 @@ void func_80A56614(EnHeishi4* this, PlayState* play) {
         this->actionFunc = func_80A56B40;
         return;
     }
-    if (play->sceneNum == SCENE_MIHARIGOYA) {
+    if (play->sceneId == SCENE_MIHARIGOYA) {
         if (IS_DAY) {
             this->actor.textId = 0x7004;
         } else {
             this->actor.textId = 0x709A;
         }
-    } else if (play->sceneNum != SCENE_MARKET_NIGHT) {
+    } else if (play->sceneId != SCENE_MARKET_NIGHT) {
         if (IS_DAY) {
             this->actor.textId = 0x7002;
         } else {

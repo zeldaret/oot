@@ -14,7 +14,7 @@ void ObjHamishi_Destroy(Actor* thisx, PlayState* play2);
 void ObjHamishi_Update(Actor* thisx, PlayState* play);
 void ObjHamishi_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Obj_Hamishi_InitVars = {
+ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,
     ACTORCAT_PROP,
     FLAGS,
@@ -179,7 +179,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
             this->shakeRotSize = 400.0f;
         } else {
             ObjHamishi_Break(this, play);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
             Flags_SetSwitch(play, this->actor.params & 0x3F);
             Actor_Kill(&this->actor);
         }

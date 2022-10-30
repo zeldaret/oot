@@ -18,7 +18,7 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play);
 
-const ActorInit Bg_Gnd_Firemeiro_InitVars = {
+ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
     ACTORCAT_PROP,
     FLAGS,
@@ -40,7 +40,7 @@ void BgGndFiremeiro_Init(Actor* thisx, PlayState* play) {
     this->initPos = this->dyna.actor.world.pos;
 
     if (this->dyna.actor.params == 0) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&gFireTrialPlatformCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
         this->actionFunc = BgGndFiremeiro_Rise;
@@ -97,7 +97,7 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
             this->dyna.actor.world.pos.y += Math_CosS(this->timer * 0x7FFF);
 
             if (!(this->timer % 4)) {
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
             }
         } else {
             this->timer = 10;

@@ -26,7 +26,7 @@ void func_80B332B4(EnWeiyer* this, PlayState* play);
 void func_80B33338(EnWeiyer* this, PlayState* play);
 void func_80B3349C(EnWeiyer* this, PlayState* play);
 
-const ActorInit En_Weiyer_InitVars = {
+ActorInit En_Weiyer_InitVars = {
     ACTOR_EN_WEIYER,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -184,7 +184,7 @@ void func_80B32660(EnWeiyer* this) {
     this->collider.dim.height = sCylinderInit.dim.height + 15;
     Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, 0x50);
     this->collider.base.atFlags &= ~AT_ON;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_80B333B8;
 }
 
@@ -218,7 +218,7 @@ void func_80B32804(EnWeiyer* this, PlayState* play) {
 
     this->actor.world.pos.y += 0.5f;
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
 
     if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
                                  &this->actor.home.pos.y, &waterBox) ||
@@ -264,7 +264,7 @@ void func_80B328E8(EnWeiyer* this, PlayState* play) {
             this->unk_194 = 30;
 
             if (Rand_ZeroOne() < 0.3333f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_CRY);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_CRY);
             }
         }
     }
@@ -312,7 +312,7 @@ void func_80B32C2C(EnWeiyer* this, PlayState* play) {
         if (this->actor.world.pos.y < this->actor.home.pos.y) {
             if (this->actor.shape.rot.x > 0) {
                 EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 400);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
             }
 
             func_80B32538(this);
@@ -326,7 +326,7 @@ void func_80B32D30(EnWeiyer* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_FLUTTER);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_FLUTTER);
     }
 
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x800);
@@ -495,11 +495,11 @@ void func_80B333B8(EnWeiyer* this, PlayState* play) {
 
     if (this->actor.home.pos.y < this->actor.floorHeight) {
         if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_FLUTTER);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_FLUTTER);
         }
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
     }
 
@@ -526,7 +526,7 @@ void func_80B3349C(EnWeiyer* this, PlayState* play) {
         } else if (this->actor.yDistToWater < 0.0f) {
             this->unk_194 = 10;
             EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 400);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
         }
     } else {
         if (phi_a0 || (this->collider.base.atFlags & AT_HIT)) {
@@ -550,7 +550,7 @@ void func_80B3349C(EnWeiyer* this, PlayState* play) {
             func_80B32434(this);
         } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.shape.rot.x > 0)) {
             EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 400);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
             func_80B32538(this);
         } else {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 8, 0x100, 0x80);
@@ -570,7 +570,7 @@ void func_80B3368C(EnWeiyer* this, PlayState* play) {
                 }
             } else if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_DEAD);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 func_80B32724(this);
             } else {
@@ -602,7 +602,7 @@ void EnWeiyer_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~(AT_ON | AT_HIT);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_ATTACK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_ATTACK);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->collider);

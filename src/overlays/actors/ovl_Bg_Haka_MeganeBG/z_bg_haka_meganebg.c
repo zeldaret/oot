@@ -23,7 +23,7 @@ void func_8087E288(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E34C(BgHakaMeganeBG* this, PlayState* play);
 
-const ActorInit Bg_Haka_MeganeBG_InitVars = {
+ActorInit Bg_Haka_MeganeBG_InitVars = {
     ACTOR_BG_HAKA_MEGANEBG,
     ACTORCAT_BG,
     FLAGS,
@@ -63,12 +63,12 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
     thisx->params &= 0xFF;
 
     if (thisx->params == 2) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK3);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
         thisx->flags |= ACTOR_FLAG_4;
         CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
-        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+        DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
         if (thisx->params == 0) {
             CollisionHeader_GetVirtual(&object_haka_objects_Col_009168, &colHeader);

@@ -19,7 +19,7 @@ void func_809B5670(EnAttackNiw* this, PlayState* play);
 void func_809B5C18(EnAttackNiw* this, PlayState* play);
 void func_809B59B0(EnAttackNiw* this, PlayState* play);
 
-const ActorInit En_Attack_Niw_InitVars = {
+ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -345,7 +345,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actionFunc != func_809B5C18)) {
         Math_Vec3f_Copy(&sp30, &this->actor.world.pos);
         sp30.y += this->actor.yDistToWater;
-        EffectSsGSplash_Spawn(play, &sp30, 0, 0, 0, 0x190);
+        EffectSsGSplash_Spawn(play, &sp30, NULL, NULL, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;
         this->unk_2E0 = 0.0f;
@@ -365,11 +365,11 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     }
     if (this->unk_25E == 0) {
         this->unk_25E = 30;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
     }
     if (this->unk_260 == 0) {
         this->unk_260 = 7;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
     }
 }
 

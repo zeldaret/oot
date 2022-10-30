@@ -142,12 +142,12 @@ void GfxPrint_Setup(GfxPrint* this) {
     gDPSetCombineMode(this->dList++, G_CC_DECALRGBA, G_CC_DECALRGBA);
     gDPLoadTextureBlock_4b(this->dList++, sGfxPrintFontData, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-    gDPLoadTLUT(this->dList++, 64, 256, sGfxPrintFontTLUT);
+    gDPLoadTLUT(this->dList++, 64, 0x100, sGfxPrintFontTLUT);
 
     for (i = 1; i < 4; i++) {
         gDPSetTile(this->dList++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, i * 2, i, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                    G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPSetTileSize(this->dList++, i * 2, 0, 0, 60, 1020);
+        gDPSetTileSize(this->dList++, i * 2, 0, 0, 15 << 2, 255 << 2);
     }
 
     gDPSetColor(this->dList++, G_SETPRIMCOLOR, this->color.rgba);
@@ -155,12 +155,12 @@ void GfxPrint_Setup(GfxPrint* this) {
     gDPLoadMultiTile_4b(this->dList++, sGfxPrintRainbowData, 0, 1, G_IM_FMT_CI, 2, 8, 0, 0, 1, 7, 4,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 1, 3, G_TX_NOLOD, G_TX_NOLOD);
 
-    gDPLoadTLUT(this->dList++, 16, 320, sGfxPrintRainbowTLUT);
+    gDPLoadTLUT(this->dList++, 16, 0x140, sGfxPrintRainbowTLUT);
 
     for (i = 1; i < 4; i++) {
         gDPSetTile(this->dList++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, i * 2 + 1, 4, G_TX_NOMIRROR | G_TX_WRAP, 3,
                    G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 1, G_TX_NOLOD);
-        gDPSetTileSize(this->dList++, i * 2 + 1, 0, 0, 4, 28);
+        gDPSetTileSize(this->dList++, i * 2 + 1, 0, 0, 1 << 2, 7 << 2);
     }
 }
 
@@ -174,17 +174,17 @@ void GfxPrint_SetColor(GfxPrint* this, u32 r, u32 g, u32 b, u32 a) {
 }
 
 void GfxPrint_SetPosPx(GfxPrint* this, s32 x, s32 y) {
-    this->posX = this->baseX + (x * 4);
-    this->posY = this->baseY + (y * 4);
+    this->posX = this->baseX + (x << 2);
+    this->posY = this->baseY + (y << 2);
 }
 
 void GfxPrint_SetPos(GfxPrint* this, s32 x, s32 y) {
-    GfxPrint_SetPosPx(this, x * 8, y * 8);
+    GfxPrint_SetPosPx(this, x * GFX_CHAR_X_SPACING, y * GFX_CHAR_Y_SPACING);
 }
 
 void GfxPrint_SetBasePosPx(GfxPrint* this, s32 x, s32 y) {
-    this->baseX = x * 4;
-    this->baseY = y * 4;
+    this->baseX = x << 2;
+    this->baseY = y << 2;
 }
 
 void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
@@ -197,7 +197,7 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
         if (this->flags & GFXP_FLAG_RAINBOW) {
             gDPSetTextureLUT(this->dList++, G_TT_RGBA16);
             gDPSetCycleType(this->dList++, G_CYC_2CYCLE);
-            gDPSetRenderMode(this->dList++, G_RM_OPA_CI, G_RM_XLU_SURF2);
+            gDPSetRenderMode(this->dList++, G_RM_PASS, G_RM_XLU_SURF2);
             gDPSetCombineMode(this->dList++, G_CC_INTERFERENCE, G_CC_PASS2);
         } else {
             gDPSetTextureLUT(this->dList++, G_TT_IA16);
@@ -223,21 +223,21 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
     }
 
     if (this->flags & GFXP_FLAG_ENLARGE) {
-        gSPTextureRectangle(this->dList++, (this->posX) << 1, (this->posY) << 1, (this->posX + 32) << 1,
+        gSPTextureRectangle(this->dList++, this->posX << 1, this->posY << 1, (this->posX + 32) << 1,
                             (this->posY + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 9, 1 << 9);
     } else {
         gSPTextureRectangle(this->dList++, this->posX, this->posY, this->posX + 32, this->posY + 32, tile,
                             (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
     }
 
-    this->posX += 32;
+    this->posX += GFX_CHAR_X_SPACING << 2;
 }
 
 void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
     u8 charParam = c;
 
     if (c == ' ') {
-        this->posX += 32;
+        this->posX += GFX_CHAR_X_SPACING << 2;
     } else if (c > ' ' && c < 0x7F) {
         GfxPrint_PrintCharImpl(this, charParam);
     } else if (c >= 0xA0 && c < 0xE0) {
@@ -254,7 +254,7 @@ void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
             case '\0':
                 break;
             case '\n':
-                this->posY += 32;
+                this->posY += GFX_CHAR_Y_SPACING << 2;
                 FALLTHROUGH;
             case '\r':
                 this->posX = this->baseX;
