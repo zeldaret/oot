@@ -35,7 +35,7 @@ static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 
-const ActorInit Bg_Zg_InitVars = {
+ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORCAT_NPC,
     FLAGS,

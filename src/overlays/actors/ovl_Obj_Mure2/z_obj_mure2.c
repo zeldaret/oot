@@ -28,7 +28,7 @@ void ObjMure2_SetupWait(ObjMure2* this);
 void func_80B9A658(ObjMure2* this);
 void func_80B9A6E8(ObjMure2* this);
 
-const ActorInit Obj_Mure2_InitVars = {
+ActorInit Obj_Mure2_InitVars = {
     ACTOR_OBJ_MURE2,
     ACTORCAT_PROP,
     FLAGS,

@@ -23,7 +23,7 @@ void EnTr_UpdateRotation(EnTr* this, PlayState* play, s32 actionIndex);
 void func_80B24038(EnTr* this, PlayState* play, s32 actionIndex);
 void EnTr_SetStartPosRot(EnTr* this, PlayState* play, s32 actionIndex);
 
-const ActorInit En_Tr_InitVars = {
+ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
     ACTORCAT_NPC,
     FLAGS,

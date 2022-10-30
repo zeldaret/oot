@@ -106,7 +106,7 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
     s32 pad;
     s32 path;
 
-    pathList = play->setupPathList;
+    pathList = play->pathList;
 
     if (pathList != NULL) {
         path = EnNb_GetPath(this);
@@ -1526,7 +1526,7 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-const ActorInit En_Nb_InitVars = {
+ActorInit En_Nb_InitVars = {
     ACTOR_EN_NB,
     ACTORCAT_NPC,
     FLAGS,
