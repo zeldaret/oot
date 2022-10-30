@@ -1370,8 +1370,8 @@ s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame) {
  * Initializes a normal skeleton to a looping animation, dynamically allocating the frame tables if not provided.
  */
 BAD_RETURN(s32)
-SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg, AnimationHeader* animation,
-               Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
+SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->limbCount + 1;

@@ -1449,8 +1449,8 @@ void Environment_DrawSunAndMoon(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2429);
 }
 
-void Environment_DrawSunLensFlare(PlayState* play, UNUSED EnvironmentContext* envCtx, UNUSED View* view, UNUSED GraphicsContext* gfxCtx,
-                                  Vec3f pos, UNUSED s32 arg5) {
+void Environment_DrawSunLensFlare(PlayState* play, UNUSED EnvironmentContext* envCtx, UNUSED View* view,
+                                  UNUSED GraphicsContext* gfxCtx, Vec3f pos, UNUSED s32 arg5) {
     if ((play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (play->envCtx.skyboxConfig == 0)) {
         Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000, 370,
                                   Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400, true);

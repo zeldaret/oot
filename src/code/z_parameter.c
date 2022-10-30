@@ -3063,7 +3063,8 @@ void Interface_Draw(PlayState* play) {
     static s16 magicArrowEffectsB[] = { 0, 255, 100 };
     static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
     static s16 digitWidth[] = { 9, 9, 8, 9, 9 };
-    UNUSED static s16 D_80125B1C[][3] = { // most likely colors
+    UNUSED static s16 D_80125B1C[][3] = {
+        // most likely colors
         { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
     };
     static s16 rupeeDigitsFirst[] = { 1, 0, 0 };

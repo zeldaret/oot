@@ -42,7 +42,7 @@ void VisMono_Destroy(VisMono* this) {
     SystemArena_FreeDebug(this->dList, "../z_vismono.c", 137);
 }
 
-void VisMono_DesaturateTLUT(UNUSED  VisMono* this, u16* tlut) {
+void VisMono_DesaturateTLUT(UNUSED VisMono* this, u16* tlut) {
     s32 i;
 
     for (i = 0; i < 256; i++) {

@@ -652,8 +652,9 @@ f32 BgCheck_RaycastDownStatic(StaticLookup* lookup, CollisionContext* colCtx, u1
  * returns true if `wallPolyPtr` was changed
  * `invXZlength` is 1 / sqrt( sq(poly.normal.x) + sq(poly.normal.z) )
  */
-s32 BgCheck_ComputeWallDisplacement(CollisionContext* colCtx, CollisionPoly* poly, f32* posX, f32* posZ, f32 nx, UNUSED f32 ny,
-                                    f32 nz, f32 invXZlength, f32 planeDist, f32 radius, CollisionPoly** wallPolyPtr) {
+s32 BgCheck_ComputeWallDisplacement(CollisionContext* colCtx, CollisionPoly* poly, f32* posX, f32* posZ, f32 nx,
+                                    UNUSED f32 ny, f32 nz, f32 invXZlength, f32 planeDist, f32 radius,
+                                    CollisionPoly** wallPolyPtr) {
     CollisionPoly* wallPoly;
     u32 surfaceData;
     u32 hasFlag27;
@@ -3512,8 +3513,8 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
  * `outPoly` returns the poly collided with
  * `outY` returns the y coordinate needed to not collide with `outPoly`
  */
-s32 BgCheck_CheckDynaCeilingList(UNUSED CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, SSList* ssList,
-                                 f32* outY, Vec3f* pos, f32 checkHeight, CollisionPoly** outPoly) {
+s32 BgCheck_CheckDynaCeilingList(UNUSED CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna,
+                                 SSList* ssList, f32* outY, Vec3f* pos, f32 checkHeight, CollisionPoly** outPoly) {
     s16 polyId;
     SSNode* curNode;
     CollisionPoly* poly;
@@ -4408,8 +4409,8 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec
 /**
  * Draw a list of dyna polys, specified by `ssList`
  */
-void BgCheck_DrawDynaPolyList(PlayState* play, UNUSED CollisionContext* colCtx, DynaCollisionContext* dyna, SSList* ssList,
-                              u8 r, u8 g, u8 b) {
+void BgCheck_DrawDynaPolyList(PlayState* play, UNUSED CollisionContext* colCtx, DynaCollisionContext* dyna,
+                              SSList* ssList, u8 r, u8 g, u8 b) {
     s16 curPolyId;
     CollisionPoly* poly;
     SSNode* curNode;

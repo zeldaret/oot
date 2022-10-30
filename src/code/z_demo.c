@@ -35,7 +35,7 @@ u16 D_8011E1C4 = 0;
 
 typedef void (*CutsceneStateHandler)(PlayState*, CutsceneContext*);
 
-void func_80064720(UNUSED  PlayState* play, UNUSED  CutsceneContext* csCtx);
+void func_80064720(UNUSED PlayState* play, UNUSED CutsceneContext* csCtx);
 void func_80064760(PlayState* play, CutsceneContext* csCtx);
 void func_800647C0(PlayState* play, CutsceneContext* csCtx);
 void func_80068C3C(PlayState* play, CutsceneContext* csCtx);

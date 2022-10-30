@@ -1667,7 +1667,8 @@ u8 sPauseModelGroupBySword[] = {
     PLAYER_MODELGROUP_BGS,   // PLAYER_SWORD_BGS
 };
 
-s32 Player_OverrideLimbDrawPause(UNUSED PlayState* play, s32 limbIndex, Gfx** dList, UNUSED Vec3f* pos, UNUSED Vec3s* rot, void* arg) {
+s32 Player_OverrideLimbDrawPause(UNUSED PlayState* play, s32 limbIndex, Gfx** dList, UNUSED Vec3f* pos,
+                                 UNUSED Vec3s* rot, void* arg) {
     u8* playerSwordAndShield = arg;
     //! @bug `playerSwordAndShield[0]` can be 0 (`PLAYER_SWORD_NONE`), which indexes `sPauseModelGroupBySword[-1]`.
     //! The result happens to be 0 (`PLAYER_MODELGROUP_0`) in vanilla, but weird values are likely to cause a crash.
