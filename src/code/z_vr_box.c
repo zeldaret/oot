@@ -921,7 +921,7 @@ void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
                  skyboxId);
 
     if (skyboxId != SKYBOX_NONE) {
-        osSyncPrintf(TE_FGCOL(GREEN));
+        osSyncPrintf(VT_FGCOL(GREEN));
 
         if (skyboxCtx->unk_140 != 0) {
             skyboxCtx->dListBuf = GameState_Alloc(state, 8 * 150 * sizeof(Gfx), "../z_vr_box.c", 1636);
@@ -947,6 +947,6 @@ void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
                 func_800AF178(skyboxCtx, 5);
             }
         }
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
     }
 }

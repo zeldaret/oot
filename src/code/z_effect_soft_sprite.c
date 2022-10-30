@@ -191,25 +191,25 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
             overlayEntry->loadedRamAddr = ZeldaArena_MallocRDebug(overlaySize, "../z_effect_soft_sprite.c", 585);
 
             if (overlayEntry->loadedRamAddr == NULL) {
-                osSyncPrintf(TE_FGCOL(RED));
+                osSyncPrintf(VT_FGCOL(RED));
                 // "The memory of %d byte cannot be secured. Therefore, the program cannot be loaded.
                 // What a dangerous situation! Naturally, effects will not produced either."
                 osSyncPrintf("EffectSoftSprite2_makeEffect():zelda_malloc_r()により,%"
                              "dbyteのメモリ確保ができま\nせん。そのため、プログラムのロードも\n出来ません。ただいま危険"
                              "な状態です！\nもちろん,エフェクトも出ません。\n",
                              overlaySize);
-                osSyncPrintf(TE_RST);
+                osSyncPrintf(VT_RST);
                 return;
             }
 
             Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
                          overlayEntry->loadedRamAddr);
 
-            osSyncPrintf(TE_FGCOL(GREEN));
+            osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n",
                          overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
                          overlayEntry->loadedRamAddr, type);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
         }
 
         initInfo = (void*)(u32)((overlayEntry->initInfo != NULL)
@@ -234,13 +234,13 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     sEffectSsInfo.table[index].priority = priority;
 
     if (initInfo->init(play, index, &sEffectSsInfo.table[index], initParams) == 0) {
-        osSyncPrintf(TE_FGCOL(GREEN));
+        osSyncPrintf(VT_FGCOL(GREEN));
         // "Construction failed for some reason. The constructor returned an error.
         // Ceasing effect addition."
         osSyncPrintf("EffectSoftSprite2_makeEffect():"
                      "何らかの理由でコンストラクト失敗。コンストラクターがエラーを返しました。エフェクトの追加を中"
                      "止します。\n");
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
         EffectSs_Reset(&sEffectSsInfo.table[index]);
     }
 }
@@ -300,7 +300,7 @@ void EffectSs_DrawAll(PlayState* play) {
             if ((sEffectSsInfo.table[i].pos.x > 32000.0f) || (sEffectSsInfo.table[i].pos.x < -32000.0f) ||
                 (sEffectSsInfo.table[i].pos.y > 32000.0f) || (sEffectSsInfo.table[i].pos.y < -32000.0f) ||
                 (sEffectSsInfo.table[i].pos.z > 32000.0f) || (sEffectSsInfo.table[i].pos.z < -32000.0f)) {
-                osSyncPrintf(TE_FGCOL(RED));
+                osSyncPrintf(VT_FGCOL(RED));
                 // "Since the position is outside the area, delete it.
                 // Effect label No. %d: Please respond by the program.
                 // Here is ==> pos (%f, %f, %f) and the label is in z_effect_soft_sprite_dlftbls.decl."
@@ -309,10 +309,10 @@ void EffectSs_DrawAll(PlayState* play) {
                              "pos(%f, %f, %f)で、ラベルはz_effect_soft_sprite_dlftbls.declにあります。\n",
                              sEffectSsInfo.table[i].type, sEffectSsInfo.table[i].pos.x, sEffectSsInfo.table[i].pos.y,
                              sEffectSsInfo.table[i].pos.z);
-                osSyncPrintf(TE_FGCOL(GREEN));
+                osSyncPrintf(VT_FGCOL(GREEN));
                 // "If you are using pos for something else, consult me."
                 osSyncPrintf("もし、posを別のことに使っている場合相談に応じます。\n");
-                osSyncPrintf(TE_RST);
+                osSyncPrintf(VT_RST);
 
                 EffectSs_Delete(&sEffectSsInfo.table[i]);
             } else {

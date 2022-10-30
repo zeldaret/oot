@@ -38,7 +38,7 @@ void EnWallTubo_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Wall Target"
-    osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" TE_RST);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
     this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
 }
@@ -127,11 +127,11 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
             // "You did it field!" (repeated 5 times)
-            osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" TE_RST);
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" TE_RST);
-            osSyncPrintf(TE_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" TE_RST);
-            osSyncPrintf(TE_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" TE_RST);
-            osSyncPrintf(TE_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
         }
 
         Actor_Kill(&this->actor);

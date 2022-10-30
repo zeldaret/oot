@@ -2289,7 +2289,7 @@ void EnXc_Update(Actor* thisx, PlayState* play) {
     s32 action = this->action;
 
     if ((action < 0) || (action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[action] == NULL)) {
-        osSyncPrintf(TE_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }
@@ -2335,7 +2335,7 @@ void EnXc_Init(Actor* thisx, PlayState* play) {
             EnXc_DoNothing(this, play);
             break;
         default:
-            osSyncPrintf(TE_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
+            osSyncPrintf(VT_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
             EnXc_DoNothing(this, play);
     }
 }
@@ -2403,7 +2403,7 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawMode < 0 || this->drawMode > 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(TE_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, play);
     }

@@ -18,12 +18,12 @@ void Overlay_LoadGameState(GameStateOverlay* overlayEntry) {
             return;
         }
 
-        osSyncPrintf(TE_FGCOL(GREEN));
+        osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("OVL(d):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart, overlayEntry->vramEnd,
                      overlayEntry->loadedRamAddr,
                      (u32)overlayEntry->loadedRamAddr + (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart,
                      (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, "");
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
 
         if (overlayEntry->unk_14 != NULL) {
             overlayEntry->unk_14 = (void*)((u32)overlayEntry->unk_14 -

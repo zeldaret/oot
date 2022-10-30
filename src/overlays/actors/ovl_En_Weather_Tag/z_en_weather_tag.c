@@ -59,13 +59,13 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_CLOUDY_MARKET:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ (;o;) About ☆☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ （;o;) くらいよー ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ （;o;) くらいよー ☆☆☆☆☆ \n" VT_RST);
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyHyruleMarket);
             break;
         case EN_WEATHER_TAG_TYPE_CLOUDY_LON_LON_RANCH:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" VT_RST);
             if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
@@ -74,7 +74,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_SNOW_ZORAS_DOMAIN:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Yukigafuru You won't come (._.) ☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ ゆきがふるー あなたはこないー (._.) ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ゆきがふるー あなたはこないー (._.) ☆☆☆☆☆ \n" VT_RST);
 
             if (GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 Actor_Kill(&this->actor);
@@ -84,7 +84,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_RAIN_LAKE_HYLIA:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Wow wa wa na wa saa ki ha (^o^) ☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n" VT_RST);
 
             if (GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 Actor_Kill(&this->actor);
@@ -94,7 +94,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_CLOUDY_DEATH_MOUNTAIN:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" VT_RST);
             if (GET_EVENTCHKINF(EVENTCHKINF_49)) {
                 Actor_Kill(&this->actor);
             }
@@ -103,7 +103,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_THUNDERSTORM_KAKARIKO:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Cloudy Rain Thunder (;O;) Uo Melancholy ☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n" VT_RST);
 
             if (!GET_EVENTCHKINF(EVENTCHKINF_48) || !GET_EVENTCHKINF(EVENTCHKINF_49) ||
                 !GET_EVENTCHKINF(EVENTCHKINF_4A) || CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
@@ -114,13 +114,13 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_SANDSTORM_INTENSITY:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ The desert becomes thicker ☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 砂漠が濃くなります ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 砂漠が濃くなります ☆☆☆☆☆ \n" VT_RST);
             EnWeatherTag_SetupAction(this, EnWeatherTag_SetSandstormIntensity);
             break;
         case EN_WEATHER_TAG_TYPE_THUNDERSTORM_GRAVEYARD:
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Wow wa wa na wa saa ki ha (^o^) ☆☆☆☆☆"
-            osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n" TE_RST);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n" VT_RST);
 
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainThunder);
             break;

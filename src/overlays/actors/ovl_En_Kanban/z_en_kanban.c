@@ -459,7 +459,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             this->actor.bgCheckFlags = tempBgFlags;
             this->actor.yDistToWater = tempYDistToWater;
 
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             onGround = (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
             if (this->spinXFlag) {
                 this->spinRot.x += this->spinVel.x;
@@ -718,9 +718,9 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     bomb = bomb->next;
                 }
             }
-            osSyncPrintf(TE_FGCOL(GREEN));
+            osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("OCARINA_MODE %d\n", play->msgCtx.ocarinaMode);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             switch (this->ocarinaFlag) {
                 case 0:
                     if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {

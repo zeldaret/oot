@@ -383,10 +383,10 @@ void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
         EnFish_Dropped_SetupSwimAway(this);
     } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) &&
                (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
-        osSyncPrintf(TE_COL(YELLOW, BLACK));
+        osSyncPrintf(VT_COL(YELLOW, BLACK));
         // "BG missing? Running Actor_delete"
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
         Actor_Kill(&this->actor);
     }
 }

@@ -38,7 +38,7 @@ void EnDyExtra_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf("\n\n");
     // "Big fairy effect"
-    osSyncPrintf(TE_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" TE_RST, this->actor.params);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
     this->type = this->actor.params;
     this->scale.x = 0.025f;
     this->scale.y = 0.039f;

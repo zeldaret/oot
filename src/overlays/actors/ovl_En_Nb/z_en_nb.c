@@ -1413,7 +1413,7 @@ void EnNb_Update(Actor* thisx, PlayState* play) {
 
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
         // "Main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(TE_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1519,7 +1519,7 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(TE_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 

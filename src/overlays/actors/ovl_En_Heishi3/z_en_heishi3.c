@@ -77,7 +77,7 @@ void EnHeishi3_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     // "Castle Gate Soldier - Power Up"
-    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" TE_RST);
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
 
     this->actor.gravity = -3.0f;
     this->actor.focus.pos = this->actor.world.pos;
@@ -132,7 +132,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
-        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" TE_RST); // "Discovered!"
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(play, &this->actor, 1);
         this->actionFunc = EnHeishi3_CatchStart;
     }
@@ -160,7 +160,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
-        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" TE_RST); // "Discovered!"
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(play, &this->actor, 1);
         this->actionFunc = EnHeishi3_CatchStart;
     }

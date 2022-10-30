@@ -18,9 +18,9 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
     if ((this != NULL) && (initParams != NULL)) {
         this->numElements = initParams->numElements;
         if (this->numElements > ARRAY_COUNT(this->elements)) {
-            osSyncPrintf(TE_FGCOL(RED));
+            osSyncPrintf(VT_FGCOL(RED));
             osSyncPrintf("EffectShieldParticle_ct():パーティクル数がオーバしてます。\n");
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             return;
         }
 

@@ -243,20 +243,20 @@ void EnFr_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = EnFr_Idle;
     } else {
         if ((this->actor.params >= 6) || (this->actor.params < 0)) {
-            osSyncPrintf(TE_COL(RED, WHITE));
+            osSyncPrintf(VT_COL(RED, WHITE));
             // "The argument is wrong!!"
             osSyncPrintf("%s[%d] : 引数が間違っている！！(%d)\n", "../z_en_fr.c", 370, this->actor.params);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
         this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
         if (this->objBankIndex < 0) {
             Actor_Kill(&this->actor);
-            osSyncPrintf(TE_COL(RED, WHITE));
+            osSyncPrintf(VT_COL(RED, WHITE));
             // "There is no bank!!"
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_fr.c", 380);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             ASSERT(0, "0", "../z_en_fr.c", 382);
         }
     }
@@ -985,10 +985,10 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
     for (frogIndex = 0; frogIndex < ARRAY_COUNT(sEnFrPointers.frogs); frogIndex++) {
         frogLoop1 = sEnFrPointers.frogs[frogIndex];
         if (frogLoop1 == NULL) {
-            osSyncPrintf(TE_COL(RED, WHITE));
+            osSyncPrintf(VT_COL(RED, WHITE));
             // "There are no frogs!?"
             osSyncPrintf("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1604);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             return;
         } else if (frogLoop1->isDeactivating != true) {
             return;
@@ -998,10 +998,10 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
     for (frogIndex = 0; frogIndex < ARRAY_COUNT(sEnFrPointers.frogs); frogIndex++) {
         frogLoop2 = sEnFrPointers.frogs[frogIndex];
         if (frogLoop2 == NULL) {
-            osSyncPrintf(TE_COL(RED, WHITE));
+            osSyncPrintf(VT_COL(RED, WHITE));
             // "There are no frogs!?"
             osSyncPrintf("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1618);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             return;
         }
         frogLoop2->isDeactivating = false;

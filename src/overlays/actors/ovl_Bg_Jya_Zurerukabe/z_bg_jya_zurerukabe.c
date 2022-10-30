@@ -121,10 +121,10 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     }
 
     if (i == ARRAY_COUNT(D_8089B9F0)) {
-        osSyncPrintf(TE_COL(RED, WHITE));
+        osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
                      this->dyna.actor.params);
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
     }
 
     this->unk_16E = D_8089B9F8[this->unk_168];

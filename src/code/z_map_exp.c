@@ -27,11 +27,11 @@ void Map_SetPaletteData(PlayState* play, s16 room) {
         interfaceCtx->mapPaletteIndex = paletteIndex;
     }
 
-    osSyncPrintf(TE_FGCOL(YELLOW));
+    osSyncPrintf(VT_FGCOL(YELLOW));
     // "PALETE Set"
     osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteIndex,
                  room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteIndex);
-    osSyncPrintf(TE_RST);
+    osSyncPrintf(VT_RST);
 
     interfaceCtx->mapPalette[paletteIndex * 2] = 2;
     interfaceCtx->mapPalette[paletteIndex * 2 + 1] = 0xBF;
@@ -126,9 +126,9 @@ void Map_InitData(PlayState* play, s16 room) {
                     extendedMapIndex = 0x17;
                 }
             }
-            osSyncPrintf(TE_FGCOL(BLUE));
+            osSyncPrintf(VT_FGCOL(BLUE));
             osSyncPrintf("ＫＫＫ＝%d\n", extendedMapIndex);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
             DmaMgr_SendRequest1(interfaceCtx->mapSegment,
                                 (uintptr_t)_map_grand_staticSegmentRomStart +
@@ -154,11 +154,11 @@ void Map_InitData(PlayState* play, s16 room) {
         case SCENE_MIZUSIN_BS:
         case SCENE_JYASINBOSS:
         case SCENE_HAKADAN_BS:
-            osSyncPrintf(TE_FGCOL(YELLOW));
+            osSyncPrintf(VT_FGCOL(YELLOW));
             // "Deku Tree Dungeon MAP Texture DMA"
             osSyncPrintf("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n", room,
                          mapIndex, VREG(30));
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             DmaMgr_SendRequest1(play->interfaceCtx.mapSegment,
                                 (uintptr_t)_map_i_staticSegmentRomStart +
                                     ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * 0xFF0),
@@ -203,9 +203,9 @@ void Map_InitRoomData(PlayState* play, s16 room) {
                 interfaceCtx->mapRoomNum = room;
                 interfaceCtx->unk_25A = mapIndex;
                 Map_SetPaletteData(play, room);
-                osSyncPrintf(TE_FGCOL(YELLOW));
+                osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("部屋部屋＝%d\n", room); // "Room Room = %d"
-                osSyncPrintf(TE_RST);
+                osSyncPrintf(VT_RST);
                 Map_InitData(play, room);
                 break;
         }
@@ -563,10 +563,10 @@ void Map_Update(PlayState* play) {
                     if ((interfaceCtx->mapRoomNum == gMapData->switchFromRoom[mapIndex][i]) &&
                         (floor == gMapData->switchFromFloor[mapIndex][i])) {
                         interfaceCtx->mapRoomNum = gMapData->switchToRoom[mapIndex][i];
-                        osSyncPrintf(TE_FGCOL(YELLOW));
+                        osSyncPrintf(VT_FGCOL(YELLOW));
                         // "Layer switching = %x"
                         osSyncPrintf("階層切替＝%x\n", interfaceCtx->mapRoomNum);
-                        osSyncPrintf(TE_RST);
+                        osSyncPrintf(VT_RST);
                         Map_InitData(play, interfaceCtx->mapRoomNum);
                         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                         Map_SavePlayerInitialInfo(play);

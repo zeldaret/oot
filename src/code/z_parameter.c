@@ -1106,7 +1106,7 @@ void Interface_SetSceneRestrictions(PlayState* play) {
             interfaceCtx->restrictions.dinsNayrus = (sRestrictionFlags[i].flags3 & 0x0C) >> 2;
             interfaceCtx->restrictions.all = (sRestrictionFlags[i].flags3 & 0x03) >> 0;
 
-            osSyncPrintf(TE_FGCOL(YELLOW));
+            osSyncPrintf(VT_FGCOL(YELLOW));
             osSyncPrintf("parameter->button_status = %x,%x,%x\n", sRestrictionFlags[i].flags1,
                          sRestrictionFlags[i].flags2, sRestrictionFlags[i].flags3);
             osSyncPrintf("h_gage=%d, b_button=%d, a_button=%d, c_bottle=%d\n", interfaceCtx->restrictions.hGauge,
@@ -1118,7 +1118,7 @@ void Interface_SetSceneRestrictions(PlayState* play) {
             osSyncPrintf("c_sunmoon=%d, m_wind=%d, m_magic=%d, another=%d\n", interfaceCtx->restrictions.sunsSong,
                          interfaceCtx->restrictions.farores, interfaceCtx->restrictions.dinsNayrus,
                          interfaceCtx->restrictions.all);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
             return;
         }
         i++;
@@ -1338,16 +1338,16 @@ u8 Item_Give(PlayState* play, u8 item) {
         slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
     }
 
-    osSyncPrintf(TE_FGCOL(YELLOW));
+    osSyncPrintf(VT_FGCOL(YELLOW));
     osSyncPrintf("item_get_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.inventory.items[slot]);
-    osSyncPrintf(TE_RST);
+    osSyncPrintf(VT_RST);
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST];
 
-        osSyncPrintf(TE_FGCOL(YELLOW));
+        osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("封印 = %x\n", gSaveContext.inventory.questItems); // "Seals = %x"
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
             func_8006D0AC(play);
@@ -1357,38 +1357,38 @@ u8 Item_Give(PlayState* play, u8 item) {
     } else if ((item >= ITEM_SONG_MINUET) && (item <= ITEM_SONG_STORMS)) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
 
-        osSyncPrintf(TE_FGCOL(YELLOW));
+        osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("楽譜 = %x\n", gSaveContext.inventory.questItems); // "Musical scores = %x"
         // "Musical scores = %x (%x) (%x)"
         osSyncPrintf("楽譜 = %x (%x) (%x)\n", gSaveContext.inventory.questItems,
                      gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET], gBitFlags[item - ITEM_SONG_MINUET]);
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_ZORA_SAPPHIRE)) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
 
-        osSyncPrintf(TE_FGCOL(YELLOW));
+        osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("精霊石 = %x\n", gSaveContext.inventory.questItems); // "Spiritual Stones = %x"
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDO_CARD)) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
-        osSyncPrintf(TE_FGCOL(YELLOW));
+        osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("アイテム = %x\n", gSaveContext.inventory.questItems); // "Items = %x"
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if (item == ITEM_SKULL_TOKEN) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_SKULL_TOKEN + QUEST_SKULL_TOKEN];
         gSaveContext.inventory.gsTokens++;
 
-        osSyncPrintf(TE_FGCOL(YELLOW));
+        osSyncPrintf(VT_FGCOL(YELLOW));
         // "N Coins = %x(%d)"
         osSyncPrintf("Ｎコイン = %x(%d)\n", gSaveContext.inventory.questItems, gSaveContext.inventory.gsTokens);
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
@@ -1824,9 +1824,9 @@ u8 Item_CheckObtainability(u8 item) {
         slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
     }
 
-    osSyncPrintf(TE_FGCOL(GREEN));
+    osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("item_get_non_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.inventory.items[slot]);
-    osSyncPrintf(TE_RST);
+    osSyncPrintf(VT_RST);
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
         return ITEM_NONE;
@@ -4128,13 +4128,13 @@ void Interface_Update(PlayState* play) {
         if (gSaveContext.isMagicAcquired && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.isDoubleMagicAcquired + 1;
             gSaveContext.magicState = MAGIC_STATE_STEP_CAPACITY;
-            osSyncPrintf(TE_FGCOL(YELLOW));
+            osSyncPrintf(VT_FGCOL(YELLOW));
             osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
             osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.magic);
             osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
             osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.magicCapacity);
-            osSyncPrintf(TE_RST);
+            osSyncPrintf(VT_RST);
         }
 
         Magic_Update(play);

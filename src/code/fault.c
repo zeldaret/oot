@@ -208,7 +208,7 @@ void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1
 end:
     osSetIntMask(mask);
     if (alreadyExists) {
-        osSyncPrintf(TE_COL(RED, WHITE) "fault_AddClient: %08x は既にリスト中にある\n" TE_RST, client);
+        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
 
@@ -244,7 +244,7 @@ void Fault_RemoveClient(FaultClient* client) {
     osSetIntMask(mask);
 
     if (listIsEmpty) {
-        osSyncPrintf(TE_COL(RED, WHITE) "fault_RemoveClient: %08x リスト不整合です\n" TE_RST, client);
+        osSyncPrintf(VT_COL(RED, WHITE) "fault_RemoveClient: %08x リスト不整合です\n" VT_RST, client);
     }
 }
 
@@ -286,7 +286,7 @@ void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* 
 end:
     osSetIntMask(mask);
     if (alreadyExists) {
-        osSyncPrintf(TE_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" TE_RST, client);
+        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
 
@@ -320,7 +320,7 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     osSetIntMask(mask);
 
     if (listIsEmpty) {
-        osSyncPrintf(TE_COL(RED, WHITE) "fault_AddressConverterRemoveClient: %08x は既にリスト中にある\n" TE_RST,
+        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterRemoveClient: %08x は既にリスト中にある\n" VT_RST,
                      client);
     }
 }
@@ -669,11 +669,11 @@ void Fault_WaitForButtonCombo(void) {
     if (1) {}
 
     osSyncPrintf(
-        TE_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " TE_FGCOL(WHITE) "上" TE_FGCOL(YELLOW) "下 " TE_FGCOL(YELLOW) "上" TE_FGCOL(WHITE) "下 " TE_FGCOL(WHITE) "左" TE_FGCOL(
-            YELLOW) "左 " TE_FGCOL(YELLOW) "右" TE_FGCOL(WHITE) "右 " TE_FGCOL(GREEN) "Ｂ" TE_FGCOL(BLUE) "Ａ" TE_FGCOL(RED) "START" TE_FGCOL(WHITE) ")" TE_RST
+        VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
+            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
                                                                                                                                                      "\n");
-    osSyncPrintf(TE_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" TE_FGCOL(YELLOW) "右 +" TE_FGCOL(RED) "START" TE_FGCOL(
-        WHITE) ")" TE_RST "\n");
+    osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
+        WHITE) ")" VT_RST "\n");
 
     FaultDrawer_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
     FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 1));

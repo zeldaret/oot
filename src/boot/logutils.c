@@ -73,27 +73,27 @@ void LogUtils_LogHexDump(void* ptr, s32 size0) {
 }
 
 void LogUtils_LogPointer(s32 value, u32 max, void* ptr, const char* name, const char* file, s32 line) {
-    osSyncPrintf(TE_COL(RED, WHITE) "%s %d %s[%d] max=%u ptr=%08x\n" TE_RST, file, line, name, value, max, ptr);
+    osSyncPrintf(VT_COL(RED, WHITE) "%s %d %s[%d] max=%u ptr=%08x\n" VT_RST, file, line, name, value, max, ptr);
 }
 
 void LogUtils_CheckBoundary(const char* name, s32 value, s32 unk, const char* file, s32 line) {
     u32 mask = (unk - 1);
 
     if (value & mask) {
-        osSyncPrintf(TE_COL(RED, WHITE) "%s %d:%s(%08x) は バウンダリ(%d)違反です\n" TE_RST, file, line, name, value,
+        osSyncPrintf(VT_COL(RED, WHITE) "%s %d:%s(%08x) は バウンダリ(%d)違反です\n" VT_RST, file, line, name, value,
                      unk);
     }
 }
 
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, s32 line) {
     if (ptr == NULL) {
-        osSyncPrintf(TE_COL(RED, WHITE) "%s %d:%s は はヌルポインタです\n" TE_RST, file, line, exp);
+        osSyncPrintf(VT_COL(RED, WHITE) "%s %d:%s は はヌルポインタです\n" VT_RST, file, line, exp);
     }
 }
 
 void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, s32 line) {
     if (ptr == NULL || (u32)ptr < 0x80000000 || (0x80000000 + osMemSize) <= (u32)ptr) {
-        osSyncPrintf(TE_COL(RED, WHITE) "%s %d:ポインタ %s(%08x) が異常です\n" TE_RST, file, line, exp, ptr);
+        osSyncPrintf(VT_COL(RED, WHITE) "%s %d:ポインタ %s(%08x) が異常です\n" VT_RST, file, line, exp, ptr);
     }
 }
 

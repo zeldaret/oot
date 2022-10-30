@@ -2,34 +2,34 @@
 #define TERMINAL_H
 
 // 3-bit color codes
-#define TE_COLOR_BLACK      0
-#define TE_COLOR_RED        1
-#define TE_COLOR_GREEN      2
-#define TE_COLOR_YELLOW     3
-#define TE_COLOR_BLUE       4
-#define TE_COLOR_MAGENTA    5
-#define TE_COLOR_CYAN       6
-#define TE_COLOR_WHITE      7
+#define VT_COLOR_BLACK      0
+#define VT_COLOR_RED        1
+#define VT_COLOR_GREEN      2
+#define VT_COLOR_YELLOW     3
+#define VT_COLOR_BLUE       4
+#define VT_COLOR_MAGENTA    5
+#define VT_COLOR_CYAN       6
+#define VT_COLOR_WHITE      7
 
-#define TE_COLOR_FOREGROUND 3
-#define TE_COLOR_BACKGROUND 4
+#define VT_COLOR_FOREGROUND 3
+#define VT_COLOR_BACKGROUND 4
 
-#define TE_COLOR_EXPAND0(type, color) #type #color
-#define TE_COLOR_EXPAND1(type, color) TE_COLOR_EXPAND0(type, color)
-#define TE_COLOR(type, color) TE_COLOR_EXPAND1(TE_COLOR_##type, TE_COLOR_##color)
+#define VT_COLOR_EXPAND0(type, color) #type #color
+#define VT_COLOR_EXPAND1(type, color) VT_COLOR_EXPAND0(type, color)
+#define VT_COLOR(type, color) VT_COLOR_EXPAND1(VT_COLOR_##type, VT_COLOR_##color)
 
-#define TE_ESC "\x1b"
-#define TE_CSI "["
-#define TE_CUP(x, y) TE_ESC TE_CSI y ";" x "H"
-#define TE_ED(n) TE_ESC TE_CSI #n "J"
-#define TE_SGR(n) TE_ESC TE_CSI n "m"
+#define VT_ESC "\x1b"
+#define VT_CSI "["
+#define VT_CUP(x, y) VT_ESC VT_CSI y ";" x "H"
+#define VT_ED(n) VT_ESC VT_CSI #n "J"
+#define VT_SGR(n) VT_ESC VT_CSI n "m"
 
 // Add more macros if necessary
-#define TE_COL(back, fore) TE_SGR(TE_COLOR(BACKGROUND, back) ";" TE_COLOR(FOREGROUND, fore))
-#define TE_FGCOL(color) TE_SGR(TE_COLOR(FOREGROUND, color))
-#define TE_BGCOL(color) TE_SGR(TE_COLOR(BACKGROUND, color))
-#define TE_RST TE_SGR("")
-#define TE_CLS TE_ED(2)
+#define VT_COL(back, fore) VT_SGR(VT_COLOR(BACKGROUND, back) ";" VT_COLOR(FOREGROUND, fore))
+#define VT_FGCOL(color) VT_SGR(VT_COLOR(FOREGROUND, color))
+#define VT_BGCOL(color) VT_SGR(VT_COLOR(BACKGROUND, color))
+#define VT_RST VT_SGR("")
+#define VT_CLS VT_ED(2)
 
 // ASCII BEL character, plays an alert tone
 #define BEL '\a'

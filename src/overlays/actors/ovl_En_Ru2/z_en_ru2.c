@@ -758,7 +758,7 @@ void EnRu2_Update(Actor* thisx, PlayState* play) {
 
     if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
         // "Main Mode is improper!"
-        osSyncPrintf(TE_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -819,7 +819,7 @@ void EnRu2_Draw(Actor* thisx, PlayState* play) {
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
         (sDrawFuncs[this->drawConfig] == NULL)) {
         // "Draw Mode is improper!"
-        osSyncPrintf(TE_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" TE_RST);
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

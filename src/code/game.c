@@ -346,12 +346,12 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     SystemArena_GetSizes(&systemMaxFree, &systemFree, &systemAlloc);
     if ((systemMaxFree - 0x10) < size) {
         osSyncPrintf("%c", BEL);
-        osSyncPrintf(TE_FGCOL(RED));
+        osSyncPrintf(VT_FGCOL(RED));
 
         // "Not enough memory. Change the hyral size to the largest possible value"
         osSyncPrintf("メモリが足りません。ハイラルサイズを可能な最大値に変更します\n");
         osSyncPrintf("(hyral=%08x max=%08x free=%08x alloc=%08x)\n", size, systemMaxFree, systemFree, systemAlloc);
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
         size = systemMaxFree - 0x10;
     }
 
@@ -478,9 +478,9 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
         }
     }
     if (ret != NULL) {
-        osSyncPrintf(TE_FGCOL(GREEN));
+        osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("game_alloc(%08x) %08x-%08x [%s:%d]\n", size, ret, (u32)ret + size, file, line);
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
     }
     return ret;
 }

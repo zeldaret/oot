@@ -5089,11 +5089,11 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
     if (0) {
         // Strings existing only in rodata
-        osSyncPrintf(TE_FGCOL(GREEN));
-        osSyncPrintf(TE_FGCOL(YELLOW));
+        osSyncPrintf(VT_FGCOL(GREEN));
+        osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("plays %x\n");
         osSyncPrintf("ys %x\n");
-        osSyncPrintf(TE_RST);
+        osSyncPrintf(VT_RST);
     }
 
     playerShadowAlpha = player->actor.shape.shadowAlpha;
@@ -5584,9 +5584,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
     sREG(14) = 0;
 
-    osSyncPrintf(TE_FGCOL(GREEN));
+    osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("zelda_time %x\n", ((void)0, gSaveContext.dayTime));
-    osSyncPrintf(TE_RST);
+    osSyncPrintf(VT_RST);
 
     if (D_80B7E077 >= 2) {
         D_80B7E077--;

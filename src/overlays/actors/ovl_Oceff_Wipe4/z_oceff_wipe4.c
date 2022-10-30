@@ -32,7 +32,7 @@ void OceffWipe4_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(play)->eye;
-    osSyncPrintf(TE_FGCOL(CYAN) " WIPE4 arg_data = %d\n" TE_RST, this->actor.params);
+    osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe4_Destroy(Actor* thisx, PlayState* play) {

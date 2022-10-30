@@ -22,11 +22,11 @@ void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl) {
     ovl->loadedRamAddr = sKaleidoAreaPtr;
     Overlay_Load(ovl->vromStart, ovl->vromEnd, ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr);
 
-    osSyncPrintf(TE_FGCOL(GREEN));
+    osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("OVL(k):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr,
                  (u32)ovl->loadedRamAddr + (u32)ovl->vramEnd - (u32)ovl->vramStart,
                  (u32)ovl->vramStart - (u32)ovl->loadedRamAddr, ovl->name);
-    osSyncPrintf(TE_RST);
+    osSyncPrintf(VT_RST);
 
     ovl->offset = (u32)ovl->loadedRamAddr - (u32)ovl->vramStart;
     gKaleidoMgrCurOvl = ovl;
@@ -53,16 +53,16 @@ void KaleidoManager_Init(PlayState* play) {
         }
     }
 
-    osSyncPrintf(TE_FGCOL(GREEN));
+    osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("KaleidoArea の最大サイズは %d バイトを確保します\n", largestSize);
-    osSyncPrintf(TE_RST);
+    osSyncPrintf(VT_RST);
 
     sKaleidoAreaPtr = GameState_Alloc(&play->state, largestSize, "../z_kaleido_manager.c", 150);
     LogUtils_CheckNullPointer("KaleidoArea_allocp", sKaleidoAreaPtr, "../z_kaleido_manager.c", 151);
 
-    osSyncPrintf(TE_FGCOL(GREEN));
+    osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("KaleidoArea %08x - %08x\n", sKaleidoAreaPtr, (u32)sKaleidoAreaPtr + largestSize);
-    osSyncPrintf(TE_RST);
+    osSyncPrintf(VT_RST);
 
     gKaleidoMgrCurOvl = NULL;
 }

@@ -57,7 +57,7 @@ void EnTuboTrap_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 2.0f);
     osSyncPrintf("\n\n");
-    osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n" TE_RST, this->actor.params); // "Urn Trap"
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params); // "Urn Trap"
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     Actor_SetScale(&this->actor, 0.1f);
@@ -222,8 +222,8 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, PlayState* play) {
     f32 targetHeight;
 
     if (BREG(2) != 0) {
-        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ わて     ☆☆☆☆☆ %f\n" TE_RST, this->actor.world.pos.y);   // "You"
-        osSyncPrintf(TE_FGCOL(GREEN) "☆☆☆☆☆ おいどん ☆☆☆☆☆ %f\n" TE_RST, player->actor.world.pos.y); // "Me"
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わて     ☆☆☆☆☆ %f\n" VT_RST, this->actor.world.pos.y);   // "You"
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ おいどん ☆☆☆☆☆ %f\n" VT_RST, player->actor.world.pos.y); // "Me"
         osSyncPrintf("\n\n");
     }
 
