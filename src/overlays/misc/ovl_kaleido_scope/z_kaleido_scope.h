@@ -19,8 +19,9 @@ extern u8 gAreaGsFlags[];
 #define CHECK_AGE_REQ_SLOT(slot) \
     ((gSlotAgeReqs[slot] == AGE_REQ_NONE) || gSlotAgeReqs[slot] == ((void)0, gSaveContext.linkAge))
 #define CHECK_AGE_REQ_EQUIP(y, x) \
-    ((gEquipAgeReqs[y][x] == 9) || (gEquipAgeReqs[y][x] == ((void)0, gSaveContext.linkAge)))
-#define CHECK_AGE_REQ_ITEM(item) ((gItemAgeReqs[item] == 9) || (gItemAgeReqs[item] == ((void)0, gSaveContext.linkAge)))
+    ((gEquipAgeReqs[y][x] == AGE_REQ_NONE) || (gEquipAgeReqs[y][x] == ((void)0, gSaveContext.linkAge)))
+#define CHECK_AGE_REQ_ITEM(item) \
+    ((gItemAgeReqs[item] == AGE_REQ_NONE) || (gItemAgeReqs[item] == ((void)0, gSaveContext.linkAge)))
 
 typedef enum {
     // 0 to 24 matches the `QuestItem` enum
@@ -52,6 +53,9 @@ typedef enum {
     /* 46 */ QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3,
     /* 47 */ QUAD_QUEST_MAX
 } QuestQuad;
+
+#define EQUIP_CURSOR_X_UPG 0
+#define EQUIP_CURSOR_Y_BULLETBAG_QUIVER 0
 
 typedef enum {
     // Grid of upgrades and equips, left column is upgrades, others are equips, with one row per equip type

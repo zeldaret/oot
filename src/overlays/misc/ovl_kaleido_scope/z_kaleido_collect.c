@@ -624,7 +624,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     // PAUSE_MAIN_STATE_SONG_PROMPT_INIT, PAUSE_MAIN_STATE_SONG_PROMPT,
                     // PAUSE_MAIN_STATE_SONG_PROMPT_DONE
                     if ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PLAYBACK) &&
-                        (pauseCtx->mainState < PAUSE_MAIN_STATE_7)) {
+                        (pauseCtx->mainState <= PAUSE_MAIN_STATE_SONG_PROMPT_DONE)) {
                         pauseCtx->cursorColorSet = 0;
                     }
                 }

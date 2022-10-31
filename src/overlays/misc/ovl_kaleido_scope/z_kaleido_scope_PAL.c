@@ -474,35 +474,30 @@ u8 gSlotAgeReqs[] = {
     AGE_REQ_CHILD, // SLOT_TRADE_CHILD
 };
 
-// Not sure EQUIP_TYPE_MAX is really EQUIP_TYPE_MAX
-u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4] = {
-    // EQUIP_TYPE_SWORD
+u8 gEquipAgeReqs[4][4] = {
     {
-        AGE_REQ_ADULT, // EQUIP_VALUE_SWORD_NONE
-        AGE_REQ_CHILD, // EQUIP_VALUE_SWORD_KOKIRI
-        AGE_REQ_ADULT, // EQUIP_VALUE_SWORD_MASTER
-        AGE_REQ_ADULT, // EQUIP_VALUE_SWORD_BGS
+        AGE_REQ_ADULT, // 0 UPG_QUIVER
+        AGE_REQ_CHILD, // EQUIP_TYPE_SWORD EQUIP_VALUE_SWORD_KOKIRI
+        AGE_REQ_ADULT, // EQUIP_TYPE_SWORD EQUIP_VALUE_SWORD_MASTER
+        AGE_REQ_ADULT, // EQUIP_TYPE_SWORD EQUIP_VALUE_SWORD_BGS
     },
-    // EQUIP_TYPE_SHIELD
     {
-        AGE_REQ_NONE,  // EQUIP_VALUE_SHIELD_NONE
-        AGE_REQ_CHILD, // EQUIP_VALUE_SHIELD_DEKU
-        AGE_REQ_NONE,  // EQUIP_VALUE_SHIELD_HYLIAN
-        AGE_REQ_ADULT, // EQUIP_VALUE_SHIELD_MIRROR
+        AGE_REQ_NONE,  // 0 UPG_BOMB_BAG
+        AGE_REQ_CHILD, // EQUIP_TYPE_SHIELD EQUIP_VALUE_SHIELD_DEKU
+        AGE_REQ_NONE,  // EQUIP_TYPE_SHIELD EQUIP_VALUE_SHIELD_HYLIAN
+        AGE_REQ_ADULT, // EQUIP_TYPE_SHIELD EQUIP_VALUE_SHIELD_MIRROR
     },
-    // EQUIP_TYPE_TUNIC
     {
-        AGE_REQ_ADULT, // EQUIP_VALUE_TUNIC_NONE
-        AGE_REQ_NONE,  // EQUIP_VALUE_TUNIC_KOKIRI
-        AGE_REQ_ADULT, // EQUIP_VALUE_TUNIC_GORON
-        AGE_REQ_ADULT, // EQUIP_VALUE_TUNIC_ZORA
+        AGE_REQ_ADULT, // 0 UPG_STRENGTH
+        AGE_REQ_NONE,  // EQUIP_TYPE_TUNIC EQUIP_VALUE_TUNIC_KOKIRI
+        AGE_REQ_ADULT, // EQUIP_TYPE_TUNIC EQUIP_VALUE_TUNIC_GORON
+        AGE_REQ_ADULT, // EQUIP_TYPE_TUNIC EQUIP_VALUE_TUNIC_ZORA
     },
-    // EQUIP_TYPE_BOOTS
     {
-        AGE_REQ_NONE,  // EQUIP_VALUE_BOOTS_NONE
-        AGE_REQ_NONE,  // EQUIP_VALUE_BOOTS_KOKIRI
-        AGE_REQ_ADULT, // EQUIP_VALUE_BOOTS_IRON
-        AGE_REQ_ADULT, // EQUIP_VALUE_BOOTS_HOVER
+        AGE_REQ_NONE,  // 0 UPG_SCALE
+        AGE_REQ_NONE,  // EQUIP_TYPE_BOOTS EQUIP_VALUE_BOOTS_KOKIRI
+        AGE_REQ_ADULT, // EQUIP_TYPE_BOOTS EQUIP_VALUE_BOOTS_IRON
+        AGE_REQ_ADULT, // EQUIP_TYPE_BOOTS EQUIP_VALUE_BOOTS_HOVER
     },
 };
 
@@ -668,7 +663,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
 }
 
 void KaleidoScope_ProcessPlayerPreRender(void) {
-    Sleep_Msec(50);
+    Sleep_Msec(50); // TODO investigate if this is required
     PreRender_ApplyFilters(&sPlayerPreRender);
     PreRender_Destroy(&sPlayerPreRender);
 }
@@ -1618,18 +1613,20 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) &&
         (pauseCtx->nameDisplayTimer < R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_) &&
         (!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
-         ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) && (pauseCtx->mainState <= PAUSE_MAIN_STATE_7)
+         ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) &&
+          (pauseCtx->mainState <= PAUSE_MAIN_STATE_EQUIP_CHANGED)
           /* PAUSE_MAIN_STATE_SONG_PROMPT_INIT, PAUSE_MAIN_STATE_SONG_PROMPT,
-             PAUSE_MAIN_STATE_SONG_PROMPT_DONE, PAUSE_MAIN_STATE_7 */
+             PAUSE_MAIN_STATE_SONG_PROMPT_DONE, PAUSE_MAIN_STATE_EQUIP_CHANGED */
           ) ||
          (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
         (pauseCtx->cursorSpecialPos == 0)) {
 
         if (!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ ||
             (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
-            ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) && (pauseCtx->mainState <= PAUSE_MAIN_STATE_7)
+            ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) &&
+             (pauseCtx->mainState <= PAUSE_MAIN_STATE_EQUIP_CHANGED)
              /* PAUSE_MAIN_STATE_SONG_PROMPT_INIT, PAUSE_MAIN_STATE_SONG_PROMPT,
-                PAUSE_MAIN_STATE_SONG_PROMPT_DONE, PAUSE_MAIN_STATE_7 */
+                PAUSE_MAIN_STATE_SONG_PROMPT_DONE, PAUSE_MAIN_STATE_EQUIP_CHANGED */
              ) ||
             (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
 
@@ -1694,7 +1691,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         }
     } else if ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) /* PAUSE_MAIN_STATE_IDLE, PAUSE_MAIN_STATE_SWITCHING_PAGE,
                                                                 PAUSE_MAIN_STATE_SONG_PLAYBACK */
-               || (pauseCtx->mainState == PAUSE_MAIN_STATE_7) ||
+               || (pauseCtx->mainState == PAUSE_MAIN_STATE_EQUIP_CHANGED) ||
                (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
         pauseCtx->infoPanelVtx[20].v.ob[1] = pauseCtx->infoPanelVtx[21].v.ob[1] = y;
 
@@ -1899,7 +1896,7 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
              (pauseCtx->cursorSlot[PAUSE_QUEST] < QUEST_KOKIRI_EMERALD) &&
              (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) ||
             (pauseCtx->pageIndex == PAUSE_ITEM) ||
-            ((pauseCtx->pageIndex == PAUSE_EQUIP) && (pauseCtx->cursorX[PAUSE_EQUIP] != 0))) {
+            ((pauseCtx->pageIndex == PAUSE_EQUIP) && (pauseCtx->cursorX[PAUSE_EQUIP] != EQUIP_CURSOR_X_UPG))) {
             if (pauseCtx->namedItem != ITEM_SOLD_OUT) {
                 pauseCtx->nameDisplayTimer++;
                 if (pauseCtx->nameDisplayTimer > R_PAUSE_NAME_DISPLAY_TIMER_MAX_) {
@@ -3766,7 +3763,7 @@ void KaleidoScope_Update(PlayState* play) {
                     }
                     break;
 
-                case PAUSE_MAIN_STATE_7:
+                case PAUSE_MAIN_STATE_EQUIP_CHANGED:
                     break;
 
                 case PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG:

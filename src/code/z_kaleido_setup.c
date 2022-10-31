@@ -127,8 +127,8 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->cursorY[PAUSE_MAP] = 0;
     pauseCtx->cursorX[PAUSE_QUEST] = temp;
     pauseCtx->cursorY[PAUSE_QUEST] = temp;
-    pauseCtx->cursorX[PAUSE_EQUIP] = 1;
-    pauseCtx->cursorY[PAUSE_EQUIP] = 0;
+    pauseCtx->cursorX[PAUSE_EQUIP] = EQUIP_VALUE_SWORD_KOKIRI;
+    pauseCtx->cursorY[PAUSE_EQUIP] = EQUIP_TYPE_SWORD;
 
     pauseCtx->cursorItem[PAUSE_ITEM] = PAUSE_ITEM_NONE;
     pauseCtx->cursorItem[PAUSE_MAP] = VREG(30) + 3;
