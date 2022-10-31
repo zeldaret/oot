@@ -54,7 +54,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 
 static s32 sUnusedGetItemIds[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE };
 
-const ActorInit Bg_Dy_Yoseizo_InitVars = {
+ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORCAT_PROP,
     FLAGS,

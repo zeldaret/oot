@@ -117,7 +117,7 @@ typedef struct {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-const ActorInit Fishing_InitVars = {
+ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
     FLAGS,

@@ -18,7 +18,7 @@ void func_80AFC34C(EnSiofuki* this, PlayState* play);
 void func_80AFC544(EnSiofuki* this, PlayState* play);
 void func_80AFC478(EnSiofuki* this, PlayState* play);
 
-const ActorInit En_Siofuki_InitVars = {
+ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
     ACTORCAT_BG,
     FLAGS,

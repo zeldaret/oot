@@ -66,7 +66,7 @@ static f32 sPlaybackSpeeds[] = { 2.0f / 3.0f, 2.0f / 3.0f, 1.0f, 1.0f, 1.0f, 1.0
 
 static SkeletonHeader* sSkeletonHeaders[] = { &gEponaSkel, &gHorseIngoSkel };
 
-const ActorInit En_Horse_InitVars = {
+ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
     ACTORCAT_BG,
     FLAGS,

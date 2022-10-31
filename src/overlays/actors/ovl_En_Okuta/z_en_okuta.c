@@ -19,7 +19,7 @@ void EnOkuta_Die(EnOkuta* this, PlayState* play);
 void EnOkuta_Freeze(EnOkuta* this, PlayState* play);
 void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play);
 
-const ActorInit En_Okuta_InitVars = {
+ActorInit En_Okuta_InitVars = {
     ACTOR_EN_OKUTA,
     ACTORCAT_ENEMY,
     FLAGS,

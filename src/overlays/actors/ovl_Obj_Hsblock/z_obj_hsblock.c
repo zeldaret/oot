@@ -21,7 +21,7 @@ void func_80B93D90(ObjHsblock* this);
 void func_80B93DB0(ObjHsblock* this);
 void func_80B93E38(ObjHsblock* this);
 
-const ActorInit Obj_Hsblock_InitVars = {
+ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORCAT_BG,
     FLAGS,

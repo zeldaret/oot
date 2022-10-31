@@ -64,7 +64,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-const ActorInit En_Fish_InitVars = {
+ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
     ACTORCAT_ITEMACTION,
     FLAGS,

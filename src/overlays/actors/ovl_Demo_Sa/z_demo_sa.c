@@ -86,7 +86,7 @@ static DemoSaDrawFunc sDrawFuncs[] = {
     DemoSa_DrawXlu,
 };
 
-const ActorInit Demo_Sa_InitVars = {
+ActorInit Demo_Sa_InitVars = {
     ACTOR_DEMO_SA,
     ACTORCAT_NPC,
     FLAGS,

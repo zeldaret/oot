@@ -22,7 +22,7 @@ void func_809CB2B8(EnBrob* this, PlayState* play);
 void func_809CB354(EnBrob* this, PlayState* play);
 void func_809CB458(EnBrob* this, PlayState* play);
 
-const ActorInit En_Brob_InitVars = {
+ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORCAT_ENEMY,
     FLAGS,

@@ -43,7 +43,7 @@ void func_809F008C(EnDns* this, PlayState* play);
 void EnDns_SetupBurrow(EnDns* this, PlayState* play);
 void EnDns_Burrow(EnDns* this, PlayState* play);
 
-const ActorInit En_Dns_InitVars = {
+ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
     ACTORCAT_BG,
     FLAGS,

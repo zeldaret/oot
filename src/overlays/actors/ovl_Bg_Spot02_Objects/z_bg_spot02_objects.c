@@ -31,7 +31,7 @@ static void* D_808AD850[] = {
     object_spot02_objects_Tex_0102B0, object_spot02_objects_Tex_010EB0, object_spot02_objects_Tex_011AB0,
 };
 
-const ActorInit Bg_Spot02_Objects_InitVars = {
+ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
     ACTORCAT_BG,
     FLAGS,
