@@ -106,6 +106,7 @@
 #define R_START_LABEL_DD(i)                      ZREG(48 + (i))
 #define R_START_LABEL_Y(i)                       ZREG(51 + (i))
 #define R_START_LABEL_X(i)                       ZREG(54 + (i))
+#define R_PAUSE_QUEST_MEDALLION_SHINE_TIME(i)    ZREG(61 + (i)) // i = 0..3 (clashes with ZREG(62) and ZREG(63))
 #define R_C_UP_BTN_X                             ZREG(62)
 #define R_C_UP_BTN_Y                             ZREG(63)
 #define R_START_BTN_X                            ZREG(68)

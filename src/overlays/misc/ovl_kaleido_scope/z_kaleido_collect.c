@@ -14,9 +14,22 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
     // Shining medallions
     static s16 sMedEnvColors[6 + 6][3] = {
-        { 0, 0, 0 },  { 0, 0, 0 },  { 0, 0, 0 },    { 0, 0, 0 },   { 0, 0, 0 },   { 0, 0, 0 },
-        { 0, 60, 0 }, { 90, 0, 0 }, { 0, 40, 110 }, { 80, 40, 0 }, { 70, 0, 90 }, { 90, 90, 0 },
+        // Target env color when sMedEnvShineState == 0
+        { 0, 0, 0 }, // QUEST_MEDALLION_FOREST
+        { 0, 0, 0 }, // QUEST_MEDALLION_FIRE
+        { 0, 0, 0 }, // QUEST_MEDALLION_WATER
+        { 0, 0, 0 }, // QUEST_MEDALLION_SPIRIT
+        { 0, 0, 0 }, // QUEST_MEDALLION_SHADOW
+        { 0, 0, 0 }, // QUEST_MEDALLION_LIGHT
+        // Target env color when sMedEnvShineState == 2
+        { 0, 60, 0 },   // QUEST_MEDALLION_FOREST
+        { 90, 0, 0 },   // QUEST_MEDALLION_FIRE
+        { 0, 40, 110 }, // QUEST_MEDALLION_WATER
+        { 80, 40, 0 },  // QUEST_MEDALLION_SPIRIT
+        { 70, 0, 90 },  // QUEST_MEDALLION_SHADOW
+        { 90, 90, 0 },  // QUEST_MEDALLION_LIGHT
     };
+    // Current (animated) env color for each medallion
     static s16 sMedEnvRed[6] = { 255, 255, 255, 255, 255, 255 };
     static s16 sMedEnvGreen[6] = { 255, 255, 255, 255, 255, 255 };
     static s16 sMedEnvBlue[6] = { 150, 150, 150, 150, 150, 150 };
@@ -48,13 +61,46 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     static s32 sUnused2 = 0;
 
     static s16 sSongsPrimRed[] = {
-        150, 255, 100, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+        150, // QUEST_SONG_MINUET
+        255, // QUEST_SONG_BOLERO
+        100, // QUEST_SONG_SERENADE
+        255, // QUEST_SONG_REQUIEM
+        255, // QUEST_SONG_NOCTURNE
+        255, // QUEST_SONG_PRELUDE
+        255, // QUEST_SONG_LULLABY
+        255, // QUEST_SONG_EPONA
+        255, // QUEST_SONG_SARIA
+        255, // QUEST_SONG_SUN
+        255, // QUEST_SONG_TIME
+        255, // QUEST_SONG_STORMS
     };
     static s16 sSongsPrimGreen[] = {
-        255, 80, 150, 160, 100, 240, 255, 255, 255, 255, 255, 255,
+        255, // QUEST_SONG_MINUET
+        80,  // QUEST_SONG_BOLERO
+        150, // QUEST_SONG_SERENADE
+        160, // QUEST_SONG_REQUIEM
+        100, // QUEST_SONG_NOCTURNE
+        240, // QUEST_SONG_PRELUDE
+        255, // QUEST_SONG_LULLABY
+        255, // QUEST_SONG_EPONA
+        255, // QUEST_SONG_SARIA
+        255, // QUEST_SONG_SUN
+        255, // QUEST_SONG_TIME
+        255, // QUEST_SONG_STORMS
     };
     static s16 sSongsPrimBlue[] = {
-        100, 40, 255, 0, 255, 100, 255, 255, 255, 255, 255, 255,
+        100, // QUEST_SONG_MINUET
+        40,  // QUEST_SONG_BOLERO
+        255, // QUEST_SONG_SERENADE
+        0,   // QUEST_SONG_REQUIEM
+        255, // QUEST_SONG_NOCTURNE
+        100, // QUEST_SONG_PRELUDE
+        255, // QUEST_SONG_LULLABY
+        255, // QUEST_SONG_EPONA
+        255, // QUEST_SONG_SARIA
+        255, // QUEST_SONG_SUN
+        255, // QUEST_SONG_TIME
+        255, // QUEST_SONG_STORMS
     };
 
     enum {
@@ -390,7 +436,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
     sMedEnvTimer--;
 
-    for (j = 0, bufI = 0; j < QUEST_SONG_MINUET - QUEST_MEDALLION_FOREST; j++, bufI += 4) {
+    for (j = 0, bufI = QUEST_MEDALLION_FOREST * 4; j < QUEST_SONG_MINUET - QUEST_MEDALLION_FOREST; j++, bufI += 4) {
         if ((sMedEnvShineState != 1) && (sMedEnvShineState != 3)) {
             targetColorIndex = (sMedEnvShineState != 0) ? j + 6 : j;
 
@@ -431,7 +477,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     }
 
     if (sMedEnvTimer == 0) {
-        sMedEnvTimer = ZREG(61 + sMedEnvShineState);
+        sMedEnvTimer = R_PAUSE_QUEST_MEDALLION_SHINE_TIME(sMedEnvShineState);
         if (++sMedEnvShineState >= 4) {
             sMedEnvShineState = 0;
         }
@@ -564,7 +610,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-        bufI += 4;
+        bufI += (QUAD_QUEST_SONG_NOTE_A1 - QUEST_HEART_PIECE) * 4;
 
         // Update cursor color
         if ((pauseCtx->cursorSpecialPos == 0) && (cursor >= QUEST_SONG_MINUET) && (cursor < QUEST_KOKIRI_EMERALD)) {

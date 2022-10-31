@@ -23,6 +23,7 @@ extern u8 gAreaGsFlags[];
 #define CHECK_AGE_REQ_ITEM(item) ((gItemAgeReqs[item] == 9) || (gItemAgeReqs[item] == ((void)0, gSaveContext.linkAge)))
 
 typedef enum {
+    // 0 to 24 matches the `QuestItem` enum
     // Notes showing the correct song
     /* 25 */ QUAD_QUEST_SONG_NOTE_A1 = QUEST_HEART_PIECE + 1,
     /* 26 */ QUAD_QUEST_SONG_NOTE_A2,
