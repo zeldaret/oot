@@ -597,10 +597,10 @@ u8 gAreaGsFlags[] = {
 };
 
 static void* sCursorTexs[] = {
-    gPauseMenuCursorTopLeftTex,
-    gPauseMenuCursorTopRightTex,
-    gPauseMenuCursorBottomLeftTex,
-    gPauseMenuCursorBottomRightTex,
+    gPauseMenuCursorTopLeftTex,     // PAUSE_QUAD_CURSOR_TL
+    gPauseMenuCursorTopRightTex,    // PAUSE_QUAD_CURSOR_TR
+    gPauseMenuCursorBottomLeftTex,  // PAUSE_QUAD_CURSOR_BL
+    gPauseMenuCursorBottomRightTex, // PAUSE_QUAD_CURSOR_BR
 };
 
 static s16 sCursorColors[][3] = {
@@ -857,6 +857,8 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
             s16 i;
             s16 j;
 
+            // Draw PAUSE_QUAD_CURSOR_TL, PAUSE_QUAD_CURSOR_TR, PAUSE_QUAD_CURSOR_BL, PAUSE_QUAD_CURSOR_BR
+
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -865,7 +867,7 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
                             sCursorColors[pauseCtx->cursorColorSet >> 2][2], 255);
             gDPSetEnvColor(POLY_OPA_DISP++, sColor82ABRed_D_8082AB8C, sColor82ABGreen_D_8082AB90,
                            sColor82ABBlue_D_8082AB94, 255);
-            gSPVertex(POLY_OPA_DISP++, pauseCtx->cursorVtx, 16, 0);
+            gSPVertex(POLY_OPA_DISP++, pauseCtx->cursorVtx, 4 * 4, 0);
 
             for (i = j = 0; i < 4; i++, j += 4) {
                 gDPLoadTextureBlock_4b(POLY_OPA_DISP++, sCursorTexs[i], G_IM_FMT_IA, 16, 16, 0,
@@ -2553,9 +2555,9 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
     func_80823A0C_makeVertices_(play, pauseCtx->questPageVtx, FUNC_80823A0C_USAGE_ARG2_QUEST_PAGE_VTX,
                                 FUNC_80823A0C_ARG3_QUEST_PAGE_VTX);
 
-    pauseCtx->cursorVtx = Graph_Alloc(gfxCtx, 20 * sizeof(Vtx));
+    pauseCtx->cursorVtx = Graph_Alloc(gfxCtx, (PAUSE_QUAD_CURSOR_MAX * 4) * sizeof(Vtx));
 
-    for (i = 0; i < 20; i++) {
+    for (i = 0; i < (PAUSE_QUAD_CURSOR_MAX * 4); i++) {
         pauseCtx->cursorVtx[i].v.ob[0] = pauseCtx->cursorVtx[i].v.ob[1] = pauseCtx->cursorVtx[i].v.ob[2] = 0;
 
         pauseCtx->cursorVtx[i].v.flag = 0;
@@ -2566,13 +2568,19 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorVtx[i].v.cn[3] = 255;
     }
 
+    // PAUSE_QUAD_CURSOR_TL
     pauseCtx->cursorVtx[1].v.tc[0] = pauseCtx->cursorVtx[2].v.tc[1] = pauseCtx->cursorVtx[3].v.tc[0] =
-        pauseCtx->cursorVtx[3].v.tc[1] = pauseCtx->cursorVtx[5].v.tc[0] = pauseCtx->cursorVtx[6].v.tc[1] =
-            pauseCtx->cursorVtx[7].v.tc[0] = pauseCtx->cursorVtx[7].v.tc[1] = pauseCtx->cursorVtx[9].v.tc[0] =
-                pauseCtx->cursorVtx[10].v.tc[1] = pauseCtx->cursorVtx[11].v.tc[0] = pauseCtx->cursorVtx[11].v.tc[1] =
-                    pauseCtx->cursorVtx[13].v.tc[0] = pauseCtx->cursorVtx[14].v.tc[1] =
-                        pauseCtx->cursorVtx[15].v.tc[0] = pauseCtx->cursorVtx[15].v.tc[1] = 16 * (1 << 5);
-
+        pauseCtx->cursorVtx[3].v.tc[1]
+        // PAUSE_QUAD_CURSOR_TR
+        = pauseCtx->cursorVtx[5].v.tc[0] = pauseCtx->cursorVtx[6].v.tc[1] = pauseCtx->cursorVtx[7].v.tc[0] =
+            pauseCtx->cursorVtx[7].v.tc[1]
+        // PAUSE_QUAD_CURSOR_BL
+        = pauseCtx->cursorVtx[9].v.tc[0] = pauseCtx->cursorVtx[10].v.tc[1] = pauseCtx->cursorVtx[11].v.tc[0] =
+            pauseCtx->cursorVtx[11].v.tc[1]
+        // PAUSE_QUAD_CURSOR_BR
+        = pauseCtx->cursorVtx[13].v.tc[0] = pauseCtx->cursorVtx[14].v.tc[1] = pauseCtx->cursorVtx[15].v.tc[0] =
+            pauseCtx->cursorVtx[15].v.tc[1] = 16 * (1 << 5);
+    // PAUSE_QUAD_CURSOR_4
     pauseCtx->cursorVtx[17].v.tc[0] = pauseCtx->cursorVtx[18].v.tc[1] = pauseCtx->cursorVtx[19].v.tc[0] =
         pauseCtx->cursorVtx[19].v.tc[1] = 32 * (1 << 5);
 
@@ -3045,88 +3053,96 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
     }
 }
 
-void KaleidoScope_UpdateCursorSize(PlayState* play) {
+void KaleidoScope_UpdateCursorVtx(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    s32 temp1;
-    s32 temp2;
-    s32 temp3;
-    s32 temp4;
+    s32 tlOffsetX;
+    s32 tlOffsetY;
+    s32 rightOffsetX;
+    s32 bottomOffsetY;
 
     if (pauseCtx->cursorSpecialPos == 0) {
-        temp1 = -1;
-        temp2 = 1;
-        temp3 = 14;
-        temp4 = 14;
+        tlOffsetX = -1;
+        tlOffsetY = 1;
+        rightOffsetX = 14;
+        bottomOffsetY = 14;
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (!sInDungeonScene) {
-                temp1 = -6;
-                temp2 = 6;
-                temp3 = 4;
-                temp4 = 4;
+                tlOffsetX = -6;
+                tlOffsetY = 6;
+                rightOffsetX = 4;
+                bottomOffsetY = 4;
             } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] >= 3) {
-                temp1 = -6;
-                temp2 = 5;
-                temp4 = 7;
-                temp3 = 19;
+                tlOffsetX = -6;
+                tlOffsetY = 5;
+                bottomOffsetY = 7;
+                rightOffsetX = 19;
             } else {
-                temp1 = -3;
-                temp2 = 3;
-                temp3 = 13;
-                temp4 = 13;
+                tlOffsetX = -3;
+                tlOffsetY = 3;
+                rightOffsetX = 13;
+                bottomOffsetY = 13;
             }
         } else if (pauseCtx->pageIndex == PAUSE_QUEST) {
-            temp1 = -4;
-            temp2 = 4;
-            temp3 = 12;
-            temp4 = 12;
+            tlOffsetX = -4;
+            tlOffsetY = 4;
+            rightOffsetX = 12;
+            bottomOffsetY = 12;
             if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == QUEST_HEART_PIECE) {
-                temp1 = -2;
-                temp2 = 2;
-                temp3 = 32;
-                temp4 = 32;
+                tlOffsetX = -2;
+                tlOffsetY = 2;
+                rightOffsetX = 32;
+                bottomOffsetY = 32;
             } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == QUEST_SKULL_TOKEN) {
-                temp1 = -4;
-                temp2 = 4;
-                temp4 = 13;
-                temp3 = 34;
+                tlOffsetX = -4;
+                tlOffsetY = 4;
+                bottomOffsetY = 13;
+                rightOffsetX = 34;
             } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] < QUEST_SONG_MINUET) {
-                temp1 = -1;
-                temp2 = 1;
-                temp3 = 10;
-                temp4 = 10;
+                tlOffsetX = -1;
+                tlOffsetY = 1;
+                rightOffsetX = 10;
+                bottomOffsetY = 10;
             } else if ((pauseCtx->cursorSlot[pauseCtx->pageIndex] >= QUEST_SONG_MINUET) &&
                        (pauseCtx->cursorSlot[pauseCtx->pageIndex] < QUEST_KOKIRI_EMERALD)) {
-                temp1 = -5;
-                temp2 = 3;
-                temp3 = 8;
-                temp4 = 8;
+                tlOffsetX = -5;
+                tlOffsetY = 3;
+                rightOffsetX = 8;
+                bottomOffsetY = 8;
             }
         }
     } else {
-        temp1 = -4;
-        temp2 = 4;
-        temp3 = 16;
-        temp4 = 16;
+        tlOffsetX = -4;
+        tlOffsetY = 4;
+        rightOffsetX = 16;
+        bottomOffsetY = 16;
     }
 
-    pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + temp1;
+    // Move the quads according to the offsets set above,
+    // and the position of the cursor in `pauseCtx->cursorVtx[0].v.ob`
+    // (see `KaleidoScope_SetCursorPos` and other `PAUSE_QUAD_CURSOR_TL` uses)
+
+    // PAUSE_QUAD_CURSOR_TL
+    pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + tlOffsetX;
     pauseCtx->cursorVtx[1].v.ob[0] = pauseCtx->cursorVtx[3].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + 16;
-    pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->cursorVtx[1].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] + temp2;
+    pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->cursorVtx[1].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] + tlOffsetY;
     pauseCtx->cursorVtx[2].v.ob[1] = pauseCtx->cursorVtx[3].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - 16;
 
-    pauseCtx->cursorVtx[4].v.ob[0] = pauseCtx->cursorVtx[6].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + temp3;
+    // PAUSE_QUAD_CURSOR_TR
+    pauseCtx->cursorVtx[4].v.ob[0] = pauseCtx->cursorVtx[6].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + rightOffsetX;
     pauseCtx->cursorVtx[5].v.ob[0] = pauseCtx->cursorVtx[7].v.ob[0] = pauseCtx->cursorVtx[4].v.ob[0] + 16;
     pauseCtx->cursorVtx[4].v.ob[1] = pauseCtx->cursorVtx[5].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1];
     pauseCtx->cursorVtx[6].v.ob[1] = pauseCtx->cursorVtx[7].v.ob[1] = pauseCtx->cursorVtx[4].v.ob[1] - 16;
 
+    // PAUSE_QUAD_CURSOR_BL
     pauseCtx->cursorVtx[8].v.ob[0] = pauseCtx->cursorVtx[10].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0];
     pauseCtx->cursorVtx[9].v.ob[0] = pauseCtx->cursorVtx[11].v.ob[0] = pauseCtx->cursorVtx[8].v.ob[0] + 16;
-    pauseCtx->cursorVtx[8].v.ob[1] = pauseCtx->cursorVtx[9].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - temp4;
+    pauseCtx->cursorVtx[8].v.ob[1] = pauseCtx->cursorVtx[9].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - bottomOffsetY;
     pauseCtx->cursorVtx[10].v.ob[1] = pauseCtx->cursorVtx[11].v.ob[1] = pauseCtx->cursorVtx[8].v.ob[1] - 16;
 
-    pauseCtx->cursorVtx[12].v.ob[0] = pauseCtx->cursorVtx[14].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + temp3;
+    // PAUSE_QUAD_CURSOR_BR
+    pauseCtx->cursorVtx[12].v.ob[0] = pauseCtx->cursorVtx[14].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + rightOffsetX;
     pauseCtx->cursorVtx[13].v.ob[0] = pauseCtx->cursorVtx[15].v.ob[0] = pauseCtx->cursorVtx[12].v.ob[0] + 16;
-    pauseCtx->cursorVtx[12].v.ob[1] = pauseCtx->cursorVtx[13].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - temp4;
+    pauseCtx->cursorVtx[12].v.ob[1] = pauseCtx->cursorVtx[13].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - bottomOffsetY;
     pauseCtx->cursorVtx[14].v.ob[1] = pauseCtx->cursorVtx[15].v.ob[1] = pauseCtx->cursorVtx[12].v.ob[1] - 16;
 }
 
@@ -3201,7 +3217,7 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->stickAdjX = input->rel.stick_x;
             pauseCtx->stickAdjY = input->rel.stick_y;
 
-            KaleidoScope_UpdateCursorSize(play);
+            KaleidoScope_UpdateCursorVtx(play);
             KaleidoScope_HandlePageToggles(pauseCtx, input);
         } else if ((pauseCtx->pageIndex == PAUSE_QUEST) &&
                    ((pauseCtx->mainState < PAUSE_MAIN_STATE_3
@@ -3209,7 +3225,7 @@ void KaleidoScope_Update(PlayState* play) {
                      ) ||
                     (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT))) {
 
-            KaleidoScope_UpdateCursorSize(play);
+            KaleidoScope_UpdateCursorVtx(play);
         }
 
         if (pauseCtx->state == PAUSE_STATE_MAIN) {

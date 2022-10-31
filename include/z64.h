@@ -812,6 +812,15 @@ typedef enum {
     /* 4 */ PAUSE_BG_PRERENDER_MAX
 } PauseBgPreRenderState;
 
+typedef enum {
+    /* 0 */ PAUSE_QUAD_CURSOR_TL,
+    /* 1 */ PAUSE_QUAD_CURSOR_TR,
+    /* 2 */ PAUSE_QUAD_CURSOR_BL,
+    /* 3 */ PAUSE_QUAD_CURSOR_BR,
+    /* 4 */ PAUSE_QUAD_CURSOR_4,
+    /* 5 */ PAUSE_QUAD_CURSOR_MAX
+} PauseCursorQuad;
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ u8*    iconItemSegment;

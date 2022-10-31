@@ -273,7 +273,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             }
 
             // Use the appropriate QUEST_MEDALLION_FOREST-QUEST_HEART_PIECE quad (see `KaleidoScope_InitVertices`)
-            KaleidoScope_SetCursorVtx(pauseCtx, cursor * 4, pauseCtx->questVtx);
+            KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
 
             // Handle part of the ocarina songs playback
 
@@ -341,7 +341,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSpecialPos = 0;
 
                 cursor = pauseCtx->cursorPoint[PAUSE_QUEST];
-                KaleidoScope_SetCursorVtx(pauseCtx, cursor * 4, pauseCtx->questVtx);
+                KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
@@ -363,7 +363,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSpecialPos = 0;
 
                 cursor = pauseCtx->cursorPoint[PAUSE_QUEST];
-                KaleidoScope_SetCursorVtx(pauseCtx, cursor * 4, pauseCtx->questVtx);
+                KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
@@ -418,11 +418,11 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->ocarinaStaff->pos = 0;
 
             cursor = pauseCtx->cursorSlot[PAUSE_QUEST];
-            KaleidoScope_SetCursorVtx(pauseCtx, cursor * 4, pauseCtx->questVtx);
+            KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
         }
     } else {
         cursor = pauseCtx->cursorSlot[PAUSE_QUEST];
-        KaleidoScope_SetCursorVtx(pauseCtx, cursor * 4, pauseCtx->questVtx);
+        KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
     }
 
     // Draw medallions
