@@ -53,6 +53,41 @@ typedef enum {
     /* 47 */ QUAD_QUEST_MAX
 } QuestQuad;
 
+typedef enum {
+    // Grid of upgrades and equips, left column is upgrades, others are equips, with one row per equip type
+    // Row 0
+    /*  0 */ QUAD_EQUIP_UPG_BULLETBAG_QUIVER,
+    /*  1 */ QUAD_EQUIP_SWORD_KOKIRI,
+    /*  2 */ QUAD_EQUIP_SWORD_MASTER,
+    /*  3 */ QUAD_EQUIP_SWORD_BIGGORON,
+    // Row 1
+    /*  4 */ QUAD_EQUIP_UPG_BOMB_BAG,
+    /*  5 */ QUAD_EQUIP_SHIELD_DEKU,
+    /*  6 */ QUAD_EQUIP_SHIELD_HYLIAN,
+    /*  7 */ QUAD_EQUIP_SHIELD_MIRROR,
+    // Row 2
+    /*  8 */ QUAD_EQUIP_UPG_STRENGTH,
+    /*  9 */ QUAD_EQUIP_TUNIC_KOKIRI,
+    /* 10 */ QUAD_EQUIP_TUNIC_GORON,
+    /* 11 */ QUAD_EQUIP_TUNIC_ZORA,
+    // Row 3
+    /* 12 */ QUAD_EQUIP_UPG_SCALE,
+    /* 13 */ QUAD_EQUIP_BOOTS_KOKIRI,
+    /* 14 */ QUAD_EQUIP_BOOTS_IRON,
+    /* 15 */ QUAD_EQUIP_BOOTS_HOVER,
+    // Markers indicating the currently selected equip
+    /* 16 */ QUAD_EQUIP_SELECTED_SWORD,
+    /* 17 */ QUAD_EQUIP_SELECTED_SHIELD,
+    /* 18 */ QUAD_EQUIP_SELECTED_TUNIC,
+    /* 19 */ QUAD_EQUIP_SELECTED_BOOTS,
+    // Player prerender
+    /* 20 */ QUAD_EQUIP_PLAYER_FIRST,
+    /* 23 */ QUAD_EQUIP_PLAYER_LAST =
+        QUAD_EQUIP_PLAYER_FIRST + (((PAUSE_EQUIP_PLAYER_HEIGHT - 1) / PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) + 1) - 1,
+    // 24..27 are unused, probably meant for player prerender
+    /* 28 */ QUAD_EQUIP_MAX = QUAD_EQUIP_PLAYER_LAST + 4 + 1
+} EquipQuad;
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawDebugEditor(PlayState* play);

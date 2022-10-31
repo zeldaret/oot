@@ -2,11 +2,31 @@
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
-static u8 sChildUpgrades[] = { UPG_BULLET_BAG, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
-static u8 sAdultUpgrades[] = { UPG_QUIVER, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
+static u8 sChildUpgrades[] = {
+    UPG_BULLET_BAG, // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
+    UPG_BOMB_BAG,   // QUAD_EQUIP_UPG_BOMB_BAG
+    UPG_STRENGTH,   // QUAD_EQUIP_UPG_STRENGTH
+    UPG_SCALE,      // QUAD_EQUIP_UPG_SCALE
+};
+static u8 sAdultUpgrades[] = {
+    UPG_QUIVER,   // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
+    UPG_BOMB_BAG, // QUAD_EQUIP_UPG_BOMB_BAG
+    UPG_STRENGTH, // QUAD_EQUIP_UPG_STRENGTH
+    UPG_SCALE,    // QUAD_EQUIP_UPG_SCALE
+};
 
-static u8 sChildUpgradeItemBases[] = { ITEM_BULLET_BAG_30, ITEM_BOMB_BAG_20, ITEM_BRACELET, ITEM_SCALE_SILVER };
-static u8 sAdultUpgradeItemBases[] = { ITEM_QUIVER_30, ITEM_BOMB_BAG_20, ITEM_BRACELET, ITEM_SCALE_SILVER };
+static u8 sChildUpgradeItemBases[] = {
+    ITEM_BULLET_BAG_30, // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
+    ITEM_BOMB_BAG_20,   // QUAD_EQUIP_UPG_BOMB_BAG
+    ITEM_BRACELET,      // QUAD_EQUIP_UPG_STRENGTH
+    ITEM_SCALE_SILVER,  // QUAD_EQUIP_UPG_SCALE
+};
+static u8 sAdultUpgradeItemBases[] = {
+    ITEM_QUIVER_30,    // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
+    ITEM_BOMB_BAG_20,  // QUAD_EQUIP_UPG_BOMB_BAG
+    ITEM_BRACELET,     // QUAD_EQUIP_UPG_STRENGTH
+    ITEM_SCALE_SILVER, // QUAD_EQUIP_UPG_SCALE
+};
 
 static u8 sUpgradeItemOffsets[] = { 0x00, 0x03, 0x06, 0x09 };
 
@@ -35,15 +55,15 @@ void KaleidoScope_DrawEquipmentImage(PlayState* play, void* source, u32 width, u
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
     curTexture = source;
-    remainingSize = width * height * 2;
-    textureHeight = 4096 / (width * 2);
-    textureSize = width * textureHeight * 2;
+    remainingSize = width * height * G_IM_SIZ_16b_BYTES;
+    textureHeight = TMEM_SIZE / (width * G_IM_SIZ_16b_BYTES);
+    textureSize = width * textureHeight * G_IM_SIZ_16b_BYTES;
     textureCount = remainingSize / textureSize;
     if ((remainingSize % textureSize) != 0) {
         textureCount += 1;
     }
 
-    vtxIndex = 80;
+    vtxIndex = QUAD_EQUIP_PLAYER_FIRST * 4;
 
     gDPSetTileCustom(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, textureHeight, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                      G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -64,7 +84,7 @@ void KaleidoScope_DrawEquipmentImage(PlayState* play, void* source, u32 width, u
 
         if ((remainingSize - textureSize) < 0) {
             if (remainingSize > 0) {
-                textureHeight = remainingSize / (s32)(width * 2);
+                textureHeight = remainingSize / (s32)(width * G_IM_SIZ_16b_BYTES);
                 remainingSize -= textureSize;
 
                 gDPSetTileCustom(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, textureHeight, 0,
@@ -141,7 +161,9 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, ZREG(39), ZREG(40), ZREG(41), pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, ZREG(43), ZREG(44), ZREG(45), 0);
 
-    for (i = 0, j = 64; i < 4; i++, j += 4) {
+    // Draw QUAD_EQUIP_SELECTED_SWORD, QUAD_EQUIP_SELECTED_SHIELD, QUAD_EQUIP_SELECTED_TUNIC, QUAD_EQUIP_SELECTED_BOOTS
+
+    for (i = 0, j = QUAD_EQUIP_SELECTED_SWORD * 4; i < EQUIP_TYPE_MAX; i++, j += 4) {
         if (CUR_EQUIP_VALUE(i) != 0) {
             gDPPipeSync(POLY_OPA_DISP++);
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 4, 0);
@@ -424,7 +446,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         }
 
         if ((pauseCtx->cursorY[PAUSE_EQUIP] == 0) && (pauseCtx->cursorX[PAUSE_EQUIP] == 3)) {
-            if (gSaveContext.bgsFlag != 0) {
+            if (gSaveContext.bgsFlag) {
                 cursorItem = ITEM_HEART_PIECE_2;
             } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                 cursorItem = ITEM_SWORD_KNIFE;
@@ -475,14 +497,14 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     gSaveContext.infTable[INFTABLE_1DX_INDEX] = 0;
                     gSaveContext.equips.buttonItems[0] = cursorItem;
 
-                    if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.bgsFlag != 0)) {
+                    if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && gSaveContext.bgsFlag) {
                         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
                         gSaveContext.swordHealth = 8;
                     } else {
                         if (gSaveContext.equips.buttonItems[0] == ITEM_HEART_PIECE_2) {
                             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
                         }
-                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS) && (gSaveContext.bgsFlag == 0) &&
+                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS) && !gSaveContext.bgsFlag &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
                         }
@@ -515,8 +537,16 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         }
     }
 
-    for (rowStart = 0, i = 0, point = 4; i < 4; i++, rowStart += 4, point += 16) {
+    // for each row (one row per equip type)
+    // point = QUAD_EQUIP_SWORD_KOKIRI, QUAD_EQUIP_SHIELD_DEKU, QUAD_EQUIP_TUNIC_KOKIRI, QUAD_EQUIP_BOOTS_KOKIRI
+    for (rowStart = 0, i = 0, point = QUAD_EQUIP_SWORD_KOKIRI * 4; i < EQUIP_TYPE_MAX;
+         i++, rowStart += 4, point += 4 * 4) {
 
+        // for each equip column
+        // j = QUAD_EQUIP_SWORD_KOKIRI, QUAD_EQUIP_SWORD_MASTER, QUAD_EQUIP_SWORD_BIGGORON
+        // j = QUAD_EQUIP_SHIELD_DEKU, QUAD_EQUIP_SHIELD_HYLIAN, QUAD_EQUIP_SHIELD_MIRROR
+        // j = QUAD_EQUIP_TUNIC_KOKIRI, QUAD_EQUIP_TUNIC_GORON, QUAD_EQUIP_TUNIC_ZORA
+        // j = QUAD_EQUIP_BOOTS_KOKIRI, QUAD_EQUIP_BOOTS_IRON, QUAD_EQUIP_BOOTS_HOVER
         for (k = 0, temp = rowStart + 1, bit = rowStart, j = point; k < 3; k++, bit++, j += 4, temp++) {
 
             if ((gBitFlags[bit] & gSaveContext.inventory.equipment) && (pauseCtx->cursorSpecialPos == 0)) {
@@ -541,8 +571,12 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
-    for (rowStart = 0, j = 0, temp = 0, i = 0; i < 4; i++, rowStart += 4, j += 16) {
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 16, 0);
+    // for each row
+    for (rowStart = 0, j = 0, temp = 0, i = 0; i < 4; i++, rowStart += 4, j += 4 * 4) {
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 4 * 4, 0);
+
+        // Draw upgrade `i`
+        // QUAD_EQUIP_UPG_BULLETBAG_QUIVER, QUAD_EQUIP_UPG_BOMB_BAG, QUAD_EQUIP_UPG_STRENGTH, QUAD_EQUIP_UPG_SCALE
 
         if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
             point = CUR_UPG_VALUE(sChildUpgrades[i]);
@@ -553,6 +587,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             }
         } else {
             if ((i == 0) && (CUR_UPG_VALUE(sAdultUpgrades[i]) == 0)) {
+                // Show bullet bag instead of quiver if player has no quiver
+                //! @bug This assumes adult always has bullet bag
                 KaleidoScope_DrawQuadTextureRGBA32(
                     play->state.gfxCtx, gItemIcons[sChildUpgradeItemBases[i] + CUR_UPG_VALUE(sChildUpgrades[i]) - 1],
                     32, 32, 0);
@@ -563,11 +599,18 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             }
         }
 
+        // Draw owned equips of type `i`
+        // QUAD_EQUIP_SWORD_KOKIRI, QUAD_EQUIP_SWORD_MASTER, QUAD_EQUIP_SWORD_BIGGORON
+        // QUAD_EQUIP_SHIELD_DEKU, QUAD_EQUIP_SHIELD_HYLIAN, QUAD_EQUIP_SHIELD_MIRROR
+        // QUAD_EQUIP_TUNIC_KOKIRI, QUAD_EQUIP_TUNIC_GORON, QUAD_EQUIP_TUNIC_ZORA
+        // QUAD_EQUIP_BOOTS_KOKIRI, QUAD_EQUIP_BOOTS_IRON, QUAD_EQUIP_BOOTS_HOVER
+
         for (k = 0, bit = rowStart, point = 4; k < 3; k++, point += 4, temp++, bit++) {
 
-            if (((u32)i == 0) && (k == 2) && (gSaveContext.bgsFlag != 0)) {
+            if (((u32)i == EQUIP_TYPE_SWORD) && (k == EQUIP_INV_SWORD_BGS) && gSaveContext.bgsFlag) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gBiggoronSwordIconTex, 32, 32, point);
-            } else if ((i == 0) && (k == 2) && (gBitFlags[bit + 1] & gSaveContext.inventory.equipment)) {
+            } else if ((i == EQUIP_TYPE_SWORD) && (k == EQUIP_INV_SWORD_BGS) &&
+                       (gBitFlags[bit + 1] & gSaveContext.inventory.equipment)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gBrokenGiantsKnifeIconTex, 32, 32, point);
             } else if (gBitFlags[bit] & gSaveContext.inventory.equipment) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[ITEM_SWORD_KOKIRI + temp], 32, 32,

@@ -476,30 +476,34 @@ u8 gSlotAgeReqs[] = {
 
 // Not sure EQUIP_TYPE_MAX is really EQUIP_TYPE_MAX
 u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4] = {
+    // EQUIP_TYPE_SWORD
     {
-        AGE_REQ_ADULT,
-        AGE_REQ_CHILD,
-        AGE_REQ_ADULT,
-        AGE_REQ_ADULT,
-    }, // EQUIP_TYPE_SWORD
+        AGE_REQ_ADULT, // EQUIP_VALUE_SWORD_NONE
+        AGE_REQ_CHILD, // EQUIP_VALUE_SWORD_KOKIRI
+        AGE_REQ_ADULT, // EQUIP_VALUE_SWORD_MASTER
+        AGE_REQ_ADULT, // EQUIP_VALUE_SWORD_BGS
+    },
+    // EQUIP_TYPE_SHIELD
     {
-        AGE_REQ_NONE,
-        AGE_REQ_CHILD,
-        AGE_REQ_NONE,
-        AGE_REQ_ADULT,
-    }, // EQUIP_TYPE_SHIELD
+        AGE_REQ_NONE,  // EQUIP_VALUE_SHIELD_NONE
+        AGE_REQ_CHILD, // EQUIP_VALUE_SHIELD_DEKU
+        AGE_REQ_NONE,  // EQUIP_VALUE_SHIELD_HYLIAN
+        AGE_REQ_ADULT, // EQUIP_VALUE_SHIELD_MIRROR
+    },
+    // EQUIP_TYPE_TUNIC
     {
-        AGE_REQ_ADULT,
-        AGE_REQ_NONE,
-        AGE_REQ_ADULT,
-        AGE_REQ_ADULT,
-    }, // EQUIP_TYPE_TUNIC
+        AGE_REQ_ADULT, // EQUIP_VALUE_TUNIC_NONE
+        AGE_REQ_NONE,  // EQUIP_VALUE_TUNIC_KOKIRI
+        AGE_REQ_ADULT, // EQUIP_VALUE_TUNIC_GORON
+        AGE_REQ_ADULT, // EQUIP_VALUE_TUNIC_ZORA
+    },
+    // EQUIP_TYPE_BOOTS
     {
-        AGE_REQ_NONE,
-        AGE_REQ_NONE,
-        AGE_REQ_ADULT,
-        AGE_REQ_ADULT,
-    }, // EQUIP_TYPE_BOOTS
+        AGE_REQ_NONE,  // EQUIP_VALUE_BOOTS_NONE
+        AGE_REQ_NONE,  // EQUIP_VALUE_BOOTS_KOKIRI
+        AGE_REQ_ADULT, // EQUIP_VALUE_BOOTS_IRON
+        AGE_REQ_ADULT, // EQUIP_VALUE_BOOTS_HOVER
+    },
 };
 
 u8 gItemAgeReqs[] = {
@@ -2314,9 +2318,14 @@ s16 func_80823A0C_makeVertices_(PlayState* play, Vtx* vtx, s16 usage_arg2, s16 a
 
 static s16 D_8082B11C[] = { 0, 4, 8, 12, 24, 32, 56 }; // itemVtx
 
-static s16 D_8082B12C_x_equipVtx_[] = { -114, 12, 44, 76 };
+static s16 sEquipColumnsX[] = { -114, 12, 44, 76 };
 
-static u8 D_8082B134[] = { 1, 5, 9, 13 }; // equipVtx
+static u8 sEquipQuadsFirstByEquipType_[EQUIP_TYPE_MAX] = {
+    QUAD_EQUIP_SWORD_KOKIRI, // EQUIP_TYPE_SWORD
+    QUAD_EQUIP_SHIELD_DEKU,  // EQUIP_TYPE_SHIELD
+    QUAD_EQUIP_TUNIC_KOKIRI, // EQUIP_TYPE_TUNIC
+    QUAD_EQUIP_BOOTS_KOKIRI, // EQUIP_TYPE_BOOTS
+};
 
 static s16 sQuestQuadsX[] = {
     74,   // QUEST_MEDALLION_FOREST
@@ -2707,11 +2716,18 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    pauseCtx->equipVtx = Graph_Alloc(gfxCtx, 112 * sizeof(Vtx));
+    pauseCtx->equipVtx = Graph_Alloc(gfxCtx, (QUAD_EQUIP_MAX * 4) * sizeof(Vtx));
 
-    for (k = 0, i = 0, vtx_y = 58; i < 4; i++, vtx_y -= 32) {
+    // QUAD_EQUIP_UPG_BULLETBAG_QUIVER, QUAD_EQUIP_SWORD_KOKIRI, QUAD_EQUIP_SWORD_MASTER, QUAD_EQUIP_SWORD_BIGGORON,
+    // QUAD_EQUIP_UPG_BOMB_BAG, QUAD_EQUIP_SHIELD_DEKU, QUAD_EQUIP_SHIELD_HYLIAN, QUAD_EQUIP_SHIELD_MIRROR,
+    // QUAD_EQUIP_UPG_STRENGTH, QUAD_EQUIP_TUNIC_KOKIRI, QUAD_EQUIP_TUNIC_GORON, QUAD_EQUIP_TUNIC_ZORA,
+    // QUAD_EQUIP_UPG_SCALE, QUAD_EQUIP_BOOTS_KOKIRI, QUAD_EQUIP_BOOTS_IRON, QUAD_EQUIP_BOOTS_HOVER
+
+    // for each row
+    for (k = 0, i = 0, vtx_y = 58; i < EQUIP_TYPE_MAX; i++, vtx_y -= 32) {
+        // for each column
         for (j = 0; j < 4; j++, k += 4) {
-            pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = D_8082B12C_x_equipVtx_[j] + 2;
+            pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = sEquipColumnsX[j] + 2;
 
             pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] =
                 pauseCtx->equipVtx[k + 0].v.ob[0] + 28;
@@ -2745,9 +2761,11 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    for (j = 0; j < 4; j++, k += 4) {
+    // QUAD_EQUIP_SELECTED_SWORD, QUAD_EQUIP_SELECTED_SHIELD, QUAD_EQUIP_SELECTED_TUNIC, QUAD_EQUIP_SELECTED_BOOTS
+
+    for (j = 0; j < EQUIP_TYPE_MAX; j++, k += 4) {
         if (CUR_EQUIP_VALUE(j) != 0) {
-            i = (CUR_EQUIP_VALUE(j) + D_8082B134[j] - 1) * 4;
+            i = (CUR_EQUIP_VALUE(j) - 1 + sEquipQuadsFirstByEquipType_[j]) * 4;
 
             pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = pauseCtx->equipVtx[i].v.ob[0] - 2;
 
@@ -2783,16 +2801,20 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    vtx_x_ = 112;
+    // QUAD_EQUIP_PLAYER_FIRST to TODO
+
+    vtx_x_ = PAUSE_EQUIP_PLAYER_HEIGHT;
     vtx_y = 50;
     while (true) {
         pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = -64;
 
-        pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] = pauseCtx->equipVtx[k + 0].v.ob[0] + 64;
+        pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] =
+            pauseCtx->equipVtx[k + 0].v.ob[0] + PAUSE_EQUIP_PLAYER_WIDTH;
 
         pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = vtx_y + pauseCtx->offsetY;
 
-        pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] = pauseCtx->equipVtx[k + 0].v.ob[1] - 32;
+        pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
+            pauseCtx->equipVtx[k + 0].v.ob[1] - PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
 
         pauseCtx->equipVtx[k + 0].v.ob[2] = pauseCtx->equipVtx[k + 1].v.ob[2] = pauseCtx->equipVtx[k + 2].v.ob[2] =
             pauseCtx->equipVtx[k + 3].v.ob[2] = 0;
@@ -2803,9 +2825,10 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->equipVtx[k + 0].v.tc[0] = pauseCtx->equipVtx[k + 0].v.tc[1] = pauseCtx->equipVtx[k + 1].v.tc[1] =
             pauseCtx->equipVtx[k + 2].v.tc[0] = 0;
 
-        pauseCtx->equipVtx[k + 1].v.tc[0] = pauseCtx->equipVtx[k + 3].v.tc[0] = 64 * (1 << 5);
+        pauseCtx->equipVtx[k + 1].v.tc[0] = pauseCtx->equipVtx[k + 3].v.tc[0] = PAUSE_EQUIP_PLAYER_WIDTH * (1 << 5);
 
-        pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[1] = 32 * (1 << 5);
+        pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[1] =
+            PAUSE_EQUIP_PLAYER_FRAG_HEIGHT * (1 << 5);
 
         pauseCtx->equipVtx[k + 0].v.cn[0] = pauseCtx->equipVtx[k + 1].v.cn[0] = pauseCtx->equipVtx[k + 2].v.cn[0] =
             pauseCtx->equipVtx[k + 3].v.cn[0] = pauseCtx->equipVtx[k + 0].v.cn[1] = pauseCtx->equipVtx[k + 1].v.cn[1] =
@@ -2816,13 +2839,16 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->equipVtx[k + 0].v.cn[3] = pauseCtx->equipVtx[k + 1].v.cn[3] = pauseCtx->equipVtx[k + 2].v.cn[3] =
             pauseCtx->equipVtx[k + 3].v.cn[3] = pauseCtx->alpha;
 
-        vtx_x_ -= 32;
-        vtx_y -= 32;
+        vtx_x_ -= PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
+        vtx_y -= PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
+
         if (vtx_x_ < 0) {
             pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
-                pauseCtx->equipVtx[k + 0].v.ob[1] - 16;
+                pauseCtx->equipVtx[k + 0].v.ob[1] - (PAUSE_EQUIP_PLAYER_HEIGHT % PAUSE_EQUIP_PLAYER_FRAG_HEIGHT);
 
-            pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[1] = 16 * (1 << 5);
+            pauseCtx->equipVtx[k + 2].v.tc[1] = pauseCtx->equipVtx[k + 3].v.tc[1] =
+                (PAUSE_EQUIP_PLAYER_HEIGHT % PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) * (1 << 5);
+
             break;
         }
 
@@ -3598,7 +3624,7 @@ void KaleidoScope_Update(PlayState* play) {
                 if (i == ITEM_FROG) {
                     pauseCtx->tradeQuestLocation = 3;
                 }
-                if ((i == ITEM_CLAIM_CHECK) && (gSaveContext.bgsFlag == 0)) {
+                if ((i == ITEM_CLAIM_CHECK) && !gSaveContext.bgsFlag) {
                     pauseCtx->tradeQuestLocation = 7;
                 }
             }
