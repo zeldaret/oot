@@ -1,6 +1,6 @@
 #include "global.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;

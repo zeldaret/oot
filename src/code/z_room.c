@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 

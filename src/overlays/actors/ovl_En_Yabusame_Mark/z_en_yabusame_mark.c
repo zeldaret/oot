@@ -5,7 +5,7 @@
  */
 
 #include "z_en_yabusame_mark.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
