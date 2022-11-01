@@ -454,7 +454,7 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
 
     if ((play->sceneId == SCENE_SHOP1) || (play->sceneId == SCENE_SYATEKIJYOU)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-            gSaveContext.worldMapArea = 1;
+            gSaveContext.worldMapArea = WORLD_MAP_AREA_KAKARIKO_VILLAGE;
         }
     }
 

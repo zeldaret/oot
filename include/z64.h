@@ -751,6 +751,7 @@ typedef enum {
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
 #define PAUSE_EQUIP_PLAYER_FRAG_HEIGHT (TMEM_SIZE / (PAUSE_EQUIP_PLAYER_WIDTH * G_IM_SIZ_16b_BYTES))
+#define PAUSE_EQUIP_PLAYER_FRAG_NUM (((PAUSE_EQUIP_PLAYER_HEIGHT - 1) / PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) + 1)
 
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
@@ -822,6 +823,30 @@ typedef enum {
     /* 5 */ PAUSE_QUAD_CURSOR_MAX
 } PauseCursorQuad;
 
+typedef enum{
+    /*  0 */ WORLD_MAP_POINT_HAUNTED_WASTELAND,
+    /*  1 */ WORLD_MAP_POINT_GERUDOS_FORTRESS,
+    /*  2 */ WORLD_MAP_POINT_GERUDO_VALLEY,
+    /*  3 */ WORLD_MAP_POINT_HYLIA_LAKESIDE,
+    /*  4 */ WORLD_MAP_POINT_LON_LON_RANCH,
+    /*  5 */ WORLD_MAP_POINT_MARKET,
+    /*  6 */ WORLD_MAP_POINT_HYRULE_FIELD,
+    /*  7 */ WORLD_MAP_POINT_DEATH_MOUNTAIN,
+    /*  8 */ WORLD_MAP_POINT_KAKARIKO_VILLAGE,
+    /*  9 */ WORLD_MAP_POINT_LOST_WOODS,
+    /* 10 */ WORLD_MAP_POINT_KOKIRI_FOREST,
+    /* 11 */ WORLD_MAP_POINT_ZORAS_DOMAIN,
+    /* 12 */ WORLD_MAP_POINT_MAX
+} WorldMapPoint;
+
+#define TRADE_QUEST_LOCATION_NONE 0xFF
+
+typedef enum{
+    /* 0 */ WORLD_MAP_POINT_STATE_HIDE,
+    /* 1 */ WORLD_MAP_POINT_STATE_SHOW,
+    /* 2 */ WORLD_MAP_POINT_STATE_HIGHLIGHT
+} WorldMapPointState;
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ u8*    iconItemSegment;
@@ -887,7 +912,7 @@ typedef struct {
     /* 0x0260 */ s16    cursorColorSet; // 0 = white; 4 = yellow; 8 = green
     /* 0x0262 */ s16    promptChoice; // save/continue choice: 0 = yes; 4 = no
     /* 0x0264 */ s16    ocarinaSongIdx;
-    /* 0x0266 */ u8     worldMapPoints[20]; // 0 = hidden; 1 = displayed; 2 = highlighted
+    /* 0x0266 */ u8     worldMapPoints[20]; // indices: `WorldMapPoint` enum, values: `WorldMapPointState` enum
     /* 0x027A */ u8     tradeQuestLocation;
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0

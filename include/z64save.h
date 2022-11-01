@@ -99,6 +99,32 @@ typedef struct {
     /* 0x24 */ s32 tempCollectFlags;
 } FaroresWindData; // size = 0x28
 
+typedef enum {
+    /*  0 */ WORLD_MAP_AREA_HYRULE_FIELD, // hyrule field / default / unset ?
+    /*  1 */ WORLD_MAP_AREA_KAKARIKO_VILLAGE,
+    /*  2 */ WORLD_MAP_AREA_GRAVEYARD,
+    /*  3 */ WORLD_MAP_AREA_ZORAS_RIVER,
+    /*  4 */ WORLD_MAP_AREA_KOKIRI_FOREST,
+    /*  5 */ WORLD_MAP_AREA_SACRED_FOREST_MEADOW,
+    /*  6 */ WORLD_MAP_AREA_LAKE_HYLIA,
+    /*  7 */ WORLD_MAP_AREA_ZORAS_DOMAIN,
+    /*  8 */ WORLD_MAP_AREA_ZORAS_FOUNTAIN,
+    /*  9 */ WORLD_MAP_AREA_GERUDO_VALLEY,
+    /* 10 */ WORLD_MAP_AREA_LOST_WOODS,
+    /* 11 */ WORLD_MAP_AREA_DESERT_COLOSSUS,
+    /* 12 */ WORLD_MAP_AREA_GERUDOS_FORTRESS,
+    /* 13 */ WORLD_MAP_AREA_HAUNTED_WASTELAND,
+    /* 14 */ WORLD_MAP_AREA_MARKET,
+    /* 15 */ WORLD_MAP_AREA_HYRULE_CASTLE,
+    /* 16 */ WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL,
+    /* 17 */ WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER,
+    /* 18 */ WORLD_MAP_AREA_GORON_CITY,
+    /* 19 */ WORLD_MAP_AREA_LON_LON_RANCH,
+    /* 20 */ WORLD_MAP_AREA_20, // hakasitarelay and a lon lon ranch cutscene, gQuestionMarkPositionNameENGTex
+    /* 21 */ WORLD_MAP_AREA_GANONS_CASTLE,
+    /* 22 */ WORLD_MAP_AREA_MAX // grottos and fairy's/great fairy's fountains (scenes with varying locations)
+} WorldMapArea;
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child (see enum `LinkAge`)
