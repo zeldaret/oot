@@ -5516,9 +5516,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         if (sSubCamEye.y <= (WATER_SURFACE_Y(play) + 1.0f)) {
             Environment_EnableUnderwaterLights(play, 1);
             if (D_80B7E076 != 0) {
-                play->envCtx.adjFogNear = -0xB2;
+                play->envCtx.adjFogNear = -178;
             } else {
-                play->envCtx.adjFogNear = -0x2E;
+                play->envCtx.adjFogNear = -46;
             }
         } else {
             Environment_EnableUnderwaterLights(play, 0);
