@@ -9,7 +9,7 @@ struct Fishing;
 typedef struct Fishing {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x004];
-    /* 0x0150 */ u8 isLoach; //loach bool.
+    /* 0x0150 */ u8 isLoach; //rename to fish type?
     /* 0x0151 */ u8 unk_151; //lilly byte
     /* 0x0152 */ u8 unk_152;
     /* 0x0154 */ s16 unk_154;
@@ -17,7 +17,7 @@ typedef struct Fishing {
     /* 0x0157 */ u8 unk_157;
     /* 0x0158 */ s16 unk_158;
     /* 0x015A */ s16 unk_15A;
-    /* 0x015C */ s16 unk_15C;
+    /* 0x015C */ s16 unk_15C; //multipurpose? owner uses as dialouge state.
     /* 0x015E */ s16 unk_15E;
     /* 0x0160 */ s16 unk_160;
     /* 0x0162 */ s16 unk_162;
@@ -45,7 +45,7 @@ typedef struct Fishing {
     /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A8 */ f32 preception;
     /* 0x01AC */ f32 fishWeight; 
-    /* 0x01B0 */ f32 unk_1B0;
+    /* 0x01B0 */ f32 unk_1B0;  //rotation step?
     /* 0x01B4 */ Vec3f fishTargetPos;
     /* 0x01C0 */ Vec3f fishMouthPos;
     /* 0x01CC */ s16 unk_1CC[3];
