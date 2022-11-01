@@ -660,8 +660,7 @@ void func_80A75A38(EnIk* this, PlayState* play) {
 
 void func_80A75C38(EnIk* this, PlayState* play) {
     f32 temp_f0;
-    STACK_PAD(u8);
-    STACK_PAD(u8);
+    STACK_PAD(s16);
     u8 prevHealth;
     STACK_PAD(s32);
     Vec3f sp38;
