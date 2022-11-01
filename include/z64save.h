@@ -238,6 +238,17 @@ typedef enum {
     /* 0x06 */ HS_DAMPE_RACE
 } HighScores;
 
+//the score value for the fishing minigame also stores many flags.
+#define HS_FISH_WEIGHT_CHILD 0x7f
+#define HS_FISH_WEIGHT_ADULT 0x7F000000
+#define HS_FISH_PLAYED_CHILD 0x100
+#define HS_FISH_PLAYED_ADULT 0x200
+#define HS_FISH_PRIZE_CHILD 0x400
+#define HS_FISH_PRIZE_ADULT 0x800
+#define HS_FISH_STOLE_HAT 0x1000 //checked in ending sequence, too.
+#define HS_FISH_CHEAT_CHILD 0x80
+#define HS_FISH_CHEAT_ADULT 0x80000000
+
 typedef enum {
     /* 0 */ SUNSSONG_INACTIVE,
     /* 1 */ SUNSSONG_START, // the suns ocarina effect signals that the song has finished playing
