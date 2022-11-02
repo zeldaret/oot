@@ -44,7 +44,7 @@ typedef struct Fishing {
     /* 0x01A2 */ s16 unk_1A2;
     /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A8 */ f32 preception;
-    /* 0x01AC */ f32 fishLength; //fish are  x cm in Japan version, (x / ~6.5) lbs elsewhere
+    /* 0x01AC */ f32 fishLength; //fish (x^2*.0036+.5) lbs
     /* 0x01B0 */ f32 unk_1B0;  //rotation step?
     /* 0x01B4 */ Vec3f fishTargetPos;
     /* 0x01C0 */ Vec3f fishMouthPos;
