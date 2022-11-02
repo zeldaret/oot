@@ -1,6 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 typedef struct {
     /* 0x00 */ u16 sfxId;

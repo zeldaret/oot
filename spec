@@ -353,6 +353,7 @@ beginseg
     include "build/src/code/z_sample.o"
     include "build/src/code/code_80097A00.o"
     include "build/src/code/z_scene.o"
+    include "build/src/code/object_table.o"
     include "build/src/code/z_scene_table.o"
     include "build/src/code/z_skelanime.o"
     include "build/src/code/z_skin.o"

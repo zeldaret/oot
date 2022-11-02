@@ -16,7 +16,7 @@ void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play);
 
 void func_808ABB84(BgSpot01Idomizu* this, PlayState* play);
 
-const ActorInit Bg_Spot01_Idomizu_InitVars = {
+ActorInit Bg_Spot01_Idomizu_InitVars = {
     ACTOR_BG_SPOT01_IDOMIZU,
     ACTORCAT_BG,
     FLAGS,
