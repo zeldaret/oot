@@ -4,7 +4,7 @@
  * Description: Deku Shield
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_item_shield.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 

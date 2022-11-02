@@ -1,6 +1,6 @@
 #include "global.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 typedef struct {
     /* 0x00 */ s16 index;

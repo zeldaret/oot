@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;

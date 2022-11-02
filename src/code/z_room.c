@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -153,7 +153,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
             entryBoundsNearZ = projectedPos.z - roomShapeCullableEntry->boundsSphereRadius;
 
             // If the entry bounding sphere isn't fully beyond the rendered depth range
-            if (entryBoundsNearZ < play->lightCtx.fogFar) {
+            if (entryBoundsNearZ < play->lightCtx.zFar) {
 
                 // This entry will be rendered
                 insert->entry = roomShapeCullableEntry;

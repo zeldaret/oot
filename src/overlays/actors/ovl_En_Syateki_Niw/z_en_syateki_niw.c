@@ -6,7 +6,7 @@
 
 #include "z_en_syateki_niw.h"
 #include "assets/objects/object_niw/object_niw.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 

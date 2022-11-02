@@ -5,7 +5,7 @@
  */
 
 #include "z_en_mm2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_mm/object_mm.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)

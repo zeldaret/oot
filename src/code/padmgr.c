@@ -29,7 +29,7 @@
  * done while waiting for this operation to complete.
  */
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define PADMGR_LOG(controllerNo, msg)                                    \
     if (1) {                                                             \

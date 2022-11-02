@@ -1,5 +1,5 @@
 #include "z_demo_ik.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ik/object_ik.h"
 
 #define FLAGS ACTOR_FLAG_4

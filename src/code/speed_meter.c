@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 /**
  * How much time the audio update on the audio thread (`func_800E4FE0`) took in total, between scheduling the last two

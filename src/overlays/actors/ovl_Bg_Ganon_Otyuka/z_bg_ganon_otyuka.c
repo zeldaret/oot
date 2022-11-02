@@ -6,7 +6,7 @@
 
 #include "z_bg_ganon_otyuka.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

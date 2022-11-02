@@ -33,7 +33,7 @@
  * @see sched.c
  */
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 vu32 gIrqMgrResetStatus = IRQ_RESET_STATUS_IDLE;
 volatile OSTime sIrqMgrResetTime = 0;
