@@ -7,7 +7,7 @@
 #include "z_bg_heavy_block.h"
 #include "assets/objects/object_heavy_object/object_heavy_object.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 

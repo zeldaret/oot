@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 OSThread gMainThread;
 STACK(sMainStack, 0x900);
