@@ -10,18 +10,18 @@ typedef struct Fishing {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x004];
     /* 0x0150 */ u8 isLoach; //rename to fish type?
-    /* 0x0151 */ u8 unk_151; //lilly byte
+    /* 0x0151 */ u8 unk_151; //lily byte
     /* 0x0152 */ u8 unk_152;
     /* 0x0154 */ s16 unk_154;
     /* 0x0156 */ u8 unk_156;
     /* 0x0157 */ u8 unk_157;
     /* 0x0158 */ s16 unk_158;
     /* 0x015A */ s16 unk_15A;
-    /* 0x015C */ s16 unk_15C; //multipurpose? owner uses as dialouge state.
+    /* 0x015C */ s16 state; //fish use as bitfeild, owner as talking state
     /* 0x015E */ s16 unk_15E;
-    /* 0x0160 */ s16 unk_160;
-    /* 0x0162 */ s16 unk_162;
-    /* 0x0164 */ s16 unk_164;
+    /* 0x0160 */ s16 unk_160; //fish use as rotateX, owner as index of eye texture
+    /* 0x0162 */ s16 unk_162; //fish use as rotateY, owner as index of eye texture
+    /* 0x0164 */ s16 unk_164; //fish use as rotateZ, owner as rotation of head
     /* 0x0166 */ s16 unk_166;
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 unk_16A;
@@ -44,15 +44,15 @@ typedef struct Fishing {
     /* 0x01A2 */ s16 unk_1A2;
     /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A8 */ f32 preception;
-    /* 0x01AC */ f32 fishWeight; 
+    /* 0x01AC */ f32 fishLength; //fish are  x cm in Japan version, (x / ~6.5) lbs elsewhere
     /* 0x01B0 */ f32 unk_1B0;  //rotation step?
     /* 0x01B4 */ Vec3f fishTargetPos;
     /* 0x01C0 */ Vec3f fishMouthPos;
-    /* 0x01CC */ s16 unk_1CC[3];
+    /* 0x01CC */ s16 loachRotYDelta[3]; //adds rotation to the loach limb 3-5.
     /* 0x01D2 */ u8 unk_1D2;
     /* 0x01D3 */ u8 unk_1D3;
     /* 0x01D4 */ u8 unk_1D4;
-    /* 0x01D5 */ u8 unk_1D5;
+    /* 0x01D5 */ u8 keepState; //case-switch and keeping or releasing a fish
     /* 0x01D8 */ SkelAnime skelAnime;
     /* 0x021C */ LightNode* lightNode;
     /* 0x0220 */ LightInfo lightInfo;
