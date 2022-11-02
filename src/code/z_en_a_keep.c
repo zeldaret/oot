@@ -12,14 +12,14 @@ void EnAObj_Draw(Actor* thisx, PlayState* play);
 
 void EnAObj_WaitFinishedTalking(EnAObj* this, PlayState* play);
 void EnAObj_WaitTalk(EnAObj* this, PlayState* play);
-void EnAObj_BlockRot(EnAObj* this, UNUSED PlayState* play);
-void EnAObj_BoulderFragment(EnAObj* this, UNUSED PlayState* play);
-void EnAObj_Block(EnAObj* this, UNUSED PlayState* play);
+void EnAObj_BlockRot(EnAObj* this, PlayState* play);
+void EnAObj_BoulderFragment(EnAObj* this, PlayState* play);
+void EnAObj_Block(EnAObj* this, PlayState* play);
 
-void EnAObj_SetupWaitTalk(EnAObj* this, UNUSED s16 type);
-void EnAObj_SetupBlockRot(EnAObj* this, UNUSED s16 type);
-void EnAObj_SetupBoulderFragment(EnAObj* this, UNUSED s16 type);
-void EnAObj_SetupBlock(EnAObj* this, UNUSED s16 type);
+void EnAObj_SetupWaitTalk(EnAObj* this, s16 type);
+void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
+void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
+void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
 ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,

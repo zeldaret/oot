@@ -3,7 +3,6 @@
 
 #include "ultra64/types.h"
 #include "z64math.h"
-#include "macros.h"
 
 struct PlayState;
 
@@ -51,13 +50,13 @@ typedef void (*PostCurveLimbDraw)(struct PlayState* play, SkelCurve* skelCuve, s
 f32 Curve_Interpolate(f32 x, CurveInterpKnot* knots, s32 knotCount);
 
 void SkelCurve_Clear(SkelCurve* skelCurve);
-s32 SkelCurve_Init(UNUSED struct PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* skeletonHeaderSeg,
-                   UNUSED CurveAnimationHeader* animation);
-void SkelCurve_Destroy(UNUSED struct PlayState* play, SkelCurve* skelCurve);
+s32 SkelCurve_Init(struct PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* skeletonHeaderSeg,
+                   CurveAnimationHeader* animation);
+void SkelCurve_Destroy(struct PlayState* play, SkelCurve* skelCurve);
 void SkelCurve_SetAnim(SkelCurve* skelCurve, CurveAnimationHeader* animation, f32 arg2, f32 endFrame, f32 curFrame,
                        f32 playSpeed);
-s32 SkelCurve_Update(UNUSED struct PlayState* play, SkelCurve* skelCurve);
-void SkelCurve_Draw(UNUSED Actor* actor, struct PlayState* play, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
+s32 SkelCurve_Update(struct PlayState* play, SkelCurve* skelCurve);
+void SkelCurve_Draw(Actor* actor, struct PlayState* play, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
                     PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
 
 // ZAPD compatibility typedefs

@@ -10,7 +10,7 @@ void EnItem00_Destroy(Actor* thisx, PlayState* play);
 void EnItem00_Update(Actor* thisx, PlayState* play);
 void EnItem00_Draw(Actor* thisx, PlayState* play);
 
-void func_8001DFC8(EnItem00* this, UNUSED PlayState* play);
+void func_8001DFC8(EnItem00* this, PlayState* play);
 void func_8001E1C8(EnItem00* this, PlayState* play);
 void func_8001E304(EnItem00* this, PlayState* play);
 void EnItem00_Collected(EnItem00* this, PlayState* play);

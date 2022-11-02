@@ -66,6 +66,6 @@ typedef struct {
 } Scheduler; // size = 0x258
 
 void Sched_Notify(Scheduler* sc);
-void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNUSED UNK_TYPE arg3, UNUSED UNK_TYPE arg4, IrqMgr* irqMgr);
+void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr);
 
 #endif
