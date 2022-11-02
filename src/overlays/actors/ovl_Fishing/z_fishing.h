@@ -22,15 +22,13 @@ typedef struct Fishing {
     /* 0x0160 */ s16 unk_160; //fish use as rotateX, owner as index of eye texture
     /* 0x0162 */ s16 unk_162; //fish use as rotateY, owner as index of eye texture
     /* 0x0164 */ s16 unk_164; //fish use as rotateZ, owner as rotation of head
-    /* 0x0166 */ s16 unk_166;
-    /* 0x0168 */ s16 unk_168;
-    /* 0x016A */ s16 unk_16A;
-    /* 0x016C */ s16 unk_16C;
+    /* 0x0166 */ Vec3s rotationStep;
+    /* 0x016C */ s16 limb23RotYDelta;
     /* 0x016E */ s16 unk_16E;
     /* 0x0170 */ s16 unk_170;
-    /* 0x0172 */ s16 unk_172;
-    /* 0x0174 */ s16 unk_174;
-    /* 0x0176 */ s16 unk_176;
+    /* 0x0172 */ s16 limbEFRotYDelta;
+    /* 0x0174 */ s16 limb89RotYDelta;
+    /* 0x0176 */ s16 limb4RotYDelta;
     /* 0x0178 */ s16 unk_178;
     /* 0x017A */ s16 unk_17A[4];
     /* 0x0184 */ f32 unk_184;
@@ -43,13 +41,13 @@ typedef struct Fishing {
     /* 0x01A0 */ s16 unk_1A0;
     /* 0x01A2 */ s16 unk_1A2;
     /* 0x01A4 */ s16 unk_1A4;
-    /* 0x01A8 */ f32 preception;
-    /* 0x01AC */ f32 fishLength; //fish (x^2*.0036+.5) lbs
+    /* 0x01A8 */ f32 preception; //how easily they are drawn to the lure.
+    /* 0x01AC */ f32 fishLength; //fish are (x^2*.0036+.5) lbs
     /* 0x01B0 */ f32 unk_1B0;  //rotation step?
     /* 0x01B4 */ Vec3f fishTargetPos;
     /* 0x01C0 */ Vec3f fishMouthPos;
     /* 0x01CC */ s16 loachRotYDelta[3]; //adds rotation to the loach limb 3-5.
-    /* 0x01D2 */ u8 unk_1D2;
+    /* 0x01D2 */ u8 bubbleTime; //spawn bubbles while >0
     /* 0x01D3 */ u8 unk_1D3;
     /* 0x01D4 */ u8 unk_1D4;
     /* 0x01D5 */ u8 keepState; //case-switch and keeping or releasing a fish
