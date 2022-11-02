@@ -248,6 +248,7 @@ typedef enum {
 #define HS_FISH_STOLE_HAT 0x1000 //checked in ending sequence, too.
 #define HS_FISH_CHEAT_CHILD 0x80
 #define HS_FISH_CHEAT_ADULT 0x80000000
+#define HS_FISH_PLAYED 0x10000 //incremented for every play. controls weather.
 
 typedef enum {
     /* 0 */ SUNSSONG_INACTIVE,
