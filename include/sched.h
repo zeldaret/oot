@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "irqmgr.h"
-#include "macros.h"
 
 #define OS_SC_NEEDS_RDP     0x0001  // Task uses the RDP
 #define OS_SC_NEEDS_RSP     0x0002  // Task uses the RSP

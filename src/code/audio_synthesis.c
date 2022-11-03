@@ -155,7 +155,6 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     Acmd* cmdP;
     s32 i;
     s32 j;
-    UNUSED SynthesisReverb* reverb;
 
     cmdP = cmdStart;
     for (i = gAudioCtx.audioBufferParameters.updatesPerFrame; i > 0; i--) {
