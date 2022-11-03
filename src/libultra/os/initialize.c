@@ -70,7 +70,7 @@ void __osInitialize_common(void) {
         osViClock = VI_NTSC_CLOCK;
     }
 
-    // If there are pending RCP interrupts, loop forever?
+    // If PreNMI is pending, loop until reset
     if (__osGetCause() & CAUSE_IP5) {
         while (true) {
             ;
