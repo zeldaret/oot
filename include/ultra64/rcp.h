@@ -7,31 +7,31 @@
 /**
  * RCP memory map overview:
  * 
- *      0x0000_0000 .. 0x03ef_ffff  RDRAM memory
- *      0x03f0_0000 .. 0x03ff_ffff  RDRAM registers
+ *      0x0000_0000 .. 0x03EF_FFFF  RDRAM memory
+ *      0x03F0_0000 .. 0x03FF_FFFF  RDRAM registers
  * 
  *      0x0400_0000 .. 0x0400_2000  SP memory
- *      0x0404_0000 .. 0x040f_ffff  SP registers
- *      0x0410_0000 .. 0x041f_ffff  DP command registers
- *      0x0420_0000 .. 0x042f_ffff  DP span registers
- *      0x0430_0000 .. 0x043f_ffff  MI registers
- *      0x0440_0000 .. 0x044f_ffff  VI registers
- *      0x0450_0000 .. 0x045f_ffff  AI registers
- *      0x0460_0000 .. 0x046f_ffff  PI registers
- *      0x0470_0000 .. 0x047f_ffff  RI registers
- *      0x0480_0000 .. 0x048f_ffff  SI registers
- *      0x0490_0000 .. 0x04ff_ffff  unused
+ *      0x0404_0000 .. 0x040F_FFFF  SP registers
+ *      0x0410_0000 .. 0x041F_FFFF  DP command registers
+ *      0x0420_0000 .. 0x042F_FFFF  DP span registers
+ *      0x0430_0000 .. 0x043F_FFFF  MI registers
+ *      0x0440_0000 .. 0x044F_FFFF  VI registers
+ *      0x0450_0000 .. 0x045F_FFFF  AI registers
+ *      0x0460_0000 .. 0x046F_FFFF  PI registers
+ *      0x0470_0000 .. 0x047F_FFFF  RI registers
+ *      0x0480_0000 .. 0x048F_FFFF  SI registers
+ *      0x0490_0000 .. 0x04FF_FFFF  unused
  * 
- *      0x0500_0000 .. 0x05ff_ffff  cartridge domain 2
- *      0x0600_0000 .. 0x07ff_ffff  cartridge domain 1
- *      0x0800_0000 .. 0x0fff_ffff  cartridge domain 2
- *      0x1000_0000 .. 0x1fbf_ffff  cartridge domain 1
+ *      0x0500_0000 .. 0x05FF_FFFF  cartridge domain 2
+ *      0x0600_0000 .. 0x07FF_FFFF  cartridge domain 1
+ *      0x0800_0000 .. 0x0FFF_FFFF  cartridge domain 2
+ *      0x1000_0000 .. 0x1FBF_FFFF  cartridge domain 1
  * 
- *      0x1fc0_0000 .. 0x1fc0_07bf  PIF Boot Rom (1984 bytes)
- *      0x1fc0_07c0 .. 0x1fc0_07ff  PIF (JoyChannel) RAM (64 bytes)
- *      0x1fc0_0800 .. 0x1fcf_ffff  Reserved
- *      0x1fd0_0000 .. 0x7fff_ffff  cartridge domain 1
- *      0x8000_0000 .. 0xffff_ffff  external SysAD device
+ *      0x1FC0_0000 .. 0x1FC0_07BF  PIF Boot Rom (1984 bytes)
+ *      0x1FC0_07C0 .. 0x1FC0_07FF  PIF (JoyChannel) RAM (64 bytes)
+ *      0x1FC0_0800 .. 0x1FCF_FFFF  Reserved
+ *      0x1FD0_0000 .. 0x7FFF_FFFF  cartridge domain 1
+ *      0x8000_0000 .. 0xFFFF_FFFF  external SysAD device
  */
 
 /**
@@ -81,7 +81,7 @@
 /**
  * PIF Physical memory map (total size = 2 KB)
  *
- *            Size      Description     Mode
+ *               Size    Description       Mode
  *  1FC007FF    +-------+-----------------+-----+
  *              |  64 B | JoyChannel RAM  | R/W |
  *  1FC007C0    +-------+-----------------+-----+
@@ -100,24 +100,24 @@
  * the Rx and Tx data size area bytes. Programmers need to clear these bits
  * when setting the Tx/Rx size area values for a channel
  */
-#define CHNL_ERR_NORESP		0x80	/* Bit 7 (Rx): No response error */
-#define CHNL_ERR_OVERRUN	0x40	/* Bit 6 (Rx): Overrun error */
-#define CHNL_ERR_FRAME		0x80	/* Bit 7 (Tx): Frame error */
-#define CHNL_ERR_COLLISION	0x40	/* Bit 6 (Tx): Collision error */
+#define CHNL_ERR_NORESP     0x80    /* Bit 7 (Rx): No response error */
+#define CHNL_ERR_OVERRUN    0x40    /* Bit 6 (Rx): Overrun error */
+#define CHNL_ERR_FRAME      0x80    /* Bit 7 (Tx): Frame error */
+#define CHNL_ERR_COLLISION  0x40    /* Bit 6 (Tx): Collision error */
 
-#define CHNL_ERR_MASK		0xC0	/* Bit 6-7: channel errors */
+#define CHNL_ERR_MASK       0xC0    /* Bit 6-7: channel errors */
 
 
 /**
  * External device info
  */
-#define DEVICE_TYPE_CART	0	/* ROM cartridge */
-#define DEVICE_TYPE_BULK	1	/* ROM bulk */
-#define DEVICE_TYPE_64DD	2	/* 64 Disk Drive */
-#define DEVICE_TYPE_SRAM	3	/* SRAM */
-/* 4-6 are reserved */
-#define DEVICE_TYPE_INIT	7	/* initial value */
-/* 8-14 are reserved */
+#define DEVICE_TYPE_CART    0   // ROM cartridge
+#define DEVICE_TYPE_BULK    1   // ROM bulk
+#define DEVICE_TYPE_64DD    2   // 64 Disk Drive
+#define DEVICE_TYPE_SRAM    3   // SRAM
+// 4-6 are reserved
+#define DEVICE_TYPE_INIT    7   // initial value
+// 8-14 are reserved
 
 /**
  * Signal Processor (SP) Memory
@@ -133,16 +133,16 @@
 
 #define SP_BASE_REG         0x04040000
 
-// SP memory address (R/W): [11:0] DMEM/IMEM address, [12] 0=DMEM,1=IMEM
+// SP memory address (R/W): [12] 0=DMEM,1=IMEM, [11:0] DMEM/IMEM address
 #define SP_MEM_ADDR_REG     (SP_BASE_REG + 0x00)
 
 // SP DRAM DMA address (R/W): [23:0] RDRAM address
 #define SP_DRAM_ADDR_REG    (SP_BASE_REG + 0x04)
 
-// SP read DMA length (R/W): [11:0] length, [19:12] count, [31:20] skip; RDRAM -> I/DMEM
+// SP read DMA length (R/W): [31:20] skip, [19:12] count, [11:0] length; RDRAM -> I/DMEM
 #define SP_RD_LEN_REG       (SP_BASE_REG + 0x08)
 
-// SP write DMA length (R/W): [11:0] length, [19:12] count, [31:20] skip; I/DMEM -> RDRAM
+// SP write DMA length (R/W): [31:20] skip, [19:12] count, [11:0] length; I/DMEM -> RDRAM
 #define SP_WR_LEN_REG       (SP_BASE_REG + 0x0C)
 
 // SP status (R/W): [14:0] valid bits; see below for write/read mode
@@ -346,24 +346,22 @@
  */
 #define MI_BASE_REG     0x04300000
 
-/* 
- * MI init mode (W): [6:0] init length, [7] clear init mode, [8] set init mode
- *                   [9/10] clear/set ebus test mode, [11] clear DP interrupt
- *              (R): [6:0] init length, [7] init mode, [8] ebus test mode
- */
+// MI init mode (W): [11] clear DP interrupt, [9/10] clear/set ebus test mode
+//                   [8] set init mode, [7] clear init mode, [6:0] init length
+//              (R): [8] ebus test mode, [7] init mode, [6:0] init length
 #define MI_INIT_MODE_REG    (MI_BASE_REG + 0x00)
 #define MI_MODE_REG         MI_INIT_MODE_REG
 
 /*
  *  MI_MODE_REG: write bits
  */
-#define MI_CLR_INIT     (1 <<  7)   /* clear init mode */
-#define MI_SET_INIT     (1 <<  8)   /* set init mode */
-#define MI_CLR_EBUS     (1 <<  9)   /* clear ebus test */
-#define MI_SET_EBUS     (1 << 10)   /* set ebus test mode */
-#define MI_CLR_DP_INTR  (1 << 11)   /* clear dp interrupt */
-#define MI_CLR_RDRAM    (1 << 12)   /* clear RDRAM reg */
-#define MI_SET_RDRAM    (1 << 13)   /* set RDRAM reg mode */
+#define MI_CLR_INIT     (1 <<  7)   // clear init mode
+#define MI_SET_INIT     (1 <<  8)   //   set init mode
+#define MI_CLR_EBUS     (1 <<  9)   // clear ebus test
+#define MI_SET_EBUS     (1 << 10)   //   set ebus test mode
+#define MI_CLR_DP_INTR  (1 << 11)   // clear dp interrupt
+#define MI_CLR_RDRAM    (1 << 12)   // clear RDRAM reg
+#define MI_SET_RDRAM    (1 << 13)   //   set RDRAM reg mode
 
 /*
  *  MI_MODE_REG: read bits
@@ -372,7 +370,7 @@
 #define MI_MODE_EBUS    (1 << 8)    /* ebus test mode */
 #define MI_MODE_RDRAM   (1 << 9)    /* RDRAM reg mode */
 
-// MI version (R): [7:0] io, [15:8] rac, [23:16] rdp, [31:24] rsp
+// MI version (R): [31:24] rsp, [23:16] rdp, [15:8] rac, [7:0] io
 #define MI_VERSION_REG  (MI_BASE_REG + 0x04)
 #define MI_NOOP_REG     MI_VERSION_REG
 
@@ -380,210 +378,189 @@
 #define MI_INTR_REG     (MI_BASE_REG + 0x08)
 
 /* 
- * MI interrupt mask (W): [11:0] valid bits - see below for bit patterns 
- *                   (R): [5:0] valid bits - see below for bit patterns 
+ * MI interrupt mask (R): [5:0] valid bits - see below for bit patterns
+ *                   (W): [11:0] valid bits - see below for bit patterns
  */
 #define MI_INTR_MASK_REG    (MI_BASE_REG + 0x0C)
 
 /*
  * MI_INTR_REG: read bits
  */
-#define MI_INTR_SP  (1 << 0)    /* SP intr */
-#define MI_INTR_SI  (1 << 1)    /* SI intr */
-#define MI_INTR_AI  (1 << 2)    /* AI intr */
-#define MI_INTR_VI  (1 << 3)    /* VI intr */
-#define MI_INTR_PI  (1 << 4)    /* PI intr */
-#define MI_INTR_DP  (1 << 5)    /* DP intr */
+#define MI_INTR_SP  (1 << 0)    // SP intr
+#define MI_INTR_SI  (1 << 1)    // SI intr
+#define MI_INTR_AI  (1 << 2)    // AI intr
+#define MI_INTR_VI  (1 << 3)    // VI intr
+#define MI_INTR_PI  (1 << 4)    // PI intr
+#define MI_INTR_DP  (1 << 5)    // DP intr
 
 /*
  * MI_INTR_MASK_REG: write bits
  */
-#define MI_INTR_MASK_CLR_SP (1 <<  0)   /* clear SP mask */
-#define MI_INTR_MASK_SET_SP (1 <<  1)   /*   set SP mask */
-#define MI_INTR_MASK_CLR_SI (1 <<  2)   /* clear SI mask */
-#define MI_INTR_MASK_SET_SI (1 <<  3)   /*   set SI mask */
-#define MI_INTR_MASK_CLR_AI (1 <<  4)   /* clear AI mask */
-#define MI_INTR_MASK_SET_AI (1 <<  5)   /*   set AI mask */
-#define MI_INTR_MASK_CLR_VI (1 <<  6)   /* clear VI mask */
-#define MI_INTR_MASK_SET_VI (1 <<  7)   /*   set VI mask */
-#define MI_INTR_MASK_CLR_PI (1 <<  8)   /* clear PI mask */
-#define MI_INTR_MASK_SET_PI (1 <<  9)   /*   set PI mask */
-#define MI_INTR_MASK_CLR_DP (1 << 10)   /* clear DP mask */
-#define MI_INTR_MASK_SET_DP (1 << 11)   /*   set DP mask */
+#define MI_INTR_MASK_CLR_SP (1 <<  0)   // clear SP mask
+#define MI_INTR_MASK_SET_SP (1 <<  1)   //   set SP mask
+#define MI_INTR_MASK_CLR_SI (1 <<  2)   // clear SI mask
+#define MI_INTR_MASK_SET_SI (1 <<  3)   //   set SI mask
+#define MI_INTR_MASK_CLR_AI (1 <<  4)   // clear AI mask
+#define MI_INTR_MASK_SET_AI (1 <<  5)   //   set AI mask
+#define MI_INTR_MASK_CLR_VI (1 <<  6)   // clear VI mask
+#define MI_INTR_MASK_SET_VI (1 <<  7)   //   set VI mask
+#define MI_INTR_MASK_CLR_PI (1 <<  8)   // clear PI mask
+#define MI_INTR_MASK_SET_PI (1 <<  9)   //   set PI mask
+#define MI_INTR_MASK_CLR_DP (1 << 10)   // clear DP mask
+#define MI_INTR_MASK_SET_DP (1 << 11)   //   set DP mask
 
 /*
  * MI_INTR_MASK_REG: read bits
  */
-#define MI_INTR_MASK_SP (1 << 0)    /* SP intr mask */
-#define MI_INTR_MASK_SI (1 << 1)    /* SI intr mask */
-#define MI_INTR_MASK_AI (1 << 2)    /* AI intr mask */
-#define MI_INTR_MASK_VI (1 << 3)    /* VI intr mask */
-#define MI_INTR_MASK_PI (1 << 4)    /* PI intr mask */
-#define MI_INTR_MASK_DP (1 << 5)    /* DP intr mask */
+#define MI_INTR_MASK_SP (1 << 0)    // SP intr mask
+#define MI_INTR_MASK_SI (1 << 1)    // SI intr mask
+#define MI_INTR_MASK_AI (1 << 2)    // AI intr mask
+#define MI_INTR_MASK_VI (1 << 3)    // VI intr mask
+#define MI_INTR_MASK_PI (1 << 4)    // PI intr mask
+#define MI_INTR_MASK_DP (1 << 5)    // DP intr mask
 
 /**
  *  Video Interface (VI) Registers 
  */
 #define VI_BASE_REG     0x04400000
 
-/* VI status/control (R/W): [15-0] valid bits: 
+/* 
+ * VI status/control (R/W): [15-0] valid bits: 
  *  [1:0]   = type[1:0] (pixel size) 
- *          0: blank (no data, no sync)
- *                      1: reserved
- *                      2: 5/5/5/3 ("16" bit)
- *                      3: 8/8/8/8 (32 bit)
+ *              0: blank (no data, no sync)
+ *              1: reserved
+ *              2: 5/5/5/3 ("16" bit)
+ *              3: 8/8/8/8 (32 bit)
  *  [2]     = gamma_dither_enable (normally on, unless "special effect")
  *  [3]     = gamma_enable (normally on, unless MPEG/JPEG)
  *  [4]     = divot_enable (normally on if antialiased, unless decal lines)
- *  [5]     = reserved - always off
+ *  [5]     = vbus_clock_enable - always off
  *  [6]     = serrate (always on if interlaced, off if not)
- *  [7]     = reserved - diagnostics only
+ *  [7]     = test_mode - diagnostics only
  *  [9:8]   = anti-alias (aa) mode[1:0] 
- *          0: aa & resamp (always fetch extra lines)
- *                      1: aa & resamp (fetch extra lines if needed)
- *                      2: resamp only (treat as all fully covered)
- *                      3: neither (replicate pixels, no interpolate)
- *  [11]    = reserved - diagnostics only
- *  [15:12] = reserved
- *
+ *              0: aa & resamp (always fetch extra lines)
+ *              1: aa & resamp (fetch extra lines if needed)
+ *              2: resamp only (treat as all fully covered)
+ *              3: neither (replicate pixels, no interpolate)
+ *  [11]    = kill_we - diagnostics only
+ *  [15:12] = pixel_advance
+ *  [16]    = dither_filter_enable
  */
 #define VI_CONTROL_REG      (VI_BASE_REG + 0x00)
 #define VI_STATUS_REG       VI_CONTROL_REG
 
-/* VI origin (R/W): [23:0] frame buffer origin in bytes */
+// VI origin (R/W): [23:0] frame buffer origin in bytes
 #define VI_ORIGIN_REG       (VI_BASE_REG + 0x04)
 #define VI_DRAM_ADDR_REG    VI_ORIGIN_REG
 
-/* VI width (R/W): [11:0] frame buffer line width in pixels */
+// VI width (R/W): [11:0] frame buffer line width in pixels
 #define VI_WIDTH_REG        (VI_BASE_REG + 0x08)
 #define VI_H_WIDTH_REG      VI_WIDTH_REG
 
-/* VI vertical intr (R/W): [9:0] interrupt when current half-line = V_INTR */
+// VI vertical intr (R/W): [9:0] interrupt when current half-line = V_INTR
 #define VI_INTR_REG         (VI_BASE_REG + 0x0C)
 #define VI_V_INTR_REG       VI_INTR_REG
 
-/* 
- * VI current vertical line (R/W): [9:0] current half line, sampled once per
- *  line (the lsb of V_CURRENT is constant within a field, and in
- *  interlaced modes gives the field number - which is constant for non-
- *  interlaced modes)
- *  - Any write to this register will clear interrupt line
- */
+// VI current vertical line (R/W): [9:0] current half line, sampled once per
+//  line (the lsb of V_CURRENT is constant within a field, and in interlaced
+//  modes gives the field number - which is constant for non-interlaced modes)
+//  - Any write to this register will clear interrupt line
 #define VI_CURRENT_REG          (VI_BASE_REG + 0x10)
 #define VI_V_CURRENT_LINE_REG   VI_CURRENT_REG
 
-/* 
- * VI video timing (R/W): [ 7: 0] horizontal sync width in pixels, 
- *            [15: 8] color burst width in pixels,
- *                        [19:16] vertical sync width in half lines,   
- *            [29:20] start of color burst in pixels from h-sync
- */
+// VI video timing (R/W): [29:20] start of color burst in pixels from h-sync
+//                        [19:16] vertical sync width in half lines,   
+//                        [15: 8] color burst width in pixels,
+//                        [ 7: 0] horizontal sync width in pixels, 
 #define VI_BURST_REG        (VI_BASE_REG + 0x14)
 #define VI_TIMING_REG       VI_BURST_REG
 
-/* VI vertical sync (R/W): [9:0] number of half-lines per field */
+// VI vertical sync (R/W): [9:0] number of half-lines per field
 #define VI_V_SYNC_REG       (VI_BASE_REG + 0x18)
 
-/* VI horizontal sync (R/W): [11: 0] total duration of a line in 1/4 pixel 
- *               [20:16] a 5-bit leap pattern used for PAL only 
- *               (h_sync_period)
- */
+// VI horizontal sync (R/W): [20:16] a 5-bit leap pattern used for PAL only (h_sync_period)
+//                           [11: 0] total duration of a line in 1/4 pixel 
 #define VI_H_SYNC_REG       (VI_BASE_REG + 0x1C)
 
-/* 
- * VI horizontal sync leap (R/W): [11: 0] identical to h_sync_period
- *                                [27:16] identical to h_sync_period
- */
+// VI horizontal sync leap (R/W): [27:16] identical to h_sync_period
+//                                [11: 0] identical to h_sync_period
 #define VI_LEAP_REG         (VI_BASE_REG + 0x20)
 #define VI_H_SYNC_LEAP_REG  VI_LEAP_REG
 
-/* 
- * VI horizontal video (R/W): [ 9: 0] end of active video in screen pixels
- *                          : [25:16] start of active video in screen pixels
- */
+// VI horizontal video (R/W): [25:16] start of active video in screen pixels
+//                            [ 9: 0] end of active video in screen pixels
 #define VI_H_START_REG      (VI_BASE_REG + 0x24)
 #define VI_H_VIDEO_REG      VI_H_START_REG
 
-/* 
- * VI vertical video (R/W): [ 9: 0] end of active video in screen half-lines
- *                        : [25:16] start of active video in screen half-lines
- */
+// VI vertical video (R/W): [25:16] start of active video in screen half-lines
+//                          [ 9: 0] end of active video in screen half-lines
 #define VI_V_START_REG      (VI_BASE_REG + 0x28)
 #define VI_V_VIDEO_REG      VI_V_START_REG
 
-/* 
- * VI vertical burst (R/W): [ 9: 0] end of color burst enable in half-lines
- *                        : [25:16] start of color burst enable in half-lines
- */
+// VI vertical burst (R/W): [25:16] start of color burst enable in half-lines
+//                          [ 9: 0] end of color burst enable in half-lines
 #define VI_V_BURST_REG      (VI_BASE_REG + 0x2C)
 
-/* VI x-scale (R/W): [11: 0] 1/horizontal scale up factor (2.10 format)
- *           [27:16] horizontal subpixel offset (2.10 format)
- */
+// VI x-scale (R/W): [27:16] horizontal subpixel offset (2.10 format)
+//                   [11: 0] 1/horizontal scale up factor (2.10 format)
 #define VI_X_SCALE_REG      (VI_BASE_REG + 0x30)
 
-/* VI y-scale (R/W): [11: 0] 1/vertical scale up factor (2.10 format)
- *           [27:16] vertical subpixel offset (2.10 format)
- */
+// VI y-scale (R/W): [27:16] vertical subpixel offset (2.10 format)
+//                   [11: 0] 1/vertical scale up factor (2.10 format)
 #define VI_Y_SCALE_REG      (VI_BASE_REG + 0x34)
 
 /*
  * Patterns to interpret VI_CONTROL_REG
  */
-#define VI_CTRL_TYPE_16             0x00002 /* [1:0] pixel size: 16 bit */
-#define VI_CTRL_TYPE_32             0x00003 /* [1:0] pixel size: 32 bit */
-#define VI_CTRL_GAMMA_DITHER_ON     0x00004 /* 2: default = on */
-#define VI_CTRL_GAMMA_ON            0x00008 /* 3: default = on */
-#define VI_CTRL_DIVOT_ON            0x00010 /* 4: default = on */
-#define VI_CTRL_SERRATE_ON          0x00040 /* 6: on if interlaced */
-#define VI_CTRL_ANTIALIAS_MASK      0x00300 /* [9:8] anti-alias mode */
-#define VI_CTRL_ANTIALIAS_MODE_1    0x00100 /* Bit [9:8] anti-alias mode */
-#define VI_CTRL_ANTIALIAS_MODE_2    0x00200 /* Bit [9:8] anti-alias mode */
-#define VI_CTRL_ANTIALIAS_MODE_3    0x00300 /* Bit [9:8] anti-alias mode */
-#define VI_CTRL_PIXEL_ADV_MASK      0x01000 /* [15:12] pixel advance mode? */
-#define VI_CTRL_PIXEL_ADV_1         0x01000 /* Bit [15:12] pixel advance mode? */
-#define VI_CTRL_PIXEL_ADV_2         0x02000 /* Bit [15:12] pixel advance mode? */
-#define VI_CTRL_PIXEL_ADV_3         0x03000 /* Bit [15:12] pixel advance mode? */
-#define VI_CTRL_DITHER_FILTER_ON    0x10000 /* 16: dither-filter mode */
+#define VI_CTRL_TYPE_16             0x00002 // [1:0] pixel size: 16 bit
+#define VI_CTRL_TYPE_32             0x00003 // [1:0] pixel size: 32 bit
+#define VI_CTRL_GAMMA_DITHER_ON     0x00004 // 2: default = on
+#define VI_CTRL_GAMMA_ON            0x00008 // 3: default = on
+#define VI_CTRL_DIVOT_ON            0x00010 // 4: default = on
+#define VI_CTRL_SERRATE_ON          0x00040 // 6: on if interlaced
+#define VI_CTRL_ANTIALIAS_MASK      0x00300 // [9:8] anti-alias mode
+#define VI_CTRL_ANTIALIAS_MODE_0    0x00000 // Bit [9:8] anti-alias mode: AA enabled, resampling enabled, always fetch extra lines
+#define VI_CTRL_ANTIALIAS_MODE_1    0x00100 // Bit [9:8] anti-alias mode: AA enabled, resampling enabled, fetch extra lines as-needed
+#define VI_CTRL_ANTIALIAS_MODE_2    0x00200 // Bit [9:8] anti-alias mode: AA disabled, resampling enabled, operate as if everything is covered
+#define VI_CTRL_ANTIALIAS_MODE_3    0x00300 // Bit [9:8] anti-alias mode: AA disabled, resampling disabled, replicate pixels
+#define VI_CTRL_PIXEL_ADV_MASK      0x0F000 // [15:12] pixel advance mode
+#define VI_CTRL_PIXEL_ADV(n)        (((n) << 12) & VI_CTRL_PIXEL_ADV_MASK) // Bit [15:12] pixel advance mode: Always 3 on N64
+#define VI_CTRL_DITHER_FILTER_ON    0x10000 // 16: dither-filter mode
 
 /*
  * Possible video clocks (NTSC or PAL)
  */
-#define VI_NTSC_CLOCK   48681812    /* Hz = 48.681812 MHz */
-#define VI_PAL_CLOCK    49656530    /* Hz = 49.656530 MHz */
-#define VI_MPAL_CLOCK   48628316    /* Hz = 48.628316 MHz */
+#define VI_NTSC_CLOCK   48681812    // Hz = 48.681812 MHz
+#define VI_PAL_CLOCK    49656530    // Hz = 49.656530 MHz
+#define VI_MPAL_CLOCK   48628316    // Hz = 48.628316 MHz
 
 /**
+ * Audio Interface (AI) Registers
+ *
  * The address and length registers are double buffered; that is, they
  * can be written twice before becoming full.
  * The address must be written before the length.
  */
-
-/**
- * Audio Interface (AI) Registers
- */
 #define AI_BASE_REG     0x04500000
 
-/* AI DRAM address (W): [23:0] starting RDRAM address (8B-aligned) */
-#define AI_DRAM_ADDR_REG    (AI_BASE_REG + 0x00)    /* R0: DRAM address */
+// AI DRAM address (W): [23:0] starting RDRAM address (8B-aligned)
+#define AI_DRAM_ADDR_REG    (AI_BASE_REG + 0x00)
 
-/* AI length (R/W): [14:0] transfer length (v1.0) - Bottom 3 bits are ignored */
-/*                  [17:0] transfer length (v2.0) - Bottom 3 bits are ignored */
-#define AI_LEN_REG          (AI_BASE_REG + 0x04)    /* R1: Length */
+// AI length (R/W): [14:0] transfer length (v1.0) - Bottom 3 bits are ignored
+//                  [17:0] transfer length (v2.0) - Bottom 3 bits are ignored
+#define AI_LEN_REG          (AI_BASE_REG + 0x04)
 
-/* AI control (W): [0] DMA enable - if LSB == 1, DMA is enabled */
-#define AI_CONTROL_REG      (AI_BASE_REG + 0x08)    /* R2: DMA Control */
+// AI control (W): [0] DMA enable - if LSB == 1, DMA is enabled
+#define AI_CONTROL_REG      (AI_BASE_REG + 0x08)
 
 /* Value for control register */
-#define AI_CONTROL_DMA_ON   1   /* LSB = 1: DMA enable*/
-#define AI_CONTROL_DMA_OFF  0   /* LSB = 1: DMA enable*/
+#define AI_CONTROL_DMA_ON   1   // LSB = 1: DMA enable
+#define AI_CONTROL_DMA_OFF  0   // LSB = 1: DMA enable
 
-/* 
- * AI status (R): [31]/[0] ai_full (addr & len buffer full), [30] ai_busy 
- *        Note that a 1->0 transition in ai_full will set interrupt
- *           (W): clear audio interrupt 
- */
-#define AI_STATUS_REG       (AI_BASE_REG + 0x0C)    /* R3: Status */
+// AI status (R): [31]/[0] ai_full (addr & len buffer full), [30] ai_busy 
+//                Note that a 1->0 transition in ai_full will set interrupt
+//           (W): clear audio interrupt 
+#define AI_STATUS_REG       (AI_BASE_REG + 0x0C)
 
 /* Value for status register */
 #define AI_STATUS_FIFO_FULL (1 << 31)
@@ -594,12 +571,13 @@
  *   - vid_clock/(dperiod + 1) is the DAC sample rate
  *   - (dperiod + 1) >= 66 * (aclockhp + 1) must be true
  */
-#define AI_DACRATE_REG      (AI_BASE_REG + 0x10)    /* R4: DAC rate 14-lsb*/
+#define AI_DACRATE_REG      (AI_BASE_REG + 0x10)
 
-/* DAC rate = video clock / audio frequency
+/* 
+ * DAC rate = video clock / audio frequency
  *   - DAC rate >= (66 * Bit rate) must be true
  */
-#define AI_MAX_DAC_RATE 16384   /* 14-bit+1 */
+#define AI_MAX_DAC_RATE 16384   // 14-bit+1
 #define AI_MIN_DAC_RATE 132
 
 /* 
@@ -607,10 +585,10 @@
  *   - vid_clock/(2 * (aclockhp + 1)) is the DAC clock rate
  *   - The abus clock stops if aclockhp is zero
  */
-#define AI_BITRATE_REG      (AI_BASE_REG + 0x14)    /* R5: Bit rate 4-lsb */
+#define AI_BITRATE_REG      (AI_BASE_REG + 0x14)
 
-/* Bit rate <= (DAC rate / 66) */
-#define AI_MAX_BIT_RATE 16      /* 4-bit+1 */
+// Bit rate <= (DAC rate / 66)
+#define AI_MAX_BIT_RATE 16      // 4-bit+1
 #define AI_MIN_BIT_RATE 2
 
 /*
@@ -618,61 +596,59 @@
  *   max frequency = (video clock / min dac rate)
  *   min frequency = (video clock / max dac rate)
  */
-#define AI_NTSC_MAX_FREQ    368000      /* 368 KHz */
-#define AI_NTSC_MIN_FREQ    3000        /*   3 KHz ~ 2971 Hz */
+#define AI_NTSC_MAX_FREQ    368000      // 368 KHz
+#define AI_NTSC_MIN_FREQ    3000        //   3 KHz ~ 2971 Hz
 
-#define AI_PAL_MAX_FREQ     376000      /* 376 KHz */
-#define AI_PAL_MIN_FREQ     3050        /*   3 KHz ~ 3031 Hz */
+#define AI_PAL_MAX_FREQ     376000      // 376 KHz
+#define AI_PAL_MIN_FREQ     3050        //   3 KHz ~ 3031 Hz
 
-#define AI_MPAL_MAX_FREQ    368000      /* 368 KHz */
-#define AI_MPAL_MIN_FREQ    3000        /*   3 KHz ~ 2968 Hz */
+#define AI_MPAL_MAX_FREQ    368000      // 368 KHz
+#define AI_MPAL_MIN_FREQ    3000        //   3 KHz ~ 2968 Hz
 
 /**
  * Peripheral Interface (PI) Registers 
  */
 #define PI_BASE_REG         0x04600000
 
-/* PI DRAM address (R/W): [23:0] starting RDRAM address */
-#define PI_DRAM_ADDR_REG    (PI_BASE_REG + 0x00)    /* DRAM address */
+// PI DRAM address (R/W): [23:0] starting RDRAM address
+#define PI_DRAM_ADDR_REG    (PI_BASE_REG + 0x00)
 
-/* PI pbus (cartridge) address (R/W): [31:0] starting AD16 address */
+// PI pbus (cartridge) address (R/W): [31:0] starting AD16 address
 #define PI_CART_ADDR_REG    (PI_BASE_REG + 0x04)
 
-/* PI read length (R/W): [23:0] read data length */
+// PI read length (R/W): [23:0] read data length
 #define PI_RD_LEN_REG       (PI_BASE_REG + 0x08)
 
-/* PI write length (R/W): [23:0] write data length */
+// PI write length (R/W): [23:0] write data length
 #define PI_WR_LEN_REG       (PI_BASE_REG + 0x0C)
 
-/* 
- * PI status (R): [0] DMA busy, [1] IO busy, [2], error
- *           (W): [0] reset controller (and abort current op), [1] clear intr
- */
+// PI status (R): [3] interrupt flag, [2] error, [1] IO busy, [0] DMA busy
+//           (W): [1] clear intr, [0] reset controller (and abort current op)
 #define PI_STATUS_REG       (PI_BASE_REG + 0x10)
 
-/* PI dom1 latency (R/W): [7:0] domain 1 device latency */
+// PI dom1 latency (R/W): [7:0] domain 1 device latency
 #define PI_BSD_DOM1_LAT_REG (PI_BASE_REG + 0x14)
 
-/* PI dom1 pulse width (R/W): [7:0] domain 1 device R/W strobe pulse width */
+// PI dom1 pulse width (R/W): [7:0] domain 1 device R/W strobe pulse width
 #define PI_BSD_DOM1_PWD_REG (PI_BASE_REG + 0x18)
 
-/* PI dom1 page size (R/W): [3:0] domain 1 device page size */
-#define PI_BSD_DOM1_PGS_REG (PI_BASE_REG + 0x1C)    /*   page size */
+// PI dom1 page size (R/W): [3:0] domain 1 device page size
+#define PI_BSD_DOM1_PGS_REG (PI_BASE_REG + 0x1C)
 
-/* PI dom1 release (R/W): [1:0] domain 1 device R/W release duration */
+// PI dom1 release (R/W): [1:0] domain 1 device R/W release duration
 #define PI_BSD_DOM1_RLS_REG (PI_BASE_REG + 0x20)
 
-/* PI dom2 latency (R/W): [7:0] domain 2 device latency */
-#define PI_BSD_DOM2_LAT_REG (PI_BASE_REG + 0x24)    /* Domain 2 latency */
+// PI dom2 latency (R/W): [7:0] domain 2 device latency
+#define PI_BSD_DOM2_LAT_REG (PI_BASE_REG + 0x24)
 
-/* PI dom2 pulse width (R/W): [7:0] domain 2 device R/W strobe pulse width */
-#define PI_BSD_DOM2_PWD_REG (PI_BASE_REG + 0x28)    /*   pulse width */
+// PI dom2 pulse width (R/W): [7:0] domain 2 device R/W strobe pulse width
+#define PI_BSD_DOM2_PWD_REG (PI_BASE_REG + 0x28)
 
-/* PI dom2 page size (R/W): [3:0] domain 2 device page size */
-#define PI_BSD_DOM2_PGS_REG (PI_BASE_REG + 0x2C)    /*   page size */
+// PI dom2 page size (R/W): [3:0] domain 2 device page size
+#define PI_BSD_DOM2_PGS_REG (PI_BASE_REG + 0x2C)
 
-/* PI dom2 release (R/W): [1:0] domain 2 device R/W release duration */
-#define PI_BSD_DOM2_RLS_REG (PI_BASE_REG + 0x30)    /*   release duration */
+// PI dom2 release (R/W): [1:0] domain 2 device R/W release duration
+#define PI_BSD_DOM2_RLS_REG (PI_BASE_REG + 0x30)
 
 #define PI_DOMAIN1_REG      PI_BSD_DOM1_LAT_REG
 #define PI_DOMAIN2_REG      PI_BSD_DOM2_LAT_REG
@@ -692,7 +668,8 @@
 #define PI_STATUS_IO_BUSY   (1 << 1)
 #define PI_STATUS_ERROR     (1 << 2)
 
-/* PI status register has 2 bits active when written to:
+/* 
+ * PI status register has 2 bits active when written to:
  *  Bit 0: When set, reset PIC
  *  Bit 1: When set, clear interrupt flag
  * The values of the two bits can be ORed together to both reset PIC and 
@@ -736,32 +713,30 @@
  */
 #define RI_BASE_REG         0x04700000
 
-/* RI mode (R/W): [1:0] operating mode, [2] stop T active, [3] stop R active */
+// RI mode (R/W): [3] stop R active, [2] stop T active, [1:0] operating mode
 #define RI_MODE_REG         (RI_BASE_REG + 0x00)
 
-/* RI config (R/W): [5:0] current control input, [6] current control enable */
+// RI config (R/W): [6] current control enable, [5:0] current control input
 #define RI_CONFIG_REG       (RI_BASE_REG + 0x04)
 
-/* RI current load (W): [] any write updates current control register */
+// RI current load (W): [] any write updates current control register
 #define RI_CURRENT_LOAD_REG (RI_BASE_REG + 0x08)
 
-/* RI select (R/W): [2:0] receive select, [2:0] transmit select */
+// RI select (R/W): [3:2] receive select, [1:0] transmit select
 #define RI_SELECT_REG       (RI_BASE_REG + 0x0C)
 
-/* RI refresh (R/W): [7:0] clean refresh delay, [15:8] dirty refresh delay,
- *           [16] refresh bank, [17] refresh enable 
- *           [18] refresh optimize 
- */
+// RI refresh (R/W): [16] refresh bank, [17] refresh enable, [18] refresh optimize
+//                   [7:0] clean refresh delay, [15:8] dirty refresh dela
 #define RI_REFRESH_REG      (RI_BASE_REG + 0x10)
 #define RI_COUNT_REG        RI_REFRESH_REG
 
-/* RI latency (R/W): [3:0] DMA latency/overlap */
+// RI latency (R/W): [3:0] DMA latency/overlap
 #define RI_LATENCY_REG      (RI_BASE_REG + 0x14)
 
-/* RI error (R): [0] nack error, [1] ack error */
+// RI error (R): [1] ack error, [0] nack error
 #define RI_RERROR_REG       (RI_BASE_REG + 0x18)
 
-/* RI error (W): [] any write clears all error bits */
+// RI error (W): [] any write clears all error bits
 #define RI_WERROR_REG       (RI_BASE_REG + 0x1C)
 
 /**
@@ -795,27 +770,27 @@
  * Development Board GIO Control Registers 
  */
 
-#define GIO_BASE_REG		0x18000000
+#define GIO_BASE_REG        0x18000000
 
-/* Game to Host Interrupt */
-#define GIO_GIO_INTR_REG	(GIO_BASE_REG+0x000)
+// Game to Host Interrupt
+#define GIO_GIO_INTR_REG    (GIO_BASE_REG+0x000)
 
-/* Game to Host SYNC */
-#define GIO_GIO_SYNC_REG	(GIO_BASE_REG+0x400)
+// Game to Host SYNC
+#define GIO_GIO_SYNC_REG    (GIO_BASE_REG+0x400)
 
-/* Host to Game Interrupt */
-#define GIO_CART_INTR_REG	(GIO_BASE_REG+0x800)
+// Host to Game Interrupt
+#define GIO_CART_INTR_REG   (GIO_BASE_REG+0x800)
 
 /**
  * Common macros
  */
 #if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
-#define	IO_READ(addr)       (*(vu32*)PHYS_TO_K1(addr))
-#define	IO_WRITE(addr,data) (*(vu32*)PHYS_TO_K1(addr)=(u32)(data))
+#define IO_READ(addr)       (*(vu32*)PHYS_TO_K1(addr))
+#define IO_WRITE(addr,data) (*(vu32*)PHYS_TO_K1(addr)=(u32)(data))
 
 #define RCP_STAT_PRINT                                              \
-    rmonPrintf("current=%x start=%x end=%x dpstat=%x spstat=%x\n",	\
+    rmonPrintf("current=%x start=%x end=%x dpstat=%x spstat=%x\n",  \
         IO_READ(DPC_CURRENT_REG),                                   \
         IO_READ(DPC_START_REG),                                     \
         IO_READ(DPC_END_REG),                                       \
