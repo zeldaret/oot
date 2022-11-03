@@ -175,8 +175,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
         osSyncPrintf(VT_RST);
 
-        LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-        LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
+        LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
+        LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
@@ -321,8 +321,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         }
 
         if (HREG(81) < 0) {
-            LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-            LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
+            LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
+            LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
         }
 
         if (HREG(81) < 0) {
