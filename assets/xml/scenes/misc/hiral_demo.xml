@@ -1,5 +1,4 @@
 <Root>
-    <!-- gCutsceneMap -->
     <File Name="hiral_demo_scene" Segment="2">
         <Scene Name="hiral_demo_scene" Offset="0x0"/>
     </File>

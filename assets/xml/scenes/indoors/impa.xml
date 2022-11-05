@@ -1,5 +1,4 @@
 <Root>
-    <!-- gDogLadyHouse -->
     <File Name="impa_scene" Segment="2">
         <Scene Name="impa_scene" Offset="0x0"/>
     </File>

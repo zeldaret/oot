@@ -1,5 +1,4 @@
 <Root>
-    <!-- gRedeadGrave -->
     <File Name="hakaana_scene" Segment="2">
         <Scene Name="hakaana_scene" Offset="0x0"/>
     </File>

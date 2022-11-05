@@ -1,5 +1,4 @@
 <Root>
-    <!-- gWindmillAndDampesGrave -->
     <File Name="hakasitarelay_scene" Segment="2">
         <Scene Name="hakasitarelay_scene" Offset="0x0"/>
         <Cutscene Name="gSongOfStormsCs" Offset="0xE080"/>

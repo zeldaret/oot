@@ -1,5 +1,4 @@
 <Root>
-    <!-- gGraveWithFairysFountain -->
     <File Name="hakaana2_scene" Segment="2">
         <Scene Name="hakaana2_scene" Offset="0x0"/>
     </File>
