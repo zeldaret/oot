@@ -5,7 +5,7 @@
  */
 
 #include "z_en_nb.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -106,7 +106,7 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
     s32 pad;
     s32 path;
 
-    pathList = play->setupPathList;
+    pathList = play->pathList;
 
     if (pathList != NULL) {
         path = EnNb_GetPath(this);
@@ -1526,7 +1526,7 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-const ActorInit En_Nb_InitVars = {
+ActorInit En_Nb_InitVars = {
     ACTOR_EN_NB,
     ACTORCAT_NPC,
     FLAGS,

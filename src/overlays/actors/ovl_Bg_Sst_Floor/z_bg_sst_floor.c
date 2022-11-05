@@ -16,7 +16,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
-const ActorInit Bg_Sst_Floor_InitVars = {
+ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
     ACTORCAT_BG,
     FLAGS,
@@ -38,7 +38,7 @@ void BgSstFloor_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gBongoDrumCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }

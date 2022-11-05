@@ -6,7 +6,7 @@
 
 #include "z_en_syateki_niw.h"
 #include "assets/objects/object_niw/object_niw.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -26,7 +26,7 @@ void func_80B128D8(EnSyatekiNiw* this, PlayState* play);
 
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4);
 
-const ActorInit En_Syateki_Niw_InitVars = {
+ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORCAT_PROP,
     FLAGS,

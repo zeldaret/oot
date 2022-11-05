@@ -30,7 +30,7 @@ static Color_RGBA8 sEffectPrimColor = { 255, 255, 255, 255 };
 static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
 static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Bigokuta_InitVars = {
+ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -262,7 +262,7 @@ void func_809BD1C8(EnBigokuta* this, PlayState* play) {
 
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
-    func_80033E88(&this->actor, play, 0xA, 8);
+    Actor_RequestQuakeAndRumble(&this->actor, play, 10, 8);
 }
 
 void func_809BD2E4(EnBigokuta* this) {

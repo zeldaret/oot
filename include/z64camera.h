@@ -27,7 +27,7 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
-// All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected 
+// All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected
 // to have their first two bgCamInfo entries be the following:
 #define BGCAM_INDEX_TOGGLE_LOCKED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
@@ -102,7 +102,7 @@ typedef enum {
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
     /* 0x3C */ CAM_SET_CS_C, // Various cutscenes "DEMOC"
-    /* 0x3D */ CAM_SET_JABU_TENTACLE, // Jabu-Jabu Parasitic Tenticle Rooms "UO_FIBER"
+    /* 0x3D */ CAM_SET_JABU_TENTACLE, // Jabu-Jabu Parasitic Tentacle Rooms "UO_FIBER"
     /* 0x3E */ CAM_SET_DUNGEON2,
     /* 0x3F */ CAM_SET_DIRECTED_YAW, // Does not auto-update yaw, tends to keep the camera pointed at a certain yaw (used by biggoron and final spirit lowering platform) "TEPPEN"
     /* 0x40 */ CAM_SET_PIVOT_FROM_SIDE, // Fixed side view, allows rotation of camera (eg. Potion Shop, Meadow at fairy grotto) "CIRCLE7"
@@ -439,7 +439,9 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ VecSph unk_20;
+    /* 0x20 */ f32 unk_20;
+    /* 0x24 */ s16 unk_24;
+    /* 0x26 */ s16 unk_26;
 } Jump1ReadWriteData; // size = 0x28
 
 typedef struct {
@@ -670,7 +672,9 @@ typedef struct {
 } KeepOn3ReadOnlyData; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ Vec3f eyeToAtTarget; // esentially a VecSph, but all floats.
+    /* 0x00 */ f32 eyeToAtTargetR;
+    /* 0x08 */ f32 eyeToAtTargetYaw;
+    /* 0x04 */ f32 eyeToAtTargetPitch;
     /* 0x0C */ Actor* target;
     /* 0x10 */ Vec3f atTarget;
     /* 0x1C */ s16 animTimer;
@@ -884,16 +888,14 @@ typedef struct {
 } Subj4ReadOnlyData; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ InfiniteLine unk_00;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ s16 unk_2C;
-    /* 0x2E */ s16 unk_2E;
-    /* 0x30 */ s16 unk_30;
-    /* 0x32 */ s16 unk_32;
+    /* 0x00 */ InfiniteLine crawlspaceLine;
+    /* 0x18 */ Vec3f unk_18; // unused
+    /* 0x24 */ f32 xzSpeed;
+    /* 0x28 */ f32 eyeLerp;
+    /* 0x2C */ s16 eyeLerpPhase;
+    /* 0x2E */ s16 isSfxOff;
+    /* 0x30 */ s16 forwardYaw; // yaw to the forwards crawling direction
+    /* 0x32 */ s16 zoomTimer;
 } Subj4ReadWriteData; // size = 0x34
 
 typedef struct {
@@ -1098,7 +1100,7 @@ typedef struct {
     /* 0x10 */ Vec3f eyeTarget;
     /* 0x1C */ Vec3f playerPos;
     /* 0x28 */ f32 fovTarget;
-    /* 0x2C */ VecSph atEyeOffsetTarget;
+    /* 0x2C */ VecGeo atEyeOffsetTarget;
     /* 0x34 */ s16 rollTarget;
     /* 0x36 */ s16 curKeyFrameIdx;
     /* 0x38 */ s16 unk_38;
@@ -1344,17 +1346,17 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f norm;
     /* 0x18 */ CollisionPoly* poly;
-    /* 0x1C */ VecSph sphNorm;
+    /* 0x1C */ VecGeo geoNorm;
     /* 0x24 */ s32 bgId;
 } CamColChk; // size = 0x28
 
-typedef struct {
+typedef struct Camera {
     /* 0x000 */ CamParamData paramData;
     /* 0x050 */ Vec3f at;
     /* 0x05C */ Vec3f eye;
     /* 0x068 */ Vec3f up;
     /* 0x074 */ Vec3f eyeNext;
-    /* 0x080 */ Vec3f skyboxOffset;
+    /* 0x080 */ Vec3f quakeOffset;
     /* 0x08C */ struct PlayState* play;
     /* 0x090 */ struct Player* player;
     /* 0x094 */ PosRot playerPosRot;
@@ -1378,7 +1380,7 @@ typedef struct {
     /* 0x114 */ f32 waterYPos;
     /* 0x118 */ s32 bgCamIndexBeforeUnderwater;
     /* 0x11C */ s32 waterCamSetting;
-    /* 0x120 */ s32 waterQuakeId;
+    /* 0x120 */ s32 waterQuakeIndex;
     /* 0x124 */ void* data0;
     /* 0x128 */ void* data1;
     /* 0x12C */ s16 data2;

@@ -19,7 +19,7 @@ void func_809B26EC(EnAnubiceFire* this, PlayState* play);
 void func_809B27D8(EnAnubiceFire* this, PlayState* play);
 void func_809B2B48(EnAnubiceFire* this, PlayState* play);
 
-const ActorInit En_Anubice_Fire_InitVars = {
+ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -178,8 +178,6 @@ void EnAnubiceFire_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     func_8002D7EC(&this->actor);
     this->unk_160[0] = this->actor.world.pos;
-
-    if (1) {}
 
     for (i = 4; i >= 0; i--) {
         this->unk_160[i + 1] = this->unk_160[i];

@@ -42,7 +42,7 @@ void func_8086DCE8(BgBdanSwitch* this, PlayState* play);
 void func_8086DDA8(BgBdanSwitch* this);
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play);
 
-const ActorInit Bg_Bdan_Switch_InitVars = {
+ActorInit Bg_Bdan_Switch_InitVars = {
     ACTOR_BG_BDAN_SWITCH,
     ACTORCAT_SWITCH,
     FLAGS,
@@ -155,7 +155,7 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            BgBdanSwitch_InitDynaPoly(this, play, &gJabuFloorSwitchCol, DPM_PLAYER);
+            BgBdanSwitch_InitDynaPoly(this, play, &gJabuFloorSwitchCol, DYNA_TRANSFORM_POS);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:

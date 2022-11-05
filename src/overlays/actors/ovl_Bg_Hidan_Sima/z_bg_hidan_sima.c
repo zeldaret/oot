@@ -21,7 +21,7 @@ void func_8088E760(BgHidanSima* this, PlayState* play);
 void func_8088E7A8(BgHidanSima* this, PlayState* play);
 void func_8088E90C(BgHidanSima* this);
 
-const ActorInit Bg_Hidan_Sima_InitVars = {
+ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORCAT_BG,
     FLAGS,
@@ -87,7 +87,7 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (this->dyna.actor.params == 0) {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {

@@ -6,7 +6,7 @@
 
 #include "z_bg_dy_yoseizo.h"
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
@@ -54,7 +54,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 
 static s32 sUnusedGetItemIds[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE };
 
-const ActorInit Bg_Dy_Yoseizo_InitVars = {
+ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORCAT_PROP,
     FLAGS,
@@ -70,7 +70,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
-    this->fountainType = play->curSpawn;
+    this->fountainType = play->spawn;
 
     if (this->fountainType < 0) {
         this->fountainType = 0;
@@ -82,12 +82,12 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
 
     if (play->sceneId == SCENE_DAIYOUSEI_IZUMI) {
         // "Great Fairy Fountain"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->curSpawn);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
                            this->jointTable, this->morphTable, 28);
     } else {
         // "Stone/Jewel Fairy Fountain"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->curSpawn);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
                            this->jointTable, this->morphTable, 28);
     }

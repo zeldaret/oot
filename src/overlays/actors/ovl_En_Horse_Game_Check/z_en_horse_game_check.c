@@ -48,7 +48,7 @@ void EnHorseGameCheck_Destroy(Actor* thisx, PlayState* play);
 void EnHorseGameCheck_Update(Actor* thisx, PlayState* play);
 void EnHorseGameCheck_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Horse_Game_Check_InitVars = {
+ActorInit En_Horse_Game_Check_InitVars = {
     ACTOR_EN_HORSE_GAME_CHECK,
     ACTORCAT_BG,
     FLAGS,
@@ -444,7 +444,7 @@ void EnHorseGameCheck_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
-    if ((play->sceneId == SCENE_SPOT20) && (Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1))) {
+    if ((play->sceneId == SCENE_SPOT20) && (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1))) {
         this->actor.params = HORSEGAME_MALON_RACE;
     }
     if (sInitFuncs[this->actor.params] != NULL) {

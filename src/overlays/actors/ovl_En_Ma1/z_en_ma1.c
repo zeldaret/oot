@@ -26,7 +26,7 @@ void func_80AA10EC(EnMa1* this, PlayState* play);
 void func_80AA1150(EnMa1* this, PlayState* play);
 void EnMa1_DoNothing(EnMa1* this, PlayState* play);
 
-const ActorInit En_Ma1_InitVars = {
+ActorInit En_Ma1_InitVars = {
     ACTOR_EN_MA1,
     ACTORCAT_NPC,
     FLAGS,
@@ -107,7 +107,7 @@ u16 EnMa1_GetText(PlayState* play, Actor* thisx) {
             return 0x2048;
         }
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 0x2047;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
@@ -188,10 +188,10 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
         return 0;
     }
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_14) && !GET_INFTABLE(INFTABLE_8B)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) && !GET_INFTABLE(INFTABLE_8B)) {
         return 1;
     }
-    if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_8B)) {
             return 1;
         } else {
@@ -199,13 +199,13 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
             return 0;
         }
     }
-    if ((play->sceneId == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId != SCENE_SPOT20) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     return 0;
@@ -247,14 +247,16 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->unk_1E8.unk_00 == 0) {
-            if (this->unk_1E0 != 0) {
-                this->unk_1E0 = 0;
-                func_800F6584(0);
+            if (this->isNotSinging) {
+                // Turn on singing
+                this->isNotSinging = false;
+                Audio_ToggleMalonSinging(false);
             }
         } else {
-            if (this->unk_1E0 == 0) {
-                this->unk_1E0 = 1;
-                func_800F6584(1);
+            if (!this->isNotSinging) {
+                // Turn off singing
+                this->isNotSinging = true;
+                Audio_ToggleMalonSinging(true);
             }
         }
     }
@@ -280,7 +282,7 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 6;
     this->unk_1E8.unk_00 = 0;
 
-    if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
         EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     } else {
@@ -307,9 +309,9 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         Actor_Kill(&this->actor);
-    } else if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    } else if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
             play->msgCtx.stateTimer = 4;
@@ -447,14 +449,14 @@ void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 void EnMa1_Draw(Actor* thisx, PlayState* play) {
     EnMa1* this = (EnMa1*)thisx;
     Camera* activeCam;
-    f32 distFromCamera;
+    f32 distFromCamEye;
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma1.c", 1226);
 
     activeCam = GET_ACTIVE_CAM(play);
-    distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
-    func_800F6268(distFromCamera, NA_BGM_LONLON);
+    distFromCamEye = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
+    Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));

@@ -1,5 +1,6 @@
 #include "global.h"
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -256,7 +257,7 @@ void Play_Init(GameState* thisx) {
     this->activeCamId = CAM_ID_MAIN;
     func_8005AC48(&this->mainCamera, 0xFF);
     Sram_Init(this, &this->sramCtx);
-    func_80112098(this);
+    Regs_InitData(this);
     Message_Init(this);
     GameOver_Init(this);
     SfxSource_InitAll(this);
@@ -402,7 +403,7 @@ void Play_Init(GameState* thisx) {
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
-    func_800304DC(this, &this->actorCtx, this->linkActorEntry);
+    Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     while (!func_800973FC(this, &this->roomCtx)) {
         ; // Empty Loop
@@ -1050,7 +1051,7 @@ void Play_Draw(PlayState* this) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
         POLY_XLU_DISP = Play_SetFog(this, POLY_XLU_DISP);
 
-        View_SetPerspective(&this->view, this->view.fovy, this->view.zNear, this->lightCtx.fogFar);
+        View_SetPerspective(&this->view, this->view.fovy, this->view.zNear, this->lightCtx.zFar);
         View_Apply(&this->view, VIEW_ALL);
 
         // The billboard matrix temporarily stores the viewing matrix
@@ -1176,11 +1177,11 @@ void Play_Draw(PlayState* this) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
-                        Vec3f sp74;
+                        Vec3f quakeOffset;
 
-                        Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(this));
-                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + sp74.x,
-                                        this->view.eye.y + sp74.y, this->view.eye.z + sp74.z);
+                        Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
+                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
+                                        this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
                     }
                 }
 
@@ -1398,14 +1399,17 @@ void Play_InitEnvironment(PlayState* this, s16 skyboxId) {
 }
 
 void Play_InitScene(PlayState* this, s32 spawn) {
-    this->curSpawn = spawn;
-    this->linkActorEntry = NULL;
+    this->spawn = spawn;
+
+    this->playerEntry = NULL;
     this->unk_11DFC = NULL;
-    this->setupEntranceList = NULL;
-    this->setupExitList = NULL;
-    this->cUpElfMsgs = NULL;
-    this->setupPathList = NULL;
-    this->numSetupActors = 0;
+    this->spawnList = NULL;
+    this->exitList = NULL;
+    this->naviQuestHints = NULL;
+    this->pathList = NULL;
+
+    this->numActorEntries = 0;
+
     Object_InitBank(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);

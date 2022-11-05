@@ -44,7 +44,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play);
 
-const ActorInit Bg_Spot06_Objects_InitVars = {
+ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
     ACTORCAT_PROP,
     FLAGS,
@@ -104,7 +104,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     switch (thisx->params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyActor_Init(&this->dyna, DPM_UNK);
+            DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gLakeHyliaWaterTempleGateCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
@@ -170,7 +170,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             break;
         case LHO_ICE_BLOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyActor_Init(&this->dyna, DPM_UNK);
+            DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gLakeHyliaZoraShortcutIceblockCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
             this->actionFunc = BgSpot06Objects_DoNothing;

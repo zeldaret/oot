@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
@@ -84,7 +84,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (gIsCtrlr2Valid) {
-        func_8006390C(&gameState->input[1]);
+        Regs_UpdateEditor(&gameState->input[1]);
     }
 
     gDmaMgrVerbose = HREG(60);

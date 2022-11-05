@@ -16,7 +16,7 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play);
 
 void func_808ADEF0(BgSpot03Taki* this, PlayState* play);
 
-const ActorInit Bg_Spot03_Taki_InitVars = {
+ActorInit Bg_Spot03_Taki_InitVars = {
     ACTOR_BG_SPOT03_TAKI,
     ACTORCAT_BG,
     FLAGS,
@@ -48,7 +48,7 @@ void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_spot03_object_Col_000C98, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

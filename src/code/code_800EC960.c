@@ -1237,12 +1237,12 @@ u8 sRiverSoundMainBgmRestore;
 u8 sGanonsTowerVol;
 SfxPlayerState sSfxChannelState[0x10];
 char sBinToStrBuf[0x20];
-u8 D_8016B9D8;
+u8 sMalonSingingTimer;
 u8 sAudioSpecPeakNumNotes[0x12];
-u8 D_8016B9F2;
+u8 sMalonSingingDisabled;
 u8 D_8016B9F3;
-u8 D_8016B9F4;
-u16 D_8016B9F6;
+u8 sFanfareStartTimer;
+u16 sFanfareSeqId;
 
 OcarinaStaff sPlayingStaff;
 OcarinaStaff sPlaybackStaff;
@@ -1266,8 +1266,8 @@ u16 sMusicStaffCurHeldLength[OCARINA_SONG_MAX];
 u16 sMusicStaffExpectedLength[OCARINA_SONG_MAX];
 u8 sMusicStaffExpectedPitch[OCARINA_SONG_MAX];
 OcarinaNote sScarecrowsLongSongSecondNote;
-u8 sAudioHasMalonBgm;
-f32 sAudioMalonBgmDist;
+u8 sIsMalonSinging;
+f32 sMalonSingingDist;
 
 void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
 
@@ -3058,9 +3058,9 @@ void AudioDebug_Draw(GfxPrint* printer) {
             GfxPrint_Printf(printer, "DEMO FLAG %d", sAudioCutsceneFlag);
 
             GfxPrint_SetPos(printer, 3, 12);
-            if (sAudioHasMalonBgm == true) {
-                GfxPrint_Printf(printer, "MARON BGM DIST %f", sAudioMalonBgmDist);
-                sAudioHasMalonBgm = false;
+            if (sIsMalonSinging == true) {
+                GfxPrint_Printf(printer, "MARON BGM DIST %f", sMalonSingingDist);
+                sIsMalonSinging = false;
             }
 
             GfxPrint_SetPos(printer, 3, 23);
@@ -3208,7 +3208,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CDOWN)) {
         if (sAudioSndContSel == 0) {
             if (1) {}
-            func_800F595C(sAudioSndContWork[sAudioSndContSel]);
+            Audio_PlaySequenceInCutscene(sAudioSndContWork[sAudioSndContSel]);
         }
     }
 
@@ -3693,7 +3693,7 @@ void AudioDebug_ProcessInput(void) {
 }
 
 void Audio_UpdateRiverSoundVolumes(void);
-void func_800F5CF8(void);
+void Audio_UpdateFanfare(void);
 
 /**
  * This is Audio_Update for the graph thread
@@ -3707,7 +3707,7 @@ void func_800F3054(void) {
         Audio_StepFreqLerp(&sWaterfallFreqScaleLerp);
         Audio_UpdateRiverSoundVolumes();
         Audio_UpdateSceneSequenceResumePoint();
-        func_800F5CF8();
+        Audio_UpdateFanfare();
         if (gAudioSpecId == 7) {
             Audio_ClearSariaBgm();
         }
@@ -4260,17 +4260,17 @@ void Audio_StepFreqLerp(FreqLerp* lerp) {
     }
 }
 
-void func_800F47BC(void) {
+void Audio_SetBgmVolumeOffDuringFanfare(void) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 10);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 10);
 }
 
-void func_800F47FC(void) {
+void Audio_SetBgmVolumeOnDuringFanfare(void) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0x7F, 3);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0x7F, 3);
 }
 
-void func_800F483C(u8 targetVol, u8 volFadeTimer) {
+void Audio_SetMainBgmVolume(u8 targetVol, u8 volFadeTimer) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, targetVol, volFadeTimer);
 }
 
@@ -4593,7 +4593,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
             Audio_QueueCmdS32(0xF8000000, 0);
         }
 
-        if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME) {
+        if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
             // Resume the sequence from the point where it left off last time it was played in the scene
             if ((sSeqResumePoint & 0x3F) != 0) {
                 fadeInDuration = 30;
@@ -4622,7 +4622,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
 void Audio_UpdateSceneSequenceResumePoint(void) {
     u16 seqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
-    if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[(u8)seqId & 0xFF] & SEQ_FLAG_RESUME)) {
+    if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
         if (sSeqResumePoint != SEQ_RESUME_POINT_NONE) {
             // Get the current point to resume from
             sSeqResumePoint = gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
@@ -4633,14 +4633,15 @@ void Audio_UpdateSceneSequenceResumePoint(void) {
     }
 }
 
-void func_800F5718(void) {
+void Audio_PlayWindmillBgm(void) {
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_WINDMILL);
     }
 }
 
-void func_800F574C(f32 scaleTempoAndFreq, u8 duration) {
+void Audio_SetMainBgmTempoFreqAfterFanfare(f32 scaleTempoAndFreq, u8 duration) {
     if (scaleTempoAndFreq == 1.0f) {
+        // Should instead use `SEQCMD_SETUP_RESET_TEMPO` to wait until the fanfare is finished
         SEQCMD_RESET_TEMPO(SEQ_PLAYER_BGM_MAIN, duration);
     } else {
         SEQCMD_SETUP_SCALE_TEMPO(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
@@ -4649,52 +4650,51 @@ void func_800F574C(f32 scaleTempoAndFreq, u8 duration) {
     SEQCMD_SETUP_SET_PLAYER_FREQ(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
 }
 
-void func_800F5918(void) {
-    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME &&
+/**
+ * Set the tempo for the timed minigame sequence to 210 bpm,
+ * which is faster than the default tempo
+ */
+void Audio_SetFastTempoForTimedMinigame(void) {
+    if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME) &&
         Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28, SEQCMD_OP_MASK)) {
         SEQCMD_SET_TEMPO(SEQ_PLAYER_BGM_MAIN, 5, 210);
     }
 }
 
-void func_800F595C(u16 arg0) {
-    u8 arg0b = arg0 & 0xFF;
-
-    if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE) {
-        Audio_PlayFanfare(arg0);
-    } else if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE_GANON) {
-        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 0, 0, arg0);
-
+void Audio_PlaySequenceInCutscene(u16 seqId) {
+    if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE) {
+        Audio_PlayFanfare(seqId);
+    } else if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
+        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 0, 0, seqId);
     } else {
-        Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, arg0, 0, 7, SEQ_IO_VAL_NONE);
+        Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, seqId, 0, 7, SEQ_IO_VAL_NONE);
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
     }
 }
 
-void func_800F59E8(u16 arg0) {
-    u8 arg0b = arg0 & 0xFF;
-
-    if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE) {
+void Audio_StopSequenceInCutscene(u16 seqId) {
+    if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
-    } else if (sSeqFlags[arg0b] & SEQ_FLAG_FANFARE_GANON) {
+    } else if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
     } else {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
     }
 }
 
-s32 func_800F5A58(u8 arg0) {
-    u8 phi_a1 = 0;
+s32 Audio_IsSequencePlaying(u16 seqId) {
+    u8 seqPlayerIndex = SEQ_PLAYER_BGM_MAIN;
 
-    if (sSeqFlags[arg0 & 0xFF] & SEQ_FLAG_FANFARE) {
-        phi_a1 = 1;
-    } else if (sSeqFlags[arg0 & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
-        phi_a1 = 1;
+    if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE) {
+        seqPlayerIndex = SEQ_PLAYER_FANFARE;
+    } else if (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_FANFARE_GANON) {
+        seqPlayerIndex = SEQ_PLAYER_FANFARE;
     }
 
-    if (arg0 == (u8)Audio_GetActiveSeqId(phi_a1)) {
-        return 1;
+    if ((seqId & 0xFF) == (Audio_GetActiveSeqId(seqPlayerIndex) & 0xFF)) {
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -4757,31 +4757,35 @@ void func_800F5C2C(void) {
 }
 
 void Audio_PlayFanfare(u16 seqId) {
-    u16 sp26;
-    u32 sp20;
-    u8* sp1C;
-    u8* sp18;
+    u16 curSeqId;
+    u32 outNumFonts;
+    u8* curFontId;
+    u8* requestedFontId;
 
-    sp26 = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
-    sp1C = func_800E5E84(sp26 & 0xFF, &sp20);
-    sp18 = func_800E5E84(seqId & 0xFF, &sp20);
-    if ((sp26 == NA_BGM_DISABLED) || (*sp1C == *sp18)) {
-        D_8016B9F4 = 1;
+    curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
+
+    curFontId = func_800E5E84(curSeqId & 0xFF, &outNumFonts);
+    requestedFontId = func_800E5E84(seqId & 0xFF, &outNumFonts);
+
+    if ((curSeqId == NA_BGM_DISABLED) || (*curFontId == *requestedFontId)) {
+        sFanfareStartTimer = 1;
     } else {
-        D_8016B9F4 = 5;
+        // Give extra time to start the fanfare if both another fanfare needs to be stopped
+        // and a new fontId needs to be loaded in
+        sFanfareStartTimer = 5;
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
     }
-    D_8016B9F6 = seqId;
+    sFanfareSeqId = seqId;
 }
 
-void func_800F5CF8(void) {
+void Audio_UpdateFanfare(void) {
     u16 seqIdFanfare;
     u16 seqIdBgmMain;
     u16 seqIdBgmSub;
 
-    if (D_8016B9F4 != 0) {
-        D_8016B9F4--;
-        if (D_8016B9F4 == 0) {
+    if (sFanfareStartTimer != 0) {
+        sFanfareStartTimer--;
+        if (sFanfareStartTimer == 0) {
             Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
             Audio_QueueCmdS32(0xE3000000, FONT_TABLE);
 
@@ -4802,7 +4806,7 @@ void func_800F5CF8(void) {
                     SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
                 }
             }
-            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 1, 0, D_8016B9F6);
+            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 1, 0, sFanfareSeqId);
             SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_MAIN, 0xFFFF);
             if (seqIdBgmSub != NA_BGM_LONLON) {
                 SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_SUB, 0xFFFF);
@@ -4833,7 +4837,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
             seqMode = SEQ_MODE_IGNORE;
         }
 
-        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[(u8)(seqId & 0xFF)] & SEQ_FLAG_ENEMY) ||
+        if ((seqId == NA_BGM_DISABLED) || (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_ENEMY) ||
             ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY)) {
             if (seqMode != (sPrevSeqMode & 0x7F)) {
                 if (seqMode == SEQ_MODE_ENEMY) {
@@ -4919,56 +4923,69 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
     sAudioEnemyDist = dist;
 }
 
-void func_800F6268(f32 dist, u16 arg1) {
+void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
     s8 pad;
-    s8 phi_v1;
-    s16 temp_a0;
+    s8 melodyVolume;
+    s16 curSeqId;
 
-    sAudioHasMalonBgm = true;
-    sAudioMalonBgmDist = dist;
-    if (D_8016B9F2 == 0) {
-        temp_a0 = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF);
-        if (temp_a0 == (arg1 & 0xFF)) {
-            if ((arg1 & 0xFF) == NA_BGM_LONLON) {
+    sIsMalonSinging = true;
+    sMalonSingingDist = dist;
 
-                if (dist > 2000.0f) {
-                    phi_v1 = 127;
-                } else if (dist < 200.0f) {
-                    phi_v1 = 0;
-                } else {
-                    phi_v1 = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
-                }
-                // Transition volume of channels 0, 1 and 13 on seq player 0 over 3 frames
-                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 0, 3, 127 - phi_v1);
-                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 1, 3, 127 - phi_v1);
-                SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 13, 3, phi_v1);
-                if (D_8016B9D8 == 0) {
-                    D_8016B9D8++;
-                }
-            }
-        } else if ((temp_a0 == NA_BGM_NATURE_AMBIENCE) && ((arg1 & 0xFF) == NA_BGM_LONLON)) {
-            temp_a0 = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF);
-            if ((temp_a0 != (arg1 & 0xFF)) && (D_8016B9D8 < 10)) {
-                Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
-                SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_SUB, 0xFFFC);
-                D_8016B9D8 = 10;
-            }
+    if (sMalonSingingDisabled) {
+        return;
+    }
+
+    curSeqId = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF);
+
+    if (curSeqId == (seqId & 0xFF)) {
+        if ((seqId & 0xFF) == NA_BGM_LONLON) {
+            // Malon is singing along with the Lon Lon Sequence
 
             if (dist > 2000.0f) {
-                phi_v1 = 127;
+                melodyVolume = 127;
             } else if (dist < 200.0f) {
-                phi_v1 = 0;
+                melodyVolume = 0;
             } else {
-                phi_v1 = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
+                melodyVolume = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
             }
-            // Transition volume of channels 0 and 1 on seq player 0 over 3 frames
-            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 0, 3, 127 - phi_v1);
-            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 1, 3, 127 - phi_v1);
+
+            // Update volume for channels 0 & 1, which contain Malon's singing
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 0, 3, 127 - melodyVolume);
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 1, 3, 127 - melodyVolume);
+
+            // Update volume for channel 13, which contains the melody line for Lon Lon's Sequence
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, 13, 3, melodyVolume);
+            if (sMalonSingingTimer == 0) {
+                sMalonSingingTimer++;
+            }
+        }
+    } else if ((curSeqId == NA_BGM_NATURE_AMBIENCE) && ((seqId & 0xFF) == NA_BGM_LONLON)) {
+        // Malon is singing along with ambience
+        curSeqId = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF);
+
+        if ((curSeqId != (seqId & 0xFF)) && (sMalonSingingTimer < 10)) {
+            Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
+            // Disable all channels between 2-15.
+            // Only allow the two channels with Malon's singing to play, and suppress the full lon lon sequence.
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_BGM_SUB, 0xFFFC);
+            sMalonSingingTimer = 10;
         }
 
-        if (D_8016B9D8 < 10) {
-            D_8016B9D8++;
+        if (dist > 2000.0f) {
+            melodyVolume = 127;
+        } else if (dist < 200.0f) {
+            melodyVolume = 0;
+        } else {
+            melodyVolume = (s8)(((dist - 200.0f) * 127.0f) / 1800.0f);
         }
+
+        // Update volume for channels 0 & 1, which contain Malon's singing
+        SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 0, 3, 127 - melodyVolume);
+        SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_SUB, 1, 3, 127 - melodyVolume);
+    }
+
+    if (sMalonSingingTimer < 10) {
+        sMalonSingingTimer++;
     }
 }
 
@@ -4985,35 +5002,55 @@ void func_800F64E0(u8 arg0) {
     }
 }
 
-void func_800F6584(u8 arg0) {
+/**
+ * Enable or disable Malon's singing
+ *
+ * @param malonSingingDisabled true to disable, false to enable
+ */
+void Audio_ToggleMalonSinging(u8 malonSingingDisabled) {
     u8 seqPlayerIndex;
-    u16 sp34;
+    u16 channelMaskDisable;
 
-    D_8016B9F2 = arg0;
+    sMalonSingingDisabled = malonSingingDisabled;
+
     if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF) == NA_BGM_LONLON) {
+        // Malon is singing along with the Lon Lon Sequence
         seqPlayerIndex = SEQ_PLAYER_BGM_MAIN;
-        sp34 = 0;
-    } else if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF) == NA_BGM_LONLON) {
+        // Do not disable any channel.
+        // Allow the full lon lon sequence to play in addition to Malon's singing.
+        channelMaskDisable = 0;
+    } else if ((u8)Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == NA_BGM_LONLON) {
+        // Malon is singing along with ambience
         seqPlayerIndex = SEQ_PLAYER_BGM_SUB;
-        sp34 = 0xFFFC;
+        // Disable all channels between 2-15.
+        // Only allow the two channels with Malon's singing to play, and suppress the full lon lon sequence.
+        channelMaskDisable = 0xFFFC;
     } else {
         return;
     }
 
-    if (arg0 != 0) {
+    if (malonSingingDisabled) {
+        // Turn volume off for channels 0 & 1, which contain Malon's singing
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0);
+
         if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
-            SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, sp34 | 3);
+            // When singing along with ambience, disable all 16 channels
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, channelMaskDisable | 3);
         }
     } else {
         if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
+            // When singing along with ambience, start the sequence
             Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
         }
+
+        // Turn volume on for only channels 0 & 1, which contain Malon's singing
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 0, 1, 0x7F);
         SEQCMD_SET_CHANNEL_VOLUME(seqPlayerIndex, 1, 1, 0x7F);
+
         if (seqPlayerIndex == SEQ_PLAYER_BGM_SUB) {
-            SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, sp34);
+            // When singing along with ambience, disable channels 2-15
+            SEQCMD_SET_CHANNEL_DISABLE_MASK(seqPlayerIndex, channelMaskDisable);
         }
     }
 }
@@ -5127,10 +5164,10 @@ void func_800F6964(u16 arg0) {
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_SUB, (arg0 * 3) / 2);
 }
 
-void func_800F6AB0(u16 arg0) {
-    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, arg0);
-    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, arg0);
-    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_SUB, arg0);
+void Audio_StopBgmAndFanfare(u16 fadeOutDuration) {
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, fadeOutDuration);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, fadeOutDuration);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_SUB, fadeOutDuration);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, 0x7F, 0);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0x7F, 0);
 }
@@ -5184,15 +5221,15 @@ void func_800F6C34(void) {
     sRiverSoundMainBgmLower = false;
     sRiverSoundMainBgmRestore = false;
     sGanonsTowerVol = 0xFF;
-    D_8016B9D8 = 0;
+    sMalonSingingTimer = 0;
     sSpecReverb = sSpecReverbs[gAudioSpecId];
     D_80130608 = 0;
     sPrevMainBgmSeqId = NA_BGM_DISABLED;
     Audio_QueueCmdS8(0x46 << 24 | SEQ_PLAYER_BGM_MAIN << 16, -1);
     sSariaBgmPtr = NULL;
-    D_8016B9F4 = 0;
+    sFanfareStartTimer = 0;
     D_8016B9F3 = 1;
-    D_8016B9F2 = 0;
+    sMalonSingingDisabled = false;
 }
 
 void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) {
@@ -5209,7 +5246,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) 
     // channelIdxRange = 01 on ioPort 1
     if (((channelIdxRange << 8) + ioPort) == ((NATURE_CHANNEL_CRITTER_0 << 8) + CHANNEL_IO_PORT_1)) {
         if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON) {
-            D_8016B9D8 = 0;
+            sMalonSingingTimer = 0;
         }
     }
 
@@ -5264,7 +5301,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     u8 ioData;
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId == NA_BGM_DISABLED) ||
-        !(sSeqFlags[((u8)gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId) & 0xFF] & SEQ_FLAG_NO_AMBIENCE)) {
+        !(sSeqFlags[gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId & 0xFF & 0xFF] & SEQ_FLAG_NO_AMBIENCE)) {
 
         Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
                                           sNatureAmbienceDataIO[natureAmbienceId].channelMask);

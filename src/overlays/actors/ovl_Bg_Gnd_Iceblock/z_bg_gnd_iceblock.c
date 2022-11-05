@@ -23,7 +23,7 @@ void BgGndIceblock_Draw(Actor* thisx, PlayState* play);
 void BgGndIceblock_Idle(BgGndIceblock* this, PlayState* play);
 void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play);
 
-const ActorInit Bg_Gnd_Iceblock_InitVars = {
+ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
     ACTORCAT_PROP,
     FLAGS,
@@ -50,7 +50,7 @@ void BgGndIceblock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gWaterTrialIceBlockCol, &colHeader);
     this->targetPos = this->dyna.actor.home.pos;
     this->actionFunc = BgGndIceblock_Idle;

@@ -25,7 +25,7 @@ void func_808B44CC(BgSpot15Rrbox* this, PlayState* play);
 
 static s16 D_808B4590 = 0;
 
-const ActorInit Bg_Spot15_Rrbox_InitVars = {
+ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
     ACTORCAT_BG,
     FLAGS,
@@ -110,7 +110,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, PlayState* play) {
         }
 
         if (rotY < 0x2000 && rotY > -0x6000) {
-            return GET_EVENTCHKINF(EVENTCHKINF_14);
+            return GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE);
         }
         return true;
     }
@@ -121,7 +121,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, PlayState* play) {
 void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     BgSpot15Rrbox* this = (BgSpot15Rrbox*)thisx;
 
-    func_808B3960(this, play, &gLonLonMilkCrateCol, DPM_UNK);
+    func_808B3960(this, play, &gLonLonMilkCrateCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {

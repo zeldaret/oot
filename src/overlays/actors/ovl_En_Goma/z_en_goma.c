@@ -42,7 +42,7 @@ void EnGoma_SetupLand(EnGoma* this);
 void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, PlayState* play);
 
-const ActorInit En_Goma_InitVars = {
+ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -791,7 +791,7 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
             this->actor.naviEnemyId = NAVI_ENEMY_GOHMA_LARVA;
             Matrix_Translate(this->actor.world.pos.x,
                              this->actor.world.pos.y +
-                                 ((this->actor.shape.yOffset * this->actor.scale.y) + play->mainCamera.skyboxOffset.y),
+                                 ((this->actor.shape.yOffset * this->actor.scale.y) + play->mainCamera.quakeOffset.y),
                              this->actor.world.pos.z, MTXMODE_NEW);
             Matrix_RotateX(BINANG_TO_RAD_ALT(this->slopePitch), MTXMODE_APPLY);
             Matrix_RotateZ(BINANG_TO_RAD_ALT(this->slopeRoll), MTXMODE_APPLY);

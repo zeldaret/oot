@@ -25,7 +25,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play);
 
-const ActorInit Bg_Spot00_Hanebasi_InitVars = {
+ActorInit Bg_Spot00_Hanebasi_InitVars = {
     ACTOR_BG_SPOT00_HANEBASI,
     ACTORCAT_BG,
     FLAGS,
@@ -53,7 +53,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, 1);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         CollisionHeader_GetVirtual(&gHyruleFieldCastleDrawbridgeCol, &colHeader);
