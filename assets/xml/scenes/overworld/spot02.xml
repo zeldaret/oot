@@ -1,5 +1,4 @@
 <Root>
-    <!-- gGraveyard -->
     <File Name="spot02_scene" Segment="2">
         <Scene Name="spot02_scene" Offset="0x0"/>
 

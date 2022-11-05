@@ -1,5 +1,4 @@
 <Root>
-    <!-- gBombchuBowlingAlley -->
     <File Name="bowling_scene" Segment="2">
         <Scene Name="bowling_scene" Offset="0x0"/>
     </File>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gJabu -->
     <File Name="bdan_scene" Segment="2">
         <Cutscene Name="gJabuJabuIntroCs" Offset="0x15600"/>
         <Scene Name="bdan_scene" Offset="0x0"/>

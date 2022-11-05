@@ -1,5 +1,4 @@
 <Root>
-    <!-- gFireTempleBoss -->
     <File Name="FIRE_bs_scene" Segment="2">
         <Scene Name="FIRE_bs_scene" Offset="0x0"/>
     </File>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gTOTExteriorRuins -->
     <File Name="shrine_r_scene" Segment="2">
         <Scene Name="shrine_r_scene" Offset="0x0"/>
     </File>

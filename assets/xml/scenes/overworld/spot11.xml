@@ -1,5 +1,4 @@
 <Root>
-    <!-- gDesertColossus -->
     <File Name="spot11_scene" Segment="2">
         <Cutscene Name="gDesertColossusIntroCs" Offset="0x7990"/>
         <Scene Name="spot11_scene" Offset="0x0"/>

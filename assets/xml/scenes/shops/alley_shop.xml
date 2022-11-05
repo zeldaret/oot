@@ -1,5 +1,4 @@
 <Root>
-    <!-- gPotionShopMarket -->
     <File Name="alley_shop_scene" Segment="2">
         <Scene Name="alley_shop_scene" Offset="0x0"/>
     </File>

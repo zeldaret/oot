@@ -1,5 +1,4 @@
 <Root>
-    <!-- gGoronShop -->
     <File Name="golon_scene" Segment="2">
         <Scene Name="golon_scene" Offset="0x0"/>
     </File>

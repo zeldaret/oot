@@ -1,5 +1,4 @@
 <Root>
-    <!-- gBazaar -->
     <File Name="shop1_scene" Segment="2">
         <Scene Name="shop1_scene" Offset="0x0"/>
     </File>

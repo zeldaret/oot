@@ -1,5 +1,4 @@
 <Root>
-    <!-- gChamberOfTheSages -->
     <File Name="kenjyanoma_scene" Segment="2">
         <Scene Name="kenjyanoma_scene" Offset="0x0"/>
     </File>

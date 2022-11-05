@@ -1,5 +1,4 @@
 <Root>
-    <!-- gMarketEntranceRuins -->
     <File Name="enrui_scene" Segment="2">
         <Scene Name="enrui_scene" Offset="0x0"/>
     </File>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gMarketRuins -->
     <File Name="market_ruins_scene" Segment="2">
         <Scene Name="market_ruins_scene" Offset="0x0"/>
     </File>

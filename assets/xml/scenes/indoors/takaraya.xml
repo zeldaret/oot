@@ -1,5 +1,4 @@
 <Root>
-    <!-- gTreasureBoxShop -->
     <File Name="takaraya_scene" Segment="2">
         <Scene Name="takaraya_scene" Offset="0x0"/>
     </File>

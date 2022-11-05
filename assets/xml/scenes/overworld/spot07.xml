@@ -1,5 +1,4 @@
 <Root>
-    <!-- gZorasDomain -->
     <File Name="spot07_scene" Segment="2">
         <Path Name="spot07_scenePathList_000234" Offset="0x234" NumPaths="2"/>
         <Cutscene Name="gZorasDomainIntroCs" Offset="0x3D70"/>

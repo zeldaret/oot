@@ -1,5 +1,4 @@
 <Root>
-    <!-- gZorasRiver -->
     <File Name="spot03_scene" Segment="2">
         <Path Name="spot03_scenePathList_0002BC" Offset="0x02BC" NumPaths="2"/>
         <Path Name="spot03_scenePathList_006908" Offset="0x6908" NumPaths="3"/>

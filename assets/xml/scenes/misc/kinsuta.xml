@@ -1,5 +1,4 @@
 <Root>
-    <!-- gHouseOfSkulltula -->
     <File Name="kinsuta_scene" Segment="2">
         <Scene Name="kinsuta_scene" Offset="0x0"/>
     </File>

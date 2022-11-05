@@ -1,5 +1,4 @@
 <Root>
-    <!-- gCastleCourtyardZelda -->
     <File Name="nakaniwa_scene" Segment="2">
         <Cutscene Name="gZeldasCourtyardGanonCs" Offset="0x104"/>
         <Cutscene Name="gZeldasCourtyardWindowCs" Offset="0x444"/>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gShadowTemple -->
     <File Name="HAKAdan_scene" Segment="2">
         <Scene Name="HAKAdan_scene" Offset="0x0"/>
     </File>

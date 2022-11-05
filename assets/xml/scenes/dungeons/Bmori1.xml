@@ -1,5 +1,4 @@
 <Root>
-    <!-- gForestTemple -->
     <File Name="Bmori1_scene" Segment="2">
         <Texture Name="gForestTempleDayEntranceTex" OutName="day_entrance" Format="ia16" Width="8" Height="128" Offset="0x14D90"/>
         <Texture Name="gForestTempleNightEntranceTex" OutName="night_entrance" Format="ia16" Width="8" Height="128" Offset="0x14590"/>

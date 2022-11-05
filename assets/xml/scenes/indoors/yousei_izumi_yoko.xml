@@ -1,5 +1,4 @@
 <Root>
-    <!-- gGreatFairysFountainSpells -->
     <File Name="yousei_izumi_yoko_scene" Segment="2">
         <Cutscene Name="gGreatFairyFaroresWindCs" Offset="0x0160"/>
         <Cutscene Name="gGreatFairyDinsFireCs" Offset="0x1020"/>

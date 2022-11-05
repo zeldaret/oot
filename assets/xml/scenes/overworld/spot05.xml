@@ -1,5 +1,4 @@
 <Root>
-    <!-- gSacredForestMeadow -->
     <File Name="spot05_scene" Segment="2">
         <Cutscene Name="gMinuetCs" Offset="0x3F80"/>
 

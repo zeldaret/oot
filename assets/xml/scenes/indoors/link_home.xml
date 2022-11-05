@@ -1,5 +1,4 @@
 <Root>
-    <!-- gLinksHouse -->
     <File Name="link_home_scene" Segment="2">
         <Scene Name="link_home_scene" Offset="0x0"/>
     </File>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gShootingGallery -->
     <File Name="syatekijyou_scene" Segment="2">
         <Scene Name="syatekijyou_scene" Offset="0x0"/>
     </File>

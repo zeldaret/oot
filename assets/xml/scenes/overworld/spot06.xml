@@ -1,5 +1,4 @@
 <Root>
-    <!-- gLakeHylia -->
     <File Name="spot06_scene" Segment="2">
         <Cutscene Name="gLakeHyliaFireArrowsCS" Offset="0x7020"/>
         <Cutscene Name="gLakeHyliaOwlCs" Offset="0x1B0C0"/>

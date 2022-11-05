@@ -1,5 +1,4 @@
 <Root>
-    <!-- gBackAlleyDay -->
     <File Name="market_alley_scene" Segment="2">
         <Scene Name="market_alley_scene" Offset="0x0"/>
     </File>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gDekuTreeBoss -->
     <File Name="ydan_boss_scene" Segment="2">
         <Scene Name="ydan_boss_scene" Offset="0x0"/>
     </File>

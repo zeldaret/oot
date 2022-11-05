@@ -1,5 +1,4 @@
 <Root>
-    <!-- gInsideGanonsCastle -->
     <File Name="ganontika_scene" Segment="2">
         <Cutscene Name="gForestTrialSageCs" Offset="0x19EE0"/>
         <Cutscene Name="gWaterTrialSageCs" Offset="0x1A8E0"/>

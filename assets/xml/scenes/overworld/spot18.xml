@@ -1,5 +1,4 @@
 <Root>
-    <!-- gGoronCity -->
     <File Name="spot18_scene" Segment="2">
         <Cutscene Name="gGoronCityDaruniaCorrectCs" Offset="0x59E0"/>
         <Cutscene Name="gGoronCityDarunia01Cs" Offset="0x6930"/>

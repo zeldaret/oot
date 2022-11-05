@@ -1,5 +1,4 @@
 <Root>
-    <!-- gGanonsTower -->
     <File Name="ganon_scene" Segment="2">
         <Scene Name="ganon_scene" Offset="0x0"/>
     </File>

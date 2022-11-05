@@ -1,5 +1,4 @@
 <Root>
-    <!-- gTOTExteriorDay -->
     <File Name="shrine_scene" Segment="2">
         <Scene Name="shrine_scene" Offset="0x0"/>
     </File>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gForestTempleBoss -->
     <File Name="moribossroom_scene" Segment="2">
         <Scene Name="moribossroom_scene" Offset="0x0"/>
     </File>

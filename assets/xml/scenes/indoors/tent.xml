@@ -1,5 +1,4 @@
 <Root>
-    <!-- gCarpentersTent -->
     <File Name="tent_scene" Segment="2">
         <Scene Name="tent_scene" Offset="0x0"/>
     </File>

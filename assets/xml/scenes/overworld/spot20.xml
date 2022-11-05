@@ -1,5 +1,4 @@
 <Root>
-    <!-- gLonLonRanch -->
     <File Name="spot20_scene" Segment="2">
         <Cutscene Name="gLonLonRanchIntroCs" Offset="0x5BD0"/>
         <Texture Name="gLonLonRanchDayWindowTex" OutName="day_window" Format="rgba16" Width="32" Height="64" Offset="0x81E0"/>

@@ -1,5 +1,4 @@
 <Root>
-    <!-- gHyruleField -->
     <File Name="spot00_scene" Segment="2">
         <Cutscene Name="gHyruleFieldGetOoTCs" Offset="0xBB80"/>
         <Cutscene Name="gHyruleFieldZeldaSongOfTimeCs" Offset="0xF870"/>
