@@ -152,17 +152,17 @@ void EnNb_Destroy(Actor* thisx, PlayState* play) {
 void func_80AB0FBC(EnNb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_300.playerPosition = player->actor.world.pos;
-    this->unk_300.yPosOffset = kREG(16) + 9.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_300, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = kREG(16) + 9.0f;
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80AB1040(EnNb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_300.playerPosition = player->actor.world.pos;
-    this->unk_300.yPosOffset = kREG(16) + 9.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_300, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = kREG(16) + 9.0f;
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
 }
 
 void func_80AB10C4(EnNb* this) {
@@ -170,10 +170,10 @@ void func_80AB10C4(EnNb* this) {
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
-    tempPtr = &this->unk_300.rotHead;
+    tempPtr = &this->interactInfo.rotHead;
     Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
-    tempPtr2 = &this->unk_300.rotTorso;
+    tempPtr2 = &this->interactInfo.rotTorso;
     Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
 }
@@ -1452,17 +1452,17 @@ void EnNb_Init(Actor* thisx, PlayState* play) {
 
 s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
-    NpcPlayerInteractionState* unk_300 = &this->unk_300;
+    NpcInteractInfo* interactInfo = &this->interactInfo;
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
         if (limbIndex == NB_LIMB_TORSO) {
-            rot->x += unk_300->rotTorso.y;
-            rot->y -= unk_300->rotTorso.x;
+            rot->x += interactInfo->rotTorso.y;
+            rot->y -= interactInfo->rotTorso.x;
             ret = false;
         } else if (limbIndex == NB_LIMB_HEAD) {
-            rot->x += unk_300->rotHead.y;
-            rot->z += unk_300->rotHead.x;
+            rot->x += interactInfo->rotHead.y;
+            rot->z += interactInfo->rotHead.x;
             ret = false;
         }
     }

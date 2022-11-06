@@ -505,17 +505,17 @@ void EnZo_Blink(EnZo* this) {
 void EnZo_Dialog(EnZo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_194.playerPosition = player->actor.world.pos;
+    this->interactInfo.playerPosition = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if child, look up if adult
-        this->unk_194.yPosOffset = !LINK_IS_ADULT ? 10.0f : -10.0f;
+        this->interactInfo.yPosOffset = !LINK_IS_ADULT ? 10.0f : -10.0f;
     } else {
-        this->unk_194.playerPosition.y = this->actor.world.pos.y;
+        this->interactInfo.playerPosition.y = this->actor.world.pos.y;
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_194, 11, this->playerTrackingOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 11, this->playerTrackingOpt);
     if (this->canSpeak == true) {
-        Actor_NpcUpdateTalking(play, &this->actor, &this->unk_194.talkState, this->dialogRadius, func_80B61024,
-                               func_80B61298);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->dialogRadius, func_80B61024,
+                          func_80B61298);
     }
 }
 
@@ -543,7 +543,7 @@ void EnZo_SetAnimation(EnZo* this) {
 
     if (this->skelAnime.animation == &gZoraHandsOnHipsTappingFootAnim ||
         this->skelAnime.animation == &gZoraOpenArmsAnim) {
-        if (this->unk_194.talkState == NPC_TALK_STATE_IDLE) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (this->actionFunc == EnZo_Standing) {
                 animId = ENZO_ANIM_0;
             } else {
@@ -552,12 +552,12 @@ void EnZo_SetAnimation(EnZo* this) {
         }
     }
 
-    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4006 &&
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4006 &&
         this->skelAnime.animation != &gZoraHandsOnHipsTappingFootAnim) {
         animId = ENZO_ANIM_6;
     }
 
-    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4007 &&
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE && this->actor.textId == 0x4007 &&
         this->skelAnime.animation != &gZoraOpenArmsAnim) {
         animId = ENZO_ANIM_7;
     }
@@ -591,7 +591,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     this->dialogRadius = this->collider.dim.radius + 30.0f;
     this->playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
     this->canSpeak = false;
-    this->unk_194.talkState = NPC_TALK_STATE_IDLE;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
@@ -616,7 +616,7 @@ void EnZo_Standing(EnZo* this, PlayState* play) {
 
     func_80034F54(play, this->unk_656, this->unk_67E, 20);
     EnZo_SetAnimation(this);
-    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->playerTrackingOpt = NPC_PLAYER_TRACKING_FULL_BODY;
         return;
     }
@@ -759,14 +759,14 @@ s32 EnZo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         Matrix_Translate(1800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_194.rotHead;
+        vec = this->interactInfo.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        vec = this->unk_194.rotTorso;
+        vec = this->interactInfo.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
     }

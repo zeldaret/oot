@@ -132,7 +132,7 @@ void EnTg_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnTg_SpinIfNotTalking(EnTg* this, PlayState* play) {
-    if (!this->npcInfo.talkState) {
+    if (!this->interactInfo.talkState) {
         this->actor.shape.rot.y += 0x800;
     }
 }
@@ -152,7 +152,7 @@ void EnTg_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
     temp = this->collider.dim.radius + 30.0f;
-    Actor_NpcUpdateTalking(play, &this->actor, &this->npcInfo.talkState, temp, EnTg_GetTextId, EnTg_OnTextComplete);
+    Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, temp, EnTg_GetTextId, EnTg_OnTextComplete);
 }
 
 s32 EnTg_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

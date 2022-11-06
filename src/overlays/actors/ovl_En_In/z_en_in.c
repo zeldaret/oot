@@ -328,13 +328,13 @@ void func_80A795C8(EnIn* this, PlayState* play) {
         playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
     }
     if (this->actionFunc == func_80A7B024) {
-        this->unk_308.playerPosition = play->view.eye;
-        this->unk_308.yPosOffset = 60.0f;
+        this->interactInfo.playerPosition = play->view.eye;
+        this->interactInfo.yPosOffset = 60.0f;
     } else {
-        this->unk_308.playerPosition = player->actor.world.pos;
-        this->unk_308.yPosOffset = 16.0f;
+        this->interactInfo.playerPosition = player->actor.world.pos;
+        this->interactInfo.yPosOffset = 16.0f;
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_308, 1, playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 1, playerTrackOpt);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {
@@ -457,10 +457,10 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     subCamEye.z = subCamAt.z + 40.0f;
     Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &subCamEye);
-    this->unk_308.rotHead = zeroVec;
-    this->unk_308.rotTorso = zeroVec;
+    this->interactInfo.rotHead = zeroVec;
+    this->interactInfo.rotTorso = zeroVec;
     Message_StartTextbox(play, 0x2025, NULL);
-    this->unk_308.talkState = NPC_TALK_STATE_TALKING;
+    this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
     player->actor.world.pos = this->actor.world.pos;
     player->actor.world.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
     player->actor.world.pos.z += 100.0f * Math_CosS(this->actor.shape.rot.y);
@@ -519,7 +519,7 @@ void func_80A79FB0(EnIn* this, PlayState* play) {
         }
         Actor_SetScale(&this->actor, 0.01f);
         this->actor.targetMode = 6;
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80A7A4BC;
 
         switch (func_80A79830(this, play)) {
@@ -637,7 +637,7 @@ void func_80A7A4BC(EnIn* this, PlayState* play) {
 }
 
 void func_80A7A4C8(EnIn* this, PlayState* play) {
-    if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         func_80A79BAC(this, play, 1, TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST));
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_1);
         SET_EVENTINF_HORSES_0F(1);
@@ -645,7 +645,7 @@ void func_80A7A4C8(EnIn* this, PlayState* play) {
         Environment_ForcePlaySequence(NA_BGM_HORSE);
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
@@ -663,12 +663,12 @@ void func_80A7A568(EnIn* this, PlayState* play) {
         func_80A79C78(this, play);
         this->actionFunc = func_80A7B024;
         gSaveContext.timer1State = 0;
-    } else if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if (play->msgCtx.choiceIndex == 0) {
             if (gSaveContext.rupees < 50) {
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-                this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+                this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 return;
             }
             SET_EVENTINF_HORSES_HORSETYPE(((EnHorse*)GET_PLAYER(play)->rideActor)->type);
@@ -692,20 +692,20 @@ void func_80A7A568(EnIn* this, PlayState* play) {
         play->msgCtx.stateTimer = 0;
         SET_EVENTINF_HORSES_0F(1);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
 void func_80A7A770(EnIn* this, PlayState* play) {
-    if (this->unk_308.talkState == NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         this->actor.flags |= ACTOR_FLAG_16;
-    } else if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         Rupees_ChangeBy(-50);
         this->actor.flags &= ~ACTOR_FLAG_16;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
             (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_05_MASK;
         if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
@@ -716,7 +716,7 @@ void func_80A7A770(EnIn* this, PlayState* play) {
 }
 
 void func_80A7A848(EnIn* this, PlayState* play) {
-    if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if ((play->msgCtx.choiceIndex == 0 && gSaveContext.rupees < 50) || play->msgCtx.choiceIndex == 1) {
             SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             this->actionFunc = func_80A7A4C8;
@@ -727,14 +727,14 @@ void func_80A7A848(EnIn* this, PlayState* play) {
             play->msgCtx.stateTimer = 0;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         CLEAR_EVENTINF(EVENTINF_HORSES_05);
         CLEAR_EVENTINF(EVENTINF_HORSES_06);
     }
 }
 
 void func_80A7A940(EnIn* this, PlayState* play) {
-    if (this->unk_308.talkState == NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         this->actor.flags |= ACTOR_FLAG_16;
         return;
     }
@@ -744,14 +744,14 @@ void func_80A7A940(EnIn* this, PlayState* play) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_VO_IN_LOST);
         }
     }
-    if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         func_80A79BAC(this, play, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
         SET_EVENTINF_HORSES_0F(1);
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
             (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_06_MASK;
     }
@@ -788,7 +788,7 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.textId = 0x203B;
     Message_StartTextbox(play, this->actor.textId, NULL);
-    this->unk_308.talkState = NPC_TALK_STATE_TALKING;
+    this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
     this->unk_1FC = 0;
     play->csCtx.frames = 0;
     Letterbox_SetSizeTarget(32);
@@ -813,16 +813,16 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
             }
         }
     }
-    if (this->unk_308.talkState != NPC_TALK_STATE_IDLE) {
-        if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
             if (this->actor.textId == 0x203B) {
                 this->actor.textId = 0x203C;
                 Message_StartTextbox(play, this->actor.textId, NULL);
-                this->unk_308.talkState = NPC_TALK_STATE_TALKING;
+                this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
                 EnIn_ChangeAnim(this, ENIN_ANIM_3);
             } else {
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-                this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+                this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
             }
         }
     } else {
@@ -874,10 +874,10 @@ void func_80A7AEF0(EnIn* this, PlayState* play) {
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
         this->actionFunc = func_80A7B018;
-    } else if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
@@ -891,7 +891,7 @@ void func_80A7B024(EnIn* this, PlayState* play) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    if (this->unk_308.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if (1) {}
         if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
             SET_EVENTCHKINF(EVENTCHKINF_1B);
@@ -902,7 +902,7 @@ void func_80A7B024(EnIn* this, PlayState* play) {
         SET_EVENTINF_HORSES_0F(1);
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
@@ -930,13 +930,13 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
         if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 &&
-            this->unk_308.talkState == NPC_TALK_STATE_IDLE) {
+            this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (Actor_ProcessTalkRequest(&this->actor, play)) {}
         } else {
-            Actor_NpcUpdateTalking(play, &this->actor, &this->unk_308.talkState,
-                                   ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
-                                   func_80A79168, func_80A79500);
-            if (this->unk_308.talkState != NPC_TALK_STATE_IDLE) {
+            Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
+                              ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
+                              func_80A79168, func_80A79500);
+            if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
                 this->unk_1FA = this->unk_1F8;
                 this->unk_1F8 = Message_GetState(&play->msgCtx);
             }
@@ -956,13 +956,13 @@ s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
     if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp2C = this->unk_308.rotHead;
+        sp2C = this->interactInfo.rotHead;
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB) {
-        sp2C = this->unk_308.rotTorso;
+        sp2C = this->interactInfo.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
     }

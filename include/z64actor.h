@@ -19,8 +19,8 @@ struct Lights;
 
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
-typedef u16 (*ActorNpcGetTextIdFunc)(struct PlayState*, struct Actor*);
-typedef s16 (*ActorNpcGetTalkStateFunc)(struct PlayState*, struct Actor*);
+typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
+typedef s16 (*NpcGetTalkStateFunc)(struct PlayState*, struct Actor*);
 
 typedef struct {
     Vec3f pos;
@@ -531,5 +531,32 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_5 (1 << 5) // unused
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
+
+typedef enum {
+    /* 0x0 */ NPC_TALK_STATE_IDLE, // NPC not currently talking to player
+    /* 0x1 */ NPC_TALK_STATE_TALKING, // NPC is currently talking to player
+    /* 0x2 */ NPC_TALK_STATE_ACTION, // An NPC-defined action triggered in the conversation
+    /* 0x3 */ NPC_TALK_STATE_ITEM_GIVEN // NPC finished giving an item and text box is done
+} NpcTalkState;
+
+typedef enum {
+    /* 0x0 */ NPC_PLAYER_TRACKING_AUTO_TURN,  // The actor will periodically turn to face the player
+    /* 0x1 */ NPC_PLAYER_TRACKING_NONE, // Don't track the player
+    /* 0x2 */ NPC_PLAYER_TRACKING_HEAD_AND_TORSO, // Track player by turning the head and the torso
+    /* 0x3 */ NPC_PLAYER_TRACKING_HEAD, // Track player by turning the head
+    /* 0x4 */ NPC_PLAYER_TRACKING_FULL_BODY // Track player by turning the body, torso and head
+} NpcPlayerTrackOption;
+
+typedef struct {
+    /* 0x00 */ s16 talkState;
+    /* 0x02 */ s16 playerTrackingOpt;
+    /* 0x04 */ s16 autoTurnTimer;
+    /* 0x06 */ s16 autoTurnState;
+    /* 0x08 */ Vec3s rotHead;
+    /* 0x0E */ Vec3s rotTorso;
+    /* 0x14 */ f32 yPosOffset; // Y position offset to add to actor position when calculating angle to player
+    /* 0x18 */ Vec3f playerPosition;
+    /* 0x24 */ s16 pad;
+} NpcInteractInfo; // size = 0x28
 
 #endif

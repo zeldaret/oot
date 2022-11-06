@@ -357,20 +357,20 @@ void EnToryo_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->stateFlags & 8) {
-        this->unk_1EC.playerPosition.x = player->actor.focus.pos.x;
-        this->unk_1EC.playerPosition.y = player->actor.focus.pos.y;
-        this->unk_1EC.playerPosition.z = player->actor.focus.pos.z;
+        this->interactInfo.playerPosition.x = player->actor.focus.pos.x;
+        this->interactInfo.playerPosition.y = player->actor.focus.pos.y;
+        this->interactInfo.playerPosition.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & 0x10) {
-            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACKING_FULL_BODY);
+            Npc_TrackPlayer(thisx, &this->interactInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
             return;
         }
 
         rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
         if ((rot < 14563.0f) && (rot > -14563.0f)) {
-            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+            Npc_TrackPlayer(thisx, &this->interactInfo, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
         } else {
-            Actor_NpcTrackPlayer(thisx, &this->unk_1EC, 0, NPC_PLAYER_TRACKING_NONE);
+            Npc_TrackPlayer(thisx, &this->interactInfo, 0, NPC_PLAYER_TRACKING_NONE);
         }
     }
 }
@@ -389,12 +389,12 @@ s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     if (this->stateFlags & 8) {
         switch (limbIndex) {
             case 8:
-                rot->x += this->unk_1EC.rotTorso.y;
-                rot->y -= this->unk_1EC.rotTorso.x;
+                rot->x += this->interactInfo.rotTorso.y;
+                rot->y -= this->interactInfo.rotTorso.x;
                 break;
             case 15:
-                rot->x += this->unk_1EC.rotHead.y;
-                rot->z += this->unk_1EC.rotHead.x;
+                rot->x += this->interactInfo.rotHead.y;
+                rot->z += this->interactInfo.rotHead.x;
                 break;
         }
     }

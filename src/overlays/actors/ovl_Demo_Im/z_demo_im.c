@@ -166,14 +166,14 @@ void DemoIm_UpdateCollider(DemoIm* this, PlayState* play) {
 
 void func_80984DB8(DemoIm* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->unk_2D4.rotHead;
-    Vec3s* vec2 = &this->unk_2D4.rotTorso;
+    Vec3s* rotHead = &this->interactInfo.rotHead;
+    Vec3s* rotTorso = &this->interactInfo.rotTorso;
 
-    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&rotHead->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&rotHead->y, 0, 20, 6200, 100);
 
-    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&rotTorso->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&rotTorso->y, 0, 20, 6200, 100);
 }
 
 void func_80984E58(DemoIm* this, PlayState* play) {
@@ -181,29 +181,29 @@ void func_80984E58(DemoIm* this, PlayState* play) {
     s16 yawDiff;
     s16 playerTrackOpt;
 
-    this->unk_2D4.playerPosition = player->actor.world.pos;
-    this->unk_2D4.yPosOffset = kREG(16) + 4.0f;
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = kREG(16) + 4.0f;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     playerTrackOpt = (ABS(yawDiff) < 0x18E3) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO : NPC_PLAYER_TRACKING_NONE;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, playerTrackOpt);
 }
 
 void func_80984F10(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_2D4.playerPosition = player->actor.world.pos;
-    this->unk_2D4.yPosOffset = kREG(16) + 12.0f;
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = kREG(16) + 12.0f;
 
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80984F94(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_2D4.playerPosition = player->actor.world.pos;
-    this->unk_2D4.yPosOffset = kREG(16) + 4.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_2D4, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = kREG(16) + 4.0f;
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
 }
 
 void DemoIm_UpdateBgCheckInfo(DemoIm* this, PlayState* play) {
@@ -1137,17 +1137,17 @@ s32 DemoIm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     s32* unk_2D0 = &this->unk_2D0;
 
     if (this->unk_280 != 0) {
-        Vec3s* unk_2D4_unk_0E = &this->unk_2D4.rotTorso;
-        Vec3s* unk_2D4_unk_08 = &this->unk_2D4.rotHead;
+        Vec3s* rotTorso = &this->interactInfo.rotTorso;
+        Vec3s* rotHead = &this->interactInfo.rotHead;
 
         switch (limbIndex) {
             case IMPA_LIMB_CHEST:
-                rot->x += unk_2D4_unk_0E->y;
-                rot->y -= unk_2D4_unk_0E->x;
+                rot->x += rotTorso->y;
+                rot->y -= rotTorso->x;
                 break;
             case IMPA_LIMB_HEAD:
-                rot->x += unk_2D4_unk_08->y;
-                rot->z += unk_2D4_unk_08->x;
+                rot->x += rotHead->y;
+                rot->z += rotHead->x;
                 break;
         }
     }

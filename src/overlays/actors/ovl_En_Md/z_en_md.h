@@ -34,7 +34,7 @@ typedef struct EnMd {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnMdActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ NpcPlayerInteractionState unk_1E0;
+    /* 0x01E0 */ NpcInteractInfo interactInfo;
     /* 0x0208 */ u8 unk_208;
     /* 0x0209 */ u8 unk_209;
     /* 0x020A */ u8 unk_20A;

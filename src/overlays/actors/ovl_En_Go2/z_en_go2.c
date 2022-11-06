@@ -41,7 +41,7 @@ EnGo2
 (this->actor.params & 0xFC00) >> 0xA - Gorons in Fire Temple
 this->actor.params & 0x1F
 
-Gorons only move when this->unk_194.unk_00 == 0
+Gorons only move when this->interactInfo.talkState == NPC_TALK_STATE_IDLE
 */
 
 void EnGo2_Init(Actor* thisx, PlayState* play);
@@ -819,17 +819,17 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return Actor_NpcUpdateTalking(play, &this->actor, &this->unk_194.talkState, this->unk_218, EnGo2_GetTextId,
-                                      EnGo2_GetState);
+        return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unk_218, EnGo2_GetTextId,
+                                 EnGo2_GetState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) &&
                !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;
     } else {
         if (Actor_ProcessTalkRequest(&this->actor, play)) {
-            this->unk_194.talkState = NPC_TALK_STATE_TALKING;
+            this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             return true;
-        } else if (this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
-            this->unk_194.talkState = EnGo2_GetState(play, &this->actor);
+        } else if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+            this->interactInfo.talkState = EnGo2_GetState(play, &this->actor);
             return false;
         } else if (func_8002F2CC(&this->actor, play, this->unk_218)) {
             this->actor.textId = EnGo2_GetTextId(play, &this->actor);
@@ -1090,9 +1090,9 @@ void func_80A45288(EnGo2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
-        this->unk_194.playerPosition = player->actor.world.pos;
-        this->unk_194.yPosOffset = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
-        Actor_NpcTrackPlayer(&this->actor, &this->unk_194, 4, this->playerTrackOpt);
+        this->interactInfo.playerPosition = player->actor.world.pos;
+        this->interactInfo.yPosOffset = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
+        Npc_TrackPlayer(&this->actor, &this->interactInfo, 4, this->playerTrackOpt);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
         if (func_80A44790(this, play)) {
@@ -1112,7 +1112,7 @@ void func_80A45360(EnGo2* this, f32* alpha) {
 void EnGo2_RollForward(EnGo2* this) {
     f32 speedXZ = this->actor.speedXZ;
 
-    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->actor.speedXZ = 0.0f;
     }
 
@@ -1187,7 +1187,7 @@ void EnGo2_DefaultWakingUp(EnGo2* this) {
         this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     }
 
-    if (this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
     }
 
@@ -1200,7 +1200,7 @@ void EnGo2_WakingUp(EnGo2* this) {
 
     xyzDist = SQ(xyzDist);
     this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
-    if ((this->actor.xyzDistToPlayerSq <= xyzDist) || (this->unk_194.talkState != NPC_TALK_STATE_IDLE)) {
+    if ((this->actor.xyzDistToPlayerSq <= xyzDist) || (this->interactInfo.talkState != NPC_TALK_STATE_IDLE)) {
         this->playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
     }
 
@@ -1208,7 +1208,7 @@ void EnGo2_WakingUp(EnGo2* this) {
 }
 
 void EnGo2_BiggoronWakingUp(EnGo2* this) {
-    if (EnGo2_IsWakingUp(this) || this->unk_194.talkState != NPC_TALK_STATE_IDLE) {
+    if (EnGo2_IsWakingUp(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
         this->isAwake = true;
     } else {
@@ -1394,12 +1394,12 @@ s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, PlayState* play) {
 }
 
 s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
-    if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->unk_194.talkState != NPC_TALK_STATE_ACTION) {
+    if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->interactInfo.talkState != NPC_TALK_STATE_ACTION) {
         return false;
     }
 
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_3);
-    this->unk_194.talkState = NPC_TALK_STATE_IDLE;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->isAwake = false;
     this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     this->actionFunc = EnGo2_GoronDmtBombFlowerAnimation;
@@ -1407,17 +1407,18 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
 }
 
 s32 EnGo2_IsGoronRollingBig(EnGo2* this, PlayState* play) {
-    if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG || (this->unk_194.talkState != NPC_TALK_STATE_ACTION)) {
+    if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG ||
+        (this->interactInfo.talkState != NPC_TALK_STATE_ACTION)) {
         return false;
     }
-    this->unk_194.talkState = NPC_TALK_STATE_IDLE;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     EnGo2_RollingAnimation(this, play);
     this->actionFunc = EnGo2_GoronRollingBigContinueRolling;
     return true;
 }
 
 s32 EnGo2_IsGoronFireGeneric(EnGo2* this) {
-    if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->unk_194.talkState == NPC_TALK_STATE_IDLE) {
+    if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         return false;
     }
     this->actionFunc = EnGo2_GoronFireGenericAction;
@@ -1433,7 +1434,7 @@ s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
 }
 
 s32 EnGo2_IsRolling(EnGo2* this) {
-    if (this->unk_194.talkState == NPC_TALK_STATE_IDLE || this->actor.speedXZ < 1.0f) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || this->actor.speedXZ < 1.0f) {
         return false;
     }
     if (EnGo2_IsRollingOnGround(this, 2, 20.0 / 3.0f, 0)) {
@@ -1501,7 +1502,7 @@ void EnGo2_GoronFireClearCamera(EnGo2* this, PlayState* play) {
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS &&
-        (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.talkState == NPC_TALK_STATE_IDLE) {
+        (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         if (DECR(this->animTimer) == 0) {
             this->animTimer = Rand_S16Offset(30, 30);
             func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_EYE_BIG, 60);
@@ -1797,7 +1798,7 @@ void EnGo2_SetupGetItem(EnGo2* this, PlayState* play) {
 
 void EnGo2_SetGetItem(EnGo2* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        this->unk_194.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         switch (this->getItemId) {
             case GI_CLAIM_CHECK:
                 Environment_ClearBgsDayCount();
@@ -1913,8 +1914,8 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                 this->animTimer = 60;
                 this->actor.gravity = 0.0f;
                 this->actor.speedXZ = 2.0f;
-                this->unk_194.rotHead = D_80A4854C;
-                this->unk_194.rotTorso = D_80A4854C;
+                this->interactInfo.rotHead = D_80A4854C;
+                this->interactInfo.rotTorso = D_80A4854C;
                 this->goronState++;
                 this->goronState++;
                 player->actor.world.rot.y = this->actor.world.rot.y;
@@ -1977,7 +1978,7 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(play, &this->actor, (f32)this->collider.dim.height * 0.5f,
                             (f32)this->collider.dim.radius * 0.6f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    if (this->unk_194.talkState == NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         func_80A44AB0(this, play);
     }
     this->actionFunc(this, play);
@@ -2027,7 +2028,7 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->unk_194.rotHead;
+        vec1 = this->interactInfo.rotHead;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);
@@ -2035,7 +2036,7 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
-        vec1 = this->unk_194.rotTorso;
+        vec1 = this->interactInfo.rotTorso;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);

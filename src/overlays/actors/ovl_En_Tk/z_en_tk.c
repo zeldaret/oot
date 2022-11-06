@@ -516,35 +516,35 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
     s16 v1;
     s16 a1_;
 
-    if (this->npcInfo.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
-        if (this->npcInfo.talkState == NPC_TALK_STATE_ACTION) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
             EnTk_DigAnim(this, play);
-            this->npcInfo.talkState = NPC_TALK_STATE_IDLE;
+            this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
             this->actionFunc = EnTk_Dig;
             return;
         }
 
-        Actor_NpcUpdateTalking(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f,
-                               func_80B1C54C, func_80B1C5A0);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
+                          func_80B1C54C, func_80B1C5A0);
     } else if (EnTk_CheckFacingPlayer(this)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        Actor_NpcUpdateTalking(play, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f,
-                               func_80B1C54C, func_80B1C5A0);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
+                          func_80B1C54C, func_80B1C5A0);
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        this->npcInfo.talkState = NPC_TALK_STATE_TALKING;
+        this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
     } else if (DECR(this->actionCountdown) == 0) {
         EnTk_WalkAnim(this, play);
         this->actionFunc = EnTk_Walk;
@@ -559,9 +559,9 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
 }
 
 void EnTk_Walk(EnTk* this, PlayState* play) {
-    if (this->npcInfo.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         EnTk_DigAnim(this, play);
-        this->npcInfo.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnTk_Dig;
     } else {
         this->actor.speedXZ = EnTk_Step(this, play);

@@ -474,18 +474,18 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    this->npcInfo.playerPosition.x = player->actor.focus.pos.x;
-    this->npcInfo.playerPosition.y = player->actor.focus.pos.y;
-    this->npcInfo.playerPosition.z = player->actor.focus.pos.z;
+    this->interactInfo.playerPosition.x = player->actor.focus.pos.x;
+    this->interactInfo.playerPosition.y = player->actor.focus.pos.y;
+    this->interactInfo.playerPosition.z = player->actor.focus.pos.z;
 
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+        Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
     } else if (this->flags & 0x200) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
+        Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
     }
 
     Math_SmoothStepToS(&this->neckAngle.x, this->neckAngleTarget.x, 1, 1820, 0);
@@ -497,13 +497,13 @@ s32 EnDaikuKakariko_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 8:
-            angle = this->npcInfo.rotTorso;
+            angle = this->interactInfo.rotTorso;
             Matrix_RotateX(-BINANG_TO_RAD(angle.y), MTXMODE_APPLY);
             Matrix_RotateZ(-BINANG_TO_RAD(angle.x), MTXMODE_APPLY);
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->npcInfo.rotHead;
+            angle = this->interactInfo.rotHead;
 
             if (this->flags & 0x1000) {
                 osSyncPrintf("<%d>\n", this->neckAngle.x);

@@ -769,8 +769,8 @@ void func_80A70978(EnHy* this, PlayState* play) {
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
         case ENHY_TYPE_BOJ_10:
-            playerTrackOpt = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_NONE
-                                                                              : NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+            playerTrackOpt = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_NONE
+                                                                                   : NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
             break;
         case ENHY_TYPE_BOJ_12:
             playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
@@ -781,27 +781,27 @@ void func_80A70978(EnHy* this, PlayState* play) {
             break;
         case ENHY_TYPE_AOB:
         case ENHY_TYPE_BOB_18:
-            playerTrackOpt = (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
-                                                                              : NPC_PLAYER_TRACKING_FULL_BODY;
+            playerTrackOpt = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
+                                                                                   : NPC_PLAYER_TRACKING_FULL_BODY;
             break;
         default:
             playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
             break;
     }
 
-    this->unk_1E8.playerPosition = player->actor.world.pos;
+    this->interactInfo.playerPosition = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->unk_1E8.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
+        this->interactInfo.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
     } else {
-        this->unk_1E8.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueChild;
+        this->interactInfo.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueChild;
     }
 
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex,
-                         playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, sInit1Info[this->actor.params & 0x7F].unkPresetIndex,
+                    playerTrackOpt);
 
-    if (Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E8.talkState, this->unkRange, func_80A6F810,
-                               func_80A70058)) {
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unkRange, func_80A6F810,
+                          func_80A70058)) {
         func_80A70834(this, play);
     }
 }
@@ -970,7 +970,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
 }
 
 void func_80A710F8(EnHy* this, PlayState* play) {
-    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
         }
@@ -1020,11 +1020,11 @@ void func_80A7134C(EnHy* this, PlayState* play) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->interactInfo.talkState != NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
     }
 
-    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->interactInfo.talkState == NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
     }
 
@@ -1086,7 +1086,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
-        if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             Actor_MoveForward(&this->actor);
         }
 
@@ -1125,14 +1125,14 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp48 = this->unk_1E8.rotHead;
+        sp48 = this->interactInfo.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp48.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp48 = this->unk_1E8.rotTorso;
+        sp48 = this->interactInfo.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-sp48.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
     }

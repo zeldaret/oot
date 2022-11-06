@@ -186,15 +186,15 @@ void func_80AA2E54(EnMa3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 playerTrackingOpt;
 
-    if ((this->unk_1E0.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
+    if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
         playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
     } else {
         playerTrackingOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
     }
 
-    this->unk_1E0.playerPosition = player->actor.world.pos;
-    this->unk_1E0.yPosOffset = 0.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 0, playerTrackingOpt);
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = 0.0f;
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, playerTrackingOpt);
 }
 
 s32 func_80AA2EC8(EnMa3* this, PlayState* play) {
@@ -214,7 +214,7 @@ s32 func_80AA2F28(EnMa3* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
-    if (this->unk_1E0.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         return 0;
     }
     this->blinkTimer = 0;
@@ -268,7 +268,7 @@ void EnMa3_Init(Actor* thisx, PlayState* play) {
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
-    this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 }
 
 void EnMa3_Destroy(Actor* thisx, PlayState* play) {
@@ -279,9 +279,9 @@ void EnMa3_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AA3200(EnMa3* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actor.flags &= ~ACTOR_FLAG_16;
-        this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
@@ -295,9 +295,9 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
-    Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E0.talkState, (f32)this->collider.dim.radius + 150.0f,
-                           func_80AA2AA0, func_80AA2BD4);
-    if (this->unk_1E0.talkState == NPC_TALK_STATE_IDLE) {
+    Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 150.0f,
+                      func_80AA2AA0, func_80AA2BD4);
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         if (this->isNotSinging) {
             // Turn on singing
             Audio_ToggleMalonSinging(false);
@@ -319,13 +319,13 @@ s32 EnMa3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E0.rotHead;
+        vec = this->interactInfo.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) {
-        vec = this->unk_1E0.rotTorso;
+        vec = this->interactInfo.rotTorso;
         Matrix_RotateY(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
     }

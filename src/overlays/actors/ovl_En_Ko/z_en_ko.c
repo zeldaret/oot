@@ -663,7 +663,7 @@ s32 EnKo_IsWithinTalkAngle(EnKo* this) {
 s32 func_80A97D68(EnKo* this, PlayState* play) {
     s16 playerTrackOpt;
 
-    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
         }
@@ -674,7 +674,7 @@ s32 func_80A97D68(EnKo* this, PlayState* play) {
         }
         playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 2, playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackOpt);
     return EnKo_IsWithinTalkAngle(this);
 }
 
@@ -687,12 +687,12 @@ s32 func_80A97E18(EnKo* this, PlayState* play) {
     } else {
         playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     }
-    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
     } else if (this->lookDist < this->actor.xzDistToPlayer) {
         playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 2, playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackOpt);
     return 1;
 }
 
@@ -703,20 +703,20 @@ s32 func_80A97EB0(EnKo* this, PlayState* play) {
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     result = EnKo_IsWithinTalkAngle(this);
     playerTrackOpt = (result == true) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO : NPC_PLAYER_TRACKING_NONE;
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 2, playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackOpt);
     return result;
 }
 
 s32 func_80A97F20(EnKo* this, PlayState* play) {
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 2, NPC_PLAYER_TRACKING_FULL_BODY);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, NPC_PLAYER_TRACKING_FULL_BODY);
     return 1;
 }
 
 s32 func_80A97F70(EnKo* this, PlayState* play) {
     s16 playerTrackOpt;
 
-    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
@@ -728,7 +728,7 @@ s32 func_80A97F70(EnKo* this, PlayState* play) {
         }
         playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 5, playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 5, playerTrackOpt);
     return EnKo_IsWithinTalkAngle(this);
 }
 
@@ -736,7 +736,7 @@ s32 func_80A98034(EnKo* this, PlayState* play) {
     s16 playerTrackOpt;
     s32 result;
 
-    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
@@ -750,19 +750,19 @@ s32 func_80A98034(EnKo* this, PlayState* play) {
         playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
         result = EnKo_IsWithinTalkAngle(this);
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 5, playerTrackOpt);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 5, playerTrackOpt);
     return result;
 }
 
 // Same as func_80A97F20
 s32 func_80A98124(EnKo* this, PlayState* play) {
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 2, NPC_PLAYER_TRACKING_FULL_BODY);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, NPC_PLAYER_TRACKING_FULL_BODY);
     return 1;
 }
 
 s32 func_80A98174(EnKo* this, PlayState* play) {
-    if (this->unk_1E8.talkState != NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (Animation_OnFrame(&this->skelAnime, 18.0f)) {
             this->skelAnime.playSpeed = 0.0f;
         }
@@ -772,9 +772,9 @@ s32 func_80A98174(EnKo* this, PlayState* play) {
     if (this->skelAnime.playSpeed == 0.0f) {
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     }
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 2,
-                         (this->skelAnime.playSpeed == 0.0f) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
-                                                             : NPC_PLAYER_TRACKING_NONE);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2,
+                    (this->skelAnime.playSpeed == 0.0f) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
+                                                        : NPC_PLAYER_TRACKING_NONE);
     return EnKo_IsWithinTalkAngle(this);
 }
 
@@ -936,20 +936,20 @@ void func_80A9877C(EnKo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((play->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
-        this->unk_1E8.playerPosition = play->view.eye;
-        this->unk_1E8.yPosOffset = 40.0f;
+        this->interactInfo.playerPosition = play->view.eye;
+        this->interactInfo.yPosOffset = 40.0f;
         if (ENKO_TYPE != ENKO_TYPE_CHILD_0) {
-            Actor_NpcTrackPlayer(&this->actor, &this->unk_1E8, 2, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+            Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
         }
     } else {
-        this->unk_1E8.playerPosition = player->actor.world.pos;
-        this->unk_1E8.yPosOffset = func_80A97BC0(this);
-        if ((func_80A98ECC(this, play) == 0) && (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE)) {
+        this->interactInfo.playerPosition = player->actor.world.pos;
+        this->interactInfo.yPosOffset = func_80A97BC0(this);
+        if ((func_80A98ECC(this, play) == 0) && (this->interactInfo.talkState == NPC_TALK_STATE_IDLE)) {
             return;
         }
     }
-    if (Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E8.talkState, this->lookDist, func_80A97610,
-                               func_80A97738) &&
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->lookDist, func_80A97610,
+                          func_80A97738) &&
         ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_SPOT10) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
@@ -1174,11 +1174,11 @@ void func_80A99048(EnKo* this, PlayState* play) {
 }
 
 void func_80A99384(EnKo* this, PlayState* play) {
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState != NPC_TALK_STATE_IDLE &&
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState != NPC_TALK_STATE_IDLE &&
         this->actor.textId == 0x10B9) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_7);
         this->actionFunc = func_80A99438;
-    } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState == NPC_TALK_STATE_ACTION) {
+    } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actionFunc = func_80A99504;
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -1186,12 +1186,12 @@ void func_80A99384(EnKo* this, PlayState* play) {
 }
 
 void func_80A99438(EnKo* this, PlayState* play) {
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.talkState == NPC_TALK_STATE_ACTION) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99504;
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-    } else if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE || this->actor.textId != 0x10B9) {
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || this->actor.textId != 0x10B9) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99384;
     }
@@ -1207,10 +1207,10 @@ void func_80A99504(EnKo* this, PlayState* play) {
 }
 
 void func_80A99560(EnKo* this, PlayState* play) {
-    if (this->unk_1E8.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         this->actor.textId = 0x10B9;
         Message_ContinueTextbox(play, this->actor.textId);
-        this->unk_1E8.talkState = NPC_TALK_STATE_TALKING;
+        this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         SET_ITEMGETINF(ITEMGETINF_31);
         this->actionFunc = func_80A99384;
     }
@@ -1228,7 +1228,7 @@ void func_80A995CC(EnKo* this, PlayState* play) {
     this->actor.world.pos.z += 80.0f * Math_CosS(homeYawToPlayer);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE || !this->actor.isTargeted) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || !this->actor.isTargeted) {
         temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - homeYawToPlayer) * 0.001f * 3.0f;
         if (temp_f2 < 1.0f) {
             this->skelAnime.playSpeed = 1.0f;
@@ -1256,7 +1256,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
             func_80A98DB4(this, play);
         }
     }
-    if (this->unk_1E8.talkState == NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         Actor_MoveForward(&this->actor);
     }
     if (func_80A97C7C(this)) {
@@ -1292,13 +1292,13 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->legsObjectBankIdx].segment);
     }
     if (limbIndex == 8) {
-        sp40 = this->unk_1E8.rotTorso;
+        sp40 = this->interactInfo.rotTorso;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-sp40.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
     }
     if (limbIndex == 15) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp40 = this->unk_1E8.rotHead;
+        sp40 = this->interactInfo.rotHead;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp40.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);

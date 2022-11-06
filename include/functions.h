@@ -498,11 +498,11 @@ void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
-s32 Actor_NpcUpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
-                           ActorNpcGetTextIdFunc getTextId, ActorNpcGetTalkStateFunc getTalkState);
-s16 Actor_GetNpcPlayerTrackingPresetMaxYaw(s16 presetIndex);
-void Actor_NpcTrackPlayer(Actor* actor, NpcPlayerInteractionState* playerInteractionState, s16 presetIndex,
-                          s16 playerTrackingOpt);
+s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
+                      NpcGetTextIdFunc getTextId, NpcGetTalkStateFunc getTalkState);
+s16 Npc_GetPlayerTrackingPresetMaxYaw(s16 presetIndex);
+void Npc_TrackPlayer(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex,
+                     s16 playerTrackingOpt);
 void func_80034BA0(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,

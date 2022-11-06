@@ -25,7 +25,7 @@ typedef struct EnZo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnZoActionFunc actionFunc;
-    /* 0x0194 */ NpcPlayerInteractionState unk_194;
+    /* 0x0194 */ NpcInteractInfo interactInfo;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ u8 canSpeak;
     /* 0x020A */ Vec3s jointTable[20];

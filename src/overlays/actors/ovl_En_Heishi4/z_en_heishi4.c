@@ -347,13 +347,13 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
     thisx->world.pos.z = this->pos.z;
     Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
-        this->unk_28C.playerPosition = player->actor.world.pos;
+        this->interactInfo.playerPosition = player->actor.world.pos;
         if (!LINK_IS_ADULT) {
-            this->unk_28C.playerPosition.y = (player->actor.world.pos.y - 10.0f);
+            this->interactInfo.playerPosition.y = (player->actor.world.pos.y - 10.0f);
         }
-        Actor_NpcTrackPlayer(thisx, &this->unk_28C, 2, NPC_PLAYER_TRACKING_FULL_BODY);
-        this->unk_260 = this->unk_28C.rotHead;
-        this->unk_266 = this->unk_28C.rotTorso;
+        Npc_TrackPlayer(thisx, &this->interactInfo, 2, NPC_PLAYER_TRACKING_FULL_BODY);
+        this->unk_260 = this->interactInfo.rotHead;
+        this->unk_266 = this->interactInfo.rotTorso;
     }
     this->unk_27E += 1;
     this->actionFunc(this, play);

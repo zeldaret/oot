@@ -188,8 +188,8 @@ void EnKz_UpdateEyes(EnKz* this) {
     }
 }
 
-s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, ActorNpcGetTextIdFunc getTextId,
-                  ActorNpcGetTalkStateFunc getTalkState) {
+s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, NpcGetTextIdFunc getTextId,
+                  NpcGetTalkStateFunc getTalkState) {
     Player* player = GET_PLAYER(play);
     s16 sp32;
     s16 sp30;
@@ -235,7 +235,7 @@ s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, ActorNp
 void func_80A9CB18(EnKz* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (func_80A9C95C(play, this, &this->unk_1E0.talkState, 340.0f, EnKz_GetText, func_80A9C6C0)) {
+    if (func_80A9C95C(play, this, &this->interactInfo.talkState, 340.0f, EnKz_GetText, func_80A9C6C0)) {
         if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
             if (func_8002F368(play) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
@@ -327,7 +327,7 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01);
     this->actor.targetMode = 3;
-    this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
     if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
@@ -352,9 +352,9 @@ void EnKz_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_2);
-        this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
         func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
@@ -413,7 +413,7 @@ void EnKz_StopMweep(EnKz* this, PlayState* play) {
 }
 
 void EnKz_Wait(EnKz* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
@@ -428,7 +428,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
-        this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
+        this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         this->actionFunc = EnKz_StartTimer;
     } else {
         getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
@@ -444,7 +444,7 @@ void EnKz_StartTimer(EnKz* this, PlayState* play) {
             func_80088AA0(180); // start timer2 with 3 minutes
             CLEAR_EVENTINF(EVENTINF_10);
         }
-        this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_Wait;
     }
 }

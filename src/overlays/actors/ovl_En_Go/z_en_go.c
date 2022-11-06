@@ -333,13 +333,13 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
     return unkState;
 }
 
-s32 func_80A3ED24(PlayState* play, EnGo* this, NpcPlayerInteractionState* arg2, f32 arg3,
-                  ActorNpcGetTextIdFunc getTextId, ActorNpcGetTalkStateFunc getTalkState) {
-    if (arg2->talkState != NPC_TALK_STATE_IDLE) {
-        arg2->talkState = getTalkState(play, &this->actor);
+s32 func_80A3ED24(PlayState* play, EnGo* this, NpcInteractInfo* interactInfo, f32 arg3, NpcGetTextIdFunc getTextId,
+                  NpcGetTalkStateFunc getTalkState) {
+    if (interactInfo->talkState != NPC_TALK_STATE_IDLE) {
+        interactInfo->talkState = getTalkState(play, &this->actor);
         return false;
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        arg2->talkState = NPC_TALK_STATE_TALKING;
+        interactInfo->talkState = NPC_TALK_STATE_TALKING;
         return true;
     } else if (!func_8002F2CC(&this->actor, play, arg3)) {
         return false;
@@ -403,9 +403,9 @@ void func_80A3F060(EnGo* this, PlayState* play) {
         playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
     }
 
-    this->unk_1E0.playerPosition = player->actor.world.pos;
-    this->unk_1E0.yPosOffset = EnGo_GetGoronSize(this);
-    Actor_NpcTrackPlayer(&this->actor, &this->unk_1E0, 4, playerTrackOpt);
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = EnGo_GetGoronSize(this);
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 4, playerTrackOpt);
 }
 
 void func_80A3F0E4(EnGo* this) {
@@ -544,7 +544,7 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
 s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
-    } else if (this->unk_1E0.talkState != NPC_TALK_STATE_IDLE) {
+    } else if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         return true;
     } else if (DECR(this->unk_21C)) {
         if (this->unk_21C & 1) {
@@ -586,10 +586,11 @@ void func_80A3F908(EnGo* this, PlayState* play) {
         }
 
         if ((this->actor.params & 0xF0) == 0x90) {
-            isUnkCondition = func_80A3ED24(play, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+            isUnkCondition =
+                func_80A3ED24(play, this, &this->interactInfo, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
-            isUnkCondition = Actor_NpcUpdateTalking(play, &this->actor, &this->unk_1E0.talkState, float1,
-                                                    EnGo_GetTextID, EnGo_SetFlagsGetStates);
+            isUnkCondition = Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, float1,
+                                               EnGo_GetTextID, EnGo_SetFlagsGetStates);
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
@@ -642,7 +643,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
 
     EnGo_ChangeAnim(this, ENGO_ANIM_0);
     this->actor.targetMode = 6;
-    this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->actor.gravity = -1.0f;
 
     switch (this->actor.params & 0xF0) {
@@ -855,26 +856,26 @@ void func_80A405CC(EnGo* this, PlayState* play) {
 }
 
 void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
-    if (((this->actor.params & 0xF0) == 0x90) && (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION)) {
+    if (((this->actor.params & 0xF0) == 0x90) && (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
         if (gSaveContext.bgsFlag) {
-            this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+            this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
                 EnGo_ChangeAnim(this, ENGO_ANIM_2);
                 this->unk_21E = 100;
-                this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+                this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.timer2State = 0;
                 OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
-                this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+                this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 EnGo_SetupAction(this, EnGo_GetItem);
                 Message_CloseTextbox(play);
                 EnGo_GetItem(this, play);
             }
         }
-    } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION)) {
+    } else if (((this->actor.params & 0xF0) == 0) && (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -947,7 +948,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
     s32 getItemId;
 
     if (Actor_HasParent(&this->actor, play)) {
-        this->unk_1E0.talkState = NPC_TALK_STATE_ACTION;
+        this->interactInfo.talkState = NPC_TALK_STATE_ACTION;
         this->actor.parent = NULL;
         EnGo_SetupAction(this, func_80A40C78);
     } else {
@@ -976,21 +977,21 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
 }
 
 void func_80A40C78(EnGo* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
         if ((this->actor.params & 0xF0) != 0x90) {
-            this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+            this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else if (this->unk_20C) {
-            this->unk_1E0.talkState = NPC_TALK_STATE_IDLE;
+            this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
             gSaveContext.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
             Message_ContinueTextbox(play, this->actor.textId);
-            this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
+            this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
             Message_ContinueTextbox(play, this->actor.textId);
-            this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
+            this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             Environment_ClearBgsDayCount();
         }
     }
@@ -1000,13 +1001,13 @@ void EnGo_Eyedrops(EnGo* this, PlayState* play) {
     if (DECR(this->unk_21E) == 0) {
         this->actor.textId = 0x305A;
         Message_ContinueTextbox(play, this->actor.textId);
-        this->unk_1E0.talkState = NPC_TALK_STATE_TALKING;
+        this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         EnGo_SetupAction(this, func_80A40DCC);
     }
 }
 
 void func_80A40DCC(EnGo* this, PlayState* play) {
-    if (this->unk_1E0.talkState == NPC_TALK_STATE_ACTION) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         Message_CloseTextbox(play);
@@ -1030,7 +1031,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
 
     EnGo_UpdateShadow(this);
 
-    if (this->unk_1E0.talkState == NPC_TALK_STATE_IDLE) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         Actor_MoveForward(&this->actor);
     }
 
@@ -1085,7 +1086,7 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->unk_1E0.rotHead;
+        vec1 = this->interactInfo.rotHead;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);
@@ -1094,7 +1095,7 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
     }
 
     if (limb == 10) {
-        vec1 = this->unk_1E0.rotTorso;
+        vec1 = this->interactInfo.rotTorso;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);

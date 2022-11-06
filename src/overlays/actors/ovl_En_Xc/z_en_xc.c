@@ -78,9 +78,9 @@ void EnXc_Destroy(Actor* thisx, PlayState* play) {
 void EnXc_CalculateHeadTurn(EnXc* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->npcInfo.playerPosition = player->actor.world.pos;
-    this->npcInfo.yPosOffset = kREG(16) - 3.0f;
-    Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.yPosOffset = kREG(16) - 3.0f;
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
 }
 
 void EnXc_SetEyePattern(EnXc* this) {
@@ -2345,11 +2345,11 @@ s32 EnXc_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
-            rot->x += this->npcInfo.rotTorso.y;
-            rot->y -= this->npcInfo.rotTorso.x;
+            rot->x += this->interactInfo.rotTorso.y;
+            rot->y -= this->interactInfo.rotTorso.x;
         } else if (limbIndex == 16) {
-            rot->x += this->npcInfo.rotHead.y;
-            rot->z += this->npcInfo.rotHead.x;
+            rot->x += this->interactInfo.rotHead.y;
+            rot->z += this->interactInfo.rotHead.x;
         }
     }
     return 0;

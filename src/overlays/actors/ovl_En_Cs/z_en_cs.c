@@ -403,10 +403,10 @@ void EnCs_Talk(EnCs* this, PlayState* play) {
     }
 
     this->flag |= 1;
-    this->npcInfo.playerPosition.x = player->actor.focus.pos.x;
-    this->npcInfo.playerPosition.y = player->actor.focus.pos.y;
-    this->npcInfo.playerPosition.z = player->actor.focus.pos.z;
-    Actor_NpcTrackPlayer(&this->actor, &this->npcInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
+    this->interactInfo.playerPosition.x = player->actor.focus.pos.x;
+    this->interactInfo.playerPosition.y = player->actor.focus.pos.y;
+    this->interactInfo.playerPosition.z = player->actor.focus.pos.z;
+    Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
 
     if (this->talkState == 0) {
         EnCs_ChangeAnim(this, ENCS_ANIM_0, &this->currentAnimIndex);
@@ -494,12 +494,12 @@ s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     if (this->flag & 1) {
         switch (limbIndex) {
             case 8:
-                rot->x += this->npcInfo.rotTorso.y;
-                rot->y -= this->npcInfo.rotTorso.x;
+                rot->x += this->interactInfo.rotTorso.y;
+                rot->y -= this->interactInfo.rotTorso.x;
                 break;
             case 15:
-                rot->x += this->npcInfo.rotHead.y;
-                rot->z += this->npcInfo.rotHead.x;
+                rot->x += this->interactInfo.rotHead.y;
+                rot->z += this->interactInfo.rotHead.x;
                 break;
         }
     }
