@@ -3647,10 +3647,10 @@ Hilite* func_8003435C(Vec3f* object, PlayState* play) {
 }
 
 /**
- * Updates NPC talking state. Updates the talkState parameter
- * when a dialog is ongoing. Otherwise checks if the actor is onscreen,
- * advertises the interaction in a range and sets the current text id if
- * necessary.
+ * Updates NPC talking state. Checks for talk a request and updates
+ * the talkState parameter when a dialog is ongoing. Otherwise checks if
+ * the actor is onscreen, advertises the interaction in a range and sets
+ * the current text id if necessary.
  *
  * The talk state values are defined in the NpcTalkState enum.
  *
@@ -3743,10 +3743,10 @@ static NpcPlayerTrackingParams sPlayerTrackingPresets[] = {
  * before calculating the angles. It can be used to configure the height difference
  * between the actor and the player.
  *
- * @param maxHeadYaw maximum head yaw angle
+ * @param maxHeadYaw maximum head yaw difference from neutral position
  * @param maxHeadPitch maximum head pitch angle
  * @param minHeadPitch minimum head pitch angle
- * @param maxTorsoYaw maximum torso yaw angle
+ * @param maxTorsoYaw maximum torso yaw difference from neutral position
  * @param maxTorsoPitch maximum torso pitch angle
  * @param minTorsoPitch minimum torso pitch angle
  * @param rotateActorShape if true, the actor shape is rotated towards the player
@@ -3758,7 +3758,7 @@ void Npc_TrackPlayerWithLimits(Actor* actor, NpcInteractInfo* interactInfo, s16 
     s16 yawTowardsPlayer;
     s16 torsoPitch;
     s16 bodyYawDiff;
-    s16 temp1;
+    s16 temp;
     Vec3f offsetActorPos;
 
     offsetActorPos.x = actor->world.pos.x;
@@ -3769,31 +3769,31 @@ void Npc_TrackPlayerWithLimits(Actor* actor, NpcInteractInfo* interactInfo, s16 
     yawTowardsPlayer = Math_Vec3f_Yaw(&offsetActorPos, &interactInfo->playerPosition);
     bodyYawDiff = Math_Vec3f_Yaw(&actor->world.pos, &interactInfo->playerPosition) - actor->shape.rot.y;
 
-    temp1 = CLAMP(bodyYawDiff, -maxHeadYaw, maxHeadYaw);
-    Math_SmoothStepToS(&interactInfo->rotHead.y, temp1, 6, 2000, 1);
+    temp = CLAMP(bodyYawDiff, -maxHeadYaw, maxHeadYaw);
+    Math_SmoothStepToS(&interactInfo->rotHead.y, temp, 6, 2000, 1);
 
-    temp1 = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
-    interactInfo->rotHead.y = CLAMP(interactInfo->rotHead.y, -temp1, temp1);
+    temp = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
+    interactInfo->rotHead.y = CLAMP(interactInfo->rotHead.y, -temp, temp);
 
     bodyYawDiff -= interactInfo->rotHead.y;
 
-    temp1 = CLAMP(bodyYawDiff, -maxTorsoYaw, maxTorsoYaw);
-    Math_SmoothStepToS(&interactInfo->rotTorso.y, temp1, 6, 2000, 1);
+    temp = CLAMP(bodyYawDiff, -maxTorsoYaw, maxTorsoYaw);
+    Math_SmoothStepToS(&interactInfo->rotTorso.y, temp, 6, 2000, 1);
 
-    temp1 = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
-    interactInfo->rotTorso.y = CLAMP(interactInfo->rotTorso.y, -temp1, temp1);
+    temp = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
+    interactInfo->rotTorso.y = CLAMP(interactInfo->rotTorso.y, -temp, temp);
 
     if (rotateActorShape) {
         Math_SmoothStepToS(&actor->shape.rot.y, yawTowardsPlayer, 6, 2000, 1);
     }
 
-    temp1 = CLAMP(pitchTowardsPlayer, minHeadPitch, (s16)(u16)maxHeadPitch);
-    Math_SmoothStepToS(&interactInfo->rotHead.x, temp1, 6, 2000, 1);
+    temp = CLAMP(pitchTowardsPlayer, minHeadPitch, (s16)(u16)maxHeadPitch);
+    Math_SmoothStepToS(&interactInfo->rotHead.x, temp, 6, 2000, 1);
 
     torsoPitch = pitchTowardsPlayer - interactInfo->rotHead.x;
 
-    temp1 = CLAMP(torsoPitch, minTorsoPitch, maxTorsoPitch);
-    Math_SmoothStepToS(&interactInfo->rotTorso.x, temp1, 6, 2000, 1);
+    temp = CLAMP(torsoPitch, minTorsoPitch, maxTorsoPitch);
+    Math_SmoothStepToS(&interactInfo->rotTorso.x, temp, 6, 2000, 1);
 }
 
 s16 Npc_GetPlayerTrackingPresetMaxYaw(s16 presetIndex) {
@@ -3883,20 +3883,21 @@ s16 Npc_UpdateAutoTurn(Actor* actor, NpcInteractInfo* interactInfo, f32 distance
  * Rotates actor shape, torso and head tracking the player. Uses angle limits from a preset selected from
  * from sPlayerTrackingPresets.
  *
- * The playerTrackingOpt parameter is set to a value from the NpcPlayerTrackOption enum.
- * It controls which limbs will be turned towards the player (actor shape, torso or head).
- * Other limbs will be smoothly turned towards zero.
+ * The playerTrackingOpt parameter is set to a value from the NpcPlayerTrackingOption enum.
+ * It controls whether the head and torso are turned towards the player. If not, they are
+ * smoothly turned towards zero. Setting the parameter to NPC_PLAYER_TRACKING_FULL_BODY
+ * causes the whole actor shape to be rotated to face the player.
  *
  * If NPC_PLAYER_TRACKING_AUTO_TURN is used, the actor will track the player with its head and torso as long
  * as the player is in front of the actor (within a yaw angle specified in the option preset).
- * If the player is outside of this angle, the actor will turn to face the player after a while..
+ * If the player is outside of this angle, the actor will turn to face the player after a while.
  *
  * @see Npc_UpdateAutoTurn
  * @see sPlayerTrackingPresets
- * @see NpcPlayerTrackOption
+ * @see NpcPlayerTrackingOption
  *
  * @param presetIndex The index to a preset in sPlayerTrackingPresets
- * @param playerTrackingOpt A value from NpcPlayerTrackOption enum
+ * @param playerTrackingOpt A value from NpcPlayerTrackingOption enum
  */
 void Npc_TrackPlayer(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex, s16 playerTrackingOpt) {
     NpcPlayerTrackingRotLimits rotLimits;
@@ -3919,7 +3920,7 @@ void Npc_TrackPlayer(Actor* actor, NpcInteractInfo* interactInfo, s16 presetInde
             rotLimits.minTorsoPitch = 0;
             FALLTHROUGH;
         case NPC_PLAYER_TRACKING_HEAD_AND_TORSO:
-            rotLimits.rotateActorShape = 0;
+            rotLimits.rotateActorShape = false;
             break;
     }
 
