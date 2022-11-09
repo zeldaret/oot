@@ -7,7 +7,7 @@
  *
  * Note that this is not the same as the original libultra osAiSetNextBuffer, see comments in the function.
  *
- * @param buf Next audio buffer. Must be an 8-byte aligned direct-mapped address.
+ * @param buf Next audio buffer. Must be an 8-byte aligned KSEG0 (0x80XXXXXX) address.
  * @param size Length of next audio buffer in bytes, maximum size 0x40000 bytes / 256 KiB. Should be a multiple of 8.
  * @return 0 if the DMA was enqueued successfully, -1 if the DMA could not yet be queued.
  */
@@ -29,6 +29,9 @@ s32 osAiSetNextBuffer(void* buf, u32 size) {
     }
 
     // Originally a call to __osAiDeviceBusy
+    //! @bug The original __osAiDeviceBusy call was above the hardware bug workaround to ensure that it was only
+    //! performed when a transfer was guaranteed to start. If this condition passes and this function returns without
+    //! submitting a buffer for DMA, the code above will lose track of when to apply the workaround.
     status = IO_READ(AI_STATUS_REG);
     if (status & AI_STATUS_FIFO_FULL) {
         return -1;
