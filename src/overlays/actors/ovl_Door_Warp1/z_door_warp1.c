@@ -876,6 +876,11 @@ void DoorWarp1_Update(Actor* thisx, PlayState* play) {
 
 void DoorWarp1_DrawBlueCrystal(DoorWarp1* this, PlayState* play) {
     s32 pad;
+// added for pre-release blue crystal warp view distortion effect
+    if (this->warpTimer == 145) {
+        View_SetDistortionScale(&play->view, 0.01f, 4.0f, 1.0f);
+        View_SetDistortionSpeed(&play->view, 0.15f);
+    }
 
     OPEN_DISPS(play->state.gfxCtx, "../z_door_warp1.c", 2078);
 
