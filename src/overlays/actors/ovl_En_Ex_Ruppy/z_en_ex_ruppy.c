@@ -112,8 +112,8 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
         case 1:
         case 2: // Giant pink ruppe that explodes when you touch it
             if (this->type == 1) {
-                Actor_SetScale(&this->actor, 0.1f);
-                this->colorIdx = 4;
+                Actor_SetScale(&this->actor, 0.06);
+                this->colorIdx = 3;
             } else {
                 Actor_SetScale(thisx, 0.02f);
                 this->colorIdx = (s16)Rand_ZeroFloat(3.99f) + 1;
@@ -364,7 +364,7 @@ void EnExRuppy_GalleryTarget(EnExRuppy* this, PlayState* play) {
 void EnExRuppy_Update(Actor* thisx, PlayState* play) {
     EnExRuppy* this = (EnExRuppy*)thisx;
 
-    this->actor.shape.rot.y += 1960;
+    this->actor.shape.rot.y += 960;
     this->actionFunc(this, play);
     if (this->timer != 0) {
         this->timer--;
