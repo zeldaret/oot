@@ -14,7 +14,6 @@
 
 #define WATER_SURFACE_Y(play) play->colCtx.colHeader->waterBoxes->ySurface
 
-
 void Fishing_Init(Actor* thisx, PlayState* play2);
 void Fishing_Destroy(Actor* thisx, PlayState* play2);
 void Fishing_UpdateFish(Actor* thisx, PlayState* play2);
@@ -116,9 +115,9 @@ typedef struct {
 } FishingGroupFish; // size = 0x48
 
 typedef enum {
-/* 0x00 */ FS_LURE_STOCK,
-/* 0x01 */ FS_LURE_UNK, // hinted at with an "== 1"
-/* 0x02 */ FS_LURE_SINKING
+    /* 0x00 */ FS_LURE_STOCK,
+    /* 0x01 */ FS_LURE_UNK, // hinted at with an "== 1"
+    /* 0x02 */ FS_LURE_SINKING
 } FishingLureTypes;
 
 #define LINE_SEG_COUNT 200
@@ -161,12 +160,12 @@ static s32 sFishingTimePlayed = 0;
 static s16 sOwnerUnkTimer = 0;
 
 typedef enum {
-/* 0x00 */ FS_OWNER_BALD,
-/* 0x01 */ FS_OWNER_CAPPED,
-/* 0x02 */ FS_OWNER_HAIR
+    /* 0x00 */ FS_OWNER_BALD,
+    /* 0x01 */ FS_OWNER_CAPPED,
+    /* 0x02 */ FS_OWNER_HAIR
 } FishingOwnerHair;
 
-static u8 sOwnerHair = FS_OWNER_BALD; 
+static u8 sOwnerHair = FS_OWNER_BALD;
 static u8 sOwnersHatTheft = 0;
 static u8 sOwnersHatHooked = 0;
 
@@ -896,7 +895,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             }
         }
 
-        sFishGameNumber = (HIGH_SCORE(HS_FISHING) & (HS_FISH_PLAYED*255)) >> 0x10;
+        sFishGameNumber = (HIGH_SCORE(HS_FISHING) & (HS_FISH_PLAYED * 255)) >> 0x10;
         if ((sFishGameNumber & 7) == 7) {
             play->roomCtx.unk_74[0] = 90;
             sFishingFoggy = 1;
@@ -909,8 +908,8 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             sStormChanceTimer = 100;
             if (KREG(3) != 0) {
                 KREG(3) = 0;
-                HIGH_SCORE(HS_FISHING) &= ~(HS_FISH_PLAYED*255);
-                HIGH_SCORE(HS_FISHING) |= (HS_FISH_PLAYED*6);
+                HIGH_SCORE(HS_FISHING) &= ~(HS_FISH_PLAYED * 255);
+                HIGH_SCORE(HS_FISHING) |= (HS_FISH_PLAYED * 6);
             }
         } else {
             sStormChanceTimer = 0;
@@ -1161,14 +1160,14 @@ void Fishing_UpdateEffects(FishingEffect* effect, PlayState* play) {
                     effect->state++;
                 }
 
-                if (effect->state == 30) { 
+                if (effect->state == 30) {
                     Message_StartTextbox(play, 0x40B3, NULL);
                 }
 
                 if ((effect->state >= 100) && (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)) {
                     if (Message_ShouldAdvance(play) || (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE)) {
                         Message_CloseTextbox(play);
-                        Rupees_ChangeBy(-50); 
+                        Rupees_ChangeBy(-50);
                         effect->state = -1;
                     }
                 }
@@ -1378,7 +1377,7 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fishing.c", 2560),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(POLY_OPA_DISP++, gFishingOwnersHatDL);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingOwnerHatDL);
     }
 
     Matrix_Pop();
@@ -1667,7 +1666,7 @@ void Fishing_DrawLureHook(PlayState* play, Vec3f* pos, Vec3f* refPos, u8 hookInd
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fishing.c", 3085),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gFishingOwnersHatDL);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingOwnerHatDL);
     }
 
     Matrix_Pop();
@@ -2796,8 +2795,8 @@ void func_80B70ED4(Fishing* this, Input* input) {
         this->unk_17A[1] = 50;
     }
 
-    if ((sLureEquipped != FS_LURE_SINKING) && (D_80B7E114 != 0) && (this->fishLength > 60.0f) && (lineLengthSQ < SQ(30.0f)) &&
-        (this->unk_158 >= 10)) {
+    if ((sLureEquipped != FS_LURE_SINKING) && (D_80B7E114 != 0) && (this->fishLength > 60.0f) &&
+        (lineLengthSQ < SQ(30.0f)) && (this->unk_158 >= 10)) {
         this->unk_15A = 0;
         this->unk_158 = 1;
         this->unk_1A4 = 1000;
@@ -2841,22 +2840,22 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
     if (sLinkAge == LINK_AGE_CHILD) {
         if ((HIGH_SCORE(HS_FISHING) & HS_FISH_LENGTH_CHILD) != 0) {
             if (HIGH_SCORE(HS_FISHING) & HS_FISH_CHEAT_CHILD) {
-                this->actor.textId = 0x40B1; 
+                this->actor.textId = 0x40B1;
             } else {
-                this->actor.textId = 0x4089; 
+                this->actor.textId = 0x4089;
             }
         } else {
-            this->actor.textId = 0x40AE; 
+            this->actor.textId = 0x40AE;
         }
     } else {
         if ((HIGH_SCORE(HS_FISHING) & HS_FISH_LENGTH_ADULT) != 0) {
             if (HIGH_SCORE(HS_FISHING) & HS_FISH_CHEAT_ADULT) {
-                this->actor.textId = 0x40B1; 
+                this->actor.textId = 0x40B1;
             } else {
-                this->actor.textId = 0x4089; 
+                this->actor.textId = 0x4089;
             }
         } else {
-            this->actor.textId = 0x40AE; 
+            this->actor.textId = 0x40AE;
         }
     }
 
@@ -3586,7 +3585,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if ((sLureBitTimer != 0) && (sLineHooked == 0)) { // pull the line to hook it
-                if (((input->rel.stick_y < -50) && (sStickYRelPrev > -40)) || CHECK_BTN_ALL(input->press.button, BTN_A)) {
+                if (((input->rel.stick_y < -50) && (sStickYRelPrev > -40)) ||
+                    CHECK_BTN_ALL(input->press.button, BTN_A)) {
                     if (input->rel.stick_y < -50) {
                         temp_f0 = 40.0f - ((this->fishLength - 30.0f) * 1.333333f);
                         if (temp_f0 > 0.0f) {
@@ -3792,17 +3792,18 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
             if ((sRodCastState < 3) || ((sReelLock != 0) && (sFishFightTime > 50)) || (sFishFightTime >= 6000) ||
                 ((sLureBitTimer == 0) && (sLineHooked == 0)) || (sRodPullback == 0) ||
-                (((D_80B7E0AE & 0x7F) == 0) && (Rand_ZeroOne() < 0.05f) && (sLureEquipped != FS_LURE_SINKING) && (KREG(69) == 0))) {
+                (((D_80B7E0AE & 0x7F) == 0) && (Rand_ZeroOne() < 0.05f) && (sLureEquipped != FS_LURE_SINKING) &&
+                 (KREG(69) == 0))) {
                 sFishingCaughtTextDelay = 20;
 
                 if ((sLureBitTimer == 0) && (sLineHooked == 0)) {
-                    sFishingCaughtTextId = 0x4081; 
+                    sFishingCaughtTextId = 0x4081;
                     if (((sLinkAge == LINK_AGE_CHILD) && (HIGH_SCORE(HS_FISHING) & HS_FISH_PRIZE_CHILD)) ||
                         ((sLinkAge != LINK_AGE_CHILD) && (HIGH_SCORE(HS_FISHING) & HS_FISH_PRIZE_ADULT))) {
                         sFishingCaughtTextDelay = 0;
                     }
                 } else {
-                    sFishingCaughtTextId = 0x4082; 
+                    sFishingCaughtTextId = 0x4082;
                     Rumble_Override(0.0f, 1, 3, 1);
                     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 10);
                 }
@@ -3879,15 +3880,15 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     sFishLengthToWeigh = this->fishLength;
 
                     if (sFishLengthToWeigh >= 75) {
-                        sFishingCaughtTextId = 0x409F; 
+                        sFishingCaughtTextId = 0x409F;
                     } else if (sFishLengthToWeigh >= 50) {
-                        sFishingCaughtTextId = 0x4091; 
+                        sFishingCaughtTextId = 0x4091;
                     } else {
-                        sFishingCaughtTextId = 0x4083; 
+                        sFishingCaughtTextId = 0x4083;
                     }
                 } else {
                     sFishLengthToWeigh = 2.0f * this->fishLength;
-                    sFishingCaughtTextId = 0x4099; 
+                    sFishingCaughtTextId = 0x4099;
                 }
 
                 this->keepState = 0;
@@ -3927,7 +3928,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                                                ((s16)this->fishLength < (s16)sFishOnHandLength)) {
                                         this->keepState = 1;
                                         this->unk_17A[0] = 0x3C;
-                                        
+
                                         Message_StartTextbox(play, 0x4098, NULL);
                                     } else {
                                         f32 temp1 = sFishOnHandLength;
@@ -4736,18 +4737,19 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
         case 0:
             if (sFishingPlayingState == 0) {
                 if (sLinkAge != LINK_AGE_CHILD) {
-                    if ((HIGH_SCORE(HS_FISHING) & HS_FISH_PLAYED_CHILD) && !(HIGH_SCORE(HS_FISHING) & HS_FISH_PLAYED_ADULT)) {
-                        this->actor.textId = 0x4093; 
+                    if ((HIGH_SCORE(HS_FISHING) & HS_FISH_PLAYED_CHILD) &&
+                        !(HIGH_SCORE(HS_FISHING) & HS_FISH_PLAYED_ADULT)) {
+                        this->actor.textId = 0x4093;
                     } else {
-                        this->actor.textId = 0x407B; 
+                        this->actor.textId = 0x407B;
                     }
                 } else {
-                    this->actor.textId = 0x407B; 
+                    this->actor.textId = 0x407B;
                 }
             } else if (sOwnersHatTheft == 0) {
-                this->actor.textId = 0x4084; 
+                this->actor.textId = 0x4084;
             } else {
-                this->actor.textId = 0x4097; 
+                this->actor.textId = 0x4097;
             }
 
             if (Actor_ProcessTalkRequest(&this->actor, play)) {
@@ -4782,7 +4784,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                             Message_ContinueTextbox(play, this->actor.textId);
                             this->state = 2;
                         } else {
-                            Message_ContinueTextbox(play, 0x407E); 
+                            Message_ContinueTextbox(play, 0x407E);
                             this->state = 3;
                         }
                         break;
@@ -4797,7 +4799,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
         case 2:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Message_CloseTextbox(play);
-                Message_ContinueTextbox(play, 0x407F); 
+                Message_ContinueTextbox(play, 0x407F);
                 this->state = 4;
             }
             break;
@@ -4819,11 +4821,11 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 switch (play->msgCtx.choiceIndex) {
                     case 0:
                         sFishLengthToWeigh = sFishingRecordLength;
-                        Message_ContinueTextbox(play, 0x4080); 
+                        Message_ContinueTextbox(play, 0x4080);
                         this->state = 5;
                         break;
                     case 1:
-                        Message_ContinueTextbox(play, 0x407F); 
+                        Message_ContinueTextbox(play, 0x407F);
                         break;
                 }
             }
@@ -4840,8 +4842,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 this->state = 0;
 
                 if ((HIGH_SCORE(HS_FISHING) & 0xFF0000) < 0xFF0000) {
-                    HIGH_SCORE(HS_FISHING) += HS_FISH_PLAYED
-;
+                    HIGH_SCORE(HS_FISHING) += HS_FISH_PLAYED;
                 }
             }
             break;
@@ -4868,21 +4869,21 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     Message_CloseTextbox(play);
 
                     switch (play->msgCtx.choiceIndex) {
-                        case 0: 
+                        case 0:
                             if (sFishOnHandLength == 0.0f) {
-                                this->actor.textId = 0x408C; 
+                                this->actor.textId = 0x408C;
                                 this->state = 20;
                             } else if (sFishOnHandisLoach == 0) {
                                 sFishLengthToWeigh = sFishOnHandLength;
                                 if ((s16)sFishingRecordLength < (s16)sFishOnHandLength) {
                                     if (sLureCaughtWith == FS_LURE_SINKING) {
-                                        this->actor.textId = 0x40B0; 
+                                        this->actor.textId = 0x40B0;
                                     } else {
-                                        this->actor.textId = 0x4086; 
+                                        this->actor.textId = 0x4086;
                                     }
                                     this->state = 11;
                                 } else {
-                                    this->actor.textId = 0x408B; 
+                                    this->actor.textId = 0x408B;
                                     this->state = 20;
                                 }
                             } else {
@@ -4902,7 +4903,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                                     }
                                 }
 
-                                if ((sLureEquipped == FS_LURE_SINKING) && (sPondOwnerTextIds[sPondOwnerTextIdIndex] == 0x408D)) {
+                                if ((sLureEquipped == FS_LURE_SINKING) &&
+                                    (sPondOwnerTextIds[sPondOwnerTextIdIndex] == 0x408D)) {
                                     Message_ContinueTextbox(play, 0x40AF);
                                 } else {
                                     Message_ContinueTextbox(play, sPondOwnerTextIds[sPondOwnerTextIdIndex]);
@@ -4989,7 +4991,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                         getItemId = GI_RUPEE_GREEN;
                     }
 
-                    if (sLinkAge == LINK_AGE_CHILD) {  // 9 lbs
+                    if (sLinkAge == LINK_AGE_CHILD) { // 9 lbs
                         if ((sFishingRecordLength >= 50.0f) && !(HIGH_SCORE(HS_FISHING) & HS_FISH_PRIZE_CHILD)) {
                             HIGH_SCORE(HS_FISHING) |= HS_FISH_PRIZE_CHILD;
                             getItemId = GI_HEART_PIECE;
@@ -5030,9 +5032,9 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                         break;
                     case 1:
                         if (sFishesCaught == 0) {
-                            Message_ContinueTextbox(play, 0x4085); 
+                            Message_ContinueTextbox(play, 0x4085);
                         } else if (sLinkAge == LINK_AGE_CHILD) {
-                            Message_ContinueTextbox(play, 0x4092); 
+                            Message_ContinueTextbox(play, 0x4092);
                         }
                         this->state = 22;
                         break;
@@ -5069,7 +5071,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 if (sFishOnHandisLoach == 0) {
                     this->state = 0;
                 } else {
-                    Message_StartTextbox(play, 0x409C, NULL); 
+                    Message_StartTextbox(play, 0x409C, NULL);
                     this->state = 20;
                 }
             }
@@ -5157,9 +5159,10 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     if (sOwnerUnkTimer != 0) {
         sOwnerUnkTimer--;
     }
-    
+
     // steal the owner's hat
-    if ((sOwnersHatTheft == 0) && (sLureEquipped != FS_LURE_SINKING) && (sRodCastState > 0) && (sOwnerHair == FS_OWNER_CAPPED) && (sOwnerUnkTimer == 0)) {
+    if ((sOwnersHatTheft == 0) && (sLureEquipped != FS_LURE_SINKING) && (sRodCastState > 0) &&
+        (sOwnerHair == FS_OWNER_CAPPED) && (sOwnerUnkTimer == 0)) {
         f32 dx = sOwnerHeadPos.x - sLurePos.x;
         f32 dy = sOwnerHeadPos.y - sLurePos.y;
         f32 dz = sOwnerHeadPos.z - sLurePos.z;
@@ -5168,7 +5171,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             KREG(77) = 0;
             sOwnerHair = FS_OWNER_BALD;
             sOwnersHatTheft = 1;
-            Message_StartTextbox(play, 0x4087, NULL); 
+            Message_StartTextbox(play, 0x4087, NULL);
         }
     }
 
@@ -5209,7 +5212,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         player->actor.speedXZ = 0.0f;
 
         if (sFishingCinematicTimer == 0) {
-            sFishingPlayerCinematicState = 10; 
+            sFishingPlayerCinematicState = 10;
         }
     }
 
@@ -5609,7 +5612,8 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         sStormChanceTimer--;
     }
 
-    if ((sStormChanceTimer == 1) && (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) && ((sFishingTimePlayed & 0xFFF) == 0xFFF)) {
+    if ((sStormChanceTimer == 1) && (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) &&
+        ((sFishingTimePlayed & 0xFFF) == 0xFFF)) {
         sStormChanceTimer = 200;
 
         if (Rand_ZeroOne() < 0.5f) {
@@ -5649,7 +5653,8 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         Math_ApproachZeroF(&sFishingStormShade, 1.0f, 2.0f);
     }
 
-    play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = sFishingStormShade;
+    play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] =
+        sFishingStormShade;
 
     if ((u8)sStormStrength > 0) {
         s32 pad;
@@ -5712,7 +5717,7 @@ void Fishing_OwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
         Matrix_MultVec3f(&sZeroVec, &sOwnerHeadPos);
 
         if (sOwnerHair == FS_OWNER_CAPPED) {
-            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gFishingOwnersHatDL));
+            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
         } else if (sOwnerHair == FS_OWNER_HAIR) {
             gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHairDL));
         }
