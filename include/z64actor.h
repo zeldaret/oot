@@ -540,7 +540,7 @@ typedef enum {
 } NpcTalkState;
 
 typedef enum {
-    /* 0x0 */ NPC_PLAYER_TRACKING_AUTO_TURN,  // The actor will periodically turn to face the player
+    /* 0x0 */ NPC_PLAYER_TRACKING_AUTO_TURN, // Determine tracking mode based on track position, see Npc_UpdateAutoTurn
     /* 0x1 */ NPC_PLAYER_TRACKING_NONE, // Don't track the player
     /* 0x2 */ NPC_PLAYER_TRACKING_HEAD_AND_TORSO, // Track player by turning the head and the torso
     /* 0x3 */ NPC_PLAYER_TRACKING_HEAD, // Track player by turning the head

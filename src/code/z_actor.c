@@ -3647,7 +3647,7 @@ Hilite* func_8003435C(Vec3f* object, PlayState* play) {
 }
 
 /**
- * Updates NPC talking state. Checks for talk a request and updates
+ * Updates NPC talking state. Checks for a talk request and updates
  * the talkState parameter when a dialog is ongoing. Otherwise checks if
  * the actor is onscreen, advertises the interaction in a range and sets
  * the current text id if necessary.
@@ -3807,9 +3807,8 @@ s16 Npc_GetPlayerTrackingPresetMaxYaw(s16 presetIndex) {
  * Returns a tracking option that will determine which actor limbs
  * will be rotated towards the player.
  *
- * When the player is behind the actor (yaw difference from actor's shape rotation
- * to the yaw towards player is larger than maxYawForPlayerTracking), the actor
- * will start an auto-turn sequence:
+ * When the player is behind the actor (i.e. not in the yaw range in front of the actor
+ * defined by maxYawForPlayerTracking),the actor will start an auto-turn sequence:
  *   - look forward for 30-60 frames
  *   - turn head to look at the player for 10-20 frames
  *   - look forward for 30-60 frames
