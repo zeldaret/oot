@@ -100,7 +100,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
     this->scale = 0;
     this->unk_1AE = -140;
     this->unk_1B0 = -80;
-    sWarpTimerTarget = 100;
+    sWarpTimerTarget = 157;
     this->unk_1BC = 1.0f;
     this->lightRayAlpha = 0.0f;
     this->warpAlpha = 0.0f;
