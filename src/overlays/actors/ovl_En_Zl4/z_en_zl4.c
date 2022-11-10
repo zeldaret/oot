@@ -896,6 +896,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, PlayState* play) {
 }
 
 s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
     switch (this->talkState) {
         case 0:
             EnZl4_SetActiveCamMove(play, 7);
@@ -924,6 +925,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                 func_800AA000(0.0f, 0xA0, 0xA, 0x28);
                 func_8002DF54(play, &this->actor, 1);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_30);
+                func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
                 EnZl4_SetActiveCamDir(play, 11);
                 Message_StartTextbox(play, 0x7039, NULL);
                 this->talkState++;
