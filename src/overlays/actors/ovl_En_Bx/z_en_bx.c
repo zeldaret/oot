@@ -136,15 +136,15 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
 
     if ((thisx->xzDistToPlayer <= 70.0f) || (this->collider.base.atFlags & AT_HIT) ||
         (this->collider.base.acFlags & AC_HIT) || (this->colliderQuad.base.atFlags & AT_HIT)) {
-        if ((thisx->xzDistToPlayer <= 70.0f) || (&player->actor == this->collider.base.at) ||
-            (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
+        if ((thisx->xzDistToPlayer <= 70.0f) || (&player->actor == this->collider.base.otherAC) ||
+            (&player->actor == this->collider.base.otherAT) || (&player->actor == this->colliderQuad.base.otherAC)) {
             tmp33 = player->invincibilityTimer & 0xFF;
             tmp32 = thisx->world.rot.y;
             if (!(thisx->params & 0x80)) {
                 tmp32 = thisx->yawTowardsPlayer;
             }
-            if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
-                (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
+            if ((&player->actor != this->collider.base.otherAC) && (&player->actor != this->collider.base.otherAT) &&
+                (&player->actor != this->colliderQuad.base.otherAC) && (player->invincibilityTimer <= 0)) {
                 if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
                 } else {
@@ -159,9 +159,9 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
         this->collider.base.atFlags &= ~AT_HIT;
         this->collider.base.acFlags &= ~AC_HIT;
         this->colliderQuad.base.atFlags &= ~AT_HIT;
-        this->colliderQuad.base.at = NULL;
-        this->collider.base.ac = NULL;
-        this->collider.base.at = NULL;
+        this->colliderQuad.base.otherAC = NULL;
+        this->collider.base.otherAT = NULL;
+        this->collider.base.otherAC = NULL;
         this->unk_14C = 0x14;
     }
 

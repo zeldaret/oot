@@ -372,7 +372,7 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((this->unk_258 != 0) ||
-        ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (this->hurtCollider.base.oc == &player->actor)) ||
+        ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (this->hurtCollider.base.otherOC == &player->actor)) ||
         (this->hurtCollider.base.acFlags & AC_HIT)) {
         this->hurtCollider.base.acFlags &= ~AC_HIT;
 
@@ -679,7 +679,8 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
         }
 
         if (this->hurtCollider.base.ocFlags1 & OC1_HIT) {
-            moveDir = Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->hurtCollider.base.oc->world.pos) - temp158f;
+            moveDir =
+                Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->hurtCollider.base.otherOC->world.pos) - temp158f;
         }
 
         if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) ||
@@ -798,7 +799,7 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
             if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
                 this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.info, false);
+                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.elem, false);
 
                 if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                     (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
@@ -909,14 +910,14 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
                 if (this->hitCollider.base.atFlags & AT_HIT) {
                     Player* player = GET_PLAYER(play);
 
-                    if (this->hitCollider.base.at == &player->actor) {
+                    if (this->hitCollider.base.otherAC == &player->actor) {
                         Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
                     }
                 }
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->hitCollider.base);
             } else {
                 this->hitCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
-                this->hitCollider.base.at = NULL;
+                this->hitCollider.base.otherAC = NULL;
                 EnAm_SetupRicochet(this, play);
             }
         }

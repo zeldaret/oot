@@ -121,8 +121,8 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         this->scale *= 1.5f;
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
-        this->collider.info.toucher.effect = 4;
-        this->collider.info.toucher.damage = 16;
+        this->collider.elem.toucher.effect = 4;
+        this->collider.elem.toucher.damage = 16;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }
 
@@ -624,7 +624,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        if ((this->collider.base.at == &player->actor) && !this->isBig && (this->actionfunc != func_80AE56E0)) {
+        if ((this->collider.base.otherAC == &player->actor) && !this->isBig && (this->actionfunc != func_80AE56E0)) {
             this->actionfunc = func_80AE5688;
         }
     }

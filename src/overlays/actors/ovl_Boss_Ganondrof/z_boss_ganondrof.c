@@ -1224,7 +1224,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
 void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
     s32 acHit;
     EnfHG* horse = (EnfHG*)this->actor.child;
-    ColliderInfo* hurtbox;
+    ColliderElement* hurtbox;
 
     if (this->work[GND_INVINC_TIMER] != 0) {
         this->work[GND_INVINC_TIMER]--;
@@ -1235,7 +1235,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
         if ((acHit && ((s8)this->actor.colChkInfo.health > 0)) || (this->returnCount != 0)) {
             if (acHit) {
                 this->colliderBody.base.acFlags &= ~AC_HIT;
-                hurtbox = this->colliderBody.info.acHitInfo;
+                hurtbox = this->colliderBody.elem.acHitInfo;
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {

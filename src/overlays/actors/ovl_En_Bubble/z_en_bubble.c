@@ -97,7 +97,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
 }
 
 u32 func_809CBCBC(EnBubble* this) {
-    ColliderInfo* info = &this->colliderSphere.elements[0].info;
+    ColliderElement* info = &this->colliderSphere.elements[0].base;
 
     info->toucher.dmgFlags = DMG_EXPLOSIVE;
     info->toucher.effect = 0;
@@ -114,7 +114,7 @@ u32 func_809CBCEC(EnBubble* this) {
 }
 
 void EnBubble_DamagePlayer(EnBubble* this, PlayState* play) {
-    s32 damage = -this->colliderSphere.elements[0].info.toucher.damage;
+    s32 damage = -this->colliderSphere.elements[0].base.toucher.damage;
 
     play->damagePlayer(play, damage);
     func_8002F7A0(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
@@ -208,8 +208,8 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
     s32 bgId;
     u8 bounceCount;
 
-    if (this->colliderSphere.elements[1].info.bumperFlags & BUMP_HIT) {
-        bumpActor = this->colliderSphere.base.ac;
+    if (this->colliderSphere.elements[1].base.bumperFlags & BUMP_HIT) {
+        bumpActor = this->colliderSphere.base.otherAT;
         this->normalizedBumpVelocity = bumpActor->velocity;
         EnBubble_Vec3fNormalize(&this->normalizedBumpVelocity);
         this->velocityFromBump.x += (this->normalizedBumpVelocity.x * 3.0f);
@@ -286,10 +286,10 @@ u32 func_809CC648(EnBubble* this) {
         return false;
     }
     this->colliderSphere.base.acFlags &= ~AC_HIT;
-    if (this->colliderSphere.elements[1].info.bumperFlags & BUMP_HIT) {
-        this->unk_1F0.x = this->colliderSphere.base.ac->velocity.x / 10.0f;
-        this->unk_1F0.y = this->colliderSphere.base.ac->velocity.y / 10.0f;
-        this->unk_1F0.z = this->colliderSphere.base.ac->velocity.z / 10.0f;
+    if (this->colliderSphere.elements[1].base.bumperFlags & BUMP_HIT) {
+        this->unk_1F0.x = this->colliderSphere.base.otherAT->velocity.x / 10.0f;
+        this->unk_1F0.y = this->colliderSphere.base.otherAT->velocity.y / 10.0f;
+        this->unk_1F0.z = this->colliderSphere.base.otherAT->velocity.z / 10.0f;
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
         return false;

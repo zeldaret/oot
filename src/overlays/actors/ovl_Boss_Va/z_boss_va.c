@@ -1068,7 +1068,7 @@ void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
 
     if (this->colliderBody.base.atFlags & AT_HIT) {
         this->colliderBody.base.atFlags &= ~AT_HIT;
-        if (this->colliderBody.base.at == &player->actor) {
+        if (this->colliderBody.base.otherAC == &player->actor) {
             func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
         }
     }
@@ -1129,17 +1129,17 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
             Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
-            this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
+            this->colliderBody.elem.bumper.dmgFlags = DMG_BOOMERANG;
         }
     }
 
     if (this->colliderBody.base.acFlags & AC_HIT) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
 
-        if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
+        if (this->colliderBody.base.otherAT->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
             Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
-            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
+            this->colliderBody.elem.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
             if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
@@ -1159,7 +1159,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
         this->colliderBody.base.atFlags &= ~AT_HIT;
 
         sPhase2Timer = (sPhase2Timer + 0x18) & 0xFFF0;
-        if (this->colliderBody.base.at == &player->actor) {
+        if (this->colliderBody.base.otherAC == &player->actor) {
             func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
         }
@@ -1217,7 +1217,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 }
 
 void BossVa_SetupBodyPhase3(BossVa* this) {
-    this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
+    this->colliderBody.elem.bumper.dmgFlags = DMG_BOOMERANG;
     this->actor.speedXZ = 0.0f;
     sPhase3StopMoving = false;
     BossVa_SetupAction(this, BossVa_BodyPhase3);
@@ -1234,7 +1234,7 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
     if (this->colliderBody.base.atFlags & AT_HIT) {
         this->colliderBody.base.atFlags &= ~AT_HIT;
-        if (this->colliderBody.base.at == &player->actor) {
+        if (this->colliderBody.base.otherAC == &player->actor) {
             func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
             Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
@@ -1355,7 +1355,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
     if (this->colliderBody.base.atFlags & AT_HIT) {
         this->colliderBody.base.atFlags &= ~AT_HIT;
-        if (this->colliderBody.base.at == &player->actor) {
+        if (this->colliderBody.base.otherAC == &player->actor) {
             func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
             Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
@@ -1396,8 +1396,8 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_FAINT);
                 }
             }
-        } else if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
-            boomerang = (EnBoom*)this->colliderBody.base.ac;
+        } else if (this->colliderBody.base.otherAT->id == ACTOR_EN_BOOM) {
+            boomerang = (EnBoom*)this->colliderBody.base.otherAT;
             boomerang->returnTimer = 0;
             boomerang->moveTo = &player->actor;
             boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
@@ -1421,7 +1421,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
             }
             Math_SmoothStepToF(&this->actor.speedXZ, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
         }
-        this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
+        this->colliderBody.elem.bumper.dmgFlags = DMG_BOOMERANG;
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {
@@ -1429,7 +1429,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
-            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
+            this->colliderBody.elem.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
             this->timer--;
         } else {
             if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {
@@ -2541,11 +2541,12 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
     Math_SmoothStepToS(&this->vaBariUnused.z, this->vaBariUnused.x, 1, 0x1E, 0);
     this->vaBariUnused.y += this->vaBariUnused.z;
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
-        if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
+        if ((this->colliderLightning.base.otherAC == &player->actor) ||
+            (this->colliderSph.base.otherAC == &player->actor)) {
             func_8002F71C(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer, 8.0f);
             Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
-            this->colliderSph.base.at = NULL;
-            this->colliderLightning.base.at = NULL;
+            this->colliderSph.base.otherAC = NULL;
+            this->colliderLightning.base.otherAC = NULL;
         }
 
         this->colliderLightning.base.atFlags &= ~AT_HIT;
@@ -2554,8 +2555,8 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
 
     if (this->colliderSph.base.acFlags & AC_HIT) {
         this->colliderSph.base.acFlags &= ~AC_HIT;
-        if ((this->colliderSph.base.ac->id == ACTOR_EN_BOOM) && (sp52 >= 128)) {
-            boomerang = (EnBoom*)this->colliderSph.base.ac;
+        if ((this->colliderSph.base.otherAT->id == ACTOR_EN_BOOM) && (sp52 >= 128)) {
+            boomerang = (EnBoom*)this->colliderSph.base.otherAT;
             boomerang->returnTimer = 0;
             boomerang->moveTo = &player->actor;
             boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
@@ -2636,11 +2637,12 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
     }
 
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
-        if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
+        if ((this->colliderLightning.base.otherAC == &player->actor) ||
+            (this->colliderSph.base.otherAC == &player->actor)) {
             func_8002F71C(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer, 8.0f);
             Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
-            this->colliderSph.base.at = NULL;
-            this->colliderLightning.base.at = NULL;
+            this->colliderSph.base.otherAC = NULL;
+            this->colliderLightning.base.otherAC = NULL;
         }
 
         this->colliderLightning.base.atFlags &= ~AT_HIT;
@@ -2668,8 +2670,8 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         if (this->colliderSph.base.acFlags & AC_HIT) {
             this->colliderSph.base.acFlags &= ~AC_HIT;
 
-            if ((this->colliderSph.base.ac->id == ACTOR_EN_BOOM) && (sp52 >= 64)) {
-                boomerang = (EnBoom*)this->colliderSph.base.ac;
+            if ((this->colliderSph.base.otherAT->id == ACTOR_EN_BOOM) && (sp52 >= 64)) {
+                boomerang = (EnBoom*)this->colliderSph.base.otherAT;
                 boomerang->returnTimer = 0;
                 boomerang->moveTo = &player->actor;
                 boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
@@ -2810,8 +2812,8 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
         case BOSSVA_BODY:
             if (this->colliderBody.base.acFlags & AC_HIT) {
                 this->colliderBody.base.acFlags &= ~AC_HIT;
-                if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
-                    boomerang = (EnBoom*)this->colliderBody.base.ac;
+                if (this->colliderBody.base.otherAT->id == ACTOR_EN_BOOM) {
+                    boomerang = (EnBoom*)this->colliderBody.base.otherAT;
                     boomerang->returnTimer = 0;
                 }
             }

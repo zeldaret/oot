@@ -567,7 +567,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
 
     if (distSq < SQ(300.0f)) {
         playerDist = this->actor.xzDistToPlayer;
-        if (playerDist < 130.0f || this->jntSph.elements[0].info.ocElemFlags & OCELEM_HIT) {
+        if (playerDist < 130.0f || this->jntSph.elements[0].base.ocElemFlags & OCELEM_HIT) {
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
                 this->actor.world.rot.y = this->actor.world.rot.y - 280;
             } else {
@@ -3526,7 +3526,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
                 this->rider->shape.rot.y = thisx->shape.rot.y;
             }
         }
-        if (this->jntSph.elements[0].info.ocElemFlags & OCELEM_HIT) {
+        if (this->jntSph.elements[0].base.ocElemFlags & OCELEM_HIT) {
             if (thisx->speedXZ > 6.0f) {
                 thisx->speedXZ -= 1.0f;
             }

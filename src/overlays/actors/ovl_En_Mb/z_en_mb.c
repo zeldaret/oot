@@ -296,7 +296,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             this->actor.uncullZoneScale = 800.0f;
             this->actor.uncullZoneDownward = 1800.0f;
             this->playerDetectionRange = 710.0f;
-            this->attackCollider.info.toucher.dmgFlags = DMG_UNBLOCKABLE;
+            this->attackCollider.elem.toucher.dmgFlags = DMG_UNBLOCKABLE;
 
             relYawFromPlayer =
                 this->actor.world.rot.y - Math_Vec3f_Yaw(&this->actor.world.pos, &player->actor.world.pos);
@@ -827,7 +827,7 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
         this->attackCollider.base.atFlags &= ~AT_HIT;
-        if (this->attackCollider.base.at == &player->actor) {
+        if (this->attackCollider.base.otherAC == &player->actor) {
             u8 prevPlayerInvincibilityTimer = player->invincibilityTimer;
 
             if (player->invincibilityTimer < 0) {
@@ -907,7 +907,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
     }
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
-        if (this->attackCollider.base.at == &player->actor) {
+        if (this->attackCollider.base.otherAC == &player->actor) {
             if (!endCharge && !(player->stateFlags2 & PLAYER_STATE2_7)) {
                 if (player->invincibilityTimer < 0) {
                     if (player->invincibilityTimer < -39) {
@@ -976,7 +976,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
     }
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
-        if (this->attackCollider.base.at == &player->actor) {
+        if (this->attackCollider.base.otherAC == &player->actor) {
             if (!endCharge && !(player->stateFlags2 & PLAYER_STATE2_7)) {
                 if (player->invincibilityTimer < 0) {
                     if (player->invincibilityTimer <= -40) {
@@ -1386,7 +1386,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             this->attack = ENMB_ATTACK_NONE;
-            Actor_SetDropFlag(&this->actor, &this->hitbox.info, false);
+            Actor_SetDropFlag(&this->actor, &this->hitbox.elem, false);
             if (this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN ||
                 this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN_ICE) {
                 if (this->state != ENMB_STATE_STUNNED) {

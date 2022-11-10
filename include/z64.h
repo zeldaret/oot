@@ -892,6 +892,8 @@ typedef struct {
     /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
 
+#define SAC_ENABLE (1 << 0)
+
 typedef struct {
     /* 0x000 */ s16 colATCount;
     /* 0x002 */ u16 sacFlags;

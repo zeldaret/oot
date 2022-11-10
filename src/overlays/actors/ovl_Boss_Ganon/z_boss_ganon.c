@@ -2685,12 +2685,12 @@ void BossGanon_Damaged(BossGanon* this, PlayState* play) {
 void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
     s16 i;
     s16 j;
-    ColliderInfo* acHitInfo;
+    ColliderElement* acHitInfo;
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->unk_2D4 = 2;
         this->collider.base.acFlags &= ~AC_HIT;
-        acHitInfo = this->collider.info.acHitInfo;
+        acHitInfo = this->collider.elem.acHitInfo;
 
         if ((this->actionFunc == BossGanon_HitByLightBall) || (this->actionFunc == BossGanon_ChargeBigMagic)) {
             if (acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
@@ -3935,7 +3935,7 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                 }
 
                 if ((this->collider.base.acFlags & AC_HIT) || hitWithBottle) {
-                    ColliderInfo* acHitInfo = this->collider.info.acHitInfo;
+                    ColliderElement* acHitInfo = this->collider.elem.acHitInfo;
 
                     this->collider.base.acFlags &= ~AC_HIT;
 
@@ -4309,7 +4309,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
     BossGanon* dorf = (BossGanon*)this->actor.parent;
     s32 pad;
     Player* player = GET_PLAYER(play);
-    ColliderInfo* acHitInfo;
+    ColliderElement* acHitInfo;
     Vec3f sp60;
 
     this->unk_1A2++;
@@ -4419,7 +4419,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
             }
 
             if (this->collider.base.acFlags & AC_HIT) {
-                acHitInfo = this->collider.info.acHitInfo;
+                acHitInfo = this->collider.elem.acHitInfo;
 
                 this->collider.base.acFlags &= ~AC_HIT;
 

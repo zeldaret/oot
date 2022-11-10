@@ -916,7 +916,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
             this->skelAnime.playSpeed = 1.5f;
         } else if (this->swordCollider.base.atFlags & AT_HIT) {
             this->swordCollider.base.atFlags &= ~AT_HIT;
-            if (&player->actor == this->swordCollider.base.at) {
+            if (&player->actor == this->swordCollider.base.otherAC) {
                 func_8002F71C(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
                 this->spinAttackState = 2;
                 func_8002DF54(play, &this->actor, 0x18);
@@ -1368,7 +1368,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
             if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {

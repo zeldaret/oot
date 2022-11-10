@@ -282,7 +282,7 @@ void EnDekubaba_DisableHitboxes(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.bumperFlags &= ~BUMP_ON;
+        this->collider.elements[i].base.bumperFlags &= ~BUMP_ON;
     }
 }
 
@@ -323,7 +323,7 @@ void EnDekubaba_SetupGrow(EnDekubaba* this) {
     this->timer = 15;
 
     for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.ocElemFlags |= OCELEM_ON;
+        this->collider.elements[i].base.ocElemFlags |= OCELEM_ON;
     }
 
     this->collider.base.colType = COLTYPE_HIT6;
@@ -341,7 +341,7 @@ void EnDekubaba_SetupRetract(EnDekubaba* this) {
     this->timer = 15;
 
     for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.ocElemFlags &= ~OCELEM_ON;
+        this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
 
     this->actionFunc = EnDekubaba_Retract;
@@ -417,7 +417,7 @@ void EnDekubaba_SetupStunnedVertical(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.bumperFlags |= BUMP_ON;
+        this->collider.elements[i].base.bumperFlags |= BUMP_ON;
     }
 
     if (this->timer == 1) {

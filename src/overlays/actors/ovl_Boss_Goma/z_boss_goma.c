@@ -1301,7 +1301,7 @@ void BossGoma_FloorAttack(BossGoma* this, PlayState* play) {
     switch (this->actionState) {
         case 0:
             for (i = 0; i < this->collider.count; i++) {
-                if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
+                if (this->collider.elements[i].base.toucherFlags & TOUCH_HIT) {
                     this->framesUntilNextAction = 10;
                     break;
                 }
@@ -1807,12 +1807,12 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
     if (this->invincibilityFrames != 0) {
         this->invincibilityFrames--;
     } else {
-        ColliderInfo* acHitInfo = this->collider.elements[0].info.acHitInfo;
+        ColliderElement* acHitInfo = this->collider.elements[0].base.acHitInfo;
         s32 damage;
 
         if (this->eyeClosedTimer == 0 && this->actionFunc != BossGoma_CeilingSpawnGohmas &&
-            (this->collider.elements[0].info.bumperFlags & BUMP_HIT)) {
-            this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
+            (this->collider.elements[0].base.bumperFlags & BUMP_HIT)) {
+            this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
 
             if (this->actionFunc == BossGoma_CeilingMoveToCenter || this->actionFunc == BossGoma_CeilingIdle ||
                 this->actionFunc == BossGoma_CeilingPrepareSpawnGohmas) {

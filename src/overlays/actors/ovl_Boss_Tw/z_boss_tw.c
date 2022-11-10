@@ -464,7 +464,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
 
         if (this->actor.params == TW_FIRE_BLAST || this->actor.params == TW_FIRE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastFire;
-            this->collider.info.toucher.effect = 1;
+            this->collider.elem.toucher.effect = 1;
         } else if (this->actor.params == TW_ICE_BLAST || this->actor.params == TW_ICE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastIce;
         } else if (this->actor.params >= TW_DEATHBALL_KOTAKE) {
@@ -3091,7 +3091,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
                 BossTw_TwinrovaDamage(this, play, 0);
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE);
             } else if (this->collider.base.acFlags & AC_HIT) {
-                ColliderInfo* info = this->collider.info.acHitInfo;
+                ColliderElement* info = this->collider.elem.acHitInfo;
 
                 this->collider.base.acFlags &= ~AC_HIT;
                 if (info->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_ARROW)) {}
@@ -3099,7 +3099,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
         } else if (this->collider.base.acFlags & AC_HIT) {
             u8 damage;
             u8 swordDamage;
-            ColliderInfo* info = this->collider.info.acHitInfo;
+            ColliderElement* info = this->collider.elem.acHitInfo;
 
             this->collider.base.acFlags &= ~AC_HIT;
             swordDamage = false;
@@ -4318,7 +4318,7 @@ void BossTw_BlastIce(BossTw* this, PlayState* play) {
 s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 ret = false;
-    ColliderInfo* info;
+    ColliderElement* info;
 
     if (1) {}
 
@@ -4326,7 +4326,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
             this->collider.base.atFlags &= ~AT_HIT;
-            info = this->collider.info.acHitInfo;
+            info = this->collider.elem.acHitInfo;
 
             if (info->toucher.dmgFlags & DMG_SHIELD) {
                 this->work[INVINC_TIMER] = 7;

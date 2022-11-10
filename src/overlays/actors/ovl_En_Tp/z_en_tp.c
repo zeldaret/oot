@@ -248,7 +248,7 @@ void EnTp_Head_ApproachPlayer(EnTp* this, PlayState* play) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        if (&player->actor == this->collider.base.at) {
+        if (&player->actor == this->collider.base.otherAC) {
             this->timer = 1;
         }
     }
@@ -385,7 +385,7 @@ void EnTp_Head_TakeOff(EnTp* this, PlayState* play) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        if (&player->actor == this->collider.base.at) {
+        if (&player->actor == this->collider.base.otherAC) {
             this->unk_15C = 1;
         }
     }
@@ -439,7 +439,7 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 200.0f) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
-            if (&player->actor == this->collider.base.at) {
+            if (&player->actor == this->collider.base.otherAC) {
                 this->timer = 0;
             }
         }

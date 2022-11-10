@@ -1139,15 +1139,15 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
     s16 i1;
 
     for (i1 = 0; i1 < ARRAY_COUNT(this->tentElements); i1++) {
-        if (this->tentCollider.elements[i1].info.bumperFlags & BUMP_HIT) {
+        if (this->tentCollider.elements[i1].base.bumperFlags & BUMP_HIT) {
             s16 i2;
-            ColliderInfo* hurtbox;
+            ColliderElement* hurtbox;
 
             for (i2 = 0; i2 < 19; i2++) {
-                this->tentCollider.elements[i2].info.bumperFlags &= ~BUMP_HIT;
-                this->tentCollider.elements[i2].info.toucherFlags &= ~TOUCH_HIT;
+                this->tentCollider.elements[i2].base.bumperFlags &= ~BUMP_HIT;
+                this->tentCollider.elements[i2].base.toucherFlags &= ~TOUCH_HIT;
             }
-            hurtbox = this->tentCollider.elements[i1].info.acHitInfo;
+            hurtbox = this->tentCollider.elements[i1].base.acHitInfo;
             this->work[MO_TENT_INVINC_TIMER] = 5;
             if (hurtbox->toucher.dmgFlags & DMG_MAGIC_FIRE) {
                 func_80078914(&this->tentTipPos, NA_SE_EN_MOFER_CUT);
@@ -1175,8 +1175,8 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
                                     Rand_ZeroFloat(0.08f) + 0.13f);
             }
             break;
-        } else if (this->tentCollider.elements[i1].info.toucherFlags & TOUCH_HIT) {
-            this->tentCollider.elements[i1].info.toucherFlags &= ~TOUCH_HIT;
+        } else if (this->tentCollider.elements[i1].base.toucherFlags & TOUCH_HIT) {
+            this->tentCollider.elements[i1].base.toucherFlags &= ~TOUCH_HIT;
             this->playerHitTimer = 5;
             break;
         }
@@ -1745,7 +1745,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
         }
     }
     if (this->coreCollider.base.acFlags & AC_HIT) {
-        ColliderInfo* hurtbox = this->coreCollider.info.acHitInfo;
+        ColliderElement* hurtbox = this->coreCollider.elem.acHitInfo;
         // "hit!!"
         osSyncPrintf("Core_Damage_check 当り！！\n");
         this->coreCollider.base.acFlags &= ~AC_HIT;

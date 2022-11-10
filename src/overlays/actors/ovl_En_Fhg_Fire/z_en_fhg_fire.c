@@ -476,7 +476,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         ? true
                         : false;
                 if ((this->collider.base.acFlags & AC_HIT) || canBottleReflect1) {
-                    ColliderInfo* hurtbox = this->collider.info.acHitInfo;
+                    ColliderElement* hurtbox = this->collider.elem.acHitInfo;
                     s16 i2;
                     Vec3f spA8;
                     Vec3f sp9C = { 0.0f, -0.5f, 0.0f };

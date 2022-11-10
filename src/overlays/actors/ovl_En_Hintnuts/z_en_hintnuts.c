@@ -461,8 +461,8 @@ void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
 void EnHintnuts_ColliderCheck(EnHintnuts* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
-        if (this->collider.base.ac->id != ACTOR_EN_NUTSBALL) {
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
+        if (this->collider.base.otherAT->id != ACTOR_EN_NUTSBALL) {
             EnHintnuts_SetupBurrow(this);
         } else {
             EnHintnuts_HitByScrubProjectile1(this, play);

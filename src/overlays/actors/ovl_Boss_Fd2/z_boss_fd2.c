@@ -806,31 +806,31 @@ void BossFd2_Wait(BossFd2* this, PlayState* play) {
 
 void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     s16 i;
-    ColliderInfo* hurtbox;
+    ColliderElement* hurtbox;
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
         Player* player = GET_PLAYER(play);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
-            if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
-                this->collider.elements[i].info.toucherFlags &= ~TOUCH_HIT;
+            if (this->collider.elements[i].base.toucherFlags & TOUCH_HIT) {
+                this->collider.elements[i].base.toucherFlags &= ~TOUCH_HIT;
                 Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
     }
     if (!bossFd->faceExposed) {
-        this->collider.elements[0].info.elemType = ELEMTYPE_UNK2;
+        this->collider.elements[0].base.elemType = ELEMTYPE_UNK2;
         this->collider.base.colType = COLTYPE_METAL;
     } else {
-        this->collider.elements[0].info.elemType = ELEMTYPE_UNK3;
+        this->collider.elements[0].base.elemType = ELEMTYPE_UNK3;
         this->collider.base.colType = COLTYPE_HIT3;
     }
 
-    if (this->collider.elements[0].info.bumperFlags & BUMP_HIT) {
-        this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
+    if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
+        this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
 
-        hurtbox = this->collider.elements[0].info.acHitInfo;
+        hurtbox = this->collider.elements[0].base.acHitInfo;
         if (!bossFd->faceExposed) {
             if (hurtbox->toucher.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;

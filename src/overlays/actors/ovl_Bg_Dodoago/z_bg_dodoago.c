@@ -278,9 +278,9 @@ void BgDodoago_Update(Actor* thisx, PlayState* play) {
         if ((this->colliderLeft.base.ocFlags1 & OC1_HIT) || (this->colliderRight.base.ocFlags1 & OC1_HIT)) {
 
             if (this->colliderLeft.base.ocFlags1 & OC1_HIT) {
-                actor = this->colliderLeft.base.oc;
+                actor = this->colliderLeft.base.otherOC;
             } else {
-                actor = this->colliderRight.base.oc;
+                actor = this->colliderRight.base.otherOC;
             }
             this->colliderLeft.base.ocFlags1 &= ~OC1_HIT;
             this->colliderRight.base.ocFlags1 &= ~OC1_HIT;

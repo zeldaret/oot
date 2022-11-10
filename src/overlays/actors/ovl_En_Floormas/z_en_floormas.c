@@ -293,7 +293,7 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
                      ANIMMODE_ONCE, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
-    this->collider.info.bumperFlags &= ~BUMP_HOOKABLE;
+    this->collider.elem.bumperFlags &= ~BUMP_HOOKABLE;
     this->actor.speedXZ = 4.0f;
     this->actor.velocity.y = 7.0f;
     // using div creates a signed check.
@@ -390,10 +390,10 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
-        this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
+    if (this->collider.elem.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+        this->actor.world.rot.y = this->collider.base.otherAT->world.rot.y;
     } else {
-        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.otherAT) + 0x8000;
     }
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x14);
     this->actionFunc = EnFloormas_TakeDamage;
@@ -753,7 +753,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, PlayState* play) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
     } else if ((this->actor.yDistToPlayer < -10.0f) && (this->collider.base.ocFlags1 & OC1_HIT) &&
-               (&player->actor == this->collider.base.oc)) {
+               (&player->actor == this->collider.base.otherOC)) {
         play->grabPlayer(play, player);
         EnFloormas_SetupGrabLink(this, player);
     }
@@ -915,7 +915,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
-            this->collider.info.bumperFlags |= BUMP_HOOKABLE;
+            this->collider.elem.bumperFlags |= BUMP_HOOKABLE;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             EnFloormas_SetupStand(this);
         } else {
@@ -979,14 +979,14 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->collider.base.colType != COLTYPE_HARD) {
                 isSmall = 0;
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = 1;
                 }
-                if (isSmall && this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT) {
+                if (isSmall && this->collider.elem.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }

@@ -198,7 +198,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, PlayState* play) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        if (this->collider.base.at == &player->actor) {
+        if (this->collider.base.otherAC == &player->actor) {
             EnTuboTrap_SpawnEffectsOnLand(this, play);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_POT_BROKEN);
             SfxSource_PlaySfxAtFixedWorldPos(play, &player2->actor.world.pos, 40, NA_SE_PL_BODY_HIT);

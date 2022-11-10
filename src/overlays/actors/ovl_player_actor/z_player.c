@@ -3748,12 +3748,12 @@ s32 func_80837818(Player* this) {
 }
 
 void func_80837918(Player* this, s32 quadIndex, u32 dmgFlags) {
-    this->meleeWeaponQuads[quadIndex].info.toucher.dmgFlags = dmgFlags;
+    this->meleeWeaponQuads[quadIndex].elem.toucher.dmgFlags = dmgFlags;
 
     if (dmgFlags == DMG_DEKU_STICK) {
-        this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_WOOD;
+        this->meleeWeaponQuads[quadIndex].elem.toucherFlags = TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_WOOD;
     } else {
-        this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST;
+        this->meleeWeaponQuads[quadIndex].elem.toucherFlags = TOUCH_ON | TOUCH_NEAREST;
     }
 }
 
@@ -4102,7 +4102,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             // Additionally, `Collider.atHit` can never be set while already colliding as AC, so it's also bugged.
             // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
             if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
-                         (this->cylinder.info.atHit != NULL) && (this->cylinder.info.atHit->atFlags & 0x20000000))) {
+                         (this->cylinder.elem.atHit != NULL) && (this->cylinder.elem.atHit->atFlags & 0x20000000))) {
 
                 Player_RequestRumble(this, 180, 20, 100, 0);
 
@@ -4135,7 +4135,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.info.acHitInfo->toucher.effect == 1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitInfo->toucher.effect == 1)) {
                     func_8083819C(this, play);
                 }
 
@@ -4149,7 +4149,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             }
 
             if (this->cylinder.base.acFlags & AC_HIT) {
-                Actor* ac = this->cylinder.base.ac;
+                Actor* ac = this->cylinder.base.otherAT;
                 s32 sp4C;
 
                 if (ac->flags & ACTOR_FLAG_24) {
@@ -8133,7 +8133,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 
         if (temp1) {
             if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
-                Actor* at = this->meleeWeaponQuads[temp1 ? 1 : 0].base.at;
+                Actor* at = this->meleeWeaponQuads[temp1 ? 1 : 0].base.otherAC;
 
                 if ((at != NULL) && (at->id != ACTOR_EN_KANBAN)) {
                     func_80832630(play);
@@ -8687,7 +8687,7 @@ void func_80844708(Player* this, PlayState* play) {
             if (this->linearVelocity >= 7.0f) {
                 if (((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) && (D_8085360C < 0x2000)) ||
                     ((this->cylinder.base.ocFlags1 & OC1_HIT) &&
-                     (cylinderOc = this->cylinder.base.oc,
+                     (cylinderOc = this->cylinder.base.otherOC,
                       ((cylinderOc->id == ACTOR_EN_WOOD02) &&
                        (ABS((s16)(this->actor.world.rot.y - cylinderOc->yawTowardsPlayer)) > 0x6000))))) {
 

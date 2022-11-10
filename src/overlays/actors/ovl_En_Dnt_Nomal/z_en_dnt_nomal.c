@@ -231,9 +231,9 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {
         this->targetQuad.base.acFlags &= ~AC_HIT;
 
-        dx = fabsf(targetX - this->targetQuad.info.bumper.hitPos.x);
-        dy = fabsf(targetY - this->targetQuad.info.bumper.hitPos.y);
-        dz = fabsf(targetZ - this->targetQuad.info.bumper.hitPos.z);
+        dx = fabsf(targetX - this->targetQuad.elem.bumper.hitPos.x);
+        dy = fabsf(targetY - this->targetQuad.elem.bumper.hitPos.y);
+        dz = fabsf(targetZ - this->targetQuad.elem.bumper.hitPos.z);
 
         scoreVel.y = 5.0f;
 

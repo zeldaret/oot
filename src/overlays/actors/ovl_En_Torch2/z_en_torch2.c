@@ -104,8 +104,8 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     this->meleeWeaponQuads[0].base.atFlags = this->meleeWeaponQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->meleeWeaponQuads[0].base.acFlags = this->meleeWeaponQuads[1].base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
     this->meleeWeaponQuads[0].base.colType = this->meleeWeaponQuads[1].base.colType = COLTYPE_METAL;
-    this->meleeWeaponQuads[0].info.toucher.damage = this->meleeWeaponQuads[1].info.toucher.damage = 8;
-    this->meleeWeaponQuads[0].info.bumperFlags = this->meleeWeaponQuads[1].info.bumperFlags = BUMP_ON;
+    this->meleeWeaponQuads[0].elem.toucher.damage = this->meleeWeaponQuads[1].elem.toucher.damage = 8;
+    this->meleeWeaponQuads[0].elem.bumperFlags = this->meleeWeaponQuads[1].elem.bumperFlags = BUMP_ON;
     this->shieldQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->shieldQuad.base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -599,7 +599,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 this->unk_8A8 = 6.0f;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
-                Actor_SetDropFlag(&this->actor, &this->cylinder.info, true);
+                Actor_SetDropFlag(&this->actor, &this->cylinder.elem, true);
                 this->stateFlags3 &= ~PLAYER_STATE3_2;
                 this->stateFlags3 |= PLAYER_STATE3_0;
                 sActionState = ENTORCH2_DAMAGE;
@@ -698,10 +698,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     }
     if (this->invincibilityTimer != 0) {
         this->cylinder.base.colType = COLTYPE_NONE;
-        this->cylinder.info.elemType = ELEMTYPE_UNK5;
+        this->cylinder.elem.elemType = ELEMTYPE_UNK5;
     } else {
         this->cylinder.base.colType = COLTYPE_HIT5;
-        this->cylinder.info.elemType = ELEMTYPE_UNK1;
+        this->cylinder.elem.elemType = ELEMTYPE_UNK1;
     }
     /*
      * Handles the jump movement onto Link's sword. Dark Link doesn't move during the

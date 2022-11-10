@@ -372,7 +372,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                 Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
                 this->actor.speedXZ = -6.0f;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-                if (&player->actor == this->collider.base.at) {
+                if (&player->actor == this->collider.base.otherAC) {
                     if (!(this->collider.base.atFlags & AT_BOUNCED)) {
                         Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
                     }
@@ -852,7 +852,7 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
             this->damageEffect = thisx->colChkInfo.damageEffect;
-            Actor_SetDropFlag(thisx, &this->collider.elements[0].info, false);
+            Actor_SetDropFlag(thisx, &this->collider.elements[0].base, false);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {

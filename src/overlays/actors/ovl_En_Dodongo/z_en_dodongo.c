@@ -605,13 +605,13 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if ((this->timer != 0) || (ABS(yawDiff1) < 0x4000)) {
-            this->sphElements[2].info.toucherFlags = TOUCH_NONE;
-            this->sphElements[1].info.toucherFlags = TOUCH_NONE;
+            this->sphElements[2].base.toucherFlags = TOUCH_NONE;
+            this->sphElements[1].base.toucherFlags = TOUCH_NONE;
             this->colliderBody.base.atFlags = AT_NONE;
-            this->sphElements[2].info.toucher.dmgFlags = 0;
-            this->sphElements[1].info.toucher.dmgFlags = 0;
-            this->sphElements[2].info.toucher.damage = 0;
-            this->sphElements[1].info.toucher.damage = 0;
+            this->sphElements[2].base.toucher.dmgFlags = 0;
+            this->sphElements[1].base.toucher.dmgFlags = 0;
+            this->sphElements[2].base.toucher.damage = 0;
+            this->sphElements[1].base.toucher.damage = 0;
             EnDodongo_SetupBreatheFire(this);
             this->timer = Rand_S16Offset(5, 10);
         } else {
@@ -628,10 +628,10 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_J_TAIL);
             Animation_PlayOnceSetSpeed(&this->skelAnime, animation, 2.0f);
             this->timer = 18;
-            this->colliderBody.base.atFlags = this->sphElements[1].info.toucherFlags =
-                this->sphElements[2].info.toucherFlags = AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-            this->sphElements[1].info.toucher.dmgFlags = this->sphElements[2].info.toucher.dmgFlags = DMG_DEFAULT;
-            this->sphElements[1].info.toucher.damage = this->sphElements[2].info.toucher.damage = 8;
+            this->colliderBody.base.atFlags = this->sphElements[1].base.toucherFlags =
+                this->sphElements[2].base.toucherFlags = AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
+            this->sphElements[1].base.toucher.dmgFlags = this->sphElements[2].base.toucher.dmgFlags = DMG_DEFAULT;
+            this->sphElements[1].base.toucher.damage = this->sphElements[2].base.toucher.damage = 8;
         }
     } else if (this->timer > 1) {
         Vec3f tailPos;
@@ -650,7 +650,7 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
         if (this->colliderBody.base.atFlags & AT_HIT) {
             Player* player = GET_PLAYER(play);
 
-            if (this->colliderBody.base.at == &player->actor) {
+            if (this->colliderBody.base.otherAC == &player->actor) {
                 Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }

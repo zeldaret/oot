@@ -1226,10 +1226,10 @@ void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params) {
 
 void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     s32 pad;
-    ColliderInfo* item1;
+    ColliderElement* item1;
     u8 swordDamage;
     s32 damage;
-    ColliderInfo* item2;
+    ColliderElement* item2;
     s16 i;
 
     if ((this->health <= 0) && (this->actionFunc != BossDodongo_DeathCutscene)) {
@@ -1241,12 +1241,12 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     if (this->unk_1C0 == 0) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
-                if (this->collider.elements[i].info.bumperFlags & BUMP_HIT) {
-                    item1 = this->collider.elements[i].info.acHitInfo;
+                if (this->collider.elements[i].base.bumperFlags & BUMP_HIT) {
+                    item1 = this->collider.elements[i].base.acHitInfo;
                     item2 = item1;
 
                     if ((item2->toucher.dmgFlags & DMG_BOOMERANG) || (item2->toucher.dmgFlags & DMG_SLINGSHOT)) {
-                        this->collider.elements[i].info.bumperFlags &= ~BUMP_HIT;
+                        this->collider.elements[i].base.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
                         this->unk_1DA = 0x32;
@@ -1256,9 +1256,9 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
             }
         }
 
-        if (this->collider.elements->info.bumperFlags & BUMP_HIT) {
-            this->collider.elements->info.bumperFlags &= ~BUMP_HIT;
-            item1 = this->collider.elements[0].info.acHitInfo;
+        if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
+            this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
+            item1 = this->collider.elements[0].base.acHitInfo;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
                 swordDamage = damage = CollisionCheck_GetSwordDamage(item1->toucher.dmgFlags);
 
