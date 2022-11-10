@@ -126,7 +126,7 @@ s16 bdan_room_3ObjectList_000250[] = {
 ActorEntry bdan_room_3ActorList_000258[] = {
     { ACTOR_EN_EIYER, {     30,  -1206,  -3032 }, {      0,      0,      0 }, 0x000A },
     { ACTOR_EN_EIYER, {    -18,  -1210,  -3408 }, {      0,      0,      0 }, 0x000A },
-    { ACTOR_EN_BX,    {   -255,  -1015,  -3401 }, {      0,      0,      0 }, 0x3FFF },
+    { ACTOR_EN_BX,    {   -255,  -1015,  -3401 }, {      0,      0,      0 }, 0x3C8F },
     { ACTOR_EN_RU1,   {    222,  -1113,  -3270 }, {      0,      0,      0 }, 0x0003 },
 };
 

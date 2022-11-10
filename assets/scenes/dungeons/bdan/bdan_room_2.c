@@ -118,7 +118,7 @@ s16 bdan_room_2ObjectList_0001C0[] = {
 ActorEntry bdan_room_2ActorList_0001CC[] = {
     { ACTOR_EN_VALI, {   -127,     60,  -3272 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_VALI, {      3,     60,  -3612 }, {      0,      0,      0 }, 0xFFFF },
-    { ACTOR_EN_BX,   {   -260,   -366,  -3401 }, {      0,      0,      0 }, 0x3FFF },
+    { ACTOR_EN_BX,   {   -260,   -366,  -3401 }, {      0,      0,      0 }, 0x3C8F },
     { ACTOR_EN_BILI, {     38,   -318,  -3232 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BILI, {   -110,   -325,  -3038 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BILI, {    -50,   -319,  -3394 }, {      0,      0,      0 }, 0xFFFF },
