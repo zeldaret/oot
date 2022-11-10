@@ -108,6 +108,8 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play) {
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_RUPPY, rupeePos.x, rupeePos.y,
                                rupeePos.z, 0, 0, 0, 3);
         }
+        // giant exploding rupee added
+        Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_RUPPY, 0.0f, 0.0f, 180.0f, 0, 0, 0, 1);
     }
 
     if (this->type != 5) {
