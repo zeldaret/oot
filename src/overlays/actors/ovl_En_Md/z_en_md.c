@@ -539,7 +539,7 @@ void EnMd_UpdateEyes(EnMd* this) {
 void func_80AAB158(EnMd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 absYawDiff;
-    s16 playerTrackingOpt;
+    s16 trackingMode;
     s16 temp2;
     s16 yawDiff;
 
@@ -547,37 +547,37 @@ void func_80AAB158(EnMd* this, PlayState* play) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
-        playerTrackingOpt = absYawDiff <= Npc_GetPlayerTrackingPresetMaxYaw(2) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
-                                                                               : NPC_PLAYER_TRACKING_NONE;
+        trackingMode =
+            absYawDiff <= Npc_GetTrackingPresetMaxPlayerYaw(2) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
         temp2 = 1;
     } else {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
         temp2 = 0;
     }
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_FULL_BODY;
+        trackingMode = NPC_TRACKING_FULL_BODY;
     }
 
     if (this->actionFunc == func_80AABD0C) {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
         temp2 = 0;
     }
     if (this->actionFunc == func_80AAB8F8) {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_FULL_BODY;
+        trackingMode = NPC_TRACKING_FULL_BODY;
         temp2 = 1;
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
-        this->interactInfo.playerPosition = play->view.eye;
+        this->interactInfo.trackPos = play->view.eye;
         this->interactInfo.yPosOffset = 40.0f;
-        playerTrackingOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+        trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
-        this->interactInfo.playerPosition = player->actor.world.pos;
+        this->interactInfo.trackPos = player->actor.world.pos;
         this->interactInfo.yPosOffset = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
     }
 
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackingOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,

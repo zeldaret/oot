@@ -406,27 +406,25 @@ s32 func_80AF5DFC(EnSa* this, PlayState* play) {
 
 void func_80AF5F34(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 playerTrackingOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
+    s16 trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
 
     if (play->sceneId == SCENE_SPOT04) {
-        playerTrackingOpt =
-            (this->actionFunc == func_80AF68E4) ? NPC_PLAYER_TRACKING_NONE : NPC_PLAYER_TRACKING_FULL_BODY;
+        trackingMode = (this->actionFunc == func_80AF68E4) ? NPC_TRACKING_NONE : NPC_TRACKING_FULL_BODY;
     }
     if (play->sceneId == SCENE_SPOT05) {
-        playerTrackingOpt = (this->skelAnime.animation == &gSariaPlayingOcarinaAnim) ? NPC_PLAYER_TRACKING_NONE
-                                                                                     : NPC_PLAYER_TRACKING_HEAD;
+        trackingMode = (this->skelAnime.animation == &gSariaPlayingOcarinaAnim) ? NPC_TRACKING_NONE : NPC_TRACKING_HEAD;
     }
     if (play->sceneId == SCENE_SPOT05 && this->actionFunc == func_80AF6448 &&
         this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
     if (play->sceneId == SCENE_SPOT05 && this->actionFunc == func_80AF68E4 &&
         this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = 4.0f;
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackingOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
 }
 
 s32 func_80AF603C(EnSa* this) {

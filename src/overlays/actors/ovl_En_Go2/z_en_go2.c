@@ -1090,9 +1090,9 @@ void func_80A45288(EnGo2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
-        this->interactInfo.playerPosition = player->actor.world.pos;
+        this->interactInfo.trackPos = player->actor.world.pos;
         this->interactInfo.yPosOffset = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
-        Npc_TrackPlayer(&this->actor, &this->interactInfo, 4, this->playerTrackOpt);
+        Npc_TrackPoint(&this->actor, &this->interactInfo, 4, this->trackingMode);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
         if (func_80A44790(this, play)) {
@@ -1182,13 +1182,13 @@ s32 EnGo2_IsCameraModified(EnGo2* this, PlayState* play) {
 
 void EnGo2_DefaultWakingUp(EnGo2* this) {
     if (EnGo2_IsWakingUp(this)) {
-        this->playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+        this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
-        this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        this->trackingMode = NPC_TRACKING_NONE;
     }
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-        this->playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
+        this->trackingMode = NPC_TRACKING_FULL_BODY;
     }
 
     this->isAwake = true;
@@ -1199,9 +1199,9 @@ void EnGo2_WakingUp(EnGo2* this) {
     s32 isTrue = true;
 
     xyzDist = SQ(xyzDist);
-    this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+    this->trackingMode = NPC_TRACKING_NONE;
     if ((this->actor.xyzDistToPlayerSq <= xyzDist) || (this->interactInfo.talkState != NPC_TALK_STATE_IDLE)) {
-        this->playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
+        this->trackingMode = NPC_TRACKING_FULL_BODY;
     }
 
     this->isAwake = isTrue;
@@ -1209,10 +1209,10 @@ void EnGo2_WakingUp(EnGo2* this) {
 
 void EnGo2_BiggoronWakingUp(EnGo2* this) {
     if (EnGo2_IsWakingUp(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-        this->playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+        this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
         this->isAwake = true;
     } else {
-        this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        this->trackingMode = NPC_TRACKING_NONE;
         this->isAwake = false;
     }
 }
@@ -1221,8 +1221,7 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
     switch (this->actor.params & 0x1F) {
         case GORON_DMT_BOMB_FLOWER:
             this->isAwake = true;
-            this->playerTrackOpt =
-                EnGo2_IsWakingUp(this) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO : NPC_PLAYER_TRACKING_NONE;
+            this->trackingMode = EnGo2_IsWakingUp(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
             break;
         case GORON_FIRE_GENERIC:
             EnGo2_WakingUp(this);
@@ -1309,7 +1308,7 @@ void EnGo2_RollingAnimation(EnGo2* this, PlayState* play) {
         this->skelAnime.playSpeed = -1.0f;
     }
     EnGo2_SwapInitialFrameAnimFrameCount(this);
-    this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+    this->trackingMode = NPC_TRACKING_NONE;
     this->unk_211 = false;
     this->isAwake = false;
     this->actionFunc = EnGo2_CurledUp;
@@ -1401,7 +1400,7 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_3);
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->isAwake = false;
-    this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+    this->trackingMode = NPC_TRACKING_NONE;
     this->actionFunc = EnGo2_GoronDmtBombFlowerAnimation;
     return true;
 }
@@ -1548,7 +1547,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     this->goronState = 0;
     this->waypoint = 0;
     this->unk_216 = this->actor.shape.rot.z;
-    this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+    this->trackingMode = NPC_TRACKING_NONE;
     this->path = Path_GetByIndex(play, (this->actor.params & 0x3E0) >> 5, 0x1F);
     switch (this->actor.params & 0x1F) {
         case GORON_CITY_ENTRANCE:
@@ -1827,7 +1826,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_5);
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.shape.rot.y += 0x5B0;
-            this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+            this->trackingMode = NPC_TRACKING_NONE;
             this->animTimer = this->skelAnime.endFrame + 60.0f + 60.0f; // eyeDrops animation timer
             this->eyeMouthTexState = 2;
             this->unk_20C = 0;
@@ -1857,7 +1856,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
                 this->actor.flags |= ACTOR_FLAG_0;
-                this->playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+                this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
                 this->skelAnime.playSpeed = 0.0f;
                 this->skelAnime.curFrame = this->skelAnime.endFrame;
                 EnGo2_GetItem(this, play, GI_CLAIM_CHECK);
@@ -1890,7 +1889,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, PlayState* play) {
         player->actor.freezeTimer = 10;
     } else {
         SET_INFTABLE(INFTABLE_10C);
-        this->playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        this->trackingMode = NPC_TRACKING_NONE;
         this->unk_211 = false;
         this->isAwake = false;
         this->actionFunc = EnGo2_CurledUp;

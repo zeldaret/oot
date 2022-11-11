@@ -316,25 +316,25 @@ s16 func_80A79500(PlayState* play, Actor* thisx) {
 
 void func_80A795C8(EnIn* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 playerTrackOpt;
+    s16 npcTrackingMode;
 
     if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
         this->skelAnime.animation == &object_in_Anim_013D60) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        npcTrackingMode = NPC_TRACKING_NONE;
     } else {
-        playerTrackOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
+        npcTrackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
     }
     if (this->actionFunc == func_80A7A568) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
+        npcTrackingMode = NPC_TRACKING_FULL_BODY;
     }
     if (this->actionFunc == func_80A7B024) {
-        this->interactInfo.playerPosition = play->view.eye;
+        this->interactInfo.trackPos = play->view.eye;
         this->interactInfo.yPosOffset = 60.0f;
     } else {
-        this->interactInfo.playerPosition = player->actor.world.pos;
+        this->interactInfo.trackPos = player->actor.world.pos;
         this->interactInfo.yPosOffset = 16.0f;
     }
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 1, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 1, npcTrackingMode);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {

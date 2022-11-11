@@ -33,7 +33,7 @@ typedef struct EnZo {
     /* 0x02FC */ EnZoEffect effects[EN_ZO_EFFECT_COUNT];
     /* 0x0644 */ f32 dialogRadius;
     /* 0x0648 */ f32 alpha;
-    /* 0x064C */ s16 playerTrackingOpt;
+    /* 0x064C */ s16 trackingMode;
     /* 0x064E */ s16 rippleTimer;
     /* 0x0650 */ s16 timeToDive;
     /* 0x0652 */ s16 blinkTimer;

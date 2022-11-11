@@ -179,31 +179,31 @@ void func_80984DB8(DemoIm* this) {
 void func_80984E58(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
-    s16 playerTrackOpt;
+    s16 npcTrackingMode;
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = kREG(16) + 4.0f;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    playerTrackOpt = (ABS(yawDiff) < 0x18E3) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO : NPC_PLAYER_TRACKING_NONE;
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, playerTrackOpt);
+    npcTrackingMode = (ABS(yawDiff) < 0x18E3) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, npcTrackingMode);
 }
 
 void func_80984F10(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = kREG(16) + 12.0f;
 
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80984F94(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = kREG(16) + 4.0f;
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_FULL_BODY);
 }
 
 void DemoIm_UpdateBgCheckInfo(DemoIm* this, PlayState* play) {

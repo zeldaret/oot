@@ -123,18 +123,18 @@ s16 func_80AA1A38(PlayState* play, Actor* thisx) {
 
 void func_80AA1AE4(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 playerTrackingOpt;
+    s16 trackingMode;
 
     if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     } else {
-        playerTrackingOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
+        trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
     }
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = 0.0f;
 
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, playerTrackingOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
 u16 func_80AA1B58(EnMa2* this, PlayState* play) {

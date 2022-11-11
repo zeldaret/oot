@@ -164,17 +164,17 @@ s32 func_809FDDB4(EnDu* this, PlayState* play) {
 
 void func_809FDE24(EnDu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 playerTrackOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
+    s16 trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
 
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
     if (this->actionFunc == func_809FE890) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = 10.0f;
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 3, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 3, trackingMode);
 }
 
 void func_809FDE9C(EnDu* this) {

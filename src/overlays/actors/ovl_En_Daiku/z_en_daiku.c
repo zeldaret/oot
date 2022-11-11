@@ -573,14 +573,14 @@ void EnDaiku_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->stateFlags & ENDAIKU_STATEFLAG_1) {
-        this->interactInfo.playerPosition.x = player->actor.focus.pos.x;
-        this->interactInfo.playerPosition.y = player->actor.focus.pos.y;
-        this->interactInfo.playerPosition.z = player->actor.focus.pos.z;
+        this->interactInfo.trackPos.x = player->actor.focus.pos.x;
+        this->interactInfo.trackPos.y = player->actor.focus.pos.y;
+        this->interactInfo.trackPos.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & ENDAIKU_STATEFLAG_2) {
-            Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
+            Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_FULL_BODY);
         } else {
-            Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+            Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
         }
     }
 }

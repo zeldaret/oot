@@ -540,22 +540,22 @@ typedef enum {
 } NpcTalkState;
 
 typedef enum {
-    /* 0x0 */ NPC_PLAYER_TRACKING_AUTO_TURN, // Determine tracking mode based on track position, see Npc_UpdateAutoTurn
-    /* 0x1 */ NPC_PLAYER_TRACKING_NONE, // Don't track the player
-    /* 0x2 */ NPC_PLAYER_TRACKING_HEAD_AND_TORSO, // Track player by turning the head and the torso
-    /* 0x3 */ NPC_PLAYER_TRACKING_HEAD, // Track player by turning the head
-    /* 0x4 */ NPC_PLAYER_TRACKING_FULL_BODY // Track player by turning the body, torso and head
-} NpcPlayerTrackingOption;
+    /* 0x0 */ NPC_TRACKING_PLAYER_AUTO_TURN, // Determine tracking mode based on player position, see Npc_UpdateAutoTurn
+    /* 0x1 */ NPC_TRACKING_NONE, // Don't track the player
+    /* 0x2 */ NPC_TRACKING_HEAD_AND_TORSO, // Track player by turning the head and the torso
+    /* 0x3 */ NPC_TRACKING_HEAD, // Track player by turning the head
+    /* 0x4 */ NPC_TRACKING_FULL_BODY // Track player by turning the body, torso and head
+} NpcTrackingMode;
 
 typedef struct {
     /* 0x00 */ s16 talkState;
-    /* 0x02 */ s16 playerTrackingOpt;
+    /* 0x02 */ s16 trackingMode;
     /* 0x04 */ s16 autoTurnTimer;
     /* 0x06 */ s16 autoTurnState;
     /* 0x08 */ Vec3s rotHead;
     /* 0x0E */ Vec3s rotTorso;
-    /* 0x14 */ f32 yPosOffset; // Y position offset to add to actor position when calculating angle to player
-    /* 0x18 */ Vec3f playerPosition;
+    /* 0x14 */ f32 yPosOffset; // Y position offset to add to actor position when calculating angle to target
+    /* 0x18 */ Vec3f trackPos;
     /* 0x24 */ s16 pad;
 } NpcInteractInfo; // size = 0x28
 

@@ -661,79 +661,79 @@ s32 EnKo_IsWithinTalkAngle(EnKo* this) {
 }
 
 s32 func_80A97D68(EnKo* this, PlayState* play) {
-    s16 playerTrackOpt;
+    s16 trackingMode;
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
         }
-        playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+        trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7830) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_33);
         }
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     return EnKo_IsWithinTalkAngle(this);
 }
 
 s32 func_80A97E18(EnKo* this, PlayState* play) {
-    s16 playerTrackOpt;
+    s16 trackingMode;
 
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     if (EnKo_IsWithinTalkAngle(this) == true) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+        trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
+        trackingMode = NPC_TRACKING_FULL_BODY;
     } else if (this->lookDist < this->actor.xzDistToPlayer) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     return 1;
 }
 
 s32 func_80A97EB0(EnKo* this, PlayState* play) {
-    s16 playerTrackOpt;
+    s16 trackingMode;
     s32 result;
 
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     result = EnKo_IsWithinTalkAngle(this);
-    playerTrackOpt = (result == true) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO : NPC_PLAYER_TRACKING_NONE;
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, playerTrackOpt);
+    trackingMode = (result == true) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     return result;
 }
 
 s32 func_80A97F20(EnKo* this, PlayState* play) {
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, NPC_PLAYER_TRACKING_FULL_BODY);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
     return 1;
 }
 
 s32 func_80A97F70(EnKo* this, PlayState* play) {
-    s16 playerTrackOpt;
+    s16 trackingMode;
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-        playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+        trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7D94) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_30);
         }
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 5, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 5, trackingMode);
     return EnKo_IsWithinTalkAngle(this);
 }
 
 s32 func_80A98034(EnKo* this, PlayState* play) {
-    s16 playerTrackOpt;
+    s16 trackingMode;
     s32 result;
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
@@ -742,22 +742,22 @@ s32 func_80A98034(EnKo* this, PlayState* play) {
         }
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
         result = EnKo_IsWithinTalkAngle(this);
-        playerTrackOpt = (result == true) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO : NPC_PLAYER_TRACKING_NONE;
+        trackingMode = (result == true) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_879C) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_31);
         }
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
         result = EnKo_IsWithinTalkAngle(this);
     }
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 5, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 5, trackingMode);
     return result;
 }
 
 // Same as func_80A97F20
 s32 func_80A98124(EnKo* this, PlayState* play) {
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, NPC_PLAYER_TRACKING_FULL_BODY);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
     return 1;
 }
 
@@ -772,9 +772,8 @@ s32 func_80A98174(EnKo* this, PlayState* play) {
     if (this->skelAnime.playSpeed == 0.0f) {
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     }
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 2,
-                    (this->skelAnime.playSpeed == 0.0f) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
-                                                        : NPC_PLAYER_TRACKING_NONE);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2,
+                   (this->skelAnime.playSpeed == 0.0f) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE);
     return EnKo_IsWithinTalkAngle(this);
 }
 
@@ -936,13 +935,13 @@ void func_80A9877C(EnKo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((play->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
-        this->interactInfo.playerPosition = play->view.eye;
+        this->interactInfo.trackPos = play->view.eye;
         this->interactInfo.yPosOffset = 40.0f;
         if (ENKO_TYPE != ENKO_TYPE_CHILD_0) {
-            Npc_TrackPlayer(&this->actor, &this->interactInfo, 2, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+            Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_HEAD_AND_TORSO);
         }
     } else {
-        this->interactInfo.playerPosition = player->actor.world.pos;
+        this->interactInfo.trackPos = player->actor.world.pos;
         this->interactInfo.yPosOffset = func_80A97BC0(this);
         if ((func_80A98ECC(this, play) == 0) && (this->interactInfo.talkState == NPC_TALK_STATE_IDLE)) {
             return;

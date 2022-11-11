@@ -762,34 +762,34 @@ void func_80A70834(EnHy* this, PlayState* play) {
 
 void func_80A70978(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 playerTrackOpt;
+    s16 trackingMode;
 
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_BOJ_3:
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
         case ENHY_TYPE_BOJ_10:
-            playerTrackOpt = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_NONE
-                                                                                   : NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+            trackingMode =
+                (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_NONE : NPC_TRACKING_HEAD_AND_TORSO;
             break;
         case ENHY_TYPE_BOJ_12:
-            playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+            trackingMode = NPC_TRACKING_NONE;
             break;
         case ENHY_TYPE_AHG_2:
         case ENHY_TYPE_AHG_17:
-            playerTrackOpt = NPC_PLAYER_TRACKING_FULL_BODY;
+            trackingMode = NPC_TRACKING_FULL_BODY;
             break;
         case ENHY_TYPE_AOB:
         case ENHY_TYPE_BOB_18:
-            playerTrackOpt = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_PLAYER_TRACKING_HEAD_AND_TORSO
-                                                                                   : NPC_PLAYER_TRACKING_FULL_BODY;
+            trackingMode = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_HEAD_AND_TORSO
+                                                                                 : NPC_TRACKING_FULL_BODY;
             break;
         default:
-            playerTrackOpt = NPC_PLAYER_TRACKING_HEAD_AND_TORSO;
+            trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
             break;
     }
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
         this->interactInfo.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
@@ -797,8 +797,8 @@ void func_80A70978(EnHy* this, PlayState* play) {
         this->interactInfo.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueChild;
     }
 
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, sInit1Info[this->actor.params & 0x7F].unkPresetIndex,
-                    playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, sInit1Info[this->actor.params & 0x7F].unkPresetIndex,
+                   trackingMode);
 
     if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unkRange, func_80A6F810,
                           func_80A70058)) {

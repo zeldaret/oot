@@ -148,9 +148,9 @@ void func_80B536C4(EnZl3* this) {
 void func_80B53764(EnZl3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = kREG(16) - 16.0f;
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_HEAD_AND_TORSO);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 s32 func_80B537E8(EnZl3* this) {
@@ -1967,11 +1967,11 @@ s32 func_80B57D80(EnZl3* this, PlayState* play) {
     s32 pad2;
     s16 phi_v1;
 
-    interactInfo->playerPosition.y = player->actor.world.pos.y;
-    interactInfo->playerPosition.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
-    interactInfo->playerPosition.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
+    interactInfo->trackPos.y = player->actor.world.pos.y;
+    interactInfo->trackPos.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
+    interactInfo->trackPos.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
     interactInfo->yPosOffset = kREG(16) - 16.0f;
-    Npc_TrackPlayer(&this->actor, interactInfo, kREG(17) + 0xC, NPC_PLAYER_TRACKING_FULL_BODY);
+    Npc_TrackPoint(&this->actor, interactInfo, kREG(17) + 0xC, NPC_TRACKING_FULL_BODY);
 
     phi_v1 = ABS(temp_v0 - *sp32);
     if (phi_v1 <= 0x320) {

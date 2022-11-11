@@ -230,18 +230,18 @@ void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
 
 void func_80AA0AF4(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 playerTrackOpt;
+    s16 trackingMode;
 
     if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     } else {
-        playerTrackOpt = NPC_PLAYER_TRACKING_AUTO_TURN;
+        trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
     }
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
-    this->interactInfo.playerPosition.y -= -10.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.trackPos.y -= -10.0f;
 
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
 void func_80AA0B74(EnMa1* this) {

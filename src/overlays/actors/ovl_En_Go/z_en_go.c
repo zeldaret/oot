@@ -396,16 +396,16 @@ f32 EnGo_GetGoronSize(EnGo* this) {
 
 void func_80A3F060(EnGo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 playerTrackOpt;
+    s16 npcTrackingMode;
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
         this->actionFunc != func_80A40B1C) {
-        playerTrackOpt = NPC_PLAYER_TRACKING_NONE;
+        npcTrackingMode = NPC_TRACKING_NONE;
     }
 
-    this->interactInfo.playerPosition = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yPosOffset = EnGo_GetGoronSize(this);
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 4, playerTrackOpt);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 4, npcTrackingMode);
 }
 
 void func_80A3F0E4(EnGo* this) {

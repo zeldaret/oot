@@ -403,10 +403,10 @@ void EnCs_Talk(EnCs* this, PlayState* play) {
     }
 
     this->flag |= 1;
-    this->interactInfo.playerPosition.x = player->actor.focus.pos.x;
-    this->interactInfo.playerPosition.y = player->actor.focus.pos.y;
-    this->interactInfo.playerPosition.z = player->actor.focus.pos.z;
-    Npc_TrackPlayer(&this->actor, &this->interactInfo, 0, NPC_PLAYER_TRACKING_FULL_BODY);
+    this->interactInfo.trackPos.x = player->actor.focus.pos.x;
+    this->interactInfo.trackPos.y = player->actor.focus.pos.y;
+    this->interactInfo.trackPos.z = player->actor.focus.pos.z;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_FULL_BODY);
 
     if (this->talkState == 0) {
         EnCs_ChangeAnim(this, ENCS_ANIM_0, &this->currentAnimIndex);
