@@ -16,7 +16,7 @@ SceneCmd spot01_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(14, spot01_room_0ObjectList_000068),
-    SCENE_CMD_ACTOR_LIST(57, spot01_room_0ActorList_000084),
+    SCENE_CMD_ACTOR_LIST(63, spot01_room_0ActorList_000084),
     SCENE_CMD_END(),
 };
 
@@ -106,6 +106,12 @@ ActorEntry spot01_room_0ActorList_000084[] = {
     { ACTOR_BG_GATE_SHUTTER,      {     91,    400,  -1350 }, {      0, 0XF99A,      0 }, 0xFFFF },
     { ACTOR_EN_WONDER_ITEM,       {    148,    300,   1165 }, {      0,      0,    0X1 }, 0x129F },
     { ACTOR_EN_RIVER_SOUND,       {    158,    257,   1742 }, {      0,      0,      0 }, 0x0015 },
+    { ACTOR_OBJ_MURE2,            {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x0205 },
 };
 
 u8 spot01_room_0_possiblePadding_000414[] = {
@@ -150,7 +156,7 @@ SceneCmd spot01_room_0Set_000570[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(14, spot01_room_0ObjectList_0005B0),
-    SCENE_CMD_ACTOR_LIST(51, spot01_room_0ActorList_0005CC),
+    SCENE_CMD_ACTOR_LIST(57, spot01_room_0ActorList_0005CC),
     SCENE_CMD_END(),
 };
 
@@ -223,6 +229,12 @@ ActorEntry spot01_room_0ActorList_0005CC[] = {
     { ACTOR_EN_ISHI,              {   1436,    400,   1361 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_DOOR_ANA,             {    860,     80,   -260 }, {      0,      0,      0 }, 0x0028 },
     { ACTOR_EN_RIVER_SOUND,       {    158,    257,   1742 }, {      0,      0,      0 }, 0x0015 },
+    { ACTOR_OBJ_MURE2,            {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x020A },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
 };
 
 u8 spot01_room_0_possiblePadding_0008FC[] = {
@@ -236,7 +248,7 @@ SceneCmd spot01_room_0Set_000900[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(13, spot01_room_0ObjectList_000940),
-    SCENE_CMD_ACTOR_LIST(46, spot01_room_0ActorList_00095C),
+    SCENE_CMD_ACTOR_LIST(52, spot01_room_0ActorList_00095C),
     SCENE_CMD_END(),
 };
 
@@ -303,6 +315,12 @@ ActorEntry spot01_room_0ActorList_00095C[] = {
     { ACTOR_OBJ_KIBAKO2,          {   1099,     80,     10 }, { 0XFFFF,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,          {   1039,     80,     10 }, { 0XFFFF,      0,      0 }, 0xFFFF },
     { ACTOR_EN_RIVER_SOUND,       {    158,    257,   1742 }, {      0,      0,      0 }, 0x0015 },
+    { ACTOR_OBJ_MURE2,            {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x020A },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
 };
 
 u8 spot01_room_0_possiblePadding_000C3C[] = {
@@ -316,7 +334,7 @@ SceneCmd spot01_room_0Set_000C40[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(12, spot01_room_0ObjectList_000C80),
-    SCENE_CMD_ACTOR_LIST(50, spot01_room_0ActorList_000C98),
+    SCENE_CMD_ACTOR_LIST(56, spot01_room_0ActorList_000C98),
     SCENE_CMD_END(),
 };
 
@@ -386,6 +404,12 @@ ActorEntry spot01_room_0ActorList_000C98[] = {
     { ACTOR_BG_GATE_SHUTTER,      {     91,    400,  -1350 }, {      0, 0XF99A,      0 }, 0xFFFF },
     { ACTOR_EN_WONDER_ITEM,       {    148,    300,   1165 }, {      0,      0,    0X1 }, 0x129F },
     { ACTOR_EN_RIVER_SOUND,       {    158,    257,   1742 }, {      0,      0,      0 }, 0x0015 },
+    { ACTOR_OBJ_MURE2,            {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x0205 },
 };
 
 u8 spot01_room_0_possiblePadding_000FB8[] = {
@@ -399,7 +423,7 @@ SceneCmd spot01_room_0Set_000FC0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(12, spot01_room_0ObjectList_001000),
-    SCENE_CMD_ACTOR_LIST(30, spot01_room_0ActorList_001014),
+    SCENE_CMD_ACTOR_LIST(36, spot01_room_0ActorList_001014),
     SCENE_CMD_END(),
 };
 
@@ -450,6 +474,12 @@ ActorEntry spot01_room_0ActorList_001014[] = {
     { ACTOR_EN_KUSA,              {   -826,      0,    585 }, {      0,      0,      0 }, 0x0700 },
     { ACTOR_EN_KUSA,              {   -800,      0,    521 }, {      0,      0,      0 }, 0x0700 },
     { ACTOR_EN_HY,                {   -305,      0,    185 }, {      0, 0xE9F5,      0 }, 0xFF06 },
+    { ACTOR_OBJ_MURE2,            {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x020A },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
 };
 
 u8 spot01_room_0_possiblePadding_0011E4[] = {
@@ -463,7 +493,7 @@ SceneCmd spot01_room_0Set_0011F0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(13, spot01_room_0ObjectList_001230),
-    SCENE_CMD_ACTOR_LIST(25, spot01_room_0ActorList_001240),
+    SCENE_CMD_ACTOR_LIST(31, spot01_room_0ActorList_001240),
     SCENE_CMD_END(),
 };
 
@@ -511,6 +541,14 @@ ActorEntry spot01_room_0ActorList_001240[] = {
     { ACTOR_EN_HY,              {   -305,      0,    185 }, {      0, 0xE9F5,      0 }, 0xFF06 },
     { ACTOR_EN_HY,              {    -73,    320,   -591 }, {      0,      0,      0 }, 0x7007 },
     { ACTOR_EN_HY,              {   -408,    240,   1632 }, {      0, 0XACCD,      0 }, 0xFF08 },
+    { ACTOR_OBJ_MURE2,          {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,          {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,          {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,          {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WOOD02,          {   -540,      0,    260 }, {      0,      0,      0 }, 0x020A },
+    { ACTOR_EN_WOOD02,          {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
+    
+    
 };
 
 SceneCmd spot01_room_0Set_001390[] = {
@@ -520,7 +558,7 @@ SceneCmd spot01_room_0Set_001390[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(2, spot01_room_0ObjectList_0013D0),
-    SCENE_CMD_ACTOR_LIST(10, spot01_room_0ActorList_0013D4),
+    SCENE_CMD_ACTOR_LIST(11, spot01_room_0ActorList_0013D4),
     SCENE_CMD_END(),
 };
 
@@ -534,12 +572,13 @@ ActorEntry spot01_room_0ActorList_0013D4[] = {
     { ACTOR_BG_SPOT01_IDOMIZU,    {    762,     52,    524 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_BG_SPOT01_FUSYA,      {   1140,    990,    524 }, {      0, 0XC000,      0 }, 0xFFFF },
     { ACTOR_OBJ_MURE2,            {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
-    { ACTOR_OBJ_MURE2,            {    594,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
-    { ACTOR_OBJ_MURE2,            {    -35,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,            {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
     { ACTOR_EN_WOOD02,            {   -860,      0,    522 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_BG_GATE_SHUTTER,      {     91,    400,  -1350 }, {      0, 0XF99A,      0 }, 0xFFFF },
     { ACTOR_BG_SPOT16_DOUGHNUT,   {  -1409,   2767,  -4417 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
 };
 
 u8 spot01_room_0_possiblePadding_001474[] = {
@@ -553,7 +592,7 @@ SceneCmd spot01_room_0Set_001480[] = {
     SCENE_CMD_TIME_SETTINGS(12, 0, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(14, spot01_room_0ObjectList_0014C0),
-    SCENE_CMD_ACTOR_LIST(21, spot01_room_0ActorList_0014DC),
+    SCENE_CMD_ACTOR_LIST(23, spot01_room_0ActorList_0014DC),
     SCENE_CMD_END(),
 };
 
@@ -588,14 +627,16 @@ ActorEntry spot01_room_0ActorList_0014DC[] = {
     { ACTOR_EN_NIW,               {   -549,    240,   1571 }, {      0, 0X1F4A,      0 }, 0xFFFF },
     { ACTOR_EN_NIW,               {  -1697,     80,    870 }, {      0, 0X127D,      0 }, 0xFFFF },
     { ACTOR_OBJ_MURE2,            {  -1409,    111,    587 }, {      0,      0,      0 }, 0xFF02 },
-    { ACTOR_OBJ_MURE2,            {    594,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
-    { ACTOR_OBJ_MURE2,            {    -35,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE2,            {    644,    138,   1465 }, {      0,      0,      0 }, 0xFF02 },
+    { ACTOR_OBJ_MURE2,            {   -170,    400,  -1184 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
     { ACTOR_EN_WOOD02,            {   -860,      0,    522 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_BG_GATE_SHUTTER,      {     91,    400,  -1350 }, {      0, 0XF99A,      0 }, 0xFFFF },
     { ACTOR_EN_ANI,               {    370,    483,    100 }, {      0, 0X9555,      0 }, 0x0000 },
     { ACTOR_EFC_ERUPC,            {  -1693,   2642,  -5035 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_BG_SPOT16_DOUGHNUT,   {  -1409,   2767,  -4417 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x020A },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
 };
 
 u8 spot01_room_0_possiblePadding_00162C[] = {
@@ -609,7 +650,7 @@ SceneCmd spot01_room_0Set_001630[] = {
     SCENE_CMD_TIME_SETTINGS(6, 32, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
     SCENE_CMD_OBJECT_LIST(12, spot01_room_0ObjectList_001670),
-    SCENE_CMD_ACTOR_LIST(9, spot01_room_0ActorList_001688),
+    SCENE_CMD_ACTOR_LIST(11, spot01_room_0ActorList_001688),
     SCENE_CMD_END(),
 };
 
@@ -638,6 +679,8 @@ ActorEntry spot01_room_0ActorList_001688[] = {
     { ACTOR_OBJ_MURE2,            {   -548,     58,    405 }, {      0,      0,      0 }, 0xFF00 },
     { ACTOR_EN_WOOD02,            {   -860,      0,    522 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_BG_SPOT16_DOUGHNUT,   {  -1409,   2767,  -4417 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x020A },
+    { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
 };
 
 u8 spot01_room_0_possiblePadding_001718[] = {
