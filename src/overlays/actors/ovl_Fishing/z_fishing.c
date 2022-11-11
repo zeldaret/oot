@@ -166,8 +166,8 @@ typedef enum {
 } FishingOwnerHair;
 
 static u8 sOwnerHair = FS_OWNER_BALD;
-static u8 sOwnersHatTheft = 0;
-static u8 sOwnersHatHooked = 0;
+static u8 sIsOwnersHatHooked = false;
+static u8 sIsOwnersHatSunk = false;
 
 static s16 sRodCastState = 0;
 
@@ -188,7 +188,7 @@ static s16 sStickYRelPrev = 0;
 
 static u8 sFishingPlayerCinematicState = 0;
 static u8 sFishingCinematicTimer = 0;
-static u8 sSinkingLureFound = 0;
+static u8 sSinkingLureFound = false;
 
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
@@ -364,7 +364,7 @@ static s16 D_80B7E0A4;
 static s16 sFishingMusicDelay;
 static Fishing* sFishingHookedFish;
 static s16 sFishingPlayingState;
-static s16 D_80B7E0AE;
+static s16 sLureTimer; // AND'd for various effects/checks
 static s16 D_80B7E0B0;
 static s16 D_80B7E0B2;
 static s16 D_80B7E0B4;
@@ -1591,7 +1591,7 @@ void Fishing_DrawLureHook(PlayState* play, Vec3f* pos, Vec3f* refPos, u8 hookInd
 
     Matrix_Push();
 
-    if ((sRodCastState == 3) && ((pos->y > WATER_SURFACE_Y(play)) || ((sOwnersHatTheft != 0) && hookIndex))) {
+    if ((sRodCastState == 3) && ((pos->y > WATER_SURFACE_Y(play)) || (sIsOwnersHatHooked && hookIndex))) {
         offsetY = 0.0f;
     } else if (pos->y < WATER_SURFACE_Y(play)) {
         offsetY = -1.0f;
@@ -1638,12 +1638,12 @@ void Fishing_DrawLureHook(PlayState* play, Vec3f* pos, Vec3f* refPos, u8 hookInd
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gFishingLureHookDL);
 
-    if ((hookIndex == 1) && (sOwnersHatTheft != 0)) {
+    if ((hookIndex == 1) && (sIsOwnersHatHooked)) {
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
         Matrix_Translate(250.0f, 0.0f, -1400.0f, MTXMODE_APPLY);
         Matrix_Push();
 
-        if (sOwnersHatHooked != 0) {
+        if (sIsOwnersHatSunk) {
             FishingEffect* effect = play->specialEffects;
             MtxF mf;
 
@@ -1651,8 +1651,8 @@ void Fishing_DrawLureHook(PlayState* play, Vec3f* pos, Vec3f* refPos, u8 hookInd
             Matrix_Get(&mf);
             Matrix_MtxFToYXZRotS(&mf, &sEffOwnersHatRot, 0);
 
-            sOwnersHatHooked = 0;
-            sOwnersHatTheft = 0;
+            sIsOwnersHatSunk = false;
+            sIsOwnersHatHooked = false;
 
             effect->type = FS_EFF_OWNER_HAT;
             effect->state = 0;
@@ -1695,7 +1695,7 @@ void Fishing_UpdateSinkingLure(PlayState* play) {
 
     sSinkingLurePos[0] = sLurePos;
 
-    if (sSinkingLureFound != 0) {
+    if (sSinkingLureFound) {
         offsetY = -1.0f;
     } else if (sLurePos.y < WATER_SURFACE_Y(play)) {
         offsetY = 0.5f;
@@ -1805,7 +1805,7 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Push();
 
-    if (sSinkingLureFound != 0) {
+    if (sSinkingLureFound) {
         Vec3f posTemp = sLurePos;
         sLurePos = sSinkingLureBasePos;
         Fishing_DrawSinkingLure(play);
@@ -1978,8 +1978,8 @@ void Fishing_DrawRod(PlayState* play) {
     } else {
         s16 target = 0;
 
-        if ((sRodCastState == 4) && (sLineHooked != 0)) {
-            target = Math_SinS(D_80B7E0AE * 25600) * 1500.0f;
+        if ((sRodCastState == 4) && (sLineHooked)) {
+            target = Math_SinS(sLureTimer * 25600) * 1500.0f;
         } else {
             Math_ApproachZeroF(&D_80B7A6C0, 0.1f, 10.0f);
             Math_ApproachZeroF(&D_80B7A6BC, 1.0f, 0.05f);
@@ -2025,7 +2025,7 @@ void Fishing_DrawRod(PlayState* play) {
     } else {
         Math_ApproachZeroF(&player->unk_85C, 1.0f, 0.1f);
         Math_ApproachZeroF(&player->unk_858, 1.0f, 0.1f);
-        Math_ApproachF(&D_80B7A6AC, (Math_SinS(D_80B7E0AE * 3000) * 0.025f) + -0.03f, 1.0f, 0.05f);
+        Math_ApproachF(&D_80B7A6AC, (Math_SinS(sLureTimer * 3000) * 0.025f) + -0.03f, 1.0f, 0.05f);
         Math_ApproachZeroF(&sRodBendRotY, 1.0f, 0.05f);
 
         if ((D_80B7E0B4 >= 19) && (D_80B7E0B4 <= 24)) {
@@ -2126,7 +2126,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
     Vec3f sp58;
     s32 pad;
 
-    D_80B7E0AE++;
+    sLureTimer++;
 
     if (D_80B7E0B0 != 0) {
         D_80B7E0B0--;
@@ -2174,7 +2174,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
         D_80B7E148 = 520.0f;
         sRodLineSpooled = 195.0f;
 
-        sRodCastState = sLureEquipped = D_80B7E0AE = D_80B7E0B0 = D_80B7E0B2 = D_80B7E0B4 = D_80B7E120 = D_80B7E114 =
+        sRodCastState = sLureEquipped = sLureTimer = D_80B7E0B0 = D_80B7E0B2 = D_80B7E0B4 = D_80B7E120 = D_80B7E114 =
             D_80B7E150 = 0;
         sUnkLureRotate = sReelLinePosStep = D_80B7E108 = 0.0f;
 
@@ -2255,10 +2255,10 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
             sLurePosDelta.y += sLureCastDelta.y;
             sLurePosDelta.z += sLureCastDelta.z;
             // air drag by hat or reeling during cast.
-            if (CHECK_BTN_ALL(input->cur.button, BTN_A) || (sOwnersHatTheft != 0)) {
+            if (CHECK_BTN_ALL(input->cur.button, BTN_A) || sIsOwnersHatHooked) {
                 sLurePosDelta.x *= 0.9f;
                 sLurePosDelta.z *= 0.9f;
-                if (sOwnersHatTheft == 0) {
+                if (!sIsOwnersHatHooked) {
                     func_80078884(NA_SE_IT_FISHING_REEL_HIGH - SFX_FLAG);
                 }
             }
@@ -2394,14 +2394,14 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
         case 3:
             sSinkingLureSegmentIndex = 0;
 
-            if ((sOwnersHatTheft != 0) && ((SQ(sLurePos.x) + SQ(sLurePos.z)) < SQ(500.0f))) {
-                sOwnersHatHooked = 1;
+            if (sIsOwnersHatHooked && ((SQ(sLurePos.x) + SQ(sLurePos.z)) < SQ(500.0f))) {
+                sIsOwnersHatSunk = true;
             }
 
             player->unk_860 = 2;
 
             if (D_80B7E138 < 3.0f) {
-                spD0 = D_80B7E10C * Math_SinS(D_80B7E0AE * 0x1060);
+                spD0 = D_80B7E10C * Math_SinS(sLureTimer * 0x1060);
                 Math_ApproachF(&sLureRot.x, -M_PI / 6.0f + spD0, 0.3f, D_80B7E110);
                 Math_ApproachF(&D_80B7E110, 0.5f, 1.0f, 0.02f);
                 Math_ApproachZeroF(&D_80B7E10C, 1.0f, 0.02f);
@@ -2432,7 +2432,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                         sp70 = 0.5f;
                     }
 
-                    if (sOwnersHatTheft != 0) {
+                    if (sIsOwnersHatHooked) {
                         if (sp70 > 0.3f) {
                             sp70 = 0.3f;
                         }
@@ -2529,7 +2529,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
             if ((sLureEquipped == FS_LURE_UNK) && CHECK_BTN_ALL(input->cur.button, BTN_A)) {
                 sLureLineSegPosDelta.y = -2.0f;
 
-                if ((D_80B7E0AE & 1) != 0) {
+                if ((sLureTimer & 1) != 0) {
                     sUnkLureRotate = 0.5f;
                 } else {
                     sUnkLureRotate = -0.5f;
@@ -2615,7 +2615,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     phi_v0 = 1;
                 }
 
-                if ((D_80B7E0AE & phi_v0) == 0) {
+                if ((sLureTimer & phi_v0) == 0) {
                     spA8 = sLurePos;
                     spA8.y = WATER_SURFACE_Y(play);
                     Fishing_SpawnRipple(NULL, play->specialEffects, &spA8, 30.0f, 300.0f, 150, 90);
@@ -2638,8 +2638,8 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                 func_80078884(NA_SE_IT_FISHING_REEL_SLOW - SFX_FLAG);
             }
 
-            if ((D_80B7E0AE & 0x1F) == 0) {
-                if ((sLineHooked != 0) || (sLureEquipped != FS_LURE_SINKING)) {
+            if ((sLureTimer & 0x1F) == 0) {
+                if (sLineHooked || (sLureEquipped != FS_LURE_SINKING)) {
                     D_80B7A6A4 = 5;
                 }
             }
@@ -2757,7 +2757,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
 
     lineLengthSQ = SQ(lineVec.x) + SQ(lineVec.y) + SQ(lineVec.z);
 
-    if ((sRodCastState == 3) && (this->unk_1A2 == 0) && (sOwnersHatTheft == 0)) {
+    if ((sRodCastState == 3) && (this->unk_1A2 == 0) && !sIsOwnersHatHooked) {
         Matrix_RotateY(BINANG_TO_RAD_ALT(-this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&lineVec, &sp28);
 
@@ -2787,7 +2787,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
                 }
             }
         }
-    } else if ((sRodCastState == 4) && (sLineHooked != 0) && (lineLengthSQ < SQ(100.0f)) && (this->unk_158 >= 10)) {
+    } else if ((sRodCastState == 4) && sLineHooked && (lineLengthSQ < SQ(100.0f)) && (this->unk_158 >= 10)) {
         this->unk_15A = 0;
         this->unk_158 = 1;
         this->unk_1A4 = 1000;
@@ -3561,7 +3561,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     Rumble_Override(0.0f, 180, 90, 10);
                 }
 
-                sLineHooked = 0;
+                sLineHooked = false;
                 sRodPullback = 100;
                 sFishFightTime = 0;
             }
@@ -3579,7 +3579,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             Math_ApproachS(&player->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 5, 0x500);
 
             if (sLineHooked == 0) {
-                if ((sSinkingLureSegmentIndex < 20) && ((D_80B7E0AE & 3) == 0)) {
+                if ((sSinkingLureSegmentIndex < 20) && ((sLureTimer & 3) == 0)) {
                     sSinkingLureSegmentIndex++;
                 }
             }
@@ -3749,13 +3749,13 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
             if (sLineHooked || (sLureEquipped != FS_LURE_SINKING)) {
                 if (this->actor.speedXZ < 3.0f) {
-                    if ((D_80B7E0AE & 8) != 0) {
+                    if ((sLureTimer & 8) != 0) {
                         sp100.x = -0.8f;
                     } else {
                         sp100.x = -0.75f;
                     }
                 } else {
-                    if ((D_80B7E0AE & 4) != 0) {
+                    if ((sLureTimer & 4) != 0) {
                         sp100.x = -0.9f;
                     } else {
                         sp100.x = -0.85f;
@@ -3792,7 +3792,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
             if ((sRodCastState < 3) || ((sReelLock != 0) && (sFishFightTime > 50)) || (sFishFightTime >= 6000) ||
                 ((sLureBitTimer == 0) && (sLineHooked == 0)) || (sRodPullback == 0) ||
-                (((D_80B7E0AE & 0x7F) == 0) && (Rand_ZeroOne() < 0.05f) && (sLureEquipped != FS_LURE_SINKING) &&
+                (((sLureTimer & 0x7F) == 0) && (Rand_ZeroOne() < 0.05f) && (sLureEquipped != FS_LURE_SINKING) &&
                  (KREG(69) == 0))) {
                 sFishingCaughtTextDelay = 20;
 
@@ -4746,7 +4746,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 } else {
                     this->actor.textId = 0x407B;
                 }
-            } else if (sOwnersHatTheft == 0) {
+            } else if (!sIsOwnersHatHooked) {
                 this->actor.textId = 0x4084;
             } else {
                 this->actor.textId = 0x4097;
@@ -4848,7 +4848,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             break;
 
         case 10:
-            if (sOwnersHatTheft != 0) {
+            if (sIsOwnersHatHooked) {
                 if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
                     Message_CloseTextbox(play);
 
@@ -4856,7 +4856,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                         case 0:
                             Message_ContinueTextbox(play, 0x40B2);
                             sOwnerHair = FS_OWNER_CAPPED;
-                            sOwnersHatTheft = 0;
+                            sIsOwnersHatHooked = false;
                             this->state = 20;
                             break;
                         case 1:
@@ -5047,9 +5047,9 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
 
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) {
                 this->state = 0;
-                if (sOwnersHatTheft != 0) {
+                if (sIsOwnersHatHooked) {
                     sOwnerHair = FS_OWNER_CAPPED;
-                    sOwnersHatTheft = 0;
+                    sIsOwnersHatHooked = false;
                 }
                 sFishingPlayingState = 0;
                 play->interfaceCtx.unk_260 = 0;
@@ -5161,7 +5161,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     // steal the owner's hat
-    if ((sOwnersHatTheft == 0) && (sLureEquipped != FS_LURE_SINKING) && (sRodCastState > 0) &&
+    if (!sIsOwnersHatHooked && (sLureEquipped != FS_LURE_SINKING) && (sRodCastState > 0) &&
         (sOwnerHair == FS_OWNER_CAPPED) && (sOwnerUnkTimer == 0)) {
         f32 dx = sOwnerHeadPos.x - sLurePos.x;
         f32 dy = sOwnerHeadPos.y - sLurePos.y;
@@ -5170,7 +5170,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         if ((sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 25.0f) || (KREG(77) > 0)) {
             KREG(77) = 0;
             sOwnerHair = FS_OWNER_BALD;
-            sOwnersHatTheft = 1;
+            sIsOwnersHatHooked = true;
             Message_StartTextbox(play, 0x4087, NULL);
         }
     }
@@ -5183,7 +5183,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
     if (KREG(77) < 0) {
         KREG(77) = 0;
-        sOwnersHatHooked = 1;
+        sIsOwnersHatSunk = true;
     }
 
     if (sFishingCaughtTextDelay != 0) {
@@ -5452,7 +5452,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 9, NA_BGM_ITEM_GET);
             }
 
-            sSinkingLureFound = 1;
+            sSinkingLureFound = true;
 
             Math_ApproachF(&sSinkingLureHeldY, 71.0f, 0.5f, 3.0f);
             Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
@@ -5516,7 +5516,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         sSubCamId = SUB_CAM_ID_DONE;
                         player->unk_860 = -5;
                         D_80B7E0B0 = 5;
-                        sSinkingLureFound = 0;
+                        sSinkingLureFound = false;
                         sFishingMusicDelay = 20;
                         Environment_EnableUnderwaterLights(play, 0);
                         play->envCtx.adjFogNear = 0;
