@@ -6,10 +6,10 @@
 
 /**
  * RCP memory map overview:
- * 
+ *
  *      0x0000_0000 .. 0x03EF_FFFF  RDRAM memory
  *      0x03F0_0000 .. 0x03FF_FFFF  RDRAM registers
- * 
+ *
  *      0x0400_0000 .. 0x0400_2000  SP memory
  *      0x0404_0000 .. 0x040F_FFFF  SP registers
  *      0x0410_0000 .. 0x041F_FFFF  DP command registers
@@ -21,18 +21,19 @@
  *      0x0470_0000 .. 0x047F_FFFF  RI registers
  *      0x0480_0000 .. 0x048F_FFFF  SI registers
  *      0x0490_0000 .. 0x04FF_FFFF  unused
- * 
+ *
  *      0x0500_0000 .. 0x05FF_FFFF  cartridge domain 2
  *      0x0600_0000 .. 0x07FF_FFFF  cartridge domain 1
  *      0x0800_0000 .. 0x0FFF_FFFF  cartridge domain 2
  *      0x1000_0000 .. 0x1FBF_FFFF  cartridge domain 1
- * 
+ *
  *      0x1FC0_0000 .. 0x1FC0_07BF  PIF Boot Rom (1984 bytes)
  *      0x1FC0_07C0 .. 0x1FC0_07FF  PIF (JoyChannel) RAM (64 bytes)
  *      0x1FC0_0800 .. 0x1FCF_FFFF  Reserved
  *      0x1FD0_0000 .. 0x7FFF_FFFF  cartridge domain 1
  *      0x8000_0000 .. 0xFFFF_FFFF  external SysAD device
  */
+
 
 /**
  * RDRAM memory
@@ -46,6 +47,7 @@
 #define RDRAM_START     RDRAM_0_START
 #define RDRAM_END       RDRAM_1_END
 
+
 /**
  * RDRAM registers
  */
@@ -55,11 +57,11 @@
 #define RDRAM_DEVICE_TYPE_REG   (RDRAM_BASE_REG + 0x00)
 #define RDRAM_DEVICE_ID_REG     (RDRAM_BASE_REG + 0x04)
 #define RDRAM_DELAY_REG         (RDRAM_BASE_REG + 0x08)
-#define RDRAM_MODE_REG          (RDRAM_BASE_REG + 0x0c)
+#define RDRAM_MODE_REG          (RDRAM_BASE_REG + 0x0C)
 #define RDRAM_REF_INTERVAL_REG  (RDRAM_BASE_REG + 0x10)
 #define RDRAM_REF_ROW_REG       (RDRAM_BASE_REG + 0x14)
 #define RDRAM_RAS_INTERVAL_REG  (RDRAM_BASE_REG + 0x18)
-#define RDRAM_MIN_INTERVAL_REG  (RDRAM_BASE_REG + 0x1c)
+#define RDRAM_MIN_INTERVAL_REG  (RDRAM_BASE_REG + 0x1C)
 #define RDRAM_ADDR_SELECT_REG   (RDRAM_BASE_REG + 0x20)
 #define RDRAM_DEVICE_MANUF_REG  (RDRAM_BASE_REG + 0x24)
 
@@ -78,6 +80,7 @@
 #define RDRAM_1_CONFIG      0x00400
 #define RDRAM_GLOBAL_CONFIG 0x80000
 
+
 /**
  * PIF Physical memory map (total size = 2 KB)
  *
@@ -95,7 +98,7 @@
 
 
 /**
- * Controller channel 
+ * Controller channel
  * Each game controller channel has 4 error bits that are defined in bit 6-7 of
  * the Rx and Tx data size area bytes. Programmers need to clear these bits
  * when setting the Tx/Rx size area values for a channel
@@ -119,6 +122,7 @@
 #define DEVICE_TYPE_INIT    7   // initial value
 // 8-14 are reserved
 
+
 /**
  * Signal Processor (SP) Memory
  */
@@ -126,6 +130,7 @@
 #define SP_DMEM_END     0x04000FFF
 #define SP_IMEM_START   0x04001000
 #define SP_IMEM_END     0x04001FFF
+
 
 /**
  * Signal Processor (SP) CP0 Registers
@@ -160,13 +165,13 @@
 // SP PC (R/W): [11:0] program counter
 #define SP_PC_REG       0x04080000
 
-/**
+/*
  * SP_MEM_ADDR_REG: bit 12
  */
 #define SP_DMA_DMEM     (0 << 12)
 #define SP_DMA_IMEM     (1 << 12)
 
-/**
+/*
  * SP_STATUS_REG: write bits
  */
 #define SP_CLR_HALT         (1 <<  0)   // clear halt
@@ -214,7 +219,7 @@
 #define SP_STATUS_SIG6          (1 << 13)
 #define SP_STATUS_SIG7          (1 << 14)
 
-/* 
+/*
  * SP_STATUS_REG: use of SIG bits
  */
 #define SP_CLR_YIELD            SP_CLR_SIG0
@@ -233,9 +238,7 @@
 #define SP_SET_CPUSIGNAL        SP_SET_SIG4
 #define SP_STATUS_CPUSIGNAL     SP_STATUS_SIG4
 
-/*
- * SP IMEM BIST REG (R/W): [6:0] BIST status bits; see below for detail
- */
+// SP IMEM BIST REG (R/W): [6:0] BIST status bits; see below for detail
 #define SP_IBIST_REG        0x04080004
 
 /*
@@ -251,6 +254,7 @@
  */
 #define SP_IBIST_DONE       (1 << 2)
 #define SP_IBIST_FAILED     0x78        // bits [6:3], BIST fail
+
 
 /**
  * Display Processor Command (DPC) Registers
@@ -281,7 +285,7 @@
 // DP TMEM load counter (R): [23:0] clock counter
 #define DPC_TMEM_REG        (DPC_BASE_REG + 0x1C)
 
-/**
+/*
  * DPC_STATUS_REG: write bits
  */
 #define DPC_CLR_XBUS_DMEM_DMA       (1 << 0)
@@ -295,7 +299,7 @@
 #define DPC_CLR_CMD_CTR             (1 << 8)
 #define DPC_CLR_CLOCK_CTR           (1 << 9)
 
-/**
+/*
  * DPC_STATUS_REG: read bits
  */
 #define DPC_STATUS_XBUS_DMEM_DMA    (1 <<  0)
@@ -309,6 +313,7 @@
 #define DPC_STATUS_DMA_BUSY         (1 <<  8)
 #define DPC_STATUS_END_VALID        (1 <<  9)
 #define DPC_STATUS_START_VALID      (1 << 10)
+
 
 /**
  * Display Processor Span (DPS) Registers
@@ -340,6 +345,7 @@
  */
 #define DPS_TBIST_DONE      (1 << 2)
 #define DPS_TBIST_FAILED    0x7F8       // bits [10:3], BIST fail
+
 
 /**
  * MIPS Interface (MI) Registers
@@ -377,10 +383,8 @@
 // MI interrupt (R): [5:0] valid bits - see below for bit patterns
 #define MI_INTR_REG     (MI_BASE_REG + 0x08)
 
-/* 
- * MI interrupt mask (R): [5:0] valid bits - see below for bit patterns
- *                   (W): [11:0] valid bits - see below for bit patterns
- */
+// MI interrupt mask (R): [5:0] valid bits - see below for bit patterns
+//                   (W): [11:0] valid bits - see below for bit patterns
 #define MI_INTR_MASK_REG    (MI_BASE_REG + 0x0C)
 
 /*
@@ -419,14 +423,15 @@
 #define MI_INTR_MASK_PI (1 << 4)    // PI intr mask
 #define MI_INTR_MASK_DP (1 << 5)    // DP intr mask
 
+
 /**
- *  Video Interface (VI) Registers 
+ *  Video Interface (VI) Registers
  */
 #define VI_BASE_REG     0x04400000
 
-/* 
- * VI status/control (R/W): [15-0] valid bits: 
- *  [1:0]   = type[1:0] (pixel size) 
+/*
+ * VI status/control (R/W): [15-0] valid bits:
+ *  [1:0]   = type[1:0] (pixel size)
  *              0: blank (no data, no sync)
  *              1: reserved
  *              2: 5/5/5/3 ("16" bit)
@@ -437,7 +442,7 @@
  *  [5]     = vbus_clock_enable - always off
  *  [6]     = serrate (always on if interlaced, off if not)
  *  [7]     = test_mode - diagnostics only
- *  [9:8]   = anti-alias (aa) mode[1:0] 
+ *  [9:8]   = anti-alias (aa) mode[1:0]
  *              0: aa & resamp (always fetch extra lines)
  *              1: aa & resamp (fetch extra lines if needed)
  *              2: resamp only (treat as all fully covered)
@@ -469,9 +474,9 @@
 #define VI_V_CURRENT_LINE_REG   VI_CURRENT_REG
 
 // VI video timing (R/W): [29:20] start of color burst in pixels from h-sync
-//                        [19:16] vertical sync width in half lines,   
+//                        [19:16] vertical sync width in half lines,
 //                        [15: 8] color burst width in pixels,
-//                        [ 7: 0] horizontal sync width in pixels, 
+//                        [ 7: 0] horizontal sync width in pixels,
 #define VI_BURST_REG        (VI_BASE_REG + 0x14)
 #define VI_TIMING_REG       VI_BURST_REG
 
@@ -479,7 +484,7 @@
 #define VI_V_SYNC_REG       (VI_BASE_REG + 0x18)
 
 // VI horizontal sync (R/W): [20:16] a 5-bit leap pattern used for PAL only (h_sync_period)
-//                           [11: 0] total duration of a line in 1/4 pixel 
+//                           [11: 0] total duration of a line in 1/4 pixel
 #define VI_H_SYNC_REG       (VI_BASE_REG + 0x1C)
 
 // VI horizontal sync leap (R/W): [27:16] identical to h_sync_period
@@ -510,7 +515,7 @@
 #define VI_Y_SCALE_REG      (VI_BASE_REG + 0x34)
 
 /*
- * Patterns to interpret VI_CONTROL_REG
+ * VI_CONTROL_REG: read bits
  */
 #define VI_CTRL_TYPE_16             0x00002 // [1:0] pixel size: 16 bit
 #define VI_CTRL_TYPE_32             0x00003 // [1:0] pixel size: 32 bit
@@ -534,6 +539,7 @@
 #define VI_PAL_CLOCK    49656530    // Hz = 49.656530 MHz
 #define VI_MPAL_CLOCK   48628316    // Hz = 48.628316 MHz
 
+
 /**
  * Audio Interface (AI) Registers
  *
@@ -553,38 +559,36 @@
 // AI control (W): [0] DMA enable - if LSB == 1, DMA is enabled
 #define AI_CONTROL_REG      (AI_BASE_REG + 0x08)
 
-/* Value for control register */
+/*
+ * AI_CONTROL_REG: write bits
+ */
 #define AI_CONTROL_DMA_ON   1   // LSB = 1: DMA enable
 #define AI_CONTROL_DMA_OFF  0   // LSB = 1: DMA enable
 
-// AI status (R): [31]/[0] ai_full (addr & len buffer full), [30] ai_busy 
+// AI status (R): [31]/[0] ai_full (addr & len buffer full), [30] ai_busy
 //                Note that a 1->0 transition in ai_full will set interrupt
-//           (W): clear audio interrupt 
+//           (W): clear audio interrupt
 #define AI_STATUS_REG       (AI_BASE_REG + 0x0C)
 
-/* Value for status register */
+/*
+ * AI_STATUS_REG: read bits
+ */
 #define AI_STATUS_FIFO_FULL (1 << 31)
 #define AI_STATUS_DMA_BUSY  (1 << 30)
 
-/* 
- * AI DAC sample period register (W): [13:0] dac rate 
- *   - vid_clock/(dperiod + 1) is the DAC sample rate
- *   - (dperiod + 1) >= 66 * (aclockhp + 1) must be true
- */
+// AI DAC sample period register (W): [13:0] dac rate
+//   - vid_clock/(dperiod + 1) is the DAC sample rate
+//   - (dperiod + 1) >= 66 * (aclockhp + 1) must be true
 #define AI_DACRATE_REG      (AI_BASE_REG + 0x10)
 
-/* 
- * DAC rate = video clock / audio frequency
- *   - DAC rate >= (66 * Bit rate) must be true
- */
+// DAC rate = video clock / audio frequency
+//   - DAC rate >= (66 * Bit rate) must be true
 #define AI_MAX_DAC_RATE 16384   // 14-bit+1
 #define AI_MIN_DAC_RATE 132
 
-/* 
- * AI bit rate (W): [3:0] bit rate (abus clock half period register - aclockhp)
- *   - vid_clock/(2 * (aclockhp + 1)) is the DAC clock rate
- *   - The abus clock stops if aclockhp is zero
- */
+// AI bit rate (W): [3:0] bit rate (abus clock half period register - aclockhp)
+//   - vid_clock/(2 * (aclockhp + 1)) is the DAC clock rate
+//   - The abus clock stops if aclockhp is zero
 #define AI_BITRATE_REG      (AI_BASE_REG + 0x14)
 
 // Bit rate <= (DAC rate / 66)
@@ -605,8 +609,9 @@
 #define AI_MPAL_MAX_FREQ    368000      // 368 KHz
 #define AI_MPAL_MIN_FREQ    3000        //   3 KHz ~ 2968 Hz
 
+
 /**
- * Peripheral Interface (PI) Registers 
+ * Peripheral Interface (PI) Registers
  */
 #define PI_BASE_REG         0x04600000
 
@@ -659,7 +664,7 @@
 #define PI_DOM_RLS_OFS      0x0C
 
 /*
- * PI status register has 3 bits active when read from (PI_STATUS_REG - read)
+ * PI_STATUS_REG: read bits
  *  Bit 0: DMA busy - set when DMA is in progress
  *  Bit 1: IO busy  - set when IO is in progress
  *  Bit 2: Error    - set when CPU issues IO request while DMA is busy
@@ -668,16 +673,16 @@
 #define PI_STATUS_IO_BUSY   (1 << 1)
 #define PI_STATUS_ERROR     (1 << 2)
 
-/* 
+/*
  * PI status register has 2 bits active when written to:
  *  Bit 0: When set, reset PIC
  *  Bit 1: When set, clear interrupt flag
- * The values of the two bits can be ORed together to both reset PIC and 
+ * The values of the two bits can be ORed together to both reset PIC and
  * clear interrupt at the same time.
  *
- * Note: 
- *  - The PIC does generate an interrupt at the end of each DMA. CPU 
- *  needs to clear the interrupt flag explicitly (from an interrupt 
+ * Note:
+ *  - The PIC does generate an interrupt at the end of each DMA. CPU
+ *  needs to clear the interrupt flag explicitly (from an interrupt
  *  handler) by writing into the STATUS register with bit 1 set.
  *
  *  - When a DMA completes, the interrupt flag is set.  CPU can issue
@@ -708,8 +713,9 @@
 #define PI_DOM2_ADDR1   0x05000000  /* to 0x05FFFFFF */
 #define PI_DOM2_ADDR2   0x08000000  /* to 0x0FFFFFFF */
 
+
 /**
- * RDRAM Interface (RI) Registers 
+ * RDRAM Interface (RI) Registers
  */
 #define RI_BASE_REG         0x04700000
 
@@ -739,6 +745,7 @@
 // RI error (W): [] any write clears all error bits
 #define RI_WERROR_REG       (RI_BASE_REG + 0x1C)
 
+
 /**
  * Serial Interface (SI) Registers
  */
@@ -766,8 +773,9 @@
 #define SI_STATUS_DMA_ERROR (1 <<  3) // Overlapping DMA requests
 #define SI_STATUS_INTERRUPT (1 << 12) // Interrupt is set
 
+
 /**
- * Development Board GIO Control Registers 
+ * Development Board GIO Control Registers
  */
 
 #define GIO_BASE_REG        0x18000000
@@ -780,6 +788,7 @@
 
 // Host to Game Interrupt
 #define GIO_CART_INTR_REG   (GIO_BASE_REG+0x800)
+
 
 /**
  * Common macros
