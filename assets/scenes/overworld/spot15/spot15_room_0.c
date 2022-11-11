@@ -14,7 +14,7 @@ SceneCmd spot15_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_MESH(&spot15_room_0PolygonType2_000410),
-    SCENE_CMD_OBJECT_LIST(10, spot15_room_0ObjectList_000040),
+    SCENE_CMD_OBJECT_LIST(11, spot15_room_0ObjectList_000040),
     SCENE_CMD_ACTOR_LIST(59, spot15_room_0ActorList_000054),
     SCENE_CMD_END(),
 };
@@ -30,6 +30,7 @@ s16 spot15_room_0ObjectList_000040[] = {
     OBJECT_BOMBIWA,
     OBJECT_GS,
     OBJECT_ST,
+    OBJECT_TSUBO,
 };
 
 ActorEntry spot15_room_0ActorList_000054[] = {
