@@ -110,13 +110,14 @@ SceneCmd spot18_room_2Set_000200[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 255),
     SCENE_CMD_MESH(&spot18_room_2PolygonType2_0000D0),
-    SCENE_CMD_OBJECT_LIST(8, spot18_room_2ObjectList_000240),
+    SCENE_CMD_OBJECT_LIST(9, spot18_room_2ObjectList_000240),
     SCENE_CMD_ACTOR_LIST(9, spot18_room_2ActorList_000250),
     SCENE_CMD_END(),
 };
 
 s16 spot18_room_2ObjectList_000240[] = {
     OBJECT_SPOT18_OBJ,
+    OBJECT_DU,
     OBJECT_BOMBIWA,
     OBJECT_GM,
     OBJECT_OF1D_MAP,
@@ -124,6 +125,7 @@ s16 spot18_room_2ObjectList_000240[] = {
     OBJECT_TSUBO,
     OBJECT_BOX,
     OBJECT_BWALL,
+    OBJECT_SYOKUDAI,
 };
 
 ActorEntry spot18_room_2ActorList_000250[] = {
