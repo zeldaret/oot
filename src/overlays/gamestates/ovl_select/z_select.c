@@ -594,12 +594,12 @@ void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16
 
     switch (csIndex) {
         case 0:
-            label = GFXP_HIRAGANA "Day-jara" GFXP_KATAKANA "";
+            label = GFXP_HIRAGANA "Night-goron" GFXP_KATAKANA "";
             gSaveContext.dayTime = CLOCK_TIME(0, 0);
             break;
         case 0x8000:
             // clang-format off
-            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "Night-goron" GFXP_KATAKANA "";
+            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "Day-jara" GFXP_KATAKANA "";
             // clang-format on
             break;
         case 0xFFF0:
