@@ -398,8 +398,8 @@ SceneCmd spot01_room_0Set_000FC0[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
-    SCENE_CMD_OBJECT_LIST(10, spot01_room_0ObjectList_001000),
-    SCENE_CMD_ACTOR_LIST(29, spot01_room_0ActorList_001014),
+    SCENE_CMD_OBJECT_LIST(12, spot01_room_0ObjectList_001000),
+    SCENE_CMD_ACTOR_LIST(30, spot01_room_0ActorList_001014),
     SCENE_CMD_END(),
 };
 
@@ -414,6 +414,9 @@ s16 spot01_room_0ObjectList_001000[] = {
     OBJECT_SPOT01_MATOYA,
     OBJECT_KIBAKO2,
     OBJECT_SPOT01_MATOYAB,
+    OBJECT_OS_ANIME,
+    OBJECT_BBA,
+
 };
 
 ActorEntry spot01_room_0ActorList_001014[] = {
@@ -446,6 +449,7 @@ ActorEntry spot01_room_0ActorList_001014[] = {
     { ACTOR_EN_KUSA,              {   -827,      0,    465 }, {      0,      0,      0 }, 0x0700 },
     { ACTOR_EN_KUSA,              {   -826,      0,    585 }, {      0,      0,      0 }, 0x0700 },
     { ACTOR_EN_KUSA,              {   -800,      0,    521 }, {      0,      0,      0 }, 0x0700 },
+    { ACTOR_EN_HY,                {   -305,      0,    185 }, {      0, 0xE9F5,      0 }, 0xFF06 },
 };
 
 u8 spot01_room_0_possiblePadding_0011E4[] = {
@@ -458,8 +462,8 @@ SceneCmd spot01_room_0Set_0011F0[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
-    SCENE_CMD_OBJECT_LIST(8, spot01_room_0ObjectList_001230),
-    SCENE_CMD_ACTOR_LIST(21, spot01_room_0ActorList_001240),
+    SCENE_CMD_OBJECT_LIST(13, spot01_room_0ObjectList_001230),
+    SCENE_CMD_ACTOR_LIST(25, spot01_room_0ActorList_001240),
     SCENE_CMD_END(),
 };
 
@@ -472,6 +476,13 @@ s16 spot01_room_0ObjectList_001230[] = {
     OBJECT_EFC_DOUGHNUT,
     OBJECT_SPOT01_MATOYA,
     OBJECT_KIBAKO2,
+    OBJECT_OS_ANIME,
+    OBJECT_BBA,
+    OBJECT_BJI,
+    OBJECT_CNE,
+    OBJECT_SD,
+
+
 };
 
 ActorEntry spot01_room_0ActorList_001240[] = {
@@ -496,6 +507,10 @@ ActorEntry spot01_room_0ActorList_001240[] = {
     { ACTOR_EN_KUSA,            {   -827,      0,    465 }, {      0,      0,      0 }, 0x0700 },
     { ACTOR_EN_KUSA,            {   -826,      0,    585 }, {      0,      0,      0 }, 0x0700 },
     { ACTOR_EN_KUSA,            {   -800,      0,    521 }, {      0,      0,      0 }, 0x0700 },
+    { ACTOR_EN_HEISHI2,         {    -30,    400,  -1298 }, {      0,  0XE39,      0 }, 0xFF05 },
+    { ACTOR_EN_HY,              {   -305,      0,    185 }, {      0, 0xE9F5,      0 }, 0xFF06 },
+    { ACTOR_EN_HY,              {    -73,    320,   -591 }, {      0,      0,      0 }, 0x7007 },
+    { ACTOR_EN_HY,              {   -408,    240,   1632 }, {      0, 0XACCD,      0 }, 0xFF08 },
 };
 
 SceneCmd spot01_room_0Set_001390[] = {
