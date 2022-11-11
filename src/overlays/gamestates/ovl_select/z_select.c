@@ -576,8 +576,8 @@ void MapSelect_PrintLoadingMessage(MapSelectState* this, GfxPrint* printer) {
 }
 
 static const char* sAgeLabels[] = {
-    GFXP_HIRAGANA "17(ﾜｶﾓﾉ)", // "17(young)"
-    GFXP_HIRAGANA "5(ﾜｶｽｷﾞ)", // "5(very young)"
+    GFXP_HIRAGANA "17(Adult)", // "17(young)"
+    GFXP_HIRAGANA "5(Child)", // "5(very young)"
 };
 
 void MapSelect_PrintAgeSetting(MapSelectState* this, GfxPrint* printer, s32 age) {
@@ -594,48 +594,48 @@ void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16
 
     switch (csIndex) {
         case 0:
-            label = GFXP_HIRAGANA " ﾖﾙ " GFXP_KATAKANA "ｺﾞﾛﾝ";
+            label = GFXP_HIRAGANA "Day-jara" GFXP_KATAKANA "";
             gSaveContext.dayTime = CLOCK_TIME(0, 0);
             break;
         case 0x8000:
             // clang-format off
-            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
+            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "Night-goron" GFXP_KATAKANA "";
             // clang-format on
             break;
         case 0xFFF0:
             // clang-format off
-            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = "ﾃﾞﾓ00";
+            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = "CS00";
             // clang-format on
             break;
         case 0xFFF1:
-            label = "ﾃﾞﾓ01";
+            label = "CS01";
             break;
         case 0xFFF2:
-            label = "ﾃﾞﾓ02";
+            label = "CS02";
             break;
         case 0xFFF3:
-            label = "ﾃﾞﾓ03";
+            label = "CS03";
             break;
         case 0xFFF4:
-            label = "ﾃﾞﾓ04";
+            label = "CS04";
             break;
         case 0xFFF5:
-            label = "ﾃﾞﾓ05";
+            label = "CS05";
             break;
         case 0xFFF6:
-            label = "ﾃﾞﾓ06";
+            label = "CS06";
             break;
         case 0xFFF7:
-            label = "ﾃﾞﾓ07";
+            label = "CS07";
             break;
         case 0xFFF8:
-            label = "ﾃﾞﾓ08";
+            label = "CS08";
             break;
         case 0xFFF9:
-            label = "ﾃﾞﾓ09";
+            label = "CS09";
             break;
         case 0xFFFA:
-            label = "ﾃﾞﾓ0A";
+            label = "CS0A";
             break;
     };
 
