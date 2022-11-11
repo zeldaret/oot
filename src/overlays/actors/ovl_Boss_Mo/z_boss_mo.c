@@ -1151,7 +1151,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
             }
             hurtbox = this->tentCollider.elements[i1].info.acHitInfo;
             this->work[MO_TENT_INVINC_TIMER] = 5;
-            if (hurtbox->toucher.dmgFlags & DMG_MAGIC_FIRE) {
+            if (hurtbox->toucher.dmgFlags & (DMG_MAGIC_FIRE | DMG_SLASH_MASTER | DMG_SLASH_GIANT | DMG_SPIN_MASTER | DMG_SPIN_GIANT)) {
                 func_80078914(&this->tentTipPos, NA_SE_EN_MOFER_CUT);
                 this->cutIndex = 15;
                 this->meltIndex = this->cutIndex + 1;
