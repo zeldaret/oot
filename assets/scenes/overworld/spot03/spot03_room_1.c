@@ -17,7 +17,7 @@ SceneCmd spot03_room_1Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_MESH(&spot03_room_1PolygonType2_000120),
     SCENE_CMD_OBJECT_LIST(6, spot03_room_1ObjectList_000054),
-    SCENE_CMD_ACTOR_LIST(12, spot03_room_1ActorList_000060),
+    SCENE_CMD_ACTOR_LIST(15, spot03_room_1ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -49,6 +49,9 @@ ActorEntry spot03_room_1ActorList_000060[] = {
     { ACTOR_EN_OKARINA_TAG,  {   4096,    921,  -1400 }, {      0,      0,      0 }, 0x07F8 },
     { ACTOR_OBJ_MURE,        {   4093,   1010,  -1400 }, {      0,      0,      0 }, 0x3324 },
     { ACTOR_EN_WONDER_TALK2, {   4096,    920,  -1401 }, {      0, 0XC000,   0X29 }, 0x8B7F },
+    { ACTOR_EN_KANBAN,       {   4115,    960,  -1656 }, {      0,      0,   0X29 }, 0x032C },
+    { ACTOR_OBJ_MURE,        {   4182,    534,  -1404 }, {      0,      0,      0 }, 0x4322 },
+    { ACTOR_EN_RIVER_SOUND,  {   2749,    460,   -453 }, {      0,      0,      0 }, 0x0000 },
 };
 
 PolygonType2 spot03_room_1PolygonType2_000120 = { 
@@ -80,7 +83,7 @@ SceneCmd spot03_room_1Set_0001E0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_MESH(&spot03_room_1PolygonType2_000120),
     SCENE_CMD_OBJECT_LIST(6, spot03_room_1ObjectList_000220),
-    SCENE_CMD_ACTOR_LIST(13, spot03_room_1ActorList_00022C),
+    SCENE_CMD_ACTOR_LIST(17, spot03_room_1ActorList_00022C),
     SCENE_CMD_END(),
 };
 
@@ -107,6 +110,10 @@ ActorEntry spot03_room_1ActorList_00022C[] = {
     { ACTOR_OBJECT_KANKYO,   {   4198,    -87,  -1397 }, {      0,      0,      0 }, 0x0003 },
     { ACTOR_EN_OKARINA_TAG,  {   4096,    921,  -1400 }, {      0,      0,      0 }, 0x07F8 },
     { ACTOR_EN_WONDER_TALK2, {   4097,    920,  -1399 }, {      0, 0XC000,   0X29 }, 0x8B7F },
+    { ACTOR_EN_KANBAN,       {   4115,    960,  -1656 }, {      0,      0,   0X29 }, 0x032C },
+    { ACTOR_OBJ_MURE,        {   4182,    534,  -1404 }, {      0,      0,      0 }, 0x4322 },
+    { ACTOR_EN_RIVER_SOUND,  {   2749,    460,   -453 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_OBJ_MURE,        {   4093,   1010,  -1400 }, {      0,      0,      0 }, 0x3324 },
 };
 
 Vtx spot03_room_1Vtx_000300[] = {
