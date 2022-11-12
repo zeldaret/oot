@@ -101,19 +101,19 @@ typedef struct {
 
 typedef enum {
     /* 0x0 */ TIMER_STATE_OFF,
-    /* 0x1 */ TIMER_STATE_ENV_INIT, // Init env timer that counts down, total time based on health, resets on void-out, kills at 0
-    /* 0x2 */ TIMER_STATE_ENV_PREVIEW, // Display initial time, keep it fixed at the screen center
-    /* 0x3 */ TIMER_STATE_ENV_MOVE, // Move to top-left corner
-    /* 0x4 */ TIMER_STATE_ENV_TICK, // Begin counting down
+    /* 0x1 */ TIMER_STATE_ENV_HAZARD_INIT, // Init env timer that counts down, total time based on health, resets on void-out, kills at 0
+    /* 0x2 */ TIMER_STATE_ENV_HAZARD_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x3 */ TIMER_STATE_ENV_HAZARD_MOVE, // Move to top-left corner
+    /* 0x4 */ TIMER_STATE_ENV_HAZARD_TICK, // Counting down
     /* 0x5 */ TIMER_STATE_DOWN_INIT, // Init timer that counts down
     /* 0x6 */ TIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
     /* 0x7 */ TIMER_STATE_DOWN_MOVE, // Move to top-left corner
-    /* 0x8 */ TIMER_STATE_DOWN_TICK, // Begin counting down
+    /* 0x8 */ TIMER_STATE_DOWN_TICK, // Counting down
     /* 0xA */ TIMER_STATE_STOP = 10,
     /* 0xB */ TIMER_STATE_UP_INIT, // Init timer that counts up
     /* 0xC */ TIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
     /* 0xD */ TIMER_STATE_UP_MOVE, // Move to top-left corner
-    /* 0xE */ TIMER_STATE_UP_TICK, // Begin counting up
+    /* 0xE */ TIMER_STATE_UP_TICK, // Counting up
     /* 0xF */ TIMER_STATE_UP_FREEZE  // Stop counting the timer
 } TimerState;
 
@@ -122,13 +122,13 @@ typedef enum {
     /* 0x1 */ SUBTIMER_STATE_DOWN_INIT, // Init timer that counts down
     /* 0x2 */ SUBTIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
     /* 0x3 */ SUBTIMER_STATE_DOWN_MOVE, // Move to top-left corner
-    /* 0x4 */ SUBTIMER_STATE_DOWN_TICK, // Begin counting down
+    /* 0x4 */ SUBTIMER_STATE_DOWN_TICK, // Counting down
     /* 0x5 */ SUBTIMER_STATE_RESPAWN, // Time is up, trigger a transition, reset button items, spoil trade quest items
     /* 0x6 */ SUBTIMER_STATE_STOP, // Time is up, stop counting
     /* 0x7 */ SUBTIMER_STATE_UP_INIT, // Init timer that counts up
     /* 0x8 */ SUBTIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
     /* 0x9 */ SUBTIMER_STATE_UP_MOVE, // Move to top-left corner
-    /* 0xA */ SUBTIMER_STATE_UP_TICK // Begin counting up
+    /* 0xA */ SUBTIMER_STATE_UP_TICK // Counting up
 } SubTimerState;
 
 typedef enum {

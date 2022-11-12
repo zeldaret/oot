@@ -3489,18 +3489,18 @@ void Interface_Draw(PlayState* play) {
             timerId = TIMER_ID_MAIN;
 
             switch (gSaveContext.timerState) {
-                case TIMER_STATE_ENV_INIT:
+                case TIMER_STATE_ENV_HAZARD_INIT:
                     sTimerStateTimer = 20;
                     sTimerNextSecondTimer = 20;
                     gSaveContext.timerTime = gSaveContext.health >> 1;
-                    gSaveContext.timerState = TIMER_STATE_ENV_PREVIEW;
+                    gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_PREVIEW;
                     break;
 
-                case TIMER_STATE_ENV_PREVIEW:
+                case TIMER_STATE_ENV_HAZARD_PREVIEW:
                     sTimerStateTimer--;
                     if (sTimerStateTimer == 0) {
                         sTimerStateTimer = 20;
-                        gSaveContext.timerState = TIMER_STATE_ENV_MOVE;
+                        gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_MOVE;
                     }
                     break;
 
@@ -3528,7 +3528,7 @@ void Interface_Draw(PlayState* play) {
                     }
                     break;
 
-                case TIMER_STATE_ENV_MOVE:
+                case TIMER_STATE_ENV_HAZARD_MOVE:
                 case TIMER_STATE_DOWN_MOVE:
                     svar1 = (gSaveContext.timerX[TIMER_ID_MAIN] - 26) / sTimerStateTimer;
                     gSaveContext.timerX[TIMER_ID_MAIN] -= svar1;
@@ -3551,16 +3551,16 @@ void Interface_Draw(PlayState* play) {
                             gSaveContext.timerY[TIMER_ID_MAIN] = 46; // one row of hearts
                         }
 
-                        if (gSaveContext.timerState == TIMER_STATE_ENV_MOVE) {
-                            gSaveContext.timerState = TIMER_STATE_ENV_TICK;
+                        if (gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_MOVE) {
+                            gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_TICK;
                         } else {
                             gSaveContext.timerState = TIMER_STATE_DOWN_TICK;
                         }
                     }
                     FALLTHROUGH;
-                case TIMER_STATE_ENV_TICK:
+                case TIMER_STATE_ENV_HAZARD_TICK:
                 case TIMER_STATE_DOWN_TICK:
-                    if ((gSaveContext.timerState == TIMER_STATE_ENV_TICK) ||
+                    if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
                         (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)) {
                         if (gSaveContext.healthCapacity > 0xA0) {
                             gSaveContext.timerY[TIMER_ID_MAIN] = 54; // two rows of hearts
@@ -3569,7 +3569,7 @@ void Interface_Draw(PlayState* play) {
                         }
                     }
 
-                    if ((gSaveContext.timerState >= TIMER_STATE_ENV_MOVE) && (msgCtx->msgLength == 0)) {
+                    if ((gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) && (msgCtx->msgLength == 0)) {
                         sTimerNextSecondTimer--;
                         if (sTimerNextSecondTimer == 0) {
                             if (gSaveContext.timerTime != 0) {
@@ -3643,7 +3643,7 @@ void Interface_Draw(PlayState* play) {
                         }
                     }
 
-                    if (gSaveContext.timerState >= TIMER_STATE_ENV_MOVE) {
+                    if (gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) {
                         sTimerNextSecondTimer--;
                         if (sTimerNextSecondTimer == 0) {
                             gSaveContext.timerTime++;
@@ -3717,7 +3717,7 @@ void Interface_Draw(PlayState* play) {
                         case SUBTIMER_STATE_UP_MOVE:
                             osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
                                          ((void)0, gSaveContext.timerX[TIMER_ID_SUB]),
-                                         ((void)0, gSaveContext.timerY[1]), gSaveContext.subTimerTime);
+                                         ((void)0, gSaveContext.timerY[TIMER_ID_SUB]), gSaveContext.subTimerTime);
                             svar1 = (gSaveContext.timerX[TIMER_ID_SUB] - 26) / sSubTimerStateTimer;
                             gSaveContext.timerX[TIMER_ID_SUB] -= svar1;
                             if (gSaveContext.healthCapacity > 0xA0) {
@@ -4081,7 +4081,7 @@ void Interface_Update(PlayState* play) {
 
     Health_UpdateMeter(play);
 
-    if ((gSaveContext.timerState >= TIMER_STATE_ENV_MOVE) && (play->pauseCtx.state == 0) &&
+    if ((gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) && (play->pauseCtx.state == 0) &&
         (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
         !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
         (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {}
@@ -4190,14 +4190,14 @@ void Interface_Update(PlayState* play) {
         if (((sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) || (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) ||
              (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FREE)) &&
             ((gSaveContext.health >> 1) != 0)) {
-            gSaveContext.timerState = TIMER_STATE_ENV_INIT;
+            gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_INIT;
             gSaveContext.timerX[TIMER_ID_MAIN] = 140;
             gSaveContext.timerY[TIMER_ID_MAIN] = 80;
             sEnvHazardActive = true;
         }
     } else {
         if (((sEnvHazard == PLAYER_ENV_HAZARD_NONE) || (sEnvHazard == PLAYER_ENV_HAZARD_SWIMMING)) &&
-            (gSaveContext.timerState <= TIMER_STATE_ENV_TICK)) {
+            (gSaveContext.timerState <= TIMER_STATE_ENV_HAZARD_TICK)) {
             gSaveContext.timerState = TIMER_STATE_OFF;
         }
     }

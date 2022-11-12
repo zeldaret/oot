@@ -93,9 +93,9 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
 typedef struct {
     /* 0x0 */ u8 flag;
     /* 0x2 */ u16 textId;
-} EnvTimerTextTriggerEntry; // size = 0x4
+} EnvHazardTextTriggerEntry; // size = 0x4
 
-EnvTimerTextTriggerEntry sEnvHazardTextTriggers[] = {
+EnvHazardTextTriggerEntry sEnvHazardTextTriggers[] = {
     { ENV_HAZARD_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_HAZARD_HOTROOM - 1
     { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1
     { 0, 0x0000 },                                  // PLAYER_ENV_HAZARD_SWIMMING - 1
@@ -780,7 +780,7 @@ return_neg:
 
 s32 Player_GetEnvHazard(PlayState* play) {
     Player* this = GET_PLAYER(play);
-    EnvTimerTextTriggerEntry* triggerEntry;
+    EnvHazardTextTriggerEntry* triggerEntry;
     s32 envHazard;
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
