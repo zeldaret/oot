@@ -320,7 +320,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_VISIBILITY_HEARTS_WITH_OVERWRITE:
+        case HUD_VISIBILITY_HEARTS_FORCE:
             // aAlpha is immediately overwritten in Interface_DimButtonAlphas
             if ((interfaceCtx->aAlpha != 0) && (interfaceCtx->aAlpha > dimmingAlpha)) {
                 interfaceCtx->aAlpha = dimmingAlpha;
@@ -382,7 +382,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE:
+        case HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE:
             Interface_DimButtonAlphas(play, dimmingAlpha, risingAlpha);
 
             if ((interfaceCtx->minimapAlpha != 0) && (interfaceCtx->minimapAlpha > dimmingAlpha)) {
@@ -404,7 +404,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE:
+        case HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE:
             Interface_DimButtonAlphas(play, dimmingAlpha, risingAlpha);
 
             // aAlpha overwrites the value set in Interface_DimButtonAlphas
@@ -613,7 +613,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
 
             break;
 
-        case HUD_VISIBILITY_HEARTS_MAGIC_WITH_OVERWRITE:
+        case HUD_VISIBILITY_HEARTS_MAGIC_FORCE:
             Interface_DimButtonAlphas(play, dimmingAlpha, risingAlpha);
 
             if ((interfaceCtx->minimapAlpha != 0) && (interfaceCtx->minimapAlpha > dimmingAlpha)) {
@@ -690,7 +690,7 @@ void func_80083108(PlayState* play) {
 
                     gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] = gSaveContext.buttonStatus[3] =
                         BTN_DISABLED;
-                    Interface_ChangeHudVisibility(HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE);
+                    Interface_ChangeHudVisibility(HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE);
                 }
 
                 if (play->transitionMode != TRANS_MODE_OFF) {
@@ -2827,7 +2827,7 @@ void Interface_DrawItemButtons(PlayState* play) {
 
             if ((gSaveContext.hudVisibility == HUD_VISIBILITY_NONE) ||
                 (gSaveContext.hudVisibility == HUD_VISIBILITY_NONE_ALT) ||
-                (gSaveContext.hudVisibility == HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE)) {
+                (gSaveContext.hudVisibility == HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE)) {
                 temp = 0;
             } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (func_8008F2F8(play) == 4) ||
                        (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
@@ -3934,17 +3934,17 @@ void Interface_Update(PlayState* play) {
     switch (gSaveContext.nextHudVisibility) {
         case HUD_VISIBILITY_NONE:
         case HUD_VISIBILITY_NONE_ALT:
-        case HUD_VISIBILITY_HEARTS_WITH_OVERWRITE:
+        case HUD_VISIBILITY_HEARTS_FORCE:
         case HUD_VISIBILITY_A:
-        case HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE:
-        case HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_WITH_OVERWRITE:
+        case HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE:
+        case HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE:
         case HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS:
         case HUD_VISIBILITY_B:
         case HUD_VISIBILITY_HEARTS_MAGIC:
         case HUD_VISIBILITY_B_ALT:
         case HUD_VISIBILITY_HEARTS:
         case HUD_VISIBILITY_A_B_MINIMAP:
-        case HUD_VISIBILITY_HEARTS_MAGIC_WITH_OVERWRITE:
+        case HUD_VISIBILITY_HEARTS_MAGIC_FORCE:
             dimmingAlpha = 255 - (32 * gSaveContext.hudVisibilityTimer);
             if (dimmingAlpha < 0) {
                 dimmingAlpha = 0;
