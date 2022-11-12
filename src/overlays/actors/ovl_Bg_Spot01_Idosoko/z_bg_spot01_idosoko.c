@@ -16,7 +16,7 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play);
 
 void func_808ABF54(BgSpot01Idosoko* this, PlayState* play);
 
-const ActorInit Bg_Spot01_Idosoko_InitVars = {
+ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
     ACTORCAT_BG,
     FLAGS,

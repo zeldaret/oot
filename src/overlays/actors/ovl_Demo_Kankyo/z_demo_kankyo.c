@@ -40,7 +40,7 @@ extern CutsceneData gChildWarpOutCS[];
 extern CutsceneData gChildWarpInToTCS[];
 extern CutsceneData gChildWarpOutToTCS[];
 
-const ActorInit Demo_Kankyo_InitVars = {
+ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
     ACTORCAT_BG,
     FLAGS,

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_kakasi3.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ka/object_ka.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
@@ -46,7 +46,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-const ActorInit En_Kakasi3_InitVars = {
+ActorInit En_Kakasi3_InitVars = {
     ACTOR_EN_KAKASI3,
     ACTORCAT_NPC,
     FLAGS,

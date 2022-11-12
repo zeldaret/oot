@@ -26,7 +26,7 @@ void BgRelayObjects_DoNothing(BgRelayObjects* this, PlayState* play);
 void func_808A932C(BgRelayObjects* this, PlayState* play);
 void func_808A939C(BgRelayObjects* this, PlayState* play);
 
-const ActorInit Bg_Relay_Objects_InitVars = {
+ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORCAT_BG,
     FLAGS,

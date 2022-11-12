@@ -4,7 +4,7 @@
  * Description: Hyrulian Guards
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_en_heishi2.h"
 #include "assets/objects/object_sd/object_sd.h"
 #include "assets/objects/object_link_child/object_link_child.h"
@@ -50,7 +50,7 @@ void func_80A546DC(EnHeishi2* this, PlayState* play);
 void func_80A541FC(EnHeishi2* this, PlayState* play);
 void func_80A53DF8(EnHeishi2* this, PlayState* play);
 
-const ActorInit En_Heishi2_InitVars = {
+ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
     ACTORCAT_NPC,
     FLAGS,

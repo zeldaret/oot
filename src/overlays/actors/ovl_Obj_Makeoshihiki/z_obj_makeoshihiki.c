@@ -6,14 +6,14 @@
 
 #include "z_obj_makeoshihiki.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_5
 
 void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play);
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Obj_Makeoshihiki_InitVars = {
+ActorInit Obj_Makeoshihiki_InitVars = {
     ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP, sizeof(ObjMakeoshihiki), (ActorFunc)ObjMakeoshihiki_Init,
     (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,

@@ -23,7 +23,7 @@ void func_808934C0(BgJyaAmishutter* this);
 void func_808934FC(BgJyaAmishutter* this);
 void func_8089350C(BgJyaAmishutter* this);
 
-const ActorInit Bg_Jya_Amishutter_InitVars = {
+ActorInit Bg_Jya_Amishutter_InitVars = {
     ACTOR_BG_JYA_AMISHUTTER,
     ACTORCAT_BG,
     FLAGS,

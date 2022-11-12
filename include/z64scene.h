@@ -46,17 +46,6 @@ typedef struct {
 typedef Spawn EntranceEntry; 
 
 typedef struct {
-    /* 0x00 */ u8 ambientColor[3];
-    /* 0x03 */ s8 diffuseDir1[3];
-    /* 0x06 */ u8 diffuseColor1[3];
-    /* 0x09 */ s8 diffuseDir2[3];
-    /* 0x0C */ u8 diffuseColor2[3];
-    /* 0x0F */ u8 fogColor[3];
-    /* 0x12 */ u16 fogNear;
-    /* 0x14 */ u16 fogFar;
-} LightSettings; // size = 0x16
-
-typedef struct {
     /* 0x00 */ u8 count; // number of points in the path
     /* 0x04 */ Vec3s* points; // Segment Address to the array of points
 } Path; // size = 0x8
@@ -157,7 +146,8 @@ typedef union {
     RoomShapeCullable cullable;
 } RoomShape; // "Ground Shape"
 
-// TODO update ZAPD
+// ZAPD compatibility typedefs
+// TODO: Remove when ZAPD adds support for them
 typedef RoomShapeDListsEntry PolygonDlist;
 typedef RoomShapeNormal PolygonType0;
 typedef RoomShapeImageSingle MeshHeader1Single;

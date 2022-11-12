@@ -23,7 +23,7 @@ void EnSt_FinishBouncing(EnSt* this, PlayState* play);
 
 #include "assets/overlays/ovl_En_St/ovl_En_St.c"
 
-const ActorInit En_St_InitVars = {
+ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
     ACTORCAT_ENEMY,
     FLAGS,

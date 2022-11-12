@@ -21,7 +21,7 @@ void EnBombf_WaitForRelease(EnBombf* this, PlayState* play);
 void EnBombf_Explode(EnBombf* this, PlayState* play);
 void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
-const ActorInit En_Bombf_InitVars = {
+ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
     ACTORCAT_PROP,
     FLAGS,

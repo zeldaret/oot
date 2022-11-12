@@ -33,7 +33,7 @@ static Vec3s D_80AD8C30[] = {
     { 0x0B4E, 0xFE66, 0xF87E }, { 0x0B4A, 0xFE66, 0xF97A }, { 0x0B4A, 0xFE98, 0xF9FC }, { 0x0BAE, 0xFE98, 0xF9FC },
 };
 
-const ActorInit En_Po_Relay_InitVars = {
+ActorInit En_Po_Relay_InitVars = {
     ACTOR_EN_PO_RELAY,
     ACTORCAT_NPC,
     FLAGS,

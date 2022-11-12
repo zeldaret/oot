@@ -5,7 +5,7 @@
  */
 
 #include "z_en_mm2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_mm/object_mm.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
@@ -35,7 +35,7 @@ void func_80AAF668(EnMm2* this, PlayState* play);
 s32 EnMm2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-const ActorInit En_Mm2_InitVars = {
+ActorInit En_Mm2_InitVars = {
     ACTOR_EN_MM2,
     ACTORCAT_NPC,
     FLAGS,

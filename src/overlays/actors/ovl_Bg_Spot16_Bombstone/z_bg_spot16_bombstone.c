@@ -109,7 +109,7 @@ static s16 D_808B5EB0[][7] = {
     { 0x0014, 0x0050, 0x0032, 0x0000, 0x0096, 0x00C8, 0x0008 },
 };
 
-const ActorInit Bg_Spot16_Bombstone_InitVars = {
+ActorInit Bg_Spot16_Bombstone_InitVars = {
     ACTOR_BG_SPOT16_BOMBSTONE,
     ACTORCAT_PROP,
     FLAGS,

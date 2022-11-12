@@ -1,4 +1,5 @@
 #include "file_select.h"
+#include "terminal.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_File_Choose/ovl_file_choose.h"
 
@@ -115,9 +116,6 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     s16 phi_t1;
     u8 temp;
     s16 phi_v0;
-
-    if (1) {}
-    if (1) {}
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 205);
 

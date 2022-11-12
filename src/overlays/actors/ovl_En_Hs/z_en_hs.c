@@ -5,7 +5,7 @@
  */
 
 #include "z_en_hs.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_hs/object_hs.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
@@ -18,7 +18,7 @@ void EnHs_Draw(Actor* thisx, PlayState* play);
 void func_80A6E9AC(EnHs* this, PlayState* play);
 void func_80A6E6B0(EnHs* this, PlayState* play);
 
-const ActorInit En_Hs_InitVars = {
+ActorInit En_Hs_InitVars = {
     ACTOR_EN_HS,
     ACTORCAT_NPC,
     FLAGS,

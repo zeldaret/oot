@@ -31,7 +31,7 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play);
 void EnDodojr_WaitFreezeFrames(EnDodojr* this, PlayState* play);
 void EnDodojr_EatBomb(EnDodojr* this, PlayState* play);
 
-const ActorInit En_Dodojr_InitVars = {
+ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
     ACTORCAT_ENEMY,
     FLAGS,

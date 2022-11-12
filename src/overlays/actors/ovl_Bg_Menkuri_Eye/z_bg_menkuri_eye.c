@@ -14,7 +14,7 @@ void BgMenkuriEye_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriEye_Update(Actor* thisx, PlayState* play);
 void BgMenkuriEye_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Menkuri_Eye_InitVars = {
+ActorInit Bg_Menkuri_Eye_InitVars = {
     ACTOR_BG_MENKURI_EYE,
     ACTORCAT_BG,
     FLAGS,
