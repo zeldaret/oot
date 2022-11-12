@@ -74,7 +74,6 @@ void EnBird_SetupIdle(EnBird* this, s16 params) {
 }
 
 void EnBird_Idle(EnBird* this, PlayState* play) {
-
     this->actor.shape.yOffset += sinf(this->posYPhase) * this->posYMag;
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
 
@@ -96,7 +95,6 @@ void EnBird_SetupMove(EnBird* this, s16 params) {
 }
 
 void EnBird_Move(EnBird* this, PlayState* play) {
-
     this->actor.shape.yOffset += sinf(this->posYPhase) * this->posYMag;
     Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZTarget, 0.1f, this->speedXZStep, 0.0f);
 
