@@ -14,7 +14,7 @@ void EnLightbox_Destroy(Actor* thisx, PlayState* play);
 void EnLightbox_Update(Actor* thisx, PlayState* play);
 void EnLightbox_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Lightbox_InitVars = {
+ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORCAT_PROP,
     FLAGS,

@@ -24,7 +24,7 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play);
 void func_808B3274(BgSpot12Gate* this);
 void func_808B3298(BgSpot12Gate* this, PlayState* play);
 
-const ActorInit Bg_Spot12_Gate_InitVars = {
+ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORCAT_BG,
     FLAGS,

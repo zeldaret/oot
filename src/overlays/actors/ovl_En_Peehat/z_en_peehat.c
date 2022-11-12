@@ -40,7 +40,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, PlayState* play);
 void EnPeehat_SetStateExplode(EnPeehat* this);
 void EnPeehat_StateExplode(EnPeehat* this, PlayState* play);
 
-const ActorInit En_Peehat_InitVars = {
+ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
     ACTORCAT_ENEMY,
     FLAGS,

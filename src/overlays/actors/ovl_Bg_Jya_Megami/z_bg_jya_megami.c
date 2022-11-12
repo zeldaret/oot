@@ -20,7 +20,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play);
 void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play);
 
-const ActorInit Bg_Jya_Megami_InitVars = {
+ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
     ACTORCAT_BG,
     FLAGS,

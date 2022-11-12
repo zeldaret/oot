@@ -19,7 +19,7 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play);
 void func_8087DBF0(BgHakaMegane* this, PlayState* play);
 void BgHakaMegane_DoNothing(BgHakaMegane* this, PlayState* play);
 
-const ActorInit Bg_Haka_Megane_InitVars = {
+ActorInit Bg_Haka_Megane_InitVars = {
     ACTOR_BG_HAKA_MEGANE,
     ACTORCAT_PROP,
     FLAGS,

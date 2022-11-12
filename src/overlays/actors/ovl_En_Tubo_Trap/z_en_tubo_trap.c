@@ -7,7 +7,7 @@
 #include "z_en_tubo_trap.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 9, 23, 0, { 0 } },
 };
 
-const ActorInit En_Tubo_Trap_InitVars = {
+ActorInit En_Tubo_Trap_InitVars = {
     ACTOR_EN_TUBO_TRAP,
     ACTORCAT_PROP,
     FLAGS,

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_anubice_tag.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -17,7 +17,7 @@ void EnAnubiceTag_Draw(Actor* thisx, PlayState* play);
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, PlayState* play);
 void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, PlayState* play);
 
-const ActorInit En_Anubice_Tag_InitVars = {
+ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
     ACTORCAT_SWITCH,
     FLAGS,

@@ -10,7 +10,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_kusa/object_kusa.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
@@ -41,7 +41,7 @@ static s16 rotSpeedX = 0;
 static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 
-const ActorInit En_Kusa_InitVars = {
+ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORCAT_PROP,
     FLAGS,

@@ -6,7 +6,7 @@
 
 #include "ultra64.h"
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "alloca.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {

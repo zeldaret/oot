@@ -30,7 +30,7 @@ typedef enum {
     /* 0x04 */ DF_SCREEN_TINT_FINISHED
 } MagicFireScreenTint;
 
-const ActorInit Magic_Fire_InitVars = {
+ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
     ACTORCAT_ITEMACTION,
     FLAGS,

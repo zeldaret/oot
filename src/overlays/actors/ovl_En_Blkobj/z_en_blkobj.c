@@ -19,7 +19,7 @@ void EnBlkobj_SpawnDarkLink(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DarkLinkFight(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DoNothing(EnBlkobj* this, PlayState* play);
 
-const ActorInit En_Blkobj_InitVars = {
+ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
     ACTORCAT_PROP,
     FLAGS,

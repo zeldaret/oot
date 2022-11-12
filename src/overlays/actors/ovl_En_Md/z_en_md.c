@@ -21,7 +21,7 @@ void func_80AAB948(EnMd* this, PlayState* play);
 void func_80AABC10(EnMd* this, PlayState* play);
 void func_80AABD0C(EnMd* this, PlayState* play);
 
-const ActorInit En_Md_InitVars = {
+ActorInit En_Md_InitVars = {
     ACTOR_EN_MD,
     ACTORCAT_NPC,
     FLAGS,

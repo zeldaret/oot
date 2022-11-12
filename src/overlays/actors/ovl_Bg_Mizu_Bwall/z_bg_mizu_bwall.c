@@ -19,7 +19,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_Break(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_DoNothing(BgMizuBwall* this, PlayState* play);
 
-const ActorInit Bg_Mizu_Bwall_InitVars = {
+ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
     ACTORCAT_BG,
     FLAGS,

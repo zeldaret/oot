@@ -33,7 +33,7 @@ typedef enum {
     /* 5 */ WOOD_DRAW_LEAF_YELLOW
 } WoodDrawType;
 
-const ActorInit En_Wood02_InitVars = {
+ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,
     ACTORCAT_PROP,
     FLAGS,

@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
@@ -784,7 +784,7 @@ void func_80083108(PlayState* play) {
                 }
 
                 Interface_ChangeHudVisibility(HUD_VISIBILITY_ALL);
-            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (player->stateFlags2 & PLAYER_STATE2_18)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = BTN_DISABLED;
                     gSaveContext.buttonStatus[1] = BTN_DISABLED;
@@ -2830,7 +2830,7 @@ void Interface_DrawItemButtons(PlayState* play) {
                 (gSaveContext.hudVisibility == HUD_VISIBILITY_A_HEARTS_MAGIC_WITH_OVERWRITE)) {
                 temp = 0;
             } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (func_8008F2F8(play) == 4) ||
-                       (player->stateFlags2 & PLAYER_STATE2_18)) {
+                       (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
                 temp = 70;
             } else {
                 temp = interfaceCtx->healthAlpha;

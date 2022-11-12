@@ -12,7 +12,7 @@ void EnMFire1_Init(Actor* thisx, PlayState* play);
 void EnMFire1_Destroy(Actor* thisx, PlayState* play);
 void EnMFire1_Update(Actor* thisx, PlayState* play);
 
-const ActorInit En_M_Fire1_InitVars = {
+ActorInit En_M_Fire1_InitVars = {
     ACTOR_EN_M_FIRE1,
     ACTORCAT_MISC,
     FLAGS,

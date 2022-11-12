@@ -195,7 +195,7 @@ static DamageTable sDamageTableWhite = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-const ActorInit En_Bb_InitVars = {
+ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,
     ACTORCAT_ENEMY,
     FLAGS,

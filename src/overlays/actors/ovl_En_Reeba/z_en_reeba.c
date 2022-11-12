@@ -7,7 +7,7 @@
 
 #include "z_en_reeba.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_reeba/object_reeba.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
@@ -65,7 +65,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-const ActorInit En_Reeba_InitVars = {
+ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORCAT_MISC,
     FLAGS,
