@@ -111,19 +111,20 @@ void Interface_Init(PlayState* play) {
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
 
-    if ((gSaveContext.timerState == TIMER_STATE_ENV_3) || (gSaveContext.timerState == TIMER_STATE_DOWN_3) ||
-        (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_3) || (gSaveContext.subTimerState == SUBTIMER_STATE_UP_3)) {
+    if ((gSaveContext.timerState == TIMER_STATE_ENV_TICK) || (gSaveContext.timerState == TIMER_STATE_DOWN_TICK) ||
+        (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) ||
+        (gSaveContext.subTimerState == SUBTIMER_STATE_UP_TICK)) {
         osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
-            if (gSaveContext.timerState == TIMER_STATE_ENV_3) {
-                gSaveContext.timerState = TIMER_STATE_ENV_0;
+            if (gSaveContext.timerState == TIMER_STATE_ENV_TICK) {
+                gSaveContext.timerState = TIMER_STATE_ENV_INIT;
                 gSaveContext.timerX[TIMER_ID_MAIN] = 140;
                 gSaveContext.timerY[TIMER_ID_MAIN] = 80;
             }
         }
 
-        if ((gSaveContext.timerState == TIMER_STATE_ENV_3) || (gSaveContext.timerState == TIMER_STATE_DOWN_3)) {
+        if ((gSaveContext.timerState == TIMER_STATE_ENV_TICK) || (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)) {
             timerId = TIMER_ID_MAIN;
         } else {
             timerId = TIMER_ID_SUB;
@@ -138,7 +139,7 @@ void Interface_Init(PlayState* play) {
         }
     }
 
-    if ((gSaveContext.timerState >= TIMER_STATE_UP_0) && (gSaveContext.timerState <= TIMER_STATE_UP_4)) {
+    if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE)) {
         gSaveContext.timerState = TIMER_STATE_OFF;
         // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timerState);

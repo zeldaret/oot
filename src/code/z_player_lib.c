@@ -95,11 +95,11 @@ typedef struct {
     /* 0x2 */ u16 textId;
 } EnvTimerTextTriggerEntry; // size = 0x4
 
-EnvTimerTextTriggerEntry sEnvTimerTextTriggers[] = {
-    { ENV_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_TIMER_HOTROOM - 1
-    { ENV_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_TIMER_UNDERWATER_FLOOR - 1
-    { 0, 0x0000 },                           // PLAYER_ENV_TIMER_SWIMMING - 1
-    { ENV_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_TIMER_UNDERWATER_FREE - 1
+EnvTimerTextTriggerEntry sEnvHazardTextTriggers[] = {
+    { ENV_HAZARD_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_TIMER_HOTROOM - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_TIMER_UNDERWATER_FLOOR - 1
+    { 0, 0x0000 },                                  // PLAYER_ENV_TIMER_SWIMMING - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_TIMER_UNDERWATER_FREE - 1
 };
 
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
@@ -778,38 +778,38 @@ return_neg:
     return -1;
 }
 
-s32 Player_GetEnvTimerType(PlayState* play) {
+s32 Player_GetEnvHazard(PlayState* play) {
     Player* this = GET_PLAYER(play);
     EnvTimerTextTriggerEntry* triggerEntry;
-    s32 envTimerType;
+    s32 envHazard;
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
-        envTimerType = PLAYER_ENV_TIMER_TYPE_HOTROOM - 1;
+        envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
     } else if ((this->underwaterTimer > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
-        envTimerType = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
-                           ? (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR - 1)
-                           : (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE - 1);
+        envHazard = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
+                        ? (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)
+                        : (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1);
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
-        envTimerType = PLAYER_ENV_TIMER_TYPE_SWIMMING - 1;
+        envHazard = PLAYER_ENV_HAZARD_SWIMMING - 1;
     } else {
-        return PLAYER_ENV_TIMER_TYPE_NONE;
+        return PLAYER_ENV_HAZARD_NONE;
     }
 
     // Trigger general textboxes under certain conditions, like "It's so hot in here!"
-    triggerEntry = &sEnvTimerTextTriggers[envTimerType];
+    triggerEntry = &sEnvHazardTextTriggers[envHazard];
     if (!Player_InCsMode(play)) {
-        if ((triggerEntry->flag != 0) && !(gSaveContext.envTimerTextTriggerFlags & triggerEntry->flag) &&
-            (((envTimerType == (PLAYER_ENV_TIMER_TYPE_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
-             (((envTimerType == (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FLOOR - 1)) ||
-               (envTimerType == (PLAYER_ENV_TIMER_TYPE_UNDERWATER_FREE - 1))) &&
+        if ((triggerEntry->flag != 0) && !(gSaveContext.envHazardTextTriggerFlags & triggerEntry->flag) &&
+            (((envHazard == (PLAYER_ENV_HAZARD_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
+             (((envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)) ||
+               (envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1))) &&
               (this->currentBoots == PLAYER_BOOTS_IRON) && (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             Message_StartTextbox(play, triggerEntry->textId, NULL);
-            gSaveContext.envTimerTextTriggerFlags |= triggerEntry->flag;
+            gSaveContext.envHazardTextTriggerFlags |= triggerEntry->flag;
         }
     }
 
-    return envTimerType + 1;
+    return envHazard + 1;
 }
 
 u8 sEyeMouthIndices[][2] = {

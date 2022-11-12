@@ -299,7 +299,7 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, PlayState
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else if (this->result == MALONRACE_FAILURE) {
         gSaveContext.timerTime = 240;
-        gSaveContext.timerState = TIMER_STATE_UP_4;
+        gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
         gSaveContext.cutsceneIndex = 0;
         play->nextEntranceIndex = ENTR_SPOT20_7;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
@@ -383,7 +383,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->result = MALONRACE_SUCCESS;
                 this->finishTimer = 70;
-                gSaveContext.timerState = TIMER_STATE_UP_4;
+                gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
             } else if ((this->fenceCheck[7] == 1) && !(this->raceFlags & MALONRACE_SECOND_LAP)) {
                 this->lapCount = 1;
                 this->raceFlags |= MALONRACE_SECOND_LAP;

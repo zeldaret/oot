@@ -101,34 +101,34 @@ typedef struct {
 
 typedef enum {
     /* 0x0 */ TIMER_STATE_OFF,
-    /* 0x1 */ TIMER_STATE_ENV_0, // init env timer that counts down, total time based on health, resets on void-out, kills at 0
-    /* 0x2 */ TIMER_STATE_ENV_1, // Frozen at the screen center
-    /* 0x3 */ TIMER_STATE_ENV_2, // Move to top-left corner
-    /* 0x4 */ TIMER_STATE_ENV_3, // Begin counting down
-    /* 0x5 */ TIMER_STATE_DOWN_0, // Init timer that counts down
-    /* 0x6 */ TIMER_STATE_DOWN_1, // Frozen at the screen center
-    /* 0x7 */ TIMER_STATE_DOWN_2, // Move to top-left corner
-    /* 0x8 */ TIMER_STATE_DOWN_3, // Begin counting down
+    /* 0x1 */ TIMER_STATE_ENV_INIT, // Init env timer that counts down, total time based on health, resets on void-out, kills at 0
+    /* 0x2 */ TIMER_STATE_ENV_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x3 */ TIMER_STATE_ENV_MOVE, // Move to top-left corner
+    /* 0x4 */ TIMER_STATE_ENV_TICK, // Begin counting down
+    /* 0x5 */ TIMER_STATE_DOWN_INIT, // Init timer that counts down
+    /* 0x6 */ TIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x7 */ TIMER_STATE_DOWN_MOVE, // Move to top-left corner
+    /* 0x8 */ TIMER_STATE_DOWN_TICK, // Begin counting down
     /* 0xA */ TIMER_STATE_STOP = 10,
-    /* 0xB */ TIMER_STATE_UP_0, // Init timer that counts up
-    /* 0xC */ TIMER_STATE_UP_1, // Frozen at the screen center
-    /* 0xD */ TIMER_STATE_UP_2, // Move to top-left corner
-    /* 0xE */ TIMER_STATE_UP_3, // Begin counting up
-    /* 0xF */ TIMER_STATE_UP_4  // Stuck at 59 min, 59 seconds
+    /* 0xB */ TIMER_STATE_UP_INIT, // Init timer that counts up
+    /* 0xC */ TIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0xD */ TIMER_STATE_UP_MOVE, // Move to top-left corner
+    /* 0xE */ TIMER_STATE_UP_TICK, // Begin counting up
+    /* 0xF */ TIMER_STATE_UP_FREEZE  // Stop counting the timer
 } TimerState;
 
 typedef enum {
     /* 0x0 */ SUBTIMER_STATE_OFF,
-    /* 0x1 */ SUBTIMER_STATE_DOWN_0, // Init timer that counts down
-    /* 0x2 */ SUBTIMER_STATE_DOWN_1, // Frozen at the screen center
-    /* 0x3 */ SUBTIMER_STATE_DOWN_2, // Move to top-left corner
-    /* 0x4 */ SUBTIMER_STATE_DOWN_3, // Begin counting down
+    /* 0x1 */ SUBTIMER_STATE_DOWN_INIT, // Init timer that counts down
+    /* 0x2 */ SUBTIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x3 */ SUBTIMER_STATE_DOWN_MOVE, // Move to top-left corner
+    /* 0x4 */ SUBTIMER_STATE_DOWN_TICK, // Begin counting down
     /* 0x5 */ SUBTIMER_STATE_RESPAWN, // Time is up, trigger a transition, reset button items, spoil trade quest items
     /* 0x6 */ SUBTIMER_STATE_STOP, // Time is up, stop counting
-    /* 0x7 */ SUBTIMER_STATE_UP_0, // Init timer that counts up
-    /* 0x8 */ SUBTIMER_STATE_UP_1, // Frozen at the screen center
-    /* 0x9 */ SUBTIMER_STATE_UP_2, // Move to top-left corner
-    /* 0xA */ SUBTIMER_STATE_UP_3 // Begin counting up
+    /* 0x7 */ SUBTIMER_STATE_UP_INIT, // Init timer that counts up
+    /* 0x8 */ SUBTIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x9 */ SUBTIMER_STATE_UP_MOVE, // Move to top-left corner
+    /* 0xA */ SUBTIMER_STATE_UP_TICK // Begin counting up
 } SubTimerState;
 
 typedef enum {
@@ -139,8 +139,8 @@ typedef enum {
 
 #define MARATHON_TIME_LIMIT 240 // 4 minutes
 
-#define ENV_TEXT_TRIGGER_HOTROOM (1 << 0)
-#define ENV_TEXT_TRIGGER_UNDERWATER (1 << 1)
+#define ENV_HAZARD_TEXT_TRIGGER_HOTROOM (1 << 0)
+#define ENV_HAZARD_TEXT_TRIGGER_UNDERWATER (1 << 1)
 
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
@@ -205,15 +205,15 @@ typedef struct {
     /* 0x13C2 */ char unk_13C2[0x0001];
     /* 0x13C3 */ u8 retainWeatherMode;
     /* 0x13C4 */ s16 dogParams;
-    /* 0x13C6 */ u8 envTimerTextTriggerFlags;
+    /* 0x13C6 */ u8 envHazardTextTriggerFlags;
     /* 0x13C7 */ u8 showTitleCard;
     /* 0x13C8 */ s16 nayrusLoveTimer;
     /* 0x13CA */ char unk_13CA[0x0002];
     /* 0x13CC */ s16 rupeeAccumulator;
     /* 0x13CE */ s16 timerState; // See `TimerState`
-    /* 0x13D0 */ s16 timerTime;
+    /* 0x13D0 */ s16 timerTime; // in seconds
     /* 0x13D2 */ s16 subTimerState; // See `SubTimerState`
-    /* 0x13D4 */ s16 subTimerTime;
+    /* 0x13D4 */ s16 subTimerTime; // in seconds
     /* 0x13D6 */ s16 timerX[TIMER_ID_MAX];
     /* 0x13DA */ s16 timerY[TIMER_ID_MAX];
     /* 0x13DE */ char unk_13DE[0x0002];
