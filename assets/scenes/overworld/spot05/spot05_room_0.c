@@ -15,8 +15,8 @@ SceneCmd spot05_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot05_room_0PolygonType2_000220),
-    SCENE_CMD_OBJECT_LIST(9, spot05_room_0ObjectList_00005C),
-    SCENE_CMD_ACTOR_LIST(27, spot05_room_0ActorList_000070),
+    SCENE_CMD_OBJECT_LIST(12, spot05_room_0ObjectList_00005C),
+    SCENE_CMD_ACTOR_LIST(36, spot05_room_0ActorList_000070),
     SCENE_CMD_END(),
 };
 
@@ -38,6 +38,9 @@ s16 spot05_room_0ObjectList_00005C[] = {
     OBJECT_BOMBIWA,
     OBJECT_WF,
     OBJECT_GS,
+    OBJECT_WOOD02,
+    OBJECT_DEKUBABA,
+    OBJECT_OKUTA,
 };
 
 ActorEntry spot05_room_0ActorList_000070[] = {
@@ -68,6 +71,15 @@ ActorEntry spot05_room_0ActorList_000070[] = {
     { ACTOR_BG_MJIN,        {      8,    480,  -2610 }, {      0,      0,      0 }, 0x0006 },
     { ACTOR_DOOR_ANA,       {     45,      0,    220 }, {      0,      0,      0 }, 0x10FF },
     { ACTOR_DOOR_ANA,       {   -195,      0,   1900 }, {      0, 0X8000,    0X8 }, 0x02ED },
+    { ACTOR_EN_WOOD02,      {    310,    480,  -2300 }, {      0, 0XAAAB,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,      {   -190,    480,  -2300 }, {      0, 0X566B,      0 }, 0x0205 },
+    { ACTOR_OBJ_BOMBIWA,    {     45,      0,    220 }, {      0,      0,      0 }, 0x8001 },
+    { ACTOR_EN_DEKUBABA,    {   -160,     15,   1672 }, {      0,   8000,      0 }, 0x0000 },
+    { ACTOR_EN_DEKUBABA,    {   -106,     15,   1672 }, {      0,   8000,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {   -550,    -23,   1473 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {   -256,    -23,    523 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {    352,    -80,    -68 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {    450,    -80,    874 }, {      0,      0,      0 }, 0x0000 },
 };
 
 PolygonType2 spot05_room_0PolygonType2_000220 = { 
@@ -104,8 +116,8 @@ SceneCmd spot05_room_0Set_000340[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot05_room_0PolygonType2_000220),
-    SCENE_CMD_OBJECT_LIST(10, spot05_room_0ObjectList_000380),
-    SCENE_CMD_ACTOR_LIST(25, spot05_room_0ActorList_000394),
+    SCENE_CMD_OBJECT_LIST(13, spot05_room_0ObjectList_000380),
+    SCENE_CMD_ACTOR_LIST(35, spot05_room_0ActorList_000394),
     SCENE_CMD_END(),
 };
 
@@ -120,6 +132,9 @@ s16 spot05_room_0ObjectList_000380[] = {
     OBJECT_ST,
     OBJECT_KA,
     OBJECT_WARP1,
+    OBJECT_WOOD02,
+    OBJECT_OKUTA,
+    OBJECT_DEKUBABA,
 };
 
 ActorEntry spot05_room_0ActorList_000394[] = {
@@ -148,6 +163,16 @@ ActorEntry spot05_room_0ActorList_000394[] = {
     { ACTOR_BG_MJIN,        {      8,    480,  -2610 }, {      0,      0,      0 }, 0x0006 },
     { ACTOR_DOOR_ANA,       {     45,      0,    220 }, {      0,      0,      0 }, 0x10FF },
     { ACTOR_DOOR_WARP1,     {     10,    500,  -2610 }, {      0,      0,      0 }, 0x0006 },
+    { ACTOR_EN_WOOD02,      {    310,    480,  -2300 }, {      0, 0XAAAB,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,      {   -190,    480,  -2300 }, {      0, 0X566B,      0 }, 0x0205 },
+    { ACTOR_EN_OKUTA,       {   -550,    -23,   1473 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {   -256,    -23,    523 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {    352,    -80,    -68 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {    450,    -80,    874 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_A_OBJ,       {   -197,    480,  -2928 }, {      0,      0,      0 }, 0x1309 },
+    { ACTOR_OBJ_BOMBIWA,    {     45,      0,    220 }, {      0,      0,      0 }, 0x8001 },
+    { ACTOR_EN_DEKUBABA,    {   -160,     15,   1672 }, {      0,   8000,      0 }, 0x0000 },
+    { ACTOR_EN_DEKUBABA,    {   -106,     15,   1672 }, {      0,   8000,      0 }, 0x0000 },
 };
 
 u8 spot05_room_0_possiblePadding_000524[] = {
