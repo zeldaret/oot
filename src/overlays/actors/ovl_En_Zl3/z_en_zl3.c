@@ -6,7 +6,7 @@
 
 #include "z_en_zl3.h"
 
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/object_zl2/object_zl2.h"

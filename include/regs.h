@@ -43,7 +43,7 @@
 #define R_ENV_LIGHT2_COLOR(i)                    REG(6 + (i))
 #define R_ENV_DISABLE_DBG                        REG(9)
 #define R_ENV_FOG_COLOR(i)                       REG(10 + (i))
-#define R_ENV_FOG_FAR                            REG(13)
+#define R_ENV_Z_FAR                              REG(13)
 #define R_ENV_FOG_NEAR                           REG(14)
 #define R_ENV_TIME_SPEED_OLD                     REG(15) // Most likely used during development. Unused in the final game.
 #define R_RUN_SPEED_LIMIT                        REG(45)
