@@ -91,7 +91,7 @@ ActorEntry spot11_room_0ActorList_000080[] = {
     { ACTOR_EN_KANBAN,             {  -1337,      8,   -270 }, {      0, 0X4000,      0 }, 0x031D },
     { ACTOR_BG_MJIN,               {   2128,    125,   -812 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_OKARINA_TAG,        {   2128,    165,   -812 }, {      0, 0X4000,      0 }, 0x1D7D },
-    { ACTOR_EN_BOX,                {   1490,    210,  -1521 }, {      0, 0X7DFF,   0X3D }, 0x5AAD },
+    { ACTOR_EN_BOX,                {   1490,    210,  -1521 }, {      0, 0X7DFF,   0X3D }, 0x8AAD },
     { ACTOR_EN_WONDER_TALK2,       {   2128,    160,   -812 }, {      0, 0X4000,      0 }, 0x8A3F },
 };
 
@@ -199,7 +199,7 @@ ActorEntry spot11_room_0ActorList_000474[] = {
     { ACTOR_EN_KANBAN,             {  -1337,      8,   -270 }, {      0, 0X4000,      0 }, 0x031D },
     { ACTOR_BG_MJIN,               {   2128,    125,   -812 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_OKARINA_TAG,        {   2128,    165,   -812 }, {      0, 0X4000,      0 }, 0x1D7D },
-    { ACTOR_EN_BOX,                {   1490,    210,  -1521 }, {      0, 0X7DFF,   0X3D }, 0x5AAD },
+    { ACTOR_EN_BOX,                {   1490,    210,  -1521 }, {      0, 0X7DFF,   0X3D }, 0x8AAD },
     { ACTOR_EN_WONDER_TALK2,       {   2128,    160,   -812 }, {      0, 0X4000,      0 }, 0x8A3F },
 };
 
