@@ -15,7 +15,7 @@ void EnHorseZelda_Update(Actor* thisx, PlayState* play);
 void EnHorseZelda_Draw(Actor* thisx, PlayState* play);
 
 void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play);
-void EnHorseZelda_Go(EnHorseZelda* this, PlayState* play);
+void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_ResetAnimation(EnHorseZelda* this);
 
 ActorInit En_Horse_Zelda_InitVars = {
@@ -85,10 +85,10 @@ static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 typedef struct {
     /* 0x0 */ Vec3s pos;
     /* 0x6 */ u8 speed;
-} horsePosSpeed; // size = 0x8
+} HorsePosSpeed; // size = 0x8
 
-// these seem to be valid coords on Hyrule feild, along with target speeds
-static horsePosSpeed sHorseFeildPositions[] = {
+// these seem to be valid coords on Hyrule field, along with target speeds
+static HorsePosSpeed sHorseFieldPositions[] = {
     { -1682, -500, 12578, 0x07 }, { -3288, -500, 13013, 0x07 }, { -5142, -417, 11630, 0x07 },
     { -5794, -473, 9573, 0x07 },  { -6765, -500, 8364, 0x07 },  { -6619, -393, 6919, 0x07 },
     { -5193, 124, 5433, 0x07 },   { -2970, 2, 4537, 0x07 },     { -2949, -35, 4527, 0x07 },
@@ -102,10 +102,10 @@ static InitChainEntry sInitChain[] = {
 
 static EnHorseZeldaActionFunc sActionFuncs[] = {
     EnHorseZelda_Stop,
-    EnHorseZelda_Go,
+    EnHorseZelda_Gallop,
 };
 
-void EnHorseZelda_GetFeildPosition(horsePosSpeed* data, s32 index, Vec3f* vec) {
+void EnHorseZelda_GetFieldPosition(HorsePosSpeed* data, s32 index, Vec3f* vec) {
     vec->x = data[index].pos.x;
     vec->y = data[index].pos.y;
     vec->z = data[index].pos.z;
@@ -113,19 +113,19 @@ void EnHorseZelda_GetFeildPosition(horsePosSpeed* data, s32 index, Vec3f* vec) {
 
 void EnHorseZelda_Move(EnHorseZelda* this, PlayState* play) {
     s32 pad;
-    Vec3f feildPos;
+    Vec3f fieldPos;
     s16 yawDiff;
 
-    EnHorseZelda_GetFeildPosition(sHorseFeildPositions, this->feildPosIndex, &feildPos);
-    if (Math3D_Vec3f_DistXYZ(&feildPos, &this->actor.world.pos) <= 400.0f) {
-        this->feildPosIndex++;
-        if (this->feildPosIndex >= 14) {
-            this->feildPosIndex = 0;
-            EnHorseZelda_GetFeildPosition(sHorseFeildPositions, 0, &feildPos);
+    EnHorseZelda_GetFieldPosition(sHorseFieldPositions, this->fieldPosIndex, &fieldPos);
+    if (Math3D_Vec3f_DistXYZ(&fieldPos, &this->actor.world.pos) <= 400.0f) {
+        this->fieldPosIndex++;
+        if (this->fieldPosIndex >= 14) {
+            this->fieldPosIndex = 0;
+            EnHorseZelda_GetFieldPosition(sHorseFieldPositions, 0, &fieldPos);
         }
     }
-    yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &feildPos) - this->actor.world.rot.y;
-    if (yawDiff >= 301) {
+    yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &fieldPos) - this->actor.world.rot.y;
+    if (yawDiff > 300) {
         this->actor.world.rot.y += 300;
     } else if (yawDiff < -300) {
         this->actor.world.rot.y -= 300;
@@ -140,7 +140,7 @@ void EnHorseZelda_Move(EnHorseZelda* this, PlayState* play) {
         } else {
             this->actor.speedXZ -= 1.0f;
         }
-    } else if (this->actor.speedXZ < sHorseFeildPositions[this->feildPosIndex].speed) {
+    } else if (this->actor.speedXZ < sHorseFieldPositions[this->fieldPosIndex].speed) {
         this->actor.speedXZ += 0.5f;
     } else {
         this->actor.speedXZ -= 0.5f;
@@ -194,7 +194,7 @@ void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play) {
     }
 }
 
-void EnHorseZelda_Gallop(EnHorseZelda* this) {
+void EnHorseZelda_SetupGallop(EnHorseZelda* this) {
     f32 speedMod;
 
     this->action = 1;
@@ -207,10 +207,10 @@ void EnHorseZelda_Gallop(EnHorseZelda* this) {
                      Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), ANIMMODE_ONCE, 0.0f);
 }
 
-void EnHorseZelda_Go(EnHorseZelda* this, PlayState* play) {
+void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play) {
     EnHorseZelda_Move(this, play);
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        EnHorseZelda_Gallop(this);
+        EnHorseZelda_SetupGallop(this);
     }
 }
 
@@ -224,8 +224,8 @@ void EnHorseZelda_SetRotate(EnHorseZelda* this, PlayState* play) {
     checkPos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
     checkPos.y = this->actor.world.pos.y + 60.0f;
     checkPos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
-    this->floorY = BgCheck_EntityRaycastDown3(&play->colCtx, &poly, &bgId, &checkPos);
-    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->floorY, 30.0f));
+    this->floorYForwards = BgCheck_EntityRaycastDown3(&play->colCtx, &poly, &bgId, &checkPos);
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->floorYForwards, 30.0f));
 }
 
 void EnHorseZelda_Update(Actor* thisx, PlayState* play) {
