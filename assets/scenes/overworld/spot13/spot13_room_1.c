@@ -17,7 +17,7 @@ SceneCmd spot13_room_1Commands[] = {
     SCENE_CMD_WIND_SETTINGS(15, 40, 109, 190),
     SCENE_CMD_MESH(&spot13_room_1PolygonType0_0002C0),
     SCENE_CMD_OBJECT_LIST(11, spot13_room_1ObjectList_000048),
-    SCENE_CMD_ACTOR_LIST(38, spot13_room_1ActorList_000060),
+    SCENE_CMD_ACTOR_LIST(40, spot13_room_1ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -74,6 +74,8 @@ ActorEntry spot13_room_1ActorList_000060[] = {
     { ACTOR_OBJ_KIBAKO2,     {   3026,   -272,   2631 }, {      0, 0XD555,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,     {   3235,   -283,   2313 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,     {   3832,   -355,   2840 }, {      0, 0XB777,      0 }, 0xFFFF },
+    { ACTOR_ELF_MSG,         {   2212,   -338,   2313 }, {   0x88,      0,      0 }, 0x9E3D },
+    { ACTOR_EN_KAKASI2,      {    560,    243,  -2006 }, {      0,      0,   0X20 }, 0x053B },
 };
 
 PolygonType0 spot13_room_1PolygonType0_0002C0 = { 
