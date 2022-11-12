@@ -23,7 +23,7 @@ typedef enum {
     /* 52 */ HUD_VISIBILITY_NONE_INSTANT = 52
 } HudVisibility;
 
-// `_WITH_OVERWRITE` means that this request will respond to `hudVisibilityForceRisingButtonAlphas`.
+// `_WITH_OVERWRITE` means that this request will respond to `forceRisingButtonAlphas`.
 // If set, the buttons will also raise alphas but will also account for disabled buttons
 
 typedef enum {
@@ -199,7 +199,7 @@ typedef struct {
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 hudVisibilityForceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
+    /* 0x13E7 */ u8 forceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
     /* 0x13E8 */ u16 nextHudVisibility; // triggers the hud to change visibility to the requested value. Reset to HUD_VISIBILITY_IDLE when target is reached
     /* 0x13EA */ u16 hudVisibility; // current hud visibility
     /* 0x13EC */ u16 hudVisibilityTimer; // number of frames in the transition to a new hud visibility. Used to step alpha
