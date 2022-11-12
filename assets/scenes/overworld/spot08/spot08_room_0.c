@@ -15,8 +15,8 @@ SceneCmd spot08_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot08_room_0PolygonType2_000200),
-    SCENE_CMD_OBJECT_LIST(10, spot08_room_0ObjectList_000060),
-    SCENE_CMD_ACTOR_LIST(24, spot08_room_0ActorList_000074),
+    SCENE_CMD_OBJECT_LIST(13, spot08_room_0ObjectList_000060),
+    SCENE_CMD_ACTOR_LIST(30, spot08_room_0ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -40,6 +40,9 @@ s16 spot08_room_0ObjectList_000060[] = {
     OBJECT_GS,
     OBJECT_BOMBIWA,
     OBJECT_ST,
+    OBJECT_OKUTA,
+    OBJECT_TITE,
+    OBJECT_NIW,
 };
 
 ActorEntry spot08_room_0ActorList_000074[] = {
@@ -67,6 +70,12 @@ ActorEntry spot08_room_0ActorList_000074[] = {
     { ACTOR_OBJ_TSUBO,             {  -1550,     52,   -260 }, {      0,      0,      0 }, 0x7310 },
     { ACTOR_OBJ_TSUBO,             {  -1550,     52,    170 }, {      0,      0,      0 }, 0x7710 },
     { ACTOR_OBJ_TSUBO,             {  -1630,     52,    170 }, {      0,      0,      0 }, 0x7B03 },
+    { ACTOR_EN_TITE,               {   -692,     28,   -580 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_TITE,               {   -920,     28,   -225 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_OKUTA,              {   -441,   -248,    594 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,              {   1313,   -319,   -251 }, {      0, 0X2000,      0 }, 0x0000 },
+    { ACTOR_EN_NIW,                {  -2430,     18,   -363 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_TITE,               {   -920,     28,   -425 }, {      0,      0,      0 }, 0xFFFE },
 };
 
 u8 spot08_room_0_possiblePadding_0001F4[] = {
@@ -194,8 +203,8 @@ SceneCmd spot08_room_0Set_000700[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot08_room_0PolygonType2_000200),
-    SCENE_CMD_OBJECT_LIST(11, spot08_room_0ObjectList_000740),
-    SCENE_CMD_ACTOR_LIST(24, spot08_room_0ActorList_000758),
+    SCENE_CMD_OBJECT_LIST(13, spot08_room_0ObjectList_000740),
+    SCENE_CMD_ACTOR_LIST(30, spot08_room_0ActorList_000758),
     SCENE_CMD_END(),
 };
 
@@ -211,6 +220,8 @@ s16 spot08_room_0ObjectList_000740[] = {
     OBJECT_GS,
     OBJECT_ST,
     OBJECT_BOMBIWA,
+    OBJECT_OKUTA,
+    OBJECT_TITE,
 };
 
 ActorEntry spot08_room_0ActorList_000758[] = {
@@ -238,6 +249,12 @@ ActorEntry spot08_room_0ActorList_000758[] = {
     { ACTOR_OBJ_TSUBO,             {  -1550,     52,   -260 }, {      0,      0,      0 }, 0x7310 },
     { ACTOR_OBJ_TSUBO,             {  -1550,     52,    170 }, {      0,      0,      0 }, 0x7710 },
     { ACTOR_OBJ_TSUBO,             {  -1630,     52,    170 }, {      0,      0,      0 }, 0x7B03 },
+    { ACTOR_EN_TITE,               {   -692,     28,   -580 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_TITE,               {   -920,     28,   -225 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_OKUTA,              {   -441,   -248,    594 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,              {   1313,   -319,   -251 }, {      0, 0X2000,      0 }, 0x0000 },
+    { ACTOR_EN_NIW,                {  -2430,     18,   -363 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_TITE,               {   -920,     28,   -425 }, {      0,      0,      0 }, 0xFFFE },
 };
 
 u8 spot08_room_0_possiblePadding_0008D8[] = {
