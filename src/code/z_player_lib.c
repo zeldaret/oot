@@ -96,10 +96,10 @@ typedef struct {
 } EnvTimerTextTriggerEntry; // size = 0x4
 
 EnvTimerTextTriggerEntry sEnvHazardTextTriggers[] = {
-    { ENV_HAZARD_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_TIMER_HOTROOM - 1
-    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_TIMER_UNDERWATER_FLOOR - 1
-    { 0, 0x0000 },                                  // PLAYER_ENV_TIMER_SWIMMING - 1
-    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_TIMER_UNDERWATER_FREE - 1
+    { ENV_HAZARD_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_HAZARD_HOTROOM - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1
+    { 0, 0x0000 },                                  // PLAYER_ENV_HAZARD_SWIMMING - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1
 };
 
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]

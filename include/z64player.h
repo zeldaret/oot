@@ -67,7 +67,7 @@ typedef enum {
     /* 0x2 */ PLAYER_ENV_HAZARD_UNDERWATER_FLOOR,
     /* 0x3 */ PLAYER_ENV_HAZARD_SWIMMING,
     /* 0x4 */ PLAYER_ENV_HAZARD_UNDERWATER_FREE
-} PlayerEnvTimer;
+} PlayerEnvHazard;
 
 typedef enum {
     /* 0x00 */ PLAYER_IA_NONE,

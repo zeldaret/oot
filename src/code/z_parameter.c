@@ -154,8 +154,8 @@ static s16 sExtraItemBases[] = {
     ITEM_NUT,     // ITEM_NUT_UPGRADE_40
 };
 
-static s16 sEnvTimerType = PLAYER_ENV_HAZARD_NONE;
-static s16 sEnvTimerActive = false;
+static s16 sEnvHazard = PLAYER_ENV_HAZARD_NONE;
+static s16 sEnvHazardActive = false;
 
 static Gfx sSetupDL_80125A60[] = {
     gsDPPipeSync(),
@@ -2678,7 +2678,7 @@ void Magic_DrawMeter(PlayState* play) {
 void Interface_SetSubTimer(s16 seconds) {
     gSaveContext.timerX[TIMER_ID_SUB] = 140;
     gSaveContext.timerY[TIMER_ID_SUB] = 80;
-    sEnvTimerActive = false;
+    sEnvHazardActive = false;
     gSaveContext.subTimerTime = seconds;
 
     if (seconds != 0) {
@@ -2707,7 +2707,7 @@ void Interface_SetSubTimerToFinalSecond(PlayState* play) {
 void Interface_SetTimer(s16 seconds) {
     gSaveContext.timerX[TIMER_ID_MAIN] = 140;
     gSaveContext.timerY[TIMER_ID_MAIN] = 80;
-    sEnvTimerActive = false;
+    sEnvHazardActive = false;
     gSaveContext.timerTime = seconds;
 
     if (seconds != 0) {
@@ -3581,11 +3581,11 @@ void Interface_Draw(PlayState* play) {
                             if (gSaveContext.timerTime == 0) {
                                 // Out of time
                                 gSaveContext.timerState = TIMER_STATE_STOP;
-                                if (sEnvTimerActive) {
+                                if (sEnvHazardActive) {
                                     gSaveContext.health = 0;
                                     play->damagePlayer(play, -(gSaveContext.health + 2));
                                 }
-                                sEnvTimerActive = false;
+                                sEnvHazardActive = false;
                             } else if (gSaveContext.timerTime > 60) {
                                 // Beep at "xx:x1" (every 10 seconds)
                                 if (sTimerDigits[4] == 1) {
@@ -4066,16 +4066,16 @@ void Interface_Update(PlayState* play) {
     }
 
     Health_UpdateBeatingHeart(play);
-    sEnvTimerType = Player_GetEnvHazard(play);
+    sEnvHazard = Player_GetEnvHazard(play);
 
-    if (sEnvTimerType == PLAYER_ENV_HAZARD_HOTROOM) {
+    if (sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_GORON) {
-            sEnvTimerType = PLAYER_ENV_HAZARD_NONE;
+            sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }
     } else if ((Player_GetEnvHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
                (Player_GetEnvHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_ZORA) {
-            sEnvTimerType = PLAYER_ENV_HAZARD_NONE;
+            sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }
     }
 
@@ -4187,16 +4187,16 @@ void Interface_Update(PlayState* play) {
     }
 
     if (gSaveContext.timerState == TIMER_STATE_OFF) {
-        if (((sEnvTimerType == PLAYER_ENV_HAZARD_HOTROOM) || (sEnvTimerType == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) ||
-             (sEnvTimerType == PLAYER_ENV_HAZARD_UNDERWATER_FREE)) &&
+        if (((sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) || (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) ||
+             (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FREE)) &&
             ((gSaveContext.health >> 1) != 0)) {
             gSaveContext.timerState = TIMER_STATE_ENV_INIT;
             gSaveContext.timerX[TIMER_ID_MAIN] = 140;
             gSaveContext.timerY[TIMER_ID_MAIN] = 80;
-            sEnvTimerActive = true;
+            sEnvHazardActive = true;
         }
     } else {
-        if (((sEnvTimerType == PLAYER_ENV_HAZARD_NONE) || (sEnvTimerType == PLAYER_ENV_HAZARD_SWIMMING)) &&
+        if (((sEnvHazard == PLAYER_ENV_HAZARD_NONE) || (sEnvHazard == PLAYER_ENV_HAZARD_SWIMMING)) &&
             (gSaveContext.timerState <= TIMER_STATE_ENV_TICK)) {
             gSaveContext.timerState = TIMER_STATE_OFF;
         }
