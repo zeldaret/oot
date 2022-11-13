@@ -2576,12 +2576,12 @@ static s16 sQuestQuadsX[] = {
     -38,  // QUAD_QUEST_SONG_NOTE_B6
     -26,  // QUAD_QUEST_SONG_NOTE_B7
     -14,  // QUAD_QUEST_SONG_NOTE_B8
-    -88,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW
-    -81,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2_SHADOW
-    -72,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3_SHADOW
-    -90,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1
-    -83,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2
-    -74,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3
+    -88,  // QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW
+    -81,  // QUAD_QUEST_SKULL_TOKENS_DIGIT2_SHADOW
+    -72,  // QUAD_QUEST_SKULL_TOKENS_DIGIT3_SHADOW
+    -90,  // QUAD_QUEST_SKULL_TOKENS_DIGIT1
+    -83,  // QUAD_QUEST_SKULL_TOKENS_DIGIT2
+    -74,  // QUAD_QUEST_SKULL_TOKENS_DIGIT3
 };
 
 static s16 sQuestQuadsY[] = {
@@ -2626,12 +2626,12 @@ static s16 sQuestQuadsY[] = {
     -52, // QUAD_QUEST_SONG_NOTE_B6
     -52, // QUAD_QUEST_SONG_NOTE_B7
     -52, // QUAD_QUEST_SONG_NOTE_B8
-    34,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW
-    34,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2_SHADOW
-    34,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3_SHADOW
-    36,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1
-    36,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2
-    36,  // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3
+    34,  // QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW
+    34,  // QUAD_QUEST_SKULL_TOKENS_DIGIT2_SHADOW
+    34,  // QUAD_QUEST_SKULL_TOKENS_DIGIT3_SHADOW
+    36,  // QUAD_QUEST_SKULL_TOKENS_DIGIT1
+    36,  // QUAD_QUEST_SKULL_TOKENS_DIGIT2
+    36,  // QUAD_QUEST_SKULL_TOKENS_DIGIT3
 };
 
 static s16 sQuestQuadsSize[] = {
@@ -2676,12 +2676,12 @@ static s16 sQuestQuadsSize[] = {
     16, // QUAD_QUEST_SONG_NOTE_B6
     16, // QUAD_QUEST_SONG_NOTE_B7
     16, // QUAD_QUEST_SONG_NOTE_B8
-    16, // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW
-    16, // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2_SHADOW
-    16, // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3_SHADOW
-    16, // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1
-    16, // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT2
-    16, // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3
+    16, // QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW
+    16, // QUAD_QUEST_SKULL_TOKENS_DIGIT2_SHADOW
+    16, // QUAD_QUEST_SKULL_TOKENS_DIGIT3_SHADOW
+    16, // QUAD_QUEST_SKULL_TOKENS_DIGIT1
+    16, // QUAD_QUEST_SKULL_TOKENS_DIGIT2
+    16, // QUAD_QUEST_SKULL_TOKENS_DIGIT3
 };
 
 void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
@@ -3099,7 +3099,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     for (k = 0, j = 0; j < QUAD_QUEST_MAX; j++, k += 4) {
         quadWidth = sQuestQuadsSize[j];
 
-        if ((j < QUEST_SONG_MINUET) || (j >= QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW)) {
+        if ((j < QUEST_SONG_MINUET) || (j >= QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW)) {
             pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = sQuestQuadsX[j];
 
             pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
@@ -3110,7 +3110,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
                 pauseCtx->questVtx[k + 0].v.ob[1] - sQuestQuadsSize[j];
 
-            if (j >= QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW) {
+            if (j >= QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW) {
                 pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
                     pauseCtx->questVtx[k + 0].v.ob[0] + 8;
 

@@ -802,7 +802,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
     if (CHECK_QUEST_ITEM(QUEST_SKULL_TOKEN)) {
         // Draw amount of gold skulltula tokens
-        // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW to QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3
+        // QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW to QUAD_QUEST_SKULL_TOKENS_DIGIT3
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -822,7 +822,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             gsTokensDigits[2] -= 10;
         }
 
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT1_SHADOW * 4], 6 * 4, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW * 4], 6 * 4, 0);
 
         for (i = 0, j = 0; i < 2; i++) {
             if (i == 0) {
