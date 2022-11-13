@@ -38,6 +38,8 @@
 #include "fault.h"
 #include "sched.h"
 #include "rumble.h"
+#include "tha.h"
+#include "thga.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -105,20 +107,6 @@ typedef struct {
     /* 0x11308 */ Gfx unusedBuffer[0x20];
     /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC
 } GfxPool; // size = 0x12410
-
-typedef struct {
-    /* 0x0000 */ u32    size;
-    /* 0x0004 */ void*    bufp;
-    /* 0x0008 */ void*    head;
-    /* 0x000C */ void*    tail;
-} TwoHeadArena; // size = 0x10
-
-typedef struct {
-    /* 0x0000 */ u32    size;
-    /* 0x0004 */ Gfx*   bufp;
-    /* 0x0008 */ Gfx*   p;
-    /* 0x000C */ Gfx*   d;
-} TwoHeadGfxArena; // size = 0x10
 
 typedef struct GraphicsContext {
     /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"

@@ -385,6 +385,7 @@ beginseg
     include "build/src/code/z_kaleido_scope_call.o"
     include "build/src/code/z_play.o"
     include "build/src/code/PreRender.o"
+    include "build/src/code/TwoHeadGfxArena.o"
     include "build/src/code/TwoHeadArena.o"
     include "build/src/code/code_800C3C20.o"
     include "build/src/code/audioMgr.o"
