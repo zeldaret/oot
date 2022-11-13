@@ -2318,7 +2318,7 @@ static s16 sVtxMapWorldAreaHeight[] = {
     0,  // WORLD_MAP_AREA_GANONS_CASTLE
 };
 
-s16 KaleidoScope_InitPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 numQuads) {
+s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 numQuads) {
     static s16 sTradeQuestVtxOffsetY__ = 0;
     static s16 sTradeQuestVtxOffsetTimer__ = 1;
     static s16 sTradeQuestVtxOffsetState__ = 0;
@@ -2663,7 +2663,7 @@ static s16 sQuestQuadsSize[] = {
     16, // QUAD_QUEST_SKULL_TOKENS_AMOUNT_DIGIT3
 };
 
-void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
+void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 vtx_x_;
     s16 i;
@@ -2686,15 +2686,15 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
     }
 
     pauseCtx->itemPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_ITEM_QUADS) * 4) * sizeof(Vtx));
-    KaleidoScope_InitPageVertices(play, pauseCtx->itemPageVtx, VTX_PAGE_ITEM, VTX_PAGE_ITEM_QUADS);
+    KaleidoScope_SetPageVertices(play, pauseCtx->itemPageVtx, VTX_PAGE_ITEM, VTX_PAGE_ITEM_QUADS);
 
     pauseCtx->equipPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_EQUIP_QUADS) * 4) * sizeof(Vtx));
-    KaleidoScope_InitPageVertices(play, pauseCtx->equipPageVtx, VTX_PAGE_EQUIP, VTX_PAGE_EQUIP_QUADS);
+    KaleidoScope_SetPageVertices(play, pauseCtx->equipPageVtx, VTX_PAGE_EQUIP, VTX_PAGE_EQUIP_QUADS);
 
     if (!sInDungeonScene) {
         pauseCtx->mapPageVtx = Graph_Alloc(
             gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_WORLD_QUADS + WORLD_MAP_IMAGE_FRAG_NUM) * 4) * sizeof(Vtx));
-        j = KaleidoScope_InitPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_WORLD, VTX_PAGE_MAP_WORLD_QUADS);
+        j = KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_WORLD, VTX_PAGE_MAP_WORLD_QUADS);
 
         for (i = 0, vtx_y = 58; i < WORLD_MAP_IMAGE_FRAG_NUM; i++, j += 4, vtx_y -= WORLD_MAP_IMAGE_FRAG_HEIGHT) {
             pauseCtx->mapPageVtx[j + 0].v.ob[0] = pauseCtx->mapPageVtx[j + 2].v.ob[0] = 0 - (WORLD_MAP_IMAGE_WIDTH / 2);
@@ -2740,11 +2740,11 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
             (WORLD_MAP_IMAGE_HEIGHT % WORLD_MAP_IMAGE_FRAG_HEIGHT) * (1 << 5);
     } else {
         pauseCtx->mapPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_DUNGEON_QUADS) * 4) * sizeof(Vtx));
-        KaleidoScope_InitPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_DUNGEON, VTX_PAGE_MAP_DUNGEON_QUADS);
+        KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_DUNGEON, VTX_PAGE_MAP_DUNGEON_QUADS);
     }
 
     pauseCtx->questPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_QUEST_QUADS) * 4) * sizeof(Vtx));
-    KaleidoScope_InitPageVertices(play, pauseCtx->questPageVtx, VTX_PAGE_QUEST, VTX_PAGE_QUEST_QUADS);
+    KaleidoScope_SetPageVertices(play, pauseCtx->questPageVtx, VTX_PAGE_QUEST, VTX_PAGE_QUEST_QUADS);
 
     pauseCtx->cursorVtx = Graph_Alloc(gfxCtx, (PAUSE_QUAD_CURSOR_MAX * 4) * sizeof(Vtx));
 
@@ -3143,7 +3143,7 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
     pauseCtx->infoPanelVtx = Graph_Alloc(gfxCtx, 28 * sizeof(Vtx));
 
     pauseCtx->saveVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_SAVE_QUADS) * 4) * sizeof(Vtx));
-    KaleidoScope_InitPageVertices(play, pauseCtx->saveVtx, VTX_PAGE_SAVE, VTX_PAGE_SAVE_QUADS);
+    KaleidoScope_SetPageVertices(play, pauseCtx->saveVtx, VTX_PAGE_SAVE, VTX_PAGE_SAVE_QUADS);
 }
 
 void KaleidoScope_DrawGameOver(PlayState* play) {
@@ -3215,7 +3215,7 @@ void KaleidoScope_Draw(PlayState* play) {
         KaleidoScope_SetView(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
 
         Gfx_SetupDL_42Opa(play->state.gfxCtx);
-        KaleidoScope_InitVertices(play, play->state.gfxCtx);
+        KaleidoScope_SetVertices(play, play->state.gfxCtx);
         KaleidoScope_DrawPages(play, play->state.gfxCtx);
 
         Gfx_SetupDL_42Opa(play->state.gfxCtx);

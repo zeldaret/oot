@@ -272,7 +272,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSlot[pauseCtx->pageIndex] = cursor;
             }
 
-            // Use the appropriate QUEST_MEDALLION_FOREST-QUEST_HEART_PIECE quad (see `KaleidoScope_InitVertices`)
+            // Use the appropriate QUEST_MEDALLION_FOREST-QUEST_HEART_PIECE quad (see `KaleidoScope_SetVertices`)
             KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
 
             // Handle part of the ocarina songs playback
