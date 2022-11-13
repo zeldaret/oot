@@ -748,7 +748,7 @@ void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocit
  * Spawn a shock effect
  *
  * param determines where the ligntning should go
- * 0: dont attach to any actor. spawns at the position specified by pos
+ * 0: don't attach to any actor. spawns at the position specified by pos
  * 1: spawn at one of Player's body parts, chosen at random
  * 2: spawn at one of Phantom Ganon's body parts, chosen at random
  */
