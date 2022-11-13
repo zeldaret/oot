@@ -55,7 +55,7 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
     s32 loResDeinterlaced;
     s32 loResInterlaced;
     s32 modeLAN1; // L=(lo res) A=(antialias)     N=(deinterlace)        1=(16-bit)
-    s32 modeLPN2; // L=(lo res) P=(point-sampled) N=(normal interlacing) 2=(32-bit)
+    s32 modeLPN2; // L=(lo res) P=(point-sampled) N=(deinterlace)        2=(32-bit)
     s32 modeHPN2; // H=(hi res) P=(point-sampled) N=(normal interlacing) 2=(32-bit)
     s32 yScaleLo;
     s32 yScaleHiEvenField;
