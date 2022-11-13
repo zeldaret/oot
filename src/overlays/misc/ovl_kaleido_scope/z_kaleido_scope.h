@@ -65,6 +65,20 @@ typedef enum {
 #define EQUIP_CURSOR_X_UPG 0
 #define EQUIP_CURSOR_Y_BULLETBAG_QUIVER 0
 
+
+#define EQUIP_GRID_CELL_WIDTH 32
+#define EQUIP_GRID_CELL_HEIGHT 32
+#define EQUIP_GRID_QUAD_MARGIN 2
+#define EQUIP_GRID_QUAD_WIDTH (EQUIP_GRID_CELL_WIDTH - (2 * EQUIP_GRID_QUAD_MARGIN))
+#define EQUIP_GRID_QUAD_HEIGHT (EQUIP_GRID_CELL_HEIGHT - (2 * EQUIP_GRID_QUAD_MARGIN))
+#define EQUIP_GRID_QUAD_TEX_SIZE 32 // both width and height
+
+#define EQUIP_GRID_SELECTED_QUAD_MARGIN (-2)
+#define EQUIP_GRID_SELECTED_QUAD_WIDTH (EQUIP_GRID_QUAD_WIDTH - (2 * EQUIP_GRID_SELECTED_QUAD_MARGIN))
+#define EQUIP_GRID_SELECTED_QUAD_HEIGHT (EQUIP_GRID_QUAD_HEIGHT - (2 * EQUIP_GRID_SELECTED_QUAD_MARGIN))
+#define EQUIP_GRID_SELECTED_QUAD_TEX_SIZE 32 // both width and height
+
+
 typedef enum {
     // Grid of upgrades and equips, left column is upgrades, others are equips, with one row per equip type
     // Row 0
@@ -131,6 +145,63 @@ typedef enum {
     /* 32 */ QUAD_MAP_WORLD_IMAGE_FIRST,
     /* 46 */ QUAD_MAP_WORLD_IMAGE_LAST = QUAD_MAP_WORLD_IMAGE_FIRST + WORLD_MAP_IMAGE_FRAG_NUM - 1
 } MapQuad;
+
+#define ITEM_GRID_ROWS 4
+#define ITEM_GRID_COLS 6
+#define ITEM_GRID_CELL_WIDTH 32
+#define ITEM_GRID_CELL_HEIGHT 32
+#define ITEM_GRID_QUAD_MARGIN 2
+#define ITEM_GRID_QUAD_WIDTH (ITEM_GRID_CELL_WIDTH - (2 * ITEM_GRID_QUAD_MARGIN))
+#define ITEM_GRID_QUAD_HEIGHT (ITEM_GRID_CELL_HEIGHT - (2 * ITEM_GRID_QUAD_MARGIN))
+#define ITEM_GRID_QUAD_TEX_SIZE 32 // both width and height
+#define ITEM_GRID_QUAD_ENLARGE_OFFSET 2
+
+#define ITEM_GRID_SELECTED_QUAD_MARGIN (-2)
+#define ITEM_GRID_SELECTED_QUAD_WIDTH (ITEM_GRID_QUAD_WIDTH - (2 * ITEM_GRID_SELECTED_QUAD_MARGIN))
+#define ITEM_GRID_SELECTED_QUAD_HEIGHT (ITEM_GRID_QUAD_HEIGHT - (2 * ITEM_GRID_SELECTED_QUAD_MARGIN))
+#define ITEM_GRID_SELECTED_QUAD_TEX_SIZE 32 // both width and height
+
+#define ITEM_AMMO_DIGIT_QUAD_WIDTH 8
+#define ITEM_AMMO_DIGIT_QUAD_HEIGHT 8
+#define ITEM_AMMO_DIGIT_QUAD_TEX_SIZE 8
+
+// Relative to the corresponding QUAD_ITEM_GRID_ quad
+#define ITEM_AMMO_TENS_QUAD_OFFSET_X 0
+#define ITEM_AMMO_TENS_QUAD_OFFSET_Y 22
+
+// Relative to the ammo tens digit
+#define ITEM_AMMO_UNITS_QUAD_OFFSET_X 6
+#define ITEM_AMMO_UNITS_QUAD_OFFSET_Y 0
+
+typedef enum {
+    // 0..23 are the ITEM_GRID_ROWS*ITEM_GRID_COLS item grid
+    // The values follow the `InventorySlot` enum
+    /*  0 */ QUAD_ITEM_GRID_FIRST,
+    /* 23 */ QUAD_ITEM_GRID_LAST = ITEM_GRID_ROWS * ITEM_GRID_COLS - 1,
+    // Markers indicating the currently equipped items
+    /* 24 */ QUAD_ITEM_GRID_SELECTED_C_LEFT,
+    /* 25 */ QUAD_ITEM_GRID_SELECTED_C_DOWN,
+    /* 26 */ QUAD_ITEM_GRID_SELECTED_C_RIGHT,
+    // Digits for showing ammo count
+    /* 27 */ QUAD_ITEM_AMMO_FIRST,
+    /* 27 */ QUAD_ITEM_AMMO_STICK_TENS = QUAD_ITEM_AMMO_FIRST,
+    /* 28 */ QUAD_ITEM_AMMO_STICK_UNITS,
+    /* 29 */ QUAD_ITEM_AMMO_NUT_TENS,
+    /* 30 */ QUAD_ITEM_AMMO_NUT_UNITS,
+    /* 31 */ QUAD_ITEM_AMMO_BOMB_TENS,
+    /* 32 */ QUAD_ITEM_AMMO_BOMB_UNITS,
+    /* 33 */ QUAD_ITEM_AMMO_BOW_TENS,
+    /* 34 */ QUAD_ITEM_AMMO_BOW_UNITS,
+    /* 35 */ QUAD_ITEM_AMMO_SLINGSHOT_TENS,
+    /* 36 */ QUAD_ITEM_AMMO_SLINGSHOT_UNITS,
+    /* 37 */ QUAD_ITEM_AMMO_BOMBCHU_TENS,
+    /* 38 */ QUAD_ITEM_AMMO_BOMBCHU_UNITS,
+    /* 39 */ QUAD_ITEM_AMMO_BEAN_TENS,
+    /* 40 */ QUAD_ITEM_AMMO_BEAN_UNITS,
+    /* 41 */ QUAD_ITEM_AMMO_MAX,
+    /* 40 */ QUAD_ITEM_AMMO_LAST = QUAD_ITEM_AMMO_MAX - 1,
+    /* 41 */ QUAD_ITEM_MAX
+} ItemQuad;
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
