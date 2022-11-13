@@ -44,7 +44,7 @@ void EnFhgFire_SpearLight(EnFhgFire* this, PlayState* play);
 void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play);
 void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play);
 
-const ActorInit En_Fhg_Fire_InitVars = {
+ActorInit En_Fhg_Fire_InitVars = {
     0,
     ACTORCAT_BOSS,
     FLAGS,
@@ -212,7 +212,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, PlayState* play) {
                                                         (s16)(Rand_ZeroOne() * 100.0f) + 240, FHGFLASH_LIGHTBALL_GREEN);
                     }
                 }
-                func_80033E88(&this->actor, play, 4, 10);
+                Actor_RequestQuakeAndRumble(&this->actor, play, 4, 10);
             }
 
             break;
@@ -496,7 +496,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultReverb);
-                        func_800AA000(this->actor.xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
+                        Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
                     } else {
                         if (bossGnd->flyMode == GND_FLY_NEUTRAL) {
                             angleModX = Rand_CenteredFloat(0x2000);
@@ -525,7 +525,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         Audio_PlaySfxGeneral(NA_SE_IT_SWORD_REFLECT_MG, &player->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultReverb);
-                        func_800AA000(this->actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
+                        Rumble_Request(this->actor.xyzDistToPlayerSq, 180, 20, 100);
                     }
                 } else if (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f) {
                     killMode = BALL_BURST;

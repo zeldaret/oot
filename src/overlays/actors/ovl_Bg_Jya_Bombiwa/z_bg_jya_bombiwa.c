@@ -7,7 +7,7 @@
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -16,7 +16,7 @@ void BgJyaBombiwa_Destroy(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Update(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Jya_Bombiwa_InitVars = {
+ActorInit Bg_Jya_Bombiwa_InitVars = {
     ACTOR_BG_JYA_BOMBIWA,
     ACTORCAT_BG,
     FLAGS,
@@ -96,7 +96,7 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
                      this->dyna.actor.params & 0x3F);
         osSyncPrintf(VT_RST);
     }
-    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, DPM_UNK);
+    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);
     BgJyaBombiwa_InitCollider(this, play);
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
         Actor_Kill(&this->dyna.actor);

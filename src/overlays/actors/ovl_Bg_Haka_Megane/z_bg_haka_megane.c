@@ -19,7 +19,7 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play);
 void func_8087DBF0(BgHakaMegane* this, PlayState* play);
 void BgHakaMegane_DoNothing(BgHakaMegane* this, PlayState* play);
 
-const ActorInit Bg_Haka_Megane_InitVars = {
+ActorInit Bg_Haka_Megane_InitVars = {
     ACTOR_BG_HAKA_MEGANE,
     ACTORCAT_PROP,
     FLAGS,
@@ -63,7 +63,7 @@ void BgHakaMegane_Init(Actor* thisx, PlayState* play) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
 
     if (thisx->params < 3) {
         this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_HAKACH_OBJECTS);

@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_po_field/object_po_field.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoField_Init(Actor* thisx, PlayState* play);
 void EnPoField_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +33,7 @@ void EnPoField_SoulDisappear(EnPoField* this, PlayState* play);
 void EnPoField_SoulInteract(EnPoField* this, PlayState* play);
 void EnPoField_SpawnFlame(EnPoField* this);
 
-const ActorInit En_Po_Field_InitVars = {
+ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -424,8 +424,8 @@ void EnPoField_WaitForSpawn(EnPoField* this, PlayState* play) {
                 this->actor.world.pos.x = Math_SinS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.x;
                 this->actor.world.pos.z = Math_CosS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.z;
                 this->actor.world.pos.y = player->actor.world.pos.y + 1000.0f;
-                this->actor.world.pos.y = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId,
-                                                                      &this->actor, &this->actor.world.pos);
+                this->actor.world.pos.y = BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId,
+                                                                     &this->actor, &this->actor.world.pos);
                 if (this->actor.world.pos.y != BGCHECK_Y_MIN) {
                     this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &player->actor);
                     EnPoField_SetupAppear(this);

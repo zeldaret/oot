@@ -29,7 +29,7 @@ void func_80880D68(BgHakaTrap* this);
 
 static UNK_TYPE D_80880F30 = 0;
 
-const ActorInit Bg_Haka_Trap_InitVars = {
+ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
     ACTORCAT_BG,
     FLAGS,
@@ -130,7 +130,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 
             this->actionFunc = func_80880484;
         } else {
-            DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+            DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
             thisx->flags |= ACTOR_FLAG_4;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
@@ -180,7 +180,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
         thisx->uncullZoneScale = 500.0f;
     }
 
-    CollisionCheck_SetInfo(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
@@ -349,10 +349,9 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
 
 void func_808806BC(BgHakaTrap* this, PlayState* play) {
     Vec3f vector;
-    f32 tempf20;
-    f32 temp;
+    f32 floorHeight;
+    f32 yIntersect;
     s32 i;
-    s32 sp64;
 
     this->dyna.actor.velocity.y *= 1.6f;
 
@@ -364,20 +363,22 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     vector.y = (this->dyna.actor.world.pos.y + 1.0f) + 25.0f;
     vector.z = this->dyna.actor.world.pos.z;
 
-    tempf20 = this->dyna.actor.floorHeight;
+    floorHeight = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
-        temp =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &vector) -
+        s32 bgId;
+
+        yIntersect =
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &vector) -
             25.0f;
-        if (tempf20 < temp) {
-            tempf20 = temp;
+        if (floorHeight < yIntersect) {
+            floorHeight = yIntersect;
         }
 
         vector.x -= 90.0f;
     }
 
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, tempf20, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, floorHeight, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 0.01f) {
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
         }

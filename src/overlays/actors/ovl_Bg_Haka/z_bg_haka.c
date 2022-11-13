@@ -20,7 +20,7 @@ void func_8087B938(BgHaka* this, PlayState* play);
 void func_8087BAAC(BgHaka* this, PlayState* play);
 void func_8087BAE4(BgHaka* this, PlayState* play);
 
-const ActorInit Bg_Haka_InitVars = {
+ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
     ACTORCAT_BG,
     FLAGS,
@@ -43,7 +43,7 @@ void BgHaka_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gGravestoneCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8087B7E8;

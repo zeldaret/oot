@@ -41,7 +41,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play);
 s32 EnDaiku_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnDaiku_PostLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3s* rot, void* thisx);
 
-const ActorInit En_Daiku_InitVars = {
+ActorInit En_Daiku_InitVars = {
     ACTOR_EN_DAIKU,
     ACTORCAT_NPC,
     FLAGS,
@@ -407,7 +407,7 @@ void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     EnDaiku_InitSubCamera(this, play);
 
     exitLoop = false;
-    path = &play->setupPathList[this->actor.params >> 4 & 0xF];
+    path = &play->pathList[this->actor.params >> 4 & 0xF];
     while (!exitLoop) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
         dx = pointPos->x - this->actor.world.pos.x;
@@ -522,7 +522,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play) {
     f32 dxz;
     Vec3s* pointPos;
 
-    path = &play->setupPathList[this->actor.params >> 4 & 0xF];
+    path = &play->pathList[this->actor.params >> 4 & 0xF];
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
     dz = pointPos->z - this->actor.world.pos.z;

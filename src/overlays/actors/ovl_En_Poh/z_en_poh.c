@@ -8,7 +8,7 @@
 #include "assets/objects/object_poh/object_poh.h"
 #include "assets/objects/object_po_composer/object_po_composer.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoh_Init(Actor* thisx, PlayState* play);
 void EnPoh_Destroy(Actor* thisx, PlayState* play);
@@ -42,7 +42,7 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 
 static s16 D_80AE1A50 = 0;
 
-const ActorInit En_Poh_InitVars = {
+ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -984,8 +984,8 @@ void func_80AE089C(EnPoh* this) {
 void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
     EnPoh* this = (EnPoh*)thisx;
     s32 pad;
-    Vec3f vec;
-    s32 sp38;
+    Vec3f checkPos;
+    s32 bgId;
 
     if (this->colliderSph.base.atFlags & AT_HIT) {
         this->colliderSph.base.atFlags &= ~AT_HIT;
@@ -1013,11 +1013,11 @@ void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
     }
-    vec.x = this->actor.world.pos.x;
-    vec.y = this->actor.world.pos.y + 20.0f;
-    vec.z = this->actor.world.pos.z;
+    checkPos.x = this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 20.0f;
+    checkPos.z = this->actor.world.pos.z;
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &vec);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
     func_80AE089C(this);
     this->actor.shape.shadowAlpha = this->lightColor.a;
 }

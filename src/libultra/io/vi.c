@@ -26,10 +26,9 @@ void __osViInit(void) {
     __osViNext->state = VI_STATE_BLACK;
     __osViNext->features = __osViNext->modep->comRegs.ctrl;
 
-    while (HW_REG(VI_CURRENT_REG, u32) > 10) {
+    while (IO_READ(VI_CURRENT_REG) > 10) {
         ;
     }
-
-    HW_REG(VI_CONTROL_REG, u32) = 0;
+    IO_WRITE(VI_CONTROL_REG, 0);
     __osViSwapContext();
 }

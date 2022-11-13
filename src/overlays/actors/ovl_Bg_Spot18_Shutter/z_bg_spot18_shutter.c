@@ -20,7 +20,7 @@ void func_808B9618(BgSpot18Shutter* this, PlayState* play);
 void func_808B9698(BgSpot18Shutter* this, PlayState* play);
 void func_808B971C(BgSpot18Shutter* this, PlayState* play);
 
-const ActorInit Bg_Spot18_Shutter_InitVars = {
+ActorInit Bg_Spot18_Shutter_InitVars = {
     ACTOR_BG_SPOT18_SHUTTER,
     ACTORCAT_PROP,
     FLAGS,
@@ -42,7 +42,7 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
     s32 param = (this->dyna.actor.params >> 8) & 1;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (param == 0) {

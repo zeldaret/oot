@@ -16,7 +16,7 @@ void BgSpot11Bakudankabe_Destroy(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot11_Bakudankabe_InitVars = {
+ActorInit Bg_Spot11_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT11_BAKUDANKABE,
     ACTORCAT_BG,
     FLAGS,
@@ -112,7 +112,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;

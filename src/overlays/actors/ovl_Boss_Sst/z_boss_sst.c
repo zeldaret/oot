@@ -234,7 +234,7 @@ static Color_RGBA8 sBodyColor = { 255, 255, 255, 255 };
 static Color_RGBA8 sStaticColor = { 0, 0, 0, 255 };
 static s32 sHandState[] = { HAND_WAIT, HAND_WAIT };
 
-const ActorInit Boss_Sst_InitVars = {
+ActorInit Boss_Sst_InitVars = {
     ACTOR_BOSS_SST,
     ACTORCAT_BOSS,
     FLAGS,
@@ -246,7 +246,7 @@ const ActorInit Boss_Sst_InitVars = {
     (ActorFunc)BossSst_DrawHand,
 };
 
-#include "z_boss_sst_colchk.c"
+#include "z_boss_sst_colchk.inc.c"
 
 static AnimationHeader* sHandIdleAnims[] = { &gBongoLeftHandIdleAnim, &gBongoRightHandIdleAnim };
 static AnimationHeader* sHandFlatPoses[] = { &gBongoLeftHandFlatPoseAnim, &gBongoRightHandFlatPoseAnim };
@@ -381,7 +381,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     }
 
     Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     this->actionFunc = BossSst_HeadIntro;
 }
 
@@ -433,9 +433,15 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
             if (!this->ready) {
                 sFloor->dyna.actor.params = BONGOFLOOR_HIT;
                 this->ready = true;
-                func_800AA000(this->actor.xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
+                Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
                 Audio_PlayActorSfx2(&sFloor->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
             } else if (GET_EVENTCHKINF(EVENTCHKINF_77)) {
+                //! @bug This condition assumes that the second bounce on the ground will occur before frame 545 on the
+                //! timer. However, it is possible to delay Player's descent to the ground by, for example, jumpslashing
+                //! on the last possible frame before the cutscene takes control. This delays Player's fall to the
+                //! ground by enough time such that the second bounce will occur after the timer has decremented past
+                //! 546. The end result is that the cutscene will not be shortened like it should even though the flag
+                //! is set.
                 sHands[RIGHT]->actor.draw = BossSst_DrawHand;
                 sHands[LEFT]->actor.draw = BossSst_DrawHand;
                 this->actor.draw = BossSst_DrawHead;
@@ -595,7 +601,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
                         TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gBongoTitleCardTex),
                                                160, 180, 128, 40);
                     }
-                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
                     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadEyeCloseAnim, -5.0f);
                     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DISAPPEAR);
                 }
@@ -1009,7 +1015,7 @@ void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
     this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[LEFT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[RIGHT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     sSubCamId = Play_CreateSubCamera(play);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
@@ -1154,7 +1160,7 @@ void BossSst_HeadMelt(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupFinish(BossSst* this) {
     this->actor.draw = BossSst_DrawEffects;
     this->timer = 40;
-    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
     BossSst_SetCameraTargets(1.0 / 40, 6);
     this->actionFunc = BossSst_HeadFinish;
 }
@@ -1282,7 +1288,7 @@ void BossSst_HandDownbeat(BossSst* this, PlayState* play) {
             } else {
                 BossSst_HandSetupDownbeatEnd(this);
             }
-            func_800AA000(this->actor.xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
+            Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
         }
     }

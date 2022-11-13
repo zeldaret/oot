@@ -7,7 +7,7 @@
 #include "z_en_kanban.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_kanban/object_kanban.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -75,7 +75,7 @@ void EnKanban_Destroy(Actor* thisx, PlayState* play);
 void EnKanban_Update(Actor* thisx, PlayState* play2);
 void EnKanban_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Kanban_InitVars = {
+ActorInit En_Kanban_InitVars = {
     ACTOR_EN_KANBAN,
     ACTORCAT_PROP,
     FLAGS,
@@ -784,7 +784,7 @@ static Gfx* sDisplayLists[] = {
     object_kanban_DL_0013D0, object_kanban_DL_001488, object_kanban_DL_001540,
 };
 
-#include "z_en_kanban_gfx.c"
+#include "z_en_kanban_gfx.inc.c"
 
 static f32 sCutAngles[] = {
     /* CUT_POST   */ 0.50f * M_PI,

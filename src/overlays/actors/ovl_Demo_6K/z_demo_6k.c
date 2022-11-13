@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_6k.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_demo_6k/object_demo_6k.h"
 #include "assets/objects/object_gnd_magic/object_gnd_magic.h"
@@ -37,7 +37,7 @@ void func_80968B70(Actor* thisx, PlayState* play);
 void func_80968FB0(Actor* thisx, PlayState* play);
 void func_809691BC(Demo6K* this, PlayState* play, s32 params);
 
-const ActorInit Demo_6K_InitVars = {
+ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
     ACTORCAT_PROP,
     FLAGS,

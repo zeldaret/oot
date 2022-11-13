@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
@@ -680,7 +680,7 @@ s32 Collider_ResetTrisElementOC(PlayState* play, ColliderTrisElement* element) {
 s32 Collider_InitTris(PlayState* play, ColliderTris* tris) {
     Collider_InitBase(play, &tris->base);
     tris->count = 0;
-    tris->elements = 0;
+    tris->elements = NULL;
     return true;
 }
 

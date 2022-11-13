@@ -5,7 +5,7 @@
  */
 
 #include "z_en_hs2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_hs/object_hs.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
@@ -16,7 +16,7 @@ void EnHs2_Update(Actor* thisx, PlayState* play);
 void EnHs2_Draw(Actor* thisx, PlayState* play);
 void func_80A6F1A4(EnHs2* this, PlayState* play);
 
-const ActorInit En_Hs2_InitVars = {
+ActorInit En_Hs2_InitVars = {
     ACTOR_EN_HS2,
     ACTORCAT_NPC,
     FLAGS,
@@ -113,7 +113,7 @@ void EnHs2_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
     this->actionFunc(this, play);

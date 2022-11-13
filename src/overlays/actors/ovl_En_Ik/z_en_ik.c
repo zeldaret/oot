@@ -7,7 +7,7 @@
 #include "z_en_ik.h"
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -427,8 +427,8 @@ void func_80A74EBC(EnIk* this, PlayState* play) {
         sp2C.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.y = this->actor.world.pos.y;
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
-        Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         CollisionCheck_SpawnShieldParticles(play, &sp2C);
     }
 
@@ -663,7 +663,7 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     u8 pad;
     u8 pad2;
     u8 prevHealth;
-    s32 temp_v0_3;
+    s32 pad3;
     Vec3f sp38;
 
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
@@ -684,11 +684,8 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
     Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
-    temp_v0_3 = this->actor.colChkInfo.damageEffect;
-    this->unk_2FD = temp_v0_3 & 0xFF;
+    this->unk_2FD = this->actor.colChkInfo.damageEffect;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
-
-    if (1) {}
 
     if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
         if (this->unk_2FD != 0) {
@@ -1449,7 +1446,7 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit En_Ik_InitVars = {
+ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORCAT_BOSS,
     FLAGS,

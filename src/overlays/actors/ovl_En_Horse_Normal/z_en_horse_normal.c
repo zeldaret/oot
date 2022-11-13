@@ -39,7 +39,7 @@ void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
-const ActorInit En_Horse_Normal_InitVars = {
+ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORCAT_BG,
     FLAGS,
@@ -207,7 +207,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
             return;
         }
         if (!LINK_IS_ADULT) {
-            if (Flags_GetEventChkInf(EVENTCHKINF_14)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 if (this->actor.world.rot.z != 3) {
                     Actor_Kill(&this->actor);
                     return;
@@ -216,7 +216,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (Flags_GetEventChkInf(EVENTCHKINF_18) || (DREG(1) != 0)) {
+        } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
             if (this->actor.world.rot.z != 7) {
                 Actor_Kill(&this->actor);
                 return;
@@ -286,7 +286,7 @@ void func_80A6B91C(EnHorseNormal* this, PlayState* play) {
 }
 
 void EnHorseNormal_FollowPath(EnHorseNormal* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->actor.params & 0xF];
+    Path* path = &play->pathList[this->actor.params & 0xF];
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
     f32 dz;
@@ -557,15 +557,15 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, PlayState* play) {
 
 void func_80A6C8E0(EnHorseNormal* this, PlayState* play) {
     s32 pad;
-    CollisionPoly* sp38;
+    CollisionPoly* groundPoly;
     s32 pad2;
-    Vec3f sp28;
-    s32 sp24;
+    Vec3f checkPos;
+    s32 bgId;
 
-    sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
-    sp28.y = this->actor.world.pos.y + 60.0f;
-    sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
-    this->unk_220 = BgCheck_EntityRaycastFloor3(&play->colCtx, &sp38, &sp24, &sp28);
+    checkPos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 60.0f;
+    checkPos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
+    this->unk_220 = BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &checkPos);
     this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_220, 30.0f));
 }
 

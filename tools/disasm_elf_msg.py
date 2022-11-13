@@ -210,32 +210,32 @@ def disas_elfmsgs(start):
 
         if condition_type == 0:
             if elf_message_type == 0xE0 and b1 == 0 and not (b0 & 1):
-                print(f"ELF_MSG_END({ARG_1}),")
+                print(f"QUEST_HINT_END({ARG_1}),")
             else:
-                print(f"ELF_MSG_FLAG({ARG_0}, {ARG_1}, {ARG_2}, 0x{b1:02X}), /* eventChkInf[{(b1 >> 4) & 0xF}] & 0x{1 << (b1 & 0xF):X} */")
+                print(f"QUEST_HINT_FLAG({ARG_0}, {ARG_1}, {ARG_2}, 0x{b1:02X}), /* eventChkInf[{(b1 >> 4) & 0xF}] & 0x{1 << (b1 & 0xF):X} */")
             assert b3 == 0
         elif condition_type == 2:
-            print(f"ELF_MSG_DUNGEON_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}),")
+            print(f"QUEST_HINT_DUNGEON_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}),")
             assert b3 == 0
         elif condition_type == 4:
-            print(f"ELF_MSG_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}, {item_ids[b3]}),")
+            print(f"QUEST_HINT_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}, {item_ids[b3]}),")
         elif condition_type == 6:
             condition_other_type = b1 & 0xF0
 
             if condition_other_type == 0:
-                print(f"ELF_MSG_STRENGTH_UPG({ARG_0}, {ARG_1}, {ARG_2}, {b1 & 0xF}),")
+                print(f"QUEST_HINT_STRENGTH_UPG({ARG_0}, {ARG_1}, {ARG_2}, {b1 & 0xF}),")
                 assert b3 == 0
             elif condition_other_type == 0x10:
-                print(f"ELF_MSG_BOOTS({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"QUEST_HINT_BOOTS({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x20:
-                print(f"ELF_MSG_SONG({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"QUEST_HINT_SONG({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x30:
-                print(f"ELF_MSG_MEDALLION({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"QUEST_HINT_MEDALLION({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x40:
-                print(f"ELF_MSG_MAGIC({ARG_0}, {ARG_1}, {ARG_2}),")
+                print(f"QUEST_HINT_MAGIC({ARG_0}, {ARG_1}, {ARG_2}),")
                 assert (b1 & 0xF) == 0
                 assert b3 == 0
             else:

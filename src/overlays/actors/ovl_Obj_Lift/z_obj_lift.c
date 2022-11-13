@@ -7,6 +7,7 @@
 #include "z_obj_lift.h"
 #include "assets/objects/object_d_lift/object_d_lift.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "quake.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -23,7 +24,7 @@ void func_80B96560(ObjLift* this, PlayState* play);
 void func_80B96678(ObjLift* this, PlayState* play);
 void func_80B96840(ObjLift* this, PlayState* play);
 
-const ActorInit Obj_Lift_InitVars = {
+ActorInit Obj_Lift_InitVars = {
     ACTOR_OBJ_LIFT,
     ACTORCAT_BG,
     FLAGS,
@@ -106,7 +107,7 @@ void func_80B96160(ObjLift* this, PlayState* play) {
 void ObjLift_Init(Actor* thisx, PlayState* play) {
     ObjLift* this = (ObjLift*)thisx;
 
-    ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DPM_PLAYER);
+    ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DYNA_TRANSFORM_POS);
 
     if (Flags_GetSwitch(play, (this->dyna.actor.params >> 2) & 0x3F)) {
         Actor_Kill(&this->dyna.actor);
@@ -142,10 +143,10 @@ void func_80B96560(ObjLift* this, PlayState* play) {
             if (((this->dyna.actor.params >> 8) & 7) == 7) {
                 func_80B967C0(this);
             } else {
-                quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
                 Quake_SetSpeed(quakeIndex, 10000);
-                Quake_SetQuakeValues(quakeIndex, 2, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 20);
+                Quake_SetPerturbations(quakeIndex, 2, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 20);
                 func_80B9664C(this);
             }
         }
@@ -189,13 +190,13 @@ void func_80B967C0(ObjLift* this) {
 void func_80B96840(ObjLift* this, PlayState* play) {
     s32 pad;
     s32 bgId;
-    Vec3f sp2C;
+    Vec3f pos;
 
     Actor_MoveForward(&this->dyna.actor);
-    Math_Vec3f_Copy(&sp2C, &this->dyna.actor.prevPos);
-    sp2C.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
+    Math_Vec3f_Copy(&pos, &this->dyna.actor.prevPos);
+    pos.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
     this->dyna.actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &sp2C);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
 
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >=
         (sMaxFallDistances[(this->dyna.actor.params >> 1) & 1] - 0.001f)) {

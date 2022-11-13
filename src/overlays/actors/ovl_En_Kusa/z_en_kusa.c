@@ -10,7 +10,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_kusa/object_kusa.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
@@ -41,7 +41,7 @@ static s16 rotSpeedX = 0;
 static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 
-const ActorInit En_Kusa_InitVars = {
+ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORCAT_PROP,
     FLAGS,
@@ -99,7 +99,7 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     s32 pad;
-    CollisionPoly* poly;
+    CollisionPoly* groundPoly;
     Vec3f pos;
     s32 bgId;
     f32 floorY;
@@ -108,7 +108,7 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     pos.y = this->actor.world.pos.y + 30.0f;
     pos.z = this->actor.world.pos.z;
 
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->actor, &pos);
+    floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &groundPoly, &bgId, &this->actor, &pos);
 
     if (floorY > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = floorY + yOffset;

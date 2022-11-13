@@ -89,7 +89,7 @@ def processZAPDArgs(argsZ):
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
     parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
-    parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones.", action="store_true")
+    parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones, and text (overwriting current files).", action="store_true")
     parser.add_argument("-j", "--jobs", help="Number of cpu cores to extract with.")
     parser.add_argument("-u", "--unaccounted", help="Enables ZAPD unaccounted detector warning system.", action="store_true")
     parser.add_argument("-Z", help="Pass the argument on to ZAPD, e.g. `-ZWunaccounted` to warn about unaccounted blocks in XMLs. Each argument should be passed separately, *without* the leading dash.", metavar="ZAPD_ARG", action="append")
@@ -122,13 +122,16 @@ def main():
         ExtractFunc(fullPath)
     else:
         extract_text_path = "assets/text/message_data.h"
-        if os.path.isfile(extract_text_path):
-            extract_text_path = None
         extract_staff_text_path = "assets/text/message_data_staff.h"
-        if os.path.isfile(extract_staff_text_path):
-            extract_staff_text_path = None
+
         # Only extract text if the header does not already exist, or if --force was passed
-        if args.force or extract_text_path is not None or extract_staff_text_path is not None:
+        if not args.force:
+            if os.path.isfile(extract_text_path):
+                extract_text_path = None
+            if os.path.isfile(extract_staff_text_path):
+                extract_staff_text_path = None
+
+        if extract_text_path is not None or extract_staff_text_path is not None:
             print("Extracting text")
             from tools import msgdis
             msgdis.extract_all_text(extract_text_path, extract_staff_text_path)

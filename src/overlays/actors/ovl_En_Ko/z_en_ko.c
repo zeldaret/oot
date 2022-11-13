@@ -9,7 +9,7 @@
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_km1/object_km1.h"
 #include "assets/objects/object_kw1/object_kw1.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -30,7 +30,7 @@ void func_80A99560(EnKo* this, PlayState* play);
 
 s32 func_80A98ECC(EnKo* this, PlayState* play);
 
-const ActorInit En_Ko_InitVars = {
+ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORCAT_NPC,
     FLAGS,
@@ -950,7 +950,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
         ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_SPOT10) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
-        if (func_8002F368(play) == ENKO_TYPE_CHILD_9) {
+        if (func_8002F368(play) == EXCH_ITEM_ODD_POTION) {
             this->actor.textId = GET_INFTABLE(INFTABLE_BC) ? 0x10B8 : 0x10B7;
             this->unk_210 = 0;
         }

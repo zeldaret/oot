@@ -1,6 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 typedef struct {
     /* 0x00 */ u16 sfxId;
@@ -52,15 +52,15 @@ void Audio_SetSfxBanksMute(u16 muteMask) {
 
 void Audio_QueueSeqCmdMute(u8 channelIdx) {
     D_801333D0 |= (1 << channelIdx);
-    Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 2, 0x40, 0xF);
-    Audio_SetVolScale(SEQ_PLAYER_BGM_SUB, 2, 0x40, 0xF);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_SFX, 0x40, 0xF);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_SFX, 0x40, 0xF);
 }
 
 void Audio_ClearBGMMute(u8 channelIdx) {
     D_801333D0 &= ((1 << channelIdx) ^ 0xFFFF);
     if (D_801333D0 == 0) {
-        Audio_SetVolScale(SEQ_PLAYER_BGM_MAIN, 2, 0x7F, 0xF);
-        Audio_SetVolScale(SEQ_PLAYER_BGM_SUB, 2, 0x7F, 0xF);
+        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_SFX, 0x7F, 0xF);
+        Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_SFX, 0x7F, 0xF);
     }
 }
 
@@ -441,7 +441,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
         entryIndex = gActiveSfx[bankId][i].entryIndex;
         if (entryIndex != 0xFF) {
             entry = &gSfxBanks[bankId][entryIndex];
-            channel = gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
+            channel = gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[sCurSfxPlayerChannelIdx];
             if (entry->state == SFX_STATE_READY) {
                 entry->channelIdx = sCurSfxPlayerChannelIdx;
                 if (entry->sfxParams & SFX_FLAG_3) {
@@ -476,7 +476,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
                 } else {
                     entry->state = SFX_STATE_PLAYING_2;
                 }
-            } else if ((u8)channel->soundScriptIO[1] == 0xFF) {
+            } else if ((u8)channel->soundScriptIO[1] == (u8)SEQ_IO_VAL_NONE) {
                 Audio_RemoveSfxBankEntry(bankId, entryIndex);
             } else if (entry->state == SFX_STATE_PLAYING_REFRESH) {
                 Audio_SetSfxProperties(bankId, entryIndex, sCurSfxPlayerChannelIdx);
@@ -661,7 +661,7 @@ void Audio_StepUnusedBankLerp(u8 bankId) {
 void func_800F8F88(void) {
     u8 bankId;
 
-    if (IS_SEQUENCE_CHANNEL_VALID(gAudioContext.seqPlayers[SEQ_PLAYER_SFX].channels[0])) {
+    if (IS_SEQUENCE_CHANNEL_VALID(gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[0])) {
         sCurSfxPlayerChannelIdx = 0;
         for (bankId = 0; bankId < ARRAY_COUNT(gSfxBanks); bankId++) {
             Audio_ChooseActiveSfx(bankId);

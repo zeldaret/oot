@@ -5,7 +5,7 @@
  */
 
 #include "z_en_nb.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -86,7 +86,7 @@ static void* sEyeTextures[] = {
 static s32 D_80AB4318 = 0;
 
 #pragma asmproc recurse
-#include "z_en_nb_cutscene_data.c"
+#include "z_en_nb_cutscene_data.inc.c"
 
 s32 EnNb_GetPath(EnNb* this) {
     s32 path = this->actor.params >> 8;
@@ -106,7 +106,7 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
     s32 pad;
     s32 path;
 
-    pathList = play->setupPathList;
+    pathList = play->pathList;
 
     if (pathList != NULL) {
         path = EnNb_GetPath(this);
@@ -336,7 +336,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == 3) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = NB_CHAMBER_UNDERGROUND;
-        play->csCtx.segment = &D_80AB431C;
+        play->csCtx.segment = D_80AB431C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SPIRIT);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -1526,7 +1526,7 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-const ActorInit En_Nb_InitVars = {
+ActorInit En_Nb_InitVars = {
     ACTOR_EN_NB,
     ACTORCAT_NPC,
     FLAGS,

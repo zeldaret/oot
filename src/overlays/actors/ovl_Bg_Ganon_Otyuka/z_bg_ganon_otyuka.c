@@ -6,7 +6,7 @@
 
 #include "z_bg_ganon_otyuka.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -25,7 +25,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Ganon_Otyuka_InitVars = {
+ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
     ACTORCAT_PROP,
     FLAGS,
@@ -71,7 +71,7 @@ void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&sCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
@@ -211,7 +211,7 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
                                   (s16)Rand_ZeroFloat(100.0f) + 250, 5, (s16)Rand_ZeroFloat(5.0f) + 15);
                 }
 
-                func_80033DB8(play, 10, 15);
+                Actor_RequestQuake(play, 10, 15);
                 SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
             }
             Actor_Kill(&this->dyna.actor);

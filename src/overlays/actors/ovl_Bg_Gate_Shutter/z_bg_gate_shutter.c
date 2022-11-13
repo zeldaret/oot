@@ -6,7 +6,7 @@
 
 #include "z_bg_gate_shutter.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -20,7 +20,7 @@ void func_80878300(BgGateShutter* this, PlayState* play);
 void func_808783AC(BgGateShutter* this, PlayState* play);
 void func_808783D4(BgGateShutter* this, PlayState* play);
 
-const ActorInit Bg_Gate_Shutter_InitVars = {
+ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -37,7 +37,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->world.pos.x;

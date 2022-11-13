@@ -8,7 +8,7 @@
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -117,7 +117,7 @@ typedef struct {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-const ActorInit Fishing_InitVars = {
+ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
     FLAGS,
@@ -867,7 +867,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
 
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0100FF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
 
         if (sLinkAge == LINK_AGE_CHILD) {
             if ((HIGH_SCORE(HS_FISHING) & 0x7F) != 0) {
@@ -3486,7 +3486,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     }
                     D_80B7E122 = phi_v0;
                     D_80B7E0A4 = phi_v0;
-                    func_800A9F6C(0.0f, 60, phi_v0 * 3, 10);
+                    Rumble_Override(0.0f, 60, phi_v0 * 3, 10);
                 } else {
                     if (this->unk_1AC > 70.0f) {
                         phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 10;
@@ -3499,7 +3499,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     }
                     D_80B7E122 = phi_v0;
                     D_80B7E0A4 = phi_v0;
-                    func_800A9F6C(0.0f, 180, phi_v0 * 3, 10);
+                    Rumble_Override(0.0f, 180, phi_v0 * 3, 10);
                 }
 
                 D_80B7E124 = 0;
@@ -3541,11 +3541,11 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 if (D_80B7E0B6 == 2) {
                     D_80B7E122 = 30;
                     D_80B7E0A4 = 100;
-                    func_800A9F6C(0.0f, 60, 90, 10);
+                    Rumble_Override(0.0f, 60, 90, 10);
                 } else {
                     D_80B7E122 = 30;
                     D_80B7E0A4 = 40;
-                    func_800A9F6C(0.0f, 180, 90, 10);
+                    Rumble_Override(0.0f, 180, 90, 10);
                 }
 
                 D_80B7E124 = 0;
@@ -3568,7 +3568,6 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             if (D_80B7E124 == 0) {
                 if ((D_80B7FEA0 < 20) && ((D_80B7E0AE & 3) == 0)) {
                     D_80B7FEA0++;
-                    if (1) {}
                 }
             }
 
@@ -3586,7 +3585,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->unk_198 = 1.7f;
                     this->unk_19C = 7000.0f;
                     D_80B7E124 = 1;
-                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
+                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
                     D_80B7E0A6 = 0;
 
                     if (this->unk_150 == 1) {
@@ -3598,7 +3597,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         spA4 = 255.0f;
                     }
 
-                    func_800A9F6C(0.0f, spA4, 120, 5);
+                    Rumble_Override(0.0f, spA4, 120, 5);
                     D_80B7E0A4 = 40;
                     D_80B7FDA8 = 10;
                     func_80078884(NA_SE_IT_FISHING_HIT);
@@ -3629,7 +3628,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         spA4 *= 3.0f / 4.0f;
                     }
 
-                    func_800A9F6C(0.0f, spA4, (s16)Rand_ZeroFloat(5.0f) + 10, 5);
+                    Rumble_Override(0.0f, spA4, (s16)Rand_ZeroFloat(5.0f) + 10, 5);
                 }
 
                 if (this->unk_17A[1] > 30) {
@@ -3660,7 +3659,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                             } else {
                                 phi_a1 = 180;
                             }
-                            func_800A9F6C(0.0f, phi_a1, 90, 2);
+                            Rumble_Override(0.0f, phi_a1, 90, 2);
                             this->unk_17A[0] = 20;
                             this->unk_17A[1] = 100;
                             this->unk_17A[2] = 20;
@@ -3790,8 +3789,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     }
                 } else {
                     D_80B7E086 = 0x4082;
-                    func_800A9F6C(0.0f, 1, 3, 1);
-                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0A00FF);
+                    Rumble_Override(0.0f, 1, 3, 1);
+                    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 10);
                 }
 
                 this->unk_158 = this->unk_15A = 0;
@@ -3813,7 +3812,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->unk_158 = 6;
                 this->unk_17A[0] = 100;
                 player->unk_860 = 3;
-                func_800A9F6C(0.0f, 1, 3, 1);
+                Rumble_Override(0.0f, 1, 3, 1);
                 D_80B7E084++;
                 func_80064520(play, &play->csCtx);
                 D_80B7A6CC = 100;
@@ -3859,7 +3858,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if (this->unk_17A[0] == 90) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HEART_GET | 0x900);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 9, NA_BGM_HEART_GET);
                 D_80B7A67C = 40;
 
                 if (this->unk_150 == 0) {
@@ -3963,17 +3962,18 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     SkelAnime_Free(&this->skelAnime, play);
 
                     if (this->unk_150 == 0) {
-                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, 0, 0, 0);
+                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, NULL, NULL, 0);
                         Animation_MorphToLoop(&this->skelAnime, &gFishingFishAnim, 0.0f);
                     } else {
-                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, 0, 0, 0);
+                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, NULL, NULL,
+                                           0);
                         Animation_MorphToLoop(&this->skelAnime, &gFishingLoachAnim, 0.0f);
                     }
                 }
 
                 D_80B7E148 = 520.0f;
                 D_80B7E144 = 195.0f;
-                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA00FF);
+                SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 10);
                 D_80B7E0A6 = 20;
                 D_80B7A6CC = 3;
             }
@@ -4066,8 +4066,6 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         func_8002D7EC(&this->actor);
 
         this->actor.world.pos.y += (this->unk_184 * 1.5f);
-
-        if (1) {}
 
         if (this->unk_152 != 0) {
             this->unk_168 = this->unk_154;
@@ -4761,7 +4759,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     case 0:
                         if (gSaveContext.rupees >= 20) {
                             Rupees_ChangeBy(-20);
-                            if (func_800AA148() == 0) {
+                            if (!Rumble_Controller1HasRumblePak()) {
                                 this->actor.textId = 0x407C;
                             } else {
                                 this->actor.textId = 0x407D;
@@ -5204,18 +5202,18 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         (fabsf(player->actor.world.pos.z - sSinkingLureLocationPos[sSinkingLureLocation - 1].z) < 25.0f)) {
         sSinkingLureLocation = 0;
         D_80B7A6CC = 20;
-        func_800A9F6C(0.0f, 150, 10, 10);
+        Rumble_Override(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 20);
     }
 
     if (KREG(0) != 0) {
         KREG(0) = 0;
         D_80B7E0B6 = 0;
         D_80B7A6CC = 20;
-        func_800A9F6C(0.0f, 150, 10, 10);
+        Rumble_Override(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 20);
     }
 
     if (D_80B7A6D0 != 0) {
@@ -5373,7 +5371,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.z = mainCam->at.z;
             Message_StartTextbox(play, 0x409E, NULL);
             D_80B7A6CC = 11;
-            func_800A9F6C(0.0f, 150, 10, 10);
+            Rumble_Override(0.0f, 150, 10, 10);
             FALLTHROUGH;
         }
 
@@ -5431,7 +5429,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
         case 22:
             if (D_80B7A6D0 == 30) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ITEM_GET | 0x900);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 9, NA_BGM_ITEM_GET);
             }
 
             D_80B7A6D4 = 1;
@@ -5518,9 +5516,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         if (sSubCamEye.y <= (WATER_SURFACE_Y(play) + 1.0f)) {
             Environment_EnableUnderwaterLights(play, 1);
             if (D_80B7E076 != 0) {
-                play->envCtx.adjFogNear = -0xB2;
+                play->envCtx.adjFogNear = -178;
             } else {
-                play->envCtx.adjFogNear = -0x2E;
+                play->envCtx.adjFogNear = -46;
             }
         } else {
             Environment_EnableUnderwaterLights(play, 0);
@@ -5740,15 +5738,15 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
 
         if (D_80B7E0A6 == 0) {
             if (sLinkAge != LINK_AGE_CHILD) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_KID);
             }
 
             if (sLinkAge != LINK_AGE_CHILD) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_KID);
             }
         }
     }

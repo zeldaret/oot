@@ -1,5 +1,5 @@
 #include "ultra64/asm.h"
-#include "ultra64/r4300.h"
+#include "ultra64/R4300.h"
 #include "ultra64/thread.h"
 
 .set noat

@@ -1,7 +1,7 @@
 #include "z_en_crow.h"
 #include "assets/objects/object_crow/object_crow.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
 
 void EnCrow_Init(Actor* thisx, PlayState* play);
 void EnCrow_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +18,7 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play);
 
 static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Crow_InitVars = {
+ActorInit En_Crow_InitVars = {
     ACTOR_EN_CROW,
     ACTORCAT_ENEMY,
     FLAGS,

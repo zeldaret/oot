@@ -15,7 +15,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play);
 void EnBomChu_Move(EnBomChu* this, PlayState* play);
 void EnBomChu_WaitForKill(EnBomChu* this, PlayState* play);
 
-const ActorInit En_Bom_Chu_InitVars = {
+ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
     ACTORCAT_EXPLOSIVE,
     FLAGS,
@@ -275,8 +275,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
 
     if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posUpDown, &polyUpDown, true, true, true, true,
                                 &bgIdUpDown) &&
-        !(SurfaceType_GetWallFlags(&play->colCtx, polyUpDown, bgIdUpDown) &
-          (WALL_FLAG_4 | WALL_FLAG_5)) && // && not crawl space?
+        !(SurfaceType_GetWallFlags(&play->colCtx, polyUpDown, bgIdUpDown) & WALL_FLAG_CRAWLSPACE) &&
         !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polyUpDown, bgIdUpDown)) {
         // forwards
         posB.x = (this->axisForwards.x * lineLength) + posA.x;
@@ -285,7 +284,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
 
         if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
                                     &bgIdSide) &&
-            !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & (WALL_FLAG_4 | WALL_FLAG_5)) &&
+            !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE) &&
             !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
             EnBomChu_UpdateFloorPoly(this, polySide, play);
             this->actor.world.pos = posSide;
@@ -324,7 +323,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
 
             if (BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, &posSide, &polySide, true, true, true, true,
                                         &bgIdSide) &&
-                !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & (WALL_FLAG_4 | WALL_FLAG_5)) &&
+                !(SurfaceType_GetWallFlags(&play->colCtx, polySide, bgIdSide) & WALL_FLAG_CRAWLSPACE) &&
                 !SurfaceType_IsIgnoredByProjectiles(&play->colCtx, polySide, bgIdSide)) {
                 EnBomChu_UpdateFloorPoly(this, polySide, play);
                 this->actor.world.pos = posSide;
@@ -400,7 +399,7 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
 
     if (this->actor.floorBgId != BGCHECK_SCENE) {
         yaw = this->actor.shape.rot.y;
-        func_800433A4(&play->colCtx, this->actor.floorBgId, &this->actor);
+        DynaPolyActor_TransformCarriedActor(&play->colCtx, this->actor.floorBgId, &this->actor);
 
         if (yaw != this->actor.shape.rot.y) {
             yaw = this->actor.shape.rot.y - yaw;

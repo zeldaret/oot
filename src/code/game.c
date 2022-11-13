@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
@@ -84,7 +84,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (gIsCtrlr2Valid) {
-        func_8006390C(&gameState->input[1]);
+        Regs_UpdateEditor(&gameState->input[1]);
     }
 
     gDmaMgrVerbose = HREG(60);
@@ -227,10 +227,10 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
 
-void PadMgr_RequestPadData(PadMgr*, Input*, s32);
+void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
 
 void GameState_ReqPadData(GameState* gameState) {
-    PadMgr_RequestPadData(&gPadMgr, &gameState->input[0], 1);
+    PadMgr_RequestPadData(&gPadMgr, gameState->input, true);
 }
 
 void GameState_Update(GameState* gameState) {
@@ -412,7 +412,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
-    func_800AA0B4();
+    Rumble_Init();
     osSendMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
 
     endTime = osGetTime();
@@ -433,7 +433,7 @@ void GameState_Destroy(GameState* gameState) {
     if (gameState->destroy != NULL) {
         gameState->destroy(gameState);
     }
-    func_800AA0F0();
+    Rumble_Destroy();
     SpeedMeter_Destroy(&D_801664D0);
     func_800ACE90(&D_801664F0);
     func_800AD950(&D_80166500);
