@@ -16,7 +16,7 @@ void EnHorseZelda_Draw(Actor* thisx, PlayState* play);
 
 void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play);
-void EnHorseZelda_ResetAnimation(EnHorseZelda* this);
+void EnHorseZelda_SetupStop(EnHorseZelda* this);
 
 ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
@@ -167,7 +167,7 @@ void EnHorseZelda_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->animationIndex = 0;
-    EnHorseZelda_ResetAnimation(this);
+    EnHorseZelda_SetupStop(this);
 }
 
 void EnHorseZelda_Destroy(Actor* thisx, PlayState* play) {
@@ -178,7 +178,7 @@ void EnHorseZelda_Destroy(Actor* thisx, PlayState* play) {
     Skin_Free(play, &this->skin);
 }
 
-void EnHorseZelda_ResetAnimation(EnHorseZelda* this) {
+void EnHorseZelda_SetupStop(EnHorseZelda* this) {
     this->action = 0;
     this->animationIndex++;
     if (this->animationIndex > 0) {
@@ -190,7 +190,7 @@ void EnHorseZelda_ResetAnimation(EnHorseZelda* this) {
 void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        EnHorseZelda_ResetAnimation(this);
+        EnHorseZelda_SetupStop(this);
     }
 }
 
