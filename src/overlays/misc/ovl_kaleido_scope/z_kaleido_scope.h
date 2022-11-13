@@ -65,7 +65,6 @@ typedef enum {
 #define EQUIP_CURSOR_X_UPG 0
 #define EQUIP_CURSOR_Y_BULLETBAG_QUIVER 0
 
-
 #define EQUIP_GRID_CELL_WIDTH 32
 #define EQUIP_GRID_CELL_HEIGHT 32
 #define EQUIP_GRID_QUAD_MARGIN 2
@@ -77,7 +76,6 @@ typedef enum {
 #define EQUIP_GRID_SELECTED_QUAD_WIDTH (EQUIP_GRID_QUAD_WIDTH - (2 * EQUIP_GRID_SELECTED_QUAD_MARGIN))
 #define EQUIP_GRID_SELECTED_QUAD_HEIGHT (EQUIP_GRID_QUAD_HEIGHT - (2 * EQUIP_GRID_SELECTED_QUAD_MARGIN))
 #define EQUIP_GRID_SELECTED_QUAD_TEX_SIZE 32 // both width and height
-
 
 typedef enum {
     // Grid of upgrades and equips, left column is upgrades, others are equips, with one row per equip type
@@ -202,6 +200,15 @@ typedef enum {
     /* 40 */ QUAD_ITEM_AMMO_LAST = QUAD_ITEM_AMMO_MAX - 1,
     /* 41 */ QUAD_ITEM_MAX
 } ItemQuad;
+
+typedef enum {
+    /* 0 */ QUAD_PROMPT_MESSAGE,
+    /* 1 */ QUAD_PROMPT_CURSOR_LEFT,
+    /* 2 */ QUAD_PROMPT_CURSOR_RIGHT,
+    /* 3 */ QUAD_PROMPT_CHOICE_YES,
+    /* 4 */ QUAD_PROMPT_CHOICE_NO,
+    /* 5 */ QUAD_PROMPT_MAX
+} PromptQuad;
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);

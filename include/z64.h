@@ -866,7 +866,7 @@ typedef struct {
     /* 0x0160 */ char   unk_160[0x04];
     /* 0x0164 */ Vtx*   questVtx;
     /* 0x0168 */ Vtx*   cursorVtx;
-    /* 0x016C */ Vtx*   saveVtx;
+    /* 0x016C */ Vtx*   promptPageVtx;
     /* 0x0170 */ char   unk_170[0x24];
     /* 0x0194 */ OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char   unk_198[0x20];
