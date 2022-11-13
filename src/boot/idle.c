@@ -7,7 +7,7 @@ StackEntry sMainStackInfo;
 OSMesg sPiMgrCmdBuff[50];
 OSMesgQueue gPiMgrCmdQueue;
 OSViMode gViConfigMode;
-u8 D_80013960;
+u8 gViConfigModeType;
 
 s8 D_80009430 = 1;
 vu8 gViConfigBlack = true;
@@ -58,17 +58,17 @@ void Idle_ThreadEntry(void* arg) {
 
     switch (osTvType) {
         case OS_TV_NTSC:
-            D_80013960 = 2;
+            gViConfigModeType = OS_VI_NTSC_LAN1;
             gViConfigMode = osViModeNtscLan1;
             break;
 
         case OS_TV_MPAL:
-            D_80013960 = 0x1E;
+            gViConfigModeType = OS_VI_MPAL_LAN1;
             gViConfigMode = osViModeMpalLan1;
             break;
 
         case OS_TV_PAL:
-            D_80013960 = 0x2C;
+            gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
             gViConfigYScale = 0.833f;
             break;

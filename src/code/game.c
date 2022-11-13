@@ -243,14 +243,14 @@ void GameState_Update(GameState* gameState) {
     func_800C4344(gameState);
 
     if (SREG(63) == 1u) {
-        if (SREG(48) < 0) {
-            SREG(48) = 0;
+        if (R_VI_MODE_EDIT_STATE < VI_MODE_EDIT_STATE_INACTIVE) {
+            R_VI_MODE_EDIT_STATE = VI_MODE_EDIT_STATE_INACTIVE;
             gfxCtx->viMode = &gViConfigMode;
             gfxCtx->viFeatures = gViConfigFeatures;
             gfxCtx->xScale = gViConfigXScale;
             gfxCtx->yScale = gViConfigYScale;
-        } else if (SREG(48) > 0) {
-            ViMode_Update(&sViMode, gameState->input);
+        } else if (R_VI_MODE_EDIT_STATE > VI_MODE_EDIT_STATE_INACTIVE) {
+            ViMode_Update(&sViMode, &gameState->input[0]);
             gfxCtx->viMode = &sViMode.customViMode;
             gfxCtx->viFeatures = sViMode.viFeatures;
             gfxCtx->xScale = 1.0f;
@@ -261,6 +261,7 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viFeatures = gViConfigFeatures;
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
+
         if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == OS_TV_NTSC)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
@@ -304,7 +305,8 @@ void GameState_Update(GameState* gameState) {
             HREG(83) = HREG(82);
             HREG(84) = HREG(81);
             gViConfigAdditionalScanLines = HREG(82);
-            gViConfigYScale = HREG(81) == 0 ? 240.0f / (gViConfigAdditionalScanLines + 240.0f) : 1.0f;
+            gViConfigYScale =
+                HREG(81) == 0 ? ((f32)SCREEN_HEIGHT) / (gViConfigAdditionalScanLines + (f32)SCREEN_HEIGHT) : 1.0f;
             D_80009430 = 1;
         }
     }
@@ -406,7 +408,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     func_800ACE70(&D_801664F0);
     func_800AD920(&D_80166500);
     VisMono_Init(&sMonoColors);
-    if (SREG(48) == 0) {
+    if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
@@ -436,7 +438,7 @@ void GameState_Destroy(GameState* gameState) {
     func_800ACE90(&D_801664F0);
     func_800AD950(&D_80166500);
     VisMono_Destroy(&sMonoColors);
-    if (SREG(48) == 0) {
+    if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Destroy(&sViMode);
     }
     THA_Dt(&gameState->tha);

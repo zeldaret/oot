@@ -78,7 +78,7 @@ void __osPiGetAccess(void);
 void __osPiRelAccess(void);
 s32 osSendMesg(OSMesgQueue* mq, OSMesg msg, s32 flag);
 void osStopThread(OSThread* thread);
-void osViExtendVStart(u32 arg0);
+void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
 void __osInitialize_common(void);
 void __osInitialize_autodetect(void);
@@ -120,7 +120,7 @@ s32 osJamMesg(OSMesgQueue* mq, OSMesg msg, s32 flag);
 void osSetThreadPri(OSThread* thread, OSPri pri);
 OSPri osGetThreadPri(OSThread* thread);
 s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
-void osViSwapBuffer(void* vaddr);
+void osViSwapBuffer(void* frameBufPtr);
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size);
 u32 bcmp(void* __sl, void* __s2, u32 __n);
 OSTime osGetTime(void);
@@ -1291,8 +1291,8 @@ s32 View_UpdateViewingMatrix(View* view);
 s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp);
 s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
 void ViMode_LogPrint(OSViMode* osViMode);
-void ViMode_Configure(ViMode* viMode, s32 mode, s32 type, s32 unk_70, s32 unk_74, s32 unk_78, s32 unk_7C, s32 width,
-                      s32 height, s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom);
+void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
+                      s32 width, s32 height, s32 leftAdjust, s32 rightAdjust, s32 upperAdjust, s32 lowerAdjust);
 void ViMode_Save(ViMode* viMode);
 void ViMode_Load(ViMode* viMode);
 void ViMode_Init(ViMode* viMode);

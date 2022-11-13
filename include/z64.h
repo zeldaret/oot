@@ -1725,20 +1725,27 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
 } JpegDecoderState; // size = 0x14
 
+typedef enum {
+    /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
+    /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
+    /* 2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
+    /* 3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
+} ViModeEditState;
+
 typedef struct {
     /* 0x0000 */ OSViMode customViMode;
     /* 0x0050 */ s32 viHeight;
     /* 0x0054 */ s32 viWidth;
-    /* 0x0058 */ s32 unk_58; // Right adjustment?
-    /* 0x005C */ s32 unk_5C; // Left adjustment?
-    /* 0x0060 */ s32 unk_60; // Bottom adjustment?
-    /* 0x0064 */ s32 unk_64; // Top adjustment?
-    /* 0x0068 */ s32 viModeBase; // enum: {0, 1, 2, 3}
-    /* 0x006C */ s32 viTvType;
-    /* 0x0070 */ u32 unk_70; // bool
-    /* 0x0074 */ u32 unk_74; // bool
-    /* 0x0078 */ u32 unk_78; // bool
-    /* 0x007C */ u32 unk_7C; // bool
+    /* 0x0058 */ s32 rightAdjust;
+    /* 0x005C */ s32 leftAdjust;
+    /* 0x0060 */ s32 lowerAdjust;
+    /* 0x0064 */ s32 upperAdjust;
+    /* 0x0068 */ s32 editState;
+    /* 0x006C */ s32 tvType;
+    /* 0x0070 */ u32 loRes;
+    /* 0x0074 */ u32 antialiasOff;
+    /* 0x0078 */ u32 modeN; // Controls interlacing, the meaning of this mode is different based on choice of resolution
+    /* 0x007C */ u32 fb16Bit;
     /* 0x0080 */ u32 viFeatures;
     /* 0x0084 */ u32 unk_84;
 } ViMode;
