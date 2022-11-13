@@ -323,10 +323,10 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     osSyncPrintf("ハイラル確保 サイズ＝%u バイト\n"); // "Hyrule reserved size = %u bytes"
     arena = GameAlloc_MallocDebug(&gameState->alloc, size, "../game.c", 992);
     if (arena != NULL) {
-        THA_New(&gameState->tha, arena, size);
+        THA_Init(&gameState->tha, arena, size);
         osSyncPrintf("ハイラル確保成功\n"); // "Successful Hyral"
     } else {
-        THA_New(&gameState->tha, NULL, 0);
+        THA_Init(&gameState->tha, NULL, 0);
         osSyncPrintf("ハイラル確保失敗\n"); // "Failure to secure Hyrule"
         Fault_AddHungupAndCrash("../game.c", 999);
     }
@@ -358,10 +358,10 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     osSyncPrintf("ハイラル再確保 サイズ＝%u バイト\n", size); // "Hyral reallocate size = %u bytes"
     gameArena = GameAlloc_MallocDebug(alloc, size, "../game.c", 1033);
     if (gameArena != NULL) {
-        THA_New(&gameState->tha, gameArena, size);
+        THA_Init(&gameState->tha, gameArena, size);
         osSyncPrintf("ハイラル再確保成功\n"); // "Successful reacquisition of Hyrule"
     } else {
-        THA_New(&gameState->tha, NULL, 0);
+        THA_Init(&gameState->tha, NULL, 0);
         osSyncPrintf("ハイラル再確保失敗\n"); // "Failure to secure Hyral"
         SystemArena_Display();
         Fault_AddHungupAndCrash("../game.c", 1044);

@@ -5,10 +5,10 @@
 #include "alignment.h"
 
 typedef struct {
-    /* 0x0000 */ size_t size;
-    /* 0x0004 */ void*  start;
-    /* 0x0008 */ void*  head;
-    /* 0x000C */ void*  tail;
+    /* 0x00 */ size_t size;
+    /* 0x04 */ void* start;
+    /* 0x08 */ void* head;
+    /* 0x0C */ void* tail;
 } TwoHeadArena; // size = 0x10
 
 void* THA_GetHead(TwoHeadArena* tha);
@@ -22,7 +22,7 @@ void* THA_AllocTailAlign(TwoHeadArena* tha, size_t size, uintptr_t mask);
 s32 THA_GetRemaining(TwoHeadArena* tha);
 u32 THA_IsCrash(TwoHeadArena* tha);
 void THA_Reset(TwoHeadArena* tha);
-void THA_New(TwoHeadArena* tha, void* start, size_t size);
+void THA_Init(TwoHeadArena* tha, void* start, size_t size);
 void THA_Destroy(TwoHeadArena* tha);
 
 #endif

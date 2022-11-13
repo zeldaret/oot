@@ -5,13 +5,13 @@
  *
  * Display list commands are allocated from the head while other graphics data such as matrices and vertices are
  * allocated from the tail end.
- * 
+ *
  * @see TwoHeadArena.c
  */
 #include "global.h"
 
-void THGA_New(TwoHeadGfxArena* thga, void* start, size_t size) {
-    THA_New(&thga->tha, start, size);
+void THGA_Init(TwoHeadGfxArena* thga, void* start, size_t size) {
+    THA_Init(&thga->tha, start, size);
 }
 
 void THGA_Destroy(TwoHeadGfxArena* thga) {
@@ -58,7 +58,7 @@ Gfx* THGA_AllocGfx(TwoHeadGfxArena* thga) {
 
 /**
  * Identical to `THGA_AllocGfx`
- * 
+ *
  * @see THGA_AllocGfx
  */
 Gfx* THGA_AllocGfx2(TwoHeadGfxArena* thga) {

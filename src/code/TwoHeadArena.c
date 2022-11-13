@@ -1,7 +1,7 @@
 /**
  * @file TwoHeadArena.c
  *
- * This file implements a simple double-ended stack allocator for general purpose.
+ * This file implements a simple general purpose double-ended stack allocator.
  *
  * A double-ended stack allocator accepts allocations at either the "head" or "tail" of its allotted memory region.
  * While in general this type of allocator could accept deallocations on the most recently allocated block at either
@@ -121,7 +121,7 @@ void THA_Reset(TwoHeadArena* tha) {
 /**
  * Creates a new Two Head Arena at `start` with available size `size`
  */
-void THA_New(TwoHeadArena* tha, void* start, size_t size) {
+void THA_Init(TwoHeadArena* tha, void* start, size_t size) {
     tha->start = start;
     tha->size = size;
     THA_Reset(tha);

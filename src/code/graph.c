@@ -85,10 +85,10 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
 
     pool->headMagic = GFXPOOL_HEAD_MAGIC;
     pool->tailMagic = GFXPOOL_TAIL_MAGIC;
-    THGA_New(&gfxCtx->polyOpa, pool->polyOpaBuffer, sizeof(pool->polyOpaBuffer));
-    THGA_New(&gfxCtx->polyXlu, pool->polyXluBuffer, sizeof(pool->polyXluBuffer));
-    THGA_New(&gfxCtx->overlay, pool->overlayBuffer, sizeof(pool->overlayBuffer));
-    THGA_New(&gfxCtx->work, pool->workBuffer, sizeof(pool->workBuffer));
+    THGA_Init(&gfxCtx->polyOpa, pool->polyOpaBuffer, sizeof(pool->polyOpaBuffer));
+    THGA_Init(&gfxCtx->polyXlu, pool->polyXluBuffer, sizeof(pool->polyXluBuffer));
+    THGA_Init(&gfxCtx->overlay, pool->overlayBuffer, sizeof(pool->overlayBuffer));
+    THGA_Init(&gfxCtx->work, pool->workBuffer, sizeof(pool->workBuffer));
 
     gfxCtx->polyOpaBuffer = pool->polyOpaBuffer;
     gfxCtx->polyXluBuffer = pool->polyXluBuffer;
