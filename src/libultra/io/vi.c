@@ -11,8 +11,8 @@ void __osViInit(void) {
 
     __osViNext->retraceCount = 1;
     __osViCurr->retraceCount = 1;
-    __osViNext->buffer = (void*)0x80000000;
-    __osViCurr->buffer = (void*)0x80000000;
+    __osViNext->buffer = (void*)K0BASE;
+    __osViCurr->buffer = (void*)K0BASE;
 
     if (osTvType == OS_TV_PAL) {
         __osViNext->modep = &osViModePalLan1;
@@ -25,10 +25,9 @@ void __osViInit(void) {
     __osViNext->state = 0x20;
     __osViNext->features = __osViNext->modep->comRegs.ctrl;
 
-    while (HW_REG(VI_CURRENT_REG, u32) > 10) {
+    while (IO_READ(VI_CURRENT_REG) > 10) {
         ;
     }
-
-    HW_REG(VI_CONTROL_REG, u32) = 0;
+    IO_WRITE(VI_CONTROL_REG, 0);
     __osViSwapContext();
 }

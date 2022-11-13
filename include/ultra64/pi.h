@@ -74,10 +74,4 @@ typedef struct {
 #define OS_MESG_PRI_NORMAL  0
 #define OS_MESG_PRI_HIGH    1
 
-#define DEVICE_TYPE_CART    0   /* ROM cartridge */
-#define DEVICE_TYPE_BULK    1   /* ROM bulk */
-#define DEVICE_TYPE_64DD    2   /* 64 Disk Drive */
-#define DEVICE_TYPE_SRAM    3   /* SRAM */
-#define DEVICE_TYPE_INIT    7   /* initial value */
-
 #endif
