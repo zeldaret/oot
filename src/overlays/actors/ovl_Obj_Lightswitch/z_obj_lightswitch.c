@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 #include "assets/objects/object_lightswitch/object_lightswitch.h"
 

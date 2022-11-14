@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "assets/scenes/overworld/spot06/spot06_scene.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

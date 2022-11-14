@@ -32,7 +32,7 @@ void osSpTaskLoad(OSTask* intp) {
         intp->t.flags &= ~OS_TASK_YIELDED;
 
         if (tp->t.flags & OS_TASK_LOADABLE) {
-            tp->t.ucode = (u64*)HW_REG((u32)intp->t.yield_data_ptr + OS_YIELD_DATA_SIZE - 4, u32);
+            tp->t.ucode = (u64*)IO_READ((u32)intp->t.yield_data_ptr + OS_YIELD_DATA_SIZE - 4);
         }
     }
     osWritebackDCache(tp, sizeof(OSTask));

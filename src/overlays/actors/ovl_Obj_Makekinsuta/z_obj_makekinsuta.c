@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_makekinsuta.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
