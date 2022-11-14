@@ -1,7 +1,7 @@
 #include "z_en_encount2.h"
 #include "overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)

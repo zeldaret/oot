@@ -6,7 +6,7 @@
 
 #include "z_bg_jya_zurerukabe.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 

@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_ec.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_zo/object_zo.h"
 #include "assets/objects/object_ec/object_ec.h"
 #include "assets/objects/object_ma2/object_ma2.h"

@@ -20,7 +20,7 @@ typedef struct BgMoriHashigo {
 
 typedef enum {
     /* -1 */ HASHIGO_CLASP = -1,
-    /*  0  */ HASHIGO_LADDER
+    /*  0 */ HASHIGO_LADDER
 } HasigoType;
 
 #endif
