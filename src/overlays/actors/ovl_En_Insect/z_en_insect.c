@@ -5,7 +5,7 @@
  */
 
 #include "z_en_insect.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0

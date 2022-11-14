@@ -1,5 +1,5 @@
 #include "z_demo_effect.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "assets/objects/object_efc_fire_ball/object_efc_fire_ball.h"

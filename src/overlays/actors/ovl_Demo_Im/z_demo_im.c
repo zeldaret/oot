@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 #include "assets/objects/object_im/object_im.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
