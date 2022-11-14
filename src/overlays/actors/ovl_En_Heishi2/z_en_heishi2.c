@@ -4,7 +4,7 @@
  * Description: Hyrulian Guards
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_en_heishi2.h"
 #include "assets/objects/object_sd/object_sd.h"
 #include "assets/objects/object_link_child/object_link_child.h"

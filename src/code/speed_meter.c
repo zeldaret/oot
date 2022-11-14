@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 /**
  * How much time the audio update on the audio thread (`func_800E4FE0`) took in total, between scheduling the last two
@@ -231,25 +231,26 @@ void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, Gam
     }
 
     thga = (TwoHeadGfxArena*)&state->tha;
-    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THA_GetSize((TwoHeadArena*)thga),
+    //! @bug THA_GetRemaining call should be THGA_GetRemaining like the others below, harmless as-is
+    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THA_GetRemaining(&thga->tha),
                               GPACK_RGBA5551(0, 0, 255, 1), GPACK_RGBA5551(0, 255, 0, 1), ulx, lrx, y, y);
     SpeedMeter_DrawAllocEntry(&entry, gfxCtx);
     y++;
 
     thga = &gfxCtx->polyOpa;
-    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THGA_GetSize(thga), GPACK_RGBA5551(0, 0, 255, 1),
+    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THGA_GetRemaining(thga), GPACK_RGBA5551(0, 0, 255, 1),
                               GPACK_RGBA5551(255, 0, 255, 1), ulx, lrx, y, y);
     SpeedMeter_DrawAllocEntry(&entry, gfxCtx);
     y++;
 
     thga = &gfxCtx->polyXlu;
-    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THGA_GetSize(thga), GPACK_RGBA5551(0, 0, 255, 1),
+    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THGA_GetRemaining(thga), GPACK_RGBA5551(0, 0, 255, 1),
                               GPACK_RGBA5551(255, 255, 0, 1), ulx, lrx, y, y);
     SpeedMeter_DrawAllocEntry(&entry, gfxCtx);
     y++;
 
     thga = &gfxCtx->overlay;
-    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THGA_GetSize(thga), GPACK_RGBA5551(0, 0, 255, 1),
+    SpeedMeter_InitAllocEntry(&entry, thga->size, thga->size - THGA_GetRemaining(thga), GPACK_RGBA5551(0, 0, 255, 1),
                               GPACK_RGBA5551(255, 0, 0, 1), ulx, lrx, y, y);
     SpeedMeter_DrawAllocEntry(&entry, gfxCtx);
     y++;
