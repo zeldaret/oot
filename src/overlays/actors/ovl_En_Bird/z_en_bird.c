@@ -19,7 +19,7 @@ void func_809C1E40(EnBird* this, PlayState* play);
 void func_809C1D60(EnBird* this, PlayState* play);
 void func_809C1CAC(EnBird* this, s16 params);
 
-const ActorInit En_Bird_InitVars = {
+ActorInit En_Bird_InitVars = {
     ACTOR_EN_BIRD,
     ACTORCAT_PROP,
     FLAGS,

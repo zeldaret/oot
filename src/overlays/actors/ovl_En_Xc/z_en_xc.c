@@ -12,7 +12,7 @@
 #include "assets/scenes/overworld/spot17/spot17_scene.h"
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -2409,7 +2409,7 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit En_Xc_InitVars = {
+ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,
     ACTORCAT_NPC,
     FLAGS,

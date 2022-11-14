@@ -1,97 +1,110 @@
 #include "global.h"
 #include "ultra64/internal.h"
+#include "ultra64/leodrive.h"
+
+// os.h
+#define LEO_BLOCK_MODE 1
+#define LEO_TRACK_MODE 2
+#define LEO_SECTOR_MODE 3
 
 void __osDevMgrMain(void* arg) {
-    OSIoMesg* ioMesg;
-    OSMesg sp70;
-    OSMesg sp6C;
-    OSMgrArgs* arg0 = (OSMgrArgs*)arg;
-    __OSTranxInfo* transfer;
-    __OSBlockInfo* block;
-    s32 phi_s2;
-    s32 phi_s0;
-    u32 sp54;
-
-    ioMesg = NULL;
+    OSIoMesg* ioMesg = NULL;
+    OSMesg em;
+    OSMesg dummy;
+    s32 ret;
+    OSDevMgr* dm = (OSDevMgr*)arg;
+    s32 messageSend;
 
     while (true) {
-        osRecvMesg(arg0->cmdQueue, (OSMesg*)&ioMesg, OS_MESG_BLOCK);
+        osRecvMesg(dm->cmdQueue, (OSMesg*)&ioMesg, OS_MESG_BLOCK);
+
         if ((ioMesg->piHandle != NULL) && (ioMesg->piHandle->type == DEVICE_TYPE_64DD) &&
             ((ioMesg->piHandle->transferInfo.cmdType == 0) || (ioMesg->piHandle->transferInfo.cmdType == 1))) {
-            transfer = &ioMesg->piHandle->transferInfo;
-            block = &transfer->block[transfer->blockNum];
-            transfer->sectorNum = -1;
-            if (transfer->transferMode != 3) {
-                block->dramAddr = (void*)((u32)block->dramAddr - block->sectorSize);
+            __OSBlockInfo* blockInfo;
+            __OSTranxInfo* info;
+
+            info = &ioMesg->piHandle->transferInfo;
+            blockInfo = &info->block[info->blockNum];
+            info->sectorNum = -1;
+
+            if (info->transferMode != LEO_SECTOR_MODE) {
+                blockInfo->dramAddr = (void*)((u32)blockInfo->dramAddr - blockInfo->sectorSize);
             }
 
-            phi_s2 = ((transfer->transferMode == 2) && (ioMesg->piHandle->transferInfo.cmdType == 0)) ? 1 : 0;
+            if (info->transferMode == LEO_TRACK_MODE && ioMesg->piHandle->transferInfo.cmdType == 0) {
+                messageSend = 1;
+            } else {
+                messageSend = 0;
+            }
 
-            osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
+            osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
             __osResetGlobalIntMask(OS_IM_PI);
-            __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x80000000);
+            __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_START);
 
-            while (true) {
-                osRecvMesg(arg0->eventQueue, &sp70, OS_MESG_BLOCK);
-                transfer = &ioMesg->piHandle->transferInfo;
-                block = &transfer->block[transfer->blockNum];
-                if (block->errStatus == 0x1D) {
-                    __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x10000000);
-                    __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow);
-                    __osEPiRawReadIo(ioMesg->piHandle, 0x05000508, &sp54);
-                    if (sp54 & 0x02000000) {
-                        __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x1000000);
-                    }
-                    block->errStatus = 4;
-                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLR_INTR;
-                    __osSetGlobalIntMask(OS_IM_CART | OS_IM_PI);
+        readblock1:
+            osRecvMesg(dm->evtQueue, &em, OS_MESG_BLOCK);
+
+            info = &ioMesg->piHandle->transferInfo;
+            blockInfo = &info->block[info->blockNum];
+
+            if (blockInfo->errStatus == 29) {
+                u32 stat;
+
+                __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_RESET);
+                __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow);
+                __osEPiRawReadIo(ioMesg->piHandle, ASIC_STATUS, &stat);
+
+                if (stat & LEO_STATUS_MECHANIC_INTR) {
+                    __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_CLR_MECHANIC_INTR);
                 }
-                osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
+                blockInfo->errStatus = 4;
 
-                if ((phi_s2 != 1) || (ioMesg->piHandle->transferInfo.block[0].errStatus != 0)) {
-                    break;
-                }
+                IO_WRITE(PI_STATUS_REG, PI_STATUS_CLR_INTR);
+                __osSetGlobalIntMask(OS_IM_CART | OS_IM_PI);
+            }
+            osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
 
-                phi_s2 = 0;
+            if (messageSend == 1 && ioMesg->piHandle->transferInfo.block[0].errStatus == 0) {
+                // Run the above once more
+                messageSend = 0;
+                goto readblock1;
             }
 
-            osSendMesg(arg0->acccessQueue, NULL, OS_MESG_NOBLOCK);
+            osSendMesg(dm->acsQueue, NULL, OS_MESG_NOBLOCK);
             if (ioMesg->piHandle->transferInfo.blockNum == 1) {
                 osYieldThread();
             }
         } else {
             switch (ioMesg->hdr.type) {
                 case OS_MESG_TYPE_DMAREAD:
-                    osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
-                    phi_s0 = arg0->piDmaCallback(OS_READ, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
+                    osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
+                    ret = dm->dma(OS_READ, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
                 case OS_MESG_TYPE_DMAWRITE:
-                    osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
-                    phi_s0 = arg0->piDmaCallback(OS_WRITE, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
+                    osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
+                    ret = dm->dma(OS_WRITE, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
                 case OS_MESG_TYPE_EDMAREAD:
-                    osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
-                    phi_s0 = arg0->epiDmaCallback(ioMesg->piHandle, OS_READ, ioMesg->devAddr, ioMesg->dramAddr,
-                                                  ioMesg->size);
+                    osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
+                    ret = dm->edma(ioMesg->piHandle, OS_READ, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
                 case OS_MESG_TYPE_EDMAWRITE:
-                    osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
-                    phi_s0 = arg0->epiDmaCallback(ioMesg->piHandle, OS_WRITE, ioMesg->devAddr, ioMesg->dramAddr,
-                                                  ioMesg->size);
+                    osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
+                    ret = dm->edma(ioMesg->piHandle, OS_WRITE, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
                 case OS_MESG_TYPE_LOOPBACK:
                     osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
-                    phi_s0 = -1;
+                    ret = -1;
                     break;
                 default:
-                    phi_s0 = -1;
+                    ret = -1;
                     break;
             }
 
-            if (phi_s0 == 0) {
-                osRecvMesg(arg0->eventQueue, &sp70, OS_MESG_BLOCK);
+            if (ret == 0) {
+                osRecvMesg(dm->evtQueue, &em, OS_MESG_BLOCK);
                 osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
-                osSendMesg(arg0->acccessQueue, NULL, OS_MESG_NOBLOCK);
+                osSendMesg(dm->acsQueue, NULL, OS_MESG_NOBLOCK);
             }
         }
     }

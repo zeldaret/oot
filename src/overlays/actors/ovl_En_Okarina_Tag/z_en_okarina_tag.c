@@ -7,7 +7,7 @@
 #include "z_en_okarina_tag.h"
 #include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -22,7 +22,7 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play);
 void func_80ABF4C8(EnOkarinaTag* this, PlayState* play);
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play);
 
-const ActorInit En_Okarina_Tag_InitVars = {
+ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORCAT_PROP,
     FLAGS,
@@ -243,7 +243,9 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
             case 2:
                 play->csCtx.segment = D_80ABF9D0;
                 gSaveContext.cutsceneTrigger = 1;
-                func_800F574C(1.18921f, 90);
+                // Increase pitch by 3 semitones i.e. 2^(3/12), scale tempo by same ratio
+                // Applies to the windmill bgm once the song of storms fanfare is complete
+                Audio_SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
                 break;
             case 4:
                 play->csCtx.segment = D_80ABFB40;

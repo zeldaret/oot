@@ -38,20 +38,12 @@ typedef struct {
 } TransitionActorEntry; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ u8 spawn;
+    /* 0x00 */ u8 playerEntryIndex;
     /* 0x01 */ u8 room;
-} EntranceEntry;
+} Spawn;
 
-typedef struct {
-    /* 0x00 */ u8 ambientColor[3];
-    /* 0x03 */ s8 diffuseDir1[3];
-    /* 0x06 */ u8 diffuseColor1[3];
-    /* 0x09 */ s8 diffuseDir2[3];
-    /* 0x0C */ u8 diffuseColor2[3];
-    /* 0x0F */ u8 fogColor[3];
-    /* 0x12 */ u16 fogNear;
-    /* 0x14 */ u16 fogFar;
-} LightSettings; // size = 0x16
+// TODO: ZAPD Compatibility
+typedef Spawn EntranceEntry; 
 
 typedef struct {
     /* 0x00 */ u8 count; // number of points in the path
@@ -154,7 +146,8 @@ typedef union {
     RoomShapeCullable cullable;
 } RoomShape; // "Ground Shape"
 
-// TODO update ZAPD
+// ZAPD compatibility typedefs
+// TODO: Remove when ZAPD adds support for them
 typedef RoomShapeDListsEntry PolygonDlist;
 typedef RoomShapeNormal PolygonType0;
 typedef RoomShapeImageSingle MeshHeader1Single;
@@ -179,13 +172,13 @@ typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  length;
     /* 0x04 */ ActorEntry* data;
-} SCmdSpawnList;
+} SCmdPlayerEntryList;
 
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  length;
     /* 0x04 */ ActorEntry* data;
-} SCmdActorList;
+} SCmdActorEntryList;
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -218,8 +211,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ EntranceEntry* data;
-} SCmdEntranceList;
+    /* 0x04 */ Spawn* data;
+} SCmdSpawnList;
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -342,11 +335,11 @@ typedef struct {
 
 typedef union {
     SCmdBase              base;
-    SCmdSpawnList         spawnList;
-    SCmdActorList         actorList;
+    SCmdPlayerEntryList   playerEntryList;
+    SCmdActorEntryList    actorEntryList;
     SCmdUnused02          unused02;
     SCmdRoomList          roomList;
-    SCmdEntranceList      entranceList;
+    SCmdSpawnList         spawnList;
     SCmdObjectList        objectList;
     SCmdLightList         lightList;
     SCmdPathList          pathList;

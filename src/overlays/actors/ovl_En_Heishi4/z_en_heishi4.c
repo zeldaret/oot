@@ -1,6 +1,6 @@
 #include "z_en_heishi4.h"
 #include "assets/objects/object_sd/object_sd.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
@@ -21,7 +21,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play);
 void func_80A56A50(EnHeishi4* this, PlayState* play);
 void func_80A56ACC(EnHeishi4* this, PlayState* play);
 
-const ActorInit En_Heishi4_InitVars = {
+ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
     ACTORCAT_NPC,
     FLAGS,

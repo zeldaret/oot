@@ -21,7 +21,7 @@ void func_8089993C(BgJyaKanaami* this);
 void func_80899950(BgJyaKanaami* this, PlayState* play);
 void func_80899A08(BgJyaKanaami* this);
 
-const ActorInit Bg_Jya_Kanaami_InitVars = {
+ActorInit Bg_Jya_Kanaami_InitVars = {
     ACTOR_BG_JYA_KANAAMI,
     ACTORCAT_BG,
     FLAGS,

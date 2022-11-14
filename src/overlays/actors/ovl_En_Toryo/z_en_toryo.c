@@ -18,7 +18,7 @@ void func_80B20914(EnToryo* this, PlayState* play);
 s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnToryo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-const ActorInit En_Toryo_InitVars = {
+ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORCAT_NPC,
     FLAGS,

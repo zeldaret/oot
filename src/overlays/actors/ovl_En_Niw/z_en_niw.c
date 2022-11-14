@@ -7,7 +7,7 @@
 #include "z_en_niw.h"
 #include "assets/objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
@@ -36,7 +36,7 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play);
 
 static s16 D_80AB85E0 = 0;
 
-const ActorInit En_Niw_InitVars = {
+ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
     ACTORCAT_PROP,
     FLAGS,
@@ -603,7 +603,7 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
             this->unk_2FC = this->unk_300 = 0.0f;
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        path = &play->setupPathList[pathIndex];
+        path = &play->pathList[pathIndex];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;

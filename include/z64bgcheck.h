@@ -55,7 +55,9 @@ typedef struct {
     /* 0x4 */ Vec3s* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
 } BgCamInfo; // size = 0x8
 
-typedef BgCamInfo CamData; // Todo: Zapd compatibility
+// ZAPD compatibility typedefs
+// TODO: Remove when ZAPD adds support for them
+typedef BgCamInfo CamData;
 
 // The structure used for all instances of s16 data from `BgCamInfo` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces
@@ -143,9 +145,10 @@ typedef enum {
 #define WALL_FLAG_1 (1 << 1)
 #define WALL_FLAG_2 (1 << 2)
 #define WALL_FLAG_3 (1 << 3)
-#define WALL_FLAG_4 (1 << 4)
-#define WALL_FLAG_5 (1 << 5)
+#define WALL_FLAG_CRAWLSPACE_1 (1 << 4)
+#define WALL_FLAG_CRAWLSPACE_2 (1 << 5)
 #define WALL_FLAG_6 (1 << 6)
+#define WALL_FLAG_CRAWLSPACE (WALL_FLAG_CRAWLSPACE_1 | WALL_FLAG_CRAWLSPACE_2)
 
 typedef enum {
     /*  0 */ FLOOR_PROPERTY_0,

@@ -18,7 +18,7 @@ void func_80A6DCCC(EnHorseZelda* this, PlayState* play);
 void func_80A6DDFC(EnHorseZelda* this, PlayState* play);
 void func_80A6DC7C(EnHorseZelda* this);
 
-const ActorInit En_Horse_Zelda_InitVars = {
+ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORCAT_BG,
     FLAGS,

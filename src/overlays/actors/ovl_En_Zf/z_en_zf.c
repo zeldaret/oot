@@ -99,7 +99,7 @@ static Vec3f sPlatformPositions[] = {
 static s16 D_80B4A1B0 = 0;
 static s16 D_80B4A1B4 = 1;
 
-const ActorInit En_Zf_InitVars = {
+ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -2249,7 +2249,6 @@ static Gfx D_80B4A2F8[] = {
 void EnZf_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnZf* this = (EnZf*)thisx;
-    ; // Extra ";" required for matching. Cannot be if (1) {} or the like. Typo?
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zf.c", 3533);
 
