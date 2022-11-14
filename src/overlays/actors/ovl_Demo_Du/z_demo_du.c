@@ -454,9 +454,9 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, PlayState* play) {
             endPos.y = npcAction->endPos.y;
             endPos.z = npcAction->endPos.z;
 
-            pos->x = ((endPos.x - startPos.x) * traveledPercent) + startPos.x;
-            pos->y = ((endPos.y - startPos.y) * traveledPercent) + startPos.y;
-            pos->z = ((endPos.z - startPos.z) * traveledPercent) + startPos.z;
+            pos->x = LERP(startPos.x, endPos.x, traveledPercent);
+            pos->y = LERP(startPos.y, endPos.y, traveledPercent);
+            pos->z = LERP(startPos.z, endPos.z, traveledPercent);
         }
     }
 }
