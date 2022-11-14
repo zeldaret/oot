@@ -16,8 +16,8 @@ SceneCmd spot07_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot07_room_1PolygonType2_000210),
-    SCENE_CMD_OBJECT_LIST(7, spot07_room_1ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(26, spot07_room_1ActorList_000068),
+    SCENE_CMD_OBJECT_LIST(8, spot07_room_1ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(38, spot07_room_1ActorList_000068),
     SCENE_CMD_END(),
 };
 
@@ -36,6 +36,7 @@ s16 spot07_room_1ObjectList_000058[] = {
     OBJECT_ZO,
     OBJECT_BOX,
     OBJECT_EFC_FLASH,
+    OBJECT_GI_SCALE,
 };
 
 ActorEntry spot07_room_1ActorList_000068[] = {
@@ -65,6 +66,18 @@ ActorEntry spot07_room_1ActorList_000068[] = {
     { ACTOR_OBJ_TSUBO,      {    676,     53,    377 }, {      0,      0,      0 }, 0x4503 },
     { ACTOR_OBJ_TSUBO,      {    289,    128,    289 }, {      0,      0,      0 }, 0x470C },
     { ACTOR_OBJ_TSUBO,      {    220,    130,    384 }, {      0,      0,      0 }, 0x490D },
+    { ACTOR_EN_KUSA,        {   -798,    210,   -158 }, {      0, 0xC1C7,      0 }, 0x0200 },
+    { ACTOR_OBJ_SYOKUDAI,   {     51,     16,    -41 }, {      0,      0,      0 }, 0x201B },
+    { ACTOR_OBJ_TSUBO,      {   -109,     15,    100 }, {      0,      0,      0 }, 0x530D },
+    { ACTOR_OBJ_TSUBO,      {    -82,     15,     74 }, {      0,      0,      0 }, 0x510C },
+    { ACTOR_OBJ_TSUBO,      {    -56,     15,     48 }, {      0,      0,      0 }, 0x4F03 },
+    { ACTOR_OBJ_TSUBO,      {    -28,     15,     24 }, {      0,      0,      0 }, 0x4D03 },
+    { ACTOR_OBJ_TSUBO,      {     10,     16,     -7 }, {      0,      0,      0 }, 0x4B01 },
+    { ACTOR_ITEM_ETCETERA,  {     -7,    168,   -646 }, {      0,      0,      0 }, 0x0004 },
+    { ACTOR_EN_RIVER_SOUND, {    642,    857,  -1691 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_KUSA,        {    325,     98,    557 }, {      0, 0xC000,      0 }, 0x0300 },
+    { ACTOR_EN_KUSA,        {   -568,     142,   152 }, {      0,      0,      0 }, 0x0200 },
+    { ACTOR_EN_KUSA,        {   -661,     170,    44 }, {      0,      0,      0 }, 0x0200 },
 };
 
 u8 spot07_room_1_possiblePadding_000208[] = {
@@ -108,8 +121,8 @@ SceneCmd spot07_room_1Set_000360[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot07_room_1PolygonType2_000210),
-    SCENE_CMD_OBJECT_LIST(7, spot07_room_1ObjectList_0003A0),
-    SCENE_CMD_ACTOR_LIST(17, spot07_room_1ActorList_0003B0),
+    SCENE_CMD_OBJECT_LIST(8, spot07_room_1ObjectList_0003A0),
+    SCENE_CMD_ACTOR_LIST(28, spot07_room_1ActorList_0003B0),
     SCENE_CMD_END(),
 };
 
@@ -121,6 +134,7 @@ s16 spot07_room_1ObjectList_0003A0[] = {
     OBJECT_TSUBO,
     OBJECT_GS,
     OBJECT_ST,
+    OBJECT_GI_SCALE,
 };
 
 ActorEntry spot07_room_1ActorList_0003B0[] = {
@@ -141,6 +155,17 @@ ActorEntry spot07_room_1ActorList_0003B0[] = {
     { ACTOR_OBJECT_KANKYO,  {   -375,      0,   -261 }, {      0,      0,      0 }, 0x0003 },
     { ACTOR_BG_ICE_SHELTER, {    483,     53,    214 }, {      0, 0X2000,      0 }, 0x0304 },
     { ACTOR_DOOR_ANA,       {   -860,     14,   -470 }, {      0, 0XD555,      0 }, 0x11FF },
+    { ACTOR_EN_KUSA,        {   -798,    210,   -158 }, {      0, 0xC1C7,      0 }, 0x0200 },
+    { ACTOR_OBJ_SYOKUDAI,   {     51,     16,    -41 }, {      0,      0,      0 }, 0x13FF },
+    { ACTOR_OBJ_TSUBO,      {   -109,     15,    100 }, {      0,      0,      0 }, 0x530D },
+    { ACTOR_OBJ_TSUBO,      {    -82,     15,     74 }, {      0,      0,      0 }, 0x510C },
+    { ACTOR_OBJ_TSUBO,      {    -56,     15,     48 }, {      0,      0,      0 }, 0x4F03 },
+    { ACTOR_OBJ_TSUBO,      {    -28,     15,     24 }, {      0,      0,      0 }, 0x4D03 },
+    { ACTOR_OBJ_TSUBO,      {     10,     16,     -7 }, {      0,      0,      0 }, 0x4B01 },
+    { ACTOR_ITEM_ETCETERA,  {     -7,    168,   -646 }, {      0,      0,      0 }, 0x0005 },
+    { ACTOR_EN_KUSA,        {    325,     98,    557 }, {      0, 0xC000,      0 }, 0x0300 },
+    { ACTOR_EN_KUSA,        {   -568,     142,   152 }, {      0,      0,      0 }, 0x0200 },
+    { ACTOR_EN_KUSA,        {   -661,     170,    44 }, {      0,      0,      0 }, 0x0200 },
 };
 
 SceneCmd spot07_room_1Set_0004C0[] = {
