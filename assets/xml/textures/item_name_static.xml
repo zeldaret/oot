@@ -12,7 +12,7 @@
         <Texture Name="gBombchuItemNameENGTex" OutName="bombchu_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2400"/>
         <Texture Name="gHookshotItemNameENGTex" OutName="hookshot_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2800"/>
         <Texture Name="gLongshotItemNameENGTex" OutName="longshot_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2C00"/>
-        <Texture Name="gIceArrowItemNameENGTex" OutName="icearrow_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3000"/>
+        <Texture Name="gIceArrowItemNameENGTex" OutName="ice_arrow_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3000"/>
         <Texture Name="gFaroresWindItemNameENGTex" OutName="farores_wind_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3400"/>
         <Texture Name="gBoomerangItemNameENGTex" OutName="boomerang_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3800"/>
         <Texture Name="gLensItemNameENGTex" OutName="lens_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3C00"/>
@@ -124,7 +124,7 @@
         <Texture Name="gUnusedBossKeyItemName7JPNTex" OutName="boss_key_item_name_unused_jpn_7" Format="ia4" Width="128" Height="16" Offset="0x1E400"/>
         <Texture Name="gBiggoronsSwordItemNameENGTex" OutName="biggorons_sword_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1E800"/>
         <Texture Name="gDekuStickItemNameGERTex" OutName="deku_stick_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x1EC00"/>
-        <Texture Name="gDekuNutItemNameGERTex" OutName="dekunut_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x1F000"/>
+        <Texture Name="gDekuNutItemNameGERTex" OutName="deku_nut_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x1F000"/>
         <Texture Name="gBombItemNameItemNameGERTex" OutName="bomb_item_name_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x1F400"/>
         <Texture Name="gFairyBowItemNameGERTex" OutName="fairy_bow_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x1F800"/>
         <Texture Name="gFireArrowItemNameUnk2GERTex" OutName="fire_arrow_item_name_unk2_ger" Format="ia4" Width="128" Height="16" Offset="0x1FC00"/>
@@ -135,7 +135,7 @@
         <Texture Name="gBombchuItemNameGERTex" OutName="bombchu_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x21000"/>
         <Texture Name="gHookshotItemNameGERTex" OutName="hookshot_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x21400"/>
         <Texture Name="gLongshotItemNameGERTex" OutName="longshot_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x21800"/>
-        <Texture Name="gIceArrowItemNameGERTex" OutName="icearrow_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x21C00"/>
+        <Texture Name="gIceArrowItemNameGERTex" OutName="ice_arrow_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x21C00"/>
         <Texture Name="gFaroresWindItemNameGERTex" OutName="farores_wind_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x22000"/>
         <Texture Name="gBoomerangItemNameGERTex" OutName="boomerang_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x22400"/>
         <Texture Name="gLensItemNameGERTex" OutName="lens_item_name_ger" Format="ia4" Width="128" Height="16" Offset="0x22800"/>

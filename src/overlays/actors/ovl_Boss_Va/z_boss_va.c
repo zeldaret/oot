@@ -507,33 +507,33 @@ void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpr
 }
 
 void BossVa_SetSparkEnv(PlayState* play) {
-    play->envCtx.adjAmbientColor[0] = 0xA;
-    play->envCtx.adjAmbientColor[1] = 0xA;
-    play->envCtx.adjAmbientColor[2] = 0xA;
-    play->envCtx.adjLight1Color[0] = 0x73;
-    play->envCtx.adjLight1Color[1] = 0x41;
-    play->envCtx.adjLight1Color[2] = 0x64;
-    play->envCtx.adjFogColor[0] = 0x78;
-    play->envCtx.adjFogColor[1] = 0x78;
-    play->envCtx.adjFogColor[2] = 0x46;
+    play->envCtx.adjAmbientColor[0] = 10;
+    play->envCtx.adjAmbientColor[1] = 10;
+    play->envCtx.adjAmbientColor[2] = 10;
+    play->envCtx.adjLight1Color[0] = 115;
+    play->envCtx.adjLight1Color[1] = 65;
+    play->envCtx.adjLight1Color[2] = 100;
+    play->envCtx.adjFogColor[0] = 120;
+    play->envCtx.adjFogColor[1] = 120;
+    play->envCtx.adjFogColor[2] = 70;
 }
 
 void BossVa_SetDeathEnv(PlayState* play) {
-    play->envCtx.adjFogColor[0] = 0xDC;
-    play->envCtx.adjFogColor[1] = 0xDC;
-    play->envCtx.adjFogColor[2] = 0x96;
-    play->envCtx.adjFogNear = -0x3E8;
-    play->envCtx.adjFogFar = -0x384;
-    play->envCtx.adjAmbientColor[0] = 0xC8;
-    play->envCtx.adjAmbientColor[1] = 0xC8;
-    play->envCtx.adjAmbientColor[2] = 0xC8;
-    play->envCtx.adjLight1Color[0] = 0xD7;
-    play->envCtx.adjLight1Color[1] = 0xA5;
-    play->envCtx.adjLight1Color[2] = 0xC8;
-    play->envCtx.screenFillColor[0] = 0xDC;
-    play->envCtx.screenFillColor[1] = 0xDC;
-    play->envCtx.screenFillColor[2] = 0x96;
-    play->envCtx.screenFillColor[3] = 0x64;
+    play->envCtx.adjFogColor[0] = 220;
+    play->envCtx.adjFogColor[1] = 220;
+    play->envCtx.adjFogColor[2] = 150;
+    play->envCtx.adjFogNear = -1000;
+    play->envCtx.adjZFar = -900;
+    play->envCtx.adjAmbientColor[0] = 200;
+    play->envCtx.adjAmbientColor[1] = 200;
+    play->envCtx.adjAmbientColor[2] = 200;
+    play->envCtx.adjLight1Color[0] = 215;
+    play->envCtx.adjLight1Color[1] = 165;
+    play->envCtx.adjLight1Color[2] = 200;
+    play->envCtx.screenFillColor[0] = 220;
+    play->envCtx.screenFillColor[1] = 220;
+    play->envCtx.screenFillColor[2] = 150;
+    play->envCtx.screenFillColor[3] = 100;
 }
 
 EnBoom* BossVa_FindBoomerang(PlayState* play) {
@@ -3185,16 +3185,16 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     switch (this->actor.params) {
         case BOSSVA_BODY:
             if (play->envCtx.adjFogNear != 0) {
-                play->envCtx.adjFogNear += 0x15E;
+                play->envCtx.adjFogNear += 350;
                 if (play->envCtx.adjFogNear > 0) {
                     play->envCtx.adjFogNear = 0;
                 }
             }
 
-            if (play->envCtx.adjFogFar != 0) {
-                play->envCtx.adjFogFar += 0x15E;
-                if (play->envCtx.adjFogFar > 0) {
-                    play->envCtx.adjFogFar = 0;
+            if (play->envCtx.adjZFar != 0) {
+                play->envCtx.adjZFar += 350;
+                if (play->envCtx.adjZFar > 0) {
+                    play->envCtx.adjZFar = 0;
                 }
             }
 
