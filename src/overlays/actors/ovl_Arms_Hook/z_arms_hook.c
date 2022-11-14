@@ -11,7 +11,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play);
 void ArmsHook_Wait(ArmsHook* this, PlayState* play);
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play);
 
-const ActorInit Arms_Hook_InitVars = {
+ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORCAT_ITEMACTION,
     FLAGS,

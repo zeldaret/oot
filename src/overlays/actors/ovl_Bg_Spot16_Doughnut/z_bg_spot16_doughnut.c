@@ -6,7 +6,7 @@
 
 #include "z_bg_spot16_doughnut.h"
 #include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -18,7 +18,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot16_Doughnut_InitVars = {
+ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORCAT_PROP,
     FLAGS,

@@ -16,7 +16,7 @@ void BgMizuUzu_Draw(Actor* thisx, PlayState* play);
 
 void func_8089F788(BgMizuUzu* this, PlayState* play);
 
-const ActorInit Bg_Mizu_Uzu_InitVars = {
+ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
     ACTORCAT_PROP,
     FLAGS,

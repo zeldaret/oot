@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 // these are the main substructs of save context.
 // we are going to hold off on splitting save context until later on,

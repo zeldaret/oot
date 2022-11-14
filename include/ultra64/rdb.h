@@ -68,7 +68,7 @@
 
 #if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
-#include "types.h"
+#include "ultratypes.h"
 
 /* Structure for debug port */
 typedef struct {

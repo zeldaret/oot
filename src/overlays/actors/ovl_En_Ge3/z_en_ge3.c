@@ -18,7 +18,7 @@ void EnGe3_WaitLookAtPlayer(EnGe3* this, PlayState* play);
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play);
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play);
 
-const ActorInit En_Ge3_InitVars = {
+ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORCAT_NPC,
     FLAGS,

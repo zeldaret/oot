@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);

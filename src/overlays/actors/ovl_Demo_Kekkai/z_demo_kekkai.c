@@ -21,7 +21,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 
-const ActorInit Demo_Kekkai_InitVars = {
+ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
     ACTORCAT_ITEMACTION,
     FLAGS,

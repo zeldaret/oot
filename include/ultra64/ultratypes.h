@@ -1,5 +1,7 @@
-#ifndef ULTRA64_TYPES_H
-#define ULTRA64_TYPES_H
+#ifndef ULTRA64_ULTRATYPES_H
+#define ULTRA64_ULTRATYPES_H
+
+#ifdef _LANGUAGE_C
 
 typedef signed char            s8;
 typedef unsigned char          u8;
@@ -35,5 +37,7 @@ typedef union {
               xw, yw, zw, ww;
     };
 } MtxF;
+
+#endif
 
 #endif

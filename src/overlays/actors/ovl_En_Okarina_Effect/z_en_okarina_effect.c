@@ -5,7 +5,7 @@
  */
 
 #include "z_en_okarina_effect.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -16,7 +16,7 @@ void EnOkarinaEffect_Update(Actor* thisx, PlayState* play);
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play);
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play);
 
-const ActorInit En_Okarina_Effect_InitVars = {
+ActorInit En_Okarina_Effect_InitVars = {
     ACTOR_EN_OKARINA_EFFECT,
     ACTORCAT_ITEMACTION,
     FLAGS,

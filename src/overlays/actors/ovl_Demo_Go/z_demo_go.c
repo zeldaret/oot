@@ -6,7 +6,7 @@
 
 #include "z_demo_go.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -37,7 +37,7 @@ static DemoGoDrawFunc D_8097D468[] = {
     func_8097D29C,
 };
 
-const ActorInit Demo_Go_InitVars = {
+ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORCAT_NPC,
     FLAGS,

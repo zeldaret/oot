@@ -18,7 +18,7 @@ void func_80886FCC(BgHidanFslift* this, PlayState* play);
 void func_8088706C(BgHidanFslift* this, PlayState* play);
 void func_808870D8(BgHidanFslift* this, PlayState* play);
 
-const ActorInit Bg_Hidan_Fslift_InitVars = {
+ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
     ACTORCAT_BG,
     FLAGS,

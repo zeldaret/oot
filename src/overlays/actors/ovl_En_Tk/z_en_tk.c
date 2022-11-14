@@ -20,7 +20,7 @@ void EnTk_Rest(EnTk* this, PlayState* play);
 void EnTk_Walk(EnTk* this, PlayState* play);
 void EnTk_Dig(EnTk* this, PlayState* play);
 
-const ActorInit En_Tk_InitVars = {
+ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
     ACTORCAT_NPC,
     FLAGS,
