@@ -96,7 +96,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-const ActorInit En_Go2_InitVars = {
+ActorInit En_Go2_InitVars = {
     ACTOR_EN_GO2,
     ACTORCAT_NPC,
     FLAGS,

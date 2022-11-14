@@ -5,7 +5,7 @@
  */
 
 #include "z_en_girla.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -67,7 +67,7 @@ void EnGirlA_BuyEvent_ObtainBombchuPack(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_GoronTunic(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_ZoraTunic(PlayState* play, EnGirlA* this);
 
-const ActorInit En_GirlA_InitVars = {
+ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
     ACTORCAT_PROP,
     FLAGS,

@@ -7,7 +7,7 @@
 #include "z_bg_heavy_block.h"
 #include "assets/objects/object_heavy_object/object_heavy_object.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -27,7 +27,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_DoNothing(BgHeavyBlock* this, PlayState* play);
 
-const ActorInit Bg_Heavy_Block_InitVars = {
+ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORCAT_BG,
     FLAGS,

@@ -27,7 +27,7 @@ extern CutsceneData D_80B4C5D0[];
 
 #include "z_en_zl1_camera_data.inc.c"
 
-const ActorInit En_Zl1_InitVars = {
+ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
     ACTORCAT_NPC,
     FLAGS,

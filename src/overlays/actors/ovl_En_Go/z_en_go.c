@@ -34,7 +34,7 @@ void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
 void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
-const ActorInit En_Go_InitVars = {
+ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORCAT_NPC,
     FLAGS,

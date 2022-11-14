@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/object_sa/object_sa.h"
 
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -86,7 +86,7 @@ static DemoSaDrawFunc sDrawFuncs[] = {
     DemoSa_DrawXlu,
 };
 
-const ActorInit Demo_Sa_InitVars = {
+ActorInit Demo_Sa_InitVars = {
     ACTOR_DEMO_SA,
     ACTORCAT_NPC,
     FLAGS,

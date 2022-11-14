@@ -15,7 +15,7 @@ void BgVbSima_Destroy(Actor* thisx, PlayState* play);
 void BgVbSima_Update(Actor* thisx, PlayState* play);
 void BgVbSima_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Vb_Sima_InitVars = {
+ActorInit Bg_Vb_Sima_InitVars = {
     ACTOR_BG_VB_SIMA,
     ACTORCAT_BG,
     FLAGS,

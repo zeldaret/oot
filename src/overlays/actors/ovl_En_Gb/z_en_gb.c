@@ -26,7 +26,7 @@ void func_80A2FC0C(EnGb* this, PlayState* play);
 void EnGb_DrawCagedSouls(EnGb* this, PlayState* play);
 void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play);
 
-const ActorInit En_Gb_InitVars = {
+ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
     ACTORCAT_NPC,
     FLAGS,

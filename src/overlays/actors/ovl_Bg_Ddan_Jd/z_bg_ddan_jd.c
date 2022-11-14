@@ -17,7 +17,7 @@ void BgDdanJd_Draw(Actor* thisx, PlayState* play);
 void BgDdanJd_Idle(BgDdanJd* this, PlayState* play);
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play);
 
-const ActorInit Bg_Ddan_Jd_InitVars = {
+ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORCAT_BG,
     FLAGS,

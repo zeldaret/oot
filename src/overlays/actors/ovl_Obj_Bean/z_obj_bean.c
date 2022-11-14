@@ -7,7 +7,7 @@
 #include "z_obj_bean.h"
 #include "assets/objects/object_mamenoki/object_mamenoki.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_22
 
@@ -72,7 +72,7 @@ void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play);
 
 static ObjBean* D_80B90E30 = NULL;
 
-const ActorInit Obj_Bean_InitVars = {
+ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
     ACTORCAT_BG,
     FLAGS,

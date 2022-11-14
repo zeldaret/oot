@@ -899,7 +899,7 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
     SkelAnime_DrawFlexLod(play, skeleton, jointTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
     if ((overrideLimbDraw != Player_OverrideLimbDrawGameplayFirstPerson) &&
-        (overrideLimbDraw != Player_OverrideLimbDrawGameplay_80090440) &&
+        (overrideLimbDraw != Player_OverrideLimbDrawGameplayCrawling) &&
         (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
@@ -1198,8 +1198,8 @@ s32 Player_OverrideLimbDrawGameplayFirstPerson(PlayState* play, s32 limbIndex, G
     return false;
 }
 
-s32 Player_OverrideLimbDrawGameplay_80090440(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                             void* thisx) {
+s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                            void* thisx) {
     if (!Player_OverrideLimbDrawGameplayCommon(play, limbIndex, dList, pos, rot, thisx)) {
         *dList = NULL;
     }

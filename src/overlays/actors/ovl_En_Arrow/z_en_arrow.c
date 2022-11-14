@@ -19,7 +19,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play);
 void func_809B45E0(EnArrow* this, PlayState* play);
 void func_809B4640(EnArrow* this, PlayState* play);
 
-const ActorInit En_Arrow_InitVars = {
+ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
     ACTORCAT_ITEMACTION,
     FLAGS,
