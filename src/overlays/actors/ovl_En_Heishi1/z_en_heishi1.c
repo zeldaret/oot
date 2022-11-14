@@ -6,7 +6,7 @@
 
 #include "z_en_heishi1.h"
 #include "assets/objects/object_sd/object_sd.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -31,7 +31,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 
 static s32 sPlayerIsCaught = false;
 
-const ActorInit En_Heishi1_InitVars = {
+ActorInit En_Heishi1_InitVars = {
     0,
     ACTORCAT_NPC,
     FLAGS,

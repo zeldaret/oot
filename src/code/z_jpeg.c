@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define MARKER_ESCAPE 0x00
 #define MARKER_SOI 0xD8

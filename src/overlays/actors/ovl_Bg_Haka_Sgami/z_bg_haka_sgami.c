@@ -26,7 +26,7 @@ void BgHakaSgami_Draw(Actor* thisx, PlayState* play);
 void BgHakaSgami_SetupSpin(BgHakaSgami* this, PlayState* play);
 void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play);
 
-const ActorInit Bg_Haka_Sgami_InitVars = {
+ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,
     ACTORCAT_PROP,
     FLAGS,

@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_bowl/object_bowl.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -24,7 +24,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play);
 void BgBowlWall_FinishFall(BgBowlWall* this, PlayState* play);
 void BgBowlWall_Reset(BgBowlWall* this, PlayState* play);
 
-const ActorInit Bg_Bowl_Wall_InitVars = {
+ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORCAT_PROP,
     FLAGS,

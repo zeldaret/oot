@@ -32,7 +32,7 @@ void EnDoor_AjarOpen(EnDoor* this, PlayState* play);
 void EnDoor_AjarClose(EnDoor* this, PlayState* play);
 void EnDoor_Open(EnDoor* this, PlayState* play);
 
-const ActorInit En_Door_InitVars = {
+ActorInit En_Door_InitVars = {
     ACTOR_EN_DOOR,
     ACTORCAT_DOOR,
     FLAGS,

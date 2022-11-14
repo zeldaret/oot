@@ -119,6 +119,7 @@
 #define LOG_TIME(exp, value, file, line) LOG(exp, value, "%lld", file, line)
 #define LOG_NUM(exp, value, file, line) LOG(exp, value, "%d", file, line)
 #define LOG_HEX(exp, value, file, line) LOG(exp, value, "%x", file, line)
+#define LOG_HEX32(exp, value, file, line) LOG(exp, value, "%08x", file, line)
 #define LOG_FLOAT(exp, value, file, line) LOG(exp, value, "%f", file, line)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \

@@ -19,7 +19,7 @@ void EnPoDesert_WaitForPlayer(EnPoDesert* this, PlayState* play);
 void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play);
 void EnPoDesert_Disappear(EnPoDesert* this, PlayState* play);
 
-const ActorInit En_Po_Desert_InitVars = {
+ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORCAT_BG,
     FLAGS,

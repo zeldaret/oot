@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wf.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "assets/objects/object_wf/object_wf.h"
 
@@ -187,7 +187,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
 };
 
-const ActorInit En_Wf_InitVars = {
+ActorInit En_Wf_InitVars = {
     ACTOR_EN_WF,
     ACTORCAT_ENEMY,
     FLAGS,

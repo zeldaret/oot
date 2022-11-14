@@ -1,6 +1,6 @@
 #include "z_en_fr.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_fr/object_fr.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
@@ -133,7 +133,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
-const ActorInit En_Fr_InitVars = {
+ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORCAT_NPC,
     FLAGS,

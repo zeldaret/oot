@@ -128,7 +128,7 @@ void EffectSsGSpk_Update(PlayState* play, u32 index, EffectSs* this) {
 }
 
 // this update mode is unused in the original game
-// with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
+// with this update mode, the sparks don't move randomly in the xz plane, appearing to be on top of each other
 void EffectSsGSpk_UpdateNoAccel(PlayState* play, u32 index, EffectSs* this) {
     if (this->actor != NULL) {
         if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
