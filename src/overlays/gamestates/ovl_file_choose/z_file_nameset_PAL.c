@@ -561,7 +561,7 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
         this->kbdY--;
 
         if (this->kbdY < 0) {
-            // dont go to bottom row
+            // don't go to bottom row
             if (this->kbdX < 8) {
                 this->kbdY = 4;
                 this->charIndex = (s32)(this->kbdX + 52);

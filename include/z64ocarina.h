@@ -140,9 +140,9 @@ typedef enum {
 } OcarinaInstrumentId;
 
 typedef enum {
-    /* 0  */ OCARINA_RECORD_OFF,
-    /* 1  */ OCARINA_RECORD_SCARECROW_LONG,
-    /* 2  */ OCARINA_RECORD_SCARECROW_SPAWN,
+    /*    0 */ OCARINA_RECORD_OFF,
+    /*    1 */ OCARINA_RECORD_SCARECROW_LONG,
+    /*    2 */ OCARINA_RECORD_SCARECROW_SPAWN,
     /* 0xFF */ OCARINA_RECORD_REJECTED = 0xFF
 } OcarinaRecordingState;
 

@@ -393,8 +393,8 @@ void Play_Init(GameState* thisx) {
     D_801614B0.a = 0;
     Flags_UnsetAllEnv(this);
 
-    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&this->state.tha));
-    zAllocSize = THA_GetSize(&this->state.tha);
+    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
+    zAllocSize = THA_GetRemaining(&this->state.tha);
     zAlloc = (u32)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init((void*)zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
