@@ -105,10 +105,6 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->collider, &this->actor, &sQuadInit);
     this->worldPos = this->actor.world.pos;
     this->actor.flags |= ACTOR_FLAG_4;
-    if (gSaveContext.sceneSetupIndex != 4) {
-        Actor_Kill(&this->actor);
-        return;
-    }
     osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n" VT_RST, this->subTypeIndex);
     this->actionFunc = func_80B42F74;
