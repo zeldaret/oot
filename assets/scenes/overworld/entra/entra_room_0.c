@@ -14,19 +14,24 @@ SceneCmd entra_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&entra_room_0MeshHeader1Single_000070),
-    SCENE_CMD_OBJECT_LIST(2, entra_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(2, entra_room_0ActorList_000044),
+    SCENE_CMD_OBJECT_LIST(3, entra_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(6, entra_room_0ActorList_000044),
     SCENE_CMD_END(),
 };
 
 s16 entra_room_0ObjectList_000040[] = {
     OBJECT_SD,
     OBJECT_DOG,
+    OBJECT_NIW,
 };
 
 ActorEntry entra_room_0ActorList_000044[] = {
     { ACTOR_EN_RIVER_SOUND, {     14,      0,   2482 }, {      0,      0,      0 }, 0x000B },
     { ACTOR_EN_HEISHI4,     {    117,      0,   2824 }, {      0, 0XC000,      0 }, 0xFF08 },
+    { ACTOR_EN_NIW,         {     60,      0,   2718 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,         {    110,      0,   2718 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,         {     10,      0,   2718 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,         {    -60,      0,   2658 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 entra_room_0_possiblePadding_000064[] = {
