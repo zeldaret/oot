@@ -17,7 +17,7 @@ SceneCmd hakaana_ouke_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&hakaana_ouke_room_1PolygonType0_0000A0),
-    SCENE_CMD_OBJECT_LIST(7, hakaana_ouke_room_1ObjectList_00005C),
+    SCENE_CMD_OBJECT_LIST(8, hakaana_ouke_room_1ObjectList_00005C),
     SCENE_CMD_ACTOR_LIST(3, hakaana_ouke_room_1ActorList_00006C),
     SCENE_CMD_END(),
 };
@@ -38,6 +38,7 @@ s16 hakaana_ouke_room_1ObjectList_00005C[] = {
     OBJECT_BOX,
     OBJECT_EFC_FLASH,
     OBJECT_OUKE_HAKA,
+    OBJECT_BWALL,
 };
 
 ActorEntry hakaana_ouke_room_1ActorList_00006C[] = {

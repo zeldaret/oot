@@ -17,8 +17,8 @@ SceneCmd hakaana_ouke_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&hakaana_ouke_room_0PolygonType0_000110),
-    SCENE_CMD_OBJECT_LIST(7, hakaana_ouke_room_0ObjectList_00005C),
-    SCENE_CMD_ACTOR_LIST(10, hakaana_ouke_room_0ActorList_00006C),
+    SCENE_CMD_OBJECT_LIST(8, hakaana_ouke_room_0ObjectList_00005C),
+    SCENE_CMD_ACTOR_LIST(11, hakaana_ouke_room_0ActorList_00006C),
     SCENE_CMD_END(),
 };
 
@@ -38,6 +38,7 @@ s16 hakaana_ouke_room_0ObjectList_00005C[] = {
     OBJECT_BOX,
     OBJECT_EFC_FLASH,
     OBJECT_OUKE_HAKA,
+    OBJECT_BWALL,
 };
 
 ActorEntry hakaana_ouke_room_0ActorList_00006C[] = {
@@ -51,6 +52,7 @@ ActorEntry hakaana_ouke_room_0ActorList_00006C[] = {
     { ACTOR_EN_BOX,          {      1,    244,   1473 }, {      0,      0,   0X20 }, 0x8020 },
     { ACTOR_SHOT_SUN,        {   -210,      5,   1476 }, {      0,      0,      0 }, 0xFF40 },
     { ACTOR_EN_WONDER_TALK2, {   -247,     18,   1446 }, {      0, 0X22D8,      0 }, 0x06B9 },
+    { ACTOR_BG_BREAKWALL,    {     -1,    120,   1145 }, {      0,      0,      0 }, 0x201C },
 };
 
 u8 hakaana_ouke_room_0_possiblePadding_00010C[] = {
