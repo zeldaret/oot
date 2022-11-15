@@ -37,7 +37,7 @@ SceneCmd HAKAdan_room_21Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HAKAdan_room_21PolygonType2_000270),
     SCENE_CMD_OBJECT_LIST(13, HAKAdan_room_21ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(33, HAKAdan_room_21ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(34, HAKAdan_room_21ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -91,6 +91,7 @@ ActorEntry HAKAdan_room_21ActorList_00005C[] = {
     { ACTOR_BG_HAKA_ZOU,    {  -2257,  -1323,   -699 }, {      0,      0,      0 }, 0x1000 },
     { ACTOR_BG_HAKA_SHIP,   {   4738,  -1395,  -2006 }, {      0,      0,      0 }, 0x3800 },
     { ACTOR_EN_BOX,         {   3930,  -1203,  -1366 }, {      0, 0XC000,      0 }, 0x684E },
+    { ACTOR_ELF_MSG,        {   4670,  -1172,  -2075 }, {   0x25,      0,      0 }, 0x1F83 },
 };
 
 u8 HAKAdan_room_21_possiblePadding_00026C[] = {
