@@ -27,7 +27,7 @@ SceneCmd ice_doukutu_room_7Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_7PolygonType0_0000B0),
     SCENE_CMD_OBJECT_LIST(5, ice_doukutu_room_7ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(4, ice_doukutu_room_7ActorList_000064),
+    SCENE_CMD_ACTOR_LIST(5, ice_doukutu_room_7ActorList_000064),
     SCENE_CMD_END(),
 };
 
@@ -51,6 +51,7 @@ ActorEntry ice_doukutu_room_7ActorList_000064[] = {
     { ACTOR_EN_XC,          {  -1108,    290,    660 }, {      0,      0,      0 }, 0x0008 },
     { ACTOR_EN_BOX,         {  -1005,    280,   1068 }, {      0, 0X216C,      0 }, 0x15C2 },
     { ACTOR_EN_TEST,        {  -1096,    282,    964 }, {      0, 0X9A50,      0 }, 0xFFFF },
+    { ACTOR_BG_ICE_SHELTER, {  -1005,    280,   1068 }, {      0, 0X8000,      0 }, 0x021F },
 };
 
 u8 ice_doukutu_room_7_possiblePadding_0000A4[] = {
