@@ -166,7 +166,7 @@ SceneCmd spot12_room_0Set_000540[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_WIND_SETTINGS(0, 4, 40, 140),
     SCENE_CMD_MESH(&spot12_room_0PolygonType2_0001D0),
-    SCENE_CMD_OBJECT_LIST(11, spot12_room_0ObjectList_000588),
+    SCENE_CMD_OBJECT_LIST(12, spot12_room_0ObjectList_000588),
     SCENE_CMD_ACTOR_LIST(31, spot12_room_0ActorList_00059C),
     SCENE_CMD_END(),
 };
@@ -183,6 +183,7 @@ s16 spot12_room_0ObjectList_000588[] = {
     OBJECT_KA,
     OBJECT_ST,
     OBJECT_HORSE_NORMAL,
+    OBJECT_YABUSAME_POINT,
 };
 
 ActorEntry spot12_room_0ActorList_00059C[] = {
