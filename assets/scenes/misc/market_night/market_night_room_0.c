@@ -14,8 +14,8 @@ SceneCmd market_night_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&market_night_room_0PolygonType0_000200),
-    SCENE_CMD_OBJECT_LIST(8, market_night_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(27, market_night_room_0ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(9, market_night_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(43, market_night_room_0ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -28,6 +28,7 @@ s16 market_night_room_0ObjectList_000040[] = {
     OBJECT_BOJ,
     OBJECT_MU,
     OBJECT_KIBAKO2,
+    OBJECT_KANBAN,
 };
 
 ActorEntry market_night_room_0ActorList_000050[] = {
@@ -58,6 +59,22 @@ ActorEntry market_night_room_0ActorList_000050[] = {
     { ACTOR_OBJ_KIBAKO2,    {    490,      0,    132 }, {      0,      0,   0X22 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,    {    490,      0,    338 }, {      0,      0,   0X23 }, 0xFFFF },
     { ACTOR_EN_HY,          {    297,    160,    537 }, {      0, 0X8000,      0 }, 0x0790 },
+    { ACTOR_EN_KANBAN,      {    472,      0,   -269 }, {      0, 0XC000,      0 }, 0x0303 },
+    { ACTOR_EN_KANBAN,      {    474,      0,    268 }, {      0, 0XC000,      0 }, 0x0330 },
+    { ACTOR_EN_KANBAN,      {    462,      0,    -45 }, {      0, 0XC000,      0 }, 0x0331 },
+    { ACTOR_EN_KANBAN,      {   -318,      0,    -68 }, {      0, 0X4000,      0 }, 0x032F },
+    { ACTOR_EN_KANBAN,      {   -370,      0,    570 }, {      0, 0X8000,      0 }, 0x032A },
+    { ACTOR_EN_KANBAN,      {    234,      0,   -513 }, {      0,      0,      0 }, 0x032E },
+    { ACTOR_EN_KANBAN,      {   -115,      0,    543 }, {      0, 0X8000,      0 }, 0x0302 },
+    { ACTOR_EN_WONDER_ITEM, {    453,     23,   -269 }, {      0, 0xC000,      0 }, 0x1A3F },
+    { ACTOR_EN_WONDER_ITEM, {    443,     23,    -45 }, {      0, 0xC000,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {    455,     23,    268 }, {      0, 0xC000,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {    234,     23,   -494 }, {      0,      0,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {   -299,     23,    -68 }, {      0, 0x4000,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {   -115,     23,    524 }, {      0, 0X8000,      0 }, 0x1A3F },
+    { ACTOR_EN_WONDER_ITEM, {   -370,     23,    551 }, {      0, 0X8000,      0 }, 0x1A3F },
+    { ACTOR_EN_WONDER_TALK2,{   -482,     40,    576 }, {      0, 0X8000,      0 }, 0x803F },
+    { ACTOR_OBJ_KIBAKO2,    {   -120,     48,   -576 }, { 0XFFFF,      0,      0 }, 0xFFFF },
 };
 
 PolygonType0 market_night_room_0PolygonType0_000200 = { 

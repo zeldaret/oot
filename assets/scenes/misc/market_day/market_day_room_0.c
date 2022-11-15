@@ -14,8 +14,8 @@ SceneCmd market_day_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&market_day_room_0PolygonType0_0002D0),
-    SCENE_CMD_OBJECT_LIST(15, market_day_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(39, market_day_room_0ActorList_000060),
+    SCENE_CMD_OBJECT_LIST(16, market_day_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(55, market_day_room_0ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -35,6 +35,7 @@ s16 market_day_room_0ObjectList_000040[] = {
     OBJECT_GR,
     OBJECT_MU,
     OBJECT_COB,
+    OBJECT_KANBAN,
 };
 
 ActorEntry market_day_room_0ActorList_000060[] = {
@@ -45,7 +46,7 @@ ActorEntry market_day_room_0ActorList_000060[] = {
     { ACTOR_EN_HY,          {   -387,      0,   -228 }, {      0, 0X4000,      0 }, 0x0785 },
     { ACTOR_EN_HY,          {   -344,      0,      9 }, {      0, 0X3777,      0 }, 0x0087 },
     { ACTOR_EN_HY,          {   -160,      0,   -133 }, {      0, 0X25B0,      0 }, 0x0786 },
-    { ACTOR_EN_HY,          {    393,      0,    264 }, {      0, 0XAB61,      0 }, 0x0782 },
+    { ACTOR_EN_HY,          {    363,      0,    264 }, {      0, 0XAB61,      0 }, 0x0782 },
     { ACTOR_EN_HY,          {   -343,    160,    241 }, {      0, 0X5555,      0 }, 0x078C },
     { ACTOR_EN_MU,          {    250,      2,    400 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_MU,          {   -400,      2,    185 }, {      0, 0XC000,      0 }, 0x0001 },
@@ -77,6 +78,22 @@ ActorEntry market_day_room_0ActorList_000060[] = {
     { ACTOR_OBJ_KIBAKO2,    {    490,      0,    338 }, { 0XFFFF,      0,      0 }, 0xFFFF },
     { ACTOR_EN_HY,          {   -110,      0,   -336 }, {      0, 0XF8E4,      0 }, 0x0784 },
     { ACTOR_EN_RIVER_SOUND, {     22,      0,     33 }, {      0,      0,      0 }, 0x000A },
+    { ACTOR_EN_KANBAN,      {    472,      0,   -269 }, {      0, 0XC000,      0 }, 0x0303 },
+    { ACTOR_EN_KANBAN,      {    474,      0,    268 }, {      0, 0XC000,      0 }, 0x0330 },
+    { ACTOR_EN_KANBAN,      {    462,      0,    -45 }, {      0, 0XC000,      0 }, 0x0331 },
+    { ACTOR_EN_KANBAN,      {   -318,      0,    -68 }, {      0, 0X4000,      0 }, 0x032F },
+    { ACTOR_EN_KANBAN,      {   -370,      0,    570 }, {      0, 0X8000,      0 }, 0x032A },
+    { ACTOR_EN_KANBAN,      {    234,      0,   -513 }, {      0,      0,      0 }, 0x032E },
+    { ACTOR_EN_KANBAN,      {   -115,      0,    543 }, {      0, 0X8000,      0 }, 0x0302 },
+    { ACTOR_EN_WONDER_ITEM, {    453,     23,   -269 }, {      0, 0xC000,      0 }, 0x1A3F },
+    { ACTOR_EN_WONDER_ITEM, {    443,     23,    -45 }, {      0, 0xC000,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {    455,     23,    268 }, {      0, 0xC000,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {    234,     23,   -494 }, {      0,      0,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {   -299,     23,    -68 }, {      0, 0x4000,      0 }, 0x1A7F },
+    { ACTOR_EN_WONDER_ITEM, {   -115,     23,    524 }, {      0, 0X8000,      0 }, 0x1A3F },
+    { ACTOR_EN_WONDER_ITEM, {   -370,     23,    551 }, {      0, 0X8000,      0 }, 0x1A3F },
+    { ACTOR_EN_WONDER_TALK2,{   -482,     40,    576 }, {      0, 0X8000,      0 }, 0x803F },
+    { ACTOR_OBJ_KIBAKO2,    {   -120,     48,   -576 }, { 0XFFFF,      0,      0 }, 0xFFFF },
 };
 
 PolygonType0 market_day_room_0PolygonType0_0002D0 = { 
