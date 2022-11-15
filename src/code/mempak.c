@@ -9,7 +9,7 @@
  */
 #include "global.h"
 
-#define MEMPAK_MAX_FILES 10
+#define MEMPAK_MAX_FILES 11
 
 OSPfs sMempakPfsHandle;
 s32 sMempakFreeBytes;
@@ -18,14 +18,16 @@ s32 sMempakFiles[MEMPAK_MAX_FILES];
 u16 sMempakCompanyCode = 1;
 u32 sMempakGameCode = 1;
 
+// NCH is a heavily abbreviated "N64 font code CHaracter"
 // Conversion from A-Z to N64 Font Code
 #define NCH(c) ((c)-0x27)
 // Conversion from spaces to N64 Font Code
 #define NCH_SPC (0x0F)
 
-u8 sMempakGameName[PFS_FILE_NAME_LEN] = { NCH('Z'), NCH('E'), NCH('L'), NCH('D'), NCH('A'), NCH_SPC,
-                                          NCH('D'), NCH('E'), NCH('M'), NCH('O'), NCH_SPC,  NCH('T'),
-                                          NCH('O'), NCH('O'), NCH('L'), NCH_SPC };
+u8 sMempakGameName[PFS_FILE_NAME_LEN] = {
+    NCH('Z'), NCH('E'), NCH('L'), NCH('D'), NCH('A'), NCH_SPC,  NCH('D'), NCH('E'),
+    NCH('M'), NCH('O'), NCH_SPC,  NCH('T'), NCH('O'), NCH('O'), NCH('L'), NCH_SPC,
+};
 
 u8 sMempakExtName[PFS_FILE_EXT_LEN] = { 0 };
 
@@ -57,6 +59,8 @@ s32 Mempak_GetFreeBytes(s32 controllerNum) {
 
 /**
  * Checks if the files identified by letters between `start` and `end` (inclusive) exist on the memory pak.
+ *
+ * This must be called before performing any individual file operations.
  *
  * @param controllerNum Unused, the controller used is that which was last passed to `Mempak_Init`
  * @param start Start file letter
@@ -160,7 +164,8 @@ s32 Mempak_Read(s32 controllerNum, char letter, void* buffer, s32 offset, s32 si
  * @param controllerNum Unused, the controller used is that which was last passed to `Mempak_Init`
  * @param letter Memory pak file letter, in the range 'A' to ('A' + MEMPAK_MAX_FILES).
  *      If this points to a valid file letter the new file will be created using that letter, otherwise it will create
- *      a file using the first free letter and return it through this argument
+ *      a file using the first free letter and return it through this argument. If no letters are free, the last letter
+ *      ('A' + MEMPAK_MAX_FILES - 1) is used.
  * @param size File size
  * @return true if the operation completed successfully, false otherwise
  */
@@ -173,7 +178,7 @@ s32 Mempak_CreateFile(s32 controllerNum, char* letter, s32 size) {
 
     serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
-    if (*letter >= MEMPAK_INDEX_TO_LETTER(0) && *letter <= MEMPAK_INDEX_TO_LETTER(MEMPAK_MAX_FILES)) {
+    if (*letter >= MEMPAK_INDEX_TO_LETTER(0) && *letter < MEMPAK_INDEX_TO_LETTER(MEMPAK_MAX_FILES)) {
         // Create file with specific letter
 
         sMempakExtName[0] = NCH(*letter);
@@ -203,7 +208,7 @@ s32 Mempak_CreateFile(s32 controllerNum, char* letter, s32 size) {
         }
     } else {
         // Find first free letter and create a file identified by it
-        for (i = 0; i < MEMPAK_MAX_FILES; i++) {
+        for (i = 0; i < MEMPAK_MAX_FILES - 1; i++) {
             if (sMempakFiles[i] == -1) {
                 break;
             }
