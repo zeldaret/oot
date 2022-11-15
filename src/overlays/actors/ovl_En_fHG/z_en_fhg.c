@@ -28,6 +28,7 @@ typedef enum {
     /*  7 */ INTRO_TITLE,
     /*  8 */ INTRO_RETREAT,
     /*  9 */ INTRO_FINISH,
+    /* 10 */ INTRO_LAUGH2, // added slplit for cutscene message
     /* 15 */ INTRO_READY = 15
 } EnfHGIntroState;
 
@@ -220,6 +221,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 5) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_SANDDUST);
+                Message_StartTextbox(play, 0x1069, &this->actor); // added unused textbox
             }
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_CUT;
@@ -272,7 +274,20 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_LAND2);
                 Animation_Change(&this->skin.skelAnime, &gPhantomHorseIdleAnim, 0.3f, 0.0f, 5.0f, ANIMMODE_LOOP_INTERP,
                                  -10.0f);
+            }                     
+            if (this->timers[0] == 130) {
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x5000FF);
             }
+            if (this->timers[0] == 130) {
+                bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_FADE;
+                func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
+            }
+            if (Actor_TextboxIsClosing(&this->actor, play)) {
+                this->cutsceneState = INTRO_LAUGH2;
+                this->timers[0] = 110;
+            }
+            break;
+        case INTRO_LAUGH2: // added split for the cutscene message                                    
             if (this->timers[0] == 90) {
                 play->envCtx.lightSettingOverride = 2;
                 play->envCtx.lightBlendRateOverride = 20;
@@ -298,6 +313,12 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             }
             if (this->timers[0] == 20) {
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+            }
+            if (this->timers[0] == 3) {
+                Animation_MorphToPlayOnce(&this->skin.skelAnime, &gPhantomHorseRearingAnim, -8.0f);
+                this->bossGndSignal = FHG_REAR;
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
             }
             if (this->timers[0] == 2) {
                 this->subCamVelFactor = 0.0f;
