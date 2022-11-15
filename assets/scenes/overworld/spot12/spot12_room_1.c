@@ -191,7 +191,7 @@ SceneCmd spot12_room_1Set_000500[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot12_room_1PolygonType2_000150),
     SCENE_CMD_OBJECT_LIST(12, spot12_room_1ObjectList_000540),
-    SCENE_CMD_ACTOR_LIST(30, spot12_room_1ActorList_000558),
+    SCENE_CMD_ACTOR_LIST(31, spot12_room_1ActorList_000558),
     SCENE_CMD_END(),
 };
 
@@ -241,6 +241,7 @@ ActorEntry spot12_room_1ActorList_000558[] = {
     { ACTOR_EN_KANBAN,           {   3655,   1413,   -353 }, {      0, 0XC000,      0 }, 0x031A },
     { ACTOR_OBJ_KIBAKO2,         {   3381,   1489,    403 }, { 0XFF4A,  0XB61,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,         {   3443,   1489,  -4876 }, { 0XFF4A, 0XFF4A,      0 }, 0xFFFF },
+    { ACTOR_EN_HORSE_NORMAL,     {   3528,   1413,  -2605 }, {      0, 0X8000,      0 }, 0x0001 },
 };
 
 u8 spot12_room_1_possiblePadding_000718[] = {
@@ -277,7 +278,7 @@ ActorEntry spot12_room_1ActorList_000774[] = {
     { ACTOR_EN_YABUSAME_MARK,    {   4490,   1670,  -1785 }, {      0,      0,      0 }, 0x0001 },
     { ACTOR_EN_YABUSAME_MARK,    {   4490,   1720,  -2295 }, {      0,      0,      0 }, 0x0002 },
     { ACTOR_EN_HORSE_GAME_CHECK, {   3256,   1413,  -2571 }, {      0,      0,      0 }, 0x0002 },
-    { ACTOR_EN_HORSE_NORMAL,     {   3578,   1413,  -2605 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_EN_HORSE_NORMAL,     {   3528,   1413,  -2605 }, {      0, 0X8000,      0 }, 0x0001 },
 };
 
 u8 spot12_room_1_possiblePadding_0007E4[] = {
