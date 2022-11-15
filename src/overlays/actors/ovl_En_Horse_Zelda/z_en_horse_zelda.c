@@ -89,11 +89,11 @@ typedef struct {
 
 // these seem to be valid coords on Hyrule field, along with target speeds
 static HorsePosSpeed sHorseFieldPositions[] = {
-    { -1682, -500, 12578, 0x07 }, { -3288, -500, 13013, 0x07 }, { -5142, -417, 11630, 0x07 },
-    { -5794, -473, 9573, 0x07 },  { -6765, -500, 8364, 0x07 },  { -6619, -393, 6919, 0x07 },
-    { -5193, 124, 5433, 0x07 },   { -2970, 2, 4537, 0x07 },     { -2949, -35, 4527, 0x07 },
-    { -1907, -47, 2978, 0x07 },   { 2488, 294, 3628, 0x07 },    { 3089, 378, 4713, 0x07 },
-    { 1614, -261, 7596, 0x07 },   { 754, -187, 9295, 0x07 },
+    { {-1682, -500, 12578}, 7 }, { {-3288, -500, 13013}, 7 }, { {-5142, -417, 11630}, 7 },
+    { {-5794, -473, 9573}, 7 },  { {-6765, -500, 8364}, 7 },  { {-6619, -393, 6919}, 7 },
+    { {-5193, 124, 5433}, 7 },   { {-2970, 2, 4537}, 7 },     { {-2949, -35, 4527}, 7 },
+    { {-1907, -47, 2978}, 7 },   { {2488, 294, 3628}, 7 },    { {3089, 378, 4713}, 7 },
+    { {1614, -261, 7596}, 7 },   { {754, -187, 9295}, 7 },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -105,10 +105,10 @@ static EnHorseZeldaActionFunc sActionFuncs[] = {
     EnHorseZelda_Gallop,
 };
 
-void EnHorseZelda_GetFieldPosition(HorsePosSpeed* data, s32 index, Vec3f* vec) {
-    vec->x = data[index].pos.x;
-    vec->y = data[index].pos.y;
-    vec->z = data[index].pos.z;
+void EnHorseZelda_GetFieldPosition(HorsePosSpeed* data, s32 index, Vec3f* fieldPos) {
+    fieldPos->x = data[index].pos.x;
+    fieldPos->y = data[index].pos.y;
+    fieldPos->z = data[index].pos.z;
 }
 
 void EnHorseZelda_Move(EnHorseZelda* this, PlayState* play) {
@@ -119,7 +119,7 @@ void EnHorseZelda_Move(EnHorseZelda* this, PlayState* play) {
     EnHorseZelda_GetFieldPosition(sHorseFieldPositions, this->fieldPosIndex, &fieldPos);
     if (Math3D_Vec3f_DistXYZ(&fieldPos, &this->actor.world.pos) <= 400.0f) {
         this->fieldPosIndex++;
-        if (this->fieldPosIndex >= 14) {
+        if (this->fieldPosIndex >= ARRAY_COUNT(sHorseFieldPositions)) {
             this->fieldPosIndex = 0;
             EnHorseZelda_GetFieldPosition(sHorseFieldPositions, 0, &fieldPos);
         }
@@ -194,7 +194,7 @@ void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play) {
     }
 }
 
-void EnHorseZelda_SetupGallop(EnHorseZelda* this) {
+void EnHorseZelda_Spur(EnHorseZelda* this) {
     f32 speedMod;
 
     this->action = 1;
@@ -210,7 +210,7 @@ void EnHorseZelda_SetupGallop(EnHorseZelda* this) {
 void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play) {
     EnHorseZelda_Move(this, play);
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        EnHorseZelda_SetupGallop(this);
+        EnHorseZelda_Spur(this);
     }
 }
 
