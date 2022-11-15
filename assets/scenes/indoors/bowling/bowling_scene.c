@@ -15,7 +15,7 @@ SceneCmd bowling_sceneCommands[] = {
     SCENE_CMD_MISC_SETTINGS(0x00, 0x0000000E),
     SCENE_CMD_COL_HEADER(&bowling_sceneCollisionHeader_001A74),
     SCENE_CMD_ENTRANCE_LIST(bowling_sceneEntranceList0x000088),
-    SCENE_CMD_SPECIAL_FILES(0x00, OBJECT_GAMEPLAY_FIELD_KEEP),
+    SCENE_CMD_SPECIAL_FILES(0x02, OBJECT_GAMEPLAY_DANGEON_KEEP),
     SCENE_CMD_SPAWN_LIST(1, bowling_sceneStartPositionList0x000060),
     SCENE_CMD_SKYBOX_SETTINGS(0, 0, true),
     SCENE_CMD_EXIT_LIST(bowling_sceneExitList_00008C),

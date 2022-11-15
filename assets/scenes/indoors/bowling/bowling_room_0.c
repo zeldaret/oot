@@ -14,8 +14,8 @@ SceneCmd bowling_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bowling_room_0PolygonType0_0000B0),
-    SCENE_CMD_OBJECT_LIST(11, bowling_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(5, bowling_room_0ActorList_000058),
+    SCENE_CMD_OBJECT_LIST(13, bowling_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(15, bowling_room_0ActorList_000058),
     SCENE_CMD_END(),
 };
 
@@ -31,6 +31,8 @@ s16 bowling_room_0ObjectList_000040[] = {
     OBJECT_GI_RUPY,
     OBJECT_NIW,
     OBJECT_DOG,
+    OBJECT_BOMBF,
+    OBJECT_BB,
 };
 
 ActorEntry bowling_room_0ActorList_000058[] = {
@@ -39,6 +41,16 @@ ActorEntry bowling_room_0ActorList_000058[] = {
     { ACTOR_BG_BOWL_WALL,    {      0,   -100,   -272 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_TRAP,         {   -135,    -87,   -176 }, {      0, 0X4000,      0 }, 0x0410 },
     { ACTOR_BG_BOWL_WALL,    {      0,     97,   -538 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_EN_BOMBF,        {    220,     75,   -489 }, { 0x4000, 0xC000,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,        {   -220,     75,   -489 }, { 0x4000, 0x4000,      0 }, 0xFFFF },
+    { ACTOR_EN_BB,           {    130,      4,   -732 }, {      0,      0,      0 }, 0x04FC },
+    { ACTOR_EN_BB,           {   -130,      4,   -732 }, {      0,      0,      0 }, 0x04FC },
+    { ACTOR_EN_BOMBF,        {     87,     70,   -820 }, { 0x4000,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,        {    -87,     70,   -820 }, { 0x4000,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,        {   -157,    -38,   -792 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,        {    157,    -38,   -792 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_SWITCH,      {   -125,    235,   -786 }, {      0,      0,      0 }, 0x3F1A },
+    { ACTOR_OBJ_SWITCH,      {    125,    235,   -786 }, {      0,      0,      0 }, 0x3F1A },
 };
 
 u8 bowling_room_0_possiblePadding_0000A8[] = {
