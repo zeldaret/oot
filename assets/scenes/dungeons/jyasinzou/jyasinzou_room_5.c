@@ -43,7 +43,7 @@ SceneCmd jyasinzou_room_5Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&jyasinzou_room_5PolygonType2_000300),
     SCENE_CMD_OBJECT_LIST(13, jyasinzou_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(42, jyasinzou_room_5ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(44, jyasinzou_room_5ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -106,6 +106,8 @@ ActorEntry jyasinzou_room_5ActorList_00005C[] = {
     { ACTOR_EN_BOX,            {    526,   1282,  -1600 }, {      0, 0X8000,   0X33 }, 0x888F },
     { ACTOR_EN_BOX,            {    684,    813,  -1537 }, {      0,      0,      0 }, 0x6902 },
     { ACTOR_ELF_MSG,           {     61,    967,  -1090 }, {   0X1E,      0,   0X64 }, 0x2791 },
+    { ACTOR_ELF_MSG2,          {    154,    820,  -1433 }, {    0X6,    0X5,      0 }, 0x3F1F },
+    { ACTOR_ELF_MSG2,          {    -33,    820,  -1433 }, {    0X6,    0X5,      0 }, 0x3F1F },
 };
 
 u8 jyasinzou_room_5_possiblePadding_0002FC[] = {
