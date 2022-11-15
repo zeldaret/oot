@@ -7,7 +7,7 @@
 #include "z_en_vali.h"
 #include "assets/objects/object_vali/object_vali.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, PlayState* play);
 void EnVali_Destroy(Actor* thisx, PlayState* play);
@@ -29,7 +29,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play);
 void EnVali_Frozen(EnVali* this, PlayState* play);
 void EnVali_ReturnToLurk(EnVali* this, PlayState* play);
 
-const ActorInit En_Vali_InitVars = {
+ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORCAT_ENEMY,
     FLAGS,

@@ -21,7 +21,7 @@ void BgHakaShip_SetupCrash(BgHakaShip* this, PlayState* play);
 void BgHakaShip_CrashShake(BgHakaShip* this, PlayState* play);
 void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play);
 
-const ActorInit Bg_Haka_Ship_InitVars = {
+ActorInit Bg_Haka_Ship_InitVars = {
     ACTOR_BG_HAKA_SHIP,
     ACTORCAT_BG,
     FLAGS,
@@ -43,7 +43,7 @@ void BgHakaShip_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, 1);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     this->dyna.actor.params &= 0xFF;
 

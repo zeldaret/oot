@@ -16,7 +16,7 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play);
 
 void func_808ABF54(BgSpot01Idosoko* this, PlayState* play);
 
-const ActorInit Bg_Spot01_Idosoko_InitVars = {
+ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
     ACTORCAT_BG,
     FLAGS,
@@ -42,7 +42,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     CollisionHeader_GetVirtual(&gKakarikoBOTWStoneCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

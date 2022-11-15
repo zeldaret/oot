@@ -6,7 +6,7 @@
 
 #include "z_demo_gj.h"
 #include "assets/objects/object_gj/object_gj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -243,7 +243,7 @@ void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
 
     if (header != NULL) {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         newHeader = NULL;
         CollisionHeader_GetVirtual(header, &newHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, newHeader);
@@ -1444,7 +1444,7 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-const ActorInit Demo_Gj_InitVars = {
+ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORCAT_PROP,
     FLAGS,

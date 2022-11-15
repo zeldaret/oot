@@ -20,7 +20,7 @@ void func_80AA204C(EnMa2* this, PlayState* play);
 void func_80AA20E4(EnMa2* this, PlayState* play);
 void func_80AA21C8(EnMa2* this, PlayState* play);
 
-const ActorInit En_Ma2_InitVars = {
+ActorInit En_Ma2_InitVars = {
     ACTOR_EN_MA2,
     ACTORCAT_NPC,
     FLAGS,
@@ -74,7 +74,7 @@ u16 func_80AA19A0(PlayState* play, Actor* thisx) {
     if (faceReaction != 0) {
         return faceReaction;
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         return 0x2056;
     }
     if (IS_NIGHT) {
@@ -141,15 +141,15 @@ u16 func_80AA1B58(EnMa2* this, PlayState* play) {
     if (LINK_IS_CHILD) {
         return 0;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (play->sceneId == SCENE_MALON_STABLE) && IS_DAY &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_MALON_STABLE) && IS_DAY &&
         (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (play->sceneId == SCENE_SPOT20) && IS_NIGHT &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_SPOT20) && IS_NIGHT &&
         (this->actor.shape.rot.z == 6)) {
         return 2;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18) || (play->sceneId != SCENE_SPOT20)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) || (play->sceneId != SCENE_SPOT20)) {
         return 0;
     }
     if ((this->actor.shape.rot.z == 7) && IS_DAY) {
@@ -196,14 +196,16 @@ void EnMa2_ChangeAnim(EnMa2* this, s32 index) {
 void func_80AA1DB4(EnMa2* this, PlayState* play) {
     if (this->skelAnime.animation == &gMalonAdultSingAnim) {
         if (this->unk_1E0.unk_00 == 0) {
-            if (this->unk_20A != 0) {
-                func_800F6584(0);
-                this->unk_20A = 0;
+            if (this->isNotSinging) {
+                // Turn on singing
+                Audio_ToggleMalonSinging(false);
+                this->isNotSinging = false;
             }
         } else {
-            if (this->unk_20A == 0) {
-                func_800F6584(1);
-                this->unk_20A = 1;
+            if (!this->isNotSinging) {
+                // Turn off singing
+                Audio_ToggleMalonSinging(true);
+                this->isNotSinging = true;
             }
         }
     }
@@ -374,14 +376,14 @@ void EnMa2_Draw(Actor* thisx, PlayState* play) {
 
     EnMa2* this = (EnMa2*)thisx;
     Camera* activeCam;
-    f32 someFloat;
+    f32 distFromCamEye;
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma2.c", 955);
 
     activeCam = GET_ACTIVE_CAM(play);
-    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
-    func_800F6268(someFloat, NA_BGM_LONLON);
+    distFromCamEye = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
+    Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));

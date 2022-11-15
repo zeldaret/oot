@@ -18,7 +18,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play);
 void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play);
 void BgDdanKd_DoNothing(BgDdanKd* this, PlayState* play);
 
-const ActorInit Bg_Ddan_Kd_InitVars = {
+ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
     ACTORCAT_BG,
     FLAGS,
@@ -69,7 +69,7 @@ void BgDdanKd_Init(Actor* thisx, PlayState* play) {
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
     CollisionHeader_GetVirtual(&gDodongoFallingStairsCol, &colHeader);
@@ -169,7 +169,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
             func_80033480(play, &pos1, 20.0f, 1, effectStrength * 135.0f, 60, 1);
             func_8003555C(play, &pos1, &velocity, &accel);
         }
-        Camera_AddQuake(&play->mainCamera, 0, effectStrength * 0.6f, 3);
+        Camera_RequestQuake(&play->mainCamera, 0, effectStrength * 0.6f, 3);
         Audio_PlaySfxGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }

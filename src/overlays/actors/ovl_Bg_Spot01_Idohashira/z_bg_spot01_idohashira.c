@@ -6,7 +6,7 @@
 
 #include "z_bg_spot01_idohashira.h"
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -36,7 +36,7 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
     func_808AB700,
 };
 
-const ActorInit Bg_Spot01_Idohashira_InitVars = {
+ActorInit Bg_Spot01_Idohashira_InitVars = {
     ACTOR_BG_SPOT01_IDOHASHIRA,
     ACTORCAT_PROP,
     FLAGS,
@@ -295,7 +295,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gKakarikoWellArchCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

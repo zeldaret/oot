@@ -1,24 +1,27 @@
 #include "global.h"
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;
 static s16 sUnused = -1;
 static s32 sPrevFrameCs1100 = -4096;
 
-#include "z_onepointdemo_data.c"
+#include "z_onepointdemo_data.inc.c"
 
-void OnePointCutscene_AddVecSphToVec3f(Vec3f* dst, Vec3f* src, VecSph* vecSph) {
-    Vec3f out;
-    Vec3f vec;
+Vec3f* OnePointCutscene_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b;
 
-    OLib_VecSphGeoToVec3f(&vec, vecSph);
+    OLib_VecGeoToVec3f(&b, geo);
 
-    out.x = src->x + vec.x;
-    out.y = src->y + vec.y;
-    out.z = src->z + vec.z;
-    if (dst) {}
-    *dst = out;
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
+
+    *dest = sum;
+
+    return dest;
 }
 
 s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
@@ -61,7 +64,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
     Camera* childCam = play->cameraPtrs[subCam->childCamId];
     Camera* mainCam = play->cameraPtrs[CAM_ID_MAIN];
     Player* player = mainCam->player;
-    VecSph spD0;
+    VecGeo spD0;
     s32 i;
     Vec3f spC0;
     Vec3f spB4;
@@ -94,7 +97,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80120964[0].atTargetInit = play->view.at;
             D_80120964[0].eyeTargetInit = play->view.eye;
             D_80120964[0].fovTargetInit = play->view.fovy;
-            OLib_Vec3fDiffToVecSphGeo(&spD0, &mainCam->at, &mainCam->eye);
+            OLib_Vec3fDiffToVecGeo(&spD0, &mainCam->at, &mainCam->eye);
             D_80120964[1].eyeTargetInit.y = CAM_BINANG_TO_DEG(spD0.yaw);
             D_80120964[1].timerInit = timer - 1;
 
@@ -107,9 +110,9 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_801209B4[0].atTargetInit = D_801209B4[1].atTargetInit = play->view.at;
             D_801209B4[0].eyeTargetInit = play->view.eye;
             D_801209B4[0].fovTargetInit = D_801209B4[2].fovTargetInit = play->view.fovy;
-            OLib_Vec3fDiffToVecSphGeo(&spD0, &actor->focus.pos, &mainCam->at);
+            OLib_Vec3fDiffToVecGeo(&spD0, &actor->focus.pos, &mainCam->at);
             spD0.r = mainCam->dist;
-            OnePointCutscene_AddVecSphToVec3f(&D_801209B4[1].eyeTargetInit, &D_801209B4[1].atTargetInit, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&D_801209B4[1].eyeTargetInit, &D_801209B4[1].atTargetInit, &spD0);
             D_801209B4[1].atTargetInit.y += 20.0f;
 
             csInfo->keyFrames = D_801209B4;
@@ -156,10 +159,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 ((mainCam->play->state.frames & 1) ? 3.0f : -3.0f) + Rand_ZeroOne();
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 5);
+            i = Quake_Request(subCam, QUAKE_TYPE_5);
             Quake_SetSpeed(i, 400);
-            Quake_SetQuakeValues(i, 4, 5, 40, 0x3C);
-            Quake_SetCountdown(i, 1600);
+            Quake_SetPerturbations(i, 4, 5, 40, 0x3C);
+            Quake_SetDuration(i, 1600);
             break;
         case 2280:
             csInfo->keyFrames = D_80120D4C;
@@ -177,10 +180,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 ((mainCam->play->state.frames & 1) ? 3.0f : -3.0f) + Rand_ZeroOne();
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 5);
+            i = Quake_Request(subCam, QUAKE_TYPE_5);
             Quake_SetSpeed(i, 400);
-            Quake_SetQuakeValues(i, 2, 3, 200, 0x32);
-            Quake_SetCountdown(i, 9999);
+            Quake_SetPerturbations(i, 2, 3, 200, 0x32);
+            Quake_SetDuration(i, 9999);
             break;
         case 2220:
             csInfo->keyFrames = D_80120E64;
@@ -188,10 +191,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 5);
+            i = Quake_Request(subCam, QUAKE_TYPE_5);
             Quake_SetSpeed(i, 400);
-            Quake_SetQuakeValues(i, 2, 2, 50, 0);
-            Quake_SetCountdown(i, 280);
+            Quake_SetPerturbations(i, 2, 2, 50, 0);
+            Quake_SetDuration(i, 280);
             break;
         case 2230:
             if (player->actor.world.pos.z < 1000.0f) {
@@ -210,10 +213,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 5);
+            i = Quake_Request(subCam, QUAKE_TYPE_5);
             Quake_SetSpeed(i, 400);
-            Quake_SetQuakeValues(i, 2, 2, 50, 0);
-            Quake_SetCountdown(i, 60);
+            Quake_SetPerturbations(i, 2, 2, 50, 0);
+            Quake_SetDuration(i, 60);
             break;
         case 2350:
             csInfo->keyFrames = D_8012110C;
@@ -297,7 +300,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             spD0.yaw = spA0.rot.y;
             spD0.pitch = 0x3E8;
 
-            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
             Play_CameraChangeSetting(play, subCamId, CAM_SET_FREE2);
             Play_CameraSetAtEye(play, subCamId, &spC0, &spB4);
             func_8002DF54(play, NULL, 8);
@@ -308,7 +311,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             }
             break;
         case 2210:
-            OLib_Vec3fDiffToVecSphGeo(&spD0, &player->actor.world.pos, &actor->world.pos);
+            OLib_Vec3fDiffToVecGeo(&spD0, &player->actor.world.pos, &actor->world.pos);
             D_801213B4[0].eyeTargetInit.y = D_801213B4[1].eyeTargetInit.y = D_801213B4[2].eyeTargetInit.y =
                 D_801213B4[2].atTargetInit.y = CAM_BINANG_TO_DEG(spD0.yaw);
             if (Rand_ZeroOne() < 0.0f) {
@@ -328,14 +331,18 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_SetCameraRoll(play, subCamId, childCam->roll);
             break;
         case 9601:
+            // Leaving a crawlspace forwards
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);
             Play_CameraChangeSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
+            OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceForwardsEyePoints);
             break;
         case 9602:
+            // Leaving a crawlspace backwards
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);
             Play_CameraChangeSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
+            OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceBackwardsEyePoints);
             break;
         case 4175:
             csInfo->keyFrames = D_8012147C;
@@ -397,10 +404,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 3);
+            i = Quake_Request(subCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 22000);
-            Quake_SetQuakeValues(i, 2, 0, 200, 0);
-            Quake_SetCountdown(i, 10);
+            Quake_SetPerturbations(i, 2, 0, 200, 0);
+            Quake_SetDuration(i, 10);
             break;
         case 3080:
             csInfo->keyFrames = D_80121774;
@@ -435,10 +442,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 24000);
-            Quake_SetQuakeValues(i, 2, 0, 0, 0);
-            Quake_SetCountdown(i, 160);
+            Quake_SetPerturbations(i, 2, 0, 0, 0);
+            Quake_SetDuration(i, 160);
             break;
         case 3060:
             csInfo->keyFrames = D_80121904;
@@ -467,10 +474,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_8012021C[D_801202FC - 3].pos.z +=
                 (D_8012021C[D_801202FC - 2].pos.z - D_8012021C[D_801202FC - 3].pos.z) / 2;
 
-            i = Quake_Add(mainCam, 3);
+            i = Quake_Request(mainCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 30000);
-            Quake_SetQuakeValues(i, 2, 1, 1, 0);
-            Quake_SetCountdown(i, 200);
+            Quake_SetPerturbations(i, 2, 1, 1, 0);
+            Quake_SetDuration(i, 200);
             break;
         case 3120:
             csInfo->keyFrames = D_80121954[-(timer + 101)];
@@ -520,7 +527,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             spD0.r = 250.0f;
             Actor_GetWorld(&spA0, &player->actor);
             spD0.yaw = OnePointCutscene_Vec3fYaw(&spC0, &spA0.pos) - 0x7D0;
-            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
             Play_CameraChangeSetting(play, subCamId, CAM_SET_FREE2);
             Play_CameraSetAtEye(play, subCamId, &spC0, &spB4);
             Play_CopyCamera(play, CAM_ID_MAIN, subCamId);
@@ -534,7 +541,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             spD0.pitch = 0;
             spD0.yaw = spA0.rot.y;
             spD0.r = 150.0f;
-            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
             Play_CameraChangeSetting(play, subCamId, CAM_SET_FREE2);
             Play_CameraSetAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -548,7 +555,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             spD0.r = 300.0f;
             spD0.yaw = spA0.rot.y;
             spD0.pitch = -0xAF0;
-            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
             Play_CameraChangeSetting(play, subCamId, CAM_SET_FREE2);
             Play_CameraSetAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -577,16 +584,16 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             spC0.x = sp8C.pos.x;
             spC0.y = sp8C.pos.y + 70.0f;
             spC0.z = sp8C.pos.z;
-            OLib_Vec3fDiffToVecSphGeo(&spD0, &spA0.pos, &sp8C.pos);
+            OLib_Vec3fDiffToVecGeo(&spD0, &spA0.pos, &sp8C.pos);
             spD0.pitch = 0x5DC;
             spD0.r = 120.0f;
-            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
             Play_CameraSetAtEye(play, CAM_ID_MAIN, &spC0, &spB4);
 
-            i = Quake_Add(subCam, 3);
+            i = Quake_Request(subCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 22000);
-            Quake_SetQuakeValues(i, 1, 0, 0, 0);
-            Quake_SetCountdown(i, 90);
+            Quake_SetPerturbations(i, 1, 0, 0, 0);
+            Quake_SetDuration(i, 90);
             break;
         case 6010:
             Actor_GetWorld(&spA0, actor);
@@ -595,7 +602,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             spC0.y += 70.0f;
             spD0.yaw = spA0.rot.y + 0x7FFF;
             spD0.r = 300.0f;
-            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
             Play_CameraChangeSetting(play, subCamId, CAM_SET_FREE2);
             Play_CameraSetAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -607,10 +614,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             spC0 = spA0.pos;
             func_800C0808(play, subCamId, player, CAM_SET_PIVOT_VERTICAL);
             Actor_GetWorld(&spA0, &player->actor);
-            OLib_Vec3fDiffToVecSphGeo(&spD0, &spC0, &spA0.pos);
+            OLib_Vec3fDiffToVecGeo(&spD0, &spC0, &spA0.pos);
             spD0.yaw += 0x3E8;
             spD0.r = 400.0f;
-            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
             spB4.y = spA0.pos.y + 60.0f;
             Play_CameraSetAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -637,10 +644,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 OnePointCutscene_SetCsCamPoints(subCam, D_801208E8, D_801208E4, D_801206A0, D_80120760);
             }
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 32000);
-            Quake_SetQuakeValues(i, 0, 0, 20, 0);
-            Quake_SetCountdown(i, D_801208E4 - 10);
+            Quake_SetPerturbations(i, 0, 0, 20, 0);
+            Quake_SetDuration(i, D_801208E4 - 10);
             break;
         case 3400:
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);
@@ -649,10 +656,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             OnePointCutscene_Vec3sToVec3f(&mainCam->eye, &D_801205B4[D_80120694 - 2].pos);
             OnePointCutscene_Vec3sToVec3f(&mainCam->at, &D_801204D4[D_80120694 - 2].pos);
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 0x4E20);
-            Quake_SetQuakeValues(i, 1, 0, 50, 0);
-            Quake_SetCountdown(i, D_80120698 - 20);
+            Quake_SetPerturbations(i, 1, 0, 50, 0);
+            Quake_SetDuration(i, D_80120698 - 20);
             break;
         case 3390:
             player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = -0x3FD9;
@@ -668,10 +675,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, 8);
             Play_CopyCamera(play, subCamId, CAM_ID_MAIN);
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 32000);
-            Quake_SetQuakeValues(i, 2, 0, 0, 0);
-            Quake_SetCountdown(i, timer);
+            Quake_SetPerturbations(i, 2, 0, 0, 0);
+            Quake_SetDuration(i, timer);
             break;
         case 3290:
             D_80121F1C[0].atTargetInit = play->view.at;
@@ -685,10 +692,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 3);
+            i = Quake_Request(subCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 12000);
-            Quake_SetQuakeValues(i, 0, 0, 1000, 0);
-            Quake_SetCountdown(i, 5);
+            Quake_SetPerturbations(i, 0, 0, 1000, 0);
+            Quake_SetDuration(i, 5);
             break;
         case 3340:
             D_80121FBC[0].atTargetInit = play->view.at;
@@ -701,10 +708,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 3);
+            i = Quake_Request(subCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 12000);
-            Quake_SetQuakeValues(i, 0, 0, 1000, 0);
-            Quake_SetCountdown(i, 5);
+            Quake_SetPerturbations(i, 0, 0, 1000, 0);
+            Quake_SetDuration(i, 5);
             break;
         case 3360:
             csInfo->keyFrames = D_8012205C;
@@ -746,10 +753,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 32000);
-            Quake_SetQuakeValues(i, 4, 0, 0, 0);
-            Quake_SetCountdown(i, 20);
+            Quake_SetPerturbations(i, 4, 0, 0, 0);
+            Quake_SetDuration(i, 20);
             break;
         case 3450:
             csInfo->keyFrames = D_8012237C;
@@ -758,10 +765,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF38(play, &player->actor, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 32000);
-            Quake_SetQuakeValues(i, 2, 0, 0, 0);
-            Quake_SetCountdown(i, 10);
+            Quake_SetPerturbations(i, 2, 0, 0, 0);
+            Quake_SetDuration(i, 10);
             break;
         case 3440:
             csInfo->keyFrames = D_801223CC;
@@ -772,10 +779,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             player->stateFlags1 |= PLAYER_STATE1_29;
             player->actor.freezeTimer = 90;
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 32000);
-            Quake_SetQuakeValues(i, 2, 0, 0, 0);
-            Quake_SetCountdown(i, 10);
+            Quake_SetPerturbations(i, 2, 0, 0, 0);
+            Quake_SetDuration(i, 10);
             break;
         case 3430:
             csInfo->keyFrames = D_801224BC;
@@ -784,10 +791,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 1);
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
             Quake_SetSpeed(i, 32000);
-            Quake_SetQuakeValues(i, 1, 0, 10, 0);
-            Quake_SetCountdown(i, 20);
+            Quake_SetPerturbations(i, 1, 0, 10, 0);
+            Quake_SetDuration(i, 20);
             break;
         case 4100:
             csInfo->keyFrames = D_801225D4;
@@ -867,10 +874,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
 
-            i = Quake_Add(subCam, 3);
+            i = Quake_Request(subCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 12000);
-            Quake_SetQuakeValues(i, 0, 1, 100, 0);
-            Quake_SetCountdown(i, timer - 80);
+            Quake_SetPerturbations(i, 0, 1, 100, 0);
+            Quake_SetDuration(i, timer - 80);
             break;
         case 4220:
             csInfo->keyFrames = (player->actor.world.pos.z < -15.0f) ? D_80122C3C : D_80122C64;
@@ -879,10 +886,10 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
             func_8002DF38(play, &player->actor, 1);
 
-            i = Quake_Add(subCam, 3);
+            i = Quake_Request(subCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 12000);
-            Quake_SetQuakeValues(i, 0, 1, 10, 0);
-            Quake_SetCountdown(i, timer - 10);
+            Quake_SetPerturbations(i, 0, 1, 10, 0);
+            Quake_SetDuration(i, timer - 10);
             break;
         case 4221:
             csInfo->keyFrames = D_80122C8C;
@@ -970,12 +977,12 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                     D_801231B4[2].atTargetInit.z = 0.0f;
                 }
                 Actor_GetWorldPosShapeRot(&spA0, &player->actor);
-                OLib_Vec3fDiffToVecSphGeo(&spD0, &spA0.pos, &mainCam->at);
+                OLib_Vec3fDiffToVecGeo(&spD0, &spA0.pos, &mainCam->at);
                 spD0.yaw -= spA0.rot.y;
-                OLib_VecSphGeoToVec3f(&D_801231B4[3].atTargetInit, &spD0);
-                OLib_Vec3fDiffToVecSphGeo(&spD0, &spA0.pos, &mainCam->eye);
+                OLib_VecGeoToVec3f(&D_801231B4[3].atTargetInit, &spD0);
+                OLib_Vec3fDiffToVecGeo(&spD0, &spA0.pos, &mainCam->eye);
                 spD0.yaw -= spA0.rot.y;
-                OLib_VecSphGeoToVec3f(&D_801231B4[3].eyeTargetInit, &spD0);
+                OLib_VecGeoToVec3f(&D_801231B4[3].eyeTargetInit, &spD0);
                 D_801231B4[3].fovTargetInit = mainCam->fov;
                 D_801231B4[3].timerInit = timer - 50;
 

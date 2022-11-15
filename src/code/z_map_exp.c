@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
@@ -131,7 +131,8 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
             DmaMgr_SendRequest1(interfaceCtx->mapSegment,
-                                (u32)_map_grand_staticSegmentRomStart + gMapData->owMinimapTexOffset[extendedMapIndex],
+                                (uintptr_t)_map_grand_staticSegmentRomStart +
+                                    gMapData->owMinimapTexOffset[extendedMapIndex],
                                 gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;
@@ -159,7 +160,7 @@ void Map_InitData(PlayState* play, s16 room) {
                          mapIndex, VREG(30));
             osSyncPrintf(VT_RST);
             DmaMgr_SendRequest1(play->interfaceCtx.mapSegment,
-                                (u32)_map_i_staticSegmentRomStart +
+                                (uintptr_t)_map_i_staticSegmentRomStart +
                                     ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * 0xFF0),
                                 0xFF0, "../z_map_exp.c", 346);
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
@@ -550,7 +551,6 @@ void Map_Update(PlayState* play) {
                 if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
                     R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
                 }
-                if (1) {} // Appears to be necessary to match
 
                 if (interfaceCtx->mapRoomNum != sLastRoomNum) {
                     // "Current floor = %d Current room = %x Number of rooms = %d"

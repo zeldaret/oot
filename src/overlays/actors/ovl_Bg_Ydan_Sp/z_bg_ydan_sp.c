@@ -24,7 +24,7 @@ typedef enum {
     /* 1 */ WEB_WALL
 } BgYdanSpType;
 
-const ActorInit Bg_Ydan_Sp_InitVars = {
+ActorInit Bg_Ydan_Sp_InitVars = {
     ACTOR_BG_YDAN_SP,
     ACTORCAT_BG,
     FLAGS,
@@ -94,7 +94,7 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     this->isDestroyedSwitchFlag = thisx->params & 0x3F;
     this->burnSwitchFlag = (thisx->params >> 6) & 0x3F;
     this->dyna.actor.params = (thisx->params >> 0xC) & 0xF;
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Collider_InitTris(play, &this->trisCollider);
     Collider_SetTris(play, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);
     if (this->dyna.actor.params == WEB_FLOOR) {
@@ -399,7 +399,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->burnSwitchFlag) || (this->trisCollider.base.acFlags & AC_HIT)) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, play);
-    } else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
+    } else if (player->heldItemAction == PLAYER_IA_STICK && player->unk_860 != 0) {
         func_8002DBD0(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             OnePointCutscene_Init(play, 3020, 40, &this->dyna.actor, CAM_ID_MAIN);

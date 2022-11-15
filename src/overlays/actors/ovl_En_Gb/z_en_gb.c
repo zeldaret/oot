@@ -26,7 +26,7 @@ void func_80A2FC0C(EnGb* this, PlayState* play);
 void EnGb_DrawCagedSouls(EnGb* this, PlayState* play);
 void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play);
 
-const ActorInit En_Gb_InitVars = {
+ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
     ACTORCAT_NPC,
     FLAGS,
@@ -157,7 +157,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     Vec3f focusOffset;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gPoeSellerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     SkelAnime_InitFlex(play, &this->skelAnime, &gPoeSellerSkel, &gPoeSellerIdleAnim, this->jointTable, this->morphTable,
@@ -317,7 +317,7 @@ void func_80A2F9C0(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(10);
         this->actionFunc = func_80A2F83C;
     }
@@ -329,7 +329,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(50);
         HIGH_SCORE(HS_POE_POINTS) += 100;
         if (HIGH_SCORE(HS_POE_POINTS) != 1000) {

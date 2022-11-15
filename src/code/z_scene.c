@@ -1,7 +1,7 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
-RomFile sNaviMsgFiles[];
+RomFile sNaviQuestHintFiles[];
 
 s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
@@ -148,7 +148,6 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
 
     nextPtr = (void*)ALIGN16((s32)status->segment + size);
-    if (1) {} // Necessary to match
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
@@ -182,22 +181,22 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
     return 0;
 }
 
-void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
-    ActorEntry* linkEntry = play->linkActorEntry =
-        (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.data) + play->setupEntranceList[play->curSpawn].spawn;
+void Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
+    ActorEntry* playerEntry = play->playerEntry =
+        (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->playerEntryList.data) + play->spawnList[play->spawn].playerEntryIndex;
     s16 linkObjectId;
 
     play->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
 
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
 
-    gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
+    gActorOverlayTable[playerEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&play->objectCtx, linkObjectId);
 }
 
-void Scene_CommandActorList(PlayState* play, SceneCmd* cmd) {
-    play->numSetupActors = cmd->actorList.length;
-    play->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.data);
+void Scene_CommandActorEntryList(PlayState* play, SceneCmd* cmd) {
+    play->numActorEntries = cmd->actorEntryList.length;
+    play->actorEntryList = SEGMENTED_TO_VIRTUAL(cmd->actorEntryList.data);
 }
 
 void Scene_CommandUnused2(PlayState* play, SceneCmd* cmd) {
@@ -221,8 +220,8 @@ void Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
     play->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
 }
 
-void Scene_CommandEntranceList(PlayState* play, SceneCmd* cmd) {
-    play->setupEntranceList = SEGMENTED_TO_VIRTUAL(cmd->entranceList.data);
+void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
+    play->spawnList = SEGMENTED_TO_VIRTUAL(cmd->spawnList.data);
 }
 
 void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
@@ -231,8 +230,8 @@ void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
         gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[play->objectCtx.subKeepIndex].segment);
     }
 
-    if (cmd->specialFiles.cUpElfMsgNum != 0) {
-        play->cUpElfMsgs = Play_LoadFile(play, &sNaviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
+    if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
+        play->naviQuestHints = Play_LoadFile(play, &sNaviQuestHintFiles[cmd->specialFiles.naviQuestHintFileId - 1]);
     }
 }
 
@@ -308,10 +307,10 @@ void Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
-    play->setupPathList = SEGMENTED_TO_VIRTUAL(cmd->pathList.data);
+    play->pathList = SEGMENTED_TO_VIRTUAL(cmd->pathList.data);
 }
 
-void Scene_CommandTransitionActorList(PlayState* play, SceneCmd* cmd) {
+void Scene_CommandTransitionActorEntryList(PlayState* play, SceneCmd* cmd) {
     play->transiActorCtx.numActors = cmd->transiActorList.length;
     play->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
 }
@@ -386,7 +385,7 @@ void Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandExitList(PlayState* play, SceneCmd* cmd) {
-    play->setupExitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.data);
+    play->exitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.data);
 }
 
 void Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
@@ -397,7 +396,7 @@ void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
     play->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
     if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
-        Audio_QueueSeqCmd(cmd->soundSettings.specId | 0xF0000000);
+        SEQCMD_RESET_AUDIO_HEAP(0, cmd->soundSettings.specId);
     }
 }
 
@@ -470,64 +469,35 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
 }
 
 void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
-    Scene_CommandSpawnList,           // SCENE_CMD_ID_SPAWN_LIST
-    Scene_CommandActorList,           // SCENE_CMD_ID_ACTOR_LIST
-    Scene_CommandUnused2,             // SCENE_CMD_ID_UNUSED_2
-    Scene_CommandCollisionHeader,     // SCENE_CMD_ID_COLLISION_HEADER
-    Scene_CommandRoomList,            // SCENE_CMD_ID_ROOM_LIST
-    Scene_CommandWindSettings,        // SCENE_CMD_ID_WIND_SETTINGS
-    Scene_CommandEntranceList,        // SCENE_CMD_ID_ENTRANCE_LIST
-    Scene_CommandSpecialFiles,        // SCENE_CMD_ID_SPECIAL_FILES
-    Scene_CommandRoomBehavior,        // SCENE_CMD_ID_ROOM_BEHAVIOR
-    Scene_CommandUndefined9,          // SCENE_CMD_ID_UNDEFINED_9
-    Scene_CommandRoomShape,           // SCENE_CMD_ID_ROOM_SHAPE
-    Scene_CommandObjectList,          // SCENE_CMD_ID_OBJECT_LIST
-    Scene_CommandLightList,           // SCENE_CMD_ID_LIGHT_LIST
-    Scene_CommandPathList,            // SCENE_CMD_ID_PATH_LIST
-    Scene_CommandTransitionActorList, // SCENE_CMD_ID_TRANSITION_ACTOR_LIST
-    Scene_CommandLightSettingsList,   // SCENE_CMD_ID_LIGHT_SETTINGS_LIST
-    Scene_CommandTimeSettings,        // SCENE_CMD_ID_TIME_SETTINGS
-    Scene_CommandSkyboxSettings,      // SCENE_CMD_ID_SKYBOX_SETTINGS
-    Scene_CommandSkyboxDisables,      // SCENE_CMD_ID_SKYBOX_DISABLES
-    Scene_CommandExitList,            // SCENE_CMD_ID_EXIT_LIST
-    NULL,                             // SCENE_CMD_ID_END
-    Scene_CommandSoundSettings,       // SCENE_CMD_ID_SOUND_SETTINGS
-    Scene_CommandEchoSettings,        // SCENE_CMD_ID_ECHO_SETTINGS
-    Scene_CommandCutsceneData,        // SCENE_CMD_ID_CUTSCENE_DATA
-    Scene_CommandAlternateHeaderList, // SCENE_CMD_ID_ALTERNATE_HEADER_LIST
-    Scene_CommandMiscSettings,        // SCENE_CMD_ID_MISC_SETTINGS
+    Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
+    Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
+    Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2
+    Scene_CommandCollisionHeader,          // SCENE_CMD_ID_COLLISION_HEADER
+    Scene_CommandRoomList,                 // SCENE_CMD_ID_ROOM_LIST
+    Scene_CommandWindSettings,             // SCENE_CMD_ID_WIND_SETTINGS
+    Scene_CommandSpawnList,                // SCENE_CMD_ID_ENTRANCE_LIST
+    Scene_CommandSpecialFiles,             // SCENE_CMD_ID_SPECIAL_FILES
+    Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOR
+    Scene_CommandUndefined9,               // SCENE_CMD_ID_UNDEFINED_9
+    Scene_CommandRoomShape,                // SCENE_CMD_ID_ROOM_SHAPE
+    Scene_CommandObjectList,               // SCENE_CMD_ID_OBJECT_LIST
+    Scene_CommandLightList,                // SCENE_CMD_ID_LIGHT_LIST
+    Scene_CommandPathList,                 // SCENE_CMD_ID_PATH_LIST
+    Scene_CommandTransitionActorEntryList, // SCENE_CMD_ID_TRANSITION_ACTOR_LIST
+    Scene_CommandLightSettingsList,        // SCENE_CMD_ID_LIGHT_SETTINGS_LIST
+    Scene_CommandTimeSettings,             // SCENE_CMD_ID_TIME_SETTINGS
+    Scene_CommandSkyboxSettings,           // SCENE_CMD_ID_SKYBOX_SETTINGS
+    Scene_CommandSkyboxDisables,           // SCENE_CMD_ID_SKYBOX_DISABLES
+    Scene_CommandExitList,                 // SCENE_CMD_ID_EXIT_LIST
+    NULL,                                  // SCENE_CMD_ID_END
+    Scene_CommandSoundSettings,            // SCENE_CMD_ID_SOUND_SETTINGS
+    Scene_CommandEchoSettings,             // SCENE_CMD_ID_ECHO_SETTINGS
+    Scene_CommandCutsceneData,             // SCENE_CMD_ID_CUTSCENE_DATA
+    Scene_CommandAlternateHeaderList,      // SCENE_CMD_ID_ALTERNATE_HEADER_LIST
+    Scene_CommandMiscSettings,             // SCENE_CMD_ID_MISC_SETTINGS
 };
 
-RomFile sNaviMsgFiles[] = {
+RomFile sNaviQuestHintFiles[] = {
     ROM_FILE(elf_message_field),
     ROM_FILE(elf_message_ydan),
-    ROM_FILE_UNSET,
 };
-
-s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
-
-u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
-
-// Object linker symbol declarations (used in the table below)
-#define DEFINE_OBJECT(name, _1) DECLARE_ROM_SEGMENT(name)
-#define DEFINE_OBJECT_NULL(_0, _1)
-#define DEFINE_OBJECT_UNSET(_0)
-
-#include "tables/object_table.h"
-
-#undef DEFINE_OBJECT
-#undef DEFINE_OBJECT_NULL
-#undef DEFINE_OBJECT_UNSET
-
-// Object Table definition
-#define DEFINE_OBJECT(name, _1) ROM_FILE(name),
-#define DEFINE_OBJECT_NULL(name, _1) ROM_FILE_EMPTY(name),
-#define DEFINE_OBJECT_UNSET(_0) { 0 },
-
-RomFile gObjectTable[] = {
-#include "tables/object_table.h"
-};
-
-#undef DEFINE_OBJECT
-#undef DEFINE_OBJECT_NULL
-#undef DEFINE_OBJECT_UNSET

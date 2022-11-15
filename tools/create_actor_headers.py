@@ -48,7 +48,7 @@ def handle_file(root, filename):
         init_vars_name += "_"
     init_vars_name += "InitVars"
 
-    header_text += "extern const ActorInit " + init_vars_name + ";\n\n"
+    header_text += "extern ActorInit " + init_vars_name + ";\n\n"
 
     header_text += "#endif\n"
 

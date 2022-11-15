@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
@@ -9,7 +9,7 @@ PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
 PadMgr gPadMgr;
 IrqMgr gIrqMgr;
-u32 gSegments[NUM_SEGMENTS];
+uintptr_t gSegments[NUM_SEGMENTS];
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
 STACK(sSchedStack, 0x600);
@@ -37,9 +37,9 @@ void Main(void* arg) {
     IrqMgrClient irqClient;
     OSMesgQueue irqMgrMsgQueue;
     OSMesg irqMgrMsgBuf[60];
-    u32 systemHeapStart;
-    u32 fb;
-    u32 debugHeapStart;
+    uintptr_t systemHeapStart;
+    uintptr_t fb;
+    void* debugHeapStart;
     u32 debugHeapSize;
     s16* msg;
 
@@ -50,22 +50,22 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    systemHeapStart = (u32)gSystemHeap;
-    fb = SysCfb_GetFbPtr(0);
+    systemHeapStart = (uintptr_t)gSystemHeap;
+    fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
     // "System heap initalization"
     osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
     if (osMemSize >= 0x800000) {
         debugHeapStart = SysCfb_GetFbEnd();
-        debugHeapSize = PHYS_TO_K0(0x600000) - debugHeapStart;
+        debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
     } else {
         debugHeapSize = 0x400;
-        debugHeapStart = (u32)SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
+        debugHeapStart = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
-    DebugArena_Init((void*)debugHeapStart, debugHeapSize);
-    func_800636C0();
+    DebugArena_Init(debugHeapStart, debugHeapSize);
+    Regs_Init();
 
     R_ENABLE_ARENA_DBG = 0;
 
@@ -80,7 +80,7 @@ void Main(void* arg) {
 
     osSyncPrintf("タスクスケジューラの初期化\n"); // "Initialize the task scheduler"
     StackCheck_Init(&sSchedStackInfo, sSchedStack, STACK_TOP(sSchedStack), 0, 0x100, "sched");
-    Sched_Init(&gScheduler, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, D_80013960, 1, &gIrqMgr);
+    Sched_Init(&gScheduler, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, gViConfigModeType, 1, &gIrqMgr);
 
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
 

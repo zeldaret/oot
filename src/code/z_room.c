@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -153,7 +153,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
             entryBoundsNearZ = projectedPos.z - roomShapeCullableEntry->boundsSphereRadius;
 
             // If the entry bounding sphere isn't fully beyond the rendered depth range
-            if (entryBoundsNearZ < play->lightCtx.fogFar) {
+            if (entryBoundsNearZ < play->lightCtx.zFar) {
 
                 // This entry will be rendered
                 insert->entry = roomShapeCullableEntry;
@@ -389,7 +389,7 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
                 Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&quakeOffset, activeCam);
+                Camera_GetQuakeOffset(&quakeOffset, activeCam);
                 Room_DrawBackground2D(&gfx, roomShape->source, roomShape->tlut, roomShape->width, roomShape->height,
                                       roomShape->fmt, roomShape->siz, roomShape->tlutMode, roomShape->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
@@ -487,7 +487,7 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
                 Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&quakeOffset, activeCam);
+                Camera_GetQuakeOffset(&quakeOffset, activeCam);
                 Room_DrawBackground2D(&gfx, bgEntry->source, bgEntry->tlut, bgEntry->width, bgEntry->height,
                                       bgEntry->fmt, bgEntry->siz, bgEntry->tlutMode, bgEntry->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
@@ -582,7 +582,7 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     roomCtx->status = 0;
 
     frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex)
-                                             : play->setupEntranceList[play->curSpawn].room;
+                                             : play->spawnList[play->spawn].room;
     func_8009728C(play, roomCtx, frontRoom);
 
     return maxRoomSize;

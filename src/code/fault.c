@@ -41,7 +41,7 @@
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "alloca.h"
 
 void FaultDrawer_Init(void);
@@ -1271,8 +1271,8 @@ void Fault_Init(void) {
     sFaultInstance->autoScroll = false;
     gFaultMgr.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultInstance->queue, &sFaultInstance->msg, 1);
-    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, STACK_TOP(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultInstance->thread, THREAD_ID_FAULT, Fault_ThreadEntry, 0, STACK_TOP(sFaultStack),
+    StackCheck_Init(&sFaultThreadInfo, sFaultStack, STACK_TOP(sFaultStack), 0, 0x100, "fault");
+    osCreateThread(&sFaultInstance->thread, THREAD_ID_FAULT, Fault_ThreadEntry, NULL, STACK_TOP(sFaultStack),
                    THREAD_PRI_FAULT);
     osStartThread(&sFaultInstance->thread);
 }

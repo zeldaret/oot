@@ -18,7 +18,7 @@ void EnBom_Draw(Actor* thisx, PlayState* play);
 void EnBom_Move(EnBom* this, PlayState* play);
 void EnBom_WaitForRelease(EnBom* this, PlayState* play);
 
-const ActorInit En_Bom_InitVars = {
+ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
     ACTORCAT_EXPLOSIVE,
     FLAGS,
@@ -272,7 +272,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
             thisx->shape.rot.z = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
-            // these bombs never have a timer over 70, so this isnt used
+            // these bombs never have a timer over 70, so this isn't used
             if ((this->timer > 100) && Player_IsBurningStickInRange(play, &thisx->world.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
@@ -319,7 +319,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
 
             play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] = play->envCtx.adjAmbientColor[2] = 250;
 
-            Camera_AddQuake(&play->mainCamera, 2, 0xB, 8);
+            Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
             thisx->flags |= ACTOR_FLAG_5;

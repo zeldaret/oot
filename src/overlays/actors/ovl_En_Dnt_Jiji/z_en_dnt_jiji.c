@@ -8,7 +8,7 @@
 #include "assets/objects/object_dns/object_dns.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -39,7 +39,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
-const ActorInit En_Dnt_Jiji_InitVars = {
+ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
     ACTORCAT_NPC,
     FLAGS,
@@ -358,7 +358,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
             if ((this->stage->actor.update != NULL) && (this->stage->leaderSignal == DNT_SIGNAL_NONE)) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
                 this->stage->action = DNT_ACTION_ATTACK;
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
             }
         }
         this->actor.speedXZ = 0.0f;

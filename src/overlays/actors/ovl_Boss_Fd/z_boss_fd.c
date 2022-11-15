@@ -44,7 +44,7 @@ void BossFd_Wait(BossFd* this, PlayState* play);
 void BossFd_UpdateEffects(BossFd* this, PlayState* play);
 void BossFd_DrawBody(PlayState* play, BossFd* this);
 
-const ActorInit Boss_Fd_InitVars = {
+ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
     ACTORCAT_BOSS,
     FLAGS,
@@ -56,7 +56,7 @@ const ActorInit Boss_Fd_InitVars = {
     (ActorFunc)BossFd_Draw,
 };
 
-#include "z_boss_fd_colchk.c"
+#include "z_boss_fd_colchk.inc.c"
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
@@ -185,7 +185,7 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnimeLeftArm, &gVolvagiaLeftArmSkel, &gVolvagiaLeftArmEmergeAnim, NULL, NULL, 0);
     this->introState = BFD_CS_WAIT;
     if (this->introState == BFD_CS_NONE) {
-        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
+        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
     }
 
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
@@ -486,7 +486,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
                 }
                 if (this->timers[3] == 160) {
-                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
+                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
                 }
                 if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
@@ -629,7 +629,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 this->holePosition.x = this->targetPosition.x;
                 this->holePosition.z = this->targetPosition.z;
 
-                func_80033E1C(play, 1, 0x50, 0x5000);
+                Actor_RequestQuakeWithSpeed(play, 1, 80, 0x5000);
                 if (this->introState != BFD_CS_NONE) {
                     this->timers[0] = 50;
                 } else {
@@ -673,7 +673,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->timers[1] = 10;
                     Audio_PlaySfxGeneral(NA_SE_EV_EXPLOSION, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    func_80033E1C(play, 3, 0xA, 0x7530);
+                    Actor_RequestQuakeWithSpeed(play, 3, 10, 0x7530);
                     this->work[BFD_ROCK_TIMER] = 300;
                 }
             } else {
@@ -743,7 +743,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
                     if (this->skinSegments == 0) {
-                        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+                        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
                     }
                 } else {
                     this->work[BFD_ACTION_STATE] = BOSSFD_BONES_FALL;
@@ -979,14 +979,14 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
         if (this->work[BFD_ACTION_STATE] < BOSSFD_SKULL_FALL) {
             if ((this->actor.prevPos.y < 90.0f) && (90.0f <= this->actor.world.pos.y)) {
                 this->timers[4] = 80;
-                func_80033E1C(play, 1, 80, 0x5000);
+                Actor_RequestQuakeWithSpeed(play, 1, 80, 0x5000);
                 this->work[BFD_ROAR_TIMER] = 40;
                 this->work[BFD_MANE_EMBERS_TIMER] = 30;
                 this->work[BFD_SPLASH_TIMER] = 10;
             }
             if ((this->actor.prevPos.y > 90.0f) && (90.0f >= this->actor.world.pos.y)) {
                 this->timers[4] = 80;
-                func_80033E1C(play, 1, 80, 0x5000);
+                Actor_RequestQuakeWithSpeed(play, 1, 80, 0x5000);
                 this->work[BFD_MANE_EMBERS_TIMER] = 30;
                 this->work[BFD_SPLASH_TIMER] = 10;
             }

@@ -23,7 +23,7 @@ void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, PlayState* play);
 void func_80A68DB0(EnHorseGanon* this, PlayState* play);
 
-const ActorInit En_Horse_Ganon_InitVars = {
+ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORCAT_BG,
     FLAGS,
@@ -186,7 +186,7 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->colliderHead);
     Collider_SetJntSph(play, &this->colliderHead, &this->actor, &sJntSphInit, this->headElements);
 
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     func_80A68AC4(this);
 }
 

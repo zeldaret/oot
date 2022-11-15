@@ -13,7 +13,7 @@ void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play);
 
-const ActorInit Bg_Mizu_Shutter_InitVars = {
+ActorInit Bg_Mizu_Shutter_InitVars = {
     ACTOR_BG_MIZU_SHUTTER,
     ACTORCAT_PROP,
     FLAGS,
@@ -53,7 +53,7 @@ void BgMizuShutter_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->displayList = sDisplayLists[BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor)];
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(sCollisionHeaders[BGMIZUSHUTTER_SIZE_PARAM(&this->dyna.actor)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 

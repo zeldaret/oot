@@ -44,7 +44,7 @@ void EnFhgFire_SpearLight(EnFhgFire* this, PlayState* play);
 void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play);
 void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play);
 
-const ActorInit En_Fhg_Fire_InitVars = {
+ActorInit En_Fhg_Fire_InitVars = {
     0,
     ACTORCAT_BOSS,
     FLAGS,
@@ -212,7 +212,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, PlayState* play) {
                                                         (s16)(Rand_ZeroOne() * 100.0f) + 240, FHGFLASH_LIGHTBALL_GREEN);
                     }
                 }
-                func_80033E88(&this->actor, play, 4, 10);
+                Actor_RequestQuakeAndRumble(&this->actor, play, 4, 10);
             }
 
             break;

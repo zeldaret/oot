@@ -30,7 +30,7 @@ beginseg
     include "build/src/libultra/io/piacs.o"
     include "build/src/libultra/os/sendmesg.o"
     include "build/src/libultra/os/stopthread.o"
-    include "build/src/libultra/io/viextend.o"
+    include "build/src/libultra/io/viextendvstart.o"
     include "build/src/libultra/io/vimodepallan1.o"
     include "build/src/libultra/os/recvmesg.o"
     include "build/src/libultra/os/initialize.o"
@@ -38,7 +38,7 @@ beginseg
     include "build/src/libultra/os/exceptasm.o"
     include "build/src/libultra/os/dequeuethread.o"
     include "build/src/libultra/os/destroythread.o"
-    include "build/src/libultra/libc//bzero.o"
+    include "build/src/libultra/libc/bzero.o"
     include "build/src/libultra/os/parameters.o"
     include "build/src/libultra/os/createthread.o"
     include "build/src/libultra/os/setsr.o"
@@ -353,6 +353,7 @@ beginseg
     include "build/src/code/z_sample.o"
     include "build/src/code/code_80097A00.o"
     include "build/src/code/z_scene.o"
+    include "build/src/code/object_table.o"
     include "build/src/code/z_scene_table.o"
     include "build/src/code/z_skelanime.o"
     include "build/src/code/z_skin.o"
@@ -384,6 +385,7 @@ beginseg
     include "build/src/code/z_kaleido_scope_call.o"
     include "build/src/code/z_play.o"
     include "build/src/code/PreRender.o"
+    include "build/src/code/TwoHeadGfxArena.o"
     include "build/src/code/TwoHeadArena.o"
     include "build/src/code/code_800C3C20.o"
     include "build/src/code/audioMgr.o"
@@ -4124,7 +4126,7 @@ beginseg
     name "object_mori_tex"
     romalign 0x1000
     include "build/assets/objects/object_mori_tex/object_mori_tex.o"
-    number 6
+    number 8
 endseg
 
 beginseg

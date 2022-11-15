@@ -188,7 +188,7 @@ void BossVa_SpawnBloodDroplets(PlayState* play, BossVaEffect* effect, Vec3f* pos
 void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpread, f32 ySpread, u8 mode, f32 range,
                   u8 fixed);
 
-const ActorInit Boss_Va_InitVars = {
+ActorInit Boss_Va_InitVars = {
     ACTOR_BOSS_VA,
     ACTORCAT_BOSS,
     FLAGS,
@@ -507,33 +507,33 @@ void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpr
 }
 
 void BossVa_SetSparkEnv(PlayState* play) {
-    play->envCtx.adjAmbientColor[0] = 0xA;
-    play->envCtx.adjAmbientColor[1] = 0xA;
-    play->envCtx.adjAmbientColor[2] = 0xA;
-    play->envCtx.adjLight1Color[0] = 0x73;
-    play->envCtx.adjLight1Color[1] = 0x41;
-    play->envCtx.adjLight1Color[2] = 0x64;
-    play->envCtx.adjFogColor[0] = 0x78;
-    play->envCtx.adjFogColor[1] = 0x78;
-    play->envCtx.adjFogColor[2] = 0x46;
+    play->envCtx.adjAmbientColor[0] = 10;
+    play->envCtx.adjAmbientColor[1] = 10;
+    play->envCtx.adjAmbientColor[2] = 10;
+    play->envCtx.adjLight1Color[0] = 115;
+    play->envCtx.adjLight1Color[1] = 65;
+    play->envCtx.adjLight1Color[2] = 100;
+    play->envCtx.adjFogColor[0] = 120;
+    play->envCtx.adjFogColor[1] = 120;
+    play->envCtx.adjFogColor[2] = 70;
 }
 
 void BossVa_SetDeathEnv(PlayState* play) {
-    play->envCtx.adjFogColor[0] = 0xDC;
-    play->envCtx.adjFogColor[1] = 0xDC;
-    play->envCtx.adjFogColor[2] = 0x96;
-    play->envCtx.adjFogNear = -0x3E8;
-    play->envCtx.adjFogFar = -0x384;
-    play->envCtx.adjAmbientColor[0] = 0xC8;
-    play->envCtx.adjAmbientColor[1] = 0xC8;
-    play->envCtx.adjAmbientColor[2] = 0xC8;
-    play->envCtx.adjLight1Color[0] = 0xD7;
-    play->envCtx.adjLight1Color[1] = 0xA5;
-    play->envCtx.adjLight1Color[2] = 0xC8;
-    play->envCtx.screenFillColor[0] = 0xDC;
-    play->envCtx.screenFillColor[1] = 0xDC;
-    play->envCtx.screenFillColor[2] = 0x96;
-    play->envCtx.screenFillColor[3] = 0x64;
+    play->envCtx.adjFogColor[0] = 220;
+    play->envCtx.adjFogColor[1] = 220;
+    play->envCtx.adjFogColor[2] = 150;
+    play->envCtx.adjFogNear = -1000;
+    play->envCtx.adjZFar = -900;
+    play->envCtx.adjAmbientColor[0] = 200;
+    play->envCtx.adjAmbientColor[1] = 200;
+    play->envCtx.adjAmbientColor[2] = 200;
+    play->envCtx.adjLight1Color[0] = 215;
+    play->envCtx.adjLight1Color[1] = 165;
+    play->envCtx.adjLight1Color[2] = 200;
+    play->envCtx.screenFillColor[0] = 220;
+    play->envCtx.screenFillColor[1] = 220;
+    play->envCtx.screenFillColor[2] = 150;
+    play->envCtx.screenFillColor[3] = 100;
 }
 
 EnBoom* BossVa_FindBoomerang(PlayState* play) {
@@ -957,7 +957,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 play->envCtx.lightSettingOverride = 1;
                 func_8002DF54(play, &this->actor, 8);
             } else if (this->timer >= 35000) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
 
             this->timer += this->unk_1F2;
@@ -1512,7 +1512,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
 void BossVa_SetupBodyDeath(BossVa* this, PlayState* play) {
     func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG, 1.0f);
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     this->vaCamRotMod = 0xC31;
     sCsState = DEATH_START;
     this->actor.speedXZ = 0.0f;
@@ -1597,7 +1597,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
             break;
         case DEATH_CORE_BURST:
             if (this->timer == 13) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
             }
 
             this->timer--;
@@ -1758,7 +1758,7 @@ void BossVa_SetupSupportCut(BossVa* this, PlayState* play) {
     sFightPhase++;
     Actor_Spawn(&play->actorCtx, play, ACTOR_BOSS_VA, this->armTip.x, this->armTip.y + 20.0f, this->armTip.z, 0,
                 this->actor.shape.rot.y, 0, stumpParams);
-    Camera_AddQuake(&play->mainCamera, 2, 11, 8);
+    Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
     this->burst = false;
     this->timer2 = 0;
     BossVa_SetupAction(this, BossVa_SupportCut);
@@ -3185,16 +3185,16 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     switch (this->actor.params) {
         case BOSSVA_BODY:
             if (play->envCtx.adjFogNear != 0) {
-                play->envCtx.adjFogNear += 0x15E;
+                play->envCtx.adjFogNear += 350;
                 if (play->envCtx.adjFogNear > 0) {
                     play->envCtx.adjFogNear = 0;
                 }
             }
 
-            if (play->envCtx.adjFogFar != 0) {
-                play->envCtx.adjFogFar += 0x15E;
-                if (play->envCtx.adjFogFar > 0) {
-                    play->envCtx.adjFogFar = 0;
+            if (play->envCtx.adjZFar != 0) {
+                play->envCtx.adjZFar += 350;
+                if (play->envCtx.adjZFar > 0) {
+                    play->envCtx.adjZFar = 0;
                 }
             }
 

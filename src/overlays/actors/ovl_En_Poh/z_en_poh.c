@@ -8,7 +8,7 @@
 #include "assets/objects/object_poh/object_poh.h"
 #include "assets/objects/object_po_composer/object_po_composer.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoh_Init(Actor* thisx, PlayState* play);
 void EnPoh_Destroy(Actor* thisx, PlayState* play);
@@ -42,7 +42,7 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 
 static s16 D_80AE1A50 = 0;
 
-const ActorInit En_Poh_InitVars = {
+ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORCAT_ENEMY,
     FLAGS,

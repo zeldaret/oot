@@ -85,8 +85,8 @@ typedef struct {
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
+    /* 0x00 */ uintptr_t vromStart;
+    /* 0x04 */ uintptr_t vromEnd;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
@@ -151,7 +151,7 @@ typedef struct {
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_12 (1 << 12)
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12) // actor will not shake when a quake occurs
 #define ACTOR_FLAG_13 (1 << 13)
 #define ACTOR_FLAG_14 (1 << 14)
 #define ACTOR_FLAG_15 (1 << 15)
@@ -254,6 +254,9 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
+#define DYNA_TRANSFORM_POS (1 << 0) // Position of the actors on top follows the dynapoly actor's movement.
+#define DYNA_TRANSFORM_ROT_Y (1 << 1) // The Y rotation of the actors on top follows the dynapoly actor's Y rotation.
+
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
@@ -265,8 +268,7 @@ typedef struct DynaPolyActor {
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;
     /* 0x158 */ s16 unk_158; // y rotation?
-    /* 0x15A */ u16 unk_15A;
-    /* 0x15C */ u32 unk_15C;
+    /* 0x15C */ u32 transformFlags;
     /* 0x160 */ u8 interactFlags;
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164

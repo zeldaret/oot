@@ -29,7 +29,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this);
 
 static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
-const ActorInit Bg_Hidan_Rock_InitVars = {
+ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
     ACTORCAT_BG,
     FLAGS,
@@ -72,7 +72,7 @@ void BgHidanRock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
     this->type = thisx->params & 0xFF;
     this->unk_169 = 0;

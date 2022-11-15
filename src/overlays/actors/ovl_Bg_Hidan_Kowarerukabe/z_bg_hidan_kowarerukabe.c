@@ -22,7 +22,7 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
+ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
     ACTORCAT_BG,
     FLAGS,
@@ -78,7 +78,7 @@ void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play
     s32 pad2;
 
     if (collisionHeaders[this->dyna.actor.params & 0xFF] != NULL) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(collisionHeaders[this->dyna.actor.params & 0xFF], &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     } else {

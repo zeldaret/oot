@@ -29,7 +29,7 @@ void func_80880D68(BgHakaTrap* this);
 
 static UNK_TYPE D_80880F30 = 0;
 
-const ActorInit Bg_Haka_Trap_InitVars = {
+ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
     ACTORCAT_BG,
     FLAGS,
@@ -130,7 +130,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 
             this->actionFunc = func_80880484;
         } else {
-            DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+            DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
             thisx->flags |= ACTOR_FLAG_4;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
@@ -180,7 +180,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
         thisx->uncullZoneScale = 500.0f;
     }
 
-    CollisionCheck_SetInfo(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {

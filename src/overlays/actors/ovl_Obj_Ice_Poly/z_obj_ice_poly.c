@@ -17,7 +17,7 @@ void ObjIcePoly_Draw(Actor* thisx, PlayState* play);
 void ObjIcePoly_Idle(ObjIcePoly* this, PlayState* play);
 void ObjIcePoly_Melt(ObjIcePoly* this, PlayState* play);
 
-const ActorInit Obj_Ice_Poly_InitVars = {
+ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORCAT_PROP,
     FLAGS,

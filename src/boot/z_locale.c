@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 u32 gCurrentRegion = 0;
 LocaleCartInfo sCartInfo;
@@ -9,11 +9,11 @@ void Locale_Init(void) {
     osEPiReadIo(gCartHandle, 0x3C, &sCartInfo.regionInfo);
 
     switch (sCartInfo.countryCode) {
-        case 'J': // "NTSC-U (North America)"
-            gCurrentRegion = REGION_US;
-            break;
-        case 'E': // "NTSC-J (Japan)"
+        case 'J': // "NTSC-J (Japan)"
             gCurrentRegion = REGION_JP;
+            break;
+        case 'E': // "NTSC-U (North America)"
+            gCurrentRegion = REGION_US;
             break;
         case 'P': // "PAL (Europe)"
             gCurrentRegion = REGION_EU;

@@ -29,24 +29,24 @@ static s16 D_801202FC = 13;
 static s16 D_80120300 = 210;
 static s16 D_80120304 = 0;
 
-static CutsceneCameraPoint D_80120308[9] = {
+static CutsceneCameraPoint sCrawlspaceAtPoints[9] = {
     { CS_CMD_CONTINUE, 0, 10, 40.0f, { 0, 4, 0 } },  { CS_CMD_CONTINUE, 0, 10, 40.000004f, { 0, 4, 0 } },
     { CS_CMD_CONTINUE, 0, 10, 50.0f, { 0, 9, 0 } },  { CS_CMD_CONTINUE, 0, 12, 55.0f, { 0, 12, 0 } },
     { CS_CMD_CONTINUE, 0, 15, 61.0f, { 0, 18, 0 } }, { CS_CMD_CONTINUE, 0, 20, 65.0f, { 0, 29, 0 } },
     { CS_CMD_CONTINUE, 0, 40, 60.0f, { 0, 34, 0 } }, { CS_CMD_STOP, 0, 40, 60.0f, { 0, 34, 0 } },
     { CS_CMD_STOP, 0, 10, 60.0f, { 0, 34, 0 } },
 };
-static CutsceneCameraPoint D_80120398[9] = {
+static CutsceneCameraPoint sCrawlspaceForwardsEyePoints[9] = {
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 9, 45 } },   { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 8, 50 } },
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 17, 58 } },  { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 21, 78 } },
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 46, 109 } }, { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 58, 118 } },
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 63, 119 } }, { CS_CMD_STOP, 0, 0, 60.0f, { 0, 62, 119 } },
     { CS_CMD_STOP, 0, 0, 60.0f, { 0, 62, 119 } },
 };
-static s16 D_80120428 = 9;
-static s16 D_8012042C = 90;
-static s16 D_80120430 = 1;
-static CutsceneCameraPoint D_80120434[10] = {
+static s16 sCrawlspaceUnused = 9;
+static s16 sCrawlspaceTimer = 90;
+static s16 sCrawlspaceActionParam = 1;
+static CutsceneCameraPoint sCrawlspaceBackwardsEyePoints[10] = {
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 9, -45 } },   { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 9, -45 } },
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 8, -50 } },   { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 17, -58 } },
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 21, -78 } },  { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 46, -109 } },

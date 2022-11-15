@@ -8,8 +8,8 @@
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
-
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_23
 
@@ -32,7 +32,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, PlayState* play);
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
-const ActorInit En_Ishi_InitVars = {
+ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORCAT_PROP,
     FLAGS,
@@ -420,7 +420,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     s32 pad;
     s16 type = this->actor.params & 1;
     s32 pad2;
-    s32 quakeIdx;
+    s32 quakeIndex;
     Vec3f contactPos;
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
@@ -432,10 +432,10 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
             sDustSpawnFuncs[type](this, play);
         }
         if (type == ROCK_LARGE) {
-            quakeIdx = Quake_Add(GET_ACTIVE_CAM(play), 3);
-            Quake_SetSpeed(quakeIdx, -0x3CB0);
-            Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
-            Quake_SetCountdown(quakeIdx, 7);
+            quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+            Quake_SetSpeed(quakeIndex, -0x3CB0);
+            Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 7);
             Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
         }
         Actor_Kill(&this->actor);
@@ -445,7 +445,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
         contactPos.x = this->actor.world.pos.x;
         contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.world.pos.z;
-        EffectSsGSplash_Spawn(play, &contactPos, 0, 0, 0, 350);
+        EffectSsGSplash_Spawn(play, &contactPos, NULL, NULL, 0, 350);
         if (type == ROCK_SMALL) {
             EffectSsGRipple_Spawn(play, &contactPos, 150, 650, 0);
             EffectSsGRipple_Spawn(play, &contactPos, 400, 800, 4);

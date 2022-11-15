@@ -1,5 +1,6 @@
 #include "global.h"
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
@@ -930,20 +931,24 @@ f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint) {
     return Math_Vec3f_DistXZ(&actor->world.pos, refPoint);
 }
 
-void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2) {
-    f32 cosRot2Y;
-    f32 sinRot2Y;
+/**
+ * Convert `pos` to be relative to the actor's position and yaw, store into `dest`.
+ * Actor_WorldToActorCoords
+ */
+void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos) {
+    f32 cosY;
+    f32 sinY;
     f32 deltaX;
     f32 deltaZ;
 
-    cosRot2Y = Math_CosS(actor->shape.rot.y);
-    sinRot2Y = Math_SinS(actor->shape.rot.y);
-    deltaX = arg2->x - actor->world.pos.x;
-    deltaZ = arg2->z - actor->world.pos.z;
+    cosY = Math_CosS(actor->shape.rot.y);
+    sinY = Math_SinS(actor->shape.rot.y);
+    deltaX = pos->x - actor->world.pos.x;
+    deltaZ = pos->z - actor->world.pos.z;
 
-    result->x = (deltaX * cosRot2Y) - (deltaZ * sinRot2Y);
-    result->z = (deltaX * sinRot2Y) + (deltaZ * cosRot2Y);
-    result->y = arg2->y - actor->world.pos.y;
+    dest->x = (deltaX * cosY) - (deltaZ * sinY);
+    dest->z = (deltaX * sinY) + (deltaZ * cosY);
+    dest->y = pos->y - actor->world.pos.y;
 }
 
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB) {
@@ -1238,7 +1243,7 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
     sp74 = actor->world.pos.y - actor->prevPos.y;
 
     if ((actor->floorBgId != BGCHECK_SCENE) && (actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        func_800433A4(&play->colCtx, actor->floorBgId, actor);
+        DynaPolyActor_TransformCarriedActor(&play->colCtx, actor->floorBgId, actor);
     }
 
     if (flags & UPDBGCHECKINFO_FLAG_0) {
@@ -1952,15 +1957,14 @@ void Actor_DisableLens(PlayState* play) {
     }
 }
 
-// Actor_InitContext
-void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEntry) {
+void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* playerEntry) {
     ActorOverlay* overlayEntry;
     SavedSceneFlags* savedSceneFlags;
     s32 i;
 
     savedSceneFlags = &gSaveContext.sceneFlags[play->sceneId];
 
-    bzero(actorCtx, sizeof(*actorCtx));
+    bzero(actorCtx, sizeof(ActorContext));
 
     ActorOverlayTable_Init();
     Matrix_MtxFCopy(&play->billboardMtxF, &gMtxFClear);
@@ -1982,7 +1986,7 @@ void func_800304DC(PlayState* play, ActorContext* actorCtx, ActorEntry* actorEnt
 
     actorCtx->absoluteSpace = NULL;
 
-    Actor_SpawnEntry(actorCtx, actorEntry, play);
+    Actor_SpawnEntry(actorCtx, playerEntry, play);
     func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, play);
     func_8002FA60(play);
 }
@@ -2023,12 +2027,12 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     sp74 = NULL;
     unkFlag = 0;
 
-    if (play->numSetupActors != 0) {
-        actorEntry = &play->setupActorList[0];
-        for (i = 0; i < play->numSetupActors; i++) {
+    if (play->numActorEntries != 0) {
+        actorEntry = &play->actorEntryList[0];
+        for (i = 0; i < play->numActorEntries; i++) {
             Actor_SpawnEntry(&play->actorCtx, actorEntry++, play);
         }
-        play->numSetupActors = 0;
+        play->numActorEntries = 0;
     }
 
     if (actorCtx->unk_02 != 0) {
@@ -2179,11 +2183,11 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Lights_BindAll(lights, play->lightCtx.listHead, (actor->flags & ACTOR_FLAG_22) ? NULL : &actor->world.pos);
     Lights_Draw(lights, play->state.gfxCtx);
 
-    if (actor->flags & ACTOR_FLAG_12) {
-        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.skyboxOffset.x,
+    if (actor->flags & ACTOR_FLAG_IGNORE_QUAKE) {
+        Matrix_SetTranslateRotateYXZ(actor->world.pos.x + play->mainCamera.quakeOffset.x,
                                      actor->world.pos.y +
-                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.skyboxOffset.y),
-                                     actor->world.pos.z + play->mainCamera.skyboxOffset.z, &actor->shape.rot);
+                                         ((actor->shape.yOffset * actor->scale.y) + play->mainCamera.quakeOffset.y),
+                                     actor->world.pos.z + play->mainCamera.quakeOffset.z, &actor->shape.rot);
     } else {
         Matrix_SetTranslateRotateYXZ(actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
                                      actor->world.pos.z, &actor->shape.rot);
@@ -2661,7 +2665,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     ActorInit* actorInit;
     s32 objBankIndex;
     ActorOverlay* overlayEntry;
-    u32 temp;
+    uintptr_t temp;
     char* name;
     u32 overlaySize;
 
@@ -2682,7 +2686,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
         return NULL;
     }
 
-    if (overlayEntry->vramStart == 0) {
+    if (overlayEntry->vramStart == NULL) {
         if (HREG(20) != 0) {
             osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
         }
@@ -2894,7 +2898,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     ZeldaArena_FreeDebug(actor, "../z_actor.c", 7242);
 
-    if (overlayEntry->vramStart == 0) {
+    if (overlayEntry->vramStart == NULL) {
         if (HREG(20) != 0) {
             osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
         }
@@ -3001,7 +3005,7 @@ Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, 
         }
     }
 
-    if (D_8015BBE8 == 0) {
+    if (D_8015BBE8 == NULL) {
         *actorPtr = D_8015BBEC;
     } else {
         *actorPtr = D_8015BBE8;
@@ -3505,30 +3509,29 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8155);
 }
 
-void func_80033DB8(PlayState* play, s16 arg1, s16 arg2) {
-    s16 var = Quake_Add(&play->mainCamera, 3);
+void Actor_RequestQuake(PlayState* play, s16 y, s16 duration) {
+    s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
-    Quake_SetSpeed(var, 20000);
-    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
-    Quake_SetCountdown(var, arg2);
+    Quake_SetSpeed(quakeIndex, 20000);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
-void func_80033E1C(PlayState* play, s16 arg1, s16 arg2, s16 arg3) {
-    s16 var = Quake_Add(&play->mainCamera, 3);
+void Actor_RequestQuakeWithSpeed(PlayState* play, s16 y, s16 duration, s16 speed) {
+    s16 quakeIndex = Quake_Request(&play->mainCamera, QUAKE_TYPE_3);
 
-    Quake_SetSpeed(var, arg3);
-    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
-    Quake_SetCountdown(var, arg2);
+    Quake_SetSpeed(quakeIndex, speed);
+    Quake_SetPerturbations(quakeIndex, y, 0, 0, 0);
+    Quake_SetDuration(quakeIndex, duration);
 }
 
-void func_80033E88(Actor* actor, PlayState* play, s16 arg2, s16 arg3) {
-    if (arg2 >= 5) {
+void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeY, s16 quakeDuration) {
+    if (quakeY >= 5) {
         Rumble_Request(actor->xyzDistToPlayerSq, 255, 20, 150);
     } else {
         Rumble_Request(actor->xyzDistToPlayerSq, 180, 20, 100);
     }
-
-    func_80033DB8(play, arg2, arg3);
+    Actor_RequestQuake(play, quakeY, quakeDuration);
 }
 
 f32 Rand_ZeroFloat(f32 f) {
@@ -3550,9 +3553,9 @@ typedef struct {
 } DoorLockInfo; // size = 0x1C
 
 static DoorLockInfo sDoorLocksInfo[] = {
-    /* DOORLOCK_NORMAL */ { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, gDoorChainsDL, gDoorLockDL },
-    /* DOORLOCK_BOSS */ { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, object_bdoor_DL_001530, object_bdoor_DL_001400 },
-    /* DOORLOCK_NORMAL_SPIRIT */ { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, gDoorChainsDL, gDoorLockDL },
+    /* DOORLOCK_NORMAL */ { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, gDoorChainDL, gDoorLockDL },
+    /* DOORLOCK_BOSS */ { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, gBossDoorChainDL, gBossDoorLockDL },
+    /* DOORLOCK_NORMAL_SPIRIT */ { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, gDoorChainDL, gDoorLockDL },
 };
 
 /**
@@ -3963,7 +3966,7 @@ s32 func_80035124(Actor* actor, PlayState* play) {
     return ret;
 }
 
-#include "z_cheap_proc.c"
+#include "z_cheap_proc.inc.c"
 
 u8 func_800353E8(PlayState* play) {
     Player* player = GET_PLAYER(play);
@@ -4602,7 +4605,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_25) &&
                 Flags_GetEventChkInf(EVENTCHKINF_37)) {
                 retTextId = 0x7047;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_14)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x701A;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_11)) {
                 if (Flags_GetInfTable(INFTABLE_C6)) {
@@ -4911,9 +4914,10 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 retTextId = 0x2049;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_15)) {
                 retTextId = 0x2048;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_14)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2047;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_12) && !Flags_GetEventChkInf(EVENTCHKINF_14)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_12) &&
+                       !Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2044;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_10)) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_11)) {
@@ -4927,7 +4931,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             break;
         case 72:
             if (!LINK_IS_ADULT) {
-                if (Flags_GetEventChkInf(EVENTCHKINF_14)) {
+                if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     retTextId = 0x2040;
                 } else if (Flags_GetInfTable(INFTABLE_94)) {
                     retTextId = 0x2040;
@@ -4935,7 +4939,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                     retTextId = 0x203F;
                 }
             } else {
-                if (!Flags_GetEventChkInf(EVENTCHKINF_18)) {
+                if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                     if (!IS_DAY) {
                         retTextId = 0x204E;
                     } else if (Flags_GetInfTable(INFTABLE_9A)) {
@@ -5477,8 +5481,6 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     }
 
     Actor_GetScreenPos(play, actor, &sp2C, &sp2A);
-
-    if (0) {} // Necessary to match
 
     if ((sp2C < 0) || (sp2C > SCREEN_WIDTH) || (sp2A < 0) || (sp2A > SCREEN_HEIGHT)) {
         return false;

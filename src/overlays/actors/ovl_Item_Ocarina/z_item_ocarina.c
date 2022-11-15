@@ -22,7 +22,7 @@ void func_80B864EC(ItemOcarina* this, PlayState* play);
 void func_80B865E0(ItemOcarina* this, PlayState* play);
 void ItemOcarina_DoNothing(ItemOcarina* this, PlayState* play);
 
-const ActorInit Item_Ocarina_InitVars = {
+ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -42,7 +42,7 @@ void ItemOcarina_Init(Actor* thisx, PlayState* play) {
     ItemOcarina* this = (ItemOcarina*)thisx;
     s32 params = thisx->params;
 
-    ActorShape_Init(&this->actor.shape, 0, 0, 0);
+    ActorShape_Init(&this->actor.shape, 0, NULL, 0);
     Actor_SetScale(&this->actor, 0.1f);
 
     switch (params) {
@@ -101,7 +101,7 @@ void ItemOcarina_Fly(ItemOcarina* this, PlayState* play) {
 
     if (play->csCtx.frames == 897) {
         EffectSsGRipple_Spawn(play, &this->actor.world.pos, 100, 500, 0);
-        EffectSsGSplash_Spawn(play, &this->actor.world.pos, 0, 0, 1, 0);
+        EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 0);
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.z = 0.0f;
