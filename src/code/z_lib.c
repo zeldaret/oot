@@ -300,9 +300,14 @@ f32 Math_Vec3f_DiffY(Vec3f* a, Vec3f* b) {
     return b->y - a->y;
 }
 
-s16 Math_Vec3f_Yaw(Vec3f* a, Vec3f* b) {
-    f32 dx = b->x - a->x;
-    f32 dz = b->z - a->z;
+/**
+ * @param origin Position of the origin, the location from which to look at the target `point`
+ * @param point Position of the target point, in the same space as `origin`
+ * @return The yaw towards `point` when at `origin`, assuming +z is forwards.
+ */
+s16 Math_Vec3f_Yaw(Vec3f* origin, Vec3f* point) {
+    f32 dx = point->x - origin->x;
+    f32 dz = point->z - origin->z;
 
     return Math_Atan2S(dz, dx);
 }

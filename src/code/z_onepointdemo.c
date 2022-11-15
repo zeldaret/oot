@@ -24,8 +24,11 @@ Vec3f* OnePointCutscene_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
     return dest;
 }
 
-s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
-    return CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(vec2->x - vec1->x, vec2->z - vec1->z)));
+/**
+ * @see Math_Vec3f_Yaw
+ */
+s16 OnePointCutscene_Vec3fYaw(Vec3f* origin, Vec3f* point) {
+    return CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(point->x - origin->x, point->z - origin->z)));
 }
 
 void OnePointCutscene_Vec3sToVec3f(Vec3f* src, Vec3s* dst) {
