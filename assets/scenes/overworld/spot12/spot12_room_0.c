@@ -16,7 +16,7 @@ SceneCmd spot12_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot12_room_0PolygonType2_0001D0),
-    SCENE_CMD_OBJECT_LIST(8, spot12_room_0ObjectList_000060),
+    SCENE_CMD_OBJECT_LIST(9, spot12_room_0ObjectList_000060),
     SCENE_CMD_ACTOR_LIST(22, spot12_room_0ActorList_000070),
     SCENE_CMD_END(),
 };
@@ -39,6 +39,7 @@ s16 spot12_room_0ObjectList_000060[] = {
     OBJECT_KIBAKO2,
     OBJECT_GLA,
     OBJECT_GE1,
+    OBJECT_HORSE_NORMAL,
 };
 
 ActorEntry spot12_room_0ActorList_000070[] = {
@@ -102,7 +103,7 @@ SceneCmd spot12_room_0Set_000300[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_WIND_SETTINGS(0, 4, 10, 80),
     SCENE_CMD_MESH(&spot12_room_0PolygonType2_0001D0),
-    SCENE_CMD_OBJECT_LIST(10, spot12_room_0ObjectList_000348),
+    SCENE_CMD_OBJECT_LIST(11, spot12_room_0ObjectList_000348),
     SCENE_CMD_ACTOR_LIST(30, spot12_room_0ActorList_00035C),
     SCENE_CMD_END(),
 };
@@ -118,6 +119,7 @@ s16 spot12_room_0ObjectList_000348[] = {
     OBJECT_GLA,
     OBJECT_KANBAN,
     OBJECT_KA,
+    OBJECT_HORSE_NORMAL,
 };
 
 ActorEntry spot12_room_0ActorList_00035C[] = {
@@ -164,7 +166,7 @@ SceneCmd spot12_room_0Set_000540[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_WIND_SETTINGS(0, 4, 40, 140),
     SCENE_CMD_MESH(&spot12_room_0PolygonType2_0001D0),
-    SCENE_CMD_OBJECT_LIST(10, spot12_room_0ObjectList_000588),
+    SCENE_CMD_OBJECT_LIST(11, spot12_room_0ObjectList_000588),
     SCENE_CMD_ACTOR_LIST(31, spot12_room_0ActorList_00059C),
     SCENE_CMD_END(),
 };
@@ -180,6 +182,7 @@ s16 spot12_room_0ObjectList_000588[] = {
     OBJECT_KANBAN,
     OBJECT_KA,
     OBJECT_ST,
+    OBJECT_HORSE_NORMAL,
 };
 
 ActorEntry spot12_room_0ActorList_00059C[] = {
