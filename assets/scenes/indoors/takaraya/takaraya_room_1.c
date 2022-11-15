@@ -21,7 +21,7 @@ SceneCmd takaraya_room_1Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&takaraya_room_1PolygonType0_000080),
     SCENE_CMD_OBJECT_LIST(6, takaraya_room_1ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(3, takaraya_room_1ActorList_00004C),
+    SCENE_CMD_ACTOR_LIST(4, takaraya_room_1ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -38,6 +38,7 @@ ActorEntry takaraya_room_1ActorList_00004C[] = {
     { ACTOR_EN_LIGHT,   {     88,     78,   -409 }, {      0,      0,      0 }, 0x03F5 },
     { ACTOR_EN_LIGHT,   {    -67,     78,   -409 }, {      0,      0,      0 }, 0x03F5 },
     { ACTOR_EN_CHANGER, {     23,     20,   -232 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_WONDER_TALK2, {     10,     0,   -120 }, {      0,      0,      0 }, 0x45A8 },
 };
 
 u8 takaraya_room_1_possiblePadding_00007C[] = {
