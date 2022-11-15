@@ -66,10 +66,9 @@ void EnBird_Destroy(Actor* thisx, PlayState* play) {
 void EnBird_SetupIdle(EnBird* this, s16 params) {
     f32 frameCount = Animation_GetLastFrame(&gBirdFlyAnim);
     f32 playbackSpeed = this->aniSpeedMod ? 0.0f : 1.0f;
-    AnimationHeader* anim = &gBirdFlyAnim;
 
     this->timer = Rand_S16Offset(5, 35);
-    Animation_Change(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gBirdFlyAnim, playbackSpeed, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     EnBird_SetupAction(this, EnBird_Idle);
 }
 
