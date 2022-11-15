@@ -15,7 +15,7 @@ SceneCmd market_alley_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&market_alley_room_0MeshHeader1Multi_0000B0),
     SCENE_CMD_OBJECT_LIST(11, market_alley_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(5, market_alley_room_0ActorList_000058),
+    SCENE_CMD_ACTOR_LIST(6, market_alley_room_0ActorList_000058),
     SCENE_CMD_END(),
 };
 
@@ -39,6 +39,7 @@ ActorEntry market_alley_room_0ActorList_000058[] = {
     { ACTOR_EN_HEISHI4,     {   -328,      0,   1199 }, {      0,      0,      0 }, 0xFF07 },
     { ACTOR_EN_HY,          {   -574,      0,   1053 }, {      0, 0X8000,      0 }, 0x078D },
     { ACTOR_EN_RIVER_SOUND, {    515,     -4,    759 }, {      0,      0,      0 }, 0x000B },
+    { ACTOR_EN_NIW,         {    469,      0,    800 }, {      0, 0x4000,      0 }, 0xFFFF },
 };
 
 u8 market_alley_room_0_possiblePadding_0000A8[] = {
