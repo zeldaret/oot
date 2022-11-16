@@ -95,14 +95,14 @@ void func_80AACA94(EnMk* this, PlayState* play) {
         func_80088AA0(240);
         CLEAR_EVENTINF(EVENTINF_10);
     } else {
-        func_8002F434(&this->actor, play, GI_EYEDROPS, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB14(EnMk* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = func_80AACA94;
-        func_8002F434(&this->actor, play, GI_EYEDROPS, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
     }
 }
 

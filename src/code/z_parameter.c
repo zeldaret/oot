@@ -1171,9 +1171,9 @@ void Inventory_SwapAgeEquipment(void) {
         if (gSaveContext.adultEquips.buttonItems[0] == ITEM_NONE) {
             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
 
-            if (gSaveContext.inventory.items[SLOT_NUT] != ITEM_NONE) {
+            if (gSaveContext.inventory.items[SLOT_DEKU_NUT] != ITEM_NONE) {
                 gSaveContext.equips.buttonItems[1] = ITEM_DEKU_NUT;
-                gSaveContext.equips.cButtonSlots[0] = SLOT_NUT;
+                gSaveContext.equips.cButtonSlots[0] = SLOT_DEKU_NUT;
             } else {
                 gSaveContext.equips.buttonItems[1] = gSaveContext.equips.cButtonSlots[0] = ITEM_NONE;
             }
@@ -1507,29 +1507,29 @@ u8 Item_Give(PlayState* play, u8 item) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_STICKS, 2);
-        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_STICKS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 2);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 2);
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_STICK_UPGRADE_30) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_STICKS, 3);
-        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_STICKS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 3);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 3);
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_NUT_UPGRADE_30) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_NUTS, 2);
-        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_NUTS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 2);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 2);
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_NUT_UPGRADE_40) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_NUTS, 3);
-        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_NUTS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 3);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 3);
         return ITEM_NONE;
     } else if (item == ITEM_LONGSHOT) {
         INV_CONTENT(item) = item;
@@ -1542,46 +1542,46 @@ u8 Item_Give(PlayState* play, u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_STICK) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_STICKS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
             AMMO(ITEM_DEKU_STICK) = 1;
         } else {
             AMMO(ITEM_DEKU_STICK)++;
-            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_STICKS)) {
-                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_STICKS);
+            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_DEKU_STICKS)) {
+                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
             }
         }
     } else if ((item == ITEM_DEKU_STICKS_5) || (item == ITEM_DEKU_STICKS_10)) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_STICKS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
             AMMO(ITEM_DEKU_STICK) = sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
         } else {
             AMMO(ITEM_DEKU_STICK) += sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
-            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_STICKS)) {
-                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_STICKS);
+            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_DEKU_STICKS)) {
+                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
             }
         }
         item = ITEM_DEKU_STICK;
     } else if (item == ITEM_DEKU_NUT) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_NUTS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
             AMMO(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         } else {
             AMMO(ITEM_DEKU_NUT)++;
-            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_NUTS)) {
-                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_NUTS);
+            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_DEKU_NUTS)) {
+                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
             }
         }
     } else if ((item == ITEM_DEKU_NUTS_5) || (item == ITEM_DEKU_NUTS_10)) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_NUTS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
             AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
             // "Deku Nuts %d(%d)=%d BS_count=%d"
             osSyncPrintf("デクの実 %d(%d)=%d  BS_count=%d\n", item, ITEM_DEKU_NUTS_5, item - ITEM_DEKU_NUTS_5,
                          sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5]);
         } else {
             AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
-            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_NUTS)) {
-                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_NUTS);
+            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_DEKU_NUTS)) {
+                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
             }
         }
         item = ITEM_DEKU_NUT;
@@ -1674,13 +1674,13 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
         return ITEM_NONE;
-    } else if (item == ITEM_MAGIC_BEANS) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(item) = item;
-            AMMO(ITEM_MAGIC_BEANS) = 1;
+            AMMO(ITEM_MAGIC_BEAN) = 1;
             BEANS_BOUGHT = 1;
         } else {
-            AMMO(ITEM_MAGIC_BEANS)++;
+            AMMO(ITEM_MAGIC_BEAN)++;
             BEANS_BOUGHT++;
         }
         return ITEM_NONE;
@@ -1892,7 +1892,7 @@ u8 Item_CheckObtainability(u8 item) {
         } else {
             return ITEM_DEKU_SEEDS;
         }
-    } else if (item == ITEM_MAGIC_BEANS) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         return ITEM_NONE;
     } else if ((item == ITEM_HEART_PIECE_2) || (item == ITEM_HEART_PIECE)) {
         return ITEM_NONE;
@@ -1943,7 +1943,7 @@ u8 Item_CheckObtainability(u8 item) {
 void Inventory_DeleteItem(u16 item, u16 invSlot) {
     s16 i;
 
-    if (item == ITEM_MAGIC_BEANS) {
+    if (item == ITEM_MAGIC_BEAN) {
         BEANS_BOUGHT = 0;
     }
 
@@ -2220,16 +2220,16 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
     if (item == ITEM_DEKU_STICK) {
         AMMO(ITEM_DEKU_STICK) += ammoChange;
 
-        if (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_STICKS)) {
-            AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_STICKS);
+        if (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS)) {
+            AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
         } else if (AMMO(ITEM_DEKU_STICK) < 0) {
             AMMO(ITEM_DEKU_STICK) = 0;
         }
     } else if (item == ITEM_DEKU_NUT) {
         AMMO(ITEM_DEKU_NUT) += ammoChange;
 
-        if (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_NUTS)) {
-            AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_NUTS);
+        if (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS)) {
+            AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
         } else if (AMMO(ITEM_DEKU_NUT) < 0) {
             AMMO(ITEM_DEKU_NUT) = 0;
         }
@@ -2265,8 +2265,8 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         } else if (AMMO(ITEM_BOMB) < 0) {
             AMMO(ITEM_BOMB) = 0;
         }
-    } else if (item == ITEM_MAGIC_BEANS) {
-        AMMO(ITEM_MAGIC_BEANS) += ammoChange;
+    } else if (item == ITEM_MAGIC_BEAN) {
+        AMMO(ITEM_MAGIC_BEAN) += ammoChange;
     }
 
     osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
@@ -2881,7 +2881,7 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
 
     if ((i == ITEM_DEKU_STICK) || (i == ITEM_DEKU_NUT) || (i == ITEM_BOMB) || (i == ITEM_BOW) ||
         ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU) ||
-        (i == ITEM_MAGIC_BEANS)) {
+        (i == ITEM_MAGIC_BEAN)) {
 
         if ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) {
             i = ITEM_BOW;
@@ -2903,9 +2903,9 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
         } else if (((i == ITEM_BOW) && (AMMO(i) == CUR_CAPACITY(UPG_QUIVER))) ||
                    ((i == ITEM_BOMB) && (AMMO(i) == CUR_CAPACITY(UPG_BOMB_BAG))) ||
                    ((i == ITEM_SLINGSHOT) && (AMMO(i) == CUR_CAPACITY(UPG_BULLET_BAG))) ||
-                   ((i == ITEM_DEKU_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_STICKS))) ||
-                   ((i == ITEM_DEKU_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_NUTS))) ||
-                   ((i == ITEM_BOMBCHU) && (ammo == 50)) || ((i == ITEM_MAGIC_BEANS) && (ammo == 15))) {
+                   ((i == ITEM_DEKU_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_STICKS))) ||
+                   ((i == ITEM_DEKU_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_NUTS))) ||
+                   ((i == ITEM_BOMBCHU) && (ammo == 50)) || ((i == ITEM_MAGIC_BEAN) && (ammo == 15))) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, alpha);
         }
 

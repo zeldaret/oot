@@ -2658,7 +2658,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[i] = 0;
             }
 
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[0] = 2;
             }
 
@@ -2670,7 +2670,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[1] = 2;
             }
 
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[1] = 1;
             }
 
@@ -2682,7 +2682,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[2] = 2;
             }
 
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[2] = 1;
             }
 

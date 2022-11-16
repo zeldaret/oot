@@ -431,7 +431,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
         this->unk_1E0.unk_00 = 1;
         this->actionFunc = EnKz_StartTimer;
     } else {
-        getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
+        getItemId = this->isTrading == true ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
         func_8002F434(&this->actor, play, getItemId, xzRange, yRange);

@@ -138,8 +138,8 @@ static ItemEquips sNewSaveEquips = {
 static Inventory sNewSaveInventory = {
     // items
     {
-        ITEM_NONE, // SLOT_STICK
-        ITEM_NONE, // SLOT_NUT
+        ITEM_NONE, // SLOT_DEKU_STICK
+        ITEM_NONE, // SLOT_DEKU_NUT
         ITEM_NONE, // SLOT_BOMB
         ITEM_NONE, // SLOT_BOW
         ITEM_NONE, // SLOT_ARROW_FIRE
@@ -151,8 +151,8 @@ static Inventory sNewSaveInventory = {
         ITEM_NONE, // SLOT_ARROW_ICE
         ITEM_NONE, // SLOT_FARORES_WIND
         ITEM_NONE, // SLOT_BOOMERANG
-        ITEM_NONE, // SLOT_LENS
-        ITEM_NONE, // SLOT_BEAN
+        ITEM_NONE, // SLOT_LENS_OF_TRUTH
+        ITEM_NONE, // SLOT_MAGIC_BEAN
         ITEM_NONE, // SLOT_HAMMER
         ITEM_NONE, // SLOT_ARROW_LIGHT
         ITEM_NONE, // SLOT_NAYRUS_LOVE
@@ -165,8 +165,8 @@ static Inventory sNewSaveInventory = {
     },
     // ammo
     {
-        0, // SLOT_STICK
-        0, // SLOT_NUT
+        0, // SLOT_DEKU_STICK
+        0, // SLOT_DEKU_NUT
         0, // SLOT_BOMB
         0, // SLOT_BOW
         0, // SLOT_ARROW_FIRE
@@ -178,8 +178,8 @@ static Inventory sNewSaveInventory = {
         0, // SLOT_ARROW_ICE
         0, // SLOT_FARORES_WIND
         0, // SLOT_BOOMERANG
-        0, // SLOT_LENS
-        0, // SLOT_BEAN
+        0, // SLOT_LENS_OF_TRUTH
+        0, // SLOT_MAGIC_BEAN
         0, // SLOT_HAMMER
     },
     // equipment
@@ -268,8 +268,8 @@ static ItemEquips sDebugSaveEquips = {
 static Inventory sDebugSaveInventory = {
     // items
     {
-        ITEM_DEKU_STICK,          // SLOT_STICK
-        ITEM_DEKU_NUT,            // SLOT_NUT
+        ITEM_DEKU_STICK,          // SLOT_DEKU_STICK
+        ITEM_DEKU_NUT,            // SLOT_DEKU_NUT
         ITEM_BOMB,                // SLOT_BOMB
         ITEM_BOW,                 // SLOT_BOW
         ITEM_ARROW_FIRE,          // SLOT_ARROW_FIRE
@@ -281,8 +281,8 @@ static Inventory sDebugSaveInventory = {
         ITEM_ARROW_ICE,           // SLOT_ARROW_ICE
         ITEM_FARORES_WIND,        // SLOT_FARORES_WIND
         ITEM_BOOMERANG,           // SLOT_BOOMERANG
-        ITEM_LENS_OF_TRUTH,       // SLOT_LENS
-        ITEM_MAGIC_BEANS,         // SLOT_BEAN
+        ITEM_LENS_OF_TRUTH,       // SLOT_LENS_OF_TRUTH
+        ITEM_MAGIC_BEAN,          // SLOT_MAGIC_BEAN
         ITEM_HAMMER,              // SLOT_HAMMER
         ITEM_ARROW_LIGHT,         // SLOT_ARROW_LIGHT
         ITEM_NAYRUS_LOVE,         // SLOT_NAYRUS_LOVE
@@ -295,8 +295,8 @@ static Inventory sDebugSaveInventory = {
     },
     // ammo
     {
-        50, // SLOT_STICK
-        50, // SLOT_NUT
+        50, // SLOT_DEKU_STICK
+        50, // SLOT_DEKU_NUT
         10, // SLOT_BOMB
         30, // SLOT_BOW
         1,  // SLOT_ARROW_FIRE
@@ -308,8 +308,8 @@ static Inventory sDebugSaveInventory = {
         1,  // SLOT_ARROW_ICE
         1,  // SLOT_FARORES_WIND
         1,  // SLOT_BOOMERANG
-        1,  // SLOT_LENS
-        1,  // SLOT_BEAN
+        1,  // SLOT_LENS_OF_TRUTH
+        1,  // SLOT_MAGIC_BEAN
         1   // SLOT_HAMMER
     },
     // equipment
@@ -534,11 +534,11 @@ void Sram_OpenSave(SramContext* sramCtx) {
         i = gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
         gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] = i;
 
-        INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CUCCO;
+        INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CHICKEN;
 
         for (j = 1; j < 4; j++) {
             if (gSaveContext.equips.buttonItems[j] == ITEM_ZELDAS_LETTER) {
-                gSaveContext.equips.buttonItems[j] = ITEM_CUCCO;
+                gSaveContext.equips.buttonItems[j] = ITEM_CHICKEN;
             }
         }
     }

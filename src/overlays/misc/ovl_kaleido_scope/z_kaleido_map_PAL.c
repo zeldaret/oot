@@ -57,7 +57,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 } else {
                     pauseCtx->cursorX[PAUSE_MAP] = 1;
                     pauseCtx->cursorPoint[PAUSE_MAP] = 0;
-                    if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, gSaveContext.mapIndex)) {
+                    if (!CHECK_DUNGEON_ITEM(DUNGEON_BOSS_KEY, gSaveContext.mapIndex)) {
                         pauseCtx->cursorPoint[PAUSE_MAP]++;
                         if (!CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, gSaveContext.mapIndex)) {
                             pauseCtx->cursorPoint[PAUSE_MAP]++;
@@ -154,7 +154,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSpecialPos = 0;
                 pauseCtx->cursorX[PAUSE_MAP] = 1;
                 pauseCtx->cursorPoint[PAUSE_MAP] = 0;
-                if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, gSaveContext.mapIndex)) {
+                if (!CHECK_DUNGEON_ITEM(DUNGEON_BOSS_KEY, gSaveContext.mapIndex)) {
                     pauseCtx->cursorPoint[PAUSE_MAP]++;
                     if (!CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, gSaveContext.mapIndex)) {
                         pauseCtx->cursorPoint[PAUSE_MAP]++;

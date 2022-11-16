@@ -585,7 +585,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
         case TEXT_STATE_DONE:
             if (this->actor.textId == 0x305E) {
                 if (!gSaveContext.bgsFlag) {
-                    EnGo2_GetItem(this, play, GI_SWORD_BGS);
+                    EnGo2_GetItem(this, play, GI_SWORD_BIGGORON);
                     this->actionFunc = EnGo2_SetupGetItem;
                     return 2;
                 } else {
@@ -1806,7 +1806,7 @@ void EnGo2_SetGetItem(EnGo2* this, PlayState* play) {
                 SET_INFTABLE(INFTABLE_109);
                 EnGo2_GetItemAnimation(this, play);
                 return;
-            case GI_SWORD_BGS:
+            case GI_SWORD_BIGGORON:
                 gSaveContext.bgsFlag = true;
                 break;
             case GI_BOMB_BAG_30:

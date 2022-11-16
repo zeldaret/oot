@@ -954,7 +954,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
         this->unk_20C = 0;
         if ((this->actor.params & 0xF0) == 0x90) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
-                getItemId = GI_SWORD_BGS;
+                getItemId = GI_SWORD_BIGGORON;
                 this->unk_20C = 1;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
