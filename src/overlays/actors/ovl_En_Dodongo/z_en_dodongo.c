@@ -650,7 +650,7 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
         if (this->colliderBody.base.atFlags & AT_HIT) {
             Player* player = GET_PLAYER(play);
 
-            if (this->colliderBody.base.otherAC == &player->actor) {
+            if (this->colliderBody.base.at == &player->actor) {
                 Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }

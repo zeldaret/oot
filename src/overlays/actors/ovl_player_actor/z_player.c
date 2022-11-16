@@ -4149,7 +4149,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             }
 
             if (this->cylinder.base.acFlags & AC_HIT) {
-                Actor* ac = this->cylinder.base.otherAT;
+                Actor* ac = this->cylinder.base.ac;
                 s32 sp4C;
 
                 if (ac->flags & ACTOR_FLAG_24) {
@@ -8129,7 +8129,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 
         if (temp1) {
             if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
-                Actor* at = this->meleeWeaponQuads[temp1 ? 1 : 0].base.otherAC;
+                Actor* at = this->meleeWeaponQuads[temp1 ? 1 : 0].base.at;
 
                 if ((at != NULL) && (at->id != ACTOR_EN_KANBAN)) {
                     func_80832630(play);
@@ -8683,7 +8683,7 @@ void func_80844708(Player* this, PlayState* play) {
             if (this->linearVelocity >= 7.0f) {
                 if (((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) && (D_8085360C < 0x2000)) ||
                     ((this->cylinder.base.ocFlags1 & OC1_HIT) &&
-                     (cylinderOc = this->cylinder.base.otherOC,
+                     (cylinderOc = this->cylinder.base.oc,
                       ((cylinderOc->id == ACTOR_EN_WOOD02) &&
                        (ABS((s16)(this->actor.world.rot.y - cylinderOc->yawTowardsPlayer)) > 0x6000))))) {
 

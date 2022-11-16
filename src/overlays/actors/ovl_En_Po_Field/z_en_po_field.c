@@ -264,9 +264,9 @@ void EnPoField_SetupFlee(EnPoField* this) {
 void EnPoField_SetupDamage(EnPoField* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeFieldDamagedAnim, -6.0f);
     if (this->collider.elem.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
-        this->actor.world.rot.y = this->collider.base.otherAT->world.rot.y;
+        this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.otherAT) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
     this->actor.speedXZ = 5.0f;

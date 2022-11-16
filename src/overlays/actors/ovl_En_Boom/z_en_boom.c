@@ -156,11 +156,10 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     collided = this->collider.base.atFlags & AT_HIT;
     collided = !!(collided);
     if (collided) {
-        if (((this->collider.base.otherAC->id == ACTOR_EN_ITEM00) ||
-             (this->collider.base.otherAC->id == ACTOR_EN_SI))) {
-            this->grabbed = this->collider.base.otherAC;
-            if (this->collider.base.otherAC->id == ACTOR_EN_SI) {
-                this->collider.base.otherAC->flags |= ACTOR_FLAG_13;
+        if (((this->collider.base.at->id == ACTOR_EN_ITEM00) || (this->collider.base.at->id == ACTOR_EN_SI))) {
+            this->grabbed = this->collider.base.at;
+            if (this->collider.base.at->id == ACTOR_EN_SI) {
+                this->collider.base.at->flags |= ACTOR_FLAG_13;
             }
         }
     }

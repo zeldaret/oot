@@ -194,7 +194,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                         player->unk_860 = 200;
                     }
                 } else if (dmgFlags & DMG_ARROW_NORMAL) {
-                    arrow = (EnArrow*)this->colliderFlame.base.otherAT;
+                    arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
                         arrow->collider.elem.toucher.dmgFlags = DMG_ARROW_FIRE;

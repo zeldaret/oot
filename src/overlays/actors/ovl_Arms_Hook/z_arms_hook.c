@@ -170,7 +170,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
 
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
         (this->collider.elem.atHitInfo->elemType != ELEMTYPE_UNK4)) {
-        touchedActor = this->collider.base.otherAC;
+        touchedActor = this->collider.base.at;
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
             if (this->collider.elem.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);

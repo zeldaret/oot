@@ -372,7 +372,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                 Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
                 this->actor.speedXZ = -6.0f;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-                if (&player->actor == this->collider.base.otherAC) {
+                if (&player->actor == this->collider.base.at) {
                     if (!(this->collider.base.atFlags & AT_BOUNCED)) {
                         Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
                     }

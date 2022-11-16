@@ -205,9 +205,9 @@ void EnDekunuts_SetupGasp(EnDekunuts* this) {
 void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsDamageAnim, -3.0f);
     if (this->collider.elem.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
-        this->actor.world.rot.y = this->collider.base.otherAT->world.rot.y;
+        this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.otherAT) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekunuts_BeDamaged;

@@ -202,8 +202,8 @@ void EnBili_SetupRecoil(EnBili* this) {
         Animation_PlayLoop(&this->skelAnime, &gBiriDefaultAnim);
     }
 
-    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.otherAT->prevPos) + 0x8000;
-    this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.otherAT->prevPos);
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.ac->prevPos) + 0x8000;
+    this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.ac->prevPos);
     this->actionFunc = EnBili_Recoil;
     this->actor.speedXZ = 5.0f;
 }

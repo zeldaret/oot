@@ -143,7 +143,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->collider.base.ocFlags1 &= ~OC1_HIT;
         angleToCollidedActor =
-            thisx->world.rot.y + Math_Vec3f_Yaw(&this->collider.base.otherOC->world.pos, &thisx->world.pos);
+            thisx->world.rot.y + Math_Vec3f_Yaw(&this->collider.base.oc->world.pos, &thisx->world.pos);
         touchingActor = true;
     }
     // Freeze the trap if hit by ice arrows:
@@ -198,7 +198,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
             // If spike trap is touching an actor which is in the path of the spike trap
             if (touchingActor && (this->vContinue != 0.0f)) {
                 angleToCollidedActor =
-                    Math_Vec3f_Yaw(&thisx->world.pos, &this->collider.base.otherOC->world.pos) - thisx->world.rot.y;
+                    Math_Vec3f_Yaw(&thisx->world.pos, &this->collider.base.oc->world.pos) - thisx->world.rot.y;
                 if (ABS(angleToCollidedActor) < 0x1000) {
                     this->vContinue = 0.0f;
                 }

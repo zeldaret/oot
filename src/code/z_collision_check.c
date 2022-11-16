@@ -87,7 +87,7 @@ s32 Collider_DestroyBase(PlayState* play, Collider* col) {
  * Uses default OC2_TYPE_1 and COLTYPE_HIT0
  */
 s32 Collider_SetBaseToActor(PlayState* play, Collider* col, ColliderInitToActor* src) {
-    col->self = src->actor;
+    col->actor = src->actor;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
     col->ocFlags1 = src->ocFlags1;
@@ -100,7 +100,7 @@ s32 Collider_SetBaseToActor(PlayState* play, Collider* col, ColliderInitToActor*
  * Uses default OC2_TYPE_1
  */
 s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, ColliderInitType1* src) {
-    col->self = actor;
+    col->actor = actor;
     col->colType = src->colType;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
@@ -111,7 +111,7 @@ s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, Collider
 }
 
 s32 Collider_SetBase(PlayState* play, Collider* col, Actor* actor, ColliderInit* src) {
-    col->self = actor;
+    col->actor = actor;
     col->colType = src->colType;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
@@ -122,17 +122,17 @@ s32 Collider_SetBase(PlayState* play, Collider* col, Actor* actor, ColliderInit*
 }
 
 void Collider_ResetATBase(PlayState* play, Collider* col) {
-    col->otherAC = NULL;
+    col->at = NULL;
     col->atFlags &= ~(AT_HIT | AT_BOUNCED);
 }
 
 void Collider_ResetACBase(PlayState* play, Collider* col) {
-    col->otherAT = NULL;
+    col->ac = NULL;
     col->acFlags &= ~(AC_HIT | AC_BOUNCED);
 }
 
 void Collider_ResetOCBase(PlayState* play, Collider* col) {
-    col->otherOC = NULL;
+    col->oc = NULL;
     col->ocFlags1 &= ~OC1_HIT;
     col->ocFlags2 &= ~OC2_HIT_PLAYER;
 }
@@ -1150,7 +1150,7 @@ s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Coll
     }
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
     sATResetFuncs[collider->shape](play, collider);
-    if (collider->self != NULL && collider->self->update == NULL) {
+    if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
     if (colChkCtx->colATCount >= COLLISION_CHECK_AT_MAX) {
@@ -1177,7 +1177,7 @@ s32 CollisionCheck_SetAT_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
         return -1;
     }
     sATResetFuncs[collider->shape](play, collider);
-    if (collider->self != NULL && collider->self->update == NULL) {
+    if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1218,7 +1218,7 @@ s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
     }
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
     sACResetFuncs[collider->shape](play, collider);
-    if (collider->self != NULL && collider->self->update == NULL) {
+    if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
     if (colChkCtx->colACCount >= COLLISION_CHECK_AC_MAX) {
@@ -1245,7 +1245,7 @@ s32 CollisionCheck_SetAC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
         return -1;
     }
     sACResetFuncs[collider->shape](play, collider);
-    if (collider->self != NULL && collider->self->update == NULL) {
+    if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1288,7 +1288,7 @@ s32 CollisionCheck_SetOC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
 
     sOCResetFuncs[collider->shape](play, collider);
-    if (collider->self != NULL && collider->self->update == NULL) {
+    if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
     if (colChkCtx->colOCCount >= COLLISION_CHECK_OC_MAX) {
@@ -1315,7 +1315,7 @@ s32 CollisionCheck_SetOC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
     sOCResetFuncs[collider->shape](play, collider);
-    if (collider->self != NULL && collider->self->update == NULL) {
+    if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1535,36 +1535,36 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
 
     if (flags == TOUCH_SFX_NORMAL && collider->colType != COLTYPE_METAL) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
-        if (collider->self == NULL) {
+        if (collider->actor == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if (flags == TOUCH_SFX_NORMAL) { // collider->colType == COLTYPE_METAL
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_METAL, hitPos);
-        if (collider->self == NULL) {
+        if (collider->actor == NULL) {
             CollisionCheck_SpawnShieldParticlesMetal(play, hitPos);
         } else {
-            CollisionCheck_SpawnShieldParticlesMetalSfx(play, hitPos, &collider->self->projectedPos);
+            CollisionCheck_SpawnShieldParticlesMetalSfx(play, hitPos, &collider->actor->projectedPos);
         }
     } else if (flags == TOUCH_SFX_HARD) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
-        if (collider->self == NULL) {
+        if (collider->actor == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if (flags == TOUCH_SFX_WOOD) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_DUST, hitPos);
-        if (collider->self == NULL) {
+        if (collider->actor == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->self->projectedPos, 4,
+            Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
@@ -1574,18 +1574,18 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
  * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemType.
  */
 s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
-    if (atCol->self != NULL && atCol->self->category == ACTORCAT_PLAYER) {
+    if (atCol->actor != NULL && atCol->actor->category == ACTORCAT_PLAYER) {
         if (acElem->elemType == ELEMTYPE_UNK0) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &atCol->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acElem->elemType == ELEMTYPE_UNK1) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &atCol->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &atCol->actor->projectedPos, 4,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acElem->elemType == ELEMTYPE_UNK2) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &atCol->self->projectedPos, 4,
+            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &atCol->actor->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acElem->elemType == ELEMTYPE_UNK3) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &atCol->self->projectedPos, 4,
+            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &atCol->actor->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
@@ -1654,19 +1654,19 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
     if (!(atElem->toucherFlags & TOUCH_AT_HITMARK) && atElem->toucherFlags & TOUCH_DREW_HITMARK) {
         return;
     }
-    if (acCol->self != NULL) {
+    if (acCol->actor != NULL) {
         sBloodFuncs[sHitInfo[acCol->colType].blood](play, acCol, hitPos);
     }
-    if (acCol->self != NULL) {
+    if (acCol->actor != NULL) {
         if (sHitInfo[acCol->colType].effect == HIT_SOLID) {
             CollisionCheck_HitSolid(play, atElem, acCol, hitPos);
         } else if (sHitInfo[acCol->colType].effect == HIT_WOOD) {
-            if (atCol->self == NULL) {
+            if (atCol->actor == NULL) {
                 CollisionCheck_SpawnShieldParticles(play, hitPos);
                 Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
-                CollisionCheck_SpawnShieldParticlesWood(play, hitPos, &atCol->self->projectedPos);
+                CollisionCheck_SpawnShieldParticlesWood(play, hitPos, &atCol->actor->projectedPos);
             }
         } else if (sHitInfo[acCol->colType].effect != HIT_NONE) {
             EffectSsHitMark_SpawnFixedScale(play, sHitInfo[acCol->colType].effect, hitPos);
@@ -1676,11 +1676,11 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
         }
     } else {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
-        if (acCol->self == NULL) {
+        if (acCol->actor == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &acCol->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &acCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
@@ -1699,26 +1699,26 @@ void CollisionCheck_SetBounce(Collider* atCol, Collider* acCol) {
  */
 s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* atElem, Vec3f* atPos, Collider* acCol,
                              ColliderElement* acElem, Vec3f* acPos, Vec3f* hitPos) {
-    if (acCol->acFlags & AC_HARD && atCol->self != NULL && acCol->self != NULL) {
+    if (acCol->acFlags & AC_HARD && atCol->actor != NULL && acCol->actor != NULL) {
         CollisionCheck_SetBounce(atCol, acCol);
     }
     if (!(acElem->bumperFlags & BUMP_NO_AT_INFO)) {
         atCol->atFlags |= AT_HIT;
-        atCol->otherAC = acCol->self;
+        atCol->at = acCol->actor;
         atElem->atHit = acCol;
         atElem->atHitInfo = acElem;
         atElem->toucherFlags |= TOUCH_HIT;
-        if (atCol->self != NULL) {
-            atCol->self->colChkInfo.atHitEffect = acElem->bumper.effect;
+        if (atCol->actor != NULL) {
+            atCol->actor->colChkInfo.atHitEffect = acElem->bumper.effect;
         }
     }
     acCol->acFlags |= AC_HIT;
-    acCol->otherAT = atCol->self;
+    acCol->ac = atCol->actor;
     acElem->acHit = atCol;
     acElem->acHitInfo = atElem;
     acElem->bumperFlags |= BUMP_HIT;
-    if (acCol->self != NULL) {
-        acCol->self->colChkInfo.acHitEffect = atElem->toucher.effect;
+    if (acCol->actor != NULL) {
+        acCol->actor->colChkInfo.acHitEffect = atElem->toucher.effect;
     }
     acElem->bumper.hitPos.x = hitPos->x;
     acElem->bumper.hitPos.y = hitPos->y;
@@ -2584,7 +2584,7 @@ void CollisionCheck_SetHitEffects(PlayState* play, CollisionCheckContext* colChk
         Collider* acCol = *acColP;
 
         if (acCol != NULL && acCol->acFlags & AC_ON) {
-            if (acCol->self != NULL && acCol->self->update == NULL) {
+            if (acCol->actor != NULL && acCol->actor->update == NULL) {
                 continue;
             }
             sColChkApplyFuncs[acCol->shape](play, colChkCtx, acCol);
@@ -2633,11 +2633,11 @@ void CollisionCheck_AC(PlayState* play, CollisionCheckContext* colChkCtx, Collid
         Collider* acCol = *acColP;
 
         if (acCol != NULL && acCol->acFlags & AC_ON) {
-            if (acCol->self != NULL && acCol->self->update == NULL) {
+            if (acCol->actor != NULL && acCol->actor->update == NULL) {
                 continue;
             }
             if ((acCol->acFlags & atCol->atFlags & AC_TYPE_ALL) && (atCol != acCol)) {
-                if (!(atCol->atFlags & AT_SELF) && atCol->self != NULL && acCol->self == atCol->self) {
+                if (!(atCol->atFlags & AT_SELF) && atCol->actor != NULL && acCol->actor == atCol->actor) {
                     continue;
                 }
                 sACVsFuncs[atCol->shape][acCol->shape](play, colChkCtx, atCol, acCol);
@@ -2662,7 +2662,7 @@ void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
         Collider* atCol = *atColP;
 
         if (atCol != NULL && atCol->atFlags & AT_ON) {
-            if (atCol->self != NULL && atCol->self->update == NULL) {
+            if (atCol->actor != NULL && atCol->actor->update == NULL) {
                 continue;
             }
             CollisionCheck_AC(play, colChkCtx, atCol);
@@ -2707,18 +2707,18 @@ void CollisionCheck_SetOCvsOC(Collider* leftCol, ColliderElement* leftElem, Vec3
     f32 inverseTotalMass;
     f32 xDelta;
     f32 zDelta;
-    Actor* leftActor = leftCol->self;
-    Actor* rightActor = rightCol->self;
+    Actor* leftActor = leftCol->actor;
+    Actor* rightActor = rightCol->actor;
     s32 rightMassType;
     s32 leftMassType;
 
     leftCol->ocFlags1 |= OC1_HIT;
-    leftCol->otherOC = rightActor;
+    leftCol->oc = rightActor;
     leftElem->ocElemFlags |= OCELEM_HIT;
     if (rightCol->ocFlags2 & OC2_TYPE_PLAYER) {
         leftCol->ocFlags2 |= OC2_HIT_PLAYER;
     }
-    rightCol->otherOC = leftActor;
+    rightCol->oc = leftActor;
     rightCol->ocFlags1 |= OC1_HIT;
     rightElem->ocElemFlags |= OCELEM_HIT;
     if (leftCol->ocFlags2 & OC2_TYPE_PLAYER) {
@@ -2897,7 +2897,7 @@ s32 CollisionCheck_Incompatible(Collider* left, Collider* right) {
         ((right->ocFlags2 & OC2_UNK1) && (left->ocFlags2 & OC2_UNK2))) {
         return true;
     }
-    if (left->self == right->self) {
+    if (left->actor == right->actor) {
         return true;
     }
     return false;
@@ -3038,7 +3038,7 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
     DamageTable* tbl;
     f32 damage;
 
-    if (col->self == NULL || !(col->acFlags & AC_HIT)) {
+    if (col->actor == NULL || !(col->acFlags & AC_HIT)) {
         return;
     }
     if (!(elem->bumperFlags & BUMP_HIT) || elem->bumperFlags & BUMP_NO_DAMAGE) {
@@ -3046,7 +3046,7 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
     }
 
     ASSERT(elem->acHitInfo != NULL, "pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
-    tbl = col->self->colChkInfo.damageTable;
+    tbl = col->actor->colChkInfo.damageTable;
     if (tbl == NULL) {
         damage = (f32)elem->acHitInfo->toucher.damage - elem->bumper.defense;
         if (damage < 0) {
@@ -3063,10 +3063,10 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
         }
 
         damage = tbl->table[i] & 0xF;
-        col->self->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
+        col->actor->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
     }
     if (!(col->acFlags & AC_HARD)) {
-        col->self->colChkInfo.damage += damage;
+        col->actor->colChkInfo.damage += damage;
     }
 }
 
@@ -3208,7 +3208,7 @@ s32 CollisionCheck_LineOC(PlayState* play, CollisionCheckContext* colChkCtx, Vec
         }
         exclude = false;
         for (i = 0; i < numExclusions; i++) {
-            if ((*col)->self == exclusions[i]) {
+            if ((*col)->actor == exclusions[i]) {
                 exclude = true;
                 break;
             }

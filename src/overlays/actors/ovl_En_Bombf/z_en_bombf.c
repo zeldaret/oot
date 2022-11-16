@@ -168,7 +168,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
         } else if (this->bombCollider.base.acFlags & AC_HIT) {
             this->bombCollider.base.acFlags &= ~AC_HIT;
 
-            if (this->bombCollider.base.otherAT->category != ACTORCAT_BOSS) {
+            if (this->bombCollider.base.ac->category != ACTORCAT_BOSS) {
                 bombFlower = (EnBombf*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOMBF, this->actor.world.pos.x,
                                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 if (bombFlower != NULL) {
@@ -367,9 +367,8 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
             thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
-        if ((this->bombCollider.base.acFlags & AC_HIT) ||
-            ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
-             (this->bombCollider.base.otherOC->category == ACTORCAT_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
+                                                           (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->isFuseEnabled = true;
             this->timer = 0;
         } else {

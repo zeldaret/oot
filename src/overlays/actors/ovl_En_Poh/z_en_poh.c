@@ -294,9 +294,9 @@ void func_80ADE28C(EnPoh* this) {
         Animation_PlayOnce(&this->skelAnime, &gPoeComposerDamagedAnim);
     }
     if (this->colliderCyl.elem.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
-        this->actor.world.rot.y = this->colliderCyl.base.otherAT->world.rot.y;
+        this->actor.world.rot.y = this->colliderCyl.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCyl.base.otherAT) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCyl.base.ac) + 0x8000;
     }
     this->colliderCyl.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = 5.0f;

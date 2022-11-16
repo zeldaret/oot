@@ -509,7 +509,7 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     s16 yawDiff;
 
     if ((this->tris.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)) {
-        collidingActor = this->tris.col.base.otherAT;
+        collidingActor = this->tris.col.base.ac;
         if (collidingActor != NULL) {
             yawDiff = collidingActor->world.rot.y - this->dyna.actor.shape.rot.y;
             if (ABS(yawDiff) > 0x5000) {

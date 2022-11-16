@@ -39,10 +39,10 @@ typedef enum {
 } ColliderShape;
 
 typedef struct {
-    /* 0x00 */ struct Actor* self; // Actor owning this collider.
-    /* 0x04 */ struct Actor* otherAC; // Other actor owning the AC collider that collided with this AT collider.
-    /* 0x08 */ struct Actor* otherAT; // Other actor owning the AT collider that collided with this AC collider.
-    /* 0x0C */ struct Actor* otherOC; // Other actor owning the OC collider that collided with this OC collider.
+    /* 0x00 */ struct Actor* actor; // Attached actor
+    /* 0x04 */ struct Actor* at; // Actor attached to what it collided with as an AT collider.
+    /* 0x08 */ struct Actor* ac; // Actor attached to what it collided with as an AC collider.
+    /* 0x0C */ struct Actor* oc; // Actor attached to what it collided with as an OC collider.
     /* 0x10 */ u8 atFlags;
     /* 0x11 */ u8 acFlags;
     /* 0x12 */ u8 ocFlags1;
@@ -119,8 +119,8 @@ typedef struct ColliderElement {
     /* 0x15 */ u8 toucherFlags; // Information flags for AT collisions
     /* 0x16 */ u8 bumperFlags; // Information flags for AC collisions
     /* 0x17 */ u8 ocElemFlags; // Information flags for OC collisions
-    /* 0x18 */ Collider* atHit;                // object touching this element's AT collider
-    /* 0x1C */ Collider* acHit;                // object touching this element's AC collider
+    /* 0x18 */ Collider* atHit; // object touching this element's AT collider
+    /* 0x1C */ Collider* acHit; // object touching this element's AC collider
     /* 0x20 */ struct ColliderElement* atHitInfo; // element that hit the AT collider
     /* 0x24 */ struct ColliderElement* acHitInfo; // element that hit the AC collider
 } ColliderElement; // size = 0x28

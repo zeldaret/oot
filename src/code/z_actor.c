@@ -3235,9 +3235,9 @@ void func_80033480(PlayState* play, Vec3f* posBase, f32 randRangeDiameter, s32 a
 }
 
 Actor* Actor_GetCollidedExplosive(PlayState* play, Collider* collider) {
-    if ((collider->acFlags & AC_HIT) && (collider->otherAT->category == ACTORCAT_EXPLOSIVE)) {
+    if ((collider->acFlags & AC_HIT) && (collider->ac->category == ACTORCAT_EXPLOSIVE)) {
         collider->acFlags &= ~AC_HIT;
-        return collider->otherAT;
+        return collider->ac;
     }
 
     return NULL;

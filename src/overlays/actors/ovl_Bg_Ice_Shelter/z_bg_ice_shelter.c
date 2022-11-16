@@ -341,7 +341,7 @@ void BgIceShelter_Idle(BgIceShelter* this, PlayState* play) {
     if (this->cylinder1.base.acFlags & AC_HIT) {
         this->cylinder1.base.acFlags &= ~AC_HIT;
 
-        if ((this->cylinder1.base.otherAT != NULL) && (this->cylinder1.base.otherAT->id == ACTOR_EN_ICE_HONO)) {
+        if ((this->cylinder1.base.ac != NULL) && (this->cylinder1.base.ac->id == ACTOR_EN_ICE_HONO)) {
             if (type == RED_ICE_KING_ZORA) {
                 if (this->dyna.actor.parent != NULL) {
                     this->dyna.actor.parent->freezeTimer = 50;

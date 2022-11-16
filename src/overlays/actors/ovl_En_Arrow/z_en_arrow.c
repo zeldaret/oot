@@ -285,7 +285,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
             EffectSsHitMark_SpawnCustomScale(play, 0, 150, &this->actor.world.pos);
 
             if (atTouched && (this->collider.elem.atHitInfo->elemType != ELEMTYPE_UNK4)) {
-                hitActor = this->collider.base.otherAC;
+                hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
                     (hitActor->flags & ACTOR_FLAG_14)) {
