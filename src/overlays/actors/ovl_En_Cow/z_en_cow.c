@@ -25,7 +25,7 @@ void func_809DF8FC(EnCow* this, PlayState* play);
 void func_809DF96C(EnCow* this, PlayState* play);
 void func_809DFA84(EnCow* this, PlayState* play);
 
-const ActorInit En_Cow_InitVars = {
+ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORCAT_NPC,
     FLAGS,

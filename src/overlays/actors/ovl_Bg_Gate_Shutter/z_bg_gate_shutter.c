@@ -6,7 +6,7 @@
 
 #include "z_bg_gate_shutter.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -20,7 +20,7 @@ void func_80878300(BgGateShutter* this, PlayState* play);
 void func_808783AC(BgGateShutter* this, PlayState* play);
 void func_808783D4(BgGateShutter* this, PlayState* play);
 
-const ActorInit Bg_Gate_Shutter_InitVars = {
+ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORCAT_ITEMACTION,
     FLAGS,

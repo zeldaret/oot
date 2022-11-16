@@ -36,7 +36,7 @@ void EnDodongo_Stunned(EnDodongo* this, PlayState* play);
 void EnDodongo_Death(EnDodongo* this, PlayState* play);
 void EnDodongo_SweepTail(EnDodongo* this, PlayState* play);
 
-const ActorInit En_Dodongo_InitVars = {
+ActorInit En_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORCAT_ENEMY,
     FLAGS,

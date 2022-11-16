@@ -195,7 +195,7 @@ s32 Lights_FreeNode(LightNode* light) {
 void LightContext_Init(PlayState* play, LightContext* lightCtx) {
     LightContext_InitList(play, lightCtx);
     LightContext_SetAmbientColor(lightCtx, 80, 80, 80);
-    LightContext_SetFog(lightCtx, 0, 0, 0, 996, 12800);
+    LightContext_SetFog(lightCtx, 0, 0, 0, ENV_FOGNEAR_MAX, ENV_ZFAR_MAX);
     bzero(&sLightsBuffer, sizeof(sLightsBuffer));
 }
 
@@ -205,12 +205,12 @@ void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
     lightCtx->ambientColor[2] = b;
 }
 
-void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 fogFar) {
+void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 zFar) {
     lightCtx->fogColor[0] = r;
     lightCtx->fogColor[1] = g;
     lightCtx->fogColor[2] = b;
     lightCtx->fogNear = fogNear;
-    lightCtx->fogFar = fogFar;
+    lightCtx->zFar = zFar;
 }
 
 /**

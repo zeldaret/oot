@@ -9,7 +9,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_goroiwa/object_goroiwa.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -43,7 +43,7 @@ void EnGoroiwa_MoveUp(EnGoroiwa* this, PlayState* play);
 void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
 void EnGoroiwa_MoveDown(EnGoroiwa* this, PlayState* play);
 
-const ActorInit En_Goroiwa_InitVars = {
+ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORCAT_PROP,
     FLAGS,

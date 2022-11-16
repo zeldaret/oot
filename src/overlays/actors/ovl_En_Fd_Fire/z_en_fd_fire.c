@@ -12,7 +12,7 @@ void func_80A0E70C(EnFdFire* this, PlayState* play);
 void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play);
 void EnFdFire_WaitToDie(EnFdFire* this, PlayState* play);
 
-const ActorInit En_Fd_Fire_InitVars = {
+ActorInit En_Fd_Fire_InitVars = {
     ACTOR_EN_FD_FIRE,
     ACTORCAT_ENEMY,
     FLAGS,

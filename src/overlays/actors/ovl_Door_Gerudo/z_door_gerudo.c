@@ -19,7 +19,7 @@ s32 func_80994750(DoorGerudo* this, PlayState* play);
 void func_8099496C(DoorGerudo* this, PlayState* play);
 void func_809949C8(DoorGerudo* this, PlayState* play);
 
-const ActorInit Door_Gerudo_InitVars = {
+ActorInit Door_Gerudo_InitVars = {
     ACTOR_DOOR_GERUDO,
     ACTORCAT_ITEMACTION,
     FLAGS,

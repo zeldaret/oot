@@ -19,7 +19,7 @@
  * to be uncompressed and the request queue and address translation is skipped.
  */
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;

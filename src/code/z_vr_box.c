@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "z64environment.h"
 
 u32 D_8012AC90[4] = {

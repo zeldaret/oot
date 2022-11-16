@@ -7,7 +7,7 @@
 #include "z_en_ex_item.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -32,7 +32,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
-const ActorInit En_Ex_Item_InitVars = {
+ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORCAT_PROP,
     FLAGS,

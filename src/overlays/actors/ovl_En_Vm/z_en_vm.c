@@ -23,7 +23,7 @@ void EnVm_Attack(EnVm* this, PlayState* play);
 void EnVm_Stun(EnVm* this, PlayState* play);
 void EnVm_Die(EnVm* this, PlayState* play);
 
-const ActorInit En_Vm_InitVars = {
+ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
     ACTORCAT_ENEMY,
     FLAGS,

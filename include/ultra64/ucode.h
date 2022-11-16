@@ -1,7 +1,7 @@
 #ifndef ULTRA64_UCODE_H
 #define ULTRA64_UCODE_H
 
-#include "types.h"
+#include "ultratypes.h"
 
 #define SP_DRAM_STACK_SIZE8     (0x400)
 #define SP_DRAM_STACK_SIZE64    (SP_DRAM_STACK_SIZE8 >> 3)

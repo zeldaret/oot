@@ -13,18 +13,6 @@
 #define OS_VI_DITHER_FILTER_ON  0x0040
 #define OS_VI_DITHER_FILTER_OFF 0x0080
 
-#define OS_VI_GAMMA         0x08
-#define OS_VI_GAMMA_DITHER  0x04
-#define OS_VI_DIVOT         0x10
-#define OS_VI_DITHER_FILTER 0x10000
-#define OS_VI_UNK1          0x1
-#define OS_VI_UNK2          0x2
-#define OS_VI_UNK40         0x40
-#define OS_VI_UNK100        0x100
-#define OS_VI_UNK200        0x200
-#define OS_VI_UNK1000       0x1000
-#define OS_VI_UNK2000       0x2000
-
 typedef struct {
     /* 0x00 */ u32 ctrl;
     /* 0x04 */ u32 width;
@@ -60,7 +48,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u16 state;
     /* 0x02 */ u16 retraceCount;
-    /* 0x04 */ void* buffer;
+    /* 0x04 */ void* framep;
     /* 0x08 */ OSViMode* modep;
     /* 0x0C */ u32 features;
     /* 0x10 */ OSMesgQueue* mq;
@@ -132,6 +120,5 @@ typedef struct {
 #define OS_TV_PAL           0
 #define OS_TV_NTSC          1
 #define OS_TV_MPAL          2
-#define OS_VI_UNK28         28
 
 #endif
