@@ -716,7 +716,7 @@ Gfx* SkelAnime_DrawFlex(PlayState* play, void** skeleton, Vec3s* jointTable, s32
 s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable) {
     LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     s32 limbCount = animHeader->limbCount;
-    JointKey* key = SEGMENTED_TO_VIRTUAL(animHeader->jointKey);
+    LegacyJointKey* key = SEGMENTED_TO_VIRTUAL(animHeader->jointKey);
     s16* frameData = SEGMENTED_TO_VIRTUAL(animHeader->frameData);
     s16* staticData = &frameData[0];
     s16* dynamicData = &frameData[frame];
@@ -828,6 +828,9 @@ AnimationEntry* AnimationContext_AddEntry(AnimationContext* animationCtx, Animat
     entry->type = type;
     return entry;
 }
+
+#define LINK_ANIMATION_OFFSET(addr, offset) \
+    (((u32)_link_animetionSegmentRomStart) + ((u32)addr) - ((u32)_link_animetionSegmentStart) + ((u32)offset))
 
 /**
  * Requests loading frame data from the Link animation into frameTable
@@ -1010,6 +1013,8 @@ void AnimationContext_MoveActor(PlayState* play, AnimationEntryData* data) {
     actor->world.pos.y += diff.y * actor->scale.y * entry->unk_08;
     actor->world.pos.z += diff.z * actor->scale.z;
 }
+
+typedef void (*AnimationEntryCallback)(struct PlayState* play, AnimationEntryData* data);
 
 /**
  * Performs all requests in the animation queue, then resets the queue flags.
