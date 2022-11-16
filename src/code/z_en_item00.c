@@ -314,31 +314,31 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_BOW);
             break;
         case ITEM00_ARROWS_SMALL:
-            Item_Give(play, ITEM_ARROWS_SMALL);
+            Item_Give(play, ITEM_ARROWS_5);
             break;
         case ITEM00_ARROWS_MEDIUM:
-            Item_Give(play, ITEM_ARROWS_MEDIUM);
+            Item_Give(play, ITEM_ARROWS_10);
             break;
         case ITEM00_ARROWS_LARGE:
-            Item_Give(play, ITEM_ARROWS_LARGE);
+            Item_Give(play, ITEM_ARROWS_30);
             break;
         case ITEM00_MAGIC_LARGE:
-            getItemId = GI_MAGIC_SMALL;
+            getItemId = GI_MAGIC_JAR_SMALL;
             break;
         case ITEM00_MAGIC_SMALL:
-            getItemId = GI_MAGIC_LARGE;
+            getItemId = GI_MAGIC_JAR_LARGE;
             break;
         case ITEM00_SMALL_KEY:
-            Item_Give(play, ITEM_KEY_SMALL);
+            Item_Give(play, ITEM_SMALL_KEY);
             break;
         case ITEM00_SEEDS:
-            getItemId = GI_SEEDS_5;
+            getItemId = GI_DEKU_SEEDS_5;
             break;
         case ITEM00_NUTS:
-            getItemId = GI_NUTS_5;
+            getItemId = GI_DEKU_NUTS_5;
             break;
         case ITEM00_STICK:
-            getItemId = GI_STICKS_1;
+            getItemId = GI_DEKU_STICKS_1;
             break;
         case ITEM00_HEART_PIECE:
         case ITEM00_HEART_CONTAINER:
@@ -632,10 +632,10 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_RUPEE_GOLD);
             break;
         case ITEM00_STICK:
-            getItemId = GI_STICKS_1;
+            getItemId = GI_DEKU_STICKS_1;
             break;
         case ITEM00_NUTS:
-            getItemId = GI_NUTS_5;
+            getItemId = GI_DEKU_NUTS_5;
             break;
         case ITEM00_RECOVERY_HEART:
             Item_Give(play, ITEM_RECOVERY_HEART);
@@ -651,19 +651,19 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_BOW);
             break;
         case ITEM00_ARROWS_SMALL:
-            Item_Give(play, ITEM_ARROWS_SMALL);
+            Item_Give(play, ITEM_ARROWS_5);
             break;
         case ITEM00_ARROWS_MEDIUM:
-            Item_Give(play, ITEM_ARROWS_MEDIUM);
+            Item_Give(play, ITEM_ARROWS_10);
             break;
         case ITEM00_ARROWS_LARGE:
-            Item_Give(play, ITEM_ARROWS_LARGE);
+            Item_Give(play, ITEM_ARROWS_30);
             break;
         case ITEM00_SEEDS:
-            getItemId = GI_SEEDS_5;
+            getItemId = GI_DEKU_SEEDS_5;
             break;
         case ITEM00_SMALL_KEY:
-            getItemId = GI_KEY_SMALL;
+            getItemId = GI_SMALL_KEY;
             break;
         case ITEM00_HEART_PIECE:
             getItemId = GI_HEART_PIECE;
@@ -672,10 +672,10 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             getItemId = GI_HEART_CONTAINER;
             break;
         case ITEM00_MAGIC_LARGE:
-            getItemId = GI_MAGIC_LARGE;
+            getItemId = GI_MAGIC_JAR_LARGE;
             break;
         case ITEM00_MAGIC_SMALL:
-            getItemId = GI_MAGIC_SMALL;
+            getItemId = GI_MAGIC_JAR_SMALL;
             break;
         case ITEM00_SHIELD_DEKU:
             getItemId = GI_SHIELD_DEKU;
