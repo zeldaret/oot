@@ -2032,7 +2032,8 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
                  gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(button)]]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
-    if ((gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(button)]] == ITEM_BOTTLE_MILK_FULL) &&
+    if ((gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[IBTN_BC_TO_C(button)]] ==
+         ITEM_BOTTLE_MILK_FULL) &&
         (item == ITEM_BOTTLE_EMPTY)) {
         item = ITEM_BOTTLE_MILK_HALF;
     }
