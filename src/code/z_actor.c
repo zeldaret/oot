@@ -1991,7 +1991,7 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     func_8002FA60(play);
 }
 
-u32 sCanIgnoreCategoryPlayerStateFlags1Masks[ACTORCAT_MAX] = {
+u32 sFreezeCategoryPlayerFlags1Masks[ACTORCAT_MAX] = {
     // ACTORCAT_SWITCH
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
     // ACTORCAT_BG
@@ -2022,9 +2022,9 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     Actor* refActor;
     Actor* actor;
     Player* player;
-    u32* canIgnoreCategoryPlayerStateFlags1;
+    u32* freezeCategoryPlayerFlags1;
     u32 requiredActorFlag;
-    u32 canIgnoreCategory;
+    u32 canFreezeCategory;
     Actor* sp74;
     ActorEntry* actorEntry;
     s32 i;
@@ -2058,7 +2058,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                     refActor->world.pos.z, 0, 0, 0, 1);
     }
 
-    canIgnoreCategoryPlayerStateFlags1 = &sCanIgnoreCategoryPlayerStateFlags1Masks[0];
+    freezeCategoryPlayerFlags1 = &sFreezeCategoryPlayerFlags1Masks[0];
 
     if (player->stateFlags2 & PLAYER_STATE2_27) {
         requiredActorFlag = ACTOR_FLAG_25;
@@ -2068,8 +2068,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         sp74 = player->targetActor;
     }
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, canIgnoreCategoryPlayerStateFlags1++) {
-        canIgnoreCategory = (*canIgnoreCategoryPlayerStateFlags1 & player->stateFlags1);
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, freezeCategoryPlayerFlags1++) {
+        canFreezeCategory = (*freezeCategoryPlayerFlags1 & player->stateFlags1);
 
         actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
@@ -2090,8 +2090,9 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                 Actor_Kill(actor);
                 actor = actor->next;
             } else if ((requiredActorFlag && !(actor->flags & requiredActorFlag)) ||
-                       (!requiredActorFlag && canIgnoreCategory && (sp74 != actor) && (actor != player->naviActor) &&
-                        (actor != player->heldActor) && (&player->actor != actor->parent))) {
+                       (!requiredActorFlag && canFreezeCategory &&
+                        !((sp74 == actor) || (actor == player->naviActor) || (actor == player->heldActor) ||
+                          (&player->actor == actor->parent)))) {
                 CollisionCheck_ResetDamage(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
