@@ -285,11 +285,11 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
                 func_80A2F180(this);
                 this->actionFunc = func_80A2F94C;
                 break;
-            case EXCH_ITEM_POE:
+            case EXCH_ITEM_BOTTLE_POE:
                 player->actor.textId = 0x70F6;
                 this->actionFunc = func_80A2F9C0;
                 break;
-            case EXCH_ITEM_BIG_POE:
+            case EXCH_ITEM_BOTTLE_BIG_POE:
                 player->actor.textId = 0x70F7;
                 this->actionFunc = func_80A2FA50;
                 break;
@@ -297,7 +297,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
         return;
     }
     if (this->dyna.actor.xzDistToPlayer < 100.0f) {
-        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_POE);
+        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_BOTTLE_POE);
     }
 }
 
@@ -317,7 +317,7 @@ void func_80A2F9C0(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(10);
         this->actionFunc = func_80A2F83C;
     }
@@ -329,7 +329,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(50);
         HIGH_SCORE(HS_POE_POINTS) += 100;
         if (HIGH_SCORE(HS_POE_POINTS) != 1000) {
@@ -350,7 +350,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
 
 void func_80A2FB40(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        func_8002F434(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
 }
@@ -360,7 +360,7 @@ void func_80A2FBB0(EnGb* this, PlayState* play) {
         this->dyna.actor.parent = NULL;
         this->actionFunc = func_80A2FC0C;
     } else {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        func_8002F434(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
     }
 }
 
