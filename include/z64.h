@@ -771,6 +771,9 @@ typedef enum {
 #define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
     (((pauseCtx)->state >= PAUSE_STATE_8) && ((pauseCtx)->state <= PAUSE_STATE_17))
 
+#define IS_PAUSED(pauseCtx) \
+    (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
+
 // Sub-states of PAUSE_STATE_MAIN
 typedef enum {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,

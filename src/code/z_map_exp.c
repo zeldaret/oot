@@ -522,7 +522,7 @@ void Map_Update(PlayState* play) {
     s16 floor;
     s16 i;
 
-    if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0)) {
+    if (!IS_PAUSED(&play->pauseCtx)) {
         switch (play->sceneId) {
             case SCENE_YDAN:
             case SCENE_DDAN:

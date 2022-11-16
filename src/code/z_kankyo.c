@@ -887,7 +887,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
     }
 
     if (pauseCtx->state == PAUSE_STATE_OFF) {
-        if ((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->pauseCtx.debugState == 0)) {
+        if (!IS_PAUSED(&play->pauseCtx)) {
             if (play->skyboxId == SKYBOX_NORMAL_SKY) {
                 play->skyboxCtx.rot.y -= 0.001f;
             } else if (play->skyboxId == SKYBOX_CUTSCENE_MAP) {
