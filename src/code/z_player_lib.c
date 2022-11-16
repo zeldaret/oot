@@ -778,7 +778,7 @@ return_neg:
     return -1;
 }
 
-s32 Player_GetEnvironmentalHazard(PlayState* play) {
+s32 Player_GetEnvironmentHazard(PlayState* play) {
     Player* this = GET_PLAYER(play);
     EnvHazardTextTriggerEntry* triggerEntry;
     s32 envHazard;

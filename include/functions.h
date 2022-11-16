@@ -1040,7 +1040,7 @@ s32 Player_GetBottleHeld(Player* this);
 s32 Player_ActionToExplosive(Player* this, s32 itemAction);
 s32 Player_GetExplosiveHeld(Player* this);
 s32 func_8008F2BC(Player* this, s32 itemAction);
-s32 Player_GetEnvironmentalHazard(PlayState* play);
+s32 Player_GetEnvironmentHazard(PlayState* play);
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                      s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
                      void* data);
