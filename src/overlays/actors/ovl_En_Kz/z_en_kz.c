@@ -441,8 +441,8 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
 void EnKz_StartTimer(EnKz* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEBALL_FROG) {
-            func_80088AA0(180); // start timer2 with 3 minutes
-            CLEAR_EVENTINF(EVENTINF_10);
+            Interface_SetSubTimer(180);
+            CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
         }
         this->unk_1E0.unk_00 = 0;
         this->actionFunc = EnKz_Wait;

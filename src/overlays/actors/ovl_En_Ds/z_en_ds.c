@@ -88,7 +88,7 @@ void EnDs_GiveOddPotion(EnDs* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
-        gSaveContext.timer2State = 0;
+        gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     } else {
         func_8002F434(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
     }
