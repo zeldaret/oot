@@ -5401,11 +5401,7 @@ s32 func_8083B644(Player* this, PlayState* play) {
                         this->targetActor = NULL;
 
                         if (sp28 || !sp24) {
-                            if (this->naviTextId >= 0) {
-                                sp2C->textId = this->naviTextId;
-                            } else {
-                                sp2C->textId = -this->naviTextId;
-                            }
+                            sp2C->textId = ABS(this->naviTextId);
                         } else {
                             if (sp2C->naviEnemyId != NAVI_ENEMY_NONE) {
                                 sp2C->textId = sp2C->naviEnemyId + 0x600;
@@ -12891,11 +12887,7 @@ void func_8084F104(Player* this, PlayState* play) {
             GetItemEntry* giEntry = &sGetItemTable[D_80854528[this->exchangeItemId - 1] - 1];
 
             if (this->itemAction >= PLAYER_IA_LETTER_ZELDA) {
-                if (giEntry->gi >= 0) {
-                    this->unk_862 = giEntry->gi;
-                } else {
-                    this->unk_862 = -giEntry->gi;
-                }
+                this->unk_862 = ABS(giEntry->gi);
             }
 
             if (this->unk_850 == 0) {
