@@ -76,7 +76,7 @@ u16 EnKz_GetTextNoMaskChild(PlayState* play, EnKz* this) {
     } else if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
         return 0x401C;
     } else {
-        player->exchangeItemId = EXCH_ITEM_LETTER_RUTO;
+        player->exchangeItemId = EXCH_ITEM_BOTTLE_RUTOS_LETTER;
         return 0x401A;
     }
 }
@@ -84,7 +84,7 @@ u16 EnKz_GetTextNoMaskChild(PlayState* play, EnKz* this) {
 u16 EnKz_GetTextNoMaskAdult(PlayState* play, EnKz* this) {
     Player* player = GET_PLAYER(play);
 
-    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
+    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_EYEBALL_FROG) {
         if (!GET_INFTABLE(INFTABLE_139)) {
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_ZORA)) {
                 return 0x401F;
@@ -237,7 +237,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 
     if (func_80A9C95C(play, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
         if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
-            if (func_8002F368(play) == EXCH_ITEM_LETTER_RUTO) {
+            if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {
@@ -394,7 +394,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
     Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     if ((EnKz_FollowPath(this, play) == 1) && (this->waypoint == 0)) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
-        Inventory_ReplaceItem(play, ITEM_LETTER_RUTO, ITEM_BOTTLE);
+        Inventory_ReplaceItem(play, ITEM_BOTTLE_RUTOS_LETTER, ITEM_BOTTLE_EMPTY);
         EnKz_SetMovedPos(this, play);
         SET_EVENTCHKINF(EVENTCHKINF_33);
         this->actor.speedXZ = 0.0;
@@ -431,7 +431,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
         this->unk_1E0.unk_00 = 1;
         this->actionFunc = EnKz_StartTimer;
     } else {
-        getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
+        getItemId = this->isTrading == true ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
         func_8002F434(&this->actor, play, getItemId, xzRange, yRange);
@@ -440,7 +440,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
 
 void EnKz_StartTimer(EnKz* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
+        if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEBALL_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
             CLEAR_EVENTINF(EVENTINF_10);
         }

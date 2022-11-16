@@ -126,7 +126,7 @@ static u16 sHBAScoreDigits[] = { 0, 0, 0, 0 };
 static u16 sCUpInvisible = 0;
 static u16 sCUpTimer = 0;
 
-s16 gSpoilingItems[] = { ITEM_ODD_MUSHROOM, ITEM_FROG, ITEM_EYEDROPS };
+s16 gSpoilingItems[] = { ITEM_ODD_MUSHROOM, ITEM_EYEBALL_FROG, ITEM_EYE_DROPS };
 s16 gSpoilingItemReverts[] = { ITEM_COJIRO, ITEM_PRESCRIPTION, ITEM_PRESCRIPTION };
 
 static s16 sMagicBorderR = 255;
@@ -134,24 +134,24 @@ static s16 sMagicBorderG = 255;
 static s16 sMagicBorderB = 255;
 
 static s16 sExtraItemBases[] = {
-    ITEM_STICK,   // ITEM_STICKS_5
-    ITEM_STICK,   // ITEM_STICKS_10
-    ITEM_NUT,     // ITEM_NUTS_5
-    ITEM_NUT,     // ITEM_NUTS_10
-    ITEM_BOMB,    // ITEM_BOMBS_5
-    ITEM_BOMB,    // ITEM_BOMBS_10
-    ITEM_BOMB,    // ITEM_BOMBS_20
-    ITEM_BOMB,    // ITEM_BOMBS_30
-    ITEM_BOW,     // ITEM_ARROWS_SMALL
-    ITEM_BOW,     // ITEM_ARROWS_MEDIUM
-    ITEM_BOW,     // ITEM_ARROWS_LARGE
-    ITEM_SEEDS,   // ITEM_SEEDS_30
-    ITEM_BOMBCHU, // ITEM_BOMBCHUS_5
-    ITEM_BOMBCHU, // ITEM_BOMBCHUS_20
-    ITEM_STICK,   // ITEM_STICK_UPGRADE_20
-    ITEM_STICK,   // ITEM_STICK_UPGRADE_30
-    ITEM_NUT,     // ITEM_NUT_UPGRADE_30
-    ITEM_NUT,     // ITEM_NUT_UPGRADE_40
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICKS_5
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICKS_10
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUTS_5
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUTS_10
+    ITEM_BOMB,       // ITEM_BOMBS_5
+    ITEM_BOMB,       // ITEM_BOMBS_10
+    ITEM_BOMB,       // ITEM_BOMBS_20
+    ITEM_BOMB,       // ITEM_BOMBS_30
+    ITEM_BOW,        // ITEM_ARROWS_5
+    ITEM_BOW,        // ITEM_ARROWS_10
+    ITEM_BOW,        // ITEM_ARROWS_30
+    ITEM_DEKU_SEEDS, // ITEM_DEKU_SEEDS_30
+    ITEM_BOMBCHU,    // ITEM_BOMBCHUS_5
+    ITEM_BOMBCHU,    // ITEM_BOMBCHUS_20
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICK_UPGRADE_20
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICK_UPGRADE_30
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUT_UPGRADE_30
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUT_UPGRADE_40
 };
 
 static s16 D_80125A58 = 0;
@@ -785,8 +785,8 @@ void func_80083108(PlayState* play) {
 
                         if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
                             (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
                             gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                         } else {
                             gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
@@ -802,7 +802,7 @@ void func_80083108(PlayState* play) {
 
                 for (i = 1; i < 4; i++) {
                     if ((gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_FAIRY) &&
-                        (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_TIME)) {
+                        (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_OF_TIME)) {
                         if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                             sp28 = true;
                         }
@@ -872,8 +872,8 @@ void func_80083108(PlayState* play) {
 
                 if (interfaceCtx->restrictions.bottles != 0) {
                     for (i = 1; i < 4; i++) {
-                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                            (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) {
+                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                            (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                 sp28 = true;
                             }
@@ -883,8 +883,8 @@ void func_80083108(PlayState* play) {
                     }
                 } else if (interfaceCtx->restrictions.bottles == 0) {
                     for (i = 1; i < 4; i++) {
-                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                            (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) {
+                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                            (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) {
                             if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
                                 sp28 = true;
                             }
@@ -945,7 +945,7 @@ void func_80083108(PlayState* play) {
                 if (interfaceCtx->restrictions.ocarina != 0) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) ||
-                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_TIME)) {
+                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_OF_TIME)) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                 sp28 = true;
                             }
@@ -956,7 +956,7 @@ void func_80083108(PlayState* play) {
                 } else if (interfaceCtx->restrictions.ocarina == 0) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) ||
-                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_TIME)) {
+                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_OF_TIME)) {
                             if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
                                 sp28 = true;
                             }
@@ -1016,13 +1016,13 @@ void func_80083108(PlayState* play) {
                 if (interfaceCtx->restrictions.all != 0) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_FAIRY) &&
-                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_TIME) &&
-                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                              (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) &&
+                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_OF_TIME) &&
+                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                              (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) &&
                             !((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                             if ((play->sceneId != SCENE_TAKARAYA) ||
-                                (gSaveContext.equips.buttonItems[i] != ITEM_LENS)) {
+                                (gSaveContext.equips.buttonItems[i] != ITEM_LENS_OF_TRUTH)) {
                                 if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                     sp28 = true;
                                 }
@@ -1045,9 +1045,9 @@ void func_80083108(PlayState* play) {
                             (gSaveContext.equips.buttonItems[i] != ITEM_FARORES_WIND) &&
                             (gSaveContext.equips.buttonItems[i] != ITEM_NAYRUS_LOVE) &&
                             (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_FAIRY) &&
-                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_TIME) &&
-                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                              (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) &&
+                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_OF_TIME) &&
+                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                              (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) &&
                             !((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                             if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
@@ -1171,9 +1171,9 @@ void Inventory_SwapAgeEquipment(void) {
         if (gSaveContext.adultEquips.buttonItems[0] == ITEM_NONE) {
             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
 
-            if (gSaveContext.inventory.items[SLOT_NUT] != ITEM_NONE) {
-                gSaveContext.equips.buttonItems[1] = ITEM_NUT;
-                gSaveContext.equips.cButtonSlots[0] = SLOT_NUT;
+            if (gSaveContext.inventory.items[SLOT_DEKU_NUT] != ITEM_NONE) {
+                gSaveContext.equips.buttonItems[1] = ITEM_DEKU_NUT;
+                gSaveContext.equips.cButtonSlots[0] = SLOT_DEKU_NUT;
             } else {
                 gSaveContext.equips.buttonItems[1] = gSaveContext.equips.cButtonSlots[0] = ITEM_NONE;
             }
@@ -1194,8 +1194,8 @@ void Inventory_SwapAgeEquipment(void) {
                     gSaveContext.equips.cButtonSlots[i - 1] = gSaveContext.adultEquips.cButtonSlots[i - 1];
                 }
 
-                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                     (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) ||
+                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                     (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) ||
                     ((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                      (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                     osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, gSaveContext.equips.cButtonSlots[i - 1]);
@@ -1225,8 +1225,8 @@ void Inventory_SwapAgeEquipment(void) {
                     gSaveContext.equips.cButtonSlots[i - 1] = gSaveContext.childEquips.cButtonSlots[i - 1];
                 }
 
-                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                     (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) ||
+                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                     (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) ||
                     ((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                      (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                     osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, gSaveContext.equips.cButtonSlots[i - 1]);
@@ -1264,9 +1264,9 @@ void func_800849EC(PlayState* play) {
     gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
 
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
+        gSaveContext.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
     } else {
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
     }
 
     Interface_LoadItemIcon1(play, 0);
@@ -1334,8 +1334,8 @@ u8 Item_Give(PlayState* play, u8 item) {
     s16 temp;
 
     slot = SLOT(item);
-    if (item >= ITEM_STICKS_5) {
-        slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
+    if (item >= ITEM_DEKU_STICKS_5) {
+        slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
     }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
@@ -1373,7 +1373,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
-    } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDO_CARD)) {
+    } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDOS_CARD)) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
@@ -1391,11 +1391,11 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
-    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
+    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BIGGORON)) {
         gSaveContext.inventory.equipment |=
             OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI);
 
-        if (item == ITEM_SWORD_BGS) {
+        if (item == ITEM_SWORD_BIGGORON) {
             gSaveContext.swordHealth = 8;
 
             if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) ==
@@ -1403,8 +1403,8 @@ u8 Item_Give(PlayState* play, u8 item) {
                  (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE))) {
                 gSaveContext.inventory.equipment ^=
                     OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
-                if (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
-                    gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                if (gSaveContext.equips.buttonItems[0] == ITEM_GIANTS_KNIFE) {
+                    gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                     Interface_LoadItemIcon1(play, 0);
                 }
             }
@@ -1425,10 +1425,10 @@ u8 Item_Give(PlayState* play, u8 item) {
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
         gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_BOOTS, item - ITEM_BOOTS_KOKIRI);
         return ITEM_NONE;
-    } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
-        gSaveContext.inventory.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
+    } else if ((item == ITEM_DUNGEON_BOSS_KEY) || (item == ITEM_DUNGEON_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
+        gSaveContext.inventory.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_DUNGEON_BOSS_KEY];
         return ITEM_NONE;
-    } else if (item == ITEM_KEY_SMALL) {
+    } else if (item == ITEM_SMALL_KEY) {
         if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] < 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = 1;
             return ITEM_NONE;
@@ -1484,13 +1484,13 @@ u8 Item_Give(PlayState* play, u8 item) {
         Inventory_ChangeUpgrade(UPG_BOMB_BAG, 3);
         AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, 3);
         return ITEM_NONE;
-    } else if (item == ITEM_BRACELET) {
+    } else if (item == ITEM_STRENGTH_GORONS_BRACELET) {
         Inventory_ChangeUpgrade(UPG_STRENGTH, 1);
         return ITEM_NONE;
-    } else if (item == ITEM_GAUNTLETS_SILVER) {
+    } else if (item == ITEM_STRENGTH_SILVER_GAUNTLETS) {
         Inventory_ChangeUpgrade(UPG_STRENGTH, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_GAUNTLETS_GOLD) {
+    } else if (item == ITEM_STRENGTH_GOLD_GAUNTLETS) {
         Inventory_ChangeUpgrade(UPG_STRENGTH, 3);
         return ITEM_NONE;
     } else if (item == ITEM_SCALE_SILVER) {
@@ -1499,39 +1499,39 @@ u8 Item_Give(PlayState* play, u8 item) {
     } else if (item == ITEM_SCALE_GOLDEN) {
         Inventory_ChangeUpgrade(UPG_SCALE, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_WALLET_ADULT) {
+    } else if (item == ITEM_ADULTS_WALLET) {
         Inventory_ChangeUpgrade(UPG_WALLET, 1);
         return ITEM_NONE;
-    } else if (item == ITEM_WALLET_GIANT) {
+    } else if (item == ITEM_GIANTS_WALLET) {
         Inventory_ChangeUpgrade(UPG_WALLET, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_STICK_UPGRADE_20) {
+    } else if (item == ITEM_DEKU_STICK_UPGRADE_20) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_STICK) = ITEM_STICK;
+            INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_STICKS, 2);
-        AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 2);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_STICK_UPGRADE_30) {
+    } else if (item == ITEM_DEKU_STICK_UPGRADE_30) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_STICK) = ITEM_STICK;
+            INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_STICKS, 3);
-        AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 3);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 3);
         return ITEM_NONE;
-    } else if (item == ITEM_NUT_UPGRADE_30) {
+    } else if (item == ITEM_DEKU_NUT_UPGRADE_30) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_NUT) = ITEM_NUT;
+            INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_NUTS, 2);
-        AMMO(ITEM_NUT) = CAPACITY(UPG_NUTS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 2);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_NUT_UPGRADE_40) {
+    } else if (item == ITEM_DEKU_NUT_UPGRADE_40) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_NUT) = ITEM_NUT;
+            INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_NUTS, 3);
-        AMMO(ITEM_NUT) = CAPACITY(UPG_NUTS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 3);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 3);
         return ITEM_NONE;
     } else if (item == ITEM_LONGSHOT) {
         INV_CONTENT(item) = item;
@@ -1542,51 +1542,51 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
         return ITEM_NONE;
-    } else if (item == ITEM_STICK) {
+    } else if (item == ITEM_DEKU_STICK) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_STICKS, 1);
-            AMMO(ITEM_STICK) = 1;
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
+            AMMO(ITEM_DEKU_STICK) = 1;
         } else {
-            AMMO(ITEM_STICK)++;
-            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS)) {
-                AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
+            AMMO(ITEM_DEKU_STICK)++;
+            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_DEKU_STICKS)) {
+                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
             }
         }
-    } else if ((item == ITEM_STICKS_5) || (item == ITEM_STICKS_10)) {
+    } else if ((item == ITEM_DEKU_STICKS_5) || (item == ITEM_DEKU_STICKS_10)) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_STICKS, 1);
-            AMMO(ITEM_STICK) = sAmmoRefillCounts[item - ITEM_STICKS_5];
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
+            AMMO(ITEM_DEKU_STICK) = sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
         } else {
-            AMMO(ITEM_STICK) += sAmmoRefillCounts[item - ITEM_STICKS_5];
-            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS)) {
-                AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
+            AMMO(ITEM_DEKU_STICK) += sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
+            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_DEKU_STICKS)) {
+                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
             }
         }
-        item = ITEM_STICK;
-    } else if (item == ITEM_NUT) {
+        item = ITEM_DEKU_STICK;
+    } else if (item == ITEM_DEKU_NUT) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_NUTS, 1);
-            AMMO(ITEM_NUT) = ITEM_NUT;
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
+            AMMO(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         } else {
-            AMMO(ITEM_NUT)++;
-            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS)) {
-                AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
+            AMMO(ITEM_DEKU_NUT)++;
+            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_DEKU_NUTS)) {
+                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
             }
         }
-    } else if ((item == ITEM_NUTS_5) || (item == ITEM_NUTS_10)) {
+    } else if ((item == ITEM_DEKU_NUTS_5) || (item == ITEM_DEKU_NUTS_10)) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_NUTS, 1);
-            AMMO(ITEM_NUT) += sAmmoRefillCounts[item - ITEM_NUTS_5];
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
+            AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
             // "Deku Nuts %d(%d)=%d BS_count=%d"
-            osSyncPrintf("デクの実 %d(%d)=%d  BS_count=%d\n", item, ITEM_NUTS_5, item - ITEM_NUTS_5,
-                         sAmmoRefillCounts[item - ITEM_NUTS_5]);
+            osSyncPrintf("デクの実 %d(%d)=%d  BS_count=%d\n", item, ITEM_DEKU_NUTS_5, item - ITEM_DEKU_NUTS_5,
+                         sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5]);
         } else {
-            AMMO(ITEM_NUT) += sAmmoRefillCounts[item - ITEM_NUTS_5];
-            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS)) {
-                AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
+            AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
+            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_DEKU_NUTS)) {
+                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
             }
         }
-        item = ITEM_NUT;
+        item = ITEM_DEKU_NUT;
     } else if (item == ITEM_BOMB) {
         // "Bomb  Bomb  Bomb  Bomb Bomb   Bomb Bomb"
         osSyncPrintf(" 爆弾  爆弾  爆弾  爆弾 爆弾   爆弾 爆弾 \n");
@@ -1623,8 +1623,8 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
             return ITEM_NONE;
         }
-    } else if ((item >= ITEM_ARROWS_SMALL) && (item <= ITEM_ARROWS_LARGE)) {
-        AMMO(ITEM_BOW) += sArrowRefillCounts[item - ITEM_ARROWS_SMALL];
+    } else if ((item >= ITEM_ARROWS_5) && (item <= ITEM_ARROWS_30)) {
+        AMMO(ITEM_BOW) += sArrowRefillCounts[item - ITEM_ARROWS_5];
 
         if ((AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) || (AMMO(ITEM_BOW) < 0)) {
             AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
@@ -1638,7 +1638,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         INV_CONTENT(ITEM_SLINGSHOT) = ITEM_SLINGSHOT;
         AMMO(ITEM_SLINGSHOT) = 30;
         return ITEM_NONE;
-    } else if (item == ITEM_SEEDS) {
+    } else if (item == ITEM_DEKU_SEEDS) {
         AMMO(ITEM_SLINGSHOT) += 5;
 
         if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
@@ -1650,8 +1650,8 @@ u8 Item_Give(PlayState* play, u8 item) {
             return ITEM_NONE;
         }
 
-        return ITEM_SEEDS;
-    } else if (item == ITEM_SEEDS_30) {
+        return ITEM_DEKU_SEEDS;
+    } else if (item == ITEM_DEKU_SEEDS_30) {
         AMMO(ITEM_SLINGSHOT) += 30;
 
         if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
@@ -1663,26 +1663,26 @@ u8 Item_Give(PlayState* play, u8 item) {
             return ITEM_NONE;
         }
 
-        return ITEM_SEEDS;
+        return ITEM_DEKU_SEEDS;
     } else if (item == ITEM_OCARINA_FAIRY) {
         INV_CONTENT(ITEM_OCARINA_FAIRY) = ITEM_OCARINA_FAIRY;
         return ITEM_NONE;
-    } else if (item == ITEM_OCARINA_TIME) {
-        INV_CONTENT(ITEM_OCARINA_TIME) = ITEM_OCARINA_TIME;
+    } else if (item == ITEM_OCARINA_OF_TIME) {
+        INV_CONTENT(ITEM_OCARINA_OF_TIME) = ITEM_OCARINA_OF_TIME;
         for (i = 1; i < 4; i++) {
             if (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) {
-                gSaveContext.equips.buttonItems[i] = ITEM_OCARINA_TIME;
+                gSaveContext.equips.buttonItems[i] = ITEM_OCARINA_OF_TIME;
                 Interface_LoadItemIcon1(play, i);
             }
         }
         return ITEM_NONE;
-    } else if (item == ITEM_BEAN) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(item) = item;
-            AMMO(ITEM_BEAN) = 1;
+            AMMO(ITEM_MAGIC_BEAN) = 1;
             BEANS_BOUGHT = 1;
         } else {
-            AMMO(ITEM_BEAN)++;
+            AMMO(ITEM_MAGIC_BEAN)++;
             BEANS_BOUGHT++;
         }
         return ITEM_NONE;
@@ -1697,7 +1697,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
         Health_ChangeBy(play, 0x10);
         return item;
-    } else if (item == ITEM_MAGIC_SMALL) {
+    } else if (item == ITEM_MAGIC_JAR_SMALL) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
             // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
@@ -1713,7 +1713,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
 
         return item;
-    } else if (item == ITEM_MAGIC_LARGE) {
+    } else if (item == ITEM_MAGIC_JAR_BIG) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
             // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
@@ -1732,7 +1732,7 @@ u8 Item_Give(PlayState* play, u8 item) {
     } else if ((item >= ITEM_RUPEE_GREEN) && (item <= ITEM_INVALID_8)) {
         Rupees_ChangeBy(sRupeeRefillCounts[item - ITEM_RUPEE_GREEN]);
         return ITEM_NONE;
-    } else if (item == ITEM_BOTTLE) {
+    } else if (item == ITEM_BOTTLE_EMPTY) {
         temp = SLOT(item);
 
         for (i = 0; i < 4; i++) {
@@ -1741,17 +1741,17 @@ u8 Item_Give(PlayState* play, u8 item) {
                 return ITEM_NONE;
             }
         }
-    } else if (((item >= ITEM_POTION_RED) && (item <= ITEM_POE)) || (item == ITEM_MILK)) {
+    } else if (((item >= ITEM_BOTTLE_POTION_RED) && (item <= ITEM_BOTTLE_POE)) || (item == ITEM_MILK)) {
         temp = SLOT(item);
 
-        if ((item != ITEM_MILK_BOTTLE) && (item != ITEM_LETTER_RUTO)) {
+        if ((item != ITEM_BOTTLE_MILK_FULL) && (item != ITEM_BOTTLE_RUTOS_LETTER)) {
             if (item == ITEM_MILK) {
-                item = ITEM_MILK_BOTTLE;
+                item = ITEM_BOTTLE_MILK_FULL;
                 temp = SLOT(item);
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
+                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE_EMPTY) {
                     // "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
                                  gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
@@ -1784,7 +1784,7 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
-        if (item == ITEM_SAW) {
+        if (item == ITEM_POACHERS_SAW) {
             SET_ITEMGETINF(ITEMGETINF_1F);
         }
 
@@ -1820,8 +1820,8 @@ u8 Item_CheckObtainability(u8 item) {
     s16 slot = SLOT(item);
     s32 temp;
 
-    if (item >= ITEM_STICKS_5) {
-        slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
+    if (item >= ITEM_DEKU_STICKS_5) {
+        slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
     }
 
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -1832,8 +1832,8 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_SKULL_TOKEN)) {
         return ITEM_NONE;
-    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
-        if (item == ITEM_SWORD_BGS) {
+    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BIGGORON)) {
+        if (item == ITEM_SWORD_BIGGORON) {
             return ITEM_NONE;
         } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI)) {
             return item;
@@ -1858,9 +1858,9 @@ u8 Item_CheckObtainability(u8 item) {
         } else {
             return ITEM_NONE;
         }
-    } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
+    } else if ((item == ITEM_DUNGEON_BOSS_KEY) || (item == ITEM_DUNGEON_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
         return ITEM_NONE;
-    } else if (item == ITEM_KEY_SMALL) {
+    } else if (item == ITEM_SMALL_KEY) {
         return ITEM_NONE;
     } else if ((item >= ITEM_SLINGSHOT) && (item <= ITEM_BOMBCHU)) {
         return ITEM_NONE;
@@ -1882,19 +1882,19 @@ u8 Item_CheckObtainability(u8 item) {
         } else {
             return 0;
         }
-    } else if ((item >= ITEM_STICK_UPGRADE_20) && (item <= ITEM_NUT_UPGRADE_40)) {
+    } else if ((item >= ITEM_DEKU_STICK_UPGRADE_20) && (item <= ITEM_DEKU_NUT_UPGRADE_40)) {
         return ITEM_NONE;
-    } else if ((item >= ITEM_BOMB_BAG_30) && (item <= ITEM_WALLET_GIANT)) {
+    } else if ((item >= ITEM_BOMB_BAG_30) && (item <= ITEM_GIANTS_WALLET)) {
         return ITEM_NONE;
     } else if (item == ITEM_LONGSHOT) {
         return ITEM_NONE;
-    } else if ((item == ITEM_SEEDS) || (item == ITEM_SEEDS_30)) {
+    } else if ((item == ITEM_DEKU_SEEDS) || (item == ITEM_DEKU_SEEDS_30)) {
         if (!GET_ITEMGETINF(ITEMGETINF_13)) {
             return ITEM_NONE;
         } else {
-            return ITEM_SEEDS;
+            return ITEM_DEKU_SEEDS;
         }
-    } else if (item == ITEM_BEAN) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         return ITEM_NONE;
     } else if ((item == ITEM_HEART_PIECE_2) || (item == ITEM_HEART_PIECE)) {
         return ITEM_NONE;
@@ -1902,7 +1902,7 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_RECOVERY_HEART) {
         return ITEM_RECOVERY_HEART;
-    } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
+    } else if ((item == ITEM_MAGIC_JAR_SMALL) || (item == ITEM_MAGIC_JAR_BIG)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
         osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
         if (!GET_INFTABLE(INFTABLE_198)) {
@@ -1912,19 +1912,19 @@ u8 Item_CheckObtainability(u8 item) {
         }
     } else if ((item >= ITEM_RUPEE_GREEN) && (item <= ITEM_INVALID_8)) {
         return ITEM_NONE;
-    } else if (item == ITEM_BOTTLE) {
+    } else if (item == ITEM_BOTTLE_EMPTY) {
         return ITEM_NONE;
-    } else if (((item >= ITEM_POTION_RED) && (item <= ITEM_POE)) || (item == ITEM_MILK)) {
+    } else if (((item >= ITEM_BOTTLE_POTION_RED) && (item <= ITEM_BOTTLE_POE)) || (item == ITEM_MILK)) {
         temp = SLOT(item);
 
-        if ((item != ITEM_MILK_BOTTLE) && (item != ITEM_LETTER_RUTO)) {
+        if ((item != ITEM_BOTTLE_MILK_FULL) && (item != ITEM_BOTTLE_RUTOS_LETTER)) {
             if (item == ITEM_MILK) {
-                item = ITEM_MILK_BOTTLE;
+                item = ITEM_BOTTLE_MILK_FULL;
                 temp = SLOT(item);
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
+                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE_EMPTY) {
                     return ITEM_NONE;
                 }
             }
@@ -1945,7 +1945,7 @@ u8 Item_CheckObtainability(u8 item) {
 void Inventory_DeleteItem(u16 item, u16 invSlot) {
     s16 i;
 
-    if (item == ITEM_BEAN) {
+    if (item == ITEM_MAGIC_BEAN) {
         BEANS_BOUGHT = 0;
     }
 
@@ -1985,13 +1985,13 @@ s32 Inventory_ReplaceItem(PlayState* play, u16 oldItem, u16 newItem) {
 s32 Inventory_HasEmptyBottle(void) {
     u8* items = gSaveContext.inventory.items;
 
-    if (items[SLOT_BOTTLE_1] == ITEM_BOTTLE) {
+    if (items[SLOT_BOTTLE_1] == ITEM_BOTTLE_EMPTY) {
         return true;
-    } else if (items[SLOT_BOTTLE_2] == ITEM_BOTTLE) {
+    } else if (items[SLOT_BOTTLE_2] == ITEM_BOTTLE_EMPTY) {
         return true;
-    } else if (items[SLOT_BOTTLE_3] == ITEM_BOTTLE) {
+    } else if (items[SLOT_BOTTLE_3] == ITEM_BOTTLE_EMPTY) {
         return true;
-    } else if (items[SLOT_BOTTLE_4] == ITEM_BOTTLE) {
+    } else if (items[SLOT_BOTTLE_4] == ITEM_BOTTLE_EMPTY) {
         return true;
     } else {
         return false;
@@ -2020,9 +2020,9 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
                  gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
-    if ((gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] == ITEM_MILK_BOTTLE) &&
-        (item == ITEM_BOTTLE)) {
-        item = ITEM_MILK_HALF;
+    if ((gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] == ITEM_BOTTLE_MILK_FULL) &&
+        (item == ITEM_BOTTLE_EMPTY)) {
+        item = ITEM_BOTTLE_MILK_HALF;
     }
 
     gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
@@ -2035,15 +2035,15 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
 }
 
 s32 Inventory_ConsumeFairy(PlayState* play) {
-    s32 bottleSlot = SLOT(ITEM_FAIRY);
+    s32 bottleSlot = SLOT(ITEM_BOTTLE_FAIRY);
     s16 i;
     s16 j;
 
     for (i = 0; i < 4; i++) {
-        if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_FAIRY) {
+        if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_BOTTLE_FAIRY) {
             for (j = 1; j < 4; j++) {
-                if (gSaveContext.equips.buttonItems[j] == ITEM_FAIRY) {
-                    gSaveContext.equips.buttonItems[j] = ITEM_BOTTLE;
+                if (gSaveContext.equips.buttonItems[j] == ITEM_BOTTLE_FAIRY) {
+                    gSaveContext.equips.buttonItems[j] = ITEM_BOTTLE_EMPTY;
                     Interface_LoadItemIcon1(play, j);
                     i = 0;
                     bottleSlot = gSaveContext.equips.cButtonSlots[j - 1];
@@ -2051,7 +2051,7 @@ s32 Inventory_ConsumeFairy(PlayState* play) {
                 }
             }
             osSyncPrintf("妖精使用＝%d\n", bottleSlot); // "Fairy Usage＝%d"
-            gSaveContext.inventory.items[bottleSlot + i] = ITEM_BOTTLE;
+            gSaveContext.inventory.items[bottleSlot + i] = ITEM_BOTTLE_EMPTY;
             return true;
         }
     }
@@ -2219,21 +2219,21 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
     // "Item = (%d)    Amount = (%d + %d)"
     osSyncPrintf("アイテム = (%d)    数 = (%d + %d)  ", item, AMMO(item), ammoChange);
 
-    if (item == ITEM_STICK) {
-        AMMO(ITEM_STICK) += ammoChange;
+    if (item == ITEM_DEKU_STICK) {
+        AMMO(ITEM_DEKU_STICK) += ammoChange;
 
-        if (AMMO(ITEM_STICK) >= CUR_CAPACITY(UPG_STICKS)) {
-            AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
-        } else if (AMMO(ITEM_STICK) < 0) {
-            AMMO(ITEM_STICK) = 0;
+        if (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS)) {
+            AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
+        } else if (AMMO(ITEM_DEKU_STICK) < 0) {
+            AMMO(ITEM_DEKU_STICK) = 0;
         }
-    } else if (item == ITEM_NUT) {
-        AMMO(ITEM_NUT) += ammoChange;
+    } else if (item == ITEM_DEKU_NUT) {
+        AMMO(ITEM_DEKU_NUT) += ammoChange;
 
-        if (AMMO(ITEM_NUT) >= CUR_CAPACITY(UPG_NUTS)) {
-            AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
-        } else if (AMMO(ITEM_NUT) < 0) {
-            AMMO(ITEM_NUT) = 0;
+        if (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS)) {
+            AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
+        } else if (AMMO(ITEM_DEKU_NUT) < 0) {
+            AMMO(ITEM_DEKU_NUT) = 0;
         }
     } else if (item == ITEM_BOMBCHU) {
         AMMO(ITEM_BOMBCHU) += ammoChange;
@@ -2251,7 +2251,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         } else if (AMMO(ITEM_BOW) < 0) {
             AMMO(ITEM_BOW) = 0;
         }
-    } else if ((item == ITEM_SLINGSHOT) || (item == ITEM_SEEDS)) {
+    } else if ((item == ITEM_SLINGSHOT) || (item == ITEM_DEKU_SEEDS)) {
         AMMO(ITEM_SLINGSHOT) += ammoChange;
 
         if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
@@ -2267,8 +2267,8 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         } else if (AMMO(ITEM_BOMB) < 0) {
             AMMO(ITEM_BOMB) = 0;
         }
-    } else if (item == ITEM_BEAN) {
-        AMMO(ITEM_BEAN) += ammoChange;
+    } else if (item == ITEM_MAGIC_BEAN) {
+        AMMO(ITEM_MAGIC_BEAN) += ammoChange;
     }
 
     osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
@@ -2524,9 +2524,9 @@ void Magic_Update(PlayState* play) {
                 (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(play) >= 2) && (func_8008F2F8(play) < 5)) ||
-                    ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
-                     (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
-                     (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
+                    ((gSaveContext.equips.buttonItems[1] != ITEM_LENS_OF_TRUTH) &&
+                     (gSaveContext.equips.buttonItems[2] != ITEM_LENS_OF_TRUTH) &&
+                     (gSaveContext.equips.buttonItems[3] != ITEM_LENS_OF_TRUTH)) ||
                     !play->actorCtx.lensActive) {
                     // Force lens off and set magic meter state to idle
                     play->actorCtx.lensActive = false;
@@ -2881,11 +2881,11 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
 
     i = gSaveContext.equips.buttonItems[button];
 
-    if ((i == ITEM_STICK) || (i == ITEM_NUT) || (i == ITEM_BOMB) || (i == ITEM_BOW) ||
-        ((i >= ITEM_BOW_ARROW_FIRE) && (i <= ITEM_BOW_ARROW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU) ||
-        (i == ITEM_BEAN)) {
+    if ((i == ITEM_DEKU_STICK) || (i == ITEM_DEKU_NUT) || (i == ITEM_BOMB) || (i == ITEM_BOW) ||
+        ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU) ||
+        (i == ITEM_MAGIC_BEAN)) {
 
-        if ((i >= ITEM_BOW_ARROW_FIRE) && (i <= ITEM_BOW_ARROW_LIGHT)) {
+        if ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) {
             i = ITEM_BOW;
         }
 
@@ -2905,9 +2905,9 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
         } else if (((i == ITEM_BOW) && (AMMO(i) == CUR_CAPACITY(UPG_QUIVER))) ||
                    ((i == ITEM_BOMB) && (AMMO(i) == CUR_CAPACITY(UPG_BOMB_BAG))) ||
                    ((i == ITEM_SLINGSHOT) && (AMMO(i) == CUR_CAPACITY(UPG_BULLET_BAG))) ||
-                   ((i == ITEM_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_STICKS))) ||
-                   ((i == ITEM_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_NUTS))) || ((i == ITEM_BOMBCHU) && (ammo == 50)) ||
-                   ((i == ITEM_BEAN) && (ammo == 15))) {
+                   ((i == ITEM_DEKU_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_STICKS))) ||
+                   ((i == ITEM_DEKU_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_NUTS))) ||
+                   ((i == ITEM_BOMBCHU) && (ammo == 50)) || ((i == ITEM_MAGIC_BEAN) && (ammo == 15))) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, alpha);
         }
 
@@ -3438,8 +3438,8 @@ void Interface_Draw(PlayState* play) {
 
             if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
                 (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
+                (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
                 if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
                     gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 } else {

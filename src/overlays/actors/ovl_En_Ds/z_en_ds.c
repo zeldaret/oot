@@ -170,7 +170,7 @@ void EnDs_GiveBluePotion(EnDs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
-        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
     }
 }
 
@@ -189,7 +189,7 @@ void EnDs_OfferBluePotion(EnDs* this, PlayState* play) {
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
                         this->actor.flags &= ~ACTOR_FLAG_16;
-                        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+                        func_8002F434(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }
