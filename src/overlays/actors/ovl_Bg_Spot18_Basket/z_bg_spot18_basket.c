@@ -215,13 +215,13 @@ void func_808B7BCC(BgSpot18Basket* this, PlayState* play) {
     this->dyna.actor.world.pos.z = (Math_CosS(this->unk_20E) * this->unk_208) + this->dyna.actor.home.pos.z;
 
     if (this->colliderJntSph.base.acFlags & AC_HIT) {
-        colliderBaseAc = this->colliderJntSph.base.ac;
+        colliderBaseAc = this->colliderJntSph.base.otherAT;
 
         if (colliderBaseAc != NULL) {
             positionDiff = colliderBaseAc->world.pos.y - this->dyna.actor.world.pos.y;
 
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
-                if (Math3D_Dist2DSq(colliderBaseAc->world.pos.z, this->colliderJntSph.base.ac->world.pos.x,
+                if (Math3D_Dist2DSq(colliderBaseAc->world.pos.z, this->colliderJntSph.base.otherAT->world.pos.x,
                                     this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) < SQ(32.0f)) {
                     OnePointCutscene_Init(play, 4210, 240, &this->dyna.actor, CAM_ID_MAIN);
                     func_808B7D38(this);

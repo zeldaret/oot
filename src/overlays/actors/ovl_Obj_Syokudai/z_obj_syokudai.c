@@ -171,7 +171,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
             }
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
-            dmgFlags = this->colliderFlame.info.acHitInfo->toucher.dmgFlags;
+            dmgFlags = this->colliderFlame.info.otherElemAT->toucher.dmgFlags;
             if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
@@ -194,7 +194,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                         player->unk_860 = 200;
                     }
                 } else if (dmgFlags & DMG_ARROW_NORMAL) {
-                    arrow = (EnArrow*)this->colliderFlame.base.ac;
+                    arrow = (EnArrow*)this->colliderFlame.base.otherAT;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
                         arrow->collider.info.toucher.dmgFlags = DMG_ARROW_FIRE;

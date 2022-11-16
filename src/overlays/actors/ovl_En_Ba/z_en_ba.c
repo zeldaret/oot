@@ -302,7 +302,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
         this->unk_2A8[13].y = this->unk_2A8[12].y;
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
-            if (this->collider.base.at == &player->actor) {
+            if (this->collider.base.otherAC == &player->actor) {
                 func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             }
         }

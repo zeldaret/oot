@@ -390,10 +390,10 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
-        this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
+    if (this->collider.info.otherElemAT->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+        this->actor.world.rot.y = this->collider.base.otherAT->world.rot.y;
     } else {
-        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.otherAT) + 0x8000;
     }
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x14);
     this->actionFunc = EnFloormas_TakeDamage;
@@ -753,7 +753,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, PlayState* play) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
     } else if ((this->actor.yDistToPlayer < -10.0f) && (this->collider.base.ocFlags1 & OC1_HIT) &&
-               (&player->actor == this->collider.base.oc)) {
+               (&player->actor == this->collider.base.otherOC)) {
         play->grabPlayer(play, player);
         EnFloormas_SetupGrabLink(this, player);
     }
@@ -986,7 +986,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = 1;
                 }
-                if (isSmall && this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT) {
+                if (isSmall && this->collider.info.otherElemAT->toucher.dmgFlags & DMG_HOOKSHOT) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }

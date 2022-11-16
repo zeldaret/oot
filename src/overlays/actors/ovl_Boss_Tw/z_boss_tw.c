@@ -3091,7 +3091,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
                 BossTw_TwinrovaDamage(this, play, 0);
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE);
             } else if (this->collider.base.acFlags & AC_HIT) {
-                ColliderInfo* info = this->collider.info.acHitInfo;
+                ColliderInfo* info = this->collider.info.otherElemAT;
 
                 this->collider.base.acFlags &= ~AC_HIT;
                 if (info->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_ARROW)) {}
@@ -3099,7 +3099,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
         } else if (this->collider.base.acFlags & AC_HIT) {
             u8 damage;
             u8 swordDamage;
-            ColliderInfo* info = this->collider.info.acHitInfo;
+            ColliderInfo* info = this->collider.info.otherElemAT;
 
             this->collider.base.acFlags &= ~AC_HIT;
             swordDamage = false;
@@ -4326,7 +4326,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
             this->collider.base.atFlags &= ~AT_HIT;
-            info = this->collider.info.acHitInfo;
+            info = this->collider.info.otherElemAT;
 
             if (info->toucher.dmgFlags & DMG_SHIELD) {
                 this->work[INVINC_TIMER] = 7;

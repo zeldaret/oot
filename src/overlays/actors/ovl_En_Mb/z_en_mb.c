@@ -827,7 +827,7 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
         this->attackCollider.base.atFlags &= ~AT_HIT;
-        if (this->attackCollider.base.at == &player->actor) {
+        if (this->attackCollider.base.otherAC == &player->actor) {
             u8 prevPlayerInvincibilityTimer = player->invincibilityTimer;
 
             if (player->invincibilityTimer < 0) {
@@ -907,7 +907,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
     }
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
-        if (this->attackCollider.base.at == &player->actor) {
+        if (this->attackCollider.base.otherAC == &player->actor) {
             if (!endCharge && !(player->stateFlags2 & PLAYER_STATE2_7)) {
                 if (player->invincibilityTimer < 0) {
                     if (player->invincibilityTimer < -39) {
@@ -976,7 +976,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
     }
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
-        if (this->attackCollider.base.at == &player->actor) {
+        if (this->attackCollider.base.otherAC == &player->actor) {
             if (!endCharge && !(player->stateFlags2 & PLAYER_STATE2_7)) {
                 if (player->invincibilityTimer < 0) {
                     if (player->invincibilityTimer <= -40) {

@@ -244,7 +244,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
     s32 i;
 
     if (this->colCylinder.base.acFlags & AC_HIT) {
-        actor = this->colCylinder.base.ac;
+        actor = this->colCylinder.base.otherAT;
         this->colCylinder.base.acFlags &= ~AC_HIT;
         if (actor != NULL && actor->id == ACTOR_EN_IK) {
             particleFunc[this->dyna.actor.params & 1](this, play, (EnIk*)actor);

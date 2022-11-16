@@ -117,7 +117,7 @@ void EnYukabyun_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (((this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
-         ((this->collider.base.ocFlags1 & OC1_HIT) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
+         ((this->collider.base.ocFlags1 & OC1_HIT) && !(this->collider.base.otherOC->id == ACTOR_EN_YUKABYUN))) ||
         ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
         this->collider.base.atFlags &= ~AT_HIT;
         this->collider.base.acFlags &= ~AC_HIT;

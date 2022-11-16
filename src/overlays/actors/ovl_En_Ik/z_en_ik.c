@@ -586,7 +586,7 @@ void func_80A75790(EnIk* this) {
     s16 yaw;
     s16 yawDiff;
 
-    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->bodyCollider.base.ac->world.pos);
+    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->bodyCollider.base.otherAT->world.pos);
     this->unk_2F8 = 0;
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
@@ -753,7 +753,7 @@ void func_80A75FA0(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->axeCollider.base.atFlags & AT_HIT) {
         this->axeCollider.base.atFlags &= ~AT_HIT;
-        if (&player->actor == this->axeCollider.base.at) {
+        if (&player->actor == this->axeCollider.base.otherAC) {
             prevInvincibilityTimer = player->invincibilityTimer;
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer < -39) {

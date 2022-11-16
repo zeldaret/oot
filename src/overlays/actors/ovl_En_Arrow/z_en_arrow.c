@@ -284,8 +284,8 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         } else {
             EffectSsHitMark_SpawnCustomScale(play, 0, 150, &this->actor.world.pos);
 
-            if (atTouched && (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
-                hitActor = this->collider.base.at;
+            if (atTouched && (this->collider.info.otherElemAC->elemType != ELEMTYPE_UNK4)) {
+                hitActor = this->collider.base.otherAC;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
                     (hitActor->flags & ACTOR_FLAG_14)) {
@@ -300,10 +300,10 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.info.atHitInfo->bumperFlags & BUMP_HIT) {
-                        this->actor.world.pos.x = this->collider.info.atHitInfo->bumper.hitPos.x;
-                        this->actor.world.pos.y = this->collider.info.atHitInfo->bumper.hitPos.y;
-                        this->actor.world.pos.z = this->collider.info.atHitInfo->bumper.hitPos.z;
+                    if (this->collider.info.otherElemAC->bumperFlags & BUMP_HIT) {
+                        this->actor.world.pos.x = this->collider.info.otherElemAC->bumper.hitPos.x;
+                        this->actor.world.pos.y = this->collider.info.otherElemAC->bumper.hitPos.y;
+                        this->actor.world.pos.z = this->collider.info.otherElemAC->bumper.hitPos.z;
                     }
 
                     func_809B3CEC(play, this);

@@ -916,7 +916,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
             this->skelAnime.playSpeed = 1.5f;
         } else if (this->swordCollider.base.atFlags & AT_HIT) {
             this->swordCollider.base.atFlags &= ~AT_HIT;
-            if (&player->actor == this->swordCollider.base.at) {
+            if (&player->actor == this->swordCollider.base.otherAC) {
                 func_8002F71C(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
                 this->spinAttackState = 2;
                 func_8002DF54(play, &this->actor, 0x18);

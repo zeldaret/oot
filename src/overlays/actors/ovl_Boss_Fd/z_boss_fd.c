@@ -1283,7 +1283,7 @@ void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
 
     if (headCollider->info.bumperFlags & BUMP_HIT) {
         headCollider->info.bumperFlags &= ~BUMP_HIT;
-        hurtbox = headCollider->info.acHitInfo;
+        hurtbox = headCollider->info.otherElemAT;
         this->actor.colChkInfo.health -= 2;
         if (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) {
             this->actor.colChkInfo.health -= 2;

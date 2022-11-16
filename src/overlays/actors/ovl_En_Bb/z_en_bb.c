@@ -1154,7 +1154,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, false);
         switch (this->dmgEffect) {
             case 7:
-                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].info.otherElemAT->toucher.damage;
                 FALLTHROUGH;
             case 5:
                 this->fireIceTimer = 0x30;
@@ -1164,7 +1164,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
-                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].info.otherElemAT->toucher.damage;
                 break;
             case 8:
             case 9:

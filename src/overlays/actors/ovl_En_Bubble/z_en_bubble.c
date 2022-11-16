@@ -209,7 +209,7 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
     u8 bounceCount;
 
     if (this->colliderSphere.elements[1].info.bumperFlags & BUMP_HIT) {
-        bumpActor = this->colliderSphere.base.ac;
+        bumpActor = this->colliderSphere.base.otherAT;
         this->normalizedBumpVelocity = bumpActor->velocity;
         EnBubble_Vec3fNormalize(&this->normalizedBumpVelocity);
         this->velocityFromBump.x += (this->normalizedBumpVelocity.x * 3.0f);
@@ -287,9 +287,9 @@ u32 func_809CC648(EnBubble* this) {
     }
     this->colliderSphere.base.acFlags &= ~AC_HIT;
     if (this->colliderSphere.elements[1].info.bumperFlags & BUMP_HIT) {
-        this->unk_1F0.x = this->colliderSphere.base.ac->velocity.x / 10.0f;
-        this->unk_1F0.y = this->colliderSphere.base.ac->velocity.y / 10.0f;
-        this->unk_1F0.z = this->colliderSphere.base.ac->velocity.z / 10.0f;
+        this->unk_1F0.x = this->colliderSphere.base.otherAT->velocity.x / 10.0f;
+        this->unk_1F0.y = this->colliderSphere.base.otherAT->velocity.y / 10.0f;
+        this->unk_1F0.z = this->colliderSphere.base.otherAT->velocity.z / 10.0f;
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
         return false;

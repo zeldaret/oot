@@ -449,7 +449,7 @@ void func_809CF984(EnBw* this, PlayState* play) {
         this->collider1.base.atFlags &= ~AT_HIT;
         this->actor.speedXZ = -6.0f;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.atFlags & AT_BOUNCED)) {
+        if ((&player->actor == this->collider1.base.otherAC) && !(this->collider1.base.atFlags & AT_BOUNCED)) {
             Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }

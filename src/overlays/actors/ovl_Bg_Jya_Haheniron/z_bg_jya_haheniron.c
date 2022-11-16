@@ -152,8 +152,8 @@ void BgJyaHaheniron_ChairCrumble(BgJyaHaheniron* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 8.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
-        ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.at != NULL) &&
-         (this->collider.base.at->category == ACTORCAT_PLAYER))) {
+        ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.otherAC != NULL) &&
+         (this->collider.base.otherAC->category == ACTORCAT_PLAYER))) {
         vec.x = -Rand_ZeroOne() * this->actor.velocity.x;
         vec.y = -Rand_ZeroOne() * this->actor.velocity.y;
         vec.z = -Rand_ZeroOne() * this->actor.velocity.z;

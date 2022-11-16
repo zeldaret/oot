@@ -1147,7 +1147,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
                 this->tentCollider.elements[i2].info.bumperFlags &= ~BUMP_HIT;
                 this->tentCollider.elements[i2].info.toucherFlags &= ~TOUCH_HIT;
             }
-            hurtbox = this->tentCollider.elements[i1].info.acHitInfo;
+            hurtbox = this->tentCollider.elements[i1].info.otherElemAT;
             this->work[MO_TENT_INVINC_TIMER] = 5;
             if (hurtbox->toucher.dmgFlags & DMG_MAGIC_FIRE) {
                 func_80078914(&this->tentTipPos, NA_SE_EN_MOFER_CUT);
@@ -1745,7 +1745,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
         }
     }
     if (this->coreCollider.base.acFlags & AC_HIT) {
-        ColliderInfo* hurtbox = this->coreCollider.info.acHitInfo;
+        ColliderInfo* hurtbox = this->coreCollider.info.otherElemAT;
         // "hit!!"
         osSyncPrintf("Core_Damage_check 当り！！\n");
         this->coreCollider.base.acFlags &= ~AC_HIT;

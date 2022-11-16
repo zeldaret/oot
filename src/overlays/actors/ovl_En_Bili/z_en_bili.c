@@ -202,8 +202,8 @@ void EnBili_SetupRecoil(EnBili* this) {
         Animation_PlayLoop(&this->skelAnime, &gBiriDefaultAnim);
     }
 
-    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.ac->prevPos) + 0x8000;
-    this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.ac->prevPos);
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.otherAT->prevPos) + 0x8000;
+    this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.otherAT->prevPos);
     this->actionFunc = EnBili_Recoil;
     this->actor.speedXZ = 5.0f;
 }
@@ -586,7 +586,7 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 EnBili_SetupBurnt(this);
             }
 
-            if (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_ARROW) {
+            if (this->collider.info.otherElemAT->toucher.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_4;
             }
         }

@@ -117,7 +117,7 @@ s32 Collider_DestroyBase(PlayState* play, Collider* collider) {
  * Uses default OC2_TYPE_1 and COLTYPE_HIT0
  */
 s32 Collider_SetBaseToActor(PlayState* play, Collider* collider, ColliderInitToActor* src) {
-    collider->actor = src->actor;
+    collider->self = src->actor;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
     collider->ocFlags1 = src->ocFlags1;
@@ -130,7 +130,7 @@ s32 Collider_SetBaseToActor(PlayState* play, Collider* collider, ColliderInitToA
  * Uses default OC2_TYPE_1
  */
 s32 Collider_SetBaseType1(PlayState* play, Collider* collider, Actor* actor, ColliderInitType1* src) {
-    collider->actor = actor;
+    collider->self = actor;
     collider->colType = src->colType;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
@@ -141,7 +141,7 @@ s32 Collider_SetBaseType1(PlayState* play, Collider* collider, Actor* actor, Col
 }
 
 s32 Collider_SetBase(PlayState* play, Collider* collider, Actor* actor, ColliderInit* src) {
-    collider->actor = actor;
+    collider->self = actor;
     collider->colType = src->colType;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
@@ -152,17 +152,17 @@ s32 Collider_SetBase(PlayState* play, Collider* collider, Actor* actor, Collider
 }
 
 void Collider_ResetATBase(PlayState* play, Collider* collider) {
-    collider->at = NULL;
+    collider->otherAC = NULL;
     collider->atFlags &= ~(AT_HIT | AT_BOUNCED);
 }
 
 void Collider_ResetACBase(PlayState* play, Collider* collider) {
-    collider->ac = NULL;
+    collider->otherAT = NULL;
     collider->acFlags &= ~(AC_HIT | AC_BOUNCED);
 }
 
 void Collider_ResetOCBase(PlayState* play, Collider* collider) {
-    collider->oc = NULL;
+    collider->otherOC = NULL;
     collider->ocFlags1 &= ~OC1_HIT;
     collider->ocFlags2 &= ~OC2_HIT_PLAYER;
 }
@@ -238,8 +238,8 @@ s32 Collider_SetInfo(PlayState* play, ColliderInfo* info, ColliderInfoInit* info
 }
 
 void Collider_ResetATInfo(PlayState* play, ColliderInfo* info) {
-    info->atHit = NULL;
-    info->atHitInfo = NULL;
+    info->otherColAC = NULL;
+    info->otherElemAC = NULL;
     info->toucherFlags &= ~TOUCH_HIT;
     info->toucherFlags &= ~TOUCH_DREW_HITMARK;
     Collider_ResetATInfo_Unk(play, info);
@@ -249,8 +249,8 @@ void Collider_ResetACInfo(PlayState* play, ColliderInfo* info) {
     info->bumper.hitPos.x = info->bumper.hitPos.y = info->bumper.hitPos.z = 0;
     info->bumperFlags &= ~BUMP_HIT;
     info->bumperFlags &= ~BUMP_DRAW_HITMARK;
-    info->acHit = NULL;
-    info->acHitInfo = NULL;
+    info->otherColAT = NULL;
+    info->otherElemAT = NULL;
 }
 
 void Collider_ResetOCInfo(PlayState* play, ColliderInfo* info) {
@@ -965,11 +965,11 @@ s32 Collider_QuadSetNearestAC(PlayState* play, ColliderQuad* quad, Vec3f* hitPos
     acDistSq = Math3D_Vec3fDistSq(&dcMid, hitPos);
     if (acDistSq < quad->dim.acDistSq) {
         quad->dim.acDistSq = acDistSq;
-        if (quad->info.atHit != NULL) {
-            Collider_ResetACBase(play, quad->info.atHit);
+        if (quad->info.otherColAC != NULL) {
+            Collider_ResetACBase(play, quad->info.otherColAC);
         }
-        if (quad->info.atHitInfo != NULL) {
-            Collider_ResetACInfo(play, quad->info.atHitInfo);
+        if (quad->info.otherElemAC != NULL) {
+            Collider_ResetACInfo(play, quad->info.otherElemAC);
         }
         return true;
     }
@@ -1178,7 +1178,7 @@ s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Coll
     }
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
     sATResetFuncs[collider->shape](play, collider);
-    if (collider->actor != NULL && collider->actor->update == NULL) {
+    if (collider->self != NULL && collider->self->update == NULL) {
         return -1;
     }
     if (colChkCtx->colATCount >= COLLISION_CHECK_AT_MAX) {
@@ -1205,7 +1205,7 @@ s32 CollisionCheck_SetAT_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
         return -1;
     }
     sATResetFuncs[collider->shape](play, collider);
-    if (collider->actor != NULL && collider->actor->update == NULL) {
+    if (collider->self != NULL && collider->self->update == NULL) {
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1246,7 +1246,7 @@ s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
     }
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
     sACResetFuncs[collider->shape](play, collider);
-    if (collider->actor != NULL && collider->actor->update == NULL) {
+    if (collider->self != NULL && collider->self->update == NULL) {
         return -1;
     }
     if (colChkCtx->colACCount >= COLLISION_CHECK_AC_MAX) {
@@ -1273,7 +1273,7 @@ s32 CollisionCheck_SetAC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
         return -1;
     }
     sACResetFuncs[collider->shape](play, collider);
-    if (collider->actor != NULL && collider->actor->update == NULL) {
+    if (collider->self != NULL && collider->self->update == NULL) {
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1316,7 +1316,7 @@ s32 CollisionCheck_SetOC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
 
     sOCResetFuncs[collider->shape](play, collider);
-    if (collider->actor != NULL && collider->actor->update == NULL) {
+    if (collider->self != NULL && collider->self->update == NULL) {
         return -1;
     }
     if (colChkCtx->colOCCount >= COLLISION_CHECK_OC_MAX) {
@@ -1343,7 +1343,7 @@ s32 CollisionCheck_SetOC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
     sOCResetFuncs[collider->shape](play, collider);
-    if (collider->actor != NULL && collider->actor->update == NULL) {
+    if (collider->self != NULL && collider->self->update == NULL) {
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1563,36 +1563,36 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderInfo* info, Collider* coll
 
     if (flags == TOUCH_SFX_NORMAL && collider->colType != COLTYPE_METAL) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
-        if (collider->actor == NULL) {
+        if (collider->self == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if (flags == TOUCH_SFX_NORMAL) { // collider->colType == COLTYPE_METAL
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_METAL, hitPos);
-        if (collider->actor == NULL) {
+        if (collider->self == NULL) {
             CollisionCheck_SpawnShieldParticlesMetal(play, hitPos);
         } else {
-            CollisionCheck_SpawnShieldParticlesMetalSfx(play, hitPos, &collider->actor->projectedPos);
+            CollisionCheck_SpawnShieldParticlesMetalSfx(play, hitPos, &collider->self->projectedPos);
         }
     } else if (flags == TOUCH_SFX_HARD) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
-        if (collider->actor == NULL) {
+        if (collider->self == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if (flags == TOUCH_SFX_WOOD) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_DUST, hitPos);
-        if (collider->actor == NULL) {
+        if (collider->self == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4,
+            Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->self->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
@@ -1602,18 +1602,18 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderInfo* info, Collider* coll
  * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemType.
  */
 s32 CollisionCheck_SwordHitAudio(Collider* at, ColliderInfo* acInfo) {
-    if (at->actor != NULL && at->actor->category == ACTORCAT_PLAYER) {
+    if (at->self != NULL && at->self->category == ACTORCAT_PLAYER) {
         if (acInfo->elemType == ELEMTYPE_UNK0) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &at->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acInfo->elemType == ELEMTYPE_UNK1) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &at->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acInfo->elemType == ELEMTYPE_UNK2) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->actor->projectedPos, 4,
+            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->self->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acInfo->elemType == ELEMTYPE_UNK3) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->actor->projectedPos, 4,
+            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->self->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
@@ -1642,19 +1642,19 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* at, ColliderInfo* atIn
     if (!(atInfo->toucherFlags & TOUCH_AT_HITMARK) && atInfo->toucherFlags & TOUCH_DREW_HITMARK) {
         return;
     }
-    if (ac->actor != NULL) {
+    if (ac->self != NULL) {
         sBloodFuncs[sHitInfo[ac->colType].blood](play, ac, hitPos);
     }
-    if (ac->actor != NULL) {
+    if (ac->self != NULL) {
         if (sHitInfo[ac->colType].effect == HIT_SOLID) {
             CollisionCheck_HitSolid(play, atInfo, ac, hitPos);
         } else if (sHitInfo[ac->colType].effect == HIT_WOOD) {
-            if (at->actor == NULL) {
+            if (at->self == NULL) {
                 CollisionCheck_SpawnShieldParticles(play, hitPos);
                 Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
-                CollisionCheck_SpawnShieldParticlesWood(play, hitPos, &at->actor->projectedPos);
+                CollisionCheck_SpawnShieldParticlesWood(play, hitPos, &at->self->projectedPos);
             }
         } else if (sHitInfo[ac->colType].effect != HIT_NONE) {
             EffectSsHitMark_SpawnFixedScale(play, sHitInfo[ac->colType].effect, hitPos);
@@ -1664,11 +1664,11 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* at, ColliderInfo* atIn
         }
     } else {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
-        if (ac->actor == NULL) {
+        if (ac->self == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &ac->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &ac->self->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
@@ -1687,26 +1687,26 @@ void CollisionCheck_SetBounce(Collider* at, Collider* ac) {
  */
 s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* at, ColliderInfo* atInfo, Vec3f* atPos, Collider* ac,
                              ColliderInfo* acInfo, Vec3f* acPos, Vec3f* hitPos) {
-    if (ac->acFlags & AC_HARD && at->actor != NULL && ac->actor != NULL) {
+    if (ac->acFlags & AC_HARD && at->self != NULL && ac->self != NULL) {
         CollisionCheck_SetBounce(at, ac);
     }
     if (!(acInfo->bumperFlags & BUMP_NO_AT_INFO)) {
         at->atFlags |= AT_HIT;
-        at->at = ac->actor;
-        atInfo->atHit = ac;
-        atInfo->atHitInfo = acInfo;
+        at->otherAC = ac->self;
+        atInfo->otherColAC = ac;
+        atInfo->otherElemAC = acInfo;
         atInfo->toucherFlags |= TOUCH_HIT;
-        if (at->actor != NULL) {
-            at->actor->colChkInfo.atHitEffect = acInfo->bumper.effect;
+        if (at->self != NULL) {
+            at->self->colChkInfo.atHitEffect = acInfo->bumper.effect;
         }
     }
     ac->acFlags |= AC_HIT;
-    ac->ac = at->actor;
-    acInfo->acHit = at;
-    acInfo->acHitInfo = atInfo;
+    ac->otherAT = at->self;
+    acInfo->otherColAT = at;
+    acInfo->otherElemAT = atInfo;
     acInfo->bumperFlags |= BUMP_HIT;
-    if (ac->actor != NULL) {
-        ac->actor->colChkInfo.acHitEffect = atInfo->toucher.effect;
+    if (ac->self != NULL) {
+        ac->self->colChkInfo.acHitEffect = atInfo->toucher.effect;
     }
     acInfo->bumper.hitPos.x = hitPos->x;
     acInfo->bumper.hitPos.y = hitPos->y;
@@ -2470,12 +2470,12 @@ void CollisionCheck_SetJntSphHitFX(PlayState* play, CollisionCheckContext* colCh
     Vec3f hitPos;
 
     for (element = jntSph->elements; element < jntSph->elements + jntSph->count; element++) {
-        if ((element->info.bumperFlags & BUMP_DRAW_HITMARK) && (element->info.acHitInfo != NULL) &&
-            !(element->info.acHitInfo->toucherFlags & TOUCH_DREW_HITMARK)) {
+        if ((element->info.bumperFlags & BUMP_DRAW_HITMARK) && (element->info.otherElemAT != NULL) &&
+            !(element->info.otherElemAT->toucherFlags & TOUCH_DREW_HITMARK)) {
             Math_Vec3s_ToVec3f(&hitPos, &element->info.bumper.hitPos);
-            CollisionCheck_HitEffects(play, element->info.acHit, element->info.acHitInfo, &jntSph->base, &element->info,
-                                      &hitPos);
-            element->info.acHitInfo->toucherFlags |= TOUCH_DREW_HITMARK;
+            CollisionCheck_HitEffects(play, element->info.otherColAT, element->info.otherElemAT, &jntSph->base,
+                                      &element->info, &hitPos);
+            element->info.otherElemAT->toucherFlags |= TOUCH_DREW_HITMARK;
             return;
         }
     }
@@ -2488,12 +2488,12 @@ void CollisionCheck_SetCylHitFX(PlayState* play, CollisionCheckContext* colChkCt
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
     Vec3f hitPos;
 
-    if ((cylinder->info.bumperFlags & BUMP_DRAW_HITMARK) && (cylinder->info.acHitInfo != NULL) &&
-        !(cylinder->info.acHitInfo->toucherFlags & TOUCH_DREW_HITMARK)) {
+    if ((cylinder->info.bumperFlags & BUMP_DRAW_HITMARK) && (cylinder->info.otherElemAT != NULL) &&
+        !(cylinder->info.otherElemAT->toucherFlags & TOUCH_DREW_HITMARK)) {
         Math_Vec3s_ToVec3f(&hitPos, &cylinder->info.bumper.hitPos);
-        CollisionCheck_HitEffects(play, cylinder->info.acHit, cylinder->info.acHitInfo, &cylinder->base,
+        CollisionCheck_HitEffects(play, cylinder->info.otherColAT, cylinder->info.otherElemAT, &cylinder->base,
                                   &cylinder->info, &hitPos);
-        cylinder->info.acHitInfo->toucherFlags |= TOUCH_DREW_HITMARK;
+        cylinder->info.otherElemAT->toucherFlags |= TOUCH_DREW_HITMARK;
     }
 }
 
@@ -2506,12 +2506,12 @@ void CollisionCheck_SetTrisHitFX(PlayState* play, CollisionCheckContext* colChkC
     Vec3f hitPos;
 
     for (element = tris->elements; element < tris->elements + tris->count; element++) {
-        if ((element->info.bumperFlags & BUMP_DRAW_HITMARK) && (element->info.acHitInfo != NULL) &&
-            !(element->info.acHitInfo->toucherFlags & TOUCH_DREW_HITMARK)) {
+        if ((element->info.bumperFlags & BUMP_DRAW_HITMARK) && (element->info.otherElemAT != NULL) &&
+            !(element->info.otherElemAT->toucherFlags & TOUCH_DREW_HITMARK)) {
             Math_Vec3s_ToVec3f(&hitPos, &element->info.bumper.hitPos);
-            CollisionCheck_HitEffects(play, element->info.acHit, element->info.acHitInfo, &tris->base, &element->info,
-                                      &hitPos);
-            element->info.acHitInfo->toucherFlags |= TOUCH_DREW_HITMARK;
+            CollisionCheck_HitEffects(play, element->info.otherColAT, element->info.otherElemAT, &tris->base,
+                                      &element->info, &hitPos);
+            element->info.otherElemAT->toucherFlags |= TOUCH_DREW_HITMARK;
             return;
         }
     }
@@ -2524,11 +2524,12 @@ void CollisionCheck_SetQuadHitFX(PlayState* play, CollisionCheckContext* colChkC
     ColliderQuad* quad = (ColliderQuad*)collider;
     Vec3f hitPos;
 
-    if ((quad->info.bumperFlags & BUMP_DRAW_HITMARK) && (quad->info.acHitInfo != NULL) &&
-        !(quad->info.acHitInfo->toucherFlags & TOUCH_DREW_HITMARK)) {
+    if ((quad->info.bumperFlags & BUMP_DRAW_HITMARK) && (quad->info.otherElemAT != NULL) &&
+        !(quad->info.otherElemAT->toucherFlags & TOUCH_DREW_HITMARK)) {
         Math_Vec3s_ToVec3f(&hitPos, &quad->info.bumper.hitPos);
-        CollisionCheck_HitEffects(play, quad->info.acHit, quad->info.acHitInfo, &quad->base, &quad->info, &hitPos);
-        quad->info.acHitInfo->toucherFlags |= TOUCH_DREW_HITMARK;
+        CollisionCheck_HitEffects(play, quad->info.otherColAT, quad->info.otherElemAT, &quad->base, &quad->info,
+                                  &hitPos);
+        quad->info.otherElemAT->toucherFlags |= TOUCH_DREW_HITMARK;
     }
 }
 
@@ -2549,7 +2550,7 @@ void CollisionCheck_SetHitEffects(PlayState* play, CollisionCheckContext* colChk
         Collider* colAC = *col;
 
         if (colAC != NULL && colAC->acFlags & AC_ON) {
-            if (colAC->actor != NULL && colAC->actor->update == NULL) {
+            if (colAC->self != NULL && colAC->self->update == NULL) {
                 continue;
             }
             sColChkApplyFuncs[colAC->shape](play, colChkCtx, colAC);
@@ -2578,11 +2579,11 @@ void CollisionCheck_AC(PlayState* play, CollisionCheckContext* colChkCtx, Collid
         Collider* colAC = *col;
 
         if (colAC != NULL && colAC->acFlags & AC_ON) {
-            if (colAC->actor != NULL && colAC->actor->update == NULL) {
+            if (colAC->self != NULL && colAC->self->update == NULL) {
                 continue;
             }
             if ((colAC->acFlags & colAT->atFlags & AC_TYPE_ALL) && (colAT != colAC)) {
-                if (!(colAT->atFlags & AT_SELF) && colAT->actor != NULL && colAC->actor == colAT->actor) {
+                if (!(colAT->atFlags & AT_SELF) && colAT->self != NULL && colAC->self == colAT->self) {
                     continue;
                 }
                 sACVsFuncs[colAT->shape][colAC->shape](play, colChkCtx, colAT, colAC);
@@ -2607,7 +2608,7 @@ void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
         Collider* colAT = *col;
 
         if (colAT != NULL && colAT->atFlags & AT_ON) {
-            if (colAT->actor != NULL && colAT->actor->update == NULL) {
+            if (colAT->self != NULL && colAT->self->update == NULL) {
                 continue;
             }
             CollisionCheck_AC(play, colChkCtx, colAT);
@@ -2646,18 +2647,18 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     f32 inverseTotalMass;
     f32 xDelta;
     f32 zDelta;
-    Actor* leftActor = left->actor;
-    Actor* rightActor = right->actor;
+    Actor* leftActor = left->self;
+    Actor* rightActor = right->self;
     s32 rightMassType;
     s32 leftMassType;
 
     left->ocFlags1 |= OC1_HIT;
-    left->oc = rightActor;
+    left->otherOC = rightActor;
     leftInfo->ocElemFlags |= OCELEM_HIT;
     if (right->ocFlags2 & OC2_TYPE_PLAYER) {
         left->ocFlags2 |= OC2_HIT_PLAYER;
     }
-    right->oc = leftActor;
+    right->otherOC = leftActor;
     right->ocFlags1 |= OC1_HIT;
     rightInfo->ocElemFlags |= OCELEM_HIT;
     if (left->ocFlags2 & OC2_TYPE_PLAYER) {
@@ -2838,7 +2839,7 @@ s32 CollisionCheck_Incompatible(Collider* left, Collider* right) {
         ((right->ocFlags2 & OC2_UNK1) && (left->ocFlags2 & OC2_UNK2))) {
         return true;
     }
-    if (left->actor == right->actor) {
+    if (left->self == right->self) {
         return true;
     }
     return false;
@@ -2955,23 +2956,23 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
     DamageTable* tbl;
     f32 damage;
 
-    if (collider->actor == NULL || !(collider->acFlags & AC_HIT)) {
+    if (collider->self == NULL || !(collider->acFlags & AC_HIT)) {
         return;
     }
     if (!(info->bumperFlags & BUMP_HIT) || info->bumperFlags & BUMP_NO_DAMAGE) {
         return;
     }
 
-    ASSERT(info->acHitInfo != NULL, "pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
-    tbl = collider->actor->colChkInfo.damageTable;
+    ASSERT(info->otherElemAT != NULL, "pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
+    tbl = collider->self->colChkInfo.damageTable;
     if (tbl == NULL) {
-        damage = (f32)info->acHitInfo->toucher.damage - info->bumper.defense;
+        damage = (f32)info->otherElemAT->toucher.damage - info->bumper.defense;
         if (damage < 0) {
             damage = 0;
         }
     } else {
         s32 i;
-        u32 flags = info->acHitInfo->toucher.dmgFlags;
+        u32 flags = info->otherElemAT->toucher.dmgFlags;
 
         for (i = 0; i < 32; i++, flags >>= 1) {
             if (flags == 1) {
@@ -2980,10 +2981,10 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
         }
 
         damage = tbl->table[i] & 0xF;
-        collider->actor->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
+        collider->self->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
     }
     if (!(collider->acFlags & AC_HARD)) {
-        collider->actor->colChkInfo.damage += damage;
+        collider->self->colChkInfo.damage += damage;
     }
 }
 
@@ -3123,7 +3124,7 @@ s32 CollisionCheck_LineOC(PlayState* play, CollisionCheckContext* colChkCtx, Vec
         }
         exclude = false;
         for (i = 0; i < numExclusions; i++) {
-            if ((*col)->actor == exclusions[i]) {
+            if ((*col)->self == exclusions[i]) {
                 exclude = true;
                 break;
             }
