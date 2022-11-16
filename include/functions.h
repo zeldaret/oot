@@ -996,9 +996,9 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
 void Magic_Fill(PlayState* play);
 void Magic_Reset(PlayState* play);
 s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type);
-void func_80088AA0(s16 arg0);
-void func_80088AF0(PlayState* play);
-void func_80088B34(s16 arg0);
+void Interface_SetSubTimer(s16 seconds);
+void Interface_SetSubTimerToFinalSecond(PlayState* play);
+void Interface_SetTimer(s16 seconds);
 void Interface_Draw(PlayState* play);
 void Interface_Update(PlayState* play);
 Path* Path_GetByIndex(PlayState* play, s16 index, s16 max);
@@ -1040,7 +1040,7 @@ s32 Player_GetBottleHeld(Player* this);
 s32 Player_ActionToExplosive(Player* this, s32 itemAction);
 s32 Player_GetExplosiveHeld(Player* this);
 s32 func_8008F2BC(Player* this, s32 itemAction);
-s32 func_8008F2F8(PlayState* play);
+s32 Player_GetEnvironmentalHazard(PlayState* play);
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                      s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
                      void* data);

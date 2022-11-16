@@ -62,6 +62,14 @@ typedef enum {
 } PlayerMask;
 
 typedef enum {
+    /* 0x0 */ PLAYER_ENV_HAZARD_NONE,
+    /* 0x1 */ PLAYER_ENV_HAZARD_HOTROOM,
+    /* 0x2 */ PLAYER_ENV_HAZARD_UNDERWATER_FLOOR,
+    /* 0x3 */ PLAYER_ENV_HAZARD_SWIMMING,
+    /* 0x4 */ PLAYER_ENV_HAZARD_UNDERWATER_FREE
+} PlayerEnvHazard;
+
+typedef enum {
     /* 0x00 */ PLAYER_IA_NONE,
     /* 0x01 */ PLAYER_IA_LAST_USED,
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
@@ -571,7 +579,7 @@ typedef struct Player {
     /* 0x0838 */ f32        linearVelocity;
     /* 0x083C */ s16        currentYaw;
     /* 0x083E */ s16        targetYaw;
-    /* 0x0840 */ u16        unk_840;
+    /* 0x0840 */ u16        underwaterTimer;
     /* 0x0842 */ s8         meleeWeaponAnimation;
     /* 0x0843 */ s8         meleeWeaponState;
     /* 0x0844 */ s8         unk_844;

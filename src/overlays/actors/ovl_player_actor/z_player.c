@@ -2411,7 +2411,7 @@ void func_80834298(Player* this, PlayState* play) {
         ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
         (gSaveContext.health != 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
         (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
-        (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timer1State != 10)) {
+        (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timerState != TIMER_STATE_STOP)) {
         func_80833DF8(this, play);
     }
 
@@ -6056,11 +6056,11 @@ void func_8083D36C(PlayState* play, Player* this) {
 void func_8083D53C(PlayState* play, Player* this) {
     if (this->actor.yDistToWater < this->ageProperties->unk_2C) {
         Audio_SetBaseFilter(0);
-        this->unk_840 = 0;
+        this->underwaterTimer = 0;
     } else {
         Audio_SetBaseFilter(0x20);
-        if (this->unk_840 < 300) {
-            this->unk_840++;
+        if (this->underwaterTimer < 300) {
+            this->underwaterTimer++;
         }
     }
 
@@ -13394,7 +13394,7 @@ void func_8085063C(Player* this, PlayState* play) {
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
             play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
-            func_80088AF0(play);
+            Interface_SetSubTimerToFinalSecond(play);
             return;
         }
 

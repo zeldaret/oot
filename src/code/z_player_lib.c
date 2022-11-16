@@ -4,11 +4,6 @@
 #include "assets/objects/object_link_child/object_link_child.h"
 
 typedef struct {
-    /* 0x00 */ u8 flag;
-    /* 0x02 */ u16 textId;
-} TextTriggerEntry; // size = 0x04
-
-typedef struct {
     /* 0x00 */ Gfx* dList;
     /* 0x04 */ Vec3f pos;
 } BowSlingshotStringData; // size = 0x10
@@ -95,11 +90,16 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_LENS_OF_TRUTH
 };
 
-TextTriggerEntry sTextTriggers[] = {
-    { 1, 0x3040 },
-    { 2, 0x401D },
-    { 0, 0x0000 },
-    { 2, 0x401D },
+typedef struct {
+    /* 0x0 */ u8 flag;
+    /* 0x2 */ u16 textId;
+} EnvHazardTextTriggerEntry; // size = 0x4
+
+EnvHazardTextTriggerEntry sEnvHazardTextTriggers[] = {
+    { ENV_HAZARD_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_HAZARD_HOTROOM - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1
+    { 0, 0x0000 },                                  // PLAYER_ENV_HAZARD_SWIMMING - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1
 };
 
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
@@ -778,35 +778,37 @@ return_neg:
     return -1;
 }
 
-s32 func_8008F2F8(PlayState* play) {
+s32 Player_GetEnvironmentalHazard(PlayState* play) {
     Player* this = GET_PLAYER(play);
-    TextTriggerEntry* triggerEntry;
-    s32 var;
+    EnvHazardTextTriggerEntry* triggerEntry;
+    s32 envHazard;
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
-        var = 0;
-    } else if ((this->unk_840 > 80) &&
-               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) ? 1 : 3;
+        envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
+    } else if ((this->underwaterTimer > 80) &&
+               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
+        envHazard = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
+                        ? (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)
+                        : (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1);
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
-        var = 2;
+        envHazard = PLAYER_ENV_HAZARD_SWIMMING - 1;
     } else {
-        return 0;
+        return PLAYER_ENV_HAZARD_NONE;
     }
 
-    // Trigger general textboxes under certain conditions, like "It's so hot in here!"
-    triggerEntry = &sTextTriggers[var];
+    triggerEntry = &sEnvHazardTextTriggers[envHazard];
     if (!Player_InCsMode(play)) {
-        if ((triggerEntry->flag != 0) && !(gSaveContext.textTriggerFlags & triggerEntry->flag) &&
-            (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
-             (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
-              (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
+        if ((triggerEntry->flag != 0) && !(gSaveContext.envHazardTextTriggerFlags & triggerEntry->flag) &&
+            (((envHazard == (PLAYER_ENV_HAZARD_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
+             (((envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)) ||
+               (envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1))) &&
+              (this->currentBoots == PLAYER_BOOTS_IRON) && (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             Message_StartTextbox(play, triggerEntry->textId, NULL);
-            gSaveContext.textTriggerFlags |= triggerEntry->flag;
+            gSaveContext.envHazardTextTriggerFlags |= triggerEntry->flag;
         }
     }
 
-    return var + 1;
+    return envHazard + 1;
 }
 
 u8 sEyeMouthIndices[][2] = {

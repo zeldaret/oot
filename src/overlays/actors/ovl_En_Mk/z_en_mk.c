@@ -92,8 +92,8 @@ void func_80AACA94(EnMk* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play) != 0) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
-        func_80088AA0(240);
-        CLEAR_EVENTINF(EVENTINF_10);
+        Interface_SetSubTimer(240);
+        CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     } else {
         func_8002F434(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
     }
@@ -253,7 +253,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
                         Animation_Change(&this->skelAnime, &object_mk_Anim_000368, 1.0f, 0.0f,
                                          Animation_GetLastFrame(&object_mk_Anim_000368), ANIMMODE_ONCE, -4.0f);
                         this->flags &= ~2;
-                        gSaveContext.timer2State = 0;
+                        gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                         break;
                     default:
