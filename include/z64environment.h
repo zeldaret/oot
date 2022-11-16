@@ -231,4 +231,13 @@ typedef struct {
     /* 0xF3 */ char unk_F3[0x09];
 } EnvironmentContext; // size = 0xFC
 
+extern u8 gSkyboxIsChanging;
+extern TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9];
+
+struct SkyboxContext;
+struct PlayState;
+
+void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, struct SkyboxContext* skyboxCtx);
+void Environment_DrawSkyboxFilters(struct PlayState* play);
+
 #endif
