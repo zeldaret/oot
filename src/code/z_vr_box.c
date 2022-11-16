@@ -411,7 +411,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
                    1055);
 
             DmaMgr_RequestSyncDebug(skyboxCtx->staticSegments[0], gNormalSkyFiles[skybox1Index].file.vromStart, size,
-                                       "../z_vr_box.c", 1058);
+                                    "../z_vr_box.c", 1058);
 
             size = gNormalSkyFiles[skybox2Index].file.vromEnd - gNormalSkyFiles[skybox2Index].file.vromStart;
             skyboxCtx->staticSegments[1] = GameState_Alloc(&play->state, size, "../z_vr_box.c", 1060);
@@ -419,7 +419,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
                    1061);
 
             DmaMgr_RequestSyncDebug(skyboxCtx->staticSegments[1], gNormalSkyFiles[skybox2Index].file.vromStart, size,
-                                       "../z_vr_box.c", 1064);
+                                    "../z_vr_box.c", 1064);
 
             if ((skybox1Index & 1) ^ ((skybox1Index & 4) >> 2)) {
                 size = gNormalSkyFiles[skybox1Index].palette.vromEnd - gNormalSkyFiles[skybox1Index].palette.vromStart;
@@ -429,10 +429,9 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1073);
 
                 DmaMgr_RequestSyncDebug(skyboxCtx->palettes, gNormalSkyFiles[skybox1Index].palette.vromStart, size,
-                                           "../z_vr_box.c", 1075);
+                                        "../z_vr_box.c", 1075);
                 DmaMgr_RequestSyncDebug((u8*)skyboxCtx->palettes + size,
-                                           gNormalSkyFiles[skybox2Index].palette.vromStart, size, "../z_vr_box.c",
-                                           1077);
+                                        gNormalSkyFiles[skybox2Index].palette.vromStart, size, "../z_vr_box.c", 1077);
             } else {
                 size = gNormalSkyFiles[skybox1Index].palette.vromEnd - gNormalSkyFiles[skybox1Index].palette.vromStart;
 
@@ -441,10 +440,9 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1086);
 
                 DmaMgr_RequestSyncDebug(skyboxCtx->palettes, gNormalSkyFiles[skybox2Index].palette.vromStart, size,
-                                           "../z_vr_box.c", 1088);
+                                        "../z_vr_box.c", 1088);
                 DmaMgr_RequestSyncDebug((u8*)skyboxCtx->palettes + size,
-                                           gNormalSkyFiles[skybox1Index].palette.vromStart, size, "../z_vr_box.c",
-                                           1090);
+                                        gNormalSkyFiles[skybox1Index].palette.vromStart, size, "../z_vr_box.c", 1090);
             }
             break;
 
@@ -534,7 +532,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
             DmaMgr_RequestSyncDebug(skyboxCtx->palettes, start, size, "../z_vr_box.c", 1214);
             DmaMgr_RequestSyncDebug((u8*)skyboxCtx->palettes + size, (uintptr_t)_vr_holy1_pal_staticSegmentRomStart,
-                                       size, "../z_vr_box.c", 1216);
+                                    size, "../z_vr_box.c", 1216);
             break;
         case SKYBOX_HOUSE_LINK:
             skyboxCtx->unk_140 = 1;

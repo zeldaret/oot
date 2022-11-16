@@ -579,7 +579,7 @@ void DmaMgr_Init(void) {
  * @return 0
  */
 s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
-                           OSMesg msg, const char* file, s32 line) {
+                        OSMesg msg, const char* file, s32 line) {
     req->filename = file;
     req->line = line;
     return DmaMgr_SendRequest(req, ram, vrom, size, unk5, queue, msg);

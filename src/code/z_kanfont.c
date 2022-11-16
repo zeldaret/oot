@@ -10,8 +10,8 @@ void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
  */
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
     DmaMgr_RequestSyncDebug(&font->charTexBuf[codePointIndex],
-                               (uintptr_t)_nes_font_staticSegmentRomStart + character * FONT_CHAR_TEX_SIZE,
-                               FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 93);
+                            (uintptr_t)_nes_font_staticSegmentRomStart + character * FONT_CHAR_TEX_SIZE,
+                            FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 93);
 }
 
 /**
@@ -21,9 +21,9 @@ void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
  */
 void Font_LoadMessageBoxIcon(Font* font, u16 icon) {
     DmaMgr_RequestSyncDebug(font->iconBuf,
-                               (uintptr_t)_message_staticSegmentRomStart + 4 * MESSAGE_STATIC_TEX_SIZE +
-                                   icon * FONT_CHAR_TEX_SIZE,
-                               FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 100);
+                            (uintptr_t)_message_staticSegmentRomStart + 4 * MESSAGE_STATIC_TEX_SIZE +
+                                icon * FONT_CHAR_TEX_SIZE,
+                            FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 100);
 }
 
 /**
@@ -43,7 +43,7 @@ void Font_LoadOrderedFont(Font* font) {
     len = font->msgLength = _message_0xFFFD_nes - _message_0xFFFC_nes;
 
     DmaMgr_RequestSyncDebug(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset, len,
-                               "../z_kanfont.c", 122);
+                            "../z_kanfont.c", 122);
     osSyncPrintf("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgOffset, font->msgLength, jj = len);
 
     len = jj;

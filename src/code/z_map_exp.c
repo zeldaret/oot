@@ -131,9 +131,9 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
             DmaMgr_RequestSyncDebug(interfaceCtx->mapSegment,
-                                       (uintptr_t)_map_grand_staticSegmentRomStart +
-                                           gMapData->owMinimapTexOffset[extendedMapIndex],
-                                       gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
+                                    (uintptr_t)_map_grand_staticSegmentRomStart +
+                                        gMapData->owMinimapTexOffset[extendedMapIndex],
+                                    gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;
         case SCENE_YDAN:
@@ -160,9 +160,9 @@ void Map_InitData(PlayState* play, s16 room) {
                          mapIndex, VREG(30));
             osSyncPrintf(VT_RST);
             DmaMgr_RequestSyncDebug(play->interfaceCtx.mapSegment,
-                                       (uintptr_t)_map_i_staticSegmentRomStart +
-                                           ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                                       MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
+                                    (uintptr_t)_map_i_staticSegmentRomStart +
+                                        ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                                    MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(play, VREG(30));

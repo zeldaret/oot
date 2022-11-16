@@ -1272,9 +1272,9 @@ void Interface_LoadItemIcon1(PlayState* play, u16 button) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
-                           (uintptr_t)_icon_item_staticSegmentRomStart +
-                               (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
-                           ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
+                        (uintptr_t)_icon_item_staticSegmentRomStart +
+                            (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
+                        ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
@@ -1283,9 +1283,9 @@ void Interface_LoadItemIcon2(PlayState* play, u16 button) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
-                           (uintptr_t)_icon_item_staticSegmentRomStart +
-                               (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
-                           ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
+                        (uintptr_t)_icon_item_staticSegmentRomStart +
+                            (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
+                        ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
@@ -2081,9 +2081,9 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
         DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160,
-                               interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
-                               (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE),
-                               DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
+                            interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
+                            (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE),
+                            DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
         gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
@@ -2145,8 +2145,8 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
     DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE,
-                           (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE),
-                           DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
+                        (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE,
+                        0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 
     interfaceCtx->unk_1FA = true;

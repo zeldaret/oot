@@ -709,8 +709,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
             DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
-                                   gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                   "../z_kankyo.c", 1264);
+                                gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                "../z_kankyo.c", 1264);
             envCtx->skybox1Index = newSkybox1Index;
         }
 
@@ -720,8 +720,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
             DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
-                                   gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                   "../z_kankyo.c", 1281);
+                                gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                "../z_kankyo.c", 1281);
             envCtx->skybox2Index = newSkybox2Index;
         }
 
@@ -734,15 +734,15 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                       gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                       NULL, "../z_kankyo.c", 1307);
+                                    gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
+                                    NULL, "../z_kankyo.c", 1307);
             } else {
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_RequestAsync(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                       gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                       NULL, "../z_kankyo.c", 1320);
+                                    gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
+                                    NULL, "../z_kankyo.c", 1320);
             }
         }
 
@@ -755,15 +755,15 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                       gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                       NULL, "../z_kankyo.c", 1342);
+                                    gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
+                                    NULL, "../z_kankyo.c", 1342);
             } else {
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_RequestAsync(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                       gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                       NULL, "../z_kankyo.c", 1355);
+                                    gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
+                                    NULL, "../z_kankyo.c", 1355);
             }
         }
 
