@@ -13,4 +13,16 @@
 #define ALIGNED8
 #endif
 
+#ifdef __sgi /* IDO compiler */
+#define ALIGNOF(x) __builtin_alignof(x)
+#elif (__STDC_VERSION__ >= 201112L) /* C11 */
+#define ALIGNOF(x) _Alignof(x)
+#else /* __GNUC__ */
+#define ALIGNOF(x) __alignof__(x)
+#endif
+
+#define ALIGN_MASK(n) (~((n) - 1))
+
+#define ALIGNOF_MASK(x) ALIGN_MASK(ALIGNOF(x))
+
 #endif
