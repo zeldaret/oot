@@ -1676,13 +1676,13 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
         return ITEM_NONE;
-    } else if (item == ITEM_MAGIC_BEANS) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(item) = item;
-            AMMO(ITEM_MAGIC_BEANS) = 1;
+            AMMO(ITEM_MAGIC_BEAN) = 1;
             BEANS_BOUGHT = 1;
         } else {
-            AMMO(ITEM_MAGIC_BEANS)++;
+            AMMO(ITEM_MAGIC_BEAN)++;
             BEANS_BOUGHT++;
         }
         return ITEM_NONE;
@@ -1894,7 +1894,7 @@ u8 Item_CheckObtainability(u8 item) {
         } else {
             return ITEM_DEKU_SEEDS;
         }
-    } else if (item == ITEM_MAGIC_BEANS) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         return ITEM_NONE;
     } else if ((item == ITEM_HEART_PIECE_2) || (item == ITEM_HEART_PIECE)) {
         return ITEM_NONE;
@@ -1945,7 +1945,7 @@ u8 Item_CheckObtainability(u8 item) {
 void Inventory_DeleteItem(u16 item, u16 invSlot) {
     s16 i;
 
-    if (item == ITEM_MAGIC_BEANS) {
+    if (item == ITEM_MAGIC_BEAN) {
         BEANS_BOUGHT = 0;
     }
 
@@ -2267,8 +2267,8 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         } else if (AMMO(ITEM_BOMB) < 0) {
             AMMO(ITEM_BOMB) = 0;
         }
-    } else if (item == ITEM_MAGIC_BEANS) {
-        AMMO(ITEM_MAGIC_BEANS) += ammoChange;
+    } else if (item == ITEM_MAGIC_BEAN) {
+        AMMO(ITEM_MAGIC_BEAN) += ammoChange;
     }
 
     osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
@@ -2883,7 +2883,7 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
 
     if ((i == ITEM_DEKU_STICK) || (i == ITEM_DEKU_NUT) || (i == ITEM_BOMB) || (i == ITEM_BOW) ||
         ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU) ||
-        (i == ITEM_MAGIC_BEANS)) {
+        (i == ITEM_MAGIC_BEAN)) {
 
         if ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) {
             i = ITEM_BOW;
@@ -2907,7 +2907,7 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
                    ((i == ITEM_SLINGSHOT) && (AMMO(i) == CUR_CAPACITY(UPG_BULLET_BAG))) ||
                    ((i == ITEM_DEKU_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_STICKS))) ||
                    ((i == ITEM_DEKU_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_NUTS))) ||
-                   ((i == ITEM_BOMBCHU) && (ammo == 50)) || ((i == ITEM_MAGIC_BEANS) && (ammo == 15))) {
+                   ((i == ITEM_BOMBCHU) && (ammo == 50)) || ((i == ITEM_MAGIC_BEAN) && (ammo == 15))) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, alpha);
         }
 

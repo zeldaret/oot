@@ -152,7 +152,7 @@ static Inventory sNewSaveInventory = {
         ITEM_NONE, // SLOT_FARORES_WIND
         ITEM_NONE, // SLOT_BOOMERANG
         ITEM_NONE, // SLOT_LENS_OF_TRUTH
-        ITEM_NONE, // SLOT_MAGIC_BEANS
+        ITEM_NONE, // SLOT_MAGIC_BEAN
         ITEM_NONE, // SLOT_HAMMER
         ITEM_NONE, // SLOT_ARROW_LIGHT
         ITEM_NONE, // SLOT_NAYRUS_LOVE
@@ -179,7 +179,7 @@ static Inventory sNewSaveInventory = {
         0, // SLOT_FARORES_WIND
         0, // SLOT_BOOMERANG
         0, // SLOT_LENS_OF_TRUTH
-        0, // SLOT_MAGIC_BEANS
+        0, // SLOT_MAGIC_BEAN
         0, // SLOT_HAMMER
     },
     // equipment
@@ -282,7 +282,7 @@ static Inventory sDebugSaveInventory = {
         ITEM_FARORES_WIND,        // SLOT_FARORES_WIND
         ITEM_BOOMERANG,           // SLOT_BOOMERANG
         ITEM_LENS_OF_TRUTH,       // SLOT_LENS_OF_TRUTH
-        ITEM_MAGIC_BEANS,         // SLOT_MAGIC_BEANS
+        ITEM_MAGIC_BEAN,          // SLOT_MAGIC_BEAN
         ITEM_HAMMER,              // SLOT_HAMMER
         ITEM_ARROW_LIGHT,         // SLOT_ARROW_LIGHT
         ITEM_NAYRUS_LOVE,         // SLOT_NAYRUS_LOVE
@@ -309,7 +309,7 @@ static Inventory sDebugSaveInventory = {
         1,  // SLOT_FARORES_WIND
         1,  // SLOT_BOOMERANG
         1,  // SLOT_LENS_OF_TRUTH
-        1,  // SLOT_MAGIC_BEANS
+        1,  // SLOT_MAGIC_BEAN
         1   // SLOT_HAMMER
     },
     // equipment

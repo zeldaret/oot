@@ -29,9 +29,9 @@ static u8 sMaxUpgradeValues[] = {
 
 // Item ID corresponding to each slot, aside from bottles and trade items
 static s16 sSlotItems[] = {
-    ITEM_DEKU_STICK, ITEM_DEKU_NUT,      ITEM_BOMB,        ITEM_BOW,      ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
-    ITEM_SLINGSHOT,  ITEM_OCARINA_FAIRY, ITEM_BOMBCHU,     ITEM_HOOKSHOT, ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
-    ITEM_BOOMERANG,  ITEM_LENS_OF_TRUTH, ITEM_MAGIC_BEANS, ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
+    ITEM_DEKU_STICK, ITEM_DEKU_NUT,      ITEM_BOMB,       ITEM_BOW,      ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
+    ITEM_SLINGSHOT,  ITEM_OCARINA_FAIRY, ITEM_BOMBCHU,    ITEM_HOOKSHOT, ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
+    ITEM_BOOMERANG,  ITEM_LENS_OF_TRUTH, ITEM_MAGIC_BEAN, ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
 };
 
 void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
@@ -192,8 +192,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         for (j = 0, x = 78; j < 6; j++, slot++, x += 26) {
             spD8[2] = 0;
 
-            if ((slot <= SLOT_BOW) || (slot == SLOT_SLINGSHOT) || (slot == SLOT_BOMBCHU) ||
-                (slot == SLOT_MAGIC_BEANS)) {
+            if ((slot <= SLOT_BOW) || (slot == SLOT_SLINGSHOT) || (slot == SLOT_BOMBCHU) || (slot == SLOT_MAGIC_BEAN)) {
                 spD8[3] = AMMO(gAmmoItems[slot]);
             } else if (slot == SLOT_OCARINA) {
                 spD8[3] = gSaveContext.inventory.items[slot];
@@ -409,7 +408,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         default:
             if (curSection < 0x1B) {
                 i = curSection - 3;
-                if ((i <= SLOT_BOW) || (i == SLOT_SLINGSHOT) || (i == SLOT_BOMBCHU) || (i == SLOT_MAGIC_BEANS)) {
+                if ((i <= SLOT_BOW) || (i == SLOT_SLINGSHOT) || (i == SLOT_BOMBCHU) || (i == SLOT_MAGIC_BEAN)) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
                         Inventory_DeleteItem(gAmmoItems[i], SLOT(gAmmoItems[i]));
                         AMMO(gAmmoItems[i]) = 0;
@@ -526,9 +525,9 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                         CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
                         if (i == SLOT_TRADE_ADULT) {
                             if (gSaveContext.inventory.items[i] == ITEM_NONE) {
-                                gSaveContext.inventory.items[i] = ITEM_MAGIC_BEANS;
+                                gSaveContext.inventory.items[i] = ITEM_MAGIC_BEAN;
                             } else {
-                                Inventory_DeleteItem(ITEM_MAGIC_BEANS, SLOT(ITEM_MAGIC_BEANS));
+                                Inventory_DeleteItem(ITEM_MAGIC_BEAN, SLOT(ITEM_MAGIC_BEAN));
                             }
                         } else {
                             j = sSlotItems[i];

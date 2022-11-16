@@ -535,8 +535,8 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_BOTTLE_MILK_FULL, OBJECT_GI_MILK, GID_BOTTLE_MILK_FULL, 0x98, 0x80, CHEST_ANIM_LONG),
     // GI_BOTTLE_RUTOS_LETTER
     GET_ITEM(ITEM_BOTTLE_RUTOS_LETTER, OBJECT_GI_BOTTLE_LETTER, GID_BOTTLE_RUTOS_LETTER, 0x99, 0x80, CHEST_ANIM_LONG),
-    // GI_MAGIC_BEANS
-    GET_ITEM(ITEM_MAGIC_BEANS, OBJECT_GI_BEAN, GID_MAGIC_BEANS, 0x48, 0x80, CHEST_ANIM_SHORT),
+    // GI_MAGIC_BEAN
+    GET_ITEM(ITEM_MAGIC_BEAN, OBJECT_GI_BEAN, GID_MAGIC_BEAN, 0x48, 0x80, CHEST_ANIM_SHORT),
     // GI_MASK_SKULL
     GET_ITEM(ITEM_MASK_SKULL, OBJECT_GI_SKJ_MASK, GID_MASK_SKULL, 0x10, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_SPOOKY
@@ -1167,7 +1167,7 @@ static s8 sItemActions[] = {
     PLAYER_IA_FARORES_WIND,        // ITEM_FARORES_WIND
     PLAYER_IA_BOOMERANG,           // ITEM_BOOMERANG
     PLAYER_IA_LENS_OF_TRUTH,       // ITEM_LENS_OF_TRUTH
-    PLAYER_IA_MAGIC_BEANS,         // ITEM_MAGIC_BEANS
+    PLAYER_IA_MAGIC_BEAN,          // ITEM_MAGIC_BEAN
     PLAYER_IA_HAMMER,              // ITEM_HAMMER
     PLAYER_IA_BOW_LIGHT,           // ITEM_ARROW_LIGHT
     PLAYER_IA_NAYRUS_LOVE,         // ITEM_NAYRUS_LOVE
@@ -1262,7 +1262,7 @@ static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
     func_8083485C, // PLAYER_IA_ZELDAS_LETTER
     func_8083485C, // PLAYER_IA_WEIRD_EGG
     func_8083485C, // PLAYER_IA_CUCCO
-    func_8083485C, // PLAYER_IA_MAGIC_BEANS
+    func_8083485C, // PLAYER_IA_MAGIC_BEAN
     func_8083485C, // PLAYER_IA_POCKET_EGG
     func_8083485C, // PLAYER_IA_POCKET_CUCCO
     func_8083485C, // PLAYER_IA_COJIRO
@@ -1332,7 +1332,7 @@ static void (*D_80853FE8[])(PlayState* play, Player* this) = {
     func_80833770, // PLAYER_IA_ZELDAS_LETTER
     func_80833770, // PLAYER_IA_WEIRD_EGG
     func_80833770, // PLAYER_IA_CUCCO
-    func_80833770, // PLAYER_IA_MAGIC_BEANS
+    func_80833770, // PLAYER_IA_MAGIC_BEAN
     func_80833770, // PLAYER_IA_POCKET_EGG
     func_80833770, // PLAYER_IA_POCKET_CUCCO
     func_80833770, // PLAYER_IA_COJIRO
@@ -3148,7 +3148,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
 
             if ((play->bombchuBowlingStatus == 0) &&
                 (((itemAction == PLAYER_IA_DEKU_STICK) && (AMMO(ITEM_DEKU_STICK) == 0)) ||
-                 ((itemAction == PLAYER_IA_MAGIC_BEANS) && (AMMO(ITEM_MAGIC_BEANS) == 0)) ||
+                 ((itemAction == PLAYER_IA_MAGIC_BEAN) && (AMMO(ITEM_MAGIC_BEAN) == 0)) ||
                  (temp = Player_ActionToExplosive(this, itemAction),
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
@@ -5170,7 +5170,7 @@ static u8 D_80854528[] = {
     GI_ZELDAS_LETTER,       // EXCH_ITEM_ZELDAS_LETTER
     GI_WEIRD_EGG,           // EXCH_ITEM_WEIRD_EGG
     GI_CUCCO,               // EXCH_ITEM_CUCCO
-    GI_MAGIC_BEANS,         // EXCH_ITEM_MAGIC_BEANS
+    GI_MAGIC_BEAN,          // EXCH_ITEM_MAGIC_BEAN
     GI_POCKET_EGG,          // EXCH_ITEM_POCKET_EGG
     GI_POCKET_CUCCO,        // EXCH_ITEM_POCKET_CUCCO
     GI_COJIRO,              // EXCH_ITEM_COJIRO
@@ -5261,12 +5261,12 @@ s32 func_8083B040(Player* this, PlayState* play) {
                             ((this->exchangeItemId == sp2C) || (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE) ||
                              ((this->exchangeItemId == EXCH_ITEM_BOTTLE_POE) &&
                               (this->itemAction == PLAYER_IA_BOTTLE_BIG_POE)) ||
-                             ((this->exchangeItemId == EXCH_ITEM_MAGIC_BEANS) &&
+                             ((this->exchangeItemId == EXCH_ITEM_MAGIC_BEAN) &&
                               (this->itemAction == PLAYER_IA_BOTTLE_BUG))) &&
-                            ((this->exchangeItemId != EXCH_ITEM_MAGIC_BEANS) ||
-                             (this->itemAction == PLAYER_IA_MAGIC_BEANS))) {
-                            if (this->exchangeItemId == EXCH_ITEM_MAGIC_BEANS) {
-                                Inventory_ChangeAmmo(ITEM_MAGIC_BEANS, -1);
+                            ((this->exchangeItemId != EXCH_ITEM_MAGIC_BEAN) ||
+                             (this->itemAction == PLAYER_IA_MAGIC_BEAN))) {
+                            if (this->exchangeItemId == EXCH_ITEM_MAGIC_BEAN) {
+                                Inventory_ChangeAmmo(ITEM_MAGIC_BEAN, -1);
                                 func_80835DE4(play, this, func_8084279C, 0);
                                 this->stateFlags1 |= PLAYER_STATE1_29;
                                 this->unk_850 = 0x50;

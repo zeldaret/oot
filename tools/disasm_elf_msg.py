@@ -19,7 +19,7 @@ item_ids = {
     0x0D : "ITEM_FARORES_WIND",
     0x0E : "ITEM_BOOMERANG",
     0x0F : "ITEM_LENS_OF_TRUTH",
-    0x10 : "ITEM_MAGIC_BEANS",
+    0x10 : "ITEM_MAGIC_BEAN",
     0x11 : "ITEM_HAMMER",
     0x12 : "ITEM_ARROW_LIGHT",
     0x13 : "ITEM_NAYRUS_LOVE",
