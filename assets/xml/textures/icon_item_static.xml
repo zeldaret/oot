@@ -34,7 +34,7 @@
         <Texture Name="gItemIconBottleMilkHalfTex" OutName="bottled_milk_half_icon" Format="rgba32" Width="32" Height="32" Offset="0x1F000"/>
         <Texture Name="gItemIconBottlePoeTex" OutName="bottled_poe_icon" Format="rgba32" Width="32" Height="32" Offset="0x20000"/>
         <Texture Name="gItemIconWeirdEggTex" OutName="weird_egg_icon" Format="rgba32" Width="32" Height="32" Offset="0x21000"/>
-        <Texture Name="gItemIconCuccoTex" OutName="cucco_icon" Format="rgba32" Width="32" Height="32" Offset="0x22000"/>
+        <Texture Name="gItemIconChickenTex" OutName="chicken_icon" Format="rgba32" Width="32" Height="32" Offset="0x22000"/>
         <Texture Name="gItemIconZeldasLetterTex" OutName="zeldas_letter_icon" Format="rgba32" Width="32" Height="32" Offset="0x23000"/>
         <Texture Name="gItemIconMaskKeatonTex" OutName="keaton_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x24000"/>
         <Texture Name="gItemIconMaskSkullTex" OutName="skull_mask_icon" Format="rgba32" Width="32" Height="32" Offset="0x25000"/>

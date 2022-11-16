@@ -113,7 +113,7 @@ void* gItemIcons[] = {
     gItemIconBottleMilkHalfTex,    // ITEM_BOTTLE_MILK_HALF
     gItemIconBottlePoeTex,         // ITEM_BOTTLE_POE
     gItemIconWeirdEggTex,          // ITEM_WEIRD_EGG
-    gItemIconCuccoTex,             // ITEM_CHICKEN
+    gItemIconChickenTex,           // ITEM_CHICKEN
     gItemIconZeldasLetterTex,      // ITEM_ZELDAS_LETTER
     gItemIconMaskKeatonTex,        // ITEM_MASK_KEATON
     gItemIconMaskSkullTex,         // ITEM_MASK_SKULL
