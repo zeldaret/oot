@@ -2656,7 +2656,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[i] = 0;
             }
 
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[0] = 2;
             }
 
@@ -2668,7 +2668,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[1] = 2;
             }
 
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[1] = 1;
             }
 
@@ -2680,7 +2680,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[2] = 2;
             }
 
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[2] = 1;
             }
 
@@ -2724,7 +2724,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[5] = 1;
             }
 
-            if (INV_CONTENT(ITEM_OCARINA_TIME) == ITEM_OCARINA_TIME) {
+            if (INV_CONTENT(ITEM_OCARINA_OF_TIME) == ITEM_OCARINA_OF_TIME) {
                 pauseCtx->worldMapPoints[5] = 2;
             }
 
@@ -2856,16 +2856,16 @@ void KaleidoScope_Update(PlayState* play) {
                 if ((i == ITEM_COJIRO) || (i == ITEM_ODD_POTION)) {
                     pauseCtx->tradeQuestLocation = 9;
                 }
-                if (i == ITEM_SAW) {
+                if (i == ITEM_POACHERS_SAW) {
                     pauseCtx->tradeQuestLocation = 2;
                 }
-                if ((i == ITEM_SWORD_BROKEN) || (i == ITEM_EYEDROPS)) {
+                if ((i == ITEM_BROKEN_GORONS_SWORD) || (i == ITEM_EYE_DROPS)) {
                     pauseCtx->tradeQuestLocation = 7;
                 }
                 if (i == ITEM_PRESCRIPTION) {
                     pauseCtx->tradeQuestLocation = 11;
                 }
-                if (i == ITEM_FROG) {
+                if (i == ITEM_EYEBALL_FROG) {
                     pauseCtx->tradeQuestLocation = 3;
                 }
                 if ((i == ITEM_CLAIM_CHECK) && (gSaveContext.bgsFlag == 0)) {
