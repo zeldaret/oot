@@ -14,7 +14,7 @@ typedef struct ShotSun {
     /* 0x0198 */ ShotSunActionFunc actionFunc;
     /* 0x019C */ Vec3s hitboxPos;
     /* 0x01A2 */ s16 timer; // Frames until fairy spawns
-    /* 0x01A4 */ u8 state; //if fairy spawner {inactive, in range, playing ocarina}
+    /* 0x01A4 */ u8 fairySpawnerState; //if fairy spawner {inactive, in range, playing ocarina}
 } ShotSun; // size = 0x01A8
 
 #endif
