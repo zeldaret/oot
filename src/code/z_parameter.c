@@ -1364,8 +1364,8 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
-    } else if ((item >= ITEM_SPIRITUAL_KOKIRI_EMERALD) && (item <= ITEM_SPIRITUAL_ZORA_SAPPHIRE)) {
-        gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_SPIRITUAL_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
+    } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_ZORA_SAPPHIRE)) {
+        gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         osSyncPrintf("精霊石 = %x\n", gSaveContext.inventory.questItems); // "Spiritual Stones = %x"
@@ -1829,7 +1829,7 @@ u8 Item_CheckObtainability(u8 item) {
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
         return ITEM_NONE;
-    } else if ((item >= ITEM_SPIRITUAL_KOKIRI_EMERALD) && (item <= ITEM_SKULL_TOKEN)) {
+    } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_SKULL_TOKEN)) {
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BIGGORON)) {
         if (item == ITEM_SWORD_BIGGORON) {

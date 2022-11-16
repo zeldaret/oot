@@ -95,7 +95,7 @@ void* gItemIcons[] = {
     gItemIconFaroresWindTex,       // ITEM_FARORES_WIND
     gItemIconBoomerangTex,         // ITEM_BOOMERANG
     gItemIconLensOfTruthTex,       // ITEM_LENS_OF_TRUTH
-    gItemIconMagicBeansTex,        // ITEM_MAGIC_BEANS
+    gItemIconMagicBeansTex,        // ITEM_MAGIC_BEAN
     gItemIconHammerTex,            // ITEM_HAMMER
     gItemIconArrowLightTex,        // ITEM_ARROW_LIGHT
     gItemIconNayrusLoveTex,        // ITEM_NAYRUS_LOVE
@@ -113,7 +113,7 @@ void* gItemIcons[] = {
     gItemIconBottleMilkHalfTex,    // ITEM_BOTTLE_MILK_HALF
     gItemIconBottlePoeTex,         // ITEM_BOTTLE_POE
     gItemIconWeirdEggTex,          // ITEM_WEIRD_EGG
-    gItemIconCuccoTex,             // ITEM_CUCCO
+    gItemIconCuccoTex,             // ITEM_CHICKEN
     gItemIconZeldasLetterTex,      // ITEM_ZELDAS_LETTER
     gItemIconMaskKeatonTex,        // ITEM_MASK_KEATON
     gItemIconMaskSkullTex,         // ITEM_MASK_SKULL
@@ -189,9 +189,9 @@ void* gItemIcons[] = {
     gQuestIconMedallionSpiritTex, // ITEM_MEDALLION_SPIRIT
     gQuestIconMedallionShadowTex, // ITEM_MEDALLION_SHADOW
     gQuestIconMedallionLightTex,  // ITEM_MEDALLION_LIGHT
-    gQuestIconKokiriEmeraldTex,   // ITEM_SPIRITUAL_KOKIRI_EMERALD
-    gQuestIconGoronRubyTex,       // ITEM_SPIRITUAL_GORON_RUBY
-    gQuestIconZoraSapphireTex,    // ITEM_SPIRITUAL_ZORA_SAPPHIRE
+    gQuestIconKokiriEmeraldTex,   // ITEM_KOKIRI_EMERALD
+    gQuestIconGoronRubyTex,       // ITEM_GORON_RUBY
+    gQuestIconZoraSapphireTex,    // ITEM_ZORA_SAPPHIRE
     gQuestIconStoneOfAgonyTex,    // ITEM_STONE_OF_AGONY
     gQuestIconGerudosCardTex,     // ITEM_GERUDOS_CARD
     gQuestIconGoldSkulltulaTex,   // ITEM_SKULL_TOKEN

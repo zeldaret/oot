@@ -1178,7 +1178,7 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GET_QUEST_ICON_VROM(itemId),
                             QUEST_ICON_SIZE, "../z_message_PAL.c", 1482);
         // "Item 24"
-        osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_SPIRITUAL_KOKIRI_EMERALD, 84);
+        osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
     msgCtx->msgBufPos++;
     msgCtx->choiceNum = 1;

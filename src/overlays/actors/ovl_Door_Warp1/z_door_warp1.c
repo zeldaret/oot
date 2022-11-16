@@ -496,7 +496,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
         if (play->sceneId == SCENE_DDAN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
                 Flags_SetEventChkInf(EVENTCHKINF_25);
-                Item_Give(play, ITEM_SPIRITUAL_GORON_RUBY);
+                Item_Give(play, ITEM_GORON_RUBY);
                 play->nextEntranceIndex = ENTR_SPOT16_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
             } else {
@@ -507,7 +507,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_07)) {
                 Flags_SetEventChkInf(EVENTCHKINF_07);
                 Flags_SetEventChkInf(EVENTCHKINF_09);
-                Item_Give(play, ITEM_SPIRITUAL_KOKIRI_EMERALD);
+                Item_Give(play, ITEM_KOKIRI_EMERALD);
                 play->nextEntranceIndex = ENTR_SPOT04_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
             } else {
@@ -603,7 +603,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         SET_EVENTCHKINF(EVENTCHKINF_37);
-        Item_Give(play, ITEM_SPIRITUAL_ZORA_SAPPHIRE);
+        Item_Give(play, ITEM_ZORA_SAPPHIRE);
         play->nextEntranceIndex = ENTR_SPOT08_0;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
         play->transitionTrigger = TRANS_TRIGGER_START;

@@ -2156,7 +2156,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
                 gSaveContext.dogIsLost = true;
                 func_80078884(NA_SE_EV_CHICKEN_CRY_M);
 
-                if ((Inventory_ReplaceItem(play, ITEM_WEIRD_EGG, ITEM_CUCCO) ||
+                if ((Inventory_ReplaceItem(play, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(play, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
                     play->csCtx.state == 0 && !Player_InCsMode(play)) {
                     Message_StartTextbox(play, 0x3066, NULL);

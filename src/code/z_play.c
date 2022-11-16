@@ -344,7 +344,7 @@ void Play_Init(GameState* thisx) {
             gSaveContext.bgsDayCount++;
             gSaveContext.dogIsLost = true;
 
-            if (Inventory_ReplaceItem(this, ITEM_WEIRD_EGG, ITEM_CUCCO) ||
+            if (Inventory_ReplaceItem(this, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(this, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
                 Message_StartTextbox(this, 0x3066, NULL);
             }
