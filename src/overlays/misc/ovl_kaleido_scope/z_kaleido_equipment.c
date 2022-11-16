@@ -16,31 +16,31 @@ static u8 sAdultUpgrades[] = {
 };
 
 static u8 sChildUpgradeItemBases[] = {
-    ITEM_BULLET_BAG_30, // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
-    ITEM_BOMB_BAG_20,   // QUAD_EQUIP_UPG_BOMB_BAG
-    ITEM_BRACELET,      // QUAD_EQUIP_UPG_STRENGTH
-    ITEM_SCALE_SILVER,  // QUAD_EQUIP_UPG_SCALE
+    ITEM_BULLET_BAG_30,            // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
+    ITEM_BOMB_BAG_20,              // QUAD_EQUIP_UPG_BOMB_BAG
+    ITEM_STRENGTH_GORONS_BRACELET, // QUAD_EQUIP_UPG_STRENGTH
+    ITEM_SCALE_SILVER,             // QUAD_EQUIP_UPG_SCALE
 };
 static u8 sAdultUpgradeItemBases[] = {
-    ITEM_QUIVER_30,    // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
-    ITEM_BOMB_BAG_20,  // QUAD_EQUIP_UPG_BOMB_BAG
-    ITEM_BRACELET,     // QUAD_EQUIP_UPG_STRENGTH
-    ITEM_SCALE_SILVER, // QUAD_EQUIP_UPG_SCALE
+    ITEM_QUIVER_30,                // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
+    ITEM_BOMB_BAG_20,              // QUAD_EQUIP_UPG_BOMB_BAG
+    ITEM_STRENGTH_GORONS_BRACELET, // QUAD_EQUIP_UPG_STRENGTH
+    ITEM_SCALE_SILVER,             // QUAD_EQUIP_UPG_SCALE
 };
 
 static u8 sUpgradeItemOffsets[] = {
-    0,                                  // unused
-    ITEM_BOMB_BAG_20 - ITEM_QUIVER_30,  // UPG_BOMB_BAG
-    ITEM_BRACELET - ITEM_QUIVER_30,     // UPG_STRENGTH
-    ITEM_SCALE_SILVER - ITEM_QUIVER_30, // UPG_SCALE
+    0,                                              // unused
+    ITEM_BOMB_BAG_20 - ITEM_QUIVER_30,              // UPG_BOMB_BAG
+    ITEM_STRENGTH_GORONS_BRACELET - ITEM_QUIVER_30, // UPG_STRENGTH
+    ITEM_SCALE_SILVER - ITEM_QUIVER_30,             // UPG_SCALE
 };
 
 static u8 sEquipmentItemOffsets[] = {
     // EQUIP_TYPE_SWORD
-    0,                                     // unused
-    ITEM_SWORD_KOKIRI - ITEM_SWORD_KOKIRI, // EQUIP_VALUE_SWORD_KOKIRI
-    ITEM_SWORD_MASTER - ITEM_SWORD_KOKIRI, // EQUIP_VALUE_SWORD_MASTER
-    ITEM_SWORD_BGS - ITEM_SWORD_KOKIRI,    // EQUIP_VALUE_SWORD_BGS
+    0,                                       // unused
+    ITEM_SWORD_KOKIRI - ITEM_SWORD_KOKIRI,   // EQUIP_VALUE_SWORD_KOKIRI
+    ITEM_SWORD_MASTER - ITEM_SWORD_KOKIRI,   // EQUIP_VALUE_SWORD_MASTER
+    ITEM_SWORD_BIGGORON - ITEM_SWORD_KOKIRI, // EQUIP_VALUE_SWORD_BGS
     // EQUIP_TYPE_SHIELD
     0,                                      // unused
     ITEM_SHIELD_DEKU - ITEM_SWORD_KOKIRI,   // EQUIP_VALUE_SHIELD_DEKU
@@ -491,7 +491,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             if (gSaveContext.bgsFlag) {
                 cursorItem = ITEM_HEART_PIECE_2;
             } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                cursorItem = ITEM_SWORD_KNIFE;
+                cursorItem = ITEM_GIANTS_KNIFE;
             }
         }
 
@@ -508,7 +508,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             pauseCtx->nameColorSet = 1;
         }
 
-        if (pauseCtx->cursorItem[PAUSE_EQUIP] == ITEM_BRACELET) {
+        if (pauseCtx->cursorItem[PAUSE_EQUIP] == ITEM_STRENGTH_GORONS_BRACELET) {
             if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                 pauseCtx->nameColorSet = 0;
             } else {
@@ -547,15 +547,15 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     gSaveContext.equips.buttonItems[0] = cursorItem;
 
                     if ((pauseCtx->cursorX[PAUSE_EQUIP] == EQUIP_VALUE_SWORD_BGS) && gSaveContext.bgsFlag) {
-                        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                         gSaveContext.swordHealth = 8;
                     } else {
                         if (gSaveContext.equips.buttonItems[0] == ITEM_HEART_PIECE_2) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                         }
-                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS) && !gSaveContext.bgsFlag &&
+                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BIGGORON) && !gSaveContext.bgsFlag &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
+                            gSaveContext.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
                         }
                     }
 

@@ -38,6 +38,7 @@
 #include "fault.h"
 #include "sched.h"
 #include "rumble.h"
+#include "mempak.h"
 #include "tha.h"
 #include "thga.h"
 

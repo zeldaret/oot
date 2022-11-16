@@ -1466,8 +1466,8 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
     gSaveContext.dogParams = 0;
-    gSaveContext.timer1State = 0;
-    gSaveContext.timer2State = 0;
+    gSaveContext.timerState = TIMER_STATE_OFF;
+    gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     gSaveContext.eventInf[0] = 0;
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;
@@ -1506,8 +1506,8 @@ void FileSelect_LoadGame(GameState* thisx) {
 
     if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
         (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
+        (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
 
         gSaveContext.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue = (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);

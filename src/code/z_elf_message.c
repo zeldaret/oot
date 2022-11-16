@@ -39,7 +39,7 @@ u32 QuestHint_CheckCondition(QuestHintCmd* hintCmd) {
 
         case (QUEST_HINT_CONDITION_DUNGEON_ITEM << 1):
             return ((hintCmd->byte0 & 1) == 1) ==
-                   (CHECK_DUNGEON_ITEM(hintCmd->byte1 - ITEM_KEY_BOSS, gSaveContext.mapIndex) != 0);
+                   (CHECK_DUNGEON_ITEM(hintCmd->byte1 - ITEM_DUNGEON_BOSS_KEY, gSaveContext.mapIndex) != 0);
 
         case (QUEST_HINT_CONDITION_ITEM << 1):
             return ((hintCmd->byte0 & 1) == 1) == (hintCmd->byte3 == INV_CONTENT(hintCmd->byte1));

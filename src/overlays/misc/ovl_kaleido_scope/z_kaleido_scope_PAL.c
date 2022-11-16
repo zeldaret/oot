@@ -526,8 +526,8 @@ static u16 sPageSwitchNextPageIndex[] = {
 };
 
 u8 gSlotAgeReqs[] = {
-    AGE_REQ_CHILD, // SLOT_STICK
-    AGE_REQ_NONE,  // SLOT_NUT
+    AGE_REQ_CHILD, // SLOT_DEKU_STICK
+    AGE_REQ_NONE,  // SLOT_DEKU_NUT
     AGE_REQ_NONE,  // SLOT_BOMB
     AGE_REQ_ADULT, // SLOT_BOW
     AGE_REQ_ADULT, // SLOT_ARROW_FIRE
@@ -539,8 +539,8 @@ u8 gSlotAgeReqs[] = {
     AGE_REQ_ADULT, // SLOT_ARROW_ICE
     AGE_REQ_NONE,  // SLOT_FARORES_WIND
     AGE_REQ_CHILD, // SLOT_BOOMERANG
-    AGE_REQ_NONE,  // SLOT_LENS
-    AGE_REQ_CHILD, // SLOT_BEAN
+    AGE_REQ_NONE,  // SLOT_LENS_OF_TRUTH
+    AGE_REQ_CHILD, // SLOT_MAGIC_BEAN
     AGE_REQ_ADULT, // SLOT_HAMMER
     AGE_REQ_ADULT, // SLOT_ARROW_LIGHT
     AGE_REQ_NONE,  // SLOT_NAYRUS_LOVE
@@ -580,15 +580,15 @@ u8 gEquipAgeReqs[4][4] = {
 };
 
 u8 gItemAgeReqs[] = {
-    AGE_REQ_CHILD, // ITEM_STICK
-    AGE_REQ_NONE,  // ITEM_NUT
+    AGE_REQ_CHILD, // ITEM_DEKU_STICK
+    AGE_REQ_NONE,  // ITEM_DEKU_NUT
     AGE_REQ_NONE,  // ITEM_BOMB
     AGE_REQ_ADULT, // ITEM_BOW
     AGE_REQ_ADULT, // ITEM_ARROW_FIRE
     AGE_REQ_NONE,  // ITEM_DINS_FIRE
     AGE_REQ_CHILD, // ITEM_SLINGSHOT
     AGE_REQ_NONE,  // ITEM_OCARINA_FAIRY
-    AGE_REQ_NONE,  // ITEM_OCARINA_TIME
+    AGE_REQ_NONE,  // ITEM_OCARINA_OF_TIME
     AGE_REQ_NONE,  // ITEM_BOMBCHU
     AGE_REQ_ADULT, // ITEM_HOOKSHOT
     AGE_REQ_ADULT, // ITEM_LONGSHOT
@@ -596,7 +596,7 @@ u8 gItemAgeReqs[] = {
     AGE_REQ_NONE,  // ITEM_FARORES_WIND
     AGE_REQ_CHILD, // ITEM_BOOMERANG
     AGE_REQ_NONE,  // ITEM_LENS
-    AGE_REQ_CHILD, // ITEM_BEAN
+    AGE_REQ_CHILD, // ITEM_MAGIC_BEAN
     AGE_REQ_ADULT, // ITEM_HAMMER
     AGE_REQ_ADULT, // ITEM_ARROW_LIGHT
     AGE_REQ_NONE,  // ITEM_NAYRUS_LOVE
@@ -630,18 +630,18 @@ u8 gItemAgeReqs[] = {
     AGE_REQ_ADULT, // ITEM_COJIRO
     AGE_REQ_ADULT, // ITEM_ODD_MUSHROOM
     AGE_REQ_ADULT, // ITEM_ODD_POTION
-    AGE_REQ_ADULT, // ITEM_SAW
-    AGE_REQ_ADULT, // ITEM_SWORD_BROKEN
+    AGE_REQ_ADULT, // ITEM_POACHERS_SAW
+    AGE_REQ_ADULT, // ITEM_BROKEN_GORONS_SWORD
     AGE_REQ_ADULT, // ITEM_PRESCRIPTION
-    AGE_REQ_ADULT, // ITEM_FROG
-    AGE_REQ_ADULT, // ITEM_EYEDROPS
+    AGE_REQ_ADULT, // ITEM_EYEBALL_FROG
+    AGE_REQ_ADULT, // ITEM_EYE_DROPS
     AGE_REQ_ADULT, // ITEM_CLAIM_CHECK
-    AGE_REQ_ADULT, // ITEM_BOW_ARROW_FIRE
+    AGE_REQ_ADULT, // ITEM_BOW_FIRE
     AGE_REQ_ADULT, // ITEM_BOW_ARROW_ICE
     AGE_REQ_ADULT, // ITEM_BOW_ARROW_LIGHT
     AGE_REQ_CHILD, // ITEM_SWORD_KOKIRI
     AGE_REQ_ADULT, // ITEM_SWORD_MASTER
-    AGE_REQ_ADULT, // ITEM_SWORD_BGS
+    AGE_REQ_ADULT, // ITEM_SWORD_BIGGORON
     AGE_REQ_CHILD, // ITEM_SHIELD_DEKU
     AGE_REQ_NONE,  // ITEM_SHIELD_HYLIAN
     AGE_REQ_ADULT, // ITEM_SHIELD_MIRROR
@@ -660,7 +660,7 @@ u8 gItemAgeReqs[] = {
     AGE_REQ_NONE,  // ITEM_BOMB_BAG_20
     AGE_REQ_NONE,  // ITEM_BOMB_BAG_30
     AGE_REQ_NONE,  // ITEM_BOMB_BAG_40
-    AGE_REQ_CHILD, // ITEM_BRACELET
+    AGE_REQ_CHILD, // ITEM_STRENGTH_GORONS_BRACELET
     AGE_REQ_ADULT, // ITEM_GAUNTLETS_SILVER
     AGE_REQ_ADULT, // ITEM_GAUNTLETS_GOLD
     AGE_REQ_NONE,  // ITEM_SCALE_SILVER
@@ -2516,13 +2516,13 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 }
 
 static s16 sItemVtxQuadsWithAmmo[] = {
-    SLOT_STICK * 4,     // QUAD_ITEM_AMMO_STICK_
-    SLOT_NUT * 4,       // QUAD_ITEM_AMMO_NUT_
-    SLOT_BOMB * 4,      // QUAD_ITEM_AMMO_BOMB_
-    SLOT_BOW * 4,       // QUAD_ITEM_AMMO_BOW_
-    SLOT_SLINGSHOT * 4, // QUAD_ITEM_AMMO_SLINGSHOT_
-    SLOT_BOMBCHU * 4,   // QUAD_ITEM_AMMO_BOMBCHU_
-    SLOT_BEAN * 4,      // QUAD_ITEM_AMMO_BEAN_
+    SLOT_DEKU_STICK * 4, // QUAD_ITEM_AMMO_STICK_
+    SLOT_DEKU_NUT * 4,   // QUAD_ITEM_AMMO_NUT_
+    SLOT_BOMB * 4,       // QUAD_ITEM_AMMO_BOMB_
+    SLOT_BOW * 4,        // QUAD_ITEM_AMMO_BOW_
+    SLOT_SLINGSHOT * 4,  // QUAD_ITEM_AMMO_SLINGSHOT_
+    SLOT_BOMBCHU * 4,    // QUAD_ITEM_AMMO_BOMBCHU_
+    SLOT_MAGIC_BEAN * 4, // QUAD_ITEM_AMMO_BEAN_
 };
 
 static s16 sEquipColumnsX[] = { -114, 12, 44, 76 };
@@ -2557,7 +2557,7 @@ static s16 sQuestQuadsX[] = {
     46,   // QUEST_GORON_RUBY
     72,   // QUEST_ZORA_SAPPHIRE
     -110, // QUEST_STONE_OF_AGONY
-    -86,  // QUEST_GERUDO_CARD
+    -86,  // QUEST_GERUDOS_CARD
     -110, // QUEST_SKULL_TOKEN
     -54,  // QUEST_HEART_PIECE
     -98,  // QUAD_QUEST_SONG_NOTE_A1
@@ -2607,7 +2607,7 @@ static s16 sQuestQuadsY[] = {
     -46, // QUEST_GORON_RUBY
     -46, // QUEST_ZORA_SAPPHIRE
     58,  // QUEST_STONE_OF_AGONY
-    58,  // QUEST_GERUDO_CARD
+    58,  // QUEST_GERUDOS_CARD
     34,  // QUEST_SKULL_TOKEN
     58,  // QUEST_HEART_PIECE
     -52, // QUAD_QUEST_SONG_NOTE_A1
@@ -2657,7 +2657,7 @@ static s16 sQuestQuadsSize[] = {
     24, // QUEST_GORON_RUBY
     24, // QUEST_ZORA_SAPPHIRE
     24, // QUEST_STONE_OF_AGONY
-    24, // QUEST_GERUDO_CARD
+    24, // QUEST_GERUDOS_CARD
     24, // QUEST_SKULL_TOKEN
     48, // QUEST_HEART_PIECE
     16, // QUAD_QUEST_SONG_NOTE_A1
@@ -3652,7 +3652,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[i] = WORLD_MAP_POINT_STATE_HIDE;
             }
 
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_HAUNTED_WASTELAND] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
@@ -3662,7 +3662,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (INV_CONTENT(ITEM_LONGSHOT) == ITEM_LONGSHOT) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDOS_FORTRESS] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDOS_FORTRESS] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
@@ -3672,7 +3672,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (INV_CONTENT(ITEM_LONGSHOT) == ITEM_LONGSHOT) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDO_VALLEY] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+            if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDO_VALLEY] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
@@ -3708,7 +3708,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_SHOW;
             }
-            if (INV_CONTENT(ITEM_OCARINA_TIME) == ITEM_OCARINA_TIME) {
+            if (INV_CONTENT(ITEM_OCARINA_OF_TIME) == ITEM_OCARINA_OF_TIME) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
@@ -3818,16 +3818,16 @@ void KaleidoScope_Update(PlayState* play) {
                 if ((i == ITEM_COJIRO) || (i == ITEM_ODD_POTION)) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_LOST_WOODS;
                 }
-                if (i == ITEM_SAW) {
+                if (i == ITEM_POACHERS_SAW) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_GERUDO_VALLEY;
                 }
-                if ((i == ITEM_SWORD_BROKEN) || (i == ITEM_EYEDROPS)) {
+                if ((i == ITEM_BROKEN_GORONS_SWORD) || (i == ITEM_EYE_DROPS)) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_DEATH_MOUNTAIN;
                 }
                 if (i == ITEM_PRESCRIPTION) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_ZORAS_DOMAIN;
                 }
-                if (i == ITEM_FROG) {
+                if (i == ITEM_EYEBALL_FROG) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_HYLIA_LAKESIDE;
                 }
                 if ((i == ITEM_CLAIM_CHECK) && !gSaveContext.bgsFlag) {
