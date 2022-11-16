@@ -144,8 +144,7 @@ void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
         if (this->fairySpawnerState == SPAWNER_INRANGE) {
             func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
             this->fairySpawnerState = SPAWNER_OCARINA;
-        } else if (this->fairySpawnerState == SPAWNER_OCARINA 
-                   && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+        } else if (this->fairySpawnerState == SPAWNER_OCARINA && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
             if ((params == 0x40 && play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS) ||
                 (params == 0x41 && play->msgCtx.lastPlayedSong == OCARINA_SONG_STORMS)) {
                 this->actionFunc = ShotSun_TriggerFairy;
