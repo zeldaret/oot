@@ -79,10 +79,10 @@ u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
     }
 
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
-        gSaveContext.timerTime = gSaveContext.timerTime;
+        gSaveContext.timerSeconds = gSaveContext.timerSeconds;
         thisx->flags |= ACTOR_FLAG_16;
 
-        if (((void)0, gSaveContext.timerTime) > 210) {
+        if (((void)0, gSaveContext.timerSeconds) > 210) {
             return 0x208E;
         }
 
@@ -90,11 +90,11 @@ u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
             HIGH_SCORE(HS_HORSE_RACE) = 180;
         }
 
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (((void)0, gSaveContext.timerTime) < 50)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (((void)0, gSaveContext.timerSeconds) < 50)) {
             return 0x208F;
         }
 
-        if (HIGH_SCORE(HS_HORSE_RACE) > ((void)0, gSaveContext.timerTime)) {
+        if (HIGH_SCORE(HS_HORSE_RACE) > ((void)0, gSaveContext.timerSeconds)) {
             return 0x2012;
         }
 
@@ -152,8 +152,8 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     FALLTHROUGH;
                 case 0x2004:
                 case 0x2012:
-                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timerTime) {
-                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timerTime;
+                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timerSeconds) {
+                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timerSeconds;
                     }
                     FALLTHROUGH;
                 case 0x208E:

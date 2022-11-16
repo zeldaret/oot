@@ -266,15 +266,15 @@ void func_80AAF668(EnMm2* this, PlayState* play) {
     this->actor.world.rot.y = -0x3E80;
     this->actor.shape.rot.y = this->actor.world.rot.y;
     SkelAnime_Update(&this->skelAnime);
-    if (((void)0, gSaveContext.subTimerTime) < HIGH_SCORE(HS_MARATHON)) {
+    if (((void)0, gSaveContext.subTimerSeconds) < HIGH_SCORE(HS_MARATHON)) {
         this->actor.textId = 0x6085;
     } else {
         this->actor.textId = 0x6084;
     }
     if (func_80AAF224(this, play, func_80AAF5EC)) {
         this->unk_1F6 = 0;
-        if (((void)0, gSaveContext.subTimerTime) < HIGH_SCORE(HS_MARATHON)) {
-            HIGH_SCORE(HS_MARATHON) = gSaveContext.subTimerTime;
+        if (((void)0, gSaveContext.subTimerSeconds) < HIGH_SCORE(HS_MARATHON)) {
+            HIGH_SCORE(HS_MARATHON) = gSaveContext.subTimerSeconds;
         }
     } else {
         LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", GET_EVENTINF(EVENTINF_MARATHON_ACTIVE), "../z_en_mm2.c",

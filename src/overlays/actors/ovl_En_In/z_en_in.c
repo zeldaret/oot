@@ -929,7 +929,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
-        if ((gSaveContext.subTimerTime < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
+        if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
             (this->unk_308.unk_00 == 0)) {
             if (Actor_ProcessTalkRequest(&this->actor, play)) {}
         } else {

@@ -722,8 +722,8 @@ void func_80083108(PlayState* play) {
                 Interface_ChangeAlpha(50);
             }
         } else if (msgCtx->msgMode == MSGMODE_NONE) {
-            if ((Player_GetEnvHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
-                (Player_GetEnvHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
+            if ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+                (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     sp28 = true;
                 }
@@ -731,7 +731,7 @@ void func_80083108(PlayState* play) {
                 gSaveContext.buttonStatus[0] = BTN_DISABLED;
 
                 for (i = 1; i < 4; i++) {
-                    if (Player_GetEnvHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) {
+                    if (Player_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) {
                         if ((gSaveContext.equips.buttonItems[i] != ITEM_HOOKSHOT) &&
                             (gSaveContext.equips.buttonItems[i] != ITEM_LONGSHOT)) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
@@ -2525,8 +2525,8 @@ void Magic_Update(PlayState* play) {
                 (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
                 if ((gSaveContext.magic == 0) ||
-                    ((Player_GetEnvHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
-                     (Player_GetEnvHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) ||
+                    ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+                     (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
@@ -2679,7 +2679,7 @@ void Interface_SetSubTimer(s16 seconds) {
     gSaveContext.timerX[TIMER_ID_SUB] = 140;
     gSaveContext.timerY[TIMER_ID_SUB] = 80;
     sEnvHazardActive = false;
-    gSaveContext.subTimerTime = seconds;
+    gSaveContext.subTimerSeconds = seconds;
 
     if (seconds != 0) {
         // count down
@@ -2697,9 +2697,9 @@ void Interface_SetSubTimerToFinalSecond(PlayState* play) {
     if (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) {
         if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
             // The running-man race counts up and finished at MARATHON_TIME_LIMIT
-            gSaveContext.subTimerTime = MARATHON_TIME_LIMIT - 1;
+            gSaveContext.subTimerSeconds = MARATHON_TIME_LIMIT - 1;
         } else {
-            gSaveContext.subTimerTime = 1;
+            gSaveContext.subTimerSeconds = 1;
         }
     }
 }
@@ -2708,7 +2708,7 @@ void Interface_SetTimer(s16 seconds) {
     gSaveContext.timerX[TIMER_ID_MAIN] = 140;
     gSaveContext.timerY[TIMER_ID_MAIN] = 80;
     sEnvHazardActive = false;
-    gSaveContext.timerTime = seconds;
+    gSaveContext.timerSeconds = seconds;
 
     if (seconds != 0) {
         // count down
@@ -2814,7 +2814,7 @@ void Interface_DrawItemButtons(PlayState* play) {
             if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
                 temp = 0;
             } else if ((player->stateFlags1 & PLAYER_STATE1_21) ||
-                       (Player_GetEnvHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FREE) ||
+                       (Player_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FREE) ||
                        (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
                 temp = 70;
             } else {
@@ -3492,7 +3492,7 @@ void Interface_Draw(PlayState* play) {
                 case TIMER_STATE_ENV_HAZARD_INIT:
                     sTimerStateTimer = 20;
                     sTimerNextSecondTimer = 20;
-                    gSaveContext.timerTime = gSaveContext.health >> 1;
+                    gSaveContext.timerSeconds = gSaveContext.health >> 1;
                     gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_PREVIEW;
                     break;
 
@@ -3572,13 +3572,13 @@ void Interface_Draw(PlayState* play) {
                     if ((gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) && (msgCtx->msgLength == 0)) {
                         sTimerNextSecondTimer--;
                         if (sTimerNextSecondTimer == 0) {
-                            if (gSaveContext.timerTime != 0) {
-                                gSaveContext.timerTime--;
+                            if (gSaveContext.timerSeconds != 0) {
+                                gSaveContext.timerSeconds--;
                             }
 
                             sTimerNextSecondTimer = 20;
 
-                            if (gSaveContext.timerTime == 0) {
+                            if (gSaveContext.timerSeconds == 0) {
                                 // Out of time
                                 gSaveContext.timerState = TIMER_STATE_STOP;
                                 if (sEnvHazardActive) {
@@ -3586,14 +3586,14 @@ void Interface_Draw(PlayState* play) {
                                     play->damagePlayer(play, -(gSaveContext.health + 2));
                                 }
                                 sEnvHazardActive = false;
-                            } else if (gSaveContext.timerTime > 60) {
+                            } else if (gSaveContext.timerSeconds > 60) {
                                 // Beep at "xx:x1" (every 10 seconds)
                                 if (sTimerDigits[4] == 1) {
                                     Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
                                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                          &gSfxDefaultReverb);
                                 }
-                            } else if (gSaveContext.timerTime > 10) {
+                            } else if (gSaveContext.timerSeconds > 10) {
                                 // Beep on alternating seconds
                                 if ((sTimerDigits[4] % 2) != 0) {
                                     Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
@@ -3646,10 +3646,10 @@ void Interface_Draw(PlayState* play) {
                     if (gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) {
                         sTimerNextSecondTimer--;
                         if (sTimerNextSecondTimer == 0) {
-                            gSaveContext.timerTime++;
+                            gSaveContext.timerSeconds++;
                             sTimerNextSecondTimer = 20;
 
-                            if (gSaveContext.timerTime == 3599) { // 59 minutes, 59 seconds
+                            if (gSaveContext.timerSeconds == 3599) { // 59 minutes, 59 seconds
                                 sTimerStateTimer = 40;
                                 gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
                             } else {
@@ -3717,7 +3717,7 @@ void Interface_Draw(PlayState* play) {
                         case SUBTIMER_STATE_UP_MOVE:
                             osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
                                          ((void)0, gSaveContext.timerX[TIMER_ID_SUB]),
-                                         ((void)0, gSaveContext.timerY[TIMER_ID_SUB]), gSaveContext.subTimerTime);
+                                         ((void)0, gSaveContext.timerY[TIMER_ID_SUB]), gSaveContext.subTimerSeconds);
                             svar1 = (gSaveContext.timerX[TIMER_ID_SUB] - 26) / sSubTimerStateTimer;
                             gSaveContext.timerX[TIMER_ID_SUB] -= svar1;
                             if (gSaveContext.healthCapacity > 0xA0) {
@@ -3763,10 +3763,10 @@ void Interface_Draw(PlayState* play) {
                                 if (sSubTimerNextSecondTimer == 0) {
                                     sSubTimerNextSecondTimer = 20;
                                     if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) {
-                                        gSaveContext.subTimerTime--;
-                                        osSyncPrintf("TOTAL_EVENT_TM=%d\n", gSaveContext.subTimerTime);
+                                        gSaveContext.subTimerSeconds--;
+                                        osSyncPrintf("TOTAL_EVENT_TM=%d\n", gSaveContext.subTimerSeconds);
 
-                                        if (gSaveContext.subTimerTime <= 0) {
+                                        if (gSaveContext.subTimerSeconds <= 0) {
                                             // Out of time
                                             if (!Flags_GetSwitch(play, 0x37) ||
                                                 ((play->sceneId != SCENE_GANON_DEMO) &&
@@ -3782,14 +3782,14 @@ void Interface_Draw(PlayState* play) {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_STOP;
                                             }
-                                        } else if (gSaveContext.subTimerTime > 60) {
+                                        } else if (gSaveContext.subTimerSeconds > 60) {
                                             // Beep at "xx:x1" (every 10 seconds)
                                             if (sTimerDigits[4] == 1) {
                                                 Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
                                                                      &gSfxDefaultFreqAndVolScale,
                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
-                                        } else if (gSaveContext.subTimerTime > 10) {
+                                        } else if (gSaveContext.subTimerSeconds > 10) {
                                             // Beep on alternating seconds
                                             if ((sTimerDigits[4] % 2) != 0) {
                                                 Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
@@ -3803,11 +3803,11 @@ void Interface_Draw(PlayState* play) {
                                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                         }
                                     } else { // SUBTIMER_STATE_UP_TICK
-                                        gSaveContext.subTimerTime++;
+                                        gSaveContext.subTimerSeconds++;
 
                                         // Special case for the running-man race
                                         if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE) &&
-                                            (gSaveContext.subTimerTime == MARATHON_TIME_LIMIT)) {
+                                            (gSaveContext.subTimerSeconds == MARATHON_TIME_LIMIT)) {
                                             // After 4 minutes, cancel the timer
                                             Message_StartTextbox(play, 0x6083, NULL);
                                             CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
@@ -3816,7 +3816,7 @@ void Interface_Draw(PlayState* play) {
                                     }
 
                                     // Beep at the minute mark
-                                    if ((gSaveContext.subTimerTime % 60) == 0) {
+                                    if ((gSaveContext.subTimerSeconds % 60) == 0) {
                                         Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                              &gSfxDefaultReverb);
@@ -3841,9 +3841,9 @@ void Interface_Draw(PlayState* play) {
                 sTimerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
                 if (gSaveContext.timerState != TIMER_STATE_OFF) {
-                    sTimerDigits[4] = gSaveContext.timerTime;
+                    sTimerDigits[4] = gSaveContext.timerSeconds;
                 } else {
-                    sTimerDigits[4] = gSaveContext.subTimerTime;
+                    sTimerDigits[4] = gSaveContext.subTimerSeconds;
                 }
 
                 while (sTimerDigits[4] >= 60) {
@@ -3875,14 +3875,14 @@ void Interface_Draw(PlayState* play) {
 
                 if (gSaveContext.timerState != TIMER_STATE_OFF) {
                     // TIMER_ID_MAIN
-                    if ((gSaveContext.timerTime < 10) && (gSaveContext.timerState <= TIMER_STATE_STOP)) {
+                    if ((gSaveContext.timerSeconds < 10) && (gSaveContext.timerState <= TIMER_STATE_STOP)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 50, 0, 255);
                     } else {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                     }
                 } else {
                     // TIMER_ID_SUB
-                    if ((gSaveContext.subTimerTime < 10) && (gSaveContext.subTimerState <= SUBTIMER_STATE_RESPAWN)) {
+                    if ((gSaveContext.subTimerSeconds < 10) && (gSaveContext.subTimerState <= SUBTIMER_STATE_RESPAWN)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 50, 0, 255);
                     } else {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 0, 255);
@@ -4066,14 +4066,14 @@ void Interface_Update(PlayState* play) {
     }
 
     Health_UpdateBeatingHeart(play);
-    sEnvHazard = Player_GetEnvHazard(play);
+    sEnvHazard = Player_GetEnvironmentalHazard(play);
 
     if (sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_GORON) {
             sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }
-    } else if ((Player_GetEnvHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
-               (Player_GetEnvHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
+    } else if ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+               (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_ZORA) {
             sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }

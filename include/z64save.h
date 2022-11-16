@@ -132,8 +132,8 @@ typedef enum {
 } SubTimerState;
 
 typedef enum {
-    /* 0 */ TIMER_ID_MAIN, // Takes priority in both counting and drawing. See `timerState` and `timerTime`
-    /* 1 */ TIMER_ID_SUB, // See `subTimerState` and `subTimerTime`
+    /* 0 */ TIMER_ID_MAIN, // Takes priority in both counting and drawing. See `timerState` and `timerSeconds`
+    /* 1 */ TIMER_ID_SUB, // See `subTimerState` and `subTimerSeconds`
     /* 2 */ TIMER_ID_MAX
 } TimerId;
 
@@ -211,9 +211,9 @@ typedef struct {
     /* 0x13CA */ char unk_13CA[0x0002];
     /* 0x13CC */ s16 rupeeAccumulator;
     /* 0x13CE */ s16 timerState; // See `TimerState`
-    /* 0x13D0 */ s16 timerTime; // in seconds
+    /* 0x13D0 */ s16 timerSeconds;
     /* 0x13D2 */ s16 subTimerState; // See `SubTimerState`
-    /* 0x13D4 */ s16 subTimerTime; // in seconds
+    /* 0x13D4 */ s16 subTimerSeconds;
     /* 0x13D6 */ s16 timerX[TIMER_ID_MAX];
     /* 0x13DA */ s16 timerY[TIMER_ID_MAX];
     /* 0x13DE */ char unk_13DE[0x0002];

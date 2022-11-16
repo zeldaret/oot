@@ -2482,7 +2482,7 @@ s32 func_80B59698(EnZl3* this, PlayState* play) {
         u8 spawn = play->spawn;
 
         if ((func_80B54DB4(this) == 0x20) && (spawn == 0) &&
-            ((gSaveContext.subTimerTime <= 0) || (gSaveContext.subTimerState == SUBTIMER_STATE_OFF))) {
+            ((gSaveContext.subTimerSeconds <= 0) || (gSaveContext.subTimerState == SUBTIMER_STATE_OFF))) {
             return 1;
         }
     }
@@ -2497,7 +2497,7 @@ s32 func_80B59768(EnZl3* this, PlayState* play) {
     if (cond) {
         u8 spawn = play->spawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) && (gSaveContext.subTimerTime <= 0)) {
+        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) && (gSaveContext.subTimerSeconds <= 0)) {
             return 1;
         }
     }

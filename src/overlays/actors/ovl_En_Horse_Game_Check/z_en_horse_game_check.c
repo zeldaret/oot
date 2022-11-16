@@ -211,7 +211,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
             this->result = INGORACE_INGO_WIN;
             this->finishTimer = 20;
         }
-        if ((gSaveContext.timerTime >= 180) && (this->startFlags & 2)) {
+        if ((gSaveContext.timerSeconds >= 180) && (this->startFlags & 2)) {
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_HORSE_GOAL);
             this->result = INGORACE_TIME_UP;
             this->finishTimer = 20;
@@ -298,7 +298,7 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, PlayState
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else if (this->result == MALONRACE_FAILURE) {
-        gSaveContext.timerTime = 240;
+        gSaveContext.timerSeconds = 240;
         gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
         gSaveContext.cutsceneIndex = 0;
         play->nextEntranceIndex = ENTR_SPOT20_7;
@@ -400,8 +400,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
                 this->finishTimer = 30;
             }
         }
-        if ((gSaveContext.timerTime >= 180) && (this->raceFlags & MALONRACE_SET_TIMER)) {
-            gSaveContext.timerTime = 240;
+        if ((gSaveContext.timerSeconds >= 180) && (this->raceFlags & MALONRACE_SET_TIMER)) {
+            gSaveContext.timerSeconds = 240;
             this->result = MALONRACE_TIME_UP;
             this->finishTimer = 30;
             gSaveContext.timerState = TIMER_STATE_OFF;

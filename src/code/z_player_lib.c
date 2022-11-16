@@ -778,7 +778,7 @@ return_neg:
     return -1;
 }
 
-s32 Player_GetEnvHazard(PlayState* play) {
+s32 Player_GetEnvironmentalHazard(PlayState* play) {
     Player* this = GET_PLAYER(play);
     EnvHazardTextTriggerEntry* triggerEntry;
     s32 envHazard;
@@ -796,7 +796,6 @@ s32 Player_GetEnvHazard(PlayState* play) {
         return PLAYER_ENV_HAZARD_NONE;
     }
 
-    // Trigger general textboxes under certain conditions, like "It's so hot in here!"
     triggerEntry = &sEnvHazardTextTriggers[envHazard];
     if (!Player_InCsMode(play)) {
         if ((triggerEntry->flag != 0) && !(gSaveContext.envHazardTextTriggerFlags & triggerEntry->flag) &&

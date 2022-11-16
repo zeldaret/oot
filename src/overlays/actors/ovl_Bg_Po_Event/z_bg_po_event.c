@@ -226,7 +226,7 @@ void BgPoEvent_Destroy(Actor* thisx, PlayState* play) {
         Collider_DestroyTris(play, &this->collider);
     } else {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-        if ((this->type == 1) && (gSaveContext.timerTime > 0)) {
+        if ((this->type == 1) && (gSaveContext.timerSeconds > 0)) {
             gSaveContext.timerState = TIMER_STATE_STOP;
         }
     }
@@ -345,7 +345,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             gSaveContext.timerState = TIMER_STATE_STOP;
         }
     } else {
-        if ((gSaveContext.timerTime == 0) && (sBlocksAtRest == 5)) {
+        if ((gSaveContext.timerSeconds == 0) && (sBlocksAtRest == 5)) {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             sPuzzleState = 0x10;
             sBlocksAtRest = 0;

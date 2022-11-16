@@ -796,11 +796,11 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
         }
     }
 
-    if (gSaveContext.timerTime == 10) {
+    if (gSaveContext.timerSeconds == 10) {
         Audio_SetFastTempoForTimedMinigame();
     }
 
-    if ((gSaveContext.timerTime == 0) && !Play_InCsMode(play)) {
+    if ((gSaveContext.timerSeconds == 0) && !Play_InCsMode(play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         func_80078884(NA_SE_SY_FOUND);

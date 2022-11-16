@@ -49,7 +49,7 @@ void ObjRoomtimer_Init(Actor* thisx, PlayState* play) {
 void ObjRoomtimer_Destroy(Actor* thisx, PlayState* play) {
     ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
-    if ((this->actor.params != 0x3FF) && (gSaveContext.timerTime > 0)) {
+    if ((this->actor.params != 0x3FF) && (gSaveContext.timerSeconds > 0)) {
         gSaveContext.timerState = TIMER_STATE_STOP;
     }
 }
@@ -75,7 +75,7 @@ void func_80B9D0B0(ObjRoomtimer* this, PlayState* play) {
         return;
     }
 
-    if ((this->actor.params != 0x3FF) && (gSaveContext.timerTime == 0)) {
+    if ((this->actor.params != 0x3FF) && (gSaveContext.timerSeconds == 0)) {
         Audio_PlaySfxGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Play_TriggerVoidOut(play);
