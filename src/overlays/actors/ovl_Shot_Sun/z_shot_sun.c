@@ -34,10 +34,10 @@ ActorInit Shot_Sun_InitVars = {
 };
 
 typedef enum {
-    SPAWNER_INACTIVE,
-    SPAWNER_INRANGE,
-    SPAWNER_OCARINA
-}FairySpawnerState;
+    /* 0 */ SPAWNER_INACTIVE,
+    /* 1 */ SPAWNER_INRANGE,
+    /* 2 */ SPAWNER_OCARINA
+} FairySpawnerState;
 
 static ColliderCylinderInit sCylinderInit = {
     {
