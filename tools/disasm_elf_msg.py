@@ -37,7 +37,7 @@ item_ids = {
     0x1F : "ITEM_BOTTLE_MILK_HALF",
     0x20 : "ITEM_BOTTLE_POE",
     0x21 : "ITEM_WEIRD_EGG",
-    0x22 : "ITEM_CUCCO",
+    0x22 : "ITEM_CHICKEN",
     0x23 : "ITEM_ZELDAS_LETTER",
     0x24 : "ITEM_MASK_KEATON",
     0x25 : "ITEM_MASK_SKULL",

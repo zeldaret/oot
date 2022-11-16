@@ -534,11 +534,11 @@ void Sram_OpenSave(SramContext* sramCtx) {
         i = gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
         gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] = i;
 
-        INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CUCCO;
+        INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CHICKEN;
 
         for (j = 1; j < 4; j++) {
             if (gSaveContext.equips.buttonItems[j] == ITEM_ZELDAS_LETTER) {
-                gSaveContext.equips.buttonItems[j] = ITEM_CUCCO;
+                gSaveContext.equips.buttonItems[j] = ITEM_CHICKEN;
             }
         }
     }

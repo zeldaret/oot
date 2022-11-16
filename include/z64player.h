@@ -107,7 +107,7 @@ typedef enum {
     /* 0x2A */ PLAYER_IA_BOTTLE_FAIRY,
     /* 0x2B */ PLAYER_IA_ZELDAS_LETTER,
     /* 0x2C */ PLAYER_IA_WEIRD_EGG,
-    /* 0x2D */ PLAYER_IA_CUCCO,
+    /* 0x2D */ PLAYER_IA_CHICKEN,
     /* 0x2E */ PLAYER_IA_MAGIC_BEAN,
     /* 0x2F */ PLAYER_IA_POCKET_EGG,
     /* 0x30 */ PLAYER_IA_POCKET_CUCCO,

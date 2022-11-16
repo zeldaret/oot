@@ -179,7 +179,7 @@ typedef enum {
     /* 0x1F */ ITEM_BOTTLE_MILK_HALF,
     /* 0x20 */ ITEM_BOTTLE_POE,
     /* 0x21 */ ITEM_WEIRD_EGG,
-    /* 0x22 */ ITEM_CUCCO,
+    /* 0x22 */ ITEM_CHICKEN,
     /* 0x23 */ ITEM_ZELDAS_LETTER,
     /* 0x24 */ ITEM_MASK_KEATON,
     /* 0x25 */ ITEM_MASK_SKULL,
@@ -336,7 +336,7 @@ typedef enum {
     /* 0x16 */ GI_MAGIC_BEAN,
     /* 0x17 */ GI_MASK_SKULL,
     /* 0x18 */ GI_MASK_SPOOKY,
-    /* 0x19 */ GI_CUCCO, // uses bean message ID
+    /* 0x19 */ GI_CHICKEN, // uses bean message ID
     /* 0x1A */ GI_MASK_KEATON,
     /* 0x1B */ GI_MASK_BUNNY_HOOD,
     /* 0x1C */ GI_MASK_TRUTH,
@@ -565,7 +565,7 @@ typedef enum {
     /* 0x00 */ EXCH_ITEM_NONE,
     /* 0x01 */ EXCH_ITEM_ZELDAS_LETTER,
     /* 0x02 */ EXCH_ITEM_WEIRD_EGG,
-    /* 0x03 */ EXCH_ITEM_CUCCO,
+    /* 0x03 */ EXCH_ITEM_CHICKEN,
     /* 0x04 */ EXCH_ITEM_MAGIC_BEAN,
     /* 0x05 */ EXCH_ITEM_POCKET_EGG,
     /* 0x06 */ EXCH_ITEM_POCKET_CUCCO,

@@ -373,7 +373,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
         s32 exchangeItemId = func_8002F368(play);
 
         switch (exchangeItemId) {
-            case EXCH_ITEM_CUCCO:
+            case EXCH_ITEM_CHICKEN:
                 player->actor.textId = 0x702B;
                 EnTa_SetupAction(this, EnTa_WakeUp, EnTa_AnimRepeatCurrent);
                 this->timer = 40;
@@ -388,7 +388,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
         }
     } else {
         this->actor.textId = 0x702A;
-        func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_CUCCO);
+        func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_CHICKEN);
     }
 }
 

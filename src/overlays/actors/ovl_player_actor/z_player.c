@@ -541,8 +541,8 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_MASK_SKULL, OBJECT_GI_SKJ_MASK, GID_MASK_SKULL, 0x10, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_SPOOKY
     GET_ITEM(ITEM_MASK_SPOOKY, OBJECT_GI_REDEAD_MASK, GID_MASK_SPOOKY, 0x11, 0x80, CHEST_ANIM_LONG),
-    // GI_CUCCO
-    GET_ITEM(ITEM_CUCCO, OBJECT_GI_NIWATORI, GID_CUCCO, 0x48, 0x80, CHEST_ANIM_LONG),
+    // GI_CHICKEN
+    GET_ITEM(ITEM_CHICKEN, OBJECT_GI_NIWATORI, GID_CUCCO, 0x48, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_KEATON
     GET_ITEM(ITEM_MASK_KEATON, OBJECT_GI_KI_TAN_MASK, GID_MASK_KEATON, 0x12, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_BUNNY_HOOD
@@ -1185,7 +1185,7 @@ static s8 sItemActions[] = {
     PLAYER_IA_BOTTLE_MILK_HALF,    // ITEM_BOTTLE_MILK_HALF
     PLAYER_IA_BOTTLE_POE,          // ITEM_BOTTLE_POE
     PLAYER_IA_WEIRD_EGG,           // ITEM_WEIRD_EGG
-    PLAYER_IA_CUCCO,               // ITEM_CUCCO
+    PLAYER_IA_CHICKEN,             // ITEM_CHICKEN
     PLAYER_IA_ZELDAS_LETTER,       // ITEM_ZELDAS_LETTER
     PLAYER_IA_MASK_KEATON,         // ITEM_MASK_KEATON
     PLAYER_IA_MASK_SKULL,          // ITEM_MASK_SKULL
@@ -1261,7 +1261,7 @@ static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
     func_8083485C, // PLAYER_IA_BOTTLE_FAIRY
     func_8083485C, // PLAYER_IA_ZELDAS_LETTER
     func_8083485C, // PLAYER_IA_WEIRD_EGG
-    func_8083485C, // PLAYER_IA_CUCCO
+    func_8083485C, // PLAYER_IA_CHICKEN
     func_8083485C, // PLAYER_IA_MAGIC_BEAN
     func_8083485C, // PLAYER_IA_POCKET_EGG
     func_8083485C, // PLAYER_IA_POCKET_CUCCO
@@ -1331,7 +1331,7 @@ static void (*D_80853FE8[])(PlayState* play, Player* this) = {
     func_80833770, // PLAYER_IA_BOTTLE_FAIRY
     func_80833770, // PLAYER_IA_ZELDAS_LETTER
     func_80833770, // PLAYER_IA_WEIRD_EGG
-    func_80833770, // PLAYER_IA_CUCCO
+    func_80833770, // PLAYER_IA_CHICKEN
     func_80833770, // PLAYER_IA_MAGIC_BEAN
     func_80833770, // PLAYER_IA_POCKET_EGG
     func_80833770, // PLAYER_IA_POCKET_CUCCO
@@ -5169,7 +5169,7 @@ void func_8083B010(Player* this) {
 static u8 D_80854528[] = {
     GI_ZELDAS_LETTER,       // EXCH_ITEM_ZELDAS_LETTER
     GI_WEIRD_EGG,           // EXCH_ITEM_WEIRD_EGG
-    GI_CUCCO,               // EXCH_ITEM_CUCCO
+    GI_CHICKEN,             // EXCH_ITEM_CHICKEN
     GI_MAGIC_BEAN,          // EXCH_ITEM_MAGIC_BEAN
     GI_POCKET_EGG,          // EXCH_ITEM_POCKET_EGG
     GI_POCKET_CUCCO,        // EXCH_ITEM_POCKET_CUCCO
@@ -12894,7 +12894,7 @@ void func_8084F104(Player* this, PlayState* play) {
             if (this->unk_850 == 0) {
                 Message_StartTextbox(play, this->actor.textId, &this->actor);
 
-                if ((this->itemAction == PLAYER_IA_CUCCO) || (this->itemAction == PLAYER_IA_POCKET_CUCCO)) {
+                if ((this->itemAction == PLAYER_IA_CHICKEN) || (this->itemAction == PLAYER_IA_POCKET_CUCCO)) {
                     func_8002F7DC(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
                 }
 
