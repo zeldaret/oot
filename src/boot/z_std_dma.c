@@ -497,7 +497,7 @@ s32 DmaMgr_SendRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, 
  * @param size Transfer size.
  * @return 0
  */
-s32 DmaMgr_SyncDmaRequest(void* ram, uintptr_t vrom, size_t size) {
+s32 DmaMgr_RequestSync(void* ram, uintptr_t vrom, size_t size) {
     DmaRequest req;
     OSMesgQueue queue;
     OSMesg msg;
@@ -578,7 +578,7 @@ void DmaMgr_Init(void) {
  * @param line Debug line number of caller.
  * @return 0
  */
-s32 DmaMgr_AsyncDmaRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
+s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
                            OSMesg msg, const char* file, s32 line) {
     req->filename = file;
     req->line = line;
@@ -588,9 +588,9 @@ s32 DmaMgr_AsyncDmaRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t si
 /**
  * Synchronous DMA Request with source file and line info for debugging.
  *
- * @see DmaMgr_SyncDmaRequest
+ * @see DmaMgr_RequestSync
  */
-s32 DmaMgr_SyncDmaRequestDebug(void* ram, uintptr_t vrom, size_t size, const char* file, s32 line) {
+s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* file, s32 line) {
     DmaRequest req;
     s32 ret;
     OSMesgQueue queue;
