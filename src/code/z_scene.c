@@ -46,30 +46,27 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     return objectCtx->numEntries - 1;
 }
 
-// 1000 kilobytes
-#define OBJECT_SPACE_SIZE_BASE (1000 * 1024)
-
 void func_80097DD8(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
     u32 spaceSize;
     s32 i;
 
     if (play2->sceneId == SCENE_SPOT00) {
-        spaceSize = OBJECT_SPACE_SIZE_BASE;
+        spaceSize = 1000 * 1024;
     } else if (play2->sceneId == SCENE_GANON_DEMO) {
         if (gSaveContext.sceneLayer != 4) {
-            spaceSize = OBJECT_SPACE_SIZE_BASE + (150 * 1024);
+            spaceSize = 1150 * 1024;
         } else {
-            spaceSize = OBJECT_SPACE_SIZE_BASE;
+            spaceSize = 1000 * 1024;
         }
     } else if (play2->sceneId == SCENE_JYASINBOSS) {
-        spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
+        spaceSize = 1050 * 1024;
     } else if (play2->sceneId == SCENE_KENJYANOMA) {
-        spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
+        spaceSize = 1050 * 1024;
     } else if (play2->sceneId == SCENE_GANON_BOSS) {
-        spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
+        spaceSize = 1050 * 1024;
     } else {
-        spaceSize = OBJECT_SPACE_SIZE_BASE;
+        spaceSize = 1000 * 1024;
     }
 
     objectCtx->numEntries = objectCtx->numPersistentEntries = 0;
