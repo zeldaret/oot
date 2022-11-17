@@ -51,14 +51,16 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x04 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
-        OCELEM_ON,
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x04 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 30, 90, 0, { 0, 0, 0 } },
     },
-    { 30, 90, 0, { 0, 0, 0 } },
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
@@ -120,7 +122,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 
         if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
             this->timer = 20;
-            this->colliderCylinder.dim.yShift = 10;
+            this->colliderCylinder.element.dim.yShift = 10;
             thisx->velocity.y = 0.1f;
 
             if (thisx->params == HAKA_TRAP_GUILLOTINE_FAST) {
@@ -149,8 +151,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 thisx->floorHeight = thisx->home.pos.y - 225.0f;
                 this->unk_16A = (thisx->floorHeight + 50.0f) - 25.0f;
 
-                this->colliderCylinder.dim.radius = 10;
-                this->colliderCylinder.dim.height = 40;
+                this->colliderCylinder.element.dim.radius = 10;
+                this->colliderCylinder.element.dim.height = 40;
             } else {
                 if (thisx->params == HAKA_TRAP_SPIKED_WALL) {
                     CollisionHeader_GetVirtual(&object_haka_objects_Col_0081D0, &colHeader);
@@ -163,11 +165,11 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->colliderSpikes);
                 Collider_SetTris(play, &this->colliderSpikes, thisx, &sTrisInit, this->colliderSpikesItem);
 
-                this->colliderCylinder.dim.radius = 18;
-                this->colliderCylinder.dim.height = 115;
+                this->colliderCylinder.element.dim.radius = 18;
+                this->colliderCylinder.element.dim.height = 115;
 
-                this->colliderCylinder.elem.toucherFlags &= ~TOUCH_SFX_NORMAL;
-                this->colliderCylinder.elem.toucherFlags |= TOUCH_SFX_WOOD;
+                this->colliderCylinder.element.base.toucherFlags &= ~TOUCH_SFX_NORMAL;
+                this->colliderCylinder.element.base.toucherFlags |= TOUCH_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }
@@ -222,8 +224,8 @@ void func_8087FFC0(BgHakaTrap* this, PlayState* play) {
         sp28.z = zNonNegative * 15.0f;
     }
 
-    this->colliderCylinder.dim.pos.x = this->dyna.actor.world.pos.x + sp28.x * cosine + sp28.z * sine;
-    this->colliderCylinder.dim.pos.z = this->dyna.actor.world.pos.z + sp28.x * sine + sp28.z * cosine;
+    this->colliderCylinder.element.dim.pos.x = this->dyna.actor.world.pos.x + sp28.x * cosine + sp28.z * sine;
+    this->colliderCylinder.element.dim.pos.z = this->dyna.actor.world.pos.z + sp28.x * sine + sp28.z * cosine;
 }
 
 void func_808801B8(BgHakaTrap* this, PlayState* play) {
@@ -485,7 +487,7 @@ void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if ((this->dyna.actor.params != HAKA_TRAP_PROPELLER) && (thisx->params != HAKA_TRAP_SPIKED_BOX)) {
-        this->colliderCylinder.dim.pos.y = actorPos->y;
+        this->colliderCylinder.element.dim.pos.y = actorPos->y;
 
         if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
