@@ -70,10 +70,11 @@ void Interface_Init(PlayState* play) {
                             (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
                             "../z_construct.c", 178);
 
-    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, 4 * ICON_ITEM_TEX_SIZE, "../z_construct.c", 190);
+    interfaceCtx->iconItemSegment =
+        GameState_Alloc(&play->state, IBTN_BC_MAX * ICON_ITEM_TEX_SIZE, "../z_construct.c", 190);
 
     // "Icon Item Texture Initialization = %x"
-    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 4 * ICON_ITEM_TEX_SIZE);
+    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", IBTN_BC_MAX * ICON_ITEM_TEX_SIZE);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
@@ -83,40 +84,35 @@ void Interface_Init(PlayState* play) {
                  gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT]);
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_B] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment,
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + IBTN_BC_B * ICON_ITEM_TEX_SIZE,
                                 (uintptr_t)_icon_item_staticSegmentRomStart +
-                                   
-                                gSaveContext.equips.buttonItems[IBTN_BC_B] * ICON_ITEM_TEX_SIZE,
+                                    gSaveContext.equips.buttonItems[IBTN_BC_B] * ICON_ITEM_TEX_SIZE,
                                 ICON_ITEM_TEX_SIZE, "../z_construct.c", 198);
     } else if (gSaveContext.equips.buttonItems[IBTN_BC_B] != 0xFF) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment,
                                 (uintptr_t)_icon_item_staticSegmentRomStart +
-                                   
-                                gSaveContext.equips.buttonItems[IBTN_BC_B] * ICON_ITEM_TEX_SIZE,
+                                    gSaveContext.equips.buttonItems[IBTN_BC_B] * ICON_ITEM_TEX_SIZE,
                                 ICON_ITEM_TEX_SIZE, "../z_construct.c", 203);
     }
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + ICON_ITEM_TEX_SIZE,
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + IBTN_BC_C_LEFT * ICON_ITEM_TEX_SIZE,
                                 (uintptr_t)_icon_item_staticSegmentRomStart +
-                                   
-                                gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] * ICON_ITEM_TEX_SIZE,
+                                    gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] * ICON_ITEM_TEX_SIZE,
                                 ICON_ITEM_TEX_SIZE, "../z_construct.c", 209);
     }
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + 2 * ICON_ITEM_TEX_SIZE,
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + IBTN_BC_C_DOWN * ICON_ITEM_TEX_SIZE,
                                 (uintptr_t)_icon_item_staticSegmentRomStart +
-                                   
-                                gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] * ICON_ITEM_TEX_SIZE,
+                                    gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] * ICON_ITEM_TEX_SIZE,
                                 ICON_ITEM_TEX_SIZE, "../z_construct.c", 214);
     }
 
     if (gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + 3 * ICON_ITEM_TEX_SIZE,
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + IBTN_BC_C_RIGHT * ICON_ITEM_TEX_SIZE,
                                 (uintptr_t)_icon_item_staticSegmentRomStart +
-                                   
-                                gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] * ICON_ITEM_TEX_SIZE,
+                                    gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] * ICON_ITEM_TEX_SIZE,
                                 ICON_ITEM_TEX_SIZE, "../z_construct.c", 219);
     }
 
