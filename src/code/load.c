@@ -20,7 +20,7 @@ s32 Overlay_Load(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* 
         osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedVRamAddr, end);
     }
 
-    DmaMgr_SendRequest0(allocatedVRamAddr, vRomStart, size);
+    DmaMgr_RequestSync(allocatedVRamAddr, vRomStart, size);
 
     ovlOffset = ((s32*)end)[-1];
 

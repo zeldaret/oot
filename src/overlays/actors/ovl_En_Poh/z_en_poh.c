@@ -816,7 +816,7 @@ void EnPoh_TalkRegular(EnPoh* this, PlayState* play) {
             if (play->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
                     this->actor.textId = 0x5008;
-                    Item_Give(play, ITEM_POE);
+                    Item_Give(play, ITEM_BOTTLE_POE);
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_BIG_GET);
                 } else {
                     this->actor.textId = 0x5006;

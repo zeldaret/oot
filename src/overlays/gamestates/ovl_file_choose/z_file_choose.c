@@ -1463,8 +1463,8 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
     gSaveContext.dogParams = 0;
-    gSaveContext.timer1State = 0;
-    gSaveContext.timer2State = 0;
+    gSaveContext.timerState = TIMER_STATE_OFF;
+    gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     gSaveContext.eventInf[0] = 0;
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;
@@ -1503,8 +1503,8 @@ void FileSelect_LoadGame(GameState* thisx) {
 
     if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
         (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
+        (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
 
         gSaveContext.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue = (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
@@ -1879,13 +1879,14 @@ void FileSelect_Init(GameState* thisx) {
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3392);
     ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_file_choose.c", 3393);
-    DmaMgr_SendRequest1(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c", 3394);
+    DmaMgr_RequestSyncDebug(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c",
+                            3394);
 
     size = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
     this->parameterSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3398);
     ASSERT(this->parameterSegment != NULL, "this->parameterSegment != NULL", "../z_file_choose.c", 3399);
-    DmaMgr_SendRequest1(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size, "../z_file_choose.c",
-                        3400);
+    DmaMgr_RequestSyncDebug(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size,
+                            "../z_file_choose.c", 3400);
 
     Matrix_Init(&this->state);
     View_Init(&this->view, this->state.gfxCtx);
