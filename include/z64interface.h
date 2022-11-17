@@ -8,10 +8,11 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
 #define ITEM_ICON_WIDTH 32
 #define ITEM_ICON_HEIGHT 32
 #define ITEM_ICON_SIZE (ITEM_ICON_WIDTH * ITEM_ICON_HEIGHT * 4) // The size in bytes of an item icon
+
 /**
  * Get the VROM address of the item icon for the specified item.
  *
- * @param itemId An ItemId value in the range `ITEM_DEKU_STICK`-`ITEM_FISHING_POLE`
+ * @param itemId An ItemId value in the range `ITEM_DEKU_STICK`..`ITEM_FISHING_POLE`
  */
 #define GET_ITEM_ICON_VROM(itemId) ((uintptr_t)_icon_item_staticSegmentRomStart + ((itemId)*ITEM_ICON_SIZE))
 
@@ -19,10 +20,11 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
 #define QUEST_ICON_WIDTH 24
 #define QUEST_ICON_HEIGHT 24
 #define QUEST_ICON_SIZE (QUEST_ICON_WIDTH * QUEST_ICON_HEIGHT * 4) // The size in bytes of a quest icon
+
 /**
  * Get the VROM address of the quest icon for the specified item.
  *
- * @param itemId An ItemId value in the range `ITEM_MEDALLION_FOREST`-`ITEM_MAGIC_JAR_BIG`
+ * @param itemId An ItemId value in the range `ITEM_MEDALLION_FOREST`..`ITEM_MAGIC_JAR_BIG`
  */
 #define GET_QUEST_ICON_VROM(itemId) \
     ((uintptr_t)_icon_item_24_staticSegmentRomStart + (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE))
