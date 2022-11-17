@@ -1444,6 +1444,8 @@ typedef struct {
 #define MAP_48x85_TEX_HEIGHT 85
 #define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
 
+// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
+// texture format for ITEM_NAME_TEX_* 
 #define MAP_NAME_TEX1_WIDTH 128
 #define MAP_NAME_TEX1_HEIGHT 16
 #define MAP_NAME_TEX1_SIZE ((MAP_NAME_TEX1_WIDTH * MAP_NAME_TEX1_HEIGHT) / 2) // 128x16 IA4 texture
