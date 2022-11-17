@@ -130,10 +130,10 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf("ＫＫＫ＝%d\n", extendedMapIndex);
             osSyncPrintf(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
-            DmaMgr_SendRequest1(interfaceCtx->mapSegment,
-                                (uintptr_t)_map_grand_staticSegmentRomStart +
-                                    gMapData->owMinimapTexOffset[extendedMapIndex],
-                                gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
+            DmaMgr_RequestSyncDebug(interfaceCtx->mapSegment,
+                                    (uintptr_t)_map_grand_staticSegmentRomStart +
+                                        gMapData->owMinimapTexOffset[extendedMapIndex],
+                                    gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;
         case SCENE_YDAN:
@@ -159,10 +159,10 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n", room,
                          mapIndex, VREG(30));
             osSyncPrintf(VT_RST);
-            DmaMgr_SendRequest1(play->interfaceCtx.mapSegment,
-                                (uintptr_t)_map_i_staticSegmentRomStart +
-                                    ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * 0xFF0),
-                                0xFF0, "../z_map_exp.c", 346);
+            DmaMgr_RequestSyncDebug(play->interfaceCtx.mapSegment,
+                                    (uintptr_t)_map_i_staticSegmentRomStart +
+                                        ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                                    MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(play, VREG(30));
@@ -385,13 +385,15 @@ void Minimap_Draw(PlayState* play) {
                     if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
-                        gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
-                                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                                               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                        gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_I, MAP_I_TEX_WIDTH,
+                                               MAP_I_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                                               G_TX_NOLOD);
 
                         gSPTextureRectangle(OVERLAY_DISP++, R_DGN_MINIMAP_X << 2, R_DGN_MINIMAP_Y << 2,
-                                            (R_DGN_MINIMAP_X + 96) << 2, (R_DGN_MINIMAP_Y + 85) << 2, G_TX_RENDERTILE,
-                                            0, 0, 1 << 10, 1 << 10);
+                                            (R_DGN_MINIMAP_X + MAP_I_TEX_WIDTH) << 2,
+                                            (R_DGN_MINIMAP_Y + MAP_I_TEX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                                            1 << 10);
                     }
 
                     if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {

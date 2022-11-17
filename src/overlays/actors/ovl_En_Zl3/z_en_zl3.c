@@ -2482,7 +2482,7 @@ s32 func_80B59698(EnZl3* this, PlayState* play) {
         u8 spawn = play->spawn;
 
         if ((func_80B54DB4(this) == 0x20) && (spawn == 0) &&
-            ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
+            ((gSaveContext.subTimerSeconds <= 0) || (gSaveContext.subTimerState == SUBTIMER_STATE_OFF))) {
             return 1;
         }
     }
@@ -2497,7 +2497,7 @@ s32 func_80B59768(EnZl3* this, PlayState* play) {
     if (cond) {
         u8 spawn = play->spawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) && (gSaveContext.timer2Value <= 0)) {
+        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) && (gSaveContext.subTimerSeconds <= 0)) {
             return 1;
         }
     }
@@ -2524,7 +2524,7 @@ void func_80B59828(EnZl3* this, PlayState* play) {
     }
 
     if (func_80B59698(this, play) != 0) {
-        func_80088AA0(180);
+        Interface_SetSubTimer(180);
         func_80B53468();
         gSaveContext.healthAccumulator = 320;
         Magic_Fill(play);
@@ -2569,7 +2569,7 @@ void func_80B59AD0(EnZl3* this, PlayState* play) {
     Actor* thisx = &this->actor; // unused, necessary to use 'this' first to fix regalloc
 
     Flags_SetSwitch(play, 0x36);
-    func_80088AA0(180);
+    Interface_SetSubTimer(180);
     func_80B54EA4(this, play);
     func_80B53614(this, play);
     CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
@@ -2657,7 +2657,7 @@ void EnZl3_Init(Actor* thisx, PlayState* play) {
 
     switch (func_80B54DD4(this)) {
         case 1:
-            gSaveContext.timer2State = 0;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
             break;
         case 3:
             func_80B59A80(this, play);
