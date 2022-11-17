@@ -764,9 +764,8 @@ u16 Message_DrawItemIcon(PlayState* play, u16 itemId, Gfx** p, u16 i) {
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     }
     gSPTextureRectangle(gfx++, (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS) << 2, R_TEXTBOX_ICON_YPOS << 2,
-                        (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS + R_TEXTBOX_ICON_DIMENSIONS) << 2,
-                        (R_TEXTBOX_ICON_YPOS + R_TEXTBOX_ICON_DIMENSIONS) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
-                        1 << 10);
+                        (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS + R_TEXTBOX_ICON_DIMENSION) << 2,
+                        (R_TEXTBOX_ICON_YPOS + R_TEXTBOX_ICON_DIMENSION) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     gDPPipeSync(gfx++);
     gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
 
@@ -1166,7 +1165,7 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
     if (itemId < ITEM_MEDALLION_FOREST) {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem32XOffsets[gSaveContext.language];
         R_TEXTBOX_ICON_YPOS = y + ((44 - ITEM_ICON_HEIGHT) / 2);
-        R_TEXTBOX_ICON_DIMENSIONS = ITEM_ICON_WIDTH; // assumes the image is square
+        R_TEXTBOX_ICON_DIMENSION = ITEM_ICON_WIDTH; // assumes the image is square
         DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GET_ITEM_ICON_VROM(itemId),
                             ITEM_ICON_SIZE, "../z_message_PAL.c", 1473);
         // "Item 32-0"
@@ -1174,7 +1173,7 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
     } else {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem24XOffsets[gSaveContext.language];
         R_TEXTBOX_ICON_YPOS = y + ((44 - QUEST_ICON_HEIGHT) / 2);
-        R_TEXTBOX_ICON_DIMENSIONS = QUEST_ICON_WIDTH; // assumes the image is square
+        R_TEXTBOX_ICON_DIMENSION = QUEST_ICON_WIDTH; // assumes the image is square
         DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GET_QUEST_ICON_VROM(itemId),
                             QUEST_ICON_SIZE, "../z_message_PAL.c", 1482);
         // "Item 24"

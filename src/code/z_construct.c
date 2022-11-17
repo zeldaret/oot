@@ -251,7 +251,7 @@ void Regs_InitDataImpl(void) {
     R_TEXTBOX_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    R_TEXTBOX_ICON_DIMENSIONS = 24;
+    R_TEXTBOX_ICON_DIMENSION = 24;
     YREG(76) = 32;
     YREG(77) = 0;
     R_MESSAGE_DEBUGGER_SELECT = 0;
