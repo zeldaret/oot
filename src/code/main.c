@@ -80,7 +80,7 @@ void Main(void* arg) {
 
     osSyncPrintf("タスクスケジューラの初期化\n"); // "Initialize the task scheduler"
     StackCheck_Init(&sSchedStackInfo, sSchedStack, STACK_TOP(sSchedStack), 0, 0x100, "sched");
-    Sched_Init(&gScheduler, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, D_80013960, 1, &gIrqMgr);
+    Sched_Init(&gScheduler, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, gViConfigModeType, 1, &gIrqMgr);
 
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
 

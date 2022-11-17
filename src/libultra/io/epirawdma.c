@@ -4,9 +4,9 @@ s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dr
     s32 status;
     OSPiHandle* curHandle;
 
-    status = HW_REG(PI_STATUS_REG, u32);
-    while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
-        status = HW_REG(PI_STATUS_REG, u32);
+    status = IO_READ(PI_STATUS_REG);
+    while (status & (PI_STATUS_DMA_BUSY | PI_STATUS_IO_BUSY)) {
+        status = IO_READ(PI_STATUS_REG);
     }
 
     if (__osCurrentHandle[handle->domain]->type != handle->type) {
@@ -14,35 +14,35 @@ s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dr
 
         if (handle->domain == 0) {
             if (curHandle->latency != handle->latency) {
-                HW_REG(PI_BSD_DOM1_LAT_REG, u32) = handle->latency;
+                IO_WRITE(PI_BSD_DOM1_LAT_REG, handle->latency);
             }
 
             if (curHandle->pageSize != handle->pageSize) {
-                HW_REG(PI_BSD_DOM1_PGS_REG, u32) = handle->pageSize;
+                IO_WRITE(PI_BSD_DOM1_PGS_REG, handle->pageSize);
             }
 
             if (curHandle->relDuration != handle->relDuration) {
-                HW_REG(PI_BSD_DOM1_RLS_REG, u32) = handle->relDuration;
+                IO_WRITE(PI_BSD_DOM1_RLS_REG, handle->relDuration);
             }
 
             if (curHandle->pulse != handle->pulse) {
-                HW_REG(PI_BSD_DOM1_PWD_REG, u32) = handle->pulse;
+                IO_WRITE(PI_BSD_DOM1_PWD_REG, handle->pulse);
             }
         } else {
             if (curHandle->latency != handle->latency) {
-                HW_REG(PI_BSD_DOM2_LAT_REG, u32) = handle->latency;
+                IO_WRITE(PI_BSD_DOM2_LAT_REG, handle->latency);
             }
 
             if (curHandle->pageSize != handle->pageSize) {
-                HW_REG(PI_BSD_DOM2_PGS_REG, u32) = handle->pageSize;
+                IO_WRITE(PI_BSD_DOM2_PGS_REG, handle->pageSize);
             }
 
             if (curHandle->relDuration != handle->relDuration) {
-                HW_REG(PI_BSD_DOM2_RLS_REG, u32) = handle->relDuration;
+                IO_WRITE(PI_BSD_DOM2_RLS_REG, handle->relDuration);
             }
 
             if (curHandle->pulse != handle->pulse) {
-                HW_REG(PI_BSD_DOM2_PWD_REG, u32) = handle->pulse;
+                IO_WRITE(PI_BSD_DOM2_PWD_REG, handle->pulse);
             }
         }
 
@@ -53,20 +53,18 @@ s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dr
         curHandle->pulse = handle->pulse;
     }
 
-    HW_REG(PI_DRAM_ADDR_REG, void*) = (void*)osVirtualToPhysical(dramAddr);
-    HW_REG(PI_CART_ADDR_REG, void*) = (void*)((handle->baseAddress | cartAddr) & 0x1FFFFFFF);
+    IO_WRITE(PI_DRAM_ADDR_REG, osVirtualToPhysical(dramAddr));
+    IO_WRITE(PI_CART_ADDR_REG, K1_TO_PHYS(handle->baseAddress | cartAddr));
 
     switch (direction) {
         case OS_READ:
-            HW_REG(PI_WR_LEN_REG, u32) = size - 1;
+            IO_WRITE(PI_WR_LEN_REG, size - 1);
             break;
         case OS_WRITE:
-            HW_REG(PI_RD_LEN_REG, u32) = size - 1;
+            IO_WRITE(PI_RD_LEN_REG, size - 1);
             break;
         default:
             return -1;
-            break;
     }
-
     return 0;
 }
