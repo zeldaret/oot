@@ -2739,7 +2739,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             overlayEntry->numLoaded = 0;
         }
 
-        actorInit = (void*)(u32)(
+        actorInit = (void*)(uintptr_t)(
             (overlayEntry->initInfo != NULL)
                 ? (void*)((uintptr_t)overlayEntry->initInfo -
                           (intptr_t)((uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr))
