@@ -65,7 +65,7 @@ void EnBird_Destroy(Actor* thisx, PlayState* play) {
 
 void EnBird_SetupIdle(EnBird* this, s16 params) {
     f32 frameCount = Animation_GetLastFrame(&gBirdFlyAnim);
-    f32 playbackSpeed = this->aniSpeedMod ? 0.0f : 1.0f;
+    f32 playbackSpeed = this->scaleAnimSpeed ? 0.0f : 1.0f;
 
     this->timer = Rand_S16Offset(5, 35);
     Animation_Change(&this->skelAnime, &gBirdFlyAnim, playbackSpeed, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
@@ -76,7 +76,7 @@ void EnBird_Idle(EnBird* this, PlayState* play) {
     this->actor.shape.yOffset += sinf(this->posYPhase) * this->posYMag;
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
 
-    if (this->aniSpeedMod) {
+    if (this->scaleAnimSpeed) {
         this->skelAnime.playSpeed = this->actor.speedXZ * 2.0f;
     }
 
