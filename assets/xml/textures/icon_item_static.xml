@@ -16,7 +16,7 @@
         <Texture Name="gItemIconFaroresWindTex" OutName="farores_wind_icon" Format="rgba32" Width="32" Height="32" Offset="0xD000"/>
         <Texture Name="gItemIconBoomerangTex" OutName="boomerang_icon" Format="rgba32" Width="32" Height="32" Offset="0xE000"/>
         <Texture Name="gItemIconLensOfTruthTex" OutName="lens_of_truth_icon" Format="rgba32" Width="32" Height="32" Offset="0xF000"/>
-        <Texture Name="gItemIconMagicBeansTex" OutName="magic_beans_icon" Format="rgba32" Width="32" Height="32" Offset="0x10000"/>
+        <Texture Name="gItemIconMagicBeanTex" OutName="magic_bean_icon" Format="rgba32" Width="32" Height="32" Offset="0x10000"/>
         <Texture Name="gItemIconHammerTex" OutName="hammer_icon" Format="rgba32" Width="32" Height="32" Offset="0x11000"/>
         <Texture Name="gItemIconArrowLightTex" OutName="light_arrow_icon" Format="rgba32" Width="32" Height="32" Offset="0x12000"/>
         <Texture Name="gItemIconNayrusLoveTex" OutName="nayrus_love_icon" Format="rgba32" Width="32" Height="32" Offset="0x13000"/>

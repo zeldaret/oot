@@ -386,8 +386,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     for (sp218 = 0; sp218 < 3; sp218++, sp21A += 4) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD + sp218)) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
-            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_KOKIRI_EMERALD + sp218],
-                                               QUEST_ICON_WIDTH, QUEST_ICON_HEIGHT, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_KOKIRI_EMERALD + sp218], QUEST_ICON_WIDTH,
+                                               QUEST_ICON_HEIGHT, 0);
         }
     }
 

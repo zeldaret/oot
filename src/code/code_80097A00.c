@@ -95,7 +95,7 @@ void* gItemIcons[] = {
     gItemIconFaroresWindTex,       // ITEM_FARORES_WIND
     gItemIconBoomerangTex,         // ITEM_BOOMERANG
     gItemIconLensOfTruthTex,       // ITEM_LENS_OF_TRUTH
-    gItemIconMagicBeansTex,        // ITEM_MAGIC_BEAN
+    gItemIconMagicBeanTex,         // ITEM_MAGIC_BEAN
     gItemIconHammerTex,            // ITEM_HAMMER
     gItemIconArrowLightTex,        // ITEM_ARROW_LIGHT
     gItemIconNayrusLoveTex,        // ITEM_NAYRUS_LOVE
