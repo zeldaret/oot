@@ -183,8 +183,8 @@ static f32 D_80B7A6B8 = 0.0f;
 static f32 D_80B7A6BC = 0.0f;
 static f32 D_80B7A6C0 = 0.0f;
 
-static s16 sStickXRelPrev = 0;
-static s16 sStickYRelPrev = 0;
+static s16 sStickAdjXPrev = 0;
+static s16 sStickAdjYPrev = 0;
 
 static u8 sFishingPlayerCinematicState = 0;
 static u8 sFishingCinematicTimer = 0;
@@ -999,7 +999,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             this->unk_15A = 10;
 
             this->isLoach = sFishInits[thisx->params - 100].isLoach;
-            this->preception = sFishInits[thisx->params - 100].perception;
+            this->perception = sFishInits[thisx->params - 100].perception;
             this->fishLength = sFishInits[thisx->params - 100].baseLength;
 
             this->fishLength += Rand_ZeroFloat(4.99999f);
@@ -1989,10 +1989,10 @@ void Fishing_DrawRod(PlayState* play) {
     }
 
     if ((sRodCastState == 3) || (sRodCastState == 4)) {
-        if ((input->rel.stick_x == 0) && (sStickXRelPrev != 0)) {
+        if ((input->rel.stick_x == 0) && (sStickAdjXPrev != 0)) {
             D_80B7A6B0 = 0.0f;
         }
-        if ((input->rel.stick_y == 0) && (sStickYRelPrev != 0)) {
+        if ((input->rel.stick_y == 0) && (sStickAdjYPrev != 0)) {
             D_80B7A6B4 = 0.0f;
         }
 
@@ -2419,9 +2419,9 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
 
                     if (D_80B7E150 == 0) {
                         if (fabsf(input->rel.stick_x) > 30.0f) {
-                            sp70 = fabsf((input->rel.stick_x - sStickXRelPrev) * (1.0f / 60.0f));
+                            sp70 = fabsf((input->rel.stick_x - sStickAdjXPrev) * (1.0f / 60.0f));
                         } else if (fabsf(input->rel.stick_y) > 30.0f) {
-                            sp70 = fabsf((input->rel.stick_y - sStickYRelPrev) * (1.0f / 60.0f));
+                            sp70 = fabsf((input->rel.stick_y - sStickAdjYPrev) * (1.0f / 60.0f));
                         }
                     }
 
@@ -2703,7 +2703,7 @@ s32 Fishing_SplashBySize(Fishing* this, PlayState* play, u8 ignorePosCheck) {
 
     Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &pos, 100.0f, 800.0f, 150, 90);
 
-    this->unk_151 = 30;
+    this->lilyTimer = 30;
 
     return true;
 }
@@ -2773,7 +2773,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
                     this->unk_15E = 0;
                     this->unk_17A[0] = 0;
                     this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
-                    this->preception = sFishInits[this->actor.params - 100].perception;
+                    this->perception = sFishInits[this->actor.params - 100].perception;
                     this->unk_1B0 = 0.0f;
                 }
 
@@ -2782,7 +2782,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
                     this->unk_15E = 0;
                     this->unk_17A[0] = 0;
                     this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
-                    this->preception = sFishInits[this->actor.params - 100].perception;
+                    this->perception = sFishInits[this->actor.params - 100].perception;
                     this->unk_1B0 = 0.0f;
                 }
             }
@@ -2963,14 +2963,14 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         this->unk_1A0--;
     }
 
-    if (this->unk_151 != 0) {
-        this->unk_151--;
+    if (this->lilyTimer != 0) {
+        this->lilyTimer--;
     }
 
-    Math_ApproachF(&this->unk_198, this->unk_190, 1.0f, 0.2f);
+    Math_ApproachF(&this->fishLimbRotPhaseStep, this->unk_190, 1.0f, 0.2f);
 
     if (this->unk_158 == 6) {
-        Math_ApproachF(&this->unk_19C, this->unk_194, 0.2f, 200.0f);
+        Math_ApproachF(&this->fishLimbRotPhaseMag, this->unk_194, 0.2f, 200.0f);
     } else {
         phi_f0 = 1.0f;
         phi_f2 = 1.0f;
@@ -2978,7 +2978,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             phi_f0 = (KREG(64) * 0.1f) + 1.5f;
             phi_f2 = 3.0f;
         }
-        Math_ApproachF(&this->unk_19C, this->unk_194 * phi_f0, 1.0f, 500.0f * phi_f2);
+        Math_ApproachF(&this->fishLimbRotPhaseMag, this->unk_194 * phi_f0, 1.0f, 500.0f * phi_f2);
     }
 
     Math_ApproachS(&this->unk_170, 0, 5, 0x1F4);
@@ -2986,28 +2986,28 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     if (this->isLoach == 0) {
         Actor_SetScale(&this->actor, this->fishLength * 15.0f * 0.00001f);
 
-        this->unk_18C += this->unk_198;
+        this->fishLimbRotPhase += this->fishLimbRotPhaseStep;
 
-        temp = cosf(this->unk_18C);
-        this->limb23RotYDelta = this->unk_16E + (s16)(temp * this->unk_19C);
+        temp = cosf(this->fishLimbRotPhase);
+        this->fishLimb23RotYDelta = this->unk_16E + (s16)(temp * this->fishLimbRotPhaseMag);
 
-        temp = cosf(this->unk_18C + -1.2f);
-        this->limb4RotYDelta = this->unk_16E + (s16)(temp * this->unk_19C * 1.6f);
+        temp = cosf(this->fishLimbRotPhase + -1.2f);
+        this->fishLimb4RotYDelta = this->unk_16E + (s16)(temp * this->fishLimbRotPhaseMag * 1.6f);
     } else {
         Actor_SetScale(&this->actor, this->fishLength * 65.0f * 0.000001f);
 
         this->actor.scale.x = this->actor.scale.z * 1.1f;
         this->actor.scale.y = this->actor.scale.z * 1.1f;
 
-        this->unk_18C += this->unk_198 * 0.8f;
+        this->fishLimbRotPhase += this->fishLimbRotPhaseStep * 0.8f;
 
         for (i = 0; i < 3; i++) {
-            temp = cosf(this->unk_18C + (i * 2.1f));
-            this->loachRotYDelta[i] = this->unk_16E + (s16)(temp * this->unk_19C * 2.0f);
+            temp = cosf(this->fishLimbRotPhase + (i * 2.1f));
+            this->loachRotYDelta[i] = this->unk_16E + (s16)(temp * this->fishLimbRotPhaseMag * 2.0f);
         }
 
-        temp = cosf(this->unk_18C + 0.4f);
-        this->limb23RotYDelta = (this->unk_19C * temp * 2.0f) * 0.6f;
+        temp = cosf(this->fishLimbRotPhase + 0.4f);
+        this->fishLimb23RotYDelta = (this->fishLimbRotPhaseMag * temp * 2.0f) * 0.6f;
     }
 
     sp130 = this->fishTargetPos.x - this->actor.world.pos.x;
@@ -3059,8 +3059,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 Fishing_SpawnBubble(NULL, play->specialEffects, &bubblePos, Rand_ZeroFloat(0.02f) + 0.03f, 1);
             }
 
-            Math_ApproachS(&this->limbEFRotYDelta, (Math_SinS(this->state * 0x800) * 2500.0f) + 2500.0f, 2, 0x7D0);
-            Math_ApproachS(&this->limb89RotYDelta, Math_SinS(this->state * 0xA00) * 1500.0f, 2, 0x7D0);
+            Math_ApproachS(&this->fishLimbEFRotYDelta, (Math_SinS(this->state * 0x800) * 2500.0f) + 2500.0f, 2, 0x7D0);
+            Math_ApproachS(&this->fishLimb89RotYDelta, Math_SinS(this->state * 0xA00) * 1500.0f, 2, 0x7D0);
 
             this->unk_190 = 0.3f;
             this->unk_194 = 1000.0f / 3.0f;
@@ -3322,20 +3322,20 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
             Math_ApproachF(&this->unk_1B0, 8192.0f, 1.0f, (KREG(16) * 128) + 384.0f);
             if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
-                this->preception += 0.005f;
+                this->perception += 0.005f;
             }
 
             if (D_80B7E120 != 0) {
                 if (D_80B7E120 == 1) {
-                    this->preception += 0.01f;
+                    this->perception += 0.01f;
                 } else {
-                    this->preception += 0.05f;
+                    this->perception += 0.05f;
                 }
                 D_80B7E120 = 0;
             }
 
             if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                this->preception += 0.008f;
+                this->perception += 0.008f;
             }
 
             if (sp124 < ((this->fishLength * 0.5f) + 20.0f)) {
@@ -3380,7 +3380,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if (((this->unk_17A[0] == 1) || (Rand_ZeroOne() < sp11C)) &&
-                ((Rand_ZeroOne() < (this->preception * multiplier)) || ((this->isLoach + 1) == KREG(69)))) {
+                ((Rand_ZeroOne() < (this->perception * multiplier)) || ((this->isLoach + 1) == KREG(69)))) {
                 if (this->isLoach == 0) {
                     this->unk_158 = 3;
                     this->unk_190 = 1.2f;
@@ -3418,7 +3418,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case 3:
-            this->unk_151 = 6;
+            this->lilyTimer = 6;
             sp134 = 2;
 
             if ((((s16)player->actor.world.pos.x + D_80B7E118) & 1) != 0) {
@@ -3458,7 +3458,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             Math_ApproachF(&this->unk_1B0, 16384.0f, 1.0f, 4096.0f);
             Math_ApproachS(&this->unk_170, 0x4E20, 4, 0x1388);
 
-            this->unk_151 = 50;
+            this->lilyTimer = 50;
             sp134 = 2;
             this->fishTargetPos = sLurePos;
             Math_ApproachF(&this->actor.speedXZ, this->unk_188, 1.0f, 1.0f);
@@ -3522,7 +3522,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case -3:
-            this->unk_151 = 50;
+            this->lilyTimer = 50;
             this->fishTargetPos = sLurePos;
             Math_ApproachF(&this->actor.speedXZ, 2.0f, 1.0f, 1.0f);
 
@@ -3585,7 +3585,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if ((sLureBitTimer != 0) && (sLineHooked == 0)) { // pull the line to hook it
-                if (((input->rel.stick_y < -50) && (sStickYRelPrev > -40)) ||
+                if (((input->rel.stick_y < -50) && (sStickAdjYPrev > -40)) ||
                     CHECK_BTN_ALL(input->press.button, BTN_A)) {
                     if (input->rel.stick_y < -50) {
                         temp_f0 = 40.0f - ((this->fishLength - 30.0f) * 1.333333f);
@@ -3596,8 +3596,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         }
                     }
 
-                    this->unk_198 = 1.7f;
-                    this->unk_19C = 7000.0f;
+                    this->fishLimbRotPhaseStep = 1.7f;
+                    this->fishLimbRotPhaseMag = 7000.0f;
                     sLineHooked = 1;
                     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
                     sFishingMusicDelay = 0;
@@ -3835,7 +3835,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 sRodCastState = 5;
                 this->unk_190 = 1.0f;
                 this->unk_194 = 500.0f;
-                this->unk_19C = 5000.0f;
+                this->fishLimbRotPhaseMag = 5000.0f;
 
                 if (this->actor.world.pos.y <= WATER_SURFACE_Y(play)) {
                     Fishing_FishLeapSfx(this, 1);
@@ -3996,7 +3996,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case 7:
-            this->unk_151 = 50;
+            this->lilyTimer = 50;
             sp134 = 5;
             this->unk_1B0 = 12288.0f;
 
@@ -4037,7 +4037,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
     }
 
-    Math_ApproachS(&this->limbEFRotYDelta, (Math_SinS(this->state * 0x1000) * 5000.0f) + 5000.0f, 2, 0x7D0);
+    Math_ApproachS(&this->fishLimbEFRotYDelta, (Math_SinS(this->state * 0x1000) * 5000.0f) + 5000.0f, 2, 0x7D0);
 
     if (this->unk_158 != 6) {
         if (this->actor.world.pos.y > WATER_SURFACE_Y(play)) {
@@ -4064,16 +4064,16 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             spF6 = Fishing_SmoothStepToS(&this->actor.world.rot.y, spFC, sp134, this->unk_1B0) * 3.0f;
             Math_ApproachS(&this->actor.world.rot.x, spFE, sp134, this->unk_1B0 * 0.5f);
 
-            if (spF6 > 0x1F40) {
-                spF6 = 0x1F40;
-            } else if (spF6 < -0x1F40) {
-                spF6 = -0x1F40;
+            if (spF6 > 8000) {
+                spF6 = 8000;
+            } else if (spF6 < -8000) {
+                spF6 = -8000;
             }
 
             if (this->actor.speedXZ >= 3.2f) {
-                Math_ApproachS(&this->unk_16E, spF6, 2, 0x4E20);
+                Math_ApproachS(&this->unk_16E, spF6, 2, 20000);
             } else {
-                Math_ApproachS(&this->unk_16E, spF6, 3, 0xBB8);
+                Math_ApproachS(&this->unk_16E, spF6, 3, 3000);
             }
 
             func_8002D908(&this->actor);
@@ -4184,7 +4184,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->rotationStep.y = (s16)Rand_CenteredFloat(16384.0f);
                     this->unk_190 = 1.0f;
                     this->unk_194 = 5000.0f;
-                    this->unk_19C = 5000.0f;
+                    this->fishLimbRotPhaseMag = 5000.0f;
                 } else {
                     this->unk_184 = 0.0f;
 
@@ -4225,17 +4225,17 @@ s32 Fishing_FishOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 0xD) {
         rot->z -= this->unk_170 - 11000;
     } else if ((limbIndex == 2) || (limbIndex == 3)) {
-        rot->y += this->limb23RotYDelta;
+        rot->y += this->fishLimb23RotYDelta;
     } else if (limbIndex == 4) {
-        rot->y += this->limb4RotYDelta;
+        rot->y += this->fishLimb4RotYDelta;
     } else if (limbIndex == 0xE) {
-        rot->y -= this->limbEFRotYDelta;
+        rot->y -= this->fishLimbEFRotYDelta;
     } else if (limbIndex == 0xF) {
-        rot->y += this->limbEFRotYDelta;
+        rot->y += this->fishLimbEFRotYDelta;
     } else if (limbIndex == 8) {
-        rot->y += this->limb89RotYDelta;
+        rot->y += this->fishLimb89RotYDelta;
     } else if (limbIndex == 9) {
-        rot->y -= this->limb89RotYDelta;
+        rot->y -= this->fishLimb89RotYDelta;
     }
 
     return 0;
@@ -4284,14 +4284,14 @@ void Fishing_DrawFish(Actor* thisx, PlayState* play) {
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
 
     if (this->isLoach == 0) {
-        Matrix_RotateY(BINANG_TO_RAD(this->limb23RotYDelta) - (M_PI / 2), MTXMODE_APPLY);
-        Matrix_Translate(0.0f, 0.0f, this->limb23RotYDelta * 10.0f * 0.01f, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->fishLimb23RotYDelta) - (M_PI / 2), MTXMODE_APPLY);
+        Matrix_Translate(0.0f, 0.0f, this->fishLimb23RotYDelta * 10.0f * 0.01f, MTXMODE_APPLY);
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               Fishing_FishOverrideLimbDraw, Fishing_FishPostLimbDraw, this);
     } else {
         Matrix_Translate(0.0f, 0.0f, 3000.0f, MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD(this->limb23RotYDelta), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->fishLimb23RotYDelta), MTXMODE_APPLY);
         Matrix_Translate(0.0f, 0.0f, -3000.0f, MTXMODE_APPLY);
         Matrix_RotateY(-(M_PI / 2), MTXMODE_APPLY);
 
@@ -4373,7 +4373,7 @@ void Fishing_UpdatePondProps(PlayState* play) {
                         if (!((actor->id == ACTOR_FISHING) && (actor->params >= 100))) {
                             actor = actor->next;
                         } else {
-                            Fishing_HandleLilyPadContact(prop, &actor->world.pos, ((Fishing*)actor)->unk_151);
+                            Fishing_HandleLilyPadContact(prop, &actor->world.pos, ((Fishing*)actor)->lilyTimer);
                             actor = actor->next;
                         }
                     }
@@ -5779,8 +5779,8 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
         Fishing_UpdateLine(play, &sRodTipPos, sReelLinePos, sReelLineRot, sReelLineUnk);
         Fishing_DrawLureAndLine(play, sReelLinePos, sReelLineRot);
 
-        sStickXRelPrev = input->rel.stick_x;
-        sStickYRelPrev = input->rel.stick_y;
+        sStickAdjXPrev = input->rel.stick_x;
+        sStickAdjYPrev = input->rel.stick_y;
     }
 
     sIsRodVisible = true;
