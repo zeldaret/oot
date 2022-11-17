@@ -35,7 +35,7 @@ ActorInit Shot_Sun_InitVars = {
 
 typedef enum {
     /* 0 */ SPAWNER_INACTIVE,
-    /* 1 */ SPAWNER_INRANGE,
+    /* 1 */ SPAWNER_WAITING,
     /* 2 */ SPAWNER_OCARINA
 } FairySpawnerState;
 
@@ -138,10 +138,10 @@ void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
                 player->stateFlags2 |= PLAYER_STATE2_23;
                 return;
             } else {
-                this->fairySpawnerState = SPAWNER_INRANGE;
+                this->fairySpawnerState = SPAWNER_WAITING;
             }
         }
-        if (this->fairySpawnerState == SPAWNER_INRANGE) {
+        if (this->fairySpawnerState == SPAWNER_WAITING) {
             func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
             this->fairySpawnerState = SPAWNER_OCARINA;
         } else if (this->fairySpawnerState == SPAWNER_OCARINA && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
