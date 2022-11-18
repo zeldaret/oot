@@ -313,7 +313,7 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
     }
 }
 
-void func_80AE561C(EnReeba* this, PlayState* play) {
+void EnReeba_Bumped(EnReeba* this, PlayState* play) {
     Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.3f);
 
     if (this->surfaceTimer == 0) {
@@ -617,7 +617,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
             this->actor.speedXZ = 8.0f;
             this->actor.world.rot.y *= -1.0f;
             this->surfaceTimer = 14;
-            this->actionfunc = func_80AE561C;
+            this->actionfunc = EnReeba_Bumped;
             return;
         }
     }
