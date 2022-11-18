@@ -116,9 +116,9 @@ void ObjLift_Init(Actor* thisx, PlayState* play) {
 
     Actor_SetScale(&this->dyna.actor, sScales[(this->dyna.actor.params >> 1) & 1]);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->shakeVec.x = Rand_ZeroOne() * 65535.5f;
-    this->shakeVec.y = Rand_ZeroOne() * 65535.5f;
-    this->shakeVec.z = Rand_ZeroOne() * 65535.5f;
+    this->shakeOrientation .x = Rand_ZeroOne() * 65535.5f;
+    this->shakeOrientation .y = Rand_ZeroOne() * 65535.5f;
+    this->shakeOrientation .z = Rand_ZeroOne() * 65535.5f;
     ObjLift_SetupWait(this);
     osSyncPrintf("(Dungeon Lift)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
@@ -164,16 +164,16 @@ void ObjLift_Shake(ObjLift* this, PlayState* play) {
     if (this->timer <= 0) {
         ObjLift_SetupFall(this);
     } else {
-        this->shakeVec.x += 10000;
-        this->dyna.actor.world.rot.x = (s16)(Math_SinS(this->shakeVec.x) * 300.0f) + this->dyna.actor.home.rot.x;
-        this->dyna.actor.world.rot.z = (s16)(Math_CosS(this->shakeVec.x) * 300.0f) + this->dyna.actor.home.rot.z;
+        this->shakeOrientation .x += 10000;
+        this->dyna.actor.world.rot.x = (s16)(Math_SinS(this->shakeOrientation .x) * 300.0f) + this->dyna.actor.home.rot.x;
+        this->dyna.actor.world.rot.z = (s16)(Math_CosS(this->shakeOrientation .x) * 300.0f) + this->dyna.actor.home.rot.z;
         this->dyna.actor.shape.rot.x = this->dyna.actor.world.rot.x;
         this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z;
-        this->shakeVec.y += 18000;
-        this->dyna.actor.world.pos.y = Math_SinS(this->shakeVec.y) + this->dyna.actor.home.pos.y;
-        this->shakeVec.z += 18000;
-        this->dyna.actor.world.pos.x = Math_SinS(this->shakeVec.z) * 3.0f + this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z = Math_CosS(this->shakeVec.z) * 3.0f + this->dyna.actor.home.pos.z;
+        this->shakeOrientation .y += 18000;
+        this->dyna.actor.world.pos.y = Math_SinS(this->shakeOrientation .y) + this->dyna.actor.home.pos.y;
+        this->shakeOrientation .z += 18000;
+        this->dyna.actor.world.pos.x = Math_SinS(this->shakeOrientation .z) * 3.0f + this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = Math_CosS(this->shakeOrientation .z) * 3.0f + this->dyna.actor.home.pos.z;
     }
 
     if ((this->timer & 3) == 3) {
