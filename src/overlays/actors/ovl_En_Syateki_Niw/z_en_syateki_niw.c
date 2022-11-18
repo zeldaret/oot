@@ -24,7 +24,7 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play);
 void func_80B12460(EnSyatekiNiw* this, PlayState* play);
 void func_80B128D8(EnSyatekiNiw* this, PlayState* play);
 
-void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4);
+void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 
 ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
@@ -72,14 +72,14 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
-    this->unk_29E = this->actor.params;
-    if (this->unk_29E < 0) {
-        this->unk_29E = 0;
+    this->minigameType = this->actor.params;
+    if (this->minigameType < 0) {
+        this->minigameType = 0;
     }
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    if (this->unk_29E == 0) {
+    if (this->minigameType == 0) {
         osSyncPrintf("\n\n");
         // "Archery range chicken"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
@@ -92,8 +92,8 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
         Actor_SetScale(&this->actor, 0.01f);
     }
 
-    this->unk_2DC = this->actor.world.pos;
-    this->unk_2E8 = this->actor.world.pos;
+    this->initPos = this->actor.world.pos;
+    this->targetPos = this->actor.world.pos;
     this->actionFunc = func_80B11DEC;
 }
 
@@ -181,36 +181,36 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
         Math_ApproachF(&this->unk_2BC.x, this->unk_264, 0.5f, 4000.0f);
     }
 
-    if (this->unk_26C != this->unk_2A4.x) {
-        Math_ApproachF(&this->unk_2A4.x, this->unk_26C, 0.8f, 7000.0f);
+    if (this->unk_26C != this->limb7Rot.x) {
+        Math_ApproachF(&this->limb7Rot.x, this->unk_26C, 0.8f, 7000.0f);
     }
 
-    if (this->unk_280 != this->unk_2A4.y) {
-        Math_ApproachF(&this->unk_2A4.y, this->unk_280, 0.8f, 7000.0f);
+    if (this->unk_280 != this->limb7Rot.y) {
+        Math_ApproachF(&this->limb7Rot.y, this->unk_280, 0.8f, 7000.0f);
     }
 
-    if (this->unk_284 != this->unk_2A4.z) {
-        Math_ApproachF(&this->unk_2A4.z, this->unk_284, 0.8f, 7000.0f);
+    if (this->unk_284 != this->limb7Rot.z) {
+        Math_ApproachF(&this->limb7Rot.z, this->unk_284, 0.8f, 7000.0f);
     }
 
-    if (this->unk_268 != this->unk_2B0.x) {
-        Math_ApproachF(&this->unk_2B0.x, this->unk_268, 0.8f, 7000.0f);
+    if (this->unk_268 != this->limbBRot.x) {
+        Math_ApproachF(&this->limbBRot.x, this->unk_268, 0.8f, 7000.0f);
     }
 
-    if (this->unk_278 != this->unk_2B0.y) {
-        Math_ApproachF(&this->unk_2B0.y, this->unk_278, 0.8f, 7000.0f);
+    if (this->unk_278 != this->limbBRot.y) {
+        Math_ApproachF(&this->limbBRot.y, this->unk_278, 0.8f, 7000.0f);
     }
 
-    if (this->unk_27C != this->unk_2B0.z) {
-        Math_ApproachF(&this->unk_2B0.z, this->unk_27C, 0.8f, 7000.0f);
+    if (this->unk_27C != this->limbBRot.z) {
+        Math_ApproachF(&this->limbBRot.z, this->unk_27C, 0.8f, 7000.0f);
     }
 }
 
 void func_80B11DEC(EnSyatekiNiw* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
-    if (this->unk_29E != 0) {
-        Actor_SetScale(&this->actor, this->unk_2F4);
+    if (this->minigameType != 0) {
+        Actor_SetScale(&this->actor, this->scale);
     }
 
     this->actionFunc = func_80B11E78;
@@ -223,12 +223,12 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
     Color_RGBA8 dustEnvColor = { 0, 0, 0, 255 };
     Vec3f dustPos;
     f32 tmpf2;
-    f32 sp4C;
-    f32 sp50;
+    f32 posYMod;
+    f32 posXMod;
     f32 tmpf1;
     s16 sp4A;
 
-    if ((this->unk_29C != 0) && (this->unk_29E == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if ((this->unk_29C != 0) && (this->minigameType == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->unk_29C = 0;
         this->actionFunc = func_80B123A8;
         return;
@@ -241,66 +241,67 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
             this->unk_25E = Rand_ZeroFloat(30.0f);
             this->unk_294 = Rand_ZeroFloat(3.99f);
 
-            switch (this->unk_29E) {
+            switch (this->minigameType) {
                 case 0:
-                    sp50 = Rand_CenteredFloat(100.0f);
-                    if (sp50 < 0.0f) {
-                        sp50 -= 100.0f;
+                    posXMod = Rand_CenteredFloat(100.0f);
+                    if (posXMod < 0.0f) {
+                        posXMod -= 100.0f;
                     } else {
-                        sp50 += 100.0f;
+                        posXMod += 100.0f;
                     }
 
-                    sp4C = Rand_CenteredFloat(100.0f);
-                    if (sp4C < 0.0f) {
-                        sp4C -= 100.0f;
+                    posYMod = Rand_CenteredFloat(100.0f);
+                    if (posYMod < 0.0f) {
+                        posYMod -= 100.0f;
                     } else {
-                        sp4C += 100.0f;
+                        posYMod += 100.0f;
                     }
 
-                    this->unk_2E8.x = this->unk_2DC.x + sp50;
-                    this->unk_2E8.z = this->unk_2DC.z + sp4C;
+                    this->targetPos.x = this->initPos.x + posXMod;
+                    this->targetPos.z = this->initPos.z + posYMod;
 
-                    if (this->unk_2E8.x < -150.0f) {
-                        this->unk_2E8.x = -150.0f;
+                    // confine to the Bowling lane
+                    if (this->targetPos.x < -150.0f) {
+                        this->targetPos.x = -150.0f;
                     }
 
-                    if (this->unk_2E8.x > 150.0f) {
-                        this->unk_2E8.x = 150.0f;
+                    if (this->targetPos.x > 150.0f) {
+                        this->targetPos.x = 150.0f;
                     }
 
-                    if (this->unk_2E8.z < -60.0f) {
-                        this->unk_2E8.z = -60.0f;
+                    if (this->targetPos.z < -60.0f) {
+                        this->targetPos.z = -60.0f;
                     }
 
-                    if (this->unk_2E8.z > -40.0f) {
-                        this->unk_2E8.z = -40.0f;
+                    if (this->targetPos.z > -40.0f) {
+                        this->targetPos.z = -40.0f;
                     }
                     break;
 
                 case 1:
-                    sp50 = Rand_CenteredFloat(50.0f);
-                    if (sp50 < 0.0f) {
-                        sp50 -= 50.0f;
+                    posXMod = Rand_CenteredFloat(50.0f);
+                    if (posXMod < 0.0f) {
+                        posXMod -= 50.0f;
                     } else {
-                        sp50 += 50.0f;
+                        posXMod += 50.0f;
                     }
 
-                    sp4C = Rand_CenteredFloat(30.0f);
-                    if (sp4C < 0.0f) {
-                        sp4C -= 30.0f;
+                    posYMod = Rand_CenteredFloat(30.0f);
+                    if (posYMod < 0.0f) {
+                        posYMod -= 30.0f;
                     } else {
-                        sp4C += 30.0f;
+                        posYMod += 30.0f;
                     }
 
-                    this->unk_2E8.x = this->unk_2DC.x + sp50;
-                    this->unk_2E8.z = this->unk_2DC.z + sp4C;
+                    this->targetPos.x = this->initPos.x + posXMod;
+                    this->targetPos.z = this->initPos.z + posYMod;
                     break;
             }
         } else {
             this->unk_25C = 4;
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->actor.velocity.y = 2.5f;
-                if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->unk_29E == 0)) {
+                if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->minigameType == 0)) {
                     this->unk_25C = 0xC;
                     this->actor.velocity.y = 10.0f;
                 }
@@ -309,11 +310,11 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
     }
     if (this->unk_25C != 0) {
         sp4A = 1;
-        Math_ApproachF(&this->actor.world.pos.x, this->unk_2E8.x, 1.0f, this->unk_2C8.y);
-        Math_ApproachF(&this->actor.world.pos.z, this->unk_2E8.z, 1.0f, this->unk_2C8.y);
+        Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 1.0f, this->unk_2C8.y);
+        Math_ApproachF(&this->actor.world.pos.z, this->targetPos.z, 1.0f, this->unk_2C8.y);
         Math_ApproachF(&this->unk_2C8.y, 3.0f, 1.0f, 0.3f);
-        tmpf1 = this->unk_2E8.x - this->actor.world.pos.x;
-        tmpf2 = this->unk_2E8.z - this->actor.world.pos.z;
+        tmpf1 = this->targetPos.x - this->actor.world.pos.x;
+        tmpf2 = this->targetPos.z - this->actor.world.pos.z;
 
         if (fabsf(tmpf1) < 10.0f) {
             tmpf1 = 0;
@@ -350,15 +351,15 @@ void func_80B123A8(EnSyatekiNiw* this, PlayState* play) {
                      -10.0f);
     this->unk_27C = 6000.0f;
     this->unk_288 = -10000.0f;
-    this->unk_2B0.z = 6000.0f;
-    this->unk_2B0.y = 10000.0f;
+    this->limbBRot.z = 6000.0f;
+    this->limbBRot.y = 10000.0f;
     this->actionFunc = func_80B12460;
-    this->unk_2A4.z = 6000.0f;
+    this->limb7Rot.z = 6000.0f;
     this->unk_284 = 6000.0f;
-    this->unk_2B0.x = -10000.0f;
+    this->limbBRot.x = -10000.0f;
     this->unk_268 = -10000.0f;
-    this->unk_2A4.y = -10000.0f;
-    this->unk_2A4.x = -10000.0f;
+    this->limb7Rot.y = -10000.0f;
+    this->limb7Rot.x = -10000.0f;
     this->unk_26C = -10000.0f;
 }
 
@@ -545,7 +546,7 @@ void func_80B129EC(EnSyatekiNiw* this, PlayState* play) {
 void func_80B12BA4(EnSyatekiNiw* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        switch (this->unk_29E) {
+        switch (this->minigameType) {
             case 0:
                 if (this->unk_29C == 0) {
                     this->unk_262 = 0x1E;
@@ -575,9 +576,9 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     s16 i;
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp78;
-    Vec3f sp6C;
-    Vec3f sp60;
+    Vec3f pos;
+    Vec3f vel;
+    Vec3f accel;
 
     if (1) {}
     if (1) {}
@@ -624,15 +625,15 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
 
     if (this->unk_2A0 != 0) {
         for (i = 0; i < 20; i++) {
-            sp78.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
-            sp78.y = Rand_CenteredFloat(10.0f) + (this->actor.world.pos.y + 20.0f);
-            sp78.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
-            sp6C.x = Rand_CenteredFloat(3.0f);
-            sp6C.y = (Rand_ZeroFloat(2.0f) * 0.5f) + 2.0f;
-            sp6C.z = Rand_CenteredFloat(3.0f);
-            sp60.z = sp60.x = 0.0f;
-            sp60.y = -0.15f;
-            EnSyatekiNiw_SpawnFeather(this, &sp78, &sp6C, &sp60, Rand_ZeroFloat(8.0f) + 8.0f);
+            pos.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
+            pos.y = Rand_CenteredFloat(10.0f) + (this->actor.world.pos.y + 20.0f);
+            pos.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
+            vel.x = Rand_CenteredFloat(3.0f);
+            vel.y = (Rand_ZeroFloat(2.0f) * 0.5f) + 2.0f;
+            vel.z = Rand_CenteredFloat(3.0f);
+            accel.z = accel.x = 0.0f;
+            accel.y = -0.15f;
+            EnSyatekiNiw_SpawnFeather(this, &pos, &vel, &accel, Rand_ZeroFloat(8.0f) + 8.0f);
         }
 
         this->unk_2A0 = 0;
@@ -650,7 +651,7 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     }
 
     i = 0;
-    switch (this->unk_29E) {
+    switch (this->minigameType) {
         case 0:
             if (play->shootingGalleryStatus != 0) {
                 i = 1;
@@ -678,15 +679,15 @@ s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
     }
 
     if (limbIndex == 11) {
-        rot->x += (s16)this->unk_2B0.z;
-        rot->y += (s16)this->unk_2B0.y;
-        rot->z += (s16)this->unk_2B0.x;
+        rot->x += (s16)this->limbBRot.z;
+        rot->y += (s16)this->limbBRot.y;
+        rot->z += (s16)this->limbBRot.x;
     }
 
     if (limbIndex == 7) {
-        rot->x += (s16)this->unk_2A4.z;
-        rot->y += (s16)this->unk_2A4.y;
-        rot->z += (s16)this->unk_2A4.x;
+        rot->x += (s16)this->limb7Rot.z;
+        rot->y += (s16)this->limb7Rot.y;
+        rot->z += (s16)this->limb7Rot.x;
     }
 
     return false;
@@ -709,20 +710,20 @@ void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4) {
+void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
     s16 i;
     EnSyatekiNiwEffect* effect = &this->effects[0];
 
     for (i = 0; i < EN_SYATEKI_NIW_EFFECT_COUNT; i++, effect++) {
-        if (effect->unk_00 == 0) {
-            effect->unk_00 = 1;
-            effect->unk_04 = *arg1;
-            effect->unk_10 = *arg2;
-            effect->unk_1C = *arg3;
-            effect->unk_34 = 0;
-            effect->unk_2C = (arg4 / 1000.0f);
-            effect->unk_28 = (s16)Rand_ZeroFloat(20.0f) + 0x28;
-            effect->unk_2A = Rand_ZeroFloat(1000.0f);
+        if (effect->state == 0) {
+            effect->state = 1;
+            effect->pos = *pos;
+            effect->vel = *vel;
+            effect->accel = *accel;
+            effect->timer = 0;
+            effect->scale = (scale / 1000.0f);
+            effect->lifespan = (s16)Rand_ZeroFloat(20.0f) + 0x28;
+            effect->rotZPulse = Rand_ZeroFloat(1000.0f);
             return;
         }
     }
@@ -733,25 +734,25 @@ void EnSyatekiNiw_UpdateEffects(EnSyatekiNiw* this, PlayState* play) {
     EnSyatekiNiwEffect* effect = &this->effects[0];
 
     for (i = 0; i < EN_SYATEKI_NIW_EFFECT_COUNT; i++, effect++) {
-        if (effect->unk_00 != 0) {
-            effect->unk_04.x += effect->unk_10.x;
-            effect->unk_04.y += effect->unk_10.y;
-            effect->unk_04.z += effect->unk_10.z;
-            effect->unk_34++;
-            effect->unk_10.x += effect->unk_1C.x;
-            effect->unk_10.y += effect->unk_1C.y;
-            effect->unk_10.z += effect->unk_1C.z;
-            if (effect->unk_00 == 1) {
-                effect->unk_2A++;
-                Math_ApproachF(&effect->unk_10.x, 0.0f, 1.0f, 0.05f);
-                Math_ApproachF(&effect->unk_10.z, 0.0f, 1.0f, 0.05f);
-                if (effect->unk_10.y < -0.5f) {
-                    effect->unk_10.y = 0.5f;
+        if (effect->state != 0) {
+            effect->pos.x += effect->vel.x;
+            effect->pos.y += effect->vel.y;
+            effect->pos.z += effect->vel.z;
+            effect->timer++;
+            effect->vel.x += effect->accel.x;
+            effect->vel.y += effect->accel.y;
+            effect->vel.z += effect->accel.z;
+            if (effect->state == 1) {
+                effect->rotZPulse++;
+                Math_ApproachF(&effect->vel.x, 0.0f, 1.0f, 0.05f);
+                Math_ApproachF(&effect->vel.z, 0.0f, 1.0f, 0.05f);
+                if (effect->vel.y < -0.5f) {
+                    effect->vel.y = 0.5f;
                 }
 
-                effect->unk_30 = (Math_SinS(effect->unk_2A * 3000) * M_PI) * 0.2f;
-                if (effect->unk_28 < effect->unk_34) {
-                    effect->unk_00 = 0;
+                effect->rotZ = (Math_SinS(effect->rotZPulse * 3000) * M_PI) * 0.2f;
+                if (effect->lifespan < effect->timer) {
+                    effect->state = 0;
                 }
             }
         }
@@ -769,16 +770,16 @@ void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     for (i = 0; i < EN_SYATEKI_NIW_EFFECT_COUNT; i++, effect++) {
-        if (effect->unk_00 == 1) {
+        if (effect->state == 1) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherMaterialDL);
                 materialFlag++;
             }
 
-            Matrix_Translate(effect->unk_04.x, effect->unk_04.y, effect->unk_04.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(effect->unk_2C, effect->unk_2C, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(effect->unk_30, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->rotZ, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),

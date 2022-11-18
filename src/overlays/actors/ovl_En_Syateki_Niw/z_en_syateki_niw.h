@@ -9,15 +9,15 @@ struct EnSyatekiNiw;
 typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, PlayState*);
 
 typedef struct {
-    /* 0x00 */ u8    unk_00;
-    /* 0x0C */ Vec3f unk_04;
-    /* 0x10 */ Vec3f unk_10;
-    /* 0x1C */ Vec3f unk_1C;
-    /* 0x28 */ s16   unk_28;
-    /* 0x2A */ s16   unk_2A;
-    /* 0x2C */ f32   unk_2C;
-    /* 0x30 */ f32   unk_30;
-    /* 0x34 */ u8    unk_34;
+    /* 0x00 */ u8    state;
+    /* 0x0C */ Vec3f pos;
+    /* 0x10 */ Vec3f vel;
+    /* 0x1C */ Vec3f accel;
+    /* 0x28 */ s16   lifespan;
+    /* 0x2A */ s16   rotZPulse;
+    /* 0x2C */ f32   scale;
+    /* 0x30 */ f32   rotZ;
+    /* 0x34 */ u8    timer;
 } EnSyatekiNiwEffect; // size = 0x38
 
 #define EN_SYATEKI_NIW_EFFECT_COUNT 5
@@ -54,17 +54,17 @@ typedef struct EnSyatekiNiw {
     /* 0x0298 */ s16 unk_298;
     /* 0x029C */ s16 unk_29A;
     /* 0x029C */ s16 unk_29C;
-    /* 0x029E */ s16 unk_29E;
+    /* 0x029E */ s16 minigameType;
     /* 0x02A0 */ s16 unk_2A0;
-    /* 0x02A4 */ Vec3f unk_2A4;
-    /* 0x02B0 */ Vec3f unk_2B0;
+    /* 0x02A4 */ Vec3f limb7Rot;
+    /* 0x02B0 */ Vec3f limbBRot;
     /* 0x02BC */ Vec3f unk_2BC;
-    /* 0x02C8 */ Vec3f unk_2C8;
+    /* 0x02C8 */ Vec3f posRotStep;
     /* 0x02D4 */ f32 unk_2D4;
     /* 0x02D8 */ f32 unk_2D8;
-    /* 0x02DC */ Vec3f unk_2DC;
-    /* 0x02E8 */ Vec3f unk_2E8;
-    /* 0x02F4 */ f32 unk_2F4;
+    /* 0x02DC */ Vec3f initPos;
+    /* 0x02E8 */ Vec3f targetPos;
+    /* 0x02F4 */ f32 scale;
     /* 0x02F8 */ u8 unk_2F8;
     /* 0x02FC */ ColliderCylinder collider;
     /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT];
