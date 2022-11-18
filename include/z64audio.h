@@ -3,13 +3,15 @@
 
 typedef void (*AudioCustomUpdateFunction)(void);
 
-#define REFRESH_RATE_DEVIATION_PAL 1.001521f
-#define REFRESH_RATE_DEVIATION_MPAL 0.99276f
-#define REFRESH_RATE_DEVIATION_NTSC 1.00278f
 
 #define REFRESH_RATE_PAL 50
 #define REFRESH_RATE_MPAL 60
 #define REFRESH_RATE_NTSC 60
+
+// Small deviation parameters used in estimating the max tempo
+#define REFRESH_RATE_DEVIATION_PAL 1.001521f
+#define REFRESH_RATE_DEVIATION_MPAL 0.99276f
+#define REFRESH_RATE_DEVIATION_NTSC 1.00278f
 
 #define AUDIO_MK_CMD(b0,b1,b2,b3) ((((b0) & 0xFF) << 0x18) | (((b1) & 0xFF) << 0x10) | (((b2) & 0xFF) << 0x8) | (((b3) & 0xFF) << 0))
 

@@ -4281,7 +4281,7 @@ void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel) {
 
     // Ganondorf's Lair
     if (ganonsTowerLevel == 0) {
-        // Pan is split evenly between the SequenceChannel and SequenceLayer
+        // Pan comes entirely from the SequenceChannel
         panChannelWeight = 0x7F;
     }
 

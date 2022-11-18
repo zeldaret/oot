@@ -192,7 +192,7 @@ void Audio_NoteVibratoInit(Note* note) {
 
     vib->active = true;
     vib->time = 0;
-    vib->curve = gWaveSamples[2]; // gSineWaveSample
+    vib->curve = gWaveSamples[2]; // gSineWaveSample[0..63]
 
     vib->channel = note->playbackState.parentLayer->channel;
     channel = vib->channel;
