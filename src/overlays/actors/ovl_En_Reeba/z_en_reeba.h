@@ -23,7 +23,7 @@ typedef struct EnReeba {
     /* 0x027A */ s16 isBig;
     /* 0x027C */ s16 unkDamageField; // set when hit with ice and most other weapons. Never read.
     /* 0x027E */ s16 stunType;
-    /* 0x0280 */ s16 rotYSwitch; // inc'd by spawner. dictates rotateY modification
+    /* 0x0280 */ s16 aimType; // inc'd by spawner. dictates rotateY modification
     /* 0x0284 */ f32 offsetYTarget;
     /* 0x0288 */ f32 offsetYStep;
     /* 0x028C */ f32 scale;

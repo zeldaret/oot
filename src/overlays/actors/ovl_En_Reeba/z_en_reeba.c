@@ -213,7 +213,7 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
             this->actor.shape.yOffset = 0.0f;
             playerLinearVel = player->linearVelocity;
 
-            switch (this->rotYSwitch) {
+            switch (this->aimType) {
                 case 0:
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     break;
