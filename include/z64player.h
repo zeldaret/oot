@@ -470,6 +470,16 @@ typedef void (*PlayerFunc674)(struct Player*, struct PlayState*);
 typedef s32 (*PlayerFunc82C)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
+#define NOREST_ROT_FOCUS_X (1 << 0)
+#define NOREST_ROT_FOCUS_Y (1 << 1)
+#define NOREST_ROT_FOCUS_Z (1 << 2)
+#define NOREST_ROT_HEAD_X (1 << 3)
+#define NOREST_ROT_HEAD_Y (1 << 4)
+#define NOREST_ROT_HEAD_Z (1 << 5)
+#define NOREST_ROT_UPPER_X (1 << 6)
+#define NOREST_ROT_UPPER_Y (1 << 7)
+#define NOREST_ROT_UPPER_Z (1 << 8)
+
 typedef struct Player {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ s8         currentTunic; // current tunic from `PlayerTunic`
@@ -557,15 +567,11 @@ typedef struct Player {
     /* 0x06A8 */ Actor*     unk_6A8;
     /* 0x06AC */ s8         unk_6AC;
     /* 0x06AD */ u8         unk_6AD;
-    /* 0x06AE */ u16        unk_6AE;
-    /* 0x06B0 */ s16        unk_6B0;
+    /* 0x06AE */ u16        rotsNoRestFlags; // See `NOREST_ROT_` macros. If its flag isn't set, a rot steps to a rest value.
+    /* 0x06B0 */ s16        upperLimbYawSecondary;
     /* 0x06B2 */ char       unk_6B4[0x004];
-    /* 0x06B6 */ s16        unk_6B6;
-    /* 0x06B8 */ s16        unk_6B8;
-    /* 0x06BA */ s16        unk_6BA;
-    /* 0x06BC */ s16        unk_6BC;
-    /* 0x06BE */ s16        unk_6BE;
-    /* 0x06C0 */ s16        unk_6C0;
+    /* 0x06B6 */ Vec3s      headLimbRot;
+    /* 0x06BC */ Vec3s      upperLimbRot;
     /* 0x06C2 */ s16        unk_6C2;
     /* 0x06C4 */ f32        unk_6C4;
     /* 0x06C8 */ SkelAnime  skelAnime2;

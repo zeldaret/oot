@@ -1086,22 +1086,22 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         }
 
         if (limbIndex == PLAYER_LIMB_HEAD) {
-            rot->x += this->unk_6BA;
-            rot->y -= this->unk_6B8;
-            rot->z += this->unk_6B6;
+            rot->x += this->headLimbRot.z;
+            rot->y -= this->headLimbRot.y;
+            rot->z += this->headLimbRot.x;
         } else if (limbIndex == PLAYER_LIMB_UPPER) {
-            if (this->unk_6B0 != 0) {
+            if (this->upperLimbYawSecondary != 0) {
                 Matrix_RotateZ(BINANG_TO_RAD(0x44C), MTXMODE_APPLY);
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6B0), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbYawSecondary), MTXMODE_APPLY);
             }
-            if (this->unk_6BE != 0) {
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6BE), MTXMODE_APPLY);
+            if (this->upperLimbRot.y != 0) {
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbRot.y), MTXMODE_APPLY);
             }
-            if (this->unk_6BC != 0) {
-                Matrix_RotateX(BINANG_TO_RAD(this->unk_6BC), MTXMODE_APPLY);
+            if (this->upperLimbRot.x != 0) {
+                Matrix_RotateX(BINANG_TO_RAD(this->upperLimbRot.x), MTXMODE_APPLY);
             }
-            if (this->unk_6C0 != 0) {
-                Matrix_RotateZ(BINANG_TO_RAD(this->unk_6C0), MTXMODE_APPLY);
+            if (this->upperLimbRot.z != 0) {
+                Matrix_RotateZ(BINANG_TO_RAD(this->upperLimbRot.z), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
             func_8008F87C(play, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
@@ -1591,7 +1591,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
-                    if (func_8002DD78(this) != 0) {
+                    if (func_8002DD78(this)) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
                         Player_DrawHookshotReticle(play, this,
                                                    (this->heldItemAction == PLAYER_IA_HOOKSHOT) ? 38600.0f : 77600.0f);
