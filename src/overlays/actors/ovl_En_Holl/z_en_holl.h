@@ -39,7 +39,7 @@ typedef struct EnHoll {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s16 planeAlpha;
     /* 0x014E */ u8 side;
-    /* 0x014F */ u8 resetEnHollFillAlpha;
+    /* 0x014F */ u8 resetBgCoverAlpha;
     /* 0x0150 */ EnHollActionFunc actionFunc;
 } EnHoll; // size = 0x0154
 

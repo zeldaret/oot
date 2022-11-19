@@ -124,7 +124,7 @@ void EnHoll_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnHoll_ChooseAction(this);
-    this->resetEnHollFillAlpha = false;
+    this->resetBgCoverAlpha = false;
 }
 
 void EnHoll_Destroy(Actor* thisx, PlayState* play) {
@@ -260,12 +260,12 @@ void EnHoll_VerticalDownFadeLarge(EnHoll* this, PlayState* play) {
         transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
 
         if (absYDistToPlayer < ENHOLL_V_DOWN_LOAD_YDIST) {
-            play->enHollFillAlpha = 255;
+            play->bgCoverAlpha = 255;
         } else if (absYDistToPlayer > ENHOLL_V_DOWN_FADE_YDIST) {
-            play->enHollFillAlpha = 0;
+            play->bgCoverAlpha = 0;
         } else {
-            play->enHollFillAlpha = (s16)(ENHOLL_V_DOWN_FADE_YDIST - absYDistToPlayer) *
-                                    (255 / (ENHOLL_V_DOWN_FADE_YDIST - ENHOLL_V_DOWN_LOAD_YDIST));
+            play->bgCoverAlpha = (s16)(ENHOLL_V_DOWN_FADE_YDIST - absYDistToPlayer) *
+                                 (255 / (ENHOLL_V_DOWN_FADE_YDIST - ENHOLL_V_DOWN_LOAD_YDIST));
         }
 
         if (absYDistToPlayer < ENHOLL_V_DOWN_LOAD_YDIST) {
@@ -275,14 +275,14 @@ void EnHoll_VerticalDownFadeLarge(EnHoll* this, PlayState* play) {
             if (this->actor.room != play->roomCtx.curRoom.num &&
                 func_8009728C(play, &play->roomCtx, this->actor.room)) {
                 EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
-                this->resetEnHollFillAlpha = true;
+                this->resetBgCoverAlpha = true;
                 player->actor.speedXZ = 0.0f;
             }
         }
     } else {
-        if (this->resetEnHollFillAlpha) {
-            play->enHollFillAlpha = 0;
-            this->resetEnHollFillAlpha = false;
+        if (this->resetBgCoverAlpha) {
+            play->bgCoverAlpha = 0;
+            this->resetBgCoverAlpha = false;
         }
     }
 }
@@ -296,10 +296,10 @@ void EnHoll_VerticalFade(EnHoll* this, PlayState* play) {
         (absYDistToPlayer = fabsf(this->actor.yDistToPlayer), absYDistToPlayer < ENHOLL_V_FADE_FADE_YDIST)) {
 
         if (absYDistToPlayer < ENHOLL_V_FADE_LOAD_YDIST) {
-            play->enHollFillAlpha = 255;
+            play->bgCoverAlpha = 255;
         } else {
-            play->enHollFillAlpha = (ENHOLL_V_FADE_FADE_YDIST - absYDistToPlayer) *
-                                    (255 / (ENHOLL_V_FADE_FADE_YDIST - ENHOLL_V_FADE_LOAD_YDIST));
+            play->bgCoverAlpha = (ENHOLL_V_FADE_FADE_YDIST - absYDistToPlayer) *
+                                 (255 / (ENHOLL_V_FADE_FADE_YDIST - ENHOLL_V_FADE_LOAD_YDIST));
         }
 
         if (absYDistToPlayer > ENHOLL_V_FADE_LOAD_YDIST) {
@@ -309,13 +309,13 @@ void EnHoll_VerticalFade(EnHoll* this, PlayState* play) {
             if (this->actor.room != play->roomCtx.curRoom.num &&
                 func_8009728C(play, &play->roomCtx, this->actor.room)) {
                 EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
-                this->resetEnHollFillAlpha = true;
+                this->resetBgCoverAlpha = true;
             }
         }
     } else {
-        if (this->resetEnHollFillAlpha) {
-            this->resetEnHollFillAlpha = false;
-            play->enHollFillAlpha = 0;
+        if (this->resetBgCoverAlpha) {
+            this->resetBgCoverAlpha = false;
+            play->bgCoverAlpha = 0;
         }
     }
 }
@@ -348,9 +348,9 @@ void EnHoll_HorizontalFadeSwitchFlag(EnHoll* this, PlayState* play) {
     s32 transitionActorIndex;
 
     if (!Flags_GetSwitch(play, ENHOLL_GET_SWITCH_FLAG(&this->actor))) {
-        if (this->resetEnHollFillAlpha) {
-            play->enHollFillAlpha = 0;
-            this->resetEnHollFillAlpha = false;
+        if (this->resetBgCoverAlpha) {
+            play->bgCoverAlpha = 0;
+            this->resetBgCoverAlpha = false;
         }
     } else {
         func_8002DBD0(&this->actor, &relPlayerPos, &player->actor.world.pos);
@@ -359,16 +359,16 @@ void EnHoll_HorizontalFadeSwitchFlag(EnHoll* this, PlayState* play) {
         if (ENHOLL_H_Y_MIN < relPlayerPos.y && relPlayerPos.y < ENHOLL_H_Y_MAX &&
             fabsf(relPlayerPos.x) < ENHOLL_H_HALFWIDTH && orthogonalDistToPlayer < ENHOLL_H_SWITCHFLAG_FADE_DEPTH) {
 
-            this->resetEnHollFillAlpha = true;
+            this->resetBgCoverAlpha = true;
             transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
 
-            play->enHollFillAlpha =
+            play->bgCoverAlpha =
                 255 - (s32)((orthogonalDistToPlayer - ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) *
                             (255 / (ENHOLL_H_SWITCHFLAG_FADE_DEPTH - ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) + 0.8f));
-            if (play->enHollFillAlpha > 255) {
-                play->enHollFillAlpha = 255;
-            } else if (play->enHollFillAlpha < 0) {
-                play->enHollFillAlpha = 0;
+            if (play->bgCoverAlpha > 255) {
+                play->bgCoverAlpha = 255;
+            } else if (play->bgCoverAlpha < 0) {
+                play->bgCoverAlpha = 0;
             }
 
             if (orthogonalDistToPlayer < ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) {
@@ -380,9 +380,9 @@ void EnHoll_HorizontalFadeSwitchFlag(EnHoll* this, PlayState* play) {
                 }
             }
         } else {
-            if (this->resetEnHollFillAlpha) {
-                play->enHollFillAlpha = 0;
-                this->resetEnHollFillAlpha = false;
+            if (this->resetBgCoverAlpha) {
+                play->bgCoverAlpha = 0;
+                this->resetBgCoverAlpha = false;
             }
         }
     }
@@ -391,8 +391,8 @@ void EnHoll_HorizontalFadeSwitchFlag(EnHoll* this, PlayState* play) {
 void EnHoll_WaitRoomLoaded(EnHoll* this, PlayState* play) {
     if (!EnHoll_IsKokiriLayer8() && play->roomCtx.status == 0) {
         func_80097534(play, &play->roomCtx);
-        if (play->enHollFillAlpha == 0) {
-            this->resetEnHollFillAlpha = false;
+        if (play->bgCoverAlpha == 0) {
+            this->resetBgCoverAlpha = false;
         }
         EnHoll_ChooseAction(this);
     }
