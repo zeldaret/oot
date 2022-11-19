@@ -28,46 +28,51 @@ typedef struct EnSyatekiNiw {
     /* 0x0190 */ Vec3s jointTable[16];
     /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ EnSyatekiNiwActionFunc actionFunc;
-    /* 0x0254 */ s16 unk_254;
-    /* 0x0256 */ s16 unk_256;
-    /* 0x0258 */ s16 unk_258;
-    /* 0x025A */ s16 unk_25A;
+    /* 0x0254 */ s16 timer0;
+    /* 0x0256 */ s16 timer1; // sometimes set alongside timer0, never read on its own.
+    /* 0x0258 */ s16 timer2;
+    /* 0x025A */ s16 archeryTimer;
     /* 0x025C */ s16 unk_25C;
-    /* 0x025E */ s16 unk_25E;
-    /* 0x0260 */ s16 unk_260;
-    /* 0x0262 */ s16 unk_262;
-    /* 0x0264 */ f32 unk_264;
-    /* 0x0268 */ f32 unk_268;
-    /* 0x026C */ f32 unk_26C;
+    /* 0x025E */ s16 movementTimer;
+    /* 0x0260 */ s16 sootTimer; // cuccoo is covereed in soot.
+    /* 0x0262 */ s16 cluckTimer;
+    /* 0x0264 */ f32 limbDRotXTarget;
+    /* 0x0268 */ f32 limbBRotXTarget;
+    /* 0x026C */ f32 limb7RotXTarget;
     /* 0x0270 */ char unk_270[0x8];
-    /* 0x0278 */ f32 unk_278;
-    /* 0x027C */ f32 unk_27C;
-    /* 0x0284 */ f32 unk_280;
-    /* 0x0280 */ f32 unk_284;
-    /* 0x0288 */ f32 unk_288;
-    /* 0x028C */ s16 unk_28C;
+    /* 0x0278 */ f32 limbBRotYTarget;
+    /* 0x027C */ f32 limbBRotZTarget;
+    /* 0x0284 */ f32 limb7RotYTarget;
+    /* 0x0280 */ f32 limb7RotZTarget;
+    /* 0x0288 */ f32 unk_288; // set, but never used.
+    /* 0x028C */ s16 lifetime; // always ticks up, never read
     /* 0x028E */ s16 unk_28E;
     /* 0x0290 */ s16 unk_290;
     /* 0x0292 */ s16 unk_292;
     /* 0x0294 */ s16 unk_294;
     /* 0x0296 */ s16 unk_296;
-    /* 0x0298 */ s16 unk_298;
-    /* 0x029C */ s16 unk_29A;
-    /* 0x029C */ s16 unk_29C;
+    /* 0x0298 */ s16 rotYFlip;
+    /* 0x029C */ s16 archeryState; // sequence index for "Archery" action
+    /* 0x029C */ s16 unkArcheryBool;
     /* 0x029E */ s16 minigameType;
-    /* 0x02A0 */ s16 unk_2A0;
+    /* 0x02A0 */ s16 spawnFeathers;
     /* 0x02A4 */ Vec3f limb7Rot;
     /* 0x02B0 */ Vec3f limbBRot;
-    /* 0x02BC */ Vec3f unk_2BC;
+    /* 0x02BC */ Vec3f limbDRot;
     /* 0x02C8 */ Vec3f posRotStep;
-    /* 0x02D4 */ f32 unk_2D4;
-    /* 0x02D8 */ f32 unk_2D8;
+    /* 0x02D4 */ f32 focusYOffset;
+    /* 0x02D8 */ f32 unkRotY;
     /* 0x02DC */ Vec3f initPos;
     /* 0x02E8 */ Vec3f targetPos;
     /* 0x02F4 */ f32 scale;
-    /* 0x02F8 */ u8 unk_2F8;
+    /* 0x02F8 */ u8 unkAlleyHitByte; //Set when hit in Bombchu Alley. Never read.
     /* 0x02FC */ ColliderCylinder collider;
     /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT];
 } EnSyatekiNiw; // size = 0x0460
+
+typedef enum{
+    MINIGAME_ARCHERY,
+    MINIGAME_ALLEY
+} EnSyatekiMinigame;
 
 #endif

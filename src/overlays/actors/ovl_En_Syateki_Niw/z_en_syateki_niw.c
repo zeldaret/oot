@@ -15,14 +15,14 @@ void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play);
 void EnSyatekiNiw_Update(Actor* thisx, PlayState* play);
 void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play);
 
-void func_80B11DEC(EnSyatekiNiw* this, PlayState* play);
+void EnSyatekiNiw_SetupDefault(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_UpdateEffects(EnSyatekiNiw* this, PlayState* play);
 void func_80B129EC(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, PlayState* play);
-void func_80B123A8(EnSyatekiNiw* this, PlayState* play);
-void func_80B11E78(EnSyatekiNiw* this, PlayState* play);
-void func_80B12460(EnSyatekiNiw* this, PlayState* play);
-void func_80B128D8(EnSyatekiNiw* this, PlayState* play);
+void EnSyatekiNiw_SetupArchery(EnSyatekiNiw* this, PlayState* play);
+void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play);
+void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play);
+void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play);
 
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 
@@ -73,13 +73,13 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
     this->minigameType = this->actor.params;
-    if (this->minigameType < 0) {
-        this->minigameType = 0;
+    if (this->minigameType < MINIGAME_ARCHERY) {
+        this->minigameType = MINIGAME_ARCHERY;
     }
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    if (this->minigameType == 0) {
+    if (this->minigameType == MINIGAME_ARCHERY) {
         osSyncPrintf("\n\n");
         // "Archery range chicken"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
@@ -94,7 +94,7 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
 
     this->initPos = this->actor.world.pos;
     this->targetPos = this->actor.world.pos;
-    this->actionFunc = func_80B11DEC;
+    this->actionFunc = EnSyatekiNiw_SetupDefault;
 }
 
 void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play) {
@@ -104,133 +104,133 @@ void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
-    if (this->unk_254 == 0) {
+    if (this->timer0 == 0) {
         if (arg2 == 0) {
-            this->unk_264 = 0.0f;
+            this->limbDRotXTarget = 0.0f;
         } else {
-            this->unk_264 = -10000.0f;
+            this->limbDRotXTarget = -10000.0f;
         }
 
         this->unk_28E += 1;
-        this->unk_254 = 3;
+        this->timer0 = 3;
         if (!(this->unk_28E & 1)) {
-            this->unk_264 = 0.0f;
+            this->limbDRotXTarget = 0.0f;
             if (arg2 == 0) {
-                this->unk_254 = Rand_ZeroFloat(30.0f);
+                this->timer0 = Rand_ZeroFloat(30.0f);
             }
         }
     }
 
-    if (this->unk_258 == 0) {
+    if (this->timer2 == 0) {
         this->unk_292++;
         this->unk_292 &= 1;
         switch (arg2) {
             case 0:
-                this->unk_26C = 0.0f;
-                this->unk_268 = 0.0f;
+                this->limb7RotXTarget = 0.0f;
+                this->limbBRotXTarget = 0.0f;
                 break;
 
             case 1:
-                this->unk_258 = 3;
-                this->unk_26C = 7000.0f;
-                this->unk_268 = 7000.0f;
+                this->timer2 = 3;
+                this->limb7RotXTarget = 7000.0f;
+                this->limbBRotXTarget = 7000.0f;
                 if (this->unk_292 == 0) {
-                    this->unk_26C = 0.0f;
-                    this->unk_268 = 0.0f;
+                    this->limb7RotXTarget = 0.0f;
+                    this->limbBRotXTarget = 0.0f;
                 }
                 break;
 
             case 2:
-                this->unk_258 = 2;
-                this->unk_268 = this->unk_26C = -10000.0f;
-                this->unk_280 = this->unk_278 = 25000.0f;
-                this->unk_284 = this->unk_27C = 6000.0f;
+                this->timer2 = 2;
+                this->limbBRotXTarget = this->limb7RotXTarget = -10000.0f;
+                this->limb7RotYTarget = this->limbBRotYTarget = 25000.0f;
+                this->limb7RotZTarget = this->limbBRotZTarget = 6000.0f;
                 if (this->unk_292 == 0) {
-                    this->unk_278 = 8000.0f;
-                    this->unk_280 = 8000.0f;
+                    this->limbBRotYTarget = 8000.0f;
+                    this->limb7RotYTarget = 8000.0f;
                 }
                 break;
 
             case 3:
-                this->unk_258 = 2;
-                this->unk_278 = 10000.0f;
-                this->unk_280 = 10000.0f;
+                this->timer2 = 2;
+                this->limbBRotYTarget = 10000.0f;
+                this->limb7RotYTarget = 10000.0f;
                 if (this->unk_292 == 0) {
-                    this->unk_278 = 3000.0f;
-                    this->unk_280 = 3000.0f;
+                    this->limbBRotYTarget = 3000.0f;
+                    this->limb7RotYTarget = 3000.0f;
                 }
                 break;
 
             case 4:
-                this->unk_254 = this->unk_256 = 5;
+                this->timer0 = this->timer1 = 5;
                 break;
 
             case 5:
-                this->unk_258 = 5;
-                this->unk_278 = 14000.0f;
-                this->unk_280 = 14000.0f;
+                this->timer2 = 5;
+                this->limbBRotYTarget = 14000.0f;
+                this->limb7RotYTarget = 14000.0f;
                 if (this->unk_292 == 0) {
-                    this->unk_278 = 10000.0f;
-                    this->unk_280 = 10000.0f;
+                    this->limbBRotYTarget = 10000.0f;
+                    this->limb7RotYTarget = 10000.0f;
                 }
                 break;
         }
     }
 
-    if (this->unk_264 != this->unk_2BC.x) {
-        Math_ApproachF(&this->unk_2BC.x, this->unk_264, 0.5f, 4000.0f);
+    if (this->limbDRotXTarget != this->limbDRot.x) {
+        Math_ApproachF(&this->limbDRot.x, this->limbDRotXTarget, 0.5f, 4000.0f);
     }
 
-    if (this->unk_26C != this->limb7Rot.x) {
-        Math_ApproachF(&this->limb7Rot.x, this->unk_26C, 0.8f, 7000.0f);
+    if (this->limb7RotXTarget != this->limb7Rot.x) {
+        Math_ApproachF(&this->limb7Rot.x, this->limb7RotXTarget, 0.8f, 7000.0f);
     }
 
-    if (this->unk_280 != this->limb7Rot.y) {
-        Math_ApproachF(&this->limb7Rot.y, this->unk_280, 0.8f, 7000.0f);
+    if (this->limb7RotYTarget != this->limb7Rot.y) {
+        Math_ApproachF(&this->limb7Rot.y, this->limb7RotYTarget, 0.8f, 7000.0f);
     }
 
-    if (this->unk_284 != this->limb7Rot.z) {
-        Math_ApproachF(&this->limb7Rot.z, this->unk_284, 0.8f, 7000.0f);
+    if (this->limb7RotZTarget != this->limb7Rot.z) {
+        Math_ApproachF(&this->limb7Rot.z, this->limb7RotZTarget, 0.8f, 7000.0f);
     }
 
-    if (this->unk_268 != this->limbBRot.x) {
-        Math_ApproachF(&this->limbBRot.x, this->unk_268, 0.8f, 7000.0f);
+    if (this->limbBRotXTarget != this->limbBRot.x) {
+        Math_ApproachF(&this->limbBRot.x, this->limbBRotXTarget, 0.8f, 7000.0f);
     }
 
-    if (this->unk_278 != this->limbBRot.y) {
-        Math_ApproachF(&this->limbBRot.y, this->unk_278, 0.8f, 7000.0f);
+    if (this->limbBRotYTarget != this->limbBRot.y) {
+        Math_ApproachF(&this->limbBRot.y, this->limbBRotYTarget, 0.8f, 7000.0f);
     }
 
-    if (this->unk_27C != this->limbBRot.z) {
-        Math_ApproachF(&this->limbBRot.z, this->unk_27C, 0.8f, 7000.0f);
+    if (this->limbBRotZTarget != this->limbBRot.z) {
+        Math_ApproachF(&this->limbBRot.z, this->limbBRotZTarget, 0.8f, 7000.0f);
     }
 }
 
-void func_80B11DEC(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_SetupDefault(EnSyatekiNiw* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
-    if (this->minigameType != 0) {
+    if (this->minigameType != MINIGAME_ARCHERY) {
         Actor_SetScale(&this->actor, this->scale);
     }
 
-    this->actionFunc = func_80B11E78;
+    this->actionFunc = EnSyatekiNiw_Default;
 }
 
-void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
     Vec3f dustVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f dustAccel = { 0.0f, 0.2f, 0.0f };
     Color_RGBA8 dustPrimColor = { 0, 0, 0, 255 };
     Color_RGBA8 dustEnvColor = { 0, 0, 0, 255 };
     Vec3f dustPos;
-    f32 tmpf2;
-    f32 posYMod;
+    f32 posZDiff;
+    f32 posZMod;
     f32 posXMod;
-    f32 tmpf1;
+    f32 posXDiff;
     s16 sp4A;
 
-    if ((this->unk_29C != 0) && (this->minigameType == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        this->unk_29C = 0;
-        this->actionFunc = func_80B123A8;
+    if ((this->unkArcheryBool) && (this->minigameType == MINIGAME_ARCHERY) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+        this->unkArcheryBool = false;
+        this->actionFunc = EnSyatekiNiw_SetupArchery;
         return;
     }
 
@@ -242,7 +242,7 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
             this->unk_294 = Rand_ZeroFloat(3.99f);
 
             switch (this->minigameType) {
-                case 0:
+                case MINIGAME_ARCHERY:
                     posXMod = Rand_CenteredFloat(100.0f);
                     if (posXMod < 0.0f) {
                         posXMod -= 100.0f;
@@ -250,17 +250,16 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
                         posXMod += 100.0f;
                     }
 
-                    posYMod = Rand_CenteredFloat(100.0f);
-                    if (posYMod < 0.0f) {
-                        posYMod -= 100.0f;
+                    posZMod = Rand_CenteredFloat(100.0f);
+                    if (posZMod < 0.0f) {
+                        posZMod -= 100.0f;
                     } else {
-                        posYMod += 100.0f;
+                        posZMod += 100.0f;
                     }
 
                     this->targetPos.x = this->initPos.x + posXMod;
-                    this->targetPos.z = this->initPos.z + posYMod;
+                    this->targetPos.z = this->initPos.z + posZMod;
 
-                    // confine to the Bowling lane
                     if (this->targetPos.x < -150.0f) {
                         this->targetPos.x = -150.0f;
                     }
@@ -278,7 +277,7 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
                     }
                     break;
 
-                case 1:
+                case MINIGAME_ALLEY:
                     posXMod = Rand_CenteredFloat(50.0f);
                     if (posXMod < 0.0f) {
                         posXMod -= 50.0f;
@@ -286,22 +285,22 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
                         posXMod += 50.0f;
                     }
 
-                    posYMod = Rand_CenteredFloat(30.0f);
-                    if (posYMod < 0.0f) {
-                        posYMod -= 30.0f;
+                    posZMod = Rand_CenteredFloat(30.0f);
+                    if (posZMod < 0.0f) {
+                        posZMod -= 30.0f;
                     } else {
-                        posYMod += 30.0f;
+                        posZMod += 30.0f;
                     }
 
                     this->targetPos.x = this->initPos.x + posXMod;
-                    this->targetPos.z = this->initPos.z + posYMod;
+                    this->targetPos.z = this->initPos.z + posZMod;
                     break;
             }
         } else {
             this->unk_25C = 4;
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->actor.velocity.y = 2.5f;
-                if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->minigameType == 0)) {
+                if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->minigameType == MINIGAME_ARCHERY)) {
                     this->unk_25C = 0xC;
                     this->actor.velocity.y = 10.0f;
                 }
@@ -310,35 +309,35 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
     }
     if (this->unk_25C != 0) {
         sp4A = 1;
-        Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 1.0f, this->unk_2C8.y);
-        Math_ApproachF(&this->actor.world.pos.z, this->targetPos.z, 1.0f, this->unk_2C8.y);
-        Math_ApproachF(&this->unk_2C8.y, 3.0f, 1.0f, 0.3f);
-        tmpf1 = this->targetPos.x - this->actor.world.pos.x;
-        tmpf2 = this->targetPos.z - this->actor.world.pos.z;
+        Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 1.0f, this->posRotStep.y);
+        Math_ApproachF(&this->actor.world.pos.z, this->targetPos.z, 1.0f, this->posRotStep.y);
+        Math_ApproachF(&this->posRotStep.y, 3.0f, 1.0f, 0.3f);
+        posXDiff = this->targetPos.x - this->actor.world.pos.x;
+        posZDiff = this->targetPos.z - this->actor.world.pos.z;
 
-        if (fabsf(tmpf1) < 10.0f) {
-            tmpf1 = 0;
+        if (fabsf(posXDiff) < 10.0f) {
+            posXDiff = 0;
         }
 
-        if (fabsf(tmpf2) < 10.0f) {
-            tmpf2 = 0.0f;
+        if (fabsf(posZDiff) < 10.0f) {
+            posZDiff = 0.0f;
         }
 
-        if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f)) {
+        if ((posXDiff == 0.0f) && (posZDiff == 0.0f)) {
             this->unk_25C = 0;
             this->unk_294 = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(tmpf1, tmpf2)), 3, this->unk_2C8.z, 0);
-        Math_ApproachF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(posXDiff, posZDiff)), 3, this->posRotStep.z, 0);
+        Math_ApproachF(&this->posRotStep.z, 10000.0f, 1.0f, 1000.0f);
     }
 
-    if (this->unk_260 == 0) {
+    if (this->sootTimer == 0) {
         func_80B11A94(this, play, sp4A);
         return;
     }
 
-    if ((play->gameplayFrames % 4) == 0) {
+    if ((play->gameplayFrames % 4) == 0) { // draw smoke from bombhu hit
         dustVelocity.y = Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
         dustPos = this->actor.world.pos;
@@ -346,33 +345,33 @@ void func_80B11E78(EnSyatekiNiw* this, PlayState* play) {
     }
 }
 
-void func_80B123A8(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_SetupArchery(EnSyatekiNiw* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
-    this->unk_27C = 6000.0f;
+    this->limbBRotZTarget = 6000.0f;
     this->unk_288 = -10000.0f;
     this->limbBRot.z = 6000.0f;
     this->limbBRot.y = 10000.0f;
-    this->actionFunc = func_80B12460;
+    this->actionFunc = EnSyatekiNiw_Archery;
     this->limb7Rot.z = 6000.0f;
-    this->unk_284 = 6000.0f;
+    this->limb7RotZTarget = 6000.0f;
     this->limbBRot.x = -10000.0f;
-    this->unk_268 = -10000.0f;
+    this->limbBRotXTarget = -10000.0f;
     this->limb7Rot.y = -10000.0f;
     this->limb7Rot.x = -10000.0f;
-    this->unk_26C = -10000.0f;
+    this->limb7RotXTarget = -10000.0f;
 }
 
-void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 phi_f16 = 0.0f;
 
     player->actor.freezeTimer = 10;
-    switch (this->unk_29A) {
+    switch (this->archeryState) {
         case 0:
             this->unk_296 = 2;
-            this->unk_2C8.y = 0.0f;
-            this->unk_29A = 1;
+            this->posRotStep.y = 0.0f;
+            this->archeryState = 1;
             break;
 
         case 1:
@@ -382,18 +381,18 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                 this->actor.velocity.y = 3.5f;
             }
 
-            if (this->unk_25A == 0) {
-                this->unk_298++;
-                this->unk_298 &= 1;
-                this->unk_25A = 5;
+            if (this->archeryTimer == 0) {
+                this->rotYFlip++;
+                this->rotYFlip &= 1;
+                this->archeryTimer = 5;
             }
 
-            phi_f16 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
+            phi_f16 = (this->rotYFlip == 0) ? 5000.0f : -5000.0f;
             if (this->actor.world.pos.z > 100.0f) {
                 this->actor.speedXZ = 2.0f;
                 this->actor.gravity = -0.3f;
                 this->actor.velocity.y = 5.0f;
-                this->unk_29A = 2;
+                this->archeryState = 2;
             }
             break;
 
@@ -405,59 +404,59 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
             if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.world.pos.z > 110.0f)) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = 0.0f;
-                this->unk_284 = 0.0f;
-                this->unk_27C = 0.0f;
-                this->unk_278 = 0.0f;
-                this->unk_280 = 0.0f;
+                this->limb7RotZTarget = 0.0f;
+                this->limbBRotZTarget = 0.0f;
+                this->limbBRotYTarget = 0.0f;
+                this->limb7RotYTarget = 0.0f;
                 this->unk_288 = 0.0f;
                 this->actor.speedXZ = 0.5f;
-                this->unk_254 = this->unk_256 = 0;
+                this->timer0 = this->timer1 = 0;
                 this->unk_28E = this->unk_290 = 0;
                 this->unk_296 = 1;
-                this->unk_29A = 3;
+                this->archeryState = 3;
             }
             break;
 
         case 3:
             if ((player->actor.world.pos.z - 50.0f) < this->actor.world.pos.z) {
                 this->actor.speedXZ = 0.0f;
-                this->unk_262 = 0x3C;
-                this->unk_25A = 0x14;
-                this->unk_264 = 10000.0f;
-                this->unk_29A = 4;
+                this->cluckTimer = 60;
+                this->archeryTimer = 20;
+                this->limbDRotXTarget = 10000.0f;
+                this->archeryState = 4;
             }
             break;
 
         case 4:
-            if (this->unk_25A == 0) {
+            if (this->archeryTimer == 0) {
                 this->unk_296 = 4;
-                this->unk_264 = 5000.0f;
-                this->unk_26C = 0.0f;
-                this->unk_268 = 0.0f;
-                this->unk_284 = 0.0f;
-                this->unk_27C = 0.0f;
-                this->unk_280 = 14000.0f;
-                this->unk_278 = 14000.0f;
+                this->limbDRotXTarget = 5000.0f;
+                this->limb7RotXTarget = 0.0f;
+                this->limbBRotXTarget = 0.0f;
+                this->limb7RotZTarget = 0.0f;
+                this->limbBRotZTarget = 0.0f;
+                this->limb7RotYTarget = 14000.0f;
+                this->limbBRotYTarget = 14000.0f;
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
-                this->unk_254 = this->unk_256 = this->unk_25A = 0x1E;
-                this->unk_29A = 5;
+                this->timer0 = this->timer1 = this->archeryTimer = 30;
+                this->archeryState = 5;
             }
             break;
 
         case 5:
-            if (this->unk_25A == 1) {
-                this->unk_258 = 0;
+            if (this->archeryTimer == 1) {
+                this->timer2 = 0;
                 this->unk_296 = 5;
-                this->unk_256 = this->unk_258;
-                this->unk_254 = this->unk_258;
+                this->timer1 = this->timer2;
+                this->timer0 = this->timer2;
                 this->actor.speedXZ = 1.0f;
             }
 
-            if ((this->unk_25A == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
+            if ((this->archeryTimer == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
                 Audio_PlaySfxGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                this->unk_25E = 0x14;
-                this->unk_29A = 6;
+                this->unk_25E = 20;
+                this->archeryState = 6;
                 this->actor.speedXZ = 0.0f;
             }
             break;
@@ -468,8 +467,8 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                 play->nextEntranceIndex = gSaveContext.entranceIndex;
                 play->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
-                this->unk_25E = 0x14;
-                this->actionFunc = func_80B128D8;
+                this->unk_25E = 20;
+                this->actionFunc = EnSyatekiNiw_ExitArchery;
             }
             break;
     }
@@ -478,17 +477,17 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                        RAD_TO_BINANG(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
                                                   player->actor.world.pos.z - this->actor.world.pos.z)) +
                            phi_f16,
-                       5, this->unk_2C8.y, 0);
-    Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
+                       5, this->posRotStep.y, 0);
+    Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
     if (this->unk_296 == 2) {
-        this->unk_256 = 10;
-        this->unk_254 = this->unk_256;
+        this->timer1 = 10;
+        this->timer0 = this->timer1;
     }
 
     func_80B11A94(this, play, this->unk_296);
 }
 
-void func_80B128D8(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play) {
     if (this->unk_25E == 1) {
         gSaveContext.timerState = TIMER_STATE_OFF;
     }
@@ -498,15 +497,15 @@ void func_80B128F8(EnSyatekiNiw* this, PlayState* play) {
     s16 sp26;
     s16 sp24;
 
-    Actor_SetFocus(&this->actor, this->unk_2D4);
+    Actor_SetFocus(&this->actor, this->focusYOffset);
     Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
         (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
         this->actor.speedXZ = 5.0f;
-        this->unk_298 = Rand_ZeroFloat(1.99f);
-        this->unk_2D8 = Rand_CenteredFloat(8000.0f) + -10000.0f;
-        this->unk_262 = 0x1E;
-        this->unk_25E = 0x64;
+        this->rotYFlip = Rand_ZeroFloat(1.99f);
+        this->unkRotY = Rand_CenteredFloat(8000.0f) + -10000.0f;
+        this->cluckTimer = 30;
+        this->unk_25E = 100;
         this->actionFunc = func_80B129EC;
     }
 }
@@ -514,57 +513,57 @@ void func_80B128F8(EnSyatekiNiw* this, PlayState* play) {
 void func_80B129EC(EnSyatekiNiw* this, PlayState* play) {
     s32 pad;
     f32 phi_f2;
-    s16 sp2E;
-    s16 sp2C;
-    f32 tmpf2;
+    s16 screenX;
+    s16 screenY;
+    f32 rotYTarget;
 
-    Actor_SetFocus(&this->actor, this->unk_2D4);
-    Actor_GetScreenPos(play, &this->actor, &sp2E, &sp2C);
-    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
-        (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {
+    Actor_SetFocus(&this->actor, this->focusYOffset);
+    Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
+    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (screenX < 0) || (screenX > SCREEN_WIDTH) ||
+        (screenY < 0) || (screenY > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    this->unk_2A0 = 1;
+    this->spawnFeathers = true;
     if (this->unk_25C == 0) {
-        this->unk_298++;
-        this->unk_298 &= 1;
+        this->rotYFlip++;
+        this->rotYFlip &= 1;
         this->unk_25C = (s16)Rand_CenteredFloat(4.0f) + 5;
         if ((Rand_ZeroFloat(5.0f) < 1.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->actor.velocity.y = 4.0f;
         }
     }
 
-    phi_f2 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
-    tmpf2 = this->unk_2D8 + phi_f2;
-    Math_SmoothStepToS(&this->actor.world.rot.y, tmpf2, 3, this->unk_2C8.y, 0);
-    Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
+    phi_f2 = (this->rotYFlip == 0) ? 5000.0f : -5000.0f;
+    rotYTarget = this->unkRotY + phi_f2;
+    Math_SmoothStepToS(&this->actor.world.rot.y, rotYTarget, 3, this->posRotStep.y, 0);
+    Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
     func_80B11A94(this, play, 2);
 }
 
-void func_80B12BA4(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->minigameType) {
-            case 0:
-                if (this->unk_29C == 0) {
-                    this->unk_262 = 0x1E;
+            case MINIGAME_ARCHERY:
+                if (!this->unkArcheryBool) {
+                    this->cluckTimer = 30;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
-                    this->unk_29C = 1;
-                    this->unk_2A0 = 1;
-                    this->actionFunc = func_80B123A8;
+                    this->unkArcheryBool = true;
+                    this->spawnFeathers = true;
+                    this->actionFunc = EnSyatekiNiw_SetupArchery;
                     this->actor.gravity = -3.0f;
                 }
                 break;
 
-            case 1:
-                this->unk_262 = 0x1E;
-                this->unk_2F8 = 1;
+            case MINIGAME_ALLEY:
+                this->cluckTimer = 30;
+                this->unkAlleyHitByte = 1;
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
-                this->unk_260 = 100;
-                this->unk_2A0 = 1;
-                this->unk_25E = this->unk_260;
+                this->sootTimer = 100;
+                this->spawnFeathers = true;
+                this->unk_25E = this->sootTimer;
                 break;
         }
     }
@@ -585,17 +584,17 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     if (1) {}
 
     EnSyatekiNiw_UpdateEffects(this, play);
-    this->unk_28C++;
-    if (this->unk_254 != 0) {
-        this->unk_254--;
+    this->lifetime++;
+    if (this->timer0 != 0) {
+        this->timer0--;
     }
 
-    if (this->unk_258 != 0) {
-        this->unk_258--;
+    if (this->timer2 != 0) {
+        this->timer2--;
     }
 
-    if (this->unk_25A != 0) {
-        this->unk_25A--;
+    if (this->archeryTimer != 0) {
+        this->archeryTimer--;
     }
 
     if (this->unk_25C != 0) {
@@ -606,12 +605,12 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
         this->unk_25E--;
     }
 
-    if (this->unk_262 != 0) {
-        this->unk_262--;
+    if (this->cluckTimer != 0) {
+        this->cluckTimer--;
     }
 
-    if (this->unk_260 != 0) {
-        this->unk_260--;
+    if (this->sootTimer != 0) {
+        this->sootTimer--;
     }
 
     this->actor.shape.rot = this->actor.world.rot;
@@ -623,7 +622,7 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 
-    if (this->unk_2A0 != 0) {
+    if (this->spawnFeathers) {
         for (i = 0; i < 20; i++) {
             pos.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
             pos.y = Rand_CenteredFloat(10.0f) + (this->actor.world.pos.y + 20.0f);
@@ -636,29 +635,29 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
             EnSyatekiNiw_SpawnFeather(this, &pos, &vel, &accel, Rand_ZeroFloat(8.0f) + 8.0f);
         }
 
-        this->unk_2A0 = 0;
+        this->spawnFeathers = false;
     }
 
-    func_80B12BA4(this, play);
-    if (this->unk_262 == 0) {
-        if (this->actionFunc == func_80B11E78) {
-            this->unk_262 = 0x12C;
+    EnSyatekiNiw_CheckHit(this, play);
+    if (this->cluckTimer == 0) {
+        if (this->actionFunc == EnSyatekiNiw_Default) {
+            this->cluckTimer = 300;
             Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
         } else {
-            this->unk_262 = 0x1E;
+            this->cluckTimer = 30;
             Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
         }
     }
 
     i = 0;
     switch (this->minigameType) {
-        case 0:
+        case MINIGAME_ARCHERY:
             if (play->shootingGalleryStatus != 0) {
                 i = 1;
             }
             break;
 
-        case 1:
+        case MINIGAME_ALLEY:
             i = 1;
             break;
     }
@@ -675,7 +674,7 @@ s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
-        rot->y += (s16)this->unk_2BC.x;
+        rot->y += (s16)this->limbDRot.x;
     }
 
     if (limbIndex == 11) {
@@ -695,12 +694,12 @@ s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 
 void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
-    Color_RGBA8 sp30 = { 0, 0, 0, 255 };
+    Color_RGBA8 sootShade = { 0, 0, 0, 255 };
 
     if (this->actionFunc != func_80B128F8) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        if (this->unk_260 != 0) {
-            func_80026230(play, &sp30, 0, 0x14);
+        if (this->sootTimer != 0) {
+            func_80026230(play, &sootShade, 0, 20);
         }
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
@@ -722,7 +721,7 @@ void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f
             effect->accel = *accel;
             effect->timer = 0;
             effect->scale = (scale / 1000.0f);
-            effect->lifespan = (s16)Rand_ZeroFloat(20.0f) + 0x28;
+            effect->lifespan = (s16)Rand_ZeroFloat(20.0f) + 40;
             effect->rotZPulse = Rand_ZeroFloat(1000.0f);
             return;
         }
