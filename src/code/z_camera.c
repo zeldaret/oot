@@ -791,11 +791,11 @@ void Camera_UpdateInterface(s16 flags) {
     if ((flags & IFACE_ALPHA_MASK) != IFACE_ALPHA_MASK) {
         interfaceAlpha = (flags & IFACE_ALPHA_MASK) >> 8;
         if (interfaceAlpha == 0) {
-            interfaceAlpha = HUD_VISIBILITY_ALL;
+            interfaceAlpha = HUD_SHOW_ALL;
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
             sCameraInterfaceAlpha = interfaceAlpha;
-            Interface_ChangeHudVisibility(sCameraInterfaceAlpha);
+            Interface_ChangeHudVisibilityMode(sCameraInterfaceAlpha);
         }
     }
 }

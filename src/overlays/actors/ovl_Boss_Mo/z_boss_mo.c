@@ -791,7 +791,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
         case MO_TENT_SHAKE:
             if (this->timers[0] == 138) {
                 Letterbox_SetSizeTarget(0);
-                Interface_ChangeHudVisibility(HUD_VISIBILITY_HEARTS);
+                Interface_ChangeHudVisibilityMode(HUD_SHOW_HEARTS);
             }
             if ((this->timers[0] % 8) == 0) {
                 play->damagePlayer(play, -1);

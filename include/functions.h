@@ -957,7 +957,7 @@ void Map_Destroy(PlayState* play);
 void Map_Init(PlayState* play);
 void Minimap_Draw(PlayState* play);
 void Map_Update(PlayState* play);
-void Interface_ChangeHudVisibility(u16 hudVisibility);
+void Interface_ChangeHudVisibilityMode(u16 hudVisibilityMode);
 void Interface_SetSceneRestrictions(PlayState* play);
 void Inventory_SwapAgeEquipment(void);
 void Interface_InitHorsebackArchery(PlayState* play);
