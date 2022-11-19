@@ -4,11 +4,6 @@
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
-// TODO extract this information from the texture definitions themselves
-#define DO_ACTION_TEX_WIDTH 48
-#define DO_ACTION_TEX_HEIGHT 16
-#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
-
 typedef struct {
     /* 0x00 */ u8 sceneId;
     /* 0x01 */ u8 flags1;
@@ -126,7 +121,7 @@ static u16 sHBAScoreDigits[] = { 0, 0, 0, 0 };
 static u16 sCUpInvisible = 0;
 static u16 sCUpTimer = 0;
 
-s16 gSpoilingItems[] = { ITEM_ODD_MUSHROOM, ITEM_FROG, ITEM_EYEDROPS };
+s16 gSpoilingItems[] = { ITEM_ODD_MUSHROOM, ITEM_EYEBALL_FROG, ITEM_EYE_DROPS };
 s16 gSpoilingItemReverts[] = { ITEM_COJIRO, ITEM_PRESCRIPTION, ITEM_PRESCRIPTION };
 
 static s16 sMagicBorderR = 255;
@@ -134,28 +129,28 @@ static s16 sMagicBorderG = 255;
 static s16 sMagicBorderB = 255;
 
 static s16 sExtraItemBases[] = {
-    ITEM_STICK,   // ITEM_STICKS_5
-    ITEM_STICK,   // ITEM_STICKS_10
-    ITEM_NUT,     // ITEM_NUTS_5
-    ITEM_NUT,     // ITEM_NUTS_10
-    ITEM_BOMB,    // ITEM_BOMBS_5
-    ITEM_BOMB,    // ITEM_BOMBS_10
-    ITEM_BOMB,    // ITEM_BOMBS_20
-    ITEM_BOMB,    // ITEM_BOMBS_30
-    ITEM_BOW,     // ITEM_ARROWS_SMALL
-    ITEM_BOW,     // ITEM_ARROWS_MEDIUM
-    ITEM_BOW,     // ITEM_ARROWS_LARGE
-    ITEM_SEEDS,   // ITEM_SEEDS_30
-    ITEM_BOMBCHU, // ITEM_BOMBCHUS_5
-    ITEM_BOMBCHU, // ITEM_BOMBCHUS_20
-    ITEM_STICK,   // ITEM_STICK_UPGRADE_20
-    ITEM_STICK,   // ITEM_STICK_UPGRADE_30
-    ITEM_NUT,     // ITEM_NUT_UPGRADE_30
-    ITEM_NUT,     // ITEM_NUT_UPGRADE_40
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICKS_5
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICKS_10
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUTS_5
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUTS_10
+    ITEM_BOMB,       // ITEM_BOMBS_5
+    ITEM_BOMB,       // ITEM_BOMBS_10
+    ITEM_BOMB,       // ITEM_BOMBS_20
+    ITEM_BOMB,       // ITEM_BOMBS_30
+    ITEM_BOW,        // ITEM_ARROWS_5
+    ITEM_BOW,        // ITEM_ARROWS_10
+    ITEM_BOW,        // ITEM_ARROWS_30
+    ITEM_DEKU_SEEDS, // ITEM_DEKU_SEEDS_30
+    ITEM_BOMBCHU,    // ITEM_BOMBCHUS_5
+    ITEM_BOMBCHU,    // ITEM_BOMBCHUS_20
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICK_UPGRADE_20
+    ITEM_DEKU_STICK, // ITEM_DEKU_STICK_UPGRADE_30
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUT_UPGRADE_30
+    ITEM_DEKU_NUT,   // ITEM_DEKU_NUT_UPGRADE_40
 };
 
-static s16 D_80125A58 = 0;
-static s16 D_80125A5C = false;
+static s16 sEnvHazard = PLAYER_ENV_HAZARD_NONE;
+static s16 sEnvHazardActive = false;
 
 static Gfx sSetupDL_80125A60[] = {
     gsDPPipeSync(),
@@ -722,7 +717,8 @@ void func_80083108(PlayState* play) {
                 Interface_ChangeAlpha(50);
             }
         } else if (msgCtx->msgMode == MSGMODE_NONE) {
-            if ((func_8008F2F8(play) >= 2) && (func_8008F2F8(play) < 5)) {
+            if ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+                (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     sp28 = true;
                 }
@@ -730,7 +726,7 @@ void func_80083108(PlayState* play) {
                 gSaveContext.buttonStatus[0] = BTN_DISABLED;
 
                 for (i = 1; i < 4; i++) {
-                    if (func_8008F2F8(play) == 2) {
+                    if (Player_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) {
                         if ((gSaveContext.equips.buttonItems[i] != ITEM_HOOKSHOT) &&
                             (gSaveContext.equips.buttonItems[i] != ITEM_LONGSHOT)) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
@@ -785,8 +781,8 @@ void func_80083108(PlayState* play) {
 
                         if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
                             (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
                             gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                         } else {
                             gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
@@ -802,7 +798,7 @@ void func_80083108(PlayState* play) {
 
                 for (i = 1; i < 4; i++) {
                     if ((gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_FAIRY) &&
-                        (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_TIME)) {
+                        (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_OF_TIME)) {
                         if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                             sp28 = true;
                         }
@@ -872,8 +868,8 @@ void func_80083108(PlayState* play) {
 
                 if (interfaceCtx->restrictions.bottles != 0) {
                     for (i = 1; i < 4; i++) {
-                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                            (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) {
+                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                            (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                 sp28 = true;
                             }
@@ -883,8 +879,8 @@ void func_80083108(PlayState* play) {
                     }
                 } else if (interfaceCtx->restrictions.bottles == 0) {
                     for (i = 1; i < 4; i++) {
-                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                            (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) {
+                        if ((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                            (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) {
                             if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
                                 sp28 = true;
                             }
@@ -945,7 +941,7 @@ void func_80083108(PlayState* play) {
                 if (interfaceCtx->restrictions.ocarina != 0) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) ||
-                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_TIME)) {
+                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_OF_TIME)) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                 sp28 = true;
                             }
@@ -956,7 +952,7 @@ void func_80083108(PlayState* play) {
                 } else if (interfaceCtx->restrictions.ocarina == 0) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) ||
-                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_TIME)) {
+                            (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_OF_TIME)) {
                             if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
                                 sp28 = true;
                             }
@@ -1016,13 +1012,13 @@ void func_80083108(PlayState* play) {
                 if (interfaceCtx->restrictions.all != 0) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_FAIRY) &&
-                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_TIME) &&
-                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                              (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) &&
+                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_OF_TIME) &&
+                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                              (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) &&
                             !((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                             if ((play->sceneId != SCENE_TAKARAYA) ||
-                                (gSaveContext.equips.buttonItems[i] != ITEM_LENS)) {
+                                (gSaveContext.equips.buttonItems[i] != ITEM_LENS_OF_TRUTH)) {
                                 if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                     sp28 = true;
                                 }
@@ -1045,9 +1041,9 @@ void func_80083108(PlayState* play) {
                             (gSaveContext.equips.buttonItems[i] != ITEM_FARORES_WIND) &&
                             (gSaveContext.equips.buttonItems[i] != ITEM_NAYRUS_LOVE) &&
                             (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_FAIRY) &&
-                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_TIME) &&
-                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                              (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) &&
+                            (gSaveContext.equips.buttonItems[i] != ITEM_OCARINA_OF_TIME) &&
+                            !((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                              (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) &&
                             !((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                             if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
@@ -1171,9 +1167,9 @@ void Inventory_SwapAgeEquipment(void) {
         if (gSaveContext.adultEquips.buttonItems[0] == ITEM_NONE) {
             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
 
-            if (gSaveContext.inventory.items[SLOT_NUT] != ITEM_NONE) {
-                gSaveContext.equips.buttonItems[1] = ITEM_NUT;
-                gSaveContext.equips.cButtonSlots[0] = SLOT_NUT;
+            if (gSaveContext.inventory.items[SLOT_DEKU_NUT] != ITEM_NONE) {
+                gSaveContext.equips.buttonItems[1] = ITEM_DEKU_NUT;
+                gSaveContext.equips.cButtonSlots[0] = SLOT_DEKU_NUT;
             } else {
                 gSaveContext.equips.buttonItems[1] = gSaveContext.equips.cButtonSlots[0] = ITEM_NONE;
             }
@@ -1194,8 +1190,8 @@ void Inventory_SwapAgeEquipment(void) {
                     gSaveContext.equips.cButtonSlots[i - 1] = gSaveContext.adultEquips.cButtonSlots[i - 1];
                 }
 
-                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                     (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) ||
+                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                     (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) ||
                     ((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                      (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                     osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, gSaveContext.equips.cButtonSlots[i - 1]);
@@ -1225,8 +1221,8 @@ void Inventory_SwapAgeEquipment(void) {
                     gSaveContext.equips.cButtonSlots[i - 1] = gSaveContext.childEquips.cButtonSlots[i - 1];
                 }
 
-                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE) &&
-                     (gSaveContext.equips.buttonItems[i] <= ITEM_POE)) ||
+                if (((gSaveContext.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
+                     (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) ||
                     ((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                      (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
                     osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, gSaveContext.equips.cButtonSlots[i - 1]);
@@ -1264,9 +1260,9 @@ void func_800849EC(PlayState* play) {
     gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
 
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
+        gSaveContext.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
     } else {
-        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
     }
 
     Interface_LoadItemIcon1(play, 0);
@@ -1276,10 +1272,10 @@ void Interface_LoadItemIcon1(PlayState* play, u16 button) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * 0x1000,
+    DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
                         (uintptr_t)_icon_item_staticSegmentRomStart +
-                            (gSaveContext.equips.buttonItems[button] * 0x1000),
-                        0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
+                            (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
+                        ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
@@ -1287,10 +1283,10 @@ void Interface_LoadItemIcon2(PlayState* play, u16 button) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * 0x1000,
+    DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
                         (uintptr_t)_icon_item_staticSegmentRomStart +
-                            (gSaveContext.equips.buttonItems[button] * 0x1000),
-                        0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
+                            (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
+                        ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
@@ -1334,8 +1330,8 @@ u8 Item_Give(PlayState* play, u8 item) {
     s16 temp;
 
     slot = SLOT(item);
-    if (item >= ITEM_STICKS_5) {
-        slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
+    if (item >= ITEM_DEKU_STICKS_5) {
+        slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
     }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
@@ -1373,7 +1369,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
-    } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDO_CARD)) {
+    } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDOS_CARD)) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
@@ -1391,11 +1387,11 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
-    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
+    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BIGGORON)) {
         gSaveContext.inventory.equipment |=
             OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI);
 
-        if (item == ITEM_SWORD_BGS) {
+        if (item == ITEM_SWORD_BIGGORON) {
             gSaveContext.swordHealth = 8;
 
             if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) ==
@@ -1403,8 +1399,8 @@ u8 Item_Give(PlayState* play, u8 item) {
                  (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE))) {
                 gSaveContext.inventory.equipment ^=
                     OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
-                if (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
-                    gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                if (gSaveContext.equips.buttonItems[0] == ITEM_GIANTS_KNIFE) {
+                    gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                     Interface_LoadItemIcon1(play, 0);
                 }
             }
@@ -1425,10 +1421,10 @@ u8 Item_Give(PlayState* play, u8 item) {
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
         gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_BOOTS, item - ITEM_BOOTS_KOKIRI);
         return ITEM_NONE;
-    } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
-        gSaveContext.inventory.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
+    } else if ((item == ITEM_DUNGEON_BOSS_KEY) || (item == ITEM_DUNGEON_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
+        gSaveContext.inventory.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_DUNGEON_BOSS_KEY];
         return ITEM_NONE;
-    } else if (item == ITEM_KEY_SMALL) {
+    } else if (item == ITEM_SMALL_KEY) {
         if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] < 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = 1;
             return ITEM_NONE;
@@ -1484,13 +1480,13 @@ u8 Item_Give(PlayState* play, u8 item) {
         Inventory_ChangeUpgrade(UPG_BOMB_BAG, 3);
         AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, 3);
         return ITEM_NONE;
-    } else if (item == ITEM_BRACELET) {
+    } else if (item == ITEM_STRENGTH_GORONS_BRACELET) {
         Inventory_ChangeUpgrade(UPG_STRENGTH, 1);
         return ITEM_NONE;
-    } else if (item == ITEM_GAUNTLETS_SILVER) {
+    } else if (item == ITEM_STRENGTH_SILVER_GAUNTLETS) {
         Inventory_ChangeUpgrade(UPG_STRENGTH, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_GAUNTLETS_GOLD) {
+    } else if (item == ITEM_STRENGTH_GOLD_GAUNTLETS) {
         Inventory_ChangeUpgrade(UPG_STRENGTH, 3);
         return ITEM_NONE;
     } else if (item == ITEM_SCALE_SILVER) {
@@ -1499,39 +1495,39 @@ u8 Item_Give(PlayState* play, u8 item) {
     } else if (item == ITEM_SCALE_GOLDEN) {
         Inventory_ChangeUpgrade(UPG_SCALE, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_WALLET_ADULT) {
+    } else if (item == ITEM_ADULTS_WALLET) {
         Inventory_ChangeUpgrade(UPG_WALLET, 1);
         return ITEM_NONE;
-    } else if (item == ITEM_WALLET_GIANT) {
+    } else if (item == ITEM_GIANTS_WALLET) {
         Inventory_ChangeUpgrade(UPG_WALLET, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_STICK_UPGRADE_20) {
+    } else if (item == ITEM_DEKU_STICK_UPGRADE_20) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_STICK) = ITEM_STICK;
+            INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_STICKS, 2);
-        AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 2);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_STICK_UPGRADE_30) {
+    } else if (item == ITEM_DEKU_STICK_UPGRADE_30) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_STICK) = ITEM_STICK;
+            INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_STICKS, 3);
-        AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 3);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 3);
         return ITEM_NONE;
-    } else if (item == ITEM_NUT_UPGRADE_30) {
+    } else if (item == ITEM_DEKU_NUT_UPGRADE_30) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_NUT) = ITEM_NUT;
+            INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_NUTS, 2);
-        AMMO(ITEM_NUT) = CAPACITY(UPG_NUTS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 2);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 2);
         return ITEM_NONE;
-    } else if (item == ITEM_NUT_UPGRADE_40) {
+    } else if (item == ITEM_DEKU_NUT_UPGRADE_40) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            INV_CONTENT(ITEM_NUT) = ITEM_NUT;
+            INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_NUTS, 3);
-        AMMO(ITEM_NUT) = CAPACITY(UPG_NUTS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 3);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 3);
         return ITEM_NONE;
     } else if (item == ITEM_LONGSHOT) {
         INV_CONTENT(item) = item;
@@ -1542,51 +1538,51 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
         return ITEM_NONE;
-    } else if (item == ITEM_STICK) {
+    } else if (item == ITEM_DEKU_STICK) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_STICKS, 1);
-            AMMO(ITEM_STICK) = 1;
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
+            AMMO(ITEM_DEKU_STICK) = 1;
         } else {
-            AMMO(ITEM_STICK)++;
-            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS)) {
-                AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
+            AMMO(ITEM_DEKU_STICK)++;
+            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_DEKU_STICKS)) {
+                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
             }
         }
-    } else if ((item == ITEM_STICKS_5) || (item == ITEM_STICKS_10)) {
+    } else if ((item == ITEM_DEKU_STICKS_5) || (item == ITEM_DEKU_STICKS_10)) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_STICKS, 1);
-            AMMO(ITEM_STICK) = sAmmoRefillCounts[item - ITEM_STICKS_5];
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
+            AMMO(ITEM_DEKU_STICK) = sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
         } else {
-            AMMO(ITEM_STICK) += sAmmoRefillCounts[item - ITEM_STICKS_5];
-            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS)) {
-                AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
+            AMMO(ITEM_DEKU_STICK) += sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
+            if (AMMO(ITEM_DEKU_STICK) > CUR_CAPACITY(UPG_DEKU_STICKS)) {
+                AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
             }
         }
-        item = ITEM_STICK;
-    } else if (item == ITEM_NUT) {
+        item = ITEM_DEKU_STICK;
+    } else if (item == ITEM_DEKU_NUT) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_NUTS, 1);
-            AMMO(ITEM_NUT) = ITEM_NUT;
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
+            AMMO(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         } else {
-            AMMO(ITEM_NUT)++;
-            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS)) {
-                AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
+            AMMO(ITEM_DEKU_NUT)++;
+            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_DEKU_NUTS)) {
+                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
             }
         }
-    } else if ((item == ITEM_NUTS_5) || (item == ITEM_NUTS_10)) {
+    } else if ((item == ITEM_DEKU_NUTS_5) || (item == ITEM_DEKU_NUTS_10)) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_NUTS, 1);
-            AMMO(ITEM_NUT) += sAmmoRefillCounts[item - ITEM_NUTS_5];
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
+            AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
             // "Deku Nuts %d(%d)=%d BS_count=%d"
-            osSyncPrintf("デクの実 %d(%d)=%d  BS_count=%d\n", item, ITEM_NUTS_5, item - ITEM_NUTS_5,
-                         sAmmoRefillCounts[item - ITEM_NUTS_5]);
+            osSyncPrintf("デクの実 %d(%d)=%d  BS_count=%d\n", item, ITEM_DEKU_NUTS_5, item - ITEM_DEKU_NUTS_5,
+                         sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5]);
         } else {
-            AMMO(ITEM_NUT) += sAmmoRefillCounts[item - ITEM_NUTS_5];
-            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS)) {
-                AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
+            AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
+            if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_DEKU_NUTS)) {
+                AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
             }
         }
-        item = ITEM_NUT;
+        item = ITEM_DEKU_NUT;
     } else if (item == ITEM_BOMB) {
         // "Bomb  Bomb  Bomb  Bomb Bomb   Bomb Bomb"
         osSyncPrintf(" 爆弾  爆弾  爆弾  爆弾 爆弾   爆弾 爆弾 \n");
@@ -1623,8 +1619,8 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
             return ITEM_NONE;
         }
-    } else if ((item >= ITEM_ARROWS_SMALL) && (item <= ITEM_ARROWS_LARGE)) {
-        AMMO(ITEM_BOW) += sArrowRefillCounts[item - ITEM_ARROWS_SMALL];
+    } else if ((item >= ITEM_ARROWS_5) && (item <= ITEM_ARROWS_30)) {
+        AMMO(ITEM_BOW) += sArrowRefillCounts[item - ITEM_ARROWS_5];
 
         if ((AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) || (AMMO(ITEM_BOW) < 0)) {
             AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
@@ -1638,7 +1634,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         INV_CONTENT(ITEM_SLINGSHOT) = ITEM_SLINGSHOT;
         AMMO(ITEM_SLINGSHOT) = 30;
         return ITEM_NONE;
-    } else if (item == ITEM_SEEDS) {
+    } else if (item == ITEM_DEKU_SEEDS) {
         AMMO(ITEM_SLINGSHOT) += 5;
 
         if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
@@ -1650,8 +1646,8 @@ u8 Item_Give(PlayState* play, u8 item) {
             return ITEM_NONE;
         }
 
-        return ITEM_SEEDS;
-    } else if (item == ITEM_SEEDS_30) {
+        return ITEM_DEKU_SEEDS;
+    } else if (item == ITEM_DEKU_SEEDS_30) {
         AMMO(ITEM_SLINGSHOT) += 30;
 
         if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
@@ -1663,26 +1659,26 @@ u8 Item_Give(PlayState* play, u8 item) {
             return ITEM_NONE;
         }
 
-        return ITEM_SEEDS;
+        return ITEM_DEKU_SEEDS;
     } else if (item == ITEM_OCARINA_FAIRY) {
         INV_CONTENT(ITEM_OCARINA_FAIRY) = ITEM_OCARINA_FAIRY;
         return ITEM_NONE;
-    } else if (item == ITEM_OCARINA_TIME) {
-        INV_CONTENT(ITEM_OCARINA_TIME) = ITEM_OCARINA_TIME;
+    } else if (item == ITEM_OCARINA_OF_TIME) {
+        INV_CONTENT(ITEM_OCARINA_OF_TIME) = ITEM_OCARINA_OF_TIME;
         for (i = 1; i < 4; i++) {
             if (gSaveContext.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) {
-                gSaveContext.equips.buttonItems[i] = ITEM_OCARINA_TIME;
+                gSaveContext.equips.buttonItems[i] = ITEM_OCARINA_OF_TIME;
                 Interface_LoadItemIcon1(play, i);
             }
         }
         return ITEM_NONE;
-    } else if (item == ITEM_BEAN) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         if (gSaveContext.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(item) = item;
-            AMMO(ITEM_BEAN) = 1;
+            AMMO(ITEM_MAGIC_BEAN) = 1;
             BEANS_BOUGHT = 1;
         } else {
-            AMMO(ITEM_BEAN)++;
+            AMMO(ITEM_MAGIC_BEAN)++;
             BEANS_BOUGHT++;
         }
         return ITEM_NONE;
@@ -1697,7 +1693,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         osSyncPrintf("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
         Health_ChangeBy(play, 0x10);
         return item;
-    } else if (item == ITEM_MAGIC_SMALL) {
+    } else if (item == ITEM_MAGIC_JAR_SMALL) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
             // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
@@ -1713,7 +1709,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
 
         return item;
-    } else if (item == ITEM_MAGIC_LARGE) {
+    } else if (item == ITEM_MAGIC_JAR_BIG) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
             // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
@@ -1732,7 +1728,7 @@ u8 Item_Give(PlayState* play, u8 item) {
     } else if ((item >= ITEM_RUPEE_GREEN) && (item <= ITEM_INVALID_8)) {
         Rupees_ChangeBy(sRupeeRefillCounts[item - ITEM_RUPEE_GREEN]);
         return ITEM_NONE;
-    } else if (item == ITEM_BOTTLE) {
+    } else if (item == ITEM_BOTTLE_EMPTY) {
         temp = SLOT(item);
 
         for (i = 0; i < 4; i++) {
@@ -1741,17 +1737,17 @@ u8 Item_Give(PlayState* play, u8 item) {
                 return ITEM_NONE;
             }
         }
-    } else if (((item >= ITEM_POTION_RED) && (item <= ITEM_POE)) || (item == ITEM_MILK)) {
+    } else if (((item >= ITEM_BOTTLE_POTION_RED) && (item <= ITEM_BOTTLE_POE)) || (item == ITEM_MILK)) {
         temp = SLOT(item);
 
-        if ((item != ITEM_MILK_BOTTLE) && (item != ITEM_LETTER_RUTO)) {
+        if ((item != ITEM_BOTTLE_MILK_FULL) && (item != ITEM_BOTTLE_RUTOS_LETTER)) {
             if (item == ITEM_MILK) {
-                item = ITEM_MILK_BOTTLE;
+                item = ITEM_BOTTLE_MILK_FULL;
                 temp = SLOT(item);
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
+                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE_EMPTY) {
                     // "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
                                  gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
@@ -1784,7 +1780,7 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
-        if (item == ITEM_SAW) {
+        if (item == ITEM_POACHERS_SAW) {
             SET_ITEMGETINF(ITEMGETINF_1F);
         }
 
@@ -1820,8 +1816,8 @@ u8 Item_CheckObtainability(u8 item) {
     s16 slot = SLOT(item);
     s32 temp;
 
-    if (item >= ITEM_STICKS_5) {
-        slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
+    if (item >= ITEM_DEKU_STICKS_5) {
+        slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
     }
 
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -1832,8 +1828,8 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_SKULL_TOKEN)) {
         return ITEM_NONE;
-    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
-        if (item == ITEM_SWORD_BGS) {
+    } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BIGGORON)) {
+        if (item == ITEM_SWORD_BIGGORON) {
             return ITEM_NONE;
         } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI)) {
             return item;
@@ -1858,9 +1854,9 @@ u8 Item_CheckObtainability(u8 item) {
         } else {
             return ITEM_NONE;
         }
-    } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
+    } else if ((item == ITEM_DUNGEON_BOSS_KEY) || (item == ITEM_DUNGEON_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
         return ITEM_NONE;
-    } else if (item == ITEM_KEY_SMALL) {
+    } else if (item == ITEM_SMALL_KEY) {
         return ITEM_NONE;
     } else if ((item >= ITEM_SLINGSHOT) && (item <= ITEM_BOMBCHU)) {
         return ITEM_NONE;
@@ -1882,19 +1878,19 @@ u8 Item_CheckObtainability(u8 item) {
         } else {
             return 0;
         }
-    } else if ((item >= ITEM_STICK_UPGRADE_20) && (item <= ITEM_NUT_UPGRADE_40)) {
+    } else if ((item >= ITEM_DEKU_STICK_UPGRADE_20) && (item <= ITEM_DEKU_NUT_UPGRADE_40)) {
         return ITEM_NONE;
-    } else if ((item >= ITEM_BOMB_BAG_30) && (item <= ITEM_WALLET_GIANT)) {
+    } else if ((item >= ITEM_BOMB_BAG_30) && (item <= ITEM_GIANTS_WALLET)) {
         return ITEM_NONE;
     } else if (item == ITEM_LONGSHOT) {
         return ITEM_NONE;
-    } else if ((item == ITEM_SEEDS) || (item == ITEM_SEEDS_30)) {
+    } else if ((item == ITEM_DEKU_SEEDS) || (item == ITEM_DEKU_SEEDS_30)) {
         if (!GET_ITEMGETINF(ITEMGETINF_13)) {
             return ITEM_NONE;
         } else {
-            return ITEM_SEEDS;
+            return ITEM_DEKU_SEEDS;
         }
-    } else if (item == ITEM_BEAN) {
+    } else if (item == ITEM_MAGIC_BEAN) {
         return ITEM_NONE;
     } else if ((item == ITEM_HEART_PIECE_2) || (item == ITEM_HEART_PIECE)) {
         return ITEM_NONE;
@@ -1902,7 +1898,7 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_RECOVERY_HEART) {
         return ITEM_RECOVERY_HEART;
-    } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
+    } else if ((item == ITEM_MAGIC_JAR_SMALL) || (item == ITEM_MAGIC_JAR_BIG)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
         osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
         if (!GET_INFTABLE(INFTABLE_198)) {
@@ -1912,19 +1908,19 @@ u8 Item_CheckObtainability(u8 item) {
         }
     } else if ((item >= ITEM_RUPEE_GREEN) && (item <= ITEM_INVALID_8)) {
         return ITEM_NONE;
-    } else if (item == ITEM_BOTTLE) {
+    } else if (item == ITEM_BOTTLE_EMPTY) {
         return ITEM_NONE;
-    } else if (((item >= ITEM_POTION_RED) && (item <= ITEM_POE)) || (item == ITEM_MILK)) {
+    } else if (((item >= ITEM_BOTTLE_POTION_RED) && (item <= ITEM_BOTTLE_POE)) || (item == ITEM_MILK)) {
         temp = SLOT(item);
 
-        if ((item != ITEM_MILK_BOTTLE) && (item != ITEM_LETTER_RUTO)) {
+        if ((item != ITEM_BOTTLE_MILK_FULL) && (item != ITEM_BOTTLE_RUTOS_LETTER)) {
             if (item == ITEM_MILK) {
-                item = ITEM_MILK_BOTTLE;
+                item = ITEM_BOTTLE_MILK_FULL;
                 temp = SLOT(item);
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
+                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE_EMPTY) {
                     return ITEM_NONE;
                 }
             }
@@ -1945,7 +1941,7 @@ u8 Item_CheckObtainability(u8 item) {
 void Inventory_DeleteItem(u16 item, u16 invSlot) {
     s16 i;
 
-    if (item == ITEM_BEAN) {
+    if (item == ITEM_MAGIC_BEAN) {
         BEANS_BOUGHT = 0;
     }
 
@@ -1985,13 +1981,13 @@ s32 Inventory_ReplaceItem(PlayState* play, u16 oldItem, u16 newItem) {
 s32 Inventory_HasEmptyBottle(void) {
     u8* items = gSaveContext.inventory.items;
 
-    if (items[SLOT_BOTTLE_1] == ITEM_BOTTLE) {
+    if (items[SLOT_BOTTLE_1] == ITEM_BOTTLE_EMPTY) {
         return true;
-    } else if (items[SLOT_BOTTLE_2] == ITEM_BOTTLE) {
+    } else if (items[SLOT_BOTTLE_2] == ITEM_BOTTLE_EMPTY) {
         return true;
-    } else if (items[SLOT_BOTTLE_3] == ITEM_BOTTLE) {
+    } else if (items[SLOT_BOTTLE_3] == ITEM_BOTTLE_EMPTY) {
         return true;
-    } else if (items[SLOT_BOTTLE_4] == ITEM_BOTTLE) {
+    } else if (items[SLOT_BOTTLE_4] == ITEM_BOTTLE_EMPTY) {
         return true;
     } else {
         return false;
@@ -2020,9 +2016,9 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
                  gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
-    if ((gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] == ITEM_MILK_BOTTLE) &&
-        (item == ITEM_BOTTLE)) {
-        item = ITEM_MILK_HALF;
+    if ((gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] == ITEM_BOTTLE_MILK_FULL) &&
+        (item == ITEM_BOTTLE_EMPTY)) {
+        item = ITEM_BOTTLE_MILK_HALF;
     }
 
     gSaveContext.inventory.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
@@ -2035,15 +2031,15 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
 }
 
 s32 Inventory_ConsumeFairy(PlayState* play) {
-    s32 bottleSlot = SLOT(ITEM_FAIRY);
+    s32 bottleSlot = SLOT(ITEM_BOTTLE_FAIRY);
     s16 i;
     s16 j;
 
     for (i = 0; i < 4; i++) {
-        if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_FAIRY) {
+        if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_BOTTLE_FAIRY) {
             for (j = 1; j < 4; j++) {
-                if (gSaveContext.equips.buttonItems[j] == ITEM_FAIRY) {
-                    gSaveContext.equips.buttonItems[j] = ITEM_BOTTLE;
+                if (gSaveContext.equips.buttonItems[j] == ITEM_BOTTLE_FAIRY) {
+                    gSaveContext.equips.buttonItems[j] = ITEM_BOTTLE_EMPTY;
                     Interface_LoadItemIcon1(play, j);
                     i = 0;
                     bottleSlot = gSaveContext.equips.cButtonSlots[j - 1];
@@ -2051,7 +2047,7 @@ s32 Inventory_ConsumeFairy(PlayState* play) {
                 }
             }
             osSyncPrintf("妖精使用＝%d\n", bottleSlot); // "Fairy Usage＝%d"
-            gSaveContext.inventory.items[bottleSlot + i] = ITEM_BOTTLE;
+            gSaveContext.inventory.items[bottleSlot + i] = ITEM_BOTTLE_EMPTY;
             return true;
         }
     }
@@ -2085,7 +2081,7 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
     if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE) &&
         (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-        DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160,
+        DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160,
                             interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
                             (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE),
                             DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
@@ -2149,7 +2145,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
     interfaceCtx->unk_1FC = action;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE,
+    DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + DO_ACTION_TEX_SIZE,
                         (uintptr_t)_do_action_staticSegmentRomStart + (action * DO_ACTION_TEX_SIZE), DO_ACTION_TEX_SIZE,
                         0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
@@ -2219,21 +2215,21 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
     // "Item = (%d)    Amount = (%d + %d)"
     osSyncPrintf("アイテム = (%d)    数 = (%d + %d)  ", item, AMMO(item), ammoChange);
 
-    if (item == ITEM_STICK) {
-        AMMO(ITEM_STICK) += ammoChange;
+    if (item == ITEM_DEKU_STICK) {
+        AMMO(ITEM_DEKU_STICK) += ammoChange;
 
-        if (AMMO(ITEM_STICK) >= CUR_CAPACITY(UPG_STICKS)) {
-            AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
-        } else if (AMMO(ITEM_STICK) < 0) {
-            AMMO(ITEM_STICK) = 0;
+        if (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS)) {
+            AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
+        } else if (AMMO(ITEM_DEKU_STICK) < 0) {
+            AMMO(ITEM_DEKU_STICK) = 0;
         }
-    } else if (item == ITEM_NUT) {
-        AMMO(ITEM_NUT) += ammoChange;
+    } else if (item == ITEM_DEKU_NUT) {
+        AMMO(ITEM_DEKU_NUT) += ammoChange;
 
-        if (AMMO(ITEM_NUT) >= CUR_CAPACITY(UPG_NUTS)) {
-            AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
-        } else if (AMMO(ITEM_NUT) < 0) {
-            AMMO(ITEM_NUT) = 0;
+        if (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS)) {
+            AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
+        } else if (AMMO(ITEM_DEKU_NUT) < 0) {
+            AMMO(ITEM_DEKU_NUT) = 0;
         }
     } else if (item == ITEM_BOMBCHU) {
         AMMO(ITEM_BOMBCHU) += ammoChange;
@@ -2251,7 +2247,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         } else if (AMMO(ITEM_BOW) < 0) {
             AMMO(ITEM_BOW) = 0;
         }
-    } else if ((item == ITEM_SLINGSHOT) || (item == ITEM_SEEDS)) {
+    } else if ((item == ITEM_SLINGSHOT) || (item == ITEM_DEKU_SEEDS)) {
         AMMO(ITEM_SLINGSHOT) += ammoChange;
 
         if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
@@ -2267,8 +2263,8 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         } else if (AMMO(ITEM_BOMB) < 0) {
             AMMO(ITEM_BOMB) = 0;
         }
-    } else if (item == ITEM_BEAN) {
-        AMMO(ITEM_BEAN) += ammoChange;
+    } else if (item == ITEM_MAGIC_BEAN) {
+        AMMO(ITEM_MAGIC_BEAN) += ammoChange;
     }
 
     osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
@@ -2523,10 +2519,12 @@ void Magic_Update(PlayState* play) {
             if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
                 (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
-                if ((gSaveContext.magic == 0) || ((func_8008F2F8(play) >= 2) && (func_8008F2F8(play) < 5)) ||
-                    ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
-                     (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
-                     (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
+                if ((gSaveContext.magic == 0) ||
+                    ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+                     (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) ||
+                    ((gSaveContext.equips.buttonItems[1] != ITEM_LENS_OF_TRUTH) &&
+                     (gSaveContext.equips.buttonItems[2] != ITEM_LENS_OF_TRUTH) &&
+                     (gSaveContext.equips.buttonItems[3] != ITEM_LENS_OF_TRUTH)) ||
                     !play->actorCtx.lensActive) {
                     // Force lens off and set magic meter state to idle
                     play->actorCtx.lensActive = false;
@@ -2672,39 +2670,47 @@ void Magic_DrawMeter(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_parameter.c", 2731);
 }
 
-void func_80088AA0(s16 arg0) {
-    gSaveContext.timerX[1] = 140;
-    gSaveContext.timerY[1] = 80;
-    D_80125A5C = false;
-    gSaveContext.timer2Value = arg0;
+void Interface_SetSubTimer(s16 seconds) {
+    gSaveContext.timerX[TIMER_ID_SUB] = 140;
+    gSaveContext.timerY[TIMER_ID_SUB] = 80;
+    sEnvHazardActive = false;
+    gSaveContext.subTimerSeconds = seconds;
 
-    if (arg0 != 0) {
-        gSaveContext.timer2State = 1;
+    if (seconds != 0) {
+        // count down
+        gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_INIT;
     } else {
-        gSaveContext.timer2State = 7;
+        // count up
+        gSaveContext.subTimerState = SUBTIMER_STATE_UP_INIT;
     }
 }
 
-void func_80088AF0(PlayState* play) {
-    if (gSaveContext.timer2State != 0) {
-        if (GET_EVENTINF(EVENTINF_10)) {
-            gSaveContext.timer2Value = 239;
+/**
+ * Set the subTimer to 1 second left
+ */
+void Interface_SetSubTimerToFinalSecond(PlayState* play) {
+    if (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) {
+        if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
+            // The running-man race counts up and finished at MARATHON_TIME_LIMIT
+            gSaveContext.subTimerSeconds = MARATHON_TIME_LIMIT - 1;
         } else {
-            gSaveContext.timer2Value = 1;
+            gSaveContext.subTimerSeconds = 1;
         }
     }
 }
 
-void func_80088B34(s16 arg0) {
-    gSaveContext.timerX[0] = 140;
-    gSaveContext.timerY[0] = 80;
-    D_80125A5C = false;
-    gSaveContext.timer1Value = arg0;
+void Interface_SetTimer(s16 seconds) {
+    gSaveContext.timerX[TIMER_ID_MAIN] = 140;
+    gSaveContext.timerY[TIMER_ID_MAIN] = 80;
+    sEnvHazardActive = false;
+    gSaveContext.timerSeconds = seconds;
 
-    if (arg0 != 0) {
-        gSaveContext.timer1State = 5;
+    if (seconds != 0) {
+        // count down
+        gSaveContext.timerState = TIMER_STATE_DOWN_INIT;
     } else {
-        gSaveContext.timer1State = 11;
+        // count up
+        gSaveContext.timerState = TIMER_STATE_UP_INIT;
     }
 }
 
@@ -2802,7 +2808,8 @@ void Interface_DrawItemButtons(PlayState* play) {
 
             if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
                 temp = 0;
-            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (func_8008F2F8(play) == 4) ||
+            } else if ((player->stateFlags1 & PLAYER_STATE1_21) ||
+                       (Player_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FREE) ||
                        (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
                 temp = 70;
             } else {
@@ -2881,11 +2888,11 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
 
     i = gSaveContext.equips.buttonItems[button];
 
-    if ((i == ITEM_STICK) || (i == ITEM_NUT) || (i == ITEM_BOMB) || (i == ITEM_BOW) ||
-        ((i >= ITEM_BOW_ARROW_FIRE) && (i <= ITEM_BOW_ARROW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU) ||
-        (i == ITEM_BEAN)) {
+    if ((i == ITEM_DEKU_STICK) || (i == ITEM_DEKU_NUT) || (i == ITEM_BOMB) || (i == ITEM_BOW) ||
+        ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) || (i == ITEM_SLINGSHOT) || (i == ITEM_BOMBCHU) ||
+        (i == ITEM_MAGIC_BEAN)) {
 
-        if ((i >= ITEM_BOW_ARROW_FIRE) && (i <= ITEM_BOW_ARROW_LIGHT)) {
+        if ((i >= ITEM_BOW_FIRE) && (i <= ITEM_BOW_LIGHT)) {
             i = ITEM_BOW;
         }
 
@@ -2905,9 +2912,9 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
         } else if (((i == ITEM_BOW) && (AMMO(i) == CUR_CAPACITY(UPG_QUIVER))) ||
                    ((i == ITEM_BOMB) && (AMMO(i) == CUR_CAPACITY(UPG_BOMB_BAG))) ||
                    ((i == ITEM_SLINGSHOT) && (AMMO(i) == CUR_CAPACITY(UPG_BULLET_BAG))) ||
-                   ((i == ITEM_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_STICKS))) ||
-                   ((i == ITEM_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_NUTS))) || ((i == ITEM_BOMBCHU) && (ammo == 50)) ||
-                   ((i == ITEM_BEAN) && (ammo == 15))) {
+                   ((i == ITEM_DEKU_STICK) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_STICKS))) ||
+                   ((i == ITEM_DEKU_NUT) && (AMMO(i) == CUR_CAPACITY(UPG_DEKU_NUTS))) ||
+                   ((i == ITEM_BOMBCHU) && (ammo == 50)) || ((i == ITEM_MAGIC_BEAN) && (ammo == 15))) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, alpha);
         }
 
@@ -3062,7 +3069,7 @@ void Interface_Draw(PlayState* play) {
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
     static s16 magicArrowEffectsB[] = { 0, 255, 100 };
     static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
-    static s16 digitWidth[] = { 9, 9, 8, 9, 9 };
+    static s16 sDigitWidths[] = { 9, 9, 8, 9, 9 };
     // unused, most likely colors
     static s16 D_80125B1C[][3] = {
         { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
@@ -3072,11 +3079,11 @@ void Interface_Draw(PlayState* play) {
     static s16 spoilingItemEntrances[] = { ENTR_SPOT10_2, ENTR_SPOT07_3, ENTR_SPOT07_3 };
     static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
     static s16 D_80125B5C[] = { 91, 91 };         // unused
-    static s16 D_8015FFE0;
-    static s16 D_8015FFE2;
-    static s16 D_8015FFE4;
-    static s16 D_8015FFE6;
-    static s16 timerDigits[5];
+    static s16 sTimerNextSecondTimer;
+    static s16 sTimerStateTimer;
+    static s16 sSubTimerNextSecondTimer;
+    static s16 sSubTimerStateTimer;
+    static s16 sTimerDigits[5];
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     PauseContext* pauseCtx = &play->pauseCtx;
     MessageContext* msgCtx = &play->msgCtx;
@@ -3086,7 +3093,7 @@ void Interface_Draw(PlayState* play) {
     s16 svar3;
     s16 svar4;
     s16 svar5;
-    s16 svar6;
+    s16 timerId;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_parameter.c", 3405);
 
@@ -3417,7 +3424,7 @@ void Interface_Draw(PlayState* play) {
                     if (sHBAScoreDigits[svar1] != 0 || (svar2 != 0) || (svar1 >= 3)) {
                         OVERLAY_DISP = Gfx_TextureI8(
                             OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[svar1])), 8, 16, svar5,
-                            (ZREG(15) - 2), digitWidth[0], VREG(42), VREG(43) << 1, VREG(43) << 1);
+                            (ZREG(15) - 2), sDigitWidths[0], VREG(42), VREG(43) << 1, VREG(43) << 1);
                         svar5 += 9;
                         svar2++;
                     }
@@ -3428,18 +3435,19 @@ void Interface_Draw(PlayState* play) {
             }
         }
 
-        if ((gSaveContext.timer2State == 5) && (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)) {
+        if ((gSaveContext.subTimerState == SUBTIMER_STATE_RESPAWN) &&
+            (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)) {
             // Trade quest timer reached 0
-            D_8015FFE6 = 40;
+            sSubTimerStateTimer = 40;
             gSaveContext.cutsceneIndex = 0;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;
-            gSaveContext.timer2State = 0;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
 
             if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
                 (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
+                (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
                 if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
                     gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 } else {
@@ -3472,112 +3480,123 @@ void Interface_Draw(PlayState* play) {
             !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play) && (gSaveContext.minigameState != 1) &&
             (play->shootingGalleryStatus <= 1) && !((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
-            svar6 = 0;
-            switch (gSaveContext.timer1State) {
-                case 1:
-                    D_8015FFE2 = 20;
-                    D_8015FFE0 = 20;
-                    gSaveContext.timer1Value = gSaveContext.health >> 1;
-                    gSaveContext.timer1State = 2;
+
+            timerId = TIMER_ID_MAIN;
+
+            switch (gSaveContext.timerState) {
+                case TIMER_STATE_ENV_HAZARD_INIT:
+                    sTimerStateTimer = 20;
+                    sTimerNextSecondTimer = 20;
+                    gSaveContext.timerSeconds = gSaveContext.health >> 1;
+                    gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_PREVIEW;
                     break;
-                case 2:
-                    D_8015FFE2--;
-                    if (D_8015FFE2 == 0) {
-                        D_8015FFE2 = 20;
-                        gSaveContext.timer1State = 3;
+
+                case TIMER_STATE_ENV_HAZARD_PREVIEW:
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_MOVE;
                     }
                     break;
-                case 5:
-                case 11:
-                    D_8015FFE2 = 20;
-                    D_8015FFE0 = 20;
-                    if (gSaveContext.timer1State == 5) {
-                        gSaveContext.timer1State = 6;
+
+                case TIMER_STATE_DOWN_INIT:
+                case TIMER_STATE_UP_INIT:
+                    sTimerStateTimer = 20;
+                    sTimerNextSecondTimer = 20;
+                    if (gSaveContext.timerState == TIMER_STATE_DOWN_INIT) {
+                        gSaveContext.timerState = TIMER_STATE_DOWN_PREVIEW;
                     } else {
-                        gSaveContext.timer1State = 12;
+                        gSaveContext.timerState = TIMER_STATE_UP_PREVIEW;
                     }
                     break;
-                case 6:
-                case 12:
-                    D_8015FFE2--;
-                    if (D_8015FFE2 == 0) {
-                        D_8015FFE2 = 20;
-                        if (gSaveContext.timer1State == 6) {
-                            gSaveContext.timer1State = 7;
+
+                case TIMER_STATE_DOWN_PREVIEW:
+                case TIMER_STATE_UP_PREVIEW:
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        if (gSaveContext.timerState == TIMER_STATE_DOWN_PREVIEW) {
+                            gSaveContext.timerState = TIMER_STATE_DOWN_MOVE;
                         } else {
-                            gSaveContext.timer1State = 13;
+                            gSaveContext.timerState = TIMER_STATE_UP_MOVE;
                         }
                     }
                     break;
-                case 3:
-                case 7:
-                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= svar1;
+
+                case TIMER_STATE_ENV_HAZARD_MOVE:
+                case TIMER_STATE_DOWN_MOVE:
+                    svar1 = (gSaveContext.timerX[TIMER_ID_MAIN] - 26) / sTimerStateTimer;
+                    gSaveContext.timerX[TIMER_ID_MAIN] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 54) / sTimerStateTimer; // two rows of hearts
                     } else {
-                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 46) / sTimerStateTimer; // one row of hearts
                     }
-                    gSaveContext.timerY[0] -= svar1;
+                    gSaveContext.timerY[TIMER_ID_MAIN] -= svar1;
 
-                    D_8015FFE2--;
-                    if (D_8015FFE2 == 0) {
-                        D_8015FFE2 = 20;
-                        gSaveContext.timerX[0] = 26;
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        gSaveContext.timerX[TIMER_ID_MAIN] = 26;
 
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54; // two rows of hearts
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46; // one row of hearts
                         }
 
-                        if (gSaveContext.timer1State == 3) {
-                            gSaveContext.timer1State = 4;
+                        if (gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_MOVE) {
+                            gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_TICK;
                         } else {
-                            gSaveContext.timer1State = 8;
+                            gSaveContext.timerState = TIMER_STATE_DOWN_TICK;
                         }
                     }
                     FALLTHROUGH;
-                case 4:
-                case 8:
-                    if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
+                case TIMER_STATE_ENV_HAZARD_TICK:
+                case TIMER_STATE_DOWN_TICK:
+                    if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
+                        (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)) {
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54; // two rows of hearts
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46; // one row of hearts
                         }
                     }
 
-                    if ((gSaveContext.timer1State >= 3) && (msgCtx->msgLength == 0)) {
-                        D_8015FFE0--;
-                        if (D_8015FFE0 == 0) {
-                            if (gSaveContext.timer1Value != 0) {
-                                gSaveContext.timer1Value--;
+                    if ((gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) && (msgCtx->msgLength == 0)) {
+                        sTimerNextSecondTimer--;
+                        if (sTimerNextSecondTimer == 0) {
+                            if (gSaveContext.timerSeconds != 0) {
+                                gSaveContext.timerSeconds--;
                             }
 
-                            D_8015FFE0 = 20;
+                            sTimerNextSecondTimer = 20;
 
-                            if (gSaveContext.timer1Value == 0) {
-                                gSaveContext.timer1State = 10;
-                                if (D_80125A5C) {
+                            if (gSaveContext.timerSeconds == 0) {
+                                // Out of time
+                                gSaveContext.timerState = TIMER_STATE_STOP;
+                                if (sEnvHazardActive) {
                                     gSaveContext.health = 0;
                                     play->damagePlayer(play, -(gSaveContext.health + 2));
                                 }
-                                D_80125A5C = false;
-                            } else if (gSaveContext.timer1Value > 60) {
-                                if (timerDigits[4] == 1) {
+                                sEnvHazardActive = false;
+                            } else if (gSaveContext.timerSeconds > 60) {
+                                // Beep at "xx:x1" (every 10 seconds)
+                                if (sTimerDigits[4] == 1) {
                                     Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
                                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                          &gSfxDefaultReverb);
                                 }
-                            } else if (gSaveContext.timer1Value >= 11) {
-                                if (timerDigits[4] & 1) {
+                            } else if (gSaveContext.timerSeconds > 10) {
+                                // Beep on alternating seconds
+                                if ((sTimerDigits[4] % 2) != 0) {
                                     Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                          &gSfxDefaultReverb);
                                 }
                             } else {
+                                // Beep every second
                                 Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                      &gSfxDefaultReverb);
@@ -3585,48 +3604,49 @@ void Interface_Draw(PlayState* play) {
                         }
                     }
                     break;
-                case 13:
-                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= svar1;
+
+                case TIMER_STATE_UP_MOVE:
+                    svar1 = (gSaveContext.timerX[TIMER_ID_MAIN] - 26) / sTimerStateTimer;
+                    gSaveContext.timerX[TIMER_ID_MAIN] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 54) / sTimerStateTimer; // two rows of hearts
                     } else {
-                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[TIMER_ID_MAIN] - 46) / sTimerStateTimer; // one row of hearts
                     }
-                    gSaveContext.timerY[0] -= svar1;
+                    gSaveContext.timerY[TIMER_ID_MAIN] -= svar1;
 
-                    D_8015FFE2--;
-                    if (D_8015FFE2 == 0) {
-                        D_8015FFE2 = 20;
-                        gSaveContext.timerX[0] = 26;
+                    sTimerStateTimer--;
+                    if (sTimerStateTimer == 0) {
+                        sTimerStateTimer = 20;
+                        gSaveContext.timerX[TIMER_ID_MAIN] = 26;
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54; // two rows of hearts
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46; // one row of hearts
                         }
 
-                        gSaveContext.timer1State = 14;
+                        gSaveContext.timerState = TIMER_STATE_UP_TICK;
                     }
                     FALLTHROUGH;
-                case 14:
-                    if (gSaveContext.timer1State == 14) {
+                case TIMER_STATE_UP_TICK:
+                    if (gSaveContext.timerState == TIMER_STATE_UP_TICK) {
                         if (gSaveContext.healthCapacity > 0xA0) {
-                            gSaveContext.timerY[0] = 54;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 54; // two rows of hearts
                         } else {
-                            gSaveContext.timerY[0] = 46;
+                            gSaveContext.timerY[TIMER_ID_MAIN] = 46; // one row of hearts
                         }
                     }
 
-                    if (gSaveContext.timer1State >= 3) {
-                        D_8015FFE0--;
-                        if (D_8015FFE0 == 0) {
-                            gSaveContext.timer1Value++;
-                            D_8015FFE0 = 20;
+                    if (gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) {
+                        sTimerNextSecondTimer--;
+                        if (sTimerNextSecondTimer == 0) {
+                            gSaveContext.timerSeconds++;
+                            sTimerNextSecondTimer = 20;
 
-                            if (gSaveContext.timer1Value == 3599) {
-                                D_8015FFE2 = 40;
-                                gSaveContext.timer1State = 15;
+                            if (gSaveContext.timerSeconds == 3599) { // 59 minutes, 59 seconds
+                                sTimerStateTimer = 40;
+                                gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
                             } else {
                                 Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -3635,146 +3655,163 @@ void Interface_Draw(PlayState* play) {
                         }
                     }
                     break;
-                case 10:
-                    if (gSaveContext.timer2State != 0) {
-                        D_8015FFE6 = 20;
-                        D_8015FFE4 = 20;
-                        gSaveContext.timerX[1] = 140;
-                        gSaveContext.timerY[1] = 80;
 
-                        if (gSaveContext.timer2State < 7) {
-                            gSaveContext.timer2State = 2;
+                case TIMER_STATE_STOP:
+                    if (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) {
+                        sSubTimerStateTimer = 20;
+                        sSubTimerNextSecondTimer = 20;
+                        gSaveContext.timerX[TIMER_ID_SUB] = 140;
+                        gSaveContext.timerY[TIMER_ID_SUB] = 80;
+
+                        if (gSaveContext.subTimerState <= SUBTIMER_STATE_STOP) {
+                            gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_PREVIEW;
                         } else {
-                            gSaveContext.timer2State = 8;
+                            gSaveContext.subTimerState = SUBTIMER_STATE_UP_PREVIEW;
                         }
 
-                        gSaveContext.timer1State = 0;
+                        gSaveContext.timerState = TIMER_STATE_OFF;
                     } else {
-                        gSaveContext.timer1State = 0;
+                        gSaveContext.timerState = TIMER_STATE_OFF;
                     }
-                case 15:
+                    FALLTHROUGH;
+                case TIMER_STATE_UP_FREEZE:
                     break;
-                default:
-                    svar6 = 1;
-                    switch (gSaveContext.timer2State) {
-                        case 1:
-                        case 7:
-                            D_8015FFE6 = 20;
-                            D_8015FFE4 = 20;
-                            gSaveContext.timerX[1] = 140;
-                            gSaveContext.timerY[1] = 80;
-                            if (gSaveContext.timer2State == 1) {
-                                gSaveContext.timer2State = 2;
+
+                default: // TIMER_STATE_OFF
+                    // Process the subTimer only if the main timer is off
+                    timerId = TIMER_ID_SUB;
+
+                    switch (gSaveContext.subTimerState) {
+                        case SUBTIMER_STATE_DOWN_INIT:
+                        case SUBTIMER_STATE_UP_INIT:
+                            sSubTimerStateTimer = 20;
+                            sSubTimerNextSecondTimer = 20;
+                            gSaveContext.timerX[TIMER_ID_SUB] = 140;
+                            gSaveContext.timerY[TIMER_ID_SUB] = 80;
+                            if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_INIT) {
+                                gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_PREVIEW;
                             } else {
-                                gSaveContext.timer2State = 8;
+                                gSaveContext.subTimerState = SUBTIMER_STATE_UP_PREVIEW;
                             }
                             break;
-                        case 2:
-                        case 8:
-                            D_8015FFE6--;
-                            if (D_8015FFE6 == 0) {
-                                D_8015FFE6 = 20;
-                                if (gSaveContext.timer2State == 2) {
-                                    gSaveContext.timer2State = 3;
+
+                        case SUBTIMER_STATE_DOWN_PREVIEW:
+                        case SUBTIMER_STATE_UP_PREVIEW:
+                            sSubTimerStateTimer--;
+                            if (sSubTimerStateTimer == 0) {
+                                sSubTimerStateTimer = 20;
+                                if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_PREVIEW) {
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_MOVE;
                                 } else {
-                                    gSaveContext.timer2State = 9;
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_UP_MOVE;
                                 }
                             }
                             break;
-                        case 3:
-                        case 9:
-                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
-                                         ((void)0, gSaveContext.timerX[1]), ((void)0, gSaveContext.timerY[1]),
-                                         gSaveContext.timer2Value);
-                            svar1 = (gSaveContext.timerX[1] - 26) / D_8015FFE6;
-                            gSaveContext.timerX[1] -= svar1;
-                            if (gSaveContext.healthCapacity > 0xA0) {
-                                svar1 = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
-                            } else {
-                                svar1 = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
-                            }
-                            gSaveContext.timerY[1] -= svar1;
 
-                            D_8015FFE6--;
-                            if (D_8015FFE6 == 0) {
-                                D_8015FFE6 = 20;
-                                gSaveContext.timerX[1] = 26;
+                        case SUBTIMER_STATE_DOWN_MOVE:
+                        case SUBTIMER_STATE_UP_MOVE:
+                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n",
+                                         ((void)0, gSaveContext.timerX[TIMER_ID_SUB]),
+                                         ((void)0, gSaveContext.timerY[TIMER_ID_SUB]), gSaveContext.subTimerSeconds);
+                            svar1 = (gSaveContext.timerX[TIMER_ID_SUB] - 26) / sSubTimerStateTimer;
+                            gSaveContext.timerX[TIMER_ID_SUB] -= svar1;
+                            if (gSaveContext.healthCapacity > 0xA0) {
+                                // two rows of hearts
+                                svar1 = (gSaveContext.timerY[TIMER_ID_SUB] - 54) / sSubTimerStateTimer;
+                            } else {
+                                // one row of hearts
+                                svar1 = (gSaveContext.timerY[TIMER_ID_SUB] - 46) / sSubTimerStateTimer;
+                            }
+                            gSaveContext.timerY[TIMER_ID_SUB] -= svar1;
+
+                            sSubTimerStateTimer--;
+                            if (sSubTimerStateTimer == 0) {
+                                sSubTimerStateTimer = 20;
+                                gSaveContext.timerX[TIMER_ID_SUB] = 26;
 
                                 if (gSaveContext.healthCapacity > 0xA0) {
-                                    gSaveContext.timerY[1] = 54;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 54; // two rows of hearts
                                 } else {
-                                    gSaveContext.timerY[1] = 46;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 46; // one row of hearts
                                 }
 
-                                if (gSaveContext.timer2State == 3) {
-                                    gSaveContext.timer2State = 4;
+                                if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_MOVE) {
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_DOWN_TICK;
                                 } else {
-                                    gSaveContext.timer2State = 10;
+                                    gSaveContext.subTimerState = SUBTIMER_STATE_UP_TICK;
                                 }
                             }
                             FALLTHROUGH;
-                        case 4:
-                        case 10:
-                            if ((gSaveContext.timer2State == 4) || (gSaveContext.timer2State == 10)) {
+                        case SUBTIMER_STATE_DOWN_TICK:
+                        case SUBTIMER_STATE_UP_TICK:
+                            if ((gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) ||
+                                (gSaveContext.subTimerState == SUBTIMER_STATE_UP_TICK)) {
                                 if (gSaveContext.healthCapacity > 0xA0) {
-                                    gSaveContext.timerY[1] = 54;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 54; // two rows of hearts
                                 } else {
-                                    gSaveContext.timerY[1] = 46;
+                                    gSaveContext.timerY[TIMER_ID_SUB] = 46; // one row of hearts
                                 }
                             }
 
-                            if (gSaveContext.timer2State >= 3) {
-                                D_8015FFE4--;
-                                if (D_8015FFE4 == 0) {
-                                    D_8015FFE4 = 20;
-                                    if (gSaveContext.timer2State == 4) {
-                                        gSaveContext.timer2Value--;
-                                        osSyncPrintf("TOTAL_EVENT_TM=%d\n", gSaveContext.timer2Value);
+                            if (gSaveContext.subTimerState >= SUBTIMER_STATE_DOWN_MOVE) {
+                                sSubTimerNextSecondTimer--;
+                                if (sSubTimerNextSecondTimer == 0) {
+                                    sSubTimerNextSecondTimer = 20;
+                                    if (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) {
+                                        gSaveContext.subTimerSeconds--;
+                                        osSyncPrintf("TOTAL_EVENT_TM=%d\n", gSaveContext.subTimerSeconds);
 
-                                        if (gSaveContext.timer2Value <= 0) {
+                                        if (gSaveContext.subTimerSeconds <= 0) {
+                                            // Out of time
                                             if (!Flags_GetSwitch(play, 0x37) ||
                                                 ((play->sceneId != SCENE_GANON_DEMO) &&
                                                  (play->sceneId != SCENE_GANON_FINAL) &&
                                                  (play->sceneId != SCENE_GANON_SONOGO) &&
                                                  (play->sceneId != SCENE_GANONTIKA_SONOGO))) {
-                                                D_8015FFE6 = 40;
-                                                gSaveContext.timer2State = 5;
+                                                sSubTimerStateTimer = 40;
+                                                gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
                                                 gSaveContext.cutsceneIndex = 0;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
                                                 func_8002DF54(play, NULL, 8);
                                             } else {
-                                                D_8015FFE6 = 40;
-                                                gSaveContext.timer2State = 6;
+                                                sSubTimerStateTimer = 40;
+                                                gSaveContext.subTimerState = SUBTIMER_STATE_STOP;
                                             }
-                                        } else if (gSaveContext.timer2Value > 60) {
-                                            if (timerDigits[4] == 1) {
+                                        } else if (gSaveContext.subTimerSeconds > 60) {
+                                            // Beep at "xx:x1" (every 10 seconds)
+                                            if (sTimerDigits[4] == 1) {
                                                 Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
                                                                      &gSfxDefaultFreqAndVolScale,
                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
-                                        } else if (gSaveContext.timer2Value > 10) {
-                                            if (timerDigits[4] & 1) {
+                                        } else if (gSaveContext.subTimerSeconds > 10) {
+                                            // Beep on alternating seconds
+                                            if ((sTimerDigits[4] % 2) != 0) {
                                                 Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                                      &gSfxDefaultFreqAndVolScale,
                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
                                         } else {
+                                            // Beep every second
                                             Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
                                                                  &gSfxDefaultFreqAndVolScale,
                                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                         }
-                                    } else {
-                                        gSaveContext.timer2Value++;
-                                        if (GET_EVENTINF(EVENTINF_10)) {
-                                            if (gSaveContext.timer2Value == 240) {
-                                                Message_StartTextbox(play, 0x6083, NULL);
-                                                CLEAR_EVENTINF(EVENTINF_10);
-                                                gSaveContext.timer2State = 0;
-                                            }
+                                    } else { // SUBTIMER_STATE_UP_TICK
+                                        gSaveContext.subTimerSeconds++;
+
+                                        // Special case for the running-man race
+                                        if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE) &&
+                                            (gSaveContext.subTimerSeconds == MARATHON_TIME_LIMIT)) {
+                                            // After 4 minutes, cancel the timer
+                                            Message_StartTextbox(play, 0x6083, NULL);
+                                            CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
+                                            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                                         }
                                     }
 
-                                    if ((gSaveContext.timer2Value % 60) == 0) {
+                                    // Beep at the minute mark
+                                    if ((gSaveContext.subTimerSeconds % 60) == 0) {
                                         Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                              &gSfxDefaultReverb);
@@ -3782,39 +3819,40 @@ void Interface_Draw(PlayState* play) {
                                 }
                             }
                             break;
-                        case 6:
-                            D_8015FFE6--;
-                            if (D_8015FFE6 == 0) {
-                                gSaveContext.timer2State = 0;
+
+                        case SUBTIMER_STATE_STOP:
+                            sSubTimerStateTimer--;
+                            if (sSubTimerStateTimer == 0) {
+                                gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                             }
                             break;
                     }
                     break;
             }
 
-            if (((gSaveContext.timer1State != 0) && (gSaveContext.timer1State != 10)) ||
-                (gSaveContext.timer2State != 0)) {
-                timerDigits[0] = timerDigits[1] = timerDigits[3] = 0;
-                timerDigits[2] = 10; // digit 10 is used as ':' (colon)
+            if (((gSaveContext.timerState != TIMER_STATE_OFF) && (gSaveContext.timerState != TIMER_STATE_STOP)) ||
+                (gSaveContext.subTimerState != SUBTIMER_STATE_OFF)) {
+                sTimerDigits[0] = sTimerDigits[1] = sTimerDigits[3] = 0;
+                sTimerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
-                if (gSaveContext.timer1State != 0) {
-                    timerDigits[4] = gSaveContext.timer1Value;
+                if (gSaveContext.timerState != TIMER_STATE_OFF) {
+                    sTimerDigits[4] = gSaveContext.timerSeconds;
                 } else {
-                    timerDigits[4] = gSaveContext.timer2Value;
+                    sTimerDigits[4] = gSaveContext.subTimerSeconds;
                 }
 
-                while (timerDigits[4] >= 60) {
-                    timerDigits[1]++;
-                    if (timerDigits[1] >= 10) {
-                        timerDigits[0]++;
-                        timerDigits[1] -= 10;
+                while (sTimerDigits[4] >= 60) {
+                    sTimerDigits[1]++;
+                    if (sTimerDigits[1] >= 10) {
+                        sTimerDigits[0]++;
+                        sTimerDigits[1] -= 10;
                     }
-                    timerDigits[4] -= 60;
+                    sTimerDigits[4] -= 60;
                 }
 
-                while (timerDigits[4] >= 10) {
-                    timerDigits[3]++;
-                    timerDigits[4] -= 10;
+                while (sTimerDigits[4] >= 10) {
+                    sTimerDigits[3]++;
+                    sTimerDigits[4] -= 10;
                 }
 
                 // Clock Icon
@@ -3822,34 +3860,36 @@ void Interface_Draw(PlayState* play) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
                 OVERLAY_DISP =
-                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, ((void)0, gSaveContext.timerX[svar6]),
-                                   ((void)0, gSaveContext.timerY[svar6]) + 2, 16, 16, 1 << 10, 1 << 10);
+                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, ((void)0, gSaveContext.timerX[timerId]),
+                                   ((void)0, gSaveContext.timerY[timerId]) + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
                                   TEXEL0, 0, PRIMITIVE, 0);
 
-                if (gSaveContext.timer1State != 0) {
-                    if ((gSaveContext.timer1Value < 10) && (gSaveContext.timer1State < 11)) {
+                if (gSaveContext.timerState != TIMER_STATE_OFF) {
+                    // TIMER_ID_MAIN
+                    if ((gSaveContext.timerSeconds < 10) && (gSaveContext.timerState <= TIMER_STATE_STOP)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 50, 0, 255);
                     } else {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                     }
                 } else {
-                    if ((gSaveContext.timer2Value < 10) && (gSaveContext.timer2State < 6)) {
+                    // TIMER_ID_SUB
+                    if ((gSaveContext.subTimerSeconds < 10) && (gSaveContext.subTimerState <= SUBTIMER_STATE_RESPAWN)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 50, 0, 255);
                     } else {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 0, 255);
                     }
                 }
 
-                for (svar1 = 0; svar1 < 5; svar1++) {
+                for (svar1 = 0; svar1 < ARRAY_COUNT(sTimerDigits); svar1++) {
                     OVERLAY_DISP =
-                        Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                                      ((void)0, gSaveContext.timerX[svar6]) + timerDigitLeftPos[svar1],
-                                      ((void)0, gSaveContext.timerY[svar6]), digitWidth[svar1], VREG(42), VREG(43) << 1,
-                                      VREG(43) << 1);
+                        Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * sTimerDigits[svar1])), 8, 16,
+                                      ((void)0, gSaveContext.timerX[timerId]) + timerDigitLeftPos[svar1],
+                                      ((void)0, gSaveContext.timerY[timerId]), sDigitWidths[svar1], VREG(42),
+                                      VREG(43) << 1, VREG(43) << 1);
                 }
             }
         }
@@ -4021,24 +4061,25 @@ void Interface_Update(PlayState* play) {
     }
 
     Health_UpdateBeatingHeart(play);
-    D_80125A58 = func_8008F2F8(play);
+    sEnvHazard = Player_GetEnvironmentalHazard(play);
 
-    if (D_80125A58 == 1) {
+    if (sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_GORON) {
-            D_80125A58 = 0;
+            sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }
-    } else if ((func_8008F2F8(play) >= 2) && (func_8008F2F8(play) < 5)) {
+    } else if ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+               (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_ZORA) {
-            D_80125A58 = 0;
+            sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }
     }
 
     Health_UpdateMeter(play);
 
-    if ((gSaveContext.timer1State >= 3) && (play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) &&
-        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE2_24) &&
-        (play->transitionTrigger == TRANS_TRIGGER_OFF) && (play->transitionMode == TRANS_MODE_OFF) &&
-        !Play_InCsMode(play)) {}
+    if ((gSaveContext.timerState >= TIMER_STATE_ENV_HAZARD_MOVE) && (play->pauseCtx.state == 0) &&
+        (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
+        !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
+        (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {
@@ -4140,16 +4181,19 @@ void Interface_Update(PlayState* play) {
         Magic_Update(play);
     }
 
-    if (gSaveContext.timer1State == 0) {
-        if (((D_80125A58 == 1) || (D_80125A58 == 2) || (D_80125A58 == 4)) && ((gSaveContext.health >> 1) != 0)) {
-            gSaveContext.timer1State = 1;
-            gSaveContext.timerX[0] = 140;
-            gSaveContext.timerY[0] = 80;
-            D_80125A5C = true;
+    if (gSaveContext.timerState == TIMER_STATE_OFF) {
+        if (((sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) || (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) ||
+             (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FREE)) &&
+            ((gSaveContext.health >> 1) != 0)) {
+            gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_INIT;
+            gSaveContext.timerX[TIMER_ID_MAIN] = 140;
+            gSaveContext.timerY[TIMER_ID_MAIN] = 80;
+            sEnvHazardActive = true;
         }
     } else {
-        if (((D_80125A58 == 0) || (D_80125A58 == 3)) && (gSaveContext.timer1State < 5)) {
-            gSaveContext.timer1State = 0;
+        if (((sEnvHazard == PLAYER_ENV_HAZARD_NONE) || (sEnvHazard == PLAYER_ENV_HAZARD_SWIMMING)) &&
+            (gSaveContext.timerState <= TIMER_STATE_ENV_HAZARD_TICK)) {
+            gSaveContext.timerState = TIMER_STATE_OFF;
         }
     }
 

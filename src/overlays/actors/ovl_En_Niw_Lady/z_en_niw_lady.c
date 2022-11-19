@@ -308,8 +308,8 @@ void func_80ABA654(EnNiwLady* this, PlayState* play) {
         this->unk_26E = 0xB;
         if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
             this->actor.parent = NULL;
-            this->getItemId = GI_BOTTLE;
-            func_8002F434(&this->actor, play, GI_BOTTLE, 100.0f, 50.0f);
+            this->getItemId = GI_BOTTLE_EMPTY;
+            func_8002F434(&this->actor, play, GI_BOTTLE_EMPTY, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }

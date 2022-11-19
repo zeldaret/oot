@@ -88,7 +88,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     gDmaMgrVerbose = HREG(60);
-    gDmaMgrDmaBuffSize = SREG(21) != 0 ? ALIGN16(SREG(21)) : 0x2000;
+    gDmaMgrDmaBuffSize = SREG(21) != 0 ? ALIGN16(SREG(21)) : DMAMGR_DEFAULT_BUFSIZE;
     gSystemArenaLogSeverity = HREG(61);
     gZeldaArenaLogSeverity = HREG(62);
     if (HREG(80) == 8) {

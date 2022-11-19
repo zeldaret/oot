@@ -18,7 +18,7 @@ void ShotSun_Update(Actor* thisx, PlayState* play);
 
 void ShotSun_SpawnFairy(ShotSun* this, PlayState* play);
 void ShotSun_TriggerFairy(ShotSun* this, PlayState* play);
-void func_80BADF0C(ShotSun* this, PlayState* play);
+void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play);
 void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play);
 
 ActorInit Shot_Sun_InitVars = {
@@ -32,6 +32,12 @@ ActorInit Shot_Sun_InitVars = {
     (ActorFunc)ShotSun_Update,
     NULL,
 };
+
+typedef enum {
+    /* 0 */ SPAWNER_OUT_OF_RANGE ,
+    /* 1 */ SPAWNER_OCARINA_START,
+    /* 2 */ SPAWNER_OCARINA_PLAYING
+} FairySpawnerState;
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -61,10 +67,10 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
     params = this->actor.params & 0xFF;
     if (params == 0x40 || params == 0x41) {
-        this->unk_1A4 = 0;
+        this->fairySpawnerState = SPAWNER_OUT_OF_RANGE;
         this->actor.flags |= ACTOR_FLAG_4;
         this->actor.flags |= ACTOR_FLAG_25;
-        this->actionFunc = func_80BADF0C;
+        this->actionFunc = ShotSun_UpdateFairySpawner;
         this->actor.flags |= ACTOR_FLAG_27;
     } else {
         Collider_InitCylinder(play, &this->collider);
@@ -119,35 +125,35 @@ void ShotSun_TriggerFairy(ShotSun* this, PlayState* play) {
     }
 }
 
-void func_80BADF0C(ShotSun* this, PlayState* play) {
+void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
     if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
-        this->unk_1A4 = 0;
+        this->fairySpawnerState = SPAWNER_OUT_OF_RANGE;
     } else {
-        if (this->unk_1A4 == 0) {
+        if (this->fairySpawnerState == SPAWNER_OUT_OF_RANGE) {
             if (!(player->stateFlags2 & PLAYER_STATE2_24)) {
                 player->stateFlags2 |= PLAYER_STATE2_23;
                 return;
             } else {
-                this->unk_1A4 = 1;
+                this->fairySpawnerState = SPAWNER_OCARINA_START;
             }
         }
-        if (this->unk_1A4 == 1) {
+        if (this->fairySpawnerState == SPAWNER_OCARINA_START) {
             func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
-            this->unk_1A4 = 2;
-        } else if (this->unk_1A4 == 2 && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            this->fairySpawnerState = SPAWNER_OCARINA_PLAYING;
+        } else if (this->fairySpawnerState == SPAWNER_OCARINA_PLAYING && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
             if ((params == 0x40 && play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS) ||
                 (params == 0x41 && play->msgCtx.lastPlayedSong == OCARINA_SONG_STORMS)) {
                 this->actionFunc = ShotSun_TriggerFairy;
                 OnePointCutscene_Attention(play, &this->actor);
                 this->timer = 0;
             } else {
-                this->unk_1A4 = 0;
+                this->fairySpawnerState = SPAWNER_OUT_OF_RANGE;
             }
-            this->unk_1A4 = 0;
+            this->fairySpawnerState = SPAWNER_OUT_OF_RANGE;
         }
     }
 }

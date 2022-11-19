@@ -4,11 +4,6 @@
 #include "assets/objects/object_link_child/object_link_child.h"
 
 typedef struct {
-    /* 0x00 */ u8 flag;
-    /* 0x02 */ u16 textId;
-} TextTriggerEntry; // size = 0x04
-
-typedef struct {
     /* 0x00 */ Gfx* dList;
     /* 0x04 */ Vec3f pos;
 } BowSlingshotStringData; // size = 0x10
@@ -32,7 +27,7 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_MASTER
     PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_KOKIRI
     PLAYER_MODELGROUP_BGS,           // PLAYER_IA_SWORD_BGS
-    PLAYER_MODELGROUP_10,            // PLAYER_IA_STICK
+    PLAYER_MODELGROUP_10,            // PLAYER_IA_DEKU_STICK
     PLAYER_MODELGROUP_HAMMER,        // PLAYER_IA_HAMMER
     PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW
     PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_FIRE
@@ -53,33 +48,33 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_FARORES_WIND
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_NAYRUS_LOVE
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_DINS_FIRE
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_NUT
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_DEKU_NUT
     PLAYER_MODELGROUP_OCARINA,       // PLAYER_IA_OCARINA_FAIRY
-    PLAYER_MODELGROUP_OOT,           // PLAYER_IA_OCARINA_TIME
+    PLAYER_MODELGROUP_OOT,           // PLAYER_IA_OCARINA_OF_TIME
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FISH
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FIRE
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_BUG
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POE
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_BIG_POE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_LETTER
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_RUTOS_LETTER
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_RED
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_BLUE
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_GREEN
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_MILK
+    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_MILK_FULL
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_MILK_HALF
     PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FAIRY
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_LETTER_ZELDA
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ZELDAS_LETTER
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_WEIRD_EGG
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_CHICKEN
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_BEAN
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MAGIC_BEAN
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POCKET_EGG
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POCKET_CUCCO
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_COJIRO
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ODD_MUSHROOM
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ODD_POTION
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_SAW
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_SWORD_BROKEN
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POACHERS_SAW
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_BROKEN_GORONS_SWORD
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_PRESCRIPTION
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_FROG
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_EYEDROPS
@@ -87,19 +82,24 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_KEATON
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_SKULL
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_SPOOKY
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_BUNNY
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_BUNNY_HOOD
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_GORON
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_ZORA
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_GERUDO
     PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_TRUTH
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_LENS
+    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_LENS_OF_TRUTH
 };
 
-TextTriggerEntry sTextTriggers[] = {
-    { 1, 0x3040 },
-    { 2, 0x401D },
-    { 0, 0x0000 },
-    { 2, 0x401D },
+typedef struct {
+    /* 0x0 */ u8 flag;
+    /* 0x2 */ u16 textId;
+} EnvHazardTextTriggerEntry; // size = 0x4
+
+EnvHazardTextTriggerEntry sEnvHazardTextTriggers[] = {
+    { ENV_HAZARD_TEXT_TRIGGER_HOTROOM, 0x3040 },    // PLAYER_ENV_HAZARD_HOTROOM - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1
+    { 0, 0x0000 },                                  // PLAYER_ENV_HAZARD_SWIMMING - 1
+    { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1
 };
 
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
@@ -590,7 +590,7 @@ void Player_SetEquipmentData(PlayState* play, Player* this) {
 void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAction) {
     Inventory_UpdateBottleItem(play, item, this->heldItemButton);
 
-    if (item != ITEM_BOTTLE) {
+    if (item != ITEM_BOTTLE_EMPTY) {
         this->heldItemId = item;
         this->heldItemAction = itemAction;
     }
@@ -644,7 +644,7 @@ s32 Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 y
     Vec3f diff;
     s32 pad;
 
-    if ((this->heldItemAction == PLAYER_IA_STICK) && (this->unk_860 != 0)) {
+    if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
         Math_Vec3f_Diff(&this->meleeWeaponInfo[0].tip, pos, &diff);
         return ((SQ(diff.x) + SQ(diff.z)) <= SQ(xzRange)) && (0.0f <= diff.y) && (diff.y <= yRange);
     } else {
@@ -778,35 +778,37 @@ return_neg:
     return -1;
 }
 
-s32 func_8008F2F8(PlayState* play) {
+s32 Player_GetEnvironmentalHazard(PlayState* play) {
     Player* this = GET_PLAYER(play);
-    TextTriggerEntry* triggerEntry;
-    s32 var;
+    EnvHazardTextTriggerEntry* triggerEntry;
+    s32 envHazard;
 
     if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
-        var = 0;
-    } else if ((this->unk_840 > 80) &&
-               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) ? 1 : 3;
+        envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
+    } else if ((this->underwaterTimer > 80) &&
+               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
+        envHazard = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
+                        ? (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)
+                        : (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1);
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
-        var = 2;
+        envHazard = PLAYER_ENV_HAZARD_SWIMMING - 1;
     } else {
-        return 0;
+        return PLAYER_ENV_HAZARD_NONE;
     }
 
-    // Trigger general textboxes under certain conditions, like "It's so hot in here!"
-    triggerEntry = &sTextTriggers[var];
+    triggerEntry = &sEnvHazardTextTriggers[envHazard];
     if (!Player_InCsMode(play)) {
-        if ((triggerEntry->flag != 0) && !(gSaveContext.textTriggerFlags & triggerEntry->flag) &&
-            (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
-             (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
-              (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
+        if ((triggerEntry->flag != 0) && !(gSaveContext.envHazardTextTriggerFlags & triggerEntry->flag) &&
+            (((envHazard == (PLAYER_ENV_HAZARD_HOTROOM - 1)) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
+             (((envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)) ||
+               (envHazard == (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1))) &&
+              (this->currentBoots == PLAYER_BOOTS_IRON) && (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             Message_StartTextbox(play, triggerEntry->textId, NULL);
-            gSaveContext.textTriggerFlags |= triggerEntry->flag;
+            gSaveContext.envHazardTextTriggerFlags |= triggerEntry->flag;
         }
     }
 
-    return var + 1;
+    return envHazard + 1;
 }
 
 u8 sEyeMouthIndices[][2] = {
@@ -1450,7 +1452,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
         Math_Vec3f_Copy(&this->leftHandPos, sCurBodyPartPos);
 
-        if (this->itemAction == PLAYER_IA_STICK) {
+        if (this->itemAction == PLAYER_IA_DEKU_STICK) {
             Vec3f sp124[3];
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2633);
@@ -1642,11 +1644,11 @@ u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
 
     size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
     ptr = segment + PAUSE_EQUIP_BUFFER_SIZE;
-    DmaMgr_SendRequest1(ptr, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c", 2982);
+    DmaMgr_RequestSyncDebug(ptr, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c", 2982);
 
     size = gObjectTable[linkObjectId].vromEnd - gObjectTable[linkObjectId].vromStart;
     ptr = segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE;
-    DmaMgr_SendRequest1(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
+    DmaMgr_RequestSyncDebug(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
 
     ptr = (void*)ALIGN16((u32)ptr + size);
 
