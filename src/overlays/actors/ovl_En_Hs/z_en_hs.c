@@ -126,9 +126,9 @@ void func_80A6E5EC(EnHs* this, PlayState* play) {
 
 void func_80A6E630(EnHs* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        func_80088AA0(180);
+        Interface_SetSubTimer(180);
         func_80A6E3A0(this, func_80A6E6B0);
-        CLEAR_EVENTINF(EVENTINF_10);
+        CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     }
 
     this->unk_2A8 |= 1;
