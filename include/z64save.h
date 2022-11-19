@@ -243,10 +243,10 @@ typedef struct {
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
     /* 0x13E7 */ u8 forceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
-    /* 0x13E8 */ u16 nextHudVisibilityMode; // triggers the hud to change visibility to the requested value. Reset to HUD_NO_CHANGE when target is reached
-    /* 0x13EA */ u16 hudVisibilityMode; // current hud visibility
-    /* 0x13EC */ u16 hudVisibilityModeTimer; // number of frames in the transition to a new hud visibility. Used to step alpha
-    /* 0x13EE */ u16 prevHudVisibilityMode; // used to store and recover hud visibility for pause menu and text boxes
+    /* 0x13E8 */ u16 nextHudVisibilityMode; // triggers the hud to change visibility mode to the requested value. Reset to HUD_NO_CHANGE when target is reached
+    /* 0x13EA */ u16 hudVisibilityMode; // current hud visibility mode
+    /* 0x13EC */ u16 hudVisibilityModeTimer; // number of frames in the transition to a new hud visibility mode. Used to step alpha
+    /* 0x13EE */ u16 prevHudVisibilityMode; // used to store and recover hud visibility mode for pause menu and text boxes
     /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
     /* 0x13F4 */ s16 magicCapacity; // maximum magic available
