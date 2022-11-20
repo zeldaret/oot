@@ -613,12 +613,12 @@ s32 EnDaiku_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos,
 
     switch (limb) {
         case 8: // torso
-            rot->x += this->interactInfo.rotTorso.y;
-            rot->y -= this->interactInfo.rotTorso.x;
+            rot->x += this->interactInfo.torsoRot.y;
+            rot->y -= this->interactInfo.torsoRot.x;
             break;
         case 15: // head
-            rot->x += this->interactInfo.rotHead.y;
-            rot->z += this->interactInfo.rotHead.x;
+            rot->x += this->interactInfo.headRot.y;
+            rot->z += this->interactInfo.headRot.x;
             break;
     }
 

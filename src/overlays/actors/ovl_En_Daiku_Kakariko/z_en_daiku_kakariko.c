@@ -497,13 +497,13 @@ s32 EnDaikuKakariko_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 8:
-            angle = this->interactInfo.rotTorso;
+            angle = this->interactInfo.torsoRot;
             Matrix_RotateX(-BINANG_TO_RAD(angle.y), MTXMODE_APPLY);
             Matrix_RotateZ(-BINANG_TO_RAD(angle.x), MTXMODE_APPLY);
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->interactInfo.rotHead;
+            angle = this->interactInfo.headRot;
 
             if (this->flags & 0x1000) {
                 osSyncPrintf("<%d>\n", this->neckAngle.x);

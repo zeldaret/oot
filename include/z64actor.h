@@ -552,8 +552,8 @@ typedef struct {
     /* 0x02 */ s16 trackingMode;
     /* 0x04 */ s16 autoTurnTimer;
     /* 0x06 */ s16 autoTurnState;
-    /* 0x08 */ Vec3s rotHead;
-    /* 0x0E */ Vec3s rotTorso;
+    /* 0x08 */ Vec3s headRot;
+    /* 0x0E */ Vec3s torsoRot;
     /* 0x14 */ f32 yPosOffset; // Y position offset to add to actor position when calculating angle to target
     /* 0x18 */ Vec3f trackPos;
     /* 0x24 */ char unk_24[0x4];

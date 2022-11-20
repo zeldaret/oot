@@ -3770,30 +3770,30 @@ void Npc_TrackPointWithLimits(Actor* actor, NpcInteractInfo* interactInfo, s16 m
     bodyYawDiff = Math_Vec3f_Yaw(&actor->world.pos, &interactInfo->trackPos) - actor->shape.rot.y;
 
     temp = CLAMP(bodyYawDiff, -maxHeadYaw, maxHeadYaw);
-    Math_SmoothStepToS(&interactInfo->rotHead.y, temp, 6, 2000, 1);
+    Math_SmoothStepToS(&interactInfo->headRot.y, temp, 6, 2000, 1);
 
     temp = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
-    interactInfo->rotHead.y = CLAMP(interactInfo->rotHead.y, -temp, temp);
+    interactInfo->headRot.y = CLAMP(interactInfo->headRot.y, -temp, temp);
 
-    bodyYawDiff -= interactInfo->rotHead.y;
+    bodyYawDiff -= interactInfo->headRot.y;
 
     temp = CLAMP(bodyYawDiff, -maxTorsoYaw, maxTorsoYaw);
-    Math_SmoothStepToS(&interactInfo->rotTorso.y, temp, 6, 2000, 1);
+    Math_SmoothStepToS(&interactInfo->torsoRot.y, temp, 6, 2000, 1);
 
     temp = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
-    interactInfo->rotTorso.y = CLAMP(interactInfo->rotTorso.y, -temp, temp);
+    interactInfo->torsoRot.y = CLAMP(interactInfo->torsoRot.y, -temp, temp);
 
     if (rotateActorShape) {
         Math_SmoothStepToS(&actor->shape.rot.y, yawTowardsTarget, 6, 2000, 1);
     }
 
     temp = CLAMP(pitchTowardsTarget, minHeadPitch, (s16)(u16)maxHeadPitch);
-    Math_SmoothStepToS(&interactInfo->rotHead.x, temp, 6, 2000, 1);
+    Math_SmoothStepToS(&interactInfo->headRot.x, temp, 6, 2000, 1);
 
-    torsoPitch = pitchTowardsTarget - interactInfo->rotHead.x;
+    torsoPitch = pitchTowardsTarget - interactInfo->headRot.x;
 
     temp = CLAMP(torsoPitch, minTorsoPitch, maxTorsoPitch);
-    Math_SmoothStepToS(&interactInfo->rotTorso.x, temp, 6, 2000, 1);
+    Math_SmoothStepToS(&interactInfo->torsoRot.x, temp, 6, 2000, 1);
 }
 
 s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex) {

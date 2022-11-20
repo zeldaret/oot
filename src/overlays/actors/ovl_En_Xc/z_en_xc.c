@@ -2345,11 +2345,11 @@ s32 EnXc_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
-            rot->x += this->interactInfo.rotTorso.y;
-            rot->y -= this->interactInfo.rotTorso.x;
+            rot->x += this->interactInfo.torsoRot.y;
+            rot->y -= this->interactInfo.torsoRot.x;
         } else if (limbIndex == 16) {
-            rot->x += this->interactInfo.rotHead.y;
-            rot->z += this->interactInfo.rotHead.x;
+            rot->x += this->interactInfo.headRot.y;
+            rot->z += this->interactInfo.headRot.x;
         }
     }
     return 0;

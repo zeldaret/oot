@@ -1913,8 +1913,8 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                 this->animTimer = 60;
                 this->actor.gravity = 0.0f;
                 this->actor.speedXZ = 2.0f;
-                this->interactInfo.rotHead = D_80A4854C;
-                this->interactInfo.rotTorso = D_80A4854C;
+                this->interactInfo.headRot = D_80A4854C;
+                this->interactInfo.torsoRot = D_80A4854C;
                 this->goronState++;
                 this->goronState++;
                 player->actor.world.rot.y = this->actor.world.rot.y;
@@ -2027,7 +2027,7 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->interactInfo.rotHead;
+        vec1 = this->interactInfo.headRot;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);
@@ -2035,7 +2035,7 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
-        vec1 = this->interactInfo.rotTorso;
+        vec1 = this->interactInfo.torsoRot;
         float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = BINANG_TO_RAD_ALT(vec1.x);

@@ -170,10 +170,10 @@ void func_80AB10C4(EnNb* this) {
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
-    tempPtr = &this->interactInfo.rotHead;
+    tempPtr = &this->interactInfo.headRot;
     Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
-    tempPtr2 = &this->interactInfo.rotTorso;
+    tempPtr2 = &this->interactInfo.torsoRot;
     Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
 }
@@ -1457,12 +1457,12 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->headTurnFlag != 0) {
         if (limbIndex == NB_LIMB_TORSO) {
-            rot->x += interactInfo->rotTorso.y;
-            rot->y -= interactInfo->rotTorso.x;
+            rot->x += interactInfo->torsoRot.y;
+            rot->y -= interactInfo->torsoRot.x;
             ret = false;
         } else if (limbIndex == NB_LIMB_HEAD) {
-            rot->x += interactInfo->rotHead.y;
-            rot->z += interactInfo->rotHead.x;
+            rot->x += interactInfo->headRot.y;
+            rot->z += interactInfo->headRot.x;
             ret = false;
         }
     }

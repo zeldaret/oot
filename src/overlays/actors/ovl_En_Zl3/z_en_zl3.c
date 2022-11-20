@@ -136,8 +136,8 @@ void func_80B536B4(EnZl3* this) {
 
 void func_80B536C4(EnZl3* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->interactInfo.rotHead;
-    Vec3s* vec2 = &this->interactInfo.rotTorso;
+    Vec3s* vec1 = &this->interactInfo.headRot;
+    Vec3s* vec2 = &this->interactInfo.torsoRot;
 
     Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
@@ -588,8 +588,8 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
     Mtx* sp78;
     MtxF sp38;
     Vec3s sp30;
-    Vec3s* unk_3F8_unk_08 = &this->interactInfo.rotHead;
-    Vec3s* unk_3F8_unk_0E = &this->interactInfo.rotTorso;
+    Vec3s* unk_3F8_unk_08 = &this->interactInfo.headRot;
+    Vec3s* unk_3F8_unk_0E = &this->interactInfo.torsoRot;
 
     if (limbIndex == 14) {
         sp78 = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
@@ -2439,7 +2439,7 @@ s32 func_80B5944C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
     if (limbIndex == 14) {
         Mtx* mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
         EnZl3* this = (EnZl3*)thisx;
-        Vec3s* vec = &this->interactInfo.rotHead;
+        Vec3s* vec = &this->interactInfo.headRot;
 
         gSPSegment(gfx[0]++, 0x0C, mtx);
 

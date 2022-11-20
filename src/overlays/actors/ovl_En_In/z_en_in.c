@@ -457,8 +457,8 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     subCamEye.z = subCamAt.z + 40.0f;
     Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &subCamEye);
-    this->interactInfo.rotHead = zeroVec;
-    this->interactInfo.rotTorso = zeroVec;
+    this->interactInfo.headRot = zeroVec;
+    this->interactInfo.torsoRot = zeroVec;
     Message_StartTextbox(play, 0x2025, NULL);
     this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
     player->actor.world.pos = this->actor.world.pos;
@@ -956,13 +956,13 @@ s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
     if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp2C = this->interactInfo.rotHead;
+        sp2C = this->interactInfo.headRot;
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB) {
-        sp2C = this->interactInfo.rotTorso;
+        sp2C = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
     }

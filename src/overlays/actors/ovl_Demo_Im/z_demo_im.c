@@ -166,14 +166,14 @@ void DemoIm_UpdateCollider(DemoIm* this, PlayState* play) {
 
 void func_80984DB8(DemoIm* this) {
     s32 pad[2];
-    Vec3s* rotHead = &this->interactInfo.rotHead;
-    Vec3s* rotTorso = &this->interactInfo.rotTorso;
+    Vec3s* headRot = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
 
-    Math_SmoothStepToS(&rotHead->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&rotHead->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
 
-    Math_SmoothStepToS(&rotTorso->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&rotTorso->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void func_80984E58(DemoIm* this, PlayState* play) {
@@ -1137,17 +1137,17 @@ s32 DemoIm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     s32* unk_2D0 = &this->unk_2D0;
 
     if (this->unk_280 != 0) {
-        Vec3s* rotTorso = &this->interactInfo.rotTorso;
-        Vec3s* rotHead = &this->interactInfo.rotHead;
+        Vec3s* torsoRot = &this->interactInfo.torsoRot;
+        Vec3s* headRot = &this->interactInfo.headRot;
 
         switch (limbIndex) {
             case IMPA_LIMB_CHEST:
-                rot->x += rotTorso->y;
-                rot->y -= rotTorso->x;
+                rot->x += torsoRot->y;
+                rot->y -= torsoRot->x;
                 break;
             case IMPA_LIMB_HEAD:
-                rot->x += rotHead->y;
-                rot->z += rotHead->x;
+                rot->x += headRot->y;
+                rot->z += headRot->x;
                 break;
         }
     }

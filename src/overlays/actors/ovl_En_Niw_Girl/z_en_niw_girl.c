@@ -207,8 +207,8 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
             this->interactInfo.trackPos.y = player->actor.world.pos.y - 10.0f;
         }
         Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
-        this->unk_260 = this->interactInfo.rotHead;
-        this->unk_266 = this->interactInfo.rotTorso;
+        this->unk_260 = this->interactInfo.headRot;
+        this->unk_266 = this->interactInfo.torsoRot;
     } else {
         Math_SmoothStepToS(&this->unk_266.y, 0, 5, 3000, 0);
         Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);

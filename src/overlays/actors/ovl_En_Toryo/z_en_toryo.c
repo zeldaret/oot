@@ -389,12 +389,12 @@ s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     if (this->stateFlags & 8) {
         switch (limbIndex) {
             case 8:
-                rot->x += this->interactInfo.rotTorso.y;
-                rot->y -= this->interactInfo.rotTorso.x;
+                rot->x += this->interactInfo.torsoRot.y;
+                rot->y -= this->interactInfo.torsoRot.x;
                 break;
             case 15:
-                rot->x += this->interactInfo.rotHead.y;
-                rot->z += this->interactInfo.rotHead.x;
+                rot->x += this->interactInfo.headRot.y;
+                rot->z += this->interactInfo.headRot.x;
                 break;
         }
     }
