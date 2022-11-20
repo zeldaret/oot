@@ -3808,7 +3808,7 @@ s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex) {
  * will be rotated towards the target.
  *
  * When the player is behind the actor (i.e. not in the yaw range in front of the actor
- * defined by maxYawForPlayerTracking),the actor will start an auto-turn sequence:
+ * defined by maxYawForPlayerTracking), the actor will start an auto-turn sequence:
  *   - look forward for 30-60 frames
  *   - turn head to look at the player for 10-20 frames
  *   - look forward for 30-60 frames

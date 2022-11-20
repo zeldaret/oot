@@ -541,10 +541,10 @@ typedef enum {
 
 typedef enum {
     /* 0x0 */ NPC_TRACKING_PLAYER_AUTO_TURN, // Determine tracking mode based on player position, see Npc_UpdateAutoTurn
-    /* 0x1 */ NPC_TRACKING_NONE, // Don't track the player
-    /* 0x2 */ NPC_TRACKING_HEAD_AND_TORSO, // Track player by turning the head and the torso
-    /* 0x3 */ NPC_TRACKING_HEAD, // Track player by turning the head
-    /* 0x4 */ NPC_TRACKING_FULL_BODY // Track player by turning the body, torso and head
+    /* 0x1 */ NPC_TRACKING_NONE, // Don't track the target (usually the player)
+    /* 0x2 */ NPC_TRACKING_HEAD_AND_TORSO, // Track target by turning the head and the torso
+    /* 0x3 */ NPC_TRACKING_HEAD, // Track target by turning the head
+    /* 0x4 */ NPC_TRACKING_FULL_BODY // Track target by turning the body, torso and head
 } NpcTrackingMode;
 
 typedef struct {
