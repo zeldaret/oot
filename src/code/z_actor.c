@@ -3659,11 +3659,11 @@ Hilite* func_8003435C(Vec3f* object, PlayState* play) {
  * @param[in,out] talkState Talk state
  * @param interactRange The interact (talking) range for the actor
  * @param getTextId Callback for getting the next text id
- * @param getTalkState Callback for getting the next talkState value
+ * @param updateTalkState Callback for getting the next talkState value
  * @return True if a new dialog was started (player talked to the actor). False otherwise.
  */
 s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange, NpcGetTextIdFunc getTextId,
-                      NpcGetTalkStateFunc getTalkState) {
+                      NpcUpdateTalkStateFunc updateTalkState) {
     s16 x;
     s16 y;
 
@@ -3673,7 +3673,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
     }
 
     if (*talkState != NPC_TALK_STATE_IDLE) {
-        *talkState = getTalkState(play, actor);
+        *talkState = updateTalkState(play, actor);
         return false;
     }
 

@@ -20,7 +20,7 @@ struct Lights;
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
 typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
-typedef s16 (*NpcGetTalkStateFunc)(struct PlayState*, struct Actor*);
+typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
 
 typedef struct {
     Vec3f pos;

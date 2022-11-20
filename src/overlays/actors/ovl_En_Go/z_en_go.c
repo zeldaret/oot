@@ -195,7 +195,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
     }
 }
 
-s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
+s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
     s16 unkState = NPC_TALK_STATE_TALKING;
     f32 xzRange;
     f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
@@ -334,9 +334,9 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
 }
 
 s32 func_80A3ED24(PlayState* play, EnGo* this, NpcInteractInfo* interactInfo, f32 arg3, NpcGetTextIdFunc getTextId,
-                  NpcGetTalkStateFunc getTalkState) {
+                  NpcUpdateTalkStateFunc updateTalkState) {
     if (interactInfo->talkState != NPC_TALK_STATE_IDLE) {
-        interactInfo->talkState = getTalkState(play, &this->actor);
+        interactInfo->talkState = updateTalkState(play, &this->actor);
         return false;
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
         interactInfo->talkState = NPC_TALK_STATE_TALKING;
@@ -587,10 +587,10 @@ void func_80A3F908(EnGo* this, PlayState* play) {
 
         if ((this->actor.params & 0xF0) == 0x90) {
             isUnkCondition =
-                func_80A3ED24(play, this, &this->interactInfo, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+                func_80A3ED24(play, this, &this->interactInfo, float1, EnGo_GetTextID, EnGo_UpdateTalkState);
         } else {
             isUnkCondition = Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, float1,
-                                               EnGo_GetTextID, EnGo_SetFlagsGetStates);
+                                               EnGo_GetTextID, EnGo_UpdateTalkState);
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {

@@ -189,7 +189,7 @@ void EnKz_UpdateEyes(EnKz* this) {
 }
 
 s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, NpcGetTextIdFunc getTextId,
-                  NpcGetTalkStateFunc getTalkState) {
+                  NpcUpdateTalkStateFunc updateTalkState) {
     Player* player = GET_PLAYER(play);
     s16 sp32;
     s16 sp30;
@@ -202,7 +202,7 @@ s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, NpcGetT
     }
 
     if (*talkState != NPC_TALK_STATE_IDLE) {
-        *talkState = getTalkState(play, &this->actor);
+        *talkState = updateTalkState(play, &this->actor);
         return 0;
     }
 

@@ -329,7 +329,7 @@ u16 EnGo2_GetTextIdGoronCityRollingBig(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
     s32 bombBagUpgrade;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -359,7 +359,7 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(PlayState* play, EnGo2* this) {
 }
 
 // DMT Goron by Bomb Flower Choice
-s16 EnGo2_GetStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
             if ((this->actor.textId == 0x300B) && !GET_INFTABLE(INFTABLE_EB)) {
@@ -395,7 +395,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -413,7 +413,7 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3008) {
             SET_INFTABLE(INFTABLE_E0);
@@ -434,7 +434,7 @@ u16 EnGo2_GetTextIdGoronCityEntrance(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronCityEntrance(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityEntrance(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3014) {
             SET_INFTABLE(INFTABLE_F0);
@@ -455,7 +455,7 @@ u16 EnGo2_GetTextIdGoronCityIsland(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronCityIsland(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityIsland(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3016) {
             SET_INFTABLE(INFTABLE_F4);
@@ -479,7 +479,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronCityLowestFloor(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3018) {
             SET_INFTABLE(INFTABLE_F8);
@@ -504,7 +504,7 @@ u16 EnGo2_GetTextIdGoronCityLink(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronCityLink(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
     switch (EnGo2_GetDialogState(this, play)) {
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
@@ -577,7 +577,7 @@ u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     s32 unusedPad;
     u8 dialogState = this->dialogState;
 
@@ -649,7 +649,7 @@ u16 EnGo2_GetTextIdGoronFireGeneric(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronFireGeneric(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronFireGeneric(PlayState* play, EnGo2* this) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
             return NPC_TALK_STATE_IDLE;
@@ -671,7 +671,7 @@ u16 EnGo2_GetTextIdGoronCityStairwell(PlayState* play, EnGo2* this) {
     return !LINK_IS_ADULT ? GET_INFTABLE(INFTABLE_E3) ? 0x3022 : 0x300E : 0x3043;
 }
 
-s16 EnGo2_GetStateGoronCityStairwell(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityStairwell(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x300E) {
             SET_INFTABLE(INFTABLE_E3);
@@ -687,7 +687,7 @@ u16 EnGo2_GetTextIdGoronMarketBazaar(PlayState* play, EnGo2* this) {
     return 0x7122;
 }
 
-s16 EnGo2_GetStateGoronMarketBazaar(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronMarketBazaar(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -707,7 +707,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronCityLostWoods(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityLostWoods(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3024) {
             SET_INFTABLE(INFTABLE_E6);
@@ -727,7 +727,7 @@ u16 EnGo2_GetTextIdGoronDmtFairyHint(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_GetStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -778,37 +778,37 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
 #endif
 }
 
-s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
+s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnGo2* this = (EnGo2*)thisx;
     switch (this->actor.params & 0x1F) {
         case GORON_CITY_ROLLING_BIG:
-            return EnGo2_GetStateGoronCityRollingBig(play, this);
+            return EnGo2_UpdateTalkStateGoronCityRollingBig(play, this);
         case GORON_CITY_LINK:
-            return EnGo2_GetStateGoronCityLink(play, this);
+            return EnGo2_UpdateTalkStateGoronCityLink(play, this);
         case GORON_DMT_BIGGORON:
-            return EnGo2_GetStateGoronDmtBiggoron(play, this);
+            return EnGo2_UpdateTalkStateGoronDmtBiggoron(play, this);
         case GORON_FIRE_GENERIC:
-            return EnGo2_GetStateGoronFireGeneric(play, this);
+            return EnGo2_UpdateTalkStateGoronFireGeneric(play, this);
         case GORON_DMT_BOMB_FLOWER:
-            return EnGo2_GetStateGoronDmtBombFlower(play, this);
+            return EnGo2_UpdateTalkStateGoronDmtBombFlower(play, this);
         case GORON_DMT_ROLLING_SMALL:
-            return EnGo2_GetStateGoronDmtRollingSmall(play, this);
+            return EnGo2_UpdateTalkStateGoronDmtRollingSmall(play, this);
         case GORON_DMT_DC_ENTRANCE:
-            return EnGo2_GetStateGoronDmtDcEntrance(play, this);
+            return EnGo2_UpdateTalkStateGoronDmtDcEntrance(play, this);
         case GORON_CITY_ENTRANCE:
-            return EnGo2_GetStateGoronCityEntrance(play, this);
+            return EnGo2_UpdateTalkStateGoronCityEntrance(play, this);
         case GORON_CITY_ISLAND:
-            return EnGo2_GetStateGoronCityIsland(play, this);
+            return EnGo2_UpdateTalkStateGoronCityIsland(play, this);
         case GORON_CITY_LOWEST_FLOOR:
-            return EnGo2_GetStateGoronCityLowestFloor(play, this);
+            return EnGo2_UpdateTalkStateGoronCityLowestFloor(play, this);
         case GORON_CITY_STAIRWELL:
-            return EnGo2_GetStateGoronCityStairwell(play, this);
+            return EnGo2_UpdateTalkStateGoronCityStairwell(play, this);
         case GORON_CITY_LOST_WOODS:
-            return EnGo2_GetStateGoronCityLostWoods(play, this);
+            return EnGo2_UpdateTalkStateGoronCityLostWoods(play, this);
         case GORON_DMT_FAIRY_HINT:
-            return EnGo2_GetStateGoronDmtFairyHint(play, this);
+            return EnGo2_UpdateTalkStateGoronDmtFairyHint(play, this);
         case GORON_MARKET_BAZAAR:
-            return EnGo2_GetStateGoronMarketBazaar(play, this);
+            return EnGo2_UpdateTalkStateGoronMarketBazaar(play, this);
     }
 #ifdef AVOID_UB
     // The v0 register isn't set in this function, the last value in v0 is the return value of Actor_ProcessTalkRequest
@@ -820,7 +820,7 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
         return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unk_218, EnGo2_GetTextId,
-                                 EnGo2_GetState);
+                                 EnGo2_UpdateTalkState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) &&
                !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;
@@ -829,7 +829,7 @@ s32 func_80A44790(EnGo2* this, PlayState* play) {
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             return true;
         } else if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-            this->interactInfo.talkState = EnGo2_GetState(play, &this->actor);
+            this->interactInfo.talkState = EnGo2_UpdateTalkState(play, &this->actor);
             return false;
         } else if (func_8002F2CC(&this->actor, play, this->unk_218)) {
             this->actor.textId = EnGo2_GetTextId(play, &this->actor);
