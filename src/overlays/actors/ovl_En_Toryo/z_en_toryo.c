@@ -311,7 +311,7 @@ void func_80B20768(EnToryo* this, PlayState* play) {
             this->actor.parent = NULL;
             this->unk_1E4 = 5;
         } else {
-            func_8002F434(&this->actor, play, GI_SWORD_BROKEN, 100.0f, 10.0f);
+            func_8002F434(&this->actor, play, GI_BROKEN_GORONS_SWORD, 100.0f, 10.0f);
         }
         return;
     }
@@ -330,7 +330,7 @@ void func_80B20768(EnToryo* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp32, &sp30);
         if ((sp32 >= 0) && (sp32 < 0x141) && (sp30 >= 0) && (sp30 < 0xF1)) {
             this->actor.textId = func_80B206A0(this, play);
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_SAW);
+            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_POACHERS_SAW);
         }
     }
 }

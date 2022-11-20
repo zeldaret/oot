@@ -2,7 +2,7 @@
 #include "ultra64/internal.h"
 
 OSMesgQueue* osPiGetCmdQueue(void) {
-    if (!__osPiDevMgr.initialized) {
+    if (!__osPiDevMgr.active) {
         return NULL;
     }
 

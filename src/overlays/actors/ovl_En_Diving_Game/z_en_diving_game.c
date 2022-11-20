@@ -103,7 +103,7 @@ void EnDivingGame_Destroy(Actor* thisx, PlayState* play) {
     EnDivingGame* this = (EnDivingGame*)thisx;
 
     if (this->unk_31F == 0) {
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
     }
     Collider_DestroyCylinder(play, &this->collider);
 }
@@ -125,9 +125,9 @@ void EnDivingGame_SpawnRuppy(EnDivingGame* this, PlayState* play) {
 }
 
 s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
-    if (gSaveContext.timer1State == 10 && !Play_InCsMode(play)) {
+    if ((gSaveContext.timerState == TIMER_STATE_STOP) && !Play_InCsMode(play)) {
         // Failed.
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
         func_800F5B58();
         func_80078884(NA_SE_SY_FOUND);
         this->actor.textId = 0x71AD;
@@ -145,7 +145,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
         }
         if (this->grabbedRupeesCounter >= rupeesNeeded) {
             // Won.
-            gSaveContext.timer1State = 0;
+            gSaveContext.timerState = TIMER_STATE_OFF;
             this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
             if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
                 this->actor.textId = 0x4055;
@@ -418,9 +418,9 @@ void func_809EE800(EnDivingGame* this, PlayState* play) {
     if (this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
-            func_80088B34(BREG(2) + 50);
+            Interface_SetTimer(50 + BREG(2));
         } else {
-            func_80088B34(BREG(2) + 50);
+            Interface_SetTimer(50 + BREG(2));
         }
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         func_8002DF54(play, NULL, 7);
@@ -506,9 +506,10 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
 
     if (1) {}
 
-    if (gSaveContext.timer1Value == 10) {
+    if (gSaveContext.timerSeconds == 10) {
         Audio_SetFastTempoForTimedMinigame();
     }
+
     if (this->eyeTimer == 0) {
         this->eyeTimer = 2;
         this->eyeTexIndex++;
