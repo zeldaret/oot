@@ -7,6 +7,9 @@
 #include "z64math.h"
 #include "z64scene.h" // for RomFile
 
+struct GameState;
+struct GraphicsContext;
+
 typedef enum {
     /* 0x00 */ SKYBOX_NONE,
     /* 0x01 */ SKYBOX_NORMAL_SKY,
@@ -56,9 +59,6 @@ typedef struct {
 } SkyboxFile; // size = 0x10
 
 extern SkyboxFile gNormalSkyFiles[];
-
-struct GameState;
-struct GraphicsContext;
 
 void Skybox_Init(struct GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
 Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
