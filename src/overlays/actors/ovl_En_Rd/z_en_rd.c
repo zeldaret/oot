@@ -729,7 +729,8 @@ void EnRd_SetupStunned(EnRd* this) {
         this->stunnedBySunsSong = true;
         this->sunsSongStunTimer = 600;
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
-        Actor_SetColorFilter(&this->actor, -COLORFILTER_COLORFLAG_GRAY, -0x8000 | 200, COLORFILTER_BUFFLAG_OPA, 255);
+        Actor_SetColorFilter(&this->actor, -COLORFILTER_COLORFLAG_GRAY, -COLORFILTER_INTENSITY_FLAG | 200,
+                             COLORFILTER_BUFFLAG_OPA, 255);
     } else if (this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     } else {

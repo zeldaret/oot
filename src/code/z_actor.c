@@ -3644,7 +3644,7 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
 }
 
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration) {
-    if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & 0x8000)) {
+    if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & COLORFILTER_INTENSITY_FLAG)) {
         Audio_PlayActorSfx2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
