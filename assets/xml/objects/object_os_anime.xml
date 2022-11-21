@@ -35,34 +35,34 @@
         <Animation Name="gObjOsAnim_4CF4" Offset="0x4CF4"/>
         <Animation Name="gObjOsAnim_4E90" Offset="0x4E90"/>
         <Animation Name="gObjOsAnim_4F28" Offset="0x4F28"/>
-        <Animation Name="gKokiriFadoLaughingAnim" Offset="0x5808"/>
-        <Animation Name="gKokiriFadoIdleAnim" Offset="0x62DC"/>
+        <Animation Name="gKokiriLaughingAnim" Offset="0x5808"/>
+        <Animation Name="gKokiriIdleAnim" Offset="0x62DC"/>
         <Animation Name="gObjOsAnim_6458" Offset="0x6458"/>
         <Animation Name="gObjOsAnim_6518" Offset="0x6518"/>
-        <Animation Name="gKokiriBoyRecliningSittingUpAnim" Offset="0x65E0"/>
-        <Animation Name="gKokiriBoyWipingForeheadAnim" Offset="0x6A60"/>
-        <Animation Name="gKokiriBoyBackflipAnim" Offset="0x6EE0"/>
-        <Animation Name="gKokiriBoySeatedCrossedArmsLegsAnim" Offset="0x6F9C"/>
-        <Animation Name="gKokiriBoyStandingApprehensiveAnim" Offset="0x7064"/>
-        <Animation Name="gKokiriBoyLeaningForwardAnim" Offset="0x7120"/>
+        <Animation Name="gKokiriRecliningSittingUpAnim" Offset="0x65E0"/>
+        <Animation Name="gKokiriWipingForeheadAnim" Offset="0x6A60"/>
+        <Animation Name="gKokiriBackflipAnim" Offset="0x6EE0"/>
+        <Animation Name="gKokiriSeatedCrossedArmsLegsAnim" Offset="0x6F9C"/>
+        <Animation Name="gKokiriStandingApprehensiveAnim" Offset="0x7064"/>
+        <Animation Name="gKokiriLeaningForwardAnim" Offset="0x7120"/>
         <Animation Name="gKokiriUnusedSeatedDiggingAnim" Offset="0x7454"/>
-        <Animation Name="gKokiriBoyLiftingRockAnim" Offset="0x7830"/>
-        <Animation Name="gKokiriBoyCuttingGrassAnim" Offset="0x7D94"/>
-        <Animation Name="gKokiriGirlSittingHeadOnHandAnim" Offset="0x7E64"/>
-        <Animation Name="gKokiriBoyRecliningLeaningBackAnim" Offset="0x7F38"/>
-        <Animation Name="gKokiriGirlStandingHandOnChestAnim" Offset="0x7FFC"/>
-        <Animation Name="gKokiriGirlStandingHandsOnHipsAnim" Offset="0x80B4"/>
-        <Animation Name="gKokiriBoyRecliningStandingAnim" Offset="0x8178"/>
-        <Animation Name="gKokiriBoyPunchingAnim" Offset="0x879C"/>
-        <Animation Name="gKokiriBoyBlockingAnim" Offset="0x8F6C"/>
-        <Animation Name="gKokiriKnowItAllSeatedArmsUpAnim" Offset="0x9028"/>
-        <Animation Name="gKokiriGirlStandingRightArmUpAnim" Offset="0x90EC"/>
-        <Animation Name="gKokiriKnowItAllSeatedAnim" Offset="0x91AC"/>
-        <Animation Name="gKokiriKnowItAllStandingAnim" Offset="0x9274"/>
-        <Animation Name="gKokiriGirlStandingArmsBehindBackAnim" Offset="0x982C"/>
+        <Animation Name="gKokiriLiftingRockAnim" Offset="0x7830"/>
+        <Animation Name="gKokiriCuttingGrassAnim" Offset="0x7D94"/>
+        <Animation Name="gKokiriSittingHeadOnHandAnim" Offset="0x7E64"/>
+        <Animation Name="gKokiriRecliningLeaningBackAnim" Offset="0x7F38"/>
+        <Animation Name="gKokiriStandingHandOnChestAnim" Offset="0x7FFC"/>
+        <Animation Name="gKokiriStandingHandsOnHipsAnim" Offset="0x80B4"/>
+        <Animation Name="gKokiriRecliningStandingAnim" Offset="0x8178"/>
+        <Animation Name="gKokiriPunchingAnim" Offset="0x879C"/>
+        <Animation Name="gKokiriBlockingAnim" Offset="0x8F6C"/>
+        <Animation Name="gKokiriSeatedArmsUpAnim" Offset="0x9028"/>
+        <Animation Name="gKokiriStandingRightArmUpAnim" Offset="0x90EC"/>
+        <Animation Name="gKokiriSeatedAnim" Offset="0x91AC"/>
+        <Animation Name="gKokiriStandingAnim" Offset="0x9274"/>
+        <Animation Name="gKokiriStandingArmsBehindBackAnim" Offset="0x982C"/>
         <Animation Name="gKokiriUnusedLeaningForwardAnim" Offset="0x98EC"/>
-        <Animation Name="gKokiriBoySeatedCrossedLegsAnim" Offset="0x99A4"/>
-        <Animation Name="gKokiriGirlStandUpAnim" Offset="0x9B64"/>
+        <Animation Name="gKokiriSeatedCrossedLegsAnim" Offset="0x99A4"/>
+        <Animation Name="gKokiriStandUpAnim" Offset="0x9B64"/>
         <Animation Name="gObjOsAnim_9F94" Offset="0x9F94"/>
         <Animation Name="gObjOsAnim_A630" Offset="0xA630"/>
     </File>

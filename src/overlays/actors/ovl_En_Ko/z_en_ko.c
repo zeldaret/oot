@@ -104,7 +104,7 @@ typedef enum {
     /* 11 */ ENKO_ANIM_PUNCHING_NOMORPH,
     /* 12 */ ENKO_ANIM_STANDING_HAND_ON_CHEST,
     /* 13 */ ENKO_ANIM_STANDING_HANDS_ON_HIPS,
-    /* 14 */ ENKO_ANIM_KNOWITALL_SEATED,
+    /* 14 */ ENKO_ANIM_SEATED,
     /* 15 */ ENKO_ANIM_SEATED_CROSSED_ARMS_LEGS,
     /* 16 */ ENKO_ANIM_STANDING_APPREHENSIVE,
     /* 17 */ ENKO_ANIM_LEANING_FORWARD,
@@ -114,9 +114,9 @@ typedef enum {
     /* 21 */ ENKO_ANIM_UNUSED_LEANING_FORWARD,
     /* 22 */ ENKO_ANIM_STANDING_RIGHT_ARM_UP,
     /* 23 */ ENKO_ANIM_STANDING_ARMS_BEHIND_BACK,
-    /* 24 */ ENKO_ANIM_KNOWITALL_STANDING,
+    /* 24 */ ENKO_ANIM_STANDING,
     /* 25 */ ENKO_ANIM_SEATED_CROSSED_LEGS,
-    /* 26 */ ENKO_ANIM_KNOWITALL_SEATED_ARMS_UP,
+    /* 26 */ ENKO_ANIM_SEATED_ARMS_UP,
     /* 27 */ ENKO_ANIM_SITTING_HEAD_ON_HAND,
     /* 28 */ ENKO_ANIM_UNUSED_SEATED_DIGGING,
     /* 29 */ ENKO_ANIM_BLOCKING_STATIC,
@@ -127,45 +127,45 @@ typedef enum {
 } EnKoAnimation;
 
 static AnimationInfo sAnimationInfo[] = {
-    { &gKokiriBoyBlockingAnim, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { &gKokiriBoyBlockingAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { &gKokiriGirlStandUpAnim, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
-    { &gKokiriGirlStandUpAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
-    { &gKokiriGirlStandUpAnim, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
-    { &gKokiriFadoIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriFadoIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gKokiriFadoLaughingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gKokiriBoyLiftingRockAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyRecliningStandingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyRecliningSittingUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyPunchingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriGirlStandingHandOnChestAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriGirlStandingHandsOnHipsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriKnowItAllSeatedAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoySeatedCrossedArmsLegsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyStandingApprehensiveAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyLeaningForwardAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyRecliningLeaningBackAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyCuttingGrassAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyBackflipAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriBlockingAnim, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gKokiriBlockingAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gKokiriStandUpAnim, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
+    { &gKokiriStandUpAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gKokiriStandUpAnim, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
+    { &gKokiriIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKokiriLaughingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKokiriLiftingRockAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriRecliningStandingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriRecliningSittingUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriPunchingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingHandOnChestAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingHandsOnHipsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSeatedAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSeatedCrossedArmsLegsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingApprehensiveAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriLeaningForwardAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriRecliningLeaningBackAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriCuttingGrassAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriBackflipAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     { &gKokiriUnusedLeaningForwardAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriGirlStandingRightArmUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriGirlStandingArmsBehindBackAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriKnowItAllStandingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoySeatedCrossedLegsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriKnowItAllSeatedArmsUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriGirlSittingHeadOnHandAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingRightArmUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingArmsBehindBackAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSeatedCrossedLegsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSeatedArmsUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSittingHeadOnHandAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     { &gKokiriUnusedSeatedDiggingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gKokiriBoyBlockingAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
-    { &gKokiriBoyCuttingGrassAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &gKokiriBoyPunchingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &gKokiriBoyWipingForeheadAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &gKokiriBoyLiftingRockAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriBlockingAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
+    { &gKokiriCuttingGrassAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriPunchingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriWipingForeheadAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriLiftingRockAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 static u8 sOsAnimeLookup[13][5] = {
     /* ENKO_TYPE_CHILD_0    */ { ENKO_ANIM_LIFTING_ROCK_NOMORPH, ENKO_ANIM_RECLINED_STANDING,
-                                 ENKO_ANIM_RECLINED_STANDING, ENKO_ANIM_KNOWITALL_SEATED, ENKO_ANIM_PUNCHING_NOMORPH },
+                                 ENKO_ANIM_RECLINED_STANDING, ENKO_ANIM_SEATED, ENKO_ANIM_PUNCHING_NOMORPH },
     /* ENKO_TYPE_CHILD_1    */
     { ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDING_HAND_ON_CHEST, ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDING_HANDS_ON_HIPS,
       ENKO_ANIM_STANDING_HANDS_ON_HIPS },
@@ -184,11 +184,11 @@ static u8 sOsAnimeLookup[13][5] = {
     { ENKO_ANIM_STANDUP_3, ENKO_ANIM_STANDING_RIGHT_ARM_UP, ENKO_ANIM_STANDING_RIGHT_ARM_UP, ENKO_ANIM_STANDUP_3,
       ENKO_ANIM_STANDING_ARMS_BEHIND_BACK },
     /* ENKO_TYPE_CHILD_7    */
-    { ENKO_ANIM_KNOWITALL_STANDING, ENKO_ANIM_STANDING_APPREHENSIVE, ENKO_ANIM_STANDING_APPREHENSIVE,
+    { ENKO_ANIM_STANDING, ENKO_ANIM_STANDING_APPREHENSIVE, ENKO_ANIM_STANDING_APPREHENSIVE,
       ENKO_ANIM_SEATED_CROSSED_LEGS, ENKO_ANIM_STANDING_APPREHENSIVE },
     /* ENKO_TYPE_CHILD_8    */
-    { ENKO_ANIM_KNOWITALL_SEATED_ARMS_UP, ENKO_ANIM_SEATED_CROSSED_ARMS_LEGS, ENKO_ANIM_SEATED_CROSSED_ARMS_LEGS,
-      ENKO_ANIM_KNOWITALL_SEATED_ARMS_UP, ENKO_ANIM_SEATED_CROSSED_ARMS_LEGS },
+    { ENKO_ANIM_SEATED_ARMS_UP, ENKO_ANIM_SEATED_CROSSED_ARMS_LEGS, ENKO_ANIM_SEATED_CROSSED_ARMS_LEGS,
+      ENKO_ANIM_SEATED_ARMS_UP, ENKO_ANIM_SEATED_CROSSED_ARMS_LEGS },
     /* ENKO_TYPE_CHILD_9    */
     { ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2, ENKO_ANIM_SITTING_HEAD_ON_HAND,
       ENKO_ANIM_SITTING_HEAD_ON_HAND },
@@ -196,8 +196,7 @@ static u8 sOsAnimeLookup[13][5] = {
     { ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDUP_1,
       ENKO_ANIM_STANDING_RIGHT_ARM_UP },
     /* ENKO_TYPE_CHILD_11   */
-    { ENKO_ANIM_KNOWITALL_SEATED, ENKO_ANIM_KNOWITALL_SEATED, ENKO_ANIM_KNOWITALL_SEATED, ENKO_ANIM_KNOWITALL_SEATED,
-      ENKO_ANIM_KNOWITALL_SEATED },
+    { ENKO_ANIM_SEATED, ENKO_ANIM_SEATED, ENKO_ANIM_SEATED, ENKO_ANIM_SEATED, ENKO_ANIM_SEATED },
     /* ENKO_TYPE_CHILD_FADO */
     { ENKO_ANIM_IDLE_NOMORPH, ENKO_ANIM_IDLE_NOMORPH, ENKO_ANIM_IDLE_NOMORPH, ENKO_ANIM_IDLE_NOMORPH,
       ENKO_ANIM_IDLE_NOMORPH },
@@ -688,12 +687,12 @@ s32 func_80A97D68(EnKo* this, PlayState* play) {
     s16 arg3;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &gKokiriBoyWipingForeheadAnim) == false) {
+        if ((this->skelAnime.animation == &gKokiriWipingForeheadAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_WIPING_FOREHEAD);
         }
         arg3 = 2;
     } else {
-        if ((this->skelAnime.animation == &gKokiriBoyLiftingRockAnim) == false) {
+        if ((this->skelAnime.animation == &gKokiriLiftingRockAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_LIFTING_ROCK);
         }
         arg3 = 1;
@@ -741,13 +740,13 @@ s32 func_80A97F70(EnKo* this, PlayState* play) {
     s16 arg3;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &gKokiriBoyBlockingAnim) == false) {
+        if ((this->skelAnime.animation == &gKokiriBlockingAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_BLOCKING_STATIC);
         }
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
         arg3 = 2;
     } else {
-        if ((this->skelAnime.animation == &gKokiriBoyCuttingGrassAnim) == false) {
+        if ((this->skelAnime.animation == &gKokiriCuttingGrassAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_CUTTING_GRASS);
         }
         arg3 = 1;
@@ -761,14 +760,14 @@ s32 func_80A98034(EnKo* this, PlayState* play) {
     s32 result;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &gKokiriBoyBlockingAnim) == false) {
+        if ((this->skelAnime.animation == &gKokiriBlockingAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_BLOCKING_STATIC);
         }
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
         result = EnKo_IsWithinTalkAngle(this);
         arg3 = (result == true) ? 2 : 1;
     } else {
-        if ((this->skelAnime.animation == &gKokiriBoyPunchingAnim) == false) {
+        if ((this->skelAnime.animation == &gKokiriPunchingAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_PUNCHING);
         }
         arg3 = 1;
