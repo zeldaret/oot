@@ -5238,7 +5238,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.y = mainCam->at.y;
             sSubCamAt.z = mainCam->at.z;
             D_80B7A6CC = 2;
-            Interface_ChangeHudVisibilityMode(HUD_SHOW_A_B_MINIMAP);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_B_MINIMAP);
             sSubCamVelFactor = 0.0f;
             FALLTHROUGH;
         }

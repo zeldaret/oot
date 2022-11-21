@@ -1469,7 +1469,7 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;
     gSaveContext.eventInf[3] = 0;
-    gSaveContext.prevHudVisibilityMode = HUD_SHOW_ALL;
+    gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
     gSaveContext.magicState = MAGIC_STATE_IDLE;
@@ -1487,7 +1487,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
     gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
-        gSaveContext.hudVisibilityModeTimer = gSaveContext.magicCapacity = 0; // false, HUD_NO_CHANGE
+        gSaveContext.hudVisibilityModeTimer = gSaveContext.magicCapacity = 0; // false, HUD_VISIBILITY_NO_CHANGE
 
     // Set the fill target to be the saved magic amount
     gSaveContext.magicFillTarget = gSaveContext.magic;

@@ -4,27 +4,27 @@
 #include "ultra64.h"
 #include "z64math.h"
 
-typedef enum {
-    /*  0 */ HUD_NO_CHANGE,
-    /*  1 */ HUD_HIDE_ALL,
-    /*  2 */ HUD_HIDE_ALL_ALT, // Identical to HUD_HIDE_ALL
-    /*  3 */ HUD_SHOW_HEARTS_FORCE, // See below
-    /*  4 */ HUD_SHOW_A,
-    /*  5 */ HUD_SHOW_A_HEARTS_MAGIC_FORCE, // See below
-    /*  6 */ HUD_SHOW_A_HEARTS_MAGIC_MINIMAP_FORCE, // See below
-    /*  7 */ HUD_HIDE_MINIMAP_BY_BTN_STATUS, // Only raises button alphas if not disabled
-    /*  8 */ HUD_SHOW_B,
-    /*  9 */ HUD_SHOW_HEARTS_MAGIC,
-    /* 10 */ HUD_SHOW_B_ALT, // Identical to HUD_SHOW_B
-    /* 11 */ HUD_SHOW_HEARTS,
-    /* 12 */ HUD_SHOW_A_B_MINIMAP,
-    /* 13 */ HUD_SHOW_HEARTS_MAGIC_FORCE, // See below
-    /* 50 */ HUD_SHOW_ALL = 50, // Only raises button alphas if not disabled
-    /* 52 */ HUD_HIDE_ALL_INSTANT = 52
-} HudVisibilityMode;
-
 // `_FORCE` means that this request will respond to `forceRisingButtonAlphas`.
 // If set, the buttons will also raise alphas but will also account for disabled buttons
+
+typedef enum {
+    /*  0 */ HUD_VISIBILITY_NO_CHANGE,
+    /*  1 */ HUD_VISIBILITY_NOTHING,
+    /*  2 */ HUD_VISIBILITY_NOTHING_ALT, // Identical to HUD_VISIBILITY_NOTHING
+    /*  3 */ HUD_VISIBILITY_HEARTS_FORCE, // See above
+    /*  4 */ HUD_VISIBILITY_A,
+    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, // See above
+    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE, // See above
+    /*  7 */ HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS, // Only raises button alphas if not disabled
+    /*  8 */ HUD_VISIBILITY_B,
+    /*  9 */ HUD_VISIBILITY_HEARTS_MAGIC,
+    /* 10 */ HUD_VISIBILITY_B_ALT, // Identical to HUD_VISIBILITY_B
+    /* 11 */ HUD_VISIBILITY_HEARTS,
+    /* 12 */ HUD_VISIBILITY_A_B_MINIMAP,
+    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_FORCE, // See above
+    /* 50 */ HUD_VISIBILITY_ALL = 50, // Only raises button alphas if not disabled
+    /* 52 */ HUD_VISIBILITY_NOTHING_INSTANT = 52
+} HudVisibilityMode;
 
 typedef enum {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
@@ -243,7 +243,7 @@ typedef struct {
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
     /* 0x13E7 */ u8 forceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
-    /* 0x13E8 */ u16 nextHudVisibilityMode; // triggers the hud to change visibility mode to the requested value. Reset to HUD_NO_CHANGE when target is reached
+    /* 0x13E8 */ u16 nextHudVisibilityMode; // triggers the hud to change visibility mode to the requested value. Reset to HUD_VISIBILITY_NO_CHANGE when target is reached
     /* 0x13EA */ u16 hudVisibilityMode; // current hud visibility mode
     /* 0x13EC */ u16 hudVisibilityModeTimer; // number of frames in the transition to a new hud visibility mode. Used to step alpha
     /* 0x13EE */ u16 prevHudVisibilityMode; // used to store and recover hud visibility mode for pause menu and text boxes
