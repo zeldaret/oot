@@ -453,7 +453,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     this->stopScroll = false;
                     Actor_ApplyDamage(&this->actor);
                     this->invincibilityTimer = 40;
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_XLU,
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU,
                                          this->invincibilityTimer);
                     if (this->hasPlayer) {
                         EnRr_SetupReleasePlayer(this, play);
@@ -469,7 +469,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_XLU, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     this->effectTimer = 20;
                     EnRr_SetupStunned(this);
                     return;
@@ -480,7 +480,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     }
                     if (this->actor.colorFilterTimer == 0) {
                         this->effectTimer = 20;
-                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 255, COLORFILTER_XLUFLAG_XLU, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     }
                     EnRr_SetupStunned(this);
                     return;
@@ -489,12 +489,12 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RUPEE_RED;
                     }
-                    Actor_SetColorFilter(&this->actor, -COLORFILTER_COLORFLAG_RGB, 255, COLORFILTER_XLUFLAG_XLU, 80);
+                    Actor_SetColorFilter(&this->actor, -COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     EnRr_SetupStunned(this);
                     return;
                 case RR_DMG_STUN: // Boomerang and Hookshot
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 255, COLORFILTER_XLUFLAG_XLU, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     EnRr_SetupStunned(this);
                     return;
             }

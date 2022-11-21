@@ -214,7 +214,7 @@ void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
     this->actor.speedXZ = 10.0f;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
-    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA,
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
                          Animation_GetLastFrame(&gDekuNutsDamageAnim));
 }
 
@@ -224,7 +224,7 @@ void EnDekunuts_SetupBeStunned(EnDekunuts* this) {
     this->actionFunc = EnDekunuts_BeStunned;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 255, COLORFILTER_XLUFLAG_OPA,
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                          Animation_GetLastFrame(&gDekuNutsDamageAnim) * this->animFlagAndTimer);
 }
 

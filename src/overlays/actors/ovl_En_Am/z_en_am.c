@@ -379,7 +379,7 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
         if (this->textureBlend == 0) {
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
-            Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, 8);
+            Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
         }
 
         if (this->textureBlend >= 240) {
@@ -717,7 +717,7 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
         this->dyna.actor.speedXZ = -6.0f;
     }
 
-    Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_B, 120, COLORFILTER_XLUFLAG_OPA, 100);
+    Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 100);
 
     if (this->damageEffect == AM_DMGEFF_ICE) {
         this->iceTimer = 48;
@@ -881,7 +881,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
             }
 
             if ((this->deathTimer % 4) == 0) {
-                Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, 4);
+                Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 4);
             }
         }
 

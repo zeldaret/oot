@@ -2222,9 +2222,9 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
 
-        if (actor->colorFilterParams & COLORFILTER_COLORFLAG_RGB) {
+        if (actor->colorFilterParams & COLORFILTER_COLORFLAG_GRAY) {
             color.r = color.g = color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
-        } else if (actor->colorFilterParams & COLORFILTER_COLORFLAG_R) {
+        } else if (actor->colorFilterParams & COLORFILTER_COLORFLAG_RED) {
             color.r = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
         } else {
             color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
@@ -3643,12 +3643,12 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(play, arg1);
 }
 
-void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
-    if ((colorFlag == COLORFILTER_COLORFLAG_RGB) && !(colorIntensityMax & 0x8000)) {
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration) {
+    if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & 0x8000)) {
         Audio_PlayActorSfx2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
-    actor->colorFilterParams = colorFlag | xluFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
+    actor->colorFilterParams = colorFlag | bufFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
     actor->colorFilterTimer = duration;
 }
 

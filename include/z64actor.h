@@ -173,12 +173,12 @@ typedef struct {
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
 #define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
 
-#define COLORFILTER_COLORFLAG_RGB  0x8000
-#define COLORFILTER_COLORFLAG_R    0x4000
-#define COLORFILTER_COLORFLAG_B    0x0000
+#define COLORFILTER_COLORFLAG_GRAY 0x8000
+#define COLORFILTER_COLORFLAG_RED  0x4000
+#define COLORFILTER_COLORFLAG_BLUE 0x0000
 
-#define COLORFILTER_XLUFLAG_XLU    0x2000
-#define COLORFILTER_XLUFLAG_OPA    0x0000
+#define COLORFILTER_BUFFLAG_XLU    0x2000
+#define COLORFILTER_BUFFLAG_OPA    0x0000
 
 #define BGCHECKFLAG_GROUND (1 << 0) // Standing on the ground
 #define BGCHECKFLAG_GROUND_TOUCH (1 << 1) // Has touched the ground (only active for 1 frame)

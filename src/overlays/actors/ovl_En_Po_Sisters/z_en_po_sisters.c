@@ -309,7 +309,7 @@ void func_80AD95D8(EnPoSisters* this) {
         this->actor.speedXZ = 10.0f;
     }
     this->unk_199 &= ~0xB;
-    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, 16);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = func_80ADAAA4;
 }
 

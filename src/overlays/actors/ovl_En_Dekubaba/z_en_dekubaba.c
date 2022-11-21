@@ -386,9 +386,9 @@ void EnDekubaba_SetupHit(EnDekubaba* this, s32 arg1) {
     Actor_SetScale(&this->actor, this->size * 0.01f);
 
     if (arg1 == 2) {
-        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 155, COLORFILTER_XLUFLAG_OPA, 62);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 155, COLORFILTER_BUFFLAG_OPA, 62);
     } else {
-        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, 42);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 42);
     }
 
     this->actionFunc = EnDekubaba_Hit;
@@ -442,7 +442,7 @@ void EnDekubaba_SetupSway(EnDekubaba* this) {
     this->stemSectionAngle[1] = -0x4800;
 
     EnDekubaba_DisableHitboxes(this);
-    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, 35);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 35);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekubaba_Sway;
 }

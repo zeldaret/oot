@@ -588,9 +588,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (sAlpha == 255) {
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 255, COLORFILTER_XLUFLAG_OPA, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                 } else {
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 255, COLORFILTER_XLUFLAG_XLU, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
                 }
             } else {
                 this->actor.flags &= ~ACTOR_FLAG_0;
@@ -604,9 +604,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 this->stateFlags3 |= PLAYER_STATE3_0;
                 sActionState = ENTORCH2_DAMAGE;
                 if (sAlpha == 255) {
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, 12);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
                 } else {
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_XLU, 12);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 12);
                 }
             }
         }
