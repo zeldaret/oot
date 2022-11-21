@@ -14,7 +14,7 @@ void EnToryo_Destroy(Actor* thisx, PlayState* play);
 void EnToryo_Update(Actor* thisx, PlayState* play);
 void EnToryo_Draw(Actor* thisx, PlayState* play);
 
-void EnToryo_TalkAction(EnToryo* this, PlayState* play);
+void EnToryo_Main(EnToryo* this, PlayState* play);
 s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnToryo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
@@ -128,7 +128,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
                      sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
     this->actor.targetMode = 6;
-    this->actionFunc = EnToryo_TalkAction;
+    this->actionFunc = EnToryo_Main;
 }
 
 void EnToryo_Destroy(Actor* thisx, PlayState* play) {
@@ -335,7 +335,7 @@ void EnToryo_Talk(EnToryo* this, PlayState* play) {
     }
 }
 
-void EnToryo_TalkAction(EnToryo* this, PlayState* play) {
+void EnToryo_Main(EnToryo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     EnToryo_Talk(this, play);
     if (this->messageState != 0) {
