@@ -450,7 +450,8 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
         if (this->stunTimer == 0) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
-            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, this->stunTimer);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA,
+                                 this->stunTimer);
         }
         return false;
     }

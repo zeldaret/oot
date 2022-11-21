@@ -528,7 +528,8 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                     if ((this->actor.colChkInfo.health > 1) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
@@ -536,7 +537,8 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                 case 13: // hookshot/longshot
                     if ((this->actor.colChkInfo.health > 2) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
-                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         this->actionfunc = func_80AE58EC;
                         break;
@@ -567,7 +569,8 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                 case 1: // unknown
                     if (this->unk_27E != 4) {
                         this->unk_27E = 4;
-                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = func_80AE58EC;
                     }
                     break;
