@@ -279,7 +279,7 @@ test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
 
-.PHONY: all clean setup test distclean assetclean
+.PHONY: all clean clean_builtsrc clean_builtassets setup test distclean assetclean
 
 #### Various Recipes ####
 
