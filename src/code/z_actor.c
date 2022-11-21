@@ -2504,7 +2504,10 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 6563);
 }
 
-void func_80031A28(PlayState* play, ActorContext* actorCtx) {
+/**
+ * Kills every actor which its object is not loaded
+ */
+void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 
@@ -2534,7 +2537,7 @@ void Actor_FreezeAllEnemies(PlayState* play, ActorContext* actorCtx, s32 duratio
     }
 }
 
-void func_80031B14(PlayState* play, ActorContext* actorCtx) {
+void Actor_KillAllFromUnloadedRooms(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 
