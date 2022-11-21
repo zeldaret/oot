@@ -1,11 +1,19 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
-OSTime sGraphUpdateTime;
-OSTime sGraphSetTaskTime;
+/**
+ * The time at which the previous `Graph_Update` ended.
+ */
+OSTime sGraphPrevUpdateEndTime;
+
+/**
+ * The time at which the previous graphics task was scheduled to run.
+ */
+OSTime sGraphPrevTaskTimeStart;
+
 FaultClient sGraphFaultClient;
 CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
@@ -24,7 +32,7 @@ UCodeInfo D_8012D248[3] = {
 
 void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();
-    void* newFb = (void*)((SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1));
+    void* newFb = (SysCfb_GetFbPtr(0) != nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
     osViSwapBuffer(newFb);
     Fault_WaitForInput();
@@ -85,39 +93,39 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
 
     pool->headMagic = GFXPOOL_HEAD_MAGIC;
     pool->tailMagic = GFXPOOL_TAIL_MAGIC;
-    THGA_Ct(&gfxCtx->polyOpa, pool->polyOpaBuffer, sizeof(pool->polyOpaBuffer));
-    THGA_Ct(&gfxCtx->polyXlu, pool->polyXluBuffer, sizeof(pool->polyXluBuffer));
-    THGA_Ct(&gfxCtx->overlay, pool->overlayBuffer, sizeof(pool->overlayBuffer));
-    THGA_Ct(&gfxCtx->work, pool->workBuffer, sizeof(pool->workBuffer));
+    THGA_Init(&gfxCtx->polyOpa, pool->polyOpaBuffer, sizeof(pool->polyOpaBuffer));
+    THGA_Init(&gfxCtx->polyXlu, pool->polyXluBuffer, sizeof(pool->polyXluBuffer));
+    THGA_Init(&gfxCtx->overlay, pool->overlayBuffer, sizeof(pool->overlayBuffer));
+    THGA_Init(&gfxCtx->work, pool->workBuffer, sizeof(pool->workBuffer));
 
     gfxCtx->polyOpaBuffer = pool->polyOpaBuffer;
     gfxCtx->polyXluBuffer = pool->polyXluBuffer;
     gfxCtx->overlayBuffer = pool->overlayBuffer;
     gfxCtx->workBuffer = pool->workBuffer;
 
-    gfxCtx->curFrameBuffer = (u16*)SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
+    gfxCtx->curFrameBuffer = SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
     gfxCtx->unk_014 = 0;
 }
 
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     void* gameStateInitFunc = GameState_GetInit(gameState);
 
-    if (gameStateInitFunc == TitleSetup_Init) {
+    if (gameStateInitFunc == Setup_Init) {
         return &gGameStateOverlayTable[0];
     }
-    if (gameStateInitFunc == Select_Init) {
+    if (gameStateInitFunc == MapSelect_Init) {
         return &gGameStateOverlayTable[1];
     }
-    if (gameStateInitFunc == Title_Init) {
+    if (gameStateInitFunc == ConsoleLogo_Init) {
         return &gGameStateOverlayTable[2];
     }
     if (gameStateInitFunc == Play_Init) {
         return &gGameStateOverlayTable[3];
     }
-    if (gameStateInitFunc == Opening_Init) {
+    if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[4];
     }
-    if (gameStateInitFunc == FileChoose_Init) {
+    if (gameStateInitFunc == FileSelect_Init) {
         return &gGameStateOverlayTable[5];
     }
 
@@ -144,18 +152,18 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
 }
 
 void Graph_TaskSet00(GraphicsContext* gfxCtx) {
-    static Gfx* D_8012D260 = NULL;
+    static Gfx* sPrevTaskWorkBuffer = NULL;
     static s32 sGraphCfbInfoIdx = 0;
 
-    OSTime time;
+    OSTime timeNow;
     OSTimer timer;
     OSMesg msg;
     OSTask_t* task = &gfxCtx->task.list.t;
     OSScTask* scTask = &gfxCtx->task;
     CfbInfo* cfb;
-    s32 pad1;
 
-    D_8016A528 = osGetTime() - sGraphSetTaskTime - D_8016A558;
+    gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime =
+        osGetTime() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
 
     osSetTimer(&timer, OS_USEC_TO_CYCLES(3000000), 0, &gfxCtx->queue, (OSMesg)666);
 
@@ -166,36 +174,41 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
         osSyncPrintf(VT_RST);
-        LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-        LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
+
+        LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
+        LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
-        if (D_8012D260 != NULL) {
+        if (sPrevTaskWorkBuffer != NULL) {
             HREG(80) = 7;
             HREG(81) = 1;
             HREG(83) = 2;
-            D_8012D260 = D_8012D260;
-            Graph_DisassembleUCode(D_8012D260);
+            sPrevTaskWorkBuffer = sPrevTaskWorkBuffer;
+            Graph_DisassembleUCode(sPrevTaskWorkBuffer);
         }
         Fault_AddHungupAndCrashImpl("RCP is HUNG UP!!", "Oh! MY GOD!!");
     }
 
     osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_NOBLOCK);
 
-    D_8012D260 = gfxCtx->workBuffer;
+    sPrevTaskWorkBuffer = gfxCtx->workBuffer;
     if (gfxCtx->callback != NULL) {
         gfxCtx->callback(gfxCtx, gfxCtx->callbackParam);
     }
 
-    time = osGetTime();
-    if (D_8016A550 != 0) {
-        D_8016A558 = (D_8016A558 + time) - D_8016A550;
-        D_8016A550 = time;
+    timeNow = osGetTime();
+    if (gAudioThreadUpdateTimeStart != 0) {
+        // The audio thread update is running
+        // Add the time already spent to the accumulator and leave the rest for the next cycle
+
+        gAudioThreadUpdateTimeAcc += timeNow - gAudioThreadUpdateTimeStart;
+        gAudioThreadUpdateTimeStart = timeNow;
     }
-    D_8016A520 = D_8016A558;
-    D_8016A558 = 0;
-    sGraphSetTaskTime = osGetTime();
+    gAudioThreadUpdateTimeTotalPerGfxTask = gAudioThreadUpdateTimeAcc;
+    gAudioThreadUpdateTimeAcc = 0;
+
+    sGraphPrevTaskTimeStart = osGetTime();
 
     task->type = M_GFXTASK;
     task->flags = OS_SC_DRAM_DLIST;
@@ -242,7 +255,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     cfb->updateRate = R_UPDATE_RATE;
 
     scTask->framebuffer = cfb;
-    sGraphCfbInfoIdx = sGraphCfbInfoIdx % ARRAY_COUNT(sGraphCfbInfos);
+    sGraphCfbInfoIdx %= ARRAY_COUNT(sGraphCfbInfos);
 
     if (1) {}
 
@@ -255,7 +268,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     u32 problem;
 
-    gameState->unk_A0 = 0;
+    gameState->inPreNMIState = false;
     Graph_InitTHGA(gfxCtx);
 
     OPEN_DISPS(gfxCtx, "../graph.c", 966);
@@ -308,8 +321,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         }
 
         if (HREG(81) < 0) {
-            LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-            LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
+            LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
+            LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
         }
 
         if (HREG(81) < 0) {
@@ -366,33 +379,33 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     func_800F3054();
 
     {
-        OSTime time = osGetTime();
+        OSTime timeNow = osGetTime();
         s32 pad[4];
 
-        D_8016A538 = gRSPGFXTotalTime;
-        D_8016A530 = gRSPAudioTotalTime;
-        D_8016A540 = gRDPTotalTime;
-        gRSPGFXTotalTime = 0;
-        gRSPAudioTotalTime = 0;
-        gRDPTotalTime = 0;
+        gRSPGfxTimeTotal = gRSPGfxTimeAcc;
+        gRSPAudioTimeTotal = gRSPAudioTimeAcc;
+        gRDPTimeTotal = gRDPTimeAcc;
+        gRSPGfxTimeAcc = 0;
+        gRSPAudioTimeAcc = 0;
+        gRDPTimeAcc = 0;
 
-        if (sGraphUpdateTime != 0) {
-            D_8016A548 = time - sGraphUpdateTime;
+        if (sGraphPrevUpdateEndTime != 0) {
+            gGraphUpdatePeriod = timeNow - sGraphPrevUpdateEndTime;
         }
-        sGraphUpdateTime = time;
+        sGraphPrevUpdateEndTime = timeNow;
     }
 
     if (gIsCtrlr2Valid && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
         CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
-        gSaveContext.gameMode = 0;
-        SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
+        gSaveContext.gameMode = GAMEMODE_NORMAL;
+        SET_NEXT_GAMESTATE(gameState, MapSelect_Init, MapSelectState);
         gameState->running = false;
     }
 
-    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
+    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->inPreNMIState) {
         // "To reset mode"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
-        SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIContext);
+        SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
         gameState->running = false;
     }
 }
@@ -419,12 +432,13 @@ void Graph_ThreadEntry(void* arg0) {
 
         gameState = SystemArena_MallocDebug(size, "../graph.c", 1196);
 
-        if (!gameState) {
+        if (gameState == NULL) {
             osSyncPrintf("確保失敗\n"); // "Failure to secure"
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
         }
+
         GameState_Init(gameState, ovl->init, &gfxCtx);
 
         while (GameState_IsRunning(gameState)) {
@@ -444,20 +458,20 @@ void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {
     TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
-        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->bufp,
+        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
                      thga->p, thga->d);
     }
-    return THGA_AllocEnd(&gfxCtx->polyOpa, ALIGN16(size));
+    return THGA_AllocTail(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
     TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
-        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->bufp,
+        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
                      thga->p, thga->d);
     }
-    return THGA_AllocEnd(&gfxCtx->polyOpa, ALIGN16(size));
+    return THGA_AllocTail(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {

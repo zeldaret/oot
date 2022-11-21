@@ -8,7 +8,7 @@
 #include "assets/objects/object_poh/object_poh.h"
 #include "assets/objects/object_po_composer/object_po_composer.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoh_Init(Actor* thisx, PlayState* play);
 void EnPoh_Destroy(Actor* thisx, PlayState* play);
@@ -42,7 +42,7 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 
 static s16 D_80AE1A50 = 0;
 
-const ActorInit En_Poh_InitVars = {
+ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -283,7 +283,7 @@ void EnPoh_SetupAttack(EnPoh* this) {
     }
     this->unk_198 = 12;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoh_Attack;
 }
 
@@ -322,8 +322,8 @@ void EnPoh_SetupInitialAction(EnPoh* this) {
     } else {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gPoeComposerAppearAnim, 1.0f);
         this->actor.world.pos.y = this->actor.home.pos.y + 20.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_APPEAR);
         this->actionFunc = EnPoh_ComposerAppear;
     }
 }
@@ -354,16 +354,16 @@ void EnPoh_SetupDisappear(EnPoh* this) {
     this->unk_194 = 32;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DISAPPEAR);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DISAPPEAR);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoh_Disappear;
 }
 
 void EnPoh_SetupAppear(EnPoh* this) {
     this->unk_194 = 0;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_APPEAR);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoh_Appear;
 }
 
@@ -379,7 +379,7 @@ void EnPoh_SetupDeath(EnPoh* this, PlayState* play) {
     if (this->infoIdx != EN_POH_INFO_COMPOSER) {
         this->actor.shape.rot.x = -0x8000;
     }
-    Actor_ChangeCategory(play, &play->actorCtx, &this->actor, 8);
+    Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_MISC);
     this->unk_198 = 60;
     this->actionFunc = EnPoh_Death;
 }
@@ -405,7 +405,7 @@ void func_80ADE6D4(EnPoh* this) {
     this->actor.scale.y = 0.0f;
     this->actor.shape.rot.x = 0;
     this->actor.home.pos.y = this->actor.world.pos.y;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_METAL_BOX_BOUND);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_METAL_BOX_BOUND);
     this->actionFunc = func_80ADFE28;
 }
 
@@ -442,7 +442,7 @@ void EnPoh_Talk(EnPoh* this, PlayState* play) {
 void func_80ADE950(EnPoh* this, s32 arg1) {
     if (arg1) {
         Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
     }
     this->actionFunc = func_80AE009C;
 }
@@ -546,7 +546,7 @@ void func_80ADEC9C(EnPoh* this, PlayState* play) {
 void EnPoh_Attack(EnPoh* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_KANTERA);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_KANTERA);
         if (this->unk_198 != 0) {
             this->unk_198--;
         }
@@ -584,7 +584,7 @@ void func_80ADEF38(EnPoh* this, PlayState* play) {
         this->lightColor.a = ((this->skelAnime.curFrame - 10.0f) * 0.05f) * 255.0f;
     }
     if (this->skelAnime.playSpeed < 0.5f && this->actor.xzDistToPlayer < 280.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_APPEAR);
         this->skelAnime.playSpeed = 1.0f;
     }
 }
@@ -632,7 +632,7 @@ void func_80ADF15C(EnPoh* this, PlayState* play) {
         EffectSsDeadDb_Spawn(play, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255, 0, 0,
                              255, 1, 9, 1);
         if (this->unk_198 == 1) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EXTINCT);
         }
     } else if (this->unk_198 == 28) {
         EnPoh_SetupDeath(this, play);
@@ -644,7 +644,7 @@ void func_80ADF15C(EnPoh* this, PlayState* play) {
         this->actor.scale.x = newScale;
     }
     if (this->unk_198 == 18) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD2);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DEAD2);
     }
 }
 
@@ -816,15 +816,15 @@ void EnPoh_TalkRegular(EnPoh* this, PlayState* play) {
             if (play->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
                     this->actor.textId = 0x5008;
-                    Item_Give(play, ITEM_POE);
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_BIG_GET);
+                    Item_Give(play, ITEM_BOTTLE_POE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_BIG_GET);
                 } else {
                     this->actor.textId = 0x5006;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
                 }
             } else {
                 this->actor.textId = 0x5007;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
             }
             Message_ContinueTextbox(play, this->actor.textId);
         }
@@ -867,9 +867,9 @@ void func_80AE032C(EnPoh* this, PlayState* play) {
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DEAD);
             } else {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DAMAGE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DAMAGE);
             }
             func_80ADE28C(this);
         }
@@ -984,8 +984,8 @@ void func_80AE089C(EnPoh* this) {
 void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
     EnPoh* this = (EnPoh*)thisx;
     s32 pad;
-    Vec3f vec;
-    s32 sp38;
+    Vec3f checkPos;
+    s32 bgId;
 
     if (this->colliderSph.base.atFlags & AT_HIT) {
         this->colliderSph.base.atFlags &= ~AT_HIT;
@@ -1013,11 +1013,11 @@ void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
     }
-    vec.x = this->actor.world.pos.x;
-    vec.y = this->actor.world.pos.y + 20.0f;
-    vec.z = this->actor.world.pos.z;
+    checkPos.x = this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 20.0f;
+    checkPos.z = this->actor.world.pos.z;
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &vec);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
     func_80AE089C(this);
     this->actor.shape.shadowAlpha = this->lightColor.a;
 }
@@ -1184,7 +1184,7 @@ void EnPoh_DrawSoul(Actor* thisx, PlayState* play) {
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                     (this->visibilityTimer * this->info->unk_8) % 512U, 0x20, 0x80));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, this->info->primColor.r, this->info->primColor.g,
                         this->info->primColor.b, this->lightColor.a);

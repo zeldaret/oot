@@ -29,7 +29,7 @@ def read_file(filename):
     file_contents = src_file.read()
     src_file.close()
 
-    pattern = re.compile("gGameInfo->data\[((0[xX])?[0-9a-fA-F]+)\]")
+    pattern = re.compile("gRegEditor->data\[((0[xX])?[0-9a-fA-F]+)\]")
 
     match = pattern.search(file_contents)
     while match:
@@ -57,19 +57,19 @@ def check_valid_offset(offset):
     return 0x14 <= offset <= 0x15D2
 
 def main():
-    parser = argparse.ArgumentParser(description="Converts a gGameInfo->data index to a REG macro.")
+    parser = argparse.ArgumentParser(description="Converts a gRegEditor->data index to a REG macro.")
 
     # TODO: Add a description and a better title
     # index_group = parser.add_argument_group(title="index", description="")
     index_group = parser.add_argument_group()
-    index_group.add_argument("index", help="index of gGameInfo->data in decimal (or hexadecimal if starts with 0x)")
-    index_group.add_argument("--offset", help="treat index argument as an offset to gGameInfo instead", action="store_true")
+    index_group.add_argument("index", help="index of gRegEditor->data in decimal (or hexadecimal if starts with 0x)")
+    index_group.add_argument("--offset", help="treat index argument as an offset to gRegEditor instead", action="store_true")
     index_group.add_argument("--hex", help="treat index argument as hexadecimal, even without the 0x", action="store_true")
 
     # TODO: Add a description and a better title
     # file_group = parser.add_argument_group(title="file", description="")
     file_group = parser.add_argument_group()
-    file_group.add_argument("--file", help="use the parameter as a filepath, then replace every occurrence of `gGameInfo->data[number]` in that file a REG macro", action="store_true")
+    file_group.add_argument("--file", help="use the parameter as a filepath, then replace every occurrence of `gRegEditor->data[number]` in that file a REG macro", action="store_true")
     file_group.add_argument("--stdout", help="print the processed file to stdout instead of overwriting the original", action="store_true")
     args = parser.parse_args()
 

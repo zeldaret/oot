@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+#include "quake.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -95,7 +96,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-const ActorInit En_Go2_InitVars = {
+ActorInit En_Go2_InitVars = {
     ACTOR_EN_GO2,
     ACTORCAT_NPC,
     FLAGS,
@@ -173,21 +174,17 @@ void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* acce
                            f32 scaleStep) {
     EnGoEffect* dustEffect = this->effects;
     s16 i;
-    s16 timer;
 
     for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
-            if (1) {}
-            timer = initialTimer;
-            dustEffect->timer = timer;
+            dustEffect->initialTimer = dustEffect->timer = initialTimer;
             dustEffect->type = 1;
-            dustEffect->initialTimer = initialTimer;
             dustEffect->pos = *pos;
             dustEffect->accel = *accel;
             dustEffect->velocity = *velocity;
-            return;
+            break;
         }
     }
 }
@@ -572,10 +569,10 @@ u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
         player->exchangeItemId = EXCH_ITEM_CLAIM_CHECK;
         return 0x305E;
     } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) {
-        player->exchangeItemId = EXCH_ITEM_EYEDROPS;
+        player->exchangeItemId = EXCH_ITEM_EYE_DROPS;
         return 0x3058;
     } else {
-        player->exchangeItemId = EXCH_ITEM_SWORD_BROKEN;
+        player->exchangeItemId = EXCH_ITEM_BROKEN_GORONS_SWORD;
         return 0x3053;
     }
 }
@@ -588,7 +585,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
         case TEXT_STATE_DONE:
             if (this->actor.textId == 0x305E) {
                 if (!gSaveContext.bgsFlag) {
-                    EnGo2_GetItem(this, play, GI_SWORD_BGS);
+                    EnGo2_GetItem(this, play, GI_SWORD_BIGGORON);
                     this->actionFunc = EnGo2_SetupGetItem;
                     return 2;
                 } else {
@@ -611,8 +608,8 @@ s16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
                     FALLTHROUGH;
                 case 0x3054:
                     if (dialogState == TEXT_STATE_NONE) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
                     break;
             }
@@ -893,8 +890,8 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
             return false;
         } else {
             if (this->collider.base.acFlags & AC_HIT) {
-                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->actor.flags &= ~ACTOR_FLAG_24;
                 this->collider.base.acFlags &= ~AC_HIT;
                 EnGo2_StopRolling(this, play);
@@ -912,7 +909,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
 
                 play->damagePlayer(play, -4);
                 func_8002F71C(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
-                Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+                Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
                 this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
             }
         }
@@ -1000,15 +997,15 @@ s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
         } else {
             this->actor.world.pos.y =
                 (this->unk_590 & 1) ? this->actor.world.pos.y + 1.5f : this->actor.world.pos.y - 1.5f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
             return true;
         }
     }
 
     if (this->unk_59C >= 2) {
-        Audio_PlayActorSound2(&this->actor, (this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG
-                                                ? NA_SE_EN_GOLON_LAND_BIG
-                                                : NA_SE_EN_DODO_M_GND);
+        Audio_PlayActorSfx2(&this->actor, (this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG
+                                              ? NA_SE_EN_GOLON_LAND_BIG
+                                              : NA_SE_EN_DODO_M_GND);
     }
 
     this->unk_59C--;
@@ -1059,18 +1056,18 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
 
         } else if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) &&
                    (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_CLAIM_CHECK)) {
-            if (func_8002F368(play) == EXCH_ITEM_EYEDROPS) {
+            if (func_8002F368(play) == EXCH_ITEM_EYE_DROPS) {
                 this->actor.textId = 0x3059;
             } else {
                 this->actor.textId = 0x3058;
             }
             if (this->actor.textId == 0x3059) {
-                gSaveContext.timer2State = 0;
+                gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
             }
             player->actor.textId = this->actor.textId;
 
-        } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_SWORD_BROKEN) {
-            if (func_8002F368(play) == EXCH_ITEM_SWORD_BROKEN) {
+        } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_BROKEN_GORONS_SWORD) {
+            if (func_8002F368(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                 if (GET_INFTABLE(INFTABLE_B4)) {
                     textId = 0x3055;
                 } else {
@@ -1135,7 +1132,8 @@ void func_80A454CC(EnGo2* this) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_9);
             break;
         case GORON_DMT_BIGGORON:
-            if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD &&
+                INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
                 break;
             }
@@ -1276,17 +1274,17 @@ void EnGo2_SitDownAnimation(EnGo2* this) {
     if ((this->skelAnime.playSpeed != 0.0f) && (this->skelAnime.animation == &gGoronAnim_004930)) {
         if (this->skelAnime.playSpeed > 0.0f && this->skelAnime.curFrame == 14.0f) {
             if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             } else {
                 func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_SIT_DOWN, 60);
             }
         }
         if (this->skelAnime.playSpeed < 0.0f) {
             if (this->skelAnime.curFrame == 1.0f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
             }
             if (this->skelAnime.curFrame == 40.0f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             }
         }
     }
@@ -1319,7 +1317,7 @@ void EnGo2_RollingAnimation(EnGo2* this, PlayState* play) {
 void EnGo2_WakeUp(EnGo2* this, PlayState* play) {
     if (this->skelAnime.playSpeed == 0.0f) {
         if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
         } else {
             func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
         }
@@ -1468,7 +1466,7 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, PlayState* play) {
 
         if (this->skelAnime.animation == &gGoronAnim_000750) {
             if (this->skelAnime.curFrame == 20.0f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_CRY);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_CRY);
             }
         }
 
@@ -1501,7 +1499,7 @@ void EnGo2_GoronFireClearCamera(EnGo2* this, PlayState* play) {
 }
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {
-    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS &&
+    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS &&
         (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
         if (DECR(this->animTimer) == 0) {
             this->animTimer = Rand_S16Offset(30, 30);
@@ -1600,8 +1598,8 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
         case GORON_DMT_BIGGORON:
             this->actor.shape.shadowDraw = NULL;
             this->actor.flags &= ~ACTOR_FLAG_0;
-            if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN) &&
-                (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS)) {
+            if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD) &&
+                (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS)) {
                 this->eyeMouthTexState = 1;
             }
             this->collider.base.acFlags = AC_NONE;
@@ -1628,14 +1626,14 @@ void EnGo2_Destroy(Actor* thisx, PlayState* play) {
 void EnGo2_CurledUp(EnGo2* this, PlayState* play) {
     u8 index = this->actor.params & 0x1F;
     s16 height;
-    s32 quake;
+    s32 quakeIndex;
 
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-            quake = Quake_Add(GET_ACTIVE_CAM(play), 3);
-            Quake_SetSpeed(quake, -0x3CB0);
-            Quake_SetQuakeValues(quake, 8, 0, 0, 0);
-            Quake_SetCountdown(quake, 16);
+            quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+            Quake_SetSpeed(quakeIndex, -0x3CB0);
+            Quake_SetPerturbations(quakeIndex, 8, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 16);
         } else {
             EnGo2_GetDustData(this, 1);
         }
@@ -1808,7 +1806,7 @@ void EnGo2_SetGetItem(EnGo2* this, PlayState* play) {
                 SET_INFTABLE(INFTABLE_109);
                 EnGo2_GetItemAnimation(this, play);
                 return;
-            case GI_SWORD_BGS:
+            case GI_SWORD_BIGGORON:
                 gSaveContext.bgsFlag = true;
                 break;
             case GI_BOMB_BAG_30:
@@ -1832,7 +1830,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             this->eyeMouthTexState = 2;
             this->unk_20C = 0;
             this->goronState++;
-            func_800F483C(0x28, 5);
+            Audio_SetMainBgmVolume(0x28, 5);
             OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             break;
         case 1:
@@ -1847,7 +1845,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
                 Message_ContinueTextbox(play, 0x305A);
                 this->eyeMouthTexState = 3;
                 this->goronState++;
-                func_800F483C(0x7F, 5);
+                Audio_SetMainBgmVolume(0x7F, 5);
             }
             break;
         case 2:
@@ -1931,7 +1929,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 2: // Walking away
             if (DECR(this->animTimer)) {
                 if (!(this->animTimer % 8)) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
                 }
                 Actor_MoveForward(&this->actor);
             } else {
@@ -1948,13 +1946,13 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 3: // Walking away
             this->animTimer++;
             if (!(this->animTimer % 8) && (this->animTimer < 10)) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
             }
             if (this->animTimer == 10) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_IRON_DOOR_OPEN);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_IRON_DOOR_OPEN);
             }
             if (this->animTimer > 44) {
-                SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_IRON_DOOR_CLOSE);
+                SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_IRON_DOOR_CLOSE);
             } else {
                 break;
             }

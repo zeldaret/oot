@@ -11,7 +11,7 @@
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_hintnuts/object_hintnuts.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -56,7 +56,7 @@ void EnDntNomal_StageAttackHide(EnDntNomal* this, PlayState* play);
 void EnDntNomal_StageAttack(EnDntNomal* this, PlayState* play);
 void EnDntNomal_StageReturn(EnDntNomal* this, PlayState* play);
 
-const ActorInit En_Dnt_Nomal_InitVars = {
+ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
     ACTORCAT_PROP,
     FLAGS,
@@ -274,7 +274,7 @@ void EnDntNomal_SetupTargetUnburrow(EnDntNomal* this, PlayState* play) {
         spawnPos = this->actor.world.pos;
         spawnPos.y = this->actor.world.pos.y + 50.0f;
         EffectSsHahen_SpawnBurst(play, &spawnPos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
         this->actionFunc = EnDntNomal_TargetUnburrow;
     }
 }
@@ -306,7 +306,7 @@ void EnDntNomal_TargetWalk(EnDntNomal* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 0x32, 0xBB8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (this->actor.world.pos.z > -30.0f) {
         this->actor.speedXZ = 0.0f;
@@ -318,7 +318,7 @@ void EnDntNomal_TargetFacePlayer(EnDntNomal* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (fabsf(this->actor.shape.rot.y - this->actor.yawTowardsPlayer) < 30.0f) {
         this->actionFunc = EnDntNomal_SetupTargetTalk;
@@ -365,7 +365,7 @@ void EnDntNomal_TargetGivePrize(EnDntNomal* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
         this->spawnedItem = true;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_THROW);
     }
     if (frame >= this->endFrame) {
         this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsRunAnim);
@@ -387,7 +387,7 @@ void EnDntNomal_TargetReturn(EnDntNomal* this, PlayState* play) {
         this->actor.speedXZ = 1.0f;
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if (this->actor.world.pos.z < -172.0f) {
@@ -430,7 +430,7 @@ void EnDntNomal_SetupStageUp(EnDntNomal* this, PlayState* play) {
             this->rotDirection = -1;
         }
         EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
         this->isSolid = true;
         this->actionFunc = EnDntNomal_StageUp;
     }
@@ -485,7 +485,7 @@ void EnDntNomal_SetupStageUnburrow(EnDntNomal* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gDntStageUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->isSolid = false;
         EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
         this->actionFunc = EnDntNomal_StageUnburrow;
     }
 }
@@ -537,10 +537,10 @@ void EnDntNomal_StageCelebrate(EnDntNomal* this, PlayState* play) {
     if (this->timer5 == 0) {
         this->timer5 = 20;
         if ((this->type & 1) == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
         }
     } else if ((this->timer5 & 3) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 7.5f;
@@ -592,7 +592,7 @@ void EnDntNomal_SetupStageHide(EnDntNomal* this, PlayState* play) {
         this->endFrame = (f32)Animation_GetLastFrame(&gDntStageHideAnim);
         Animation_Change(&this->skelAnime, &gDntStageHideAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->isSolid = false;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DOWN);
         this->actionFunc = EnDntNomal_StageHide;
     }
 }
@@ -605,7 +605,7 @@ void EnDntNomal_StageHide(EnDntNomal* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (frame >= this->endFrame) {
         EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
         switch (this->action) {
             case DNT_ACTION_NONE:
                 this->actionFunc = EnDntNomal_SetupStageWait;
@@ -700,7 +700,7 @@ void EnDntNomal_StageAttack(EnDntNomal* this, PlayState* play) {
         if (nut != NULL) {
             nut->velocity.y = spawnOffset.y * 0.5f;
         }
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_THROW);
         this->spawnedItem = true;
     }
 }
@@ -724,7 +724,7 @@ void EnDntNomal_StageReturn(EnDntNomal* this, PlayState* play) {
     if (this->timer5 == 0) {
         this->timer5 = 10;
     } else if (!(this->timer5 & 1)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if ((fabsf(sp2C) < 7.0f) && (fabsf(sp28) < 7.0f)) {
         this->actor.world.pos.x = this->flowerPos.x;

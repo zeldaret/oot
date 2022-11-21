@@ -8,7 +8,7 @@
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -117,7 +117,7 @@ typedef struct {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-const ActorInit Fishing_InitVars = {
+ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
     FLAGS,
@@ -410,7 +410,7 @@ static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
 static FishingEffect sEffects[FISHING_EFFECT_COUNT];
-static Vec3f sStreamSoundProjectedPos;
+static Vec3f sStreamSfxProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
     collider->elements[index].dim.worldSphere.center.x = pos->x;
@@ -867,7 +867,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
 
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0100FF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
 
         if (sLinkAge == LINK_AGE_CHILD) {
             if ((HIGH_SCORE(HS_FISHING) & 0x7F) != 0) {
@@ -1237,8 +1237,8 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 40, 90, 80, effect->alpha);
 
             gSPSegment(POLY_OPA_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, effect->timer + (i * 3), (effect->timer + (i * 3)) * 5,
-                                        32, 64, 1, 0, 0, 32, 32));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, effect->timer + (i * 3),
+                                        (effect->timer + (i * 3)) * 5, 32, 64, 1, 0, 0, 32, 32));
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
@@ -1379,8 +1379,8 @@ void Fishing_DrawStreamSplash(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 2572);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->gameplayFrames * 1, play->gameplayFrames * 8, 32, 64, 1,
-                                -(play->gameplayFrames * 2), 0, 16, 16));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames * 1, play->gameplayFrames * 8,
+                                32, 64, 1, -(play->gameplayFrames * 2), 0, 16, 16));
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, 50);
 
@@ -2820,7 +2820,7 @@ void func_80B71278(Fishing* this, u8 arg1) {
         }
     }
 
-    Audio_PlayActorSound2(&this->actor, sfxId);
+    Audio_PlayActorSfx2(&this->actor, sfxId);
 }
 
 void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
@@ -3248,7 +3248,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 30.0f, 400.0f, 150,
                                             90);
 
-                        Audio_PlayActorSound2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
                         break;
                     }
                 }
@@ -3486,7 +3486,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     }
                     D_80B7E122 = phi_v0;
                     D_80B7E0A4 = phi_v0;
-                    func_800A9F6C(0.0f, 60, phi_v0 * 3, 10);
+                    Rumble_Override(0.0f, 60, phi_v0 * 3, 10);
                 } else {
                     if (this->unk_1AC > 70.0f) {
                         phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 10;
@@ -3499,7 +3499,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     }
                     D_80B7E122 = phi_v0;
                     D_80B7E0A4 = phi_v0;
-                    func_800A9F6C(0.0f, 180, phi_v0 * 3, 10);
+                    Rumble_Override(0.0f, 180, phi_v0 * 3, 10);
                 }
 
                 D_80B7E124 = 0;
@@ -3522,7 +3522,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->unk_194 = 2000.0f;
             } else if (sp124 < 10.0f) {
                 if (sLurePos.y > (WATER_SURFACE_Y(play) - 10.0f)) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
                     func_80078884(NA_SE_PL_CATCH_BOOMERANG);
                 }
 
@@ -3541,11 +3541,11 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 if (D_80B7E0B6 == 2) {
                     D_80B7E122 = 30;
                     D_80B7E0A4 = 100;
-                    func_800A9F6C(0.0f, 60, 90, 10);
+                    Rumble_Override(0.0f, 60, 90, 10);
                 } else {
                     D_80B7E122 = 30;
                     D_80B7E0A4 = 40;
-                    func_800A9F6C(0.0f, 180, 90, 10);
+                    Rumble_Override(0.0f, 180, 90, 10);
                 }
 
                 D_80B7E124 = 0;
@@ -3568,7 +3568,6 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             if (D_80B7E124 == 0) {
                 if ((D_80B7FEA0 < 20) && ((D_80B7E0AE & 3) == 0)) {
                     D_80B7FEA0++;
-                    if (1) {}
                 }
             }
 
@@ -3586,7 +3585,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->unk_198 = 1.7f;
                     this->unk_19C = 7000.0f;
                     D_80B7E124 = 1;
-                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
+                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
                     D_80B7E0A6 = 0;
 
                     if (this->unk_150 == 1) {
@@ -3598,7 +3597,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         spA4 = 255.0f;
                     }
 
-                    func_800A9F6C(0.0f, spA4, 120, 5);
+                    Rumble_Override(0.0f, spA4, 120, 5);
                     D_80B7E0A4 = 40;
                     D_80B7FDA8 = 10;
                     func_80078884(NA_SE_IT_FISHING_HIT);
@@ -3629,7 +3628,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         spA4 *= 3.0f / 4.0f;
                     }
 
-                    func_800A9F6C(0.0f, spA4, (s16)Rand_ZeroFloat(5.0f) + 10, 5);
+                    Rumble_Override(0.0f, spA4, (s16)Rand_ZeroFloat(5.0f) + 10, 5);
                 }
 
                 if (this->unk_17A[1] > 30) {
@@ -3660,7 +3659,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                             } else {
                                 phi_a1 = 180;
                             }
-                            func_800A9F6C(0.0f, phi_a1, 90, 2);
+                            Rumble_Override(0.0f, phi_a1, 90, 2);
                             this->unk_17A[0] = 20;
                             this->unk_17A[1] = 100;
                             this->unk_17A[2] = 20;
@@ -3790,8 +3789,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     }
                 } else {
                     D_80B7E086 = 0x4082;
-                    func_800A9F6C(0.0f, 1, 3, 1);
-                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0A00FF);
+                    Rumble_Override(0.0f, 1, 3, 1);
+                    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 10);
                 }
 
                 this->unk_158 = this->unk_15A = 0;
@@ -3813,7 +3812,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->unk_158 = 6;
                 this->unk_17A[0] = 100;
                 player->unk_860 = 3;
-                func_800A9F6C(0.0f, 1, 3, 1);
+                Rumble_Override(0.0f, 1, 3, 1);
                 D_80B7E084++;
                 func_80064520(play, &play->csCtx);
                 D_80B7A6CC = 100;
@@ -3859,7 +3858,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if (this->unk_17A[0] == 90) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HEART_GET | 0x900);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 9, NA_BGM_HEART_GET);
                 D_80B7A67C = 40;
 
                 if (this->unk_150 == 0) {
@@ -3963,17 +3962,18 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     SkelAnime_Free(&this->skelAnime, play);
 
                     if (this->unk_150 == 0) {
-                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, 0, 0, 0);
+                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, NULL, NULL, 0);
                         Animation_MorphToLoop(&this->skelAnime, &gFishingFishAnim, 0.0f);
                     } else {
-                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, 0, 0, 0);
+                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, NULL, NULL,
+                                           0);
                         Animation_MorphToLoop(&this->skelAnime, &gFishingLoachAnim, 0.0f);
                     }
                 }
 
                 D_80B7E148 = 520.0f;
                 D_80B7E144 = 195.0f;
-                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA00FF);
+                SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 10);
                 D_80B7E0A6 = 20;
                 D_80B7A6CC = 3;
             }
@@ -4067,8 +4067,6 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
         this->actor.world.pos.y += (this->unk_184 * 1.5f);
 
-        if (1) {}
-
         if (this->unk_152 != 0) {
             this->unk_168 = this->unk_154;
             this->unk_152--;
@@ -4152,7 +4150,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->actor.velocity.x = this->actor.world.pos.x * -0.003f;
                     this->actor.velocity.z = this->actor.world.pos.z * -0.003f;
 
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
                     func_80B70CF0(this, play);
 
                     if (Rand_ZeroOne() < 0.5f) {
@@ -4761,7 +4759,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     case 0:
                         if (gSaveContext.rupees >= 20) {
                             Rupees_ChangeBy(-20);
-                            if (func_800AA148() == 0) {
+                            if (!Rumble_Controller1HasRumblePak()) {
                                 this->actor.textId = 0x407C;
                             } else {
                                 this->actor.textId = 0x407D;
@@ -4984,7 +4982,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     } else {
                         if ((D_80B7E078 >= 60.0f) && !(HIGH_SCORE(HS_FISHING) & 0x800)) {
                             HIGH_SCORE(HS_FISHING) |= 0x800;
-                            getItemId = GI_SCALE_GOLD;
+                            getItemId = GI_SCALE_GOLDEN;
                             sSinkingLureLocation = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
                     }
@@ -5045,7 +5043,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             if (Actor_HasParent(&this->actor, play)) {
                 this->unk_15C = 24;
             } else {
-                func_8002F434(&this->actor, play, GI_SCALE_GOLD, 2000.0f, 1000.0f);
+                func_8002F434(&this->actor, play, GI_SCALE_GOLDEN, 2000.0f, 1000.0f);
             }
             break;
 
@@ -5065,7 +5063,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
 
 static s16 D_80B7AFC4[] = { 0, 1, 2, 2, 1 };
 
-static Vec3f sStreamSoundPos = { 670.0f, 0.0f, -600.0f };
+static Vec3f sStreamSfxPos = { 670.0f, 0.0f, -600.0f };
 
 static Vec3s sSinkingLureLocationPos[] = {
     { -364, -30, -269 },
@@ -5204,18 +5202,18 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         (fabsf(player->actor.world.pos.z - sSinkingLureLocationPos[sSinkingLureLocation - 1].z) < 25.0f)) {
         sSinkingLureLocation = 0;
         D_80B7A6CC = 20;
-        func_800A9F6C(0.0f, 150, 10, 10);
+        Rumble_Override(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 20);
     }
 
     if (KREG(0) != 0) {
         KREG(0) = 0;
         D_80B7E0B6 = 0;
         D_80B7A6CC = 20;
-        func_800A9F6C(0.0f, 150, 10, 10);
+        Rumble_Override(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 20);
     }
 
     if (D_80B7A6D0 != 0) {
@@ -5246,7 +5244,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         }
 
         case 2:
-            ShrinkWindow_SetVal(0x1B);
+            Letterbox_SetSizeTarget(27);
 
             spFC.x = sLurePos.x - player->actor.world.pos.x;
             spFC.z = sLurePos.z - player->actor.world.pos.z;
@@ -5373,7 +5371,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.z = mainCam->at.z;
             Message_StartTextbox(play, 0x409E, NULL);
             D_80B7A6CC = 11;
-            func_800A9F6C(0.0f, 150, 10, 10);
+            Rumble_Override(0.0f, 150, 10, 10);
             FALLTHROUGH;
         }
 
@@ -5431,7 +5429,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
         case 22:
             if (D_80B7A6D0 == 30) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ITEM_GET | 0x900);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 9, NA_BGM_ITEM_GET);
             }
 
             D_80B7A6D4 = 1;
@@ -5518,9 +5516,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         if (sSubCamEye.y <= (WATER_SURFACE_Y(play) + 1.0f)) {
             Environment_EnableUnderwaterLights(play, 1);
             if (D_80B7E076 != 0) {
-                play->envCtx.adjFogNear = -0xB2;
+                play->envCtx.adjFogNear = -178;
             } else {
-                play->envCtx.adjFogNear = -0x2E;
+                play->envCtx.adjFogNear = -46;
             }
         } else {
             Environment_EnableUnderwaterLights(play, 0);
@@ -5667,9 +5665,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSoundPos, &sStreamSoundProjectedPos, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSfxPos, &sStreamSfxProjectedPos, &sProjectedW);
 
-    func_80078914(&sStreamSoundProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
+    func_80078914(&sStreamSfxProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
 
     gSaveContext.minigameScore = (SQ((f32)D_80B7A678) * 0.0036f) + 0.5f;
 
@@ -5740,15 +5738,15 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
 
         if (D_80B7E0A6 == 0) {
             if (sLinkAge != LINK_AGE_CHILD) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_KID);
             }
 
             if (sLinkAge != LINK_AGE_CHILD) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_KAKARIKO_KID);
             }
         }
     }

@@ -6,7 +6,7 @@
 
 #include "z_en_niw_girl.h"
 #include "assets/objects/object_gr/object_gr.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -19,7 +19,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, PlayState* play);
 void func_80AB94D0(EnNiwGirl* this, PlayState* play);
 void func_80AB9210(EnNiwGirl* this, PlayState* play);
 
-const ActorInit En_Niw_Girl_InitVars = {
+ActorInit En_Niw_Girl_InitVars = {
     ACTOR_EN_NIW_GIRL,
     ACTORCAT_NPC,
     FLAGS,
@@ -101,7 +101,7 @@ void EnNiwGirl_Jump(EnNiwGirl* this, PlayState* play) {
 }
 
 void func_80AB9210(EnNiwGirl* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->path];
+    Path* path = &play->pathList[this->path];
     f32 xDistBetween;
     f32 zDistBetween;
 

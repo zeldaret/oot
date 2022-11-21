@@ -25,7 +25,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play);
 
-const ActorInit Obj_Timeblock_InitVars = {
+ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -72,9 +72,9 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
             if (this->unk_177 == 1) {
                 return this->unk_174 ^ temp;
             } else {
-                u8 linkIsYoung = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
+                u8 linkIsChild = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
 
-                return this->unk_174 ^ temp ^ linkIsYoung;
+                return this->unk_174 ^ temp ^ linkIsChild;
             }
         }
     } else {
@@ -101,7 +101,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
 
     CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &colHeader);
@@ -147,7 +147,7 @@ void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {
 }
 
 u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, PlayState* play) {
-    if (this->isVisible && func_80043590(&this->dyna)) {
+    if (this->isVisible && DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         return false;
     }
 
@@ -324,9 +324,9 @@ void ObjTimeblock_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->isVisible) {
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
 

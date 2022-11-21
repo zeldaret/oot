@@ -7,7 +7,7 @@
 #include "z_en_ik.h"
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -288,14 +288,14 @@ void func_80A747C0(EnIk* this, PlayState* play) {
 
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         sp24 = this->actor.world.pos;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
         sp24.y += 30.0f;
         func_8003424C(play, &sp24);
         this->skelAnime.playSpeed = 1.0f;
         func_800F5ACC(NA_BGM_MINI_BOSS);
     }
     if (this->skelAnime.curFrame == 5.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
@@ -342,7 +342,7 @@ void func_80A74AAC(EnIk* this) {
     } else {
         Animation_Change(&this->skelAnime, &object_ik_Anim_006734, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_ik_Anim_006734), ANIMMODE_LOOP, -4.0f);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -403,7 +403,7 @@ void func_80A74BA4(EnIk* this, PlayState* play) {
     func_80A745E4(this, play);
     SkelAnime_Update(&this->skelAnime);
     if ((sp30 == (s16)this->skelAnime.curFrame) || (sp2E == (s16)this->skelAnime.curFrame)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
 
@@ -421,14 +421,14 @@ void func_80A74EBC(EnIk* this, PlayState* play) {
     Vec3f sp2C;
 
     if (this->skelAnime.curFrame == 15.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
     } else if (this->skelAnime.curFrame == 21.0f) {
         sp2C.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.y = this->actor.world.pos.y;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
-        Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
+        Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         CollisionCheck_SpawnShieldParticles(play, &sp2C);
     }
 
@@ -455,7 +455,7 @@ void func_80A7506C(EnIk* this) {
     this->unk_2F8 = 7;
     this->unk_2FF = this->unk_2FE;
     Animation_Change(&this->skelAnime, &object_ik_Anim_0029FC, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -4.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_PULLOUT);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_PULLOUT);
     EnIk_SetupAction(this, func_80A7510C);
 }
 
@@ -502,7 +502,7 @@ void func_80A75260(EnIk* this, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
         if (this->unk_2FE < 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
         }
         this->unk_2FE = 1;
     } else {
@@ -544,7 +544,7 @@ void func_80A75530(EnIk* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if ((this->skelAnime.curFrame > 13.0f) && (this->skelAnime.curFrame < 18.0f)) {
         if (this->unk_2FE < 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
         }
         this->unk_2FE = 1;
     } else {
@@ -625,8 +625,8 @@ void func_80A7598C(EnIk* this) {
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skelAnime, &object_ik_Anim_005944, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
     this->unk_2F9 = 0x18;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
     EnIk_SetupAction(this, func_80A75A38);
 }
 
@@ -654,7 +654,7 @@ void func_80A75A38(EnIk* this, PlayState* play) {
             }
         }
     } else if (this->skelAnime.curFrame == 23.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
 
@@ -663,7 +663,7 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     u8 pad;
     u8 pad2;
     u8 prevHealth;
-    s32 temp_v0_3;
+    s32 pad3;
     Vec3f sp38;
 
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
@@ -684,11 +684,8 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
     Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
-    temp_v0_3 = this->actor.colChkInfo.damageEffect;
-    this->unk_2FD = temp_v0_3 & 0xFF;
+    this->unk_2FD = this->actor.colChkInfo.damageEffect;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
-
-    if (1) {}
 
     if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
         if (this->unk_2FD != 0) {
@@ -706,7 +703,7 @@ void func_80A75C38(EnIk* this, PlayState* play) {
         }
     } else if (this->actor.colChkInfo.health <= 10) {
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
         if (this->switchFlags != 0xFF) {
             Flags_SetSwitch(play, this->switchFlags);
         }
@@ -728,16 +725,16 @@ void func_80A75C38(EnIk* this, PlayState* play) {
     }
     if ((this->actor.params != 0) && (this->unk_2FB != 0)) {
         if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
         }
         func_80A75790(this);
         return;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
     CollisionCheck_SpawnShieldParticles(play, &sp38);
 }
 
@@ -965,29 +962,29 @@ void EnIk_StartMusic(void) {
 
 void func_80A76C14(EnIk* this) {
     if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 33.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 68.0f) || Animation_OnFrame(&this->skelAnime, 80.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 107.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 156.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 188.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
 void func_80A76DDC(EnIk* this, PlayState* play, Vec3f* pos) {
-    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 void func_80A76E2C(EnIk* this, PlayState* play, Vec3f* pos) {
@@ -1094,8 +1091,8 @@ void func_80A77264(EnIk* this, PlayState* play, s32 arg2) {
 }
 
 void func_80A772A4(EnIk* this) {
-    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 void func_80A772EC(EnIk* this, PlayState* play) {
@@ -1104,8 +1101,8 @@ void func_80A772EC(EnIk* this, PlayState* play) {
     f32 wDest;
 
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos, &D_80A78FA0, &wDest);
-    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 void func_80A7735C(EnIk* this, PlayState* play) {
@@ -1449,7 +1446,7 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit En_Ik_InitVars = {
+ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORCAT_BOSS,
     FLAGS,

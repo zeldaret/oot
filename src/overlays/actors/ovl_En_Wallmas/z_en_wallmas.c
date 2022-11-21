@@ -38,7 +38,7 @@ void EnWallmas_WaitForSwitchFlag(EnWallmas* this, PlayState* play);
 void EnWallmas_Stun(EnWallmas* this, PlayState* play);
 void EnWallmas_Walk(EnWallmas* this, PlayState* play);
 
-const ActorInit En_Wallmas_InitVars = {
+ActorInit En_Wallmas_InitVars = {
     ACTOR_EN_WALLMAS,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -184,7 +184,7 @@ void EnWallmas_SetupLand(EnWallmas* this, PlayState* play) {
                      ANIMMODE_ONCE, -3.0f);
 
     Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 300, 100, true);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_LAND);
     this->actionFunc = EnWallmas_Land;
 }
 
@@ -282,7 +282,7 @@ void EnWallmas_SetupStun(EnWallmas* this) {
         Actor_SetColorFilter(&this->actor, -0x8000, 0xFF, 0, 0x50);
     } else {
         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
 
     this->timer = 0x50;
@@ -309,7 +309,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, PlayState* play) {
     }
 
     if (this->timer == 0x50) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_AIM);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_AIM);
     }
 
     if (this->timer == 0) {
@@ -328,13 +328,13 @@ void EnWallmas_Drop(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_Land(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupStand(this);
     }
 }
 
 void EnWallmas_Stand(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupWalk(this);
     }
 
@@ -342,7 +342,7 @@ void EnWallmas_Stand(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
@@ -350,12 +350,12 @@ void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
         Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }
 
 void EnWallmas_JumpToCeiling(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -369,7 +369,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
     }
 
     if (Animation_OnFrame(&this->skelAnime, 20.0f) != 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_UP);
     }
 
     if (this->actor.yDistToPlayer < -900.0f) {
@@ -388,7 +388,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_TakeDamage(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnWallmas_SetupDie(this, play);
         } else {
@@ -396,14 +396,14 @@ void EnWallmas_TakeDamage(EnWallmas* this, PlayState* play) {
         }
     }
     if (Animation_OnFrame(&this->skelAnime, 13.0f) != 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
 }
 
 void EnWallmas_Cooldown(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -428,9 +428,9 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S);
         }
 
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_CATCH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_CATCH);
     }
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         player->actor.world.pos.x = this->actor.world.pos.x;
         player->actor.world.pos.z = this->actor.world.pos.z;
 
@@ -454,7 +454,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
             }
         }
         if (this->timer == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_UP);
         }
 
         this->timer = this->timer + 2;
@@ -507,11 +507,11 @@ void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_DEAD);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 if (this->actor.colChkInfo.damage != 0) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DAMAGE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }
             }
 

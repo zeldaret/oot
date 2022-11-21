@@ -6,7 +6,7 @@
 
 #include "z_bg_zg.h"
 #include "assets/objects/object_zg/object_zg.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -35,7 +35,7 @@ static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 
-const ActorInit Bg_Zg_InitVars = {
+ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORCAT_NPC,
     FLAGS,
@@ -54,8 +54,8 @@ void BgZg_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808C0C50(BgZg* this) {
-    Audio_PlaySoundGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 s32 func_808C0C98(BgZg* this, PlayState* play) {
@@ -102,7 +102,7 @@ void BgZg_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

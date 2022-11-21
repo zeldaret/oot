@@ -39,7 +39,7 @@ typedef enum {
     /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 
-const ActorInit En_Am_InitVars = {
+ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -114,10 +114,10 @@ static ColliderQuadInit sQuadInit = {
 typedef enum {
     /* 00 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
     /* 01 */ AM_DMGEFF_NUT,
-    /* 06 */ AM_DMGEFF_STUN = 6, // doesnt include deku nuts
+    /* 06 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
     /* 13 */ AM_DMGEFF_ICE = 13,
     /* 14 */ AM_DMGEFF_MAGIC_FIRE_LIGHT,
-    /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isnt a special case)
+    /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isn't a special case)
 } ArmosDamageEffect;
 
 static DamageTable sDamageTable = {
@@ -212,7 +212,7 @@ void EnAm_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
     SkelAnime_Init(play, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable, 14);
     Actor_SetScale(&this->dyna.actor, 0.01f);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     Collider_InitCylinder(play, &this->hurtCollider);
     Collider_InitCylinder(play, &this->blockCollider);
     Collider_SetCylinder(play, &this->hurtCollider, &this->dyna.actor, &sHurtCylinderInit);
@@ -246,7 +246,7 @@ void EnAm_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(play, &this->hurtCollider);
     Collider_DestroyCylinder(play, &this->blockCollider);
-    //! @bug Quad collider is not destroyed (though destroy doesnt really do anything anyway)
+    //! @bug Quad collider is not destroyed (though destroy doesn't really do anything anyway)
 }
 
 void EnAm_SpawnEffects(EnAm* this, PlayState* play) {
@@ -266,7 +266,7 @@ void EnAm_SpawnEffects(EnAm* this, PlayState* play) {
         EffectSsKiraKira_SpawnSmall(play, &pos, &velocity, &accel, &primColor, &envColor);
     }
 
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WALK);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_WALK);
     Actor_SpawnFloorDustRing(play, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 300, 15, false);
 }
 
@@ -338,7 +338,7 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, PlayState* play) {
                      Animation_GetLastFrame(&gArmosDamagedAnim) - 6.0f, ANIMMODE_ONCE, 0.0f);
     this->behavior = AM_BEHAVIOR_DAMAGED;
     this->dyna.actor.world.rot.y = this->dyna.actor.yawTowardsPlayer;
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
 
     if (EnAm_CanMove(this, play, -6.0f, this->dyna.actor.world.rot.y)) {
         this->dyna.actor.speedXZ = -6.0f;
@@ -377,8 +377,8 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
         this->hurtCollider.base.acFlags &= ~AC_HIT;
 
         if (this->textureBlend == 0) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
             Actor_SetColorFilter(&this->dyna.actor, 0x4000, 255, 0, 8);
         }
 
@@ -419,7 +419,7 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
             Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
             if (this->dyna.actor.speedXZ != 0.0f) {
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
             }
 
             this->dyna.unk_154 = 0.0f;
@@ -588,7 +588,7 @@ void EnAm_Cooldown(EnAm* this, PlayState* play) {
 
         if (this->unk_258 == 0) {
             EnAm_SetupLunge(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
         }
 
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y;
@@ -672,7 +672,7 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
         }
     } else {
         this->unk_258 -= 0x800;
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 
         if (this->dyna.unk_150 < 0.0f) {
             temp158f = this->dyna.unk_158 + 0x8000;
@@ -699,7 +699,7 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
     }
 
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     }
 
     this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
@@ -724,7 +724,7 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
     }
 
     this->behavior = AM_BEHAVIOR_STUNNED;
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnAm_SetupAction(this, EnAm_Stunned);
 }
 
@@ -864,7 +864,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
                     bomb->timer = 0;
                 }
 
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_DEAD);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_DEAD);
                 Item_DropCollectibleRandom(play, &this->dyna.actor, &this->dyna.actor.world.pos, 0xA0);
 
                 for (i = 9; i >= 0; i--) {
@@ -910,7 +910,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
                     Player* player = GET_PLAYER(play);
 
                     if (this->hitCollider.base.at == &player->actor) {
-                        Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+                        Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
                     }
                 }
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->hitCollider.base);

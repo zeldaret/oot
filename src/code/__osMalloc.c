@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FILL_ALLOCBLOCK (1 << 0)
 #define FILL_FREEBLOCK (1 << 1)
@@ -163,7 +163,7 @@ void __osMallocCleanup(Arena* arena) {
     bzero(arena, sizeof(*arena));
 }
 
-u8 __osMallocIsInitalized(Arena* arena) {
+u8 __osMallocIsInitialized(Arena* arena) {
     return arena->isInit;
 }
 
@@ -682,8 +682,8 @@ void __osDisplayArena(Arena* arena) {
     ArenaNode* iter;
     ArenaNode* next;
 
-    if (!__osMallocIsInitalized(arena)) {
-        osSyncPrintf("アリーナは初期化されていません\n"); // "Arena is not initalized"
+    if (!__osMallocIsInitialized(arena)) {
+        osSyncPrintf("アリーナは初期化されていません\n"); // "Arena is not initialized"
         return;
     }
 
@@ -746,7 +746,7 @@ void ArenaImpl_FaultClient(Arena* arena) {
     ArenaNode* next;
 
     FaultDrawer_Printf("ARENA INFO (0x%08x)\n", arena);
-    if (!__osMallocIsInitalized(arena)) {
+    if (!__osMallocIsInitialized(arena)) {
         FaultDrawer_Printf("Arena is uninitalized\n", arena);
         return;
     }

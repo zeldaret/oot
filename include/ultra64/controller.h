@@ -3,6 +3,8 @@
 
 #include "message.h"
 
+#define CHNL_ERR(readFormat) (((readFormat).rxsize & CHNL_ERR_MASK) >> 4)
+
 #define BLOCKSIZE 32
 #define MAXCONTROLLERS  4
 #define PFS_ONE_PAGE 8
@@ -36,6 +38,7 @@
 #define CONT_CMD_NOP 0xFF
 #define CONT_CMD_END 0xFE // Indicates end of a command
 #define CONT_CMD_EXE 1    // Set pif ram status byte to this to do a command
+#define CONT_CMD_SKIP_CHNL 0 // Skip channel
 
 #define CONT_ERR_NO_CONTROLLER      PFS_ERR_NOPACK      /* 1 */
 #define CONT_ERR_CONTRFAIL          CONT_OVERRUN_ERROR  /* 4 */
@@ -78,6 +81,27 @@
 #define CONT_CARD_PULL          0x02
 #define CONT_ADDR_CRC_ER        0x04
 #define CONT_EEPROM_BUSY        0x80
+
+/* Accessory detection */
+#define CONT_ADDR_DETECT    0x8000
+
+// Rumble
+#define CONT_ADDR_RUMBLE    0xC000
+
+// Controller Pak / Transfer Pak
+#define CONT_ADDR_GB_POWER  0x8000  // Same as the detection address, but semantically different
+#define CONT_ADDR_GB_BANK   0xA000
+#define CONT_ADDR_GB_STATUS 0xB000
+
+// Addresses sent to controller accessories are in blocks, not bytes
+#define CONT_BLOCKS(x) ((x) / BLOCKSIZE)
+
+// Block addresses of the above
+#define CONT_BLOCK_DETECT    CONT_BLOCKS(CONT_ADDR_DETECT)
+#define CONT_BLOCK_RUMBLE    CONT_BLOCKS(CONT_ADDR_RUMBLE)
+#define CONT_BLOCK_GB_POWER  CONT_BLOCKS(CONT_ADDR_GB_POWER)
+#define CONT_BLOCK_GB_BANK   CONT_BLOCKS(CONT_ADDR_GB_BANK)
+#define CONT_BLOCK_GB_STATUS CONT_BLOCKS(CONT_ADDR_GB_STATUS)
 
 /* Buttons */
 #define BTN_CRIGHT      0x0001
@@ -124,49 +148,47 @@ typedef struct {
     /* 0x26 */ u8 errno;
 } OSContRamIo; // size = 0x28
 
-// Original name: __OSContRequesFormat
 typedef struct {
     /* 0x00 */ u8 align;
     /* 0x01 */ u8 txsize;
     /* 0x02 */ u8 rxsize;
-    /* 0x03 */ u8 poll;
+    /* 0x03 */ u8 cmd;
     /* 0x04 */ u8 typeh;
     /* 0x05 */ u8 typel;
     /* 0x06 */ u8 status;
     /* 0x07 */ u8 align1;
-} __OSContRequestHeader; // size = 0x8
+} __OSContRequesFormat; // size = 0x8
 
-// Original name: __OSContRequesHeaderFormatShort
 typedef struct {
     /* 0x00 */ u8 txsize;
     /* 0x01 */ u8 rxsize;
-    /* 0x02 */ u8 poll;
+    /* 0x02 */ u8 cmd;
     /* 0x03 */ u8 typeh;
     /* 0x04 */ u8 typel;
     /* 0x05 */ u8 status;
-} __OSContRequestHeaderAligned; // size = 0x6
+} __OSContRequesFormatShort; // size = 0x6
 
-// Original Name: __OSContRamReadFormat
 typedef struct {
     /* 0x00 */ u8 unk_00;
     /* 0x01 */ u8 txsize;
     /* 0x02 */ u8 rxsize;
-    /* 0x03 */ u8 poll;
+    /* 0x03 */ u8 cmd;
     /* 0x04 */ u8 hi;
     /* 0x05 */ u8 lo;
     /* 0x06 */ u8 data[BLOCKSIZE];
     /* 0x26 */ u8 datacrc;
-} __OSContRamHeader; // size = 0x27
+} __OSContRamReadFormat; // size = 0x27
 
-// Original name: __OSContReadFormat
+#define READFORMAT(ptr) ((__OSContRamReadFormat*)(ptr))
+
 typedef struct {
     /* 0x00 */ u8 align;
     /* 0x01 */ u8 txsize;
     /* 0x02 */ u8 rxsize;
-    /* 0x03 */ u8 poll;
+    /* 0x03 */ u8 cmd;
     /* 0x04 */ u16 button;
     /* 0x06 */ s8 joyX;
     /* 0x07 */ s8 joyY;
-} __OSContReadHeader; // size = 0x8
+} __OSContReadFormat; // size = 0x8
 
 #endif

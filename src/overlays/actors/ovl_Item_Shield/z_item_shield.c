@@ -4,7 +4,7 @@
  * Description: Deku Shield
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_item_shield.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 15, 15, 0, { 0, 0, 0 } },
 };
 
-const ActorInit Item_Shield_InitVars = {
+ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,
     ACTORCAT_ITEMACTION,
     FLAGS,

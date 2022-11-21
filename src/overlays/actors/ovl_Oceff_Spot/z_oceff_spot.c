@@ -5,7 +5,7 @@
  */
 
 #include "z_oceff_spot.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -16,7 +16,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play);
 
 void OceffSpot_GrowCylinder(OceffSpot* this, PlayState* play);
 
-const ActorInit Oceff_Spot_InitVars = {
+ActorInit Oceff_Spot_InitVars = {
     ACTOR_OCEFF_SPOT,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -53,7 +53,7 @@ void OceffSpot_Init(Actor* thisx, PlayState* play) {
     Lights_PointNoGlowSetInfo(&this->lightInfo2, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, 0, 0, 0, 0);
     this->lightNode2 = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo2);
-    if (YREG(15)) {
+    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT) {
         this->actor.scale.y = 2.4f;
     } else {
         this->actor.scale.y = 0.3f;
@@ -156,8 +156,8 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32, 1, 0,
-                                                     scroll * (-8), 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,
+                                                     32, 1, 0, scroll * (-8), 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sCylinderModelDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_spot.c", 485);

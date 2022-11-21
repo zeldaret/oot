@@ -317,7 +317,7 @@ void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Ve
 // EffectSsBlast Spawn Functions
 
 void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 sclaeStepDecay, s16 life) {
+                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -327,7 +327,7 @@ void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* ac
     Color_RGBA8_Copy(&initParams.envColor, envColor);
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
-    initParams.sclaeStepDecay = sclaeStepDecay;
+    initParams.scaleStepDecay = scaleStepDecay;
     initParams.life = life;
 
     EffectSs_Spawn(play, EFFECT_SS_BLAST, 128, &initParams);
@@ -748,7 +748,7 @@ void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocit
  * Spawn a shock effect
  *
  * param determines where the ligntning should go
- * 0: dont attach to any actor. spawns at the position specified by pos
+ * 0: don't attach to any actor. spawns at the position specified by pos
  * 1: spawn at one of Player's body parts, chosen at random
  * 2: spawn at one of Phantom Ganon's body parts, chosen at random
  */
@@ -888,7 +888,7 @@ void EffectSsEnIce_SpawnFlyingVec3f(PlayState* play, Actor* actor, Vec3f* pos, s
     initParams.scale = scale;
 
     if (actor != NULL) {
-        Audio_PlayActorSound2(actor, NA_SE_PL_FREEZE_S);
+        Audio_PlayActorSfx2(actor, NA_SE_PL_FREEZE_S);
     }
 
     EffectSs_Spawn(play, EFFECT_SS_EN_ICE, 80, &initParams);
@@ -914,7 +914,7 @@ void EffectSsEnIce_SpawnFlyingVec3s(PlayState* play, Actor* actor, Vec3s* pos, s
     initParams.scale = scale;
 
     if (actor != NULL) {
-        Audio_PlayActorSound2(actor, NA_SE_PL_FREEZE_S);
+        Audio_PlayActorSfx2(actor, NA_SE_PL_FREEZE_S);
     }
 
     EffectSs_Spawn(play, EFFECT_SS_EN_ICE, 80, &initParams);
@@ -993,7 +993,7 @@ void EffectSsEnFire_SpawnVec3f(PlayState* play, Actor* actor, Vec3f* pos, s16 sc
     initParams.bodyPart = bodyPart;
 
     if (actor != NULL) {
-        Audio_PlayActorSound2(actor, NA_SE_EV_FLAME_IGNITION);
+        Audio_PlayActorSfx2(actor, NA_SE_EV_FLAME_IGNITION);
     }
 
     EffectSs_Spawn(play, EFFECT_SS_EN_FIRE, 128, &initParams);
@@ -1014,7 +1014,7 @@ void EffectSsEnFire_SpawnVec3s(PlayState* play, Actor* actor, Vec3s* pos, s16 sc
     initParams.bodyPart = bodyPart;
 
     if (actor != NULL) {
-        Audio_PlayActorSound2(actor, NA_SE_EV_FLAME_IGNITION);
+        Audio_PlayActorSfx2(actor, NA_SE_EV_FLAME_IGNITION);
     }
 
     EffectSs_Spawn(play, EFFECT_SS_EN_FIRE, 128, &initParams);
@@ -1051,7 +1051,7 @@ void EffectSsFCircle_Spawn(PlayState* play, Actor* actor, Vec3f* pos, s16 radius
 
 void EffectSsDeadDb_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                           s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused,
-                          s32 arg14, s16 playSound) {
+                          s32 arg14, s16 playSfx) {
     EffectSsDeadDbInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -1068,7 +1068,7 @@ void EffectSsDeadDb_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* a
     initParams.envColor.b = envB;
     initParams.unused = unused;
     initParams.unk_34 = arg14;
-    initParams.playSound = playSound;
+    initParams.playSfx = playSfx;
 
     EffectSs_Spawn(play, EFFECT_SS_DEAD_DB, 120, &initParams);
 }

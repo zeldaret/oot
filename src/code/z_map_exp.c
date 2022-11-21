@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
@@ -53,7 +53,7 @@ void Map_SetFloorPalettesData(PlayState* play, s16 floor) {
         interfaceCtx->mapPalette[31] = 1;
     }
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_YDAN:
         case SCENE_DDAN:
         case SCENE_BDAN:
@@ -87,7 +87,7 @@ void Map_InitData(PlayState* play, s16 room) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 extendedMapIndex;
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_SPOT00:
         case SCENE_SPOT01:
         case SCENE_SPOT02:
@@ -109,19 +109,19 @@ void Map_InitData(PlayState* play, s16 room) {
         case SCENE_SPOT20:
         case SCENE_GANON_TOU:
             extendedMapIndex = mapIndex;
-            if (play->sceneNum == SCENE_SPOT02) {
+            if (play->sceneId == SCENE_SPOT02) {
                 if (CHECK_QUEST_ITEM(QUEST_SONG_NOCTURNE)) {
                     extendedMapIndex = 0x14;
                 }
-            } else if (play->sceneNum == SCENE_SPOT06) {
+            } else if (play->sceneId == SCENE_SPOT06) {
                 if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !CHECK_QUEST_ITEM(QUEST_MEDALLION_WATER)) {
                     extendedMapIndex = 0x15;
                 }
-            } else if (play->sceneNum == SCENE_SPOT09) {
+            } else if (play->sceneId == SCENE_SPOT09) {
                 if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                     extendedMapIndex = 0x16;
                 }
-            } else if (play->sceneNum == SCENE_SPOT12) {
+            } else if (play->sceneId == SCENE_SPOT12) {
                 if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                     extendedMapIndex = 0x17;
                 }
@@ -130,9 +130,10 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf("ＫＫＫ＝%d\n", extendedMapIndex);
             osSyncPrintf(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
-            DmaMgr_SendRequest1(interfaceCtx->mapSegment,
-                                (u32)_map_grand_staticSegmentRomStart + gMapData->owMinimapTexOffset[extendedMapIndex],
-                                gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
+            DmaMgr_RequestSyncDebug(interfaceCtx->mapSegment,
+                                    (uintptr_t)_map_grand_staticSegmentRomStart +
+                                        gMapData->owMinimapTexOffset[extendedMapIndex],
+                                    gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;
         case SCENE_YDAN:
@@ -158,10 +159,10 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n", room,
                          mapIndex, VREG(30));
             osSyncPrintf(VT_RST);
-            DmaMgr_SendRequest1(play->interfaceCtx.mapSegment,
-                                (u32)_map_i_staticSegmentRomStart +
-                                    ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * 0xFF0),
-                                0xFF0, "../z_map_exp.c", 346);
+            DmaMgr_RequestSyncDebug(play->interfaceCtx.mapSegment,
+                                    (uintptr_t)_map_i_staticSegmentRomStart +
+                                        ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                                    MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(play, VREG(30));
@@ -175,10 +176,10 @@ void Map_InitRoomData(PlayState* play, s16 room) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osSyncPrintf("＊＊＊＊＊＊＊\n＊＊＊＊＊＊＊\nroom_no=%d (%d)(%d)\n＊＊＊＊＊＊＊\n＊＊＊＊＊＊＊\n", room,
-                 mapIndex, play->sceneNum);
+                 mapIndex, play->sceneId);
 
     if (room >= 0) {
-        switch (play->sceneNum) {
+        switch (play->sceneId) {
             case SCENE_YDAN:
             case SCENE_DDAN:
             case SCENE_BDAN:
@@ -233,11 +234,11 @@ void Map_Init(PlayState* play) {
 
     interfaceCtx->mapSegment = GameState_Alloc(&play->state, 0x1000, "../z_map_exp.c", 457);
     // "ＭＡＰ texture initialization scene_data_ID=%d mapSegment=%x"
-    osSyncPrintf("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", play->sceneNum,
+    osSyncPrintf("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", play->sceneId,
                  interfaceCtx->mapSegment, play);
     ASSERT(interfaceCtx->mapSegment != NULL, "parameter->mapSegment != NULL", "../z_map_exp.c", 459);
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_SPOT00:
         case SCENE_SPOT01:
         case SCENE_SPOT02:
@@ -258,7 +259,7 @@ void Map_Init(PlayState* play) {
         case SCENE_SPOT18:
         case SCENE_SPOT20:
         case SCENE_GANON_TOU:
-            mapIndex = play->sceneNum - SCENE_SPOT00;
+            mapIndex = play->sceneId - SCENE_SPOT00;
             R_MAP_INDEX = gSaveContext.mapIndex = mapIndex;
             R_COMPASS_SCALE_X = gMapData->owCompassInfo[mapIndex][0];
             R_COMPASS_SCALE_Y = gMapData->owCompassInfo[mapIndex][1];
@@ -293,9 +294,9 @@ void Map_Init(PlayState* play) {
         case SCENE_MIZUSIN_BS:
         case SCENE_JYASINBOSS:
         case SCENE_HAKADAN_BS:
-            mapIndex = (play->sceneNum >= SCENE_YDAN_BOSS) ? play->sceneNum - SCENE_YDAN_BOSS : play->sceneNum;
+            mapIndex = (play->sceneId >= SCENE_YDAN_BOSS) ? play->sceneId - SCENE_YDAN_BOSS : play->sceneId;
             R_MAP_INDEX = gSaveContext.mapIndex = mapIndex;
-            if ((play->sceneNum <= SCENE_ICE_DOUKUTO) || (play->sceneNum >= SCENE_YDAN_BOSS)) {
+            if ((play->sceneId <= SCENE_ICE_DOUKUTO) || (play->sceneId >= SCENE_YDAN_BOSS)) {
                 R_COMPASS_SCALE_X = gMapData->dgnCompassInfo[mapIndex][0];
                 R_COMPASS_SCALE_Y = gMapData->dgnCompassInfo[mapIndex][1];
                 R_COMPASS_OFFSET_X = gMapData->dgnCompassInfo[mapIndex][2];
@@ -365,7 +366,7 @@ void Minimap_Draw(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_map_exp.c", 626);
 
     if (play->pauseCtx.state < 4) {
-        switch (play->sceneNum) {
+        switch (play->sceneId) {
             case SCENE_YDAN:
             case SCENE_DDAN:
             case SCENE_BDAN:
@@ -384,13 +385,15 @@ void Minimap_Draw(PlayState* play) {
                     if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
-                        gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
-                                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                                               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                        gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_I, MAP_I_TEX_WIDTH,
+                                               MAP_I_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                                               G_TX_NOLOD);
 
                         gSPTextureRectangle(OVERLAY_DISP++, R_DGN_MINIMAP_X << 2, R_DGN_MINIMAP_Y << 2,
-                                            (R_DGN_MINIMAP_X + 96) << 2, (R_DGN_MINIMAP_Y + 85) << 2, G_TX_RENDERTILE,
-                                            0, 0, 1 << 10, 1 << 10);
+                                            (R_DGN_MINIMAP_X + MAP_I_TEX_WIDTH) << 2,
+                                            (R_DGN_MINIMAP_Y + MAP_I_TEX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                                            1 << 10);
                     }
 
                     if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {
@@ -403,11 +406,11 @@ void Minimap_Draw(PlayState* play) {
                 if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_L) && !Play_InCsMode(play)) {
                     osSyncPrintf("Game_play_demo_mode_check=%d\n", Play_InCsMode(play));
                     // clang-format off
-                    if (!R_MINIMAP_DISABLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
+                    if (!R_MINIMAP_DISABLED) { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
                                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                                       &gSfxDefaultReverb);
                     } else {
-                        Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxDefaultPos, 4,
+                        Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxDefaultPos, 4,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultReverb);
                     }
@@ -453,8 +456,8 @@ void Minimap_Draw(PlayState* play) {
                                         (R_OW_MINIMAP_Y + gMapData->owMinimapHeight[mapIndex]) << 2, G_TX_RENDERTILE, 0,
                                         0, 1 << 10, 1 << 10);
 
-                    if (((play->sceneNum != SCENE_SPOT01) && (play->sceneNum != SCENE_SPOT04) &&
-                         (play->sceneNum != SCENE_SPOT08)) ||
+                    if (((play->sceneId != SCENE_SPOT01) && (play->sceneId != SCENE_SPOT04) &&
+                         (play->sceneId != SCENE_SPOT08)) ||
                         (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
                         if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
@@ -474,7 +477,7 @@ void Minimap_Draw(PlayState* play) {
                         }
                     }
 
-                    if ((play->sceneNum == SCENE_SPOT08) &&
+                    if ((play->sceneId == SCENE_SPOT08) &&
                         (gSaveContext.infTable[INFTABLE_1AX_INDEX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
                         gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
@@ -489,11 +492,11 @@ void Minimap_Draw(PlayState* play) {
 
                 if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_L) && !Play_InCsMode(play)) {
                     // clang-format off
-                    if (!R_MINIMAP_DISABLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
+                    if (!R_MINIMAP_DISABLED) { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
                                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                                       &gSfxDefaultReverb);
                     } else {
-                        Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxDefaultPos, 4,
+                        Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxDefaultPos, 4,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultReverb);
                     }
@@ -521,7 +524,7 @@ void Map_Update(PlayState* play) {
     s16 i;
 
     if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
-        switch (play->sceneNum) {
+        switch (play->sceneId) {
             case SCENE_YDAN:
             case SCENE_DDAN:
             case SCENE_BDAN:
@@ -550,7 +553,6 @@ void Map_Update(PlayState* play) {
                 if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
                     R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
                 }
-                if (1) {} // Appears to be necessary to match
 
                 if (interfaceCtx->mapRoomNum != sLastRoomNum) {
                     // "Current floor = %d Current room = %x Number of rooms = %d"
@@ -583,9 +585,9 @@ void Map_Update(PlayState* play) {
             case SCENE_MIZUSIN_BS:
             case SCENE_JYASINBOSS:
             case SCENE_HAKADAN_BS:
-                VREG(30) = gMapData->bossFloor[play->sceneNum - SCENE_YDAN_BOSS];
+                VREG(30) = gMapData->bossFloor[play->sceneId - SCENE_YDAN_BOSS];
                 R_MAP_TEX_INDEX =
-                    R_MAP_TEX_INDEX_BASE + gMapData->floorTexIndexOffset[play->sceneNum - SCENE_YDAN_BOSS][VREG(30)];
+                    R_MAP_TEX_INDEX_BASE + gMapData->floorTexIndexOffset[play->sceneId - SCENE_YDAN_BOSS][VREG(30)];
                 break;
         }
     }

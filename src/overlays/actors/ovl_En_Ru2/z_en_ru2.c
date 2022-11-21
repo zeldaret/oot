@@ -7,7 +7,7 @@
 #include "z_en_ru2.h"
 #include "assets/objects/object_ru2/object_ru2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -64,7 +64,7 @@ static void* sEyeTextures[] = {
 static UNK_TYPE D_80AF4118 = 0;
 
 #pragma asmproc recurse
-#include "z_en_ru2_cutscene_data.c"
+#include "z_en_ru2_cutscene_data.inc.c"
 
 static EnRu2ActionFunc sActionFuncs[] = {
     func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C, func_80AF2D6C, func_80AF2DAC, func_80AF2DEC,
@@ -78,7 +78,7 @@ static EnRu2DrawFunc sDrawFuncs[] = {
     func_80AF321C,
 };
 
-const ActorInit En_Ru2_InitVars = {
+ActorInit En_Ru2_InitVars = {
     ACTOR_EN_RU2,
     ACTORCAT_NPC,
     FLAGS,
@@ -265,10 +265,10 @@ void func_80AF2AB4(EnRu2* this, PlayState* play) {
     Player* player;
     s16 temp;
 
-    if ((gSaveContext.chamberCutsceneNum == 2) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gSaveContext.chamberCutsceneNum == 2) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = 1;
-        play->csCtx.segment = &D_80AF411C;
+        play->csCtx.segment = D_80AF411C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
         temp = this->actor.world.rot.y + 0x8000;
@@ -817,7 +817,7 @@ void EnRu2_Draw(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
-        (sDrawFuncs[this->drawConfig] == 0)) {
+        (sDrawFuncs[this->drawConfig] == NULL)) {
         // "Draw Mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

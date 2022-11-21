@@ -8,7 +8,8 @@
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_bowl/object_bowl.h"
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -23,7 +24,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play);
 void BgBowlWall_FinishFall(BgBowlWall* this, PlayState* play);
 void BgBowlWall_Reset(BgBowlWall* this, PlayState* play);
 
-const ActorInit Bg_Bowl_Wall_InitVars = {
+ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORCAT_PROP,
     FLAGS,
@@ -50,7 +51,7 @@ void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
 
     if (this->dyna.actor.params == 0) {
         CollisionHeader_GetVirtual(&gBowlingFirstAndFinalRoundCol, &colHeader);
@@ -149,12 +150,12 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play) {
             EffectSsBomb2_SpawnLayered(play, &effectPos, &effectVelocity, &effectAccel, 100, 30);
             effectPos.y = -50.0f;
             EffectSsHahen_SpawnBurst(play, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
-        quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
         Quake_SetSpeed(quakeIndex, 0x7FFF);
-        Quake_SetQuakeValues(quakeIndex, 300, 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 30);
+        Quake_SetPerturbations(quakeIndex, 300, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 30);
         this->timer = 20;
         this->actionFunc = BgBowlWall_FinishFall;
     }

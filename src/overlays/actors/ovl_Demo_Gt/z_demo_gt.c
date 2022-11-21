@@ -1,7 +1,7 @@
 #include "z_demo_gt.h"
 #include "assets/objects/object_gt/object_gt.h"
 #include "assets/objects/object_geff/object_geff.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -24,15 +24,15 @@ void DemoGt_PlayEarthquakeSfx(void) {
 }
 
 void DemoGt_PlayExplosion1Sfx(PlayState* play, Vec3f* pos) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
 }
 
 void DemoGt_PlayExplosion2Sfx(PlayState* play, Vec3f* pos) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGt_Rumble(PlayState* play) {
-    func_800AA000(0.0f, 0x32, 0xA, 5);
+    Rumble_Request(0.0f, 50, 10, 5);
 }
 
 void DemoGt_SpawnDust(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 scale, s16 scaleStep, s16 life) {
@@ -435,10 +435,10 @@ void func_8097ED64(DemoGt* this, PlayState* play, s32 actionIdx) {
     func_8097E824(this, actionIdx);
 }
 
-u8 func_8097ED94(void) {
+u8 DemoGt_IsCutsceneLayer(void) {
     if (kREG(2) != 0) {
         return true;
-    } else if (gSaveContext.sceneSetupIndex < 4) {
+    } else if (!IS_CUTSCENE_LAYER) {
         return false;
     } else {
         return true;
@@ -455,7 +455,7 @@ void func_8097EDD8(DemoGt* this, PlayState* play, CollisionHeader* collision) {
 
     if (collision != NULL) {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         colHeader = NULL;
         CollisionHeader_GetVirtual(collision, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -463,8 +463,7 @@ void func_8097EDD8(DemoGt* this, PlayState* play, CollisionHeader* collision) {
 }
 
 u8 func_8097EE44(DemoGt* this, PlayState* play, s32 updateMode, s32 drawConfig, CollisionHeader* colHeader) {
-
-    if (func_8097ED94()) {
+    if (DemoGt_IsCutsceneLayer()) {
         this->updateMode = updateMode;
         this->drawConfig = drawConfig;
         func_8097EDD8(this, play, colHeader);
@@ -1768,7 +1767,7 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
     drawFunc(this, play);
 }
 
-const ActorInit Demo_Gt_InitVars = {
+ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
     ACTORCAT_PROP,
     FLAGS,

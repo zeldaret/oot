@@ -8,7 +8,7 @@
 #include "assets/objects/object_anubice/object_anubice.h"
 #include "overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.h"
 #include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
@@ -25,7 +25,7 @@ void EnAnubice_SetupShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_ShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_Die(EnAnubice* this, PlayState* play);
 
-const ActorInit En_Anubice_InitVars = {
+ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -376,7 +376,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
@@ -388,7 +388,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
@@ -412,7 +412,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 this->knockbackRecoveryVelocity.x = -rotatedKnockbackVelocity.x;
                 this->knockbackRecoveryVelocity.z = -rotatedKnockbackVelocity.z;
 
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
             }
         }
 

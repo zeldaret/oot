@@ -22,7 +22,7 @@ void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, PlayState* play);
 void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this);
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, PlayState* play);
 
-const ActorInit Bg_Jya_Haheniron_InitVars = {
+ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORCAT_PROP,
     FLAGS,
@@ -190,7 +190,7 @@ void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this) {
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, PlayState* play) {
     if (this->timer >= 17) {
         BgJyaHaheniron_SpawnFragments(play, &this->actor.world.pos, D_808987AC);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }
