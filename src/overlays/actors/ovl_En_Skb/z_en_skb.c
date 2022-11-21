@@ -463,7 +463,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                 this->setColliderAT = false;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->actionState != SKB_BEHAVIOR_STUNNED) {
-                        Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 120, COLORFILTER_XLUFLAG_OPA, 80);
                         Actor_ApplyDamage(&this->actor);
                         EnSkb_SetupStunned(this);
                     }
@@ -480,7 +480,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                         }
                         colorFilterDuration = 25;
                     }
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, colorFilterDuration);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, colorFilterDuration);
                     if (!Actor_ApplyDamage(&this->actor)) {
                         EnSkb_SetupDeath(this, play);
                         return;

@@ -693,7 +693,7 @@ void func_80A75C38(EnIk* this, PlayState* play) {
         }
         return;
     }
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, 12);
     prevHealth = this->actor.colChkInfo.health;
     Actor_ApplyDamage(&this->actor);
     if (this->actor.params != 0) {

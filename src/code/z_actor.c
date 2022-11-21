@@ -2222,25 +2222,25 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
 
-        if (actor->colorFilterParams & 0x8000) {
-            color.r = color.g = color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
-        } else if (actor->colorFilterParams & 0x4000) {
-            color.r = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+        if (actor->colorFilterParams & COLORFILTER_COLORFLAG_RGB) {
+            color.r = color.g = color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
+        } else if (actor->colorFilterParams & COLORFILTER_COLORFLAG_R) {
+            color.r = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
         } else {
-            color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
         }
 
-        if (actor->colorFilterParams & 0x2000) {
-            func_80026860(play, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+        if (COLORFILTER_GET_XLUFLAG(actor->colorFilterParams)) {
+            func_80026860(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
         } else {
-            func_80026400(play, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026400(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
         }
     }
 
     actor->draw(actor, play);
 
     if (actor->colorFilterTimer != 0) {
-        if (actor->colorFilterParams & 0x2000) {
+        if (COLORFILTER_GET_XLUFLAG(actor->colorFilterParams)) {
             func_80026A6C(play);
         } else {
             func_80026608(play);
@@ -3638,7 +3638,7 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
 }
 
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
-    if ((colorFlag == 0x8000) && !(colorIntensityMax & 0x8000)) {
+    if ((colorFlag == COLORFILTER_COLORFLAG_RGB) && !(colorIntensityMax & 0x8000)) {
         Audio_PlayActorSfx2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 

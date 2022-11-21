@@ -556,7 +556,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     } else if (this->collider.base.acFlags & AC_HIT) {
         if ((this->collider.info.acHitInfo != NULL) &&
             (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
-            Actor_SetColorFilter(&this->actor, 0, 120, 0, 400);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 120, COLORFILTER_XLUFLAG_OPA, 400);
             this->actor.update = EnGe2_UpdateStunned;
             return;
         }
