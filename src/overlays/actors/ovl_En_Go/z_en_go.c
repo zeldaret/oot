@@ -226,7 +226,7 @@ s16 EnGo_SetFlagsGetStates(PlayState* play, Actor* thisx) {
                     unkState = 0;
                     break;
                 case 0x3036:
-                    func_8002F434(thisx, play, GI_TUNIC_GORON, xzRange, yRange);
+                    Actor_OfferGetItem(thisx, play, GI_TUNIC_GORON, xzRange, yRange);
                     SET_INFTABLE(INFTABLE_10D); // EnGo exclusive flag
                     unkState = 2;
                     break;
@@ -971,7 +971,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
 
         yDist = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzDist = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, play, getItemId, xzDist, yDist);
+        Actor_OfferGetItem(&this->actor, play, getItemId, xzDist, yDist);
     }
 }
 

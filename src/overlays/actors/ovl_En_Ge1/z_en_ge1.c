@@ -513,7 +513,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, PlayState* play) {
         } else {
             getItemId = GI_HEART_PIECE;
         }
-        func_8002F434(&this->actor, play, getItemId, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 10000.0f, 50.0f);
     }
 }
 
@@ -542,7 +542,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, PlayState* play) {
         getItemId = GI_HEART_PIECE;
     }
 
-    func_8002F434(&this->actor, play, getItemId, 10000.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, getItemId, 10000.0f, 50.0f);
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, PlayState* play) {

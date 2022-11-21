@@ -311,7 +311,7 @@ void func_80B20768(EnToryo* this, PlayState* play) {
             this->actor.parent = NULL;
             this->unk_1E4 = 5;
         } else {
-            func_8002F434(&this->actor, play, GI_BROKEN_GORONS_SWORD, 100.0f, 10.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_BROKEN_GORONS_SWORD, 100.0f, 10.0f);
         }
         return;
     }

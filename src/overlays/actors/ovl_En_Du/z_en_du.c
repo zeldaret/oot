@@ -522,7 +522,7 @@ void func_809FEC70(EnDu* this, PlayState* play) {
     } else {
         f32 xzRange = this->actor.xzDistToPlayer + 1.0f;
 
-        func_8002F434(&this->actor, play, GI_GORONS_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GORONS_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 

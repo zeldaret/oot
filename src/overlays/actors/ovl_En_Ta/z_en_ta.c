@@ -945,9 +945,9 @@ void EnTa_GiveItemInLonLonHouse(EnTa* this, PlayState* play) {
         }
         this->stateFlags &= ~TALON_STATE_FLAG_GIVING_MILK_REFILL;
     } else if (this->stateFlags & TALON_STATE_FLAG_GIVING_MILK_REFILL) {
-        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
     } else {
-        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
@@ -957,7 +957,7 @@ void EnTa_TalkAfterCuccoGameFirstWon(EnTa* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->stateFlags &= ~TALON_STATE_FLAG_GIVING_MILK_REFILL;
         EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
-        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
 }
 
@@ -980,7 +980,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                         this->stateFlags |= TALON_STATE_FLAG_GIVING_MILK_REFILL;
                         EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
                         Rupees_ChangeBy(-30);
-                        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
+                        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
                         break;
                 }
                 break;
@@ -1077,7 +1077,7 @@ void EnTa_TalkAfterCuccoGameWon(EnTa* this, PlayState* play) {
             Message_CloseTextbox(play);
             this->stateFlags |= TALON_STATE_FLAG_GIVING_MILK_REFILL;
             EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
-            func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
         } else {
             Message_ContinueTextbox(play, 0x208A);
             EnTa_SetupAction(this, EnTa_TalkGeneralInLonLonHouse, EnTa_AnimRunToEnd);
