@@ -2537,6 +2537,9 @@ void Actor_FreezeAllEnemies(PlayState* play, ActorContext* actorCtx, s32 duratio
     }
 }
 
+/**
+ * Kill actors on room change and update flags accordingly
+ */
 void Actor_KillAllFromUnloadedRooms(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
