@@ -2505,7 +2505,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 }
 
 /**
- * Kills every actor which its object is not loaded
+ * Kill every actor which depends on an object that is not loaded.
  */
 void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
