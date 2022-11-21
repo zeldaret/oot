@@ -490,7 +490,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RUPEE_RED;
                     }
-                    Actor_SetColorFilter(&this->actor, -COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_XLU, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     EnRr_SetupStunned(this);
                     return;
                 case RR_DMG_STUN: // Boomerang and Hookshot
