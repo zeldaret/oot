@@ -1115,7 +1115,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 this->talkState = 7;
                 play->talkWithPlayer(play, &this->actor);
                 Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                                   fabsf(this->actor.yDistToPlayer) + 1.0f);
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
             }
@@ -1126,7 +1126,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 this->talkState++;
             } else {
                 Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                                   fabsf(this->actor.yDistToPlayer) + 1.0f);
             }
             // no break here is required for matching
     }

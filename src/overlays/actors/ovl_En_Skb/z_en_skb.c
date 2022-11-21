@@ -480,7 +480,8 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                         }
                         colorFilterDuration = 25;
                     }
-                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA, colorFilterDuration);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_R, 255, COLORFILTER_XLUFLAG_OPA,
+                                         colorFilterDuration);
                     if (!Actor_ApplyDamage(&this->actor)) {
                         EnSkb_SetupDeath(this, play);
                         return;

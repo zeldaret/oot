@@ -411,7 +411,7 @@ s32 EnHy_IsOsAnimeObjectLoaded(EnHy* this, PlayState* play) {
 void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
     this->unkGetItemId = getItemId;
     Actor_OfferGetItem(&this->actor, play, getItemId, this->actor.xzDistToPlayer + 1.0f,
-                  fabsf(this->actor.yDistToPlayer) + 1.0f);
+                       fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
 u16 func_80A6F810(PlayState* play, Actor* thisx) {
@@ -1051,7 +1051,7 @@ void func_80A714C4(EnHy* this, PlayState* play) {
         this->actionFunc = func_80A71530;
     } else {
         Actor_OfferGetItem(&this->actor, play, this->unkGetItemId, this->actor.xzDistToPlayer + 1.0f,
-                      fabsf(this->actor.yDistToPlayer) + 1.0f);
+                           fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 

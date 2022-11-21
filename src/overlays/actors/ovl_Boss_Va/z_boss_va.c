@@ -2687,7 +2687,8 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         } else {
             this->unk_1AC = 0;
             if (this->actor.colorFilterTimer == 0) {
-                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 255, COLORFILTER_XLUFLAG_XLU, GET_BODY(this)->actor.colorFilterTimer);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_B, 255, COLORFILTER_XLUFLAG_XLU,
+                                     GET_BODY(this)->actor.colorFilterTimer);
             }
         }
 
