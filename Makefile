@@ -251,6 +251,14 @@ endif
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
+clean_builtsrc:
+	$(RM) -r $(ROM) $(ELF) build/src build/data
+	find build -maxdepth 1 -type f -exec rm {} \;
+
+clean_builtassets:
+	$(RM) -r $(ROM) $(ELF) build/assets
+	find build -maxdepth 1 -type f -exec rm {} \;
+
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
 	$(RM) -r assets/text/*.h
