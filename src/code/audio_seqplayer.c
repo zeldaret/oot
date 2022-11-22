@@ -1747,8 +1747,8 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     // Apply the tempo by controlling the number of updates run on the .seq script.
     // Processing the .seq script every possible update will result in a tempo = maxTempo
     // Processing the .seq script a fraction of the updates will result in a `tempo = fraction * maxTempo`
-    // where `fraction = (tempo + tempoChange) / maxTempo)`
-    // This algorithm using `tempoAcc` discretizes `(tempo + tempoChange) / maxTempo) * updates`
+    // where `fraction = (tempo + tempoChange) / maxTempo`
+    // This algorithm uses `tempoAcc` to discretize `(tempo + tempoChange) / maxTempo`
     seqPlayer->tempoAcc += seqPlayer->tempo;
     seqPlayer->tempoAcc += (s16)seqPlayer->tempoChange;
     if (seqPlayer->tempoAcc < gAudioCtx.maxTempo) {
