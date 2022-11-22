@@ -2557,8 +2557,8 @@ s32 gDbgCamEnabled = 0;
 s32 sDbgModeIdx = -1;
 s16 sNextUID = 0;
 
-s32 sCameraInterfaceFlags = 1;
-s32 sCameraHudVisibilityMode = 2;
+s32 sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 1);
+s32 sCameraHudVisibilityMode = HUD_VISIBILITY_NOTHING_ALT;
 s32 sCameraLetterboxSize = 32;
 
 s32 D_8011D3AC = -1;
