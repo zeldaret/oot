@@ -6770,7 +6770,7 @@ s32 Camera_Special6(Camera* camera) {
         // A change in the current scene's camera positon has been detected,
         // Change "screens"
         camera->player->actor.freezeTimer = 12;
-        // Overwrite interface alpha to 3
+        // Overwrite interface alpha to CAM_HUD_VISIBILITY_HEARTS_FORCE
         sCameraInterfaceFlags =
             (sCameraInterfaceFlags & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_HEARTS_FORCE;
         rwData->initalPlayerY = playerPosRot->pos.y;
@@ -6807,7 +6807,7 @@ s32 Camera_Special6(Camera* camera) {
         rwData->animTimer--;
     } else {
         // Camera following player on the x axis.
-        // Overwrite interface alpha to 50
+        // Overwrite interface alpha to CAM_HUD_VISIBILITY_ALL
         sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_ALL;
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;

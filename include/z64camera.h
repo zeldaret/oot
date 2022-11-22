@@ -52,8 +52,7 @@
  * letterboxFlag: determines the size of the letter-box window. See CAM_LETTERBOX_* enums.
  *                  Can also add on the flag ( | CAM_LETTERBOX_INSTANT) to make the size change immediately
  * hudVisibility: hides certain hud icons
- *    - A value of 0 in camera is translated to a hudVisibility of 50, 
- *      which is the value to restore all hud icons to the screen (CAM_HUD_VISIBILITY_ALL)
+ *    - A value of 0 in camera is translated to a hud visibility mode of CAM_HUD_VISIBILITY_ALL
  *    - A value of 0xF in camera results in no change in the hudVisibility (CAM_HUD_VISIBILITY_IGNORE)
  * funcFlags: Custom flags for functions
  */
