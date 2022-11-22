@@ -19,13 +19,13 @@ typedef struct EnReeba {
     /* 0x0272 */ s16 surfaceTimer;
     /* 0x0274 */ s16 sfxTimer; // delay between move sounds. 2x if big Leever.
     /* 0x0276 */ s16 painTimer;
-    /* 0x0278 */ s16 stunTimer;
+    /* 0x0278 */ s16 waitTimer;
     /* 0x027A */ s16 isBig;
     /* 0x027C */ s16 unkDamageField; // set when hit with ice and most other weapons. Never read.
     /* 0x027E */ s16 stunType;
     /* 0x0280 */ s16 aimType; // inc'd by spawner. dictates rotateY modification
-    /* 0x0284 */ f32 offsetYTarget;
-    /* 0x0288 */ f32 offsetYStep;
+    /* 0x0284 */ f32 yOffsetTarget;
+    /* 0x0288 */ f32 yOffsetStep;
     /* 0x028C */ f32 scale;
     /* 0x0290 */ ColliderCylinder collider;
 } EnReeba; // size = 0x02DC
@@ -35,8 +35,8 @@ typedef enum {
     /* 1 */ LEEVER_BIG
 } LeeverParam;
 
-#define STUN_NONE 0
-#define STUN_ICE 2
-#define STUN_OTHER 4
+#define LEEVER_STUN_NONE 0
+#define LEEVER_STUN_ICE 2
+#define LEEVER_STUN_OTHER 4
 
 #endif

@@ -30,39 +30,49 @@ void EnReeba_Die(EnReeba* this, PlayState* play);
 void EnReeba_Stunned(EnReeba* this, PlayState* play);
 void EnReeba_StunDie(EnReeba* this, PlayState* play);
 
+typedef enum {
+    /* 00 */ LEEV_DMGEFF_NONE, // used by anything that cant kill the Leever
+    /* 01 */ LEEV_DMGEFF_UNK, // used by "unknown 1" attack
+    /* 03 */ LEEV_DMGEFF_ICE = 3,
+    /* 11 */ LEEV_DMGEFF_UNUSED = 11, // not used in the damage table, but still checked for.
+    /* 12 */ LEEV_DMGEFF_RANG,
+    /* 13 */ LEEV_DMGEFF_HOOK,
+    /* 14 */ LEEV_DMGEFF_OTHER
+} LeeverDamageEffect;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x0),
-    /* Deku stick    */ DMG_ENTRY(2, 0xE),
-    /* Slingshot     */ DMG_ENTRY(1, 0xE),
-    /* Explosive     */ DMG_ENTRY(2, 0xE),
-    /* Boomerang     */ DMG_ENTRY(1, 0xC),
-    /* Normal arrow  */ DMG_ENTRY(2, 0xE),
-    /* Hammer swing  */ DMG_ENTRY(2, 0xE),
-    /* Hookshot      */ DMG_ENTRY(2, 0xD),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xE),
-    /* Master sword  */ DMG_ENTRY(4, 0xE),
-    /* Giant's Knife */ DMG_ENTRY(6, 0xE),
-    /* Fire arrow    */ DMG_ENTRY(2, 0xE),
-    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
-    /* Light arrow   */ DMG_ENTRY(2, 0xE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0xE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0xE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0xE),
-    /* Fire magic    */ DMG_ENTRY(0, 0x0),
-    /* Ice magic     */ DMG_ENTRY(4, 0x3),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(2, 0xE),
-    /* Giant spin    */ DMG_ENTRY(8, 0xE),
-    /* Master spin   */ DMG_ENTRY(4, 0xE),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xE),
-    /* Giant jump    */ DMG_ENTRY(8, 0xE),
-    /* Master jump   */ DMG_ENTRY(4, 0xE),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x1),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
+    /* Deku stick    */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Slingshot     */ DMG_ENTRY(1, LEEV_DMGEFF_OTHER),
+    /* Explosive     */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Boomerang     */ DMG_ENTRY(1, LEEV_DMGEFF_RANG),
+    /* Normal arrow  */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Hammer swing  */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Hookshot      */ DMG_ENTRY(2, LEEV_DMGEFF_HOOK),
+    /* Kokiri sword  */ DMG_ENTRY(1, LEEV_DMGEFF_OTHER),
+    /* Master sword  */ DMG_ENTRY(4, LEEV_DMGEFF_OTHER),
+    /* Giant's Knife */ DMG_ENTRY(6, LEEV_DMGEFF_OTHER),
+    /* Fire arrow    */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Ice arrow     */ DMG_ENTRY(4, LEEV_DMGEFF_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Unk arrow 1   */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Unk arrow 2   */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Unk arrow 3   */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Fire magic    */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
+    /* Ice magic     */ DMG_ENTRY(4, LEEV_DMGEFF_ICE),
+    /* Light magic   */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
+    /* Shield        */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Giant spin    */ DMG_ENTRY(8, LEEV_DMGEFF_OTHER),
+    /* Master spin   */ DMG_ENTRY(4, LEEV_DMGEFF_OTHER),
+    /* Kokiri jump   */ DMG_ENTRY(2, LEEV_DMGEFF_OTHER),
+    /* Giant jump    */ DMG_ENTRY(8, LEEV_DMGEFF_OTHER),
+    /* Master jump   */ DMG_ENTRY(4, LEEV_DMGEFF_OTHER),
+    /* Unknown 1     */ DMG_ENTRY(0, LEEV_DMGEFF_UNK),
+    /* Unblockable   */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, LEEV_DMGEFF_NONE),
 };
 
 ActorInit En_Reeba_InitVars = {
@@ -119,6 +129,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         this->collider.dim.radius = 35;
         this->collider.dim.height = 45;
         this->scale *= 1.5f;
+        // "Reeba Boss Appears"
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
         this->collider.info.toucher.effect = 4;
@@ -126,7 +137,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }
 
-    this->actor.shape.yOffset = this->offsetYTarget = this->scale * -27500.0f;
+    this->actor.shape.yOffset = this->yOffsetTarget = this->scale * -27500.0f;
     ActorShape_Init(&this->actor.shape, this->actor.shape.yOffset, ActorShadow_DrawCircle, 0.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     Actor_UpdateBgCheckInfo(play, &this->actor, 35.0f, 60.0f, 60.0f,
@@ -172,12 +183,12 @@ void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
     Animation_Change(&this->skelanime, &object_reeba_Anim_0001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
 
     playerSpeed = fabsf(player->linearVelocity);
-    this->stunTimer = 20 - playerSpeed * 2;
-    if (this->stunTimer < 0) {
-        this->stunTimer = 2;
+    this->waitTimer = 20 - playerSpeed * 2;
+    if (this->waitTimer < 0) {
+        this->waitTimer = 2;
     }
-    if (this->stunTimer > 20) {
-        this->stunTimer = 20;
+    if (this->waitTimer > 20) {
+        this->waitTimer = 20;
     }
 
     this->actor.flags &= ~ACTOR_FLAG_27;
@@ -203,13 +214,13 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
                                  500, 10, true);
     }
 
-    if (this->stunTimer == 0) {
+    if (this->waitTimer == 0) {
         Math_ApproachF(&this->actor.shape.shadowScale, 12.0f, 1.0f, 1.0f);
         if (this->actor.shape.yOffset < 0.0f) {
-            Math_ApproachZeroF(&this->actor.shape.yOffset, 1.0f, this->offsetYStep);
-            Math_ApproachF(&this->offsetYStep, 300.0f, 1.0f, 5.0f);
+            Math_ApproachZeroF(&this->actor.shape.yOffset, 1.0f, this->yOffsetStep);
+            Math_ApproachF(&this->yOffsetStep, 300.0f, 1.0f, 5.0f);
         } else {
-            this->offsetYStep = 0.0f;
+            this->yOffsetStep = 0.0f;
             this->actor.shape.yOffset = 0.0f;
             playerLinearVel = player->linearVelocity;
 
@@ -326,7 +337,7 @@ void EnReeba_Bumped(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_SetupSink(EnReeba* this, PlayState* play) {
-    this->stunType = STUN_NONE;
+    this->stunType = LEEVER_STUN_NONE;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     this->actor.flags |= ACTOR_FLAG_27;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
@@ -338,14 +349,14 @@ void EnReeba_Sink(EnReeba* this, PlayState* play) {
     Math_ApproachZeroF(&this->actor.speedXZ, 0.1f, 0.3f);
     SkelAnime_Update(&this->skelanime);
 
-    if ((this->offsetYTarget + 10.0f) <= this->actor.shape.yOffset) {
+    if ((this->yOffsetTarget + 10.0f) <= this->actor.shape.yOffset) {
         if ((play->gameplayFrames % 4) == 0) {
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1, 8.0f,
                                      500, 10, true);
         }
 
-        Math_ApproachF(&this->actor.shape.yOffset, this->offsetYTarget, 1.0f, this->offsetYStep);
-        Math_ApproachF(&this->offsetYStep, 300.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->actor.shape.yOffset, this->yOffsetTarget, 1.0f, this->yOffsetStep);
+        Math_ApproachF(&this->yOffsetStep, 300.0f, 1.0f, 5.0f);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -377,7 +388,7 @@ void EnReeba_Damaged(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_SetupStunned(EnReeba* this, PlayState* play) {
-    this->stunTimer = 14;
+    this->waitTimer = 14;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.speedXZ = -8.0f;
     this->actor.flags |= ACTOR_FLAG_27;
@@ -389,15 +400,15 @@ void EnReeba_Stunned(EnReeba* this, PlayState* play) {
     Vec3f pos;
     f32 scale;
 
-    if (this->stunTimer != 0) {
+    if (this->waitTimer != 0) {
         if (this->actor.speedXZ < 0.0f) {
             this->actor.speedXZ += 1.0f;
         }
     } else {
         this->actor.speedXZ = 0.0f;
 
-        if ((this->stunType == STUN_OTHER) || (this->actor.colChkInfo.health != 0)) {
-            if (this->stunType == STUN_ICE) {
+        if ((this->stunType == LEEVER_STUN_OTHER) || (this->actor.colChkInfo.health != 0)) {
+            if (this->stunType == LEEVER_STUN_ICE) {
                 pos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
                 pos.y = this->actor.world.pos.y + Rand_CenteredFloat(20.0f);
                 pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
@@ -410,10 +421,10 @@ void EnReeba_Stunned(EnReeba* this, PlayState* play) {
                 EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
             }
 
-            this->stunTimer = 66;
+            this->waitTimer = 66;
             this->actionfunc = EnReeba_StunRecover;
         } else {
-            this->stunTimer = 30;
+            this->waitTimer = 30;
             this->actionfunc = EnReeba_StunDie;
         }
     }
@@ -423,8 +434,8 @@ void EnReeba_StunDie(EnReeba* this, PlayState* play) {
     Vec3f pos;
     f32 scale;
 
-    if (this->stunTimer != 0) {
-        if ((this->stunType == STUN_ICE) && ((this->stunTimer & 0xF) == 0)) {
+    if (this->waitTimer != 0) {
+        if ((this->stunType == LEEVER_STUN_ICE) && ((this->waitTimer & 0xF) == 0)) {
             pos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
             pos.y = this->actor.world.pos.y + Rand_CenteredFloat(20.0f);
             pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
@@ -447,7 +458,7 @@ void EnReeba_SetupDie(EnReeba* this, PlayState* play) {
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
-    this->stunTimer = 14;
+    this->waitTimer = 14;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionfunc = EnReeba_Die;
 }
@@ -457,7 +468,7 @@ void EnReeba_Die(EnReeba* this, PlayState* play) {
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
-    if (this->stunTimer != 0) {
+    if (this->waitTimer != 0) {
         if (this->actor.speedXZ < 0.0f) {
             this->actor.speedXZ += 1.0f;
         }
@@ -500,11 +511,11 @@ void EnReeba_Die(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_StunRecover(EnReeba* this, PlayState* play) {
-    if (this->stunTimer < 37) {
+    if (this->waitTimer < 37) {
         this->actor.shape.rot.x = Rand_CenteredFloat(3000.0f);
         this->actor.shape.rot.z = Rand_CenteredFloat(3000.0f);
 
-        if (this->stunTimer == 0) {
+        if (this->waitTimer == 0) {
             if (this->isBig) {
                 this->actionfunc = EnReeba_SetupMoveBig;
             } else {
@@ -520,29 +531,29 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
 
         if ((this->actionfunc != EnReeba_Die) && (this->actionfunc != EnReeba_Damaged)) {
             this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
-            this->stunType = STUN_NONE;
+            this->stunType = LEEVER_STUN_NONE;
 
             switch (this->actor.colChkInfo.damageEffect) {
-                case 11: // none
-                case 12: // boomerang
-                    if ((this->actor.colChkInfo.health > 1) && (this->stunType != STUN_OTHER)) {
-                        this->stunType = STUN_OTHER;
+                case LEEV_DMGEFF_UNUSED: // none
+                case LEEV_DMGEFF_RANG: // boomerang
+                    if ((this->actor.colChkInfo.health > 1) && (this->stunType != LEEVER_STUN_OTHER)) {
+                        this->stunType = LEEVER_STUN_OTHER;
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
                         this->actionfunc = EnReeba_SetupStunned;
                         break;
                     }
                     FALLTHROUGH;
-                case 13: // hookshot/longshot
-                    if ((this->actor.colChkInfo.health > 2) && (this->stunType != STUN_OTHER)) {
-                        this->stunType = STUN_OTHER;
+                case LEEV_DMGEFF_HOOK: // hookshot/longshot
+                    if ((this->actor.colChkInfo.health > 2) && (this->stunType != LEEVER_STUN_OTHER)) {
+                        this->stunType = LEEVER_STUN_OTHER;
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         this->actionfunc = EnReeba_SetupStunned;
                         break;
                     }
                     FALLTHROUGH;
-                case 14:
+                case LEEV_DMGEFF_OTHER:
                     this->unkDamageField = 6;
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
@@ -557,16 +568,16 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         this->actionfunc = EnReeba_SetupDamaged;
                     }
                     break;
-                case 3: // ice arrows/ice magic
+                case LEEV_DMGEFF_ICE: // ice arrows/ice magic
                     Actor_ApplyDamage(&this->actor);
                     this->unkDamageField = 2;
-                    this->stunType = STUN_ICE;
+                    this->stunType = LEEVER_STUN_ICE;
                     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
                     this->actionfunc = EnReeba_SetupStunned;
                     break;
-                case 1: // unknown
-                    if (this->stunType != STUN_OTHER) {
-                        this->stunType = STUN_OTHER;
+                case LEEV_DMGEFF_UNK: // "unknown 1" attack
+                    if (this->stunType != LEEVER_STUN_OTHER) {
+                        this->stunType = LEEVER_STUN_OTHER;
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
                         this->actionfunc = EnReeba_SetupStunned;
                     }
@@ -593,8 +604,8 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
         this->surfaceTimer--;
     }
 
-    if (this->stunTimer != 0) {
-        this->stunTimer--;
+    if (this->waitTimer != 0) {
+        this->waitTimer--;
     }
 
     if (this->sfxTimer != 0) {
