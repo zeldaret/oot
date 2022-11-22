@@ -5,8 +5,10 @@
 static u8 sChildUpgrades[] = { UPG_BULLET_BAG, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
 static u8 sAdultUpgrades[] = { UPG_QUIVER, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
 
-static u8 sChildUpgradeItemBases[] = { ITEM_BULLET_BAG_30, ITEM_BOMB_BAG_20, ITEM_BRACELET, ITEM_SCALE_SILVER };
-static u8 sAdultUpgradeItemBases[] = { ITEM_QUIVER_30, ITEM_BOMB_BAG_20, ITEM_BRACELET, ITEM_SCALE_SILVER };
+static u8 sChildUpgradeItemBases[] = { ITEM_BULLET_BAG_30, ITEM_BOMB_BAG_20, ITEM_STRENGTH_GORONS_BRACELET,
+                                       ITEM_SCALE_SILVER };
+static u8 sAdultUpgradeItemBases[] = { ITEM_QUIVER_30, ITEM_BOMB_BAG_20, ITEM_STRENGTH_GORONS_BRACELET,
+                                       ITEM_SCALE_SILVER };
 
 static u8 sUpgradeItemOffsets[] = { 0x00, 0x03, 0x06, 0x09 };
 
@@ -426,7 +428,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             if (gSaveContext.bgsFlag != 0) {
                 cursorItem = ITEM_HEART_PIECE_2;
             } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                cursorItem = ITEM_SWORD_KNIFE;
+                cursorItem = ITEM_GIANTS_KNIFE;
             }
         }
 
@@ -443,7 +445,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             pauseCtx->nameColorSet = 1;
         }
 
-        if (pauseCtx->cursorItem[PAUSE_EQUIP] == ITEM_BRACELET) {
+        if (pauseCtx->cursorItem[PAUSE_EQUIP] == ITEM_STRENGTH_GORONS_BRACELET) {
             if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                 pauseCtx->nameColorSet = 0;
             } else {
@@ -479,15 +481,16 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     gSaveContext.equips.buttonItems[0] = cursorItem;
 
                     if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.bgsFlag != 0)) {
-                        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                         gSaveContext.swordHealth = 8;
                     } else {
                         if (gSaveContext.equips.buttonItems[0] == ITEM_HEART_PIECE_2) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
+                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                         }
-                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS) && (gSaveContext.bgsFlag == 0) &&
+                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BIGGORON) &&
+                            (gSaveContext.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
+                            gSaveContext.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
                         }
                     }
 
