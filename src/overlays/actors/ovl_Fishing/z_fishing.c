@@ -8,7 +8,7 @@
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -117,7 +117,7 @@ typedef struct {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-const ActorInit Fishing_InitVars = {
+ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
     FLAGS,
@@ -3568,7 +3568,6 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             if (D_80B7E124 == 0) {
                 if ((D_80B7FEA0 < 20) && ((D_80B7E0AE & 3) == 0)) {
                     D_80B7FEA0++;
-                    if (1) {}
                 }
             }
 
@@ -4067,8 +4066,6 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         func_8002D7EC(&this->actor);
 
         this->actor.world.pos.y += (this->unk_184 * 1.5f);
-
-        if (1) {}
 
         if (this->unk_152 != 0) {
             this->unk_168 = this->unk_154;
@@ -4985,7 +4982,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     } else {
                         if ((D_80B7E078 >= 60.0f) && !(HIGH_SCORE(HS_FISHING) & 0x800)) {
                             HIGH_SCORE(HS_FISHING) |= 0x800;
-                            getItemId = GI_SCALE_GOLD;
+                            getItemId = GI_SCALE_GOLDEN;
                             sSinkingLureLocation = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
                     }
@@ -5046,7 +5043,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             if (Actor_HasParent(&this->actor, play)) {
                 this->unk_15C = 24;
             } else {
-                func_8002F434(&this->actor, play, GI_SCALE_GOLD, 2000.0f, 1000.0f);
+                func_8002F434(&this->actor, play, GI_SCALE_GOLDEN, 2000.0f, 1000.0f);
             }
             break;
 
@@ -5241,7 +5238,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.y = mainCam->at.y;
             sSubCamAt.z = mainCam->at.z;
             D_80B7A6CC = 2;
-            Interface_ChangeAlpha(12);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_B_MINIMAP);
             sSubCamVelFactor = 0.0f;
             FALLTHROUGH;
         }
@@ -5519,9 +5516,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         if (sSubCamEye.y <= (WATER_SURFACE_Y(play) + 1.0f)) {
             Environment_EnableUnderwaterLights(play, 1);
             if (D_80B7E076 != 0) {
-                play->envCtx.adjFogNear = -0xB2;
+                play->envCtx.adjFogNear = -178;
             } else {
-                play->envCtx.adjFogNear = -0x2E;
+                play->envCtx.adjFogNear = -46;
             }
         } else {
             Environment_EnableUnderwaterLights(play, 0);

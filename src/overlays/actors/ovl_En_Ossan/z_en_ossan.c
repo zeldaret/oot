@@ -1,5 +1,5 @@
 #include "z_en_ossan.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
@@ -100,7 +100,7 @@ void EnOssan_SetStateGiveDiscountDialog(PlayState* play, EnOssan* this);
 
 #define CURSOR_INVALID 0xFF
 
-const ActorInit En_Ossan_InitVars = {
+ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
     ACTORCAT_NPC,
     FLAGS,
@@ -654,7 +654,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     this->stickLeftPrompt.isEnabled = false;
     this->stickRightPrompt.isEnabled = false;
@@ -1323,7 +1323,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);
     this->stateFlag = OSSAN_STATE_GIVE_ITEM_FANFARE;
@@ -2023,13 +2023,13 @@ void EnOssan_InitPotionShopkeeper(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_os_Skel_004658, &object_os_Anim_0002E4, NULL, NULL, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gHappyMaskSalesmanSkel, &gHappyMaskSalesmanIdleAnim, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawHappyMaskShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }
 
 void EnOssan_InitBombchuShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_rs_Skel_004868, &object_rs_Anim_00065C, NULL, NULL, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBombchuShopkeeperSkel, &gBombchuShopkeeperIdleAnim, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawBombchuShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }
@@ -2454,8 +2454,11 @@ void EnOssan_DrawZoraShopkeeper(Actor* thisx, PlayState* play) {
 }
 
 void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
-    static void* sPotionShopkeeperEyeTextures[] = { gPotionShopkeeperEyeOpenTex, gPotionShopkeeperEyeHalfTex,
-                                                    gPotionShopkeeperEyeClosedTex };
+    static void* sPotionShopkeeperEyeTextures[] = {
+        gPotionShopkeeperEyeOpenTex,
+        gPotionShopkeeperEyeHalfTex,
+        gPotionShopkeeperEyeClosedTex,
+    };
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
 
@@ -2472,7 +2475,7 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
 }
 
 void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
-    static void* sHappyMaskShopkeeperEyeTextures[] = { gOsEyeClosedTex, gOsEyeOpenTex };
+    static void* sHappyMaskShopkeeperEyeTextures[] = { gHappyMaskSalesmanEyeClosedTex, gHappyMaskSalesmanEyeOpenTex };
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
 
@@ -2491,8 +2494,11 @@ void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
 }
 
 void EnOssan_DrawBombchuShopkeeper(Actor* thisx, PlayState* play) {
-    static void* sBombchuShopkeeperEyeTextures[] = { gBombchuShopkeeperEyeOpenTex, gBombchuShopkeeperEyeHalfTex,
-                                                     gBombchuShopkeeperEyeClosedTex };
+    static void* sBombchuShopkeeperEyeTextures[] = {
+        gBombchuShopkeeperEyeOpenTex,
+        gBombchuShopkeeperEyeHalfTex,
+        gBombchuShopkeeperEyeClosedTex,
+    };
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
 

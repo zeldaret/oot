@@ -6,7 +6,7 @@
 
 #include "z_bg_dy_yoseizo.h"
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
@@ -54,7 +54,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 
 static s32 sUnusedGetItemIds[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE };
 
-const ActorInit Bg_Dy_Yoseizo_InitVars = {
+ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORCAT_PROP,
     FLAGS,
@@ -391,7 +391,7 @@ void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
 
     if ((this->dialogState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        Interface_ChangeAlpha(5);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE);
         this->actionFunc = BgDyYoseizo_SetupHealPlayer_NoReward;
     }
 
@@ -712,7 +712,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 gSaveContext.isMagicAcquired = true;
                 gSaveContext.magicFillTarget = MAGIC_NORMAL_METER;
                 // magicLevel is already 0, setting isMagicAcquired to true triggers magicCapacity to grow
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
                 if (!gSaveContext.isMagicAcquired) {
@@ -722,11 +722,11 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 gSaveContext.magicFillTarget = MAGIC_DOUBLE_METER;
                 // Setting magicLevel to 0 triggers magicCapacity to grow
                 gSaveContext.magicLevel = 0;
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                 break;
             case FAIRY_UPGRADE_DOUBLE_DEFENSE:
                 gSaveContext.isDoubleDefenseAcquired = true;
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                 break;
         }
 
@@ -760,7 +760,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
 
                 this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                 gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= sItemGetFlags[actionIndex];
                 Item_Give(play, sItemIds[actionIndex]);
             }

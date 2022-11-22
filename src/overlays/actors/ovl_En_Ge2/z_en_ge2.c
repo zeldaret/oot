@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ge2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_gla/object_gla.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
@@ -55,7 +55,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play);
 void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
 void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
-const ActorInit En_Ge2_InitVars = {
+ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
     ACTORCAT_NPC,
     FLAGS,
@@ -451,7 +451,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe2_SetActionAfterTalk;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -460,7 +460,7 @@ void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe2_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 

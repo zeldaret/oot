@@ -8,7 +8,7 @@
 #include "assets/objects/object_mo/object_mo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -118,7 +118,7 @@ typedef enum {
     /* 150 */ MO_DEATH_MO_CORE_BURST = 150
 } BossMoCsState;
 
-const ActorInit Boss_Mo_InitVars = {
+ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
     ACTORCAT_BOSS,
     FLAGS,
@@ -791,7 +791,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
         case MO_TENT_SHAKE:
             if (this->timers[0] == 138) {
                 Letterbox_SetSizeTarget(0);
-                Interface_ChangeAlpha(0xB);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS);
             }
             if ((this->timers[0] % 8) == 0) {
                 play->damagePlayer(play, -1);

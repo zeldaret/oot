@@ -1,5 +1,5 @@
 #include "z_en_encount1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
@@ -14,7 +14,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play);
 static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
-const ActorInit En_Encount1_InitVars = {
+ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORCAT_PROP,
     FLAGS,

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_takara_man.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ts/object_ts.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
@@ -22,7 +22,7 @@ void func_80B17934(EnTakaraMan* this, PlayState* play);
 void func_80B17A6C(EnTakaraMan* this, PlayState* play);
 void func_80B17AC4(EnTakaraMan* this, PlayState* play);
 
-const ActorInit En_Takara_Man_InitVars = {
+ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
     ACTORCAT_NPC,
     FLAGS,

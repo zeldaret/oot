@@ -25,7 +25,7 @@ void func_808B44CC(BgSpot15Rrbox* this, PlayState* play);
 
 static s16 D_808B4590 = 0;
 
-const ActorInit Bg_Spot15_Rrbox_InitVars = {
+ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
     ACTORCAT_BG,
     FLAGS,

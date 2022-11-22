@@ -159,7 +159,7 @@ typedef struct {
 static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
 static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
-const ActorInit En_Skj_InitVars = {
+ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -397,7 +397,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
         default:
             this->actor.params = type;
             if (((this->actor.params != 0) && (this->actor.params != 1)) && (this->actor.params != 2)) {
-                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_SAW) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_POACHERS_SAW) {
                     Actor_Kill(&this->actor);
                     return;
                 }

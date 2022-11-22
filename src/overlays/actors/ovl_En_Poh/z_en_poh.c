@@ -42,7 +42,7 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 
 static s16 D_80AE1A50 = 0;
 
-const ActorInit En_Poh_InitVars = {
+ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -816,7 +816,7 @@ void EnPoh_TalkRegular(EnPoh* this, PlayState* play) {
             if (play->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
                     this->actor.textId = 0x5008;
-                    Item_Give(play, ITEM_POE);
+                    Item_Give(play, ITEM_BOTTLE_POE);
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_BIG_GET);
                 } else {
                     this->actor.textId = 0x5006;

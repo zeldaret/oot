@@ -6,7 +6,7 @@
 
 #include "ultra64.h"
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "alloca.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {
@@ -29,7 +29,8 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
     }
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-    gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
+    gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
+        gSaveContext.hudVisibilityModeTimer = 0; // false, HUD_VISIBILITY_NO_CHANGE
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
@@ -761,7 +762,8 @@ void MapSelect_Init(GameState* thisx) {
     R_UPDATE_RATE = 1;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_select.c", 1114);
-    DmaMgr_SendRequest1(this->staticSegment, (uintptr_t)_z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
+    DmaMgr_RequestSyncDebug(this->staticSegment, (uintptr_t)_z_select_staticSegmentRomStart, size, "../z_select.c",
+                            1115);
     gSaveContext.cutsceneIndex = 0x8000;
     gSaveContext.linkAge = LINK_AGE_CHILD;
 }

@@ -234,7 +234,7 @@ static Color_RGBA8 sBodyColor = { 255, 255, 255, 255 };
 static Color_RGBA8 sStaticColor = { 0, 0, 0, 255 };
 static s32 sHandState[] = { HAND_WAIT, HAND_WAIT };
 
-const ActorInit Boss_Sst_InitVars = {
+ActorInit Boss_Sst_InitVars = {
     ACTOR_BOSS_SST,
     ACTORCAT_BOSS,
     FLAGS,

@@ -45,7 +45,7 @@ void BossGanon_UpdateEffects(PlayState* play);
 
 s32 BossGanon_CheckFallingPlatforms(BossGanon* this, PlayState* play, Vec3f* checkPos);
 
-const ActorInit Boss_Ganon_InitVars = {
+ActorInit Boss_Ganon_InitVars = {
     ACTOR_BOSS_GANON,
     ACTORCAT_BOSS,
     FLAGS,
@@ -785,7 +785,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
 
             if (this->csTimer == 20) {
                 func_8002DF54(play, &this->actor, 0x17);
-                Interface_ChangeAlpha(11); // show hearts only
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS);
             }
 
             if (this->csTimer == 25) {
@@ -793,7 +793,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             }
 
             if (this->csTimer == 100) {
-                Interface_ChangeAlpha(1);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
             }
 
             if (this->csTimer == 120) {

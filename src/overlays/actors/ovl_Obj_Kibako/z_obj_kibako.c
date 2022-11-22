@@ -22,7 +22,7 @@ void ObjKibako_Held(ObjKibako* this, PlayState* play);
 void ObjKibako_SetupThrown(ObjKibako* this);
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play);
 
-const ActorInit Obj_Kibako_InitVars = {
+ActorInit Obj_Kibako_InitVars = {
     ACTOR_OBJ_KIBAKO,
     ACTORCAT_PROP,
     FLAGS,

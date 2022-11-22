@@ -30,7 +30,7 @@ static Color_RGBA8 sEffectPrimColor = { 255, 255, 255, 255 };
 static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
 static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Bigokuta_InitVars = {
+ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
     ACTORCAT_ENEMY,
     FLAGS,

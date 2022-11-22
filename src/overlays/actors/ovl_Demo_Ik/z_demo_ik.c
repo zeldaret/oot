@@ -1,5 +1,5 @@
 #include "z_demo_ik.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ik/object_ik.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -500,7 +500,7 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-const ActorInit Demo_Ik_InitVars = {
+ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
     ACTORCAT_NPC,
     FLAGS,

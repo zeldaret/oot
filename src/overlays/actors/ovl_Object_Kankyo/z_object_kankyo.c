@@ -43,7 +43,7 @@ static void* D_80BA5900[] = {
     gEffSunGraveSpark5Tex, gEffSunGraveSpark6Tex, gEffSunGraveSpark7Tex, gEffSunGraveSpark8Tex,
 };
 
-const ActorInit Object_Kankyo_InitVars = {
+ActorInit Object_Kankyo_InitVars = {
     ACTOR_OBJECT_KANKYO,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -849,8 +849,8 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
 
             weight = Environment_LerpWeight(play->csCtx.npcActions[1]->endFrame, play->csCtx.npcActions[1]->startFrame,
                                             play->csCtx.frames);
-            Matrix_Translate((end.x - start.x) * weight + start.x, (end.y - start.y) * weight + start.y,
-                             (end.z - start.z) * weight + start.z, MTXMODE_NEW);
+            Matrix_Translate(LERP(start.x, end.x, weight), LERP(start.y, end.y, weight), LERP(start.z, end.z, weight),
+                             MTXMODE_NEW);
             Matrix_Scale(this->effects[0].size, this->effects[0].size, this->effects[0].size, MTXMODE_APPLY);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gDPPipeSync(POLY_XLU_DISP++);

@@ -18,7 +18,7 @@ void EnGe3_WaitLookAtPlayer(EnGe3* this, PlayState* play);
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play);
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play);
 
-const ActorInit En_Ge3_InitVars = {
+ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORCAT_NPC,
     FLAGS,
@@ -141,7 +141,7 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe3_Wait;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -150,7 +150,7 @@ void EnGe3_GiveCard(EnGe3* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe3_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 

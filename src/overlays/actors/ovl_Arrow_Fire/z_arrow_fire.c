@@ -20,7 +20,7 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play);
 
 #include "assets/overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
 
-const ActorInit Arrow_Fire_InitVars = {
+ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
     ACTORCAT_ITEMACTION,
     FLAGS,

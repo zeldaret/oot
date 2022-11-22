@@ -26,7 +26,7 @@ void BgRelayObjects_DoNothing(BgRelayObjects* this, PlayState* play);
 void func_808A932C(BgRelayObjects* this, PlayState* play);
 void func_808A939C(BgRelayObjects* this, PlayState* play);
 
-const ActorInit Bg_Relay_Objects_InitVars = {
+ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORCAT_BG,
     FLAGS,
@@ -156,7 +156,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
         Flags_UnsetSwitch(play, this->switchFlag);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         if (play->roomCtx.curRoom.num == 4) {
-            gSaveContext.timer1State = 0xF;
+            gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
         }
         this->actionFunc = BgRelayObjects_DoNothing;
     }

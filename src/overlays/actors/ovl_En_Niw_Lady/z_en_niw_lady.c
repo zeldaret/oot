@@ -2,7 +2,7 @@
 #include "assets/objects/object_ane/object_ane.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -25,7 +25,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play);
 void func_80ABA654(EnNiwLady* this, PlayState* play);
 void func_80ABAD7C(EnNiwLady* this, PlayState* play);
 
-const ActorInit En_Niw_Lady_InitVars = {
+ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
     ACTORCAT_NPC,
     FLAGS,
@@ -308,8 +308,8 @@ void func_80ABA654(EnNiwLady* this, PlayState* play) {
         this->unk_26E = 0xB;
         if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
             this->actor.parent = NULL;
-            this->getItemId = GI_BOTTLE;
-            func_8002F434(&this->actor, play, GI_BOTTLE, 100.0f, 50.0f);
+            this->getItemId = GI_BOTTLE_EMPTY;
+            func_8002F434(&this->actor, play, GI_BOTTLE_EMPTY, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }

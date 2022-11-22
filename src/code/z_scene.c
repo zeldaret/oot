@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 RomFile sNaviQuestHintFiles[];
 
@@ -19,8 +19,8 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
-    DmaMgr_SendRequest1(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
-                        "../z_scene.c", 145);
+    DmaMgr_RequestSyncDebug(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
+                            "../z_scene.c", 145);
 
     if (objectCtx->num < OBJECT_EXCHANGE_BANK_MAX - 1) {
         objectCtx->status[objectCtx->num + 1].segment =
@@ -89,7 +89,7 @@ void Object_UpdateBank(ObjectContext* objectCtx) {
                 objectFile = &gObjectTable[-status->id];
                 size = objectFile->vromEnd - objectFile->vromStart;
                 osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, status->segment);
-                DmaMgr_SendRequest2(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
+                DmaMgr_RequestAsync(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
                                     &status->loadQueue, NULL, "../z_scene.c", 266);
             } else if (osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 status->id = -status->id;
@@ -131,7 +131,7 @@ void func_800981B8(ObjectContext* objectCtx) {
                      objectCtx->status[i].segment);
         osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[i].segment + size,
                      objectCtx->spaceEnd);
-        DmaMgr_SendRequest1(objectCtx->status[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
+        DmaMgr_RequestSyncDebug(objectCtx->status[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
     }
 }
 
@@ -148,7 +148,6 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
 
     nextPtr = (void*)ALIGN16((s32)status->segment + size);
-    if (1) {} // Necessary to match
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
@@ -501,33 +500,4 @@ void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
 RomFile sNaviQuestHintFiles[] = {
     ROM_FILE(elf_message_field),
     ROM_FILE(elf_message_ydan),
-    ROM_FILE_UNSET,
 };
-
-s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
-
-u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
-
-// Object linker symbol declarations (used in the table below)
-#define DEFINE_OBJECT(name, _1) DECLARE_ROM_SEGMENT(name)
-#define DEFINE_OBJECT_NULL(_0, _1)
-#define DEFINE_OBJECT_UNSET(_0)
-
-#include "tables/object_table.h"
-
-#undef DEFINE_OBJECT
-#undef DEFINE_OBJECT_NULL
-#undef DEFINE_OBJECT_UNSET
-
-// Object Table definition
-#define DEFINE_OBJECT(name, _1) ROM_FILE(name),
-#define DEFINE_OBJECT_NULL(name, _1) ROM_FILE_EMPTY(name),
-#define DEFINE_OBJECT_UNSET(_0) { 0 },
-
-RomFile gObjectTable[] = {
-#include "tables/object_table.h"
-};
-
-#undef DEFINE_OBJECT
-#undef DEFINE_OBJECT_NULL
-#undef DEFINE_OBJECT_UNSET

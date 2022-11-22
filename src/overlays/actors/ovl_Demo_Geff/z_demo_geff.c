@@ -6,7 +6,7 @@
 
 #include "z_demo_geff.h"
 #include "assets/objects/object_geff/object_geff.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -42,7 +42,7 @@ static DemoGeffDrawFunc sDrawFuncs[] = {
     func_80978344,
 };
 
-const ActorInit Demo_Geff_InitVars = {
+ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORCAT_BOSS,
     FLAGS,

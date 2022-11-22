@@ -20,7 +20,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, PlayState* play);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play);
 
-const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
+ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     ACTOR_BG_MORI_KAITENKABE,
     ACTORCAT_BG,
     FLAGS,

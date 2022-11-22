@@ -1,6 +1,6 @@
 #include "global.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -394,8 +394,8 @@ void Play_Init(GameState* thisx) {
     D_801614B0.a = 0;
     Flags_UnsetAllEnv(this);
 
-    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&this->state.tha));
-    zAllocSize = THA_GetSize(&this->state.tha);
+    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
+    zAllocSize = THA_GetRemaining(&this->state.tha);
     zAlloc = (u32)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init((void*)zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
@@ -510,7 +510,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         s16 sceneLayer = SCENE_LAYER_CHILD_DAY;
 
-                        Interface_ChangeAlpha(1);
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
                             sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
@@ -1052,7 +1052,7 @@ void Play_Draw(PlayState* this) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
         POLY_XLU_DISP = Play_SetFog(this, POLY_XLU_DISP);
 
-        View_SetPerspective(&this->view, this->view.fovy, this->view.zNear, this->lightCtx.fogFar);
+        View_SetPerspective(&this->view, this->view.fovy, this->view.zNear, this->lightCtx.zFar);
         View_Apply(&this->view, VIEW_ALL);
 
         // The billboard matrix temporarily stores the viewing matrix
@@ -1389,7 +1389,7 @@ void* Play_LoadFile(PlayState* this, RomFile* file) {
 
     size = file->vromEnd - file->vromStart;
     allocp = GameState_Alloc(&this->state, size, "../z_play.c", 4692);
-    DmaMgr_SendRequest1(allocp, file->vromStart, size, "../z_play.c", 4694);
+    DmaMgr_RequestSyncDebug(allocp, file->vromStart, size, "../z_play.c", 4694);
 
     return allocp;
 }

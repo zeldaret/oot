@@ -22,7 +22,7 @@ void func_809FEC70(EnDu* this, PlayState* play);
 void func_809FECE4(EnDu* this, PlayState* play);
 void func_809FEB08(EnDu* this, PlayState* play);
 
-const ActorInit En_Du_InitVars = {
+ActorInit En_Du_InitVars = {
     ACTOR_EN_DU,
     ACTORCAT_NPC,
     FLAGS,
@@ -522,7 +522,7 @@ void func_809FEC70(EnDu* this, PlayState* play) {
     } else {
         f32 xzRange = this->actor.xzDistToPlayer + 1.0f;
 
-        func_8002F434(&this->actor, play, GI_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
+        func_8002F434(&this->actor, play, GI_GORONS_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
