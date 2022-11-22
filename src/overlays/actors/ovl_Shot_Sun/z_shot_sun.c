@@ -34,7 +34,7 @@ ActorInit Shot_Sun_InitVars = {
 };
 
 typedef enum {
-    /* 0 */ SPAWNER_OUT_OF_RANGE ,
+    /* 0 */ SPAWNER_OUT_OF_RANGE,
     /* 1 */ SPAWNER_OCARINA_START,
     /* 2 */ SPAWNER_OCARINA_PLAYING
 } FairySpawnerState;
