@@ -4982,7 +4982,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     } else {
                         if ((D_80B7E078 >= 60.0f) && !(HIGH_SCORE(HS_FISHING) & 0x800)) {
                             HIGH_SCORE(HS_FISHING) |= 0x800;
-                            getItemId = GI_SCALE_GOLD;
+                            getItemId = GI_SCALE_GOLDEN;
                             sSinkingLureLocation = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
                     }
@@ -5043,7 +5043,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             if (Actor_HasParent(&this->actor, play)) {
                 this->unk_15C = 24;
             } else {
-                func_8002F434(&this->actor, play, GI_SCALE_GOLD, 2000.0f, 1000.0f);
+                func_8002F434(&this->actor, play, GI_SCALE_GOLDEN, 2000.0f, 1000.0f);
             }
             break;
 
@@ -5238,7 +5238,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.y = mainCam->at.y;
             sSubCamAt.z = mainCam->at.z;
             D_80B7A6CC = 2;
-            Interface_ChangeAlpha(12);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_B_MINIMAP);
             sSubCamVelFactor = 0.0f;
             FALLTHROUGH;
         }

@@ -791,11 +791,11 @@ void Camera_UpdateInterface(s16 flags) {
     if ((flags & IFACE_ALPHA_MASK) != IFACE_ALPHA_MASK) {
         interfaceAlpha = (flags & IFACE_ALPHA_MASK) >> 8;
         if (interfaceAlpha == 0) {
-            interfaceAlpha = 0x32;
+            interfaceAlpha = HUD_VISIBILITY_ALL;
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
             sCameraInterfaceAlpha = interfaceAlpha;
-            Interface_ChangeAlpha(sCameraInterfaceAlpha);
+            Interface_ChangeHudVisibilityMode(sCameraInterfaceAlpha);
         }
     }
 }
@@ -816,10 +816,10 @@ Vec3f* Camera_BGCheckCorner(Vec3f* dst, Vec3f* linePointA, Vec3f* linePointB, Ca
 }
 
 /**
- * Checks collision between at and eyeNext, if `checkEye` is set, if there is no collsion between
+ * Checks collision between at and eyeNext, if `checkEye` is set, if there is no collision between
  * eyeNext->at, then eye->at is also checked.
  * Returns:
- * 0 if no collsion is found between at->eyeNext
+ * 0 if no collision is found between at->eyeNext
  * 2 if the angle between the polys is between 60 degrees and 120 degrees
  * 3 ?
  * 6 if the angle between the polys is greater than 120 degrees
@@ -2531,7 +2531,7 @@ s32 Camera_Jump2(Camera* camera) {
         Camera_AddVecGeoToVec3f(&camBgChk.pos, at, &bgChkPara);
         if (Camera_BGCheckInfo(camera, at, &camBgChk)) {
             // Collision found between parallel at->eyeNext, set eye position to
-            // first collsion point.
+            // first collision point.
             *eye = bgChkPos;
         } else {
             // no collision found with the parallel at->eye, animate to be parallel

@@ -50,6 +50,6 @@ void RcpUtils_Reset(void) {
     // Flush the RDP pipeline and freeze clock counter
     osDpSetStatus(DPC_SET_FREEZE | DPC_SET_FLUSH);
     // Halt the RSP, disable interrupt on break and set "task done" signal
-    __osSpSetStatus(SP_SET_HALT | SP_SET_SIG2 | SP_CLR_INTR_BREAK);
+    __osSpSetStatus(SP_SET_HALT | SP_SET_TASKDONE | SP_CLR_INTR_BREAK);
     RcpUtils_PrintRegisterStatus();
 }

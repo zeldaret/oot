@@ -330,7 +330,7 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
 
     EnZl4_SetActiveCamMove(play, 5);
     Letterbox_SetSizeTarget(32);
-    Interface_ChangeAlpha(2);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     this->talkTimer2 = 0;
     return true;
 }
@@ -1114,7 +1114,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 Camera_ChangeSetting(GET_ACTIVE_CAM(play), CAM_SET_NORMAL0);
                 this->talkState = 7;
                 play->talkWithPlayer(play, &this->actor);
-                func_8002F434(&this->actor, play, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
                               fabsf(this->actor.yDistToPlayer) + 1.0f);
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -1125,7 +1125,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
                 this->talkState++;
             } else {
-                func_8002F434(&this->actor, play, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
                               fabsf(this->actor.yDistToPlayer) + 1.0f);
             }
             // no break here is required for matching
@@ -1150,7 +1150,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             this->mouthExpression = ZL4_MOUTH_SURPRISED;
             Audio_PlayFanfare(NA_BGM_APPEAR);
             EnZl4_SetActiveCamDir(play, 0);
-            Interface_ChangeAlpha(2);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
             Letterbox_SetSizeTarget(32);
             this->talkState = 0;
             this->csState++;
@@ -1194,7 +1194,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
         case ZL4_CS_PLAN:
             if (EnZl4_CsMakePlan(this, play)) {
                 func_8002DF54(play, &this->actor, 7);
-                gSaveContext.unk_13EE = 0x32;
+                gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
                 SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;
             }
