@@ -18,10 +18,10 @@ typedef struct EnSw {
     /* 0x01F8 */ Vec3s jointTable[30];
     /* 0x02AC */ Vec3s morphTable[30];
     /* 0x0360 */ u8 unk_360;
-    /* 0x0364 */ Vec3f unk_364;
+    /* 0x0364 */ Vec3f normalVec;
     /* 0x0370 */ Vec3f unk_370;
     /* 0x037C */ Vec3f unk_37C;
-    /* 0x0388 */ s16 unk_388;
+    /* 0x0388 */ s16 aniTimer;
     /* 0x038A */ s16 unk_38A;
     /* 0x038C */ s16 unk_38C;
     /* 0x038E */ s16 unk_38E;
@@ -31,14 +31,14 @@ typedef struct EnSw {
     /* 0x0396 */ char unk_396[0x42];
     /* 0x03D8 */ MtxF unk_3D8;
     /* 0x0418 */ char unk_418[8];
-    /* 0x0420 */ f32 unk_420;
+    /* 0x0420 */ f32 rotateMag;
     /* 0x0424 */ char unk_424[0x8];
     /* 0x042C */ u8 unk_42C;
     /* 0x0430 */ CollisionPoly* unk_430;
     /* 0x0434 */ Vec3f unk_434;
-    /* 0x0440 */ s16 unk_440;
+    /* 0x0440 */ s16 sfxTimer;
     /* 0x0442 */ s16 unk_442;
-    /* 0x0444 */ s16 unk_444;
+    /* 0x0444 */ s16 rotZTarget;
     /* 0x0446 */ s16 unk_446;
     /* 0x0448 */ Vec3f unk_448;
     /* 0x0454 */ Vec3f unk_454;
@@ -48,5 +48,15 @@ typedef struct EnSw {
     /* 0x0484 */ Vec3f unk_484;
     /* 0x0490 */ char unk_490[0x48];
 } EnSw; // size = 0x04D8
+
+#define SW_GOLDTYPE(params) ((params & 0xE000) >> 0xD)
+
+typedef enum {
+    SW_NORMALTYPE, // normal Skullwalltula
+    SW_GOLDTYPE_DEFAULT, // Normal Gold Skultula, found in dungeons
+    SW_GOLDTYPE_NIGHT, // nocturnal Gold Skultula, found outside
+    SW_GOLDTYPE_HIDDEN,
+    SW_GOLDTYPE_HIDDEN2,
+} EnSwTypes;
 
 #endif
