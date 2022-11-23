@@ -3765,8 +3765,7 @@ static NpcTrackingParams sNpcTrackingPresets[] = {
  * @param rotateYaw if true, the actor's yaw (shape.rot.y) is updated to turn the actor's whole body
  */
 void Npc_TrackPointWithLimits(Actor* actor, NpcInteractInfo* interactInfo, s16 maxHeadYaw, s16 maxHeadPitch,
-                              s16 minHeadPitch, s16 maxTorsoYaw, s16 maxTorsoPitch, s16 minTorsoPitch,
-                              u8 rotateYaw) {
+                              s16 minHeadPitch, s16 maxTorsoYaw, s16 maxTorsoPitch, s16 minTorsoPitch, u8 rotateYaw) {
     s16 pitchTowardsTarget;
     s16 yawTowardsTarget;
     s16 torsoPitch;
