@@ -1091,7 +1091,7 @@ void func_80A45288(EnGo2* this, PlayState* play) {
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
         this->interactInfo.trackPos = player->actor.world.pos;
-        this->interactInfo.yPosOffset = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
+        this->interactInfo.yOffset = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
         Npc_TrackPoint(&this->actor, &this->interactInfo, 4, this->trackingMode);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {

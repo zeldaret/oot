@@ -152,9 +152,9 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
 
     this->interactInfo.trackPos = player->actor.world.pos;
     if (LINK_IS_ADULT) {
-        this->interactInfo.yPosOffset = 10.0f;
+        this->interactInfo.yOffset = 10.0f;
     } else {
-        this->interactInfo.yPosOffset = 20.0f;
+        this->interactInfo.yOffset = 20.0f;
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 6, NPC_TRACKING_HEAD_AND_TORSO);
 

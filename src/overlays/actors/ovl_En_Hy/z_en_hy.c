@@ -792,9 +792,9 @@ void func_80A70978(EnHy* this, PlayState* play) {
     this->interactInfo.trackPos = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->interactInfo.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
+        this->interactInfo.yOffset = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
     } else {
-        this->interactInfo.yPosOffset = sInit1Info[this->actor.params & 0x7F].unkValueChild;
+        this->interactInfo.yOffset = sInit1Info[this->actor.params & 0x7F].unkValueChild;
     }
 
     Npc_TrackPoint(&this->actor, &this->interactInfo, sInit1Info[this->actor.params & 0x7F].unkPresetIndex,

@@ -570,11 +570,11 @@ void func_80AAB158(EnMd* this, PlayState* play) {
 
     if ((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
         this->interactInfo.trackPos = play->view.eye;
-        this->interactInfo.yPosOffset = 40.0f;
+        this->interactInfo.yOffset = 40.0f;
         trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
         this->interactInfo.trackPos = player->actor.world.pos;
-        this->interactInfo.yPosOffset = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
+        this->interactInfo.yOffset = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
     }
 
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);

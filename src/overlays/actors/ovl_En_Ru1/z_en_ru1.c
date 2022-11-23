@@ -1788,7 +1788,7 @@ void func_80AEEF68(EnRu1* this, PlayState* play) {
     s16 something;
 
     this->interactInfo.trackPos = player->actor.world.pos;
-    this->interactInfo.yPosOffset = kREG(16) - 3.0f;
+    this->interactInfo.yOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
     Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_HEAD_AND_TORSO);
 }
@@ -1798,7 +1798,7 @@ void func_80AEEFEC(EnRu1* this, PlayState* play) {
     s16 something;
 
     this->interactInfo.trackPos = player->actor.world.pos;
-    this->interactInfo.yPosOffset = kREG(16) - 3.0f;
+    this->interactInfo.yOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
     Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_FULL_BODY);
     this->actor.world.rot.y = this->actor.shape.rot.y;

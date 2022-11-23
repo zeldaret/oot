@@ -554,7 +554,7 @@ typedef struct {
     /* 0x06 */ s16 autoTurnState;
     /* 0x08 */ Vec3s headRot;
     /* 0x0E */ Vec3s torsoRot;
-    /* 0x14 */ f32 yPosOffset; // Y position offset to add to actor position when calculating angle to target
+    /* 0x14 */ f32 yOffset; // Y position offset to add to actor position when calculating angle to target
     /* 0x18 */ Vec3f trackPos;
     /* 0x24 */ char unk_24[0x4];
 } NpcInteractInfo; // size = 0x28

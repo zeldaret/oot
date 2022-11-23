@@ -508,7 +508,7 @@ void EnZo_Dialog(EnZo* this, PlayState* play) {
     this->interactInfo.trackPos = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if child, look up if adult
-        this->interactInfo.yPosOffset = !LINK_IS_ADULT ? 10.0f : -10.0f;
+        this->interactInfo.yOffset = !LINK_IS_ADULT ? 10.0f : -10.0f;
     } else {
         this->interactInfo.trackPos.y = this->actor.world.pos.y;
     }

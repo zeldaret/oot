@@ -79,7 +79,7 @@ void EnXc_CalculateHeadTurn(EnXc* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->interactInfo.trackPos = player->actor.world.pos;
-    this->interactInfo.yPosOffset = kREG(16) - 3.0f;
+    this->interactInfo.yOffset = kREG(16) - 3.0f;
     Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 

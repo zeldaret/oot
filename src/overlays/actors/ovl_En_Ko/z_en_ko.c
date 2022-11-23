@@ -959,13 +959,13 @@ void func_80A9877C(EnKo* this, PlayState* play) {
 
     if ((play->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         this->interactInfo.trackPos = play->view.eye;
-        this->interactInfo.yPosOffset = 40.0f;
+        this->interactInfo.yOffset = 40.0f;
         if (ENKO_TYPE != ENKO_TYPE_CHILD_0) {
             Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_HEAD_AND_TORSO);
         }
     } else {
         this->interactInfo.trackPos = player->actor.world.pos;
-        this->interactInfo.yPosOffset = func_80A97BC0(this);
+        this->interactInfo.yOffset = func_80A97BC0(this);
         if ((func_80A98ECC(this, play) == 0) && (this->interactInfo.talkState == NPC_TALK_STATE_IDLE)) {
             return;
         }

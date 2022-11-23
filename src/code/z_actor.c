@@ -3751,7 +3751,7 @@ static NpcTrackingParams sNpcTrackingPresets[] = {
  * Head and torso rotation angles are determined by calculating the pitch and yaw
  * from the actor position to the given target position.
  *
- * The y position of the actor is offset by NpcInteractInfo.yPosOffset
+ * The y position of the actor is offset by NpcInteractInfo.yOffset
  * before calculating the angles. It can be used to configure the height difference
  * between the actor and the target.
  *
@@ -3773,7 +3773,7 @@ void Npc_TrackPointWithLimits(Actor* actor, NpcInteractInfo* interactInfo, s16 m
     Vec3f offsetActorPos;
 
     offsetActorPos.x = actor->world.pos.x;
-    offsetActorPos.y = actor->world.pos.y + interactInfo->yPosOffset;
+    offsetActorPos.y = actor->world.pos.y + interactInfo->yOffset;
     offsetActorPos.z = actor->world.pos.z;
 
     pitchTowardsTarget = Math_Vec3f_Pitch(&offsetActorPos, &interactInfo->trackPos);

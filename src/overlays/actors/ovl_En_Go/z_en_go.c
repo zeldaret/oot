@@ -404,7 +404,7 @@ void func_80A3F060(EnGo* this, PlayState* play) {
     }
 
     this->interactInfo.trackPos = player->actor.world.pos;
-    this->interactInfo.yPosOffset = EnGo_GetGoronSize(this);
+    this->interactInfo.yOffset = EnGo_GetGoronSize(this);
     Npc_TrackPoint(&this->actor, &this->interactInfo, 4, npcTrackingMode);
 }
 

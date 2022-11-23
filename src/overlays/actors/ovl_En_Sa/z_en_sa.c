@@ -423,7 +423,7 @@ void func_80AF5F34(EnSa* this, PlayState* play) {
         trackingMode = NPC_TRACKING_NONE;
     }
     this->interactInfo.trackPos = player->actor.world.pos;
-    this->interactInfo.yPosOffset = 4.0f;
+    this->interactInfo.yOffset = 4.0f;
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
 }
 
