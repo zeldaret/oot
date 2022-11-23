@@ -3697,7 +3697,6 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
     }
 
     if (!func_8002F2CC(actor, play, interactRange)) {
-        // Player cannot talk to actor now
         return false;
     }
 
