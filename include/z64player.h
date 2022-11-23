@@ -297,6 +297,9 @@ typedef enum {
     /* 0x06 */ PLAYER_ANIMTYPE_MAX
 } PlayerAnimType;
 
+/**
+ * Temporary names, derived from original animation names in `D_80853914`
+ */
 typedef enum {
     /* 0x00 */ PLAYER_ANIMGROUP_wait,
     /* 0x01 */ PLAYER_ANIMGROUP_walk,
