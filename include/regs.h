@@ -209,7 +209,7 @@ typedef enum {
     /* 10 */ HREG_MODE_PLAY, // various debug controls for the Play state
     /* 11 */ HREG_MODE_PERSPECTIVE, // set various properties of the view perspective
     /* 12 */ HREG_MODE_INPUT_TEST, // displays inputs from the specified controller
-    /* 13 */ HREG_MODE_SCHED, // toggle various special vi special features
+    /* 13 */ HREG_MODE_SCHED, // toggle various vi special features
     /* 14 */ HREG_MODE_UNUSED_14,
     /* 15 */ HREG_MODE_PRERENDER,
     /* 16 */ HREG_MODE_SETUP_FRAME, // set the base screen color (and by extension, shrink window color too)
@@ -221,24 +221,24 @@ typedef enum {
 } HRegMode;
 
 // HREG_MODE_UCODE_DISAS
-#define R_UCODE_DISAS_TOGGLE      HREG(81) // < 0 toggles and prints some hardware reg info, > 0 only toggles disas
+#define R_UCODE_DISAS_TOGGLE      HREG(81) // < 0 enables and prints some hardware reg info for 1 frame, > 0 enables constant disas
 #define R_UCODE_DISAS_LOG_MODE    HREG(82) // 1 and 2 print counts, 3 enables fault client, 4 disables open/close disps
 #define R_UCODE_DISAS_LOG_LEVEL   HREG(83) // enables various logging within the dissasembler itself
-#define R_UCODE_DISAS_TOTAL_COUNT HREG(84) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_VTX_COUNT   HREG(85) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_SPVTX_COUNT HREG(86) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_TRI1_COUNT  HREG(87) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_TRI2_COUNT  HREG(88) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_QUAD_COUNT  HREG(89) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_LINE_COUNT  HREG(90) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_SYNC_ERROR  HREG(91) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_LOAD_COUNT  HREG(92) // only displays, changing this reg will not set its value
-#define R_UCODE_DISAS_DL_COUNT    HREG(93) // only displays, changing this reg will not set its value
+#define R_UCODE_DISAS_TOTAL_COUNT HREG(84) // read-only
+#define R_UCODE_DISAS_VTX_COUNT   HREG(85) // read-only
+#define R_UCODE_DISAS_SPVTX_COUNT HREG(86) // read-only
+#define R_UCODE_DISAS_TRI1_COUNT  HREG(87) // read-only
+#define R_UCODE_DISAS_TRI2_COUNT  HREG(88) // read-only
+#define R_UCODE_DISAS_QUAD_COUNT  HREG(89) // read-only
+#define R_UCODE_DISAS_LINE_COUNT  HREG(90) // read-only
+#define R_UCODE_DISAS_SYNC_ERROR  HREG(91) // read-only
+#define R_UCODE_DISAS_LOAD_COUNT  HREG(92) // read-only
+#define R_UCODE_DISAS_DL_COUNT    HREG(93) // read-only
 
 // HREG_MODE_PRINT_MEMORY
 #define R_PRINT_MEMORY_INIT     HREG(94) // set to `HREG_MODE_PRINT_MEMORY` when init is complete
 #define R_PRINT_MEMORY_TRIGGER  HREG(81) // set to a negative number to print memory
-#define R_PRINT_MEMORY_ADDR     HREG(82) // upper 16 bits of the address to print from
+#define R_PRINT_MEMORY_ADDR     HREG(82) // middle 16 bits of the address to print from (80XXXX00)
 #define R_PRINT_MEMORY_SIZE     HREG(83) // value * 0x10 = length of the log
 
 // HREG_MODE_PLAY
@@ -298,8 +298,8 @@ typedef enum {
 #define R_PRERENDER_DIVOT_CONTROL HREG(81)
 
 #define PRERENDER_DIVOT_ALTERNATE_COLOR 1
-#define PRERENDER_PRINT_DIVOT_COLOR 3
-#define PRERENDER_SET_DIVOT_RED 5
+#define PRERENDER_DIVOT_PRINT_COLOR 3
+#define PRERENDER_DIVOT_PARTIAL_CVG_RED 5
 
 // HREG_MODE_SETUP_FRAME
 #define R_SETUP_FRAME_INIT            HREG(95) // set to `HREG_MODE_SETUP_FRAME` when init is complete
@@ -310,8 +310,8 @@ typedef enum {
 #define R_SETUP_FRAME_BASE_COLOR_G    HREG(85)
 #define R_SETUP_FRAME_BASE_COLOR_B    HREG(86)
 
-#define SETUP_FRAME_LETTERBOX_SIZE (1 << 0)
-#define SETUP_FRAME_BASE_COLOR (1 << 1)
+#define SETUP_FRAME_LETTERBOX_SIZE_FLAG (1 << 0) // used with R_SETUP_FRAME_GET and R_SETUP_FRAME_SET
+#define SETUP_FRAME_BASE_COLOR_FLAG (1 << 1)     // used with R_SETUP_FRAME_GET and R_SETUP_FRAME_SET
 
 // HREG_MODE_SCENE_CONFIG
 #define R_SCENE_CONFIG_INIT                HREG(95) // set to `HREG_MODE_SCENE_CONFIG` when init is complete
@@ -321,10 +321,10 @@ typedef enum {
 // HREG_MODE_LETTERBOX
 #define R_LETTERBOX_INIT         HREG(94) // set to `HREG_MODE_LETTERBOX` when init is complete
 #define R_LETTERBOX_ENABLE_LOGS  HREG(81) // set to 1 to enable logging
-#define R_LETTERBOX_STATE        HREG(83) // only used for displaying, changing this reg will not set its value
-#define R_LETTERBOX_SIZE         HREG(84) // only used for displaying, changing this reg will not set its value
-#define R_LETTERBOX_TARGET_SIZE  HREG(85) // only used for displaying, changing this reg will not set its value
-#define R_LETTERBOX_STEP         HREG(86) // only used for displaying, changing this reg will not set its value
+#define R_LETTERBOX_STATE        HREG(83) // read-only
+#define R_LETTERBOX_SIZE         HREG(84) // read-only
+#define R_LETTERBOX_TARGET_SIZE  HREG(85) // read-only
+#define R_LETTERBOX_STEP         HREG(86) // read-only
 
 // HREG_MODE_HEAP_FREE_BLOCK_TEST
 #define R_HEAP_FREE_BLOCK_TEST_TOGGLE  HREG(82) // 0 = disabled, 1 = enabled
