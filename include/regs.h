@@ -282,9 +282,9 @@ typedef enum {
 #define R_INPUT_TEST_REL_STICK_Y_2        HREG(88) // same as R_INPUT_TEST_REL_STICK_Y
 #define R_INPUT_TEST_CUR_STICK_X          HREG(89) // current stick value on the x axis
 #define R_INPUT_TEST_CUR_STICK_Y          HREG(90) // current stick value on the y axis
-#define R_INPUT_TEST_COMPARE_BUTTON_CUR   HREG(93) // set to 1 if cur.button matches R_INPUT_TEST_COMPARE_VALUE
-#define R_INPUT_TEST_COMPARE_COMBO_CUR    HREG(94) // set to 1 if cur.button combo matches R_INPUT_TEST_COMPARE_VALUE
-#define R_INPUT_TEST_COMPARE_COMBO_PRESS  HREG(95) // set to 1 if cur.button combo matches R_INPUT_TEST_COMPARE_VALUE
+#define R_INPUT_TEST_COMPARE_BUTTON_CUR   HREG(93) // set to 1 if cur.button exactly matches R_INPUT_TEST_COMPARE_VALUE
+#define R_INPUT_TEST_COMPARE_COMBO_CUR    HREG(94) // set to 1 if cur.button contains R_INPUT_TEST_COMPARE_VALUE
+#define R_INPUT_TEST_COMPARE_COMBO_PRESS  HREG(95) // set to 1 if press.button contains R_INPUT_TEST_COMPARE_VALUE
 
 // HREG_MODE_SCHED
 #define R_SCHED_INIT                     HREG(95) // set to `HREG_MODE_SCHED` when init is complete
