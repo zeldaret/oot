@@ -93,7 +93,7 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_80A56544;
             break;
     }
-    this->unk_27C = ((thisx->params >> 8) & 0xFF);
+    this->unk_27C = (thisx->params >> 8) & 0xFF;
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" VT_RST, this->type);
@@ -293,7 +293,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
     s16 reactionOffset;
 
     SkelAnime_Update(&this->skelAnime);
-    reactionOffset = (this->type - 4);
+    reactionOffset = this->type - 4;
     if (reactionOffset < 0) {
         reactionOffset = 0;
     }
@@ -349,7 +349,7 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
     if (this->type != HEISHI4_AT_MARKET_DYING) {
         this->interactInfo.trackPos = player->actor.world.pos;
         if (!LINK_IS_ADULT) {
-            this->interactInfo.trackPos.y = (player->actor.world.pos.y - 10.0f);
+            this->interactInfo.trackPos.y = player->actor.world.pos.y - 10.0f;
         }
         Npc_TrackPoint(thisx, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
         this->unk_260 = this->interactInfo.headRot;
