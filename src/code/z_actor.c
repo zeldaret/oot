@@ -3700,7 +3700,7 @@ typedef struct {
     /* 0x06 */ s16 maxTorsoYaw;
     /* 0x08 */ s16 minTorsoPitch;
     /* 0x0A */ s16 maxTorsoPitch;
-    /* 0x0C */ u8 rotateActorShape;
+    /* 0x0C */ u8 rotateYaw;
 } NpcTrackingRotLimits; // size = 0x10
 
 typedef struct {
@@ -3732,7 +3732,7 @@ static NpcTrackingParams sNpcTrackingPresets[] = {
 };
 
 /**
- * Smoothly turns actor shape (whole body) and updates torso and head rotations in
+ * Smoothly turns the actor's whole body and updates torso and head rotations in
  * NpcInteractInfo so that the actor tracks the point specified in NpcInteractInfo.trackPos.
  * Rotations are limited to specified angles.
  *
@@ -3749,11 +3749,11 @@ static NpcTrackingParams sNpcTrackingPresets[] = {
  * @param maxTorsoYaw maximum torso yaw difference from neutral position
  * @param maxTorsoPitch maximum torso pitch angle
  * @param minTorsoPitch minimum torso pitch angle
- * @param rotateActorShape if true, the actor shape is rotated towards the target
+ * @param rotateYaw if true, the actor's yaw (shape.rot.y) is updated to turn the actor's whole body
  */
 void Npc_TrackPointWithLimits(Actor* actor, NpcInteractInfo* interactInfo, s16 maxHeadYaw, s16 maxHeadPitch,
                               s16 minHeadPitch, s16 maxTorsoYaw, s16 maxTorsoPitch, s16 minTorsoPitch,
-                              u8 rotateActorShape) {
+                              u8 rotateYaw) {
     s16 pitchTowardsTarget;
     s16 yawTowardsTarget;
     s16 torsoPitch;
@@ -3783,7 +3783,7 @@ void Npc_TrackPointWithLimits(Actor* actor, NpcInteractInfo* interactInfo, s16 m
     temp = (ABS(bodyYawDiff) >= 0x8000) ? 0 : ABS(bodyYawDiff);
     interactInfo->torsoRot.y = CLAMP(interactInfo->torsoRot.y, -temp, temp);
 
-    if (rotateActorShape) {
+    if (rotateYaw) {
         Math_SmoothStepToS(&actor->shape.rot.y, yawTowardsTarget, 6, 2000, 1);
     }
 
@@ -3879,13 +3879,12 @@ s16 Npc_UpdateAutoTurn(Actor* actor, NpcInteractInfo* interactInfo, f32 distance
 }
 
 /**
- * Rotates actor shape, torso and head tracking the point specified in NpcInteractInfo.trackPos. .
+ * Rotates the actor's whole body, torso and head tracking the point specified in NpcInteractInfo.trackPos.
  * Uses angle limits from a preset selected from from sNpcTrackingPresets.
  *
- * The trackingMode parameter is set to a value from the NpcTrackingMode enum.
- * It controls whether the head and torso are turned towards the target. If not, they are
- * smoothly turned towards zero. Setting the parameter to NPC_TRACKING_FULL_BODY
- * causes the whole actor shape to be rotated to face the target.
+ * The trackingMode parameter controls whether the head and torso are turned towards the target.
+ * If not, they are smoothly turned towards zero. Setting the parameter to NPC_TRACKING_FULL_BODY
+ * causes the actor's whole body to be rotated to face the target.
  *
  * If NPC_TRACKING_PLAYER_AUTO_TURN is used, the actor will track the player with its head and torso as long
  * as the player is in front of the actor (within a yaw angle specified in the option preset).
@@ -3919,13 +3918,13 @@ void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex
             rotLimits.minTorsoPitch = 0;
             FALLTHROUGH;
         case NPC_TRACKING_HEAD_AND_TORSO:
-            rotLimits.rotateActorShape = false;
+            rotLimits.rotateYaw = false;
             break;
     }
 
     Npc_TrackPointWithLimits(actor, interactInfo, rotLimits.maxHeadYaw, rotLimits.maxHeadPitch, rotLimits.minHeadPitch,
                              rotLimits.maxTorsoYaw, rotLimits.maxTorsoPitch, rotLimits.minTorsoPitch,
-                             rotLimits.rotateActorShape);
+                             rotLimits.rotateYaw);
 }
 
 Gfx* func_80034B28(GraphicsContext* gfxCtx) {
