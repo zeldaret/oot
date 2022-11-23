@@ -1991,18 +1991,30 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     func_8002FA60(play);
 }
 
-u32 D_80116068[ACTORCAT_MAX] = {
+u32 sCategoryFreezeMasks[ACTORCAT_MAX] = {
+    // ACTORCAT_SWITCH
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    // ACTORCAT_BG
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    // ACTORCAT_PLAYER
     0,
+    // ACTORCAT_EXPLOSIVE
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28,
+    // ACTORCAT_NPC
     PLAYER_STATE1_7,
+    // ACTORCAT_ENEMY
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29,
+    // ACTORCAT_PROP
     PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    // ACTORCAT_ITEMACTION
     0,
+    // ACTORCAT_MISC
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29,
+    // ACTORCAT_BOSS
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28,
+    // ACTORCAT_DOOR
     0,
+    // ACTORCAT_CHEST
     PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
 };
 
@@ -2010,9 +2022,9 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     Actor* refActor;
     Actor* actor;
     Player* player;
-    u32* sp80;
-    u32 unkFlag;
-    u32 unkCondition;
+    u32* categoryFreezeMaskP;
+    u32 requiredActorFlag;
+    u32 canFreezeCategory;
     Actor* sp74;
     ActorEntry* actorEntry;
     s32 i;
@@ -2025,7 +2037,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     }
 
     sp74 = NULL;
-    unkFlag = 0;
+    requiredActorFlag = 0;
 
     if (play->numActorEntries != 0) {
         actorEntry = &play->actorEntryList[0];
@@ -2046,18 +2058,18 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                     refActor->world.pos.z, 0, 0, 0, 1);
     }
 
-    sp80 = &D_80116068[0];
+    categoryFreezeMaskP = &sCategoryFreezeMasks[0];
 
     if (player->stateFlags2 & PLAYER_STATE2_27) {
-        unkFlag = ACTOR_FLAG_25;
+        requiredActorFlag = ACTOR_FLAG_25;
     }
 
     if ((player->stateFlags1 & PLAYER_STATE1_6) && ((player->actor.textId & 0xFF00) != 0x600)) {
         sp74 = player->targetActor;
     }
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, sp80++) {
-        unkCondition = (*sp80 & player->stateFlags1);
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, categoryFreezeMaskP++) {
+        canFreezeCategory = (*categoryFreezeMaskP & player->stateFlags1);
 
         actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
@@ -2077,9 +2089,10 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
             } else if (!Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
                 Actor_Kill(actor);
                 actor = actor->next;
-            } else if ((unkFlag && !(actor->flags & unkFlag)) ||
-                       (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->naviActor) &&
-                        (actor != player->heldActor) && (&player->actor != actor->parent))) {
+            } else if ((requiredActorFlag && !(actor->flags & requiredActorFlag)) ||
+                       (!requiredActorFlag && canFreezeCategory &&
+                        !((sp74 == actor) || (actor == player->naviActor) || (actor == player->heldActor) ||
+                          (&player->actor == actor->parent)))) {
                 CollisionCheck_ResetDamage(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {

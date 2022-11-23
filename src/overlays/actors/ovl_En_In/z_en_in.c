@@ -433,7 +433,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
     func_8002DF54(play, &this->actor, 8);
-    Interface_ChangeAlpha(1);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
         AREG(6) = 0;
     }
@@ -471,7 +471,7 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     player->actor.freezeTimer = 10;
     this->actor.flags &= ~ACTOR_FLAG_0;
     Letterbox_SetSizeTarget(32);
-    Interface_ChangeAlpha(2);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
 }
 
 static s32 D_80A7B998 = 0;
@@ -792,7 +792,7 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     this->unk_1FC = 0;
     play->csCtx.frames = 0;
     Letterbox_SetSizeTarget(32);
-    Interface_ChangeAlpha(2);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     this->actionFunc = func_80A7ABD4;
 }
 
@@ -857,7 +857,7 @@ void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
     func_8002DF54(play, &this->actor, 7);
-    Interface_ChangeAlpha(0x32);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }
 
