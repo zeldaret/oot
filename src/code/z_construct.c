@@ -11,7 +11,7 @@ void Interface_Init(PlayState* play) {
     u8 timerId;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-    gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
+    gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
 
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 

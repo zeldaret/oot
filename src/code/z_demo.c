@@ -188,7 +188,7 @@ u32 func_8006472C(PlayState* play, CutsceneContext* csCtx, f32 target) {
 }
 
 void func_80064760(PlayState* play, CutsceneContext* csCtx) {
-    Interface_ChangeAlpha(1);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
@@ -199,7 +199,7 @@ void func_80064760(PlayState* play, CutsceneContext* csCtx) {
 
 void func_800647C0(PlayState* play, CutsceneContext* csCtx) {
     func_80068C3C(play, csCtx);
-    Interface_ChangeAlpha(1);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     Letterbox_SetSizeTarget(32);
 
     if (func_8006472C(play, csCtx, 1.0f)) {
@@ -510,7 +510,7 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
         osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base); // "Future fork designation=No. [%d]"
 
         if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->frames != cmd->startFrame)) {
-            gSaveContext.unk_13E7 = 1;
+            gSaveContext.forceRisingButtonAlphas = true;
         }
 
         gSaveContext.cutsceneIndex = 0;
@@ -1554,7 +1554,7 @@ void Cutscene_Command_Textbox(PlayState* play, CutsceneContext* csCtx, CsCmdText
             }
 
             if (csCtx->frames == originalCsFrames) {
-                Interface_ChangeAlpha(1);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
                 D_8011E1C0 = 0;
                 D_8011E1C4 = 0;
             }
@@ -2018,7 +2018,7 @@ void func_80068ECC(PlayState* play, CutsceneContext* csCtx) {
             }
 
             if (gSaveContext.cutsceneTrigger == 0) {
-                Interface_ChangeAlpha(1);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
                 Letterbox_SetSizeTarget(32);
                 Letterbox_SetSize(32);
                 csCtx->state++;
