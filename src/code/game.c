@@ -104,7 +104,7 @@ void func_800C4344(GameState* gameState) {
         if (R_PRINT_MEMORY_TRIGGER < 0) {
             R_PRINT_MEMORY_TRIGGER = 0;
             hexDumpSize = (u32)(R_PRINT_MEMORY_SIZE == 0 ? 0x100 : R_PRINT_MEMORY_SIZE * 0x10);
-            LogUtils_LogHexDump(0x80000000 + R_PRINT_MEMORY_ADDR << 8, hexDumpSize);
+            LogUtils_LogHexDump((void*)(0x80000000 + (R_PRINT_MEMORY_ADDR << 8)), hexDumpSize);
         }
     }
 }
