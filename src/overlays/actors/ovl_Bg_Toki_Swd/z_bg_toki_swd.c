@@ -22,7 +22,7 @@ extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
 extern CutsceneData D_808BBD90[];
 
-const ActorInit Bg_Toki_Swd_InitVars = {
+ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
     ACTORCAT_PROP,
     FLAGS,
@@ -107,8 +107,8 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
             } else {
                 play->csCtx.segment = D_808BB7A0;
             }
-            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
-            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_MASTER_SWORD);
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
+            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_MASTER_SWORD);
             gSaveContext.cutsceneTrigger = 1;
             this->actor.parent = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);
@@ -134,7 +134,7 @@ void func_808BB0AC(BgTokiSwd* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         if (!LINK_IS_ADULT) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);
-            this->actor.draw = NULL; // sword has been pulled, dont draw sword
+            this->actor.draw = NULL; // sword has been pulled, don't draw sword
         } else {
             this->actor.draw = BgTokiSwd_Draw; // sword has been placed, draw the master sword
         }

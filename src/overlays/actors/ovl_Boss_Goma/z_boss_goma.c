@@ -49,7 +49,7 @@ void BossGoma_WallClimb(BossGoma* this, PlayState* play);
 void BossGoma_CeilingMoveToCenter(BossGoma* this, PlayState* play);
 void BossGoma_SpawnChildGohma(BossGoma* this, PlayState* play, s16 i);
 
-const ActorInit Boss_Goma_InitVars = {
+ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_BOSS,
     FLAGS,
@@ -407,7 +407,7 @@ void BossGoma_SetupDefeated(BossGoma* this, PlayState* play) {
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actor.speedXZ = 0.0f;
     this->actor.shape.shadowScale = 0.0f;
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_DEAD);
 }
 
@@ -659,7 +659,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
     this->subCamAt.y = this->actor.world.pos.y;
     this->subCamAt.z = this->actor.world.pos.z;
 
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
 }
 
 /**
@@ -890,7 +890,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaInitialLandingAnim);
                 BossGoma_PlayEffectsAndSfx(this, play, 0, 5);
                 this->framesUntilNextAction = 15;
-                func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
+                Rumble_Override(0.0f, 200, 20, 20);
             }
             break;
 
@@ -924,7 +924,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                                            0xA0, 0xB4, 0x80, 0x28);
                 }
 
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
                 SET_EVENTCHKINF(EVENTCHKINF_70);
             }
 
@@ -1000,7 +1000,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelanime, 107.0f)) {
         BossGoma_PlayEffectsAndSfx(this, play, 0, 8);
-        func_800A9F6C(0.0f, 0x96, 0x14, 0x14);
+        Rumble_Override(0.0f, 150, 20, 20);
     }
 
     this->visualState = VISUALSTATE_DEFEATED;
@@ -1108,7 +1108,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
             Math_SmoothStepToF(&this->subCamAt.z, this->firstTailLimbWorldPos.z, 0.2f, 50.0f, 0.1f);
 
             if (this->timer == 80) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
             }
 
             if (this->timer == 0) {
@@ -1309,7 +1309,7 @@ void BossGoma_FloorAttack(BossGoma* this, PlayState* play) {
 
             if (Animation_OnFrame(&this->skelanime, 10.0f)) {
                 BossGoma_PlayEffectsAndSfx(this, play, 3, 5);
-                func_80033E88(&this->actor, play, 5, 15);
+                Actor_RequestQuakeAndRumble(&this->actor, play, 5, 15);
             }
 
             if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaAttackAnim))) {
@@ -1434,7 +1434,7 @@ void BossGoma_FallJump(BossGoma* this, PlayState* play) {
         BossGoma_SetupFloorLand(this);
         this->actor.velocity.y = 0.0f;
         BossGoma_PlayEffectsAndSfx(this, play, 0, 8);
-        func_80033E88(&this->actor, play, 5, 0xF);
+        Actor_RequestQuakeAndRumble(&this->actor, play, 5, 15);
     }
 }
 
@@ -1451,7 +1451,7 @@ void BossGoma_FallStruckDown(BossGoma* this, PlayState* play) {
         BossGoma_SetupFloorLandStruckDown(this);
         this->actor.velocity.y = 0.0f;
         BossGoma_PlayEffectsAndSfx(this, play, 0, 8);
-        func_80033E88(&this->actor, play, 0xA, 0xF);
+        Actor_RequestQuakeAndRumble(&this->actor, play, 10, 15);
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_DAM1);
     }
 }
@@ -1847,7 +1847,7 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
                 }
 
                 this->timer = 4;
-                func_80033E88(&this->actor, play, 4, 0xC);
+                Actor_RequestQuakeAndRumble(&this->actor, play, 4, 12);
             }
         }
     }

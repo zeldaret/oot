@@ -8,7 +8,7 @@
 #include "assets/objects/object_dns/object_dns.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -39,7 +39,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
-const ActorInit En_Dnt_Jiji_InitVars = {
+ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
     ACTORCAT_NPC,
     FLAGS,
@@ -184,10 +184,10 @@ void EnDntJiji_Walk(EnDntJiji* this, PlayState* play) {
         this->actor.speedXZ = 3.0f;
     }
     if (this->actor.xzDistToPlayer < 100.0f) {
-        if (CUR_UPG_VALUE(UPG_STICKS) == 1) {
-            this->getItemId = GI_STICK_UPGRADE_20;
+        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) == 1) {
+            this->getItemId = GI_DEKU_STICK_UPGRADE_20;
         } else {
-            this->getItemId = GI_STICK_UPGRADE_30;
+            this->getItemId = GI_DEKU_STICK_UPGRADE_30;
         }
         this->actor.textId = 0x104D;
         Message_StartTextbox(play, this->actor.textId, NULL);
@@ -216,10 +216,10 @@ void EnDntJiji_SetupCower(EnDntJiji* this, PlayState* play) {
     EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 3.0f, 0, 9, 3, 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
 
-    if ((CUR_UPG_VALUE(UPG_NUTS) == 1) || (CUR_UPG_VALUE(UPG_NUTS) == 0)) {
-        this->getItemId = GI_NUT_UPGRADE_30;
+    if ((CUR_UPG_VALUE(UPG_DEKU_NUTS) == 1) || (CUR_UPG_VALUE(UPG_DEKU_NUTS) == 0)) {
+        this->getItemId = GI_DEKU_NUT_UPGRADE_30;
     } else {
-        this->getItemId = GI_NUT_UPGRADE_40;
+        this->getItemId = GI_DEKU_NUT_UPGRADE_40;
     }
     this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x10DB;
@@ -272,7 +272,7 @@ void EnDntJiji_SetupGivePrize(EnDntJiji* this, PlayState* play) {
 void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        if ((this->getItemId == GI_NUT_UPGRADE_30) || (this->getItemId == GI_NUT_UPGRADE_40)) {
+        if ((this->getItemId == GI_DEKU_NUT_UPGRADE_30) || (this->getItemId == GI_DEKU_NUT_UPGRADE_40)) {
             // "nut"
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
@@ -358,7 +358,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
             if ((this->stage->actor.update != NULL) && (this->stage->leaderSignal == DNT_SIGNAL_NONE)) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
                 this->stage->action = DNT_ACTION_ATTACK;
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
             }
         }
         this->actor.speedXZ = 0.0f;

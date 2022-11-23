@@ -1,6 +1,6 @@
 #include "global.h"
 #include "message_data_static.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
 s16 sTextFade = false; // original name: key_off_flag ?
@@ -1166,18 +1166,19 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem32XOffsets[gSaveContext.language];
         R_TEXTBOX_ICON_YPOS = y + 6;
         R_TEXTBOX_ICON_SIZE = 32;
-        DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                            (u32)_icon_item_staticSegmentRomStart + (itemId * 0x1000), 0x1000, "../z_message_PAL.c",
-                            1473);
+        DmaMgr_RequestSyncDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
+                                (uintptr_t)_icon_item_staticSegmentRomStart + (itemId * ICON_ITEM_TEX_SIZE),
+                                ICON_ITEM_TEX_SIZE, "../z_message_PAL.c", 1473);
         // "Item 32-0"
         osSyncPrintf("アイテム32-0\n");
     } else {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem24XOffsets[gSaveContext.language];
         R_TEXTBOX_ICON_YPOS = y + 10;
         R_TEXTBOX_ICON_SIZE = 24;
-        DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                            (u32)_icon_item_24_staticSegmentRomStart + (itemId - ITEM_MEDALLION_FOREST) * 0x900, 0x900,
-                            "../z_message_PAL.c", 1482);
+        DmaMgr_RequestSyncDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
+                                (uintptr_t)_icon_item_24_staticSegmentRomStart +
+                                    (itemId - ITEM_MEDALLION_FOREST) * ICON_ITEM_24_TEX_SIZE,
+                                ICON_ITEM_24_TEX_SIZE, "../z_message_PAL.c", 1482);
         // "Item 24"
         osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
@@ -1283,9 +1284,9 @@ void Message_Decode(PlayState* play) {
             osSyncPrintf("\nＥＶＥＮＴタイマー ＝ ");
             digits[0] = digits[1] = digits[2] = 0;
             if (curChar == MESSAGE_RACE_TIME) {
-                digits[3] = gSaveContext.timer1Value;
+                digits[3] = gSaveContext.timerSeconds;
             } else {
-                digits[3] = gSaveContext.timer2Value;
+                digits[3] = gSaveContext.subTimerSeconds;
             }
 
             while (digits[3] >= 60) {
@@ -1534,13 +1535,14 @@ void Message_Decode(PlayState* play) {
             msgCtx->textboxBackgroundBackColorIdx = font->msgBuf[msgCtx->msgBufPos + 2] & 0xF;
             msgCtx->textboxBackgroundYOffsetIdx = (font->msgBuf[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
             msgCtx->textboxBackgroundUnkArg = font->msgBuf[msgCtx->msgBufPos + 3] & 0xF;
-            DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                (u32)_message_texture_staticSegmentRomStart + msgCtx->textboxBackgroundIdx * 0x900,
-                                0x900, "../z_message_PAL.c", 1830);
-            DmaMgr_SendRequest1(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900,
-                                (u32)_message_texture_staticSegmentRomStart +
-                                    (msgCtx->textboxBackgroundIdx + 1) * 0x900,
-                                0x900, "../z_message_PAL.c", 1834);
+            DmaMgr_RequestSyncDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
+                                    (uintptr_t)_message_texture_staticSegmentRomStart +
+                                        msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                    MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 1830);
+            DmaMgr_RequestSyncDebug(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                    (uintptr_t)_message_texture_staticSegmentRomStart +
+                                        (msgCtx->textboxBackgroundIdx + 1) * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                    MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 1834);
             msgCtx->msgBufPos += 3;
             R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
             numLines = 2;
@@ -1587,10 +1589,10 @@ void Message_OpenText(PlayState* play, u16 textId) {
     s16 textBoxType;
 
     if (msgCtx->msgMode == MSGMODE_NONE) {
-        gSaveContext.unk_13EE = gSaveContext.unk_13EA;
+        gSaveContext.prevHudVisibilityMode = gSaveContext.hudVisibilityMode;
     }
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
-        Interface_ChangeAlpha(5);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE);
     }
 
     sMessageHasSetSfx = D_8014B2F4 = sTextboxSkipped = sTextIsCredits = 0;
@@ -1621,7 +1623,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         textId == 0x2061 || // Learning Epona's Song
         textId == 0x5035 || // Guru-Guru in Windmill
         textId == 0x40AC) { // Ocarina Frog Minigame
-        Interface_ChangeAlpha(1);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     }
     msgCtx->textId = textId;
 
@@ -1635,24 +1637,24 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (sTextIsCredits) {
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
-        DmaMgr_SendRequest1(font->msgBuf, (u32)(_staff_message_data_staticSegmentRomStart + font->msgOffset),
-                            font->msgLength, "../z_message_PAL.c", 1954);
+        DmaMgr_RequestSyncDebug(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+                                font->msgLength, "../z_message_PAL.c", 1954);
     } else {
         if (gSaveContext.language == LANGUAGE_ENG) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_nes_message_data_staticSegmentRomStart + font->msgOffset),
-                                font->msgLength, "../z_message_PAL.c", 1966);
+            DmaMgr_RequestSyncDebug(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                                    font->msgLength, "../z_message_PAL.c", 1966);
         } else if (gSaveContext.language == LANGUAGE_GER) {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_ger_message_data_staticSegmentRomStart + font->msgOffset),
-                                font->msgLength, "../z_message_PAL.c", 1978);
+            DmaMgr_RequestSyncDebug(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
+                                    font->msgLength, "../z_message_PAL.c", 1978);
         } else {
             Message_FindMessage(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_SendRequest1(font->msgBuf, (u32)(_fra_message_data_staticSegmentRomStart + font->msgOffset),
-                                font->msgLength, "../z_message_PAL.c", 1990);
+            DmaMgr_RequestSyncDebug(font->msgBuf, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
+                                    font->msgLength, "../z_message_PAL.c", 1990);
         }
     }
     msgCtx->textBoxProperties = font->charTexBuf[0];
@@ -1662,10 +1664,10 @@ void Message_OpenText(PlayState* play, u16 textId) {
     // "Text Box Type"
     osSyncPrintf("吹き出し種類＝%d\n", msgCtx->textBoxType);
     if (textBoxType < TEXTBOX_TYPE_NONE_BOTTOM) {
-        DmaMgr_SendRequest1(
-            msgCtx->textboxSegment,
-            (u32)(_message_staticSegmentRomStart + (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE)),
-            MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
+        DmaMgr_RequestSyncDebug(msgCtx->textboxSegment,
+                                (uintptr_t)_message_staticSegmentRomStart +
+                                    (messageStaticIndices[textBoxType] * MESSAGE_STATIC_TEX_SIZE),
+                                MESSAGE_STATIC_TEX_SIZE, "../z_message_PAL.c", 2006);
         if (textBoxType == TEXTBOX_TYPE_BLACK) {
             msgCtx->textboxColorRed = 0;
             msgCtx->textboxColorGreen = 0;
@@ -1838,9 +1840,9 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
     if (noStop == false) {
         Interface_LoadActionLabelB(play, DO_ACTION_STOP);
-        noStop = gSaveContext.unk_13EA;
-        Interface_ChangeAlpha(0xA);
-        gSaveContext.unk_13EA = noStop;
+        noStop = gSaveContext.hudVisibilityMode;
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_B_ALT);
+        gSaveContext.hudVisibilityMode = noStop;
     }
     // "Music Performance Start"
     osSyncPrintf("演奏開始\n");
@@ -1851,7 +1853,7 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->msgMode = MSGMODE_FROGS_START;
         msgCtx->textBoxType = TEXTBOX_TYPE_BLUE;
     } else if (ocarinaActionId == OCARINA_ACTION_MEMORY_GAME) {
-        Interface_ChangeAlpha(1);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
         Message_Decode(play);
         msgCtx->msgMode = MSGMODE_MEMORY_GAME_START;
     } else if (ocarinaActionId == OCARINA_ACTION_SCARECROW_LONG_PLAYBACK) {
@@ -1866,8 +1868,8 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
         msgCtx->stateTimer = 3;
         msgCtx->msgMode = MSGMODE_SCARECROW_LONG_PLAYBACK;
         AudioOcarina_SetPlaybackSong(OCARINA_SONG_SCARECROW_LONG + 1, 1);
-        gSaveContext.unk_13EA = 0;
-        Interface_ChangeAlpha(1);
+        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     }
     for (k = 0, j = 0; j < 48; j++, k += 0x80) {
         func_8006EE50(&play->msgCtx.font, 0x8140, k);
@@ -2137,7 +2139,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                 Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                      &gSfxDefaultReverb);
-                                Interface_ChangeAlpha(1);
+                                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
                             }
                         } else if (msgCtx->ocarinaAction == OCARINA_ACTION_CHECK_SCARECROW_SPAWN) {
                             if (msgCtx->ocarinaStaff->state < OCARINA_SONG_SCARECROW_SPAWN) {
@@ -2157,7 +2159,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                 Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                      &gSfxDefaultReverb);
-                                Interface_ChangeAlpha(1);
+                                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
                             }
                         } else if (msgCtx->ocarinaAction == OCARINA_ACTION_FREE_PLAY) {
                             // "Ocarina_Free Correct Example Performance"
@@ -2174,7 +2176,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                         }
-                        Interface_ChangeAlpha(1);
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
                     } else {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Audio_PlaySfxGeneral(NA_SE_SY_OCARINA_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3187,7 +3189,7 @@ void Message_Update(PlayState* play) {
         case MSGMODE_TEXT_NEXT_MSG:
             Message_Decode(play);
             if (sTextFade) {
-                Interface_ChangeAlpha(1);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
             }
             if (D_80153D74 != 0) {
                 msgCtx->textDrawPos = msgCtx->decodedTextLen;
@@ -3269,7 +3271,7 @@ void Message_Update(PlayState* play) {
             if (msgCtx->textId == 0x301F || msgCtx->textId == 0xA || msgCtx->textId == 0xC || msgCtx->textId == 0xCF ||
                 msgCtx->textId == 0x21C || msgCtx->textId == 9 || msgCtx->textId == 0x4078 ||
                 msgCtx->textId == 0x2015 || msgCtx->textId == 0x3040) {
-                gSaveContext.unk_13EE = 0x32;
+                gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
             }
             if (play->csCtx.state == 0) {
                 osSyncPrintf(VT_FGCOL(GREEN));
@@ -3280,11 +3282,13 @@ void Message_Update(PlayState* play) {
                     (msgCtx->textId != 0x3055 && gSaveContext.cutsceneIndex < 0xFFF0)) {
                     osSyncPrintf("=== day_time=%x ", ((void)0, gSaveContext.cutsceneIndex));
                     if (play->activeCamId == CAM_ID_MAIN) {
-                        if (gSaveContext.unk_13EE == 0 || gSaveContext.unk_13EE == 1 || gSaveContext.unk_13EE == 2) {
-                            gSaveContext.unk_13EE = 0x32;
+                        if (gSaveContext.prevHudVisibilityMode == HUD_VISIBILITY_NO_CHANGE ||
+                            gSaveContext.prevHudVisibilityMode == HUD_VISIBILITY_NOTHING ||
+                            gSaveContext.prevHudVisibilityMode == HUD_VISIBILITY_NOTHING_ALT) {
+                            gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
                         }
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(gSaveContext.unk_13EE);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(gSaveContext.prevHudVisibilityMode);
                     }
                 }
             }

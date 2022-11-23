@@ -21,7 +21,7 @@ void func_80B93D90(ObjHsblock* this);
 void func_80B93DB0(ObjHsblock* this);
 void func_80B93E38(ObjHsblock* this);
 
-const ActorInit Obj_Hsblock_InitVars = {
+ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORCAT_BG,
     FLAGS,
@@ -77,7 +77,7 @@ void func_80B93BF0(ObjHsblock* this, PlayState* play) {
 void ObjHsblock_Init(Actor* thisx, PlayState* play) {
     ObjHsblock* this = (ObjHsblock*)thisx;
 
-    func_80B93B68(this, play, sCollisionHeaders[thisx->params & 3], DPM_UNK);
+    func_80B93B68(this, play, sCollisionHeaders[thisx->params & 3], 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, play);
 

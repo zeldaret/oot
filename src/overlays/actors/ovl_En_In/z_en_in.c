@@ -24,7 +24,7 @@ void func_80A7A940(EnIn* this, PlayState* play);
 void func_80A7AA40(EnIn* this, PlayState* play);
 void func_80A7A4BC(EnIn* this, PlayState* play);
 
-const ActorInit En_In_InitVars = {
+ActorInit En_In_InitVars = {
     ACTOR_EN_IN,
     ACTORCAT_NPC,
     FLAGS,
@@ -110,7 +110,7 @@ static Gfx* sAdultEraDLs[] = {
 };
 
 u16 func_80A78FB0(PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_97)) {
             return 0x2046;
         } else {
@@ -131,7 +131,7 @@ u16 func_80A79010(PlayState* play) {
     if (temp_v0 != 0) {
         return temp_v0;
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (IS_DAY) {
             return 0x205F;
         } else {
@@ -364,34 +364,34 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
 
 s32 func_80A79830(EnIn* this, PlayState* play) {
     if (play->sceneId == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
-        !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
-        GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
-        if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             return 1;
         }
-        if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             return 1;
         }
     }
     if (play->sceneId == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
-        if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 2;
         }
-        if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 4;
         }
     }
     if (play->sceneId == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
-        if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 3;
         }
-        if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_18)) {
+        if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 3;
         }
     }
@@ -433,11 +433,11 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
     func_8002DF54(play, &this->actor, 8);
-    Interface_ChangeAlpha(1);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
         AREG(6) = 0;
     }
-    gSaveContext.timer1State = 0;
+    gSaveContext.timerState = TIMER_STATE_OFF;
 }
 
 void func_80A79C78(EnIn* this, PlayState* play) {
@@ -471,7 +471,7 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     player->actor.freezeTimer = 10;
     this->actor.flags &= ~ACTOR_FLAG_0;
     Letterbox_SetSizeTarget(32);
-    Interface_ChangeAlpha(2);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
 }
 
 static s32 D_80A7B998 = 0;
@@ -530,7 +530,7 @@ void func_80A79FB0(EnIn* this, PlayState* play) {
             case 3:
                 EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
-                if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                     this->actor.params = 5;
                 }
                 break;
@@ -580,7 +580,7 @@ void func_80A79FB0(EnIn* this, PlayState* play) {
                         this->actor.targetMode = 3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
-                        func_80088B34(0x3C);
+                        Interface_SetTimer(60);
                         break;
                     case EVENTINF_HORSES_STATE_3:
                         EnIn_ChangeAnim(this, ENIN_ANIM_4);
@@ -617,7 +617,7 @@ void func_80A7A304(EnIn* this, PlayState* play) {
     if (this->skelAnime.animation == &object_in_Anim_018C38 && this->skelAnime.curFrame == 20.0f) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_VO_IN_CRY_0);
     }
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->animationIdx %= 8;
         this->unk_1E8 = this->animationIdx;
         if (this->animationIdx == 3 || this->animationIdx == 4) {
@@ -657,12 +657,12 @@ void func_80A7A568(EnIn* this, PlayState* play) {
     if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         SET_INFTABLE(INFTABLE_AB);
     }
-    if (gSaveContext.timer1State == 10) {
+    if (gSaveContext.timerState == TIMER_STATE_STOP) {
         Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A79C78(this, play);
         this->actionFunc = func_80A7B024;
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
     } else if (this->unk_308.unk_00 == 2) {
         if (play->msgCtx.choiceIndex == 0) {
             if (gSaveContext.rupees < 50) {
@@ -792,7 +792,7 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     this->unk_1FC = 0;
     play->csCtx.frames = 0;
     Letterbox_SetSizeTarget(32);
-    Interface_ChangeAlpha(2);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     this->actionFunc = func_80A7ABD4;
 }
 
@@ -857,7 +857,7 @@ void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
     func_8002DF54(play, &this->actor, 7);
-    Interface_ChangeAlpha(0x32);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }
 
@@ -929,7 +929,8 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
-        if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
+        if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
+            (this->unk_308.unk_00 == 0)) {
             if (Actor_ProcessTalkRequest(&this->actor, play)) {}
         } else {
             func_800343CC(play, &this->actor, &this->unk_308.unk_00,

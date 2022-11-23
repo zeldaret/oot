@@ -18,7 +18,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play);
 void func_80B43AD4(EnYukabyun* this, PlayState* play);
 void func_80B43B6C(EnYukabyun* this, PlayState* play);
 
-const ActorInit En_Yukabyun_InitVars = {
+ActorInit En_Yukabyun_InitVars = {
     ACTOR_EN_YUKABYUN,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -80,7 +80,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play) {
         this->unk_150--;
     }
     if (this->unk_150 == 0) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE;
         this->actionfunc = func_80B43AD4;
     }
 }

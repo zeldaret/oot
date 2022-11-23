@@ -7,7 +7,7 @@
 #include "z_en_niw.h"
 #include "assets/objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
@@ -36,7 +36,7 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play);
 
 static s16 D_80AB85E0 = 0;
 
-const ActorInit En_Niw_InitVars = {
+ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
     ACTORCAT_PROP,
     FLAGS,
@@ -188,22 +188,22 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case 1:
-            if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 3:
-            if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 5:
-            if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 7:
-            if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -603,7 +603,7 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
             this->unk_2FC = this->unk_300 = 0.0f;
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        path = &play->setupPathList[pathIndex];
+        path = &play->pathList[pathIndex];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;
@@ -1044,7 +1044,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         Math_Vec3f_Copy(&pos, &thisx->world.pos);
         pos.y += thisx->yDistToWater;
         this->timer4 = 30;
-        EffectSsGSplash_Spawn(play, &pos, 0, 0, 0, 400);
+        EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
         this->timer5 = 0;
         osSyncPrintf("\n\n");
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n" VT_RST);

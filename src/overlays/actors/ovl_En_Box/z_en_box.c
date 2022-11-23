@@ -50,7 +50,7 @@ void EnBox_AppearAnimation(EnBox* this, PlayState* play);
 void EnBox_WaitOpen(EnBox* this, PlayState* play);
 void EnBox_Open(EnBox* this, PlayState* play);
 
-const ActorInit En_Box_InitVars = {
+ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
     ACTORCAT_CHEST,
     FLAGS,
@@ -79,11 +79,11 @@ void EnBox_ClipToGround(EnBox* this, PlayState* play) {
     f32 newY;
     CollisionPoly* poly;
     s32 bgId;
-    Vec3f pos;
+    Vec3f checkPos;
 
-    pos = this->dyna.actor.world.pos;
-    pos.y += 1.0f;
-    newY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->dyna.actor, &pos);
+    checkPos = this->dyna.actor.world.pos;
+    checkPos.y += 1.0f;
+    newY = BgCheck_EntityRaycastDown4(&play->colCtx, &poly, &bgId, &this->dyna.actor, &checkPos);
     if (newY != BGCHECK_Y_MIN) {
         this->dyna.actor.world.pos.y = newY;
     }
@@ -103,7 +103,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
     endFrame = Animation_GetLastFrame(anim);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gTreasureChestCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);

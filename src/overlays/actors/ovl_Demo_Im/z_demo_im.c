@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 #include "assets/objects/object_im/object_im.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
@@ -73,7 +73,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 #pragma asmproc recurse
-#include "z_demo_im_cutscene_data.c"
+#include "z_demo_im_cutscene_data.inc.c"
 
 static DemoImActionFunc sActionFuncs[] = {
     func_809856F8, func_80985718, func_80985738, func_80985770, func_809857B0, func_809857F0, func_80985830,
@@ -91,7 +91,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
     DemoIm_DrawTranslucent,
 };
 
-const ActorInit Demo_Im_InitVars = {
+ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
     ACTORCAT_NPC,
     FLAGS,

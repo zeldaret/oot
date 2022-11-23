@@ -317,7 +317,7 @@ void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Ve
 // EffectSsBlast Spawn Functions
 
 void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 sclaeStepDecay, s16 life) {
+                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -327,7 +327,7 @@ void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* ac
     Color_RGBA8_Copy(&initParams.envColor, envColor);
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
-    initParams.sclaeStepDecay = sclaeStepDecay;
+    initParams.scaleStepDecay = scaleStepDecay;
     initParams.life = life;
 
     EffectSs_Spawn(play, EFFECT_SS_BLAST, 128, &initParams);
@@ -748,7 +748,7 @@ void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocit
  * Spawn a shock effect
  *
  * param determines where the ligntning should go
- * 0: dont attach to any actor. spawns at the position specified by pos
+ * 0: don't attach to any actor. spawns at the position specified by pos
  * 1: spawn at one of Player's body parts, chosen at random
  * 2: spawn at one of Phantom Ganon's body parts, chosen at random
  */

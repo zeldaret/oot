@@ -17,7 +17,7 @@ void BgDdanJd_Draw(Actor* thisx, PlayState* play);
 void BgDdanJd_Idle(BgDdanJd* this, PlayState* play);
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play);
 
-const ActorInit Bg_Ddan_Jd_InitVars = {
+ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORCAT_BG,
     FLAGS,
@@ -56,7 +56,7 @@ void BgDdanJd_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gDodongoRisingPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->idleTimer = IDLE_FRAMES;

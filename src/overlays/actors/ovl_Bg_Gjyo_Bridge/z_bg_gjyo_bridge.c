@@ -19,7 +19,7 @@ void func_808787A4(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play);
 
-const ActorInit Bg_Gjyo_Bridge_InitVars = {
+ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORCAT_PROP,
     FLAGS,
@@ -44,7 +44,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
     colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gRainbowBridgeCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

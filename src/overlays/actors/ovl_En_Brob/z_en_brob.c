@@ -22,7 +22,7 @@ void func_809CB2B8(EnBrob* this, PlayState* play);
 void func_809CB354(EnBrob* this, PlayState* play);
 void func_809CB458(EnBrob* this, PlayState* play);
 
-const ActorInit En_Brob_InitVars = {
+ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -63,7 +63,7 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
 
     SkelAnime_InitFlex(play, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750, this->jointTable,
                        this->morphTable, 10);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_brob_Col_001A70, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     Collider_InitCylinder(play, &this->colliders[0]);

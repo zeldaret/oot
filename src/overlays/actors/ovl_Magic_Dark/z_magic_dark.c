@@ -18,7 +18,7 @@ void MagicDark_DiamondDraw(Actor* thisx, PlayState* play);
 
 void MagicDark_DimLighting(PlayState* play, f32 intensity);
 
-const ActorInit Magic_Dark_InitVars = {
+ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORCAT_ITEMACTION,
     FLAGS,

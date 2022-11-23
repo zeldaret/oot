@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ge1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ge1/object_ge1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
@@ -39,7 +39,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play);
 void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
-const ActorInit En_Ge1_InitVars = {
+ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
     ACTORCAT_NPC,
     FLAGS,
@@ -389,7 +389,7 @@ void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_CheckForCard_GTGGuard(EnGe1* this, PlayState* play) {
-    if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+    if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
         EnGe1_SetTalkAction(this, play, 0x6014, 100.0f, EnGe1_OfferOpen_GTGGuard);
     } else {
         //! @bug This outcome is inaccessible in normal gameplay since this function it is unreachable without

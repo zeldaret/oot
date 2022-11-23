@@ -24,7 +24,7 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play);
 void EnDaikuKakariko_Wait(EnDaikuKakariko* this, PlayState* play);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play);
 
-const ActorInit En_Daiku_Kakariko_InitVars = {
+ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
     ACTORCAT_NPC,
     FLAGS,
@@ -359,7 +359,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
     s32 run;
 
     do {
-        path = &play->setupPathList[(this->actor.params >> 8) & 0xFF];
+        path = &play->pathList[(this->actor.params >> 8) & 0xFF];
         pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
         xDist = pathPos->x - this->actor.world.pos.x;
         zDist = pathPos->z - this->actor.world.pos.z;

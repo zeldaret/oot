@@ -32,7 +32,7 @@ void func_80A7127C(EnHy* this, PlayState* play);
 void EnHy_DoNothing(EnHy* this, PlayState* play);
 void func_80A714C4(EnHy* this, PlayState* play);
 
-const ActorInit En_Hy_InitVars = {
+ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
     ACTORCAT_NPC,
     FLAGS,
@@ -421,7 +421,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
 
     if (textId != 0) {
         if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
         }
         return textId;
     }
@@ -429,7 +429,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
             if (play->sceneId == SCENE_KAKARIKO) {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x508D
+                           : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (play->sceneId == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
@@ -457,7 +459,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return 0x5085;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 return 0x701A;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
                 return 0x701B;
@@ -471,7 +473,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_AHG_4:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
@@ -537,7 +539,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             if (!LINK_IS_ADULT) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062 : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x5062
+                           : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -550,7 +554,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
 
 s16 func_80A70058(PlayState* play, Actor* thisx) {
     EnHy* this = (EnHy*)thisx;
-    s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
+    s16 beggarItems[] = { ITEM_BOTTLE_BLUE_FIRE, ITEM_BOTTLE_FISH, ITEM_BOTTLE_BUG, ITEM_BOTTLE_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -592,7 +596,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
-                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
                     break;
                 case 0x7016:
                     SET_INFTABLE(INFTABLE_C0);
@@ -719,12 +723,12 @@ void func_80A70834(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-        if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
-            !Inventory_HasSpecificBottle(ITEM_FISH)) {
+        if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
+            !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_POE:
-                case EXCH_ITEM_BIG_POE:
-                case EXCH_ITEM_LETTER_RUTO:
+                case EXCH_ITEM_BOTTLE_POE:
+                case EXCH_ITEM_BOTTLE_BIG_POE:
+                case EXCH_ITEM_BOTTLE_RUTOS_LETTER:
                     this->actor.textId = 0x70EF;
                     break;
                 default:
@@ -735,13 +739,13 @@ void func_80A70834(EnHy* this, PlayState* play) {
             }
         } else {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_BLUE_FIRE:
+                case EXCH_ITEM_BOTTLE_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
-                case EXCH_ITEM_FISH:
+                case EXCH_ITEM_BOTTLE_FISH:
                     this->actor.textId = 0x70F1;
                     break;
-                case EXCH_ITEM_BUG:
+                case EXCH_ITEM_BOTTLE_BUG:
                     this->actor.textId = 0x70F2;
                     break;
                 default:
@@ -909,7 +913,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         }
 
         if (play->sceneId == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_6B_INDEX];
+            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX];
         }
 
         EnHy_InitSetProperties(this);

@@ -18,7 +18,7 @@ void func_80886FCC(BgHidanFslift* this, PlayState* play);
 void func_8088706C(BgHidanFslift* this, PlayState* play);
 void func_808870D8(BgHidanFslift* this, PlayState* play);
 
-const ActorInit Bg_Hidan_Fslift_InitVars = {
+ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
     ACTORCAT_BG,
     FLAGS,
@@ -44,7 +44,7 @@ void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gFireTempleHookshotElevatorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_OBJ_HSBLOCK, this->dyna.actor.world.pos.x,

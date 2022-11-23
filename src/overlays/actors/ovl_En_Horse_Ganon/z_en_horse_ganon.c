@@ -23,7 +23,7 @@ void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, PlayState* play);
 void func_80A68DB0(EnHorseGanon* this, PlayState* play);
 
-const ActorInit En_Horse_Ganon_InitVars = {
+ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORCAT_BG,
     FLAGS,
@@ -186,7 +186,7 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->colliderHead);
     Collider_SetJntSph(play, &this->colliderHead, &this->actor, &sJntSphInit, this->headElements);
 
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     func_80A68AC4(this);
 }
 
@@ -263,26 +263,23 @@ void func_80A68DB0(EnHorseGanon* this, PlayState* play) {
 
     func_80A686A8(this, play);
 
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A68B20(this);
     }
 }
 
 void func_80A68E14(EnHorseGanon* this, PlayState* play) {
     s32 pad;
-    CollisionPoly* col;
-    f32 temp_ret;
-    Vec3f v;
-    s32 temp1;
+    CollisionPoly* poly;
+    s32 pad2;
+    Vec3f checkPos;
+    s32 bgId;
 
-    v.x = Math_SinS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.x;
-    v.y = this->actor.world.pos.y + 60.0f;
-    v.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.z;
-
-    temp_ret = BgCheck_EntityRaycastFloor3(&play->colCtx, &col, &temp1, &v);
-
-    this->unk_1F4 = temp_ret;
-    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f));
+    checkPos.x = Math_SinS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 60.0f;
+    checkPos.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.z;
+    this->unk_1F4 = BgCheck_EntityRaycastDown3(&play->colCtx, &poly, &bgId, &checkPos);
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_1F4, 30.0f));
 }
 
 void EnHorseGanon_Update(Actor* thisx, PlayState* play) {

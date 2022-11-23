@@ -1,5 +1,5 @@
 #include "z_en_encount1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
@@ -14,7 +14,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play);
 static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
-const ActorInit En_Encount1_InitVars = {
+ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORCAT_PROP,
     FLAGS,
@@ -131,7 +131,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                 spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z = player->actor.world.pos.z + Math_CosS(spawnAngle) * spawnDist;
 
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
@@ -192,7 +192,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                 spawnPos.x = this->actor.world.pos.x + Rand_CenteredFloat(50.0f);
                 spawnPos.y = this->actor.world.pos.y + 120.0f;
                 spawnPos.z = this->actor.world.pos.z + Rand_CenteredFloat(50.0f);
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     return;
                 }
@@ -266,7 +266,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z =
                     player->actor.world.pos.z + (Math_CosS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }

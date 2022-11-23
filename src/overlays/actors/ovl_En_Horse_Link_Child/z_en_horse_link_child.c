@@ -19,7 +19,7 @@ void func_80A69EC0(EnHorseLinkChild* this);
 void func_80A6A4DC(EnHorseLinkChild* this);
 void func_80A6A724(EnHorseLinkChild* this);
 
-const ActorInit En_Horse_Link_Child_InitVars = {
+ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
     ACTORCAT_BG,
     FLAGS,
@@ -165,7 +165,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
     } else if (play->sceneId == SCENE_SPOT20) {
-        if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {
+        if (!Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             Actor_Kill(&this->actor);
             return;
         }

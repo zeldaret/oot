@@ -12,7 +12,7 @@ void func_80A9F314(PlayState* play, f32 arg1);
 void func_80A9F408(EnMThunder* this, PlayState* play);
 void func_80A9F9B4(EnMThunder* this, PlayState* play);
 
-const ActorInit En_M_Thunder_InitVars = {
+ActorInit En_M_Thunder_InitVars = {
     ACTOR_EN_M_THUNDER,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -173,7 +173,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
     }
 
     if (player->unk_858 >= 0.1f) {
-        func_800AA000(0.0f, (s32)(player->unk_858 * 150.0f) & 0xFF, 2, (s32)(player->unk_858 * 150.0f) & 0xFF);
+        Rumble_Request(0.0f, (s32)(player->unk_858 * 150.0f), 2, (s32)(player->unk_858 * 150.0f));
     }
 
     if (player->stateFlags2 & PLAYER_STATE2_17) {

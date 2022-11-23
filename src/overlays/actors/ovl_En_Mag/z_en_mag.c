@@ -14,7 +14,7 @@ void EnMag_Destroy(Actor* thisx, PlayState* play);
 void EnMag_Update(Actor* thisx, PlayState* play);
 void EnMag_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Mag_InitVars = {
+ActorInit En_Mag_InitVars = {
     ACTOR_EN_MAG,
     ACTORCAT_PROP,
     FLAGS,
@@ -68,7 +68,7 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
     this->effectFadeInState = this->effectPrimLodFrac = this->globalState = this->effectAlpha = this->mainAlpha =
         this->subAlpha = this->copyrightAlpha = 0.0f;
 
-    if (gSaveContext.unk_13E7 != 0) {
+    if (gSaveContext.forceRisingButtonAlphas) {
         this->mainAlpha = 210;
         this->subAlpha = 255;
         this->copyrightAlpha = 255;
@@ -83,7 +83,7 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
         this->effectEnvColor[1] = 255.0f;
         this->effectEnvColor[2] = 0;
 
-        gSaveContext.unk_13E7 = 0;
+        gSaveContext.forceRisingButtonAlphas = false;
         this->globalState = MAG_STATE_DISPLAY;
         sDelayTimer = 20;
         gSaveContext.transFadeDuration = 1;

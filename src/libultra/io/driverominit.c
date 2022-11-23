@@ -3,45 +3,45 @@
 OSPiHandle __DriveRomHandle;
 
 OSPiHandle* osDriveRomInit(void) {
+    static u32 first = true;
     register s32 status;
-    register u32 a;
+    register u32 value;
     register u32 prevInt;
-    static u32 D_8000AC70 = 1;
 
     __osPiGetAccess();
 
-    if (!D_8000AC70) {
+    if (!first) {
         __osPiRelAccess();
         return &__DriveRomHandle;
     }
 
-    D_8000AC70 = 0;
+    first = false;
     __DriveRomHandle.type = DEVICE_TYPE_BULK;
-    __DriveRomHandle.baseAddress = 0xA6000000;
+    __DriveRomHandle.baseAddress = PHYS_TO_K1(PI_DOM1_ADDR1);
     __DriveRomHandle.domain = PI_DOMAIN1;
     __DriveRomHandle.speed = 0;
     bzero(&__DriveRomHandle.transferInfo, sizeof(__OSTranxInfo));
 
-    status = HW_REG(PI_STATUS_REG, u32);
-    while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
-        status = HW_REG(PI_STATUS_REG, u32);
+    status = IO_READ(PI_STATUS_REG);
+    while (status & (PI_STATUS_DMA_BUSY | PI_STATUS_IO_BUSY)) {
+        status = IO_READ(PI_STATUS_REG);
     }
 
-    HW_REG(PI_BSD_DOM1_LAT_REG, u32) = 0xFF;
-    HW_REG(PI_BSD_DOM1_PGS_REG, u32) = 0;
-    HW_REG(PI_BSD_DOM1_RLS_REG, u32) = 3;
-    HW_REG(PI_BSD_DOM1_PWD_REG, u32) = 0xFF;
+    IO_WRITE(PI_BSD_DOM1_LAT_REG, 255);
+    IO_WRITE(PI_BSD_DOM1_PGS_REG, 0);
+    IO_WRITE(PI_BSD_DOM1_RLS_REG, 3);
+    IO_WRITE(PI_BSD_DOM1_PWD_REG, 255);
 
-    a = HW_REG(__DriveRomHandle.baseAddress, u32);
-    __DriveRomHandle.latency = a & 0xFF;
-    __DriveRomHandle.pulse = (a >> 8) & 0xFF;
-    __DriveRomHandle.pageSize = (a >> 0x10) & 0xF;
-    __DriveRomHandle.relDuration = (a >> 0x14) & 0xF;
+    value = IO_READ(__DriveRomHandle.baseAddress);
+    __DriveRomHandle.latency = value & 0xFF;
+    __DriveRomHandle.pulse = (value >> 8) & 0xFF;
+    __DriveRomHandle.pageSize = (value >> 0x10) & 0xF;
+    __DriveRomHandle.relDuration = (value >> 0x14) & 0xF;
 
-    HW_REG(PI_BSD_DOM1_LAT_REG, u32) = (u8)a;
-    HW_REG(PI_BSD_DOM1_PGS_REG, u32) = __DriveRomHandle.pageSize;
-    HW_REG(PI_BSD_DOM1_RLS_REG, u32) = __DriveRomHandle.relDuration;
-    HW_REG(PI_BSD_DOM1_PWD_REG, u32) = __DriveRomHandle.pulse;
+    IO_WRITE(PI_BSD_DOM1_LAT_REG, __DriveRomHandle.latency);
+    IO_WRITE(PI_BSD_DOM1_PGS_REG, __DriveRomHandle.pageSize);
+    IO_WRITE(PI_BSD_DOM1_RLS_REG, __DriveRomHandle.relDuration);
+    IO_WRITE(PI_BSD_DOM1_PWD_REG, __DriveRomHandle.pulse);
 
     __osCurrentHandle[__DriveRomHandle.domain]->type = __DriveRomHandle.type;
     __osCurrentHandle[__DriveRomHandle.domain]->latency = __DriveRomHandle.latency;

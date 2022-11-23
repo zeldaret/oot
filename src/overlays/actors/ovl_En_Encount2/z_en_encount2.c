@@ -1,6 +1,7 @@
 #include "z_en_encount2.h"
 #include "overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -22,7 +23,7 @@ void EnEncount2_SpawnEffect(EnEncount2* this, Vec3f* position, f32 scale);
 void EnEncount2_DrawEffects(Actor* thisx, PlayState* play);
 void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play);
 
-const ActorInit En_Encount2_InitVars = {
+ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -91,11 +92,11 @@ void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
             }
             break;
         case ENCOUNT2_ACTIVE_DEATH_MOUNTAIN:
-            if ((this->deathMountainSpawnerTimer == 1) || (!this->isQuaking)) {
-                quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
+            if ((this->deathMountainSpawnerTimer == 1) || !this->isQuaking) {
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
                 Quake_SetSpeed(quakeIndex, 0x7FFF);
-                Quake_SetQuakeValues(quakeIndex, 50, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 300);
+                Quake_SetPerturbations(quakeIndex, 50, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 300);
                 this->isQuaking = true;
             }
             FALLTHROUGH;

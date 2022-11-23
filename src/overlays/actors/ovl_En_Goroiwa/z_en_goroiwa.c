@@ -8,7 +8,8 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_goroiwa/object_goroiwa.h"
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -42,7 +43,7 @@ void EnGoroiwa_MoveUp(EnGoroiwa* this, PlayState* play);
 void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
 void EnGoroiwa_MoveDown(EnGoroiwa* this, PlayState* play);
 
-const ActorInit En_Goroiwa_InitVars = {
+ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORCAT_PROP,
     FLAGS,
@@ -136,7 +137,7 @@ void EnGoroiwa_SetSpeed(EnGoroiwa* this, PlayState* play) {
 }
 
 void EnGoroiwa_FaceNextWaypoint(EnGoroiwa* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[this->actor.params & 0xFF];
     Vec3s* nextPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3f nextPosF;
 
@@ -149,7 +150,7 @@ void EnGoroiwa_FaceNextWaypoint(EnGoroiwa* this, PlayState* play) {
 
 void EnGoroiwa_GetPrevWaypointDiff(EnGoroiwa* this, PlayState* play, Vec3f* dest) {
     s16 loopMode = (this->actor.params >> 8) & 3;
-    Path* path = &play->setupPathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[this->actor.params & 0xFF];
     s16 prevWaypoint = this->currentWaypoint - this->pathDirection;
     Vec3s* prevPointPos;
     Vec3s* currentPointPos;
@@ -214,14 +215,14 @@ void EnGoroiwa_ReverseDirection(EnGoroiwa* this) {
 }
 
 void EnGoroiwa_InitPath(EnGoroiwa* this, PlayState* play) {
-    this->endWaypoint = play->setupPathList[this->actor.params & 0xFF].count - 1;
+    this->endWaypoint = play->pathList[this->actor.params & 0xFF].count - 1;
     this->currentWaypoint = 0;
     this->nextWaypoint = 1;
     this->pathDirection = 1;
 }
 
 void EnGoroiwa_TeleportToWaypoint(EnGoroiwa* this, PlayState* play, s32 waypoint) {
-    Path* path = &play->setupPathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[this->actor.params & 0xFF];
     Vec3s* pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + waypoint;
 
     this->actor.world.pos.x = pointPos->x;
@@ -236,7 +237,7 @@ void EnGoroiwa_InitRotation(EnGoroiwa* this) {
 
 s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, PlayState* play) {
     s32 pad;
-    Path* path = &play->setupPathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
 
@@ -284,7 +285,7 @@ void EnGoroiwa_SpawnWaterEffects(PlayState* play, Vec3f* contactPos) {
         splashPos.x = contactPos->x + (Math_SinS(angle) * 55.0f);
         splashPos.y = contactPos->y;
         splashPos.z = contactPos->z + (Math_CosS(angle) * 55.0f);
-        EffectSsGSplash_Spawn(play, &splashPos, 0, 0, 0, 350);
+        EffectSsGSplash_Spawn(play, &splashPos, NULL, NULL, 0, 350);
     }
 
     EffectSsGRipple_Spawn(play, contactPos, 300, 700, 0);
@@ -300,7 +301,7 @@ s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, PlayState* play) {
 
     Math_StepToF(&this->actor.speedXZ, R_EN_GOROIWA_SPEED * 0.01f, 0.3f);
     func_8002D868(&this->actor);
-    path = &play->setupPathList[this->actor.params & 0xFF];
+    path = &play->pathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     result = true;
     result &= Math_StepToF(&this->actor.world.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x));
@@ -310,7 +311,7 @@ s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, PlayState* play) {
 }
 
 s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[this->actor.params & 0xFF];
     s32 pad;
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
@@ -342,7 +343,7 @@ s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
 
 s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     s32 pad;
-    Path* path = &play->setupPathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
     Math_StepToF(&this->actor.velocity.y, (R_EN_GOROIWA_SPEED * 0.01f) * 0.5f, 0.18f);
@@ -353,14 +354,14 @@ s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
 
 s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     s32 pad;
-    Path* path = &play->setupPathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     f32 nextPointY;
     f32 thisY;
     f32 yDistToFloor;
-    s32 quakeIdx;
+    s32 quakeIndex;
     CollisionPoly* floorPoly;
-    Vec3f raycastFrom;
+    Vec3f checkPos;
     f32 floorY;
     s32 pad2;
     s32 floorBgId;
@@ -379,18 +380,18 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     if (this->actor.velocity.y < 0.0f && this->actor.world.pos.y <= nextPointY) {
         if (this->bounceCount == 0) {
             if (this->actor.xzDistToPlayer < 600.0f) {
-                quakeIdx = Quake_Add(GET_ACTIVE_CAM(play), 3);
-                Quake_SetSpeed(quakeIdx, -0x3CB0);
-                Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
-                Quake_SetCountdown(quakeIdx, 7);
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+                Quake_SetSpeed(quakeIndex, -0x3CB0);
+                Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 7);
             }
             this->rollRotSpeed = 0.0f;
             if (!(this->stateFlags & ENGOROIWA_IN_WATER)) {
-                raycastFrom.x = this->actor.world.pos.x;
-                raycastFrom.y = this->actor.world.pos.y + 50.0f;
-                raycastFrom.z = this->actor.world.pos.z;
-                floorY = BgCheck_EntityRaycastFloor5(play, &play->colCtx, &floorPoly, &floorBgId, &this->actor,
-                                                     &raycastFrom);
+                checkPos.x = this->actor.world.pos.x;
+                checkPos.y = this->actor.world.pos.y + 50.0f;
+                checkPos.z = this->actor.world.pos.z;
+                floorY =
+                    BgCheck_EntityRaycastDown5(play, &play->colCtx, &floorPoly, &floorBgId, &this->actor, &checkPos);
                 yDistToFloor = floorY - (this->actor.world.pos.y - 59.5f);
                 if (fabsf(yDistToFloor) < 15.0f) {
                     dustPos.x = this->actor.world.pos.x;
@@ -542,7 +543,7 @@ void EnGoroiwa_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (play->setupPathList[pathIdx].count < 2) {
+    if (play->pathList[pathIdx].count < 2) {
         // "Error: Invalid Path Data"
         osSyncPrintf("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 1043);
         Actor_Kill(&this->actor);
@@ -723,7 +724,7 @@ void EnGoroiwa_Update(Actor* thisx, PlayState* play) {
     EnGoroiwa* this = (EnGoroiwa*)thisx;
     Player* player = GET_PLAYER(play);
     s32 pad;
-    s32 sp30;
+    s32 bgId;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->collisionDisabledTimer > 0) {
@@ -736,8 +737,8 @@ void EnGoroiwa_Update(Actor* thisx, PlayState* play) {
                                         UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
                 break;
             case 0:
-                this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &sp30,
-                                                                      &this->actor, &this->actor.world.pos);
+                this->actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId,
+                                                                     &this->actor, &this->actor.world.pos);
                 break;
         }
         EnGoroiwa_UpdateRotation(this, play);

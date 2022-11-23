@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_ec.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_zo/object_zo.h"
 #include "assets/objects/object_ec/object_ec.h"
 #include "assets/objects/object_ma2/object_ma2.h"
@@ -285,11 +285,11 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 
     Gfx_SetupDL_25Opa(gfxCtx);
 
-    if (arg2 != 0) {
+    if (arg2 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(arg2));
     }
 
-    if (arg3 != 0) {
+    if (arg3 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x0B, SEGMENTED_TO_VIRTUAL(arg3));
     }
 
@@ -370,7 +370,7 @@ void DemoEc_UpdateIngo(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawIngo(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, gIngoEyeClosed2Tex, gIngoRedTex, 0, 0);
+    DemoEc_DrawSkeleton(this, play, gIngoEyeClosed2Tex, gIngoRedTex, NULL, NULL);
 }
 
 void DemoEc_InitTalon(DemoEc* this, PlayState* play) {
@@ -705,7 +705,7 @@ void DemoEc_CarpenterPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 }
 
 void DemoEc_DrawCarpenter(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, NULL, 0, DemoEc_CarpenterOverrideLimbDraw, DemoEc_CarpenterPostLimbDraw);
+    DemoEc_DrawSkeleton(this, play, NULL, NULL, DemoEc_CarpenterOverrideLimbDraw, DemoEc_CarpenterPostLimbDraw);
 }
 
 void DemoEc_InitGerudo(DemoEc* this, PlayState* play) {
@@ -1038,7 +1038,7 @@ void DemoEc_DrawPotionShopOwner(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitMaskShopOwner(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_os_Skel_004658);
+    DemoEc_InitSkelAnime(this, play, &gHappyMaskSalesmanSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -1054,7 +1054,7 @@ void DemoEc_UpdateMaskShopOwner(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawMaskShopOwner(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, gOsEyeClosedTex, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, play, gHappyMaskSalesmanEyeClosedTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitFishingOwner(DemoEc* this, PlayState* play) {
@@ -1097,7 +1097,7 @@ void DemoEc_DrawFishingOwner(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitBombchuShopOwner(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_rs_Skel_004868);
+    DemoEc_InitSkelAnime(this, play, &gBombchuShopkeeperSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -1361,7 +1361,7 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit Demo_Ec_InitVars = {
+ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
     ACTORCAT_NPC,
     FLAGS,

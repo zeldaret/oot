@@ -14,7 +14,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, PlayState* play);
 void EfcErupc_SpawnEffect(EfcErupcEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
 void EfcErupc_InitEffects(EfcErupcEffect* effect);
 
-const ActorInit Efc_Erupc_InitVars = {
+ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -136,7 +136,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (play->csCtx.state != 0) {
-        if ((play->csCtx.npcActions[1] != 0) && (play->csCtx.npcActions[1]->action == 2)) {
+        if ((play->csCtx.npcActions[1] != NULL) && (play->csCtx.npcActions[1]->action == 2)) {
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002570);
         }
     }
@@ -146,7 +146,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (play->csCtx.state != 0) {
         CsCmdActorAction* csActorAction = play->csCtx.npcActions[2];
-        if (csActorAction != 0) {
+        if (csActorAction != NULL) {
             csAction = csActorAction->action;
             if ((csAction == 2) || (csAction == 3)) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, 255);

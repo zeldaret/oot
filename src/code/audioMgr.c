@@ -27,14 +27,15 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
         Sched_Notify(audioMgr->sched);
     }
 
-    D_8016A550 = osGetTime();
+    gAudioThreadUpdateTimeStart = osGetTime();
     if (SREG(20) >= 2) {
         rspTask = NULL;
     } else {
         rspTask = func_800E4FE0();
     }
-    D_8016A558 += osGetTime() - D_8016A550;
-    D_8016A550 = 0;
+    gAudioThreadUpdateTimeAcc += osGetTime() - gAudioThreadUpdateTimeStart;
+    gAudioThreadUpdateTimeStart = 0;
+
     if (audioMgr->rspTask != NULL) {
         osRecvMesg(&audioMgr->taskQueue, NULL, OS_MESG_BLOCK);
         func_800C3C80(audioMgr);
@@ -55,7 +56,7 @@ void AudioMgr_ThreadEntry(void* arg0) {
 
     osSyncPrintf("オーディオマネージャスレッド実行開始\n"); // "Start running audio manager thread"
     Audio_Init();
-    AudioLoad_SetDmaHandler(DmaMgr_DmaHandler);
+    AudioLoad_SetDmaHandler(DmaMgr_AudioDmaHandler);
     Audio_InitSound();
     osSendMesg(&audioMgr->lockQueue, NULL, OS_MESG_BLOCK);
     IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->interruptQueue);

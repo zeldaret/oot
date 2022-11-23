@@ -39,7 +39,7 @@ typedef enum {
     /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 
-const ActorInit En_Am_InitVars = {
+ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -114,10 +114,10 @@ static ColliderQuadInit sQuadInit = {
 typedef enum {
     /* 00 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
     /* 01 */ AM_DMGEFF_NUT,
-    /* 06 */ AM_DMGEFF_STUN = 6, // doesnt include deku nuts
+    /* 06 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
     /* 13 */ AM_DMGEFF_ICE = 13,
     /* 14 */ AM_DMGEFF_MAGIC_FIRE_LIGHT,
-    /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isnt a special case)
+    /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isn't a special case)
 } ArmosDamageEffect;
 
 static DamageTable sDamageTable = {
@@ -212,7 +212,7 @@ void EnAm_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
     SkelAnime_Init(play, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable, 14);
     Actor_SetScale(&this->dyna.actor, 0.01f);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     Collider_InitCylinder(play, &this->hurtCollider);
     Collider_InitCylinder(play, &this->blockCollider);
     Collider_SetCylinder(play, &this->hurtCollider, &this->dyna.actor, &sHurtCylinderInit);
@@ -246,7 +246,7 @@ void EnAm_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(play, &this->hurtCollider);
     Collider_DestroyCylinder(play, &this->blockCollider);
-    //! @bug Quad collider is not destroyed (though destroy doesnt really do anything anyway)
+    //! @bug Quad collider is not destroyed (though destroy doesn't really do anything anyway)
 }
 
 void EnAm_SpawnEffects(EnAm* this, PlayState* play) {

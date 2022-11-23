@@ -6,7 +6,7 @@
 
 #include "z_en_fish.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -64,7 +64,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-const ActorInit En_Fish_InitVars = {
+ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -669,7 +669,7 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     this->actor.world.pos.z = (endPos.z - startPos.z) * progress + startPos.z;
 
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
 }
 
 // Update functions and Draw

@@ -34,7 +34,7 @@ void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
 void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
-const ActorInit En_Go_InitVars = {
+ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORCAT_NPC,
     FLAGS,
@@ -101,13 +101,13 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 } else {
                     return 0x305D;
                 }
-            } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_EYEDROPS) {
-                player->exchangeItemId = EXCH_ITEM_EYEDROPS;
+            } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_EYE_DROPS) {
+                player->exchangeItemId = EXCH_ITEM_EYE_DROPS;
                 return 0x3059;
             } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) {
                 return 0x3058;
             } else {
-                player->exchangeItemId = EXCH_ITEM_SWORD_BROKEN;
+                player->exchangeItemId = EXCH_ITEM_BROKEN_GORONS_SWORD;
                 return 0x3053;
             }
         case 0x00:
@@ -473,7 +473,7 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
         return false;
     }
 
-    path = &play->setupPathList[this->actor.params & 0xF];
+    path = &play->pathList[this->actor.params & 0xF];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
@@ -507,7 +507,7 @@ s32 EnGo_SetMovedPos(EnGo* this, PlayState* play) {
     if ((this->actor.params & 0xF) == 0xF) {
         return false;
     } else {
-        path = &play->setupPathList[this->actor.params & 0xF];
+        path = &play->pathList[this->actor.params & 0xF];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
         this->actor.world.pos.x = pointPos->x;
@@ -593,8 +593,8 @@ void func_80A3F908(EnGo* this, PlayState* play) {
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
-            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
-                if (func_8002F368(play) == EXCH_ITEM_SWORD_BROKEN) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_GORONS_SWORD) {
+                if (func_8002F368(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                     if (GET_INFTABLE(INFTABLE_B4)) {
                         this->actor.textId = 0x3055;
                     } else {
@@ -606,8 +606,8 @@ void func_80A3F908(EnGo* this, PlayState* play) {
                 player->actor.textId = this->actor.textId;
             }
 
-            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                if (func_8002F368(play) == EXCH_ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
+                if (func_8002F368(play) == EXCH_ITEM_EYE_DROPS) {
                     this->actor.textId = 0x3059;
                 } else {
                     this->actor.textId = 0x3058;
@@ -625,7 +625,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -859,13 +859,13 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
         if (gSaveContext.bgsFlag) {
             this->unk_1E0.unk_00 = 0;
         } else {
-            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
                 EnGo_ChangeAnim(this, ENGO_ANIM_2);
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
-                gSaveContext.timer2State = 0;
+                gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                 OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
                 this->unk_1E0.unk_00 = 0;
@@ -954,13 +954,13 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
         this->unk_20C = 0;
         if ((this->actor.params & 0xF0) == 0x90) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
-                getItemId = GI_SWORD_BGS;
+                getItemId = GI_SWORD_BIGGORON;
                 this->unk_20C = 1;
             }
-            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
                 getItemId = GI_CLAIM_CHECK;
             }
-            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_GORONS_SWORD) {
                 getItemId = GI_PRESCRIPTION;
             }
         }
@@ -1154,21 +1154,17 @@ void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                           f32 scaleStep) {
     EnGoEffect* dustEffect = this->effects;
     s16 i;
-    s16 timer;
 
     for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
-            if (1) {}
-            timer = initialTimer;
-            dustEffect->timer = timer;
+            dustEffect->initialTimer = dustEffect->timer = initialTimer;
             dustEffect->type = 1;
-            dustEffect->initialTimer = initialTimer;
             dustEffect->pos = *pos;
             dustEffect->accel = *accel;
             dustEffect->velocity = *velocity;
-            return;
+            break;
         }
     }
 }

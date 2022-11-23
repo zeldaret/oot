@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_room_0.h"
@@ -585,20 +586,20 @@ void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
 
 // Screen Shake for Ganon's Tower Collapse
 void func_8009BEEC(PlayState* play) {
-    s32 var;
+    s32 quakeIndex;
 
     if (play->gameplayFrames % 128 == 13) {
-        var = Quake_Add(GET_ACTIVE_CAM(play), 2);
-        Quake_SetSpeed(var, 10000);
-        Quake_SetQuakeValues(var, 4, 0, 0, 0);
-        Quake_SetCountdown(var, 127);
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_2);
+        Quake_SetSpeed(quakeIndex, 10000);
+        Quake_SetPerturbations(quakeIndex, 4, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 127);
     }
 
     if ((play->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
-        var = Quake_Add(GET_ACTIVE_CAM(play), 3);
-        Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+        Quake_SetSpeed(quakeIndex, 32000.0f + (Rand_ZeroOne() * 3000.0f));
+        Quake_SetPerturbations(quakeIndex, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 
