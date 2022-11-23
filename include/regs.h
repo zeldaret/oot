@@ -231,7 +231,7 @@ typedef enum {
 #define R_UCODE_DISAS_TRI2_COUNT  HREG(88) // read-only
 #define R_UCODE_DISAS_QUAD_COUNT  HREG(89) // read-only
 #define R_UCODE_DISAS_LINE_COUNT  HREG(90) // read-only
-#define R_UCODE_DISAS_SYNC_ERROR  HREG(91) // read-only
+#define R_UCODE_DISAS_SYNC_ERROR_COUNT  HREG(91) // read-only
 #define R_UCODE_DISAS_LOAD_COUNT  HREG(92) // read-only
 #define R_UCODE_DISAS_DL_COUNT    HREG(93) // read-only
 

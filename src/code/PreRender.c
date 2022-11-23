@@ -723,7 +723,8 @@ void PreRender_DivotFilter(PreRender* this) {
             if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
                 if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {}
 
-                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) == PRERENDER_DIVOT_PARTIAL_CVG_RED) {
+                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                    PRERENDER_DIVOT_PARTIAL_CVG_RED) {
                     // Fill the pixel with full red, likely for debugging
                     pxR = 31;
                     pxG = 0;
@@ -756,7 +757,7 @@ void PreRender_DivotFilter(PreRender* this) {
                         pxB = MEDIAN3(windowB[0], windowB[1], windowB[2]);
                     }
                 }
-                
+
                 pxOut.r = pxR;
                 pxOut.g = pxG;
                 pxOut.b = pxB;

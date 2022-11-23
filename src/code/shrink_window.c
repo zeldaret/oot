@@ -94,9 +94,9 @@ void Letterbox_Update(s32 updateRate) {
             R_LETTERBOX_STATE = 0;
             R_LETTERBOX_SIZE = 0;
             R_LETTERBOX_TARGET_SIZE = 0;
+            R_LETTERBOX_STEP = 0;
 
             // these regs are not used in this mode
-            HREG(86) = 0;
             HREG(87) = 0;
             HREG(88) = 0;
             HREG(89) = 0;

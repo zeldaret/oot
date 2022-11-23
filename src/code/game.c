@@ -68,7 +68,8 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (R_HREG_MODE == HREG_MODE_INPUT_TEST) {
-        selectedInput = &gameState->input[(u32)R_INPUT_TEST_CONTROLLER_PORT < 4 ? R_INPUT_TEST_CONTROLLER_PORT : 0];
+        selectedInput =
+            &gameState->input[(u32)R_INPUT_TEST_CONTROLLER_PORT < MAXCONTROLLERS ? R_INPUT_TEST_CONTROLLER_PORT : 0];
 
         inputCompareValue = R_INPUT_TEST_COMPARE_VALUE;
         R_INPUT_TEST_BUTTON_CUR = selectedInput->cur.button;
@@ -306,7 +307,7 @@ void GameState_Update(GameState* gameState) {
 
         if ((R_VI_CUR_ADDI_SCAN_LINES != R_VI_NEXT_ADDI_SCAN_LINES) ||
             R_VI_CUR_Y_SCALE_MODE != R_VI_NEXT_Y_SCALE_MODE) {
-                
+
             R_VI_CUR_ADDI_SCAN_LINES = R_VI_NEXT_ADDI_SCAN_LINES;
             R_VI_CUR_Y_SCALE_MODE = R_VI_NEXT_Y_SCALE_MODE;
 

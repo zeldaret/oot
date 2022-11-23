@@ -63,7 +63,7 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
         R_UCODE_DISAS_TRI2_COUNT = disassembler.tri2Cnt;
         R_UCODE_DISAS_QUAD_COUNT = disassembler.quadCnt;
         R_UCODE_DISAS_LINE_COUNT = disassembler.lineCnt;
-        R_UCODE_DISAS_SYNC_ERROR = disassembler.syncErr;
+        R_UCODE_DISAS_SYNC_ERROR_COUNT = disassembler.syncErr;
         R_UCODE_DISAS_LOAD_COUNT = disassembler.loaducodeCnt;
 
         if (R_UCODE_DISAS_LOG_MODE == 1 || R_UCODE_DISAS_LOG_MODE == 2) {
