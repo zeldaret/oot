@@ -589,7 +589,7 @@ void func_80B4FD90(EnZl2* this, PlayState* play) {
 
 void func_80B4FDD4(EnZl2* this) {
     if (Animation_OnFrame(&this->skelAnime, 14.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_STONE);
     }
 }
 

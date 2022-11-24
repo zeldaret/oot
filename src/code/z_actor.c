@@ -1744,11 +1744,11 @@ void func_8002F994(Actor* actor, s32 arg1) {
     actor->flags |= ACTOR_FLAG_28;
     actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
     if (arg1 < 40) {
-        actor->sfx = NA_SE_PL_WALK_DIRT - SFX_FLAG;
+        actor->sfx = 3;
     } else if (arg1 < 100) {
-        actor->sfx = NA_SE_PL_WALK_CONCRETE - SFX_FLAG;
+        actor->sfx = 2;
     } else {
-        actor->sfx = NA_SE_PL_WALK_SAND - SFX_FLAG;
+        actor->sfx = 1;
     }
 }
 

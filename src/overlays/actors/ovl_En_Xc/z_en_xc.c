@@ -429,7 +429,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
                 s32 pad;
 
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
-                func_80078914(&sXyzDist, NA_SE_PL_WALK_CONCRETE);
+                func_80078914(&sXyzDist, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_STONE);
             }
         }
     }
@@ -1746,14 +1746,14 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 9.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_MATERIAL_GRASS);
         func_80078914(&this->actor.projectedPos, NA_SE_VO_SK_CRASH);
     } else if (Animation_OnFrame(skelAnime, 26.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_MATERIAL_GRASS);
     } else if (Animation_OnFrame(skelAnime, 28.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_GRASS);
     } else if (Animation_OnFrame(skelAnime, 34.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_GRASS);
     }
 }
 

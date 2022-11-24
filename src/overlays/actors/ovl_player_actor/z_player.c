@@ -1815,7 +1815,8 @@ void func_80832924(Player* this, struct_80832924* entry) {
             } else if (flags == 0x4000) {
                 func_808327F8(this, 0.0f);
             } else if (flags == 0x4800) {
-                func_800F4010(&this->actor.projectedPos, this->ageProperties->unk_94 + NA_SE_PL_WALK_LADDER, 0.0f);
+                func_800F4010(&this->actor.projectedPos,
+                              NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_WOOD + this->ageProperties->unk_94, 0.0f);
             }
         }
         cont = (entry->field >= 0);
@@ -11715,9 +11716,9 @@ static f32 D_80854898[] = { 10.0f, 20.0f };
 static f32 D_808548A0[] = { 40.0f, 50.0f };
 
 static struct_80832924 D_808548A8[] = {
-    { NA_SE_PL_WALK_LADDER, 0x80A },
-    { NA_SE_PL_WALK_LADDER, 0x814 },
-    { NA_SE_PL_WALK_LADDER, -0x81E },
+    { NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_WOOD, 0x80A },
+    { NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_WOOD, 0x814 },
+    { NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_WOOD, -0x81E },
 };
 
 void func_8084C5F8(Player* this, PlayState* play) {
@@ -14304,7 +14305,7 @@ void func_80851FB0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 }
 
 static struct_80832924 D_808551C8[] = {
-    { NA_SE_PL_LAND_LADDER, 0x843 },
+    { NA_SE_PL_LAND + SURFACE_MATERIAL_WOOD, 0x843 },
     { 0, 0x4854 },
     { 0, 0x485A },
     { 0, -0x4860 },
