@@ -6647,22 +6647,22 @@ s32 Camera_Special7(Camera* camera) {
     if (camera->animState == 0) {
         // Use sceneIds and hardcoded positions in Fire Temple to identify the 4 platforms
         if (camera->play->sceneId == SCENE_JYASINZOU) {
-            rwData->index = CAM_PLATFORM_SPIRIT_ENTRANCE;
+            rwData->index = CAM_VERTICAL_PLATFORM_SPIRIT_ENTRANCE;
         } else {
             // Hardcoded positions in SCENE_HIDAN
             if (playerPosRot->pos.x < 1500.0f) {
-                rwData->index = CAM_PLATFORM_FIRE_WEST_TOWER;
+                rwData->index = CAM_VERTICAL_PLATFORM_FIRE_WEST_TOWER;
             } else if (playerPosRot->pos.y < 3000.0f) {
-                rwData->index = CAM_PLATFORM_FIRE_LOWER_FLOOR;
+                rwData->index = CAM_VERTICAL_PLATFORM_FIRE_LOWER_FLOOR;
             } else {
-                rwData->index = CAM_PLATFORM_FIRE_EAST_TOWER;
+                rwData->index = CAM_VERTICAL_PLATFORM_FIRE_EAST_TOWER;
             }
         }
         camera->animState++;
         camera->roll = 0;
     }
 
-    if (camera->at.y < sCamPlatformTogglePosY[rwData->index]) {
+    if (camera->at.y < sCamVerticalPlatformTogglePosY[rwData->index]) {
         // Cam at lower position
 
         // look at player
@@ -6671,11 +6671,12 @@ s32 Camera_Special7(Camera* camera) {
         Camera_LERPCeilVec3f(&atTarget, &camera->at, 0.4f, 0.4f, 0.10f);
 
         // place camera based on hard-coded positions
-        camera->eye = camera->eyeNext = sCamPlatformLowerEyePoints[rwData->index];
+        camera->eye = camera->eyeNext = sCamVerticalPlatformLowerEyePoints[rwData->index];
 
-        fovRollParam = (playerPosRot->pos.y - sCamPlatformFovRollParam[rwData->index]) /
-                       (sCamPlatformTogglePosY[rwData->index] - sCamPlatformFovRollParam[rwData->index]);
-        camera->roll = sCamPlatformRolls[rwData->index] * fovRollParam;
+        fovRollParam =
+            (playerPosRot->pos.y - sCamVerticalPlatformFovRollParam[rwData->index]) /
+            (sCamVerticalPlatformTogglePosY[rwData->index] - sCamVerticalPlatformFovRollParam[rwData->index]);
+        camera->roll = sCamVerticalPlatformRolls[rwData->index] * fovRollParam;
         camera->fov = 60.0f + (20.0f * fovRollParam);
     } else {
         // Cam at upper position
@@ -6687,7 +6688,7 @@ s32 Camera_Special7(Camera* camera) {
 
         camera->roll = 0;
         // place camera based on hard-coded positions
-        camera->eye = camera->eyeNext = sCamPlatformUpperEyePoints[rwData->index];
+        camera->eye = camera->eyeNext = sCamVerticalPlatformUpperEyePoints[rwData->index];
         camera->fov = 70.0f;
     }
 
