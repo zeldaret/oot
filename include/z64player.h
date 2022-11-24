@@ -640,7 +640,7 @@ typedef struct Player {
     /* 0x0A7B */ u8         unk_A7B;
     /* 0x0A7C */ f32        unk_A7C;
     /* 0x0A80 */ s16        unk_A80;
-    /* 0x0A82 */ u16        prevSurfaceMaterial;
+    /* 0x0A82 */ u16        prevFloorSfxOffset;
     /* 0x0A84 */ s16        unk_A84;
     /* 0x0A86 */ s8         unk_A86;
     /* 0x0A87 */ u8         unk_A87;
