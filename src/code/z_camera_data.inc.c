@@ -1894,7 +1894,7 @@ CameraMode sCamSetSceneTransitionModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ2, sSetSceneTransitionModeNormalData), // CAM_MODE_NORMAL
 };
 
-CameraMode sCamSetFirePlatformModes[] = {
+CameraMode sCamSetVerticalPlatformModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC7, sDataOnlyNullFlags), // CAM_MODE_NORMAL
 };
 
@@ -2177,7 +2177,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x451FFFFF }, sCamSetBeanLostWoodsModes },        // CAM_SET_BEAN_LOST_WOODS
     { { 0xC5000001 }, sCamSetSceneUnusedModes },          // CAM_SET_SCENE_UNUSED
     { { 0x45000001 }, sCamSetSceneTransitionModes },      // CAM_SET_SCENE_TRANSITION
-    { { 0x05000001 }, sCamSetFirePlatformModes },         // CAM_SET_VERTICAL_PLATFORM
+    { { 0x05000001 }, sCamSetVerticalPlatformModes },     // CAM_SET_VERTICAL_PLATFORM
     { { 0x45000001 }, sCamSetFireStaircaseModes },        // CAM_SET_FIRE_STAIRCASE
     { { 0x45000001 }, sCamSetForestUnusedModes },         // CAM_SET_FOREST_UNUSED
     { { 0x45000001 }, sCamSetForestDefeatPoeModes },      // CAM_SET_FOREST_DEFEAT_POE
