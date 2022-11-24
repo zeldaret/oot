@@ -165,7 +165,7 @@ char sCameraSettingNames[][12] = {
     "LIFTBEAN   ", // CAM_SET_BEAN_LOST_WOODS
     "SCENE0     ", // CAM_SET_SCENE_UNUSED
     "SCENE1     ", // CAM_SET_SCENE_TRANSITION
-    "HIDAN1     ", // CAM_SET_FIRE_PLATFORM
+    "HIDAN1     ", // CAM_SET_VERTICAL_PLATFORM
     "HIDAN2     ", // CAM_SET_FIRE_STAIRCASE
     "MORI2      ", // CAM_SET_FOREST_UNUSED
     "MORI3      ", // CAM_SET_FOREST_DEFEAT_POE
@@ -2177,7 +2177,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x451FFFFF }, sCamSetBeanLostWoodsModes },        // CAM_SET_BEAN_LOST_WOODS
     { { 0xC5000001 }, sCamSetSceneUnusedModes },          // CAM_SET_SCENE_UNUSED
     { { 0x45000001 }, sCamSetSceneTransitionModes },      // CAM_SET_SCENE_TRANSITION
-    { { 0x05000001 }, sCamSetFirePlatformModes },         // CAM_SET_FIRE_PLATFORM
+    { { 0x05000001 }, sCamSetFirePlatformModes },         // CAM_SET_VERTICAL_PLATFORM
     { { 0x45000001 }, sCamSetFireStaircaseModes },        // CAM_SET_FIRE_STAIRCASE
     { { 0x45000001 }, sCamSetForestUnusedModes },         // CAM_SET_FOREST_UNUSED
     { { 0x45000001 }, sCamSetForestDefeatPoeModes },      // CAM_SET_FOREST_DEFEAT_POE

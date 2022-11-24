@@ -6636,6 +6636,7 @@ s32 Camera_Special5(Camera* camera) {
 /**
  * Camera's eye is fixed at points specified at lower or upper points depending on the player's position.
  * Designed around 4 specific vertical platforms, 1 in spirit temple and 3 in fire temple.
+ * Used by `CAM_SET_VERTICAL_PLATFORM`
  */
 s32 Camera_Special7(Camera* camera) {
     Special7ReadWriteData* rwData = &camera->paramData.spec7.rwData;
