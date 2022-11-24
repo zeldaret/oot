@@ -1751,7 +1751,7 @@ void func_808327F8(Player* this, f32 arg1) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_WALK_HEAVYBOOTS;
+        sfxId = NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_WALK_GROUND);
     }
@@ -1763,7 +1763,7 @@ void func_80832854(Player* this) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_JUMP_HEAVYBOOTS;
+        sfxId = NA_SE_PL_JUMP + SURFACE_MATERIAL_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_JUMP);
     }
@@ -1775,7 +1775,7 @@ void func_808328A0(Player* this) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_LAND_HEAVYBOOTS;
+        sfxId = NA_SE_PL_LAND + SURFACE_MATERIAL_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_LAND);
     }
