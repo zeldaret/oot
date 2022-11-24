@@ -11564,7 +11564,8 @@ void func_8084BDFC(Player* this, PlayState* play) {
 }
 
 void func_8084BEE4(Player* this) {
-    func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_WALK_WALL : NA_SE_PL_WALK_LADDER);
+    func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_VINE
+                                                     : NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_WOOD);
 }
 
 void func_8084BF1C(Player* this, PlayState* play) {
