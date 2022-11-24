@@ -5058,7 +5058,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                 func_80835C58(play, this, func_8084411C, 1);
                 func_80832440(play, this);
 
-                this->surfaceMaterial = this->unk_A82;
+                this->surfaceMaterial = this->prevSurfaceMaterial;
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
                     (D_80853604 != FLOOR_PROPERTY_6) && (D_80853604 != FLOOR_PROPERTY_9) && (D_80853600 > 20.0f) &&
@@ -8062,8 +8062,8 @@ void func_80842D20(PlayState* play, Player* this) {
 
 s32 func_80842DF4(PlayState* play, Player* this) {
     f32 phi_f2;
-    CollisionPoly* sp78;
-    s32 sp74;
+    CollisionPoly* groundPoly;
+    s32 bgId;
     Vec3f sp68;
     Vec3f sp5C;
     Vec3f sp50;
@@ -8086,11 +8086,11 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                     sp68.y = this->meleeWeaponInfo[0].tip.y + (sp50.y * phi_f2);
                     sp68.z = this->meleeWeaponInfo[0].tip.z + (sp50.z * phi_f2);
 
-                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &sp78, true,
-                                                false, false, true, &sp74) &&
-                        !SurfaceType_IsIgnoredByEntities(&play->colCtx, sp78, sp74) &&
-                        (SurfaceType_GetFloorType(&play->colCtx, sp78, sp74) != FLOOR_TYPE_6) &&
-                        (func_8002F9EC(play, &this->actor, sp78, sp74, &sp5C) == 0)) {
+                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &groundPoly,
+                                                true, false, false, true, &bgId) &&
+                        !SurfaceType_IsIgnoredByEntities(&play->colCtx, groundPoly, bgId) &&
+                        (SurfaceType_GetFloorType(&play->colCtx, groundPoly, bgId) != FLOOR_TYPE_6) &&
+                        (func_8002F9EC(play, &this->actor, groundPoly, bgId, &sp5C) == 0)) {
 
                         if (this->heldItemAction == PLAYER_IA_HAMMER) {
                             func_80832630(play);
@@ -8100,7 +8100,9 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                         }
 
                         if (this->linearVelocity >= 0.0f) {
-                            sceneSurfaceMaterial = SurfaceType_GetSceneMaterial(&play->colCtx, sp78, sp74);
+                            // The internal material is used because the internal DIRT and DIRT_SOFT map externally to
+                            // DIRT, so the internal material is needed to distinguish between the two
+                            sceneSurfaceMaterial = SurfaceType_GetSceneMaterial(&play->colCtx, groundPoly, bgId);
 
                             if (sceneSurfaceMaterial == SURFACE_MATERIAL_SCENE_WOOD) {
                                 CollisionCheck_SpawnShieldParticlesWood(play, &sp5C, &this->actor.projectedPos);
@@ -10006,7 +10008,7 @@ void func_80847BA0(PlayState* play, Player* this) {
 
     if (floorPoly != NULL) {
         this->unk_A7A = SurfaceType_GetFloorProperty(&play->colCtx, floorPoly, this->actor.floorBgId);
-        this->unk_A82 = this->surfaceMaterial;
+        this->prevSurfaceMaterial = this->surfaceMaterial;
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             if (this->actor.yDistToWater < 20.0f) {
@@ -11721,7 +11723,7 @@ void func_8084C5F8(Player* this, PlayState* play) {
     s32 temp;
     f32* sp38;
     CollisionPoly* groundPoly;
-    s32 sp30;
+    s32 bgId;
     Vec3f sp24;
 
     this->stateFlags2 |= PLAYER_STATE2_6;
@@ -11750,10 +11752,10 @@ void func_8084C5F8(Player* this, PlayState* play) {
         sp24.x = this->actor.world.pos.x;
         sp24.y = this->actor.world.pos.y + 20.0f;
         sp24.z = this->actor.world.pos.z;
-        if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &sp30, &sp24) != 0.0f) {
+        if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &sp24) != 0.0f) {
             //! @bug should use `SurfaceType_GetMaterial` instead of the internal scene material function
             // Most material map to itself, so this will mostly result in the correct material, but not all.
-            this->surfaceMaterial = SurfaceType_GetSceneMaterial(&play->colCtx, groundPoly, sp30);
+            this->surfaceMaterial = SurfaceType_GetSceneMaterial(&play->colCtx, groundPoly, bgId);
             func_808328A0(this);
         }
     }
