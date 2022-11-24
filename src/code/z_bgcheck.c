@@ -68,21 +68,21 @@ s32 D_80119D90[WALL_TYPE_MAX] = {
     WALL_FLAG_6,               // WALL_TYPE_7
 };
 
-u16 sMaterialInternalToExternal[SURFACE_MATERIAL_SCENE_MAX] = {
-    SURFACE_MATERIAL_DIRT,          // SURFACE_MATERIAL_SCENE_DIRT
-    SURFACE_MATERIAL_SAND,          // SURFACE_MATERIAL_SCENE_SAND
-    SURFACE_MATERIAL_STONE,         // SURFACE_MATERIAL_SCENE_STONE
-    SURFACE_MATERIAL_JABU,          // SURFACE_MATERIAL_SCENE_JABU
-    SURFACE_MATERIAL_WATER_SHALLOW, // SURFACE_MATERIAL_SCENE_WATER_SHALLOW
-    SURFACE_MATERIAL_WATER_DEEP,    // SURFACE_MATERIAL_SCENE_WATER_DEEP
-    SURFACE_MATERIAL_TALL_GRASS,    // SURFACE_MATERIAL_SCENE_TALL_GRASS
-    SURFACE_MATERIAL_LAVA,          // SURFACE_MATERIAL_SCENE_LAVA
-    SURFACE_MATERIAL_GRASS,         // SURFACE_MATERIAL_SCENE_GRASS
-    SURFACE_MATERIAL_BRIDGE,        // SURFACE_MATERIAL_SCENE_BRIDGE
-    SURFACE_MATERIAL_WOOD,          // SURFACE_MATERIAL_SCENE_WOOD
-    SURFACE_MATERIAL_DIRT,          // SURFACE_MATERIAL_SCENE_DIRT_SOFT
-    SURFACE_MATERIAL_ICE,           // SURFACE_MATERIAL_SCENE_ICE
-    SURFACE_MATERIAL_CARPET,        // SURFACE_MATERIAL_SCENE_CARPET
+u16 sSurfaceMaterialToSfxOffset[SURFACE_MATERIAL_MAX] = {
+    SURFACE_SFX_OFFSET_DIRT,          // SURFACE_MATERIAL_DIRT
+    SURFACE_SFX_OFFSET_SAND,          // SURFACE_MATERIAL_SAND
+    SURFACE_SFX_OFFSET_STONE,         // SURFACE_MATERIAL_STONE
+    SURFACE_SFX_OFFSET_JABU,          // SURFACE_MATERIAL_JABU
+    SURFACE_SFX_OFFSET_WATER_SHALLOW, // SURFACE_MATERIAL_WATER_SHALLOW
+    SURFACE_SFX_OFFSET_WATER_DEEP,    // SURFACE_MATERIAL_WATER_DEEP
+    SURFACE_SFX_OFFSET_TALL_GRASS,    // SURFACE_MATERIAL_TALL_GRASS
+    SURFACE_SFX_OFFSET_LAVA,          // SURFACE_MATERIAL_LAVA
+    SURFACE_SFX_OFFSET_GRASS,         // SURFACE_MATERIAL_GRASS
+    SURFACE_SFX_OFFSET_BRIDGE,        // SURFACE_MATERIAL_BRIDGE
+    SURFACE_SFX_OFFSET_WOOD,          // SURFACE_MATERIAL_WOOD
+    SURFACE_SFX_OFFSET_DIRT,          // SURFACE_MATERIAL_DIRT_SOFT
+    SURFACE_SFX_OFFSET_ICE,           // SURFACE_MATERIAL_ICE
+    SURFACE_SFX_OFFSET_CARPET,        // SURFACE_MATERIAL_CARPET
 };
 
 /**
@@ -4108,17 +4108,17 @@ u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s3
     return SurfaceType_GetData(colCtx, poly, bgId, 0) >> 31 & 1;
 }
 
-u32 SurfaceType_GetSceneMaterial(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 SurfaceType_GetMaterial(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SurfaceType_GetData(colCtx, poly, bgId, 1) & 0xF;
 }
 
-u16 SurfaceType_GetMaterial(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    s32 sceneSurfaceMaterial = SurfaceType_GetSceneMaterial(colCtx, poly, bgId);
+u16 SurfaceType_GetSfxOffset(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    s32 surfaceMaterial = SurfaceType_GetMaterial(colCtx, poly, bgId);
 
-    if ((sceneSurfaceMaterial < 0) || (sceneSurfaceMaterial >= ARRAY_COUNT(sMaterialInternalToExternal))) {
-        return SURFACE_MATERIAL_DIRT;
+    if ((surfaceMaterial < 0) || (surfaceMaterial >= ARRAY_COUNT(sSurfaceMaterialToSfxOffset))) {
+        return SURFACE_SFX_OFFSET_DIRT;
     }
-    return sMaterialInternalToExternal[sceneSurfaceMaterial];
+    return sSurfaceMaterialToSfxOffset[surfaceMaterial];
 }
 
 u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {

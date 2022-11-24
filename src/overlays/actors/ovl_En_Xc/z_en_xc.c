@@ -372,7 +372,7 @@ void EnXc_SetWalkingSFX(EnXc* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 11.0f) || Animation_OnFrame(&this->skelAnime, 23.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = NA_SE_PL_WALK_GROUND;
-            sfxId += SurfaceType_GetMaterial(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -386,7 +386,7 @@ void EnXc_SetNutThrowSFX(EnXc* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 7.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = NA_SE_PL_WALK_GROUND;
-            sfxId += SurfaceType_GetMaterial(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -402,7 +402,7 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
     if ((gSaveContext.sceneLayer != 4) || (sceneId != SCENE_SPOT11)) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
             sfxId = NA_SE_PL_WALK_GROUND;
-            sfxId += SurfaceType_GetMaterial(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -429,7 +429,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
                 s32 pad;
 
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
-                func_80078914(&sXyzDist, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_STONE);
+                func_80078914(&sXyzDist, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
             }
         }
     }
@@ -1746,14 +1746,14 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 9.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_MATERIAL_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
         func_80078914(&this->actor.projectedPos, NA_SE_VO_SK_CRASH);
     } else if (Animation_OnFrame(skelAnime, 26.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_MATERIAL_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
     } else if (Animation_OnFrame(skelAnime, 28.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
     } else if (Animation_OnFrame(skelAnime, 34.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
     }
 }
 

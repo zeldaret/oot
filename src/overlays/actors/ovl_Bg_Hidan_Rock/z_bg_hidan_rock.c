@@ -252,8 +252,8 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
 
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         Audio_PlayActorSfx2(&this->dyna.actor,
-                            NA_SE_PL_WALK_GROUND + SurfaceType_GetMaterial(&play->colCtx, this->dyna.actor.floorPoly,
-                                                                           this->dyna.actor.floorBgId));
+                            NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(&play->colCtx, this->dyna.actor.floorPoly,
+                                                                            this->dyna.actor.floorBgId));
     }
 
     this->unk_16C -= 0.5f;

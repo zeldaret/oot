@@ -618,7 +618,7 @@ typedef struct Player {
     /* 0x0898 */ s16        unk_898;
     /* 0x089A */ s16        unk_89A;
     /* 0x089C */ s16        unk_89C;
-    /* 0x089E */ u16        surfaceMaterial;
+    /* 0x089E */ u16        floorSfxOffset;
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
     /* 0x08A2 */ s16        unk_8A2;

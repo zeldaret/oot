@@ -589,7 +589,7 @@ void func_80B4FD90(EnZl2* this, PlayState* play) {
 
 void func_80B4FDD4(EnZl2* this) {
     if (Animation_OnFrame(&this->skelAnime, 14.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_MATERIAL_STONE);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -1437,7 +1437,7 @@ void func_80B51D24(EnZl2* this, PlayState* play) {
     if (Animation_OnFrame(skelAnime, 6.0f) || Animation_OnFrame(skelAnime, 0.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = NA_SE_PL_WALK_GROUND;
-            sfxId += SurfaceType_GetMaterial(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
