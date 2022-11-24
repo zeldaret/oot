@@ -89,7 +89,7 @@ typedef enum {
     /* 0x2D */ CAM_SET_BEAN_LOST_WOODS, // Lost woods bean "LIFTBEAN"
     /* 0x2E */ CAM_SET_SCENE_UNUSED, // Unused "SCENE0"
     /* 0x2F */ CAM_SET_SCENE_TRANSITION, // Scene Transitions "SCENE1"
-    /* 0x30 */ CAM_SET_VERTICAL_PLATFORM, // All the fire platforms that rise. Also used in non-mq spirit shortcut "HIDAN1"
+    /* 0x30 */ CAM_SET_VERTICAL_PLATFORM, // All the fire platforms that rise. Also used in non-mq spirit entrance shortcut "HIDAN1"
     /* 0x31 */ CAM_SET_FIRE_STAIRCASE, // Used on fire staircase actor cutscene in shortcut room connecting vanilla hammer chest to the final goron small key "HIDAN2"
     /* 0x32 */ CAM_SET_FOREST_UNUSED, // Unused "MORI2"
     /* 0x33 */ CAM_SET_FOREST_DEFEAT_POE, // Used when defeating a poe sister "MORI3"
