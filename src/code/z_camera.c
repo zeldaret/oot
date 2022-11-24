@@ -6646,17 +6646,17 @@ s32 Camera_Special7(Camera* camera) {
     f32 fovRollParam;
 
     if (camera->animState == 0) {
-        // Use sceneIds and hardcoded positions in Fire Temple to identify the 4 platforms
+        // Use sceneIds and hardcoded positions in the fire temple to identify the 4 platforms
         if (camera->play->sceneId == SCENE_JYASINZOU) {
-            rwData->index = CAM_ELEVATOR_PLATFORM_SPIRIT_ENTRANCE;
+            rwData->index = CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE;
         } else {
             // Hardcoded positions in SCENE_HIDAN
             if (playerPosRot->pos.x < 1500.0f) {
-                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_WEST_TOWER;
+                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLEWEST_TOWER;
             } else if (playerPosRot->pos.y < 3000.0f) {
-                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_LOWER_FLOOR;
+                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLELOWER_FLOOR;
             } else {
-                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_EAST_TOWER;
+                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLEEAST_TOWER;
             }
         }
         camera->animState++;
