@@ -1436,8 +1436,8 @@ void func_80B51D24(EnZl2* this, PlayState* play) {
 
     if (Animation_OnFrame(skelAnime, 6.0f) || Animation_OnFrame(skelAnime, 0.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-            sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfxId(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId = NA_SE_PL_WALK_GROUND;
+            sfxId += SurfaceType_GetMaterial(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }

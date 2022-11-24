@@ -1701,20 +1701,20 @@ void Audio_PlayActorSfx2(Actor* actor, u16 sfxId) {
 }
 
 void func_8002F850(PlayState* play, Actor* actor) {
-    s32 sfxId;
+    s32 surfaceMaterial;
 
     if (actor->bgCheckFlags & BGCHECKFLAG_WATER) {
         if (actor->yDistToWater < 20.0f) {
-            sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
+            surfaceMaterial = SURFACE_MATERIAL_WATER_SHALLOW;
         } else {
-            sfxId = NA_SE_PL_WALK_WATER1 - SFX_FLAG;
+            surfaceMaterial = SURFACE_MATERIAL_WATER_DEEP;
         }
     } else {
-        sfxId = SurfaceType_GetSfxId(&play->colCtx, actor->floorPoly, actor->floorBgId);
+        surfaceMaterial = SurfaceType_GetMaterial(&play->colCtx, actor->floorPoly, actor->floorBgId);
     }
 
     func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->projectedPos, sfxId + SFX_FLAG);
+    func_80078914(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceMaterial);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {

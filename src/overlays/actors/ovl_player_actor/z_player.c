@@ -1732,7 +1732,7 @@ void func_808326F0(Player* this) {
 }
 
 u16 func_8083275C(Player* this, u16 sfxId) {
-    return sfxId + this->unk_89E;
+    return sfxId + this->surfaceMaterial;
 }
 
 void func_80832770(Player* this, u16 sfxId) {
@@ -1740,7 +1740,7 @@ void func_80832770(Player* this, u16 sfxId) {
 }
 
 u16 func_808327A4(Player* this, u16 sfxId) {
-    return sfxId + this->unk_89E + this->ageProperties->unk_94;
+    return sfxId + this->surfaceMaterial + this->ageProperties->unk_94;
 }
 
 void func_808327C4(Player* this, u16 sfxId) {
@@ -5058,7 +5058,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                 func_80835C58(play, this, func_8084411C, 1);
                 func_80832440(play, this);
 
-                this->unk_89E = this->unk_A82;
+                this->surfaceMaterial = this->unk_A82;
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
                     (D_80853604 != FLOOR_PROPERTY_6) && (D_80853604 != FLOOR_PROPERTY_9) && (D_80853600 > 20.0f) &&
@@ -7922,7 +7922,7 @@ static Vec3f D_808545C0 = { 0.0f, 0.0f, 0.0f };
 s32 func_8084269C(PlayState* play, Player* this) {
     Vec3f sp2C;
 
-    if ((this->unk_89E == SURFACE_SFX_TYPE_0) || (this->unk_89E == SURFACE_SFX_TYPE_1)) {
+    if ((this->surfaceMaterial == SURFACE_MATERIAL_DIRT) || (this->surfaceMaterial == SURFACE_MATERIAL_SAND)) {
         func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
                       this->actor.floorHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
         func_800286CC(play, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
@@ -8068,7 +8068,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
     Vec3f sp5C;
     Vec3f sp50;
     s32 temp1;
-    s32 sp48;
+    s32 sceneSurfaceMaterial;
 
     if (this->meleeWeaponState > 0) {
         if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
@@ -8100,13 +8100,13 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                         }
 
                         if (this->linearVelocity >= 0.0f) {
-                            sp48 = SurfaceType_GetSfxType(&play->colCtx, sp78, sp74);
+                            sceneSurfaceMaterial = SurfaceType_GetSceneMaterial(&play->colCtx, sp78, sp74);
 
-                            if (sp48 == SURFACE_SFX_TYPE_10) {
+                            if (sceneSurfaceMaterial == SURFACE_MATERIAL_SCENE_WOOD) {
                                 CollisionCheck_SpawnShieldParticlesWood(play, &sp5C, &this->actor.projectedPos);
                             } else {
                                 CollisionCheck_SpawnShieldParticles(play, &sp5C);
-                                if (sp48 == SURFACE_SFX_TYPE_11) {
+                                if (sceneSurfaceMaterial == SURFACE_MATERIAL_SCENE_DIRT_SOFT) {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_SOFT);
                                 } else {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_HARD);
@@ -10006,20 +10006,19 @@ void func_80847BA0(PlayState* play, Player* this) {
 
     if (floorPoly != NULL) {
         this->unk_A7A = SurfaceType_GetFloorProperty(&play->colCtx, floorPoly, this->actor.floorBgId);
-        this->unk_A82 = this->unk_89E;
+        this->unk_A82 = this->surfaceMaterial;
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             if (this->actor.yDistToWater < 20.0f) {
-                this->unk_89E = SURFACE_SFX_TYPE_4;
+                this->surfaceMaterial = SURFACE_MATERIAL_WATER_SHALLOW;
             } else {
-                this->unk_89E = SURFACE_SFX_TYPE_5;
+                this->surfaceMaterial = SURFACE_MATERIAL_WATER_DEEP;
             }
         } else {
             if (this->stateFlags2 & PLAYER_STATE2_9) {
-                this->unk_89E = SURFACE_SFX_TYPE_1;
+                this->surfaceMaterial = SURFACE_MATERIAL_SAND;
             } else {
-                // unk_89E is a sfxType, but SurfaceType_GetSfxId returns a sfxId?
-                this->unk_89E = SurfaceType_GetSfxId(&play->colCtx, floorPoly, this->actor.floorBgId);
+                this->surfaceMaterial = SurfaceType_GetMaterial(&play->colCtx, floorPoly, this->actor.floorBgId);
             }
         }
 
@@ -11752,7 +11751,9 @@ void func_8084C5F8(Player* this, PlayState* play) {
         sp24.y = this->actor.world.pos.y + 20.0f;
         sp24.z = this->actor.world.pos.z;
         if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &sp30, &sp24) != 0.0f) {
-            this->unk_89E = SurfaceType_GetSfxType(&play->colCtx, groundPoly, sp30);
+            //! @bug should use `SurfaceType_GetMaterial` instead of the internal scene material function
+            // Most material map to itself, so this will mostly result in the correct material, but not all.
+            this->surfaceMaterial = SurfaceType_GetSceneMaterial(&play->colCtx, groundPoly, sp30);
             func_808328A0(this);
         }
     }
