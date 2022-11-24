@@ -1740,12 +1740,15 @@ void func_8002F974(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
 }
 
-void func_8002F994(Actor* actor, s32 arg1) {
+void func_8002F994(Actor* actor, s32 timer) {
     actor->flags |= ACTOR_FLAG_28;
     actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
-    if (arg1 < 40) {
+
+    // The sfx here are not actually sound effects, but instead this is data that gets sent into
+    // the io ports of sequence 0, and act as indices to a table to delay ticks of the timer sfx.
+    if (timer < 40) {
         actor->sfx = 3;
-    } else if (arg1 < 100) {
+    } else if (timer < 100) {
         actor->sfx = 2;
     } else {
         actor->sfx = 1;
