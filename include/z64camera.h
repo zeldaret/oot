@@ -1255,7 +1255,7 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x0 */ s16 index;
+    /* 0x0 */ s16 index; // See `CamVerticalPlatform`
 } Special7ReadWriteData; // size = 0x4
 
 typedef struct {
