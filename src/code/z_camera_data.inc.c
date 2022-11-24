@@ -2565,22 +2565,52 @@ OnePointCsFull D_8011D9F4[] = {
     { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
 };
 
-Vec3f D_8011DA6C[] = {
-    { 3050.0f, 700.0f, 0.0f }, { 1755.0f, 3415.0f, -380.0f }, { -3120.0f, 3160.0f, 245.0f }, { 0.0f, -10.0f, 240.0f }
+typedef enum {
+    /* 0 */ CAM_PLATFORM_FIRE_LOWER_FLOOR,
+    /* 1 */ CAM_PLATFORM_FIRE_EAST_TOWER,
+    /* 2 */ CAM_PLATFORM_FIRE_WEST_TOWER,
+    /* 3 */ CAM_PLATFORM_SPIRIT_ENTRANCE
+} CamPlatform;
+
+Vec3f sCamPlatformLowerEyePoints[] = {
+    { 3050.0f, 700.0f, 0.0f },     // CAM_PLATFORM_FIRE_LOWER_FLOOR
+    { 1755.0f, 3415.0f, -380.0f }, // CAM_PLATFORM_FIRE_EAST_TOWER
+    { -3120.0f, 3160.0f, 245.0f }, // CAM_PLATFORM_FIRE_WEST_TOWER
+    { 0.0f, -10.0f, 240.0f },      // CAM_PLATFORM_SPIRIT_ENTRANCE
 };
 
-Vec3f D_8011DA9C[] = {
-    { 3160.0f, 2150.0f, 0.0f },
-    { 1515.0f, 4130.0f, -835.0f },
-    { -3040.0f, 4135.0f, 230.0f },
-    { -50.0f, 600.0f, -75.0f },
+Vec3f sCamPlatformUpperEyePoints[] = {
+    { 3160.0f, 2150.0f, 0.0f },    // CAM_PLATFORM_FIRE_LOWER_FLOOR
+    { 1515.0f, 4130.0f, -835.0f }, // CAM_PLATFORM_FIRE_EAST_TOWER
+    { -3040.0f, 4135.0f, 230.0f }, // CAM_PLATFORM_FIRE_WEST_TOWER
+    { -50.0f, 600.0f, -75.0f },    // CAM_PLATFORM_SPIRIT_ENTRANCE
 };
 
-f32 D_8011DACC[] = { 1570.0f, 3680.0f, 3700.0f, 395.0f };
+// Trigger player y position to swap eye points
+f32 sCamPlatformTogglePosY[] = {
+    1570.0f, // CAM_PLATFORM_FIRE_LOWER_FLOOR
+    3680.0f, // CAM_PLATFORM_FIRE_EAST_TOWER
+    3700.0f, // CAM_PLATFORM_FIRE_WEST_TOWER
+    395.0f,  // CAM_PLATFORM_SPIRIT_ENTRANCE
+};
 
-f32 D_8011DADC[] = { 320.0f, 320.0f, 320.0f, 0.0f };
+f32 sCamPlatformFovRollParam[] = {
+    320.0f, // CAM_PLATFORM_FIRE_LOWER_FLOOR
+    320.0f, // CAM_PLATFORM_FIRE_EAST_TOWER
+    320.0f, // CAM_PLATFORM_FIRE_WEST_TOWER
+    0.0f,   // CAM_PLATFORM_SPIRIT_ENTRANCE
+};
 
-s16 D_8011DAEC[] = { -2000, -1000, 0, 0, 0, 0, 0, 0 };
+s16 sCamPlatformRolls[] = {
+    -2000, // CAM_PLATFORM_FIRE_LOWER_FLOOR
+    -1000, // CAM_PLATFORM_FIRE_EAST_TOWER
+    0,     // CAM_PLATFORM_FIRE_WEST_TOWER
+    0      // CAM_PLATFORM_SPIRIT_ENTRANCE
+};
+
+// unused
+s32 D_8011DAF4 = 0;
+s32 D_8011DAF8 = 0;
 
 s16 D_8011DAFC[] = {
     CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,

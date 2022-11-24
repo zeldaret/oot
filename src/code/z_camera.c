@@ -6634,47 +6634,60 @@ s32 Camera_Special5(Camera* camera) {
 }
 
 /**
- * Camera's eye is fixed at points specified at D_8011DA6C / D_8011DA9C
- * depending on the player's position
+ * Camera's eye is fixed at points specified at lower or upper points depending on the player's position.
+ * Designed around 4 specific vertical platforms, 1 in spirit temple and 3 in fire temple.
  */
 s32 Camera_Special7(Camera* camera) {
     Special7ReadWriteData* rwData = &camera->paramData.spec7.rwData;
     PosRot* playerPosRot = &camera->playerPosRot;
     Vec3f atTarget;
-    f32 yOffset;
-    f32 temp_f0;
+    f32 yOffset = Player_GetHeight(camera->player);
+    f32 fovRollParam;
 
-    yOffset = Player_GetHeight(camera->player);
     if (camera->animState == 0) {
+        // Use sceneIds and hardcoded positions in Fire Temple to identify the 4 platforms
         if (camera->play->sceneId == SCENE_JYASINZOU) {
-            // Spirit Temple
-            rwData->index = 3;
-        } else if (playerPosRot->pos.x < 1500.0f) {
-            rwData->index = 2;
-        } else if (playerPosRot->pos.y < 3000.0f) {
-            rwData->index = 0;
+            rwData->index = CAM_PLATFORM_SPIRIT_ENTRANCE;
         } else {
-            rwData->index = 1;
+            // Hardcoded positions in SCENE_HIDAN
+            if (playerPosRot->pos.x < 1500.0f) {
+                rwData->index = CAM_PLATFORM_FIRE_WEST_TOWER;
+            } else if (playerPosRot->pos.y < 3000.0f) {
+                rwData->index = CAM_PLATFORM_FIRE_LOWER_FLOOR;
+            } else {
+                rwData->index = CAM_PLATFORM_FIRE_EAST_TOWER;
+            }
         }
         camera->animState++;
         camera->roll = 0;
     }
 
-    if (camera->at.y < D_8011DACC[rwData->index]) {
+    if (camera->at.y < sCamPlatformTogglePosY[rwData->index]) {
+        // Cam at lower position
+
+        // look at player
         atTarget = playerPosRot->pos;
         atTarget.y -= 20.0f;
         Camera_LERPCeilVec3f(&atTarget, &camera->at, 0.4f, 0.4f, 0.10f);
-        camera->eye = camera->eyeNext = D_8011DA6C[rwData->index];
-        temp_f0 =
-            (playerPosRot->pos.y - D_8011DADC[rwData->index]) / (D_8011DACC[rwData->index] - D_8011DADC[rwData->index]);
-        camera->roll = D_8011DAEC[rwData->index] * temp_f0;
-        camera->fov = (20.0f * temp_f0) + 60.0f;
+
+        // place camera based on hard-coded positions
+        camera->eye = camera->eyeNext = sCamPlatformLowerEyePoints[rwData->index];
+
+        fovRollParam = (playerPosRot->pos.y - sCamPlatformFovRollParam[rwData->index]) /
+                       (sCamPlatformTogglePosY[rwData->index] - sCamPlatformFovRollParam[rwData->index]);
+        camera->roll = sCamPlatformRolls[rwData->index] * fovRollParam;
+        camera->fov = 60.0f + (20.0f * fovRollParam);
     } else {
+        // Cam at upper position
+
+        // look at player
         atTarget = playerPosRot->pos;
         atTarget.y += yOffset;
         Camera_LERPCeilVec3f(&atTarget, &camera->at, 0.4f, 0.4f, 0.1f);
+
         camera->roll = 0;
-        camera->eye = camera->eyeNext = D_8011DA9C[rwData->index];
+        // place camera based on hard-coded positions
+        camera->eye = camera->eyeNext = sCamPlatformUpperEyePoints[rwData->index];
         camera->fov = 70.0f;
     }
 
