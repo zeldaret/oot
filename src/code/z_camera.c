@@ -6652,11 +6652,11 @@ s32 Camera_Special7(Camera* camera) {
         } else {
             // Hardcoded positions in SCENE_HIDAN
             if (playerPosRot->pos.x < 1500.0f) {
-                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLEWEST_TOWER;
+                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER;
             } else if (playerPosRot->pos.y < 3000.0f) {
-                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLELOWER_FLOOR;
+                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR;
             } else {
-                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLEEAST_TOWER;
+                rwData->index = CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER;
             }
         }
         camera->animState++;
