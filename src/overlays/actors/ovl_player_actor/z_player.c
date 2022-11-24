@@ -11753,8 +11753,9 @@ void func_8084C5F8(Player* this, PlayState* play) {
         sp24.y = this->actor.world.pos.y + 20.0f;
         sp24.z = this->actor.world.pos.z;
         if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &sp24) != 0.0f) {
-            //! @bug should use `SurfaceType_GetSfxOffset` instead of the internal scene material function
-            // Most material map to itself, so this will mostly result in the correct material, but not all.
+            //! @bug should use `SurfaceType_GetSfxOffset` instead of `SurfaceType_GetMaterial`.
+            // Most material and sfxOffsets share identical enum values,
+            // so this will mostly result in the correct sfx played, but not in all cases, such as carpet and ice.
             this->floorSfxOffset = SurfaceType_GetMaterial(&play->colCtx, groundPoly, bgId);
             func_808328A0(this);
         }
