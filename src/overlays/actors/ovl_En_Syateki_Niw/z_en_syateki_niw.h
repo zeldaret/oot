@@ -32,7 +32,7 @@ typedef struct EnSyatekiNiw {
     /* 0x0256 */ s16 timer1; // sometimes set alongside timer0, never read on its own.
     /* 0x0258 */ s16 timer2;
     /* 0x025A */ s16 archeryTimer;
-    /* 0x025C */ s16 unk_25C;
+    /* 0x025C */ s16 hopTimer;
     /* 0x025E */ s16 movementTimer;
     /* 0x0260 */ s16 sootTimer; // cuccoo is covereed in soot.
     /* 0x0262 */ s16 cluckTimer;
@@ -44,13 +44,13 @@ typedef struct EnSyatekiNiw {
     /* 0x027C */ f32 limbBRotZTarget;
     /* 0x0284 */ f32 limb7RotYTarget;
     /* 0x0280 */ f32 limb7RotZTarget;
-    /* 0x0288 */ f32 unk_288; // set, but never used.
+    /* 0x0288 */ f32 unkArcheryFloat; // set, but never used.
     /* 0x028C */ s16 lifetime; // always ticks up, never read
-    /* 0x028E */ s16 unk_28E;
-    /* 0x0290 */ s16 unk_290;
-    /* 0x0292 */ s16 unk_292;
-    /* 0x0294 */ s16 unk_294;
-    /* 0x0296 */ s16 unk_296;
+    /* 0x028E */ s16 limbDRotXTimer;
+    /* 0x0290 */ s16 unk_290; // set to 0, never read.
+    /* 0x0292 */ s16 limb7BRotTimer;
+    /* 0x0294 */ s16 targetPosTimer;
+    /* 0x0296 */ s16 archeryAnimationType;
     /* 0x0298 */ s16 rotYFlip;
     /* 0x029C */ s16 archeryState; // sequence index for "Archery" action
     /* 0x029C */ s16 unkArcheryBool;
@@ -61,18 +61,18 @@ typedef struct EnSyatekiNiw {
     /* 0x02BC */ Vec3f limbDRot;
     /* 0x02C8 */ Vec3f posRotStep;
     /* 0x02D4 */ f32 focusYOffset;
-    /* 0x02D8 */ f32 unkRotY;
+    /* 0x02D8 */ f32 removeStateYaw;
     /* 0x02DC */ Vec3f initPos;
     /* 0x02E8 */ Vec3f targetPos;
     /* 0x02F4 */ f32 scale;
-    /* 0x02F8 */ u8 unkAlleyHitByte; //Set when hit in Bombchu Alley. Never read.
+    /* 0x02F8 */ u8 unkAlleyHitByte; // Set when hit in Bombchu Alley. Never read.
     /* 0x02FC */ ColliderCylinder collider;
     /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT];
 } EnSyatekiNiw; // size = 0x0460
 
 typedef enum{
-    MINIGAME_ARCHERY,
-    MINIGAME_ALLEY
+    SYATEKI_MINIGAME_ARCHERY,
+    SYATEKI_MINIGAME_ALLEY
 } EnSyatekiMinigame;
 
 #endif

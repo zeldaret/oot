@@ -17,7 +17,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play);
 
 void EnSyatekiNiw_SetupDefault(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_UpdateEffects(EnSyatekiNiw* this, PlayState* play);
-void func_80B129EC(EnSyatekiNiw* this, PlayState* play);
+void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_SetupArchery(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play);
@@ -73,13 +73,13 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
     this->minigameType = this->actor.params;
-    if (this->minigameType < MINIGAME_ARCHERY) {
-        this->minigameType = MINIGAME_ARCHERY;
+    if (this->minigameType < SYATEKI_MINIGAME_ARCHERY) {
+        this->minigameType = SYATEKI_MINIGAME_ARCHERY;
     }
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    if (this->minigameType == MINIGAME_ARCHERY) {
+    if (this->minigameType == SYATEKI_MINIGAME_ARCHERY) {
         osSyncPrintf("\n\n");
         // "Archery range chicken"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
@@ -103,28 +103,28 @@ void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
+void EnSyatekiNiw_UpdateAnimationTarget(EnSyatekiNiw* this, PlayState* play, s16 aniType) {
     if (this->timer0 == 0) {
-        if (arg2 == 0) {
+        if (aniType == 0) {
             this->limbDRotXTarget = 0.0f;
         } else {
             this->limbDRotXTarget = -10000.0f;
         }
 
-        this->unk_28E += 1;
+        this->limbDRotXTimer += 1;
         this->timer0 = 3;
-        if (!(this->unk_28E & 1)) {
+        if (!(this->limbDRotXTimer & 1)) {
             this->limbDRotXTarget = 0.0f;
-            if (arg2 == 0) {
+            if (aniType == 0) {
                 this->timer0 = Rand_ZeroFloat(30.0f);
             }
         }
     }
 
     if (this->timer2 == 0) {
-        this->unk_292++;
-        this->unk_292 &= 1;
-        switch (arg2) {
+        this->limb7BRotTimer++;
+        this->limb7BRotTimer &= 1;
+        switch (aniType) {
             case 0:
                 this->limb7RotXTarget = 0.0f;
                 this->limbBRotXTarget = 0.0f;
@@ -134,7 +134,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
                 this->timer2 = 3;
                 this->limb7RotXTarget = 7000.0f;
                 this->limbBRotXTarget = 7000.0f;
-                if (this->unk_292 == 0) {
+                if (this->limb7BRotTimer == 0) {
                     this->limb7RotXTarget = 0.0f;
                     this->limbBRotXTarget = 0.0f;
                 }
@@ -145,7 +145,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
                 this->limbBRotXTarget = this->limb7RotXTarget = -10000.0f;
                 this->limb7RotYTarget = this->limbBRotYTarget = 25000.0f;
                 this->limb7RotZTarget = this->limbBRotZTarget = 6000.0f;
-                if (this->unk_292 == 0) {
+                if (this->limb7BRotTimer == 0) {
                     this->limbBRotYTarget = 8000.0f;
                     this->limb7RotYTarget = 8000.0f;
                 }
@@ -155,7 +155,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
                 this->timer2 = 2;
                 this->limbBRotYTarget = 10000.0f;
                 this->limb7RotYTarget = 10000.0f;
-                if (this->unk_292 == 0) {
+                if (this->limb7BRotTimer == 0) {
                     this->limbBRotYTarget = 3000.0f;
                     this->limb7RotYTarget = 3000.0f;
                 }
@@ -169,7 +169,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
                 this->timer2 = 5;
                 this->limbBRotYTarget = 14000.0f;
                 this->limb7RotYTarget = 14000.0f;
-                if (this->unk_292 == 0) {
+                if (this->limb7BRotTimer == 0) {
                     this->limbBRotYTarget = 10000.0f;
                     this->limb7RotYTarget = 10000.0f;
                 }
@@ -209,7 +209,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
 void EnSyatekiNiw_SetupDefault(EnSyatekiNiw* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
-    if (this->minigameType != MINIGAME_ARCHERY) {
+    if (this->minigameType != SYATEKI_MINIGAME_ARCHERY) {
         Actor_SetScale(&this->actor, this->scale);
     }
 
@@ -228,21 +228,21 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
     f32 posXDiff;
     s16 sp4A;
 
-    if ((this->unkArcheryBool) && (this->minigameType == MINIGAME_ARCHERY) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if ((this->unkArcheryBool) && (this->minigameType == SYATEKI_MINIGAME_ARCHERY) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->unkArcheryBool = false;
         this->actionFunc = EnSyatekiNiw_SetupArchery;
         return;
     }
 
     sp4A = 0;
-    if ((this->unk_25E == 0) && (this->unk_25C == 0)) {
-        this->unk_294++;
-        if (this->unk_294 >= 8) {
-            this->unk_25E = Rand_ZeroFloat(30.0f);
-            this->unk_294 = Rand_ZeroFloat(3.99f);
+    if ((this->movementTimer == 0) && (this->hopTimer == 0)) {
+        this->targetPosTimer++;
+        if (this->targetPosTimer >= 8) {
+            this->movementTimer = Rand_ZeroFloat(30.0f);
+            this->targetPosTimer = Rand_ZeroFloat(3.99f);
 
             switch (this->minigameType) {
-                case MINIGAME_ARCHERY:
+                case SYATEKI_MINIGAME_ARCHERY:
                     posXMod = Rand_CenteredFloat(100.0f);
                     if (posXMod < 0.0f) {
                         posXMod -= 100.0f;
@@ -277,7 +277,7 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
                     }
                     break;
 
-                case MINIGAME_ALLEY:
+                case SYATEKI_MINIGAME_ALLEY:
                     posXMod = Rand_CenteredFloat(50.0f);
                     if (posXMod < 0.0f) {
                         posXMod -= 50.0f;
@@ -297,17 +297,17 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
                     break;
             }
         } else {
-            this->unk_25C = 4;
+            this->hopTimer = 4;
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->actor.velocity.y = 2.5f;
-                if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->minigameType == MINIGAME_ARCHERY)) {
-                    this->unk_25C = 0xC;
+                if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->minigameType == SYATEKI_MINIGAME_ARCHERY)) {
+                    this->hopTimer = 0xC;
                     this->actor.velocity.y = 10.0f;
                 }
             }
         }
     }
-    if (this->unk_25C != 0) {
+    if (this->hopTimer != 0) {
         sp4A = 1;
         Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 1.0f, this->posRotStep.y);
         Math_ApproachF(&this->actor.world.pos.z, this->targetPos.z, 1.0f, this->posRotStep.y);
@@ -324,8 +324,8 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
         }
 
         if ((posXDiff == 0.0f) && (posZDiff == 0.0f)) {
-            this->unk_25C = 0;
-            this->unk_294 = 7;
+            this->hopTimer = 0;
+            this->targetPosTimer = 7;
         }
 
         Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(posXDiff, posZDiff)), 3, this->posRotStep.z, 0);
@@ -333,7 +333,7 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
     }
 
     if (this->sootTimer == 0) {
-        func_80B11A94(this, play, sp4A);
+        EnSyatekiNiw_UpdateAnimationTarget(this, play, sp4A);
         return;
     }
 
@@ -349,7 +349,7 @@ void EnSyatekiNiw_SetupArchery(EnSyatekiNiw* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
     this->limbBRotZTarget = 6000.0f;
-    this->unk_288 = -10000.0f;
+    this->unkArcheryFloat = -10000.0f;
     this->limbBRot.z = 6000.0f;
     this->limbBRot.y = 10000.0f;
     this->actionFunc = EnSyatekiNiw_Archery;
@@ -369,15 +369,15 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
     player->actor.freezeTimer = 10;
     switch (this->archeryState) {
         case 0:
-            this->unk_296 = 2;
+            this->archeryAnimationType = 2;
             this->posRotStep.y = 0.0f;
             this->archeryState = 1;
             break;
 
         case 1:
             this->actor.speedXZ = 2.0f;
-            if (this->unk_25C == 0) {
-                this->unk_25C = 3;
+            if (this->hopTimer == 0) {
+                this->hopTimer = 3;
                 this->actor.velocity.y = 3.5f;
             }
 
@@ -408,11 +408,11 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
                 this->limbBRotZTarget = 0.0f;
                 this->limbBRotYTarget = 0.0f;
                 this->limb7RotYTarget = 0.0f;
-                this->unk_288 = 0.0f;
+                this->unkArcheryFloat = 0.0f;
                 this->actor.speedXZ = 0.5f;
                 this->timer0 = this->timer1 = 0;
-                this->unk_28E = this->unk_290 = 0;
-                this->unk_296 = 1;
+                this->limbDRotXTimer = this->unk_290 = 0;
+                this->archeryAnimationType = 1;
                 this->archeryState = 3;
             }
             break;
@@ -429,7 +429,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
 
         case 4:
             if (this->archeryTimer == 0) {
-                this->unk_296 = 4;
+                this->archeryAnimationType = 4;
                 this->limbDRotXTarget = 5000.0f;
                 this->limb7RotXTarget = 0.0f;
                 this->limbBRotXTarget = 0.0f;
@@ -446,7 +446,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
         case 5:
             if (this->archeryTimer == 1) {
                 this->timer2 = 0;
-                this->unk_296 = 5;
+                this->archeryAnimationType = 5;
                 this->timer1 = this->timer2;
                 this->timer0 = this->timer2;
                 this->actor.speedXZ = 1.0f;
@@ -455,19 +455,19 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
             if ((this->archeryTimer == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
                 Audio_PlaySfxGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                this->unk_25E = 20;
+                this->movementTimer = 20;
                 this->archeryState = 6;
                 this->actor.speedXZ = 0.0f;
             }
             break;
 
         case 6:
-            if (this->unk_25E == 1) {
+            if (this->movementTimer == 1) {
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->nextEntranceIndex = gSaveContext.entranceIndex;
                 play->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
-                this->unk_25E = 20;
+                this->movementTimer = 20;
                 this->actionFunc = EnSyatekiNiw_ExitArchery;
             }
             break;
@@ -479,21 +479,21 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
                            phi_f16,
                        5, this->posRotStep.y, 0);
     Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
-    if (this->unk_296 == 2) {
+    if (this->archeryAnimationType == 2) {
         this->timer1 = 10;
         this->timer0 = this->timer1;
     }
 
-    func_80B11A94(this, play, this->unk_296);
+    EnSyatekiNiw_UpdateAnimationTarget(this, play, this->archeryAnimationType);
 }
 
 void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play) {
-    if (this->unk_25E == 1) {
+    if (this->movementTimer == 1) {
         gSaveContext.timerState = TIMER_STATE_OFF;
     }
 }
 
-void func_80B128F8(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_SetupRemove(EnSyatekiNiw* this, PlayState* play) {
     s16 sp26;
     s16 sp24;
 
@@ -503,14 +503,14 @@ void func_80B128F8(EnSyatekiNiw* this, PlayState* play) {
         (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
         this->actor.speedXZ = 5.0f;
         this->rotYFlip = Rand_ZeroFloat(1.99f);
-        this->unkRotY = Rand_CenteredFloat(8000.0f) + -10000.0f;
+        this->removeStateYaw = Rand_CenteredFloat(8000.0f) + -10000.0f;
         this->cluckTimer = 30;
-        this->unk_25E = 100;
-        this->actionFunc = func_80B129EC;
+        this->movementTimer = 100;
+        this->actionFunc = EnSyatekiNiw_Remove;
     }
 }
 
-void func_80B129EC(EnSyatekiNiw* this, PlayState* play) {
+void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play) {
     s32 pad;
     f32 phi_f2;
     s16 screenX;
@@ -519,34 +519,34 @@ void func_80B129EC(EnSyatekiNiw* this, PlayState* play) {
 
     Actor_SetFocus(&this->actor, this->focusYOffset);
     Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
-    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (screenX < 0) || (screenX > SCREEN_WIDTH) ||
+    if ((this->movementTimer == 0) || (this->actor.projectedPos.z < -70.0f) || (screenX < 0) || (screenX > SCREEN_WIDTH) ||
         (screenY < 0) || (screenY > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
         return;
     }
 
     this->spawnFeathers = true;
-    if (this->unk_25C == 0) {
+    if (this->hopTimer == 0) {
         this->rotYFlip++;
         this->rotYFlip &= 1;
-        this->unk_25C = (s16)Rand_CenteredFloat(4.0f) + 5;
+        this->hopTimer = (s16)Rand_CenteredFloat(4.0f) + 5;
         if ((Rand_ZeroFloat(5.0f) < 1.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->actor.velocity.y = 4.0f;
         }
     }
 
     phi_f2 = (this->rotYFlip == 0) ? 5000.0f : -5000.0f;
-    rotYTarget = this->unkRotY + phi_f2;
+    rotYTarget = this->removeStateYaw + phi_f2;
     Math_SmoothStepToS(&this->actor.world.rot.y, rotYTarget, 3, this->posRotStep.y, 0);
     Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
-    func_80B11A94(this, play, 2);
+    EnSyatekiNiw_UpdateAnimationTarget(this, play, 2);
 }
 
 void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->minigameType) {
-            case MINIGAME_ARCHERY:
+            case SYATEKI_MINIGAME_ARCHERY:
                 if (!this->unkArcheryBool) {
                     this->cluckTimer = 30;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
@@ -557,13 +557,13 @@ void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
                 }
                 break;
 
-            case MINIGAME_ALLEY:
+            case SYATEKI_MINIGAME_ALLEY:
                 this->cluckTimer = 30;
                 this->unkAlleyHitByte = 1;
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                 this->sootTimer = 100;
                 this->spawnFeathers = true;
-                this->unk_25E = this->sootTimer;
+                this->movementTimer = this->sootTimer;
                 break;
         }
     }
@@ -597,12 +597,12 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
         this->archeryTimer--;
     }
 
-    if (this->unk_25C != 0) {
-        this->unk_25C--;
+    if (this->hopTimer != 0) {
+        this->hopTimer--;
     }
 
-    if (this->unk_25E != 0) {
-        this->unk_25E--;
+    if (this->movementTimer != 0) {
+        this->movementTimer--;
     }
 
     if (this->cluckTimer != 0) {
@@ -651,13 +651,13 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
 
     i = 0;
     switch (this->minigameType) {
-        case MINIGAME_ARCHERY:
+        case SYATEKI_MINIGAME_ARCHERY:
             if (play->shootingGalleryStatus != 0) {
                 i = 1;
             }
             break;
 
-        case MINIGAME_ALLEY:
+        case SYATEKI_MINIGAME_ALLEY:
             i = 1;
             break;
     }
@@ -696,7 +696,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     Color_RGBA8 sootShade = { 0, 0, 0, 255 };
 
-    if (this->actionFunc != func_80B128F8) {
+    if (this->actionFunc != EnSyatekiNiw_SetupRemove) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->sootTimer != 0) {
             func_80026230(play, &sootShade, 0, 20);
