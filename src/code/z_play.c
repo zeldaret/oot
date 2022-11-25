@@ -1290,13 +1290,14 @@ void Play_Main(GameState* thisx) {
         R_PLAY_RUN_UPDATE = 1;
         R_PLAY_RUN_DRAW = 1;
         R_PLAY_DRAW_SKYBOX = 1;
-        R_PLAY_DRAW_ROOM_FLAGS = 3;
+        R_PLAY_DRAW_ROOM_FLAGS = (ROOM_DRAW_OPA | ROOM_DRAW_XLU);
         R_PLAY_DRAW_ACTORS = 1;
         R_PLAY_DRAW_LENS_FLARES = 1;
         R_PLAY_DRAW_SCREEN_FILLS = 1;
         R_PLAY_DRAW_SANDSTORM = 1;
         R_PLAY_DRAW_OVERLAY_ELEMENTS = 1;
-        R_PLAY_DRAW_ENV_FLAGS = 15;
+        R_PLAY_DRAW_ENV_FLAGS = (PLAY_ENV_SKYBOX_FILTERS_FLAG | PLAY_ENV_SUN_AND_MOON_FLAG | PLAY_ENV_LIGHTNING_FLAG |
+                                 PLAY_ENV_LIGHTS_FLAG);
         HREG(91) = 1; // reg is not used in this mode
         R_PLAY_DRAW_COVER_ELEMENTS = 1;
         R_PLAY_DRAW_DEBUG_OBJECTS = 1;
