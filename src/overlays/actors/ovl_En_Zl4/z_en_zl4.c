@@ -228,9 +228,9 @@ u16 EnZl4_GetText(PlayState* play, Actor* thisx) {
 
 s16 func_80B5B9B0(PlayState* play, Actor* thisx) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        return false;
+        return NPC_TALK_STATE_IDLE;
     }
-    return true;
+    return NPC_TALK_STATE_TALKING;
 }
 
 void EnZl4_UpdateFace(EnZl4* this) {
@@ -305,8 +305,8 @@ void EnZl4_SetMove(EnZl4* this, PlayState* play) {
 void func_80B5BB78(EnZl4* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    func_80034A14(&this->actor, &this->unk_1E0, 2, 2);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void EnZl4_GetActionStartPos(CsCmdActorAction* action, Vec3f* vec) {
@@ -1200,16 +1200,17 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             }
             break;
     }
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    func_80034A14(&this->actor, &this->unk_1E0, 2, (this->csState == ZL4_CS_WINDOW) ? 2 : 1);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2,
+                   (this->csState == ZL4_CS_WINDOW) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE);
     if (EnZl4_InMovingAnim(this)) {
         EnZl4_SetMove(this, play);
     }
 }
 
 void EnZl4_Idle(EnZl4* this, PlayState* play) {
-    func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 60.0f, EnZl4_GetText,
-                  func_80B5B9B0);
+    Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 60.0f,
+                      EnZl4_GetText, func_80B5B9B0);
     func_80B5BB78(this, play);
 }
 
@@ -1268,14 +1269,14 @@ s32 EnZl4_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     Vec3s sp1C;
 
     if (limbIndex == 17) {
-        sp1C = this->unk_1E0.unk_08;
+        sp1C = this->interactInfo.headRot;
         Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 10) {
-        sp1C = this->unk_1E0.unk_0E;
+        sp1C = this->interactInfo.torsoRot;
         Matrix_RotateY(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
     }
