@@ -1144,22 +1144,22 @@ void Play_Draw(PlayState* this) {
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_SUN_AND_MOON_FLAG)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
                     if (!this->envCtx.sunMoonDisabled) {
                         Environment_DrawSunAndMoon(this);
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_SKYBOX_FILTERS_FLAG)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
                     Environment_DrawSkyboxFilters(this);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_LIGHTNING_FLAG)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
                     Environment_UpdateLightningStrike(this);
                     Environment_DrawLightning(this, 0);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_LIGHTS_FLAG)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
                     sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
                     Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
                     Lights_Draw(sp228, gfxCtx);
@@ -1296,8 +1296,8 @@ void Play_Main(GameState* thisx) {
         R_PLAY_DRAW_SCREEN_FILLS = 1;
         R_PLAY_DRAW_SANDSTORM = 1;
         R_PLAY_DRAW_OVERLAY_ELEMENTS = 1;
-        R_PLAY_DRAW_ENV_FLAGS = (PLAY_ENV_SKYBOX_FILTERS_FLAG | PLAY_ENV_SUN_AND_MOON_FLAG | PLAY_ENV_LIGHTNING_FLAG |
-                                 PLAY_ENV_LIGHTS_FLAG);
+        R_PLAY_DRAW_ENV_FLAGS = (PLAY_ENV_DRAW_SKYBOX_FILTERS | PLAY_ENV_DRAW_SUN_AND_MOON | PLAY_ENV_DRAW_LIGHTNING |
+                                 PLAY_ENV_DRAW_LIGHTS);
         HREG(91) = 1; // reg is not used in this mode
         R_PLAY_DRAW_COVER_ELEMENTS = 1;
         R_PLAY_DRAW_DEBUG_OBJECTS = 1;
