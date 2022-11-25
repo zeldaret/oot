@@ -1,5 +1,12 @@
+/*
+ * File: z_en_sw.c
+ * Overlay: ovl_En_Sw
+ * Description: SkullWalltula and Gold Skulltula
+ */
+
 #include "z_en_sw.h"
 #include "assets/objects/object_st/object_st.h"
+
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
@@ -7,17 +14,17 @@ void EnSw_Init(Actor* thisx, PlayState* play);
 void EnSw_Destroy(Actor* thisx, PlayState* play);
 void EnSw_Update(Actor* thisx, PlayState* play);
 void EnSw_Draw(Actor* thisx, PlayState* play);
-s32 func_80B0DFFC(EnSw* this, PlayState* play);
+s32 EnSW_LineTestWall(EnSw* this, PlayState* play);
 void func_80B0D364(EnSw* this, PlayState* play);
-void func_80B0E5E0(EnSw* this, PlayState* play);
+void EnSw_SetupNormal(EnSw* this, PlayState* play);
 void func_80B0D590(EnSw* this, PlayState* play);
-void func_80B0E90C(EnSw* this, PlayState* play);
-void func_80B0E9BC(EnSw* this, PlayState* play);
-void func_80B0E728(EnSw* this, PlayState* play);
-void func_80B0DC7C(EnSw* this, PlayState* play);
+void EnSw_SetupGoHome(EnSw* this, PlayState* play);
+void EnSw_GoHome(EnSw* this, PlayState* play);
+void EnGs_Dash(EnSw* this, PlayState* play);
+void EnSw_DieNormal(EnSw* this, PlayState* play);
 s32 func_80B0C0CC(EnSw* this, PlayState* play, s32);
 void func_80B0D3AC(EnSw* this, PlayState* play);
-void EnSw_Bounce(EnSw* this, PlayState* play);
+void EnSw_FallNormal(EnSw* this, PlayState* play);
 void EnSw_DieGold(EnSw* this, PlayState* play);
 
 ActorInit En_Sw_InitVars = {
@@ -144,9 +151,9 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
     s32 bgId;
     s32 sp6C;
     s32 phi_s1;
-    s32 sp64;
+    s32 ret;
 
-    sp64 = 0;
+    ret = 0;
     this->unk_42C = 1;
     posA = posB = this->actor.world.pos;
     posA.x += this->normalVec.x * 18.0f;
@@ -157,7 +164,7 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
     posB.z -= this->normalVec.z * 18.0f;
     temp_s1 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
 
-    if ((temp_s1 != NULL) && (this->unk_360 == 0)) {
+    if ((temp_s1 != NULL) && (this->goldHiddenBool == 0)) {
         posB.x = posA.x + (this->unk_37C.x * 24);
         posB.y = posA.y + (this->unk_37C.y * 24);
         posB.z = posA.z + (this->unk_37C.z * 24);
@@ -175,7 +182,7 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
             this->actor.world.pos = posOut;
             this->actor.floorBgId = bgId;
         }
-        sp64 = 1;
+        ret = 1;
     } else {
         posA = posB;
         for (phi_s1 = 0; phi_s1 < 3; phi_s1++) {
@@ -200,7 +207,7 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
                     this->actor.world.pos = sp9C;
                     this->actor.floorBgId = sp6C;
                 }
-                sp64 = 1;
+                ret = 1;
                 break;
             }
         }
@@ -210,7 +217,7 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 8, 0xFA0, 1);
     Math_SmoothStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 8, 0xFA0, 1);
 
-    return sp64;
+    return ret;
 }
 
 void EnSw_Init(Actor* thisx, PlayState* play) {
@@ -247,10 +254,10 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         this->actor.world.rot.x = 0;
         this->actor.world.rot.z = 0;
         thisx->shape.rot = this->actor.world.rot;
-        this->unk_484.y = this->actor.world.pos.y;
-        this->unk_484.x = this->actor.world.pos.x + (Math_SinS(this->actor.world.rot.y) * -60.0f);
-        this->unk_484.z = this->actor.world.pos.z + (Math_CosS(this->actor.world.rot.y) * -60.0f);
-        func_80B0DFFC(this, play);
+        this->walllCast.y = this->actor.world.pos.y;
+        this->walllCast.x = this->actor.world.pos.x + (Math_SinS(this->actor.world.rot.y) * -60.0f);
+        this->walllCast.z = this->actor.world.pos.z + (Math_CosS(this->actor.world.rot.y) * -60.0f);
+        EnSW_LineTestWall(this, play);
         this->actor.home.pos = this->actor.world.pos;
     } else {
         this->unk_370.x = Math_SinS(thisx->shape.rot.y + 0x4000);
@@ -273,13 +280,14 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     switch (SW_GOLDTYPE(thisx->params)) {
         case SW_GOLDTYPE_HIDDEN:
         case SW_GOLDTYPE_HIDDEN2:
-            this->unk_360 = 1;
+            // they spring out of their hidding spot
+            this->goldHiddenBool = 1;
             this->actor.velocity.y = 8.0f;
             this->actor.speedXZ = 4.0f;
             this->actor.gravity = -1.0f;
             FALLTHROUGH;
         case SW_GOLDTYPE_NIGHT:
-            this->actor.scale.x = 0.0f;
+            this->actor.scale.x = 0.0f; // they expand at night
             FALLTHROUGH;
         case SW_GOLDTYPE_DEFAULT:
             this->collider.elements[0].info.toucher.damage *= 2;
@@ -300,10 +308,10 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
 
     if (SW_GOLDTYPE(thisx->params) >= SW_GOLDTYPE_HIDDEN) {
         this->unk_38C = 40;
-        this->unk_394 = 1;
+        this->deathFlames = 1;
         this->actionFunc = func_80B0D364;
     } else if (SW_GOLDTYPE(thisx->params) == SW_NORMALTYPE) {
-        this->actionFunc = func_80B0E5E0;
+        this->actionFunc = EnSw_SetupNormal;
     } else {
         this->actionFunc = func_80B0D590;
     }
@@ -325,12 +333,12 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
         phi_v1 = true;
     }
 
-    if (this->unk_392 == 0) {
+    if (this->painTimer == 0) {
         if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
             this->collider.base.acFlags &= ~AC_HIT;
-            this->unk_392 = 0x10;
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->unk_392);
-            if (Actor_ApplyDamage(&this->actor) != SW_NORMALTYPE) {
+            this->painTimer = 0x10;
+            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, this->painTimer);
+            if (Actor_ApplyDamage(&this->actor) != 0) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
             }
@@ -342,7 +350,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
                 } else {
                     this->rotateMag = -0.1f;
                 }
-                this->unk_394 = 0xA;
+                this->deathFlames = 10;
                 this->unk_38A = 1;
                 this->rotateMag *= 4.0f;
                 this->actionFunc = EnSw_DieGold;
@@ -353,7 +361,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;
                 this->actor.flags &= ~ACTOR_FLAG_0;
-                this->actionFunc = EnSw_Bounce;
+                this->actionFunc = EnSw_FallNormal;
             }
 
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_DEAD);
@@ -368,17 +376,17 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
     return false;
 }
 
-void func_80B0CBE8(EnSw* this, PlayState* play) {
+void EnSw_SetCollider(EnSw* this, PlayState* play) {
     if ((SW_GOLDTYPE(this->actor.params) > SW_NORMALTYPE) && (this->actionFunc != func_80B0D590)) {
-        if (this->unk_392 != 0) {
-            this->unk_392--;
+        if (this->painTimer != 0) {
+            this->painTimer--;
         }
     } else {
         if ((DECR(this->unk_390) == 0) && (this->actor.colChkInfo.health != 0)) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
 
-        if ((DECR(this->unk_392) == 0) && (this->actor.colChkInfo.health != 0)) {
+        if ((DECR(this->painTimer) == 0) && (this->actor.colChkInfo.health != 0)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
 
@@ -432,7 +440,7 @@ s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     return true;
 }
 
-void func_80B0CEA8(EnSw* this, PlayState* play) {
+void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
     if (!(this->actor.scale.x < 0.0139999995f)) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
 
@@ -517,7 +525,7 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
     this->actor.velocity.y = CLAMP_MIN(this->actor.velocity.y, this->actor.minVelocityY);
 
     if (this->actor.velocity.y < 0.0f) {
-        this->unk_360 = 0;
+        this->goldHiddenBool = 0;
     }
 
     if (func_80B0C0CC(this, play, 1) == 1) {
@@ -535,6 +543,7 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
 void func_80B0D590(EnSw* this, PlayState* play) {
     f32 rotAngle;
 
+    // Outdoor Gold Skulltula shrinks/expands based on time
     if (SW_GOLDTYPE(this->actor.params) == SW_GOLDTYPE_NIGHT) {
         if (this->actor.scale.x < 0.0139999995f) {
             this->collider.elements[0].info.toucherFlags = TOUCH_NONE;
@@ -555,7 +564,7 @@ void func_80B0D590(EnSw* this, PlayState* play) {
     if (this->unk_38E != 0) {
         this->unk_38E--;
         if (this->unk_38E == 0) {
-            func_80B0CEA8(this, play);
+            EnSw_PlaySfxRoll(this, play);
             this->rotateMag = ((play->state.frames % 2) == 0) ? 0.1f : -0.1f;
             this->unk_38A = 1;
             this->unk_38C = Rand_S16Offset(30, 60);
@@ -578,7 +587,7 @@ void func_80B0D590(EnSw* this, PlayState* play) {
             this->skelAnime.playSpeed = (this->unk_38A == 0) ? 4.0f : 0.0f;
 
             if (this->skelAnime.playSpeed > 0.0f) {
-                func_80B0CEA8(this, play);
+                EnSw_PlaySfxRoll(this, play);
             }
             if (SW_GOLDTYPE(this->actor.params) != SW_NORMALTYPE) {
                 this->skelAnime.playSpeed *= 2.0f;
@@ -605,13 +614,13 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     f32 z;
 
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 1) {
-        func_80B0CEA8(this, play);
+        EnSw_PlaySfxRoll(this, play);
     }
 
     EnSw_GetRotate(this, &this->rotateMag);
     this->actor.shape.rot = this->actor.world.rot;
 
-    if ((this->unk_394 == 0) && (this->unk_392 == 0)) {
+    if ((this->deathFlames == 0) && (this->painTimer == 0)) {
         Audio_PlaySfxGeneral(NA_SE_SY_KINSTA_MARK_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         x = (this->normalVec.x * 10.0f);
@@ -627,7 +636,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
         return;
     }
 
-    if ((this->unk_392 == 0) && (DECR(this->unk_394) != 0)) {
+    if ((this->painTimer == 0) && (DECR(this->deathFlames) != 0)) {
         pos = this->actor.world.pos;
         pos.y += 10.0f + ((Rand_ZeroOne() - 0.5f) * 6.0f);
         pos.x += (Rand_ZeroOne() - 0.5f) * 32.0f;
@@ -636,7 +645,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     }
 }
 
-void EnSw_Bounce(EnSw* this, PlayState* play) {
+void EnSw_FallNormal(EnSw* this, PlayState* play) {
     Actor_MoveForward(&this->actor);
     this->actor.shape.rot.x += 0x1000;
     this->actor.shape.rot.z += 0x1000;
@@ -651,8 +660,8 @@ void EnSw_Bounce(EnSw* this, PlayState* play) {
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
 
         if (this->unk_38A == 0) {
-            this->actionFunc = func_80B0DC7C;
-            this->unk_394 = 10;
+            this->actionFunc = EnSw_DieNormal;
+            this->deathFlames = 10;
         } else {
             this->actor.velocity.y = ((this->unk_38A--) * 8.0f) * 0.5f;
         }
@@ -662,11 +671,11 @@ void EnSw_Bounce(EnSw* this, PlayState* play) {
     }
 }
 
-void func_80B0DC7C(EnSw* this, PlayState* play) {
+void EnSw_DieNormal(EnSw* this, PlayState* play) {
     Vec3f velAndAccel = { 0.0f, 0.5f, 0.0f };
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
-    if (DECR(this->unk_394) != 0) {
+    if (DECR(this->deathFlames) != 0) {
         pos.y = ((Rand_ZeroOne() - 0.5f) * 6.0f) + (this->actor.world.pos.y + 10.0f);
         pos.x = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.x;
         pos.z = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.z;
@@ -688,7 +697,7 @@ s16 EnSw_GetRotateY(EnSw* this, Vec3f* target) {
     return pitch * (yaw >= 0 ? -1 : 1);
 }
 
-s32 func_80B0DEA8(EnSw* this, PlayState* play, s32 arg2) {
+s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
     Player* player = GET_PLAYER(play);
     CollisionPoly* sp58;
     s32 sp54;
@@ -710,50 +719,50 @@ s32 func_80B0DEA8(EnSw* this, PlayState* play, s32 arg2) {
     }
 }
 
-s32 func_80B0DFFC(EnSw* this, PlayState* play) {
+s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
     s32 pad;
-    CollisionPoly* sp60;
-    s32 sp5C;
-    Vec3f sp50;
-    s32 sp4C = true;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f posResult;
+    s32 ret = true;
 
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        sp4C = false;
+        ret = false;
     } else if (((play->state.frames % 4) == 0) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_454, &sp50, &sp60, true,
-                                        false, false, true, &sp5C)) {
-        sp4C = false;
+               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast0, &posResult, &poly, true,
+                                        false, false, true, &bgId)) {
+        ret = false;
     } else if (((play->state.frames % 4) == 1) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, true, false,
-                                       false, true, &sp5C)) {
-        sp4C = false;
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast1, &posResult, &poly, true, false,
+                                       false, true, &bgId)) {
+        ret = false;
     } else if (((play->state.frames % 4) == 2) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_46C, &sp50, &sp60, true,
-                                        false, false, true, &sp5C)) {
+               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast2, &posResult, &poly, true,
+                                        false, false, true, &bgId)) {
         if (0) {}
-        sp4C = false;
+        ret = false;
     } else if (((play->state.frames % 4) == 3) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, true, false,
-                                       false, true, &sp5C)) {
-        sp4C = false;
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast3, &posResult, &poly, true, false,
+                                       false, true, &bgId)) {
+        ret = false;
     }
 
-    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, true,
-                                false, false, true, &sp5C)) {
-        this->actor.wallYaw = RAD_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
-        this->actor.world.pos = sp50;
+    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->walllCast, &posResult, &this->wallPoly, true,
+                                false, false, true, &bgId)) {
+        this->actor.wallYaw = RAD_TO_BINANG(Math_FAtan2F(this->wallPoly->normal.x, this->wallPoly->normal.z));
+        this->actor.world.pos = posResult;
         this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
         this->actor.world.pos.z += 6.0f * Math_CosS(this->actor.world.rot.y);
-        this->unk_434 = sp50;
+        this->unk_434 = posResult;
         this->unk_434.x += Math_SinS(this->actor.world.rot.y);
         this->unk_434.z += Math_CosS(this->actor.world.rot.y);
     }
 
-    return sp4C;
+    return ret;
 }
 
-void func_80B0E314(EnSw* this, Vec3f arg1, f32 speedTarget) {
+void EnGs_Move(EnSw* this, Vec3f targetPos, f32 speedTarget) {
     f32 xDist;
     f32 yDist;
     f32 zDist;
@@ -763,9 +772,9 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 speedTarget) {
     f32 zDiff;
 
     Math_SmoothStepToF(&this->actor.speedXZ, speedTarget, 0.3f, 100.0f, 0.1f);
-    xDiff = arg1.x - this->actor.world.pos.x;
-    yDiff = arg1.y - this->actor.world.pos.y;
-    zDiff = arg1.z - this->actor.world.pos.z;
+    xDiff = targetPos.x - this->actor.world.pos.x;
+    yDiff = targetPos.y - this->actor.world.pos.y;
+    zDiff = targetPos.z - this->actor.world.pos.z;
     dist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
     if (dist == 0.0f) {
         xDist = yDist = zDist = 0.0f;
@@ -782,7 +791,7 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 speedTarget) {
     this->actor.world.pos.z += zDist;
 }
 
-s32 func_80B0E430(EnSw* this, f32 target, s16 step, s32 arg3, PlayState* play) {
+s32 EnSw_SetCrawlAnimation(EnSw* this, f32 target, s16 step, s32 arg3, PlayState* play) {
     Camera* activeCam;
     f32 lastFrame = Animation_GetLastFrame(&object_st_Anim_000304);
 
@@ -815,76 +824,76 @@ s32 func_80B0E430(EnSw* this, f32 target, s16 step, s32 arg3, PlayState* play) {
     return 0;
 }
 
-void func_80B0E5E0(EnSw* this, PlayState* play) {
+void EnSw_SetupNormal(EnSw* this, PlayState* play) {
     s32 pad[2];
     f32 rand;
 
-    if (func_80B0E430(this, 6.0f, 1000, 1, play)) {
+    if (EnSw_SetCrawlAnimation(this, 6.0f, 1000, 1, play)) {
         rand = Rand_ZeroOne();
         this->rotZTarget =
             ((s16)(20000.0f * rand) + 12000) * (Rand_ZeroOne() >= 0.5f ? 1.0f : -1.0f) + this->actor.world.rot.z;
         this->aniTimer = Rand_S16Offset(10, 30);
     }
 
-    if ((DECR(this->unk_442) == 0) && (func_80B0DEA8(this, play, 1))) {
+    if ((DECR(this->dashTimer) == 0) && (EnSW_CanDashPlayer(this, play, 1))) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_LAUGH);
-        this->unk_442 = 20;
-        this->actionFunc = func_80B0E728;
+        this->dashTimer = 20;
+        this->actionFunc = EnGs_Dash;
     }
 }
 
-void func_80B0E728(EnSw* this, PlayState* play) {
+void EnGs_Dash(EnSw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
 
-    if (DECR(this->unk_442) != 0) {
-        if (func_80B0DEA8(this, play, 1)) {
-            this->unk_448 = player->actor.world.pos;
-            this->unk_448.y += 30.0f;
-            this->rotZTarget = EnSw_GetRotateY(this, &this->unk_448);
-            func_80B0E430(this, 6.0f, (u16)4000, 0, play);
+    if (DECR(this->dashTimer) != 0) {
+        if (EnSW_CanDashPlayer(this, play, 1)) {
+            this->targetPos = player->actor.world.pos;
+            this->targetPos.y += 30.0f;
+            this->rotZTarget = EnSw_GetRotateY(this, &this->targetPos);
+            EnSw_SetCrawlAnimation(this, 6.0f, (u16)4000, 0, play);
         } else {
-            this->actionFunc = func_80B0E5E0;
+            this->actionFunc = EnSw_SetupNormal;
         }
     } else {
-        if (!func_80B0DFFC(this, play)) {
-            this->unk_442 = Rand_S16Offset(20, 10);
+        if (!EnSW_LineTestWall(this, play)) {
+            this->dashTimer = Rand_S16Offset(20, 10);
             this->rotZTarget = EnSw_GetRotateY(this, &this->actor.home.pos);
-            this->unk_448 = this->actor.home.pos;
-            this->actionFunc = func_80B0E9BC;
+            this->targetPos = this->actor.home.pos;
+            this->actionFunc = EnSw_GoHome;
         } else {
-            func_80B0E314(this, this->unk_448, 8.0f);
+            EnGs_Move(this, this->targetPos, 8.0f);
 
             if (DECR(this->sfxTimer) == 0) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_DASH);
                 this->sfxTimer = 4;
             }
 
-            if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->unk_448) > 13.0f) || func_8002DDF4(play)) {
-                this->actionFunc = func_80B0E90C;
+            if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->targetPos) > 13.0f) || func_8002DDF4(play)) {
+                this->actionFunc = EnSw_SetupGoHome;
             }
         }
     }
 }
 
-void func_80B0E90C(EnSw* this, PlayState* play) {
+void EnSw_SetupGoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
-    func_80B0E314(this, this->unk_448, 0.0f);
+    EnGs_Move(this, this->targetPos, 0.0f);
     if (this->actor.speedXZ == 0.0f) {
         this->rotZTarget = EnSw_GetRotateY(this, &this->actor.home.pos);
-        this->unk_448 = this->actor.home.pos;
-        this->actionFunc = func_80B0E9BC;
+        this->targetPos = this->actor.home.pos;
+        this->actionFunc = EnSw_GoHome;
     }
 }
 
-void func_80B0E9BC(EnSw* this, PlayState* play) {
+void EnSw_GoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
-    if (func_80B0E430(this, 6.0f, 1000, 0, play)) {
-        func_80B0E314(this, this->unk_448, 2.0f);
-        if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->unk_448) > 4.0f)) {
-            this->actionFunc = func_80B0E5E0;
+    if (EnSw_SetCrawlAnimation(this, 6.0f, 1000, 0, play)) {
+        EnGs_Move(this, this->targetPos, 2.0f);
+        if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->targetPos) > 4.0f)) {
+            this->actionFunc = EnSw_SetupNormal;
         }
     }
 }
@@ -895,7 +904,7 @@ void EnSw_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     EnSw_CheckDamage(this, play);
     this->actionFunc(this, play);
-    func_80B0CBE8(this, play);
+    EnSw_SetCollider(this, play);
 }
 
 s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -945,11 +954,11 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
 
     if (limbIndex == 1) {
-        Matrix_MultVec3f(&sp7C, &this->unk_454);
-        Matrix_MultVec3f(&sp70, &this->unk_460);
-        Matrix_MultVec3f(&sp64, &this->unk_46C);
-        Matrix_MultVec3f(&sp58, &this->unk_478);
-        Matrix_MultVec3f(&sp4C, &this->unk_484);
+        Matrix_MultVec3f(&sp7C, &this->lineCast0);
+        Matrix_MultVec3f(&sp70, &this->lineCast1);
+        Matrix_MultVec3f(&sp64, &this->lineCast2);
+        Matrix_MultVec3f(&sp58, &this->lineCast3);
+        Matrix_MultVec3f(&sp4C, &this->walllCast);
     }
 
     if (limbIndex == 5) {
@@ -957,7 +966,7 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
 
     if (limbIndex == 4) {
-        gDPSetEnvColor(POLY_OPA_DISP++, this->unk_1F4.r, this->unk_1F4.g, this->unk_1F4.b, 0);
+        gDPSetEnvColor(POLY_OPA_DISP++, this->limb4Col.r, this->limb4Col.g, this->limb4Col.b, 0);
     }
 
     Collider_UpdateSpheres(limbIndex, &this->collider);
@@ -970,7 +979,7 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnSw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
 
-void EnGs_SetFog(PlayState* play, Color_RGBA8* col, s16 arg2, s16 arg3) {
+void EnGs_SetTint(PlayState* play, Color_RGBA8* col, s16 arg2, s16 arg3) {
     f32 temp_f2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2181);
@@ -986,7 +995,7 @@ void EnGs_SetFog(PlayState* play, Color_RGBA8* col, s16 arg2, s16 arg3) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2197);
 }
 
-void EnGs_ApplyFog(PlayState* play) {
+void EnGs_ApplyTint(PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2205);
@@ -998,7 +1007,7 @@ void EnGs_ApplyFog(PlayState* play) {
 
 void EnSw_Draw(Actor* thisx, PlayState* play) {
     EnSw* this = (EnSw*)thisx;
-    Color_RGBA8 sp30 = { 184, 0, 228, 255 };
+    Color_RGBA8 col = { 184, 0, 228, 255 };
 
     if (SW_GOLDTYPE(this->actor.params) != SW_NORMALTYPE) {
         Matrix_RotateX(DEG_TO_RAD(-80), MTXMODE_APPLY);
@@ -1006,14 +1015,14 @@ void EnSw_Draw(Actor* thisx, PlayState* play) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         }
         func_8002EBCC(&this->actor, play, 0);
-    } else if (this->actionFunc == func_80B0E728) {
-        EnGs_SetFog(play, &sp30, 20, 30);
+    } else if (this->actionFunc == EnGs_Dash) {
+        EnGs_SetTint(play, &col, 20, 30);
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSw_OverrideLimbDraw,
                       EnSw_PostLimbDraw, this);
-    if (this->actionFunc == func_80B0E728) {
-        EnGs_ApplyFog(play);
+    if (this->actionFunc == EnGs_Dash) {
+        EnGs_ApplyTint(play);
     }
 }
