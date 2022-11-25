@@ -1141,22 +1141,22 @@ void Play_Draw(PlayState* this) {
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SUN_AND_MOON) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_SUN_AND_MOON_FLAG)) {
                     if (!this->envCtx.sunMoonDisabled) {
                         Environment_DrawSunAndMoon(this);
                     }
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX_FILTERS) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_SKYBOX_FILTERS_FLAG)) {
                     Environment_DrawSkyboxFilters(this);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LIGHTNING) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_LIGHTNING_FLAG)) {
                     Environment_UpdateLightningStrike(this);
                     Environment_DrawLightning(this, 0);
                 }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LIGHTS) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_LIGHTS_FLAG)) {
                     sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
                     Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
                     Lights_Draw(sp228, gfxCtx);
@@ -1293,7 +1293,7 @@ void Play_Main(GameState* thisx) {
         R_PLAY_DRAW_SCREEN_FILLS = 1;
         R_PLAY_DRAW_SANDSTORM = 1;
         R_PLAY_DRAW_OVERLAY_ELEMENTS = 1;
-        R_PLAY_DRAW_ASSORTED_FLAGS = 15;
+        R_PLAY_DRAW_ENV_FLAGS = 15;
         HREG(91) = 1; // reg is not used in this mode
         R_PLAY_DRAW_COVER_ELEMENTS = 1;
         R_PLAY_DRAW_DEBUG_OBJECTS = 1;

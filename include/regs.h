@@ -252,13 +252,14 @@ typedef enum {
 #define R_PLAY_DRAW_SCREEN_FILLS      HREG(87)
 #define R_PLAY_DRAW_SANDSTORM         HREG(88)
 #define R_PLAY_DRAW_OVERLAY_ELEMENTS  HREG(89)
-#define R_PLAY_DRAW_ASSORTED_FLAGS    HREG(90) // see flags below
-#define R_PLAY_DRAW_SKYBOX_FILTERS    (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 0))
-#define R_PLAY_DRAW_SUN_AND_MOON      (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 1))
-#define R_PLAY_DRAW_LIGHTNING         (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 2))
-#define R_PLAY_DRAW_LIGHTS            (R_PLAY_DRAW_ASSORTED_FLAGS & (1 << 3))
+#define R_PLAY_DRAW_ENV_FLAGS         HREG(90) // see flags below
 #define R_PLAY_DRAW_COVER_ELEMENTS    HREG(92) // draw transition instance and vismono
 #define R_PLAY_DRAW_DEBUG_OBJECTS     HREG(93)
+
+#define PLAY_ENV_SKYBOX_FILTERS_FLAG (1 << 0)
+#define PLAY_ENV_SUN_AND_MOON_FLAG (1 << 1)
+#define PLAY_ENV_LIGHTNING_FLAG (1 << 2)
+#define PLAY_ENV_LIGHTS_FLAG (1 << 3)
 
 #define R_PLAY_ENABLE_UCODE_DISAS    HREG(93) // set to 2 to switch to ucode disas mode and trigger it
 #define R_PLAY_UCODE_DISAS_LOG_LEVEL HREG(92) // log level to use when switching to ucode disas
