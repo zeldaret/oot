@@ -509,7 +509,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         s16 sceneLayer = SCENE_LAYER_CHILD_DAY;
 
-                        Interface_ChangeAlpha(1);
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
                             sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
