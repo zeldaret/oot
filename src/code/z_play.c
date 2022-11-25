@@ -471,7 +471,7 @@ void Play_Update(PlayState* this) {
         osSyncPrintf("\n");
     }
 
-    // HREG(81) was very likely intended to be HREG(80), which would make more sense given how the 
+    // HREG(81) was very likely intended to be HREG(80), which would make more sense given how the
     // HREG debugging system works. If this condition used HREG(80) instead, `HREG_MODE_PRINT_OBJECT_TABLE`
     // would also include the actor overlay table and HREG(82) would be used to trigger it instead.
     if ((HREG(81) == 18) && (HREG(82) < 0)) {
