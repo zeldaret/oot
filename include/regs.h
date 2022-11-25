@@ -203,7 +203,8 @@
 #define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options
 
 typedef enum {
-    /*  7 */ HREG_MODE_UCODE_DISAS = 7, // various controls for the ucode disas system
+    /*  7 */ HREG_MODE_PRINT_HILITE_INFO = 6, // print hilite information
+    /*  7 */ HREG_MODE_UCODE_DISAS, // various controls for the ucode disas system
     /*  8 */ HREG_MODE_PRINT_MEMORY, // print memory at a specified address
     /*  9 */ HREG_MODE_UNUSED_9,
     /* 10 */ HREG_MODE_PLAY, // various debug controls for the Play state
@@ -214,11 +215,15 @@ typedef enum {
     /* 15 */ HREG_MODE_PRERENDER,
     /* 16 */ HREG_MODE_SETUP_FRAME, // set the base screen color (and by extension, shrink window color too)
     /* 17 */ HREG_MODE_SCENE_CONFIG, // toggle drawing the scene config
-    /* 18 */ HREG_MODE_UNUSED_18,
+    /* 18 */ HREG_MODE_PRINT_OBJECT_TABLE,
     /* 19 */ HREG_MODE_LETTERBOX, // toggle logging and view values for the letterbox system
     /* 20 */ HREG_MODE_HEAP_FREE_BLOCK_TEST, // enable or disable heap free block test
     /* 21 */ HREG_MODE_VI
 } HRegMode;
+
+// HREG_MODE_PRINT_HILITE_INFO
+// This mode has no controls with other regs. Simply set HREG mode to `HREG_MODE_PRINT_HILITE_INFO`
+// to print out the eye, object, and light direction vectors for hilite on every frame.
 
 // HREG_MODE_UCODE_DISAS
 #define R_UCODE_DISAS_TOGGLE      HREG(81) // < 0 enables and prints some hardware reg info for 1 frame, > 0 enables constant disas
@@ -318,6 +323,9 @@ typedef enum {
 #define R_SCENE_CONFIG_INIT                HREG(95) // set to `HREG_MODE_SCENE_CONFIG` when init is complete
 #define R_SCENE_CONFIG_DRAW_DEFAULT_DLIST  HREG(81) // set to 1 to draw the default display list
 #define R_SCENE_CONFIG_DRAW_SCENE_CONFIG   HREG(82) // set to 1 to draw the scene config
+
+// HREG_MODE_PRINT_OBJECT_TABLE
+#define R_PRINT_OBJECT_TABLE_TRIGGER  HREG(81) // set to a negative number to print out the whole object table
 
 // HREG_MODE_LETTERBOX
 #define R_LETTERBOX_INIT         HREG(94) // set to `HREG_MODE_LETTERBOX` when init is complete

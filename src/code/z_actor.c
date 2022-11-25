@@ -1319,7 +1319,7 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
 
     *hilite = Graph_Alloc(gfxCtx, sizeof(Hilite));
 
-    if (HREG(80) == 6) {
+    if (R_HREG_MODE == HREG_MODE_PRINT_HILITE_INFO) {
         osSyncPrintf("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
                      eye->x, eye->y, eye->z, object->x, object->y, object->z, lightDir->x, lightDir->y, lightDir->z);
     }
@@ -1368,7 +1368,7 @@ void func_8002EBCC(Actor* actor, PlayState* play, s32 flag) {
     lightDir.y = play->envCtx.dirLight1.params.dir.y;
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
-    if (HREG(80) == 6) {
+    if (R_HREG_MODE == HREG_MODE_PRINT_HILITE_INFO) {
         osSyncPrintf("z_actor.c 3637 game_play->view.eye=[%f(%f) %f %f]\n", play->view.eye.x, play->view.eye.y,
                      play->view.eye.z);
     }

@@ -456,8 +456,8 @@ void Play_Update(PlayState* this) {
         ZeldaArena_Display();
     }
 
-    if ((HREG(80) == 18) && (HREG(81) < 0)) {
-        HREG(81) = 0;
+    if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
+        R_PRINT_OBJECT_TABLE_TRIGGER = 0;
         osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
         osSyncPrintf("RomStart RomEnd   Size\n");
 
@@ -471,6 +471,9 @@ void Play_Update(PlayState* this) {
         osSyncPrintf("\n");
     }
 
+    // HREG(81) was very likely intended to be HREG(80), which would make more sense given how the 
+    // HREG debugging system works. If this condition used HREG(80) instead, `HREG_MODE_PRINT_OBJECT_TABLE`
+    // would also include the actor overlay table and HREG(82) would be used to trigger it instead.
     if ((HREG(81) == 18) && (HREG(82) < 0)) {
         HREG(82) = 0;
         ActorOverlayTable_LogPrint();
