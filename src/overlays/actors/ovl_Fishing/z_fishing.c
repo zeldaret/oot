@@ -5258,7 +5258,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.y = mainCam->at.y;
             sSubCamAt.z = mainCam->at.z;
             sFishingPlayerCinematicState = 2;
-            Interface_ChangeAlpha(12);
+            Interface_ChangeHudVisibilityMode(12);
             sSubCamVelFactor = 0.0f;
             FALLTHROUGH;
         }
