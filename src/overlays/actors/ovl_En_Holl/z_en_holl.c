@@ -409,7 +409,7 @@ void EnHoll_Update(Actor* thisx, PlayState* play) {
 void EnHoll_Draw(Actor* thisx, PlayState* play) {
     EnHoll* this = (EnHoll*)thisx;
     Gfx* gfxP;
-    u32 setupDlIndex;
+    u32 setupDLIndex;
 
     // Only draw the plane if not invisible
     if (this->planeAlpha != 0) {
@@ -417,12 +417,12 @@ void EnHoll_Draw(Actor* thisx, PlayState* play) {
 
         if (this->planeAlpha == 255) {
             gfxP = POLY_OPA_DISP;
-            setupDlIndex = SETUPDL_37;
+            setupDLIndex = SETUPDL_37;
         } else {
             gfxP = POLY_XLU_DISP;
-            setupDlIndex = SETUPDL_0;
+            setupDLIndex = SETUPDL_0;
         }
-        gfxP = Gfx_SetupDL(gfxP, setupDlIndex);
+        gfxP = Gfx_SetupDL(gfxP, setupDLIndex);
         if (this->side == 0) {
             Matrix_RotateY(M_PI, MTXMODE_APPLY);
         }
