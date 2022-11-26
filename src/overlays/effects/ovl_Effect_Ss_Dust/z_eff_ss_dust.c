@@ -136,7 +136,7 @@ void EffectSsDust_Update(PlayState* play, u32 index, EffectSs* this) {
         if (this->rLifespan >= 5) {
             this->rTexIndex = this->rLifespan - this->life;
         } else {
-            this->rTexIndex = ((this->rLifespan - this->life) * (8 / this->rLifespan));
+            this->rTexIndex = (this->rLifespan - this->life) * (8 / this->rLifespan);
         }
     } else {
         this->rTexIndex = 7;

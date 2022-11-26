@@ -175,7 +175,7 @@ void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     BossGanondrof* phantomGanon;
     s16 rotStep;
 
-    rotStep = (Rand_ZeroOne() * 20000.0f);
+    rotStep = Rand_ZeroOne() * 20000.0f;
     this->rXZRot += rotStep + 0x4000;
 
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
