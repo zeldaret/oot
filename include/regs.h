@@ -203,7 +203,7 @@
 #define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options
 
 typedef enum {
-    /*  7 */ HREG_MODE_PRINT_HILITE_INFO = 6, // print hilite information
+    /*  6 */ HREG_MODE_PRINT_HILITE_INFO = 6, // print hilite information
     /*  7 */ HREG_MODE_UCODE_DISAS, // various controls for the ucode disas system
     /*  8 */ HREG_MODE_PRINT_MEMORY, // print memory at a specified address
     /*  9 */ HREG_MODE_UNUSED_9,
