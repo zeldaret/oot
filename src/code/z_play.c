@@ -1133,10 +1133,10 @@ void Play_Draw(PlayState* this) {
                         if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
                             Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
                             Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
-                                            this->view.eye.x, this->view.eye.y, this->view.eye.z);
+                                        this->view.eye.x, this->view.eye.y, this->view.eye.z);
                         } else if (this->skyboxCtx.unk_140 == 0) {
-                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x,
-                                            this->view.eye.y, this->view.eye.z);
+                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
+                                        this->view.eye.z);
                         }
                     }
                 }
@@ -1181,7 +1181,7 @@ void Play_Draw(PlayState* this) {
 
                         Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
                         Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
-                                        this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
+                                    this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
                     }
                 }
 
