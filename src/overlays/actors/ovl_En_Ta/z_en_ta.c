@@ -184,7 +184,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (play->sceneId == SCENE_MALON_STABLE && !IS_DAY) {
+            } else if (play->sceneId == SCENE_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
@@ -198,7 +198,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
         default: // Child era Talon
             // "Other Talon"
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (play->sceneId == SCENE_SPOT15) {
+            if (play->sceneId == SCENE_HYRULE_CASTLE) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE)) {
@@ -213,7 +213,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (play->sceneId == SCENE_SOUKO) {
+            } else if (play->sceneId == SCENE_LON_LON_BUILDINGS) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
@@ -277,7 +277,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 
     if (this->actor.params != ENTA_IN_KAKARIKO && this->actor.params != ENTA_RETURNED_FROM_KAKARIKO &&
-        play->sceneId == SCENE_SOUKO) {
+        play->sceneId == SCENE_LON_LON_BUILDINGS) {
         gSaveContext.timerState = TIMER_STATE_OFF;
     }
 
@@ -717,7 +717,7 @@ void EnTa_TalkCuccoGameEnd(EnTa* this, PlayState* play) {
     EnTa_AnimateHandsUpDown(this);
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        play->nextEntranceIndex = ENTR_SOUKO_2;
+        play->nextEntranceIndex = ENTR_LON_LON_BUILDINGS_2;
 
         if (GET_EVENTINF(EVENTINF_CUCCO_GAME_WON)) {
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
