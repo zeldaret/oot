@@ -56,7 +56,7 @@ void AudioMgr_ThreadEntry(void* arg0) {
 
     osSyncPrintf("オーディオマネージャスレッド実行開始\n"); // "Start running audio manager thread"
     Audio_Init();
-    AudioLoad_SetDmaHandler(DmaMgr_DmaHandler);
+    AudioLoad_SetDmaHandler(DmaMgr_AudioDmaHandler);
     Audio_InitSound();
     osSendMesg(&audioMgr->lockQueue, NULL, OS_MESG_BLOCK);
     IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->interruptQueue);

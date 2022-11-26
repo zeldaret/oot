@@ -38,6 +38,7 @@
 #include "fault.h"
 #include "sched.h"
 #include "rumble.h"
+#include "mempak.h"
 #include "tha.h"
 #include "thga.h"
 
@@ -419,10 +420,13 @@ typedef enum {
 // TODO get these properties from the textures themselves
 #define FONT_CHAR_TEX_WIDTH  16
 #define FONT_CHAR_TEX_HEIGHT 16
-#define FONT_CHAR_TEX_SIZE ((16 * 16) / 2) // 16x16 I4 texture
+#define FONT_CHAR_TEX_SIZE ((FONT_CHAR_TEX_WIDTH * FONT_CHAR_TEX_HEIGHT) / 2) // 16x16 I4 texture
 
 // TODO get these properties from the textures themselves
 #define MESSAGE_STATIC_TEX_SIZE 0x1000
+
+// TODO get these properties from the textures themselves
+#define MESSAGE_TEXTURE_STATIC_TEX_SIZE 0x900
 
 typedef enum {
     /* 0x00 */ MSGMODE_NONE,
@@ -614,6 +618,11 @@ typedef enum {
     /* 0x1C */ DO_ACTION_8,
     /* 0x1D */ DO_ACTION_MAX
 } DoAction;
+
+// TODO extract this information from the texture definitions themselves
+#define DO_ACTION_TEX_WIDTH 48
+#define DO_ACTION_TEX_HEIGHT 16
+#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
 
 typedef struct {
     /* 0x0000 */ View   view;
@@ -1320,17 +1329,6 @@ typedef struct {
     /* 0x08 */ f32 morphFrames;
 } AnimationMinimalInfo; // size = 0xC
 
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ Vec3s unk_08;
-    /* 0x0E */ Vec3s unk_0E;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ s16 unk_24;
-} struct_80034A14_arg1; // size = 0x28
 
 // Macros for `EntranceInfo.field`
 #define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
@@ -1425,6 +1423,25 @@ typedef struct {
     /* 0x68 */ u8  (*floorID)[8];
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
+
+// TODO get these properties from the textures themselves
+#define MAP_I_TEX_WIDTH 96
+#define MAP_I_TEX_HEIGHT 85
+#define MAP_I_TEX_SIZE ((MAP_I_TEX_WIDTH * MAP_I_TEX_HEIGHT) / 2) // 96x85 I4 texture
+
+#define MAP_48x85_TEX_WIDTH 48
+#define MAP_48x85_TEX_HEIGHT 85
+#define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
+
+// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
+// texture format for ITEM_NAME_TEX_* 
+#define MAP_NAME_TEX1_WIDTH 128
+#define MAP_NAME_TEX1_HEIGHT 16
+#define MAP_NAME_TEX1_SIZE ((MAP_NAME_TEX1_WIDTH * MAP_NAME_TEX1_HEIGHT) / 2) // 128x16 IA4 texture
+
+#define MAP_NAME_TEX2_WIDTH 80
+#define MAP_NAME_TEX2_HEIGHT 32
+#define MAP_NAME_TEX2_SIZE (MAP_NAME_TEX2_WIDTH * MAP_NAME_TEX2_HEIGHT) // 80x32 IA8 texture
 
 #define PAUSE_MAP_MARK_NONE -1
 #define PAUSE_MAP_MARK_CHEST 0

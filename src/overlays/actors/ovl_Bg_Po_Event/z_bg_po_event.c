@@ -226,8 +226,8 @@ void BgPoEvent_Destroy(Actor* thisx, PlayState* play) {
         Collider_DestroyTris(play, &this->collider);
     } else {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-        if ((this->type == 1) && (gSaveContext.timer1Value > 0)) {
-            gSaveContext.timer1State = 0xA;
+        if ((this->type == 1) && (gSaveContext.timerSeconds > 0)) {
+            gSaveContext.timerState = TIMER_STATE_STOP;
         }
     }
 }
@@ -316,7 +316,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, PlayState* play) {
         } else {
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             Actor_RequestQuakeAndRumble(&this->dyna.actor, play, 5, 5);
-            func_80088B34(this->timer);
+            Interface_SetTimer(this->timer);
             if (firstFall == 0) {
                 firstFall = 1;
             } else {
@@ -342,10 +342,10 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
                 OnePointCutscene_Init(play, 3170, 30, amy, CAM_ID_MAIN);
             }
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-            gSaveContext.timer1State = 0xA;
+            gSaveContext.timerState = TIMER_STATE_STOP;
         }
     } else {
-        if ((gSaveContext.timer1Value == 0) && (sBlocksAtRest == 5)) {
+        if ((gSaveContext.timerSeconds == 0) && (sBlocksAtRest == 5)) {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             sPuzzleState = 0x10;
             sBlocksAtRest = 0;

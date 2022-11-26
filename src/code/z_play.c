@@ -509,7 +509,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         s16 sceneLayer = SCENE_LAYER_CHILD_DAY;
 
-                        Interface_ChangeAlpha(1);
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
                             sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
@@ -1388,7 +1388,7 @@ void* Play_LoadFile(PlayState* this, RomFile* file) {
 
     size = file->vromEnd - file->vromStart;
     allocp = GameState_Alloc(&this->state, size, "../z_play.c", 4692);
-    DmaMgr_SendRequest1(allocp, file->vromStart, size, "../z_play.c", 4694);
+    DmaMgr_RequestSyncDebug(allocp, file->vromStart, size, "../z_play.c", 4694);
 
     return allocp;
 }
