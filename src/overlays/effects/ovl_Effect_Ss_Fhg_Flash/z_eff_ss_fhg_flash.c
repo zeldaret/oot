@@ -26,6 +26,7 @@ EffectSsInit Effect_Ss_Fhg_Flash_InitVars = {
 };
 
 // Should eventually come from assets/overlays/ovl_Effect_Ss_Fhg_Flash/ovl_Effect_Ss_Fhg_Flash.h
+//! TODO: investigate having ZAPD forward declare static variables
 static Gfx sShockDL[15];
 
 u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
