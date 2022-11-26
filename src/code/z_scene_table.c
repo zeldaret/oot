@@ -1649,11 +1649,13 @@ void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
 };
 
 void Scene_Draw(PlayState* play) {
-    if (HREG(80) == 17) {
-        if (HREG(95) != 17) {
-            HREG(95) = 17;
-            HREG(81) = 1;
-            HREG(82) = 1;
+    if (R_HREG_MODE == HREG_MODE_SCENE_CONFIG) {
+        if (R_SCENE_CONFIG_INIT != HREG_MODE_SCENE_CONFIG) {
+            R_SCENE_CONFIG_INIT = HREG_MODE_SCENE_CONFIG;
+            R_SCENE_CONFIG_DRAW_DEFAULT_DLIST = 1;
+            R_SCENE_CONFIG_DRAW_SCENE_CONFIG = 1;
+
+            // these regs are not used in this mode
             HREG(83) = 0;
             HREG(84) = 0;
             HREG(85) = 0;
@@ -1669,14 +1671,14 @@ void Scene_Draw(PlayState* play) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 8104);
 
-        if (HREG(81) == 1) {
+        if (R_SCENE_CONFIG_DRAW_DEFAULT_DLIST == 1) {
             gSPDisplayList(POLY_OPA_DISP++, sDefaultDisplayList);
             gSPDisplayList(POLY_XLU_DISP++, sDefaultDisplayList);
         }
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 8109);
 
-        if (HREG(82) == 1) {
+        if (R_SCENE_CONFIG_DRAW_SCENE_CONFIG == 1) {
             sSceneDrawConfigs[play->sceneDrawConfig](play);
         }
     } else {

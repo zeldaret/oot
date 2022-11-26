@@ -720,10 +720,11 @@ void PreRender_DivotFilter(PreRender* this) {
             }
 
             // This condition is checked before entering this function, it will always pass if it runs.
-            if ((HREG(80) == 15 ? HREG(81) : 0) != 0) {
-                if ((HREG(80) == 15 ? HREG(81) : 0) != 0) {}
+            if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
+                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {}
 
-                if ((HREG(80) == 15 ? HREG(81) : 0) == 5) {
+                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                    PRERENDER_DIVOT_PARTIAL_CVG_RED) {
                     // Fill the pixel with full red, likely for debugging
                     pxR = 31;
                     pxG = 0;
@@ -734,7 +735,8 @@ void PreRender_DivotFilter(PreRender* this) {
                     u8* windowG = &buffG[x - 1];
                     u8* windowB = &buffB[x - 1];
 
-                    if ((HREG(80) == 15 ? HREG(81) : 0) == 3) {
+                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                        PRERENDER_DIVOT_PRINT_COLOR) {
                         osSyncPrintf("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0],
                                      windowR[1], windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0],
                                      windowG[1], windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0],
@@ -744,7 +746,8 @@ void PreRender_DivotFilter(PreRender* this) {
                     // Sample the median value from the 3 pixel wide window
 
                     // (Both blocks contain the same code)
-                    if ((HREG(80) == 15 ? HREG(81) : 0) == 1) {
+                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                        PRERENDER_DIVOT_ALTERNATE_COLOR) {
                         pxR = MEDIAN3(windowR[0], windowR[1], windowR[2]);
                         pxG = MEDIAN3(windowG[0], windowG[1], windowG[2]);
                         pxB = MEDIAN3(windowB[0], windowB[1], windowB[2]);
@@ -754,6 +757,7 @@ void PreRender_DivotFilter(PreRender* this) {
                         pxB = MEDIAN3(windowB[0], windowB[1], windowB[2]);
                     }
                 }
+
                 pxOut.r = pxR;
                 pxOut.g = pxG;
                 pxOut.b = pxB;
@@ -787,7 +791,7 @@ void PreRender_ApplyFilters(PreRender* this) {
             }
         }
 
-        if ((HREG(80) == 15 ? HREG(81) : 0) != 0) {
+        if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
             // Apply divot filter
             PreRender_DivotFilter(this);
         }
