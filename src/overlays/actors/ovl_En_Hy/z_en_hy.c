@@ -421,7 +421,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
 
     if (textId != 0) {
         if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
         }
         return textId;
     }
@@ -473,7 +473,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_AHG_4:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
@@ -554,7 +554,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
 
 s16 func_80A70058(PlayState* play, Actor* thisx) {
     EnHy* this = (EnHy*)thisx;
-    s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
+    s16 beggarItems[] = { ITEM_BOTTLE_BLUE_FIRE, ITEM_BOTTLE_FISH, ITEM_BOTTLE_BUG, ITEM_BOTTLE_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -565,7 +565,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x709E:
@@ -587,7 +587,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     }
                     break;
             }
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x70F0:
@@ -596,7 +596,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
-                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
                     break;
                 case 0x7016:
                     SET_INFTABLE(INFTABLE_C0);
@@ -663,16 +663,16 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     this->actionFunc = func_80A714C4;
                     break;
             }
-            return 0;
+            return NPC_TALK_STATE_IDLE;
         case TEXT_STATE_EVENT:
             if (!Message_ShouldAdvance(play)) {
-                return 1;
+                return NPC_TALK_STATE_TALKING;
             } else {
-                return 2;
+                return NPC_TALK_STATE_ACTION;
             }
     }
 
-    return 1;
+    return NPC_TALK_STATE_TALKING;
 }
 
 void EnHy_UpdateEyes(EnHy* this) {
@@ -723,12 +723,12 @@ void func_80A70834(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-        if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
-            !Inventory_HasSpecificBottle(ITEM_FISH)) {
+        if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
+            !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_POE:
-                case EXCH_ITEM_BIG_POE:
-                case EXCH_ITEM_LETTER_RUTO:
+                case EXCH_ITEM_BOTTLE_POE:
+                case EXCH_ITEM_BOTTLE_BIG_POE:
+                case EXCH_ITEM_BOTTLE_RUTOS_LETTER:
                     this->actor.textId = 0x70EF;
                     break;
                 default:
@@ -739,13 +739,13 @@ void func_80A70834(EnHy* this, PlayState* play) {
             }
         } else {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_BLUE_FIRE:
+                case EXCH_ITEM_BOTTLE_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
-                case EXCH_ITEM_FISH:
+                case EXCH_ITEM_BOTTLE_FISH:
                     this->actor.textId = 0x70F1;
                     break;
-                case EXCH_ITEM_BUG:
+                case EXCH_ITEM_BOTTLE_BUG:
                     this->actor.textId = 0x70F2;
                     break;
                 default:
@@ -762,42 +762,46 @@ void func_80A70834(EnHy* this, PlayState* play) {
 
 void func_80A70978(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 phi_a3;
+    s16 trackingMode;
 
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_BOJ_3:
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
         case ENHY_TYPE_BOJ_10:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 1 : 2;
+            trackingMode =
+                (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_NONE : NPC_TRACKING_HEAD_AND_TORSO;
             break;
         case ENHY_TYPE_BOJ_12:
-            phi_a3 = 1;
+            trackingMode = NPC_TRACKING_NONE;
             break;
         case ENHY_TYPE_AHG_2:
         case ENHY_TYPE_AHG_17:
-            phi_a3 = 4;
+            trackingMode = NPC_TRACKING_FULL_BODY;
             break;
         case ENHY_TYPE_AOB:
         case ENHY_TYPE_BOB_18:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 2 : 4;
+            trackingMode = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_HEAD_AND_TORSO
+                                                                                 : NPC_TRACKING_FULL_BODY;
             break;
         default:
-            phi_a3 = 2;
+            trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
             break;
     }
 
-    this->unk_1E8.unk_18 = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
+        this->interactInfo.yOffset = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
     } else {
-        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueChild;
+        this->interactInfo.yOffset = sInit1Info[this->actor.params & 0x7F].unkValueChild;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, sInit1Info[this->actor.params & 0x7F].unkPresetIndex,
+                   trackingMode);
 
-    if (func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unkRange, func_80A6F810,
+                          func_80A70058)) {
         func_80A70834(this, play);
     }
 }
@@ -966,7 +970,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
 }
 
 void func_80A710F8(EnHy* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
         }
@@ -1016,11 +1020,11 @@ void func_80A7134C(EnHy* this, PlayState* play) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->interactInfo.talkState != NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
     }
 
-    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->interactInfo.talkState == NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
     }
 
@@ -1082,7 +1086,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
-        if (this->unk_1E8.unk_00 == 0) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             Actor_MoveForward(&this->actor);
         }
 
@@ -1121,14 +1125,14 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp48 = this->unk_1E8.unk_08;
+        sp48 = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp48.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp48 = this->unk_1E8.unk_0E;
+        sp48 = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-sp48.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
     }

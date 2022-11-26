@@ -495,8 +495,8 @@ static u16 D_8085361C[] = {
 static GetItemEntry sGetItemTable[] = {
     // GI_BOMBS_5
     GET_ITEM(ITEM_BOMBS_5, OBJECT_GI_BOMB_1, GID_BOMB, 0x32, 0x59, CHEST_ANIM_SHORT),
-    // GI_NUTS_5
-    GET_ITEM(ITEM_NUTS_5, OBJECT_GI_NUTS, GID_NUTS, 0x34, 0x0C, CHEST_ANIM_SHORT),
+    // GI_DEKU_NUTS_5
+    GET_ITEM(ITEM_DEKU_NUTS_5, OBJECT_GI_NUTS, GID_DEKU_NUTS, 0x34, 0x0C, CHEST_ANIM_SHORT),
     // GI_BOMBCHUS_10
     GET_ITEM(ITEM_BOMBCHU, OBJECT_GI_BOMB_2, GID_BOMBCHU, 0x33, 0x80, CHEST_ANIM_SHORT),
     // GI_BOW
@@ -505,74 +505,74 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_SLINGSHOT, OBJECT_GI_PACHINKO, GID_SLINGSHOT, 0x30, 0x80, CHEST_ANIM_LONG),
     // GI_BOOMERANG
     GET_ITEM(ITEM_BOOMERANG, OBJECT_GI_BOOMERANG, GID_BOOMERANG, 0x35, 0x80, CHEST_ANIM_LONG),
-    // GI_STICKS_1
-    GET_ITEM(ITEM_STICK, OBJECT_GI_STICK, GID_STICK, 0x37, 0x0D, CHEST_ANIM_SHORT),
+    // GI_DEKU_STICKS_1
+    GET_ITEM(ITEM_DEKU_STICK, OBJECT_GI_STICK, GID_DEKU_STICK, 0x37, 0x0D, CHEST_ANIM_SHORT),
     // GI_HOOKSHOT
     GET_ITEM(ITEM_HOOKSHOT, OBJECT_GI_HOOKSHOT, GID_HOOKSHOT, 0x36, 0x80, CHEST_ANIM_LONG),
     // GI_LONGSHOT
     GET_ITEM(ITEM_LONGSHOT, OBJECT_GI_HOOKSHOT, GID_LONGSHOT, 0x4F, 0x80, CHEST_ANIM_LONG),
-    // GI_LENS
-    GET_ITEM(ITEM_LENS, OBJECT_GI_GLASSES, GID_LENS, 0x39, 0x80, CHEST_ANIM_LONG),
-    // GI_LETTER_ZELDA
-    GET_ITEM(ITEM_LETTER_ZELDA, OBJECT_GI_LETTER, GID_LETTER_ZELDA, 0x69, 0x80, CHEST_ANIM_LONG),
-    // GI_OCARINA_OOT
-    GET_ITEM(ITEM_OCARINA_TIME, OBJECT_GI_OCARINA, GID_OCARINA_TIME, 0x3A, 0x80, CHEST_ANIM_LONG),
+    // GI_LENS_OF_TRUTH
+    GET_ITEM(ITEM_LENS_OF_TRUTH, OBJECT_GI_GLASSES, GID_LENS_OF_TRUTH, 0x39, 0x80, CHEST_ANIM_LONG),
+    // GI_ZELDAS_LETTER
+    GET_ITEM(ITEM_ZELDAS_LETTER, OBJECT_GI_LETTER, GID_ZELDAS_LETTER, 0x69, 0x80, CHEST_ANIM_LONG),
+    // GI_OCARINA_OF_TIME
+    GET_ITEM(ITEM_OCARINA_OF_TIME, OBJECT_GI_OCARINA, GID_OCARINA_OF_TIME, 0x3A, 0x80, CHEST_ANIM_LONG),
     // GI_HAMMER
     GET_ITEM(ITEM_HAMMER, OBJECT_GI_HAMMER, GID_HAMMER, 0x38, 0x80, CHEST_ANIM_LONG),
     // GI_COJIRO
     GET_ITEM(ITEM_COJIRO, OBJECT_GI_NIWATORI, GID_COJIRO, 0x02, 0x80, CHEST_ANIM_LONG),
-    // GI_BOTTLE
-    GET_ITEM(ITEM_BOTTLE, OBJECT_GI_BOTTLE, GID_BOTTLE, 0x42, 0x80, CHEST_ANIM_LONG),
-    // GI_POTION_RED
-    GET_ITEM(ITEM_POTION_RED, OBJECT_GI_LIQUID, GID_POTION_RED, 0x43, 0x80, CHEST_ANIM_LONG),
-    // GI_POTION_GREEN
-    GET_ITEM(ITEM_POTION_GREEN, OBJECT_GI_LIQUID, GID_POTION_GREEN, 0x44, 0x80, CHEST_ANIM_LONG),
-    // GI_POTION_BLUE
-    GET_ITEM(ITEM_POTION_BLUE, OBJECT_GI_LIQUID, GID_POTION_BLUE, 0x45, 0x80, CHEST_ANIM_LONG),
-    // GI_FAIRY
-    GET_ITEM(ITEM_FAIRY, OBJECT_GI_BOTTLE, GID_BOTTLE, 0x46, 0x80, CHEST_ANIM_LONG),
-    // GI_MILK_BOTTLE
-    GET_ITEM(ITEM_MILK_BOTTLE, OBJECT_GI_MILK, GID_MILK, 0x98, 0x80, CHEST_ANIM_LONG),
-    // GI_LETTER_RUTO
-    GET_ITEM(ITEM_LETTER_RUTO, OBJECT_GI_BOTTLE_LETTER, GID_LETTER_RUTO, 0x99, 0x80, CHEST_ANIM_LONG),
-    // GI_BEAN
-    GET_ITEM(ITEM_BEAN, OBJECT_GI_BEAN, GID_BEAN, 0x48, 0x80, CHEST_ANIM_SHORT),
+    // GI_BOTTLE_EMPTY
+    GET_ITEM(ITEM_BOTTLE_EMPTY, OBJECT_GI_BOTTLE, GID_BOTTLE_EMPTY, 0x42, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_POTION_RED
+    GET_ITEM(ITEM_BOTTLE_POTION_RED, OBJECT_GI_LIQUID, GID_BOTTLE_POTION_RED, 0x43, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_POTION_GREEN
+    GET_ITEM(ITEM_BOTTLE_POTION_GREEN, OBJECT_GI_LIQUID, GID_BOTTLE_POTION_GREEN, 0x44, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_POTION_BLUE
+    GET_ITEM(ITEM_BOTTLE_POTION_BLUE, OBJECT_GI_LIQUID, GID_BOTTLE_POTION_BLUE, 0x45, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_FAIRY
+    GET_ITEM(ITEM_BOTTLE_FAIRY, OBJECT_GI_BOTTLE, GID_BOTTLE_EMPTY, 0x46, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_MILK_FULL
+    GET_ITEM(ITEM_BOTTLE_MILK_FULL, OBJECT_GI_MILK, GID_BOTTLE_MILK_FULL, 0x98, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_RUTOS_LETTER
+    GET_ITEM(ITEM_BOTTLE_RUTOS_LETTER, OBJECT_GI_BOTTLE_LETTER, GID_BOTTLE_RUTOS_LETTER, 0x99, 0x80, CHEST_ANIM_LONG),
+    // GI_MAGIC_BEAN
+    GET_ITEM(ITEM_MAGIC_BEAN, OBJECT_GI_BEAN, GID_MAGIC_BEAN, 0x48, 0x80, CHEST_ANIM_SHORT),
     // GI_MASK_SKULL
     GET_ITEM(ITEM_MASK_SKULL, OBJECT_GI_SKJ_MASK, GID_MASK_SKULL, 0x10, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_SPOOKY
     GET_ITEM(ITEM_MASK_SPOOKY, OBJECT_GI_REDEAD_MASK, GID_MASK_SPOOKY, 0x11, 0x80, CHEST_ANIM_LONG),
     // GI_CHICKEN
-    GET_ITEM(ITEM_CHICKEN, OBJECT_GI_NIWATORI, GID_CHICKEN, 0x48, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_CHICKEN, OBJECT_GI_NIWATORI, GID_CUCCO, 0x48, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_KEATON
     GET_ITEM(ITEM_MASK_KEATON, OBJECT_GI_KI_TAN_MASK, GID_MASK_KEATON, 0x12, 0x80, CHEST_ANIM_LONG),
-    // GI_MASK_BUNNY
-    GET_ITEM(ITEM_MASK_BUNNY, OBJECT_GI_RABIT_MASK, GID_MASK_BUNNY, 0x13, 0x80, CHEST_ANIM_LONG),
+    // GI_MASK_BUNNY_HOOD
+    GET_ITEM(ITEM_MASK_BUNNY_HOOD, OBJECT_GI_RABIT_MASK, GID_MASK_BUNNY_HOOD, 0x13, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_TRUTH
     GET_ITEM(ITEM_MASK_TRUTH, OBJECT_GI_TRUTH_MASK, GID_MASK_TRUTH, 0x17, 0x80, CHEST_ANIM_LONG),
     // GI_POCKET_EGG
     GET_ITEM(ITEM_POCKET_EGG, OBJECT_GI_EGG, GID_EGG, 0x01, 0x80, CHEST_ANIM_LONG),
     // GI_POCKET_CUCCO
-    GET_ITEM(ITEM_POCKET_CUCCO, OBJECT_GI_NIWATORI, GID_CHICKEN, 0x48, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_POCKET_CUCCO, OBJECT_GI_NIWATORI, GID_CUCCO, 0x48, 0x80, CHEST_ANIM_LONG),
     // GI_ODD_MUSHROOM
     GET_ITEM(ITEM_ODD_MUSHROOM, OBJECT_GI_MUSHROOM, GID_ODD_MUSHROOM, 0x03, 0x80, CHEST_ANIM_LONG),
     // GI_ODD_POTION
     GET_ITEM(ITEM_ODD_POTION, OBJECT_GI_POWDER, GID_ODD_POTION, 0x04, 0x80, CHEST_ANIM_LONG),
-    // GI_SAW
-    GET_ITEM(ITEM_SAW, OBJECT_GI_SAW, GID_SAW, 0x05, 0x80, CHEST_ANIM_LONG),
-    // GI_SWORD_BROKEN
-    GET_ITEM(ITEM_SWORD_BROKEN, OBJECT_GI_BROKENSWORD, GID_SWORD_BROKEN, 0x08, 0x80, CHEST_ANIM_LONG),
+    // GI_POACHERS_SAW
+    GET_ITEM(ITEM_POACHERS_SAW, OBJECT_GI_SAW, GID_POACHERS_SAW, 0x05, 0x80, CHEST_ANIM_LONG),
+    // GI_BROKEN_GORONS_SWORD
+    GET_ITEM(ITEM_BROKEN_GORONS_SWORD, OBJECT_GI_BROKENSWORD, GID_BROKEN_GORONS_SWORD, 0x08, 0x80, CHEST_ANIM_LONG),
     // GI_PRESCRIPTION
     GET_ITEM(ITEM_PRESCRIPTION, OBJECT_GI_PRESCRIPTION, GID_PRESCRIPTION, 0x09, 0x80, CHEST_ANIM_LONG),
-    // GI_FROG
-    GET_ITEM(ITEM_FROG, OBJECT_GI_FROG, GID_FROG, 0x0D, 0x80, CHEST_ANIM_LONG),
-    // GI_EYEDROPS
-    GET_ITEM(ITEM_EYEDROPS, OBJECT_GI_EYE_LOTION, GID_EYEDROPS, 0x0E, 0x80, CHEST_ANIM_LONG),
+    // GI_EYEBALL_FROG
+    GET_ITEM(ITEM_EYEBALL_FROG, OBJECT_GI_FROG, GID_EYEBALL_FROG, 0x0D, 0x80, CHEST_ANIM_LONG),
+    // GI_EYE_DROPS
+    GET_ITEM(ITEM_EYE_DROPS, OBJECT_GI_EYE_LOTION, GID_EYE_DROPS, 0x0E, 0x80, CHEST_ANIM_LONG),
     // GI_CLAIM_CHECK
     GET_ITEM(ITEM_CLAIM_CHECK, OBJECT_GI_TICKETSTONE, GID_CLAIM_CHECK, 0x0A, 0x80, CHEST_ANIM_LONG),
     // GI_SWORD_KOKIRI
     GET_ITEM(ITEM_SWORD_KOKIRI, OBJECT_GI_SWORD_1, GID_SWORD_KOKIRI, 0xA4, 0x80, CHEST_ANIM_LONG),
     // GI_SWORD_KNIFE
-    GET_ITEM(ITEM_SWORD_BGS, OBJECT_GI_LONGSWORD, GID_SWORD_BGS, 0x4B, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SWORD_BIGGORON, OBJECT_GI_LONGSWORD, GID_SWORD_BIGGORON, 0x4B, 0x80, CHEST_ANIM_LONG),
     // GI_SHIELD_DEKU
     GET_ITEM(ITEM_SHIELD_DEKU, OBJECT_GI_SHIELD_1, GID_SHIELD_DEKU, 0x4C, 0xA0, CHEST_ANIM_SHORT),
     // GI_SHIELD_HYLIAN
@@ -597,52 +597,52 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_BOMB_BAG_30, OBJECT_GI_BOMBPOUCH, GID_BOMB_BAG_30, 0x59, 0x80, CHEST_ANIM_LONG),
     // GI_BOMB_BAG_40
     GET_ITEM(ITEM_BOMB_BAG_40, OBJECT_GI_BOMBPOUCH, GID_BOMB_BAG_40, 0x5A, 0x80, CHEST_ANIM_LONG),
-    // GI_GAUNTLETS_SILVER
-    GET_ITEM(ITEM_GAUNTLETS_SILVER, OBJECT_GI_GLOVES, GID_GAUNTLETS_SILVER, 0x5B, 0x80, CHEST_ANIM_LONG),
-    // GI_GAUNTLETS_GOLD
-    GET_ITEM(ITEM_GAUNTLETS_GOLD, OBJECT_GI_GLOVES, GID_GAUNTLETS_GOLD, 0x5C, 0x80, CHEST_ANIM_LONG),
+    // GI_SILVER_GAUNTLETS
+    GET_ITEM(ITEM_STRENGTH_SILVER_GAUNTLETS, OBJECT_GI_GLOVES, GID_SILVER_GAUNTLETS, 0x5B, 0x80, CHEST_ANIM_LONG),
+    // GI_GOLD_GAUNTLETS
+    GET_ITEM(ITEM_STRENGTH_GOLD_GAUNTLETS, OBJECT_GI_GLOVES, GID_GOLD_GAUNTLETS, 0x5C, 0x80, CHEST_ANIM_LONG),
     // GI_SCALE_SILVER
     GET_ITEM(ITEM_SCALE_SILVER, OBJECT_GI_SCALE, GID_SCALE_SILVER, 0xCD, 0x80, CHEST_ANIM_LONG),
-    // GI_SCALE_GOLD
+    // GI_SCALE_GOLDEN
     GET_ITEM(ITEM_SCALE_GOLDEN, OBJECT_GI_SCALE, GID_SCALE_GOLDEN, 0xCE, 0x80, CHEST_ANIM_LONG),
     // GI_STONE_OF_AGONY
     GET_ITEM(ITEM_STONE_OF_AGONY, OBJECT_GI_MAP, GID_STONE_OF_AGONY, 0x68, 0x80, CHEST_ANIM_LONG),
-    // GI_GERUDO_CARD
-    GET_ITEM(ITEM_GERUDO_CARD, OBJECT_GI_GERUDO, GID_GERUDO_CARD, 0x7B, 0x80, CHEST_ANIM_LONG),
+    // GI_GERUDOS_CARD
+    GET_ITEM(ITEM_GERUDOS_CARD, OBJECT_GI_GERUDO, GID_GERUDOS_CARD, 0x7B, 0x80, CHEST_ANIM_LONG),
     // GI_OCARINA_FAIRY
     GET_ITEM(ITEM_OCARINA_FAIRY, OBJECT_GI_OCARINA_0, GID_OCARINA_FAIRY, 0x3A, 0x80, CHEST_ANIM_LONG),
-    // GI_SEEDS_5
-    GET_ITEM(ITEM_SEEDS, OBJECT_GI_SEED, GID_SEEDS, 0xDC, 0x50, CHEST_ANIM_SHORT),
+    // GI_DEKU_SEEDS_5
+    GET_ITEM(ITEM_DEKU_SEEDS, OBJECT_GI_SEED, GID_DEKU_SEEDS, 0xDC, 0x50, CHEST_ANIM_SHORT),
     // GI_HEART_CONTAINER
     GET_ITEM(ITEM_HEART_CONTAINER, OBJECT_GI_HEARTS, GID_HEART_CONTAINER, 0xC6, 0x80, CHEST_ANIM_LONG),
     // GI_HEART_PIECE
     GET_ITEM(ITEM_HEART_PIECE_2, OBJECT_GI_HEARTS, GID_HEART_PIECE, 0xC2, 0x80, CHEST_ANIM_LONG),
-    // GI_KEY_BOSS
-    GET_ITEM(ITEM_KEY_BOSS, OBJECT_GI_BOSSKEY, GID_KEY_BOSS, 0xC7, 0x80, CHEST_ANIM_LONG),
+    // GI_BOSS_KEY
+    GET_ITEM(ITEM_DUNGEON_BOSS_KEY, OBJECT_GI_BOSSKEY, GID_BOSS_KEY, 0xC7, 0x80, CHEST_ANIM_LONG),
     // GI_COMPASS
-    GET_ITEM(ITEM_COMPASS, OBJECT_GI_COMPASS, GID_COMPASS, 0x67, 0x80, CHEST_ANIM_LONG),
-    // GI_MAP
+    GET_ITEM(ITEM_DUNGEON_COMPASS, OBJECT_GI_COMPASS, GID_COMPASS, 0x67, 0x80, CHEST_ANIM_LONG),
+    // GI_DUNGEON_MAP
     GET_ITEM(ITEM_DUNGEON_MAP, OBJECT_GI_MAP, GID_DUNGEON_MAP, 0x66, 0x80, CHEST_ANIM_LONG),
-    // GI_KEY_SMALL
-    GET_ITEM(ITEM_KEY_SMALL, OBJECT_GI_KEY, GID_KEY_SMALL, 0x60, 0x80, CHEST_ANIM_SHORT),
-    // GI_MAGIC_SMALL
-    GET_ITEM(ITEM_MAGIC_SMALL, OBJECT_GI_MAGICPOT, GID_MAGIC_SMALL, 0x52, 0x6F, CHEST_ANIM_SHORT),
-    // GI_MAGIC_LARGE
-    GET_ITEM(ITEM_MAGIC_LARGE, OBJECT_GI_MAGICPOT, GID_MAGIC_LARGE, 0x52, 0x6E, CHEST_ANIM_SHORT),
+    // GI_SMALL_KEY
+    GET_ITEM(ITEM_SMALL_KEY, OBJECT_GI_KEY, GID_SMALL_KEY, 0x60, 0x80, CHEST_ANIM_SHORT),
+    // GI_MAGIC_JAR_SMALL
+    GET_ITEM(ITEM_MAGIC_JAR_SMALL, OBJECT_GI_MAGICPOT, GID_MAGIC_JAR_SMALL, 0x52, 0x6F, CHEST_ANIM_SHORT),
+    // GI_MAGIC_JAR_LARGE
+    GET_ITEM(ITEM_MAGIC_JAR_BIG, OBJECT_GI_MAGICPOT, GID_MAGIC_JAR_LARGE, 0x52, 0x6E, CHEST_ANIM_SHORT),
     // GI_WALLET_ADULT
-    GET_ITEM(ITEM_WALLET_ADULT, OBJECT_GI_PURSE, GID_WALLET_ADULT, 0x5E, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_ADULTS_WALLET, OBJECT_GI_PURSE, GID_WALLET_ADULT, 0x5E, 0x80, CHEST_ANIM_LONG),
     // GI_WALLET_GIANT
-    GET_ITEM(ITEM_WALLET_GIANT, OBJECT_GI_PURSE, GID_WALLET_GIANT, 0x5F, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_GIANTS_WALLET, OBJECT_GI_PURSE, GID_WALLET_GIANT, 0x5F, 0x80, CHEST_ANIM_LONG),
     // GI_WEIRD_EGG
     GET_ITEM(ITEM_WEIRD_EGG, OBJECT_GI_EGG, GID_EGG, 0x9A, 0x80, CHEST_ANIM_LONG),
     // GI_RECOVERY_HEART
     GET_ITEM(ITEM_RECOVERY_HEART, OBJECT_GI_HEART, GID_RECOVERY_HEART, 0x55, 0x80, CHEST_ANIM_LONG),
-    // GI_ARROWS_SMALL
-    GET_ITEM(ITEM_ARROWS_SMALL, OBJECT_GI_ARROW, GID_ARROWS_SMALL, 0xE6, 0x48, CHEST_ANIM_SHORT),
-    // GI_ARROWS_MEDIUM
-    GET_ITEM(ITEM_ARROWS_MEDIUM, OBJECT_GI_ARROW, GID_ARROWS_MEDIUM, 0xE6, 0x49, CHEST_ANIM_SHORT),
-    // GI_ARROWS_LARGE
-    GET_ITEM(ITEM_ARROWS_LARGE, OBJECT_GI_ARROW, GID_ARROWS_LARGE, 0xE6, 0x4A, CHEST_ANIM_SHORT),
+    // GI_ARROWS_5
+    GET_ITEM(ITEM_ARROWS_5, OBJECT_GI_ARROW, GID_ARROWS_5, 0xE6, 0x48, CHEST_ANIM_SHORT),
+    // GI_ARROWS_10
+    GET_ITEM(ITEM_ARROWS_10, OBJECT_GI_ARROW, GID_ARROWS_10, 0xE6, 0x49, CHEST_ANIM_SHORT),
+    // GI_ARROWS_30
+    GET_ITEM(ITEM_ARROWS_30, OBJECT_GI_ARROW, GID_ARROWS_30, 0xE6, 0x4A, CHEST_ANIM_SHORT),
     // GI_RUPEE_GREEN
     GET_ITEM(ITEM_RUPEE_GREEN, OBJECT_GI_RUPY, GID_RUPEE_GREEN, 0x6F, 0x00, CHEST_ANIM_SHORT),
     // GI_RUPEE_BLUE
@@ -652,21 +652,21 @@ static GetItemEntry sGetItemTable[] = {
     // GI_HEART_CONTAINER_2
     GET_ITEM(ITEM_HEART_CONTAINER, OBJECT_GI_HEARTS, GID_HEART_CONTAINER, 0xC6, 0x80, CHEST_ANIM_LONG),
     // GI_MILK
-    GET_ITEM(ITEM_MILK, OBJECT_GI_MILK, GID_MILK, 0x98, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MILK, OBJECT_GI_MILK, GID_BOTTLE_MILK_FULL, 0x98, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_GORON
     GET_ITEM(ITEM_MASK_GORON, OBJECT_GI_GOLONMASK, GID_MASK_GORON, 0x14, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_ZORA
     GET_ITEM(ITEM_MASK_ZORA, OBJECT_GI_ZORAMASK, GID_MASK_ZORA, 0x15, 0x80, CHEST_ANIM_LONG),
     // GI_MASK_GERUDO
     GET_ITEM(ITEM_MASK_GERUDO, OBJECT_GI_GERUDOMASK, GID_MASK_GERUDO, 0x16, 0x80, CHEST_ANIM_LONG),
-    // GI_BRACELET
-    GET_ITEM(ITEM_BRACELET, OBJECT_GI_BRACELET, GID_BRACELET, 0x79, 0x80, CHEST_ANIM_LONG),
+    // GI_GORONS_BRACELET
+    GET_ITEM(ITEM_STRENGTH_GORONS_BRACELET, OBJECT_GI_BRACELET, GID_GORONS_BRACELET, 0x79, 0x80, CHEST_ANIM_LONG),
     // GI_RUPEE_PURPLE
     GET_ITEM(ITEM_RUPEE_PURPLE, OBJECT_GI_RUPY, GID_RUPEE_PURPLE, 0xF1, 0x14, CHEST_ANIM_SHORT),
     // GI_RUPEE_GOLD
     GET_ITEM(ITEM_RUPEE_GOLD, OBJECT_GI_RUPY, GID_RUPEE_GOLD, 0xF2, 0x13, CHEST_ANIM_SHORT),
-    // GI_SWORD_BGS
-    GET_ITEM(ITEM_SWORD_BGS, OBJECT_GI_LONGSWORD, GID_SWORD_BGS, 0x0C, 0x80, CHEST_ANIM_LONG),
+    // GI_SWORD_BIGGORON
+    GET_ITEM(ITEM_SWORD_BIGGORON, OBJECT_GI_LONGSWORD, GID_SWORD_BIGGORON, 0x0C, 0x80, CHEST_ANIM_LONG),
     // GI_ARROW_FIRE
     GET_ITEM(ITEM_ARROW_FIRE, OBJECT_GI_M_ARROW, GID_ARROW_FIRE, 0x70, 0x80, CHEST_ANIM_LONG),
     // GI_ARROW_ICE
@@ -685,14 +685,14 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_BULLET_BAG_30, OBJECT_GI_DEKUPOUCH, GID_BULLET_BAG, 0x07, 0x80, CHEST_ANIM_LONG),
     // GI_BULLET_BAG_40
     GET_ITEM(ITEM_BULLET_BAG_40, OBJECT_GI_DEKUPOUCH, GID_BULLET_BAG, 0x07, 0x80, CHEST_ANIM_LONG),
-    // GI_STICKS_5
-    GET_ITEM(ITEM_STICKS_5, OBJECT_GI_STICK, GID_STICK, 0x37, 0x0D, CHEST_ANIM_SHORT),
-    // GI_STICKS_10
-    GET_ITEM(ITEM_STICKS_10, OBJECT_GI_STICK, GID_STICK, 0x37, 0x0D, CHEST_ANIM_SHORT),
-    // GI_NUTS_5_2
-    GET_ITEM(ITEM_NUTS_5, OBJECT_GI_NUTS, GID_NUTS, 0x34, 0x0C, CHEST_ANIM_SHORT),
-    // GI_NUTS_10
-    GET_ITEM(ITEM_NUTS_10, OBJECT_GI_NUTS, GID_NUTS, 0x34, 0x0C, CHEST_ANIM_SHORT),
+    // GI_DEKU_STICKS_5
+    GET_ITEM(ITEM_DEKU_STICKS_5, OBJECT_GI_STICK, GID_DEKU_STICK, 0x37, 0x0D, CHEST_ANIM_SHORT),
+    // GI_DEKU_STICKS_10
+    GET_ITEM(ITEM_DEKU_STICKS_10, OBJECT_GI_STICK, GID_DEKU_STICK, 0x37, 0x0D, CHEST_ANIM_SHORT),
+    // GI_DEKU_NUTS_5_2
+    GET_ITEM(ITEM_DEKU_NUTS_5, OBJECT_GI_NUTS, GID_DEKU_NUTS, 0x34, 0x0C, CHEST_ANIM_SHORT),
+    // GI_DEKU_NUTS_10
+    GET_ITEM(ITEM_DEKU_NUTS_10, OBJECT_GI_NUTS, GID_DEKU_NUTS, 0x34, 0x0C, CHEST_ANIM_SHORT),
     // GI_BOMBS_1
     GET_ITEM(ITEM_BOMB, OBJECT_GI_BOMB_1, GID_BOMB, 0x32, 0x59, CHEST_ANIM_SHORT),
     // GI_BOMBS_10
@@ -701,24 +701,24 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_BOMBS_20, OBJECT_GI_BOMB_1, GID_BOMB, 0x32, 0x59, CHEST_ANIM_SHORT),
     // GI_BOMBS_30
     GET_ITEM(ITEM_BOMBS_30, OBJECT_GI_BOMB_1, GID_BOMB, 0x32, 0x59, CHEST_ANIM_SHORT),
-    // GI_SEEDS_30
-    GET_ITEM(ITEM_SEEDS_30, OBJECT_GI_SEED, GID_SEEDS, 0xDC, 0x50, CHEST_ANIM_SHORT),
+    // GI_DEKU_SEEDS_30
+    GET_ITEM(ITEM_DEKU_SEEDS_30, OBJECT_GI_SEED, GID_DEKU_SEEDS, 0xDC, 0x50, CHEST_ANIM_SHORT),
     // GI_BOMBCHUS_5
     GET_ITEM(ITEM_BOMBCHUS_5, OBJECT_GI_BOMB_2, GID_BOMBCHU, 0x33, 0x80, CHEST_ANIM_SHORT),
     // GI_BOMBCHUS_20
     GET_ITEM(ITEM_BOMBCHUS_20, OBJECT_GI_BOMB_2, GID_BOMBCHU, 0x33, 0x80, CHEST_ANIM_SHORT),
-    // GI_FISH
-    GET_ITEM(ITEM_FISH, OBJECT_GI_FISH, GID_FISH, 0x47, 0x80, CHEST_ANIM_LONG),
-    // GI_BUGS
-    GET_ITEM(ITEM_BUG, OBJECT_GI_INSECT, GID_BUG, 0x7A, 0x80, CHEST_ANIM_LONG),
-    // GI_BLUE_FIRE
-    GET_ITEM(ITEM_BLUE_FIRE, OBJECT_GI_FIRE, GID_BLUE_FIRE, 0x5D, 0x80, CHEST_ANIM_LONG),
-    // GI_POE
-    GET_ITEM(ITEM_POE, OBJECT_GI_GHOST, GID_POE, 0x97, 0x80, CHEST_ANIM_LONG),
-    // GI_BIG_POE
-    GET_ITEM(ITEM_BIG_POE, OBJECT_GI_GHOST, GID_BIG_POE, 0xF9, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_FISH
+    GET_ITEM(ITEM_BOTTLE_FISH, OBJECT_GI_FISH, GID_FISH, 0x47, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_BUGS
+    GET_ITEM(ITEM_BOTTLE_BUG, OBJECT_GI_INSECT, GID_BUG, 0x7A, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_BLUE_FIRE
+    GET_ITEM(ITEM_BOTTLE_BLUE_FIRE, OBJECT_GI_FIRE, GID_BLUE_FIRE, 0x5D, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_POE
+    GET_ITEM(ITEM_BOTTLE_POE, OBJECT_GI_GHOST, GID_POE, 0x97, 0x80, CHEST_ANIM_LONG),
+    // GI_BOTTLE_BIG_POE
+    GET_ITEM(ITEM_BOTTLE_BIG_POE, OBJECT_GI_GHOST, GID_BIG_POE, 0xF9, 0x80, CHEST_ANIM_LONG),
     // GI_DOOR_KEY
-    GET_ITEM(ITEM_KEY_SMALL, OBJECT_GI_KEY, GID_KEY_SMALL, 0xF3, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_SMALL_KEY, OBJECT_GI_KEY, GID_SMALL_KEY, 0xF3, 0x80, CHEST_ANIM_SHORT),
     // GI_RUPEE_GREEN_LOSE
     GET_ITEM(ITEM_RUPEE_GREEN, OBJECT_GI_RUPY, GID_RUPEE_GREEN, 0xF4, 0x00, CHEST_ANIM_SHORT),
     // GI_RUPEE_BLUE_LOSE
@@ -729,14 +729,14 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_RUPEE_PURPLE, OBJECT_GI_RUPY, GID_RUPEE_PURPLE, 0xF7, 0x14, CHEST_ANIM_SHORT),
     // GI_HEART_PIECE_WIN
     GET_ITEM(ITEM_HEART_PIECE_2, OBJECT_GI_HEARTS, GID_HEART_PIECE, 0xFA, 0x80, CHEST_ANIM_LONG),
-    // GI_STICK_UPGRADE_20
-    GET_ITEM(ITEM_STICK_UPGRADE_20, OBJECT_GI_STICK, GID_STICK, 0x90, 0x80, CHEST_ANIM_SHORT),
-    // GI_STICK_UPGRADE_30
-    GET_ITEM(ITEM_STICK_UPGRADE_30, OBJECT_GI_STICK, GID_STICK, 0x91, 0x80, CHEST_ANIM_SHORT),
-    // GI_NUT_UPGRADE_30
-    GET_ITEM(ITEM_NUT_UPGRADE_30, OBJECT_GI_NUTS, GID_NUTS, 0xA7, 0x80, CHEST_ANIM_SHORT),
-    // GI_NUT_UPGRADE_40
-    GET_ITEM(ITEM_NUT_UPGRADE_40, OBJECT_GI_NUTS, GID_NUTS, 0xA8, 0x80, CHEST_ANIM_SHORT),
+    // GI_DEKU_STICK_UPGRADE_20
+    GET_ITEM(ITEM_DEKU_STICK_UPGRADE_20, OBJECT_GI_STICK, GID_DEKU_STICK, 0x90, 0x80, CHEST_ANIM_SHORT),
+    // GI_DEKU_STICK_UPGRADE_30
+    GET_ITEM(ITEM_DEKU_STICK_UPGRADE_30, OBJECT_GI_STICK, GID_DEKU_STICK, 0x91, 0x80, CHEST_ANIM_SHORT),
+    // GI_DEKU_NUT_UPGRADE_30
+    GET_ITEM(ITEM_DEKU_NUT_UPGRADE_30, OBJECT_GI_NUTS, GID_DEKU_NUTS, 0xA7, 0x80, CHEST_ANIM_SHORT),
+    // GI_DEKU_NUT_UPGRADE_40
+    GET_ITEM(ITEM_DEKU_NUT_UPGRADE_40, OBJECT_GI_NUTS, GID_DEKU_NUTS, 0xA8, 0x80, CHEST_ANIM_SHORT),
     // GI_BULLET_BAG_50
     GET_ITEM(ITEM_BULLET_BAG_50, OBJECT_GI_DEKUPOUCH, GID_BULLET_BAG_50, 0x6C, 0x80, CHEST_ANIM_LONG),
     // GI_ICE_TRAP
@@ -748,315 +748,315 @@ static GetItemEntry sGetItemTable[] = {
 #define GET_PLAYER_ANIM(group, type) D_80853914[group * PLAYER_ANIMTYPE_MAX + type]
 
 static LinkAnimationHeader* D_80853914[PLAYER_ANIMGROUP_MAX * PLAYER_ANIMTYPE_MAX] = {
-    /* PLAYER_ANIMGROUP_0 */
+    /* PLAYER_ANIMGROUP_wait */
     &gPlayerAnim_link_normal_wait_free,
     &gPlayerAnim_link_normal_wait,
     &gPlayerAnim_link_normal_wait,
     &gPlayerAnim_link_fighter_wait_long,
     &gPlayerAnim_link_normal_wait_free,
     &gPlayerAnim_link_normal_wait_free,
-    /* PLAYER_ANIMGROUP_1 */
+    /* PLAYER_ANIMGROUP_walk */
     &gPlayerAnim_link_normal_walk_free,
     &gPlayerAnim_link_normal_walk,
     &gPlayerAnim_link_normal_walk,
     &gPlayerAnim_link_fighter_walk_long,
     &gPlayerAnim_link_normal_walk_free,
     &gPlayerAnim_link_normal_walk_free,
-    /* PLAYER_ANIMGROUP_2 */
+    /* PLAYER_ANIMGROUP_run */
     &gPlayerAnim_link_normal_run_free,
     &gPlayerAnim_link_fighter_run,
     &gPlayerAnim_link_normal_run,
     &gPlayerAnim_link_fighter_run_long,
     &gPlayerAnim_link_normal_run_free,
     &gPlayerAnim_link_normal_run_free,
-    /* PLAYER_ANIMGROUP_3 */
+    /* PLAYER_ANIMGROUP_damage_run */
     &gPlayerAnim_link_normal_damage_run_free,
     &gPlayerAnim_link_fighter_damage_run,
     &gPlayerAnim_link_normal_damage_run_free,
     &gPlayerAnim_link_fighter_damage_run_long,
     &gPlayerAnim_link_normal_damage_run_free,
     &gPlayerAnim_link_normal_damage_run_free,
-    /* PLAYER_ANIMGROUP_4 */
+    /* PLAYER_ANIMGROUP_heavy_run */
     &gPlayerAnim_link_normal_heavy_run_free,
     &gPlayerAnim_link_normal_heavy_run,
     &gPlayerAnim_link_normal_heavy_run_free,
     &gPlayerAnim_link_fighter_heavy_run_long,
     &gPlayerAnim_link_normal_heavy_run_free,
     &gPlayerAnim_link_normal_heavy_run_free,
-    /* PLAYER_ANIMGROUP_5 */
+    /* PLAYER_ANIMGROUP_waitL */
     &gPlayerAnim_link_normal_waitL_free,
     &gPlayerAnim_link_anchor_waitL,
     &gPlayerAnim_link_anchor_waitL,
     &gPlayerAnim_link_fighter_waitL_long,
     &gPlayerAnim_link_normal_waitL_free,
     &gPlayerAnim_link_normal_waitL_free,
-    /* PLAYER_ANIMGROUP_6 */
+    /* PLAYER_ANIMGROUP_waitR */
     &gPlayerAnim_link_normal_waitR_free,
     &gPlayerAnim_link_anchor_waitR,
     &gPlayerAnim_link_anchor_waitR,
     &gPlayerAnim_link_fighter_waitR_long,
     &gPlayerAnim_link_normal_waitR_free,
     &gPlayerAnim_link_normal_waitR_free,
-    /* PLAYER_ANIMGROUP_7 */
+    /* PLAYER_ANIMGROUP_wait2waitR */
     &gPlayerAnim_link_fighter_wait2waitR_long,
     &gPlayerAnim_link_normal_wait2waitR,
     &gPlayerAnim_link_normal_wait2waitR,
     &gPlayerAnim_link_fighter_wait2waitR_long,
     &gPlayerAnim_link_fighter_wait2waitR_long,
     &gPlayerAnim_link_fighter_wait2waitR_long,
-    /* PLAYER_ANIMGROUP_8 */
+    /* PLAYER_ANIMGROUP_normal2fighter */
     &gPlayerAnim_link_normal_normal2fighter_free,
     &gPlayerAnim_link_fighter_normal2fighter,
     &gPlayerAnim_link_fighter_normal2fighter,
     &gPlayerAnim_link_normal_normal2fighter_free,
     &gPlayerAnim_link_normal_normal2fighter_free,
     &gPlayerAnim_link_normal_normal2fighter_free,
-    /* PLAYER_ANIMGROUP_9 */
+    /* PLAYER_ANIMGROUP_doorA_free */
     &gPlayerAnim_link_demo_doorA_link_free,
     &gPlayerAnim_link_demo_doorA_link,
     &gPlayerAnim_link_demo_doorA_link,
     &gPlayerAnim_link_demo_doorA_link_free,
     &gPlayerAnim_link_demo_doorA_link_free,
     &gPlayerAnim_link_demo_doorA_link_free,
-    /* PLAYER_ANIMGROUP_10 */
+    /* PLAYER_ANIMGROUP_doorA */
     &gPlayerAnim_clink_demo_doorA_link,
     &gPlayerAnim_clink_demo_doorA_link,
     &gPlayerAnim_clink_demo_doorA_link,
     &gPlayerAnim_clink_demo_doorA_link,
     &gPlayerAnim_clink_demo_doorA_link,
     &gPlayerAnim_clink_demo_doorA_link,
-    /* PLAYER_ANIMGROUP_11 */
+    /* PLAYER_ANIMGROUP_doorB_free */
     &gPlayerAnim_link_demo_doorB_link_free,
     &gPlayerAnim_link_demo_doorB_link,
     &gPlayerAnim_link_demo_doorB_link,
     &gPlayerAnim_link_demo_doorB_link_free,
     &gPlayerAnim_link_demo_doorB_link_free,
     &gPlayerAnim_link_demo_doorB_link_free,
-    /* PLAYER_ANIMGROUP_12 */
+    /* PLAYER_ANIMGROUP_doorB */
     &gPlayerAnim_clink_demo_doorB_link,
     &gPlayerAnim_clink_demo_doorB_link,
     &gPlayerAnim_clink_demo_doorB_link,
     &gPlayerAnim_clink_demo_doorB_link,
     &gPlayerAnim_clink_demo_doorB_link,
     &gPlayerAnim_clink_demo_doorB_link,
-    /* PLAYER_ANIMGROUP_13 */
+    /* PLAYER_ANIMGROUP_carryB */
     &gPlayerAnim_link_normal_carryB_free,
     &gPlayerAnim_link_normal_carryB,
     &gPlayerAnim_link_normal_carryB,
     &gPlayerAnim_link_normal_carryB_free,
     &gPlayerAnim_link_normal_carryB_free,
     &gPlayerAnim_link_normal_carryB_free,
-    /* PLAYER_ANIMGROUP_14 */
+    /* PLAYER_ANIMGROUP_landing */
     &gPlayerAnim_link_normal_landing_free,
     &gPlayerAnim_link_normal_landing,
     &gPlayerAnim_link_normal_landing,
     &gPlayerAnim_link_normal_landing_free,
     &gPlayerAnim_link_normal_landing_free,
     &gPlayerAnim_link_normal_landing_free,
-    /* PLAYER_ANIMGROUP_15 */
+    /* PLAYER_ANIMGROUP_short_landing */
     &gPlayerAnim_link_normal_short_landing_free,
     &gPlayerAnim_link_normal_short_landing,
     &gPlayerAnim_link_normal_short_landing,
     &gPlayerAnim_link_normal_short_landing_free,
     &gPlayerAnim_link_normal_short_landing_free,
     &gPlayerAnim_link_normal_short_landing_free,
-    /* PLAYER_ANIMGROUP_16 */
+    /* PLAYER_ANIMGROUP_landing_roll */
     &gPlayerAnim_link_normal_landing_roll_free,
     &gPlayerAnim_link_normal_landing_roll,
     &gPlayerAnim_link_normal_landing_roll,
     &gPlayerAnim_link_fighter_landing_roll_long,
     &gPlayerAnim_link_normal_landing_roll_free,
     &gPlayerAnim_link_normal_landing_roll_free,
-    /* PLAYER_ANIMGROUP_17 */
+    /* PLAYER_ANIMGROUP_hip_down */
     &gPlayerAnim_link_normal_hip_down_free,
     &gPlayerAnim_link_normal_hip_down,
     &gPlayerAnim_link_normal_hip_down,
     &gPlayerAnim_link_normal_hip_down_long,
     &gPlayerAnim_link_normal_hip_down_free,
     &gPlayerAnim_link_normal_hip_down_free,
-    /* PLAYER_ANIMGROUP_18 */
+    /* PLAYER_ANIMGROUP_walk_endL */
     &gPlayerAnim_link_normal_walk_endL_free,
     &gPlayerAnim_link_normal_walk_endL,
     &gPlayerAnim_link_normal_walk_endL,
     &gPlayerAnim_link_fighter_walk_endL_long,
     &gPlayerAnim_link_normal_walk_endL_free,
     &gPlayerAnim_link_normal_walk_endL_free,
-    /* PLAYER_ANIMGROUP_19 */
+    /* PLAYER_ANIMGROUP_walk_endR */
     &gPlayerAnim_link_normal_walk_endR_free,
     &gPlayerAnim_link_normal_walk_endR,
     &gPlayerAnim_link_normal_walk_endR,
     &gPlayerAnim_link_fighter_walk_endR_long,
     &gPlayerAnim_link_normal_walk_endR_free,
     &gPlayerAnim_link_normal_walk_endR_free,
-    /* PLAYER_ANIMGROUP_20 */
+    /* PLAYER_ANIMGROUP_defense */
     &gPlayerAnim_link_normal_defense_free,
     &gPlayerAnim_link_normal_defense,
     &gPlayerAnim_link_normal_defense,
     &gPlayerAnim_link_normal_defense_free,
     &gPlayerAnim_link_bow_defense,
     &gPlayerAnim_link_normal_defense_free,
-    /* PLAYER_ANIMGROUP_21 */
+    /* PLAYER_ANIMGROUP_defense_wait */
     &gPlayerAnim_link_normal_defense_wait_free,
     &gPlayerAnim_link_normal_defense_wait,
     &gPlayerAnim_link_normal_defense_wait,
     &gPlayerAnim_link_normal_defense_wait_free,
     &gPlayerAnim_link_bow_defense_wait,
     &gPlayerAnim_link_normal_defense_wait_free,
-    /* PLAYER_ANIMGROUP_22 */
+    /* PLAYER_ANIMGROUP_defense_end */
     &gPlayerAnim_link_normal_defense_end_free,
     &gPlayerAnim_link_normal_defense_end,
     &gPlayerAnim_link_normal_defense_end,
     &gPlayerAnim_link_normal_defense_end_free,
     &gPlayerAnim_link_normal_defense_end_free,
     &gPlayerAnim_link_normal_defense_end_free,
-    /* PLAYER_ANIMGROUP_23 */
+    /* PLAYER_ANIMGROUP_side_walk */
     &gPlayerAnim_link_normal_side_walk_free,
     &gPlayerAnim_link_normal_side_walk,
     &gPlayerAnim_link_normal_side_walk,
     &gPlayerAnim_link_fighter_side_walk_long,
     &gPlayerAnim_link_normal_side_walk_free,
     &gPlayerAnim_link_normal_side_walk_free,
-    /* PLAYER_ANIMGROUP_24 */
+    /* PLAYER_ANIMGROUP_side_walkL */
     &gPlayerAnim_link_normal_side_walkL_free,
     &gPlayerAnim_link_anchor_side_walkL,
     &gPlayerAnim_link_anchor_side_walkL,
     &gPlayerAnim_link_fighter_side_walkL_long,
     &gPlayerAnim_link_normal_side_walkL_free,
     &gPlayerAnim_link_normal_side_walkL_free,
-    /* PLAYER_ANIMGROUP_25 */
+    /* PLAYER_ANIMGROUP_side_walkR */
     &gPlayerAnim_link_normal_side_walkR_free,
     &gPlayerAnim_link_anchor_side_walkR,
     &gPlayerAnim_link_anchor_side_walkR,
     &gPlayerAnim_link_fighter_side_walkR_long,
     &gPlayerAnim_link_normal_side_walkR_free,
     &gPlayerAnim_link_normal_side_walkR_free,
-    /* PLAYER_ANIMGROUP_26 */
+    /* PLAYER_ANIMGROUP_45_turn */
     &gPlayerAnim_link_normal_45_turn_free,
     &gPlayerAnim_link_normal_45_turn,
     &gPlayerAnim_link_normal_45_turn,
     &gPlayerAnim_link_normal_45_turn_free,
     &gPlayerAnim_link_normal_45_turn_free,
     &gPlayerAnim_link_normal_45_turn_free,
-    /* PLAYER_ANIMGROUP_27 */
+    /* PLAYER_ANIMGROUP_waitL2wait */
     &gPlayerAnim_link_fighter_waitL2wait_long,
     &gPlayerAnim_link_normal_waitL2wait,
     &gPlayerAnim_link_normal_waitL2wait,
     &gPlayerAnim_link_fighter_waitL2wait_long,
     &gPlayerAnim_link_fighter_waitL2wait_long,
     &gPlayerAnim_link_fighter_waitL2wait_long,
-    /* PLAYER_ANIMGROUP_28 */
+    /* PLAYER_ANIMGROUP_waitR2wait */
     &gPlayerAnim_link_fighter_waitR2wait_long,
     &gPlayerAnim_link_normal_waitR2wait,
     &gPlayerAnim_link_normal_waitR2wait,
     &gPlayerAnim_link_fighter_waitR2wait_long,
     &gPlayerAnim_link_fighter_waitR2wait_long,
     &gPlayerAnim_link_fighter_waitR2wait_long,
-    /* PLAYER_ANIMGROUP_29 */
+    /* PLAYER_ANIMGROUP_throw */
     &gPlayerAnim_link_normal_throw_free,
     &gPlayerAnim_link_normal_throw,
     &gPlayerAnim_link_normal_throw,
     &gPlayerAnim_link_normal_throw_free,
     &gPlayerAnim_link_normal_throw_free,
     &gPlayerAnim_link_normal_throw_free,
-    /* PLAYER_ANIMGROUP_30 */
+    /* PLAYER_ANIMGROUP_put */
     &gPlayerAnim_link_normal_put_free,
     &gPlayerAnim_link_normal_put,
     &gPlayerAnim_link_normal_put,
     &gPlayerAnim_link_normal_put_free,
     &gPlayerAnim_link_normal_put_free,
     &gPlayerAnim_link_normal_put_free,
-    /* PLAYER_ANIMGROUP_31 */
+    /* PLAYER_ANIMGROUP_back_walk */
     &gPlayerAnim_link_normal_back_walk,
     &gPlayerAnim_link_normal_back_walk,
     &gPlayerAnim_link_normal_back_walk,
     &gPlayerAnim_link_normal_back_walk,
     &gPlayerAnim_link_normal_back_walk,
     &gPlayerAnim_link_normal_back_walk,
-    /* PLAYER_ANIMGROUP_32 */
+    /* PLAYER_ANIMGROUP_check */
     &gPlayerAnim_link_normal_check_free,
     &gPlayerAnim_link_normal_check,
     &gPlayerAnim_link_normal_check,
     &gPlayerAnim_link_normal_check_free,
     &gPlayerAnim_link_normal_check_free,
     &gPlayerAnim_link_normal_check_free,
-    /* PLAYER_ANIMGROUP_33 */
+    /* PLAYER_ANIMGROUP_check_wait */
     &gPlayerAnim_link_normal_check_wait_free,
     &gPlayerAnim_link_normal_check_wait,
     &gPlayerAnim_link_normal_check_wait,
     &gPlayerAnim_link_normal_check_wait_free,
     &gPlayerAnim_link_normal_check_wait_free,
     &gPlayerAnim_link_normal_check_wait_free,
-    /* PLAYER_ANIMGROUP_34 */
+    /* PLAYER_ANIMGROUP_check_end */
     &gPlayerAnim_link_normal_check_end_free,
     &gPlayerAnim_link_normal_check_end,
     &gPlayerAnim_link_normal_check_end,
     &gPlayerAnim_link_normal_check_end_free,
     &gPlayerAnim_link_normal_check_end_free,
     &gPlayerAnim_link_normal_check_end_free,
-    /* PLAYER_ANIMGROUP_35 */
+    /* PLAYER_ANIMGROUP_pull_start */
     &gPlayerAnim_link_normal_pull_start_free,
     &gPlayerAnim_link_normal_pull_start,
     &gPlayerAnim_link_normal_pull_start,
     &gPlayerAnim_link_normal_pull_start_free,
     &gPlayerAnim_link_normal_pull_start_free,
     &gPlayerAnim_link_normal_pull_start_free,
-    /* PLAYER_ANIMGROUP_36 */
+    /* PLAYER_ANIMGROUP_pulling */
     &gPlayerAnim_link_normal_pulling_free,
     &gPlayerAnim_link_normal_pulling,
     &gPlayerAnim_link_normal_pulling,
     &gPlayerAnim_link_normal_pulling_free,
     &gPlayerAnim_link_normal_pulling_free,
     &gPlayerAnim_link_normal_pulling_free,
-    /* PLAYER_ANIMGROUP_37 */
+    /* PLAYER_ANIMGROUP_pull_end */
     &gPlayerAnim_link_normal_pull_end_free,
     &gPlayerAnim_link_normal_pull_end,
     &gPlayerAnim_link_normal_pull_end,
     &gPlayerAnim_link_normal_pull_end_free,
     &gPlayerAnim_link_normal_pull_end_free,
     &gPlayerAnim_link_normal_pull_end_free,
-    /* PLAYER_ANIMGROUP_38 */
+    /* PLAYER_ANIMGROUP_fall_up */
     &gPlayerAnim_link_normal_fall_up_free,
     &gPlayerAnim_link_normal_fall_up,
     &gPlayerAnim_link_normal_fall_up,
     &gPlayerAnim_link_normal_fall_up_free,
     &gPlayerAnim_link_normal_fall_up_free,
     &gPlayerAnim_link_normal_fall_up_free,
-    /* PLAYER_ANIMGROUP_39 */
+    /* PLAYER_ANIMGROUP_jump_climb_hold */
     &gPlayerAnim_link_normal_jump_climb_hold_free,
     &gPlayerAnim_link_normal_jump_climb_hold,
     &gPlayerAnim_link_normal_jump_climb_hold,
     &gPlayerAnim_link_normal_jump_climb_hold_free,
     &gPlayerAnim_link_normal_jump_climb_hold_free,
     &gPlayerAnim_link_normal_jump_climb_hold_free,
-    /* PLAYER_ANIMGROUP_40 */
+    /* PLAYER_ANIMGROUP_jump_climb_wait */
     &gPlayerAnim_link_normal_jump_climb_wait_free,
     &gPlayerAnim_link_normal_jump_climb_wait,
     &gPlayerAnim_link_normal_jump_climb_wait,
     &gPlayerAnim_link_normal_jump_climb_wait_free,
     &gPlayerAnim_link_normal_jump_climb_wait_free,
     &gPlayerAnim_link_normal_jump_climb_wait_free,
-    /* PLAYER_ANIMGROUP_41 */
+    /* PLAYER_ANIMGROUP_jump_climb_up */
     &gPlayerAnim_link_normal_jump_climb_up_free,
     &gPlayerAnim_link_normal_jump_climb_up,
     &gPlayerAnim_link_normal_jump_climb_up,
     &gPlayerAnim_link_normal_jump_climb_up_free,
     &gPlayerAnim_link_normal_jump_climb_up_free,
     &gPlayerAnim_link_normal_jump_climb_up_free,
-    /* PLAYER_ANIMGROUP_42 */
+    /* PLAYER_ANIMGROUP_down_slope_slip_end */
     &gPlayerAnim_link_normal_down_slope_slip_end_free,
     &gPlayerAnim_link_normal_down_slope_slip_end,
     &gPlayerAnim_link_normal_down_slope_slip_end,
     &gPlayerAnim_link_normal_down_slope_slip_end_long,
     &gPlayerAnim_link_normal_down_slope_slip_end_free,
     &gPlayerAnim_link_normal_down_slope_slip_end_free,
-    /* PLAYER_ANIMGROUP_43 */
+    /* PLAYER_ANIMGROUP_up_slope_slip_end */
     &gPlayerAnim_link_normal_up_slope_slip_end_free,
     &gPlayerAnim_link_normal_up_slope_slip_end,
     &gPlayerAnim_link_normal_up_slope_slip_end,
     &gPlayerAnim_link_normal_up_slope_slip_end_long,
     &gPlayerAnim_link_normal_up_slope_slip_end_free,
     &gPlayerAnim_link_normal_up_slope_slip_end_free,
-    /* PLAYER_ANIMGROUP_44 */
+    /* PLAYER_ANIMGROUP_nwait */
     &gPlayerAnim_sude_nwait,
     &gPlayerAnim_lkt_nwait,
     &gPlayerAnim_lkt_nwait,
@@ -1151,46 +1151,46 @@ static u8 D_80853E7C[] = {
 
 // Used to map item IDs to item actions
 static s8 sItemActions[] = {
-    PLAYER_IA_STICK,               // ITEM_STICK
-    PLAYER_IA_NUT,                 // ITEM_NUT
+    PLAYER_IA_DEKU_STICK,          // ITEM_DEKU_STICK
+    PLAYER_IA_DEKU_NUT,            // ITEM_DEKU_NUT
     PLAYER_IA_BOMB,                // ITEM_BOMB
     PLAYER_IA_BOW,                 // ITEM_BOW
     PLAYER_IA_BOW_FIRE,            // ITEM_ARROW_FIRE
     PLAYER_IA_DINS_FIRE,           // ITEM_DINS_FIRE
     PLAYER_IA_SLINGSHOT,           // ITEM_SLINGSHOT
     PLAYER_IA_OCARINA_FAIRY,       // ITEM_OCARINA_FAIRY
-    PLAYER_IA_OCARINA_TIME,        // ITEM_OCARINA_TIME
+    PLAYER_IA_OCARINA_OF_TIME,     // ITEM_OCARINA_OF_TIME
     PLAYER_IA_BOMBCHU,             // ITEM_BOMBCHU
     PLAYER_IA_HOOKSHOT,            // ITEM_HOOKSHOT
     PLAYER_IA_LONGSHOT,            // ITEM_LONGSHOT
     PLAYER_IA_BOW_ICE,             // ITEM_ARROW_ICE
     PLAYER_IA_FARORES_WIND,        // ITEM_FARORES_WIND
     PLAYER_IA_BOOMERANG,           // ITEM_BOOMERANG
-    PLAYER_IA_LENS,                // ITEM_LENS
-    PLAYER_IA_BEAN,                // ITEM_BEAN
+    PLAYER_IA_LENS_OF_TRUTH,       // ITEM_LENS_OF_TRUTH
+    PLAYER_IA_MAGIC_BEAN,          // ITEM_MAGIC_BEAN
     PLAYER_IA_HAMMER,              // ITEM_HAMMER
     PLAYER_IA_BOW_LIGHT,           // ITEM_ARROW_LIGHT
     PLAYER_IA_NAYRUS_LOVE,         // ITEM_NAYRUS_LOVE
-    PLAYER_IA_BOTTLE,              // ITEM_BOTTLE
-    PLAYER_IA_BOTTLE_POTION_RED,   // ITEM_POTION_RED
-    PLAYER_IA_BOTTLE_POTION_GREEN, // ITEM_POTION_GREEN
-    PLAYER_IA_BOTTLE_POTION_BLUE,  // ITEM_POTION_BLUE
-    PLAYER_IA_BOTTLE_FAIRY,        // ITEM_FAIRY
-    PLAYER_IA_BOTTLE_FISH,         // ITEM_FISH
-    PLAYER_IA_BOTTLE_MILK,         // ITEM_MILK_BOTTLE
-    PLAYER_IA_BOTTLE_LETTER,       // ITEM_LETTER_RUTO
-    PLAYER_IA_BOTTLE_FIRE,         // ITEM_BLUE_FIRE
-    PLAYER_IA_BOTTLE_BUG,          // ITEM_BUG
-    PLAYER_IA_BOTTLE_BIG_POE,      // ITEM_BIG_POE
-    PLAYER_IA_BOTTLE_MILK_HALF,    // ITEM_MILK_HALF
-    PLAYER_IA_BOTTLE_POE,          // ITEM_POE
+    PLAYER_IA_BOTTLE,              // ITEM_BOTTLE_EMPTY
+    PLAYER_IA_BOTTLE_POTION_RED,   // ITEM_BOTTLE_POTION_RED
+    PLAYER_IA_BOTTLE_POTION_GREEN, // ITEM_BOTTLE_POTION_GREEN
+    PLAYER_IA_BOTTLE_POTION_BLUE,  // ITEM_BOTTLE_POTION_BLUE
+    PLAYER_IA_BOTTLE_FAIRY,        // ITEM_BOTTLE_FAIRY
+    PLAYER_IA_BOTTLE_FISH,         // ITEM_BOTTLE_FISH
+    PLAYER_IA_BOTTLE_MILK_FULL,    // ITEM_BOTTLE_MILK_FULL
+    PLAYER_IA_BOTTLE_RUTOS_LETTER, // ITEM_BOTTLE_RUTOS_LETTER
+    PLAYER_IA_BOTTLE_FIRE,         // ITEM_BOTTLE_BLUE_FIRE
+    PLAYER_IA_BOTTLE_BUG,          // ITEM_BOTTLE_BUG
+    PLAYER_IA_BOTTLE_BIG_POE,      // ITEM_BOTTLE_BIG_POE
+    PLAYER_IA_BOTTLE_MILK_HALF,    // ITEM_BOTTLE_MILK_HALF
+    PLAYER_IA_BOTTLE_POE,          // ITEM_BOTTLE_POE
     PLAYER_IA_WEIRD_EGG,           // ITEM_WEIRD_EGG
     PLAYER_IA_CHICKEN,             // ITEM_CHICKEN
-    PLAYER_IA_LETTER_ZELDA,        // ITEM_LETTER_ZELDA
+    PLAYER_IA_ZELDAS_LETTER,       // ITEM_ZELDAS_LETTER
     PLAYER_IA_MASK_KEATON,         // ITEM_MASK_KEATON
     PLAYER_IA_MASK_SKULL,          // ITEM_MASK_SKULL
     PLAYER_IA_MASK_SPOOKY,         // ITEM_MASK_SPOOKY
-    PLAYER_IA_MASK_BUNNY,          // ITEM_MASK_BUNNY
+    PLAYER_IA_MASK_BUNNY_HOOD,     // ITEM_MASK_BUNNY_HOOD
     PLAYER_IA_MASK_GORON,          // ITEM_MASK_GORON
     PLAYER_IA_MASK_ZORA,           // ITEM_MASK_ZORA
     PLAYER_IA_MASK_GERUDO,         // ITEM_MASK_GERUDO
@@ -1201,18 +1201,18 @@ static s8 sItemActions[] = {
     PLAYER_IA_COJIRO,              // ITEM_COJIRO
     PLAYER_IA_ODD_MUSHROOM,        // ITEM_ODD_MUSHROOM
     PLAYER_IA_ODD_POTION,          // ITEM_ODD_POTION
-    PLAYER_IA_SAW,                 // ITEM_SAW
-    PLAYER_IA_SWORD_BROKEN,        // ITEM_SWORD_BROKEN
+    PLAYER_IA_POACHERS_SAW,        // ITEM_POACHERS_SAW
+    PLAYER_IA_BROKEN_GORONS_SWORD, // ITEM_BROKEN_GORONS_SWORD
     PLAYER_IA_PRESCRIPTION,        // ITEM_PRESCRIPTION
-    PLAYER_IA_FROG,                // ITEM_FROG
-    PLAYER_IA_EYEDROPS,            // ITEM_EYEDROPS
+    PLAYER_IA_FROG,                // ITEM_EYEBALL_FROG
+    PLAYER_IA_EYEDROPS,            // ITEM_EYE_DROPS
     PLAYER_IA_CLAIM_CHECK,         // ITEM_CLAIM_CHECK
-    PLAYER_IA_BOW_FIRE,            // ITEM_BOW_ARROW_FIRE
-    PLAYER_IA_BOW_ICE,             // ITEM_BOW_ARROW_ICE
-    PLAYER_IA_BOW_LIGHT,           // ITEM_BOW_ARROW_LIGHT
+    PLAYER_IA_BOW_FIRE,            // ITEM_BOW_FIRE
+    PLAYER_IA_BOW_ICE,             // ITEM_BOW_ICE
+    PLAYER_IA_BOW_LIGHT,           // ITEM_BOW_LIGHT
     PLAYER_IA_SWORD_KOKIRI,        // ITEM_SWORD_KOKIRI
     PLAYER_IA_SWORD_MASTER,        // ITEM_SWORD_MASTER
-    PLAYER_IA_SWORD_BGS,           // ITEM_SWORD_BGS
+    PLAYER_IA_SWORD_BGS,           // ITEM_SWORD_BIGGORON
 };
 
 static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
@@ -1222,7 +1222,7 @@ static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
     func_808349DC, // PLAYER_IA_SWORD_MASTER
     func_808349DC, // PLAYER_IA_SWORD_KOKIRI
     func_808349DC, // PLAYER_IA_SWORD_BGS
-    func_8083485C, // PLAYER_IA_STICK
+    func_8083485C, // PLAYER_IA_DEKU_STICK
     func_8083485C, // PLAYER_IA_HAMMER
     func_8083501C, // PLAYER_IA_BOW
     func_8083501C, // PLAYER_IA_BOW_FIRE
@@ -1243,33 +1243,33 @@ static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
     func_8083485C, // PLAYER_IA_FARORES_WIND
     func_8083485C, // PLAYER_IA_NAYRUS_LOVE
     func_8083485C, // PLAYER_IA_DINS_FIRE
-    func_8083485C, // PLAYER_IA_NUT
+    func_8083485C, // PLAYER_IA_DEKU_NUT
     func_8083485C, // PLAYER_IA_OCARINA_FAIRY
-    func_8083485C, // PLAYER_IA_OCARINA_TIME
+    func_8083485C, // PLAYER_IA_OCARINA_OF_TIME
     func_8083485C, // PLAYER_IA_BOTTLE
     func_8083485C, // PLAYER_IA_BOTTLE_FISH
     func_8083485C, // PLAYER_IA_BOTTLE_FIRE
     func_8083485C, // PLAYER_IA_BOTTLE_BUG
     func_8083485C, // PLAYER_IA_BOTTLE_POE
     func_8083485C, // PLAYER_IA_BOTTLE_BIG_POE
-    func_8083485C, // PLAYER_IA_BOTTLE_LETTER
+    func_8083485C, // PLAYER_IA_BOTTLE_RUTOS_LETTER
     func_8083485C, // PLAYER_IA_BOTTLE_POTION_RED
     func_8083485C, // PLAYER_IA_BOTTLE_POTION_BLUE
     func_8083485C, // PLAYER_IA_BOTTLE_POTION_GREEN
-    func_8083485C, // PLAYER_IA_BOTTLE_MILK
+    func_8083485C, // PLAYER_IA_BOTTLE_MILK_FULL
     func_8083485C, // PLAYER_IA_BOTTLE_MILK_HALF
     func_8083485C, // PLAYER_IA_BOTTLE_FAIRY
-    func_8083485C, // PLAYER_IA_LETTER_ZELDA
+    func_8083485C, // PLAYER_IA_ZELDAS_LETTER
     func_8083485C, // PLAYER_IA_WEIRD_EGG
     func_8083485C, // PLAYER_IA_CHICKEN
-    func_8083485C, // PLAYER_IA_BEAN
+    func_8083485C, // PLAYER_IA_MAGIC_BEAN
     func_8083485C, // PLAYER_IA_POCKET_EGG
     func_8083485C, // PLAYER_IA_POCKET_CUCCO
     func_8083485C, // PLAYER_IA_COJIRO
     func_8083485C, // PLAYER_IA_ODD_MUSHROOM
     func_8083485C, // PLAYER_IA_ODD_POTION
-    func_8083485C, // PLAYER_IA_SAW
-    func_8083485C, // PLAYER_IA_SWORD_BROKEN
+    func_8083485C, // PLAYER_IA_POACHERS_SAW
+    func_8083485C, // PLAYER_IA_BROKEN_GORONS_SWORD
     func_8083485C, // PLAYER_IA_PRESCRIPTION
     func_8083485C, // PLAYER_IA_FROG
     func_8083485C, // PLAYER_IA_EYEDROPS
@@ -1277,12 +1277,12 @@ static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
     func_8083485C, // PLAYER_IA_MASK_KEATON
     func_8083485C, // PLAYER_IA_MASK_SKULL
     func_8083485C, // PLAYER_IA_MASK_SPOOKY
-    func_8083485C, // PLAYER_IA_MASK_BUNNY
+    func_8083485C, // PLAYER_IA_MASK_BUNNY_HOOD
     func_8083485C, // PLAYER_IA_MASK_GORON
     func_8083485C, // PLAYER_IA_MASK_ZORA
     func_8083485C, // PLAYER_IA_MASK_GERUDO
     func_8083485C, // PLAYER_IA_MASK_TRUTH
-    func_8083485C, // PLAYER_IA_LENS
+    func_8083485C, // PLAYER_IA_LENS_OF_TRUTH
 };
 
 static void (*D_80853FE8[])(PlayState* play, Player* this) = {
@@ -1292,7 +1292,7 @@ static void (*D_80853FE8[])(PlayState* play, Player* this) = {
     func_80833770, // PLAYER_IA_SWORD_MASTER
     func_80833770, // PLAYER_IA_SWORD_KOKIRI
     func_80833770, // PLAYER_IA_SWORD_BGS
-    func_8083377C, // PLAYER_IA_STICK
+    func_8083377C, // PLAYER_IA_DEKU_STICK
     func_80833790, // PLAYER_IA_HAMMER
     func_8083379C, // PLAYER_IA_BOW
     func_8083379C, // PLAYER_IA_BOW_FIRE
@@ -1313,33 +1313,33 @@ static void (*D_80853FE8[])(PlayState* play, Player* this) = {
     func_80833770, // PLAYER_IA_FARORES_WIND
     func_80833770, // PLAYER_IA_NAYRUS_LOVE
     func_80833770, // PLAYER_IA_DINS_FIRE
-    func_80833770, // PLAYER_IA_NUT
+    func_80833770, // PLAYER_IA_DEKU_NUT
     func_80833770, // PLAYER_IA_OCARINA_FAIRY
-    func_80833770, // PLAYER_IA_OCARINA_TIME
+    func_80833770, // PLAYER_IA_OCARINA_OF_TIME
     func_80833770, // PLAYER_IA_BOTTLE
     func_80833770, // PLAYER_IA_BOTTLE_FISH
     func_80833770, // PLAYER_IA_BOTTLE_FIRE
     func_80833770, // PLAYER_IA_BOTTLE_BUG
     func_80833770, // PLAYER_IA_BOTTLE_POE
     func_80833770, // PLAYER_IA_BOTTLE_BIG_POE
-    func_80833770, // PLAYER_IA_BOTTLE_LETTER
+    func_80833770, // PLAYER_IA_BOTTLE_RUTOS_LETTER
     func_80833770, // PLAYER_IA_BOTTLE_POTION_RED
     func_80833770, // PLAYER_IA_BOTTLE_POTION_BLUE
     func_80833770, // PLAYER_IA_BOTTLE_POTION_GREEN
-    func_80833770, // PLAYER_IA_BOTTLE_MILK
+    func_80833770, // PLAYER_IA_BOTTLE_MILK_FULL
     func_80833770, // PLAYER_IA_BOTTLE_MILK_HALF
     func_80833770, // PLAYER_IA_BOTTLE_FAIRY
-    func_80833770, // PLAYER_IA_LETTER_ZELDA
+    func_80833770, // PLAYER_IA_ZELDAS_LETTER
     func_80833770, // PLAYER_IA_WEIRD_EGG
     func_80833770, // PLAYER_IA_CHICKEN
-    func_80833770, // PLAYER_IA_BEAN
+    func_80833770, // PLAYER_IA_MAGIC_BEAN
     func_80833770, // PLAYER_IA_POCKET_EGG
     func_80833770, // PLAYER_IA_POCKET_CUCCO
     func_80833770, // PLAYER_IA_COJIRO
     func_80833770, // PLAYER_IA_ODD_MUSHROOM
     func_80833770, // PLAYER_IA_ODD_POTION
-    func_80833770, // PLAYER_IA_SAW
-    func_80833770, // PLAYER_IA_SWORD_BROKEN
+    func_80833770, // PLAYER_IA_POACHERS_SAW
+    func_80833770, // PLAYER_IA_BROKEN_GORONS_SWORD
     func_80833770, // PLAYER_IA_PRESCRIPTION
     func_80833770, // PLAYER_IA_FROG
     func_80833770, // PLAYER_IA_EYEDROPS
@@ -1347,12 +1347,12 @@ static void (*D_80853FE8[])(PlayState* play, Player* this) = {
     func_80833770, // PLAYER_IA_MASK_KEATON
     func_80833770, // PLAYER_IA_MASK_SKULL
     func_80833770, // PLAYER_IA_MASK_SPOOKY
-    func_80833770, // PLAYER_IA_MASK_BUNNY
+    func_80833770, // PLAYER_IA_MASK_BUNNY_HOOD
     func_80833770, // PLAYER_IA_MASK_GORON
     func_80833770, // PLAYER_IA_MASK_ZORA
     func_80833770, // PLAYER_IA_MASK_GERUDO
     func_80833770, // PLAYER_IA_MASK_TRUTH
-    func_80833770, // PLAYER_IA_LENS
+    func_80833770, // PLAYER_IA_LENS_OF_TRUTH
 };
 
 typedef enum {
@@ -2005,7 +2005,7 @@ void func_808332F4(Player* this, PlayState* play) {
 }
 
 static LinkAnimationHeader* func_80833338(Player* this) {
-    return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType);
+    return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType);
 }
 
 s32 func_80833350(Player* this) {
@@ -2032,12 +2032,12 @@ void func_808333FC(Player* this, s32 arg1) {
 
 LinkAnimationHeader* func_80833438(Player* this) {
     if (this->unk_890 != 0) {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_3, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_damage_run, this->modelAnimType);
     } else if (!(this->stateFlags1 & (PLAYER_STATE1_27 | PLAYER_STATE1_29)) &&
                (this->currentBoots == PLAYER_BOOTS_IRON)) {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_4, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_heavy_run, this->modelAnimType);
     } else {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_2, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_run, this->modelAnimType);
     }
 }
 
@@ -2049,7 +2049,7 @@ LinkAnimationHeader* func_808334E4(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_waitR;
     } else {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_6, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_waitR, this->modelAnimType);
     }
 }
 
@@ -2057,7 +2057,7 @@ LinkAnimationHeader* func_80833528(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_waitL;
     } else {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_5, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_waitL, this->modelAnimType);
     }
 }
 
@@ -2065,7 +2065,7 @@ LinkAnimationHeader* func_8083356C(Player* this) {
     if (func_8002DD78(this)) {
         return &gPlayerAnim_link_bow_side_walk;
     } else {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_23, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walk, this->modelAnimType);
     }
 }
 
@@ -2073,7 +2073,7 @@ LinkAnimationHeader* func_808335B0(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_side_walkR;
     } else {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_25, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walkR, this->modelAnimType);
     }
 }
 
@@ -2081,7 +2081,7 @@ LinkAnimationHeader* func_808335F4(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_side_walkL;
     } else {
-        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_24, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walkL, this->modelAnimType);
     }
 }
 
@@ -2411,7 +2411,7 @@ void func_80834298(Player* this, PlayState* play) {
         ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
         (gSaveContext.health != 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
         (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
-        (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timer1State != 10)) {
+        (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timerState != TIMER_STATE_STOP)) {
         func_80833DF8(this, play);
     }
 
@@ -2650,7 +2650,7 @@ s32 func_80834C74(Player* this, PlayState* play) {
 
     if (D_80853614 || LinkAnimation_Update(play, &this->skelAnime2)) {
         func_80833638(this, D_80853EDC[this->heldItemAction]);
-        LinkAnimation_PlayLoop(play, &this->skelAnime2, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType));
+        LinkAnimation_PlayLoop(play, &this->skelAnime2, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
         this->unk_6AC = 0;
         this->func_82C(this, play);
         return 0;
@@ -2682,7 +2682,7 @@ s32 func_80834D2C(Player* this, PlayState* play) {
     if (this->stateFlags1 & PLAYER_STATE1_23) {
         func_80832284(play, this, &gPlayerAnim_link_uma_anim_walk);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !func_80833B54(this)) {
-        func_80832284(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType));
+        func_80832284(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
     }
 
     return 1;
@@ -3106,7 +3106,7 @@ void func_80835DE4(PlayState* play, Player* this, PlayerFunc674 func, s32 flags)
 void func_80835E44(PlayState* play, s16 camSetting) {
     if (!Play_CamIsNotFixed(play)) {
         if (camSetting == CAM_SET_SCENE_TRANSITION) {
-            Interface_ChangeAlpha(2);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
         }
     } else {
         Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), camSetting);
@@ -3147,13 +3147,13 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
              ((itemAction == PLAYER_IA_HOOKSHOT) || (itemAction == PLAYER_IA_LONGSHOT)))) {
 
             if ((play->bombchuBowlingStatus == 0) &&
-                (((itemAction == PLAYER_IA_STICK) && (AMMO(ITEM_STICK) == 0)) ||
-                 ((itemAction == PLAYER_IA_BEAN) && (AMMO(ITEM_BEAN) == 0)) ||
+                (((itemAction == PLAYER_IA_DEKU_STICK) && (AMMO(ITEM_DEKU_STICK) == 0)) ||
+                 ((itemAction == PLAYER_IA_MAGIC_BEAN) && (AMMO(ITEM_MAGIC_BEAN) == 0)) ||
                  (temp = Player_ActionToExplosive(this, itemAction),
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
-            } else if (itemAction == PLAYER_IA_LENS) {
+            } else if (itemAction == PLAYER_IA_LENS_OF_TRUTH) {
                 if (Magic_RequestChange(play, 0, MAGIC_CONSUME_LENS)) {
                     if (play->actorCtx.lensActive) {
                         Actor_DisableLens(play);
@@ -3165,8 +3165,8 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-            } else if (itemAction == PLAYER_IA_NUT) {
-                if (AMMO(ITEM_NUT) != 0) {
+            } else if (itemAction == PLAYER_IA_DEKU_NUT) {
+                if (AMMO(ITEM_DEKU_NUT) != 0) {
                     func_8083C61C(play, this);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
@@ -3188,7 +3188,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                 }
 
                 func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
-            } else if (((itemAction >= PLAYER_IA_OCARINA_FAIRY) && (itemAction <= PLAYER_IA_OCARINA_TIME)) ||
+            } else if (((itemAction >= PLAYER_IA_OCARINA_FAIRY) && (itemAction <= PLAYER_IA_OCARINA_OF_TIME)) ||
                        (itemAction >= PLAYER_IA_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((itemAction >= PLAYER_IA_BOTTLE_POTION_RED) && (itemAction <= PLAYER_IA_BOTTLE_FAIRY))) {
@@ -3644,7 +3644,7 @@ s32 func_808375D8(Player* this) {
     s8 temp2;
     s32 i;
 
-    if ((this->heldItemAction == PLAYER_IA_STICK) || Player_HoldsBrokenKnife(this)) {
+    if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) || Player_HoldsBrokenKnife(this)) {
         return 0;
     }
 
@@ -3735,7 +3735,7 @@ s32 func_80837818(Player* this) {
                     }
                 }
             }
-            if (this->heldItemAction == PLAYER_IA_STICK) {
+            if (this->heldItemAction == PLAYER_IA_DEKU_STICK) {
                 sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
             }
         }
@@ -3918,7 +3918,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
                 this->linearVelocity = 3.0f;
                 this->actor.velocity.y = 6.0f;
 
-                func_80832C2C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_3, this->modelAnimType));
+                func_80832C2C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_damage_run, this->modelAnimType));
                 func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
             } else {
                 this->actor.speedXZ = arg3;
@@ -4659,13 +4659,13 @@ s32 func_80839800(Player* this, PlayState* play) {
                                      : (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_R : DOOR_OPEN_ANIM_CHILD_R);
 
                 if (door->openAnim == DOOR_OPEN_ANIM_ADULT_L) {
-                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_9, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorA_free, this->modelAnimType);
                 } else if (door->openAnim == DOOR_OPEN_ANIM_CHILD_L) {
-                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_10, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorA, this->modelAnimType);
                 } else if (door->openAnim == DOOR_OPEN_ANIM_ADULT_R) {
-                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_11, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorB_free, this->modelAnimType);
                 } else {
-                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_12, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorB, this->modelAnimType);
                 }
 
                 func_80835C58(play, this, func_80845EF8, 0);
@@ -4845,7 +4845,7 @@ void func_8083A0F4(PlayState* play, Player* this) {
                 anim = &gPlayerAnim_link_normal_nocarry_free;
             } else {
                 func_80835C58(play, this, func_80846050, 0);
-                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_13, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_carryB, this->modelAnimType);
             }
 
             func_80832264(play, this, anim);
@@ -5139,7 +5139,7 @@ void func_8083AE40(Player* this, s16 objectId) {
         LOG_HEX("size", size, "../z_player.c", 9090);
         ASSERT(size <= 1024 * 8, "size <= 1024 * 8", "../z_player.c", 9091);
 
-        DmaMgr_SendRequest2(&this->giObjectDmaRequest, this->giObjectSegment, gObjectTable[objectId].vromStart, size, 0,
+        DmaMgr_RequestAsync(&this->giObjectDmaRequest, this->giObjectSegment, gObjectTable[objectId].vromStart, size, 0,
                             &this->giObjectLoadQueue, NULL, "../z_player.c", 9099);
     }
 }
@@ -5167,35 +5167,35 @@ void func_8083B010(Player* this) {
 }
 
 static u8 D_80854528[] = {
-    GI_LETTER_ZELDA, // EXCH_ITEM_LETTER_ZELDA
-    GI_WEIRD_EGG,    // EXCH_ITEM_WEIRD_EGG
-    GI_CHICKEN,      // EXCH_ITEM_CHICKEN
-    GI_BEAN,         // EXCH_ITEM_BEAN
-    GI_POCKET_EGG,   // EXCH_ITEM_POCKET_EGG
-    GI_POCKET_CUCCO, // EXCH_ITEM_POCKET_CUCCO
-    GI_COJIRO,       // EXCH_ITEM_COJIRO
-    GI_ODD_MUSHROOM, // EXCH_ITEM_ODD_MUSHROOM
-    GI_ODD_POTION,   // EXCH_ITEM_ODD_POTION
-    GI_SAW,          // EXCH_ITEM_SAW
-    GI_SWORD_BROKEN, // EXCH_ITEM_SWORD_BROKEN
-    GI_PRESCRIPTION, // EXCH_ITEM_PRESCRIPTION
-    GI_FROG,         // EXCH_ITEM_FROG
-    GI_EYEDROPS,     // EXCH_ITEM_EYEDROPS
-    GI_CLAIM_CHECK,  // EXCH_ITEM_CLAIM_CHECK
-    GI_MASK_SKULL,   // EXCH_ITEM_MASK_SKULL
-    GI_MASK_SPOOKY,  // EXCH_ITEM_MASK_SPOOKY
-    GI_MASK_KEATON,  // EXCH_ITEM_MASK_KEATON
-    GI_MASK_BUNNY,   // EXCH_ITEM_MASK_BUNNY
-    GI_MASK_TRUTH,   // EXCH_ITEM_MASK_TRUTH
-    GI_MASK_GORON,   // EXCH_ITEM_MASK_GORON
-    GI_MASK_ZORA,    // EXCH_ITEM_MASK_ZORA
-    GI_MASK_GERUDO,  // EXCH_ITEM_MASK_GERUDO
-    GI_LETTER_RUTO,  // EXCH_ITEM_FISH
-    GI_LETTER_RUTO,  // EXCH_ITEM_BLUE_FIRE
-    GI_LETTER_RUTO,  // EXCH_ITEM_BUG
-    GI_LETTER_RUTO,  // EXCH_ITEM_POE
-    GI_LETTER_RUTO,  // EXCH_ITEM_BIG_POE
-    GI_LETTER_RUTO,  // EXCH_ITEM_LETTER_RUTO
+    GI_ZELDAS_LETTER,       // EXCH_ITEM_ZELDAS_LETTER
+    GI_WEIRD_EGG,           // EXCH_ITEM_WEIRD_EGG
+    GI_CHICKEN,             // EXCH_ITEM_CHICKEN
+    GI_MAGIC_BEAN,          // EXCH_ITEM_MAGIC_BEAN
+    GI_POCKET_EGG,          // EXCH_ITEM_POCKET_EGG
+    GI_POCKET_CUCCO,        // EXCH_ITEM_POCKET_CUCCO
+    GI_COJIRO,              // EXCH_ITEM_COJIRO
+    GI_ODD_MUSHROOM,        // EXCH_ITEM_ODD_MUSHROOM
+    GI_ODD_POTION,          // EXCH_ITEM_ODD_POTION
+    GI_POACHERS_SAW,        // EXCH_ITEM_POACHERS_SAW
+    GI_BROKEN_GORONS_SWORD, // EXCH_ITEM_BROKEN_GORONS_SWORD
+    GI_PRESCRIPTION,        // EXCH_ITEM_PRESCRIPTION
+    GI_EYEBALL_FROG,        // EXCH_ITEM_EYEBALL_FROG
+    GI_EYE_DROPS,           // EXCH_ITEM_EYE_DROPS
+    GI_CLAIM_CHECK,         // EXCH_ITEM_CLAIM_CHECK
+    GI_MASK_SKULL,          // EXCH_ITEM_MASK_SKULL
+    GI_MASK_SPOOKY,         // EXCH_ITEM_MASK_SPOOKY
+    GI_MASK_KEATON,         // EXCH_ITEM_MASK_KEATON
+    GI_MASK_BUNNY_HOOD,     // EXCH_ITEM_MASK_BUNNY_HOOD
+    GI_MASK_TRUTH,          // EXCH_ITEM_MASK_TRUTH
+    GI_MASK_GORON,          // EXCH_ITEM_MASK_GORON
+    GI_MASK_ZORA,           // EXCH_ITEM_MASK_ZORA
+    GI_MASK_GERUDO,         // EXCH_ITEM_MASK_GERUDO
+    GI_BOTTLE_RUTOS_LETTER, // EXCH_ITEM_BOTTLE_FISH
+    GI_BOTTLE_RUTOS_LETTER, // EXCH_ITEM_BOTTLE_BLUE_FIRE
+    GI_BOTTLE_RUTOS_LETTER, // EXCH_ITEM_BOTTLE_BUG
+    GI_BOTTLE_RUTOS_LETTER, // EXCH_ITEM_BOTTLE_POE
+    GI_BOTTLE_RUTOS_LETTER, // EXCH_ITEM_BOTTLE_BIG_POE
+    GI_BOTTLE_RUTOS_LETTER, // EXCH_ITEM_BOTTLE_RUTOS_LETTER
 };
 
 static LinkAnimationHeader* D_80854548[] = {
@@ -5230,14 +5230,14 @@ s32 func_8083B040(Player* this, PlayState* play) {
                     return 1;
                 }
 
-                sp2C = this->itemAction - PLAYER_IA_LETTER_ZELDA;
+                sp2C = this->itemAction - PLAYER_IA_ZELDAS_LETTER;
                 if ((sp2C >= 0) ||
                     (sp28 = Player_ActionToBottle(this, this->itemAction) - 1,
                      ((sp28 >= 0) && (sp28 < 6) &&
                       ((this->itemAction > PLAYER_IA_BOTTLE_POE) ||
-                       ((this->targetActor != NULL) &&
-                        (((this->itemAction == PLAYER_IA_BOTTLE_POE) && (this->exchangeItemId == EXCH_ITEM_POE)) ||
-                         (this->exchangeItemId == EXCH_ITEM_BLUE_FIRE))))))) {
+                       ((this->targetActor != NULL) && (((this->itemAction == PLAYER_IA_BOTTLE_POE) &&
+                                                         (this->exchangeItemId == EXCH_ITEM_BOTTLE_POE)) ||
+                                                        (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE))))))) {
 
                     if ((play->actorCtx.titleCtx.delayTimer == 0) && (play->actorCtx.titleCtx.alpha == 0)) {
                         func_80835DE4(play, this, func_8084F104, 0);
@@ -5258,14 +5258,15 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         targetActor = this->targetActor;
 
                         if ((targetActor != NULL) &&
-                            ((this->exchangeItemId == sp2C) || (this->exchangeItemId == EXCH_ITEM_BLUE_FIRE) ||
-                             ((this->exchangeItemId == EXCH_ITEM_POE) &&
+                            ((this->exchangeItemId == sp2C) || (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE) ||
+                             ((this->exchangeItemId == EXCH_ITEM_BOTTLE_POE) &&
                               (this->itemAction == PLAYER_IA_BOTTLE_BIG_POE)) ||
-                             ((this->exchangeItemId == EXCH_ITEM_BEAN) &&
+                             ((this->exchangeItemId == EXCH_ITEM_MAGIC_BEAN) &&
                               (this->itemAction == PLAYER_IA_BOTTLE_BUG))) &&
-                            ((this->exchangeItemId != EXCH_ITEM_BEAN) || (this->itemAction == PLAYER_IA_BEAN))) {
-                            if (this->exchangeItemId == EXCH_ITEM_BEAN) {
-                                Inventory_ChangeAmmo(ITEM_BEAN, -1);
+                            ((this->exchangeItemId != EXCH_ITEM_MAGIC_BEAN) ||
+                             (this->itemAction == PLAYER_IA_MAGIC_BEAN))) {
+                            if (this->exchangeItemId == EXCH_ITEM_MAGIC_BEAN) {
+                                Inventory_ChangeAmmo(ITEM_MAGIC_BEAN, -1);
                                 func_80835DE4(play, this, func_8084279C, 0);
                                 this->stateFlags1 |= PLAYER_STATE1_29;
                                 this->unk_850 = 0x50;
@@ -5273,7 +5274,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                             }
                             targetActor->flags |= ACTOR_FLAG_8;
                             this->unk_664 = this->targetActor;
-                        } else if (sp2C == EXCH_ITEM_LETTER_RUTO) {
+                        } else if (sp2C == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                             this->unk_84F = 1;
                             this->actor.textId = 0x4005;
                             func_80835EA4(play, 1);
@@ -5287,7 +5288,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         this->exchangeItemId = sp2C;
 
                         if (this->unk_84F < 0) {
-                            func_80832B0C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_32, this->modelAnimType));
+                            func_80832B0C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_check, this->modelAnimType));
                         } else {
                             func_80832264(play, this, D_80854548[this->unk_84F]);
                         }
@@ -5490,7 +5491,8 @@ s32 func_8083BBA0(Player* this, PlayState* play) {
 
 void func_8083BC04(Player* this, PlayState* play) {
     func_80835C58(play, this, func_80844708, 0);
-    LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_16, this->modelAnimType),
+    LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime,
+                                   GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing_roll, this->modelAnimType),
                                    1.25f * D_808535E8);
 }
 
@@ -5563,14 +5565,14 @@ void func_8083BF50(Player* this, PlayState* play) {
     }
 
     if (sp30 < 14.0f) {
-        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_18, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk_endL, this->modelAnimType);
         sp30 = 11.0f - sp30;
         if (sp30 < 0.0f) {
             sp30 = 1.375f * -sp30;
         }
         sp30 /= 11.0f;
     } else {
-        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_19, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk_endR, this->modelAnimType);
         sp30 = 26.0f - sp30;
         if (sp30 < 0.0f) {
             sp30 = 2 * -sp30;
@@ -5642,7 +5644,7 @@ s32 func_8083C2B0(Player* this, PlayState* play) {
 
             if (!Player_IsChildWithHylianShield(this)) {
                 Player_SetModelsForHoldingShield(this);
-                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_20, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense, this->modelAnimType);
             } else {
                 anim = &gPlayerAnim_clink_normal_defense_ALL;
             }
@@ -5697,7 +5699,7 @@ void func_8083C50C(Player* this) {
 s32 func_8083C544(Player* this, PlayState* play) {
     if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
         if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
-            (this->heldItemAction != PLAYER_IA_STICK)) {
+            (this->heldItemAction != PLAYER_IA_DEKU_STICK)) {
             if ((this->heldItemAction != PLAYER_IA_SWORD_BGS) || (gSaveContext.swordHealth > 0.0f)) {
                 func_808377DC(play, this);
                 return 1;
@@ -5712,7 +5714,7 @@ s32 func_8083C544(Player* this, PlayState* play) {
 
 s32 func_8083C61C(PlayState* play, Player* this) {
     if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
-        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (AMMO(ITEM_NUT) != 0)) {
+        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (AMMO(ITEM_DEKU_NUT) != 0)) {
         func_80835C58(play, this, func_8084E604, 0);
         func_80832264(play, this, &gPlayerAnim_link_normal_light_bom);
         this->unk_6AD = 0;
@@ -5778,7 +5780,7 @@ void func_8083C858(Player* this, PlayState* play) {
     }
 
     func_80835C58(play, this, func, 1);
-    func_80832BE8(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_2, this->modelAnimType));
+    func_80832BE8(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_run, this->modelAnimType));
 
     this->unk_89C = 0;
     this->unk_864 = this->unk_868 = 0.0f;
@@ -5851,7 +5853,7 @@ void func_8083CB2C(Player* this, s16 yaw, PlayState* play) {
 
 void func_8083CB94(Player* this, PlayState* play) {
     func_80835C58(play, this, func_80840DE4, 1);
-    func_80832BE8(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType));
+    func_80832BE8(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType));
 }
 
 void func_8083CBF0(Player* this, s16 yaw, PlayState* play) {
@@ -5864,7 +5866,7 @@ void func_8083CBF0(Player* this, s16 yaw, PlayState* play) {
 
 void func_8083CC9C(Player* this, PlayState* play) {
     func_80835C58(play, this, func_8084193C, 1);
-    func_80832BE8(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_25, this->modelAnimType));
+    func_80832BE8(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walkR, this->modelAnimType));
     this->unk_868 = 0.0f;
 }
 
@@ -5878,8 +5880,8 @@ void func_8083CD54(PlayState* play, Player* this, s16 yaw) {
     func_80835C58(play, this, func_80841BA8, 1);
     this->unk_87E = 1200;
     this->unk_87E *= D_808535E8;
-    LinkAnimation_Change(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_26, this->modelAnimType), 1.0f, 0.0f,
-                         0.0f, ANIMMODE_LOOP, -6.0f);
+    LinkAnimation_Change(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_45_turn, this->modelAnimType), 1.0f,
+                         0.0f, 0.0f, ANIMMODE_LOOP, -6.0f);
 }
 
 void func_8083CE0C(Player* this, PlayState* play) {
@@ -5888,9 +5890,9 @@ void func_8083CE0C(Player* this, PlayState* play) {
     func_80835C58(play, this, func_80840BC8, 1);
 
     if (this->unk_870 < 0.5f) {
-        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_28, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_waitR2wait, this->modelAnimType);
     } else {
-        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_27, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_waitL2wait, this->modelAnimType);
     }
     func_80832264(play, this, anim);
 
@@ -5899,7 +5901,7 @@ void func_8083CE0C(Player* this, PlayState* play) {
 
 void func_8083CEAC(Player* this, PlayState* play) {
     func_80835C58(play, this, func_80840450, 1);
-    func_80832B0C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_7, this->modelAnimType));
+    func_80832B0C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait2waitR, this->modelAnimType));
     this->unk_850 = 1;
 }
 
@@ -6055,11 +6057,11 @@ void func_8083D36C(PlayState* play, Player* this) {
 void func_8083D53C(PlayState* play, Player* this) {
     if (this->actor.yDistToWater < this->ageProperties->unk_2C) {
         Audio_SetBaseFilter(0);
-        this->unk_840 = 0;
+        this->underwaterTimer = 0;
     } else {
         Audio_SetBaseFilter(0x20);
-        if (this->unk_840 < 300) {
-            this->unk_840++;
+        if (this->underwaterTimer < 300) {
+            this->underwaterTimer++;
         }
     }
 
@@ -6514,7 +6516,7 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
 
 void func_8083EA94(Player* this, PlayState* play) {
     func_80835C58(play, this, func_80846578, 1);
-    func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_29, this->modelAnimType));
+    func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_throw, this->modelAnimType));
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
@@ -6532,7 +6534,7 @@ s32 func_8083EB44(Player* this, PlayState* play) {
         if (!func_80835644(play, this, this->heldActor)) {
             if (!func_8083EAF0(this, this->heldActor)) {
                 func_80835C58(play, this, func_808464B0, 1);
-                func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_30, this->modelAnimType));
+                func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_put, this->modelAnimType));
             } else {
                 func_8083EA94(this, play);
             }
@@ -6926,7 +6928,7 @@ void func_8083FAB8(Player* this, PlayState* play) {
 void func_8083FB14(Player* this, PlayState* play) {
     func_80835C58(play, this, func_8084B9E4, 0);
     this->stateFlags2 |= PLAYER_STATE2_4;
-    func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_35, this->modelAnimType));
+    func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_start, this->modelAnimType));
 }
 
 void func_8083FB7C(Player* this, PlayState* play) {
@@ -7456,8 +7458,8 @@ void func_80841138(Player* this, PlayState* play) {
     if (this->unk_864 < 1.0f) {
         temp1 = R_UPDATE_RATE * 0.5f;
         func_8084029C(this, REG(35) / 1000.0f);
-        LinkAnimation_LoadToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_31, this->modelAnimType),
-                                  this->unk_868);
+        LinkAnimation_LoadToJoint(play, &this->skelAnime,
+                                  GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->unk_868);
         this->unk_864 += 1 * temp1;
         if (this->unk_864 >= 1.0f) {
             this->unk_864 = 1.0f;
@@ -7468,8 +7470,8 @@ void func_80841138(Player* this, PlayState* play) {
         if (temp2 < 0.0f) {
             temp1 = 1.0f;
             func_8084029C(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->linearVelocity));
-            LinkAnimation_LoadToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_31, this->modelAnimType),
-                                      this->unk_868);
+            LinkAnimation_LoadToJoint(play, &this->skelAnime,
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->unk_868);
         } else {
             temp1 = (REG(37) / 1000.0f) * temp2;
             if (temp1 < 1.0f) {
@@ -7478,8 +7480,8 @@ void func_80841138(Player* this, PlayState* play) {
                 temp1 = 1.0f;
                 func_8084029C(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
             }
-            LinkAnimation_LoadToMorph(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_31, this->modelAnimType),
-                                      this->unk_868);
+            LinkAnimation_LoadToMorph(play, &this->skelAnime,
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->unk_868);
             LinkAnimation_LoadToJoint(play, &this->skelAnime, &gPlayerAnim_link_normal_back_run,
                                       this->unk_868 * (16.0f / 29.0f));
         }
@@ -7595,8 +7597,8 @@ void func_808417FC(Player* this, PlayState* play) {
 
 void func_80841860(PlayState* play, Player* this) {
     f32 frame;
-    LinkAnimationHeader* sp38 = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_24, this->modelAnimType);
-    LinkAnimationHeader* sp34 = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_25, this->modelAnimType);
+    LinkAnimationHeader* sp38 = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walkL, this->modelAnimType);
+    LinkAnimationHeader* sp34 = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walkR, this->modelAnimType);
 
     this->skelAnime.animation = sp38;
 
@@ -7712,11 +7714,11 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
 
     if ((this->modelAnimType == PLAYER_ANIMTYPE_3) || ((this->unk_89C == 0) && (this->unk_6C4 <= 0.0f))) {
         if (arg1 == 0) {
-            LinkAnimation_LoadToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType),
-                                      this->unk_868);
+            LinkAnimation_LoadToJoint(play, &this->skelAnime,
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType), this->unk_868);
         } else {
-            LinkAnimation_LoadToMorph(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType),
-                                      this->unk_868);
+            LinkAnimation_LoadToMorph(play, &this->skelAnime,
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType), this->unk_868);
         }
         return;
     }
@@ -7741,10 +7743,10 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
     }
 
     if (arg1 == 0) {
-        LinkAnimation_BlendToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType),
+        LinkAnimation_BlendToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType),
                                    this->unk_868, anim, this->unk_868, rate, this->blendTable);
     } else {
-        LinkAnimation_BlendToMorph(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType),
+        LinkAnimation_BlendToMorph(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType),
                                    this->unk_868, anim, this->unk_868, rate, this->blendTable);
     }
 }
@@ -7757,7 +7759,7 @@ void func_80841EE4(Player* this, PlayState* play) {
         temp1 = R_UPDATE_RATE * 0.5f;
 
         func_8084029C(this, REG(35) / 1000.0f);
-        LinkAnimation_LoadToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType),
+        LinkAnimation_LoadToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType),
                                   this->unk_868);
 
         this->unk_864 += 1 * temp1;
@@ -7935,11 +7937,11 @@ s32 func_8084269C(PlayState* play, Player* this) {
 }
 
 void func_8084279C(Player* this, PlayState* play) {
-    func_80832CB0(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_33, this->modelAnimType));
+    func_80832CB0(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_check_wait, this->modelAnimType));
 
     if (DECR(this->unk_850) == 0) {
         if (!func_8083B040(this, play)) {
-            func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_34, this->modelAnimType), play);
+            func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_check_end, this->modelAnimType), play);
         }
 
         this->actor.flags &= ~ACTOR_FLAG_8;
@@ -7989,13 +7991,13 @@ void func_80842A28(PlayState* play, Player* this) {
 }
 
 void func_80842A88(PlayState* play, Player* this) {
-    Inventory_ChangeAmmo(ITEM_STICK, -1);
+    Inventory_ChangeAmmo(ITEM_DEKU_STICK, -1);
     func_80835F44(play, this, ITEM_NONE);
 }
 
 s32 func_80842AC4(PlayState* play, Player* this) {
-    if ((this->heldItemAction == PLAYER_IA_STICK) && (this->unk_85C > 0.5f)) {
-        if (AMMO(ITEM_STICK) != 0) {
+    if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_85C > 0.5f)) {
+        if (AMMO(ITEM_DEKU_STICK) != 0) {
             EffectSsStick_Spawn(play, &this->bodyPartsPos[PLAYER_BODYPART_R_HAND], this->actor.shape.rot.y + 0x8000);
             this->unk_85C = 0.5f;
             func_80842A88(play, this);
@@ -8163,7 +8165,7 @@ void func_80843188(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (!Player_IsChildWithHylianShield(this)) {
-            func_80832284(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_21, this->modelAnimType));
+            func_80832284(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_wait, this->modelAnimType));
         }
         this->unk_850 = 1;
         this->unk_84F = 0;
@@ -8231,7 +8233,7 @@ void func_80843188(Player* this, PlayState* play) {
                     if (this->itemAction < 0) {
                         func_8008EC70(this);
                     }
-                    func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_22, this->modelAnimType), play);
+                    func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_end, this->modelAnimType), play);
                 }
 
                 func_8002F7DC(&this->actor, NA_SE_IT_SHIELD_REMOVE);
@@ -8266,7 +8268,7 @@ void func_808435C4(Player* this, PlayState* play) {
             func_80835C58(play, this, func_80843188, 1);
             this->stateFlags1 |= PLAYER_STATE1_22;
             Player_SetModelsForHoldingShield(this);
-            anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_20, this->modelAnimType);
+            anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense, this->modelAnimType);
             frames = Animation_GetLastFrame(anim);
             LinkAnimation_Change(play, &this->skelAnime, anim, 1.0f, frames, frames, ANIMMODE_ONCE, 0.0f);
         }
@@ -8599,7 +8601,7 @@ void func_8084411C(Player* this, PlayState* play) {
                             }
                             this->actor.world.pos.y += this->wallHeight;
                             func_8083A5C4(play, this, this->actor.wallPoly, this->wallDistance,
-                                          GET_PLAYER_ANIM(PLAYER_ANIMGROUP_39, this->modelAnimType));
+                                          GET_PLAYER_ANIM(PLAYER_ANIMGROUP_jump_climb_hold, this->modelAnimType));
                             this->actor.shape.rot.y = this->currentYaw += 0x8000;
                             this->stateFlags1 |= PLAYER_STATE1_13;
                         }
@@ -8608,7 +8610,7 @@ void func_8084411C(Player* this, PlayState* play) {
             }
         }
     } else {
-        LinkAnimationHeader* anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_14, this->modelAnimType);
+        LinkAnimationHeader* anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing, this->modelAnimType);
         s32 sp3C;
 
         if (this->stateFlags2 & PLAYER_STATE2_19) {
@@ -8623,7 +8625,7 @@ void func_8084411C(Player* this, PlayState* play) {
             anim = &gPlayerAnim_link_anchor_landingR;
             func_80833C3C(this);
         } else if (this->fallDistance <= 80) {
-            anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_15, this->modelAnimType);
+            anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType);
         } else if ((this->fallDistance < 800) && (this->unk_84B[this->unk_846] == 0) &&
                    !(this->stateFlags1 & PLAYER_STATE1_11)) {
             func_8083BC04(this, play);
@@ -8633,7 +8635,7 @@ void func_8084411C(Player* this, PlayState* play) {
         sp3C = func_80843E64(play, this);
 
         if (sp3C > 0) {
-            func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_14, this->modelAnimType), play);
+            func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing, this->modelAnimType), play);
             this->skelAnime.endFrame = 8.0f;
             if (sp3C == 1) {
                 this->unk_850 = 10;
@@ -8696,7 +8698,7 @@ void func_80844708(Player* this, PlayState* play) {
                         }
                     }
 
-                    func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_17, this->modelAnimType));
+                    func_80832264(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_hip_down, this->modelAnimType));
                     this->linearVelocity = -this->linearVelocity;
                     Player_RequestQuake(play, 33267, 3, 12);
                     Player_RequestRumble(this, 255, 20, 150, 0);
@@ -9586,8 +9588,8 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
     this->currentYaw = this->actor.world.rot.y;
     func_80834644(play, this);
 
-    SkelAnime_InitLink(play, &this->skelAnime, skelHeader, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType), 9,
-                       this->jointTable, this->morphTable, PLAYER_LIMB_MAX);
+    SkelAnime_InitLink(play, &this->skelAnime, skelHeader, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType),
+                       9, this->jointTable, this->morphTable, PLAYER_LIMB_MAX);
     this->skelAnime.baseTransl = D_80854730;
     SkelAnime_InitLink(play, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->jointTable2,
                        this->morphTable2, PLAYER_LIMB_MAX);
@@ -10317,7 +10319,7 @@ void func_80848A04(PlayState* play, Player* this) {
 
     temp = 1.0f;
     if (DECR(this->unk_860) == 0) {
-        Inventory_ChangeAmmo(ITEM_STICK, -1);
+        Inventory_ChangeAmmo(ITEM_DEKU_STICK, -1);
         this->unk_860 = 1;
         temp = 0.0f;
         this->unk_85C = temp;
@@ -10500,7 +10502,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     func_808473D4(play, this);
     func_80836BEC(this, play);
 
-    if ((this->heldItemAction == PLAYER_IA_STICK) && (this->unk_860 != 0)) {
+    if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
         func_80848A04(play, this);
     } else if ((this->heldItemAction == PLAYER_IA_FISHING_POLE) && (this->unk_860 < 0)) {
         this->unk_860++;
@@ -11284,7 +11286,7 @@ s32 func_8084B3CC(PlayState* play, Player* this) {
 
 void func_8084B498(Player* this) {
     this->itemAction =
-        (INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY) ? PLAYER_IA_OCARINA_FAIRY : PLAYER_IA_OCARINA_TIME;
+        (INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY) ? PLAYER_IA_OCARINA_FAIRY : PLAYER_IA_OCARINA_OF_TIME;
 }
 
 s32 func_8084B4D4(PlayState* play, Player* this) {
@@ -11443,7 +11445,7 @@ void func_8084B9E4(Player* this, PlayState* play) {
     Vec3f sp44;
     Vec3f sp38;
 
-    anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_36, this->modelAnimType);
+    anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pulling, this->modelAnimType);
     this->stateFlags2 |= PLAYER_STATE2_0 | PLAYER_STATE2_6 | PLAYER_STATE2_8;
 
     if (func_80832CB0(play, this, anim)) {
@@ -11466,7 +11468,7 @@ void func_8084B9E4(Player* this, PlayState* play) {
         if (temp1 > 0) {
             func_8083FAB8(this, play);
         } else if (temp1 == 0) {
-            func_8083F72C(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_37, this->modelAnimType), play);
+            func_8083F72C(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_end, this->modelAnimType), play);
         } else {
             this->stateFlags2 |= PLAYER_STATE2_4;
         }
@@ -11497,7 +11499,7 @@ void func_8084BBE4(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         // clang-format off
-        anim = (this->unk_84F > 0) ? &gPlayerAnim_link_normal_fall_wait : GET_PLAYER_ANIM(PLAYER_ANIMGROUP_40, this->modelAnimType); func_80832284(play, this, anim);
+        anim = (this->unk_84F > 0) ? &gPlayerAnim_link_normal_fall_wait : GET_PLAYER_ANIM(PLAYER_ANIMGROUP_jump_climb_wait, this->modelAnimType); func_80832284(play, this, anim);
         // clang-format on
     } else if (this->unk_84F == 0) {
         if (this->skelAnime.animation == &gPlayerAnim_link_normal_fall) {
@@ -11522,9 +11524,9 @@ void func_8084BBE4(Player* this, PlayState* play) {
         func_80837268(this, &sp3C, &sp3A, 0.0f, play);
         if (this->unk_847[this->unk_846] >= 0) {
             if (this->unk_84F > 0) {
-                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_38, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_fall_up, this->modelAnimType);
             } else {
-                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_41, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_jump_climb_up, this->modelAnimType);
             }
             func_8083A9B8(this, anim, play);
             return;
@@ -12191,7 +12193,7 @@ void func_8084D610(Player* this, PlayState* play) {
             sp32 = this->actor.shape.rot.y;
 
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-                func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_15, this->modelAnimType), play);
+                func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType), play);
                 func_808328A0(this);
             }
         } else {
@@ -12435,7 +12437,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
         }
     } else {
         if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-            if (this->getItemId == GI_GAUNTLETS_SILVER) {
+            if (this->getItemId == GI_SILVER_GAUNTLETS) {
                 play->nextEntranceIndex = ENTR_SPOT11_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
@@ -12556,7 +12558,7 @@ void func_8084E604(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083A098(this, &gPlayerAnim_link_normal_light_bom_end, play);
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 3.0f)) {
-        Inventory_ChangeAmmo(ITEM_NUT, -1);
+        Inventory_ChangeAmmo(ITEM_DEKU_NUT, -1);
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ARROW, this->bodyPartsPos[PLAYER_BODYPART_R_HAND].x,
                     this->bodyPartsPos[PLAYER_BODYPART_R_HAND].y, this->bodyPartsPos[PLAYER_BODYPART_R_HAND].z, 4000,
                     this->actor.shape.rot.y, 0, ARROW_NUT);
@@ -12730,7 +12732,7 @@ void func_8084EAC0(Player* this, PlayState* play) {
         if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
             func_80832B78(play, this, &gPlayerAnim_link_bottle_drink_demo_end);
             this->unk_850 = 2;
-            Player_UpdateBottleHeld(play, this, ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+            Player_UpdateBottleHeld(play, this, ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         }
         func_80832698(this, NA_SE_VO_LI_DRINK - SFX_FLAG);
     } else if ((this->unk_850 == 2) && LinkAnimation_OnFrame(&this->skelAnime, 29.0f)) {
@@ -12739,10 +12741,10 @@ void func_8084EAC0(Player* this, PlayState* play) {
 }
 
 static BottleCatchInfo sBottleCatchInfos[] = {
-    { ACTOR_EN_ELF, ITEM_FAIRY, PLAYER_IA_BOTTLE_FAIRY, 0x46 },
-    { ACTOR_EN_FISH, ITEM_FISH, PLAYER_IA_BOTTLE_FISH, 0x47 },
-    { ACTOR_EN_ICE_HONO, ITEM_BLUE_FIRE, PLAYER_IA_BOTTLE_FIRE, 0x5D },
-    { ACTOR_EN_INSECT, ITEM_BUG, PLAYER_IA_BOTTLE_BUG, 0x7A },
+    { ACTOR_EN_ELF, ITEM_BOTTLE_FAIRY, PLAYER_IA_BOTTLE_FAIRY, 0x46 },
+    { ACTOR_EN_FISH, ITEM_BOTTLE_FISH, PLAYER_IA_BOTTLE_FISH, 0x47 },
+    { ACTOR_EN_ICE_HONO, ITEM_BOTTLE_BLUE_FIRE, PLAYER_IA_BOTTLE_FIRE, 0x5D },
+    { ACTOR_EN_INSECT, ITEM_BOTTLE_BUG, PLAYER_IA_BOTTLE_BUG, 0x7A },
 };
 
 void func_8084ECA4(Player* this, PlayState* play) {
@@ -12821,7 +12823,7 @@ void func_8084EED8(Player* this, PlayState* play) {
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 37.0f)) {
         Player_SpawnFairy(play, this, &this->leftHandPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
-        Player_UpdateBottleHeld(play, this, ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+        Player_UpdateBottleHeld(play, this, ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         func_8002F7DC(&this->actor, NA_SE_EV_BOTTLE_CAP_OPEN);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 47.0f)) {
@@ -12857,7 +12859,7 @@ void func_8084EFC0(Player* this, PlayState* play) {
                     (Math_CosS(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.z, 0x4000, this->actor.shape.rot.y,
                     0, dropInfo->actorParams);
 
-        Player_UpdateBottleHeld(play, this, ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+        Player_UpdateBottleHeld(play, this, ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         return;
     }
 
@@ -12886,7 +12888,7 @@ void func_8084F104(Player* this, PlayState* play) {
         } else {
             GetItemEntry* giEntry = &sGetItemTable[D_80854528[this->exchangeItemId - 1] - 1];
 
-            if (this->itemAction >= PLAYER_IA_LETTER_ZELDA) {
+            if (this->itemAction >= PLAYER_IA_ZELDAS_LETTER) {
                 this->unk_862 = ABS(giEntry->gi);
             }
 
@@ -12985,9 +12987,9 @@ void func_8084F390(Player* this, PlayState* play) {
             LinkAnimationHeader* anim;
 
             if (this->unk_84F == 0) {
-                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_42, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_down_slope_slip_end, this->modelAnimType);
             } else {
-                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_43, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_up_slope_slip_end, this->modelAnimType);
             }
             func_8083A098(this, anim, play);
         }
@@ -13393,7 +13395,7 @@ void func_8085063C(Player* this, PlayState* play) {
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
             play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
-            func_80088AF0(play);
+            Interface_SetSubTimerToFinalSecond(play);
             return;
         }
 
@@ -14024,7 +14026,7 @@ void func_808515A4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         return;
     }
 
-    anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_44, this->modelAnimType);
+    anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_nwait, this->modelAnimType);
 
     if ((this->unk_446 == 6) || (this->unk_446 == 0x2E)) {
         func_80832264(play, this, anim);
@@ -14348,7 +14350,7 @@ void func_808521B8(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 }
 
 void func_808521F4(PlayState* play, Player* this, CsCmdActorAction* arg2) {
-    func_80832B0C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_44, this->modelAnimType));
+    func_80832B0C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_nwait, this->modelAnimType));
     func_80832210(this);
 }
 

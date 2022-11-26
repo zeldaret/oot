@@ -21,24 +21,10 @@ void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
-s32 DmaMgr_CompareName(const char* name1, const char* name2);
-s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size);
-s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
-void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc);
-const char* DmaMgr_GetFileNameImpl(uintptr_t vrom);
-const char* DmaMgr_GetFileName(uintptr_t vrom);
-void DmaMgr_ProcessMsg(DmaRequest* req);
-void DmaMgr_ThreadEntry(void* arg);
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
-s32 DmaMgr_SendRequest0(void* ram, uintptr_t vrom, u32 size);
-void DmaMgr_Init(void);
-s32 DmaMgr_SendRequest2(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
-                        const char* file, s32 line);
-s32 DmaMgr_SendRequest1(void* ram, uintptr_t vrom, u32 size, const char* file, s32 line);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
 void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
-void Yaz0_Decompress(uintptr_t romStart, u8* dst, u32 size);
+void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);
@@ -498,10 +484,11 @@ void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
-s32 func_800343CC(PlayState* play, Actor* actor, s16* arg2, f32 interactRange,
-                  u16 (*unkFunc1)(PlayState*, Actor*), s16 (*unkFunc2)(PlayState*, Actor*));
-s16 func_800347E8(s16 arg0);
-void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
+s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
+                      NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
+s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);
+void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex,
+                    s16 trackingMode);
 void func_80034BA0(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
@@ -969,7 +956,7 @@ void Map_Destroy(PlayState* play);
 void Map_Init(PlayState* play);
 void Minimap_Draw(PlayState* play);
 void Map_Update(PlayState* play);
-void Interface_ChangeAlpha(u16 alphaType);
+void Interface_ChangeHudVisibilityMode(u16 hudVisibilityMode);
 void Interface_SetSceneRestrictions(PlayState* play);
 void Inventory_SwapAgeEquipment(void);
 void Interface_InitHorsebackArchery(PlayState* play);
@@ -994,9 +981,9 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
 void Magic_Fill(PlayState* play);
 void Magic_Reset(PlayState* play);
 s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type);
-void func_80088AA0(s16 arg0);
-void func_80088AF0(PlayState* play);
-void func_80088B34(s16 arg0);
+void Interface_SetSubTimer(s16 seconds);
+void Interface_SetSubTimerToFinalSecond(PlayState* play);
+void Interface_SetTimer(s16 seconds);
 void Interface_Draw(PlayState* play);
 void Interface_Update(PlayState* play);
 Path* Path_GetByIndex(PlayState* play, s16 index, s16 max);
@@ -1038,7 +1025,7 @@ s32 Player_GetBottleHeld(Player* this);
 s32 Player_ActionToExplosive(Player* this, s32 itemAction);
 s32 Player_GetExplosiveHeld(Player* this);
 s32 func_8008F2BC(Player* this, s32 itemAction);
-s32 func_8008F2F8(PlayState* play);
+s32 Player_GetEnvironmentalHazard(PlayState* play);
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                      s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
                      void* data);
@@ -1389,14 +1376,6 @@ void DbCamera_Reset(Camera* cam, DbCamera* dbCam);
 // ? DbCamera_UpdateDemoControl(?);
 void func_800BB0A0(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2, f32* point3);
 s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyFrame, f32* curFrame);
-s32 Mempak_Init(s32 controllerNb);
-s32 Mempak_GetFreeBytes(s32 controllerNb);
-s32 Mempak_FindFile(s32 controllerNb, char start, char end);
-s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size);
-s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size);
-s32 Mempak_Alloc(s32 controllerNb, char* idx, s32 size);
-s32 Mempak_DeleteFile(s32 controllerNb, char idx);
-s32 Mempak_GetFileSize(s32 controllerNb, char idx);
 void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl);
 void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl);
 void KaleidoManager_Init(PlayState* play);
