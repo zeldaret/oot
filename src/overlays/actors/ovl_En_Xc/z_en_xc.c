@@ -78,9 +78,9 @@ void EnXc_Destroy(Actor* thisx, PlayState* play) {
 void EnXc_CalculateHeadTurn(EnXc* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->npcInfo.unk_18 = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) - 3.0f;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) - 3.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void EnXc_SetEyePattern(EnXc* this) {
@@ -399,7 +399,7 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
     u32 sfxId;
     s16 sceneId = play->sceneId;
 
-    if ((gSaveContext.sceneLayer != 4) || (sceneId != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneId != SCENE_DESERT_COLOSSUS)) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
             sfxId = NA_SE_PL_WALK_GROUND;
             sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
@@ -414,7 +414,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
 
     if (gSaveContext.sceneLayer == 4) {
         sceneId = play->sceneId;
-        if (sceneId == SCENE_SPOT11) {
+        if (sceneId == SCENE_DESERT_COLOSSUS) {
             CutsceneContext* csCtx = &play->csCtx;
             u16 frameCount = csCtx->frames;
             f32 wDest[2];
@@ -438,7 +438,7 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
 void func_80B3D118(PlayState* play) {
     s16 sceneId;
 
-    if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_DESERT_COLOSSUS)) {
         func_800788CC(NA_SE_PL_SKIP);
     }
 }
@@ -454,7 +454,7 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
         s32 pad;
         s16 sceneId = play->sceneId;
 
-        if (sceneId == SCENE_SPOT11) {
+        if (sceneId == SCENE_DESERT_COLOSSUS) {
             CutsceneContext* csCtx = &play->csCtx;
             u16 frameCount = csCtx->frames;
 
@@ -522,7 +522,7 @@ void EnXc_InitFlame(EnXc* this, PlayState* play) {
     s32 pad;
     s16 sceneId = play->sceneId;
 
-    if (sceneId == SCENE_SPOT17) {
+    if (sceneId == SCENE_DEATH_MOUNTAIN_CRATER) {
         CsCmdActorAction* npcAction = EnXc_GetCsCmd(play, 0);
         if (npcAction != NULL) {
             s32 action = npcAction->action;
@@ -864,7 +864,7 @@ void EnXc_SetupDisappear(EnXc* this, PlayState* play) {
             s16 sceneId = play->sceneId;
 
             // Sheik fades away if end of Bolero CS, kill actor otherwise
-            if (sceneId == SCENE_SPOT17) {
+            if (sceneId == SCENE_DEATH_MOUNTAIN_CRATER) {
                 this->action = SHEIK_ACTION_FADE;
                 this->drawMode = SHEIK_DRAW_NOTHING;
                 this->actor.shape.shadowAlpha = 0;
@@ -2345,11 +2345,11 @@ s32 EnXc_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
-            rot->x += this->npcInfo.unk_0E.y;
-            rot->y -= this->npcInfo.unk_0E.x;
+            rot->x += this->interactInfo.torsoRot.y;
+            rot->y -= this->interactInfo.torsoRot.x;
         } else if (limbIndex == 16) {
-            rot->x += this->npcInfo.unk_08.y;
-            rot->z += this->npcInfo.unk_08.x;
+            rot->x += this->interactInfo.headRot.y;
+            rot->z += this->interactInfo.headRot.x;
         }
     }
     return 0;
