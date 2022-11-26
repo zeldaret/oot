@@ -76,8 +76,8 @@ void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37))) {
         s16 sceneId = play->sceneId;
 
-        if (((sceneId == SCENE_GANON_BOSS) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
-             (sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) &&
+        if (((sceneId == SCENE_GANON_BOSS) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+             (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) || (sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) &&
             (!this->collapseSpawnerInactive)) {
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
@@ -156,8 +156,8 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37) != 0)) {
         s16 sceneId = play->sceneId;
 
-        if (((sceneId == SCENE_GANON_BOSS) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
-             (sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) &&
+        if (((sceneId == SCENE_GANON_BOSS) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+             (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) || (sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) &&
             (!this->collapseSpawnerInactive)) {
             maxRocks = 1;
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;

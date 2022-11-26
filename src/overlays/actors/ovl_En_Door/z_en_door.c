@@ -301,10 +301,11 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
             this->actionFunc = EnDoor_Idle;
             this->playerIsOpening = false;
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->openAnim])) {
-            Audio_PlayActorSfx2(&this->actor, (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL ||
-                                               play->sceneId == SCENE_FIRE_TEMPLE)
-                                                  ? NA_SE_EV_IRON_DOOR_OPEN
-                                                  : NA_SE_OC_DOOR_OPEN);
+            Audio_PlayActorSfx2(&this->actor,
+                                (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL ||
+                                 play->sceneId == SCENE_FIRE_TEMPLE)
+                                    ? NA_SE_EV_IRON_DOOR_OPEN
+                                    : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {
                 numEffects = (s32)(Rand_ZeroOne() * 30.0f) + 50;
                 for (i = 0; i < numEffects; i++) {
@@ -312,10 +313,11 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
                 }
             }
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->openAnim])) {
-            Audio_PlayActorSfx2(&this->actor, (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL ||
-                                               play->sceneId == SCENE_FIRE_TEMPLE)
-                                                  ? NA_SE_EV_IRON_DOOR_CLOSE
-                                                  : NA_SE_EV_DOOR_CLOSE);
+            Audio_PlayActorSfx2(&this->actor,
+                                (play->sceneId == SCENE_SHADOW_TEMPLE || play->sceneId == SCENE_BOTTOM_OF_THE_WELL ||
+                                 play->sceneId == SCENE_FIRE_TEMPLE)
+                                    ? NA_SE_EV_IRON_DOOR_CLOSE
+                                    : NA_SE_EV_DOOR_CLOSE);
         }
     }
 }

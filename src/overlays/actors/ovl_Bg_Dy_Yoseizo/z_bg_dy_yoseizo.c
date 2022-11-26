@@ -773,7 +773,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.npcActions[0]->action == 17) && (this->item != NULL)) {
+    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.npcActions[0]->action == 17) &&
+        (this->item != NULL)) {
         Actor_Kill(&this->item->actor);
         this->item = NULL;
     }

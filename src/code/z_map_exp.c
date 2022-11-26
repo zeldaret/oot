@@ -586,8 +586,8 @@ void Map_Update(PlayState* play) {
             case SCENE_SPIRIT_TEMPLE_BOSS:
             case SCENE_SHADOW_TEMPLE_BOSS:
                 VREG(30) = gMapData->bossFloor[play->sceneId - SCENE_DEKU_TREE_BOSS];
-                R_MAP_TEX_INDEX =
-                    R_MAP_TEX_INDEX_BASE + gMapData->floorTexIndexOffset[play->sceneId - SCENE_DEKU_TREE_BOSS][VREG(30)];
+                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE +
+                                  gMapData->floorTexIndexOffset[play->sceneId - SCENE_DEKU_TREE_BOSS][VREG(30)];
                 break;
         }
     }

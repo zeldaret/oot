@@ -638,7 +638,8 @@ void Scene_DrawConfigGanonFinal(PlayState* play) {
 
     if (Flags_GetSwitch(play, 0x37)) {
         if ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
-            (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) || (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) {
+            (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+            (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) {
             func_8009BEEC(play);
         }
     }

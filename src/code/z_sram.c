@@ -126,7 +126,7 @@ static SavePlayerData sNewSavePlayerData = {
     },                                                  // adultEquips
     0,                                                  // unk_38
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },       // unk_3C
-    SCENE_LINKS_HOUSE,                                    // savedSceneId
+    SCENE_LINKS_HOUSE,                                  // savedSceneId
 };
 
 static ItemEquips sNewSaveEquips = {
@@ -254,7 +254,7 @@ static SavePlayerData sDebugSavePlayerData = {
     },                                                  // adultEquips
     0,                                                  // unk_38
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },       // unk_3C
-    SCENE_HYRULE_FIELD,                                       // savedSceneId
+    SCENE_HYRULE_FIELD,                                 // savedSceneId
 };
 
 static ItemEquips sDebugSaveEquips = {
@@ -382,22 +382,22 @@ void Sram_InitDebugSave(void) {
 }
 
 static s16 sDungeonEntrances[] = {
-    ENTR_DEKU_TREE_0,             // SCENE_DEKU_TREE
-    ENTR_DODONGOS_CAVERN_0,             // SCENE_DODONGOS_CAVERN
-    ENTR_JABU_JABU_0,             // SCENE_JABU_JABU
-    ENTR_FOREST_TEMPLE_0,           // SCENE_FOREST_TEMPLE
-    ENTR_FIRE_TEMPLE_0,            // SCENE_FIRE_TEMPLE
-    ENTR_WATER_TEMPLE_0,          // SCENE_WATER_TEMPLE
-    ENTR_SPIRIT_TEMPLE_0,        // SCENE_SPIRIT_TEMPLE
-    ENTR_SHADOW_TEMPLE_0,          // SCENE_SHADOW_TEMPLE
-    ENTR_BOTTOM_OF_THE_WELL_0,        // SCENE_BOTTOM_OF_THE_WELL
-    ENTR_ICE_CAVERN_0,      // SCENE_ICE_CAVERN
-    ENTR_GANONS_TOWER_0,            // SCENE_GANONS_TOWER
-    ENTR_GERUDO_TRAINING_GROUND_0,              // SCENE_GERUDO_TRAINING_GROUND
-    ENTR_THIEVES_HIDEOUT_0,        // SCENE_THIEVES_HIDEOUT
-    ENTR_INSIDE_GANONS_CASTLE_0,        // SCENE_INSIDE_GANONS_CASTLE
-    ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_0,     // SCENE_GANONS_TOWER_COLLAPSE_INTERIOR
-    ENTR_INSIDE_GANONS_CASTLE_COLLAPSE_0, // SCENE_INSIDE_GANONS_CASTLE_COLLAPSE
+    ENTR_DEKU_TREE_0,                      // SCENE_DEKU_TREE
+    ENTR_DODONGOS_CAVERN_0,                // SCENE_DODONGOS_CAVERN
+    ENTR_JABU_JABU_0,                      // SCENE_JABU_JABU
+    ENTR_FOREST_TEMPLE_0,                  // SCENE_FOREST_TEMPLE
+    ENTR_FIRE_TEMPLE_0,                    // SCENE_FIRE_TEMPLE
+    ENTR_WATER_TEMPLE_0,                   // SCENE_WATER_TEMPLE
+    ENTR_SPIRIT_TEMPLE_0,                  // SCENE_SPIRIT_TEMPLE
+    ENTR_SHADOW_TEMPLE_0,                  // SCENE_SHADOW_TEMPLE
+    ENTR_BOTTOM_OF_THE_WELL_0,             // SCENE_BOTTOM_OF_THE_WELL
+    ENTR_ICE_CAVERN_0,                     // SCENE_ICE_CAVERN
+    ENTR_GANONS_TOWER_0,                   // SCENE_GANONS_TOWER
+    ENTR_GERUDO_TRAINING_GROUND_0,         // SCENE_GERUDO_TRAINING_GROUND
+    ENTR_THIEVES_HIDEOUT_0,                // SCENE_THIEVES_HIDEOUT
+    ENTR_INSIDE_GANONS_CASTLE_0,           // SCENE_INSIDE_GANONS_CASTLE
+    ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_0, // SCENE_GANONS_TOWER_COLLAPSE_INTERIOR
+    ENTR_INSIDE_GANONS_CASTLE_COLLAPSE_0,  // SCENE_INSIDE_GANONS_CASTLE_COLLAPSE
 };
 
 /**
@@ -485,7 +485,8 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
         default:
             if (gSaveContext.savedSceneId != SCENE_LINKS_HOUSE) {
-                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINKS_HOUSE_0 : ENTR_TEMPLE_OF_TIME_7;
+                gSaveContext.entranceIndex =
+                    (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINKS_HOUSE_0 : ENTR_TEMPLE_OF_TIME_7;
             } else {
                 gSaveContext.entranceIndex = ENTR_LINKS_HOUSE_0;
             }

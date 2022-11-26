@@ -3,7 +3,8 @@
 #include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s32 func_8006CFC0(s32 sceneId) {
-    s32 validSceneIds[] = { SCENE_HYRULE_FIELD, SCENE_LAKE_HYLIA, SCENE_GERUDO_VALLEY, SCENE_GERUDOS_FORTRESS, SCENE_LON_LON_RANCH };
+    s32 validSceneIds[] = { SCENE_HYRULE_FIELD, SCENE_LAKE_HYLIA, SCENE_GERUDO_VALLEY, SCENE_GERUDOS_FORTRESS,
+                            SCENE_LON_LON_RANCH };
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(validSceneIds); i++) {
@@ -43,7 +44,7 @@ typedef struct {
 void func_8006D0EC(PlayState* play, Player* player) {
     s32 i;
     HorseSpawn horseSpawns[] = {
-        { SCENE_HYRULE_FIELD, -460, 100, 6640, 0, 2 }, { SCENE_LAKE_HYLIA, -1929, -1025, 768, 0, 2 },
+        { SCENE_HYRULE_FIELD, -460, 100, 6640, 0, 2 },  { SCENE_LAKE_HYLIA, -1929, -1025, 768, 0, 2 },
         { SCENE_GERUDO_VALLEY, 2566, -259, 767, 0, 2 }, { SCENE_GERUDOS_FORTRESS, -328, 10, 953, 0, 2 },
         { SCENE_LON_LON_RANCH, 928, 0, -2280, 0, 2 },
     };
@@ -92,7 +93,8 @@ void func_8006D0EC(PlayState* play, Player* player) {
             osSyncPrintf(VT_RST);
             func_8006D074(play);
         }
-    } else if ((play->sceneId == SCENE_LON_LON_RANCH) && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0)) {
+    } else if ((play->sceneId == SCENE_LON_LON_RANCH) && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) &&
+               (DREG(1) == 0)) {
         Actor* horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 443);
     } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
@@ -248,8 +250,10 @@ void func_8006DC68(PlayState* play, Player* player) {
 
         if (func_8006CFC0(play->sceneId)) {
             if (IS_CUTSCENE_LAYER ||
-                ((gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_11 || gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_12 ||
-                  gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_13 || gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_15) &&
+                ((gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_11 ||
+                  gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_12 ||
+                  gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_13 ||
+                  gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_15) &&
                  (gSaveContext.respawnFlag == 0)) ||
                 ((play->sceneId == SCENE_LON_LON_RANCH) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
                  !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0))) {

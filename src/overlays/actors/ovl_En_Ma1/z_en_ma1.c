@@ -199,7 +199,8 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
             return 0;
         }
     }
-    if ((play->sceneId == SCENE_LON_LON_BUILDINGS) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+    if ((play->sceneId == SCENE_LON_LON_BUILDINGS) && IS_NIGHT &&
+        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
     if (play->sceneId != SCENE_LON_LON_RANCH) {

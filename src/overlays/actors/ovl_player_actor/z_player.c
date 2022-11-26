@@ -4364,29 +4364,29 @@ s32 func_80838FB8(PlayState* play, Player* this) {
  */
 s16 sReturnEntranceGroupData[] = {
     // ENTR_RETURN_DAIYOUSEI_IZUMI
-    /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4, // DMT from Magic Fairy Fountain
+    /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4,  // DMT from Magic Fairy Fountain
     /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // DMC from Double Defense Fairy Fountain
-    /*  2 */ ENTR_HYRULE_CASTLE_2, // Hyrule Castle from Dins Fire Fairy Fountain
+    /*  2 */ ENTR_HYRULE_CASTLE_2,         // Hyrule Castle from Dins Fire Fairy Fountain
 
     // ENTR_RETURN_2
-    /*  3 */ ENTR_KAKARIKO_VILLAGE_9,     // Kakariko from Potion Shop
-    /*  4 */ ENTR_MARKET_DAY_5, // Market (child day) from Potion Shop
+    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // Kakariko from Potion Shop
+    /*  4 */ ENTR_MARKET_DAY_5,       // Market (child day) from Potion Shop
 
     // ENTR_RETURN_SHOP1
-    /*  5 */ ENTR_KAKARIKO_VILLAGE_3,     // Kakariko from Bazaar
-    /*  6 */ ENTR_MARKET_DAY_6, // Market (child day) from Bazaar
+    /*  5 */ ENTR_KAKARIKO_VILLAGE_3, // Kakariko from Bazaar
+    /*  6 */ ENTR_MARKET_DAY_6,       // Market (child day) from Bazaar
 
     // ENTR_RETURN_4
-    /*  7 */ ENTR_KAKARIKO_VILLAGE_11,      // Kakariko from House of Skulltulas
-    /*  8 */ ENTR_BACK_ALLEY_DAY_2, // Back Alley (day) from Bombchu Shop
+    /*  7 */ ENTR_KAKARIKO_VILLAGE_11, // Kakariko from House of Skulltulas
+    /*  8 */ ENTR_BACK_ALLEY_DAY_2,    // Back Alley (day) from Bombchu Shop
 
     // ENTR_RETURN_SYATEKIJYOU
-    /*  9 */ ENTR_KAKARIKO_VILLAGE_10,    // Kakariko from Shooting Gallery
-    /* 10 */ ENTR_MARKET_DAY_8, // Market (child day) from Shooting Gallery
+    /*  9 */ ENTR_KAKARIKO_VILLAGE_10, // Kakariko from Shooting Gallery
+    /* 10 */ ENTR_MARKET_DAY_8,        // Market (child day) from Shooting Gallery
 
     // ENTR_RETURN_YOUSEI_IZUMI_YOKO
-    /* 11 */ ENTR_ZORAS_FOUNTAIN_5, // Zoras Fountain from Farores Wind Fairy Fountain
-    /* 12 */ ENTR_HYRULE_CASTLE_2, // Hyrule Castle from Dins Fire Fairy Fountain
+    /* 11 */ ENTR_ZORAS_FOUNTAIN_5,  // Zoras Fountain from Farores Wind Fairy Fountain
+    /* 12 */ ENTR_HYRULE_CASTLE_2,   // Hyrule Castle from Dins Fire Fairy Fountain
     /* 13 */ ENTR_DESERT_COLOSSUS_7, // Desert Colossus from Nayrus Love Fairy Fountain
 };
 
@@ -6422,7 +6422,8 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
 
                 iREG(67) = false;
 
-                if ((Item_CheckObtainability(giEntry->itemId) == ITEM_NONE) || (play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY)) {
+                if ((Item_CheckObtainability(giEntry->itemId) == ITEM_NONE) ||
+                    (play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY)) {
                     func_808323B4(play, this);
                     func_8083AE40(this, giEntry->objectId);
 
@@ -12496,7 +12497,12 @@ void func_8084E368(Player* this, PlayState* play) {
 }
 
 static s16 sWarpSongEntrances[] = {
-    ENTR_SACRED_FOREST_MEADOW_2, ENTR_DEATH_MOUNTAIN_CRATER_4, ENTR_LAKE_HYLIA_8, ENTR_DESERT_COLOSSUS_5, ENTR_GRAVEYARD_7, ENTR_TEMPLE_OF_TIME_7,
+    ENTR_SACRED_FOREST_MEADOW_2,
+    ENTR_DEATH_MOUNTAIN_CRATER_4,
+    ENTR_LAKE_HYLIA_8,
+    ENTR_DESERT_COLOSSUS_5,
+    ENTR_GRAVEYARD_7,
+    ENTR_TEMPLE_OF_TIME_7,
 };
 
 void func_8084E3C4(Player* this, PlayState* play) {

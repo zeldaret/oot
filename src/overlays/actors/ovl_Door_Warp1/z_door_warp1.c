@@ -161,8 +161,10 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(gSaveContext.entranceIndex == ENTR_SACRED_FOREST_MEADOW_3 || gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_CRATER_5 ||
-                   gSaveContext.entranceIndex == ENTR_LAKE_HYLIA_9 || gSaveContext.entranceIndex == ENTR_DESERT_COLOSSUS_8 ||
+            if ((!(gSaveContext.entranceIndex == ENTR_SACRED_FOREST_MEADOW_3 ||
+                   gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_CRATER_5 ||
+                   gSaveContext.entranceIndex == ENTR_LAKE_HYLIA_9 ||
+                   gSaveContext.entranceIndex == ENTR_DESERT_COLOSSUS_8 ||
                    gSaveContext.entranceIndex == ENTR_GRAVEYARD_8) &&
                  !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {

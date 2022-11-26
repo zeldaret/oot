@@ -90,7 +90,8 @@ static SceneSelectEntry sScenes[] = {
     // "22: Target Range" (Shooting Gallery)
     { "22:" GFXP_HIRAGANA "ｼｬﾃｷｼﾞｮｳ", MapSelect_LoadGame, ENTR_SHOOTING_GALLERY_0 },
     // "23: Hyrule Garden Game" (Hyrule Garden Minigame)
-    { "23:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾆﾜ" GFXP_KATAKANA "ｹﾞｰﾑ", MapSelect_LoadGame, ENTR_CASTLE_COURTYARD_GUARDS_DAY_0 },
+    { "23:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾆﾜ" GFXP_KATAKANA "ｹﾞｰﾑ", MapSelect_LoadGame,
+      ENTR_CASTLE_COURTYARD_GUARDS_DAY_0 },
     // "24: Grave Dive Hole" (Grave (Redead))
     { "24:" GFXP_HIRAGANA "ﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ", MapSelect_LoadGame, ENTR_REDEAD_GRAVE_0 },
     // "25: Grave Dive Hole 2" (Grave (Fairy's Fountain))
@@ -220,18 +221,23 @@ static SceneSelectEntry sScenes[] = {
     // "87: Relay Beneath the Graves" (Dampé's Grave)
     { "87:" GFXP_HIRAGANA "ﾊｶｼﾀ" GFXP_KATAKANA "ﾘﾚｰ", MapSelect_LoadGame, ENTR_WINDMILL_AND_DAMPES_GRAVE_0 },
     // "88: Ganon's Basement Dungeon" (Inside Ganon's Castle)
-    { "88:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", MapSelect_LoadGame, ENTR_INSIDE_GANONS_CASTLE_0 },
+    { "88:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", MapSelect_LoadGame,
+      ENTR_INSIDE_GANONS_CASTLE_0 },
     // "89: Final Battle With Ganon - Cutscene & Battle" (Ganondorf's Death Scene & Tower Escape Exterior)
     { "89:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ｻｲｼｭｳｾﾝ " GFXP_KATAKANA "ﾃﾞﾓ & ﾊﾞﾄﾙ", MapSelect_LoadGame,
       ENTR_GANON_BOSS_0 },
     // "90: Ganon's Tower Aftermath 1" (Escaping Ganon's Tower 1)
-    { "90:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 1", MapSelect_LoadGame, ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_0 },
+    { "90:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 1", MapSelect_LoadGame,
+      ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_0 },
     // "91: Ganon's Tower Aftermath 2" (Escaping Ganon's Tower 2)
-    { "91:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 2", MapSelect_LoadGame, ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_2 },
+    { "91:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 2", MapSelect_LoadGame,
+      ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_2 },
     // "92: Ganon's Tower Aftermath 3" (Escaping Ganon's Tower 3)
-    { "92:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 3", MapSelect_LoadGame, ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_4 },
+    { "92:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 3", MapSelect_LoadGame,
+      ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_4 },
     // "93: Ganon's Tower Aftermath 4" (Escaping Ganon's Tower 4)
-    { "93:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 4", MapSelect_LoadGame, ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_6 },
+    { "93:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 4", MapSelect_LoadGame,
+      ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_6 },
     // "94: Ganon's Basement Aftermath" (Escaping Ganon's Castle)
     { "94:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ ｿﾉｺﾞ", MapSelect_LoadGame, ENTR_INSIDE_GANONS_CASTLE_COLLAPSE_0 },
     // "95: Gerudo Passage 1-2" (Thieves' Hideout 1)
