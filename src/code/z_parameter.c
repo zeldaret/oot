@@ -12,106 +12,106 @@ typedef struct {
 } RestrictionFlags; // size = 0x4
 
 static RestrictionFlags sRestrictionFlags[] = {
-    { SCENE_SPOT00, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT01, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT02, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT03, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT04, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT05, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT06, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT07, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT08, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT09, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT10, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT11, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT12, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT13, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT15, 0x00, 0x00, 0x10 },
-    { SCENE_GANON_TOU, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT16, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT17, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT18, 0x00, 0x00, 0x10 },
-    { SCENE_SPOT20, 0x00, 0x00, 0x10 },
-    { SCENE_TOKINOMA, 0x00, 0x10, 0x15 },
-    { SCENE_KENJYANOMA, 0xA2, 0xAA, 0xAA },
-    { SCENE_SYATEKIJYOU, 0x11, 0x55, 0x55 },
-    { SCENE_HAIRAL_NIWA, 0x11, 0x55, 0x55 },
-    { SCENE_HAIRAL_NIWA_N, 0x11, 0x55, 0x55 },
-    { SCENE_HAKAANA, 0x00, 0x00, 0xD0 },
-    { SCENE_HAKAANA2, 0x00, 0x00, 0xD0 },
-    { SCENE_HAKAANA_OUKE, 0x00, 0x00, 0xD0 },
-    { SCENE_DAIYOUSEI_IZUMI, 0x00, 0x00, 0x10 },
-    { SCENE_YOUSEI_IZUMI_TATE, 0x00, 0x00, 0xD0 },
-    { SCENE_YOUSEI_IZUMI_YOKO, 0x00, 0x00, 0x10 },
-    { SCENE_GANON_FINAL, 0x00, 0x05, 0x50 },
-    { SCENE_NAKANIWA, 0x00, 0x05, 0x54 },
-    { SCENE_TURIBORI, 0x11, 0x55, 0x55 },
-    { SCENE_BOWLING, 0x11, 0x55, 0x55 },
-    { SCENE_SOUKO, 0x00, 0x10, 0x15 },
-    { SCENE_MIHARIGOYA, 0x00, 0x10, 0x14 },
-    { SCENE_MAHOUYA, 0x10, 0x15, 0x55 },
-    { SCENE_TAKARAYA, 0x10, 0x15, 0x55 },
-    { SCENE_KINSUTA, 0x00, 0x10, 0x15 },
-    { SCENE_ENTRA, 0x00, 0x10, 0x15 },
-    { SCENE_ENTRA_N, 0x00, 0x10, 0x15 },
-    { SCENE_ENRUI, 0x00, 0x10, 0xD5 },
+    { SCENE_HYRULE_FIELD, 0x00, 0x00, 0x10 },
+    { SCENE_KAKARIKO_VILLAGE, 0x00, 0x00, 0x10 },
+    { SCENE_GRAVEYARD, 0x00, 0x00, 0x10 },
+    { SCENE_ZORAS_RIVER, 0x00, 0x00, 0x10 },
+    { SCENE_KOKIRI_FOREST, 0x00, 0x00, 0x10 },
+    { SCENE_SACRED_FOREST_MEADOW, 0x00, 0x00, 0x10 },
+    { SCENE_LAKE_HYLIA, 0x00, 0x00, 0x10 },
+    { SCENE_ZORAS_DOMAIN, 0x00, 0x00, 0x10 },
+    { SCENE_ZORAS_FOUNTAIN, 0x00, 0x00, 0x10 },
+    { SCENE_GERUDO_VALLEY, 0x00, 0x00, 0x10 },
+    { SCENE_LOST_WOODS, 0x00, 0x00, 0x10 },
+    { SCENE_DESERT_COLOSSUS, 0x00, 0x00, 0x10 },
+    { SCENE_GERUDOS_FORTRESS, 0x00, 0x00, 0x10 },
+    { SCENE_HAUNTED_WASTELAND, 0x00, 0x00, 0x10 },
+    { SCENE_HYRULE_CASTLE, 0x00, 0x00, 0x10 },
+    { SCENE_OUTSIDE_GANONS_CASTLE, 0x00, 0x00, 0x10 },
+    { SCENE_DEATH_MOUNTAIN_TRAIL, 0x00, 0x00, 0x10 },
+    { SCENE_DEATH_MOUNTAIN_CRATER, 0x00, 0x00, 0x10 },
+    { SCENE_GORON_CITY, 0x00, 0x00, 0x10 },
+    { SCENE_LON_LON_RANCH, 0x00, 0x00, 0x10 },
+    { SCENE_TEMPLE_OF_TIME, 0x00, 0x10, 0x15 },
+    { SCENE_CHAMBER_OF_THE_SAGES, 0xA2, 0xAA, 0xAA },
+    { SCENE_SHOOTING_GALLERY, 0x11, 0x55, 0x55 },
+    { SCENE_CASTLE_COURTYARD_GUARDS_DAY, 0x11, 0x55, 0x55 },
+    { SCENE_CASTLE_COURTYARD_GUARDS_NIGHT, 0x11, 0x55, 0x55 },
+    { SCENE_REDEAD_GRAVE, 0x00, 0x00, 0xD0 },
+    { SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN, 0x00, 0x00, 0xD0 },
+    { SCENE_ROYAL_FAMILYS_TOMB, 0x00, 0x00, 0xD0 },
+    { SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC, 0x00, 0x00, 0x10 },
+    { SCENE_FAIRYS_FOUNTAIN, 0x00, 0x00, 0xD0 },
+    { SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS, 0x00, 0x00, 0x10 },
+    { SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR, 0x00, 0x05, 0x50 },
+    { SCENE_CASTLE_COURTYARD_ZELDA, 0x00, 0x05, 0x54 },
+    { SCENE_FISHING_POND, 0x11, 0x55, 0x55 },
+    { SCENE_BOMBCHU_BOWLING_ALLEY, 0x11, 0x55, 0x55 },
+    { SCENE_LON_LON_BUILDINGS, 0x00, 0x10, 0x15 },
+    { SCENE_MARKET_GUARD_HOUSE, 0x00, 0x10, 0x14 },
+    { SCENE_POTION_SHOP_GRANNY, 0x10, 0x15, 0x55 },
+    { SCENE_TREASURE_BOX_SHOP, 0x10, 0x15, 0x55 },
+    { SCENE_HOUSE_OF_SKULLTULA, 0x00, 0x10, 0x15 },
+    { SCENE_MARKET_ENTRANCE_DAY, 0x00, 0x10, 0x15 },
+    { SCENE_MARKET_ENTRANCE_NIGHT, 0x00, 0x10, 0x15 },
+    { SCENE_MARKET_ENTRANCE_RUINS, 0x00, 0x10, 0xD5 },
     { SCENE_MARKET_DAY, 0x00, 0x10, 0x15 },
     { SCENE_MARKET_NIGHT, 0x00, 0x10, 0x15 },
     { SCENE_MARKET_RUINS, 0x00, 0x10, 0xD5 },
-    { SCENE_MARKET_ALLEY, 0x00, 0x10, 0x15 },
-    { SCENE_MARKET_ALLEY_N, 0x00, 0x10, 0x15 },
-    { SCENE_SHRINE, 0x00, 0x10, 0x15 },
-    { SCENE_SHRINE_N, 0x00, 0x10, 0x15 },
-    { SCENE_SHRINE_R, 0x00, 0x10, 0xD5 },
-    { SCENE_LINK_HOME, 0x10, 0x10, 0x15 },
-    { SCENE_KAKARIKO, 0x10, 0x10, 0x15 },
-    { SCENE_KAKARIKO3, 0x10, 0x10, 0x15 },
-    { SCENE_KOKIRI_HOME, 0x10, 0x10, 0x15 },
-    { SCENE_KOKIRI_HOME3, 0x10, 0x10, 0x15 },
-    { SCENE_KOKIRI_HOME4, 0x10, 0x10, 0x15 },
-    { SCENE_KOKIRI_HOME5, 0x10, 0x10, 0x15 },
-    { SCENE_MALON_STABLE, 0x10, 0x10, 0x15 },
-    { SCENE_HUT, 0x10, 0x10, 0x15 },
-    { SCENE_IMPA, 0x10, 0x10, 0x15 },
-    { SCENE_LABO, 0x10, 0x10, 0x15 },
-    { SCENE_HYLIA_LABO, 0x00, 0x10, 0x15 },
-    { SCENE_TENT, 0x10, 0x10, 0x15 },
-    { SCENE_SHOP1, 0x10, 0x10, 0x15 },
+    { SCENE_BACK_ALLEY_DAY, 0x00, 0x10, 0x15 },
+    { SCENE_BACK_ALLEY_NIGHT, 0x00, 0x10, 0x15 },
+    { SCENE_TEMPLE_OF_TIME_EXTERIOR_DAY, 0x00, 0x10, 0x15 },
+    { SCENE_TEMPLE_OF_TIME_EXTERIOR_NIGHT, 0x00, 0x10, 0x15 },
+    { SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS, 0x00, 0x10, 0xD5 },
+    { SCENE_LINKS_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_KAKARIKO_CENTER_GUEST_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_BACK_ALLEY_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_KNOW_IT_ALL_BROS_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_TWINS_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_MIDOS_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_SARIAS_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_STABLE, 0x10, 0x10, 0x15 },
+    { SCENE_GRAVEKEEPERS_HUT, 0x10, 0x10, 0x15 },
+    { SCENE_DOG_LADY_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_IMPAS_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_LAKESIDE_LABORATORY, 0x00, 0x10, 0x15 },
+    { SCENE_CARPENTERS_TENT, 0x10, 0x10, 0x15 },
+    { SCENE_BAZAAR, 0x10, 0x10, 0x15 },
     { SCENE_KOKIRI_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_GOLON, 0x10, 0x10, 0x15 },
-    { SCENE_ZOORA, 0x10, 0x10, 0x15 },
-    { SCENE_DRAG, 0x10, 0x10, 0x15 },
-    { SCENE_ALLEY_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_NIGHT_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_FACE_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_MEN, 0x00, 0x03, 0x10 },
-    { SCENE_YDAN, 0x00, 0x00, 0x00 },
-    { SCENE_YDAN_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_DDAN, 0x00, 0x00, 0x00 },
-    { SCENE_DDAN_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_BDAN, 0x00, 0x00, 0x00 },
-    { SCENE_BDAN_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_BMORI1, 0x00, 0x00, 0x00 },
-    { SCENE_MORIBOSSROOM, 0x00, 0x45, 0x50 },
-    { SCENE_HAKADANCH, 0x00, 0x00, 0x00 },
-    { SCENE_HAKADAN, 0x00, 0x00, 0x00 },
-    { SCENE_HAKADAN_BS, 0x00, 0x45, 0x50 },
-    { SCENE_HIDAN, 0x00, 0x00, 0x00 },
-    { SCENE_FIRE_BS, 0x00, 0x45, 0x50 },
-    { SCENE_MIZUSIN, 0x00, 0x00, 0x00 },
-    { SCENE_MIZUSIN_BS, 0x00, 0x45, 0x50 },
-    { SCENE_JYASINZOU, 0x00, 0x00, 0x00 },
-    { SCENE_JYASINBOSS, 0x00, 0x45, 0x50 },
-    { SCENE_GANON, 0x00, 0x00, 0x00 },
+    { SCENE_GORON_SHOP, 0x10, 0x10, 0x15 },
+    { SCENE_ZORA_SHOP, 0x10, 0x10, 0x15 },
+    { SCENE_POTION_SHOP_KAKARIKO, 0x10, 0x10, 0x15 },
+    { SCENE_POTION_SHOP_MARKET, 0x10, 0x10, 0x15 },
+    { SCENE_BOMBCHU_SHOP, 0x10, 0x10, 0x15 },
+    { SCENE_HAPPY_MASK_SHOP, 0x10, 0x10, 0x15 },
+    { SCENE_GERUDO_TRAINING_GROUND, 0x00, 0x03, 0x10 },
+    { SCENE_DEKU_TREE, 0x00, 0x00, 0x00 },
+    { SCENE_DEKU_TREE_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_DODONGOS_CAVERN, 0x00, 0x00, 0x00 },
+    { SCENE_DODONGOS_CAVERN_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_JABU_JABU, 0x00, 0x00, 0x00 },
+    { SCENE_JABU_JABU_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_FOREST_TEMPLE, 0x00, 0x00, 0x00 },
+    { SCENE_FOREST_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_BOTTOM_OF_THE_WELL, 0x00, 0x00, 0x00 },
+    { SCENE_SHADOW_TEMPLE, 0x00, 0x00, 0x00 },
+    { SCENE_SHADOW_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_FIRE_TEMPLE, 0x00, 0x00, 0x00 },
+    { SCENE_FIRE_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_WATER_TEMPLE, 0x00, 0x00, 0x00 },
+    { SCENE_WATER_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_SPIRIT_TEMPLE, 0x00, 0x00, 0x00 },
+    { SCENE_SPIRIT_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_GANONS_TOWER, 0x00, 0x00, 0x00 },
+    { SCENE_GANONDORF_BOSS, 0x00, 0x45, 0x50 },
+    { SCENE_ICE_CAVERN, 0x00, 0x00, 0xC0 },
+    { SCENE_WINDMILL_AND_DAMPES_GRAVE, 0x00, 0x03, 0x14 },
+    { SCENE_INSIDE_GANONS_CASTLE, 0x00, 0x03, 0x10 },
     { SCENE_GANON_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_ICE_DOUKUTO, 0x00, 0x00, 0xC0 },
-    { SCENE_HAKASITARELAY, 0x00, 0x03, 0x14 },
-    { SCENE_GANONTIKA, 0x00, 0x03, 0x10 },
-    { SCENE_GANON_DEMO, 0x00, 0x45, 0x50 },
-    { SCENE_GANON_SONOGO, 0x00, 0x05, 0x50 },
-    { SCENE_GANONTIKA_SONOGO, 0x00, 0x05, 0x50 },
-    { SCENE_GERUDOWAY, 0x00, 0x00, 0x10 },
-    { SCENE_KAKUSIANA, 0x00, 0x00, 0xD0 },
+    { SCENE_GANONS_TOWER_COLLAPSE_INTERIOR, 0x00, 0x05, 0x50 },
+    { SCENE_INSIDE_GANONS_CASTLE_COLLAPSE, 0x00, 0x05, 0x50 },
+    { SCENE_THIEVES_HIDEOUT, 0x00, 0x00, 0x10 },
+    { SCENE_GROTTOS, 0x00, 0x00, 0xD0 },
     { 0xFF, 0x00, 0x00, 0x00 },
 };
 
@@ -417,26 +417,26 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
             }
 
             switch (play->sceneId) {
-                case SCENE_SPOT00:
-                case SCENE_SPOT01:
-                case SCENE_SPOT02:
-                case SCENE_SPOT03:
-                case SCENE_SPOT04:
-                case SCENE_SPOT05:
-                case SCENE_SPOT06:
-                case SCENE_SPOT07:
-                case SCENE_SPOT08:
-                case SCENE_SPOT09:
-                case SCENE_SPOT10:
-                case SCENE_SPOT11:
-                case SCENE_SPOT12:
-                case SCENE_SPOT13:
-                case SCENE_SPOT15:
-                case SCENE_SPOT16:
-                case SCENE_SPOT17:
-                case SCENE_SPOT18:
-                case SCENE_SPOT20:
-                case SCENE_GANON_TOU:
+                case SCENE_HYRULE_FIELD:
+                case SCENE_KAKARIKO_VILLAGE:
+                case SCENE_GRAVEYARD:
+                case SCENE_ZORAS_RIVER:
+                case SCENE_KOKIRI_FOREST:
+                case SCENE_SACRED_FOREST_MEADOW:
+                case SCENE_LAKE_HYLIA:
+                case SCENE_ZORAS_DOMAIN:
+                case SCENE_ZORAS_FOUNTAIN:
+                case SCENE_GERUDO_VALLEY:
+                case SCENE_LOST_WOODS:
+                case SCENE_DESERT_COLOSSUS:
+                case SCENE_GERUDOS_FORTRESS:
+                case SCENE_HAUNTED_WASTELAND:
+                case SCENE_HYRULE_CASTLE:
+                case SCENE_DEATH_MOUNTAIN_TRAIL:
+                case SCENE_DEATH_MOUNTAIN_CRATER:
+                case SCENE_GORON_CITY:
+                case SCENE_LON_LON_RANCH:
+                case SCENE_OUTSIDE_GANONS_CASTLE:
                     if (interfaceCtx->minimapAlpha < 170) {
                         interfaceCtx->minimapAlpha = risingAlpha;
                     } else {
@@ -645,11 +645,11 @@ void func_80083108(PlayState* play) {
     s16 sp28 = false;
 
     if ((gSaveContext.cutsceneIndex < 0xFFF0) ||
-        ((play->sceneId == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
         gSaveContext.forceRisingButtonAlphas = false;
 
         if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
-            ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
+            ((play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY) && Flags_GetSwitch(play, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 gSaveContext.forceRisingButtonAlphas = true;
 
@@ -664,7 +664,7 @@ void func_80083108(PlayState* play) {
                     (gSaveContext.equips.buttonItems[0] != ITEM_NONE)) {
                     gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
 
-                    if ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
+                    if ((play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY) && Flags_GetSwitch(play, 0x38)) {
                         gSaveContext.equips.buttonItems[0] = ITEM_BOMBCHU;
                         Interface_LoadItemIcon1(play, 0);
                     } else {
@@ -695,7 +695,7 @@ void func_80083108(PlayState* play) {
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_B);
                 } else if (play->shootingGalleryStatus > 1) {
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_B);
-                } else if ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
+                } else if ((play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY) && Flags_GetSwitch(play, 0x38)) {
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_B);
                 } else if (player->stateFlags1 & PLAYER_STATE1_23) {
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_B_MINIMAP);
@@ -705,9 +705,9 @@ void func_80083108(PlayState* play) {
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_B_MINIMAP);
                 }
             }
-        } else if (play->sceneId == SCENE_KENJYANOMA) {
+        } else if (play->sceneId == SCENE_CHAMBER_OF_THE_SAGES) {
             Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
-        } else if (play->sceneId == SCENE_TURIBORI) {
+        } else if (play->sceneId == SCENE_FISHING_POND) {
             // should likely be set to true
             gSaveContext.forceRisingButtonAlphas = 2;
             if (play->interfaceCtx.unk_260 != 0) {
@@ -1043,7 +1043,7 @@ void func_80083108(PlayState* play) {
                               (gSaveContext.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) &&
                             !((gSaveContext.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
-                            if ((play->sceneId != SCENE_TAKARAYA) ||
+                            if ((play->sceneId != SCENE_TREASURE_BOX_SHOP) ||
                                 (gSaveContext.equips.buttonItems[i] != ITEM_LENS_OF_TRUTH)) {
                                 if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                     sp28 = true;
@@ -2932,7 +2932,7 @@ void Interface_DrawAmmoCount(PlayState* play, s16 button, s16 alpha) {
             ammo = play->interfaceCtx.hbaAmmo;
         } else if ((button == 0) && (play->shootingGalleryStatus > 1)) {
             ammo = play->shootingGalleryStatus - 1;
-        } else if ((button == 0) && (play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38)) {
+        } else if ((button == 0) && (play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY) && Flags_GetSwitch(play, 0x38)) {
             ammo = play->bombchuBowlingStatus;
             if (ammo < 0) {
                 ammo = 0;
@@ -3104,7 +3104,7 @@ void Interface_Draw(PlayState* play) {
     };
     static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
     static s16 rupeeDigitsCount[] = { 2, 3, 3 };
-    static s16 spoilingItemEntrances[] = { ENTR_SPOT10_2, ENTR_SPOT07_3, ENTR_SPOT07_3 };
+    static s16 spoilingItemEntrances[] = { ENTR_LOST_WOODS_2, ENTR_ZORAS_DOMAIN_3, ENTR_ZORAS_DOMAIN_3 };
     static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
     static s16 D_80125B5C[] = { 91, 91 };         // unused
     static s16 sTimerNextSecondTimer;
@@ -3143,20 +3143,20 @@ void Interface_Draw(PlayState* play) {
         OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gRupeeCounterIconTex, 16, 16, 26, 206, 16, 16, 1 << 10, 1 << 10);
 
         switch (play->sceneId) {
-            case SCENE_BMORI1:
-            case SCENE_HIDAN:
-            case SCENE_MIZUSIN:
-            case SCENE_JYASINZOU:
-            case SCENE_HAKADAN:
-            case SCENE_HAKADANCH:
-            case SCENE_ICE_DOUKUTO:
-            case SCENE_GANON:
-            case SCENE_MEN:
-            case SCENE_GERUDOWAY:
-            case SCENE_GANONTIKA:
-            case SCENE_GANON_SONOGO:
-            case SCENE_GANONTIKA_SONOGO:
-            case SCENE_TAKARAYA:
+            case SCENE_FOREST_TEMPLE:
+            case SCENE_FIRE_TEMPLE:
+            case SCENE_WATER_TEMPLE:
+            case SCENE_SPIRIT_TEMPLE:
+            case SCENE_SHADOW_TEMPLE:
+            case SCENE_BOTTOM_OF_THE_WELL:
+            case SCENE_ICE_CAVERN:
+            case SCENE_GANONS_TOWER:
+            case SCENE_GERUDO_TRAINING_GROUND:
+            case SCENE_THIEVES_HIDEOUT:
+            case SCENE_INSIDE_GANONS_CASTLE:
+            case SCENE_GANONS_TOWER_COLLAPSE_INTERIOR:
+            case SCENE_INSIDE_GANONS_CASTLE_COLLAPSE:
+            case SCENE_TREASURE_BOX_SHOP:
                 if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] >= 0) {
                     // Small Key Icon
                     gDPPipeSync(OVERLAY_DISP++);
@@ -3258,7 +3258,7 @@ void Interface_Draw(PlayState* play) {
                 Interface_DrawItemIconTexture(play, interfaceCtx->iconItemSegment, 0);
 
                 if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
-                    ((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
+                    ((play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY) && Flags_GetSwitch(play, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                                       0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -3507,7 +3507,8 @@ void Interface_Draw(PlayState* play) {
             (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
             !(player->stateFlags2 & PLAYER_STATE2_24) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play) && (gSaveContext.minigameState != 1) &&
-            (play->shootingGalleryStatus <= 1) && !((play->sceneId == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
+            (play->shootingGalleryStatus <= 1) &&
+            !((play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY) && Flags_GetSwitch(play, 0x38))) {
 
             timerId = TIMER_ID_MAIN;
 
@@ -3792,10 +3793,10 @@ void Interface_Draw(PlayState* play) {
                                         if (gSaveContext.subTimerSeconds <= 0) {
                                             // Out of time
                                             if (!Flags_GetSwitch(play, 0x37) ||
-                                                ((play->sceneId != SCENE_GANON_DEMO) &&
-                                                 (play->sceneId != SCENE_GANON_FINAL) &&
-                                                 (play->sceneId != SCENE_GANON_SONOGO) &&
-                                                 (play->sceneId != SCENE_GANONTIKA_SONOGO))) {
+                                                ((play->sceneId != SCENE_GANON_BOSS) &&
+                                                 (play->sceneId != SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) &&
+                                                 (play->sceneId != SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) &&
+                                                 (play->sceneId != SCENE_INSIDE_GANONS_CASTLE_COLLAPSE))) {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
                                                 gSaveContext.cutsceneIndex = 0;
@@ -3961,9 +3962,9 @@ void Interface_Update(PlayState* play) {
 
     if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
         if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||
-            ((play->sceneId == SCENE_SPOT20) && (gSaveContext.sceneLayer == 4))) {
+            ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.sceneLayer == 4))) {
             if ((msgCtx->msgMode == MSGMODE_NONE) ||
-                ((msgCtx->msgMode != MSGMODE_NONE) && (play->sceneId == SCENE_BOWLING))) {
+                ((msgCtx->msgMode != MSGMODE_NONE) && (play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY))) {
                 if (play->gameOverCtx.state == GAMEOVER_INACTIVE) {
                     func_80083108(play);
                 }
@@ -4023,26 +4024,26 @@ void Interface_Update(PlayState* play) {
             }
 
             switch (play->sceneId) {
-                case SCENE_SPOT00:
-                case SCENE_SPOT01:
-                case SCENE_SPOT02:
-                case SCENE_SPOT03:
-                case SCENE_SPOT04:
-                case SCENE_SPOT05:
-                case SCENE_SPOT06:
-                case SCENE_SPOT07:
-                case SCENE_SPOT08:
-                case SCENE_SPOT09:
-                case SCENE_SPOT10:
-                case SCENE_SPOT11:
-                case SCENE_SPOT12:
-                case SCENE_SPOT13:
-                case SCENE_SPOT15:
-                case SCENE_SPOT16:
-                case SCENE_SPOT17:
-                case SCENE_SPOT18:
-                case SCENE_SPOT20:
-                case SCENE_GANON_TOU:
+                case SCENE_HYRULE_FIELD:
+                case SCENE_KAKARIKO_VILLAGE:
+                case SCENE_GRAVEYARD:
+                case SCENE_ZORAS_RIVER:
+                case SCENE_KOKIRI_FOREST:
+                case SCENE_SACRED_FOREST_MEADOW:
+                case SCENE_LAKE_HYLIA:
+                case SCENE_ZORAS_DOMAIN:
+                case SCENE_ZORAS_FOUNTAIN:
+                case SCENE_GERUDO_VALLEY:
+                case SCENE_LOST_WOODS:
+                case SCENE_DESERT_COLOSSUS:
+                case SCENE_GERUDOS_FORTRESS:
+                case SCENE_HAUNTED_WASTELAND:
+                case SCENE_HYRULE_CASTLE:
+                case SCENE_DEATH_MOUNTAIN_TRAIL:
+                case SCENE_DEATH_MOUNTAIN_CRATER:
+                case SCENE_GORON_CITY:
+                case SCENE_LON_LON_RANCH:
+                case SCENE_OUTSIDE_GANONS_CASTLE:
                     if (interfaceCtx->minimapAlpha < 170) {
                         interfaceCtx->minimapAlpha = risingAlpha;
                     } else {
@@ -4309,7 +4310,7 @@ void Interface_Update(PlayState* play) {
                 play->unk_11DE9 = true;
             }
 
-            if (play->sceneId == SCENE_SPOT13) {
+            if (play->sceneId == SCENE_HAUNTED_WASTELAND) {
                 play->transitionType = TRANS_TYPE_SANDSTORM_PERSIST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_SANDSTORM_PERSIST;
             }

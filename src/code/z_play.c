@@ -306,7 +306,7 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = gSaveContext.sceneLayer;
 
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_HYRULE_FIELD) && !LINK_IS_ADULT &&
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -314,8 +314,8 @@ void Play_Init(GameState* thisx) {
         } else {
             gSaveContext.sceneLayer = 0;
         }
-    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT04) && LINK_IS_ADULT &&
-               !IS_CUTSCENE_LAYER) {
+    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
+               LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
@@ -327,7 +327,7 @@ void Play_Init(GameState* thisx) {
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT09) &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
         gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
@@ -1697,7 +1697,7 @@ void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams) 
     s32 entranceIndex;
     s8 roomIndex;
 
-    if ((this->sceneId != SCENE_YOUSEI_IZUMI_TATE) && (this->sceneId != SCENE_KAKUSIANA)) {
+    if ((this->sceneId != SCENE_FAIRYS_FOUNTAIN) && (this->sceneId != SCENE_GROTTOS)) {
         roomIndex = this->roomCtx.curRoom.num;
         entranceIndex = gSaveContext.entranceIndex;
         Play_SetRespawnData(this, respawnMode, entranceIndex, roomIndex, playerParams, &player->actor.world.pos,
@@ -1718,13 +1718,16 @@ void Play_LoadToLastEntrance(PlayState* this) {
     gSaveContext.respawnFlag = -1;
     this->transitionTrigger = TRANS_TRIGGER_START;
 
-    if ((this->sceneId == SCENE_GANON_SONOGO) || (this->sceneId == SCENE_GANON_FINAL) ||
-        (this->sceneId == SCENE_GANONTIKA_SONOGO) || (this->sceneId == SCENE_GANON_DEMO)) {
-        this->nextEntranceIndex = ENTR_GANON_FINAL_0;
+    if ((this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+        (this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+        (this->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) || (this->sceneId == SCENE_GANON_BOSS)) {
+        this->nextEntranceIndex = ENTR_GANONS_TOWER_COLLAPSE_EXTERIOR_0;
         Item_Give(this, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.entranceIndex == ENTR_SPOT00_11) || (gSaveContext.entranceIndex == ENTR_SPOT00_12) ||
-               (gSaveContext.entranceIndex == ENTR_SPOT00_13) || (gSaveContext.entranceIndex == ENTR_SPOT00_15)) {
-        this->nextEntranceIndex = ENTR_SPOT00_6;
+    } else if ((gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_11) ||
+               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_12) ||
+               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_13) ||
+               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_15)) {
+        this->nextEntranceIndex = ENTR_HYRULE_FIELD_6;
     } else {
         this->nextEntranceIndex = gSaveContext.entranceIndex;
     }
@@ -1742,7 +1745,7 @@ s32 Play_CamIsNotFixed(PlayState* this) {
     // but the room shape type check handles all shop cases regardless
     return (this->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) &&
            (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_HAIRAL_NIWA);
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_CASTLE_COURTYARD_GUARDS_DAY);
 }
 
 s32 FrameAdvance_IsEnabled(PlayState* this) {

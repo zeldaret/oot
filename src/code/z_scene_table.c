@@ -379,7 +379,7 @@ void Scene_DrawConfigHakadan(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneId == SCENE_HAKADAN_BS) {
+    if (play->sceneId == SCENE_SHADOW_TEMPLE_BOSS) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 2) % 128, 0, 32, 32, 1,
                                     (gameplayFrames * 2) % 128, 0, 32, 32));
@@ -534,7 +534,7 @@ void Scene_DrawConfigHairalNiwa(PlayState* play) {
                                 (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
                                 32, 32));
 
-    if (play->sceneId == SCENE_HAIRAL_NIWA) {
+    if (play->sceneId == SCENE_CASTLE_COURTYARD_GUARDS_DAY) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 10) % 256, 32, 64));
     }
 
@@ -559,7 +559,7 @@ void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneId == SCENE_GANON_TOU) {
+    if (play->sceneId == SCENE_OUTSIDE_GANONS_CASTLE) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 64, 64));
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 255 - (gameplayFrames * 1) % 256, 64, 64, 1,
@@ -637,8 +637,9 @@ void Scene_DrawConfigGanonFinal(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6004);
 
     if (Flags_GetSwitch(play, 0x37)) {
-        if ((play->sceneId == SCENE_GANON_DEMO) || (play->sceneId == SCENE_GANON_FINAL) ||
-            (play->sceneId == SCENE_GANON_SONOGO) || (play->sceneId == SCENE_GANONTIKA_SONOGO)) {
+        if ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+            (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+            (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) {
             func_8009BEEC(play);
         }
     }
@@ -1469,7 +1470,7 @@ void Scene_DrawConfigBdan(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7712);
 
     gameplayFrames = play->gameplayFrames;
-    if (play->sceneId == SCENE_BDAN) {
+    if (play->sceneId == SCENE_JABU_JABU) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames % 128,
                                     (gameplayFrames * 2) % 128, 32, 32, 1, 127 - gameplayFrames % 128,
@@ -1594,58 +1595,58 @@ void Scene_DrawConfigBesitu(PlayState* play) {
 
 void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
     Scene_DrawConfigDefault,               // SDC_DEFAULT
-    Scene_DrawConfigSpot00,                // SDC_SPOT00
-    Scene_DrawConfigSpot01,                // SDC_SPOT01
-    Scene_DrawConfigSpot03,                // SDC_SPOT03
-    Scene_DrawConfigSpot04,                // SDC_SPOT04
-    Scene_DrawConfigSpot06,                // SDC_SPOT06
-    Scene_DrawConfigSpot07,                // SDC_SPOT07
-    Scene_DrawConfigSpot08,                // SDC_SPOT08
-    Scene_DrawConfigSpot09,                // SDC_SPOT09
-    Scene_DrawConfigSpot10,                // SDC_SPOT10
-    Scene_DrawConfigSpot11,                // SDC_SPOT11
-    Scene_DrawConfigSpot12,                // SDC_SPOT12
-    Scene_DrawConfigSpot13,                // SDC_SPOT13
-    Scene_DrawConfigSpot15,                // SDC_SPOT15
-    Scene_DrawConfigSpot16,                // SDC_SPOT16
-    Scene_DrawConfigSpot17,                // SDC_SPOT17
-    Scene_DrawConfigSpot18,                // SDC_SPOT18
-    Scene_DrawConfigSpot20,                // SDC_SPOT20
-    Scene_DrawConfigHidan,                 // SDC_HIDAN
-    Scene_DrawConfigYdan,                  // SDC_YDAN
-    Scene_DrawConfigDdan,                  // SDC_DDAN
-    Scene_DrawConfigBdan,                  // SDC_BDAN
-    Scene_DrawConfigBmori1,                // SDC_BMORI1
-    Scene_DrawConfigMizusin,               // SDC_MIZUSIN
-    Scene_DrawConfigHakadan,               // SDC_HAKADAN
-    Scene_DrawConfigJyasinzou,             // SDC_JYASINZOU
-    Scene_DrawConfigGanontika,             // SDC_GANONTIKA
-    Scene_DrawConfigMen,                   // SDC_MEN
-    Scene_DrawConfigYdanBoss,              // SDC_YDAN_BOSS
-    Scene_DrawConfigMizusinBs,             // SDC_MIZUSIN_BS
-    Scene_DrawConfigTokinoma,              // SDC_TOKINOMA
-    Scene_DrawConfigKakusiana,             // SDC_KAKUSIANA
-    Scene_DrawConfigKenjyanoma,            // SDC_KENJYANOMA
-    Scene_DrawConfigGreatFairyFountain,    // SDC_GREAT_FAIRY_FOUNTAIN
-    Scene_DrawConfigSyatekijyou,           // SDC_SYATEKIJYOU
-    Scene_DrawConfigHairalNiwa,            // SDC_HAIRAL_NIWA
-    Scene_DrawConfigGanonCastleExterior,   // SDC_GANON_CASTLE_EXTERIOR
-    Scene_DrawConfigIceDoukuto,            // SDC_ICE_DOUKUTO
-    Scene_DrawConfigGanonFinal,            // SDC_GANON_FINAL
-    Scene_DrawConfigFairyFountain,         // SDC_FAIRY_FOUNTAIN
-    Scene_DrawConfigGerudoway,             // SDC_GERUDOWAY
-    Scene_DrawConfigBowling,               // SDC_BOWLING
-    Scene_DrawConfigHakaanaOuke,           // SDC_HAKAANA_OUKE
-    Scene_DrawConfigHyliaLabo,             // SDC_HYLIA_LABO
-    Scene_DrawConfigSouko,                 // SDC_SOUKO
-    Scene_DrawConfigMiharigoya,            // SDC_MIHARIGOYA
-    Scene_DrawConfigMahouya,               // SDC_MAHOUYA
+    Scene_DrawConfigSpot00,                // SDC_HYRULE_FIELD
+    Scene_DrawConfigSpot01,                // SDC_KAKARIKO_VILLAGE
+    Scene_DrawConfigSpot03,                // SDC_ZORAS_RIVER
+    Scene_DrawConfigSpot04,                // SDC_KOKIRI_FOREST
+    Scene_DrawConfigSpot06,                // SDC_LAKE_HYLIA
+    Scene_DrawConfigSpot07,                // SDC_ZORAS_DOMAIN
+    Scene_DrawConfigSpot08,                // SDC_ZORAS_FOUNTAIN
+    Scene_DrawConfigSpot09,                // SDC_GERUDO_VALLEY
+    Scene_DrawConfigSpot10,                // SDC_LOST_WOODS
+    Scene_DrawConfigSpot11,                // SDC_DESERT_COLOSSUS
+    Scene_DrawConfigSpot12,                // SDC_GERUDOS_FORTRESS
+    Scene_DrawConfigSpot13,                // SDC_HAUNTED_WASTELAND
+    Scene_DrawConfigSpot15,                // SDC_HYRULE_CASTLE
+    Scene_DrawConfigSpot16,                // SDC_DEATH_MOUNTAIN_TRAIL
+    Scene_DrawConfigSpot17,                // SDC_DEATH_MOUNTAIN_CRATER
+    Scene_DrawConfigSpot18,                // SDC_GORON_CITY
+    Scene_DrawConfigSpot20,                // SDC_LON_LON_RANCH
+    Scene_DrawConfigHidan,                 // SDC_FIRE_TEMPLE
+    Scene_DrawConfigYdan,                  // SDC_DEKU_TREE
+    Scene_DrawConfigDdan,                  // SDC_DODONGOS_CAVERN
+    Scene_DrawConfigBdan,                  // SDC_JABU_JABU
+    Scene_DrawConfigBmori1,                // SDC_FOREST_TEMPLE
+    Scene_DrawConfigMizusin,               // SDC_WATER_TEMPLE
+    Scene_DrawConfigHakadan,               // SDC_SHADOW_TEMPLE
+    Scene_DrawConfigJyasinzou,             // SDC_SPIRIT_TEMPLE
+    Scene_DrawConfigGanontika,             // SDC_INSIDE_GANONS_CASTLE
+    Scene_DrawConfigMen,                   // SDC_GERUDO_TRAINING_GROUND
+    Scene_DrawConfigYdanBoss,              // SDC_DEKU_TREE_BOSS
+    Scene_DrawConfigMizusinBs,             // SDC_WATER_TEMPLE_BOSS
+    Scene_DrawConfigTokinoma,              // SDC_TEMPLE_OF_TIME
+    Scene_DrawConfigKakusiana,             // SDC_GROTTOS
+    Scene_DrawConfigKenjyanoma,            // SDC_CHAMBER_OF_THE_SAGES
+    Scene_DrawConfigGreatFairyFountain,    // SDC_GREAT_FAIRYS_FOUNTAIN
+    Scene_DrawConfigSyatekijyou,           // SDC_SHOOTING_GALLERY
+    Scene_DrawConfigHairalNiwa,            // SDC_CASTLE_COURTYARD_GUARDS
+    Scene_DrawConfigGanonCastleExterior,   // SDC_OUTSIDE_GANONS_CASTLE
+    Scene_DrawConfigIceDoukuto,            // SDC_ICE_CAVERN
+    Scene_DrawConfigGanonFinal,            // SDC_GANONS_TOWER_COLLAPSE_EXTERIOR
+    Scene_DrawConfigFairyFountain,         // SDC_FAIRYS_FOUNTAIN
+    Scene_DrawConfigGerudoway,             // SDC_THIEVES_HIDEOUT
+    Scene_DrawConfigBowling,               // SDC_BOMBCHU_BOWLING_ALLEY
+    Scene_DrawConfigHakaanaOuke,           // SDC_ROYAL_FAMILYS_TOMB
+    Scene_DrawConfigHyliaLabo,             // SDC_LAKESIDE_LABORATORY
+    Scene_DrawConfigSouko,                 // SDC_LON_LON_BUILDINGS
+    Scene_DrawConfigMiharigoya,            // SDC_MARKET_GUARD_HOUSE
+    Scene_DrawConfigMahouya,               // SDC_POTION_SHOP_GRANNY
     Scene_DrawConfigCalmWater,             // SDC_CALM_WATER
     Scene_DrawConfigGraveExitLightShining, // SDC_GRAVE_EXIT_LIGHT_SHINING
     Scene_DrawConfigBesitu,                // SDC_BESITU
-    Scene_DrawConfigTuribori,              // SDC_TURIBORI
-    Scene_DrawConfigGanonSonogo,           // SDC_GANON_SONOGO
-    Scene_DrawConfigGanontikaSonogo,       // SDC_GANONTIKA_SONOGO
+    Scene_DrawConfigTuribori,              // SDC_FISHING_POND
+    Scene_DrawConfigGanonSonogo,           // SDC_GANONS_TOWER_COLLAPSE_INTERIOR
+    Scene_DrawConfigGanontikaSonogo,       // SDC_INSIDE_GANONS_CASTLE_COLLAPSE
 };
 
 void Scene_Draw(PlayState* play) {

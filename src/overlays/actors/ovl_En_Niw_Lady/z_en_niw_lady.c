@@ -77,7 +77,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
         return;
     }
     this->unk_278 = 0;
-    if (play->sceneId == SCENE_LABO) {
+    if (play->sceneId == SCENE_IMPAS_HOUSE) {
         this->unk_278 = 1;
     }
     if ((this->unk_278 != 0) && IS_DAY) {
