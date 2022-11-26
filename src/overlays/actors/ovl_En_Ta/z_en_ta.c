@@ -431,7 +431,7 @@ void EnTa_RunWithAccelerationAndSfx(EnTa* this, PlayState* play) {
     s32 framesMod12 = (s32)play->state.frames % 12;
 
     if (framesMod12 == 0 || framesMod12 == 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
     }
     if (this->actor.speedXZ < 6.0f) {
         this->actor.speedXZ += 0.4f;

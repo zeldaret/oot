@@ -241,7 +241,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     if ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
         while ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
             if (play->sceneId == SCENE_HYRULE_FIELD) {
-                if ((player->unk_89E == SURFACE_SFX_TYPE_0) || (player->actor.floorBgId != BGCHECK_SCENE) ||
+                if ((player->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (player->actor.floorBgId != BGCHECK_SCENE) ||
                     !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (player->stateFlags1 & PLAYER_STATE1_27)) {
 
                     this->fieldSpawnTimer = 60;

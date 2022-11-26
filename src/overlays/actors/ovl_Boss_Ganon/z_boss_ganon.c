@@ -2465,7 +2465,7 @@ void BossGanon_HitByLightBall(BossGanon* this, PlayState* play) {
                 BossGanonEff_SpawnSparkle(play, &this->unk_1FC, &sp50, &sZeroVec, Rand_ZeroFloat(200.0f) + 500.0f,
                                           0x14);
             }
-            Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_WATER2);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_TALL_GRASS);
         }
 
         if (Animation_OnFrame(&this->skelAnime, this->fwork[GDF_FWORK_1])) {
@@ -2647,7 +2647,7 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
                                               0x14);
                 }
 
-                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_WATER2);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_TALL_GRASS);
                 this->timers[3] = 50;
             }
 

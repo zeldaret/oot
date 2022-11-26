@@ -833,7 +833,7 @@ void func_80AEC650(EnRu1* this) {
 
     if (this->unk_280 == 0) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
-            func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
+            func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
         }
     }
 }
@@ -1899,7 +1899,7 @@ void func_80AEF40C(EnRu1* this) {
     if (Animation_OnFrame(skelAnime, 2.0f) || Animation_OnFrame(skelAnime, 7.0f) ||
         Animation_OnFrame(skelAnime, 12.0f) || Animation_OnFrame(skelAnime, 18.0f) ||
         Animation_OnFrame(skelAnime, 25.0f) || Animation_OnFrame(skelAnime, 33.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
     }
 }
 

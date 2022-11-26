@@ -605,9 +605,10 @@ void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play) {
             ObjOshihiki_SetupOnActor(this, play);
         }
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSfx2(&this->dyna.actor, SurfaceType_GetSfxId(&play->colCtx, this->floorPolys[this->highestFloor],
-                                                                    this->floorBgIds[this->highestFloor]) +
-                                                   SFX_FLAG);
+        Audio_PlayActorSfx2(&this->dyna.actor,
+                            NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(&play->colCtx,
+                                                                            this->floorPolys[this->highestFloor],
+                                                                            this->floorBgIds[this->highestFloor]));
     }
 }
 

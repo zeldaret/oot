@@ -1701,20 +1701,20 @@ void Audio_PlayActorSfx2(Actor* actor, u16 sfxId) {
 }
 
 void func_8002F850(PlayState* play, Actor* actor) {
-    s32 sfxId;
+    s32 surfaceSfxOffset;
 
     if (actor->bgCheckFlags & BGCHECKFLAG_WATER) {
         if (actor->yDistToWater < 20.0f) {
-            sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
+            surfaceSfxOffset = SURFACE_SFX_OFFSET_WATER_SHALLOW;
         } else {
-            sfxId = NA_SE_PL_WALK_WATER1 - SFX_FLAG;
+            surfaceSfxOffset = SURFACE_SFX_OFFSET_WATER_DEEP;
         }
     } else {
-        sfxId = SurfaceType_GetSfxId(&play->colCtx, actor->floorPoly, actor->floorBgId);
+        surfaceSfxOffset = SurfaceType_GetSfxOffset(&play->colCtx, actor->floorPoly, actor->floorBgId);
     }
 
     func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->projectedPos, sfxId + SFX_FLAG);
+    func_80078914(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -1740,15 +1740,18 @@ void func_8002F974(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
 }
 
-void func_8002F994(Actor* actor, s32 arg1) {
+void func_8002F994(Actor* actor, s32 timer) {
     actor->flags |= ACTOR_FLAG_28;
     actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
-    if (arg1 < 40) {
-        actor->sfx = NA_SE_PL_WALK_DIRT - SFX_FLAG;
-    } else if (arg1 < 100) {
-        actor->sfx = NA_SE_PL_WALK_CONCRETE - SFX_FLAG;
+
+    // The sfx field is not used for an actual sound effect here.
+    // Instead, it controls the tick speed of the timer sound effect.
+    if (timer < 40) {
+        actor->sfx = 3;
+    } else if (timer < 100) {
+        actor->sfx = 2;
     } else {
-        actor->sfx = NA_SE_PL_WALK_SAND - SFX_FLAG;
+        actor->sfx = 1;
     }
 }
 

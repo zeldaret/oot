@@ -1732,7 +1732,7 @@ void func_808326F0(Player* this) {
 }
 
 u16 func_8083275C(Player* this, u16 sfxId) {
-    return sfxId + this->unk_89E;
+    return sfxId + this->floorSfxOffset;
 }
 
 void func_80832770(Player* this, u16 sfxId) {
@@ -1740,7 +1740,7 @@ void func_80832770(Player* this, u16 sfxId) {
 }
 
 u16 func_808327A4(Player* this, u16 sfxId) {
-    return sfxId + this->unk_89E + this->ageProperties->unk_94;
+    return sfxId + this->floorSfxOffset + this->ageProperties->unk_94;
 }
 
 void func_808327C4(Player* this, u16 sfxId) {
@@ -1751,7 +1751,7 @@ void func_808327F8(Player* this, f32 arg1) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_WALK_HEAVYBOOTS;
+        sfxId = NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_WALK_GROUND);
     }
@@ -1763,7 +1763,7 @@ void func_80832854(Player* this) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_JUMP_HEAVYBOOTS;
+        sfxId = NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_JUMP);
     }
@@ -1775,7 +1775,7 @@ void func_808328A0(Player* this) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_LAND_HEAVYBOOTS;
+        sfxId = NA_SE_PL_LAND + SURFACE_SFX_OFFSET_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_LAND);
     }
@@ -1815,7 +1815,8 @@ void func_80832924(Player* this, struct_80832924* entry) {
             } else if (flags == 0x4000) {
                 func_808327F8(this, 0.0f);
             } else if (flags == 0x4800) {
-                func_800F4010(&this->actor.projectedPos, this->ageProperties->unk_94 + NA_SE_PL_WALK_LADDER, 0.0f);
+                func_800F4010(&this->actor.projectedPos,
+                              NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD + this->ageProperties->unk_94, 0.0f);
             }
         }
         cont = (entry->field >= 0);
@@ -5058,7 +5059,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                 func_80835C58(play, this, func_8084411C, 1);
                 func_80832440(play, this);
 
-                this->unk_89E = this->unk_A82;
+                this->floorSfxOffset = this->prevFloorSfxOffset;
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
                     (D_80853604 != FLOOR_PROPERTY_6) && (D_80853604 != FLOOR_PROPERTY_9) && (D_80853600 > 20.0f) &&
@@ -7924,7 +7925,7 @@ static Vec3f D_808545C0 = { 0.0f, 0.0f, 0.0f };
 s32 func_8084269C(PlayState* play, Player* this) {
     Vec3f sp2C;
 
-    if ((this->unk_89E == SURFACE_SFX_TYPE_0) || (this->unk_89E == SURFACE_SFX_TYPE_1)) {
+    if ((this->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (this->floorSfxOffset == SURFACE_SFX_OFFSET_SAND)) {
         func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
                       this->actor.floorHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
         func_800286CC(play, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
@@ -8064,13 +8065,13 @@ void func_80842D20(PlayState* play, Player* this) {
 
 s32 func_80842DF4(PlayState* play, Player* this) {
     f32 phi_f2;
-    CollisionPoly* sp78;
-    s32 sp74;
+    CollisionPoly* groundPoly;
+    s32 bgId;
     Vec3f sp68;
     Vec3f sp5C;
     Vec3f sp50;
     s32 temp1;
-    s32 sp48;
+    s32 surfaceMaterial;
 
     if (this->meleeWeaponState > 0) {
         if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
@@ -8088,11 +8089,11 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                     sp68.y = this->meleeWeaponInfo[0].tip.y + (sp50.y * phi_f2);
                     sp68.z = this->meleeWeaponInfo[0].tip.z + (sp50.z * phi_f2);
 
-                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &sp78, true,
-                                                false, false, true, &sp74) &&
-                        !SurfaceType_IsIgnoredByEntities(&play->colCtx, sp78, sp74) &&
-                        (SurfaceType_GetFloorType(&play->colCtx, sp78, sp74) != FLOOR_TYPE_6) &&
-                        (func_8002F9EC(play, &this->actor, sp78, sp74, &sp5C) == 0)) {
+                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &groundPoly,
+                                                true, false, false, true, &bgId) &&
+                        !SurfaceType_IsIgnoredByEntities(&play->colCtx, groundPoly, bgId) &&
+                        (SurfaceType_GetFloorType(&play->colCtx, groundPoly, bgId) != FLOOR_TYPE_6) &&
+                        (func_8002F9EC(play, &this->actor, groundPoly, bgId, &sp5C) == 0)) {
 
                         if (this->heldItemAction == PLAYER_IA_HAMMER) {
                             func_80832630(play);
@@ -8102,13 +8103,13 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                         }
 
                         if (this->linearVelocity >= 0.0f) {
-                            sp48 = SurfaceType_GetSfxType(&play->colCtx, sp78, sp74);
+                            surfaceMaterial = SurfaceType_GetMaterial(&play->colCtx, groundPoly, bgId);
 
-                            if (sp48 == SURFACE_SFX_TYPE_10) {
+                            if (surfaceMaterial == SURFACE_MATERIAL_WOOD) {
                                 CollisionCheck_SpawnShieldParticlesWood(play, &sp5C, &this->actor.projectedPos);
                             } else {
                                 CollisionCheck_SpawnShieldParticles(play, &sp5C);
-                                if (sp48 == SURFACE_SFX_TYPE_11) {
+                                if (surfaceMaterial == SURFACE_MATERIAL_DIRT_SOFT) {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_SOFT);
                                 } else {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_HARD);
@@ -10008,20 +10009,19 @@ void func_80847BA0(PlayState* play, Player* this) {
 
     if (floorPoly != NULL) {
         this->unk_A7A = SurfaceType_GetFloorProperty(&play->colCtx, floorPoly, this->actor.floorBgId);
-        this->unk_A82 = this->unk_89E;
+        this->prevFloorSfxOffset = this->floorSfxOffset;
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             if (this->actor.yDistToWater < 20.0f) {
-                this->unk_89E = SURFACE_SFX_TYPE_4;
+                this->floorSfxOffset = SURFACE_SFX_OFFSET_WATER_SHALLOW;
             } else {
-                this->unk_89E = SURFACE_SFX_TYPE_5;
+                this->floorSfxOffset = SURFACE_SFX_OFFSET_WATER_DEEP;
             }
         } else {
             if (this->stateFlags2 & PLAYER_STATE2_9) {
-                this->unk_89E = SURFACE_SFX_TYPE_1;
+                this->floorSfxOffset = SURFACE_SFX_OFFSET_SAND;
             } else {
-                // unk_89E is a sfxType, but SurfaceType_GetSfxId returns a sfxId?
-                this->unk_89E = SurfaceType_GetSfxId(&play->colCtx, floorPoly, this->actor.floorBgId);
+                this->floorSfxOffset = SurfaceType_GetSfxOffset(&play->colCtx, floorPoly, this->actor.floorBgId);
             }
         }
 
@@ -11565,7 +11565,8 @@ void func_8084BDFC(Player* this, PlayState* play) {
 }
 
 void func_8084BEE4(Player* this) {
-    func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_WALK_WALL : NA_SE_PL_WALK_LADDER);
+    func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_VINE
+                                                     : NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD);
 }
 
 void func_8084BF1C(Player* this, PlayState* play) {
@@ -11715,16 +11716,16 @@ static f32 D_80854898[] = { 10.0f, 20.0f };
 static f32 D_808548A0[] = { 40.0f, 50.0f };
 
 static struct_80832924 D_808548A8[] = {
-    { NA_SE_PL_WALK_LADDER, 0x80A },
-    { NA_SE_PL_WALK_LADDER, 0x814 },
-    { NA_SE_PL_WALK_LADDER, -0x81E },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, 0x80A },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, 0x814 },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, -0x81E },
 };
 
 void func_8084C5F8(Player* this, PlayState* play) {
     s32 temp;
     f32* sp38;
     CollisionPoly* groundPoly;
-    s32 sp30;
+    s32 bgId;
     Vec3f sp24;
 
     this->stateFlags2 |= PLAYER_STATE2_6;
@@ -11753,8 +11754,11 @@ void func_8084C5F8(Player* this, PlayState* play) {
         sp24.x = this->actor.world.pos.x;
         sp24.y = this->actor.world.pos.y + 20.0f;
         sp24.z = this->actor.world.pos.z;
-        if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &sp30, &sp24) != 0.0f) {
-            this->unk_89E = SurfaceType_GetSfxType(&play->colCtx, groundPoly, sp30);
+        if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &sp24) != 0.0f) {
+            //! @bug should use `SurfaceType_GetSfxOffset` instead of `SurfaceType_GetMaterial`.
+            // Most material and sfxOffsets share identical enum values,
+            // so this will mostly result in the correct sfx played, but not in all cases, such as carpet and ice.
+            this->floorSfxOffset = SurfaceType_GetMaterial(&play->colCtx, groundPoly, bgId);
             func_808328A0(this);
         }
     }
@@ -14307,7 +14311,7 @@ void func_80851FB0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 }
 
 static struct_80832924 D_808551C8[] = {
-    { NA_SE_PL_LAND_LADDER, 0x843 },
+    { NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WOOD, 0x843 },
     { 0, 0x4854 },
     { 0, 0x485A },
     { 0, -0x4860 },

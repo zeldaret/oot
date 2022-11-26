@@ -4501,7 +4501,7 @@ s32 Camera_Subj4(Camera* camera) {
     if ((eyeLerp > rwData->eyeLerp) && !rwData->isSfxOff) {
         player = camera->player;
         rwData->isSfxOff = true;
-        func_800F4010(&player->actor.projectedPos, NA_SE_PL_CRAWL + player->unk_89E, 4.0f);
+        func_800F4010(&player->actor.projectedPos, NA_SE_PL_CRAWL + player->floorSfxOffset, 4.0f);
     } else if (eyeLerp < rwData->eyeLerp) {
         rwData->isSfxOff = false;
     }

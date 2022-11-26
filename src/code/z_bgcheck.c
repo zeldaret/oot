@@ -68,21 +68,21 @@ s32 D_80119D90[WALL_TYPE_MAX] = {
     WALL_FLAG_6,               // WALL_TYPE_7
 };
 
-u16 D_80119E10[SURFACE_SFX_TYPE_MAX] = {
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACE_SFX_TYPE_0
-    NA_SE_PL_WALK_SAND - SFX_FLAG,     // SURFACE_SFX_TYPE_1
-    NA_SE_PL_WALK_CONCRETE - SFX_FLAG, // SURFACE_SFX_TYPE_2
-    NA_SE_PL_WALK_DIRT - SFX_FLAG,     // SURFACE_SFX_TYPE_3
-    NA_SE_PL_WALK_WATER0 - SFX_FLAG,   // SURFACE_SFX_TYPE_4
-    NA_SE_PL_WALK_WATER1 - SFX_FLAG,   // SURFACE_SFX_TYPE_5
-    NA_SE_PL_WALK_WATER2 - SFX_FLAG,   // SURFACE_SFX_TYPE_6
-    NA_SE_PL_WALK_MAGMA - SFX_FLAG,    // SURFACE_SFX_TYPE_7
-    NA_SE_PL_WALK_GRASS - SFX_FLAG,    // SURFACE_SFX_TYPE_8
-    NA_SE_PL_WALK_GLASS - SFX_FLAG,    // SURFACE_SFX_TYPE_9
-    NA_SE_PL_WALK_LADDER - SFX_FLAG,   // SURFACE_SFX_TYPE_10
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACE_SFX_TYPE_11
-    NA_SE_PL_WALK_ICE - SFX_FLAG,      // SURFACE_SFX_TYPE_12
-    NA_SE_PL_WALK_IRON - SFX_FLAG,     // SURFACE_SFX_TYPE_13
+u16 sSurfaceMaterialToSfxOffset[SURFACE_MATERIAL_MAX] = {
+    SURFACE_SFX_OFFSET_DIRT,          // SURFACE_MATERIAL_DIRT
+    SURFACE_SFX_OFFSET_SAND,          // SURFACE_MATERIAL_SAND
+    SURFACE_SFX_OFFSET_STONE,         // SURFACE_MATERIAL_STONE
+    SURFACE_SFX_OFFSET_JABU,          // SURFACE_MATERIAL_JABU
+    SURFACE_SFX_OFFSET_WATER_SHALLOW, // SURFACE_MATERIAL_WATER_SHALLOW
+    SURFACE_SFX_OFFSET_WATER_DEEP,    // SURFACE_MATERIAL_WATER_DEEP
+    SURFACE_SFX_OFFSET_TALL_GRASS,    // SURFACE_MATERIAL_TALL_GRASS
+    SURFACE_SFX_OFFSET_LAVA,          // SURFACE_MATERIAL_LAVA
+    SURFACE_SFX_OFFSET_GRASS,         // SURFACE_MATERIAL_GRASS
+    SURFACE_SFX_OFFSET_BRIDGE,        // SURFACE_MATERIAL_BRIDGE
+    SURFACE_SFX_OFFSET_WOOD,          // SURFACE_MATERIAL_WOOD
+    SURFACE_SFX_OFFSET_DIRT,          // SURFACE_MATERIAL_DIRT_SOFT
+    SURFACE_SFX_OFFSET_ICE,           // SURFACE_MATERIAL_ICE
+    SURFACE_SFX_OFFSET_CARPET,        // SURFACE_MATERIAL_CARPET
 };
 
 /**
@@ -4111,17 +4111,17 @@ u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s3
     return SurfaceType_GetData(colCtx, poly, bgId, 0) >> 31 & 1;
 }
 
-u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 SurfaceType_GetMaterial(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SurfaceType_GetData(colCtx, poly, bgId, 1) & 0xF;
 }
 
-u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    s32 sfxType = SurfaceType_GetSfxType(colCtx, poly, bgId);
+u16 SurfaceType_GetSfxOffset(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    s32 surfaceMaterial = SurfaceType_GetMaterial(colCtx, poly, bgId);
 
-    if (sfxType < 0 || sfxType >= ARRAY_COUNT(D_80119E10)) {
-        return NA_SE_PL_WALK_GROUND - SFX_FLAG;
+    if ((surfaceMaterial < 0) || (surfaceMaterial >= ARRAY_COUNT(sSurfaceMaterialToSfxOffset))) {
+        return SURFACE_SFX_OFFSET_DIRT;
     }
-    return D_80119E10[sfxType];
+    return sSurfaceMaterialToSfxOffset[surfaceMaterial];
 }
 
 u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
