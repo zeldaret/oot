@@ -1744,8 +1744,8 @@ void func_8002F994(Actor* actor, s32 timer) {
     actor->flags |= ACTOR_FLAG_28;
     actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
 
-    // The sfx here are not actually sound effects, but instead this is data that gets sent into
-    // the io ports of sequence 0, and act as indices to a table to delay ticks of the timer sfx.
+    // The sfx field is not used for an actual sound effect here.
+    // Instead, it controls the tick speed of the timer sound effect.
     if (timer < 40) {
         actor->sfx = 3;
     } else if (timer < 100) {
