@@ -61,9 +61,9 @@ typedef struct {
 extern SkyboxFile gNormalSkyFiles[];
 
 void Skybox_Init(struct GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
-Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
-void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, struct GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y,
+Mtx* Skybox_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
+void Skybox_Draw(SkyboxContext* skyboxCtx, struct GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y,
                      f32 z);
-void SkyboxDraw_Update(SkyboxContext* skyboxCtx);
+void Skybox_Update(SkyboxContext* skyboxCtx);
 
 #endif
