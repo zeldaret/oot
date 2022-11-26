@@ -124,7 +124,7 @@ u16 EnMa1_GetText(PlayState* play, Actor* thisx) {
 }
 
 s16 func_80AA0778(PlayState* play, Actor* thisx) {
-    s16 ret = 1;
+    s16 ret = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
@@ -132,40 +132,40 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
                 case 0x2041:
                     SET_INFTABLE(INFTABLE_84);
                     SET_EVENTCHKINF(EVENTCHKINF_10);
-                    ret = 0;
+                    ret = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2043:
-                    ret = 1;
+                    ret = NPC_TALK_STATE_TALKING;
                     break;
                 case 0x2047:
                     SET_EVENTCHKINF(EVENTCHKINF_15);
-                    ret = 0;
+                    ret = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2048:
                     SET_INFTABLE(INFTABLE_85);
-                    ret = 0;
+                    ret = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2049:
                     SET_EVENTCHKINF(EVENTCHKINF_16);
-                    ret = 0;
+                    ret = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2061:
-                    ret = 2;
+                    ret = NPC_TALK_STATE_ACTION;
                     break;
                 default:
-                    ret = 0;
+                    ret = NPC_TALK_STATE_IDLE;
                     break;
             }
             break;
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                ret = 2;
+                ret = NPC_TALK_STATE_ACTION;
             }
             break;
         case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(play)) {
-                ret = 3;
+                ret = NPC_TALK_STATE_ITEM_GIVEN;
             }
             break;
         case TEXT_STATE_NONE:
@@ -174,7 +174,7 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            ret = 1;
+            ret = NPC_TALK_STATE_TALKING;
             break;
     }
     return ret;
@@ -230,23 +230,23 @@ void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
 
 void func_80AA0AF4(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 phi_a3;
+    s16 trackingMode;
 
-    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
-        phi_a3 = 1;
+    if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
+        trackingMode = NPC_TRACKING_NONE;
     } else {
-        phi_a3 = 0;
+        trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
     }
 
-    this->unk_1E8.unk_18 = player->actor.world.pos;
-    this->unk_1E8.unk_18.y -= -10.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.trackPos.y -= -10.0f;
 
-    func_80034A14(&this->actor, &this->unk_1E8, 0, phi_a3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
-        if (this->unk_1E8.unk_00 == 0) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (this->isNotSinging) {
                 // Turn on singing
                 this->isNotSinging = false;
@@ -280,7 +280,7 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
-    this->unk_1E8.unk_00 = 0;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 
     if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
@@ -299,7 +299,7 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AA0D88(EnMa1* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
             EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
@@ -312,7 +312,7 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
     if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
-        if (this->unk_1E8.unk_00 == 2) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
             this->actionFunc = func_80AA0EA0;
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -330,8 +330,8 @@ void func_80AA0EA0(EnMa1* this, PlayState* play) {
 }
 
 void func_80AA0EFC(EnMa1* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 == 3) {
-        this->unk_1E8.unk_00 = 0;
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80AA0D88;
         SET_EVENTCHKINF(EVENTCHKINF_12);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -341,7 +341,7 @@ void func_80AA0EFC(EnMa1* this, PlayState* play) {
 void func_80AA0F44(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
             EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
@@ -357,7 +357,7 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
             Message_StartTextbox(play, this->actor.textId, NULL);
-            this->unk_1E8.unk_00 = 1;
+            this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
@@ -368,7 +368,7 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
 
 void func_80AA106C(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
-    if (this->unk_1E8.unk_00 == 2) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_MALON);
         func_8010BD58(play, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~ACTOR_FLAG_16;
@@ -408,8 +408,8 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
     EnMa1_UpdateEyes(this);
     this->actionFunc(this, play);
     if (this->actionFunc != EnMa1_DoNothing) {
-        func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f, EnMa1_GetText,
-                      func_80AA0778);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
+                          EnMa1_GetText, func_80AA0778);
     }
     func_80AA0B74(this);
     func_80AA0AF4(this, play);
@@ -424,13 +424,13 @@ s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E8.unk_08;
+        vec = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        vec = this->unk_1E8.unk_0E;
+        vec = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
     }
