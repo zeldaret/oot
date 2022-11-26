@@ -939,7 +939,7 @@ void Play_Update(PlayState* this) {
             }
 
             PLAY_LOG(3708);
-            SkyboxDraw_Update(&this->skyboxCtx);
+            Skybox_Update(&this->skyboxCtx);
 
             PLAY_LOG(3716);
 
@@ -1135,11 +1135,11 @@ void Play_Draw(PlayState* this) {
                     if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
                         if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
                             Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
-                            SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
-                                            this->view.eye.x, this->view.eye.y, this->view.eye.z);
+                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
+                                        this->view.eye.x, this->view.eye.y, this->view.eye.z);
                         } else if (this->skyboxCtx.unk_140 == 0) {
-                            SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x,
-                                            this->view.eye.y, this->view.eye.z);
+                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
+                                        this->view.eye.z);
                         }
                     }
                 }
@@ -1183,8 +1183,8 @@ void Play_Draw(PlayState* this) {
                         Vec3f quakeOffset;
 
                         Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
-                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
-                                        this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
+                        Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
+                                    this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
                     }
                 }
 
@@ -1268,7 +1268,7 @@ void Play_Draw(PlayState* this) {
         View_UpdateViewingMatrix(&this->view);
         this->view.unk_124 = 0;
         if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
-            SkyboxDraw_UpdateMatrix(&this->skyboxCtx, this->view.eye.x, this->view.eye.y, this->view.eye.z);
+            Skybox_UpdateMatrix(&this->skyboxCtx, this->view.eye.x, this->view.eye.y, this->view.eye.z);
         }
     }
 
