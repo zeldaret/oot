@@ -314,7 +314,7 @@ s32 View_ApplyPerspective(View* view) {
         if (R_PERSPECTIVE_INIT != HREG_MODE_PERSPECTIVE) {
             R_PERSPECTIVE_INIT = HREG_MODE_PERSPECTIVE;
             R_PERSPECTIVE_FOVY = 60;
-            R_PERSPECTIVE_ASPECT = 13333;
+            R_PERSPECTIVE_ASPECT = (10000 * 4) / 3;
             R_PERSPECTIVE_NEAR = 10;
             R_PERSPECTIVE_FAR = 12800;
             R_PERSPECTIVE_SCALE = 100;

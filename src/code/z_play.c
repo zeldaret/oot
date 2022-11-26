@@ -1287,20 +1287,20 @@ void Play_Main(GameState* thisx) {
     PLAY_LOG(4556);
 
     if ((R_HREG_MODE == HREG_MODE_PLAY) && (R_PLAY_INIT != HREG_MODE_PLAY)) {
-        R_PLAY_RUN_UPDATE = 1;
-        R_PLAY_RUN_DRAW = 1;
-        R_PLAY_DRAW_SKYBOX = 1;
+        R_PLAY_RUN_UPDATE = true;
+        R_PLAY_RUN_DRAW = true;
+        R_PLAY_DRAW_SKYBOX = true;
         R_PLAY_DRAW_ROOM_FLAGS = (ROOM_DRAW_OPA | ROOM_DRAW_XLU);
-        R_PLAY_DRAW_ACTORS = 1;
-        R_PLAY_DRAW_LENS_FLARES = 1;
-        R_PLAY_DRAW_SCREEN_FILLS = 1;
-        R_PLAY_DRAW_SANDSTORM = 1;
-        R_PLAY_DRAW_OVERLAY_ELEMENTS = 1;
+        R_PLAY_DRAW_ACTORS = true;
+        R_PLAY_DRAW_LENS_FLARES = true;
+        R_PLAY_DRAW_SCREEN_FILLS = true;
+        R_PLAY_DRAW_SANDSTORM = true;
+        R_PLAY_DRAW_OVERLAY_ELEMENTS = true;
         R_PLAY_DRAW_ENV_FLAGS = (PLAY_ENV_DRAW_SKYBOX_FILTERS | PLAY_ENV_DRAW_SUN_AND_MOON | PLAY_ENV_DRAW_LIGHTNING |
                                  PLAY_ENV_DRAW_LIGHTS);
         HREG(91) = 1; // reg is not used in this mode
-        R_PLAY_DRAW_COVER_ELEMENTS = 1;
-        R_PLAY_DRAW_DEBUG_OBJECTS = 1;
+        R_PLAY_DRAW_COVER_ELEMENTS = true;
+        R_PLAY_DRAW_DEBUG_OBJECTS = true;
         R_PLAY_INIT = HREG_MODE_PLAY;
     }
 
