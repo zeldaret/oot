@@ -174,8 +174,8 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (SurfaceType_GetSfxId(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
-            (NA_SE_PL_WALK_SAND - SFX_FLAG)) {
+        if (SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
+            SURFACE_SFX_OFFSET_SAND) {
             Math_ApproachF(&this->actor.shape.yOffset, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {
