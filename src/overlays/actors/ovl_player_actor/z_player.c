@@ -1732,7 +1732,7 @@ void func_808326F0(Player* this) {
 }
 
 u16 func_8083275C(Player* this, u16 sfxId) {
-    return sfxId + this->unk_89E;
+    return sfxId + this->floorSfxOffset;
 }
 
 void func_80832770(Player* this, u16 sfxId) {
@@ -1740,7 +1740,7 @@ void func_80832770(Player* this, u16 sfxId) {
 }
 
 u16 func_808327A4(Player* this, u16 sfxId) {
-    return sfxId + this->unk_89E + this->ageProperties->unk_94;
+    return sfxId + this->floorSfxOffset + this->ageProperties->unk_94;
 }
 
 void func_808327C4(Player* this, u16 sfxId) {
@@ -1751,7 +1751,7 @@ void func_808327F8(Player* this, f32 arg1) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_WALK_HEAVYBOOTS;
+        sfxId = NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_WALK_GROUND);
     }
@@ -1763,7 +1763,7 @@ void func_80832854(Player* this) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_JUMP_HEAVYBOOTS;
+        sfxId = NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_JUMP);
     }
@@ -1775,7 +1775,7 @@ void func_808328A0(Player* this) {
     s32 sfxId;
 
     if (this->currentBoots == PLAYER_BOOTS_IRON) {
-        sfxId = NA_SE_PL_LAND_HEAVYBOOTS;
+        sfxId = NA_SE_PL_LAND + SURFACE_SFX_OFFSET_IRON_BOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_LAND);
     }
@@ -1815,7 +1815,8 @@ void func_80832924(Player* this, struct_80832924* entry) {
             } else if (flags == 0x4000) {
                 func_808327F8(this, 0.0f);
             } else if (flags == 0x4800) {
-                func_800F4010(&this->actor.projectedPos, this->ageProperties->unk_94 + NA_SE_PL_WALK_LADDER, 0.0f);
+                func_800F4010(&this->actor.projectedPos,
+                              NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD + this->ageProperties->unk_94, 0.0f);
             }
         }
         cont = (entry->field >= 0);
@@ -4060,13 +4061,13 @@ s32 func_808382DC(Player* this, PlayState* play) {
             } else {
                 // Special case for getting crushed in Forest Temple's Checkboard Ceiling Hall or Shadow Temple's
                 // Falling Spike Trap Room, to respawn the player in a specific place
-                if (((play->sceneId == SCENE_BMORI1) && (play->roomCtx.curRoom.num == 15)) ||
-                    ((play->sceneId == SCENE_HAKADAN) && (play->roomCtx.curRoom.num == 10))) {
+                if (((play->sceneId == SCENE_FOREST_TEMPLE) && (play->roomCtx.curRoom.num == 15)) ||
+                    ((play->sceneId == SCENE_SHADOW_TEMPLE) && (play->roomCtx.curRoom.num == 10))) {
                     static SpecialRespawnInfo checkboardCeilingRespawn = { { 1992.0f, 403.0f, -3432.0f }, 0 };
                     static SpecialRespawnInfo fallingSpikeTrapRespawn = { { 1200.0f, -1343.0f, 3850.0f }, 0 };
                     SpecialRespawnInfo* respawnInfo;
 
-                    if (play->sceneId == SCENE_BMORI1) {
+                    if (play->sceneId == SCENE_FOREST_TEMPLE) {
                         respawnInfo = &checkboardCeilingRespawn;
                     } else {
                         respawnInfo = &fallingSpikeTrapRespawn;
@@ -4364,30 +4365,30 @@ s32 func_80838FB8(PlayState* play, Player* this) {
  */
 s16 sReturnEntranceGroupData[] = {
     // ENTR_RETURN_DAIYOUSEI_IZUMI
-    /*  0 */ ENTR_SPOT16_4, // DMT from Magic Fairy Fountain
-    /*  1 */ ENTR_SPOT17_3, // DMC from Double Defense Fairy Fountain
-    /*  2 */ ENTR_SPOT15_2, // Hyrule Castle from Dins Fire Fairy Fountain
+    /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4,  // DMT from Magic Fairy Fountain
+    /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // DMC from Double Defense Fairy Fountain
+    /*  2 */ ENTR_HYRULE_CASTLE_2,         // Hyrule Castle from Dins Fire Fairy Fountain
 
     // ENTR_RETURN_2
-    /*  3 */ ENTR_SPOT01_9,     // Kakariko from Potion Shop
-    /*  4 */ ENTR_MARKET_DAY_5, // Market (child day) from Potion Shop
+    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // Kakariko from Potion Shop
+    /*  4 */ ENTR_MARKET_DAY_5,       // Market (child day) from Potion Shop
 
     // ENTR_RETURN_SHOP1
-    /*  5 */ ENTR_SPOT01_3,     // Kakariko from Bazaar
-    /*  6 */ ENTR_MARKET_DAY_6, // Market (child day) from Bazaar
+    /*  5 */ ENTR_KAKARIKO_VILLAGE_3, // Kakariko from Bazaar
+    /*  6 */ ENTR_MARKET_DAY_6,       // Market (child day) from Bazaar
 
     // ENTR_RETURN_4
-    /*  7 */ ENTR_SPOT01_11,      // Kakariko from House of Skulltulas
-    /*  8 */ ENTR_MARKET_ALLEY_2, // Back Alley (day) from Bombchu Shop
+    /*  7 */ ENTR_KAKARIKO_VILLAGE_11, // Kakariko from House of Skulltulas
+    /*  8 */ ENTR_BACK_ALLEY_DAY_2,    // Back Alley (day) from Bombchu Shop
 
     // ENTR_RETURN_SYATEKIJYOU
-    /*  9 */ ENTR_SPOT01_10,    // Kakariko from Shooting Gallery
-    /* 10 */ ENTR_MARKET_DAY_8, // Market (child day) from Shooting Gallery
+    /*  9 */ ENTR_KAKARIKO_VILLAGE_10, // Kakariko from Shooting Gallery
+    /* 10 */ ENTR_MARKET_DAY_8,        // Market (child day) from Shooting Gallery
 
     // ENTR_RETURN_YOUSEI_IZUMI_YOKO
-    /* 11 */ ENTR_SPOT08_5, // Zoras Fountain from Farores Wind Fairy Fountain
-    /* 12 */ ENTR_SPOT15_2, // Hyrule Castle from Dins Fire Fairy Fountain
-    /* 13 */ ENTR_SPOT11_7, // Desert Colossus from Nayrus Love Fairy Fountain
+    /* 11 */ ENTR_ZORAS_FOUNTAIN_5,  // Zoras Fountain from Farores Wind Fairy Fountain
+    /* 12 */ ENTR_HYRULE_CASTLE_2,   // Hyrule Castle from Dins Fire Fairy Fountain
+    /* 13 */ ENTR_DESERT_COLOSSUS_7, // Desert Colossus from Nayrus Love Fairy Fountain
 };
 
 /**
@@ -4503,8 +4504,8 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                 if ((this->actor.world.pos.y < -4000.0f) ||
                     (((this->unk_A7A == FLOOR_PROPERTY_5) || (this->unk_A7A == FLOOR_PROPERTY_12)) &&
                      ((D_80853600 < 100.0f) || (this->fallDistance > 400.0f) ||
-                      ((play->sceneId != SCENE_HAKADAN) && (this->fallDistance > 200.0f)))) ||
-                    ((play->sceneId == SCENE_GANON_FINAL) && (this->fallDistance > 320.0f))) {
+                      ((play->sceneId != SCENE_SHADOW_TEMPLE) && (this->fallDistance > 200.0f)))) ||
+                    ((play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) && (this->fallDistance > 320.0f))) {
 
                     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                         if (this->unk_A7A == FLOOR_PROPERTY_5) {
@@ -5058,7 +5059,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                 func_80835C58(play, this, func_8084411C, 1);
                 func_80832440(play, this);
 
-                this->unk_89E = this->unk_A82;
+                this->floorSfxOffset = this->prevFloorSfxOffset;
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
                     (D_80853604 != FLOOR_PROPERTY_6) && (D_80853604 != FLOOR_PROPERTY_9) && (D_80853600 > 20.0f) &&
@@ -6422,7 +6423,8 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
 
                 iREG(67) = false;
 
-                if ((Item_CheckObtainability(giEntry->itemId) == ITEM_NONE) || (play->sceneId == SCENE_BOWLING)) {
+                if ((Item_CheckObtainability(giEntry->itemId) == ITEM_NONE) ||
+                    (play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY)) {
                     func_808323B4(play, this);
                     func_8083AE40(this, giEntry->objectId);
 
@@ -7923,7 +7925,7 @@ static Vec3f D_808545C0 = { 0.0f, 0.0f, 0.0f };
 s32 func_8084269C(PlayState* play, Player* this) {
     Vec3f sp2C;
 
-    if ((this->unk_89E == SURFACE_SFX_TYPE_0) || (this->unk_89E == SURFACE_SFX_TYPE_1)) {
+    if ((this->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (this->floorSfxOffset == SURFACE_SFX_OFFSET_SAND)) {
         func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
                       this->actor.floorHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
         func_800286CC(play, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
@@ -8063,13 +8065,13 @@ void func_80842D20(PlayState* play, Player* this) {
 
 s32 func_80842DF4(PlayState* play, Player* this) {
     f32 phi_f2;
-    CollisionPoly* sp78;
-    s32 sp74;
+    CollisionPoly* groundPoly;
+    s32 bgId;
     Vec3f sp68;
     Vec3f sp5C;
     Vec3f sp50;
     s32 temp1;
-    s32 sp48;
+    s32 surfaceMaterial;
 
     if (this->meleeWeaponState > 0) {
         if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
@@ -8087,11 +8089,11 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                     sp68.y = this->meleeWeaponInfo[0].tip.y + (sp50.y * phi_f2);
                     sp68.z = this->meleeWeaponInfo[0].tip.z + (sp50.z * phi_f2);
 
-                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &sp78, true,
-                                                false, false, true, &sp74) &&
-                        !SurfaceType_IsIgnoredByEntities(&play->colCtx, sp78, sp74) &&
-                        (SurfaceType_GetFloorType(&play->colCtx, sp78, sp74) != FLOOR_TYPE_6) &&
-                        (func_8002F9EC(play, &this->actor, sp78, sp74, &sp5C) == 0)) {
+                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &groundPoly,
+                                                true, false, false, true, &bgId) &&
+                        !SurfaceType_IsIgnoredByEntities(&play->colCtx, groundPoly, bgId) &&
+                        (SurfaceType_GetFloorType(&play->colCtx, groundPoly, bgId) != FLOOR_TYPE_6) &&
+                        (func_8002F9EC(play, &this->actor, groundPoly, bgId, &sp5C) == 0)) {
 
                         if (this->heldItemAction == PLAYER_IA_HAMMER) {
                             func_80832630(play);
@@ -8101,13 +8103,13 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                         }
 
                         if (this->linearVelocity >= 0.0f) {
-                            sp48 = SurfaceType_GetSfxType(&play->colCtx, sp78, sp74);
+                            surfaceMaterial = SurfaceType_GetMaterial(&play->colCtx, groundPoly, bgId);
 
-                            if (sp48 == SURFACE_SFX_TYPE_10) {
+                            if (surfaceMaterial == SURFACE_MATERIAL_WOOD) {
                                 CollisionCheck_SpawnShieldParticlesWood(play, &sp5C, &this->actor.projectedPos);
                             } else {
                                 CollisionCheck_SpawnShieldParticles(play, &sp5C);
-                                if (sp48 == SURFACE_SFX_TYPE_11) {
+                                if (surfaceMaterial == SURFACE_MATERIAL_DIRT_SOFT) {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_SOFT);
                                 } else {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_HARD);
@@ -9489,7 +9491,7 @@ void func_80846648(PlayState* play, Player* this) {
 
 void func_80846660(PlayState* play, Player* this) {
     func_80835C58(play, this, func_8084F710, 0);
-    if ((play->sceneId == SCENE_SPOT06) && IS_CUTSCENE_LAYER) {
+    if ((play->sceneId == SCENE_LAKE_HYLIA) && IS_CUTSCENE_LAYER) {
         this->unk_84F = 1;
     }
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -9682,8 +9684,8 @@ void Player_Init(Actor* thisx, PlayState* play2) {
             if (!IS_CUTSCENE_LAYER &&
                 (gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
                  ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
-                ((play->sceneId != SCENE_DDAN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
-                ((play->sceneId != SCENE_NIGHT_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))) {
+                ((play->sceneId != SCENE_DODONGOS_CAVERN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
+                ((play->sceneId != SCENE_BOMBCHU_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))) {
                 TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144, 24, 20);
             }
         }
@@ -9696,7 +9698,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
 
-    if (play->sceneId <= SCENE_GANONTIKA_SONOGO) {
+    if (play->sceneId <= SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) {
         gSaveContext.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[play->sceneId];
     }
 
@@ -10007,20 +10009,19 @@ void func_80847BA0(PlayState* play, Player* this) {
 
     if (floorPoly != NULL) {
         this->unk_A7A = SurfaceType_GetFloorProperty(&play->colCtx, floorPoly, this->actor.floorBgId);
-        this->unk_A82 = this->unk_89E;
+        this->prevFloorSfxOffset = this->floorSfxOffset;
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             if (this->actor.yDistToWater < 20.0f) {
-                this->unk_89E = SURFACE_SFX_TYPE_4;
+                this->floorSfxOffset = SURFACE_SFX_OFFSET_WATER_SHALLOW;
             } else {
-                this->unk_89E = SURFACE_SFX_TYPE_5;
+                this->floorSfxOffset = SURFACE_SFX_OFFSET_WATER_DEEP;
             }
         } else {
             if (this->stateFlags2 & PLAYER_STATE2_9) {
-                this->unk_89E = SURFACE_SFX_TYPE_1;
+                this->floorSfxOffset = SURFACE_SFX_OFFSET_SAND;
             } else {
-                // unk_89E is a sfxType, but SurfaceType_GetSfxId returns a sfxId?
-                this->unk_89E = SurfaceType_GetSfxId(&play->colCtx, floorPoly, this->actor.floorBgId);
+                this->floorSfxOffset = SurfaceType_GetSfxOffset(&play->colCtx, floorPoly, this->actor.floorBgId);
             }
         }
 
@@ -10297,7 +10298,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
             Audio_SetBgmEnemyVolume(sqrtf(play->actorCtx.targetCtx.bgmEnemy->xyzDistToPlayerSq));
         }
 
-        if (play->sceneId != SCENE_TURIBORI) {
+        if (play->sceneId != SCENE_FISHING_POND) {
             Audio_SetSequenceMode(seqMode);
         }
     }
@@ -10413,7 +10414,7 @@ void func_80848C74(PlayState* play, Player* this) {
     if (spawnedFlame) {
         func_8002F7DC(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
 
-        if (play->sceneId == SCENE_JYASINBOSS) {
+        if (play->sceneId == SCENE_SPIRIT_TEMPLE_BOSS) {
             dmgCooldown = 0;
         } else {
             dmgCooldown = 7;
@@ -11564,7 +11565,8 @@ void func_8084BDFC(Player* this, PlayState* play) {
 }
 
 void func_8084BEE4(Player* this) {
-    func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_WALK_WALL : NA_SE_PL_WALK_LADDER);
+    func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_VINE
+                                                     : NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD);
 }
 
 void func_8084BF1C(Player* this, PlayState* play) {
@@ -11714,16 +11716,16 @@ static f32 D_80854898[] = { 10.0f, 20.0f };
 static f32 D_808548A0[] = { 40.0f, 50.0f };
 
 static struct_80832924 D_808548A8[] = {
-    { NA_SE_PL_WALK_LADDER, 0x80A },
-    { NA_SE_PL_WALK_LADDER, 0x814 },
-    { NA_SE_PL_WALK_LADDER, -0x81E },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, 0x80A },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, 0x814 },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, -0x81E },
 };
 
 void func_8084C5F8(Player* this, PlayState* play) {
     s32 temp;
     f32* sp38;
     CollisionPoly* groundPoly;
-    s32 sp30;
+    s32 bgId;
     Vec3f sp24;
 
     this->stateFlags2 |= PLAYER_STATE2_6;
@@ -11752,8 +11754,11 @@ void func_8084C5F8(Player* this, PlayState* play) {
         sp24.x = this->actor.world.pos.x;
         sp24.y = this->actor.world.pos.y + 20.0f;
         sp24.z = this->actor.world.pos.z;
-        if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &sp30, &sp24) != 0.0f) {
-            this->unk_89E = SurfaceType_GetSfxType(&play->colCtx, groundPoly, sp30);
+        if (BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &sp24) != 0.0f) {
+            //! @bug should use `SurfaceType_GetSfxOffset` instead of `SurfaceType_GetMaterial`.
+            // Most material and sfxOffsets share identical enum values,
+            // so this will mostly result in the correct sfx played, but not in all cases, such as carpet and ice.
+            this->floorSfxOffset = SurfaceType_GetMaterial(&play->colCtx, groundPoly, bgId);
             func_808328A0(this);
         }
     }
@@ -12438,7 +12443,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
     } else {
         if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_SILVER_GAUNTLETS) {
-                play->nextEntranceIndex = ENTR_SPOT11_0;
+                play->nextEntranceIndex = ENTR_DESERT_COLOSSUS_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 play->transitionType = TRANS_TYPE_SANDSTORM_END;
@@ -12496,7 +12501,12 @@ void func_8084E368(Player* this, PlayState* play) {
 }
 
 static s16 sWarpSongEntrances[] = {
-    ENTR_SPOT05_2, ENTR_SPOT17_4, ENTR_SPOT06_8, ENTR_SPOT11_5, ENTR_SPOT02_7, ENTR_TOKINOMA_7,
+    ENTR_SACRED_FOREST_MEADOW_2,
+    ENTR_DEATH_MOUNTAIN_CRATER_4,
+    ENTR_LAKE_HYLIA_8,
+    ENTR_DESERT_COLOSSUS_5,
+    ENTR_GRAVEYARD_7,
+    ENTR_TEMPLE_OF_TIME_7,
 };
 
 void func_8084E3C4(Player* this, PlayState* play) {
@@ -13028,7 +13038,7 @@ void func_8084F710(Player* this, PlayState* play) {
                     this->unk_850 = 1;
                 }
             } else {
-                if ((play->sceneId == SCENE_SPOT04) && func_8083ADD4(play, this)) {
+                if ((play->sceneId == SCENE_KOKIRI_FOREST) && func_8083ADD4(play, this)) {
                     return;
                 }
                 func_80853080(this, play);
@@ -13037,7 +13047,7 @@ void func_8084F710(Player* this, PlayState* play) {
         Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.3f, 8.0f, 0.5f);
     }
 
-    if ((play->sceneId == SCENE_KENJYANOMA) && func_8083ADD4(play, this)) {
+    if ((play->sceneId == SCENE_CHAMBER_OF_THE_SAGES) && func_8083ADD4(play, this)) {
         return;
     }
 
@@ -13054,9 +13064,9 @@ void func_8084F88C(Player* this, PlayState* play) {
     if ((this->unk_850++ > 8) && (play->transitionTrigger == TRANS_TRIGGER_OFF)) {
 
         if (this->unk_84F != 0) {
-            if (play->sceneId == SCENE_ICE_DOUKUTO) {
+            if (play->sceneId == SCENE_ICE_CAVERN) {
                 Play_TriggerRespawn(play);
-                play->nextEntranceIndex = ENTR_ICE_DOUKUTO_0;
+                play->nextEntranceIndex = ENTR_ICE_CAVERN_0;
             } else if (this->unk_84F < 0) {
                 Play_TriggerRespawn(play);
             } else {
@@ -14087,7 +14097,7 @@ void func_80851828(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 
     func_80845BA0(play, this, &sp1C, 10);
 
-    if (play->sceneId == SCENE_BDAN_BOSS) {
+    if (play->sceneId == SCENE_JABU_JABU_BOSS) {
         if (this->unk_850 == 0) {
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) {
                 return;
@@ -14301,7 +14311,7 @@ void func_80851FB0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 }
 
 static struct_80832924 D_808551C8[] = {
-    { NA_SE_PL_LAND_LADDER, 0x843 },
+    { NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WOOD, 0x843 },
     { 0, 0x4854 },
     { 0, 0x485A },
     { 0, -0x4860 },
@@ -14566,7 +14576,7 @@ void func_80852944(PlayState* play, Player* this, CsCmdActorAction* arg2) {
 void func_808529D0(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     this->actor.world.pos.x = arg2->startPos.x;
     this->actor.world.pos.y = arg2->startPos.y;
-    if ((play->sceneId == SCENE_SPOT04) && !LINK_IS_ADULT) {
+    if ((play->sceneId == SCENE_KOKIRI_FOREST) && !LINK_IS_ADULT) {
         this->actor.world.pos.y -= 1.0f;
     }
     this->actor.world.pos.z = arg2->startPos.z;

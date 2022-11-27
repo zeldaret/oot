@@ -132,22 +132,22 @@ void ObjectKankyo_Init(Actor* thisx, PlayState* play) {
             }
 
             if (gSaveContext.cutsceneTrigger != 0) {
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_2) {
+                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_2) {
                     this->effects[0].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_3) {
+                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_3) {
                     this->effects[1].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_4) {
+                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_4) {
                     this->effects[2].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_5) {
+                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_5) {
                     this->effects[3].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_6) {
+                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_6) {
                     this->effects[4].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_7) {
+                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_7) {
                     this->effects[5].size = 0.1f;
                 }
             }
@@ -191,7 +191,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
     player = GET_PLAYER(play);
 
-    if (play->sceneId == SCENE_SPOT04 && gSaveContext.sceneLayer == 7) {
+    if (play->sceneId == SCENE_KOKIRI_FOREST && gSaveContext.sceneLayer == 7) {
         dist = Math3D_Vec3f_DistXYZ(&this->prevEyePos, &play->view.eye);
 
         this->prevEyePos.x = play->view.eye.x;
@@ -227,7 +227,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
     }
 
     if (play->envCtx.precipitation[PRECIP_SNOW_MAX] < 64 &&
-        (gSaveContext.entranceIndex != ENTR_SPOT04_0 || gSaveContext.sceneLayer != 4 ||
+        (gSaveContext.entranceIndex != ENTR_KOKIRI_FOREST_0 || gSaveContext.sceneLayer != 4 ||
          play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
         play->envCtx.precipitation[PRECIP_SNOW_MAX] += 16;
     }

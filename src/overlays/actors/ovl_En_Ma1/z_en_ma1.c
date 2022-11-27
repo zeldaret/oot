@@ -191,7 +191,7 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) && !GET_INFTABLE(INFTABLE_8B)) {
         return 1;
     }
-    if ((play->sceneId == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+    if ((play->sceneId == SCENE_HYRULE_CASTLE) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_8B)) {
             return 1;
         } else {
@@ -199,10 +199,11 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
             return 0;
         }
     }
-    if ((play->sceneId == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+    if ((play->sceneId == SCENE_LON_LON_BUILDINGS) && IS_NIGHT &&
+        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
-    if (play->sceneId != SCENE_SPOT20) {
+    if (play->sceneId != SCENE_LON_LON_RANCH) {
         return 0;
     }
     if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
@@ -309,7 +310,7 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
         }
     }
 
-    if ((play->sceneId == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+    if ((play->sceneId == SCENE_HYRULE_CASTLE) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
@@ -387,7 +388,7 @@ void func_80AA10EC(EnMa1* this, PlayState* play) {
 void func_80AA1150(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        play->nextEntranceIndex = ENTR_SPOT20_0;
+        play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_WAVE, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;

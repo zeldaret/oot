@@ -621,7 +621,7 @@ typedef struct Player {
     /* 0x0898 */ s16        unk_898;
     /* 0x089A */ s16        unk_89A;
     /* 0x089C */ s16        unk_89C;
-    /* 0x089E */ u16        unk_89E;
+    /* 0x089E */ u16        floorSfxOffset;
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
     /* 0x08A2 */ s16        unk_8A2;
@@ -643,7 +643,7 @@ typedef struct Player {
     /* 0x0A7B */ u8         unk_A7B;
     /* 0x0A7C */ f32        unk_A7C;
     /* 0x0A80 */ s16        unk_A80;
-    /* 0x0A82 */ u16        unk_A82;
+    /* 0x0A82 */ u16        prevFloorSfxOffset;
     /* 0x0A84 */ s16        unk_A84;
     /* 0x0A86 */ s8         unk_A86;
     /* 0x0A87 */ u8         unk_A87;

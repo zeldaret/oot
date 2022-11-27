@@ -2479,7 +2479,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     sLureRot.x = 0.0f;
                     if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         D_80B7E144 += 6.0f;
-                        func_80078914(&D_80B7AF94, NA_SE_PL_WALK_SAND);
+                        func_80078914(&D_80B7AF94, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_SAND);
                     }
                 } else {
                     if (D_80B7E144 > 150.0f) {

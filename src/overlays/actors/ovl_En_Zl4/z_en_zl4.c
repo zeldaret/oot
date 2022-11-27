@@ -378,7 +378,7 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_Idle;
     } else {
-        if (gSaveContext.entranceIndex != ENTR_NAKANIWA_1) {
+        if (gSaveContext.entranceIndex != ENTR_CASTLE_COURTYARD_ZELDA_1) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_21);
             this->csState = ZL4_CS_WAIT;
             this->talkState = 0;
@@ -778,7 +778,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             this->talkTimer2++;
             if (this->talkTimer2 == 130) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
-                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->nextEntranceIndex = ENTR_CUTSCENE_MAP_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;

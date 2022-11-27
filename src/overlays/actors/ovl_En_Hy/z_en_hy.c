@@ -428,7 +428,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
 
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
-            if (play->sceneId == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
                            ? 0x508D
                            : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
@@ -453,9 +453,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
             }
         case ENHY_TYPE_AHG_2:
-            if (play->sceneId == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return 0x5086;
-            } else if (play->sceneId == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return 0x5085;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
@@ -478,9 +478,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_BBA:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
         case ENHY_TYPE_BJI_7:
-            if (play->sceneId == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return 0x5088;
-            } else if (play->sceneId == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return 0x5087;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
@@ -492,17 +492,17 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
-            if (play->sceneId == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x5082 : 0x5081;
-            } else if (play->sceneId == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
-            if (play->sceneId == SCENE_LABO) {
+            if (play->sceneId == SCENE_IMPAS_HOUSE) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x507E : 0x507D;
-            } else if (play->sceneId == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
@@ -510,7 +510,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_CNE_11:
             return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
         case ENHY_TYPE_BOJ_12:
-            if (play->sceneId == SCENE_SPOT01) {
+            if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7044 : 0x7015;
@@ -808,7 +808,7 @@ void func_80A70978(EnHy* this, PlayState* play) {
 
 s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
     switch (play->sceneId) {
-        case SCENE_SPOT01:
+        case SCENE_KAKARIKO_VILLAGE:
             if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 ||
                   (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
                   (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
@@ -820,7 +820,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_LABO:
+        case SCENE_IMPAS_HOUSE:
             if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_10) {
                 return true;
             } else if (LINK_IS_CHILD) {
@@ -830,7 +830,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_IMPA:
+        case SCENE_DOG_LADY_HOUSE:
             if ((this->actor.params & 0x7F) != ENHY_TYPE_AOB) {
                 return true;
             } else if (IS_DAY) {
@@ -838,7 +838,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_KAKARIKO:
+        case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
             if ((this->actor.params & 0x7F) == ENHY_TYPE_AOB) {
                 return !LINK_IS_ADULT ? false : true;
             } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 ||
@@ -852,8 +852,8 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_MARKET_ALLEY:
-        case SCENE_MARKET_ALLEY_N:
+        case SCENE_BACK_ALLEY_DAY:
+        case SCENE_BACK_ALLEY_NIGHT:
             if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_14) {
                 return true;
             } else if (IS_NIGHT) {
@@ -911,12 +911,12 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
-        if ((play->sceneId == SCENE_MARKET_ALLEY) || (play->sceneId == SCENE_MARKET_DAY)) {
+        if ((play->sceneId == SCENE_BACK_ALLEY_DAY) || (play->sceneId == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.uncullZoneScale = 0.0f;
         }
 
-        if (play->sceneId == SCENE_KAKARIKO) {
+        if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
             this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX];
         }
 
