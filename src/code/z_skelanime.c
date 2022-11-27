@@ -1790,7 +1790,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     f32 sin;
     f32 cos;
 
-    if (skelAnime->moveFlags & ANIM_FLAG_NOMOVE) {
+    if (skelAnime->moveFlags & ANIM_FLAG_NO_MOVE) {
         diff->x = diff->z = 0.0f;
     } else {
         x = skelAnime->jointTable[0].x;
@@ -1812,8 +1812,8 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     skelAnime->jointTable[0].x = skelAnime->baseTransl.x;
     skelAnime->prevTransl.z = skelAnime->jointTable[0].z;
     skelAnime->jointTable[0].z = skelAnime->baseTransl.z;
-    if (skelAnime->moveFlags & ANIM_FLAG_UPDATEY) {
-        if (skelAnime->moveFlags & ANIM_FLAG_NOMOVE) {
+    if (skelAnime->moveFlags & ANIM_FLAG_UPDATE_Y) {
+        if (skelAnime->moveFlags & ANIM_FLAG_NO_MOVE) {
             diff->y = 0.0f;
         } else {
             diff->y = skelAnime->jointTable[0].y - skelAnime->prevTransl.y;
@@ -1824,7 +1824,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         diff->y = 0.0f;
         skelAnime->prevTransl.y = skelAnime->jointTable[0].y;
     }
-    skelAnime->moveFlags &= ~ANIM_FLAG_NOMOVE;
+    skelAnime->moveFlags &= ~ANIM_FLAG_NO_MOVE;
 }
 
 /**

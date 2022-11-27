@@ -88,8 +88,8 @@ typedef enum {
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
-#define ANIM_FLAG_UPDATEY (1 << 1)
-#define ANIM_FLAG_NOMOVE (1 << 4)
+#define ANIM_FLAG_UPDATE_Y (1 << 1)
+#define ANIM_FLAG_NO_MOVE (1 << 4)
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton
