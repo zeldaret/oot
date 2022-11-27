@@ -556,7 +556,8 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     } else if (this->collider.base.acFlags & AC_HIT) {
         if ((this->collider.info.acHitInfo != NULL) &&
             (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
-            // !@bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter
+            //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
+            //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
             this->actor.update = EnGe2_UpdateStunned;
             return;
