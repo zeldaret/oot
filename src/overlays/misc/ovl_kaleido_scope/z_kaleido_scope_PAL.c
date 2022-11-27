@@ -874,8 +874,8 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
 
     osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
-    gSaveContext.unk_13EA = 0;
-    Interface_ChangeAlpha(50);
+    gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
 }
 
 void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
@@ -3901,8 +3901,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                         pauseCtx->state = PAUSE_STATE_SAVE_PROMPT;
                     }
@@ -3949,8 +3949,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                         pauseCtx->state = PAUSE_STATE_SAVE_PROMPT;
                     } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
@@ -4005,8 +4005,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                         pauseCtx->state = PAUSE_STATE_SAVE_PROMPT;
                     }
@@ -4041,8 +4041,8 @@ void KaleidoScope_Update(PlayState* play) {
 
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                            gSaveContext.unk_13EA = 0;
-                            Interface_ChangeAlpha(50);
+                            gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
 
                             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
                             R_PAUSE_OFFSET_VERTICAL = -6240;
@@ -4072,8 +4072,8 @@ void KaleidoScope_Update(PlayState* play) {
 
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                     }
                     break;
 
@@ -4085,8 +4085,8 @@ void KaleidoScope_Update(PlayState* play) {
 
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
 
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED;
                         R_PAUSE_OFFSET_VERTICAL = -6240;
@@ -4143,7 +4143,7 @@ void KaleidoScope_Update(PlayState* play) {
             R_PAUSE_CURSOR_LEFT_X = -175;
             R_PAUSE_CURSOR_RIGHT_X = 155;
             pauseCtx->rollRotSavePrompt_ = -434.0f;
-            Interface_ChangeAlpha(1);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
             //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->iconItemSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
@@ -4497,10 +4497,9 @@ void KaleidoScope_Update(PlayState* play) {
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
 
             osSyncPrintf(VT_FGCOL(YELLOW));
-            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.unk_13EE);
-
-            gSaveContext.unk_13EA = 0;
-            Interface_ChangeAlpha(gSaveContext.unk_13EE);
+            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.prevHudVisibilityMode);
+            gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+            Interface_ChangeHudVisibilityMode(gSaveContext.prevHudVisibilityMode);
 
             player->targetActor = NULL;
             Player_SetEquipmentData(play, player);

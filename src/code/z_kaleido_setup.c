@@ -56,7 +56,7 @@ void KaleidoSetup_Update(PlayState* play) {
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
             // The start button was pressed, pause
 
-            gSaveContext.unk_13EE = gSaveContext.unk_13EA;
+            gSaveContext.prevHudVisibilityMode = gSaveContext.hudVisibilityMode;
 
             R_PAUSE_CURSOR_LEFT_X = -175;
             R_PAUSE_CURSOR_RIGHT_X = 155;
