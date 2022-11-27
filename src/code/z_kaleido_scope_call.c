@@ -59,16 +59,16 @@ void KaleidoScopeCall_Update(PlayState* play) {
     if (IS_PAUSED(pauseCtx)) {
         if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
             if (Letterbox_GetSize() == 0) {
-                HREG(80) = 7;
-                HREG(82) = 3;
+                R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+                R_UCODE_DISAS_LOG_MODE = 3;
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
                 pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
                 pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
         } else if (pauseCtx->state == PAUSE_STATE_8) {
-            HREG(80) = 7;
-            HREG(82) = 3;
+            R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+            R_UCODE_DISAS_LOG_MODE = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
