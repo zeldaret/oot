@@ -2652,7 +2652,7 @@ OnePointCsFull D_8011D88C[] = {
 // same as above, but the target is NOT within the screen area.
 OnePointCsFull D_8011D8DC[] = {
     {
-        ONEPOINT_CS_ACTION_15 | ONEPOINT_CS_ACTION_BGCHECK,
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
         0xFF,
         0x0404,
         0x0014,
@@ -2737,7 +2737,7 @@ OnePointCsFull D_8011D954[] = {
 // otherwise
 OnePointCsFull D_8011D9F4[] = {
     {
-        ONEPOINT_CS_ACTION_15 | ONEPOINT_CS_ACTION_BGCHECK,
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
         0xFF,
         0x0504,
         0x0014,

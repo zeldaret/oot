@@ -1085,6 +1085,8 @@ typedef enum {
 #define ONEPOINT_CS_ACTION(action, isBit40, checkBg) \
 (((action) & 0x1F) | (isBit40 ? ONEPOINT_CS_ACTION_40 : 0) | (checkBg ? ONEPOINT_CS_ACTION_BGCHECK : 0))
 
+#define ONEPOINT_CS_GET_ACTION(onePointCsFull) (onePointCsFull->actionFlags & 0x1F)
+
 /** initFlags
  * & 0x00FF = atInitFlags
  * & 0xFF00 = eyeInitFlags

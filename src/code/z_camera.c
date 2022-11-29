@@ -5437,7 +5437,7 @@ s32 Camera_Unique9(Camera* camera) {
         rwData->rollTarget = CAM_DEG_TO_BINANG(rwData->curKeyFrame->rollTargetInit);
     }
 
-    action = rwData->curKeyFrame->actionFlags & 0x1F;
+    action = ONEPOINT_CS_GET_ACTION(rwData->curKeyFrame);
     switch (action) {
         case ONEPOINT_CS_ACTION_15:
             // static copy to at/eye/fov/roll
@@ -6054,7 +6054,7 @@ s32 Camera_Demo5(Camera* camera) {
         ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
         if ((targetScreenPosX < 0x15) || (targetScreenPosX >= 0x12C) || (targetScreenPosY < 0x29) ||
             (targetScreenPosY >= 0xC8)) {
-            D_8011D79C[0].actionFlags = 0x41;
+            D_8011D79C[0].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, true, false);
             D_8011D79C[0].atTargetInit.y = -30.0f;
             D_8011D79C[0].atTargetInit.x = 0.0f;
             D_8011D79C[0].atTargetInit.z = 0.0f;
@@ -6138,8 +6138,8 @@ s32 Camera_Demo5(Camera* camera) {
         targethead.pos.x += 50.0f * Math_SinS(sp4A - 0x7FFF);
         targethead.pos.z += 50.0f * Math_CosS(sp4A - 0x7FFF);
         if (Camera_BGCheck(camera, &playerhead.pos, &targethead.pos)) {
-            D_8011D954[1].actionFlags = 0xC1;
-            D_8011D954[2].actionFlags = 0x8F;
+            D_8011D954[1].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, true, true);
+            D_8011D954[2].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true);
         } else {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
@@ -6163,7 +6163,7 @@ s32 Camera_Demo5(Camera* camera) {
         Actor_GetFocus(&targethead, camera->target);
         if (Camera_BGCheck(camera, &playerhead.pos, &targethead.pos)) {
             D_8011D9F4[1].timerInit = 4;
-            D_8011D9F4[1].actionFlags = 0x8F;
+            D_8011D9F4[1].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true);
         } else {
             t = eyeTargetDist * 0.005f;
             D_8011D9F4[1].timerInit = t + 8;
