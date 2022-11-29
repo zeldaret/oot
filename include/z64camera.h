@@ -1061,29 +1061,29 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef enum {
-    /*  0x1 */ ONEPOINT_CS_ACTION_1 = 1,
-    /*  0x2 */ ONEPOINT_CS_ACTION_2,
-    /*  0x3 */ ONEPOINT_CS_ACTION_3,
-    /*  0x4 */ ONEPOINT_CS_ACTION_4,
-    /*  0x9 */ ONEPOINT_CS_ACTION_9 = 9,
-    /*  0xA */ ONEPOINT_CS_ACTION_10,
-    /*  0xB */ ONEPOINT_CS_ACTION_11,
-    /*  0xC */ ONEPOINT_CS_ACTION_12,
-    /*  0xD */ ONEPOINT_CS_ACTION_13,
-    /*  0xF */ ONEPOINT_CS_ACTION_15 = 15,
-    /* 0x10 */ ONEPOINT_CS_ACTION_16,
-    /* 0x11 */ ONEPOINT_CS_ACTION_17,
-    /* 0x12 */ ONEPOINT_CS_ACTION_18,
-    /* 0x13 */ ONEPOINT_CS_ACTION_19,
-    /* 0x15 */ ONEPOINT_CS_ACTION_21 = 21,
-    /* 0x18 */ ONEPOINT_CS_ACTION_24 = 24
+    /*  0x1 */ ONEPOINT_CS_ACTION_ID_1 = 1,
+    /*  0x2 */ ONEPOINT_CS_ACTION_ID_2,
+    /*  0x3 */ ONEPOINT_CS_ACTION_ID_3,
+    /*  0x4 */ ONEPOINT_CS_ACTION_ID_4,
+    /*  0x9 */ ONEPOINT_CS_ACTION_ID_9 = 9,
+    /*  0xA */ ONEPOINT_CS_ACTION_ID_10,
+    /*  0xB */ ONEPOINT_CS_ACTION_ID_11,
+    /*  0xC */ ONEPOINT_CS_ACTION_ID_12,
+    /*  0xD */ ONEPOINT_CS_ACTION_ID_13,
+    /*  0xF */ ONEPOINT_CS_ACTION_ID_15 = 15,
+    /* 0x10 */ ONEPOINT_CS_ACTION_ID_16,
+    /* 0x11 */ ONEPOINT_CS_ACTION_ID_17,
+    /* 0x12 */ ONEPOINT_CS_ACTION_ID_18,
+    /* 0x13 */ ONEPOINT_CS_ACTION_ID_19,
+    /* 0x15 */ ONEPOINT_CS_ACTION_ID_21 = 21,
+    /* 0x18 */ ONEPOINT_CS_ACTION_ID_24 = 24
 } OnePointCsAction;
 
-#define ONEPOINT_CS_ACTION_40 0x40
-#define ONEPOINT_CS_ACTION_BGCHECK 0x80
+#define ONEPOINT_CS_ACTION_FLAG_40 0x40
+#define ONEPOINT_CS_ACTION_FLAG_BGCHECK 0x80
 
 #define ONEPOINT_CS_ACTION(action, isBit40, checkBg) \
-(((action) & 0x1F) | (isBit40 ? ONEPOINT_CS_ACTION_40 : 0) | (checkBg ? ONEPOINT_CS_ACTION_BGCHECK : 0))
+(((action) & 0x1F) | (isBit40 ? ONEPOINT_CS_ACTION_FLAG_40 : 0) | (checkBg ? ONEPOINT_CS_ACTION_FLAG_BGCHECK : 0))
 
 #define ONEPOINT_CS_GET_ACTION(onePointCsFull) (onePointCsFull->actionFlags & 0x1F)
 

@@ -120,7 +120,7 @@ static s16 D_801208E8 = 8;
 
 static OnePointCsFull D_801208EC[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x0101,
         1,
@@ -131,7 +131,7 @@ static OnePointCsFull D_801208EC[3] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0x0101,
         1,
@@ -142,7 +142,7 @@ static OnePointCsFull D_801208EC[3] = {
         { 0.0f, 0.0f, 150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -156,7 +156,7 @@ static OnePointCsFull D_801208EC[3] = {
 
 static OnePointCsFull D_80120964[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x0101,
         1,
@@ -167,7 +167,7 @@ static OnePointCsFull D_80120964[2] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0xA121,
         1,
@@ -181,7 +181,7 @@ static OnePointCsFull D_80120964[2] = {
 
 static OnePointCsFull D_801209B4[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x08,
         0x0101,
         1,
@@ -192,7 +192,7 @@ static OnePointCsFull D_801209B4[4] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0x01,
         0x0100,
         29,
@@ -203,7 +203,7 @@ static OnePointCsFull D_801209B4[4] = {
         { 0.0f, 0.0f, 150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
         0xFF,
         0x0000,
         10,
@@ -214,7 +214,7 @@ static OnePointCsFull D_801209B4[4] = {
         { 0.0f, 0.0f, 150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -228,7 +228,7 @@ static OnePointCsFull D_801209B4[4] = {
 
 static OnePointCsFull D_80120A54[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x2525,
         1,
@@ -239,7 +239,7 @@ static OnePointCsFull D_80120A54[3] = {
         { 0.0f, 10.0f, -40.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x0000,
         9,
@@ -250,7 +250,7 @@ static OnePointCsFull D_80120A54[3] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, true),
         0xFF,
         0x0022,
         5000,
@@ -264,7 +264,7 @@ static OnePointCsFull D_80120A54[3] = {
 
 static OnePointCsFull D_80120ACC[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x0442,
         10,
@@ -275,7 +275,7 @@ static OnePointCsFull D_80120ACC[5] = {
         { 20.0f, 30.0f, 160.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_21, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, true),
         0xFF,
         0x0000,
         1,
@@ -286,7 +286,7 @@ static OnePointCsFull D_80120ACC[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x0442,
         10,
@@ -297,7 +297,7 @@ static OnePointCsFull D_80120ACC[5] = {
         { 20.0f, 30.0f, 160.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_21, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, true),
         0xFF,
         0x0000,
         1,
@@ -308,7 +308,7 @@ static OnePointCsFull D_80120ACC[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -322,7 +322,7 @@ static OnePointCsFull D_80120ACC[5] = {
 
 static OnePointCsFull D_80120B94[11] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x2142,
         1,
@@ -333,7 +333,7 @@ static OnePointCsFull D_80120B94[11] = {
         { -20.0f, 0.0f, -30.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         19,
@@ -344,7 +344,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         20,
@@ -355,7 +355,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         40,
@@ -366,7 +366,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x4141,
         1,
@@ -377,7 +377,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 0.0f, 20.0f, 50.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         19,
@@ -388,7 +388,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         40,
@@ -399,7 +399,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         70,
@@ -410,7 +410,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x4141,
         1,
@@ -421,7 +421,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 80.0f, 20.0f, 60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_13, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, true),
         0xFF,
         0x4141,
         150,
@@ -432,7 +432,7 @@ static OnePointCsFull D_80120B94[11] = {
         { 0.0f, 4.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_24, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_24, false, true),
         0xFF,
         0x0000,
         1,
@@ -446,7 +446,7 @@ static OnePointCsFull D_80120B94[11] = {
 
 static OnePointCsFull D_80120D4C[7] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x2142,
         1,
@@ -457,7 +457,7 @@ static OnePointCsFull D_80120D4C[7] = {
         { -20.0f, 0.0f, -30.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         19,
@@ -468,7 +468,7 @@ static OnePointCsFull D_80120D4C[7] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         20,
@@ -479,7 +479,7 @@ static OnePointCsFull D_80120D4C[7] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0xFF,
         0x0404,
         40,
@@ -490,7 +490,7 @@ static OnePointCsFull D_80120D4C[7] = {
         { 120.0f, 60.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x4141,
         1,
@@ -501,7 +501,7 @@ static OnePointCsFull D_80120D4C[7] = {
         { 80.0f, 20.0f, 60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_13, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, true),
         0xFF,
         0x4141,
         150,
@@ -512,7 +512,7 @@ static OnePointCsFull D_80120D4C[7] = {
         { 0.0f, 4.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_24, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_24, false, true),
         0xFF,
         0x0000,
         1,
@@ -526,7 +526,7 @@ static OnePointCsFull D_80120D4C[7] = {
 
 static OnePointCsFull D_80120E64[8] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false),
         0x01,
         0x2142,
         20,
@@ -537,7 +537,7 @@ static OnePointCsFull D_80120E64[8] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0xFF,
         0x0000,
         80,
@@ -548,7 +548,7 @@ static OnePointCsFull D_80120E64[8] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
         0xFF,
         0x4242,
         8,
@@ -559,7 +559,7 @@ static OnePointCsFull D_80120E64[8] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
         0xFF,
         0x4242,
         15,
@@ -570,7 +570,7 @@ static OnePointCsFull D_80120E64[8] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
         0xFF,
         0x4242,
         15,
@@ -581,7 +581,7 @@ static OnePointCsFull D_80120E64[8] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
         0xFF,
         0x4242,
         15,
@@ -592,7 +592,7 @@ static OnePointCsFull D_80120E64[8] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0xFF,
         0x0000,
         40,
@@ -603,7 +603,7 @@ static OnePointCsFull D_80120E64[8] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -617,7 +617,7 @@ static OnePointCsFull D_80120E64[8] = {
 
 static OnePointCsFull D_80120FA4[6] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x2143,
         30,
@@ -628,7 +628,7 @@ static OnePointCsFull D_80120FA4[6] = {
         { 30.0f, 10.0f, -50.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_21, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, true),
         0xFF,
         0x0000,
         1,
@@ -639,7 +639,7 @@ static OnePointCsFull D_80120FA4[6] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x2222,
         10,
@@ -650,7 +650,7 @@ static OnePointCsFull D_80120FA4[6] = {
         { 0.0f, 85.0f, 45.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, true),
         0xFF,
         0x0000,
         1,
@@ -661,7 +661,7 @@ static OnePointCsFull D_80120FA4[6] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0x2121,
         10,
@@ -672,7 +672,7 @@ static OnePointCsFull D_80120FA4[6] = {
         { 30.0f, 10.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -686,7 +686,7 @@ static OnePointCsFull D_80120FA4[6] = {
 
 static OnePointCsFull D_80121094[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x2101,
         20,
@@ -697,7 +697,7 @@ static OnePointCsFull D_80121094[3] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x01,
         0x2101,
         50,
@@ -708,7 +708,7 @@ static OnePointCsFull D_80121094[3] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -722,7 +722,7 @@ static OnePointCsFull D_80121094[3] = {
 
 static OnePointCsFull D_8012110C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0x05,
         0x2142,
         1,
@@ -733,7 +733,7 @@ static OnePointCsFull D_8012110C[3] = {
         { 0.0f, 0.0f, 5.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false),
         0xFF,
         0x2121,
         10,
@@ -744,7 +744,7 @@ static OnePointCsFull D_8012110C[3] = {
         { 0.0f, 10.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -758,7 +758,7 @@ static OnePointCsFull D_8012110C[3] = {
 
 static OnePointCsFull D_80121184[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
         0x01,
         0x0101,
         40,
@@ -769,7 +769,7 @@ static OnePointCsFull D_80121184[2] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -783,7 +783,7 @@ static OnePointCsFull D_80121184[2] = {
 
 static OnePointCsFull D_801211D4[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x08,
         0x0101,
         50,
@@ -794,7 +794,7 @@ static OnePointCsFull D_801211D4[2] = {
         { -10.0f, 85.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -808,7 +808,7 @@ static OnePointCsFull D_801211D4[2] = {
 
 static OnePointCsFull D_80121224[6] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x4141,
         2,
@@ -819,7 +819,7 @@ static OnePointCsFull D_80121224[6] = {
         { 0.0f, 0.0f, 45.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0x4141,
         18,
@@ -830,7 +830,7 @@ static OnePointCsFull D_80121224[6] = {
         { 0.0f, -10.0f, 50.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0x34,
         0x4104,
         80,
@@ -841,7 +841,7 @@ static OnePointCsFull D_80121224[6] = {
         { 0.0f, 250.0f, -50.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x0000,
         20,
@@ -852,7 +852,7 @@ static OnePointCsFull D_80121224[6] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x0421,
         60,
@@ -863,7 +863,7 @@ static OnePointCsFull D_80121224[6] = {
         { 10.0f, 5.0f, -50.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -877,7 +877,7 @@ static OnePointCsFull D_80121224[6] = {
 
 static OnePointCsFull D_80121314[1] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x08,
         0x4141,
         1000,
@@ -891,7 +891,7 @@ static OnePointCsFull D_80121314[1] = {
 
 static OnePointCsFull D_8012133C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x0141,
         40,
@@ -902,7 +902,7 @@ static OnePointCsFull D_8012133C[3] = {
         { 0.0f, 0.0f, 100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
         0xFF,
         0x2121,
         20,
@@ -913,7 +913,7 @@ static OnePointCsFull D_8012133C[3] = {
         { 0.0f, 10.0f, -100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -927,7 +927,7 @@ static OnePointCsFull D_8012133C[3] = {
 
 static OnePointCsFull D_801213B4[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x08,
         0xC2C2,
         40,
@@ -938,7 +938,7 @@ static OnePointCsFull D_801213B4[5] = {
         { 20.0f, 0.0f, 80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, true),
         0x01,
         0xC2C2,
         120,
@@ -949,7 +949,7 @@ static OnePointCsFull D_801213B4[5] = {
         { 20.0f, 0.0f, 80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x53,
         0xC2C2,
         30,
@@ -960,7 +960,7 @@ static OnePointCsFull D_801213B4[5] = {
         { 60.0f, 0.0f, 60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
         0x45,
         0x4222,
         30,
@@ -971,7 +971,7 @@ static OnePointCsFull D_801213B4[5] = {
         { 5.0f, 30.0f, 220.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -985,7 +985,7 @@ static OnePointCsFull D_801213B4[5] = {
 
 static OnePointCsFull D_8012147C[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x0101,
         40,
@@ -996,7 +996,7 @@ static OnePointCsFull D_8012147C[4] = {
         { 777.0f, 1577.0f, -577.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x01,
         0x0142,
         1,
@@ -1007,7 +1007,7 @@ static OnePointCsFull D_8012147C[4] = {
         { 900.0f, 1575.0f, 850.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
         0x08,
         0x0142,
         89,
@@ -1018,7 +1018,7 @@ static OnePointCsFull D_8012147C[4] = {
         { 975.0f, 1575.0f, 770.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -1032,7 +1032,7 @@ static OnePointCsFull D_8012147C[4] = {
 
 static OnePointCsFull D_8012151C[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x01,
         0x0101,
         29,
@@ -1043,7 +1043,7 @@ static OnePointCsFull D_8012151C[2] = {
         { -550.0f, 920.0f, -150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -1057,7 +1057,7 @@ static OnePointCsFull D_8012151C[2] = {
 
 static OnePointCsFull D_8012156C[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0x4D,
         0x4242,
         1,
@@ -1068,7 +1068,7 @@ static OnePointCsFull D_8012156C[2] = {
         { 50.0f, 20.0f, 150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0x4242,
         -1,
@@ -1082,7 +1082,7 @@ static OnePointCsFull D_8012156C[2] = {
 
 static OnePointCsFull D_801215BC[1] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         5,
@@ -1096,7 +1096,7 @@ static OnePointCsFull D_801215BC[1] = {
 
 static OnePointCsFull D_801215E4[10] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x4141,
         20,
@@ -1107,7 +1107,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -10.0f, 140.0f, -90.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x01,
         0x0101,
         1,
@@ -1118,7 +1118,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -1060.0f, -980.0f, -3325.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
         0xFF,
         0x4141,
         129,
@@ -1129,7 +1129,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x0303,
         30,
@@ -1140,7 +1140,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -10.0f, 120.0f, 10.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x09,
         0x0101,
         40,
@@ -1151,7 +1151,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -1190.0f, -1010.0f, -3365.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x01,
         0x0101,
         1,
@@ -1162,7 +1162,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -1040.0f, -940.0f, -3345.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         60,
@@ -1173,7 +1173,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -1230.0f, -885.0f, -3345.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x0101,
         10,
@@ -1184,7 +1184,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -1210.0f, -900.0f, -3420.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         20,
@@ -1195,7 +1195,7 @@ static OnePointCsFull D_801215E4[10] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -1209,7 +1209,7 @@ static OnePointCsFull D_801215E4[10] = {
 
 static OnePointCsFull D_80121774[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x0101,
         1,
@@ -1220,7 +1220,7 @@ static OnePointCsFull D_80121774[4] = {
         { -1415.0f, -940.0f, -3520.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x01,
         0x0142,
         39,
@@ -1231,7 +1231,7 @@ static OnePointCsFull D_80121774[4] = {
         { -1140.0f, -1010.0f, -3560.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x05,
         0x0121,
         20,
@@ -1242,7 +1242,7 @@ static OnePointCsFull D_80121774[4] = {
         { -1220.0f, -1005.0f, -3660.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -1256,7 +1256,7 @@ static OnePointCsFull D_80121774[4] = {
 
 static OnePointCsFull D_80121814[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x4C,
         0x0101,
         5,
@@ -1267,7 +1267,7 @@ static OnePointCsFull D_80121814[4] = {
         { -1254.0f, -20.0f, -3357.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x0101,
         70,
@@ -1278,7 +1278,7 @@ static OnePointCsFull D_80121814[4] = {
         { -1320.0f, 350.0f, -3540.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x2121,
         10,
@@ -1289,7 +1289,7 @@ static OnePointCsFull D_80121814[4] = {
         { 0.0f, 20.0f, -150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -1303,7 +1303,7 @@ static OnePointCsFull D_80121814[4] = {
 
 static OnePointCsFull D_801218B4[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         60,
@@ -1314,7 +1314,7 @@ static OnePointCsFull D_801218B4[2] = {
         { 0.0f, 715.0f, -885.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x0101,
         100,
@@ -1328,7 +1328,7 @@ static OnePointCsFull D_801218B4[2] = {
 
 static OnePointCsFull D_80121904[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         50,
@@ -1339,7 +1339,7 @@ static OnePointCsFull D_80121904[2] = {
         { 65.0f, -30.0f, -720.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -1354,7 +1354,7 @@ static OnePointCsFull D_80121904[2] = {
 static OnePointCsFull D_80121954[3][2] = {
     {
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
             0xFF,
             0x0101,
             20,
@@ -1365,7 +1365,7 @@ static OnePointCsFull D_80121954[3][2] = {
             { -765.0f, 1000.0f, 335.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
             0xFF,
             0x0101,
             80,
@@ -1378,7 +1378,7 @@ static OnePointCsFull D_80121954[3][2] = {
     },
     {
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
             0xFF,
             0x0101,
             40,
@@ -1389,7 +1389,7 @@ static OnePointCsFull D_80121954[3][2] = {
             { -5.0f, 240.0f, -190.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
             0xFF,
             0x0101,
             60,
@@ -1402,7 +1402,7 @@ static OnePointCsFull D_80121954[3][2] = {
     },
     {
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
             0xFF,
             0x0101,
             80,
@@ -1413,7 +1413,7 @@ static OnePointCsFull D_80121954[3][2] = {
             { 970.0f, 950.0f, 250.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
             0xFF,
             0x0101,
             20,
@@ -1428,7 +1428,7 @@ static OnePointCsFull D_80121954[3][2] = {
 
 static OnePointCsFull D_80121A44[12] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0x05,
         0x2121,
         10,
@@ -1439,7 +1439,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 0.0f, 0.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, true, false),
         0x01,
         0x4242,
         30,
@@ -1450,7 +1450,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 0.0f, 45.0f, 50.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_21, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, true, false),
         0xFF,
         0x0000,
         1,
@@ -1461,7 +1461,7 @@ static OnePointCsFull D_80121A44[12] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0x05,
         0x2222,
         40,
@@ -1472,7 +1472,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 0.0f, 50.0f, 50.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0x01,
         0x4242,
         40,
@@ -1483,7 +1483,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 70.0f, 30.0f, -40.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_21, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, true, false),
         0xFF,
         0x0000,
         1,
@@ -1494,7 +1494,7 @@ static OnePointCsFull D_80121A44[12] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0xFF,
         0x4242,
         30,
@@ -1505,7 +1505,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 0.0f, 70.0f, 70.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, true, false),
         0xFF,
         0x0000,
         1,
@@ -1516,7 +1516,7 @@ static OnePointCsFull D_80121A44[12] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
         0x01,
         0x2242,
         40,
@@ -1527,7 +1527,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 25.0f, 60.0f, -60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
         0x01,
         0x22C2,
         140,
@@ -1538,7 +1538,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 25.0f, 60.0f, -60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_9, true, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_9, true, false),
         0xFF,
         0x2222,
         20,
@@ -1549,7 +1549,7 @@ static OnePointCsFull D_80121A44[12] = {
         { 0.0f, 60.0f, -60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -1563,7 +1563,7 @@ static OnePointCsFull D_80121A44[12] = {
 
 static OnePointCsFull D_80121C24[7] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x05,
         0x0101,
         1,
@@ -1574,7 +1574,7 @@ static OnePointCsFull D_80121C24[7] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x0101,
         89,
@@ -1585,7 +1585,7 @@ static OnePointCsFull D_80121C24[7] = {
         { 125.0f, 500.0f, -1150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x0101,
         40,
@@ -1596,7 +1596,7 @@ static OnePointCsFull D_80121C24[7] = {
         { 5.0f, 365.0f, -1315.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         40,
@@ -1607,7 +1607,7 @@ static OnePointCsFull D_80121C24[7] = {
         { 235.0f, 365.0f, -1315.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         100,
@@ -1618,7 +1618,7 @@ static OnePointCsFull D_80121C24[7] = {
         { 125.0f, 255.0f, -1350.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         100,
@@ -1629,7 +1629,7 @@ static OnePointCsFull D_80121C24[7] = {
         { 125.0f, 480.0f, -1000.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -1643,7 +1643,7 @@ static OnePointCsFull D_80121C24[7] = {
 
 static OnePointCsFull D_80121D3C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         1,
@@ -1654,7 +1654,7 @@ static OnePointCsFull D_80121D3C[3] = {
         { 993.0f, 770.0f, -2740.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         4,
@@ -1665,7 +1665,7 @@ static OnePointCsFull D_80121D3C[3] = {
         { 1240.0f, 575.0f, -2100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         -1,
@@ -1679,7 +1679,7 @@ static OnePointCsFull D_80121D3C[3] = {
 
 static OnePointCsFull D_80121DB4[9] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         40,
@@ -1690,7 +1690,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 4155.0f, -1360.0f, -1840.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         60,
@@ -1701,7 +1701,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 4070.0f, -1000.0f, -2025.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         5,
@@ -1712,7 +1712,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 4070.0f, -1000.0f, -2025.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         80,
@@ -1723,7 +1723,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 3997.0f, -1194.0f, -1629.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x39,
         0x2121,
         1,
@@ -1734,7 +1734,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 50.0f, 30.0f, 200.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
         0xFF,
         0x2121,
         99,
@@ -1745,7 +1745,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 300.0f, 50.0f, -500.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_9, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_9, false, false),
         0x38,
         0x2121,
         149,
@@ -1756,7 +1756,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 5000.0f, 1055.0f, -2250.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x2121,
         1,
@@ -1767,7 +1767,7 @@ static OnePointCsFull D_80121DB4[9] = {
         { 0.0f, 20.0f, -150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -1781,7 +1781,7 @@ static OnePointCsFull D_80121DB4[9] = {
 
 static OnePointCsFull D_80121F1C[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x0101,
         10,
@@ -1792,7 +1792,7 @@ static OnePointCsFull D_80121F1C[4] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x2121,
         10,
@@ -1803,7 +1803,7 @@ static OnePointCsFull D_80121F1C[4] = {
         { 0.0f, 0.0f, 150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x02,
         0x2121,
         23,
@@ -1814,7 +1814,7 @@ static OnePointCsFull D_80121F1C[4] = {
         { 0.0f, 0.0f, 150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -1828,7 +1828,7 @@ static OnePointCsFull D_80121F1C[4] = {
 
 static OnePointCsFull D_80121FBC[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         5,
@@ -1839,7 +1839,7 @@ static OnePointCsFull D_80121FBC[4] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x0101,
         10,
@@ -1850,7 +1850,7 @@ static OnePointCsFull D_80121FBC[4] = {
         { -2085.0f, 2875.0f, -1145.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         30,
@@ -1861,7 +1861,7 @@ static OnePointCsFull D_80121FBC[4] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -1875,7 +1875,7 @@ static OnePointCsFull D_80121FBC[4] = {
 
 static OnePointCsFull D_8012205C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x42C2,
         1,
@@ -1886,7 +1886,7 @@ static OnePointCsFull D_8012205C[3] = {
         { 0.0f, 220.0f, 240.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0080,
         29,
@@ -1897,7 +1897,7 @@ static OnePointCsFull D_8012205C[3] = {
         { 0.0f, 220.0f, 240.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x01,
         0x21A1,
         10,
@@ -1911,7 +1911,7 @@ static OnePointCsFull D_8012205C[3] = {
 
 static OnePointCsFull D_801220D4[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x01,
         0x0101,
         5,
@@ -1922,7 +1922,7 @@ static OnePointCsFull D_801220D4[5] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x4141,
         10,
@@ -1933,7 +1933,7 @@ static OnePointCsFull D_801220D4[5] = {
         { 600.0f, -60.0f, 800.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x4141,
         15,
@@ -1944,7 +1944,7 @@ static OnePointCsFull D_801220D4[5] = {
         { 0.0f, 10.0f, 200.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         25,
@@ -1955,7 +1955,7 @@ static OnePointCsFull D_801220D4[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -1969,7 +1969,7 @@ static OnePointCsFull D_801220D4[5] = {
 
 static OnePointCsFull D_8012219C[7] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x2121,
         5,
@@ -1980,7 +1980,7 @@ static OnePointCsFull D_8012219C[7] = {
         { 0.0f, 0.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x4242,
         15,
@@ -1991,7 +1991,7 @@ static OnePointCsFull D_8012219C[7] = {
         { 0.0f, 60.0f, 100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         20,
@@ -2002,7 +2002,7 @@ static OnePointCsFull D_8012219C[7] = {
         { 0.0f, 60.0f, 100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x4242,
         20,
@@ -2013,7 +2013,7 @@ static OnePointCsFull D_8012219C[7] = {
         { 40.0f, 60.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -2024,7 +2024,7 @@ static OnePointCsFull D_8012219C[7] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         90,
@@ -2035,7 +2035,7 @@ static OnePointCsFull D_8012219C[7] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2049,7 +2049,7 @@ static OnePointCsFull D_8012219C[7] = {
 
 static OnePointCsFull D_801222B4[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         20,
@@ -2060,7 +2060,7 @@ static OnePointCsFull D_801222B4[5] = {
         { -1100.0f, 500.0f, -1025.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
         0xFF,
         0x0101,
         20,
@@ -2071,7 +2071,7 @@ static OnePointCsFull D_801222B4[5] = {
         { -1100.0f, 500.0f, -1025.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
         0x81,
         0x0101,
         20,
@@ -2082,7 +2082,7 @@ static OnePointCsFull D_801222B4[5] = {
         { -1100.0f, 500.0f, -1025.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
         0x8A,
         0x0101,
         5,
@@ -2093,7 +2093,7 @@ static OnePointCsFull D_801222B4[5] = {
         { -1100.0f, 500.0f, -1025.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -2107,7 +2107,7 @@ static OnePointCsFull D_801222B4[5] = {
 
 static OnePointCsFull D_8012237C[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         20,
@@ -2118,7 +2118,7 @@ static OnePointCsFull D_8012237C[2] = {
         { -692.0f, 226.0f, -515.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2132,7 +2132,7 @@ static OnePointCsFull D_8012237C[2] = {
 
 static OnePointCsFull D_801223CC[6] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         20,
@@ -2143,7 +2143,7 @@ static OnePointCsFull D_801223CC[6] = {
         { 60.0f, 1130.0f, -1190.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         18,
@@ -2154,7 +2154,7 @@ static OnePointCsFull D_801223CC[6] = {
         { 180.0f, 1170.0f, -1240.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         16,
@@ -2165,7 +2165,7 @@ static OnePointCsFull D_801223CC[6] = {
         { -20.0f, 940.0f, -1280.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         4,
@@ -2176,7 +2176,7 @@ static OnePointCsFull D_801223CC[6] = {
         { 60.0f, 1100.0f, -1180.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         32,
@@ -2187,7 +2187,7 @@ static OnePointCsFull D_801223CC[6] = {
         { 60.0f, 1150.0f, -740.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -2201,7 +2201,7 @@ static OnePointCsFull D_801223CC[6] = {
 
 static OnePointCsFull D_801224BC[7] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         5,
@@ -2212,7 +2212,7 @@ static OnePointCsFull D_801224BC[7] = {
         { 60.0f, 1860.0f, -800.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x0101,
         20,
@@ -2223,7 +2223,7 @@ static OnePointCsFull D_801224BC[7] = {
         { 60.0f, 1780.0f, -800.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -2234,7 +2234,7 @@ static OnePointCsFull D_801224BC[7] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0142,
         1,
@@ -2245,7 +2245,7 @@ static OnePointCsFull D_801224BC[7] = {
         { 60.0f, 990.0f, -690.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x0142,
         119,
@@ -2256,7 +2256,7 @@ static OnePointCsFull D_801224BC[7] = {
         { 60.0f, 990.0f, -690.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x4242,
         20,
@@ -2267,7 +2267,7 @@ static OnePointCsFull D_801224BC[7] = {
         { 0.0f, 100.0f, 200.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -2281,7 +2281,7 @@ static OnePointCsFull D_801224BC[7] = {
 
 static OnePointCsFull D_801225D4[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x0101,
         1,
@@ -2292,7 +2292,7 @@ static OnePointCsFull D_801225D4[5] = {
         { 3900.0f, 1100.0f, -1400.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x3B,
         0x0101,
         60,
@@ -2303,7 +2303,7 @@ static OnePointCsFull D_801225D4[5] = {
         { 3790.0f, 825.0f, -1325.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x0101,
         90,
@@ -2314,7 +2314,7 @@ static OnePointCsFull D_801225D4[5] = {
         { 3735.0f, 715.0f, -1325.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x2323,
         2,
@@ -2325,7 +2325,7 @@ static OnePointCsFull D_801225D4[5] = {
         { -10.0f, 15.0f, -200.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -2339,7 +2339,7 @@ static OnePointCsFull D_801225D4[5] = {
 
 static OnePointCsFull D_8012269C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         20,
@@ -2350,7 +2350,7 @@ static OnePointCsFull D_8012269C[3] = {
         { 918.0f, 228.0f, -1228.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -2361,7 +2361,7 @@ static OnePointCsFull D_8012269C[3] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2375,7 +2375,7 @@ static OnePointCsFull D_8012269C[3] = {
 
 static OnePointCsFull D_80122714[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         20,
@@ -2386,7 +2386,7 @@ static OnePointCsFull D_80122714[4] = {
         { -915.0f, -2290.0f, 6165.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         -1,
@@ -2397,7 +2397,7 @@ static OnePointCsFull D_80122714[4] = {
         { -920.0f, -2280.0f, 6070.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         20,
@@ -2408,7 +2408,7 @@ static OnePointCsFull D_80122714[4] = {
         { -920.0f, -2300.0f, 6070.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2422,7 +2422,7 @@ static OnePointCsFull D_80122714[4] = {
 
 static OnePointCsFull D_801227B4[6] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         30,
@@ -2433,7 +2433,7 @@ static OnePointCsFull D_801227B4[6] = {
         { 1250.0f, 100.0f, -170.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x4242,
         130,
@@ -2444,7 +2444,7 @@ static OnePointCsFull D_801227B4[6] = {
         { -150.0f, -5.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -2455,7 +2455,7 @@ static OnePointCsFull D_801227B4[6] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0303,
         69,
@@ -2466,7 +2466,7 @@ static OnePointCsFull D_801227B4[6] = {
         { -40.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0303,
         20,
@@ -2477,7 +2477,7 @@ static OnePointCsFull D_801227B4[6] = {
         { 10.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2491,7 +2491,7 @@ static OnePointCsFull D_801227B4[6] = {
 
 static OnePointCsFull D_801228A4[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x01,
         0x0101,
         20,
@@ -2502,7 +2502,7 @@ static OnePointCsFull D_801228A4[5] = {
         { 512.0f, 142.0f, 2020.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         20,
@@ -2513,7 +2513,7 @@ static OnePointCsFull D_801228A4[5] = {
         { 512.0f, 142.0f, 2020.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x08,
         0x0101,
         90,
@@ -2524,7 +2524,7 @@ static OnePointCsFull D_801228A4[5] = {
         { 1255.0f, 150.0f, 1785.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0x2121,
         10,
@@ -2535,7 +2535,7 @@ static OnePointCsFull D_801228A4[5] = {
         { 30.0f, 10.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -2549,7 +2549,7 @@ static OnePointCsFull D_801228A4[5] = {
 
 static OnePointCsFull D_8012296C[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         20,
@@ -2560,7 +2560,7 @@ static OnePointCsFull D_8012296C[4] = {
         { -700.0f, 700.0f, -3075.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x0101,
         80,
@@ -2571,7 +2571,7 @@ static OnePointCsFull D_8012296C[4] = {
         { -700.0f, 140.0f, -3075.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         120,
@@ -2582,7 +2582,7 @@ static OnePointCsFull D_8012296C[4] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2596,7 +2596,7 @@ static OnePointCsFull D_8012296C[4] = {
 
 static OnePointCsFull D_80122A0C[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         60,
@@ -2607,7 +2607,7 @@ static OnePointCsFull D_80122A0C[2] = {
         { -200.0f, 500.0f, -850.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -2621,7 +2621,7 @@ static OnePointCsFull D_80122A0C[2] = {
 
 static OnePointCsFull D_80122A5C[8] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         1,
@@ -2632,7 +2632,7 @@ static OnePointCsFull D_80122A5C[8] = {
         { -45.0f, 3650.0f, -4415.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_21, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, false),
         0xFF,
         0x0000,
         1,
@@ -2643,7 +2643,7 @@ static OnePointCsFull D_80122A5C[8] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         1,
@@ -2654,7 +2654,7 @@ static OnePointCsFull D_80122A5C[8] = {
         { -110.0f, 2162.0f, -3262.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_21, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, false),
         0xFF,
         0x0000,
         1,
@@ -2665,7 +2665,7 @@ static OnePointCsFull D_80122A5C[8] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         55,
@@ -2676,7 +2676,7 @@ static OnePointCsFull D_80122A5C[8] = {
         { 64.0f, 1423.0f, -1188.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         1,
@@ -2687,7 +2687,7 @@ static OnePointCsFull D_80122A5C[8] = {
         { -20.0f, 3650.0f, -4400.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -2698,7 +2698,7 @@ static OnePointCsFull D_80122A5C[8] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2712,7 +2712,7 @@ static OnePointCsFull D_80122A5C[8] = {
 
 static OnePointCsFull D_80122B9C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         60,
@@ -2723,7 +2723,7 @@ static OnePointCsFull D_80122B9C[3] = {
         { 1166.0f, 2695.0f, -2710.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         60,
@@ -2734,7 +2734,7 @@ static OnePointCsFull D_80122B9C[3] = {
         { 606.0f, 5160.0f, -4740.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2748,7 +2748,7 @@ static OnePointCsFull D_80122B9C[3] = {
 
 static OnePointCsFull D_80122C14[1] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         999,
@@ -2762,7 +2762,7 @@ static OnePointCsFull D_80122C14[1] = {
 
 static OnePointCsFull D_80122C3C[1] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         999,
@@ -2776,7 +2776,7 @@ static OnePointCsFull D_80122C3C[1] = {
 
 static OnePointCsFull D_80122C64[1] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         999,
@@ -2790,7 +2790,7 @@ static OnePointCsFull D_80122C64[1] = {
 
 static OnePointCsFull D_80122C8C[1] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         999,
@@ -2804,7 +2804,7 @@ static OnePointCsFull D_80122C8C[1] = {
 
 static OnePointCsFull D_80122CB4[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x4242,
         5,
@@ -2815,7 +2815,7 @@ static OnePointCsFull D_80122CB4[2] = {
         { 0.0f, 0.0f, 1100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x4242,
         -1,
@@ -2829,7 +2829,7 @@ static OnePointCsFull D_80122CB4[2] = {
 
 static OnePointCsFull D_80122D04[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x4242,
         10,
@@ -2840,7 +2840,7 @@ static OnePointCsFull D_80122D04[2] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x4242,
         -1,
@@ -2854,7 +2854,7 @@ static OnePointCsFull D_80122D04[2] = {
 
 static OnePointCsFull D_80122D54[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         1,
@@ -2865,7 +2865,7 @@ static OnePointCsFull D_80122D54[3] = {
         { 50.0f, 50.0f, 225.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -2876,7 +2876,7 @@ static OnePointCsFull D_80122D54[3] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2890,7 +2890,7 @@ static OnePointCsFull D_80122D54[3] = {
 
 static OnePointCsFull D_80122DCC[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         1,
@@ -2901,7 +2901,7 @@ static OnePointCsFull D_80122DCC[3] = {
         { 0.0f, 55.0f, 55.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -2912,7 +2912,7 @@ static OnePointCsFull D_80122DCC[3] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_17, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
         0xFF,
         0x0000,
         1,
@@ -2927,7 +2927,7 @@ static OnePointCsFull D_80122DCC[3] = {
 static OnePointCsFull D_80122E44[2][7] = {
     {
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, true),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
             0xFF,
             0x2222,
             10,
@@ -2938,7 +2938,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { -30.0f, 10.0f, -20.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
             0xFF,
             0x0000,
             20,
@@ -2949,7 +2949,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { -1.0f, -1.0f, -1.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
             0xFF,
             0x4343,
             30,
@@ -2960,7 +2960,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { 20.0f, 20.0f, 120.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
             0xFF,
             0x0000,
             1,
@@ -2971,7 +2971,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { -1.0f, -1.0f, -1.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
             0x01,
             0x4343,
             160,
@@ -2982,7 +2982,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { -100.0f, 20.0f, 50.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
             0xFF,
             0x0501,
             50,
@@ -2993,7 +2993,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { 0.0f, 10.0f, 80.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_19, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_19, false, false),
             0xFF,
             0x0000,
             1,
@@ -3006,7 +3006,7 @@ static OnePointCsFull D_80122E44[2][7] = {
     },
     {
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, true),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
             0xFF,
             0x2222,
             10,
@@ -3017,7 +3017,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { 30.0f, 10.0f, -20.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
             0xFF,
             0x0000,
             20,
@@ -3028,7 +3028,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { -1.0f, -1.0f, -1.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
             0xFF,
             0x4343,
             30,
@@ -3039,7 +3039,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { -20.0f, 20.0f, 120.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
             0xFF,
             0x0000,
             1,
@@ -3050,7 +3050,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { -1.0f, -1.0f, -1.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
             0x01,
             0x4343,
             160,
@@ -3061,7 +3061,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { 100.0f, 20.0f, 50.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
             0xFF,
             0x0501,
             50,
@@ -3072,7 +3072,7 @@ static OnePointCsFull D_80122E44[2][7] = {
             { 0.0f, 10.0f, 80.0f },
         },
         {
-            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_19, false, false),
+            ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_19, false, false),
             0xFF,
             0x0000,
             1,
@@ -3087,7 +3087,7 @@ static OnePointCsFull D_80122E44[2][7] = {
 
 static OnePointCsFull D_80123074[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0xA2A2,
         2,
@@ -3098,7 +3098,7 @@ static OnePointCsFull D_80123074[5] = {
         { 37.0f, -5.0f, 100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0xA2A2,
         38,
@@ -3109,7 +3109,7 @@ static OnePointCsFull D_80123074[5] = {
         { 37.0f, 150.0f, 155.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0xA2A2,
         2,
@@ -3120,7 +3120,7 @@ static OnePointCsFull D_80123074[5] = {
         { 70.0f, 5.0f, 125.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0xA2A2,
         58,
@@ -3131,7 +3131,7 @@ static OnePointCsFull D_80123074[5] = {
         { 25.0f, -175.0f, 180.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, true),
         0xFF,
         0x0000,
         1,
@@ -3145,7 +3145,7 @@ static OnePointCsFull D_80123074[5] = {
 
 static OnePointCsFull D_8012313C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0xA2A2,
         20,
@@ -3156,7 +3156,7 @@ static OnePointCsFull D_8012313C[3] = {
         { 30.0f, 10.0f, 90.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
         0xA2A2,
         100,
@@ -3167,7 +3167,7 @@ static OnePointCsFull D_8012313C[3] = {
         { 25.0f, 180.0f, 180.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, true),
         0xFF,
         0x0000,
         1,
@@ -3181,7 +3181,7 @@ static OnePointCsFull D_8012313C[3] = {
 
 static OnePointCsFull D_801231B4[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xC5,
         0x4343,
         1,
@@ -3192,7 +3192,7 @@ static OnePointCsFull D_801231B4[4] = {
         { 0.0f, 5.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xC5,
         0x4343,
         48,
@@ -3203,7 +3203,7 @@ static OnePointCsFull D_801231B4[4] = {
         { 0.0f, 15.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xC5,
         0x4343,
         1,
@@ -3214,7 +3214,7 @@ static OnePointCsFull D_801231B4[4] = {
         { 30.0f, 120.0f, 60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xC5,
         0x4343,
         -1,
@@ -3228,7 +3228,7 @@ static OnePointCsFull D_801231B4[4] = {
 
 static OnePointCsFull D_80123254[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         1,
@@ -3239,7 +3239,7 @@ static OnePointCsFull D_80123254[2] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xC5,
         0x0101,
         49,
@@ -3253,7 +3253,7 @@ static OnePointCsFull D_80123254[2] = {
 
 static OnePointCsFull D_801232A4[1] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x45,
         0x0101,
         9999,
@@ -3267,7 +3267,7 @@ static OnePointCsFull D_801232A4[1] = {
 
 static OnePointCsFull D_801232CC[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x0101,
         45,
@@ -3278,7 +3278,7 @@ static OnePointCsFull D_801232CC[5] = {
         { -159.0f, 33.0f, -729.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -3289,7 +3289,7 @@ static OnePointCsFull D_801232CC[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         10,
@@ -3300,7 +3300,7 @@ static OnePointCsFull D_801232CC[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x2121,
         15,
@@ -3311,7 +3311,7 @@ static OnePointCsFull D_801232CC[5] = {
         { 0.0f, 0.0f, -150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -3325,7 +3325,7 @@ static OnePointCsFull D_801232CC[5] = {
 
 static OnePointCsFull D_80123394[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x0101,
         45,
@@ -3336,7 +3336,7 @@ static OnePointCsFull D_80123394[5] = {
         { 98.0f, 24.0f, -714.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -3347,7 +3347,7 @@ static OnePointCsFull D_80123394[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         10,
@@ -3358,7 +3358,7 @@ static OnePointCsFull D_80123394[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0xFF,
         0x2121,
         15,
@@ -3369,7 +3369,7 @@ static OnePointCsFull D_80123394[5] = {
         { 0.0f, 0.0f, -150.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -3383,7 +3383,7 @@ static OnePointCsFull D_80123394[5] = {
 
 static OnePointCsFull D_8012345C[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x01,
         0x4242,
         40,
@@ -3394,7 +3394,7 @@ static OnePointCsFull D_8012345C[4] = {
         { 0.0f, 60.0f, -160.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
         0x4D,
         0x4242,
         40,
@@ -3405,7 +3405,7 @@ static OnePointCsFull D_8012345C[4] = {
         { 0.0f, 60.0f, -160.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_4, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
         0x01,
         0x2121,
         10,
@@ -3416,7 +3416,7 @@ static OnePointCsFull D_8012345C[4] = {
         { 0.0f, 10.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -3430,7 +3430,7 @@ static OnePointCsFull D_8012345C[4] = {
 
 static OnePointCsFull D_801234FC[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
         0x05,
         0x0441,
         10,
@@ -3441,7 +3441,7 @@ static OnePointCsFull D_801234FC[5] = {
         { 0.0f, 0.0f, 120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x4141,
         30,
@@ -3452,7 +3452,7 @@ static OnePointCsFull D_801234FC[5] = {
         { 0.0f, 10.0f, 80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0x01,
         0x0000,
         1,
@@ -3463,7 +3463,7 @@ static OnePointCsFull D_801234FC[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
         0xFF,
         0x2121,
         10,
@@ -3474,7 +3474,7 @@ static OnePointCsFull D_801234FC[5] = {
         { 0.0f, 10.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -3488,7 +3488,7 @@ static OnePointCsFull D_801234FC[5] = {
 
 static OnePointCsFull D_801235C4[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0x01,
         0x4141,
         1,
@@ -3499,7 +3499,7 @@ static OnePointCsFull D_801235C4[5] = {
         { 0.0f, 10.0f, 60.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
         0xFF,
         0x0441,
         39,
@@ -3510,7 +3510,7 @@ static OnePointCsFull D_801235C4[5] = {
         { 0.0f, 0.0f, 100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_16, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
         0xFF,
         0x0000,
         1,
@@ -3521,7 +3521,7 @@ static OnePointCsFull D_801235C4[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
         0xFF,
         0x2121,
         15,
@@ -3532,7 +3532,7 @@ static OnePointCsFull D_801235C4[5] = {
         { 0.0f, 10.0f, -80.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,
@@ -3546,7 +3546,7 @@ static OnePointCsFull D_801235C4[5] = {
 
 static OnePointCsFull D_8012368C[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         10,
@@ -3557,7 +3557,7 @@ static OnePointCsFull D_8012368C[4] = {
         { -985.0f, -220.0f, -840.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         70,
@@ -3568,7 +3568,7 @@ static OnePointCsFull D_8012368C[4] = {
         { -1005.0f, -230.0f, -840.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         10,
@@ -3579,7 +3579,7 @@ static OnePointCsFull D_8012368C[4] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         180,
@@ -3593,7 +3593,7 @@ static OnePointCsFull D_8012368C[4] = {
 
 static OnePointCsFull D_8012372C[4] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0142,
         10,
@@ -3604,7 +3604,7 @@ static OnePointCsFull D_8012372C[4] = {
         { -1650.0f, 200.0f, -2920.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0142,
         110,
@@ -3615,7 +3615,7 @@ static OnePointCsFull D_8012372C[4] = {
         { -1320.0f, 170.0f, -2900.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_11, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
         0xFF,
         0x4242,
         100,
@@ -3626,7 +3626,7 @@ static OnePointCsFull D_8012372C[4] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_3, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
         0xFF,
         0x4242,
         60,
@@ -3640,7 +3640,7 @@ static OnePointCsFull D_8012372C[4] = {
 
 static OnePointCsFull D_801237CC[5] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x4242,
         20,
@@ -3651,7 +3651,7 @@ static OnePointCsFull D_801237CC[5] = {
         { 0.0f, 0.0f, 100.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_10, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_10, false, false),
         0xFF,
         0x0101,
         80,
@@ -3662,7 +3662,7 @@ static OnePointCsFull D_801237CC[5] = {
         { 2800.0f, 1190.0f, 540.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         10,
@@ -3673,7 +3673,7 @@ static OnePointCsFull D_801237CC[5] = {
         { -1.0f, -1.0f, -1.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_2, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
         0xFF,
         0x0101,
         55,
@@ -3684,7 +3684,7 @@ static OnePointCsFull D_801237CC[5] = {
         { 1500.0f, 1415.0f, 650.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0000,
         100,
@@ -3698,7 +3698,7 @@ static OnePointCsFull D_801237CC[5] = {
 
 static OnePointCsFull D_80123894[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         60,
@@ -3709,7 +3709,7 @@ static OnePointCsFull D_80123894[3] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x4242,
         30,
@@ -3720,7 +3720,7 @@ static OnePointCsFull D_80123894[3] = {
         { 0.0f, 20.0f, 40.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_13, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, false),
         0xFF,
         0x0000,
         120,
@@ -3734,7 +3734,7 @@ static OnePointCsFull D_80123894[3] = {
 
 static OnePointCsFull D_8012390C[2] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         30,
@@ -3745,7 +3745,7 @@ static OnePointCsFull D_8012390C[2] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x4242,
         180,
@@ -3759,7 +3759,7 @@ static OnePointCsFull D_8012390C[2] = {
 
 static OnePointCsFull D_8012395C[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x0101,
         60,
@@ -3770,7 +3770,7 @@ static OnePointCsFull D_8012395C[3] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x4242,
         30,
@@ -3781,7 +3781,7 @@ static OnePointCsFull D_8012395C[3] = {
         { 0.0f, 20.0f, -45.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_13, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, false),
         0xFF,
         0x0000,
         120,
@@ -3795,7 +3795,7 @@ static OnePointCsFull D_8012395C[3] = {
 
 static OnePointCsFull D_801239D4[3] = {
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
         0xFF,
         0x4242,
         5,
@@ -3806,7 +3806,7 @@ static OnePointCsFull D_801239D4[3] = {
         { 0.0f, 40.0f, -120.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_9, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_9, false, false),
         0xFF,
         0x4242,
         0,
@@ -3817,7 +3817,7 @@ static OnePointCsFull D_801239D4[3] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_18, false, false),
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
         0xFF,
         0x0000,
         1,

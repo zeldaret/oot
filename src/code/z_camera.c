@@ -5439,7 +5439,7 @@ s32 Camera_Unique9(Camera* camera) {
 
     action = ONEPOINT_CS_GET_ACTION(rwData->curKeyFrame);
     switch (action) {
-        case ONEPOINT_CS_ACTION_15:
+        case ONEPOINT_CS_ACTION_ID_15:
             // static copy to at/eye/fov/roll
             *at = rwData->atTarget;
             *eyeNext = rwData->eyeTarget;
@@ -5448,7 +5448,7 @@ s32 Camera_Unique9(Camera* camera) {
             camera->unk_14C |= 0x400;
             break;
 
-        case ONEPOINT_CS_ACTION_21:
+        case ONEPOINT_CS_ACTION_ID_21:
             // same as 15, but with unk_38 ?
             if (rwData->unk_38 == 0) {
                 rwData->unk_38 = 1;
@@ -5462,7 +5462,7 @@ s32 Camera_Unique9(Camera* camera) {
             camera->roll = rwData->rollTarget;
             break;
 
-        case ONEPOINT_CS_ACTION_16:
+        case ONEPOINT_CS_ACTION_ID_16:
             // same as 21, but don't unset bit 0x8 on unk_14C
             if (rwData->unk_38 == 0) {
                 rwData->unk_38 = 1;
@@ -5476,7 +5476,7 @@ s32 Camera_Unique9(Camera* camera) {
             camera->roll = rwData->rollTarget;
             break;
 
-        case ONEPOINT_CS_ACTION_1:
+        case ONEPOINT_CS_ACTION_ID_1:
             // linear interpolation of eye/at using the geographic coordinates
             OLib_Vec3fDiffToVecGeo(&eyeNextAtOffset, at, eyeNext);
             OLib_Vec3fDiffToVecGeo(&rwData->atEyeOffsetTarget, &rwData->atTarget, &rwData->eyeTarget);
@@ -5489,7 +5489,7 @@ s32 Camera_Unique9(Camera* camera) {
             Camera_AddVecGeoToVec3f(&eyeTarget, at, &scratchGeo);
             goto setEyeNext;
 
-        case ONEPOINT_CS_ACTION_2:
+        case ONEPOINT_CS_ACTION_ID_2:
             // linear interpolation of eye/at using the eyeTarget
             invKeyFrameTimer = 1.0f / rwData->keyFrameTimer;
             eyeTarget.x = F32_LERPIMP(camera->eyeNext.x, rwData->eyeTarget.x, invKeyFrameTimer);
@@ -5504,8 +5504,8 @@ s32 Camera_Unique9(Camera* camera) {
             camera->eyeNext.z =
                 Camera_LERPFloorF(eyeTarget.z, camera->eyeNext.z, rwData->curKeyFrame->lerpStepScale, 1.0f);
             FALLTHROUGH;
-        case ONEPOINT_CS_ACTION_9:
-        case ONEPOINT_CS_ACTION_10:
+        case ONEPOINT_CS_ACTION_ID_9:
+        case ONEPOINT_CS_ACTION_ID_10:
             // linear interpolation of at/fov/roll
             invKeyFrameTimer = 1.0f / rwData->keyFrameTimer;
             atTarget.x = F32_LERPIMP(camera->at.x, rwData->atTarget.x, invKeyFrameTimer);
@@ -5520,7 +5520,7 @@ s32 Camera_Unique9(Camera* camera) {
                                              camera->roll, rwData->curKeyFrame->lerpStepScale, 0xA);
             break;
 
-        case ONEPOINT_CS_ACTION_4:
+        case ONEPOINT_CS_ACTION_ID_4:
             // linear interpolation of eye/at/fov/roll using the step scale, and spherical coordinates
             OLib_Vec3fDiffToVecGeo(&eyeNextAtOffset, at, eyeNext);
             OLib_Vec3fDiffToVecGeo(&rwData->atEyeOffsetTarget, &rwData->atTarget, &rwData->eyeTarget);
@@ -5533,7 +5533,7 @@ s32 Camera_Unique9(Camera* camera) {
             Camera_AddVecGeoToVec3f(eyeNext, at, &scratchGeo);
             goto setAtFOVRoll;
 
-        case ONEPOINT_CS_ACTION_3:
+        case ONEPOINT_CS_ACTION_ID_3:
             // linear interplation of eye/at/fov/roll using the step scale using eyeTarget
             camera->eyeNext.x =
                 Camera_LERPCeilF(rwData->eyeTarget.x, camera->eyeNext.x, rwData->curKeyFrame->lerpStepScale, 1.0f);
@@ -5542,8 +5542,8 @@ s32 Camera_Unique9(Camera* camera) {
             camera->eyeNext.z =
                 Camera_LERPCeilF(rwData->eyeTarget.z, camera->eyeNext.z, rwData->curKeyFrame->lerpStepScale, 1.0f);
             FALLTHROUGH;
-        case ONEPOINT_CS_ACTION_11:
-        case ONEPOINT_CS_ACTION_12:
+        case ONEPOINT_CS_ACTION_ID_11:
+        case ONEPOINT_CS_ACTION_ID_12:
         setAtFOVRoll:
             // linear interpolation of at/fov/roll using the step scale.
             camera->at.x = Camera_LERPCeilF(rwData->atTarget.x, camera->at.x, rwData->curKeyFrame->lerpStepScale, 1.0f);
@@ -5553,7 +5553,7 @@ s32 Camera_Unique9(Camera* camera) {
             camera->roll = Camera_LERPCeilS(rwData->rollTarget, camera->roll, rwData->curKeyFrame->lerpStepScale, 1);
             break;
 
-        case ONEPOINT_CS_ACTION_13:
+        case ONEPOINT_CS_ACTION_ID_13:
             // linear interpolation of at, with rotation around eyeTargetInit.y
             camera->at.x = Camera_LERPCeilF(rwData->atTarget.x, camera->at.x, rwData->curKeyFrame->lerpStepScale, 1.0f);
             camera->at.y += camera->playerPosDelta.y * rwData->curKeyFrame->lerpStepScale;
@@ -5584,19 +5584,19 @@ s32 Camera_Unique9(Camera* camera) {
             camera->roll = Camera_LERPCeilS(rwData->rollTarget, camera->roll, rwData->curKeyFrame->lerpStepScale, 1);
             break;
 
-        case ONEPOINT_CS_ACTION_24:
+        case ONEPOINT_CS_ACTION_ID_24:
             // Set current keyframe to the roll target?
             rwData->curKeyFrameIdx = rwData->rollTarget;
             break;
 
-        case ONEPOINT_CS_ACTION_19: {
+        case ONEPOINT_CS_ACTION_ID_19: {
             // Change the parent camera (or default)'s mode to normal
             s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
 
             Camera_ChangeModeFlags(camera->play->cameraPtrs[camIdx], CAM_MODE_NORMAL, 1);
         }
             FALLTHROUGH;
-        case ONEPOINT_CS_ACTION_18: {
+        case ONEPOINT_CS_ACTION_ID_18: {
             // copy the current camera to the parent (or default)'s camera.
             s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
             Camera* cam = camera->play->cameraPtrs[camIdx];
@@ -5614,11 +5614,11 @@ s32 Camera_Unique9(Camera* camera) {
 
     *eye = *eyeNext;
 
-    if (rwData->curKeyFrame->actionFlags & ONEPOINT_CS_ACTION_BGCHECK) {
+    if (rwData->curKeyFrame->actionFlags & ONEPOINT_CS_ACTION_FLAG_BGCHECK) {
         Camera_BGCheck(camera, at, eye);
     }
 
-    if (rwData->curKeyFrame->actionFlags & ONEPOINT_CS_ACTION_40) {
+    if (rwData->curKeyFrame->actionFlags & ONEPOINT_CS_ACTION_FLAG_40) {
         // Set the player's position
         camera->player->actor.world.pos.x = rwData->playerPos.x;
         camera->player->actor.world.pos.z = rwData->playerPos.z;
@@ -6054,7 +6054,7 @@ s32 Camera_Demo5(Camera* camera) {
         ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
         if ((targetScreenPosX < 0x15) || (targetScreenPosX >= 0x12C) || (targetScreenPosY < 0x29) ||
             (targetScreenPosY >= 0xC8)) {
-            D_8011D79C[0].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, true, false);
+            D_8011D79C[0].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false);
             D_8011D79C[0].atTargetInit.y = -30.0f;
             D_8011D79C[0].atTargetInit.x = 0.0f;
             D_8011D79C[0].atTargetInit.z = 0.0f;
@@ -6138,8 +6138,8 @@ s32 Camera_Demo5(Camera* camera) {
         targethead.pos.x += 50.0f * Math_SinS(sp4A - 0x7FFF);
         targethead.pos.z += 50.0f * Math_CosS(sp4A - 0x7FFF);
         if (Camera_BGCheck(camera, &playerhead.pos, &targethead.pos)) {
-            D_8011D954[1].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_1, true, true);
-            D_8011D954[2].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true);
+            D_8011D954[1].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true);
+            D_8011D954[2].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true);
         } else {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
@@ -6163,7 +6163,7 @@ s32 Camera_Demo5(Camera* camera) {
         Actor_GetFocus(&targethead, camera->target);
         if (Camera_BGCheck(camera, &playerhead.pos, &targethead.pos)) {
             D_8011D9F4[1].timerInit = 4;
-            D_8011D9F4[1].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_15, false, true);
+            D_8011D9F4[1].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true);
         } else {
             t = eyeTargetDist * 0.005f;
             D_8011D9F4[1].timerInit = t + 8;
