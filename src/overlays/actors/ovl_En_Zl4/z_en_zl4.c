@@ -1266,19 +1266,19 @@ void EnZl4_Update(Actor* thisx, PlayState* play) {
 
 s32 EnZl4_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnZl4* this = (EnZl4*)thisx;
-    Vec3s sp1C;
+    Vec3s limbRot;
 
     if (limbIndex == 17) {
-        sp1C = this->interactInfo.headRot;
+        limbRot = this->interactInfo.headRot;
         Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 10) {
-        sp1C = this->interactInfo.torsoRot;
-        Matrix_RotateY(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
     if ((limbIndex >= 3) && (limbIndex < 7)) {
         *dList = NULL;

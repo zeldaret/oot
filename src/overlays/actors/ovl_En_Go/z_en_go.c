@@ -377,7 +377,7 @@ s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     }
 }
 
-f32 EnGo_GetGoronSize(EnGo* this) {
+f32 EnGo_GetPlayerTrackingYOffset(EnGo* this) {
     switch (this->actor.params & 0xF0) {
         case 0x00:
             return 10.0f;
@@ -396,16 +396,16 @@ f32 EnGo_GetGoronSize(EnGo* this) {
 
 void func_80A3F060(EnGo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 npcTrackingMode;
+    s16 trackingMode;
 
     if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
         this->actionFunc != func_80A40B1C) {
-        npcTrackingMode = NPC_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     }
 
     this->interactInfo.trackPos = player->actor.world.pos;
-    this->interactInfo.yOffset = EnGo_GetGoronSize(this);
-    Npc_TrackPoint(&this->actor, &this->interactInfo, 4, npcTrackingMode);
+    this->interactInfo.yOffset = EnGo_GetPlayerTrackingYOffset(this);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 4, trackingMode);
 }
 
 void func_80A3F0E4(EnGo* this) {
@@ -1081,32 +1081,32 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
 
 s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGo* this = (EnGo*)thisx;
-    Vec3s vec1;
-    f32 float1;
+    Vec3s limbRot;
+    f32 temp;
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->interactInfo.headRot;
-        float1 = BINANG_TO_RAD_ALT(vec1.y);
-        Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = BINANG_TO_RAD_ALT(vec1.x);
-        Matrix_RotateZ(float1, MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        temp = BINANG_TO_RAD_ALT(limbRot.y);
+        Matrix_RotateX(temp, MTXMODE_APPLY);
+        temp = BINANG_TO_RAD_ALT(limbRot.x);
+        Matrix_RotateZ(temp, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limb == 10) {
-        vec1 = this->interactInfo.torsoRot;
-        float1 = BINANG_TO_RAD_ALT(vec1.y);
-        Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = BINANG_TO_RAD_ALT(vec1.x);
-        Matrix_RotateX(float1, MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        temp = BINANG_TO_RAD_ALT(limbRot.y);
+        Matrix_RotateY(temp, MTXMODE_APPLY);
+        temp = BINANG_TO_RAD_ALT(limbRot.x);
+        Matrix_RotateX(temp, MTXMODE_APPLY);
     }
 
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        float1 = Math_SinS(this->jointTable[limb]);
-        rot->y += float1 * 200.0f;
-        float1 = Math_CosS(this->morphTable[limb]);
-        rot->z += float1 * 200.0f;
+        temp = Math_SinS(this->jointTable[limb]);
+        rot->y += temp * 200.0f;
+        temp = Math_CosS(this->morphTable[limb]);
+        rot->z += temp * 200.0f;
     }
 
     return 0;
