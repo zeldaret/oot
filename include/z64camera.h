@@ -89,8 +89,8 @@ typedef enum {
     /* 0x2D */ CAM_SET_BEAN_LOST_WOODS, // Lost woods bean "LIFTBEAN"
     /* 0x2E */ CAM_SET_SCENE_UNUSED, // Unused "SCENE0"
     /* 0x2F */ CAM_SET_SCENE_TRANSITION, // Scene Transitions "SCENE1"
-    /* 0x30 */ CAM_SET_FIRE_PLATFORM, // All the fire platforms that rise. Also used in non-mq spirit shortcut "HIDAN1"
-    /* 0x31 */ CAM_SET_FIRE_STAIRCASE, // Used on fire staircase actor cutscene in shortcut room connecting vanilla hammer chest to the final goron small key "HIDAN2"
+    /* 0x30 */ CAM_SET_ELEVATOR_PLATFORM, // All the fire temple platforms that rise. Also used in non-mq spirit temple entrance shortcut "HIDAN1"
+    /* 0x31 */ CAM_SET_FIRE_STAIRCASE, // Used on fire temple staircase actor cutscene in shortcut room connecting vanilla hammer chest to the final goron small key "HIDAN2"
     /* 0x32 */ CAM_SET_FOREST_UNUSED, // Unused "MORI2"
     /* 0x33 */ CAM_SET_FOREST_DEFEAT_POE, // Used when defeating a poe sister "MORI3"
     /* 0x34 */ CAM_SET_BIG_OCTO, // Used by big octo miniboss in Jabu Jabu "TAKO"
@@ -98,7 +98,7 @@ typedef enum {
     /* 0x36 */ CAM_SET_MEADOW_UNUSED, // Unused from Sacred Forest Meadow "SPOT05B"
     /* 0x37 */ CAM_SET_FIRE_BIRDS_EYE, // Used in lower-floor maze in non-mq fire temple "HIDAN3"
     /* 0x38 */ CAM_SET_TURN_AROUND, // Put the camera in front of player and turn around to look at player from the front "ITEM2"
-    /* 0x39 */ CAM_SET_PIVOT_VERTICAL, // Lowering platforms (forest temple bow room, Jabu final shortcut) "CAM_SET_PIVOT_VERTICAL"
+    /* 0x39 */ CAM_SET_PIVOT_VERTICAL, // Lowering platforms (forest temple bow room, Jabu final shortcut) "CIRCLE6"
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
     /* 0x3C */ CAM_SET_CS_C, // Various cutscenes "DEMOC"
@@ -1255,7 +1255,7 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x0 */ s16 index;
+    /* 0x0 */ s16 index; // See `CamElevatorPlatform`
 } Special7ReadWriteData; // size = 0x4
 
 typedef struct {

@@ -2,7 +2,7 @@
 
 Mtx* sSkyboxDrawMatrix;
 
-Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
+Mtx* Skybox_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
     Matrix_Translate(x, y, z, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     Matrix_RotateX(skyboxCtx->rot.x, MTXMODE_APPLY);
@@ -11,7 +11,7 @@ Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
     return Matrix_ToMtx(sSkyboxDrawMatrix, "../z_vr_box_draw.c", 42);
 }
 
-void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z) {
+void Skybox_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z) {
     OPEN_DISPS(gfxCtx, "../z_vr_box_draw.c", 52);
 
     Gfx_SetupDL_40Opa(gfxCtx);
@@ -80,5 +80,5 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
     CLOSE_DISPS(gfxCtx, "../z_vr_box_draw.c", 125);
 }
 
-void SkyboxDraw_Update(SkyboxContext* skyboxCtx) {
+void Skybox_Update(SkyboxContext* skyboxCtx) {
 }

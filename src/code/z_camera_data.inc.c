@@ -165,7 +165,7 @@ char sCameraSettingNames[][12] = {
     "LIFTBEAN   ", // CAM_SET_BEAN_LOST_WOODS
     "SCENE0     ", // CAM_SET_SCENE_UNUSED
     "SCENE1     ", // CAM_SET_SCENE_TRANSITION
-    "HIDAN1     ", // CAM_SET_FIRE_PLATFORM
+    "HIDAN1     ", // CAM_SET_ELEVATOR_PLATFORM
     "HIDAN2     ", // CAM_SET_FIRE_STAIRCASE
     "MORI2      ", // CAM_SET_FOREST_UNUSED
     "MORI3      ", // CAM_SET_FOREST_DEFEAT_POE
@@ -1894,7 +1894,7 @@ CameraMode sCamSetSceneTransitionModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ2, sSetSceneTransitionModeNormalData), // CAM_MODE_NORMAL
 };
 
-CameraMode sCamSetFirePlatformModes[] = {
+CameraMode sCamSetElevatorPlatformModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SPEC7, sDataOnlyNullFlags), // CAM_MODE_NORMAL
 };
 
@@ -2177,7 +2177,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x451FFFFF }, sCamSetBeanLostWoodsModes },        // CAM_SET_BEAN_LOST_WOODS
     { { 0xC5000001 }, sCamSetSceneUnusedModes },          // CAM_SET_SCENE_UNUSED
     { { 0x45000001 }, sCamSetSceneTransitionModes },      // CAM_SET_SCENE_TRANSITION
-    { { 0x05000001 }, sCamSetFirePlatformModes },         // CAM_SET_FIRE_PLATFORM
+    { { 0x05000001 }, sCamSetElevatorPlatformModes },     // CAM_SET_ELEVATOR_PLATFORM
     { { 0x45000001 }, sCamSetFireStaircaseModes },        // CAM_SET_FIRE_STAIRCASE
     { { 0x45000001 }, sCamSetForestUnusedModes },         // CAM_SET_FOREST_UNUSED
     { { 0x45000001 }, sCamSetForestDefeatPoeModes },      // CAM_SET_FOREST_DEFEAT_POE
@@ -2565,22 +2565,52 @@ OnePointCsFull D_8011D9F4[] = {
     { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
 };
 
-Vec3f D_8011DA6C[] = {
-    { 3050.0f, 700.0f, 0.0f }, { 1755.0f, 3415.0f, -380.0f }, { -3120.0f, 3160.0f, 245.0f }, { 0.0f, -10.0f, 240.0f }
+typedef enum {
+    /* 0 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR, // ACTOR_BG_HIDAN_ROCK
+    /* 1 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER,  // ACTOR_BG_HIDAN_FSLIFT
+    /* 2 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER,  // ACTOR_BG_HIDAN_SYOKU
+    /* 3 */ CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE   // ACTOR_BG_JYA_1FLIFT
+} CamElevatorPlatform;
+
+Vec3f sCamElevatorPlatformLowerEyePoints[] = {
+    { 3050.0f, 700.0f, 0.0f },     // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    { 1755.0f, 3415.0f, -380.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    { -3120.0f, 3160.0f, 245.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    { 0.0f, -10.0f, 240.0f },      // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
 };
 
-Vec3f D_8011DA9C[] = {
-    { 3160.0f, 2150.0f, 0.0f },
-    { 1515.0f, 4130.0f, -835.0f },
-    { -3040.0f, 4135.0f, 230.0f },
-    { -50.0f, 600.0f, -75.0f },
+Vec3f sCamElevatorPlatformUpperEyePoints[] = {
+    { 3160.0f, 2150.0f, 0.0f },    // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    { 1515.0f, 4130.0f, -835.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    { -3040.0f, 4135.0f, 230.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    { -50.0f, 600.0f, -75.0f },    // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
 };
 
-f32 D_8011DACC[] = { 1570.0f, 3680.0f, 3700.0f, 395.0f };
+// Trigger player y position to swap eye points
+f32 sCamElevatorPlatformTogglePosY[] = {
+    1570.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    3680.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    3700.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    395.0f,  // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
 
-f32 D_8011DADC[] = { 320.0f, 320.0f, 320.0f, 0.0f };
+f32 sCamElevatorPlatformFovRollParam[] = {
+    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    0.0f,   // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
 
-s16 D_8011DAEC[] = { -2000, -1000, 0, 0, 0, 0, 0, 0 };
+s16 sCamElevatorPlatformRolls[] = {
+    -2000, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    -1000, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    0,     // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    0      // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
+
+// unused
+s32 D_8011DAF4 = 0;
+s32 D_8011DAF8 = 0;
 
 s16 D_8011DAFC[] = {
     CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,

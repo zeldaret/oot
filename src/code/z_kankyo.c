@@ -1394,7 +1394,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
+    if (gSaveContext.entranceIndex != ENTR_HYRULE_FIELD_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
@@ -2037,8 +2037,8 @@ void Environment_PlaySceneSequence(PlayState* play) {
     play->envCtx.timeSeqState = TIMESEQ_DISABLED;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
-    if (((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_8 ||
-        ((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_9) {
+    if (((void)0, gSaveContext.entranceIndex) == ENTR_LOST_WOODS_8 ||
+        ((void)0, gSaveContext.entranceIndex) == ENTR_LOST_WOODS_9) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
@@ -2368,7 +2368,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
 
     switch (sandstormState) {
         case SANDSTORM_ACTIVE:
-            if ((play->sceneId == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
+            if ((play->sceneId == SCENE_HAUNTED_WASTELAND) && (play->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (play->envCtx.sandstormEnvA > 128) ? 255 : play->envCtx.sandstormEnvA >> 1;
             } else {
@@ -2593,27 +2593,27 @@ void Environment_WarpSongLeave(PlayState* play) {
     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (play->nextEntranceIndex) {
-        case ENTR_SPOT17_0:
+        case ENTR_DEATH_MOUNTAIN_CRATER_0:
             Flags_SetEventChkInf(EVENTCHKINF_B9);
             break;
 
-        case ENTR_SPOT06_0:
+        case ENTR_LAKE_HYLIA_0:
             Flags_SetEventChkInf(EVENTCHKINF_B1);
             break;
 
-        case ENTR_SPOT11_0:
+        case ENTR_DESERT_COLOSSUS_0:
             Flags_SetEventChkInf(EVENTCHKINF_B8);
             break;
 
-        case ENTR_SPOT02_0:
+        case ENTR_GRAVEYARD_0:
             Flags_SetEventChkInf(EVENTCHKINF_B6);
             break;
 
-        case ENTR_TOKINOMA_0:
+        case ENTR_TEMPLE_OF_TIME_0:
             Flags_SetEventChkInf(EVENTCHKINF_A7);
             break;
 
-        case ENTR_SPOT05_0:
+        case ENTR_SACRED_FOREST_MEADOW_0:
             break;
     }
 }

@@ -1097,7 +1097,7 @@ void DemoEc_DrawFishingOwner(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitBombchuShopOwner(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_rs_Skel_004868);
+    DemoEc_InitSkelAnime(this, play, &gBombchuShopkeeperSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);

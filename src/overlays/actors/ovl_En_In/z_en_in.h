@@ -54,7 +54,7 @@ typedef struct EnIn {
     /* 0x0276 */ Vec3s morphTable[INGO_LIMB_MAX];
     /* 0x02F0 */ Vec3f subCamAtOffset;
     /* 0x02FC */ Vec3f subCamEyeOffset;
-    /* 0x0308 */ struct_80034A14_arg1 unk_308;
+    /* 0x0308 */ NpcInteractInfo interactInfo;
     /* 0x0330 */ Vec3s unk_330[INGO_LIMB_MAX];
 } EnIn; // size = 0x03A8
 

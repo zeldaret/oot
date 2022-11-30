@@ -38,7 +38,7 @@ ActorInit En_Encount2_InitVars = {
 void EnEncount2_Init(Actor* thisx, PlayState* play) {
     EnEncount2* this = (EnEncount2*)thisx;
 
-    if (play->sceneId != SCENE_SPOT16) {
+    if (play->sceneId != SCENE_DEATH_MOUNTAIN_TRAIL) {
         this->isNotDeathMountain = true;
     }
 
@@ -76,8 +76,8 @@ void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37))) {
         s16 sceneId = play->sceneId;
 
-        if (((sceneId == SCENE_GANON_DEMO) || (sceneId == SCENE_GANON_FINAL) || (sceneId == SCENE_GANON_SONOGO) ||
-             (sceneId == SCENE_GANONTIKA_SONOGO)) &&
+        if (((sceneId == SCENE_GANON_BOSS) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+             (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) || (sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) &&
             (!this->collapseSpawnerInactive)) {
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
@@ -156,8 +156,8 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37) != 0)) {
         s16 sceneId = play->sceneId;
 
-        if (((sceneId == SCENE_GANON_DEMO) || (sceneId == SCENE_GANON_FINAL) || (sceneId == SCENE_GANON_SONOGO) ||
-             (sceneId == SCENE_GANONTIKA_SONOGO)) &&
+        if (((sceneId == SCENE_GANON_BOSS) || (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+             (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) || (sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) &&
             (!this->collapseSpawnerInactive)) {
             maxRocks = 1;
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
@@ -326,7 +326,7 @@ void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play) {
             Math_ApproachF(&effect->pos.z, targetPos.z, 0.3f, 30.0f);
             Math_ApproachF(&effect->moveDirection.y, -20.0f, 0.9f, 1.0f);
 
-            if (play->sceneId != SCENE_SPOT16) {
+            if (play->sceneId != SCENE_DEATH_MOUNTAIN_TRAIL) {
                 if (effect->pos.y < (player->actor.floorHeight - 50.0f)) {
                     effect->isAlive = 0;
                 }

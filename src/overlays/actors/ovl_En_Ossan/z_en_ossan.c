@@ -654,7 +654,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     this->stickLeftPrompt.isEnabled = false;
     this->stickRightPrompt.isEnabled = false;
@@ -1323,7 +1323,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);
     this->stateFlag = OSSAN_STATE_GIVE_ITEM_FANFARE;
@@ -2029,7 +2029,7 @@ void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_InitBombchuShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_rs_Skel_004868, &object_rs_Anim_00065C, NULL, NULL, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBombchuShopkeeperSkel, &gBombchuShopkeeperIdleAnim, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawBombchuShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }

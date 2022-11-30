@@ -299,7 +299,7 @@ void func_8096712C(Demo6K* this, PlayState* play) {
 
     this->timer2++;
 
-    if ((play->sceneId == SCENE_GANONTIKA) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
+    if ((play->sceneId == SCENE_INSIDE_GANONS_CASTLE) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
         func_8002F974(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 }
@@ -331,7 +331,7 @@ void func_80967244(Demo6K* this, PlayState* play) {
     envColor.g = sEnvColors[this->unk_293].g;
     envColor.b = sEnvColors[this->unk_293].b;
 
-    if (play->sceneId == SCENE_TOKINOMA) {
+    if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
         scale = 6000;
     } else if (play->csCtx.frames < 419) {
         scale = 6000;
