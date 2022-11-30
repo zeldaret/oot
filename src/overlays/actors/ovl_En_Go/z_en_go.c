@@ -334,7 +334,7 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
 }
 
 s32 EnGo_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 interactRange, NpcGetTextIdFunc getTextId,
-                  NpcUpdateTalkStateFunc updateTalkState) {
+                       NpcUpdateTalkStateFunc updateTalkState) {
     if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = updateTalkState(play, thisx);
         return false;
@@ -586,7 +586,7 @@ void func_80A3F908(EnGo* this, PlayState* play) {
         }
 
         if ((this->actor.params & 0xF0) == 0x90) {
-            dialogStarted = EnGo_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, interactRange, 
+            dialogStarted = EnGo_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, interactRange,
                                                EnGo_GetTextID, EnGo_UpdateTalkState);
         } else {
             dialogStarted = Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, interactRange,

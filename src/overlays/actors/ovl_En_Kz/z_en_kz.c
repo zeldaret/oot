@@ -190,11 +190,11 @@ void EnKz_UpdateEyes(EnKz* this) {
 
 /**
  * Custom version of Npc_UpdateTalking.
- * 
+ *
  * @see Npc_UpdateTalking
  */
 s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 interactRange, NpcGetTextIdFunc getTextId,
-                  NpcUpdateTalkStateFunc updateTalkState) {
+                       NpcUpdateTalkStateFunc updateTalkState) {
     Player* player = GET_PLAYER(play);
     s16 x;
     s16 y;
@@ -240,7 +240,8 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 void func_80A9CB18(EnKz* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId, EnKz_UpdateTalkState)) {
+    if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
+                           EnKz_UpdateTalkState)) {
         if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
             if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;

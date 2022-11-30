@@ -819,8 +819,8 @@ s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange, EnGo2_GetTextId,
-                                 EnGo2_UpdateTalkState);
+        return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange,
+                                 EnGo2_GetTextId, EnGo2_UpdateTalkState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) &&
                !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;
@@ -1091,7 +1091,8 @@ void func_80A45288(EnGo2* this, PlayState* play) {
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
         this->interactInfo.trackPos = player->actor.world.pos;
-        this->interactInfo.yOffset = sPlayerTrackingYOffsets[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
+        this->interactInfo.yOffset =
+            sPlayerTrackingYOffsets[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
         Npc_TrackPoint(&this->actor, &this->interactInfo, 4, this->trackingMode);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
