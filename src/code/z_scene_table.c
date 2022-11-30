@@ -1618,7 +1618,7 @@ void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
     Scene_DrawConfigBdan,                  // SDC_JABU_JABU
     Scene_DrawConfigBmori1,                // SDC_FOREST_TEMPLE
     Scene_DrawConfigMizusin,               // SDC_WATER_TEMPLE
-    Scene_DrawConfigHakadan,               // SDC_SHADOW_TEMPLE
+    Scene_DrawConfigHakadan,               // SDC_SHADOW_TEMPLE_AND_WELL
     Scene_DrawConfigJyasinzou,             // SDC_SPIRIT_TEMPLE
     Scene_DrawConfigGanontika,             // SDC_INSIDE_GANONS_CASTLE
     Scene_DrawConfigMen,                   // SDC_GERUDO_TRAINING_GROUND
