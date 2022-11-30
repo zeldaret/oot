@@ -265,19 +265,19 @@ void func_808507F4(Player* this, PlayState* play);
 void func_80850AEC(Player* this, PlayState* play);
 void func_80850C68(Player* this, PlayState* play);
 void func_80850E84(Player* this, PlayState* play);
-void Player_AnimChangeIgnoreZeroSpeedXZ(PlayState* play, Player* this, void* anim);
-void Player_AnimChangeOnceMorphZeroRootYawSpeed2(PlayState* play, Player* this, void* anim);
-void Player_AnimChangeFreezeZeroRootYawSpeed(PlayState* play, Player* this, void* anim);
-void Player_AnimChangeOnceMorphAdjZeroRootYawSpeed2(PlayState* play, Player* this, void* anim);
-void Player_AnimChangeLoopMorphAdjZeroRootYawSpeed2(PlayState* play, Player* this, void* anim);
-void Player_AnimReplaceNormalPlayOnceAdj2(PlayState* play, Player* this, void* anim);
+void func_80851008(PlayState* play, Player* this, void* anim);
+void func_80851030(PlayState* play, Player* this, void* anim);
+void func_80851050(PlayState* play, Player* this, void* anim);
+void func_80851094(PlayState* play, Player* this, void* anim);
+void func_808510B4(PlayState* play, Player* this, void* anim);
+void func_808510D4(PlayState* play, Player* this, void* anim);
 void func_808510F4(PlayState* play, Player* this, void* anim);
-void Player_AnimReplaceNormalPlayLoopAdj2(PlayState* play, Player* this, void* anim);
+void func_80851114(PlayState* play, Player* this, void* anim);
 void func_80851134(PlayState* play, Player* this, void* anim);
-void Player_AnimPlayOnce2(PlayState* play, Player* this, void* anim);
-void Player_AnimPlayLoop2(PlayState* play, Player* this, void* anim);
-void Player_AnimPlayOnceAdj2(PlayState* play, Player* this, void* anim);
-void Player_AnimPlayLoopAdj2(PlayState* play, Player* this, void* anim);
+void func_80851154(PlayState* play, Player* this, void* anim);
+void func_80851174(PlayState* play, Player* this, void* anim);
+void func_80851194(PlayState* play, Player* this, void* anim);
+void func_808511B4(PlayState* play, Player* this, void* anim);
 void func_808511D4(PlayState* play, Player* this, void* anim);
 void func_808511FC(PlayState* play, Player* this, void* anim);
 void func_80851248(PlayState* play, Player* this, void* anim);
@@ -13628,25 +13628,9 @@ void func_80850E84(Player* this, PlayState* play) {
 }
 
 static void (*D_80854AA4[])(PlayState*, Player*, void*) = {
-    NULL,
-    Player_AnimChangeIgnoreZeroSpeedXZ,
-    Player_AnimChangeOnceMorphZeroRootYawSpeed2,
-    Player_AnimChangeOnceMorphAdjZeroRootYawSpeed2,
-    Player_AnimChangeLoopMorphAdjZeroRootYawSpeed2,
-    Player_AnimReplaceNormalPlayOnceAdj2,
-    func_808510F4,
-    Player_AnimReplaceNormalPlayLoopAdj2,
-    func_80851134,
-    Player_AnimPlayOnce2,
-    Player_AnimPlayLoop2,
-    func_808511D4,
-    func_808511FC,
-    func_80851294,
-    Player_AnimChangeFreezeZeroRootYawSpeed,
-    Player_AnimPlayOnceAdj2,
-    Player_AnimPlayLoopAdj2,
-    func_80851248,
-    func_808512E0,
+    NULL,          func_80851008, func_80851030, func_80851094, func_808510B4, func_808510D4, func_808510F4,
+    func_80851114, func_80851134, func_80851154, func_80851174, func_808511D4, func_808511FC, func_80851294,
+    func_80851050, func_80851194, func_808511B4, func_80851248, func_808512E0,
 };
 
 static struct_80832924 D_80854AF0[] = {
@@ -13895,29 +13879,29 @@ void Player_AnimChangeLoopMorphAdjZeroRootYawSpeed(PlayState* play, Player* this
     Player_ZeroSpeedXZ(this);
 }
 
-void Player_AnimChangeIgnoreZeroSpeedXZ(PlayState* play, Player* this, void* anim) {
+void func_80851008(PlayState* play, Player* this, void* anim) {
     Player_ZeroSpeedXZ(this);
 }
 
-void Player_AnimChangeOnceMorphZeroRootYawSpeed2(PlayState* play, Player* this, void* anim) {
+void func_80851030(PlayState* play, Player* this, void* anim) {
     Player_AnimChangeOnceMorphZeroRootYawSpeed(play, this, anim);
 }
 
-void Player_AnimChangeFreezeZeroRootYawSpeed(PlayState* play, Player* this, void* anim) {
+void func_80851050(PlayState* play, Player* this, void* anim) {
     Player_ZeroRootLimbYaw(this);
     Player_AnimChangeFreeze(play, this, anim);
     Player_ZeroSpeedXZ(this);
 }
 
-void Player_AnimChangeOnceMorphAdjZeroRootYawSpeed2(PlayState* play, Player* this, void* anim) {
+void func_80851094(PlayState* play, Player* this, void* anim) {
     Player_AnimChangeOnceMorphAdjZeroRootYawSpeed(play, this, anim);
 }
 
-void Player_AnimChangeLoopMorphAdjZeroRootYawSpeed2(PlayState* play, Player* this, void* anim) {
+void func_808510B4(PlayState* play, Player* this, void* anim) {
     Player_AnimChangeLoopMorphAdjZeroRootYawSpeed(play, this, anim);
 }
 
-void Player_AnimReplaceNormalPlayOnceAdj2(PlayState* play, Player* this, void* anim) {
+void func_808510D4(PlayState* play, Player* this, void* anim) {
     Player_AnimReplaceNormalPlayOnceAdj(play, this, anim);
 }
 
@@ -13925,7 +13909,7 @@ void func_808510F4(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayOnce(play, this, anim, 0x9C);
 }
 
-void Player_AnimReplaceNormalPlayLoopAdj2(PlayState* play, Player* this, void* anim) {
+void func_80851114(PlayState* play, Player* this, void* anim) {
     Player_AnimReplaceNormalPlayLoopAdj(play, this, anim);
 }
 
@@ -13933,19 +13917,19 @@ void func_80851134(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayLoop(play, this, anim, 0x9C);
 }
 
-void Player_AnimPlayOnce2(PlayState* play, Player* this, void* anim) {
+void func_80851154(PlayState* play, Player* this, void* anim) {
     Player_AnimPlayOnce(play, this, anim);
 }
 
-void Player_AnimPlayLoop2(PlayState* play, Player* this, void* anim) {
+void func_80851174(PlayState* play, Player* this, void* anim) {
     Player_AnimPlayLoop(play, this, anim);
 }
 
-void Player_AnimPlayOnceAdj2(PlayState* play, Player* this, void* anim) {
+void func_80851194(PlayState* play, Player* this, void* anim) {
     Player_AnimPlayOnceAdj(play, this, anim);
 }
 
-void Player_AnimPlayLoopAdj2(PlayState* play, Player* this, void* anim) {
+void func_808511B4(PlayState* play, Player* this, void* anim) {
     Player_AnimPlayLoopAdj(play, this, anim);
 }
 
