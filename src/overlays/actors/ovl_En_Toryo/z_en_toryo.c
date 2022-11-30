@@ -128,7 +128,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
                      sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
     this->actor.targetMode = 6;
-    this->actionFunc = EnToryo_Main;
+    this->actionFunc = EnToryo_Idle;
 }
 
 void EnToryo_Destroy(Actor* thisx, PlayState* play) {
