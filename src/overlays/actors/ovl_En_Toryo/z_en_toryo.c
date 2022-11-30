@@ -335,7 +335,7 @@ void EnToryo_Talk(EnToryo* this, PlayState* play) {
     }
 }
 
-void EnToryo_Main(EnToryo* this, PlayState* play) {
+void EnToryo_Idle(EnToryo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     EnToryo_Talk(this, play);
     if (this->messageState != 0) {
