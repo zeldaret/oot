@@ -105,7 +105,7 @@ void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
 }
 
 s32 EnHoll_IsKokiriLayer8(void) {
-    return gSaveContext.entranceIndex == ENTR_SPOT04_0 && gSaveContext.sceneLayer == 8;
+    return gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0 && gSaveContext.sceneLayer == 8;
 }
 
 void EnHoll_ChooseAction(EnHoll* this) {
@@ -176,7 +176,7 @@ void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play) {
         { 100.0f, 75.0f, 50.0f, 25.0f },   // SCENE_JYASINZOU
     };
     Player* player = GET_PLAYER(play);
-    s32 triggerDistsIndex = (u32)((play->sceneId == SCENE_JYASINZOU) ? 1 : 0);
+    s32 triggerDistsIndex = (u32)((play->sceneId == SCENE_SPIRIT_TEMPLE) ? 1 : 0);
     Vec3f relPlayerPos;
     f32 orthogonalDistToPlayer;
     s32 transitionActorIndex;
