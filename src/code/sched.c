@@ -73,12 +73,14 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
         width = (cfbInfo->viMode != NULL) ? cfbInfo->viMode->comRegs.width : (u32)gScreenWidth;
         Fault_SetFrameBuffer(cfbInfo->swapBuffer, width, 16);
 
-        if (HREG(80) == 0xD && HREG(95) != 0xD) {
-            HREG(81) = 0;
-            HREG(82) = 0;
-            HREG(83) = 1;
-            HREG(84) = 0;
-            HREG(85) = 1;
+        if (R_HREG_MODE == HREG_MODE_SCHED && R_SCHED_INIT != HREG_MODE_SCHED) {
+            R_SCHED_TOGGLE_SPECIAL_FEATURES = 0;
+            R_SCHED_GAMMA_ON = 0;
+            R_SCHED_DITHER_FILTER_ON = 1;
+            R_SCHED_GAMMA_DITHER_ON = 0;
+            R_SCHED_DIVOT_ON = 1;
+
+            // these regs are not used in this mode
             HREG(86) = 0;
             HREG(87) = 0;
             HREG(88) = 0;
@@ -88,15 +90,18 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
             HREG(92) = 0;
             HREG(93) = 0;
             HREG(94) = 0;
-            HREG(95) = 0xD;
+
+            R_SCHED_INIT = HREG_MODE_SCHED;
         }
-        if (HREG(80) == 0xD && HREG(81) == 2) {
-            osViSetSpecialFeatures((HREG(82) != 0) ? OS_VI_GAMMA_ON : OS_VI_GAMMA_OFF);
-            osViSetSpecialFeatures((HREG(83) != 0) ? OS_VI_DITHER_FILTER_ON : OS_VI_DITHER_FILTER_OFF);
-            osViSetSpecialFeatures((HREG(84) != 0) ? OS_VI_GAMMA_DITHER_ON : OS_VI_GAMMA_DITHER_OFF);
-            osViSetSpecialFeatures((HREG(85) != 0) ? OS_VI_DIVOT_ON : OS_VI_DIVOT_OFF);
+
+        if (R_HREG_MODE == HREG_MODE_SCHED && R_SCHED_TOGGLE_SPECIAL_FEATURES == 2) {
+            osViSetSpecialFeatures(R_SCHED_GAMMA_ON ? OS_VI_GAMMA_ON : OS_VI_GAMMA_OFF);
+            osViSetSpecialFeatures(R_SCHED_DITHER_FILTER_ON ? OS_VI_DITHER_FILTER_ON : OS_VI_DITHER_FILTER_OFF);
+            osViSetSpecialFeatures(R_SCHED_GAMMA_DITHER_ON ? OS_VI_GAMMA_DITHER_ON : OS_VI_GAMMA_DITHER_OFF);
+            osViSetSpecialFeatures(R_SCHED_DIVOT_ON ? OS_VI_DIVOT_ON : OS_VI_DIVOT_OFF);
         }
     }
+
     cfbInfo->unk_10 = 0;
 }
 

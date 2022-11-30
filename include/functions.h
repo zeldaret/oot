@@ -21,24 +21,10 @@ void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
-s32 DmaMgr_CompareName(const char* name1, const char* name2);
-s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size);
-s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
-void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc);
-const char* DmaMgr_GetFileNameImpl(uintptr_t vrom);
-const char* DmaMgr_GetFileName(uintptr_t vrom);
-void DmaMgr_ProcessMsg(DmaRequest* req);
-void DmaMgr_ThreadEntry(void* arg);
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
-s32 DmaMgr_SendRequest0(void* ram, uintptr_t vrom, u32 size);
-void DmaMgr_Init(void);
-s32 DmaMgr_SendRequest2(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
-                        const char* file, s32 line);
-s32 DmaMgr_SendRequest1(void* ram, uintptr_t vrom, u32 size, const char* file, s32 line);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
 void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
-void Yaz0_Decompress(uintptr_t romStart, u8* dst, u32 size);
+void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);
@@ -498,10 +484,11 @@ void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
-s32 func_800343CC(PlayState* play, Actor* actor, s16* arg2, f32 interactRange,
-                  u16 (*unkFunc1)(PlayState*, Actor*), s16 (*unkFunc2)(PlayState*, Actor*));
-s16 func_800347E8(s16 arg0);
-void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
+s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
+                      NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
+s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);
+void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex,
+                    s16 trackingMode);
 void func_80034BA0(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
@@ -615,8 +602,8 @@ s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s3
 u32 SurfaceType_GetFloorProperty(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetMaterial(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetSfxOffset(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetLightSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetEcho(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
@@ -827,7 +814,6 @@ u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minSt
 u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep);
 f32 Environment_LerpWeight(u16 max, u16 min, u16 val);
 f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration);
-void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx);
 void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex);
 void Environment_DisableUnderwaterLights(PlayState* play);
 void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx,
@@ -841,7 +827,6 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                                s16 glareStrength, u8 isSun);
 void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx);
 void Environment_ChangeLightSetting(PlayState* play, u32 lightSetting);
-void Environment_DrawSkyboxFilters(PlayState* play);
 void Environment_UpdateLightningStrike(PlayState* play);
 void Environment_AddLightningBolts(PlayState* play, u8 num);
 void Environment_DrawLightning(PlayState* play, s32 unused);
@@ -971,7 +956,7 @@ void Map_Destroy(PlayState* play);
 void Map_Init(PlayState* play);
 void Minimap_Draw(PlayState* play);
 void Map_Update(PlayState* play);
-void Interface_ChangeAlpha(u16 alphaType);
+void Interface_ChangeHudVisibilityMode(u16 hudVisibilityMode);
 void Interface_SetSceneRestrictions(PlayState* play);
 void Inventory_SwapAgeEquipment(void);
 void Interface_InitHorsebackArchery(PlayState* play);
@@ -1308,10 +1293,6 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp);
 void func_800AD920(struct_80166500* this);
 void func_800AD950(struct_80166500* this);
 void func_800AD958(struct_80166500* this, Gfx** gfxp);
-void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
-Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
-void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z);
-void SkyboxDraw_Update(SkyboxContext* skyboxCtx);
 void PlayerCall_InitFuncPtrs(void);
 void TransitionUnk_InitGraphics(TransitionUnk* this);
 void TransitionUnk_InitData(TransitionUnk* this);
