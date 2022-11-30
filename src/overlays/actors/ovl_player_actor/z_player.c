@@ -4366,8 +4366,8 @@ s32 func_80838FB8(PlayState* play, Player* this) {
 s16 sReturnEntranceGroupData[] = {
     // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_MAGIC
     /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4,  // from Magic Fairy Fountain
-    /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // from Double Defense Fairy Fountain
-    /*  2 */ ENTR_HYRULE_CASTLE_2,         // from Double Magic Fairy Fountain (as adult)
+    /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // from Double Magic Fairy Fountain
+    /*  2 */ ENTR_HYRULE_CASTLE_2,         // from Double Defense Fairy Fountain (as adult)
 
     // ENTR_RETURN_2
     /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // from Potion Shop
