@@ -324,7 +324,7 @@ typedef struct {
     /* 0x04 */ Vec3f modelOffset;
     /* 0x10 */ f32 scale;
     /* 0x14 */ s8 targetMode;
-    /* 0x18 */ f32 unkRange;
+    /* 0x18 */ f32 interactRange;
 } EnHyInit2Info; // size = 0x1C
 
 static EnHyInit2Info sInit2Info[] = {
@@ -414,7 +414,7 @@ void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
                   fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
-u16 func_80A6F810(PlayState* play, Actor* thisx) {
+u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
     u16 textId = Text_GetFaceReaction(play, (this->actor.params & 0x7F) + 37);
@@ -552,7 +552,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
     }
 }
 
-s16 func_80A70058(PlayState* play, Actor* thisx) {
+s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnHy* this = (EnHy*)thisx;
     s16 beggarItems[] = { ITEM_BOTTLE_BLUE_FIRE, ITEM_BOTTLE_FISH, ITEM_BOTTLE_BUG, ITEM_BOTTLE_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
@@ -702,8 +702,8 @@ void EnHy_InitSetProperties(EnHy* this) {
     Actor_SetScale(&this->actor, sInit2Info[type].scale);
     this->actor.targetMode = sInit2Info[type].targetMode;
     this->modelOffset = sInit2Info[type].modelOffset;
-    this->unkRange = sInit2Info[type].unkRange;
-    this->unkRange += this->collider.dim.radius;
+    this->interactRange = sInit2Info[type].interactRange;
+    this->interactRange += this->collider.dim.radius;
 }
 
 void EnHy_UpdateCollider(EnHy* this, PlayState* play) {
@@ -800,8 +800,8 @@ void func_80A70978(EnHy* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, sPlayerTrackingInfo[this->actor.params & 0x7F].presetIndex,
                    trackingMode);
 
-    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unkRange, func_80A6F810,
-                          func_80A70058)) {
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange, EnHy_GetTextId,
+                          EnHy_UpdateTalkState)) {
         func_80A70834(this, play);
     }
 }

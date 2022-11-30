@@ -98,7 +98,7 @@ void EnDu_SetupAction(EnDu* this, EnDuActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-u16 func_809FDC38(PlayState* play, Actor* actor) {
+u16 EnDu_GetTextId(PlayState* play, Actor* actor) {
     u16 reaction = Text_GetFaceReaction(play, 0x21);
 
     if (reaction != 0) {
@@ -118,7 +118,7 @@ u16 func_809FDC38(PlayState* play, Actor* actor) {
     }
 }
 
-s16 func_809FDCDC(PlayState* play, Actor* actor) {
+s16 EnDu_UpdateTalkState(PlayState* play, Actor* actor) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
@@ -561,7 +561,7 @@ void EnDu_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != func_809FE4A4) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 116.0f,
-                          func_809FDC38, func_809FDCDC);
+                          EnDu_GetTextId, EnDu_UpdateTalkState);
     }
     this->actionFunc(this, play);
 }

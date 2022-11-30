@@ -384,7 +384,7 @@ s16 func_80AAAC78(EnMd* this, PlayState* play) {
     return dialogState;
 }
 
-u16 EnMd_GetTextKokiriForest(PlayState* play, EnMd* this) {
+u16 EnMd_GetTextIdKokiriForest(PlayState* play, EnMd* this) {
     u16 reactionText = Text_GetFaceReaction(play, 0x11);
 
     if (reactionText != 0) {
@@ -414,7 +414,7 @@ u16 EnMd_GetTextKokiriForest(PlayState* play, EnMd* this) {
     return 0x102F;
 }
 
-u16 EnMd_GetTextKokiriHome(PlayState* play, EnMd* this) {
+u16 EnMd_GetTextIdKokiriHome(PlayState* play, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = TEXT_STATE_NONE;
 
@@ -425,7 +425,7 @@ u16 EnMd_GetTextKokiriHome(PlayState* play, EnMd* this) {
     return 0x1046;
 }
 
-u16 EnMd_GetTextLostWoods(PlayState* play, EnMd* this) {
+u16 EnMd_GetTextIdLostWoods(PlayState* play, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = TEXT_STATE_NONE;
 
@@ -447,22 +447,22 @@ u16 EnMd_GetTextLostWoods(PlayState* play, EnMd* this) {
     return 0x1060;
 }
 
-u16 EnMd_GetText(PlayState* play, Actor* thisx) {
+u16 EnMd_GetTextId(PlayState* play, Actor* thisx) {
     EnMd* this = (EnMd*)thisx;
 
     switch (play->sceneId) {
         case SCENE_KOKIRI_FOREST:
-            return EnMd_GetTextKokiriForest(play, this);
+            return EnMd_GetTextIdKokiriForest(play, this);
         case SCENE_MIDOS_HOUSE:
-            return EnMd_GetTextKokiriHome(play, this);
+            return EnMd_GetTextIdKokiriHome(play, this);
         case SCENE_LOST_WOODS:
-            return EnMd_GetTextLostWoods(play, this);
+            return EnMd_GetTextIdLostWoods(play, this);
         default:
             return 0;
     }
 }
 
-s16 func_80AAAF04(PlayState* play, Actor* thisx) {
+s16 EnMd_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnMd* this = (EnMd*)thisx;
     switch (func_80AAAC78(this, play)) {
         case TEXT_STATE_NONE:
@@ -581,7 +581,7 @@ void func_80AAB158(EnMd* this, PlayState* play) {
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
-                              EnMd_GetText, func_80AAAF04);
+                              EnMd_GetTextId, EnMd_UpdateTalkState);
         }
     }
 }

@@ -304,7 +304,7 @@ s32 EnKo_IsOsAnimeLoaded(EnKo* this, PlayState* play) {
     return true;
 }
 
-u16 func_80A96FD0(PlayState* play, Actor* thisx) {
+u16 EnKo_GetChildTextId(PlayState* play, Actor* thisx) {
     EnKo* this = (EnKo*)thisx;
     switch (ENKO_TYPE) {
         case ENKO_TYPE_CHILD_FADO:
@@ -403,7 +403,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
     return 0;
 }
 
-u16 func_80A97338(PlayState* play, Actor* thisx) {
+u16 EnKo_GetAdultTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnKo* this = (EnKo*)thisx;
 
@@ -488,7 +488,7 @@ u16 func_80A97338(PlayState* play, Actor* thisx) {
     }
 }
 
-u16 func_80A97610(PlayState* play, Actor* thisx) {
+u16 EnKo_GetTextId(PlayState* play, Actor* thisx) {
     u16 faceReaction;
     EnKo* this = (EnKo*)thisx;
 
@@ -508,12 +508,12 @@ u16 func_80A97610(PlayState* play, Actor* thisx) {
         return faceReaction;
     }
     if (LINK_IS_ADULT) {
-        return func_80A97338(play, thisx);
+        return EnKo_GetAdultTextId(play, thisx);
     }
-    return func_80A96FD0(play, thisx);
+    return EnKo_GetChildTextId(play, thisx);
 }
 
-s16 func_80A97738(PlayState* play, Actor* thisx) {
+s16 EnKo_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnKo* this = (EnKo*)thisx;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -970,8 +970,8 @@ void func_80A9877C(EnKo* this, PlayState* play) {
             return;
         }
     }
-    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->lookDist, func_80A97610,
-                          func_80A97738) &&
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->lookDist, EnKo_GetTextId,
+                          EnKo_UpdateTalkState) &&
         ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_LOST_WOODS) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 

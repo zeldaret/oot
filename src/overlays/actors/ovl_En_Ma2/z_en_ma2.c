@@ -8,8 +8,8 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play);
 void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
-u16 func_80AA19A0(PlayState* play, Actor* thisx);
-s16 func_80AA1A38(PlayState* play, Actor* thisx);
+u16 EnMa2_GetTextId(PlayState* play, Actor* thisx);
+s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx);
 
 void func_80AA1AE4(EnMa2* this, PlayState* play);
 s32 func_80AA1C68(EnMa2* this);
@@ -68,7 +68,7 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-u16 func_80AA19A0(PlayState* play, Actor* thisx) {
+u16 EnMa2_GetTextId(PlayState* play, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(play, 23);
 
     if (faceReaction != 0) {
@@ -89,22 +89,22 @@ u16 func_80AA19A0(PlayState* play, Actor* thisx) {
     return 0x204C;
 }
 
-s16 func_80AA1A38(PlayState* play, Actor* thisx) {
-    s16 ret = NPC_TALK_STATE_TALKING;
+s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
+    s16 talkState = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
                     SET_INFTABLE(INFTABLE_8C);
-                    ret = NPC_TALK_STATE_ACTION;
+                    talkState = NPC_TALK_STATE_ACTION;
                     break;
                 case 0x2053:
                     SET_INFTABLE(INFTABLE_8D);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 default:
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
             }
             break;
@@ -118,7 +118,7 @@ s16 func_80AA1A38(PlayState* play, Actor* thisx) {
         case TEXT_STATE_9:
             break;
     }
-    return ret;
+    return talkState;
 }
 
 void func_80AA1AE4(EnMa2* this, PlayState* play) {
@@ -323,7 +323,7 @@ void EnMa2_Update(Actor* thisx, PlayState* play) {
     func_80AA1AE4(this, play);
     if (this->actionFunc != func_80AA20E4) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
-                          func_80AA19A0, func_80AA1A38);
+                          EnMa2_GetTextId, EnMa2_UpdateTalkState);
     }
 }
 

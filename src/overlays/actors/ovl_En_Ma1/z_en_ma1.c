@@ -14,8 +14,8 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play);
 void EnMa1_Update(Actor* thisx, PlayState* play);
 void EnMa1_Draw(Actor* thisx, PlayState* play);
 
-u16 EnMa1_GetText(PlayState* play, Actor* thisx);
-s16 func_80AA0778(PlayState* play, Actor* thisx);
+u16 EnMa1_GetTextId(PlayState* play, Actor* thisx);
+s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx);
 
 void func_80AA0D88(EnMa1* this, PlayState* play);
 void func_80AA0EA0(EnMa1* this, PlayState* play);
@@ -88,7 +88,7 @@ static void* sEyeTextures[] = {
     gMalonChildEyeClosedTex,
 };
 
-u16 EnMa1_GetText(PlayState* play, Actor* thisx) {
+u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(play, 0x17);
 
     if (faceReaction != 0) {
@@ -123,8 +123,8 @@ u16 EnMa1_GetText(PlayState* play, Actor* thisx) {
     return 0x2041;
 }
 
-s16 func_80AA0778(PlayState* play, Actor* thisx) {
-    s16 ret = NPC_TALK_STATE_TALKING;
+s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx) {
+    s16 talkState = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
@@ -132,40 +132,40 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
                 case 0x2041:
                     SET_INFTABLE(INFTABLE_84);
                     SET_EVENTCHKINF(EVENTCHKINF_10);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2043:
-                    ret = NPC_TALK_STATE_TALKING;
+                    talkState = NPC_TALK_STATE_TALKING;
                     break;
                 case 0x2047:
                     SET_EVENTCHKINF(EVENTCHKINF_15);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2048:
                     SET_INFTABLE(INFTABLE_85);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2049:
                     SET_EVENTCHKINF(EVENTCHKINF_16);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2061:
-                    ret = NPC_TALK_STATE_ACTION;
+                    talkState = NPC_TALK_STATE_ACTION;
                     break;
                 default:
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
             }
             break;
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                ret = NPC_TALK_STATE_ACTION;
+                talkState = NPC_TALK_STATE_ACTION;
             }
             break;
         case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(play)) {
-                ret = NPC_TALK_STATE_ITEM_GIVEN;
+                talkState = NPC_TALK_STATE_ITEM_GIVEN;
             }
             break;
         case TEXT_STATE_NONE:
@@ -174,10 +174,10 @@ s16 func_80AA0778(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            ret = NPC_TALK_STATE_TALKING;
+            talkState = NPC_TALK_STATE_TALKING;
             break;
     }
-    return ret;
+    return talkState;
 }
 
 s32 func_80AA08C4(EnMa1* this, PlayState* play) {
@@ -410,7 +410,7 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != EnMa1_DoNothing) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
-                          EnMa1_GetText, func_80AA0778);
+                          EnMa1_GetTextId, EnMa1_UpdateTalkState);
     }
     func_80AA0B74(this);
     func_80AA0AF4(this, play);

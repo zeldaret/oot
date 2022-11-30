@@ -354,12 +354,12 @@ void EnZo_SpawnSplashes(EnZo* this) {
     }
 }
 
-u16 func_80B61024(PlayState* play, Actor* thisx) {
-    u16 textId;
+u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
+    u16 faceReaction;
 
-    textId = Text_GetFaceReaction(play, 29);
-    if (textId != 0) {
-        return textId;
+    faceReaction = Text_GetFaceReaction(play, 29);
+    if (faceReaction != 0) {
+        return faceReaction;
     }
 
     switch (thisx->params & 0x3F) {
@@ -440,7 +440,7 @@ u16 func_80B61024(PlayState* play, Actor* thisx) {
     return 0x4006;
 }
 
-s16 func_80B61298(PlayState* play, Actor* thisx) {
+s16 EnZo_UpdateTalkState(PlayState* play, Actor* thisx) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
@@ -514,8 +514,8 @@ void EnZo_Dialog(EnZo* this, PlayState* play) {
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 11, this->trackingMode);
     if (this->canSpeak == true) {
-        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->dialogRadius, func_80B61024,
-                          func_80B61298);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->dialogRadius, EnZo_GetTextId,
+                          EnZo_UpdateTalkState);
     }
 }
 

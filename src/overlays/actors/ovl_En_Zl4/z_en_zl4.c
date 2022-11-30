@@ -198,10 +198,10 @@ void EnZl4_SetActiveCamMove(PlayState* play, s16 index) {
                        sCamMove[index].relativeToPlayer);
 }
 
-u16 EnZl4_GetText(PlayState* play, Actor* thisx) {
+u16 EnZl4_GetTextId(PlayState* play, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(play, 22);
     u16 stoneCount;
-    s16 ret;
+    s16 textId;
 
     if (faceReaction != 0) {
         return faceReaction;
@@ -219,14 +219,14 @@ u16 EnZl4_GetText(PlayState* play, Actor* thisx) {
     }
 
     if (stoneCount > 1) {
-        ret = 0x703D;
+        textId = 0x703D;
     } else {
-        ret = 0x703C;
+        textId = 0x703C;
     }
-    return ret;
+    return textId;
 }
 
-s16 func_80B5B9B0(PlayState* play, Actor* thisx) {
+s16 EnZl4_UpdateTalkState(PlayState* play, Actor* thisx) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     }
@@ -1210,7 +1210,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
 
 void EnZl4_Idle(EnZl4* this, PlayState* play) {
     Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 60.0f,
-                      EnZl4_GetText, func_80B5B9B0);
+                      EnZl4_GetTextId, EnZl4_UpdateTalkState);
     func_80B5BB78(this, play);
 }
 
