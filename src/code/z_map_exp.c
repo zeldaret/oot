@@ -54,24 +54,24 @@ void Map_SetFloorPalettesData(PlayState* play, s16 floor) {
     }
 
     switch (play->sceneId) {
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_HAKADANCH:
-        case SCENE_ICE_DOUKUTO:
-        case SCENE_YDAN_BOSS:
-        case SCENE_DDAN_BOSS:
-        case SCENE_BDAN_BOSS:
-        case SCENE_MORIBOSSROOM:
-        case SCENE_FIRE_BS:
-        case SCENE_MIZUSIN_BS:
-        case SCENE_JYASINBOSS:
-        case SCENE_HAKADAN_BS:
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_JABU_JABU:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_BOTTOM_OF_THE_WELL:
+        case SCENE_ICE_CAVERN:
+        case SCENE_DEKU_TREE_BOSS:
+        case SCENE_DODONGOS_CAVERN_BOSS:
+        case SCENE_JABU_JABU_BOSS:
+        case SCENE_FOREST_TEMPLE_BOSS:
+        case SCENE_FIRE_TEMPLE_BOSS:
+        case SCENE_WATER_TEMPLE_BOSS:
+        case SCENE_SPIRIT_TEMPLE_BOSS:
+        case SCENE_SHADOW_TEMPLE_BOSS:
             for (i = 0; i < gMapData->maxPaletteCount[mapIndex]; i++) {
                 room = gMapData->paletteRoom[mapIndex][floor][i];
                 if ((room != 0xFF) && (gSaveContext.sceneFlags[mapIndex].rooms & gBitFlags[room])) {
@@ -88,40 +88,40 @@ void Map_InitData(PlayState* play, s16 room) {
     s16 extendedMapIndex;
 
     switch (play->sceneId) {
-        case SCENE_SPOT00:
-        case SCENE_SPOT01:
-        case SCENE_SPOT02:
-        case SCENE_SPOT03:
-        case SCENE_SPOT04:
-        case SCENE_SPOT05:
-        case SCENE_SPOT06:
-        case SCENE_SPOT07:
-        case SCENE_SPOT08:
-        case SCENE_SPOT09:
-        case SCENE_SPOT10:
-        case SCENE_SPOT11:
-        case SCENE_SPOT12:
-        case SCENE_SPOT13:
-        case SCENE_SPOT15:
-        case SCENE_SPOT16:
-        case SCENE_SPOT17:
-        case SCENE_SPOT18:
-        case SCENE_SPOT20:
-        case SCENE_GANON_TOU:
+        case SCENE_HYRULE_FIELD:
+        case SCENE_KAKARIKO_VILLAGE:
+        case SCENE_GRAVEYARD:
+        case SCENE_ZORAS_RIVER:
+        case SCENE_KOKIRI_FOREST:
+        case SCENE_SACRED_FOREST_MEADOW:
+        case SCENE_LAKE_HYLIA:
+        case SCENE_ZORAS_DOMAIN:
+        case SCENE_ZORAS_FOUNTAIN:
+        case SCENE_GERUDO_VALLEY:
+        case SCENE_LOST_WOODS:
+        case SCENE_DESERT_COLOSSUS:
+        case SCENE_GERUDOS_FORTRESS:
+        case SCENE_HAUNTED_WASTELAND:
+        case SCENE_HYRULE_CASTLE:
+        case SCENE_DEATH_MOUNTAIN_TRAIL:
+        case SCENE_DEATH_MOUNTAIN_CRATER:
+        case SCENE_GORON_CITY:
+        case SCENE_LON_LON_RANCH:
+        case SCENE_OUTSIDE_GANONS_CASTLE:
             extendedMapIndex = mapIndex;
-            if (play->sceneId == SCENE_SPOT02) {
+            if (play->sceneId == SCENE_GRAVEYARD) {
                 if (CHECK_QUEST_ITEM(QUEST_SONG_NOCTURNE)) {
                     extendedMapIndex = 0x14;
                 }
-            } else if (play->sceneId == SCENE_SPOT06) {
+            } else if (play->sceneId == SCENE_LAKE_HYLIA) {
                 if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !CHECK_QUEST_ITEM(QUEST_MEDALLION_WATER)) {
                     extendedMapIndex = 0x15;
                 }
-            } else if (play->sceneId == SCENE_SPOT09) {
+            } else if (play->sceneId == SCENE_GERUDO_VALLEY) {
                 if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                     extendedMapIndex = 0x16;
                 }
-            } else if (play->sceneId == SCENE_SPOT12) {
+            } else if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
                 if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                     extendedMapIndex = 0x17;
                 }
@@ -136,24 +136,24 @@ void Map_InitData(PlayState* play, s16 room) {
                                     gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_HAKADANCH:
-        case SCENE_ICE_DOUKUTO:
-        case SCENE_YDAN_BOSS:
-        case SCENE_DDAN_BOSS:
-        case SCENE_BDAN_BOSS:
-        case SCENE_MORIBOSSROOM:
-        case SCENE_FIRE_BS:
-        case SCENE_MIZUSIN_BS:
-        case SCENE_JYASINBOSS:
-        case SCENE_HAKADAN_BS:
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_JABU_JABU:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_BOTTOM_OF_THE_WELL:
+        case SCENE_ICE_CAVERN:
+        case SCENE_DEKU_TREE_BOSS:
+        case SCENE_DODONGOS_CAVERN_BOSS:
+        case SCENE_JABU_JABU_BOSS:
+        case SCENE_FOREST_TEMPLE_BOSS:
+        case SCENE_FIRE_TEMPLE_BOSS:
+        case SCENE_WATER_TEMPLE_BOSS:
+        case SCENE_SPIRIT_TEMPLE_BOSS:
+        case SCENE_SHADOW_TEMPLE_BOSS:
             osSyncPrintf(VT_FGCOL(YELLOW));
             // "Deku Tree Dungeon MAP Texture DMA"
             osSyncPrintf("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n", room,
@@ -180,24 +180,24 @@ void Map_InitRoomData(PlayState* play, s16 room) {
 
     if (room >= 0) {
         switch (play->sceneId) {
-            case SCENE_YDAN:
-            case SCENE_DDAN:
-            case SCENE_BDAN:
-            case SCENE_BMORI1:
-            case SCENE_HIDAN:
-            case SCENE_MIZUSIN:
-            case SCENE_JYASINZOU:
-            case SCENE_HAKADAN:
-            case SCENE_HAKADANCH:
-            case SCENE_ICE_DOUKUTO:
-            case SCENE_YDAN_BOSS:
-            case SCENE_DDAN_BOSS:
-            case SCENE_BDAN_BOSS:
-            case SCENE_MORIBOSSROOM:
-            case SCENE_FIRE_BS:
-            case SCENE_MIZUSIN_BS:
-            case SCENE_JYASINBOSS:
-            case SCENE_HAKADAN_BS:
+            case SCENE_DEKU_TREE:
+            case SCENE_DODONGOS_CAVERN:
+            case SCENE_JABU_JABU:
+            case SCENE_FOREST_TEMPLE:
+            case SCENE_FIRE_TEMPLE:
+            case SCENE_WATER_TEMPLE:
+            case SCENE_SPIRIT_TEMPLE:
+            case SCENE_SHADOW_TEMPLE:
+            case SCENE_BOTTOM_OF_THE_WELL:
+            case SCENE_ICE_CAVERN:
+            case SCENE_DEKU_TREE_BOSS:
+            case SCENE_DODONGOS_CAVERN_BOSS:
+            case SCENE_JABU_JABU_BOSS:
+            case SCENE_FOREST_TEMPLE_BOSS:
+            case SCENE_FIRE_TEMPLE_BOSS:
+            case SCENE_WATER_TEMPLE_BOSS:
+            case SCENE_SPIRIT_TEMPLE_BOSS:
+            case SCENE_SHADOW_TEMPLE_BOSS:
                 gSaveContext.sceneFlags[mapIndex].rooms |= gBitFlags[room];
                 osSyncPrintf("ＲＯＯＭ＿ＩＮＦ＝%d\n", gSaveContext.sceneFlags[mapIndex].rooms);
                 interfaceCtx->mapRoomNum = room;
@@ -239,27 +239,27 @@ void Map_Init(PlayState* play) {
     ASSERT(interfaceCtx->mapSegment != NULL, "parameter->mapSegment != NULL", "../z_map_exp.c", 459);
 
     switch (play->sceneId) {
-        case SCENE_SPOT00:
-        case SCENE_SPOT01:
-        case SCENE_SPOT02:
-        case SCENE_SPOT03:
-        case SCENE_SPOT04:
-        case SCENE_SPOT05:
-        case SCENE_SPOT06:
-        case SCENE_SPOT07:
-        case SCENE_SPOT08:
-        case SCENE_SPOT09:
-        case SCENE_SPOT10:
-        case SCENE_SPOT11:
-        case SCENE_SPOT12:
-        case SCENE_SPOT13:
-        case SCENE_SPOT15:
-        case SCENE_SPOT16:
-        case SCENE_SPOT17:
-        case SCENE_SPOT18:
-        case SCENE_SPOT20:
-        case SCENE_GANON_TOU:
-            mapIndex = play->sceneId - SCENE_SPOT00;
+        case SCENE_HYRULE_FIELD:
+        case SCENE_KAKARIKO_VILLAGE:
+        case SCENE_GRAVEYARD:
+        case SCENE_ZORAS_RIVER:
+        case SCENE_KOKIRI_FOREST:
+        case SCENE_SACRED_FOREST_MEADOW:
+        case SCENE_LAKE_HYLIA:
+        case SCENE_ZORAS_DOMAIN:
+        case SCENE_ZORAS_FOUNTAIN:
+        case SCENE_GERUDO_VALLEY:
+        case SCENE_LOST_WOODS:
+        case SCENE_DESERT_COLOSSUS:
+        case SCENE_GERUDOS_FORTRESS:
+        case SCENE_HAUNTED_WASTELAND:
+        case SCENE_HYRULE_CASTLE:
+        case SCENE_DEATH_MOUNTAIN_TRAIL:
+        case SCENE_DEATH_MOUNTAIN_CRATER:
+        case SCENE_GORON_CITY:
+        case SCENE_LON_LON_RANCH:
+        case SCENE_OUTSIDE_GANONS_CASTLE:
+            mapIndex = play->sceneId - SCENE_HYRULE_FIELD;
             R_MAP_INDEX = gSaveContext.mapIndex = mapIndex;
             R_COMPASS_SCALE_X = gMapData->owCompassInfo[mapIndex][0];
             R_COMPASS_SCALE_Y = gMapData->owCompassInfo[mapIndex][1];
@@ -269,34 +269,34 @@ void Map_Init(PlayState* play) {
             R_OW_MINIMAP_X = gMapData->owMinimapPosX[mapIndex];
             R_OW_MINIMAP_Y = gMapData->owMinimapPosY[mapIndex];
             break;
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_HAKADANCH:
-        case SCENE_ICE_DOUKUTO:
-        case SCENE_GANON:
-        case SCENE_MEN:
-        case SCENE_GERUDOWAY:
-        case SCENE_GANONTIKA:
-        case SCENE_GANON_SONOGO:
-        case SCENE_GANONTIKA_SONOGO:
-        case SCENE_TAKARAYA:
-        case SCENE_YDAN_BOSS:
-        case SCENE_DDAN_BOSS:
-        case SCENE_BDAN_BOSS:
-        case SCENE_MORIBOSSROOM:
-        case SCENE_FIRE_BS:
-        case SCENE_MIZUSIN_BS:
-        case SCENE_JYASINBOSS:
-        case SCENE_HAKADAN_BS:
-            mapIndex = (play->sceneId >= SCENE_YDAN_BOSS) ? play->sceneId - SCENE_YDAN_BOSS : play->sceneId;
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_JABU_JABU:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_BOTTOM_OF_THE_WELL:
+        case SCENE_ICE_CAVERN:
+        case SCENE_GANONS_TOWER:
+        case SCENE_GERUDO_TRAINING_GROUND:
+        case SCENE_THIEVES_HIDEOUT:
+        case SCENE_INSIDE_GANONS_CASTLE:
+        case SCENE_GANONS_TOWER_COLLAPSE_INTERIOR:
+        case SCENE_INSIDE_GANONS_CASTLE_COLLAPSE:
+        case SCENE_TREASURE_BOX_SHOP:
+        case SCENE_DEKU_TREE_BOSS:
+        case SCENE_DODONGOS_CAVERN_BOSS:
+        case SCENE_JABU_JABU_BOSS:
+        case SCENE_FOREST_TEMPLE_BOSS:
+        case SCENE_FIRE_TEMPLE_BOSS:
+        case SCENE_WATER_TEMPLE_BOSS:
+        case SCENE_SPIRIT_TEMPLE_BOSS:
+        case SCENE_SHADOW_TEMPLE_BOSS:
+            mapIndex = (play->sceneId >= SCENE_DEKU_TREE_BOSS) ? play->sceneId - SCENE_DEKU_TREE_BOSS : play->sceneId;
             R_MAP_INDEX = gSaveContext.mapIndex = mapIndex;
-            if ((play->sceneId <= SCENE_ICE_DOUKUTO) || (play->sceneId >= SCENE_YDAN_BOSS)) {
+            if ((play->sceneId <= SCENE_ICE_CAVERN) || (play->sceneId >= SCENE_DEKU_TREE_BOSS)) {
                 R_COMPASS_SCALE_X = gMapData->dgnCompassInfo[mapIndex][0];
                 R_COMPASS_SCALE_Y = gMapData->dgnCompassInfo[mapIndex][1];
                 R_COMPASS_OFFSET_X = gMapData->dgnCompassInfo[mapIndex][2];
@@ -367,16 +367,16 @@ void Minimap_Draw(PlayState* play) {
 
     if (play->pauseCtx.state < 4) {
         switch (play->sceneId) {
-            case SCENE_YDAN:
-            case SCENE_DDAN:
-            case SCENE_BDAN:
-            case SCENE_BMORI1:
-            case SCENE_HIDAN:
-            case SCENE_MIZUSIN:
-            case SCENE_JYASINZOU:
-            case SCENE_HAKADAN:
-            case SCENE_HAKADANCH:
-            case SCENE_ICE_DOUKUTO:
+            case SCENE_DEKU_TREE:
+            case SCENE_DODONGOS_CAVERN:
+            case SCENE_JABU_JABU:
+            case SCENE_FOREST_TEMPLE:
+            case SCENE_FIRE_TEMPLE:
+            case SCENE_WATER_TEMPLE:
+            case SCENE_SPIRIT_TEMPLE:
+            case SCENE_SHADOW_TEMPLE:
+            case SCENE_BOTTOM_OF_THE_WELL:
+            case SCENE_ICE_CAVERN:
                 if (!R_MINIMAP_DISABLED) {
                     Gfx_SetupDL_39Overlay(play->state.gfxCtx);
                     gDPSetCombineLERP(OVERLAY_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
@@ -419,26 +419,26 @@ void Minimap_Draw(PlayState* play) {
                 }
 
                 break;
-            case SCENE_SPOT00:
-            case SCENE_SPOT01:
-            case SCENE_SPOT02:
-            case SCENE_SPOT03:
-            case SCENE_SPOT04:
-            case SCENE_SPOT05:
-            case SCENE_SPOT06:
-            case SCENE_SPOT07:
-            case SCENE_SPOT08:
-            case SCENE_SPOT09:
-            case SCENE_SPOT10:
-            case SCENE_SPOT11:
-            case SCENE_SPOT12:
-            case SCENE_SPOT13:
-            case SCENE_SPOT15:
-            case SCENE_SPOT16:
-            case SCENE_SPOT17:
-            case SCENE_SPOT18:
-            case SCENE_SPOT20:
-            case SCENE_GANON_TOU:
+            case SCENE_HYRULE_FIELD:
+            case SCENE_KAKARIKO_VILLAGE:
+            case SCENE_GRAVEYARD:
+            case SCENE_ZORAS_RIVER:
+            case SCENE_KOKIRI_FOREST:
+            case SCENE_SACRED_FOREST_MEADOW:
+            case SCENE_LAKE_HYLIA:
+            case SCENE_ZORAS_DOMAIN:
+            case SCENE_ZORAS_FOUNTAIN:
+            case SCENE_GERUDO_VALLEY:
+            case SCENE_LOST_WOODS:
+            case SCENE_DESERT_COLOSSUS:
+            case SCENE_GERUDOS_FORTRESS:
+            case SCENE_HAUNTED_WASTELAND:
+            case SCENE_HYRULE_CASTLE:
+            case SCENE_DEATH_MOUNTAIN_TRAIL:
+            case SCENE_DEATH_MOUNTAIN_CRATER:
+            case SCENE_GORON_CITY:
+            case SCENE_LON_LON_RANCH:
+            case SCENE_OUTSIDE_GANONS_CASTLE:
                 if (!R_MINIMAP_DISABLED) {
                     Gfx_SetupDL_39Overlay(play->state.gfxCtx);
 
@@ -456,8 +456,8 @@ void Minimap_Draw(PlayState* play) {
                                         (R_OW_MINIMAP_Y + gMapData->owMinimapHeight[mapIndex]) << 2, G_TX_RENDERTILE, 0,
                                         0, 1 << 10, 1 << 10);
 
-                    if (((play->sceneId != SCENE_SPOT01) && (play->sceneId != SCENE_SPOT04) &&
-                         (play->sceneId != SCENE_SPOT08)) ||
+                    if (((play->sceneId != SCENE_KAKARIKO_VILLAGE) && (play->sceneId != SCENE_KOKIRI_FOREST) &&
+                         (play->sceneId != SCENE_ZORAS_FOUNTAIN)) ||
                         (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
                         if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
@@ -477,7 +477,7 @@ void Minimap_Draw(PlayState* play) {
                         }
                     }
 
-                    if ((play->sceneId == SCENE_SPOT08) &&
+                    if ((play->sceneId == SCENE_ZORAS_FOUNTAIN) &&
                         (gSaveContext.infTable[INFTABLE_1AX_INDEX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
                         gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
@@ -525,16 +525,16 @@ void Map_Update(PlayState* play) {
 
     if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
         switch (play->sceneId) {
-            case SCENE_YDAN:
-            case SCENE_DDAN:
-            case SCENE_BDAN:
-            case SCENE_BMORI1:
-            case SCENE_HIDAN:
-            case SCENE_MIZUSIN:
-            case SCENE_JYASINZOU:
-            case SCENE_HAKADAN:
-            case SCENE_HAKADANCH:
-            case SCENE_ICE_DOUKUTO:
+            case SCENE_DEKU_TREE:
+            case SCENE_DODONGOS_CAVERN:
+            case SCENE_JABU_JABU:
+            case SCENE_FOREST_TEMPLE:
+            case SCENE_FIRE_TEMPLE:
+            case SCENE_WATER_TEMPLE:
+            case SCENE_SPIRIT_TEMPLE:
+            case SCENE_SHADOW_TEMPLE:
+            case SCENE_BOTTOM_OF_THE_WELL:
+            case SCENE_ICE_CAVERN:
                 interfaceCtx->mapPalette[30] = 0;
                 if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                     interfaceCtx->mapPalette[31] = 1;
@@ -577,17 +577,17 @@ void Map_Update(PlayState* play) {
 
                 VREG(10) = interfaceCtx->mapRoomNum;
                 break;
-            case SCENE_YDAN_BOSS:
-            case SCENE_DDAN_BOSS:
-            case SCENE_BDAN_BOSS:
-            case SCENE_MORIBOSSROOM:
-            case SCENE_FIRE_BS:
-            case SCENE_MIZUSIN_BS:
-            case SCENE_JYASINBOSS:
-            case SCENE_HAKADAN_BS:
-                VREG(30) = gMapData->bossFloor[play->sceneId - SCENE_YDAN_BOSS];
-                R_MAP_TEX_INDEX =
-                    R_MAP_TEX_INDEX_BASE + gMapData->floorTexIndexOffset[play->sceneId - SCENE_YDAN_BOSS][VREG(30)];
+            case SCENE_DEKU_TREE_BOSS:
+            case SCENE_DODONGOS_CAVERN_BOSS:
+            case SCENE_JABU_JABU_BOSS:
+            case SCENE_FOREST_TEMPLE_BOSS:
+            case SCENE_FIRE_TEMPLE_BOSS:
+            case SCENE_WATER_TEMPLE_BOSS:
+            case SCENE_SPIRIT_TEMPLE_BOSS:
+            case SCENE_SHADOW_TEMPLE_BOSS:
+                VREG(30) = gMapData->bossFloor[play->sceneId - SCENE_DEKU_TREE_BOSS];
+                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE +
+                                  gMapData->floorTexIndexOffset[play->sceneId - SCENE_DEKU_TREE_BOSS][VREG(30)];
                 break;
         }
     }
