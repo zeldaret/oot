@@ -538,12 +538,12 @@ void ObjBean_SetupWaitForBean(ObjBean* this) {
 
 void ObjBean_WaitForBean(ObjBean* this, PlayState* play) {
     if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
-        if (func_8002F368(play) == EXCH_ITEM_BEAN) {
+        if (func_8002F368(play) == EXCH_ITEM_MAGIC_BEAN) {
             func_80B8FE00(this);
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
         }
     } else {
-        func_8002F298(&this->dyna.actor, play, 40.0f, EXCH_ITEM_BEAN);
+        func_8002F298(&this->dyna.actor, play, 40.0f, EXCH_ITEM_MAGIC_BEAN);
     }
 }
 
@@ -752,7 +752,7 @@ void ObjBean_SetupWaitForPlayer(ObjBean* this) {
 void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         ObjBean_SetupFly(this);
-        if (play->sceneId == SCENE_SPOT10) { // Lost woods
+        if (play->sceneId == SCENE_LOST_WOODS) { // Lost woods
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
@@ -788,7 +788,7 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
 
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
-        if (play->sceneId == SCENE_SPOT10) {
+        if (play->sceneId == SCENE_LOST_WOODS) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);

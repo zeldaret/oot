@@ -62,13 +62,21 @@ typedef enum {
 } PlayerMask;
 
 typedef enum {
+    /* 0x0 */ PLAYER_ENV_HAZARD_NONE,
+    /* 0x1 */ PLAYER_ENV_HAZARD_HOTROOM,
+    /* 0x2 */ PLAYER_ENV_HAZARD_UNDERWATER_FLOOR,
+    /* 0x3 */ PLAYER_ENV_HAZARD_SWIMMING,
+    /* 0x4 */ PLAYER_ENV_HAZARD_UNDERWATER_FREE
+} PlayerEnvHazard;
+
+typedef enum {
     /* 0x00 */ PLAYER_IA_NONE,
     /* 0x01 */ PLAYER_IA_LAST_USED,
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
     /* 0x05 */ PLAYER_IA_SWORD_BGS,
-    /* 0x06 */ PLAYER_IA_STICK,
+    /* 0x06 */ PLAYER_IA_DEKU_STICK,
     /* 0x07 */ PLAYER_IA_HAMMER,
     /* 0x08 */ PLAYER_IA_BOW,
     /* 0x09 */ PLAYER_IA_BOW_FIRE,
@@ -89,33 +97,33 @@ typedef enum {
     /* 0x18 */ PLAYER_IA_FARORES_WIND,
     /* 0x19 */ PLAYER_IA_NAYRUS_LOVE,
     /* 0x1A */ PLAYER_IA_DINS_FIRE,
-    /* 0x1B */ PLAYER_IA_NUT,
+    /* 0x1B */ PLAYER_IA_DEKU_NUT,
     /* 0x1C */ PLAYER_IA_OCARINA_FAIRY,
-    /* 0x1D */ PLAYER_IA_OCARINA_TIME,
+    /* 0x1D */ PLAYER_IA_OCARINA_OF_TIME,
     /* 0x1E */ PLAYER_IA_BOTTLE,
     /* 0x1F */ PLAYER_IA_BOTTLE_FISH,
     /* 0x20 */ PLAYER_IA_BOTTLE_FIRE,
     /* 0x21 */ PLAYER_IA_BOTTLE_BUG,
     /* 0x22 */ PLAYER_IA_BOTTLE_POE,
     /* 0x23 */ PLAYER_IA_BOTTLE_BIG_POE,
-    /* 0x24 */ PLAYER_IA_BOTTLE_LETTER,
+    /* 0x24 */ PLAYER_IA_BOTTLE_RUTOS_LETTER,
     /* 0x25 */ PLAYER_IA_BOTTLE_POTION_RED,
     /* 0x26 */ PLAYER_IA_BOTTLE_POTION_BLUE,
     /* 0x27 */ PLAYER_IA_BOTTLE_POTION_GREEN,
-    /* 0x28 */ PLAYER_IA_BOTTLE_MILK,
+    /* 0x28 */ PLAYER_IA_BOTTLE_MILK_FULL,
     /* 0x29 */ PLAYER_IA_BOTTLE_MILK_HALF,
     /* 0x2A */ PLAYER_IA_BOTTLE_FAIRY,
-    /* 0x2B */ PLAYER_IA_LETTER_ZELDA,
+    /* 0x2B */ PLAYER_IA_ZELDAS_LETTER,
     /* 0x2C */ PLAYER_IA_WEIRD_EGG,
     /* 0x2D */ PLAYER_IA_CHICKEN,
-    /* 0x2E */ PLAYER_IA_BEAN,
+    /* 0x2E */ PLAYER_IA_MAGIC_BEAN,
     /* 0x2F */ PLAYER_IA_POCKET_EGG,
     /* 0x30 */ PLAYER_IA_POCKET_CUCCO,
     /* 0x31 */ PLAYER_IA_COJIRO,
     /* 0x32 */ PLAYER_IA_ODD_MUSHROOM,
     /* 0x33 */ PLAYER_IA_ODD_POTION,
-    /* 0x34 */ PLAYER_IA_SAW,
-    /* 0x35 */ PLAYER_IA_SWORD_BROKEN,
+    /* 0x34 */ PLAYER_IA_POACHERS_SAW,
+    /* 0x35 */ PLAYER_IA_BROKEN_GORONS_SWORD,
     /* 0x36 */ PLAYER_IA_PRESCRIPTION,
     /* 0x37 */ PLAYER_IA_FROG,
     /* 0x38 */ PLAYER_IA_EYEDROPS,
@@ -123,12 +131,12 @@ typedef enum {
     /* 0x3A */ PLAYER_IA_MASK_KEATON,
     /* 0x3B */ PLAYER_IA_MASK_SKULL,
     /* 0x3C */ PLAYER_IA_MASK_SPOOKY,
-    /* 0x3D */ PLAYER_IA_MASK_BUNNY,
+    /* 0x3D */ PLAYER_IA_MASK_BUNNY_HOOD,
     /* 0x3E */ PLAYER_IA_MASK_GORON,
     /* 0x3F */ PLAYER_IA_MASK_ZORA,
     /* 0x40 */ PLAYER_IA_MASK_GERUDO,
     /* 0x41 */ PLAYER_IA_MASK_TRUTH,
-    /* 0x42 */ PLAYER_IA_LENS,
+    /* 0x42 */ PLAYER_IA_LENS_OF_TRUTH,
     /* 0x43 */ PLAYER_IA_MAX
 } PlayerItemAction;
 
@@ -289,52 +297,55 @@ typedef enum {
     /* 0x06 */ PLAYER_ANIMTYPE_MAX
 } PlayerAnimType;
 
+/**
+ * Temporary names, derived from original animation names in `D_80853914`
+ */
 typedef enum {
-    /* 0x00 */ PLAYER_ANIMGROUP_0,
-    /* 0x01 */ PLAYER_ANIMGROUP_1,
-    /* 0x02 */ PLAYER_ANIMGROUP_2,
-    /* 0x03 */ PLAYER_ANIMGROUP_3,
-    /* 0x04 */ PLAYER_ANIMGROUP_4,
-    /* 0x05 */ PLAYER_ANIMGROUP_5,
-    /* 0x06 */ PLAYER_ANIMGROUP_6,
-    /* 0x07 */ PLAYER_ANIMGROUP_7,
-    /* 0x08 */ PLAYER_ANIMGROUP_8,
-    /* 0x09 */ PLAYER_ANIMGROUP_9,
-    /* 0x0A */ PLAYER_ANIMGROUP_10,
-    /* 0x0B */ PLAYER_ANIMGROUP_11,
-    /* 0x0C */ PLAYER_ANIMGROUP_12,
-    /* 0x0D */ PLAYER_ANIMGROUP_13,
-    /* 0x0E */ PLAYER_ANIMGROUP_14,
-    /* 0x0F */ PLAYER_ANIMGROUP_15,
-    /* 0x10 */ PLAYER_ANIMGROUP_16,
-    /* 0x11 */ PLAYER_ANIMGROUP_17,
-    /* 0x12 */ PLAYER_ANIMGROUP_18,
-    /* 0x13 */ PLAYER_ANIMGROUP_19,
-    /* 0x14 */ PLAYER_ANIMGROUP_20,
-    /* 0x15 */ PLAYER_ANIMGROUP_21,
-    /* 0x16 */ PLAYER_ANIMGROUP_22,
-    /* 0x17 */ PLAYER_ANIMGROUP_23,
-    /* 0x18 */ PLAYER_ANIMGROUP_24,
-    /* 0x19 */ PLAYER_ANIMGROUP_25,
-    /* 0x1A */ PLAYER_ANIMGROUP_26,
-    /* 0x1B */ PLAYER_ANIMGROUP_27,
-    /* 0x1C */ PLAYER_ANIMGROUP_28,
-    /* 0x1D */ PLAYER_ANIMGROUP_29,
-    /* 0x1E */ PLAYER_ANIMGROUP_30,
-    /* 0x1F */ PLAYER_ANIMGROUP_31,
-    /* 0x20 */ PLAYER_ANIMGROUP_32,
-    /* 0x21 */ PLAYER_ANIMGROUP_33,
-    /* 0x22 */ PLAYER_ANIMGROUP_34,
-    /* 0x23 */ PLAYER_ANIMGROUP_35,
-    /* 0x24 */ PLAYER_ANIMGROUP_36,
-    /* 0x25 */ PLAYER_ANIMGROUP_37,
-    /* 0x26 */ PLAYER_ANIMGROUP_38,
-    /* 0x27 */ PLAYER_ANIMGROUP_39,
-    /* 0x28 */ PLAYER_ANIMGROUP_40,
-    /* 0x29 */ PLAYER_ANIMGROUP_41,
-    /* 0x2A */ PLAYER_ANIMGROUP_42,
-    /* 0x2B */ PLAYER_ANIMGROUP_43,
-    /* 0x2C */ PLAYER_ANIMGROUP_44,
+    /* 0x00 */ PLAYER_ANIMGROUP_wait,
+    /* 0x01 */ PLAYER_ANIMGROUP_walk,
+    /* 0x02 */ PLAYER_ANIMGROUP_run,
+    /* 0x03 */ PLAYER_ANIMGROUP_damage_run,
+    /* 0x04 */ PLAYER_ANIMGROUP_heavy_run,
+    /* 0x05 */ PLAYER_ANIMGROUP_waitL,
+    /* 0x06 */ PLAYER_ANIMGROUP_waitR,
+    /* 0x07 */ PLAYER_ANIMGROUP_wait2waitR,
+    /* 0x08 */ PLAYER_ANIMGROUP_normal2fighter,
+    /* 0x09 */ PLAYER_ANIMGROUP_doorA_free,
+    /* 0x0A */ PLAYER_ANIMGROUP_doorA,
+    /* 0x0B */ PLAYER_ANIMGROUP_doorB_free,
+    /* 0x0C */ PLAYER_ANIMGROUP_doorB,
+    /* 0x0D */ PLAYER_ANIMGROUP_carryB,
+    /* 0x0E */ PLAYER_ANIMGROUP_landing,
+    /* 0x0F */ PLAYER_ANIMGROUP_short_landing,
+    /* 0x10 */ PLAYER_ANIMGROUP_landing_roll,
+    /* 0x11 */ PLAYER_ANIMGROUP_hip_down,
+    /* 0x12 */ PLAYER_ANIMGROUP_walk_endL,
+    /* 0x13 */ PLAYER_ANIMGROUP_walk_endR,
+    /* 0x14 */ PLAYER_ANIMGROUP_defense,
+    /* 0x15 */ PLAYER_ANIMGROUP_defense_wait,
+    /* 0x16 */ PLAYER_ANIMGROUP_defense_end,
+    /* 0x17 */ PLAYER_ANIMGROUP_side_walk,
+    /* 0x18 */ PLAYER_ANIMGROUP_side_walkL,
+    /* 0x19 */ PLAYER_ANIMGROUP_side_walkR,
+    /* 0x1A */ PLAYER_ANIMGROUP_45_turn,
+    /* 0x1B */ PLAYER_ANIMGROUP_waitL2wait,
+    /* 0x1C */ PLAYER_ANIMGROUP_waitR2wait,
+    /* 0x1D */ PLAYER_ANIMGROUP_throw,
+    /* 0x1E */ PLAYER_ANIMGROUP_put,
+    /* 0x1F */ PLAYER_ANIMGROUP_back_walk,
+    /* 0x20 */ PLAYER_ANIMGROUP_check,
+    /* 0x21 */ PLAYER_ANIMGROUP_check_wait,
+    /* 0x22 */ PLAYER_ANIMGROUP_check_end,
+    /* 0x23 */ PLAYER_ANIMGROUP_pull_start,
+    /* 0x24 */ PLAYER_ANIMGROUP_pulling,
+    /* 0x25 */ PLAYER_ANIMGROUP_pull_end,
+    /* 0x26 */ PLAYER_ANIMGROUP_fall_up,
+    /* 0x27 */ PLAYER_ANIMGROUP_jump_climb_hold,
+    /* 0x28 */ PLAYER_ANIMGROUP_jump_climb_wait,
+    /* 0x29 */ PLAYER_ANIMGROUP_jump_climb_up,
+    /* 0x2A */ PLAYER_ANIMGROUP_down_slope_slip_end,
+    /* 0x2B */ PLAYER_ANIMGROUP_up_slope_slip_end,
+    /* 0x2C */ PLAYER_ANIMGROUP_nwait,
     /* 0x2D */ PLAYER_ANIMGROUP_MAX
 } PlayerAnimGroup;
 
@@ -571,7 +582,7 @@ typedef struct Player {
     /* 0x0838 */ f32        linearVelocity;
     /* 0x083C */ s16        currentYaw;
     /* 0x083E */ s16        targetYaw;
-    /* 0x0840 */ u16        unk_840;
+    /* 0x0840 */ u16        underwaterTimer;
     /* 0x0842 */ s8         meleeWeaponAnimation;
     /* 0x0843 */ s8         meleeWeaponState;
     /* 0x0844 */ s8         unk_844;
@@ -610,7 +621,7 @@ typedef struct Player {
     /* 0x0898 */ s16        unk_898;
     /* 0x089A */ s16        unk_89A;
     /* 0x089C */ s16        unk_89C;
-    /* 0x089E */ u16        unk_89E;
+    /* 0x089E */ u16        floorSfxOffset;
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
     /* 0x08A2 */ s16        unk_8A2;
@@ -632,7 +643,7 @@ typedef struct Player {
     /* 0x0A7B */ u8         unk_A7B;
     /* 0x0A7C */ f32        unk_A7C;
     /* 0x0A80 */ s16        unk_A80;
-    /* 0x0A82 */ u16        unk_A82;
+    /* 0x0A82 */ u16        prevFloorSfxOffset;
     /* 0x0A84 */ s16        unk_A84;
     /* 0x0A86 */ s8         unk_A86;
     /* 0x0A87 */ u8         unk_A87;

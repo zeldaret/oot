@@ -123,7 +123,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
 
-    if (play->sceneId == SCENE_SPOT09) {
+    if (play->sceneId == SCENE_GERUDO_VALLEY) {
         this->actor.uncullZoneForward = 1000.0f;
     } else {
         this->actor.uncullZoneForward = 1200.0f;
@@ -240,11 +240,11 @@ void EnGe2_CaptureClose(EnGe2* this, PlayState* play) {
         func_8006D074(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            play->nextEntranceIndex = ENTR_SPOT09_1;
+            play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
-            play->nextEntranceIndex = ENTR_SPOT12_18;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
-            play->nextEntranceIndex = ENTR_SPOT12_17;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
         }
 
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
@@ -266,11 +266,11 @@ void EnGe2_CaptureCharge(EnGe2* this, PlayState* play) {
         func_8006D074(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            play->nextEntranceIndex = ENTR_SPOT09_1;
+            play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
-            play->nextEntranceIndex = ENTR_SPOT12_18;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
-            play->nextEntranceIndex = ENTR_SPOT12_17;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
         }
 
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
@@ -451,7 +451,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe2_SetActionAfterTalk;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -460,7 +460,7 @@ void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe2_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
