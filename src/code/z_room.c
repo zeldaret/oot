@@ -645,7 +645,7 @@ void Room_Draw(PlayState* play, Room* room, u32 flags) {
 void func_80097534(PlayState* play, RoomContext* roomCtx) {
     roomCtx->prevRoom.num = -1;
     roomCtx->prevRoom.segment = NULL;
-    Actor_KillAllFromUnloadedRooms(play, &play->actorCtx);
+    func_80031B14(play, &play->actorCtx);
     Actor_SpawnTransitionActors(play, &play->actorCtx);
     Map_InitRoomData(play, roomCtx->curRoom.num);
     if (!((play->sceneId >= SCENE_SPOT00) && (play->sceneId <= SCENE_SPOT20))) {
