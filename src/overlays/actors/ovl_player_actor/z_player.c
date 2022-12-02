@@ -4370,8 +4370,8 @@ s16 sReturnEntranceGroupData[] = {
     /*  2 */ ENTR_HYRULE_CASTLE_2,         // from Double Defense Fairy Fountain (as adult)
 
     // ENTR_RETURN_2
-    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // from Potion Shop
-    /*  4 */ ENTR_MARKET_DAY_5,       // from Potion Shop
+    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // from Potion Shop in Kakariko
+    /*  4 */ ENTR_MARKET_DAY_5,       // from Potion Shop in Market
 
     // ENTR_RETURN_BAZAAR
     /*  5 */ ENTR_KAKARIKO_VILLAGE_3,
